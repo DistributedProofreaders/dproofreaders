@@ -21,6 +21,11 @@ include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_*
 include_once($relPath.'smoothread.inc');           // functions for smoothreading
 include_once($relPath.'release_queue.inc'); // cook_project_selector
 
+// for strftime:
+$datetime_format = _("%A, %B %e, %Y at %X");
+$date_format     = _("%A, %B %e, %Y");
+$time_format     = _("%X");
+
 error_reporting(E_ALL);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -216,7 +221,7 @@ function do_expected_state()
 
 function decide_blurbs()
 {
-    global $project, $pguser;
+    global $project, $pguser, $datetime_format;
 
     list($code,$msg) = $project->can_be_proofed_by_current_user();
     if ( $code != $project->CBP_OKAY )
@@ -283,7 +288,7 @@ function decide_blurbs()
 
         // When was the project info last modified?
         $info_timestamp = $project->t_last_edit;
-        $info_time_str = strftime(_("%A, %B %e, %Y at %X"), $info_timestamp);
+        $info_time_str = strftime($datetime_format, $info_timestamp);
         $info_last_modified_blurb = _("Project information last modified:") . " " . $info_time_str;
 
         // Other possible components of blurbs:
@@ -377,7 +382,7 @@ function do_blurb_box( $blurb )
 
 function do_project_info_table()
 {
-    global $project, $code_url;
+    global $project, $code_url, $datetime_format, $date_format, $time_format;
 
     $projectid = $project->projectid;
     $state = $project->state;
@@ -403,7 +408,7 @@ function do_project_info_table()
     elseif ($available_for_SR)
     {
         $sr_deadline_str = strftime(
-            _("%A, %B %e, %Y"), $project->smoothread_deadline );
+            $date_format, $project->smoothread_deadline );
         $sr_sentence = sprintf(
             _('This project has been made available for smooth reading until %s.'),
             "<b>$sr_deadline_str</b>"
@@ -569,8 +574,8 @@ function do_project_info_table()
         if (mysql_num_rows($proofdate)!=0)
         {
             $latest_save_time = mysql_result($proofdate,0,$round->time_column_name);
-            $formatted_lst = strftime(_("%A, %B %e, %Y at %X"), $latest_save_time);
-            $formatted_now = strftime(_("%X"),time());
+            $formatted_lst = strftime($datetime_format, $latest_save_time);
+            $formatted_now = strftime($time_format, time());
             $lastproofed = "$formatted_lst&nbsp;&nbsp;&nbsp; ("._("Current Time:")." $formatted_now)";
         }
         else
@@ -601,7 +606,7 @@ function do_project_info_table()
     {
         $last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = $topic_id ORDER BY post_time DESC LIMIT 1");
         $last_post_date = mysql_result($last_post,0,"post_time");
-        $last_post_date = strftime(_("%A, %B %e, %Y at %X"), $last_post_date);
+        $last_post_date = strftime($datetime_format, $last_post_date);
         echo_row_a( _("Last Forum Post"), $last_post_date );
     }
 
@@ -1480,7 +1485,7 @@ function do_postcomments()
 
 function do_smooth_reading()
 {
-    global $project, $code_url, $pguser, $forums_url;
+    global $project, $code_url, $pguser, $forums_url, $date_format;
 
     if ( $project->state != PROJ_POST_FIRST_CHECKED_OUT ) return;
 
@@ -1517,7 +1522,7 @@ function do_smooth_reading()
         if ( time() < $project->smoothread_deadline )
         {
             $sr_deadline_str = strftime(
-                _("%A, %B %e, %Y"), $project->smoothread_deadline );
+                $date_format, $project->smoothread_deadline );
             $sr_sentence = sprintf(
                 _('This project has been made available for smooth reading until %s.'),
                 "<b>$sr_deadline_str</b>"
