@@ -10,6 +10,25 @@ echo "Altering 'projects' table...\n";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+echo "Adding the 't_last_edit' column...\n";
+
+$sql = "
+    ALTER TABLE projects
+        ADD COLUMN t_last_edit INT NOT NULL
+";
+echo "$sql\n";
+mysql_query($sql) or die( mysql_error() );
+
+echo "and initializing it to the project's creation date...\n";
+$sql = "
+    UPDATE projects
+    SET t_last_edit = CONV(REPLACE(projectid,'projectID',''),16,10)/(1024*1024)
+";
+echo "$sql\n";
+mysql_query($sql) or die( mysql_error() );
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 echo "Adding the 'deletion_reason' column...\n";
 
 $sql = "
