@@ -282,7 +282,7 @@ function decide_blurbs()
         $proofreading_link = "<b><a href='$url'>$label</a></b>";
 
         // When were the project comments last modified?
-        $comments_timestamp = $project->modifieddate;
+        $comments_timestamp = $project->t_last_edit;
         $comments_time_str = strftime(_("%A, %B %e, %Y at %X"), $comments_timestamp);
         $comments_last_modified_blurb = _("Project Comments last modified:") . " " . $comments_time_str;
 
