@@ -284,7 +284,7 @@ function decide_blurbs()
         // When were the project comments last modified?
         $comments_timestamp = $project->t_last_edit;
         $comments_time_str = strftime(_("%A, %B %e, %Y at %X"), $comments_timestamp);
-        $comments_last_modified_blurb = _("Project Comments last modified:") . " " . $comments_time_str;
+        $comments_last_modified_blurb = _("Project information last modified:") . " " . $comments_time_str;
 
         // Other possible components of blurbs:
         $please_scroll_down = _("Please scroll down and read the Project Comments for any special instructions <b>before</b> proofreading!");
@@ -292,7 +292,7 @@ function decide_blurbs()
         $comments_have_changed =
             "<font color='red'>"
             . "<b>"
-            . _("Project Comments have changed!")
+            . _("Project information has changed!")
             . "</b>"
             . "</font>";
 
