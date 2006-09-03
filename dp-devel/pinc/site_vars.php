@@ -157,7 +157,7 @@ $site_supports_corrections_after_posting = <<CORRECTIONS>>;
 
 // Should we automatically add a post to a project's discussion topic
 // when the project undergoes certain events?
-$auto_post_to_project_topic = FALSE;
+$auto_post_to_project_topic = <<AUTO_POST_TO_PROJECT_TOPIC>>;
 
 // -----------------------------------------------------------------------------
 
