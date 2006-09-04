@@ -12,11 +12,6 @@
 # so you can use any syntax that /bin/sh allows.  However, in typical
 # usage, you would merely assign literal values to shell variables.
 
-# For a variable whose name ends in _DIR, the value should be an absolute path
-# to a directory in the local file system.
-# For a variable whose name ends in _URL, the value should be an absolute URL
-# For a DIR/URL pair, the URL should resolve to the DIR.
-
 # Security:
 #
 # Because this file will contain various passwords, you should be
@@ -40,14 +35,19 @@ GROUP=$USER
 SHIFT_TO_LIVE=prompt
 
 # ----------------------------------------------------------------------
-# We don't mandate the relative locations of c, d, projects, etc.,
-# so you can set the following variables however you like. However,
-# we've found it convenient to make them siblings (children of a
-# base dir/url), so the following code is slanted in that direction:
-# if you choose to use this layout, then you only need to set
-# $base_dir and $base_url, and the other variables in this section
-# will be set accordingly.
 
+# For a variable whose name ends in _DIR, the value should be an absolute path
+# to a directory in the local file system.
+# For a variable whose name ends in _URL, the value should be an absolute URL.
+# For a DIR/URL pair, the URL should resolve to the DIR.
+#
+# We don't require a particular arrangement of these directories, but
+# we've found it convenient to make most of them siblings (children of
+# a base directory), so the following code is slanted in that direction:
+# if you choose to use this layout, then you only need to set
+# $base_dir and $base_url, and most of the _DIR/_URL variables
+# will be set accordingly.
+#
 base_dir=/home/$USER/public_html
 base_url=http://www.example.org/~$USER
 
@@ -183,8 +183,8 @@ _JPGRAPH_FONT_STYLE=9002
 # Font face and style values for JpGraph graphs. For possible values, see
 # $_JPGRAPH_DIR/src/jpgraph.php (specifically, the FF_ and FS_ defines).
 
-_WIKIHIERO_DIR=
-_WIKIHIERO_URL=
+_WIKIHIERO_DIR=$base_dir/wikihiero
+_WIKIHIERO_URL=$base_url/wikihiero
 # If you haven't installed wikihiero, leave these empty.
 
 # ----------------------------------------------------------------------
