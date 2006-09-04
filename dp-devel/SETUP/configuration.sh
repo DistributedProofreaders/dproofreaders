@@ -57,8 +57,55 @@ _CODE_URL=$base_url/c
 # (It corresponds to 'dp-devel' in the CVS repository,
 # and should contain directories such as 'pinc' and 'tools'.)
 
+# ----------------------------------------------------------------------
+
+# At pgdp.net, Project Managers are given access to a shared ftp-only
+# "uploads" account. Each PM creates a personal directory (named
+# according to their DP login id) within the shared account's home
+# directory.
+
+_UPLOADS_DIR=/home/dpscans
+_UPLOADS_HOST=www.example.org
+_UPLOADS_ACCOUNT=dpscans
+_UPLOADS_PASSWORD=PICK_A_PASSWORD
+
+# The _DIR variable is important because it tells the code where to load
+# project information (text and images) from. The others are just echoed
+# as reminders to the user. If you'd rather not have that information
+# echoed on-screen, or if you want to use some other mechanism to get
+# project data into $_UPLOADS_DIR, you can leave the other 3 variables
+# with empty or bogus values.
+
+# ----------------------------------------------------------------------
+
 _PROJECTS_DIR=$base_dir/projects
 _PROJECTS_URL=$base_url/projects
+
+# When you "Create a Project", the code creates a directory for that
+# project as a sub-directory of $_PROJECTS_DIR.
+#
+# When you "Add text and images" to that project (from a specified
+# directory under $_UPLOADS_DIR), the code looks at the data, copies
+# image files into the project directory, and loads text data into the
+# database.
+#
+# The project directory also holds other files relating to the project.
+
+# ----------------------------------------------------------------------
+
+_EXTERNAL_CATALOG_LOCATOR='z3950.loc.gov:7090/Voyager'
+
+# When you Create a Project, you have the option of searching an
+# external (Z39.50-enabled) catalog for bibliographic information.
+# This variable specifies the catalog to search.
+
+# It should be a locator in the form 'host[:port][/database]', suitable
+# for passing to 'yaz_connect'.
+
+# To disable external search at project-creation time, leave this
+# variable empty.
+
+# ----------------------------------------------------------------------
 
 _DYN_DIR=$base_dir/d
 _DYN_URL=$base_url/d
@@ -90,11 +137,6 @@ _DB_NAME=PICK_A_DB_NAME
 _ARCHIVE_DB_NAME=PICK_ANOTHER_DB_NAME
 
 _ARCHIVE_PROJECTS_DIR=$base_dir/archive
-
-_UPLOADS_DIR=/home/dpscans
-_UPLOADS_HOST=www.example.org
-_UPLOADS_ACCOUNT=dpscans
-_UPLOADS_PASSWORD=PICK_A_PASSWORD
 
 _ASPELL_EXECUTABLE=/usr/local/bin/aspell
 # The location of the aspell executable.
@@ -170,13 +212,6 @@ _XGETTEXT_EXECUTABLE=/usr/bin/xgettext
 
 _GETTEXT_LOCALES_DIR=/usr/share/locale
 # The system's locale directory.  Usually /usr/share/locale
-
-_EXTERNAL_CATALOG_LOCATOR='z3950.loc.gov:7090/Voyager'
-# The external catalog to search (using Z39.50) when creating a project.
-# Should be a locator in the form 'host[:port][/database]', suitable for
-# passing to 'yaz_connect'.
-# To avoid the external search at project-creation time, leave this variable
-# empty.
 
 _JPGRAPH_FONT_FACE=2
 _JPGRAPH_FONT_STYLE=9002
