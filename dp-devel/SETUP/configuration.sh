@@ -107,6 +107,34 @@ _EXTERNAL_CATALOG_LOCATOR='z3950.loc.gov:7090/Voyager'
 
 # ----------------------------------------------------------------------
 
+# In the proofing interface, the Spell-Checking functionality relies on
+# a local installation of 'aspell'...
+
+_ASPELL_EXECUTABLE=/usr/local/bin/aspell
+# The location of the aspell executable.
+
+_ASPELL_PREFIX=/usr/local
+# The root of all aspell dir ./bin/ etc.
+# (passed to aspell as --prefix=$_ASPELL_PREFIX)
+
+_ASPELL_TEMP_DIR=/tmp/sp_check
+# The document root for aspell temp files.
+# We recommend putting it in its own dir for easy purging,
+# and to help keep /tmp itself uncluttered.
+
+# ----------------------------------------------------------------------
+
+_WIKIHIERO_DIR=$base_dir/wikihiero
+_WIKIHIERO_URL=$base_url/wikihiero
+
+# If you're dealing with text containing Egyptian hieroglyphs, you may
+# want to install wikihiero to help with the transcription. If so, set
+# these variables to the location you installed it, and a link will
+# appear in the proofing interface.
+# If you haven't installed wikihiero, leave them empty.
+
+# ----------------------------------------------------------------------
+
 _DYN_DIR=$base_dir/d
 _DYN_URL=$base_url/d
 
@@ -137,18 +165,6 @@ _DB_NAME=PICK_A_DB_NAME
 _ARCHIVE_DB_NAME=PICK_ANOTHER_DB_NAME
 
 _ARCHIVE_PROJECTS_DIR=$base_dir/archive
-
-_ASPELL_EXECUTABLE=/usr/local/bin/aspell
-# The location of the aspell executable.
-
-_ASPELL_PREFIX=/usr/local
-# The root of all aspell dir ./bin/ etc.
-# (passed to aspell as --prefix=$_ASPELL_PREFIX)
-
-_ASPELL_TEMP_DIR=/tmp/sp_check
-# The document root for aspell temp files.
-# We recommend putting it in its own dir for easy purging,
-# and to help keep /tmp itself uncluttered.
 
 _NO_REPLY_EMAIL_ADDR=no-reply@example.org
 _GENERAL_HELP_EMAIL_ADDR=dphelp@example.org
@@ -217,9 +233,5 @@ _JPGRAPH_FONT_FACE=2
 _JPGRAPH_FONT_STYLE=9002
 # Font face and style values for JpGraph graphs. For possible values, see
 # $_JPGRAPH_DIR/src/jpgraph.php (specifically, the FF_ and FS_ defines).
-
-_WIKIHIERO_DIR=$base_dir/wikihiero
-_WIKIHIERO_URL=$base_url/wikihiero
-# If you haven't installed wikihiero, leave these empty.
 
 # ----------------------------------------------------------------------
