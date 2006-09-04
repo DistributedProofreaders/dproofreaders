@@ -135,16 +135,49 @@ _WIKIHIERO_URL=$base_url/wikihiero
 
 # ----------------------------------------------------------------------
 
+_WIKI_URL=$base_url/wiki
+
+# If there's a wiki that you want your users to use, set this variable
+# to its URL, and a link will appear on the navigation bar.
+# If you don't have a wiki, set this to the empty string.
+
+# ----------------------------------------------------------------------
+
+# Certain parts of the DP code assume that you have phpBB (or something
+# pretty similar) installed.
+
+_FORUMS_DIR=$base_dir/phpBB2
+_FORUMS_URL=$base_url/phpBB2
+
+_FORUMS_TEAMS_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
+# Each team gets an automatically-created discussion topic in this forum
+
+_FORUMS_PROJECT_WAITING_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
+_FORUMS_PROJECT_AVAIL_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
+_FORUMS_PROJECT_PP_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
+_FORUMS_PROJECT_POSTED_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
+# Each project gets an automatically-created discussion topic, which
+# moves around among these 4 forums, depending on its state.
+# (The exact correspondence is defined in pinc/project_states.inc.)
+
+_FORUMS_GENERAL_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
+_FORUMS_BEGIN_SITE_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
+_FORUMS_BEGIN_PROOF_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
+_FORUMS_CONTENT_PROVIDERS_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
+_FORUMS_POST_PROCESSORS_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
+# These forums aren't involved in the operation of the site,
+# they just show up in various links.
+
+_AUTO_POST_TO_PROJECT_TOPIC=FALSE
+# If you set this to TRUE, the code will automatically add a post to a
+# project's discussion topic when the project undergoes certain events.
+
+# ----------------------------------------------------------------------
+
 _DYN_DIR=$base_dir/d
 _DYN_URL=$base_url/d
 
 _JPGRAPH_DIR=$base_dir/jpgraph
-
-_WIKI_URL=$base_url/wiki
-# If you don't have a wiki installed, set this to the empty string.
-
-_FORUMS_DIR=$base_dir/phpBB2
-_FORUMS_URL=$base_url/phpBB2
 
 # ----------------------------------------------------------------------
 
@@ -192,10 +225,6 @@ _MAINTENANCE=0
 # but bookmarks to interior pages are still live for everyone.
 # (So maybe not that useful.)
 
-_AUTO_POST_TO_PROJECT_TOPIC=FALSE
-# Should we automatically add a post to a project's discussion topic
-# when the project undergoes certain events?
-
 _METADATA=FALSE
 # This is a flag to allow the still-developing metadata functionality
 # to be active or not.
@@ -211,17 +240,6 @@ _WRITEBIGTABLE=TRUE
 _READBIGTABLE=FALSE
 # For staged transition to all-in-one project_pages table.
 
-
-_FORUMS_GENERAL_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
-_FORUMS_BEGIN_SITE_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
-_FORUMS_BEGIN_PROOF_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
-_FORUMS_PROJECT_WAITING_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
-_FORUMS_PROJECT_AVAIL_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
-_FORUMS_PROJECT_PP_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
-_FORUMS_PROJECT_POSTED_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
-_FORUMS_CONTENT_PROVIDERS_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
-_FORUMS_POST_PROCESSORS_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
-_FORUMS_TEAMS_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
 
 _XGETTEXT_EXECUTABLE=/usr/bin/xgettext
 # The location of xgettext executable.
