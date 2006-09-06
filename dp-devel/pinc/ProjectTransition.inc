@@ -715,7 +715,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                         'action_name'           => _('Skip this round'),
                         'confirmation_question' => '[default]',
                         'detour'                => null,
-                        'settings_template'     => "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' [$round->id skipped]')",
+                        'settings_template'     => "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' {{$round->id} skipped}')",
                         'collateral_actions'    => null,
                     )
                 );
@@ -731,7 +731,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                         'action_name'           => _('Skip this round'),
                         'confirmation_question' => '[default]',
                         'detour'                => null,
-                        'settings_template'     => "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' [$round->id skipped]'), n_available_pages=0",
+                        'settings_template'     => "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' {{$round->id} skipped}'), n_available_pages=0",
                         'collateral_actions'    => 'round_to_PP_avail_collateral',
                     )
                 );
@@ -745,7 +745,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                         'action_name'           => _('Skip this round'),
                         'confirmation_question' => '[default]',
                         'detour'                => null,
-                        'settings_template'     => "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' [$round->id skipped]'), n_available_pages=0, checkedoutby=IF(checkedoutby!='',checkedoutby,username)",
+                        'settings_template'     => "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' {{$round->id} skipped}'), n_available_pages=0, checkedoutby=IF(checkedoutby!='',checkedoutby,username)",
                         'collateral_actions'    => 'round_to_PP_out_collateral',
                     )
                 );
