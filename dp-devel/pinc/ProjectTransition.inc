@@ -208,7 +208,7 @@ class ProjectTransition
             // expand template
             $patterns = array(); $replacements = array();
 
-            $braced_pattern = '/{[^}]*}/';
+            $braced_pattern = '/<[^>]*>/';
             $r = preg_match_all( $braced_pattern, $this->settings_template, $matches );
             if ( $r === FALSE )
             {
@@ -218,19 +218,19 @@ class ProjectTransition
             {
                 switch ( $braced_thing )
                 {
-                    case '{TIMESTAMP}':
+                    case '<TIMESTAMP>':
                         $replacement = time();
                         break;
 
-                    case '{WHO}':
+                    case '<WHO>':
                         if ( $who == PT_AUTO )
                         {
-                            return "\$who == PT_AUTO shouldn't happen for {WHO}";
+                            return "\$who == PT_AUTO shouldn't happen for <WHO>";
                         }
                         $replacement = $who;
                         break;
 
-                    case '{G:postcomments}':
+                    case '<G:postcomments>':
                         global $postcomments;
                         $replacement = $postcomments;
                         break;
@@ -472,7 +472,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'action_name'           => '[default]',
             'confirmation_question' => null,
             'detour'                => null,
-            'settings_template'     => 'modifieddate="{TIMESTAMP}"',
+            'settings_template'     => 'modifieddate="<TIMESTAMP>"',
             'collateral_actions'    => null,
         )
     );
@@ -500,7 +500,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
             'action_name'           => '[default]',
             'confirmation_question' => '[default]',
             'detour'                => null,
-            'settings_template'     => 'modifieddate="{TIMESTAMP}"',
+            'settings_template'     => 'modifieddate="<TIMESTAMP>"',
             'collateral_actions'    => 'round_release_collateral',
         )
     );
@@ -634,7 +634,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                 'action_name'           => null,
                 'confirmation_question' => null,
                 'detour'                => null,
-                'settings_template'     => 'modifieddate="{TIMESTAMP}"',
+                'settings_template'     => 'modifieddate="<TIMESTAMP>"',
                 'collateral_actions'    => null,
             )
         );
@@ -650,7 +650,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                 'action_name'           => null,
                 'confirmation_question' => null,
                 'detour'                => null,
-                'settings_template'     => "modifieddate='{TIMESTAMP}'",
+                'settings_template'     => "modifieddate='<TIMESTAMP>'",
                 'collateral_actions'    => 'round_to_PP_avail_collateral',
             )
         );
@@ -664,7 +664,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                 'action_name'           => null,
                 'confirmation_question' => null,
                 'detour'                => null,
-                'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby=IF(checkedoutby!='',checkedoutby,username)",
+                'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby=IF(checkedoutby!='',checkedoutby,username)",
                 'collateral_actions'    => 'round_to_PP_out_collateral',
             )
         );
@@ -715,7 +715,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                         'action_name'           => _('Skip this round'),
                         'confirmation_question' => '[default]',
                         'detour'                => null,
-                        'settings_template'     => "modifieddate='{TIMESTAMP}', nameofwork=CONCAT(nameofwork,' [$round->id skipped]')",
+                        'settings_template'     => "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' [$round->id skipped]')",
                         'collateral_actions'    => null,
                     )
                 );
@@ -731,7 +731,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                         'action_name'           => _('Skip this round'),
                         'confirmation_question' => '[default]',
                         'detour'                => null,
-                        'settings_template'     => "modifieddate='{TIMESTAMP}', nameofwork=CONCAT(nameofwork,' [$round->id skipped]'), n_available_pages=0",
+                        'settings_template'     => "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' [$round->id skipped]'), n_available_pages=0",
                         'collateral_actions'    => 'round_to_PP_avail_collateral',
                     )
                 );
@@ -745,7 +745,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                         'action_name'           => _('Skip this round'),
                         'confirmation_question' => '[default]',
                         'detour'                => null,
-                        'settings_template'     => "modifieddate='{TIMESTAMP}', nameofwork=CONCAT(nameofwork,' [$round->id skipped]'), n_available_pages=0, checkedoutby=IF(checkedoutby!='',checkedoutby,username)",
+                        'settings_template'     => "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' [$round->id skipped]'), n_available_pages=0, checkedoutby=IF(checkedoutby!='',checkedoutby,username)",
                         'collateral_actions'    => 'round_to_PP_out_collateral',
                     )
                 );
@@ -926,7 +926,7 @@ new ProjectTransition(
         'action_name'           => _("Check Out Book"),
         'confirmation_question' => _("Are you sure you want to check this book out for post processing?"),
         'detour'                => null,
-        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{WHO}'",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby='<WHO>'",
         'collateral_actions'    => null,
     )
 );
@@ -940,7 +940,7 @@ new ProjectTransition(
         'action_name'           => _("Check Out Book"),
         'confirmation_question' => _("Are you sure you want to check this book out for verifying post processing?"),
         'detour'                => null,
-        'settings_template'     => "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, checkedoutby='{WHO}'",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, checkedoutby='<WHO>'",
         'collateral_actions'    => null,
     )
 );
@@ -956,7 +956,7 @@ new ProjectTransition(
         'action_name'           => _("Check Out Book"),
         'confirmation_question' => _("Are you sure you want to check this book out to review corrections?"),
         'detour'                => null,
-        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{WHO}'",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby='<WHO>'",
         'collateral_actions'    => null,
     )
 );
@@ -977,7 +977,7 @@ new ProjectTransition(
         'action_name'           => _("Return to Available"),
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=return_1",
-        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='', smoothread_deadline='0', postcomments=CONCAT(postcomments,'{G:postcomments}')",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby='', smoothread_deadline='0', postcomments=CONCAT(postcomments,'<G:postcomments>')",
         'collateral_actions'    => null,
     )
 );
@@ -991,7 +991,7 @@ new ProjectTransition(
         'action_name'           => _("Return to Available"),
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=return_2",
-        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby=postproofer, postcomments=CONCAT(postcomments,'{G:postcomments}')",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby=postproofer, postcomments=CONCAT(postcomments,'<G:postcomments>')",
         'collateral_actions'    => null,
     )
 );
@@ -1007,7 +1007,7 @@ new ProjectTransition(
         'action_name'           => _("Return to Available"),
         'confirmation_question' => _("Are you sure you want to make this book available to others for reviewing corrections?"),
         'detour'                => null,
-        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby=''",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby=''",
         'collateral_actions'    => null,
     )
 );
@@ -1028,7 +1028,7 @@ new ProjectTransition(
         'action_name'           => _("Upload for Verification"),
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
-        'settings_template'     => "modifieddate='{TIMESTAMP}', postproofer=checkedoutby, postcomments=CONCAT(postcomments,'{G:postcomments}')",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, postcomments=CONCAT(postcomments,'<G:postcomments>')",
         'collateral_actions'    => null,
     )
 );
@@ -1042,7 +1042,7 @@ new ProjectTransition(
         'action_name'           => _("Return to Post-Processor"),
         'confirmation_question' => _("Are you sure you want to return this book to the post-processor for further work?"),
         'detour'                => null,
-        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby=postproofer, postproofer=''",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby=postproofer, postproofer=''",
         'collateral_actions'    => null,
     )
 );
@@ -1075,7 +1075,7 @@ new ProjectTransition(
         'action_name'           => '[default]',
         'confirmation_question' => _('Someone currently has this project checked out. Are you sure you want to make it unavailable?'),
         'detour'                => null,
-        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='', smoothread_deadline='0'",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby='', smoothread_deadline='0'",
         'collateral_actions'    => null,
     )
 );
@@ -1105,7 +1105,7 @@ new ProjectTransition(
         'action_name'           => _('Check Out Project for Post-Processing'),
         'confirmation_question' => _("It's unclear whether this transition should even be possible. Are you sure?"),
         'detour'                => null,
-        'settings_template'     => "modifieddate='{TIMESTAMP}', checkedoutby='{WHO}'",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', checkedoutby='<WHO>'",
         'collateral_actions'    => null,
     )
 );
@@ -1185,7 +1185,7 @@ new ProjectTransition(
 */
 
 $pg_posted_settings_template =
-    "modifieddate='{TIMESTAMP}',
+    "modifieddate='<TIMESTAMP>',
     postproofer = IF( postproofer = '', checkedoutby, postproofer ),
     ppverifier = IF( postproofer != '' AND postproofer != checkedoutby, checkedoutby, ppverifier )";
 
@@ -1333,7 +1333,7 @@ new ProjectTransition(
         'action_name'           => _("Upload Corrections for Review"),
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=correct",
-        'settings_template'     => "modifieddate='{TIMESTAMP}', correctedby='{WHO}'",
+        'settings_template'     => "modifieddate='<TIMESTAMP>', correctedby='<WHO>'",
         'collateral_actions'    => null,
     )
 );
@@ -1364,7 +1364,7 @@ foreach ( $PROJECT_STATES_IN_ORDER as $from_state )
             'action_name'           => _('Delete Project'),
             'confirmation_question' => _('<P><B>NOTE:</B> Deleting is only for a project that is beyond repair.<P>Are you sure you want to delete this project?'),
             'detour'                => null,
-            'settings_template'     => "modifieddate='{TIMESTAMP}'",
+            'settings_template'     => "modifieddate='<TIMESTAMP>'",
             'collateral_actions'    => null,
         )
     );
