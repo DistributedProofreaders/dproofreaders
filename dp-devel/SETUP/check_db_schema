@@ -21,7 +21,11 @@ mkdir $testing_dir
 
 echo ""
 echo "Dumping the schema of the current database..."
-$setup_dir/dump_db_schema --table-list-from-db > $testing_dir/current_schema_dump
+$setup_dir/dump_db_schema --table-list-from-code > $testing_dir/current_schema_dump
+# Use --table-list-from-code because a real DP database will typically have
+# a) a full complement of phpbb tables, and
+# b) some adhoc tables,
+# neither of which are pertinent to this check.
 
 echo ""
 echo "Creating a config file for a test install..."
@@ -103,6 +107,11 @@ fi
 
 echo ""
 echo "Comparing the two schemas..."
-gvim -d $testing_dir/current_schema_dump $testing_dir/upgraded_schema_dump
+vim -d $testing_dir/current_schema_dump $testing_dir/upgraded_schema_dump
+
+echo ""
+echo "When you're done, don't forget to..."
+echo "    rm -rf $testing_dir"
+echo "    DROP DATABASE $testing_db_name;"
 
 # vim: sw=4 ts=4 expandtab
