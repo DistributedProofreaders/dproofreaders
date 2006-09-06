@@ -8,9 +8,9 @@
 # or did we sneak a db-schema change into the current installation,
 # and are perhaps now depending on it?)
 
-prev_tag=R200406
-curr_tag=R200510
-upgrade_number=06
+prev_tag=R200510
+curr_tag=production
+upgrade_number=07
 
 setup_dir=`dirname $0`
 testing_dir=/tmp/dp_schema_check
@@ -21,7 +21,7 @@ mkdir $testing_dir
 
 echo ""
 echo "Dumping the schema of the current database..."
-$setup_dir/dump_db_schema > $testing_dir/current_schema_dump
+$setup_dir/dump_db_schema --table-list-from-db > $testing_dir/current_schema_dump
 
 echo ""
 echo "Creating a config file for a test install..."
@@ -44,6 +44,7 @@ echo "
     _CORRECTIONS=TRUE
     _WRITEBIGTABLE=TRUE
     _READBIGTABLE=TRUE
+    _AUTO_POST_TO_PROJECT_TOPIC=FALSE
 
     # For update_phpbb_posts_text.php
     _FORUMS_PROJECT_WAITING_IDX=99
@@ -60,7 +61,7 @@ cd $testing_code_dir/SETUP
 
 echo ""
 echo "Getting db_schema.sql from the previous release..."
-cvs_server=cvs.sourceforge.net
+cvs_server=dproofreaders.cvs.sourceforge.net
 cvs_account=:pserver:anonymous@$cvs_server
 cvs -d$cvs_account:/cvsroot/dproofreaders get -p -r $prev_tag dp-devel/SETUP/db_schema.sql > ./db_schema.sql
 
@@ -89,11 +90,16 @@ for f in *.php; do
     echo ""
     php $f
 done
+echo ""
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 cd $testing_code_dir/SETUP
 
 echo ""
 echo "Dumping the schema of the resulting database..."
-./dump_db_schema > $testing_dir/upgraded_schema_dump
+if [ -e $testing_dir/upgraded_schema_dump ]; then
+    mv $testing_dir/upgraded_schema_dump $testing_dir/upgraded_schema_dump.bak
+fi
+./dump_db_schema --table-list-from-db > $testing_dir/upgraded_schema_dump
 
 echo ""
 echo "Comparing the two schemas..."
