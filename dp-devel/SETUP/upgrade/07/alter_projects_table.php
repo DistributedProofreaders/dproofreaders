@@ -14,7 +14,7 @@ echo "Adding the 't_last_edit' column...\n";
 
 $sql = "
     ALTER TABLE projects
-        ADD COLUMN t_last_edit INT NOT NULL
+        ADD COLUMN t_last_edit INT NOT NULL AFTER modifieddate
 ";
 echo "$sql\n";
 mysql_query($sql) or die( mysql_error() );
