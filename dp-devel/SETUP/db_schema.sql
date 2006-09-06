@@ -172,8 +172,8 @@ CREATE TABLE `news_items` (
 
 CREATE TABLE `news_pages` (
   `news_page_id` varchar(8) NOT NULL default '',
-  `news_type` varchar(40) NOT NULL default '',
-  `modifieddate` varchar(10) default NULL
+  `t_last_change` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`news_page_id`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -191,7 +191,7 @@ CREATE TABLE `non_activated_users` (
   `email` varchar(50) NOT NULL default '',
   `date_created` int(20) NOT NULL default '0',
   `email_updates` varchar(4) NOT NULL default '',
-  `u_intlang` varchar(5) default 'en_EN',
+  `u_intlang` varchar(25) default '',
   `user_password` varchar(32) NOT NULL default '',
   PRIMARY KEY  (`username`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Each row represents a not-yet-activated user, user_password ';
@@ -232,7 +232,8 @@ CREATE TABLE `past_tallies` (
   `tally_name` char(2) NOT NULL default '',
   `tally_delta` int(8) NOT NULL default '0',
   `tally_value` int(8) NOT NULL default '0',
-  PRIMARY KEY  (`tally_name`,`holder_type`,`holder_id`,`timestamp`)
+  PRIMARY KEY  (`tally_name`,`holder_type`,`holder_id`,`timestamp`),
+  KEY `tallyboard_time` (`tally_name`,`holder_type`,`timestamp`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -465,6 +466,27 @@ CREATE TABLE `phpbb_users` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `project_events`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `project_events` (
+  `event_id` int(10) unsigned NOT NULL auto_increment,
+  `timestamp` int(10) unsigned NOT NULL default '0',
+  `projectid` varchar(22) NOT NULL default '',
+  `who` varchar(25) NOT NULL default '',
+  `event_type` varchar(15) NOT NULL default '',
+  `details1` varchar(255) NOT NULL default '',
+  `details2` varchar(255) NOT NULL default '',
+  `details3` varchar(255) NOT NULL default '',
+  PRIMARY KEY  (`event_id`),
+  KEY `project` (`projectid`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
 # Table structure for table `project_pages`
 #
 # Creation:
@@ -493,6 +515,9 @@ CREATE TABLE `project_pages` (
   `round4_time` int(20) NOT NULL default '0',
   `round4_user` varchar(25) NOT NULL default '',
   `round4_text` longtext NOT NULL,
+  `round5_time` int(20) NOT NULL default '0',
+  `round5_user` varchar(25) NOT NULL default '',
+  `round5_text` longtext NOT NULL,
   PRIMARY KEY  (`projectid`,`fileid`),
   KEY `round1_user` (`round1_user`),
   KEY `round2_user` (`round2_user`),
@@ -534,13 +559,14 @@ CREATE TABLE `projects` (
   `nameofwork` varchar(255) NOT NULL default '',
   `authorsname` varchar(255) NOT NULL default '',
   `language` varchar(255) NOT NULL default '',
-  `username` varchar(255) NOT NULL default '',
+  `username` varchar(25) NOT NULL default '',
   `comments` text NOT NULL,
   `projectid` varchar(22) NOT NULL default '',
   `special_code` varchar(20) NOT NULL default '',
-  `checkedoutby` text NOT NULL,
+  `checkedoutby` varchar(25) NOT NULL default '',
   `correctedby` varchar(25) NOT NULL default '',
   `modifieddate` int(20) NOT NULL default '0',
+  `t_last_edit` int(11) NOT NULL default '0',
   `scannercredit` tinytext NOT NULL,
   `state` varchar(50) default NULL,
   `postednum` smallint(5) unsigned default NULL,
@@ -552,7 +578,7 @@ CREATE TABLE `projects` (
   `genre` varchar(50) NOT NULL default '',
   `difficulty` varchar(20) NOT NULL default 'average',
   `archived` tinyint(1) NOT NULL default '0',
-  `postproofer` varchar(255) NOT NULL default '',
+  `postproofer` varchar(25) NOT NULL default '',
   `postcomments` text NOT NULL,
   `n_pages` smallint(4) unsigned NOT NULL default '0',
   `n_available_pages` smallint(4) unsigned NOT NULL default '0',
@@ -563,6 +589,7 @@ CREATE TABLE `projects` (
   `extra_credits` tinytext NOT NULL,
   `smoothread_deadline` int(20) NOT NULL default '0',
   `up_projectid` int(10) default '0',
+  `deletion_reason` tinytext NOT NULL,
   PRIMARY KEY  (`projectid`),
   KEY `state` (`state`),
   KEY `special_code` (`special_code`)
@@ -577,15 +604,15 @@ CREATE TABLE `projects` (
 #
 
 CREATE TABLE `queue_defns` (
-  `round_number` tinyint(1) unsigned NOT NULL default '1',
+  `round_id` char(2) NOT NULL default '',
   `ordering` mediumint(5) NOT NULL default '0',
   `enabled` tinyint(1) NOT NULL default '0',
   `name` varchar(30) NOT NULL default '',
   `project_selector` text NOT NULL,
   `release_criterion` text NOT NULL,
   `comment` text,
-  UNIQUE KEY `ordering` (`round_number`,`ordering`),
-  UNIQUE KEY `name` (`round_number`,`name`)
+  UNIQUE KEY `ordering` (`round_id`,`ordering`),
+  UNIQUE KEY `name` (`round_id`,`name`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -650,6 +677,23 @@ CREATE TABLE `site_tally_goals` (
   `goal` int(6) NOT NULL default '0',
   PRIMARY KEY  (`date`,`tally_name`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
+# Table structure for table `smoothread`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `smoothread` (
+  `projectid` varchar(22) NOT NULL default '',
+  `user` varchar(25) NOT NULL default '',
+  `committed` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`projectid`,`user`),
+  KEY `project` (`projectid`),
+  KEY `user` (`user`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Each row represents an association between a user and a proj';
 # --------------------------------------------------------
 
 #
@@ -930,7 +974,7 @@ CREATE TABLE `users` (
   `i_pmdefault` smallint(1) NOT NULL default '2',
   `u_id` int(10) unsigned NOT NULL auto_increment,
   `u_profile` int(10) unsigned NOT NULL default '0',
-  `u_intlang` varchar(5) default 'en_EN',
+  `u_intlang` varchar(25) default '',
   `u_privacy` tinyint(1) default '0',
   `team_1` int(10) unsigned NOT NULL default '0',
   `team_2` int(10) unsigned NOT NULL default '0',
