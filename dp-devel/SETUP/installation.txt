@@ -17,9 +17,10 @@ This section assumes that you don't have an existing installation of DP.
 If you're upgrading from a previous version, see the upgrade section.
 
 --- Install PHP (if it isn't already).
-        You should have GD and YAZ support.
-        GD is required for jpgraph.
-        YAZ is optional for the project creation code.
+        Enable GD (for jpgraph) if you want dynamically-generated graphs.
+        Enable YAZ if you want to be able to do external catalog searches when
+            creating projects.
+        Enable the CLI for running cron jobs and future upgrade scripts.
 
 --- Install aspell (if it isn't already).
         The code uses aspell for the spellchecker in the proofreading interface.
@@ -74,54 +75,66 @@ If you're upgrading from a previous version, see the upgrade section.
         phpBB2 is most easily installed in your document root as phpbb2/
         In .../phpBB2/config.php, set db vars with values chosen above.
 
---- Create phpBB forum categories and forums.
+--- Create phpBB categories and forums.
 
-    (pourlean to fill in more details)
+        When the site is operational, each team and each project will get an
+        automatically-created discussion topic. You should create a forum to
+        house the team topics, and four forums for project topics, one for each
+        of:
+        --- projects not yet released for proofing
+        --- projects released for proofing
+        --- projects in post-processing
+        --- projects that have been posted
 
-    Currently, Distributed Proofreaders is set up with the following
-    forum categories and forums:
-        For Beginners
-            -- Common Site Q&A
-            -- Common Proofing Q&A
-        Site
-            -- General
-            -- Future Features
-            -- Promotion
-            -- Documentation
-            -- Site-Related Polls
-        Activities
-            -- Providing Content
-            -- Managing Projects
-            -- Mentoring
-            -- Post-Processing
-        Projects
-            -- Project Questions and Comments
-            -- UberProjects
-            -- Archive of Posted Projects
-            -- (restricted) Projects Waiting
-            -- (restricted) Projects Available
-        Community
-            -- DP Culture and History
-            -- Team Talk
-            -- Fun Polls
-            -- Project Gutenberg
-            -- Everything Else (except DP)
-        Helpful Software
-            -- Windows
-            -- Mac
-            -- *nix
-            -- Cross-Platform
-            -- Tool Development
+        The code also assumes the existence of a few more forums, not in the
+        operational sense above, but just to provides helpful links.
+        --- general
+        --- beginners' site Q&A
+        --- beginners' proofing Q&A
+        --- content providers
+        --- post-processing
 
-        You should create the following forums at minimum:
-            Project Questions and Comments
-            Archive of Posted Projects
-            (restricted view) Projects Waiting
-            (restricted view) Projects Available
-            Team Talk
-        The DP code depends on these forums to be present for automatically-generated
-        threads when projects and teams are created. You will need the phpBB forum id
-        numbers to put into the site-configuration for the DP code.
+        When you create these forums, you can give them any name or description
+        you want. After, take note of their ids -- you'll need these when you
+        configure the DP code.
+
+        Other than that, you can create whatever categories/forums/topics you
+        like. As a suggestion only, here are some of the categories and forums
+        at www.pgdp.net (the ones referred to above are prefixed with '**'):
+
+            For Beginners
+                ** Common Site Q&A
+                ** Common Proofing Q&A
+            Site
+                ** General
+                -- Future Features
+                -- Promotion
+                -- Documentation
+                -- Site-Related Polls
+            Activities
+                ** Providing Content
+                -- Managing Projects
+                -- Mentoring
+                ** Post-Processing
+            Projects
+                ** Projects Waiting
+                ** Projects Being Proofed or Formatted
+                ** Projects Being Post-Processed or Verified
+                -- UberProjects
+                ** Archive of Posted Projects
+            Community
+                -- DP Culture and History
+                ** Team Talk
+                -- Fun Polls
+                -- Project Gutenberg
+                -- Everything Else (except DP)
+            Helpful Software
+                -- Windows
+                -- Mac
+                -- *nix
+                -- Cross-Platform
+                -- Tool Development
+                -- DP Site Code
 
 --- Install phpMyAdmin.
         While not required, it makes administering the database much easier.
@@ -173,6 +186,13 @@ If you're upgrading from a previous version, see the upgrade section.
         d/xmlfeeds
         (You also need to put some files in d??)
 
+        These should have permissions drwxrwsr-x and have the owner & group
+        of the user that the DP code runs as (probably 'nobody').
+
+--- Create the 'uploads' user, make it ftp/scp-only, somehow configure it
+        so that dirs it creates will be 777 (so that the DP code has write access,
+        for expanding zip files).
+
 --- Configure the DP code (with site-specific settings).
         Make an editable copy of c/SETUP/configuration.sh,
         and put it outside your webserver's document hierarchy.
@@ -191,6 +211,8 @@ If you're upgrading from a previous version, see the upgrade section.
 
 --- At this point, your DP site should be functional.
         Try visiting it via your browser.
+            (You may want to redirect/rewrite requests for foo/ to foo/c/.
+            You could just create a foo/index.html that redirects.)
         Register as a new user.
         Of course, there aren't any projects to proofread yet.
 
@@ -207,7 +229,7 @@ If you're upgrading from a previous version, see the upgrade section.
 
 --- Define project queues...
 
---- Install the modified dp.cron.
+--- Install the modified SETUP/dp.cron.
     The dp.cron contains entries for various processes necessary for site
     statistics and project archiving, as well as managing the project release
     queues, various user notifications, and the like.
