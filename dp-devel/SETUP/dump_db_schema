@@ -12,9 +12,19 @@ export LC_ALL=POSIX
 # and LANG=en_US.UTF-8, which produces case-insensitivity
 # in grep and sed.
 
+# We don't want to dump schema for *all* tables in the database.
+# So how will we determine which ones to dump?
+if [ "$1" = '--table-list-from-db' ]; then
+    table_list_source='db'
+elif [ "$1" = '--table-list-from-code' ]; then
+    table_list_source='code'
+else
+    table_list_source='code'
+fi
+
 get_table_names()
 {
-    if false; then
+    if [ $table_list_source = db ]; then
         mysql --user=$db_user --password="$db_password" \
             -D $db_name \
             --skip-column-names --batch --execute='show tables' |
@@ -29,7 +39,7 @@ get_table_names()
             -e ranks \
             -e states |
         sort
-    else
+    elif [ $table_list_source = code ]; then
         find $code_dir -type f \
             \( -name '*.php' -o -name '*.inc' -o -name '*.pl' \) |
 
@@ -68,6 +78,9 @@ get_table_names()
         |
 
         sort -u
+    else
+        echo 1>&2 "bad table_list_source: '$table_list_source'"
+        exit 1
     fi
 }
 
