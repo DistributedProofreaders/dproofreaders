@@ -1,13 +1,3 @@
-# MySQL dump 10.2
-#
-# Host: localhost    Database: dproofreaders
-# ------------------------------------------------------
-# Server version	4.1.1-alpha-standard
-
-/*!40101 SET NAMES latin1*/;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE=NO_AUTO_VALUE_ON_ZERO */;
 
 #
 # Table structure for table `access_log`
@@ -967,8 +957,4 @@ CREATE TABLE `usersettings` (
   FULLTEXT KEY `setting` (`setting`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 
