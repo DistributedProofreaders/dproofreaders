@@ -756,6 +756,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 
 function round_release_collateral( $project, $transition, $who )
 {
+    global $site_abbreviation;
     $round = get_Round_for_project_state($transition->to_state);
     assert( !is_null($round) );
 
@@ -795,6 +796,7 @@ function round_release_collateral( $project, $transition, $who )
 
 function bad_project_collateral( $project, $transition, $who )
 {
+    global $site_abbreviation;
     $body_blurb =
 "This project has been shut down.
 This is due to 10 or more problem reports, from at least
@@ -844,6 +846,7 @@ function proj_would_go_to_PP_out( $project, $transition )
 
 function round_to_PP_avail_collateral( $project, $transition, $who )
 {
+    global $site_abbreviation;
     $from_round = get_Round_for_project_state($transition->from_state);
     generate_post_files( $project->projectid, $from_round->id, 'LE', 'Y', '' );
 
