@@ -18,6 +18,7 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
 // Returns an LPage, unless no page is available,
 // in which case returns NULL and sets $err.
 {
+    global $preceding_proofer_restriction;
     // Make sure project is still in same state.
     $err = project_continuity_test($projectid, $proj_state, TRUE);
     if ( $err ) return NULL;
@@ -90,11 +91,11 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
 
     // Are there any other restrictions that the page must satisfy?
     // (This should maybe be a property of $round.)
-    if (0)
+    if ( empty($preceding_proofer_restriction) )
     {
         // Nope, no other restrictions.
     }
-    else if (1)
+    else if ($preceeding_proofer_restriction == 'not_immediately_preceding')
     {
         // Don't give this user a page that they worked on in the preceding round.
         // (Where "preceding" takes into account skipped rounds.)
@@ -129,7 +130,7 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
             $restrictions .= " AND $preceding_proofer != '$pguser'";
         }
     }
-    else
+    else if ($preceding_proofer_restriction == 'not_previously_proofed')
     {
         // Don't give this user a page that they have worked on before.
         for ( $rn = 1; $rn < $round->round_number; $rn++ )
@@ -137,6 +138,11 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
             $earlier_round = get_Round_for_round_number( $rn );
             $restrictions .= " AND {$earlier_round->user_column_name} != '$pguser'";
         }
+    }
+    else
+    {
+        // The empty/null (i.e., no restriction) case has already been dealt with.
+        die("Bad value for 'preceding_proofer_restriction': '$preceding_proofer_restriction'.");
     }
 
     // Find page to be proofed.
