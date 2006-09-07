@@ -695,6 +695,7 @@ class ProjectInfoHolder
 
     function show_visible_controls()
     {
+        global $site_abbreviation;
         if (!empty($this->projectid))
         {
             $this->row( _("Project ID"), 'just_echo', $this->projectid );
@@ -728,10 +729,10 @@ class ProjectInfoHolder
         $this->row( _("Genre"),                       'genre_list',          $this->genre            );
         $this->row( _("Difficulty Level"),            'difficulty_list',     $this->difficulty_level );
         $this->row( _("Special Day (optional)"),      'special_list',        $this->special_code     );
-        $this->row( _("PPer/PPVer"),                  'DP_user_field',       $this->checkedoutby,    'checkedoutby' , _("Optionally reserve for a PPer. DP username only."));
+        $this->row( _("PPer/PPVer"),                  'DP_user_field',       $this->checkedoutby,    'checkedoutby' , _("Optionally reserve for a PPer. $site_abbreviation username only."));
         $this->row( _("Original Image Source"),       'image_source_list',   $this->image_source     );
-        $this->row( _("Image Preparer"),              'DP_user_field',       $this->image_preparer,  'image_preparer', _("DP user who scanned or harvested the images."));
-        $this->row( _("Text Preparer"),               'DP_user_field',       $this->text_preparer,   'text_preparer', _("DP user who prepared the text files.") );
+        $this->row( _("Image Preparer"),              'DP_user_field',       $this->image_preparer,  'image_preparer', _("$site_abbreviation user who scanned or harvested the images."));
+        $this->row( _("Text Preparer"),               'DP_user_field',       $this->text_preparer,   'text_preparer', _("$site_abbreviation user who prepared the text files.") );
         $this->row( _("Extra Credits (to be included in list of names)"),   
                                                'extra_credits_field', $this->extra_credits);
         if ($this->scannercredit != '') {

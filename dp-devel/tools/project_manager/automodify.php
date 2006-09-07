@@ -288,7 +288,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             maybe_mail_project_manager(
                 $project,
                 "This project is being held between rounds $round->round_number and $next_round->round_number.",
-                "DP Project Held Between Rounds"); 
+                "$site_abbreviation: Project Held Between Rounds"); 
         }
     }
 

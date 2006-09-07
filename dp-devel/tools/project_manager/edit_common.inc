@@ -1,6 +1,7 @@
 <?PHP
 include_once($relPath.'iso_lang_list.inc');
 include_once($relPath.'genres.inc');
+include_once($relPath.'site_vars.inc');
 
 function encodeFormValue($value)
 {
@@ -221,6 +222,7 @@ function special_list($special)
 
 function image_source_list($image_source)
 {
+    global $site_abbreviation;
     // get info on image_sources
     $imso_result = mysql_query("
         SELECT code_name, display_name
@@ -243,10 +245,10 @@ function image_source_list($image_source)
     // drop down select box for which image source
     echo "<select name='image_source'>";
 
-    // add special case value "DP Internal"
+    // add special case value "x Internal"
     echo "<option value='_internal' ";
     if (strcmp ( $image_source, '_internal') == 0) { echo " SELECTED"; }
-    echo ">"._("DP Internal")."</option>";
+    echo ">"._("$site_abbreviation Internal")."</option>";
     echo "\n";
 
     // add the pre-defined image_sources
@@ -259,7 +261,7 @@ function image_source_list($image_source)
     }
 
     echo "</select> ";
-    echo "<font size=-1>". _("'DP Internal' if scanned by or for a DP user.")."</font>";
+    echo "<font size=-1>". _("'$site_abbreviation Internal' if scanned by or for a $site_abbreviation user.")."</font>";
     echo " <a href='show_image_sources.php'>"._("Details of Image Sources")."</a><br>";
 }
 

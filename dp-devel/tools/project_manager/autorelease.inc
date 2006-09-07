@@ -24,17 +24,18 @@ function autorelease()
 
 function attempt_to_release( $round, $project, $queue_name )
 {
+    global $site_abbreviation;
     $projectid = $project['projectid'];
 
     $errors = project_pre_release_check( $project, $round );
 
     if ( $errors )
     {
-        maybe_mail_project_manager( $project, 
+        maybe_mail_project_manager( $project,
             "Some errors have been found:\n".
             "$errors\n".
             "Please correct the errors and put the project back into Waiting for Release.",
-            "DP Errors Before Release"
+            "$site_abbreviation: Errors Before Release"
         );
         $new_state = $round->project_bad_state;
     }

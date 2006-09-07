@@ -280,6 +280,7 @@ class ImageSource
 
     function _show_edit_permissions_row()
     {
+        global $site_abbreviation;
         $cols = array(
             array('field' => 'ok_keep_images', 'label' => _('Images may be stored'), 'allow_unknown' => true),
             array('field' => 'ok_show_images', 'label' => _('Images may be published'), 'allow_unknown' => true),
@@ -321,7 +322,7 @@ class ImageSource
                 : $this->$field;
 
             $editing .= "Visibility on Info Page <select name='$field'>";
-            foreach (array('0' => 'IS Managers Only','1' => 'Also PMs','2' => 'All DP Users','3' => 'Publicly Visible') as $val => $opt)
+            foreach (array('0' => 'IS Managers Only','1' => 'Also PMs','2' => "All $site_abbreviation Users",'3' => 'Publicly Visible') as $val => $opt)
             {
                 {
                 $editing .= "<option value='$val' " .
@@ -391,7 +392,7 @@ class ImageSource
 
     function approve()
     {
-        global $pguser, $site_url;
+        global $pguser, $site_url, $site_abbreviation, $site_signoff, $site_name;
         $this->_set_field('is_active',1);
         $this->_set_field('info_page_visibility',1);
 
@@ -408,13 +409,13 @@ class ImageSource
 
         list($username, $email) = mysql_fetch_row($result);
 
-        $subject = sprintf(_('DP: Image source %s has been approved!'),$this->display_name);
+        $subject = sprintf(_('%s: Image source %s has been approved!'),$site_abbreviation,$this->display_name);
 
         $body = "Hello $username,\n\n" .
-            "This is a message from the Distributed Proofreaders website.\n\n".
+            "This is a message from the $site_name website.\n\n".
             "The image source that you proposed, $this->display_name, has been\n".
             "approved by $pguser. You can select it, and apply it to projects, from\n".
-            "your project manager's page.\n\nThank you!\nDistributed Proofreaders\n$site_url";
+            "your project manager's page.\n\n$site_signoff";
 
         maybe_mail($email,$subject,$body,null);
     }
@@ -459,6 +460,7 @@ class ImageSource
 
     function _get_permissions_cell($can_keep, $can_publish, $show_to, $class = '')
     {
+        global $site_abbreviation;
         $cell = "<td class='$class'>";
 
         if ($can_keep != '-1')
@@ -483,7 +485,7 @@ class ImageSource
                 break;
             case '1':  $to_whom = _("Project Managers");
                 break;
-            case '2':  $to_whom = _("Any DP User");
+            case '2':  $to_whom = _("Any $site_abbreviation User");
                 break;
             case '3':  $to_whom = _("All Users and Visitors");
                 break;
@@ -500,7 +502,7 @@ class ImageSource
 
     function log_request_for_approval($requestor_username)
     {
-        global $general_help_email_addr,$image_sources_manager_addr,$code_url,$site_url;
+        global $general_help_email_addr,$image_sources_manager_addr,$code_url,$site_url,$site_abbreviation,$site_name,$site_signoff;
 
         mysql_query("INSERT INTO usersettings
             SET
@@ -508,15 +510,15 @@ class ImageSource
                 setting = 'is_approval_notify',
                 value = '$this->code_name'") or die(mysql_error());
 
-        $subject = _('DP: New image source proposed')." : ".$this->display_name;
+        $subject = sprintf(_('%s: New image source proposed'),$site_abbreviation)." : ".$this->display_name;
 
         $body = "Hello,\n\nYou are receiving this email because\n".
-        "you are listed as an image sources manager at the Distributed\n".
-        "Proofreaders site. If this is an error, please contact <$general_help_email_addr>.\n\n".
+        "you are listed as an image sources manager at the $site_name\n".
+        "site. If this is an error, please contact <$general_help_email_addr>.\n\n".
         "$requestor_username has proposed that $this->display_name be added\n".
         "to the list of image sources. To edit or approve this image source,\n".
         "visit\n    $code_url/tools/project_manager/manage_image_sources.php?action=show_sources#$this->code_name".
-        "\n\nThank you!\nDistributed Proofreaders\n$site_url";
+        "\n\n$site_signoff";
 
         maybe_mail($image_sources_manager_addr,$subject,$body,null);
     }
