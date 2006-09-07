@@ -2,13 +2,14 @@
 // This include holds site-specific things. Currently, only the heading on
 // default.php but it may grow. It should be viewed as complement of
 // site_vars.php
- 
+
 function default_page_heading()
 {
 global $code_url;
 $real_site_url = 'http://www.pgdp.net';
 
-if ($code_url != "$real_site_url/c" )
+// if ($code_url != "$real_site_url/c" )
+if ($testing)
 {
         echo "<font color='red'>";
         echo "<center>";
