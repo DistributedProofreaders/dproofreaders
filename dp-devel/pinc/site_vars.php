@@ -65,6 +65,8 @@ $site_abbreviation = '<<SITE_ABBREVIATION>>';
 $site_signoff = "<<SITE_SIGNOFF>>";
 $site_url = '<<SITE_URL>>';
 
+$preceding_proofer_restriction = '<<PRECEDING_PROOFER_RESTRICTION>>';
+
 // -----------------------------------------------------------------------------
 
 $uploads_dir = '<<UPLOADS_DIR>>';
