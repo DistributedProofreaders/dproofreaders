@@ -6,17 +6,24 @@ include_once($relPath.'theme.inc');
 
 error_reporting(E_ALL);
 
-if (!(user_is_a_sitemanager() || user_is_an_access_request_reviewer())) die("permission denied");
-
-$username = @$_REQUEST['username'];
-
-if (empty($username))
+if (!(user_is_a_sitemanager() || user_is_an_access_request_reviewer()))
 {
-    echo "<form>";
-    echo "username: <input name='username' type='text' size='26'>";
-    echo "<input type='submit'>";
-    echo "</form>";
-    exit;
+    $username = $pguser;
+}
+else
+{
+    $username = @$_REQUEST['username'];
+
+    if (empty($username))
+    {
+        echo "<form>";
+        echo "Username: <input name='username' type='text' size='26'><br />";
+        echo "Work Round ID: <input name='work_round_id' type='text' size='5'><br />";
+        echo "Review Round ID: <input name='review_round_id' type='text' size='5'><br />";
+        echo "<input type='submit'>";
+        echo "</form>";
+        exit;
+    }
 }
 
 $work_round_id   = @$_REQUEST['work_round_id'];
