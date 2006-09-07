@@ -60,6 +60,13 @@ $beginners_site_forum_url 	  = "$forums_url/viewforum.php?f=$beginners_site_foru
 $beginners_proofing_forum_url     = "$forums_url/viewforum.php?f=$beginners_proofing_forum_idx";
 $teams_forum_url                  = "$forums_url/viewforum.php?f=$teams_forum_idx";
 
+// -----------------------------------------------------------------------------
+
+$site_name = '<<SITE_NAME>>';
+$site_abbreviation = '<<SITE_ABBREVIATION>>';
+$site_signoff = "<<SITE_SIGNOFF>>";
+
+// -----------------------------------------------------------------------------
 
 $uploads_dir = '<<UPLOADS_DIR>>';
 $uploads_host = '<<UPLOADS_HOST>>';

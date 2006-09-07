@@ -59,6 +59,23 @@ _CODE_URL=$base_url/c
 
 # ----------------------------------------------------------------------
 
+# Public site configuration
+
+# Something like 'Distributed Proofreaders' would be good. It should
+# make sense in contexts like 'Welcome to %s', and 'the %s website'.
+_SITE_NAME=PICK_A_NAME
+
+# Something like 'DP' would be good. It will be used in the HTML title 
+# of each page ('%s: Welcome') and in the subject line of emails.
+_SITE_ABBREVIATION=PICK_AN_ABBREVIATION
+
+# Something like 'Thank you!\nThe Management' would be good. It will be
+# used in the footer of emails from the site. (Does not affect phpBB2
+# emails; use the Administration Panel to change that.)
+_SITE_SIGNOFF="Thank you!\n$_SITE_NAME"
+
+# ----------------------------------------------------------------------
+
 # At pgdp.net, Project Managers are given access to a shared ftp-only
 # "uploads" account. Each PM creates a personal directory (named
 # according to their DP login id) within the shared account's home
