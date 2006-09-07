@@ -84,6 +84,15 @@ _SITE_SIGNOFF="Thank you!\n$_SITE_NAME"
 # (DP-US uses the second option, because PG didn't want us to use the first.)
 _SITE_URL=$_CODE_URL
 
+# There are currently three values that can be used to restrict page access:
+# -- Null or empty string: Anyone can work on any page in any round,
+#    regardless of which pages they've done in previous round
+# -- 'not_immediately_preceding': All pages are available, except those 
+#    completed by the current user in a round *immediately* preceding the 
+#    current round. (Takes into account skipped rounds.)
+# -- 'not_previously_proofed': All pages are available, except those which
+#    have been completed by the current user in any prior round.
+_PRECEDING_PROOFER_RESTRICTION=not_immediately_preceding
 
 # ----------------------------------------------------------------------
 
