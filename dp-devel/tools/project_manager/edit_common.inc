@@ -248,7 +248,7 @@ function image_source_list($image_source)
     // add special case value "x Internal"
     echo "<option value='_internal' ";
     if (strcmp ( $image_source, '_internal') == 0) { echo " SELECTED"; }
-    echo ">"._("$site_abbreviation Internal")."</option>";
+    echo ">".sprintf(_("%s Internal"),$site_abbreviation)."</option>";
     echo "\n";
 
     // add the pre-defined image_sources
@@ -261,7 +261,7 @@ function image_source_list($image_source)
     }
 
     echo "</select> ";
-    echo "<font size=-1>". _("'$site_abbreviation Internal' if scanned by or for a $site_abbreviation user.")."</font>";
+    echo "<font size=-1>". sprintf(_("'%1\$s Internal' if scanned by or for a %1\$s user."),$site_abbreviation)."</font>";
     echo " <a href='show_image_sources.php'>"._("Details of Image Sources")."</a><br>";
 }
 

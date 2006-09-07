@@ -485,7 +485,7 @@ class ImageSource
                 break;
             case '1':  $to_whom = _("Project Managers");
                 break;
-            case '2':  $to_whom = _("Any $site_abbreviation User");
+            case '2':  $to_whom = sprintf(_("Any %s User"),$site_abbreviation);
                 break;
             case '3':  $to_whom = _("All Users and Visitors");
                 break;
