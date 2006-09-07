@@ -314,7 +314,7 @@ function showTeamMbrs($curTeam, $tally_name) {
 		array(
 			array( 'mbr',   'username',      'asc',  _("Username")        ),
 			array( 'pages', 'current_tally', 'desc', _("Pages Completed") ),
-			array( 'date',  'date_created',  'asc',  _("Date Joined $site_abbreviation")  )
+			array( 'date',  'date_created',  'asc',  sprintf(_("Date Joined %s"),$site_abbreviation)  )
 		);
 	foreach ( $column_descriptors as $column_descriptor )
 	{

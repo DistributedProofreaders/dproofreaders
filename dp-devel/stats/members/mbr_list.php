@@ -54,7 +54,7 @@ echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 	if ($order == "username" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
 		echo "<td width='23%' align='center'><b><a href='mbr_list.php?".$uname."mstart=$mstart&order=username&direction=$newdirection'>"._("Username")."</a></b></td>";
 	if ($order == "date_created" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-		echo "<td width='23%' align='center'><b><a href='mbr_list.php?".$uname."mstart=$mstart&order=date_created&direction=$newdirection'>"._("Date Joined $site_abbreviation")."</a></b></td>";
+		echo "<td width='23%' align='center'><b><a href='mbr_list.php?".$uname."mstart=$mstart&order=date_created&direction=$newdirection'>".sprintf(_("Date Joined %s"),$site_abbreviation)."</a></b></td>";
 	echo "<td width='23%' align='center'><b>"._("Options")."</b></td>";
 echo "</tr>";
 if (!empty($mRows)) {

@@ -90,24 +90,24 @@ setlocale(LC_ALL,$pper->u_intlang);
 $ppbita = _("Hello %1\$s,
 
 This is a message that your Post-Processing Verifier, %2\$s,
-requested you receive from the $site_name site.
+requested you receive from the %4\$s site.
 
 Thank you for your Post-Processing work on \"%3\$s\".
 A copy of the report card submitted by %2\$s is below.
 If you have any questions about it, please contact him or her.");
-$ppbit = sprintf($ppbita , $pper->username, $ppver->username, $project->nameofwork);
+$ppbit = sprintf($ppbita , $pper->username, $ppver->username, $project->nameofwork,$site_name);
 
 setlocale(LC_ALL,$ppver->u_intlang);
 $ppvbita = _("Hello %1\$s,
 
-This is a message that you requested you receive from the $site_name
+This is a message that you requested you receive from the %4\$s
 site.
 
 Thank you for your Post-Processing Verification work on \"%2\$s\".
 A copy of the report you submitted is below. If you see an important error,
 please email %3\$s.");
 
-$ppvbit = sprintf($ppvbita, $ppver->username, $nameofwork, $general_help_email_addr);
+$ppvbit = sprintf($ppvbita, $ppver->username, $nameofwork, $general_help_email_addr, $site_name);
 
 $signoff = $site_signoff;
 

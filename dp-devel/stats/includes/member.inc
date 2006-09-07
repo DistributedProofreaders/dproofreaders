@@ -75,7 +75,7 @@ function showMbrDpProfile( $curMbr )
 
 	$t = new ThemedTable(
 		2,
-		_("$site_abbreviation Profile"),
+		sprintf(_("%s Profile"),$site_abbreviation),
 		array( 'width'=>100 )
 	);
 	$t->set_column_widths( 30, 70 );
@@ -394,7 +394,7 @@ function showMbrNeighbors($curMbr, $tally_name) {
 	$t->column_headers(
 		_("Rank"),
 		_("Username"),
-		_("Date Joined $site_abbreviation"),
+		sprintf(_("Date Joined %s"),$site_abbreviation),
 		_("Overall Pages Completed")
 	);
 
