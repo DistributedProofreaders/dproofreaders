@@ -47,14 +47,14 @@ echo "<center><br>";
 
 //Display of user teams
 echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='4' style='border-collapse: collapse' width='95%'>";
-echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><font color='".$theme['color_headerbar_font']."'>"._("Distributed Proofreader Members")."</font></b></td></tr>";
+echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><font color='".$theme['color_headerbar_font']."'>".sprintf(_("%s Members"),$site_name)."</font></b></td></tr>";
 echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 	if ($order == "u_id" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
 		echo "<td width='5%' align='center'><b><a href='mbr_list.php?".$uname."mstart=$mstart&order=u_id&direction=$newdirection'>"._("ID")."</a></b></td>";
 	if ($order == "username" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
 		echo "<td width='23%' align='center'><b><a href='mbr_list.php?".$uname."mstart=$mstart&order=username&direction=$newdirection'>"._("Username")."</a></b></td>";
 	if ($order == "date_created" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-		echo "<td width='23%' align='center'><b><a href='mbr_list.php?".$uname."mstart=$mstart&order=date_created&direction=$newdirection'>"._("Date Joined DP")."</a></b></td>";
+		echo "<td width='23%' align='center'><b><a href='mbr_list.php?".$uname."mstart=$mstart&order=date_created&direction=$newdirection'>"._("Date Joined $site_abbreviation")."</a></b></td>";
 	echo "<td width='23%' align='center'><b>"._("Options")."</b></td>";
 echo "</tr>";
 if (!empty($mRows)) {

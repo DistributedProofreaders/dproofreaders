@@ -284,7 +284,7 @@ function showTeamStats($curTeam, $tally_name) {
 }
 
 function showTeamMbrs($curTeam, $tally_name) {
-	global $code_url;
+	global $code_url, $site_abbreviation;
 
 	if (empty($_GET['order'])) { $order = "mbr"; } else { $order = $_GET['order']; }
 	if (empty($_GET['direction'])) { $direction = "asc"; } else { $direction = $_GET['direction']; }
@@ -314,7 +314,7 @@ function showTeamMbrs($curTeam, $tally_name) {
 		array(
 			array( 'mbr',   'username',      'asc',  _("Username")        ),
 			array( 'pages', 'current_tally', 'desc', _("Pages Completed") ),
-			array( 'date',  'date_created',  'asc',  _("Date Joined DP")  )
+			array( 'date',  'date_created',  'asc',  _("Date Joined $site_abbreviation")  )
 		);
 	foreach ( $column_descriptors as $column_descriptor )
 	{

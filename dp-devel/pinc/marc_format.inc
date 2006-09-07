@@ -173,8 +173,11 @@ function create_dc_xml_oai($projectid, $scannercredit, $genre, $language, $autho
 	  <identifier>{$GLOBALS['code_url']}/project.php?id=$projectid</identifier>
 	  <source>LCCN: ".marc_lccn($rec)."</source>
 	  <language>$language</language>
-	  <rights>http://www.pgdp.net/agreement.php</rights>
+	  <rights>$code_url/agreement.php</rights>
 	</dc>";
+	
+	// The URL used in <rights> was originally a pgdp.net address which didn't exist.
+	// Now it's a page under $code_url that might exist someday.
 
 	$fp = fopen($filename, "w");
 	fwrite($fp, $xmlpage);

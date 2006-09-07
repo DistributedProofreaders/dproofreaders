@@ -85,13 +85,13 @@ function theme ($nameofpage, $location, $extra_args = array()) {
 }
 
 function html_header($nameofpage, $extra_args = array()) {
-	global $code_url, $theme, $userP;
+	global $code_url, $theme, $userP, $site_abbreviation;
 	global $relPath;
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
 	echo "<html".lang_html_header().">\n<head>\n";
 	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$GLOBALS['charset']}\">\n";
 	echo "<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
-	echo "<title>DP";
+	echo "<title>$site_abbreviation";
       if (isset($nameofpage)) { echo ": $nameofpage"; }
         echo "</title>\n";
 	// Global theme CSS
@@ -104,7 +104,7 @@ function html_header($nameofpage, $extra_args = array()) {
 	          $extra_args['css_data'] .
 	          "</style>\n";
       }
- 
+
  	// Per-page Javascript
 	if (isset($extra_args['js_data']))
       {
@@ -121,12 +121,12 @@ function html_header($nameofpage, $extra_args = array()) {
 }
 
 function html_logobar($nameofpage) {
-	global $code_url, $theme, $theme_name;
+	global $code_url, $theme, $theme_name, $site_name, $site_abbreviation;
 	global $dynstats_dir, $maintenance;
 	echo "\n<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
 	echo "<tr>\n";
 	echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>\n";
-	echo "<a href='$code_url'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='Distributed Proofreaders' border='0'></a>\n";
+	echo "<a href='$code_url'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='$site_name' border='0'></a>\n";
 	echo "</td>\n";
 
 	echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] .  "' align='center' valign='middle'>\n";
@@ -139,7 +139,7 @@ function html_logobar($nameofpage) {
 	$psd = get_project_status_descriptor('posted');
 
 	if (0) {
-		// show number of projects posted to PG from DP
+		// show number of projects posted to PG
 		$result = mysql_query( "
 			SELECT COUNT(*)
 			FROM projects
@@ -155,7 +155,7 @@ function html_logobar($nameofpage) {
 	}
 
 	if (1) {
-		// show number of books posted to PG from DP
+		// show number of books posted to PG
 		// (takes into account that some books are processed as several projects)
 
 		$result = mysql_query( "
@@ -182,7 +182,7 @@ function html_logobar($nameofpage) {
 
 	//Create the name of the page
 
-	echo headerbar_text("DP","$code_url/default.php");
+	echo headerbar_text("$site_abbreviation","$code_url/default.php");
 
 	// This probably isn't useful enough to justify its presence.
 	// if (!empty($nameofpage)) { echo headerbar_text(" » ".$nameofpage,'')."\n"; }
@@ -288,7 +288,7 @@ function html_statsbar($nameofpage) {
 	    if (strpos($_SERVER['PHP_SELF'],'activity_hub.php') !== false)
 	    {
             echo "<br />\n";
-            show_dp_birthdays();
+            show_birthdays();
 
         }
 		echo "<br>\n";
@@ -588,20 +588,20 @@ function show_user_teams()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_dp_birthdays()
+function show_birthdays()
 {
-    global $theme;
+    global $theme, $site_abbreviation;
 
     $result = mysql_query("
         SELECT username,value
         FROM usersettings
         WHERE setting ='birthday_today'
         ORDER BY value DESC");
-        
+
     if (mysql_num_rows($result) == 0)
        return;
 
-    echo "<center><b>" . _("Today's DP Birthdays:") . "</b></center>\n";
+    echo "<center><b>" . _("Today's $site_abbreviation Birthdays:") . "</b></center>\n";
 
     echo "<div style='text-align: center; font-family: $theme[font_navbar];
           color: $theme[color_navbar_font];'>";
@@ -703,7 +703,7 @@ function show_key_help_links()
 
 function show_donation_stuff()
 {
-	global $theme, $theme_name, $code_url;
+	global $theme, $theme_name, $code_url, $site_name;
 	global $forums_url;
 
 	$paypal_business_id = 'DPFoundation@pgdp.net';
@@ -714,7 +714,7 @@ function show_donation_stuff()
 	echo "<input type='hidden' name='cmd' value='_xclick'>\n";
 	echo "<input type='hidden' name='business' value='$paypal_business_id'>\n";
 	echo "<input type='hidden' name='item_name' value='donation'>\n";
-	echo "<input type='image' src='$code_url/pinc/templates/".$theme_name.$theme['image_donate']."' border='0' name='submit' alt='Donate to Distributed Proofreading'>\n";
+	echo "<input type='image' src='$code_url/pinc/templates/".$theme_name.$theme['image_donate']."' border='0' name='submit' alt='Donate to $site_name'>\n";
 	echo "</form>";
 	echo "</center>\n";
 
@@ -731,7 +731,7 @@ function show_donation_stuff()
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function html_footer() {
-	global $code_url, $theme;
+	global $code_url, $theme, $site_name;
 
 	$mtime = explode(" ",microtime());
 	$endtime = $mtime[1] + $mtime[0];
@@ -745,7 +745,7 @@ function html_footer() {
 	echo "<center>";
 
 	echo "<font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>";
-	echo _("Copyright")." "._("Distributed Proofreaders");
+	echo _("Copyright")." ". $site_name;
 	echo " ("._("Page Build Time").": ".substr($totaltime, 0, 5).") ";
 	echo "</font>";
 

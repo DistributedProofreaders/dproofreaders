@@ -764,14 +764,14 @@ function round_release_collateral( $project, $transition, $who )
         maybe_mail_project_manager(
             get_object_vars($project),
             "This project has just become available for work in round {$round->id}.",
-            "DP Proofreading Started");
+            "$site_abbreviation: Proofreading Started");
     }
     else
     {
         maybe_mail_project_manager(
             get_object_vars($project),
             "This project has been manually released by $who and has just become available in '{$round->name}'.",
-            "DP Proofreading Started (Manual Release)");
+            "$site_abbreviation: Proofreading Started (Manual Release)");
     }
 
     global $auto_post_to_project_topic;
@@ -803,7 +803,7 @@ Please visit the Project Manager page to view a list
 of your bad projects and make any necessary changes.
 You will then be able to put the project back up on the site.";
     maybe_mail_project_manager(
-        get_object_vars($project), $body_blurb, "DP Bad Project");
+        get_object_vars($project), $body_blurb, "$site_abbreviation: Bad Project");
 }
 
 function round_complete_collateral( $project, $transition, $who )
@@ -852,7 +852,7 @@ function round_to_PP_avail_collateral( $project, $transition, $who )
         "and has been made available for someone else to do the post-processing.\n".
         "You will be notified once it has completed post-processing.";
     maybe_mail_project_manager(
-        get_object_vars($project), $body_blurb, "DP Post-Processing Started" );
+        get_object_vars($project), $body_blurb, "$site_abbreviation: Post-Processing Started" );
 }
 
 function round_to_PP_out_collateral( $project, $transition, $who )
@@ -874,7 +874,7 @@ function round_to_PP_out_collateral( $project, $transition, $who )
             "If you do not want to work on it,\n".
             "set it to Available for Post-Processing.";
         maybe_mail_project_manager(
-            get_object_vars($project), $body_blurb, "DP Post-Processing Started");
+            get_object_vars($project), $body_blurb, "$site_abbreviation: Post-Processing Started");
     }
     else
     {
@@ -888,7 +888,7 @@ function round_to_PP_out_collateral( $project, $transition, $who )
             "and has been checked out to the PPer who had it reserved,\n".
             "$PPer. You will be notified once it has completed post-processing.";
         maybe_mail_project_manager(
-            get_object_vars($project), $body_blurb, "DP Post-Processing Started");
+            get_object_vars($project), $body_blurb, "$site_abbreviation: Post-Processing Started");
 
         // -------------
 
@@ -903,11 +903,11 @@ function round_to_PP_out_collateral( $project, $transition, $who )
             "The project \"{$project->nameofwork}\", which is reserved for you to Post-Process,\n".
             "is now ready for you to work on, and should shortly appear in your list\n".
             "of checked out projects.\n".
-            "\nThanks!\nDistributed Proofreaders\n";
+            "$site_signoff";
 
         maybe_mail(
             $PPer_email_addr,
-            "DP: Reserved book available for Post-Processing",
+            "$site_abbreviation: Reserved book available for Post-Processing",
             $body_blurb,
             "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
     }
@@ -1294,16 +1294,7 @@ function pg_posted_collateral( $project, $transition, $who )
             ." sometimes there may be a delay of a day or so."
             ." You can download the files via PG's online catalog at <$url>."
             ."\n"
-            ."\n"
-            ."--"
-            ."\n"
-            ."Distributed Proofreaders"
-            ."\n"
-            ."$site_url"
-            ."\n"
-            ."\n"
-            ."This is an automated message that you had requested,"
-            ." please do not respond directly to this e-mail.",
+            ."$site_signoff",
             "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"
         );
     }

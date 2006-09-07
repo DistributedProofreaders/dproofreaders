@@ -90,7 +90,7 @@ setlocale(LC_ALL,$pper->u_intlang);
 $ppbita = _("Hello %1\$s,
 
 This is a message that your Post-Processing Verifier, %2\$s,
-requested you receive from the Distributed Proofreaders site.
+requested you receive from the $site_name site.
 
 Thank you for your Post-Processing work on \"%3\$s\".
 A copy of the report card submitted by %2\$s is below.
@@ -100,8 +100,8 @@ $ppbit = sprintf($ppbita , $pper->username, $ppver->username, $project->nameofwo
 setlocale(LC_ALL,$ppver->u_intlang);
 $ppvbita = _("Hello %1\$s,
 
-This is a message that you requested you receive from the Distributed
-Proofreaders site.
+This is a message that you requested you receive from the $site_name
+site.
 
 Thank you for your Post-Processing Verification work on \"%2\$s\".
 A copy of the report you submitted is below. If you see an important error,
@@ -109,7 +109,7 @@ please email %3\$s.");
 
 $ppvbit = sprintf($ppvbita, $ppver->username, $nameofwork, $general_help_email_addr);
 
-$signoff = "\n\n"._("Thank you!")."\nDistributed Proofreaders";
+$signoff = $site_signoff;
 
 $additional_headers = "";
 
@@ -201,14 +201,14 @@ if (get_magic_quotes_gpc())
 if ($_POST['cc_pp'])
 {
    	$to = $pper->email;
-   	$subject = "DP PP: $nameofwork";
+   	$subject = "$site_abbreviation PP: $nameofwork";
    	$message = $ppbit.$reportcard.$signoff;
     maybe_mail($to, $subject, $message, $additional_headers);
 }
 
 if ($_POST['cc_ppv']) {
    	$to = $ppver->email;
-   	$subject = "DP PPV: $nameofwork";
+   	$subject = "$site_abbreviation PPV: $nameofwork";
    	$message = $ppvbit.$reportcard.$signoff;
     maybe_mail($to, $subject, $message, $additional_headers);
 }

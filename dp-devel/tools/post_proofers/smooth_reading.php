@@ -93,7 +93,7 @@ else
     </p>
 
     <p>
-    To be able to upload corrections, join DP.
+    To be able to upload corrections, join $site_abbreviation.
     There is a register link near the upper right corner of this page.
     </p>
     ";

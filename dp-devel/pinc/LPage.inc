@@ -351,7 +351,7 @@ to make any needed changes and make the page available for proofreading again.
 Until this report has been resolved, the project will not be able to leave
 the current round. If 10 pages are marked bad by at least 3 different users,
 the project will automatically be made unavailable.";
-        maybe_mail_project_manager($this->projectid, $body_blurb, "DP Bad Page");
+        maybe_mail_project_manager($this->projectid, $body_blurb, "$site_abbreviation: Bad Page");
 
         // Now determine whether the project as a whole should be marked bad.
         // We need 10 or more bad pages reported by 3 or more distinct users.

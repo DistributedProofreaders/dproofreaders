@@ -1,5 +1,6 @@
 <?PHP
 include_once($relPath.'user_is.inc');
+include_once($relPath.'site_vars.inc');
 
 function abort_if_in_maintenance_mode()
 {
@@ -9,7 +10,7 @@ function abort_if_in_maintenance_mode()
     {
         if (!user_is_a_sitemanager())
         {
-            $title = _("Distributed Proofreaders Maintenance");
+            $title = _("$site_name Maintenance");
             $message = _("We are currently performing maintenance on the server.  Please be patient, we should have the site back up and running shortly.");
             include_once($relPath.'slim_header.inc');
             slim_header($title);

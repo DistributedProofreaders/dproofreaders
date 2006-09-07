@@ -6,6 +6,7 @@ include_once($relPath.'page_tally.inc');
 include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'access_log.inc');
+include_once($relPath.'site_vars.inc');
 include_once($relPath.'../stats/includes/common.inc');
 
 function showMbrInformation( $curMbr, $tally_name )
@@ -65,6 +66,7 @@ function showMbrProfile($curMbr) {
 
 function showMbrDpProfile( $curMbr )
 {
+	global $site_abbreviation;
 	$now = time();
 	$daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
 	$daysInExistenceString = number_format($daysInExistenceInteger)._(" days"); // '1,234 days'
@@ -73,7 +75,7 @@ function showMbrDpProfile( $curMbr )
 
 	$t = new ThemedTable(
 		2,
-		_("DP Profile"),
+		_("$site_abbreviation Profile"),
 		array( 'width'=>100 )
 	);
 	$t->set_column_widths( 30, 70 );
@@ -189,7 +191,7 @@ function showForumProfile($username) {
 			!empty($bb_user->user_aim),
 			"AIM",
 			"icon_aim.gif",
-			"aim:goim?screenname={$bb_user->user_aim}&message=Hello!+Are+you+there?++I+am+IMing+you+from+DP",
+			"aim:goim?screenname={$bb_user->user_aim}&message=Hello!+Are+you+there?++I+am+IMing+you+from+$site_abbreviation",
 			''
 		),
 		array(
@@ -380,6 +382,7 @@ function showMbrPageStats( $curMbr, $tally_name )
 }
 
 function showMbrNeighbors($curMbr, $tally_name) {
+	global $site_abbreviation;
 	$now = time();
 
 	$t = new ThemedTable(
@@ -391,7 +394,7 @@ function showMbrNeighbors($curMbr, $tally_name) {
 	$t->column_headers(
 		_("Rank"),
 		_("Username"),
-		_("Date Joined DP"),
+		_("Date Joined $site_abbreviation"),
 		_("Overall Pages Completed")
 	);
 

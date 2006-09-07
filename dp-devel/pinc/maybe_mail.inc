@@ -45,7 +45,7 @@ function maybe_mail_project_manager( $project, $info, $prefix)
 
 	$body =
 _("Hello")." $username,\n".
-_("This is an automated message from the Distributed Proofreaders site.")."
+_("This is an automated message from the $site_name site.")."
 
 "._("Regarding").":
 \"$nameofwork\"
@@ -54,8 +54,7 @@ _("This is an automated message from the Distributed Proofreaders site.")."
 
 $info
 
-"._("Thank You!")."
-"._("Distributed Proofreaders")."
+$site_signoff
 ";
 
 	$email_addr = mysql_result(mysql_query("
