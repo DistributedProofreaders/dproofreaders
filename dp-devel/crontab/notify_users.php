@@ -18,19 +18,18 @@ $db_Connection=new dbConnect();
         $email_updates = mysql_result($result, $rownum, "email_updates");
         echo "$username, $email\n<br>";
         if ($email_updates) {
-            maybe_mail("$email", "Distributed Proofreaders: Inactive Account $username",
+            maybe_mail("$email", "$site_name: Inactive Account $username",
                  "Hello $real_name,\n\n".
 "This is an automated message and your only e-mail reminder that your account on the
- Distributed Proofreaders site ($code_url/) has been inactive
+ $site_name site ($code_url/) has been inactive
 for over 5 months now. In order to show a valid number of active members for our
 site, we will be marking this account as inactive a month from today if you do not
 log into the site.\n\n
-If you wish to receive no more mailings from us, you need to do nothing else and 
+If you wish to receive no more mailings from us, you need to do nothing else and
 this account will be marked as inactive. If you have forgotten your password,
 visit ($reset_password_url) to have
 it reset. We hope you care to join us, much has changed since you last saw us.\n\n
-Thanks!\n
-The Distributed Proofreaders Team", 
+$site_signoff",
 "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
         }
 
