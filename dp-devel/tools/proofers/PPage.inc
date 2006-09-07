@@ -174,19 +174,28 @@ class PPage
                 if ($show_comma) { echo ", "; } else { $show_comma = TRUE; }
                 echo "$other_round->id: ";
 
-                if ( $username == '' )
+                $res = mysql_query("
+                    SELECT user_id
+                    FROM phpbb_users
+                    WHERE username = '$username'
+                ");
+
+                if ( $username == '' || mysql_num_rows($res) == 0 )
                 {
-                    // e.g., the project might have skipped $other_round,
-                    // or it could be a future round.
-                    echo "[none]";
+                    // Grey, because it's not the link expected by the user.
+                    echo "<span style='color: #666;'>";
+                    if ($username == '')
+                    {
+                        // e.g., the project might have skipped $other_round,
+                        // or it could be a future round.
+                        echo "[none]";
+                    }
+                    else
+                        echo $username;
+                    echo "</span>";
                 }
                 else
                 {
-                    $res = mysql_query("
-                        SELECT user_id
-                        FROM phpbb_users
-                        WHERE username = '$username'
-                    ");
                     $user_id = mysql_result($res, 0, "user_id");
 
                     echo "<a href='$forums_url/privmsg.php?mode=post&u=$user_id' target='comments'>$username</a>";
