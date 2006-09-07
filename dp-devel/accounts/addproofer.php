@@ -128,8 +128,8 @@ if ($password=="proofer") {
 
     echo "<center><form method='post' action='addproofer.php'><input type=hidden name='password' value='proofer'>";
     echo "<br><table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse:collapse' width='400'>";
-    echo "<tr><td bgcolor='#e0e8dd' align='center' colspan='2'><b>Note: Please choose your User Name carefully. Your User Name will be visible to other DP users and cannot be changed. <br>
-    Please make sure your E-mail Address is correct. You will be emailed a confirmation link which you will need to follow in order for your DP account to be activated.</b>";
+    echo "<tr><td bgcolor='#e0e8dd' align='center' colspan='2'><b>Note: Please choose your User Name carefully. Your User Name will be visible to other $site_abbreviation users and cannot be changed. <br>
+    Please make sure your E-mail Address is correct. You will be emailed a confirmation link which you will need to follow in order for your $site_abbreviation account to be activated.</b>";
     if ( $testing )
     {
 	    echo "<br><font color='red'>";
@@ -165,5 +165,3 @@ if ($password=="proofer") {
 }
 theme("", "footer");
 ?>
-
-

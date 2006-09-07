@@ -84,7 +84,7 @@ $q = "SELECT * FROM users WHERE username='$userNM'";
 $u_res = mysql_query($q) or die(mysql_error());
 if (mysql_num_rows($u_res)==0)
 {
-    $error = _("You are registered with the forum software, but not with DP.");
+    $error = _("You are registered with the forum software, but not with $site_abbreviation.");
     abort_login($error);
 }
 

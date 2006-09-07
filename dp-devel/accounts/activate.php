@@ -77,7 +77,7 @@ $this_uid = mysql_result($result, 0);
 maybe_welcome_mail($email, $real_name, $username);
 
 echo sprintf(
-       _("User %s activated successfully. Please check the e-mail being sent to you for further information about Distributed Proofreading."),
+       _("User %s activated successfully. Please check the e-mail being sent to you for further information about $site_name."),
        $username);
 echo "<center>";
 echo "<br><font size=+1>"._("Enter your password below to sign in and start proofreading!!");
