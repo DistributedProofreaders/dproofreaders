@@ -10,7 +10,7 @@ function abort_if_in_maintenance_mode()
     {
         if (!user_is_a_sitemanager())
         {
-            $title = _("$site_name Maintenance");
+            $title = sprintf(_("%s Maintenance"),$site_name);
             $message = _("We are currently performing maintenance on the server.  Please be patient, we should have the site back up and running shortly.");
             include_once($relPath.'slim_header.inc');
             slim_header($title);

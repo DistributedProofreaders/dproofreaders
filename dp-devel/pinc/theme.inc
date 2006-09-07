@@ -601,7 +601,7 @@ function show_birthdays()
     if (mysql_num_rows($result) == 0)
        return;
 
-    echo "<center><b>" . _("Today's $site_abbreviation Birthdays:") . "</b></center>\n";
+    echo "<center><b>" . sprintf(_("Today's %s Birthdays:"),$site_abbreviation) . "</b></center>\n";
 
     echo "<div style='text-align: center; font-family: $theme[font_navbar];
           color: $theme[color_navbar_font];'>";

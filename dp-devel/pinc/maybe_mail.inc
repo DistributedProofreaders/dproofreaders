@@ -45,7 +45,7 @@ function maybe_mail_project_manager( $project, $info, $prefix)
 
 	$body =
 _("Hello")." $username,\n".
-_("This is an automated message from the $site_name site.")."
+sprintf(_("This is an automated message from the %s site."),$site_name)."
 
 "._("Regarding").":
 \"$nameofwork\"

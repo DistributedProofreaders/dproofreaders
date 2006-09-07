@@ -857,6 +857,7 @@ function round_to_PP_avail_collateral( $project, $transition, $who )
 
 function round_to_PP_out_collateral( $project, $transition, $who )
 {
+    global $site_abbreviation, $site_signoff;
     $from_round = get_Round_for_project_state($transition->from_state);
     generate_post_files( $project->projectid, $from_round->id, 'LE', 'Y', '' );
 
@@ -1265,7 +1266,7 @@ new ProjectTransition(
 
 function pg_posted_collateral( $project, $transition, $who )
 {
-    global $site_url, $auto_email_addr, $auto_email_addr;
+    global $site_url, $auto_email_addr, $auto_email_addr, $site_signoff;
 
     $projectid = $project->projectid;
 
