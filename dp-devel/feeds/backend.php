@@ -121,7 +121,7 @@ if (filemtime($xmlfile) > $refreshdelay) {
 				<!DOCTYPE rss SYSTEM \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">
 				<rss version=\"0.91\">
 				<channel>
-				<title>$site_name - Latest Releases</title>
+				<title>$site_name - Latest News</title>
 				<link>$code_url</link>
 				<description>The latest news related to $site_name</description>
 				<language>en-us</language>
