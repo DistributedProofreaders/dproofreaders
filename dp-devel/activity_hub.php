@@ -26,7 +26,7 @@ theme($_Activity_Hub, "header");
 echo "<center><img src='$code_url/graphics/Activity_Hub.jpg' width='350' height='60' border='0' title='$_Activity_Hub' alt='$_Activity_Hub'></center>\n";
 
 echo "<p>\n";
-echo _("Welcome to the DP Activity Hub. From this page you can view the phases of DP production.");
+echo sprintf(_('Welcome to the %1$s Activity Hub. From this page you can view the phases of %1$s production.'),$site_abbreviation);
 echo "\n";
 /*
 echo _("The information below is customised for you, and details the phases of production in which you can particpate.");
