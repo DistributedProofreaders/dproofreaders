@@ -8,8 +8,6 @@
 $code_dir = '<<CODE_DIR>>';
 $code_url='<<CODE_URL>>';
 
-$site_url = '<<SITE_URL>>';
-
 $projects_dir = '<<PROJECTS_DIR>>';
 $projects_url = '<<PROJECTS_URL>>';
 
@@ -65,6 +63,7 @@ $teams_forum_url                  = "$forums_url/viewforum.php?f=$teams_forum_id
 $site_name = '<<SITE_NAME>>';
 $site_abbreviation = '<<SITE_ABBREVIATION>>';
 $site_signoff = "<<SITE_SIGNOFF>>";
+$site_url = '<<SITE_URL>>';
 
 // -----------------------------------------------------------------------------
 

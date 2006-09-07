@@ -65,7 +65,7 @@ _CODE_URL=$base_url/c
 # make sense in contexts like 'Welcome to %s', and 'the %s website'.
 _SITE_NAME=PICK_A_NAME
 
-# Something like 'DP' would be good. It will be used in the HTML title 
+# Something like 'DP' would be good. It will be used in the HTML title
 # of each page ('%s: Welcome') and in the subject line of emails.
 _SITE_ABBREVIATION=PICK_AN_ABBREVIATION
 
@@ -73,6 +73,17 @@ _SITE_ABBREVIATION=PICK_AN_ABBREVIATION
 # used in the footer of emails from the site. (Does not affect phpBB2
 # emails; use the Administration Panel to change that.)
 _SITE_SIGNOFF="Thank you!\n$_SITE_NAME"
+
+# You can think of this as the "publishable" HTTP URL for the site.
+# So far, it's only used when generating credit lines.
+# -- It could be exactly the same as $_CODE_URL.
+# -- Or it might be a more memorable or more permanent URL that simply
+#    redirects to $_CODE_URL.
+# -- Or it might be the address of some site-specific content, perhaps
+#    a pre-introduction, which would presumably include a link to $_CODE_URL.
+# (DP-US uses the second option, because PG didn't want us to use the first.)
+_SITE_URL=$_CODE_URL
+
 
 # ----------------------------------------------------------------------
 
@@ -197,16 +208,6 @@ _DYN_URL=$base_url/d
 _JPGRAPH_DIR=$base_dir/jpgraph
 
 # ----------------------------------------------------------------------
-
-_SITE_URL=$_CODE_URL
-# You can think of this as the "publishable" HTTP URL for the site.
-# So far, it's only used when generating credit lines.
-# -- It could be exactly the same as $_CODE_URL.
-# -- Or it might be a more memorable or more permanent URL that simply
-#    redirects to $_CODE_URL.
-# -- Or it might be the address of some site-specific content, perhaps
-#    a pre-introduction, which would presumably include a link to $_CODE_URL.
-# (DP-US uses the second option, because PG didn't want us to use the first.)
 
 _DB_SERVER=localhost
 _DB_USER=PICK_A_USER_NAME
