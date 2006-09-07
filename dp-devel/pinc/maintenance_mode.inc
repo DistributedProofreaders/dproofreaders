@@ -1,6 +1,6 @@
 <?PHP
 include_once($relPath.'user_is.inc');
-include_once($relPath.'site_vars.inc');
+include_once($relPath.'site_vars.php');
 
 function abort_if_in_maintenance_mode()
 {
