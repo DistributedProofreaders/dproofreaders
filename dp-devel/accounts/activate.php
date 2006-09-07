@@ -77,8 +77,8 @@ $this_uid = mysql_result($result, 0);
 maybe_welcome_mail($email, $real_name, $username);
 
 echo sprintf(
-       _("User %s activated successfully. Please check the e-mail being sent to you for further information about $site_name."),
-       $username);
+       _("User %s activated successfully. Please check the e-mail being sent to you for further information about %s."),
+       $username, $site_name);
 echo "<center>";
 echo "<br><font size=+1>"._("Enter your password below to sign in and start proofreading!!");
 echo "<form action='login.php' method='post'><input type='hidden' name='userNM' value='".$username."'><input type='password' name='userPW'><input type='submit' value='"._("Sign In")."'></form>";
