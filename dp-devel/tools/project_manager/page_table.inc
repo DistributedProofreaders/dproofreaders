@@ -13,12 +13,12 @@ function echo_page_table(
 	$disable_editing = FALSE,
 	$page_selector = NULL )
 {
-	global $theme, $projects_dir, $code_url, $pguser;
+	global $theme, $projects_dir, $code_url, $pguser, $public_page_details;
 
 	$can_edit = $project->can_be_managed_by_current_user;
 
 	// want PPers able to see names
-	$can_see_names_for_all_pages = $project->names_can_be_seen_by_current_user;
+	$can_see_names_for_all_pages = $public_page_details ? true : $project->names_can_be_seen_by_current_user;
 
 	if ( $disable_editing )
 	{
