@@ -153,7 +153,9 @@ class Project
 
     function names_can_be_seen_by_user( $username)
     {
+        global $public_page_details;
         if ( is_null($username) ) return FALSE;
+        if ( $public_page_details ) return TRUE;
         return
             ($this->can_be_managed_by_user($username)
              || $this->PPer_is_user($username)
