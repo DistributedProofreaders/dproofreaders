@@ -94,6 +94,11 @@ _SITE_URL=$_CODE_URL
 #    have been completed by the current user in any prior round.
 _PRECEDING_PROOFER_RESTRICTION=not_immediately_preceding
 
+# If false, only Site Administrators and Project Facilitators will be able
+# to see proofer details for all projects. If true, all users will be able
+# to see the details.
+_PUBLIC_PAGE_DETAILS=FALSE
+
 # ----------------------------------------------------------------------
 
 # At pgdp.net, Project Managers are given access to a shared ftp-only
