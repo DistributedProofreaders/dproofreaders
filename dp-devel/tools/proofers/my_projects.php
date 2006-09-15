@@ -120,6 +120,8 @@ $res = dpsql_query("
     ORDER BY $sql_order
 ") or die('Aborting');
 
+echo sprintf("(%d projects)", mysql_num_rows($res) );
+
 echo "<table border='1'>";
 
 show_headings($colspecs, 'proof');
@@ -212,6 +214,8 @@ $result = dpsql_query($query);
 if (mysql_num_rows($result) > 0)
 {
     echo "<a name='reserved' id='reserved'></a><h2>$heading_reserved</h2>\n";
+
+    echo sprintf("(%d projects)", mysql_num_rows($result) );
 
     echo "<table border='1'>";
 
