@@ -30,7 +30,7 @@ function maybe_mail_project_manager( $project, $info, $prefix)
 // $project is either a string containing a projectid,
 // or an associative array containing various attributes of a project.
 {
-	global $code_url, $auto_email_addr, $site_name;
+	global $code_url, $auto_email_addr, $site_name, $site_signoff;
 
 	if (is_string($project))
 	{
