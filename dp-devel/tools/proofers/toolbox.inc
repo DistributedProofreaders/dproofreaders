@@ -126,6 +126,13 @@ define_pit_tool_button(
     "top.new_iMU('<sc>','</sc>')"
 );
 define_pit_tool_button(
+    'remove_markup',
+    'm',
+    _('Remove markup from selection'),
+    "<span style='text-decoration: line-through;'>&lt;x&gt;</span>",
+    "top.transformText('remove_markup')"
+);
+define_pit_tool_button(
     'upper_case',
     'u',
     _('Uppercase selection'),
