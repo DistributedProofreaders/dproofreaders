@@ -1499,6 +1499,13 @@ function do_smooth_reading()
 
     $projectid = $project->projectid;
 
+    $current_user_can_manage_SR_for_this_project = $project->PPer_is_current_user;
+    // i.e., can:
+    // -- make the project available for SR (initially or again),
+    // -- replace the SR-able text,
+    // -- see SR-commitments, and
+    // -- read SR'ed texts
+
     echo "<h4>", _('Smooth Reading'), "</h4>";
     echo "<ul>";
 
@@ -1508,10 +1515,10 @@ function do_smooth_reading()
         echo _('This project has not been made available for smooth reading.');
         echo "</li>";
 
-        if ($project->PPer_is_current_user)
+        if ($current_user_can_manage_SR_for_this_project)
         {
             echo "<li>";
-            echo _("But as the project's PPer, you can make it available.");
+            echo _("But you can make it available.");
             echo _('Choose how long you want to make it available for.');
             $link_start = "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks";
             echo "<ul>";
@@ -1540,7 +1547,7 @@ function do_smooth_reading()
             echo $sr_sentence;
             echo "</li>\n";
 
-            if ($project->PPer_is_current_user)
+            if ($current_user_can_manage_SR_for_this_project)
             {
                 echo "<li>";
                 echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks=replace'>";
@@ -1589,10 +1596,10 @@ function do_smooth_reading()
             echo _('The deadline for smooth-reading this project has passed.');
             echo "</li>";
 
-            if ($project->PPer_is_current_user)
+            if ($current_user_can_manage_SR_for_this_project)
             {
                 echo "<li>";
-                echo _("But as the project's PPer, you can make it available for smooth-reading for a further period.")." ";
+                echo _("But you can make it available for smooth-reading for a further period.")." ";
                 echo _('Choose how long you want to make it available for.');
                 $link_start = "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks";
                 echo "<ul>";
@@ -1606,7 +1613,7 @@ function do_smooth_reading()
 
         }
 
-        if ($project->PPer_is_current_user)
+        if ($current_user_can_manage_SR_for_this_project)
         {
 
             $sr_list = sr_get_committed_users($projectid);
