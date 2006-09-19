@@ -1499,7 +1499,8 @@ function do_smooth_reading()
 
     $projectid = $project->projectid;
 
-    $current_user_can_manage_SR_for_this_project = $project->PPer_is_current_user;
+    $current_user_can_manage_SR_for_this_project =
+        $project->PPer_is_current_user || user_is_a_sitemanager();
     // i.e., can:
     // -- make the project available for SR (initially or again),
     // -- replace the SR-able text,
