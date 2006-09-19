@@ -1540,6 +1540,15 @@ function do_smooth_reading()
             echo $sr_sentence;
             echo "</li>\n";
 
+            if ($project->PPer_is_current_user)
+            {
+                echo "<li>";
+                echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks=replace'>";
+                echo _("Replace the current file that's available for smooth-reading.");
+                echo "</a>";
+                echo "</li>";
+            }
+
             if (!$project->PPer_is_current_user)
             {
                 echo "<li>";
@@ -1572,15 +1581,6 @@ function do_smooth_reading()
                     sr_echo_withdrawal_form($projectid);
                     echo "</li>";
                 }
-            }
-
-            if ($project->PPer_is_current_user)
-            {
-                echo "<li>";
-                echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks=replace'>";
-                echo _("Replace the current file that's available for smooth-reading.");
-                echo "</a>";
-                echo "</li>";
             }
         }
         else
