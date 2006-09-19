@@ -1572,9 +1572,9 @@ function do_smooth_reading()
                     sr_echo_withdrawal_form($projectid);
                     echo "</li>";
                 }
-
             }
-            else
+
+            if ($project->PPer_is_current_user)
             {
                 echo "<li>";
                 echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks=replace'>";
