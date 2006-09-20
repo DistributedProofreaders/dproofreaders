@@ -67,5 +67,6 @@
     * my_projects.php: Echo a count of projects before each table. (jmdyck)
     * toolbox.inc: Add a 'remove_markup' button (mike_cie)
     * project.php: Extend the PPer's SR-related powers to sitemanagers. (jmdyck)
+    * various places: use new config variable PHP_CLI_EXECUTABLE. (jmdyck)
 
 # vim: sw=4 ts=4 expandtab
