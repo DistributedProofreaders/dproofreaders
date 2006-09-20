@@ -63,8 +63,8 @@ function call_phpbb2_function( $func_name, $args )
 
     // (cd into the pinc directory, so the script doesn't
     // have to guess where it's being invoked from.)
-    global $code_dir;
-    $command = "cd $code_dir/pinc && /usr/local/bin/php -f phpbb2.inc $func_name $escaped_args_str";
+    global $code_dir, $php_cli_executable;
+    $command = "cd $code_dir/pinc && $php_cli_executable -f phpbb2.inc $func_name $escaped_args_str";
     // echo "command: $command<br>\n";
 
     $output = array();
