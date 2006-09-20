@@ -17,6 +17,8 @@ testing_dir=/tmp/dp_schema_check
 testing_code_dir=$testing_dir/c
 testing_db_name=temp_dp_schema_check
 
+php_cli_exec='<<PHP_CLI_EXECUTABLE>>'
+
 mkdir $testing_dir
 
 echo ""
@@ -82,7 +84,7 @@ fi
 
 echo ""
 echo "Running install_db.php to set up test db..."
-php ./install_db.php
+$php_cli_exec ./install_db.php
 
 echo ""
 echo "Applying all upgrade scripts..."
@@ -92,7 +94,7 @@ for f in *.php; do
     echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
     echo $f
     echo ""
-    php $f
+    $php_cli_exec $f
 done
 echo ""
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
