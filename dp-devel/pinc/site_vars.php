@@ -83,6 +83,8 @@ $aspell_temp_dir = '<<ASPELL_TEMP_DIR>>';
 $xgettext_executable = '<<XGETTEXT_EXECUTABLE>>';
 $system_locales_dir = '<<GETTEXT_LOCALES_DIR>>';
 
+$php_cli_executable = '<<PHP_CLI_EXECUTABLE>>';
+
 // -----------------------------------------------------------------------------
 
 $no_reply_email_addr = '<<NO_REPLY_EMAIL_ADDR>>';
