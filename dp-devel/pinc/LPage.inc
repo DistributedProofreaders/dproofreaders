@@ -95,7 +95,7 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
     {
         // Nope, no other restrictions.
     }
-    else if ($preceeding_proofer_restriction == 'not_immediately_preceding')
+    else if ($preceding_proofer_restriction == 'not_immediately_preceding')
     {
         // Don't give this user a page that they worked on in the preceding round.
         // (Where "preceding" takes into account skipped rounds.)
