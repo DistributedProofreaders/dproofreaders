@@ -19,9 +19,13 @@ $action  = @$_REQUEST['action'];
 
 $standard_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
 
+$standard_file_blurb = "<STRONG>"._("Zipped File:")."</STRONG>";
+$optional_file_blurb = "<STRONG>"._("Zipped File (optional):")."</STRONG>";
+
 if ($stage == 'post_1')
 {
     $title = _("Upload Post-Processed File for Verification");
+    $file_blurb = $standard_file_blurb;
     $indicator = "_second";
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
@@ -32,26 +36,35 @@ if ($stage == 'post_1')
 else if ($stage == 'return_1')
 {
     $title = _("Upload In progress Post-Processed File for others to work on");
+    $file_blurb = $optional_file_blurb;
     $indicator = "_first_in_prog_".$pguser;
     $new_state = PROJ_POST_FIRST_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
     $back_blurb = _("Back to Post Proofers Page");
-    $bottom_blurb = $standard_blurb . " " . _("To return the project to the pool without uploading a file, leave the file name empty and click on Upload.");
+    $bottom_blurb = $standard_blurb . 
+        "  <b>" . 
+        _("To return the project to the pool without uploading a file, leave the file name empty and click on Upload.") .
+        "</b>";
 }
 else if ($stage == 'return_2')
 {
     $title = _("Upload In progress Verified File for others to work on");
+    $file_blurb = $optional_file_blurb;
     $indicator = "_second_in_prog_".$pguser;
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PPV";
     $back_blurb = _("Back to Post Proofer Verification Page");
-    $bottom_blurb = $standard_blurb . " " . _("To return the project to the pool without uploading a file, leave the file name empty and click on Upload.");
+    $bottom_blurb = $standard_blurb . 
+        "  <b>" . 
+        _("To return the project to the pool without uploading a file, leave the file name empty and click on Upload.") .
+        "</b>";
 }
 else if ($stage == 'correct')
 {
     $title = _("Upload Corrected Edition for Verification");
+    $file_blurb = $standard_file_blurb;
     $indicator = "_corrections";
     $new_state = PROJ_CORRECT_AVAILABLE;
     $extras = array();
@@ -66,6 +79,7 @@ else if ($stage == 'correct')
 else if ($stage == 'smooth_avail')
 {
     $title = _("Upload File Ready for Smooth Reading");
+    $file_blurb = $standard_file_blurb;
     $indicator = "_smooth_avail";
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $extras = array();
@@ -77,6 +91,7 @@ else if ($stage == 'smooth_avail')
 else if ($stage == 'smooth_done')
 {
     $title = _("Upload Smooth Read Version");
+    $file_blurb = $standard_file_blurb;
     $indicator = "_smooth_done_".$pguser;
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $extras = array();
@@ -110,7 +125,7 @@ if (!isset($action))
     echo "<INPUT TYPE='hidden' NAME='action' VALUE='1'>";
     echo "<INPUT TYPE='hidden' NAME='MAX_FILE_SIZE' VALUE='25165824'>";
     echo "<tr><td bgcolor='#e0e8dd' align='center'>";
-    echo "<STRONG>"._("Zipped File:")."</STRONG>";
+    echo $file_blurb;
     echo "<td bgcolor='#ffffff' align='center'>";
     echo "<INPUT TYPE='file' NAME='files[]' SIZE='25' MAXSIZE='50'>";
     echo "<tr><td bgcolor='$theme[color_logobar_bg]' colspan='2' align='center'>";
