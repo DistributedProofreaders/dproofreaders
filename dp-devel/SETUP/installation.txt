@@ -39,8 +39,8 @@ If you're upgrading from a previous version, see the upgrade section.
         If you want to localize the site messages.
 
 --- Choose names for various MySQL items:
-        --- the DP database (to house the DP data);
-        --- the DP user (to handle all DP queries);
+        --- the DP database (to house the DP and phpBB data);
+        --- the DP user (to handle all DP and phpBB queries);
         --- the DP user's password.
     Don't pick a password that contains an apostrophe (single-quote),
     as it confuses the code.
