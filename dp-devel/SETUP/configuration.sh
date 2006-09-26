@@ -57,9 +57,10 @@ _CODE_URL=$base_url/c
 # (It corresponds to 'dp-devel' in the CVS repository,
 # and should contain directories such as 'pinc' and 'tools'.)
 
-# ----------------------------------------------------------------------
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-# Public site configuration
+# Identifying the Site
+# --------------------
 
 # Something like 'Distributed Proofreaders' would be good. It should
 # make sense in contexts like 'Welcome to %s', and 'the %s website'.
@@ -99,7 +100,10 @@ _PRECEDING_PROOFER_RESTRICTION=not_immediately_preceding
 # to see the details.
 _PUBLIC_PAGE_DETAILS=FALSE
 
-# ----------------------------------------------------------------------
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# Uploading and Creating Projects
+# -------------------------------
 
 # At pgdp.net, Project Managers are given access to a shared ftp-only
 # "uploads" account. Each PM creates a personal directory (named
@@ -147,7 +151,10 @@ _EXTERNAL_CATALOG_LOCATOR='z3950.loc.gov:7090/Voyager'
 # To disable external search at project-creation time, leave this
 # variable empty.
 
-# ----------------------------------------------------------------------
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# Proofing Projects
+# -----------------
 
 # In the proofing interface, the Spell-Checking functionality relies on
 # a local installation of 'aspell'...
@@ -175,7 +182,10 @@ _WIKIHIERO_URL=$base_url/wikihiero
 # appear in the proofing interface.
 # If you haven't installed wikihiero, leave them empty.
 
-# ----------------------------------------------------------------------
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# Communication/Discussion
+# ------------------------
 
 _WIKI_URL=$base_url/wiki
 
@@ -214,7 +224,10 @@ _AUTO_POST_TO_PROJECT_TOPIC=FALSE
 # If you set this to TRUE, the code will automatically add a post to a
 # project's discussion topic when the project undergoes certain events.
 
-# ----------------------------------------------------------------------
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# Miscellaneous
+# -------------
 
 _PHP_CLI_EXECUTABLE=/usr/local/bin/php
 # The location of the command-line version of PHP.
