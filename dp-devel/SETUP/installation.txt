@@ -35,6 +35,9 @@ If you're upgrading from a previous version, see the upgrade section.
         i.e. the same host on which you are running these commands, and the
         same host that runs the webserver.
 
+--- Install gettext and xgettext
+        If you want to localize the site messages.
+
 --- Choose names for various MySQL items:
         --- the DP database (to house the DP data);
         --- the DP user (to handle all DP queries);
