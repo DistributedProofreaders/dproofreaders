@@ -85,21 +85,6 @@ _SITE_SIGNOFF="Thank you!\n$_SITE_NAME"
 # (DP-US uses the second option, because PG didn't want us to use the first.)
 _SITE_URL=$_CODE_URL
 
-# There are currently three values that can be used to restrict page access:
-# -- Null or empty string: Anyone can work on any page in any round,
-#    regardless of which pages they've done in previous round
-# -- 'not_immediately_preceding': All pages are available, except those 
-#    completed by the current user in a round *immediately* preceding the 
-#    current round. (Takes into account skipped rounds.)
-# -- 'not_previously_proofed': All pages are available, except those which
-#    have been completed by the current user in any prior round.
-_PRECEDING_PROOFER_RESTRICTION=not_immediately_preceding
-
-# If false, only Site Administrators and Project Facilitators will be able
-# to see proofer details for all projects. If true, all users will be able
-# to see the details.
-_PUBLIC_PAGE_DETAILS=FALSE
-
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # Uploading and Creating Projects
@@ -155,6 +140,40 @@ _EXTERNAL_CATALOG_LOCATOR='z3950.loc.gov:7090/Voyager'
 
 # Proofing Projects
 # -----------------
+
+_PRECEDING_PROOFER_RESTRICTION=not_immediately_preceding
+
+# When a user asks to proof a page in a project, the code chooses which
+# page to assign to the user. Generally, it just chooses the "next"
+# (i.e., lowest-numbered) available page, but it can be configured (with
+# this setting) to avoid pages that the user has worked on before.
+# Specifically, there are three recognized values for this setting:
+# --- empty string: Anyone can work on any page in any round,
+#     regardless of which pages they've done in previous rounds.
+# --- 'not_immediately_preceding': All pages are available, except those
+#     completed by the current user in the round immediately preceding
+#     the current round (where the definition of "immediately preceding"
+#     takes skipped rounds into account).
+# --- 'not_previously_proofed': All pages are available, except those
+#     which have been completed by the current user in any prior round.
+
+# ----------------------------------------------------------------------
+
+_PUBLIC_PAGE_DETAILS=FALSE
+
+# When a user proofs a page, the site records their username, and can
+# display this in various places, including the page details table and
+# concatenated text files.  This setting controls the visibility of
+# those names.
+# If TRUE, all logged-in users can see all names for all pages in all
+#     projects.
+# If FALSE, the proofer names for a given page in a given project are
+#     visible only to:
+#     --- Site Administrators and Project Facilitators;
+#     --- the project's PM, PPer, and PPVer; and
+#     --- any other user that worked on the same page.
+
+# ----------------------------------------------------------------------
 
 # In the proofing interface, the Spell-Checking functionality relies on
 # a local installation of 'aspell'...
