@@ -4,6 +4,8 @@
 
 // During site configuration, identifiers delimited by double angle-brackets
 // are replaced by the corresponding values in SETUP/configuration.sh.
+// See that file for specific information on these and other settings.
+
 
 $code_dir = '<<CODE_DIR>>';
 $code_url='<<CODE_URL>>';
