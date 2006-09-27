@@ -259,6 +259,51 @@ _PHP_CLI_EXECUTABLE=/usr/local/bin/php
 _DYN_DIR=$base_dir/d
 _DYN_URL=$base_url/d
 
+# This directory houses two classes of DP-related files...
+#
+# Optional user-supplied files:
+# (They don't have to exist, but the code will use them if they do.)
+#
+# --- $_DYN_DIR/stage_icons/$stage_id.jpg
+#         A small image to use as an icon for a given stage.
+#         (Currently only used on the activity hub.)
+#         $stage can be the id of any stage (i.e., round or pool).
+#         
+# --- $_DYN_DIR/header_images/$stage_id.jpg
+#         An image to show at the top of a given site-page.
+#
+# --- $_DYN_DIR/news_header_images/$page.jpg
+#         An image to show at the top of the "news" section of a given
+#         site-page. $page can be FRONT, HUB, FAQ, STATS, or a stage-id.
+#
+#
+# Files created by the code:
+#
+# --- $_DYN_DIR/download_tmp/*_images.zip
+#         Image zips, temporarily available for download.
+#
+# --- $_DYN_DIR/locale/
+#         For the purposes pf 'gettext', this directory is bound to the
+#         'messages' domain.
+#
+# --- $_DYN_DIR/pg/catalog.rdf
+#         The current PG catalog, obtained from the PG site.
+#
+# --- $_DYN_DIR/stats/automodify_logs/*.txt
+#         Logs of runs of automodify.php
+#
+# --- $_DYN_DIR/stats/faq_data.inc
+#         Generated PHP code that defines the $faq_data array.
+#
+# --- $_DYN_DIR/teams/avatar/*
+# --- $_DYN_DIR/teams/icon/*
+#         Avatar and icon images for teams.
+#
+# --- $_DYN_DIR/xmlfeeds/*.xml
+#         News feeds for the site.
+
+# ----------------------------------------------------------------------
+
 _JPGRAPH_DIR=$base_dir/jpgraph
 
 
