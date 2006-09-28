@@ -590,7 +590,8 @@ class ProjectInfoHolder
             $e = log_project_event( $this->projectid, $GLOBALS['pguser'], 'creation' );
             if ( !empty($e) ) die($e);
 
-            project_allow_pages( $this->projectid );
+            $e = project_allow_pages( $this->projectid );
+            if ( !empty($e) ) die($e);
 
             // Make a directory in the projects_dir for this project
             mkdir("$projects_dir/$this->projectid", 0777) or die("System error: unable to mkdir '$projects_dir/$this->projectid'");
