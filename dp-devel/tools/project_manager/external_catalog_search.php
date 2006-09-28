@@ -135,7 +135,8 @@ function do_search_and_show_hits()
     yaz_syntax($id, "usmarc");
     yaz_element($id, "F");
     yaz_search($id, "rpn", trim($fullquery));
-    yaz_wait(array("timeout" => 60));
+    $extra_options = array("timeout" => 60);
+    yaz_wait($extra_options);
     $errorMsg = yaz_error($id);
 
     if (!empty($errorMsg))
