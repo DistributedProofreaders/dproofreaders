@@ -34,7 +34,7 @@ function project_allow_pages( $projectid )
             $columns_for_rounds
             state         VARCHAR(50) NOT NULL default '', INDEX(state),
             b_user        VARCHAR(25) NOT NULL default '',
-            b_code        INT(1)      NOT NULL default '',
+            b_code        INT(1)      NOT NULL default '0',
             orig_page_num VARCHAR(6)  NOT NULL default '',
             metadata      SET(
                 'blank', 'missing', 'badscan', 'outofseq',
