@@ -171,7 +171,7 @@ function mysql_session_select($sid)
 
 function mysql_session_write($sid, $value)
 {
-	$expiration = time() + ini_get("session.gc_maxlifetime");
+	$expiration = time() + ini_get("session.cookie_lifetime");
 	$result = do_session_query("SELECT COUNT(*) FROM sessions WHERE sid = '$sid'");
 	$SessionExists = mysql_result($result, 0);
 	// The table has a uniqueness constraint on 'sid',
