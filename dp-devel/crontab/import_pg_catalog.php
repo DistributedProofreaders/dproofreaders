@@ -17,12 +17,14 @@ header('Content-type: text/plain');
 
 $display_mapping = array(
     'application/msword'       => 'MS Word',
+    'application/ogg'          => 'Ogg Audio',
     'application/pdf'          => 'PDF',
     'application/postscript'   => 'Postscript',
     'application/vnd.palm'     => 'Palm',
     'application/x-iso9660-image' => 'ISO CD/DVD Image',
     'application/xml'          => 'XML',
     'audio/midi'               => 'MIDI',
+    'audio/mp4'                => 'MP4 Audio',
     'audio/mpeg'               => 'MPEG Audio',
     'audio/x-wav'              => 'MS Wave Audio',
     'image/gif'                => 'GIF',
