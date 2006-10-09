@@ -88,7 +88,7 @@ $frameGet="?" . $_SERVER['QUERY_STRING'];
 // script, and so fetches the new version. (Of course, the JS script doesn't
 // do anything with the query string, but the browser doesn't know that.)
 ?>
-<script language="JavaScript" type="text/javascript" src="dp_proof.js?1.49"></script>
+<script language="JavaScript" type="text/javascript" src="dp_proof.js?1.50"></script>
 <script language="JavaScript" type="text/javascript" src="dp_scroll.js?1.14"></script>
 </head>
 <frameset rows="*,73">
