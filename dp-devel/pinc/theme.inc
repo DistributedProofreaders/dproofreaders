@@ -254,23 +254,23 @@ function html_logobar($nameofpage) {
 
 function headerbar_text($text, $link = '', $with_divider = false)
 {
-global $theme, $code_url;
-$out = "";
+	global $theme, $code_url;
+	$out = "";
 
-if ($with_divider)
-    $out .= "&nbsp;&#183;&nbsp;\n";
+	if ($with_divider)
+		$out .= "&nbsp;&#183;&nbsp;\n";
 
-if(!empty($link))
-    $out .= "<a href='$link'>\n";
+	if(!empty($link))
+		$out .= "<a href='$link'>\n";
 
-$out .= "<font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>"
-        . $text .
-		    "</font>\n";
+	$out .= "<font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>"
+		. $text
+		. "</font>\n";
 
-if(!empty($link))
-    $out .= "</a>\n";
+	if(!empty($link))
+		$out .= "</a>\n";
 
-return $out;
+	return $out;
 }
 
 function html_statsbar($nameofpage) {
