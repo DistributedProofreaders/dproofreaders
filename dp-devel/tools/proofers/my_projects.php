@@ -120,7 +120,7 @@ $res = dpsql_query("
     ORDER BY $sql_order
 ") or die('Aborting');
 
-echo sprintf("(%d projects)", mysql_num_rows($res) );
+echo sprintf("(%d entries)", mysql_num_rows($res) );
 
 echo "<table border='1'>";
 
