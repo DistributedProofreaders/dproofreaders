@@ -263,6 +263,10 @@ function headerbar_text($text, $link = '', $with_divider = false)
 	if(!empty($link))
 		$out .= "<a href='$link'>\n";
 
+	// Within the label, change any blanks to non-breaking spaces,
+	// so that the label doesn't break there.
+	$text = str_replace(' ', '&nbsp;', $text);
+
 	$out .= "<font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>"
 		. $text
 		. "</font>\n";
