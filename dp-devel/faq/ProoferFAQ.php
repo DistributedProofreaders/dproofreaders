@@ -99,7 +99,7 @@ different pages.  This will significantly speed up the proofreading process.
     use form. This means "Plain Vanilla ASCII." Italics, underlines, and bolds would be
     converted to ASCII. In the same vein, the books selected would be those that
     appealed to the greatest number of people possible. Due to copyright laws, it is
-    only legal to do this with older books (in gerneral, copyrighted before 1923). As a
+    only legal to do this with older books (in general, copyrighted before 1923). As a
     result, Project Gutenberg is mostly comprised of the "Classics." </p>
 <p> You can read more about the history of Project Gutenberg <a
     href="<? echo $PG_history_url; ?>">here</a></p>
