@@ -159,6 +159,8 @@ $browser_array = array(0 => "All",
     37 => "Mozilla Camino 0.7",
     38 => "Mozilla Camino 0.8.x",
     39 => "Opera 8.x",
+    40 => "Opera 9.x",
+    41 => "Mozilla Firefox 1.5.x",
     99 => "Other");
 $versions_array = array(1 => "pgdp.net (Live)",
     4 => "dp.rastko.net (Live)",
