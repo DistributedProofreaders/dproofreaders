@@ -515,27 +515,12 @@ class Loader
 
         if ( $toi == 'text' )
         {
-            // File must be world-readable, or
-            // MySQL's LOAD_FILE() will return NULL.
-
-            $perms = fileperms($src_file);
-            if ( $perms === FALSE )
+            if ( !is_readable($src_file) )
             {
                 return array(
                     'error',
                     sprintf(
-                        _('Unable to get permissions on %s.'),
-                        $src_file
-                    )
-                );
-            }
-
-            if ( ($perms & 0x0004) == 0 )
-            {
-                return array(
-                    'error',
-                    sprintf(
-                        _('%s is not world-readable.'),
+                        _('%s is not readable by the server process.'),
                         $src_file
                     )
                 );
