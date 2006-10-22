@@ -1,7 +1,7 @@
 <?PHP
 include_once($relPath.'iso_lang_list.inc');
 include_once($relPath.'genres.inc');
-include_once($relPath.'site_vars.inc');
+include_once($relPath.'site_vars.php');
 
 function encodeFormValue($value)
 {
