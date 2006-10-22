@@ -183,6 +183,7 @@ function delete_and_insert( $username, $setting, $value )
 
 function notify_user($username,$actions)
 {
+    global $site_name, $site_signoff;
     $result = mysql_query("SELECT email FROM users WHERE username ='$username'");
     $email_addr = mysql_result($result,0,"email");
     if ((count($actions) == 1) && (array_search('grant',$actions) !== false))
@@ -191,10 +192,10 @@ function notify_user($username,$actions)
         // a single round, send a congratulations! email.
         $stage = array_keys($actions);
         $subject = "DP: You have been granted access to $stage[0]!";
-        $message = "Hello $username,\n\nThis is a message from the Distributed Proofreaders website.\n\n" .
+        $message = "Hello $username,\n\nThis is a message from the $site_name website.\n\n" .
                    "Congratulations, you have been granted access to $stage[0] projects!\n" .
                    "You can access this stage by following the link to it at the Activity Hub.\n\n" .
-                   "Thank you!\nDistributed Proofreaders";
+                   "$site_signoff";
         $add_headers = "";
         maybe_mail($email_addr,$subject,$message,$add_headers);
         return "congratulated user.";
@@ -202,7 +203,7 @@ function notify_user($username,$actions)
     else
     {
         $subject =  "DP: Your access has been modified";
-        $message =  "Hello $username,\n\nThis is a message from the Distributed Proofreaders website.\n\n" .
+        $message =  "Hello $username,\n\nThis is a message from the $site_name website.\n\n" .
                     "The following modifications have been made to the stages in which you can work:\n";
         foreach ( $actions as $activity_id => $action_type )
         {
@@ -213,7 +214,7 @@ function notify_user($username,$actions)
                 ( $action_type == 'grant' ? 'Access granted.' :
                 'Access revoked.' ) );
         }
-        $message .= "\n\nThank you!\nDistributed Proofreaders";
+        $message .= "\n\n$site_signoff";
         $add_headers = "";
         maybe_mail($email_addr,$subject,$message,$add_headers);
         return "notified user.";
