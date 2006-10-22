@@ -111,7 +111,7 @@ function project_add_page(
     $projectid,
     $fileid,
     $image_file_name,
-    $txt_file_path, // must be absolute for LOAD_FILE
+    $txt_file_path,
     $user,
     $now )
 {
@@ -179,21 +179,12 @@ function file_content_expr( $file_path )
 // -- or NULL if the file can't be read.
 // $file_path must be absolute.
 {
-    $have_file_privilege = TRUE;
-    if ($have_file_privilege)
-    {
-        $file_path_e = addslashes( $file_path );
-        return "LOAD_FILE('$file_path_e')";
-    }
-    else
-    {
         $txt = file_get_contents( $file_path );
         if ( $txt === FALSE )
         {
             return 'NULL';
         }
         return "'" . addslashes($txt) . "'";
-    }
 }
 
 // -----------------------------------------------------------------------------
