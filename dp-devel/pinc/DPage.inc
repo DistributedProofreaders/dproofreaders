@@ -184,6 +184,7 @@ function file_content_expr( $file_path )
         {
             return 'NULL';
         }
+        $txt = _normalize_page_text($txt);
         return "'" . addslashes($txt) . "'";
 }
 
@@ -246,6 +247,7 @@ function Page_replaceText( $projectid, $image, $text_file_path, $user )
 
 function Page_modifyText( $projectid, $image, $page_text, $text_column, $user )
 {
+    $page_text = _normalize_page_text($page_text);
     _Page_UPDATE( $projectid, $image, 
         $text_column."='$page_text'");
 
@@ -287,6 +289,7 @@ function Page_saveAsInProgress( $projectid, $image, $round, $user, $page_text )
 
     $timestamp = time();
 
+    $page_text = _normalize_page_text($page_text);
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_temp_state}',
         {$round->time_column_name}='$timestamp',
@@ -310,6 +313,7 @@ function Page_saveAsDone( $projectid, $image, $round, $user, $page_text )
 
     $timestamp = time();
 
+    $page_text = _normalize_page_text($page_text);
     _Page_UPDATE( $projectid, $image, "
         state='{$round->page_save_state}',
         {$round->time_column_name}='$timestamp',
@@ -540,6 +544,41 @@ function _Page_UPDATE( $projectid, $image, $settings )
         $sql = "UPDATE project_pages SET $settings WHERE projectid='$projectid' AND image='$image'";
         $res = mysql_query($sql) or die(mysql_error());
     }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function _normalize_page_text( $page_text )
+// Normalize a page-text before we store it in the db,
+// mainly so that inconsequential/inadvertent/invisible
+// changes to a page don't show up as differences.
+{
+    // 1. Eliminate blank lines at the end of the text.
+    $result = rtrim($page_text);
+
+    // 2. Ensure all line-ends are CR-LF.
+    // 3. Eliminate whitespace at the end of each line.
+
+    $patterns = array();
+    $repls = array();
+
+        // For each CR that isn't immediately followed by a LF,
+        // change it to a CRLF. (Convert Max line-ends to DOS.)
+        $patterns[] = '/\r($|[^\n])/D';
+        $repls[]    = "\r\n\\1";
+
+        // For each LF that isn't immediately preceded by a CR,
+        // change it to a CRLF. (Convert Unix line-ends to DOS.)
+        $patterns[] = '/(^|[^\r])\n/';
+        $repls[]    = "\\1\r\n";
+
+        // Remove any blanks/tabs at the end of each line
+        $patterns[] = '/[ \t]+\r\n/';
+        $repls[]    = "\r\n";
+
+    $result = preg_replace( $patterns, $repls, $result );
+
+    return $result;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
