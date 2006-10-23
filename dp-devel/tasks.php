@@ -164,6 +164,7 @@ $browser_array = array(0 => "All",
     42 => "Internet Explorer 7.x",
     43 => "Mozilla Camino 1.x",
     44 => "Safari 2.x",
+    45 => "Mozilla Firefox 2.x",
     99 => "Other");
 $versions_array = array(1 => "pgdp.net (Live)",
     4 => "dp.rastko.net (Live)",
