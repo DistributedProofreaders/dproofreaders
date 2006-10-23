@@ -564,13 +564,13 @@ function _normalize_page_text( $page_text )
 
         // For each CR that isn't immediately followed by a LF,
         // change it to a CRLF. (Convert Max line-ends to DOS.)
-        $patterns[] = '/\r($|[^\n])/D';
-        $repls[]    = "\r\n\\1";
+        $patterns[] = '/\r(?!\n)/';
+        $repls[]    = "\r\n";
 
         // For each LF that isn't immediately preceded by a CR,
         // change it to a CRLF. (Convert Unix line-ends to DOS.)
-        $patterns[] = '/(^|[^\r])\n/';
-        $repls[]    = "\\1\r\n";
+        $patterns[] = '/(?<!\r)\n/';
+        $repls[]    = "\r\n";
 
         // Remove any blanks/tabs at the end of each line
         $patterns[] = '/[ \t]+\r\n/';
