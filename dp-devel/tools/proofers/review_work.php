@@ -80,9 +80,9 @@ $has_been_saved_in_review_round .= ")";
 // echo "$has_been_saved_in_review_round<br>\n";
 
 $there_is_a_diff = "BINARY
-    REPLACE($work_round->text_column_name,'\r\n','\n')
+    $work_round->text_column_name
     !=
-    REPLACE($review_round->text_column_name,'\r\n','\n')
+    $review_round->text_column_name
 ";
 
 // ---------------------------------------------
