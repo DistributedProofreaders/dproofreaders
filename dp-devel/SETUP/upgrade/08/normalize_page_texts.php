@@ -4,10 +4,12 @@
 // and ensure that its text is normalized.
 
 $relPath='../../../pinc/';
-include($relPath.'dpsql.inc');
-include($relPath.'connect.inc');
-include($relPath.'DPage.inc'); // _normalize_page_text
+include_once($relPath.'dpsql.inc');
+include_once($relPath.'connect.inc');
+include_once($relPath.'DPage.inc'); // _normalize_page_text
 new dbConnect();
+
+error_reporting(E_ALL);
 
 header('Content-type: text/plain');
 
@@ -64,8 +66,8 @@ while ( list($projectid) = mysql_fetch_row($res) )
                     {
                         echo "\n";
                         echo "$image $field_name:\n";
-                        echo "changed ", addcslashes($field_value,         "\0..\37"), "\n";
-                        echo "to      ", addcslashes($normalized_page_text,"\0..\37"), "\n";
+                        echo "<<<<<<< ", addcslashes($field_value,         "\0..\37"), "\n";
+                        echo ">>>>>>> ", addcslashes($normalized_page_text,"\0..\37"), "\n";
                     }
 
                     $changes[] = sprintf( "%s = '%s'",
