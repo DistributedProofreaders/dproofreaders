@@ -21,6 +21,8 @@ $res = dpsql_query("
 
 $n_projects = mysql_num_rows($res);
 
+$all_warnings = array();
+
 $n_total_texts_changed = 0;
 $n_total_pages_changed = 0;
 $n_total_projects_changed = 0;
@@ -49,6 +51,7 @@ while ( list($projectid) = mysql_fetch_row($res) )
     {
         $image = $page['image'];
         $changes = array();
+        $time_constraints_str = '';
         foreach ( $page as $field_name => $field_value )
         {
             if ( preg_match( '/^(master|round\d+)_text$/', $field_name ) )
@@ -69,6 +72,22 @@ while ( list($projectid) = mysql_fetch_row($res) )
                         $field_name,
                         mysql_escape_string($normalized_page_text)
                     );
+
+                    // It's just possible that in the time between this script's
+                    // SELECT and UPDATE queries, a user may save a new version
+                    // of the text for this page.  To avoid overwriting it, we
+                    // require that the timestamps on UPDATE be the same as we
+                    // read with the SELECT.
+                    // (It's also possible that the master_text field might be
+                    // updated in that interval, but there's no timestamp for it.)
+                    if ( preg_match( '/^round\d+_text$/', $field_name ) )
+                    {
+                        $time_field_name = str_replace( '_text', '_time', $field_name );
+                        $time_constraints_str .= sprintf( " AND %s = %s",
+                            $time_field_name,
+                            $page[$time_field_name]
+                        );
+                    }
                 }
             }
         }
@@ -80,7 +99,7 @@ while ( list($projectid) = mysql_fetch_row($res) )
             $sql = "
                 UPDATE $projectid
                 SET $changes_str
-                WHERE image='$image'
+                WHERE image='$image' $time_constraints_str
             ";
             if (0)
             {
@@ -89,6 +108,12 @@ while ( list($projectid) = mysql_fetch_row($res) )
             if (1)
             {
                 dpsql_query($sql);
+                $n_ar = mysql_affected_rows();
+                if ( $n_ar != 1 )
+                {
+                    echo "\n    WARNING: query affected $n_ar rows";
+                    $all_warnings[] = "$projectid $image $field_name $n_ar";
+                }
             }
 
             $n_texts_changed += count($changes);
@@ -106,6 +131,20 @@ while ( list($projectid) = mysql_fetch_row($res) )
 
 echo "\n";
 echo "In total, changed $n_total_texts_changed texts for $n_total_pages_changed pages in $n_total_projects_changed projects.\n";
+
+echo "\n";
+if ( count($all_warnings) == 0)
+{
+    echo "No warnings\n";
+}
+else
+{
+    echo "All warnings:\n";
+    foreach ( $all_warnings as $warning )
+    {
+        echo "    $warning\n";
+    }
+}
 
 echo "\nDone!\n";
 
