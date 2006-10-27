@@ -656,7 +656,7 @@ function show_birthdays()
 
 function show_completed_projects($terse = FALSE)
 {
-	global $theme;
+	global $theme, $code_url;
 
 	if ($terse) {
 	    echo "\n<br>\n";
