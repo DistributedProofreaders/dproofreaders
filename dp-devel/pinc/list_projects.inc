@@ -5,7 +5,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'pg.inc');
 new dbConnect();
 
-function list_projects( $where_condition, $order_clause, $limit_clause )
+function list_projects( $where_condition, $order_clause, $limit_clause, $terse = FALSE )
 // List the specified projects,
 // giving brief information about each.
 {
@@ -22,75 +22,78 @@ function list_projects( $where_condition, $order_clause, $limit_clause )
         $limit_clause
     ");
 
-    echo "<br>";
-    echo "\n";
+    echo "<br>\n";
 
     $counter = 1;
     while ($project = mysql_fetch_array($result))
     {
         $projectid = $project['projectid'];
+        $author    = $project['authorsname'];
+        $title     = $project['nameofwork'];
+        $language  = $project['language'];
+        $pagecount = $project['n_pages'];
+        $moddate   = strftime( _("%A, %B %e, %Y"), $project['modifieddate'] );
+        $postednum = $project['postednum'];
 
         echo "<font face='Verdana' size='1'>";
 
-        // ---------------------------------------------------------------------
-        // First line
-
-        echo "<a name='$projectid'></a>";
-
-        // Counter
-        echo "$counter) ";
-
-        // Title
-        echo "<font color='#444444'><b>", '"', $project['nameofwork'], '"', "</b></font>";
-
-        // Author
-        echo ", ", $project['authorsname'];
-
-        // Language
-        echo " (", $project['language'], ")";
-
-        echo "<br>";
-
-        // ---------------------------------------------------------------------
-        // Second line
-
-        // Number of pages
-        $totalpages = $project['n_pages'];
-
-        if ($totalpages != 0)
+        if ( $terse == FALSE ) // Long version of details
         {
-            echo "$totalpages " . _("pages") . "; ";
-        }
 
-        // Last-modification date
-        $moddate = strftime( _("%A, %B %e, %Y"), $project['modifieddate'] );
-        echo $moddate;
-
-        echo "<br>";
-
-        // ---------------------------------------------------------------------
-        // Third line
-
-        // Download info
-        $postednum = $project['postednum'];
-        if ( !is_null($postednum) )
-        {
-            echo get_pg_catalog_link_for_etext($postednum);
-            echo " [{$project['formats']}]";
-
-            if ($site_supports_corrections_after_posting)
-            {
-                echo ", ";
-                if ($project['state'] == PROJ_SUBMIT_PG_POSTED) {
-                    echo "<a href='$code_url/tools/upload_text.php?project=$projectid&amp;stage=correct'>" . _("submit corrections") . "</a>";
-                } else {
-                    echo _("under review");
-                }
-            }
+            // First line
+            echo "<a name='$projectid'></a>";
+            // Counter
+            echo "$counter) ";
+            // Title
+            echo "<font color='#444444'><b>", '"', $title, '"', "</b></font>";
+            // Author
+            echo ", ", $author;
+            // Language
+            echo " (", $language, ")";
             echo "<br>";
-        }
 
-        // ---------------------------------------------------------------------
+            // Second line
+            // Number of pages
+            if ($pagecount != 0) { echo sprintf(_("%d pages"),$pagecount) . "; "; }
+            // Last-modification date
+            echo $moddate;
+            echo "<br>";
+
+            // Third line
+            // Download info
+            if ( !is_null($postednum) )
+            {
+                echo get_pg_catalog_link_for_etext($postednum);
+                echo " [{$project['formats']}]";
+
+                if ($site_supports_corrections_after_posting)
+                {
+                    echo ", ";
+                    if ($project['state'] == PROJ_SUBMIT_PG_POSTED) {
+                        echo "<a href='$code_url/tools/upload_text.php?project=$projectid&amp;stage=correct'>" . _("submit corrections") . "</a>";
+                    } else {
+                        echo _("under review");
+                    }
+                }
+                echo "<br>";
+            }
+
+            // ---------------------------------------------------------------------
+        }
+        else // Terse version of details
+        {
+            // Title
+            echo "<font color='#444444'><b>", '"', $title, '"', "</b></font>&mdash;";
+            // Author
+            echo $author;
+            // Language
+            echo " ($language)";
+            if ( !is_null($postednum) )
+            {
+                echo "<br>", get_pg_catalog_link_for_etext($postednum);
+            }
+            echo "<br>\n";
+        }
 
         echo "</font>";
         echo "<br>";

@@ -10,6 +10,7 @@ include_once($relPath.'dpsession.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'page_tally.inc');
+include_once($relPath.'list_projects.inc');
 
 $user_is_logged_in = dpsession_resume();
 
@@ -43,11 +44,11 @@ function theme ($nameofpage, $location, $extra_args = array()) {
 				html_logobar($nameofpage);
 				echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 				echo "<tr>\n";
-				echo "<td align='left' valign='top' width='25%' bgcolor='".$theme['color_navbar_bg']."'>\n";
+				echo "<td align='left' valign='top' width='25%' style='padding: .5em;' bgcolor='".$theme['color_navbar_bg']."'>\n";
 				html_statsbar($nameofpage);
 				echo "</td>\n";
 				echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'><img border='0' src='$code_url/pinc/templates/".$theme_name."".$theme['image_curve_left']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
-				echo "<td align='left' valign='top' width='75%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
+				echo "<td align='left' valign='top' width='75%' style='padding: .5em;' bgcolor='".$theme['color_mainbody_bg']."'>\n";
 			} elseif ($location == "footer") {
 				echo "</td></tr></table>\n";
 				html_footer();
@@ -59,11 +60,11 @@ function theme ($nameofpage, $location, $extra_args = array()) {
 				echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
 				echo "<tr>\n";
 				echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
-				echo "<td align='left' valign='top' width='75%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
+				echo "<td align='left' valign='top' width='75%' style='padding: .5em;' bgcolor='".$theme['color_mainbody_bg']."'>\n";
 			} elseif ($location == "footer") {
 				echo "</td>\n";
 				echo "<td align='right' valign='top' bgcolor='" . $theme['color_mainbody_bg'] . "'><img border='0' src='$code_url/pinc/templates/".$theme_name."".$theme['image_curve_right']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
-				echo "<td align='left' valign='top' width='25%' bgcolor='" . $theme['color_navbar_bg'] . "'>\n";
+				echo "<td align='left' valign='top' width='25%' style='padding: .5em;' bgcolor='" . $theme['color_navbar_bg'] . "'>\n";
 				html_statsbar($nameofpage);
 				echo "</td></tr></table>\n";
 				html_footer();
@@ -117,7 +118,7 @@ function html_header($nameofpage, $extra_args = array()) {
 	echo "<body bgcolor='" . $theme['body_bgcolor'] . "' text='" . $theme['body_text'];
 	echo "' link='" . $theme['body_link'] . "' vlink='" . $theme['body_vlink'];
 	echo "' alink='" . $theme['body_alink'];
-	echo "' topmargin='0' leftmargin='0' marginheight='0' marginwidth='0'>\n\n";
+	echo "' style='margin: 0;'>\n\n";
 }
 
 function html_logobar($nameofpage) {
@@ -146,7 +147,7 @@ function html_logobar($nameofpage) {
 			WHERE $psd->state_selector
 		");
 		$numproj = mysql_result($result,0);
-		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>";
+		echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='4'><b>";
 		echo sprintf(
 			_('%s projects completed!'),
 			number_format($numproj));
@@ -169,6 +170,7 @@ function html_logobar($nameofpage) {
 			_('%s titles preserved for the world!'),
 			number_format($numproj));
 		echo "</b></font>\n";
+		show_completed_projects(TRUE);
 	}
 
 	echo "</td>\n";
@@ -295,8 +297,33 @@ function html_statsbar($nameofpage) {
             show_birthdays();
 
         }
-		echo "<br>\n";
+	    echo "<br>\n";
+    	    if (!isset($GLOBALS['pguser'])) {
+		// Not logged in, show the terse project listings
+	        // Show the 7 most recently completed, tersely
+		echo "<center><b><u>" . _("Recently Completed Titles:") . "</u></b></center>\n";
+		$state = SQL_CONDITION_GOLD;
+		list_projects( $state, "ORDER BY modifieddate DESC", "LIMIT 7", TRUE );
+
+		// Show "More..." link
+		echo "<p style='text-align: center;'>";
+		echo "<a href='list_etexts.php?x=g&sort=5'>";
+		echo _("More Completed Titles...") . "</a></p>";
+
+		// Show 3 (random) of the 10 most recently arrived (most recent P1)
+		echo "<center><b><u>" . _("Recently Begun:") . "</u></b></center>\n";
+		$state = SQL_CONDITION_BRONZE;
+		$limit_phrase = "LIMIT 3 OFFSET " . rand(0, 7);
+		list_projects( $state, "ORDER BY modifieddate DESC", $limit_phrase, TRUE );
+
+		// Show "More..." link
+		echo "<p style='text-align: center;'>";
+		echo "<a href='list_etexts.php?x=b&sort=5'>";
+		echo _("More Recently Begun Titles...") . "</a></p>";
+
+	    } else {		
 		show_completed_projects();
+	    }
 	}
 	else
 	{
@@ -326,9 +353,15 @@ function html_statsbar($nameofpage) {
 
 
     //Display the donation icon and link to donate.
-    //Should be the last thing displayed in the right hand column
-	echo "<br>";
+    //Should be the last thing displayed in the right hand column unless the user is not logged in
+	echo "<hr>";
 	show_donation_stuff();
+
+    //Display the "About DP" section if user is not logged in
+    if (isset($GLOBALS['pguser']) == NULL)
+    {
+        echo sprintf(_("<hr><p><font size='2'>Distributed Proofreaders was founded in 2000 by Charles Franks to support the digitization of Public Domain books. Originally conceived to assist <a href='%s'>Project Gutenberg</a> (PG), Distributed Proofreaders (DP) is now the main source of PG e-books. In 2002, Distributed Proofreaders became an official PG site. In May 2006, Distributed Proofreaders became a separate legal entity and continues to maintain a strong relationship with PG.</font></p>"),$PG_home_url);
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -621,15 +654,21 @@ function show_birthdays()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_completed_projects()
+function show_completed_projects($terse = FALSE)
 {
 	global $theme;
 
-	echo "<center><b>" . _("Completed Projects:") . "</b></center>\n";
-	echo "<table border=0 cellspacing=0 cellpadding=0 width='100%'>\n";
+	if ($terse) {
+	    echo "\n<br>\n";
+	    $num_months = 1;
+	} else {
+	    echo "<center><b>" . _("Completed Projects:") . "</b></center>\n";
+	    echo "<table border=0 cellspacing=0 cellpadding=0 width='100%'>\n";
+	    $num_months = 11;
+	}
 	$thismonth = date("n");
 	$thisyear = date("Y");
-	for ( $months_ago = 11; $months_ago >= 0; $months_ago-- )
+	for ( $months_ago = $num_months; $months_ago >= 0; $months_ago-- )
 	{
 		// midnight that begins the 1st day of this month and the next:
 		$begindate = mktime(0,0,0,$thismonth-$months_ago,  1,$thisyear);
@@ -645,22 +684,31 @@ function show_completed_projects()
 				&& state = '".PROJ_SUBMIT_PG_POSTED."'
 		");
 		$totalprojects = mysql_result($result,0);
-		//echo "&nbsp;$displaydate - $totalprojects<br>\n";
-		echo "<tr>";
-		echo   "<td width='60%' align='right'>";
-		echo     "<font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>";
-		echo       "&nbsp;$displaydate&nbsp;-";
-		echo     "</font>";
-		echo   "</td>";
-		echo   "<td width='40%' align='left'>";
-		echo     "<font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>";
-		echo       "&nbsp;$totalprojects&nbsp;";
-		echo     "</font>";
-		echo   "</td>";
-		echo "</tr>";
-		echo "\n";
+
+		if ($terse) {
+		    echo "$totalprojects " . _("in") . " $displaydate&nbsp;&mdash;&nbsp;";
+		} else {
+		    echo "<tr>";
+		    echo   "<td width='60%' align='right'>";
+		    echo     "<font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>";
+		    echo       "&nbsp;$displaydate&nbsp;&mdash;";
+		    echo     "</font>";
+		    echo   "</td>";
+		    echo   "<td width='40%' align='left'>";
+		    echo     "<font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>";
+		    echo       "&nbsp;$totalprojects&nbsp;";
+		    echo     "</font>";
+		    echo   "</td>";
+		    echo "</tr>";
+		    echo "\n";
+		}
 	}
-	echo "</table>\n";
+	if ($terse)
+	{
+	    echo "<a href='$code_url/list_etexts.php?x=g&sort=5'>" . _("More...") . "</a>\n";
+	} else {
+	    echo "</table>\n";
+	}
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -768,4 +816,6 @@ function html_footer() {
 	echo "\n</body>\n";
 	echo "</html>\n";
 }
+
+// vim: sw=4 ts=4 expandtab
 ?>
