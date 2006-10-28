@@ -143,6 +143,7 @@ class ProjectInfoHolder
 
         $this->nameofwork       = '';
         $this->authorsname      = '';
+        $this->projectmanager   = $pguser;
         $this->checkedoutby     = '';
         $this->language         = '';
         $this->scannercredit    = '';
@@ -191,6 +192,7 @@ class ProjectInfoHolder
 
         $this->nameofwork  = marc_title($r3);
         $this->authorsname = marc_author($r3);
+        $this->projectmanager = $pguser;
         $this->language    = marc_language($r3);
         $this->genre       = marc_literary_form($r3);
 
@@ -214,6 +216,7 @@ class ProjectInfoHolder
 
     function set_from_uberproject()
     {
+        global $pguser;
         if (!isset($_GET['up_projectid']))
         {
             return _("parameter 'up_projectid' is unset");
@@ -237,6 +240,7 @@ class ProjectInfoHolder
 
         $this->nameofwork       = $up_info['d_nameofwork'];
         $this->authorsname      = $up_info['d_authorsname'];
+        $this->projectmanager   = $pguser;
         $this->checkedoutby     = $up_info['d_checkedoutby'];
         $this->language         = $up_info['d_language'];
         $this->scannercredit    = $up_info['d_scannercredit'];
@@ -300,6 +304,7 @@ class ProjectInfoHolder
 
         $this->projectid        = $ar['projectid'];
         $this->nameofwork       = $ar['nameofwork'];
+        $this->projectmanager   = $ar['username'];
         $this->authorsname      = $ar['authorsname'];
         $this->checkedoutby     = $ar['checkedoutby'];
         $this->language         = $ar['language'];
@@ -362,6 +367,9 @@ class ProjectInfoHolder
 
         $this->authorsname = @$_POST['authorsname'];
         if ( $this->authorsname == '' ) { $errors .= "Author is required.<br>"; }
+
+        $this->projectmanager = @$_POST['username'];
+        if ( $this->projectmanager == '' ) { $errors .= "Project manager is required.<br>"; }
 
         $pri_language = @$_POST['pri_language'];
         if ( $pri_language == '' ) { $errors .= "Primary Language is required.<br>"; }
@@ -522,6 +530,7 @@ class ProjectInfoHolder
             up_projectid   = '{$this->up_projectid}',
             nameofwork     = '".addslashes($this->nameofwork)."',
             authorsname    = '".addslashes($this->authorsname)."',
+            username       = '{$this->projectmanager}',
             language       = '{$this->language}',
             genre          = '{$this->genre}',
             difficulty     = '{$this->difficulty_level}',
@@ -574,6 +583,7 @@ class ProjectInfoHolder
         }
         else
         {
+            // We are creating a new project
             $this->projectid = uniqid("projectID"); // The project ID
 
             // Insert a new row into the projects table
@@ -581,7 +591,6 @@ class ProjectInfoHolder
                 INSERT INTO projects
                 SET
                     projectid    = '{$this->projectid}',
-                    username     = '{$GLOBALS['pguser']}',
                     state        = '".PROJ_NEW."',
                     modifieddate = UNIX_TIMESTAMP(),
                     $common_project_settings
@@ -690,6 +699,11 @@ class ProjectInfoHolder
         {
             echo "<input type='hidden' name='up_projectid' value='$this->up_projectid'>";
         }
+        if (!user_is_a_sitemanager())
+        {
+            echo "<input type='hidden' name='username' value='$this->projectmanager'>"; 
+        }
+
     }
 
     // -------------------------------------------------------------------------
@@ -726,6 +740,11 @@ class ProjectInfoHolder
         }
         $this->row( _("Name of Work"),                'text_field',          $this->nameofwork,      'nameofwork' );
         $this->row( _("Author's Name"),               'text_field',          $this->authorsname,     'authorsname' );
+        if ( user_is_a_sitemanager() )
+        {
+            // site managers can change the PM
+            $this->row( _("Project Manager"),         'DP_user_field',       $this->projectmanager,  'username', sprintf(_("%s username only."),$site_abbreviation));
+        }
         $this->row( _("Language"),                    'language_list',       $this->language         );
         $this->row( _("Genre"),                       'genre_list',          $this->genre            );
         $this->row( _("Difficulty Level"),            'difficulty_list',     $this->difficulty_level );
@@ -778,7 +797,7 @@ class ProjectInfoHolder
         echo "<td bgcolor='#cccccc'><b>This is a preview of your project and roughly how it will look to the proofreaders.</b></td></tr>\n";
         echo "<tr><td align='middle' bgcolor='#cccccc'><b>Title</b></td><td>$this->nameofwork</td></tr>\n";
         echo "<tr><td align='middle' bgcolor='#cccccc'><b>Author</b></td><td>$this->authorsname</td></tr>\n";
-        echo "<tr><td align='middle' bgcolor='#cccccc'><b>Project Manager</b></td><td>$pguser</td></tr>\n";
+        echo "<tr><td align='middle' bgcolor='#cccccc'><b>Project Manager</b></td><td>$this->projectmanager</td></tr>\n";
         echo "<tr><td align='middle' bgcolor='#cccccc'><b>Last Proofread</b></td><td>$now</td></tr>\n";
         echo "<tr><td align='middle' bgcolor='#cccccc'><b>Forum</b></td><td>Start a discussion about this project</td></tr>\n";
         echo "<tr><td align='middle' bgcolor='#cccccc'><b>Book Completed</b></td><td>Yes, I would like to be notified when this has been posted to Project Gutenberg.</td></tr>\n";
