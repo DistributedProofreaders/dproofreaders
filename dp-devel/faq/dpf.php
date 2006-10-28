@@ -52,16 +52,16 @@ USA
 <h2>Tax Status:</h2>
 <p>
 DPF applied for tax exempt status by the IRS under section
-501(c)(3) of the US Internal Revenue Code on July 31, 2006. 
+501(c)(3) of the US Internal Revenue Code on July 31, 2006.
+Tax exempt status was granted on October 10, 2006, retroactive
+to April 7, 2006.
 </p>
 
 <h2>Donations:</h2>
 
 <p>
-Our understanding is that now that DPF has made the application for
-501(c)(3) status, donations are tax-deductible, with that status being
-removed retroactively if the application is turned down. We believe that
-DPF should have no trouble qualifying. All of this only matters to
+Now that DPF has applied for and received 501(c)(3) status, donations
+are tax-deductible as per the dates above. All of this only matters to
 donors who file US tax returns.
 </p>
 <p>
@@ -69,7 +69,6 @@ The PayPal donation button on the PGDP website directs donations to DPF.
 Donations made by check should be made payable to "Distributed
 Proofreaders Foundation" and mailed to the above address. DPF also
 gladly accepts donations of stock.
-
 </p>
 <p>
 DPF will report on its finances regularly (at least yearly, more often
