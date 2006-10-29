@@ -396,6 +396,10 @@ class ProjectInfoHolder
             {
                 $errors .= check_user_exists($this->projectmanager, 'Project manager');
             }
+            if ( empty($errors) && !that_user_is_PM($this->projectmanager) )
+            {
+                $errors .= "{$this->projectmanager} is not a PM.<br>";
+            }
         }
         else // it'll be set when we save the info to the db
         {
