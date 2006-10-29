@@ -78,14 +78,23 @@ function user_can_modify_access()
     return array( $can_grant, $can_revoke );
 }
 
-function user_is_PM()
-{
-    $userSettings =& get_pguser_settings();
+// ---------
 
-    return user_is_a_sitemanager()
-            || user_is_proj_facilitator()
+function that_user_is_PM($username)
+{
+    $userSettings =& Settings::get_settings($username);
+
+    return that_user_is_a_sitemanager($username)
+            || that_user_is_proj_facilitator($username)
             || $userSettings->get_boolean("manager");
 }
+function user_is_PM()
+{
+    global $pguser;
+    return that_user_is_PM($pguser);
+}
+
+// ---------
 
 function user_is_site_news_editor()
 {
