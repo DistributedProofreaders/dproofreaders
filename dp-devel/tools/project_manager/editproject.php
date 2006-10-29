@@ -133,6 +133,23 @@ else
     theme("", "footer");
 }
 
+// returns an empty string if the possible user exists,
+// otherwise an error message
+function check_user_exists($possible_user, $description)
+{
+    $result = '';
+    $res = mysql_query("
+                SELECT u_id
+                FROM users
+                WHERE BINARY username = '".addslashes($possible_user)."'
+            ");
+    if (mysql_num_rows($res) == 0)
+    {
+        $result = "$description must be an existing user - check case and spelling of username.<br>";
+    }
+    return $result;
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 class ProjectInfoHolder
@@ -368,8 +385,22 @@ class ProjectInfoHolder
         $this->authorsname = @$_POST['authorsname'];
         if ( $this->authorsname == '' ) { $errors .= "Author is required.<br>"; }
 
-        $this->projectmanager = @$_POST['username'];
-        if ( $this->projectmanager == '' ) { $errors .= "Project manager is required.<br>"; }
+        if ( user_is_a_sitemanager() )  // only SAs can change PM
+        {
+            $this->projectmanager = @$_POST['username'];
+            if ( $this->projectmanager == '' )
+            {
+                $errors .= "Project manager is required.<br>";
+            }
+            else
+            {
+                $errors .= check_user_exists($this->projectmanager, 'Project manager');
+            }
+        }
+        else // it'll be set when we save the info to the db
+        {
+            $this->projectmanager = '';
+        }
 
         $pri_language = @$_POST['pri_language'];
         if ( $pri_language == '' ) { $errors .= "Primary Language is required.<br>"; }
@@ -441,43 +472,19 @@ class ProjectInfoHolder
         $this->checkedoutby = @$_POST['checkedoutby'];
         if ($this->checkedoutby != '')
         {
-            $res = mysql_query("
-                SELECT u_id
-                FROM users
-                WHERE BINARY username = '".addslashes($this->checkedoutby)."'
-            ");
-            if (mysql_num_rows($res) == 0)
-            {
-                $errors .= "PPer/PPVer must be an existing user - check case and spelling of username.<br>";
-            }
+            $errors .= check_user_exists($this->checkedoutby, 'PPer/PPVer');
         }
 
         $this->image_preparer = @$_POST['image_preparer'];
         if ($this->image_preparer != '')
         {
-            $res = mysql_query("
-                SELECT u_id
-                FROM users
-                WHERE BINARY username = '".addslashes($this->image_preparer)."'
-            ");
-            if (mysql_num_rows($res) == 0)
-            {
-                $errors .= "Image Preparer must be an existing user - check case and spelling of username.<br>";
-            }
+            $errors .= check_user_exists($this->image_preparer,'Image Preparer') ;
         }
 
         $this->text_preparer = @$_POST['text_preparer'];
         if ($this->text_preparer != '')
         {
-            $res = mysql_query("
-                SELECT u_id
-                FROM users
-                WHERE BINARY username = '".addslashes($this->text_preparer)."'
-            ");
-            if (mysql_num_rows($res) == 0)
-            {
-                $errors .= "Text Preparer must be an existing user - check case and spelling of username.<br>";
-            }
+            $errors .= check_user_exists($this->text_preparer,'Text Preparer') ;
         }
 
         $this->posted    = @$_POST['posted'];
@@ -530,7 +537,6 @@ class ProjectInfoHolder
             up_projectid   = '{$this->up_projectid}',
             nameofwork     = '".addslashes($this->nameofwork)."',
             authorsname    = '".addslashes($this->authorsname)."',
-            username       = '{$this->projectmanager}',
             language       = '{$this->language}',
             genre          = '{$this->genre}',
             difficulty     = '{$this->difficulty_level}',
@@ -546,14 +552,24 @@ class ProjectInfoHolder
             extra_credits  = '".addslashes($this->extra_credits)."',
             deletion_reason= '".addslashes($this->deletion_reason)."'
         ";
+        $pm_setter = '';
+        if ( user_is_a_sitemanager() )
+        {
+            // can change PM
+            $pm_setter = " username = '{$this->projectmanager}',";
+        }
 
         if (isset($this->projectid))
         {
             // We are updating an already-existing project.
 
+            // needn't change $pm_setter, as there is no change if the user
+            // isn't an SA
+
             // Update the projects database with the updated info
             mysql_query("
                 UPDATE projects SET
+                    $pm_setter
                     $common_project_settings
                 WHERE projectid='{$this->projectid}'
             ") or die(mysql_error());
@@ -586,11 +602,16 @@ class ProjectInfoHolder
             // We are creating a new project
             $this->projectid = uniqid("projectID"); // The project ID
 
+            if ( '' == $pm_setter) {
+                $pm_setter = "username = '$pguser',";
+            }
+
             // Insert a new row into the projects table
             mysql_query("
                 INSERT INTO projects
                 SET
                     projectid    = '{$this->projectid}',
+                    $pm_setter
                     state        = '".PROJ_NEW."',
                     modifieddate = UNIX_TIMESTAMP(),
                     $common_project_settings
@@ -699,11 +720,6 @@ class ProjectInfoHolder
         {
             echo "<input type='hidden' name='up_projectid' value='$this->up_projectid'>";
         }
-        if (!user_is_a_sitemanager())
-        {
-            echo "<input type='hidden' name='username' value='$this->projectmanager'>"; 
-        }
-
     }
 
     // -------------------------------------------------------------------------
@@ -742,7 +758,7 @@ class ProjectInfoHolder
         $this->row( _("Author's Name"),               'text_field',          $this->authorsname,     'authorsname' );
         if ( user_is_a_sitemanager() )
         {
-            // site managers can change the PM
+            // SAs are the only ones who can change this
             $this->row( _("Project Manager"),         'DP_user_field',       $this->projectmanager,  'username', sprintf(_("%s username only."),$site_abbreviation));
         }
         $this->row( _("Language"),                    'language_list',       $this->language         );
@@ -797,7 +813,11 @@ class ProjectInfoHolder
         echo "<td bgcolor='#cccccc'><b>This is a preview of your project and roughly how it will look to the proofreaders.</b></td></tr>\n";
         echo "<tr><td align='middle' bgcolor='#cccccc'><b>Title</b></td><td>$this->nameofwork</td></tr>\n";
         echo "<tr><td align='middle' bgcolor='#cccccc'><b>Author</b></td><td>$this->authorsname</td></tr>\n";
-        echo "<tr><td align='middle' bgcolor='#cccccc'><b>Project Manager</b></td><td>$this->projectmanager</td></tr>\n";
+        if (user_is_a_sitemanager())
+        {
+            // SAs are the only ones who can change this.
+            echo "<tr><td align='middle' bgcolor='#cccccc'><b>Project Manager</b></td><td>$this->projectmanager</td></tr>\n";
+        }
         echo "<tr><td align='middle' bgcolor='#cccccc'><b>Last Proofread</b></td><td>$now</td></tr>\n";
         echo "<tr><td align='middle' bgcolor='#cccccc'><b>Forum</b></td><td>Start a discussion about this project</td></tr>\n";
         echo "<tr><td align='middle' bgcolor='#cccccc'><b>Book Completed</b></td><td>Yes, I would like to be notified when this has been posted to Project Gutenberg.</td></tr>\n";
