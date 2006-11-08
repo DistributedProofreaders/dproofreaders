@@ -96,6 +96,11 @@ else
         $page_title = _("Create a Project");
         $fatal_error = $pih->set_from_nothing();
     }
+    elseif ( $requested_action == 'clone' )
+    {
+        $page_title = _("Clone a Project");
+        $fatal_error = $pih->set_from_db(FALSE);
+    }
     elseif ( $requested_action == 'createnewfromuber' )
     {
         $page_title = _("Create a Project from an Uber Project");
@@ -109,7 +114,7 @@ else
     elseif ( $requested_action == 'edit' )
     {
         $page_title = _("Edit a Project");
-        $fatal_error = $pih->set_from_db();
+        $fatal_error = $pih->set_from_db(TRUE);
     }
     else
     {
@@ -279,8 +284,9 @@ class ProjectInfoHolder
     }
 
     // -------------------------------------------------------------------------
-
-    function set_from_db()
+    // edit an existing project, or create a new project by
+    // cloning an existing project
+    function set_from_db($edit_existing)
     {
         if (!isset($_GET['project']))
         {
@@ -294,6 +300,8 @@ class ProjectInfoHolder
         }
 
         $ucep_result = user_can_edit_project($projectid);
+        // we only let people clone projects that they can edit, so this
+        // is valid whether they are cloning or editing
         if ( $ucep_result == PROJECT_DOES_NOT_EXIST )
         {
             return _("parameter 'project' is invalid: no such project").": '$projectid'";
@@ -319,7 +327,6 @@ class ProjectInfoHolder
 
         $ar = mysql_fetch_array($res);
 
-        $this->projectid        = $ar['projectid'];
         $this->nameofwork       = $ar['nameofwork'];
         $this->projectmanager   = $ar['username'];
         $this->authorsname      = $ar['authorsname'];
@@ -328,7 +335,6 @@ class ProjectInfoHolder
         $this->scannercredit    = $ar['scannercredit'];
         $this->comments         = $ar['comments'];
         $this->clearance        = $ar['clearance'];
-        $this->postednum        = $ar['postednum'];
         $this->genre            = $ar['genre'];
         $this->difficulty_level = $ar['difficulty'];
         $this->special_code     = $ar['special_code'];
@@ -336,10 +342,20 @@ class ProjectInfoHolder
         $this->image_preparer   = $ar['image_preparer'];
         $this->text_preparer    = $ar['text_preparer'];
         $this->extra_credits    = $ar['extra_credits'];
-        $this->deletion_reason  = $ar['deletion_reason'];
+        if ($edit_existing) 
+        {
+            $this->projectid        = $ar['projectid'];
+            $this->deletion_reason  = $ar['deletion_reason'];
+            $this->posted           = @$_GET['posted'];        
+            $this->postednum        = $ar['postednum'];
+        }
+        else
+        {
+            // we're cloning, so leave projectid unset
+            $this->postednum        = '';
+            $this->deletion_reason  = '';
+        }
         $this->up_projectid     = $ar['up_projectid'];
-
-        $this->posted = @$_GET['posted'];
     }
 
     // -------------------------------------------------------------------------
@@ -562,7 +578,14 @@ class ProjectInfoHolder
             // can change PM
             $pm_setter = " username = '{$this->projectmanager}',";
         }
-
+        else if ( !isset($this->projectid) )
+        {
+            // cloning a project. The PM should be the same as 
+            // that of the project being cloned.
+            // we'll actually get here for all new projects, but they will
+            // have had projectmanager set to $pguser which is the Right Thing
+           $pm_setter = " username = '{$this->projectmanager}',";
+        }
         if (isset($this->projectid))
         {
             // We are updating an already-existing project.
