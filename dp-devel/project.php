@@ -851,6 +851,11 @@ function do_edit_above()
     echo _("Edit the above information");
     echo "</a>";
     echo "</p>";
+    echo "<p>";
+    echo "<a href='$code_url/tools/project_manager/editproject.php?action=clone&project=$project->projectid'>";
+    echo _("Clone this project");
+    echo "</a>";
+    echo "</p>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
