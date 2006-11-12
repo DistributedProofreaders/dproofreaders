@@ -354,6 +354,7 @@ class ProjectInfoHolder
             // we're cloning, so leave projectid unset
             $this->postednum        = '';
             $this->deletion_reason  = '';
+            $this->clone_projectid = $ar['projectid'];
         }
         $this->up_projectid     = $ar['up_projectid'];
     }
@@ -394,6 +395,11 @@ class ProjectInfoHolder
                 return _("unexpected return value from user_can_edit_project") . ": '$ucep_result'";
             }
         }
+        else if ( isset($_POST['clone_projectid']) )
+        {
+            // we're creating a clone
+            $this->clone_projectid = $_POST['clone_projectid'];
+        }
 
         $this->nameofwork = @$_POST['nameofwork'];
         if ( $this->nameofwork == '' ) { $errors .= "Name of work is required.<br>"; }
@@ -416,6 +422,12 @@ class ProjectInfoHolder
             {
                 $errors .= "{$this->projectmanager} is not a PM.<br>";
             }
+        }
+        else if ( user_is_proj_facilitator() && isset($_POST['username']) )
+        {
+            // we've got a PF cloning a project, so the PM should be the
+            // PM of the original project
+            $this->projectmanager = @$_POST['username'];
         }
         else // it'll be set when we save the info to the db
         {
@@ -535,8 +547,8 @@ class ProjectInfoHolder
         {
             global $pguser;
             $this->difficulty_level = ( $pguser == "BEGIN" ? "beginner" : "average" );
-        }
 
+        }
         return $errors;
     }
 
@@ -578,13 +590,11 @@ class ProjectInfoHolder
             // can change PM
             $pm_setter = " username = '{$this->projectmanager}',";
         }
-        else if ( !isset($this->projectid) )
+        else if ( isset($this->clone_projectid) && user_is_proj_facilitator() )
         {
             // cloning a project. The PM should be the same as 
             // that of the project being cloned.
-            // we'll actually get here for all new projects, but they will
-            // have had projectmanager set to $pguser which is the Right Thing
-           $pm_setter = " username = '{$this->projectmanager}',";
+            $pm_setter = " username = '{$this->projectmanager}',";
         }
         if (isset($this->projectid))
         {
@@ -746,6 +756,10 @@ class ProjectInfoHolder
         if (!empty($this->up_projectid))
         {
             echo "<input type='hidden' name='up_projectid' value='$this->up_projectid'>";
+        }
+        if (!empty($this->clone_projectid))
+        {
+            echo "<input type='hidden' name='clone_projectid' value='$this->clone_projectid'>";
         }
     }
 
