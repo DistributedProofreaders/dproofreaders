@@ -40,7 +40,7 @@ if ($testing)
 <p>Note: If you have just registered, you will need to wait for the welcome mail to arrive to your mailbox.
 Once it does, please click the activation link to complete the registration
 (this is to prevent others from signing you up to the site without your knowledge). 
-If you have waited for an hour or so and have still not recieved any mail from us
+If you have waited for an hour or so and have still not received any mail from us
 (please check any spam filters!), it is likely that you misentered your email-address.
 Please contact the <a href="mailto:<?=$site_manager_email_addr?>">site manager</a> to solve the problem.</li></p>
 <?
