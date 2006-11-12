@@ -58,8 +58,10 @@ A:active {
   }
 .dropchars {
   background-color:#EEDFCC;
-//#CDCDC1;
-//#EEDFCC;
+/*
+  #CDCDC1;
+  #EEDFCC;
+*/
   }
 .proofbutton {
 border:1px solid black;
