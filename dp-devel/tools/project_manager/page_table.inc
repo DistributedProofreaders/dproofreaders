@@ -6,6 +6,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'project_states.inc'); // get_phase_containing_project_state
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_do_particular_page
+include_once($relPath.'misc.inc'); // surround_and_join
 
 function echo_page_table(
 	$project,
@@ -213,12 +214,7 @@ function echo_page_table(
 	else
 	{
 		// $page_selector is an array whose keys are fileids of the pages to select
-		$fileids_str = '';
-		foreach ( $page_selector as $fileid => $dummy )
-		{
-			if ( !empty($fileids_str) ) $fileids_str .= ',';
-			$fileids_str .= "'$fileid'";
-		}
+		$fileids_str = surround_and_join( array_keys($page_selector), "'", "'", "," );
 		$where_condition = "fileid IN ($fileids_str)";
 	}
 
