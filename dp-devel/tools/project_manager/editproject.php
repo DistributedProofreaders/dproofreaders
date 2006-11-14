@@ -423,12 +423,6 @@ class ProjectInfoHolder
                 $errors .= "{$this->projectmanager} is not a PM.<br>";
             }
         }
-        else if ( user_is_proj_facilitator() && isset($_POST['username']) )
-        {
-            // we've got a PF cloning a project, so the PM should be the
-            // PM of the original project
-            $this->projectmanager = @$_POST['username'];
-        }
         else // it'll be set when we save the info to the db
         {
             $this->projectmanager = '';
@@ -547,7 +541,6 @@ class ProjectInfoHolder
         {
             global $pguser;
             $this->difficulty_level = ( $pguser == "BEGIN" ? "beginner" : "average" );
-
         }
         return $errors;
     }
@@ -590,11 +583,19 @@ class ProjectInfoHolder
             // can change PM
             $pm_setter = " username = '{$this->projectmanager}',";
         }
-        else if ( isset($this->clone_projectid) && user_is_proj_facilitator() )
+        else if ( isset($this->clone_projectid) )
         {
             // cloning a project. The PM should be the same as 
-            // that of the project being cloned.
-            $pm_setter = " username = '{$this->projectmanager}',";
+            // that of the project being cloned, if the user
+            // isn't an SA
+            $res = mysql_query("
+                SELECT username
+                FROM projects
+                WHERE projectid='{$this->clone_projectid}'
+            ") or die(mysql_error());
+            list($projectmanager) = mysql_fetch_row($res);
+
+            $pm_setter = " username = '$projectmanager',";
         }
         if (isset($this->projectid))
         {
