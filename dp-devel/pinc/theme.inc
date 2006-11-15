@@ -281,6 +281,7 @@ function headerbar_text($text, $link = '', $with_divider = false)
 
 function html_statsbar($nameofpage) {
 
+	global $code_url, $PG_home_url;
 	maybe_show_language_selector();
 
 	// Show statistics that are pertinent to the particular request.
@@ -330,7 +331,6 @@ function html_statsbar($nameofpage) {
 		show_tally_specific_stats( $tally_name );
 	}
 
-	global $code_url;
 	echo "<br>";
 	echo "<center>";
 	echo "<font size='2'>";
