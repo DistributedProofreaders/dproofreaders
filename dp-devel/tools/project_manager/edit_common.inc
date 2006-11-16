@@ -290,7 +290,7 @@ function proj_dict_valid_words_field($value,$fieldname,$projectid)
 {
     $enc_value = encodeFormValue($value);
     $dict_link = _("Generate suggestions from dictionary");
-    $iw_link = _("Generate suggestions from Ignore Words");
+    $iw_link = _("Generate suggestions from Accept Words");
 
     echo "<center>";
     echo "<textarea name='$fieldname' cols='74' rows='16'>$enc_value</textarea>";
