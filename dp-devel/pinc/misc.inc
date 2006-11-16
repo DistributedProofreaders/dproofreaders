@@ -53,6 +53,33 @@ if ( !function_exists('file_get_contents') )
     }
 } 
 
+// file_put_contents() is predefined in PHP 5 and on.
+if ( !function_exists('file_put_contents') )
+{
+    function file_put_contents( $filepath, $contents )
+    {
+        if(is_array($contents))
+            $contents = implode('',$contents);
+
+        $wasWritten = FALSE;
+        $fh = fopen($filepath,"w");
+        if($fh) {
+           $wasWritten = fwrite($fh,$contents);
+           fclose($fh);
+        }
+        return $wasWritten;
+    }
+}
+
+// str_split() is predefined in PHP 5 and on.
+if ( !function_exists('str_split') )
+{
+    function str_split( $string )
+    {
+        return preg_split("//",$string, -1, PREG_SPLIT_NO_EMPTY);
+    }
+}
+
 function mkdir_recursive( $dir, $mode )
 // Like mkdir, but recursively creates any parent directories too.
 // (PHP 5's mkdir has this capability built-in.)

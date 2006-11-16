@@ -6,7 +6,11 @@ include_once($relPath.'slim_header.inc');
 include_once('spellcheck_text.inc');
 include_once('PPage.inc');
 
-$text_data= isset($_POST['text_data'])? stripslashes($_POST['text_data']):'';
+// text_data should be set before we get here -- should take place in processtext.php
+#$text_data= isset($_POST['text_data'])? stripslashes($_POST['text_data']): $text_data;
+
+$revert_text=isset($_POST['revert_text']) ? stripslashes($_POST['revert_text']) : $text_data;
+
 
 // set image and text height and width
   if ($userP['i_layout']=='1')
@@ -53,6 +57,43 @@ function getCurCaret()
 function showIZ()
 {top.showIZ();alert('done it');
 return false;}
+
+// function to accept specified words in the spellcheck
+// it works by finding (span) elements with IDs in the format
+// word_# and when found sets the content of the span
+// to be just the word thereby removing the select and button
+function acceptWord(word,wordOrig) {
+    var wordIndex=1;
+    var wordSpan=1;
+    while(wordSpan) {
+        // find occurances of the word
+        var wordID = word + "_" + wordIndex;
+        wordSpan = document.getElementById(wordID);
+        if(wordSpan) {
+            // check to see if this instance has been edited already
+            // by checking the status of the AW button
+            var button = document.getElementById("button_" + wordID);
+            if(button && button.disabled == false) {
+                // set contents to be the word itself
+                wordSpan.innerHTML=wordOrig;
+            }
+
+            // save the word as the accept_words
+            var acceptWordInput = document.getElementById("accept_words");
+            acceptWordInput.value = acceptWordInput.value + " " + word;
+            wordIndex ++;
+        }
+        // protection against run-away processes
+        if(wordIndex>=1000) { break; }
+    }
+}
+
+function disableAcceptWord(wordID) {
+    var button = document.getElementById("button_" + wordID);
+    if(button) {
+        button.disabled = true;
+    }
+}
 // -->
 </script>
 <style type="text/css">
@@ -262,11 +303,36 @@ id="controlframe"><?PHP
       {
        echo "<div \r\nid=\"allframe\">";
       }
-?><form 
-name="spcorrects" action="processtext.php" method="POST"><table 
-  id="tbtext" 
-  cellpadding="10" 
-  align="center"><tr><?PHP
+?>
+<form name="spcorrects" action="processtext.php" method="POST">
+<?PHP
+    echo "<input type='hidden' name='revert_text' value='" . html_safe($revert_text) . "'>\n";
+    echo "<input type='hidden' id='accept_words' name=\"accept_words\" value='" . implode(' ',$accept_words) . "'>\n";
+    echo "<p>" . _("To run the page against the dictionary for an additional language, select one here and hit Check: ");
+    $dict_list = load_available_dictionaries();
+
+    echo "<select name='aux_language'>";
+    echo "<option value=''>Language</option>";
+    echo "\n";
+    while(list($langcode,$language)=each($dict_list)) {
+        echo "<option value='" .  htmlspecialchars($language,ENT_QUOTES) . "'";
+        if(strcmp($language,$aux_language)==0) echo " selected";
+        echo ">$language</option>\n";
+    }
+    echo "</select>";
+?>
+<input
+    type="submit"
+    name="rerunauxlanguage"
+    value="<? echo _("Check"); ?>"
+    title="<? echo _("Check page against an additional language"); ?>"
+></p>
+
+<?PHP
+echo "<p>" . _("Note: Clicking the [AW] button will accept all instances of that word for this page, including corrections done to any instance of the word, and save the word for the Project Manager to consider adding to this project's dictionary.") . "</p>";
+?>
+<table id="tbtext" cellpadding="10" align="center"><tr>
+<?PHP
     if ($userP['i_type'] !=1)
     {
         $url = $ppage->url_for_image();
@@ -278,7 +344,7 @@ name="spcorrects" action="processtext.php" method="POST"><table
 <?PHP
     $ppage->echo_hidden_fields();
 
-    spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile() );
+    spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accept_words );
 ?>
 </td>
 </tr>

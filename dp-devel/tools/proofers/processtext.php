@@ -43,6 +43,7 @@ define('B_RUN_COMMON_ERRORS_CHECK', 11);
 
   if (isset($spcorrect)) {$tbutton=101;} // Make Spelling Corrections
   if (isset($spexit)) {$tbutton=102;} // Exit Spelling Corrections
+  if (isset($rerunauxlanguage)) {$tbutton=103;} // Spellcheck against another language
   if (isset($errcorrect)) {$tbutton=111;} // Make Spelling Corrections
   if (isset($errexit)) {$tbutton=112;} // Exit Spelling Corrections
 
@@ -134,6 +135,8 @@ switch( $tbutton )
         if ( ! is_dir($aspell_temp_dir) ) { mkdir($aspell_temp_dir); }
         // save what we have so far, just in case the spellchecker barfs
         $ppage->saveAsInProgress($text_data,$pguser);
+        $accept_words=array();
+        $text_data=stripslashes($_POST["text_data"]);
         include('spellcheck.inc');
         break;
 
@@ -141,6 +144,11 @@ switch( $tbutton )
         // Return from spellchecker via "Submit Corrections" button.
         include_once('spellcheck_text.inc');
         $correct_text = spellcheck_apply_corrections();
+        $accept_words = explode(' ',$_POST["accept_words"]);
+        // for the record, PPage (or at least LPage) should provide
+        // functions for returning the round ID and the page number
+        // without the mess below
+        save_accept_words($_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accept_words);
         $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
         include('proof_frame.inc');
         break;
@@ -149,9 +157,23 @@ switch( $tbutton )
         // Return from spellchecker via "Quit Spell Check" button.
         include_once('spellcheck_text.inc');
         $correct_text = spellcheck_quit();
+        $accept_words = explode(' ',$_POST["accept_words"]);
+        save_accept_words($_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accept_words);
         $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
         include('proof_frame.inc');
         break;
+
+    case 103:
+        // User wants to run the page through spellcheck for an another language
+        // Apply current corrections to text (but don't save the progress)
+        // and rerun through the spellcheck
+        include_once('spellcheck_text.inc');
+        $aux_language = $_POST["aux_language"];
+        $accept_words = explode(' ',$_POST["accept_words"]);
+        $text_data = spellcheck_apply_corrections();
+        include('spellcheck.inc');
+        break;
+
 
     default:
         die( "unexpected tbutton value: '$tbutton'" );
