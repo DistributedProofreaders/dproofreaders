@@ -3,6 +3,8 @@
 // This is an ad hoc file for testing things on the server,
 // for developers who don't have shell accounts on it.
 
+// Testing.... 1, 2, 3
+
 error_reporting(E_ALL);
 
 $relPath='./pinc/';
