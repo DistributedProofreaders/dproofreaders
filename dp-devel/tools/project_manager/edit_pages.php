@@ -85,11 +85,11 @@ if ( isset($_REQUEST['confirmed']) and $_REQUEST['confirmed'] == 'yes' )
 {
     // Perform the operation.
 
-    foreach ( $selected_pages as $fileid => $setting )
+    foreach ( $selected_pages as $image => $setting )
     {
         // Ignore $setting, it's always 'on'.
-        echo "fileid=$fileid:<br>\n";
-        $err = $page_func( $projectid, $fileid );
+        echo "image=$image:<br>\n";
+        $err = $page_func( $projectid, $image );
         echo ( $err ? $err : "success" );
         echo "<br>\n";
         echo "<br>\n";
@@ -110,9 +110,9 @@ else
     echo "<form method='post' action='edit_pages.php'>\n";
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
     echo "<input type='hidden' name='operation' value='$operation'>\n";
-    foreach ( $selected_pages as $fileid => $setting )
+    foreach ( $selected_pages as $image => $setting )
     {
-        echo "<input type='hidden' name='selected_pages[$fileid]' value='$setting'>\n";
+        echo "<input type='hidden' name='selected_pages[$image]' value='$setting'>\n";
     }
     echo "<input type='hidden' name='confirmed' value='yes'>\n";
     echo "<input type='submit' value='" . _("Do it") . "'>\n";

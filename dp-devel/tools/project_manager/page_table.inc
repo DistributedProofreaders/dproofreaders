@@ -162,7 +162,7 @@ function echo_page_table(
 
 	$path = "$projects_dir/$projectid/";
 
-	$fields_to_get = "fileid, image, length(master_text), state";
+	$fields_to_get = "image, length(master_text), state";
 	$tables = $projectid;
 	$prev_text_column_name = 'master_text';
 	foreach ( $rounds_to_display as $round )
@@ -213,9 +213,9 @@ function echo_page_table(
 	}
 	else
 	{
-		// $page_selector is an array whose keys are fileids of the pages to select
-		$fileids_str = surround_and_join( array_keys($page_selector), "'", "'", "," );
-		$where_condition = "fileid IN ($fileids_str)";
+		// $page_selector is an array whose keys are imagenames of the pages to select
+		$imagenames_str = surround_and_join( array_keys($page_selector), "'", "'", "," );
+		$where_condition = "image IN ($imagenames_str)";
 	}
 
 	$res = mysql_query("
@@ -230,7 +230,7 @@ function echo_page_table(
 	{
 		$page_res = mysql_fetch_array( $res, MYSQL_ASSOC );
 
-		$fileid = $page_res['fileid'];
+		$imagename = $page_res['image'];
 
 		if ($rownum % 2 ) {
 			$row_color = $theme['color_mainbody_bg'];
@@ -244,7 +244,7 @@ function echo_page_table(
 		// Selector
 		if ( $can_edit )
 		{
-			echo "<td><input type='checkbox' name='selected_pages[$fileid]'></td>\n";
+			echo "<td><input type='checkbox' name='selected_pages[$imagename]'></td>\n";
 		}
 
 		// --------------------------------------------
@@ -256,7 +256,6 @@ function echo_page_table(
 		// Upload Block
 
 		// Image
-		$imagename = $page_res['image'];
 		if (file_exists($path.$imagename)) {
 			$bgcolor = $row_color;
 			$imagesize = filesize(realpath($path.$imagename));
@@ -357,7 +356,7 @@ function echo_page_table(
 			// Delete
 			if ($show_delete)
 			{
-				echo "<td><a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&selected_pages[$fileid]=on&operation=delete'>Delete</a></td>\n";
+				echo "<td><a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&selected_pages[$imagename]=on&operation=delete'>Delete</a></td>\n";
 			}
 		}
 
@@ -477,7 +476,6 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
 	//$can_edit = FALSE;
 
 	$imagename  = $page_res['image'];
-	$fileid     = $page_res['fileid'];
 	$page_state = $page_res['state'];
 
 	$round = get_Round_for_round_number($round_num);
@@ -580,7 +578,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
 			$page_state == $round->page_save_state
 		)
 		{
-			echo "<td><a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&selected_pages[$fileid]=on&operation=clear'>"._("Clear")."</a></td>";
+			echo "<td><a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&selected_pages[$imagename]=on&operation=clear'>"._("Clear")."</a></td>";
 		}
 		else
 		{

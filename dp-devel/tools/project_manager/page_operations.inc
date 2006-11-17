@@ -8,18 +8,17 @@ include_once($relPath.'page_tally.inc');
 
 // -----------------------------------------------------------------------------
 
-function page_del( $projectid, $fileid )
+function page_del( $projectid, $image )
 {
     $result = mysql_query("
         SELECT image
         FROM $projectid
-        WHERE fileid = '$fileid'
+        WHERE image = '$image'
     ");
     if ( mysql_num_rows($result) == 0 )
     {
-        return _("There is no page with that fileid.");
+        return _("There is no page with that imagename.");
     }
-    list($image) = mysql_fetch_row($result);
 
     global $pguser;
     Page_delete( $projectid, $image, $pguser );
@@ -35,9 +34,9 @@ function page_del( $projectid, $fileid )
 
 // -----------------------------------------------------------------------------
 
-function page_clear( $projectid, $fileid )
+function page_clear( $projectid, $image )
 {
-    // echo "page_clear( $projectid, $fileid )<br>\n";
+    // echo "page_clear( $projectid, $image )<br>\n";
 
     $sql = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'");
     $projstate = mysql_result($sql, 0, "state");
@@ -50,15 +49,15 @@ function page_clear( $projectid, $fileid )
     }
 
     $result = mysql_query("
-        SELECT image, state, {$round->user_column_name}
+        SELECT state, {$round->user_column_name}
         FROM $projectid
-        WHERE fileid = '$fileid'
+        WHERE image = '$image'
     ");
     if ( mysql_num_rows($result) == 0 )
     {
-        return _("There is no page with that fileid.");
+        return _("There is no page with that imagename.");
     }
-    list($image, $page_state, $proofer) = mysql_fetch_row($result);
+    list($page_state, $proofer) = mysql_fetch_row($result);
     if ( $page_state != $round->page_save_state )
     {
         return _("The page is not in a state that allows it to be cleared.");
