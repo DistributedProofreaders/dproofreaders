@@ -909,6 +909,9 @@ function do_early_uploads()
             $initial_rel_source = "$user_dir/";
             echo "~$uploads_account/ <input type='text' name='rel_source' size='50' value='$initial_rel_source'>";
         echo "<br>\n";
+        echo "<p>\n";
+        echo _("Remember to upload the illustration files as well as the page files!");
+        echo "</p>\n";
         echo "<input type='submit' value='Add/Replace'>";
         echo "<br>\n";
         echo "</form>\n";
@@ -1679,6 +1682,13 @@ function do_change_state()
     echo "<h4>";
     echo _("Change Project State");
     echo "</h4>\n";
+
+    if ( $project->state == PROJ_NEW )
+    {
+        echo "<p>\n";
+        echo _("Check for missing pages and make sure that all illustration files have been uploaded <b>before</b> moving this project into the rounds.");
+        echo "</p>\n";
+    }
 
     $here = $_SERVER['REQUEST_URI'];
     // If the request URI included an 'expected_state' parameter, there's a wrinkle:
