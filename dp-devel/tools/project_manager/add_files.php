@@ -179,6 +179,7 @@ class Loader
     {
         $this->n_errors = 0;
         $this->n_ops = 0;
+        $this->adding_pages = FALSE; // is this load adding any pages to the project?
 
         // Get the set of all files in the source (current) directory.
         $source_files = glob('*');
@@ -365,6 +366,7 @@ class Loader
                     case 'add|add':
                         // Add both text and image (the normal case).
                         $this->n_ops += 1;
+                        $this->adding_pages = TRUE;
                         break;
 
                     case 'replace|':
@@ -601,6 +603,7 @@ class Loader
 
     function display()
     {
+        global $code_url, $projectid;
         echo "<h2>";
         echo sprintf(
             _('Loading files from %s into project %s'),
@@ -608,6 +611,13 @@ class Loader
             $this->projectid
         );
         echo "</h2>\n";
+        echo "<p>\n";
+        echo _("Here's a list of the files that have been found, and what will happen to them.");
+        echo "<br />\n";
+        echo _("Please review the information, and use the link at the bottom of the page to proceed with the load.");
+        echo "<br />\n";
+        echo _("If there's a problem, return to the  <a href='$code_url/project.php?id=$projectid&detail_level=4'>Project Page</a> without loading the files.");
+        echo "</p>\n";
 
         // --------------
 
@@ -722,7 +732,15 @@ class Loader
             }
             echo "</table>";
         }
-
+        if ( $this->adding_pages &&  count($this->non_page_files) == 0)
+        {
+            // adding page files but no illos
+            // (we don't want to display this warning if they are only
+            // replacing files)
+            echo ("<p>\n");
+            echo _("<b>Reminder</b>: If there are any illustration files for this project you should upload them <b>before</b> releasing the project into the rounds.");
+            echo ("</p>\n");
+        }
         echo "<br>";
     }
 
