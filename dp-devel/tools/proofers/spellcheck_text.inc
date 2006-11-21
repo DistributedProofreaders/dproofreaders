@@ -66,9 +66,9 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
     // create the badWordHash, the keys are the words
     // the values are 1 if we want an AW button for that word
     // or a 0 if we don't want the AW button
-    foreach($flags as $word) $badWordHash{$word} = 1;
-    foreach($scannos as $word) $badWordHash{$word} = 0;
-    foreach($badWordsFromText as $word) $badWordHash{$word} = 1;
+    foreach($flags as $word) $badWordHash[$word] = 1;
+    foreach($scannos as $word) $badWordHash[$word] = 0;
+    foreach($badWordsFromText as $word) $badWordHash[$word] = 1;
 
     // ok, at this point we have a finalized list of possible misspellings
     // and likely a list of scannos too, start preparing the page
