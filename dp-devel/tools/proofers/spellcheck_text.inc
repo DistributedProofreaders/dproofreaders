@@ -137,7 +137,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
                 // sanitize the words for the AW javascript
                 $jsSanitizedWord = preg_replace("/\W/",'',$word);
                 $jsSafeWord = preg_replace("/'/","\'",$word);
-                $wordCount[$word]++;
+                @$wordCount[$word]++;
                 $numBadWords++;
                 $wordSafe = html_safe($word);
 
@@ -237,7 +237,7 @@ function spellcheck_apply_corrections() {
             $orig_word_offset = $inst_array[1];
             $orig_word_length = $inst_array[2];
 
-            if(!is_array($offsetList[$orig_line_i])) $offsetList[$orig_line_i]=array();
+            if(!isset($offsetList[$orig_line_i])) $offsetList[$orig_line_i]=array();
             array_push($offsetList[$orig_line_i],$orig_word_offset);
             $offsetLookup["{$orig_line_i}_{$orig_word_offset}"]=$i;
         }

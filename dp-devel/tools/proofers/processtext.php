@@ -135,6 +135,7 @@ switch( $tbutton )
         if ( ! is_dir($aspell_temp_dir) ) { mkdir($aspell_temp_dir); }
         // save what we have so far, just in case the spellchecker barfs
         $ppage->saveAsInProgress($text_data,$pguser);
+        $aux_language = '';
         $accept_words=array();
         $text_data=stripslashes($_POST["text_data"]);
         include('spellcheck.inc');

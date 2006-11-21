@@ -35,6 +35,7 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
     $wasWritten = file_put_contents($tmp_file_path,$orig_text);
     if($wasWritten === FALSE) return "Error: unable to write contents to temp file: $tmp_file_path";
 
+    $num_dict_found = 0;
     foreach( $languages as $language ) {
         $langcode = array_search( $language, $iso_639 );
         if( $langcode ) {
@@ -68,11 +69,7 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
     }
 
     if($num_dict_found == 0) {
-        $returnMessage .= "Error: No dictionaries found.<br>";
-    }
-
-    if($returnMessage) {
-        return $returnMessage;
+        return "Error: No dictionaries found.<br>";
     }
 
     // now we need to find the intersection between the languages that we've checked
