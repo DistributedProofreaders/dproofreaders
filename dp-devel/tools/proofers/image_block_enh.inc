@@ -1,11 +1,40 @@
 <?PHP
 
+/*
+The "image block" comprises (at the top level) 3 divs,
+which are arranged by absolute positioning into a rectangular grid:
+
+    +----------------------+-----------------------+   ---
+    |                      |                       |    ^
+    |                      | <div id="imagehorz">  |   $minor_height
+    |                      |                       |    v
+    +----------------------+-----------------------+   ---
+    |                      |                       |    ^
+    | <div id="imagevert"> | <div id="imageframe"> |   $major_height
+    |                      |                       |    v
+    +----------------------+-----------------------+   ---
+
+    |<--- $minor_width --->|<---- $major_width --->|
+
+*/
+
 // "ibe" for "image block enhanced"
 
 // -----------------------------------------------------------------------------
 
 function ibe_echo_styles( $block_width_pc, $block_height_pc )
+// $block_width_pc and $block_height_pc
+// give the dimensions of the whole image block
+// as percentages of its container box
+// (which is typically the "proofframe" of the proofing interface).
 {
+    $minor_width  = '25px';
+    $minor_height = '25px';
+
+    $major_width  = ($block_width_pc  - 3) . '%';
+    $major_height = ($block_height_pc - 3) . '%';
+    // (This assumes that 25px is about 3% of either dimension of the proofframe;
+    // i.e., that the proofframe is roughly 800 x 800px.)
 ?>
     A:link {
         color:#000000;
@@ -27,26 +56,26 @@ function ibe_echo_styles( $block_width_pc, $block_height_pc )
     }
     #imagehorz {
         position:absolute;
-        left:25px;
+        left:<?   echo $minor_width;  ?>;
         top:0px;
-        width:<? echo ($block_width_pc-3)."%"; ?>;
-        height:25px;
+        width:<?  echo $major_width;  ?>;
+        height:<? echo $minor_height; ?>;
         z-index:3;
     }
     #imagevert {
         position:absolute;
         left:0px;
-        top:25px;
-        width:25px;
-        height:<? echo ($block_height_pc-3)."%"; ?>;
+        top:<?    echo $minor_height; ?>;
+        width:<?  echo $minor_width;  ?>;
+        height:<? echo $major_height; ?>;
         z-index:4;
     }
     #imageframe {
         position:absolute;
-        top:25px;
-        left:25px;
-        width:<? echo ($block_width_pc-3)."%"; ?>;
-        height:<? echo ($block_height_pc-3)."%"; ?>;
+        top:<?    echo $minor_height; ?>;
+        left:<?   echo $minor_width;  ?>;
+        width:<?  echo $major_width;  ?>;
+        height:<? echo $major_height; ?>;
         clip:rect(0px, 100%, 100%, 0px);
         z-index:2;
         text-align:center;
