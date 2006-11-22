@@ -100,22 +100,14 @@ function ibe_echo_block( $img_src, $img_width )
         <table id="tbhorz" width="100%">
             <tr>
                 <td align="left">
-                    <a href="JavaScript:scrollImage('left')">
-                        <img src="gfx/a1_left.png" width="11" height="11" alt="Move Left" title="Move Left" border="0">
-                    </a>
+                    <? ibe_echo_jump_scroller( 'left', _('Move Left') ); ?>
                     &nbsp;&nbsp;&nbsp;
-                    <a href="JavaScript: //" onmouseover="scrollOver('left')" onmouseout="stopOver()">
-                        <img src="gfx/a2_left.png" width="11" height="11" alt="Scroll Left" title="Scroll Left" border="0">
-                    </a>
+                    <? ibe_echo_smooth_scroller( 'left', _('Scroll Left') ); ?>
                 </td>
                 <td align="right">
-                    <a href="JavaScript: //" onmouseover="scrollOver('right')" onmouseout="stopOver()">
-                        <img src="gfx/a2_right.png" width="11" height="11" alt="Scroll Right" title="Scroll Right" border="0">
-                    </a>
+                    <? ibe_echo_smooth_scroller( 'right', _('Scroll Right') ); ?>
                     &nbsp;&nbsp;&nbsp;
-                    <a href="JavaScript:scrollImage('right')">
-                        <img src="gfx/a1_right.png" width="11" height="11" alt="Move Right" title="Move Right" border="0">
-                    </a>
+                    <? ibe_echo_jump_scroller( 'right', _('Move Right') ); ?>
                 </td>
             </tr>
         </table>
@@ -124,25 +116,17 @@ function ibe_echo_block( $img_src, $img_width )
         <table id="tbvert" height="95%">
             <tr>
                 <td valign="top">
-                    <a href="JavaScript:scrollImage('up')">
-                        <img src="gfx/a1_up.png" width="11" height="11" alt="Move Up" title="Move Up" border="0">
-                    </a>
+                    <? ibe_echo_jump_scroller( 'up', _('Move Up') ); ?>
                     <p>
-                    <a href="JavaScript: //" onmouseover="scrollOver('up')" onmouseout="stopOver()">
-                        <img src="gfx/a2_up.png" width="11" height="11" alt="Scroll Up" title="Scroll Up" border="0">
-                    </a>
+                    <? ibe_echo_smooth_scroller( 'up', _('Scroll Up') ); ?>
                     </p>
                 </td>
             </tr>
             <tr>
                 <td valign="bottom">
-                    <a href="JavaScript: //" onmouseover="scrollOver('down')" onmouseout="stopOver()">
-                        <img src="gfx/a2_down.png" width="11" height="11" alt="Scroll Down" title="Scroll Down" border="0">
-                    </a>
+                    <? ibe_echo_smooth_scroller( 'down', _('Scroll Down') ); ?>
                     <p>
-                    <a href="JavaScript:scrollImage('down')">
-                        <img src="gfx/a1_down.png" width="11" height="11" alt="Move Down" title="Move Down" border="0">
-                    </a>
+                    <? ibe_echo_jump_scroller( 'down', _('Move Down') ); ?>
                     </p>
                 </td>
             </tr>
@@ -156,6 +140,26 @@ function ibe_echo_block( $img_src, $img_width )
         </div>
     </div>
 <?
+}
+
+function ibe_echo_jump_scroller( $direction, $label )
+{
+    $img_src = "gfx/a1_$direction.png";
+    echo "
+        <a href='JavaScript:scrollImage(\"$direction\")'>
+            <img src='$img_src' width='11' height='11' alt='$label' title='$label' border='0'>
+        </a>
+    ";
+}
+
+function ibe_echo_smooth_scroller( $direction, $label )
+{
+    $img_src = "gfx/a2_$direction.png";
+    echo "
+        <a href='JavaScript: //' onmouseover='scrollOver(\"$direction\")' onmouseout='stopOver()'>
+            <img src='$img_src' width='11' height='11' alt='$label' title='$label' border='0'>
+        </a>
+    ";
 }
 
 // vim: sw=4 ts=4 expandtab
