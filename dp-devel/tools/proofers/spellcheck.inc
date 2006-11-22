@@ -5,6 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'slim_header.inc');
 include_once('spellcheck_text.inc');
 include_once('PPage.inc');
+include_once('image_block_enh.inc');
 
 // text_data should be set before we get here -- should take place in processtext.php
 #$text_data= isset($_POST['text_data'])? stripslashes($_POST['text_data']): $text_data;
@@ -106,73 +107,9 @@ body {
   text-align:center;
   overflow:auto;
   }
-A:link {
-  color:#000000;
-  text-decoration : none; 
-  }
-A:visited {
-  color:#000000;
-  text-decoration : none; 
-  }
-A:hover {
-  color:#003300;
-  font-weight: bold;
-  text-decoration : none; 
-  }
-A:active {
-  color:#000033;
-  font-weight: bold;
-  text-decoration : none; 
-  }
-#imagehorz {
-  position:absolute;
-  left:25px;
-  top:0px;
-  <?PHP
-    echo "width:".($imageWidth-3)."%;\r\n";
-  ?>
-  height:25px;
-  z-index:3;
-  }
-#imagevert {
-  position:absolute;
-  left:0px;
-  top:25px;
-  width:25px;
-  <?PHP
-    echo "height:".($imageHeight-3)."%;\r\n";
-  ?>
-  z-index:4;
-  }
-#imageframe {
-  <?PHP
-/*    if ($userP['i_layout']=='1')
-      {
-        echo "position:absolute;\r\n".
-          "top:0px;\r\n".
-          "left:0px;\r\n";
-        echo "width:".$imageWidth."%;\r\n";
-      }
-    else {echo "position:relative;\r\n";}
-*/
-    echo "position:absolute;\r\n".
-      "top:25px;\r\n".
-      "left:25px;\r\n";
-    echo "width:".($imageWidth-3)."%;\r\n";
-    echo "height:".($imageHeight-3)."%;\r\n";
-  ?>
-  clip:rect(0px, 100%, 100%, 0px);
-  z-index:2;
-  text-align:center;
-  overflow:auto;
-  }
-#imagedisplay {
-  position:absolute;
-  left:0px;
-  top:0px;
-  z-index:1;
-  background-color:#EEDFCC;
-  }
+<?
+  ibe_echo_styles( $imageWidth, $imageHeight );
+?>
 #controlframe { 
   <?PHP
 /*    if ($userP['i_layout']=='1')
@@ -259,44 +196,17 @@ A:active {
     if ($userP['i_type']==1)
       {
 ?>
-<div 
-id="imagehorz"><table 
-  id="tbhorz" 
-  width="100%"><tr><td 
-    align="left"><a 
-    href="JavaScript:scrollImage('left')"><img 
-      src="gfx/a1_left.png" width="11" height="11" alt="Move Left" title="Move Left" border="0"></a>&nbsp;&nbsp;&nbsp;<a 
-    href="JavaScript: //" onmouseover="scrollOver('left')" onmouseout="stopOver()"><img 
-      src="gfx/a2_left.png" width="11" height="11" alt="Scroll Left" title="Scroll Left" border="0"></a></td><td 
-      align="right"><a 
-      href="JavaScript: //" onmouseover="scrollOver('right')" onmouseout="stopOver()"><img 
-        src="gfx/a2_right.png" width="11" height="11" alt="Scroll Right" title="Scroll Right" border="0"></a>&nbsp;&nbsp;&nbsp;<a 
-     href="JavaScript:scrollImage('right')"><img 
-       src="gfx/a1_right.png" width="11" height="11" alt="Move Right" title="Move Right" border="0"></a></td></tr></table></div><div 
-id="imagevert"><table 
-  id="tbvert" 
-  height="95%"><tr><td 
-    valign="top"><a 
-    href="JavaScript:scrollImage('up')"><img 
-      src="gfx/a1_up.png" width="11" height="11" alt="Move Up" title="Move Up" border="0"></a><p><a 
-    href="JavaScript: //" onmouseover="scrollOver('up')" onmouseout="stopOver()"><img 
-      src="gfx/a2_up.png" width="11" height="11" alt="Scroll Up" title="Scroll Up" border="0"></a></p></td></tr><tr><td 
-      valign="bottom"><a 
-      href="JavaScript: //" onmouseover="scrollOver('down')" onmouseout="stopOver()"><img 
-        src="gfx/a2_down.png" width="11" height="11" alt="Scroll Down" title="Scroll Down" border="0"></a><p><a 
-    href="JavaScript:scrollImage('down')"><img 
-      src="gfx/a1_down.png" width="11" height="11" alt="Move Down" title="Move Down" border="0"></a></p></td></tr></table></div><div 
-id="imageframe"><div 
-id="imagedisplay"><a href="JavaScript: //"><img 
-name="scanimage" id="scanimage" title="" alt="" 
-src="<?PHP echo $ppage->url_for_image();?>" 
-border="0" width="<?PHP 
+<?
+
   if ($userP['i_layout']==1)
     {$iWidth=$userP['v_zoom'];}
   else {$iWidth=$userP['h_zoom'];}
   $iWidth=round((1000*$iWidth)/100);
-  echo $iWidth;
-?>"></a></div></div><div 
+
+  ibe_echo_block( $ppage->url_for_image(), $iWidth );
+
+?>
+<div 
 id="controlframe"><?PHP 
       }
     else
