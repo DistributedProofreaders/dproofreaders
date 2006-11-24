@@ -4,6 +4,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'slim_header.inc');
 include_once('PPage.inc');
 include_once('image_block_enh.inc');
+include_once('button_menu.inc');
 
 // $ppage is assumed to be set before this file is included.
 
@@ -145,7 +146,7 @@ $ppage->echo_hidden_fields();
   align="center"><tr><td
     id="tdtop"
     valign="middle"><?PHP
-  include('button_menu.inc');
+  echo_button_menu( $ppage );
 ?></td></tr><tr><td
   id="tdtext"
   valign="top"><?PHP

@@ -4,6 +4,9 @@ include_once($relPath.'prefs_options.inc');
 include_once($relPath.'button_defs.inc');
 include_once('PPage.inc');
 
+function echo_button_menu( $ppage )
+{
+  global $pguser, $userP, $f_f, $f_s;
 ?>
 <script language="javascript">
 function disableEnterKey() { 
@@ -100,4 +103,5 @@ echo "\n";
 echo_button(SAVE_AS_DONE_AND_QUIT,'a');
 echo "\n";
 echo_button(QUIT,'a');
+}
 ?>
