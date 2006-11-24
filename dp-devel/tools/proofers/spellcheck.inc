@@ -47,13 +47,6 @@ function ldAll()
   else
     {echo "3";}
 ?>);}
-function getCurSel()
-{top.getCurSel();}
-function getCurCaret()
-{top.getCurCaret();}
-function showIZ()
-{top.showIZ();alert('done it');
-return false;}
 
 // function to accept specified words in the spellcheck
 // it works by finding (span) elements with IDs in the format
