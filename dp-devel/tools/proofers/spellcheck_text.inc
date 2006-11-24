@@ -191,6 +191,52 @@ function html_safe( $str )
         return htmlspecialchars($str,ENT_QUOTES);    
 }
 
+function spellcheck_echo_script()
+{
+?>
+    <script language="JavaScript" type="text/javascript">
+    <!--
+    // function to accept specified words in the spellcheck
+    // it works by finding (span) elements with IDs in the format
+    // word_# and when found sets the content of the span
+    // to be just the word thereby removing the select and button
+    function acceptWord(word,wordOrig) {
+        var wordIndex=1;
+        var wordSpan=1;
+        while(wordSpan) {
+            // find occurances of the word
+            var wordID = word + "_" + wordIndex;
+            wordSpan = document.getElementById(wordID);
+            if(wordSpan) {
+                // check to see if this instance has been edited already
+                // by checking the status of the AW button
+                var button = document.getElementById("button_" + wordID);
+                if(button && button.disabled == false) {
+                    // set contents to be the word itself
+                    wordSpan.innerHTML=wordOrig;
+                }
+
+                // save the word as the accept_words
+                var acceptWordInput = document.getElementById("accept_words");
+                acceptWordInput.value = acceptWordInput.value + " " + word;
+                wordIndex ++;
+            }
+            // protection against run-away processes
+            if(wordIndex>=1000) { break; }
+        }
+    }
+
+    function disableAcceptWord(wordID) {
+        var button = document.getElementById("button_" + wordID);
+        if(button) {
+            button.disabled = true;
+        }
+    }
+    // -->
+    </script>
+<?
+}
+
 // --------------------------------------------
 
 // Because we have PHP configured with magic_quotes_gpc on,
