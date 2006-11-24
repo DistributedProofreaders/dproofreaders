@@ -277,7 +277,9 @@ function spellcheck_apply_corrections() {
         // First we go through them and build a list of the words on a given line,
         // sort descending by the offset, and then do the corrections from RtL
         //
+        $offsetList = array();
         for ( $i = $n_bad_words; $i >= 1; $i-- ) {
+            if ( !isset($_POST['posit'.$i]) ) continue;
             // hidden values line|offset|word length
             $inst_array = explode('|',$_POST['posit'.$i]);
             $orig_line_i      = $inst_array[0];
