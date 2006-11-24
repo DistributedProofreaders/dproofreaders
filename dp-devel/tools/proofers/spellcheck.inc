@@ -155,16 +155,6 @@ body {
   background-color:#FFF8DC;
   color:#000000;
   }
-.dropsmall {
-  font-size: 75%;
-  background-color:#FFF8DC;
-  }
-.dropnormal {
-  background-color:#FFF8DC;
-  }
-.boxnormal {
-  background-color:#FFF8DC;
-  }
 -->
 </style>
 </head><body 

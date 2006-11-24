@@ -49,10 +49,6 @@ A:active {
   color:#000033;
   text-decoration : none;
   }
-.dropsmall {
-  font-size: 75%;
-  background-color:#FFF8DC;
-  }
 .dropnormal {
   background-color:#FFF8DC;
   }
