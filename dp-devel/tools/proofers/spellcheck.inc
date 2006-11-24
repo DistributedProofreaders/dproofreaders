@@ -37,7 +37,6 @@ slim_header("Spell Check",TRUE,FALSE);
 
 ibe_echo_script();
 ?>
-<SCRIPT LANGUAGE="JavaScript" SRC="dpspell.js" TYPE="text/javascript"></SCRIPT>
 <script language="JavaScript" type="text/javascript">
 <!--
 function ldAll()
