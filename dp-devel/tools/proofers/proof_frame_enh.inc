@@ -29,17 +29,13 @@ include_once('image_block_enh.inc');
       }
 
 slim_header("Proofreading Page",TRUE,FALSE);
+
+ibe_echo_script();
 ?>
 <script language="JavaScript" type="text/javascript">
 <!--
 function ldAll()
 {top.initializeStuff(1);}
-function scrollImage(sDir)
-{top.scrollImage(sDir);}
-function scrollOver(sDir)
-{top.scrollOver(sDir);}
-function stopOver()
-{top.stopOver();}
 function getCurSel()
 {top.getCurSel();}
 function getCurCaret()

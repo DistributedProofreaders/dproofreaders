@@ -34,6 +34,8 @@ $revert_text=isset($_POST['revert_text']) ? stripslashes($_POST['revert_text']) 
       }
 
 slim_header("Spell Check",TRUE,FALSE);
+
+ibe_echo_script();
 ?>
 <SCRIPT LANGUAGE="JavaScript" SRC="dpspell.js" TYPE="text/javascript"></SCRIPT>
 <script language="JavaScript" type="text/javascript">
@@ -45,12 +47,6 @@ function ldAll()
   else
     {echo "3";}
 ?>);}
-function scrollImage(sDir)
-{top.scrollImage(sDir);}
-function scrollOver(sDir)
-{top.scrollOver(sDir);}
-function stopOver()
-{top.stopOver();}
 function getCurSel()
 {top.getCurSel();}
 function getCurCaret()
