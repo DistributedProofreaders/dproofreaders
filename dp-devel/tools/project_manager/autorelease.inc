@@ -265,9 +265,9 @@ function autorelease_for_round( $round )
                 // a queue-defined limit of identical authors - eg some of the periodicals that have short
                 // issues
 
-                if ((($authorsname == 'Anonymous') && ($this_round_authors[$authorsname] > 3)) ||
-                    (($authorsname == 'Unknown') && ($this_round_authors[$authorsname] > 3)) ||
-                    (($authorsname == 'Various') && ($this_round_authors[$authorsname] > 3)) ||
+                if ((($authorsname == 'Anonymous') && (@$this_round_authors[$authorsname] > 3)) ||
+                    (($authorsname == 'Unknown') && (@$this_round_authors[$authorsname] > 3)) ||
+                    (($authorsname == 'Various') && (@$this_round_authors[$authorsname] > 3)) ||
                     (array_key_exists($authorsname, $this_round_authors) && ($authorsname <> 'Anonymous') && ($authorsname <> 'Unknown') && ($authorsname <> 'Various')))
                 {
                     echo "        Its author, $authorsname, already has a project(s) in this round.\n";
