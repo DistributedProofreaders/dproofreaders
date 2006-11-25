@@ -9,7 +9,6 @@ cRef=null;
 cnSel=null;
 
 //store fancy data
-curSel='';
 curCaret='';
 
 // image width
@@ -21,8 +20,6 @@ cW='0';
 var imageCopy = new Image();
 imageCopy.onload = loadImageSize;
 
-function getCurSel()
-{if (cnSel){curSel=docRef.selection.createRange().text;}}
 
 function getCurCaret()
 {if (cnSel){docRef.editform.text_data.caretPos=docRef.selection.createRange().duplicate();}}

@@ -262,7 +262,6 @@ class PPage
         if ( $enhanced )
         {
             echo "
-                onselect='getCurSel()'
                 onclick='getCurCaret()'
                 onkeyup='getCurCaret()'
             ";
