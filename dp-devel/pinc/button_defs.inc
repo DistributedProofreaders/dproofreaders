@@ -158,7 +158,7 @@ function echo_button( $button_id, $which_interface )
 				$label      => _("Set Image Zoom Percent"),
 				'title'     => _("Set Image Zoom Percent"),
 				'src'       => "gfx/bt10.png",
-				'onclick'   => "return(showIZ());",
+				'onclick'   => "top.showIZ(); return false;",
 			);
 			break;
 
@@ -168,7 +168,7 @@ function echo_button( $button_id, $which_interface )
 				$label      => _("Zoom to Actual Size"),
 				'title'     => _("Zoom to Actual Size"),
 				'src'       => "gfx/bt18.png",
-				'onclick'   => "return(showActual());",
+				'onclick'   => "return(top.showActual());",
 			);
 			break;
 

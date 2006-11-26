@@ -37,11 +37,6 @@ ibe_echo_script();
 <!--
 function ldAll()
 {top.initializeStuff(1);}
-function showIZ()
-{top.showIZ();
-return false;}
-function showActual()
-{ return top.showActual(); }
 // -->
 </script>
 <style type="text/css">
