@@ -205,7 +205,7 @@ class PPage
         echo "</b></font>\n";
     }
 
-    function echo_proofing_textarea( $enhanced )
+    function echo_proofing_textarea()
     {
         global $userP, $f_f, $f_s;
 
@@ -257,12 +257,6 @@ class PPage
         if ( !$line_wrap )
         {
             echo "wrap='off' ";
-        }
-
-        if ( $enhanced )
-        {
-            echo "
-            ";
         }
 
         echo ">\n";

@@ -147,7 +147,7 @@ $ppage->echo_hidden_fields();
   id="tdtext"
   valign="top"><?PHP
 
-  $ppage->echo_proofing_textarea( TRUE );
+  $ppage->echo_proofing_textarea();
 
 ?></td></tr><tr><td
   id="tdbottom"

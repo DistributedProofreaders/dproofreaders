@@ -36,7 +36,7 @@ slim_header("Text Frame",TRUE,FALSE);
 //-->
 </script>
 <?
-    $ppage->echo_proofing_textarea( FALSE );
+    $ppage->echo_proofing_textarea();
 
     echo "<br>\n";
 
