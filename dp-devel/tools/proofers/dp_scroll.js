@@ -239,7 +239,6 @@ function initializeStuff(wFace)
     {
       // enhanced interface, non-spellcheck
       docRef=top.proofframe.document;
-      cnSel=docRef.selection? true : false;
       setLayer();
       doBU();
     }
@@ -247,21 +246,17 @@ function initializeStuff(wFace)
     {
       // standard interface, non-spellcheck
       docRef=top.proofframe.textframe.document;
-      cnSel=docRef.selection? true : false;
-      if (window.opera) {cnSel=false;}
     }
   else if (wFace==2)
     {
       // enhanced interface, spellcheck
       docRef=top.proofframe.document;
-      cnSel=false;
       setLayer();
     }
   else if (wFace==3)
     {
       // standard interface, spellcheck
       docRef=top.proofframe.document;
-      cnSel=false;
     }
 
 

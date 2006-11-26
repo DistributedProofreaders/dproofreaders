@@ -1,12 +1,10 @@
 // New version
 // start of code by Carel
 
-// These four variables set from initializeStuff() in dp_scroll.js
+// These three variables set from initializeStuff() in dp_scroll.js
 docRef=null;
 markRef=null;
 cRef=null;
-// true=fancy : false=plain
-cnSel=null;
 
 //store fancy data
 curCaret='';
