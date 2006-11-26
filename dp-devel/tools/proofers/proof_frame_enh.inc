@@ -37,8 +37,6 @@ ibe_echo_script();
 <!--
 function ldAll()
 {top.initializeStuff(1);}
-function getCurCaret()
-{top.getCurCaret();}
 function showIZ()
 {top.showIZ();
 return false;}

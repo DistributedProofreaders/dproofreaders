@@ -21,9 +21,6 @@ var imageCopy = new Image();
 imageCopy.onload = loadImageSize;
 
 
-function getCurCaret()
-{if (cnSel){docRef.editform.text_data.caretPos=docRef.selection.createRange().duplicate();}}
-
 // dropdown character selection
 function new_iMUc(wM)
 {
