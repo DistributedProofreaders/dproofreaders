@@ -3,7 +3,7 @@
 // This is an ad hoc file for testing things on the server,
 // for developers who don't have shell accounts on it.
 
-// Testing.... 1, 2, 3
+// Testing.... 1, 2, 3, 4, 5, 6...
 
 error_reporting(E_ALL);
 
