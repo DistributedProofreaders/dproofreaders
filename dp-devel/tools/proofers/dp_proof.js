@@ -105,15 +105,21 @@ docRef.editform.text_data.style.height=ieH;
 }
 
 function chFFace(fF)
-{if(parseInt(fF)){setText();docRef.editform.text_data.style.fontFamily=aFnt[fF];
-fixText();}}
+{
+if(parseInt(fF)){setText();docRef.editform.text_data.style.fontFamily=aFnt[fF];
+fixText();}
+}
 
 function chFSize(fS)
-{if(parseInt(fS)){setText();docRef.editform.text_data.style.fontSize=bFnt[fS]+'pt';
-fixText();}}
+{
+if(parseInt(fS)){setText();docRef.editform.text_data.style.fontSize=bFnt[fS]+'pt';
+fixText();}
+}
 
 function showAllText()
-{alert(docRef.editform.text_data.value);}
+{
+alert(docRef.editform.text_data.value);
+}
 
 function showIZ()
 {
@@ -212,7 +218,8 @@ var is_safari = ((clientPC.indexOf('AppleWebKit')!=-1) && (clientPC.indexOf('spo
 
 // apply tagOpen/tagClose to selection in textarea,
 // use sampleText instead of selection if there is none
-function insertTags(tagOpen, tagClose, sampleText, replace) {
+function insertTags(tagOpen, tagClose, sampleText, replace)
+{
 	var txtarea = docRef.editform.text_data;
 	// IE
 	if(docRef.selection  && !is_gecko) {
@@ -291,19 +298,21 @@ function insertTags(tagOpen, tagClose, sampleText, replace) {
 
 // ----------
 
-function isDigit(num) {
+function isDigit(num)
+{
         if (num.length>1){return false;}
         var string="1234567890";
         if (string.indexOf(num)!=-1){return true;}
         return false;
-        }
+}
 
-function isLetter(chr) {
+function isLetter(chr)
+{
         if (chr.length>1){return false;}
         var string="abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         if (string.indexOf(chr)!=-1){return true;}
         return false;
-        }
+}
 
 function processText(tagOpen,tagClose,innerText)
 {
@@ -325,7 +334,8 @@ function processText(tagOpen,tagClose,innerText)
 
 // ----------
 
-function transformText(transformType) {
+function transformText(transformType)
+{
 	var txtarea = docRef.editform.text_data;
 	// There's really no point to this, it just
   // avoids some unpleasant problems later:
