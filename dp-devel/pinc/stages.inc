@@ -310,7 +310,7 @@ new Pool(
 
     array(
         "<p>",
-        _("Each book listed below has gone through two rounds of proofreading and two rounds of formatting, and now needs to be massaged into a final e-text."),
+        _("Each book listed below has gone through multiple rounds of proofreading and formatting, and now needs to be massaged into a final e-text."),
         _("Once you have checked out and downloaded a book it will remain checked out to you until you check it back in."),
         _("When you have finished your work on the book, select <i>Upload for Verification</i> from the drop-down list for that project."),
         _("If you have several files to submit for a single project (say a text and HTML version), zip them up together first."),
