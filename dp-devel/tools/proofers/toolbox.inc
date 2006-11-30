@@ -238,7 +238,7 @@ define_pit_tool_link(
     'blank_page',
     '[Blank Page]',
     '[Blank Page]',
-    "top.replaceAllText(6)"
+    "top.replaceAllText('[Blank Page]')"
 );
 
 // -----------------------------------------------------------------------------

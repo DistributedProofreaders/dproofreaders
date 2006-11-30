@@ -200,11 +200,9 @@ function html_safe(str)
         .replace(/>/g, '&gt;')
 }
 
-// standard tag selection
 function replaceAllText(wM)
 {
-    // no longer used for anything but [Blank Page]
-    docRef.editform.text_data.value='[Blank Page]';
+    docRef.editform.text_data.value=wM;
 }
 
 function doBU()
