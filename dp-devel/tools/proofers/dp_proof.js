@@ -6,9 +6,6 @@ docRef=null;
 markRef=null;
 cRef=null;
 
-//store fancy data
-curCaret='';
-
 // image width
 iW='1000';
 
@@ -80,8 +77,6 @@ bFnt[11]='20';
 
 ieW=0;
 ieH=0;
-ieL=0;
-ieT=0;
 ieSt=0;
 
 function setText()
