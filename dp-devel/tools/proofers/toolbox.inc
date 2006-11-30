@@ -109,21 +109,21 @@ define_pit_tool_button(
     'i',
     _('Italics'),
     '<i>i</i>',
-    "top.new_iMU('<i>','</i>')"
+    "top.surroundSelection('<i>','</i>')"
 );
 define_pit_tool_button(
     'bold',
     'b',
     _('Bold'),
     '<b>B</b>',
-    "top.new_iMU('<b>','</b>')"
+    "top.surroundSelection('<b>','</b>')"
 );
 define_pit_tool_button(
     'small_caps',
     's',
     _('Small Caps markup'),
     "<span style='font-variant: small-caps;'>Sc</span>",
-    "top.new_iMU('<sc>','</sc>')"
+    "top.surroundSelection('<sc>','</sc>')"
 );
 define_pit_tool_button(
     'remove_markup',
@@ -184,61 +184,61 @@ define_pit_tool_link(
     'greek',
     '[Greek: ]',
     '[Greek:',
-    "top.new_iMU('[Greek: ',']')"
+    "top.surroundSelection('[Greek: ',']')"
 );
 define_pit_tool_link(
     'sidenote',
     '[Sidenote: ]',
     '[Sidenote:',
-    "top.new_iMU('[Sidenote: ',']')"
+    "top.surroundSelection('[Sidenote: ',']')"
 );
 define_pit_tool_link(
     'illustration',
     '[Illustration: ]',
     '[Illustration:',
-    "top.new_iMU('[Illustration: ',']')"
+    "top.surroundSelection('[Illustration: ',']')"
 );
 define_pit_tool_link(
     'note',
     '[** ]',
     'Note',
-    "top.new_iMU('[** ',']')"
+    "top.surroundSelection('[** ',']')"
 );
 define_pit_tool_link(
     'brackets',
     '[ ]',
     '[ ]',
-    "top.new_iMU('[',']')"
+    "top.surroundSelection('[',']')"
 );
 define_pit_tool_link(
     'footnote',
     '[Footnote #: ]',
     '[Footnote #:',
-    "top.new_iMU('[Footnote #: ',']')"
+    "top.surroundSelection('[Footnote #: ',']')"
 );
 define_pit_tool_link(
     'slash_star',
     '/* */',
     _('Start poetry/table'),
-    "top.new_iMU('/*\\n','\\n*/')"
+    "top.surroundSelection('/*\\n','\\n*/')"
 );
 define_pit_tool_link(
     'slash_number',
     '/# #/',
     _('Start block quote'),
-    "top.new_iMU('/#\\n','\\n#/')"
+    "top.surroundSelection('/#\\n','\\n#/')"
 );
 define_pit_tool_link(
     'thought_break',
     '<tb>',
     _('Thought Break'),
-    "top.new_iMU('\\n<tb>\\n','')"
+    "top.surroundSelection('\\n<tb>\\n','')"
 );
 define_pit_tool_link(
     'blank_page',
     '[Blank Page]',
     '[Blank Page]',
-    "top.iMUO(6)"
+    "top.replaceAllText(6)"
 );
 
 // -----------------------------------------------------------------------------
@@ -253,7 +253,7 @@ function echo_character_selector( $id, $title, $option_args )
     name="tChars{$id}"
     ID="tChars{$id}"
     title="{$title}"
-    onchange="if (this.options[selectedIndex].value !=0){top.new_iMUc(this.options[selectedIndex].value);}"
+    onchange="if (this.options[selectedIndex].value !=0){top.insertCharacter(this.options[selectedIndex].value);}"
     class="dropchars"
 >
 

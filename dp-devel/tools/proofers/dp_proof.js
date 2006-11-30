@@ -20,7 +20,7 @@ imageCopy.onload = loadImageSize;
 
 
 // dropdown character selection
-function new_iMUc(wM)
+function insertCharacter(wM)
 {
     cRef.tCharsA.selectedIndex=0;
     cRef.tCharsE.selectedIndex=0;
@@ -44,7 +44,7 @@ function new_iMUc(wM)
 }
 
 // standard tag selection
-function new_iMU(wOT,wCT)
+function surroundSelection(wOT,wCT)
 {
     markRef.markBox.value=wOT;
     markRef.markBoxEnd.value=wCT;
@@ -201,7 +201,7 @@ function html_safe(str)
 }
 
 // standard tag selection
-function iMUO(wM)
+function replaceAllText(wM)
 {
     // no longer used for anything but [Blank Page]
     docRef.editform.text_data.value='[Blank Page]';
