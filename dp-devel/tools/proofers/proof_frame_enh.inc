@@ -109,7 +109,8 @@ body {
   }
 -->
 </style>
-</head><body
+</head>
+  <body
   text="#000000"
   topmargin="0"
   onload="ldAll()">
@@ -124,29 +125,45 @@ body {
 
 ?>
 <div
-id="controlframe" align="center"><form
+id="controlframe" align="center">
+  <form
       name="editform" id="editform"
       method="POST"
-      action="processtext.php"><?PHP
+      action="processtext.php">
+  <?PHP
 
 $ppage->echo_hidden_fields();
 
-?><table
+?>
+  <table
   id="tbtext"
   cellspacing="0"
-  align="center"><tr><td
+  align="center">
+  <tr>
+  <td
     id="tdtop"
-    valign="middle"><?PHP
+    valign="middle">
+  <?PHP
   echo_button_menu( $ppage );
-?></td></tr><tr><td
+?>
+  </td>
+  </tr>
+  <tr>
+  <td
   id="tdtext"
-  valign="top"><?PHP
+  valign="top">
+  <?PHP
 
   $ppage->echo_proofing_textarea();
 
-?></td></tr><tr><td
+?>
+  </td>
+  </tr>
+  <tr>
+  <td
   id="tdbottom"
-  valign="top"><?PHP
+  valign="top">
+  <?PHP
 
 $ppage->echo_info();
 
