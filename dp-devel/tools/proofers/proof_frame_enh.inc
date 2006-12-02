@@ -124,8 +124,7 @@ body {
   ibe_echo_block( $ppage->url_for_image(), $iWidth );
 
 ?>
-<div
-id="controlframe" align="center">
+<div id="controlframe" align="center">
   <form
       name="editform" id="editform"
       method="POST"
@@ -140,18 +139,14 @@ $ppage->echo_hidden_fields();
   cellspacing="0"
   align="center">
   <tr>
-  <td
-    id="tdtop"
-    valign="middle">
+  <td id="tdtop" valign="middle">
   <?PHP
   echo_button_menu( $ppage );
 ?>
   </td>
   </tr>
   <tr>
-  <td
-  id="tdtext"
-  valign="top">
+  <td id="tdtext" valign="top">
   <?PHP
 
   $ppage->echo_proofing_textarea();
@@ -160,9 +155,7 @@ $ppage->echo_hidden_fields();
   </td>
   </tr>
   <tr>
-  <td
-  id="tdbottom"
-  valign="top">
+  <td id="tdbottom" valign="top">
   <?PHP
 
 $ppage->echo_info();
