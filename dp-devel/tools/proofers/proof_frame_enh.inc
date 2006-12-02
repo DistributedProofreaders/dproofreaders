@@ -129,38 +129,24 @@ body {
       name="editform" id="editform"
       method="POST"
       action="processtext.php">
-  <?PHP
-
-$ppage->echo_hidden_fields();
-
-?>
+  <?PHP $ppage->echo_hidden_fields(); ?>
   <table
   id="tbtext"
   cellspacing="0"
   align="center">
   <tr>
   <td id="tdtop" valign="middle">
-  <?PHP
-  echo_button_menu( $ppage );
-?>
+  <?PHP echo_button_menu( $ppage ); ?>
   </td>
   </tr>
   <tr>
   <td id="tdtext" valign="top">
-  <?PHP
-
-  $ppage->echo_proofing_textarea();
-
-?>
+  <?PHP $ppage->echo_proofing_textarea(); ?>
   </td>
   </tr>
   <tr>
   <td id="tdbottom" valign="top">
-  <?PHP
-
-$ppage->echo_info();
-
-?>
+  <?PHP $ppage->echo_info(); ?>
   </td>
   </tr>
   </table>
