@@ -4,19 +4,19 @@
 // to be sent to the user.
 
 include_once($relPath.'dp_main.inc');
+include_once('proof_frame_std.inc');
+include_once('proof_frame_enh.inc');
 
 $interface_type = $userP['i_type'];
 switch ($interface_type)
 {
     case 0:
         // standard interface
-        include('proof_frame_std.inc');
         echo_proof_frame_std( $ppage );
         break;
 
     case 1:
         // enhanced interface
-        include('proof_frame_enh.inc');
         echo_proof_frame_enh( $ppage );
         break;
 
