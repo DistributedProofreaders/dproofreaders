@@ -6,6 +6,7 @@ include_once($relPath.'LPage.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'site_vars.php');
 include_once('PPage.inc');
+include_once('proof_frame.inc');
 
 /* $_GET from IN PROGRESS/DONE and from 'Edit' links on Images,Diffs screen
 url_for_pi_do_particular_page()
@@ -99,7 +100,7 @@ else
     $ppage = new PPage( $lpage, $proj_state );
 }
 
-include('proof_frame.inc');
+echo_proof_frame($ppage);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

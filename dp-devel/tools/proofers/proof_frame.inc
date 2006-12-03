@@ -7,6 +7,10 @@ include_once($relPath.'dp_main.inc');
 include_once('proof_frame_std.inc');
 include_once('proof_frame_enh.inc');
 
+function echo_proof_frame( $ppage )
+{
+    global $userP;
+
     $interface_type = $userP['i_type'];
     switch ($interface_type)
     {
@@ -23,6 +27,7 @@ include_once('proof_frame_enh.inc');
         default:
             die( "unknown i_type: '$interface_type'" );
     }
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>

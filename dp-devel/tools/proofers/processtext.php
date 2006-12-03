@@ -4,6 +4,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'slim_header.inc');
 include_once('PPage.inc');
+include_once('proof_frame.inc');
 
 /*
 $_POST:
@@ -85,24 +86,24 @@ switch( $tbutton )
 {
     case B_TEMPSAVE:
         $ppage->saveAsInProgress($text_data,$pguser);
-        include('proof_frame.inc');
+        echo_proof_frame($ppage);
         break;
 
     case B_SWITCH_LAYOUT:
         $ppage->saveAsInProgress($text_data,$pguser);
         switch_layout();
-        include('proof_frame.inc');
+        echo_proof_frame($ppage);
         break;
 
     case B_REVERT_TO_ORIGINAL:
         $ppage->saveAsInProgress($text_data,$pguser);
         $ppage->revertToOriginal();
-        include('proof_frame.inc');
+        echo_proof_frame($ppage);
         break;
 
     case B_REVERT_TO_LAST_TEMPSAVE:
         $ppage->revertToSaved();
-        include('proof_frame.inc');
+        echo_proof_frame($ppage);
         break;
 
     case B_SAVE_AND_DO_ANOTHER:
@@ -151,7 +152,7 @@ switch( $tbutton )
         // without the mess below
         save_accept_words($_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accept_words);
         $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
-        include('proof_frame.inc');
+        echo_proof_frame($ppage);
         break;
 
     case 102:
@@ -161,7 +162,7 @@ switch( $tbutton )
         $accept_words = explode(' ',$_POST["accept_words"]);
         save_accept_words($_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accept_words);
         $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
-        include('proof_frame.inc');
+        echo_proof_frame($ppage);
         break;
 
     case 103:
