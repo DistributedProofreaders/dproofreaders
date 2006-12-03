@@ -11,11 +11,13 @@ switch ($interface_type)
     case 0:
         // standard interface
         include('proof_frame_std.inc');
+        echo_proof_frame_std( $ppage );
         break;
 
     case 1:
         // enhanced interface
         include('proof_frame_enh.inc');
+        echo_proof_frame_enh( $ppage );
         break;
 
     default:

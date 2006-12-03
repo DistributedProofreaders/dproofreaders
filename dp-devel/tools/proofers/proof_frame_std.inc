@@ -1,11 +1,14 @@
 <?PHP
 // The following variables must be defined by the file that includes this one:
 // $relPath
-// $ppage
 // $userP
 
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'slim_header.inc');
+
+function echo_proof_frame_std( $ppage )
+{
+    global $userP;
 
     if ($userP['i_layout']=='1')
     {
@@ -47,6 +50,7 @@ include_once($relPath.'slim_header.inc');
         <NOFRAMES>Your browser is not frames capable!</NOFRAMES>
         </HTML>
     ";
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>

@@ -6,8 +6,10 @@ include_once('PPage.inc');
 include_once('image_block_enh.inc');
 include_once('button_menu.inc');
 
-// $ppage is assumed to be set before this file is included.
 
+function echo_proof_frame_enh( $ppage )
+{
+    global $userP;
 
     // set image and text height and width
     if ($userP['i_layout']=='1')
@@ -155,5 +157,7 @@ include_once('button_menu.inc');
         </body>
     </html>
     <?
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
