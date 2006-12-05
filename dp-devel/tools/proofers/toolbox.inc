@@ -126,6 +126,20 @@ define_pit_tool_button(
     "top.surroundSelection('<sc>','</sc>')"
 );
 define_pit_tool_button(
+    'gesperrt',
+    'g',
+    _('Gesperrt (spaced out)'),
+    'g',
+    "top.surroundSelection('<g>','</g>')"
+);
+define_pit_tool_button(
+    'antigua',
+    'f',
+    _('Antigua'),
+    'f',
+    "top.surroundSelection('<f>','</f>')"
+);
+define_pit_tool_button(
     'remove_markup',
     'm',
     _('Remove markup from selection'),

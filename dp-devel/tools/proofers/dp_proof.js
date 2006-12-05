@@ -347,7 +347,7 @@ function transformText(transformType)
         if(transformType=='title-case') { theSelection=title_case(theSelection);}
         if(transformType=='upper-case') { theSelection=theSelection.toUpperCase();}
         if(transformType=='lower-case') { theSelection=theSelection.toLowerCase();}
-        if(transformType=='remove_markup') { theSelection=theSelection.replace(/<\/?([ib]|sc)>/gi,'');}
+        if(transformType=='remove_markup') { theSelection=theSelection.replace(/<\/?([ibfg]|sc)>/gi,'');}
         txtarea.focus();
         if(theSelection.charAt(theSelection.length - 1) == " "){// exclude ending space char, if any
             theSelection = theSelection.substring(0, theSelection.length - 1);
@@ -366,7 +366,7 @@ function transformText(transformType)
         if(transformType=='title-case') { myText=title_case(myText);}
         if(transformType=='upper-case') { myText=myText.toUpperCase();}
         if(transformType=='lower-case') { myText=myText.toLowerCase();}
-        if(transformType=='remove_markup') { myText=myText.replace(/<\/?([ib]|sc)>/gi,'');}
+        if(transformType=='remove_markup') { myText=myText.replace(/<\/?([ibfg]|sc)>/gi,'');}
         if(myText.charAt(myText.length - 1) == " "){ // exclude ending space char, if any
             subst = tagOpen + myText.substring(0, (myText.length - 1)) + tagClose + " ";
         } else {
@@ -398,7 +398,7 @@ function transformText(transformType)
         if(transformType=='title-case') { text=title_case(text);}
         if(transformType=='upper-case') { text=text.toUpperCase();}
         if(transformType=='lower-case') { text=text.toLowerCase();}
-        if(transformType=='remove_markup') { text=text.replace(/<\/?([ib]|sc)>/gi,'');}
+        if(transformType=='remove_markup') { text=text.replace(/<\/?([ibfg]|sc)>/gi,'');}
         text=tagOpen+text+tagClose;
         docRef.infoform.infobox.value=text;
         // in Safari this causes scrolling
