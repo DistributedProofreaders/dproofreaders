@@ -532,7 +532,7 @@ BORDER="1" WIDTH="630" CELLPADDING="6">
 COLSPAN="2">
 <P><A HREF="#ibtns"><B>Button and Selection Menu</B></A>
 <P><A HREF="#ikeys"><B>Accelerator Keys (accesskeys)</B></A>
-<P><A HREF="#proofing_toolbar"><B>Help for Proofreading Toolbar</B></A>
+<P><A HREF="#proofing_toolbox"><B>Help for Proofreading Toolbox</B></A>
 <P><B>Additional Help Files</B>
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="ProoferFAQ.php">Proofreader's Frequently Asked Questions</A>
@@ -625,8 +625,8 @@ Currently, this is the only method for scrolling the image.<BR>
 
 <hr>
 
-<a name='proofing_toolbar'>
-<center><h3>Help for Proofreading Toolbar</h3></center>
+<a name='proofing_toolbox'>
+<center><h3>Help for Proofreading Toolbox</h3></center>
 </a>
 
 
@@ -720,11 +720,11 @@ Currently, this is the only method for scrolling the image.<BR>
 </p>
 
 <p>
-    Along the lower line of the proofreading toolbar
+    Along the lower line of the proofreading toolbox
     in the lower pane of the proofreading interface
     are controls labelled with the common tags listed above.
     You can use these buttons to place tags into the proofreading text area.
-    If you select text before you click on a button in the toolbar, the text will be
+    If you select text before you click on a button in the toolbox, the text will be
     surrounded by the respective tag.
 </p>
 <p>
@@ -740,7 +740,7 @@ Currently, this is the only method for scrolling the image.<BR>
     (by clicking your mouse at the start of the caption,
     and dragging the mouse to the end of the caption
     while keeping the button depressed),
-    then click on the "Illustration" link in the proofreading toolbar,
+    then click on the "Illustration" link in the proofreading toolbox,
     to have the desired tags inserted at the beginning and end of the caption.
 </p>
 <p>
