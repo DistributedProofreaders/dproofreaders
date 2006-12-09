@@ -12,7 +12,7 @@ function echo_text_frame_std( $ppage )
     </head>
     <body onload="top.initializeStuff(0)">
     <center>
-    <form name="editform" method="post" action="processtext.php" target="proofframe">
+    <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe">
         <script language="JavaScript" type="text/javascript">
         <!--
             function resize(factor)
