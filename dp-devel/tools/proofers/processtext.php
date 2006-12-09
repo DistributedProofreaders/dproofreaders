@@ -5,6 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'slim_header.inc');
 include_once('PPage.inc');
 include_once('proof_frame.inc');
+include_once('text_frame_std.inc');
 
 /*
 $_POST:
@@ -152,7 +153,7 @@ switch( $tbutton )
         // without the mess below
         save_accept_words($_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accept_words);
         $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
-        echo_proof_frame($ppage);
+        leave_spellcheck_mode($ppage);
         break;
 
     case 102:
@@ -162,7 +163,7 @@ switch( $tbutton )
         $accept_words = explode(' ',$_POST["accept_words"]);
         save_accept_words($_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accept_words);
         $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
-        echo_proof_frame($ppage);
+        leave_spellcheck_mode($ppage);
         break;
 
     case 103:
@@ -189,6 +190,32 @@ function switch_layout()
     $userP['i_layout'] = $userP['i_layout']==1 ? 0 : 1;
     $userP['prefschanged'] = 1;
     dpsession_set_preferences_temp( $userP );
+}
+
+function leave_spellcheck_mode( $ppage )
+{
+    global $userP;
+
+    // The user has requested a return from spellcheck mode.
+    // The response that we send will replace the frame/document
+    // containing the spellcheck form.
+
+    if ( $userP['i_type'] == 0 )
+    {
+        // standard interface:
+        // The spellcheck document (containing text only) is in 'textframe'.
+        // So the response we generate will go into 'textframe'.
+        // So generate just the (normal-mode) text frame of the std interface.
+        echo_text_frame_std($ppage);
+    }
+    else
+    {
+        // enhanced interface:
+        // The spellcheck document (containing image+text) is in 'proofframe'.
+        // So the response we generate will go into 'proofframe'.
+        // So generate the (normal-mode) image-and-text doc of the enh interface.
+        echo_proof_frame($ppage);
+    }
 }
 
 function leave_proofing_interface( $title, $body )

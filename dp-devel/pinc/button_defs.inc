@@ -179,7 +179,15 @@ function echo_button( $button_id, $which_interface )
 				'title'     => _("Run Spelling Check"),
 				'src'       => "gfx/bt16.png",
 			);
+			if ($userP['i_type']==0)
+			{
+				// standard interface:
+				// Direct the (text-only) spellcheck doc to 'textframe'
+				// (rather than 'proofframe', the statically defined target).
+				$attrs['onclick']="document.getElementById('editform').target='textframe'; return 1;";
+			}
 			break;
+
 		case CONVERT_UTF8:
 			$attrs = array(
 				'name'=>"button12",
