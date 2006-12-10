@@ -145,13 +145,33 @@ id="controlframe"><?PHP
 <?PHP
     echo "<input type='hidden' name='revert_text' value='" . html_safe($revert_text) . "'>\n";
     echo "<input type='hidden' id='accept_words' name=\"accept_words\" value='" . implode(' ',$accept_words) . "'>\n";
-    echo "<p>" . _("To run the page against the dictionary for an additional language, select one here and hit Check: ");
+
     $dict_list = load_available_dictionaries();
+    $lang_list = load_project_languages($ppage->projectid());
+
+    $dictionary_exists = $dictionary_missing = "";
+    // see which of the project's languages have dictionaries
+    foreach($lang_list as $langcode => $language) {
+        // print out the language only if its dictionary exists
+        if($dict_list[$langcode]) $dictionary_exists.="$language, ";
+        else $dictionary_missing.="$language, ";
+    }
+
+    $dictionary_exists=preg_replace("/, $/","",$dictionary_exists);
+    $dictionary_missing=preg_replace("/, $/","",$dictionary_missing);
+    echo "<p>";
+    if($dictionary_exists != "") echo _("The text was checked against the dictionaries for the following project languages: ") . "<b>$dictionary_exists</b>. ";
+    if($dictionary_missing != "") echo _("No dictionary was available for the following project languages: ") . "<b>$dictionary_missing</b>. ";
+    echo "</p>";
+
+    echo "<p>" . _("To run the page against the dictionary for an additional language, select one here and hit Check: ");
 
     echo "<select name='aux_language'>";
     echo "<option value=''>Language</option>";
     echo "\n";
-    while(list($langcode,$language)=each($dict_list)) {
+    foreach($dict_list as $langcode => $language) {
+        // skip showing project languages
+        if($lang_list[$langcode]) continue;
         echo "<option value='" .  htmlspecialchars($language,ENT_QUOTES) . "'";
         if(strcmp($language,$aux_language)==0) echo " selected";
         echo ">$language</option>\n";

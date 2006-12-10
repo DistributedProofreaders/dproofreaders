@@ -4,7 +4,7 @@ include_once($relPath.'word_checker.inc');
 
 function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = "", $accept_words = "" ) {
 
-    global $nonWordCharacters;
+    global $nonWordCharacters, $puncCharacters;
 
     // change all EOL characters to [lf]
     $orig_text = str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$orig_text);
@@ -16,14 +16,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
     // this is used when applying spelling corrections
     echo "<input type='hidden' name='text_data' value='" . html_safe($orig_text) . "'>\n";
 
-    // get a list of the languages for the project
-    // Note: we could have instantiated a Project object and loaded
-    // the project that way, but it seems like a lot of overhead
-    // just to get the languages so we'll do a direct call to the DB
-    $project_language_property = mysql_result(mysql_query("
-        SELECT language FROM projects WHERE projectid='$projectid'
-        "),0);
-    $languages = preg_split('/ with /', $project_language_property );
+    $languages=array_values(load_project_languages($projectid));
 
     // add the aux language if available
     if($aux_language != "" && $aux_language != "Language") {
@@ -78,8 +71,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
     echo "<style type='text/css'> .hl { background-color:yellow;color:black;}</style>";
     echo "<pre>\n";
 
-    $ppattern = ".,;:?!¡¿-";
-    $puncArray = str_split($ppattern);
+    $puncArray = str_split($puncCharacters);
 
     // initialize the wordCount and the numBadWords
     $numBadWords = 0;
@@ -117,7 +109,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
         $lineIndex = 0;
         $wordArray = explode(" ",$workLine);
         foreach($wordArray as $word) {
-            if(in_array($word,$badWords))
+            if(in_array($word,$badWords) && $word != "")
                 $indexArray[$lineIndex] = $word;
             $lineIndex += strlen($word)+1;
         }

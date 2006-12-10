@@ -7,7 +7,11 @@ include_once($relPath.'iso_639_list.inc');
 // NOTE: This should probably be changed when moving to UTF-8
 //       at that time we can probably move to using \W instead of
 //       the mess below
-$nonWordCharacters = "/[^a-zA-ZÀ-ÿ]/";
+$nonWordCharacters = "/[^0-9a-zA-Z'À-ÿ]/";
+
+// string of punctuation characters
+// this is only used for punctuation highlighting
+$puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"¡¿-';
 
 // returns a list of 'bad' words on a page
 // this implementation passes the text to aspell
@@ -257,6 +261,8 @@ function load_accept_words($projectid) {
 
 
 // return an array of all valid dictionaries
+// returned associative array is in format
+//   $array[$langcode]=$language;
 function load_available_dictionaries() {
     global $iso_639, $aspell_prefix;
 
@@ -267,11 +273,35 @@ function load_available_dictionaries() {
         if( is_file( $dict_file ) ) {
             $returnArray[$langcode] = $language;
         }
-        
     }
 
     return $returnArray;
 }
+
+
+// return an array of all languages for a project
+// returned associative array is in format
+//   $array[$langcode]=$language;
+function load_project_languages($projectid) {
+    global $iso_639;
+
+    $returnArray = array();
+
+    $project_language_property = mysql_result(mysql_query("
+        SELECT language FROM projects WHERE projectid='$projectid'
+        "),0);
+    $languages = preg_split('/ with /', $project_language_property );
+
+    foreach( $languages as $language ) {
+        $langcode = array_search( $language, $iso_639 );
+        if( $langcode ) {
+            $returnArray[$langcode] = $language;
+        }
+    }
+
+    return $returnArray;
+}
+
 
 // given an array of words, calculate the frequency
 function generate_frequencies($wordList) {
