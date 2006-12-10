@@ -13,23 +13,6 @@ function echo_text_frame_std( $ppage )
     <body onload="top.initializeStuff(0)">
     <center>
     <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe">
-        <script language="JavaScript" type="text/javascript">
-        <!--
-            function resize(factor)
-            {
-                if (factor == -1)
-                {
-                    parent.imageframe.document.scanimage.width=1000;
-                }
-                else
-                {
-                    currentsize=parent.imageframe.document.scanimage.width;
-                    newsize=currentsize*factor;
-                    parent.imageframe.document.scanimage.width=newsize;
-                }
-            }
-        //-->
-        </script>
         <?
 
         $ppage->echo_proofing_textarea();
@@ -74,9 +57,9 @@ function echo_text_frame_std( $ppage )
 
         echo _("Image Resize:");
         ?>
-        <input title="<? echo _("Zoom Out 25%"); ?>" type="button" value="-25%"  onclick="resize(0.75)">
-        <input title="<? echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="resize(1.25)">
-        <input title="<? echo _("Zoom to Original Size"); ?>" type="button" value="Original" onclick="resize(-1)">
+        <input title="<? echo _("Zoom Out 25%"); ?>" type="button" value="-25%"  onclick="top.reSizeRelative(0.75)">
+        <input title="<? echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25)">
+        <input title="<? echo _("Zoom to Original Size"); ?>" type="button" value="Original" onclick="top.reSizeRelative(-1)">
 
     </form>
     </center>

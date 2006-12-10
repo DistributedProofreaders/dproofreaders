@@ -221,6 +221,28 @@ if (frameRef.scanimage)
   }
 }
 
+function reSizeRelative(factor)
+{
+if (frameRef.scanimage)
+  {
+    if (factor == -1) {
+        frameRef.scanimage.width=1000;
+    } else {
+       frameRef.scanimage.width=frameRef.scanimage.width*factor;
+    }
+    setScrollWidths();
+    imgstyle.top=0+bPX;
+    imgstyle.left=0+bPX;
+  } else if(top.proofframe.imageframe.document.scanimage) {
+    imageObject=top.proofframe.imageframe.document.scanimage;
+    if (factor == -1) {
+        imageObject.width=1000;
+    } else {
+        imageObject.width=imageObject.width*factor;
+    }
+  }
+}
+
 function focusText()
 {
 if (isLded && inProof)

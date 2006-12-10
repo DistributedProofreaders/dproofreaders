@@ -222,6 +222,13 @@ echo "<p>" . _("Note: Clicking the [AW] button will accept all instances of that
         >
     </td>
 </tr>
+<tr><td style="text-align: center">
+<? echo _("Resize image:"); ?>
+    <input title="<? echo _("Zoom Out 25%"); ?>" type="button" value="-25%"  onclick="top.reSizeRelative(0.75)">
+    <input title="<? echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25)">
+    <input title="<? echo _("Zoom to Original Size"); ?>" type="button" value="Original" onclick="top.reSizeRelative(-1)">
+</td>
+</tr>
 </table>
 </form>
 </div>
