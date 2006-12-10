@@ -23,7 +23,7 @@ $puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"¡¿-';
 //   languages - array of languages, used to load aspell dictionary
 //               for those languages if available
 // Return:
-//   on success, the function returns an array of misspelled words
+//   on success, the function returns the array(array(misspelled words),array(checked lang codes))
 //   on error, the function returns an error string
 function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages) {
     global $aspell_temp_dir;
@@ -35,11 +35,12 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
     $tmp_file_name = $projectid . $imagefile . ".txt";
     $tmp_file_path = "$aspell_temp_dir/$tmp_file_name";
 
-    // originaly this used file_put_contents (like below) but this is inly avail in PHP v5
     $wasWritten = file_put_contents($tmp_file_path,$orig_text);
     if($wasWritten === FALSE) return "Error: unable to write contents to temp file: $tmp_file_path";
 
-    $num_dict_found = 0;
+    // array to hold final languages
+    $valid_langcodes=array();
+
     foreach( $languages as $language ) {
         $langcode = array_search( $language, $iso_639 );
         if( $langcode ) {
@@ -51,7 +52,7 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
 
             $dict_file = "$aspell_prefix/lib/aspell/$langcode.multi";
             if( is_file( $dict_file ) ) {
-                $num_dict_found++;
+                array_push($valid_langcodes,$langcode);
                 // run aspell using this language
 
                 // create the aspell command
@@ -72,7 +73,7 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
         unlink($tmp_file_path);
     }
 
-    if($num_dict_found == 0) {
+    if(count($valid_langcodes) == 0) {
         return "Error: No dictionaries found.<br>";
     }
 
@@ -88,7 +89,7 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
     // make a point *not* to unique the array, some callers might
     // want to know the frequency of the misspelled words
 
-    return $finalMisspellings;
+    return array($finalMisspellings,$valid_langcodes);
 }
 
 // load a list of the project's dictionary words

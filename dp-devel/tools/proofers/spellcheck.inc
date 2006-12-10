@@ -146,22 +146,27 @@ id="controlframe"><?PHP
     echo "<input type='hidden' name='revert_text' value='" . html_safe($revert_text) . "'>\n";
     echo "<input type='hidden' id='accept_words' name=\"accept_words\" value='" . implode(' ',$accept_words) . "'>\n";
 
+    // run the text through the spellcheck - returns the form contents and a list of languages the page was checked against
+    list($page_contents,$checked_langcodes)=spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accept_words );
+
+    // load all dictionaries installed on the system
     $dict_list = load_available_dictionaries();
-    $lang_list = load_project_languages($ppage->projectid());
 
     $dictionary_exists = $dictionary_missing = "";
     // see which of the project's languages have dictionaries
-    foreach($lang_list as $langcode => $language) {
+    foreach($checked_langcodes as $langcode) {
         // print out the language only if its dictionary exists
-        if($dict_list[$langcode]) $dictionary_exists.="$language, ";
-        else $dictionary_missing.="$language, ";
+        if($dict_list[$langcode]) $dictionary_exists.="$dict_list[$langcode], ";
+        else $dictionary_missing.="$dict_list[$langcode], ";
     }
 
     $dictionary_exists=preg_replace("/, $/","",$dictionary_exists);
     $dictionary_missing=preg_replace("/, $/","",$dictionary_missing);
     echo "<p>";
-    if($dictionary_exists != "") echo _("The text was checked against the dictionaries for the following project languages: ") . "<b>$dictionary_exists</b>. ";
-    if($dictionary_missing != "") echo _("No dictionary was available for the following project languages: ") . "<b>$dictionary_missing</b>. ";
+    if($dictionary_exists != "")
+        echo _("The text was checked against dictionaries for the following languages: ") . "<b>$dictionary_exists</b>. ";
+    if($dictionary_missing != "")
+        echo _("No dictionary was available for the following languages: ") . "<b>$dictionary_missing</b>. ";
     echo "</p>";
 
     echo "<p>" . _("To run the page against the dictionary for an additional language, select one here and hit Check: ");
@@ -169,9 +174,10 @@ id="controlframe"><?PHP
     echo "<select name='aux_language'>";
     echo "<option value=''>Language</option>";
     echo "\n";
+
     foreach($dict_list as $langcode => $language) {
         // skip showing project languages
-        if($lang_list[$langcode]) continue;
+        if(array_search($langcode,$checked_langcodes)) continue;
         echo "<option value='" .  htmlspecialchars($language,ENT_QUOTES) . "'";
         if(strcmp($language,$aux_language)==0) echo " selected";
         echo ">$language</option>\n";
@@ -200,8 +206,8 @@ echo "<p>" . _("Note: Clicking the [AW] button will accept all instances of that
   valign="top">
 <?PHP
     $ppage->echo_hidden_fields();
+    echo $page_contents;
 
-    spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accept_words );
 ?>
 </td>
 </tr>

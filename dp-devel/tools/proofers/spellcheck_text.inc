@@ -2,9 +2,23 @@
 include_once($relPath.'site_vars.php');
 include_once($relPath.'word_checker.inc');
 
+// returns HTML to display the text spellchecked
+// Arguments:
+//   orig_text - original text to run through dictionary
+//   projectid - id of projected, needed for temp filename
+//               and to load the custom dictionaries
+//   imagefile - image filename, needed for temp filename
+//   aux_languages - auxiliarary language to check against
+//   accept_words - array of words that should not be considered misspelled
+// Return:
+//   on success, the function returns the array(array(misspelled words),array(checked lang codes))
+//   on error, the function returns an error string
 function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = "", $accept_words = "" ) {
 
     global $nonWordCharacters, $puncCharacters;
+
+    // variable holding final string
+    $returnString="";
 
     // change all EOL characters to [lf]
     $orig_text = str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$orig_text);
@@ -14,7 +28,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
 
     // save the original text in a hidden form field
     // this is used when applying spelling corrections
-    echo "<input type='hidden' name='text_data' value='" . html_safe($orig_text) . "'>\n";
+    $returnString.="<input type='hidden' name='text_data' value='" . html_safe($orig_text) . "'>\n";
 
     $languages=array_values(load_project_languages($projectid));
 
@@ -30,13 +44,13 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
     $orig_text = str_replace('[lf]',' ',$orig_text);
 
     // get the list of misspelled words from aspell
-    $badWordsFromText = get_bad_words_from_text($orig_text,$projectid,$imagefile,$languages);
+    list($badWordsFromText,$lang_codes) = get_bad_words_from_text($orig_text,$projectid,$imagefile,$languages);
 
     // confirm we received something from aspell
     // on success, get_bad_words_from_text returns an array
     // on error, it returns an error message
     if(!is_array($badWordsFromText)) {
-        echo "Error during dictionary check<br>: $badWordsFromText";
+        $returnString.="Error during dictionary check<br>: $badWordsFromText";
         $badWordsFromText = array();
     } else {
         $badWordsFromText = array_unique($badWordsFromText);
@@ -68,8 +82,8 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
     // and likely a list of scannos too, start preparing the page
 
     // define the highlight for the punctuation
-    echo "<style type='text/css'> .hl { background-color:yellow;color:black;}</style>";
-    echo "<pre>\n";
+    $returnString.="<style type='text/css'> .hl { background-color:yellow;color:black;}</style>";
+    $returnString.="<pre>\n";
 
     $puncArray = str_split($puncCharacters);
 
@@ -164,11 +178,13 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
         }
 
         // output the final line
-        echo $newLine . "<br>\n";
+        $returnString.=$newLine . "<br>\n";
     }
 
-    echo "</pre>";
-    echo "<input type='hidden' name='sptotal' value='$numBadWords'>";
+    $returnString.="</pre>";
+    $returnString.="<input type='hidden' name='sptotal' value='$numBadWords'>";
+
+    return array($returnString,$lang_codes);
 }
 
 // adds HTML code to a string (usually punctuation) to highlight it
