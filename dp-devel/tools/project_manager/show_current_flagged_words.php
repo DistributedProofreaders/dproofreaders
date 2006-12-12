@@ -36,11 +36,13 @@ $all_pages_text = preg_replace("/^-+File: .*$/m",'',$all_pages_text);
 // now run it through the aspell checker
 // get_bad_words_from_text returns an array of misspelled words, including duplicate
 // words. To generate a frequency count we need only count them
-$wrongWords = get_bad_words_from_text($all_pages_text,$projectid,'all',$languages);
-if(!is_array($wrongWords)) {
-    echo "Error running aspell: $wrongWords";
+$result = get_bad_words_from_text($all_pages_text,$projectid,'all',$languages);
+if(!is_array($result)) {
+    echo "Error running aspell: $result";
     exit;
 }
+
+list($wrongWords,$lang_codes) = $result;
 
 // get the word frequencies
 $wordCount = generate_frequencies($wrongWords);
