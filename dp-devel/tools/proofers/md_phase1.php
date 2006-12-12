@@ -34,14 +34,14 @@ if (isset($_POST['done']))
                 $badmetadata = 1;
             }
         }
-        if ($badmetadata == 1) {
-            $result = mysql_query("UPDATE projects SET state = 'project_md_bad' WHERE projectid = '$projectid'");
-            metarefresh(0,'md_available.php',"Image Metadata Collection","");
-        } else {
-            $result = mysql_query("UPDATE projects SET state = 'project_md_second' WHERE projectid = '$projectid'");
-            $result = mysql_query("UPDATE $projectid SET state = 'avail_md_second'");
-            metarefresh(0,'md_available.php',"Image Metadata Collection","");
-        }
+    }
+    if ($badmetadata == 1) {
+        $result = mysql_query("UPDATE projects SET state = 'project_md_bad' WHERE projectid = '$projectid'");
+        metarefresh(0,'md_available.php',"Image Metadata Collection","");
+    } else {
+        $result = mysql_query("UPDATE projects SET state = 'project_md_second' WHERE projectid = '$projectid'");
+        $result = mysql_query("UPDATE $projectid SET state = 'avail_md_second'");
+        metarefresh(0,'md_available.php',"Image Metadata Collection","");
     }
 }
 
