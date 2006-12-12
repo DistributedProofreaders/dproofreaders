@@ -25,19 +25,19 @@ if (isset($_POST['done']))
 foreach($HTTP_POST_VARS as $key => $val)
   {
     //echo "key is $key and value is $val<p>";
-    if (strpos($key, 'pagenum') == 'TRUE'){
+    if (strpos($key, 'pagenum') == 'TRUE') {
     $pagenum = str_replace("pagenum_", "", $key);
     $result = mysql_query("UPDATE $projectid SET orig_page_num = '$val' WHERE fileid = '$pagenum'");
-    }else{
+    } else {
        $result = mysql_query("UPDATE $projectid SET metadata = '$val' WHERE fileid = '$key'");
-       if ($val == 'badscan' || $val == 'missing' || $val == 'sequence'){
+       if ($val == 'badscan' || $val == 'missing' || $val == 'sequence') {
        $badmetadata = 1;
        }
     }
-    if ($badmetadata == 1){
+    if ($badmetadata == 1) {
     $result = mysql_query("UPDATE projects SET state = 'project_md_bad' WHERE projectid = '$projectid'");
     metarefresh(0,'md_available.php',"Image Metadata Collection","");
-    }else{
+    } else {
     $result = mysql_query("UPDATE projects SET state = 'project_md_second' WHERE projectid = '$projectid'");
     $result = mysql_query("UPDATE $projectid SET state = 'avail_md_second'");
     metarefresh(0,'md_available.php',"Image Metadata Collection","");
@@ -57,10 +57,10 @@ if(isset($_POST['continue']))
   foreach($HTTP_POST_VARS as $key => $val)
   {
     //echo "key is $key and value is $val<p>";
-    if (strpos($key, 'pagenum') == 'TRUE'){
+    if (strpos($key, 'pagenum') == 'TRUE') {
     $pagenum = str_replace("pagenum_", "", $key);
     $result = mysql_query("UPDATE $projectid SET orig_page_num = '$val' WHERE fileid = '$pagenum'");
-    }else{
+    } else {
        $result = mysql_query("UPDATE $projectid SET metadata = '$val' WHERE fileid = '$key'");
        }
     }
@@ -101,7 +101,6 @@ echo "<form method ='post'><table border=1>\n";
 
 
 	// Top header row
-//	{
 		echo "<tr>\n";
 		echo "    <td align='center' colspan='1'><b>I</b></td>\n";
 		echo "    <td align='center' colspan='1'><b>Image Name</b></td>\n";
@@ -109,7 +108,6 @@ echo "<form method ='post'><table border=1>\n";
 		echo "    <td align='center' colspan='1'><b>Page Metadata</b></td>\n";
 		echo "    <td align='center' colspan='1'><b>Thumbnail</b></td>\n";
 		echo "</tr>\n";
-//	}
 
 // Image rows
 	$path = "$projects_dir/$projectid/";
@@ -166,22 +164,17 @@ echo "<form method ='post'><table border=1>\n";
 
             // Set up existing page metadata if there is any, page defaults to nonblank
                $nonblank ='';
-               if ($metadata == 'illustration')
-               {
+               if ($metadata == 'illustration') {
                $illustration = 'checked';
-               }elseif ($metadata == 'blank')
-               {
+               } elseif ($metadata == 'blank') {
                $blank = 'checked';
-               }elseif ($metadata == 'missing')
-               {
+               } elseif ($metadata == 'missing') {
                $missing = 'checked';
-               }elseif ($metadata == 'badscan')
-               {
+               } elseif ($metadata == 'badscan') {
                $badscan = 'checked';
-               }elseif ($metadata == 'sequence')
-               {
+               } elseif ($metadata == 'sequence') {
                $sequence = 'checked';
-               }else{
+               } else {
                $nonblank = 'checked';
                }
 
