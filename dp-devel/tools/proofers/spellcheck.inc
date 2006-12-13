@@ -147,14 +147,14 @@ id="controlframe"><?PHP
     echo "<input type='hidden' id='accept_words' name=\"accept_words\" value='" . implode(' ',$accept_words) . "'>\n";
 
     // run the text through the spellcheck - returns the form contents and a list of languages the page was checked against
-    list($page_contents,$checked_langcodes)=spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accept_words );
+    list($page_contents,$checked_langs)=spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accept_words );
 
     // get a list of languages with dictionaries installed on the system
     $dict_list = get_languages_with_dictionaries();
 
     $dictionary_exists = $dictionary_missing = "";
     // see which of the project's languages have dictionaries
-    foreach($checked_langcodes as $langcode) {
+    foreach($checked_langs as $langcode) {
         // print out the language only if its dictionary exists
         if($dict_list[$langcode]) $dictionary_exists.="$dict_list[$langcode], ";
         else $dictionary_missing.="$dict_list[$langcode], ";
@@ -177,7 +177,7 @@ id="controlframe"><?PHP
 
     foreach($dict_list as $langcode => $language) {
         // skip showing project languages
-        if(array_search($langcode,$checked_langcodes)) continue;
+        if(array_search($langcode,$checked_langs)) continue;
         echo "<option value='" .  htmlspecialchars($language,ENT_QUOTES) . "'";
         if(strcmp($language,$aux_language)==0) echo " selected";
         echo ">$language</option>\n";

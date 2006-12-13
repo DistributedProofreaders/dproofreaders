@@ -39,7 +39,7 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
     if($wasWritten === FALSE) return "Error: unable to write contents to temp file: $tmp_file_path";
 
     // array to hold final languages
-    $valid_langcodes=array();
+    $checked_langs=array();
 
     foreach( $languages as $language ) {
         $langcode = array_search( $language, $iso_639 );
@@ -52,7 +52,7 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
 
             $dict_file = "$aspell_prefix/lib/aspell/$langcode.multi";
             if( is_file( $dict_file ) ) {
-                array_push($valid_langcodes,$langcode);
+                array_push($checked_langs,$langcode);
                 // run aspell using this language
 
                 // create the aspell command
@@ -73,7 +73,7 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
         unlink($tmp_file_path);
     }
 
-    if(count($valid_langcodes) == 0) {
+    if(count($checked_langs) == 0) {
         return "Error: No dictionaries found.<br>";
     }
 
@@ -89,7 +89,7 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
     // make a point *not* to unique the array, some callers might
     // want to know the frequency of the misspelled words
 
-    return array($finalMisspellings,$valid_langcodes);
+    return array($finalMisspellings,$checked_langs);
 }
 
 // -----------------------------------------------------------------------------

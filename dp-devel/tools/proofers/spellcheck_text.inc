@@ -52,9 +52,9 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
     if(!is_array($result)) {
         $returnString.="Error during dictionary check<br>: $result";
         $badWordsFromText = array();
-        $lang_codes = array();
+        $checked_langs = array();
     } else {
-        list($badWordsFromText,$lang_codes) = $result;
+        list($badWordsFromText,$checked_langs) = $result;
         $badWordsFromText = array_unique($badWordsFromText);
         rsort($badWordsFromText);
     }
@@ -186,7 +186,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
     $returnString.="</pre>";
     $returnString.="<input type='hidden' name='sptotal' value='$numBadWords'>";
 
-    return array($returnString,$lang_codes);
+    return array($returnString,$checked_langs);
 }
 
 // adds HTML code to a string (usually punctuation) to highlight it
