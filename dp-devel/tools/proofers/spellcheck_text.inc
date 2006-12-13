@@ -44,15 +44,17 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
     $orig_text = str_replace('[lf]',' ',$orig_text);
 
     // get the list of misspelled words from aspell
-    list($badWordsFromText,$lang_codes) = get_bad_words_from_text($orig_text,$projectid,$imagefile,$languages);
+    $result = get_bad_words_from_text($orig_text,$projectid,$imagefile,$languages);
 
     // confirm we received something from aspell
     // on success, get_bad_words_from_text returns an array
     // on error, it returns an error message
-    if(!is_array($badWordsFromText)) {
-        $returnString.="Error during dictionary check<br>: $badWordsFromText";
+    if(!is_array($result)) {
+        $returnString.="Error during dictionary check<br>: $result";
         $badWordsFromText = array();
+        $lang_codes = array();
     } else {
+        list($badWordsFromText,$lang_codes) = $result;
         $badWordsFromText = array_unique($badWordsFromText);
         rsort($badWordsFromText);
     }
