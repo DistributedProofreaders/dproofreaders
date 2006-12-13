@@ -30,7 +30,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
     // this is used when applying spelling corrections
     $returnString.="<input type='hidden' name='text_data' value='" . html_safe($orig_text) . "'>\n";
 
-    $languages=array_values(load_project_languages($projectid));
+    $languages=array_values(get_project_languages($projectid));
 
     // add the aux language if available
     if($aux_language != "" && $aux_language != "Language") {

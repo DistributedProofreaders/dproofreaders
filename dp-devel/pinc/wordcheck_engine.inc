@@ -270,10 +270,10 @@ function load_accept_words($projectid) {
 
 // -----------------------------------------------------------------------------
 
-// return an array of all valid dictionaries
+// return an array of those languages with a dictionary installed
 // returned associative array is in format
 //   $array[$langcode]=$language;
-function load_available_dictionaries() {
+function get_languages_with_dictionaries() {
     global $iso_639, $aspell_prefix;
 
     $returnArray = array();
@@ -292,7 +292,7 @@ function load_available_dictionaries() {
 // return an array of all languages for a project
 // returned associative array is in format
 //   $array[$langcode]=$language;
-function load_project_languages($projectid) {
+function get_project_languages($projectid) {
     global $iso_639;
 
     $returnArray = array();

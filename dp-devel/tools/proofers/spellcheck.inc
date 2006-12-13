@@ -149,8 +149,8 @@ id="controlframe"><?PHP
     // run the text through the spellcheck - returns the form contents and a list of languages the page was checked against
     list($page_contents,$checked_langcodes)=spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accept_words );
 
-    // load all dictionaries installed on the system
-    $dict_list = load_available_dictionaries();
+    // get a list of languages with dictionaries installed on the system
+    $dict_list = get_languages_with_dictionaries();
 
     $dictionary_exists = $dictionary_missing = "";
     // see which of the project's languages have dictionaries
