@@ -153,16 +153,9 @@ id="controlframe"><?PHP
     // get a list of languages with dictionaries installed on the system
     $dict_list = get_languages_with_dictionaries();
 
-    $dictionary_exists = $dictionary_missing = "";
-    // see which of the project's languages have dictionaries
-    foreach($checked_langs as $langcode => $language) {
-        // print out the language only if its dictionary exists
-        if($dict_list[$langcode]) $dictionary_exists.="$language, ";
-        else $dictionary_missing.="$language, ";
-    }
+    $dictionary_exists  = implode(', ', $checked_langs);
+    $dictionary_missing = implode(', ', $unchecked_langs);
 
-    $dictionary_exists=preg_replace("/, $/","",$dictionary_exists);
-    $dictionary_missing=preg_replace("/, $/","",$dictionary_missing);
     echo "<p>";
     if($dictionary_exists != "")
         echo _("The text was checked against dictionaries for the following languages: ") . "<b>$dictionary_exists</b>. ";
