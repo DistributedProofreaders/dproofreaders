@@ -23,7 +23,10 @@ $puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"¡¿-';
 //   languages - array of languages, used to load aspell dictionary
 //               for those languages if available
 // Return:
-//   on success, the function returns the array(array(misspelled words),array(checked lang codes))
+//   on success, the function returns an array consisting of:
+//       -- an array of misspelled words,
+//       -- an array of checked languages (lang_code => lang_name),
+//       -- an array of unchecked languages (ditto)
 //   on error, the function returns an error string
 function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages) {
     global $aspell_temp_dir;
@@ -40,6 +43,7 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
 
     // array to hold final languages
     $checked_langs=array();
+    $unchecked_langs=array();
 
     foreach( $languages as $language ) {
         $langcode = array_search( $language, $iso_639 );
@@ -65,6 +69,16 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
                 // build our list of possible misspellings 
                 $misspellings[$langcode] = explode("[lf]",$asr_text);
             }
+            else
+            {
+                // No dictionary installed for that language.
+                $unchecked_langs[$langcode] = $language;
+            }
+        }
+        else
+        {
+            // Unknown language-name.
+            $unchecked_langs[$langcode] = $language;
         }
     }
 
@@ -89,7 +103,7 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
     // make a point *not* to unique the array, some callers might
     // want to know the frequency of the misspelled words
 
-    return array($finalMisspellings,$checked_langs);
+    return array($finalMisspellings,$checked_langs,$unchecked_langs);
 }
 
 // -----------------------------------------------------------------------------

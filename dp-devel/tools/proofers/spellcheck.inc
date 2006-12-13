@@ -147,7 +147,8 @@ id="controlframe"><?PHP
     echo "<input type='hidden' id='accept_words' name=\"accept_words\" value='" . implode(' ',$accept_words) . "'>\n";
 
     // run the text through the spellcheck - returns the form contents and a list of languages the page was checked against
-    list($page_contents,$checked_langs)=spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accept_words );
+    list($page_contents,$checked_langs,$unchecked_langs) =
+        spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accept_words );
 
     // get a list of languages with dictionaries installed on the system
     $dict_list = get_languages_with_dictionaries();
