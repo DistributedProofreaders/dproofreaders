@@ -42,7 +42,7 @@ if(!is_array($result)) {
     exit;
 }
 
-list($wrongWords,$lang_codes) = $result;
+list($wrongWords,$checked_langs,$unchecked_langs) = $result;
 
 // get the word frequencies
 $wordCount = generate_frequencies($wrongWords);
