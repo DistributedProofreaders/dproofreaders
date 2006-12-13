@@ -92,6 +92,8 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
     return array($finalMisspellings,$valid_langcodes);
 }
 
+// -----------------------------------------------------------------------------
+
 // load a list of the project's dictionary words
 // Return:
 //   on success, the function returns an array of the words in the custom dictionary
@@ -154,6 +156,8 @@ function save_project_dictionary( $projectid, $languages, $words) {
     return "Success";
 }
 
+// -----------------------------------------------------------------------------
+
 // load the flag words for a project
 function load_project_flag_words($projectid) {
     global $projects_dir;
@@ -193,6 +197,8 @@ function save_project_flag_words($projectid,$words) {
     return "Success";
 }
 
+// -----------------------------------------------------------------------------
+
 // load the global scanno words
 function load_scanno_words() {
     global $projects_dir;
@@ -209,6 +215,8 @@ function load_scanno_words() {
 
     return $scanno_words;
 }
+
+// -----------------------------------------------------------------------------
 
 // save user-selected Accept Words for a project
 function save_accept_words($projectid,$round,$page,$proofer,$words) {
@@ -260,6 +268,7 @@ function load_accept_words($projectid) {
     return $wordsArray;
 }
 
+// -----------------------------------------------------------------------------
 
 // return an array of all valid dictionaries
 // returned associative array is in format
