@@ -88,7 +88,8 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
     }
 
     if(count($checked_langs) == 0) {
-        return "Error: No dictionaries found.<br>";
+        $finalMisspellings = array();
+        return array($finalMisspellings, $checked_langs, $unchecked_langs);
     }
 
     // now we need to find the intersection between the languages that we've checked
