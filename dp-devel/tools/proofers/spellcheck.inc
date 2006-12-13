@@ -150,9 +150,6 @@ id="controlframe"><?PHP
     list($page_contents,$checked_langs,$unchecked_langs) =
         spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accept_words );
 
-    // get a list of languages with dictionaries installed on the system
-    $dict_list = get_languages_with_dictionaries();
-
     $dictionary_exists  = implode(', ', $checked_langs);
     $dictionary_missing = implode(', ', $unchecked_langs);
 
@@ -169,6 +166,8 @@ id="controlframe"><?PHP
     echo "<option value=''>Language</option>";
     echo "\n";
 
+    // get a list of languages with dictionaries installed on the system
+    $dict_list = get_languages_with_dictionaries();
     foreach($dict_list as $langcode => $language) {
         // skip showing project languages
         if(isset($checked_langs[$langcode])) continue;
