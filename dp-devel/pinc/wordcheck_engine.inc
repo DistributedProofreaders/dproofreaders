@@ -52,7 +52,7 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
 
             $dict_file = "$aspell_prefix/lib/aspell/$langcode.multi";
             if( is_file( $dict_file ) ) {
-                array_push($checked_langs,$langcode);
+                $checked_langs[$langcode] = $language;
                 // run aspell using this language
 
                 // create the aspell command

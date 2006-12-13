@@ -154,10 +154,10 @@ id="controlframe"><?PHP
 
     $dictionary_exists = $dictionary_missing = "";
     // see which of the project's languages have dictionaries
-    foreach($checked_langs as $langcode) {
+    foreach($checked_langs as $langcode => $language) {
         // print out the language only if its dictionary exists
-        if($dict_list[$langcode]) $dictionary_exists.="$dict_list[$langcode], ";
-        else $dictionary_missing.="$dict_list[$langcode], ";
+        if($dict_list[$langcode]) $dictionary_exists.="$language, ";
+        else $dictionary_missing.="$language, ";
     }
 
     $dictionary_exists=preg_replace("/, $/","",$dictionary_exists);
@@ -177,7 +177,7 @@ id="controlframe"><?PHP
 
     foreach($dict_list as $langcode => $language) {
         // skip showing project languages
-        if(array_search($langcode,$checked_langs)) continue;
+        if(isset($checked_langs[$langcode])) continue;
         echo "<option value='" .  htmlspecialchars($language,ENT_QUOTES) . "'";
         if(strcmp($language,$aux_language)==0) echo " selected";
         echo ">$language</option>\n";
