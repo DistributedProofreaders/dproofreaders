@@ -254,7 +254,7 @@ function html_logobar($nameofpage) {
 	echo "</table>\n";
 }
 
-function headerbar_text($text, $link = '', $with_divider = false)
+function headerbar_text($text, $link = '', $with_divider = false, $title = '')
 {
 	global $theme, $code_url;
 	$out = "";
@@ -268,6 +268,11 @@ function headerbar_text($text, $link = '', $with_divider = false)
 	// Within the label, change any blanks to non-breaking spaces,
 	// so that the label doesn't break there.
 	$text = str_replace(' ', '&nbsp;', $text);
+
+    if ( !empty($title) )
+    {
+        $text = "<span title='$title'>$text</span>";
+    }
 
 	$out .= "<font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>"
 		. $text
@@ -437,11 +442,11 @@ function show_quick_links()
 			if ( preg_match( $rel_url_pattern, $_SERVER['REQUEST_URI'] ) )
 			{
 				// We're at that page; no point to link to it.
-				echo headerbar_text("<span title='$title'>$text</span>",'',$divider);
+				echo headerbar_text($text,'',$divider,$title);
 			}
 			else
 			{
-				echo headerbar_text("<span title='$title'>$text</span>","$code_url/$rel_url",$divider);
+				echo headerbar_text($text,"$code_url/$rel_url",$divider,$title);
 			}
 			echo "\n";
 		}
