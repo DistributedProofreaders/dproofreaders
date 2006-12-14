@@ -5,6 +5,7 @@ include_once($relPath.'theme.inc');
 
 $test_host='http://www.pgdp.org';	
 $test_site_code_url="$test_host/c";	
+$sf_project_url='http://sourceforge.net/projects/dproofreaders/';
 $dev_list='dproofreaders-devel@lists.sourceforge.net';
 $commits_list='dproofreaders-commits@lists.sourceforge.net';
 $sa_list='dp-sa @ pgdp.net';
@@ -22,6 +23,10 @@ echo "
 <tr>
     <td>Site Admins' mail alias</td>
     <td><a href='mailto:$sa_list'>$sa_list</a></td>
+</tr>
+<tr>
+    <td>DP's project page at SourceForge</td>
+    <td><a href='$sf_project_url'>$sf_project_url</a></td>
 </tr>
 <tr>
     <td>developers' mailing list</td>
