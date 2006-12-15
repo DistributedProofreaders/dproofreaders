@@ -141,17 +141,14 @@ echo "<form method ='post'><table border=1>\n";
         $index = $rownum+1;
         echo "<td align='right'>$index</td>\n";
 
-
-        // Image Name
-        $imagename = $page_res['image'];
-        if (file_exists($path.$imagename)) {
+        if (file_exists($path.$image)) {
             $bgcolor = $row_color;
-            if ($show_image_size) $imagesize = filesize(realpath($path.$imagename));
+            if ($show_image_size) $imagesize = filesize(realpath($path.$image));
         } else {
             $bgcolor = "#FF0000";
             if ($show_image_size) $imagesize = 0;
         }
-        echo "<td bgcolor='$bgcolor'><a href=../project_manager/displayimage.php?project=$projectid&imagefile=$imagename>$imagename</a></td>\n";
+        echo "<td bgcolor='$bgcolor'><a href=../project_manager/displayimage.php?project=$projectid&imagefile=$image>$image</a></td>\n";
 
         // Original Page Number   
         echo "<td bgcolor='$bgcolor'><input type ='textbox' name='orig_page_num_[$image]' value = $orig_page_num></td>";
@@ -183,7 +180,7 @@ echo "<form method ='post'><table border=1>\n";
 
         // Show Thumbnail
         echo "<td bgcolor='$bgcolor' align='right'>
-                <a href=\"../project_manager/displayimage.php?project=$projectid&imagefile=$imagename\"><img src =\"$projects_url/$projectid/thumbs/$imagename\" alt = \"$imagename\" border =\"0\"></a>
+                <a href=\"../project_manager/displayimage.php?project=$projectid&imagefile=$image\"><img src =\"$projects_url/$projectid/thumbs/$image\" alt = \"$image\" border =\"0\"></a>
             </td>";
 
         echo "</tr>";
