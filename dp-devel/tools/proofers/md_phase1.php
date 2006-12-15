@@ -51,15 +51,15 @@ function handle_page_params()
 {
     global $projectid;
 
-    foreach ( $_POST['orig_page_num_'] as $fileid => $orig_page_num )
+    foreach ( $_POST['orig_page_num_'] as $image => $orig_page_num )
     {
-        $result = mysql_query("UPDATE $projectid SET orig_page_num = '$orig_page_num' WHERE fileid = '$fileid'");
+        $result = mysql_query("UPDATE $projectid SET orig_page_num = '$orig_page_num' WHERE image = '$image'");
     }
 
     $badmetadata = 0;
-    foreach ( $_POST['metadata_'] as $fileid => $metadata )
+    foreach ( $_POST['metadata_'] as $image => $metadata )
     {
-        $result = mysql_query("UPDATE $projectid SET metadata = '$metadata' WHERE fileid = '$fileid'");
+        $result = mysql_query("UPDATE $projectid SET metadata = '$metadata' WHERE image = '$image'");
         if ($metadata == 'badscan' || $metadata == 'missing' || $metadata == 'sequence') {
             $badmetadata = 1;
         }
@@ -116,16 +116,16 @@ echo "<form method ='post'><table border=1>\n";
     // Image rows
     $path = "$projects_dir/$projectid/";
 
-    $fields_to_get = 'fileid, image, state, metadata';
+    $fields_to_get = 'image, state, metadata';
 
-    $res = mysql_query( "SELECT fileid, image, state, metadata, orig_page_num FROM $projectid ORDER BY image ASC");
+    $res = mysql_query( "SELECT image, state, metadata, orig_page_num FROM $projectid ORDER BY image ASC");
     $num_rows = mysql_num_rows($res);
 
     for ( $rownum=0; $rownum < $num_rows; $rownum++ )
     {
         $page_res = mysql_fetch_array( $res, MYSQL_ASSOC );
 
-        $fileid = $page_res['fileid'];
+        $image = $page_res['image'];
         $metadata = $page_res['metadata'];
         $orig_page_num = $page_res['orig_page_num'];
 
@@ -154,7 +154,7 @@ echo "<form method ='post'><table border=1>\n";
         echo "<td bgcolor='$bgcolor'><a href=../project_manager/displayimage.php?project=$projectid&imagefile=$imagename>$imagename</a></td>\n";
 
         // Original Page Number   
-        echo "<td bgcolor='$bgcolor'><input type ='textbox' name='orig_page_num_[$fileid]' value = $orig_page_num></td>";
+        echo "<td bgcolor='$bgcolor'><input type ='textbox' name='orig_page_num_[$image]' value = $orig_page_num></td>";
 
 
         // Set up existing page metadata if there is any, page defaults to nonblank
@@ -177,7 +177,7 @@ echo "<form method ='post'><table border=1>\n";
         foreach ( $metadata_possibles as $code => $label )
         {
             $checked = ($code == $metadata ? 'checked' : '');
-            echo "<input type='radio' name='metadata_[$fileid]' value='$code' $checked>$label<br>\n";
+            echo "<input type='radio' name='metadata_[$image]' value='$code' $checked>$label<br>\n";
         }
         echo "</td>";
 
