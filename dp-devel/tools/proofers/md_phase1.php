@@ -9,6 +9,7 @@ include_once($relPath.'projectinfo.inc');
 $show_image_size = '';
 $badmetadata = 0;
 
+$projectid = $_GET['projectid'];
 
 theme("Image Metadata Phase1", "header");
 
@@ -70,7 +71,6 @@ if(isset($_POST['continue']))
 
 
 
-$projectid = $_GET['projectid'];
 
 $result = mysql_query("SELECT nameofwork, authorsname, language, username, state FROM projects WHERE projectid = '$projectid'");
 
