@@ -11,8 +11,6 @@ $badmetadata = 0;
 
 $projectid = $_GET['projectid'];
 
-theme("Image Metadata Phase1", "header");
-
 if (!$site_supports_metadata)
 {
     echo 'md_phase1.php: $site_supports_metadata is false, so exiting.';
@@ -69,8 +67,9 @@ if(isset($_POST['continue']))
     }
 }
 
-
-
+// Finished dealing with input data.
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// Now (if we're still here) echo the page.
 
 $result = mysql_query("SELECT nameofwork, authorsname, language, username, state FROM projects WHERE projectid = '$projectid'");
 
@@ -82,6 +81,8 @@ $language = mysql_result($result, 0, "language");
 
 
 $numpages = Project_getNumPages( $projectid );
+
+theme("Image Metadata Phase1", "header");
 
 echo "<center><table border=1>";
 
