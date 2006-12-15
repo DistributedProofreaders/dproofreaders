@@ -5,6 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
+include_once($relPath.'misc.inc');
 //include_once($relPath.'project_edit.inc');
 $show_image_size = '';
 
@@ -53,7 +54,7 @@ function handle_page_params()
     foreach($_POST as $key => $val)
     {
         //echo "key is $key and value is $val<p>";
-        if (strpos($key, 'pagenum') == 'TRUE') {
+        if (startswith($key, 'pagenum_')) {
             $pagenum = str_replace("pagenum_", "", $key);
             $result = mysql_query("UPDATE $projectid SET orig_page_num = '$val' WHERE fileid = '$pagenum'");
         } else {
