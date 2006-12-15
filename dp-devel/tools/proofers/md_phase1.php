@@ -43,12 +43,14 @@ if (isset($_POST['done']))
         $result = mysql_query("UPDATE $projectid SET state = 'avail_md_second'");
         metarefresh(0,'md_available.php',"Image Metadata Collection","");
     }
+    exit;
 }
 
 if(isset($_POST['return']))
 {
     //they don't want to save so clean it up and return them to md_available
     metarefresh(0,'md_available.php',"Image Metadata Collection","");
+    exit;
 }
 
 
