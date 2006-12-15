@@ -122,15 +122,6 @@ echo "<form method ='post'><table border=1>\n";
 
     for ( $rownum=0; $rownum < $num_rows; $rownum++ )
     {
-
-        $illustration ='';
-        $blank ='';
-        $missing ='';
-        $badscan ='';
-        $sequence ='';
-        $nonblank ='';
-        $orig_page_num ='';
-
         $page_res = mysql_fetch_array( $res, MYSQL_ASSOC );
 
         $fileid = $page_res['fileid'];
@@ -166,29 +157,28 @@ echo "<form method ='post'><table border=1>\n";
 
 
         // Set up existing page metadata if there is any, page defaults to nonblank
-        $nonblank ='';
-        if ($metadata == 'illustration') {
-            $illustration = 'checked';
-        } elseif ($metadata == 'blank') {
-            $blank = 'checked';
-        } elseif ($metadata == 'missing') {
-            $missing = 'checked';
-        } elseif ($metadata == 'badscan') {
-            $badscan = 'checked';
-        } elseif ($metadata == 'sequence') {
-            $sequence = 'checked';
-        } else {
-            $nonblank = 'checked';
+        $metadata_possibles = array(
+            'illustration' => 'Illustration',
+            'blank'        => 'Blank',
+            'missing'      => 'Page Missing After This One',
+            'badscan'      => 'Bad Scan',
+            'sequence'     => 'Page Out of Sequence',
+            'nonblank'     => 'Non-Blank',
+        );
+
+        if ( !array_key_exists($metadata, $metadata_possibles) )
+        {
+            // e.g., $metadata == ''
+            $metadata = 'nonblank';
         }
 
-        echo "<td bgcolor='$bgcolor' align='left'>
-                <input type='radio' name=$fileid value='illustration' $illustration>Illustration<br>
-                <input type='radio' name=$fileid value='blank' $blank>Blank<br>
-                <input type='radio' name=$fileid value='missing' $missing>Page Missing After This One<br>
-                <input type='radio' name=$fileid value='badscan' $badscan>Bad Scan<br>
-                <input type='radio' name=$fileid value='sequence' $sequence>Page Out of Sequence<br>
-                <input type='radio' name=$fileid value='nonblank' $nonblank>Non-Blank<br>
-            </td>";
+        echo "<td bgcolor='$bgcolor' align='left'>\n";
+        foreach ( $metadata_possibles as $code => $label )
+        {
+            $checked = ($code == $metadata ? 'checked' : '');
+            echo "<input type='radio' name=$fileid value='$code' $checked>$label<br>\n";
+        }
+        echo "</td>";
 
         // Show Thumbnail
         echo "<td bgcolor='$bgcolor' align='right'>
