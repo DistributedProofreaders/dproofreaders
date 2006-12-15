@@ -7,7 +7,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
 //include_once($relPath.'project_edit.inc');
 $show_image_size = '';
-$badmetadata = 0;
 
 $projectid = $_GET['projectid'];
 
@@ -20,20 +19,7 @@ if (!$site_supports_metadata)
 
 if (isset($_POST['done']))
 {
-    //parse through post values and update database
-    foreach($HTTP_POST_VARS as $key => $val)
-    {
-        //echo "key is $key and value is $val<p>";
-        if (strpos($key, 'pagenum') == 'TRUE') {
-            $pagenum = str_replace("pagenum_", "", $key);
-            $result = mysql_query("UPDATE $projectid SET orig_page_num = '$val' WHERE fileid = '$pagenum'");
-        } else {
-            $result = mysql_query("UPDATE $projectid SET metadata = '$val' WHERE fileid = '$key'");
-            if ($val == 'badscan' || $val == 'missing' || $val == 'sequence') {
-                $badmetadata = 1;
-            }
-        }
-    }
+    $badmetadata = handle_page_params();
     if ($badmetadata == 1) {
         $result = mysql_query("UPDATE projects SET state = 'project_md_bad' WHERE projectid = '$projectid'");
         metarefresh(0,'md_available.php',"Image Metadata Collection","");
@@ -55,7 +41,16 @@ if(isset($_POST['return']))
 
 if(isset($_POST['continue']))
 {
-    foreach($HTTP_POST_VARS as $key => $val)
+    handle_page_params();
+    // ignore the return value
+}
+
+function handle_page_params()
+// Handle the $_POST parameters that give info about individual pages.
+{
+    global $projectid;
+    $badmetadata = 0;
+    foreach($_POST as $key => $val)
     {
         //echo "key is $key and value is $val<p>";
         if (strpos($key, 'pagenum') == 'TRUE') {
@@ -63,8 +58,12 @@ if(isset($_POST['continue']))
             $result = mysql_query("UPDATE $projectid SET orig_page_num = '$val' WHERE fileid = '$pagenum'");
         } else {
             $result = mysql_query("UPDATE $projectid SET metadata = '$val' WHERE fileid = '$key'");
+            if ($val == 'badscan' || $val == 'missing' || $val == 'sequence') {
+                $badmetadata = 1;
+            }
         }
     }
+    return $badmetadata;
 }
 
 // Finished dealing with input data.
