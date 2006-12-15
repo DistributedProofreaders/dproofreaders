@@ -50,20 +50,21 @@ function handle_page_params()
 // Handle the $_POST parameters that give info about individual pages.
 {
     global $projectid;
-    $badmetadata = 0;
-    foreach($_POST as $key => $val)
+
+    foreach ( $_POST['orig_page_num_'] as $fileid => $orig_page_num )
     {
-        //echo "key is $key and value is $val<p>";
-        if (startswith($key, 'pagenum_')) {
-            $pagenum = str_replace("pagenum_", "", $key);
-            $result = mysql_query("UPDATE $projectid SET orig_page_num = '$val' WHERE fileid = '$pagenum'");
-        } else {
-            $result = mysql_query("UPDATE $projectid SET metadata = '$val' WHERE fileid = '$key'");
-            if ($val == 'badscan' || $val == 'missing' || $val == 'sequence') {
-                $badmetadata = 1;
-            }
+        $result = mysql_query("UPDATE $projectid SET orig_page_num = '$orig_page_num' WHERE fileid = '$fileid'");
+    }
+
+    $badmetadata = 0;
+    foreach ( $_POST['metadata_'] as $fileid => $metadata )
+    {
+        $result = mysql_query("UPDATE $projectid SET metadata = '$metadata' WHERE fileid = '$fileid'");
+        if ($metadata == 'badscan' || $metadata == 'missing' || $metadata == 'sequence') {
+            $badmetadata = 1;
         }
     }
+
     return $badmetadata;
 }
 
@@ -153,7 +154,7 @@ echo "<form method ='post'><table border=1>\n";
         echo "<td bgcolor='$bgcolor'><a href=../project_manager/displayimage.php?project=$projectid&imagefile=$imagename>$imagename</a></td>\n";
 
         // Original Page Number   
-        echo "<td bgcolor='$bgcolor'><input type ='textbox' name='pagenum.$fileid' value = $orig_page_num></td>";
+        echo "<td bgcolor='$bgcolor'><input type ='textbox' name='orig_page_num_[$fileid]' value = $orig_page_num></td>";
 
 
         // Set up existing page metadata if there is any, page defaults to nonblank
@@ -176,7 +177,7 @@ echo "<form method ='post'><table border=1>\n";
         foreach ( $metadata_possibles as $code => $label )
         {
             $checked = ($code == $metadata ? 'checked' : '');
-            echo "<input type='radio' name=$fileid value='$code' $checked>$label<br>\n";
+            echo "<input type='radio' name='metadata_[$fileid]' value='$code' $checked>$label<br>\n";
         }
         echo "</td>";
 
