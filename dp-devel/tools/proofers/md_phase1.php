@@ -182,7 +182,6 @@ echo "<form method ='post'><table border=1>\n";
         }
 
         echo "<td bgcolor='$bgcolor' align='left'>
-                <input type='hidden' name=$fileid value='nonblank' $nonblank> 
                 <input type='radio' name=$fileid value='illustration' $illustration>Illustration<br>
                 <input type='radio' name=$fileid value='blank' $blank>Blank<br>
                 <input type='radio' name=$fileid value='missing' $missing>Page Missing After This One<br>
