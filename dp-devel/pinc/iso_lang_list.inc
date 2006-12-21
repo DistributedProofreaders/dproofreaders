@@ -506,5 +506,33 @@ $lang_list=array(
     array("lang_name" => "Zuni", "lang_code" => "zun"),
 );
 
+function langname_for_langcode3( $langcode3 )
+// For the given three-letter code, return the corresponding language-name,
+// or null if not found.
+{
+    global $lang_list;
+    foreach( $lang_list as $entry )
+    {
+        $entry_code = $entry['lang_code'];
+        if ( substr($entry_code, 0, 3) == $langcode3 || substr($entry_code, 4, 3) == $langcode3 )
+            return $entry['lang_name'];
+    }
+    return NULL;
+}
+
+function langcode3_for_langname( $langname )
+// For the given language-name, return the corresponding three-letter code,
+// or null if not found.
+{
+    global $lang_list;
+    foreach( $lang_list as $entry )
+    {
+        $entry_name = $entry['lang_name'];
+        if ( $entry_name == $langname )
+            return $entry['lang_code'];
+    }
+    return NULL;
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
