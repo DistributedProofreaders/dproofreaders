@@ -131,17 +131,9 @@ function marc_publisher($rec) {
 }
 
 function convert_short_lang($marc_language) {
-	global $lang_list;
-	$totalLanguages = count($lang_list);
-	$i = 0;
-	while ($i <= $totalLanguages) {
-		if ((substr($lang_list[$i]["lang_code"], 0, 3) == $marc_language) || (substr($lang_list[$i]["lang_code"], 4, 3) == $marc_language)) {
-			$marc_language = $lang_list[$i]["lang_name"];
-			break;
-		}
-		$i++;
-	}
-	return $marc_language;
+	$lang_name = langname_for_langcode3($marc_language);
+	if ( is_null($lang_name) ) $lang_name = $marc_language;
+	return $lang_name;
 }
 
 function create_dc_xml_oai($projectid, $scannercredit, $genre, $language, $author, $title, $rec) {
@@ -185,7 +177,7 @@ function create_dc_xml_oai($projectid, $scannercredit, $genre, $language, $autho
 }
 
 function update_marc_array($rec) {
-	global $literary_form_array, $lang_list;
+	global $literary_form_array;
 
 	//Update the Name of Work
 	  if (!empty($_POST['nameofwork'])) { $rec[marc_key_search($rec,"245","a")][1] = $_POST['nameofwork']; }
@@ -207,11 +199,7 @@ function update_marc_array($rec) {
 	  }
 
 	//Update the Primary Language
-	for ($i=0;$i<count($lang_list);$i++)  {
-		if ($_POST['pri_language'] == $lang_list[$i]['lang_name']) {
-			$curr_lang = $lang_list[$i]['lang_code'];
-		}
-	}
+	$curr_lang = langcode3_for_langname( $_POST['pri_language'] );
 	$marc_008 = $rec[marc_key_search($rec,"008","")][1];
 	$rec[marc_key_search($rec,"008","")][1] = substr($marc_008, 0, 35)."$curr_lang".substr($marc_008, 38);
 
