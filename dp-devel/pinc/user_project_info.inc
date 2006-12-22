@@ -4,36 +4,69 @@ include_once($relPath.'maybe_mail.inc');
 
 function subscribe_user_to_project_event( $username, $projectid, $event )
 {
-    assert( $event == 'posted' );
-    $res = mysql_query("
-        INSERT INTO usersettings
-        SET
-            username = '$username',
-            setting  = 'posted_notice',
-            value    = '$projectid'
-    ") or die(mysql_error());
+    set_user_project_event_subscription( $username, $projectid, $event, 1 );
 }
 
 function unsubscribe_user_from_project_event( $username, $projectid, $event )
 {
+    set_user_project_event_subscription( $username, $projectid, $event, 0 );
+}
+
+function set_user_project_event_subscription( $username, $projectid, $event, $bit )
+{
     assert( $event == 'posted' );
+    assert( $bit === 0 || $bit === 1 );
+
+    // There may not yet be a row for this ($username,$projectid) pair.
+    // Ensure that one exists.
     $res = mysql_query("
-        DELETE FROM usersettings
-        WHERE username  = '$username'
-            AND setting = 'posted_notice'
-            AND value   = '$projectid'
+        INSERT IGNORE INTO user_project_info
+        SET
+            username    = '$username',
+            projectid   = '$projectid'
     ") or die(mysql_error());
+    // If there's already a row for this ($username,$projectid) pair,
+    // the insertion doesn't happen; it would raise a duplicate-key error,
+    // except that the IGNORE causes the error to be downgraded to a warning.
+
+    // Now that we're sure the row exists, we can update it.
+    $res = mysql_query("
+        UPDATE user_project_info
+        SET iste_$event = $bit
+        WHERE username    = '$username'
+            AND projectid = '$projectid'
+    ") or die(mysql_error());
+
+    /*
+        In MySQL 4.1.0 or higher, we could replace those two queries with one:
+            INSERT INTO user_project_info
+            SET
+                username    = '$username',
+                projectid   = '$projectid',
+                iste_$event = $bit
+            ON DUPLICATE KEY UPDATE
+                iste_$event = $bit
+    */
 }
 
 function user_is_subscribed_to_project_event( $username, $projectid, $event )
 {
     assert( $event == 'posted' );
     $res = mysql_query("
-        SELECT *
-        FROM usersettings
-        WHERE username = '$username' AND setting = 'posted_notice' AND value = '$projectid'
+        SELECT iste_$event
+        FROM user_project_info
+        WHERE username    = '$username'
+            AND projectid = '$projectid'
     ") or die(mysql_error());
-    return ( mysql_num_rows($res) > 0 );
+    if ( mysql_num_rows($res) == 0 )
+    {
+        // ($username,$projectid) pair does not appear in table.
+        return 0;
+    }
+    else
+    {
+        return mysql_result($res,0);
+    }
 }
 
 function notify_project_event_subscribers( $project, $event )
@@ -46,8 +79,9 @@ function notify_project_event_subscribers( $project, $event )
 
     $res1 = mysql_query("
         SELECT username
-        FROM usersettings
-        WHERE setting = 'posted_notice' AND value = '$projectid'
+        FROM user_project_info
+        WHERE projectid = '$projectid'
+            AND iste_$event = 1
     ") or die(mysql_error());
     $numrows = mysql_num_rows($res1);
     while ( list($username) = mysql_fetch_row($res1) )
@@ -73,8 +107,9 @@ function notify_project_event_subscribers( $project, $event )
     }
 
     $res3 = mysql_query("
-        DELETE FROM usersettings
-        WHERE setting = 'posted_notice' AND value = '$projectid'
+        UPDATE user_project_info
+        SET iste_$event = 0
+        WHERE projectid = '$projectid'
     ") or die(mysql_error());
 
     $res4 = mysql_query("
@@ -96,11 +131,11 @@ function create_temporary_project_event_subscription_summary_table()
             PRIMARY KEY (projectid)
         )
         SELECT
-            value    AS projectid,
+            projectid,
             COUNT(*) AS nouste_posted
-        FROM usersettings
-        WHERE setting='posted_notice'
-        GROUP BY value
+        FROM user_project_info
+        WHERE iste_posted = 1
+        GROUP BY projectid
     ") or die(mysql_error());
 }
 
