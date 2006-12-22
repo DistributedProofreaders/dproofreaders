@@ -20,6 +20,7 @@ include_once($relPath.'postcomments.inc'); // get_formatted_postcomments(...)
 include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_*
 include_once($relPath.'smoothread.inc');           // functions for smoothreading
 include_once($relPath.'release_queue.inc'); // cook_project_selector
+include_once($relPath.'user_project_info.inc');
 
 // for strftime:
 $datetime_format = _("%A, %B %e, %Y at %X");
@@ -653,12 +654,7 @@ function do_project_info_table()
 
     global $pguser, $userP;
 
-    $temp = mysql_query("
-        SELECT *
-        FROM usersettings
-        WHERE username = '$pguser' AND setting = 'posted_notice' AND value = '$projectid'
-    ");
-    if (mysql_num_rows($temp) == 0)
+    if (! user_is_subscribed_to_project_event( $pguser, $projectid, 'posted' ) )
     {
         $blurb = _("Click here to register for automatic email notification of when this has been posted to Project Gutenberg.");
     }

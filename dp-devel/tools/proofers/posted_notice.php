@@ -2,15 +2,17 @@
 $relPath="./../../pinc/";
 include($relPath.'metarefresh.inc');
 include($relPath.'dp_main.inc');
+include($relPath.'user_project_info.inc');
 
 $project = $_GET['project'];
 $proofstate = $_GET['proofstate'];
 
-$result = mysql_query("SELECT * FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$project."'");
-if (mysql_num_rows($result) == 0) {
-    $insert = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('".$pguser."', 'posted_notice', '".$project."')");
+$subscribed = user_is_subscribed_to_project_event( $pguser, $project, 'posted' );
+
+if (!$subscribed) {
+    subscribe_user_to_project_event( $pguser, $project, 'posted' );
 } else {
-    $del = mysql_query("DELETE FROM usersettings WHERE username = '".$pguser."' AND setting = 'posted_notice' AND value = '".$project."'");
+    unsubscribe_user_from_project_event( $pguser, $project, 'posted' );
 }
 
 metarefresh(0, "$code_url/project.php?id=$project&amp;expected_state=$proofstate", _("Posted Notice"), "");
