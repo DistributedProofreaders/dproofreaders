@@ -46,7 +46,7 @@
 
 3. Boolean-string-settings (for want of a better name.) These are cases where a record
 is inserted to indicate that a boolean value is True for a user for (typically) a project.
-Example setting: posted_notice, value "projectID3dfe7f4b3c2ca"
+Example setting: "taskctr_notice", value "1018"
      ******
     Implementation:
         Setting and Getting: Set and get exactly what's provided.
