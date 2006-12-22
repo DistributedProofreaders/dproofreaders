@@ -5,11 +5,11 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
 include_once($relPath.'DPage.inc'); // project_drop_pages Pages_prepForRound
 include_once($relPath.'topic.inc'); // topic_change_forum
-include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'../tools/project_manager/post_files.inc');
 include_once($relPath.'project_events.inc');
 include_once($relPath.'site_vars.php'); // $auto_post_to_project_topic
+include_once($relPath.'user_project_info.inc');
 
 define('PT_AUTO', '[AUTO]');
 
@@ -1269,50 +1269,7 @@ new ProjectTransition(
 
 function pg_posted_collateral( $project, $transition, $who )
 {
-    global $site_url, $auto_email_addr, $auto_email_addr, $site_signoff;
-
-    $projectid = $project->projectid;
-
-    $url = get_pg_catalog_url_for_etext( $project->postednum );
-
-    $result = mysql_query("
-        SELECT username
-        FROM usersettings
-        WHERE setting = 'posted_notice' AND value = '$projectid'
-    ");
-    $numrows = mysql_numrows($result);
-    while ( list($username) = mysql_fetch_row($result) )
-    {
-        $temp = mysql_query("
-            SELECT user_email
-            FROM phpbb_users
-            WHERE username = '$username'
-        ");
-        $email = mysql_result($temp, 0, "user_email");
-        maybe_mail(
-            $email,
-            "{$project->nameofwork} Posted to Project Gutenberg",
-            "You had requested to be let known once {$project->nameofwork} was ready to be available for reading."
-            ." It has been sent to Project Gutenberg and will soon be available for reading."
-            ." Most files will be ready by the time you receive this mail;"
-            ." sometimes there may be a delay of a day or so."
-            ." You can download the files via PG's online catalog at <$url>."
-            ."\n"
-            ."$site_signoff",
-            "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"
-        );
-    }
-
-    $del = mysql_query("
-        DELETE FROM usersettings
-        WHERE setting = 'posted_notice' AND value = '$projectid'
-    ");
-
-    $ins = mysql_query("
-        UPDATE projects
-        SET int_level = '$numrows'
-        WHERE projectid = '$projectid'
-    ");
+    notify_project_event_subscribers( $project, 'posted' );
 }
 
 // -----------------------------------------------------------------------------
