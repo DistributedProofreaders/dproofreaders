@@ -84,5 +84,25 @@ function notify_project_event_subscribers( $project, $event )
     ") or die(mysql_error());
 }
 
+function create_temporary_project_event_subscription_summary_table()
+// Create a temp table named 'project_event_subscriptions_grouped_by_project'
+// with two columns: 'projectid' and 'nouste_posted', where the latter gives the
+// current number of users that are subscribed to the project's 'posted' event.
+// ("nouste" = "number of users subscribed to event")
+{
+    $res = mysql_query("
+        CREATE TEMPORARY TABLE project_event_subscriptions_grouped_by_project
+        (
+            PRIMARY KEY (projectid)
+        )
+        SELECT
+            value    AS projectid,
+            COUNT(*) AS nouste_posted
+        FROM usersettings
+        WHERE setting='posted_notice'
+        GROUP BY value
+    ") or die(mysql_error());
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
