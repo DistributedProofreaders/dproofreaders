@@ -58,7 +58,7 @@ while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
 echo "INSERT INTO project_state_stats SET year=$yr, month=$mth, day=$dy, date='$dte', ...", $EOL;
 foreach ( $num_projects_in_state_ as $state => $num_projects )
 {
-    $np = sprintf( "%4d", $num_projects );
+    $np = sprintf( "%5d", $num_projects );
     echo "    num_projects=$np, state='$state'", $EOL;
 
     $insert_query = "
