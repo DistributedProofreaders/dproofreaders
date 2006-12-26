@@ -71,23 +71,39 @@ function user_is_subscribed_to_project_event( $username, $projectid, $event )
 
 function notify_project_event_subscribers( $project, $event )
 {
-    global $site_url, $auto_email_addr, $site_signoff;
+    global $site_name, $code_url, $auto_email_addr, $site_signoff;
 
     $projectid = $project->projectid;
     $title = $project->nameofwork;
 
-    $msg_subject = "$title Posted to Project Gutenberg";
+    $msg_subject = "Project posted to Project Gutenberg: \"$title\"";
 
-    $url = get_pg_catalog_url_for_etext( $project->postednum );
     $msg_body =
-        "You had requested to be let known once $title was ready to be available for reading."
-        . " It has been sent to Project Gutenberg and will soon be available for reading."
-        . " Most files will be ready by the time you receive this mail;"
-        . " sometimes there may be a delay of a day or so."
-        . " You can download the files via PG's online catalog at <$url>."
+        sprintf( _("This is an automated message from the %s site regarding the following project:"), $site_name )
         . "\n"
-        . $site_signoff;
+        . "    \"$title\"\n"
+        . "    ($projectid)\n"
+        . "    $code_url/project.php?id=$projectid\n"
+        . "\n";
 
+    switch ($event)
+    {
+        case 'posted':
+            $pg_url = get_pg_catalog_url_for_etext( $project->postednum );
+            $msg_body .=
+                _("This project has been sent to Project Gutenberg and will soon be available for reading.")
+                . " "
+                . _("Usually, the files will be ready by the time you receive this mail; sometimes there may be a delay of a day or so.")
+                . " "
+                . sprintf(_("You can download the files via PG's online catalog at <%s>."), $pg_url )
+                . "\n";
+            break;
+
+        default:
+            assert(0);
+    }
+
+    $msg_body .= "\n" . $site_signoff;
 
     $res1 = mysql_query("
         SELECT username
@@ -107,8 +123,7 @@ function notify_project_event_subscribers( $project, $event )
         maybe_mail(
             $email,
             $msg_subject,
-            $msg_body,
-
+            sprintf( _("Hello %s,"), $username ) . "\n" . $msg_body,
             "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"
         );
     }
