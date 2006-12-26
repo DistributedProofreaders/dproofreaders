@@ -136,7 +136,7 @@ function notify_project_event_subscribers( $project, $event )
         WHERE projectid = '$projectid'
             AND iste_$event = 1
     ") or die(mysql_error());
-    $numrows = mysql_num_rows($res1);
+    $n_subscribers = mysql_num_rows($res1);
     while ( list($username) = mysql_fetch_row($res1) )
     {
         $res2 = mysql_query("
@@ -161,7 +161,7 @@ function notify_project_event_subscribers( $project, $event )
 
     $res4 = mysql_query("
         UPDATE projects
-        SET int_level = '$numrows'
+        SET int_level = '$n_subscribers'
         WHERE projectid = '$projectid'
     ") or die(mysql_error());
 }
