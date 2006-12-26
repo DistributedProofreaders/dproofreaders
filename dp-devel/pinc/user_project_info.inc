@@ -2,6 +2,23 @@
 include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
 include_once($relPath.'maybe_mail.inc');
 
+$subscribable_project_events = array(
+    'posted' => _("Project posted to Project Gutenberg"),
+);
+
+function get_label_for_event( $event )
+{
+    global $subscribable_project_events;
+    $label = @$subscribable_project_events[$event];
+    if ( is_null($label) )
+    {
+        die( "Unknown event: '$event'" );
+    }
+    return $label;
+}
+
+// -----------------------------------------------------------------------------
+
 function subscribe_user_to_project_event( $username, $projectid, $event )
 {
     set_user_project_event_subscription( $username, $projectid, $event, 1 );
@@ -14,8 +31,10 @@ function unsubscribe_user_from_project_event( $username, $projectid, $event )
 
 function set_user_project_event_subscription( $username, $projectid, $event, $bit )
 {
-    assert( $event == 'posted' );
     assert( $bit === 0 || $bit === 1 );
+
+    $event_label = get_label_for_event( $event );
+    // Just to ensure that $event is valid; we don't use $event_label.
 
     // There may not yet be a row for this ($username,$projectid) pair.
     // Ensure that one exists.
@@ -51,7 +70,9 @@ function set_user_project_event_subscription( $username, $projectid, $event, $bi
 
 function user_is_subscribed_to_project_event( $username, $projectid, $event )
 {
-    assert( $event == 'posted' );
+    $event_label = get_label_for_event( $event );
+    // Just to ensure that $event is valid; we don't use $event_label.
+
     $res = mysql_query("
         SELECT iste_$event
         FROM user_project_info
@@ -69,14 +90,18 @@ function user_is_subscribed_to_project_event( $username, $projectid, $event )
     }
 }
 
+// -----------------------------------------------------------------------------
+
 function notify_project_event_subscribers( $project, $event )
 {
     global $site_name, $code_url, $auto_email_addr, $site_signoff;
 
+    $event_label = get_label_for_event( $event );
+
     $projectid = $project->projectid;
     $title = $project->nameofwork;
 
-    $msg_subject = "Project posted to Project Gutenberg: \"$title\"";
+    $msg_subject = "$event_label: \"$title\"";
 
     $msg_body =
         sprintf( _("This is an automated message from the %s site regarding the following project:"), $site_name )
@@ -140,6 +165,8 @@ function notify_project_event_subscribers( $project, $event )
         WHERE projectid = '$projectid'
     ") or die(mysql_error());
 }
+
+// -----------------------------------------------------------------------------
 
 function create_temporary_project_event_subscription_summary_table()
 // Create a temp table named 'project_event_subscriptions_grouped_by_project'
