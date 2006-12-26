@@ -74,8 +74,20 @@ function notify_project_event_subscribers( $project, $event )
     global $site_url, $auto_email_addr, $site_signoff;
 
     $projectid = $project->projectid;
+    $title = $project->nameofwork;
+
+    $msg_subject = "$title Posted to Project Gutenberg";
 
     $url = get_pg_catalog_url_for_etext( $project->postednum );
+    $msg_body =
+        "You had requested to be let known once $title was ready to be available for reading."
+        . " It has been sent to Project Gutenberg and will soon be available for reading."
+        . " Most files will be ready by the time you receive this mail;"
+        . " sometimes there may be a delay of a day or so."
+        . " You can download the files via PG's online catalog at <$url>."
+        . "\n"
+        . $site_signoff;
+
 
     $res1 = mysql_query("
         SELECT username
@@ -94,14 +106,9 @@ function notify_project_event_subscribers( $project, $event )
         $email = mysql_result($res2, 0, "user_email");
         maybe_mail(
             $email,
-            "{$project->nameofwork} Posted to Project Gutenberg",
-            "You had requested to be let known once {$project->nameofwork} was ready to be available for reading."
-            ." It has been sent to Project Gutenberg and will soon be available for reading."
-            ." Most files will be ready by the time you receive this mail;"
-            ." sometimes there may be a delay of a day or so."
-            ." You can download the files via PG's online catalog at <$url>."
-            ."\n"
-            ."$site_signoff",
+            $msg_subject,
+            $msg_body,
+
             "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"
         );
     }
