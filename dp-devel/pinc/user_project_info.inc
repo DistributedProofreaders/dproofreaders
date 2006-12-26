@@ -153,12 +153,6 @@ function notify_project_event_subscribers( $project, $event )
         );
     }
 
-    $res3 = mysql_query("
-        UPDATE user_project_info
-        SET iste_$event = 0
-        WHERE projectid = '$projectid'
-    ") or die(mysql_error());
-
     if ( $event == 'posted' )
     {
         // Take the number of users subscribed to the event
