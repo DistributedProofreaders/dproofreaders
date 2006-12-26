@@ -159,11 +159,16 @@ function notify_project_event_subscribers( $project, $event )
         WHERE projectid = '$projectid'
     ") or die(mysql_error());
 
-    $res4 = mysql_query("
-        UPDATE projects
-        SET int_level = '$n_subscribers'
-        WHERE projectid = '$projectid'
-    ") or die(mysql_error());
+    if ( $event == 'posted' )
+    {
+        // Take the number of users subscribed to the event
+        // and record that as the project's "interest level".
+        $res4 = mysql_query("
+            UPDATE projects
+            SET int_level = '$n_subscribers'
+            WHERE projectid = '$projectid'
+        ") or die(mysql_error());
+    }
 }
 
 // -----------------------------------------------------------------------------
