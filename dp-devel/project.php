@@ -114,6 +114,7 @@ else
 
     do_early_uploads();
     do_waiting_queues();
+    do_event_subscriptions();
     do_post_downloads();
     do_postcomments();
     do_smooth_reading();
@@ -650,20 +651,6 @@ function do_project_info_table()
 
     // -------------------------------------------------------------------------
     // Personal data with respect to this project
-    // (This is the only section that uses $pguser and $userP.)
-
-    global $pguser, $userP;
-
-    if (! user_is_subscribed_to_project_event( $pguser, $projectid, 'posted' ) )
-    {
-        $blurb = _("Click here to register for automatic email notification of when this has been posted to Project Gutenberg.");
-    }
-    else
-    {
-        $blurb = _("Click here to <b>undo</b> registration for automatic email notification of when this has been posted to Project Gutenberg.");
-    }
-    $url = "$code_url/tools/proofers/posted_notice.php?project=$projectid&proofstate=$state";
-    echo_row_a( _("Book Completed:"), "<a href='$url'>$blurb</a>" );
 
     global $detail_level;
     if ($round && $detail_level > 1)
@@ -674,6 +661,8 @@ function do_project_info_table()
 
     // -------------------------------------------------------------------------
     // Comments
+
+    global $pguser;
 
     $postcomments = get_formatted_postcomments($project->projectid);
 
@@ -992,6 +981,58 @@ function do_waiting_queues()
         }
         echo "</ul>\n";
     }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function do_event_subscriptions()
+{
+    global $project, $code_url, $forums_url, $subscribable_project_events, $pguser;
+
+    $projectid = $project->projectid;
+
+    echo "<a name='event_subscriptions'></a>\n";
+    echo "<h4>", _("Event Subscriptions"), "</h4>\n";
+
+    echo "<div style='margin-left:3em'>\n";
+
+    $user_email_address = get_subscriber_email_addr($pguser);
+    echo "<p>";
+    echo _("Here you can sign up to be notified when certain events happen to this project.");
+    echo "\n";
+    echo sprintf(
+        _("Notifications will be sent to your email address, which is currently &lt;%s&gt;. (If this is not correct, please visit <a href='%s'>your profile</a>.)"),
+        $user_email_address,
+        "$forums_url/profile.php?mode=editprofile"
+    );
+    echo "\n";
+    echo _("Your current subscriptions are shown below with a shaded background.");
+    echo "</p>\n";
+
+    $url = "$code_url/tools/set_project_event_subs.php";
+    echo "<form method='post' action='$url'>\n";
+    echo "<input type='hidden' name='projectid' value='$projectid'>\n";
+    echo "<input type='hidden' name='return_uri' value='{$_SERVER['REQUEST_URI']}#event_subscriptions'>\n";
+    echo "<table>\n";
+    echo "<tr>";
+    echo "<th>", _("Subscribed?"), "</th>";
+    echo "<th>", _("Event"), "</th>";
+    echo "</tr>\n";
+    foreach ( $subscribable_project_events as $event => $label )
+    {
+        $is_subd = user_is_subscribed_to_project_event( $pguser, $projectid, $event );
+        $bgcolor = ( $is_subd ? '#CFC' : '#FFF' );
+        $checked = ( $is_subd ? 'checked' : '' );
+        echo "<tr>";
+        echo "<td style='text-align:center; background-color:$bgcolor;'><input type='checkbox' name='$event' $checked></td>";
+        echo "<td>$label</td>";
+        echo "</tr>\n";
+    }
+    echo "</table>\n";
+    echo "<input type='submit' value='Update Event Subscriptions'>\n";
+    echo "</form>\n";
+
+    echo "</div>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

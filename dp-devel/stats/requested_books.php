@@ -11,7 +11,7 @@ $title = _("Most Requested Books");
 theme($title,'header');
 
 echo "<br><h2 style='color: $theme[color_headerbar_bg];'>$title</h2><br>\n
-<p>You can sign up for notifications by following the &quot;Click here to register for automatic email notification of when this has been posted to Project Gutenberg&quot; link on the Project Comments page when proofreading.</p>";
+<p>You can sign up for notifications in the 'Event Subscriptions' section of the Project Comments page when proofreading.</p>";
 
 echo "<br><br><h3 style='color: $theme[color_headerbar_bg];'>" . _("Most Requested Books Being Proofread") . "</h2><br>\n";
 
