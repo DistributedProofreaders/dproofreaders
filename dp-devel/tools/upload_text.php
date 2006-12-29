@@ -289,10 +289,13 @@ else
             log_project_event( $projectid, $pguser, 'smooth-reading', 'text available', $deadline );
         }
 
+        $project = new Project($projectid);
+
+        notify_project_event_subscribers( $project, 'sr_available' );
+
         if ( $auto_post_to_project_topic )
         {
             // Add an auto-post to the project's discussion topic.
-            $project = new Project($projectid);
             $project->ensure_topic();
             topic_add_post(
                 $project->topic_id,

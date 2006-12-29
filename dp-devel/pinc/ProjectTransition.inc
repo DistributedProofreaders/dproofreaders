@@ -775,6 +775,8 @@ function round_release_collateral( $project, $transition, $who )
             "$site_abbreviation: Proofreading Started (Manual Release)");
     }
 
+    notify_project_event_subscribers( $project, 'round_available', array('round'=>$round) );
+
     global $auto_post_to_project_topic;
     if ( $auto_post_to_project_topic )
     {
@@ -812,6 +814,8 @@ function round_complete_collateral( $project, $transition, $who )
 {
     $round = get_Round_for_project_state($transition->to_state);
     assert( !is_null($round) );
+
+    notify_project_event_subscribers( $project, 'round_complete', array('round'=>$round) );
 
     global $auto_post_to_project_topic;
     if ( $auto_post_to_project_topic )
@@ -856,6 +860,8 @@ function round_to_PP_avail_collateral( $project, $transition, $who )
         "You will be notified once it has completed post-processing.";
     maybe_mail_project_manager(
         get_object_vars($project), $body_blurb, "$site_abbreviation: Post-Processing Started" );
+
+    notify_project_event_subscribers( $project, 'pp_enter' );
 }
 
 function round_to_PP_out_collateral( $project, $transition, $who )
@@ -915,6 +921,8 @@ function round_to_PP_out_collateral( $project, $transition, $who )
             $body_blurb,
             "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
     }
+
+    notify_project_event_subscribers( $project, 'pp_enter' );
 }
 
 // -----------------------------------------------------------------------------
@@ -1033,9 +1041,14 @@ new ProjectTransition(
         'confirmation_question' => null,
         'detour'                => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
         'settings_template'     => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, postcomments=CONCAT(postcomments,'<G:postcomments>')",
-        'collateral_actions'    => null,
+        'collateral_actions'    => 'PP_to_PPV_collateral'
     )
 );
+
+function PP_to_PPV_collateral( $project, $transition, $who )
+{
+    notify_project_event_subscribers( $project, 'ppv_enter' );
+}
 
 new ProjectTransition(
     PROJ_POST_SECOND_CHECKED_OUT,

@@ -3,7 +3,12 @@ include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
 include_once($relPath.'maybe_mail.inc');
 
 $subscribable_project_events = array(
-    'posted' => _("Project posted to Project Gutenberg"),
+    'round_available' => _("Project becomes available in a round"),
+    'round_complete'  => _("Project finishes a round"),
+    'pp_enter'        => _("Project enters PP stage"),
+    'sr_available'    => _("Project becomes available for smooth-reading"),
+    'ppv_enter'       => _("Project enters PPV stage"),
+    'posted'          => _("Project posted to Project Gutenberg"),
 );
 
 function get_label_for_event( $event )
@@ -92,7 +97,7 @@ function user_is_subscribed_to_project_event( $username, $projectid, $event )
 
 // -----------------------------------------------------------------------------
 
-function notify_project_event_subscribers( $project, $event )
+function notify_project_event_subscribers( $project, $event, $extras=array() )
 {
     global $site_name, $code_url, $auto_email_addr, $site_signoff;
 
@@ -122,6 +127,31 @@ function notify_project_event_subscribers( $project, $event )
                 . " "
                 . sprintf(_("You can download the files via PG's online catalog at <%s>."), $pg_url )
                 . "\n";
+            break;
+
+        case 'round_available':
+            $msg_body .=
+                sprintf( _("This project has become available for work in %s."), $extras['round']->id );
+            break;
+
+        case 'round_complete':
+            $msg_body .=
+                sprintf( _("This project has completed work in %s."), $extras['round']->id );
+            break;
+
+        case 'pp_enter':
+            $msg_body .=
+                _("This project has entered post-processing.");
+            break;
+
+        case 'sr_available':
+            $msg_body .=
+                _("This project has become available for smooth-reading.");
+            break;
+
+        case 'ppv_enter':
+            $msg_body .=
+                _("This project has entered post-processing verification.");
             break;
 
         default:

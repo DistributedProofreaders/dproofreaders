@@ -12,7 +12,12 @@ $sql = "
     (
         username    VARCHAR(25) NOT NULL,
         projectid   VARCHAR(22) NOT NULL,
-        iste_posted TINYINT(1)  NOT NULL,
+        iste_round_available TINYINT(1)  NOT NULL,
+        iste_round_complete  TINYINT(1)  NOT NULL,
+        iste_pp_enter        TINYINT(1)  NOT NULL,
+        iste_sr_available    TINYINT(1)  NOT NULL,
+        iste_ppv_enter       TINYINT(1)  NOT NULL,
+        iste_posted          TINYINT(1)  NOT NULL,
 
         PRIMARY KEY (username,projectid),
         INDEX (projectid)
