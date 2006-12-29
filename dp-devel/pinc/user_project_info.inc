@@ -139,12 +139,7 @@ function notify_project_event_subscribers( $project, $event )
     $n_subscribers = mysql_num_rows($res1);
     while ( list($username) = mysql_fetch_row($res1) )
     {
-        $res2 = mysql_query("
-            SELECT user_email
-            FROM phpbb_users
-            WHERE username = '$username'
-        ") or die(mysql_error());
-        $email = mysql_result($res2, 0, "user_email");
+        $email = get_subscriber_email_addr($username);
         maybe_mail(
             $email,
             $msg_subject,
@@ -163,6 +158,16 @@ function notify_project_event_subscribers( $project, $event )
             WHERE projectid = '$projectid'
         ") or die(mysql_error());
     }
+}
+
+function get_subscriber_email_addr( $username )
+{
+    $res = mysql_query("
+        SELECT user_email
+        FROM phpbb_users
+        WHERE username = '$username'
+    ") or die(mysql_error());
+    return mysql_result($res, 0);
 }
 
 // -----------------------------------------------------------------------------
