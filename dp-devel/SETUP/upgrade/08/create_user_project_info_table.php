@@ -34,6 +34,11 @@ $sql = "
     SELECT DISTINCT
         username,
         value AS projectid,
+        0 AS iste_round_available,
+        0 AS iste_round_complete,
+        0 AS iste_pp_enter,
+        0 AS iste_sr_available,
+        0 AS iste_ppv_enter,
         1 AS iste_posted
     FROM usersettings
     WHERE setting='posted_notice'
