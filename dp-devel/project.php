@@ -1015,8 +1015,8 @@ function do_event_subscriptions()
     echo "<input type='hidden' name='return_uri' value='{$_SERVER['REQUEST_URI']}#event_subscriptions'>\n";
     echo "<table>\n";
     echo "<tr>";
-    echo "<th>", _("Subscribed?"), "</th>";
     echo "<th>", _("Event"), "</th>";
+    echo "<th>", _("Subscribed?"), "</th>";
     echo "</tr>\n";
     foreach ( $subscribable_project_events as $event => $label )
     {
@@ -1024,8 +1024,8 @@ function do_event_subscriptions()
         $bgcolor = ( $is_subd ? '#CFC' : '#FFF' );
         $checked = ( $is_subd ? 'checked' : '' );
         echo "<tr>";
-        echo "<td style='text-align:center; background-color:$bgcolor;'><input type='checkbox' name='$event' $checked></td>";
         echo "<td>$label</td>";
+        echo "<td style='text-align:center; background-color:$bgcolor;'><input type='checkbox' name='$event' $checked></td>";
         echo "</tr>\n";
     }
     echo "</table>\n";
