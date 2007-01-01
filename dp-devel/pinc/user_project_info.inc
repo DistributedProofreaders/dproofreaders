@@ -202,6 +202,32 @@ function get_subscriber_email_addr( $username )
 
 // -----------------------------------------------------------------------------
 
+function get_n_users_subscribed_to_events_for_project( $projectid )
+// Return an array: keys are the same as $subscribable_project_events,
+// each value is the number of subscriptions to that event for the given project.
+{
+    global $subscribable_project_events;
+    $items = array();
+    foreach ( $subscribable_project_events as $event => $label )
+    {
+        $items[] = "SUM(iste_$event) AS $event";
+    }
+    $selects = implode( ',', $items );
+
+    $res = mysql_query("
+        SELECT $selects
+        FROM user_project_info
+        WHERE projectid='$projectid'
+    ") or die(mysql_error());
+    $r = mysql_fetch_assoc($res);
+
+    // If there are no rows for this project, the SUMs will all return NULL;
+    // change those to zeroes.
+    $r = array_map( 'intval', $r );
+
+    return $r;
+}
+
 function create_temporary_project_event_subscription_summary_table()
 // Create a temp table named 'project_event_subscriptions_grouped_by_project'
 // with two columns: 'projectid' and 'nouste_posted', where the latter gives the
