@@ -1009,6 +1009,8 @@ function do_event_subscriptions()
     echo _("Your current subscriptions are shown below with a shaded background.");
     echo "</p>\n";
 
+    $n_users_subscribed_to_ = get_n_users_subscribed_to_events_for_project( $projectid );
+
     $url = "$code_url/tools/set_project_event_subs.php";
     echo "<form method='post' action='$url'>\n";
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
@@ -1017,6 +1019,7 @@ function do_event_subscriptions()
     echo "<tr>";
     echo "<th>", _("Event"), "</th>";
     echo "<th>", _("Subscribed?"), "</th>";
+    echo "<th>", _("Users Subscribed"), "</th>";
     echo "</tr>\n";
     foreach ( $subscribable_project_events as $event => $label )
     {
@@ -1026,6 +1029,7 @@ function do_event_subscriptions()
         echo "<tr>";
         echo "<td>$label</td>";
         echo "<td style='text-align:center; background-color:$bgcolor;'><input type='checkbox' name='$event' $checked></td>";
+        echo "<td style='text-align:center;'>{$n_users_subscribed_to_[$event]}</td>";
         echo "</tr>\n";
     }
     echo "</table>\n";
