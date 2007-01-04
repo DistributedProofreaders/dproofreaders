@@ -12,8 +12,9 @@ include_once($relPath.'word_checker.inc');
 //
 // Returns an array consisting of:
 //     -- a string containing the HTML code for the 'text' part of the spellcheck interface.
+//     -- an array of messages (errors/warnings)
 //     -- an array of names of languages used.
-//     -- an array of names of languages not used (but should have been)
+//
 function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = "", $accept_words = "" ) {
 
     global $nonWordCharacters, $puncCharacters;
@@ -45,21 +46,11 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
     $orig_text = str_replace('[lf]',' ',$orig_text);
 
     // get the list of misspelled words from aspell
-    $result = get_bad_words_from_text($orig_text,$projectid,$imagefile,$languages);
+    list($badWordsFromText,$messages) =
+        get_bad_words_from_text($orig_text,$projectid,$imagefile,$languages);
 
-    // confirm we received something from aspell
-    // on success, get_bad_words_from_text returns an array
-    // on error, it returns an error message
-    if(!is_array($result)) {
-        $returnString.="Error during dictionary check<br>: $result";
-        $badWordsFromText = array();
-        $checked_langs = array();
-        $unchecked_langs = array();
-    } else {
-        list($badWordsFromText,$checked_langs,$unchecked_langs) = $result;
-        $badWordsFromText = array_unique($badWordsFromText);
-        rsort($badWordsFromText);
-    }
+    $badWordsFromText = array_unique($badWordsFromText);
+    rsort($badWordsFromText);
 
     // load the scanno words
     $scannos = array_unique(load_scanno_words());
@@ -188,7 +179,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
     $returnString.="</pre>";
     $returnString.="<input type='hidden' name='sptotal' value='$numBadWords'>";
 
-    return array($returnString,$checked_langs,$unchecked_langs);
+    return array($returnString,$languages,$messages);
 }
 
 // adds HTML code to a string (usually punctuation) to highlight it

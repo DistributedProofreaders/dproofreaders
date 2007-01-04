@@ -147,18 +147,28 @@ id="controlframe"><?PHP
     echo "<input type='hidden' id='accept_words' name=\"accept_words\" value='" . implode(' ',$accept_words) . "'>\n";
 
     // run the text through the spellcheck - returns the form contents and a list of languages the page was checked against
-    list($page_contents,$checked_langs,$unchecked_langs) =
+    list($page_contents,$languages,$messages) =
         spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accept_words );
 
-    $dictionary_exists  = implode(', ', $checked_langs);
-    $dictionary_missing = implode(', ', $unchecked_langs);
-
     echo "<p>";
-    if($dictionary_exists != "")
-        echo _("The text was checked against dictionaries for the following languages: ") . "<b>$dictionary_exists</b>. ";
-    if($dictionary_missing != "")
-        echo _("No dictionary was available for the following languages: ") . "<b>$dictionary_missing</b>. ";
+    echo _("The text was checked against the following languages: ");
+    echo "<b>";
+    echo implode(', ', $languages);
+    echo "</b>";
     echo "</p>";
+
+    if ( count($messages) == 0 )
+    {
+        // echo "No warnings/errors were raised.<br>\n";
+    }
+    else
+    {
+        echo "The following warnings/errors were raised:<br>\n";
+        foreach ( $messages as $message )
+        {
+            echo "$message<br>\n";
+        }
+    }
 
     echo "<p>" . _("Check against an additional language: ");
 
@@ -169,8 +179,8 @@ id="controlframe"><?PHP
     // get a list of languages with dictionaries installed on the system
     $dict_list = get_languages_with_dictionaries();
     foreach($dict_list as $langcode => $language) {
-        // skip showing project languages
-        if(isset($checked_langs[$langcode])) continue;
+        // skip the languages that we just used.
+        if(in_array($language,$languages)) continue;
         echo "<option value='" .  htmlspecialchars($language,ENT_QUOTES) . "'";
         if(strcmp($language,$aux_language)==0) echo " selected";
         echo ">$language</option>\n";

@@ -22,15 +22,16 @@ $puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"¡¿-';
 //   imagefile - image filename, needed for temp filename
 //   languages - array of languages, used to load aspell dictionary
 //               for those languages if available
-// Return:
-//   on success, the function returns an array consisting of:
+//
+// Returns an array consisting of:
 //       -- an array of misspelled words,
-//       -- an array of checked languages (lang_code => lang_name),
-//       -- an array of unchecked languages (ditto)
-//   on error, the function returns an error string
+//       -- an array of messages (errors/warnings)
+//
 function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages) {
     global $aspell_temp_dir;
     global $aspell_executable, $aspell_prefix, $iso_639, $charset, $projects_dir;
+
+    $messages = array();
 
     // clean up the original text
     $orig_text = str_replace(array("\r","\n\n"),array("\n","\n"),$orig_text);
@@ -39,12 +40,13 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
     $tmp_file_path = "$aspell_temp_dir/$tmp_file_name";
 
     $wasWritten = file_put_contents($tmp_file_path,$orig_text);
-    if($wasWritten === FALSE) return "Error: unable to write contents to temp file: $tmp_file_path";
+    if($wasWritten === FALSE)
+    {
+        $messages[] = "Error: unable to write text to temp file: $tmp_file_path";
+        return array( array(), $messages );
+    }
 
-    // array to hold final languages
-    $checked_langs=array();
-    $unchecked_langs=array();
-
+    $misspellings = array();
     foreach( $languages as $language ) {
         $langcode = array_search( $language, $iso_639 );
         if( $langcode ) {
@@ -56,7 +58,6 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
 
             $dict_file = "$aspell_prefix/lib/aspell/$langcode.multi";
             if( is_file( $dict_file ) ) {
-                $checked_langs[$langcode] = $language;
                 // run aspell using this language
 
                 // create the aspell command
@@ -71,14 +72,12 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
             }
             else
             {
-                // No dictionary installed for that language.
-                $unchecked_langs[$langcode] = $language;
+                $messages[] = "Warning: no external dictionary installed for '$language'";
             }
         }
         else
         {
-            // Unknown language-name.
-            $unchecked_langs[$langcode] = $language;
+            $messages[] = "Warning: unknown language name '$language'";
         }
     }
 
@@ -87,9 +86,9 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
         unlink($tmp_file_path);
     }
 
-    if(count($checked_langs) == 0) {
+    if(count($misspellings) == 0) {
         $finalMisspellings = array();
-        return array($finalMisspellings, $checked_langs, $unchecked_langs);
+        return array($finalMisspellings, $messages);
     }
 
     // now we need to find the intersection between the languages that we've checked
@@ -104,7 +103,7 @@ function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages
     // make a point *not* to unique the array, some callers might
     // want to know the frequency of the misspelled words
 
-    return array($finalMisspellings,$checked_langs,$unchecked_langs);
+    return array($finalMisspellings,$messages);
 }
 
 // -----------------------------------------------------------------------------
