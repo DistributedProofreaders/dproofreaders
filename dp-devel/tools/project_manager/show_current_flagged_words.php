@@ -37,12 +37,8 @@ $all_pages_text = preg_replace("/^-+File: .*$/m",'',$all_pages_text);
 // get_bad_words_from_text returns an array of misspelled words, including duplicate
 // words. To generate a frequency count we need only count them
 $result = get_bad_words_from_text($all_pages_text,$projectid,'all',$languages);
-if(!is_array($result)) {
-    echo "Error running aspell: $result";
-    exit;
-}
 
-list($wrongWords,$checked_langs,$unchecked_langs) = $result;
+list($wrongWords,$messages) = $result;
 
 // get the word frequencies
 $wordCount = generate_frequencies($wrongWords);
@@ -82,6 +78,18 @@ $cutoffString = preg_replace("/ \| $/","",$cutoffString);
 <p>You can also <a href="generate_dict_suggestions.php?projectid=<?PHP echo $projectid; ?>&amp;format=text">download</a> a copy of the word list with frequencies for offline analysis. When adding the final list to the input box on the Edit Project page, the frequencies can be left in and the system will remove them.</p>
 
 <p><b>Note:</b> Word that have been already saved in the project dictionary will not appear here as they are already considered valid by the spellchecker. Take care not to overwrite these words when pasting additional words in the box.</p>
+<?
+if ( count($messages) > 0 )
+{
+    echo "<p>\n";
+    echo "The following warnings/errors were raised:<br>\n";
+    foreach ( $messages as $message )
+    {
+        echo "$message<br>\n";
+    }
+    echo "</p>\n";
+}
+?>
 
 <table>
 <tr><th>Frequency</th><th>Word</th></tr>
