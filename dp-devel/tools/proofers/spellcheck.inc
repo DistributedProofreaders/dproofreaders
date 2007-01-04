@@ -160,7 +160,7 @@ id="controlframe"><?PHP
         echo _("No dictionary was available for the following languages: ") . "<b>$dictionary_missing</b>. ";
     echo "</p>";
 
-    echo "<p>" . _("To run the page against the dictionary for an additional language, select one here and hit Check: ");
+    echo "<p>" . _("Check against an additional language: ");
 
     echo "<select name='aux_language'>";
     echo "<option value=''>Language</option>";
@@ -185,7 +185,7 @@ id="controlframe"><?PHP
 ></p>
 
 <?PHP
-echo "<p>" . _("Note: Clicking the [AW] button will accept all instances of that word for this page, including corrections done to any instance of the word, and save the word for the Project Manager to consider adding to this project's dictionary.") . "</p>";
+echo "<p>" . _("Note: The [AW] button will accept all instances of that word for this page, and suggest it for inclusion in this project's dictionary.") . "</p>";
 ?>
 <table id="tbtext" cellpadding="10" align="center"><tr>
 <?PHP
