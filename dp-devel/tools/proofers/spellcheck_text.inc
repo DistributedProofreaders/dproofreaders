@@ -2,17 +2,18 @@
 include_once($relPath.'site_vars.php');
 include_once($relPath.'word_checker.inc');
 
-// returns HTML to display the text spellchecked
 // Arguments:
 //   orig_text - original text to run through dictionary
 //   projectid - id of projected, needed for temp filename
 //               and to load the custom dictionaries
 //   imagefile - image filename, needed for temp filename
-//   aux_languages - auxiliarary language to check against
+//   aux_languages - auxiliary language to check against
 //   accept_words - array of words that should not be considered misspelled
-// Return:
-//   on success, the function returns the array(array(misspelled words),array(checked lang codes))
-//   on error, the function returns an error string
+//
+// Returns an array consisting of:
+//     -- a string containing the HTML code for the 'text' part of the spellcheck interface.
+//     -- an array of names of languages used.
+//     -- an array of names of languages not used (but should have been)
 function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = "", $accept_words = "" ) {
 
     global $nonWordCharacters, $puncCharacters;
