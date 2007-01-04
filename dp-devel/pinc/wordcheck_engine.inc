@@ -27,7 +27,7 @@ $puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"¡¿-';
 //       -- an array of misspelled words,
 //       -- an array of messages (errors/warnings)
 //
-function get_bad_words_from_text( $orig_text, $projectid, $imagefile, $languages) {
+function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile, $languages) {
     global $aspell_temp_dir;
     global $aspell_executable, $aspell_prefix, $iso_639, $charset, $projects_dir;
 

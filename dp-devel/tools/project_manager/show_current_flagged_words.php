@@ -34,9 +34,9 @@ $all_pages_text = join_proofed_text($projectid,$pages_res,false,false,'');
 $all_pages_text = preg_replace("/^-+File: .*$/m",'',$all_pages_text);
 
 // now run it through the aspell checker
-// get_bad_words_from_text returns an array of misspelled words, including duplicate
+// get_bad_words_via_external_checker returns an array of misspelled words, including duplicate
 // words. To generate a frequency count we need only count them
-$result = get_bad_words_from_text($all_pages_text,$projectid,'all',$languages);
+$result = get_bad_words_via_external_checker($all_pages_text,$projectid,'all',$languages);
 
 list($wrongWords,$messages) = $result;
 

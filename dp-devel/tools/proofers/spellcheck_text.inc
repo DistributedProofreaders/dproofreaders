@@ -47,7 +47,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
 
     // get the list of misspelled words from aspell
     list($badWordsFromText,$messages) =
-        get_bad_words_from_text($orig_text,$projectid,$imagefile,$languages);
+        get_bad_words_via_external_checker($orig_text,$projectid,$imagefile,$languages);
 
     $badWordsFromText = array_unique($badWordsFromText);
     rsort($badWordsFromText);
