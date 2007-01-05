@@ -41,8 +41,8 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
     list($badWordHash,$languages,$messages) =
         get_bad_words_for_text( $orig_text, $projectid, $imagefile, $aux_language, $accept_words );
 
-    // ok, at this point we have a finalized list of possible misspellings
-    // and likely a list of scannos too, start preparing the page
+    // ok, at this point we have a finalized list of bad words.
+    // start preparing the page
 
     // define the highlight for the punctuation
     $returnString.="<style type='text/css'> .hl { background-color:yellow;color:black;}</style>";
@@ -118,7 +118,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
                 $replaceString = "";
 
                 // if the AW button is wanted, add the initial span
-                if($badWordHash[$word]) {
+                if($badWordHash[$word] != WC_SITE ) {
                     $replaceString .= "<span id=\"{$jsSanitizedWord}_{$wordCount[$word]}\">";
                     $onChange = " onChange=\"disableAcceptWord('{$jsSanitizedWord}_{$wordCount[$word]}');\"";
                 }
@@ -130,7 +130,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
                     "<input type='text' name='sp{$numBadWords}' size='{$textBoxLen}' value='{$wordSafe}' style='font-family: DPCustomMono2;' $onChange>";
 
                 // if the AW button is wanted, add the closing span and the button
-                if($badWordHash[$word]) {
+                if($badWordHash[$word] != WC_SITE ) {
                     $replaceString .=
                         "<input id='button_{$jsSanitizedWord}_{$wordCount[$word]}' type='button' value='AW' onClick=\"acceptWord('$jsSanitizedWord','$jsSafeWord');\">" .
                         "</span>";

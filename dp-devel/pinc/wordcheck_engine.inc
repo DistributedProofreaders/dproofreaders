@@ -17,6 +17,13 @@ $puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"¡¿-';
 
 // -----------------------------------------------------------------------------
 
+// There are four "levels" of specificity
+// at which words are deemed bad or good.
+define('WC_WORLD',   1);
+define('WC_SITE',    2);
+define('WC_PROJECT', 3);
+define('WC_PAGE',    4);
+
 function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $accept_words )
 // Arguments:
 //   text - the text for which bad words are sought
@@ -28,7 +35,8 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
 // 
 // Returns an array consisting of:
 //  -- an array: each key is a word that is (or would be) bad for this text;
-//     the corresponding value is 0 for scannos, 1 otherwise.
+//     the corresponding value is a constant denoting the
+//     (most specific) level at which the word was deemed bad.
 //  -- an array: each value is the name of a language that was used
 //  -- an array: each value is a warning/error.
 {
@@ -57,19 +65,19 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
         list($external_bad_words, $messages) =
             get_bad_words_via_external_checker(
                 $text, $projectid, $imagefile, $languages);
-        $acc->add_bad_words( $external_bad_words, 1 );
+        $acc->add_bad_words( $external_bad_words, WC_WORLD );
     }
 
     // The site
     {
-        $acc->add_bad_words( load_site_bad_words(), 0 );
+        $acc->add_bad_words( load_site_bad_words(), WC_SITE );
     }
 
     // The project
     {
         $acc->remove_good_words( load_project_good_words($projectid) );
 
-        $acc->add_bad_words( load_project_bad_words($projectid), 1 );
+        $acc->add_bad_words( load_project_bad_words($projectid), WC_PROJECT );
     }
 
     // The page
@@ -88,8 +96,8 @@ class BadWordAccumulator
     {
         $this->words = array();
         // Each key is a bad word, and its value is
-        // 1 if we want an AW button for that word, or
-        // 0 if we don't want the AW button.
+        // a constant denoting the (most specific) level
+        // at which the word was deemed bad.
     }
 
     function add_bad_words( $bad_words, $val )
