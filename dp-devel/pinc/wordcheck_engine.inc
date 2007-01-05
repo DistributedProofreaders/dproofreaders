@@ -52,17 +52,43 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
 
     $project_bad_words = load_project_bad_words($projectid);
 
-    // create the badWordHash, the keys are the words
-    // the values are 1 if we want an AW button for that word
-    // or a 0 if we don't want the AW button
-    $badWordHash = array();
-    foreach($project_bad_words as $word) $badWordHash[$word] = 1;
-    foreach($site_bad_words as $word) $badWordHash[$word] = 0;
-    foreach($badWordsFromText as $word) $badWordHash[$word] = 1;
+    $acc = new BadWordAccumulator();
+    $acc->add_bad_words( $project_bad_words, 1 );
+    $acc->add_bad_words( $site_bad_words, 0 );
+    $acc->add_bad_words( $badWordsFromText, 1 );
 
-    foreach($accept_words as $word) unset($badWordHash[$word]);
+    $acc->remove_good_words( $accept_words );
 
-    return array($badWordHash, $languages, $messages);
+    return array($acc->words, $languages, $messages);
+}
+
+// -----------------------------------------------------------------------------
+
+class BadWordAccumulator
+{
+    function BadWordAccumulator()
+    {
+        $this->words = array();
+        // Each key is a bad word, and its value is
+        // 1 if we want an AW button for that word, or
+        // 0 if we don't want the AW button.
+    }
+
+    function add_bad_words( $bad_words, $val )
+    {
+            foreach ( $bad_words as $word )
+            {
+                $this->words[$word] = $val;
+            }
+    }
+
+    function remove_good_words( $good_words )
+    {
+            foreach ( $good_words as $word )
+            {
+                unset( $this->words[$word] );
+            }
+    }
 }
 
 // -----------------------------------------------------------------------------
