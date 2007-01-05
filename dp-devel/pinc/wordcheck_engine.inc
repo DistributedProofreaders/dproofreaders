@@ -55,13 +55,6 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
 
     $project_bad_words = array_unique(load_project_bad_words($projectid));
 
-    // if we have a list of words to accept (via the AW or othewise)
-    // filter them out of the $project_bad_words and $badWordsFromText
-    if(is_array($accept_words) && sizeof($accept_words)>0) {
-        $badWordsFromText = array_diff($badWordsFromText,$accept_words);
-        $project_bad_words = array_diff($project_bad_words,$accept_words);
-    }
-
     // create the badWordHash, the keys are the words
     // the values are 1 if we want an AW button for that word
     // or a 0 if we don't want the AW button
@@ -69,6 +62,8 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
     foreach($project_bad_words as $word) $badWordHash[$word] = 1;
     foreach($site_bad_words as $word) $badWordHash[$word] = 0;
     foreach($badWordsFromText as $word) $badWordHash[$word] = 1;
+
+    foreach($accept_words as $word) unset($badWordHash[$word]);
 
     return array($badWordHash, $languages, $messages);
 }
