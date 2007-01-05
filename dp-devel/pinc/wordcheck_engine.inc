@@ -52,10 +52,10 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
     rsort($badWordsFromText);
 
     // load the scanno words
-    $scannos = array_unique(load_scanno_words());
+    $scannos = array_unique(load_site_bad_words());
 
     // load the flag words
-    $flags = array_unique(load_project_flag_words($projectid));
+    $flags = array_unique(load_project_bad_words($projectid));
 
     // if we have a list of words to accept (via the AW or othewise)
     // filter them out of the $flags and $badWordsFromText
@@ -172,8 +172,7 @@ function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile,
 
 // -----------------------------------------------------------------------------
 
-// load the global scanno words
-function load_scanno_words() {
+function load_site_bad_words() {
     global $projects_dir;
 
     $scanno_words = array();
@@ -191,11 +190,10 @@ function load_scanno_words() {
 
 // -----------------------------------------------------------------------------
 
-// load a list of the project's dictionary words
 // Return:
 //   on success, the function returns an array of the words in the custom dictionary
 //   on error, the function returns an error string
-function load_project_dictionary( $projectid, $languages) {
+function load_project_good_words( $projectid, $languages) {
     global $iso_639, $projects_dir;
 
     $custom_words = array();
@@ -217,8 +215,7 @@ function load_project_dictionary( $projectid, $languages) {
     return $custom_words;
 }
 
-// save the project dictionary
-function save_project_dictionary( $projectid, $languages, $words) {
+function save_project_good_words( $projectid, $languages, $words ) {
     global $projects_dir, $iso_639;
 
     $numwords = sizeof($words);
@@ -255,8 +252,7 @@ function save_project_dictionary( $projectid, $languages, $words) {
 
 // -----------------------------------------------------------------------------
 
-// load the flag words for a project
-function load_project_flag_words($projectid) {
+function load_project_bad_words($projectid) {
     global $projects_dir;
 
     $flag_words = array();
@@ -272,8 +268,7 @@ function load_project_flag_words($projectid) {
     return $flag_words;
 }
 
-// save the list of project flag words
-function save_project_flag_words($projectid,$words) {
+function save_project_bad_words($projectid, $words) {
     global $projects_dir;
 
     $flag_name = "$projects_dir/$projectid/flag-words.txt";

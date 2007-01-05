@@ -367,10 +367,10 @@ class ProjectInfoHolder
 
         // load non-db project settings
         $languages = preg_split('/ with /', $this->language );
-        $valid_words=load_project_dictionary($this->projectid,$languages);
+        $valid_words=load_project_good_words($this->projectid,$languages);
         $this->dict_valid_words=implode("\n",$valid_words);
 
-        $flag_words=load_project_flag_words($this->projectid);
+        $flag_words=load_project_bad_words($this->projectid);
         $this->dict_flag_words=implode("\n",$flag_words);
     }
 
@@ -706,8 +706,8 @@ class ProjectInfoHolder
         $flagwords = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->dict_flag_words));
 
         $languages = preg_split('/ with /', $this->language );
-        save_project_dictionary($this->projectid, $languages, $validwords);
-        save_project_flag_words($this->projectid, $flagwords);
+        save_project_good_words($this->projectid, $languages, $validwords);
+        save_project_bad_words($this->projectid, $flagwords);
 
 // TODO not scannercredit below!
 
