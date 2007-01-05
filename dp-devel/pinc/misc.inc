@@ -71,6 +71,24 @@ if ( !function_exists('file_put_contents') )
     }
 }
 
+// array_intersect_key() is predefined in PHP 5.1.0RC1
+if ( !function_exists('array_intersect_key') )
+{
+    // This is only the two-arg version.
+    function array_intersect_key( $array1, $array2 )
+    {
+        $result = array();
+        foreach ( $array1 as $k => $v )
+        {
+            if ( array_key_exists($k,$array2) )
+            {
+                $result[$k] = $v;
+            }
+        }
+        return $result;
+    }
+}
+
 // str_split() is predefined in PHP 5 and on.
 if ( !function_exists('str_split') )
 {
