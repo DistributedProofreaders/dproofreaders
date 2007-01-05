@@ -172,6 +172,25 @@ function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile,
 
 // -----------------------------------------------------------------------------
 
+// load the global scanno words
+function load_scanno_words() {
+    global $projects_dir;
+
+    $scanno_words = array();
+
+    $scanno_name = "$projects_dir/scanno-words.txt";
+
+    // check to see that we were able to open the file
+    if(is_file($scanno_name)) {
+        $word_list = file_get_contents($scanno_name);
+        $scanno_words = explode("\n",$word_list);
+    }
+
+    return $scanno_words;
+}
+
+// -----------------------------------------------------------------------------
+
 // load a list of the project's dictionary words
 // Return:
 //   on success, the function returns an array of the words in the custom dictionary
@@ -273,25 +292,6 @@ function save_project_flag_words($projectid,$words) {
     }
 
     return "Success";
-}
-
-// -----------------------------------------------------------------------------
-
-// load the global scanno words
-function load_scanno_words() {
-    global $projects_dir;
-
-    $scanno_words = array();
-
-    $scanno_name = "$projects_dir/scanno-words.txt";
-
-    // check to see that we were able to open the file
-    if(is_file($scanno_name)) {
-        $word_list = file_get_contents($scanno_name);
-        $scanno_words = explode("\n",$word_list);
-    }
-
-    return $scanno_words;
 }
 
 // -----------------------------------------------------------------------------
