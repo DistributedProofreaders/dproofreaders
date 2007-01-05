@@ -38,18 +38,18 @@ $all_pages_text = preg_replace("/^-+File: .*$/m",'',$all_pages_text);
 // words. To generate a frequency count we need only count them
 $result = get_bad_words_via_external_checker($all_pages_text,$projectid,'all',$languages);
 
-list($wrongWords,$messages) = $result;
+list($bad_words,$messages) = $result;
 
 // get the word frequencies
-$wordCount = generate_frequencies($wrongWords);
+$bad_words_w_freq = generate_frequencies($bad_words);
 
 // sort the list by frequency and reverse it
-arsort($wordCount);
+arsort($bad_words_w_freq);
 
 // if the user wants the list in text-only mode
 if($format == "text") {
     // freq side
-    foreach( $wordCount as $word => $freq) {
+    foreach( $bad_words_w_freq as $word => $freq) {
         echo "$word - $freq\n";
     }
     exit;
@@ -102,7 +102,7 @@ $words_printed = 0;
 
 // freq side
 echo "<tr><td><hr>";
-foreach( $wordCount as $word => $freq ) {
+foreach( $bad_words_w_freq as $word => $freq ) {
     if($freq < $minFreq) break;
     echo "$freq<br>\n";
     $words_printed++;
@@ -111,7 +111,7 @@ echo "</td>\n";
 
 // word side
 echo "<td><hr>";
-foreach( $wordCount as $word => $freq ) {
+foreach( $bad_words_w_freq as $word => $freq ) {
     if($freq < $minFreq) break;
     echo "$word<br>\n";
 }
@@ -122,7 +122,7 @@ foreach( $wordCount as $word => $freq ) {
 
 <?
     $freqString = _('%d additional words with frequency less than %d were found and not shown.');
-    echo '<p>' . sprintf($freqString,sizeof($wordCount)-$words_printed,$minFreq) . '</p>';
+    echo '<p>' . sprintf($freqString,sizeof($bad_words_w_freq)-$words_printed,$minFreq) . '</p>';
 
 // vim: sw=4 ts=4 expandtab
 ?>
