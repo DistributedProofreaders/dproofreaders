@@ -366,8 +366,7 @@ class ProjectInfoHolder
         $this->up_projectid     = $ar['up_projectid'];
 
         // load non-db project settings
-        $languages = preg_split('/ with /', $this->language );
-        $good_words = load_project_good_words($this->projectid,$languages);
+        $good_words = load_project_good_words($this->projectid);
         $this->good_words = implode("\n", $good_words);
 
         $bad_words=load_project_bad_words($this->projectid);
@@ -705,8 +704,7 @@ class ProjectInfoHolder
         $good_words = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->good_words));
         $bad_words = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->bad_words));
 
-        $languages = preg_split('/ with /', $this->language );
-        save_project_good_words($this->projectid, $languages, $good_words);
+        save_project_good_words($this->projectid, $good_words);
         save_project_bad_words($this->projectid, $bad_words);
 
 // TODO not scannercredit below!

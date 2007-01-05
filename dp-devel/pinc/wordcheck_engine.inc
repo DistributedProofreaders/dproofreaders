@@ -108,16 +108,16 @@ function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile,
         return array( array(), $messages );
     }
 
+    // find project word list if available
+    $personal_string = "";
+    if( is_file( "$projects_dir/$projectid/good_words.txt" ) ) {
+        $personal_string = "-p $projects_dir/$projectid/good_words.txt";
+    }
+
     $misspellings = array();
     foreach( $languages as $language ) {
         $langcode = array_search( $language, $iso_639 );
         if( $langcode ) {
-            // find project word list if available
-            $personal_string = "";
-            if( is_file( "$projects_dir/$projectid/dict-words.$langcode.txt" ) ) {
-                $personal_string = "-p $projects_dir/$projectid/dict-words.$langcode.txt";
-            }
-
             $dict_file = "$aspell_prefix/lib/aspell/$langcode.multi";
             if( is_file( $dict_file ) ) {
                 // run aspell using this language
@@ -191,39 +191,31 @@ function load_site_bad_words() {
 // Return:
 //   on success, the function returns an array of the words in the custom dictionary
 //   on error, the function returns an error string
-function load_project_good_words( $projectid, $languages) {
-    global $iso_639, $projects_dir;
+function load_project_good_words( $projectid ) {
+    global $projects_dir;
 
     $custom_words = array();
 
-    foreach( $languages as $language ) {
-        $langcode = array_search( $language, $iso_639 );
-        if( $langcode ) {
-            $dict_name = "$projects_dir/$projectid/dict-words.$langcode.txt";
+            $dict_name = "$projects_dir/$projectid/good_words.txt";
 
             // find project word list if available
             if( is_file( $dict_name ) ) {
                 $word_list = file_get_contents($dict_name);
                 $word_list = preg_replace('/personal.*?\n/','',$word_list);
-                $custom_words = array_merge($custom_words,explode('\n',$word_list));
+                $custom_words = explode('\n',$word_list);
             }
-        }
-    }
 
     return $custom_words;
 }
 
-function save_project_good_words( $projectid, $languages, $words ) {
-    global $projects_dir, $iso_639;
+function save_project_good_words( $projectid, $words ) {
+    global $projects_dir;
 
     $numwords = sizeof($words);
 
     // now write them to a file
-    // we'll only write one out for the primary language
-    $language = array_shift($languages);
-    $langcode = array_search( $language, $iso_639 );
-    if( $langcode ) {
-        $dict_name = "$projects_dir/$projectid/dict-words.$langcode.txt";
+
+        $dict_name = "$projects_dir/$projectid/good_words.txt";
 
         $fh = @fopen( $dict_name, "w" );
         // check to see that we were able to open the file
@@ -242,9 +234,7 @@ function save_project_good_words( $projectid, $languages, $words ) {
         } else {
             return "Error: Unable to write to file $dict_name\n";
         }
-    } else {
-        return "Error: Primary language not defined, unable to save dictionary\n";
-    }
+
     return "Success";
 }
 
