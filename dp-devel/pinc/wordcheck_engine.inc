@@ -51,25 +51,23 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
     $badWordsFromText = array_unique($badWordsFromText);
     rsort($badWordsFromText);
 
-    // load the scanno words
-    $scannos = array_unique(load_site_bad_words());
+    $site_bad_words = array_unique(load_site_bad_words());
 
-    // load the flag words
-    $flags = array_unique(load_project_bad_words($projectid));
+    $project_bad_words = array_unique(load_project_bad_words($projectid));
 
     // if we have a list of words to accept (via the AW or othewise)
-    // filter them out of the $flags and $badWordsFromText
+    // filter them out of the $project_bad_words and $badWordsFromText
     if(is_array($accept_words) && sizeof($accept_words)>0) {
         $badWordsFromText = array_diff($badWordsFromText,$accept_words);
-        $flags = array_diff($flags,$accept_words);
+        $project_bad_words = array_diff($project_bad_words,$accept_words);
     }
 
     // create the badWordHash, the keys are the words
     // the values are 1 if we want an AW button for that word
     // or a 0 if we don't want the AW button
     $badWordHash = array();
-    foreach($flags as $word) $badWordHash[$word] = 1;
-    foreach($scannos as $word) $badWordHash[$word] = 0;
+    foreach($project_bad_words as $word) $badWordHash[$word] = 1;
+    foreach($site_bad_words as $word) $badWordHash[$word] = 0;
     foreach($badWordsFromText as $word) $badWordHash[$word] = 1;
 
     return array($badWordHash, $languages, $messages);
