@@ -211,17 +211,7 @@ function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile,
 function load_site_bad_words() {
     global $projects_dir;
 
-    $scanno_words = array();
-
-    $scanno_name = "$projects_dir/scanno-words.txt";
-
-    // check to see that we were able to open the file
-    if(is_file($scanno_name)) {
-        $word_list = file_get_contents($scanno_name);
-        $scanno_words = explode("\n",$word_list);
-    }
-
-    return $scanno_words;
+    return load_word_list( "$projects_dir/scanno-words.txt" );
 }
 
 // -----------------------------------------------------------------------------
@@ -232,17 +222,7 @@ function load_site_bad_words() {
 function load_project_good_words( $projectid ) {
     global $projects_dir;
 
-    $custom_words = array();
-
-            $dict_name = "$projects_dir/$projectid/good_words.txt";
-
-            // find project word list if available
-            if( is_file( $dict_name ) ) {
-                $word_list = file_get_contents($dict_name);
-                $custom_words = explode('\n',$word_list);
-            }
-
-    return $custom_words;
+    return load_word_list( "$projects_dir/$projectid/good_words.txt" );
 }
 
 function save_project_good_words( $projectid, $words ) {
@@ -277,17 +257,7 @@ function save_project_good_words( $projectid, $words ) {
 function load_project_bad_words($projectid) {
     global $projects_dir;
 
-    $flag_words = array();
-
-    $flag_name = "$projects_dir/$projectid/flag-words.txt";
-
-    // check to see that we were able to open the file
-    if(is_file($flag_name)) {
-        $word_list = file_get_contents($flag_name);
-        $flag_words = explode("\n",$word_list);
-    }
-
-    return $flag_words;
+    return load_word_list( "$projects_dir/$projectid/flag-words.txt" );
 }
 
 function save_project_bad_words($projectid, $words) {
@@ -361,6 +331,23 @@ function load_accept_words($projectid) {
     }
 
     return $wordsArray;
+}
+
+// -----------------------------------------------------------------------------
+
+function load_word_list( $path )
+// Load a list of words (one per line) from a file.
+{
+    if ( !is_file($path) )
+    {
+        // The file does not exist.
+        // Treat that the same as if it existed and was empty.
+        return array();
+    }
+
+    $word_list = file_get_contents($path);
+
+    return explode("\n", $word_list);
 }
 
 // -----------------------------------------------------------------------------
