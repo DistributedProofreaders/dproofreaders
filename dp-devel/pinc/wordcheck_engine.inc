@@ -46,23 +46,36 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
         $languages = array_unique($languages);
     }
 
-    // get the list of misspelled words from aspell
-    list($external_bad_words, $messages) =
-        get_bad_words_via_external_checker($text, $projectid, $imagefile, $languages);
-
-    $site_bad_words = load_site_bad_words();
-
-    $project_good_words = load_project_good_words($projectid);
-
-    $project_bad_words = load_project_bad_words($projectid);
-
     $acc = new BadWordAccumulator();
-    $acc->add_bad_words( $project_bad_words, 1 );
-    $acc->add_bad_words( $site_bad_words, 0 );
-    $acc->add_bad_words( $external_bad_words, 1 );
-    $acc->remove_good_words( $project_good_words );
 
-    $acc->remove_good_words( $accept_words );
+    // Go to various sources for good+bad words,
+    // in order of increasing specificity to the given text,
+    // and accumulate the results.
+
+    // The world
+    {
+        list($external_bad_words, $messages) =
+            get_bad_words_via_external_checker(
+                $text, $projectid, $imagefile, $languages);
+        $acc->add_bad_words( $external_bad_words, 1 );
+    }
+
+    // The site
+    {
+        $acc->add_bad_words( load_site_bad_words(), 0 );
+    }
+
+    // The project
+    {
+        $acc->remove_good_words( load_project_good_words($projectid) );
+
+        $acc->add_bad_words( load_project_bad_words($projectid), 1 );
+    }
+
+    // The page
+    {
+        $acc->remove_good_words( $accept_words );
+    }
 
     return array($acc->words, $languages, $messages);
 }
