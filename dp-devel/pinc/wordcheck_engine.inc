@@ -47,7 +47,7 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
     }
 
     // get the list of misspelled words from aspell
-    list($badWordsFromText, $messages) =
+    list($external_bad_words, $messages) =
         get_bad_words_via_external_checker($text, $projectid, $imagefile, $languages);
 
     $site_bad_words = load_site_bad_words();
@@ -57,7 +57,7 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
     $acc = new BadWordAccumulator();
     $acc->add_bad_words( $project_bad_words, 1 );
     $acc->add_bad_words( $site_bad_words, 0 );
-    $acc->add_bad_words( $badWordsFromText, 1 );
+    $acc->add_bad_words( $external_bad_words, 1 );
 
     $acc->remove_good_words( $accept_words );
 
