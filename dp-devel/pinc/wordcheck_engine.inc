@@ -415,7 +415,7 @@ function generate_frequencies($wordList) {
     // now count the frequency of the words
     foreach($wordList as $word) {
         if($word == "") continue;
-        $wordCount[$word]++;
+        @$wordCount[$word]++;
     }
 
     return $wordCount;
