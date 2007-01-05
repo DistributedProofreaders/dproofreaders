@@ -48,12 +48,9 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
     list($badWordsFromText, $messages) =
         get_bad_words_via_external_checker($text, $projectid, $imagefile, $languages);
 
-    $badWordsFromText = array_unique($badWordsFromText);
-    rsort($badWordsFromText);
+    $site_bad_words = load_site_bad_words();
 
-    $site_bad_words = array_unique(load_site_bad_words());
-
-    $project_bad_words = array_unique(load_project_bad_words($projectid));
+    $project_bad_words = load_project_bad_words($projectid);
 
     // create the badWordHash, the keys are the words
     // the values are 1 if we want an AW button for that word
