@@ -393,6 +393,20 @@ function get_project_languages($projectid) {
     return $returnArray;
 }
 
+// -----------------------------------------------------------------------------
+
+function get_all_words_in_text( $text )
+// Returns an array whose values are all occurrences of all words in $text, in order
+// (i.e., with duplicates).
+{
+    global $word_pattern;
+    $n_matches = preg_match_all( $word_pattern, $text, $matches );
+    if ( $n_matches === FALSE )
+    {
+        die("get_all_words_in_text: An error occurred.");
+    }
+    return $matches[0];
+}
 
 // given an array of words, calculate the frequency
 function generate_frequencies($wordList) {
