@@ -65,6 +65,7 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
         list($external_bad_words, $messages) =
             get_bad_words_via_external_checker(
                 $text, $projectid, $imagefile, $languages);
+        $acc->messages += $messages;
         $acc->add_bad_words( $external_bad_words, WC_WORLD );
     }
 
@@ -85,7 +86,7 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
         $acc->remove_good_words( $accept_words );
     }
 
-    return array($acc->words, $languages, $messages);
+    return array($acc->words, $languages, $acc->messages);
 }
 
 // -----------------------------------------------------------------------------
@@ -98,22 +99,38 @@ class BadWordAccumulator
         // Each key is a bad word, and its value is
         // a constant denoting the (most specific) level
         // at which the word was deemed bad.
+
+        $this->messages = array();
     }
 
     function add_bad_words( $bad_words, $val )
     {
+        if ( is_string($bad_words) )
+        {
+            $this->messages[] = $bad_words;
+        }
+        else
+        {
             foreach ( $bad_words as $word )
             {
                 $this->words[$word] = $val;
             }
+        }
     }
 
     function remove_good_words( $good_words )
     {
+        if ( is_string($good_words) )
+        {
+            $this->messages[] = $good_words;
+        }
+        else
+        {
             foreach ( $good_words as $word )
             {
                 unset( $this->words[$word] );
             }
+        }
     }
 }
 
@@ -216,9 +233,6 @@ function load_site_bad_words() {
 
 // -----------------------------------------------------------------------------
 
-// Return:
-//   on success, the function returns an array of the words in the custom dictionary
-//   on error, the function returns an error string
 function load_project_good_words( $projectid ) {
     global $projects_dir;
 
@@ -337,6 +351,9 @@ function load_accept_words($projectid) {
 
 function load_word_list( $path )
 // Load a list of words (one per line) from a file.
+// Returns:
+//   on success: an array of words
+//   on error:   a string containing an error message
 {
     if ( !is_file($path) )
     {
@@ -346,6 +363,10 @@ function load_word_list( $path )
     }
 
     $word_list = file_get_contents($path);
+    if ( $word_list === FALSE )
+    {
+        return "Error reading file $path";
+    }
 
     return explode("\n", $word_list);
 }
