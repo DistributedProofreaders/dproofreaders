@@ -1,6 +1,7 @@
 <?PHP
 include_once($relPath.'site_vars.php');
 include_once($relPath.'iso_639_list.inc');
+include_once($relPath.'iso_lang_list.inc'); // langcode3_for_langname
 
 // regex of non-word characters
 // this is used when munging text for spellchecking
@@ -71,7 +72,24 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
 
     // The site
     {
-        $acc->add_bad_words( load_site_bad_words(), WC_SITE );
+        $langcode3s = array();
+        foreach ( $languages as $language )
+        {
+            $langcode3 = langcode3_for_langname( $language );
+            if ( is_null($langcode3) )
+            {
+                $acc->messages[] = "warning: unknown language '$language'";
+            }
+            else
+            {
+                $langcode3s[] = $langcode3;
+            }
+        }
+
+        foreach ( $langcode3s as $langcode3 )
+        {
+            $acc->add_bad_words( load_site_bad_words($langcode3), WC_SITE );
+        }
     }
 
     // The project
@@ -225,10 +243,10 @@ function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile,
 
 // -----------------------------------------------------------------------------
 
-function load_site_bad_words() {
-    global $projects_dir;
+function load_site_bad_words( $langcode3 ) {
+    global $dyn_dir;
 
-    return load_word_list( "$projects_dir/scanno-words.txt" );
+    return load_word_list( "$dyn_dir/words/bad_words.$langcode3.txt" );
 }
 
 // -----------------------------------------------------------------------------
