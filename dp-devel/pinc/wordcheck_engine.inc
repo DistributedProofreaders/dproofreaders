@@ -282,13 +282,13 @@ function save_project_good_words( $projectid, $words ) {
 function load_project_bad_words($projectid) {
     global $projects_dir;
 
-    return load_word_list( "$projects_dir/$projectid/flag-words.txt" );
+    return load_word_list( "$projects_dir/$projectid/bad_words.txt" );
 }
 
 function save_project_bad_words($projectid, $words) {
     global $projects_dir;
 
-    return save_word_list( "$projects_dir/$projectid/flag-words.txt", $words );
+    return save_word_list( "$projects_dir/$projectid/bad_words.txt", $words );
 }
 
 // -----------------------------------------------------------------------------
