@@ -366,11 +366,29 @@ class ProjectInfoHolder
         $this->up_projectid     = $ar['up_projectid'];
 
         // load non-db project settings
+        // Failure to load isn't a fatal error, according to this code.
+
         $good_words = load_project_good_words($this->projectid);
-        $this->good_words = implode("\n", $good_words);
+        if ( is_string($good_words) )
+        {
+            echo "$good_words<br>\n";
+            $this->good_words = '';
+        }
+        else
+        {
+            $this->good_words = implode("\n", $good_words);
+        }
 
         $bad_words=load_project_bad_words($this->projectid);
-        $this->bad_words = implode("\n", $bad_words);
+        if ( is_string($bad_words) )
+        {
+            echo "$bad_words<br>\n";
+            $this->bad_words = '';
+        }
+        else
+        {
+            $this->bad_words = implode("\n", $bad_words);
+        }
     }
 
     // -------------------------------------------------------------------------
