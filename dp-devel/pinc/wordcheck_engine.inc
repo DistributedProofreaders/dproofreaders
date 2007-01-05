@@ -7,7 +7,7 @@ include_once($relPath.'iso_639_list.inc');
 // NOTE: This should probably be changed when moving to UTF-8
 //       at that time we can probably move to using \W instead of
 //       the mess below
-$nonWordCharacters = "/[^0-9a-zA-Z'À-ÿ]/";
+$nonword_character_pattern = "/[^0-9a-zA-Z'À-ÿ]/";
 
 // string of punctuation characters
 // this is only used for punctuation highlighting

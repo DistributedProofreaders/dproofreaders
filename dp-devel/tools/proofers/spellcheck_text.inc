@@ -17,7 +17,7 @@ include_once($relPath.'word_checker.inc');
 //
 function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = "", $accept_words = "" ) {
 
-    global $nonWordCharacters, $puncCharacters;
+    global $nonword_character_pattern, $puncCharacters;
 
     // variable holding final string
     $returnString="";
@@ -65,7 +65,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
         //  $newLine -- new line fully futzed with
 
         $newLine = $origLine;
-        $workLine = preg_replace($nonWordCharacters,' ',$origLine);
+        $workLine = preg_replace($nonword_character_pattern,' ',$origLine);
 
         $lineIndex = $indexArray = array();
 
