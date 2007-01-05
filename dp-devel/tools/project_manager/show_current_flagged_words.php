@@ -20,10 +20,6 @@ $format = $_GET["format"];
 // won't show up in the list
 $minFreq = array_get($_GET, 'minFreq', 10);
 
-// load the project -- needed for the languages
-$project = new Project ($projectid);
-$languages = preg_split('/ with /', $project->language);
-
 // get the latest project text of all pages up to last possible round
 $last_possible_round = get_Round_for_round_number(MAX_NUM_PAGE_EDITING_ROUNDS);
 $pages_res = page_info_query($projectid,$last_possible_round->id,'LE');
@@ -33,15 +29,18 @@ $all_pages_text = join_proofed_text($projectid,$pages_res,false,false,'');
 #$all_pages_text=preg_replace("/-+File: .*?----+/",'',$all_pages_text);
 $all_pages_text = preg_replace("/^-+File: .*$/m",'',$all_pages_text);
 
-// now run it through the aspell checker
-// get_bad_words_via_external_checker returns an array of misspelled words, including duplicate
-// words. To generate a frequency count we need only count them
-$result = get_bad_words_via_external_checker($all_pages_text,$projectid,'all',$languages);
+$all_words_in_text = get_all_words_in_text($all_pages_text);
+$all_words_w_freq = generate_frequencies($all_words_in_text);
 
-list($bad_words,$messages) = $result;
+// now run it through the spell-checker
+list($bad_words,$languages,$messages) =
+    get_bad_words_for_text($all_pages_text,$projectid,'all','',array());
 
-// get the word frequencies
-$bad_words_w_freq = generate_frequencies($bad_words);
+// $bad_words doesn't have frequency info, 
+// so start with the info in $all_words_w_freq,
+// and extract the items where the key matches a key in $bad_words.
+
+$bad_words_w_freq = array_intersect_key( $all_words_w_freq, $bad_words );
 
 // sort the list by frequency and reverse it
 arsort($bad_words_w_freq);
