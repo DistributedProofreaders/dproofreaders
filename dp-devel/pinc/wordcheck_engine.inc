@@ -88,6 +88,11 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
 
         foreach ( $langcode3s as $langcode3 )
         {
+            $acc->remove_good_words( load_site_good_words($langcode3) );
+        }
+
+        foreach ( $langcode3s as $langcode3 )
+        {
             $acc->add_bad_words( load_site_bad_words($langcode3), WC_SITE );
         }
     }
@@ -242,6 +247,12 @@ function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile,
 }
 
 // -----------------------------------------------------------------------------
+
+function load_site_good_words( $langcode3 ) {
+    global $dyn_dir;
+
+    return load_word_list( "$dyn_dir/words/good_words.$langcode3.txt" );
+}
 
 function load_site_bad_words( $langcode3 ) {
     global $dyn_dir;
