@@ -242,28 +242,10 @@ function load_project_good_words( $projectid ) {
 function save_project_good_words( $projectid, $words ) {
     global $projects_dir;
 
-    // now write them to a file
+    // trim out any word frequencies if they exist
+    $words = preg_replace('/ - \d+$/', '', $words);
 
-        $dict_name = "$projects_dir/$projectid/good_words.txt";
-
-        $fh = @fopen( $dict_name, "w" );
-        // check to see that we were able to open the file
-        if($fh) {
-            foreach($words as $word) {
-                // skip any blank words
-                if($word == "") continue;
-
-                // trim out any word frequencies if they exist
-                $word = preg_replace('/ - \d+$/','',$word);
-
-                fputs($fh,"$word\n");
-            }
-            fclose($fh);
-        } else {
-            return "Error: Unable to write to file $dict_name\n";
-        }
-
-    return "Success";
+    return save_word_list( "$projects_dir/$projectid/good_words.txt", $words );
 }
 
 // -----------------------------------------------------------------------------
@@ -277,22 +259,7 @@ function load_project_bad_words($projectid) {
 function save_project_bad_words($projectid, $words) {
     global $projects_dir;
 
-    $flag_name = "$projects_dir/$projectid/flag-words.txt";
-    $fh = @fopen( $flag_name , "w" );
-    // check to see that we were able to open the file
-    if($fh) {
-        foreach($words as $word) {
-            // skip any blank words
-            if($word == "") continue;
-
-            fputs($fh,"$word\n");
-        }
-        fclose($fh);
-    } else {
-        return "Error: Unable to write to file $flag_name\n";
-    }
-
-    return "Success";
+    return save_word_list( "$projects_dir/$projectid/flag-words.txt", $words );
 }
 
 // -----------------------------------------------------------------------------
@@ -369,6 +336,29 @@ function load_word_list( $path )
     }
 
     return explode("\n", $word_list);
+}
+
+function save_word_list( $path, $words )
+// Save a list of words (one per line) to a file.
+// Return a string, either "Success" or an error message.
+{
+    $fh = @fopen( $path, "w" );
+
+    if ( $fh === FALSE )
+    {
+        return "Error: Unable to write to file $path\n";
+    }
+
+    foreach($words as $word)
+    {
+        // skip any blank words
+        if ($word == "") continue;
+
+        fputs($fh, "$word\n");
+    }
+    fclose($fh);
+
+    return "Success";
 }
 
 // -----------------------------------------------------------------------------
