@@ -13,6 +13,70 @@ $nonWordCharacters = "/[^0-9a-zA-Z'À-ÿ]/";
 // this is only used for punctuation highlighting
 $puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"¡¿-';
 
+// -----------------------------------------------------------------------------
+
+function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $accept_words )
+// Arguments:
+//   text - the text for which bad words are sought
+//   projectid - id of project, needed for temp filename
+//               and to load the custom dictionaries
+//   imagefile - image filename, needed for temp filename
+//   aux_languages - auxiliary language to check against
+//   accept_words - array of words that should not be considered misspelled
+// 
+// Returns an array consisting of:
+//  -- an array: each key is a word that is (or would be) bad for this text;
+//     the corresponding value is 0 for scannos, 1 otherwise.
+//  -- an array: each value is the name of a language that was used
+//  -- an array: each value is a warning/error.
+{
+    // Get the list of languages that we'll use.
+    {
+        $languages = array_values(get_project_languages($projectid));
+
+        // add the aux_language if supplied
+        if ($aux_language != "")
+        {
+            $languages[] = $aux_language;
+        }
+
+        // unique the array, no point in checking one language more than once
+        $languages = array_unique($languages);
+    }
+
+    // get the list of misspelled words from aspell
+    list($badWordsFromText, $messages) =
+        get_bad_words_via_external_checker($text, $projectid, $imagefile, $languages);
+
+    $badWordsFromText = array_unique($badWordsFromText);
+    rsort($badWordsFromText);
+
+    // load the scanno words
+    $scannos = array_unique(load_scanno_words());
+
+    // load the flag words
+    $flags = array_unique(load_project_flag_words($projectid));
+
+    // if we have a list of words to accept (via the AW or othewise)
+    // filter them out of the $flags and $badWordsFromText
+    if(is_array($accept_words) && sizeof($accept_words)>0) {
+        $badWordsFromText = array_diff($badWordsFromText,$accept_words);
+        $flags = array_diff($flags,$accept_words);
+    }
+
+    // create the badWordHash, the keys are the words
+    // the values are 1 if we want an AW button for that word
+    // or a 0 if we don't want the AW button
+    $badWordHash = array();
+    foreach($flags as $word) $badWordHash[$word] = 1;
+    foreach($scannos as $word) $badWordHash[$word] = 0;
+    foreach($badWordsFromText as $word) $badWordHash[$word] = 1;
+
+    return array($badWordHash, $languages, $messages);
+}
+
+// -----------------------------------------------------------------------------
+
 // returns a list of 'bad' words on a page
 // this implementation passes the text to aspell
 // Arguments:

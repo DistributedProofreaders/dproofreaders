@@ -32,46 +32,14 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
     // this is used when applying spelling corrections
     $returnString.="<input type='hidden' name='text_data' value='" . html_safe($orig_text) . "'>\n";
 
-    $languages=array_values(get_project_languages($projectid));
-
-    // add the aux language if available
-    if($aux_language != "" && $aux_language != "Language") {
-        array_push($languages,$aux_language);
-    }
-
-    // unique the array, no point in checking one language more than once
-    $languages = array_unique($languages);
-
     // prepare the text for checking, in this case change all EOLs to spaces
     $orig_text = str_replace('[lf]',' ',$orig_text);
 
-    // get the list of misspelled words from aspell
-    list($badWordsFromText,$messages) =
-        get_bad_words_via_external_checker($orig_text,$projectid,$imagefile,$languages);
+    // Handle a UI-ism so that func only needs to handle ''.
+    if ( $aux_language == "Language" ) $aux_language = '';
 
-    $badWordsFromText = array_unique($badWordsFromText);
-    rsort($badWordsFromText);
-
-    // load the scanno words
-    $scannos = array_unique(load_scanno_words());
-
-    // load the flag words
-    $flags = array_unique(load_project_flag_words($projectid));
-
-    // if we have a list of words to accept (via the AW or othewise)
-    // filter them out of the $flags and $badWordsFromText
-    if(is_array($accept_words) && sizeof($accept_words)>0) {
-        $badWordsFromText = array_diff($badWordsFromText,$accept_words);
-        $flags = array_diff($flags,$accept_words);
-    }
-
-    // create the badWordHash, the keys are the words
-    // the values are 1 if we want an AW button for that word
-    // or a 0 if we don't want the AW button
-    $badWordHash = array();
-    foreach($flags as $word) $badWordHash[$word] = 1;
-    foreach($scannos as $word) $badWordHash[$word] = 0;
-    foreach($badWordsFromText as $word) $badWordHash[$word] = 1;
+    list($badWordHash,$languages,$messages) =
+        get_bad_words_for_text( $orig_text, $projectid, $imagefile, $aux_language, $accept_words );
 
     // ok, at this point we have a finalized list of possible misspellings
     // and likely a list of scannos too, start preparing the page
