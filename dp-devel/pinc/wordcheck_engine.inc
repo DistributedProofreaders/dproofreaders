@@ -52,12 +52,15 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
 
     $site_bad_words = load_site_bad_words();
 
+    $project_good_words = load_project_good_words($projectid);
+
     $project_bad_words = load_project_bad_words($projectid);
 
     $acc = new BadWordAccumulator();
     $acc->add_bad_words( $project_bad_words, 1 );
     $acc->add_bad_words( $site_bad_words, 0 );
     $acc->add_bad_words( $external_bad_words, 1 );
+    $acc->remove_good_words( $project_good_words );
 
     $acc->remove_good_words( $accept_words );
 
@@ -111,7 +114,7 @@ class BadWordAccumulator
 //
 function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile, $languages) {
     global $aspell_temp_dir;
-    global $aspell_executable, $aspell_prefix, $iso_639, $charset, $projects_dir;
+    global $aspell_executable, $aspell_prefix, $iso_639, $charset;
 
     $messages = array();
 
@@ -128,12 +131,6 @@ function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile,
         return array( array(), $messages );
     }
 
-    // find project word list if available
-    $personal_string = "";
-    if( is_file( "$projects_dir/$projectid/good_words.txt" ) ) {
-        $personal_string = "-p $projects_dir/$projectid/good_words.txt";
-    }
-
     $misspellings = array();
     foreach( $languages as $language ) {
         $langcode = array_search( $language, $iso_639 );
@@ -143,7 +140,7 @@ function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile,
                 // run aspell using this language
 
                 // create the aspell command
-                $aspell_command="cat $tmp_file_path | {$aspell_executable} list --prefix={$aspell_prefix} -d $dict_file $personal_string --encoding {$charset} -H";
+                $aspell_command="cat $tmp_file_path | {$aspell_executable} list --prefix={$aspell_prefix} -d $dict_file --encoding {$charset} -H";
                 //echo "<!-- aspell command: $aspell_command -->\n"; // Very useful for debugging
                 // run aspell
                 // "asr" stands for "aspell result"
@@ -221,7 +218,6 @@ function load_project_good_words( $projectid ) {
             // find project word list if available
             if( is_file( $dict_name ) ) {
                 $word_list = file_get_contents($dict_name);
-                $word_list = preg_replace('/personal.*?\n/','',$word_list);
                 $custom_words = explode('\n',$word_list);
             }
 
@@ -231,8 +227,6 @@ function load_project_good_words( $projectid ) {
 function save_project_good_words( $projectid, $words ) {
     global $projects_dir;
 
-    $numwords = sizeof($words);
-
     // now write them to a file
 
         $dict_name = "$projects_dir/$projectid/good_words.txt";
@@ -240,7 +234,6 @@ function save_project_good_words( $projectid, $words ) {
         $fh = @fopen( $dict_name, "w" );
         // check to see that we were able to open the file
         if($fh) {
-            fputs($fh,"personal_ws-1.1 $langcode $numwords\n");
             foreach($words as $word) {
                 // skip any blank words
                 if($word == "") continue;
