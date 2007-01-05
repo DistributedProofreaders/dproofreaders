@@ -286,7 +286,7 @@ function proj_comments_field($comments)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function proj_dict_valid_words_field($value,$fieldname,$projectid)
+function proj_good_words_field($value,$fieldname,$projectid)
 {
     $enc_value = encodeFormValue($value);
     $dict_link = _("Generate suggestions from dictionary");
@@ -302,7 +302,7 @@ function proj_dict_valid_words_field($value,$fieldname,$projectid)
     echo "</center>";
 }
 
-function proj_dict_flag_words_field($value,$fieldname)
+function proj_bad_words_field($value,$fieldname)
 {
     $enc_value = encodeFormValue($value);
 

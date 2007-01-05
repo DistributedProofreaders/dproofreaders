@@ -171,8 +171,8 @@ class ProjectInfoHolder
         $this->language         = '';
         $this->scannercredit    = '';
         $this->comments         = '';
-        $this->dict_valid_words = '';
-        $this->dict_flag_words  = '';
+        $this->good_words       = '';
+        $this->bad_words        = '';
         $this->clearance        = '';
         $this->postednum        = '';
         $this->genre            = '';
@@ -224,8 +224,8 @@ class ProjectInfoHolder
         $this->checkedoutby     = '';
         $this->scannercredit    = '';
         $this->comments         = '';
-        $this->dict_valid_words = '';
-        $this->dict_flag_words  = '';
+        $this->good_words       = '';
+        $this->bad_words        = '';
         $this->clearance        = '';
         $this->postednum        = '';
         $this->difficulty_level = ( $pguser == "BEGIN" ? "beginner" : "average" );
@@ -272,8 +272,8 @@ class ProjectInfoHolder
         $this->language         = $up_info['d_language'];
         $this->scannercredit    = $up_info['d_scannercredit'];
         $this->comments         = $up_info['d_comments'];
-        $this->dict_valid_words = '';
-        $this->dict_flag_words  = '';
+        $this->good_words       = '';
+        $this->bad_words        = '';
         $this->clearance        = $up_info['d_clearance'];
         $this->postednum        = $up_info['d_postednum'];
         $this->genre            = $up_info['d_genre'];
@@ -367,11 +367,11 @@ class ProjectInfoHolder
 
         // load non-db project settings
         $languages = preg_split('/ with /', $this->language );
-        $valid_words=load_project_good_words($this->projectid,$languages);
-        $this->dict_valid_words=implode("\n",$valid_words);
+        $good_words = load_project_good_words($this->projectid,$languages);
+        $this->good_words = implode("\n", $good_words);
 
-        $flag_words=load_project_bad_words($this->projectid);
-        $this->dict_flag_words=implode("\n",$flag_words);
+        $bad_words=load_project_bad_words($this->projectid);
+        $this->bad_words = implode("\n", $bad_words);
     }
 
     // -------------------------------------------------------------------------
@@ -545,8 +545,8 @@ class ProjectInfoHolder
 
         $this->scannercredit    = @$_POST['scannercredit'];
         $this->comments         = @$_POST['comments'];
-        $this->dict_valid_words = @$_POST['dict_valid_words'];
-        $this->dict_flag_words  = @$_POST['dict_flag_words'];
+        $this->good_words       = @$_POST['good_words'];
+        $this->bad_words        = @$_POST['bad_words'];
         $this->clearance        = @$_POST['clearance'];
         $this->difficulty_level = @$_POST['difficulty_level'];
         $this->up_projectid     = @$_POST['up_projectid'];
@@ -702,12 +702,12 @@ class ProjectInfoHolder
 
         // save non-database information, like the custom dictonaries
         // explode the strings into an array
-        $validwords = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->dict_valid_words));
-        $flagwords = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->dict_flag_words));
+        $good_words = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->good_words));
+        $bad_words = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->bad_words));
 
         $languages = preg_split('/ with /', $this->language );
-        save_project_good_words($this->projectid, $languages, $validwords);
-        save_project_bad_words($this->projectid, $flagwords);
+        save_project_good_words($this->projectid, $languages, $good_words);
+        save_project_bad_words($this->projectid, $bad_words);
 
 // TODO not scannercredit below!
 
@@ -845,8 +845,8 @@ class ProjectInfoHolder
         $this->row( _("Clearance Information"),       'text_field',          $this->clearance,       'clearance' );
         $this->row( _("Posted Number"),               'text_field',          $this->postednum,       'postednum' );
         $this->row( _("Project Comments"),            'proj_comments_field', $this->comments         );
-        $this->row( _("Project Dictionary - Valid Words"), 'proj_dict_valid_words_field', $this->dict_valid_words,     'dict_valid_words', '', $this->projectid);
-        $this->row( _("Project Dictionary - Flag Words"), 'proj_dict_flag_words_field', $this->dict_flag_words, 'dict_flag_words');
+        $this->row( _("Project Dictionary - Good Words"), 'proj_good_words_field', $this->good_words, 'good_words', '', $this->projectid);
+        $this->row( _("Project Dictionary - Bad Words"),  'proj_bad_words_field',  $this->bad_words,  'bad_words');
     }
 
     function row( $label, $display_function, $field_value, $field_name=NULL, $explan='', $args='' )
