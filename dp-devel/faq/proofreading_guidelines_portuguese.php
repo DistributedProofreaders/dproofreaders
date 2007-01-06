@@ -1072,14 +1072,11 @@ dos mesmos.
 
 <h3><a name="line_no">Numera&ccedil;&atilde;o de Linhas</a></h3>
 
-<p>Mantenha a numera&ccedil;&atilde;o de linhas. Coloque-as a seis
+<p>Mantenha a numera&ccedil;&atilde;o de linhas. Insira alguns 
 
-espa&ccedil;os do lado direito do texto (no final da linha respectiva),
+espa&ccedil;os para a separar do resto do texto, na pr&oacute;pria linha, 
 
-mesmo quando se encontrem do lado esquerdo no texto/poesia da imagem
-
-original.
-
+para que os formatadores possam encontr&aacute;-la facilmente.
 </p>
 
 A numera&ccedil;&atilde;o de linha s&atilde;o n&uacute;meros
@@ -1108,11 +1105,9 @@ fechar.&nbsp; Reveja o <span style="font-weight: bold;">texto em
 
 negrito</span>
 
-(texto impresso de forma mais carregada) colocando-o entre <tt>&lt;b&gt;</tt>&nbsp;e&nbsp;<tt>&lt;/b&gt;</tt>.&nbsp;Tome
+(texto impresso de forma mais carregada) colocando-o entre <tt>&lt;b&gt;</tt>&nbsp;e&nbsp;<tt>&lt;/b&gt;</tt>.
 
-aten&ccedil;&atilde;o ao "<tt>/</tt>"
-
-no&nbsp;<tt>&lt;/b&gt;</tt> para fechar. N&atilde;o remova este tipo de
+N&atilde;o remova este tipo de
 
 formata&ccedil;&atilde;o, excepto se o texto n&atilde;o existir na
 
