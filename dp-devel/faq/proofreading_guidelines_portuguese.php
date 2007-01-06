@@ -1097,11 +1097,9 @@ leitores.<!-- END RR -->
 
 <p>Reveja o texto em <span style="font-style: italic;">it&aacute;lico</span>
 
-colocando-o entre&nbsp;<tt>&lt;i&gt;</tt> e&nbsp;<tt>&lt;/i&gt;</tt>.&nbsp;Tome
+colocando-o entre&nbsp;<tt>&lt;i&gt;</tt> e&nbsp;<tt>&lt;/i&gt;</tt>.
 
-aten&ccedil;&atilde;o ao "<tt>/</tt>" no&nbsp;<tt>&lt;/i&gt;</tt> para
-
-fechar.&nbsp; Reveja o <span style="font-weight: bold;">texto em
+&nbsp; Reveja o <span style="font-weight: bold;">texto em
 
 negrito</span>
 
