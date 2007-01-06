@@ -63,6 +63,7 @@ bras	liras
 brave	bravo
 bruit	brait
 brûlait	bridait
+c'était	datait
 calme	calma
 car une	canine
 cause	creuse
@@ -82,7 +83,6 @@ celles	colles
 celles	telles
 ces	cas
 cesse	cosse
-c'était	datait
 cette	celle
 cette	celte
 cette	coite
@@ -288,6 +288,7 @@ fût	frit
 fût	fut
 gêne	gène
 groupés	groupes
+Guiche	Quiche
 hausser	fausser
 haut	bout
 haute	hanta
