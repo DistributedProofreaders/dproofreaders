@@ -8,7 +8,8 @@ include_once($relPath.'iso_lang_list.inc'); // langcode3_for_langname
 // NOTE: This should probably be changed when moving to UTF-8
 //       at that time we can probably move to using \W instead of
 //       the mess below
-$word_characters = "0-9a-zA-Z'À-ÿ";
+$word_letters= "a-zA-ZÀ-ÿ";
+$word_characters = "0-9'$word_letters";
 $word_pattern = "/[$word_characters]+/";
 $nonword_character_pattern = "/[^$word_characters]/";
 
@@ -95,6 +96,8 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
         {
             $acc->add_bad_words( load_site_bad_words($langcode3), WC_SITE );
         }
+
+         $acc->add_bad_words( get_bad_words_via_pattern($text), WC_SITE );
     }
 
     // The project
@@ -244,6 +247,42 @@ function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile,
     // want to know the frequency of the misspelled words
 
     return array($finalMisspellings,$messages);
+}
+
+// -----------------------------------------------------------------------------
+
+// returns a list of 'bad' words in a text based on some pattern
+// Arguments:
+//   orig_text - original text
+//
+// Returns:
+//       -- an array of bad words
+//
+function get_bad_words_via_pattern( $orig_text ) {
+    global $word_letters;
+
+    $badWords = array();
+    $wordArray = get_all_words_in_text( $orig_text );
+
+    // pattern #1
+    // flag all words with embedded digits while
+    // ignoring common valid <digit><letter> combinations
+    $validDigitSuffixes=array("st","nd","rd","th");
+    foreach($wordArray as $word) {
+        // if the word has both a digit and a word_letter
+        if(preg_match("/\d/",$word) && preg_match("/[$word_letters]/",$word)) {
+            // ignore common <digit><letter> combinations
+            foreach($validDigitSuffixes as $suffix) {
+                if(preg_match("/^\d+$suffix$/",$word)) continue 2;
+            }
+
+            array_push($badWords,$word);
+        }
+    }
+
+    // placeholder for future patterns
+
+    return $badWords;
 }
 
 // -----------------------------------------------------------------------------
