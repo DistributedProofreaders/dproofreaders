@@ -97,7 +97,7 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
             $acc->add_bad_words( load_site_bad_words($langcode3), WC_SITE );
         }
 
-         $acc->add_bad_words( get_bad_words_via_pattern($text), WC_SITE );
+         $acc->add_bad_words( get_bad_words_via_pattern($text,$langcode3s), WC_SITE );
     }
 
     // The project
@@ -254,11 +254,12 @@ function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile,
 // returns a list of 'bad' words in a text based on some pattern
 // Arguments:
 //   orig_text - original text
+//   langcode3s - codes for languages to check against
 //
 // Returns:
 //       -- an array of bad words
 //
-function get_bad_words_via_pattern( $orig_text ) {
+function get_bad_words_via_pattern( $orig_text, $langcode3s ) {
     global $word_letters;
 
     $badWords = array();
@@ -268,12 +269,25 @@ function get_bad_words_via_pattern( $orig_text ) {
     // flag all words with embedded digits while
     // ignoring common valid <digit><letter> combinations
     //
+    $exceptions_for_lang = array(
+        'eng' => '\d+(st|nd|rd|th)',
+        'fre' => '\d+(er|me)',
+        // etc
+    );
+    $exceptions = array();
+    foreach ( $langcode3s as $langcode3 )
+    {
+        $exceptions[] = $exceptions_for_lang[$langcode3];
+    }
+    $exceptions = implode('|', $exceptions);
+    $exceptions_pattern = "/^($exceptions)$/";
+
     foreach($wordArray as $word) {
         // if the word has both a digit and a word_letter
         if(preg_match("/\d/",$word) && preg_match("/[$word_letters]/",$word)) {
 
             // ignore common <digit><letter> combinations
-            if(preg_match("/^\d+(st|nd|rd|th)$/",$word)) continue;
+            if(preg_match($exceptions_pattern,$word)) continue;
 
             array_push($badWords,$word);
         }
