@@ -267,14 +267,13 @@ function get_bad_words_via_pattern( $orig_text ) {
     // pattern #1
     // flag all words with embedded digits while
     // ignoring common valid <digit><letter> combinations
-    $validDigitSuffixes=array("st","nd","rd","th");
+    //
     foreach($wordArray as $word) {
         // if the word has both a digit and a word_letter
         if(preg_match("/\d/",$word) && preg_match("/[$word_letters]/",$word)) {
+
             // ignore common <digit><letter> combinations
-            foreach($validDigitSuffixes as $suffix) {
-                if(preg_match("/^\d+$suffix$/",$word)) continue 2;
-            }
+            if(preg_match("/^\d+(st|nd|rd|th)$/",$word)) continue;
 
             array_push($badWords,$word);
         }
