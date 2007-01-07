@@ -529,7 +529,15 @@ function langcode3_for_langname( $langname )
     {
         $entry_name = $entry['lang_name'];
         if ( $entry_name == $langname )
-            return $entry['lang_code'];
+        {
+            $lang_code = $entry['lang_code'];
+            // Note that $lang_code may be a pair of
+            // three-letter codes separated by a slash.
+            // Not sure if it matters which we return,
+            // but for simplicity, we always return the first.
+            // I.e., we return the first 3 characters of $lang_code.
+            return substr($lang_code, 0, 3);
+        }
     }
     return NULL;
 }
