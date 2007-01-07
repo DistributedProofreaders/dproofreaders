@@ -26,14 +26,14 @@ define('WC_SITE',    2);
 define('WC_PROJECT', 3);
 define('WC_PAGE',    4);
 
-function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $accept_words )
+function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $adhoc_good_words )
 // Arguments:
 //   text - the text for which bad words are sought
 //   projectid - id of project, needed for temp filename
 //               and to load the custom dictionaries
 //   imagefile - image filename, needed for temp filename
 //   aux_languages - auxiliary language to check against
-//   accept_words - array of words that should not be considered misspelled
+//   adhoc_good_words - array of words to treat as good for this invocation only.
 // 
 // Returns an array consisting of:
 //  -- an array: each key is a word that is (or would be) bad for this text;
@@ -109,7 +109,7 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
 
     // The page
     {
-        $acc->remove_good_words( $accept_words );
+        $acc->remove_good_words( $adhoc_good_words );
     }
 
     return array($acc->words, $languages, $acc->messages);
