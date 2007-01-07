@@ -121,6 +121,8 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = ""
                 if($badWordHash[$word] != WC_SITE ) {
                     $replaceString .= "<span id=\"{$jsSanitizedWord}_{$wordCount[$word]}\">";
                     $onChange = " onChange=\"disableAcceptWord('{$jsSanitizedWord}_{$wordCount[$word]}');\"";
+                } else {
+                    $onChange = '';
                 }
 
                 // create the edit box
