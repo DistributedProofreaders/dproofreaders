@@ -270,7 +270,7 @@ function get_bad_words_via_pattern( $orig_text, $langcode3s ) {
     // ignoring common valid <digit><letter> combinations
     //
     $exceptions_for_lang = array(
-        'eng' => '\d+(st|nd|rd|th)',
+        'eng' => '\d*[04-9]th|\d*1[123]th|(\d*[02-9])?(1st|2nd|3rd)',
         'fre' => '\d+(er|me)',
         // etc
     );
