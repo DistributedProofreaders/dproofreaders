@@ -44,6 +44,74 @@ function end_timer()
 
 if (0)
 {
+	include_once($relPath.'marc_format.inc');
+	$tests = array(
+		array( 'eng', 'English' ),
+		array( 'dut', 'Dutch' ),
+		array( 'nld', 'Dutch' ),
+		array( 'epo', 'Esperanto' ),
+		array( 'zun', 'Zuni' ),
+		array( 'engl', 'engl' ),
+		array( 'goo', 'goo' ),
+	);
+	$n_successes = 0;
+	$n_failures = 0;
+	foreach ( $tests as $test )
+	{
+		list($input,$expected_result) = $test;
+		$result = convert_short_lang($input);
+		echo "$input $expected_result $result\n";
+		if ( $result === $expected_result )
+		{
+			$n_successes++;
+		}
+		else
+		{
+			$n_failures++;
+		}
+	}
+	echo "$n_successes successes, $n_failures failures\n";
+}
+
+if (0)
+{
+	// Compare times for
+	// SELECT state FROM $projectid ...
+	// vs
+	// SELECT *     FROM $projectid ...
+
+	$projectid = 'projectID438151159300f';
+
+	$res = mysql_query("
+		SELECT image
+		FROM $projectid
+	");
+	list($imagefiles) = dpsql_fetch_columns($res);
+
+
+	$times = array();
+	foreach ( array( 'state', '*' ) as $select_list )
+	{
+		start_timer();
+		foreach ( $imagefiles as $imagefile )
+		{
+			$res = mysql_query("
+				SELECT $select_list
+				FROM $projectid
+				WHERE image='$imagefile'
+			");
+			$foo = mysql_fetch_assoc($res);
+		}
+		$t = end_timer();
+		echo "$t for select $select_list\n";
+		$times[$select_list] = $t;
+	}
+	echo "*/state = ", $times['*'] / $times['state'], "\n";
+
+}
+
+if (0)
+{
 	// Dump info from marc_records table.
 	$res = mysql_query("
 		SELECT marc_records.*, nameofwork
