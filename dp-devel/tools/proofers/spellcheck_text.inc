@@ -15,7 +15,7 @@ include_once($relPath.'word_checker.inc');
 //     -- an array of messages (errors/warnings)
 //     -- an array of names of languages used.
 //
-function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language = "", $accept_words = "" ) {
+function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $accept_words ) {
 
     global $nonword_character_pattern, $puncCharacters;
 
