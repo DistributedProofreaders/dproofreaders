@@ -248,5 +248,39 @@ function create_temporary_project_event_subscription_summary_table()
     ") or die(mysql_error());
 }
 
+// -----------------------------------------------------------------------------
+
+/*
+A better (or at least, more flexible) way to implement event subscriptions
+would be something like the following...
+
+Currently we have various scattered calls to notify_project_event_subscribers().
+Instead, push them all down into log_project_event() (thus subjecting *all*
+events to an automatic subscription-check).
+
+Currently we predefine a set of subscribable event-codes and a corresponding
+set of columns in the user_project_info table, and each call to
+notify_project_event_subscribers() specifies one of those event-codes,
+which (along with the projectid) determines which subscriptions are triggered.
+Instead, give notify_project_event_subscribers() access to all data passed to
+log_project_event(), and have each subscription specify "patterns" in that
+data that trigger that subscription.
+
+For example, rather than having a 'round_available' event-code, a comparable
+subscription would look for project-events in which
+    event_type was 'transition',
+    details1 was the 'proj_waiting' state for some round, and
+    details2 was the 'proj_avail' state for the same round.
+
+Rather than forcing each subscription to be attached to a particular project,
+it would be possible to allow pattern-matching on the project. E.g. a user could
+be notified when any book of a specified genre is available for P1 proofing
+(Task 16) or smooth-reading (Task 677).
+
+The main problem with this scheme is specifying and implementing the event
+pattern-matching mechanism, and efficiently finding all the subscriptions that
+match a given event.
+*/
+
 // vim: sw=4 ts=4 expandtab
 ?>
