@@ -254,10 +254,8 @@ function spellcheck_apply_corrections() {
         for ( $i = $n_bad_words; $i >= 1; $i-- ) {
             if ( !isset($_POST['posit'.$i]) ) continue;
             // hidden values line|offset|word length
-            $inst_array = explode('|',$_POST['posit'.$i]);
-            $orig_line_i      = $inst_array[0];
-            $orig_word_offset = $inst_array[1];
-            $orig_word_length = $inst_array[2];
+            list($orig_line_i,$orig_word_offset,$orig_word_length) =
+                explode('|',$_POST['posit'.$i]);
 
             if(!isset($offsetList[$orig_line_i])) $offsetList[$orig_line_i]=array();
             array_push($offsetList[$orig_line_i],$orig_word_offset);
@@ -276,10 +274,8 @@ function spellcheck_apply_corrections() {
                 $i = $offsetLookup["{$affectedRow}_{$offsetKey}"];
 
                 // hidden values line|offset|word length
-                $inst_array = explode('|',$_POST['posit'.$i]);
-                $orig_line_i      = $inst_array[0];
-                $orig_word_offset = $inst_array[1];
-                $orig_word_length = $inst_array[2];
+                list($orig_line_i,$orig_word_offset,$orig_word_length) =
+                    explode('|',$_POST['posit'.$i]);
 
                 // hidden word
                 $correct_word = stripslashes($_POST['sp'.$i]);
