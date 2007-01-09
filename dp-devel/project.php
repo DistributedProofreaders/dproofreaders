@@ -597,6 +597,33 @@ function do_project_info_table()
 
     // -------------------------------------------------------------------------
 
+    global $projects_dir, $projects_url;
+
+    $good_bad = array(
+        'good' => _("Good Words"),
+        'bad'  => _("Bad Words"),
+    );
+    $links = '';
+    foreach ( $good_bad as $gb => $label )
+    {
+        $filename = "{$gb}_words.txt";
+        $file_path = "$projects_dir/$projectid/$filename";
+        $file_url  = "$projects_url/$projectid/$filename";
+        if ( file_exists($file_path) && filesize($file_path) > 0 )
+        {
+            $links .= "<a href='$file_url'>$label</a>";
+        }
+        else
+        {
+            $links .= $label . " " . _("(empty)");
+        }
+        $links .= "&nbsp;&nbsp;&nbsp;";
+    }
+
+    echo_row_a( _("Word Lists"), $links );
+
+    // -------------------------------------------------------------------------
+
     $state = $project->state;
     if ( $state == PROJ_SUBMIT_PG_POSTED
       || $state == PROJ_CORRECT_AVAILABLE
@@ -1242,6 +1269,7 @@ function do_extra_files()
     }
     else
     {
+        // Exclude page-image files.
         $res = mysql_query("
             SELECT image
             FROM $project->projectid
@@ -1251,6 +1279,11 @@ function do_extra_files()
         {
                 $excluded_filenames[$excluded_filename] = 1;
         }
+
+        // These two appear at "Word Lists":
+        $excluded_filenames['good_words.txt'] = 1;
+        $excluded_filenames['bad_words.txt'] = 1;
+
         // These three appear under "Post Downloads":
         $excluded_filenames[$project->projectid . 'images.zip'] = 1;
         $excluded_filenames[$project->projectid . '.zip'] = 1;
