@@ -351,11 +351,14 @@ function save_accept_words($projectid,$round,$page,$proofer,$words) {
 
     if(sizeof($words)==0 || (sizeof($words)==1 && $words[0]=="")) return "Success";
 
+    $word_list=implode(' ',$words);
+
     $iw_name= "$projects_dir/$projectid/accept-words-suggestions.txt";
     $fh = @fopen( $iw_name, "a" );
     // check to see that we were able to open the file
     if($fh) {
-        fputs($fh,"$round/$page/$proofer/" . implode(' ',$words) . "\n");
+        flock($fh,LOCK_EX);
+        fputs($fh,"$round/$page/$proofer/$word_list\n");
         fclose($fh);
     } else {
         return "Error: Unable to write to file $iw_name\n";
