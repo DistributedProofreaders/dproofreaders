@@ -144,11 +144,11 @@ id="controlframe"><?PHP
 <form name="spcorrects" action="processtext.php" method="POST">
 <?PHP
     echo "<input type='hidden' name='revert_text' value='" . html_safe($revert_text) . "'>\n";
-    echo "<input type='hidden' id='accept_words' name=\"accept_words\" value='" . implode(' ',$accept_words) . "'>\n";
+    echo "<input type='hidden' id='accepted_words' name=\"accepted_words\" value='" . implode(' ',$accepted_words) . "'>\n";
 
     // run the text through the spellcheck - returns the form contents and a list of languages the page was checked against
     list($page_contents,$languages,$messages) =
-        spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accept_words );
+        spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accepted_words );
 
     echo "<p>";
     echo _("The text was checked against the following languages: ");

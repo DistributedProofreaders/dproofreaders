@@ -138,7 +138,7 @@ switch( $tbutton )
         // save what we have so far, just in case the spellchecker barfs
         $ppage->saveAsInProgress($text_data,$pguser);
         $aux_language = '';
-        $accept_words=array();
+        $accepted_words=array();
         $text_data=stripslashes($_POST["text_data"]);
         include('spellcheck.inc');
         break;
@@ -147,12 +147,12 @@ switch( $tbutton )
         // Return from spellchecker via "Submit Corrections" button.
         include_once('spellcheck_text.inc');
         $correct_text = spellcheck_apply_corrections();
-        $accept_words = explode(' ',$_POST["accept_words"]);
+        $accepted_words = explode(' ',$_POST["accepted_words"]);
         // for the record, PPage (or at least LPage) should provide
         // functions for returning the round ID and the page number
         // without the mess below
         save_project_good_word_suggestions(
-            $_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accept_words);
+            $_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accepted_words);
         $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
         leave_spellcheck_mode($ppage);
         break;
@@ -161,9 +161,9 @@ switch( $tbutton )
         // Return from spellchecker via "Quit Spell Check" button.
         include_once('spellcheck_text.inc');
         $correct_text = spellcheck_quit();
-        $accept_words = explode(' ',$_POST["accept_words"]);
+        $accepted_words = explode(' ',$_POST["accepted_words"]);
         save_project_good_word_suggestions(
-            $_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accept_words);
+            $_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accepted_words);
         $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
         leave_spellcheck_mode($ppage);
         break;
@@ -174,7 +174,7 @@ switch( $tbutton )
         // and rerun through the spellcheck
         include_once('spellcheck_text.inc');
         $aux_language = $_POST["aux_language"];
-        $accept_words = explode(' ',$_POST["accept_words"]);
+        $accepted_words = explode(' ',$_POST["accepted_words"]);
         $text_data = spellcheck_apply_corrections();
         include('spellcheck.inc');
         break;

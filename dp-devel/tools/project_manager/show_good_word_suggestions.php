@@ -74,10 +74,10 @@ if($format == "text") {
 ?>
 <html>
 <head>
-<title>Project Accept Word List</title>
+<title>Project Accepted Words List</title>
 </head>
 <body>
-<p>Below are the words that proofers have submitted as Accept Words in the spellcheck interface. The words have been sorted into rounds as well as an overall list. You may want to consider adding these words to the project dictionary.</p>
+<p>Below are the words that proofers have accepted (via the 'AW' button) in the spellcheck interface. The words have been sorted into rounds as well as an overall list. You may want to consider adding these words to the project dictionary.</p>
 
 <?
 $cutoffOptions = array(0,2,5,10,25,50,100,150);

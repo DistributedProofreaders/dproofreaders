@@ -101,7 +101,7 @@ span.mono
 <P>Also at this level, the text is compared against the project's Bad Words List. Any words in the text that are found on the project's Bad Words List are added to the list of Flagged words for this page. For this example, <span class="mono">fiat</span> is added to the list.</p>
 <p><i>Current list of Flagged words leaving level:</i> <span class="mono">tumbleweed arid 1and fiat</span></p>
 
-<p>The final list of Flagged words would be presented to the user as misspelled and prompt the user to correct or accept them. The proofer might click the AW button next to <span class="mono">tumbleweed</span> to mark it is valid for this page. The next time the Project Manager generates suggestions from the Accept Word list, <span class="mono">tumbleweed</span> will show up for possible inclusion on the Good Word List.</p>
+<p>The final list of Flagged words would be presented to the user as misspelled and prompt the user to correct or accept them. The proofer might click the AW button next to <span class="mono">tumbleweed</span> to mark it is valid for this page. The next time the Project Manager generates suggestions from the Accepted Words list, <span class="mono">tumbleweed</span> will show up for possible inclusion on the Good Word List.</p>
 <p>Because <span class="mono">arid</span> is a Site-level Bad word (a stealth scanno in this case), it will not have an AW button to force the proofer to look closely at all instances. In this situation the first instance of <span class="mono">arid</span> is correct while the second instance of the word is a scanno for the word <span class="mono">and</span>.</p>
 
 <h3><a name="capitalization"></a>How does capitalization affect the word lists?</h3>
@@ -112,7 +112,7 @@ span.mono
 <h2>Proofer Questions</h2>
 <h3><a name="aw_button"></a>What's the AW button and what does it do?</h3>
 <p>AW stands for Accept Word and provides a way for proofers to indicate that the word matches the image. Once clicked the button will cause all identically spelled words to be accepted as correct. Additionally these words are added to a file for the project manager. The project manager can review these accepted words and add those that occur frequently to the project's good word list.</p>
-<p>After a word has been modified the AW button for that word becomes disabled to prevent accepting the incorrect word as valid. In addition, Accept Words are only valid for the current spellcheck session and do not persist for the proofer across spellcheck sessions either for the same or different pages.</p>
+<p>After a word has been modified the AW button for that word becomes disabled to prevent accepting the incorrect word as valid. In addition, Accepted Words are only valid for the current spellcheck session and do not persist for the proofer across spellcheck sessions either for the same or different pages.</p>
 
 <h3><a name="aw_diff"></a>Why don't all Bad words have an AW button?</h3>
 <p>Words that have been identified as stealth scannos do not have an AW button to ensure careful attention is given to them.</p>
@@ -123,7 +123,7 @@ span.mono
 <p>Proofers are encouraged to use the project's discussion topic to suggest words for the project's Bad Words List.</p>
 
 <h3><a name="check_against_diff_lang"></a>How can I check the page against the dictionary for a different language?</h3>
-<p>When a page is intially checked for Bad words, the text is checked against the dictionaries for all project languages. An additional ad-hoc language dictionary can be used by selecting the language from the drop-down list at the top of the page and clicking the Check button. This will cause the text to be checked against the dictionaries for the project languages in addition to the ad-hoc language. Only one ad-hoc language can be used at a time and a request for another will replace the previous ad-hoc language. Corrections and Accept Words will be retained between checks against ad-hoc languages.</p>
+<p>When a page is intially checked for Bad words, the text is checked against the dictionaries for all project languages. An additional ad-hoc language dictionary can be used by selecting the language from the drop-down list at the top of the page and clicking the Check button. This will cause the text to be checked against the dictionaries for the project languages in addition to the ad-hoc language. Only one ad-hoc language can be used at a time and a request for another will replace the previous ad-hoc language. Corrections and Accepted Words will be retained between checks against ad-hoc languages.</p>
 
 <hr>
 
@@ -159,7 +159,7 @@ foreach($site_word_lists as $word_list_file => $word_list_url) {
 
 <p>To define a new Good Words List, click on the link "Generate suggestions from dictionary". This will open a new window listing all words in the text the spell-checker thinks are misspelled sorted by the frequency those words occur in the text. You can then either copy-and-paste from the page directly, or download the complete list with their frequencies. Edit the list, discarding words you do not want to be considered Good, and paste it in the Good word text area. The suggestions generated from the dictionary only includes words not accepted in the current configuration, and new words should be added to the current list of words, not replace them. Care should be taken when adding words to the Good Words List not to incorporate frequently misspelled (or mis-OCRd) words into the list.</p>
 
-<p>Another source of Good words is to consult the list of words accepted by the proofers via the Accept Word button in the spelling interface. To do this, click on the "Generate suggestions from Accept Words" link. The procedure is the same.</p>
+<p>Another source of Good words is to consult the list of words accepted by the proofers via the Accept Word button in the spelling interface. To do this, click on the "Generate suggestions from Accepted Words" link. The procedure is the same.</p>
 
 <p>Bad words are generally stealth scannos that occur often for a particular project. Bad Words Lists are managed using techniques similar to those used to manage Good Word lists, although there are currently no tools that will generate a list of Suggested Bad words for you.</p>
 

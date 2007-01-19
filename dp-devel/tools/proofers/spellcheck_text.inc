@@ -8,14 +8,14 @@ include_once($relPath.'word_checker.inc');
 //               and to load the custom dictionaries
 //   imagefile - image filename, needed for temp filename
 //   aux_languages - auxiliary language to check against
-//   accept_words - array of words that should not be considered misspelled
+//   accepted_words - array of words that should not be considered misspelled
 //
 // Returns an array consisting of:
 //     -- a string containing the HTML code for the 'text' part of the spellcheck interface.
 //     -- an array of messages (errors/warnings)
 //     -- an array of names of languages used.
 //
-function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $accept_words ) {
+function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $accepted_words ) {
 
     global $nonword_character_pattern, $puncCharacters;
 
@@ -39,7 +39,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
     if ( $aux_language == "Language" ) $aux_language = '';
 
     list($badWordHash,$languages,$messages) =
-        get_bad_words_for_text( $orig_text, $projectid, $imagefile, $aux_language, $accept_words );
+        get_bad_words_for_text( $orig_text, $projectid, $imagefile, $aux_language, $accepted_words );
 
     // ok, at this point we have a finalized list of bad words.
     // start preparing the page
@@ -189,9 +189,9 @@ function spellcheck_echo_script()
                     wordSpan.innerHTML=wordOrig;
                 }
 
-                // save the word as the accept_words
-                var acceptWordInput = document.getElementById("accept_words");
-                acceptWordInput.value = acceptWordInput.value + " " + word;
+                // save the word in the accepted_words list
+                var acceptedWordsInput = document.getElementById("accepted_words");
+                acceptedWordsInput.value = acceptedWordsInput.value + " " + word;
                 wordIndex ++;
             }
             // protection against run-away processes
