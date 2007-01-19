@@ -357,6 +357,7 @@ function save_accept_words($projectid,$round,$page,$proofer,$words) {
     $fh = @fopen( $iw_name, "a" );
     // check to see that we were able to open the file
     if($fh) {
+        // get an exclusive lock; lock is cleared by fclose
         flock($fh,LOCK_EX);
         fputs($fh,"$round/$page/$proofer/$word_list\n");
         fclose($fh);
@@ -380,6 +381,8 @@ function load_accept_words($projectid) {
     $fh = @fopen( $iw_name, "r" );
     // check to see that we were able to open the file
     if($fh) {
+        // get a share-level lock; lock is cleared by fclose
+        flock($fh,LOCK_SH);
         while(!feof($fh)) {
             $line = chop(fgets($fh));
             if($line == "") continue;
@@ -432,6 +435,9 @@ function save_word_list( $path, $words )
     {
         return "Error: Unable to write to file $path\n";
     }
+
+    // get an exclusive lock; lock is cleared by fclose
+    flock($fh,LOCK_EX);
 
     foreach($words as $word)
     {
