@@ -16,19 +16,19 @@ $format = $_GET["format"];
 // won't show up in the list
 $minFreq = array_get($_GET, 'minFreq', 10);
 
-// load the accept words
-$acceptWords = load_project_good_word_suggestions($projectid);
-if(!is_array($acceptWords)) {
-    echo "Unable to load accept words: $acceptWords";
+// load the suggestions
+$suggestions = load_project_good_word_suggestions($projectid);
+if(!is_array($suggestions)) {
+    echo "Unable to load suggestions: $suggestions";
     exit;
 }
 
 // array to hold all words
 $allWords = array();
 
-// parse the acceptWords complex array
-// it is in the format: $acceptWords[$round][$pagenum]=$wordsArray
-foreach( $acceptWords as $round => $pageArray ) {
+// parse the suggestions complex array
+// it is in the format: $suggestions[$round][$pagenum]=$wordsArray
+foreach( $suggestions as $round => $pageArray ) {
     $roundWords[$round] = array();
     foreach( $pageArray as $page => $words) {
         // add the words to the per-round array
