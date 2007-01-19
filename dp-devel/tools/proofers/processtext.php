@@ -151,7 +151,8 @@ switch( $tbutton )
         // for the record, PPage (or at least LPage) should provide
         // functions for returning the round ID and the page number
         // without the mess below
-        save_accept_words($_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accept_words);
+        save_project_good_word_suggestions(
+            $_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accept_words);
         $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
         leave_spellcheck_mode($ppage);
         break;
@@ -161,7 +162,8 @@ switch( $tbutton )
         include_once('spellcheck_text.inc');
         $correct_text = spellcheck_quit();
         $accept_words = explode(' ',$_POST["accept_words"]);
-        save_accept_words($_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accept_words);
+        save_project_good_word_suggestions(
+            $_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accept_words);
         $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
         leave_spellcheck_mode($ppage);
         break;

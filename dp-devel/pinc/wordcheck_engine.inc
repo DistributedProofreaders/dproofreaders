@@ -345,15 +345,14 @@ function save_project_bad_words($projectid, $words) {
 
 // -----------------------------------------------------------------------------
 
-// save user-selected Accept Words for a project
-function save_accept_words($projectid,$round,$page,$proofer,$words) {
+function save_project_good_word_suggestions($projectid,$round,$page,$proofer,$words) {
     global $projects_dir;
 
     if(sizeof($words)==0 || (sizeof($words)==1 && $words[0]=="")) return "Success";
 
     $word_list=implode(' ',$words);
 
-    $iw_name= "$projects_dir/$projectid/accept-words-suggestions.txt";
+    $iw_name= "$projects_dir/$projectid/good_word_suggestions.txt";
     $fh = @fopen( $iw_name, "a" );
     // check to see that we were able to open the file
     if($fh) {
@@ -368,13 +367,12 @@ function save_accept_words($projectid,$round,$page,$proofer,$words) {
     return "Success";
 }
 
-// load user-selected Accept Words for a project
-function load_accept_words($projectid) {
+function load_project_good_word_suggestions($projectid) {
     global $projects_dir;
 
     $wordsArray = array();
 
-    $iw_name = "$projects_dir/$projectid/accept-words-suggestions.txt";
+    $iw_name = "$projects_dir/$projectid/good_word_suggestions.txt";
     if(!is_file($iw_name))
         return "Error: File does not exist: $iw_name\n";
 

@@ -17,7 +17,7 @@ $format = $_GET["format"];
 $minFreq = array_get($_GET, 'minFreq', 10);
 
 // load the accept words
-$acceptWords = load_accept_words($projectid);
+$acceptWords = load_project_good_word_suggestions($projectid);
 if(!is_array($acceptWords)) {
     echo "Unable to load accept words: $acceptWords";
     exit;
