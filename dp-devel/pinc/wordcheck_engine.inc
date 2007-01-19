@@ -204,7 +204,7 @@ function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile,
                 // run aspell using this language
 
                 // create the aspell command
-                $aspell_command="cat $tmp_file_path | {$aspell_executable} list --prefix={$aspell_prefix} -d $dict_file --encoding {$charset} -H";
+                $aspell_command="cat $tmp_file_path | {$aspell_executable} list --prefix={$aspell_prefix} -d $dict_file --encoding {$charset}";
                 //echo "<!-- aspell command: $aspell_command -->\n"; // Very useful for debugging
                 // run aspell
                 // "asr" stands for "aspell result"
