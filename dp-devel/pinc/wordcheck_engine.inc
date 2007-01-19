@@ -495,6 +495,34 @@ function get_project_languages($projectid) {
     return $returnArray;
 }
 
+
+// returns an associative array of site word lists
+// with their corresponding URL
+//   $array[$absolute_filename]=$url_link_to_file;
+function get_site_word_lists() {
+    global $dyn_dir;
+    global $dyn_url;
+
+    $wordLists=array();
+
+    $wordsDir="$dyn_dir/words";
+    if(is_dir($wordsDir)) {
+       if($dirHandle=@opendir($wordsDir)) {
+          while(($filename = readdir($dirHandle)) !== false) {
+             // skip files that don't have 'words' in the name
+             if(!preg_match("/words/",$filename)) continue;
+             // skip files that are only one byte or smaller
+             if(filesize("$wordsDir/$filename")<=1) continue;
+
+             $wordLists["$wordsDir/$filename"]="$dyn_url/words/$filename";
+          }
+       closedir($dirHandle);
+       }
+    }
+
+    return $wordLists;
+}
+
 // -----------------------------------------------------------------------------
 
 function get_all_words_in_text( $text )
