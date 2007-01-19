@@ -97,13 +97,13 @@ They are:
     <br>
 
     <li>
-    <b><a name=return>"RETURN TO SENDER"</a></b>
+    <b><a name=return>"RETURN TO ROUND"</a></b>
     All changes are abandoned,
     original version of page made available for someone else to proofread.
     This is for pages that, once you saw them,
     you decided you didn't want to or couldn't proofread,
     but that someone else might be able to.
-    Whoever next clicks on the "Start Proofing" link for this project
+    Whoever next clicks on the "Start Proofreading" link for this project
     will get the page to proofread.
     </li>
     <br>
@@ -148,7 +148,7 @@ $help["Save as 'Done'"] = "
 </p>
 ";
 
-$help["Save as 'Done' & Proof Next"] = "
+$help["Save as 'Done' & Proofread Next Page"] = "
 <p>
     <i>\"I have finished proofreading this page,
     it is as correct as I can make it,
@@ -178,7 +178,7 @@ $help["Save as 'In Progress'"] = "
 </p>
 ";
 
-$help['Stop Proofing'] = "
+$help['Stop Proofreading'] = "
 <p>
     <i>\"I haven't finished proofreading this page,
     but I want to stop proofreading for now.
@@ -189,7 +189,7 @@ $help['Stop Proofing'] = "
     The page will be <a href='#progr'>IN PROGRESS</a>.
     To save your most recent changes before quitting,
     use the \"Save as 'In Progress'\" button first.
-    Note that \"Save as 'In Progress'\" followed by 'Stop Proofing'
+    Note that \"Save as 'In Progress'\" followed by 'Stop Proofreading'
     (page is left <a href='#progr'>IN PROGRESS</a>)
     is NOT equivalent to \"Save as 'Done'\"
     (page is left <a href='#done'>DONE</a>).
@@ -233,7 +233,7 @@ $help['Return Page to Current Round'] = "
     waiting for the next proofreader
     who requests a new page to proofread from this project,
     to whom it will go for proofreading.
-    (See <a href='#return'>RETURN TO SENDER</a>.)
+    (See <a href='#return'>RETURN TO ROUND</a>.)
 </p>
 <p>
     If a page seems too long or complex for you,
@@ -241,11 +241,11 @@ $help['Return Page to Current Round'] = "
     (Note if you then immediately request a new page to proofread,
     the 'someone else' may be you!
     If you don't want to go proofread a different project instead,
-    you can \"Save as 'In Progress'\" the page, 'Stop Proofing' and follow the 'Start Proofing' link.
+    you can \"Save as 'In Progress'\" the page, 'Stop Proofreading' and follow the 'Start Proofreading' link.
     This will load the next available page,
     leaving the one you wanted to skip in your 'IN PROGRESS' section.
     When you have finished proofreading for the day,
-    you can re-open it from there and press 'Return Page to Current Round'
+    you can re-open it from there and press 'Return Page to Round'
     to immediately make it available for someone else to proofread.)
 </p>
 ";
@@ -257,9 +257,10 @@ $help['Run Spelling Check'] = "
 </p>
 <p>
     Loads the Spelling Check form.
-    The OCR text is run through a spell-checker and then displayed,
-    with doubtful words rendered as
-    a drop down list of suggested corrected spellings from which you can select.
+    The text is checked for possible problems (misspelled words, scannos, etc).
+    Problem words are presented as text boxes for possible correction.
+
+    See also the <a href=\"spellcheck-faq.php\">Spellcheck FAQ</a>.
 </p>
 <p>
     When done, the corrections made can be submitted (applied) or cancelled.
@@ -420,9 +421,9 @@ if ( $i_type == 0 )
     foreach(
 	Array(
 	    "Save as 'In Progress'",
-	    "Save as 'Done' & Proof Next",
+	    "Save as 'Done' & Proofread Next Page",
 	    "Save as 'Done'",
-	    'Stop Proofing',
+	    'Stop Proofreading',
 	    'Switch to Vertical/Horizontal',
 	    'Return Page to Round',
 	    'Report Bad Page',
@@ -504,9 +505,9 @@ if ( $i_type == 0 )
     </dd>
 
     <dt>Image Resize:
-	<input type='button' value='50%'>
-	<input type='button' value='100%'>
-	<input type='button' value='200%'>
+	<input type='button' value='-25%'>
+	<input type='button' value='+25%'>
+	<input type='button' value='Original'>
     </dt>
     <dd>
     <p>
@@ -563,9 +564,9 @@ function echo_row( $name, $tooltip, $button_image_base, $accelerator )
 }
 
 echo_row( 'Help', 'Help', 'bt11', '1' );
-echo_row( 'Stop Proofing', 'Stop Proofing without Saving', 'bt1', '9' );
+echo_row( 'Stop Proofreading', 'Stop Proofing without Saving', 'bt1', '9' );
 echo_row( "Save as 'Done'", "Save as 'Done'", 'bt13', '' );
-echo_row( "Save as 'Done' & Proof Next", "Save as 'Done' & Proof Next", 'bt2', '8' );
+echo_row( "Save as 'Done' & Proofread Next Page", "Save as 'Done' & Proofread Next Page", 'bt2', '8' );
 echo_row( "Save as 'In Progress'", "Save as 'In Progress'", 'bt3', '7' );
 echo_row( 'Report Bad Page', 'Report Bad Page', 'bt14', '' );
 echo_row( 'Return Page to Current Round', 'Return Page to Current Round', 'bt15', '' );
