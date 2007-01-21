@@ -195,7 +195,7 @@ id="controlframe"><?PHP
 ></p>
 
 <?PHP
-echo "<p>" . _("Note: The [AW] button will accept all instances of that word for this page, and suggest it for inclusion in this project's dictionary.") . "</p>";
+echo "<p>" . _("Note: The [AW] button will accept all instances of that word for this page, and suggest it for inclusion in this project's dictionary. See also the <a href=\"$code_url/faq/spellcheck-faq.php\" target=\"FAQ\">Spellcheck FAQ</a>.") . "</p>";
 ?>
 <table id="tbtext" cellpadding="10" align="center"><tr>
 <?PHP
