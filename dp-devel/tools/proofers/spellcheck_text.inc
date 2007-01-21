@@ -118,7 +118,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                 $replaceString = "";
 
                 // if the AW button is wanted, add the initial span
-                if($badWordHash[$word] != WC_SITE ) {
+                if($badWordHash[$word] == WC_WORLD ) {
                     $replaceString .= "<span id=\"{$jsSanitizedWord}_{$wordCount[$word]}\">";
                     $onChange = " onChange=\"disableAcceptWord('{$jsSanitizedWord}_{$wordCount[$word]}');\"";
                 } else {
@@ -132,7 +132,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                     "<input type='text' name='sp{$numBadWords}' size='{$textBoxLen}' value='{$wordSafe}' style='font-family: DPCustomMono2;' $onChange>";
 
                 // if the AW button is wanted, add the closing span and the button
-                if($badWordHash[$word] != WC_SITE ) {
+                if($badWordHash[$word] == WC_WORLD ) {
                     $replaceString .=
                         "<input id='button_{$jsSanitizedWord}_{$wordCount[$word]}' type='button' value='AW' onClick=\"acceptWord('$jsSanitizedWord','$jsSafeWord');\">" .
                         "</span>";
