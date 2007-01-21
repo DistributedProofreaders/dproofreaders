@@ -1095,15 +1095,13 @@ leitores.<!-- END RR -->
 
 <h3><a name="italics">Texto em It&aacute;lico e em Negrito</a></h3>
 
-<p>Reveja o texto em <span style="font-style: italic;">it&aacute;lico</span>
+<p>O texto em <span style="font-style: italic;">it&aacute;lico</span> pode aparecer 
 
-colocando-o entre&nbsp;<tt>&lt;i&gt;</tt> e&nbsp;<tt>&lt;/i&gt;</tt>.
+ocasionalmente &nbsp;<tt>&lt;i&gt;</tt>&nbsp;e&nbsp;<tt>&lt;/i&gt;</tt>. O texto em
 
-&nbsp; Reveja o <span style="font-weight: bold;">texto em
+<span style="font-weight: bold;">negrito</span> (texto impresso de forma mais 
 
-negrito</span>
-
-(texto impresso de forma mais carregada) colocando-o entre <tt>&lt;b&gt;</tt>&nbsp;e&nbsp;<tt>&lt;/b&gt;</tt>.
+carregada) pode aparecer entre <tt>&lt;b&gt;</tt>&nbsp;e&nbsp;<tt>&lt;/b&gt;</tt>.
 
 N&atilde;o remova este tipo de
 
