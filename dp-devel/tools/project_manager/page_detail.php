@@ -61,15 +61,19 @@ echo "<br>\n";
 
 include_once('detail_legend.inc');
 
-echo "N.B. It is <b>strongly</b> recommended that you view page differentials by right-clicking on a diff link and opening the link in a new window or tab."."<br>\n";
+echo "N.B. It is <b>strongly</b> recommended that you view page differentials by right-clicking on a diff link and opening the link in a new window or tab."."<br>\n<br>\n";
 
 if ( !is_null($username_for_page_selection) )
 {
-    echo "<br>\n";
     echo sprintf( _("Showing only the pages of user '%s'."), $username_for_page_selection );
     $blurb = _("Show all pages instead.");
     echo "&nbsp;&nbsp;";
     echo "<a href='?project=$projectid&show_image_size=$show_image_size'>$blurb</a>";
+}
+else
+{
+   $blurb = _("Show just my pages.");
+   echo "<a href='?project=$projectid&show_image_size=$show_image_size&select_by_user'>$blurb</a>";
 }
 
 echo_page_table( $project, $show_image_size, FALSE, $username_for_page_selection );
