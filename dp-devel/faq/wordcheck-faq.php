@@ -21,14 +21,18 @@ span.mono
 <ul>
   <li><a href="#new_interface">What's up with the new spellcheck interface?</a></li>
   <li><a href="#good_bad_words">What's with 'Good' and 'Bad' words?</a></li>
-  <li><a href="#misspellings_from">Where do misspelled (Flag) words come from?</a></li>
+  <li><a href="#misspellings_from">Where do misspelled (Flagged) words come from?</a></li>
   <li><a href="#example">Can you give me a simple example of how the levels work to Flag words for the proofer to correct or accept?</a></li>
   <li><a href="#capitalization">How does capitalization affect the word lists?</a></li>
 </ul>
 <h3>Proofer Questions</h3>
 <ul>
+  <li><a href="#why_spellcheck">Why should I use a spell-checker? I'm a good speller!</a></li>
   <li><a href="#aw_button">What's the AW button and what does it do?</a></li>
+  <li><a href="#need_aw">Do I have to hit the AW button for every word on the page?</a></li>
   <li><a href="#aw_diff">Why don't all Bad words have an AW button?</a></li>
+  <li><a href="#wrong_aw">I hit AW for a word but it was wrong - what do I do now?</a></li>
+  <li><a href="#aw_undo">I hit AW but didn't mean to, can I undo it?</a></li>
   <li><a href="#add_word_to_dict">How do I get a word added to the project dictionary?</a></li>
   <li><a href="#check_against_diff_lang">How can I check the page against the dictionary for a different language?</a></li>
 </ul>
@@ -64,7 +68,7 @@ span.mono
 <h3><a name="good_bad_words"></a>What's with 'Good' and 'Bad' words?</h3>
 <p>The spellcheck interface is designed to help proofers catch differences between the page image and the page text. Often when the OCR software identifies the word incorrectly the word becomes misspelled and can be caught by a spell checker. Other times the OCR software incorrectly identifies a word in the image but the resulting text is a valid word. These words are still wrong despite being valid words. The team has decided to use the Good/Bad nomenclature to better reflect the intent of the spellcheck interface - to help the proofer match the image and the text, rather than use an inaccurate label like 'misspelling'.</p>
 
-<h3><a name="misspellings_from"></a>Where do misspelled (Flag) words come from?</h3>
+<h3><a name="misspellings_from"></a>Where do misspelled (Flagged) words come from?</h3>
 <p>Words flagged as misspelled can come from a variety of sources. These sources originate from one of three levels:</p>
 <ul>
   <li>World - misspellings as determined by an external spell-checker and dictionaries</li>
@@ -110,12 +114,29 @@ span.mono
 <hr>
 
 <h2>Proofer Questions</h2>
+<h3><a name="why_spellcheck"></a>Why should I use a spell-checker? I'm a good speller!</h3>
+<p>The "spell-checker" does much more than simply check the text for misspelled words -- it helps detect scannos and other OCR errors. It is intended to flag words which are not in the dictionaries and Good Word Lists, because such words are often situations where the OCR process has confused a letter or word with one that is visually similar. Since it is often visually similar, it is easy for a proofer to skip over, "seeing" it as the correct word. The AW button exists for the common case where the word has been correctly transcribed, but isn't in the dictionaries.</p>
+
+<p>The spell checker is also used to flag words which are commonly incorrectly identified by OCR. The classic example is "arid" which is a perfectly good word, but is often a scanno for "and", a much more common word. Another example is "modem", which is very uncommon in books from before the 1960s, but can easily be a scanno for "modern".</p>
+
+<p>The checker will attempt to flag these kinds of situations for the proofer's attention, so that the proofer can consider them carefully, and take proper action in each case.</p>
+
+
 <h3><a name="aw_button"></a>What's the AW button and what does it do?</h3>
 <p>AW stands for Accept Word and provides a way for proofers to indicate that the word matches the image. Once clicked the button will cause all identically spelled words to be accepted as correct. Additionally these words are added to a file for the project manager. The project manager can review these accepted words and add those that occur frequently to the project's good word list.</p>
 <p>After a word has been modified the AW button for that word becomes disabled to prevent accepting the incorrect word as valid. In addition, Accepted Words are only valid for the current spellcheck session and do not persist for the proofer across spellcheck sessions either for the same or different pages.</p>
 
+<h3><a name="need_aw"></a>Do I have to hit the AW button for every word on the page?</h3>
+<p><i>If a flagged word matches what appears in the scan, you do not have to do anything to it.</i> If, as well as being correct, it is a word that appears several times on this page, or is one that is likely to appear several times in a project (such as a proper name, or technical term), you may optinoally choose to press the AW (Accept Word) button next to it, which will a) remove flags from all occurences of this word on this page for this session of flagged words mode, and b) add it to a list of candidate project-specific good words available to the project manager.</p>
+
 <h3><a name="aw_diff"></a>Why don't all Bad words have an AW button?</h3>
-<p>Words that have been identified as stealth scannos do not have an AW button to ensure careful attention is given to them.</p>
+<p>Words that have been identified as stealth scannos do not have an AW button to ensure that careful attention is given to them.</p>
+
+<h3><a name="wrong_aw"></a>I hit AW for a word but it was wrong - what do I do now?</h3>
+<p>Don't panic! Hitting the AW button does not automatically add the word to the project's dictionary, simply suggest it to the Project Manager for inclusion. To correct the word, exit out of the spellcheck interface (by either applying your changes or quitting without applying) and correct the word in the normal text window. Alternatively you can run the spellcheck again to correct the word since Accept Words are not kept across spellcheck sessions.</p>
+
+<h3><a name="aw_undo"></a>I hit AW but didn't mean to, can I undo it?</h3>
+<p>There is no way to undo hitting the AW button, however exiting the spellcheck interface and running spellcheck again will accomplish the same thing.</p>
 
 <h3><a name="add_word_to_dict"></a>How do I get a word added to the project dictionary?</h3>
 <p>Words can only be added to the project's Good Words List by the Project Manager. The suggested way to encourage the PM to add a word to the dictionary is to use the Accept Word (AW) button in the spelling interface to signify that the word is spelled correctly. The PM can generate a list of commonly Accepted words and add them to the Good Words List for the project.</p>
