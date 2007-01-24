@@ -4,6 +4,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_edit.inc');
+include_once($relPath.'Project.inc');
 include_once('projectmgr.inc');
 
 $projectid   = $_GET['project'];
@@ -11,13 +12,25 @@ $image       = $_GET['image'];
 $L_round_num = $_GET['L_round_num'];
 $R_round_num = $_GET['R_round_num'];
 
+$project = new Project( $projectid );
+$state = $project->state;
+$project_title = $project->nameofwork;
+
 $title = sprintf( _('Difference for page %s'), $image );
 
 $no_stats=1;
 $extra_args = array("css_data" => "span.custom_font {font-family: DPCustomMono2, Courier New, monospace;}");
-theme($title, "header", $extra_args);
+theme("$title: $project_title", "header", $extra_args);
 
-echo "<h3 align='center'>$title</h3>";
+echo "<h1>$project_title</h1>\n";
+echo "<h2>$title</h2>\n";
+
+$url = "$code_url/project.php?id=$projectid&amp;expected_state=$state";
+$label = _("Go to Project Page");
+
+echo "<a href='$url'>$label</a>";
+echo "<br>\n";
+
 
 
 if ( $L_round_num == 0 )
