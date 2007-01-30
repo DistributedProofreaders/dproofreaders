@@ -523,17 +523,45 @@ function get_site_word_lists() {
 
 // -----------------------------------------------------------------------------
 
-function get_all_words_in_text( $text )
+function get_all_words_in_text( $text, $with_offsets=FALSE )
 // Returns an array whose values are all occurrences of all words in $text, in order
 // (i.e., with duplicates).
+//
+// $with_offsets:
+//    If false (the default), the keys are just consecutive integers.
+//    If true, then for each value, the corresponding key is the offset
+//        (in $text) of the start of that word.
+//
+//    If $text is project-sized, you should use $with_offsets=FALSE, otherwise
+//    you'll get back an array of (say) 200,000 entries with keys from about 0
+//    to (say) 1,000,000, and for some reason, PHP 4.4.2 (and maybe others) is
+//    ridiculously inefficient accessing such an array. (E.g., a simple var_dump
+//    took roughly an hour just to print the first four items in the array!)
+//    Note that it's *not* inefficient accessing an array with the same number
+//    of items, but having consecutive integers as the keys!
 {
     global $word_pattern;
-    $n_matches = preg_match_all( $word_pattern, $text, $matches );
+    $flags = ( $with_offsets ? PREG_OFFSET_CAPTURE : 0 );
+    $n_matches = preg_match_all( $word_pattern, $text, $matches, $flags );
     if ( $n_matches === FALSE )
     {
         die("get_all_words_in_text: An error occurred.");
     }
-    return $matches[0];
+
+    if ( $with_offsets )
+    {
+        $result = array();
+        foreach ( $matches[0] as $item )
+        {
+            list($word,$offset) = $item;
+            $result[$offset] = $word;
+        }
+        return $result;
+    }
+    else
+    {
+        return $matches[0];
+    }
 }
 
 // given an array of words, calculate the frequency
