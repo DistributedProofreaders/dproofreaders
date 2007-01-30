@@ -17,7 +17,7 @@ include_once($relPath.'word_checker.inc');
 //
 function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $accepted_words ) {
 
-    global $nonword_character_pattern, $puncCharacters;
+    global $puncCharacters;
 
     // variable holding final string
     $returnString="";
@@ -61,11 +61,9 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
         $origLine = $orig_lines[$origLineNum];
 
         // $origLine -- original line, punctuation and all
-        // $workLine -- line without punctuation
         //  $newLine -- new line fully futzed with
 
         $newLine = $origLine;
-        $workLine = preg_replace($nonword_character_pattern,' ',$origLine);
 
         $lineIndex = $indexArray = array();
 
@@ -83,12 +81,9 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
         }
 
         // find the index for each word before we futz with the line
-        $lineIndex = 0;
-        $wordArray = explode(" ",$workLine);
-        foreach($wordArray as $word) {
+        foreach ( get_all_words_in_text($origLine,TRUE) as $lineIndex => $word ) {
             if(in_array($word,$badWords) && $word != "")
                 $indexArray[$lineIndex] = $word;
-            $lineIndex += strlen($word)+1;
         }
 
         // now do the search/replace
