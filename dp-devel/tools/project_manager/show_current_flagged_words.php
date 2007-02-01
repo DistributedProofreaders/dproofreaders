@@ -14,7 +14,7 @@ $projectid = $_GET["projectid"];
 
 // if format is 'text', all words and frequencies will be printed
 // if format is not 'text', an HTML page is displayed
-$format = $_GET["format"];
+$format = @$_GET["format"];
 
 // anything that appears in the list less than this number
 // won't show up in the list
