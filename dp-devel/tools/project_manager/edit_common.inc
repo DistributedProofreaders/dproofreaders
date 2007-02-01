@@ -294,11 +294,14 @@ function proj_good_words_field($value,$fieldname,$projectid)
 
     echo "<center>";
     echo "<textarea name='$fieldname' cols='74' rows='16'>$enc_value</textarea>";
-    echo "<br>";
-    echo "<b>";
-    echo " <a href=\"generate_dict_suggestions.php?projectid=$projectid\" target=\"generate_project_words\">$dict_link</a><br>";
-    echo "<a href=\"generate_acceptword_suggestions.php?projectid=$projectid\" target=\"generate_project_words\">$iw_link</a>";
-    echo "</b>";
+    if (!empty($projectid))
+    {
+        echo "<br>";
+        echo "<b>";
+        echo " <a href=\"generate_dict_suggestions.php?projectid=$projectid\" target=\"generate_project_words\">$dict_link</a><br>";
+        echo "<a href=\"generate_acceptword_suggestions.php?projectid=$projectid\" target=\"generate_project_words\">$iw_link</a>";
+        echo "</b>";
+    }
     echo "</center>";
 }
 
