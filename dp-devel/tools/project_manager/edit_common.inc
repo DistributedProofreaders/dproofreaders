@@ -289,17 +289,18 @@ function proj_comments_field($comments)
 function proj_good_words_field($value,$fieldname,$projectid)
 {
     $enc_value = encodeFormValue($value);
-    $dict_link = _("Generate suggestions from dictionary");
-    $iw_link = _("Generate suggestions from Accepted Words");
 
     echo "<center>";
     echo "<textarea name='$fieldname' cols='74' rows='16'>$enc_value</textarea>";
     if (!empty($projectid))
     {
+        $dict_link = _("Generate suggestions from dictionary");
+        $iw_link = _("Generate suggestions from Accepted Words");
         echo "<br>";
         echo "<b>";
-        echo " <a href=\"generate_dict_suggestions.php?projectid=$projectid\" target=\"generate_project_words\">$dict_link</a><br>";
-        echo "<a href=\"generate_acceptword_suggestions.php?projectid=$projectid\" target=\"generate_project_words\">$iw_link</a>";
+        echo "<a href='generate_dict_suggestions.php?projectid=$projectid' target='generate_project_words'>$dict_link</a>";
+        echo "<br>";
+        echo "<a href='generate_acceptword_suggestions.php?projectid=$projectid' target='generate_project_words'>$iw_link</a>";
         echo "</b>";
     }
     echo "</center>";
