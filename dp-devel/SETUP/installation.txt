@@ -40,12 +40,14 @@ If you're upgrading from a previous version, see the upgrade section.
 
 --- Choose names for various MySQL items:
         --- the DP database (to house the DP and phpBB data);
+        --- the DP archive database (to house DP data of finished projects);
         --- the DP user (to handle all DP and phpBB queries);
         --- the DP user's password.
     Don't pick a password that contains an apostrophe (single-quote),
     as it confuses the code.
     In the examples in this document, we will use
         dp_db
+        dp_archive
         dp_user
         dp_password
     for these three items. You may wish to choose names that are harder for
@@ -69,6 +71,10 @@ If you're upgrading from a previous version, see the upgrade section.
     --- Create the user.
         (See MySQL Manual 5.5.4 Adding New Users to MySQL.)
             GRANT ALL  ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
+
+    --- Similarly for the archive database (if you want one):
+            CREATE DATABASE dp_archive;
+            GRANT ALL  ON dp_archive.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
    
     --- Exit from the mysql client.
             quit;
