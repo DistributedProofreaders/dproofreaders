@@ -18,6 +18,7 @@ include_once($relPath.'word_checker.inc');
 function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $accepted_words ) {
 
     global $puncCharacters;
+    global $code_url;
 
     // variable holding final string
     $returnString="";
@@ -129,7 +130,8 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                 // if the AW button is wanted, add the closing span and the button
                 if($badWordHash[$word] == WC_WORLD ) {
                     $replaceString .=
-                        "<input id='button_{$jsSanitizedWord}_{$wordCount[$word]}' type='button' value='AW' onClick=\"acceptWord('$jsSanitizedWord','$jsSafeWord');\">" .
+                        "<a href='#' id='a_{$jsSanitizedWord}_{$wordCount[$word]}' onClick=\"acceptWord('$jsSanitizedWord','$jsSafeWord'); return false;\">" .
+                        "<img id='button_{$jsSanitizedWord}_{$wordCount[$word]}' src='$code_url/graphics/Book-Plus-Small.gif' border='0' title='Unflag all &amp; Nominate Word'></a>" .
                         "</span>";
                 }
 
@@ -161,6 +163,7 @@ function html_safe( $str )
 
 function spellcheck_echo_script()
 {
+    global $code_url;
 ?>
     <script language="JavaScript" type="text/javascript">
     <!--
@@ -179,7 +182,7 @@ function spellcheck_echo_script()
                 // check to see if this instance has been edited already
                 // by checking the status of the AW button
                 var button = document.getElementById("button_" + wordID);
-                if(button && button.disabled == false) {
+                if(button && button.src == "<?=$code_url;?>/graphics/Book-Plus-Small.gif") {
                     // set contents to be the word itself
                     wordSpan.innerHTML=wordOrig;
                 }
@@ -196,8 +199,12 @@ function spellcheck_echo_script()
 
     function disableAcceptWord(wordID) {
         var button = document.getElementById("button_" + wordID);
+        var a = document.getElementById("a_" + wordID);
         if(button) {
-            button.disabled = true;
+            button.src = "<?=$code_url;?>/graphics/Book-Plus-Small-Disabled.gif";
+            button.title = "Word has been edited, unable to Nominate";
+            a.removeAttribute('href');
+            a.removeAttribute('onclick');
         }
     }
     // -->

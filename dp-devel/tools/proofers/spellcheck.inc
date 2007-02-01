@@ -195,7 +195,7 @@ id="controlframe"><?PHP
 ></p>
 
 <?PHP
-echo "<p>" . _("Note: The [AW] button will accept all instances of that word for this page, and suggest it for inclusion in this project's dictionary. See also the <a href=\"$code_url/faq/spellcheck-faq.php\" target=\"FAQ\">Spellcheck FAQ</a>.") . "</p>";
+echo "<p>" . _("Note: The <img src=\"$code_url/graphics/Book-Plus-Small.gif\" border=\"0\"> icon will accept all instances of that word for this page, and suggest it for inclusion in this project's dictionary. See also the <a href=\"$code_url/faq/spellcheck-faq.php\" target=\"FAQ\">WordCheck FAQ</a>.") . "</p>";
 ?>
 <table id="tbtext" cellpadding="10" align="center"><tr>
 <?PHP
@@ -226,7 +226,7 @@ echo "<p>" . _("Note: The [AW] button will accept all instances of that word for
         <input
             type="submit"
             name="spexit"
-            value="<? echo _("Quit Spell Check"); ?>"
+            value="<? echo _("Quit WordCheck"); ?>"
             title="<? echo _("Abandon spelling corrections and return to proofreading this page"); ?>"
         >
     </td>

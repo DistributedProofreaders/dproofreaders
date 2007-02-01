@@ -175,8 +175,8 @@ function echo_button( $button_id, $which_interface )
 		case SPELL_CHECK:
 			$attrs = array(
 				'name'      => "button10",
-				$label      => _("Spell Check"),
-				'title'     => _("Run Spelling Check"),
+				$label      => _("WordCheck"),
+				'title'     => _("Run WordCheck"),
 				'src'       => "gfx/bt16.png",
 			);
 			if ($userP['i_type']==0)
