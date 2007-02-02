@@ -147,7 +147,7 @@ switch( $tbutton )
         // Return from spellchecker via "Submit Corrections" button.
         include_once('spellcheck_text.inc');
         $correct_text = spellcheck_apply_corrections();
-        $accepted_words = explode(' ',$_POST["accepted_words"]);
+        $accepted_words = explode(' ',stripslashes($_POST["accepted_words"]));
         // for the record, PPage (or at least LPage) should provide
         // functions for returning the round ID and the page number
         // without the mess below
@@ -161,7 +161,7 @@ switch( $tbutton )
         // Return from spellchecker via "Quit Spell Check" button.
         include_once('spellcheck_text.inc');
         $correct_text = spellcheck_quit();
-        $accepted_words = explode(' ',$_POST["accepted_words"]);
+        $accepted_words = explode(' ',stripslashes($_POST["accepted_words"]));
         save_project_good_word_suggestions(
             $_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accepted_words);
         $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
@@ -174,7 +174,7 @@ switch( $tbutton )
         // and rerun through the spellcheck
         include_once('spellcheck_text.inc');
         $aux_language = $_POST["aux_language"];
-        $accepted_words = explode(' ',$_POST["accepted_words"]);
+        $accepted_words = explode(' ',stripslashes($_POST["accepted_words"]));
         $text_data = spellcheck_apply_corrections();
         include('spellcheck.inc');
         break;
