@@ -33,7 +33,7 @@ $revert_text=isset($_POST['revert_text']) ? stripslashes($_POST['revert_text']) 
         $textLeft="1%";
       }
 
-slim_header("Spell Check",TRUE,FALSE);
+slim_header("WordCheck",TRUE,FALSE);
 
 ibe_echo_script();
 spellcheck_echo_script();
@@ -144,6 +144,7 @@ id="controlframe"><?PHP
 <form name="spcorrects" action="processtext.php" method="POST">
 <?PHP
     echo "<input type='hidden' name='revert_text' value='" . html_safe($revert_text) . "'>\n";
+    echo "<input type='hidden' id='is_changed' name='is_changed' value='0'>\n";
     echo "<input type='hidden' id='accepted_words' name=\"accepted_words\" value='" . implode(' ',$accepted_words) . "'>\n";
 
     // run the text through the spellcheck - returns the form contents and a list of languages the page was checked against
@@ -220,14 +221,15 @@ echo "<p>" . _("Note: The <img src=\"$code_url/graphics/Book-Plus-Small.gif\" bo
             type="submit"
             name="spcorrect"
             value="<? echo _("Submit Corrections"); ?>"
-            title="<? echo _("Keep spelling corrections and return to proofreading this page"); ?>"
+            title="<? echo _("Keep corrections and return to proofreading this page"); ?>"
         >
         &nbsp;&nbsp;&nbsp;
         <input
             type="submit"
             name="spexit"
             value="<? echo _("Quit WordCheck"); ?>"
-            title="<? echo _("Abandon spelling corrections and return to proofreading this page"); ?>"
+            title="<? echo _("Abandon corrections and return to proofreading this page"); ?>"
+            onClick="return confirmExit();"
         >
     </td>
 </tr>

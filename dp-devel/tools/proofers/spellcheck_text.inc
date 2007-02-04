@@ -206,6 +206,23 @@ function spellcheck_echo_script()
             a.removeAttribute('href');
             a.removeAttribute('onclick');
         }
+
+        // mark the page as having been changed
+        document.getElementById("is_changed").value=1;
+
+        return false;
+    }
+
+    // Confirm exit if changes have been made
+    function confirmExit() {
+        // see if changes have been made
+        var changesMade = document.getElementById("is_changed").value;
+        if(changesMade==1) {
+            return confirm("<?=_("Changes have been made. OK to quit without saving?");?>");
+        }
+
+        // return true (ie: confirm exit) if no changes were made
+        return true;
     }
     // -->
     </script>
