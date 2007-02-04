@@ -294,8 +294,8 @@ function proj_good_words_field($value,$fieldname,$projectid)
     echo "<textarea name='$fieldname' cols='74' rows='16'>$enc_value</textarea>";
     if (!empty($projectid))
     {
-        $dict_link = _("Generate suggestions from dictionary");
-        $iw_link = _("Generate suggestions from Accepted Words");
+        $dict_link = _("Show words in the project that WordChecker would currently flag");
+        $iw_link = _("Show suggestions from proofers");
         echo "<br>";
         echo "<b>";
         echo "<a href='generate_dict_suggestions.php?projectid=$projectid' target='generate_project_words'>$dict_link</a>";
