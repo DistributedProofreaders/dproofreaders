@@ -719,8 +719,8 @@ class ProjectInfoHolder
 
         // save non-database information, like the custom dictonaries
         // explode the strings into an array
-        $good_words = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->good_words));
-        $bad_words = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->bad_words));
+        $good_words = array_unique(explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->good_words)));
+        $bad_words = array_unique(explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->bad_words)));
 
         save_project_good_words($this->projectid, $good_words);
         save_project_bad_words($this->projectid, $bad_words);
