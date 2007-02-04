@@ -386,7 +386,7 @@ function load_project_good_word_suggestions($projectid) {
             if($line == "") continue;
             list($round,$page,$proofer,$words) = explode('/',$line);
             $words = explode(' ',$words);
-            if(!is_array($wordsArray[$round][$page]))
+            if(!is_array(@$wordsArray[$round][$page]))
                 $wordsArray[$round][$page] = array();
             if($round != "" && $page != "")
                 $wordsArray[$round][$page] = array_merge($wordsArray[$round][$page],$words);
