@@ -13,29 +13,11 @@ include_once('image_block_enh.inc');
 $revert_text=isset($_POST['revert_text']) ? stripslashes($_POST['revert_text']) : $text_data;
 
 
-// set image and text height and width
-  if ($userP['i_layout']=='1')
-      {
-        $textWidth=$userP['v_tframe'];
-        $imageWidth=(100-$userP['v_tframe'])-1;
-        $textHeight=99;
-        $imageHeight=99;
-        $textTop="0px";
-        $textLeft=(100-$userP['v_tframe'])."%";
-      }
-  else
-      {
-        $textWidth=99;
-        $imageWidth=99;
-        $textHeight=$userP['h_tframe'];
-        $imageHeight=(100-$userP['h_tframe'])-1;
-        $textTop=100-$userP['h_tframe']."%";
-        $textLeft="1%";
-      }
-
 slim_header("WordCheck",TRUE,FALSE);
 
-ibe_echo_script();
+if($userP['i_type']==1)
+    ibe_echo_script();
+
 spellcheck_echo_script();
 ?>
 <script language="JavaScript" type="text/javascript">
@@ -58,33 +40,12 @@ body {
   background-color:#CDCDC1;
   text-align:center;
   overflow:auto;
+  margin-top: 0;
   }
 <?
-  ibe_echo_styles( $imageWidth, $imageHeight );
+if($userP['i_type']==1)
+    ibe_echo_styles();
 ?>
-#controlframe { 
-  <?PHP
-/*    if ($userP['i_layout']=='1')
-      {
-        echo " position:absolute;\r\n";
-        echo "left:".$textLeft.";\r\n";
-        echo "top:".$textTop.";\r\n";
-        echo "width:".$textWidth."%;\r\n";
-      }
-    else {echo "position:relative;\r\n";}
-*/
-    echo " position:absolute;\r\n";
-    echo "left:".$textLeft.";\r\n";
-    echo "top:".$textTop.";\r\n";
-    echo "width:".$textWidth."%;\r\n";
-    echo "height:".$textHeight."%;\r\n";
-  ?>
-  clip:rect(0px, 100%, 100%, 0px);
-  background-color:#CDCDC1;
-  text-align:center;
-  z-index:6;
-  overflow:auto;
-  }
 #tbtext {
   border:1px solid #000000;
   text-align:left;
@@ -100,46 +61,25 @@ body {
   background-color:#FFF8DC;
   padding:2px;
   }
-#tdbottom {
-  border:1px solid #000000;
-  background-color:#EEDFCC;
-  text-align:center;
-  padding:2px;
-  }
-#text_data {
-  padding:2px;
-  background-color:#FFF8DC;
-  color:#000000;
-  }
 -->
 </style>
 </head><body 
-  text="#000000" 
-  topmargin="0" 
   onload="ldAll()">
 
 <?PHP
-  // print basic image html
-    if ($userP['i_type']==1)
-      {
-?>
-<?
+// print basic image html
+if ($userP['i_type']==1) {
+    if ($userP['i_layout']==1)
+       { $iWidth = $userP['v_zoom']; }
+    else { $iWidth = $userP['h_zoom']; }
+    $iWidth = round((1000*$iWidth)/100);
 
-  if ($userP['i_layout']==1)
-    {$iWidth=$userP['v_zoom'];}
-  else {$iWidth=$userP['h_zoom'];}
-  $iWidth=round((1000*$iWidth)/100);
+    ibe_echo_block( $ppage->url_for_image(), $iWidth );
 
-  ibe_echo_block( $ppage->url_for_image(), $iWidth );
-
-?>
-<div 
-id="controlframe"><?PHP 
-      }
-    else
-      {
-       echo "<div \r\n>";
-      }
+    echo '<div id="controlframe">';
+} else {
+    echo '<div>';
+}
 ?>
 <form name="spcorrects" action="processtext.php" method="POST">
 <?PHP
@@ -199,13 +139,7 @@ id="controlframe"><?PHP
 echo "<p>" . _("Note: The <img src=\"$code_url/graphics/Book-Plus-Small.gif\" border=\"0\"> icon will accept all instances of that word for this page, and suggest it for inclusion in this project's dictionary. See also the <a href=\"$code_url/faq/spellcheck-faq.php\" target=\"FAQ\">WordCheck FAQ</a>.") . "</p>";
 ?>
 <table id="tbtext" cellpadding="10" align="center"><tr>
-<?PHP
-    if ($userP['i_type'] !=1)
-    {
-        $url = $ppage->url_for_image();
-        echo "<td id=\"tdbottom\"><a href=\"$url\" target=\"imageshowwin\">View Image</a></td></tr><tr>";
-    }
-?><td 
+<td 
   id="tdtext" 
   valign="top">
 <?PHP
@@ -245,3 +179,5 @@ echo "<p>" . _("Note: The <img src=\"$code_url/graphics/Book-Plus-Small.gif\" bo
 </div>
 </body>
 </html>
+<? // vim: sw=4 ts=4 expandtab
+?>

@@ -11,26 +11,6 @@ function echo_proof_frame_enh( $ppage )
 {
     global $userP;
 
-    // set image and text height and width
-    if ($userP['i_layout']=='1')
-    {
-        $textWidth=$userP['v_tframe'];
-        $imageWidth=(100-$userP['v_tframe'])-1;
-        $textHeight=99;
-        $imageHeight=99;
-        $textTop="0px";
-        $textLeft=(100-$userP['v_tframe'])."%";
-    }
-    else
-    {
-        $textWidth=99;
-        $imageWidth=99;
-        $textHeight=$userP['h_tframe'];
-        $imageHeight=(100-$userP['h_tframe'])-1;
-        $textTop=(100-$userP['h_tframe'])."%";
-        $textLeft="1%";
-    }
-
     slim_header("Proofreading Page",TRUE,FALSE);
 
     ibe_echo_script();
@@ -51,32 +31,7 @@ function echo_proof_frame_enh( $ppage )
                 text-align:center;
                 overflow:hidden;
             }
-            <?
-                ibe_echo_styles( $imageWidth, $imageHeight );
-            ?>
-            #controlframe {
-                <?PHP
-                    /*  if ($userP['i_layout']=='1')
-                        {
-                            echo " position:absolute;\r\n";
-                            echo "left:".$textLeft.";\r\n";
-                            echo "top:".$textTop.";\r\n";
-                            echo "width:".$textWidth."%;\r\n";
-                        }
-                        else {echo "position:relative;\r\n";}
-                    */
-                    echo " position:absolute;\r\n";
-                    echo "left:".$textLeft.";\r\n";
-                    echo "top:".$textTop.";\r\n";
-                    echo "width:".$textWidth."%;\r\n";
-                    echo "height:".$textHeight."%;\r\n";
-                ?>
-                clip:rect(0px, 100%, 100%, 0px);
-                background-color:#CDCDC1;
-                overflow:auto;
-                z-index:6;
-                text-align:center;
-            }
+            <?  ibe_echo_styles(); ?>
             #tbtext {
                 border:1px solid #000000;
                 text-align:center;

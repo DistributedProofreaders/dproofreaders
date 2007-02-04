@@ -45,8 +45,12 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
     // ok, at this point we have a finalized list of bad words.
     // start preparing the page
 
-    // define the highlight for the punctuation
-    $returnString.="<style type='text/css'> .hl { background-color:yellow;color:black;}</style>";
+    // define the styles used for the interface (highlight for the punctuation, AW button, etc)
+    $returnString.="<style type='text/css'>" .
+                   "  .hl { background-color: yellow; color: black; }" .
+                   "  img.aw { border: 0; margin-left: 5px; }" .
+                   "  .dpmono { font-family: DPCustomMono2; }" .
+                   "</style>";
     $returnString.="<pre>\n";
 
     $puncArray = str_split($puncCharacters);
@@ -126,13 +130,13 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                 // create the edit box
                 $replaceString.=
                     "<input type='hidden' name='posit{$numBadWords}' value='$origLineNum|$lineIndex|$wordLen'>" .
-                    "<input type='text' id='input_$wordID' name='sp$numBadWords' size='$textBoxLen' title='$wordSafe' value='$wordSafe' style='font-family: DPCustomMono2;'$onChange>";
+                    "<input type='text' id='input_$wordID' name='sp$numBadWords' size='$textBoxLen' title='$wordSafe' value='$wordSafe' class='dpmono'$onChange>";
 
                 // if the AW button is wanted, add the closing span and the button
                 if($badWordHash[$word] == WC_WORLD ) {
                     $replaceString .=
                         "<a href='#' id='a_$wordID' onClick=\"return acceptWord('$jsSanitizedWord','$wordCount[$word]');\">" .
-                        "<img id='button_$wordID' src='$code_url/graphics/Book-Plus-Small.gif' border='0' title='" . _("Unflag All &amp; Suggest Word") . "'></a>" .
+                        "<img id='button_$wordID' src='$code_url/graphics/Book-Plus-Small.gif' title='" . _("Unflag All &amp; Suggest Word") . "' class='aw'></a>" .
                         "</span>";
                 }
 
@@ -152,7 +156,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
 
 // adds HTML code to a string (usually punctuation) to highlight it
 function _wrapPunc($word) {
-    return "<span class=\"hl\">$word</span>";
+    return "<span class='hl'>$word</span>";
 }
 
 function html_safe( $str )
@@ -201,7 +205,6 @@ function spellcheck_echo_script()
                 var wordSpan = document.getElementById(wordOccurID);
                 // set contents to be the word itself
                 wordSpan.innerHTML=wordOrig;
-                wordSpan.className="aw";
 
                 // save the word in the accepted_words list
                 var acceptedWordsInput = document.getElementById("accepted_words");

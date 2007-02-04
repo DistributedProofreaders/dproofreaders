@@ -22,38 +22,52 @@ which are arranged by absolute positioning into a rectangular grid:
 
 // -----------------------------------------------------------------------------
 
-function ibe_echo_styles( $block_width_pc, $block_height_pc )
+function ibe_echo_styles()
 // $block_width_pc and $block_height_pc
 // give the dimensions of the whole image block
 // as percentages of its container box
 // (which is typically the "proofframe" of the proofing interface).
 {
+    global $userP;
+
+    if ($userP['i_layout']=='1') {
+        $textWidth=$userP['v_tframe'];
+        $block_width_pc=(100-$userP['v_tframe'])-1;
+        $textHeight=99;
+        $block_height_pc=99;
+        $textTop="0px";
+        $textLeft=(100-$userP['v_tframe'])."%";
+    } else {
+        $textWidth=99;
+        $block_width_pc=99;
+        $textHeight=$userP['h_tframe'];
+        $block_height_pc=(100-$userP['h_tframe'])-1;
+        $textTop=100-$userP['h_tframe']."%";
+        $textLeft="1%";
+    }
+
     $minor_width  = '25px';
     $minor_height = '25px';
 
     $major_width  = ($block_width_pc  - 3) . '%';
     $major_height = ($block_height_pc - 3) . '%';
+
     // (This assumes that 25px is about 3% of either dimension of the proofframe;
     // i.e., that the proofframe is roughly 800 x 800px.)
 ?>
-    A:link {
-        color:#000000;
-        text-decoration : none; 
+    #controlframe {
+        position:absolute;
+        left:<?=$textLeft;?>;
+        top:<?=$textTop;?>;
+        width:<?=$textWidth;?>%;
+        height:<?=$textHeight;?>%;
+        clip:rect(0px, 100%, 100%, 0px);
+        background-color:#CDCDC1;
+        text-align:center;
+        z-index:6;
+        overflow:auto;
     }
-    A:visited {
-        color:#000000;
-        text-decoration : none; 
-    }
-    A:hover {
-        color:#003300;
-        font-weight: bold;
-        text-decoration : none; 
-    }
-    A:active {
-        color:#000033;
-        font-weight: bold;
-        text-decoration : none; 
-    }
+
     #imagehorz {
         position:absolute;
         left:<?   echo $minor_width;  ?>;
