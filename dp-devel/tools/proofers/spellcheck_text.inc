@@ -101,9 +101,10 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                 // not punctuation, handle word
 
                 // sanitize the words for the AW javascript
-                $jsSanitizedWord = preg_replace("/\W/",'',$word);
+                $jsSanitizedWord = md5($word);
                 $jsSafeWord = preg_replace("/'/","\'",$word);
                 @$wordCount[$word]++;
+                $wordID="{$jsSanitizedWord}_{$wordCount[$word]}";
                 $numBadWords++;
                 $wordSafe = html_safe($word);
 
@@ -115,8 +116,9 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
 
                 // if the AW button is wanted, add the initial span
                 if($badWordHash[$word] == WC_WORLD ) {
-                    $replaceString .= "<span id=\"{$jsSanitizedWord}_{$wordCount[$word]}\">";
-                    $onChange = " onChange=\"disableAcceptWord('{$jsSanitizedWord}_{$wordCount[$word]}');\"";
+                    $replaceString .= "<span id='$wordID'>";
+                    $onChange = " onChange=\"disableAW('$wordID');\"";
+                    $onChange.= " onKeyup=\"disableAW('$wordID');\"";
                 } else {
                     $onChange = '';
                 }
@@ -124,14 +126,13 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                 // create the edit box
                 $replaceString.=
                     "<input type='hidden' name='posit{$numBadWords}' value='$origLineNum|$lineIndex|$wordLen'>" .
-                    "<input type='hidden' name='wd{$numBadWords}' value='{$wordSafe}'>" .
-                    "<input type='text' name='sp{$numBadWords}' size='{$textBoxLen}' value='{$wordSafe}' style='font-family: DPCustomMono2;' $onChange>";
+                    "<input type='text' id='input_$wordID' name='sp$numBadWords' size='$textBoxLen' title='$wordSafe' value='$wordSafe' style='font-family: DPCustomMono2;'$onChange>";
 
                 // if the AW button is wanted, add the closing span and the button
                 if($badWordHash[$word] == WC_WORLD ) {
                     $replaceString .=
-                        "<a href='#' id='a_{$jsSanitizedWord}_{$wordCount[$word]}' onClick=\"acceptWord('$jsSanitizedWord','$jsSafeWord'); return false;\">" .
-                        "<img id='button_{$jsSanitizedWord}_{$wordCount[$word]}' src='$code_url/graphics/Book-Plus-Small.gif' border='0' title='Unflag all &amp; Nominate Word'></a>" .
+                        "<a href='#' id='a_$wordID' onClick=\"return acceptWord('$jsSanitizedWord','$wordCount[$word]');\">" .
+                        "<img id='button_$wordID' src='$code_url/graphics/Book-Plus-Small.gif' border='0' title='" . _("Unflag All &amp; Suggest Word") . "'></a>" .
                         "</span>";
                 }
 
@@ -144,7 +145,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
     }
 
     $returnString.="</pre>";
-    $returnString.="<input type='hidden' name='sptotal' value='$numBadWords'>";
+    $returnString.="<input id='sptotal' type='hidden' name='sptotal' value='$numBadWords'>";
 
     return array($returnString,$languages,$messages);
 }
@@ -171,45 +172,82 @@ function spellcheck_echo_script()
     // it works by finding (span) elements with IDs in the format
     // word_# and when found sets the content of the span
     // to be just the word thereby removing the select and button
-    function acceptWord(word,wordOrig) {
-        var wordIndex=1;
-        var wordSpan=1;
-        while(wordSpan) {
+    function acceptWord(wordIDprefix,wordNumber) {
+        var wordID=wordIDprefix + "_" + wordNumber;
+
+        // Get the original word
+        var input = document.getElementById("input_" + wordID);
+
+        // Double-check that the value hadn't changed
+        if(input && input.value != input.title) {
+            // what? it has? disable that button & bail!
+            disableAW(wordID);
+            return false;
+        }
+        // get the original word value
+        var wordOrig = input.value;
+
+        // loop through all bad words
+        var totalNumWords = document.getElementById("sptotal").value;
+        for(wordIndex=1; wordIndex<totalNumWords; wordIndex++) {
             // find occurances of the word
-            var wordID = word + "_" + wordIndex;
-            wordSpan = document.getElementById(wordID);
-            if(wordSpan) {
-                // check to see if this instance has been edited already
-                // by checking the status of the AW button
-                var button = document.getElementById("button_" + wordID);
-                if(button && button.src == "<?=$code_url;?>/graphics/Book-Plus-Small.gif") {
-                    // set contents to be the word itself
-                    wordSpan.innerHTML=wordOrig;
-                }
+            var wordOccurID = wordIDprefix + "_" + wordIndex;
+
+            // check to see if this instance has been edited already
+            // by comparing the before and after words
+            var input = document.getElementById("input_" + wordOccurID);
+            if(input && input.value == input.title) {
+                // get the span
+                var wordSpan = document.getElementById(wordOccurID);
+                // set contents to be the word itself
+                wordSpan.innerHTML=wordOrig;
+                wordSpan.className="aw";
 
                 // save the word in the accepted_words list
                 var acceptedWordsInput = document.getElementById("accepted_words");
-                acceptedWordsInput.value = acceptedWordsInput.value + " " + word;
-                wordIndex ++;
+                acceptedWordsInput.value = acceptedWordsInput.value + " " + wordOrig;
             }
-            // protection against run-away processes
-            if(wordIndex>=1000) { break; }
         }
+
+        return false;
     }
 
-    function disableAcceptWord(wordID) {
-        var button = document.getElementById("button_" + wordID);
+    // Disable the Unflag button
+    function disableAW(wordID) {
+        var input = document.getElementById("input_" + wordID);
         var a = document.getElementById("a_" + wordID);
-        if(button) {
+
+        // If the value of the input field hasn't changed, don't disable
+        if(input && input.value == input.title) {
+           // if the current and original values are the same
+           // and the button has been disabled, re-enable it
+           if(a && !a.href) { enableAW(wordID); }
+           return false;
+        }
+
+        // If we're here, we should be disabling the button
+        var button = document.getElementById("button_" + wordID);
+        if(button && a && a.href) {
             button.src = "<?=$code_url;?>/graphics/Book-Plus-Small-Disabled.gif";
-            button.title = "Word has been edited, unable to Nominate";
+            button.title = "<?=_("Word has been edited; unable to Suggest");?>";
             a.removeAttribute('href');
-            a.removeAttribute('onclick');
         }
 
         // mark the page as having been changed
         document.getElementById("is_changed").value=1;
 
+        return false;
+    }
+
+    // Enable an already-disabled button
+    function enableAW(wordID) {
+        var button = document.getElementById("button_" + wordID);
+        var a = document.getElementById("a_" + wordID);
+        if(button && a) {
+            button.src = "<?=$code_url;?>/graphics/Book-Plus-Small.gif";
+            button.title = "<?=_("Unflag All & Suggest Word");?>";
+            a.href="#";
+        }
         return false;
     }
 
@@ -296,8 +334,9 @@ function spellcheck_apply_corrections() {
                 list($orig_line_i,$orig_word_offset,$orig_word_length) =
                     explode('|',$_POST['posit'.$i]);
 
-                // hidden word
-                $correct_word = stripslashes($_POST['sp'.$i]);
+                // get the modified word, strip off any trailing spaces
+                $correct_word = rtrim(stripslashes($_POST['sp'.$i]));
+
                 // replace word in string
                 $text_array[$orig_line_i] =
                     substr($text_array[$orig_line_i],0,$orig_word_offset) .
