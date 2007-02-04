@@ -14,7 +14,7 @@ $format = @$_GET["format"];
 
 // anything that appears in the list less than this number
 // won't show up in the list
-$minFreq = array_get($_GET, 'minFreq', 10);
+$minFreq = array_get($_GET, 'minFreq', 5);
 
 // load the suggestions
 $suggestions = load_project_good_word_suggestions($projectid);
@@ -43,16 +43,26 @@ foreach( $suggestions as $round => $pageArray ) {
     // get the word frequencies
     $wordCount[$round] = generate_frequencies($roundWords[$round]);
 
-    // sort the list by frequency and reverse it
-    arsort($wordCount[$round]);
+    // sort the list by frequency, then by word
+    array_multisort(array_values($wordCount[$round]), SORT_DESC, array_keys($wordCount[$round]), SORT_ASC, $wordCount[$round]);
 }
 
 $allCount = generate_frequencies($allWords);
+
+// sort the list by frequency, then by word
+array_multisort(array_values($allCount), SORT_DESC, array_keys($allCount), SORT_ASC, $allCount);
 
 $rounds = array_keys($wordCount);
 
 // if the user wants the list in text-only mode
 if($format == "text") {
+    # The following is a pure hack for evil IE not accepting filenames
+    $filename="${projectid}_proofer_suggestions.txt";
+    header("Content-type: application/octet-stream");
+    header('Content-Disposition: attachment; filename="' . $filename . '"');
+    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    header('Pragma: public');
+
     // print out the complete list first
     echo "All rounds:\n";
     foreach( $allCount as $word => $freq )
@@ -74,13 +84,14 @@ if($format == "text") {
 ?>
 <html>
 <head>
-<title>Project Accepted Words List</title>
+<title>Suggestions from Proofers</title>
 </head>
 <body>
-<p>Below are the words that proofers have accepted (via the 'AW' button) in the spellcheck interface. The words have been sorted into rounds as well as an overall list. You may want to consider adding these words to the project dictionary.</p>
+<h1>Suggestions from Proofers</h1>
+<p>Below are the words that proofers have suggested (via the <img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif"> button) in the WordCheck interface. The words have been sorted into rounds as well as an overall list. You may want to consider adding these words to the project's Good Words list. See also the <a href="<?=$code_url;?>/faq/spellcheck-faq.php">WordCheck FAQ</a> for more information on the new WordCheck system.</p>
 
 <?
-$cutoffOptions = array(0,2,5,10,25,50,100,150);
+$cutoffOptions = array(1,2,3,4,5,10,25,50);
 $cutoffString = "";
 foreach($cutoffOptions as $cutoff) {
     if($cutoff == $minFreq)
@@ -140,3 +151,5 @@ function _printTableFrequencies($wordCount) {
 
 // vim: sw=4 ts=4 expandtab
 ?>
+</body>
+</html>
