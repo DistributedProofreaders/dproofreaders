@@ -26,6 +26,8 @@ if(!is_array($suggestions)) {
 // array to hold all words
 $allWords = array();
 
+$pageCount = array();
+
 // parse the suggestions complex array
 // it is in the format: $suggestions[$round][$pagenum]=$wordsArray
 foreach( $suggestions as $round => $pageArray ) {
@@ -37,7 +39,7 @@ foreach( $suggestions as $round => $pageArray ) {
         // add the words to the combined array too
         $allWords = array_merge($allWords,$words);
 
-        $pageCount[$round]++;
+        @$pageCount[$round]++;
     }
 
     // get the word frequencies
