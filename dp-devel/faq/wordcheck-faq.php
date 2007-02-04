@@ -7,30 +7,30 @@ include($relPath.'word_checker.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Spellcheck FAQ','header');
+theme('WordCheck FAQ','header');
 ?>
 <style type="text/css">
 span.mono
    { font-family: DPCustomMono2,Courier,san-serif; }
 </style>
 
-<h1>Spellcheck FAQ</h1>
+<h1>WordCheck FAQ</h1>
 
 <h2>Contents</h2>
 <h3>General Questions</h3>
 <ul>
   <li><a href="#new_interface">What's up with the new spellcheck interface?</a></li>
-  <li><a href="#good_bad_words">What's with 'Good' and 'Bad' words?</a></li>
-  <li><a href="#misspellings_from">Where do misspelled (Flagged) words come from?</a></li>
+  <li><a href="#good_bad_words">What are 'Good', 'Bad', and 'Flag' words?</a></li>
+  <li><a href="#misspellings_from">Where do Flagged (misspelled) words come from?</a></li>
   <li><a href="#example">Can you give me a simple example of how the levels work to Flag words for the proofer to correct or accept?</a></li>
   <li><a href="#capitalization">How does capitalization affect the word lists?</a></li>
 </ul>
 <h3>Proofer Questions</h3>
 <ul>
   <li><a href="#why_spellcheck">Why should I use a spell-checker? I'm a good speller!</a></li>
-  <li><a href="#aw_button">What's the "Unflag All & Nominate" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) and what does it do?</a></li>
+  <li><a href="#aw_button">What's the "Unflag All & Suggest" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) and what does it do?</a></li>
   <li><a href="#need_aw">Do I have to hit the Unflag button for every word on the page?</a></li>
-  <li><a href="#aw_diff">Why don't all Bad words have an Unflag button?</a></li>
+  <li><a href="#aw_diff">Why don't all Flagged words have an Unflag button?</a></li>
   <li><a href="#wrong_aw">I hit Unflag for a word but it was wrong - what do I do now?</a></li>
   <li><a href="#aw_undo">I hit Unflag but didn't mean to, can I undo it?</a></li>
   <li><a href="#add_word_to_dict">How do I get a word added to the project dictionary?</a></li>
@@ -43,6 +43,7 @@ span.mono
   <li><a href="#add_another_language">Can I add additional language dictionaries to the WordChecker/spellchecker?</a></li>
   <li><a href="#manage_word_lists">What do I have to do? How do I manage project words?</a></li>
   <li><a href="#wordlist_value">Why is it important to define project-specific lists?</a></li>
+  <li><a href="#what_is_a_word">What counts as a "word" in the WordChecker?</a></li>
 </ul>
 
 <hr>
@@ -61,16 +62,17 @@ span.mono
   <li>Instead of a drop-down box, misspelled words are displayed in a text box for direct editing.
   <li>The standard interface now shows the page image beside the spellcheck page for direct comparison to the original text.</li>
   <li>Page text is still checked against the dictionaries for all project languages. In addition the user has the ability to select additional languages to check the page against, useful if an English-only project has a page with a long quote in French for example.</li>
-  <li>Each project has 'good' and 'bad' word lists that are used when determining misspelled words. Good words are words that are valid for the project even though they are not found in the dictionary. Such words will often include proper nouns of people or places used frequently. Good words can be thought of as a project-specific dictionary. Bad Words are words that should be flagged as misspelled for a project even though they may be found in the dictionary. These words might include project-specific stealth scannos. Both the Good and Bad Word Lists are managed by the Project Manager.</li>
-  <li>Misspelled words have an "Unflag All &amp; Nominate" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) next to them. The button is used to indicate that the word matches the image. Once clicked all identically spelled words on the page are also accepted as correct. After a word has been modified, the Unflag button for that word will become disabled (<img src="<?=$code_url;?>/graphics/Book-Plus-Small-Disabled.gif" border="0">).</li>
+  <li>Each project has 'good' and 'bad' word lists that are used when determining words to flag in the interface. Good words are words that are valid for the project even though they are not found in the dictionary. Such words will often include proper nouns of people or places used frequently. Good words can be thought of as a project-specific dictionary. Bad Words are words that should be flagged as misspelled for a project even though they may be found in the dictionary. These words might include project-specific stealth scannos. Both the Good and Bad Word Lists are managed by the Project Manager.</li>
+  <li>Misspelled words have an "Unflag All &amp; Suggest" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) next to them. The button is used to indicate that the word matches the image. Once clicked all identically spelled words on the page are also accepted as correct. After a word has been modified, the Unflag button for that word will become disabled (<img src="<?=$code_url;?>/graphics/Book-Plus-Small-Disabled.gif" border="0">).</li>
   <li>Words that are flagged by proofers as accepted via the Unflag button are added to a file for review by the Project Manager. Commonly unflagged words can be added to the 'good' word list.</li>
 </ul>
 <p>The new interface has been relabled as WordChecker to identify the broader scope of the tool.</p>
 
-<h3><a name="good_bad_words"></a>What's with 'Good' and 'Bad' words?</h3>
+<h3><a name="good_bad_words"></a>What are 'Good', 'Bad', and 'Flag' words?</h3>
 <p>The WordCheck interface is designed to help proofers catch differences between the page image and the page text. Often when the OCR software identifies the word incorrectly the word becomes misspelled and can be caught by a spell checker. Other times the OCR software incorrectly identifies a word in the image but the resulting text is a valid word. These words are still wrong despite being valid words. The team has decided to use the Good/Bad nomenclature to better reflect the intent of the WordCheck interface - to help the proofer match the image and the text, rather than use an inaccurate label like 'misspelling'.</p>
+<p>After the WordChecker has processed words at the various levels it comes up with a final set of Bad words to present to the user for validation or correction. These words are called Flagged words as they have been flagged by the system for closer inspection.</p>
 
-<h3><a name="misspellings_from"></a>Where do misspelled (Flagged) words come from?</h3>
+<h3><a name="misspellings_from"></a>Where do Flagged (misspelled) words come from?</h3>
 <p>Words flagged as misspelled can come from a variety of sources. These sources originate from one of three levels:</p>
 <ul>
   <li>World - misspellings as determined by an external spell-checker and dictionaries</li>
@@ -124,7 +126,7 @@ span.mono
 <p>The checker will attempt to flag these kinds of situations for the proofer's attention, so that the proofer can consider them carefully, and take proper action in each case.</p>
 
 
-<h3><a name="aw_button"></a>What's the "Unflag All & Nominate" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) and what does it do?</h3>
+<h3><a name="aw_button"></a>What's the "Unflag All & Suggest" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) and what does it do?</h3>
 <p>This button, whose icon shows a book and a plus sign (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">), provides a way for proofers to indicate that the word matches the image. Once clicked the button will cause all identically spelled words to be unflagged, just as if the word had been found in a dictionary or "good word" list. Additionally words for which the button has been clicked are added to a file for the project manager. The project manager can review these unflagged words and add those that occur frequently to the project's Good Word list.</p>
 
 <p>After a word has been modified, the Unflag button for that word becomes disabled (<img src="<?=$code_url;?>/graphics/Book-Plus-Small-Disabled.gif" border="0">)because the proofer has decided that the word as shown was not correct. In addition, words are only unflagged for the current wordcheck session and do not persist for the proofer across wordcheck sessions either for the same or different pages.</p>
@@ -133,24 +135,24 @@ span.mono
 <h3><a name="need_aw"></a>Do I have to hit the Unflag button for every word on the page?</h3>
 <p><i>If a flagged word matches what appears in the scan, you do not have to do anything to it.</i> If, as well as being correct, it is a word that appears several times on this page, or is one that is likely to appear several times in a project (such as a proper name, or technical term), you may optinoally choose to press the <a href="#aw_button">Unflag button</a> next to it, which will a) remove flags from all occurences of this word on this page for this session of WordCheck mode, and b) add it to a list of candidate project-specific good words available to the project manager.</p>
 
-<h3><a name="aw_diff"></a>Why don't all Bad words have an Unflag button?</h3>
+<h3><a name="aw_diff"></a>Why don't all Flagged words have an Unflag button?</h3>
 <p>Words that have been identified as stealth scannos, or on a "bad words" list for any reason, do not have an <a href="#aw_button">Unflag button</a> to ensure that careful attention is given to each occurrence of such words.</p>
 
 <h3><a name="wrong_aw"></a>I hit Unflag for a word but it was wrong - what do I do now?</h3>
 <p>Don't panic! Hitting the <a href="#aw_button">Unflag button</a> does not automatically add the word to the project's dictionary, simply suggest it to the Project Manager for inclusion. To correct the word, exit out of the WordCheck interface (by either applying your changes or quitting without applying) and correct the word in the normal text window. Alternatively you can run the WordCheck again to correct the word since unflagged words are not kept after the end of a WordCheck session.</p>
 
-<p>If you are worried that the Project manager might add the word to the "good words" list wrongly, you can always send a Private Message indicating what happened. However, PMs are responsible for checking that words are actually "good" before adding them to the list.</p>
+<p>If you are worried that the Project manager might add the word to the "good words" list wrongly, you can always send a Private Message indicating what happened. However, Project Managerss are responsible for checking that words are actually "good" before adding them to the list.</p>
 
 <h3><a name="aw_undo"></a>I hit Unflag but didn't mean to, can I undo it?</h3>
 <p>There is no way to undo hitting the <a href="#aw_button">Unflag button</a>, however exiting the WordCheck interface and running WordCheck again will accomplish the same thing.</p>
 
 <h3><a name="add_word_to_dict"></a>How do I get a word added to the project dictionary?</h3>
-<p>Words can only be added to the project's Good Words List by the Project Manager. The suggested way to encourage the PM to add a word to the dictionary is to use the <a href="#aw_button">Unflag button</a> in the WordCheck interface to signify that the word is correct, even though it is being flagged. The PM can generate a list of commonly Unflagged words and add them to the Good Words List for the project.</p>
+<p>Words can only be added to the project's Good Words List by the Project Manager. The suggested way to encourage the Project Manager to add a word to the dictionary is to use the <a href="#aw_button">Unflag button</a> in the WordCheck interface to signify that the word is correct, even though it is being flagged. The Project Manager can generate a list of commonly Unflagged words and add them to the Good Words List for the project.</p>
 
 <p>Proofers are encouraged to use the project's discussion topic to suggest words for the project's Bad Words List.</p>
 
 <h3><a name="check_against_diff_lang"></a>How can I check the page against the dictionary for a different language?</h3>
-<p>When a page is intially checked for Bad words, the text is checked against the dictionaries for all project languages. An additional ad-hoc language dictionary can be used by selecting the language from the drop-down list at the top of the page and clicking the Check button. This will cause the text to be checked against the dictionaries for the project languages in addition to the ad-hoc language. Only one ad-hoc language can be used at a time and a request for another will replace the previous ad-hoc language. Corrections and Unflagged words will be retained between checks against ad-hoc languages.</p>
+<p>When a page is intially checked for word to flag, the text is checked against the dictionaries for all project languages. An additional ad-hoc language dictionary can be used by selecting the language from the drop-down list at the top of the page and clicking the Check button. This will cause the text to be checked against the dictionaries for the project languages in addition to the ad-hoc language. Only one ad-hoc language can be used at a time and a request for another will replace the previous ad-hoc language. Corrections and Unflagged words will be retained between checks against ad-hoc languages.</p>
 
 <hr>
 
@@ -172,12 +174,12 @@ foreach($site_word_lists as $word_list_file => $word_list_url) {
 <p>Project words lists are stored under the project directory. They can be viewed from the "Word Lists" line of the project info table. Project word lists can be updated by editing the information for a project.</p>
 
 <h3><a name="add_another_language"></a>Can I add additional language dictionaries to the WordChecker/spellchecker?</h3>
-<p>When a page is checked against the external spell-checker the checker uses dictionaries from the project's languages. There is no way to have the spell-checker use additional dictionaries beyond those for the project's (one or two) languages. If a project has only a Primary language, the PM can elect to select a Secondary language for the project to have that language's dictionary used in the spell-checker. Secondary languages are often used by Proofers when determining projects to proof so it is recommended that only projects with significant use of a second language have a Secondary language specified.</p>
-<p>Proofers can select an ad-hoc language to use on a per-page basis if that page contains text from a non-project language, such as a quote. PMs may wish to include such a suggestion in the project instructions and/or in the forum for the project.</p>
-<p>Alternatively PMs may elect to add words to the project's Good Words List for commonly used words, regardless of the language, that do not appear in the dictionaries for the project's Primary or Secondary languages.</p>
+<p>When a page is checked against the external spell-checker the checker uses dictionaries from the project's languages. There is no way to have the spell-checker use additional dictionaries beyond those for the project's (one or two) languages. If a project has only a Primary language, the Project Manager can elect to select a Secondary language for the project to have that language's dictionary used in the spell-checker. Secondary languages are often used by Proofers when determining projects to proof so it is recommended that only projects with significant use of a second language have a Secondary language specified.</p>
+<p>Proofers can select an ad-hoc language to use on a per-page basis if that page contains text from a non-project language, such as a quote. Project Managers may wish to include such a suggestion in the project instructions and/or in the forum for the project.</p>
+<p>Alternatively Project Managers may elect to add words to the project's Good Words List for commonly used words, regardless of the language, that do not appear in the dictionaries for the project's Primary or Secondary languages.</p>
 
 <h3><a name="manage_word_lists"></a>What do I have to do? How do I manage project words?</h3>
-<p>A PM can just do nothing, and let the external spell-checker do everything. But he can also define project-specific Good and Bad Words Lists. Such lists can be defined in pre-processing, or defined through on-line tools. These on-line tools can also be used to incrementally modify the previously defined lists, so it is recommended to use the on-line tools at least for a final check. The on-line tools can be used at any time, even during a round, without making the project unavailable, and are immediately used.
+<p>A Project Manager can just do nothing, and let the external spell-checker do everything. But he can also define project-specific Good and Bad Words Lists. Such lists can be defined in pre-processing, or defined through on-line tools. These on-line tools can also be used to incrementally modify the previously defined lists, so it is recommended to use the on-line tools at least for a final check. The on-line tools can be used at any time, even during a round, without making the project unavailable, and are immediately used.
 
 <p>Using off-line tools may yield suboptimal reject lists, since it is not guaranteed that the spell-checker version and the dictionary version are identical to the versions used on site. Also, external tools will not know about site- and project-specific Good and Bad Words Lists. For off-line tools, refer to their documentation.</p>
 <p>Word lists should contain one word per line. A number at the end of a line is discarded (so you can use frequency lists generated by the on-line tools without having to remove manually the frequencies).</p>
@@ -202,6 +204,9 @@ foreach($site_word_lists as $word_list_file => $word_list_url) {
 
 <p>The online tools that are available for automatically generating possible contents of these lists are explained above.</p>
 
+<h3><a name="what_is_a_word"></a>What counts as a "word" in the WordChecker?</h3>
+<p>A "word" is any sequence of letters (with or without accents), digits, or apostrophes, surrounded by any other characters (such as spaces or punctuation). In addition, any of the approved combinations for ligatures (such as [oe]) or diacritics (such as [=a], that represents &#257;) forms part of a word, so that "c[oe]eur" is a single word.</p>
+<p>What this means is that words with characters other than those mentioned above will never be flagged in the text (such as commas). That isn't to say that future versions of the WordChecker can't be modified/enhanced to include checking for words using a different string of characters, such as other punctuation, as well. While words in the Word Lists with characters other than mentioned above will never be Flagged in the text, there is no downside to including them for when the WordChecker can make use of them.</p>
 
 <?
 theme('','footer');

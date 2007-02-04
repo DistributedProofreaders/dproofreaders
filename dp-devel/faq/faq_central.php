@@ -169,6 +169,9 @@ show_news_for_page("FAQ");
   <td>
   <p><a href="font_sample.php">DP Custom Proofreading Font</a><br>
   <font size="-1">Sample and download the custom DP font.</font></p>
+
+  <p><a href="spellcheck-faq.php">WordCheck FAQ</a><br>
+  <font size="-1">Information on the WordCheck engine and interface.</font></p>
   </td>
   </tr>
   </table>
