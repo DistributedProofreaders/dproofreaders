@@ -57,7 +57,7 @@ if($format == "text") {
 
     // freq side
     foreach( $bad_words_w_freq as $word => $freq) {
-        echo "$word - $freq\n";
+        echo "$word - $freq\r\n";
     }
     exit;
 }
@@ -108,7 +108,8 @@ if ( count($messages) > 0 )
 $words_printed = 0;
 
 // freq side
-echo "<tr><td><hr>";
+echo "<tr>";
+echo "<td style='font-family: DPCustomMono2,monospace'><hr>";
 foreach( $bad_words_w_freq as $word => $freq ) {
     if($freq < $minFreq) break;
     echo "$freq<br>\n";
@@ -117,7 +118,7 @@ foreach( $bad_words_w_freq as $word => $freq ) {
 echo "</td>\n";
 
 // word side
-echo "<td><hr>";
+echo "<td style='font-family: DPCustomMono2,monospace'><hr>";
 foreach( $bad_words_w_freq as $word => $freq ) {
     if($freq < $minFreq) break;
     echo "$word<br>\n";

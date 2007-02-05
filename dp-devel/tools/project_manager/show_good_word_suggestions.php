@@ -66,18 +66,18 @@ if($format == "text") {
     header('Pragma: public');
 
     // print out the complete list first
-    echo "All rounds:\n";
+    echo "All rounds:\r\n";
     foreach( $allCount as $word => $freq )
-        echo "$word - $freq\n";
-    echo "\n";
+        echo "$word - $freq\r\n";
+    echo "\r\n";
 
     // now per round
     foreach($rounds as $round) {
-        echo "Round: $round\n";
-        echo "Number of pages with data: " . $pageCount[$round] . "\n";
+        echo "Round: $round\r\n";
+        echo "Number of pages with data: " . $pageCount[$round] . "\r\n";
         foreach( $wordCount[$round] as $word => $freq)
-            echo "$word - $freq\n";
-        echo "\n";
+            echo "$word - $freq\r\n";
+        echo "\r\n";
     }
 
     exit;
@@ -131,7 +131,8 @@ function _printTableFrequencies($wordCount) {
     $words_printed = 0;
 
     // freq side
-    echo "<tr><td><hr>";
+    echo "<tr>";
+    echo "<td style='font-family: DPCustomMono2,monospace'><hr>";
     foreach( $wordCount as $word => $freq ) {
         if($freq < $minFreq) break;
         echo "$freq<br>\n";
@@ -140,7 +141,7 @@ function _printTableFrequencies($wordCount) {
     echo "</td>\n";
 
     // word side
-    echo "<td><hr>";
+    echo "<td style='font-family: DPCustomMono2,monospace'><hr>";
     foreach( $wordCount as $word => $freq ) {
         if($freq < $minFreq) break;
         echo "$word<br>\n";

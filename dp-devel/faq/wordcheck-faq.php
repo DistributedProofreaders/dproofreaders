@@ -11,7 +11,7 @@ theme('WordCheck FAQ','header');
 ?>
 <style type="text/css">
 span.mono
-   { font-family: DPCustomMono2,Courier,san-serif; }
+   { font-family: DPCustomMono2,monospace; }
 </style>
 
 <h1>WordCheck FAQ</h1>
@@ -40,10 +40,10 @@ span.mono
 <ul>
   <li><a href="#site_word_lists">How do I view Site Word Lists?</a></li>
   <li><a href="#project_word_lists">How do I view Project Word Lists?</a></li>
-  <li><a href="#add_another_language">Can I add additional language dictionaries to the WordChecker/spellchecker?</a></li>
+  <li><a href="#add_another_language">Can I add additional language dictionaries to WordCheck/spellcheck?</a></li>
   <li><a href="#manage_word_lists">What do I have to do? How do I manage project words?</a></li>
   <li><a href="#wordlist_value">Why is it important to define project-specific lists?</a></li>
-  <li><a href="#what_is_a_word">What counts as a "word" in the WordChecker?</a></li>
+  <li><a href="#what_is_a_word">What counts as a "word" in WordCheck?</a></li>
 </ul>
 
 <hr>
@@ -66,11 +66,11 @@ span.mono
   <li>Misspelled words have an "Unflag All &amp; Suggest" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) next to them. The button is used to indicate that the word matches the image. Once clicked all identically spelled words on the page are also accepted as correct. After a word has been modified, the Unflag button for that word will become disabled (<img src="<?=$code_url;?>/graphics/Book-Plus-Small-Disabled.gif" border="0">).</li>
   <li>Words that are flagged by proofers as accepted via the Unflag button are added to a file for review by the Project Manager. Commonly unflagged words can be added to the 'good' word list.</li>
 </ul>
-<p>The new interface has been relabled as WordChecker to identify the broader scope of the tool.</p>
+<p>The new interface has been relabled as WordCheck to identify the broader scope of the tool.</p>
 
 <h3><a name="good_bad_words"></a>What are 'Good', 'Bad', and 'Flagged' words?</h3>
 <p>The WordCheck interface is designed to help proofers catch differences between the page image and the page text. Often when the OCR software identifies the word incorrectly the word becomes misspelled and can be caught by a spell checker. Other times the OCR software incorrectly identifies a word in the image but the resulting text is a valid word. These words are still wrong despite being valid words. The team has decided to use the Good/Bad nomenclature to better reflect the intent of the WordCheck interface - to help the proofer match the image and the text, rather than use an inaccurate label like 'misspelling'.</p>
-<p>After the WordChecker has processed words at the various levels it comes up with a final set of Bad words to present to the user for validation or correction. These words are called Flagged words as they have been flagged by the system for closer inspection.</p>
+<p>After WordCheck has processed words at the various levels it comes up with a final set of Bad words to present to the user for validation or correction. These words are called Flagged words as they have been flagged by the system for closer inspection.</p>
 
 <h3><a name="misspellings_from"></a>Where do Flagged (misspelled) words come from?</h3>
 <p>Words flagged as misspelled can come from a variety of sources. These sources originate from one of three levels:</p>
@@ -91,7 +91,7 @@ span.mono
 </ul>
 <p>Now lets consider the following OCR'd text:</p>
 <blockquote><span class="mono">Lubbock is a town of many things: arid fiat 1and, grid-like roads, arid the infamous tumbleweed.</span></blockquote>
-<p>When a proofer selects to WordCheck the text, the WordCheck system evaluates the text at three levels: World, Site, and Project. At each level words are added or removed from the misspelled word list in order to determine the words to be flagged in the page text for the proofer to evaluate. Here's an example of how the "flagging" process works, level by level.</p>
+<p>When a proofer selects to WordCheck the text, WordCheck evaluates the text at three levels: World, Site, and Project. At each level words are added or removed from the misspelled word list in order to determine the words to be flagged in the page text for the proofer to evaluate. Here's an example of how the "flagging" process works, level by level.</p>
 
 <p><b>World</b></p>
 <p><i>Current list of Flagged words entering level:</i> <i>none</i></p>
@@ -119,7 +119,7 @@ span.mono
 
 <h2>Proofer Questions</h2>
 <h3><a name="why_spellcheck"></a>Why should I use a spell-checker? I'm a good speller!</h3>
-<p>The WordChecker does much more than simply check the text for misspelled words -- it helps detect scannos and other OCR errors. It is intended to flag words which are not in the dictionaries and Good Word Lists, because such words are often situations where the OCR process has confused a letter or word with one that is visually similar. Since it is often visually similar, it is easy for a proofer to skip over, "seeing" it as the correct word. The Unflag button exists for the common case where the word has been correctly transcribed, but isn't in the dictionaries.</p>
+<p>WordCheck does much more than simply check the text for misspelled words -- it helps detect scannos and other OCR errors. It is intended to flag words which are not in the dictionaries and Good Word Lists, because such words are often situations where the OCR process has confused a letter or word with one that is visually similar. Since it is often visually similar, it is easy for a proofer to skip over, "seeing" it as the correct word. The Unflag button exists for the common case where the word has been correctly transcribed, but isn't in the dictionaries.</p>
 
 <p>The spell checker is also used to flag words which are commonly incorrectly identified by OCR. The classic example is "arid" which is a perfectly good word, but is often a scanno for "and", a much more common word. Another example is "modem", which is very uncommon in books from before the 1960s, but can easily be a scanno for "modern".</p>
 
@@ -139,15 +139,15 @@ span.mono
 <p>Words that have been identified as stealth scannos, or on a "bad words" list for any reason, do not have an <a href="#aw_button">Unflag button</a> to ensure that careful attention is given to each occurrence of such words.</p>
 
 <h3><a name="wrong_aw"></a>I hit Unflag for a word but it was wrong - what do I do now?</h3>
-<p>Don't panic! Hitting the <a href="#aw_button">Unflag button</a> does not automatically add the word to the project's dictionary, simply suggest it to the Project Manager for inclusion. To correct the word, exit out of the WordCheck interface (by either applying your changes or quitting without applying) and correct the word in the normal text window. Alternatively you can run the WordCheck again to correct the word since unflagged words are not kept after the end of a WordCheck session.</p>
+<p>Don't panic! Hitting the <a href="#aw_button">Unflag button</a> does not automatically add the word to the project's dictionary, simply suggest it to the Project Manager for inclusion. To correct the word, exit out of WordCheck (by either applying your changes or quitting without applying) and correct the word in the normal text window. Alternatively you can run WordCheck again to correct the word since unflagged words are not kept after the end of a WordCheck session.</p>
 
 <p>If you are worried that the Project manager might add the word to the "good words" list wrongly, you can always send a Private Message indicating what happened. However, Project Managerss are responsible for checking that words are actually "good" before adding them to the list.</p>
 
 <h3><a name="aw_undo"></a>I hit Unflag but didn't mean to, can I undo it?</h3>
-<p>There is no way to undo hitting the <a href="#aw_button">Unflag button</a>, however exiting the WordCheck interface and running WordCheck again will accomplish the same thing.</p>
+<p>There is no way to undo hitting the <a href="#aw_button">Unflag button</a>, however exiting WordCheck and running it again will accomplish the same thing.</p>
 
 <h3><a name="add_word_to_dict"></a>How do I get a word added to the project dictionary?</h3>
-<p>Words can only be added to the project's Good Words List by the Project Manager. The suggested way to encourage the Project Manager to add a word to the dictionary is to use the <a href="#aw_button">Unflag button</a> in the WordCheck interface to signify that the word is correct, even though it is being flagged. The Project Manager can generate a list of commonly Unflagged words and add them to the Good Words List for the project.</p>
+<p>Words can only be added to the project's Good Words List by the Project Manager. The suggested way to encourage the Project Manager to add a word to the dictionary is to use the <a href="#aw_button">Unflag button</a> in WordCheck to signify that the word is correct, even though it is being flagged. The Project Manager can generate a list of commonly Unflagged words and add them to the Good Words List for the project.</p>
 
 <p>Proofers are encouraged to use the project's discussion topic to suggest words for the project's Bad Words List.</p>
 
@@ -173,7 +173,7 @@ foreach($site_word_lists as $word_list_file => $word_list_url) {
 <h3><a name="project_word_lists"></a>How do I view Project Word Lists?</h3>
 <p>Project words lists are stored under the project directory. They can be viewed from the "Word Lists" line of the project info table. Project word lists can be updated by editing the information for a project.</p>
 
-<h3><a name="add_another_language"></a>Can I add additional language dictionaries to the WordChecker/spellchecker?</h3>
+<h3><a name="add_another_language"></a>Can I add additional language dictionaries to WordCheck/spellcheck?</h3>
 <p>When a page is checked against the external spell-checker the checker uses dictionaries from the project's languages. There is no way to have the spell-checker use additional dictionaries beyond those for the project's (one or two) languages. If a project has only a Primary language, the Project Manager can elect to select a Secondary language for the project to have that language's dictionary used in the spell-checker. Secondary languages are often used by Proofers when determining projects to proof so it is recommended that only projects with significant use of a second language have a Secondary language specified.</p>
 <p>Proofers can select an ad-hoc language to use on a per-page basis if that page contains text from a non-project language, such as a quote. Project Managers may wish to include such a suggestion in the project instructions and/or in the forum for the project.</p>
 <p>Alternatively Project Managers may elect to add words to the project's Good Words List for commonly used words, regardless of the language, that do not appear in the dictionaries for the project's Primary or Secondary languages.</p>
@@ -196,17 +196,17 @@ foreach($site_word_lists as $word_list_file => $word_list_url) {
 <h3><a name="wordlist_value"></a>Why is it important to define project-specific lists?</h3>
 <p>One of the most frequently requested improvements (do a search on the task page at <a href="<?=$code_url;?>/tasks.php"><?=$code_url;?>/tasks.php</a> for "dictionary" and "spell") on site over the years has been for the ability to add words to the various dictionaries used by the spell checker.</p>
 
-<p>The WordChecker, which effectively replaced the spell checker, provides this capability through the project bad and good lists. A word placed in the project good list will not be flagged, even if it is not recognised by the aspell dictionary. This is exactly the sort of behaviour that is ideal for words that validly appear in your project but not in the standard aspell dictionary, such as proper nouns, names, technical terms and jargon, etc.</p>
+<p>WordCheck, which effectively replaced the spell checker, provides this capability through the project bad and good lists. A word placed in the project good list will not be flagged, even if it is not recognised by the aspell dictionary. This is exactly the sort of behaviour that is ideal for words that validly appear in your project but not in the standard aspell dictionary, such as proper nouns, names, technical terms and jargon, etc.</p>
 
-<p>Note that if the project good list is NOT populated, the WordChecker will operate almost exactly the same as the old spell checker: specifically, names of characters and other such words, correctly OCRd, will all be flagged for attention when there is no need. The utility of the WordChecker step for proofers, in all rounds, will be vastly increased by a bit of simple preparation on the Project Manager's part. This preparation, at a stroke, will remove the vast majority of the false positive flags that have been making in-round spell checking an often tedious and labourious task. Instead of, say, the old experience of only one in twenty flagged words actually being an OCR error in need of correction, we'd expect that the vast majority of words flagged by the WordChecker would probably be errors -- but only if the project good words list is appropriately populated.</p>
+<p>Note that if the project good list is NOT populated, WordCheck will operate almost exactly the same as the old spell checker: specifically, names of characters and other such words, correctly OCRd, will all be flagged for attention when there is no need. The utility of WordCheck for proofers, in all rounds, will be vastly increased by a bit of simple preparation on the Project Manager's part. This preparation, at a stroke, will remove the vast majority of the false positive flags that have been making in-round spell checking an often tedious and labourious task. Instead of, say, the old experience of only one in twenty flagged words actually being an OCR error in need of correction, we'd expect that the vast majority of words flagged by WordCheck would probably be errors -- but only if the project good words list is appropriately populated.</p>
 
 <p>This is why pasting in a suitable project good words list is important, and why it's strongly encouraged not only for all new projects, but also all existing projects that have yet to complete the rounds.</p>
 
 <p>The online tools that are available for automatically generating possible contents of these lists are explained above.</p>
 
-<h3><a name="what_is_a_word"></a>What counts as a "word" in the WordChecker?</h3>
+<h3><a name="what_is_a_word"></a>What counts as a "word" in WordCheck?</h3>
 <p>A "word" is any sequence of letters (with or without accents), digits, or apostrophes, surrounded by any other characters (such as spaces or punctuation). In addition, any of the approved combinations for ligatures (such as [oe]) or diacritics (such as [=a], that represents &#257;) forms part of a word, so that "c[oe]eur" is a single word.</p>
-<p>What this means is that words with characters other than those mentioned above will never be flagged in the text (such as commas). That isn't to say that future versions of the WordChecker can't be modified/enhanced to include checking for words using a different string of characters, such as other punctuation, as well. While words in the Word Lists with characters other than mentioned above will never be Flagged in the text, there is no downside to including them for when the WordChecker can make use of them.</p>
+<p>What this means is that words with characters other than those mentioned above will never be flagged in the text (such as commas). That isn't to say that future versions of WordCheck can't be modified/enhanced to include checking for words using a different string of characters, such as other punctuation, as well. While words in the Word Lists with characters other than mentioned above will never be Flagged in the text, there is no downside to including them for when WordCheck can make use of them.</p>
 
 <?
 theme('','footer');
