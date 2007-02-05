@@ -20,9 +20,9 @@ span.mono
 <h3>General Questions</h3>
 <ul>
   <li><a href="#new_interface">What's up with the new spellcheck interface?</a></li>
-  <li><a href="#good_bad_words">What are 'Good', 'Bad', and 'Flag' words?</a></li>
+  <li><a href="#good_bad_words">What are 'Good', 'Bad', and 'Flagged' words?</a></li>
   <li><a href="#misspellings_from">Where do Flagged (misspelled) words come from?</a></li>
-  <li><a href="#example">Can you give me a simple example of how the levels work to Flag words for the proofer to correct or accept?</a></li>
+  <li><a href="#example">Can you give me a simple example of how the levels work to flag words for the proofer to correct or accept?</a></li>
   <li><a href="#capitalization">How does capitalization affect the word lists?</a></li>
 </ul>
 <h3>Proofer Questions</h3>
@@ -68,7 +68,7 @@ span.mono
 </ul>
 <p>The new interface has been relabled as WordChecker to identify the broader scope of the tool.</p>
 
-<h3><a name="good_bad_words"></a>What are 'Good', 'Bad', and 'Flag' words?</h3>
+<h3><a name="good_bad_words"></a>What are 'Good', 'Bad', and 'Flagged' words?</h3>
 <p>The WordCheck interface is designed to help proofers catch differences between the page image and the page text. Often when the OCR software identifies the word incorrectly the word becomes misspelled and can be caught by a spell checker. Other times the OCR software incorrectly identifies a word in the image but the resulting text is a valid word. These words are still wrong despite being valid words. The team has decided to use the Good/Bad nomenclature to better reflect the intent of the WordCheck interface - to help the proofer match the image and the text, rather than use an inaccurate label like 'misspelling'.</p>
 <p>After the WordChecker has processed words at the various levels it comes up with a final set of Bad words to present to the user for validation or correction. These words are called Flagged words as they have been flagged by the system for closer inspection.</p>
 
@@ -81,7 +81,7 @@ span.mono
 </ul>
 <p>Each level takes precedence over the level before it. Words identified as Bad at the World level (by an external spell-checker) but are valid at the Project level (project Good words) will not be marked as misspelled. This allows the person closest to the text more control over what is considered misspelled: Project Managers can adjust the Good and Bad Words Lists at the project level. Site administrators can manage Bad Words commonly found as stealth scannos at the Site level. Spellcheckers and other external validators can be used to determine Bad Words at the World level.</p>
 
-<h3><a name="example"></a>Can you give me a simple example of how the levels work to Flag words for the proofer to correct or accept?</h3>
+<h3><a name="example"></a>Can you give me a simple example of how the levels work to flag words for the proofer to correct or accept?</h3>
 <p>To help illustrate how the new WordCheck system works, consider the following pseudo-project.</p>
 <ul>
   <li>Name: A Description of West Texas Towns</li>
