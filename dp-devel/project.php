@@ -289,9 +289,9 @@ function decide_blurbs()
         $proofreading_link = "<b><a href='$url'>$label</a></b>";
 
         // When was the project info last modified?
-        $info_timestamp = $project->t_last_edit;
+        $info_timestamp = $project->t_last_change_comments;
         $info_time_str = strftime($datetime_format, $info_timestamp);
-        $info_last_modified_blurb = _("Project information last modified:") . " " . $info_time_str;
+        $info_last_modified_blurb = _("Project Comments last modified:") . " " . $info_time_str;
 
         // Other possible components of blurbs:
         $please_scroll_down = _("Please scroll down and read the Project Comments for any special instructions <b>before</b> proofreading!");
@@ -299,7 +299,7 @@ function decide_blurbs()
         $info_have_changed =
             "<font color='red'>"
             . "<b>"
-            . _("Project information has changed!")
+            . _("Project Comments have changed!")
             . "</b>"
             . "</font>";
 
