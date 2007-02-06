@@ -631,6 +631,7 @@ class ProjectInfoHolder
 
             $pm_setter = " username = '$projectmanager',";
         }
+
         if (isset($this->projectid))
         {
             // We are updating an already-existing project.
@@ -638,10 +639,30 @@ class ProjectInfoHolder
             // needn't change $pm_setter, as there is no change if the user
             // isn't an SA
 
+            // We're particularly interested in knowing
+            // when the project comments change.
+            $res = mysql_query("
+                SELECT comments
+                FROM projects
+                WHERE projectid='{$this->projectid}'
+            ") or die(mysql_error());
+            list($current_comments) = mysql_fetch_row($res);
+            if ( $this->comments == $current_comments )
+            {
+                // no change
+                $tlcc_setter = '';
+            }
+            else
+            {
+                // changed!
+                $tlcc_setter = 't_last_change_comments = UNIX_TIMESTAMP(),';
+            }
+
             // Update the projects database with the updated info
             mysql_query("
                 UPDATE projects SET
                     $pm_setter
+                    $tlcc_setter
                     $common_project_settings
                 WHERE projectid='{$this->projectid}'
             ") or die(mysql_error());
@@ -686,6 +707,7 @@ class ProjectInfoHolder
                     $pm_setter
                     state        = '".PROJ_NEW."',
                     modifieddate = UNIX_TIMESTAMP(),
+                    t_last_change_comments = UNIX_TIMESTAMP(),
                     $common_project_settings
             ") or die(mysql_error());
 
