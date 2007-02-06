@@ -11,7 +11,6 @@ include_once($relPath.'iso_lang_list.inc'); // langcode3_for_langname
 $word_letters= "a-zA-ZÀ-ÿ";
 $word_characters = "0-9'$word_letters";
 $word_pattern = "/[$word_characters]+/";
-$nonword_character_pattern = "/[^$word_characters]/";
 
 // string of punctuation characters
 // this is only used for punctuation highlighting
