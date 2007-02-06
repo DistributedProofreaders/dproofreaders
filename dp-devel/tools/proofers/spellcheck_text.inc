@@ -87,8 +87,15 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
 
         // find the index for each word before we futz with the line
         foreach ( get_all_words_in_text($origLine,TRUE) as $lineIndex => $word ) {
-            if(in_array($word,$badWords) && $word != "")
+            if(in_array($word,$badWords) && $word != "") {
+                // erase any punctuation-markers covered by this word
+                for( $li = $lineIndex; $li < $lineIndex + strlen($word); $li++ )
+                {
+                    unset($indexArray[$li]);
+                }
+                // and now mark the word
                 $indexArray[$lineIndex] = $word;
+            }
         }
 
         // now do the search/replace

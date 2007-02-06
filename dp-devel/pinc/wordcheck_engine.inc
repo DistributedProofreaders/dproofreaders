@@ -2,15 +2,25 @@
 include_once($relPath.'site_vars.php');
 include_once($relPath.'iso_639_list.inc');
 include_once($relPath.'iso_lang_list.inc'); // langcode3_for_langname
+include_once($relPath.'misc.inc'); // str_contains
 
-// regex of non-word characters
-// this is used when munging text for spellchecking
+// Handle dp-specific notation for non-Latin-1 characters
+// See faq/proofreading_guidelines.php#d_chars
+// $base and $mark are only used to define $bracketed_character_pattern
+$base = '[a-zA-Z]';           // pattern for: markable base character
+$mark = '[=:.`\\\\\'/v)~,^]'; // pattern for: diacritical mark
+$bracketed_character_pattern = "\\[(oe|OE|$mark$base|$base$mark)\\]";
+
+// regex of word characters
+// This is used when splitting a text into words.
 // NOTE: This should probably be changed when moving to UTF-8
 //       at that time we can probably move to using \W instead of
 //       the mess below
 $word_letters= "a-zA-ZÀ-ÿ";
 $word_characters = "0-9'$word_letters";
-$word_pattern = "/[$word_characters]+/";
+$word_pattern = "!([$word_characters]|$bracketed_character_pattern)+!";
+// (The pattern is delimited by exclamation marks rather than the usual slashes,
+// because slash is a character within the pattern.)
 
 // string of punctuation characters
 // this is only used for punctuation highlighting
@@ -242,6 +252,38 @@ function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile,
         $finalMisspellings = array_intersect($finalMisspellings,$misspellings[$langkey]);
     }
 
+    // Consider non-Latin-1 characters, which we represent with []-notations.
+    // For example, consider the oe ligature, which we represent as "[oe]",
+    // and the words "b[oe]uf" (which we want the word-checker to not flag),
+    // and "b[oe]ut", a scanno for the former (which we do want flagged).
+    //
+    // If we feed text like "b[oe]uf" (or "b[oe]ut") to aspell, it sees the
+    // square brackets as word separators, and so complains that 'oe' and 'uf'
+    // (or "oe" and "ut") are misspelled. But that does us no good, because we
+    // don't see 'oe' and 'uf' (or 'ut') as words, and won't ever ask if 'oe' or
+    // 'uf' (or 'ut') are misspelled. 
+    //
+    // Note that aspell appears to have no way to represent non-Latin-1
+    // characters, so there's no way to transform "b[oe]uf" into something
+    // (distinct from just "boeuf") that it understands.
+    //
+    // So we give up on aspell being any help with such words, and instead put
+    // the burden on site-level and project-level word lists.
+    //
+    // The problem is that, although it's reasonable to ask someone to put
+    // "b[oe]uf" in a good word list, it's not reasonable to ask someone to
+    // think up all the possible ways of scannoing it (including "b[oe]ut"),
+    // and put those in a bad word list. Instead, we simply mark *all* words
+    // containing non-Latin-1 characters as bad at the world-level.
+    //
+    foreach( get_all_words_in_text($orig_text) as $word )
+    {
+        if ( str_contains($word, '[') )
+        {
+            $finalMisspellings[] = $word;
+        }
+    }
+
     // make a point *not* to unique the array, some callers might
     // want to know the frequency of the misspelled words
 
@@ -383,7 +425,8 @@ function load_project_good_word_suggestions($projectid) {
         while(!feof($fh)) {
             $line = chop(fgets($fh));
             if($line == "") continue;
-            list($round,$page,$proofer,$words) = explode('/',$line);
+            list($round,$page,$proofer,$words) = explode('/',$line,4);
+                // (Need to limit the explosion to 4, because '/' might occur in $words.)
             $words = explode(' ',$words);
             if(!is_array(@$wordsArray[$round][$page]))
                 $wordsArray[$round][$page] = array();
