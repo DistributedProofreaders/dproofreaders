@@ -116,7 +116,7 @@ theme('Proofreading Guidelines -- Encyclopedias','header');
         <tr> 
           <td>6&middot;02 &times; 10 <sup>23</sup></td>
           <td><tt>6.02 x 10^{23}</tt></td>
-          <td>Avogardro's number</td>
+          <td>Avogadro's number</td>
         </tr>
         <tr> 
           <td>H<sub>2</sub>O</td>

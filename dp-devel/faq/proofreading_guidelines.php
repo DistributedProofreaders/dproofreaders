@@ -1487,7 +1487,7 @@ The number, letter, or other character that marks a footnote location should be 
 
 <!-- END RR -->
 
-<p>See the <a href="#page_hf">Page Headers/Page Footers</a> image/text for an sample footnote.
+<p>See the <a href="#page_hf">Page Headers/Page Footers</a> image/text for a sample footnote.
 </p>
 <p>If a footnote or endnote is referenced in the text but does not appear on that page,
    keep the footnote/endnote number or marker and don't be concerned. This is common in scientific and technical books,
