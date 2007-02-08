@@ -50,6 +50,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                    "  .hl { background-color: yellow; color: black; }" .
                    "  img.aw { border: 0; margin-left: 5px; }" .
                    "  .dpmono { font-family: DPCustomMono2; }" .
+                   "  span.aw { background-color: white; color: black; }" .
                    "</style>";
     $returnString.="<pre>\n";
 
@@ -87,7 +88,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
 
         // find the index for each word before we futz with the line
         foreach ( get_all_words_in_text($origLine,TRUE) as $lineIndex => $word ) {
-            if(in_array($word,$badWords) && $word != "") {
+            if($word != "" && (in_array($word,$badWords) || in_array($word,$accepted_words))) {
                 // erase any punctuation-markers covered by this word
                 for( $li = $lineIndex; $li < $lineIndex + strlen($word); $li++ )
                 {
@@ -108,11 +109,14 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
             // see if we are punctuation
             if(in_array($word,$puncArray)) {
                 $newLine=substr_replace($newLine,_wrapPunc($word),$lineIndex,$wordLen);
+            } elseif(in_array($word,$accepted_words)) {
+                // see if we're an AW word
+                $newLine=substr_replace($newLine,_wrapAW($word),$lineIndex,$wordLen);
             } else {
                 // not punctuation, handle word
 
                 // sanitize the words for the AW javascript
-                $jsSanitizedWord = md5($word);
+                $jsSanitizedWord = bin2hex($word);
                 $jsSafeWord = preg_replace("/'/","\'",$word);
                 @$wordCount[$word]++;
                 $wordID="{$jsSanitizedWord}_{$wordCount[$word]}";
@@ -161,10 +165,16 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
     return array($returnString,$languages,$messages);
 }
 
-// adds HTML code to a string (usually punctuation) to highlight it
+// adds HTML code to punctuation to highlight it
 function _wrapPunc($word) {
     return "<span class='hl'>$word</span>";
 }
+
+// adds HTML code to an accepted word to highlight it
+function _wrapAW($word) {
+    return "<span class='aw'>$word</span>";
+}
+
 
 function html_safe( $str )
 // Return a copy of $str which has been rendered safe to send as
@@ -212,6 +222,7 @@ function spellcheck_echo_script()
                 var wordSpan = document.getElementById(wordOccurID);
                 // set contents to be the word itself
                 wordSpan.innerHTML=wordOrig;
+                wordSpan.className="aw";
 
                 // save the word in the accepted_words list
                 var acceptedWordsInput = document.getElementById("accepted_words");
