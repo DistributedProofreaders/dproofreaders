@@ -49,11 +49,13 @@ if($userP['i_type']==1)
 #tbtext {
   border:1px solid #000000;
   text-align:left;
+  width:100%;
   } 
 #tdtop {
+  font-size:12px;
   border:1px solid #000000;
   background-color:#CDC0B0;
-  text-align:center;
+  text-align:left;
   padding:2px;
   }
 #tdtext {
@@ -92,10 +94,16 @@ if ($userP['i_type']==1) {
         spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accepted_words );
 
     echo "<p>";
-    echo _("The text was checked against the following languages: ");
-    echo "<b>";
-    echo implode(', ', $languages);
-    echo "</b>";
+    if(count($languages) > 0) {
+       echo _("The text was checked against the following languages: ");
+       echo "<b>";
+       echo implode(', ', $languages);
+       echo "</b>";
+    } else {
+        echo "<b>";
+        echo _("No check against a dictionary has been made.");
+        echo "</b>";
+    }
     echo "</p>";
 
     if ( count($messages) == 0 )
@@ -136,7 +144,7 @@ if ($userP['i_type']==1) {
 ></p>
 
 <?PHP
-echo "<p>" . _("Note: The <img src=\"$code_url/graphics/Book-Plus-Small.gif\" border=\"0\"> icon will accept all instances of that word for this page, and suggest it for inclusion in this project's dictionary. See also the <a href=\"$code_url/faq/spellcheck-faq.php\" target=\"FAQ\">WordCheck FAQ</a>.") . "</p>";
+echo "<p>" . _("<b>Note:</b> The <img src=\"$code_url/graphics/Book-Plus-Small.gif\" border=\"0\"> icon will accept all instances of that word for this page, and suggest it for inclusion in this project's dictionary. See also the <a href=\"$code_url/faq/spellcheck-faq.php\" target=\"_blank\">WordCheck FAQ</a> <img src='$code_url/graphics/New-Window.gif' title='Link opens a new window'>.") . "</p>";
 ?>
 <table id="tbtext" cellpadding="10" align="center"><tr>
 <td 
@@ -167,7 +175,7 @@ echo "<p>" . _("Note: The <img src=\"$code_url/graphics/Book-Plus-Small.gif\" bo
         >
     </td>
 </tr>
-<tr><td style="text-align: center">
+<tr><td id="tdtop">
 <? echo _("Resize image:"); ?>
     <input title="<? echo _("Zoom Out 25%"); ?>" type="button" value="-25%"  onclick="top.reSizeRelative(0.75)">
     <input title="<? echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25)">
