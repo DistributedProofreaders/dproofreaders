@@ -604,6 +604,10 @@ function do_project_info_table()
         'good' => _("Good Words"),
         'bad'  => _("Bad Words"),
     );
+    if ( $project->can_be_managed_by_current_user || $project->PPer_is_current_user )
+    {
+        $good_bad['good_suggs'] = _("Good Word Suggestions");
+    }
     $links = '';
     foreach ( $good_bad as $gb => $label )
     {
@@ -1285,8 +1289,8 @@ function do_extra_files()
                 $excluded_filenames[$excluded_filename] = 1;
         }
 
-        // These two appear at "Word Lists":
-        foreach ( array('good', 'bad') as $code )
+        // These appear at "Word Lists":
+        foreach ( array('good', 'bad', 'good_suggs') as $code )
         {
             $f = get_project_word_file($project->projectid, $code);
             $excluded_filenames[$f->filename] = 1;
