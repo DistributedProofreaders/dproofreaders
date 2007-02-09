@@ -274,17 +274,17 @@ function image_source_list($image_source)
 function proj_comments_field($comments)
 {
     $enc_comments = encodeFormValue($comments);
-    $template_blurb  = _("How To Use A Template");
-    $biography_blurb = _("How To Use A Biography");
 
     echo "<center>";
     echo "<textarea name='comments' cols='74' rows='16'>$enc_comments</textarea>";
     echo "<br>";
     echo "<b>";
-    echo "[" . new_help_window_link( 'template', $template_blurb );
+    echo "[";
+    echo new_help_window_link( 'template', _("How To Use A Template") );
     echo "]";
     echo " ";
-    echo "[" . new_help_window_link( 'biography', $biography_blurb );
+    echo "[";
+    echo new_help_window_link( 'biography', _("How To Use A Biography") );
     echo "]";
     echo "</b>";
     echo "</center>";
