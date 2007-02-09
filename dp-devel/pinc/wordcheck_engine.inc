@@ -4,6 +4,14 @@ include_once($relPath.'iso_639_list.inc');
 include_once($relPath.'iso_lang_list.inc'); // langcode3_for_langname
 include_once($relPath.'misc.inc'); // str_contains
 
+// regex of word characters
+// This is used when splitting a text into words.
+// NOTE: This should probably be changed when moving to UTF-8
+//       at that time we can probably move to using \W instead of
+//       the mess below
+$word_letters = "a-zA-ZÀ-ÿ";
+$word_characters = "0-9'$word_letters";
+
 // Handle dp-specific notation for non-Latin-1 characters
 // See faq/proofreading_guidelines.php#d_chars
 // $base and $mark are only used to define $bracketed_character_pattern
@@ -11,13 +19,6 @@ $base = '[a-zA-Z]';           // pattern for: markable base character
 $mark = '[=:.`\\\\\'/v)~,^]'; // pattern for: diacritical mark
 $bracketed_character_pattern = "\\[(oe|OE|$mark$base|$base$mark)\\]";
 
-// regex of word characters
-// This is used when splitting a text into words.
-// NOTE: This should probably be changed when moving to UTF-8
-//       at that time we can probably move to using \W instead of
-//       the mess below
-$word_letters= "a-zA-ZÀ-ÿ";
-$word_characters = "0-9'$word_letters";
 $word_pattern = "!([$word_characters]|$bracketed_character_pattern)+!";
 // (The pattern is delimited by exclamation marks rather than the usual slashes,
 // because slash is a character within the pattern.)
