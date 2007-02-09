@@ -19,7 +19,8 @@ $base = "[$word_letters]";    // pattern for: markable base character
 $mark = '[=:.`\\\\\'/v)~,^]'; // pattern for: diacritical mark
 $bracketed_character_pattern = "\\[(oe|OE|$mark$base|$base$mark)\\]";
 
-$word_pattern = "!([$word_characters]|$bracketed_character_pattern)+!";
+$char_pattern = "([$word_characters]|$bracketed_character_pattern)";
+$word_pattern = "!$char_pattern+!";
 // (The pattern is delimited by exclamation marks rather than the usual slashes,
 // because slash is a character within the pattern.)
 
