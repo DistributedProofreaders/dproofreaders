@@ -21,6 +21,7 @@ include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_*
 include_once($relPath.'smoothread.inc');           // functions for smoothreading
 include_once($relPath.'release_queue.inc'); // cook_project_selector
 include_once($relPath.'user_project_info.inc');
+include_once($relPath.'word_checker.inc'); // get_project_word_file
 
 // for strftime:
 $datetime_format = _("%A, %B %e, %Y at %X");
@@ -606,15 +607,12 @@ function do_project_info_table()
     $links = '';
     foreach ( $good_bad as $gb => $label )
     {
-        $filename = "{$gb}_words.txt";
-        $file_path = "$projects_dir/$projectid/$filename";
-        $file_url  = "$projects_url/$projectid/$filename";
-        if ( file_exists($file_path) && filesize($file_path) > 0 )
+        $f = get_project_word_file($projectid, $gb);
+        if ( $f->size > 0 )
         {
-            $links .= "<a href='$file_url' target='_blank'>$label</a>";
+            $links .= "<a href='{$f->abs_url}' target='_blank'>$label</a>";
             $links .= " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
-            $links .= " - " . _("Last modified") . ": " . strftime($datetime_format,filemtime($file_path));
-
+            $links .= " - " . _("Last modified") . ": " . strftime($datetime_format,$f->mod_time);
         }
         else
         {
@@ -1288,8 +1286,11 @@ function do_extra_files()
         }
 
         // These two appear at "Word Lists":
-        $excluded_filenames['good_words.txt'] = 1;
-        $excluded_filenames['bad_words.txt'] = 1;
+        foreach ( array('good', 'bad') as $code )
+        {
+            $f = get_project_word_file($project->projectid, $code);
+            $excluded_filenames[$f->filename] = 1;
+        }
 
         // These three appear under "Post Downloads":
         $excluded_filenames[$project->projectid . 'images.zip'] = 1;
