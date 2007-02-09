@@ -2,6 +2,7 @@
 include_once($relPath.'iso_lang_list.inc');
 include_once($relPath.'genres.inc');
 include_once($relPath.'site_vars.php');
+include_once($relPath.'word_checker.inc'); // get_project_word_file
 
 function encodeFormValue($value)
 {
@@ -307,15 +308,20 @@ function proj_good_words_field($value,$fieldname,$projectid)
     if (!empty($projectid))
     {
         $dict_link = _("Show words in the project that WordCheck would currently flag");
-        $iw_link = _("Show suggestions from proofers");
         $faq_link = _("See the <a href='../../faq/spellcheck-faq.php' target='_blank'>WordCheck FAQ</a> <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'> for more information on word lists.");
         echo "<br>";
         echo "<b>";
         echo "<a href='generate_dict_suggestions.php?projectid=$projectid' target='_blank'>$dict_link</a>";
         echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
-        echo "<br>";
-        echo "<a href='generate_acceptword_suggestions.php?projectid=$projectid' target='_blank'>$iw_link</a>";
-        echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+
+        $f = get_project_word_file($projectid, 'good_suggs');
+        if ($f->size > 0)
+        {
+            $iw_link = _("Show suggestions from proofers");
+            echo "<br>";
+            echo "<a href='generate_acceptword_suggestions.php?projectid=$projectid' target='_blank'>$iw_link</a>";
+            echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+        }
         echo "</b>";
         echo "<br>";
         echo $faq_link;
