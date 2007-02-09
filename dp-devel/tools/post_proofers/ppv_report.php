@@ -109,7 +109,7 @@ please email %3\$s.");
 
 $ppvbit = sprintf($ppvbita, $ppver->username, $nameofwork, $general_help_email_addr, $site_name);
 
-$signoff = $site_signoff;
+$signoff = "\n\n" . $site_signoff;
 
 $additional_headers = "";
 
