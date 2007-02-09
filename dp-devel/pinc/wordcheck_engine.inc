@@ -171,7 +171,9 @@ class BadWordAccumulator
     }
 }
 
-// -----------------------------------------------------------------------------
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// World-Level
 
 // returns a list of 'bad' words on a page
 // this implementation passes the text to aspell
@@ -292,7 +294,9 @@ function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile,
     return array($finalMisspellings,$messages);
 }
 
-// -----------------------------------------------------------------------------
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// Site-Level
 
 // returns a list of 'bad' words in a text based on some pattern
 // Arguments:
@@ -363,7 +367,9 @@ function load_site_possible_bad_words( $langcode3 ) {
     return load_word_list( "$dyn_dir/words/possible_bad_words.$langcode3.txt" );
 }
 
-// -----------------------------------------------------------------------------
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// Project-Level
 
 function load_project_good_words( $projectid ) {
     global $projects_dir;
@@ -451,7 +457,8 @@ function load_project_good_word_suggestions($projectid) {
     return $wordsArray;
 }
 
-// -----------------------------------------------------------------------------
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function load_word_list( $path )
 // Load a list of words (one per line) from a file.
