@@ -457,6 +457,42 @@ function load_project_good_word_suggestions($projectid) {
     return $wordsArray;
 }
 
+// -----------------------------------------------------------------------------
+
+function get_project_word_file($projectid, $code)
+// $code must match one of the keys in the $filename_for_code array below.
+//
+// Returns an object containing information about the specified
+// word-related file for the given project:
+// --- filename: its filename;
+// --- abs_path: its absolute path;
+// --- abs_url:  its absolute URL;
+// --- exists:   a boolean indicating whether it exists;
+// --- size:     its size in bytes;
+// --- mod_time: the time it was last modified, as a unix timestamp.
+// (size and mod_time are set to zero if the file doesn't exist.)
+{
+    global $projects_dir, $projects_url;
+
+    $filename_for_code = array(
+        'good'       => 'good_words.txt',
+        'bad'        => 'bad_words.txt',
+        'good_suggs' => 'good_word_suggestions.txt',
+    );
+    assert( array_key_exists( $code, $filename_for_code ) );
+
+    $o = new StdClass;
+
+    $o->filename = $filename_for_code[$code];
+    $o->abs_path = "$projects_dir/$projectid/{$o->filename}";
+    $o->abs_url  = "$projects_url/$projectid/{$o->filename}";
+    $o->exists   = file_exists($o->abs_path);
+    $o->size     = ( $o->exists ? filesize($o->abs_path) : 0 );
+    $o->mod_time = ( $o->exists ? filemtime($o->abs_path) : 0 );
+
+    return $o;
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
