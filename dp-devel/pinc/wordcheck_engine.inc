@@ -357,6 +357,14 @@ function load_site_bad_words( $langcode3 ) {
 
 // -----------------------------------------------------------------------------
 
+function load_site_possible_bad_words( $langcode3 ) {
+    global $dyn_dir;
+
+    return load_word_list( "$dyn_dir/words/possible_bad_words.$langcode3.txt" );
+}
+
+// -----------------------------------------------------------------------------
+
 function load_project_good_words( $projectid ) {
     global $projects_dir;
 
@@ -464,13 +472,36 @@ function load_word_list( $path )
         return "Error reading file $path";
     }
 
-    return explode("\n", $word_list);
+    // explode each line into its own word
+    $words = explode("\n", $word_list);
+
+    // trim word list to remove trailing spaces
+    // needed in case site word list has trailing spaces
+    $words = array_map('rtrim', $words);
+
+    return $words;
 }
 
 function save_word_list( $path, $words )
 // Save a list of words (one per line) to a file.
 // Return a string, either "Success" or an error message.
 {
+    // standardize word list
+    $words = array_unique($words);
+    $words = array_map('rtrim', $words);
+    natcasesort($words);
+
+    // see if list has changed before saving it
+    $oldWords = load_word_list( $path );
+
+    // if no change was made, return Success
+    // without modifying file
+    if ( $words == $oldWords )
+    {
+        return "Success";
+    }
+
+    // now open the file
     $fh = @fopen( $path, "w" );
 
     if ( $fh === FALSE )
@@ -495,8 +526,8 @@ function save_word_list( $path, $words )
 
 // -----------------------------------------------------------------------------
 
-// return an array of those languages with a dictionary installed
-// returned associative array is in format
+// Returns an associative array of those languages with a dictionary that is
+// installed on the system
 //   $array[$langcode]=$language;
 function get_languages_with_dictionaries() {
     global $iso_639, $aspell_prefix;
@@ -514,8 +545,7 @@ function get_languages_with_dictionaries() {
 }
 
 
-// return an array of all languages for a project
-// returned associative array is in format
+// Returns an associative array of all languages for a project
 //   $array[$langcode]=$language;
 function get_project_languages($projectid) {
     global $iso_639;
@@ -538,10 +568,32 @@ function get_project_languages($projectid) {
 }
 
 
-// returns an associative array of site word lists
+// Returns an associative array of site word lists
 // with their corresponding URL
 //   $array[$absolute_filename]=$url_link_to_file;
-function get_site_word_lists() {
+function get_site_good_bad_word_lists() {
+    return get_site_word_files("/^(good|bad)_words\.[a-z]{3}\.txt$/");
+}
+
+// Returns an associative array of site possible bad word lists
+// with their corresponding URL
+//   $array[$absolute_filename]=$url_link_to_file;
+function get_site_possible_bad_word_lists() {
+    return get_site_word_files("/^possible_bad_words\.[a-z]{3}\.txt$/");
+}
+
+// Arguments:
+//   $pattern - regex that files must match to be included
+//              in the returned array. If blank all files
+//              will be returned.
+//
+// Returns an associative array of words ifiles in the site's words
+// with their corresponding URL
+//   $array[$absolute_filename]=$url_link_to_file;
+//
+// Note: 'empty' files (2 bytes in size or smaller) are not returned
+// regardless of the pattern specified
+function get_site_word_files($pattern="") {
     global $dyn_dir;
     global $dyn_url;
 
@@ -551,16 +603,21 @@ function get_site_word_lists() {
     if(is_dir($wordsDir)) {
        if($dirHandle=@opendir($wordsDir)) {
           while(($filename = readdir($dirHandle)) !== false) {
-             // skip files that don't have 'words' in the name
-             if(!preg_match("/words/",$filename)) continue;
-             // skip files that are only one byte or smaller
-             if(filesize("$wordsDir/$filename")<=1) continue;
+             // skip files that don't match the pattern
+             if(!empty($pattern) && !preg_match($pattern,$filename)) continue;
+
+             // skip files that are only two bytes or smaller
+             // as these usually contain just \r and/or \n
+             if(filesize("$wordsDir/$filename")<=2) continue;
 
              $wordLists["$wordsDir/$filename"]="$dyn_url/words/$filename";
           }
        closedir($dirHandle);
        }
     }
+
+    // sort the list before returning
+    ksort($wordLists);
 
     return $wordLists;
 }
@@ -610,14 +667,8 @@ function get_all_words_in_text( $text, $with_offsets=FALSE )
 
 // given an array of words, calculate the frequency
 function generate_frequencies($wordList) {
-    $wordCount = array();
-
-    // now count the frequency of the words
-    foreach($wordList as $word) {
-        if($word == "") continue;
-        @$wordCount[$word]++;
-    }
-
+    $wordCount = array_count_values($wordList);
+    unset ( $wordCount[''] );
     return $wordCount;
 }
 

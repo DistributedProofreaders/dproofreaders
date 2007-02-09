@@ -121,6 +121,7 @@ function difficulty_list($difficulty_level)
 
 function special_list($special)
 {
+    global $code_url;
     // get info on special days
     $specs_result = mysql_query("
         SELECT
@@ -184,7 +185,9 @@ function special_list($special)
     }
     echo "</select>";
 
-    echo " <a href='show_specials.php'>Special Days Info</a><br>";
+    echo " <a href='show_specials.php' target='_blank'>" . _("Special Days Info") . "</a>";
+    echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+    echo "<br>";
 
     // drop down selects for month and date, used for Birthday and Otherday specials
     echo " Birthday/Otherday: (month) <select name='bdaymonth'>";
@@ -223,6 +226,7 @@ function special_list($special)
 function image_source_list($image_source)
 {
     global $site_abbreviation;
+    global $code_url;
     // get info on image_sources
     $imso_result = mysql_query("
         SELECT code_name, display_name
@@ -262,13 +266,16 @@ function image_source_list($image_source)
 
     echo "</select> ";
     echo "<font size=-1>". sprintf(_("'%1\$s Internal' if scanned by or for a %1\$s user."),$site_abbreviation)."</font>";
-    echo " <a href='show_image_sources.php'>"._("Details of Image Sources")."</a><br>";
+    echo " <a href='show_image_sources.php' target='_blank'>"._("Details of Image Sources")."</a>";
+    echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+    echo "<br>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function proj_comments_field($comments)
 {
+    global $code_url;
     $enc_comments = encodeFormValue($comments);
     $template_blurb  = _("How To Use A Template");
     $biography_blurb = _("How To Use A Biography");
@@ -277,9 +284,13 @@ function proj_comments_field($comments)
     echo "<textarea name='comments' cols='74' rows='16'>$enc_comments</textarea>";
     echo "<br>";
     echo "<b>";
-    echo "[<a href=\"JavaScript:newHelpWin('template');\">$template_blurb</a>]";
+    echo "[<a href=\"JavaScript:newHelpWin('template');\">$template_blurb</a>";
+    echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+    echo "]";
     echo " ";
-    echo "[<a href=\"JavaScript:newHelpWin('biography');\">$biography_blurb</a>]";
+    echo "[<a href=\"JavaScript:newHelpWin('biography');\">$biography_blurb</a>";
+    echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+    echo "]";
     echo "</b>";
     echo "</center>";
 }
@@ -288,30 +299,49 @@ function proj_comments_field($comments)
 
 function proj_good_words_field($value,$fieldname,$projectid)
 {
+    global $code_url;
     $enc_value = encodeFormValue($value);
 
     echo "<center>";
     echo "<textarea name='$fieldname' cols='74' rows='16'>$enc_value</textarea>";
     if (!empty($projectid))
     {
-        $dict_link = _("Show words in the project that WordChecker would currently flag");
+        $dict_link = _("Show words in the project that WordCheck would currently flag");
         $iw_link = _("Show suggestions from proofers");
+        $faq_link = _("See the <a href='../../faq/spellcheck-faq.php' target='_blank'>WordCheck FAQ</a> <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'> for more information on word lists.");
         echo "<br>";
         echo "<b>";
-        echo "<a href='generate_dict_suggestions.php?projectid=$projectid' target='generate_project_words'>$dict_link</a>";
+        echo "<a href='generate_dict_suggestions.php?projectid=$projectid' target='_blank'>$dict_link</a>";
+        echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
         echo "<br>";
-        echo "<a href='generate_acceptword_suggestions.php?projectid=$projectid' target='generate_project_words'>$iw_link</a>";
+        echo "<a href='generate_acceptword_suggestions.php?projectid=$projectid' target='_blank'>$iw_link</a>";
+        echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
         echo "</b>";
+        echo "<br>";
+        echo $faq_link;
     }
     echo "</center>";
 }
 
-function proj_bad_words_field($value,$fieldname)
+function proj_bad_words_field($value,$fieldname,$projectid)
 {
+    global $code_url;
     $enc_value = encodeFormValue($value);
 
     echo "<center>";
     echo "<textarea name='$fieldname' cols='74' rows='16'>$enc_value</textarea>";
+    if (!empty($projectid))
+    {
+        $sug_link = _("Show words in the project that are in the site bad words suggestion file");
+        $faq_link = _("See the <a href='../../faq/spellcheck-faq.php' target='_blank'>WordCheck FAQ</a> <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'> for more information on word lists.");
+        echo "<br>";
+        echo "<b>";
+        echo "<a href='show_project_possible_bad_words.php?projectid=$projectid' target='_blank'>$sug_link</a>";
+        echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+        echo "</b>";
+        echo "<br>";
+        echo $faq_link;
+    }
     echo "</center>";
 }
 

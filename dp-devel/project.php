@@ -611,13 +611,16 @@ function do_project_info_table()
         $file_url  = "$projects_url/$projectid/$filename";
         if ( file_exists($file_path) && filesize($file_path) > 0 )
         {
-            $links .= "<a href='$file_url'>$label</a>";
+            $links .= "<a href='$file_url' target='_blank'>$label</a>";
+            $links .= " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+            $links .= " - " . _("Last modified") . ": " . strftime($datetime_format,filemtime($file_path));
+
         }
         else
         {
             $links .= $label . " " . _("(empty)");
         }
-        $links .= "&nbsp;&nbsp;&nbsp;";
+        $links .= "<br>";
     }
 
     echo_row_a( _("Word Lists"), $links );

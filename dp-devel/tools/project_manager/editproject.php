@@ -741,8 +741,8 @@ class ProjectInfoHolder
 
         // save non-database information, like the custom dictonaries
         // explode the strings into an array
-        $good_words = array_unique(explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->good_words)));
-        $bad_words = array_unique(explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->bad_words)));
+        $good_words = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->good_words));
+        $bad_words = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->bad_words));
 
         save_project_good_words($this->projectid, $good_words);
         save_project_bad_words($this->projectid, $bad_words);
@@ -884,7 +884,7 @@ class ProjectInfoHolder
         $this->row( _("Posted Number"),               'text_field',          $this->postednum,       'postednum' );
         $this->row( _("Project Comments"),            'proj_comments_field', $this->comments         );
         $this->row( _("Project Dictionary - Good Words"), 'proj_good_words_field', $this->good_words, 'good_words', '', $this->projectid);
-        $this->row( _("Project Dictionary - Bad Words"),  'proj_bad_words_field',  $this->bad_words,  'bad_words');
+        $this->row( _("Project Dictionary - Bad Words"),  'proj_bad_words_field',  $this->bad_words,  'bad_words',  '', $this->projectid);
     }
 
     function row( $label, $display_function, $field_value, $field_name=NULL, $explan='', $args='' )

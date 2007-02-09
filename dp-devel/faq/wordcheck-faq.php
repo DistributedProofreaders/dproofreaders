@@ -29,10 +29,10 @@ span.mono
 <ul>
   <li><a href="#why_spellcheck">Why should I use a spell-checker? I'm a good speller!</a></li>
   <li><a href="#aw_button">What's the "Unflag All & Suggest" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) and what does it do?</a></li>
-  <li><a href="#need_aw">Do I have to hit the Unflag button for every word on the page?</a></li>
-  <li><a href="#aw_diff">Why don't all Flagged words have an Unflag button?</a></li>
-  <li><a href="#wrong_aw">I hit Unflag for a word but it was wrong - what do I do now?</a></li>
-  <li><a href="#aw_undo">I hit Unflag but didn't mean to, can I undo it?</a></li>
+  <li><a href="#need_aw">Do I have to hit the Unflag All button for every word on the page?</a></li>
+  <li><a href="#aw_diff">Why don't all Flagged words have an Unflag All button?</a></li>
+  <li><a href="#wrong_aw">I hit Unflag All for a word but it was wrong - what do I do now?</a></li>
+  <li><a href="#aw_undo">I hit Unflag All but didn't mean to, can I undo it?</a></li>
   <li><a href="#add_word_to_dict">How do I get a word added to the project dictionary?</a></li>
   <li><a href="#check_against_diff_lang">How can I check the page against the dictionary for a different language?</a></li>
 </ul>
@@ -43,6 +43,8 @@ span.mono
   <li><a href="#add_another_language">Can I add additional language dictionaries to WordCheck/spellcheck?</a></li>
   <li><a href="#manage_word_lists">What do I have to do? How do I manage project words?</a></li>
   <li><a href="#wordlist_value">Why is it important to define project-specific lists?</a></li>
+  <li><a href="#wordlist_precedence">What happens if words appear on both Good and Bad word lists?</a></li>
+  <li><a href="#wordlist_multi_languages">How do the site-wide Good/Bad Word Lists behave when more than one language is selected?</a></li>
   <li><a href="#what_is_a_word">What counts as a "word" in WordCheck?</a></li>
 </ul>
 
@@ -63,8 +65,8 @@ span.mono
   <li>The standard interface now shows the page image beside the spellcheck page for direct comparison to the original text.</li>
   <li>Page text is still checked against the dictionaries for all project languages. In addition the user has the ability to select additional languages to check the page against, useful if an English-only project has a page with a long quote in French for example.</li>
   <li>Each project has 'good' and 'bad' word lists that are used when determining words to flag in the interface. Good words are words that are valid for the project even though they are not found in the dictionary. Such words will often include proper nouns of people or places used frequently. Good words can be thought of as a project-specific dictionary. Bad Words are words that should be flagged as misspelled for a project even though they may be found in the dictionary. These words might include project-specific stealth scannos. Both the Good and Bad Word Lists are managed by the Project Manager.</li>
-  <li>Misspelled words have an "Unflag All &amp; Suggest" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) next to them. The button is used to indicate that the word matches the image. Once clicked all identically spelled words on the page are also accepted as correct. After a word has been modified, the Unflag button for that word will become disabled (<img src="<?=$code_url;?>/graphics/Book-Plus-Small-Disabled.gif" border="0">).</li>
-  <li>Words that are flagged by proofers as accepted via the Unflag button are added to a file for review by the Project Manager. Commonly unflagged words can be added to the 'good' word list.</li>
+  <li>Misspelled words have an "Unflag All &amp; Suggest" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) next to them. The button is used to indicate that the word matches the image. Once clicked all identically spelled words on the page are also accepted as correct. After a word has been modified, the Unflag All button for that word will become disabled (<img src="<?=$code_url;?>/graphics/Book-Plus-Small-Disabled.gif" border="0">).</li>
+  <li>Words that are flagged by proofers as accepted via the Unflag All button are added to a file for review by the Project Manager. Commonly unflagged words can be added to the 'good' word list.</li>
 </ul>
 <p>The new interface has been relabled as WordCheck to identify the broader scope of the tool.</p>
 
@@ -109,8 +111,8 @@ span.mono
 <P>Also at this level, the text is compared against the project's Bad Words List. Any words in the text that are found on the project's Bad Words List are added to the list of Flagged words for this page. For this example, <span class="mono">fiat</span> is added to the list.</p>
 <p><i>Current list of Flagged words leaving level:</i> <span class="mono">tumbleweed arid 1and fiat</span></p>
 
-<p>The final list of Flagged words would be presented to the user as misspelled and prompt the user to correct or accept them. The proofer might click the Unflag button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) next to <span class="mono">tumbleweed</span> to mark it is valid for this page. The next time the Project Manager generates suggestions from the Accepted Words list, <span class="mono">tumbleweed</span> will show up for possible inclusion on the Good Word List.</p>
-<p>Because <span class="mono">arid</span> is a Site-level Bad word (a stealth scanno in this case), it will not have an Unflag button to force the proofer to look closely at all instances. In this situation the first instance of <span class="mono">arid</span> is correct while the second instance of the word is a scanno for the word <span class="mono">and</span>.</p>
+<p>The final list of Flagged words would be presented to the user as misspelled and prompt the user to correct or accept them. The proofer might click the Unflag All button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) next to <span class="mono">tumbleweed</span> to mark it is valid for this page. The next time the Project Manager generates suggestions from the Accepted Words list, <span class="mono">tumbleweed</span> will show up for possible inclusion on the Good Word List.</p>
+<p>Because <span class="mono">arid</span> is a Site-level Bad word (a stealth scanno in this case), it will not have an Unflag All button to force the proofer to look closely at all instances. In this situation the first instance of <span class="mono">arid</span> is correct while the second instance of the word is a scanno for the word <span class="mono">and</span>.</p>
 
 <h3><a name="capitalization"></a>How does capitalization affect the word lists?</h3>
 <p>Good and Bad words are treated as exact matches and therefore are capitalization specific, for example "Lubbock" and "lubbock" are considered separate words.</p>
@@ -119,7 +121,7 @@ span.mono
 
 <h2>Proofer Questions</h2>
 <h3><a name="why_spellcheck"></a>Why should I use a spell-checker? I'm a good speller!</h3>
-<p>WordCheck does much more than simply check the text for misspelled words -- it helps detect scannos and other OCR errors. It is intended to flag words which are not in the dictionaries and Good Word Lists, because such words are often situations where the OCR process has confused a letter or word with one that is visually similar. Since it is often visually similar, it is easy for a proofer to skip over, "seeing" it as the correct word. The Unflag button exists for the common case where the word has been correctly transcribed, but isn't in the dictionaries.</p>
+<p>WordCheck does much more than simply check the text for misspelled words -- it helps detect scannos and other OCR errors. It is intended to flag words which are not in the dictionaries and Good Word Lists, because such words are often situations where the OCR process has confused a letter or word with one that is visually similar. Since it is often visually similar, it is easy for a proofer to skip over, "seeing" it as the correct word. The Unflag All button exists for the common case where the word has been correctly transcribed, but isn't in the dictionaries.</p>
 
 <p>The spell checker is also used to flag words which are commonly incorrectly identified by OCR. The classic example is "arid" which is a perfectly good word, but is often a scanno for "and", a much more common word. Another example is "modem", which is very uncommon in books from before the 1960s, but can easily be a scanno for "modern".</p>
 
@@ -129,25 +131,25 @@ span.mono
 <h3><a name="aw_button"></a>What's the "Unflag All & Suggest" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) and what does it do?</h3>
 <p>This button, whose icon shows a book and a plus sign (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">), provides a way for proofers to indicate that the word matches the image. Once clicked the button will cause all identically spelled words to be unflagged, just as if the word had been found in a dictionary or "good word" list. Additionally words for which the button has been clicked are added to a file for the project manager. The project manager can review these unflagged words and add those that occur frequently to the project's Good Word list.</p>
 
-<p>After a word has been modified, the Unflag button for that word becomes disabled (<img src="<?=$code_url;?>/graphics/Book-Plus-Small-Disabled.gif" border="0">)because the proofer has decided that the word as shown was not correct. In addition, words are only unflagged for the current wordcheck session and do not persist for the proofer across wordcheck sessions either for the same or different pages.</p>
+<p>After a word has been modified, the Unflag All button for that word becomes disabled (<img src="<?=$code_url;?>/graphics/Book-Plus-Small-Disabled.gif" border="0">)because the proofer has decided that the word as shown was not correct. In addition, words are only unflagged for the current wordcheck session and do not persist for the proofer across wordcheck sessions either for the same or different pages.</p>
 
 
-<h3><a name="need_aw"></a>Do I have to hit the Unflag button for every word on the page?</h3>
-<p><i>If a flagged word matches what appears in the scan, you do not have to do anything to it.</i> If, as well as being correct, it is a word that appears several times on this page, or is one that is likely to appear several times in a project (such as a proper name, or technical term), you may optinoally choose to press the <a href="#aw_button">Unflag button</a> next to it, which will a) remove flags from all occurences of this word on this page for this session of WordCheck mode, and b) add it to a list of candidate project-specific good words available to the project manager.</p>
+<h3><a name="need_aw"></a>Do I have to hit the Unflag All button for every word on the page?</h3>
+<p><i>If a flagged word matches what appears in the scan, you do not have to do anything to it.</i> If, as well as being correct, it is a word that appears several times on this page, or is one that is likely to appear several times in a project (such as a proper name, or technical term), you may optinoally choose to press the <a href="#aw_button">Unflag All button</a> next to it, which will a) remove flags from all occurences of this word on this page for this session of WordCheck mode, and b) add it to a list of candidate project-specific good words available to the project manager.</p>
 
-<h3><a name="aw_diff"></a>Why don't all Flagged words have an Unflag button?</h3>
-<p>Words that have been identified as stealth scannos, or on a "bad words" list for any reason, do not have an <a href="#aw_button">Unflag button</a> to ensure that careful attention is given to each occurrence of such words.</p>
+<h3><a name="aw_diff"></a>Why don't all Flagged words have an Unflag All button?</h3>
+<p>Words that have been identified as stealth scannos, or on a "bad words" list for any reason, do not have an <a href="#aw_button">Unflag All button</a> to ensure that careful attention is given to each occurrence of such words.</p>
 
-<h3><a name="wrong_aw"></a>I hit Unflag for a word but it was wrong - what do I do now?</h3>
-<p>Don't panic! Hitting the <a href="#aw_button">Unflag button</a> does not automatically add the word to the project's dictionary, simply suggest it to the Project Manager for inclusion. To correct the word, exit out of WordCheck (by either applying your changes or quitting without applying) and correct the word in the normal text window. Alternatively you can run WordCheck again to correct the word since unflagged words are not kept after the end of a WordCheck session.</p>
+<h3><a name="wrong_aw"></a>I hit Unflag All for a word but it was wrong - what do I do now?</h3>
+<p>Don't panic! Hitting the <a href="#aw_button">Unflag All button</a> does not automatically add the word to the project's dictionary, simply suggest it to the Project Manager for inclusion. To correct the word, exit out of WordCheck (by either applying your changes or quitting without applying) and correct the word in the normal text window. Alternatively you can run WordCheck again to correct the word since unflagged words are not kept after the end of a WordCheck session.</p>
 
 <p>If you are worried that the Project manager might add the word to the "good words" list wrongly, you can always send a Private Message indicating what happened. However, Project Managerss are responsible for checking that words are actually "good" before adding them to the list.</p>
 
-<h3><a name="aw_undo"></a>I hit Unflag but didn't mean to, can I undo it?</h3>
-<p>There is no way to undo hitting the <a href="#aw_button">Unflag button</a>, however exiting WordCheck and running it again will accomplish the same thing.</p>
+<h3><a name="aw_undo"></a>I hit Unflag All but didn't mean to, can I undo it?</h3>
+<p>There is no way to undo hitting the <a href="#aw_button">Unflag All button</a>, however exiting WordCheck and running it again will accomplish the same thing.</p>
 
 <h3><a name="add_word_to_dict"></a>How do I get a word added to the project dictionary?</h3>
-<p>Words can only be added to the project's Good Words List by the Project Manager. The suggested way to encourage the Project Manager to add a word to the dictionary is to use the <a href="#aw_button">Unflag button</a> in WordCheck to signify that the word is correct, even though it is being flagged. The Project Manager can generate a list of commonly Unflagged words and add them to the Good Words List for the project.</p>
+<p>Words can only be added to the project's Good Words List by the Project Manager. The suggested way to encourage the Project Manager to add a word to the dictionary is to use the <a href="#aw_button">Unflag All button</a> in WordCheck to signify that the word is correct, even though it is being flagged. The Project Manager can generate a list of commonly Unflagged words and add them to the Good Words List for the project.</p>
 
 <p>Proofers are encouraged to use the project's discussion topic to suggest words for the project's Bad Words List.</p>
 
@@ -158,17 +160,47 @@ span.mono
 
 <h2>Project Manager Questions</h2>
 <h3><a name="site_word_lists"></a>How do I view Site Word Lists?</h3>
-<p>Site-level words are stored in language-specific files. Current site-level word lists are:</p>
-<ul>
+<p>Site-level words are stored in language-specific files.</p>
+<p>Site-level Good and Bad word lists are used when calculating Flagged words in a body of text. Here is the current set of such lists:</p>
+<? createWordListTable(get_site_good_bad_word_lists()); ?>
+
+<p>Possible Bad word lists are used to suggest possible Bad words for a Project Manager. Here is the current set of such lists:</p>
+<? createWordListTable(get_site_possible_bad_word_lists()); ?>
+
 <?
-$site_word_lists=get_site_word_lists();
-foreach($site_word_lists as $word_list_file => $word_list_url) {
-    $filename=basename($word_list_file);
-    $word_count=count(explode("\n",file_get_contents($word_list_file)))-1;
-    echo "<li><a href=\"$word_list_url\">$filename</a> - $word_count word(s)</li>";
+function createWordListTable($word_lists) {
+    // return if there aren't any word_lists
+    if(count($word_lists)==0) {
+        echo "<p style='padding-left: 2em'><i>None.</i></p>";
+        return;
+    }
+
+    // start the table and build the header
+    echo "<table style='padding-left: 2em'>";
+    echo "<tr>";
+    echo "<th>" . _("Name") . "</th>";
+    echo "<th>" . _("Number of Words") . "</th>";
+    echo "<th>" . _("Last modified") . "</th>";
+    echo "</tr>";
+
+    $datetime_format = _("%A, %B %e, %Y at %X");
+
+    // loop through the word lists building rows as we go
+    foreach($word_lists as $word_list_file => $word_list_url) {
+        $filename=basename($word_list_file);
+        $word_count=count(explode("\n",file_get_contents($word_list_file)))-1;
+        $modifiedString=strftime($datetime_format,filemtime($word_list_file));
+        echo "<tr>";
+        echo "<td><a href=\"$word_list_url\">$filename</a></td>";
+        echo "<td>$word_count</td>";
+        echo "<td>$modifiedString</td>";
+        echo "</tr>";
+    }
+
+    // close the table and we're done
+    echo "</table>";
 }
 ?>
-</ul>
 
 <h3><a name="project_word_lists"></a>How do I view Project Word Lists?</h3>
 <p>Project words lists are stored under the project directory. They can be viewed from the "Word Lists" line of the project info table. Project word lists can be updated by editing the information for a project.</p>
@@ -186,11 +218,11 @@ foreach($site_word_lists as $word_list_file => $word_list_url) {
 
 <p>On line, when a project is loaded, go to the edit window. It has two (new) text boxes, one each for Good and Bad words, and can be edited.
 
-<p>To define a new Good Words List, click on the link "Generate suggestions from dictionary". This will open a new window listing all words in the text the spell-checker thinks are misspelled sorted by the frequency those words occur in the text. You can then either copy-and-paste from the page directly, or download the complete list with their frequencies. Edit the list, discarding words you do not want to be considered Good, and paste it in the Good word text area. The suggestions generated from the dictionary only includes words not accepted in the current configuration, and new words should be added to the current list of words, not replace them. Care should be taken when adding words to the Good Words List not to incorporate frequently misspelled (or mis-OCRd) words into the list.</p>
+<p>To define a new Good Words List, click on the link "Show words in the project that WordCheck would currently flag". This will open a new window listing all words in the text that WordCheck will flag for the proofer sorted by the frequency those words occur in the text. The time required to open up this page is proportional to the size of the project and if the project has a second language defined. It will take more time to open this page for longer projects with two languages defined compared with a short project with one language. You can then either copy-and-paste from the page directly, or download the complete list with their frequencies. Edit the list, discarding words you do not want to be considered Good, and paste it in the Good word text area. The suggestions generated from the dictionary only includes words not accepted in the current configuration, and new words should be added to the current list of words, not replace them. Care should be taken when adding words to the Good Words List not to incorporate frequently misspelled (or mis-OCRd) words into the list.</p>
 
-<p>Another source of Good words is to consult the list of words accepted by the proofers via the Accept Word button in the spelling interface. To do this, click on the "Generate suggestions from Accepted Words" link. The procedure is the same.</p>
+<p>Another source of Good words is to consult the list of words accepted by the proofers via the Accept Word button in the spelling interface. To do this, click on the "Show suggestions from proofers" link. The procedure is the same.</p>
 
-<p>Bad words are generally stealth scannos that occur often for a particular project. Bad Words Lists are managed using techniques similar to those used to manage Good Word lists, although there are currently no tools that will generate a list of Suggested Bad words for you.</p>
+<p>Bad words are generally stealth scannos that occur often for a particular project. Bad Words Lists are managed using techniques similar to those used to manage Good Word lists. The "Show words in the project that are in the site possible bad words file" will list all words in the text sorted by frequency that often exist as stealth scannos.</p>
 
 
 <h3><a name="wordlist_value"></a>Why is it important to define project-specific lists?</h3>
@@ -204,10 +236,21 @@ foreach($site_word_lists as $word_list_file => $word_list_url) {
 
 <p>The online tools that are available for automatically generating possible contents of these lists are explained above.</p>
 
+
+<h3><a name="wordlist_precedence">What happens if words appear on both Good and Bad word lists?</h3>
+<p>It is possible for words to appear both on a Good and Bad Word List at the same level, such as at the Site or Project level. Bad words are evaluated after Good words so words that appear both on a Good and Bad list at the same level would be listed as Bad. Since the Project level takes precedence over the Site level, a word on the Site Bad Word List can be removed from being Flagged by adding it to the Project's Good Word List.</p>
+
+
+<h3><a name="wordlist_multi_languages">How do the site-wide Good/Bad Word Lists behave when more than one language is selected?</h3>
+<p>When applying word lists, a merged list is formed of words from all applicable languages, including all project languages and any ad-hoc language used in WordCheck. All the words from the site-level Good Word Lists for each language being checked against are combined into a single merged good-words list which is then used as described above. Similarly, the Bad Word Lists for each such language are combined into a single merged bad-words list.</p>
+
+
 <h3><a name="what_is_a_word"></a>What counts as a "word" in WordCheck?</h3>
 <p>A "word" is any sequence of letters (with or without accents), digits, or apostrophes, surrounded by any other characters (such as spaces or punctuation). In addition, any of the approved combinations for ligatures (such as [oe]) or diacritics (such as [=a], that represents &#257;) forms part of a word, so that "c[oe]eur" is a single word.</p>
 <p>What this means is that words with characters other than those mentioned above will never be flagged in the text (such as commas). That isn't to say that future versions of WordCheck can't be modified/enhanced to include checking for words using a different string of characters, such as other punctuation, as well. While words in the Word Lists with characters other than mentioned above will never be Flagged in the text, there is no downside to including them for when WordCheck can make use of them.</p>
+<p>For example, including <span class='mono'>etc</span> on a Word List will match <span class='mono'>etc</span> and <span class='mono'>etc.</span> (notice the period) in the text. Adding just <span class='mono'>etc.</span> (again, notice the period) will not match anything in the text with the current version of WordCheck.</p>
 
 <?
 theme('','footer');
+// vim: sw=4 ts=4 expandtab
 ?>
