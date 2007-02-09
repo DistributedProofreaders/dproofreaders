@@ -308,7 +308,10 @@ function proj_good_words_field($value,$fieldname,$projectid)
     if (!empty($projectid))
     {
         $dict_link = _("Show words in the project that WordCheck would currently flag");
-        $faq_link = _("See the <a href='../../faq/spellcheck-faq.php' target='_blank'>WordCheck FAQ</a> <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'> for more information on word lists.");
+        $faq_link = sprintf(
+            _("See the %s for more information on word lists."),
+            "<a href='../../faq/spellcheck-faq.php' target='_blank'>WordCheck FAQ</a> <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>"
+        );
         echo "<br>";
         echo "<b>";
         echo "<a href='generate_dict_suggestions.php?projectid=$projectid' target='_blank'>$dict_link</a>";
@@ -339,7 +342,10 @@ function proj_bad_words_field($value,$fieldname,$projectid)
     if (!empty($projectid))
     {
         $sug_link = _("Show words in the project that are in the site bad words suggestion file");
-        $faq_link = _("See the <a href='../../faq/spellcheck-faq.php' target='_blank'>WordCheck FAQ</a> <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'> for more information on word lists.");
+        $faq_link = sprintf(
+            _("See the %s for more information on word lists."),
+            "<a href='../../faq/spellcheck-faq.php' target='_blank'>WordCheck FAQ</a> <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>"
+        );
         echo "<br>";
         echo "<b>";
         echo "<a href='show_project_possible_bad_words.php?projectid=$projectid' target='_blank'>$sug_link</a>";

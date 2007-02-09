@@ -144,7 +144,13 @@ if ($userP['i_type']==1) {
 ></p>
 
 <?PHP
-echo "<p>" . _("<b>Note:</b> The <img src=\"$code_url/graphics/Book-Plus-Small.gif\" border=\"0\"> icon will accept all instances of that word for this page, and suggest it for inclusion in this project's dictionary. See also the <a href=\"$code_url/faq/spellcheck-faq.php\" target=\"_blank\">WordCheck FAQ</a> <img src='$code_url/graphics/New-Window.gif' title='Link opens a new window'>.") . "</p>";
+echo "<p>";
+echo sprintf(
+    _("<b>Note:</b> The %s icon will accept all instances of that word for this page, and suggest it for inclusion in this project's dictionary. See also the %s."),
+    "<img src=\"$code_url/graphics/Book-Plus-Small.gif\" border=\"0\">",
+    "<a href=\"$code_url/faq/spellcheck-faq.php\" target=\"_blank\">WordCheck FAQ</a> <img src='$code_url/graphics/New-Window.gif' title='Link opens a new window'>"
+);
+echo "</p>";
 ?>
 <table id="tbtext" cellpadding="10" align="center"><tr>
 <td 
