@@ -10,7 +10,7 @@ include_once($relPath.'misc.inc'); // str_contains
 //       at that time we can probably move to using \W instead of
 //       the mess below
 $word_letters = "a-zA-ZÀ-ÿ";
-$word_characters = "0-9'$word_letters";
+$word_characters = "0-9$word_letters";
 
 // Handle dp-specific notation for non-Latin-1 characters
 // See faq/proofreading_guidelines.php#d_chars
@@ -20,7 +20,7 @@ $mark = '[=:.`\\\\\'/v)~,^]'; // pattern for: diacritical mark
 $bracketed_character_pattern = "\\[(oe|OE|$mark$base|$base$mark)\\]";
 
 $char_pattern = "([$word_characters]|$bracketed_character_pattern)";
-$word_pattern = "!$char_pattern+!";
+$word_pattern = "!$char_pattern+('$char_pattern+)*!";
 // (The pattern is delimited by exclamation marks rather than the usual slashes,
 // because slash is a character within the pattern.)
 
