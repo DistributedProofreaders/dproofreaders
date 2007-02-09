@@ -303,31 +303,28 @@ function proj_good_words_field($value,$fieldname,$projectid)
     echo "<textarea name='$fieldname' cols='74' rows='16'>$enc_value</textarea>";
     if (!empty($projectid))
     {
-        $dict_link = _("Show words in the project that WordCheck would currently flag");
-        $faq_link = sprintf(
-            _("See the %s for more information on word lists."),
-            new_window_link( "../../faq/spellcheck-faq.php", _("WordCheck FAQ") )
-        );
         echo "<br>";
         echo "<b>";
         echo new_window_link(
             "generate_dict_suggestions.php?projectid=$projectid",
-            $dict_link
+            _("Show words in the project that WordCheck would currently flag")
         );
 
         $f = get_project_word_file($projectid, 'good_suggs');
         if ($f->size > 0)
         {
-            $iw_link = _("Show suggestions from proofers");
             echo "<br>";
             echo new_window_link(
                 "generate_acceptword_suggestions.php?projectid=$projectid",
-                $iw_link
+                _("Show suggestions from proofers")
             );
         }
         echo "</b>";
         echo "<br>";
-        echo $faq_link;
+        echo sprintf(
+            _("See the %s for more information on word lists."),
+            new_window_link( "../../faq/spellcheck-faq.php", _("WordCheck FAQ") )
+        );
     }
     echo "</center>";
 }
@@ -340,20 +337,18 @@ function proj_bad_words_field($value,$fieldname,$projectid)
     echo "<textarea name='$fieldname' cols='74' rows='16'>$enc_value</textarea>";
     if (!empty($projectid))
     {
-        $sug_link = _("Show words in the project that are in the site bad words suggestion file");
-        $faq_link = sprintf(
-            _("See the %s for more information on word lists."),
-            new_window_link( "../../faq/spellcheck-faq.php", _("WordCheck FAQ") )
-        );
         echo "<br>";
         echo "<b>";
         echo new_window_link(
             "show_project_possible_bad_words.php?projectid=$projectid",
-            $sug_link
+            _("Show words in the project that are in the site bad words suggestion file")
         );
         echo "</b>";
         echo "<br>";
-        echo $faq_link;
+        echo sprintf(
+            _("See the %s for more information on word lists."),
+            new_window_link( "../../faq/spellcheck-faq.php", _("WordCheck FAQ") )
+        );
     }
     echo "</center>";
 }
