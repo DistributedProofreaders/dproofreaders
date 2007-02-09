@@ -3,7 +3,7 @@ include_once($relPath.'iso_lang_list.inc');
 include_once($relPath.'genres.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'word_checker.inc'); // get_project_word_file
-include_once($relPath.'links.inc'); // new_window_link
+include_once($relPath.'links.inc'); // new_window_link, new_help_window_link
 
 function encodeFormValue($value)
 {
@@ -273,7 +273,6 @@ function image_source_list($image_source)
 
 function proj_comments_field($comments)
 {
-    global $code_url;
     $enc_comments = encodeFormValue($comments);
     $template_blurb  = _("How To Use A Template");
     $biography_blurb = _("How To Use A Biography");
@@ -282,12 +281,10 @@ function proj_comments_field($comments)
     echo "<textarea name='comments' cols='74' rows='16'>$enc_comments</textarea>";
     echo "<br>";
     echo "<b>";
-    echo "[<a href=\"JavaScript:newHelpWin('template');\">$template_blurb</a>";
-    echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+    echo "[" . new_help_window_link( 'template', $template_blurb );
     echo "]";
     echo " ";
-    echo "[<a href=\"JavaScript:newHelpWin('biography');\">$biography_blurb</a>";
-    echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+    echo "[" . new_help_window_link( 'biography', $biography_blurb );
     echo "]";
     echo "</b>";
     echo "</center>";
