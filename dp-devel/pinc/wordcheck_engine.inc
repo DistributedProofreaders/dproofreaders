@@ -15,7 +15,7 @@ $word_characters = "0-9'$word_letters";
 // Handle dp-specific notation for non-Latin-1 characters
 // See faq/proofreading_guidelines.php#d_chars
 // $base and $mark are only used to define $bracketed_character_pattern
-$base = '[a-zA-Z]';           // pattern for: markable base character
+$base = "[$word_letters]";    // pattern for: markable base character
 $mark = '[=:.`\\\\\'/v)~,^]'; // pattern for: diacritical mark
 $bracketed_character_pattern = "\\[(oe|OE|$mark$base|$base$mark)\\]";
 
