@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'links.inc'); // new_window_link
 include_once('spellcheck_text.inc');
 include_once('PPage.inc');
 include_once('image_block_enh.inc');
@@ -148,7 +149,7 @@ echo "<p>";
 echo sprintf(
     _("<b>Note:</b> The %s icon will accept all instances of that word for this page, and suggest it for inclusion in this project's dictionary. See also the %s."),
     "<img src=\"$code_url/graphics/Book-Plus-Small.gif\" border=\"0\">",
-    "<a href=\"$code_url/faq/spellcheck-faq.php\" target=\"_blank\">WordCheck FAQ</a> <img src='$code_url/graphics/New-Window.gif' title='Link opens a new window'>"
+    new_window_link( "$code_url/faq/spellcheck-faq.php", _("WordCheck FAQ") )
 );
 echo "</p>";
 ?>

@@ -3,6 +3,7 @@ include_once($relPath.'iso_lang_list.inc');
 include_once($relPath.'genres.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'word_checker.inc'); // get_project_word_file
+include_once($relPath.'links.inc'); // new_window_link
 
 function encodeFormValue($value)
 {
@@ -122,7 +123,6 @@ function difficulty_list($difficulty_level)
 
 function special_list($special)
 {
-    global $code_url;
     // get info on special days
     $specs_result = mysql_query("
         SELECT
@@ -186,8 +186,7 @@ function special_list($special)
     }
     echo "</select>";
 
-    echo " <a href='show_specials.php' target='_blank'>" . _("Special Days Info") . "</a>";
-    echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+    echo " " . new_window_link( "show_specials.php", _("Special Days Info") );
     echo "<br>";
 
     // drop down selects for month and date, used for Birthday and Otherday specials
@@ -227,7 +226,6 @@ function special_list($special)
 function image_source_list($image_source)
 {
     global $site_abbreviation;
-    global $code_url;
     // get info on image_sources
     $imso_result = mysql_query("
         SELECT code_name, display_name
@@ -267,8 +265,7 @@ function image_source_list($image_source)
 
     echo "</select> ";
     echo "<font size=-1>". sprintf(_("'%1\$s Internal' if scanned by or for a %1\$s user."),$site_abbreviation)."</font>";
-    echo " <a href='show_image_sources.php' target='_blank'>"._("Details of Image Sources")."</a>";
-    echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+    echo " " . new_window_link( "show_image_sources.php", _("Details of Image Sources") );
     echo "<br>";
 }
 
@@ -300,7 +297,6 @@ function proj_comments_field($comments)
 
 function proj_good_words_field($value,$fieldname,$projectid)
 {
-    global $code_url;
     $enc_value = encodeFormValue($value);
 
     echo "<center>";
@@ -310,20 +306,24 @@ function proj_good_words_field($value,$fieldname,$projectid)
         $dict_link = _("Show words in the project that WordCheck would currently flag");
         $faq_link = sprintf(
             _("See the %s for more information on word lists."),
-            "<a href='../../faq/spellcheck-faq.php' target='_blank'>WordCheck FAQ</a> <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>"
+            new_window_link( "../../faq/spellcheck-faq.php", _("WordCheck FAQ") )
         );
         echo "<br>";
         echo "<b>";
-        echo "<a href='generate_dict_suggestions.php?projectid=$projectid' target='_blank'>$dict_link</a>";
-        echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+        echo new_window_link(
+            "generate_dict_suggestions.php?projectid=$projectid",
+            $dict_link
+        );
 
         $f = get_project_word_file($projectid, 'good_suggs');
         if ($f->size > 0)
         {
             $iw_link = _("Show suggestions from proofers");
             echo "<br>";
-            echo "<a href='generate_acceptword_suggestions.php?projectid=$projectid' target='_blank'>$iw_link</a>";
-            echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+            echo new_window_link(
+                "generate_acceptword_suggestions.php?projectid=$projectid",
+                $iw_link
+            );
         }
         echo "</b>";
         echo "<br>";
@@ -334,7 +334,6 @@ function proj_good_words_field($value,$fieldname,$projectid)
 
 function proj_bad_words_field($value,$fieldname,$projectid)
 {
-    global $code_url;
     $enc_value = encodeFormValue($value);
 
     echo "<center>";
@@ -344,12 +343,14 @@ function proj_bad_words_field($value,$fieldname,$projectid)
         $sug_link = _("Show words in the project that are in the site bad words suggestion file");
         $faq_link = sprintf(
             _("See the %s for more information on word lists."),
-            "<a href='../../faq/spellcheck-faq.php' target='_blank'>WordCheck FAQ</a> <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>"
+            new_window_link( "../../faq/spellcheck-faq.php", _("WordCheck FAQ") )
         );
         echo "<br>";
         echo "<b>";
-        echo "<a href='show_project_possible_bad_words.php?projectid=$projectid' target='_blank'>$sug_link</a>";
-        echo " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+        echo new_window_link(
+            "show_project_possible_bad_words.php?projectid=$projectid",
+            $sug_link
+        );
         echo "</b>";
         echo "<br>";
         echo $faq_link;

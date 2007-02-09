@@ -22,6 +22,7 @@ include_once($relPath.'smoothread.inc');           // functions for smoothreadin
 include_once($relPath.'release_queue.inc'); // cook_project_selector
 include_once($relPath.'user_project_info.inc');
 include_once($relPath.'word_checker.inc'); // get_project_word_file
+include_once($relPath.'links.inc'); // new_window_link
 
 // for strftime:
 $datetime_format = _("%A, %B %e, %Y at %X");
@@ -614,8 +615,7 @@ function do_project_info_table()
         $f = get_project_word_file($projectid, $gb);
         if ( $f->size > 0 )
         {
-            $links .= "<a href='{$f->abs_url}' target='_blank'>$label</a>";
-            $links .= " <img src='$code_url/graphics/New-Window.gif' title='Link opens in a new window'>";
+            $links .= new_window_link( $f->abs_url, $label );
             $links .= " - " . _("Last modified") . ": " . strftime($datetime_format,$f->mod_time);
         }
         else
