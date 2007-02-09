@@ -37,7 +37,7 @@ function echo_cutoff_script($cutoffOptions,$instances) {
                 var wordObject = document.getElementById("word_" + cutoff + "_" + instance);
                 var freqObject = document.getElementById("freq_" + cutoff + "_" + instance);
                 if(wordObject) {
-                    if(cutoff <= newCutoff) { wordObject.style.display="none";
+                    if(cutoff < newCutoff) { wordObject.style.display="none";
                         freqObject.style.display="none";
                     } else {
                         wordObject.style.display="";

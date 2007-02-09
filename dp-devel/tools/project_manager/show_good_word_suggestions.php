@@ -102,7 +102,7 @@ echo_cutoff_script($cutoffOptions,$instances);
 $cutoffString = get_cutoff_string($cutoffOptions);
 ?>
 
-<p>Words that appear less than <b><span id="current_cutoff"><?=$initialFreq;?></span></b> times are not shown. Other cutoff options are available: <?=$cutoffString;?>.</p>
+<p>Words that appear fewer than <b><span id="current_cutoff"><?=$initialFreq;?></span></b> times are not shown. Other cutoff options are available: <?=$cutoffString;?>.</p>
 
 <?
 // print out the complete list first
