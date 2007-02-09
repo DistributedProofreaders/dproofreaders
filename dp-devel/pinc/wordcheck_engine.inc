@@ -9,7 +9,7 @@ include_once($relPath.'misc.inc'); // str_contains
 // NOTE: This should probably be changed when moving to UTF-8
 //       at that time we can probably move to using \W instead of
 //       the mess below
-$word_letters = "a-zA-ZÀ-ÿ";
+$word_letters = "a-zA-ZÀ-ÖØ-öø-ÿ";
 $word_characters = "0-9$word_letters";
 
 // Handle dp-specific notation for non-Latin-1 characters
