@@ -2163,7 +2163,7 @@ You told me the walk was private.<br>
    This misrecognition can create errors in the text:</p>
 <ul compact>
    <li>A word that appears to be correct at first glance, but is actually misspelled. <br />
-This can usually be caught by running the spellcheck from the proofreading interface.</li>
+This can usually be caught by running WordCheck from the proofreading interface.</li>
    <li>A word that is changed to a different but otherwise valid word that does not match what is in the page image.<br />
 These are subtle because they can only be caught by someone actually reading the text."</li>
 </ul>
