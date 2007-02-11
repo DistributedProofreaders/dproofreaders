@@ -17,10 +17,10 @@ $word_characters = "0-9$word_letters";
 // $base and $mark are only used to define $bracketed_character_pattern
 $base = "[$word_letters]";    // pattern for: markable base character
 $mark = '[=:.`\\\\\'/v)~,^]'; // pattern for: diacritical mark
-$bracketed_character_pattern = "\\[(oe|OE|$mark$base|$base$mark)\\]";
+$bracketed_character_pattern = "\\[(?:oe|OE|$mark$base|$base$mark)\\]";
 
-$char_pattern = "([$word_characters]|$bracketed_character_pattern)";
-$word_pattern = "!$char_pattern+('$char_pattern+)*!";
+$char_pattern = "(?:[$word_characters]|$bracketed_character_pattern)";
+$word_pattern = "!$char_pattern+(?:'$char_pattern+)*!";
 // (The pattern is delimited by exclamation marks rather than the usual slashes,
 // because slash is a character within the pattern.)
 
