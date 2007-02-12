@@ -1,6 +1,6 @@
 <?PHP
 include_once($relPath.'site_vars.php');
-include_once($relPath.'word_checker.inc');
+include_once($relPath.'wordcheck_engine.inc');
 
 // Arguments:
 //   orig_text - original text to run through dictionary

@@ -2,7 +2,7 @@
 include_once($relPath.'iso_lang_list.inc');
 include_once($relPath.'genres.inc');
 include_once($relPath.'site_vars.php');
-include_once($relPath.'word_checker.inc'); // get_project_word_file
+include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link, new_help_window_link
 
 function encodeFormValue($value)
@@ -303,7 +303,7 @@ function proj_good_words_field($value,$fieldname,$projectid)
         echo "<br>";
         echo "<b>";
         echo new_window_link(
-            "generate_dict_suggestions.php?projectid=$projectid",
+            "show_current_flagged_words.php?projectid=$projectid",
             _("Show words in the project that WordCheck would currently flag")
         );
 
@@ -312,7 +312,7 @@ function proj_good_words_field($value,$fieldname,$projectid)
         {
             echo "<br>";
             echo new_window_link(
-                "generate_acceptword_suggestions.php?projectid=$projectid",
+                "show_good_word_suggestions.php?projectid=$projectid",
                 _("Show suggestions from proofers")
             );
         }
@@ -320,7 +320,7 @@ function proj_good_words_field($value,$fieldname,$projectid)
         echo "<br>";
         echo sprintf(
             _("See the %s for more information on word lists."),
-            new_window_link( "../../faq/spellcheck-faq.php", _("WordCheck FAQ") )
+            new_window_link( "../../faq/wordcheck-faq.php", _("WordCheck FAQ") )
         );
     }
     echo "</center>";
@@ -344,7 +344,7 @@ function proj_bad_words_field($value,$fieldname,$projectid)
         echo "<br>";
         echo sprintf(
             _("See the %s for more information on word lists."),
-            new_window_link( "../../faq/spellcheck-faq.php", _("WordCheck FAQ") )
+            new_window_link( "../../faq/wordcheck-faq.php", _("WordCheck FAQ") )
         );
     }
     echo "</center>";

@@ -149,7 +149,7 @@ echo "<p>";
 echo sprintf(
     _("<b>Note:</b> The %s icon will accept all instances of that word for this page, and suggest it for inclusion in this project's dictionary. See also the %s."),
     "<img src=\"$code_url/graphics/Book-Plus-Small.gif\" border=\"0\">",
-    new_window_link( "$code_url/faq/spellcheck-faq.php", _("WordCheck FAQ") )
+    new_window_link( "$code_url/faq/wordcheck-faq.php", _("WordCheck FAQ") )
 );
 echo "</p>";
 ?>

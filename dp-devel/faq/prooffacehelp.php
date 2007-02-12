@@ -260,7 +260,7 @@ $help['Run Spelling Check'] = "
     The text is checked for possible problems (misspelled words, scannos, etc).
     Problem words are presented as text boxes for possible correction.
 
-    See also the <a href=\"spellcheck-faq.php\">Spellcheck FAQ</a>.
+    See also the <a href=\"wordcheck-faq.php\">Spellcheck FAQ</a>.
 </p>
 <p>
     When done, the corrections made can be submitted (applied) or cancelled.

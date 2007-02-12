@@ -21,7 +21,7 @@ include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_*
 include_once($relPath.'smoothread.inc');           // functions for smoothreading
 include_once($relPath.'release_queue.inc'); // cook_project_selector
 include_once($relPath.'user_project_info.inc');
-include_once($relPath.'word_checker.inc'); // get_project_word_file
+include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link
 
 // for strftime:

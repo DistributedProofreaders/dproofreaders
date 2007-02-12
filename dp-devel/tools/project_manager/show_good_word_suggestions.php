@@ -2,7 +2,7 @@
 $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
-include_once($relPath.'word_checker.inc');
+include_once($relPath.'wordcheck_engine.inc');
 include_once("./word_freq_table.inc");
 
 set_time_limit(0); // no time limit
@@ -86,9 +86,9 @@ if($format == "text") {
 </head>
 <body>
 <h1>Suggestions from Proofers</h1>
-<p>Below are the words that proofers have suggested (via the <img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif"> button) in the WordCheck interface. The words have been sorted into rounds as well as an overall list. You may want to consider adding these words to the project's Good Words list. See also the <a href="<?=$code_url;?>/faq/spellcheck-faq.php">WordCheck FAQ</a> for more information on the new WordCheck system.</p>
+<p>Below are the words that proofers have suggested (via the <img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif"> button) in the WordCheck interface. The words have been sorted into rounds as well as an overall list. You may want to consider adding these words to the project's Good Words list. See also the <a href="<?=$code_url;?>/faq/wordcheck-faq.php">WordCheck FAQ</a> for more information on the new WordCheck system.</p>
 
-<p>You can <a href="generate_acceptword_suggestions.php?projectid=<?=$projectid; ?>&amp;format=text">download</a> a copy of the full word list with frequencies for offline analysis. When adding the final list to the input box on the Edit Project page, the frequencies can be left in and the system will remove them.</p>
+<p>You can <a href="show_good_word_suggestions.php?projectid=<?=$projectid; ?>&amp;format=text">download</a> a copy of the full word list with frequencies for offline analysis. When adding the final list to the input box on the Edit Project page, the frequencies can be left in and the system will remove them.</p>
 
 <?
 // how many instances (ie: frequency sections) are there?

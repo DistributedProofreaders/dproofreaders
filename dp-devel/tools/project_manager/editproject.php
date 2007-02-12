@@ -12,7 +12,7 @@ include_once($relPath.'comment_inclusions.inc');
 include_once('edit_common.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'project_events.inc');
-include_once($relPath.'word_checker.inc');
+include_once($relPath.'wordcheck_engine.inc');
 
 $popHelpDir="$code_url/faq/pophelp/project_manager/";
 include_once($relPath.'js_newpophelp.inc');
