@@ -695,8 +695,47 @@ function get_site_word_files($pattern="") {
 function get_distinct_words_in_text( $text )
 // Returns an array: each key is a distinct word in $text, and
 // the corresponding value is that word's frequency in $text.
+//
+// This function is equivalent to
+//     array_count_values( get_all_words_in_text( $text ));
+// but (when appropriate) avoids reifying the intermediate array.
 {
-    return array_count_values( get_all_words_in_text( $text ));
+    // For a $text with typical-sized words, the memory consumed by the result
+    // of get_all_words_in_text($text) is about 20 times the size of $text.
+    // So if $text is project-sized (say, 1.5Mb), the resulting array will be
+    // rather large (about 30 Mb).)
+    //
+    // Somewhat arbitrarily, we say that an intermediate array of about 1Mb is
+    // the maximum acceptable, which roughly works out to a $text of 50kb.
+    $break_point = 50 * 1024;
+    // In practice, $text is either a page (usually under 5kb) or a project
+    // (usually at least 100kb), so any value for $break_point in the range of
+    // 5kb to 100kb would have the same effect on branching.
+
+        if ( strlen($text) < $break_point )
+        {
+            // The result of get_all_words_in_text($text) will be small enough.
+            $input_words_w_freq = array_count_values( get_all_words_in_text( $text ));
+        }
+        else
+        {
+            // The result of get_all_words_in_text($text) would be rather large,
+            // so avoid it.  The following alternative is somewhat slower but
+            // more space efficient.
+            global $word_pattern;
+
+            $input_words_w_freq = array();
+            $offset = 0;
+            $flags = PREG_OFFSET_CAPTURE;
+            while ( preg_match( $word_pattern, $text, $matches, $flags, $offset ) )
+            {
+                list($word,$word_start) = $matches[0];
+                @$input_words_w_freq[$word]++;
+                $offset = $word_start + strlen($word);
+            }
+        }
+
+    return $input_words_w_freq;
 }
 
 function get_all_words_in_text( $text, $with_offsets=FALSE )
