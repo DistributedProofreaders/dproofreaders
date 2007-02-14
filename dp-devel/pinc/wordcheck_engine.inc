@@ -72,8 +72,7 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
         $languages = array_unique($languages);
     }
 
-    // Get the distinct words in $text.
-    $input_words_w_freq = array_count_values( get_all_words_in_text( $text ));
+    $input_words_w_freq = get_distinct_words_in_text( $text );
 
     $acc = new BadWordAccumulator();
 
@@ -692,6 +691,13 @@ function get_site_word_files($pattern="") {
 }
 
 // -----------------------------------------------------------------------------
+
+function get_distinct_words_in_text( $text )
+// Returns an array: each key is a distinct word in $text, and
+// the corresponding value is that word's frequency in $text.
+{
+    return array_count_values( get_all_words_in_text( $text ));
+}
 
 function get_all_words_in_text( $text, $with_offsets=FALSE )
 // Returns an array whose values are all occurrences of all words in $text, in order
