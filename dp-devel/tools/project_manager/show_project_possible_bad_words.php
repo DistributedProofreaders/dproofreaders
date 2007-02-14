@@ -95,6 +95,17 @@ if($format == "text") {
 <p>Time to generate this data: <? echo sprintf('%.2f', $t_to_generate_data); ?> seconds</p>
 
 <?
+if ( count($messages) > 0 )
+{
+    echo "<p>\n";
+    echo "The following warnings/errors were raised:<br>\n";
+    foreach ( $messages as $message )
+    {
+        echo "$message<br>\n";
+    }
+    echo "</p>\n";
+}
+
 // how many instances (ie: frequency sections) are there?
 $instances=1;
 // what is the intial cutoff frequecny?
@@ -107,18 +118,8 @@ $cutoffString = get_cutoff_string($cutoffOptions);
 ?>
 
 <p>Words that appear fewer than <b><span id="current_cutoff"><?=$initialFreq;?></span></b> times are not shown. Other cutoff options are available: <?=$cutoffString;?>.</p>
-<?
-if ( count($messages) > 0 )
-{
-    echo "<p>\n";
-    echo "The following warnings/errors were raised:<br>\n";
-    foreach ( $messages as $message )
-    {
-        echo "$message<br>\n";
-    }
-    echo "</p>\n";
-}
 
+<?
 printTableFrequencies($initialFreq,$cutoffOptions,$bad_words_w_freq,$instances--);
 
 // vim: sw=4 ts=4 expandtab
