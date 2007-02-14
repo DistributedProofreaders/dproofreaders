@@ -67,6 +67,9 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
         $languages = array_unique($languages);
     }
 
+    // Get the distinct words in $text.
+    $input_words_w_freq = array_count_values( get_all_words_in_text( $text ));
+
     $acc = new BadWordAccumulator();
 
     // Go to various sources for good+bad words,
@@ -77,7 +80,7 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
     {
         list($external_bad_words, $messages) =
             get_bad_words_via_external_checker(
-                $text, $projectid, $imagefile, $languages);
+                $input_words_w_freq, $projectid, $imagefile, $languages);
         $acc->messages += $messages;
         $acc->add_bad_words( $external_bad_words, WC_WORLD );
     }
@@ -108,7 +111,8 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
             $acc->add_bad_words( load_site_bad_words($langcode3), WC_SITE );
         }
 
-         $acc->add_bad_words( get_bad_words_via_pattern($text,$langcode3s), WC_SITE );
+         $acc->add_bad_words(
+             get_bad_words_via_pattern($input_words_w_freq,$langcode3s), WC_SITE );
     }
 
     // The project
@@ -178,7 +182,7 @@ class BadWordAccumulator
 // returns a list of 'bad' words on a page
 // this implementation passes the text to aspell
 // Arguments:
-//   orig_text - original text to run through dictionary
+//   input_words_w_freq - an array whose keys are the distinct words of the input text
 //   projectid - id of projected, needed for temp filename
 //               and to load the custom dictionaries
 //   imagefile - image filename, needed for temp filename
@@ -189,19 +193,17 @@ class BadWordAccumulator
 //       -- an array of misspelled words,
 //       -- an array of messages (errors/warnings)
 //
-function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile, $languages) {
+function get_bad_words_via_external_checker( $input_words_w_freq, $projectid, $imagefile, $languages) {
     global $aspell_temp_dir;
     global $aspell_executable, $aspell_prefix, $iso_639, $charset;
 
     $messages = array();
 
-    // clean up the original text
-    $orig_text = str_replace(array("\r","\n\n"),array("\n","\n"),$orig_text);
-
     $tmp_file_name = $projectid . $imagefile . ".txt";
     $tmp_file_path = "$aspell_temp_dir/$tmp_file_name";
 
-    $wasWritten = file_put_contents($tmp_file_path,$orig_text);
+    $tmp_file_text = implode("\n", array_keys($input_words_w_freq));
+    $wasWritten = file_put_contents($tmp_file_path,$tmp_file_text);
     if($wasWritten === FALSE)
     {
         $messages[] = "Error: unable to write text to temp file: $tmp_file_path";
@@ -280,16 +282,13 @@ function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile,
     // and put those in a bad word list. Instead, we simply mark *all* words
     // containing non-Latin-1 characters as bad at the world-level.
     //
-    foreach( get_all_words_in_text($orig_text) as $word )
+    foreach( $input_words_w_freq as $word => $freq )
     {
         if ( str_contains($word, '[') )
         {
             $finalMisspellings[] = $word;
         }
     }
-
-    // make a point *not* to unique the array, some callers might
-    // want to know the frequency of the misspelled words
 
     return array($finalMisspellings,$messages);
 }
@@ -300,17 +299,16 @@ function get_bad_words_via_external_checker( $orig_text, $projectid, $imagefile,
 
 // returns a list of 'bad' words in a text based on some pattern
 // Arguments:
-//   orig_text - original text
+//   input_words_w_freq - an array whose keys are the distinct words of the input text
 //   langcode3s - codes for languages to check against
 //
 // Returns:
 //       -- an array of bad words
 //
-function get_bad_words_via_pattern( $orig_text, $langcode3s ) {
+function get_bad_words_via_pattern( $input_words_w_freq, $langcode3s ) {
     global $word_letters;
 
     $badWords = array();
-    $wordArray = get_all_words_in_text( $orig_text );
 
     // pattern #1
     // flag all words with embedded digits while
@@ -329,7 +327,7 @@ function get_bad_words_via_pattern( $orig_text, $langcode3s ) {
     $exceptions = implode('|', $exceptions);
     $exceptions_pattern = "/^($exceptions)$/";
 
-    foreach($wordArray as $word) {
+    foreach($input_words_w_freq as $word => $freq) {
         // if the word has both a digit and a word_letter
         if(preg_match("/\d/",$word) && preg_match("/[$word_letters]/",$word)) {
 
