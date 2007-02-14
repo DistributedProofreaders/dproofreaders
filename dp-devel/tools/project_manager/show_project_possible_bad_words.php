@@ -26,6 +26,7 @@ $format = @$_GET["format"];
 $minFreq = array_get($_GET, 'minFreq', 5);
 
 $t_before = $watch->read();
+$messages = array();
 
 // get the latest project text of all pages up to last possible round
 $last_possible_round = get_Round_for_round_number(MAX_NUM_PAGE_EDITING_ROUNDS);
