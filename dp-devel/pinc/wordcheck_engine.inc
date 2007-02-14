@@ -20,9 +20,12 @@ $mark = '[=:.`\\\\\'/v)~,^]'; // pattern for: diacritical mark
 $bracketed_character_pattern = "\\[(?:oe|OE|$mark$base|$base$mark)\\]";
 
 $char_pattern = "(?:[$word_characters]|$bracketed_character_pattern)";
-$word_pattern = "!$char_pattern+(?:'$char_pattern+)*!";
+$word_pattern = "!$char_pattern+(?:'$char_pattern+)*!S";
 // (The pattern is delimited by exclamation marks rather than the usual slashes,
 // because slash is a character within the pattern.)
+// (Supposedly, the 'S' modifier makes the regex engine spend more time
+// analyzing the pattern in order to speed up the time taken for matching,
+// but the effect seems pretty close to negligible.)
 
 // string of punctuation characters
 // this is only used for punctuation highlighting
