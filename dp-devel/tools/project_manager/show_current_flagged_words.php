@@ -32,18 +32,10 @@ $all_pages_text = join_proofed_text($projectid,$pages_res,false,false,'');
 #$all_pages_text=preg_replace("/-+File: .*?----+/",'',$all_pages_text);
 $all_pages_text = preg_replace("/^-+File: .*$/m",'',$all_pages_text);
 
-$all_words_in_text = get_all_words_in_text($all_pages_text);
-$all_words_w_freq = generate_frequencies($all_words_in_text);
-
 // now run it through the spell-checker
-list($bad_words,$languages,$messages) =
-    get_bad_words_for_text($all_pages_text,$projectid,'all','',array());
+list($bad_words_w_freq,$languages,$messages) =
+    get_bad_words_for_text($all_pages_text,$projectid,'all','',array(),'FREQS');
 
-// $bad_words doesn't have frequency info, 
-// so start with the info in $all_words_w_freq,
-// and extract the items where the key matches a key in $bad_words.
-
-$bad_words_w_freq = array_intersect_key( $all_words_w_freq, $bad_words );
 
 // sort the list by frequency, then by word
 array_multisort(array_values($bad_words_w_freq), SORT_DESC, array_keys($bad_words_w_freq), SORT_ASC, $bad_words_w_freq);

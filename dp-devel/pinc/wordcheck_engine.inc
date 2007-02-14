@@ -37,7 +37,7 @@ define('WC_SITE',    2);
 define('WC_PROJECT', 3);
 define('WC_PAGE',    4);
 
-function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $adhoc_good_words )
+function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $adhoc_good_words, $which_result_values )
 // Arguments:
 //   text - the text for which bad words are sought
 //   projectid - id of project, needed for temp filename
@@ -47,9 +47,14 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
 //   adhoc_good_words - array of words to treat as good for this invocation only.
 // 
 // Returns an array consisting of:
-//  -- an array: each key is a word that is (or would be) bad for this text;
-//     the corresponding value is a constant denoting the
-//     (most specific) level at which the word was deemed bad.
+//  -- an array: each key is a word in the text that is deemed bad;
+//     the corresponding value is either:
+//      -- the word's frequency in $text
+//         (if $which_result_values is 'FREQS')
+//     or
+//      -- one of the WC_* constants, denoting the (most specific) level at which
+//         the word was deemed bad
+//         (if $which_result_values is 'LEVELS')
 //  -- an array: each value is the name of a language that was used
 //  -- an array: each value is a warning/error.
 {
@@ -127,7 +132,30 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
         $acc->remove_good_words( $adhoc_good_words );
     }
 
-    return array($acc->words, $languages, $acc->messages);
+    // At this point, we have two arrays whose keys are words:
+    // $input_words_w_freq (words in the text, that may or may not be bad)
+    // $acc->words (words that are bad, that may or may not be in the text)
+    // The key-intersection of these two arrays will give us the set of words
+    // that are both in the text and bad.
+    // But the way we do the intersection determines the values that are
+    // associated with those words.
+    //
+    if ( $which_result_values == 'FREQS' )
+    {
+        // Associate each bad word with its frequency in the text.
+        $bad_words_in_text = array_intersect_key( $input_words_w_freq, $acc->words );
+    }
+    else if ( $which_result_values == 'LEVELS' )
+    {
+        // Associate each bad word with the most specific level at which it was deemed bad.
+        $bad_words_in_text = array_intersect_key( $acc->words, $input_words_w_freq );
+    }
+    else
+    {
+        assert( FALSE );
+    }
+
+    return array($bad_words_in_text, $languages, $acc->messages);
 }
 
 // -----------------------------------------------------------------------------
