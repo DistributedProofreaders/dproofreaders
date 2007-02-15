@@ -120,6 +120,20 @@ function write_project_comments($project, $fp)
 
 // -----------------------------------------------------------------------------
 
+function join_page_texts( $pages_res )
+// Return the concatenation of the page-texts in the query-result.
+// (Similar to join_proofed_text, but without the page-separators.)
+{
+    $text = "";
+    while( list($text_data,$filename,$proofer_names) = page_info_fetch($pages_res) )
+    {
+        $text .= $text_data . "\r\n";
+    }
+    return $text;
+}
+
+// -----------------------------------------------------------------------------
+
 function join_proofed_text ($project, $pages_res, $include_proofers, $save_files, $fp)
 {
     // Join the round 2 page-texts of the given project,
