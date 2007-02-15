@@ -120,6 +120,17 @@ function write_project_comments($project, $fp)
 
 // -----------------------------------------------------------------------------
 
+function get_page_texts( $pages_res )
+// Return an array whose values are the page-texts in the query-result.
+{
+    $page_texts = array();
+    while( list($page_text,$imagename,$proofer_names) = page_info_fetch($pages_res) )
+    {
+        $page_texts[] = $page_text;
+    }
+    return $page_texts;
+}
+
 function join_page_texts( $pages_res )
 // Return the concatenation of the page-texts in the query-result.
 // (Similar to join_proofed_text, but without the page-separators.)
