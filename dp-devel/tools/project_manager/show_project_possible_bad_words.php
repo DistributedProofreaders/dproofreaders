@@ -31,13 +31,10 @@ $messages = array();
 // get the latest project text of all pages up to last possible round
 $last_possible_round = get_Round_for_round_number(MAX_NUM_PAGE_EDITING_ROUNDS);
 $pages_res = page_info_query($projectid,$last_possible_round->id,'LE');
-$all_pages_text = join_proofed_text($projectid,$pages_res,false,false,'');
 
-// normalize the text for processing
-$all_pages_text = preg_replace("/^-+File: .*$/m",'',$all_pages_text);
+$all_pages_text = get_page_texts($pages_res);
 
-$all_words_in_text = get_all_words_in_text($all_pages_text);
-$all_words_w_freq = generate_frequencies($all_words_in_text);
+$all_words_w_freq = get_distinct_words_in_text($all_pages_text);
 
 $languages = array_unique(array_values(get_project_languages($projectid)));
 
