@@ -30,11 +30,11 @@ $t_before = $watch->read();
 // get the latest project text of all pages up to last possible round
 $last_possible_round = get_Round_for_round_number(MAX_NUM_PAGE_EDITING_ROUNDS);
 $pages_res = page_info_query($projectid,$last_possible_round->id,'LE');
-$all_pages_text = join_page_texts($pages_res);
+$page_texts = get_page_texts($pages_res);
 
 // now run it through the spell-checker
 list($bad_words_w_freq,$languages,$messages) =
-    get_bad_words_for_text($all_pages_text,$projectid,'all','',array(),'FREQS');
+    get_bad_words_for_text($page_texts,$projectid,'all','',array(),'FREQS');
 
 $t_after = $watch->read();
 $t_to_generate_data = $t_after - $t_before;
