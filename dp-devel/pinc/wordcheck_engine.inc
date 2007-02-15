@@ -43,6 +43,9 @@ define('WC_PAGE',    4);
 function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $adhoc_good_words, $which_result_values )
 // Arguments:
 //   text - the text for which bad words are sought
+//          This can be a string or an array of strings. If the latter, the
+//          strings are conceptually separated by whitespace.  (So it's never
+//          the case that a word begins in one string and ends in the next.)
 //   projectid - id of project, needed for temp filename
 //               and to load the custom dictionaries
 //   imagefile - image filename, needed for temp filename
@@ -715,6 +718,8 @@ function get_distinct_words_in_text( $text )
     // (usually at least 100kb), so any value for $break_point in the range of
     // 5kb to 100kb would have the same effect on branching.
 
+    if ( is_string($text) )
+    {
         if ( strlen($text) < $break_point )
         {
             // The result of get_all_words_in_text($text) will be small enough.
@@ -737,6 +742,26 @@ function get_distinct_words_in_text( $text )
                 $offset = $word_start + strlen($word);
             }
         }
+    }
+    else if ( is_array($text) )
+    {
+        // We assume that the strings in $text are smaller than $break_point,
+        // so it's okay to call get_all_words_in_text() on each. (Currently,
+        // each string is a single page-text, so the assumption is valid.)
+
+        $input_words_w_freq = array();
+        foreach ( $text as $chunk )
+        {
+            foreach ( get_all_words_in_text( $chunk ) as $word )
+            {
+                @$input_words_w_freq[$word] += 1;
+            }
+        }
+    }
+    else
+    {
+        assert( FALSE );
+    }
 
     return $input_words_w_freq;
 }
