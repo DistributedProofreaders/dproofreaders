@@ -210,7 +210,7 @@ function spellcheck_echo_script()
 
         // loop through all bad words
         var totalNumWords = document.getElementById("sptotal").value;
-        for(wordIndex=1; wordIndex<totalNumWords; wordIndex++) {
+        for(wordIndex=1; wordIndex<=totalNumWords; wordIndex++) {
             // find occurances of the word
             var wordOccurID = wordIDprefix + "_" + wordIndex;
 
