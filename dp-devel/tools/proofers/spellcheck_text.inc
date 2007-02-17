@@ -135,7 +135,8 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                     $onChange = " onChange=\"disableAW('$wordID');\"";
                     $onChange.= " onKeyup=\"disableAW('$wordID');\"";
                 } else {
-                    $onChange = '';
+                    $onChange = " onChange=\"markPageChanged();\"";
+                    $onChange.= " onKeyup=\"markPageChanged();\"";
                 }
 
                 // create the edit box
@@ -254,8 +255,7 @@ function spellcheck_echo_script()
             a.removeAttribute('href');
         }
 
-        // mark the page as having been changed
-        document.getElementById("is_changed").value=1;
+        markPageChanged();
 
         return false;
     }
@@ -283,6 +283,15 @@ function spellcheck_echo_script()
         // return true (ie: confirm exit) if no changes were made
         return true;
     }
+
+    // function to mark the page as changed
+    function markPageChanged() {
+        // mark the page as having been changed
+        document.getElementById("is_changed").value=1;
+
+        return false;
+    }
+
     // -->
     </script>
 <?
