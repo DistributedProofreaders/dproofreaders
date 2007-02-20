@@ -368,7 +368,18 @@ class ProjectInfoHolder
         // load non-db project settings
         // Failure to load isn't a fatal error, according to this code.
 
-        $good_words = load_project_good_words($this->projectid);
+        if($edit_existing)
+        {
+            $good_words = load_project_good_words($this->projectid);
+            $bad_words=load_project_bad_words($this->projectid);
+        }
+        else
+        {
+            // we're cloaning, load the original project's words
+            $good_words = load_project_good_words($this->clone_projectid);
+            $bad_words=load_project_bad_words($this->clone_projectid);
+        }
+
         if ( is_string($good_words) )
         {
             echo "$good_words<br>\n";
@@ -379,7 +390,6 @@ class ProjectInfoHolder
             $this->good_words = implode("\n", $good_words);
         }
 
-        $bad_words=load_project_bad_words($this->projectid);
         if ( is_string($bad_words) )
         {
             echo "$bad_words<br>\n";
