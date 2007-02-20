@@ -572,7 +572,8 @@ function do_project_info_table()
 
     echo_row_a(
         _("Last Edit of Project Info"),
-        strftime($datetime_format, $project->t_last_edit) );
+        strftime($datetime_format, $project->t_last_edit)
+        . $current_time_addition );
 
     echo_row_a(
         _("Last State Change"),
@@ -590,8 +591,7 @@ function do_project_info_table()
         if (mysql_num_rows($proofdate)!=0)
         {
             $latest_save_time = mysql_result($proofdate,0,$round->time_column_name);
-            $formatted_lst = strftime($datetime_format, $latest_save_time);
-            $lastproofed = "$formatted_lst$current_time_addition";
+            $lastproofed = strftime($datetime_format, $latest_save_time);
         }
         else
         {
