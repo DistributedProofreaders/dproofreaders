@@ -566,6 +566,10 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
     // Current activity
 
+    $formatted_now = strftime($time_format, time());
+    $ct = _("Current Time");
+    $current_time_addition = "&nbsp;&nbsp;&nbsp;($ct: $formatted_now)";
+
     echo_row_a(
         _("Last Edit of Project Info"),
         strftime($datetime_format, $project->t_last_edit) );
@@ -587,8 +591,7 @@ function do_project_info_table()
         {
             $latest_save_time = mysql_result($proofdate,0,$round->time_column_name);
             $formatted_lst = strftime($datetime_format, $latest_save_time);
-            $formatted_now = strftime($time_format, time());
-            $lastproofed = "$formatted_lst&nbsp;&nbsp;&nbsp; ("._("Current Time:")." $formatted_now)";
+            $lastproofed = "$formatted_lst$current_time_addition";
         }
         else
         {
