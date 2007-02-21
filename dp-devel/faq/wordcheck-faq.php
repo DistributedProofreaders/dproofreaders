@@ -238,6 +238,8 @@ foreach($languages as $language) {
 <h3><a name="site_patterns"></a>What are site patterns?</h3>
 <p>In addition to the Good and Bad word lists, WordCheck detects suspicious patterns as well. A classic suspicious pattern is a word with one or more digits mixed in with letters, for example: <span class="mono">1and</span>. WordCheck flags these words without an Unflag All button. Common word-with-digit patterns such as ordinals (1st, 2nd, 3rd) are excluded from this flagging. Patterns are specified site-wide directly in the code.</p>
 
+<p>The ordinal patterns are language-specific. The code currently recognizes the ordinals for English and French and uses them accordingly based on the project languages. Others can be added with code changes.</p>
+
 <h3><a name="manage_word_lists"></a>What do I have to do? How do I manage project words?</h3>
 <p>A Project Manager can just do nothing, and let the external spell-checker do everything. But he can also define project-specific Good and Bad Words Lists. Such lists can be defined in pre-processing, or defined through on-line tools. These on-line tools can also be used to incrementally modify the previously defined lists, so it is recommended to use the on-line tools at least for a final check. The on-line tools can be used at any time, even during a round, without making the project unavailable, and are immediately used.
 
