@@ -224,12 +224,12 @@ function spellcheck_echo_script()
                 // set contents to be the word itself
                 wordSpan.innerHTML=wordOrig;
                 wordSpan.className="aw";
-
-                // save the word in the accepted_words list
-                var acceptedWordsInput = document.getElementById("accepted_words");
-                acceptedWordsInput.value = acceptedWordsInput.value + " " + wordOrig;
             }
         }
+
+        // save the word in the accepted_words list
+        var acceptedWordsInput = document.getElementById("accepted_words");
+        acceptedWordsInput.value = acceptedWordsInput.value + " " + wordOrig;
 
         return false;
     }
