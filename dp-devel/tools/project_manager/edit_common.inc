@@ -302,21 +302,37 @@ function proj_good_words_field($value,$fieldname,$projectid)
     {
         echo "<br>";
         echo "<b>";
+        echo _("Words in the project that WordCheck would currently flag: ");
+        echo "<br>";
         echo new_window_link(
             "show_current_flagged_words.php?projectid=$projectid",
-            _("Show words in the project that WordCheck would currently flag")
+            _("Display results")
+        );
+        echo " | ";
+        echo new_window_link(
+            "show_current_flagged_words.php?projectid=$projectid&amp;format=prompt",
+            _("Download results")
         );
 
         $f = get_project_word_file($projectid, 'good_suggs');
         if ($f->size > 0)
         {
             echo "<br>";
+            echo "<br>";
+            echo _("Suggestions from proofers: ");
+            echo "<br>";
             echo new_window_link(
                 "show_good_word_suggestions.php?projectid=$projectid",
-                _("Show suggestions from proofers")
+                _("Display results")
+            );
+            echo " | ";
+            echo new_window_link(
+                "show_good_word_suggestions.php?projectid=$projectid&amp;format=prompt",
+                _("Download results")
             );
         }
         echo "</b>";
+        echo "<br>";
         echo "<br>";
         echo sprintf(
             _("See the %s for more information on word lists."),
@@ -336,11 +352,19 @@ function proj_bad_words_field($value,$fieldname,$projectid)
     {
         echo "<br>";
         echo "<b>";
+        echo _("Words in the project that are in the site's Possible Bad Words file: ");
+        echo "<br>";
         echo new_window_link(
             "show_project_possible_bad_words.php?projectid=$projectid",
-            _("Show words in the project that are in the site bad words suggestion file")
+            _("Display results")
+        );
+        echo " | ";
+        echo new_window_link(
+            "show_project_possible_bad_words.php?projectid=$projectid&amp;format=prompt",
+            _("Download results")
         );
         echo "</b>";
+        echo "<br>";
         echo "<br>";
         echo sprintf(
             _("See the %s for more information on word lists."),

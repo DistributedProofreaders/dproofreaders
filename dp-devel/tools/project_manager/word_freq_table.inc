@@ -27,7 +27,7 @@ function echo_cutoff_script($cutoffOptions,$instances) {
         $cutoffJSArray .= "$cutoff,";
     $cutoffJSArray = preg_replace("/,$/","",$cutoffJSArray);
 ?>
-    <script language="javascript">
+<script language="javascript">
     function setCutoff(newCutoff) {
         var cutoffArray = new Array(<?=$cutoffJSArray;?>);
         var instances = <?=$instances;?>;
@@ -178,19 +178,95 @@ table.freq td {
 table.freq td.num {
     text-align: right;
 }
+span.mono {
+    font-family: DPCustomMono2,monospace;
+}
 </style>
 <?
 }
 
-function echo_download_text($projectid) {
-    echo "<p>You can <a href='?projectid=$projectid&amp;format=text'>download</a> a copy of the full candidate word list with frequencies for offline analysis. If you leave the frequency counts in the form found in the downloaded file (i.e., word - #), you can leave the counts in when pasting your final word list into the input box on the Edit Project page since the system will remove them.</p>";
+function echo_page_header($title,$projectid) {
+    echo "<html>\n";
+    echo "<head><title>$title</title></head>\n";
+    echo "<body>\n";
+    echo "<h1>$title</h1>";
+
+    $project_text = sprintf(_("Project: %s"),get_project_name($projectid));
+    echo "<h2>$project_text</h2>\n";
+}
+
+function get_project_name($projectid) {
+    $res = mysql_query("SELECT * FROM projects WHERE projectid = '$projectid'");
+    $ar = mysql_fetch_array($res);
+    return $ar['nameofwork'];
+}
+
+function echo_page_instruction_text($wordListType) {
+    if( $wordListType == "good") {
+        $page_instructions_string = _("If you find any words in the results list that should not be flagged in the WordCheck interface, add them to the project's Good Words List. The most accurate way to do so probably is to copy the words from the candidate list and paste them into the Good Words input box on the Edit Project page (taking care not to overwrite any words that are already in the box).");
+    } elseif( $wordListType == "bad" ) {
+        $page_instructions_string = _("If you find any words in the results list that should be flagged in the WordCheck interface for extra attention by proofers, add them to the project's Bad Words List. The most accurate way to do so probably is to copy the words from the candidate list and paste them into the Bad Words input box on the Edit Project page (taking care not to overwrite any words that are already in the box).");
+    } else {
+        assert(FALSE);
+    }
+
+    echo "<p>$page_instructions_string</p>\n";
+}
+
+function echo_page_instruction_reiteration_text($wordListType) {
+    if( $wordListType == "good") {
+        $reiteration_text = _("Once again, these are only <i>candidates</i> for this project's Good Words List. Based on your analysis of the results and your knowledge of this particular project, you as a PM must decide which, if any, of the words will actually be added to the project's Good Words List.");
+    } elseif( $wordListType == "bad" ) {
+        $reiteration_text = _("Once again, these are only <i>candidates</i> for this project's Bad Words List. Based on your analysis of the results and your knowledge of this particular project, you as a PM must decide which, if any, of the words will actually be added to the project's Bad Words List.");
+    } else {
+        assert(FALSE);
+    }
+
+    echo "<p>$reiteration_text</p>\n";
+}
+
+function echo_download_text($projectid,$format) {
+    $download_text = "";
+
+    if($format == "html")
+        $download_text = sprintf(_("You can <a href='%s'>download</a> a copy of the full candidate word list with frequencies for offline analysis."),"?projectid=$projectid&amp;format=file");
+
+    $download_text .= " ";
+    $download_text .= _("When you paste data into the input box on the Edit Project page, the system will remove frequency counts for you if they follow the word and are separated from the word by at least one space.");
+    echo "<p>$download_text</p>\n";
 }
 
 function echo_cutoff_text($initialFreq,$cutoffOptions) {
-    $cutoffString = get_cutoff_string($cutoffOptions);
-    echo "<p>Words that appear fewer than <b><span id='current_cutoff'>$initialFreq</span></b> times are not shown. Other cutoff options are available: $cutoffString.</p>";
+    $cutoff_text = sprintf(_("Words that appear fewer than <b><span id='current_cutoff'>%d</span></b> times are not shown. Other cutoff options are available: %s"),$initialFreq,get_cutoff_string($cutoffOptions));
+    echo "<p>$cutoff_text</p>\n";
 }
 
+function echo_wordcheck_faq_text() {
+    global $code_url;
+    $faq_text = sprintf(_("See also the %s for more information on the WordCheck system."),"<a href='$code_url/faq/wordcheck-faq.php'>" . _("WordCheck FAQ") . "</a>");
+    echo "<p>$faq_text</p>\n";
+}
+
+function echo_any_warnings_errors($messages) {
+    if ( count($messages) > 0 )
+    {
+        echo "<p>\n";
+        echo _("The following warnings/errors were raised:") . "<br>\n";
+        foreach ( $messages as $message )
+            echo "$message<br>\n";
+        echo "</p>\n";
+    }
+}
+
+function echo_page_footer($page_gen_time=null) {
+    if($page_gen_time != null) {
+        $time_generate_string=sprintf(_("Time to generate this data: %.2f seconds"),$page_gen_time);
+        echo "<p>$time_generate_string</p>";
+    }
+
+    echo "</body>\n";
+    echo "</html>\n";
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>
