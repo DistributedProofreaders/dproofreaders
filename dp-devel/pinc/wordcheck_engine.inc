@@ -411,8 +411,10 @@ function load_project_good_words( $projectid ) {
 function save_project_good_words( $projectid, $words ) {
     global $projects_dir;
 
+    // trim out leading spaces
+    $words = preg_replace('/^\s+/', '', $words);
     // trim out any word frequencies if they exist
-    $words = preg_replace('/ - \d+$/', '', $words);
+    $words = preg_replace('/\s.*$/', '', $words);
 
     return save_word_list( "$projects_dir/$projectid/good_words.txt", $words );
 }
@@ -427,6 +429,11 @@ function load_project_bad_words($projectid) {
 
 function save_project_bad_words($projectid, $words) {
     global $projects_dir;
+
+    // trim out leading spaces
+    $words = preg_replace('/^\s+/', '', $words);
+    // trim out any word frequencies if they exist
+    $words = preg_replace('/\s.*$/', '', $words);
 
     return save_word_list( "$projects_dir/$projectid/bad_words.txt", $words );
 }
