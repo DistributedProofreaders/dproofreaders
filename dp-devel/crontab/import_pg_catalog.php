@@ -15,6 +15,8 @@ new dbConnect();
 
 header('Content-type: text/plain');
 
+set_time_limit(60);
+
 $display_mapping = array(
     'application/msword'       => 'MS Word',
     'application/ogg'          => 'Ogg Audio',
