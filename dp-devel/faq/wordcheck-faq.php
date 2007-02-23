@@ -48,6 +48,7 @@ span.mono
   <li><a href="#wordlist_value">Why is it important to define project-specific lists?</a></li>
   <li><a href="#wordlist_precedence">What happens if words appear on both Good and Bad word lists?</a></li>
   <li><a href="#wordlist_multi_languages">How do the site-wide Good/Bad Word Lists behave when more than one language is selected?</a></li>
+  <li><a href="#clone_project">What happens to the word lists when a project is cloned?</a></li>
   <li><a href="#what_is_a_word">What counts as a "word" in WordCheck?</a></li>
 </ul>
 
@@ -276,6 +277,10 @@ foreach($languages as $language) {
 
 <h3><a name="wordlist_multi_languages"></a>How do the site-wide Good/Bad Word Lists behave when more than one language is selected?</h3>
 <p>When applying word lists, a merged list is formed of words from all applicable languages, including all project languages and any ad-hoc language used in WordCheck. All the words from the site-level Good Word Lists for each language being checked against are combined into a single merged good-words list which is then used as described above. Similarly, the Bad Word Lists for each such language are combined into a single merged bad-words list. For example, in <i>English</i> + <i>French</i> projects, every occurrence of the word "do" will be flagged unless it is included on the project's Good Words List because it is on the Site Bad Words List for French (because it is a common stealth scanno in French, although not in English).</p>
+
+
+<h3><a name="clone_project"></a>What happens to the word lists when a project is cloned?</h3>
+<p>When a project is cloned, the Good and Bad Word Lists are copied to the new project. The Good Word Suggestions file that contains suggestions from proofers is not copied to the new project.</p>
 
 
 <h3><a name="what_is_a_word"></a>What counts as a "word" in WordCheck?</h3>
