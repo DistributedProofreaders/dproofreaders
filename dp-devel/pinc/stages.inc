@@ -19,6 +19,7 @@ new Stage(
     _('Clearance Approvals'),
     array(),
     'REQ-HUMAN',
+    '',
     _('A qualified person must confirm that the work is in the public domain.'),
     NULL,
     array(
@@ -40,6 +41,7 @@ new Stage(
     _('Metadata Collection'),
     array(),
     'REQ-HUMAN',
+    '',
     _('We collect various bits of metadata for each page in a project.'),
     NULL,
     array(
@@ -69,6 +71,7 @@ new Round(
     _('Proofreading Round 1'),
     array(),
     'IMMEDIATE',
+    '',
     _("The page-texts are the output from OCR software and need to have the text carefully compared to the image."),
     'proofreading_guidelines.php',
     array(
@@ -111,6 +114,7 @@ new Round(
     _('Proofreading Round 2'),
     array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz/P' => 1 ),
     'REQ-AUTO',
+    '',
     _("The page-texts have already been proofread, and now need to have the text spellchecked and carefully compared to the image."),
     'proofreading_guidelines.php',
     array(
@@ -151,8 +155,9 @@ new Round(
 new Round(
     'P3',
     _('Proofreading Round 3'),
-    array( 'P1+P2' => 400, 'F1' => 50, 'days since reg' => 42, 'quiz/P' => 1 ),
+    array( 'P1+P2' => 400, 'P2' => 50, 'F1' => 50, 'days since reg' => 42, 'quiz/P' => 1 ),
     'REQ-HUMAN',
+    _("Once you have met the requirements and requested access to P3, an evaluator will check over at least 50 of your recent P2 pages and if they've been proofed to P3 standards, you'll be granted access."),
     _("The page-texts have already been proofread, but now need to be examined <b>closely</b> for small errors that may have been missed."),
     'proofreading_guidelines.php',
     array(
@@ -195,6 +200,7 @@ new Round(
     _('Formatting Round 1'),
     array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz/F' => 1 ),
     'REQ-AUTO',
+    '',
     _("The page-texts have already been proofread, but now need to be formatted with markup which may be specific to the project."),
     'document.php',
     array(
@@ -237,6 +243,7 @@ new Round(
     _('Formatting Round 2'),
     array( 'F1' => 400, 'days since reg' => 91 ), // 'F1' => 1000, 3 months after rollout
     'REQ-HUMAN', // "peer approval"
+    _("Once you have met the above requirements and requested access to F2, an evaluator will check over at least 150 of your recent F1 pages and if they've been proofed to F2 standards, you'll be granted access."),
     _("The page-texts in this round need to be carefully checked to remove any remaining formatting or proofreading errors."),
     'document.php',
     array(
@@ -295,6 +302,7 @@ new Pool(
     _('Post-Processing'),
     array( 'F1' => 400 ),
     'REQ-AUTO',
+    '',
     _('After going through various rounds of proofreading and formatting, the books need to be massaged into a final e-text.'),
     'post_proof.php',
     array(
@@ -333,6 +341,7 @@ new Stage(
     _('Smooth Reading'),
     array(),
     'IMMEDIATE',
+    '',
     _('Before a PPer has submitted a final e-text, they can optionally make it available for Smooth Reading. Anyone can volunteer to Smooth Read a text, which is basically just reading through it and marking possible errors before returning it to the Post-Processor.'),
     NULL,
     array(
@@ -349,6 +358,7 @@ new Pool(
     _('Post-Processing Verification'),
     array(),
     'NOREQ', // "Peer approval. Also gives F2 access."
+    '',
     _('Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.'),
     'ppv.php',
     array(
@@ -389,6 +399,7 @@ new Pool(
     _('Corrections Review'),
     array( 'F1' => 400 ),
     'REQ-AUTO',
+    '',
     _('Readers can submit corrections. We need to review them and possibly revise the text.'), 
     NULL,
     array(

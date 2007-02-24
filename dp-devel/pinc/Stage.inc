@@ -49,6 +49,8 @@ class Stage
             //     'IMMEDIATE'  Nope, they get immediate access.
             //     'REQ-AUTO'   They must ask for access, but it is auto-granted.
             //     'REQ-HUMAN'  They must ask for access, and it must be human-granted.
+        $evaluation_criteria,
+           // A brief description of what the evaluation criteria are. 
         $description,
             // A sentence or two explaining what happens in this stage.
         $document,
@@ -67,6 +69,7 @@ class Stage
         $this->name          = $name;
         $this->access_minima = $access_minima;
         $this->after_satisfying_minima = $after_satisfying_minima;
+        $this->evaluation_criteria = $evaluation_criteria;
         $this->description   = $description;
         $this->document      = $document;
         $this->relative_url  = $relative_url;
@@ -115,6 +118,8 @@ class Stage
     //         boolean
     // -- request_status:
     //         enumerated type
+    // -- evaluation_criteria:
+    //         message to display about evaluation
     // 
     // UNIMPLEMENTED:
     // If $n_pages_completed is non-null, use it as the number of pages
@@ -150,7 +155,7 @@ class Stage
         $uao = new StdClass; // user access object
 
         $uao->stage_id = $this->id;
-
+        $uao->evaluation_criteria = $this->evaluation_criteria;
         // Considering the minima...
         global $CRITERIA;
         {
@@ -384,7 +389,8 @@ function show_user_access_object( $uao )
         }
         else
         {
-            echo _('Some requirements are not yet satisfied.');
+            echo _('Some requirements are not yet satisfied. ');
+            echo $uao->evaluation_criteria;
         }
     }
     echo "\n";
@@ -405,14 +411,16 @@ function show_user_access_object( $uao )
             break;
 
         case 'sat-available':
+            echo $uao->evaluation_criteria;
             echo sprintf(
-                _('If you would like to work in this stage, <a href="%s">click here</a> to submit a request.'),
+                _(' If you would like to work in this stage, <a href="%s">click here</a> to submit a request.'),
                 "$code_url/tools/request_access.php?stage_id={$uao->stage_id}"
             );
             break;
 
         case 'sat-wait':
-            echo _('However, you must wait for approval to work in this stage.');
+            echo _('However, you must wait for approval to work in this stage. ');
+            echo $uao->evaluation_criteria;
             // Users in this stage will monitor your work and will let you know once you have qualified for access
             break;
 
