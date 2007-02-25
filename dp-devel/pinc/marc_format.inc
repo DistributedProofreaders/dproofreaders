@@ -157,7 +157,7 @@ function create_dc_xml_oai($projectid, $scannercredit, $genre, $language, $autho
 	  <creator>$author</creator>
 	  <subject>".marc_subject($rec)."</subject>
 	  <description>".marc_description($rec)."</description>
-	  <publisher>Project Gutenberg</publisher>
+	  <publisher>{$GLOBALS['site_name']}</publisher>
 	  <contributor>$createdby</contributor>
 	  <date>".marc_date($rec)."</date>
 	  <type>$genre</type>
