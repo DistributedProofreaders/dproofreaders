@@ -560,6 +560,10 @@ function load_word_list( $path )
     // needed in case site word list has trailing spaces
     $words = array_map('rtrim', $words);
 
+    // remove the last "empty" word caused by the last newline
+    if($words[count($words)-1]=="")
+        array_pop($words);
+
     return $words;
 }
 
