@@ -938,7 +938,6 @@ class ProjectInfoHolder
         }
         echo "<tr><td align='middle' bgcolor='#cccccc'><b>Last Proofread</b></td><td>$now</td></tr>\n";
         echo "<tr><td align='middle' bgcolor='#cccccc'><b>Forum</b></td><td>Start a discussion about this project</td></tr>\n";
-        echo "<tr><td align='middle' bgcolor='#cccccc'><b>Book Completed</b></td><td>Yes, I would like to be notified when this has been posted to Project Gutenberg.</td></tr>\n";
 
         echo "<tr><td colspan='2' bgcolor='#cccccc' align='center'>";
         echo "<font size='+1'><b>Project Comments</b></font>";
