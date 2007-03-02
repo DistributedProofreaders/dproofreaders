@@ -157,7 +157,7 @@ new Round(
     _('Proofreading Round 3'),
     array( 'P1+P2' => 400, 'P2' => 50, 'F1' => 50, 'days since reg' => 42, 'quiz/P' => 1 ),
     'REQ-HUMAN',
-    _("Once you have met the requirements and requested access to P3, an evaluator will check over at least 50 of your recent P2 pages and if they've been proofed to P3 standards, you'll be granted access."),
+    _("Once you have met the requirements and requested access to P3, an evaluator will check over at least 50 of your recent P2 pages that have been completed in P3. If you proofed them to P3 standards, you'll be granted access."),
     _("The page-texts have already been proofread, but now need to be examined <b>closely</b> for small errors that may have been missed."),
     'proofreading_guidelines.php',
     array(
@@ -243,7 +243,7 @@ new Round(
     _('Formatting Round 2'),
     array( 'F1' => 400, 'days since reg' => 91 ), // 'F1' => 1000, 3 months after rollout
     'REQ-HUMAN', // "peer approval"
-    _("Once you have met the above requirements and requested access to F2, an evaluator will check over at least 150 of your recent F1 pages and if they've been proofed to F2 standards, you'll be granted access."),
+    _("Once you have met the requirements and requested access to F2, an evaluator will check over at least 150 of your recent F1 pages that have been completed in F2. If they've been formatted to F2 standards, you'll be granted access."),
     _("The page-texts in this round need to be carefully checked to remove any remaining formatting or proofreading errors."),
     'document.php',
     array(
