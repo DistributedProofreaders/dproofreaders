@@ -42,7 +42,7 @@ function echo_cutoff_script($cutoffOptions,$instances) {
                         wordObject.innerHTML="";
                         freqObject.innerHTML="";
                         if(auxObject) auxObject.innerHTML="";
-                    } else {
+                    } else if(wordObject.innerHTML == "") {
                         eval("wordObject.innerHTML=cutoffArray_word_" + instance + "[cutoff];");
                         eval("freqObject.innerHTML=cutoffArray_freq_" + instance + "[cutoff];");
                         if(auxObject) eval("auxObject.innerHTML=cutoffArray_aux_" + instance + "[cutoff];");
