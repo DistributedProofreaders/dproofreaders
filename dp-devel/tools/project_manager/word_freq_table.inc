@@ -39,13 +39,13 @@ function echo_cutoff_script($cutoffOptions,$instances) {
                 var auxObject = document.getElementById("aux_" + cutoff + "_" + instance);
                 if(wordObject) {
                     if(cutoff < newCutoff) {
-                        wordObject.style.display="none";
-                        freqObject.style.display="none";
-                        if(auxObject) auxObject.style.display="none";
+                        wordObject.innerHTML="";
+                        freqObject.innerHTML="";
+                        if(auxObject) auxObject.innerHTML="";
                     } else {
-                        wordObject.style.display="";
-                        freqObject.style.display="";
-                        if(auxObject) auxObject.style.display="";
+                        eval("wordObject.innerHTML=cutoffArray_word_" + instance + "[cutoff];");
+                        eval("freqObject.innerHTML=cutoffArray_freq_" + instance + "[cutoff];");
+                        if(auxObject) eval("auxObject.innerHTML=cutoffArray_aux_" + instance + "[cutoff];");
                     }
                 }
             }
@@ -93,6 +93,7 @@ function getInitialCutoff($idealCutoff,$cutoffOptions,$wordCount) {
 //
 // Outputs the word frequency table
 function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,$auxData=null,$auxTitle="") {
+    $jsArrayString="";
     echo '<table class="freq">';
     echo '<tr><th>' . _('Frequency') . '</th><th>' . _('Word') . '</th>';
     if(is_array($auxData))
@@ -103,13 +104,19 @@ function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,
     // the values list into the accept textarea
     // words printed
     echo "<tr>";
-    _printTableColumn($initialFreq,$cutoffOptions,$wordCount,"freq",$instance);
-    _printTableColumn($initialFreq,$cutoffOptions,$wordCount,"word",$instance);
+    $jsArrayString.=_printTableColumn($initialFreq,$cutoffOptions,$wordCount,"freq",$instance);
+    $jsArrayString.=_printTableColumn($initialFreq,$cutoffOptions,$wordCount,"word",$instance);
     if(is_array($auxData))
-        _printTableColumn($initialFreq,$cutoffOptions,$wordCount,"aux",$instance,$auxData);
+        $jsArrayString.=_printTableColumn($initialFreq,$cutoffOptions,$wordCount,"aux",$instance,$auxData);
     echo "</tr>";
 
     echo '</table>';
+
+    // print out javascript array
+    echo "<script language='javascript'>\n";
+    echo $jsArrayString;
+    echo "</script>\n";
+    
 }
 
 // _printTableColumn -- internal function used by printTableFrequencies
@@ -124,33 +131,43 @@ function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,
 //
 // Outputs the word frequency table
 function _printTableColumn($initialFreq,$cutoffOptions,$wordCount,$prefix,$instance,$auxData=null) {
+    $returnString="var cutoffArray_${prefix}_${instance}=new Array();\n";
     $freqCutoff = 100000;
     $class="";
+    $printWords=1;
     if($prefix=="freq" || $prefix=="aux") $class=" class='num'";
     echo "<td$class><hr>";
     echo "<span id='${prefix}_${freqCutoff}_${instance}'>";
     $nextCutoff = array_pop($cutoffOptions);
     foreach( $wordCount as $word => $freq ) {
         if($freq < $nextCutoff) {
+            $prevCutoff = $nextCutoff;
             while($freq < $nextCutoff && count($cutoffOptions))
                 $nextCutoff=array_pop($cutoffOptions);
             $freqCutoff=$nextCutoff;
 
-            // hide any span sections past our initialFreq
-            if($freqCutoff < $initialFreq) { $style=" style='display: none;'"; }
-            else { $style=""; }
+            if($printWords) echo $jsString;
+            $returnString.="cutoffArray_${prefix}_${instance}[${prevCutoff}]=\"$jsString\";\n";
+            $jsString="";
 
             echo "</span>\n";
-            echo "<span id='{$prefix}_${freqCutoff}_${instance}'$style>";
+
+            // hide any span sections past our initialFreq
+            if($freqCutoff < $initialFreq) $printWords=0;
+            echo "<span id='{$prefix}_${freqCutoff}_${instance}'>";
         }
 
         // output either $freq or $word based on $prefix
-        if($prefix=="freq") echo "$freq<br>";
-        elseif($prefix=="word") echo "$word<br>";
-        elseif($prefix="aux") echo $auxData[$word] . "<br>";
+        if($prefix=="freq") $jsString.="$freq<br>";
+        elseif($prefix=="word") $jsString.=rtrim($word) . "<br>";
+        elseif($prefix="aux") $jsString.=$auxData[$word] . "<br>";
     }
+    $returnString.="cutoffArray_${prefix}_${instance}[${nextCutoff}]=\"$jsString\";\n";
+    if($printWords) echo $jsString;
     echo "</span>\n";
     echo "</td>\n";
+
+    return $returnString;
 }
 
 // arrays with numeric and string keys don't multisort correctly
