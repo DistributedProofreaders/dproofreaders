@@ -147,7 +147,7 @@ function check_user_exists($possible_user, $description)
     $res = mysql_query("
                 SELECT u_id
                 FROM users
-                WHERE BINARY username = '".addslashes($possible_user)."'
+                WHERE username = BINARY '".addslashes($possible_user)."'
             ");
     if (mysql_num_rows($res) == 0)
     {

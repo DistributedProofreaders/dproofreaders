@@ -183,7 +183,7 @@ function saveUberProject()
     if (!empty($_POST['checkedoutby']))
     {
         $checkedoutby = $_POST['checkedoutby'];
-        $result = mysql_query("SELECT u_id FROM users WHERE BINARY username = '$checkedoutby'");
+        $result = mysql_query("SELECT u_id FROM users WHERE username = BINARY '$checkedoutby'");
         if (mysql_num_rows($result) == 0)
         {
             $errormsg .= "Default Post Processor must be an existing user - check case and spelling of username.<br>";
@@ -239,7 +239,7 @@ function saveUberProject()
     if (!empty($_POST['image_preparer']))
     {
         $image_preparer = $_POST['image_preparer'];
-        $result = mysql_query("SELECT u_id FROM users WHERE BINARY username = '$image_preparer'");
+        $result = mysql_query("SELECT u_id FROM users WHERE username = BINARY '$image_preparer'");
         if (mysql_num_rows($result) == 0)
         {
             $errormsg .= "Default Image Preparer must be an existing user - check case and spelling of username.<br>";
@@ -249,7 +249,7 @@ function saveUberProject()
     if (!empty($_POST['text_preparer']))
     {
         $text_preparer = $_POST['text_preparer'];
-        $result = mysql_query("SELECT u_id FROM users WHERE BINARY username = '$text_preparer'");
+        $result = mysql_query("SELECT u_id FROM users WHERE username = BINARY '$text_preparer'");
         if (mysql_num_rows($result) == 0)
         {
             $errormsg .= "Default Text Preparer must be an existing user - check case and spelling of username.<br>";

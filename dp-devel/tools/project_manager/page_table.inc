@@ -174,7 +174,7 @@ function echo_page_table(
 			$tallyboard->get_sql_joinery_for_current_tallies( "users$rn.u_id" );
 
 		$fields_to_get .= ",
-			BINARY $prev_text_column_name = $round->text_column_name AS $round->textdiff_column_name,
+			$prev_text_column_name = BINARY $round->text_column_name AS $round->textdiff_column_name,
 			$round->time_column_name,
 			$round->user_column_name,
 			phpbb_users$rn.user_id AS `$rn.phpbb_user_id`,

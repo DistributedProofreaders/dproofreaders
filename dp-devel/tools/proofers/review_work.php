@@ -79,10 +79,10 @@ for ( $rn = $review_round->round_number+1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $
 $has_been_saved_in_review_round .= ")";
 // echo "$has_been_saved_in_review_round<br>\n";
 
-$there_is_a_diff = "BINARY
+$there_is_a_diff = "
     $work_round->text_column_name
     !=
-    $review_round->text_column_name
+    BINARY $review_round->text_column_name
 ";
 
 // ---------------------------------------------
