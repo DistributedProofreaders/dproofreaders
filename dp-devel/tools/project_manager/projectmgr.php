@@ -539,8 +539,6 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
     results_navigator();
 
-    $show_pages_total = 1;
-
     $user_can_see_download_links = user_can_work_in_stage($pguser, 'PP');
     $show_options_column = $user_can_see_download_links || user_is_PM();
 
@@ -561,10 +559,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     echo_header_cell( 175, _("Title") );
     echo_header_cell( 100, _("Author") );
     echo_header_cell( 25, _("Diff.") );
-    if ( $show_pages_total )
-    {
-        echo_header_cell( 50, _("Total") );
-    }
+    echo_header_cell( 50, _("Total") );
     echo_header_cell(  75, _("PM") );
     echo_header_cell(  75, _("Checked Out By") );
     echo_header_cell( 180, _("Project Status") );
@@ -614,12 +609,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
 
         // Total
-        if ( $show_pages_total )
-        {
-            $totpag = $project->n_pages;
-
-            echo "<td align=\"center\">$totpag</td>\n";
-        }
+        echo "<td align=\"center\">{$project->n_pages}</td>\n";
 
 
         // PM
