@@ -658,6 +658,19 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             if ( user_is_a_sitemanager() || user_is_proj_facilitator() || $project->username == $pguser )
             {
                 print "<a href=\"editproject.php?action=edit&project=$projectid\">Edit</a>";
+
+                // Should we show an "attention" icon?
+                // Currently, we only do this if the Good Word Suggestions file
+                // has been modified more recently that the Good Words file.
+                // In future, there might be various reasons to do so.
+                // (But then what would we put in the tooltip?)
+                $f_gs = get_project_word_file( $projectid, 'good_suggs' );
+                $f_g  = get_project_word_file( $projectid, 'good' );
+                if ( $f_gs->mod_time > $f_g->mod_time )
+                {
+                    $tooltip = _('suggested word list has changed');
+                    echo " <img src='$code_url/graphics/exclamation.gif' title='$tooltip'>";
+                }
             }
             if ( $user_can_see_download_links )
             {
