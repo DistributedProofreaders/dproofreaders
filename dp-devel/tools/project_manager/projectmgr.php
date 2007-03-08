@@ -14,6 +14,7 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'ProjectTransition.inc');
 include_once($relPath.'genres.inc');
+include_once($relPath.'wordcheck_engine.inc');
 include_once('projectmgr.inc');
 
 class Widget
