@@ -559,7 +559,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     echo_header_cell( 175, _("Title") );
     echo_header_cell( 100, _("Author") );
     echo_header_cell( 25, _("Diff.") );
-    echo_header_cell( 50, _("Total") );
+    echo_header_cell( 50, _("Total Pages") );
     echo_header_cell(  75, _("PM") );
     echo_header_cell(  75, _("Checked Out By") );
     echo_header_cell( 180, _("Project Status") );
@@ -608,7 +608,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         echo "<td align=\"center\">$diff</td>\n";
 
 
-        // Total
+        // Total Pages
         echo "<td align=\"center\">{$project->n_pages}</td>\n";
 
 
