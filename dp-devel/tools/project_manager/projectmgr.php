@@ -663,7 +663,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                 $f_g  = get_project_word_file( $projectid, 'good' );
                 if ( $f_gs->mod_time > $f_g->mod_time )
                 {
-                    $tooltip = _('suggested word list has changed');
+                    $tooltip = _('"Suggestions from proofers" list has changed');
                     echo " <img src='$code_url/graphics/exclamation.gif' title='$tooltip'>";
                 }
             }
