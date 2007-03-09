@@ -447,13 +447,15 @@ function save_project_good_word_suggestions($projectid,$round,$page,$proofer,$wo
 
     $word_list=implode(' ',$words);
 
+    $time = time();
+
     $iw_name= "$projects_dir/$projectid/good_word_suggestions.txt";
     $fh = @fopen( $iw_name, "a" );
     // check to see that we were able to open the file
     if($fh) {
         // get an exclusive lock; lock is cleared by fclose
         flock($fh,LOCK_EX);
-        fputs($fh,"$round/$page/$proofer/$word_list\n");
+        fputs($fh,"$time/$round/$page/$proofer/$word_list\n");
         fclose($fh);
     } else {
         return "Error: Unable to write to file $iw_name\n";
@@ -462,7 +464,7 @@ function save_project_good_word_suggestions($projectid,$round,$page,$proofer,$wo
     return "Success";
 }
 
-function load_project_good_word_suggestions($projectid) {
+function load_project_good_word_suggestions($projectid,$start_time=0) {
     global $projects_dir;
 
     $wordsArray = array();
@@ -479,8 +481,13 @@ function load_project_good_word_suggestions($projectid) {
         while(!feof($fh)) {
             $line = chop(fgets($fh));
             if($line == "") continue;
-            list($round,$page,$proofer,$words) = explode('/',$line,4);
-                // (Need to limit the explosion to 4, because '/' might occur in $words.)
+
+            list($time,$round,$page,$proofer,$words) = explode('/',$line,5);
+                // (Need to limit the explosion to 5, because '/' might occur in $words.)
+
+            // skip this word if it occurs before $start_time
+            if($time < $start_time) continue;
+
             $words = explode(' ',$words);
             if(!is_array(@$wordsArray[$round][$page]))
                 $wordsArray[$round][$page] = array();
