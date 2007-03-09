@@ -323,6 +323,8 @@ function Page_saveAsDone( $projectid, $image, $round, $user, $page_text )
 
     _log_page_event( $projectid, $image, 'saveAsDone', $user, $round );
 
+    _project_set_t_last_page_done( $projectid, $timestamp );
+
     return $round->page_save_state;
 }
 
@@ -602,6 +604,15 @@ function _log_page_event( $projectid, $image, $event_type, $username, $round )
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function _project_set_t_last_page_done( $projectid, $timestamp )
+{
+    mysql_query("
+        UPDATE projects
+        SET t_last_page_done = $timestamp
+        WHERE projectid = '$projectid'
+    ") or die(mysql_error());
+}
 
 function _project_adjust_n_pages( $projectid, $adjustment )
 {
