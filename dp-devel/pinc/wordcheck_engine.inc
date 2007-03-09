@@ -485,7 +485,7 @@ function load_project_good_word_suggestions($projectid,$start_time=0) {
             list($time,$round,$page,$proofer,$words) = explode('/',$line,5);
                 // (Need to limit the explosion to 5, because '/' might occur in $words.)
 
-            // skip this word if it occurs before $start_time
+            // skip these words if they were saved before $start_time
             if($time < $start_time) continue;
 
             $words = explode(' ',$words);
