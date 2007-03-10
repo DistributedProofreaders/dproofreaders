@@ -137,9 +137,9 @@ span.mono
 
 <p>Some people will like to use WordCheck as a "first pass" through the page text to catch the more obvious OCR errors, and to highlight potential typographical errors and stealth scannos. Some folks believe that finding and fixing those types of errors before they proof the page in regular text-editing mode eliminates them as a possible source of distraction at finding other errors remaining in the page.</p>
 
-<p>Other people will prefer to proof the page in text-editing mode first, and then use the WordCheck as a "final pass" through the page to re-check the punctuation and potential stealth scannos one more time. Some folks feel a great deal of satisfaction in finding that any word which WordCheck may flag is actually a "false flag" since they see it as an affirmation of their proofing skills.</p>
+<p>Other people will prefer to proof the page in text-editing mode first, and then use the WordCheck as a "final pass" through the page to re-check the punctuation and potential stealth scannos one more time. Some folks feel a great deal of satisfaction in finding that any word which WordCheck may flag is actually a "false flag" since they see it as an affirmation of their proofreading skills.</p>
 
-<p>And other proofers will prefer other approaches to using WordCheck. Thus, run WordCheck at the time when it best fits into your particular page proofing method.</p>
+<p>And other proofers will prefer other approaches to using WordCheck. Thus, run WordCheck at the time when it best fits into your particular page proofreading method.</p>
 
 
 <h3><a name="ua_button"></a>What's the "Unflag All &amp; Suggest" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) and what does it do?</h3>

@@ -564,7 +564,7 @@ function echo_row( $name, $tooltip, $button_image_base, $accelerator )
 }
 
 echo_row( 'Help', 'Help', 'bt11', '1' );
-echo_row( 'Stop Proofreading', 'Stop Proofing without Saving', 'bt1', '9' );
+echo_row( 'Stop Proofreading', 'Stop Proofreading without Saving', 'bt1', '9' );
 echo_row( "Save as 'Done'", "Save as 'Done'", 'bt13', '' );
 echo_row( "Save as 'Done' & Proofread Next Page", "Save as 'Done' & Proofread Next Page", 'bt2', '8' );
 echo_row( "Save as 'In Progress'", "Save as 'In Progress'", 'bt3', '7' );
