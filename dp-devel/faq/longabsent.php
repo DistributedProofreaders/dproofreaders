@@ -14,7 +14,7 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 
 <h1 align="center">Welcome Back to Distributed Proofreaders, Alumni</h1>
 
-<h3 align="center">Version 1.1, generated April 14, 2006</h3>
+<h3 align="center">Version 1.2, updated March 10, 2007</h3>
 
 <table border="0" cellspacing="0" width="100%" summary="Proofreading Guidelines">
   <tbody>
@@ -26,13 +26,14 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 </table>
      <ul style="margin-left: 3em;">
         <li><a href="#welcome">Welcome</a></li>
-
-        <li><a href="#p1">Proofing Round One Duties</a></li>
-        <li><a href="#p2">Proofing Round Two Responsibilities</a></li>
+        <li><a href="#p1">Proofreading Round One Duties</a></li>
+        <li><a href="#p2">Proofreading Round Two Duties</a></li>
+	<li><a href="#p3">Proofreading Round Three Duties</a></li>
         <li><a href="#f1">The Formatting Rounds</a></li>
         <li><a href="#counts">Page Counts</a></li>
         <li><a href="#track">Your Projects</a></li>
-        <li><a href="#rprojects">(R) Projects</a></li>
+        <li><a href="#rprojects">{R} Projects</a></li>
+	<li><a href="#wordcheck">Wordcheck Word Lists and Interface</a></li>
         <li><a href="#links">Useful Links</a></li>
       </ul>
 
@@ -48,44 +49,45 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 <h2><a name="welcome">Welcome</a></h2>
 
 <p>Welcome to the new DP website! This Guideline describes some of the changes that
-   have been made to the site and the Proofing & Formatting structure as of June 2005.
+   have been made to the site and the Proofreading &amp; Formatting structure as of June 2005.
+   It also contains updates for changes as of June 2006 and March 2007.
 </p>
 
 <p>After a user has logged in, they will be directed to the Activity Hub, which
    has replaced the personal page.
 </p>
 
-<p>As part of the changes to the site, the proofing structure has been revised. 
-   Formerly in Round 1 and Round 2 proofing (correcting the text) and formatting 
+<p>As part of the changes to the site, the proofreading structure has been revised. 
+   Formerly in Round 1 and Round 2 proofreading (correcting the text) and formatting 
    (amending the text to DP formatting) were done simultaneously in each round.
    A project passed through two rounds before going onto to post-processing.
 </p>
 
-<p>In the new structure, R1 and R2 have been replaced by two proofing and two formatting 
-   rounds: P1, P2, F1 and F2. Thus a book will now progress through four rounds before 
+<p>In the new structure, R1 and R2 have been replaced by two (or possibly three) proofreading and two formatting 
+   rounds: P1, P2, P3, F1 and F2. Thus a book will now progress through four (or five) rounds before 
    going to post-processing.
 </p>
 
-<p>Most proofers on the new site have started in the P1 round. After volunteers 
+<p>Most proofreaders on the new site have started in the P1 round. After volunteers 
    have completed the requirements listed on the Activity Hub and/or in the
    <a href="<?=$Workflow_Change_Announcement_URL?>">Workflow Change
-   Announcement Thread</a>, they can move into P1, P2, and F2 rounds should they 
+   Announcement Thread</a>, they can move into P1, P2, P3, and F2 rounds should they 
    wish to do so. Each round's page can be visited from the Activity Hub, and the 
-   requirements for proofing in each round (for example, the number of pages 
+   requirements for proofreading in each round (for example, the number of pages 
    completed well in other rounds, time spent on site and passes on the quizzes) 
    are shown on that round's page.
 </p>
 
 <p>The duties for each round are as follows:</p>
 
-<h2><a name="p1">P1 Proofing Duties</a></h2>
+<h2><a name="p1">P1 Proofreading Duties</a></h2>
 
-<p>The aim of the P rounds is character proofing: to match letter for letter, 
+<p>The aim of the P rounds is character proofreading: to match letter for letter, 
    punctuation mark for punctuation mark, the original text as if the original 
    text had no italics, superscript numbers (footnotes), etc.
 </p>
 
-<p>Thus, proofers are responsible, among other things, for the following:</p>
+<p>Thus, proofreaders are responsible, among other things, for the following:</p>
 
 <ul style="margin-left: 2em;">
     <li>	checking each letter of the scan, reading the text closely and correcting 
@@ -98,9 +100,9 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
             around the numbers in the main text and using * for all symbolic footnotes.</li>
 </ul>
 
-<p>All these things require careful reading of the text and thus are the responsibility of proofers.</p>
+<p>All these items require careful reading of the text and thus are the responsibility of proofreaders.</p>
 
-<p>Proofers are no longer responsible for such things as: </p>
+<p>Proofreaders are no longer responsible for such things as: </p>
 <ul style="margin-left: 2em;">
     <li>	formatting the text: for example, adding markup for text style (italics, small caps etc.);</li>
     <li>	adding markup for sidenotes and footnotes;</li>
@@ -109,30 +111,40 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 </ul>
 
 <p>If some formatting has already been included, for example, indented lines in 
-   poetry, the formatting is <b>not</b> removed unless it is it surrounds OCR 
+   poetry, the formatting is <b>not</b> removed unless it surrounds OCR 
    garbage such as <tt>&lt;i&gt;</tt> *#4@P,,./<tt>&lt;/i&gt;</tt> . Even if 
    the formatting is wrong as in, <tt>&lt;i&gt;</tt>i.e<tt>&lt;/i&gt;</tt>., 
    please leave it to the formatters to repair and concentrate on the text.
 </p>
 
 <p>Please note that the above is by no means a comprehensive list. The P rounds 
-   have a revised set of <a href="<?=$code_url?>/faq/proofreading_guidelines.php">Proofing
+   have a revised set of <a href="<?=$code_url?>/faq/proofreading_guidelines.php">Proofreading
    Guidelines</a> to reflect the new responsibilities for this round and everyone is
    enthusiastically encouraged to check these Guidelines. There is also a new
-   <a href="<?=$code_url?>/quiz/start.php?show_only=PQ">Proofing Quiz</a>.
+   <a href="<?=$code_url?>/quiz/start.php?show_only=PQ">Proofreading Quiz</a>.
 </p>
 
-<p>P1 proofers should run a spell check on their pages.</p>
+<p>P1 proofreaders should run a spell check on their pages.</p>
 
-<h2><a name="p2">P2 Proofing Duties</a></h2>
+<h2><a name="p2">P2 Proofreading Duties</a></h2>
 
 <p>This is the close reading of pages already read in P1 for any small errors 
    that might have been missed in the P1 round. Otherwise, the responsibilities 
-   for this round are as per the P1 round. P2 proofers are required to run a spell 
+   for this round are as per the P1 round. P2 proofreaders are required to run a spell 
    check on their pages.
 </p>
 
-<h2><a name="f1">F1 & F2 Formatting Duties</a></h2>
+<h2><a name="p3">P3 Proofreading Duties</a></h2>
+
+<p>This is the very close examination of pages already read in P1 and/or P2 for any
+   remaining difficult-to-find errors which may have been missed in the previous 
+   proofreading round(s). Otherwise, the responsibilities for this round are identical
+   to the earlier proofreading rounds. P3 proofreaders are required to run a spell check
+   on their pages.
+</p>
+
+
+<h2><a name="f1">F1 &amp; F2 Formatting Duties</a></h2>
 
 <p>The aim of the F rounds is to insert all markup and formatting: for example, 
    footnotes and sidenotes markup, text style markup (italics, small caps, etc.), 
@@ -149,7 +161,7 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 
 <h2><a name="counts">Page Counts</a></h2>
 
-<p>When the site was re-launched all users' page counts were saved. Everybody has 
+<p>When the site was re-launched in June 2006, all users' page counts were saved. Everybody has 
    started with a zero page count on the new site. User page counts are now kept separately
    in each round.
 </p>
@@ -162,26 +174,35 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
    have worked on. Clicking on a book title will bring up the Project Page window. If 
    you are looking for your diffs pages, there is a new feature in the Page Details 
    row of the Project Page called &gt;&gt;Just my pages&lt;&lt;. Clicking on 
-   &gt;&gt;Just my pages&lt;&lt; will display the pages that you have proofed in a 
+   &gt;&gt;Just my pages&lt;&lt; will display the pages that you have proofread in a 
    book. Checking diffs has never been easier! An important additional feature on 
    the Diffs Page is that there is an &#8220;edit&#8221; link beside each page you 
-   have proofed. Clicking on &#8220;edit&#8221; will bring up the page should you 
-   want to make any amendments to previously proofed pages.
+   have proofread. Clicking on &#8220;edit&#8221; will bring up the page should you 
+   want to make any amendments to previously proofread pages.
 </p>
 
-<h2><a name="rprojects">(R) Projects</a></h2>
+<h2><a name="rprojects">{R} Projects</a></h2>
 
-
-<p>At the time of writing (June 2005) there are a number of projects in P1 with 
-   (R) after the title. These are projects that have been returned to the proofing 
+<p>(June 2005) At the time of writing there are a number of projects in the rounds with 
+   {R} after the title. These are projects that have been returned to the proofreading 
    rounds from the PP pool or from PPer's personal queues. As many of these projects 
-   mention on the Project Page, these projects have been proofed under older Guidelines. 
-   As per above, proofers should <b>not</b> remove or adjust any of the formatting. 
-   Formatting checks will be completed by the formatters. Proofers should proof 
+   mention on the Project Page, these projects have been proofread under older versions of the Guidelines. 
+   As per above, proofreaders should <b>not</b> remove or adjust any of the formatting. 
+   Formatting checks will be completed by the formatters. Proofreaders should proof 
    according to <a href="<?=$code_url?>/faq/proofreading_guidelines.php">current
    Guidelines</a>, for example, insert page numbers into tables of contents
    and indexes.
 </p>
+
+<h2><a name="wordcheck">Wordcheck Word Lists and Interface</a></h2>
+
+<p>(March 2007) The former spell check function in the Proofreading Interface has been superceded by
+Wordcheck. In this enhanced approach, projects can each have a project-specific set of
+"good" and "bad" word lists which affect how these words are presented to the proofreader
+when checking for spelling problems or steath scannos. Returning Project Managers should
+review the <a href="<?=$code_url?>/faq/wordcheck-faq.php">Wordcheck FAQ</a> which covers the details of the process.
+</p>
+
 
 <h2><a name="links">Useful Links</a></h2>
 
@@ -194,6 +215,7 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
     <li><a href="<?=$code_url?>/faq/formatting_summary.pdf">The Formatting Summary (PDF)</a></li>
     <li><a href="<?=$code_url?>/quiz/start.php?show_only=FQ">The Formatting Quiz</a></li>
     <li><a href="<?=$code_url?>/stats/stats_central.php">Statistics Central</a></li>
+    <li><a href="<?=$code_url?>/faq/wordcheck-faq.php">Wordcheck FAQ</a></li>
  </ul>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="silver" summary="Links">
@@ -206,7 +228,7 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 
      <a href="faq_central.php">DP FAQ Central page</a>,
      &nbsp;&nbsp;&nbsp;
-     <a href="http://www.gutenberg.org/">Project Gutenberg home page</a>.
+     <a href="<?=$PG_home_url?>">Project Gutenberg home page</a>.
      </font>
   </td>
 </tr>
@@ -215,5 +237,3 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 <?
 theme('','footer');
 ?>
-
-
