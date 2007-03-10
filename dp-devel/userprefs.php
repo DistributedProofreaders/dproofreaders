@@ -643,6 +643,7 @@ function echo_pm_tab() {
     global $userP;
     global $i_pm;
     global $userSettings;
+    global $send_to_post;
 
     echo "<tr>\n";
     show_preference(
@@ -651,7 +652,11 @@ function echo_pm_tab() {
         'dropdown',
         $i_pm
     );
+    echo "</tr>\n";
+
     $auto_proj_thread = $userSettings->get_boolean('auto_proj_thread');
+
+    echo "<tr>\n";
     show_preference(
         _('Automatically watch your project threads'), 'auto_proj_thread', 'auto_thread',
         ($auto_proj_thread ? 'yes' : 'no'),
@@ -659,6 +664,17 @@ function echo_pm_tab() {
         array( 'yes' => _('Yes'), 'no' => _('No') )
     );
     echo "</tr>\n";
+
+    $send_to_post = $userSettings->get_boolean('send_to_post'); 
+ 
+    echo "<tr>\n"; 
+    show_preference( 
+        _('Automatically send your projects to the post-processing pool'), 'send_to_post', 'pmto_post', 
+        ($send_to_post ? 'yes' : 'no'), 
+        'dropdown', 
+        array( 'yes' => _('Yes'), 'no' => _('No') ) 
+    ); 
+    echo "</tr>\n"; 
 
     echo "<tr><td bgcolor='#ffffff' colspan='6' align='center'>";
     echo_bottom_button_row();
@@ -670,6 +686,7 @@ function save_pm_tab() {
     global $i_pmdefault;
     global $auto_proj_thread;
     global $userSettings;
+    global $send_to_post;
 
     /*
         i_pmdefault is "Default PM Page"
@@ -680,10 +697,15 @@ function save_pm_tab() {
 
     echo mysql_error();
 
-    // remeber if the PM wants to be automatically signed up for email notifications of
+    // remember if the PM wants to be automatically signed up for email notifications of
     // replies made to their project threads
 
     $userSettings->set_boolean('auto_proj_thread', $auto_proj_thread == 'yes');
+ 
+    // remember if the PM wants to have their projects automatically assigned 
+    // to them for PP 
+     
+    $userSettings->set_boolean('send_to_post', $send_to_post == 'yes');
 
     dpsession_set_preferences_from_db();
 }
