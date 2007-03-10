@@ -49,11 +49,12 @@ To become a PM, send an email to <? echo $PM_rights_giver_contact; ?>.
 </ol>
 </li>
 
-<li>Project Manager pages
+<li>Project Manager Pages
 <ul>
 <li><a href='#project_search_page'>Project Search Page</a></li>
 <li><a href='#project_listings_page'>Project Listings Page</a></li>
 <li><a href='#project_detail_page'>Project Detail Page</a></li>
+<li><a href='#pm_preferences'>Project Manager Preferences</a></li>
 </ul>
 </li>
 
@@ -225,6 +226,16 @@ directory.
 The "Delete All Text" link (if present) is now at the very bottom of
 this page, to lessen the chance of hitting it by accident. This is a
 temporary measure until a proper "Are You Sure?" prompt is implemented.
+</p>
+
+<h3><a name='pm_preferences'>Project Manager Preferences</a></h3>
+
+<p>
+Under the "My Preferences" page linked at the top of most pages on the
+site, a tab will appear for Project Managing. From this tab, a PM can
+change several user preferences specific to managing projects. Clicking
+on the question mark next to each preference setting will pop up a new
+window which describes each setting in further detail.
 </p>
 
 <?
