@@ -250,17 +250,17 @@ $help['Return Page to Current Round'] = "
 </p>
 ";
 
-$help['Spell Check'] =
-$help['Run Spelling Check'] = "
+$help['WordCheck'] =
+$help['Run WordCheck'] = "
 <p>
-    <i>\"I want to check this page with the automatic spell checker.\"</i>
+    <i>\"I want to check this page with the automatic word checker.\"</i>
 </p>
 <p>
-    Loads the Spelling Check form.
+    Loads the WordCheck form.
     The text is checked for possible problems (misspelled words, scannos, etc).
     Problem words are presented as text boxes for possible correction.
 
-    See also the <a href=\"wordcheck-faq.php\">Spellcheck FAQ</a>.
+    See also the <a href=\"wordcheck-faq.php\">WordCheck FAQ</a>.
 </p>
 <p>
     When done, the corrections made can be submitted (applied) or cancelled.
@@ -427,7 +427,7 @@ if ( $i_type == 0 )
 	    'Switch to Vertical/Horizontal',
 	    'Return Page to Round',
 	    'Report Bad Page',
-	    'Spell Check'
+	    'WordCheck'
 	)
 	as $name )
     {
@@ -572,7 +572,7 @@ echo_row( 'Report Bad Page', 'Report Bad Page', 'bt14', '' );
 echo_row( 'Return Page to Current Round', 'Return Page to Current Round', 'bt15', '' );
 echo_row( 'Change Interface Layout', 'Change Interface Layout', 'bt4+bt5', '6' );
 // echo_row( 'Check for Common Errors', 'Check for Common Errors', 'bt6', '' );
-echo_row( 'Run Spelling Check', 'Run Spelling Check', 'bt16', '' );
+echo_row( 'Run WordCheck', 'Run WordCheck', 'bt16', '' );
 echo_row( 'View Project Comments', 'View Project Comments', 'bt12', '' );
 echo_row( 'Show All Text', 'Show All Text', 'bt9', '' );
 echo_row( 'Undo Revert', 'Undo Revert', 'bt7', '' );

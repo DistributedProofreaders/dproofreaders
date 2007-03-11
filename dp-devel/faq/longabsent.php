@@ -124,14 +124,14 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
    <a href="<?=$code_url?>/quiz/start.php?show_only=PQ">Proofreading Quiz</a>.
 </p>
 
-<p>P1 proofreaders should run a spell check on their pages.</p>
+<p>P1 proofreaders should run the WordCheck on their pages.</p>
 
 <h2><a name="p2">P2 Proofreading Duties</a></h2>
 
 <p>This is the close reading of pages already read in P1 for any small errors 
    that might have been missed in the P1 round. Otherwise, the responsibilities 
-   for this round are as per the P1 round. P2 proofreaders are required to run a spell 
-   check on their pages.
+   for this round are as per the P1 round. P2 proofreaders are required to run the
+   WordCheck on their pages.
 </p>
 
 <h2><a name="p3">P3 Proofreading Duties</a></h2>
@@ -139,7 +139,7 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 <p>This is the very close examination of pages already read in P1 and/or P2 for any
    remaining difficult-to-find errors which may have been missed in the previous 
    proofreading round(s). Otherwise, the responsibilities for this round are identical
-   to the earlier proofreading rounds. P3 proofreaders are required to run a spell check
+   to the earlier proofreading rounds. P3 proofreaders are required to run the WordCheck
    on their pages.
 </p>
 
@@ -197,7 +197,7 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 <h2><a name="wordcheck">Wordcheck Word Lists and Interface</a></h2>
 
 <p>(March 2007) The former spell check function in the Proofreading Interface has been superceded by
-Wordcheck. In this enhanced approach, projects can each have a project-specific set of
+WordCheck. In this enhanced approach, projects can each have a project-specific set of
 "good" and "bad" word lists which affect how these words are presented to the proofreader
 when checking for spelling problems or steath scannos. Returning Project Managers should
 review the <a href="<?=$code_url?>/faq/wordcheck-faq.php">Wordcheck FAQ</a> which covers the details of the process.
