@@ -27,7 +27,7 @@ theme('Proofreading Guidelines','header');
 
 <h1 align="center">Proofreading Guidelines</h1>
 
-<h3 align="center">Version 1.9.c, generated January 1, 2006 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.9.d, generated March 10, 2007 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <h4>Proofreading Guidelines <a href="proofreading_guidelines_francaises.php">in French</a> /
@@ -91,6 +91,7 @@ theme('Proofreading Guidelines','header');
         <li><a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a></li>
         <li><a href="#eol_hyphen">End-of-line Hyphenation</a></li>
         <li><a href="#eop_hyphen">End-of-page Hyphenation</a></li>
+        <li><a href="#next_word">Single word at bottom of page</a></li>
         <li><a href="#para_space">Paragraph Spacing/Indenting</a></li>
         <li><a href="#mult_col">Multiple Columns</a></li>
         <li><a href="#blank_pg">Blank Page</a></li>
@@ -148,7 +149,7 @@ theme('Proofreading Guidelines','header');
 <p>The final electronic book seen by a reader, possibly many years in the future, should accurately convey
    the intent of the author. If the author spelled words oddly, we leave them spelled that way. If the author
    wrote outrageous racist or biased statements, we leave them that way. If the author puts italics, bold text
-   or a footnote every third word, we mark them italicized, bolded or footnoted. We are proofreaders, 
+   or a footnote every third word, we mark them italicized, bolded or footnoted. We are proofreaders,
    <b>not</b> editors. (See <a href="#p_errors">Printer's Errors</a> for proper handling of obvious misprints.)
 </p>
 <p>We do change minor typographical conventions that don't affect the sense of what the author wrote.
@@ -325,8 +326,8 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
 <p>The guidelines are different for English and Languages Other Than English (LOTE).
 </p>
 <p><b>ENGLISH</b>:
-   Leave a space before the three dots, and a space after. The exception is at the end of 
-   a sentence, when there would be no space, four dots, and a space after. This is also 
+   Leave a space before the three dots, and a space after. The exception is at the end of
+   a sentence, when there would be no space, four dots, and a space after. This is also
    the case for any other ending punctuation mark: the 3 dots follow immediately, without any space.
 </p>
 <p>For example:<br>
@@ -345,13 +346,25 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
    to bring the number to three (or four) as appropriate.
 </p>
 
-<p><b>LOTE:</b> (Languages Other Than English) Use the general rule "Follow closely the style 
-   used in the printed page." In particular,  insert spaces, if there are spaces before or 
-   between the periods, and use the same number of periods as appear in the image. Sometimes 
-   the printed page is unclear: in that case, insert a <tt>[**unclear]</tt> to draw the 
+<p><b>LOTE:</b> (Languages Other Than English) Use the general rule "Follow closely the style
+   used in the printed page." In particular,  insert spaces, if there are spaces before or
+   between the periods, and use the same number of periods as appear in the image. Sometimes
+   the printed page is unclear: in that case, insert a <tt>[**unclear]</tt> to draw the
    attention of the post-processor.
    (Note: Post-Processors should replace those regular spaces with non-breaking spaces.)
 </p>
+
+<h3><a name="next_word">Single word at bottom of page</a></h3>
+<p>Format these by deleting the word, even if it's the second half of a hyphenated word.
+</p>
+<p>In some older books, the single word at the bottom of the page (called a "catchword", usually
+   printed near the right margin) indicates the first word on the next page of the book (called
+   an "incipit"). It was used to alert the printer to print the correct reverse (called "verso");
+   to make it easier for printers' helpers to make up the pages prior to binding; also to help
+   the reader avoid turning over more than one page.
+</p>
+<!-- END RR -->
+<!-- We need an example here! -->
 
 <h3><a name="contract">Contractions</a></h3>
 <p>Remove any extra space in contractions: for example, <tt>would&nbsp;n't</tt> should
@@ -400,7 +413,7 @@ the formatters can easily find them.
 <p><i>Italicized</i> text may occasionally appear with <tt>&lt;i&gt;</tt> inserted at the start and
    <tt>&lt;/i&gt;</tt> inserted at the end of the italics. <b>Bold text</b> (text printed in a heavier
    typeface) may occasionally appear with <tt>&lt;b&gt;</tt> inserted before the bold text and <tt>&lt;/b&gt;</tt>
-   after it. Do not remove this formatting information, unless it surrounds junk that does not appear 
+   after it. Do not remove this formatting information, unless it surrounds junk that does not appear
    on the page. Do not add it where it does not appear. The formatters will do that later in the process.
 </p>
 <!-- END RR -->
@@ -621,7 +634,7 @@ the formatters can easily find them.
       <td> </td><td> </td>
       <td> </td><td> </td>
       <td align="center" bgcolor="mistyrose" title="Capital N tilde"       >&Ntilde; </td><td>Alt-0209</td>
-      <td align="center" bgcolor="mistyrose" title="Capital Y umlaut"      >&Yuml;   </td><td>Alt-0159</td>
+      <td align="center" bgcolor="mistyrose" title=""></td><td></td>
       <td align="center" bgcolor="mistyrose" title="Pounds"                >&pound;  </td><td>Alt-0163</td>
       <td align="center" bgcolor="mistyrose" title="Multiplication"        >&times;  </td><td>Alt-0215</td>
   </tr>
@@ -683,8 +696,8 @@ the formatters can easily find them.
   </tr>
   </tbody>
 </table>
-<p><sup><small>1</small></sup>Unless specifically requested by the <a href="#comments">Project 
-   Comments</a>, please do not use the fraction symbols, but instead use the guidelines for 
+<p><sup><small>1</small></sup>Unless specifically requested by the <a href="#comments">Project
+   Comments</a>, please do not use the fraction symbols, but instead use the guidelines for
    <a href="#fract_s">Fractions</a>. (1/2, 1/4, 3/4, etc.)</p>
 
 
@@ -741,7 +754,7 @@ the formatters can easily find them.
       <td align="center" bgcolor="mistyrose" title="Small a ring"          >&aring;  </td><td>Opt-a   </td>
       <td align="center" bgcolor="mistyrose" title="Small ae ligature"     >&aelig;  </td><td>Opt-'   </td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital A grave"       >&Agrave; </td><td>Opt-~, A</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital A grave"       >&Agrave; </td><td>Opt-`, A</td>
       <td align="center" bgcolor="mistyrose" title="Capital A acute"       >&Aacute; </td><td>Opt-e, A</td>
       <td align="center" bgcolor="mistyrose" title="Capital A circumflex"  >&Acirc;  </td><td>Opt-i, A</td>
       <td align="center" bgcolor="mistyrose" title="Capital A tilde"       >&Atilde; </td><td>Opt-n, A</td>
@@ -749,7 +762,7 @@ the formatters can easily find them.
       <td align="center" bgcolor="mistyrose" title="Capital A ring"        >&Aring;  </td><td>Opt-A   </td>
       <td align="center" bgcolor="mistyrose" title="Capital AE ligature"   >&AElig;  </td><td>Opt-"   </td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small e grave"         >&egrave; </td><td>Opt-~, e</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Small e grave"         >&egrave; </td><td>Opt-`, e</td>
       <td align="center" bgcolor="mistyrose" title="Small e acute"         >&eacute; </td><td>Opt-e, e</td>
       <td align="center" bgcolor="mistyrose" title="Small e circumflex"    >&ecirc;  </td><td>Opt-i, e</td>
       <td> </td><td> </td>
@@ -757,7 +770,7 @@ the formatters can easily find them.
       <td> </td><td> </td>
       <td> </td><td> </td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital E grave"       >&Egrave; </td><td>Opt-~, E</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital E grave"       >&Egrave; </td><td>Opt-`, E</td>
       <td align="center" bgcolor="mistyrose" title="Capital E acute"       >&Eacute; </td><td>Opt-e, E</td>
       <td align="center" bgcolor="mistyrose" title="Capital E circumflex"  >&Ecirc;  </td><td>Opt-i, E</td>
       <td> </td><td> </td>
@@ -765,7 +778,7 @@ the formatters can easily find them.
       <td> </td><td> </td>
       <td> </td><td> </td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small i grave"         >&igrave; </td><td>Opt-~, i</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Small i grave"         >&igrave; </td><td>Opt-`, i</td>
       <td align="center" bgcolor="mistyrose" title="Small i acute"         >&iacute; </td><td>Opt-e, i</td>
       <td align="center" bgcolor="mistyrose" title="Small i circumflex"    >&icirc;  </td><td>Opt-i, i</td>
       <td> </td><td> </td>
@@ -781,7 +794,7 @@ the formatters can easily find them.
       <th colspan=2 bgcolor="cornsilk">/ slash</th>
       <th colspan=2 bgcolor="cornsilk">&OElig; ligature</th>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small o grave"         >&ograve; </td><td>Opt-~, o</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Small o grave"         >&ograve; </td><td>Opt-`, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o acute"         >&oacute; </td><td>Opt-e, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o circumflex"    >&ocirc;  </td><td>Opt-i, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Opt-n, o</td>
@@ -789,7 +802,7 @@ the formatters can easily find them.
       <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Opt-o   </td>
       <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>Use [oe]</td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Opt-~, O</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Opt-`, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Opt-e, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital I circumflex"  >&Ocirc;  </td><td>Opt-i, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Opt-n, O</td>
@@ -797,7 +810,7 @@ the formatters can easily find them.
       <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Opt-O   </td>
       <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>Use [OE]</td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Opt-~, u</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Opt-`, u</td>
       <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Opt-e, u</td>
       <td align="center" bgcolor="mistyrose" title="Small u circumflex"    >&ucirc;  </td><td>Opt-i, u</td>
       <td> </td><td> </td>
@@ -805,7 +818,7 @@ the formatters can easily find them.
       <td> </td><td> </td>
       <td> </td><td> </td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital U grave"       >&Ugrave; </td><td>Opt-~, U</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital U grave"       >&Ugrave; </td><td>Opt-`, U</td>
       <td align="center" bgcolor="mistyrose" title="Capital U acute"       >&Uacute; </td><td>Opt-e, U</td>
       <td align="center" bgcolor="mistyrose" title="Capital U circumflex"  >&Ucirc;  </td><td>Opt-i, U</td>
       <td> </td><td> </td>
@@ -819,13 +832,13 @@ the formatters can easily find them.
       <td align="center" bgcolor="mistyrose" title="Small n tilde"         >&ntilde; </td><td>Opt-n, n</td>
       <td align="center" bgcolor="mistyrose" title="Small y umlaut"        >&yuml;   </td><td>Opt-u, y</td>
       <td align="center" bgcolor="mistyrose" title="Cents"                 >&cent;   </td><td>Opt-4   </td>
-      <td align="center" bgcolor="mistyrose" title="plus/minus"            >&plusmn; </td><td>Opt-+   </td>
+      <td align="center" bgcolor="mistyrose" title="plus/minus"            >&plusmn; </td><td>Shift-Opt-=</td>
   </tr>
   <tr><td> </td><td> </td>
       <td> </td><td> </td>
       <td> </td><td> </td>
       <td align="center" bgcolor="mistyrose" title="Capital N tilde"       >&Ntilde; </td><td>Opt-n, N</td>
-      <td align="center" bgcolor="mistyrose" title="Capital Y umlaut"      >&Yuml;   </td><td>Opt-u, Y</td>
+      <td align="center" bgcolor="mistyrose" title=""></td><td></td>
       <td align="center" bgcolor="mistyrose" title="Pounds"                >&pound;  </td><td>Opt-3   </td>
       <td align="center" bgcolor="mistyrose" title="Multiplication"        >&times;  </td><td>(none)&nbsp;&dagger;</td>
   </tr>
@@ -846,12 +859,12 @@ the formatters can easily find them.
       <td align="center" bgcolor="mistyrose" title="Logical Not"           >&not;    </td><td>Opt-l   </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Capital C cedilla"     >&Ccedil; </td><td>Opt-C   </td>
-      <td align="center" bgcolor="mistyrose" title="Small thorn"           >&thorn;  </td><td>Shift-Opt-6</td>
+      <td align="center" bgcolor="mistyrose" title="Small thorn"           >&thorn;  </td><td>(none)&nbsp;&Dagger;  </td>
       <td align="center" bgcolor="mistyrose" title="Registration Mark"     >&reg;    </td><td>Opt-r   </td>
       <td align="center" bgcolor="mistyrose" title="umlaut accent"         >&uml;    </td><td>Opt-U   </td>
       <td align="center" bgcolor="mistyrose" title="Inverted Exclamation"  >&iexcl;  </td><td>Opt-1   </td>
-      <td align="center" bgcolor="mistyrose" title="General Currency"      >&curren; </td><td>Shift-Opt-2</td>
-      <td align="center" bgcolor="mistyrose" title="Degrees"               >&deg;    </td><td>Opt-*   </td>
+      <td align="center" bgcolor="mistyrose" title="General Currency"      >&curren; </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="Degrees"               >&deg;    </td><td>Shift-Opt-8   </td>
   </tr>
   <tr><th colspan=2 bgcolor="cornsilk">superscripts        </th>
       <td align="center" bgcolor="mistyrose" title="Capital Eth"           >&ETH;    </td><td>(none)&nbsp;&Dagger;  </td>
@@ -873,7 +886,7 @@ the formatters can easily find them.
       <th colspan=2 bgcolor="cornsilk">sz ligature        </th>
       <td align="center" bgcolor="mistyrose" title="Section"               >&sect;   </td><td>Opt-6   </td>
       <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Middle dot"            >&middot; </td><td>Opt-8  </td>
+      <td align="center" bgcolor="mistyrose" title="Middle dot"            >&middot; </td><td>Shift-Opt-9  </td>
       <td align="center" bgcolor="mistyrose" title="Masculine Ordinal"     >&ordm;   </td><td>Opt-0   </td>
       <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; </td><td>(none)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
   </tr>
@@ -881,7 +894,7 @@ the formatters can easily find them.
       <td align="center" bgcolor="mistyrose" title="sz ligature"           >&szlig;  </td><td>Opt-s   </td>
       <td align="center" bgcolor="mistyrose" title="Broken Vertical bar"   >&brvbar; </td><td>(none)&nbsp;&Dagger;  </td>
       <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="asterisk"              >&#042;   </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="asterisk"              >&#042;   </td><td>Shift-8 </td>
       <td align="center" bgcolor="mistyrose" title="Feminine Ordinal"      >&ordf;   </td><td>Opt-9   </td>
       <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; </td><td>(none)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
   </tr>
@@ -889,8 +902,8 @@ the formatters can easily find them.
 </table>
 <p>&Dagger;&nbsp;Note: No equivalent shortcut, use drop-down menus.
 </p>
-<p><sup><small>1</small></sup>Unless specifically requested by the <a href="#comments">Project 
-   Comments</a>, please do not use the fraction symbols, but instead use the guidelines for 
+<p><sup><small>1</small></sup>Unless specifically requested by the <a href="#comments">Project
+   Comments</a>, please do not use the fraction symbols, but instead use the guidelines for
    <a href="#fract_s">Fractions</a>. (1/2, 1/4, 3/4, etc.)
 </p>
 
@@ -1085,11 +1098,11 @@ than the Latin A...Z&mdash;for example, Greek, Cyrillic, Hebrew, or Arabic.
     <br>Proofread these as two hyphens if the em-dash is short and four hyphens if the em-dash is long. Don't leave a space before or after,
         even if it looks like there was a space in the original book image.
     </li>
-    <li><i>Deliberately Omitted or Censored Words or Names</i>.  
+    <li><i>Deliberately Omitted or Censored Words or Names</i>.
     <br>Proofread these as 4 hyphens. When it represents a word, we leave appropriate space
         around it like it's really a word. If it's only part of a word, then no
         spaces&mdash;join it with the rest of the word. If the em-dash looks as if it is
-        the size of the rest of the smaller em-dashes, then proof it as a single em-dash, 
+        the size of the rest of the smaller em-dashes, then proof it as a single em-dash,
         i.e. two dashes.
     </li>
   </ol>
@@ -1481,7 +1494,7 @@ The number, letter, or other character that marks a footnote location should be 
    Leave the footnote text at the bottom of the page.  Be sure to use the same tag in the footnote as
    you used in the text where the footnote was referenced.
 </p>
-<p>Place each footnote on a separate line in order of appearance. Place a blank line between each 
+<p>Place each footnote on a separate line in order of appearance. Place a blank line between each
    footnote if there is more than one.
 </p>
 
@@ -1688,7 +1701,7 @@ and he knew, when he had done it, and to his</tt>
     that such as looked at the fire holding a bit of larkspur<br>
     before their face would be troubled by no malady of the<br>
     eyes throughout the year.[1] Further, it was customary at<br>
-    Würzburg, in the sixteenth century, for the bishop's followers<br>
+    Wrzburg, in the sixteenth century, for the bishop's followers<br>
     to throw burning discs of wood into the air from a mountain<br>
     which overhangs the town. The discs were discharged by<br>
     means of flexible rods, and in their flight through the darkness<br>
@@ -1740,8 +1753,8 @@ and he knew, when he had done it, and to his</tt>
     German superstition that a house which<br>
     contains a brand from the midsummer<br>
     bonfire will not be struck by lightning<br>
-    (J. W. Wolf, Beiträge zur deutschen<br>
-    Mythologie, i. p. 217, § 185).<br>
+    (J. W. Wolf, Beitrï¿½e zur deutschen<br>
+    Mythologie, i. p. 217,  185).<br>
     <br>
     2 J. Boemus, Mores, leges et ritus<br>
     omnium gentium (Lyons, 1541), p.<br>
@@ -1752,12 +1765,12 @@ and he knew, when he had done it, and to his</tt>
     pp. 181 sqq.; W. Mannhardt, Der<br>
     Baumkultus, p. 510.<br>
     <br>
-    4 A. Birlinger, Volksthümliches aus<br>
+    4 A. Birlinger, Volksthmliches aus<br>
     Schwaben (Freiburg im Breisgau, 1861-1862),<br>
-    ii. pp. 96 sqq., § 128, pp. 103<br>
-    sq., § 129; id., Aus Schwaben (Wiesbaden,<br>
+    ii. pp. 96 sqq.,  128, pp. 103<br>
+    sq.,  129; id., Aus Schwaben (Wiesbaden,<br>
     1874), ii. 116-120; E. Meier,<br>
-    Deutsche Sagen, Sitten und Gebräuche<br>
+    Deutsche Sagen, Sitten und Gebrï¿½che<br>
     aus Schwaben (Stuttgart, 1852), pp.<br>
     423 sqq.; W. Mannhardt, Der Baumkultus,<br>
     p. 510.<br>

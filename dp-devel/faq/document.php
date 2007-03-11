@@ -29,7 +29,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 <h1 align="center">Formatting Guidelines</h1>
 
-<h3 align="center">Version 1.9.c, generated January 1, 2006 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.9.d, generated March 10, 2007 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  <!-- <a href="dochist.php"><font size="-1">(Revision History)</font></a> --></h3>
 
 <h4>Formatting Guidelines <a href="formatting_guidelines_francaises.php">in French</a> /
@@ -89,6 +89,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
         <li><a href="#subscr">Subscripts</a></li>
         <li><a href="#underl">Underlined Text</a></li>
         <li><a href="#spaced">S p a c e d &nbsp; O u t &nbsp; Text (gesperrt)</a></li>
+        <li><a href="#font_ch">Font Changes</a></li>
         <li><a href="#font_sz">Font size changes</a></li>
         <li><a href="#word_caps">Words in all Capitals</a></li>
         <li><a href="#small_caps">Words in <span style="font-variant: small-caps">Small Capitals</span></a></li>
@@ -278,8 +279,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    on the <a href="#comments">Project Comments</a> page. These pages will display an "Edit"
    link next to the pages you have worked on in the current round that can still be corrected.
 </p>
-<p>For more detailed information, refer to either the <a href="prooffacehelp.php?i_type=0">Standard 
-   Proofreading Interface Help</a> or the <a href="prooffacehelp.php?i_type=1">Enhanced Proofreading 
+<p>For more detailed information, refer to either the <a href="prooffacehelp.php?i_type=0">Standard
+   Proofreading Interface Help</a> or the <a href="prooffacehelp.php?i_type=1">Enhanced Proofreading
    Interface Help</a>, depending on which interface you are using.
 </p>
 <!-- END RR -->
@@ -518,8 +519,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>A chapter header may start a bit farther down the page than the <a href="#page_hf">page header</a>
    and won't have a page number on the same line. Chapter Headers are often printed all caps; if so,
-   keep them as all caps. Chapter Headers are usually printed in a larger font which may appear to be
-   bold, but we do not mark them as bold text; however you should include italics or small-caps markup
+   keep them as all caps. Chapter Headers are usually printed in a different or larger font which
+   may appear to be bold or spaced out, but we do not mark them as a different font or
+   as bold or spaced text; however you should include italics or small-caps markup
    if it appears in the header.
 </p>
 <p>Put 4 blank lines before the "CHAPTER XXX". Include these blank
@@ -593,9 +595,10 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Some texts have sections within chapters. Format these headers as they appear in the text.
    Leave 2 blanks lines before the header and one after, unless the Project Manager has requested
    otherwise. If you are not sure if a header indicates a chapter or a section, post a question in
-   the Project Thread, noting the page number. Section Headers are often printed in a larger font
-   which may appear to be bold, but we do not mark them as bold text; however you should include
-   italics or small-caps markup if it appears in the header.
+   the Project Thread, noting the page number. Section Headers are often printed in a different
+   or larger font which may appear to be bold or spaced out, but we do not mark them as a
+   different font or as bold or spaced text; however you should include italics or small-caps
+   markup if it appears in the header.
 </p>
 
 <h3><a name="maj_div">Other Major Divisions in Texts</a></h3>
@@ -653,7 +656,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     that such as looked at the fire holding a bit of larkspur<br>
     before their face would be troubled by no malady of the<br>
     eyes throughout the year.[1] Further, it was customary at<br>
-    Würzburg, in the sixteenth century, for the bishop's followers<br>
+    Wrzburg, in the sixteenth century, for the bishop's followers<br>
     to throw burning discs of wood into the air from a mountain<br>
     which overhangs the town. The discs were discharged by<br>
     means of flexible rods, and in their flight through the darkness<br>
@@ -704,8 +707,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     German superstition that a house which<br>
     contains a brand from the midsummer<br>
     bonfire will not be struck by lightning<br>
-    (J. W. Wolf, &lt;i&gt;Beiträge zur deutschen<br>
-    Mythologie&lt;/i&gt;, i. p. 217, § 185).]<br>
+    (J. W. Wolf, &lt;i&gt;Beitrï¿½e zur deutschen<br>
+    Mythologie&lt;/i&gt;, i. p. 217,  185).]<br>
     <br>
     [Footnote 2: J. Boemus, &lt;i&gt;Mores, leges et ritus<br>
     omnium gentium&lt;/i&gt; (Lyons, 1541), p.<br>
@@ -716,12 +719,12 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     pp. 181 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der<br>
     Baumkultus&lt;i&gt;, p. 510.]<br>
     <br>
-    [Footnote 4: A. Birlinger, &lt;i&gt;Volksthümliches aus<br>
+    [Footnote 4: A. Birlinger, &lt;i&gt;Volksthmliches aus<br>
     Schwaben&lt;/i&gt; (Freiburg im Breisgau, 1861-1862),<br>
-    ii. pp. 96 &lt;i&gt;sqq.&lt;/i&gt;, § 128, pp. 103<br>
-    &lt;i&gt;sq.&lt;/i&gt;, § 129; &lt;i&gt;id., Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
+    ii. pp. 96 &lt;i&gt;sqq.&lt;/i&gt;,  128, pp. 103<br>
+    &lt;i&gt;sq.&lt;/i&gt;,  129; &lt;i&gt;id., Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
     1874), ii. 116-120; E. Meier,<br>
-    &lt;i&gt;Deutsche Sagen, Sitten und Gebräuche<br>
+    &lt;i&gt;Deutsche Sagen, Sitten und Gebrï¿½che<br>
     aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.<br>
     423 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der Baumkultus&lt;/i&gt;,<br>
     p. 510.]<br>
@@ -859,7 +862,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    with the footnote text placed in between, and the footnote number or letter placed where the # is
    shown in the tag. Format the footnote text as it is printed, preserving the line breaks, italics, etc.
    Leave the footnote text at the bottom of the page.  Be sure to use the same tag in the footnote as
-   you used in the text where the footnote was referenced. Place each footnote on a separate line in 
+   you used in the text where the footnote was referenced. Place each footnote on a separate line in
    order of appearance. Place a blank line between each footnote if there is more than one.
 </p>
 <!-- END RR -->
@@ -1005,7 +1008,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>For dates and similar phrases, format the entire phrase as
    italics, rather than marking the words as italics and the numbers as non-italics.
    The reason is that many typefaces found in older texts used the same design for numbers
-   in both regular and italics. 
+   in both regular and italics.
 </p>
 <p>If the italicized text consists of a series/list of words or names, mark these up with
    italics tags individually.
@@ -1123,19 +1126,48 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 <h3><a name="spaced">S p a c e d &nbsp; O u t &nbsp; Text (gesperrt)</a></h3>
-<p>Format &nbsp; s p a c e d &nbsp; o u t &nbsp; text as <a href="#italics">Italics</a>, with <tt>&lt;i&gt;</tt> and
-   <tt>&lt;/i&gt;</tt>, and remove the extra spaces between letters in each word. (Note the "/" in the closing tag.)
+<p>Format &nbsp; s p a c e d &nbsp; o u t &nbsp; text with <tt>&lt;g&gt;</tt> inserted
+   before the text and <tt>&lt;/g&gt;</tt> after it. (Note the "/" in the closing
+   tag.) Remove the extra spaces between letters in each word.
 </p>
-<p>This was a typesetting technique used to emphasize a piece of text in older German (and some
-   Italian) books. Italics serve that purpose for modern readers, and extra spacing may not be
-   clear on all the different screen sizes &amp; fonts where people may read the final e-book.
+<p>Punctuation goes <b>outside</b> the tags, unless it is an entire sentence or section
+   that is spaced out, or the punctuation is itself part of a phrase that is spaced out.
+</p>
+<p>This was a typesetting technique used to emphasize a piece of text in some older books,
+   especially in German.
+</p>
+
+<h3><a name="font_ch">Font Changes</a></h3>
+<p>Format a change of font within a paragraph or line of normal text by inserting <tt>&lt;f&gt;</tt> before
+   the change in font and <tt>&lt;/f&gt;</tt> after it. (Note the "/" in the closing tag.)
+   Use this markup to identify any special font or other formatting, <b>except</b> bold,
+   italic, small capped, and spaced out text, which have their own tags.
+</p>
+<p>Possible uses of this markup include:</p>
+<ul compact>
+  <li>antiqua (a variant of roman font) inside fraktur</li>
+  <li>blackletter within a section of regular font</li>
+  <li>smaller or larger font only if it is <b>within</b> a paragraph in regular font
+    (for a whole paragraph in a different font or size, see the
+    <a href="#block_qt">block quotation</a> section)</li>
+  <li>upright font inside of a paragraph of italicized text</li>
+</ul>
+<p>The particular use or uses of this markup in a project will usually be spelled
+   out in the <a href="#comments">Project Comments</a>. Formatters should post in the
+   <a href="#forums">Project Discussion</a> if the markup appears to be needed
+   and has not yet been discussed.
+</p>
+<p>Punctuation goes <b>outside</b> the tags, unless it is an entire sentence
+   that is in a different font, or the punctuation is itself part of a phrase, title,
+   or abbreviation in the different font.
 </p>
 
 <h3><a name="font_sz">Font size changes</a></h3>
 <p>Normally we do not do anything to mark changes in font size.
 </p>
-<p>The exception to this is when the font size changes to indicate a
-   <a href="#block_qt">block quotation</a>.
+<p>The exceptions to this are when the font size changes to indicate a
+   <a href="#block_qt">block quotation</a>, or when the font size changes within a single
+   paragraph or line of text (see <a href="#font_ch">Font Changes</a>).
 </p>
 
 <h3><a name="word_caps">Words in all Capitals</a></h3>
@@ -1168,7 +1200,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 <p>Words in headings (Chapter Headings, Section Headings, Captions, etc.) that are entirely all-capped
-   should be formatted as all-caps without any &lt;sc&gt; &lt;/sc&gt;. The first word of a chapter 
+   should be formatted as all-caps without any &lt;sc&gt; &lt;/sc&gt;. The first word of a chapter
    that is in Small Caps should be changed to mixed case without the tags.
 </p>
 
@@ -1197,7 +1229,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <br>Format these as two hyphens if the em-dash is short and four hyphens if the em-dash is long. Don't leave a space before or after,
         even if it looks like there was a space in the original book image.
     </li>
-    <li><i>Deliberately Omitted or Censored Words or Names</i>. 
+    <li><i>Deliberately Omitted or Censored Words or Names</i>.
     <br>Format these as 4 hyphens. When it represents a word, we leave appropriate space
         around it like it's really a word. If it's only part of a word, then no
         spaces&mdash;join it with the rest of the word.
@@ -1500,7 +1532,7 @@ and he knew, when he had done it, and to his</tt>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-<p><tt>&lt;i&gt;John James Audubon to Claude François Rozier&lt;/i&gt;</tt></p>
+<p><tt>&lt;i&gt;John James Audubon to Claude Franï¿½is Rozier&lt;/i&gt;</tt></p>
 <p><tt>[Letter No. 1, addressed]</tt></p>
 <p><tt>/*<br>
 &lt;sc&gt;M. Fr. Rozier&lt;/sc&gt;,<br>
@@ -1540,7 +1572,7 @@ pleasure in making our return.</tt>
 <pre>
 Andersen, Hans Christian   Daguerre, Louis J. M.    Melville, Herman
 Bach, Johann Sebastian     Darwin, Charles          Newton, Isaac
-Balboa, Vasco Nunez de     Descartes, René          Pasteur, Louis
+Balboa, Vasco Nunez de     Descartes, Renï¿½         Pasteur, Louis
 Bierce, Ambrose            Earhart, Amelia          Poe, Edgar Allan
 Carroll, Lewis             Einstein, Albert         Ponce de Leon, Juan
 Churchill, Winston         Freud, Sigmund           Pulitzer, Joseph
@@ -1566,7 +1598,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     Curie, Marie<br>
     Daguerre, Louis J. M.<br>
     Darwin, Charles<br>
-    Descartes, René<br>
+    Descartes, Renï¿½br>
     Earhart, Amelia<br>
     Einstein, Albert<br>
     Freud, Sigmund<br>
@@ -1798,7 +1830,7 @@ the quotes will be changed to ones used in the text in post-processing.
  languages, such as French, which normally use spaces before punctuation characters.
 </p>
 <p>Spaces before punctuation sometimes appear because books typeset in the 1700's &amp; 1800's
-   often used partial spaces before punctuation such as a semicolon or comma. 
+   often used partial spaces before punctuation such as a semicolon or comma.
 </p>
 <!-- END RR -->
 
@@ -1869,12 +1901,12 @@ the quotes will be changed to ones used in the text in post-processing.
    of suspense. This is intended by the author, so we preserve them by putting a blank line,
    <tt>&lt;tb&gt;</tt>, and then another blank line.
 </p>
-<p>Project Managers and/or Post-Processors may make the request for additional information 
-   to be retained in the thought break mark-up. For example, some projects delineate different 
-   types of breaks by the use of different styles of break such as a line of stars in one place 
-   and a blank line in another. In these cases, the Project Comments may request that these be 
-   marked up: <tt>&lt;tb stars&gt;</tt> and <tt>&lt;tb&gt;</tt>. Please, as always, read the 
-   project comments carefully so that you will know what is required for each project. Also 
+<p>Project Managers and/or Post-Processors may make the request for additional information
+   to be retained in the thought break mark-up. For example, some projects delineate different
+   types of breaks by the use of different styles of break such as a line of stars in one place
+   and a blank line in another. In these cases, the Project Comments may request that these be
+   marked up: <tt>&lt;tb stars&gt;</tt> and <tt>&lt;tb&gt;</tt>. Please, as always, read the
+   project comments carefully so that you will know what is required for each project. Also
    be careful not to carry these special requests into other projects with different requirements.
 </p>
 <p>Sometimes printers used decorative lines to mark the ends of chapters. As we already mark
@@ -1942,11 +1974,11 @@ the quotes will be changed to ones used in the text in post-processing.
 <p>Remove extra dots, if any, or add new ones, if necessary, to bring the number to three (or four) as appropriate.
 </p>
 
-<p><b>LOTE:</b> (Languages Other Than English) <p><b>LOTE:</b> (Languages Other Than English) 
-   Use the general rule "Follow closely the style used in the printed page." In particular,  
-   insert spaces, if there are spaces before or between the periods, and use the same number 
-   of periods as appear in the image. Sometimes the printed page is unclear: in that case, 
-   insert a <tt>[**unclear]</tt> to draw the attention of the post-processor. (Note: 
+<p><b>LOTE:</b> (Languages Other Than English) <p><b>LOTE:</b> (Languages Other Than English)
+   Use the general rule "Follow closely the style used in the printed page." In particular,
+   insert spaces, if there are spaces before or between the periods, and use the same number
+   of periods as appear in the image. Sometimes the printed page is unclear: in that case,
+   insert a <tt>[**unclear]</tt> to draw the attention of the post-processor. (Note:
    Post Processors should replace those regular spaces with non-breaking spaces.)</p
 >
 <h3><a name="a_chars">Accented/Non-ASCII Characters</a></h3>
@@ -1992,7 +2024,7 @@ the quotes will be changed to ones used in the text in post-processing.
     Europe</a> publishes UTF-8 as its default encoding, but other appropriate encodings are also welcomed.
 </p>
 <p>Currently for <a href="http://www.pgdp.net/">Distributed Proofreaders</a> this means
-   using Latin-1 or ISO 8859-1 and -15, and in the future will include Unicode. 
+   using Latin-1 or ISO 8859-1 and -15, and in the future will include Unicode.
 <p><a href="http://dp.rastko.net/">Distributed Proofreaders Europe</a> already uses Unicode.
 </p>
 <!-- END RR -->
@@ -2126,7 +2158,7 @@ the quotes will be changed to ones used in the text in post-processing.
       <td> </td><td> </td>
       <td> </td><td> </td>
       <td align="center" bgcolor="mistyrose" title="Capital N tilde"       >&Ntilde; </td><td>Alt-0209</td>
-      <td align="center" bgcolor="mistyrose" title="Capital Y umlaut"      >&Yuml;   </td><td>Alt-0159</td>
+      <td align="center" bgcolor="mistyrose" title=""></td><td></td>
       <td align="center" bgcolor="mistyrose" title="Pounds"                >&pound;  </td><td>Alt-0163</td>
       <td align="center" bgcolor="mistyrose" title="Multiplication"        >&times;  </td><td>Alt-0215</td>
   </tr>
@@ -2188,8 +2220,8 @@ the quotes will be changed to ones used in the text in post-processing.
   </tr>
   </tbody>
 </table>
-<p><sup><small>1</small></sup>Unless specifically requested by the <a href="#comments">Project 
-   Comments</a>, please do not use the fraction symbols, but instead use the guidelines for 
+<p><sup><small>1</small></sup>Unless specifically requested by the <a href="#comments">Project
+   Comments</a>, please do not use the fraction symbols, but instead use the guidelines for
    <a href="#fract_s">Fractions</a>. (1/2, 1/4, 3/4, etc.)</p>
 
 
@@ -2245,7 +2277,7 @@ the quotes will be changed to ones used in the text in post-processing.
       <td align="center" bgcolor="mistyrose" title="Small a ring"          >&aring;  </td><td>Opt-a   </td>
       <td align="center" bgcolor="mistyrose" title="Small ae ligature"     >&aelig;  </td><td>Opt-'   </td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital A grave"       >&Agrave; </td><td>Opt-~, A</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital A grave"       >&Agrave; </td><td>Opt-`, A</td>
       <td align="center" bgcolor="mistyrose" title="Capital A acute"       >&Aacute; </td><td>Opt-e, A</td>
       <td align="center" bgcolor="mistyrose" title="Capital A circumflex"  >&Acirc;  </td><td>Opt-i, A</td>
       <td align="center" bgcolor="mistyrose" title="Capital A tilde"       >&Atilde; </td><td>Opt-n, A</td>
@@ -2253,7 +2285,7 @@ the quotes will be changed to ones used in the text in post-processing.
       <td align="center" bgcolor="mistyrose" title="Capital A ring"        >&Aring;  </td><td>Opt-A   </td>
       <td align="center" bgcolor="mistyrose" title="Capital AE ligature"   >&AElig;  </td><td>Opt-"   </td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small e grave"         >&egrave; </td><td>Opt-~, e</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Small e grave"         >&egrave; </td><td>Opt-`, e</td>
       <td align="center" bgcolor="mistyrose" title="Small e acute"         >&eacute; </td><td>Opt-e, e</td>
       <td align="center" bgcolor="mistyrose" title="Small e circumflex"    >&ecirc;  </td><td>Opt-i, e</td>
       <td> </td><td> </td>
@@ -2261,7 +2293,7 @@ the quotes will be changed to ones used in the text in post-processing.
       <td> </td><td> </td>
       <td> </td><td> </td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital E grave"       >&Egrave; </td><td>Opt-~, E</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital E grave"       >&Egrave; </td><td>Opt-`, E</td>
       <td align="center" bgcolor="mistyrose" title="Capital E acute"       >&Eacute; </td><td>Opt-e, E</td>
       <td align="center" bgcolor="mistyrose" title="Capital E circumflex"  >&Ecirc;  </td><td>Opt-i, E</td>
       <td> </td><td> </td>
@@ -2269,7 +2301,7 @@ the quotes will be changed to ones used in the text in post-processing.
       <td> </td><td> </td>
       <td> </td><td> </td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small i grave"         >&igrave; </td><td>Opt-~, i</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Small i grave"         >&igrave; </td><td>Opt-`, i</td>
       <td align="center" bgcolor="mistyrose" title="Small i acute"         >&iacute; </td><td>Opt-e, i</td>
       <td align="center" bgcolor="mistyrose" title="Small i circumflex"    >&icirc;  </td><td>Opt-i, i</td>
       <td> </td><td> </td>
@@ -2285,7 +2317,7 @@ the quotes will be changed to ones used in the text in post-processing.
       <th colspan=2 bgcolor="cornsilk">/ slash</th>
       <th colspan=2 bgcolor="cornsilk">&OElig; ligature</th>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small o grave"         >&ograve; </td><td>Opt-~, o</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Small o grave"         >&ograve; </td><td>Opt-`, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o acute"         >&oacute; </td><td>Opt-e, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o circumflex"    >&ocirc;  </td><td>Opt-i, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Opt-n, o</td>
@@ -2293,7 +2325,7 @@ the quotes will be changed to ones used in the text in post-processing.
       <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Opt-o   </td>
       <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>Use [oe]</td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Opt-~, O</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Opt-`, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Opt-e, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital I circumflex"  >&Ocirc;  </td><td>Opt-i, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Opt-n, O</td>
@@ -2301,7 +2333,7 @@ the quotes will be changed to ones used in the text in post-processing.
       <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Opt-O   </td>
       <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>Use [OE]</td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Opt-~, u</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Opt-`, u</td>
       <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Opt-e, u</td>
       <td align="center" bgcolor="mistyrose" title="Small u circumflex"    >&ucirc;  </td><td>Opt-i, u</td>
       <td> </td><td> </td>
@@ -2309,7 +2341,7 @@ the quotes will be changed to ones used in the text in post-processing.
       <td> </td><td> </td>
       <td> </td><td> </td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital U grave"       >&Ugrave; </td><td>Opt-~, U</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital U grave"       >&Ugrave; </td><td>Opt-`, U</td>
       <td align="center" bgcolor="mistyrose" title="Capital U acute"       >&Uacute; </td><td>Opt-e, U</td>
       <td align="center" bgcolor="mistyrose" title="Capital U circumflex"  >&Ucirc;  </td><td>Opt-i, U</td>
       <td> </td><td> </td>
@@ -2323,13 +2355,13 @@ the quotes will be changed to ones used in the text in post-processing.
       <td align="center" bgcolor="mistyrose" title="Small n tilde"         >&ntilde; </td><td>Opt-n, n</td>
       <td align="center" bgcolor="mistyrose" title="Small y umlaut"        >&yuml;   </td><td>Opt-u, y</td>
       <td align="center" bgcolor="mistyrose" title="Cents"                 >&cent;   </td><td>Opt-4   </td>
-      <td align="center" bgcolor="mistyrose" title="plus/minus"            >&plusmn; </td><td>Opt-+   </td>
+      <td align="center" bgcolor="mistyrose" title="plus/minus"            >&plusmn; </td><td>Shift-Opt-=</td>
   </tr>
   <tr><td> </td><td> </td>
       <td> </td><td> </td>
       <td> </td><td> </td>
       <td align="center" bgcolor="mistyrose" title="Capital N tilde"       >&Ntilde; </td><td>Opt-n, N</td>
-      <td align="center" bgcolor="mistyrose" title="Capital Y umlaut"      >&Yuml;   </td><td>Opt-u, Y</td>
+      <td align="center" bgcolor="mistyrose" title=""></td><td></td>
       <td align="center" bgcolor="mistyrose" title="Pounds"                >&pound;  </td><td>Opt-3   </td>
       <td align="center" bgcolor="mistyrose" title="Multiplication"        >&times;  </td><td>(none)&nbsp;&dagger;</td>
   </tr>
@@ -2350,12 +2382,12 @@ the quotes will be changed to ones used in the text in post-processing.
       <td align="center" bgcolor="mistyrose" title="Logical Not"           >&not;    </td><td>Opt-l   </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Capital C cedilla"     >&Ccedil; </td><td>Opt-C   </td>
-      <td align="center" bgcolor="mistyrose" title="Small thorn"           >&thorn;  </td><td>Shift-Opt-6</td>
+      <td align="center" bgcolor="mistyrose" title="Small thorn"           >&thorn;  </td><td>(none)&nbsp;&Dagger;  </td>
       <td align="center" bgcolor="mistyrose" title="Registration Mark"     >&reg;    </td><td>Opt-r   </td>
       <td align="center" bgcolor="mistyrose" title="umlaut accent"         >&uml;    </td><td>Opt-U   </td>
       <td align="center" bgcolor="mistyrose" title="Inverted Exclamation"  >&iexcl;  </td><td>Opt-1   </td>
-      <td align="center" bgcolor="mistyrose" title="General Currency"      >&curren; </td><td>Shift-Opt-2</td>
-      <td align="center" bgcolor="mistyrose" title="Degrees"               >&deg;    </td><td>Opt-*   </td>
+      <td align="center" bgcolor="mistyrose" title="General Currency"      >&curren; </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="Degrees"               >&deg;    </td><td>Shift-Opt-8   </td>
   </tr>
   <tr><th colspan=2 bgcolor="cornsilk">superscripts        </th>
       <td align="center" bgcolor="mistyrose" title="Capital Eth"           >&ETH;    </td><td>(none)&nbsp;&Dagger;  </td>
@@ -2377,7 +2409,7 @@ the quotes will be changed to ones used in the text in post-processing.
       <th colspan=2 bgcolor="cornsilk">sz ligature        </th>
       <td align="center" bgcolor="mistyrose" title="Section"               >&sect;   </td><td>Opt-6   </td>
       <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Middle dot"            >&middot; </td><td>Opt-8  </td>
+      <td align="center" bgcolor="mistyrose" title="Middle dot"            >&middot; </td><td>Shift-Opt-9  </td>
       <td align="center" bgcolor="mistyrose" title="Masculine Ordinal"     >&ordm;   </td><td>Opt-0   </td>
       <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; </td><td>(none)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
   </tr>
@@ -2385,7 +2417,7 @@ the quotes will be changed to ones used in the text in post-processing.
       <td align="center" bgcolor="mistyrose" title="sz ligature"           >&szlig;  </td><td>Opt-s   </td>
       <td align="center" bgcolor="mistyrose" title="Broken Vertical bar"   >&brvbar; </td><td>(none)&nbsp;&Dagger;  </td>
       <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="asterisk"              >&#042;   </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="asterisk"              >&#042;   </td><td>Shift-8 </td>
       <td align="center" bgcolor="mistyrose" title="Feminine Ordinal"      >&ordf;   </td><td>Opt-9   </td>
       <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; </td><td>(none)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
   </tr>
@@ -2393,8 +2425,8 @@ the quotes will be changed to ones used in the text in post-processing.
 </table>
 <p>&Dagger;&nbsp;Note: No equivalent shortcut, use drop-down menus.
 </p>
-<p><sup><small>1</small></sup>Unless specifically requested by the <a href="#comments">Project 
-  Comments</a>, please do not use the fraction symbols, but instead use the guidelines for 
+<p><sup><small>1</small></sup>Unless specifically requested by the <a href="#comments">Project
+  Comments</a>, please do not use the fraction symbols, but instead use the guidelines for
   <a href="#fract_s">Fractions</a>. (1/2, 1/4, 3/4, etc.)
 </p>
 
@@ -2598,7 +2630,7 @@ cedilla                      [,x]   [x,]
 
 <h3><a name="bk_index">Indexes</a></h3>
 <p>Please retain page numbers in index pages. Surround the index with <tt>/*</tt> and <tt>*/</tt> tags,
-   leaving a blank line before <tt>/*</tt> and after <tt>*/</tt>. You don't need to align the numbers
+   leaving a blank line before the opening <tt>/*</tt>. You don't need to align the numbers
    as they appear in the scan; just put a comma or semicolon, followed by the page numbers.
 </p>
 <p>Indexes are often printed in 2 columns; this narrower space can cause entries to
@@ -2643,7 +2675,7 @@ cedilla                      [,x]   [x,]
     <tr>
       <td valign="top">
 <table summary="" border="0" align="left"><tr><td>
-    <tt>/*<br>
+    <tt><br>/*<br>
     Elizabeth I, her royal Majesty the Queen, 123, 144-155.<br>
     &nbsp;&nbsp;birth of, 145.<br>
     &nbsp;&nbsp;christening, 146-147.<br>
@@ -2683,7 +2715,7 @@ cedilla                      [,x]   [x,]
     <tr>
       <td valign="top">
 <table summary="" border="0" align="left"><tr><td>
-    <tt>/*<br>
+    <tt><br>/*<br>
     Hooker, Jos., maj. gen. U.S.V., 345;<br>
     &nbsp;&nbsp;assigned to command Porter's corps, 350;<br>
     &nbsp;&nbsp;afterwards, McDowell's, 367;<br>
@@ -2727,7 +2759,7 @@ Stage directions often begin with an opening bracket and omit the closing bracke
  <tt>/*</tt> and <tt>*/</tt>.
  (Stage directions are not metrical, and so can be safely rewrapped in the PP stage,
  so should not be contained within the /* */ tags
- that protect the metrical dialogue from being rewrapped.)</li> 
+ that protect the metrical dialogue from being rewrapped.)</li>
  <li>Preserve relative indenting of dialog when a single metrical line is
  shared by more than one speaker.</li>
  <li>Rejoin metrical lines that were split due to width restrictions of the paper, just as in poetry.<br>
@@ -3054,7 +3086,7 @@ You told me the walk was private.<br>
    This misrecognition can result in a word which:</p>
 <ul compact>
    <li>appears to be correct at first glance, but is actually misspelled.<br>
-       These can usually be caught by running the spellcheck from the proofreading interface.</li>
+       These can usually be caught by running the WordCheck from the proofreading interface.</li>
    <li>is changed to a different but otherwise valid word that does not match what is in the page image.<br>
        These are subtle because they can only be caught by someone actually reading the text.</li>
 </ul>
