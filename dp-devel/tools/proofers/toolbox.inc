@@ -133,9 +133,9 @@ define_pit_tool_button(
     "top.surroundSelection('<g>','</g>')"
 );
 define_pit_tool_button(
-    'antigua',
+    'antiqua',
     'f',
-    _('Antigua'),
+    _('Antiqua'),
     'f',
     "top.surroundSelection('<f>','</f>')"
 );
