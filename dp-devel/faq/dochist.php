@@ -31,6 +31,28 @@ theme('Proofreading and Formatting Guidelines Revision History','header');
     </tr>
 
     <tr>
+      <td>03/10/2007 </td>
+      <td>Ver.&nbsp;1.9d </td>
+      <td>The DP Community</td>
+      <td>
+        <!-- CVS version of document.php which reflects this entry is v1.85 -->
+        <h3>Formatting Guidelines changes</h3>
+        <ul compact="compact">
+                <li>Change spaced text markup to &lt;g&gt;.</li>
+                <li>Add new section for font changes, to be marked with &lt;f&gt;.</li>
+                <li>Minor edits to the sections on Chapter Headers, Section Headers,
+                    and Font size changes to reflect the new markup tags.</li>
+                <li>Change "spellcheck" to "WordCheck".</li>
+        </ul>
+        <!-- CVS version of proofreading_guidelines.php which reflects this entry is v1.28 -->
+        <h3>Proofreading Guidelines changes</h3>
+        <ul compact="compact">
+                <li>Change "spellcheck" to "WordCheck".</li>
+		<li>Reinstate "catchword" section from prior version.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>01/01/2006 </td>
       <td>Ver.&nbsp;1.9c </td>
       <td>The DP Community</td>
