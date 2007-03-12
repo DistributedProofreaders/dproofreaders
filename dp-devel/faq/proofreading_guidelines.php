@@ -355,7 +355,7 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
 </p>
 
 <h3><a name="next_word">Single word at bottom of page</a></h3>
-<p>Format these by deleting the word, even if it's the second half of a hyphenated word.
+<p>Proofread these by deleting the word, even if it's the second half of a hyphenated word.
 </p>
 <p>In some older books, the single word at the bottom of the page (called a "catchword", usually
    printed near the right margin) indicates the first word on the next page of the book (called
