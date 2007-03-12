@@ -44,7 +44,7 @@ theme('Proofreading and Formatting Guidelines Revision History','header');
                     and Font size changes to reflect the new markup tags.</li>
                 <li>Change "spellcheck" to "WordCheck".</li>
         </ul>
-        <!-- CVS version of proofreading_guidelines.php which reflects this entry is v1.28 -->
+        <!-- CVS version of proofreading_guidelines.php which reflects this entry is v1.29 -->
         <h3>Proofreading Guidelines changes</h3>
         <ul compact="compact">
                 <li>Change "spellcheck" to "WordCheck".</li>
