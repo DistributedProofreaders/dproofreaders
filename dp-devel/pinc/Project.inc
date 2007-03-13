@@ -14,7 +14,7 @@ class Project
         {
             // $arg is the projectid.
             $res = mysql_query("
-                SELECT *
+                SELECT *, UNIX_TIMESTAMP() AS t_retrieved
                 FROM projects
                 WHERE projectid = '$arg'
             ") or die(mysql_error());
