@@ -71,6 +71,9 @@ $title_for_theme = sprintf( _('"%s" project page'), $project->nameofwork );
 
 $title = sprintf( _("Project Page for '%s'"), $project->nameofwork );
 
+upi_set_t_latest_home_visit(
+    $pguser, $project->projectid, $project->t_retrieved );
+
 do_update_pp_activity();
 
 if ($detail_level==1)
