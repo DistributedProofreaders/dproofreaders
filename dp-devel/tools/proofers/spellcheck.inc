@@ -128,7 +128,7 @@ if ($userP['i_type']==1) {
 
     // get a list of languages with dictionaries installed on the system
     $dict_list = get_languages_with_dictionaries();
-    sort($dict_list);
+    asort($dict_list);
     foreach($dict_list as $langcode => $language) {
         // skip the languages that we just used.
         if(in_array($language,$languages)) continue;
