@@ -193,7 +193,7 @@ $iso_639=array(
 "na" =>
 "Nauru",
 "nb" =>
-"Norwegian BokmÃ¥l",
+"Norwegian Bokmål",
 "nd" =>
 "Ndebele, North",
 "ne" =>
@@ -213,7 +213,7 @@ $iso_639=array(
 "ny" =>
 "Chichewa; Nyanja",
 "oc" =>
-"Occitan; ProvenÃ§al",
+"Occitan; Provençal",
 "om" =>
 "(Afan) Oromo",
 "or" =>
