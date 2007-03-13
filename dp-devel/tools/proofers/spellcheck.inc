@@ -86,6 +86,9 @@ if ($userP['i_type']==1) {
 ?>
 <form name="spcorrects" action="processtext.php" method="POST">
 <?PHP
+    // change all EOL characters to [lf]
+    $revert_text = str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$revert_text);
+
     echo "<input type='hidden' name='revert_text' value='" . html_safe($revert_text) . "'>\n";
     echo "<input type='hidden' id='is_changed' name='is_changed' value='0'>\n";
     echo "<input type='hidden' id='accepted_words' name=\"accepted_words\" value='" . implode(' ',$accepted_words) . "'>\n";
