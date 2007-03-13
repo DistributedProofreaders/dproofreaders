@@ -124,12 +124,12 @@ if (is_dir($forums_dir)) {
 }
 
 // send them to the correct page
-if (!empty($destination))
+if (!empty($_REQUEST["destination"]))
 {
     // They were heading to $destination (via a bookmark, say)
     // when we sidetracked them into the login pages.
     // Make sure they get to where they were going.
-    $url = $destination;
+    $url = $_REQUEST["destination"];
 }
 else
 {

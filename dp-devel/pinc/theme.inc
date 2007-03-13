@@ -201,6 +201,10 @@ function html_logobar($nameofpage) {
 		echo "<form action='$code_url/accounts/login.php' method='post'>\n";
 		echo "<td align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
 		echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
+        // if 'destination' was passed into us, keep it in the login form
+        // for the subsequent redirect back to the requested page
+        if($_GET["destination"])
+		    echo "<input type='hidden' name='destination' value='" . $_GET["destination"] . "'>";
 		echo _("ID:") . "<input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
 		echo _("Password:") . "<input type='password' name='userPW' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
 		echo "<input type='submit' value='" . _("Sign In") ."' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>";
