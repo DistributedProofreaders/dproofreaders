@@ -8,17 +8,17 @@ function showstartexts($etext_limit,$type) {
     if ($type == "bronze") {
         $state = SQL_CONDITION_BRONZE;
         $content="proofing";
-        $category = _("%d in Proofreading");
+        $category = _("%s in Proofreading");
         $description = _("These books are currently being processed through our site; sign in and start helping!");
     } elseif ($type == "silver") {
         $state = SQL_CONDITION_SILVER;
         $content="postprocessing";
-        $category = _("%d In Progress");
+        $category = _("%s In Progress");
         $description = _("These books are undergoing their final checks before being assembled into a completed e-book.");
     } elseif ($type == "gold") {
         $state = SQL_CONDITION_GOLD;
         $content="posted";
-        $category = _("%d in Completed");
+        $category = _("%s in Completed");
         $description =  _("These books have been processed through our site and posted to the Project Gutenberg archive.");
     }
 
