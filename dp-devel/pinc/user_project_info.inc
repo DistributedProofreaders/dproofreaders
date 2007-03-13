@@ -22,6 +22,30 @@ function upi_ensure_row( $username, $projectid )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function upi_set_t_latest_home_visit( $username, $projectid, $timestamp )
+{
+    upi_ensure_row( $username, $projectid );
+
+    mysql_query("
+        UPDATE user_project_info
+        SET t_latest_home_visit = $timestamp
+        WHERE username='$username' AND projectid='$projectid'
+    ") or die(mysql_error());
+}
+
+function upi_set_t_latest_page_event( $username, $projectid, $timestamp )
+{
+    upi_ensure_row( $username, $projectid );
+
+    mysql_query("
+        UPDATE user_project_info
+        SET t_latest_page_event = $timestamp
+        WHERE username='$username' AND projectid='$projectid'
+    ") or die(mysql_error());
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 $subscribable_project_events = array(
     'round_available' => _("Project becomes available in a round"),
     'round_complete'  => _("Project finishes a round"),
