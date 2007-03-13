@@ -80,7 +80,7 @@ if(empty($username) ||
 
 // confirm the review_round_id is later than work_round_id
 if(array_search($review_round_id,$rounds)<=array_search($work_round_id,$rounds)) {
-    echo "<p class='error'>" . _("Work Round should be a round later than Review Round.") . "</p>";
+    echo "<p class='error'>" . _("Review Round should be a round later than Work Round.") . "</p>";
     theme('', 'footer');
     exit;
 }
