@@ -124,7 +124,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                 $wordSafe = html_safe($word);
 
                 // set the size of the edit box
-                // note: in some browsers the exit box is not wide enough
+                // note: in some browsers the edit box is not wide enough
                 // for longer words, hence the scaling mechanism
                 $textBoxLen = $wordLen + max(1 + round($wordLen/5),2);
 
