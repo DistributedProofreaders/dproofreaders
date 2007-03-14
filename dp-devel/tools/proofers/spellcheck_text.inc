@@ -49,7 +49,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
     $returnString.="<style type='text/css'>" .
                    "  .hl { background-color: yellow; color: black; }" .
                    "  img.aw { border: 0; margin-left: 5px; }" .
-                   "  .dpmono { font-family: DPCustomMono2; }" .
+                   "  .dpmono { font-family: DPCustomMono2,monospace; }" .
                    "  span.aw { background-color: white; color: black; }" .
                    "</style>";
     $returnString.="<pre>\n";
@@ -124,7 +124,9 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                 $wordSafe = html_safe($word);
 
                 // set the size of the edit box
-                $textBoxLen = $wordLen+2;
+                // note: in some browsers the exit box is not wide enough
+                // for longer words, hence the scaling mechanism
+                $textBoxLen = $wordLen + max(1 + round($wordLen/5),2);
 
                 // reset the string that will hold the edit box
                 $replaceString = "";
@@ -229,7 +231,11 @@ function spellcheck_echo_script()
 
         // save the word in the accepted_words list
         var acceptedWordsInput = document.getElementById("accepted_words");
-        acceptedWordsInput.value = acceptedWordsInput.value + " " + wordOrig;
+        if(acceptedWordsInput.value == "") {
+            acceptedWordsInput.value = wordOrig;
+        } else {
+            acceptedWordsInput.value = acceptedWordsInput.value + " " + wordOrig;
+        }
 
         return false;
     }
