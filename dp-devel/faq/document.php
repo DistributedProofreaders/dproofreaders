@@ -707,7 +707,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     German superstition that a house which<br>
     contains a brand from the midsummer<br>
     bonfire will not be struck by lightning<br>
-    (J. W. Wolf, &lt;i&gt;Beitr�e zur deutschen<br>
+    (J. W. Wolf, &lt;i&gt;Beitr&auml;ge zur deutschen<br>
     Mythologie&lt;/i&gt;, i. p. 217,  185).]<br>
     <br>
     [Footnote 2: J. Boemus, &lt;i&gt;Mores, leges et ritus<br>
@@ -724,7 +724,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     ii. pp. 96 &lt;i&gt;sqq.&lt;/i&gt;,  128, pp. 103<br>
     &lt;i&gt;sq.&lt;/i&gt;,  129; &lt;i&gt;id., Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
     1874), ii. 116-120; E. Meier,<br>
-    &lt;i&gt;Deutsche Sagen, Sitten und Gebr�che<br>
+    &lt;i&gt;Deutsche Sagen, Sitten und Gebr&auml;uche<br>
     aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.<br>
     423 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der Baumkultus&lt;/i&gt;,<br>
     p. 510.]<br>
@@ -1532,7 +1532,7 @@ and he knew, when he had done it, and to his</tt>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-<p><tt>&lt;i&gt;John James Audubon to Claude Fran�is Rozier&lt;/i&gt;</tt></p>
+<p><tt>&lt;i&gt;John James Audubon to Claude Fran&ccedil;ois Rozier&lt;/i&gt;</tt></p>
 <p><tt>[Letter No. 1, addressed]</tt></p>
 <p><tt>/*<br>
 &lt;sc&gt;M. Fr. Rozier&lt;/sc&gt;,<br>
@@ -1572,7 +1572,7 @@ pleasure in making our return.</tt>
 <pre>
 Andersen, Hans Christian   Daguerre, Louis J. M.    Melville, Herman
 Bach, Johann Sebastian     Darwin, Charles          Newton, Isaac
-Balboa, Vasco Nunez de     Descartes, Ren�         Pasteur, Louis
+Balboa, Vasco Nunez de     Descartes, Ren&eacute;          Pasteur, Louis
 Bierce, Ambrose            Earhart, Amelia          Poe, Edgar Allan
 Carroll, Lewis             Einstein, Albert         Ponce de Leon, Juan
 Churchill, Winston         Freud, Sigmund           Pulitzer, Joseph
@@ -1598,7 +1598,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     Curie, Marie<br>
     Daguerre, Louis J. M.<br>
     Darwin, Charles<br>
-    Descartes, Ren�br>
+    Descartes, Ren&eacute;<br>
     Earhart, Amelia<br>
     Einstein, Albert<br>
     Freud, Sigmund<br>

@@ -31,7 +31,7 @@ theme('Proofreading Guidelines','header');
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <h4>Proofreading Guidelines <a href="proofreading_guidelines_francaises.php">in French</a> /
-    Directives de Formatage <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br />
+    Directives de Relecture et Correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br />
 	Proofreading Guidelines <a href="proofreading_guidelines_portuguese.php">in Portuguese</a> /
     Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a></h4>
 
@@ -1753,7 +1753,7 @@ and he knew, when he had done it, and to his</tt>
     German superstition that a house which<br>
     contains a brand from the midsummer<br>
     bonfire will not be struck by lightning<br>
-    (J. W. Wolf, Beitr�e zur deutschen<br>
+    (J. W. Wolf, Beitr&auml;ge zur deutschen<br>
     Mythologie, i. p. 217,  185).<br>
     <br>
     2 J. Boemus, Mores, leges et ritus<br>
@@ -1770,7 +1770,7 @@ and he knew, when he had done it, and to his</tt>
     ii. pp. 96 sqq.,  128, pp. 103<br>
     sq.,  129; id., Aus Schwaben (Wiesbaden,<br>
     1874), ii. 116-120; E. Meier,<br>
-    Deutsche Sagen, Sitten und Gebr�che<br>
+    Deutsche Sagen, Sitten und Gebr&auml;uche<br>
     aus Schwaben (Stuttgart, 1852), pp.<br>
     423 sqq.; W. Mannhardt, Der Baumkultus,<br>
     p. 510.<br>
@@ -2178,7 +2178,7 @@ You told me the walk was private.<br>
    <li>A word that appears to be correct at first glance, but is actually misspelled. <br />
 This can usually be caught by running WordCheck from the proofreading interface.</li>
    <li>A word that is changed to a different but otherwise valid word that does not match what is in the page image.<br />
-These are subtle because they can only be caught by someone actually reading the text."</li>
+These are subtle because they can only be caught by someone actually reading the text.</li>
 </ul>
 <p>Possibly the most common example of the second type is "and" being OCR'd as "arid." Other examples: "eve" for "eye",
    "Torn" for "Tom", "train" for "tram". This type is harder to spot and we have a special term for them: "Stealth Scannos."
