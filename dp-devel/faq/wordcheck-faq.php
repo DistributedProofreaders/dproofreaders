@@ -72,7 +72,7 @@ span.mono
   <li>Misspelled words have an "<a href="#ua_button">Unflag All &amp; Suggest</a>" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) next to them. The button is used to indicate that the word matches the image. Once clicked all identically spelled words on the page are also accepted as correct. After a word has been modified, the Unflag All button for that word will become disabled (<img src="<?=$code_url;?>/graphics/Book-Plus-Small-Disabled.gif" border="0">).</li>
   <li>Words that are flagged by proofers as accepted via the <a href="#ua_button">Unflag All</a> button are added to a file for review by the Project Manager. Commonly unflagged words can be added to the 'good' word list.</li>
 </ul>
-<p>The new interface has been relabled as WordCheck to identify the broader scope of the tool.</p>
+<p>The new interface has been relabeled as WordCheck to identify the broader scope of the tool.</p>
 
 <h3><a name="good_bad_words"></a>What are 'Good', 'Bad', and 'Flagged' words?</h3>
 <p>The WordCheck interface is designed to help proofers catch differences between the page image and the page text. Often when the OCR software identifies the word incorrectly the word becomes misspelled and can be caught by a spell checker. Other times the OCR software incorrectly identifies a word in the image but the resulting text is a valid word. These words are still wrong despite being valid words. The team has decided to use the Good/Bad nomenclature to better reflect the intent of the WordCheck interface - to help the proofer match the image and the text, rather than use an inaccurate label like 'misspelling'.</p>
@@ -149,7 +149,7 @@ span.mono
 
 
 <h3><a name="need_aw"></a>Do I have to hit the Unflag All button for every word on the page?</h3>
-<p><i>If a Flagged word matches what appears in the scan, you do not have to do anything to it.</i> If, as well as being correct, it is a word that appears several times on this page, or is one that is likely to appear several times in a project (such as a proper name, or technical term), you may optinoally choose to press the <a href="#ua_button">Unflag All button</a> next to it, which will a) remove flags from all occurences of this word on this page for this session of WordCheck mode, and b) add it to a list of candidate project-specific good words available to the project manager.</p>
+<p><i>If a Flagged word matches what appears in the scan, you do not have to do anything to it.</i> If, as well as being correct, it is a word that appears several times on this page, or is one that is likely to appear several times in a project (such as a proper name, or technical term), you may optionally choose to press the <a href="#ua_button">Unflag All button</a> next to it, which will a) remove flags from all occurences of this word on this page for this session of WordCheck mode, and b) add it to a list of candidate project-specific good words available to the project manager.</p>
 
 <h3><a name="ua_diff"></a>Why don't all Flagged words have an Unflag All button?</h3>
 <p>Words that have been identified as potential stealth scannos, or on a "bad words" list for any reason, do not have an <a href="#ua_button">Unflag All button</a> to ensure that careful attention is given to each occurrence of such words.</p>
@@ -157,7 +157,7 @@ span.mono
 <h3><a name="wrong_ua"></a>I hit Unflag All for a word but it was wrong - what do I do now?</h3>
 <p>Don't panic! Hitting the <a href="#ua_button">Unflag All button</a> does not automatically add the word to the project's dictionary, simply suggest it to the Project Manager for inclusion. To correct the word, exit out of WordCheck (by either applying your changes or quitting without applying) and correct the word in the normal text window. Alternatively you can run WordCheck again to correct the word since unflagged words are not kept after the end of a WordCheck session.</p>
 
-<p>If you are worried that the Project manager might add the word to the "good words" list wrongly, you can always send a Private Message indicating what happened. However, Project Managerss are responsible for checking that words are actually "good" before adding them to the list.</p>
+<p>If you are worried that the Project manager might add the word to the "good words" list wrongly, you can always send a Private Message indicating what happened. However, Project Managers are responsible for checking that words are actually "good" before adding them to the list.</p>
 
 <h3><a name="ua_undo"></a>I hit Unflag All but didn't mean to, can I undo it?</h3>
 <p>There is no way to undo hitting the <a href="#ua_button">Unflag All button</a>, however exiting WordCheck and running it again will accomplish the same thing.</p>
