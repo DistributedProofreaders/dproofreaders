@@ -168,7 +168,7 @@ span.mono
 <p>Proofers are encouraged to use the project's discussion topic to suggest words for the project's Bad Words List.</p>
 
 <h3><a name="check_against_diff_lang"></a>How can I check the page against the dictionary for a different language?</h3>
-<p>When a page is intially checked for word to flag, the text is checked against the dictionaries for all project languages. An additional ad-hoc language dictionary can be used by selecting the language from the drop-down list at the top of the page and clicking the Check button. This will cause the text to be checked against the dictionaries for the project languages in addition to the ad-hoc language. Only one ad-hoc language can be used at a time and a request for another will replace the previous ad-hoc language. Corrections and Unflagged words will be retained between checks against ad-hoc languages.</p>
+<p>When a page is initially checked for word to flag, the text is checked against the dictionaries for all project languages. An additional ad-hoc language dictionary can be used by selecting the language from the drop-down list at the top of the page and clicking the Check button. This will cause the text to be checked against the dictionaries for the project languages in addition to the ad-hoc language. Only one ad-hoc language can be used at a time and a request for another will replace the previous ad-hoc language. Corrections and Unflagged words will be retained between checks against ad-hoc languages.</p>
 
 <hr>
 
