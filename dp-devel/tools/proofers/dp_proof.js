@@ -324,6 +324,19 @@ function processText(tagOpen,tagClose,innerText)
             tagOpen = '[Footnote ' + innerText.charAt(0) + ': ';
             innerText = innerText.substr(2);
         }
+        // Separate if-thens for 2- and 3- digit numbers are somewhat inelegant,
+        // but the sensible regex-based method doesn't work in all browsers.
+        else if (innerText.charAt(2) == ' ' && isDigit(innerText.charAt(0)) && isDigit(innerText.charAt(1)))
+        {
+            tagOpen = '[Footnote ' + innerText.charAt(0) + innerText.charAt(1) + ': ';
+            innerText = innerText.substr(3);
+        }
+        else if (innerText.charAt(3) == ' ' && isDigit(innerText.charAt(0))
+            && isDigit(innerText.charAt(1)) && isDigit(innerText.charAt(2)))
+        {
+            tagOpen = '[Footnote ' + innerText.charAt(0) + innerText.charAt(1) + innerText.charAt(2) + ': ';
+            innerText = innerText.substr(4);
+        }
     }
 
     return [tagOpen, tagClose, innerText];
