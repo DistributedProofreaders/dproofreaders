@@ -134,17 +134,17 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                 // if the AW button is wanted, add the initial span
                 if($badWordHash[$word] == WC_WORLD ) {
                     $replaceString .= "<span id='$wordID'>";
-                    $onChange = " onChange=\"disableAW('$wordID');\"";
+                    $onChange = " onBlur=\"disableAW('$wordID');\"";
                     $onChange.= " onKeyup=\"disableAW('$wordID');\"";
                 } else {
-                    $onChange = " onChange=\"markPageChanged();\"";
+                    $onChange = " onBlur=\"markPageChanged();\"";
                     $onChange.= " onKeyup=\"markPageChanged();\"";
                 }
 
                 // create the edit box
                 $replaceString.=
                     "<input type='hidden' name='posit{$numBadWords}' value='$origLineNum|$lineIndex|$wordLen'>" .
-                    "<input type='text' id='input_$wordID' name='sp$numBadWords' size='$textBoxLen' title='$wordSafe' value='$wordSafe' class='dpmono'$onChange>";
+                    "<input type='text' id='input_$wordID' name='sp$numBadWords' size='$textBoxLen' value='$wordSafe' class='dpmono'$onChange>";
 
                 // if the AW button is wanted, add the closing span and the button
                 if($badWordHash[$word] == WC_WORLD ) {
@@ -203,7 +203,7 @@ function spellcheck_echo_script()
         var input = document.getElementById("input_" + wordID);
 
         // Double-check that the value hadn't changed
-        if(input && input.value != input.title) {
+        if(input && input.value != input.defaultValue) {
             // what? it has? disable that button & bail!
             disableAW(wordID);
             return false;
@@ -220,7 +220,7 @@ function spellcheck_echo_script()
             // check to see if this instance has been edited already
             // by comparing the before and after words
             var input = document.getElementById("input_" + wordOccurID);
-            if(input && input.value == input.title) {
+            if(input && input.value == input.defaultValue) {
                 // get the span
                 var wordSpan = document.getElementById(wordOccurID);
                 // set contents to be the word itself
@@ -246,7 +246,7 @@ function spellcheck_echo_script()
         var a = document.getElementById("a_" + wordID);
 
         // If the value of the input field hasn't changed, don't disable
-        if(input && input.value == input.title) {
+        if(input && input.value == input.defaultValue) {
            // if the current and original values are the same
            // and the button has been disabled, re-enable it
            if(a && !a.href) { enableAW(wordID); }
