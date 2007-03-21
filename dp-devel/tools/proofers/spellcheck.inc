@@ -30,6 +30,22 @@ function ldAll()
   else
     {echo "3";}
 ?>);}
+
+function toggleWCHeader() {
+    var header=document.getElementById('wc_header');
+    var headerLink=document.getElementById('wc_header_link');
+
+    if(header) {
+        if(header.style.display=='') {
+            header.style.display='none';
+            headerLink.innerHTML='<?=_("Show WordCheck Header");?>';
+        } else{
+            header.style.display='';
+            headerLink.innerHTML='<?=_("Hide WordCheck Header");?>';
+        }
+    }
+    return false;
+}
 // -->
 </script>
 <style type="text/css">
@@ -96,6 +112,8 @@ if ($userP['i_type']==1) {
     list($page_contents,$languages,$messages) =
         spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accepted_words );
 
+    echo "<a id='wc_header_link' href='#' onClick='return toggleWCHeader();'>" . _("Hide WordCheck Header") . "</a>";
+    echo "<div id='wc_header'>";
     echo "<p>";
     if(count($languages) > 0) {
        echo _("The text was checked against the following languages: ");
@@ -155,8 +173,15 @@ echo sprintf(
     new_window_link( "$code_url/faq/wordcheck-faq.php", _("WordCheck FAQ") )
 );
 echo "</p>";
+echo "</div>";
 ?>
 <table id="tbtext" cellpadding="10" align="center"><tr>
+<tr><td id="tdtop">
+<? echo _("Resize image:"); ?>
+    <input title="<? echo _("Zoom Out 25%"); ?>" type="button" value="-25%"  onclick="top.reSizeRelative(0.75)">
+    <input title="<? echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25)">
+    <input title="<? echo _("Zoom to Original Size"); ?>" type="button" value="Original" onclick="top.reSizeRelative(-1)">
+</td></tr>
 <td 
   id="tdtext" 
   valign="top">
@@ -184,13 +209,6 @@ echo "</p>";
             onClick="return confirmExit();"
         >
     </td>
-</tr>
-<tr><td id="tdtop">
-<? echo _("Resize image:"); ?>
-    <input title="<? echo _("Zoom Out 25%"); ?>" type="button" value="-25%"  onclick="top.reSizeRelative(0.75)">
-    <input title="<? echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25)">
-    <input title="<? echo _("Zoom to Original Size"); ?>" type="button" value="Original" onclick="top.reSizeRelative(-1)">
-</td>
 </tr>
 </table>
 </form>
