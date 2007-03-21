@@ -50,7 +50,6 @@ if($userP['i_type']==1)
 #tbtext {
   border:1px solid #000000;
   text-align:left;
-  width:100%;
   } 
 #tdtop {
   font-size:12px;
