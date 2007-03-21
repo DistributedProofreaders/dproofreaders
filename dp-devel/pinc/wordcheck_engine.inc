@@ -379,23 +379,23 @@ function get_bad_words_via_pattern( $input_words_w_freq, $langcode3s ) {
 // -----------------------------------------------------------------------------
 
 function load_site_good_words( $langcode3 ) {
-    global $dyn_dir;
+    $fileObject = get_site_word_file( $langcode3, "good" );
 
-    return load_word_list( "$dyn_dir/words/good_words.$langcode3.txt" );
+    return load_word_list( $fileObject->abs_path );
 }
 
 function load_site_bad_words( $langcode3 ) {
-    global $dyn_dir;
+    $fileObject = get_site_word_file( $langcode3, "bad" );
 
-    return load_word_list( "$dyn_dir/words/bad_words.$langcode3.txt" );
+    return load_word_list( $fileObject->abs_path );
 }
 
 // -----------------------------------------------------------------------------
 
 function load_site_possible_bad_words( $langcode3 ) {
-    global $dyn_dir;
+    $fileObject = get_site_word_file( $langcode3, "possible_bad" );
 
-    return load_word_list( "$dyn_dir/words/possible_bad_words.$langcode3.txt" );
+    return load_word_list( $fileObject->abs_path );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -403,54 +403,53 @@ function load_site_possible_bad_words( $langcode3 ) {
 // Project-Level
 
 function load_project_good_words( $projectid ) {
-    global $projects_dir;
+    $fileObject = get_project_word_file( $projectid, "good" );
 
-    return load_word_list( "$projects_dir/$projectid/good_words.txt" );
+    return load_word_list( $fileObject->abs_path );
 }
 
 function save_project_good_words( $projectid, $words ) {
-    global $projects_dir;
+    $fileObject = get_project_word_file( $projectid, "good" );
 
     // trim out leading spaces
     $words = preg_replace('/^\s+/', '', $words);
     // trim out any word frequencies if they exist
     $words = preg_replace('/\s.*$/', '', $words);
 
-    return save_word_list( "$projects_dir/$projectid/good_words.txt", $words );
+    return save_word_list( $fileObject->abs_path, $words );
 }
 
 // -----------------------------------------------------------------------------
 
 function load_project_bad_words($projectid) {
-    global $projects_dir;
+    $fileObject = get_project_word_file( $projectid, "bad" );
 
-    return load_word_list( "$projects_dir/$projectid/bad_words.txt" );
+    return load_word_list( $fileObject->abs_path );
 }
 
 function save_project_bad_words($projectid, $words) {
-    global $projects_dir;
+    $fileObject = get_project_word_file( $projectid, "bad" );
 
     // trim out leading spaces
     $words = preg_replace('/^\s+/', '', $words);
     // trim out any word frequencies if they exist
     $words = preg_replace('/\s.*$/', '', $words);
 
-    return save_word_list( "$projects_dir/$projectid/bad_words.txt", $words );
+    return save_word_list( $fileObject->abs_path, $words );
 }
 
 // -----------------------------------------------------------------------------
 
 function save_project_good_word_suggestions($projectid,$round,$page,$proofer,$words) {
-    global $projects_dir;
-
     if(sizeof($words)==0 || (sizeof($words)==1 && $words[0]=="")) return "Success";
+
+    $fileObject = get_project_word_file( $projectid, "good_suggs" );
 
     $word_list=implode(' ',$words);
 
     $time = time();
 
-    $iw_name= "$projects_dir/$projectid/good_word_suggestions.txt";
-    $fh = @fopen( $iw_name, "a" );
+    $fh = @fopen( $fileObject->abs_path , "a" );
     // check to see that we were able to open the file
     if($fh) {
         // get an exclusive lock; lock is cleared by fclose
@@ -458,22 +457,21 @@ function save_project_good_word_suggestions($projectid,$round,$page,$proofer,$wo
         fputs($fh,"$time/$round/$page/$proofer/$word_list\n");
         fclose($fh);
     } else {
-        return "Error: Unable to write to file $iw_name\n";
+        return "Error: Unable to write to file $fileObject->abs_path\n";
     }
 
     return "Success";
 }
 
-function load_project_good_word_suggestions($projectid,$start_time=0) {
-    global $projects_dir;
+function load_project_good_word_suggestions($projectid,$start_time=0,$load_as_raw=FALSE) {
+    $fileObject = get_project_word_file( $projectid, "good_suggs" );
 
     $wordsArray = array();
 
-    $iw_name = "$projects_dir/$projectid/good_word_suggestions.txt";
-    if(!is_file($iw_name))
-        return "Error: File does not exist: $iw_name\n";
+    if(!$fileObject->exists)
+        return "Error: File does not exist: $fileObject->abs_path\n";
 
-    $fh = @fopen( $iw_name, "r" );
+    $fh = @fopen( $fileObject->abs_path , "r" );
     // check to see that we were able to open the file
     if($fh) {
         // get a share-level lock; lock is cleared by fclose
@@ -489,14 +487,18 @@ function load_project_good_word_suggestions($projectid,$start_time=0) {
             if($time < $start_time) continue;
 
             $words = explode(' ',$words);
-            if(!is_array(@$wordsArray[$round][$page]))
-                $wordsArray[$round][$page] = array();
-            if($round != "" && $page != "")
-                $wordsArray[$round][$page] = array_merge($wordsArray[$round][$page],$words);
+            if($load_as_raw) {
+                array_push($wordsArray,array($time,$round,$page,$proofer,$words));
+            } else {
+                if(!is_array(@$wordsArray[$round][$page]))
+                    $wordsArray[$round][$page] = array();
+                if($round != "" && $page != "")
+                    $wordsArray[$round][$page] = array_merge($wordsArray[$round][$page],$words);
+            }
         }
         fclose($fh);
     } else {
-        return "Error: Unable to read from file $iw_name\n";
+        return "Error: Unable to read from file $fileObject->abs_path\n";
     }
 
     return $wordsArray;
@@ -504,18 +506,8 @@ function load_project_good_word_suggestions($projectid,$start_time=0) {
 
 // -----------------------------------------------------------------------------
 
-function get_project_word_file($projectid, $code)
+function get_project_word_file( $projectid, $code )
 // $code must match one of the keys in the $filename_for_code array below.
-//
-// Returns an object containing information about the specified
-// word-related file for the given project:
-// --- filename: its filename;
-// --- abs_path: its absolute path;
-// --- abs_url:  its absolute URL;
-// --- exists:   a boolean indicating whether it exists;
-// --- size:     its size in bytes;
-// --- mod_time: the time it was last modified, as a unix timestamp.
-// (size and mod_time are set to zero if the file doesn't exist.)
 {
     global $projects_dir, $projects_url;
 
@@ -526,11 +518,45 @@ function get_project_word_file($projectid, $code)
     );
     assert( array_key_exists( $code, $filename_for_code ) );
 
+    return get_file_info_object( $filename_for_code[$code],
+                "$projects_dir/$projectid",
+                "$projects_url/$projectid" );
+}
+
+function get_site_word_file( $langcode3, $code )
+// $code must match one of the keys in the $filename_for_code array below.
+{
+    global $dyn_dir, $dyn_url;
+
+    $filename_for_code = array(
+        'good'         => "good_words.$langcode3.txt",
+        'bad'          => "bad_words.$langcode3.txt",
+        'possible_bad' => "possible_bad_words.$langcode3.txt",
+    );
+    assert( array_key_exists( $code, $filename_for_code ) );
+
+    return get_file_info_object( $filename_for_code[$code],
+                "$dyn_dir/words",
+                "$dyn_url/words" );
+}
+
+function get_file_info_object($filename,$base_dir,$base_url)
+// Returns an object containing information about the specified
+// word-related file for the given project:
+// --- filename: its filename;
+// --- abs_path: its absolute path;
+// --- abs_url:  its absolute URL;
+// --- exists:   a boolean indicating whether it exists;
+// --- size:     its size in bytes;
+// --- mod_time: the time it was last modified, as a unix timestamp.
+// (size and mod_time are set to zero if the file doesn't exist.)
+{
+
     $o = new StdClass;
 
-    $o->filename = $filename_for_code[$code];
-    $o->abs_path = "$projects_dir/$projectid/{$o->filename}";
-    $o->abs_url  = "$projects_url/$projectid/{$o->filename}";
+    $o->filename = $filename;
+    $o->abs_path = "$base_dir/{$o->filename}";
+    $o->abs_url  = "$base_url/{$o->filename}";
     $o->exists   = file_exists($o->abs_path);
     $o->size     = ( $o->exists ? filesize($o->abs_path) : 0 );
     $o->mod_time = ( $o->exists ? filemtime($o->abs_path) : 0 );
