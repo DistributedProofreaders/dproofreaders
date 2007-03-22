@@ -175,13 +175,14 @@ echo sprintf(
 echo "</p>";
 echo "</div>";
 ?>
-<table id="tbtext" cellpadding="10" align="center"><tr>
+<table id="tbtext" cellpadding="10" align="center">
 <tr><td id="tdtop">
 <? echo _("Resize image:"); ?>
     <input title="<? echo _("Zoom Out 25%"); ?>" type="button" value="-25%"  onclick="top.reSizeRelative(0.75)">
     <input title="<? echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25)">
     <input title="<? echo _("Zoom to Original Size"); ?>" type="button" value="Original" onclick="top.reSizeRelative(-1)">
 </td></tr>
+<tr>
 <td 
   id="tdtext" 
   valign="top">
