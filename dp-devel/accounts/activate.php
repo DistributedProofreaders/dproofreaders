@@ -43,12 +43,15 @@ mysql_query("DELETE FROM non_activated_users WHERE id='$ID'");
 $result = mysql_query ("INSERT INTO users (id, real_name, username, email, manager, date_created, email_updates, u_plist, u_top10, u_neigh, u_intlang)
             VALUES ('$ID', '$real_name', '$username', '$email', 'no', '$date_created', '$email_updates', '3', '1', '10', '$u_intlang')");
 
+$u_id = mysql_insert_id($db_link); // auto-incremented users.u_id
+
 // create profile
-$profileString="INSERT INTO user_profiles SET u_ref='".mysql_insert_id($db_link)."'";
+$profileString="INSERT INTO user_profiles SET u_ref='$u_id'";
 $makeProfile=mysql_query($profileString);
+$profile_id = mysql_insert_id($db_link); // auto-incremented user_profiles.id
 
 // add ref to profile
-$refString="UPDATE users SET u_profile='".mysql_insert_id($db_link)."' WHERE id='$ID' AND username='$username'";
+$refString="UPDATE users SET u_profile='$profile_id' WHERE id='$ID' AND username='$username'";
 $makeRef=mysql_query($refString);
 
 //code from php forums bb_register.php
