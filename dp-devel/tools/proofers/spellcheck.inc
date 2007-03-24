@@ -193,7 +193,7 @@ if ($userP['i_type']==1) {
     // here ends the div for the WordCheck header
 
 ?>
-<table id="tbtext" cellpadding="10" align="center"><tr>
+<table id="tbtext" cellpadding="10" align="center">
 <tr><td id="tdtop">
 <? echo _("Resize image:"); ?>
     <input title="<? echo _("Zoom Out 25%"); ?>" type="button" value="-25%"  onclick="top.reSizeRelative(0.75)">
@@ -208,6 +208,7 @@ if ($userP['i_type']==1) {
     );
 ?>
 </td></tr>
+<tr>
 <td 
   id="tdtext" 
   valign="top">
