@@ -13,6 +13,7 @@ include_once('image_block_enh.inc');
 
 $revert_text=isset($_POST['revert_text']) ? stripslashes($_POST['revert_text']) : $text_data;
 
+$is_header_visible = array_get($_SESSION,"is_header_visible",1);
 
 slim_header("WordCheck",TRUE,FALSE);
 
@@ -34,14 +35,17 @@ function ldAll()
 function toggleWCHeader() {
     var header=document.getElementById('wc_header');
     var headerLink=document.getElementById('wc_header_link');
+    var headerStateSave=document.getElementById('is_header_visible');
 
     if(header) {
         if(header.style.display=='') {
             header.style.display='none';
             headerLink.innerHTML='<?=_("Show WordCheck Header");?>';
+            headerStateSave.value=0;
         } else{
             header.style.display='';
             headerLink.innerHTML='<?=_("Hide WordCheck Header");?>';
+            headerStateSave.value=1;
         }
     }
     return false;
@@ -107,44 +111,57 @@ if ($userP['i_type']==1) {
     echo "<input type='hidden' name='revert_text' value='" . html_safe($revert_text) . "'>\n";
     echo "<input type='hidden' id='is_changed' name='is_changed' value='0'>\n";
     echo "<input type='hidden' id='accepted_words' name=\"accepted_words\" value='" . implode(' ',$accepted_words) . "'>\n";
+    echo "<input type='hidden' id='is_header_visible' name=\"is_header_visible\" value='$is_header_visible'>\n";
 
     // run the text through the spellcheck - returns the form contents and a list of languages the page was checked against
     list($page_contents,$languages,$messages) =
         spellcheck_text( $text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accepted_words );
 
-    echo "<a id='wc_header_link' href='#' onClick='return toggleWCHeader();'>" . _("Hide WordCheck Header") . "</a>";
-    echo "<div id='wc_header'>";
-    echo "<p>";
-    if(count($languages) > 0) {
-       echo _("The text was checked against the following languages: ");
-       echo "<b>";
-       echo implode(', ', $languages);
-       echo "</b>";
+    // start the div containing the link to show/hide the WordCheck header
+    echo "<div>";
+    echo "<a id='wc_header_link' href='#' onClick='return toggleWCHeader();'>";
+    if($is_header_visible) {
+        echo _("Hide WordCheck Header");
+        $header_style="";
     } else {
-        echo "<b>";
-        echo _("No check against a dictionary has been made.");
-        echo "</b>";
+        echo _("Show WordCheck Header");
+        $header_style="style='display: none;'";
     }
-    echo "</p>";
+    echo "</a>";
+    echo "</div>";
 
-    if ( count($messages) == 0 )
+    // start the div that consists of the WordCheck header
+    // that can be toggled shown/hidden
+    echo "<div id='wc_header' $header_style>";
+    if ( count($messages) != 0 )
     {
-        // echo "No warnings/errors were raised.<br>\n";
-    }
-    else
-    {
-        echo "The following warnings/errors were raised:<br>\n";
+        // warnings or errors were raised, print them out
+        echo "<p class='warning'>" . _("The following warnings/errors were raised:") . "<br>\n";
         foreach ( $messages as $message )
         {
             echo "$message<br>\n";
         }
+        echo "</p>";
     }
 
-    echo "<p>" . _("Check against an additional language: ");
+    // start the first line of the WordCheck header
+    // printing any dictionaries used
+    echo "<p>";
+    if(count($languages) > 0) {
+        echo sprintf(_("Dictionaries used: <b>%s</b>."),implode(', ', $languages));
+    } else {
+        echo "<b>" . _("No check against a dictionary has been made.") . "</b>";
+    }
 
+    // for the vertical layout, stick in a line break
+    // for the horizontal one, stick in a space
+    if ($userP['i_layout']==1) echo "<br>";
+    else echo " ";
+
+    // output the code allowing the user to select another language
+    echo _("Use additional: ");
     echo "<select name='aux_language'>";
-    echo "<option value=''>Language</option>";
-    echo "\n";
+    echo "<option value=''>" . _("Language") . "</option>\n";
 
     // get a list of languages with dictionaries installed on the system
     $dict_list = get_languages_with_dictionaries();
@@ -163,33 +180,40 @@ if ($userP['i_type']==1) {
     name="rerunauxlanguage"
     value="<? echo _("Check"); ?>"
     title="<? echo _("Check page against an additional language"); ?>"
-></p>
+>
+<br>
+<?
+    // show help blurb on the UA&S icon
+    echo sprintf(
+        _("The %s icon accepts the word for this page and suggests it for the dictionary."),
+        "<img src=\"$code_url/graphics/Book-Plus-Small.gif\" border=\"0\">"
+    );
+    echo "</p>";
+    echo "</div>";
+    // here ends the div for the WordCheck header
 
-<?PHP
-echo "<p>";
-echo sprintf(
-    _("<b>Note:</b> The %s icon will accept all instances of that word for this page, and suggest it for inclusion in this project's dictionary. See also the %s."),
-    "<img src=\"$code_url/graphics/Book-Plus-Small.gif\" border=\"0\">",
-    new_window_link( "$code_url/faq/wordcheck-faq.php", _("WordCheck FAQ") )
-);
-echo "</p>";
-echo "</div>";
 ?>
-<table id="tbtext" cellpadding="10" align="center">
+<table id="tbtext" cellpadding="10" align="center"><tr>
 <tr><td id="tdtop">
 <? echo _("Resize image:"); ?>
     <input title="<? echo _("Zoom Out 25%"); ?>" type="button" value="-25%"  onclick="top.reSizeRelative(0.75)">
     <input title="<? echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25)">
-    <input title="<? echo _("Zoom to Original Size"); ?>" type="button" value="Original" onclick="top.reSizeRelative(-1)">
+    <input title="<? echo _("Zoom to Original Size"); ?>" type="button" value="100%" onclick="top.reSizeRelative(-1)">
+<?
+    // print the link to the WordCheck FAQ
+    echo " &nbsp; ";
+    echo sprintf(
+        _("%s"),
+        new_window_link( "$code_url/faq/wordcheck-faq.php", _("WordCheck FAQ") )
+    );
+?>
 </td></tr>
-<tr>
 <td 
   id="tdtext" 
   valign="top">
 <?PHP
     $ppage->echo_hidden_fields();
     echo $page_contents;
-
 ?>
 </td>
 </tr>

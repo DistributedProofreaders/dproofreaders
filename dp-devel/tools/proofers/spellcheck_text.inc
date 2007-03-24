@@ -37,7 +37,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
     $orig_text = str_replace('[lf]',' ',$orig_text);
 
     // Handle a UI-ism so that func only needs to handle ''.
-    if ( $aux_language == "Language" ) $aux_language = '';
+    if ( $aux_language == _("Language") ) $aux_language = '';
 
     list($badWordHash,$languages,$messages) =
         get_bad_words_for_text( $orig_text, $projectid, $imagefile, $aux_language, $accepted_words, 'LEVELS' );
