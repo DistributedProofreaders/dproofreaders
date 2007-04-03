@@ -119,6 +119,7 @@ $os_array = array(0 => "All",
     28 => "Solaris",
     29 => "SunOS",
     30 => "Windows 2003",
+    31 => "Windows Vista",
     99 => "Other");
 $browser_array = array(0 => "All",
     1 => "Internet Explorer 6.x",
