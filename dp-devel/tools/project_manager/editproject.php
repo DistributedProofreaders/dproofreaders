@@ -370,6 +370,8 @@ class ProjectInfoHolder
         // load non-db project settings
         // Failure to load isn't a fatal error, according to this code.
 
+        // the word list loading code is needed for cloning purposes
+        // not because this page allows us to edit word lists
         if($edit_existing)
         {
             $good_words = load_project_good_words($this->projectid);
@@ -752,6 +754,10 @@ class ProjectInfoHolder
         }
 
         // save non-database information, like the custom dictonaries
+
+        // this code is needed to support project cloning, not because
+        // this page allows editing of the word lists
+
         // explode the strings into an array
         $good_words = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->good_words));
         $bad_words = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->bad_words));

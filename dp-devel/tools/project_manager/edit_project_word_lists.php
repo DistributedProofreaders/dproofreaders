@@ -379,7 +379,7 @@ function show_visible_controls() {
         echo "<br>";
         echo "<br>";
     }
-/*
+/*  // this code is commented out until the show_project_stealth_scannos.php file is ready for prime-time
     echo _("Possible stealth-scannos: ");
     echo "<br>";
     echo new_window_link(
