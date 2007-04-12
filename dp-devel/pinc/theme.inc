@@ -267,7 +267,7 @@ function headerbar_text($text, $link = '', $with_divider = false, $title = '')
 		$out .= "&nbsp;&#183;&nbsp;\n";
 
 	if(!empty($link))
-		$out .= "<a href='$link'>\n";
+		$out .= "<a href='$link'>";
 
 	// Within the label, change any blanks to non-breaking spaces,
 	// so that the label doesn't break there.
@@ -280,7 +280,7 @@ function headerbar_text($text, $link = '', $with_divider = false, $title = '')
 
 	$out .= "<font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>"
 		. $text
-		. "</font>\n";
+		. "</font>";
 
 	if(!empty($link))
 		$out .= "</a>\n";
