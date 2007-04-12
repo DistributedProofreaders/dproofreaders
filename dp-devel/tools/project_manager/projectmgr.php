@@ -306,6 +306,7 @@ if (user_is_PM() && empty($_GET['show']) && empty($_GET['up_projectid'])) {
     }
 }
 
+$no_stats=1;
 theme(_("Project Search"), "header");
 
 $PROJECT_IS_ACTIVE_sql = "(state NOT IN ('".PROJ_SUBMIT_PG_POSTED."','".PROJ_DELETE."'))";
@@ -542,7 +543,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $user_can_see_download_links = user_can_work_in_stage($pguser, 'PP');
     $show_options_column = $user_can_see_download_links || user_is_PM();
 
-    echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
+    echo "<center><table border=1 width='100%' cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
 
     function echo_header_cell( $width, $text )
     {
@@ -652,7 +653,12 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             echo "<td align=center>";
             if ( user_is_a_sitemanager() || user_is_proj_facilitator() || $project->username == $pguser )
             {
-                print "<a href=\"editproject.php?action=edit&project=$projectid\">Edit</a>";
+                echo _("Edit:");
+                echo " ";
+                echo "<a href=\"editproject.php?action=edit&project=$projectid\">" . _("Info") . "</a>";
+                echo " | ";
+                echo "<a href=\"edit_project_word_lists.php?projectid=$projectid\">" . _("Word&nbsp;Lists") . "</a>";
+                echo "<br>";
 
                 // Should we show an "attention" icon?
                 // Currently, we only do this if the Good Word Suggestions file

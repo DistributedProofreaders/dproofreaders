@@ -71,6 +71,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
         }
     }
 
+    $no_stats=1;
     theme($page_title, "header");
     echo "<br><h2 align='center'>$page_title</h2>\n";
 
@@ -123,6 +124,7 @@ else
         $fatal_error = _("parameter 'action' is invalid") . ": '$requested_action'";
     }
 
+    $no_stats=1;
     theme($page_title, "header");
     echo "<br><h2 align='center'>$page_title</h2>\n";
 
@@ -836,6 +838,14 @@ class ProjectInfoHolder
         {
             echo "<input type='hidden' name='clone_projectid' value='$this->clone_projectid'>";
         }
+        if (!empty($this->good_words))
+        {
+            echo "<input type='hidden' name='good_words' value='" . htmlentities($this->good_words,ENT_QUOTES) . "'>";
+        }
+        if (!empty($this->bad_words))
+        {
+            echo "<input type='hidden' name='bad_words' value='" . htmlentities($this->bad_words,ENT_QUOTES) . "'>";
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -885,7 +895,7 @@ class ProjectInfoHolder
         $this->row( _("Original Image Source"),       'image_source_list',   $this->image_source     );
         $this->row( _("Image Preparer"),              'DP_user_field',       $this->image_preparer,  'image_preparer', sprintf(_("%s user who scanned or harvested the images."),$site_abbreviation));
         $this->row( _("Text Preparer"),               'DP_user_field',       $this->text_preparer,   'text_preparer', sprintf(_("%s user who prepared the text files."),$site_abbreviation) );
-        $this->row( _("Extra Credits (to be included in list of names)"),   
+        $this->row( _("Extra Credits<br>(to be included in list of names)"),   
                                                'extra_credits_field', $this->extra_credits);
         if ($this->scannercredit != '') {
             $this->row( _("Scanner Credit (deprecated)"), 'text_field',      $this->scannercredit,   'scannercredit' );
@@ -893,8 +903,7 @@ class ProjectInfoHolder
         $this->row( _("Clearance Information"),       'text_field',          $this->clearance,       'clearance' );
         $this->row( _("Posted Number"),               'text_field',          $this->postednum,       'postednum' );
         $this->row( _("Project Comments"),            'proj_comments_field', $this->comments         );
-        $this->row( _("Project Dictionary - Good Words"), 'proj_good_words_field', $this->good_words, 'good_words', '', $this->projectid);
-        $this->row( _("Project Dictionary - Bad Words"),  'proj_bad_words_field',  $this->bad_words,  'bad_words',  '', $this->projectid);
+        $this->row( _("Project Dictionary"),  'word_lists',  null,  null,  '', $this->projectid);
     }
 
     function row( $label, $display_function, $field_value, $field_name=NULL, $explan='', $args='' )

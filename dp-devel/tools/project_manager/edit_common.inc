@@ -276,7 +276,7 @@ function proj_comments_field($comments)
     $enc_comments = encodeFormValue($comments);
 
     echo "<center>";
-    echo "<textarea name='comments' cols='74' rows='16'>$enc_comments</textarea>";
+    echo "<textarea name='comments' cols='74' rows='16' style='width: 100%'>$enc_comments</textarea>";
     echo "<br>";
     echo "<b>";
     echo "[";
@@ -292,86 +292,11 @@ function proj_comments_field($comments)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function proj_good_words_field($value,$fieldname,$projectid)
-{
-    $enc_value = encodeFormValue($value);
-
-    echo "<center>";
-    echo "<textarea name='$fieldname' cols='74' rows='16'>$enc_value</textarea>";
-    if (!empty($projectid))
-    {
-        echo "<br>";
-        echo "<b>";
-        echo _("Words in the project that WordCheck would currently flag: ");
-        echo "<br>";
-        echo new_window_link(
-            "show_current_flagged_words.php?projectid=$projectid",
-            _("Display results")
-        );
-        echo " | ";
-        echo new_window_link(
-            "show_current_flagged_words.php?projectid=$projectid&amp;format=prompt",
-            _("Download results")
-        );
-
-        $f = get_project_word_file($projectid, 'good_suggs');
-        if ($f->size > 0)
-        {
-            echo "<br>";
-            echo "<br>";
-            echo _("Suggestions from proofers: ");
-            echo "<br>";
-            echo new_window_link(
-                "show_good_word_suggestions.php?projectid=$projectid",
-                _("Display results")
-            );
-            echo " | ";
-            echo new_window_link(
-                "show_good_word_suggestions.php?projectid=$projectid&amp;format=prompt",
-                _("Download results")
-            );
-        }
-        echo "</b>";
-        echo "<br>";
-        echo "<br>";
-        echo sprintf(
-            _("See the %s for more information on word lists."),
-            new_window_link( "../../faq/wordcheck-faq.php", _("WordCheck FAQ") )
-        );
-    }
-    echo "</center>";
-}
-
-function proj_bad_words_field($value,$fieldname,$projectid)
-{
-    $enc_value = encodeFormValue($value);
-
-    echo "<center>";
-    echo "<textarea name='$fieldname' cols='74' rows='16'>$enc_value</textarea>";
-    if (!empty($projectid))
-    {
-        echo "<br>";
-        echo "<b>";
-        echo _("Words in the project that are in the site's Possible Bad Words file: ");
-        echo "<br>";
-        echo new_window_link(
-            "show_project_possible_bad_words.php?projectid=$projectid",
-            _("Display results")
-        );
-        echo " | ";
-        echo new_window_link(
-            "show_project_possible_bad_words.php?projectid=$projectid&amp;format=prompt",
-            _("Download results")
-        );
-        echo "</b>";
-        echo "<br>";
-        echo "<br>";
-        echo sprintf(
-            _("See the %s for more information on word lists."),
-            new_window_link( "../../faq/wordcheck-faq.php", _("WordCheck FAQ") )
-        );
-    }
-    echo "</center>";
+function word_lists($value,$fieldname,$projectid) {
+    echo new_window_link(
+        "edit_project_word_lists.php?projectid=$projectid",
+        _("Edit project word lists")
+    );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -381,7 +306,7 @@ function extra_credits_field($extra_credits)
     $enc_credits = encodeFormValue($extra_credits);
 
     echo "<center>";
-    echo "<textarea name='extra_credits' cols='74' rows='4'>$enc_credits</textarea>";
+    echo "<textarea name='extra_credits' cols='74' rows='4' style='width: 100%'>$enc_credits</textarea>";
     echo "</center>";
 }
 

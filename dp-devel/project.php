@@ -877,7 +877,12 @@ function do_edit_above()
     echo "<a href='$code_url/tools/project_manager/editproject.php?action=edit&project=$project->projectid'>";
     echo _("Edit the above information");
     echo "</a>";
+    echo " | ";
+    echo "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$project->projectid'>";
+    echo _("Edit project word lists");
+    echo "</a>";
     echo "</p>";
+
     echo "<p>";
     echo "<a href='$code_url/tools/project_manager/editproject.php?action=clone&project=$project->projectid'>";
     echo _("Clone this project");
