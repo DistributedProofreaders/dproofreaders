@@ -462,14 +462,14 @@ class Loader
         {
             return _('filename has unrecognized suffix');
         }
-	// Task 851, complain if image file is under 100 bytes
-	else
-	{
-	    if ( $ext != ".txt" && (filesize($filename) < 100) )
-	    {
-	    return _('image file is small and probably bad');
-	    }
-	}
+        // Task 851, complain if image file is under 100 bytes
+        else
+        {
+            if ( $ext != ".txt" && (filesize($filename) < 100) )
+            {
+                return _('image file is small and probably bad');
+            }
+        }
 
         return '';
     }
