@@ -909,7 +909,10 @@ class ProjectInfoHolder
         $this->row( _("Clearance Information"),       'text_field',          $this->clearance,       'clearance' );
         $this->row( _("Posted Number"),               'text_field',          $this->postednum,       'postednum' );
         $this->row( _("Project Comments"),            'proj_comments_field', $this->comments         );
-        $this->row( _("Project Dictionary"),  'word_lists',  null,  null,  '', $this->projectid);
+        // don't show the word list line if we're in the process of cloning
+        if(!empty($this->projectid)) {
+            $this->row( _("Project Dictionary"),  'word_lists',  null,  null,  '', $this->projectid);
+        }
     }
 
     function row( $label, $display_function, $field_value, $field_name=NULL, $explan='', $args='' )
