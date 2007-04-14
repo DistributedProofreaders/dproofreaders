@@ -141,6 +141,7 @@ class ProjectWordListHolder
             $this->bad_words = implode("\n", $bad_words);
         }
 
+        $errors = array();
         return $errors;
     }
 
