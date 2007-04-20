@@ -7205,7 +7205,7 @@ consulte o manual do seu sistema operativo.
 
 para os submeter. Veja <a
 
- href="../../../Trabalho/Proofreaders/Traducao/Docs_orig/document_pt.php#a_chars">aqui</a>
+ href="#a_chars">aqui</a>
 
 alguns desses
 
@@ -7295,7 +7295,7 @@ consulte o manual do seu sistema operativo.
 
 para os submeter. Veja <a
 
- href="../../../Trabalho/Proofreaders/Traducao/Docs_orig/document_pt.php#a_chars">aqui</a>
+ href="#a_chars">aqui</a>
 
 alguns desses
 
@@ -7335,7 +7335,7 @@ consulte o manual do seu sistema operativo.
 
 para os submeter. Veja <a
 
- href="../../../Trabalho/Proofreaders/Traducao/Docs_orig/document_pt.php#a_chars">aqui</a>
+ href="#a_chars">aqui</a>
 
 alguns desses
 
@@ -7385,7 +7385,7 @@ consulte o manual do seu sistema operativo.
 
 para os submeter. Veja <a
 
- href="../../../Trabalho/Proofreaders/Traducao/Docs_orig/document_pt.php#a_chars">aqui</a>
+ href="#a_chars">aqui</a>
 
 alguns desses
 
@@ -7435,7 +7435,7 @@ consulte o manual do seu sistema operativo.
 
 para os submeter. Veja <a
 
- href="../../../Trabalho/Proofreaders/Traducao/Docs_orig/document_pt.php#a_chars">aqui</a>
+ href="#a_chars">aqui</a>
 
 alguns desses
 

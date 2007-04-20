@@ -3423,11 +3423,11 @@ sejam fluentes nestas l&iacute;nguas. H&aacute; grandes dificuldades na
 
 translitera&ccedil;&atilde;o destas l&iacute;nguas e nem o <a
 
- href="../../../Trabalho/Proofreaders/">Distributed
+ href="<? echo $code_url; ?>">Distributed
 
 Proofreaders</a> nem o <a
 
- href="../../../Trabalho/Proofreaders/imagens/<? echo $PG_home_url;?>">Projecto
+ href="<? echo $PG_home_url;?>">Projecto
 
 Gutenberg</a> definiram um modo de procedimento. </li>
 
