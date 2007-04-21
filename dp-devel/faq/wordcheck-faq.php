@@ -50,6 +50,7 @@ span.mono
   <li><a href="#wordlist_multi_languages">How do the site-wide Good/Bad Word Lists behave when more than one language is selected?</a></li>
   <li><a href="#clone_project">What happens to the word lists when a project is cloned?</a></li>
   <li><a href="#what_is_a_word">What counts as a "word" in WordCheck?</a></li>
+  <li><a href="#repeated_rounds">What do retreads/repeats/second passes do to the proofer suggestions?</a></li>
 </ul>
 
 <hr>
@@ -287,6 +288,9 @@ foreach($languages as $language) {
 <p>A "word" is any sequence of letters (with or without accents), digits, or apostrophes, surrounded by any other characters (such as spaces or punctuation). In addition, any of the approved combinations for ligatures (such as [oe]) or diacritics (such as [=a], that represents &#257;) forms part of a word, so that "c[oe]eur" is a single word.</p>
 <p>What this means is that words with characters other than those mentioned above will never be flagged in the text (such as commas). That isn't to say that future versions of WordCheck can't be modified/enhanced to include checking for words using a different string of characters, such as other punctuation, as well. While words in the Word Lists with characters other than mentioned above will never be Flagged in the text, there is no downside to including them for when WordCheck can make use of them.</p>
 <p>For example, including <span class='mono'>etc</span> on a Word List will match <span class='mono'>etc</span> and <span class='mono'>etc.</span> (notice the period) in the text. Adding just <span class='mono'>etc.</span> (again, notice the period) will not match anything in the text with the current version of WordCheck.</p>
+
+<h3><a name="repeated_rounds"></a>What do retreads/repeats/second passes do to the proofer suggestions?</h3>
+<p>If a project is cycled back through a previous round, the output of the Suggestion from Proofers page may give odd results. If the good_word_suggestions.txt file is preserved during the move, previous proofer suggestions will be retained and may show up on the Suggestion from Proofers page if not all suggestions have been added to one of the project's Word List. It is therefore possible for retread projects to list proofer suggestions for rounds later than the project is currently in. It is also possible for a word that only appears once in the text to show up as being suggested twice. WordCheck will not be affected by this and the PM can safely ignore the earlier data if they so choose.</p>
 
 <?
 theme('','footer');
