@@ -3,6 +3,7 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'comment_inclusions.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'wordcheck_engine.inc');
 
 function generate_post_files( $project, $limit_round_id, $which_text, $include_proofers, $base_extra )
 // Generate the files needed for post-processing.
@@ -18,6 +19,18 @@ function generate_post_files( $project, $limit_round_id, $which_text, $include_p
     write_project_comments($project, $fp);
     fclose ($fp);
 
+    $other_files = $comments_path;
+
+    // Word files
+    foreach ( array('good', 'bad', 'good_suggs') as $code )
+    {
+        $f = get_project_word_file($project, $code);
+        if ( $f->size > 0 )
+        {
+            $other_files .= ' ' . $f->abs_path;
+        }
+    }
+
     $pages_res = page_info_query($project, $limit_round_id, $which_text);
 
     // Join all the page texts into a plain text file...
@@ -29,7 +42,7 @@ function generate_post_files( $project, $limit_round_id, $which_text, $include_p
     // and make a zip of that file (plus comments).
     // (for "Download Zipped Text")
     $plain_zip_path = "{$pathbase}.zip";
-    exec ("zip -j $plain_zip_path $plain_path $comments_path");
+    exec ("zip -j $plain_zip_path $plain_path $other_files");
 
     mysql_data_seek($pages_res, 0);
 
@@ -42,7 +55,7 @@ function generate_post_files( $project, $limit_round_id, $which_text, $include_p
     // and make a zip of that file (plus comments).
     // (for "Download Zipped TEI text")
     $tei_zip_path = "{$pathbase}_TEI.zip";
-    exec ("zip -j $tei_zip_path $tei_path $comments_path");
+    exec ("zip -j $tei_zip_path $tei_path $other_files");
 }
 
 // -----------------------------------------------------------------------------
