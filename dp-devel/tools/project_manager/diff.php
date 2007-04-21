@@ -34,32 +34,40 @@ echo "<a href='$url'>$label</a>";
 echo "<br>\n";
 
 
-
 if ( $L_round_num == 0 )
 {
 	$L_text_column_name = 'master_text';
+	$L_user_column_name = "'none'";  // string literal, not column name
 	$L_label = _('OCR');
 }
 else
 {
 	$L_round = get_Round_for_round_number($L_round_num);
 	$L_text_column_name = $L_round->text_column_name;
+    $L_user_column_name = $L_round->user_column_name;
 	$L_label = $L_round->id;
 }
 
 {
 	$R_round = get_Round_for_round_number($R_round_num);
 	$R_text_column_name = $R_round->text_column_name;
+	$R_user_column_name = $R_round->user_column_name;
 	$R_label = $R_round->id;
 }
 
-$res = mysql_query("
-	SELECT $L_text_column_name, $R_text_column_name
-	FROM $projectid
-	WHERE image='$image'
-");
-list($L_text, $R_text) = mysql_fetch_row($res);
+$query = "
+          SELECT $L_text_column_name, $R_text_column_name,
+                 $L_user_column_name, $R_user_column_name
+          FROM $projectid
+          WHERE image='$image'";
 
+$res = mysql_query($query);
+list($L_text, $R_text, $L_user, $R_user) = mysql_fetch_row($res);
+$can_see_names_for_this_page = can_see_names_for_page($projectid, $image);
+if ( $can_see_names_for_this_page) {
+    $L_label .= " ($L_user)";
+    $R_label .= " ($R_user)";
+}
 
 // ---------------------------------------------------------
 
@@ -136,6 +144,35 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num)
     echo ">";
 
     echo "\n</form>";
+}
+
+// discover whether the user is allowed to see proofer names for this page
+function can_see_names_for_page($projectid, $image)
+{
+    global $pguser, $Round_for_round_id_;
+    $project = new Project( $projectid );
+    $answer = $project->names_can_be_seen_by_current_user; // can see for all pages
+    if (! $answer) 
+    {
+        $fields = "";
+        foreach ( $Round_for_round_id_ as $round_id => $round )
+        {
+            if ($fields != "") {
+                $fields .= ", ";
+            }
+            $fields .= $round->user_column_name;
+        }
+        $query = "SELECT $fields from $projectid WHERE image = '$image'";
+        $res = mysql_query($query) or die(mysql_error());
+        $page_res = mysql_fetch_array($res);
+        foreach ($page_res as $page_user) {
+            if ($page_user == $pguser) {
+                $answer = TRUE;
+                break;
+            }
+        }
+    }
+    return $answer;
 }
 
 ?>
