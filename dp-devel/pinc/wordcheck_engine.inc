@@ -454,7 +454,7 @@ function save_project_good_word_suggestions($projectid,$round,$page,$proofer,$wo
     if($fh) {
         // get an exclusive lock; lock is cleared by fclose
         flock($fh,LOCK_EX);
-        fputs($fh,"$time/$round/$page/$proofer/$word_list\n");
+        fputs($fh,"$time/$round/$page/$proofer/$word_list\r\n");
         fclose($fh);
     } else {
         return "Error: Unable to write to file $fileObject->abs_path\n";
@@ -591,6 +591,8 @@ function load_word_list( $path )
 
     // trim word list to remove trailing spaces
     // needed in case site word list has trailing spaces
+    // And if/since the file has \r\n line-ends,
+    // this will also remove the trailing \r.
     $words = array_map('rtrim', $words);
 
     // remove the last "empty" word caused by the last newline
@@ -635,7 +637,7 @@ function save_word_list( $path, $words )
         // skip any blank words
         if ($word == "") continue;
 
-        fputs($fh, "$word\n");
+        fputs($fh, "$word\r\n");
     }
     fclose($fh);
 
