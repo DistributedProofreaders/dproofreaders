@@ -1,4 +1,8 @@
 <?
+$relPath="./../../pinc/";
+include_once($relPath.'links.inc');
+include_once($relPath.'project_edit.inc');
+include_once($relPath.'metarefresh.inc');
 
 // get_cutoff_string
 // Arguments:
@@ -31,37 +35,73 @@ function echo_cutoff_script($cutoffOptions,$instances) {
     function setCutoff(newCutoff) {
         var cutoffArray = new Array(<?=$cutoffJSArray;?>);
         var instances = <?=$instances;?>;
-        for(cutoffIndex in cutoffArray) {
+        for(cutoffIndex in cutoffArray.reverse()) {
             cutoff = cutoffArray[cutoffIndex];
             for(instance = instances; instance>=0; instance--) {
-                var wordObject = document.getElementById("word_" + cutoff + "_" + instance);
-                var freqObject = document.getElementById("freq_" + cutoff + "_" + instance);
-                var auxObject = document.getElementById("aux_" + cutoff + "_" + instance);
-                if(wordObject) {
+                var cutoffObject = document.getElementById(cutoff + "_" + instance);
+                if(cutoffObject) {
                     if(cutoff < newCutoff) {
-                        wordObject.innerHTML="";
-                        freqObject.innerHTML="";
-                        if(auxObject) auxObject.innerHTML="";
-                    } else if(wordObject.innerHTML == "") {
-                        eval("wordObject.innerHTML=cutoffArray_word_" + instance + "[cutoff];");
-                        eval("freqObject.innerHTML=cutoffArray_freq_" + instance + "[cutoff];");
-                        if(auxObject) eval("auxObject.innerHTML=cutoffArray_aux_" + instance + "[cutoff];");
+                        cutoffObject.style.display='none';
+                    } else {
+                        cutoffObject.style.display='';
                     }
                 }
             }
         }
+        if(document.getElementById("freqCutoffValue")) document.getElementById("freqCutoffValue").value=newCutoff;
         document.getElementById("current_cutoff").innerHTML=newCutoff;
         return false;
     }
+
+    // this function will check all checkboxes with id in form "cb_*"
+    // it will only check visible checkboxes
+    // however, it will uncheck *all* checkboxes
+    function checkAll(instance,totalCount,state) {
+        // IE sucks - the 'currentStyle' property doesn't actually
+        // tell you the display of an item, just that it inherits
+        // (kinda defeats the purpose of the currentStyle, right)
+        // so we need to calculate it based on the ancestor tbody
+        // but that can take a while so we'll assume they all
+        // display by default and when we encounter the first
+        // hidden one we'll assume all the rest of them are hidden
+        // note that FF's getComputedStyle works as expected
+        var currentDisplay = 'inline';
+
+        for(var index=0;index<=totalCount;index++) {
+            var checkboxObject=document.getElementById("cb_" + instance + "_" + index);
+            if(checkboxObject) {
+                if(state==false) {
+                    if(checkboxObject.checked==true)
+                        checkboxObject.checked=false;
+                } else {
+                    if(currentDisplay != 'none') {
+                        var parent = checkboxObject.parentNode;
+                        while(parent && parent.nodeName.toLowerCase() != 'tbody') {
+                            parent=parent.parentNode;
+                        }
+                        if(parent.nodeName.toLowerCase() == 'tbody' && parent.style.display=='none') currentDisplay = 'none';
+                    }
+                    if(currentDisplay != 'none')
+                        checkboxObject.checked=true;
+                    else break;
+                }
+            }
+        }
+
+        return false;
+    }
+
 </script>
 <? } // end of echo_cutoff_script
 
 // given the list of cutoff options and the word count
 // make sure the intial cutoff shows something
-function getInitialCutoff($idealCutoff,$cutoffOptions,$wordCount) {
+function getInitialCutoff($idealCutoff,$cutoffOptions,$wordCount=null) {
     // validate the idealCutoff is in $cutoffOptions
     if(!in_array($idealCutoff,$cutoffOptions))
         $idealCutoff=$cutoffOptions[count($cutoffOptions)-1];
+
+    if($wordCount==null) return $idealCutoff;
 
     $nextCutoff = $idealCutoff;
 
@@ -90,84 +130,82 @@ function getInitialCutoff($idealCutoff,$cutoffOptions,$wordCount) {
 //                   sorted and ready for display
 //   instance      - number uniquely identifying this instance, must be less
 //                   than the $instances passed into echo_cutoff_script
+//   auxData       - array with one or more of the following:
+//                   array($words)
+//                   the following to special keys are also used:
+//                   [[TITLE]] - title of the column
+//                   [[STYLE]] - style of the td
+//   checkbox       - array containing checkbox form elements for each word
 //
 // Outputs the word frequency table
-function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,$auxData=null,$auxTitle="") {
-    $jsArrayString="";
+function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,$auxData=null,$checkbox=null) {
+    // check that auxData is an array of arrays
+    if(is_array($auxData) && !is_array($auxData[0]))
+        $auxData=array($auxData);
+
     echo '<table class="freq">';
-    echo '<tr><th>' . _('Frequency') . '</th><th>' . _('Word') . '</th>';
-    if(is_array($auxData))
-        echo "<th>$auxTitle</th>";
-    echo '</tr>';
 
-    // we'll do it in a table so project managers can copy-paste
-    // the values list into the accept textarea
-    // words printed
-    echo "<tr>";
-    $jsArrayString.=_printTableColumn($initialFreq,$cutoffOptions,$wordCount,"freq",$instance);
-    $jsArrayString.=_printTableColumn($initialFreq,$cutoffOptions,$wordCount,"word",$instance);
-    if(is_array($auxData))
-        $jsArrayString.=_printTableColumn($initialFreq,$cutoffOptions,$wordCount,"aux",$instance,$auxData);
-    echo "</tr>";
+    // output the table heading
+    echo '<tr><th>' . _('Word') . '</th><th>' . _('Freq') . '</th>';
+    if(is_array($auxData)) {
+        for($index=0;$index<count($auxData);$index++)
+            echo "<th>" . $auxData[$index]['[[TITLE]]'] . "</th>";
+    }
+    echo "</tr>\n";
 
-    echo '</table>';
-
-    // print out javascript array
-    echo "<script language='javascript'>\n";
-    echo $jsArrayString;
-    echo "</script>\n";
-    
-}
-
-// _printTableColumn -- internal function used by printTableFrequencies
-// Arguments:
-//   initialFreq   - initial cutoff frequency, anything after this is hidden
-//   cutoffOptions - list of javascript cutoff options (eg: array(1,2,3,4,5))
-//   wordCount     - a table containing the word/frequency pairs already
-//                   sorted and ready for display
-//   prefix        - column specifier (either 'word' or 'freq')
-//   instance      - number uniquely identifying this instance, must be less
-//                   than the $instances passed into echo_cutoff_script
-//
-// Outputs the word frequency table
-function _printTableColumn($initialFreq,$cutoffOptions,$wordCount,$prefix,$instance,$auxData=null) {
-    $returnString="var cutoffArray_${prefix}_${instance}=new Array();\n";
+    // now start processing the rows
+    $jsOutput = "var cutoffArray_${instance}=new Array();\n";
     $freqCutoff = 100000;
-    $class="";
-    $printWords=1;
-    if($prefix=="freq" || $prefix=="aux") $class=" class='num'";
-    echo "<td$class><hr>";
-    echo "<span id='${prefix}_${freqCutoff}_${instance}'>";
+    $printLines = 1;
+    echo "<tbody id='${freqCutoff}_${instance}'>\n";
     $nextCutoff = array_pop($cutoffOptions);
-    foreach( $wordCount as $word => $freq ) {
+    // print it out in a real-HTML table
+    foreach($wordCount as $word => $freq) {
         if($freq < $nextCutoff) {
             $prevCutoff = $nextCutoff;
             while($freq < $nextCutoff && count($cutoffOptions))
                 $nextCutoff=array_pop($cutoffOptions);
             $freqCutoff=$nextCutoff;
 
-            if($printWords) echo $jsString;
-            $returnString.="cutoffArray_${prefix}_${instance}[${prevCutoff}]=\"$jsString\";\n";
-            $jsString="";
-
-            echo "</span>\n";
+            echo "</tbody>\n";
 
             // hide any span sections past our initialFreq
-            if($freqCutoff < $initialFreq) $printWords=0;
-            echo "<span id='{$prefix}_${freqCutoff}_${instance}'>";
+            if($freqCutoff < $initialFreq) $printLines=0;
+
+            // start the new cutoff
+            echo "<tbody id='${freqCutoff}_${instance}'";
+            if(!$printLines) echo " style='display: none;'";
+            echo ">\n";
         }
 
-        // output either $freq or $word based on $prefix
-        if($prefix=="freq") $jsString.="$freq<br>";
-        elseif($prefix=="word") $jsString.=rtrim($word) . "<br>";
-        elseif($prefix="aux") $jsString.=$auxData[$word] . "<br>";
-    }
-    $returnString.="cutoffArray_${prefix}_${instance}[${nextCutoff}]=\"$jsString\";\n";
-    if($printWords) echo $jsString;
-    echo "</span>\n";
-    echo "</td>\n";
+        // start of the row
+        $line = "<tr>";
 
-    return $returnString;
+        if($checkbox) {
+            $line .= "<td class='mono'><nobr>" . $checkbox[$word] . " " . rtrim($word) . "</nobr></td>";
+        } else {
+            $line .= "<td>" . rtrim($word) . "</td>";
+        }
+
+        $line .= "<td class='num'>$freq</td>";
+
+        // if avaiable, process any aux data
+        if(is_array($auxData)) {
+            for($index=0;$index<count($auxData);$index++) {
+                $line .= "<td";
+                if(!empty($auxData[$index]['[[STYLE]]']))
+                    $line.=" style='" . $column['style']=$auxData[$index]['[[STYLE]]'] . "'";
+                $line .= ">" . $auxData[$index][$word] . "</td>";
+            }
+        }
+
+        $line .= "</tr>\n";
+        echo $line;
+    }
+
+    echo "</tbody>\n";
+
+    echo '</table>';
 }
 
 // arrays with numeric and string keys don't multisort correctly
@@ -186,26 +224,17 @@ function prep_numeric_keys_for_multisort(&$assocArray) {
 function echo_word_freq_style() {
 ?>
 <style type="text/css">
-table.freq td, table.freq th {
-    padding-right: 0.5em;
-}
-table.freq td {
-    font-family: DPCustomMono2,monospace;
-}
-table.freq td.num {
-    text-align: right;
-}
-span.mono {
-    font-family: DPCustomMono2,monospace;
-}
+.mono { font-family: DPCustomMono2,monospace; }
+table.freq th { border-bottom: thin solid black; }
+table.freq td, table.freq th { padding-right: 0.5em; }
+table.freq td.num { text-align: right; }
+span.hl { background-color: yellow; color: black; }
+p.warning { color: red; }
 </style>
 <?
 }
 
 function echo_page_header($title,$projectid) {
-    echo "<html>\n";
-    echo "<head><title>$title</title></head>\n";
-    echo "<body>\n";
     echo "<h1>$title</h1>";
 
     $project_text = sprintf(_("Project: %s"),get_project_name($projectid));
@@ -213,16 +242,16 @@ function echo_page_header($title,$projectid) {
 }
 
 function get_project_name($projectid) {
-    $res = mysql_query("SELECT * FROM projects WHERE projectid = '$projectid'");
+    $res = mysql_query("SELECT nameofwork FROM projects WHERE projectid = '$projectid'");
     $ar = mysql_fetch_array($res);
     return $ar['nameofwork'];
 }
 
 function echo_page_instruction_text($wordListType) {
     if( $wordListType == "good") {
-        $page_instructions_string = _("If you find any words in the results list that should not be flagged in the WordCheck interface, add them to the project's Good Words List. The most accurate way to do so probably is to copy the words from the candidate list and paste them into the Good Words input box on the Edit Project page (taking care not to overwrite any words that are already in the box).");
+        $page_instructions_string = _("If you find words in the results list that should not be flagged in the WordCheck interface, add them to the project's Good Words List. You can do this either by using the checkboxes provided or by copying from below and pasting them into the Good Words input box on the Edit Project Word Lists page (taking care not to overwrite any existing words).");
     } elseif( $wordListType == "bad" ) {
-        $page_instructions_string = _("If you find any words in the results list that should be flagged in the WordCheck interface for extra attention by proofers, add them to the project's Bad Words List. The most accurate way to do so probably is to copy the words from the candidate list and paste them into the Bad Words input box on the Edit Project page (taking care not to overwrite any words that are already in the box).");
+        $page_instructions_string = _("If you find any words in the results list that should be flagged in the WordCheck interface for extra attention by proofers, add them to the project's Bad Words List. You can do this either by using the checkboxes provided or by copying them from below and pasting them into the Bad Words input box on the Edit Project Word Lists page (taking care not to overwrite any existing words).");
     } else {
         assert(FALSE);
     }
@@ -230,27 +259,16 @@ function echo_page_instruction_text($wordListType) {
     echo "<p>$page_instructions_string</p>\n";
 }
 
-function echo_page_instruction_reiteration_text($wordListType) {
-    if( $wordListType == "good") {
-        $reiteration_text = _("Once again, these are only <i>candidates</i> for this project's Good Words List. Based on your analysis of the results and your knowledge of this particular project, you as a PM must decide which, if any, of the words will actually be added to the project's Good Words List.");
-    } elseif( $wordListType == "bad" ) {
-        $reiteration_text = _("Once again, these are only <i>candidates</i> for this project's Bad Words List. Based on your analysis of the results and your knowledge of this particular project, you as a PM must decide which, if any, of the words will actually be added to the project's Bad Words List.");
-    } else {
-        assert(FALSE);
+function echo_download_text($projectid, $format) {
+    global $code_url;
+    if($format == "html") {
+        $download_text = sprintf(_("You can <a href='%s'>download</a> a copy of the full candidate word list with frequencies for offline analysis."),"?" . $_SERVER["QUERY_STRING"] . "&amp;format=file");
+        $faq_text = sprintf(_("See also the %s for more information on the WordCheck system."),"<a href='$code_url/faq/wordcheck-faq.php'>" . _("WordCheck FAQ") . "</a>");
+        echo "<p>$download_text $faq_text</p>\n";
+    } elseif($format == "file") {
+        $instructions = _("When you paste data into the input box on the Edit Project Word Lists page, the system will remove anything after the first space so the frequency counts can be left in.");
+        echo $instructions . "\r\n";
     }
-
-    echo "<p>$reiteration_text</p>\n";
-}
-
-function echo_download_text($projectid,$format) {
-    $download_text = "";
-
-    if($format == "html")
-        $download_text = sprintf(_("You can <a href='%s'>download</a> a copy of the full candidate word list with frequencies for offline analysis."),"?projectid=$projectid&amp;format=file");
-
-    $download_text .= " ";
-    $download_text .= _("When you paste data into the input box on the Edit Project page, the system will remove frequency counts for you if they follow the word and are separated from the word by at least one space.");
-    echo "<p>$download_text</p>\n";
 }
 
 function echo_cutoff_text($initialFreq,$cutoffOptions) {
@@ -258,16 +276,10 @@ function echo_cutoff_text($initialFreq,$cutoffOptions) {
     echo "<p>$cutoff_text</p>\n";
 }
 
-function echo_wordcheck_faq_text() {
-    global $code_url;
-    $faq_text = sprintf(_("See also the %s for more information on the WordCheck system."),"<a href='$code_url/faq/wordcheck-faq.php'>" . _("WordCheck FAQ") . "</a>");
-    echo "<p>$faq_text</p>\n";
-}
-
 function echo_any_warnings_errors($messages) {
     if ( count($messages) > 0 )
     {
-        echo "<p>\n";
+        echo "<p class='warning'>\n";
         echo _("The following warnings/errors were raised:") . "<br>\n";
         foreach ( $messages as $message )
             echo "$message<br>\n";
@@ -283,6 +295,134 @@ function echo_page_footer($page_gen_time=null) {
 
     echo "</body>\n";
     echo "</html>\n";
+}
+
+function _get_uid_from_username($username) {
+    $query="select user_id from phpbb_users where username='$username'";
+    $result = mysql_query($query);
+    list($userid) = mysql_fetch_array( $result );
+    mysql_free_result($result);
+    return $userid;
+}
+
+function _get_word_context_from_text($page_text,$contextWord) {
+    global $word_characters;
+
+    $contexts=array();
+
+    $lines=explode("\n",$page_text);
+    $lineNum=1;
+    foreach($lines as $line) {
+        $words=get_all_words_in_text($line,true);
+        foreach($words as $offset => $word) {
+            if($word == $contextWord) {
+                $contexts[$lineNum]=$line;
+            }
+        }
+        $lineNum++;
+    }
+
+    return array($contexts,$lineNum);
+}
+
+function _highlight_word($text,$hlWord) {
+    $wordOffsets=array();
+
+    // get all the words in the text with their offsets
+    $words=get_all_words_in_text($text,true);
+    foreach($words as $offset => $word) {
+        // if this word matches the one to highlight, mark the offset
+        if($word == $hlWord) {
+            array_push($wordOffsets,$offset);
+        }
+    }
+
+    // we need to do the replacement from right to left
+    // so reverse sort the offsets
+    rsort($wordOffsets);
+
+    // now do the replacements
+    foreach($wordOffsets as $offset) {
+        $text=substr_replace($text,"<span class='hl'>$hlWord</span>",$offset,strlen($hlWord));
+    }
+
+    return $text;
+}
+
+function build_context_array_links($words_w_freq,$projectid,$word) {
+    $context_array=array();
+
+    foreach($words_w_freq as $word => $freq) {
+        $encWord = encode_word($word);
+        $context_array[$word]=new_window_link("show_word_context.php?projectid=$projectid&amp;word=$encWord",_("Context"));
+    }
+
+    return $context_array;
+}
+
+function encode_word($word) {
+    return bin2hex($word);
+}
+
+function decode_word($word) {
+    return pack("H*",$word);
+}
+
+function enforce_edit_authorization($projectid) {
+    global $code_url;
+
+    $ucep_result = user_can_edit_project($projectid);
+    if($ucep_result != USER_CAN_EDIT_PROJECT) {
+        $message = _("You are not authorized to edit this project. Redirecting you to the project page in 5 seconds.");
+        metarefresh(5, "$code_url/project.php?id=$projectid", _("Redirect to Project"), $message);
+        exit;
+    }
+}
+
+function parse_posted_words($_array) {
+    $newProjectWords=array();
+    foreach($_array as $key => $val) {
+        if(preg_match("/cb_(.*?)_(\d+)/",$key,$matches)) {
+            $word=decode_word($val);
+            array_push($newProjectWords,$word);
+        }
+    }
+    return $newProjectWords;
+}
+
+function build_checkbox_array($array,$instance=0) {
+    $count=0;
+    $word_checkbox = array();
+    foreach($array as $word => $freq) {
+        $encWord = encode_word($word);
+        $word_checkbox[$word]="<input type='checkbox' id='cb_{$instance}_{$count}' name='cb_{$instance}_{$count}' value='$encWord'>";
+        $count++;
+    }
+    return $word_checkbox;
+}
+
+function echo_checkbox_selects($wordCount,$instance=0) {
+    echo "<p>";
+    echo "<a href='#' onClick='return checkAll(\"$instance\",$wordCount,true);'>" . _("Check All") . "</a>";
+    echo " | ";
+    echo "<a href='#' onClick='return checkAll(\"$instance\",$wordCount,false);'>" . _("Uncheck All") . "</a>";
+    echo "</p>";
+}
+
+function echo_checkbox_form_start($checkbox_form) {
+    echo "<form action='" . $_SERVER["PHP_SELF"] . "' method='post'>";
+    echo "<input type='hidden' name='format' value='update'>";
+    foreach($checkbox_form as $name => $value) {
+        echo "<input type='hidden' name='$name' value='$value'>";
+    }
+}
+
+function echo_checkbox_form_submit($submit_label) {
+    echo "<input type='submit' value='$submit_label'>";
+}
+
+function echo_checkbox_form_end() {
+    echo "</form>";
 }
 
 // vim: sw=4 ts=4 expandtab
