@@ -132,12 +132,12 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num)
     $previous_js = "this.form.image.value='$prev_image'; this.form.submit();";
     $next_js = "this.form.image.value='$next_image'; this.form.submit();";
 
-    echo "\n<input type='button' value='Previous' onClick=\"$previous_js\"";
+    echo "\n<input type='button' value='" . _("Previous") . "' onClick=\"$previous_js\"";
     if ( $prev_image == "" ) {
         echo " disabled";
     }
     echo ">";
-    echo "\n<input type='button' value='Next' onClick=\"$next_js\"";
+    echo "\n<input type='button' value='" . _("Next") . "' onClick=\"$next_js\"";
     if ( $next_image == "" ) {
         echo " disabled";
     }
