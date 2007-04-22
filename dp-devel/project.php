@@ -878,11 +878,11 @@ function do_edit_above()
     if (!$project->can_be_managed_by_current_user) return;
 
     echo "<p>";
-    echo "<a href='$code_url/tools/project_manager/editproject.php?action=edit&project=$project->projectid'>";
+    echo "<a href='$code_url/tools/project_manager/editproject.php?action=edit&project=$project->projectid&amp;return=" . $_SERVER["PHP_SELF"] . "'>";
     echo _("Edit the above information");
     echo "</a>";
     echo " | ";
-    echo "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$project->projectid'>";
+    echo "<a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$project->projectid&amp;return=" . $_SERVER["PHP_SELF"] . "'>";
     echo _("Edit project word lists");
     echo "</a>";
     echo "</p>";

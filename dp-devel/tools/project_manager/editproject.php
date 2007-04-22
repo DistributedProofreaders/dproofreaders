@@ -17,6 +17,8 @@ include_once($relPath.'wordcheck_engine.inc');
 $popHelpDir="$code_url/faq/pophelp/project_manager/";
 include_once($relPath.'js_newpophelp.inc');
 
+$return = array_get($_REQUEST,"return","$code_url/tools/project_manager/projectmgr.php");
+
 if ( !user_is_PM() )
 {
     die('permission denied');
@@ -32,7 +34,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
         $pih->save_to_db();
         if (isset($_POST['saveAndQuit']))
         {
-            metarefresh(0, "projectmgr.php", _("Save and Quit"), "");
+            metarefresh(0, "projectmgr.php", _("Save and Go To PM Page"), "");
             exit;
         }
         elseif (isset($_POST['saveAndProject']))
@@ -88,6 +90,23 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
     }
 
     theme("", "footer");
+}
+elseif (isset($_POST['quit']))
+{
+    $pih->set_from_post();
+
+    // if the user came from the project page, take them back there
+    if(preg_match("/project.php/",$return))
+        $return.="?id=$pih->projectid";
+
+    // if the projectid is empty, for whatever reason, take them to
+    // the PM page
+    if(empty($pih->projectid))
+        $return="$code_url/tools/project_manager/projectmgr.php";
+
+    // do the redirect
+    metarefresh(0, $return, _("Quit without Saving"), "");
+    exit;
 }
 else
 {
@@ -807,10 +826,10 @@ class ProjectInfoHolder
 
         echo "<tr>";
         echo   "<td bgcolor='#CCCCCC' colspan='2' align='center'>";
-        echo     "<input type='submit' name='saveAndQuit' value='"._("Save and Quit")."'>";
+        echo     "<input type='submit' name='saveAndQuit' value='"._("Save and Go To PM Page")."'>";
         echo     "<input type='submit' name='saveAndProject' value='"._("Save and Go To Project")."'>";
         echo     "<input type='submit' name='saveAndPreview' value='"._("Save and Preview")."'>";
-        echo     "<input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'>";
+        echo     "<input type='submit' name='quit' value='"._("Quit Without Saving")."'>";
         echo   "</td>";
         echo "</tr>\n";
 
@@ -824,6 +843,8 @@ class ProjectInfoHolder
 
     function show_hidden_controls()
     {
+        global $return;
+
         if (!empty($this->original_marc_array_encd))
         {
             echo "<input type='hidden' name='rec' value='$this->original_marc_array_encd'>";
@@ -852,6 +873,7 @@ class ProjectInfoHolder
         {
             echo "<input type='hidden' name='bad_words' value='" . htmlentities($this->bad_words,ENT_QUOTES) . "'>";
         }
+        echo "<input type='hidden' name='return' value='$return'>";
     }
 
     // -------------------------------------------------------------------------

@@ -9,6 +9,7 @@ include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'project_edit.inc');
 
+$return = array_get($_REQUEST,"return","$code_url/tools/project_manager/projectmgr.php");
 
 if ( !user_is_PM() )
 {
@@ -19,16 +20,24 @@ $pwlh = new ProjectWordListHolder;
 
 $errors = array();
 
-if (isset($_POST['saveAndProject']) || isset($_POST['save']) )
+if (isset($_POST['saveAndProject']) || isset($_POST['saveAndPM']) || isset($_POST['save']) )
 {
     $errors = $pwlh->set_from_post();
     if (count($errors)==0)
     {
         $errors = $pwlh->save_to_files();
-        if (count($errors)==0 && isset($_POST['saveAndProject']))
+        if (count($errors)==0)
         {
-            metarefresh(0, "$code_url/project.php?id=$pwlh->projectid", _("Save and Go To Project"), "");
-            exit;
+            if (isset($_POST['saveAndProject']))
+            {
+                metarefresh(0, "$code_url/project.php?id=$pwlh->projectid", _("Save and Go To Project"), "");
+                exit;
+            }
+            elseif (isset($_POST['saveAndPM']))
+            {
+                metarefresh(0, "$code_url/tools/project_manager/projectmgr.php", _("Save and Go To PM Page"), "");
+                exit;
+            }
         }
         elseif (isset($_POST['save']))
         {
@@ -42,7 +51,14 @@ if (isset($_POST['saveAndProject']) || isset($_POST['save']) )
     }
 } elseif(isset($_POST['quit'])) {
     $errors = $pwlh->set_from_post();
-    metarefresh(0, "$code_url/project.php?id=$pwlh->projectid", _("Quit and Go To Project"), "");
+
+    // if the user came from the project page, take them back there
+    if(preg_match("/project.php/",$return))
+        $return.="?id=$pwlh->projectid";
+
+    // do the redirect
+    metarefresh(0, $return, _("Quit without Saving"), "");
+    exit;
 } elseif(isset($_POST['reload'])) {
     // fall through
 }
@@ -110,6 +126,7 @@ class ProjectWordListHolder
         $this->projectmanager   = $ar['username'];
         $this->authorsname      = $ar['authorsname'];
         $this->language         = $ar['language'];
+        $this->checkedoutby     = $ar['checkedoutby'];
 
         mysql_free_result($res);
 
@@ -141,7 +158,6 @@ class ProjectWordListHolder
             $this->bad_words = implode("\n", $bad_words);
         }
 
-        $errors = array();
         return $errors;
     }
 
@@ -246,8 +262,9 @@ class ProjectWordListHolder
 
         echo "<tr>";
         echo   "<td class='label' colspan='2' align='center'>";
-        echo     "<input type='submit' name='save' value='"._("Save")."'>";
+        echo     "<input type='submit' name='saveAndPM' value='"._("Save and Go To PM Page")."'>";
         echo     "<input type='submit' name='saveAndProject' value='"._("Save and Go To Project")."'>";
+        echo     "<input type='submit' name='save' value='"._("Save")."'>";
         echo     "<input type='submit' name='quit' value='"._("Quit Without Saving")."'>";
         echo     "<input type='submit' name='reload' value='"._("Reload from Files")."'>";
         echo   "</td>";
@@ -284,9 +301,12 @@ class ProjectWordListHolder
 
     function show_hidden_controls()
     {
+        global $return;
+
         echo "<input type='hidden' name='projectid' value='$this->projectid'>";
         echo "<input type='hidden' name='gwl_timestamp' value='$this->gwl_timestamp'>";
         echo "<input type='hidden' name='bwl_timestamp' value='$this->bwl_timestamp'>";
+        echo "<input type='hidden' name='return' value='$return'>";
     }
 
 
@@ -295,9 +315,11 @@ function show_visible_controls() {
     $badWordData = encodeFormValue($this->bad_words);
 
     $fields=array(
+        "projectid" => _("Project ID"),
         "nameofwork" => _("Name of Work"),
         "authorsname" => _("Author's Name"),
         "projectmanager" => _("Project Manager"),
+        "checkedoutby" => _("Post-Processor"),
         "language" => _("Language")
     );
 
@@ -326,31 +348,29 @@ function show_visible_controls() {
     echo "<td align='center' valign='top' width='50%'>";
     echo "<textarea class='mono' name='good_words' cols='40' rows='20'>$goodWordData</textarea>";
 
-    echo "<p><b>";
-    echo _("Words that WordCheck would currently flag: ");
-    echo "<br>";
+    echo "<p>";
+    echo "<b>" . _("Words that WordCheck would currently flag:") . "</b><br>";
     echo new_window_link(
         "show_current_flagged_words.php?projectid=$this->projectid",
         _("Display results")
     );
     echo " | ";
     echo "<a href='show_current_flagged_words.php?projectid=$this->projectid&amp;format=file'>" . _("Download results") . "</a>";
+    echo "</p>";
 
     $f = get_project_word_file($this->projectid, 'good_suggs');
     if ($f->size > 0)
     {
-        echo "<br>";
-        echo "<br>";
-        echo _("Suggestions from proofers: ");
-        echo "<br>";
+        echo "<p>";
+        echo "<b>" . _("Suggestions from proofers:") . "</b><br>";
         echo new_window_link(
             "show_good_word_suggestions.php?projectid=$this->projectid",
             _("Display results")
         );
         echo " | ";
         echo "<a href='show_good_word_suggestions.php?projectid=$this->projectid&amp;format=file'>" . _("Download results") . "</a>";
+        echo "</p>";
     }
-    echo "</b></p>";
 
     echo "</td>";
 
@@ -367,30 +387,29 @@ function show_visible_controls() {
         $show_links = $show_links || ($fileObject->size > 0);
     }
 
-    echo "<p><b>";
     if($show_links) {
-        echo _("Words in the site's Possible Bad Words file: ");
-        echo "<br>";
+        echo "<p>";
+        echo "<b>" . _("Words in the site's Possible Bad Words file:") . "</b><br>";
         echo new_window_link(
             "show_project_possible_bad_words.php?projectid=$this->projectid",
             _("Display results")
         );
         echo " | ";
         echo "<a href='show_project_possible_bad_words.php?projectid=$this->projectid&amp;format=file'>" . _("Download results") . "</a>";
-        echo "<br>";
-        echo "<br>";
+        echo "</p>";
     }
-/*  // this code is commented out until the show_project_stealth_scannos.php file is ready for prime-time
-    echo _("Possible stealth-scannos: ");
-    echo "<br>";
+// commenting this code out until the linked page is ready for checkin
+/*
+    echo "<p>";
+    echo "<b>" . _("Possible stealth-scannos:") . "</b><br>";
     echo new_window_link(
         "show_project_stealth_scannos.php?projectid=$this->projectid",
         _("Display results")
     );
     echo " | ";
     echo "<a href='show_project_stealth_scannos.php?projectid=$this->projectid&amp;format=file'>" . _("Download results") . "</a>";
+    echo "</p>";
 */
-    echo "</b></p>";
 
     echo "</td>";
     echo "</tr>";
@@ -408,6 +427,11 @@ function show_visible_controls() {
     );
 
     echo "</td>";
+    echo "</tr>";
+
+    echo "<tr>";
+    echo "<td class='label'>" . _("Project Information") . "</td>";
+    echo "<td>" . new_window_link( "editproject.php?action=edit&amp;project=$this->projectid", _("Edit project information") ) . "</td>";
     echo "</tr>";
 
     // -------------------------------------------------------------------------
