@@ -50,11 +50,10 @@ if (isset($_POST['saveAndProject']) || isset($_POST['saveAndPM']) || isset($_POS
         // fall through
     }
 } elseif(isset($_POST['quit'])) {
-    $errors = $pwlh->set_from_post();
-
-    // if the user came from the project page, take them back there
-    if(preg_match("/project.php/",$return))
-        $return.="?id=$pwlh->projectid";
+    // if return is empty for whatever reason take them to
+    // the PM page
+    if(empty($return))
+        $return="$code_url/tools/project_manager/projectmgr.php";
 
     // do the redirect
     metarefresh(0, $return, _("Quit without Saving"), "");

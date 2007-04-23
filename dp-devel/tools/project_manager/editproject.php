@@ -93,15 +93,9 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
 }
 elseif (isset($_POST['quit']))
 {
-    $pih->set_from_post();
-
-    // if the user came from the project page, take them back there
-    if(preg_match("/project.php/",$return))
-        $return.="?id=$pih->projectid";
-
-    // if the projectid is empty, for whatever reason, take them to
+    // if return is empty for whatever reason take them to
     // the PM page
-    if(empty($pih->projectid))
+    if(empty($return))
         $return="$code_url/tools/project_manager/projectmgr.php";
 
     // do the redirect
