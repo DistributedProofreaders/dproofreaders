@@ -330,6 +330,11 @@ function show_visible_controls() {
     }
 
     echo "<tr>";
+    echo "<td class='label'>" . _("WordCheck Statistics") . "</td>";
+    echo "<td>" . new_window_link("show_project_wordcheck_stats.php?projectid=$this->projectid",_("Show WordCheck page statistics")) . "</td>";
+    echo "</tr>";
+
+    echo "<tr>";
     echo "<td class='label' align='center' colspan='2'>";
     echo _("Project Dictionary - Word Lists");
     echo "</td>";
