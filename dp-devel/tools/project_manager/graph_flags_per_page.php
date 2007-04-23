@@ -1,5 +1,5 @@
 <?
-$relPath="../../";
+$relPath="../../pinc/";
 include_once('../../stats/jpgraph_files/common.inc');
 
 $projectid = $_GET["projectid"];
