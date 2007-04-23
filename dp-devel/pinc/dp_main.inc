@@ -28,7 +28,10 @@
   {
     // Remember the current REQUEST_URI, so that we can send the user there
     // after the login process.
-    $url=$relPath."../accounts/signin.php?destination={$_SERVER['REQUEST_URI']}";
+    // (urlencode it because it might contain characters [specifically, &]
+    // that would confuse parsing of the signin.php URL.)
+    $request_uri_encoded = urlencode($_SERVER['REQUEST_URI']);
+    $url=$relPath."../accounts/signin.php?destination=$request_uri_encoded";
     $body="<A HREF=\"$url\">" . _("Please Sign In") . "</A>";
     $title = _("Please Sign In");
     metarefresh(0,$url,$title,$body);
