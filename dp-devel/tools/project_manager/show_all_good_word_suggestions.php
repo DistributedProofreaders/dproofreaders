@@ -133,6 +133,7 @@ echo "<br>";
     echo "<form action='" . $_SERVER["PHP_SELF"] . "' method='post'>";
     echo "<input type='hidden' name='frame' value='update'>";
     echo "<input type='hidden' name='pm' value='$pm'>";
+    echo "<input type='hidden' name='timeCutoff' value='$timeCutoff'>";
 
     $projectsNeedingAttention=0;
     // loop through the projects
