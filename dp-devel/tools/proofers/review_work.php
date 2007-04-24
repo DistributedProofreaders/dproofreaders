@@ -3,6 +3,7 @@ $relPath='../../pinc/';
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc');
 
 define("MESSAGE_INFO",0);
 define("MESSAGE_WARNING",1);
@@ -17,7 +18,7 @@ $rounds=array_keys($Round_for_round_id_);
 $username = @$_REQUEST["username"];
 $work_round_id = @$_REQUEST["work_round_id"];
 $review_round_id = @$_REQUEST["review_round_id"];
-$sampleLimit = 6;  // NB hard coded: the number of recent diffs to display per project
+$sampleLimit = 25;  // NB hard coded: the number of recent diffs to display per project
 
 // if the user isn't a site manager or an access request reviewer
 // they can only access their own pages
@@ -113,9 +114,12 @@ $res2 = dpsql_query("
         page_events.projectid,
         state,
         nameofwork,
+        deletion_reason,
         FROM_UNIXTIME(MAX(timestamp)) AS time_of_latest_save
     FROM page_events LEFT OUTER JOIN projects USING (projectid)
-    WHERE round_id='$work_round->id' AND page_events.username='$username' AND event_type='saveAsDone'
+    WHERE round_id='$work_round->id' AND 
+          page_events.username='$username' AND 
+          event_type='saveAsDone'
     GROUP BY page_events.projectid
     ORDER BY time_of_latest_save DESC
 ") or die("Aborting");
@@ -148,7 +152,7 @@ echo "<th>" . ("Last Saved") . "</th>";
 echo "<th>" . sprintf(_("Pages saved by user in %s"),$work_round->id) . "</th>";
 echo "<th>" . sprintf(_("Pages saved by others in %s"),$review_round->id) . "</th>";
 echo "<th>" . _("Pages with differences") . "</th>";
-echo "<th>" . _("Recent Diff Samples") . "</th>";
+echo "<th>" . _("$sampleLimit most recent diffs") . "</th>";
 echo "</tr>";
 
 $total_n_saved   = 0;
@@ -159,10 +163,31 @@ $messages = array();  // will contain error messages
 
 // go through the list of projects with pages saved in the work round, according
 // to the page_events table
-while ( list($projectid, $state, $nameofwork, $time_of_latest_save) = mysql_fetch_row($res2) )
+while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save) = mysql_fetch_row($res2) )
 {
+    // if the project has been deleted, find out whether it was merged into another one
+    // and if so, operate on the one it was merged into
+    // this may give us duplicates in the list. TODO: deal with them.
+
+    $was_merged = ($state == 'project_delete') &&  str_contains($deletion_reason, 'merged');
+    // see if the deletion reason contains "merged", and if so look for the projectid
+    if ($was_merged && 
+        (1 == preg_match('/\b(projectID[0-9a-f]{13})\b/', $deletion_reason, $matches))) 
+    {
+        $deleted_projectid = $projectid;
+        $projectid = $matches[0];
+        $deleted_state = $state;
+        $deleted_nameofwork = $nameofwork;
+        $deleted_url = "$code_url/tools/project_manager/page_detail.php?project=$deleted_projectid";
+        $dres = mysql_query("SELECT state, nameofwork FROM projects WHERE projectid = '$projectid'");
+        list($state, $nameofwork) = mysql_fetch_row($dres);
+        // OK, the information is now all for the project that the deleted one was merged into
+    }
+    // what do we do if it was merged but we haven't found a projectid? TODO
+
     // $url = "$code_url/project.php?id=$projectid&amp;detail_level=4";
     $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username";
+
 
     // $query = "select count(*) from $projectid where {$work_round->user_column_name}='$username' and $has_been_saved_in_review_round and $there_is_a_diff";
     $query = "
@@ -222,11 +247,10 @@ while ( list($projectid, $state, $nameofwork, $time_of_latest_save) = mysql_fetc
 
 // not sure why the pages that have been saved in the review round
 // are highlighted as that data doesn't really tell me much
+// ... but it shows the evaluator which projects to look at
 
-//    $n_latered_bg = ( $n_latered   > 0 ? "bgcolor='#ccffcc'" : "" );
-
-    $n_latered_bg = ''; 
-    $n_w_diff_bg  = ( $n_with_diff > 0 ? "bgcolor='yellow'" : "" );
+    $n_latered_bg = ( $n_latered   > 0 ? "bgcolor='#ccffcc'" : "" );
+    $n_w_diff_bg  = ( $n_with_diff > 0 ? "bgcolor='#ccccff'" : "" );
 
     $total_n_saved   += $n_saved;
     $total_n_latered += $n_latered;
@@ -234,9 +258,18 @@ while ( list($projectid, $state, $nameofwork, $time_of_latest_save) = mysql_fetc
 
     echo "<tr>";
     if($table_found)
-        echo "<td><a href='$url'>$nameofwork</a></td>";
+    {
+        echo "<td $n_latered_bg><a href='$url'>$nameofwork</a>";
+        if ($was_merged) 
+        {
+            echo " (contains pages from deleted project <a href='$deleted_url'>$deleted_nameofwork</a>)";
+        }
+        echo "</td>";
+    }
     else
+    {
         echo "<td>$nameofwork</td>";
+    }
     echo "<td>$state</td>";
     echo "<td>$time_of_latest_save</td>";
     echo "<td align='center'>$n_saved</td>";
