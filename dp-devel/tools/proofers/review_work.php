@@ -4,6 +4,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc');
+include_once($relPath.'project_states.inc');
 
 define("MESSAGE_INFO",0);
 define("MESSAGE_WARNING",1);
@@ -199,7 +200,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
         // OK, the information is now all for the project that the deleted one was merged into
         $messages[] = array("<a href='$deleted_url'>$deleted_nameofwork</a>",
                             $deleted_state,
-                            sprintf(_("merged into %s"), "<a href='$url'>$nameofwork</a>"),
+                            sprintf(_("Merged into %s"), "<a href='$url'>$nameofwork</a>"),
                             MESSAGE_INFO);
     }
     // what do we do if it was merged but we haven't found a projectid? TODO
@@ -220,7 +221,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
         // table doesn't exist. We are not interested.
         $messages[] = array("<a href='$url'>$nameofwork</a>",
                             $state,
-                            _("Pages table no longer exists"),
+                            _("Page information no longer available"),
                             MESSAGE_ERROR);
         continue;
     }
@@ -237,7 +238,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
         // hasn't been proofed in review round. We are not interested.
         $messages[] = array("<a href='$url'>$nameofwork</a>",
                             $state,
-                            sprintf(_("has not been proofed in %s"), $review_round_id),
+                            sprintf(_("Has not been proofed in %s"), $review_round_id),
                             MESSAGE_INFO);
         continue;
     }
@@ -290,9 +291,10 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     // not sure why the pages that have been saved in the review round
     // are highlighted as that data doesn't really tell me much
     // ... but it shows the evaluator which projects to look at
+    // ... but not necessary with revamp of page
     
-    $n_latered_bg = ( $n_latered   > 0 ? "bgcolor='#ccffcc'" : "" );
-    $n_w_diff_bg  = ( $n_with_diff > 0 ? "bgcolor='#ccccff'" : "" );
+    $n_latered_bg = ( $n_latered   > 0 ? "" : "" );
+    $n_w_diff_bg  = ( $n_with_diff > 0 ? "bgcolor='#ccffcc'" : "" );
         
     $total_n_saved   += $n_saved;
     $total_n_latered += $n_latered;
@@ -300,7 +302,9 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
 
     echo "<tr>";
     echo "<td $n_latered_bg><a href='$url'>$nameofwork</a></td>";
-    echo "<td>$state</td>";
+    echo "<td nowrap>";
+    echo project_states_text( $state );
+    echo "</td>";
     echo "<td>$time_of_latest_save</td>";
     echo "<td align='center'>$n_saved</td>";
     echo "<td align='center' $n_latered_bg>$n_latered</td>";
@@ -330,14 +334,18 @@ echo "</tr>";
 
 echo "</table>";
 
-// show error messages
+// show messages
 if(count($messages)) {
-    echo "<h2>" . _("Messages returned") . "</h2>";
+    echo "<h2>" . _("Other projects") . "</h2>";
     echo "<table border='1'>";
-    echo "<tr><th>Project</th><th>Current state</th><th>Message</th></tr>";
+    echo "<tr><th>Project</th><th>Current state</th><th>Status</th></tr>";
     foreach($messages as $message)
     {
-        echo "<tr><td>{$message[0]}</td><td>{$message[1]}</td><td>{$message[2]}</td></tr>";
+        echo "<tr><td>{$message[0]}</td>";
+        echo "<td nowrap>";
+        echo project_states_text( $message[1] );
+        echo "</td>";
+        echo"<td>{$message[2]}</td></tr>";
     }
     echo "</table>";
 }
