@@ -486,10 +486,15 @@ function load_project_good_word_suggestions($projectid,$start_time=0,$load_as_ra
             // skip these words if they were saved before $start_time
             if($time < $start_time) continue;
 
-            $words = explode(' ',$words);
+            // handle the case if there are no suggested words for this line
+            if($words != "")
+                $words = explode(' ',$words);
+            else
+                $words = array();
+
             if($load_as_raw) {
                 array_push($wordsArray,array($time,$round,$page,$proofer,$words));
-            } else {
+            } elseif(count($words)) {
                 if(!is_array(@$wordsArray[$round][$page]))
                     $wordsArray[$round][$page] = array();
                 if($round != "" && $page != "")
