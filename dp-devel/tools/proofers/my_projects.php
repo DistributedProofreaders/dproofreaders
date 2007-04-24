@@ -110,12 +110,12 @@ $res = dpsql_query("
         page_events.round_id,
         MAX(page_events.timestamp) AS max_timestamp,
         projects.nameofwork,
-        projects.state
+        projects.state,
+        projects.deletion_reason
     FROM page_events LEFT OUTER JOIN projects USING (projectid)
     WHERE page_events.username='$username'
         AND page_events.event_type IN ('saveAsDone','saveAsInProgress', 'markAsBad')
         AND projects.archived = 0
-        AND projects.state != '".PROJ_DELETE."'
     GROUP BY page_events.projectid, page_events.round_id
     ORDER BY $sql_order
 ") or die('Aborting');
@@ -128,15 +128,41 @@ show_headings($colspecs, 'proof');
 
 while ( $row = mysql_fetch_object($res) )
 {
+    if ( $row->state == PROJ_DELETE)
+    {
+        // it's been deleted. see if it's been merged into another one.
+        if (str_contains($row->deletion_reason, 'merged') &&
+            (1 == preg_match('/\b(projectID[0-9a-f]{13})\b/', 
+                             $row->deletion_reason, $matches)))
+        {
+            // get the dope from the project it was merged into
+            $projectid = $matches[0];
+            $dres = mysql_query("SELECT state, nameofwork FROM projects WHERE projectid = '$projectid'");
+            list($state, $nameofwork) = mysql_fetch_row($dres);
+        }
+        else
+        {
+            // deleted but not merged. We are not interested.
+            continue;
+        }
+    }
+    else
+    {
+        // nothing special. Just the straight dope.
+        $projectid = $row->projectid;
+        $state = $row->state;
+        $nameofwork = $row->nameofwork;
+    }
+
     echo "<tr>\n";
 
     echo "<td>";
-    $url = "$code_url/project.php?id=$row->projectid";
-    echo "<a href='$url' ".sprintf($link_js,$url).">$row->nameofwork</a>";
+    $url = "$code_url/project.php?id=$projectid";
+    echo "<a href='$url' ".sprintf($link_js,$url).">$nameofwork</a>";
     echo "</td>\n";
 
     echo "<td nowrap>";
-    echo project_states_text( $row->state );
+    echo project_states_text( $state );
     echo "</td>\n";
 
     echo "<td align='center'>";
