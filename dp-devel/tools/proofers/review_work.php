@@ -18,7 +18,7 @@ $rounds=array_keys($Round_for_round_id_);
 $username = @$_REQUEST["username"];
 $work_round_id = @$_REQUEST["work_round_id"];
 $review_round_id = @$_REQUEST["review_round_id"];
-$sampleLimit = 25;  // NB hard coded: the number of recent diffs to display per project
+$sampleLimit = @$_REQUEST["sample_limit"];
 
 // if the user isn't a site manager or an access request reviewer
 // they can only access their own pages
@@ -59,6 +59,10 @@ echo   "<td><select name='review_round_id'>";
 _echo_round_select(array_slice($rounds,1),$review_round_id);
 echo     "</select>";
 echo  "</tr>";
+echo  "<tr>";
+echo   "<td>" . _("Max diffs to show") . "</td>";
+echo   "<td><input name='sample_limit' type='text' size='4' value='$sampleLimit'></td>";
+echo  "</tr>";
 echo "</table>";
 echo "<input type='submit' value='Search'>";
 echo "</form>";
@@ -78,6 +82,10 @@ if(empty($username) ||
    empty($review_round_id)) {
     theme('', 'footer');
     exit;
+}
+if (empty($sampleLimit))
+{
+    $sampleLimit = 6; // hard coded default
 }
 
 // confirm the review_round_id is later than work_round_id
@@ -189,7 +197,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
         // OK, the information is now all for the project that the deleted one was merged into
         $messages["<a href='$deleted_url'>$deleted_nameofwork</a> " .
                           _(" was merged into ") . 
-                          "<a href='$url'>$nameofwork</a> "] = 'MERGED PROJECT';
+                          "<a href='$url'>$nameofwork</a> "] = MESSAGE_INFO;
     }
     // what do we do if it was merged but we haven't found a projectid? TODO
 
