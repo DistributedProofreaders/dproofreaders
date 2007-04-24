@@ -265,7 +265,7 @@ class ProjectWordListHolder
         echo     "<input type='submit' name='saveAndProject' value='"._("Save and Go To Project")."'>";
         echo     "<input type='submit' name='save' value='"._("Save")."'>";
         echo     "<input type='submit' name='quit' value='"._("Quit Without Saving")."'>";
-        echo     "<input type='submit' name='reload' value='"._("Reload from Files")."'>";
+        echo     "<input type='submit' name='reload' value='"._("Refresh Word Lists")."'>";
         echo   "</td>";
         echo "</tr>\n";
 
