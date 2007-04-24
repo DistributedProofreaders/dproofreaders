@@ -50,6 +50,7 @@ if($format == "file") {
     echo $title . "\r\n";
     echo sprintf(_("Project: %s"),get_project_name($projectid)) . "\r\n";
     echo "\r\n";
+    echo_page_instruction_text( "bad", $format );
     echo $page_text . "\r\n";
     echo $page_text2 . "\r\n";
     echo_download_text( $projectid, $format );
@@ -89,7 +90,7 @@ echo "<p>$page_text</p>";
 
 echo "<p>$page_text2</p>";
 
-echo_page_instruction_text( "bad" );
+echo_page_instruction_text( "bad", $format );
 
 echo_download_text( $projectid, $format );
 
@@ -106,7 +107,7 @@ $checkbox_form["projectid"]=$projectid;
 $checkbox_form["freqCutoff"]=$freqCutoff;
 echo_checkbox_selects(count($bad_words_w_freq));
 echo_checkbox_form_start($checkbox_form);
-echo_checkbox_form_submit(_("Add words to Bad Words List"));
+echo_checkbox_form_submit(_("Add selected words to Bad Words List"));
 
 printTableFrequencies($initialFreq,$cutoffOptions,$bad_words_w_freq,$instances--,$context_array,$word_checkbox);
 

@@ -61,6 +61,7 @@ if($format == "file") {
     echo $title . "\r\n";
     echo sprintf(_("Project: %s"),get_project_name($projectid)) . "\r\n";
     echo "\r\n";
+    echo_page_instruction_text( "good", $format );
     echo strip_tags($page_text) . "\r\n";
     echo_download_text( $projectid, $format );
     echo "\r\n";
@@ -113,7 +114,7 @@ echo_word_freq_style();
 
 echo "<p>$page_text</p>";
 
-echo_page_instruction_text( "good" );
+echo_page_instruction_text( "good", $format );
 
 echo_download_text( $projectid, $format );
 
@@ -160,7 +161,7 @@ echo_checkbox_form_start($checkbox_form);
 echo "<h2>" . _("All rounds") . "</h2>";
 $word_checkbox = build_checkbox_array($all_suggestions_w_freq,'all');
 echo_checkbox_selects(count($all_suggestions_w_freq),'all');
-echo_checkbox_form_submit(_("Add words to Good Words List"));
+echo_checkbox_form_submit(_("Add selected words to Good Words List"));
 
 printTableFrequencies($initialFreq,$cutoffOptions,$all_suggestions_w_freq,$instances--,array($all_suggestions_w_occurances,$context_array), $word_checkbox);
 

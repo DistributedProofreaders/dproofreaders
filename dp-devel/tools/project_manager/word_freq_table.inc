@@ -247,16 +247,27 @@ function get_project_name($projectid) {
     return $ar['nameofwork'];
 }
 
-function echo_page_instruction_text($wordListType) {
+function echo_page_instruction_text($wordListType,$format) {
     if( $wordListType == "good") {
-        $page_instructions_string = _("If you find words in the results list that should not be flagged in the WordCheck interface, add them to the project's Good Words List. You can do this either by using the checkboxes provided or by copying from below and pasting them into the Good Words input box on the Edit Project Word Lists page (taking care not to overwrite any existing words).");
+        $page_instructions_string = _("If you find words in the results list that should not be flagged in the WordCheck interface, add them to the project's Good Words List.");
+        if( $format == "html" ) {
+            $page_instructions_string .= " ";
+            $page_instructions_string .= _("You can do this either by using the checkboxes provided or by copying from below and pasting them into the Good Words input box on the Edit Project Word Lists page (taking care not to overwrite any existing words).");
+        }
     } elseif( $wordListType == "bad" ) {
-        $page_instructions_string = _("If you find any words in the results list that should be flagged in the WordCheck interface for extra attention by proofers, add them to the project's Bad Words List. You can do this either by using the checkboxes provided or by copying them from below and pasting them into the Bad Words input box on the Edit Project Word Lists page (taking care not to overwrite any existing words).");
+        $page_instructions_string = _("If you find any words in the results list that should be flagged in the WordCheck interface for extra attention by proofers, add them to the project's Bad Words List.");
+        if( $format == "html" ) {
+            $page_instructions_string .= " ";
+            $page_instructions_string .= _("You can do this either by using the checkboxes provided or by copying them from below and pasting them into the Bad Words input box on the Edit Project Word Lists page (taking care not to overwrite any existing words).");
+        }
     } else {
         assert(FALSE);
     }
 
-    echo "<p>$page_instructions_string</p>\n";
+    if( $format == "html" )
+        echo "<p>$page_instructions_string</p>\n";
+    else
+        echo $page_instructions_string . "\r\n";
 }
 
 function echo_download_text($projectid, $format) {
