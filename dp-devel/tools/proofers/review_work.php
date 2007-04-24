@@ -168,6 +168,8 @@ $total_n_latered = 0;
 $total_n_w_diff  = 0;
 
 $messages = array();  // will contain error messages
+// each message will be an array of: project, state, other info, level
+
 $projects_done = array(); // the projects that we've done rows for
 
 // go through the list of projects with pages saved in the work round, according
@@ -195,9 +197,10 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
         $dres = mysql_query("SELECT state, nameofwork FROM projects WHERE projectid = '$projectid'");
         list($state, $nameofwork) = mysql_fetch_row($dres);
         // OK, the information is now all for the project that the deleted one was merged into
-        $messages["<a href='$deleted_url'>$deleted_nameofwork</a> " .
-                          _(" was merged into ") . 
-                          "<a href='$url'>$nameofwork</a> "] = MESSAGE_INFO;
+        $messages[] = array("<a href='$deleted_url'>$deleted_nameofwork</a>",
+                            $deleted_state,
+                            sprintf(_("merged into %s"), "<a href='$url'>$nameofwork</a>"),
+                            MESSAGE_INFO);
     }
     // what do we do if it was merged but we haven't found a projectid? TODO
 
@@ -210,6 +213,34 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     
     // haven't done it yet
     $projects_done[$projectid] = $projectid;
+
+    // see if the pages table exists
+    if (!mysql_query("DESCRIBE $projectid"))
+    {
+        // table doesn't exist. We are not interested.
+        $messages[] = array("<a href='$url'>$nameofwork</a>",
+                            $state,
+                            _("Pages table no longer exists"),
+                            MESSAGE_ERROR);
+        continue;
+    }
+
+    // see if it actually went through the review round. If there are no users in that
+    // column, then it hasn't gone through the round.
+    $review_round_result = mysql_query("
+        SELECT COUNT(*) 
+        FROM $projectid 
+        WHERE {$review_round->user_column_name} != ''
+       ");
+    list($done_in_rround) = mysql_fetch_row($review_round_result);
+    if (0 == $done_in_rround) {
+        // hasn't been proofed in review round. We are not interested.
+        $messages[] = array("<a href='$url'>$nameofwork</a>",
+                            $state,
+                            sprintf(_("has not been proofed in %s"), $review_round_id),
+                            MESSAGE_INFO);
+        continue;
+    }
 
     // $query = "select count(*) from $projectid where {$work_round->user_column_name}='$username' and $has_been_saved_in_review_round and $there_is_a_diff";
     $query = "
@@ -231,18 +262,9 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     }
     else
     {
-        // something went wrong
-        if ( mysql_errno() == 1146 )
-        {
-            $messages[sprintf(_("Pages table no longer exists for: %s"),$nameofwork)] = MESSAGE_ERROR;
-            $n_saved = $n_latered = $n_with_diff  = $n_with_diff_percent = 0;
-            $table_found = 0;
-        }
-        else
-        {
-            die( mysql_error() );
-        }
+        die( mysql_error() );
     }
+
 
     // now get the $sampleLimit most recent pages that are different
     // don't use page_events because of the problems with merged projects
@@ -277,14 +299,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     $total_n_w_diff  += $n_with_diff;
 
     echo "<tr>";
-    if($table_found)
-    {
-        echo "<td $n_latered_bg><a href='$url'>$nameofwork</a></td>";
-    }
-    else
-    {
-            echo "<td>$nameofwork</td>";
-    }
+    echo "<td $n_latered_bg><a href='$url'>$nameofwork</a></td>";
     echo "<td>$state</td>";
     echo "<td>$time_of_latest_save</td>";
     echo "<td align='center'>$n_saved</td>";
@@ -318,8 +333,13 @@ echo "</table>";
 // show error messages
 if(count($messages)) {
     echo "<h2>" . _("Messages returned") . "</h2>";
-    foreach($messages as $message => $messageClass)
-        echo "<p class='messageClass'>$message</p>";
+    echo "<table border='1'>";
+    echo "<tr><th>Project</th><th>Current state</th><th>Message</th></tr>";
+    foreach($messages as $message)
+    {
+        echo "<tr><td>{$message[0]}</td><td>{$message[1]}</td><td>{$message[2]}</td></tr>";
+    }
+    echo "</table>";
 }
 
 echo "<br>";
