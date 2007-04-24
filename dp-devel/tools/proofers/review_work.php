@@ -160,11 +160,15 @@ $total_n_latered = 0;
 $total_n_w_diff  = 0;
 
 $messages = array();  // will contain error messages
+$projects_done = array(); // the projects that we've done rows for
 
 // go through the list of projects with pages saved in the work round, according
 // to the page_events table
 while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save) = mysql_fetch_row($res2) )
 {
+    // $url = "$code_url/project.php?id=$projectid&amp;detail_level=4";
+    $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username";
+
     // if the project has been deleted, find out whether it was merged into another one
     // and if so, operate on the one it was merged into
     // this may give us duplicates in the list. TODO: deal with them.
@@ -176,18 +180,28 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     {
         $deleted_projectid = $projectid;
         $projectid = $matches[0];
+        $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username";
         $deleted_state = $state;
         $deleted_nameofwork = $nameofwork;
         $deleted_url = "$code_url/tools/project_manager/page_detail.php?project=$deleted_projectid";
         $dres = mysql_query("SELECT state, nameofwork FROM projects WHERE projectid = '$projectid'");
         list($state, $nameofwork) = mysql_fetch_row($dres);
         // OK, the information is now all for the project that the deleted one was merged into
+        $messages["<a href='$deleted_url'>$deleted_nameofwork</a> " .
+                          _(" was merged into ") . 
+                          "<a href='$url'>$nameofwork</a> "] = 'MERGED PROJECT';
     }
     // what do we do if it was merged but we haven't found a projectid? TODO
 
-    // $url = "$code_url/project.php?id=$projectid&amp;detail_level=4";
-    $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username";
-
+    // see if we've already done this project
+    if ("" != @$projects_done[$projectid])
+    {
+        // we've done it before
+        continue; // go on to next project
+    }
+    
+    // haven't done it yet
+    $projects_done[$projectid] = $projectid;
 
     // $query = "select count(*) from $projectid where {$work_round->user_column_name}='$username' and $has_been_saved_in_review_round and $there_is_a_diff";
     $query = "
@@ -223,16 +237,14 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     }
 
     // now get the $sampleLimit most recent pages that are different
+    // don't use page_events because of the problems with merged projects
     $query="
-           SELECT DISTINCT pe.image 
-           FROM page_events AS pe, $projectid AS proj 
-           WHERE pe.image = proj.image AND
-                 username='$username' AND 
-                 event_type='saveAsDone' AND
-                 $has_been_saved_in_review_round AND 
+           SELECT image 
+           FROM $projectid AS proj 
+           WHERE $has_been_saved_in_review_round AND 
                  $there_is_a_diff AND
-                 pe.username = proj.{$work_round->user_column_name} 
-           ORDER BY timestamp DESC, image 
+                 {$work_round->user_column_name} = '$username'
+           ORDER BY {$work_round->time_column_name} DESC, image 
            LIMIT $sampleLimit";
     $result = mysql_query($query);
     if ( $result !== FALSE ) {
@@ -245,13 +257,13 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
         $diffLinkString="";
     }
 
-// not sure why the pages that have been saved in the review round
-// are highlighted as that data doesn't really tell me much
-// ... but it shows the evaluator which projects to look at
-
+    // not sure why the pages that have been saved in the review round
+    // are highlighted as that data doesn't really tell me much
+    // ... but it shows the evaluator which projects to look at
+    
     $n_latered_bg = ( $n_latered   > 0 ? "bgcolor='#ccffcc'" : "" );
     $n_w_diff_bg  = ( $n_with_diff > 0 ? "bgcolor='#ccccff'" : "" );
-
+        
     $total_n_saved   += $n_saved;
     $total_n_latered += $n_latered;
     $total_n_w_diff  += $n_with_diff;
@@ -259,16 +271,11 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     echo "<tr>";
     if($table_found)
     {
-        echo "<td $n_latered_bg><a href='$url'>$nameofwork</a>";
-        if ($was_merged) 
-        {
-            echo " (contains pages from deleted project <a href='$deleted_url'>$deleted_nameofwork</a>)";
-        }
-        echo "</td>";
+        echo "<td $n_latered_bg><a href='$url'>$nameofwork</a></td>";
     }
     else
     {
-        echo "<td>$nameofwork</td>";
+            echo "<td>$nameofwork</td>";
     }
     echo "<td>$state</td>";
     echo "<td>$time_of_latest_save</td>";
@@ -278,7 +285,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     echo "<td $n_w_diff_bg>$diffLinkString</td>";
     echo "</tr>";
     echo "\n";
-}
+} // end of doing each project
 
 if($total_n_latered > 0) 
 {
