@@ -17,7 +17,7 @@ $rounds=array_keys($Round_for_round_id_);
 $username = @$_REQUEST["username"];
 $work_round_id = @$_REQUEST["work_round_id"];
 $review_round_id = @$_REQUEST["review_round_id"];
-$sampleLimit = 6;
+$sampleLimit = 6;  // NB hard coded: the number of recent diffs to display per project
 
 // if the user isn't a site manager or an access request reviewer
 // they can only access their own pages
@@ -36,30 +36,31 @@ theme( $title, 'header' );
 echo "<h1>$title</h1>\n";
 
 // show form
-    echo "<form action='review_work.php' method='GET'>";
-    echo "<table>";
-if (user_is_a_sitemanager() || user_is_an_access_request_reviewer()) {
+echo "<form action='review_work.php' method='GET'>";
+echo "<table>";
+if (user_is_a_sitemanager() || user_is_an_access_request_reviewer()) 
+{
     // only let site admins or reviewers to access non-self records
     echo  "<tr>";
     echo   "<td>" . _("Username") . "</td>";
     echo   "<td><input name='username' type='text' size='26' value='$username'></td>";
     echo  "</tr>";
 }
-    echo  "<tr>";
-    echo   "<td>" . _("Work Round") . "</td>";
-    echo   "<td><select name='work_round_id'>";
-    _echo_round_select($rounds,$work_round_id);
-    echo    "</select>";
-    echo  "</tr>";
-    echo  "<tr>";
-    echo   "<td>" . _("Review Round") . "</td>";
-    echo   "<td><select name='review_round_id'>";
-    _echo_round_select(array_slice($rounds,1),$review_round_id);
-    echo     "</select>";
-    echo  "</tr>";
-    echo "</table>";
-    echo "<input type='submit' value='Search'>";
-    echo "</form>";
+echo  "<tr>";
+echo   "<td>" . _("Work Round") . "</td>";
+echo   "<td><select name='work_round_id'>";
+_echo_round_select($rounds,$work_round_id);
+echo    "</select>";
+echo  "</tr>";
+echo  "<tr>";
+echo   "<td>" . _("Review Round") . "</td>";
+echo   "<td><select name='review_round_id'>";
+_echo_round_select(array_slice($rounds,1),$review_round_id);
+echo     "</select>";
+echo  "</tr>";
+echo "</table>";
+echo "<input type='submit' value='Search'>";
+echo "</form>";
 
 function _echo_round_select($rounds,$selected) {
     foreach($rounds as $round) {
@@ -120,7 +121,7 @@ $res2 = dpsql_query("
 ") or die("Aborting");
 
 // ---------------------------------------------
-
+// snippets for use in queries
 $has_been_saved_in_review_round = "(state='$review_round->page_save_state'";
 for ( $rn = $review_round->round_number+1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 {
@@ -154,13 +155,16 @@ $total_n_saved   = 0;
 $total_n_latered = 0;
 $total_n_w_diff  = 0;
 
-$messages = array();
+$messages = array();  // will contain error messages
+
+// go through the list of projects with pages saved in the work round, according
+// to the page_events table
 while ( list($projectid, $state, $nameofwork, $time_of_latest_save) = mysql_fetch_row($res2) )
 {
     // $url = "$code_url/project.php?id=$projectid&amp;detail_level=4";
     $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username";
 
-    $query = "select count(*) from $projectid where {$work_round->user_column_name}='$username' and $has_been_saved_in_review_round and $there_is_a_diff";
+    // $query = "select count(*) from $projectid where {$work_round->user_column_name}='$username' and $has_been_saved_in_review_round and $there_is_a_diff";
     $query = "
         SELECT
             COUNT(*),
@@ -194,7 +198,17 @@ while ( list($projectid, $state, $nameofwork, $time_of_latest_save) = mysql_fetc
     }
 
     // now get the $sampleLimit most recent pages that are different
-    $query="select distinct pe.image from page_events as pe, $projectid as proj where pe.image = proj.image and username='$username' and event_type='saveAsDone' and $has_been_saved_in_review_round and $there_is_a_diff and pe.username = proj.{$work_round->user_column_name} order by timestamp desc, image limit $sampleLimit";
+    $query="
+           SELECT DISTINCT pe.image 
+           FROM page_events AS pe, $projectid AS proj 
+           WHERE pe.image = proj.image AND
+                 username='$username' AND 
+                 event_type='saveAsDone' AND
+                 $has_been_saved_in_review_round AND 
+                 $there_is_a_diff AND
+                 pe.username = proj.{$work_round->user_column_name} 
+           ORDER BY timestamp DESC, image 
+           LIMIT $sampleLimit";
     $result = mysql_query($query);
     if ( $result !== FALSE ) {
         $diffLinkString="";
@@ -208,8 +222,10 @@ while ( list($projectid, $state, $nameofwork, $time_of_latest_save) = mysql_fetc
 
 // not sure why the pages that have been saved in the review round
 // are highlighted as that data doesn't really tell me much
+
 //    $n_latered_bg = ( $n_latered   > 0 ? "bgcolor='#ccffcc'" : "" );
-    $n_latered_bg = '';
+
+    $n_latered_bg = ''; 
     $n_w_diff_bg  = ( $n_with_diff > 0 ? "bgcolor='yellow'" : "" );
 
     $total_n_saved   += $n_saved;
@@ -232,8 +248,13 @@ while ( list($projectid, $state, $nameofwork, $time_of_latest_save) = mysql_fetc
 }
 
 if($total_n_latered > 0) 
+{
     $total_n_w_diff_percent = sprintf("%d",($total_n_w_diff/$total_n_saved)*100);
-else $total_n_w_diff_percent = 0;
+}
+else 
+{
+    $total_n_w_diff_percent = 0;
+}
 
 echo "<tr>";
 echo "<th></th>";
@@ -246,6 +267,7 @@ echo "</tr>";
 
 echo "</table>";
 
+// show error messages
 if(count($messages)) {
     echo "<h2>" . _("Messages returned") . "</h2>";
     foreach($messages as $message => $messageClass)
