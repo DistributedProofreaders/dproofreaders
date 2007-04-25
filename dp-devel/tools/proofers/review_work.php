@@ -257,7 +257,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
         list( $n_saved, $n_latered, $n_with_diff ) = mysql_fetch_row($res3);
         mysql_free_result($res3);
         if($n_latered > 0)
-            $n_with_diff_percent = sprintf("%d",($n_with_diff/$n_saved)*100);
+            $n_with_diff_percent = sprintf("%d",($n_with_diff/$n_latered)*100);
         else $n_with_diff_percent = 0;
         $table_found = 1;
     }
@@ -316,7 +316,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
 
 if($total_n_latered > 0) 
 {
-    $total_n_w_diff_percent = sprintf("%d",($total_n_w_diff/$total_n_saved)*100);
+    $total_n_w_diff_percent = sprintf("%d",($total_n_w_diff/$total_n_latered)*100);
 }
 else 
 {
