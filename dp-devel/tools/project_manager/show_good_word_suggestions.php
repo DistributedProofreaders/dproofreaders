@@ -20,9 +20,9 @@ $freqCutoff = array_get($_REQUEST, "freqCutoff", 5);
 enforce_edit_authorization($projectid);
 
 if($timeCutoff==0)
-    $time_cutoff_text = _("<b>All proofer suggestions</b> are included in the results.");
+    $time_cutoff_text = _("<b>All proofer suggestions</b> are included in the results below.");
 else
-    $time_cutoff_text = sprintf(_("Only proofer suggestions made <b>after %s</b> are included in the results."),strftime($datetime_format,$timeCutoff));
+    $time_cutoff_text = sprintf(_("Only proofer suggestions made <b>after %s</b> are included in the results below."),strftime($datetime_format,$timeCutoff));
 
 
 // $format determins what is presented from this page:
@@ -118,12 +118,12 @@ echo "<p>$page_text</p>";
 
 echo_page_instruction_text( "good", $format );
 
-echo_download_text( $projectid, $format );
-
 echo_any_warnings_errors( $messages );
 
 echo "<form action='show_good_word_suggestions.php' method='get'>";
 echo "<p>$time_cutoff_text ";
+echo _("This setting also controls the words that will be included in the downloaded file.");
+echo " ";
 echo "<input type='hidden' name='freqCutoff' value='$initialFreq' id='freqCutoffValue'>";
 echo "<input type='hidden' name='projectid' value='$projectid'>";
 echo "<input type='hidden' name='format' value='$format'>";
@@ -142,6 +142,7 @@ echo "</select>";
 echo "<input type='submit' value='Submit'>";
 echo "</p></form>";
 
+echo_download_text( $projectid, $format );
 
 echo_cutoff_text( $initialFreq,$cutoffOptions );
 

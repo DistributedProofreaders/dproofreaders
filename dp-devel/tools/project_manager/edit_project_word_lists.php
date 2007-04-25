@@ -372,7 +372,7 @@ function show_visible_controls() {
             _("Display results")
         );
         echo " | ";
-        echo "<a href='show_good_word_suggestions.php?projectid=$this->projectid&amp;format=file'>" . _("Download results") . "</a>";
+        echo "<a href='show_good_word_suggestions.php?projectid=$this->projectid&amp;timeCutoff=0&amp;format=file'>" . _("Download results") . "</a>";
         echo "</p>";
     }
 

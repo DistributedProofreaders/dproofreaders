@@ -273,7 +273,7 @@ function echo_page_instruction_text($wordListType,$format) {
 function echo_download_text($projectid, $format) {
     global $code_url;
     if($format == "html") {
-        $download_text = sprintf(_("You can <a href='%s'>download</a> a copy of the full candidate word list with frequencies for offline analysis."),"?" . $_SERVER["QUERY_STRING"] . "&amp;format=file");
+        $download_text = sprintf(_("You can <a href='%s'>download</a> a copy of the displayed candidate word list with frequencies for offline analysis."),"?" . $_SERVER["QUERY_STRING"] . "&amp;format=file");
         $faq_text = sprintf(_("See also the %s for more information on the WordCheck system."),"<a href='$code_url/faq/wordcheck-faq.php'>" . _("WordCheck FAQ") . "</a>");
         echo "<p>$download_text $faq_text</p>\n";
     } elseif($format == "file") {
