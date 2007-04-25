@@ -148,6 +148,10 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num)
 function can_see_names_for_page($projectid, $image)
 {
     global $pguser, $Round_for_round_id_;
+
+    // If requestor isn't logged in, they can't see any names.
+    if ( $pguser == '' ) return FALSE;
+
     $project = new Project( $projectid );
     $answer = $project->names_can_be_seen_by_current_user; // can see for all pages
     if (! $answer) 
