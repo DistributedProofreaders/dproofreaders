@@ -277,7 +277,7 @@ function echo_download_text($projectid, $format) {
         $faq_text = sprintf(_("See also the %s for more information on the WordCheck system."),"<a href='$code_url/faq/wordcheck-faq.php'>" . _("WordCheck FAQ") . "</a>");
         echo "<p>$download_text $faq_text</p>\n";
     } elseif($format == "file") {
-        $instructions = _("When you paste data into the input box on the Edit Project Word Lists page, the system will remove anything after the first space so the frequency counts can be left in.");
+        $instructions = _("When you paste data into the input box on the Edit Project Word Lists page, the system will remove anything after the first trailing space so the frequency counts can be left in.");
         echo $instructions . "\r\n";
     }
 }
