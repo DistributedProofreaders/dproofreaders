@@ -3,9 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'project_edit.inc');
 include_once($relPath.'Project.inc');
-include_once('projectmgr.inc');
 
 $projectid   = $_GET['project'];
 $image       = $_GET['image'];
