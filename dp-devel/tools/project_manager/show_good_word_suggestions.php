@@ -61,8 +61,10 @@ if($format == "file") {
     echo $title . "\r\n";
     echo sprintf(_("Project: %s"),get_project_name($projectid)) . "\r\n";
     echo "\r\n";
-    echo_page_instruction_text( "good", $format );
     echo strip_tags($page_text) . "\r\n";
+    echo "\r\n";
+    echo_page_instruction_text( "good", $format );
+    echo "\r\n";
     echo_download_text( $projectid, $format );
     echo "\r\n";
     echo strip_tags($time_cutoff_text) . "\r\n";
