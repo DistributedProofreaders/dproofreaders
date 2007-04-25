@@ -167,6 +167,8 @@ echo_checkbox_form_submit(_("Add selected words to Good Words List"));
 
 printTableFrequencies($initialFreq,$cutoffOptions,$all_suggestions_w_freq,$instances--,array($all_suggestions_w_occurances,$context_array), $word_checkbox);
 
+echo_checkbox_form_submit(_("Add selected words to Good Words List"));
+
 // now per round
 if(count($rounds)) {
     foreach($rounds as $round) {
@@ -187,6 +189,8 @@ if(count($rounds)) {
         echo_checkbox_form_submit(_("Add words to Good Words List"));
 
         printTableFrequencies( $initialFreq,$cutoffOptions,$round_suggestions_w_freq[$round],$instances--,array($round_suggestions_w_occurances[$round],$context_array),$word_checkbox );
+
+        echo_checkbox_form_submit(_("Add words to Good Words List"));
     }
 }
 echo_checkbox_form_end();

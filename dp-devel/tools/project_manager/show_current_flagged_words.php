@@ -136,6 +136,7 @@ echo_checkbox_form_submit(_("Add selected words to Good Words List"));
 
 printTableFrequencies($initialFreq,$cutoffOptions,$bad_words_w_freq,$instances--,array($context_array,$word_notes), $word_checkbox);
 
+echo_checkbox_form_submit(_("Add selected words to Good Words List"));
 echo_checkbox_form_end();
 
 theme('','footer');
