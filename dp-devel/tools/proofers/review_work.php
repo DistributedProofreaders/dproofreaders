@@ -178,7 +178,7 @@ $projects_done = array(); // the projects that we've done rows for
 while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save) = mysql_fetch_row($res2) )
 {
     // $url = "$code_url/project.php?id=$projectid&amp;detail_level=4";
-    $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username";
+    $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username&amp;select_by_round=$work_round_id";
 
     // if the project has been deleted, find out whether it was merged into another one
     // and if so, operate on the one it was merged into
@@ -191,10 +191,10 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     {
         $deleted_projectid = $projectid;
         $projectid = $matches[0];
-        $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username";
+        $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username&amp;select_by_round=$work_round_id";
         $deleted_state = $state;
         $deleted_nameofwork = $nameofwork;
-        $deleted_url = "$code_url/tools/project_manager/page_detail.php?project=$deleted_projectid";
+        $deleted_url = "$code_url/tools/project_manager/project.php?id=$deleted_projectid";
         $dres = mysql_query("SELECT state, nameofwork FROM projects WHERE projectid = '$projectid'");
         list($state, $nameofwork) = mysql_fetch_row($dres);
         // OK, the information is now all for the project that the deleted one was merged into
