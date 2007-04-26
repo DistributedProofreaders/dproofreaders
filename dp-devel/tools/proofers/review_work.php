@@ -19,7 +19,7 @@ $rounds=array_keys($Round_for_round_id_);
 $username = @$_REQUEST["username"];
 $work_round_id = @$_REQUEST["work_round_id"];
 $review_round_id = @$_REQUEST["review_round_id"];
-$sampleLimit = @$_REQUEST["sample_limit"];
+$sampleLimit = array_get($_REQUEST,"sample_limit",6);
 
 // if the user isn't a site manager or an access request reviewer
 // they can only access their own pages
