@@ -86,7 +86,7 @@ if(empty($username) ||
 }
 if (empty($sampleLimit))
 {
-    $sampleLimit = 6; // hard coded default
+    $sampleLimit = 0; // hard coded default
 }
 
 // confirm the review_round_id is later than work_round_id
@@ -116,7 +116,7 @@ mysql_free_result($res1);
 // the user reopening the page or the PM clearing the page.
 // So far, we don't care too much about that.
 
-echo "<p>" . sprintf(_("Compared %d page-saves between rounds %s and %s within %d projects."),$n_page_saves,$work_round->id,$review_round->id,$n_distinct_projects) . "</p>";
+echo "<p>" . sprintf(_("Compared %d page-saves between rounds %s and %s within %d projects for %s."),$n_page_saves,$work_round->id,$review_round->id,$n_distinct_projects, $username) . "</p>";
 
 $res2 = dpsql_query("
     SELECT
@@ -266,10 +266,12 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
         die( mysql_error() );
     }
 
-
     // now get the $sampleLimit most recent pages that are different
     // don't use page_events because of the problems with merged projects
-    $query="
+    $diffLinkString="";
+    if ($sampleLimit >0 )
+    {
+        $query="
            SELECT image 
            FROM $projectid AS proj 
            WHERE $has_been_saved_in_review_round AND 
@@ -277,15 +279,14 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
                  {$work_round->user_column_name} = '$username'
            ORDER BY {$work_round->time_column_name} DESC, image 
            LIMIT $sampleLimit";
-    $result = mysql_query($query);
-    if ( $result !== FALSE ) {
-        $diffLinkString="";
-        while( list($image) = mysql_fetch_row($result) ) {
-            $diffLinkString.="<a href='../project_manager/diff.php?project=$projectid&amp;image=$image&amp;L_round_num=$work_round->round_number&amp;R_round_num=$review_round->round_number'>$image</a> ";
-        }
-        mysql_free_result($result);
-    } else {
-        $diffLinkString="";
+        $result = mysql_query($query);
+        if ( $result !== FALSE ) {
+            $diffLinkString="";
+            while( list($image) = mysql_fetch_row($result) ) {
+                $diffLinkString.="<a href='../project_manager/diff.php?project=$projectid&amp;image=$image&amp;L_round_num=$work_round->round_number&amp;R_round_num=$review_round->round_number'>$image</a> ";
+            }
+            mysql_free_result($result);
+        } 
     }
 
     // not sure why the pages that have been saved in the review round
