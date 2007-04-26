@@ -97,7 +97,7 @@ if (empty($sampleLimit))
 {
     $sampleLimit = $default_sampleLimit;
 }
-if (empty($timeLimit))
+if (empty($days))
 {
     $days = $default_days; 
 }
