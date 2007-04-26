@@ -43,6 +43,17 @@ else
     $username_for_page_selection = NULL;
 }
 
+// this only has any effect if the user is set too.
+$round_for_page_selection = NULL;
+if ( isset($_GET['select_by_round']) )
+{
+    $sbr = $_GET['select_by_round'];
+    if ( !empty($sbr) && $sbr != 'ALL' )
+    {
+        $round_for_page_selection = $sbr;
+    }
+}
+
 $state = $project->state;
 $title = $project->nameofwork;
 $page_details_str = _('Page Details');
@@ -76,7 +87,7 @@ else
    echo "<a href='?project=$projectid&show_image_size=$show_image_size&select_by_user'>$blurb</a>";
 }
 
-echo_page_table( $project, $show_image_size, FALSE, $username_for_page_selection );
+echo_page_table( $project, $show_image_size, FALSE, $username_for_page_selection, $round_for_page_selection );
 
 echo "<br>";
 theme( '', 'footer' );

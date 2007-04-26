@@ -12,7 +12,8 @@ function echo_page_table(
 	$project,
 	$show_image_size,
 	$disable_editing = FALSE,
-	$page_selector = NULL )
+	$page_selector = NULL ,
+    $proofed_in_round = NULL)
 {
 	global $theme, $projects_dir, $code_url, $pguser;
 
@@ -202,13 +203,25 @@ function echo_page_table(
 		$username_for_selecting_pages = $page_selector;
 
 		$where_condition = "0";
-		foreach ( $rounds_to_display as $round )
-		{
-			$where_condition .= "
+        if (is_null($proofed_in_round))
+        {
+            // want pages that the specified user did in any round
+            foreach ( $rounds_to_display as $round )
+            {
+                $where_condition .= "
 				OR $round->user_column_name='$username_for_selecting_pages'
 			";
-		}
+            }
+        }
+        else
+        {
+            // want only pages that the specified user did in the specified round
+            $work_round = get_Round_for_round_id($proofed_in_round);
+            $where_condition .= "
+				OR $work_round->user_column_name='$username_for_selecting_pages'
+			";
 
+        }
 		$page_selector = NULL;
 	}
 	else
