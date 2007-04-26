@@ -15,11 +15,16 @@ error_reporting(E_ALL);
 // get an array of round IDs
 $rounds=array_keys($Round_for_round_id_);
 
+// defaults
+$default_sampleLimit = 0;
+$default_days = 100;
+
 // load any data passed into the page
 $username = @$_REQUEST["username"];
 $work_round_id = @$_REQUEST["work_round_id"];
 $review_round_id = @$_REQUEST["review_round_id"];
-$sampleLimit = array_get($_REQUEST,"sample_limit",6);
+$sampleLimit = array_get($_REQUEST,"sample_limit",$default_sampleLimit);
+$days  = array_get($_REQUEST,"days",$default_days);
 
 // if the user isn't a site manager or an access request reviewer
 // they can only access their own pages
@@ -61,6 +66,10 @@ _echo_round_select(array_slice($rounds,1),$review_round_id);
 echo     "</select>";
 echo  "</tr>";
 echo  "<tr>";
+echo   "<td>" . _("Max days since last save") . "</td>";
+echo   "<td><input name='days' type='text' size='4' value='$days'></td>";
+echo  "</tr>";
+echo  "<tr>";
 echo   "<td>" . _("Max diffs to show") . "</td>";
 echo   "<td><input name='sample_limit' type='text' size='4' value='$sampleLimit'></td>";
 echo  "</tr>";
@@ -76,7 +85,7 @@ function _echo_round_select($rounds,$selected) {
     }
 }
 
-// if not all values are set (ie: not passed into the script)
+// if not all the required values are set (ie: not passed into the script)
 // stop the page here
 if(empty($username) ||
    empty($work_round_id) ||
@@ -86,7 +95,11 @@ if(empty($username) ||
 }
 if (empty($sampleLimit))
 {
-    $sampleLimit = 0; // hard coded default
+    $sampleLimit = $default_sampleLimit;
+}
+if (empty($timeLimit))
+{
+    $days = $default_days; 
 }
 
 // confirm the review_round_id is later than work_round_id
@@ -102,12 +115,15 @@ echo "<hr>";
 // we should have valid information at this point
 $work_round   = get_Round_for_round_id($work_round_id);
 $review_round = get_Round_for_round_id($review_round_id);
-
+$time_limit = time() - $days * 24 * 60 * 60;
 
 $res1 = dpsql_query("
     SELECT COUNT(*), COUNT(DISTINCT projectid)
     FROM page_events
-    WHERE round_id='$work_round->id' AND username='$username' AND event_type='saveAsDone'
+    WHERE round_id='$work_round->id' AND 
+          username='$username' AND 
+          event_type='saveAsDone' AND
+          timestamp>$time_limit
 ") or die("Aborting");
 list($n_page_saves,$n_distinct_projects) = mysql_fetch_row($res1);
 mysql_free_result($res1);
@@ -116,7 +132,7 @@ mysql_free_result($res1);
 // the user reopening the page or the PM clearing the page.
 // So far, we don't care too much about that.
 
-echo "<p>" . sprintf(_("Compared %d page-saves between rounds %s and %s within %d projects for %s."),$n_page_saves,$work_round->id,$review_round->id,$n_distinct_projects, $username) . "</p>";
+echo "<p>" . sprintf(_("Compared %d page-saves in the last %s days between rounds %s and %s within %d projects for %s."),$n_page_saves,$days,$work_round->id,$review_round->id,$n_distinct_projects, $username) . "</p>";
 
 $res2 = dpsql_query("
     SELECT
@@ -128,7 +144,8 @@ $res2 = dpsql_query("
     FROM page_events LEFT OUTER JOIN projects USING (projectid)
     WHERE round_id='$work_round->id' AND 
           page_events.username='$username' AND 
-          event_type='saveAsDone'
+          event_type='saveAsDone' AND
+          timestamp>$time_limit
     GROUP BY page_events.projectid
     ORDER BY time_of_latest_save DESC
 ") or die("Aborting");
