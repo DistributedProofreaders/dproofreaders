@@ -34,30 +34,30 @@ echo "<br>\n";
 
 if ( $L_round_num == 0 )
 {
-	$L_text_column_name = 'master_text';
-	$L_user_column_name = "'none'";  // string literal, not column name
-	$L_label = _('OCR');
+    $L_text_column_name = 'master_text';
+    $L_user_column_name = "'none'";  // string literal, not column name
+    $L_label = _('OCR');
 }
 else
 {
-	$L_round = get_Round_for_round_number($L_round_num);
-	$L_text_column_name = $L_round->text_column_name;
+    $L_round = get_Round_for_round_number($L_round_num);
+    $L_text_column_name = $L_round->text_column_name;
     $L_user_column_name = $L_round->user_column_name;
-	$L_label = $L_round->id;
+    $L_label = $L_round->id;
 }
 
 {
-	$R_round = get_Round_for_round_number($R_round_num);
-	$R_text_column_name = $R_round->text_column_name;
-	$R_user_column_name = $R_round->user_column_name;
-	$R_label = $R_round->id;
+    $R_round = get_Round_for_round_number($R_round_num);
+    $R_text_column_name = $R_round->text_column_name;
+    $R_user_column_name = $R_round->user_column_name;
+    $R_label = $R_round->id;
 }
 
 $query = "
-          SELECT $L_text_column_name, $R_text_column_name,
-                 $L_user_column_name, $R_user_column_name
-          FROM $projectid
-          WHERE image='$image'";
+    SELECT $L_text_column_name, $R_text_column_name,
+           $L_user_column_name, $R_user_column_name
+    FROM $projectid
+    WHERE image='$image'";
 
 $res = mysql_query($query);
 list($L_text, $R_text, $L_user, $R_user) = mysql_fetch_row($res);
@@ -70,23 +70,23 @@ if ( $can_see_names_for_this_page) {
 // ---------------------------------------------------------
 
 class OutputPage {
-	function addHTML($text) {
-		echo $text;
-	}
+    function addHTML($text) {
+        echo $text;
+    }
 }
 
 function wfMsg($key) {
-	return ($key=="lineno")?_("Line $1"):$key;
+    return ($key=="lineno")?_("Line $1"):$key;
 }
 
 $wgOut=new Outputpage();
 
 include("DifferenceEngine.inc");
 DifferenceEngine::showDiff(
-	$L_text,
-	$R_text,
-	$L_label,
-	$R_label
+    $L_text,
+    $R_text,
+    $L_label,
+    $R_label
 );
 
 theme("", "footer");
@@ -177,4 +177,5 @@ function can_see_names_for_page($projectid, $image)
     return $answer;
 }
 
+// vim: sw=4 ts=4 expandtab
 ?>
