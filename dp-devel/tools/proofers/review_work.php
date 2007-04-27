@@ -117,23 +117,6 @@ $work_round   = get_Round_for_round_id($work_round_id);
 $review_round = get_Round_for_round_id($review_round_id);
 $time_limit = time() - $days * 24 * 60 * 60;
 
-$res1 = dpsql_query("
-    SELECT COUNT(*), COUNT(DISTINCT projectid)
-    FROM page_events
-    WHERE round_id='$work_round->id' AND 
-          username='$username' AND 
-          event_type='saveAsDone' AND
-          timestamp>$time_limit
-") or die("Aborting");
-list($n_page_saves,$n_distinct_projects) = mysql_fetch_row($res1);
-mysql_free_result($res1);
-
-// Note that some of these saves might have been later undone by
-// the user reopening the page or the PM clearing the page.
-// So far, we don't care too much about that.
-
-echo "<p>" . sprintf(_("Compared %d page-saves in the last %s days between rounds %s and %s within %d projects for %s."),$n_page_saves,$days,$work_round->id,$review_round->id,$n_distinct_projects, $username) . "</p>";
-
 $res2 = dpsql_query("
     SELECT
         page_events.projectid,
@@ -149,6 +132,9 @@ $res2 = dpsql_query("
     GROUP BY page_events.projectid
     ORDER BY time_of_latest_save DESC
 ") or die("Aborting");
+
+$num_projects = mysql_num_rows($res2);
+echo "<p>" . sprintf(_("<b>%d</b> projects with pages saved in <b>%s</b> by <b>%s</b> within the last <b>%d</b> days."), $num_projects, $work_round->id, $username, $days) . "</p>";
 
 // ---------------------------------------------
 // snippets for use in queries
@@ -184,6 +170,7 @@ echo "</tr>";
 $total_n_saved   = 0;
 $total_n_latered = 0;
 $total_n_w_diff  = 0;
+$total_valid_projects = 0;
 
 $messages = array();  // will contain error messages
 // each message will be an array of: project, state, other info, level
@@ -199,9 +186,11 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
 
     // if the project has been deleted, find out whether it was merged into another one
     // and if so, operate on the one it was merged into
-    // this may give us duplicates in the list. TODO: deal with them.
+    // this may give us duplicates in the list. This relies on the deletion
+    // reason containing 'merged' and the projectid.
 
-    $was_merged = ($state == 'project_delete') &&  str_contains($deletion_reason, 'merged');
+    $was_merged = ($state == 'project_delete') &&  
+        str_contains($deletion_reason, 'merged');
     // see if the deletion reason contains "merged", and if so look for the projectid
     if ($was_merged && 
         (1 == preg_match('/\b(projectID[0-9a-f]{13})\b/', $deletion_reason, $matches))) 
@@ -259,6 +248,9 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
                             MESSAGE_INFO);
         continue;
     }
+
+    // OK, we are definitely interested in this project
+    $total_valid_projects ++;
 
     // $query = "select count(*) from $projectid where {$work_round->user_column_name}='$username' and $has_been_saved_in_review_round and $there_is_a_diff";
     $query = "
@@ -342,7 +334,7 @@ else
 }
 
 echo "<tr>";
-echo "<th></th>";
+echo "<th>$total_valid_projects</th>";
 echo "<th></th>";
 echo "<th></th>";
 echo "<th align='center'>$total_n_saved</th>";
@@ -353,7 +345,8 @@ echo "</tr>";
 echo "</table>";
 
 // show messages
-if(count($messages)) {
+$total_invalid_projects = count($messages); 
+if($total_invalid_projects) {
     echo "<h2>" . _("Other projects") . "</h2>";
     echo "<table border='1'>";
     echo "<tr><th>Project</th><th>Current state</th><th>Status</th></tr>";
@@ -365,6 +358,8 @@ if(count($messages)) {
         echo "</td>";
         echo"<td>{$message[2]}</td></tr>";
     }
+    echo "<tr><th>$total_invalid_projects</th><th></th><th></th></tr>";
+
     echo "</table>";
 }
 
