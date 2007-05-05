@@ -63,7 +63,8 @@ foreach ( $activity_ids as $activity_id )
             usersettings.username,
             users.u_id,
             access_log_summary.t_latest_request,
-            access_log_summary.t_latest_deny
+            access_log_summary.t_latest_deny,
+            users.t_last_activity
         FROM usersettings
             LEFT OUTER JOIN users USING (username)
             LEFT OUTER JOIN access_log_summary ON (
@@ -112,19 +113,27 @@ foreach ( $activity_ids as $activity_id )
             }
             echo "<th>this request</th>";
             echo "<th>prev denial</th>";
+            echo "<th>last on site</th>";
             echo "</tr>";
             echo "\n";
         }
-
-        while ( list($username, $u_id, $t_latest_request, $t_latest_deny) = mysql_fetch_row($res) )
+        $seconds = 60 * 60 * 24;
+        $now = time();
+        $tformat = '%Y-%m-%d';
+        while ( list($username, $u_id, $t_latest_request, $t_latest_deny, $t_last_on_site) = mysql_fetch_row($res) )
         {
             $member_stats_url = "$code_url/stats/members/mdetail.php?id=$u_id";
-            $t_latest_request_f = strftime('%Y-%m-%d&nbsp;%T', $t_latest_request);
-            $t_latest_deny_f = (
-                $t_latest_deny == 0
-                ? ''
-                : strftime('%Y-%m-%d&nbsp;%T', $t_latest_deny)
-            );
+            $t_latest_request_f = strftime($tformat, $t_latest_request);
+            $t_latest_request_d = round(($now - $t_latest_request) / $seconds);
+            $t_latest_deny_f = '';
+            $t_latest_deny_d = -1;
+            if ($t_latest_deny != 0) 
+            {
+                $t_latest_deny_f = strftime($tformat, $t_latest_deny);
+                $t_latest_deny_d = round(($now - $t_latest_deny_d) / $seconds);
+            }
+            $t_last_on_site_f = strftime($tformat, $t_last_on_site);
+            $t_last_on_site_d = round(($now - $t_last_on_site) / $seconds);
 
             echo "<tr>";
             echo   "<td align='center'>";
@@ -137,11 +146,19 @@ foreach ( $activity_ids as $activity_id )
                 echo     "<a href='$review_work_url'>rw</a>";
                 echo   "</td>";
             }
-            echo   "<td align='center'>";
+            echo   "<td align='left'>";
             echo     $t_latest_request_f;
+            echo " ($t_latest_request_d&nbsp;days)";
             echo   "</td>";
-            echo   "<td align='center'>";
+            echo   "<td align='left'>";
             echo     $t_latest_deny_f;
+            if ($t_latest_deny_d >= 0) {
+                echo " ($t_latest_deny_d&nbsp;days)";
+            }
+            echo   "</td>";
+            echo   "<td align='left'>";
+            echo     $t_last_on_site_f;
+            echo " ($t_last_on_site_d&nbsp;days)";
             echo   "</td>";
             echo "</tr>";
             echo "\n";
