@@ -14,24 +14,8 @@ $project = new Project( $projectid );
 $state = $project->state;
 $project_title = $project->nameofwork;
 
-$title = sprintf( _('Difference for page %s'), $image );
-
-$no_stats=1;
-$extra_args = array("css_data" => "span.custom_font {font-family: DPCustomMono2, Courier New, monospace;}");
-theme("$title: $project_title", "header", $extra_args);
-
-echo "<h1>$project_title</h1>\n";
-echo "<h2>$title</h2>\n";
-
-do_navigation($projectid, $image, $L_round_num, $R_round_num);
-
-$url = "$code_url/project.php?id=$projectid&amp;expected_state=$state";
-$label = _("Go to Project Page");
-
-echo "<a href='$url'>$label</a>";
-echo "<br>\n";
-
-
+// --------------------------------------------------------------
+// get information about this diff
 if ( $L_round_num == 0 )
 {
     $L_text_column_name = 'master_text';
@@ -66,6 +50,25 @@ if ( $can_see_names_for_this_page) {
     $L_label .= " ($L_user)";
     $R_label .= " ($R_user)";
 }
+// now have the image, users, labels etc all set up
+// -----------------------------------------------------------------------------
+
+$title = sprintf( _('Difference for page %s'), $image );
+
+$no_stats=1;
+$extra_args = array("css_data" => "span.custom_font {font-family: DPCustomMono2, Courier New, monospace;}");
+theme("$title: $project_title", "header", $extra_args);
+
+echo "<h1>$project_title</h1>\n";
+echo "<h2>$title</h2>\n";
+
+do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user);
+
+$url = "$code_url/project.php?id=$projectid&amp;expected_state=$state";
+$label = _("Go to Project Page");
+
+echo "<a href='$url'>$label</a>";
+echo "<br>\n";
 
 // ---------------------------------------------------------
 
@@ -91,7 +94,7 @@ DifferenceEngine::showDiff(
 
 theme("", "footer");
 
-function do_navigation($projectid, $image, $L_round_num, $R_round_num) 
+function do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user) 
 {
     $jump_to_js = "this.form.image.value=this.form.jumpto[this.form.jumpto.selectedIndex].value; this.form.submit();";
 
@@ -107,22 +110,26 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num)
     $num_rows = mysql_num_rows($res);
     $prev_image = "";
     $next_image = "";
-    // construct the dropdown
+    $got_there = FALSE;
+    $got_to_next = FALSE;
+    // construct the dropdown; work out where previous and next buttons should take us
     for ($row=0; $row<$num_rows;$row++)
     {
         $this_val = mysql_result($res, $row, "image");
         echo "\n<option value='$this_val'";
         if ($this_val == $image)
         {
-            echo " selected";
-            if ( $row != 0 ) 
-            {
-                $prev_image = mysql_result($res, $row-1, "image");
-            }
-            if ( $row != $num_rows-1 ) 
-            {
-                $next_image = mysql_result($res, $row+1, "image");
-            }
+            echo " selected";  // make the correct element of the drop down selected
+            $got_there = TRUE;
+        }
+        else if ($got_there && ! $got_to_next) {
+            // we are at the one after the current one
+            $got_to_next = TRUE;
+            $next_image = $this_val;
+        }
+        if ( !$got_there )
+        {
+            $prev_image = $this_val;  // keep track of what the previous image was
         }
         echo ">$this_val</option>";
     }
