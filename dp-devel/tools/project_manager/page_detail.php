@@ -76,14 +76,16 @@ echo "N.B. It is <b>strongly</b> recommended that you view page differentials by
 
 if ( !is_null($username_for_page_selection) )
 {
-    echo sprintf( _("Showing only the pages of user '%s'"), $username_for_page_selection );
-    if ( !is_null($round_for_page_selection) )
+    if (is_null($round_for_page_selection) )
     {
-        echo sprintf(_(" in round %s."), $round_for_page_selection);
+        echo sprintf( _("Showing only the pages of user '%s'."), 
+                      $username_for_page_selection );
     }
     else
     {
-        echo ".";
+        echo sprintf( _("Showing only the pages of user '%s' in round %s."), 
+                      $username_for_page_selection, 
+                      $round_for_page_selection );
     }
     $blurb = _("Show all pages instead.");
     echo "&nbsp;&nbsp;";
