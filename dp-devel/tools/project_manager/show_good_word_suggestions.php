@@ -142,7 +142,7 @@ echo "</select>";
 echo "<input type='submit' value='Submit'>";
 echo "</p></form>";
 
-echo_download_text( $projectid, $format );
+echo_download_text( $projectid, $format, "timeCutoff=$timeCutoff" );
 
 echo_cutoff_text( $initialFreq,$cutoffOptions );
 
