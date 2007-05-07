@@ -26,6 +26,8 @@ echo_stylesheet();
 echo "<h1>$title</h1>";
 echo "<h2>" . get_project_name($projectid) . "</h2>";
 
+echo "<p>" . _("The following statistics are generated from the most recent text of each page and the project and site's Good and Bad Word Lists.") . "</p>"; 
+
 // load bad words for project
 $proj_bad_words = load_project_bad_words($projectid);
 
