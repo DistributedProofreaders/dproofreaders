@@ -331,7 +331,7 @@ function show_visible_controls() {
 
     echo "<tr>";
     echo "<td class='label'>" . _("WordCheck Statistics") . "</td>";
-    echo "<td>" . new_window_link("show_project_wordcheck_stats.php?projectid=$this->projectid",_("Show WordCheck page statistics")) . "</td>";
+    echo "<td>" . new_window_link("show_project_wordcheck_stats.php?projectid=$this->projectid",_("Show WordCheck flagged word statistics")) . "</td>";
     echo "</tr>";
 
     echo "<tr>";
