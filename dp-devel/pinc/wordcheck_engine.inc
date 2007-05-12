@@ -614,7 +614,7 @@ function save_word_list( $path, $words )
     // standardize word list
     $words = array_unique($words);
     $words = array_map('rtrim', $words);
-    natcasesort($words);
+    uasort($words,"accentAgnosticCompare");
 
     // see if list has changed before saving it
     $oldWords = load_word_list( $path );
@@ -865,6 +865,14 @@ function generate_frequencies($wordList) {
     return $wordCount;
 }
 
+
+// compare function that ignores non-word_characters
+function accentAgnosticCompare($a, $b) {
+    global $word_characters;
+    $a = preg_replace("/[^{$word_characters}]*/","",$a);
+    $b = preg_replace("/[^{$word_characters}]*/","",$b);
+    return strnatcasecmp($a,$b);
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>
