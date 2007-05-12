@@ -77,6 +77,8 @@ if($frame=="left") {
     // get all projects for this PM
     $projects = _get_projects_for_pm($pm);
 
+    $submitLabel = _("Add selected words to Good Words List");
+
     slim_header(_("Manage Suggestions"),TRUE,TRUE);
 
     // how many instances (ie: frequency sections) are there?
@@ -114,6 +116,7 @@ foreach($timeCutoffOptions as $timeCutoffOption) {
 echo "</select>";
 echo "<br>";
 
+
     echo "<input type='submit' value='Submit'></p>";
     echo "</form>";
 
@@ -125,6 +128,8 @@ echo "<br>";
         $time_cutoff_text = sprintf(_("Only proofer suggestions made <b>after %s</b> are included in the results."),strftime($datetime_format,$timeCutoff));
 
     echo "<p>" . $time_cutoff_text . "</p>";
+
+    echo "<p>" . sprintf(_("Selecting any '%s' button will add all selected words to their corresponding project word list, not just the words in the section for the buton itself."),$submitLabel) . "</p>";
     
     echo_cutoff_text( $initialFreq,$cutoffOptions );
 
@@ -188,7 +193,7 @@ echo "<br>";
 
         printTableFrequencies($initialFreq,$cutoffOptions,$suggestions_w_freq,$instances--,array($suggestions_w_occurances,$context_array),$word_checkbox);
 
-        echo "<p><input type='submit' value='" . _("Add selected words to Good Words List") . "'></p>";
+        echo "<p><input type='submit' value='$submitLabel'></p>";
     }
 
     if($projectsNeedingAttention==0) {
