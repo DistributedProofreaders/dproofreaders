@@ -16,7 +16,7 @@ echo _("3) Remove extra spaces around punctuation mistakenly inserted by the OCR
 echo "<br><br>";
 echo _("4) Don't correct the original spelling.");
 echo "<br><br>";
-echo _("5) When in doubt, make it look like the original and use * to flag the spot.");
+echo _("5) When in doubt, make it look like the original and use [** <i>Notes for the next proofer or PM would go here</i>] to flag the spot.");
 echo "<br><br>\n\n";
 
 
