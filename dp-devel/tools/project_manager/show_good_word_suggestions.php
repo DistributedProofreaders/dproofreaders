@@ -209,11 +209,11 @@ function _get_word_list($projectid,$timeCutoff) {
     $suggestions = load_project_good_word_suggestions($projectid,$timeCutoff);
     if(!is_array($suggestions)) {
         $messages[] = sprintf(_("Unable to load suggestions: %s"),$suggestions);
-        return array( array(), array(), $messages);
+        return array( array(), array(), array(), array(), array(), array(), $messages);
     }
 
     if(count($suggestions)==0) {
-        return array( array(), array(), $messages);
+        return array( array(), array(), array(), array(), array(), array(), $messages);
     }
 
     // load project good words
