@@ -80,6 +80,7 @@ if($frame=="left") {
     $pages_res = page_info_query($projectid,$last_possible_round->id,'LE');
     // iterate through all the pages until we find $wordInstances of the word
     // we're looking for
+    $foundInstances = 0;
     while( list($page_text,$page,$proofer_names) = page_info_fetch($pages_res) ) {
         // get a context string
         list($context_strings,$totalLines)=_get_word_context_from_text($page_text,$word);
