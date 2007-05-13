@@ -130,6 +130,8 @@ class ProjectWordListHolder
         mysql_free_result($res);
 
 
+        $errors = array();
+
         $gwl_object = get_project_word_file($this->projectid,"good");
         $this->gwl_timestamp = $gwl_object->mod_time;
         $bwl_object = get_project_word_file($this->projectid,"bad");
