@@ -98,7 +98,7 @@ echo_any_warnings_errors( $messages );
 
 echo_cutoff_text( $initialFreq,$cutoffOptions );
 
-$context_array=build_context_array_links($bad_words_w_freq,$projectid,$word);
+$context_array=build_context_array_links($bad_words_w_freq,$projectid);
 
 // load the project and site bad words to include in the Notes column
 // load project languages

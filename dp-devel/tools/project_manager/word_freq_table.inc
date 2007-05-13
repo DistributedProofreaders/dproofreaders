@@ -360,7 +360,7 @@ function _highlight_word($text,$hlWord) {
     return $text;
 }
 
-function build_context_array_links($words_w_freq,$projectid,$word) {
+function build_context_array_links($words_w_freq,$projectid) {
     $context_array=array();
 
     foreach($words_w_freq as $word => $freq) {

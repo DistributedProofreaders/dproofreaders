@@ -100,7 +100,7 @@ echo_any_warnings_errors( $messages );
 
 echo_cutoff_text( $initialFreq,$cutoffOptions );
 
-$context_array=build_context_array_links($bad_words_w_freq,$projectid,$word);
+$context_array=build_context_array_links($bad_words_w_freq,$projectid);
 $context_array["[[TITLE]]"]=_("Show Context");
 
 $word_checkbox = build_checkbox_array($bad_words_w_freq);
