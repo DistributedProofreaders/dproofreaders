@@ -195,7 +195,7 @@ function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,
                 $line .= "<td";
                 if(!empty($auxData[$index]['[[STYLE]]']))
                     $line.=" style='" . $column['style']=$auxData[$index]['[[STYLE]]'] . "'";
-                $line .= ">" . $auxData[$index][$word] . "</td>";
+                $line .= ">" . @$auxData[$index][$word] . "</td>";
             }
         }
 
