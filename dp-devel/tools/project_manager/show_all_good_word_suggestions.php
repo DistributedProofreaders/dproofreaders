@@ -129,7 +129,7 @@ echo "<br>";
 
     echo "<p>" . $time_cutoff_text . "</p>";
 
-    echo "<p>" . sprintf(_("Selecting any '%s' button will add all selected words to their corresponding project word list, not just the words in the section for the buton itself."),$submitLabel) . "</p>";
+    echo "<p>" . sprintf(_("Selecting any '%s' button will add all selected words to their corresponding project word list, not just the words in the section for the button itself."),$submitLabel) . "</p>";
     
     echo_cutoff_text( $initialFreq,$cutoffOptions );
 
