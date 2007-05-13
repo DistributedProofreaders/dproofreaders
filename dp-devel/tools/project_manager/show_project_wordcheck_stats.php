@@ -124,7 +124,7 @@ $total["flagged_mode_num"]=$mode[$total["flagged_mode"]];
 
 // use the $mode array to prepare the graph_pages_per_number_of_flags data
 for($numFlags=$total["flagged_min"];$numFlags<=$total["flagged_max"];$numFlags++) {
-   if($mode[$numFlags]) $flags_n_pages[$numFlags]=$mode[$numFlags];
+   if(isset($mode[$numFlags])) $flags_n_pages[$numFlags]=$mode[$numFlags];
    else $flags_n_pages[$numFlags]=0;
 }
 

@@ -55,7 +55,7 @@ if($frame=="update") {
 if($frame=="master") {
     slim_header(_("Manage Suggestions"),TRUE,FALSE);
     $frameSpec='cols="40%,60%"';
-    if($_REQUEST["timecutoff"])
+    if(@$_REQUEST["timecutoff"])
         $timeCutoffSpec="timeCutoff=$timeCutoff&amp;";
     else $timeCutoffSpec="";
 ?>

@@ -24,7 +24,7 @@ $return    = $_GET["return"];
 enforce_edit_authorization($projectid);
 
 // get the right layout
-$layout = array_get($_GET,"layout",$_SESSION["show_word_context"]["layout"]);
+$layout = array_get($_GET,"layout",@$_SESSION["show_word_context"]["layout"]);
 if(empty($layout)) $layout=LAYOUT_HORIZ;
 $_SESSION["show_word_context"]["layout"]=$layout;
 

@@ -30,7 +30,7 @@ $timeCutoff = array_get($_GET,"timeCutoff",0);
 enforce_edit_authorization($projectid);
 
 // get the correct layout
-$layout = array_get($_GET,"layout",$_SESSION["show_good_word_suggestions_detail"]["layout"]);
+$layout = array_get($_GET,"layout",@$_SESSION["show_good_word_suggestions_detail"]["layout"]);
 if(empty($layout)) $layout=LAYOUT_HORIZ;
 $_SESSION["show_good_word_suggestions_detail"]["layout"]=$layout;
 
