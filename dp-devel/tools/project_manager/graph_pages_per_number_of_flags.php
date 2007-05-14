@@ -13,7 +13,7 @@ draw_simple_bar_graph(
    _("Number of flags on a page"),
    _("Pages with that many flags"),
    600,300,
-   180
+   -1
 );
 
 // unsetting graph_pages_per_number_of_flags variable in the session

@@ -13,7 +13,7 @@ draw_simple_bar_graph(
    _("Flagged words per page"),
    _("Flags"),
    600,300,
-   180
+   -1
 );
 
 // unsetting graph_flags_per_page variable in the session
