@@ -365,7 +365,7 @@ function build_context_array_links($words_w_freq,$projectid) {
 
     foreach($words_w_freq as $word => $freq) {
         $encWord = encode_word($word);
-        $context_array[$word]=new_window_link("show_word_context.php?projectid=$projectid&amp;word=$encWord",_("Context"));
+        $context_array[$word]=recycle_window_link("show_word_context.php?projectid=$projectid&amp;word=$encWord",_("Context"),"context");
     }
 
     return $context_array;

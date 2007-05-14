@@ -148,7 +148,7 @@ echo_cutoff_text( $initialFreq,$cutoffOptions );
 
 foreach($all_suggestions_w_occurances as $word => $occur) {
     $encWord = encode_word($word);
-    $context_array[$word]=new_window_link("show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord",_("Context"));
+    $context_array[$word]=recycle_window_link("show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord",_("Context"),"context");
 }
 $context_array["[[TITLE]]"]=_("Show Context");
 $all_suggestions_w_occurances["[[TITLE]]"]=_("Times Suggested");
@@ -175,7 +175,7 @@ if(count($rounds)) {
     foreach($rounds as $round) {
         foreach($round_suggestions_w_occurances[$round] as $word => $occur) {
             $encWord = encode_word($word);
-            $context_array[$word]=new_window_link("show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord",_("Context"));
+            $context_array[$word]=recycle_window_link("show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord",_("Context"),"context");
         }
         $round_suggestions_w_occurances[$round]["[[TITLE]]"]=_("Times Suggested");
         $round_suggestions_w_occurances[$round]["[[STYLE]]"]=_("text-align: right;");
