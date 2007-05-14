@@ -17,9 +17,9 @@ function new_window_link( $href, $linktext )
 
 // -----------------------------------------------------------------------------
 
-function recycle_window_link( $href, $target, $linktext )
+function recycle_window_link( $href, $linktext, $target )
 // Returns a string containing a snippet of HTML
-// for a link that opens in a specific window.
+// for a link that opens in a specific target.
 {
     global $code_url;
 
