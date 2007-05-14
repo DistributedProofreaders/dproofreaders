@@ -317,8 +317,6 @@ function _get_uid_from_username($username) {
 }
 
 function _get_word_context_from_text($page_text,$contextWord) {
-    global $word_characters;
-
     $contexts=array();
 
     $lines=explode("\n",$page_text);
