@@ -1,5 +1,4 @@
 <?
-$relPath="./../../pinc/";
 include_once($relPath.'links.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'metarefresh.inc');
