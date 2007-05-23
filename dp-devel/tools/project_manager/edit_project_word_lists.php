@@ -296,6 +296,7 @@ class ProjectWordListHolder
     }
     table.wordlisttable .mono { font-family: monospace; }
     table.wordlisttable textarea { width: 100%; }
+    p.error { color: red; }
     </style>
 <?
     }
