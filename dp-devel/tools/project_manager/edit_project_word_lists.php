@@ -19,13 +19,14 @@ if ( !user_is_PM() )
 $pwlh = new ProjectWordListHolder;
 
 $errors = array();
+$good_word_conflict = $bad_word_conflict = false;
 
 if (isset($_POST['saveAndProject']) || isset($_POST['saveAndPM']) || isset($_POST['save']) )
 {
     $errors = $pwlh->set_from_post();
     if (count($errors)==0)
     {
-        $errors = $pwlh->save_to_files();
+        list($good_word_conflict,$bad_word_conflict,$errors) = $pwlh->save_to_files();
         if (count($errors)==0)
         {
             if (isset($_POST['saveAndProject']))
@@ -62,8 +63,9 @@ if (isset($_POST['saveAndProject']) || isset($_POST['saveAndPM']) || isset($_POS
     // fall through
 }
 
-if(count($errors)==0)
-    $pwlh->set_from_db();
+$pwlh->set_from_db();
+
+$pwlh->set_from_files(!$good_word_confict,!$bad_word_conflict);
 
 $page_title = _("Edit Project Word Lists");
 
@@ -129,34 +131,42 @@ class ProjectWordListHolder
 
         mysql_free_result($res);
 
+        return array();
+    }
 
+    function set_from_files($load_good_words=true, $load_bad_words=true)
+    {
         $errors = array();
 
-        $gwl_object = get_project_word_file($this->projectid,"good");
-        $this->gwl_timestamp = $gwl_object->mod_time;
-        $bwl_object = get_project_word_file($this->projectid,"bad");
-        $this->bwl_timestamp = $bwl_object->mod_time;
-        $good_words = load_project_good_words($this->projectid);
-        $bad_words=load_project_bad_words($this->projectid);
+        if($load_good_words) {
+            $gwl_object = get_project_word_file($this->projectid,"good");
+            $this->gwl_timestamp = $gwl_object->mod_time;
+            $good_words = load_project_good_words($this->projectid);
 
-        if ( is_string($good_words) )
-        {
-            array_push($errors,$good_words);
-            $this->good_words = '';
-        }
-        else
-        {
-            $this->good_words = implode("\n", $good_words);
+            if ( is_string($good_words) )
+            {
+                array_push($errors,$good_words);
+                $this->good_words = '';
+            }
+            else
+            {
+                $this->good_words = implode("\n", $good_words);
+            }
         }
 
-        if ( is_string($bad_words) )
-        {
-            array_push($errors,$bad_words);
-            $this->bad_words = '';
-        }
-        else
-        {
-            $this->bad_words = implode("\n", $bad_words);
+        if($load_bad_words) {
+            $bwl_object = get_project_word_file($this->projectid,"bad");
+            $this->bwl_timestamp = $bwl_object->mod_time;
+            $bad_words=load_project_bad_words($this->projectid);
+            if ( is_string($bad_words) )
+            {
+                array_push($errors,$bad_words);
+                $this->bad_words = '';
+            }
+            else
+            {
+                $this->bad_words = implode("\n", $bad_words);
+            }
         }
 
         return $errors;
@@ -211,6 +221,7 @@ class ProjectWordListHolder
     {
         global $projects_dir, $uploads_dir, $pguser;
 
+        $good_word_conflict = $bad_word_conflict = false;
         $messages = array();
 
         // first, check to see if the good or bad word list
@@ -221,9 +232,10 @@ class ProjectWordListHolder
         $current_bwl_timestamp = $bwl_object->mod_time;
 
         if($current_gwl_timestamp != $this->gwl_timestamp) {
-            $error = sprintf(_("The Good Words List was changed by another process during your edit session. Your changes have not been saved to prevent data loss. View the %s and merge your changes manually. If you want the superset of both lists, simply append the contents of the Good Words List to that within the Good Words edit box below - the server will remove any duplicates. Saving this page again will override this message."),new_window_link($gwl_object->abs_url,_("Good Words List")));
-            array_push($messages,$error);
+            $error = sprintf(_("The Good Words List was changed by another process during your edit session. Your changes to this list have not been saved to prevent data loss. View the %s and merge your changes manually. If you want the superset of both lists, simply append the contents of the Good Words List to that within the Good Words edit box below - the server will remove any duplicates. Saving this page again will override this message."),new_window_link($gwl_object->abs_url,_("Good Words List")));
             $this->gwl_timestamp = $current_gwl_timestamp;
+            array_push($messages,$error);
+            $good_word_conflict = true;
         } else {
             // everything looks good, save the changes
             $good_words = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->good_words));
@@ -231,9 +243,10 @@ class ProjectWordListHolder
         }
 
         if($current_bwl_timestamp != $this->bwl_timestamp) {
-            $error = sprintf(_("The Bad Words List was changed by another process during your edit session. Your changes have not been saved to prevent data loss. View the %s and merge your changes manually. If you want the superset of both lists, simply append the contents of the Bad Words List to that within the Bad Words edit box below - the server will remove any duplicates. Saving this page again will override this message."),new_window_link($bwl_object->abs_url,_("Bad Words List")));
-            array_push($messages,$error);
+            $error = sprintf(_("The Bad Words List was changed by another process during your edit session. Your changes to this list have not been saved to prevent data loss. View the %s and merge your changes manually. If you want the superset of both lists, simply append the contents of the Bad Words List to that within the Bad Words edit box below - the server will remove any duplicates. Saving this page again will override this message."),new_window_link($bwl_object->abs_url,_("Bad Words List")));
             $this->bwl_timestamp = $current_bwl_timestamp;
+            array_push($messages,$error);
+            $bad_word_conflict = true;
         } else {
             // everything looks good, save the changes
             $bad_words = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->bad_words));
@@ -241,7 +254,7 @@ class ProjectWordListHolder
         }
 
         
-        return $messages;
+        return array($good_word_confict,$bad_word_conflict,$messages);
     }
 
     // =========================================================================
