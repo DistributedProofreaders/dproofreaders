@@ -122,6 +122,9 @@ arsort($mode);
 $total["flagged_mode"]=array_shift(array_keys($mode));
 $total["flagged_mode_num"]=$mode[$total["flagged_mode"]];
 
+// initialize for empty projects
+$flags_n_pages=array();
+
 // use the $mode array to prepare the graph_pages_per_number_of_flags data
 for($numFlags=$total["flagged_min"];$numFlags<=$total["flagged_max"];$numFlags++) {
    if(isset($mode[$numFlags])) $flags_n_pages[$numFlags]=$mode[$numFlags];
