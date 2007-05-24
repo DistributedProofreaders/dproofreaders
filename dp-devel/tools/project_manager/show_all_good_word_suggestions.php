@@ -95,6 +95,8 @@ if($frame=="left") {
 
     echo "<h1>" . _("Manage Suggestions") . "</h1>";
 
+    echo "<p><a href='$code_url/tools/project_manager/projectmgr.php' target='_TOP'>" . _("Return to the PM page") . "</a></p>";
+
     echo "<form action='" . $_SERVER['PHP_SELF'] . "' method='get'>";
     echo "<input type='hidden' name='frame' value='left'>";
     echo "<p>";
