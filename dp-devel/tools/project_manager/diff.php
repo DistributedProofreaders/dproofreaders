@@ -62,7 +62,8 @@ theme("$title: $project_title", "header", $extra_args);
 echo "<h1>$project_title</h1>\n";
 echo "<h2>$title</h2>\n";
 
-do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user);
+do_navigation($projectid, $image, $L_round_num, $R_round_num, 
+              $L_user_column_name, $L_user);
 
 $url = "$code_url/project.php?id=$projectid&amp;expected_state=$state";
 $label = _("Go to Project Page");
@@ -94,7 +95,8 @@ DifferenceEngine::showDiff(
 
 theme("", "footer");
 
-function do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user) 
+function do_navigation($projectid, $image, $L_round_num, $R_round_num, 
+                       $L_user_column_name, $L_user) 
 {
     $jump_to_js = "this.form.image.value=this.form.jumpto[this.form.jumpto.selectedIndex].value; this.form.submit();";
 
@@ -105,17 +107,18 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user)
     echo "\n<input type='hidden' name='R_round_num' value='$R_round_num'>";
     echo "\nJump to: <select name='jumpto' onChange='$jump_to_js'>\n";
 
-    $query = "SELECT image FROM $projectid ORDER BY image ASC";
+    $query = "SELECT image, $L_user_column_name  FROM $projectid ORDER BY image ASC";
     $res = mysql_query( $query) or die(mysql_error());
     $num_rows = mysql_num_rows($res);
     $prev_image = "";
     $next_image = "";
+    $prev_from_proofer = "";
+    $next_from_proofer = "";
     $got_there = FALSE;
     $got_to_next = FALSE;
     // construct the dropdown; work out where previous and next buttons should take us
-    for ($row=0; $row<$num_rows;$row++)
+    while ( list($this_val, $this_user) = mysql_fetch_row($res) )
     {
-        $this_val = mysql_result($res, $row, "image");
         echo "\n<option value='$this_val'";
         if ($this_val == $image)
         {
@@ -127,15 +130,25 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user)
             $got_to_next = TRUE;
             $next_image = $this_val;
         }
+        if ($got_to_next && $next_from_proofer == "" && $this_user == $L_user)
+        {
+            $next_from_proofer = $this_val;
+        }
         if ( !$got_there )
         {
             $prev_image = $this_val;  // keep track of what the previous image was
+            if ($this_user == $L_user)
+            {
+                $prev_from_proofer = $this_val;
+            }
         }
         echo ">$this_val</option>";
     }
     echo "\n</select>";
     $previous_js = "this.form.image.value='$prev_image'; this.form.submit();";
     $next_js = "this.form.image.value='$next_image'; this.form.submit();";
+    $previous_from_proofer_js = "this.form.image.value='$prev_from_proofer'; this.form.submit();";
+    $next_from_proofer_js = "this.form.image.value='$next_from_proofer'; this.form.submit();";
 
     echo "\n<input type='button' value='" . _("Previous") . "' onClick=\"$previous_js\"";
     if ( $prev_image == "" ) {
@@ -148,6 +161,20 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user)
     }
     echo ">";
 
+    if (can_navigate_by_proofer($projectid, $L_user))
+    {
+        echo "\n<input type='button' value='" . _("Proofer previous") . "' onClick=\"$previous_from_proofer_js\"";
+        if ( $prev_from_proofer == "" ) {
+            echo " disabled";
+        }
+        echo ">";
+        echo "\n<input type='button' value='" . _("Proofer next") . "' onClick=\"$next_from_proofer_js\"";
+        if ( $next_from_proofer == "" ) {
+            echo " disabled";
+        }
+        echo ">";
+
+    }
     echo "\n</form>";
 }
 
@@ -180,6 +207,27 @@ function can_see_names_for_page($projectid, $image)
                 break;
             }
         }
+    }
+    return $answer;
+}
+
+// discover whether the user is allowed to navigate by proofer for this page
+function can_navigate_by_proofer($projectid, $L_user) 
+{
+    global $pguser;
+    $answer =  FALSE;
+    // If user isn't logged in, they definitely can't 
+    if ( $pguser == '' ) return FALSE;
+    $project = new Project( $projectid );
+
+    // if user can manage project, or is evaluator they can
+    $answer = $project->can_be_managed_by_current_user ||
+        user_is_an_access_request_reviewer();
+    
+    // otherwise, they can if this diff is one of theirs
+    if (! $answer)
+    {
+        $answer = ($pguser == $L_user);
     }
     return $answer;
 }
