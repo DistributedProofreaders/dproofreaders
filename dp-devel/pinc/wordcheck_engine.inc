@@ -557,6 +557,8 @@ function get_file_info_object($filename,$base_dir,$base_url)
 // (size and mod_time are set to zero if the file doesn't exist.)
 {
 
+    clearstatcache();
+
     $o = new StdClass;
 
     $o->filename = $filename;
