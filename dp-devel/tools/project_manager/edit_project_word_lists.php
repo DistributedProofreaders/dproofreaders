@@ -65,7 +65,7 @@ if (isset($_POST['saveAndProject']) || isset($_POST['saveAndPM']) || isset($_POS
 
 $pwlh->set_from_db();
 
-$pwlh->set_from_files(!$good_word_confict,!$bad_word_conflict);
+$pwlh->set_from_files(!$good_word_conflict,!$bad_word_conflict);
 
 $page_title = _("Edit Project Word Lists");
 
@@ -254,7 +254,7 @@ class ProjectWordListHolder
         }
 
         
-        return array($good_word_confict,$bad_word_conflict,$messages);
+        return array($good_word_conflict,$bad_word_conflict,$messages);
     }
 
     // =========================================================================
