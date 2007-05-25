@@ -144,7 +144,8 @@ echo "<br>";
 
     $projectsNeedingAttention=0;
     // loop through the projects
-    foreach($projects as $projectid=>$projectname) {
+    foreach($projects as $projectid=>$projectdata) {
+        list($projectname,$projectstate)=$projectdata;
         $goodFileObject = get_project_word_file($projectid,"good");
         $goodSuggsFileObject = get_project_word_file($projectid,"good_suggs");
 
@@ -169,6 +170,7 @@ echo "<br>";
 
         echo "<hr>";
         echo "<h3>$projectname</h3>";
+        echo "<p><b>" . _("State:") . "</b> $projectstate</p>";
 
         echo "<p>";
         echo "<a href='#' onClick=\"return checkAll('$projectid'," . count($suggestions_w_freq) . ",true)\">";
@@ -276,13 +278,35 @@ function _get_word_list($projectid,$timeCutoff) {
 
 function _get_projects_for_pm($pm) {
     $returnArray=array();
-    $query = "select projectid, nameofwork from projects where username='$pm' order by nameofwork";
+
+    $states = _get_project_states_in_order();
+    $stateString = surround_and_join( $states, "'", "'", ',' );
+    $where = "state in ($stateString)";
+    $collator = "FIELD(state,$stateString)";
+    $query = "select projectid, state, nameofwork from projects where username='$pm' and $where order by $collator, nameofwork";
+
     $res = mysql_query($query);
     while($ar = mysql_fetch_array($res)) {
-        $returnArray[$ar["projectid"]]=$ar["nameofwork"];
+        $returnArray[$ar["projectid"]]=array($ar["nameofwork"],$ar["state"]);
     }
     return $returnArray;
 
+}
+
+function _get_project_states_in_order() {
+    global $Round_for_round_id_;
+
+    $projectStates = array();
+
+    foreach($Round_for_round_id_ as $round_id => $round) {
+        array_push($projectStates,$round->project_unavailable_state);
+        array_push($projectStates,$round->project_waiting_state);
+        array_push($projectStates,$round->project_bad_state);
+        array_push($projectStates,$round->project_available_state);
+        array_push($projectStates,$round->project_complete_state);
+    }
+
+    return $projectStates;
 }
 
 // vim: sw=4 ts=4 expandtab
