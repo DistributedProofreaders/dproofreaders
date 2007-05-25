@@ -89,7 +89,7 @@ if($frame=="left") {
         echo "<p>";
         echo "<b>" . _("Page") . "</b>: <a href='displayimage.php?project=$projectid&amp;imagefile=$page&amp;showreturnlink=0' target='imageframe'>$page</a><br>";
         foreach($context_strings as $lineNum => $context_string) {
-            $context_string=_highlight_word($context_string,$word);
+            $context_string=_highlight_word(htmlspecialchars($context_string),$word);
             echo "<b>" . _("Line") . "</b>: ~$lineNum of $totalLines &nbsp; | &nbsp; ";
             echo "<b>" . _("Context") . "</b>:<br><span class='mono'>$context_string</span><br>";
         }
