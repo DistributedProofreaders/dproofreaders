@@ -616,6 +616,12 @@ function save_word_list( $path, $words )
     $words = array_map('rtrim', $words);
     uasort($words,"accentAgnosticCompare");
 
+    // if the last 'word' is empty, remove it -
+    // commonly the result of explode'ing an empty list
+    if(@$words[count($words)-1] == '') {
+        array_pop($words);
+    }
+
     // see if list has changed before saving it
     $oldWords = load_word_list( $path );
 
