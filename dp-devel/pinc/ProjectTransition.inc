@@ -115,6 +115,14 @@ class ProjectTransition
         {
             return that_user_is_a_sitemanager($who);
         }
+        elseif ( $simple_who_restriction == 'PMholder' )
+        {
+            return (
+                $project->can_be_managed_by_user($who) 
+                &&
+                $project->checkedoutby == $project->username
+            );
+        }
         elseif ( $simple_who_restriction == 'auto' )
         {
             return ($who == PT_AUTO);
