@@ -6,34 +6,38 @@ include($relPath.'project_states.inc');
 include($relPath.'maybe_mail.inc');
 $db_Connection=new dbConnect();
 
-    $old_date = time() - 7776000; // 90 days ago.
+$old_date = time() - 7776000; // 90 days ago.
 
-    //get projects that have been checked out longer than old_date
-    $result = mysql_query("SELECT nameofwork, checkedoutby, modifieddate, projectid, authorsname,
+// send reminder email to PPers with projects checked out for longer than
+// 90 days
+
+//get projects that have been checked out longer than old_date
+$result = mysql_query("SELECT nameofwork, checkedoutby, modifieddate, projectid, authorsname,
 				DATE_FORMAT(FROM_UNIXTIME(modifieddate), '%e %M  %Y') as Nicedate
                      FROM projects
                      WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."' AND modifieddate <= $old_date ORDER BY checkedoutby, modifieddate");
 
-    $numrows = mysql_num_rows($result);
-    $rownum = 0;
+$numrows = mysql_num_rows($result);
+$rownum = 0;
 
-    $PPinQuestion = "";
-    $lastwork = "";	
-    $projectslist = "";
-    $displayprojectslist = "";
-    $numprojs = 0;
-    $urlbase = "$code_url/project.php?expected_state=proj_post_first_checked_out&id=";
+$PPinQuestion = "";
+$lastwork = "";	
+$projectslist = "";
+$displayprojectslist = "";
+$numprojs = 0;
+$urlbase = "$code_url/project.php?expected_state=proj_post_first_checked_out&id=";
 
-   while ($rownum < $numrows) {
+while ($rownum < $numrows) {
 
-        $nameofwork = mysql_result($result, $rownum, "nameofwork");
-        $authorsname = mysql_result($result, $rownum, "authorsname");
-        $checkedoutby = mysql_result($result, $rownum, "checkedoutby");
-        $modifieddate = mysql_result($result, $rownum, "modifieddate");
+    $nameofwork = mysql_result($result, $rownum, "nameofwork");
+    $authorsname = mysql_result($result, $rownum, "authorsname");
+    $checkedoutby = mysql_result($result, $rownum, "checkedoutby");
+    $modifieddate = mysql_result($result, $rownum, "modifieddate");
 	$projectid = mysql_result($result, $rownum, "projectid");
 	$nicedate = mysql_result($result, $rownum, "nicedate");
 
-        if ($PPinQuestion != $checkedoutby) {
+    if ($PPinQuestion != $checkedoutby) {
+        // have finished the last PPer. Send email to them
 	    if ($rownum > 0) {
 
 		    $userresult = mysql_query ("SELECT email FROM users WHERE username = '$PPinQuestion'");
@@ -42,7 +46,7 @@ $db_Connection=new dbConnect();
 		    echo $PPinQuestion . "<br>\n" . $displayprojectslist ."<br><br>\n\n";
 
 		    if ($numprojs == 1) {
-			$message = "Hello $PPinQuestion,\n\nThis is an automated message.\n\n
+                $message = "Hello $PPinQuestion,\n\nThis is an automated message.\n\n
 Our database indicates that you have had a PP project checked out for more than 90 days:\n\n
 $projectslist\n\n
 If you haven't yet finished and wish to continue working on this book, please log in to $site_url and visit $url . This will update the status of the project. If you need help please forward a copy of this email (quoting the information on the book, above) with a brief description of the status to $general_help_email_addr.\n\n
@@ -51,7 +55,7 @@ If you are waiting on missing images or page scans, please add the details to th
 If you no longer wish to have this text assigned to you please visit the $site_name website Post Processing section and select Return to Available for this book, or forward this email to $general_help_email_addr and state that you would no longer like to have the book in question assigned to you so that we may return it to the available pool for someone else to work on.\n\n
 $site_signoff";
 		    } else {
-			$message = "Hello $PPinQuestion,\n\nThis is an automated message.\n\n
+                $message = "Hello $PPinQuestion,\n\nThis is an automated message.\n\n
 Our database indicates that you have had $numprojs PP projects checked out for more than 90 days:\n\n
 $projectslist\n\n
 If you wish to continue working on some or all of these books, please log in to $site_url and visit each such project's home-page (copy the URL listed with the project above and paste it into your browser's address-field). Doing this will update the status of the project and let us know that you are still working on it. If you need help please forward this email, quoting the list of books, with a brief description of the status for each of the various books listed above that you need help with to $general_help_email_addr.\n\n
@@ -61,7 +65,7 @@ If you no longer wish to have some or all of these books assigned to you please 
 $site_signoff";
 		    }
 
-	            maybe_mail("$email", "$subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+            maybe_mail("$email", "$subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
 
 		    $projectslist = "";
 		    $displayprojectslist = "";
@@ -75,7 +79,7 @@ $site_signoff";
 	$url = $urlbase . $projectid;
 
 	$projectslist .= "$nameofwork by $authorsname ($projectid), out since $nicedate\n$url\n\n";
-        if ($numprojs == 1) {
+    if ($numprojs == 1) {
 		$subject = "$site_abbreviation: Status update needed for 1 project checked out for PPing over 90 days";
 	} else {
 		$subject = "$site_abbreviation: Status updates needed for $numprojs projects checked out for PPing over 90 days";
@@ -83,7 +87,7 @@ $site_signoff";
 
 	$displayprojectslist .= "<a href='$url'>$nameofwork by $authorsname ($projectid)</a>, out since $nicedate\n". "<br>";
 
-        $rownum++;
+    $rownum++;
 }
 
 ?>
