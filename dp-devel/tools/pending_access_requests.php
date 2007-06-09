@@ -130,7 +130,7 @@ foreach ( $activity_ids as $activity_id )
             if ($t_latest_deny != 0) 
             {
                 $t_latest_deny_f = strftime($tformat, $t_latest_deny);
-                $t_latest_deny_d = round(($now - $t_latest_deny_d) / $seconds);
+                $t_latest_deny_d = round(($now - $t_latest_deny) / $seconds);
             }
             $t_last_on_site_f = strftime($tformat, $t_last_on_site);
             $t_last_on_site_d = round(($now - $t_last_on_site) / $seconds);
