@@ -418,8 +418,7 @@ function show_visible_controls() {
         echo "<a href='show_project_possible_bad_words.php?projectid=$this->projectid&amp;format=file'>" . _("Download results") . "</a>";
         echo "</p>";
     }
-// commenting this code out until the linked page is ready for checkin
-/*
+
     echo "<p>";
     echo "<b>" . _("Possible stealth-scannos:") . "</b><br>";
     echo new_window_link(
@@ -429,7 +428,6 @@ function show_visible_controls() {
     echo " | ";
     echo "<a href='show_project_stealth_scannos.php?projectid=$this->projectid&amp;format=file'>" . _("Download results") . "</a>";
     echo "</p>";
-*/
 
     echo "</td>";
     echo "</tr>";
