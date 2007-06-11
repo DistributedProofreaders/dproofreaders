@@ -695,7 +695,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         $tr_num++;
     }
 
-    echo "<tr><td colspan=8 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
+    echo "<tr><td colspan=9 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
     echo "\n";
 
     results_navigator();
@@ -944,7 +944,7 @@ function list_uber_projects( $can_see_all )
             $tr_num++;
         }
 
-        echo "<tr><td colspan=8 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
+        echo "<tr><td colspan=9 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
     }
 }
 
