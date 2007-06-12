@@ -133,6 +133,7 @@ function getInitialCutoff($idealCutoff,$cutoffOptions,$wordCount=null) {
 //                   array($words)
 //                   the following to special keys are also used:
 //                   [[TITLE]] - title of the column
+//                   [[CLASS]] - class of the td
 //                   [[STYLE]] - style of the td
 //   checkbox       - array containing checkbox form elements for each word
 //
@@ -192,8 +193,10 @@ function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,
         if(is_array($auxData)) {
             for($index=0;$index<count($auxData);$index++) {
                 $line .= "<td";
+                if(!empty($auxData[$index]['[[CLASS]]']))
+                    $line.=" class='" . $auxData[$index]['[[CLASS]]'] . "'";
                 if(!empty($auxData[$index]['[[STYLE]]']))
-                    $line.=" style='" . $column['style']=$auxData[$index]['[[STYLE]]'] . "'";
+                    $line.=" style='" . $auxData[$index]['[[STYLE]]'] . "'";
                 $line .= ">" . @$auxData[$index][$word] . "</td>";
             }
         }
