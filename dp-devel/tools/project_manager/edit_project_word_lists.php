@@ -351,6 +351,11 @@ function show_visible_controls() {
     echo "</tr>";
 
     echo "<tr>";
+    echo "<td class='label'>" . _("Ad Hoc Word Details") . "</td>";
+    echo "<td>" . new_window_link("show_adhoc_word_details.php?projectid=$this->projectid",_("Show details for ad hoc words")) . "</td>";
+    echo "</tr>";
+
+    echo "<tr>";
     echo "<td class='label' align='center' colspan='2'>";
     echo _("Project Dictionary - Word Lists");
     echo "</td>";
