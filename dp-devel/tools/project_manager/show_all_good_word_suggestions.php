@@ -172,15 +172,7 @@ echo "<br>";
         echo "<h3>$projectname</h3>";
         echo "<p><b>" . _("State:") . "</b> $projectstate</p>";
 
-        echo "<p>";
-        echo "<a href='#' onClick=\"return checkAll('$projectid'," . count($suggestions_w_freq) . ",true)\">";
-        echo    _("Check All");
-        echo "</a>";
-        echo " | ";
-        echo "<a href='#' onClick=\"return checkAll('$projectid'," . count($suggestions_w_freq) . ",false)\">";
-        echo    _("Uncheck All");
-        echo "</a>";
-        echo "</p>";
+        echo_checkbox_selects(count($suggestions_w_freq),$projectid);
 
         echo_any_warnings_errors( $messages );
 
