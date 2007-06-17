@@ -658,7 +658,6 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                 echo "<a href=\"editproject.php?action=edit&project=$projectid\">" . _("Info") . "</a>";
                 echo " | ";
                 echo "<a href=\"edit_project_word_lists.php?projectid=$projectid\">" . _("Word&nbsp;Lists") . "</a>";
-                echo "<br>";
 
                 // Should we show an "attention" icon?
                 // Currently, we only do this if the Good Word Suggestions file
@@ -669,9 +668,13 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                 $f_g  = get_project_word_file( $projectid, 'good' );
                 if ( $f_gs->mod_time > $f_g->mod_time )
                 {
-                    $tooltip = _('"Suggestions from proofers" list has changed');
-                    echo " <img src='$code_url/graphics/exclamation.gif' title='$tooltip'>";
+                    $tooltip = _('"Suggestions from proofers" list has changed; click here to view');
+                    echo " <a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>";
+                    echo "<img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0'>";
+                    echo "</a>";
                 }
+
+                echo "<br>";
             }
             if ( $user_can_see_download_links )
             {
