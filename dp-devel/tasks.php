@@ -201,7 +201,19 @@ TaskHeader();
 if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 	TaskForm("");
 } elseif (isset($_POST['edit_task'])) {
-	TaskForm($_POST['edit_task']);
+	$result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
+	$u_id = mysql_result($result, 0, "u_id");
+
+	$result = mysql_query("SELECT * FROM tasks WHERE task_id = ".$_POST['edit_task']."");
+	$opened_by = mysql_result($result, 0, "opened_by");
+	$closed_reason = mysql_result($result, 0, "closed_reason");
+
+	if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $opened_by == $u_id && empty($closed_reason)) {
+		TaskForm($_POST['edit_task']);
+	} else {
+		ShowNotification("The user $pguser does not have permission to edit this task.");
+		TaskDetails($_POST['edit_task']);
+	}
 } elseif (isset($_POST['reopen_task'])) {
 	NotificationMail($_POST['reopen_task'], "This task was reopened by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n");
 	$result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
@@ -211,7 +223,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 	TaskDetails($_POST['reopen_task']);
 } elseif (isset($_POST['newtask'])) {
 	if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
-		echo "<center><b><font face='Verdana' color='#ff0000' style='font-size: 11px'>You must supply a Task Summary and Task Details.  Please go <a href='javascript:history.back()'>back</a> and correct this.</font></b></center>";
+		ShowNotification("You must supply a Task Summary and Task Details.", true);
 	} else {
 		if (!isset($_POST['task_id'])) {
 			$relatedtasks_array = array();
@@ -253,11 +265,15 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 		ShowTasks("");
 	}
 } elseif (isset($_POST['close_task'])) {
-	NotificationMail($_POST['task_id'], "This task was closed by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n\nThe reason for closing was: ".$tasks_close_array[$_POST['task_close_reason']].".\n");
-	$result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-	$u_id = mysql_result($result, 0, "u_id");
-	$result = mysql_query("UPDATE tasks SET percent_complete = 100, task_status = 14, date_closed = ".time().", closed_by = $u_id, closed_reason = ".$_POST['task_close_reason'].", date_edited = ".time().", edited_by = $u_id WHERE task_id = ".$_POST['task_id']."");
-	$result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
+	if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
+		NotificationMail($_POST['task_id'], "This task was closed by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n\nThe reason for closing was: ".$tasks_close_array[$_POST['task_close_reason']].".\n");
+		$result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
+		$u_id = mysql_result($result, 0, "u_id");
+		$result = mysql_query("UPDATE tasks SET percent_complete = 100, task_status = 14, date_closed = ".time().", closed_by = $u_id, closed_reason = ".$_POST['task_close_reason'].", date_edited = ".time().", edited_by = $u_id WHERE task_id = ".$_POST['task_id']."");
+		$result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
+	} else {
+		ShowNotification("The user $pguser does not have permission to close tasks.");
+	}
 	ShowTasks($result);
 } elseif (isset($_POST['new_comment'])) {
 	if (!empty($_POST['task_comment'])) {
@@ -268,7 +284,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 		$result = mysql_query("UPDATE tasks SET date_edited = ".time().", edited_by = $u_id WHERE task_id = ".$_POST['new_comment']);
 		TaskDetails($_POST['new_comment']);
 	} else {
-		echo "<center><b><font color='red'>You must supply a comment before clicking Add Comment</font></b></center>";
+		ShowNotification("You must supply a comment before clicking Add Comment.");
 		TaskDetails($_POST['new_comment']);
 	}
 } elseif (isset($_GET['f']) && $_GET['f'] == "notifyme") {
@@ -289,7 +305,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 		$result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
 		ShowTasks($result);
 	} else {
-		echo "<center><b><font face='Verdana' color='#ff0000' style='font-size: 11px'>You must supply a valid related task id number.  Please go <a href='javascript:history.back()'>back</a> and correct this.</font></b></center>";
+		ShowNotification("You must supply a valid related task id number.");
 	}
 } elseif (isset($_POST['new_relatedposting'])) {
 	$checkTopicExists = mysql_query("SELECT 1 FROM phpbb_topics WHERE topic_id = ".$_POST['related_posting']."");
@@ -304,7 +320,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 		$result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
 		ShowTasks($result);
 	} else {
-		echo "<center><b><font face='Verdana' color='#ff0000' style='font-size: 11px'>You must supply a valid related topic id number.  Please go <a href='javascript:history.back()'>back</a> and correct this.</font></b></center>";
+		ShowNotification("You must supply a valid related topic id number.", true);
 	}
 } elseif (isset($_POST['meToo'])) {
 	if ($_POST['sameOS'] == 1) { $vote_os = $_POST['task_os']; } else { $vote_os = $_POST['metoo_os']; }
@@ -312,7 +328,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 	
 	$result = mysql_query("INSERT INTO tasks_votes (task_id, u_id, vote_os, vote_browser) VALUES (".$_POST['meToo'].", ".$userP['u_id'].", ".$vote_os.", ".$vote_browser.")");
 	
-	echo "<center><font face='Verdana' color='#000000' style='font-size: 11px'><b>Thank you for your report!  It has been recorded below.</b></font></center><br>";
+	ShowNotification("Thank you for your report!  It has been recorded below.", false, "#000000");
 	TaskDetails($_POST['meToo']);
 } else {
 	if (isset($_GET['orderby']) && isset($_GET['direction'])) {
@@ -690,6 +706,11 @@ function MeToo($tid, $os, $browser) {
   echo "<center><input type='submit' value='Send Report' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>&nbsp;<input type='reset' value='Reset' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5' onClick=\"hideSpan('MeTooMain');\"></center>";
   echo "</td></tr></table></font></form></span>";
   
+}
+
+function ShowNotification($warn, $goback = false, $col='#ff0000') {
+	if ($goback) $warn .= "  Please go <a href='javascript:history.back()'>back</a> and correct this.";
+	echo "<center><b><font face='Verdana' color='$col' style='font-size: 11px'>$warn</font></b></center><br>\n";
 }
 
 function EchoTaskProperty($name, $value) {
