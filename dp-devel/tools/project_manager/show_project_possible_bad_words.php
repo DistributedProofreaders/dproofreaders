@@ -130,16 +130,8 @@ function _get_word_list($projectid) {
     $pages_res = page_info_query($projectid,$last_possible_round->id,'LE');
     $all_words_w_freq = get_distinct_words_in_text( get_page_texts( $pages_res ));
 
-    // load project languages
-    $languages = array_unique(array_values(get_project_languages($projectid)));
-
     // load site word lists for project languages
-    $site_possible_bad_words = array();
-    foreach ( $languages as $language ) {
-        $langcode3 = langcode3_for_langname( $language );
-        $site_possible_bad_words = array_merge($site_possible_bad_words, load_site_possible_bad_words($langcode3));
-    }
-    $site_possible_bad_words = array_unique($site_possible_bad_words);
+    $site_possible_bad_words = load_site_possible_bad_words_given_project($projectid);
 
     // now, remove any words that are already on the project's bad word list
     $site_possible_bad_words = array_diff($site_possible_bad_words, load_project_bad_words($projectid) );

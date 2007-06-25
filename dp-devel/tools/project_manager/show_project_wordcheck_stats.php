@@ -31,16 +31,8 @@ echo "<p>" . _("The following statistics are generated from the most recently sa
 // load bad words for project
 $proj_bad_words = load_project_bad_words($projectid);
 
-// load project languages
-$languages = array_unique(array_values(get_project_languages($projectid)));
-
 // load bad words for the site for this project
-$site_bad_words = array();
-foreach ( $languages as $language ) {
-    $langcode3 = langcode3_for_langname( $language );
-    $site_bad_words = array_merge($site_bad_words, load_site_bad_words($langcode3));
-}
-$site_bad_words = array_unique($site_bad_words);
+$site_bad_words = load_site_bad_words_given_project($projectid);
 
 // get the latest possible round
 $last_possible_round = get_Round_for_round_number(MAX_NUM_PAGE_EDITING_ROUNDS);

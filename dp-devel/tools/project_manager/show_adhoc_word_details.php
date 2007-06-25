@@ -86,16 +86,7 @@ if(count($queryWords)) {
     $context_array=build_context_array_links($words_w_freq,$projectid);
 
     // load the project and site bad words to include in the Notes column
-    // load project languages
-    $languages = array_unique(array_values(get_project_languages($projectid)));
-
-    // load site word lists for project languages
-    $site_bad_words = array();
-    foreach ( $languages as $language ) {
-         $langcode3 = langcode3_for_langname( $language );
-         $site_bad_words = array_merge($site_bad_words, load_site_bad_words($langcode3));
-    }
-    $site_bad_words = array_unique($site_bad_words);
+    $site_bad_words = load_site_bad_words_given_project($projectid);
 
     // load project good and bad words
     $project_bad_words = load_project_bad_words($projectid);
