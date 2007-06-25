@@ -511,6 +511,55 @@ function load_project_good_word_suggestions($projectid,$start_time=0,$load_as_ra
 
 // -----------------------------------------------------------------------------
 
+function load_site_good_words_given_project( $projectid ) {
+    // load project languages
+    $languages = array_unique(array_values(get_project_languages($projectid)));
+
+    // load site word lists for project languages
+    $words = array();
+    foreach ( $languages as $language ) {
+        $langcode3 = langcode3_for_langname( $language );
+        $words = array_merge($words, load_site_good_words($langcode3));
+    }
+    $words = array_unique($words);
+
+    return $words;
+}
+
+function load_site_bad_words_given_project( $projectid ) {
+    // load project languages
+    $languages = array_unique(array_values(get_project_languages($projectid)));
+
+    // load site word lists for project languages
+    $words = array();
+    foreach ( $languages as $language ) {
+        $langcode3 = langcode3_for_langname( $language );
+        $words = array_merge($words, load_site_bad_words($langcode3));
+    }
+    $words = array_unique($words);
+
+    return $words;
+}
+
+// -----------------------------------------------------------------------------
+
+function load_site_possible_bad_words_given_project( $projectid ) {
+    // load project languages
+    $languages = array_unique(array_values(get_project_languages($projectid)));
+
+    // load site word lists for project languages
+    $words = array();
+    foreach ( $languages as $language ) {
+        $langcode3 = langcode3_for_langname( $language );
+        $words = array_merge($words, load_site_possible_bad_words($langcode3));
+    }
+    $words = array_unique($words);
+
+    return $words;
+}
+
+// -----------------------------------------------------------------------------
+
 function get_project_word_file( $projectid, $code )
 // $code must match one of the keys in the $filename_for_code array below.
 {
