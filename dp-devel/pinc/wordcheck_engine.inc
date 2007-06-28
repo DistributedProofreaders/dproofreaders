@@ -663,15 +663,16 @@ function save_word_list( $path, $words )
 // Return a string, either "Success" or an error message.
 {
     // standardize word list
-    $words = array_unique($words);
     $words = array_map('rtrim', $words);
+    $words = array_unique($words);
     uasort($words,"accentAgnosticCompare");
 
-    // if the last 'word' is empty, remove it -
-    // commonly the result of explode'ing an empty list
-    if(@$words[count($words)-1] == '') {
-        array_pop($words);
-    }
+    // remove any empty words
+    $words = array_diff($words,array(''));
+
+    // pull out the values to reset the numeric keys;
+    // needed for the array == array comparison below
+    $words = array_values($words);
 
     // see if list has changed before saving it
     $oldWords = load_word_list( $path );
