@@ -160,17 +160,19 @@ $checkbox_form["freqCutoff"]=$freqCutoff;
 $checkbox_form["timeCutoff"]=$timeCutoff;
 echo_checkbox_form_start($checkbox_form);
 
+$submit_label=_("Add selected words to Good Words List");
+
 // print out the complete list first but only if
 // we have more than one round
 if(count($rounds)>1) {
     echo "<h2>" . _("All rounds") . "</h2>";
     $word_checkbox = build_checkbox_array($all_suggestions_w_freq,'all');
     echo_checkbox_selects(count($all_suggestions_w_freq),'all');
-    echo_checkbox_form_submit(_("Add selected words to Good Words List"));
+    echo_checkbox_form_submit($submit_label);
 
     printTableFrequencies($initialFreq,$cutoffOptions,$all_suggestions_w_freq,$instances--,array($all_suggestions_w_occurances,$context_array), $word_checkbox);
 
-    echo_checkbox_form_submit(_("Add selected words to Good Words List"));
+    echo_checkbox_form_submit($submit_label);
 }
 
 // now per round
@@ -190,11 +192,11 @@ if(count($rounds)) {
 
         $word_checkbox = build_checkbox_array($round_suggestions_w_freq[$round],$round);
         echo_checkbox_selects(count($round_suggestions_w_freq[$round]),$round);
-        echo_checkbox_form_submit(_("Add words to Good Words List"));
+        echo_checkbox_form_submit($submit_label);
 
         printTableFrequencies( $initialFreq,$cutoffOptions,$round_suggestions_w_freq[$round],$instances--,array($round_suggestions_w_occurances[$round],$context_array),$word_checkbox );
 
-        echo_checkbox_form_submit(_("Add words to Good Words List"));
+        echo_checkbox_form_submit($submit_label);
     }
 }
 echo_checkbox_form_end();
