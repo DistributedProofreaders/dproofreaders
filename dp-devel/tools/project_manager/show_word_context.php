@@ -19,7 +19,6 @@ set_time_limit(0); // no time limit
 $projectid = $_GET["projectid"];
 $encWord   = $_GET["word"];
 $word      = rtrim(decode_word($encWord));
-$return    = $_GET["return"];
 
 enforce_edit_authorization($projectid);
 
@@ -29,7 +28,7 @@ if(empty($layout)) $layout=LAYOUT_HORIZ;
 $_SESSION["show_word_context"]["layout"]=$layout;
 
 
-$wordInstances = min(array_get($_GET,"wordFreq",20),20);
+$wordInstances = array_get($_GET,"wordInstances",20);
 
 // $frame determines which frame we're operating from
 //    none - we're the master frame
@@ -44,8 +43,8 @@ if($frame=="master") {
 ?>
 </head>
 <frameset <?=$frameSpec;?>>
-<frame name="worddetailframe" src="show_word_context.php?projectid=<?=$projectid;?>&amp;word=<?=$encWord;?>&amp;wordInstances=<?=$wordInstances;?>&amp;return=<?=$return;?>&amp;frame=left">
-<frame name="imageframe" src="show_word_context.php?projectid=<?=$projectid;?>&amp;word=<?=$encWord;?>&amp;wordInstances=<?=$wordInstances;?>&amp;return=<?=$return;?>&amp;frame=right">
+<frame name="worddetailframe" src="show_word_context.php?projectid=<?=$projectid;?>&amp;word=<?=$encWord;?>&amp;wordInstances=<?=$wordInstances;?>&amp;frame=left">
+<frame name="imageframe" src="show_word_context.php?projectid=<?=$projectid;?>&amp;word=<?=$encWord;?>&amp;wordInstances=<?=$wordInstances;?>&amp;frame=right">
 </frameset>
 <noframes>
 <? _("Your browser currently does not display frames!"); ?>
@@ -54,6 +53,7 @@ if($frame=="master") {
 <?
     exit;
 }
+
 
 // now load data in the left frame
 if($frame=="left") {
@@ -67,7 +67,7 @@ if($frame=="left") {
 
     echo "<p>";
 
-    echo "<a target='_PARENT' href='" . $_SERVER["PHP_SELF"] . "?projectid=$projectid&amp;word=$encWord&amp;wordInstances=$wordInstances&amp;return=$return&amp;";
+    echo "<a target='_PARENT' href='" . $_SERVER["PHP_SELF"] . "?projectid=$projectid&amp;word=$encWord&amp;wordInstances=$wordInstances&amp;";
     if($layout == LAYOUT_HORIZ)
         echo "layout=" . LAYOUT_VERT . "'>" . _("Change to vertical layout");
     else

@@ -85,7 +85,7 @@ if($frame=="left") {
     echo_word_freq_style();
 
     echo "<p>";
-    echo "<a href='show_word_context.php?projectid=$projectid&amp;&amp;word=$encWord&amp;return=show_good_word_suggestions.php' target='_PARENT'>" .
+    echo "<a href='show_word_context.php?projectid=$projectid&amp;word=$encWord&amp;return=show_good_word_suggestions.php' target='_PARENT'>" .
          _("Show full context set for this word") . "</a>";
 
     echo " | ";
