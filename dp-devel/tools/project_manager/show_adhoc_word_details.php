@@ -13,6 +13,7 @@ $projectid  = array_get($_REQUEST, "projectid",  "");
 $freqCutoff = array_get($_REQUEST, "freqCutoff", 5);
 
 $queryWordText = array_get($_POST, "queryWordText", "");
+$queryWordText = stripslashes($queryWordText);
 $queryWordText = str_replace("\r","",$queryWordText);
 rtrim($queryWordText);
 $queryWords = explode("\n",$queryWordText);
