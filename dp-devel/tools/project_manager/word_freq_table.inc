@@ -9,10 +9,10 @@ include_once($relPath.'metarefresh.inc');
 //
 // Returns a string with javascript links to effect showing or hiding parts of
 // the word list
-function get_cutoff_string($cutoffOptions) {
+function get_cutoff_string($cutoffOptions,$labelSuffix="") {
     $cutoffString = "";
     foreach($cutoffOptions as $cutoff)
-        $cutoffString .= "<a href='#' onClick='return setCutoff($cutoff);'>$cutoff</a> | ";
+        $cutoffString .= "<a href='#' onClick='return setCutoff($cutoff);'>$cutoff$labelSuffix</a> | ";
     $cutoffString = preg_replace("/ \| $/","",$cutoffString);
     return $cutoffString;
 }
@@ -146,7 +146,13 @@ function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,
     echo '<table class="freq">';
 
     // output the table heading
-    echo '<tr><th>' . _('Word') . '</th><th>' . _('Freq') . '</th>';
+    echo '<tr><th>' . _('Word') . '</th>';
+    if($wordCount['[[TITLE]]']) {
+        echo '<th>' . $wordCount['[[TITLE]]'] . '</th>';
+        unset($wordCount['[[TITLE]]']);
+    } else {
+        echo '<th>' . _('Freq') . '</th>';
+    }
     if(is_array($auxData)) {
         for($index=0;$index<count($auxData);$index++)
             echo "<th>" . $auxData[$index]['[[TITLE]]'] . "</th>";
@@ -414,9 +420,9 @@ function build_checkbox_array($array,$instance=0) {
 
 function echo_checkbox_selects($wordCount,$instance=0) {
     echo "<p>";
-    echo "<a href='#' onClick='return checkAll(\"$instance\",$wordCount,true);'>" . _("Check All") . "</a>";
+    echo "<a href='#' onClick='return checkAll(\"$instance\",$wordCount,true);'>" . _("Select All") . "</a>";
     echo " | ";
-    echo "<a href='#' onClick='return checkAll(\"$instance\",$wordCount,false);'>" . _("Uncheck All") . "</a>";
+    echo "<a href='#' onClick='return checkAll(\"$instance\",$wordCount,false);'>" . _("Unselect All") . "</a>";
     echo "</p>";
 }
 
