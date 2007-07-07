@@ -128,6 +128,7 @@ class ProjectWordListHolder
         $this->authorsname      = $ar['authorsname'];
         $this->language         = $ar['language'];
         $this->checkedoutby     = $ar['checkedoutby'];
+        $this->state            = $ar['state'];
 
         mysql_free_result($res);
 
@@ -275,7 +276,7 @@ class ProjectWordListHolder
         $this->show_visible_controls();
 
         echo "<tr>";
-        echo   "<td class='label' colspan='2' align='center'>";
+        echo   "<td class='label' colspan='2' align='center' style='padding: 0.5em;'>";
         echo     "<input type='submit' name='saveAndPM' value='"._("Save and Go To PM Page")."'>";
         echo     "<input type='submit' name='saveAndProject' value='"._("Save and Go To Project")."'>";
         echo     "<input type='submit' name='save' value='"._("Save")."'>";
@@ -283,6 +284,11 @@ class ProjectWordListHolder
         echo     "<input type='submit' name='reload' value='"._("Refresh Word Lists")."'>";
         echo   "</td>";
         echo "</tr>\n";
+
+    echo "<tr>";
+    echo "<td class='label'>" . _("Project Information") . "</td>";
+    echo "<td>" . new_window_link( "editproject.php?action=edit&amp;project=$this->projectid", _("Edit project information") ) . "</td>";
+    echo "</tr>";
 
         echo "</table>";
         echo "</center>";
@@ -325,141 +331,201 @@ class ProjectWordListHolder
     }
 
 
-function show_visible_controls() {
-    $goodWordData = encodeFormValue($this->good_words);
-    $badWordData = encodeFormValue($this->bad_words);
+    function show_visible_controls() {
+        $goodWordData = encodeFormValue($this->good_words);
+        $badWordData = encodeFormValue($this->bad_words);
 
-    $fields=array(
-        "projectid" => _("Project ID"),
-        "nameofwork" => _("Name of Work"),
-        "authorsname" => _("Author's Name"),
-        "projectmanager" => _("Project Manager"),
-        "checkedoutby" => _("Post-Processor"),
-        "language" => _("Language")
-    );
+        $fields=array(
+            "projectid" => _("Project ID"),
+            "nameofwork" => _("Name of Work"),
+            "authorsname" => _("Author's Name"),
+            "projectmanager" => _("Project Manager"),
+            "checkedoutby" => _("Post-Processor"),
+            "language" => _("Language")
+        );
 
-    foreach($fields as $field => $label) {
+        foreach($fields as $field => $label) {
+            echo "<tr>";
+            echo "<td class='label'>$label</td>";
+            echo "<td>" . $this->$field . "</td>";
+            echo "</tr>";
+        }
+
+        $OCR_pages = $this->number_of_pages_in_round(null);
+        $P1_pages = $this->number_of_pages_in_round(get_Round_for_round_number(1));
+
+        if($OCR_pages == 0) {
+            echo "<tr>";
+            echo "<td colspan='2'>";
+            echo "<p class='error' style='text-align: center;'>";
+            echo _("No pages have been loaded into the project.");
+            echo "</p>";
+            echo "</td>";
+            echo "</tr>";
+        } else {
+            echo "<tr>";
+            echo "<td class='label' style='text-align: center;' colspan='2'>";
+            echo _("WordCheck Tools and Reports");
+            echo "</td>";
+            echo "</tr>";
+
+            echo "<tr>";
+            echo "<td class='label'>" . _("Ad Hoc Word Details") . "</td>";
+            echo "<td>" . new_window_link("show_adhoc_word_details.php?projectid=$this->projectid",_("Show details for ad hoc words")) . "</td>";
+            echo "</tr>";
+
+            echo "<tr>";
+            echo "<td class='label'>" . _("WordCheck Statistics") . "</td>";
+            echo "<td>" . new_window_link("show_project_wordcheck_stats.php?projectid=$this->projectid",_("Show WordCheck flagged word statistics")) . "</td>";
+            echo "</tr>";
+
+            if($P1_pages > 0) {
+                echo "<tr>";
+                echo "<td class='label'>" . _("WordCheck Usage") . "</td>";
+                echo "<td>" . new_window_link("show_project_wordcheck_usage.php?projectid=$this->projectid",_("Show WordCheck proofer interface usage")) . "</td>";
+                echo "</tr>";
+            }
+
+            echo "<tr>";
+            echo "<td class='label' style='text-align: center;' colspan='2'>";
+            echo _("Word List Suggestion Tools");
+            echo "</td>";
+            echo "</tr>";
+
+            echo "<tr>";
+            echo "<td colspan='2'>";
+    
+            echo "<table width='100%'>";
+
+            echo "<tr>";
+            echo "<td style='width: 50%; text-align: center;' valign='top'>";
+
+            echo "<p>";
+            echo "<b>" . _("Words that WordCheck would currently flag:") . "</b><br>";
+            echo new_window_link(
+                "show_current_flagged_words.php?projectid=$this->projectid",
+                _("Display")
+            );
+            echo " | ";
+            echo "<a href='show_current_flagged_words.php?projectid=$this->projectid&amp;format=file'>" . _("Download") . "</a>";
+            echo "</p>";
+
+            $suggestions = load_project_good_word_suggestions($this->projectid);
+            if (count($suggestions))
+            {
+                echo "<p>";
+                echo "<b>" . _("Suggestions from proofers:") . "</b><br>";
+                echo new_window_link(
+                    "show_good_word_suggestions.php?projectid=$this->projectid",
+                    _("Display")
+                );
+                echo " | ";
+                echo "<a href='show_good_word_suggestions.php?projectid=$this->projectid&amp;timeCutoff=0&amp;format=file'>" . _("Download") . "</a>";
+                echo "</p>";
+            }
+
+            echo "</td>";
+            echo "<td style='width: 50%; text-align: center;' valign='top'>";
+
+            // see if the site has Possible Bad Word files
+            $possible_bad_words = load_site_possible_bad_words_given_project($this->projectid);
+
+            if(count($possible_bad_words)) {
+                echo "<p>";
+                echo "<b>" . _("Words in the Site's Possible bad words file:") . "</b><br>";
+                echo new_window_link(
+                    "show_project_possible_bad_words.php?projectid=$this->projectid",
+                    _("Display")
+                );
+                echo " | ";
+                echo "<a href='show_project_possible_bad_words.php?projectid=$this->projectid&amp;format=file'>" . _("Download") . "</a>";
+                echo "</p>";
+            }
+
+            // see if there are pages in P1 before showing the link
+            if($P1_pages > 0) {
+                echo "<p>";
+                echo "<b>" . _("Suggestions from diff analysis:") . "</b><br>";
+                echo new_window_link(
+                    "show_project_stealth_scannos.php?projectid=$this->projectid",
+                    _("Display")
+                );
+                echo " | ";
+                echo "<a href='show_project_stealth_scannos.php?projectid=$this->projectid&amp;format=file'>" . _("Download") . "</a>";
+                echo "</p>";
+            }
+
+            echo "</td>";
+            echo "</tr>";
+            echo "</table>";
+
+            echo "</td>";
+            echo "</tr>";
+        }
+
         echo "<tr>";
-        echo "<td class='label'>$label</td>";
-        echo "<td>" . $this->$field . "</td>";
+        echo "<td class='label' style='text-align: center;' colspan='2'>";
+        echo _("Project Dictionary - Word Lists");
+        echo "</td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td colspan='2'>";
+
+        echo "<table width='100%'>";
+        echo "<tr>";
+        echo "<td class='label' style='text-align: center;'>" . _("Good Words") . "</td>";
+        echo "<td class='label' style='text-align: center;'>" . _("Bad Words") . "</td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td style='widht: 50%;'>";
+        echo "<textarea class='mono' name='good_words' cols='40' rows='20'>$goodWordData</textarea>";
+        echo "</td>";
+
+        echo "<td style='width: 50%;'>";
+        echo "<textarea class='mono' name='bad_words' cols='40' rows='20'>$badWordData</textarea>";
+        echo "</td>";
+        echo "</tr>";
+        echo "</table>";
+
+        echo "</td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td colspan='2' style='text-align: center;'>";
+
+        echo sprintf(
+            _("See the %s for more information on word lists."),
+            new_window_link( "../../faq/wordcheck-faq.php", _("WordCheck FAQ") )
+        );
+
+        echo "</td>";
         echo "</tr>";
     }
 
-    echo "<tr>";
-    echo "<td class='label'>" . _("WordCheck Statistics") . "</td>";
-    echo "<td>" . new_window_link("show_project_wordcheck_stats.php?projectid=$this->projectid",_("Show WordCheck flagged word statistics")) . "</td>";
-    echo "</tr>";
 
-    echo "<tr>";
-    echo "<td class='label'>" . _("Ad Hoc Word Details") . "</td>";
-    echo "<td>" . new_window_link("show_adhoc_word_details.php?projectid=$this->projectid",_("Show details for ad hoc words")) . "</td>";
-    echo "</tr>";
-
-    echo "<tr>";
-    echo "<td class='label' align='center' colspan='2'>";
-    echo _("Project Dictionary - Word Lists");
-    echo "</td>";
-    echo "</tr>";
-
-    echo "<td colspan='2'>";
-
-    echo "<table width='100%'>";
-    echo "<tr>";
-    echo "<td class='label' align='center'>" . _("Good Words") . "</td>";
-    echo "<td class='label' align='center'>" . _("Bad Words") . "</td>";
-    echo "</tr>";
-
-    echo "<tr>";
-    echo "<td align='center' valign='top' width='50%'>";
-    echo "<textarea class='mono' name='good_words' cols='40' rows='20'>$goodWordData</textarea>";
-
-    echo "<p>";
-    echo "<b>" . _("Words that WordCheck would currently flag:") . "</b><br>";
-    echo new_window_link(
-        "show_current_flagged_words.php?projectid=$this->projectid",
-        _("Display results")
-    );
-    echo " | ";
-    echo "<a href='show_current_flagged_words.php?projectid=$this->projectid&amp;format=file'>" . _("Download results") . "</a>";
-    echo "</p>";
-
-    $f = get_project_word_file($this->projectid, 'good_suggs');
-    if ($f->size > 0)
+    function number_of_pages_in_round($round)
     {
-        echo "<p>";
-        echo "<b>" . _("Suggestions from proofers:") . "</b><br>";
-        echo new_window_link(
-            "show_good_word_suggestions.php?projectid=$this->projectid",
-            _("Display results")
-        );
-        echo " | ";
-        echo "<a href='show_good_word_suggestions.php?projectid=$this->projectid&amp;timeCutoff=0&amp;format=file'>" . _("Download results") . "</a>";
-        echo "</p>";
+        if($round !== null) {
+            $round_column=$round->text_column_name;
+        } else {
+            $round_column="master_text";
+        }
+        $sql = "select count(*) from $this->projectid where $round_column <> ''";
+
+        $res = mysql_query($sql);
+        if (mysql_num_rows($res) == 0)
+        {
+            return 0;
+        }
+
+        $count = mysql_fetch_row($res);
+
+        mysql_free_result($res);
+
+        return $count[0];
     }
-
-    echo "</td>";
-
-    echo "<td align='center' valign='top' width='50%'>";
-    echo "<textarea class='mono' name='bad_words' cols='40' rows='20'>$badWordData</textarea>";
-
-    // see if the site has Possible Bad Word files
-    // for this project's languages before showing the link
-    $languages = array_unique(array_values(get_project_languages($this->projectid)));
-    $show_links = false;
-    foreach ( $languages as $language ) {
-        $langcode3 = langcode3_for_langname( $language );
-        $fileObject = get_site_word_file( $langcode3, "possible_bad" );
-        $show_links = $show_links || ($fileObject->size > 0);
-    }
-
-    if($show_links) {
-        echo "<p>";
-        echo "<b>" . _("Words in the site's Possible Bad Words file:") . "</b><br>";
-        echo new_window_link(
-            "show_project_possible_bad_words.php?projectid=$this->projectid",
-            _("Display results")
-        );
-        echo " | ";
-        echo "<a href='show_project_possible_bad_words.php?projectid=$this->projectid&amp;format=file'>" . _("Download results") . "</a>";
-        echo "</p>";
-    }
-
-    echo "<p>";
-    echo "<b>" . _("Possible stealth-scannos:") . "</b><br>";
-    echo new_window_link(
-        "show_project_stealth_scannos.php?projectid=$this->projectid",
-        _("Display results")
-    );
-    echo " | ";
-    echo "<a href='show_project_stealth_scannos.php?projectid=$this->projectid&amp;format=file'>" . _("Download results") . "</a>";
-    echo "</p>";
-
-    echo "</td>";
-    echo "</tr>";
-    echo "</table>";
-
-    echo "</td>";
-    echo "</tr>";
-
-    echo "<tr>";
-    echo "<td colspan='2' align='center'>";
-
-    echo sprintf(
-        _("See the %s for more information on word lists."),
-        new_window_link( "../../faq/wordcheck-faq.php", _("WordCheck FAQ") )
-    );
-
-    echo "</td>";
-    echo "</tr>";
-
-    echo "<tr>";
-    echo "<td class='label'>" . _("Project Information") . "</td>";
-    echo "<td>" . new_window_link( "editproject.php?action=edit&amp;project=$this->projectid", _("Edit project information") ) . "</td>";
-    echo "</tr>";
-
-    // -------------------------------------------------------------------------
-
-}
 
 }
 
