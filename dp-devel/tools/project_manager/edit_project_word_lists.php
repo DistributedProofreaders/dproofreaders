@@ -128,7 +128,6 @@ class ProjectWordListHolder
         $this->authorsname      = $ar['authorsname'];
         $this->language         = $ar['language'];
         $this->checkedoutby     = $ar['checkedoutby'];
-        $this->state            = $ar['state'];
 
         mysql_free_result($res);
 
@@ -358,7 +357,7 @@ class ProjectWordListHolder
             echo "<tr>";
             echo "<td colspan='2'>";
             echo "<p class='error' style='text-align: center;'>";
-            echo _("No pages have been loaded into the project.");
+            echo _("There are no pages associated with this project.");
             echo "</p>";
             echo "</td>";
             echo "</tr>";
@@ -515,7 +514,7 @@ class ProjectWordListHolder
         $sql = "select count(*) from $this->projectid where $round_column <> ''";
 
         $res = mysql_query($sql);
-        if (mysql_num_rows($res) == 0)
+        if ($res === FALSE)
         {
             return 0;
         }
