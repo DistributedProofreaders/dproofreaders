@@ -57,14 +57,15 @@ if($format == "file") {
     echo "\r\n";
     echo_download_text( $projectid, $format );
     echo "\r\n";
-    echo _("Format: [word] - [% changed] - [# left] - [# changed]") . "\r\n";
+    echo _("Format: [word] - [% changed] - [# left] - [# changed] - [corrected word]") . "\r\n";
     echo "\r\n";
 
     foreach( $percent_changed as $word => $percentChanged ) {
         $percentChanged = $percent_changed[$word];
         $numChanged = $scanno_count[$word];
         $numLeft = $possible_scannos_w_freq[$word];
-        echo "$word - $percentChanged - $numLeft - $numChanged\r\n";
+        $corrected = $possible_scannos[$word];
+        echo "$word - $percentChanged - $numLeft - $numChanged - $corrected\r\n";
     }
 
     // we're done here, exit
