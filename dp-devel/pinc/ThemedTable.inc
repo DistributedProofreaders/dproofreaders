@@ -54,8 +54,8 @@ class ThemedTable
 
             echo "\n";
             echo "<tr>";
-		$maybe_colspan="";
-		if ($this->n_cols > 1) { $maybe_colspan = "colspan='$this->n_cols'"; }
+                $maybe_colspan="";
+                if ($this->n_cols > 1) { $maybe_colspan = "colspan='$this->n_cols'"; }
             echo   "<td $maybe_colspan bgcolor='$bgcolor'>";
             echo     "<center>";
             echo       "<font face='$font_face' color='$font_color' size='2'>";
