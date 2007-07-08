@@ -77,7 +77,7 @@ foreach($page_usage as $page => $val ) {
 } // end sub-optimal "one at a time" way
 
 
-echo "<p>" . _("The following table lists the number of times WordCheck was ran against a page in a specific round. Pages that are Done and have had WordCheck ran on them will be marked <span class='WC'>like this</span>. Pages that are Done and WordCheck has not been ran on them are marked <span class='noWC'>like this</span> and list the last user to save the page. Pages without a background color have not yet been saved as Done and they may or may not have had WordCheck ran against them.") . "</p>";
+echo "<p>" . _("The following table lists the number of times WordCheck was run against a page in a specific round. Pages that are Done and have had WordCheck run on them will be marked <span class='WC'>like this</span>. Pages that are Done and WordCheck has not been run on them are marked <span class='noWC'>like this</span> and list the last user to save the page. Pages without a background color have not yet been saved as Done and they may or may not have had WordCheck run against them.") . "</p>";
 
 // now build the table
 ?>
