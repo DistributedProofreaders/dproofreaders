@@ -265,7 +265,7 @@ function echo_page_instruction_text($wordListType,$format) {
         $page_instructions_string = _("If you find words in the results list that should not be flagged in the WordCheck interface, add them to the project's Good Words List.");
         if( $format == "html" ) {
             $page_instructions_string .= " ";
-            $page_instructions_string .= _("You can do this either by using the checkboxes provided or by copying from below and pasting them into the Good Words input box on the Edit Project Word Lists page (taking care not to overwrite any existing words).");
+            $page_instructions_string .= _("You can do this either by using the checkboxes provided, or by copying from below and pasting them into the Good Words input box on the Edit Project Word Lists page (taking care not to overwrite any existing words).");
         }
     } elseif( $wordListType == "bad" ) {
         $page_instructions_string = _("If you find any words in the results list that should be flagged in the WordCheck interface for extra attention by proofers, add them to the project's Bad Words List.");
@@ -286,7 +286,7 @@ function echo_page_instruction_text($wordListType,$format) {
 function echo_download_text($projectid, $format, $queryString="") {
     global $code_url;
     if($format == "html") {
-        $download_text = sprintf(_("You can <a href='%s'>download</a> a copy of the displayed candidate word list with frequencies for offline analysis."),"?projectid=$projectid&amp;format=file&amp;$queryString");
+        $download_text = sprintf(_("You can <a href='%s'>download</a> a copy of the candidate word results list for offline analysis."),"?projectid=$projectid&amp;format=file&amp;$queryString");
         $faq_text = sprintf(_("See also the %s for more information on the WordCheck system."),"<a href='$code_url/faq/wordcheck-faq.php'>" . _("WordCheck FAQ") . "</a>");
         echo "<p>$download_text $faq_text</p>\n";
     } elseif($format == "file") {
