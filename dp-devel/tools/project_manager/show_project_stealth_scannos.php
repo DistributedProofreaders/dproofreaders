@@ -159,21 +159,33 @@ function _get_word_list($projectid) {
     // get the OCR text
     $pages_res = page_info_query($projectid,'[OCR]','LE');
     $all_page_text = get_page_texts( $pages_res );
-    $all_page_text = preg_replace("/<[\/]*\w+>/","",$all_page_text);
+    // remove any formatting tags and add an extra \r\n to each line end
+    // to ensure that there is whitespace between pages so they don't run together
+    $all_page_text = preg_replace(array('#<[/]?\w+>#','#$#'),array('',"\r\n"),$all_page_text);
     file_put_contents($ocr_filename, $all_page_text);
 
     // get the latest project text of all pages up to last possible round
     $last_possible_round = get_Round_for_round_number(MAX_NUM_PAGE_EDITING_ROUNDS);
     $pages_res = page_info_query($projectid,$last_possible_round->id,'LE');
     $all_page_text = get_page_texts( $pages_res );
-    $all_page_text = preg_replace("/<[\/]*\w+>/","",$all_page_text);
+    // remove any formatting tags and add an extra \r\n to each line end
+    // to ensure that there is whitespace between pages so they don't run together
+    $all_page_text = preg_replace(array('#<[/]?\w+>#','#$#'),array('',"\r\n"),$all_page_text);
     file_put_contents($latest_filename, $all_page_text);
 
     $all_words_w_freq = get_distinct_words_in_text( $all_page_text );
     // clean up unused variables
     unset($all_page_text);
 
-    $wdiff_output = `wdiff -3 $ocr_filename $latest_filename`;
+    // make external call to wdiff
+    exec("wdiff -3 $ocr_filename $latest_filename", $wdiff_output, $return_code);
+    $wdiff_output = implode("\n",$wdiff_output);
+
+    // check to see if wdiff wasn't found to execute
+    if($return_code == 127)
+        die("Error invoking wdiff to do the diff analysis. It may not be installed.");
+
+    // parse the output into segments
     $separater = '======================================================================';
     $wdiff_segments = explode($separater,$wdiff_output);
 
