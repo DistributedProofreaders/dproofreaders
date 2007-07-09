@@ -58,9 +58,12 @@ assuming it isn't already.
 
 --- Install wdiff.
         WordCheck uses wdiff to assist Project Managers in detecting stealth
-        scannos (c/tools/project_manager/show_project_stealth_scannos.php).
+        scannos ("Suggestions from diff analysis" in
+        c/tools/project_manager/show_project_stealth_scannos.php).
         If wdiff is not installed this one tool will fail but the rest of
         WordCheck will operate correctly.
+        Information on wdiff can be found at:
+        http://www.gnu.org/software/wdiff/wdiff.html
 
 --- Install WikiHiero. (optional)
         Install it somewhere in server's document hierarchy.
