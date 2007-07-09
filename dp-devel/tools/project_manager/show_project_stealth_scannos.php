@@ -173,8 +173,6 @@ function _get_word_list($projectid) {
     // clean up unused variables
     unset($all_page_text);
 
-    $possible_scannos_w_correction = array();
-
     $wdiff_output = `wdiff -3 $ocr_filename $latest_filename`;
     $separater = '======================================================================';
     $wdiff_segments = explode($separater,$wdiff_output);
@@ -186,6 +184,9 @@ function _get_word_list($projectid) {
     if(is_file($latest_filename)) {
         unlink($latest_filename);
     }
+
+    $possible_scannos_w_correction = array();
+    $possible_scannos_w_count = array();
 
     // process wdiff output
     foreach ($wdiff_segments as $segment) {
@@ -252,6 +253,8 @@ function _get_word_list($projectid) {
     // so start with the info in $all_words_w_freq,
     // and extract the items where the key matches a key in $possible_scannos
     $possible_scannos_w_freq = array_intersect_key( $all_words_w_freq, array_flip($possible_scannos));
+
+    $percent_changed = array();
 
     foreach($possible_scannos_w_count as $word => $count) {
         $totalInstances=$possible_scannos_w_freq[$word]+$count;
