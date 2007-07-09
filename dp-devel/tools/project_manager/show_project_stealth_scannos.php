@@ -172,7 +172,7 @@ function _get_word_list($projectid) {
     // get the OCR text
     $pages_res = page_info_query($projectid,'[OCR]','LE');
     $all_page_text = get_page_texts( $pages_res );
-    // remove any formatting tags and add an extra \r\n to each line end
+    // remove any formatting tags and add a final \r\n to each page-text
     // to ensure that there is whitespace between pages so they don't run together
     $all_page_text = preg_replace(array('#<[/]?\w+>#','#$#'),array('',"\r\n"),$all_page_text);
     file_put_contents($ocr_filename, $all_page_text);
@@ -181,7 +181,7 @@ function _get_word_list($projectid) {
     $last_possible_round = get_Round_for_round_number(MAX_NUM_PAGE_EDITING_ROUNDS);
     $pages_res = page_info_query($projectid,$last_possible_round->id,'LE');
     $all_page_text = get_page_texts( $pages_res );
-    // remove any formatting tags and add an extra \r\n to each line end
+    // remove any formatting tags and add a final \r\n to each page-text
     // to ensure that there is whitespace between pages so they don't run together
     $all_page_text = preg_replace(array('#<[/]?\w+>#','#$#'),array('',"\r\n"),$all_page_text);
     file_put_contents($latest_filename, $all_page_text);
