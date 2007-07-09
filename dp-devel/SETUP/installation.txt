@@ -30,7 +30,7 @@ assuming it isn't already.
         i.e. the same host on which you are running these commands, and the
         same host that runs the webserver.
 
---- Install phpMyAdmin.
+--- Install phpMyAdmin. (optional)
         While not required, it makes administering the database much easier.
         Follow the installation instructions included with phpMyAdmin.
 
@@ -56,7 +56,13 @@ assuming it isn't already.
         You might not need to do this if you are using aspell 0.60 or higher.
         You need aspell 0.60 if you want to support UTF-8.
 
---- Install WikiHiero (optional)
+--- Install wdiff.
+        WordCheck uses wdiff to assist Project Managers in detecting stealth
+        scannos (c/tools/project_manager/show_project_stealth_scannos.php).
+        If wdiff is not installed this one tool will fail but the rest of
+        WordCheck will operate correctly.
+
+--- Install WikiHiero. (optional)
         Install it somewhere in server's document hierarchy.
         e.g.:
             wget http://aoineko.free.fr/wikihiero.zip
