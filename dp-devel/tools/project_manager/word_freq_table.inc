@@ -130,12 +130,14 @@ function getInitialCutoff($idealCutoff,$cutoffOptions,$wordCount=null) {
 //   instance      - number uniquely identifying this instance, must be less
 //                   than the $instances passed into echo_cutoff_script
 //   auxData       - array with one or more of the following:
-//                   array($words)
-//                   the following to special keys are also used:
-//                   [[TITLE]] - title of the column
-//                   [[CLASS]] - class of the td
-//                   [[STYLE]] - style of the td
-//   checkbox       - array containing checkbox form elements for each word
+//                       array($word => $data)
+//   checkbox      - array containing checkbox form elements for each word
+//
+// both wordCount and auxData component arrays can contain the following
+// special keys used for formatting
+//   [[TITLE]] - title of the column
+//   [[CLASS]] - class of the td
+//   [[STYLE]] - style of the td
 //
 // Outputs the word frequency table
 function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,$auxData=null,$checkbox=null) {
@@ -167,6 +169,9 @@ function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,
     $nextCutoff = array_pop($cutoffOptions);
     // print it out in a real-HTML table
     foreach($wordCount as $word => $freq) {
+        // skip any 'words' that are actually metadata
+        if(in_array($word,array("[[TITLE]]","[[STYLE]]","[[CLASS]]"))) continue;
+
         if($freq < $nextCutoff) {
             $prevCutoff = $nextCutoff;
             while($freq < $nextCutoff && count($cutoffOptions))
