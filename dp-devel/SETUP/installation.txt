@@ -22,6 +22,29 @@ If you're upgrading from a previous version, see the upgrade section.
             creating projects.
         Enable the CLI for running cron jobs and future upgrade scripts.
 
+--- Install MySQL (if it isn't already).
+        In the examples in this document, we will assume it's on "localhost",
+        i.e. the same host on which you are running these commands, and the
+        same host that runs the webserver.
+
+--- Install phpMyAdmin.
+        While not required, it makes administering the database much easier.
+        Follow the installation instructions included with phpMyAdmin.
+
+--- Install and configure phpBB.
+        phpBB2 is most easily installed in your document root as phpbb2/
+        In .../phpBB2/config.php, set db vars with values chosen above.
+
+--- Install gettext and xgettext
+        If you want to localize the site messages.
+
+--- Install jpgraph.
+        The statistics code depends on jpgraph for graph generation.
+        Follow the installation instructions included with jpgraph.
+        The simplest place to install jpgraph is in your document root.
+        You will need the location of the jpgraph installation to put into the
+        site-configuration for the DP code.
+
 --- Install aspell (if it isn't already).
         The code uses aspell for the spellchecker in the proofreading interface.
         Note that for aspell 0.50 you may have to symlink the .dat files due to
@@ -29,14 +52,23 @@ If you're upgrading from a previous version, see the upgrade section.
         symlink iso-8859-1.dat pointing to it, and similar for all other dictionaries.
         You might not need to do this if you are using aspell 0.60 or higher.
         You need aspell 0.60 if you want to support UTF-8.
-    
---- Install MySQL (if it isn't already).
-        In the examples in this document, we will assume it's on "localhost",
-        i.e. the same host on which you are running these commands, and the
-        same host that runs the webserver.
 
---- Install gettext and xgettext
-        If you want to localize the site messages.
+--- Install WikiHiero (optional)
+        Install it somewhere in server's document hierarchy.
+        e.g.:
+            wget http://aoineko.free.fr/wikihiero.zip
+            unzip -d wikihiero wikihiero.zip
+            rm wikihiero.zip
+
+            vim wikihiero/wikihiero.php
+            # On line 59, for definition of WH_IMG_DIR,
+            # change "$wgScriptPath/extensions/wikihiero/img/"
+            # to just "img/"
+
+            vim wikihiero/wh_language.php
+            # The file begins with three bytes (EF BB BF), which
+            # constitute the Unicode Byte Order Mark encoded in UTF-8.
+            # Delete those bytes?
 
 --- Choose names for various MySQL items:
         --- the DP database (to house the DP and phpBB data);
@@ -78,10 +110,6 @@ If you're upgrading from a previous version, see the upgrade section.
    
     --- Exit from the mysql client.
             quit;
-
---- Install and configure phpBB.
-        phpBB2 is most easily installed in your document root as phpbb2/
-        In .../phpBB2/config.php, set db vars with values chosen above.
 
 --- Create phpBB categories and forums.
 
@@ -143,34 +171,6 @@ If you're upgrading from a previous version, see the upgrade section.
                 -- Cross-Platform
                 -- Tool Development
                 -- DP Site Code
-
---- Install phpMyAdmin.
-        While not required, it makes administering the database much easier.
-        Follow the installation instructions included with phpMyAdmin.
-
---- Install jpgraph.
-        The statistics code depends on jpgraph for graph generation.
-        Follow the installation instructions included with jpgraph.
-        The simplest place to install jpgraph is in your document root.
-        You will need the location of the jpgraph installation to put into the
-        site-configuration for the DP code.
-
---- Install WikiHiero (optional)
-        Install it somewhere in server's document hierarchy.
-        e.g.:
-            wget http://aoineko.free.fr/wikihiero.zip
-            unzip -d wikihiero wikihiero.zip
-            rm wikihiero.zip
-
-            vim wikihiero/wikihiero.php
-            # On line 59, for definition of WH_IMG_DIR,
-            # change "$wgScriptPath/extensions/wikihiero/img/"
-            # to just "img/"
-
-            vim wikihiero/wh_language.php
-            # The file begins with three bytes (EF BB BF), which
-            # constitute the Unicode Byte Order Mark encoded in UTF-8.
-            # Delete those bytes?
 
 --- Unpack the DP code.
         Somewhere within your server's document hierarchy (possibly, though not
