@@ -196,7 +196,7 @@ function _get_word_list($projectid) {
 
     // check to see if wdiff wasn't found to execute
     if($return_code == 127)
-        die("Error invoking wdiff to do the diff analysis. It may not be installed.");
+        die("Error invoking wdiff to do the diff analysis. Perhaps it is not installed.");
 
     // parse the output into segments
     $separater = '======================================================================';
