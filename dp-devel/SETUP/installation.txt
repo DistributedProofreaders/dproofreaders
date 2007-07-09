@@ -16,13 +16,16 @@ Installing from scratch
 This section assumes that you don't have an existing installation of DP.
 If you're upgrading from a previous version, see the upgrade section.
 
---- Install PHP (if it isn't already).
+When we say to install and/or configure some third-party software, that's
+assuming it isn't already.
+
+--- Install PHP.
         Enable GD (for jpgraph) if you want dynamically-generated graphs.
         Enable YAZ if you want to be able to do external catalog searches when
             creating projects.
         Enable the CLI for running cron jobs and future upgrade scripts.
 
---- Install MySQL (if it isn't already).
+--- Install MySQL.
         In the examples in this document, we will assume it's on "localhost",
         i.e. the same host on which you are running these commands, and the
         same host that runs the webserver.
@@ -35,7 +38,7 @@ If you're upgrading from a previous version, see the upgrade section.
         phpBB2 is most easily installed in your document root as phpbb2/
         In .../phpBB2/config.php, set db vars with values chosen above.
 
---- Install gettext and xgettext
+--- Install gettext and xgettext.
         If you want to localize the site messages.
 
 --- Install jpgraph.
@@ -45,7 +48,7 @@ If you're upgrading from a previous version, see the upgrade section.
         You will need the location of the jpgraph installation to put into the
         site-configuration for the DP code.
 
---- Install aspell (if it isn't already).
+--- Install aspell.
         The code uses aspell for the spellchecker in the proofreading interface.
         Note that for aspell 0.50 you may have to symlink the .dat files due to
         some filename inconsistencies. For example, iso8859-1.dat should have a
