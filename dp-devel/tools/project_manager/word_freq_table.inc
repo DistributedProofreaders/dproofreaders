@@ -271,7 +271,7 @@ function echo_page_instruction_text($wordListType,$format) {
         $page_instructions_string = _("If you find any words in the results list that should be flagged in the WordCheck interface for extra attention by proofers, add them to the project's Bad Words List.");
         if( $format == "html" ) {
             $page_instructions_string .= " ";
-            $page_instructions_string .= _("You can do this either by using the checkboxes provided or by copying them from below and pasting them into the Bad Words input box on the Edit Project Word Lists page (taking care not to overwrite any existing words).");
+            $page_instructions_string .= _("You can do this either by using the checkboxes provided, or by copying them from below and pasting them into the Bad Words input box on the Edit Project Word Lists page (taking care not to overwrite any existing words).");
         }
     } else {
         assert(FALSE);
