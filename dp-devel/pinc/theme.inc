@@ -308,8 +308,9 @@ function html_statsbar($nameofpage) {
 
         }
         echo "<br>\n";
-        if (!isset($GLOBALS['pguser'])) {
-            // Not logged in, show the terse project listings
+
+        if (strpos($_SERVER['PHP_SELF'],'default.php') !== false) {
+            // Show project listings to anyone, signed in or not, front page only
             // Show the 7 most recently completed, tersely
             echo "<center><b><u>" . _("Recently Completed Titles:") . "</u></b></center>\n";
             $state = SQL_CONDITION_GOLD;
@@ -330,8 +331,11 @@ function html_statsbar($nameofpage) {
             echo "<p style='text-align: center;'>";
             echo "<a href='list_etexts.php?x=b&sort=5'>";
             echo _("More Recently Begun Titles...") . "</a></p>";
+        }
 
-        } else {
+        // Only show completed projects list to signed in users, to
+        // keep front page uncluttered for visitors.
+        if (isset($GLOBALS['pguser'])) {
             show_completed_projects();
         }
     }
