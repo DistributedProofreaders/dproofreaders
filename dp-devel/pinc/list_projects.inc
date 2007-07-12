@@ -5,7 +5,39 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'pg.inc');
 new dbConnect();
 
-function list_projects( $where_condition, $order_clause, $limit_clause, $terse = FALSE )
+function list_projects_tersely( $where_condition, $order_clause, $limit_clause )
+// List the specified projects,
+// giving very brief information about each.
+{
+    $result = mysql_query("
+        SELECT nameofwork, authorsname, language, postednum
+        FROM projects
+        WHERE $where_condition
+        $order_clause
+        $limit_clause
+    ");
+
+    echo "<br>\n";
+
+    while (list($title,$author,$language,$postednum) = mysql_fetch_row($result))
+    {
+        echo "<font face='Verdana' size='1'>";
+
+        echo "<font color='#444444'><b>", '"', $title, '"', "</b></font>";
+        echo "&mdash;$author ($language)";
+        if ( !is_null($postednum) )
+        {
+            echo "<br>", get_pg_catalog_link_for_etext($postednum);
+        }
+        echo "<br>\n";
+
+        echo "</font>";
+        echo "<br>";
+        echo "\n";
+    }
+}
+
+function list_projects( $where_condition, $order_clause, $limit_clause )
 // List the specified projects,
 // giving brief information about each.
 {
@@ -37,7 +69,6 @@ function list_projects( $where_condition, $order_clause, $limit_clause, $terse =
 
         echo "<font face='Verdana' size='1'>";
 
-        if ( $terse == FALSE ) // Long version of details
         {
 
             // First line
@@ -79,20 +110,6 @@ function list_projects( $where_condition, $order_clause, $limit_clause, $terse =
             }
 
             // ---------------------------------------------------------------------
-        }
-        else // Terse version of details
-        {
-            // Title
-            echo "<font color='#444444'><b>", '"', $title, '"', "</b></font>&mdash;";
-            // Author
-            echo $author;
-            // Language
-            echo " ($language)";
-            if ( !is_null($postednum) )
-            {
-                echo "<br>", get_pg_catalog_link_for_etext($postednum);
-            }
-            echo "<br>\n";
         }
 
         echo "</font>";
