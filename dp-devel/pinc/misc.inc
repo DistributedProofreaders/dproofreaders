@@ -14,6 +14,79 @@ function array_get( $arr, $key, $default )
     }
 }
 
+function get_integer_param( $arr, $key, $default, $min, $max )
+// If $arr[$key] is defined and is the string-rep of an integer
+// satisfying certain simple constraints, return that integer.
+// If it's not defined, and $default is non-null, return $default.
+// Otherwise, die with an error.
+//
+// Example usage:
+//     $per_page = get_integer_param($_GET, 'per_page', 20, 1, NULL );
+// If the script is not given a 'per_page' parameter via the $_GET array,
+// use a default value of 20. If it is supplied, ensure it's an integer
+// and that it's at least 1, with no upper limit.
+{
+    {
+        // sanity checks on the args
+        assert( is_array($arr) );
+        assert(!is_array($key) );
+
+        assert( is_null($default) || is_int($default) );
+        assert( is_null($min)     || is_int($min) );
+        assert( is_null($max)     || is_int($max) );
+
+        if ( !is_null($default) )
+        {
+            if (!is_null($min)) assert( $default >= $min );
+            if (!is_null($max)) assert( $default <= $max );
+        }
+
+        if ( !is_null($min) && !is_null($max) )
+        {
+            assert( $min <= $max );
+        }
+    }
+
+    if ( isset($arr[$key]) )
+    {
+        $s = $arr[$key];
+        assert(is_string($s));
+        if ( preg_match('/^[-+]?\d+$/', $s ) )
+        {
+            // It's a well-formed (decimal) rep of an integer.
+            $i = intval($s);
+            if ( !is_null($min) && $i < $min )
+            {
+                die("parameter '$key' ($s) is less than the minimum $min");
+            }
+
+            if ( !is_null($max) && $i > $max )
+            {
+                die("parameter '$key' ($s) is greater than the maximum $max");
+            }
+        }
+        else
+        {
+            die("parameter '$key' ('$s') is not an integer");
+        }
+    }
+    else
+    {
+        // not set, use default
+        if ( is_null($default) )
+        {
+            // There is no default. The parameter is required.
+            die("parameter '$key' is required");
+        }
+        else
+        {
+            return $default;
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------
+
 function startswith( $subject, $prefix )
 // Return TRUE iff $subject starts with $prefix.
 {
