@@ -61,7 +61,7 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
     $num_found_rows = mysql_result($res_found,0);
 
     if ($num_found_rows == 0) {
-        echo "There are currently no projects in this category.";
+        echo _("There are currently no projects in this category.");
         return;
     }
 
@@ -69,7 +69,8 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
     $last = $offset + $numrows;
 
     // Display where we are now
-    echo "Projects $first to $last of $num_found_rows<br>\n";
+    echo sprintf(_("Projects %d to %d of %d"), $first, $last, $num_found_rows);
+    echo "<br>\n";
     
     // Display a 'page line' with up to 5 pages from the current page
     // in either direction, and previous/next links.
