@@ -13,12 +13,18 @@ $projectid  = array_get($_REQUEST, "projectid",  "");
 $freqCutoff = array_get($_REQUEST, "freqCutoff", 5);
 
 $queryWordText = array_get($_POST, "queryWordText", "");
+// do some cleanup on the input string
 $queryWordText = stripslashes($queryWordText);
 $queryWordText = str_replace("\r","",$queryWordText);
-rtrim($queryWordText);
 $queryWords = explode("\n",$queryWordText);
-if($queryWords[count($queryWords)-1]=="")
-    unset($queryWords[count($queryWords)-1]);
+// do some cleanup on the resulting words
+$queryWords = array_map('ltrim', $queryWords);
+$queryWords = preg_replace('/\s+.*$/','',$queryWords);
+$queryWords = array_unique($queryWords);
+// remove any empty words
+$queryWords = array_diff($queryWords,array(''));
+// now reset the input string to our sanitized values
+$queryWordText = implode("\r\n",$queryWords);
 
 enforce_edit_authorization($projectid);
 
