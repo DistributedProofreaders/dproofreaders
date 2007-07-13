@@ -37,26 +37,74 @@ function list_projects_tersely( $where_condition, $order_clause, $limit_clause )
     }
 }
 
-function list_projects( $where_condition, $order_clause, $limit_clause )
+function list_projects( $where_condition, $order_clause, $url_base, $per_page = 20, $offset = 0)
 // List the specified projects,
 // giving brief information about each.
+// url_base is the URL with the beginning of a query string, eg "foo.php?x=10&amp;" or "foo.php?"
 {
     global $code_url;
     global $site_supports_corrections_after_posting;
-
-    $result = mysql_query("
-        SELECT *
+    $sql = "
+        SELECT SQL_CALC_FOUND_ROWS *
         FROM projects
             LEFT OUTER JOIN pg_books
             ON projects.postednum=pg_books.etext_number
         WHERE $where_condition
         $order_clause
-        $limit_clause
-    ");
+        LIMIT $per_page OFFSET $offset
+    ";
+    $result = mysql_query($sql) or die(mysql_error() . $sql);
 
-    echo "<br>\n";
+    $numrows = mysql_num_rows($result);
 
-    $counter = 1;
+    $res_found = mysql_query("SELECT FOUND_ROWS()");
+    $num_found_rows = mysql_result($res_found,0);
+
+    $first = $offset + 1;
+    $last = $offset + $numrows;
+
+    // Display where we are now
+    if ($num_found_rows > 0) {
+        echo "Projects $first to $last of $num_found_rows<br>\n";
+    }
+    
+    // Display a 'page line' with up to 5 pages from the current page
+    // in either direction, and previous/next links.
+    if ($num_found_rows > $per_page || $offset != 0) {
+        echo "<center>";
+    
+        // Display 'previous' link if we're not on the first page
+        if ($offset > 0) {
+            $t = _('Previous');
+            $prev_offset = max(0, $offset - $per_page);
+            $url = $url_base . "per_page=$per_page&offset=$prev_offset";
+            echo "<a href='$url'>$t</a> ";
+        }
+    
+        $MAXPAGES = 5;
+        $curpage = floor($offset/$per_page);
+        $firstpage = max(0, $curpage - $MAXPAGES);
+        $lastpage = min($curpage + $MAXPAGES, $num_found_rows/$per_page);
+        for($i = $firstpage; $i <= $lastpage; $i++) {
+            $url = $url_base . "per_page=$per_page&offset=" . ($i * $per_page);
+            if ($i == $curpage) {
+                echo " <b>" . ($i+1) . "</b> ";
+            } else {
+                echo " <a href='$url'>" . ($i+1) . "</a> ";
+            }
+        }
+    
+        // Display 'next' link if we're not on the last page
+        if ($offset + $per_page < $num_found_rows) {
+            $t = _('Next');
+            $next_offset = min($num_found_rows - 1, $offset + $per_page);
+            $url = $url_base . "per_page=$per_page&offset=$next_offset";
+            echo " <a href='$url'>$t</a>";
+        }
+        echo "</center><br>\n";
+    }
+    
+    $counter = $first;
     while ($project = mysql_fetch_array($result))
     {
         $projectid = $project['projectid'];
