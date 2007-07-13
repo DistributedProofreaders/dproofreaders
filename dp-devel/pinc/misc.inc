@@ -64,12 +64,13 @@ function get_integer_param( $arr, $key, $default, $min, $max )
             {
                 die("parameter '$key' ($s) is greater than the maximum $max");
             }
+
+            return $i;
         }
         else
         {
             die("parameter '$key' ('$s') is not an integer");
         }
-        return $s;
     }
     else
     {
