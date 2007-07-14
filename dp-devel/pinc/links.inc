@@ -47,5 +47,41 @@ function new_help_window_link( $help_topic_id, $linktext )
     return "$a $img";
 }
 
+// -----------------------------------------------------------------------------
+
+function private_message_link( $proofer_username, $target="_blank" )
+// returns a string containing a snippet of HTML
+// for a link that opens a window to send a PM to the
+// specified user
+{
+    global $code_url;
+    global $forums_url;
+
+    // get proofer's phpBB userID
+    $userid=_get_uid_from_username( $proofer_username );
+
+    if(!empty($target)) $target = " target='$target";
+
+    $a = "<a href='$forums_url/privmsg.php?mode=post&amp;u=$userid'$target>$proofer_username</a>";
+
+    if($target == "_blank") {
+        $title = _('Link opens in a new window');
+        $img = "<img src='$code_url/graphics/New-Window.gif' title='$title'>";
+
+        return "$a $img";
+    }
+
+    return $a;
+}
+
+function _get_uid_from_username( $username ) {
+    $query="SELECT user_id FROM phpbb_users WHERE username='$username'";
+    $result = mysql_query($query);
+    list($userid) = mysql_fetch_array( $result );
+    mysql_free_result($result);
+    return $userid;
+}
+
+
 // vim: sw=4 ts=4 expandtab
 ?>
