@@ -321,14 +321,6 @@ function echo_page_footer($page_gen_time=null) {
     echo "</html>\n";
 }
 
-function _get_uid_from_username($username) {
-    $query="select user_id from phpbb_users where username='$username'";
-    $result = mysql_query($query);
-    list($userid) = mysql_fetch_array( $result );
-    mysql_free_result($result);
-    return $userid;
-}
-
 function _get_word_context_from_text($page_text,$contextWord) {
     $contexts=array();
 
