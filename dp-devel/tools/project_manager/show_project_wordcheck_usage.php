@@ -4,6 +4,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'links.inc');
 include_once("./word_freq_table.inc");
 
 set_time_limit(0); // no time limit
@@ -33,7 +34,7 @@ mysql_free_result($res);
 
 // load the suggestions
 $earliestTimestamp = time();
-$suggestions = load_project_good_word_suggestions($projectid,0,TRUE);
+$suggestions = load_wordcheck_events($projectid);
 if(is_array($suggestions)) {
     // parse the suggestions complex array
     // it was pulled in the raw format
@@ -50,7 +51,7 @@ if(0) {
 // Index needed: (projectid, event_type)
 
 // if the page has been marked saveAsDone, see who did that action last
-$query = "select image, username, round_id from page_events where projectid='$projectid' and event_type='saveAsDone' order by image, timestamp";
+$query = "SELECT image, username, round_id FROM page_events WHERE projectid='$projectid' AND event_type='saveAsDone' ORDER BY image, timestamp";
 
 $res = mysql_query( $query ) or die(mysql_error());
 while($result = mysql_fetch_assoc($res)) {
@@ -66,7 +67,7 @@ if(1) {
 // Index used: (projectid, image)
 
 foreach($page_usage as $page => $val ) {
-    $query = "select username, round_id from page_events where projectid='$projectid' and image='$page' and event_type='saveAsDone' order by timestamp";
+    $query = "SELECT username, round_id FROM page_events WHERE projectid='$projectid' AND image='$page' AND event_type='saveAsDone' ORDER BY timestamp";
 
     $res = mysql_query( $query ) or die(mysql_error());
     while($result = mysql_fetch_assoc($res))
@@ -77,7 +78,7 @@ foreach($page_usage as $page => $val ) {
 } // end sub-optimal "one at a time" way
 
 
-echo "<p>" . _("The following table lists the number of times WordCheck was run against a page in a specific round. Pages that are Done and have had WordCheck run on them will be marked <span class='WC'>like this</span>. Pages that are Done and WordCheck has not been run on them are marked <span class='noWC'>like this</span> and list the last user to save the page. Pages without a background color have not yet been saved as Done and they may or may not have had WordCheck run against them.") . "</p>";
+echo "<p>" . _("The following table lists the number of times WordCheck was run against a page in a specific round and the last user to work on the page. Pages that are Done and have had WordCheck run on them will be marked <span class='WC'>like this</span>. Pages that are Done and WordCheck has not been run on them are marked <span class='noWC'>like this</span>. Pages without a background color have not yet been saved as Done and they may or may not have had WordCheck run against them. Click the proofer's name to send them a private message.") . "</p>";
 
 // now build the table
 ?>
@@ -92,17 +93,24 @@ echo "<p>" . _("The following table lists the number of times WordCheck was run 
 <?
 foreach($page_usage as $page => $val) {
     echo "<tr>";
-    echo "<td>$page</td>";
+    echo "<td>" . recycle_window_link("displayimage.php?project=$projectid&amp;imagefile=$page",$page,"pageView") . "</td>";
     foreach($roundIDs as $roundID) {
-        $data = $val[$roundID];
-        if(!empty($page_event[$page][$roundID]) && $val[$roundID]==0) {
+        $timesChecked = $val[$roundID];
+        $lastProofer = $page_event[$page][$roundID];
+        if(!empty($lastProofer))
+            $lastProoferLink = private_message_link($lastProofer);
+        
+        if(!empty($lastProofer) && $timesChecked==0) {
             $class = " class='noWC'";
-            $data .= $page_event[$page][$roundID];
-        } elseif(!empty($page_event[$page][$roundID]) && $val[$roundID]>0) {
+            $data = "$lastProoferLink";
+        } elseif(!empty($lastProofer) && $val[$roundID]>0) {
             $class = " class='WC'";
+            $data = "$timesChecked: $lastProoferLink";
         } else { 
             $class = "";
+            $data = "";
         }
+
         echo "<td$class>$data</td>";
     }
     echo "</tr>\n";
@@ -132,7 +140,7 @@ function echo_stylesheet() {
     table.wordlisttable .mono { font-family: monospace; }
     table.wordlisttable textarea { width: 100%; }
 
-    table.wordlisttable td { text-align: center; }
+    table.wordlisttable td { }
 
     .noWC { background-color: yellow; }
     .WC { background-color: #0F0; }
