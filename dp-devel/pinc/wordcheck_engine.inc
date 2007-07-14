@@ -735,9 +735,11 @@ function get_project_languages($projectid) {
 
     $returnArray = array();
 
-    $project_language_property = mysql_result(mysql_query("
-        SELECT language FROM projects WHERE projectid='$projectid'
-        "),0);
+    $res = mysql_query("SELECT language FROM projects WHERE projectid='$projectid'");
+
+    if($res === FALSE || mysql_num_rows($res) == 0) return $returnArray;
+
+    $project_language_property = mysql_result($res,0);
     $languages = preg_split('/ with /', $project_language_property );
 
     foreach( $languages as $language ) {
