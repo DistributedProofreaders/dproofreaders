@@ -4,6 +4,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
+include_once($relPath.'links.inc');
 
 $projectid   = $_GET['project'];
 $image       = $_GET['image'];
@@ -54,13 +55,14 @@ if ( $can_see_names_for_this_page) {
 // -----------------------------------------------------------------------------
 
 $title = sprintf( _('Difference for page %s'), $image );
-
-$no_stats=1;
+$image_url = "$code_url/tools/project_manager/displayimage.php?project=$projectid&amp;imagefile=$image";
+$image_link = sprintf( _('Difference for page %s'), new_window_link($image_url, $image));
+$no_stats = 1;
 $extra_args = array("css_data" => "span.custom_font {font-family: DPCustomMono2, Courier New, monospace;}");
 theme("$title: $project_title", "header", $extra_args);
 
 echo "<h1>$project_title</h1>\n";
-echo "<h2>$title</h2>\n";
+echo "<h2>$image_link</h2>\n";
 
 do_navigation($projectid, $image, $L_round_num, $R_round_num, 
               $L_user_column_name, $L_user);
