@@ -147,20 +147,20 @@ echo "<br>";
     foreach($projects as $projectid=>$projectdata) {
         list($projectname,$projectstate)=$projectdata;
         $goodFileObject = get_project_word_file($projectid,"good");
-        $goodSuggsFileObject = get_project_word_file($projectid,"good_suggs");
 
         // set the timeCutoff
         if($timeCutoff==-1) $timeCutoffActual=$goodFileObject->mod_time;
         else $timeCutoffActual=$timeCutoff;
 
-        // if the suggestion file hasn't been modified since the
-        // good file list, or the suggestion file doesn't exist, skip it
-        if(($timeCutoffActual > $goodSuggsFileObject->mod_time)
-            || !$goodSuggsFileObject->exists) continue;
+        // load suggestions since cutoff
+        $suggestions = load_project_good_word_suggestions($projectid,$timeCutoffActual);
+
+        // if there are no suggestions since the cutoff, skip it
+        if(!count($suggestions)) continue;
 
         // get the data
         list($suggestions_w_freq,$suggestions_w_occurances,$messages) =
-            _get_word_list($projectid,$timeCutoffActual);
+            _get_word_list($projectid,$suggestions);
 
         // if no words are returned (probably because something was
         // suggested but is no longer in the text) skip this project
@@ -210,16 +210,10 @@ echo "<br>";
 //---------------------------------------------------------------------------
 // supporting page functions
 
-function _get_word_list($projectid,$timeCutoff) {
+function _get_word_list($projectid,$suggestions) {
     $messages = array();
 
-    // load the suggestions
-    $suggestions = load_project_good_word_suggestions($projectid,$timeCutoff);
-    if(!is_array($suggestions)) {
-        $messages[] = sprintf(_("Unable to load suggestions: %s"),$suggestions);
-        return array( array(), array(), $messages);
-    }
-
+    // check that there are suggestions
     if(count($suggestions)==0) {
         return array( array(), array(), $messages);
     }
@@ -273,9 +267,9 @@ function _get_projects_for_pm($pm) {
 
     $states = _get_project_states_in_order();
     $stateString = surround_and_join( $states, "'", "'", ',' );
-    $where = "state in ($stateString)";
+    $where = "state IN ($stateString)";
     $collator = "FIELD(state,$stateString)";
-    $query = "select projectid, state, nameofwork from projects where username='$pm' and $where order by $collator, nameofwork";
+    $query = "SELECT projectid, state, nameofwork FROM projects WHERE username='$pm' AND $where ORDER BY $collator, nameofwork";
 
     $res = mysql_query($query);
     while($ar = mysql_fetch_array($res)) {
