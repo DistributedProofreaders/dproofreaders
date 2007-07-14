@@ -332,6 +332,8 @@ function spellcheck_apply_corrections() {
         // make corrections
         $text_array = explode("[lf]",$orig_text);
 
+        $corrections = array();
+
         // If there are multiple corrections on a single line,
         // and you do them from left to right,
         // any correction (after the first) will have its offset info invalidated
@@ -373,6 +375,12 @@ function spellcheck_apply_corrections() {
                 // get the modified word, strip off any trailing spaces
                 $correct_word = rtrim(stripslashes($_POST['sp'.$i]));
 
+                // pull the original word
+                $orig_word = substr($text_array[$orig_line_i],$orig_word_offset,$orig_word_length);
+
+                if($orig_word!=$correct_word)
+                    $corrections[]=array($orig_word,$correct_word);
+
                 // replace word in string
                 $text_array[$orig_line_i] =
                     substr($text_array[$orig_line_i],0,$orig_word_offset) .
@@ -382,7 +390,7 @@ function spellcheck_apply_corrections() {
         }
         $correct_text = implode("\r\n",$text_array);
     }
-    return $correct_text;
+    return array($correct_text, $corrections);
 }
 
 // vim: sw=4 ts=4 expandtab

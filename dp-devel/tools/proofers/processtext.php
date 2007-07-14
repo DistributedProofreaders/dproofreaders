@@ -81,6 +81,11 @@ if ($tbutton == B_QUIT)
 
 $ppage = get_requested_PPage( $_POST );
 
+// $_SESSION key name for storing WordCheck corrections
+$projectid=$_POST["projectid"];
+$page=$ppage->lpage->imagefile;
+$wcTempCorrections = "WC_temp_corrections-$projectid-$page";
+
 // BUTTON CODE
 
 switch( $tbutton )
@@ -140,20 +145,35 @@ switch( $tbutton )
         $aux_language = '';
         $accepted_words=array();
         $text_data=stripslashes($_POST["text_data"]);
+
+        // to retain corrections across multiple language checks, we save the
+        // corrections in a page-specific session variable
+        // here we unset it before beginning, just in case
+        unset($_SESSION[$wcTempCorrections]);
+
         include('spellcheck.inc');
         break;
 
     case 101:
         // Return from spellchecker via "Submit Corrections" button.
         include_once('spellcheck_text.inc');
-        $correct_text = spellcheck_apply_corrections();
+        list($correct_text,$corrections) = spellcheck_apply_corrections();
         $accepted_words = explode(' ',stripslashes($_POST["accepted_words"]));
         $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
+
+        // the user is submitting corrections, so pull any temporary corrections
+        // they made long the way for saving in WordCheck (they've already been
+        // applied to the text itself)
+        if(isset($_SESSION[$wcTempCorrections]) && is_array($_SESSION[$wcTempCorrections]) && count($_SESSION[$wcTempCorrections]))
+            $corrections = array_merge($_SESSION[$wcTempCorrections], $corrections);
+        unset($_SESSION[$wcTempCorrections]);
+
         // for the record, PPage (or at least LPage) should provide
         // functions for returning the round ID and the page number
         // without the mess below
-        save_project_good_word_suggestions(
-            $_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accepted_words);
+        save_wordcheck_event(
+            $_POST["projectid"],$ppage->lpage->round->id,$page,$pguser,$accepted_words,$corrections);
+
         $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
         leave_spellcheck_mode($ppage);
         break;
@@ -164,8 +184,14 @@ switch( $tbutton )
         $correct_text = spellcheck_quit();
         $accepted_words = explode(' ',stripslashes($_POST["accepted_words"]));
         $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
-        save_project_good_word_suggestions(
-            $_POST["projectid"],$ppage->lpage->round->id,$ppage->lpage->imagefile,$pguser,$accepted_words);
+
+        // the user wants to quit, so clear out the temporary variable
+        // storing the corrections
+        unset($_SESSION[$wcTempCorrections]);
+
+        save_wordcheck_event(
+            $_POST["projectid"],$ppage->lpage->round->id,$page,$pguser,$accepted_words,array());
+
         $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
         leave_spellcheck_mode($ppage);
         break;
@@ -178,7 +204,14 @@ switch( $tbutton )
         $aux_language = $_POST["aux_language"];
         $accepted_words = explode(' ',stripslashes($_POST["accepted_words"]));
         $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
-        $text_data = spellcheck_apply_corrections();
+        list($text_data,$corrections) = spellcheck_apply_corrections();
+
+        // save the already-made corrections in a temporary session variable
+        // so we can later save or trash them based on their final decision
+        if(isset($_SESSION[$wcTempCorrections]) && is_array($_SESSION[$wcTempCorrections]) && count($_SESSION[$wcTempCorrections]))
+            $corrections = array_merge($_SESSION[$wcTempCorrections], $corrections);
+        $_SESSION[$wcTempCorrections] = $corrections;
+
         include('spellcheck.inc');
         break;
 
