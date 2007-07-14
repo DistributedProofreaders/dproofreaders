@@ -440,70 +440,87 @@ function save_project_bad_words($projectid, $words) {
 
 // -----------------------------------------------------------------------------
 
-function save_project_good_word_suggestions($projectid,$round,$page,$proofer,$words) {
-    if(sizeof($words)==0 || (sizeof($words)==1 && $words[0]=="")) return "Success";
+function save_wordcheck_event($projectid,$round,$page,$proofer,$words,$corrections) {
+    $word_list = implode("\n",$words);
 
-    $fileObject = get_project_word_file( $projectid, "good_suggs" );
+    $correction_list = array();
 
-    $word_list=implode(' ',$words);
+    // save the corrections in wdiff format
+    foreach($corrections as $correction) {
+        list($orig,$new) = $correction;
+        $correction_list[] = "[-$orig-] {+$new+}";
+    }
+
+    $correction_list = implode("\n",$correction_list);
+
+    // escape single quotes
+    $word_list = addslashes($word_list);
+    $correction_list = addslashes($correction_list);
 
     $time = time();
 
-    $fh = @fopen( $fileObject->abs_path , "a" );
-    // check to see that we were able to open the file
-    if($fh) {
-        // get an exclusive lock; lock is cleared by fclose
-        flock($fh,LOCK_EX);
-        fputs($fh,"$time/$round/$page/$proofer/$word_list\r\n");
-        fclose($fh);
-    } else {
-        return "Error: Unable to write to file $fileObject->abs_path\n";
-    }
+    $sql = "INSERT INTO wordcheck_events SET
+            projectid='$projectid', timestamp=$time, image='$page',
+            round_id='$round', username='$proofer', suggestions='$word_list',
+            corrections='$correction_list'";
 
-    return "Success";
+    if(mysql_query($sql) === FALSE) {
+        return "Error adding suggestions to wordcheck_events: " . mysql_error();
+    }
 }
 
-function load_project_good_word_suggestions($projectid,$start_time=0,$load_as_raw=FALSE) {
-    $fileObject = get_project_word_file( $projectid, "good_suggs" );
+function load_wordcheck_events($projectid, $start_time=0) {
+    $sql = "SELECT * FROM wordcheck_events 
+            WHERE projectid='$projectid' AND timestamp>$start_time";
+
+    $eventArray = array();
+
+    $res = mysql_query($sql);
+
+    if($res === FALSE) return $eventArray;
+
+    while($resultSet = mysql_fetch_assoc($res)) {
+        $time = $resultSet["timestamp"];
+        $round = $resultSet["round_id"];
+        $page = $resultSet["image"];
+        $proofer = $resultSet["username"];
+        $words = $resultSet["suggestions"];
+        $corrections = $resultSet["corrections"];
+
+        if($words != "")
+            $words = explode("\n",$words);
+        else
+            $words = array();
+
+        if($corrections != "")
+            $corrections = explode("\n",$corrections);
+        else
+            $corrections = array();
+
+        array_push($eventArray,array($time,$round,$page,$proofer,$words,$corrections));
+    }
+
+    mysql_free_result($res);
+
+    return $eventArray;
+}
+
+
+function load_project_good_word_suggestions($projectid, $start_time=0) {
+    $eventArray = load_wordcheck_events($projectid, $start_time);
 
     $wordsArray = array();
 
-    if(!$fileObject->exists)
-        return "Error: File does not exist: $fileObject->abs_path\n";
+    if(!count($eventArray)) return $wordsArray;
 
-    $fh = @fopen( $fileObject->abs_path , "r" );
-    // check to see that we were able to open the file
-    if($fh) {
-        // get a share-level lock; lock is cleared by fclose
-        flock($fh,LOCK_SH);
-        while(!feof($fh)) {
-            $line = chop(fgets($fh));
-            if($line == "") continue;
+    foreach($eventArray as $event) {
+        list($time,$round,$page,$proofer,$words,$corrections) = $event;
 
-            list($time,$round,$page,$proofer,$words) = explode('/',$line,5);
-                // (Need to limit the explosion to 5, because '/' might occur in $words.)
-
-            // skip these words if they were saved before $start_time
-            if($time < $start_time) continue;
-
-            // handle the case if there are no suggested words for this line
-            if($words != "")
-                $words = explode(' ',$words);
-            else
-                $words = array();
-
-            if($load_as_raw) {
-                array_push($wordsArray,array($time,$round,$page,$proofer,$words));
-            } elseif(count($words)) {
-                if(!is_array(@$wordsArray[$round][$page]))
-                    $wordsArray[$round][$page] = array();
-                if($round != "" && $page != "")
-                    $wordsArray[$round][$page] = array_merge($wordsArray[$round][$page],$words);
-            }
+        if(count($words)) {
+            if(!is_array(@$wordsArray[$round][$page]))
+                $wordsArray[$round][$page] = array();
+            $wordsArray[$round][$page] = array_merge($wordsArray[$round][$page],$words);
         }
-        fclose($fh);
-    } else {
-        return "Error: Unable to read from file $fileObject->abs_path\n";
     }
 
     return $wordsArray;
@@ -568,7 +585,6 @@ function get_project_word_file( $projectid, $code )
     $filename_for_code = array(
         'good'       => 'good_words.txt',
         'bad'        => 'bad_words.txt',
-        'good_suggs' => 'good_word_suggestions.txt',
     );
     assert( array_key_exists( $code, $filename_for_code ) );
 
