@@ -8,6 +8,8 @@ include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
 theme('Proofreading Guidelines','header');
+
+$utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
 
 <!-- NOTE TO MAINTAINERS AND DEVELOPERS:
@@ -35,7 +37,7 @@ theme('Proofreading Guidelines','header');
 	Proofreading Guidelines <a href="proofreading_guidelines_portuguese.php">in Portuguese</a> /
     Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br />
         Proofreading Guidelines <a href="proofreading_guidelines_spanish.php">in Spanish</a> /
-    Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en Espa&ntilde;ol</h4>
+    Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en Espa&ntilde;ol</a></h4>
 
 <h4>Check out the <a href="../quiz/start.php">Proofreading Quiz and Tutorial</a></h4>
 
@@ -50,6 +52,7 @@ theme('Proofreading Guidelines','header');
     <td bgcolor="white" align="left">
     <ul>
       <li><a href="#prime">The Primary Rule</a></li>
+      <li><a href="#summary">Summary Guidelines</a></li>
       <li><a href="#about">About This Document</a></li>
       <li><a href="#comments">Project Comments</a></li>
       <li><a href="#forums">Forum/Discuss this Project</a></li>
@@ -73,7 +76,7 @@ theme('Proofreading Guidelines','header');
         <li><a href="#double_q">Double Quotes</a></li>
         <li><a href="#single_q">Single Quotes</a></li>
         <li><a href="#quote_ea">Quote Marks on each line</a></li>
-        <li><a href="#period_s">End of Sentence Periods</a></li>
+        <li><a href="#period_s">End-of-sentence Periods</a></li>
         <li><a href="#punctuat">Punctuation</a></li>
         <li><a href="#period_p">Period Pause &quot;...&quot; (Ellipsis)</a></li>
         <li><a href="#contract">Contractions</a></li>
@@ -127,6 +130,7 @@ theme('Proofreading Guidelines','header');
       <ul style="margin-left: 3em;">
         <li><a href="#OCR_1lI">OCR Problems: 1-l-I</a></li>
         <li><a href="#OCR_0O">OCR Problems: 0-O</a></li>
+        <li><a href="#OCR_hyphen">OCR Problems: Hyphens and Dashes</a></li>
         <li><a href="#OCR_scanno">OCR Problems: Scannos</a></li>
         <li><a href="#hand_notes">Handwritten Notes in Book</a></li>
         <li><a href="#bad_image">Bad Image</a></li>
@@ -150,8 +154,8 @@ theme('Proofreading Guidelines','header');
 </p>
 <p>The final electronic book seen by a reader, possibly many years in the future, should accurately convey
    the intent of the author. If the author spelled words oddly, we leave them spelled that way. If the author
-   wrote outrageous racist or biased statements, we leave them that way. If the author puts italics, bold text
-   or a footnote every third word, we mark them italicized, bolded or footnoted. We are proofreaders,
+   wrote outrageous racist or biased statements, we leave them that way. If the author put italics, bold text,
+   or a footnote every third word, we mark them italicized, bolded, or footnoted. We are proofreaders,
    <b>not</b> editors. (See <a href="#p_errors">Printer's Errors</a> for proper handling of obvious misprints.)
 </p>
 <p>We do change minor typographical conventions that don't affect the sense of what the author wrote.
@@ -159,9 +163,9 @@ theme('Proofreading Guidelines','header');
    Changes such as these help us produce a <em>consistently formatted</em> version of the book.
    The proofreading rules we follow are designed to achieve this result. Please carefully read the rest of the
    Proofreading Guidelines with this concept in mind. There is a separate set of Formatting Guidelines. These guidelines are
-intended for proofreading <i>only</i>. A second group of volunteers will be working on the formatting of the text.
+   intended for proofreading <i>only</i>. A second group of volunteers will be working on the formatting of the text.
 </p>
-<p>To assist the next proofreader, the formatter, and the post-processor, we also preserve <a href="#line_br">line breaks</a>.
+<p>To assist the next proofreader, the formatters, and the post-processor, we also preserve <a href="#line_br">line breaks</a>.
    This allows them to easily compare the lines in the text to the lines in the image.
 </p>
 <!-- END RR -->
@@ -175,17 +179,27 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
 </table>
 
 
+<h3><a name="summary">Summary Guidelines</a></h3>
+<p>The <a href="proofing_summary.pdf">Proofreading Summary</a> is a short, 2-page
+   printer-friendly (.pdf) document that summarizes the main points of these
+   Guidelines, and gives examples of how to proofread. Beginning proofreaders are
+   encouraged to print out this document and keep it handy while proofreading.
+</p>
+<p>You may need to download and install a .pdf reader. You can get one free from Adobe&reg;
+   <a href="http://www.adobe.com/products/acrobat/readstep2.html">here</a>.
+</p>
+
 
 <h3><a name="about">About This Document</a></h3>
 <p>This document is written to explain the proofreading rules we use to maintain consistency when proofreading
    a single book that is distributed among many proofreaders, each of whom is working on different pages.
    This helps us all do proofreading <em>the same way</em>, which in turn makes it
-   easier for the formatter and for the post-processor who will complete the work on this e-book.
+   easier for the formatters and for the post-processor who will complete the work on this e-book.
 </p>
 <p><i>It is not intended as any kind of a general editorial or typesetting rulebook</i>.
 </p>
 <p>We've included in this document all the items that new users have asked about
-    while proofreading. If there are any items missing, or items that you
+   while proofreading. If there are any items missing, or items that you
    consider should be done differently, or if something is vague, please let us know.
 </p>
 <p>This document is a work in progress. Help us to progress by posting your suggested changes in the
@@ -194,17 +208,19 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
 
 <h3><a name="comments">Project Comments</a></h3>
 
-<p>On the proofreading interface page (Project Page) where you start proofreading pages, there is a section called
+<p>On the Project Page where you start proofreading pages, there is a section called
    "Project Comments" containing information specific to that project (book). <b>Read these
    before you start proofreading pages!</b> If the Project Manager wants you to do
    something in this book differently from the way specified in these Guidelines, that
    will be noted here. Instructions in the Project Comments <em>override</em> the rules
-   in these Guidelines, so follow them. There may also be instructions in the project comments that apply to the formatting phase, which do not apply during proofing. Finally, this is also where the Project Manager may give
+   in these Guidelines, so follow them. There may also be instructions in the project
+   comments that apply to the formatting phase, which do not apply during proofreading. Finally,
+   this is also where the Project Manager may give
    you interesting tidbits of information about the author or the project.
 </p>
-<p><em>Please also read the Project Thread(Forum)</em>: The Project Manager may clarify project-specific
+<p><em>Please also read the Project Thread (discussion)</em>: The Project Manager may clarify project-specific
    guidelines here, and it is often used by proofreaders to alert other proofreaders to recurring
-   issues within the project and how they can best be addressed.  (See below).
+   issues within the project and how they can best be addressed. (See below).
 </p>
 <p>On the Project Page, the link 'Images, Pages Proofread, &amp; Differences' allows you to
    see how other proofreaders have made changes.
@@ -213,7 +229,7 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
 </p>
 
 <h3><a name="forums">Forum/Discuss this Project</a></h3>
-<p>On the proofreading interface page (Project Page) where you start proofreading pages, on the line "Forum", there is
+<p>On the Project Page where you start proofreading pages, on the line "Forum", there is
    a link titled "Discuss this Project" (if the discussion has already started), or "Start
    a discussion on this Project" (if it hasn't). Clicking on that link will take you to a
    thread in the projects forum dedicated to this specific project. That is the place to ask
@@ -223,7 +239,7 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
 </p>
 
 <h3><a name="prev_pg">Fixing errors on Previous Pages</a></h3>
-<p>When you select a project for proofreading, the <a href="#comments">Project Comments</a>
+<p>When you select a project for proofreading, the <a href="#comments">Project Page</a>
    page is loaded. This page contains links to pages from this project that you have
    recently proofread. (If you haven't proofread any pages yet, there will be no links
    shown.)
@@ -231,10 +247,10 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
 <p>Pages listed under either "DONE" or "IN PROGRESS" are available to make proofreading
    corrections or to finish proofreading. Just click on the link to the page. So if you
    discover that you made a mistake on a page, or marked something incorrectly, you can
-   click on that page here and re-open it to fix the error.
+   click on that page here and reopen it to fix the error.
 </p>
 <p>You may also use the "Images, Pages Proofread, &amp; Differences" or "Just My Pages" links
-   on the <a href="#comments">Project Comments</a> page. These pages will display an "Edit"
+   on the <a href="#comments">Project Page</a>. These pages will display an "Edit"
    link next to the pages you have worked on in the current round that can still be corrected.
 </p>
 <p>For more detailed information, refer to either the <a href="prooffacehelp.php?i_type=0">Standard
@@ -245,7 +261,7 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
 <table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Title Page">
   <tbody>
     <tr>
-      <td bgcolor="silver"><font size="+2">How to proof...</font></td>
+      <td bgcolor="silver"><font size="+2">How to proofread...</font></td>
     </tr>
   </tbody>
 </table>
@@ -254,7 +270,9 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
 
 <h3><a name="line_br">Line Breaks</a></h3>
 <p><b>Leave all line breaks in</b> so that later in the process other volunteers can easily compare
-   the lines in the text to the lines in the image. If the previous proofreader removed the line breaks,
+   the lines in the text to the lines in the image. Be especially careful about this
+   when rejoining <a href="#eol_hyphen">hyphenated words</a> or moving words around
+   <a href="#em_dashes">em-dashes</a>. If the previous proofreader removed the line breaks,
    please replace them so that they once again match the image.
 </p>
 
@@ -267,12 +285,25 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
    double quotes to single quotes. Leave them as the Author wrote them.
 </p>
 <p>For quotes from non-English languages, use the quotation marks appropriate
-   to that language if they are available in the Latin-1 character set. The
+   to that language if they are available. The
    French equivalent, guillemets, <tt>&laquo;like this&raquo;</tt>, are available
    from the pulldown menus in the proofreading interface, since they are part of
-   Latin-1. The quotation marks used in some German texts, <tt>&bdquo;like this&rdquo;</tt>
-   are not available in the pulldown menus, as they are not in Latin-1.
-   The Project Manager may instruct you in the <a href="#comments">Project Comments</a>
+   Latin-1. Remember to remove space between the guillemets and the quoted text;
+   if needed, it will be added in post-processing. The same applies to languages
+   which use reversed guillemets, <tt>&raquo;like this&laquo;</tt>.
+</p>
+<p>The quotation marks used in some texts (in German or other languages), <tt>&bdquo;like this&rdquo;</tt>
+<? if(!$utf8_site) { ?>
+   are not available in the pulldown menus, as they are not in Latin-1. In that case, follow
+   the instructions in the project comments.
+<? } else { ?>
+   are also available in the pulldown menus; for the sake of simplicity, you should always
+   use <tt>&bdquo;</tt> and <tt>&ldquo;</tt> regardless of the actual quotes used in the original
+   text, as long as the quotes used in the original text are clearly lower and upper. If needed,
+   the quotes will be changed to ones used in the text in post-processing.
+<? } ?>
+</p>
+<p>The Project Manager may instruct you in the <a href="#comments">Project Comments</a>
    to proofread non-English language quotation marks differently for a particular book.
 </p>
 
@@ -284,7 +315,6 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
 <h3><a name="quote_ea">Quote Marks on each line</a></h3>
 <p>Proofread quotation marks at the beginning of each line of a quotation by removing
    all of them <b>except for</b> the one at the start of the first line of the quotation.
-
 </p>
 <p>If the quotation goes on for multiple paragraphs, each paragraph should have an opening
    quote mark on the first line of the paragraph.
@@ -294,17 +324,18 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
    add closing quotation marks that are not in the page image.
 </p>
 
-<h3><a name="period_s">End of Sentence Periods</a></h3>
+<h3><a name="period_s">End-of-sentence Periods</a></h3>
 <p>Proofread periods that end sentences with a single space after them.
 </p>
-<p>You do not need to remove extra spaces after periods if they're already in the scanned
+<p>You do not need to remove extra spaces after periods if they're already in the OCR'd
    text&mdash;we can do that automatically during post-processing. See the <a href="#para_side">Sidenotes</a>
    image and text for an example.
 </p>
 
 <h3><a name="punctuat">Punctuation</a></h3>
 <p>In general, there should be no space before punctuation characters except opening quotation
-   marks. If scanned text has a space before punctuation, remove it.
+   marks. If the OCR'd text has a space before punctuation, remove it. This applies even to
+   languages, such as French, which normally use spaces before punctuation characters.
 </p>
 <p>Spaces before punctuation sometimes appear because books typeset in the 1700's &amp; 1800's
    often used partial spaces before punctuation such as a semicolon or comma.
@@ -351,22 +382,10 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
 <p><b>LOTE:</b> (Languages Other Than English) Use the general rule "Follow closely the style
    used in the printed page." In particular,  insert spaces, if there are spaces before or
    between the periods, and use the same number of periods as appear in the image. Sometimes
-   the printed page is unclear: in that case, insert a <tt>[**unclear]</tt> to draw the
+   the printed page is unclear; in that case, insert a <tt>[**unclear]</tt> to draw the
    attention of the post-processor.
    (Note: Post-Processors should replace those regular spaces with non-breaking spaces.)
 </p>
-
-<h3><a name="next_word">Single word at bottom of page</a></h3>
-<p>Proofread these by deleting the word, even if it's the second half of a hyphenated word.
-</p>
-<p>In some older books, the single word at the bottom of the page (called a "catchword", usually
-   printed near the right margin) indicates the first word on the next page of the book (called
-   an "incipit"). It was used to alert the printer to print the correct reverse (called "verso");
-   to make it easier for printers' helpers to make up the pages prior to binding; also to help
-   the reader avoid turning over more than one page.
-</p>
-<!-- END RR -->
-<!-- We need an example here! -->
 
 <h3><a name="contract">Contractions</a></h3>
 <p>Remove any extra space in contractions: for example, <tt>would&nbsp;n't</tt> should
@@ -389,7 +408,7 @@ intended for proofreading <i>only</i>. A second group of volunteers will be work
 <p>However, extra spaces around punctuation, em-dashes, quote marks, etc. <b>do</b> need to be
    removed when they separate the symbol from the word.
 </p>
-<p>For example, in <b>A horse&nbsp;;&nbsp;&nbsp;&nbsp;my kingdom for a horse.</b> the space between
+<p>For example, in <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt> the space between
    the word "horse" and the semicolon should be removed. But the 2 spaces after the semicolon are
    fine&mdash;you don't have to delete one of them.
 </p>
@@ -423,10 +442,10 @@ the formatters can easily find them.
 
 <h3><a name="supers">Superscripts</a></h3>
 <p>Older books often abbreviated words as contractions, and printed them as
-   superscripts: for example,<br>
-   &nbsp;&nbsp;&nbsp;&nbsp; Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
-   Proofread these by inserting an up-arrow followed by the superscripted text, like this:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp; <tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
+   superscripts. For example:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
+   Proofread these by inserting a single caret followed by the superscripted text, like this:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
 
 
@@ -434,9 +453,9 @@ the formatters can easily find them.
 <p>Subscripted text is often found in scientific works, but is not common in other
    material. Proofread subscripted text by inserting an underline character <tt>_</tt>.
    <br>For example:
-   <br>&nbsp; &nbsp; &nbsp; &nbsp; H<sub>2</sub>O.
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
    <br>would be proofread as
-   <br>&nbsp; &nbsp; &nbsp; &nbsp; <tt>H_2O.<br></tt>
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.<br></tt>
 </p>
 
 
@@ -456,23 +475,28 @@ the formatters can easily find them.
    unless it surrounds junk that does not appear on the page.
    Do not add it where it does not appear.
    The formatters will do that later in the process.
-   Please proof only the characters in small caps.
+   Please proofread only the characters in small caps.
    Do not worry about case changes.
    If they are already ALL-CAPPED, Mixed-Cased, or lower-cased,
    leave them ALL-CAPPED, Mixed-Cased, or lower-cased.
 </p>
 
 <h3><a name="drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></h3>
-<p>Proofread large and ornate graphic first letters of a chapter, section, or paragraph
-   as just the letter.
+<p>Proofread a large and ornate graphic first letter of a chapter, section, or paragraph
+   as if it were an ordinary letter.
 </p>
 
 
 <h3><a name="a_chars">Accented/Non-ASCII Characters</a></h3>
+<? if(!$utf8_site) { ?>
 <p>Please proofread these using the proper accented Latin-1 characters, where possible. See
-   <a href="#d_chars">Diacritical marks</a> for ways to proof some non-Latin-1 characters.
+   <a href="#d_chars">Diacritical marks</a> for ways to proofread some non-Latin-1 characters.
+</p><? } else { ?>
+<p>Please proofread these using the proper UTF-8 characters. For characters which are not in Unicode, see
+ the Project Manager instructions in the <a href="#comments">Project Comments</a>.
 </p>
-<p>There are several ways of inputting accented characters:</p>
+<? } ?>
+<p>If they are not on your keyboard, there are several ways of inputting these characters:</p>
 <ul compact>
   <li> The pull-down menus in the proofreading interface.</li>
   <li> Applets included with your operating system.
@@ -491,7 +515,7 @@ the formatters can easily find them.
   <li>An on-line program, such as <a
    href="http://free.pages.at/krauss/computer/xml/daten/edicode.html">Edicode</a>.</li>
   <li> Keyboard shortcuts.<br>
-       Tables for <a href="#a_chars_win">Windows</a> and <a href="#a_chars_mac">Macintosh</a> which list these shortcuts are in the Proofreading Guidelines.</li>
+       (See the tables for <a href="#a_chars_win">Windows</a> and <a href="#a_chars_mac">Macintosh</a> below.)</li>
   <li> Switching to a keyboard layout or locale which supports "deadkey" accents.
        <ul compact>
        <li>Windows: Control Panel (Keyboard, Input Locales)</li>
@@ -500,10 +524,16 @@ the formatters can easily find them.
       </ul>
 </ul>
 <p>
-   Project Gutenberg will post as a minimum, 7-bit ASCII versions of texts, but versions
+   The original <a href="http://www.gutenberg.org">Project Gutenberg</a> will post as
+   a minimum, 7-bit ASCII versions of texts, but versions
    using other character encodings which can preserve more of the information from the
-   original text are accepted. Currently for Distributed Proofreaders this means
+   original text are accepted. <a href="http://pge.rastko.net">Project Gutenberg
+   Europe</a> publishes UTF-8 as its default encoding, but other appropriate encodings are also welcomed.
+</p>
+<p>Currently for <a href="http://www.pgdp.net/">Distributed Proofreaders</a> this means
    using Latin-1 or ISO 8859-1 and -15, and in the future will include Unicode.
+</p>
+<p><a href="http://dp.rastko.net/">Distributed Proofreaders Europe</a> already uses Unicode.
 </p>
 <!-- END RR -->
 <a name="a_chars_win"></a>
@@ -513,8 +543,7 @@ the formatters can easily find them.
   <li>You can use the Character Map program
      (Start: Run: charmap) to select an individual letter, and then cut &amp; paste.
   </li>
-  <li>If you are using the enhanced proofreading interface, the <i>more</i> tag opens a pop-up
-      window containing these characters, which you can then cut &amp; paste.
+  <li>The dropdown menus in the proofreading interface.
   </li>
   <li>Or you can type the Alt+NumberPad shortcut codes for these characters.
       <br>This is faster than using cut &amp; paste, once you get used to the codes.
@@ -598,7 +627,13 @@ the formatters can easily find them.
       <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Alt-0245</td>
       <td align="center" bgcolor="mistyrose" title="Small o umlaut"        >&ouml;   </td><td>Alt-0246</td>
       <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Alt-0248</td>
-      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>Use [oe]</td>
+      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>
+<? if(!$utf8_site) { ?>
+  Use [oe]
+<? } else { ?>
+  Alt-0156
+<? } ?>
+      </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Alt-0210</td>
       <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Alt-0211</td>
@@ -606,7 +641,13 @@ the formatters can easily find them.
       <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Alt-0213</td>
       <td align="center" bgcolor="mistyrose" title="Capital O umlaut"      >&Ouml;   </td><td>Alt-0214</td>
       <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Alt-0216</td>
-      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>Use [OE]</td>
+      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>
+<? if(!$utf8_site) { ?>
+  Use [OE]
+<? } else { ?>
+  Alt-0140
+<? } ?>
+      </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Alt-0249</td>
       <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Alt-0250</td>
@@ -703,7 +744,6 @@ the formatters can easily find them.
    <a href="#fract_s">Fractions</a>. (1/2, 1/4, 3/4, etc.)</p>
 
 
-
 <p> <b>For Apple Macintosh</b>:
 </p>
 <ul compact>
@@ -720,8 +760,8 @@ the formatters can easily find them.
       pane. Ensure that "Show input menu in menu bar" is checked. In the spreadsheet view, check the box
       for "Keyboard Viewer" in addition to any input locales you use.
   </li>
-  <li>If you are using the enhanced proofreading interface, the <i>more</i> tag creates a pop-up
-      window containing these characters, which you can then cut &amp; paste.
+  <li>The dropdown menus in the proofreading interface.
+  </li>
   <li>Or you can type the Apple Opt- shortcut codes for these characters.
       <br>This is a lot faster than using cut &amp; paste, once you get used to the codes.
       <br>Hold the Opt key and type the accent symbol, then type the letter to be accented
@@ -788,7 +828,7 @@ the formatters can easily find them.
       <td> </td><td> </td>
       <td> </td><td> </td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital I grave"       >&Igrave; </td><td>Opt-~, I</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital I grave"       >&Igrave; </td><td>Opt-`, I</td>
       <td align="center" bgcolor="mistyrose" title="Capital I acute"       >&Iacute; </td><td>Opt-e, I</td>
       <td align="center" bgcolor="mistyrose" title="Capital I circumflex"  >&Icirc;  </td><td>Opt-i, I</td>
       <td> </td><td> </td>
@@ -802,7 +842,13 @@ the formatters can easily find them.
       <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Opt-n, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o umlaut"        >&ouml;   </td><td>Opt-u, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Opt-o   </td>
-      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>Use [oe]</td>
+      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>
+<? if(!$utf8_site) { ?>
+  Use [oe]
+<? } else { ?>
+  Opt-q
+<? } ?>
+      </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Opt-`, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Opt-e, O</td>
@@ -810,7 +856,13 @@ the formatters can easily find them.
       <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Opt-n, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O umlaut"      >&Ouml;   </td><td>Opt-u, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Opt-O   </td>
-      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>Use [OE]</td>
+      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>
+<? if(!$utf8_site) { ?>
+  Use [OE]
+<? } else { ?>
+  Opt-Q
+<? } ?>
+      </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Opt-`, u</td>
       <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Opt-e, u</td>
@@ -911,8 +963,25 @@ the formatters can easily find them.
 
 <h3><a name="d_chars">Characters with Diacritical marks</a></h3>
 <p>In some projects, you will find characters with special marks either above or below
-   the normal Latin A..Z character. These are called <i>diacritical marks</i> and
+   the normal Latin A...Z character. These are called <i>diacritical marks</i>, and
    indicate a special pronunciation for this character.
+<? if($utf8_site) { ?>
+</p>
+<p>If such a character does not exist in Unicode, it should be entered by using
+   <i>combining diacritical marks</i>: these are Unicode symbols which can't
+   appear alone, but appear above (or below) the letter after which they are
+   placed. They could be entered by first entering the base letter, and then
+   the combining mark, using applets and programs mentioned <a
+   href="#a_chars">above</a>.
+</p>
+<p>On some systems, diacritical marks may not appear exactly where they should,
+   but, for example, moved to the right. They should still be used, as people
+   with other systems will see them correctly. However, if, for any reason, you
+   can't see or enter combining marks properly, mark such letter with an
+   <tt>*</tt>. Note that <i>Modifier diacritical marks</i> also exist; these
+   should not be used.
+</p>
+<? } else { ?>
    For proofreading, we indicate them in our normal ASCII text by using a
    specific coding, such as: &#259; becomes <tt>[)a]</tt> for a breve (the u-shaped accent)
    above an a, or <tt>[a)]</tt> for a breve below.
@@ -937,7 +1006,7 @@ the formatters can easily find them.
 <!--
   diacritical mark           above  below
 macron (straight line)       [=x]   [x=]
-2 dots (diaresis or umlaut)  [:x]   [x:]
+2 dots (dieresis or umlaut)  [:x]   [x:]
 1 dot                        [.x]   [x.]
 grave accent                 ['x]   [x'] or [/x] [x/]
 acute (aigu) accent          [`x]   [x`] or [\x] [x\]
@@ -963,7 +1032,7 @@ cedilla                      [,x]   [x,]
       <td align="center"><tt>[=x]</tt></td>
       <td align="center"><tt>[x=]</tt></td>
       </tr>
-  <tr><td>2 dots (diaresis, umlaut)</td>
+  <tr><td>2 dots (dieresis, umlaut)</td>
       <td align="center">&uml;</td>
       <td align="center"><tt>[:x]</tt></td>
       <td align="center"><tt>[x:]</tt></td>
@@ -1010,28 +1079,31 @@ cedilla                      [,x]   [x,]
       </tr>
   </tbody>
 </table>
+<? } ?>
 
 <h3><a name="f_chars">Non-Latin Characters</a></h3>
-<p>Some projects contain text printed in non-Latin characters--that is, characters other
-than the Latin A...Z&mdash;for example, Greek, Cyrillic, Hebrew, or Arabic.
-</p><? if(strcasecmp($charset,"UTF-8")) { ?>
-<p>For Greek, you should attempt a transliteration. Transliteration involves converting
-   each character of the foreign text into the equivalent ASCII Latin letter(s). A Greek
-   transliteration tool is provided in the proofing interface to make this task much easier.
+<p>Some projects contain text printed in non-Latin characters; that is, characters
+   other than the Latin A...Z&mdash;for example, Greek, Cyrillic (used in
+   Russian, Slavic, and other languages), Hebrew, or Arabic characters.
 </p>
-<p>Press the "Greek" button near the bottom of the proofreading interface to pop up the tool.
+<? if(strcasecmp($charset,"UTF-8")) { ?>
+<p>For Greek, you should attempt a transliteration. Transliteration involves converting
+   each character of the foreign text into the equivalent Latin letter(s). A Greek
+   transliteration tool is provided in the proofreading interface to make this task much easier.
+</p>
+<p>Press the "Greek Transliterator" button near the bottom of the proofreading interface to pop up the tool.
    In the tool, click on the Greek characters that match the word or phrase you are transliterating,
-   and the appropriate ASCII characters will appear in the text box. When you are done,
+   and the appropriate Latin-1 characters will appear in the text box. When you are done,
    simply cut and paste this transliterated text into the page you are proofreading.
    Surround the transliterated text with the Greek markers <tt>[Greek:&nbsp;</tt> and <tt>]</tt>.
    For example, <b>&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</b>
    would become <tt>[Greek: Biblos]</tt>. ("Book"&mdash;so appropriate for DP!)
 </p>
-<p>If you are uncertain about your transliteration, mark it with an <tt>*</tt> to bring it to
-   the attention of the second round proofreader or the post-processor.
+<p>If you are uncertain about your transliteration, mark it with <tt>**</tt> to bring it to
+   the attention of the next proofreader or the post-processor.
 </p>
 <p>For other languages that cannot be so easily transliterated, such as Cyrillic,
-   Hebrew or Arabic, surround the text with appropriate markers; <tt>[Cyrillic:&nbsp;**]</tt>,
+   Hebrew, or Arabic, surround the text with appropriate markers; <tt>[Cyrillic:&nbsp;**]</tt>,
    <tt>[Hebrew:&nbsp;**]</tt>, or <tt>[Arabic:&nbsp;**]</tt> and leave it as scanned.
    Include the <tt>**</tt> so the post-processor can address it later.
 </p>
@@ -1039,10 +1111,10 @@ than the Latin A...Z&mdash;for example, Greek, Cyrillic, Hebrew, or Arabic.
 
 <ul compact>
   <li>Greek: <a href="<? echo $PG_greek_howto_url; ?>">Greek HOWTO</a> (from
-      Project Gutenberg) or see the "Greek" pop-up tool in the proofreading interface.
+      Project Gutenberg) or see the "Greek Transliterator" pop-up tool in the proofreading interface.
   </li>
   <li>Cyrillic: While a standard transliteration scheme exists for Cyrillic, we only recommend
-      you attempt a transliteration if you are fluent in the languages that use it. Otherwise, just mark
+      you attempt a transliteration if you are fluent in a language that uses it. Otherwise, just mark
       it as indicated above. You may find this
       <a href="http://learningrussian.com/transliteration.htm">Transliteration Table</a> useful.
   </li>
@@ -1050,7 +1122,7 @@ than the Latin A...Z&mdash;for example, Greek, Cyrillic, Hebrew, or Arabic.
       Not recommended unless you are fluent. There are significant
       difficulties transliterating these languages and neither <a href="..">Distributed
       Proofreaders</a> nor <a href="<? echo $PG_home_url; ?>">Project Gutenberg</a>
-      has yet chosen a standard method.
+      have yet chosen a standard method.
   </li>
 </ul>
 <? } else { ?>
@@ -1065,7 +1137,7 @@ than the Latin A...Z&mdash;for example, Greek, Cyrillic, Hebrew, or Arabic.
    See <a href="#a_chars">above</a> for some of the programs.
 </p>
 <p>If you are uncertain about a character or an accent, mark it with an <tt>*</tt> to
-   bring it to the attention of the second round proofreader or the post-processor.
+   bring it to the attention of the next proofreader or the post-processor.
 </p>
 <p>For scripts which cannot be so easily entered, such as Arabic, surround the text
    with appropriate markers: <tt>[Arabic:&nbsp;**]</tt> and leave it as scanned.
@@ -1097,15 +1169,16 @@ than the Latin A...Z&mdash;for example, Greek, Cyrillic, Hebrew, or Arabic.
     <li><i>Em-dashes &amp; long dashes</i>. These serve as <b>separators</b> between
         words&mdash;sometimes for emphasis like this&mdash;or when a speaker gets a word caught in
         his throat&mdash;&mdash;!
-    <br>Proofread these as two hyphens if the em-dash is short and four hyphens if the em-dash is long. Don't leave a space before or after,
+    <br>Proofread these as two hyphens if the em-dash is short and four hyphens if the em-dash is
+        long. Don't leave a space before or after,
         even if it looks like there was a space in the original book image.
     </li>
     <li><i>Deliberately Omitted or Censored Words or Names</i>.
     <br>Proofread these as 4 hyphens. When it represents a word, we leave appropriate space
         around it like it's really a word. If it's only part of a word, then no
         spaces&mdash;join it with the rest of the word. If the em-dash looks as if it is
-        the size of the rest of the smaller em-dashes, then proof it as a single em-dash,
-        i.e. two dashes.
+        the size of the rest of the smaller em-dashes, then proofread it as a single em-dash,
+        i.e. two hyphens.
     </li>
   </ol>
 <p>Note: If an em-dash appears at the start or end of a line of your OCR'd text, join it with the
@@ -1223,7 +1296,8 @@ than the Latin A...Z&mdash;for example, Greek, Cyrillic, Hebrew, or Arabic.
     <tr>
       <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
       <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
-      <td>Em-dash</td></tr>
+      <td>Em-dash</td>
+    </tr>
   </tbody>
 </table>
 
@@ -1242,39 +1316,50 @@ than the Latin A...Z&mdash;for example, Greek, Cyrillic, Hebrew, or Arabic.
 <p>Words like to-day and to-morrow that we don't commonly hyphenate now were often
    hyphenated in the old books we are working on. Leave them hyphenated the way the
    author did. If you're not sure if the author hyphenated it or not, leave the hyphen,
-   put an <tt>*</tt> after it, and join the word together. Like this:
+   put an <tt>*</tt> after it, and join the word together like this:
    <tt>to-*day</tt>. The asterisk will bring it to the attention of the post
    processor, who has access to all the pages, and can determine how the author
    typically wrote this word.
 </p>
 
 <h3><a name="eop_hyphen">End-of-page Hyphenation</a></h3>
-<p>Proofread end-of-page hyphens or em-dashes by leaving the hyphen at the end of the last line, and mark it with a <tt>*</tt> after
-   the hyphen.<br>
+<p>Proofread end-of-page hyphens or em-dashes by leaving the hyphen or em-dash at the end
+   of the last line, and mark it with a <tt>*</tt> after the hyphen.<br>
    For example, proofread:<br>
    &nbsp;<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;something Pat had already become accus-<br>
-
+   &nbsp;&nbsp;&nbsp;&nbsp;something Pat had already become accus-<br>
    as:<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;<tt>something Pat had already become accus-*</tt>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>something Pat had already become accus-*</tt>
 </p>
-<p>On pages that start with part of a word from the previous page or an em-dash, place a <tt>*</tt> before the partial word or em-dash.<br>
+<p>On pages that start with part of a word from the previous page or an em-dash,
+   place a <tt>*</tt> before the partial word or em-dash.<br>
    To continue the above example, proofread:<br>
-
    &nbsp;<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;tomed to from having to do his own family<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;tomed to from having to do his own family<br>
    as:<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;<tt>*tomed to from having to do his own family</tt>
-
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>*tomed to from having to do his own family</tt>
 </p>
 <p>These markings indicate to the post-processor that the word must be rejoined when the pages are
    combined to produce the final e-book.
 </p>
 
 
+<h3><a name="next_word">Single word at bottom of page</a></h3>
+<p>Proofread these by deleting the word, even if it's the second half of a hyphenated word.
+</p>
+<p>In some older books, the single word at the bottom of the page (called a "catchword", usually
+   printed near the right margin) indicates the first word on the next page of the book (called
+   an "incipit"). It was used to alert the printer to print the correct reverse (called "verso"),
+   to make it easier for printers' helpers to make up the pages prior to binding, and to help
+   the reader avoid turning over more than one page.
+</p>
+<!-- END RR -->
+<!-- We need an example here! -->
+
+
 <h3><a name="para_space">Paragraph Spacing/Indenting</a></h3>
 <p>Put a blank line to separate paragraphs.
-   You should not indent the start of paragraphs, but if all paragraphs are already indented, don't
+   You should not indent the start of paragraphs, but if paragraphs are already indented, don't
    bother removing those spaces&mdash;that can be done automatically during post-processing.
 </p>
 <p>See the <a href="#para_side">Sidenotes</a> image/text for an example.
@@ -1285,7 +1370,7 @@ than the Latin A...Z&mdash;for example, Greek, Cyrillic, Hebrew, or Arabic.
 </p>
 <p>Spans of multiple-column text within single column sections should be proofread as a single column
    by placing the text from the left-most column first, the text from the next one after it, and so on.
-   You do not need to mark where the columns were split, just re-join them.
+   You do not need to mark where the columns were split, just join them together.
 </p>
 <p>See also the <a href="#bk_index">Index</a> and
    <a href="#tables">Table</a> sections of the Proofreading Guidelines.
@@ -1315,7 +1400,7 @@ than the Latin A...Z&mdash;for example, Greek, Cyrillic, Hebrew, or Arabic.
 <!-- END RR -->
 
 <p>A <a href="#chap_head">chapter header</a> will start further down the page and won't
-   have a page number on the same line. See the next section for a specific example.
+   have a page number on the same line. See the example below.
 </p>
 <br>
 <table width="100%" align="center" border="1" cellpadding="4"
@@ -1352,7 +1437,6 @@ than the Latin A...Z&mdash;for example, Greek, Cyrillic, Hebrew, or Arabic.
     may a boy sit on the public bridge and catch trout from that<br>
     brook? If the road should be abandoned or lifted, to whom<br>
     would the use of the land go?<br>
-    <br>
     <br>
     CHAPTER XXXV.<br>
     <br>
@@ -1401,7 +1485,8 @@ than the Latin A...Z&mdash;for example, Greek, Cyrillic, Hebrew, or Arabic.
 <h3><a name="illust">Illustrations</a></h3>
 <p>Proofread any caption text as it is printed, preserving
    the line breaks. If the caption falls in the middle of a paragraph, use blank lines to set it apart from
-   the rest of the text. If there is <b>no</b> caption in the original text, then the mark-up of the illustration is left to the formatters.
+   the rest of the text. If there is <b>no</b> caption in the original text, then the markup
+   of the illustration is left to the formatters.
 </p>
 <p>Most pages with an illustration but no text will already be
    marked with <tt>[Blank Page]</tt>. Leave this marking as is.
@@ -1483,14 +1568,13 @@ than the Latin A...Z&mdash;for example, Greek, Cyrillic, Hebrew, or Arabic.
 <p><b>Footnotes are placed out-of-line</b>; that is, the text of the footnote is left
    at the bottom of the page and a tag placed where it is referenced in the text.
 </p>
-<p>
-
-The number, letter, or other character that marks a footnote location should be surrounded with square brackets ([ and ]) and
+<p>The number, letter, or other character that marks a footnote location should
+   be surrounded with square brackets (<tt>[</tt> and <tt>]</tt>) and
    placed right next to the word being footnoted<tt>[1]</tt> or its
-   punctuation mark,<tt>[2]</tt> as shown in the text and the two examples in this sentence.
+   punctuation mark,<tt>[2]</tt> as shown in the text, and the two examples in this sentence.
 </p>
 <p>When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;,
-   etc.) we replace them all with [*] in the text, and * next to the footnote itself.
+   etc.) we replace them all with <tt>[*]</tt> in the text, and <tt>*</tt> next to the footnote itself.
 </p>
 <p>Proofread the footnote text as it is printed, preserving the line breaks.
    Leave the footnote text at the bottom of the page.  Be sure to use the same tag in the footnote as
@@ -1505,8 +1589,9 @@ The number, letter, or other character that marks a footnote location should be 
 <p>See the <a href="#page_hf">Page Headers/Page Footers</a> image/text for a sample footnote.
 </p>
 <p>If a footnote or endnote is referenced in the text but does not appear on that page,
-   keep the footnote/endnote number or marker and don't be concerned. This is common in scientific and technical books,
-   where footnotes are often grouped at the end of chapters. See "Endnotes" below.
+   keep the footnote/endnote number or marker and surround it with square brackets
+   <tt>[</tt> and <tt>]</tt>. This is common in scientific and technical books, where
+   footnotes are often grouped at the end of chapters. See "Endnotes" below.
 </p>
 
 <table width="100%" border="1"  cellpadding="4" cellspacing="0" align="center" summary="Footnote Examples">
@@ -1527,7 +1612,7 @@ The number, letter, or other character that marks a footnote location should be 
       </td>
     </tr>
     <tr>
-      <th valign="top" align="left" bgcolor="cornsilk">Correctly Proofed Text:</th>
+      <th valign="top" align="left" bgcolor="cornsilk">Correctly Proofread Text:</th>
     </tr>
       <tr valign="top">
       <td>
@@ -1552,7 +1637,7 @@ The number, letter, or other character that marks a footnote location should be 
 <p><b>Endnotes</b> are just footnotes that have been located together at the end of a
    chapter or at the end of the book, instead of on the bottom of each page. These
    are proofread in the same manner as footnotes. Where you find an
-   endnote reference in the text, retain the number or letter.
+   endnote reference in the text, just surround it with <tt>[</tt> and <tt>]</tt>.
    If you are proofreading one of the ending pages with the endnotes text on it,
    put a blank line after each endnote so that it is clear where each begins and ends.
 </p>
@@ -1600,15 +1685,18 @@ The number, letter, or other character that marks a footnote location should be 
 </table>
 
 <h3><a name="poetry">Poetry/Epigrams</a></h3>
-<p>Insert a blank line at the start of the poetry or epigram and another blank line at the end, so that the formatters can clearly see the beginning and end.
+<p>Insert a blank line at the start of the poetry or epigram and another
+   blank line at the end, so that the formatters can clearly see the beginning and end.
 </p>
-<p>Leave each line left-justified and maintain the line breaks. Do not try to center or indent the poetry. The formatters will do that part. Do insert a blank line between stanzas.
+<p>Leave each line left-justified and maintain the line breaks. Do not try
+   to center or indent the poetry. The formatters will do that part. Do insert
+   a blank line between stanzas.
 </p>
 <p><b>Footnotes</b> in poetry should be treated the same as regular footnotes during proofreading.
-  See <a href="#footnotes">footnotes</a> for details.
+   See <a href="#footnotes">footnotes</a> for details.
 </p>
-<p><b>Line Numbers</b> in poetry should be kept. Separate them from the main text with a few spaces. See instructions on <a href="#line_no">Line Numbers</a>.
-
+<p><b>Line Numbers</b> in poetry should be kept. Separate them from the main text with a
+   few spaces. See <a href="#line_no">Line Numbers</a> for details.
 </p>
 <p>Check the <a href="#comments">Project Comments</a> for the specific text you are proofreading.
 </p>
@@ -1640,7 +1728,7 @@ Now that April's there,<br>
 And whoever wakes in England<br>
 Sees, some morning, unaware,<br>
 That the lowest boughs and the brushwood sheaf<br>
-Round the elm-tree hole are in tiny leaf,<br>
+Round the elm-tree bole are in tiny leaf,<br>
 While the chaffinch sings on the orchard bough<br>
 In England--now!</tt>
 </p><p><tt>
@@ -1670,10 +1758,13 @@ and he knew, when he had done it, and to his</tt>
 
 <h3><a name="para_side">Paragraph Side-Descriptions (Sidenotes)</a></h3>
 <p>Some books will have short descriptions of the paragraph along the side of the text.
-   These are called sidenotes.
-    Proofread the sidenote text as it is printed,
+   These are called sidenotes. Proofread the sidenote text as it is printed,
    preserving the line breaks. Leave a blank line before and after the sidenote, so that it
-   can be distinguished from the text around it. The OCR may place the sidenotes anywhere on the page, and may even intermingle the sidenote text with the rest of the text.. Separate them so that the sidenote text is all together, but don't worry about the position of the sidenotes on the page. The formatters will move them to the correct locations.
+   can be distinguished from the text around it. The OCR may place the sidenotes anywhere
+   on the page, and may even intermingle the sidenote text with the rest of the text.
+   Separate them so that the sidenote text is all together, but don't worry about the
+   position of the sidenotes on the page. The formatters will move them to the correct locations.
+</p>
 
 <!-- END RR -->
 
@@ -1703,7 +1794,7 @@ and he knew, when he had done it, and to his</tt>
     that such as looked at the fire holding a bit of larkspur<br>
     before their face would be troubled by no malady of the<br>
     eyes throughout the year.[1] Further, it was customary at<br>
-    Wrzburg, in the sixteenth century, for the bishop's followers<br>
+    W&uuml;rzburg, in the sixteenth century, for the bishop's followers<br>
     to throw burning discs of wood into the air from a mountain<br>
     which overhangs the town. The discs were discharged by<br>
     means of flexible rods, and in their flight through the darkness<br>
@@ -1756,7 +1847,7 @@ and he knew, when he had done it, and to his</tt>
     contains a brand from the midsummer<br>
     bonfire will not be struck by lightning<br>
     (J. W. Wolf, Beitr&auml;ge zur deutschen<br>
-    Mythologie, i. p. 217,  185).<br>
+    Mythologie, i. p. 217, &sect; 185).<br>
     <br>
     2 J. Boemus, Mores, leges et ritus<br>
     omnium gentium (Lyons, 1541), p.<br>
@@ -1767,10 +1858,10 @@ and he knew, when he had done it, and to his</tt>
     pp. 181 sqq.; W. Mannhardt, Der<br>
     Baumkultus, p. 510.<br>
     <br>
-    4 A. Birlinger, Volksthmliches aus<br>
+    4 A. Birlinger, Volksth&uuml;mliches aus<br>
     Schwaben (Freiburg im Breisgau, 1861-1862),<br>
-    ii. pp. 96 sqq.,  128, pp. 103<br>
-    sq.,  129; id., Aus Schwaben (Wiesbaden,<br>
+    ii. pp. 96 sqq., &sect; 128, pp. 103<br>
+    sq., &sect; 129; id., Aus Schwaben (Wiesbaden,<br>
     1874), ii. 116-120; E. Meier,<br>
     Deutsche Sagen, Sitten und Gebr&auml;uche<br>
     aus Schwaben (Stuttgart, 1852), pp.<br>
@@ -1785,7 +1876,7 @@ and he knew, when he had done it, and to his</tt>
 
 <h3><a name="tables">Tables</a></h3>
 <p>
-   A proofreader's job is to be sure that all the information in a table is correctly proofed. Details of formatting
+   A proofreader's job is to be sure that all the information in a table is correctly proofread. Details of formatting
    will be handled later in the process. Provide enough space between entries on a line to clearly indicate where
    each item ends and begins. Retain line breaks.
 </p>
@@ -1804,7 +1895,7 @@ and he knew, when he had done it, and to his</tt>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-<pre>
+<pre><tt>
 Deg. C.  Millimeters of Mercury. Gasolene.
 Pure Benzene.
 
@@ -1813,7 +1904,7 @@ Pure Benzene.
 +10&deg;  46.6  132.0
 20&deg;  76.3  203.0
 40&deg;  182.0  301.8
-</pre>
+</tt></pre>
 </td></tr></table>
       </td>
     </tr>
@@ -1832,10 +1923,10 @@ Pure Benzene.
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-<pre>
+<pre><tt>
 TABLE II.
 
-Flat strips compared   Copper   Copper
+Flat strips compared   Copper.   Copper.
 with round wire 30 cm.  Iron. Parallel wires 30 cm. in  Iron.
 in length.             length.
 
@@ -1848,9 +1939,9 @@ Same, 5 mm. wide       13  20  Two similar wires    12  30
  "   10  "    "   11   15  Four    "    "     9   18
  "   20  "    "    10  14  Eight  "    "   8   10
  "   40  "    "    9   13  Sixteen "    "     7    6
-Same strip rolled up in  Same 16 wires bound
-  the form of a wire  17   15    close together   18    12
-</pre>
+Same strip rolled up in  Same, 16 wires bound
+  the form of wire  17   15    close together   18    12
+</tt></pre>
 </td></tr></table>
       </td>
     </tr>
@@ -1894,8 +1985,8 @@ Same strip rolled up in  Same 16 wires bound
       <p><tt>WITH FRONTISPIECE BY<br>
          C. ALLAN GILBERT</tt></p>
       <p><tt>NEW YORK<br>
-         DODD, MEAD AND COMPANY.</tt></p>
-      <p><tt>1917</tt></p>
+         DODD, MEAD AND COMPANY<br>
+         1917</tt></p>
 </td></tr></table>
       </td>
     </tr>
@@ -1931,7 +2022,7 @@ Same strip rolled up in  Same 16 wires bound
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
       <p><tt>CONTENTS</tt></p>
-      <p><tt><br>
+      <p><tt>
           CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1946,7 +2037,7 @@ Same strip rolled up in  Same 16 wires bound
           FALLS IN WITH FRIENDS&nbsp;&nbsp;....&nbsp;...&nbsp;15<br>
           <br>
           III. MR. RUSHCROFT DISSOLVES, MR. JONES INTERVENES,<br>
-          AND TWO MEN RIDE AWAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35<br>
+          AND TWO MEN RIDE AWAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33<br>
           <br>
           IV. AN EXTRAORDINARY CHAMBERMAID, A MIDNIGHT<br>
           TRAGEDY, AND A MAN WHO SAID "THANK YOU"&nbsp;&nbsp;&nbsp;50<br>
@@ -2000,7 +2091,6 @@ Same strip rolled up in  Same 16 wires bound
 
 
 <h3><a name="play_n">Plays: Actor Names/Stage Directions</a></h3>
-<p>For all plays:</p>
 <ul compact>
  <li>In dialogue, treat a change in speaker as a new paragraph, with one blank line between.</li>
 <li>Stage directions are formatted as they are in the original text.<br>
@@ -2009,7 +2099,8 @@ Same strip rolled up in  Same 16 wires bound
    Stage directions often begin with an opening bracket and omit the closing bracket.
    This convention is retained; do not close the brackets.</li>
  <li>Sometimes, especially in metrical plays, a word is split due to page-size constraints and placed
-   above or below following a (, rather than having a line of its own. Please treat this as a normal end-of-line reattachment.<br>
+   above or below following a (, rather than having a line of its own. Please treat this like
+   normal <a href="#eol_hyphen">end-of-line hyphenation</a>.<br>
    See the <a href="#play4">example</a>.</li>
 </ul>
 <p>Please check the <a href="#comments">Project Comments</a>, as the Project Manager may
@@ -2046,7 +2137,7 @@ Lap. These marks are ugly.
 Clow. He says, Sir, they're proper:<br>
 Blows should have marks, or else they are nothing worth.
 </tt></p><p><tt>
-Lap. But why a Peel-crow here?
+La. But why a Peel-crow here?
 </tt></p><p><tt>
 Clow. I told 'em so Sir:<br>
 A scare-crow had been better.
@@ -2105,20 +2196,21 @@ You told me the walk was private.<br>
 <h3><a name="anything">Anything else that needs special handling or that you're unsure of</a></h3>
 <p>While proofreading, if you encounter something that isn't covered in these guidelines that you
    think needs special handling or that you are not sure how to handle, post your question, noting
-   the png (page) number, in the Project Discussion thread (a link to the project-specific forum is
+   the png (page) number, in the Project Discussion thread (a link to the project-specific forum thread is
    in the <a href="#comments">Project Comments</a>), and put a note in the proofread text explaining
-   the problem. Your note will explain to the next proofreader, formatter or post-processor what the problem or
+   the problem. Your note will explain to the next proofreader, formatter, or post-processor what the problem or
    question is.
 </p>
 <p>Start your note with a square bracket and two asterisks <tt>[**</tt> and end it with another square bracket <tt>]</tt>.
    This clearly separates it from the Author's text and signals the Post-Processor to stop and carefully examine
-   this part of the text &amp; the matching image to address any issues. Agreement or disagreement can be added,
+   this part of the text &amp; the matching image to address any issues. Any comments put in by a
+   previous volunteer <b>must</b> be left in place. Agreement or disagreement can be added,
    but even if you know the answer, you absolutely must not remove the comment.
    If you have found a source which clarifies the problem, please cite it so the post-processor can also
    refer to it.
 </p>
 <p>If you are proofreading in a later round and come across a note from a proofreader in a previous round that you know the answer to,
-    please take a moment and provide Feedback to them by clicking on their
+   please take a moment and provide Feedback to them by clicking on their
    name in the proofreading interface and posting a private message to them explaining how to handle the
    situation in the future. Please, as already stated, do not remove the note.
 </p>
@@ -2130,7 +2222,7 @@ You told me the walk was private.<br>
    If you have found a source which clarifies the problem, please cite it so the post-processor can also
    refer to it.
 </p>
-<p>If you are formatting in a later round and come across a note from a volunteer
+<p>If you are proofreading in a later round and come across a note from a volunteer
    in a previous round that you know the answer to, please take a moment and provide Feedback
    to them by clicking on their name in the proofreading interface and posting a private message
    to them explaining how to handle the situation in the future.
@@ -2173,14 +2265,25 @@ You told me the walk was private.<br>
 </p>
 
 
+<h3><a name="OCR_hyphen">OCR Problems: Hyphens and Dashes</a></h3>
+<p>OCR commonly has trouble distinguishing between dashes &amp; hyphens. Proofread these
+   carefully&mdash;OCR'd text often has only one hyphen for an em-dash that should have two.
+   See the rules for a <a href="#eol_hyphen">hyphenated words</a> and <a href="#em-dashes">em-dashes</a>
+   for more detailed information.
+</p>
+<p>Noticing these is much easier if you use a mono-spaced font such as
+   <a href="font_sample.php">DPCustomMono</a> or Courier.
+</p>
+
+
 <h3><a name="OCR_scanno">OCR Problems: Scannos</a></h3>
 <p>Another common OCR issue is misrecognition of characters. We call these errors "scannos" (like "typos").
-   This misrecognition can create errors in the text:</p>
+   This misrecognition can create a word that:</p>
 <ul compact>
-   <li>A word that appears to be correct at first glance, but is actually misspelled. <br />
-This can usually be caught by running WordCheck from the proofreading interface.</li>
-   <li>A word that is changed to a different but otherwise valid word that does not match what is in the page image.<br />
-These are subtle because they can only be caught by someone actually reading the text.</li>
+   <li>appears to be correct at first glance, but is actually misspelled. <br />
+       This can usually be caught by running WordCheck from the proofreading interface.</li>
+   <li>is changed to a different but otherwise valid word that does not match what is in the page image.<br />
+       This is subtle because it can only be caught by someone actually reading the text.</li>
 </ul>
 <p>Possibly the most common example of the second type is "and" being OCR'd as "arid." Other examples: "eve" for "eye",
    "Torn" for "Tom", "train" for "tram". This type is harder to spot and we have a special term for them: "Stealth Scannos."
@@ -2200,7 +2303,7 @@ These are subtle because they can only be caught by someone actually reading the
 
 <h3><a name="bad_image">Bad Images</a></h3>
 <p>If an image is bad (not loading, chopped off, unable to be read), please put a post
-   about this bad image in the Project Comments <a href="#forums">forum</a>. Do not
+   about this bad image in the <a href="#forums">project discussion</a>. Do not
    click on "Return Page to Round"; if you do, the page will be reissued to the next
    proofreader. Instead, click on the "Report Bad Page" button so this page is
    'quarantined'.
@@ -2212,18 +2315,18 @@ These are subtle because they can only be caught by someone actually reading the
    If that brings up a good image, then the problem is probably in your browser or
    system.
 </p>
-<p>It's fairly common for the image to be good, but the OCR scan is missing the first
+<p>It's fairly common for the image to be good, but the OCR'd text is missing the first
    line or two of the text. Please just type in the missing line(s). If nearly all of
-   the lines are missing in the scan, then either type in the whole page (if you are
+   the lines are missing in the text box, then either type in the whole page (if you are
    willing to do that), or just click on the "Return Page to Round" button and the page
    will be reissued to someone else. If there are several pages like this, you might
-   post a note in the Project Comments <a href="#forums">forum</a> to notify the
+   post a note in the <a href="#forums">project discussion</a> to notify the
    Project Manager.
 </p>
 
 <h3><a name="bad_text">Wrong Image for Text</a></h3>
 <p>If there is a wrong image for the text given, please put a post about this bad image
-   in the Project Comments <a href="#forums">forum</a>. Do not click on "Return Page
+   in the <a href="#forums">project discussion</a>. Do not click on "Return Page
    to Round"; if you do, the page will be reissued to the next proofreader. Instead, click
    on the "Report Bad Page" button so this page is 'quarantined'.
 </p>
@@ -2251,7 +2354,7 @@ These are subtle because they can only be caught by someone actually reading the
 </p>
 <p>If you are unsure, place a note in the txet <tt>[**typo for text?]</tt> and ask in the
    Project Discussion thread. If you do make a change, include a note describing what you changed:
-   <tt>[**Transcriber's Note: typo fixed, changed from "txet" to "text"]</tt>.
+   <tt>[**typo fixed, changed from "txet" to "text"]</tt>.
    Include the two asterisks <tt>**</tt> so the post-processor will notice it.
 </p>
 

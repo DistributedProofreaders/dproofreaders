@@ -30,7 +30,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <h1 align="center">Formatting Guidelines</h1>
 
 <h3 align="center">Version 1.9.d, generated March 10, 2007 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- <!-- <a href="dochist.php"><font size="-1">(Revision History)</font></a> --></h3>
+  <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <h4>Formatting Guidelines <a href="formatting_guidelines_francaises.php">in French</a> /
     Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a><br />
@@ -107,7 +107,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
         <li><a href="#double_q">Double Quotes</a></li>
         <li><a href="#single_q">Single Quotes</a></li>
         <li><a href="#quote_ea">Quote Marks on each line</a></li>
-        <li><a href="#period_s">Periods Between Sentences</a></li>
+        <li><a href="#period_s">End-of-sentence Periods</a></li>
         <li><a href="#punctuat">Punctuation</a></li>
         <li><a href="#line_br">Line Breaks</a></li>
         <li><a href="#extra_sp">Extra spaces or tabs between Words</a></li>
@@ -183,9 +183,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p><em>"Don't change what the author wrote!"</em>
 </p>
 <p>The final electronic book seen by a reader, possibly many years in the future, should accurately convey
-   the intent of the author. If the author spelled words oddly, leave them spelled that way. If the author
-   wrote outrageous racist or biased statements, leave them that way. If the author puts italics, bold text
-   or a footnote every third word, mark them italicized, bolded or footnoted.(See <a href="#p_errors">Printer's
+   the intent of the author. If the author spelled words oddly, we leave them spelled that way. If the author
+   wrote outrageous racist or biased statements, we leave them that way. If the author put italics, bold text,
+   or a footnote every third word, we mark them italicized, bolded, or footnoted. (See <a href="#p_errors">Printer's
    Errors</a> for proper handling of obvious misprints.)
 </p>
 <p>We do change minor typographical conventions that don't affect the sense of what the author wrote.
@@ -218,15 +218,14 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 <h3><a name="about">About This Document</a></h3>
-<p>This document is written in order to reduce formatting differences when formatting
-   of one book is distributed among many volunteers, each working on different pages
-   of the book. This helps us all do formatting <em>the same way</em>. That makes it
-   easier for the post-processor to eventually combine all these pages into
-   one e-book.
+<p>This document is written to explain the formatting rules we use to maintain consistency when formatting
+   a single book that is distributed among many formatters, each of whom is working on different pages.
+   This helps us all do formatting <em>the same way</em>, which in turn makes it
+   easier for the post-processor to eventually combine all these pages into one e-book.
 </p>
 <p><i>It is not intended as any kind of a general editorial or typesetting rulebook</i>.
 </p>
-<p>We've tried to include in this document all the items that new users have asked about
+<p>We've included in this document all the items that new users have asked about
    formatting and proofreading. If there are any items missing, or items that you
    consider should be done differently, or if something is vague, please let us know.
 </p>
@@ -236,7 +235,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 <h3><a name="comments">Project Comments</a></h3>
 
-<p>On the proofreading interface page (Project Page) where you start formatting pages, there is a section called
+<p>On the Project Page where you start formatting pages, there is a section called
    "Project Comments" containing information specific to that project (book). <b>Read these
    before you start formatting pages!</b> If the Project Manager wants you to format
    something in this book differently from the way specified in these Guidelines, that
@@ -244,9 +243,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    in these Guidelines, so follow them. (This is also where the Project Manager may give
    you interesting tidbits of information about the author or the project.)
 </p>
-<p><em>Please also read the Project Thread</em>: The Project Manager may clarify project-specific
+<p><em>Please also read the Project Thread (discussion)</em>: The Project Manager may clarify project-specific
    guidelines here, and it is often used by volunteers to alert other volunteers to recurring
-   issues within the project and how they can best be addressed.
+   issues within the project and how they can best be addressed. (See below).
 </p>
 <p>On the Project Page, the link 'Images, Pages Proofread, &amp; Differences' allows you to
    see how other volunteers have made changes.
@@ -255,7 +254,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 <h3><a name="forums">Forum/Discuss this Project</a></h3>
-<p>On the proofreading interface page (Project Page) where you start formatting pages, on the line "Forum", there is
+<p>On the Project Page where you start formatting pages, on the line "Forum", there is
    a link titled "Discuss this Project" (if the discussion has already started), or "Start
    a discussion on this Project" (if it hasn't). Clicking on that link will take you to a
    thread in the projects forum dedicated to this specific project. That is the place to ask
@@ -265,18 +264,18 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 <h3><a name="prev_pg">Fixing errors on Previous Pages</a></h3>
-<p>When you select a project for formatting, the <a href="#comments">Project Comments</a>
+<p>When you select a project for formatting, the <a href="#comments">Project Page</a>
    page is loaded. This page contains links to pages from this project that you have
-   recently worked on. (If you haven't proofread or formatted any pages yet, there will be no links
+   recently worked on. (If you haven't formatted any pages yet, there will be no links
    shown.)
 </p>
 <p>Pages listed under either "DONE" or "IN PROGRESS" are available to make
    corrections or to finish formatting. Just click on the link to the page. So if you
    discover that you made a mistake on a page, or marked something incorrectly, you can
-   click on that page here and re-open it to fix the error.
+   click on that page here and reopen it to fix the error.
 </p>
 <p>You may also use the "Images, Pages Proofread, &amp; Differences" or "Just My Pages" links
-   on the <a href="#comments">Project Comments</a> page. These pages will display an "Edit"
+   on the <a href="#comments">Project Page</a>. These pages will display an "Edit"
    link next to the pages you have worked on in the current round that can still be corrected.
 </p>
 <p>For more detailed information, refer to either the <a href="prooffacehelp.php?i_type=0">Standard
@@ -291,6 +290,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+
 
 <h3><a name="title_pg">Front/Back Title Page</a></h3>
 <p>Format all the text, just as it was printed on the page, whether all capitals, upper and
@@ -328,8 +328,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       <p><tt>&lt;i&gt;WITH FRONTISPIECE BY&lt;/i&gt;<br>
          &lt;i&gt;C. ALLAN GILBERT&lt;/i&gt;</tt></p>
       <p><tt>NEW YORK<br>
-         DODD, MEAD AND COMPANY</tt></p>
-      <p><tt>1917</tt></p>
+         DODD, MEAD AND COMPANY<br>
+         1917</tt></p>
 </td></tr></table>
       </td>
     </tr>
@@ -365,7 +365,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-      <p><tt>CONTENTS</tt></p>
+      <p><tt><br><br><br><br>CONTENTS<br><br></tt></p>
       <p><tt>/*<br>
           CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -381,7 +381,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
           Falls in with Friends&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15<br>
           <br>
           III. &lt;sc&gt;Mr. Rushcroft Dissolves, Mr. Jones Intervenes,<br>
-          and Two Men Ride Away&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35<br>
+          and Two Men Ride Away&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33<br>
           <br>
           IV. &lt;sc&gt;An Extraordinary Chambermaid, a Midnight<br>
           Tragedy, and a Man Who Said "Thank You"&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50<br>
@@ -526,9 +526,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>Put 4 blank lines before the "CHAPTER XXX". Include these blank
    lines even if the chapter starts on a new page; there are no 'pages' in an e-book,
-   so the blank lines are needed. Then leave 1 (one) blank line between each additional part
+   so the blank lines are needed. Then leave one blank line between each additional part
    of the chapter header, such as a chapter description, opening quote, etc., and
-   finally leave 2 (two) blank lines before the start of the text of the chapter.
+   finally leave two blank lines before the start of the text of the chapter.
 </p>
 <p>Old books often printed the first word or two of every chapter in all caps or small caps;
    change these to upper and lower case (first letter only capitalized).
@@ -602,7 +602,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 <h3><a name="maj_div">Other Major Divisions in Texts</a></h3>
-<p>Major Divisions in the text such as Preface, Foreword, Introduction, Prologue, Epilogue,
+<p>Major Divisions in the text such as Preface, Foreword, Table of Contents, Introduction, Prologue, Epilogue,
    Appendix, References, Conclusion, Glossary, Summary, Acknowledgements, Bibliography, etc., should
    be formatted in the same way as Chapter Headers, <i>i.e.</i> 4 blank lines before the heading and 2 blank lines
    before the start of the text.
@@ -619,12 +619,12 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>If there are multiple sidenotes for a single paragraph, put them one after another
    at the start of the paragraph. Leave a blank line separating each of them.
 </p>
-<p>If the paragraph began on a previous page, put the Sidenote at the top of the page
+<p>If the paragraph began on a previous page, put the sidenote at the top of the page
    and mark it with <tt>*</tt> so that the post-processor can see that it belongs on
-   the previous page. Like this: <tt>*[Sidenote: <font color="red">(text of sidenote)</font>]</tt>. The
-   post-processor will move them to the appropriate place.
+   the previous page, like this: <tt>*[Sidenote: <font color="red">(text of sidenote)</font>]</tt>. The
+   post-processor will move it to the appropriate place.
 </p>
-<p>Sometimes a Project Manager will request that you put Sidenotes next to the sentence
+<p>Sometimes a Project Manager will request that you put sidenotes next to the sentence
    they apply to, rather than at the top or bottom of the paragraph. In this case,
    don't separate them out with blank lines.
 </p>
@@ -656,7 +656,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     that such as looked at the fire holding a bit of larkspur<br>
     before their face would be troubled by no malady of the<br>
     eyes throughout the year.[1] Further, it was customary at<br>
-    Wrzburg, in the sixteenth century, for the bishop's followers<br>
+    W&uuml;rzburg, in the sixteenth century, for the bishop's followers<br>
     to throw burning discs of wood into the air from a mountain<br>
     which overhangs the town. The discs were discharged by<br>
     means of flexible rods, and in their flight through the darkness<br>
@@ -700,7 +700,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     in Wurtemberg and the Frauenberg near Gerhausen.[4]<br>
     At Deffingen, in Swabia, as the people sprang over the mid-*<br>
     <br>
-    [Footnote 1: &lt;i&gt;Op. cit.&lt;/i&gt; iv. i. p. 242. We have<br>
+    [Footnote 1: &lt;i&gt;Op. cit.&lt;/i&gt; iv. 1. p. 242. We have<br>
     seen (p. 163) that in the sixteenth<br>
     century these customs and beliefs were<br>
     common in Germany. It is also a<br>
@@ -708,7 +708,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     contains a brand from the midsummer<br>
     bonfire will not be struck by lightning<br>
     (J. W. Wolf, &lt;i&gt;Beitr&auml;ge zur deutschen<br>
-    Mythologie&lt;/i&gt;, i. p. 217,  185).]<br>
+    Mythologie&lt;/i&gt;, i. p. 217, &sect; 185).]<br>
     <br>
     [Footnote 2: J. Boemus, &lt;i&gt;Mores, leges et ritus<br>
     omnium gentium&lt;/i&gt; (Lyons, 1541), p.<br>
@@ -719,10 +719,10 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     pp. 181 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der<br>
     Baumkultus&lt;i&gt;, p. 510.]<br>
     <br>
-    [Footnote 4: A. Birlinger, &lt;i&gt;Volksthmliches aus<br>
+    [Footnote 4: A. Birlinger, &lt;i&gt;Volksth&uuml;mliches aus<br>
     Schwaben&lt;/i&gt; (Freiburg im Breisgau, 1861-1862),<br>
-    ii. pp. 96 &lt;i&gt;sqq.&lt;/i&gt;,  128, pp. 103<br>
-    &lt;i&gt;sq.&lt;/i&gt;,  129; &lt;i&gt;id., Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
+    ii. pp. 96 &lt;i&gt;sqq.&lt;/i&gt;, &sect; 128, pp. 103<br>
+    &lt;i&gt;sq.&lt;/i&gt;, &sect; 129; &lt;i&gt;id.&lt;/i&gt;, &lt;i&gt;Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
     1874), ii. 116-120; E. Meier,<br>
     &lt;i&gt;Deutsche Sagen, Sitten und Gebr&auml;uche<br>
     aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.<br>
@@ -737,21 +737,21 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 <h3><a name="para_space">Paragraph Spacing/Indenting</a></h3>
 <p>Put a blank line before the start of paragraphs, even if a paragraph starts at the top of a page.
-   You should not indent the start of paragraphs, but if all paragraphs are already indented, don't
+   You should not indent the start of paragraphs, but if paragraphs are already indented, don't
    bother removing those spaces&mdash;that can be done automatically during post-processing.
 </p>
 <p>See the <a href="#chap_head">Chapter Headers</a> image/text for an example.
 </p>
 
 <h3><a name="mult_col">Multiple Columns</a></h3>
-<p>Format ordinary text which has been printed in two columns as a single column.
+<p>Format ordinary text that has been printed in two columns as a single column.
 </p>
 <p>Spans of multiple-column text within single column sections should be formatted as a single column
    by placing the text from the left-most column first, the text from the next one after it, and so on.
    You do not need to mark where the columns were split, just join them together.
 </p>
 <p>If the columns are lists of items, mark the start of the list with <tt>/*</tt>
-   and the end with <tt>*/</tt> so that the lines do not get re-wrapped during post-processing.
+   and the end with <tt>*/</tt> so that the lines do not get rewrapped during post-processing.
    Leave a blank line between these markers and the rest of the text.
 </p>
 <p>See also the <a href="#bk_index">Indexes</a>, <a href="#lists">Lists of Items</a> and
@@ -770,8 +770,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    by removing any blank lines left by doing so.
 </p>
 <p>If there is no paragraph break on the page, mark the illustration tag with an
-   <tt>*</tt> like so <tt>*[Illustration: <font color="red">(text of caption)</font>]</tt>, move it to the top of the page, and leave 1 (one)
-   blank line after it.
+   <tt>*</tt> like so <tt>*[Illustration: <font color="red">(text of caption)</font>]</tt>,
+   move it to the top of the page, and leave a blank line after it.
 </p>
 <!-- END RR -->
 
@@ -851,8 +851,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>During formatting, this means:
 </p>
 <p>1. The number, letter, or other character that marks a footnote location should
-   be surrounded with brackets (<tt>[</tt> and <tt>]</tt>). Remove any spaces
-   before the <tt>[</tt>&mdash;keep it right next to the word being footnoted<tt>[1]</tt> or its
+   be surrounded with square brackets (<tt>[</tt> and <tt>]</tt>) and
+   placed right next to the word being footnoted<tt>[1]</tt> or its
    punctuation mark,<tt>[2]</tt> as shown in the text, and the two examples in this sentence.
 </p>
 <p>When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;,
@@ -870,7 +870,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>In some books, the Project Manager may ask that you move the footnotes
    in-line; read the <a href="#comments">Project Comments</a> for instructions in this case.
 </p>
-<p>See the <a href="#page_hf">Page Headers/Page Footers</a> image/text for an example footnote.
+<p>See the <a href="#page_hf">Page Headers/Page Footers</a> image/text for a sample footnote.
 </p>
 <p>If there's a footnote at the bottom of the page with no footnote marker in the text,
    especially if it starts mid-sentence or mid-word, it's probably a continuation of a
@@ -941,7 +941,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p><b>Endnotes</b> are just footnotes that have been located together at the end of a
    chapter or at the end of the book, instead of on the bottom of each page. These
-   are formatted in the same manner as out-of-line footnotes. Where you find an
+   are formatted in the same manner as footnotes. Where you find an
    endnote reference in the text, just surround it with <tt>[</tt> and <tt>]</tt>.
    If you are formatting one of the ending pages with the endnotes text on it,
    surround the text of each note with <tt>[Footnote #: <font color="red">(text of endnote)</font>]</tt>, with
@@ -998,7 +998,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    tag.)
 </p>
 <p>Punctuation goes <b>outside</b> the italics, unless it is an entire sentence or section
-   that is italicized, or the punctuation is itself part of a phrase, title
+   that is italicized, or the punctuation is itself part of a phrase, title,
    or abbreviation that is italicized.
 </p>
 <p>The periods that mark an abbreviated word in the title of a journal such as <i>Phil. Trans.</i>
@@ -1076,7 +1076,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    tag.)
 </p>
 <p>Punctuation goes <b>outside</b> the bold tags, unless it is an entire sentence or section
-   that is in bold, or the punctuation is itself part of a phrase, title
+   that is in bold, or the punctuation is itself part of a phrase, title,
    or abbreviation that is in bold type.
 </p>
 <p>See the <a href="#page_hf">Page Headers/Page Footers</a> image/text for an example.
@@ -1087,14 +1087,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 <h3><a name="supers">Superscripts</a></h3>
 <p>Older books often abbreviated words as contractions, and printed them as
-   superscripts, for example:<br>
+   superscripts. For example:<br>
    &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
-   Format these by inserting a single caret to identify this as a superscripted
-   abbreviation/contraction, like this:<br>
+   Format these by inserting a single caret followed by the superscripted text, like this:<br>
    &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
 <p>In scientific &amp; technical works, format superscripted characters with curly braces
-   <tt>{</tt> and <tt>}</tt>, surrounding them, even if there is only one character superscripted.
+   <tt>{</tt> and <tt>}</tt> surrounding them, even if there is only one character superscripted.
    <br>For example:
    <br>&nbsp;&nbsp;&nbsp;&nbsp;... up to x<sup>n-1</sup> elements in the array.
    <br>would be formatted as
@@ -1179,6 +1178,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 <h3><a name="small_caps">Words in Small Capitals</a></h3>
+<p>The markup is different for <span style="font-variant:small-caps;">Mixed Case Small Caps</span>
+   and <span style="font-variant: small-caps;">all small caps</span>:
+</p>
 <p>Format words that are printed in <span style="font-variant: small-caps;">Mixed Small Caps</span>
    as mixed upper and lowercase, and surround the text with <tt>&lt;sc&gt;</tt> and <tt>&lt;/sc&gt;</tt>
    markup. <br>
@@ -1205,8 +1207,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 <h3><a name="drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></h3>
-<p>Format large and ornate graphic first letters of a chapter, section, or paragraph
-   as just the letter.
+<p>Format a large and ornate graphic first letter of a chapter, section, or paragraph
+   as if it were an ordinary letter.
 </p>
 
 <h3><a name="em_dashes">Dashes, Hyphens, and Minus Signs</a></h3>
@@ -1226,13 +1228,16 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <li><i>Em-dashes &amp; long dashes</i>. These serve as <b>separators</b> between
         words&mdash;sometimes for emphasis like this&mdash;or when a speaker gets a word caught in
         his throat&mdash;&mdash;!
-    <br>Format these as two hyphens if the em-dash is short and four hyphens if the em-dash is long. Don't leave a space before or after,
+    <br>Format these as two hyphens if the em-dash is short and four hyphens if the
+        em-dash is long. Don't leave a space before or after,
         even if it looks like there was a space in the original book image.
     </li>
     <li><i>Deliberately Omitted or Censored Words or Names</i>.
     <br>Format these as 4 hyphens. When it represents a word, we leave appropriate space
         around it like it's really a word. If it's only part of a word, then no
-        spaces&mdash;join it with the rest of the word.
+        spaces&mdash;join it with the rest of the word. If the em-dash looks as if it is
+        the size of the rest of the smaller em-dashes, then proofread it as a single em-dash,
+        i.e. two hyphens.
     </li>
   </ol>
 <p>Note: If an em-dash appears at the start or end of a line of your OCR'd text, join it with the
@@ -1347,13 +1352,18 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
       <td>long dash</td>
     </tr>
+    <tr>
+      <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
+      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
+      <td>Em-dash</td>
+    </tr>
   </tbody>
 </table>
 
 <h3><a name="eol_hyphen">End-of-line Hyphenation</a></h3>
 <p>Where a hyphen appears at the end of a line, join the two halves of the hyphenated
    word back together. If it is really a hyphenated word like well-meaning, join the
-   two halves leaving the hyphen in-between. But if it was just hyphenated because it
+   two halves leaving the hyphen in between. But if it was just hyphenated because it
    wouldn't fit on the line, and is not a word that is usually hyphenated, then join
    the two halves and remove the hyphen. Keep the joined word on the top line, and put
    a line break after it to preserve the line formatting&mdash;this makes it easier for
@@ -1365,22 +1375,23 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Words like to-day and to-morrow that we don't commonly hyphenate now were often
    hyphenated in the old books we are working on. Leave them hyphenated the way the
    author did. If you're not sure if the author hyphenated it or not, leave the hyphen,
-   put an <tt>*</tt> after it, and join the word together. Like this:
+   put an <tt>*</tt> after it, and join the word together like this:
    <tt>to-*day</tt>. The asterisk will bring it to the attention of the post
    processor, who has access to all the pages, and can determine how the author
    typically wrote this word.
 </p>
 
 <h3><a name="eop_hyphen">End-of-page Hyphenation</a></h3>
-<p>Format end-of-page hyphens by leaving the hyphen at the end of the last line, and mark it with a <tt>*</tt> after
-   the hyphen.<br>
+<p>Format end-of-page hyphens or em-dashes by leaving the hyphen or em-dash at the end
+   of the last line, and mark it with a <tt>*</tt> after the hyphen.<br>
    For example, format:<br>
    &nbsp;<br>
    &nbsp;&nbsp;&nbsp;&nbsp;something Pat had already become accus-<br>
    as:<br>
    &nbsp;&nbsp;&nbsp;&nbsp;<tt>something Pat had already become accus-*</tt>
 </p>
-<p>On pages that start with part of a word from the previous page or an em-dash, place a <tt>*</tt> before the partial word or em-dash.<br>
+<p>On pages that start with part of a word from the previous page or an
+   em-dash, place a <tt>*</tt> before the partial word or em-dash.<br>
    To continue the above example, format:<br>
    &nbsp;<br>
    &nbsp;&nbsp;&nbsp;&nbsp;tomed to from having to do his own family<br>
@@ -1396,8 +1407,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>In some older books, the single word at the bottom of the page (called a "catchword", usually
    printed near the right margin) indicates the first word on the next page of the book (called
-   an "incipit"). It was used to alert the printer to print the correct reverse (called "verso");
-   to make it easier for printers' helpers to make up the pages prior to binding; also to help
+   an "incipit"). It was used to alert the printer to print the correct reverse (called "verso"),
+   to make it easier for printers' helpers to make up the pages prior to binding, and to help
    the reader avoid turning over more than one page.
 </p>
 <!-- END RR -->
@@ -1405,15 +1416,15 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 
 <h3><a name="contract">Contractions</a></h3>
-<p>Remove any extra space in contractions, for example: <tt>would&nbsp;n't</tt> should
+<p>Remove any extra space in contractions: for example, <tt>would&nbsp;n't</tt> should
    be formatted as <tt>wouldn't</tt>.
 </p>
-<p>This was often an early printers convention, where the space was retained
+<p>This was often an early printers' convention, where the space was retained
    to indicate that 'would' and 'not' were originally separate words. It is
    also sometimes an artifact of the OCR. Remove the extra space in either case.
 </p>
 <p>Some Project Managers may specify in the <a href="#comments">Project Comments</a>
-   not to remove extra spaces in contractions, particularly in the case of texts which
+   not to remove extra spaces in contractions, particularly in the case of texts that
    contain slang, dialect, or are written in languages other than English.
 </p>
 
@@ -1441,7 +1452,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    poetry during formatting. Move the lines to the left margin, and preserve the relative
    indentation of the lines.
 </p>
-<p><b>Footnotes</b> in poetry should be treated the same as usual footnotes during formatting.
+<p><b>Footnotes</b> in poetry should be treated the same as regular footnotes during formatting.
    See <a href="#footnotes">footnotes</a> for details.
 </p>
 <p><b>Line Numbers</b> in poetry should be kept. Put them at the end of the
@@ -1478,7 +1489,7 @@ to the scenery of his own country:<br></tt>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And whoever wakes in England<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sees, some morning, unaware,<br>
 That the lowest boughs and the brushwood sheaf<br>
-Round the elm-tree hole are in tiny leaf,<br>
+Round the elm-tree bole are in tiny leaf,<br>
 While the chaffinch sings on the orchard bough<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In England--now!</tt>
 </p><p><tt>
@@ -1508,9 +1519,9 @@ and he knew, when he had done it, and to his</tt>
 
 <h3><a name="letter">Letters/Correspondence</a></h3>
 <p>Format letters and correspondence as you would <a href="#para_space">paragraphs</a>.
-   Put a blank line before the start of the letter, you do not need to duplicate any indenting.
+   Put a blank line before the start of the letter; you do not need to duplicate any indenting.
 </p>
-<p>Surround consecutive heading or footer lines (such as addresses, date blocks, salutations or signatures) with
+<p>Surround consecutive heading or footer lines (such as addresses, date blocks, salutations, or signatures) with
    <tt>/*</tt> and <tt>*/</tt> markers. Leave a blank line between the markers and the rest of the
    text. The markers will ensure the  individual lines are kept in post-processing and not rewrapped.
 </p>
@@ -1654,7 +1665,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-<pre>/*
+<pre><tt>/*
 Deg. C.   Millimeters of Mercury.    Gasolene.
                Pure Benzene.
 
@@ -1663,7 +1674,7 @@ Deg. C.   Millimeters of Mercury.    Gasolene.
  +10&deg;               46.6                132.0
   20&deg;               76.3                203.0
   40&deg;              182.0                301.8
-*/</pre>
+*/</tt></pre>
 </td></tr></table>
       </td>
     </tr>
@@ -1682,7 +1693,7 @@ Deg. C.   Millimeters of Mercury.    Gasolene.
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-<pre>/*
+<pre><tt>/*
 TABLE II.
 
 -----------------------+----+-----++-------------------------+----+------
@@ -1703,10 +1714,10 @@ Same, 5 mm. wide       | 13 |  20 || Two  similar wires      | 12 |   30
  "   10  "    "        | 11 |  15 || Four    "      "        |  9 |   18
  "   20  "    "        | 10 |  14 || Eight   "      "        |  8 |   10
  "   40  "    "        |  9 |  13 || Sixteen "      "        |  7 |    6
-Same strip rolled up in|    |     || Same 16 wires bound     |    |
-  the form of a wire   | 17 |  15 ||   close together        | 18 |   12
+Same strip rolled up in|    |     || Same, 16 wires bound    |    |
+  the form of wire     | 17 |  15 ||   close together        | 18 |   12
 -----------------------+----+-----++-------------------------+----+------
-*/</pre>
+*/</tt></pre>
 </td></tr></table>
       </td>
     </tr>
@@ -1767,26 +1778,26 @@ Same strip rolled up in|    |     || Same 16 wires bound     |    |
 </table>
 
 <h3><a name="double_q">Double Quotes</a></h3>
-<p>For quotes in English, format these as plain ASCII <tt>"</tt> double quotes.
+<p>Format these as plain ASCII <tt>"</tt> double quotes. Do not change
+   double quotes to single quotes. Leave them as the Author wrote them.
 </p>
-<p>Do not change double quotes to single quotes. Leave them as the Author wrote them.
-</p>
-<p>For quotes from other languages, use the quotation marks appropriate
-   to that language if they are available.
-</p>
-<p>The French equivalent, guillemets, <tt>&laquo;like this&raquo;</tt>, are available
- from the pulldown menus in the proofreading interface. Remember to remove space between
- the guillemets and the quoted text; if needed, it will be added in post-processing. The same
- applies to languages which use reversed guillemets, <tt>&raquo;like this&laquo;</tt>.
+<p>For quotes from non-English languages, use the quotation marks appropriate
+   to that language if they are available. The
+   French equivalent, guillemets, <tt>&laquo;like this&raquo;</tt>, are available
+   from the pulldown menus in the proofreading interface, since they are part of
+   Latin-1. Remember to remove space between the guillemets and the quoted text;
+   if needed, it will be added in post-processing. The same applies to languages
+   which use reversed guillemets, <tt>&raquo;like this&laquo;</tt>.
 </p>
 <p>The quotation marks used in some texts (in German or other languages), <tt>&bdquo;like this&rdquo;</tt>
 <? if(!$utf8_site) { ?>
-are not available in the pulldown menus, as they are not in Latin-1. Use plain ASCII quotes, like in English.
+   are not available in the pulldown menus, as they are not in Latin-1. In that case, follow
+   the instructions in the project comments.
 <? } else { ?>
-are also available in the pulldown menus; for the sake of simplicity, you should always
- use <tt>&bdquo;</tt> and <tt>&ldquo;</tt> regardless of the actual quotes used in the original
- text, as long as the quotes used in the original text are clearly lower and upper. If needed,
-the quotes will be changed to ones used in the text in post-processing.
+   are also available in the pulldown menus; for the sake of simplicity, you should always
+   use <tt>&bdquo;</tt> and <tt>&ldquo;</tt> regardless of the actual quotes used in the original
+   text, as long as the quotes used in the original text are clearly lower and upper. If needed,
+   the quotes will be changed to ones used in the text in post-processing.
 <? } ?>
 </p>
 <p>The Project Manager may instruct you in the <a href="#comments">Project Comments</a>
@@ -1794,13 +1805,12 @@ the quotes will be changed to ones used in the text in post-processing.
 </p>
 
 <h3><a name="single_q">Single Quotes</a></h3>
-<p>Format these as the plain ASCII <tt>'</tt> single quote (apostrophe).
-</p>
-<p>Do not change single quotes to double quotes. Leave them as the Author wrote them.
+<p>Format these as the plain ASCII <tt>'</tt> single quote (apostrophe). Do not
+   change single quotes to double quotes. Leave them as the Author wrote them.
 </p>
 
 <h3><a name="quote_ea">Quote Marks on each line</a></h3>
-<p>In general, format quotation marks at the beginning of each line of a quotation by removing
+<p>Format quotation marks at the beginning of each line of a quotation by removing
    all of them <b>except for</b> the one at the start of the first line of the quotation.
 </p>
 <p>If the quotation goes on for multiple paragraphs, each paragraph should have an opening
@@ -1810,24 +1820,24 @@ the quotes will be changed to ones used in the text in post-processing.
    which may not be on the same page you are formatting. Leave it that way&mdash;do not
    add closing quotation marks that are not in the page image.
 </p>
-<p>There are some language specific exceptions. In French, for example, dialog within quotations
+<p>There are some language-specific exceptions. In French, for example, dialog within quotations
  uses a combination of different punctuation to indicate various speakers. If you are not familiar
  with a particular language, check the Project Comments or leave a message for the Project Manager
- in the Forum Discussion for clarification.
+ in the Project Discussion for clarification.
 </p>
 
-<h3><a name="period_s">Periods Between Sentences</a></h3>
-<p>Format periods between sentences with a single space after them.
+<h3><a name="period_s">End-of-sentence Periods</a></h3>
+<p>Format periods that end sentences with a single space after them.
 </p>
-<p>You do not need to remove extra spaces after periods if they're already in the scanned
+<p>You do not need to remove extra spaces after periods if they're already in the OCR'd
    text&mdash;we can do that automatically during post-processing. See the <a href="#chap_head">Chapter Headers</a>
    image and text for an example.
 </p>
 
 <h3><a name="punctuat">Punctuation</a></h3>
 <p>In general, there should be no space before punctuation characters except opening quotation
- marks. If scanned text has a space before punctuation, remove it. This applies even to
- languages, such as French, which normally use spaces before punctuation characters.
+   marks. If the OCR'd text has a space before punctuation, remove it. This applies even to
+   languages, such as French, which normally use spaces before punctuation characters.
 </p>
 <p>Spaces before punctuation sometimes appear because books typeset in the 1700's &amp; 1800's
    often used partial spaces before punctuation such as a semicolon or comma.
@@ -1848,15 +1858,15 @@ the quotes will be changed to ones used in the text in post-processing.
 </table>
 
 <h3><a name="line_br">Line Breaks</a></h3>
-<p><b>Leave all line breaks in</b> so that the next formatter and the post-processor can compare
-   the lines in the text to the lines in the image easily. Be especially careful about this
+<p><b>Leave all line breaks in</b> so that the next formatter and the post-processor can easily compare
+   the lines in the text to the lines in the image. Be especially careful about this
    when rejoining <a href="#eol_hyphen">hyphenated words</a> or moving words around
    <a href="#em_dashes">em-dashes</a>. If the previous volunteer removed the line breaks,
    please replace them so that they once again match the image.
 </p>
 <p>Extra blank lines that are not in the image should be removed except where we intentionally
    add them for formatting. But blank lines at the bottom of the page are fine&mdash;these are removed
-   during post-processing.
+   when you save the page.
 </p>
 
 <!-- END RR -->
@@ -1869,7 +1879,7 @@ the quotes will be changed to ones used in the text in post-processing.
 <p>However, extra spaces around punctuation, em-dashes, quote marks, etc. <b>do</b> need to be
    removed when they separate the symbol from the word.
 </p>
-<p>For example, in <b>A horse&nbsp;;&nbsp;&nbsp;&nbsp;my kingdom for a horse.</b> the space between
+<p>For example, in <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt> the space between
    the word "horse" and the semicolon should be removed. But the 2 spaces after the semicolon are
    fine&mdash;you don't have to delete one of them.
 </p>
@@ -1894,15 +1904,15 @@ the quotes will be changed to ones used in the text in post-processing.
 <h3><a name="extra_s">Extra Spacing/Stars/Line Between Paragraphs</a></h3>
 <p>Most paragraphs start on the line immediately after the end of the previous one. Sometimes
    two paragraphs are separated to indicate a "thought break." A "thought break" may take the
-   form of a line of stars, hyphens or some other character, a plain or floridly decorated
+   form of a line of stars, hyphens, or some other character, a plain or floridly decorated
    horizontal line, a simple decoration, or even just an extra blank line or two.
 </p>
-<p>A "thought break" may represent a change of scene or subject, a lapse in time or a bit
-   of suspense. This is intended by the author, so we preserve them by putting a blank line,
+<p>A "thought break" may represent a change of scene or subject, a lapse in time, or a bit
+   of suspense. This is intended by the author, so we preserve it by putting a blank line,
    <tt>&lt;tb&gt;</tt>, and then another blank line.
 </p>
 <p>Project Managers and/or Post-Processors may make the request for additional information
-   to be retained in the thought break mark-up. For example, some projects delineate different
+   to be retained in the thought break markup. For example, some projects delineate different
    types of breaks by the use of different styles of break such as a line of stars in one place
    and a blank line in another. In these cases, the Project Comments may request that these be
    marked up: <tt>&lt;tb stars&gt;</tt> and <tt>&lt;tb&gt;</tt>. Please, as always, read the
@@ -1974,19 +1984,19 @@ the quotes will be changed to ones used in the text in post-processing.
 <p>Remove extra dots, if any, or add new ones, if necessary, to bring the number to three (or four) as appropriate.
 </p>
 
-<p><b>LOTE:</b> (Languages Other Than English) <p><b>LOTE:</b> (Languages Other Than English)
+<p><b>LOTE:</b> (Languages Other Than English)
    Use the general rule "Follow closely the style used in the printed page." In particular,
    insert spaces, if there are spaces before or between the periods, and use the same number
-   of periods as appear in the image. Sometimes the printed page is unclear: in that case,
+   of periods as appear in the image. Sometimes the printed page is unclear; in that case,
    insert a <tt>[**unclear]</tt> to draw the attention of the post-processor. (Note:
-   Post Processors should replace those regular spaces with non-breaking spaces.)</p
->
+   Post Processors should replace those regular spaces with non-breaking spaces.)</p>
+
 <h3><a name="a_chars">Accented/Non-ASCII Characters</a></h3>
 <? if(!$utf8_site) { ?>
-<p>Please format these using the proper accented Latin-1 characters. Only use characters which are not
-   in Latin-1 when the Project Manager instructs otherwise in the <a href="#comments">Project Comments</a>.
+<p>Please format these using the proper accented Latin-1 characters, where possible. See
+   <a href="#d_chars">Diacritical marks</a> for ways to format some non-Latin-1 characters.
 </p><? } else { ?>
-<p>Please proofread these using the proper UTF-8 characters. For characters which are not in Unicode, see
+<p>Please format these using the proper UTF-8 characters. For characters which are not in Unicode, see
  the Project Manager instructions in the <a href="#comments">Project Comments</a>.
 </p>
 <? } ?>
@@ -2009,7 +2019,7 @@ the quotes will be changed to ones used in the text in post-processing.
   <li>An on-line program, such as <a
    href="http://free.pages.at/krauss/computer/xml/daten/edicode.html">Edicode</a>.</li>
   <li> Keyboard shortcuts.<br>
-       (See tables for <a href="#a_chars_win">Windows</a> and <a href="#a_chars_mac">Macintosh</a> below.)</li>
+       (See the tables for <a href="#a_chars_win">Windows</a> and <a href="#a_chars_mac">Macintosh</a> below.)</li>
   <li> Switching to a keyboard layout or locale which supports "deadkey" accents.
        <ul compact>
        <li>Windows: Control Panel (Keyboard, Input Locales)</li>
@@ -2018,13 +2028,15 @@ the quotes will be changed to ones used in the text in post-processing.
       </ul>
 </ul>
 <p>
-   The original <a href="http://www.gutenberg.org">Project Gutenberg</a> will post as a minimum, 7-bit ASCII versions of texts, but versions
+   The original <a href="http://www.gutenberg.org">Project Gutenberg</a> will post as
+   a minimum, 7-bit ASCII versions of texts, but versions
    using other character encodings which can preserve more of the information from the
    original text are accepted. <a href="http://pge.rastko.net">Project Gutenberg
-    Europe</a> publishes UTF-8 as its default encoding, but other appropriate encodings are also welcomed.
+   Europe</a> publishes UTF-8 as its default encoding, but other appropriate encodings are also welcomed.
 </p>
 <p>Currently for <a href="http://www.pgdp.net/">Distributed Proofreaders</a> this means
    using Latin-1 or ISO 8859-1 and -15, and in the future will include Unicode.
+</p>
 <p><a href="http://dp.rastko.net/">Distributed Proofreaders Europe</a> already uses Unicode.
 </p>
 <!-- END RR -->
@@ -2039,12 +2051,11 @@ the quotes will be changed to ones used in the text in post-processing.
   </li>
   <li>Or you can type the Alt+NumberPad shortcut codes for these characters.
       <br>This is faster than using cut &amp; paste, once you get used to the codes.
-      <br>Press and hold the Alt key, type the four digits on the
-          <i>Number Pad</i> and release the Alt key; note: the number row
-           over the letters won't work.
+      <br>Hold the Alt key and type the four digits on the
+          <i>Number Pad</i>&mdash;the number row over the letters won't work.
       <br>You must type all 4 digits, including the leading 0 (zero).
           Note that the capital version of a letter is 32 less than the lower case.
-      <br>Also note that with some system settings these codes may not be used.
+      <br>These instructions are for the US-English keyboard layout. It may not work for other keyboard layouts.
       <br>The table below shows the codes we use.
           (<a href="charwin.pdf">Print-friendly version of this table</a>)
       <br>Do not use other special characters unless the Project Manager tells you to in the <a href="#comments">Project Comments</a>.
@@ -2120,7 +2131,13 @@ the quotes will be changed to ones used in the text in post-processing.
       <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Alt-0245</td>
       <td align="center" bgcolor="mistyrose" title="Small o umlaut"        >&ouml;   </td><td>Alt-0246</td>
       <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Alt-0248</td>
-      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>Use [oe]</td>
+      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>
+<? if(!$utf8_site) { ?>
+  Use [oe]
+<? } else { ?>
+  Alt-0156
+<? } ?>
+      </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Alt-0210</td>
       <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Alt-0211</td>
@@ -2128,7 +2145,13 @@ the quotes will be changed to ones used in the text in post-processing.
       <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Alt-0213</td>
       <td align="center" bgcolor="mistyrose" title="Capital O umlaut"      >&Ouml;   </td><td>Alt-0214</td>
       <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Alt-0216</td>
-      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>Use [OE]</td>
+      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>
+<? if(!$utf8_site) { ?>
+  Use [OE]
+<? } else { ?>
+  Alt-0140
+<? } ?>
+      </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Alt-0249</td>
       <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Alt-0250</td>
@@ -2241,8 +2264,8 @@ the quotes will be changed to ones used in the text in post-processing.
       pane. Ensure that "Show input menu in menu bar" is checked. In the spreadsheet view, check the box
       for "Keyboard Viewer" in addition to any input locales you use.
   </li>
-  <li>If you are using the enhanced proofreading interface, the <i>more</i> tag creates a pop-up
-      window containing these characters, which you can then cut &amp; paste.
+  <li>The dropdown menus in the proofreading interface.
+  </li>
   <li>Or you can type the Apple Opt- shortcut codes for these characters.
       <br>This is a lot faster than using cut &amp; paste, once you get used to the codes.
       <br>Hold the Opt key and type the accent symbol, then type the letter to be accented
@@ -2309,7 +2332,7 @@ the quotes will be changed to ones used in the text in post-processing.
       <td> </td><td> </td>
       <td> </td><td> </td>
   </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital I grave"       >&Igrave; </td><td>Opt-~, I</td>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital I grave"       >&Igrave; </td><td>Opt-`, I</td>
       <td align="center" bgcolor="mistyrose" title="Capital I acute"       >&Iacute; </td><td>Opt-e, I</td>
       <td align="center" bgcolor="mistyrose" title="Capital I circumflex"  >&Icirc;  </td><td>Opt-i, I</td>
       <td> </td><td> </td>
@@ -2323,7 +2346,13 @@ the quotes will be changed to ones used in the text in post-processing.
       <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Opt-n, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o umlaut"        >&ouml;   </td><td>Opt-u, o</td>
       <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Opt-o   </td>
-      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>Use [oe]</td>
+      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>
+<? if(!$utf8_site) { ?>
+  Use [oe]
+<? } else { ?>
+  Opt-q
+<? } ?>
+      </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Opt-`, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Opt-e, O</td>
@@ -2331,7 +2360,13 @@ the quotes will be changed to ones used in the text in post-processing.
       <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Opt-n, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O umlaut"      >&Ouml;   </td><td>Opt-u, O</td>
       <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Opt-O   </td>
-      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>Use [OE]</td>
+      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>
+<? if(!$utf8_site) { ?>
+  Use [OE]
+<? } else { ?>
+  Opt-Q
+<? } ?>
+      </td>
   </tr>
   <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Opt-`, u</td>
       <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Opt-e, u</td>
@@ -2433,7 +2468,7 @@ the quotes will be changed to ones used in the text in post-processing.
 
 <h3><a name="d_chars">Characters with Diacritical marks</a></h3>
 <p>In some projects, you will find characters with special marks either above or below
-   the normal latin A..Z character. These are called <i>diacritical marks</i>, and
+   the normal Latin A...Z character. These are called <i>diacritical marks</i>, and
    indicate a special pronunciation for this character.
 <? if($utf8_site) { ?>
 </p>
@@ -2453,18 +2488,18 @@ the quotes will be changed to ones used in the text in post-processing.
 </p>
 <? } else { ?>
    For formatting, we indicate them in our normal ASCII text by using a
-   specific coding: such as <tt>[)x]</tt> for a breve (u-shaped accent)
-   above an x, or <tt>[x)]</tt> for a breve below.
+   specific coding, such as: &#259; becomes <tt>[)a]</tt> for a breve (the u-shaped accent)
+   above an a, or <tt>[a)]</tt> for a breve below.
 </p>
 <p>Be sure to include the square brackets (<tt>[&nbsp;]</tt>) around these, so the post-processor
-   knows which letter it applies to. They will eventually replace these with
+   knows to which letter it applies. He or she will eventually replace these with
    whatever symbol works in each version of the text they produce, like 7-bit ASCII,
    8-bit, Unicode, html, etc.
 </p>
 <p>Note that when some of these marks appear on some characters (mainly vowels) our standard
    Latin-1 character set already includes that character with the diacritical mark. <b>In those
    cases, use the Latin-1 character (see <a href="#a_chars">here</a>), available from the
-   drop down lists in the proofreading interface.</b>
+   drop-down lists in the proofreading interface.</b>
 </p>
 <!-- END RR -->
 
@@ -2476,7 +2511,7 @@ the quotes will be changed to ones used in the text in post-processing.
 <!--
   diacritical mark           above  below
 macron (straight line)       [=x]   [x=]
-2 dots (diaresis or umlaut)  [:x]   [x:]
+2 dots (dieresis or umlaut)  [:x]   [x:]
 1 dot                        [.x]   [x.]
 grave accent                 ['x]   [x'] or [/x] [x/]
 acute (aigu) accent          [`x]   [x`] or [\x] [x\]
@@ -2502,7 +2537,7 @@ cedilla                      [,x]   [x,]
       <td align="center"><tt>[=x]</tt></td>
       <td align="center"><tt>[x=]</tt></td>
       </tr>
-  <tr><td>2 dots (diaresis, umlaut)</td>
+  <tr><td>2 dots (dieresis, umlaut)</td>
       <td align="center">&uml;</td>
       <td align="center"><tt>[:x]</tt></td>
       <td align="center"><tt>[x:]</tt></td>
@@ -2552,28 +2587,28 @@ cedilla                      [,x]   [x,]
 <? } ?>
 
 <h3><a name="f_chars">Non-Latin Characters</a></h3>
-<p>There are projects which contain text printed in non-Latin characters; that is, characters
-   other than the Latin A...Z characters, for example Greek, Cyrillic (used in
-   Russian, Slavic and other languages), Hebrew, or Arabic characters.
+<p>Some projects contain text printed in non-Latin characters; that is, characters
+   other than the Latin A...Z&mdash;for example, Greek, Cyrillic (used in
+   Russian, Slavic, and other languages), Hebrew, or Arabic characters.
 </p>
-<? if(!$utf8_site) { ?>
+<? if(strcasecmp($charset,"UTF-8")) { ?>
 <p>For Greek, you should attempt a transliteration. Transliteration involves converting
-   each character of the foreign text into the equivalent ASCII Latin letter(s). A Greek
-   transliteration tool is provided in the proofing interface to make this task much easier.
+   each character of the foreign text into the equivalent Latin letter(s). A Greek
+   transliteration tool is provided in the proofreading interface to make this task much easier.
 </p>
-<p>Press the "Greek" button near the bottom of the proofreading interface to pop-up the tool.
+<p>Press the "Greek Transliterator" button near the bottom of the proofreading interface to pop up the tool.
    In the tool, click on the Greek characters that match the word or phrase you are transliterating,
-   and the appropriate ASCII characters will appear in the text box. When you are done,
+   and the appropriate Latin-1 characters will appear in the text box. When you are done,
    simply cut and paste this transliterated text into the page you are formatting.
    Surround the transliterated text with the Greek markers <tt>[Greek:&nbsp;</tt> and <tt>]</tt>.
    For example, <b>&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</b>
    would become <tt>[Greek: Biblos]</tt>. ("Book"&mdash;so appropriate for DP!)
 </p>
-<p>If you are uncertain about your transliteration, mark it with an <tt>**</tt> to bring it to
+<p>If you are uncertain about your transliteration, mark it with <tt>**</tt> to bring it to
    the attention of the next formatter or the post-processor.
 </p>
-<p>For other languages which cannot be so easily transliterated, such as Cyrillic,
-   Hebrew or Arabic, surround the text with appropriate markers; <tt>[Cyrillic:&nbsp;**]</tt>,
+<p>For other languages that cannot be so easily transliterated, such as Cyrillic,
+   Hebrew, or Arabic, surround the text with appropriate markers; <tt>[Cyrillic:&nbsp;**]</tt>,
    <tt>[Hebrew:&nbsp;**]</tt>, or <tt>[Arabic:&nbsp;**]</tt> and leave it as scanned.
    Include the <tt>**</tt> so the post-processor can address it later.
 </p>
@@ -2581,10 +2616,10 @@ cedilla                      [,x]   [x,]
 
 <ul compact>
   <li>Greek: <a href="<? echo $PG_greek_howto_url; ?>">Greek HOWTO</a> (from
-      Project Gutenberg) Or see the "Greek" pop-up tool in the proofreading interface.
+      Project Gutenberg) or see the "Greek Transliterator" pop-up tool in the proofreading interface.
   </li>
   <li>Cyrillic: While a standard transliteration scheme exists for Cyrillic, we only recommend
-      you attempt a transliteration if you are fluent in the languages which use it. Otherwise, just mark
+      you attempt a transliteration if you are fluent in a language that uses it. Otherwise, just mark
       it as indicated above. You may find this
       <a href="http://learningrussian.com/transliteration.htm">Transliteration Table</a> useful.
   </li>
@@ -2603,7 +2638,7 @@ cedilla                      [,x]   [x,]
    keyboard driver which supports the language. Consult your operating system manual for
    instructions on how to do that.
 </p>
-<p>If the script appears only occasionaly, you may use a separate program to enter it.
+<p>If the script appears only occasionally, you may use a separate program to enter it.
    See <a href="#a_chars">above</a> for some of the programs.
 </p>
 <p>If you are uncertain about a character or an accent, mark it with an <tt>*</tt> to
@@ -2637,7 +2672,7 @@ cedilla                      [,x]   [x,]
    split onto the next line. Rejoin these back onto a single line.
 </p>
 <p>Indexes are a case where long lines created by following this rule are acceptable, since the lines
-   will be re-wrapped to the proper width and indentation during post-processing.
+   will be rewrapped to the proper width and indentation during post-processing.
 </p>
 <p>Place one blank line between each entry in the index.
 </p>
@@ -2716,7 +2751,7 @@ cedilla                      [,x]   [x,]
       <td valign="top">
 <table summary="" border="0" align="left"><tr><td>
     <tt><br>/*<br>
-    Hooker, Jos., maj. gen. U.S.V., 345;<br>
+    Hooker, Jos., maj. gen. U. S. V., 345;<br>
     &nbsp;&nbsp;assigned to command Porter's corps, 350;<br>
     &nbsp;&nbsp;afterwards, McDowell's, 367;<br>
     &nbsp;&nbsp;in pursuit of Lee, 380;<br>
@@ -2725,7 +2760,7 @@ cedilla                      [,x]   [x,]
     <br>
     Hopkins, Henry H., 209;<br>
     &nbsp;&nbsp;notorious secessionist in Kanawha valley, 217;<br>
-    &nbsp;&nbsp;controversy with Gen. Cox over escaped slave, 233;<br>
+    &nbsp;&nbsp;controversy with Gen. Cox over escaped slave, 233.<br>
     <br>
     Hosea, Lewis M., 187;<br>
     &nbsp;&nbsp;capt. on Gen. Wilson's staff, 194.<br>
@@ -2745,27 +2780,27 @@ cedilla                      [,x]   [x,]
  <li>In dialogue, treat a change in speaker as a new paragraph, with one blank line between.</li>
  <li>Format actor names as they are in the original text, whether they are <a href="#italics">italics</a>,
    <a href="#bold">bold</a> or <a href="#word_caps">all capital</a> letters.</li>
-<li>Stage directions are formatted as they are in the original text.<br>
-    If the stage direction is on a line by itself, format it that way; if it is at the end of a line of dialogue, leave it there;
-   if it is right-justified at the end of a line of dialogue, leave six spaces between the dialogue and the stage directions.<br>
-Stage directions often begin with an opening bracket and omit the closing bracket.<br>
-   This convention is retained; do not close the brackets. Italics are generally placed inside the brackets.</li>
+ <li>Stage directions are formatted as they are in the original text.<br>
+     If the stage direction is on a line by itself, format it that way; if it is at the end of a line of dialogue, leave it there;
+     if it is right-justified at the end of a line of dialogue, leave six spaces between the dialogue and the stage directions.<br>
+     Stage directions often begin with an opening bracket and omit the closing bracket.<br>
+     This convention is retained; do not close the brackets. Italics are generally placed inside the brackets.</li>
 </ul>
 <p>For metrical plays: (Plays written as rhymed poetry)</p>
 <ul compact>
  <li>Many plays are metrical, and like poetry should not be rewrapped.
- Surround metred text with <tt>/*</tt> and <tt>*/</tt> as for poetry.
- If stage directions are on their own line, do not surround these with
- <tt>/*</tt> and <tt>*/</tt>.
- (Stage directions are not metrical, and so can be safely rewrapped in the PP stage,
- so should not be contained within the /* */ tags
- that protect the metrical dialogue from being rewrapped.)</li>
+     Surround metred text with <tt>/*</tt> and <tt>*/</tt> as for poetry.
+     If stage directions are on their own line, do not surround these with
+     <tt>/*</tt> and <tt>*/</tt>.
+     (Stage directions are not metrical, and so can be safely rewrapped in the PP stage,
+     so should not be contained within the /* */ tags
+     that protect the metrical dialogue from being rewrapped.)</li>
  <li>Preserve relative indenting of dialog when a single metrical line is
- shared by more than one speaker.</li>
+     shared by more than one speaker.</li>
  <li>Rejoin metrical lines that were split due to width restrictions of the paper, just as in poetry.<br>
-   If the continuation is only a word or so, it is often shown on the line
-   above or below following a (, rather than having a line of its own.<br>
-   See the <a href="#play4">example</a>.</li>
+     If the continuation is only a word or so, it is often shown on the line
+     above or below following a (, rather than having a line of its own.<br>
+     See the <a href="#play4">example</a>.</li>
 </ul>
 <p>Please check the <a href="#comments">Project Comments</a>, as the Project Manager may
    specify different formatting.
@@ -2801,7 +2836,7 @@ You shall have perfect Books now in a twinkling.
 &lt;i&gt;Clow.&lt;/i&gt; He says, Sir, they're proper:<br>
 Blows should have marks, or else they are nothing worth.
 </tt></p><p><tt>
-&lt;i&gt;Lap.&lt;/i&gt; But why a Peel-crow here?
+&lt;i&gt;La.&lt;/i&gt; But why a Peel-crow here?
 </tt></p><p><tt>
 &lt;i&gt;Clow.&lt;/i&gt; I told 'em so Sir:<br>
 A scare-crow had been better.
@@ -2857,7 +2892,6 @@ ACT THE THIRD.<br>
 <br>
 &lt;sc&gt;Scene I.&lt;/sc&gt;<br>
 <br>
-<br>
 /*<br>
 &lt;sc&gt;Chrem.&lt;/sc&gt; 'Tis now just daybreak.--Why delay I then<br>
 To call my neighbor forth, and be the first<br>
@@ -2875,10 +2909,9 @@ So we old men should serve each other too.<br>
 */<br>
 <br>
 <br>
-&lt;sc&gt;SCENE II.&lt;/sc&gt;<br>
+&lt;sc&gt;Scene II.&lt;/sc&gt;<br>
 <br>
 &lt;i&gt;Enter&lt;/i&gt; &lt;sc&gt;Menedemus.&lt;/sc&gt;<br>
-<br>
 <br>
 /*<br>
 &lt;sc&gt;Mene.&lt;/sc&gt; (&lt;i&gt;to himself&lt;/i&gt;). Sure I'm by nature form'd for misery<br>
@@ -2954,10 +2987,10 @@ Some pretty thanks.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
 <p><tt>/*<br>
-Am. Sure you are fasting;<br>
-Or not slept well to night; some dream (Ismena?)<br>
+&lt;i&gt;Am.&lt;/i&gt; Sure you are fasting;<br>
+Or not slept well to night; some dream (&lt;i&gt;Ismena?&lt;/i&gt;)<br>
 <br>
-Ism. My dreams are like my thoughts, honest and innocent,<br>
+&lt;i&gt;Ism.&lt;/i&gt; My dreams are like my thoughts, honest and innocent,<br>
 Yours are unhappy; who are these that coast us?<br>
 You told me the walk was private.<br>
 */</tt></p>
@@ -2970,25 +3003,23 @@ You told me the walk was private.<br>
 <h3><a name="anything">Anything else that needs special handling or that you're unsure of</a></h3>
 <p>While formatting, if you encounter something that isn't covered in these guidelines that you
    think needs special handling or that you are not sure how to handle, post your question, noting
-   the png (page) number, in the Project Discussion thread (a link to the project-specific forum is
+   the png (page) number, in the Project Discussion thread (a link to the project-specific forum thread is
    in the <a href="#comments">Project Comments</a>), and put a note in the formatted text explaining
    the problem. Your note will explain to the next volunteer or post-processor what the problem or
    question is.
 </p>
 <p>Start your note with a square bracket and two asterisks <tt>[**</tt> and end it with another square bracket <tt>]</tt>.
-   This clearly separates it from from the Author's text and signals the Post-Processor to stop and carefully examine
-   this part of the text &amp; the matching image to address any issues.
-   Any comments put in by a previous volunteer <b>must</b> be left in place.
-   Agreement or disagreement can be added,
+   This clearly separates it from the Author's text and signals the Post-Processor to stop and carefully examine
+   this part of the text &amp; the matching image to address any issues. Any comments put in by a
+   previous volunteer <b>must</b> be left in place. Agreement or disagreement can be added,
    but even if you know the answer, you absolutely must not remove the comment.
    If you have found a source which clarifies the problem, please cite it so the post-processor can also
    refer to it.
 </p>
 <p>If you are formatting in a later round and come across a note from a volunteer in a previous round that you know the answer to,
-    please take a moment and provide Feedback to them by clicking on their
+   please take a moment and provide Feedback to them by clicking on their
    name in the proofreading interface and posting a private message to them explaining how to handle the
-   situation in the future.
-   Please, as already stated, do not remove the note.
+   situation in the future. Please, as already stated, do not remove the note.
 </p>
 
 <h3><a name="prev_notes">Previous Proofreaders' Notes/Comments</a></h3>
@@ -3083,14 +3114,14 @@ You told me the walk was private.<br>
 
 <h3><a name="OCR_scanno">OCR Problems: Scannos</a></h3>
 <p>Another common OCR issue is misrecognition of characters. We call these errors "scannos" (like "typos").
-   This misrecognition can result in a word which:</p>
+   This misrecognition can create a word that:</p>
 <ul compact>
    <li>appears to be correct at first glance, but is actually misspelled.<br>
-       These can usually be caught by running the WordCheck from the proofreading interface.</li>
+       This can usually be caught by running WordCheck from the proofreading interface.</li>
    <li>is changed to a different but otherwise valid word that does not match what is in the page image.<br>
-       These are subtle because they can only be caught by someone actually reading the text.</li>
+       This is subtle because it can only be caught by someone actually reading the text.</li>
 </ul>
-<p>Possibly the most common example of the second type is "and" being OCR'ed as "arid." Other examples: "eve" for "eye",
+<p>Possibly the most common example of the second type is "and" being OCR'd as "arid." Other examples: "eve" for "eye",
    "Torn" for "Tom", "train" for "tram". This type is harder to spot and we have a special term for them: "Stealth Scannos."
    We collect examples of Stealth Scannos in <a href="<? echo $Stealth_Scannos_URL; ?>">this thread</a>.
 </p>
@@ -3109,7 +3140,7 @@ You told me the walk was private.<br>
 
 <h3><a name="bad_image">Bad Images</a></h3>
 <p>If an image is bad (not loading, chopped off, unable to be read), please put a post
-   about this bad image in the Project Comments <a href="#forums">forum</a>. Do not
+   about this bad image in the project's <a href="#forums">forum thread</a>. Do not
    click on "Return Page to Round"; if you do, the page will be reissued to the next
    formatter. Instead, click on the "Report Bad Page" button so this page is
    'quarantined'.
@@ -3121,18 +3152,18 @@ You told me the walk was private.<br>
    If that brings up a good image, then the problem is probably in your browser or
    system.
 </p>
-<p>It's fairly common for the image to be good, but the OCR scan is missing the first
+<p>It's fairly common for the image to be good, but the OCR'd text is missing the first
    line or two of the text. Please just type in the missing line(s). If nearly all of
-   the lines are missing in the scan, then either type in the whole page (if you are
+   the lines are missing in the text box, then either type in the whole page (if you are
    willing to do that), or just click on the "Return Page to Round" button and the page
    will be reissued to someone else. If there are several pages like this, you might
-   post a note in the Project Comments <a href="#forums">forum</a> to notify the
+   post a note in the <a href="#forums">project discussion</a> to notify the
    Project Manager.
 </p>
 
 <h3><a name="bad_text">Wrong Image for Text</a></h3>
 <p>If there is a wrong image for the text given, please put a post about this bad image
-   in the Project Comments <a href="#forums">forum</a>. Do not click on "Return Page
+   in the <a href="#forums">project discussion</a>. Do not click on "Return Page
    to Round"; if you do, the page will be reissued to the next formatter. Instead, click
    on the "Report Bad Page" button so this page is 'quarantined'.
 </p>
@@ -3153,14 +3184,14 @@ You told me the walk was private.<br>
 </p>
 
 <h3><a name="p_errors">Printer Errors/Misspellings</a></h3>
-<p>Correct all of the words which the OCR has misread (scannos), but do not correct
+<p>Correct all of the words that the OCR has misread (scannos), but do not correct
    what may appear to you to be misspellings or printer errors that occur on the scanned
    image. Many of the older texts have words spelled differently from modern usage and
    we retain these older spellings, including any accented characters.
 </p>
 <p>If you are unsure, place a note in the txet <tt>[**typo for text?]</tt> and ask in the
    Project Discussion thread. If you do make a change, include a note describing what you changed:
-   <tt>[**Transcriber's Note: typo fixed, changed from "txet" to "text"]</tt>.
+   <tt>[**typo fixed, changed from "txet" to "text"]</tt>.
    Include the two asterisks <tt>**</tt> so the post-processor will notice it.
 </p>
 
