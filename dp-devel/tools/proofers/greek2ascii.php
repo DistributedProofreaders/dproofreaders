@@ -2,19 +2,16 @@
 $relPath="./../../pinc/";
 include($relPath.'doctype.inc');
 include($relPath.'pg.inc');
-echo $docType. "\r\n";
-?>
-<html>
-<?
-	$greek_contents = @$_GET['textbox'];
-?>
+include_once($relPath.'slim_header.inc');
 
+$title = _("Greek to Latin-1 Transliteration");
+slim_header($title,TRUE,FALSE);
+$greek_contents = @$_GET['textbox'];
+?>
 <!-- Graphics and html/javascript for Greek text conversion
      by D Garcia 12/24/02 for Distributed Proofreaders
      -->
 
-<head>
-<title>Greek to ASCII Transliteration</title>
 <script language="JavaScript">
 <!--
 function clearBox() {
