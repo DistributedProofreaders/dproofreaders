@@ -62,7 +62,7 @@ if($frame=="master") {
 if($frame=="left") {
 
     // load the suggestions
-    $suggestions = load_project_good_word_suggestions($projectid,$timeCutoff,TRUE);
+    $suggestions = load_wordcheck_events($projectid,$timeCutoff);
     if(!is_array($suggestions)) {
         $messages[] = sprintf(_("Unable to load suggestions: %s"),$suggestions);
     }
@@ -99,15 +99,13 @@ if($frame=="left") {
 
     foreach($word_suggestions as $suggestion) {
         list($time,$round,$page,$proofer,$words)=$suggestion;
-        // get the phpBB user ID for the proofer
-        $userid=_get_uid_from_username($proofer);
         // get a context string
         list($context_strings,$totalLines)=_get_word_context_on_page($projectid,$page,$round,$word);
         if(!count($context_strings)) continue;
 
         echo "<p><b>" . _("Date") . "</b>: " . strftime($datetime_format,$time) . "<br>";
         echo "<b>" . _("Round") . "</b>: $round &nbsp; | &nbsp; ";
-        echo "<b>" . _("Proofer") . "</b>: <a href='$forums_url/privmsg.php?mode=post&amp;u=$userid' target='_TOP'>$proofer</a><br>";
+        echo "<b>" . _("Proofer") . "</b>: " . private_message_link($proofer) . "<br>";
         echo "<b>" . _("Page") . "</b>: <a href='displayimage.php?project=$projectid&amp;imagefile=$page&amp;showreturnlink=0' target='imageframe'>$page</a><br>";
         foreach($context_strings as $lineNum => $context_string) {
             $context_string=_highlight_word(htmlspecialchars($context_string),$word);
