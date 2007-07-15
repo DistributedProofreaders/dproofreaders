@@ -38,11 +38,17 @@ echo "Archiving page-tables for ", mysql_num_rows($result), " projects...\n";
 
 while ( $project = mysql_fetch_object($result) )
 {
+    archive_project($project, $dry_run);
+}
+
+function archive_project( $project, $dry_run )
+{
     $projectid = $project->projectid;
 
     $mod_time_str = strftime('%Y-%m-%d %H:%M:%S',$project->modifieddate);
     echo "$projectid ($mod_time_str) \"$project->nameofwork\"\n";
 
+    global $archive_db_name;
     if (!mysql_query("DESCRIBE $projectid"))
     {
         echo "    Table $projectid does not exist.\n";
@@ -59,9 +65,11 @@ while ( $project = mysql_fetch_object($result) )
         ") or die(mysql_error());
     }
 
+    global $projects_dir;
     $project_dir = "$projects_dir/$projectid";
     if (file_exists($project_dir))
     {
+        global $archive_projects_dir;
         $new_dir = "$archive_projects_dir/$projectid";
         if ($dry_run)
         {
