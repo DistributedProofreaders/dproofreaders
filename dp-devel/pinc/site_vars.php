@@ -126,4 +126,9 @@ if (! function_exists('_') )
 {
     function _($str) { return $str; }
 }
+
+// Make sure magic_quotes_gpc is turned on, we rely heavily on it.
+if (get_magic_quotes_gpc() == 0) {
+    die("Error: magic_quotes_gpc is not turned on in PHP configuration.");
+}
 ?>
