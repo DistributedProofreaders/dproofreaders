@@ -25,7 +25,7 @@ if ($dry_run)
 }
 
 $result = mysql_query("
-    SELECT projectid, FROM_UNIXTIME(modifieddate), nameofwork
+    SELECT *
     FROM projects
     WHERE
         modifieddate <= UNIX_TIMESTAMP() - (24 * 60 * 60) * IF( INSTR(nameofwork,'{P3 Qual}'), 28, 7 )
@@ -36,9 +36,12 @@ $result = mysql_query("
 
 echo "Archiving page-tables for ", mysql_num_rows($result), " projects...\n";
 
-while ( list($projectid, $mod_time, $nameofwork) = mysql_fetch_row($result) )
+while ( $project = mysql_fetch_object($result) )
 {
-    echo "$projectid  $mod_time  \"$nameofwork\"\n";
+    $projectid = $project->projectid;
+
+    $mod_time_str = strftime('%Y-%m-%d %H:%M:%S',$project->modifieddate);
+    echo "$projectid ($mod_time_str) \"$project->nameofwork\"\n";
 
     if (!mysql_query("DESCRIBE $projectid"))
     {
