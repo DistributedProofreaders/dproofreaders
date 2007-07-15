@@ -660,13 +660,12 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                 echo "<a href=\"edit_project_word_lists.php?projectid=$projectid\">" . _("Word&nbsp;Lists") . "</a>";
 
                 // Should we show an "attention" icon?
-                // Currently, we only do this if the Good Word Suggestions file
-                // has been modified more recently that the Good Words file.
+                // Currently, we only do this if suggestions have been added since
+                // the Good Words file was last modified.
                 // In future, there might be various reasons to do so.
                 // (But then what would we put in the tooltip?)
-                $f_gs = get_project_word_file( $projectid, 'good_suggs' );
                 $f_g  = get_project_word_file( $projectid, 'good' );
-                if ( $f_gs->mod_time > $f_g->mod_time )
+                if ( count( load_project_good_word_suggestions($projectid, $f_g->mod_time) ) )
                 {
                     $tooltip = _('"Suggestions from proofers" list has changed; click here to view');
                     echo " <a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>";
