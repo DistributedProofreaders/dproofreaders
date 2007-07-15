@@ -37,8 +37,8 @@ $earliestTimestamp = time();
 $events = load_wordcheck_events($projectid);
 if(is_array($events)) {
     // parse the events complex array
-    foreach( $events as $event ) {
-        list($time,$round,$page,$proofer,$words,$corrections) = $event;
+    foreach( $events as $event) {
+        list($time,$round,$page,$proofer,$words,$corrections)=$event;
         $page_usage[$page][$round]++;
         if($earliestTimestamp > $time) $earliestTimestamp = $time;
     }
@@ -77,7 +77,7 @@ foreach($page_usage as $page => $val ) {
 } // end sub-optimal "one at a time" way
 
 
-echo "<p>" . _("The following table lists the number of times WordCheck was run against a page in a specific round and the last user to work on the page. Pages that are Done and have had WordCheck run on them will be marked <span class='WC'>like this</span>. Pages that are Done and WordCheck has not been run on them are marked <span class='noWC'>like this</span>. Pages without a background color have not yet been saved as Done and they may or may not have had WordCheck run against them. Click the proofer's name to send them a private message.") . "</p>";
+echo "<p>" . _("The following table lists the number of times WordCheck was run against a page in a specific round and the last user to work on the page. Pages that are Done and have had WordCheck run on them will be marked <span class='WC'>like this</span>. Pages that are Done and WordCheck has not been run on them are marked <span class='noWC'>like this</span>. Pages without a background color have not yet been saved as Done and they may or may not have had WordCheck run against them. Click the proofer's username to compose a private message to them.") . "</p>";
 
 // now build the table
 ?>
@@ -100,17 +100,17 @@ foreach($page_usage as $page => $val) {
             $lastProoferLink = private_message_link($lastProofer);
         
         if(!empty($lastProofer) && $timesChecked==0) {
-            $class = " class='noWC'";
-            $data = "$lastProoferLink";
-        } elseif(!empty($lastProofer) && $val[$roundID]>0) {
-            $class = " class='WC'";
+            $class = "class='noWC'";
+            $data = $lastProoferLink;
+        } elseif(!empty($lastProofer) && $timesChecked>0) {
+            $class = "class='WC'";
             $data = "$timesChecked: $lastProoferLink";
         } else { 
             $class = "";
             $data = "";
         }
 
-        echo "<td$class>$data</td>";
+        echo "<td $class>$data</td>";
     }
     echo "</tr>\n";
 }
