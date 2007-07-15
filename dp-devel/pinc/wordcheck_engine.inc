@@ -440,8 +440,8 @@ function save_project_bad_words($projectid, $words) {
 
 // -----------------------------------------------------------------------------
 
-function save_wordcheck_event($projectid,$round,$page,$proofer,$words,$corrections) {
-    $word_list = implode("\n",$words);
+function save_wordcheck_event($projectid,$round,$page,$proofer,$suggestions,$corrections) {
+    $suggestion_list = implode("\n",$suggestions);
 
     $correction_list = array();
 
@@ -454,14 +454,14 @@ function save_wordcheck_event($projectid,$round,$page,$proofer,$words,$correctio
     $correction_list = implode("\n",$correction_list);
 
     // escape single quotes
-    $word_list = addslashes($word_list);
+    $suggestion_list = addslashes($suggestion_list);
     $correction_list = addslashes($correction_list);
 
     $time = time();
 
     $sql = "INSERT INTO wordcheck_events SET
             projectid='$projectid', timestamp=$time, image='$page',
-            round_id='$round', username='$proofer', suggestions='$word_list',
+            round_id='$round', username='$proofer', suggestions='$suggestion_list',
             corrections='$correction_list'";
 
     if(mysql_query($sql) === FALSE) {
