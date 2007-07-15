@@ -60,7 +60,7 @@ function private_message_link( $proofer_username, $target="_blank" )
     // get proofer's phpBB userID
     $userid=_get_uid_from_username( $proofer_username );
 
-    if(!empty($target)) $target = " target='$target";
+    if(!empty($target)) $target = " target='$target'";
 
     $a = "<a href='$forums_url/privmsg.php?mode=post&amp;u=$userid'$target>$proofer_username</a>";
 
