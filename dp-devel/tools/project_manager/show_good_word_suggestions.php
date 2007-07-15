@@ -142,29 +142,44 @@ echo "</select>";
 echo "<input type='submit' value='Submit'>";
 echo "</p></form>";
 
+// if there are no suggestions available (probably because they are all already
+// on the Good Words List) stop here
+if(count($all_suggestions_w_occurances)==0) {
+    echo "<p>" . _("There are no suggestions in the given time frame that aren't already on the Good Words List.") . "</p>";
+    theme('','footer');
+    exit;
+}
+
 echo_download_text( $projectid, $format, "timeCutoff=$timeCutoff" );
 
 echo_cutoff_text( $initialFreq,$cutoffOptions );
 
-foreach($all_suggestions_w_occurances as $word => $occur) {
-    $encWord = encode_word($word);
-    $context_array[$word]=recycle_window_link("show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord",_("Context"),"context");
-}
-$context_array["[[TITLE]]"]=_("Show Context");
-$all_suggestions_w_occurances["[[TITLE]]"]=_("Times Suggested");
-$all_suggestions_w_occurances["[[STYLE]]"]=_("text-align: right;");
-
+$submit_label=_("Add selected words to Good Words List");
 
 $checkbox_form["projectid"]=$projectid;
 $checkbox_form["freqCutoff"]=$freqCutoff;
 $checkbox_form["timeCutoff"]=$timeCutoff;
 echo_checkbox_form_start($checkbox_form);
 
-$submit_label=_("Add selected words to Good Words List");
+$context_array["[[TITLE]]"]=_("Show Context");
+
+// see how many rounds actually have data in them
+$roundsWithData=0;
+foreach($rounds as $round) {
+    if(count($round_suggestions_w_occurances[$round])>0)
+        $roundsWithData++;
+}
 
 // print out the complete list first but only if
-// we have more than one round
-if(count($rounds)>1) {
+// we have more than one round with data
+if($roundsWithData>1) {
+    foreach($all_suggestions_w_occurances as $word => $occur) {
+        $encWord = encode_word($word);
+        $context_array[$word]=recycle_window_link("show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord",_("Context"),"context");
+    }
+    $all_suggestions_w_occurances["[[TITLE]]"]=_("Times Suggested");
+    $all_suggestions_w_occurances["[[STYLE]]"]=_("text-align: right;");
+
     echo "<h2>" . _("All rounds") . "</h2>";
     $word_checkbox = build_checkbox_array($all_suggestions_w_freq,'all');
     echo_checkbox_selects(count($all_suggestions_w_freq),'all');
@@ -176,29 +191,32 @@ if(count($rounds)>1) {
 }
 
 // now per round
-if(count($rounds)) {
-    foreach($rounds as $round) {
-        foreach($round_suggestions_w_occurances[$round] as $word => $occur) {
-            $encWord = encode_word($word);
-            $context_array[$word]=recycle_window_link("show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord",_("Context"),"context");
-        }
-        $round_suggestions_w_occurances[$round]["[[TITLE]]"]=_("Times Suggested");
-        $round_suggestions_w_occurances[$round]["[[STYLE]]"]=_("text-align: right;");
+foreach($rounds as $round) {
+    // if there are no words for this round, skip it
+    if(count($round_suggestions_w_occurances[$round])==0)
+        continue;
 
-        $round_string=sprintf(_("Round %s"),$round);
-        $page_num_string=sprintf(_("Number of pages with data: %d"), $round_page_count[$round]);
-        echo "<h2>$round_string</h2>";
-        echo "<p>$page_num_string</p>";
-
-        $word_checkbox = build_checkbox_array($round_suggestions_w_freq[$round],$round);
-        echo_checkbox_selects(count($round_suggestions_w_freq[$round]),$round);
-        echo_checkbox_form_submit($submit_label);
-
-        printTableFrequencies( $initialFreq,$cutoffOptions,$round_suggestions_w_freq[$round],$instances--,array($round_suggestions_w_occurances[$round],$context_array),$word_checkbox );
-
-        echo_checkbox_form_submit($submit_label);
+    foreach($round_suggestions_w_occurances[$round] as $word => $occur) {
+        $encWord = encode_word($word);
+        $context_array[$word]=recycle_window_link("show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord",_("Context"),"context");
     }
+    $round_suggestions_w_occurances[$round]["[[TITLE]]"]=_("Times Suggested");
+    $round_suggestions_w_occurances[$round]["[[STYLE]]"]=_("text-align: right;");
+
+    $round_string=sprintf(_("Round %s"),$round);
+    $page_num_string=sprintf(_("Number of pages with suggestions: %d"), $round_page_count[$round]);
+    echo "<h2>$round_string</h2>";
+    echo "<p>$page_num_string</p>";
+
+    $word_checkbox = build_checkbox_array($round_suggestions_w_freq[$round],$round);
+    echo_checkbox_selects(count($round_suggestions_w_freq[$round]),$round);
+    echo_checkbox_form_submit($submit_label);
+
+    printTableFrequencies( $initialFreq,$cutoffOptions,$round_suggestions_w_freq[$round],$instances--,array($round_suggestions_w_occurances[$round],$context_array),$word_checkbox );
+
+    echo_checkbox_form_submit($submit_label);
 }
+
 echo_checkbox_form_end();
 
 theme('','footer');
