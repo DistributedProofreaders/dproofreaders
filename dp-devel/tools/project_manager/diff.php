@@ -8,8 +8,8 @@ include_once($relPath.'links.inc');
 
 $projectid   = $_GET['project'];
 $image       = $_GET['image'];
-$L_round_num = $_GET['L_round_num'];
-$R_round_num = $_GET['R_round_num'];
+$L_round_num = get_integer_param($_GET, 'L_round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
+$R_round_num = get_integer_param($_GET, 'R_round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
 
 $project = new Project( $projectid );
 $state = $project->state;
@@ -31,6 +31,13 @@ else
     $L_label = $L_round->id;
 }
 
+if ( $R_round_num == 0 )
+{
+    $R_text_column_name = 'master_text';
+    $R_user_column_name = "'none'";  // string literal, not column name
+    $R_label = _('OCR');
+}
+else
 {
     $R_round = get_Round_for_round_number($R_round_num);
     $R_text_column_name = $R_round->text_column_name;
