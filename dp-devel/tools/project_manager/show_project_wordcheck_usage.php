@@ -32,14 +32,13 @@ while($result = mysql_fetch_assoc($res)) {
 }
 mysql_free_result($res);
 
-// load the suggestions
+// load the events
 $earliestTimestamp = time();
-$suggestions = load_wordcheck_events($projectid);
-if(is_array($suggestions)) {
-    // parse the suggestions complex array
-    // it was pulled in the raw format
-    foreach( $suggestions as $suggestion) {
-        list($time,$round,$page,$proofer,$words)=$suggestion;
+$events = load_wordcheck_events($projectid);
+if(is_array($events)) {
+    // parse the events complex array
+    foreach( $events as $event ) {
+        list($time,$round,$page,$proofer,$words,$corrections) = $event;
         $page_usage[$page][$round]++;
         if($earliestTimestamp > $time) $earliestTimestamp = $time;
     }
