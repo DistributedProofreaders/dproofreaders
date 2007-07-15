@@ -96,7 +96,7 @@ function echo_page_table(
         echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
         foreach ( $rounds_to_display as $round )
         {
-            if ($round == $project_round && $project_phase == 'PAGE_EDITING')
+            if ($round->$id == $project_round->$id && $project_phase == 'PAGE_EDITING')
             {
                 $n_cols_per_round++;
             }
