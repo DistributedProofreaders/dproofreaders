@@ -24,7 +24,8 @@ assuming it isn't already.
         Enable YAZ if you want to be able to do external catalog searches when
             creating projects.
         Enable the CLI for running cron jobs and future upgrade scripts.
-
+        Make sure that magic_quotes_gpc in your php.ini is set to On.
+        
 --- Install MySQL.
         In the examples in this document, we will assume it's on "localhost",
         i.e. the same host on which you are running these commands, and the
