@@ -74,11 +74,24 @@ function private_message_link( $proofer_username, $target="_blank" )
     return $a;
 }
 
-function _get_uid_from_username( $username ) {
+function _get_uid_from_username( $username )
+// returns the phpBB userID for a given dp username
+{
+    // use a local in-memory cache so we don't pummel the database
+    // for pages that end up calling this for the same small set 
+    // of users over and over. cache is local to this function
+    static $uidCache;
+    // if it's in the cache, return it
+    if(isset($uidCache[$username])) return $uidCache[$username];
+
     $query="SELECT user_id FROM phpbb_users WHERE username='$username'";
     $result = mysql_query($query);
     list($userid) = mysql_fetch_array( $result );
     mysql_free_result($result);
+
+    // update the cache
+    $uidCache[$username] = $userid;
+
     return $userid;
 }
 
