@@ -11,8 +11,8 @@ $user_is_logged_in = dpsession_resume();
 // get variables passed into page
 $project   = $_GET['project'];
 $imagefile = $_GET['imagefile'];
-$percent   = array_get($_GET,'percent',$_SESSION["displayimage"]["percent"]);
-$showreturnlink = array_get($_GET,'showreturnlink',1);
+$percent   = get_integer_param($_GET, 'percent', $_SESSION["displayimage"]["percent"], 1, 999);
+$showreturnlink = get_integer_param($_GET, 'showreturnlink', 1, 0, 1);
 $preload   = array_get($_GET, "preload", "");
 
 if(empty($percent))
@@ -93,9 +93,8 @@ if($showreturnlink) {
 
     echo "<br>\n";
     echo "<a href='$code_url/project.php?id=$project'>$label</a>";
-    echo "<br>\n";
 }
-
+echo "<br>\n";
 echo "<img src='$projects_url/$project/$imagefile' width='$width' border='1'>";
 ?>
 <center>
