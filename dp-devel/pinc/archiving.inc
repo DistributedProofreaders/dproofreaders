@@ -125,6 +125,7 @@ function archive_ancillary_data_for_project( $project, $indent, $dry_run )
 
     // okay, proceed
     move_project_rows_to_archive_db($projectid, 'page_events', $indent, $dry_run);
+    move_project_rows_to_archive_db($projectid, 'wordcheck_events', $indent, $dry_run);
 }
 
 // -----------------------------------------------------------------------------
