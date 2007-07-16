@@ -1,6 +1,8 @@
 <?
 include_once($relPath.'site_vars.php'); // $archive_db_name $projects_dir $archive_projects_dir
 include_once($relPath.'project_events.inc'); // log_project_event
+include_once($relPath.'project_states.inc'); // PROJ_SUBMIT_PG_POSTED PROJ_DELETE
+include_once($relPath.'Stopwatch.inc');
 
 
 function archive_project( $project, $dry_run )
@@ -53,6 +55,8 @@ function archive_project( $project, $dry_run )
         echo "    Warning: $project_dir does not exist.\n";
     }
 
+    archive_ancillary_data_for_project_etc( $project, '        ', $dry_run );
+
     if ($dry_run)
     {
         echo "    Mark project as archived.\n";
@@ -66,6 +70,161 @@ function archive_project( $project, $dry_run )
         ") or die(mysql_error());
 
         log_project_event( $projectid, '[archiver]', 'archive' );
+    }
+}
+
+// -----------------------------------------------------------------------------
+
+function archive_ancillary_data_for_project_etc( $project, $indent, $dry_run )
+// Archive the ancillary info relating to $project
+// or to any project that was merged into it (and then deleted).
+{
+    archive_ancillary_data_for_project( $project, $indent, $dry_run );
+
+    // Check for any deleted projects that were merged into this project,
+    // and archive their ancillary info too.
+    $res2 = mysql_query("
+        SELECT projectid, modifieddate, state
+        FROM projects
+        WHERE state = '".PROJ_DELETE."'
+        AND deletion_reason = 'merged into $project->projectid'
+        ORDER BY modifieddate
+    ") or die(mysql_error());
+    while ( $project2 = mysql_fetch_object($res2) )
+    {
+        archive_ancillary_data_for_project( $project2, $indent, $dry_run );
+    }
+}
+
+function archive_ancillary_data_for_project( $project, $indent, $dry_run )
+{
+    $projectid = $project->projectid;
+
+    if ( $project->state != PROJ_SUBMIT_PG_POSTED && $project->state != PROJ_DELETE )
+    {
+        echo $indent, "$projectid state is '$project->state'; skipping.\n";
+        global $skipped_due_to_state;
+        $skipped_due_to_state[] = "$projectid $project->state";
+        return;
+    }
+
+    $res2 = mysql_query("DESCRIBE `$projectid`");
+    if ( $res2 === FALSE && mysql_errno() == 1146 )
+    {
+        // project's page table doesn't exist.
+        // Good, that's consistent with it having archived='1'
+    }
+    else
+    {
+        // project's page table exists (or something else weird happened)
+        echo $indent, "$projectid page table exists; skipping.\n";
+        global $skipped_due_to_page_table;
+        $skipped_due_to_page_table[] = $projectid;
+        return;
+    }
+
+    // okay, proceed
+    move_project_rows_to_archive_db($projectid, 'page_events', $indent, $dry_run);
+}
+
+// -----------------------------------------------------------------------------
+
+function move_project_rows_to_archive_db( $projectid, $table_name, $indent, $dry_run )
+// "Move" (i.e. copy and delete) rows pertaining to the given project
+// from $table_name in the main db to $table_name in the archive db.
+//
+// (Assumes that the table has a column named 'projectid' and a column named
+// 'event_id' for ordering. If these assumptions break down at some point,
+// they can be parameterized.)
+{
+    global $archive_db_name;
+
+    echo $indent, "$projectid $table_name: ";
+
+    if ( $dry_run )
+    {
+        echo "move rows to $archive_db_name.$table_name\n";
+        return;
+    }
+
+    $watch = new Stopwatch();
+    $watch->start();
+
+    mysql_query("
+        INSERT INTO $archive_db_name.$table_name
+        SELECT *
+        FROM $table_name
+        WHERE projectid='$projectid'
+        ORDER BY event_id
+    ") or die(mysql_error());
+    $n_copied = mysql_affected_rows();
+    echo "$n_copied rows copied";
+
+    if ( $n_copied == 0 )
+    {
+        echo ".\n";
+        return;
+    }
+
+    mysql_query("
+        DELETE 
+        FROM $table_name
+        WHERE projectid='$projectid'
+    ") or die(mysql_error());
+    $n_deleted = mysql_affected_rows();
+    if ( $n_deleted == $n_copied )
+    {
+        echo " and deleted.";
+    }
+    else
+    {
+        echo "BUT $n_deleted DELETED! ABORTING\n";
+        exit;
+    }
+
+    $t_elapsed = $watch->read();
+    echo sprintf( " (in %.2f sec => %d rows/sec)", $t_elapsed, $n_deleted / $t_elapsed );
+    echo ".\n";
+
+    // Moving a project-worth of rows can take a while,
+    // so if you're running the script on a live site,
+    // this sleep gives the db server some time to recover
+    // in between queries.
+    global $archival_recovery_multiplier;
+    sleep($t_elapsed * $archival_recovery_multiplier);
+}
+
+$archival_recovery_multiplier = 6;
+// If you're running the script when the site is down (e.g., when upgrading),
+// you probably don't need to insert sleeps, so you can eliminate them
+// by setting this variable to zero.
+
+// -----------------------------------------------------------------------------
+
+function archival_skip_logs_init()
+{
+    global $skipped_due_to_state, $skipped_due_to_page_table;
+
+    $skipped_due_to_state = array();
+    $skipped_due_to_page_table = array();
+}
+
+function archival_skip_logs_dump()
+{
+    global $skipped_due_to_state, $skipped_due_to_page_table;
+
+    echo "\n";
+    echo count($skipped_due_to_state), " skipped_due_to_state:\n";
+    foreach ( $skipped_due_to_state as $str )
+    {
+        echo "    $str\n";
+    }
+
+    echo "\n";
+    echo count($skipped_due_to_page_table), " skipped_due_to_page_table:\n";
+    foreach ( $skipped_due_to_page_table as $str )
+    {
+        echo "    $str\n";
     }
 }
 
