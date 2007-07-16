@@ -12,11 +12,7 @@ $db_Connection=new dbConnect();
 header('Content-type: text/plain');
 
 // Find projects that were posted to PG a while ago
-// (that haven't been archived yet), and:
-// -- move the project's page-table to the archive database,
-// -- move the project's directory out of $projects_dir
-//    (for later off-site migration),
-// -- mark the project as having been archived.
+// (that haven't been archived yet), and archive them.
 
 $dry_run = array_get( $_GET, 'dry_run', '' );
 if ($dry_run)
@@ -42,6 +38,10 @@ while ( $project = mysql_fetch_object($result) )
 }
 
 function archive_project( $project, $dry_run )
+// -- Move the project's page-table to the archive database.
+// -- Move the project's directory out of $projects_dir
+//    (for later off-site migration).
+// -- Mark the project as having been archived.
 {
     $projectid = $project->projectid;
 
