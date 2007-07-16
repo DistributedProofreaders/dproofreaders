@@ -133,9 +133,7 @@ function move_project_rows_to_archive_db( $projectid, $table_name, $indent, $dry
 // "Move" (i.e. copy and delete) rows pertaining to the given project
 // from $table_name in the main db to $table_name in the archive db.
 //
-// (Assumes that the table has a column named 'projectid' and a column named
-// 'event_id' for ordering. If these assumptions break down at some point,
-// they can be parameterized.)
+// (Assumes that the table has a column named 'projectid'.)
 {
     global $archive_db_name;
 
@@ -155,7 +153,6 @@ function move_project_rows_to_archive_db( $projectid, $table_name, $indent, $dry
         SELECT *
         FROM $table_name
         WHERE projectid='$projectid'
-        ORDER BY event_id
     ") or die(mysql_error());
     $n_copied = mysql_affected_rows();
     echo "$n_copied rows copied";
