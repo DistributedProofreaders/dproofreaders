@@ -22,7 +22,7 @@ function generate_post_files( $project, $limit_round_id, $which_text, $include_p
     $other_files = $comments_path;
 
     // Word files
-    foreach ( array('good', 'bad', 'good_suggs') as $code )
+    foreach ( array('good', 'bad') as $code )
     {
         $f = get_project_word_file($project, $code);
         if ( $f->size > 0 )
