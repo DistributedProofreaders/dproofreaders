@@ -31,6 +31,31 @@ theme('Proofreading and Formatting Guidelines Revision History','header');
     </tr>
 
     <tr>
+      <td>07/19/2007 </td>
+      <td>Ver.&nbsp;1.9e </td>
+      <td>The DP Community</td>
+      <td>
+        <!-- CVS version of document.php which reflects this entry is v1.88 -->
+        <h3>Formatting Guidelines changes</h3>
+        <ul compact="compact">
+                <li>Fix accented characters incorrectly encoded in previous version</li>
+                <li>Insert missing instruction and example in the Dashes section</li>
+                <li>Insert missing markup in Plays example</li>
+                <li>Various wording changes to make Proofreading and Formatting Guidelines more consistent</li>
+                <li>Numerous minor wording changes and typo corrections</li>
+        </ul>
+        <!-- CVS version of proofreading_guidelines.php which reflects this entry is v1.33 -->
+        <h3>Proofreading Guidelines changes</h3>
+        <ul compact="compact">
+                <li>Fix accented characters incorrectly encoded in previous version</li>
+                <li>Change Double Quotes, Accented Characters, Diacritical Marks, and Non-Latin Characters sections to include the utf-8 alternate instructions</li>
+                <li>Various wording changes to make Proofreading and Formatting Guidelines more consistent</li>
+                <li>Insert Summary Guidelines section</li>
+                <li>Numerous minor wording changes and typo corrections</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>03/10/2007 </td>
       <td>Ver.&nbsp;1.9d </td>
       <td>The DP Community</td>
