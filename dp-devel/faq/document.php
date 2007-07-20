@@ -29,7 +29,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 <h1 align="center">Formatting Guidelines</h1>
 
-<h3 align="center">Version 1.9.d, generated March 10, 2007 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 1.9.e, revised July 19, 2007 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <h4>Formatting Guidelines <a href="formatting_guidelines_francaises.php">in French</a> /
