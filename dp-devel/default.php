@@ -35,6 +35,9 @@ show_news_for_page("FRONT");
 <li>
 <? echo sprintf(_("Confirm your registration, sign in, choose a project, and try proofreading a page or two!")); ?></li>
 </ul>
+<p>
+<? echo sprintf(_("Unregistered guests are invited to participate in <a href='tools/post_proofers/smooth_reading.php'>Smooth Reading</a>.")); ?>
+</p>
 
 <p><? echo _("Remember that there is no commitment expected on this site beyond the understanding that you do your best.");?></p>
 <p><? echo _("Proofread as often or as seldom as you like, and as many or as few pages as you like.  We encourage people to do 'a page a day', but it's entirely up to you! We hope you will join us in our mission of 'preserving the literary history of the world in a freely available form for everyone to use'."); ?></p>
