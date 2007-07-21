@@ -322,6 +322,8 @@ function spellcheck_quit()
 function spellcheck_apply_corrections() {
     $orig_text = stripslashes($_POST['text_data']);
 
+    $corrections = array();
+
     // were there any corrections?
     $n_bad_words = isset($_POST['sptotal'])?$_POST['sptotal']:0;
     if($n_bad_words == 0) {
@@ -331,8 +333,6 @@ function spellcheck_apply_corrections() {
     else {
         // make corrections
         $text_array = explode("[lf]",$orig_text);
-
-        $corrections = array();
 
         // If there are multiple corrections on a single line,
         // and you do them from left to right,
