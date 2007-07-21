@@ -4,7 +4,7 @@
 // and populate them (well, really just page_events at this point)
 // by moving data for archived projects from the main db.
 
-$relPath='../c/pinc/';
+$relPath='../../../pinc/';
 include_once($relPath.'archiving.inc');
 include_once($relPath.'connect.inc');
 new dbConnect();
