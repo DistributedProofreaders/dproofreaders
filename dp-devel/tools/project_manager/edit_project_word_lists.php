@@ -128,6 +128,7 @@ class ProjectWordListHolder
         $this->authorsname      = $ar['authorsname'];
         $this->language         = $ar['language'];
         $this->checkedoutby     = $ar['checkedoutby'];
+        $this->state            = $ar['state'];
 
         mysql_free_result($res);
 
@@ -352,6 +353,15 @@ class ProjectWordListHolder
 
         $OCR_pages = $this->number_of_pages_in_round(null);
         $P1_pages = $this->number_of_pages_in_round(get_Round_for_round_number(1));
+
+        // due to some special circumstances, not all projects may have pages in P1
+        // so we'll check to see if the project is in a state after P1 and count
+        // that as just as good
+        if($P1_pages == 0) {
+            $current_project_round = get_Round_for_project_state($this->state);
+            if($current_project_round->round_number > 1)
+                $P1_pages = 1;
+        }
 
         if($OCR_pages == 0) {
             echo "<tr>";
