@@ -8,15 +8,14 @@ include_once($relPath.'slim_header.inc');
 
 $user_is_logged_in = dpsession_resume();
 
+$default_percent = array_get( @$_SESSION["displayimage"], 'percent', 100 );
+
 // get variables passed into page
 $project   = $_GET['project'];
 $imagefile = $_GET['imagefile'];
-$percent   = get_integer_param($_GET, 'percent', $_SESSION["displayimage"]["percent"], 1, 999);
+$percent   = get_integer_param($_GET, 'percent', $default_percent, 1, 999);
 $showreturnlink = get_integer_param($_GET, 'showreturnlink', 1, 0, 1);
 $preload   = array_get($_GET, "preload", "");
-
-if(empty($percent))
-    $percent=100;
 
 $width = 10 * $percent;
 
