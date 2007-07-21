@@ -139,6 +139,7 @@ while ( $row = mysql_fetch_object($res) )
             $projectid = $matches[0];
             $dres = mysql_query("SELECT state, nameofwork FROM projects WHERE projectid = '$projectid'");
             list($state, $nameofwork) = mysql_fetch_row($dres);
+            $orig_nameofwork = $row->nameofwork;
         }
         else
         {
@@ -152,11 +153,16 @@ while ( $row = mysql_fetch_object($res) )
         $projectid = $row->projectid;
         $state = $row->state;
         $nameofwork = $row->nameofwork;
+        $orig_nameofwork = '';
     }
 
     echo "<tr>\n";
 
     echo "<td>";
+    if ($orig_nameofwork != '') {
+        // say where this information came from
+        echo $orig_nameofwork . _(" <i>merged into</i> ");
+    }
     $url = "$code_url/project.php?id=$projectid";
     echo "<a href='$url' ".sprintf($link_js,$url).">$nameofwork</a>";
     echo "</td>\n";
