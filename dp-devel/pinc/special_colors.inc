@@ -69,7 +69,7 @@ function get_special_color_for_project($book) {
 
 function echo_special_legend( $projects_where_clause) {
 
-    $legend_text = _("Legend for Special Books:");
+    $legend_text = _("Legend for Special Day Colors:");
 
     $currspecs_result = mysql_query("
             SELECT distinct special_code as spec FROM projects
