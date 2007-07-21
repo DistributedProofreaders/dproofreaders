@@ -161,7 +161,7 @@ while ( $row = mysql_fetch_object($res) )
     echo "<td>";
     if ($orig_nameofwork != '') {
         // say where this information came from
-        echo $orig_nameofwork . _(" <i>merged into</i> ");
+        echo $orig_nameofwork . " <i>" .  _("merged into") . "</i> ";
     }
     $url = "$code_url/project.php?id=$projectid";
     echo "<a href='$url' ".sprintf($link_js,$url).">$nameofwork</a>";
