@@ -51,6 +51,10 @@ function get_integer_param( $arr, $key, $default, $min, $max )
     {
         $s = $arr[$key];
         assert(is_string($s));
+
+        // Trim whitespace from both ends of the string.
+        $s = trim($s);
+        
         if ( preg_match('/^[-+]?\d+$/', $s ) )
         {
             // It's a well-formed (decimal) rep of an integer.
