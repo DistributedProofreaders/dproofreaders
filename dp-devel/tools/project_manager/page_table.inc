@@ -71,13 +71,15 @@ function echo_page_table(
 
     $upload_colspan = 2 + $show_image_size;
 
+    echo_pagetable_stylesheet();
+
     if ( $can_edit )
     {
         echo "<form name='pagesform' method='post' action='$code_url/tools/project_manager/edit_pages.php'>\n";
         echo "<input type='hidden' name='projectid' value='$projectid'>\n";
     }
 
-    echo "<table id='page_table' border=1>\n";
+    echo "<table class='pagedetail' id='page_table' border=1>\n";
 
     $n_cols_per_round = 3; // Diff, Date, Text
     // Even if the user can't see names for all pages, they can see names
@@ -89,11 +91,11 @@ function echo_page_table(
         echo "<tr>\n";
         if ($can_edit)
         {
-            echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
+            echo "    <td>&nbsp;</td>\n";
         }
-        echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
-        echo "    <td align='center' colspan='$upload_colspan'>"._("Upload")."</td>\n";
-        echo "    <td align='center' colspan='1'>&nbsp;</td>\n";
+        echo "    <td>&nbsp;</td>\n";
+        echo "    <td colspan='$upload_colspan'>"._("Upload")."</td>\n";
+        echo "    <td>&nbsp;</td>\n";
         foreach ( $rounds_to_display as $round )
         {
             if ($round->id == $project_round->id && $project_phase == 'PAGE_EDITING')
@@ -101,17 +103,17 @@ function echo_page_table(
                 $n_cols_per_round++;
             }
 
-            echo "    <td align='center' colspan='$n_cols_per_round'>$round->id</td>\n";
+            echo "    <td colspan='$n_cols_per_round'>$round->id</td>\n";
         }
         echo "</tr>\n";
     }
 
     // Bottom header row
     {
-        echo "<tr bgcolor='".$theme['color_headerbar_bg']."'>\n";
+        echo "<tr>\n";
 
-        $td_start = "<td align='center'><font color='{$theme['color_headerbar_font']}'>";
-        $td_end   = "</font></td>\n";
+        $td_start = "<th>";
+        $td_end   = "</th>\n";
 
         if ($can_edit)
         {
@@ -243,12 +245,12 @@ function echo_page_table(
         $imagename = $page_res['image'];
 
         if ($rownum % 2 ) {
-            $row_color = $theme['color_mainbody_bg'];
+            $row_class_attr = "class='e'";
         } else {
-            $row_color = $theme['color_navbar_bg'];
+            $row_class_attr = "class='o'";
         }
 
-        echo "<tr bgcolor='$row_color'>";
+        echo "<tr $row_class_attr>";
 
         // --------------------------------------------
         // Selector
@@ -260,33 +262,33 @@ function echo_page_table(
         // --------------------------------------------
         // Index
         $index = $rownum+1;
-        echo "<td align='right'>$index</td>\n";
+        echo "<td style='text-align: right'>$index</td>\n";
 
         // --------------------------------------------
         // Upload Block
 
         // Image
         if (file_exists($path.$imagename)) {
-            $bgcolor = $row_color;
+            $cell_class_attr = '';
             $imagesize = filesize(realpath($path.$imagename));
             if ($imagesize == 0) {
-                $bgcolor = "#FF0000";
+                $cell_class_attr = "class='error'";
             }
         } else {
-            $bgcolor = "#FF0000";
+            $cell_class_attr = "class='error'";
             if ($show_image_size) $imagesize = "X";
         }
-        echo "<td bgcolor='$bgcolor'><a href='$code_url/tools/project_manager/displayimage.php?project=$projectid&imagefile=$imagename'>$imagename</a></td>\n";
+        echo "<td $cell_class_attr><a href='$code_url/tools/project_manager/displayimage.php?project=$projectid&imagefile=$imagename'>$imagename</a></td>\n";
 
         // Image Size
         if ($show_image_size)
         {
-            echo "<td bgcolor='$bgcolor' align='right'>$imagesize</td>";
+            echo "<td $cell_class_attr style='text-align: right'>$imagesize</td>";
         }
 
         // Master Text
         $master_text_length = $page_res['length(master_text)'];
-        echo "<td align='right'><a href='$code_url/tools/project_manager/downloadproofed.php?project=$projectid&image=$imagename&round_num=0'>$master_text_length&nbsp;b</a></td>\n";
+        echo "<td style='text-align: right'><a href='$code_url/tools/project_manager/downloadproofed.php?project=$projectid&image=$imagename&round_num=0'>$master_text_length&nbsp;b</a></td>\n";
 
         // --------------------------------------------
 
@@ -338,6 +340,7 @@ function echo_page_table(
             if ($page_res[$project_round->user_column_name] == $pguser
                 && $page_state != $project_round->page_avail_state)  
             {
+
                 $url = url_for_pi_do_particular_page(
                     $projectid, $state, $imagename, $page_state );
                 echo "<td><a href=$url>"._("Edit")."</a></td>\n";
@@ -368,11 +371,11 @@ function echo_page_table(
 
             echo "<td>";
             if ($page_is_in_bad_state) {
-                echo "<center><b>";
+                echo "<b>";
                 echo "<a href='$code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&image=$imagename'>" . _("Bad") . "</a>";
-                echo "</b></center>";
+                echo "</b>";
             } else {
-                echo "<center><a href='$code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&image=$imagename'>" . _("Fix") . "</a></center>\n";
+                echo "<a href='$code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&image=$imagename'>" . _("Fix") . "</a>\n";
             }
             echo "</td>\n";
 
@@ -503,33 +506,33 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
 
     $R_username = $page_res[$round->user_column_name];
 
-    $cellcolorclause = " ";
+    $cell_class_attr = "";
 
     // colour-code pages proofread by the user
     if ($R_username == $pguser) {
 
         // a page saved as DONE by the user has a greenish background
         if ($page_state == $round->page_save_state) {
-            $cellcolorclause = "bgcolor='#99FF66'";
+            $cell_class_attr = "class='done_current'";
         }
 
         // a page saved as IN PROGRESS by the user has an orangey background
         else if ($page_state == $round->page_temp_state 
             || $page_state == $round->page_out_state) {
-            $cellcolorclause = "bgcolor='#FFCC66'";
+            $cell_class_attr = "class='in_progress'";
         }
 
         // a page by the user but not available for editing has a reddish background
         else if ($page_state != $round->page_avail_state)
         {
-            $cellcolorclause = "bgcolor='#FF3366'";
+            $cell_class_attr = "class='done_previous'";
         }
     }
 
     // ------------------------------
     // Diff
 
-    echo "<td align='center'>";
+    echo "<td>";
     if ($page_state != $round->page_avail_state) {
         if($page_res[$round->textdiff_column_name]) {
             echo _("no diff");
@@ -565,7 +568,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     {
         $R_pages_completed = $page_res["$round_num.user_page_tally"];
 
-        echo "<td align='center' $cellcolorclause >" . private_message_link($R_username,null) . " ($R_pages_completed)</td>\n";
+        echo "<td $cell_class_attr>" . private_message_link($R_username,null) . " ($R_pages_completed)</td>\n";
     }
     else
     {
@@ -583,7 +586,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     }
     else
     {
-        echo "<td align='right' $cellcolorclause ><a href='$code_url/tools/project_manager/downloadproofed.php?project=$projectid&image=$imagename&round_num=$round_num'>$R_text_length&nbsp;b</a></td>\n";
+        echo "<td style='text-align: right' $cell_class_attr><a href='$code_url/tools/project_manager/downloadproofed.php?project=$projectid&image=$imagename&round_num=$round_num'>$R_text_length&nbsp;b</a></td>\n";
     }
 }
 
@@ -613,6 +616,38 @@ function page_state_is_a_bad_state($page_state)
         }
     }
     return FALSE;
+}
+
+// -----------------------------------------------------------------------------
+
+function echo_pagetable_stylesheet() {
+    global $theme;
+?>
+    <style type="text/css">
+    
+    table.pagedetail th {
+        color: <?php echo $theme['color_headerbar_font']; ?>;
+        background-color: <?php echo $theme['color_headerbar_bg']; ?>;
+        text-align: center;
+        font-weight: normal;
+    }
+    table.pagedetail tr.e {
+        background-color: <?php echo $theme['color_mainbody_bg']; ?>;
+    }
+    table.pagedetail tr.o {
+        background-color: <?php echo $theme['color_navbar_bg']; ?>;
+    }
+    table.pagedetail td {
+        text-align: center;
+    }
+    table.pagedetail td.error {
+        background-color: #F00;
+    }
+    .in_progress { background-color: #FC6; }
+    .done_current { background-color: #9F6; }
+    .done_previous { background-color: #F36; }
+    </style>
+<?
 }
 
 // vim: sw=4 ts=4 expandtab
