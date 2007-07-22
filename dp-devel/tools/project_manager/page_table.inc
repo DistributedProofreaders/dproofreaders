@@ -82,7 +82,6 @@ function echo_page_table(
     // Even if the user can't see names for all pages, they can see names
     // for the pages they've worked on, so we always include the User column.
     if (TRUE)           $n_cols_per_round += 1; // User
-    if ($can_edit)      $n_cols_per_round += 1; // Clear
 
     // Top header row
     {
@@ -138,10 +137,6 @@ function echo_page_table(
                 echo "{$td_start}"._("User")."{$td_end}";
             }
             echo "{$td_start}"._("Text")."{$td_end}";
-            if ($can_edit)
-            {
-                echo "{$td_start}"._("Clear")."{$td_end}";
-            }
         }
 
         if ($project_phase == 'PAGE_EDITING')
@@ -149,7 +144,11 @@ function echo_page_table(
             echo "{$td_start}"._("Edit")."{$td_end}";
         }
 
-        if ($can_edit) echo "{$td_start}"._("Bad/Fix")."{$td_end}";
+        if ($can_edit)
+        {
+            echo "{$td_start}"._("Clear")."{$td_end}";
+            echo "{$td_start}"._("Bad/Fix")."{$td_end}";
+        }
 
         if ($show_delete)
         {
@@ -327,7 +326,7 @@ function echo_page_table(
         foreach ( $rounds_to_display as $round )
         {
             $rn = $round->round_number;
-            echo_cells_for_round($rn, $prev_rn, $page_res, $projectid, $project_phase, $can_edit, $can_see_names_for_this_page);
+            echo_cells_for_round($rn, $prev_rn, $page_res, $projectid, $project_phase, $can_see_names_for_this_page);
             $prev_rn = $rn;
         }
 
@@ -352,6 +351,19 @@ function echo_page_table(
         // --------------------------------------------
         // PM/Admin project editing
         if ($can_edit) {
+
+            // Clear
+            $clear_string = " ";
+            // Anticipate the tests in page_clear()
+            // and only make a link if page_clear will do something
+            if (
+                $project_phase=='PAGE_EDITING' &&
+                $page_state == $round->page_save_state
+            )
+            {
+                $clear_string = "<a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&selected_pages[$imagename]=on&operation=clear'>"._("Clear")."</a>";
+            }
+            echo "<td>$clear_string</td>";
 
             // Bad Page
             $page_is_in_bad_state = page_state_is_a_bad_state($page_state);
@@ -481,12 +493,9 @@ function get_rounds_with_data( $projectid )
 
 function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the only "real" params.
     $page_res,
-    $projectid, $project_phase, $can_edit, $can_see_names_for_this_page)
+    $projectid, $project_phase, $can_see_names_for_this_page)
 {
     global $userP, $forums_url, $pguser, $code_url;
-
-    // test
-    //$can_edit = FALSE;
 
     $imagename  = $page_res['image'];
     $page_state = $page_res['state'];
@@ -580,26 +589,6 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     {
         echo "<td align='right' $cellcolorclause ><a href='$code_url/tools/project_manager/downloadproofed.php?project=$projectid&image=$imagename&round_num=$round_num'>$R_text_length&nbsp;b</a></td>\n";
     }
-
-    // ------------------------------
-    // Clear
-
-    if ($can_edit) {
-        // Anticipate the tests in page_clear()
-        if (
-            $project_phase=='PAGE_EDITING' &&
-            $page_state == $round->page_save_state
-        )
-        {
-            echo "<td><a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&selected_pages[$imagename]=on&operation=clear'>"._("Clear")."</a></td>";
-        }
-        else
-        {
-            // page_clear() won't let anything happen
-            echo "<td></td>";
-        }
-    }
-    echo "\n";
 }
 
 // -----------------------------------------------------------------------------
