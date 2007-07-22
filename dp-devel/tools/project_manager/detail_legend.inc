@@ -1,4 +1,3 @@
-<br><br>
 <table width='75%' border='4' rules='all'>
           <tr>
        <td colspan=3> <? echo _("Pages proofread by you and..."); ?></td></tr>
@@ -7,4 +6,3 @@
             <td class='done_previous'> <? echo _("DONE in a previous round (no longer available for editing)"); ?></td>
        </tr>
 </table>
-<br><br>
