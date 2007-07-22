@@ -67,13 +67,13 @@ echo "<h2>$page_details_str</h2>\n";
 $url = "$code_url/project.php?id=$projectid&amp;expected_state=$state";
 $label = _("Return to Project Page");
 
-echo "<a href='$url'>$label</a>";
-echo "<br>\n";
+echo "<p><a href='$url'>$label</a></p>\n";
 
 include_once('detail_legend.inc');
 
-echo "N.B. It is <b>strongly</b> recommended that you view page differentials by right-clicking on a diff link and opening the link in a new window or tab."."<br>\n<br>\n";
+echo "<p>" . _("It is <b>strongly</b> recommended that you view page differentials by right-clicking on a diff link and opening the link in a new window or tab.") . "</p>";
 
+echo "<p>";
 if ( !is_null($username_for_page_selection) )
 {
     if (is_null($round_for_page_selection) )
@@ -96,6 +96,7 @@ else
    $blurb = _("Show just my pages.");
    echo "<a href='?project=$projectid&show_image_size=$show_image_size&select_by_user'>$blurb</a>";
 }
+echo "</p>";
 
 echo_page_table( $project, $show_image_size, FALSE, $username_for_page_selection, $round_for_page_selection );
 
