@@ -12,6 +12,12 @@
 # so you can use any syntax that /bin/sh allows.  However, in typical
 # usage, you would merely assign literal values to shell variables.
 
+# Bug/limitation: if a variable's value contains an apostrophe, the
+# configuration process will not work correctly. (Note that it's fine to
+# use apostrophes to delimit string literals; they aren't part of the
+# value.) This is unlikely to be a problem outside the "Identifying
+# the Site" section.
+
 # Security:
 #
 # Because this file will contain various passwords, you should be
@@ -61,6 +67,9 @@ _CODE_URL=$base_url/c
 
 # Identifying the Site
 # --------------------
+
+# (Bug/limitation: The values for the next three variables should avoid
+# three characters that are special to HTML/XML: < > &.)
 
 # Something like 'Distributed Proofreaders' would be good. It should
 # make sense in contexts like 'Welcome to %s', and 'the %s website'.
