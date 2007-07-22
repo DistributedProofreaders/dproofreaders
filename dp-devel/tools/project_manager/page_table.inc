@@ -324,7 +324,7 @@ function echo_page_table(
         foreach ( $rounds_to_display as $round )
         {
             $rn = $round->round_number;
-            echo_cells_for_round($rn, $prev_rn, $page_res, $projectid, $project_phase, $can_see_names_for_this_page);
+            echo_cells_for_round($rn, $prev_rn, $page_res, $projectid, $can_see_names_for_this_page);
             $prev_rn = $rn;
         }
 
@@ -356,7 +356,7 @@ function echo_page_table(
             // and only make a link if page_clear will do something
             if (
                 $project_phase=='PAGE_EDITING' &&
-                $page_state == $round->page_save_state
+                $page_state == $project_round->page_save_state
             )
             {
                 $clear_string = "<a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&selected_pages[$imagename]=on&operation=clear'>"._("Clear")."</a>";
@@ -491,7 +491,7 @@ function get_rounds_with_data( $projectid )
 
 function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the only "real" params.
     $page_res,
-    $projectid, $project_phase, $can_see_names_for_this_page)
+    $projectid, $can_see_names_for_this_page)
 {
     global $userP, $forums_url, $pguser, $code_url;
 
