@@ -192,17 +192,12 @@ function _get_word_list($projectid) {
 
     // make external call to wdiff
     exec("wdiff -3 $ocr_filename $latest_filename", $wdiff_output, $return_code);
-    $wdiff_output = implode("\n",$wdiff_output);
 
     // check to see if wdiff wasn't found to execute
     if($return_code == 127)
         die("Error invoking wdiff to do the diff analysis. Perhaps it is not installed.");
     if($return_code == 2)
         die("Error reported from wdiff while attempting to do the diff analysis.");
-
-    // parse the output into segments
-    $separater = '======================================================================';
-    $wdiff_segments = explode($separater,$wdiff_output);
 
     // clean up the temporary files
     if(is_file($ocr_filename)) {
@@ -212,11 +207,26 @@ function _get_word_list($projectid) {
         unlink($latest_filename);
     }
 
+    // specify the separater between the wdiff segments
+    $separater = '======================================================================';
+
     $possible_scannos_w_correction = array();
     $possible_scannos_w_count = array();
 
-    // process wdiff output
-    foreach ($wdiff_segments as $segment) {
+    // parse the incoming data one segment at a time
+    // from the original datastream to conserve memory
+    $lineIndex = 0;
+    $totalLines = count($wdiff_output);
+    while($lineIndex <= $totalLines) {
+        // pull the next segment
+        $segment = "";
+        while($lineIndex <= $totalLines) {
+            $line = $wdiff_output[$lineIndex];
+            $lineIndex++;
+            if($line == $separater) break;
+            $segment .= "$line\n";
+        }
+
         // note that we're handling the case where two adjacent
         // words are updated
         $ocr_words=$latest_words=array();
@@ -254,6 +264,9 @@ function _get_word_list($projectid) {
             @$possible_scannos_w_count[$ocr_word]++;
         }
     }
+    // $wdiff_output can be very large
+    // so unset it here to be nice for the rest of the function
+    unset( $wdiff_output );
 
     $possible_scannos = array_keys($possible_scannos_w_correction);
 
