@@ -50,7 +50,7 @@ class Project
             $imso_code = $this->image_source;
             if ( strcmp($imso_code,'_internal') != 0 )
             // if $imso_code = _internal, the images were done by or for a DP User, 
-            // whose username should be recorded in image_provider, and the credit handled by
+            // whose username should be recorded in image_preparer, and the credit handled by
             // _create_credit_line() below; otherwise, we need to look up info on the
             // specific "external" image source
             {
