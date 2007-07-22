@@ -582,7 +582,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
 
     if ( $R_text_length == 0 )
     {
-        echo "<td $cellcolorclause > </td>\n";
+        echo "<td $cell_class_attr> </td>\n";
     }
     else
     {
