@@ -7,6 +7,7 @@ include_once($relPath.'project_states.inc'); // get_phase_containing_project_sta
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_do_particular_page
 include_once($relPath.'misc.inc'); // surround_and_join
+include_once($relPath.'links.inc'); // private_message_link
 
 function echo_page_table(
     $project,
@@ -177,13 +178,10 @@ function echo_page_table(
             $prev_text_column_name = BINARY $round->text_column_name AS $round->textdiff_column_name,
             $round->time_column_name,
             $round->user_column_name,
-            phpbb_users$rn.user_id AS `$rn.phpbb_user_id`,
             $user_page_tally_column AS `$rn.user_page_tally`,
             length($round->text_column_name)
         ";
         $tables .= "
-            LEFT OUTER JOIN phpbb_users AS phpbb_users$rn
-                ON (phpbb_users$rn.username = $round->user_column_name)
             LEFT OUTER JOIN users AS users$rn
                 ON (users$rn.username = $round->user_column_name)
             $joined_with_user_page_tallies
@@ -567,9 +565,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     {
         $R_pages_completed = $page_res["$round_num.user_page_tally"];
 
-        $R_bb_user_id = $page_res["$round_num.phpbb_user_id"];
-
-        echo "<td align='center' $cellcolorclause ><a href=$forums_url/privmsg.php?mode=post&u=$R_bb_user_id>$R_username</a> ($R_pages_completed)</td>\n";
+        echo "<td align='center' $cellcolorclause >" . private_message_link($R_username,null) . " ($R_pages_completed)</td>\n";
     }
     else
     {
