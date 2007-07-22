@@ -331,7 +331,9 @@ class Project
         $post_body = <<<EOS
 This thread is for discussion specific to "$this->nameofwork" by $this->authorsname.
 
-Please review the [url=$code_url/project.php?id={$this->projectid}&detail_level=1]project comments[/url] before posting, as well as any posts below, as your question may already be answered there.
+If you have a question about this project, please review the [url=$code_url/project.php?id={$this->projectid}&detail_level=1]Project Comments[/url], as well as any posts below, as your question may already be answered there.
+
+If you haven't found the answer to your question, or want to make a comment about this project, click on the [b]Post Reply[/b] button to post your question or comment in this thread.
 
 (This post is automatically generated.)
 EOS;
