@@ -369,17 +369,17 @@ function echo_page_table(
             echo "<td>";
             if ($page_is_in_bad_state) {
                 echo "<center><b>";
-                echo "<a href='$code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&image=$imagename'>Bad</a>";
+                echo "<a href='$code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&image=$imagename'>" . _("Bad") . "</a>";
                 echo "</b></center>";
             } else {
-                echo "<center><a href='$code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&image=$imagename'>Fix</a></center>\n";
+                echo "<center><a href='$code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&image=$imagename'>" . _("Fix") . "</a></center>\n";
             }
             echo "</td>\n";
 
             // Delete
             if ($show_delete)
             {
-                echo "<td><a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&selected_pages[$imagename]=on&operation=delete'>Delete</a></td>\n";
+                echo "<td><a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&selected_pages[$imagename]=on&operation=delete'>" . _("Delete") . "</a></td>\n";
             }
         }
 
