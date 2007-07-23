@@ -163,7 +163,7 @@ class PPage
         $other_round_ids = $round->other_rounds_with_visible_usernames;
         if (count($other_round_ids) > 0)
         {
-            echo " -- ";
+            echo " &mdash; ";
 
             $show_comma = FALSE;
             foreach ($other_round_ids as $other_round_id)
