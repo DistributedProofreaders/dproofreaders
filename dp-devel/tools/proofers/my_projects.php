@@ -203,7 +203,7 @@ $colspecs = array(
     'state' =>
         array(
             'label' => _('Current State'),
-            'sql'   => 'state',
+            'sql'   => sql_collater_for_project_state('state'),
         )
 );
 
