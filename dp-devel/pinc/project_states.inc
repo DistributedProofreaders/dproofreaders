@@ -26,7 +26,7 @@ include_once($relPath.'site_vars.php');
 */
 
 $PROJECT_STATES_IN_ORDER = array();
-$project_state_label_ = array();
+$project_state_long_label_ = array();
 $project_state_forum_ = array();
 $project_state_phase_ = array();
 $project_states_for_star_metal_ = array(
@@ -38,20 +38,20 @@ $project_states_for_star_metal_ = array(
 function declare_project_state(
     $constant_name,
     $constant_value,
-    $label,
+    $long_label,
     $forum,
     $phase,
     $star_metal )
 {
     global $PROJECT_STATES_IN_ORDER;
-    global $project_state_label_;
+    global $project_state_long_label_;
     global $project_state_forum_;
     global $project_state_phase_;
     global $project_states_for_star_metal_;
 
     define( $constant_name, $constant_value );
     $PROJECT_STATES_IN_ORDER[] = $constant_value;
-    $project_state_label_[$constant_value] = $label;
+    $project_state_long_label_[$constant_value] = $long_label;
     $project_state_forum_[$constant_value] = $forum;
     $project_state_phase_[$constant_value] = $phase;
     if ($star_metal) $project_states_for_star_metal_[$star_metal][] = $constant_value;
@@ -59,8 +59,8 @@ function declare_project_state(
 
 function project_states_text($state)
 {
-    global $project_state_label_;
-    return array_get( $project_state_label_, $state, '' );
+    global $project_state_long_label_;
+    return array_get( $project_state_long_label_, $state, '' );
 }
 
 function get_forum_id_for_project_state($state)

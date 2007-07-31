@@ -424,7 +424,7 @@ if (0)
 {
 	include_once($relPath.'project_states.inc');
 	var_dump( $PROJECT_STATES_IN_ORDER );
-	var_dump( $project_state_label_ );
+	var_dump( $project_state_long_label_ );
 	var_dump( $project_state_forum_ );
 	var_dump( $project_state_phase_ );
 	var_dump( $project_states_for_star_metal_ );
@@ -620,7 +620,7 @@ if (0)
     ");
 
     $i = 0;
-    foreach ( $project_state_label_ as $project_state => $label )
+    foreach ( $project_state_long_label_ as $project_state => $label )
     {
 	$i += 1;
 	dpsql_query("
