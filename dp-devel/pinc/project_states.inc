@@ -38,12 +38,14 @@ $project_states_for_star_metal_ = array(
 function declare_project_state(
     $constant_name,
     $constant_value,
+    $medium_label,
     $long_label,
     $forum,
     $phase,
     $star_metal )
 {
     global $PROJECT_STATES_IN_ORDER;
+    global $project_state_medium_label_;
     global $project_state_long_label_;
     global $project_state_forum_;
     global $project_state_phase_;
@@ -51,10 +53,17 @@ function declare_project_state(
 
     define( $constant_name, $constant_value );
     $PROJECT_STATES_IN_ORDER[] = $constant_value;
+    $project_state_medium_label_[$constant_value] = $medium_label;
     $project_state_long_label_[$constant_value] = $long_label;
     $project_state_forum_[$constant_value] = $forum;
     $project_state_phase_[$constant_value] = $phase;
     if ($star_metal) $project_states_for_star_metal_[$star_metal][] = $constant_value;
+}
+
+function get_medium_label_for_project_state($state)
+{
+    global $project_state_medium_label_;
+    return array_get( $project_state_medium_label_, $state, '' );
 }
 
 function project_states_text($state)
@@ -85,6 +94,7 @@ function declare_project_states_for_round( $round_id, $round_name )
     declare_project_state(
         "PROJ_{$round_id}_BAD_PROJECT",
         "$round_id.proj_bad",
+	"$round_id: " .  _("Bad Project"),
         "$round_name: " . _("Bad Project"),
         $projects_forum_idx,
         'PAGE_EDITING',
@@ -93,6 +103,7 @@ function declare_project_states_for_round( $round_id, $round_name )
     declare_project_state(
         "PROJ_{$round_id}_UNAVAILABLE",
         "$round_id.proj_unavail",
+        "$round_id: " . _("Unavailable"),
         "$round_name: " . _("Unavailable"),
         ($round_id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx ),
         'PAGE_EDITING',
@@ -101,6 +112,7 @@ function declare_project_states_for_round( $round_id, $round_name )
     declare_project_state(
         "PROJ_{$round_id}_WAITING_FOR_RELEASE",
         "$round_id.proj_waiting",
+        "$round_id: " . _("Waiting"),
         "$round_name: " . _("Waiting for Release"),
         ($round_id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx ),
         'PAGE_EDITING',
@@ -109,6 +121,7 @@ function declare_project_states_for_round( $round_id, $round_name )
     declare_project_state(
         "PROJ_{$round_id}_AVAILABLE",
         "$round_id.proj_avail",
+        "$round_id: " . _("Available"),
         "$round_name: " . _("Available"),
         $projects_forum_idx,
         'PAGE_EDITING',
@@ -117,6 +130,7 @@ function declare_project_states_for_round( $round_id, $round_name )
     declare_project_state(
         "PROJ_{$round_id}_COMPLETE",
         "$round_id.proj_done",
+        "$round_id: " . _("Completed"),
         "$round_name: " . _("Completed"),
         $projects_forum_idx,
         'PAGE_EDITING',
@@ -139,6 +153,7 @@ declare_project_state(
     "PROJ_NEW",
     "project_new",
      _("New Project"),
+     _("New Project"),
     $waiting_projects_forum_idx,
     'NEW',
     ''
@@ -150,6 +165,7 @@ if ($site_supports_metadata)
 	    "PROJ_NEW_WAITING_APPROVAL",
 	    "project_new_waiting_app",
 	     _("Awaiting Approval"),
+	     _("Awaiting Approval"),
 	    $waiting_projects_forum_idx,
 	    'NONE',
 	    ''
@@ -157,6 +173,7 @@ if ($site_supports_metadata)
 	declare_project_state(
 	    "PROJ_NEW_UNAPPROVED",
 	    "project_new_unapp",
+	    _("Unapproved Project"),
 	    _("Unapproved Project"),
 	    $waiting_projects_forum_idx,
 	    'NONE',
@@ -166,6 +183,7 @@ if ($site_supports_metadata)
 	    "PROJ_NEW_APPROVED",
 	    "project_new_app",
 	    _("Approved Project"),
+	    _("Approved Project"),
 	    $waiting_projects_forum_idx,
 	    'NONE',
 	    ''
@@ -173,6 +191,7 @@ if ($site_supports_metadata)
 	declare_project_state(
 	    "PROJ_NEW_FILE_UPLOADED",
 	    "project_new_uploaded",
+	    _("Files Uploaded"),
 	    _("Files Uploaded"),
 	    $waiting_projects_forum_idx,
 	    'NONE',
@@ -182,6 +201,7 @@ if ($site_supports_metadata)
 	    "PROJ_NEW_METADATA_FIRST",
 	    "project_md_first",
 	    _("Metadata First Round"),
+	    _("Metadata First Round"),
 	    $waiting_projects_forum_idx,
 	    'NONE',
 	    ''
@@ -189,6 +209,7 @@ if ($site_supports_metadata)
 	declare_project_state(
 	    "PROJ_NEW_METADATA_BAD",
 	    "project_md_bad",
+	    _("Bad Metadata"),
 	    _("Bad Metadata"),
 	    $waiting_projects_forum_idx,
 	    'NONE',
@@ -198,6 +219,7 @@ if ($site_supports_metadata)
 	    "PROJ_NEW_METADATA_SECOND",
 	    "project_md_second",
 	    _("Metadata Second Round"),
+	    _("Metadata Second Round"),
 	    $waiting_projects_forum_idx,
 	    'NONE',
 	    ''
@@ -206,6 +228,7 @@ if ($site_supports_metadata)
 	    "PROJ_NEW_PREPROCESSING",
 	    "project_new_preprocess",
 	    _("Preprocessing"),
+	    _("Preprocessing"),
 	    $waiting_projects_forum_idx,
 	    'NONE',
 	    ''
@@ -213,6 +236,7 @@ if ($site_supports_metadata)
 	declare_project_state(
 	    "PROJ_NEW_PENDING_PM",
 	    "project_new_pend_pm",
+	    _("Pending Project Manager"),
 	    _("Pending Project Manager"),
 	    $waiting_projects_forum_idx,
 	    'NONE',
@@ -235,6 +259,7 @@ declare_project_states_for_round( 'F2', _('Formatting Round 2') );
 declare_project_state(
     "PROJ_POST_FIRST_UNAVAILABLE",
     "proj_post_first_unavailable",
+    _("Unavailable for PP"),
     _("Unavailable for Post-Processing"),
     $pp_projects_forum_idx,
     'PP',
@@ -243,6 +268,7 @@ declare_project_state(
 declare_project_state(
     "PROJ_POST_FIRST_AVAILABLE",
     "proj_post_first_available",
+    _("Available for PP"),
     _("Available for Post-Processing"),
     $pp_projects_forum_idx,
     'PP',
@@ -252,6 +278,7 @@ declare_project_state(
 declare_project_state(
     "PROJ_POST_FIRST_CHECKED_OUT",
     "proj_post_first_checked_out",
+    _("In PP"),
     _("In Post-Processing"),
     $pp_projects_forum_idx,
     'PP',
@@ -261,6 +288,7 @@ declare_project_state(
 declare_project_state(
     "PROJ_POST_SECOND_AVAILABLE",
     "proj_post_second_available",
+    _("Available for PPV"),
     _("Available for Verifying Post-Processing"),
     $pp_projects_forum_idx,
     'PP',
@@ -270,6 +298,7 @@ declare_project_state(
 declare_project_state(
     "PROJ_POST_SECOND_CHECKED_OUT",
     "proj_post_second_checked_out",
+    _("In PPV"),
     _("Verifying Post-Processing"),
     $pp_projects_forum_idx,
     'PP',
@@ -278,6 +307,7 @@ declare_project_state(
 declare_project_state(
     "PROJ_POST_COMPLETE",
     "proj_post_complete",
+    _("Completed Post"),
     _("Completed Post-Processing"),
     $pp_projects_forum_idx,
     'PP',
@@ -290,6 +320,7 @@ declare_project_state(
 declare_project_state(
     "PROJ_SUBMIT_PG_POSTED",
     "proj_submit_pgposted",
+    _("Posted to PG"),
     _("Posted to Project Gutenberg"),
     $posted_projects_forum_idx,
     'GB',
@@ -301,6 +332,7 @@ declare_project_state(
     "PROJ_CORRECT_AVAILABLE",
     "proj_correct_available",
     _("Verify Corrections"),
+    _("Verify Corrections"),
     $posted_projects_forum_idx,
     'NONE',
     'GOLD'
@@ -308,6 +340,7 @@ declare_project_state(
 declare_project_state(
     "PROJ_CORRECT_CHECKED_OUT",
     "proj_correct_checked_out",
+    _("Verifying Corrections"),
     _("Verifying Corrections"),
     $posted_projects_forum_idx,
     'NONE',
@@ -319,6 +352,7 @@ declare_project_state(
     "PROJ_COMPLETE",
     "project_complete",
     _("Project Complete"),
+    _("Project Complete"),
     -1,
     'COMPLETE',
     ''
@@ -328,6 +362,7 @@ declare_project_state(
 declare_project_state(
     "PROJ_DELETE",
     "project_delete",
+    _("Delete Project"),
     _("Delete Project"),
     -1,
     'NONE',
