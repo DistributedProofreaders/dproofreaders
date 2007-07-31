@@ -1133,7 +1133,7 @@ function do_history()
             $from_state_t = (
                 $from_state == '?'
                 ? _('unknown state')
-                : project_states_text($from_state)
+                : get_medium_label_for_project_state($from_state)
             );
             if ( $from_state_t == '' ) $from_state_t = $from_state;
 
@@ -1141,7 +1141,7 @@ function do_history()
             $to_state_t = (
                 $to_state == '?'
                 ? _('unknown state')
-                : project_states_text($to_state)
+                : get_medium_label_for_project_state($to_state)
             );
             if ( $to_state_t == '' ) $to_state_t = $to_state;
 

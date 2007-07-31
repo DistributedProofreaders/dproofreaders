@@ -477,8 +477,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
         if ( count($projectids) > 0 )
         {
-            $curr_blurb = project_states_text($curr_state);
-            $new_blurb  = project_states_text($new_state);
+            $curr_blurb = get_medium_label_for_project_state($curr_state);
+            $new_blurb  = get_medium_label_for_project_state($new_state);
             $projectids_str = implode( ',', $projectids );
 
             echo "<a href='move_projects.php?curr_state=$curr_state&new_state=$new_state&projects=$projectids_str'>";
@@ -770,7 +770,7 @@ function echo_project_state_changer($project)
     }
     else
     {
-        echo project_states_text($project->state), "\n";
+        echo get_medium_label_for_project_state($project->state), "\n";
     }
 }
 
@@ -785,7 +785,7 @@ function echo_project_state_option($project_state,$selected)
     }
     else
     {
-        echo project_states_text($project_state);
+        echo get_medium_label_for_project_state($project_state);
     }
     echo "</option>\n";
 }

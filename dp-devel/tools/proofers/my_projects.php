@@ -168,7 +168,7 @@ while ( $row = mysql_fetch_object($res) )
     echo "</td>\n";
 
     echo "<td nowrap>";
-    echo project_states_text( $state );
+    echo get_medium_label_for_project_state( $state );
     echo "</td>\n";
 
     echo "<td align='center'>";
@@ -266,7 +266,7 @@ if (mysql_num_rows($result) > 0)
         echo "</td>\n";
 
         echo "<td nowrap>";
-        echo project_states_text( $row->state );
+        echo get_medium_label_for_project_state( $row->state );
         echo "</td>\n";
 
         echo "</tr>\n";

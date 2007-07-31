@@ -313,7 +313,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     echo "<tr>";
     echo "<td $n_latered_bg><a href='$url'>$nameofwork</a></td>";
     echo "<td nowrap>";
-    echo project_states_text( $state );
+    echo get_medium_label_for_project_state( $state );
     echo "</td>";
     echo "<td>$time_of_latest_save</td>";
     echo "<td align='center'>$n_saved</td>";
@@ -354,7 +354,7 @@ if($total_invalid_projects) {
     {
         echo "<tr><td>{$message[0]}</td>";
         echo "<td nowrap>";
-        echo project_states_text( $message[1] );
+        echo get_medium_label_for_project_state( $message[1] );
         echo "</td>";
         echo"<td>{$message[2]}</td></tr>";
     }
