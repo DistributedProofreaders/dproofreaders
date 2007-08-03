@@ -248,7 +248,7 @@ function html_logobar($nameofpage) {
             echo headerbar_text(_("Wiki"),$GLOBALS['wiki_url'],true);
         }
         echo headerbar_text(_("Log Out ($GLOBALS[pguser])"),"$code_url/tools/logout.php",true);
-        echo "</font></td>\n";
+        echo "</td>\n";
         echo "<td align='right' style='vertical-align: middle;' bgcolor='".$theme['color_headerbar_bg']."'>\n";
         show_quick_links();
         echo "&nbsp;</td>";
@@ -318,7 +318,7 @@ function html_statsbar($nameofpage) {
 
             // Show "More..." link
             echo "<p style='text-align: center;'>";
-            echo "<a href='list_etexts.php?x=g&sort=5'>";
+            echo "<a href='list_etexts.php?x=g&amp;sort=5'>";
             echo _("More Completed Titles...") . "</a></p>";
 
             // Show 3 (random) of the 10 most recently arrived (most recent P1)
@@ -329,7 +329,7 @@ function html_statsbar($nameofpage) {
 
             // Show "More..." link
             echo "<p style='text-align: center;'>";
-            echo "<a href='list_etexts.php?x=b&sort=5'>";
+            echo "<a href='list_etexts.php?x=b&amp;sort=5'>";
             echo _("More Recently Begun Titles...") . "</a></p>";
         }
 
@@ -718,7 +718,7 @@ function show_completed_projects($terse = FALSE)
     }
     if ($terse)
     {
-        echo "<a href='$code_url/list_etexts.php?x=g&sort=5'>" . _("More...") . "</a>\n";
+        echo "<a href='$code_url/list_etexts.php?x=g&amp;sort=5'>" . _("More...") . "</a>\n";
     } else {
         echo "</table>\n";
     }
@@ -779,7 +779,7 @@ function show_donation_stuff()
     echo "<input type='hidden' name='cmd' value='_xclick'>\n";
     echo "<input type='hidden' name='business' value='$paypal_business_id'>\n";
     echo "<input type='hidden' name='item_name' value='donation'>\n";
-    echo "<input type='image' src='$code_url/pinc/templates/".$theme_name.$theme['image_donate']."' border='0' name='submit' alt='Donate to $site_name'>\n";
+    echo "<input type='image' src='$code_url/pinc/templates/".$theme_name.$theme['image_donate']."' name='submit' alt='Donate to $site_name'>\n";
     echo "</form>";
     echo "</center>\n";
 

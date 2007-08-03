@@ -231,7 +231,7 @@ function summarize_projects( $project_states, $filtertype_stem )
 {
     echo "<li>\n";
     echo _("Providing Content");
-    echo "</b></font><br>";
+    echo "<br>";
     echo _("Want to help out the site by providing material for us to proofread? ");
     echo "<a href='$code_url/faq/cp.php'>";
     echo _("Find out how!");

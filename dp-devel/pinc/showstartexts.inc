@@ -29,7 +29,7 @@ function showstartexts($etext_limit,$type) {
 
     // Display count and category as a link
     echo "<font size='4'>";
-    echo "<a href='list_etexts.php?x=".substr($type,0,1)."&sort=5'>";
+    echo "<a href='list_etexts.php?x=".substr($type,0,1)."&amp;sort=5'>";
     echo sprintf($category, number_format($total)) . "</a>.</font><br>\n";
 
     // Display feed buttons

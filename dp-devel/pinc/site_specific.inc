@@ -11,7 +11,7 @@ $real_site_url = 'http://www.pgdp.net';
 // if ($code_url != "$real_site_url/c" )
 if ($testing)
 {
-        echo "<font color='red'>";
+        echo "<div style='color: red'>";
         echo "<center>";
         echo "<p>";
         echo "<b>THIS IS A TEST SITE!!!</b>";
@@ -24,7 +24,7 @@ if ($testing)
         echo "please go to <a href='$real_site_url/phpBB2/viewtopic.php?t=12226'>this forum topic</a> on the real site.";
         echo "</p>";
         echo "</center>";
-        echo "</font>";
+        echo "</div>";
 }
 
 }

@@ -91,7 +91,7 @@ $sortlist[3]="ORDER BY authorsname desc";
 $sortlist[4]="ORDER BY modifieddate asc";
 $sortlist[5]="ORDER BY modifieddate desc";
 
-list_projects($state, $sortlist[$sort], "list_etexts.php?x=$x&amp;sort=$sort&", $per_page, $offset);
+list_projects($state, $sortlist[$sort], "list_etexts.php?x=$x&amp;sort=$sort&amp;", $per_page, $offset);
 
 theme("", "footer");
 

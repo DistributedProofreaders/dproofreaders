@@ -81,7 +81,7 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
         if ($offset > 0) {
             $t = _('Previous');
             $prev_offset = max(0, $offset - $per_page);
-            $url = $url_base . "per_page=$per_page&offset=$prev_offset";
+            $url = $url_base . "per_page=$per_page&amp;offset=$prev_offset";
             echo "<a href='$url'>$t</a> ";
         }
     
@@ -90,7 +90,7 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
         $firstpage = max(0, $curpage - $MAXPAGES);
         $lastpage = min($curpage + $MAXPAGES, $num_found_rows/$per_page);
         for($i = $firstpage; $i <= $lastpage; $i++) {
-            $url = $url_base . "per_page=$per_page&offset=" . ($i * $per_page);
+            $url = $url_base . "per_page=$per_page&amp;offset=" . ($i * $per_page);
             if ($i == $curpage) {
                 echo " <b>" . ($i+1) . "</b> ";
             } else {
@@ -102,7 +102,7 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
         if ($offset + $per_page < $num_found_rows) {
             $t = _('Next');
             $next_offset = min($num_found_rows - 1, $offset + $per_page);
-            $url = $url_base . "per_page=$per_page&offset=$next_offset";
+            $url = $url_base . "per_page=$per_page&amp;offset=$next_offset";
             echo " <a href='$url'>$t</a>";
         }
         echo "</center><br>\n";
