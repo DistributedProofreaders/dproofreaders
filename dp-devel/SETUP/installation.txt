@@ -20,6 +20,10 @@ When we say to install and/or configure some third-party software, that's
 assuming it isn't already.
 
 --- Install PHP.
+        Version: We know that the code runs on version 4.4.2 and 5.0.4.
+        It probably runs on much older versions, and there have been some recent
+        changes to allow it to run on 5.2, although maybe not complete.
+
         Enable GD (for jpgraph) if you want dynamically-generated graphs.
         Enable YAZ if you want to be able to do external catalog searches when
             creating projects.
@@ -27,9 +31,15 @@ assuming it isn't already.
         Make sure that magic_quotes_gpc in your php.ini is set to On.
         
 --- Install MySQL.
-        In the examples in this document, we will assume it's on "localhost",
-        i.e. the same host on which you are running these commands, and the
-        same host that runs the webserver.
+        Version: We know that our queries work on 4.0.24 and 5.0.22.
+        We believe that they'll work on any version from 4.0.0 up.
+        (For various reasons, we're thinking of increasing the minimum required
+        version to at least 4.1. Let us know what you think of this at
+        <http://www.pgdp.net/phpBB2/viewtopic.php?t=25529>.)
+
+        In the examples in this document, we will assume that the mysql server
+        is on "localhost", i.e. the same host on which you are running these
+        commands, and the same host that runs the webserver.
 
 --- Install phpMyAdmin. (optional)
         While not required, it makes administering the database much easier.
