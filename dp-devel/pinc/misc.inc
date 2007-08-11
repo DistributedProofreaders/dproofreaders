@@ -120,6 +120,19 @@ function surround_and_join( $strings, $L, $R, $joiner )
     return implode($joiner,$parts);
 }
 
+function urlencode_assoc($name_value_mapping)
+// Encode $name_value_mapping according to the content type
+// "application/x-www-form-urlencoded".
+// See http://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.1
+{
+    $p = array();
+    foreach ( $name_value_mapping as $name => $value )
+    {
+        $p[] = urlencode($name) . '=' . urlencode($value);
+    }
+    return implode('&', $p);
+}
+
 // -----------------------------------------------------------------------------
 
 // file_get_contents() is predefined in PHP 4.3.0 and on.
