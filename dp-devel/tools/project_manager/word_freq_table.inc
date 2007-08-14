@@ -329,7 +329,7 @@ function _get_word_context_from_text($page_text,$contextWord) {
     foreach($lines as $line) {
         $words=get_all_words_in_text($line,true);
         foreach($words as $offset => $word) {
-            if($word == $contextWord) {
+            if($word === $contextWord) {
                 $contexts[$lineNum]=$line;
             }
         }
