@@ -119,7 +119,7 @@ if(count($queryWords)) {
 
     $checkbox_form["projectid"]=$projectid;
     $checkbox_form["freqCutoff"]=$freqCutoff;
-    $checkbox_form["queryWordText"]=$queryWordText;
+    $checkbox_form["queryWordText"]=htmlentities($queryWordText,ENT_QUOTES);
     echo_checkbox_form_start($checkbox_form);
 
     echo "<p>" . _("Words can be added to either the Good or the Bad word list. Select which of the project's lists to add the words to.") . "</p>";
