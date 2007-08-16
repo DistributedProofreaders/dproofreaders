@@ -73,8 +73,8 @@ else
 
 // -----------------------------------------------------------------------------
 
-upi_set_t_latest_home_visit(
-    $pguser, $project->projectid, $project->t_retrieved );
+    upi_set_t_latest_home_visit(
+        $pguser, $project->projectid, $project->t_retrieved );
 
 do_update_pp_activity();
 
@@ -499,7 +499,7 @@ function do_project_info_table()
         echo_row_a( _("Image Source"), $project->image_source_name, TRUE );
     }
 
-    echo_row_a( _("Project Manager"), $project->username );
+        echo_row_a( _("Project Manager"), $project->username );
 
     {
         if ( !empty($project->postproofer) )
@@ -550,23 +550,23 @@ function do_project_info_table()
         }
     }
 
-    global $site_supports_corrections_after_posting;
-    if ($site_supports_corrections_after_posting)
-    {
-        // included for completeness
-        if ( !empty($project->checkedoutby) &&
-            $project->state == PROJ_CORRECT_CHECKED_OUT
-        )
+        global $site_supports_corrections_after_posting;
+        if ($site_supports_corrections_after_posting)
         {
-            $CorrectionsReviewer = $project->checkedoutby;
+            // included for completeness
+            if ( !empty($project->checkedoutby) &&
+                $project->state == PROJ_CORRECT_CHECKED_OUT
+            )
+            {
+                $CorrectionsReviewer = $project->checkedoutby;
+            }
+            if ( isset($CorrectionsReviewer) )
+            {
+                echo_row_a( _("Corrections Reviewer"), $CorrectionsReviewer );
+            }
         }
-        if ( isset($CorrectionsReviewer) )
-        {
-            echo_row_a( _("Corrections Reviewer"), $CorrectionsReviewer );
-        }
-    }
 
-    echo_row_a( _("Credits line so far"), $project->credits_line, TRUE );
+        echo_row_a( _("Credits line so far"), $project->credits_line, TRUE );
 
     // -------------------------------------------------------------------------
     // Current activity
@@ -607,30 +607,30 @@ function do_project_info_table()
 
     // -------------------------------------------------------------------------
 
-    global $projects_dir, $projects_url;
+        global $projects_dir, $projects_url;
 
-    $good_bad = array(
-        'good' => _("Good Words"),
-        'bad'  => _("Bad Words"),
-    );
+        $good_bad = array(
+            'good' => _("Good Words"),
+            'bad'  => _("Bad Words"),
+        );
 
-    $links = '';
-    foreach ( $good_bad as $gb => $label )
-    {
-        $f = get_project_word_file($projectid, $gb);
-        if ( $f->size > 0 )
+        $links = '';
+        foreach ( $good_bad as $gb => $label )
         {
-            $links .= new_window_link( $f->abs_url, $label );
-            $links .= " - " . _("Last modified") . ": " . strftime($datetime_format,$f->mod_time);
+            $f = get_project_word_file($projectid, $gb);
+            if ( $f->size > 0 )
+            {
+                $links .= new_window_link( $f->abs_url, $label );
+                $links .= " - " . _("Last modified") . ": " . strftime($datetime_format,$f->mod_time);
+            }
+            else
+            {
+                $links .= $label . " " . _("(empty)");
+            }
+            $links .= "<br>";
         }
-        else
-        {
-            $links .= $label . " " . _("(empty)");
-        }
-        $links .= "<br>";
-    }
 
-    echo_row_a( _("Word Lists"), $links );
+        echo_row_a( _("Word Lists"), $links );
 
     // -------------------------------------------------------------------------
 
@@ -657,44 +657,44 @@ function do_project_info_table()
         echo_row_a( _("Last Forum Post"), $last_post_date );
     }
 
-    if ($topic_id == "")
-    {
-        $blurb = _("Start a discussion about this project");
-    }
-    else
-    {
-        $blurb = _("Discuss this project");
-    }
-    $url = "$code_url/tools/proofers/project_topic.php?project=$projectid";
-    echo_row_a( _("Forum"), "<a href='$url'>$blurb</a>" );
+        if ($topic_id == "")
+        {
+            $blurb = _("Start a discussion about this project");
+        }
+        else
+        {
+            $blurb = _("Discuss this project");
+        }
+        $url = "$code_url/tools/proofers/project_topic.php?project=$projectid";
+        echo_row_a( _("Forum"), "<a href='$url'>$blurb</a>" );
 
     // -------------------------------------------------------------------------
 
-    global $detail_level;
-    if ($detail_level >= 4)
-    {
-        // We'll call do_page_table later, so we don't need the "Page Detail" link.
-    }
-    else
-    {
-        $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&show_image_size=0";
-        $blurb = _("Images, Pages Proofread, & Differences");
+        global $detail_level;
+        if ($detail_level >= 4)
+        {
+            // We'll call do_page_table later, so we don't need the "Page Detail" link.
+        }
+        else
+        {
+            $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&show_image_size=0";
+            $blurb = _("Images, Pages Proofread, & Differences");
 
-        $url2 = "$url&select_by_user";
-        $blurb2 = _("Just my pages");
+            $url2 = "$url&select_by_user";
+            $blurb2 = _("Just my pages");
 
-        echo_row_a( _("Page Detail"), "<a href='$url'>$blurb</a> &gt;&gt;<a href='$url2'>$blurb2</a>&lt;&lt;");
-    }
+            echo_row_a( _("Page Detail"), "<a href='$url'>$blurb</a> &gt;&gt;<a href='$url2'>$blurb2</a>&lt;&lt;");
+        }
 
     // -------------------------------------------------------------------------
     // Personal data with respect to this project
 
-    global $detail_level;
-    if ($round && $detail_level > 1)
-    {
-        recentlyproofed(0);
-        recentlyproofed(1);
-    }
+        global $detail_level;
+        if ($round && $detail_level > 1)
+        {
+            recentlyproofed(0);
+            recentlyproofed(1);
+        }
 
     // -------------------------------------------------------------------------
     // Comments
@@ -728,46 +728,46 @@ function do_project_info_table()
 
     // --------
 
-    $comments = $project->comments;
+        $comments = $project->comments;
 
-    // automatically prepend R2 intro for Beginners Only
-    if ($project->difficulty == "beginner")
-    {
-        if ($round && $round->is_a_mentor_round() )
+        // automatically prepend R2 intro for Beginners Only
+        if ($project->difficulty == "beginner")
         {
-            $comments = "[template=BGr2.txt]".$comments;
+            if ($round && $round->is_a_mentor_round() )
+            {
+                $comments = "[template=BGr2.txt]".$comments;
+            }
         }
-    }
 
-    // insert e.g. templates and biographies
-    $comments = parse_project_comments($comments);
+        // insert e.g. templates and biographies
+        $comments = parse_project_comments($comments);
 
-    if ( $comments == '' )
-    {
-        // Put in *something*, otherwise it'll probably look odd.
-        $comments = '&nbsp;';
-    }
+        if ( $comments == '' )
+        {
+            // Put in *something*, otherwise it'll probably look odd.
+            $comments = '&nbsp;';
+        }
 
-    if ($round)
-    {
-        $a = sprintf(
-                _("The <a href='%s'>Guidelines</a> give detailed instructions for working in this round."),
-                "$code_url/faq/{$round->document}"
-            );
-        $b = _('The instructions below are particular to this project, and <b>take precedence over those guidelines</b>.');
+        if ($round)
+        {
+            $a = sprintf(
+                    _("The <a href='%s'>Guidelines</a> give detailed instructions for working in this round."),
+                    "$code_url/faq/{$round->document}"
+                );
+            $b = _('The instructions below are particular to this project, and <b>take precedence over those guidelines</b>.');
 
-        $time_str = strftime($datetime_format, $project->t_last_change_comments );
-        $c = "(" . _("last modified:") . " " . $time_str . ")";
+            $time_str = strftime($datetime_format, $project->t_last_change_comments );
+            $c = "(" . _("last modified:") . " " . $time_str . ")";
 
-        $comments_blurb = "$a<br>$b<br>$c";
-    }
-    else
-    {
-        $comments_blurb = "";
-    }
-    echo_row_b( _("Project Comments"), $comments_blurb );
+            $comments_blurb = "$a<br>$b<br>$c";
+        }
+        else
+        {
+            $comments_blurb = "";
+        }
+        echo_row_b( _("Project Comments"), $comments_blurb );
 
-    echo_row_c( $comments );
+        echo_row_c( $comments );
 
     // -------------------------------------------------------------------------
 
@@ -1673,30 +1673,30 @@ function do_smooth_reading()
                 echo "</a>";
                 echo "</li>\n";
 
-                echo "<li>";
-                echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_done'>";
-                echo _("Upload a smooth-read text") ;
-                echo "</a>";
-                echo "</li>\n";
-                // The upload does not cause the project to change state --
-                // it's still checked out to PPer.
-
-                if (!sr_user_is_committed($projectid, $pguser))
-                {
                     echo "<li>";
-                    echo _('If you want, you can indicate your commitment to smoothread this project to the PP by pressing:');
-                    sr_echo_commitment_form($projectid);
+                    echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_done'>";
+                    echo _("Upload a smooth-read text") ;
+                    echo "</a>";
                     echo "</li>\n";
-                }
-                else
-                {
-                    echo "<li>";
-                    echo _('You have committed to smoothread this project.');
-                    echo "<br />";
-                    echo _('If you want to withdraw your commitment, please press:');
-                    sr_echo_withdrawal_form($projectid);
-                    echo "</li>";
-                }
+                    // The upload does not cause the project to change state --
+                    // it's still checked out to PPer.
+
+                    if (!sr_user_is_committed($projectid, $pguser))
+                    {
+                        echo "<li>";
+                        echo _('If you want, you can indicate your commitment to smoothread this project to the PP by pressing:');
+                        sr_echo_commitment_form($projectid);
+                        echo "</li>\n";
+                    }
+                    else
+                    {
+                        echo "<li>";
+                        echo _('You have committed to smoothread this project.');
+                        echo "<br />";
+                        echo _('If you want to withdraw your commitment, please press:');
+                        sr_echo_withdrawal_form($projectid);
+                        echo "</li>";
+                    }
             }
         }
         else
