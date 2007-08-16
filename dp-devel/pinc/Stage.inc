@@ -125,6 +125,13 @@ class Stage
     // If $n_pages_completed is non-null, use it as the number of pages
     // that the user has completed. Otherwise, consult the database.
     {
+        if (is_null($username))
+        {
+            $uao = new StdClass; // user access object
+            $uao->can_access = FALSE;
+            return $uao;
+        }
+
         $user_scores = get_user_scores($username);
 
         // -----------------------------------
@@ -293,6 +300,8 @@ function get_user_scores($username)
 {
     global $CRITERIA;
 
+    assert( !is_null($username) );
+
     $res = mysql_query("
         SELECT *
         FROM users
@@ -446,6 +455,8 @@ function show_user_access_object( $uao )
 function show_user_access_chart( $username )
 {
     global $CRITERIA, $code_url;
+
+    if ( is_null($username) ) die('show_user_access_chart: $username is null');
 
     list($allow_grant,$allow_revoke) = user_can_modify_access();
 
