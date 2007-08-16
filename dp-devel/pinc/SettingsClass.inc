@@ -74,6 +74,11 @@ class Settings
     {
         if($name == '')
         {
+            // Note that that's a "loose equals", so $name could be:
+            // the empty string, the integer zero, the boolean false, or null.
+            // Of those, the likeliest is null, indicating that the
+            // current http-requestor is a "guest", not a logged-in user.
+
             // Return a Settings object with an empty $settings_array.
             return;
         }
