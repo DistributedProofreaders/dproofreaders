@@ -41,6 +41,20 @@ $projectid      = @$_GET['id'];
 $expected_state = @$_GET['expected_state'];
 $detail_level   = @$_GET['detail_level'];
 
+// -----------------------------------------------------------------------------
+
+$project = new Project( $projectid );
+
+// In a tabbed browser, the page-title passed to theme() will appear in
+// the tab, which tends to be small, as soon as you have a few of them.
+// So, put the distinctive part of the page-title (i.e. the name of the
+// project) first.
+$title_for_theme = sprintf( _('"%s" project page'), $project->nameofwork );
+
+$title = sprintf( _("Project Page for '%s'"), $project->nameofwork );
+
+// -----------------------------------------------------------------------------
+
 $VALID_DETAIL_LEVELS = array('1','2','3','4');
 if ( is_null($detail_level) )
 {
@@ -57,19 +71,7 @@ else
     die("bad 'detail_level' parameter: '$detail_level'");
 }
 
-// -----
-
-$project = new Project( $projectid );
-
 // -----------------------------------------------------------------------------
-
-// In a tabbed browser, the page-title passed to theme() will appear in
-// the tab, which tends to be small, as soon as you have a few of them.
-// So, put the distinctive part of the page-title (i.e. the name of the
-// project) first.
-$title_for_theme = sprintf( _('"%s" project page'), $project->nameofwork );
-
-$title = sprintf( _("Project Page for '%s'"), $project->nameofwork );
 
 upi_set_t_latest_home_visit(
     $pguser, $project->projectid, $project->t_retrieved );
