@@ -1,5 +1,4 @@
 <?PHP
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'site_vars.php');
 
 /***************************************************************************************
