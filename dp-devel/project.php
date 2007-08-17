@@ -1,7 +1,6 @@
 <?PHP
 $relPath='./pinc/';
 
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'stages.inc');
@@ -23,6 +22,10 @@ include_once($relPath.'release_queue.inc'); // cook_project_selector
 include_once($relPath.'user_project_info.inc');
 include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link
+
+$user_is_logged_in = dpsession_resume();
+// If the requestor is not logged in,
+// we refer to them as a "guest".
 
 // for strftime:
 $datetime_format = _("%A, %B %e, %Y at %X");
@@ -55,6 +58,29 @@ $title = sprintf( _("Project Page for '%s'"), $project->nameofwork );
 
 // -----------------------------------------------------------------------------
 
+if ( !$user_is_logged_in )
+{
+    // Guests see a reduced version of the project page.
+
+    $no_stats=1;
+    theme($title_for_theme, "header");
+
+    echo "<h1>$title</h1>\n";
+
+    list($top_blurb, $bottom_blurb) = decide_blurbs();
+    do_blurb_box( $top_blurb );
+    do_project_info_table();
+    do_blurb_box( $bottom_blurb );
+
+    do_smooth_reading();
+
+    echo "<br>\n";
+    theme('', 'footer');
+    return;
+}
+
+// -----------------------------------------------------------------------------
+
 $VALID_DETAIL_LEVELS = array('1','2','3','4');
 if ( is_null($detail_level) )
 {
@@ -73,8 +99,11 @@ else
 
 // -----------------------------------------------------------------------------
 
+if ( $user_is_logged_in )
+{
     upi_set_t_latest_home_visit(
         $pguser, $project->projectid, $project->t_retrieved );
+}
 
 do_update_pp_activity();
 
@@ -392,6 +421,7 @@ function do_blurb_box( $blurb )
 function do_project_info_table()
 {
     global $project, $code_url, $datetime_format, $date_format, $time_format;
+    global $user_is_logged_in;
 
     $projectid = $project->projectid;
     $state = $project->state;
@@ -499,9 +529,11 @@ function do_project_info_table()
         echo_row_a( _("Image Source"), $project->image_source_name, TRUE );
     }
 
+    // We choose not to show guests anything involving users' names.
+    if ( $user_is_logged_in )
+    {
         echo_row_a( _("Project Manager"), $project->username );
 
-    {
         if ( !empty($project->postproofer) )
         {
             $PPer = $project->postproofer;
@@ -524,9 +556,7 @@ function do_project_info_table()
         {
             echo_row_a( _("Post Processor"), $PPer );
         }
-    }
 
-    {
         if ( !empty($project->ppverifier) )
         {
             $PPVer = $project->ppverifier;
@@ -548,7 +578,6 @@ function do_project_info_table()
         {
             echo_row_a( _("PP Verifier"), $PPVer );
         }
-    }
 
         global $site_supports_corrections_after_posting;
         if ($site_supports_corrections_after_posting)
@@ -567,6 +596,7 @@ function do_project_info_table()
         }
 
         echo_row_a( _("Credits line so far"), $project->credits_line, TRUE );
+    }
 
     // -------------------------------------------------------------------------
     // Current activity
@@ -607,6 +637,9 @@ function do_project_info_table()
 
     // -------------------------------------------------------------------------
 
+    // We choose not to show guests the word lists.
+    if ( $user_is_logged_in )
+    {
         global $projects_dir, $projects_url;
 
         $good_bad = array(
@@ -631,6 +664,7 @@ function do_project_info_table()
         }
 
         echo_row_a( _("Word Lists"), $links );
+    }
 
     // -------------------------------------------------------------------------
 
@@ -657,6 +691,10 @@ function do_project_info_table()
         echo_row_a( _("Last Forum Post"), $last_post_date );
     }
 
+    // If the topic is only visible to logged-in users,
+    // there's little point showing guests the link to it.
+    if ( $user_is_logged_in )
+    {
         if ($topic_id == "")
         {
             $blurb = _("Start a discussion about this project");
@@ -667,9 +705,13 @@ function do_project_info_table()
         }
         $url = "$code_url/tools/proofers/project_topic.php?project=$projectid";
         echo_row_a( _("Forum"), "<a href='$url'>$blurb</a>" );
+    }
 
     // -------------------------------------------------------------------------
 
+    // For now, we say that guests can't see page details.
+    if ( $user_is_logged_in )
+    {
         global $detail_level;
         if ($detail_level >= 4)
         {
@@ -685,16 +727,21 @@ function do_project_info_table()
 
             echo_row_a( _("Page Detail"), "<a href='$url'>$blurb</a> &gt;&gt;<a href='$url2'>$blurb2</a>&lt;&lt;");
         }
+    }
 
     // -------------------------------------------------------------------------
     // Personal data with respect to this project
 
+    // If you're not logged in, we certainly can't show your personal data.
+    if ( $user_is_logged_in )
+    {
         global $detail_level;
         if ($round && $detail_level > 1)
         {
             recentlyproofed(0);
             recentlyproofed(1);
         }
+    }
 
     // -------------------------------------------------------------------------
     // Comments
@@ -728,6 +775,10 @@ function do_project_info_table()
 
     // --------
 
+    // For now, we suppress Project Comments for guests.
+    // (They might be confused by the instructions for proofers.)
+    if ( $user_is_logged_in )
+    {
         $comments = $project->comments;
 
         // automatically prepend R2 intro for Beginners Only
@@ -768,6 +819,7 @@ function do_project_info_table()
         echo_row_b( _("Project Comments"), $comments_blurb );
 
         echo_row_c( $comments );
+    }
 
     // -------------------------------------------------------------------------
 
@@ -1673,6 +1725,10 @@ function do_smooth_reading()
                 echo "</a>";
                 echo "</li>\n";
 
+                // We don't allow guests to upload the results of smooth-reading.
+                global $user_is_logged_in;
+                if ( $user_is_logged_in )
+                {
                     echo "<li>";
                     echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_done'>";
                     echo _("Upload a smooth-read text") ;
@@ -1697,6 +1753,15 @@ function do_smooth_reading()
                         sr_echo_withdrawal_form($projectid);
                         echo "</li>";
                     }
+                }
+                else
+                {
+                    echo "<li>";
+                    echo _('Please note that while unregistered guests are welcome to download texts for smooth reading, only registered volunteers are able to upload annotated texts.');
+                    echo "\n";
+                    echo _('A registration link is available at the top of this page.');
+                    echo "</li>\n";
+                }
             }
         }
         else
