@@ -169,7 +169,8 @@ class Project
     var $CBP_OKAY                         = 0;
     var $CBP_PROJECT_NOT_IN_ROUND         = 1;
     var $CBP_PROJECT_NOT_AVAILABLE        = 2;
-    var $CBP_USER_NOT_QUALIFIED_FOR_ROUND = 3;
+    var $CBP_REQUESTOR_NOT_LOGGED_IN      = 3;
+    var $CBP_USER_NOT_QUALIFIED_FOR_ROUND = 4;
 
     function can_be_proofed_by_current_user()
     // (where "proofed" means "worked on in a round, right now".)
@@ -197,6 +198,14 @@ class Project
             return array(
                 $this->CBP_PROJECT_NOT_AVAILABLE,
                 _('Users are not allowed to work on the project in its current state.')
+            );
+        }
+
+        if ( is_null($pguser) )
+        {
+            return array(
+                $this->CBP_REQUESTOR_NOT_LOGGED_IN,
+                _('Registered users can work on the project, but you are not logged in.')
             );
         }
 
