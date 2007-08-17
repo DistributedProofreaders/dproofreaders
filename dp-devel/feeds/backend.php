@@ -59,7 +59,7 @@ if (filemtime($xmlfile) > $refreshdelay) {
 			if (isset($_GET['type'])) {
 				$data .= "<item>
 				<title>".xmlencode($row['nameofwork'])." - ".xmlencode($row['authorsname'])."</title>
-				<link>$code_url/list_etexts.php?x=$x".xmlencode("&")."sort=5#".$row['projectid']."</link>
+				<link>$code_url/project.php?id=".$row['projectid']."</link>
 				<description>Language: ".xmlencode($row['language'])." - Genre: ".xmlencode($row['genre'])."</description>
 				</item>
 				";
@@ -72,7 +72,7 @@ if (filemtime($xmlfile) > $refreshdelay) {
 				<genre>".xmlencode($row['genre'])."</genre>
 				<links>
 				<PG_catalog>".get_pg_catalog_url_for_etext($row['postednum'])."</PG_catalog>
-				<library>$code_url/list_etexts.php?x=g".xmlencode("&")."sort=5#".$row['projectid']."</library>
+				<library>$code_url/project.php?id=".$row['projectid']."</library>
 				</links>
 				</project>
 				";
