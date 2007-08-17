@@ -640,8 +640,6 @@ function do_project_info_table()
     // We choose not to show guests the word lists.
     if ( $user_is_logged_in )
     {
-        global $projects_dir, $projects_url;
-
         $good_bad = array(
             'good' => _("Good Words"),
             'bad'  => _("Bad Words"),
