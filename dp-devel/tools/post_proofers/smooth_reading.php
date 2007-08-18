@@ -331,10 +331,6 @@ if ($logged_in) {
     $link = $linkbase.($flip_PP?"PPD":"PPA")."$linkend>";
     echo "\n<td>$link<b>$word</b></a></td>";
 
-    // no point sorting by this link
-    $word = _("More Info");
-    echo "\n<td><b>$word</b></td>";
-
     // difficult to sort by this link(?)
     $word = _("Uploaded");
     echo "\n<td><b>$word</b></td>";
@@ -385,9 +381,8 @@ while ($rownum2 < $numrows) {
 
             echo "<tr bgcolor='$bgcolor'>";
             $prid = $book['projectid'];
-            $p = "$prid/$prid"."_smooth_avail.zip";
-            $url = "$projects_url/$p";
 
+            $url = "$code_url/project.php?id=$prid&amp;expected_state=".PROJ_POST_FIRST_CHECKED_OUT;
             $temp="<a href=\"$url\">";
             $temp.="{$book['nameofwork']}</a>";
 
@@ -408,7 +403,6 @@ while ($rownum2 < $numrows) {
             if ($logged_in) {
                 echo "\n<td>$pm</td>";
                 echo "\n<td><a href='$forums_url/privmsg.php?mode=post&u=".$book['user_id']."'>{$book['checkedoutby']}</a></td>";
-                echo "\n<td><a href='$code_url/project.php?id=$prid&amp;expected_state=".PROJ_POST_FIRST_CHECKED_OUT."'>"._("Project Info and Upload")."</a></td>";
 
                 global $projects_dir;
                 if ($done_files = glob("$projects_dir/$prid/*smooth_done_*.zip") ) {
