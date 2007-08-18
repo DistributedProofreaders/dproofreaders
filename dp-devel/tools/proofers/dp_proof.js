@@ -1,8 +1,11 @@
 // New version
 // start of code by Carel
 
-// These three variables set from initializeStuff() in dp_scroll.js
+// This variable is set by initializeStuff() in dp_scroll.js
 docRef=null;
+
+// These two variables are set by
+// top.menuframe.document.body.attributes['onLoad'] in ctrl_frame.php
 markRef=null;
 cRef=null;
 
