@@ -44,7 +44,23 @@ if ($logged_in) {
     show_news_for_page("SR_PREV");
 };
 
-if ($logged_in)
+if (!$logged_in)
+{
+    echo "
+    <p>
+    <font size=+1>
+    This Preview page shows which books are currently available for Smooth Reading.
+    You can download the books by clicking on their titles.
+    </font>
+    </p>
+
+    <p>
+    To be able to upload corrections, join $site_abbreviation.
+    There is a register link near the upper right corner of this page.
+    </p>
+    ";
+}
+else
 {
     echo "
     <p>
@@ -79,22 +95,6 @@ if ($logged_in)
     <p>
     For more information on the origin of smoothreading,
     see <a href='http://www.pgdp.net/phpBB2/viewtopic.php?t=3429'>this thread</a>.
-    </p>
-    ";
-}
-else
-{
-    echo "
-    <p>
-    <font size=+1>
-    This Preview page shows which books are currently available for Smooth Reading.
-    You can download the books by clicking on their titles.
-    </font>
-    </p>
-
-    <p>
-    To be able to upload corrections, join $site_abbreviation.
-    There is a register link near the upper right corner of this page.
     </p>
     ";
 }
