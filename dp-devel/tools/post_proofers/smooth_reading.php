@@ -50,17 +50,20 @@ if (!$logged_in)
     <p>
     <font size=+1>
     This Preview page shows which books are currently available for Smooth Reading.
-    You can download the books by clicking on their titles.
+    Click on a book's title to view more information about it
+    or to download the text.
     </font>
     </p>
 
     <p>
-    To be able to upload corrections, join $site_abbreviation.
-    There is a register link near the upper right corner of this page.
+    Please note that while unregistered guests are welcome
+    to download texts for smooth reading,
+    only registered volunteers are able to upload annotated texts.
+    A registration link is available at the top of this page.
     </p>
     ";
 }
-else
+
 {
     echo "
     <p>
