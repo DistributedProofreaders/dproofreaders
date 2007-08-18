@@ -74,7 +74,7 @@ cursor: pointer;
 -->
 </style>
 </head>
-<body>
+<body onLoad="top.cRef = top.markRef = document.markform;">
 <a
 	href="#"
 	accesskey="="

@@ -255,8 +255,6 @@ function initializeStuff(wFace)
   isLded=1;
   inProof=1;
   inFace=wFace;
-  cRef=top.menuframe.document.markform;
-  markRef=top.menuframe.document.markform;
   if(wFace==1)
     {
       // enhanced interface, non-spellcheck
