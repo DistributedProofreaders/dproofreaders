@@ -124,7 +124,7 @@ function archive_ancillary_data_for_project( $project, $indent, $dry_run )
     }
 
     // okay, proceed
-    move_project_rows_to_archive_db($projectid, 'page_events', $indent, $dry_run);
+    move_project_rows_to_archive_db($projectid, 'page_events     ', $indent, $dry_run);
     move_project_rows_to_archive_db($projectid, 'wordcheck_events', $indent, $dry_run);
 }
 
@@ -156,7 +156,7 @@ function move_project_rows_to_archive_db( $projectid, $table_name, $indent, $dry
         WHERE projectid='$projectid'
     ") or die(mysql_error());
     $n_copied = mysql_affected_rows();
-    echo "$n_copied rows copied";
+    echo sprintf( "%4d rows copied", $n_copied );
 
     if ( $n_copied == 0 )
     {
@@ -172,7 +172,7 @@ function move_project_rows_to_archive_db( $projectid, $table_name, $indent, $dry
     $n_deleted = mysql_affected_rows();
     if ( $n_deleted == $n_copied )
     {
-        echo " and deleted.";
+        echo " and deleted";
     }
     else
     {
@@ -181,7 +181,10 @@ function move_project_rows_to_archive_db( $projectid, $table_name, $indent, $dry
     }
 
     $t_elapsed = $watch->read();
-    echo sprintf( " (in %.2f sec => %d rows/sec)", $t_elapsed, $n_deleted / $t_elapsed );
+    if (0)
+    {
+        echo sprintf( " (in %.2f sec => %d rows/sec)", $t_elapsed, $n_deleted / $t_elapsed );
+    }
     echo ".\n";
 
     // Moving a project-worth of rows can take a while,
