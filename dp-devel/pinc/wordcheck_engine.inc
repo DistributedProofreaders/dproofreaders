@@ -29,7 +29,7 @@ $word_pattern = "!$char_pattern+(?:'$char_pattern+)*!S";
 
 // string of punctuation characters
 // this is only used for punctuation highlighting
-$puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"¡¿-';
+$puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"¡¿-»«';
 
 // -----------------------------------------------------------------------------
 
