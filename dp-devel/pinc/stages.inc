@@ -264,7 +264,7 @@ new Round(
          20000 => _('Formatter of Enrichment'),
          30000 => _('Designing Formatter'),
          40000 => _('Formatting Artisan'),
-         50000 => _('Formatting Afficiando'),
+         50000 => _('Formatting Afficionado'),
          60000 => _('Guru of Formatters'),
          70000 => _('Formatting Familiar'),
          80000 => _('Formatting Virtuoso'),
