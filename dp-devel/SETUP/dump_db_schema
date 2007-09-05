@@ -75,6 +75,7 @@ get_table_names()
             -e newbies \
             -e test_u \
             -e user_filters_temp \
+            -e project_event_subscriptions_grouped_by_project \
         |
 
         sort -u
