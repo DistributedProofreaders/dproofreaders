@@ -98,8 +98,20 @@ if true; then
 #\
 # Creation:\
 # Last update:
+        s/ ENGINE=/ TYPE=/
         /^) TYPE=/ a\
 # --------------------------------------------------------
         '
+        # Why change "ENGINE" to "TYPE"?
+        #
+        # "TYPE" was the original keyword.
+        # "ENGINE" was added (and "TYPE" deprecated)
+        # in MySQL 4.0.18 (for 4.0) and 4.1.2 (for 4.1),
+        # but "TYPE" is still supported throughout 4.x.
+        #
+        # This script might be run on a platform where mysqldump
+        # generates "ENGINE", but we want the result (in the
+        # form of db_schema.sql) to work on platforms that don't
+        # recognize "ENGINE", only "TYPE". Thus the substitution.
 fi
 # vim: sw=4 ts=4 expandtab ai
