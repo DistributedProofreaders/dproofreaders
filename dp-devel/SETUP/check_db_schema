@@ -8,9 +8,9 @@
 # or did we sneak a db-schema change into the current installation,
 # and are perhaps now depending on it?)
 
-prev_tag=R200510
+prev_tag=R200609
 curr_tag=production
-upgrade_number=07
+upgrade_number=08
 
 setup_dir=`dirname $0`
 testing_dir=/tmp/dp_schema_check
@@ -51,6 +51,8 @@ echo "
     _WRITEBIGTABLE=TRUE
     _READBIGTABLE=TRUE
     _AUTO_POST_TO_PROJECT_TOPIC=FALSE
+    _PUBLIC_PAGE_DETAILS=FALSE
+    _ARCHIVE_DB_NAME=ARCHIVE_DB_NAME
 
     # For update_phpbb_posts_text.php
     _FORUMS_PROJECT_WAITING_IDX=99
@@ -66,7 +68,7 @@ echo ""
 cd $testing_code_dir/SETUP
 
 echo ""
-echo "Getting db_schema.sql from the previous release..."
+echo "Getting db_schema.sql from the '$prev_tag' release..."
 cvs_server=dproofreaders.cvs.sourceforge.net
 cvs_account=:pserver:anonymous@$cvs_server
 cvs -d$cvs_account:/cvsroot/dproofreaders get -p -r $prev_tag dp-devel/SETUP/db_schema.sql > ./db_schema.sql
