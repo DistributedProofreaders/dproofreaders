@@ -25,7 +25,7 @@ function show_block_for_round( $round_number, $projects_filter )
 	}
 	else
 	{
-		$order_old = 'DaysD';
+		$order_old = 'DaysA';
 	}
 
 	// read new sort order from url, if any
