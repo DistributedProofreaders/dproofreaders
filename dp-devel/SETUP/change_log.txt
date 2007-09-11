@@ -1,4 +1,4 @@
-== Changes from R200511 to R200609 ==
+== Changes from R200510 to R200609 ==
 (Scripts supporting this upgrade are in SETUP/upgrade/07)
 
     * Yellow highlight on punctuation in spellcheck (donovang)
