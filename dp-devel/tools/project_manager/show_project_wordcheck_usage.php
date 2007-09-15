@@ -91,13 +91,13 @@ while($result = mysql_fetch_assoc($res)) {
         $lastProofer = $result[$round->user_column_name];
         $timeProofed = $result[$round->time_column_name];
 
-        // determine if the page has been marked 'Done' or not
-        // If one of the following is true, its done:
-        // * if the page is in a previous round
-        // * if the page is in the current round in the done state
+        // determine if the page has been marked 'Done' in $round.
+        // If one of the following is true, it's done:
+        // * $round is prior to the page's current round, or
+        // * $round is the page's current round and the page is in that round's done state.
         $pageIsDoneInRound =
             $currentRound->round_number > $round->round_number ||
-            $currentRound->page_save_state == $result["state"];
+            $round->page_save_state == $result["state"];
 
         if(!empty($lastProofer))
             $lastProoferLink = private_message_link($lastProofer);
