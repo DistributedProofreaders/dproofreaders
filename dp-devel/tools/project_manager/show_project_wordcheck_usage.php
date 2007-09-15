@@ -164,8 +164,8 @@ function echo_stylesheet() {
     table.wordlisttable td { }
 
     .preWC { background-color: #c2c2c2; }
-    .noWC { background-color: yellow; }
-    .WC { background-color: #0F0; }
+    .noWC { background-color: #ffb321; font-weight: bold; }
+    .WC { background-color: #97fc9e; }
     </style>
 <?
 }
