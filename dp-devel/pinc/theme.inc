@@ -41,7 +41,7 @@ function theme ($nameofpage, $location, $extra_args = array()) {
         if ($statsbar_align == 1) {
             if ($location == "header") {
                 html_header($nameofpage, $extra_args);
-                html_logobar($nameofpage);
+                html_logobar();
                 echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
                 echo "<tr>\n";
                 echo "<td align='left' valign='top' width='25%' style='padding: .5em;' bgcolor='".$theme['color_navbar_bg']."'>\n";
@@ -56,7 +56,7 @@ function theme ($nameofpage, $location, $extra_args = array()) {
         } else {
             if ($location == "header") {
                 html_header($nameofpage, $extra_args);
-                html_logobar($nameofpage);
+                html_logobar();
                 echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
                 echo "<tr>\n";
                 echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
@@ -73,7 +73,7 @@ function theme ($nameofpage, $location, $extra_args = array()) {
     } else {
         if ($location == "header") {
             html_header($nameofpage, $extra_args);
-            html_logobar($nameofpage);
+            html_logobar();
             echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
             echo "<tr>\n";
             echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
@@ -121,7 +121,7 @@ function html_header($nameofpage, $extra_args = array()) {
     echo "' style='margin: 0;'>\n\n";
 }
 
-function html_logobar($nameofpage) {
+function html_logobar() {
     global $code_url, $theme, $theme_name, $site_name, $site_abbreviation;
     global $maintenance;
     echo "\n<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
@@ -185,9 +185,6 @@ function html_logobar($nameofpage) {
     //Create the name of the page
 
     echo headerbar_text("$site_abbreviation","$code_url/default.php");
-
-    // This probably isn't useful enough to justify its presence.
-    // if (!empty($nameofpage)) { echo headerbar_text(" » ".$nameofpage,'')."\n"; }
 
     //Code to display login form if not logged in
     if (!isset($GLOBALS['pguser'])) {
