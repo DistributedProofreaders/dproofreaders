@@ -122,7 +122,7 @@ function html_header($nameofpage, $extra_args = array()) {
 }
 
 function html_logobar() {
-    global $code_url, $theme, $theme_name, $site_name, $site_abbreviation;
+    global $code_url, $theme, $theme_name, $site_name;
     global $maintenance;
     echo "\n<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
     echo "<tr>\n";
@@ -176,6 +176,15 @@ function html_logobar() {
     echo "</td>\n";
     echo "</tr>\n";
     echo "</table>\n";
+
+    html_navbar();
+}
+
+function html_navbar()
+// Display the horizontal bar containing links to various important points
+// within the site (and the login form if the user is not logged in).
+{
+    global $theme, $code_url, $site_abbreviation;
 
     echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_headerbar_bg']."'>\n";
     echo "<tr>\n";
