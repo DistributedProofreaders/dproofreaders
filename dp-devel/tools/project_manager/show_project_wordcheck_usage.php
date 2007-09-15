@@ -40,6 +40,7 @@ echo "<ul>";
 echo "<li>" . _("Page has not been saved in the given round.") . "</li>";
 echo "<li><span class='WC'>" . _("Page has had WordCheck run on it and is saved in the given round.") . "</span></li>";
 echo "<li><span class='noWC'>" . _("Page has not had WordCheck run on it and is saved in the given round.") . "</span></li>";
+echo "<li><span class='preWC'>" . _("Page was saved in the given round before WordCheck was rolled out on this site.") . "</span></li>";
 echo "</ul>";
 
 // now build the table
@@ -55,12 +56,18 @@ echo "</ul>";
 </tr>
 <?
 
+// identifying pages that were proofed pre-WordCheck requires
+// $t_wordcheck_start being defined in site_vars.php
+// with its value set to the timestamp of when WordCheck was
+// deployed on the site
+
 // build a list of user column names for the select statement
 // this avoids "select *" which unnecessarily pulls in the large
 // text fields
 $roundColumns=array();
 foreach($Round_for_round_id_ as $round) {
     $roundColumns[]=$round->user_column_name;
+    $roundColumns[]=$round->time_column_name;
 }
 $roundColumns=implode(", ",$roundColumns);
 
@@ -82,6 +89,7 @@ while($result = mysql_fetch_assoc($res)) {
         // the ' + 0' forces timesChecked to be numeric
         $timesChecked = $wordcheck_usage[$page][$roundID] + 0;
         $lastProofer = $result[$round->user_column_name];
+        $timeProofed = $result[$round->time_column_name];
 
         // determine if the page has been marked 'Done' or not
         // If one of the following is true, its done:
@@ -104,6 +112,11 @@ while($result = mysql_fetch_assoc($res)) {
         elseif($pageIsDoneInRound && $timesChecked>0) {
             $class = "class='WC'";
             $data = "$timesChecked: $lastProoferLink";
+        }
+        // if the page was finished before WordCheck was deployed on the site
+        elseif($pageIsDoneInRound && $timesChecked==0 && $timeProofed < $t_wordcheck_start) {
+            $class = "class='preWC'";
+            $data = $lastProoferLink;
         }
         // if the page is finished but was not ran through WordCheck
         elseif($pageIsDoneInRound && $timesChecked==0) {
@@ -150,6 +163,7 @@ function echo_stylesheet() {
 
     table.wordlisttable td { }
 
+    .preWC { background-color: #c2c2c2; }
     .noWC { background-color: yellow; }
     .WC { background-color: #0F0; }
     </style>
