@@ -123,7 +123,7 @@ function html_header($nameofpage, $extra_args = array()) {
 
 function html_logobar($nameofpage) {
     global $code_url, $theme, $theme_name, $site_name, $site_abbreviation;
-    global $dynstats_dir, $maintenance;
+    global $maintenance;
     echo "\n<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
     echo "<tr>\n";
     echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>\n";
