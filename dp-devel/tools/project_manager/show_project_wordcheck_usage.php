@@ -76,8 +76,14 @@ foreach($page_usage as $page => $val ) {
 
 } // end sub-optimal "one at a time" way
 
+echo "<p>" . _("The following table lists the number of times WordCheck was run against a page in each round and the last user to work on the page. Click the proofer's username to compose a private message to them.") . "</p>";
 
-echo "<p>" . _("The following table lists the number of times WordCheck was run against a page in a specific round and the last user to work on the page. Pages that are Done and have had WordCheck run on them will be marked <span class='WC'>like this</span>. Pages that are Done and WordCheck has not been run on them are marked <span class='noWC'>like this</span>. Pages without a background color have not yet been saved as Done and they may or may not have had WordCheck run against them. Click the proofer's username to compose a private message to them.") . "</p>";
+echo "<p><b>" . _("Legend") . "</b></p>";
+echo "<ul>";
+echo "<li>" . _("Page has not been saved in the given round.") . "</li>";
+echo "<li><span class='WC'>" . _("Page has had WordCheck run on it and is saved in the given round.") . "</span></li>";
+echo "<li><span class='noWC'>" . _("Page has not had WordCheck run on it and is saved in the given round.") . "</span></li>";
+echo "</ul>";
 
 // now build the table
 ?>
