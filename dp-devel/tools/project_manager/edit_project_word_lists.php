@@ -351,19 +351,23 @@ class ProjectWordListHolder
             echo "</tr>";
         }
 
-        $OCR_pages = $this->number_of_pages_in_round(null);
-        $P1_pages = $this->number_of_pages_in_round(get_Round_for_round_number(1));
+        $exist_OCR_pages = ($this->number_of_pages_in_round(null) > 0);
+        $exist_pages_in_P1_or_later = ($this->number_of_pages_in_round(get_Round_for_round_number(1)) > 0);
 
         // due to some special circumstances, not all projects may have pages in P1
         // so we'll check to see if the project is in a state after P1 and count
         // that as just as good
-        if($P1_pages == 0) {
+        if(!$exist_pages_in_P1_or_later) {
             $current_project_round = get_Round_for_project_state($this->state);
             if($current_project_round->round_number > 1)
-                $P1_pages = 1;
+                $exist_pages_in_P1_or_later = true;
         }
 
-        if($OCR_pages == 0) {
+        // if the project doesn't have any OCR pages and the project
+        // has no P1 or later pages, report a message. The second criteria
+        // is important for type-in projects that may have no OCR pages but
+        // will have P1 or later pages
+        if(!$exist_OCR_pages && !$exist_pages_in_P1_or_later) {
             echo "<tr>";
             echo "<td colspan='2'>";
             echo "<p class='error' style='text-align: center;'>";
@@ -388,7 +392,7 @@ class ProjectWordListHolder
             echo "<td>" . new_window_link("show_project_wordcheck_stats.php?projectid=$this->projectid",_("Show WordCheck flagged word statistics")) . "</td>";
             echo "</tr>";
 
-            if($P1_pages > 0) {
+            if($exist_pages_in_P1_or_later) {
                 echo "<tr>";
                 echo "<td class='label'>" . _("WordCheck Usage") . "</td>";
                 echo "<td>" . new_window_link("show_project_wordcheck_usage.php?projectid=$this->projectid",_("Show WordCheck proofer interface usage")) . "</td>";
@@ -451,8 +455,11 @@ class ProjectWordListHolder
                 echo "</p>";
             }
 
-            // see if there are pages in P1 before showing the link
-            if($P1_pages > 0) {
+            // see if there are P1 (or later) and OCR pages before showing the link.
+            // type-in projects may have P1 (or later) pages but no OCR pages
+            // and the current show_project_stealth_scannos.php page only works
+            // with projects that have OCR text
+            if($exist_pages_in_P1_or_later && $exist_OCR_pages) {
                 echo "<p>";
                 echo "<b>" . _("Suggestions from diff analysis:") . "</b><br>";
                 echo new_window_link(
