@@ -120,12 +120,11 @@ $res = dpsql_query("
     ORDER BY $sql_order
 ") or die('Aborting');
 
-echo sprintf("(%d entries)", mysql_num_rows($res) );
-
 echo "<table border='1'>";
 
 show_headings($colspecs, 'proof');
 
+$n_rows_displayed = 0;
 while ( $row = mysql_fetch_object($res) )
 {
     if ( $row->state == PROJ_DELETE)
@@ -180,9 +179,13 @@ while ( $row = mysql_fetch_object($res) )
     echo "</td>\n";
 
     echo "</tr>\n";
+
+    $n_rows_displayed++;
 }
 
 echo "</table>\n";
+
+echo sprintf("(%d entries)", $n_rows_displayed );
 echo "<br>\n";
 
 // -----------------------------------------------------------------------------
