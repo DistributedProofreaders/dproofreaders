@@ -65,11 +65,13 @@ $colspecs = array(
             'label' => _('Current State'),
             'sql'   => sql_collater_for_project_state('projects.state'),
         ),
+    /*
     'round' =>
         array(
             'label' => _('Round Worked In'),
-            'sql'   => sql_collater_for_round_id('page_events.round_id'),
+            'sql'   => sql_collater_for_round_id('user_project_info.round_id'),
         ),
+    */
     'time' =>
         array(
             'label' => _('Time of Last Activity'),
@@ -106,17 +108,16 @@ if ( $order_col != $default_order_col )
 
 $res = dpsql_query("
     SELECT
-        page_events.projectid,
-        page_events.round_id,
-        MAX(page_events.timestamp) AS max_timestamp,
+        user_project_info.projectid,
+        -- user_project_info.round_id,
+        user_project_info.t_latest_page_event AS max_timestamp,
         projects.nameofwork,
         projects.state,
         projects.deletion_reason
-    FROM page_events LEFT OUTER JOIN projects USING (projectid)
-    WHERE page_events.username='$username'
-        AND page_events.event_type IN ('saveAsDone','saveAsInProgress', 'markAsBad')
+    FROM user_project_info LEFT OUTER JOIN projects USING (projectid)
+    WHERE user_project_info.username='$username'
+        AND user_project_info.t_latest_page_event > 0
         AND projects.archived = 0
-    GROUP BY page_events.projectid, page_events.round_id
     ORDER BY $sql_order
 ") or die('Aborting');
 
@@ -170,9 +171,11 @@ while ( $row = mysql_fetch_object($res) )
     echo get_medium_label_for_project_state( $state );
     echo "</td>\n";
 
+    /*
     echo "<td align='center'>";
     echo $row->round_id;
     echo "</td>\n";
+    */
 
     echo "<td nowrap>";
     echo strftime( '%Y-%m-%d %H:%M:%S', $row->max_timestamp );
@@ -185,7 +188,7 @@ while ( $row = mysql_fetch_object($res) )
 
 echo "</table>\n";
 
-echo sprintf("(%d entries)", $n_rows_displayed );
+echo sprintf("(%d projects)", $n_rows_displayed );
 echo "<br>\n";
 
 // -----------------------------------------------------------------------------
