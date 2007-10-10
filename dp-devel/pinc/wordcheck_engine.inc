@@ -665,10 +665,14 @@ function load_word_list( $path )
     // needed in case site word list has trailing spaces
     // And if/since the file has \r\n line-ends,
     // this will also remove the trailing \r.
-    $words = array_map('rtrim', $words);
+    // Only do this if the first word has either
+    // trailing spaces or an \r -- this saves time
+    // for large site word lists that don't need it.
+    if($words[0] != rtrim($words[0]))
+        $words = array_map('rtrim', $words);
 
     // remove the last "empty" word caused by the last newline
-    if($words[count($words)-1]=="")
+    if(rtrim($words[count($words)-1]) == "")
         array_pop($words);
 
     return $words;
