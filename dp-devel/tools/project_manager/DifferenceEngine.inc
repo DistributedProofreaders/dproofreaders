@@ -40,11 +40,6 @@ class DifferenceEngine {
 	{
 		global $wgOut;
 
-		$ota = explode( "\n", str_replace( "\r\n", "\n",
-		  htmlspecialchars( $otext ) ) );
-		$nta = explode( "\n", str_replace( "\r\n", "\n",
-		  htmlspecialchars( $ntext ) ) );
-
 		$wgOut->addHTML( "<table width='98%' border=0
 cellpadding=0 cellspacing='4px'><tr>
 <td colspan=2 width='50%' align=center bgcolor='#cccccc'>
@@ -52,6 +47,10 @@ cellpadding=0 cellspacing='4px'><tr>
 <td colspan=2 width='50%' align=center bgcolor='#cccccc'>
 <strong>{$ntitle}</strong></td>
 </tr>\n" );
+
+
+		$ota = explode( "\n", str_replace( "\r\n", "\n", $otext ) );
+		$nta = explode( "\n", str_replace( "\r\n", "\n", $ntext ) );
 
 		$diffs = new Diff( $ota, $nta );
 		$formatter = new TableDiffFormatter();
@@ -961,9 +960,9 @@ class _HWLDF_WordAccumulator {
     function _flushGroup ($new_tag) {
         if ($this->_group !== '') {
 	  if ($this->_tag == 'mark') 
-            $this->_line .= "<font color=\"red\">$this->_group</font>";
+            $this->_line .= "<font color=\"red\">" . htmlspecialchars ( $this->_group ) . "</font>";
 	  else
-	    $this->_line .= $this->_group;
+	    $this->_line .= htmlspecialchars( $this->_group );
 	}
         $this->_group = '';
         $this->_tag = $new_tag;
@@ -972,7 +971,10 @@ class _HWLDF_WordAccumulator {
     function _flushLine ($new_tag) {
         $this->_flushGroup($new_tag);
         if ($this->_line != '')
-            $this->_lines[] = $this->_line;
+            array_push ( $this->_lines, $this->_line );
+        else
+            # make empty lines visible by inserting an NBSP
+            array_push ( $this->_lines, NBSP );
         $this->_line = '';
     }
 
@@ -985,7 +987,6 @@ class _HWLDF_WordAccumulator {
             if ($word == '')
                 continue;
             if ($word[0] == "\n") {
-                $this->_group .= NBSP;
                 $this->_flushLine($tag);
                 $word = substr($word, 1);
             }
@@ -1012,8 +1013,6 @@ class WordLevelDiff extends MappedDiff
     }
 
     function _split($lines) {
-        // FIXME: fix POSIX char class.
-#        if (!preg_match_all('/ ( [^\S\n]+ | [[:alnum:]]+ | . ) (?: (?!< \n) [^\S\n])? /xs',
         if (!preg_match_all('/ ( [^\S\n]+ | [0-9_A-Za-z\x80-\xff]+ | . ) (?: (?!< \n) [^\S\n])? /xs',
                             implode("\n", $lines),
                             $m)) {
@@ -1078,11 +1077,13 @@ class TableDiffFormatter extends DiffFormatter
 	function _lines( $lines, $prefix=' ', $color="white" ) {
 	}
 
+	# HTML-escape parameter before calling this
 	function addedLine( $line ) {
 		return "<td>+</td><td bgcolor='#ccffcc'>" .
 		  "<small><span class='custom_font'>{$line}</span></small></td>";
 	}
 
+	# HTML-escape parameter before calling this
 	function deletedLine( $line ) {
 		return "<td>-</td><td bgcolor='#ffffaa'>" .
 		  "<small><span class='custom_font'>{$line}</span></small></td>";
@@ -1100,14 +1101,14 @@ class TableDiffFormatter extends DiffFormatter
 		global $wgOut;
 		foreach ($lines as $line) {
 			$wgOut->addHTML( "<tr>" . $this->emptyLine() .
-			  $this->addedLine( $line ) . "</tr>\n" );
+			  $this->addedLine( htmlspecialchars ( $line ) ) . "</tr>\n" );
 		}
 	}
 
 	function _deleted($lines) {
 		global $wgOut;
 		foreach ($lines as $line) {
-			$wgOut->addHTML( "<tr>" . $this->deletedLine( $line ) .
+			$wgOut->addHTML( "<tr>" . $this->deletedLine( htmlspecialchars ( $line ) ) .
 			  $this->emptyLine() . "</tr>\n" );
 		}
 	}
@@ -1115,8 +1116,9 @@ class TableDiffFormatter extends DiffFormatter
 	function _context( $lines ) {
 		global $wgOut;
 		foreach ($lines as $line) {
-			$wgOut->addHTML( "<tr>" . $this->contextLine( $line ) .
-			  $this->contextLine( $line ) . "</tr>\n" );
+			$wgOut->addHTML( "<tr>" .
+			  $this->contextLine( htmlspecialchars ( $line ) ) .
+			  $this->contextLine( htmlspecialchars ( $line ) ) . "</tr>\n" );
 		}
 	}
 
@@ -1125,7 +1127,9 @@ class TableDiffFormatter extends DiffFormatter
         $diff = new WordLevelDiff( $orig, $closing );
 		$del = $diff->orig();
 		$add = $diff->closing();
-
+		
+		# Notice that WordLevelDiff returns HTML-escaped output.
+		# Hence, we will be calling addedLine/deletedLine without HTML-escaping.
 		while ( $line = array_shift( $del ) ) {
 			$aline = array_shift( $add );
 			$wgOut->addHTML( "<tr>" . $this->deletedLine( $line ) .
