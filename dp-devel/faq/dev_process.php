@@ -136,7 +136,7 @@ Before you start working on a change,
 After that, do your editing in your working copy
  and use <code>scp</code> to copy <i>changed</i> files
  from your working copy to your sandbox.
-(If you need help with <code>scp</code> please contact pourlean in Jabber.)
+(If you need help with <code>scp</code> please contact a developer in Jabber.)
 Note: If you copy the CVS versions of pinc/site_vars.php or pinc/udb_user.php
  into your sandbox, it will stop working.
 If you need to change either of these files, seek help from a Site Admin.
@@ -144,8 +144,9 @@ If you need to change either of these files, seek help from a Site Admin.
 
 <p>
 If you do not have a sandbox set up on the test host
- and would like one, please form an orderly queue in pourlean's mailbox.
-She can create an account for you and walk you through the setup.
+and would like one, please send a request to dphelp.
+An account will be created for you and information provided
+to help you through the remaining setup.
 </p>
 
 <p>
