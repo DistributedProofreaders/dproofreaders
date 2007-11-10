@@ -1,0 +1,223 @@
+Stuff that only site admins need to know
+----------------------------------------
+
+                      Configuring rounds etc
+                      ======================
+
+The file pinc/stages.inc defines the site's set of 'stages' ('rounds' and
+'pools'), and their various characteristics (id, full name, entrance
+requirements, description, etc).  As shipped, it defines the set of stages
+used at www.pgdp.net, but as part of configuring your site (i.e., before
+creating any real projects), you can edit the file to set things up the way
+you want them for your site.
+
+For documentation on the parameters for the Stage(), Round(), and Pool()
+constructors, see pinc/Stage.inc, pinc/RoundDescriptor.inc, and pinc/Pool.inc.
+
+Currently, database fields containing round-ids are declared as CHAR(2)
+because that's all we need at www.pgdp.net. If you want to have a longer
+round-id, you'll have to change the database in a few places. For example,
+to allow a three-character round-id, you'd need to do:
+    ALTER TABLE page_events      MODIFY COLUMN round_id   CHAR(3);
+    ALTER TABLE queue_defns      MODIFY COLUMN round_id   CHAR(3);
+    ALTER TABLE wordcheck_events MODIFY COLUMN round_id   CHAR(3);
+    ALTER TABLE best_tally_rank  MODIFY COLUMN tally_name CHAR(3);
+    ALTER TABLE current_tallies  MODIFY COLUMN tally_name CHAR(3);
+    ALTER TABLE past_tallies     MODIFY COLUMN tally_name CHAR(3);
+    ALTER TABLE site_tally_goals MODIFY COLUMN tally_name CHAR(3);
+The PHP code shouldn't need any changes, though.
+
+Once your site is running, certain changes become problematic:
+    - changing the id of a stage
+    - changing the order of stages
+    - adding or removing a stage
+(Especially if the stage is a round. If it's a pool there are fewer problems.)
+It can be done, but it isn't as simple as just running a script. We're hoping
+that a future redesign will make such changes easy.
+
+
+                      Manual database changes
+                      ========================
+
+There are several maintenance procedures for which we haven't yet bothered to
+make a web interface. Instead, a site admin must tweak the database "by hand",
+e.g. via the 'mysql' command-line client, or via phpMyAdmin (if you have it
+installed).
+
+Notes on the SQL commands shown here:
+
+ -- If your SQL installation has multiple databases, you have to be using the
+    correct one, i.e. the one whose name is bound to _DB_NAME in your
+    configuration.sh. For example, if that name is 'dp_main', you could issue
+    the command "USE dp_main", or invoke 'mysql' with "-D dp_main", or select
+    dp_main from the database list in phpMyAdmin, etc.
+
+ -- A word in ALL-CAPS indicates where you need to substitute a specific
+    value. E.g., if the command says
+        username='USERNAME'
+    you might actually type
+        username='joe'
+
+Granting/revoking privileges:
+-----------------------------
+    
+Granting 'Project Manager' status:
+    update users set manager='yes' where username='USERNAME';
+Revoking it:
+    update users set manager='no' where username='USERNAME';
+
+Granting 'Project Facilitator' status:
+    insert into usersettings
+    set username='USERNAME', setting='proj_facilitator', value='yes';
+Revoking it:
+    delete from usersettings
+    where username='USERNAME' AND setting='proj_facilitator';
+
+Granting 'Task Center Manager' status:
+    insert into usersettings
+    set username='USERNAME', setting='task_center_mgr', value='yes';
+Revoking it:
+    delete from usersettings
+    where username='USERNAME' AND setting='task_center_mgr';
+
+Granting 'Site News Editor' status:
+    insert into usersettings
+    set username='USERNAME', setting='site_news_editor', value='yes';
+Revoking it:
+    delete from usersettings
+    where username='USERNAME' AND setting='site_news_editor';
+
+
+Setting daily goals for the rounds:
+-----------------------------------
+
+You don't need to set daily goals (in effect, they defalt to zero), but if
+you want to, here's how. For each round that you want to set a goal for:
+    insert into site_tally_goals
+    set date='YYYY-MM-DD', tally_name='ROUND_ID', goal='GOAL'
+where YYYY-MM-DD is today's date, or whatever date you want to be the first
+day of goal-setting. Then if you have the site crontab set up to run
+crontab/extend_site_tally_goals.php each day, it will ensure that the latest
+goals are duplicated to 35 days in the future.
+
+When you want to change the goal for a round:
+    update site_tally_goals
+    set goal='NEW_GOAL'
+    where tally_name='ROUND_ID' and date >= 'YYYY-MM-DD'
+where YYYY-MM-DD is the effective date of the change.
+
+
+Defining queues:
+----------------
+You don't have to define queues: if there are no queues defined for a round,
+projects in the round's 'waiting for release' state will automatically (the
+next time automodify.php runs) transition to the 'available for work' state.
+
+But if you want to:
+    insert into queue_defns
+    set round_id='ROUND_ID',
+        enabled='1',
+        name='NAME',
+        comment='COMMENT',
+        project_selector='PROJECT_SELECTOR',
+        release_criterion='RELEASE_CRITERION',
+        ordering='NNN'
+where
+ -- NAME is a shortish name for the queue (i.e., a name for the set of
+    projects that it deals with).
+
+ -- COMMENT is a longer description, if desired.
+
+ -- PROJECT_SELECTOR is the condition you would put in a SQL WHERE-clause
+    to select the projects that this queue deals with. E.g.
+        project_selector = '(genre="Non-Fiction" or genre="Other")'
+    Below, we refer to these as "selected projects".
+
+ -- RELEASE_CRITERION is a logical expression specifying the condition under
+    which this queue should release one of its waiting projects. The
+    expression can reference two quantities:
+     -- 'projects': the number of selected projects that are currently in the
+        round's 'available for work' state.
+     -- 'pages': the total number of unproofed pages in selected projects in
+        this round.  ("unproofed" = "in any state other than saved-as-done")
+    For example,
+        release_criterion = 'projects < 2 or pages < 100'
+    says that the queue should release a project if there are fewer than 2
+    selected projects in the round, or if there are fewer than 100 unproofed
+    pages left in selected projects in the round.
+
+ -- NNN is an integer that determines the order in which this queue is
+    processed. If queues' project_selectors are completely independent (i.e.,
+    they have no selected projects in common), then this doesn't matter, but
+    if there is overlap, then it becomes important. If an earlier queue
+    releases a project, that may prevent a later queue from releasing.
+
+
+Special Events:
+-------------
+You don't have to define any special events. If you want to:
+    insert into special_days
+    set
+        spec_code    = 'SPEC_CODE',
+        display_name = 'NAME',
+        comment      = 'COMMENT',
+        color        = 'COLOR',
+        open_day     = 'OPEN_DAY',
+        open_month   = 'OPEN_MONTH',
+        close_day    = 'CLOSE_DAY',
+        close_month  = 'CLOSE_MONTH',
+        info_url     = 'INFO_URL'
+where
+ -- SPEC_CODE is a brief code to identify this event. (It's only used within
+    the database; users don't see it.)
+
+ -- NAME is a short name for the event. (e.g. display_name='Armistice Day')
+
+ -- COMMENT is a description of the event. (e.g. comment='End of World War I')
+
+ -- COLOR is an HTML-color (e.g. color='FF9090') to associate with this event.
+    Appears in project listings as the background color for projects that
+    belong to this event.
+
+ -- OPEN_DAY, OPEN_MONTH are the numeric day and month of the first day of the
+    event (e.g. open_day='11', open_month='11')
+
+ -- CLOSE_DAY, CLOSE_MONTH are the numeric day and month of the first day
+    *after* the event. (e.g. close_day='12', close_month='11')
+
+ -- INFO_URL is an address at which to find more information on the event.
+    (e.g., info_url='http://en.wikipedia.org/wiki/Armistice_Day')
+
+
+Themes:
+-------
+A "theme" controls certain aspects of the interface's presentation (e.g.,
+colors, fonts). Theme definitions are stored under pinc/templates. The code
+ships with a few predefined themes, but the code's out-of-the-box behavior is
+to set every user's theme to 'Project Gutenberg' and not allow you to change
+it.  If you want to allow users to choose between various themes (predefined
+or otherwise), you need to put a row in the 'themes' table for each theme
+that you want to make available:
+
+    insert into themes
+    set
+        name       = 'NAME',
+        unixname   = 'UNIXNAME',
+        created_by = 'CREATED_BY'
+where
+ -- NAME is the user-visible name for the theme. (e.g., name='Classic Grey')
+ -- UNIXNAME is the name of the subdirectory of pinc/templates/ where the
+    theme is defined. (e.g., unixname='classic_grey')
+ -- CREATED_BY says who created the theme.  (e.g., created_by='USFJoseph')
+    Currently, this field isn't referenced by the code.
+
+
+                           Miscellaneous
+                           =============
+
+Genres:
+-------
+To change the set of genres, you have to edit the pinc/genres.inc file.
+
+
+# vim: 'sw=4 ts=4 expandtab
