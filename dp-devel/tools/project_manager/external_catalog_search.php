@@ -197,7 +197,7 @@ function do_search_and_show_hits()
 
         if ($i % 2 == 1) { echo "<tr>"; }
 
-        echo "<td width='5%' align='center'>";
+        echo "<td width='5%' align='center' valign='top'>";
         echo "<input type='radio' name='rec' value='".base64_encode(serialize($rec))."'>";
         echo "</td>";
         echo "<td width='45%' align='left' valign='top'>";
