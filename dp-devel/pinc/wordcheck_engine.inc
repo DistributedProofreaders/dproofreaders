@@ -652,20 +652,20 @@ function load_word_list( $path )
         return array();
     }
 
-    $word_list = file_get_contents($path);
-    if ( $word_list === FALSE )
+    // Note: we're unable to use the file() function's FILE_IGNORE_NEW_LINES
+    // parameter since it wasn't added until PHP 5.0.0 *and* because
+    // it only removes \n, not \r\n, so we'd still need to rtrim later
+    $words = file($path);
+    if ( $words === FALSE )
     {
         return "Error reading file $path";
     }
-
-    // explode each line into its own word
-    $words = explode("\n", $word_list);
 
     // trim word list to remove trailing spaces
     // needed in case site word list has trailing spaces
     // And if/since the file has \r\n line-ends,
     // this will also remove the trailing \r.
-    $words = array_map('rtrim', $words);
+    array_walk($words, 'rtrim_walk');
 
     // remove the last "empty" word caused by the last newline
     if($words[count($words)-1]=="")
@@ -679,7 +679,7 @@ function save_word_list( $path, $words )
 // Return a string, either "Success" or an error message.
 {
     // standardize word list
-    $words = array_map('rtrim', $words);
+    array_walk($words, 'rtrim_walk');
     $words = array_unique($words);
     uasort($words,"accentAgnosticCompare");
 
@@ -948,6 +948,12 @@ function accentAgnosticCompare($a, $b) {
     $a = preg_replace("/[^{$word_characters}]*/","",$a);
     $b = preg_replace("/[^{$word_characters}]*/","",$b);
     return strnatcasecmp($a,$b);
+}
+
+// rtrim version to use in array_walk
+function rtrim_walk(&$item)
+{
+    $item = rtrim($item);
 }
 
 // vim: sw=4 ts=4 expandtab
