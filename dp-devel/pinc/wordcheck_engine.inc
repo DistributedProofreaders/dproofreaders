@@ -681,7 +681,7 @@ function save_word_list( $path, $words )
     // standardize word list
     array_walk($words, 'rtrim_walk');
     $words = array_unique($words);
-    uasort($words,"accentAgnosticCompare");
+    uasort($words,"deterministicStrnatcasecmp");
 
     // remove any empty words
     $words = array_diff($words,array(''));
@@ -699,6 +699,7 @@ function save_word_list( $path, $words )
     {
         return "Success";
     }
+
 
     // now open the file
     $fh = @fopen( $path, "w" );
@@ -942,12 +943,22 @@ function generate_frequencies($wordList) {
 }
 
 
-// compare function that ignores non-word_characters
-function accentAgnosticCompare($a, $b) {
-    global $word_characters;
-    $a = preg_replace("/[^{$word_characters}]*/","",$a);
-    $b = preg_replace("/[^{$word_characters}]*/","",$b);
-    return strnatcasecmp($a,$b);
+// function for comparing words similar to strnatcasecmp
+// but deterministicly; without the strnatcmp() call
+// if the words are the same discounting case, the calling
+// sort function would be non-deterministic based on PHP
+// docs (see online docs for usort()) and manual confirmation
+function deterministicStrnatcasecmp($a, $b)
+{
+    $natcaseresult = strnatcasecmp($a, $b);
+    if($natcaseresult != 0 )
+    {
+        return $natcaseresult;
+    }
+    else
+    {
+        return strnatcmp($a, $b);
+    }
 }
 
 // rtrim version to use in array_walk
