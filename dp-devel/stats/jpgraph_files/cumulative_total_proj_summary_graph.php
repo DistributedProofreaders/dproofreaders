@@ -11,11 +11,13 @@ include_once($code_dir.'/stats/statestats.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once('common.inc');
 
+// Create the graph. We do this before everything else
+// to make use of the jpgraph cache if enabled.
+// Last value controls how long the graph is cached for in minutes.
+$graph = new Graph(640,400,"auto",360);
+
 new dbConnect();
 
-// Create the graph. These two calls are always required
-//Last value controls how long the graph is cached for in minutes
-$graph = new Graph(640,400,"auto",360);
 $graph->SetScale("textint");
 $graph->SetMarginColor('white'); //Set background to white
 $graph->SetShadow(); //Add a drop shadow

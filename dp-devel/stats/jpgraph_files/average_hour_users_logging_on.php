@@ -3,6 +3,12 @@ $relPath="./../../pinc/";
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'connect.inc');
 include_once('common.inc');
+
+// Initialize the graph before anything else.
+// This makes use of the jpgraph cache if enabled.
+// Last argument to init_simple_bar_graph is the cache timeout in minutes.
+$graph = init_simple_bar_graph(640, 400, 58);
+
 new dbConnect();
 
 ///////////////////////////////////////////////////
@@ -22,13 +28,12 @@ $result = mysql_query("
 list($datax,$datay) = dpsql_fetch_columns($result);
 
 draw_simple_bar_graph(
+	$graph,
 	$datax,
 	$datay,
 	1,
 	_('Average number of users newly logged in each hour'),
-	_('Fresh Logons'),
-	640, 400,
-	58
+	_('Fresh Logons')
 );
 
 ?>

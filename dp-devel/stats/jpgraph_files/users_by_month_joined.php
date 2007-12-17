@@ -6,8 +6,13 @@ include_once($jpgraph_dir.'/src/jpgraph_bar.php');
 include_once($jpgraph_dir.'/src/jpgraph_line.php');
 include_once($relPath.'connect.inc');
 include_once($relPath.'page_tally.inc');
-new dbConnect();
 
+// Create the graph. We do this before everything else
+// to make use of the jpgraph cache if enabled.
+// Last value controls how long the graph is cached for in minutes.
+$graph = new Graph(640,400,"auto",900);
+
+new dbConnect();
 
 ///////////////////////////////////////////////////
 // For each month (in which at least one person joined),
@@ -37,11 +42,6 @@ while ( $row = mysql_fetch_object($result) )
 }
 
 
-
-
-// Create the graph. These two calls are always required
-//Last value controls how long the graph is cached for in minutes
-$graph = new Graph(640,400,"auto",900);
 $graph->SetScale("textint");
 
 //set X axis

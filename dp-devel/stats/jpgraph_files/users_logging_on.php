@@ -61,6 +61,11 @@ switch ( $preceding )
 }
 
 
+// Initialize the graph before making database call.
+// This makes use of the jpgraph cache if enabled.
+$graph = init_simple_bar_graph(640, 400, $cache_timeout);
+
+
 ///////////////////////////////////////////////////
 //query db and put results into arrays
 
@@ -90,13 +95,12 @@ if ($mynumrows < 30) {
 }
 
 draw_simple_bar_graph(
+	$graph,
 	$datax,
 	$datay,
 	$tick,
 	$title,
-	_('Fresh Logons'),
-	640, 400,
-	$cache_timeout
+	_('Fresh Logons')
 );
 
 ?>

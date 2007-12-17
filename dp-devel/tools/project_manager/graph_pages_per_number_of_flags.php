@@ -7,13 +7,12 @@ $projectid = $_GET["projectid"];
 // data for this graph is generated in show_wordcheck_page_stats.php
 
 draw_simple_bar_graph(
+   init_simple_bar_graph(600, 300, -1),
    $_SESSION["graph_pages_per_number_of_flags"][$projectid]["graph_x"],
    $_SESSION["graph_pages_per_number_of_flags"][$projectid]["graph_y"],
    ceil(count($_SESSION["graph_pages_per_number_of_flags"][$projectid]["graph_x"])/40),
    _("Number of flags on a page"),
-   _("Pages with that many flags"),
-   600,300,
-   -1
+   _("Pages with that many flags")
 );
 
 // unsetting graph_pages_per_number_of_flags variable in the session

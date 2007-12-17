@@ -73,17 +73,28 @@ function array_accumulate( $arr )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function init_pages_graph($cache_timeout)
+{
+    return new Graph(640,400,"auto",$cache_timeout);
+}
+
 function draw_pages_graph(
+    $graph,
     $x_dates,
     $y_actual_n_pages,
     $y_page_goal,
     $x_frequency,
     $cumulative_or_increments,
-    $title,
-    $cache_timeout
+    $title
 )
 // Draw various kinds of 'pages completed vs. time' graphs.
 {
+    // check to see that $graph is actually a Graph object
+    if(!is_a($graph,"Graph"))
+    {
+        assert( FALSE );
+    }
+
     if ( array_get( $_GET, 'echo_graph_data', FALSE ) )
     {
         echo "$title\n\n";
@@ -131,9 +142,6 @@ function draw_pages_graph(
         assert( FALSE );
     }
 
-    // Create the graph. These two calls are always required
-    // Last value controls how long the graph is cached for in minutes
-    $graph = new Graph(640,400,"auto",$cache_timeout);
     $graph->SetScale("textint");
 
     // Set background to white
@@ -205,16 +213,27 @@ function draw_pages_graph(
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function init_projects_graph($cache_timeout)
+{
+    return new Graph(640,400,"auto",$cache_timeout);
+}
+
 function draw_projects_graph(
+    $graph,
     $x_dates,
     $y_num_projects,
     $cumulative_or_increments,
     $color,
-    $title,
-    $cache_timeout
+    $title
 )
 // Draw various kinds of 'number of projects vs. time' graphs.
 {
+    // check to see that $graph is actually a Graph object
+    if(!is_a($graph,"Graph"))
+    {
+        assert( FALSE );
+    }
+
     if ( array_get( $_GET, 'echo_graph_data', FALSE ) )
     {
         echo "$title\n\n";
@@ -252,9 +271,6 @@ function draw_projects_graph(
         }
     }
 
-    // Create the graph. These two calls are always required
-    // Last value controls how long the graph is cached for in minutes
-    $graph = new Graph(640,400,"auto",$cache_timeout);
     $graph->SetScale("textint");
 
     // Set background to white
@@ -331,16 +347,26 @@ function draw_projects_graph(
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function init_simple_bar_graph($width, $height, $cache_timeout)
+{
+    return new Graph($width,$height,"auto",$cache_timeout);
+}
+
 function draw_simple_bar_graph(
+    $graph,
     $datax,
     $datay,
     $x_label_interval,
     $title,
-    $y_title,
-    $width, $height,
-    $cache_timeout
+    $y_title
 )
 {
+    // check to see that $graph is actually a Graph object
+    if(!is_a($graph,"Graph"))
+    {
+        assert( FALSE );
+    }
+
     if ( array_get( $_GET, 'echo_graph_data', FALSE ) )
     {
         echo "$title\n\n";
@@ -350,9 +376,6 @@ function draw_simple_bar_graph(
 
     global $jpgraph_FF, $jpgraph_FS;
 
-    // Create the graph. These two calls are always required
-    // Last value controls how long the graph is cached for in minutes
-    $graph = new Graph($width,$height,"auto",$cache_timeout);
     $graph->SetScale("textint");
 
     // Set background to white

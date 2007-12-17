@@ -3,6 +3,12 @@ $relPath="./../../pinc/";
 include_once($relPath.'connect.inc');
 include_once($relPath.'page_tally.inc');
 include_once('common.inc');
+
+// Initialize the graph before anything else.
+// This makes use of the jpgraph cache if enabled.
+// Last argument to init_simple_bar_graph is the cache timeout in minutes.
+$graph = init_simple_bar_graph(640, 400, 900);
+
 new dbConnect();
 
 
@@ -36,13 +42,12 @@ while ( $row = mysql_fetch_object($result) )
 }
 
 draw_simple_bar_graph(
+	$graph,
 	$datax,
 	$data1y,
 	1,
 	'Percentage of New Users Who Went on to Proof By Month',
-	'% of newly Joined Users who Proofed',
-	640, 400,
-	900
+	'% of newly Joined Users who Proofed'
 );
 
 ?>

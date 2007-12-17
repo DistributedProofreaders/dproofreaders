@@ -8,6 +8,11 @@ include_once($code_dir.'/stats/statestats.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once('common.inc');
 
+// Initialize the graph before anything else.
+// This makes use of the jpgraph cache if enabled.
+// Argument to init_projects_graph is the cache timeout in minutes.
+$graph = init_projects_graph(360);
+
 new dbConnect();
 
 // Create "cumulative projects Xed per day" graph for all days 
@@ -33,12 +38,12 @@ if (empty($datay1)) {
 }
 
 draw_projects_graph(
+	$graph,
 	$datax,
 	$datay1,
 	'cumulative',
 	$psd->color,
-	"$psd->cumulative_title ($timeframe)",
-	360
+	"$psd->cumulative_title ($timeframe)"
 );
 
 ?>

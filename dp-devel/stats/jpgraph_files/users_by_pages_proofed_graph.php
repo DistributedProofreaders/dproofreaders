@@ -5,8 +5,13 @@ include_once($jpgraph_dir.'/src/jpgraph.php');
 include_once($jpgraph_dir.'/src/jpgraph_bar.php');
 include_once($relPath.'connect.inc');
 include_once($relPath.'page_tally.inc');
-new dbConnect();
 
+// Create the graph. We do this before everything else
+// to make use of the jpgraph cache if enabled.
+// Last value controls how long the graph is cached for in minutes.
+$graph = new Graph(640,400,"auto",1440);
+
+new dbConnect();
 
 ///////////////////////////////////////////////////////////////////
 //Number of users who have done X pages, and how recently logged in
@@ -74,9 +79,6 @@ while ($row = mysql_fetch_object($result))
 
 
 
-// Create the graph. These two calls are always required
-//Last value controls how long the graph is cached for in minutes
-$graph = new Graph(640,400,"auto",1440);
 $graph->SetScale("textint");
 
 //set X axis

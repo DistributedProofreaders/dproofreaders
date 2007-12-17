@@ -8,6 +8,12 @@ include_once($code_dir.'/stats/statestats.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once('common.inc');
 
+// Initialize the graph before anything else.
+// This makes use of the jpgraph cache if enabled.
+// Argument to init_projects_graph is the cache timeout in minutes.
+$graph = init_projects_graph(300);
+
+
 new dbConnect();
 
 // Create "projects Xed per day" graph for current month
@@ -44,12 +50,12 @@ for ( $i = count($datay1); $i < $maxday; $i++ )
 }
 
 draw_projects_graph(
+	$graph,
 	$datax,
 	$datay1,
 	'increments',
 	$psd->color,
-	"$psd->per_day_title ($timeframe)",
-	300
+	"$psd->per_day_title ($timeframe)"
 );
 
 ?>

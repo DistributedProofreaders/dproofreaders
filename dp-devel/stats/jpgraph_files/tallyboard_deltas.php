@@ -4,6 +4,12 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'connect.inc');
 include_once('common.inc');
+
+// Initialize the graph before anything else.
+// This makes use of the jpgraph cache if enabled.
+// Last argument to init_simple_bar_graph is the cache timeout in minutes.
+$graph = init_simple_bar_graph(640, 300, 180);
+
 new dbConnect();
 
 $tally_name  = array_get( $_GET, 'tally_name',  '' );
@@ -61,13 +67,12 @@ if (empty($datax) || empty($datay))
 }
 
 draw_simple_bar_graph(
+    $graph,
     $datax,
     $datay,
 	$x_tli,
     'Pages Completed per Day',
-    'Pages',
-    600, 300,
-    180
+    'Pages'
 );
 
 // vim: sw=4 ts=4 expandtab

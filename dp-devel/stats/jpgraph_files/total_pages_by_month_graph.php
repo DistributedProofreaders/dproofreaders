@@ -4,6 +4,12 @@ include_once($relPath.'dpsql.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'page_tally.inc');
 include_once('common.inc');
+
+// Initialize the graph before anything else.
+// This makes use of the jpgraph cache if enabled.
+// Argument to init_pages_graph is the cache timeout in minutes.
+$graph = init_pages_graph(1440);
+
 new dbConnect();
 
 $tally_name = @$_GET['tally_name'];
@@ -29,13 +35,13 @@ $result = mysql_query(
 list($datax,$datay1,$datay2) = dpsql_fetch_columns($result);
 
 draw_pages_graph(
+	$graph,
 	$datax,
 	$datay1,
 	$datay2,
 	'monthly',
 	'increments',
-	'Pages Done Each Month Since the Beginning of Statistics Collection',
-	1440
+	'Pages Done Each Month Since the Beginning of Statistics Collection'
 );
 
 ?>
