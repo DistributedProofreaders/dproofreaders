@@ -9,6 +9,7 @@ include_once($jpgraph_dir.'/src/jpgraph.php');
 include_once($jpgraph_dir.'/src/jpgraph_line.php');
 include_once($jpgraph_dir.'/src/jpgraph_bar.php');
 include_once($jpgraph_dir.'/src/jpgraph_canvas.php');
+include_once($jpgraph_dir.'/src/jpgraph_pie.php');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -340,6 +341,67 @@ function draw_projects_graph(
         assert( FALSE );
     }
     $graph->Add($plot);
+
+    // Display the graph
+    $graph->Stroke();
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function init_pie_graph($width, $height, $cache_timeout)
+{
+    return new PieGraph($width,$height,"auto",$cache_timeout);
+}
+
+function draw_pie_graph(
+    $graph,
+    $datax,
+    $datay,
+    $title
+)
+{
+    // check to see that $graph is actually a Graph object
+    if(!is_a($graph,"Graph"))
+    {
+        assert( FALSE );
+    }
+
+    if ( array_get( $_GET, 'echo_graph_data', FALSE ) )
+    {
+        echo "$title\n\n";
+        echo_graph_data( $datax, $datay );
+        return;
+    }
+
+    global $jpgraph_FF, $jpgraph_FS;
+
+    // Set background to white
+    $graph->SetMarginColor('white');
+
+    // Add a drop shadow
+    $graph->SetShadow();
+
+    // Adjust the margin a bit to make more room for titles
+    // left, right, top, bottom
+    $graph->img->SetMargin(70,30,20,100);
+
+    // Add the plot
+    $plot=new PiePlot($datay);
+    $plot->SetSize(175);
+    $plot->SetCenter(0.33);
+    $plot->SetLegends($datax);
+    $plot->SetLabelType(PIE_VALUE_ABS);
+    $plot->value->SetFont($jpgraph_FF,$jpgraph_FS);
+    $plot->value->SetFormat('%d');
+    $plot->value->Show();
+
+    $graph->Add($plot);
+
+    // Setup the title
+    $graph->title->Set($title);
+
+    $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
 
     // Display the graph
     $graph->Stroke();

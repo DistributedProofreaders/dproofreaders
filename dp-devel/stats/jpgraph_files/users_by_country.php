@@ -1,12 +1,14 @@
 <?
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($jpgraph_dir.'/src/jpgraph.php');
-include_once($jpgraph_dir.'/src/jpgraph_pie.php');
 include_once($relPath.'connect.inc');
+include_once('common.inc');
+
+// Initialize the graph before anything else.
+// This makes use of the jpgraph cache if enabled.
+// Last argument to init_pie_graph is the cache timeout in minutes.
+$graph = init_pie_graph(640, 400, 58);
+
 new dbConnect();
-include_once($relPath.'gettext_setup.inc');
-include_once($relPath.'iso_3166_list.inc');
 
 $res=mysql_query("SELECT SUBSTRING_INDEX(email,'.',-1) AS domain,COUNT(*) AS num FROM users GROUP BY domain ORDER BY num DESC;");
 
@@ -17,8 +19,14 @@ while($r=mysql_fetch_assoc($res)) {
         array_push($y,$r['num']);
 }
 
-$title="Number of users per country";
+$title=_("Number of users per country");
 
-include("pie.inc");
+draw_pie_graph(
+    $graph,
+    $x,
+    $y,
+    $title
+);
 
+// vim: sw=4 ts=4 expandtab
 ?>
