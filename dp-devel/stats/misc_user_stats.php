@@ -1,10 +1,6 @@
 <?
 $relPath='./../pinc/';
-include($relPath.'site_vars.php');
-include($relPath.'project_states.inc');
-include($relPath.'connect.inc');
-include($relPath.'theme.inc');
-new dbConnect();
+include_once($relPath.'theme.inc');
 
 $title=_("Miscellaneous User Statistics");
 theme($title,'header');

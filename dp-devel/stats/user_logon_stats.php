@@ -1,10 +1,6 @@
 <?
 $relPath='./../pinc/';
-include($relPath.'site_vars.php');
-include($relPath.'project_states.inc');
-include($relPath.'connect.inc');
-include($relPath.'theme.inc');
-new dbConnect();
+include_once($relPath.'theme.inc');
 
 theme(_("User Logon Statistics"),'header');
 echo "<center><h1><i>"._("User Logon Statistics")."</i></h1></center>";
