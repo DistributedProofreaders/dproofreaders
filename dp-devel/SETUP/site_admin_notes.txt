@@ -220,4 +220,4 @@ Genres:
 To change the set of genres, you have to edit the pinc/genres.inc file.
 
 
-# vim: 'sw=4 ts=4 expandtab
+# vim: sw=4 ts=4 expandtab
