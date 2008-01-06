@@ -107,6 +107,7 @@ $maintenance = <<MAINTENANCE>>;
 $site_supports_metadata = <<METADATA>>;
 $site_supports_corrections_after_posting = <<CORRECTIONS>>;
 $auto_post_to_project_topic = <<AUTO_POST_TO_PROJECT_TOPIC>>;
+$ordinary_users_can_see_queue_settings = <<ORDINARY_USERS_CAN_SEE_QUEUE_SETTINGS>>;
 $external_catalog_locator = '<<EXTERNAL_CATALOG_LOCATOR>>';
 $charset = '<<CHARSET>>';
 

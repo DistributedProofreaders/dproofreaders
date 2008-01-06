@@ -357,6 +357,13 @@ _METADATA=FALSE
 _CORRECTIONS=FALSE
 # Similarly for the corrections-after-posting facility.
 
+_ORDINARY_USERS_CAN_SEE_QUEUE_SETTINGS=TRUE
+# Setting this to TRUE means that all users can see the project_selector,
+# release_criterion, and comments columns on the Release Queue pages.
+# Setting it to FALSE means that only site admins and project facilitators
+# can see those columns. (This was the hard-coded behavior in R200609 and
+# earlier.)
+
 _CHARSET='ISO-8859-1'
 # The charset used by the site, which is applied to all
 # relevant pages on the site

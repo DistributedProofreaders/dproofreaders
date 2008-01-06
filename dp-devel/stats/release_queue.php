@@ -9,7 +9,15 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'release_queue.inc');
 
-$user_can_see_queue_settings = user_is_a_sitemanager() || user_is_proj_facilitator();
+if ( $ordinary_users_can_see_queue_settings )
+{
+    $user_can_see_queue_settings = TRUE;
+}
+else
+{
+    // Only privileged users can see queue settings
+    $user_can_see_queue_settings = user_is_a_sitemanager() || user_is_proj_facilitator();
+}
 
 $round_id = array_get( $_GET, 'round_id', NULL );
 if (is_null($round_id))
