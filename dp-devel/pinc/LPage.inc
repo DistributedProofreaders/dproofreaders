@@ -30,60 +30,17 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
     $order = 'image ASC';
     // but this can be overridden below.
 
-    // Projects with difficulty='beginner' are treated differently in
-    // various ways, so ascertain whether this is a beginner project.
+    $project = new Project($projectid);
 
-    $res1 = mysql_query("
-        SELECT difficulty
-        FROM projects
-        WHERE projectid='$projectid'
-    ") or die(mysql_error());
-    $difficulty = mysql_result($res1,0);
+    $err = can_user_get_pages_in_project( $pguser, $project, $round );
+    if ( $err ) return NULL;
 
-    if ( $difficulty == 'beginner' )
+    if ( $project->difficulty == 'beginner' and $round->is_a_mentor_round() )
     {
-        if ( $round->is_a_mentee_round() )
-        {
-            if ( !user_can_work_on_beginner_pages_in_round($round) )
-            {
-                $err = _("You have reached your quota of pages from 'Beginners Only' projects in this round.")
-                    . " "
-                    . _("Perhaps you could try working on an EASY project.");
-                return NULL;
-            }
-
-            // When a beginner project is in a mentored round,
-            // any given user can work on at most 21 pages
-            // from that project in that round.
-
-            $dbQuery = "
-                SELECT COUNT(fileid) as pagesdone
-                FROM $projectid
-                WHERE {$round->user_column_name} = '$pguser'
-            "; 
-            $result = mysql_query($dbQuery);
-            $pagesdone = mysql_result($result, 0, "pagesdone" );
-            if ($pagesdone > 20)
-            {
-                $err = _("You have reached your quota of pages from this 'Beginners Only' project, but you're welcome to work on a different one.")
-                    . " "
-                    . _("Or you could try working on an EASY project.");
-                return NULL;
-            }
-        }
-        else if ( $round->is_a_mentor_round() )
-        {
-            if ( !user_can_work_on_beginner_pages_in_round($round) )
-            {
-                $err = _("You do not have access to difficulty='beginner' projects in this round.");
-                return NULL;
-            }
-
             // For beginner projects in a mentor round,
             // we serve up pages in order of the proofer in the mentee round.
             // (So that mentors can easily get all the pages by one proofer.)
             $order = "{$round->mentee_round->user_column_name} ASC, image ASC";
-        }
     }
 
     // The page to be retrieved must be an available page, of course.

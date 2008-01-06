@@ -286,7 +286,73 @@ new Round(
 define('MAX_NUM_PAGE_EDITING_ROUNDS', 5);
 assert( $n_rounds == MAX_NUM_PAGE_EDITING_ROUNDS );
 
+// ---------------------------
+
 declare_mentoring_pair( 'P1', 'P2' );
+
+function can_user_get_pages_in_project( $username, $project, $round )
+// If the given user is allowed to get a new page
+// of the given project in the given round
+// (via "Start Proofreading" or "Save and Do Another"),
+// return NULL.
+// Otherwise, return a string explaining why not.
+//
+// You can assume that this function will be called only if:
+// -- the current user has general access to the round, and
+// -- the project is available in the round,
+// so this function doesn't have to check for either of those.
+//
+// It also doesn't need to check whether any of the project's pages
+// are actually available.
+{
+    // Projects with difficulty='beginner' are treated differently in
+    // various ways.
+    if ( $project->difficulty == 'beginner' )
+    {
+        if ( $round->is_a_mentee_round() )
+        {
+            if ( !user_can_work_on_beginner_pages_in_round($round) )
+            {
+                return
+                    _("You have reached your quota of pages from 'Beginners Only' projects in this round.")
+                    . " "
+                    . _("Perhaps you could try working on an EASY project.");
+            }
+
+            // When a beginner project is in a mentored round,
+            // any given user can work on at most 21 pages
+            // from that project in that round.
+
+            $result = mysql_query("
+                SELECT COUNT(*) as pagesdone
+                FROM {$project->projectid}
+                WHERE {$round->user_column_name} = '$username'
+            "); 
+            $pagesdone = mysql_result($result, 0, "pagesdone" );
+            if ($pagesdone >= 21)
+            {
+                return
+                    _("You have reached your quota of pages from this 'Beginners Only' project, but you're welcome to work on a different one.")
+                    . " "
+                    . _("Or you could try working on an EASY project.");
+            }
+        }
+        else if ( $round->is_a_mentor_round() )
+        {
+            if ( !user_can_work_on_beginner_pages_in_round($round) )
+            {
+                return _("You do not have access to difficulty='beginner' (Mentors Only) projects in this round.");
+            }
+        }
+        else
+        {
+            // In other rounds, difficulty='beginner' projects aren't handled specially.
+        }
+    }
+
+    // None of the above restrictions apply.
+    return NULL;
+}
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
