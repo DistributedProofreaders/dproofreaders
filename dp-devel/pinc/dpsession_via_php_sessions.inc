@@ -41,6 +41,7 @@ function dpsession_resume_()
 		);
 
 		// Extract all $_SESSION items to globals.
+		// In particular, this sets $pguser and $userP.
 		extract($_SESSION);
 		return TRUE;
 	}
