@@ -30,7 +30,7 @@ if (isset($page_state)) {
 }
 else
 {
-    // The user clicked "Start Proofreading".
+    // The user clicked "Start Proofreading" or "Save as 'Done' & Proofread Next Page".
 
 
     // Consider the page (if any) that this user most recently "opened" in
