@@ -244,7 +244,7 @@ new Round(
     array( 'F1' => 400, 'days since reg' => 91 ), // 'F1' => 1000, 3 months after rollout
     'REQ-HUMAN', // "peer approval"
     _("Once you have met the requirements and requested access to F2, an evaluator will check over at least 150 of your recent F1 pages that have been completed in F2. If they've been formatted to F2 standards, you'll be granted access."),
-    _("The page-texts in this round need to be carefully checked to remove any remaining formatting or proofreading errors."),
+    _("The page-texts in this round need to be carefully checked to remove any remaining formatting errors."),
     'document.php',
     array(
         0 => '#DDA0DD', // plum
