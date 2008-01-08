@@ -219,8 +219,10 @@ function join_proofed_text_tei ($project, $pages_res, $include_proofers, $fp)
     $language    = $row[2];
     $postednum   = $row[3];
 
-    // fputs($fp,"<TEI.2>\r\n");
-    fputs($fp,"<TEI.2>\r\n");
+    fputs($fp,"<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>\r\n");
+    fputs($fp,"<!DOCTYPE TEI.2 SYSTEM \"http://www.gutenberg.org/tei/marcello/0.4/dtd/pgtei.dtd\">");
+    fputs($fp,"\r\n");
+    fputs($fp,"<TEI.2 lang=\"en\">\r\n");
     // Dump the teiHeader.
     // The info for this might preferably come from
     // a database of MARC records.
@@ -233,68 +235,64 @@ function join_proofed_text_tei ($project, $pages_res, $include_proofers, $fp)
     fputs($fp,"            <publicationStmt>\r\n");
     fputs($fp,"                <publisher>Project Gutenberg</publisher>\r\n");
     fputs($fp,"                <pubPlace>Urbana</pubPlace>\r\n");
-    fputs($fp,"                <date>2003</date>\r\n");
-    fputs($fp,"                <idno type='PGnum'>$postednum</idno>\r\n");
-    fputs($fp,"                <idno type='DPid'>$project</idno>\r\n");
-    fputs($fp,"                <availability><p>Public Domain</p></availability>\r\n");
+    fputs($fp,"                <date>20XX</date>\r\n");
+    fputs($fp,"                <idno type='etext-no'>99999</idno>\r\n");
+    fputs($fp,"                <availability>\r\n");
+    fputs($fp,"                  <p>This eBook is for the use of anyone anywhere\r\n");
+    fputs($fp,"                  at no cost and with almost no restrictions whatsoever.\r\n");
+    fputs($fp,"                  You may copy it, give it away or re-use it under\r\n");
+    fputs($fp,"                  the terms of the Project Gutenberg License online at\r\n");
+    fputs($fp,"                  www.gutenberg.org/license</p>\r\n");
+    fputs($fp,"                </availability>\r\n");
     fputs($fp,"            </publicationStmt>\r\n");
     fputs($fp,"            <sourceDesc>\r\n");
-    fputs($fp,"                <p>(Project Gutenberg doesn't like to be specific\r\n");
-    fputs($fp,"                as to particular source edition.)</p>\r\n");
+    fputs($fp,"                <p></p>\r\n");
     fputs($fp,"            </sourceDesc>\r\n");
     fputs($fp,"        </fileDesc>\r\n");
     fputs($fp,"        <encodingDesc>\r\n");
-    fputs($fp,"            <projectDesc>\r\n");
-    fputs($fp,"                <p>Produced by [project manager], [post-processor], [scanner?],\r\n");
-    fputs($fp,"                and the Online Distributed Proofreading Team at\r\n");
-    fputs($fp,"                &lt;$code_url&gt;.</p>\r\n");
-    fputs($fp,"                <p>Page-images available at\r\n");
-    fputs($fp,"                &lt;$projects_url/$project/&gt;</p>\r\n");
-    fputs($fp,"            </projectDesc>\r\n");
     fputs($fp,"        </encodingDesc>\r\n");
+    fputs($fp,"        <profileDesc>\r\n");
+    fputs($fp,"          <langUsage>\r\n");
+    fputs($fp,"            <language id=\"it\" />\r\n");
+    fputs($fp,"            <language id=\"fr\" />\r\n");
+    fputs($fp,"            <language id=\"en\" />\r\n");
+    fputs($fp,"            <language id=\"de\" />\r\n");
+    fputs($fp,"          </langUsage>\r\n");
+    fputs($fp,"        </profileDesc>\r\n");
+    fputs($fp,"        <revisionDesc>\r\n");
+    fputs($fp,"          <change>\r\n");
+    fputs($fp,"            <date value=\"200X-XX\">October 200X</date>\r\n");
+    fputs($fp,"            <respStmt>\r\n");
+    fputs($fp,"                <resp>Produced by <name>[project manager]</name>, <name>[post-processor]</name>, <name>[scanner?]</name>,\r\n");
+    fputs($fp,"                and the <name>Online Distributed Proofreading Team</name> at\r\n");
+    fputs($fp,"                &lt;$code_url&gt;.\r\n");
+    fputs($fp,"                Page-images available at\r\n");
+    fputs($fp,"                &lt;$projects_url/$project/&gt;</resp>\r\n");
+    fputs($fp,"            </respStmt>\r\n");
+    fputs($fp,"            <item>Project Gutenberg TEI edition 1</item>\r\n");
+    fputs($fp,"          </change>\r\n");
+    fputs($fp,"        </revisionDesc>\r\n");
     fputs($fp,"    </teiHeader>\r\n");
+    fputs($fp,"\r\n");
+    fputs($fp,"    <pgExtensions>\r\n");
+    fputs($fp,"      <pgStyleSheet>\r\n");
+    fputs($fp,"        .bold        { font-weight: bold }\r\n");
+    fputs($fp,"        .italic      { font-style: italic }\r\n");
+    fputs($fp,"        .antiqua     { font-weight: bold }\r\n");
+    fputs($fp,"        .gesperrt    { font-style: italic }\r\n");
+    fputs($fp,"        .smallcaps   { font-variant: small-caps }\r\n");
+    fputs($fp,"      </pgStyleSheet>\r\n");
+    fputs($fp,"    </pgExtensions>\r\n");
     fputs($fp,"\r\n");
     fputs($fp,"<text>\r\n");
     fputs($fp,"<front>\r\n");
-    fputs($fp,"<titlePage>\r\n");
-    fputs($fp,"<!-- \r\n");
-    fputs($fp,"Move Title Page text to here.\r\n");
-    fputs($fp,"Mark it up something like this example:\r\n");
-    fputs($fp,"<docTitle>\r\n");
-    fputs($fp,"<titlePart type='main'>LOST ON THE MOON</titlePart>\r\n");
-    fputs($fp,"<titlePart>OR</titlePart>\r\n");
-    fputs($fp,"<titlePart type='alt'>IN QUEST OF THE FIELD OF DIAMONDS</titlePart>\r\n");
-    fputs($fp,"<docDate>1911</docDate>\r\n");
-    fputs($fp,"</docTitle>\r\n");
-    fputs($fp,"<byline>BY<docAuthor>ROY ROCKWOOD</docAuthor>, AUTHOR OF [various other works]</byline>\r\n");
-    fputs($fp," -->\r\n");
-    fputs($fp,"</titlePage>\r\n");
-    fputs($fp,"<div type='contents'>\r\n");
-    fputs($fp,"<!-- \r\n");
-    fputs($fp,"Move Table of Contents text to here.\r\n");
-    fputs($fp,"Mark it up like so:\r\n");
-    fputs($fp,"<list type='ordered'>\r\n");
-    fputs($fp,"<item>[title of chapter one]</item>\r\n");
-    fputs($fp,"<item>[title of chapter two]</item>\r\n");
-    fputs($fp,"...\r\n");
-    fputs($fp,"</list>\r\n");
-    fputs($fp," -->\r\n");
-    fputs($fp,"</div>\r\n");
     fputs($fp,"</front>\r\n");
     fputs($fp,"<body>\r\n");
 
     while( list($text_data,$filename,$proofer_names) = page_info_fetch($pages_res) )
     {
-
-        $proofer_attributes = "";
-        if ($include_proofers) {            $i = 0;
-            foreach ( $proofer_names as $proofer_name )
-                {
-                    $i++;
-                    $proofer_attributes .= " proofer$i='$proofer_name'";
-                }
-            fputs($fp,"\r\n\r\n<pb id='$filename'$proofer_attributes/>\r\n\r\n");
-        }
+        $pageno = eregi_replace ("\..*", "", $filename );
+        fputs($fp,"\r\n\r\n<pb n='$pageno'/><anchor id='Pg$pageno'/>\r\n\r\n");
         // SENDING PAGE-TEXT TO USER
         // It's an XML file, so the non-markup angle-brackets and ampersands
         // should be entity-encoded, but it's tricky to find them.
@@ -316,25 +314,31 @@ function put_page_text( $page_text, $fp )
     $page_text = eregi_replace( "</i>", "</hi>", $page_text );
     $page_text = eregi_replace( "<b>", "<hi rend='bold'>", $page_text );
     $page_text = eregi_replace( "</b>", "</hi>", $page_text );
+    $page_text = eregi_replace( "<f>", "<hi rend='antiqua'>", $page_text );
+    $page_text = eregi_replace( "</f>", "</hi>", $page_text );
+    $page_text = eregi_replace( "<g>", "<hi rend='gesperrt'>", $page_text );
+    $page_text = eregi_replace( "</g>", "</hi>", $page_text );
+    $page_text = eregi_replace( "<sc>", "<hi rend='smallcaps'>", $page_text );
+    $page_text = eregi_replace( "</sc>", "</hi>", $page_text );
 
     // Convert [Illustration...] blocks, and ensure that each
     // constitutes a separate "chunk".
-    // $page_text = eregi_replace(
-    //     "\[Illustration\]",
-    //     "\r\n\r\n<figure></figure>\r\n\r\n",
-    //     $page_text );
-    $page_text = eregi_replace(
-        // "\[Illustration: (.*?)\]",
-        "\[Illustration: (.*)\]",
-        "\r\n\r\n<figure><head>\1</head></figure>\r\n\r\n",
+    $page_text = preg_replace(
+        "/\[Illustration: ([^\]]*)\]/",
+        "\r\n\r\n<pgIf output='txt'><then>\r\n  <p>[Illustration: \\1]</p>\r\n</then><else>\r\n  <p><figure><head>\\1</head></figure></p>\r\n</else></pgIf>\r\n\r\n",
         $page_text );
 
     // Ditto [Footnote: ] blocks.
-    // $page_text = eregi_replace(
-    //     "\[Footnote: (*)\]",
-    //     "\[Footnote: (.*?)\]",
-    //     "\r\n\r\n<note place='foot'>\1</note>\r\n\r\n",
-    //     $page_text );
+    $page_text = preg_replace(
+        "/\[Footnote[^:]: ([^\]]*)\]/",
+        "\r\n\r\n<note place='foot'>\\1</note>\r\n\r\n",
+        $page_text );
+
+    // Ampersands as entities
+    $page_text = preg_replace( "/&([^\s;]*\s)/", "&amp;\\1", $page_text );
+
+    // remove  [Blank Page]
+    $page_text = preg_replace( "/\[Blank Page\]/", "", $page_text );
 
     // Ditto preformatted blocks.
     $page_text = preg_replace_callback(
@@ -365,7 +369,7 @@ function put_page_text( $page_text, $fp )
             fputs($fp, "\r\n");
         }
 
-        if ( startswith( $chunk, '<figure>' ) || startswith( $chunk, '<lg>' ) )
+        if ( startswith( $chunk, '<pgIf' ) || startswith( $chunk, '<lg>' ) || startswith( $chunk, '<note' ))
         {
             fputs($fp, "$chunk\r\n");
         }
@@ -395,7 +399,7 @@ function massage_preformatted_chunk($matches)
         $s );
 
     // And mark the whole thing as poetry.
-    return "\r\n\r\n<!-- poem -->$s<!-- poem -->\r\n\r\n";
+    return "\r\n<lg>$s</lg>\r\n\r\n";
 }
 
 function mark_up_poetry_line($m)
