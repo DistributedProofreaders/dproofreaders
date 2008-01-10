@@ -59,6 +59,9 @@ assuming it isn't already.
         You will need the location of the jpgraph installation to put into the
         site-configuration for the DP code.
 
+        The DP code can take advantage of jpgraph caching if it is
+        enabled. See jpgraph documentation on how to enable the cache.
+
 --- Install aspell.
         The code uses aspell for the spellchecker in the proofreading interface.
         Note that for aspell 0.50 you may have to symlink the .dat files due to

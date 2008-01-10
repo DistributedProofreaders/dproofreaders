@@ -314,6 +314,8 @@ _DYN_URL=$base_url/d
 # ----------------------------------------------------------------------
 
 _JPGRAPH_DIR=$base_dir/jpgraph
+# The DP code can make efficient use of the jpgraph cache.
+# See jpgraph documentation on how to enable the cache.
 
 
 _DB_SERVER=localhost
