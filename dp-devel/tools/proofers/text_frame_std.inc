@@ -57,9 +57,9 @@ function echo_text_frame_std( $ppage )
 
         echo _("Image Resize:");
         ?>
-        <input title="<? echo _("Zoom Out 25%"); ?>" type="button" value="-25%"  onclick="top.reSizeRelative(0.75)">
-        <input title="<? echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25)">
-        <input title="<? echo _("Zoom to Original Size"); ?>" type="button" value="Original" onclick="top.reSizeRelative(-1)">
+        <input title="<? echo _("Zoom Out 25%"); ?>" id="zoomout_button" type="button" value="-25%" onclick="top.reSizeRelative(0.75)?true:this.disabled=true;">
+        <input title="<? echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25); document.getElementById('zoomout_button').disabled=false;">
+        <input title="<? echo _("Zoom to Original Size"); ?>" type="button" value="Original" onclick="top.reSizeRelative(-1); document.getElementById('zoomout_button').disabled=false;">
 
     </form>
     </center>
