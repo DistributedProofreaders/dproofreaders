@@ -16,6 +16,7 @@ scrollTime=0;
 scrollAmount=10;
 scrollMaxX=100;
 scrollMaxY=100;
+imgMinSize=20; //minimum size the image can be zoomed down to
 
 function setMaxScrolls()
 {
@@ -212,35 +213,46 @@ function stopOver()
 
 function reSize(newsize)
 {
-if (frameRef.scanimage) 
-  {
-    frameRef.scanimage.width=newsize;
-    setScrollWidths();
-    imgstyle.top=0+bPX;
-    imgstyle.left=0+bPX;
-  }
+    if (newsize < imgMinSize) {
+        newsize=imgMinSize;
+    }
+    if (frameRef.scanimage) {
+        frameRef.scanimage.width=newsize;
+        setScrollWidths();
+        imgstyle.top=0+bPX;
+        imgstyle.left=0+bPX;
+    }
+    return newsize; //which allows the caller to take appropriate action
+    //if the new size was not the same as what was asked for
 }
 
 function reSizeRelative(factor)
 {
-if (frameRef.scanimage)
-  {
-    if (factor == -1) {
-        frameRef.scanimage.width=1000;
+    if (frameRef.scanimage) {
+        imageObject=frameRef.scanimage;
+    } else if(top.proofframe.imageframe.document.scanimage) {
+        imageObject=top.proofframe.imageframe.document.scanimage;
     } else {
-       frameRef.scanimage.width=frameRef.scanimage.width*factor;
+        return true; //if you can't get an imageObject, return without
+        //doing anything else. (This is probably an error.)
     }
-    setScrollWidths();
-    imgstyle.top=0+bPX;
-    imgstyle.left=0+bPX;
-  } else if(top.proofframe.imageframe.document.scanimage) {
-    imageObject=top.proofframe.imageframe.document.scanimage;
     if (factor == -1) {
         imageObject.width=1000;
-    } else {
+    } else if (imageObject.width*factor > imgMinSize) {
         imageObject.width=imageObject.width*factor;
+    } else {
+        imageObject.width=imgMinSize;
+        //and disable the button or make the textbox match, as above.
     }
-  }
+    if (frameRef.scanimage) {
+        setScrollWidths();
+        imgstyle.top=0+bPX;
+        imgstyle.left=0+bPX;
+    }
+    if (imageObject.width==imgMinSize) {
+        return false; //signalling the caller to disable the button...
+    }
+    return true;
 }
 
 function focusText()

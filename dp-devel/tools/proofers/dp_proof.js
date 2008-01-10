@@ -129,8 +129,11 @@ function showIZ()
 {
     nP=docRef.editform.zmSize.value;
     zP=Math.round(iW*(nP/100));
-    reSize(zP)
-    docRef.editform.zmSize.value=nP;
+    zP=reSize(zP); // the two Zp's will be the same unless reSize doesn't
+    //succeed in making the image the requested size, i.e. if the
+    //requested size is too small.
+    
+    docRef.editform.zmSize.value=Math.round(100*(zP/iW));
     return false;
 }
 
