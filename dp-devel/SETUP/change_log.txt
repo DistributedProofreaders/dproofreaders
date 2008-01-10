@@ -116,6 +116,9 @@
     * project.php: Make the project page (in reduced form) accessible to guests (jmdyck)
     * smooth_reading.php: Rmove direct download link, direct to project page (jmdyck)
     * dp_scroll.js, ctrl_frame.php: Fix bug re initialiizing JS variables (jmdyck)
+    * stats/jpgraph_files: Updated to make efficient use of jpgraph cache (cpeel)
+    * post_files.inc: Updated TEI XML output at PP stage (rwst)
+    * proofing interface: Prevent image from scaling down too far (weinsteinj)
     * various places: Miscellaneous improvements (jmdyck, lmpryor, cpeel, donovang, mike_cie, rfarinha)
 
 # vim: sw=4 ts=4 expandtab
