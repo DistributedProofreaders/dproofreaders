@@ -222,7 +222,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     $projects_done[$projectid] = $projectid;
 
     // see if the pages table exists
-    if (!mysql_query("DESCRIBE $projectid"))
+    if (!mysql_query("SELECT 1 FROM $projectid LIMIT 0"))
     {
         // table doesn't exist. We are not interested.
         $messages[] = array("<a href='$url'>$nameofwork</a>",
