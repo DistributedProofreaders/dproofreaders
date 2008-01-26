@@ -58,7 +58,7 @@ theme("$type E-Texts", "header");
 <?
 $listsuffix = "&amp;sort=$sort&amp;per_page=$per_page";
 if ($type == "Gold") {
-    echo "Gold | <a href='list_etexts.php?x=s$listsuffix'>Silver</a> | <a href='list_etexts.php?x=g$listsuffix'>Bronze</a>";
+    echo "Gold | <a href='list_etexts.php?x=s$listsuffix'>Silver</a> | <a href='list_etexts.php?x=b$listsuffix'>Bronze</a>";
 } elseif ($type == "Silver") {
     echo "<a href='list_etexts.php?x=g$listsuffix'>Gold</a> | Silver | <a href='list_etexts.php?x=b$listsuffix'>Bronze</a>";
 } elseif ($type == "Bronze") {
