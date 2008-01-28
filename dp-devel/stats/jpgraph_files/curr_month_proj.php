@@ -11,7 +11,7 @@ include_once('common.inc');
 // Initialize the graph before anything else.
 // This makes use of the jpgraph cache if enabled.
 // Argument to init_projects_graph is the cache timeout in minutes.
-$graph = init_projects_graph(300);
+$graph = init_projects_graph(60);
 
 
 new dbConnect();

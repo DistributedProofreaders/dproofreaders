@@ -8,7 +8,7 @@ include_once('common.inc');
 // Initialize the graph before anything else.
 // This makes use of the jpgraph cache if enabled.
 // Argument to init_pages_graph is the cache timeout in minutes.
-$graph = init_pages_graph(1440);
+$graph = init_pages_graph(60);
 
 new dbConnect();
 

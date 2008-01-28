@@ -8,7 +8,7 @@ include_once('common.inc');
 // Initialize the graph before anything else.
 // This makes use of the jpgraph cache if enabled.
 // Last argument to init_simple_bar_graph is the cache timeout in minutes.
-$graph = init_simple_bar_graph(640, 300, 180);
+$graph = init_simple_bar_graph(640, 300, 60);
 
 new dbConnect();
 
