@@ -1,6 +1,7 @@
 <?
 $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
+include_once($relPath.'misc.inc');
 include_once($relPath.'privacy.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
@@ -9,15 +10,12 @@ include_once('../includes/team.inc');
 include_once('../includes/member.inc');
 $db_Connection=new dbConnect();
 
-if (empty($_GET['order'])) {
-	$order = "u_id";
-	$direction = "asc";
-} else {
-	$order = $_GET['order'];
-	$direction = $_GET['direction'];
-}
+$order = get_enumerated_param(
+	$_GET, 'order', 'u_id', array('u_id', 'username', 'date_created') );
+$direction = get_enumerated_param(
+	$_GET, 'direction', 'asc', array('asc', 'desc') );
 
-if (!empty($_GET['mstart'])) { $mstart = $_GET['mstart']; } else { $mstart = 0; }
+$mstart = get_integer_param( $_GET, 'mstart', 0, 0, null );
 
 if (!empty($_REQUEST['uname'])) {
 	$mResult = mysql_query("

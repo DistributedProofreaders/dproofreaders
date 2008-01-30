@@ -1,21 +1,19 @@
 <?
 $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
+include_once($relPath.'misc.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'metarefresh.inc');
 include_once('../includes/team.inc');
 $db_Connection=new dbConnect();
 
-if (empty($_GET['order'])) {
-	$order = "id";
-	$direction = "asc";
-} else {
-	$order = $_GET['order'];
-	$direction = $_GET['direction'];
-}
+$order = get_enumerated_param(
+	$_GET, 'order', 'id', array('id', 'teamname', 'member_count') );
+$direction = get_enumerated_param(
+	$_GET, 'direction', 'asc', array('asc', 'desc') );
 
-if (!empty($_GET['tstart'])) { $tstart = $_GET['tstart']; } else { $tstart = 0; }
+$tstart = get_integer_param( $_GET, 'tstart', 0, 0, null );
 
 if (!empty($_REQUEST['tname'])) {
 	$tResult = select_from_teams("teamname LIKE '%{$_REQUEST['tname']}%'", "ORDER BY $order $direction LIMIT $tstart,20");

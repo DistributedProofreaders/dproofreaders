@@ -1,11 +1,12 @@
 <?
 $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
+include_once($relPath.'misc.inc');
 include_once($relPath.'dp_main.inc');
 include_once('../includes/team.inc');
 
-if (empty($_GET['otid'])) { $otid = 0; } else { $otid = $_GET['otid']; }
-if (empty($_GET['tid'])) { die("parameter 'tid' is empty"); } else { $tid = $_GET['tid']; }
+$otid = get_integer_param( $_GET, 'otid', 0, 0, 3 );
+$tid  = get_integer_param( $_GET, 'tid', null, 0, null );
 
 	if ($userP['team_1'] != $tid && $userP['team_2'] != $tid && $userP['team_3'] != $tid) {
 		if ($userP['team_1'] == 0 || $otid == 1) {

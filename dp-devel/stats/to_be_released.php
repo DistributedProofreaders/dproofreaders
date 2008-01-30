@@ -1,6 +1,7 @@
 <?
 $relPath="../pinc/";
 include_once($relPath.'dp_main.inc');
+include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 
@@ -8,6 +9,9 @@ $title = _("Books To Be Released");
 theme($title,'header');
 
 echo "<br><h2>$title</h2>\n";
+
+$order = get_enumerated_param(
+	$_GET, 'order', 'default', array('default', 'username', 'modifieddate') );
 
 if ($order == 'default') {
     $order ='nameofwork';
