@@ -7,7 +7,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'topic.inc'); // topic_create
 
 // Which team?
-$team_id = $_GET['team'];
+$team_id = (int) $_GET['team'];
 
 // Get info about team
 

@@ -24,7 +24,9 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
-$result = select_from_teams("id = {$_GET['id']}");
+$req_team_id = (int) $_GET['id'];
+
+$result = select_from_teams("id = {$req_team_id}");
 $curTeam = mysql_fetch_assoc($result);
 
 $team_id = $curTeam['id'];
