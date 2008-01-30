@@ -14,6 +14,62 @@ function array_get( $arr, $key, $default )
     }
 }
 
+function get_enumerated_param( $arr, $key, $default, $choices )
+// If $arr[$key] is defined and is one of the strings in $choices,
+// return that string.
+// If it's not defined, and $default is non-null, return $default.
+// Otherwise, die with an error.
+//
+// Example usage:
+//     $dir = get_enumerated_param( $_GET, 'direction', 'asc', array('asc', 'desc') );
+{
+    {
+        // sanity checks on the args
+        assert( is_array($arr) );
+        assert(!is_array($key) );
+
+        assert( is_null($default) || is_string($default) );
+        assert( is_array($choices) );
+        assert( count($choices) > 0 );
+
+        if ( !is_null($default) )
+        {
+            assert( in_array($default, $choices) );
+        }
+    }
+
+    if ( isset($arr[$key]) )
+    {
+        $s = $arr[$key];
+        assert(is_string($s));
+
+        // Trim whitespace from both ends of the string.
+        $s = trim($s);
+
+        if ( in_array($s, $choices) )
+        {
+            return $s;
+        }
+        else
+        {
+            die("parameter '$key' ('$s') is not valid");
+        }
+    }
+    else
+    {
+        // parameter not set, use default
+        if ( is_null($default) )
+        {
+            // There is no default. The parameter is required.
+            die("parameter '$key' is required");
+        }
+        else
+        {
+            return $default;
+        }
+    }
+}
+
 function get_integer_param( $arr, $key, $default, $min, $max )
 // If $arr[$key] is defined and is the string-rep of an integer
 // satisfying certain simple constraints, return that integer.
