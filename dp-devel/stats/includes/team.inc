@@ -356,7 +356,7 @@ function showTeamMbrs($curTeam, $tally_name) {
     list( $joined_with_user_tallies, $user_tally_column ) =
         $users_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
 
-    $req_team_id = (int) $_GET['tid'];
+    $req_team_id = get_integer_param( $_GET, 'tid', null, 0, null );
 
     $mbrQuery = mysql_query("
         SELECT *, $user_tally_column AS current_tally

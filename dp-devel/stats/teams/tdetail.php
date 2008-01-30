@@ -10,7 +10,7 @@ $db_Connection=new dbConnect();
 
 $tally_name = array_get( $_GET, 'tally_name', null );
 
-$req_team_id = (int) $_GET['tid']; // Force int
+$req_team_id = get_integer_param( $_GET, 'tid', null, 0, null );
 
 $result = select_from_teams("id = {$req_team_id}");
 $curTeam = mysql_fetch_assoc($result);
