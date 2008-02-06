@@ -6,6 +6,7 @@ include_once($jpgraph_dir.'/src/jpgraph_bar.php');
 include_once($jpgraph_dir.'/src/jpgraph_line.php');
 include_once($relPath.'connect.inc');
 include_once($relPath.'page_tally.inc');
+include_once('common.inc');
 
 // Create the graph. We do this before everything else
 // to make use of the jpgraph cache if enabled.
@@ -100,6 +101,8 @@ $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 
 $graph->legend->Pos(0.15,0.1,"left" ,"top"); //Align the legend
+
+add_graph_timestamp($graph);
 
 // Display the graph
 $graph->Stroke();

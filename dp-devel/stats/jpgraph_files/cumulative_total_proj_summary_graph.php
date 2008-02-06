@@ -95,6 +95,8 @@ $graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
 
 $graph->legend->Pos(0.15,0.1,"left" ,"top"); //Align the legend
 
+add_graph_timestamp($graph);
+
 // Display the graph
 $graph->Stroke();
 ?>

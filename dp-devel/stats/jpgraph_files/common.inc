@@ -208,6 +208,8 @@ function draw_pages_graph(
         $graph->legend->Pos(0.05,0.5,"right" ,"top");
     }
 
+    add_graph_timestamp($graph);
+
     // Display the graph
     $graph->Stroke();
 }
@@ -342,6 +344,8 @@ function draw_projects_graph(
     }
     $graph->Add($plot);
 
+    add_graph_timestamp($graph);
+
     // Display the graph
     $graph->Stroke();
 }
@@ -402,6 +406,8 @@ function draw_pie_graph(
 
     $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
     $graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
+
+    add_graph_timestamp($graph);
 
     // Display the graph
     $graph->Stroke();
@@ -476,6 +482,8 @@ function draw_simple_bar_graph(
     }
     $graph->Add($plot);
 
+    add_graph_timestamp($graph);
+
     // Display the graph
     $graph->Stroke();
 }
@@ -503,6 +511,39 @@ function echo_graph_data()
         }
         echo "\n";
     }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// This function adds a timestamp to the graph - this is helpful for the user
+// to know when the graph was created if caching is enabled.
+// $graph - the graph object; note that it is passed by reference
+function add_graph_timestamp(&$graph)
+{
+    $graph_timestamp_format = _("graph generated at %Y-%m-%d %T");
+
+    $text = new Text(strftime($graph_timestamp_format));
+
+    // determine where to put the text
+    // Vertical:
+    //   start with the height of the graph, move up 10 pixels (to account for the
+    //   shadow and border) and then up the height of the text
+    $text_vert_pos = $graph->img->height - 10 - $text->GetTextHeight($graph->img);
+
+    // There are various options for horizontal placement: center, left, right
+    // To center the text:
+    //$text->Center(0, $graph->img->width, $text_vert_pos);
+
+    // To make the text flush left:
+    //$text->SetPos(10, $text_vert_pos);
+
+    // To make the text flush right:
+    //   start with the width of the graph, move left 10 pixels (to account for the
+    //   shadow and border) and then left the width of the text
+    $text_horiz_pos = $graph->img->width - 10 - $text->GetWidth($graph->img);
+    $text->SetPos($text_horiz_pos, $text_vert_pos);
+
+    $graph->AddText($text);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
