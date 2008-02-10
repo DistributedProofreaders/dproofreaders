@@ -36,18 +36,22 @@ $dte = date('Y-m-d');
 // every day, so we must do something extra to record zero for the unoccupied
 // states.
 
-// Initialize $num_projects_in_state_ to zero for every currently-defined state.
+// Initialize $num_projects_in_state_ and $num_pages_in_state_
+// to zero for every currently-defined state.
 $num_projects_in_state_ = array();
+$num_pages_in_state_ = array();
 foreach ( $PROJECT_STATES_IN_ORDER as $state )
 {
     $num_projects_in_state_[$state] = 0;
+    $num_pages_in_state_[$state] = 0;
 }
 
 // Get the number of projects in each (currently-occupied) state.
-$result = mysql_query ("SELECT state, count(*) FROM projects GROUP BY state ORDER BY state");
+$result = mysql_query ("SELECT state, count(*), sum(n_pages) FROM projects GROUP BY state ORDER BY state");
 
-while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
+while (list ($state, $num_projects, $num_pages) = mysql_fetch_row ($result)) {
     $num_projects_in_state_[$state] = $num_projects;
+    $num_pages_in_state_[$state] = $num_pages;
 }
 
 // $num_projects_in_state_ now has an entry for every defined state and for
@@ -56,14 +60,19 @@ while (list ($state, $num_projects) = mysql_fetch_row ($result)) {
 // Insert a row into project_state_stats for each of those entries.
 
 echo "INSERT INTO project_state_stats SET year=$yr, month=$mth, day=$dy, date='$dte', ...", $EOL;
-foreach ( $num_projects_in_state_ as $state => $num_projects )
+foreach ( $PROJECT_STATES_IN_ORDER as $state )
 {
-    $np = sprintf( "%5d", $num_projects );
-    echo "    num_projects=$np, state='$state'", $EOL;
+    $num_projects = $num_projects_in_state_[$state];
+    $num_pages = $num_pages_in_state_[$state];
+
+    $nprojs = sprintf( "%5d", $num_projects );
+    $npages = sprintf( "%7d", $num_pages );
+    echo "    num_projects=$nprojs, num_pages=$npages, state='$state'", $EOL;
 
     $insert_query = "
         INSERT INTO project_state_stats
-        SET year=$yr, month=$mth, day=$dy, date='$dte', state='$state', num_projects=$num_projects
+        SET year=$yr, month=$mth, day=$dy, date='$dte', state='$state',
+            num_projects=$num_projects, num_pages=$num_pages
     ";
 
     if (! $testing_this_script)
