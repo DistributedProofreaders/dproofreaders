@@ -60,7 +60,7 @@ while (list ($state, $num_projects, $num_pages) = mysql_fetch_row ($result)) {
 // Insert a row into project_state_stats for each of those entries.
 
 echo "INSERT INTO project_state_stats SET year=$yr, month=$mth, day=$dy, date='$dte', ...", $EOL;
-foreach ( $PROJECT_STATES_IN_ORDER as $state )
+foreach ( array_keys($num_projects_in_state_) as $state )
 {
     $num_projects = $num_projects_in_state_[$state];
     $num_pages = $num_pages_in_state_[$state];
