@@ -10,7 +10,14 @@ $graph = init_pie_graph(640, 400, 58);
 
 new dbConnect();
 
-$res=mysql_query("SELECT SUBSTRING_INDEX(email,'.',-1) AS domain,COUNT(*) AS num FROM users GROUP BY domain ORDER BY num DESC;");
+$res=mysql_query("
+    SELECT
+        SUBSTRING_INDEX(email,'.',-1) AS domain,
+        COUNT(*) AS num
+    FROM users
+    GROUP BY domain
+    ORDER BY num DESC
+");
 
 $x=array(); $y=array();
 
