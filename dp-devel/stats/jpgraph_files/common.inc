@@ -394,9 +394,17 @@ function draw_pie_graph(
     $plot->SetSize(175);
     $plot->SetCenter(0.33);
     $plot->SetLegends($datax);
-    $plot->SetLabelType(PIE_VALUE_ABS);
+    if (0)
+    {
+        $plot->SetLabelType(PIE_VALUE_ABS);
+        $plot->value->SetFormat('%d');
+    }
+    else
+    {
+        $plot->SetLabelType(PIE_VALUE_PER);
+        $plot->value->SetFormat('%.1f%%');
+    }
     $plot->value->SetFont($jpgraph_FF,$jpgraph_FS);
-    $plot->value->SetFormat('%d');
     $plot->value->Show();
 
     $graph->Add($plot);
