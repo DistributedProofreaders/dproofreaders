@@ -15,6 +15,7 @@ $res=mysql_query("
         SUBSTRING_INDEX(email,'.',-1) AS domain,
         COUNT(*) AS num
     FROM users
+    WHERE email LIKE '%@%.%'
     GROUP BY domain
     ORDER BY num DESC
 ");
