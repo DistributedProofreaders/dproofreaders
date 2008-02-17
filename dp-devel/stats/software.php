@@ -7,21 +7,25 @@ include_once($relPath.'site_vars.php');
 
 function get_phpbb2_ver()
 {
-global $forums_dir;
+    global $forums_dir;
 
-define('IN_PHPBB', true);
-$phpbb_root_path=$forums_dir."/";
-$phpEx="php";
-include_once($forums_dir."/common.php");
-
-return "2".$board_config['version'];
+    define('IN_PHPBB', true);
+    $phpbb_root_path=$forums_dir."/";
+    $phpEx="php";
+    if (@include_once($forums_dir."/common.php"))
+    {
+        return "2".$board_config['version'];
+    } else {
+        return "n/a";
+    }
 }
 
 $phpbb2_ver=get_phpbb2_ver();
 
 include_once($relPath.'theme.inc');
 include_once($relPath.'languages.inc');
-include('faq_data.inc');
+
+if (!@include('faq_data.inc')) $faq_data = array();
 
 theme(_("Software information"),"header");
 
@@ -50,17 +54,25 @@ echo "<a href='http://aspell.sourceforge.net'>Aspell</a>";
 echo "</td><td>";
 
 $a=`$aspell_executable -v`;
-preg_match("/(?<=aspell)[\sa-z0-9.-]+/i",$a,$b);
-echo $b[0];
+if (preg_match("/(?<=aspell)[\sa-z0-9.-]+/i",$a,$b))
+{
+    echo $b[0];
+} else {
+    echo "n/a";
+}
 
 echo "</td></tr>\n";
 echo "<tr><td>";
 echo "<a href='http://www.gnu.org/software/gettext/'>gettext</a>";
 echo "</td><td>";
 
-$a=`gettext --version`;
-preg_match("/[\sa-z0-9.-]+$/im",$a,$b);
-echo $b[0];
+$a=`$xgettext_executable --version`;
+if (preg_match("/[\sa-z0-9.-]+$/im",$a,$b))
+{
+    echo $b[0];
+} else {
+    echo "n/a";
+}
 //gettext (GNU gettext) 0.10.40
 //gettext (GNU gettext-runtime) 0.14.1
 
@@ -68,9 +80,7 @@ echo "</td></tr>\n";
 echo "<tr><td>";
 echo "<a href='http://www.phpbb.com'>phpBB</a>";
 echo "</td><td>";
-
 echo $phpbb2_ver;
-
 echo "</td></tr>\n";
 echo "</table>";
 
@@ -88,18 +98,21 @@ $phpbb_root_path=$forums_dir."/";
 
 // Following code is copied from phpBB's
 // includes/functions_selects.php:
-$dir = opendir($phpbb_root_path . $dirname);
+$dir = @opendir($phpbb_root_path . $dirname);
 
 $lang = array();
-while ( $file = readdir($dir) )
+if ($dir)
 {
-	if (preg_match('#^lang_#i', $file) && !is_file(@phpbb_realpath($phpbb_root_path . $dirname . '/' . $file)) && !is_link(@phpbb_realpath($phpbb_root_path . $dirname . '/' . $file)))
-	{
-		$filename = trim(str_replace("lang_", "", $file));
-		$displayname = preg_replace("/^(.*?)_(.*)$/", "\\1 [ \\2 ]", $filename);
-		$displayname = preg_replace("/\[(.*?)_(.*)\]/", "[ \\1 - \\2 ]", $displayname);
-		$lang[$displayname] = $filename;
-	}
+    while ( $file = readdir($dir) )
+    {
+    	if (preg_match('#^lang_#i', $file) && !is_file(@phpbb_realpath($phpbb_root_path . $dirname . '/' . $file)) && !is_link(@phpbb_realpath($phpbb_root_path . $dirname . '/' . $file)))
+    	{
+    		$filename = trim(str_replace("lang_", "", $file));
+    		$displayname = preg_replace("/^(.*?)_(.*)$/", "\\1 [ \\2 ]", $filename);
+    		$displayname = preg_replace("/\[(.*?)_(.*)\]/", "[ \\1 - \\2 ]", $displayname);
+    		$lang[$displayname] = $filename;
+    	}
+    }
 }
 // End of copied code
 
@@ -119,7 +132,7 @@ foreach($faq_data as $v) {
 ksort($faqs);
 
 define('YES_MARK',"Y");
-define('NO_MARK',"");
+define('NO_MARK',"N");
 define('NA_MARK',"n/a");
 
 $a=installed_langs();
@@ -164,15 +177,26 @@ echo "<br>\n";
 
 echo "<h3>"._("Spell checking dictionaries")."</h3>\n";
 
-echo "<table border='1'>\n";
 
-chdir(rtrim(`$aspell_executable config -e dict-dir`));
-$dicts=glob("??.multi");
-
-foreach($dicts as $k=>$v)
-	echo "<tr><td>".bilingual_name(substr($v,0,2))."</td></tr>\n";
-
-echo "</table>\n<br>\n";
+if (@chdir(rtrim(`$aspell_executable config -e dict-dir`)))
+{
+    
+    $dicts=glob("??.multi");
+    if (count($dicts) > 0)
+    {
+        echo "<table border='1'>\n";
+        $convmap = array(0x80, 0xffff, 0, 0xffff);
+        foreach($dicts as $k=>$v)
+        {
+            $lang = bilingual_name(substr($v,0,2));
+            $enc_lang = mb_encode_numericentity($lang, $convmap, "UTF-8");
+            echo "<tr><td>$enc_lang</td></tr>\n";
+        }
+        echo "</table>\n<br>\n";
+    }
+} else {
+    echo "<p>n/a</p>";
+}
 
 theme("","footer");
 
