@@ -700,13 +700,25 @@ function do_project_info_table()
         }
         else
         {
-            $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&show_image_size=0";
-            $blurb = _("Images, Pages Proofread, & Differences");
-
-            $url2 = "$url&select_by_user";
-            $blurb2 = _("Just my pages");
-
-            echo_row_a( _("Page Detail"), "<a href='$url'>$blurb</a> &gt;&gt;<a href='$url2'>$blurb2</a>&lt;&lt;");
+            if ($project->pages_table_exists)
+            {
+                $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&show_image_size=0";
+                $blurb = _("Images, Pages Proofread, & Differences");
+                $url2 = "$url&select_by_user";
+                $blurb2 = _("Just my pages");
+                $detail = "<a href='$url'>$blurb</a> &gt;&gt;<a href='$url2'>$blurb2</a>&lt;&lt;";
+            }
+            else
+            {
+                if ($project->archived != 0) {
+                    $detail = _("The project has been archived, so page details are not available.");
+                } elseif ($project->state == PROJ_DELETE) {
+                    $detail = _("The project has been deleted, so page details are not available.");
+                } else {
+                    $detail = _("Page details are not available for this project.");
+                }
+            }
+            echo_row_a( _("Page Detail"), $detail);
         }
     }
 
