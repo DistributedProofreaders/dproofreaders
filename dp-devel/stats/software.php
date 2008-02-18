@@ -185,13 +185,8 @@ if (@chdir(rtrim(`$aspell_executable config -e dict-dir`)))
     if (count($dicts) > 0)
     {
         echo "<table border='1'>\n";
-        $convmap = array(0x80, 0xffff, 0, 0xffff);
         foreach($dicts as $k=>$v)
-        {
-            $lang = bilingual_name(substr($v,0,2));
-            $enc_lang = mb_encode_numericentity($lang, $convmap, "UTF-8");
-            echo "<tr><td>$enc_lang</td></tr>\n";
-        }
+            echo "<tr><td>" . bilingual_name(substr($v,0,2)) . "</td></tr>\n";
         echo "</table>\n<br>\n";
     }
 } else {
