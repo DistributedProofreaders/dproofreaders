@@ -374,7 +374,10 @@ function round_project_listing_presort( $round )
 // If you don't want any criteria to take precedence over column-sorts,
 // return NULL or the empty string.
 {
-    return "(difficulty = 'beginner') DESC";
+    return "
+        (difficulty = 'beginner') DESC,
+        (nameofwork LIKE '%Newcomers Only%') DESC
+    ";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
