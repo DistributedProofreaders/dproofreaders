@@ -174,17 +174,19 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 	$linkbase = "<a href='?{$other_settings}{$order_param}=";
 	$linkend = "#{$round->id}'";
 
+	$presort = round_project_listing_presort($round);
+	if (!empty($presort)) $presort .= ',';
+
 	// Always put the BEGIN projects at the top.
 	$query = "
 		SELECT *,
-			(difficulty = 'beginner') AS is_beginner,
 			round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) AS days_avail
 		FROM projects
 		WHERE
 		       	(state = '{$round->project_available_state}')
 			$where_filter
 		ORDER BY
-			is_beginner DESC,
+			$presort
 			$orderclause
 	";
 	$result = mysql_query($query);

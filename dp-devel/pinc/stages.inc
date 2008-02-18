@@ -354,6 +354,29 @@ function can_user_get_pages_in_project( $username, $project, $round )
     return NULL;
 }
 
+// -------------------------------------------------------------------
+
+function round_project_listing_presort( $round )
+// On each round page, the order of the project list can be adjusted by
+// clicking on column headers. If you want certain criteria to take precedence
+// over such sorts, have this function return a string expressing those criteria
+// as one or more ordering specifications (such as would appear in an ORDER BY
+// clause in SQL), referring to columns of the projects table.
+//
+// For instance, to have beginner projects always appear at the top of
+// every round's project list, this function could return
+//     "(difficulty = 'beginner') DESC"
+// or
+//     "IF( difficulty = 'beginner', 1, 2 )"
+// or
+//     "CASE difficulty WHEN 'beginner' THEN 1 ELSE 2 END"
+//
+// If you don't want any criteria to take precedence over column-sorts,
+// return NULL or the empty string.
+{
+    return "(difficulty = 'beginner') DESC";
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 $someone_maintains_the_PP_faq =
