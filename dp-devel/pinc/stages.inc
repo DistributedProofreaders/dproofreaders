@@ -350,6 +350,82 @@ function can_user_get_pages_in_project( $username, $project, $round )
         }
     }
 
+    // In P1, English projects, for a while after their release,
+    // are reserved for inexperienced users.
+    if ( $round->id == 'P1' and $project->language == 'English')
+    {
+        $n_days_before_make_generally_available = 7;
+        $page_tally_threshold = 500;
+        $days_on_site_threshold = 21;
+
+        $datetime_format = _("%A, %B %e, %Y at %X");
+
+        $t_release = $project->modifieddate;
+        $t_generally_available =
+            $t_release + $n_days_before_make_generally_available * 24 * 60 * 60;
+        $t_now = time();
+
+        // echo "t_release = $t_release<br>\n";
+        // echo "t_generally_available = $t_generally_available<br>\n";
+        // echo "t_now = $t_now<br>\n";
+        if ( $t_now < $t_generally_available )
+        {
+            // The project is still in its "reserved" period.
+            // It is available only to inexperienced users plus a few others.
+
+            if ( $project->can_be_managed_by_user($username) )
+            {
+                // The current user is an SA, PF, or the project's PM,
+                // and is not subject to this restriction.
+            }
+            else
+            {
+                // Is this user an inexperienced user?
+
+                $res = mysql_query("
+                    SELECT date_created
+                    FROM users
+                    WHERE username='$username'
+                ") or die(mysql_error());
+                list($t_joined) = mysql_fetch_row($res);
+                $days_on_site = ($t_now - $t_joined) / 86400;
+                // echo "days_on_site = $days_on_site<br>\n";
+
+                $P1_page_tally = user_get_ELR_page_tally($username);
+                // echo "P1_page_tally = $P1_page_tally<br>\n";
+
+                if ( $days_on_site < $days_on_site_threshold or $P1_page_tally < $page_tally_threshold )
+                {
+                    // Yes, inexperienced.
+                    // So not subject to this restriction
+                    // (and so, allowed to proof, unless there's some other problem).
+                }
+                else
+                {
+                    // No, experienced.
+                    // So cannot proof this project yet.
+                    return
+                        sprintf(
+                            _('This project is currently reserved for proofers who joined less that %d days ago or have done less than %s P1 pages.'),
+                            $days_on_site_threshold,
+                            $page_tally_threshold
+                        )
+                        . "<br>" .
+                        sprintf(
+                            _('It will become generally available %s.'),
+                            strftime( $datetime_format, $t_generally_available )
+                        )
+                    ;
+                }
+            }
+        }
+        else
+        {
+            // The project has finished its "reserved" period.
+            // It is available to all (subject to other restrictions).
+        }
+    }
+
     // None of the above restrictions apply.
     return NULL;
 }
