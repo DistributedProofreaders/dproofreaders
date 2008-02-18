@@ -406,7 +406,7 @@ function can_user_get_pages_in_project( $username, $project, $round )
                     // So cannot proof this project yet.
                     return
                         sprintf(
-                            _('This project is currently reserved for proofers who joined less that %d days ago or have done less than %s P1 pages.'),
+                            _('This project is currently reserved for proofers who joined less than %d days ago or have done less than %s P1 pages.'),
                             $days_on_site_threshold,
                             $page_tally_threshold
                         )
