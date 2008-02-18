@@ -144,7 +144,7 @@ foreach($a as $k=>$v) {
 	echo "</td><td>";
 	echo YES_MARK;
 	echo "</td><td>";
-	echo ($faqs[short_lang_code($v)]||short_lang_code($v)=="en")?YES_MARK:NO_MARK;
+	echo (@$faqs[short_lang_code($v)]||short_lang_code($v)=="en")?YES_MARK:NO_MARK;
         echo "</td><td>";
 	echo phpbb_lang($v)?($lang[phpbb_lang($v)]?YES_MARK:NO_MARK):NA_MARK;
         echo "</td><td>";
