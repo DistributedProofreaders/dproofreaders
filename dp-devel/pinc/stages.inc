@@ -8,6 +8,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'Stage.inc');
 include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'Pool.inc');
+include_once($relPath.'misc.inc'); // str_contains
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -352,7 +353,12 @@ function can_user_get_pages_in_project( $username, $project, $round )
 
     // In P1, English projects, for a while after their release,
     // are reserved for inexperienced users.
-    if ( $round->id == 'P1' and $project->language == 'English')
+    if ( $round->id == 'P1' and $project->language == 'English' and
+
+        // P1->P1 projects are exempted, because they were already reserved
+        // for inexperienced users on their first pass through P1.
+        !str_contains($project->nameofwork, '{P1->P1}')
+    )
     {
         $n_days_before_make_generally_available = 7;
         $page_tally_threshold = 500;
