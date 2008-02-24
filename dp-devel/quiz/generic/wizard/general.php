@@ -33,15 +33,15 @@ HTML allowed. A typical value would be: &lt;h2&gt;Quiz, part 1&lt;/h2&gt; Try to
 <textarea name="solution1" rows="12" cols="80" wrap="off">
 </textarea></p> 
 
-<p>Alternative corrected text the user is expected to leave (optional, if possible avoid using this):<br>
+<p>Alternative corrected text the user is expected to leave (optional):<br>
 <textarea name="solution2" rows="12" cols="80" wrap="off">
 </textarea></p> 
 
-<p>Yet another alternative corrected text the user is expected to leave (optional, if possible avoid using this):<br>
+<p>Yet another alternative corrected text the user is expected to leave (optional):<br>
 <textarea name="solution3" rows="12" cols="80" wrap="off">
 </textarea></p> 
 
-<p>And the last alternative corrected text the user is expected to leave (optional, if possible avoid using this):<br>
+<p>And the last alternative corrected text the user is expected to leave (optional):<br>
 <textarea name="solution4" rows="12" cols="80" wrap="off">
 </textarea><br>
 Should you <b>really</b> need more than 4 alternatives you can add more manually in the final file 

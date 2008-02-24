@@ -20,9 +20,9 @@ $links_out                    = "<br /><a href='../start.php' target='_top'>Quiz
 // error messages
 $messages["sqbr"] = array("message_text" => "<h2>Incorrect brackets.</h2>\nPlease use square brackets [] for illustration and footnote markup.", "hints" => array());
 $messages["pageheader"] = array("message_text" => "<h2>Page header left in</h2>\nRemove the page header and the page number.", "hints" => array());
-$messages["illusmissing"] = array("message_text" => "<h2>Illustration missing.</h2>\nIt seems you haven't marked the illustration correctly. Put the illustration caption within [Illustration: ]", "hints" => array());
+$messages["illusmissing"] = array("message_text" => "<h2>Illustration missing.</h2>\nIt seems you haven't marked the illustration correctly. Put the illustration caption within <tt>[Illustration: ]</tt>", "hints" => array());
 $messages["illuswrong"] = array("message_text" => "<h2>Illustration incorrectly marked.</h2>\nCheck the case of the caption, and make sure there is a blank line before and after the illustration marker.", "hints" => array());
-$messages["nofn"] = array("message_text" => "<h2>Footnote markup missing.</h2>\nIt seems you haven't marked the footnote at the bottom correctly. Put the footnote text within [Footnote _: ] placing the correct marker where the underscore is.", "hints" => array());
+$messages["nofn"] = array("message_text" => "<h2>Footnote markup missing.</h2>\nIt seems you haven't marked the footnote at the bottom correctly. Put the footnote text within <tt>[Footnote _: ]</tt> placing the correct marker where the underscore is.", "hints" => array());
 $messages["wrongfn"] = array("message_text" => "<h2>Footnote markup wrong.</h2>\nIt seems you haven't marked the footnote at the bottom correctly. Put the footnote text within <tt>[Footnote _: ]</tt> placing the correct marker where the underscore is. Remember to leave a blank line before the footnote.", "hints" => array());
 $messages["wrongblank"] = array("message_text" => "<h2>Extra blank line.</h2>\nThe page starts in the middle of a paragraph, so there should not be a blank line at the top.", "hints" => array());
 $messages["communistgroupthink"] = array("message_text" => "<h2>Free thought detected</h2> Correct <i>that</i>, bourgeois riffraff!", "hints" => array());

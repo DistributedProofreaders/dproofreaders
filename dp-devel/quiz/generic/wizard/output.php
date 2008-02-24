@@ -192,7 +192,7 @@ where &lt;user&gt; is the username of the sandbox 'owner'.
 
 Once it is on the real site, the URL will be  http://www.pgdp.net/c/quiz/generic/main.php?type=&lt;yourquizname&gt;</p>
 
-<p>You can also <a href="./messages.php">and enter more <a href="./messages.php">error messages</a>
+<p>You can also enter more <a href="./messages.php">error messages</a>
 or <a href="./checks.php">error tests</a> if you missed any.</p>
 
 <p>
