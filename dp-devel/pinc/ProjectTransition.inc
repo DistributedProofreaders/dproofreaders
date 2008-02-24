@@ -981,6 +981,21 @@ new ProjectTransition(
 );
 }
 
+// PPer can grab a project back from the PP pool
+new ProjectTransition(
+    PROJ_POST_SECOND_AVAILABLE,
+    PROJ_POST_FIRST_CHECKED_OUT,
+    'holder',
+    array(
+        'project_restriction'   => null,
+        'action_name'           => _("Return to Post-Processing"),
+        'confirmation_question' => _("Are you sure you want to take this book back for further work?"),
+        'detour'                => null,
+        'settings_template'     => "modifieddate='<TIMESTAMP>', postproofer=''",
+        'collateral_actions'    => null,
+    )
+);
+
 // -----------------------------------------------------------------------------
 
 // X_CHECKED_OUT -> X_AVAILABLE
