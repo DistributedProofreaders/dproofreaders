@@ -30,8 +30,7 @@ $messages["changedspelling"] = array("message_text" => "<h2>Spelling changed</h2
 // error checks
 
 $tests[] = array("type" => "markupmissing", "opentext" => "<sc>", "closetext" => "</sc>", "case_sensitive" => TRUE, "error" => "nosmallcaps");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "HOLMES", "case_sensitive" => TRUE, "error" => "cappedsmcaps");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "BURTON", "case_sensitive" => TRUE, "error" => "cappedsmcaps");
+$tests[] = array("type" => "forbiddentext", "searchtext" => array("HOLMES", "BURTON"), "case_sensitive" => TRUE, "error" => "cappedsmcaps");
 $tests[] = array("type" => "forbiddentext", "searchtext" => "traveled", "case_sensitive" => TRUE, "error" => "changedspelling");
 $tests[] = array("type" => "markupmissing", "opentext" => "<i>", "closetext" => "</i>", "case_sensitive" => FALSE, "error" => "noital");
 $tests[] = array("type" => "markupmissing", "opentext" => "<b>", "closetext" => "</b>", "case_sensitive" => FALSE, "error" => "nobold");

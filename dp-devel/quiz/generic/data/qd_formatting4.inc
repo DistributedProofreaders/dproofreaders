@@ -38,15 +38,10 @@ $tests[] = array("type" => "expectedtext", "searchtext" => array("/#"), "case_se
 $tests[] = array("type" => "expectedtext", "searchtext" => array("#/"), "case_sensitive" => TRUE, "error" => "nobc");
 $tests[] = array("type" => "expectedtext", "searchtext" => array("\n#/\n\n","\n\n/#\n"), "case_sensitive" => TRUE, "error" => "bqspacing");
 $tests[] = array("type" => "expectedtext", "searchtext" => array("\n*/\n\n","\n\n/*\n"), "case_sensitive" => TRUE, "error" => "pmspacing");
-$tests[] = array("type" => "forbiddentext", "searchtext" => " Gup, gorbellyd", "case_sensitive" => TRUE, "error" => "baseindent");
-$tests[] = array("type" => "forbiddentext", "searchtext" => " For thes", "case_sensitive" => TRUE, "error" => "baseindent");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "   To turney", "case_sensitive" => TRUE, "error" => "otherpindent");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "   Thow mantycore", "case_sensitive" => TRUE, "error" => "otherpindent");
+$tests[] = array("type" => "forbiddentext", "searchtext" => array(" Gup, gorbellyd", " For thes"), "case_sensitive" => TRUE, "error" => "baseindent");
+$tests[] = array("type" => "forbiddentext", "searchtext" => array("   To turney", "   Thow mantycore"), "case_sensitive" => TRUE, "error" => "otherpindent");
 $tests[] = array("type" => "expectedtext", "searchtext" => array("lyke a Greke."), "case_sensitive" => TRUE, "error" => "plinenotjoined");
 $tests[] = array("type" => "expectedtext", "searchtext" => array("/*\n1. a spoon,"), "case_sensitive" => TRUE, "error" => "nolist");
 $tests[] = array("type" => "expectedtext", "searchtext" => array("person ... one"), "case_sensitive" => TRUE, "error" => "ellipsis");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "\nTo turney", "case_sensitive" => TRUE, "error" => "nopindent");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "\n To turney", "case_sensitive" => TRUE, "error" => "nopindent");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "\nThow mantycore", "case_sensitive" => TRUE, "error" => "nopindent");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "\n Thow mantycore", "case_sensitive" => TRUE, "error" => "nopindent");
+$tests[] = array("type" => "forbiddentext", "searchtext" => array("\nTo turney", "\n To turney", "\nThow mantycore", "\n Thow mantycore"), "case_sensitive" => TRUE, "error" => "nopindent");
 ?>

@@ -27,8 +27,7 @@ $messages["missingline"] = array("message_text" => "<h2>Missing blank line</h2> 
 $messages["longline"] = array("message_text" => "<h2>Long line</h2>\nYou've probably joined two lines by deleting a line break. If you join words around hyphens or dashes, move only one word up to the end of the previous line.", "hints" => array());
 // error checks
 
-$tests[] = array("type" => "forbiddentext", "searchtext" => " --", "case_sensitive" => TRUE, "error" => "spacedem");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "-- ", "case_sensitive" => TRUE, "error" => "spacedem");
+$tests[] = array("type" => "forbiddentext", "searchtext" => array(" --", "-- "), "case_sensitive" => TRUE, "error" => "spacedem");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n\n\nTHE BETTER WAY\n\n"), "case_sensitive" => TRUE, "error" => "sectionspacing");
 $tests[] = array("type" => "forbiddentext", "searchtext" => "re-", "case_sensitive" => TRUE, "error" => "hyphenrej");
 $tests[] = array("type" => "forbiddentext", "searchtext" => ":\n\"Some", "case_sensitive" => TRUE, "error" => "missingline");

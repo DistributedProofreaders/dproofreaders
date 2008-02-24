@@ -121,8 +121,21 @@ function error_check()
   {
     if ($value["type"]=="forbiddentext") 
     {
-      if (in_string($value["searchtext"],$text,$value["case_sensitive"]))
+      /* Return an error if *any* of the searchtext items are found */
+      $found = FALSE;
+      if(!is_array($value["searchtext"]))
       {
+        $value["searchtext"] = array($value["searchtext"]);
+      }
+      foreach ($value["searchtext"] as $expected)
+      {
+        if (in_string($expected,$text,$value["case_sensitive"]))
+        {
+          $found = TRUE;
+          break;
+        }
+      }
+      if ($found == TRUE) {
         return $value["error"];
       }
     }

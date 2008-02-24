@@ -32,13 +32,9 @@ $messages["missinglinecheckindents"] = array("message_text" => "<h2>Missing blan
 
 
 // error checks
-$tests[] = array("type" => "forbiddentext", "searchtext" => "CAMPFIRE GIRLS WEAR WHYPSLOVENS", "case_sensitive" => TRUE, "error" => "pageheader");
+$tests[] = array("type" => "forbiddentext", "searchtext" => array("CAMPFIRE GIRLS WEAR WHYPSLOVENS", "191"), "case_sensitive" => TRUE, "error" => "pageheader");
 $tests[] = array("type" => "forbiddentext", "searchtext" => "\nthe necessity", "case_sensitive" => FALSE, "error" => "wrongblank");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "191", "case_sensitive" => TRUE, "error" => "pageheader");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "(Footnote", "case_sensitive" => FALSE, "error" => "sqbr");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "{Footnote", "case_sensitive" => FALSE, "error" => "sqbr");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "(Illustration", "case_sensitive" => FALSE, "error" => "sqbr");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "{Illustration", "case_sensitive" => FALSE, "error" => "sqbr");
+$tests[] = array("type" => "forbiddentext", "searchtext" => array("(Footnote", "{Footnote", "(Illustration", "{Illustration"), "case_sensitive" => FALSE, "error" => "sqbr");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("[Illustration: Where is Kitty?]"), "case_sensitive" => FALSE, "error" => "illusmissing");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n\n[Illustration: Where is Kitty?]\n\n"), "case_sensitive" => TRUE, "error" => "illuswrong");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("[Footnote"), "case_sensitive" => FALSE, "error" => "nofn");
