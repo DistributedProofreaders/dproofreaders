@@ -21,14 +21,14 @@ function evalmessages()
     {
       $_SESSION['quiz_data']['messages'][$_POST['name']]['hints'][0]['linktext'] = $_POST['linktext'];
       $_SESSION['quiz_data']['messages'][$_POST['name']]['hints'][0]['hint_text'] = $_POST['hinttext'];
-    };
+    }
     if ($_POST['hinttext2'] != "")
     {
       $_SESSION['quiz_data']['messages'][$_POST['name']]['hints'][1]['linktext'] = $_POST['linktext2'];
       $_SESSION['quiz_data']['messages'][$_POST['name']]['hints'][1]['hint_text'] = $_POST['hinttext2'];
-    };  
+    }  
     return true;
-  };
+  }
 }
 
 
@@ -58,7 +58,7 @@ function filltext($x)
   global $fill;
   if ($fill)
     echo $_POST[$x];
-};
+}
 
 if ($_SESSION['quiz_data']['lastpage'] == 'general') 
 {
@@ -88,7 +88,7 @@ Please choose a different one.</p>
   {
     $fill = FALSE;
   }
-};
+}
 ?>
 
 <p>If you have entered all error messages click <a href="./checks.php">here</a> to proceed with the next steps.</p>

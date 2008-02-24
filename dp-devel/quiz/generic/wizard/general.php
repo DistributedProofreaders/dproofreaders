@@ -11,7 +11,7 @@ if ($_SESSION['quiz_data']['lastpage'] == 'start')
 {
   unset($_SESSION['quiz_data']['messages']);
   unset($_SESSION['quiz_data']['tests']);
-};
+}
 
 ?>
 

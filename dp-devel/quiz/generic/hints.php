@@ -18,9 +18,9 @@ if (count($messages[$_REQUEST['error']]["hints"]) > (1 + $_REQUEST['number']))
   else
   {
     echo "Desperate? Can't find it?";
-  };
+  }
   echo " Get more hints <a href='./hints.php?type=" .$_REQUEST['type'] . "&error=" . $_REQUEST['error'] . "&number=" . ($_REQUEST['number'] + 1) . "'>here</a>.<p>";
-};
+}
 
  ?>
  </div>

@@ -42,7 +42,7 @@ if ($logged_in) {
     theme( $header_text, 'header');
     page_header( 'SR', $header_text );
     show_news_for_page("SR_PREV");
-};
+}
 
 if (!$logged_in)
 {

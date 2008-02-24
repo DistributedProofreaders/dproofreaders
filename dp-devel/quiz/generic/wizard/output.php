@@ -61,13 +61,13 @@ function make_output()
       $out .= ', "challengetext" => "';
       $out .= ssqs($err['challengetext']);
       $out .= '"';
-    };
+    }
     if ($err['feedbacktext'] != "")
     {
       $out .= ', "feedbacktext" => "';
       $out .= ssqs($err['feedbacktext']);
       $out .= '"';
-    };
+    }
     $out .= ', "hints" => array(';
     if (isset($err['hints'][0]))
     {
@@ -79,7 +79,7 @@ function make_output()
         $out .= ', "linktext" => "';
         $out .= ssqs($err['hints'][0]['linktext']);
         $out .= '"';
-      };
+      }
       $out .= ')';
       if (isset($err['hints'][1]))
       {
@@ -91,12 +91,12 @@ function make_output()
           $out .= ', "linktext" => "';
           $out .= ssqs($err['hints'][1]['linktext']);
           $out .= '"';
-        };
+        }
         $out .= ')';
-      };
-    };
+      }
+    }
     $out .= "));\n";    
-  };
+  }
   $out .= "\n\n";
   $out .= "// error checks\n\n";
   foreach($_SESSION['quiz_data']['tests'] as $key => $test)
@@ -173,9 +173,9 @@ function make_output()
       $out .= ', "error" => "';
       $out .= $test['error'];
       $out .= '"';
-    };
+    }
     $out .= ');' . "\n";    
-  };
+  }
     
   $out .= "\n\n?>";
   return htmlspecialchars($out);

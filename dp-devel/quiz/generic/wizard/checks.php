@@ -102,7 +102,7 @@ function evalchecks()
   {
     $test['error'] = $_POST['longline_error'];
     $test['lengthlimit'] = $_POST['longline_lengthlimit'];
-  };
+  }
   $_SESSION['quiz_data']['tests'][] = $test;
 }
 
@@ -111,7 +111,7 @@ $errlist = '';
 foreach($_SESSION['quiz_data']['messages'] as $key => $dummy)
 {
  $errlist .= '<option>' . $key . '</option>';
-};
+}
 
 if ($_SESSION['quiz_data']['lastpage'] != 'checks') // we are coming from elsewhere
 {
@@ -128,7 +128,7 @@ else // we are coming from this page (checks.php)
 {
 evalchecks();
 
-};
+}
 ?>
 
 <script type="text/javascript">
@@ -143,15 +143,15 @@ function nonechecked(x)
     }
   }
 return true;
-};
+}
 
 function chkFormular () {
   if (nonechecked(document.checkform.type)) 
   {
     alert("Please explicitly choose one of the test types.");
     return false;
-  };
-};
+  }
+}
 </script>
 
 <p>If you have entered all error tests click <a href="./output.php">here</a> to view the output.</p>

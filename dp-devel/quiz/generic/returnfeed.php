@@ -45,9 +45,9 @@ function numberofoccurances($haystack, $needle, $cs)
   {
     $needle = strtolower($needle);
     $haystack =  strtolower($haystack);
-  };
+  }
   return substr_count($haystack, $needle);
-};
+}
 
 function diff($s1, $s2)
 {
@@ -58,7 +58,7 @@ function diff($s1, $s2)
     $arrdummy = $arr1;
     $arr1 = $arr2;
     $arr2 = $arrdummy;
-  };
+  }
   foreach($arr1 as $key => $line1)
   {
     if (isset($arr2[$key]))
@@ -70,7 +70,7 @@ function diff($s1, $s2)
     {
       if ($line1 != "")
       	return $line1;
-    };
+    }
   }
 }
 
@@ -89,7 +89,7 @@ function finddiff()
     $d = diff($text,$solution);
     if ($d == "")
       return FALSE;
-  };
+  }
   echo '<h2>' . $qt_differencehead . '</h2>';
   echo '<p>' . $qt_difference . '</p>';
   if (count($solutions) == 1)
@@ -107,8 +107,8 @@ function finddiff()
       echo "<pre>\n";
       echo $solutions[0];
       echo "\n</pre></p>";
-    };
-  };
+    }
+  }
   return TRUE;
 }
 
@@ -124,15 +124,15 @@ function error_check()
       if (in_string($value["searchtext"],$text,$value["case_sensitive"]))
       {
         return $value["error"];
-      };
-    };
+      }
+    }
     if ($value["type"]=="markupmissing") 
     {
       if (!in_string($value["opentext"],$text,$value["case_sensitive"]) && !in_string($value["closetext"],$text,$value["case_sensitive"]))
       {
         return $value["error"];
-      };
-    };
+      }
+    }
     if ($value["type"]=="markupcorrupt") 
     {
       if ((in_string($value["opentext"],$text,$value["case_sensitive"]) && !in_string($value["closetext"],$text,$value["case_sensitive"]))
@@ -141,8 +141,8 @@ function error_check()
           || (($value["case_sensitive"]) && (strpos($text, $value["closetext"]) < strpos($text, $value["opentext"])))  )
       {
         return $value["error"];
-      };
-    };
+      }
+    }
     if ($value["type"]=="expectedtext") 
     {
       $found = FALSE;
@@ -151,13 +151,13 @@ function error_check()
         if (in_string($expected,$text,$value["case_sensitive"]))
         {
           $found = TRUE;
-        };
-      };
+        }
+      }
       if (!$found)
       {
         return $value["error"];
-      };
-    };
+      }
+    }
     if ($value["type"]=="expectedlinebreaks") 
     {
       $len = strlen($value["starttext"]);
@@ -170,24 +170,24 @@ function error_check()
       {
         $part = stristr($text,$value["starttext"]);
         $part= substr($part, $len, stripos($part,$value["stoptext"]) - $len);
-      };
+      }
       $num = numberofoccurances($part, "\n", TRUE);
       if ($num < $value["number"])
       {
         return $value["errorlow"];
-      };
+      }
       if ($num > $value["number"])
       {
         return $value["errorhigh"];
-      };
-    };
+      }
+    }
     if ($value["type"]=="multioccurrence") 
     {
       if (numberofoccurances($text, $value["searchtext"], $value["case_sensitive"]) > 1)
       {
         return $value["error"];
-      };
-    };
+      }
+    }
     if ($value["type"]=="wrongtextorder") 
     {
       $p1 = strposgen($text,$value["firsttext"],$value["case_sensitive"]);
@@ -195,8 +195,8 @@ function error_check()
       if ($p1 && $p2 && ($p1 > $p2))
       {
         return $value["error"];
-      };
-    };
+      }
+    }
     if ($value["type"]=="longline") 
     {
       $arr = explode("\n", $text);
@@ -205,13 +205,13 @@ function error_check()
         if (strlen($line) > $value["lengthlimit"])
         {
           return $value["error"];
-        };
-      };
-    };
-  };
+        }
+      }
+    }
+  }
 
   return "";
-};
+}
 
 // A margin
 echo "<div style='margin: .5em;'>";
@@ -226,7 +226,7 @@ if ($error_found == "")
     echo $solved_message;
     echo "<p>";
     echo $links_out;
-  };
+  }
 }
 else
 {
@@ -241,9 +241,9 @@ else
     else
     {
       echo $default_hintlink;
-    };
+    }
     echo " Get more hints <a href='./hints.php?type=" .$_REQUEST['type'] . "&error=" . $error_found . "&number=0'>here</a>.<p>";
-  };
+  }
   if (isset($messages[$error_found]["challengetext"]))
   {
     echo $messages[$error_found]["challengetext"];
@@ -251,7 +251,7 @@ else
   else
   {
     echo $default_challenge;
-  };
+  }
   echo "<p>";
   if (isset($messages[$error_found]["feedbacktext"]))
   {
@@ -260,8 +260,8 @@ else
   else
   {
     echo $default_feedbacktext;
-  };
-};
+  }
+}
  ?>
  </div>
 </body>
