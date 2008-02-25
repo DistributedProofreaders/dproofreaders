@@ -42,22 +42,7 @@ foreach ( $deltas as $timestamp => $tally_delta )
     $datay[] = $tally_delta;
 }
 
-if ( $days_back >= 700 )
-{
-    $x_tli = 30;
-}
-else if ( $days_back >= 365 )
-{
-    $x_tli = 15;
-}
-else if ( $days_back >= 60)
-{
-    $x_tli = 2;
-}
-else
-{
-    $x_tli = 1;
-}
+$x_text_tick_interval = calculate_text_tick_interval( 'daily', count($datax) );
 
 if (empty($datax) || empty($datay))
 {
@@ -70,7 +55,7 @@ draw_simple_bar_graph(
     $graph,
     $datax,
     $datay,
-	$x_tli,
+	$x_text_tick_interval,
     'Pages Completed per Day',
     'Pages'
 );

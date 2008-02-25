@@ -41,11 +41,13 @@ while ( $row = mysql_fetch_object($result) )
         $data1y[] = 100 *  $row->num_who_proofed / $row->num_who_joined;
 }
 
+$x_text_tick_interval = calculate_text_tick_interval( 'monthly', count($datax) );
+
 draw_simple_bar_graph(
 	$graph,
 	$datax,
 	$data1y,
-	1,
+	$x_text_tick_interval,
 	'Percentage of New Users Who Went on to Proof By Month',
 	'% of newly Joined Users who Proofed'
 );

@@ -78,27 +78,13 @@ $result = mysql_query("
 
 list($datax,$datay) = dpsql_fetch_columns($result);
 
-// calculate tick interval based on number of datapoints
-// the data is hourly, there are 168 hours in a week
-// once we have more than about 30 labels, the axis is getting too crowded
-$mynumrows = count($datay);
-if ($mynumrows < 30) {
-	$tick = 1;              // one label per hour
-} else if ($mynumrows < (30 * 168)) {
-	$tick = 168;            // one label per week
-} else if ($mynumrows < (30 * 168 * 4)) {
-	$tick = 168 * 4;        // one label per 4 weeks (pseudo-month)
-} else if ($mynumrows < (30 * 168 * 13)) {
-	$tick = 168 * 13;       // one label per quarter
-} else {
-	$tick = 168 * 52;       // one label per year
-}
+$x_text_tick_interval = calculate_text_tick_interval( 'hourly', count($datay) );
 
 draw_simple_bar_graph(
 	$graph,
 	$datax,
 	$datay,
-	$tick,
+	$x_text_tick_interval,
 	$title,
 	_('Fresh Logons')
 );

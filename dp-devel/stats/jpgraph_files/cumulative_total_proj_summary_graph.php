@@ -63,21 +63,9 @@ foreach ( array( 'created', 'proofed', 'PPd', 'posted' ) as $which )
 $graph->xaxis->SetTickLabels($datax);
 $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
-// calculate tick interval based on number of datapoints
-// the data is daily, there are 7 days in a week
-// once we have more than about 30 labels, the axis is getting too crowded
-if ($max_num_data < 30 ) {
-        $tick = 1;            // one label per day
-} else if ($max_num_data < (30 * 7)) {
-        $tick = 7;            // one label per week
-} else if ($max_num_data < (30 * 7 * 4)) {
-        $tick = 7 * 4;        // one label per 4 weeks (pseudo-month)
-} else if ($max_num_data < (30 * 7 * 13)) {
-        $tick = 7 * 13;       // one label per quarter
-} else {
-        $tick = 7  * 52;       // one label per year
-}
-$graph->xaxis->SetTextTickInterval($tick);
+
+$x_text_tick_interval = calculate_text_tick_interval( 'daily', $max_num_data );
+$graph->xaxis->SetTextTickInterval($x_text_tick_interval);
 
 
 //Set Y axis
