@@ -26,7 +26,7 @@ $messages["baseindent"] = array("message_text" => "<h2>Poetry indentation</h2>\n
 $messages["plinenotjoined"] = array("message_text" => "<h2>Poetry line not joined</h2>\nThere is one long poetry line, broken up into two lines. Please join those lines.", "hints" => array());
 $messages["pmspacing"] = array("message_text" => "<h2>Poetry markup</h2>\nPlease leave exactly one empty line before the poetry starting marker /*. Also leave one blank line after the poetry closing marker */.", "hints" => array());
 $messages["bqspacing"] = array("message_text" => "<h2>Blockquote markup</h2>\nPlease leave exactly one empty line before the blockquote starting marker /#. Also leave one blank line after the blockquote closing marker #/. The blockquote marker should be on its own line.", "hints" => array());
-$messages["nolist"] = array("message_text" => "<h2>List not marked</h2> Mark lists with poetry markers (<tt>/* */</tt>).", "hints" => array());
+$messages["nolist"] = array("message_text" => "<h2>List not marked</h2> Mark lists with the markup <tt>/* */</tt>.", "hints" => array());
 $messages["ellipsis"] = array("message_text" => "<h2>Ellipsis spacing incorrect</h2> Leave a space on each side of an ellipsis.", "hints" => array());
 $messages["nopindent"] = array("message_text" => "<h2>Poetry line(s) not indented</h2>\nThe poems in the text have relative indentation. Try to represent that in the proofread text, using multiples of two spaces.", "hints" => array());
 // error checks
