@@ -36,8 +36,10 @@ $tests[] = array("type" => "expectedtext", "searchtext" => array("/*"), "case_se
 $tests[] = array("type" => "expectedtext", "searchtext" => array("*/"), "case_sensitive" => TRUE, "error" => "nopoetry");
 $tests[] = array("type" => "expectedtext", "searchtext" => array("/#"), "case_sensitive" => TRUE, "error" => "nobc");
 $tests[] = array("type" => "expectedtext", "searchtext" => array("#/"), "case_sensitive" => TRUE, "error" => "nobc");
-$tests[] = array("type" => "expectedtext", "searchtext" => array("\n#/\n\n","\n\n/#\n"), "case_sensitive" => TRUE, "error" => "bqspacing");
-$tests[] = array("type" => "expectedtext", "searchtext" => array("\n*/\n\n","\n\n/*\n"), "case_sensitive" => TRUE, "error" => "pmspacing");
+$tests[] = array("type" => "expectedtext", "searchtext" => array("\n#/\n\n"), "case_sensitive" => TRUE, "error" => "bqspacing");
+$tests[] = array("type" => "expectedtext", "searchtext" => array("\n\n/#\n"), "case_sensitive" => TRUE, "error" => "bqspacing");
+$tests[] = array("type" => "expectedtext", "searchtext" => array("\n*/\n\n"), "case_sensitive" => TRUE, "error" => "pmspacing");
+$tests[] = array("type" => "expectedtext", "searchtext" => array("\n\n/*\n"), "case_sensitive" => TRUE, "error" => "pmspacing");
 $tests[] = array("type" => "forbiddentext", "searchtext" => array(" Gup, gorbellyd", " For thes"), "case_sensitive" => TRUE, "error" => "baseindent");
 $tests[] = array("type" => "forbiddentext", "searchtext" => array("   To turney", "   Thow mantycore"), "case_sensitive" => TRUE, "error" => "otherpindent");
 $tests[] = array("type" => "expectedtext", "searchtext" => array("lyke a Greke."), "case_sensitive" => TRUE, "error" => "plinenotjoined");

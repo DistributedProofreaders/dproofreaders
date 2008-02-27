@@ -26,7 +26,6 @@ $messages["extraline"] = array("message_text" => "<h2>Extra blank line</h2> An e
 $messages["nothoughtbreak"] = array("message_text" => "<h2>Missing thought break</h2> A thought break (<tt>&lt;tb&gt;</tt>) should be placed between the paragraphs that have a break between them.", "hints" => array());
 $messages["thoughtbreakspc"] = array("message_text" => "<h2>Incorrect thought break spacing</h2> A thought break should have a blank line before and after it.", "hints" => array());
 $messages["nobold"] = array("message_text" => "<h2>Bold markup in header</h2>\nChapter Headers may be printed in a different or larger font that may appear to be bold, but we do not mark them as bold.", "hints" => array());
-$messages["boldcorrupt"] = array("message_text" => "<h2>Error in bold markup</h2>\nSomehow the bold markup you've done seems to be corrupt. Start the bold text with &lt;b&gt; and end it with &lt;/b&gt;.", "hints" => array());
 $messages["chapheadnotdecapped"] = array("message_text" => "<h2>Chapter start not decapitalised</h2>\nChange the case of the chapter heading to match the rest of the text. Printing the first word(s) of a chapter in all caps or small caps is just a typesetting convention", "hints" => array());
 $messages["chapheadsc"] = array("message_text" => "<h2>Small caps markup added to chapter start</h2>\nPrinting the first word(s) of a chapter in all caps or small caps is just a typesetting convention, so instead of inserting small caps markup, simply change the case to match the rest of the text.", "hints" => array());
 $messages["chapheadoverkill"] = array("message_text" => "<h2>Chapter start completely decapitalised</h2>\nYou've got the right idea, but gone a little too far. Leave the first letter capitalised, as it's at the start of the sentence.", "hints" => array());
@@ -45,8 +44,5 @@ $tests[] = array("type" => "forbiddentext", "searchtext" => "<sc>", "case_sensit
 $tests[] = array("type" => "forbiddentext", "searchtext" => "if you shut", "case_sensitive" => true, "error" => "chapheadoverkill");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("<tb>"), "case_sensitive" => TRUE, "error" => "nothoughtbreak");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n\n<tb>\n\n"), "case_sensitive" => TRUE, "error" => "thoughtbreakspc");
-#$tests[] = array("type" => "markupmissing", "opentext" => "<b>", "closetext" => "</b>", "case_sensitive" => FALSE, "error" => "nobold");
-#$tests[] = array("type" => "markupcorrupt", "opentext" => "<i>", "closetext" => "</i>", "case_sensitive" => FALSE, "error" => "italcorrupt");
-#$tests[] = array("type" => "markupcorrupt", "opentext" => "<b>", "closetext" => "</b>", "case_sensitive" => FALSE, "error" => "boldcorrupt");
-#$tests[] = array("type" => "expectedtext", "searchtext" =>  array("<b>THE "), "case_sensitive" => TRUE, "error" => "nobold");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  "<b>THE ", "case_sensitive" => TRUE, "error" => "nobold");
 ?>
