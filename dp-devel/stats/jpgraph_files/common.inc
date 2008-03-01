@@ -143,7 +143,10 @@ function draw_pages_graph(
     $graph->yaxis->SetTitleMargin(45);
 
     // Create the plot for actual pages
-    if ( $cumulative_or_increments == 'increments' )
+    // Note we can't draw line graphs with only one point
+    // so if they requested a cumulative chart but our data 
+    // has one point or fewer, make it a bar graph instead
+    if ( $cumulative_or_increments == 'increments' || count($y_actual_n_pages) <= 1 )
     {
         $pages_plot = new BarPlot($y_actual_n_pages);
         $pages_plot->SetColor("blue");

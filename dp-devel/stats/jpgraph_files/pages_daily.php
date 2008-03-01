@@ -102,6 +102,24 @@ if (empty($datay1)) {
     $datay1[0] = 0;
 }
 
+// if no data was returned from the SELECT, create an empty dataset
+// otherwise we get an unsightly jpgraph error
+if (empty($datax)) {
+    // set arrays to empty before populating them
+    $datax = $datay1 = array();
+    $datay2 = null;
+
+    // don't go past the current date
+    $end_timestamp = min( $end_timestamp, time() );
+
+    // iterate through the days of the specified month
+    for($dateTimestamp=$start_timestamp; $dateTimestamp<=$end_timestamp; $dateTimestamp+=(60*60*24))
+    {
+        $datax[] = strftime( '%Y-%m-%d', $dateTimestamp );
+        $datay1[] = 0;
+    }
+}
+
 draw_pages_graph(
     $graph,
     $datax,
