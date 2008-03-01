@@ -683,7 +683,7 @@ function show_completed_projects($terse = FALSE)
     } else {
         echo "<center><b>" . _("Completed Projects:") . "</b></center>\n";
         echo "<table border=0 cellspacing=0 cellpadding=0 width='100%'>\n";
-        $num_months = 11;
+        $num_months = 12;
     }
     $thismonth = date("n");
     $thisyear = date("Y");
