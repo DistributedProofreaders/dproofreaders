@@ -47,6 +47,13 @@ $uao = $round->user_access( $pguser );
 
 $round->page_top( $uao );
 
+// show user how to access this round
+if ( !$uao->can_access )
+{
+    echo "<hr width='75%'>\n";
+    show_user_access_object( $uao );
+}
+
 // ---------------------------------------
 
 $pagesproofed = get_pages_proofed_maybe_simulated();
@@ -172,12 +179,6 @@ else
     include_once($relPath.'filter_project_list.inc');
 }
 if (!isset($RFilter)) { $RFilter = ""; }
-
-if ( !$uao->can_access )
-{
-    echo "<hr width='75%'>\n";
-    show_user_access_object( $uao );
-}
 
 // special colours legend
 // Don't display if the user has selected the

@@ -367,11 +367,12 @@ function show_user_access_object( $uao )
 
     if ( count($uao->minima_table) == 0 )
     {
-        echo _("There are no minimum requirements associated with this stage.");
+        echo "<p>" . _("There are no minimum requirements associated with this stage.") . "</p>";
     }
     else
     {
-        echo _('Entrance Requirements') . ":\n";
+        echo "<h2>" . _('Entrance Requirements') . "</h2>\n";
+        echo "<p>" . _('To access this round, you must meet the following criteria. After you have met the criteria a link will be shown to allow you to request access.') . "</p>";
         echo "<table border='1'>\n";
 
         echo "<tr>";
@@ -392,6 +393,8 @@ function show_user_access_object( $uao )
         }
         echo "</table>\n";
 
+        echo "<p>";
+        echo "<b>" . _('Eligibility status') . ":</b> ";
         if ( $uao->all_minima_satisfied )
         {
             echo _('You satisfy the requirements.');
@@ -401,53 +404,55 @@ function show_user_access_object( $uao )
             echo _('Some requirements are not yet satisfied. ');
             echo $uao->evaluation_criteria;
         }
+        echo "</p>";
     }
     echo "\n";
 
+    $request_status_string="";
     switch( $uao->request_status )
     {
         case 'sat-unneeded':
-            echo _('So you are allowed to work in this stage.');
+            $request_status_string=_('So you are allowed to work in this stage.');
             break;
 
         case 'sat-granted':
-            echo _('You have received permission to work in this stage.');
+            $request_status_string=_('You have received permission to work in this stage.');
             break;
 
         case 'sat-requested':
         case 'unsat-requested':
-            echo _('You have requested permission, but it has not been granted yet.');
+            $request_status_string=_('You have requested permission, but it has not been granted yet.');
             break;
 
         case 'sat-available':
-            echo $uao->evaluation_criteria;
-            echo sprintf(
+            $request_status_string=$uao->evaluation_criteria;
+            $request_status_string.=sprintf(
                 _(' If you would like to work in this stage, <a href="%s">click here</a> to submit a request.'),
                 "$code_url/tools/request_access.php?stage_id={$uao->stage_id}"
             );
             break;
 
         case 'sat-wait':
-            echo _('However, you must wait for approval to work in this stage. ');
-            echo $uao->evaluation_criteria;
+            $request_status_string=_('However, you must wait for approval to work in this stage. ');
+            $request_status_string=$uao->evaluation_criteria;
             // Users in this stage will monitor your work and will let you know once you have qualified for access
             break;
 
         case 'unsat-granted':
-            echo _("However, you have been granted access to this stage.");
+            $request_status_string=_("However, you have been granted access to this stage.");
             break;
 
         case 'unsat-ungranted':
             // Don't mention possibility of special permission.
-            // echo _("However, you can be granted access to this stage. See XXX for details.");
+            // $request_status_string=_("However, you can be granted access to this stage. See XXX for details.");
             break;
 
         default:
             die( "bad request_status '$uao->request_status'" );
     }
-    echo "\n";
-    
-    echo "<br>\n";
+
+    if(!empty($request_status_string))
+        echo "<p>$request_status_string</p>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

@@ -31,6 +31,13 @@ $uao = $pool->user_access($pguser);
 
 $pool->page_top( $uao );
 
+// Show user how to access this round
+if ( !$uao->can_access )
+{
+    echo "<hr width='75%'>\n";
+    show_user_access_object( $uao );
+}
+
 
 
 show_news_for_page($pool->id);
@@ -52,12 +59,6 @@ The page will let you see the project comments
   as well as download the associated text and image files.
 </p>
 ";
-
-if ( !$uao->can_access )
-{
-    echo "<hr width='75%'>\n";
-    show_user_access_object( $uao );
-}
 
 // special colours legend
 // Don't display if the user has selected the
