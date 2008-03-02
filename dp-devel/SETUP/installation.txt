@@ -21,8 +21,9 @@ assuming it isn't already.
 
 --- Install PHP.
         Version: We know that the code runs on version 4.4.2 and 5.0.4.
-        It probably runs on much older versions, and there have been some recent
-        changes to allow it to run on 5.2, although maybe not complete.
+        It probably runs on older versions although not below 4.2.0.
+        There have been some recent changes to allow it to run on 5.2,
+        although maybe not complete. Light testing has been done on 5.2.4.
 
         Enable GD (for jpgraph) if you want dynamically-generated graphs.
         Enable YAZ if you want to be able to do external catalog searches when
