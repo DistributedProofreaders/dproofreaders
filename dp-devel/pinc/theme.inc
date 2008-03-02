@@ -435,13 +435,27 @@ function show_quick_links()
         $links[] = array('tools/project_manager/projectmgr.php','PM',_('Manage Projects'));
     }
 
+    // Show not only the stages that the user has permission to
+    // work in but the next stage as well if that stage is a Round.
+    // (If we don't restrict the "next stage" to a Round, PPV
+    // shows up for everyone since it follows SR and everyone
+    // has SR permission.)
+    $uao_prev = null;
     foreach ( $Stage_for_id_ as $stage )
     {
         $uao = $stage->user_access($pguser);
-        if ($uao->can_access)
+        if($uao_prev == null)
+            $uao_prev = $uao;
+
+        if ($uao->can_access || $uao_prev->can_access)
         {
             $links[] = array($stage->relative_url, $stage->id, $stage->name);
         }
+
+        if(is_a( $stage, "Round" ))
+            $uao_prev = $uao;
+        else
+            $uao_prev = null;
     }
 
     if ( count($links) > 0 )
