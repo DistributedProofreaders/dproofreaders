@@ -434,7 +434,7 @@ function show_user_access_object( $uao )
 
         case 'sat-wait':
             $request_status_string=_('However, you must wait for approval to work in this stage. ');
-            $request_status_string=$uao->evaluation_criteria;
+            $request_status_string.=$uao->evaluation_criteria;
             // Users in this stage will monitor your work and will let you know once you have qualified for access
             break;
 
