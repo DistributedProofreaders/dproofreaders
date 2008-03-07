@@ -90,6 +90,8 @@ function show_news_for_page( $news_page_id )
         // We have at least one news item to show,
         // so display the news header.
 
+        echo "<hr width='75%'>";
+
         $header_title = sprintf( _('News for %s'), $news_subject );
         echo "<b>";
 

@@ -43,6 +43,8 @@ if ( !$uao->can_access )
 show_news_for_page($pool->id);
 
 
+echo "<hr width='75%'>\n";
+
 echo "<br>\n";
 echo implode( "\n", $pool->blather );
 
