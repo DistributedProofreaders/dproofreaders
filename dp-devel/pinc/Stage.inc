@@ -372,7 +372,7 @@ function show_user_access_object( $uao )
     else
     {
         echo "<h2>" . _('Entrance Requirements') . "</h2>\n";
-        echo "<p>" . _('To access this round, you must meet the following criteria. After you have met the criteria a link will be shown to allow you to request access.') . "</p>";
+        echo "<p>" . _('To access this round, you must satisfy the following requirements.') . "</p>";
         echo "<table border='1'>\n";
 
         echo "<tr>";
@@ -443,8 +443,17 @@ function show_user_access_object( $uao )
             break;
 
         case 'unsat-ungranted':
+            $stage = get_Stage_for_id($uao->stage_id);
+            if($stage->after_satisfying_minima == 'REQ-AUTO' || $stage->after_satisfying_minima == 'REQ-HUMAN')
+            {
+                $request_status_string=_('After you have satisfied the requirements, a link will appear here, allowing you to request access.');
+            }
+            else
+            {
+                // $request_status_string=_('After you have satisfied the requirements, you will be evaluated for access.');
+            }
             // Don't mention possibility of special permission.
-            // $request_status_string=_("However, you can be granted access to this stage. See XXX for details.");
+            // $request_status_string.=_("However, you can be granted access to this stage. See XXX for details.");
             break;
 
         default:
