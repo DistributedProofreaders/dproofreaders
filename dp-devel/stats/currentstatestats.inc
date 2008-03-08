@@ -56,6 +56,6 @@ echo "
 	</table>
 ";
 
-echo "<br><hr width='75%'></center><br>";
+echo "</center>\n";
 
 ?>
