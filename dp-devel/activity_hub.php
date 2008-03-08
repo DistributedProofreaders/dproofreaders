@@ -70,10 +70,11 @@ welcome_see_beginner_forum( $pagesproofed );
 // Site News
 if ($pagesproofed >= 20)
 {
-    echo "<center><hr width='75%'>\n";
+    echo "<center>";
 
     if ($pagesproofed < 40)
     {
+        echo "<hr width='75%'>\n";
         echo "<font size=-1 face=" . $theme['font_mainbody'] . "><i>";
         echo _("Now that you have proofread 20 pages you can see the Site News. This is updated regularly with announcements from the administrators.");
         echo "<br>";
