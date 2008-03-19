@@ -2,7 +2,11 @@
 include_once($relPath.'site_vars.php');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
-include './data/qd_' . $_REQUEST['type'] . '.inc';
+
+$page_id = get_enumerated_param($_REQUEST, 'type', NULL, $valid_page_ids);
+$quiz_id = get_enumerated_param($_REQUEST, 'quiz_id', NULL, $valid_quiz_ids);
+
+include "./data/qd_${page_id}.inc";
 
 // Figure out what font to use
 // Use the font prefs for the user's default interface layout, 
@@ -35,7 +39,7 @@ echo str_replace("\n",'\n',addslashes($solutions[0]));?>";
 <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 <body bgcolor='#ffffff'>
-<form action="./returnfeed.php?type=<?=$_REQUEST['type']?>&quiz_id=<?=$_REQUEST['quiz_id']?>" target="right" method="post">
+<form action="./returnfeed.php?type=<?=$page_id?>&quiz_id=<?=$quiz_id?>" target="right" method="post">
 <textarea rows="12" cols="60" name="output" id='output' wrap="off"
 <?php 
     echo "style='";

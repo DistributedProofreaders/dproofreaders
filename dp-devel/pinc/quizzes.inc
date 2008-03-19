@@ -2,7 +2,7 @@
 // This file creates quiz objects for each quiz with data in CVS
 include_once($relPath."Quiz.inc");
 
-$defined_quizzes = array('PQ','FQ');
+$valid_quiz_ids = array('PQ','FQ');
 
 $FQ = new Quiz(
  "FQ",
@@ -33,4 +33,13 @@ $PQ = new Quiz(
  'maximum_age' => 15778463) // 6 months
 );
 
+// A list of valid quiz page ids used for constructing filenames
+// used in the quizzes, eg qd_formatting3.inc, qi_step2.png etc
+
+$valid_page_ids = array();
+foreach($valid_quiz_ids as $quiz_id) {
+    foreach(${$quiz_id}->pages as $page_id) {
+        array_push($valid_page_ids, $page_id);
+    }
+}
 ?>

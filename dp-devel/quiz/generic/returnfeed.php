@@ -2,7 +2,9 @@
 $relPath='../../pinc/';
 include_once($relPath.'connect.inc');
 include_once('../small_theme.inc');
-include './data/qd_' . $_REQUEST['type'] . '.inc';
+
+$page_id = get_enumerated_param($_REQUEST, 'type', NULL, $valid_page_ids);
+include "./data/qd_${page_id}.inc";
 include './quiz_defaults.inc';
 include './quiz_fixedtexts.inc';
 
@@ -255,7 +257,7 @@ else
     {
       echo $default_hintlink;
     }
-    echo " Get more hints <a href='./hints.php?type=" .$_REQUEST['type'] . "&error=" . $error_found . "&number=0'>here</a>.<p>";
+    echo " Get more hints <a href='./hints.php?type=" . $page_id . "&error=" . $error_found . "&number=0'>here</a>.<p>";
   }
   if (isset($messages[$error_found]["challengetext"]))
   {

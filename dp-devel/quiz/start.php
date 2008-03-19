@@ -9,21 +9,21 @@ $db_Connection=new dbConnect();
 $theme_args["css_data"] = "th.q {background:$theme[color_headerbar_bg];
 color:$theme[color_headerbar_font];}";
 
-if (!empty($_GET['show_only']) && (array_search($_GET['show_only'],$defined_quizzes) !== false))
+if (!empty($_GET['show_only']) && (array_search($_GET['show_only'],$valid_quiz_ids) !== false))
 {
-    $quiz = $_GET['show_only'];
-    theme(${$quiz}->name,'header',$theme_args);
-    echo "<h1>".${$quiz}->name."</h1>";
-    ${$quiz}->show_results_table($pguser);
+    $quiz_id = $_GET['show_only'];
+    theme(${$quiz_id}->name,'header',$theme_args);
+    echo "<h1>".${$quiz_id}->name."</h1>";
+    ${$quiz_id}->show_results_table($pguser);
 }
 else
 {
   theme(_('Interactive Quizzes'),'header',$theme_args);
   echo "<h1>Interactive Quizzes</h1>
         <p>Welcome to $site_abbreviation's interactive quizzes! The following quizzes are available:</p>";
-  foreach ($defined_quizzes as $quiz)
+  foreach ($valid_quiz_ids as $quiz_id)
   {
-    ${$quiz}->show_results_table($pguser);
+    ${$quiz_id}->show_results_table($pguser);
   }
 }
 
