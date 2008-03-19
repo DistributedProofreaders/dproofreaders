@@ -2,6 +2,12 @@
 $relPath="./../pinc/";
 include_once($relPath.'site_vars.php');
 include($relPath.'connect.inc');
+include_once($relPath.'misc.inc');
+
+// check that caller is localhost or bail
+if(!requester_is_localhost())
+    die("You are not authorized to perform this request.");
+
 $db_Connection=new dbConnect();
 
 if (!$site_supports_metadata)

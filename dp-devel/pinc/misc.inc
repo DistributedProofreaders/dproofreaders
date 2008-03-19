@@ -454,5 +454,21 @@ function factor_strings( $strings )
 	return array( $left_common, $middles, $right_common );
 }
 
+// -----------------------------------------------------------------------------
+
+function requester_is_localhost()
+// function to determine if page requester is from localhost
+{
+    if($_SERVER['REMOTE_ADDR'] == '127.0.0.1' ||
+        $_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR'])
+    {
+        return TRUE;
+    }
+    else
+    {
+        return FALSE;
+    }
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>

@@ -2,6 +2,12 @@
 $relPath='./../pinc/';
 include($relPath.'dpsql.inc');
 include($relPath.'connect.inc');
+include_once($relPath.'misc.inc');
+
+// check that caller is localhost or bail
+if(!requester_is_localhost())
+    die("You are not authorized to perform this request.");
+
 new dbConnect();
 
 $res = dpsql_query("

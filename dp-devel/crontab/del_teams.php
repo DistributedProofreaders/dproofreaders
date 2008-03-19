@@ -1,6 +1,11 @@
 <?
 $relPath="./../pinc/";
 include($relPath.'dp_main.inc');
+include_once($relPath.'misc.inc');
+
+// check that caller is localhost or bail
+if(!requester_is_localhost())
+    die("You are not authorized to perform this request.");
 
 $old_date = time() - 7776000;
     
