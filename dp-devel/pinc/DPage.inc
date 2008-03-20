@@ -23,6 +23,7 @@ function project_allow_pages( $projectid )
             {$round->time_column_name}   int(20)     NOT NULL default '0',
             {$round->user_column_name}   varchar(25) NOT NULL default '',
             {$round->text_column_name}   longtext    NOT NULL,
+            INDEX {$round->user_column_name} ( {$round->user_column_name} ),
         ";
     }
 
