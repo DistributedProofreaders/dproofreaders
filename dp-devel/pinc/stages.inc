@@ -458,7 +458,7 @@ function round_project_listing_presort( $round )
 {
     return "
         (difficulty = 'beginner') DESC,
-        (nameofwork LIKE '%Newcomers Only%') DESC
+        (nameofwork LIKE '%Newcomers Only%' OR nameofwork LIKE '%Rapid Review%') DESC
     ";
 }
 
