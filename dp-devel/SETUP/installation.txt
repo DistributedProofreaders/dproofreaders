@@ -29,8 +29,14 @@ assuming it isn't already.
         Enable YAZ if you want to be able to do external catalog searches when
             creating projects.
         Enable the CLI for running cron jobs and future upgrade scripts.
-        Make sure that magic_quotes_gpc in your php.ini is set to On.
-        
+
+        php.ini:
+            magic_quotes_gpc = On
+                Needed for some scripts. (We should try to eliminate this.)
+            session.gc_probability = 1 (or something other than zero)
+                Needed to trigger garbage collection in 'sessions' table
+                if _USE_PHP_SESSIONS=TRUE in your DP config file.
+
 --- Install MySQL.
         Version: We know that our queries work on 4.0.24 and 5.0.22.
         We believe that they'll work on any version from 4.0.0 up.
