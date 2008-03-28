@@ -144,9 +144,9 @@ If you need to change either of these files, seek help from a Site Admin.
 
 <p>
 If you do not have a sandbox set up on the test host
-and would like one, please send a request to dphelp.
+ and would like one, please send a request to the Site Admins.
 An account will be created for you and information provided
-to help you through the remaining setup.
+ to help you through the remaining setup.
 </p>
 
 <p>
@@ -235,7 +235,7 @@ However, leave them open and at 90% progress
 <li>
 <p>
 If your change warrants immediate <b>installation on the production site</b>,
- contact an Site Admin,
+ contact a Site Admin,
  and they can make your change visible to the DP community.
 The associated tasks can then be closed in the Task Center.
 </p>
