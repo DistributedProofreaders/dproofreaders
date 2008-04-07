@@ -268,7 +268,7 @@ assuming it isn't already.
 
         mysql> UPDATE users SET sitemanager = "yes" WHERE username = "your_username";
 
---- Define project queues...
+--- Do various things described in ./site_admin_notes.txt
 
 --- Install the modified SETUP/dp.cron.
     The dp.cron contains entries for various processes necessary for site
