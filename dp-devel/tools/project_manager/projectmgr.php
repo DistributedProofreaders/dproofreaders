@@ -274,6 +274,15 @@ $widgets = array(
         'q_contrib'  => array('checkedoutby', 'LIKE'),
     )),
     new Widget( array(
+        'id'           => 'postednum',
+        'label'        => _('PG etext number'),
+        'type'         => 'text',
+        'can_be_multiple' => TRUE,
+        'separator'  => '[\s,;]+',
+        'q_part'       => 'WHERE',
+        'q_contrib'    => array('postednum', '='),
+    )),
+    new Widget( array(
         'id'           => 'state',
         'label'        => _('State'),
         'type'         => 'select',
@@ -366,9 +375,9 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         </tr>
         </table>
         </form>
-        "._("For terms that you type in, matching is case-insensitive and unanchored; so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'.")."
+        "._("For terms that you type in, matching is case-insensitive and unanchored; so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'. This doesn't apply to PG etext numbers, for which you should type in the complete number.")."
         <br><br>
-        "._('"(list ok)": You can search by multiple ProjectIDs at once: enter the list of ProjectIDs, separated by commas, semicolons, or spaces.')."
+        "._('"(list ok)": You can search by multiple ProjectIDs or PG etext numbers at once: enter the list of ProjectIDs or PG etext numbers, separated by commas, semicolons, or spaces.')."
         <br><br>
         "._('"(multi-select)": If desired, you should be able to select multiple values for Language, Difficulty, Special Day, or State (e.g., by holding down Ctrl).')."
         </center>
