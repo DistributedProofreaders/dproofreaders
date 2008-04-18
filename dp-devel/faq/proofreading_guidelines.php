@@ -33,11 +33,16 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <h4>Proofreading Guidelines <a href="proofreading_guidelines_francaises.php">in French</a> /
-    Directives de Relecture et Correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br />
-	Proofreading Guidelines <a href="proofreading_guidelines_portuguese.php">in Portuguese</a> /
-    Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br />
-        Proofreading Guidelines <a href="proofreading_guidelines_spanish.php">in Spanish</a> /
-    Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en Espa&ntilde;ol</a></h4>
+      Directives de Relecture et Correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br />
+    Proofreading Guidelines <a href="proofreading_guidelines_portuguese.php">in Portuguese</a> /
+      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br />
+    Proofreading Guidelines <a href="proofreading_guidelines_spanish.php">in Spanish</a> /
+      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br />
+    Proofreading Guidelines <a href="proofreading_guidelines_dutch.php">in Dutch</a> /
+      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br />
+    Proofreading Guidelines <a href="proofreading_guidelines_german.php">in German</a> /
+      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br />
+</h4>
 
 <h4>Check out the <a href="../quiz/start.php">Proofreading Quiz and Tutorial</a></h4>
 

@@ -33,10 +33,14 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <h4>Formatting Guidelines <a href="formatting_guidelines_francaises.php">in French</a> /
-    Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a><br />
-	Formatting Guidelines <a href="formatting_guidelines_portuguese.php">in Portuguese</a> /
-    Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_portuguese.php">em Portugu&ecirc;s</a><br />
-	</h4>
+      Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a><br />
+    Formatting Guidelines <a href="formatting_guidelines_portuguese.php">in Portuguese</a> /
+      Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_portuguese.php">em Portugu&ecirc;s</a><br />
+    Formatting Guidelines <a href="formatting_guidelines_dutch.php">in Dutch</a> /
+      Formatteer-Richtlijnen <a href="formatting_guidelines_dutch.php">in het Nederlands</a><br />
+    Formatting Guidelines <a href="formatting_guidelines_german.php">in German</a> /
+      Formatierungsrichtlinien <a href="formatting_guidelines_german.php">auf Deutsch</a><br />
+</h4>
 
 <h4>Check out the <a href="../quiz/start.php?show_only=FQ">Formatting Quiz</a>!</h4>
 
