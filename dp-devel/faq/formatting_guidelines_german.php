@@ -33,7 +33,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   <a href="dochist.php"><font size="-1">(&Uuml;berarbeitungsverlauf)</font></a></h3>
 
 <h4>Formatierungsrichtlinien <a href="document.php">auf Englisch</a> /
-      Formatting Guidelines <a href="formatting_guidelines.php">in English</a> <br />
+      Formatting Guidelines <a href="document.php">in English</a> <br />
     Formatierungsrichtlinien <a href="formatting_guidelines_francaises.php">auf Franz&ouml;sisch</a> /
       Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a><br />
     Formatierungsrichtlinien <a href="formatting_guidelines_portuguese.php">auf Portugiesisch</a> /
