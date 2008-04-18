@@ -5,6 +5,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'links.inc');
+include_once("DifferenceEngineWrapper.inc");
 
 $projectid   = $_GET['project'];
 $image       = $_GET['image'];
@@ -65,7 +66,7 @@ $title = sprintf( _('Difference for page %s'), $image );
 $image_url = "$code_url/tools/project_manager/displayimage.php?project=$projectid&amp;imagefile=$image";
 $image_link = sprintf( _('Difference for page %s'), new_window_link($image_url, $image));
 $no_stats = 1;
-$extra_args = array("css_data" => "span.custom_font {font-family: DPCustomMono2, Courier New, monospace;}");
+$extra_args = array("css_data" => get_DifferenceEngine_stylesheet());
 theme("$title: $project_title", "header", $extra_args);
 
 echo "<h1>$project_title</h1>\n";
@@ -82,25 +83,9 @@ echo "<br>\n";
 
 // ---------------------------------------------------------
 
-class OutputPage {
-    function addHTML($text) {
-        echo $text;
-    }
-}
+$diffEngine = new DifferenceEngineWrapper();
 
-function wfMsg($key) {
-    return ($key=="lineno")?_("Line $1"):$key;
-}
-
-$wgOut=new Outputpage();
-
-include("DifferenceEngine.inc");
-DifferenceEngine::showDiff(
-    $L_text,
-    $R_text,
-    $L_label,
-    $R_label
-);
+$diffEngine->showDiff($L_text, $R_text, $L_label, $R_label);
 
 theme("", "footer");
 
