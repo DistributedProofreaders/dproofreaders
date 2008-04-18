@@ -1,6 +1,6 @@
 <?
 // This file allows us (PGDP) to use DifferenceEngine.php from WikiMedia
-// without any content modification, which should make it easier
+// without any* content modification, which should make it easier
 // to upgrade when WikiMedia publishes a new version of the file.
 //
 // When upgrading the version of DifferenceEngine.php, ensure that the
@@ -9,8 +9,16 @@
 // Note that the WikiMedia version of the file has a .php extension
 // whereas the PGDP version has an .inc extension.
 
+// * This file was originally designed to work with DifferenceEngine.php
+// rev 33518 but that version requires PHP 5 and we rolled back to
+// rev 15532 as the current codebase should work on PHP 4.
+// When minimum level of PHP is brought back to 5 for the PGDP codebase,
+// rev 33518, and possibly later, can be used. Until then
+// DifferenceEngine.inc has to be updated and the include("Revisin.inc")
+// commented out.
+
 // DifferenceEngine lifted from WikiMedia:
-//   includes/DifferenceEngine.php rev 33518
+//   mediawiki/trunk/phase3/includes/DifferenceEngine.php rev 15532
 include_once("DifferenceEngine.inc");
 
 // non-object global variables
@@ -91,7 +99,7 @@ if(!class_exists("Xml")) {
 }
 
 // stylesheet lifted from WikiMedia:
-//   skins/common/diff.css rev 33518
+//   mediawiki/trunk/phase3/skins/common/diff.css rev 33518
 // and customized for PGDP
 function get_DifferenceEngine_stylesheet() {
     return "
@@ -140,24 +148,16 @@ td.diff-context {
 .diffchange-inline {
     border: 1px dotted red;
 }
-
 table.diff {
     border: none;
-    width: 98%;
     border-spacing: 4px;
-    
-    /* Fixed layout is required to ensure that cells containing long URLs
-       don't widen in Safari, Internet Explorer, or iCab */
-    table-layout: fixed;
 }
 table.diff td {
     padding: 0;
 }
 table.diff col.diff-marker {
-    width: 2%;
 }
 table.diff col.diff-content {
-    width: 48%;
 }
 table.diff td div {
     /* Force-wrap very long lines such as URLs or page-widening char strings.

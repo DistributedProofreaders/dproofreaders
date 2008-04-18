@@ -1,26 +1,25 @@
 <?php
 /**
  * See diff.doc
- * @todo indicate where diff.doc can be found.
- * @addtogroup DifferenceEngine
+ * @package MediaWiki
+ * @subpackage DifferenceEngine
  */
 
-/**
- * Constant to indicate diff cache compatibility.
- * Bump this when changing the diff formatting in a way that
- * fixes important bugs or such to force cached diff views to
- * clear.
- */
-define( 'MW_DIFF_VERSION', '1.11a' );
+/** */
+//require_once( 'Revision.php' );
+
+define( 'MAX_DIFF_LINE', 10000 );
+define( 'MAX_DIFF_XREF_LENGTH', 10000 );
 
 /**
  * @todo document
- * @public
- * @addtogroup DifferenceEngine
+ * @access public
+ * @package MediaWiki
+ * @subpackage DifferenceEngine
  */
 class DifferenceEngine {
 	/**#@+
-	 * @private
+	 * @access private
 	 */
 	var $mOldid, $mNewid, $mTitle;
 	var $mOldtitle, $mNewtitle, $mPagetitle;
@@ -34,13 +33,12 @@ class DifferenceEngine {
 
 	/**
 	 * Constructor
-	 * @param $titleObj Title object that the diff is associated with
-	 * @param $old Integer: old ID we want to show and diff with.
-	 * @param $new String: either 'prev' or 'next'.
-	 * @param $rcid Integer: ??? FIXME (default 0)
-	 * @param $refreshCache boolean If set, refreshes the diff cache
+	 * @param Title $titleObj Title object that the diff is associated with
+	 * @param integer $old Old ID we want to show and diff with.
+	 * @param string $new Either 'prev' or 'next'.
+	 * @param integer $rcid ??? (default 0)
 	 */
-	function __construct( $titleObj = null, $old = 0, $new = 0, $rcid = 0, $refreshCache = false ) {
+	function DifferenceEngine( $titleObj = null, $old = 0, $new = 0, $rcid = 0 ) {
 		$this->mTitle = $titleObj;
 		wfDebug("DifferenceEngine old '$old' new '$new' rcid '$rcid'\n");
 
@@ -69,12 +67,12 @@ class DifferenceEngine {
 			$this->mNewid = intval($new);
 		}
 		$this->mRcidMarkPatrolled = intval($rcid);  # force it to be an integer
-		$this->mRefreshCache = $refreshCache;
 	}
 
-	function showDiffPage( $diffOnly = false ) {
-		global $wgUser, $wgOut, $wgUseExternalEditor, $wgUseRCPatrol;
-		wfProfileIn( __METHOD__ );
+	function showDiffPage() {
+		global $wgUser, $wgOut, $wgContLang, $wgUseExternalEditor, $wgUseRCPatrol;
+		$fname = 'DifferenceEngine::showDiffPage';
+		wfProfileIn( $fname );
 
 	 	# If external diffs are enabled both globally and for the user,
 		# we'll use the application/x-external-editor interface to call
@@ -105,17 +103,17 @@ CONTROL;
 			return;
 		}
 
+		$t = $this->mTitle->getPrefixedText() . " (Diff: {$this->mOldid}, " .
+		  "{$this->mNewid})";
+		$mtext = wfMsg( 'missingarticle', "<nowiki>$t</nowiki>" );
+
 		$wgOut->setArticleFlag( false );
 		if ( ! $this->loadRevisionData() ) {
-			$t = $this->mTitle->getPrefixedText() . " (Diff: {$this->mOldid}, {$this->mNewid})";
 			$wgOut->setPagetitle( wfMsg( 'errorpagetitle' ) );
-			$wgOut->addWikiMsg( 'missingarticle', "<nowiki>$t</nowiki>" );
-			wfProfileOut( __METHOD__ );
+			$wgOut->addWikitext( $mtext );
+			wfProfileOut( $fname );
 			return;
 		}
-
-		wfRunHooks( 'DiffViewHeader', array( $this, $this->mOldRev, $this->mNewRev ) );
-
 		if ( $this->mNewRev->isCurrent() ) {
 			$wgOut->setArticleFlag( true );
 		}
@@ -125,8 +123,7 @@ CONTROL;
 		# is the first version of that article. In that case, V' does not exist.
 		if ( $this->mOldid === false ) {
 			$this->showFirstRevision();
-			$this->renderNewRevision();  // should we respect $diffOnly here or not?
-			wfProfileOut( __METHOD__ );
+			wfProfileOut( $fname );
 			return;
 		}
 
@@ -140,59 +137,30 @@ CONTROL;
 			$wgOut->setPageTitle( $oldTitle . ', ' . $newTitle );
 		}
 		$wgOut->setSubtitle( wfMsg( 'difference' ) );
-		$wgOut->setRobotpolicy( 'noindex,nofollow' );
+		$wgOut->setRobotpolicy( 'noindex,follow' );
 
 		if ( !( $this->mOldPage->userCanRead() && $this->mNewPage->userCanRead() ) ) {
 			$wgOut->loginToUse();
 			$wgOut->output();
-			wfProfileOut( __METHOD__ );
+			wfProfileOut( $fname );
 			exit;
 		}
 
 		$sk = $wgUser->getSkin();
+		$talk = $wgContLang->getNsText( NS_TALK );
+		$contribs = wfMsg( 'contribslink' );
 
 		if ( $this->mNewRev->isCurrent() && $wgUser->isAllowed('rollback') ) {
-			$rollback = '&nbsp;&nbsp;&nbsp;' . $sk->generateRollback( $this->mNewRev );
+			$username = $this->mNewRev->getUserText();
+			$rollback = '&nbsp;&nbsp;&nbsp;<strong>[' . $sk->makeKnownLinkObj( $this->mTitle, wfMsg( 'rollbacklink' ),
+				'action=rollback&from=' . urlencode( $username ) .
+				'&token=' . urlencode( $wgUser->editToken( array( $this->mTitle->getPrefixedText(), $username ) ) ) ) .
+				']</strong>';
 		} else {
 			$rollback = '';
 		}
-
-		// Prepare a change patrol link, if applicable
-		if( $wgUseRCPatrol && $wgUser->isAllowed( 'patrol' ) ) {
-			// If we've been given an explicit change identifier, use it; saves time
-			if( $this->mRcidMarkPatrolled ) {
-				$rcid = $this->mRcidMarkPatrolled;
-			} else {
-				// Look for an unpatrolled change corresponding to this diff
-				$db = wfGetDB( DB_SLAVE );
-				$change = RecentChange::newFromConds(
-					array(
-						// Add redundant user,timestamp condition so we can use the existing index
-						'rc_user_text'  => $this->mNewRev->getRawUserText(),
-						'rc_timestamp' => $db->timestamp( $this->mNewRev->getTimestamp() ),
-						'rc_this_oldid' => $this->mNewid,
-						'rc_last_oldid' => $this->mOldid,
-						'rc_patrolled' => 0
-					),
-					__METHOD__
-				);
-				if( $change instanceof RecentChange ) {
-					$rcid = $change->mAttribs['rc_id'];
-				} else {
-					// None found
-					$rcid = 0;
-				}
-			}
-			// Build the link
-			if( $rcid ) {
-				$patrol = ' <span class="patrollink">[' . $sk->makeKnownLinkObj(
-					$this->mTitle,
-					wfMsgHtml( 'markaspatrolleddiff' ),
-					"action=markpatrolled&rcid={$rcid}"
-				) . ']</span>';
-			} else {
-				$patrol = '';
-			}
+		if( $wgUseRCPatrol && $this->mRcidMarkPatrolled != 0 && $wgUser->isAllowed( 'patrol' ) ) {
+			$patrol = ' [' . $sk->makeKnownLinkObj( $this->mTitle, wfMsg( 'markaspatrolleddiff' ), "action=markpatrolled&rcid={$this->mRcidMarkPatrolled}" ) . ']';
 		} else {
 			$patrol = '';
 		}
@@ -200,119 +168,39 @@ CONTROL;
 		$prevlink = $sk->makeKnownLinkObj( $this->mTitle, wfMsgHtml( 'previousdiff' ),
 			'diff=prev&oldid='.$this->mOldid, '', '', 'id="differences-prevlink"' );
 		if ( $this->mNewRev->isCurrent() ) {
-			$nextlink = '&nbsp;';
+			$nextlink = '';
 		} else {
 			$nextlink = $sk->makeKnownLinkObj( $this->mTitle, wfMsgHtml( 'nextdiff' ),
 				'diff=next&oldid='.$this->mNewid, '', '', 'id="differences-nextlink"' );
 		}
 
-		$oldminor = '';
-		$newminor = '';
-
-		if ($this->mOldRev->mMinorEdit == 1) {
-			$oldminor = Xml::span( wfMsg( 'minoreditletter'), 'minor' ) . ' ';
-		}
-
-		if ($this->mNewRev->mMinorEdit == 1) {
-			$newminor = Xml::span( wfMsg( 'minoreditletter'), 'minor' ) . ' ';
-		}
-
-		$rdel = ''; $ldel = '';
-		if( $wgUser->isAllowed( 'deleterevision' ) ) {
-			$revdel = SpecialPage::getTitleFor( 'Revisiondelete' );
-			if( !$this->mOldRev->userCan( Revision::DELETED_RESTRICTED ) ) {
-			// If revision was hidden from sysops
-				$ldel = wfMsgHtml('rev-delundel');
-			} else {
-				$ldel = $sk->makeKnownLinkObj( $revdel,
-					wfMsgHtml('rev-delundel'),
-					'target=' . urlencode( $this->mOldRev->mTitle->getPrefixedDbkey() ) .
-					'&oldid=' . urlencode( $this->mOldRev->getId() ) );
-				// Bolden oversighted content
-				if( $this->mOldRev->isDeleted( Revision::DELETED_RESTRICTED ) )
-					$ldel = "<strong>$ldel</strong>";
-			}
-			$ldel = "&nbsp;&nbsp;&nbsp;<tt>(<small>$ldel</small>)</tt> ";
-			// We don't currently handle well changing the top revision's settings
-			if( $this->mNewRev->isCurrent() ) {
-			// If revision was hidden from sysops
-				$rdel = wfMsgHtml('rev-delundel');
-			} else if( !$this->mNewRev->userCan( Revision::DELETED_RESTRICTED ) ) {
-			// If revision was hidden from sysops
-				$rdel = wfMsgHtml('rev-delundel');
-			} else {
-				$rdel = $sk->makeKnownLinkObj( $revdel,
-					wfMsgHtml('rev-delundel'),
-					'target=' . urlencode( $this->mNewRev->mTitle->getPrefixedDbkey() ) .
-					'&oldid=' . urlencode( $this->mNewRev->getId() ) );
-				// Bolden oversighted content
-				if( $this->mNewRev->isDeleted( Revision::DELETED_RESTRICTED ) )
-					$rdel = "<strong>$rdel</strong>";
-			}
-			$rdel = "&nbsp;&nbsp;&nbsp;<tt>(<small>$rdel</small>)</tt> ";
-		}
-
-		$oldHeader = '<div id="mw-diff-otitle1"><strong>'.$this->mOldtitle.'</strong></div>' .
-			'<div id="mw-diff-otitle2">' . $sk->revUserTools( $this->mOldRev, true ) . "</div>" .
-			'<div id="mw-diff-otitle3">' . $oldminor . $sk->revComment( $this->mOldRev, !$diffOnly, true ) . $ldel . "</div>" .
-			'<div id="mw-diff-otitle4">' . $prevlink .'</div>';
-		$newHeader = '<div id="mw-diff-ntitle1"><strong>'.$this->mNewtitle.'</strong></div>' .
-			'<div id="mw-diff-ntitle2">' . $sk->revUserTools( $this->mNewRev, true ) . " $rollback</div>" .
-			'<div id="mw-diff-ntitle3">' . $newminor . $sk->revComment( $this->mNewRev, !$diffOnly, true ) . $rdel . "</div>" .
-			'<div id="mw-diff-ntitle4">' . $nextlink . $patrol . '</div>';
+		$oldHeader = "<strong>{$this->mOldtitle}</strong><br />" .
+			$sk->revUserTools( $this->mOldRev ) . "<br />" .
+			$sk->revComment( $this->mOldRev ) . "<br />" .
+			$prevlink;
+		$newHeader = "<strong>{$this->mNewtitle}</strong><br />" .
+			$sk->revUserTools( $this->mNewRev ) . " $rollback<br />" .
+			$sk->revComment( $this->mNewRev ) . "<br />" .
+			$nextlink . $patrol;
 
 		$this->showDiff( $oldHeader, $newHeader );
-
-		if ( !$diffOnly )
-			$this->renderNewRevision();
-
-		wfProfileOut( __METHOD__ );
-	}
-
-	/**
-	 * Show the new revision of the page.
-	 */
-	function renderNewRevision() {
-		global $wgOut;
-		wfProfileIn( __METHOD__ );
-
 		$wgOut->addHTML( "<hr /><h2>{$this->mPagetitle}</h2>\n" );
-		#add deleted rev tag if needed
-		if( !$this->mNewRev->userCan(Revision::DELETED_TEXT) ) {
-		  	$wgOut->addWikiMsg( 'rev-deleted-text-permission' );
-		} else if( $this->mNewRev->isDeleted(Revision::DELETED_TEXT) ) {
-		  	$wgOut->addWikiMsg( 'rev-deleted-text-view' );
-		}
 
 		if( !$this->mNewRev->isCurrent() ) {
-			$oldEditSectionSetting = $wgOut->parserOptions()->setEditSection( false );
+			$oldEditSectionSetting = $wgOut->mParserOptions->setEditSection( false );
 		}
 
 		$this->loadNewText();
 		if( is_object( $this->mNewRev ) ) {
 			$wgOut->setRevisionId( $this->mNewRev->getId() );
 		}
-
-		if ($this->mTitle->isCssJsSubpage() || $this->mTitle->isCssOrJsPage()) {
-			// Stolen from Article::view --AG 2007-10-11
-
-			// Give hooks a chance to customise the output
-			if( wfRunHooks( 'ShowRawCssJs', array( $this->mNewtext, $this->mTitle, $wgOut ) ) ) {
-				// Wrap the whole lot in a <pre> and don't parse
-				$m = array();
-				preg_match( '!\.(css|js)$!u', $this->mTitle->getText(), $m );
-				$wgOut->addHtml( "<pre class=\"mw-code mw-{$m[1]}\" dir=\"ltr\">\n" );
-				$wgOut->addHtml( htmlspecialchars( $this->mNewtext ) );
-				$wgOut->addHtml( "\n</pre>\n" );
-			}
-		} else
-			$wgOut->addWikiTextTidy( $this->mNewtext );
+		$wgOut->addSecondaryWikiText( $this->mNewtext );
 
 		if( !$this->mNewRev->isCurrent() ) {
-			$wgOut->parserOptions()->setEditSection( $oldEditSectionSetting );
+			$wgOut->mParserOptions->setEditSection( $oldEditSectionSetting );
 		}
 
-		wfProfileOut( __METHOD__ );
+		wfProfileOut( $fname );
 	}
 
 	/**
@@ -321,16 +209,19 @@ CONTROL;
 	 */
 	function showFirstRevision() {
 		global $wgOut, $wgUser;
-		wfProfileIn( __METHOD__ );
+
+		$fname = 'DifferenceEngine::showFirstRevision';
+		wfProfileIn( $fname );
 
 		# Get article text from the DB
 		#
 		if ( ! $this->loadNewText() ) {
 			$t = $this->mTitle->getPrefixedText() . " (Diff: {$this->mOldid}, " .
 			  "{$this->mNewid})";
+			$mtext = wfMsg( 'missingarticle', "<nowiki>$t</nowiki>" );
 			$wgOut->setPagetitle( wfMsg( 'errorpagetitle' ) );
-			$wgOut->addWikiMsg( 'missingarticle', "<nowiki>$t</nowiki>" );
-			wfProfileOut( __METHOD__ );
+			$wgOut->addWikitext( $mtext );
+			wfProfileOut( $fname );
 			return;
 		}
 		if ( $this->mNewRev->isCurrent() ) {
@@ -342,7 +233,7 @@ CONTROL;
 		if ( !( $this->mTitle->userCanRead() ) ) {
 			$wgOut->loginToUse();
 			$wgOut->output();
-			wfProfileOut( __METHOD__ );
+			wfProfileOut( $fname );
 			exit;
 		}
 
@@ -361,7 +252,16 @@ CONTROL;
 		$wgOut->setSubtitle( wfMsg( 'difference' ) );
 		$wgOut->setRobotpolicy( 'noindex,nofollow' );
 
-		wfProfileOut( __METHOD__ );
+
+		# Show current revision
+		#
+		$wgOut->addHTML( "<hr /><h2>{$this->mPagetitle}</h2>\n" );
+		if( is_object( $this->mNewRev ) ) {
+			$wgOut->setRevisionId( $this->mNewRev->getId() );
+		}
+		$wgOut->addSecondaryWikiText( $this->mNewtext );
+
+		wfProfileOut( $fname );
 	}
 
 	/**
@@ -372,82 +272,60 @@ CONTROL;
 		global $wgOut;
 		$diff = $this->getDiff( $otitle, $ntitle );
 		if ( $diff === false ) {
-			$wgOut->addWikiMsg( 'missingarticle', "<nowiki>(fixme, bug)</nowiki>" );
+			$wgOut->addWikitext( wfMsg( 'missingarticle', "<nowiki>(fixme, bug)</nowiki>" ) );
 			return false;
 		} else {
-			$this->showDiffStyle();
 			$wgOut->addHTML( $diff );
 			return true;
 		}
 	}
 
 	/**
-	 * Add style sheets and supporting JS for diff display.
-	 */
-	function showDiffStyle() {
-		global $wgStylePath, $wgStyleVersion, $wgOut;
-		$wgOut->addStyle( 'common/diff.css' );
-
-		// JS is needed to detect old versions of Mozilla to work around an annoyance bug.
-		$wgOut->addScript( "<script type=\"text/javascript\" src=\"$wgStylePath/common/diff.js?$wgStyleVersion\"></script>" );
-	}
-
-	/**
-	 * Get complete diff table, including header
-	 *
-	 * @param Title $otitle Old title
-	 * @param Title $ntitle New title
-	 * @return mixed
+	 * Get diff table, including header
+	 * Note that the interface has changed, it's no longer static.
+	 * Returns false on error
 	 */
 	function getDiff( $otitle, $ntitle ) {
 		$body = $this->getDiffBody();
 		if ( $body === false ) {
 			return false;
 		} else {
-			$multi = $this->getMultiNotice();
-			return $this->addHeader( $body, $otitle, $ntitle, $multi );
+			return $this->addHeader( $body, $otitle, $ntitle );
 		}
 	}
 
 	/**
 	 * Get the diff table body, without header
-	 *
-	 * @return mixed
+	 * Results are cached
+	 * Returns false on error
 	 */
 	function getDiffBody() {
-		global $wgMemc;
-		wfProfileIn( __METHOD__ );
-		// Check if the diff should be hidden from this user
-		if ( $this->mOldRev && !$this->mOldRev->userCan(Revision::DELETED_TEXT) ) {
-		  	return '';
-		} else if ( $this->mNewRev && !$this->mNewRev->userCan(Revision::DELETED_TEXT) ) {
-		  	return '';
-		}
+		global $wgMemc, $wgDBname;
+		$fname = 'DifferenceEngine::getDiffBody';
+		wfProfileIn( $fname );
+		
 		// Cacheable?
 		$key = false;
 		if ( $this->mOldid && $this->mNewid ) {
-			$key = wfMemcKey( 'diff', 'version', MW_DIFF_VERSION, 'oldid', $this->mOldid, 'newid', $this->mNewid );
 			// Try cache
-			if ( !$this->mRefreshCache ) {
-				$difftext = $wgMemc->get( $key );
-				if ( $difftext ) {
-					wfIncrStats( 'diff_cache_hit' );
-					$difftext = $this->localiseLineNumbers( $difftext );
-					$difftext .= "\n<!-- diff cache key $key -->\n";
-					wfProfileOut( __METHOD__ );
-					return $difftext;
-				}
-			} // don't try to load but save the result
+			$key = "$wgDBname:diff:oldid:{$this->mOldid}:newid:{$this->mNewid}";
+			$difftext = $wgMemc->get( $key );
+			if ( $difftext ) {
+				wfIncrStats( 'diff_cache_hit' );
+				$difftext = $this->localiseLineNumbers( $difftext );
+				$difftext .= "\n<!-- diff cache key $key -->\n";
+				wfProfileOut( $fname );
+				return $difftext;
+			}
 		}
 
-		// Loadtext is permission safe, this just clears out the diff
 		if ( !$this->loadText() ) {
-			wfProfileOut( __METHOD__ );
+			wfProfileOut( $fname );
 			return false;
 		}
 
 		$difftext = $this->generateDiffBody( $this->mOldtext, $this->mNewtext );
-
+		
 		// Save to cache for 7 days
 		if ( $key !== false && $difftext !== false ) {
 			wfIncrStats( 'diff_cache_miss' );
@@ -459,7 +337,7 @@ CONTROL;
 		if ( $difftext !== false ) {
 			$difftext = $this->localiseLineNumbers( $difftext );
 		}
-		wfProfileOut( __METHOD__ );
+		wfProfileOut( $fname );
 		return $difftext;
 	}
 
@@ -469,10 +347,11 @@ CONTROL;
 	 */
 	function generateDiffBody( $otext, $ntext ) {
 		global $wgExternalDiffEngine, $wgContLang;
+		$fname = 'DifferenceEngine::generateDiffBody';
 
 		$otext = str_replace( "\r\n", "\n", $otext );
 		$ntext = str_replace( "\r\n", "\n", $ntext );
-
+		
 		if ( $wgExternalDiffEngine == 'wikidiff' ) {
 			# For historical reasons, external diff engine expects
 			# input text to be HTML-escaped already
@@ -483,14 +362,14 @@ CONTROL;
 			}
 			return $wgContLang->unsegementForDiff( wikidiff_do_diff( $otext, $ntext, 2 ) );
 		}
-
+		
 		if ( $wgExternalDiffEngine == 'wikidiff2' ) {
 			# Better external diff engine, the 2 may some day be dropped
 			# This one does the escaping and segmenting itself
 			if ( !function_exists( 'wikidiff2_do_diff' ) ) {
-				wfProfileIn( __METHOD__ . "-dl" );
+				wfProfileIn( "$fname-dl" );
 				@dl('php_wikidiff2.so');
-				wfProfileOut( __METHOD__ . "-dl" );
+				wfProfileOut( "$fname-dl" );
 			}
 			if ( function_exists( 'wikidiff2_do_diff' ) ) {
 				wfProfileIn( 'wikidiff2_do_diff' );
@@ -507,12 +386,12 @@ CONTROL;
 
 			$tempFile1 = fopen( $tempName1, "w" );
 			if ( !$tempFile1 ) {
-				wfProfileOut( __METHOD__ );
+				wfProfileOut( $fname );
 				return false;
 			}
 			$tempFile2 = fopen( $tempName2, "w" );
 			if ( !$tempFile2 ) {
-				wfProfileOut( __METHOD__ );
+				wfProfileOut( $fname );
 				return false;
 			}
 			fwrite( $tempFile1, $otext );
@@ -520,22 +399,22 @@ CONTROL;
 			fclose( $tempFile1 );
 			fclose( $tempFile2 );
 			$cmd = wfEscapeShellArg( $wgExternalDiffEngine, $tempName1, $tempName2 );
-			wfProfileIn( __METHOD__ . "-shellexec" );
+			wfProfileIn( "$fname-shellexec" );
 			$difftext = wfShellExec( $cmd );
-			wfProfileOut( __METHOD__ . "-shellexec" );
+			wfProfileOut( "$fname-shellexec" );
 			unlink( $tempName1 );
 			unlink( $tempName2 );
 			return $difftext;
 		}
-
+		
 		# Native PHP diff
 		$ota = explode( "\n", $wgContLang->segmentForDiff( $otext ) );
 		$nta = explode( "\n", $wgContLang->segmentForDiff( $ntext ) );
-		$diffs = new Diff( $ota, $nta );
-		$formatter = new TableDiffFormatter();
+		$diffs =& new Diff( $ota, $nta );
+		$formatter =& new TableDiffFormatter();
 		return $wgContLang->unsegmentForDiff( $formatter->format( $diffs ) );
 	}
-
+		
 
 	/**
 	 * Replace line numbers with the text in the user's language
@@ -547,58 +426,23 @@ CONTROL;
 
 	function localiseLineNumbersCb( $matches ) {
 		global $wgLang;
-		return wfMsgExt( 'lineno', array('parseinline'), $wgLang->formatNum( $matches[1] ) );
+		return wfMsg( 'lineno', $wgLang->formatNum( $matches[1] ) );
 	}
-
-
-	/**
-	 * If there are revisions between the ones being compared, return a note saying so.
-	 */
-	function getMultiNotice() {
-		if ( !is_object($this->mOldRev) || !is_object($this->mNewRev) )
-			return '';
-
-		if( !$this->mOldPage->equals( $this->mNewPage ) ) {
-			// Comparing two different pages? Count would be meaningless.
-			return '';
-		}
-
-		$oldid = $this->mOldRev->getId();
-		$newid = $this->mNewRev->getId();
-		if ( $oldid > $newid ) {
-			$tmp = $oldid; $oldid = $newid; $newid = $tmp;
-		}
-
-		$n = $this->mTitle->countRevisionsBetween( $oldid, $newid );
-		if ( !$n )
-			return '';
-
-		return wfMsgExt( 'diff-multi', array( 'parseinline' ), $n );
-	}
-
 
 	/**
 	 * Add the header to a diff body
 	 */
-	static function addHeader( $diff, $otitle, $ntitle, $multi = '' ) {
-		global $wgOut;
-
-		$header = "
-			<table class='diff'>
-			<col class='diff-marker' />
-			<col class='diff-content' />
-			<col class='diff-marker' />
-			<col class='diff-content' />
-			<tr valign='top'>
-				<td colspan='2' class='diff-otitle'>{$otitle}</td>
-				<td colspan='2' class='diff-ntitle'>{$ntitle}</td>
+	function addHeader( $diff, $otitle, $ntitle ) {
+		$out = "
+			<table border='0' width='98%' cellpadding='0' cellspacing='4' class='diff'>
+			<tr>
+				<td colspan='2' width='50%' align='center' class='diff-otitle'>{$otitle}</td>
+				<td colspan='2' width='50%' align='center' class='diff-ntitle'>{$ntitle}</td>
 			</tr>
+			$diff
+			</table>
 		";
-
-		if ( $multi != '' )
-			$header .= "<tr><td colspan='4' align='center' class='diff-multi'>{$multi}</td></tr>";
-
-		return $header . $diff . "</table>";
+		return $out;
 	}
 
 	/**
@@ -630,41 +474,28 @@ CONTROL;
 		}
 
 		// Load the new revision object
-		$this->mNewRev = $this->mNewid
-			? Revision::newFromId( $this->mNewid )
-			: Revision::newFromTitle( $this->mTitle );
-		if( !$this->mNewRev instanceof Revision )
+		if( $this->mNewid ) {
+			$this->mNewRev = Revision::newFromId( $this->mNewid );
+		} else {
+			$this->mNewRev = Revision::newFromTitle( $this->mTitle );
+		}
+
+		if( is_null( $this->mNewRev ) ) {
 			return false;
-
-		// Update the new revision ID in case it was 0 (makes life easier doing UI stuff)
-		$this->mNewid = $this->mNewRev->getId();
-
-		// Check if page is editable
-		$editable = $this->mNewRev->getTitle()->userCan( 'edit' );
+		}
 
 		// Set assorted variables
-		$timestamp = $wgLang->timeanddate( $this->mNewRev->getTimestamp(), true );
-		$this->mNewPage = $this->mNewRev->getTitle();
 		if( $this->mNewRev->isCurrent() ) {
-			$newLink = $this->mNewPage->escapeLocalUrl();
 			$this->mPagetitle = htmlspecialchars( wfMsg( 'currentrev' ) );
-			$newEdit = $this->mNewPage->escapeLocalUrl( 'action=edit' );
-
-			$this->mNewtitle = "<a href='$newLink'>{$this->mPagetitle}</a> ($timestamp)";
-			$this->mNewtitle .= " (<a href='$newEdit'>" . wfMsgHtml( $editable ? 'editold' : 'viewsourceold' ) . "</a>)";
-
-		} else {
-			$newLink = $this->mNewPage->escapeLocalUrl( 'oldid=' . $this->mNewid );
-			$newEdit = $this->mNewPage->escapeLocalUrl( 'action=edit&oldid=' . $this->mNewid );
-			$this->mPagetitle = wfMsgHTML( 'revisionasof', $timestamp );
-
+			$this->mNewPage = $this->mTitle;
+			$newLink = $this->mNewPage->escapeLocalUrl();
 			$this->mNewtitle = "<a href='$newLink'>{$this->mPagetitle}</a>";
-			$this->mNewtitle .= " (<a href='$newEdit'>" . wfMsgHtml( $editable ? 'editold' : 'viewsourceold' ) . "</a>)";
-		}
-		if ( !$this->mNewRev->userCan(Revision::DELETED_TEXT) ) {
-		  	$this->mNewtitle = "<span class='history-deleted'>{$this->mPagetitle}</span>";
-		} else if ( $this->mNewRev->isDeleted(Revision::DELETED_TEXT) ) {
-		  	$this->mNewtitle = '<span class="history-deleted">'.$this->mNewtitle.'</span>';
+		} else {
+			$this->mNewPage = $this->mNewRev->getTitle();
+			$newLink = $this->mNewPage->escapeLocalUrl ('oldid=' . $this->mNewid );
+			$t = $wgLang->timeanddate( $this->mNewRev->getTimestamp(), true );
+			$this->mPagetitle = htmlspecialchars( wfMsg( 'revisionasof', $t ) );
+			$this->mNewtitle = "<a href='$newLink'>{$this->mPagetitle}</a>";
 		}
 
 		// Load the old revision object
@@ -692,21 +523,7 @@ CONTROL;
 
 			$t = $wgLang->timeanddate( $this->mOldRev->getTimestamp(), true );
 			$oldLink = $this->mOldPage->escapeLocalUrl( 'oldid=' . $this->mOldid );
-			$oldEdit = $this->mOldPage->escapeLocalUrl( 'action=edit&oldid=' . $this->mOldid );
-			$this->mOldPagetitle = htmlspecialchars( wfMsg( 'revisionasof', $t ) );
-
-			$this->mOldtitle = "<a href='$oldLink'>{$this->mOldPagetitle}</a>"
-				. " (<a href='$oldEdit'>" . wfMsgHtml( $editable ? 'editold' : 'viewsourceold' ) . "</a>)";
-			// Add an "undo" link
-			$newUndo = $this->mNewPage->escapeLocalUrl( 'action=edit&undoafter=' . $this->mOldid . '&undo=' . $this->mNewid);
-			if ( $editable && $this->mNewRev->userCan(Revision::DELETED_TEXT) )
-				$this->mNewtitle .= " (<a href='$newUndo'>" . htmlspecialchars( wfMsg( 'editundo' ) ) . "</a>)";
-
-			if ( !$this->mOldRev->userCan(Revision::DELETED_TEXT) ) {
-		  		$this->mOldtitle = "<span class='history-deleted'>{$this->mOldPagetitle}</span>";
-			} else if ( $this->mOldRev->isDeleted(Revision::DELETED_TEXT) ) {
-		  		$this->mOldtitle = '<span class="history-deleted">'.$this->mOldtitle.'</span>';
-			}
+			$this->mOldtitle = "<a href='$oldLink'>" . htmlspecialchars( wfMsg( 'revisionasof', $t ) ) . '</a>';
 		}
 
 		return true;
@@ -727,13 +544,14 @@ CONTROL;
 			return false;
 		}
 		if ( $this->mOldRev ) {
-			$this->mOldtext = $this->mOldRev->revText();
+			// FIXME: permission tests
+			$this->mOldtext = $this->mOldRev->getText();
 			if ( $this->mOldtext === false ) {
 				return false;
 			}
 		}
 		if ( $this->mNewRev ) {
-			$this->mNewtext = $this->mNewRev->revText();
+			$this->mNewtext = $this->mNewRev->getText();
 			if ( $this->mNewtext === false ) {
 				return false;
 			}
@@ -770,8 +588,9 @@ define('USE_ASSERTS', function_exists('assert'));
 
 /**
  * @todo document
- * @private
- * @addtogroup DifferenceEngine
+ * @access private
+ * @package MediaWiki
+ * @subpackage DifferenceEngine
  */
 class _DiffOp {
 	var $type;
@@ -793,8 +612,9 @@ class _DiffOp {
 
 /**
  * @todo document
- * @private
- * @addtogroup DifferenceEngine
+ * @access private
+ * @package MediaWiki
+ * @subpackage DifferenceEngine
  */
 class _DiffOp_Copy extends _DiffOp {
 	var $type = 'copy';
@@ -813,8 +633,9 @@ class _DiffOp_Copy extends _DiffOp {
 
 /**
  * @todo document
- * @private
- * @addtogroup DifferenceEngine
+ * @access private
+ * @package MediaWiki
+ * @subpackage DifferenceEngine
  */
 class _DiffOp_Delete extends _DiffOp {
 	var $type = 'delete';
@@ -831,8 +652,9 @@ class _DiffOp_Delete extends _DiffOp {
 
 /**
  * @todo document
- * @private
- * @addtogroup DifferenceEngine
+ * @access private
+ * @package MediaWiki
+ * @subpackage DifferenceEngine
  */
 class _DiffOp_Add extends _DiffOp {
 	var $type = 'add';
@@ -849,8 +671,9 @@ class _DiffOp_Add extends _DiffOp {
 
 /**
  * @todo document
- * @private
- * @addtogroup DifferenceEngine
+ * @access private
+ * @package MediaWiki
+ * @subpackage DifferenceEngine
  */
 class _DiffOp_Change extends _DiffOp {
 	var $type = 'change';
@@ -886,14 +709,15 @@ class _DiffOp_Change extends _DiffOp {
  * Line length limits for robustness added by Tim Starling, 2005-08-31
  *
  * @author Geoffrey T. Dairiki, Tim Starling
- * @private
- * @addtogroup DifferenceEngine
+ * @access private
+ * @package MediaWiki
+ * @subpackage DifferenceEngine
  */
-class _DiffEngine {
-	const MAX_XREF_LENGTH =  10000;
-
+class _DiffEngine
+{
 	function diff ($from_lines, $to_lines) {
-		wfProfileIn( __METHOD__ );
+		$fname = '_DiffEngine::diff';
+		wfProfileIn( $fname );
 
 		$n_from = sizeof($from_lines);
 		$n_to = sizeof($to_lines);
@@ -980,7 +804,7 @@ class _DiffEngine {
 			elseif ($add)
 				$edits[] = new _DiffOp_Add($add);
 		}
-		wfProfileOut( __METHOD__ );
+		wfProfileOut( $fname );
 		return $edits;
 	}
 
@@ -988,7 +812,7 @@ class _DiffEngine {
 	 * Returns the whole line if it's small enough, or the MD5 hash otherwise
 	 */
 	function _line_hash( $line ) {
-		if ( strlen( $line ) > self::MAX_XREF_LENGTH ) {
+		if ( strlen( $line ) > MAX_DIFF_XREF_LENGTH ) {
 			return md5( $line );
 		} else {
 			return $line;
@@ -1013,7 +837,8 @@ class _DiffEngine {
 	 * of the portions it is going to specify.
 	 */
 	function _diag ($xoff, $xlim, $yoff, $ylim, $nchunks) {
-		wfProfileIn( __METHOD__ );
+		$fname = '_DiffEngine::_diag';
+		wfProfileIn( $fname );
 		$flip = false;
 
 		if ($xlim - $xoff > $ylim - $yoff) {
@@ -1039,7 +864,7 @@ class _DiffEngine {
 		$numer = $xlim - $xoff + $nchunks - 1;
 		$x = $xoff;
 		for ($chunk = 0; $chunk < $nchunks; $chunk++) {
-			wfProfileIn( __METHOD__ . "-chunk" );
+			wfProfileIn( "$fname-chunk" );
 			if ($chunk > 0)
 				for ($i = 0; $i <= $this->lcs; $i++)
 					$ymids[$i][$chunk-1] = $this->seq[$i];
@@ -1058,7 +883,7 @@ class _DiffEngine {
 						$ymids[$k] = $ymids[$k-1];
 						break;
 					}
-				while (list ( /* $junk */, $y) = each($matches)) {
+				while (list ($junk, $y) = each($matches)) {
 					if ($y > $this->seq[$k-1]) {
 						USE_ASSERTS && assert($y < $this->seq[$k]);
 						// Optimization: this is a common case:
@@ -1073,7 +898,7 @@ class _DiffEngine {
 					}
 				}
 			}
-			wfProfileOut( __METHOD__ . "-chunk" );
+			wfProfileOut( "$fname-chunk" );
 		}
 
 		$seps[] = $flip ? array($yoff, $xoff) : array($xoff, $yoff);
@@ -1085,18 +910,19 @@ class _DiffEngine {
 		}
 		$seps[] = $flip ? array($ylim, $xlim) : array($xlim, $ylim);
 
-		wfProfileOut( __METHOD__ );
+		wfProfileOut( $fname );
 		return array($this->lcs, $seps);
 	}
 
 	function _lcs_pos ($ypos) {
-		wfProfileIn( __METHOD__ );
+		$fname = '_DiffEngine::_lcs_pos';
+		wfProfileIn( $fname );
 
 		$end = $this->lcs;
 		if ($end == 0 || $ypos > $this->seq[$end]) {
 			$this->seq[++$this->lcs] = $ypos;
 			$this->in_seq[$ypos] = 1;
-			wfProfileOut( __METHOD__ );
+			wfProfileOut( $fname );
 			return $this->lcs;
 		}
 
@@ -1114,7 +940,7 @@ class _DiffEngine {
 		$this->in_seq[$this->seq[$end]] = false;
 		$this->seq[$end] = $ypos;
 		$this->in_seq[$ypos] = 1;
-		wfProfileOut( __METHOD__ );
+		wfProfileOut( $fname );
 		return $end;
 	}
 
@@ -1130,7 +956,8 @@ class _DiffEngine {
 	 * All line numbers are origin-0 and discarded lines are not counted.
 	 */
 	function _compareseq ($xoff, $xlim, $yoff, $ylim) {
-		wfProfileIn( __METHOD__ );
+		$fname = '_DiffEngine::_compareseq';
+		wfProfileIn( $fname );
 
 		// Slide down the bottom initial diagonal.
 		while ($xoff < $xlim && $yoff < $ylim
@@ -1173,7 +1000,7 @@ class _DiffEngine {
 				$pt1 = $pt2;
 			}
 		}
-		wfProfileOut( __METHOD__ );
+		wfProfileOut( $fname );
 	}
 
 	/* Adjust inserts/deletes of identical lines to join changes
@@ -1189,7 +1016,8 @@ class _DiffEngine {
 	 * This is extracted verbatim from analyze.c (GNU diffutils-2.7).
 	 */
 	function _shift_boundaries ($lines, &$changed, $other_changed) {
-		wfProfileIn( __METHOD__ );
+		$fname = '_DiffEngine::_shift_boundaries';
+		wfProfileIn( $fname );
 		$i = 0;
 		$j = 0;
 
@@ -1294,15 +1122,16 @@ class _DiffEngine {
 				USE_ASSERTS && assert('$j >= 0 && !$other_changed[$j]');
 			}
 		}
-		wfProfileOut( __METHOD__ );
+		wfProfileOut( $fname );
 	}
 }
 
 /**
  * Class representing a 'diff' between two sequences of strings.
  * @todo document
- * @private
- * @addtogroup DifferenceEngine
+ * @access private
+ * @package MediaWiki
+ * @subpackage DifferenceEngine
  */
 class Diff
 {
@@ -1412,7 +1241,8 @@ class Diff
 	 * This is here only for debugging purposes.
 	 */
 	function _check ($from_lines, $to_lines) {
-		wfProfileIn( __METHOD__ );
+		$fname = 'Diff::_check';
+		wfProfileIn( $fname );
 		if (serialize($from_lines) != serialize($this->orig()))
 			trigger_error("Reconstructed original doesn't match", E_USER_ERROR);
 		if (serialize($to_lines) != serialize($this->closing()))
@@ -1434,14 +1264,16 @@ class Diff
 
 		$lcs = $this->lcs();
 		trigger_error('Diff okay: LCS = '.$lcs, E_USER_NOTICE);
-		wfProfileOut( __METHOD__ );
+		wfProfileOut( $fname );
 	}
 }
 
 /**
- * @todo document, bad name.
- * @private
- * @addtogroup DifferenceEngine
+ * FIXME: bad name.
+ * @todo document
+ * @access private
+ * @package MediaWiki
+ * @subpackage DifferenceEngine
  */
 class MappedDiff extends Diff
 {
@@ -1469,8 +1301,9 @@ class MappedDiff extends Diff
 	 *	have the same number of elements as $to_lines.
 	 */
 	function MappedDiff($from_lines, $to_lines,
-		$mapped_from_lines, $mapped_to_lines) {
-		wfProfileIn( __METHOD__ );
+						$mapped_from_lines, $mapped_to_lines) {
+		$fname = 'MappedDiff::MappedDiff';
+		wfProfileIn( $fname );
 
 		assert(sizeof($from_lines) == sizeof($mapped_from_lines));
 		assert(sizeof($to_lines) == sizeof($mapped_to_lines));
@@ -1491,7 +1324,7 @@ class MappedDiff extends Diff
 				$yi += sizeof($closing);
 			}
 		}
-		wfProfileOut( __METHOD__ );
+		wfProfileOut( $fname );
 	}
 }
 
@@ -1502,10 +1335,12 @@ class MappedDiff extends Diff
  * It is intended that this class be customized via inheritance,
  * to obtain fancier outputs.
  * @todo document
- * @private
- * @addtogroup DifferenceEngine
+ * @access private
+ * @package MediaWiki
+ * @subpackage DifferenceEngine
  */
-class DiffFormatter {
+class DiffFormatter
+{
 	/**
 	 * Number of leading context "lines" to preserve.
 	 *
@@ -1529,7 +1364,8 @@ class DiffFormatter {
 	 * @return string The formatted output.
 	 */
 	function format($diff) {
-		wfProfileIn( __METHOD__ );
+		$fname = 'DiffFormatter::format';
+		wfProfileIn( $fname );
 
 		$xi = $yi = 1;
 		$block = false;
@@ -1583,12 +1419,13 @@ class DiffFormatter {
 						  $block);
 
 		$end = $this->_end_diff();
-		wfProfileOut( __METHOD__ );
+		wfProfileOut( $fname );
 		return $end;
 	}
 
 	function _block($xbeg, $xlen, $ybeg, $ylen, &$edits) {
-		wfProfileIn( __METHOD__ );
+		$fname = 'DiffFormatter::_block';
+		wfProfileIn( $fname );
 		$this->_start_block($this->_block_header($xbeg, $xlen, $ybeg, $ylen));
 		foreach ($edits as $edit) {
 			if ($edit->type == 'copy')
@@ -1603,7 +1440,7 @@ class DiffFormatter {
 				trigger_error('Unknown edit type', E_USER_ERROR);
 		}
 		$this->_end_block();
-		wfProfileOut( __METHOD__ );
+		wfProfileOut( $fname );
 	}
 
 	function _start_diff() {
@@ -1626,7 +1463,7 @@ class DiffFormatter {
 	}
 
 	function _start_block($header) {
-		echo $header . "\n";
+		echo $header;
 	}
 
 	function _end_block() {
@@ -1655,89 +1492,19 @@ class DiffFormatter {
 	}
 }
 
-/**
- * A formatter that outputs unified diffs
- * @addtogroup DifferenceEngine
- */
-
-class UnifiedDiffFormatter extends DiffFormatter {
-	var $leading_context_lines = 2;
-	var $trailing_context_lines = 2;
-
-	function _added($lines) {
-		$this->_lines($lines, '+');
-	}
-	function _deleted($lines) {
-		$this->_lines($lines, '-');
-	}
-	function _changed($orig, $closing) {
-		$this->_deleted($orig);
-		$this->_added($closing);
-	}
-	function _block_header($xbeg, $xlen, $ybeg, $ylen) {
-		return "@@ -$xbeg,$xlen +$ybeg,$ylen @@";
-	}
-}
-
-/**
- * A pseudo-formatter that just passes along the Diff::$edits array
- * @addtogroup DifferenceEngine
- */
-class ArrayDiffFormatter extends DiffFormatter {
-	function format($diff) {
-		$oldline = 1;
-		$newline = 1;
-		$retval = array();
-		foreach($diff->edits as $edit)
-			switch($edit->type) {
-				case 'add':
-					foreach($edit->closing as $l) {
-						$retval[] = array(
-							'action' => 'add',
-							'new'=> $l,
-							'newline' => $newline++
-						);
-					}
-					break;
-				case 'delete':
-					foreach($edit->orig as $l) {
-						$retval[] = array(
-							'action' => 'delete',
-							'old' => $l,
-							'oldline' => $oldline++,
-						);
-					}
-					break;
-				case 'change':
-					foreach($edit->orig as $i => $l) {
-						$retval[] = array(
-							'action' => 'change',
-							'old' => $l,
-							'new' => @$edit->closing[$i],
-							'oldline' => $oldline++,
-							'newline' => $newline++,
-						);
-					}
-					break;
-				case 'copy':
-					$oldline += count($edit->orig);
-					$newline += count($edit->orig);
-			}
-		return $retval;
-	}
-}
 
 /**
  *	Additions by Axel Boldt follow, partly taken from diff.php, phpwiki-1.3.3
  *
  */
 
-define('NBSP', '&#160;'); // iso-8859-x non-breaking space.
+define('NBSP', '&#160;');			// iso-8859-x non-breaking space.
 
 /**
  * @todo document
- * @private
- * @addtogroup DifferenceEngine
+ * @access private
+ * @package MediaWiki
+ * @subpackage DifferenceEngine
  */
 class _HWLDF_WordAccumulator {
 	function _HWLDF_WordAccumulator () {
@@ -1749,12 +1516,9 @@ class _HWLDF_WordAccumulator {
 
 	function _flushGroup ($new_tag) {
 		if ($this->_group !== '') {
-			if ($this->_tag == 'ins')
-				$this->_line .= '<ins class="diffchange diffchange-inline">' .
-					htmlspecialchars ( $this->_group ) . '</ins>';
-			elseif ($this->_tag == 'del')
-				$this->_line .= '<del class="diffchange diffchange-inline">' .
-					htmlspecialchars ( $this->_group ) . '</del>';
+			if ($this->_tag == 'mark')
+				$this->_line .= '<span class="diffchange">' .
+					htmlspecialchars ( $this->_group ) . '</span>';
 			else
 				$this->_line .= htmlspecialchars ( $this->_group );
 		}
@@ -1797,25 +1561,27 @@ class _HWLDF_WordAccumulator {
 
 /**
  * @todo document
- * @private
- * @addtogroup DifferenceEngine
+ * @access private
+ * @package MediaWiki
+ * @subpackage DifferenceEngine
  */
-class WordLevelDiff extends MappedDiff {
-	const MAX_LINE_LENGTH = 10000;
-
+class WordLevelDiff extends MappedDiff
+{
 	function WordLevelDiff ($orig_lines, $closing_lines) {
-		wfProfileIn( __METHOD__ );
+		$fname = 'WordLevelDiff::WordLevelDiff';
+		wfProfileIn( $fname );
 
 		list ($orig_words, $orig_stripped) = $this->_split($orig_lines);
 		list ($closing_words, $closing_stripped) = $this->_split($closing_lines);
 
 		$this->MappedDiff($orig_words, $closing_words,
-			$orig_stripped, $closing_stripped);
-		wfProfileOut( __METHOD__ );
+						  $orig_stripped, $closing_stripped);
+		wfProfileOut( $fname );
 	}
 
 	function _split($lines) {
-		wfProfileIn( __METHOD__ );
+		$fname = 'WordLevelDiff::_split';
+		wfProfileIn( $fname );
 
 		$words = array();
 		$stripped = array();
@@ -1829,11 +1595,10 @@ class WordLevelDiff extends MappedDiff {
 				$words[] = "\n";
 				$stripped[] = "\n";
 			}
-			if ( strlen( $line ) > self::MAX_LINE_LENGTH ) {
+			if ( strlen( $line ) > MAX_DIFF_LINE ) {
 				$words[] = $line;
 				$stripped[] = $line;
 			} else {
-				$m = array();
 				if (preg_match_all('/ ( [^\S\n]+ | [0-9_A-Za-z\x80-\xff]+ | . ) (?: (?!< \n) [^\S\n])? /xs',
 					$line, $m))
 				{
@@ -1842,63 +1607,60 @@ class WordLevelDiff extends MappedDiff {
 				}
 			}
 		}
-		wfProfileOut( __METHOD__ );
+		wfProfileOut( $fname );
 		return array($words, $stripped);
 	}
 
 	function orig () {
-		wfProfileIn( __METHOD__ );
+		$fname = 'WordLevelDiff::orig';
+		wfProfileIn( $fname );
 		$orig = new _HWLDF_WordAccumulator;
 
 		foreach ($this->edits as $edit) {
 			if ($edit->type == 'copy')
 				$orig->addWords($edit->orig);
 			elseif ($edit->orig)
-				$orig->addWords($edit->orig, 'del');
+				$orig->addWords($edit->orig, 'mark');
 		}
 		$lines = $orig->getLines();
-		wfProfileOut( __METHOD__ );
+		wfProfileOut( $fname );
 		return $lines;
 	}
 
 	function closing () {
-		wfProfileIn( __METHOD__ );
+		$fname = 'WordLevelDiff::closing';
+		wfProfileIn( $fname );
 		$closing = new _HWLDF_WordAccumulator;
 
 		foreach ($this->edits as $edit) {
 			if ($edit->type == 'copy')
 				$closing->addWords($edit->closing);
 			elseif ($edit->closing)
-				$closing->addWords($edit->closing, 'ins');
+				$closing->addWords($edit->closing, 'mark');
 		}
 		$lines = $closing->getLines();
-		wfProfileOut( __METHOD__ );
+		wfProfileOut( $fname );
 		return $lines;
 	}
 }
 
 /**
- * Wikipedia Table style diff formatter.
+ *	Wikipedia Table style diff formatter.
  * @todo document
- * @private
- * @addtogroup DifferenceEngine
+ * @access private
+ * @package MediaWiki
+ * @subpackage DifferenceEngine
  */
-class TableDiffFormatter extends DiffFormatter {
+class TableDiffFormatter extends DiffFormatter
+{
 	function TableDiffFormatter() {
 		$this->leading_context_lines = 2;
 		$this->trailing_context_lines = 2;
 	}
 
-	public static function escapeWhiteSpace( $msg ) {
-		$msg = preg_replace( '/^ /m', '&nbsp; ', $msg );
-		$msg = preg_replace( '/ $/m', ' &nbsp;', $msg );
-		$msg = preg_replace( '/  /', '&nbsp; ', $msg );
-		return $msg;
-	}
-
 	function _block_header( $xbeg, $xlen, $ybeg, $ylen ) {
-		$r = '<tr><td colspan="2" class="diff-lineno"><!--LINE '.$xbeg."--></td>\n" .
-		  '<td colspan="2" class="diff-lineno"><!--LINE '.$ybeg."--></td></tr>\n";
+		$r = '<tr><td colspan="2" align="left"><strong><!--LINE '.$xbeg."--></strong></td>\n" .
+		  '<td colspan="2" align="left"><strong><!--LINE '.$ybeg."--></strong></td></tr>\n";
 		return $r;
 	}
 
@@ -1914,25 +1676,17 @@ class TableDiffFormatter extends DiffFormatter {
 
 	# HTML-escape parameter before calling this
 	function addedLine( $line ) {
-		return $this->wrapLine( '+', 'diff-addedline', $line );
+		return "<td>+</td><td class='diff-addedline'>{$line}</td>";
 	}
 
 	# HTML-escape parameter before calling this
 	function deletedLine( $line ) {
-		return $this->wrapLine( '-', 'diff-deletedline', $line );
+		return "<td>-</td><td class='diff-deletedline'>{$line}</td>";
 	}
 
 	# HTML-escape parameter before calling this
 	function contextLine( $line ) {
-		return $this->wrapLine( ' ', 'diff-context', $line );
-	}
-
-	private function wrapLine( $marker, $class, $line ) {
-		if( $line !== '' ) {
-			// The <div> wrapper is needed for 'overflow: auto' style to scroll properly
-			$line = Xml::tags( 'div', null, $this->escapeWhiteSpace( $line ) );
-		}
-		return "<td class='diff-marker'>$marker</td><td class='$class'>$line</td>";
+		return "<td> </td><td class='diff-context'>{$line}</td>";
 	}
 
 	function emptyLine() {
@@ -1942,15 +1696,13 @@ class TableDiffFormatter extends DiffFormatter {
 	function _added( $lines ) {
 		foreach ($lines as $line) {
 			echo '<tr>' . $this->emptyLine() .
-				$this->addedLine( '<ins class="diffchange">' .
-					htmlspecialchars ( $line ) . '</ins>' ) . "</tr>\n";
+				$this->addedLine( htmlspecialchars ( $line ) ) . "</tr>\n";
 		}
 	}
 
 	function _deleted($lines) {
 		foreach ($lines as $line) {
-			echo '<tr>' . $this->deletedLine( '<del class="diffchange">' .
-				htmlspecialchars ( $line ) . '</del>' ) .
+			echo '<tr>' . $this->deletedLine( htmlspecialchars ( $line ) ) .
 			  $this->emptyLine() . "</tr>\n";
 		}
 	}
@@ -1964,7 +1716,8 @@ class TableDiffFormatter extends DiffFormatter {
 	}
 
 	function _changed( $orig, $closing ) {
-		wfProfileIn( __METHOD__ );
+		$fname = 'TableDiffFormatter::_changed';
+		wfProfileIn( $fname );
 
 		$diff = new WordLevelDiff( $orig, $closing );
 		$del = $diff->orig();
@@ -1982,6 +1735,8 @@ class TableDiffFormatter extends DiffFormatter {
 			echo '<tr>' . $this->emptyLine() .
 				$this->addedLine( $line ) . "</tr>\n";
 		}
-		wfProfileOut( __METHOD__ );
+		wfProfileOut( $fname );
 	}
 }
+
+?>
