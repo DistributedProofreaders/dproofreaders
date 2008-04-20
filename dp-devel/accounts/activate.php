@@ -30,7 +30,11 @@ if (mysql_num_rows($result) == 0) {
     ") or die(mysql_error());
     if ( mysql_num_rows($res2) > 0 ) {
         echo "\n";
-        echo _("It appears that the account has already been activated (in which case, there should be an introductory email message on its way to you).");
+        echo _("It appears that the account has already been activated.");
+        echo "\n";
+        echo _("(Probably you just clicked the activation link more than once.)");
+        echo "\n";
+        echo _("There should be an introductory email message on its way to you.");
         echo "\n";
         echo _("Please enter your username and password in the fields above to login to your account.");
         echo "\n";
