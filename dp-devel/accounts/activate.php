@@ -19,10 +19,33 @@ $ID = $_GET['id'];
 $result = mysql_query("SELECT * FROM non_activated_users WHERE id='$ID'");
 
 if (mysql_num_rows($result) == 0) {
+    echo "<p>\n";
     echo sprintf(
         _("There is no account with the id '%s' waiting to be activated."),
         stripslashes($ID)
     );
+
+    $res2 = mysql_query("
+        SELECT id FROM users WHERE id='$ID'
+    ") or die(mysql_error());
+    if ( mysql_num_rows($res2) > 0 ) {
+        echo "\n";
+        echo _("It appears that the account has already been activated (in which case, there should be an introductory email message on its way to you).");
+        echo "\n";
+        echo _("Please enter your username and password in the fields above to login to your account.");
+        echo "\n";
+    }
+    else
+    {
+        echo "\n";
+        $mailto_url = "mailto:$general_help_email_addr";
+        echo sprintf(
+            _("For assistance, please contact <a href='%s'>%s</a>."),
+            $mailto_url, $general_help_email_addr );
+        echo "\n";
+    }
+    echo "</p>\n";
+
     theme('', 'footer');
     exit;
 }
