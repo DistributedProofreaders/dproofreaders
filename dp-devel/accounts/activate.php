@@ -19,12 +19,12 @@ $ID = $_GET['id'];
 $result = mysql_query("SELECT * FROM non_activated_users WHERE id='$ID'");
 
 if (mysql_num_rows($result) == 0) {
-  echo sprintf(
-         _("There is no account with the id '%s' waiting to be activated."),
-         stripslashes($ID)
-       );
-  theme('', 'footer');
-  exit;
+    echo sprintf(
+        _("There is no account with the id '%s' waiting to be activated."),
+        stripslashes($ID)
+    );
+    theme('', 'footer');
+    exit;
 }
 
 $user = mysql_fetch_assoc($result);
@@ -70,12 +70,13 @@ $result = mysql_query($sql);
 maybe_welcome_mail($email, $real_name, $username);
 
 echo sprintf(
-       _("User %s activated successfully. Please check the e-mail being sent to you for further information about %s."),
-       $username, $site_name);
+        _("User %s activated successfully. Please check the e-mail being sent to you for further information about %s."),
+        $username, $site_name);
 echo "<center>";
 echo "<br><font size=+1>"._("Enter your password below to sign in and start proofreading!!");
 echo "<form action='login.php' method='post'><input type='hidden' name='userNM' value='".$username."'><input type='password' name='userPW'><input type='submit' value='"._("Sign In")."'></form>";
 
 theme("", "footer");
 
+// vim: sw=4 ts=4 expandtab
 ?>
