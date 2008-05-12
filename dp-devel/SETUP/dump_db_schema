@@ -7,6 +7,8 @@ db_password='<<DB_PASSWORD>>'
 db_name='<<DB_NAME>>'
 code_dir=<<CODE_DIR>>
 
+setup_dir=`dirname $0`
+
 export LC_ALL=POSIX
 # because on www.pgdp.net, none of the LC_* are defined,
 # and LANG=en_US.UTF-8, which produces case-insensitivity
@@ -91,6 +93,10 @@ if true; then
     mysqldump --user=$db_user --password="$db_password" \
         --no-data --quote-names --add-drop-table=FALSE --force \
         $db_name $tables |
+
+    # Ensure the per-table chunks are in a consistent order:
+    php -f  $setup_dir/sort_mysqldump.php |
+
     # Make it look more like the dump from phpMyAdmin:
     sed '
         s/^--/#/
