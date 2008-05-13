@@ -68,7 +68,7 @@ if (!isset($_GET['name']))
                     internal_comment as '"._("Notes")."'
                 FROM image_sources i left join projects p on i.code_name = p.image_source
                 WHERE info_page_visibility >= $min_vis_level
-                GROUP BY 1,2,3,6
+                GROUP BY code_name
                 ORDER BY display_name";
     } else {
 
@@ -83,7 +83,7 @@ if (!isset($_GET['name']))
                           else concat('<center><a href=\"show_image_sources.php?name=',code_name,'\" >',sum(".SQL_CONDITION_GOLD."),'</a></center>') end as '"._("Works Completed")."'
                     FROM image_sources i left join projects p on i.code_name = p.image_source
                     WHERE info_page_visibility >= $min_vis_level
-                    GROUP BY 1,2
+                    GROUP BY code_name
                     ORDER BY full_name";
    }
 
