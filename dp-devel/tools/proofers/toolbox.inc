@@ -225,6 +225,12 @@ define_pit_tool_link(
     "top.surroundSelection('[',']')"
 );
 define_pit_tool_link(
+    'braces',
+    '{ }',
+    '{ }',
+    "top.surroundSelection('{','}')"
+);
+define_pit_tool_link(
     'footnote',
     '[Footnote #: ]',
     '[Footnote #:',
