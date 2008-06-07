@@ -75,39 +75,39 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <td width="1" bgcolor="silver">&nbsp;</td>
     <td bgcolor="white" align="left">
       <ul style="margin-left: 3em;">
-        <li><a href="#title_pg">Vorder- und R&uuml;ckseiten von Titelbl&auml;ttern</a></li>
-        <li><a href="#toc">Inhaltsverzeichnisse</a></li>
-        <li><a href="#blank_pg">Leere Seiten</a></li>
-        <li><a href="#chap_head">Kapitel&uuml;berschriften</a></li>
-        <li><a href="#sect_head">Abschnitts&uuml;berschriften</a></li>
-        <li><a href="#maj_div">Weitere Hauptbestandteile eines Buches</a></li>
-        <li><a href="#para_side">Randnoten (Marginalien)</a></li>
-        <li><a href="#para_space">Absatzabst&auml;nde und -einr&uuml;ckungen</a></li>
-        <li><a href="#mult_col">Mehrspaltige Texte</a></li>
-        <li><a href="#illust">Abbildungen</a></li>
-        <li><a href="#footnotes">Fu&szlig;noten/Endnoten</a></li>
         <li><a href="#italics">Kursiver Text</a></li>
         <li><a href="#bold">Fett gedruckter Text</a></li>
-        <li><a href="#supers">Hochgestellte Zeichen</a></li>
-        <li><a href="#subscr">Tiefgestellte Zeichen</a></li>
         <li><a href="#underl">Unterstrichener Text</a></li>
         <li><a href="#spaced">G e s p e r r t e r &nbsp; Text</a></li>
         <li><a href="#font_ch">&Auml;nderungen der Schriftart</a></li>
-        <li><a href="#font_sz">Unterschiedliche Schriftgr&ouml;&szlig;en</a></li>
-        <li><a href="#word_caps">W&ouml;rter in Gro&szlig;buchstaben</a></li>
         <li><a href="#small_caps">W&ouml;rter in <span style="font-variant: small-caps">Kapit&auml;lchen</span></a></li>
-        <li><a href="#poetry">Gedichte/Epigramme</a></li>
-        <li><a href="#letter">Briefe/Korrespondenz</a></li>
-        <li><a href="#lists">Aufz&auml;hlungen</a></li>
-        <li><a href="#tables">Tabellen</a></li>
-        <li><a href="#block_qt">Blockzitate</a></li>
-        <li><a href="#line_br">Zeilenumbr&uuml;che</a></li>
+        <li><a href="#word_caps">W&ouml;rter in Gro&szlig;buchstaben</a></li>
+        <li><a href="#font_sz">Unterschiedliche Schriftgr&ouml;&szlig;en</a></li>
         <li><a href="#extra_sp">&Uuml;berfl&uuml;ssige Leerzeichen bzw. Tabulatoren
             zwischen W&ouml;rtern</a></li>
-        <li><a href="#line_no">Zeilennummern</a></li>
+        <li><a href="#supers">Hochgestellte Zeichen</a></li>
+        <li><a href="#subscr">Tiefgestellte Zeichen</a></li>
+        <li><a href="#page_ref">Seitenverweise (&bdquo;siehe S. 123&ldquo;)</a></li>
+        <li><a href="#line_br">Zeilenumbr&uuml;che</a></li>
+        <li><a href="#chap_head">Kapitel&uuml;berschriften</a></li>
+        <li><a href="#sect_head">Abschnitts&uuml;berschriften</a></li>
+        <li><a href="#maj_div">Weitere Hauptbestandteile eines Buches</a></li>
+        <li><a href="#para_space">Absatzabst&auml;nde und -einr&uuml;ckungen</a></li>
         <li><a href="#extra_s">Zus&auml;tzliche(r) Abstand/Sternchen/Zeilen
             zwischen Abs&auml;tzen</a></li>
-        <li><a href="#page_ref">Seitenverweise (&bdquo;siehe S. 123&ldquo;)</a></li>
+        <li><a href="#illust">Abbildungen</a></li>
+        <li><a href="#footnotes">Fu&szlig;noten/Endnoten</a></li>
+        <li><a href="#para_side">Randnoten (Marginalien)</a></li>
+        <li><a href="#block_qt">Blockzitate</a></li>
+        <li><a href="#mult_col">Mehrspaltige Texte</a></li>
+        <li><a href="#lists">Aufz&auml;hlungen</a></li>
+        <li><a href="#tables">Tabellen</a></li>
+        <li><a href="#poetry">Gedichte/Epigramme</a></li>
+        <li><a href="#line_no">Zeilennummern</a></li>
+        <li><a href="#letter">Briefe/Korrespondenz</a></li>
+        <li><a href="#blank_pg">Leere Seiten</a></li>
+        <li><a href="#title_pg">Vorder- und R&uuml;ckseiten von Titelbl&auml;ttern</a></li>
+        <li><a href="#toc">Inhaltsverzeichnisse</a></li>
         <li><a href="#bk_index">Sachregister und Schlagwortverzeichnisse</a></li>
         <li><a href="#play_n">Dramen: Rollennamen/Regieanweisungen</a></li>
         <li><a href="#anything">Sonstige Besonderheiten und Behandlung von Unklarheiten</a></li>
@@ -304,145 +304,292 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </table>
 
 
-<h3><a name="title_pg">Vorder- und R&uuml;ckseiten von Titelbl&auml;ttern</a></h3>
-<p>Formatieren Sie den gesamten Text so, wie er auf der Seite gedruckt ist, einerlei
-   ob nur Gro&szlig;buchstaben, Gro&szlig;- und Kleinschreibung o.&nbsp;&auml;.,
-   einschlie&szlig;lich Publikationsjahr und Copyright-Angaben.
+<h3><a name="italics">Kursiver Text</a></h3>
+<p>Formatieren Sie <i>kursiv</i> gedruckten Text mit einem <tt>&lt;i&gt;</tt>
+   am Anfang und einem <tt>&lt;/i&gt;</tt> am Ende des kursiv gedruckten Textes.
+   (Beachten Sie den Schr&auml;gstrich &bdquo;/&ldquo; in der schlie&szlig;enden
+   Markierung.)
 </p>
-<p>In &auml;lteren B&uuml;chern ist der erste Buchstabe oft eine gro&szlig;e,
-   verzierte Grafik &ndash; formatieren Sie ihn einfach als den dargestellten Buchstaben.
+<p>Satzzeichen bleiben <b>au&szlig;erhalb</b> der Markierungen f&uuml;r Kursivdruck,
+   au&szlig;er der gesamte Satz oder Abschnitt ist kursiv gedruckt, oder aber die
+   Interpunktion selbst ist Teil eines Ausdrucks, Titels oder einer Abk&uuml;rzung
+   in kursiver Schrift.
+</p>
+<p>Die Punkte, die ein abgek&uuml;rztes Wort im Titel einer Zeitschrift wie z.&nbsp;B.
+   <i>Phil. Trans.</i> kennzeichnen, werden im Hinblick auf Kursivauszeichnung
+   als Teil des Titels betrachtet und in die Kursiv-Markierungen einbezogen, also:
+   <tt>&lt;i&gt;Phil. Trans.&lt;/i&gt;</tt>.
+</p>
+<p>Datumsangaben oder &auml;hnliches formatieren Sie insgesamt als kursiv gedruckt,
+   anstatt die W&ouml;rter als kursiv und die Zahlen als nicht-kursiv zu markieren.
+   Der Grund daf&uuml;r ist, dass in vielen Schriftarten &auml;lterer Texte die
+   Zahlen in regul&auml;rer und kursiver Schrift gleich aussehen.
+</p>
+<p>Falls der kursiv gedruckte Text aus einer Reihe/Liste von W&ouml;rtern oder
+   Namen besteht, markieren Sie diese jeweils einzeln mit Kursiv-Markierungen.
 </p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Title Page Example">
+<p><b>Beispiele</b> &ndash; Kursiver Text:
+</p>
+
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Italics">
   <tbody>
     <tr>
-      <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
+      <th valign="top" bgcolor="cornsilk">Ausgangstext:</th>
+      <th valign="top" bgcolor="cornsilk">Richtig formatierter Text:</th>
     </tr>
-    <tr align="left">
-      <td width="100%" valign="top"><img src="title.png" width="500"
-          height="520" alt="Vorlage Titelblatt"><br>
+    <tr>
+      <td valign="top"><i>Enacted </i>4<i> July, </i>1776 </td>
+      <td valign="top"><tt>&lt;i&gt;Enacted 4 July, 1776&lt;/i&gt;</tt> </td>
+    </tr>
+    <tr>
+      <td valign="top"><i>God knows what she saw in me!</i> I spoke<br> in such an affected manner.</td>
+      <td valign="top"><tt>&lt;i&gt;God knows what she saw in me!&lt;/i&gt; I spoke<br> in such an affected manner.</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">As in many other of these <i>Studies</i>, and</td>
+      <td valign="top"><tt>As in many other of these &lt;i&gt;Studies&lt;/i&gt;, and</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">(<i>Psychological Review</i>, 1898, p. 160)</td>
+      <td valign="top"><tt>(&lt;i&gt;Psychological Review&lt;/i&gt;, 1898, p. 160)</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">L. Robinson, art. "<i>Ticklishness</i>,"</td>
+      <td valign="top"><tt>L. Robinson, art. "&lt;i&gt;Ticklishness&lt;/i&gt;,"</tt></td>
+    </tr>
+    <tr>
+      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br />
+                     1323 Picadilly Circus</td>
+      <td valign="top"><tt>/*<br />
+         &lt;i&gt;December 3, morning.&lt;/i&gt;<br />
+         1323 Picadilly Circus<br />
+         */</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">
+      Volunteers may be tickled pink to read<br>
+      <i>Ticklishness</i>, <i>Tickling and Laughter</i>,<br>
+      <i>Remarks on Tickling and Laughter</i><br>
+      and <i>Ticklishness, Laughter and Humour</i>.
       </td>
-    </tr>
-    <tr>
-      <th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th>
-    </tr>
-    <tr>
-      <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
-      <p><tt>GREEN FANCY</tt>
-      </p>
-      <p><tt>BY</tt></p>
-      <p><tt>GEORGE BARR McCUTCHEON</tt></p>
-      <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
-         "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
-      <p><tt>&lt;i&gt;WITH FRONTISPIECE BY&lt;/i&gt;<br>
-         &lt;i&gt;C. ALLAN GILBERT&lt;/i&gt;</tt></p>
-      <p><tt>NEW YORK<br>
-         DODD, MEAD AND COMPANY<br>
-         1917</tt></p>
-</td></tr></table>
+      <td valign="top">
+      <tt>Volunteers may be tickled pink to read<br>
+      &lt;i&gt;Ticklishness&lt;/i&gt;, &lt;i&gt;Tickling and Laughter&lt;/i&gt;,<br>
+      &lt;i&gt;Remarks on Tickling and Laughter&lt;/i&gt;<br>
+      and &lt;i&gt;Ticklishness, Laughter and Humour&lt;/i&gt;.</tt>
       </td>
     </tr>
   </tbody>
 </table>
 
-<h3><a name="toc">Inhaltsverzeichnisse</a></h3>
-<p>Formatieren Sie das Inhaltsverzeichnis so, wie es im Buch abgedruckt ist, einerlei
-   ob in Gro&szlig;buchstaben, in Gro&szlig;- und Kleinschreibung und schlie&szlig;en
-   Sie es in <tt>/*</tt> und <tt>*/</tt> ein. Lassen Sie eine Leerzeile zwischen
-   diesen Markierungen und dem Rest des Textes. Seitenzahlen sollen erhalten bleiben
-   und mit mindestes sechs Leerzeichen vom Rest der Zeile abgesetzt werden.
+<h3><a name="bold">Fett gedruckter Text</a></h3>
+<p>Formatieren Sie <b>fett gedruckten Text</b> (Text, der in kr&auml;ftigeren
+   Lettern gedruckt ist) mit einem <tt>&lt;b&gt;</tt> vor dem fett gedruckten Text
+   und einem <tt>&lt;/b&gt;</tt> danach. (Beachten Sie den Schr&auml;gstrich
+   &bdquo;/&ldquo; in der schlie&szlig;enden Markierung.)
 </p>
-<p>Entfernen Sie eventuelle Punkte oder Sternchen (F&uuml;hrungszeichen), die
-   zum Ausrichten der Seitenzahlen benutzt wurden.
+<p>Satzzeichen bleiben <b>au&szlig;erhalb</b> der Markierungen f&uuml;r Fettdruck,
+   au&szlig;er der gesamte Satz oder Abschnitt ist fett gedruckt, oder aber die
+   Interpunktion selbst ist Teil eines Ausdrucks, Titels oder einer Abk&uuml;rzung
+   in fetter Schrift.
 </p>
+<p>Im Text und der Beispielvorlage zu <a href="#page_hf">Kopf- und Fu&szlig;zeilen</a>
+   finden Sie ein Beispiel.
+</p>
+<p>Manche Projektmanager legen in den <a href="#comments">Projektkommentaren</a>
+   fest, dass fett gedruckter Text als Text in Gro&szlig;buchstaben wiedergegeben
+   werden soll.
+</p>
+
+<h3><a name="underl">Unterstrichener Text</a></h3>
+<p>Formatieren Sie <u>unterstrichenen Text</u> wie <a href="#italics">kursiv
+   gedruckten</a>, mit <tt>&lt;i&gt;</tt> und <tt>&lt;/i&gt;</tt>. (Beachten
+   Sie den Schr&auml;gstrich &bdquo;/&ldquo; in der schlie&szlig;enden Markierung.)
+</p>
+<p>Unterstreichungen wurden oft benutzt, um eine Betonung anzuzeigen, wenn der
+   Schriftsetzer den Text nicht kursiv setzen <i>konnte</i>, etwa in einem
+   maschinengeschriebenen Dokument.
+</p>
+<p>Manche Projektmanager legen in den <a href="#comments">Projektkommentaren</a>
+   fest, dass unterstrichener Text mit <tt>&lt;u&gt;</tt> und <tt>&lt;/u&gt;</tt>
+   markiert werden soll.
+</p>
+
+<h3><a name="spaced">G e s p e r r t e r &nbsp; Text</a></h3>
+<p>Formatieren Sie &nbsp; g e s p e r r t e n &nbsp; T e x t &nbsp; mit
+   <tt>&lt;g&gt;</tt> vor dem Text und <tt>&lt;/g&gt;</tt> danach. (Beachten
+   Sie den Schr&auml;gstrich &bdquo;/&ldquo; in der schlie&szlig;enden Markierung.)
+   Entfernen Sie &uuml;berfl&uuml;ssige Leerzeichen zwischen den einzelnen
+   Buchstaben der W&ouml;rter.
+</p>
+<p>Satzzeichen bleiben <b>au&szlig;erhalb</b> der Markierungen, au&szlig;er der
+   gesamte Satz oder Abschnitt ist gesperrt gedruckt, oder aber die Interpunktion
+   selbst ist Teil eines gesperrten Ausdrucks.
+</p>
+<p>Diese schriftsetzerische Technik wurde in vielen &auml;lteren, insbesondere
+   deutschsprachigen B&uuml;chern benutzt, um einen Teil des Textes zu betonen.
+</p>
+
+<h3><a name="font_ch">&Auml;nderungen der Schriftart</a></h3>
+<p>Formatieren Sie eine &Auml;nderung der Schriftart innerhalb eines Absatzes
+   oder einer Zeile mit normalem Text durch <tt>&lt;f&gt;</tt> vor der
+   &Auml;nderung der Schriftart und <tt>&lt;/f&gt;</tt> danach. (Beachten Sie
+   den Schr&auml;gstrich &bdquo;/&ldquo; in der schlie&szlig;enden Markierung.)
+   Benutzen Sie diese Markierungen f&uuml;r alle besonderen Schriftarten oder
+   sonstigen Formatierungen, <b>au&szlig;er</b> bei fett, kursiv, in Kapit&auml;lchen
+   und gesperrt gedrucktem Text, wof&uuml;r es jeweils eigene Markierungen gibt.
+</p>
+<p>Diese Markierungen sollten z. B. in folgenden F&auml;llen verwendet werden:
+</p>
+<ul compact>
+  <li>Antiqua-Schrift innerhalb von Frakturschrift</li>
+  <li>gebrochene Schrift innerhalb eines Abschnitts einer regul&auml;ren Schriftart</li>
+  <li>eine kleinere oder gr&ouml;&szlig;ere Schriftart nur dann, wenn sie sich
+    <b>innerhalb</b> eines Absatzes mit einer regul&auml;ren Schriftart befindet
+    (ganze Abs&auml;tze in einer anderen Schriftart oder -gr&ouml;&szlig;e: siehe
+    Abschnitt <a href="#block_qt">Blockzitate</a>).</li>
+  <li>eine gerade Schriftart innerhalb eines kursiv gedruckten Absatzes</li>
+</ul>
+<p>Die genaue Verwendung der Markierungen in einem Projekt wird &uuml;blicherweise
+   in den <a href="#comments">Projektkommentaren</a> erl&auml;utert. Formatierer
+   sollten im <a href="#forums">Projektforum</a> nachfragen, wenn eine Kennzeichnung
+   erforderlich scheint, aber noch nicht diskutiert wurde.
+</p>
+<p>Satzzeichen bleiben <b>au&szlig;erhalb</b> der Markierungen, au&szlig;er der
+   gesamte Satz steht in einer anderen Schriftart, oder aber die Interpunktion
+   selbst ist Teil eines Ausdrucks, eines Titels oder einer Abk&uuml;rzung in der
+   anderen Schriftart.
+</p>
+
+<h3><a name="small_caps">W&ouml;rter in Kapit&auml;lchen</a></h3>
+<p><span style="font-variant:small-caps;">Kapit&auml;lchen in gemischter
+   Schreibweise (Gro&szlig;buchstaben und Kapit&auml;lchen)</span> und
+   <span style="font-variant: small-caps;"> nur kapit&auml;lchen</span>
+   werden unterschiedlich behandelt:
+</p>
+<p>Formatieren Sie W&ouml;rter, die in <span style="font-variant: small-caps;">Kapit&auml;lchen
+   in gemischter Schreibweise</span> gedruckt sind, als normale Gro&szlig;- und
+   Kleinbuchstaben und umschlie&szlig;en Sie den Text mit den Markierungen
+   <tt>&lt;sc&gt;</tt> und <tt>&lt;/sc&gt;</tt>.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Beispiel:
+   <span style="font-variant: small-caps;">This is Small Caps</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;wird korrekt formatiert als:
+   <tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt>.
+</p>
+
+<p>Formatieren Sie W&ouml;rter, die in <span style="font-variant: small-caps;">nur
+   als kapit&auml;lchen</span> gedruckt sind, als Gro&szlig;buchstaben und
+   umschlie&szlig;en Sie den Text mit den Markierungen <tt>&lt;sc&gt;</tt>
+   und <tt>&lt;/sc&gt;</tt>.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Beispiel:
+   You cannot be serious about
+   <span style="font-variant: small-caps;">aardvarks</span>!<br>
+&nbsp;&nbsp;&nbsp;&nbsp;wird korrekt formatiert als:
+   <tt>You cannot be serious about
+   &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</tt><br>
+</p>
+
+<p>W&ouml;rter in &Uuml;berschriften (Kapitel-/Abschnitts&uuml;berschriften,
+   Bildunterschriften usw.), die vollst&auml;ndig aus Gro&szlig;buchstaben
+   bestehen, sollten als Gro&szlig;buchstaben formatiert werden, ohne &lt;sc&gt;
+   &lt;/sc&gt;. Das erste Wort eines Kapitels in Kapit&auml;lchen sollte in
+   Gro&szlig;- und Kleinbuchstaben ohne Markierung ge&auml;ndert werden.
+</p>
+
+<h3><a name="word_caps">W&ouml;rter in Gro&szlig;buchstaben</a></h3>
+<p>Formatieren Sie W&ouml;rter, die in Gro&szlig;buchstaben gedruckt sind, als
+   Gro&szlig;buchstaben.
+</p>
+<p>Eine Ausnahme ist das erste <a href="#chap_head">Wort eines Kapitels</a>: In
+   vielen alten B&uuml;chern ist das erste Wort in Gro&szlig;buchstaben gedruckt;
+   dies sollte in Gro&szlig;- und Kleinschreibung ge&auml;ndert werden. So wird
+   "ONCE upon a time," zu "<tt>Once upon a time,</tt>".
+</p>
+
+<h3><a name="font_sz">Unterschiedliche Schriftgr&ouml;&szlig;en</a></h3>
+<p>Normalerweise markieren wir &Auml;nderungen in der Schriftgr&ouml;&szlig;e
+   nicht.
+</p>
+<p>Ausnahmen davon sind, wenn die Schriftgr&ouml;&szlig;e sich &auml;ndert, um
+   <a href="#block_qt">Blockzitate</a> anzuzeigen, oder wenn sie sich innerhalb
+   eines Absatzes oder einer Textzeile &auml;ndert (siehe
+   <a href="#font_ch">&Auml;nderungen der Schriftart</a>).
+</p>
+
+<h3><a name="extra_sp">&Uuml;berfl&uuml;ssige Leerzeichen bzw. Tabulatoren zwischen
+    W&ouml;rtern</a></h3>
+<p>Die Texterkennung verursacht oft &uuml;berfl&uuml;ssige Leerzeichen und Tabulatoren
+   im Text. Sie brauchen sich nicht die M&uuml;he zu machen, diese Leerzeichen
+   zu entfernen &ndash; das kann automatisch in der Nachbearbeitung erfolgen.
+</p>
+<p>&Uuml;berfl&uuml;ssige Leerzeichen um Satzzeichen, Gedankenstriche,
+   Anf&uuml;hrungszeichen herum usw. <b>m&uuml;ssen</b> jedoch entfernt werden, wenn
+   sie das Symbol vom Wort trennen.
+</p>
+<p>Im folgenden Beispiel: <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt>
+   muss das Leerzeichen zwischen &bdquo;horse&ldquo;; und dem Semikolon entfernt
+   werden. Die zwei Leerzeichen nach dem Semikolon sind in Ordnung &ndash; Sie
+   brauchen keines der beiden zu l&ouml;schen.
+</p>
+
+<h3><a name="supers">Hochgestellte Zeichen</a></h3>
+<p>In &auml;lteren B&uuml;chern wurden W&ouml;rter h&auml;ufig mit verk&uuml;rzten
+   Endungen dargestellt, die dann hochgestellt wurden. Zum Beispiel:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
+   Formatieren Sie diese, indem Sie einen einzelnen Zirkumflex ^ einsetzen, gefolgt
+   von dem hochgestellten Text. Also so:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
+</p>
+<p>In wissenschaftlichen und technischen Werken formatieren Sie hochgestellte
+   Zeichen mit umschlie&szlig;enden geschweiften Klammern, <tt>{</tt> und <tt>}</tt>,
+   selbst wenn nur ein Zeichen hochgestellt ist.
+   <br>Zum Beispiel wird
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;... up to x<sup>n-1</sup> elements in the array.
+   <br>formatiert als
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>... up to x^{n-1} elements in the array.<br></tt>
+</p>
+<p>Manche Projektmanager legen in den <a href="#comments">Projektkommentaren</a>
+   fest, dass hochgestellte Zeichen anders markiert werden sollen.
+</p>
+
+<h3><a name="subscr">Tiefgestellte Zeichen</a></h3>
+<p>Tiefgestellte Zeichen kommen oft in wissenschaftlichen Texten vor, in anderen
+   Werken sind sie nicht &uuml;blich. Formatieren Sie tiefgestellte Zeichen durch
+   Einf&uuml;gen eines Unterstriches <tt>_</tt> und Umschlie&szlig;en der Zeichen
+   mit geschweiften Klammern <tt>{</tt> und <tt>}</tt>.<br>
+   Zum Beispiel wird<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.<br>
+   formatiert als:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>H_{2}O.<br></tt>
+</p>
+
+<h3><a name="page_ref">Seitenverweise (&bdquo;siehe S. 123&ldquo;)</a></h3>
+<p>Formatieren Sie Seitenverweise innerhalb des Textes wie <tt>(siehe S. 123)</tt>
+   so, wie sie in der Vorlage erscheinen.
+</p>
+<p>Pr&uuml;fen Sie die <a href="#comments">Projektkommentare</a>, um zu sehen,
+   ob der Projektmanager besondere Vorgaben f&uuml;r Seitenverweise hat.
+</p>
+
+<h3><a name="line_br">Zeilenumbr&uuml;che</a></h3>
+<p><b>Lassen Sie alle Zeilenumbr&uuml;che stehen</b>, damit der n&auml;chste
+   Formatierer und der Nachbearbeiter die Zeilen im Text bequem mit den Zeilen
+   in der Vorlage vergleichen k&ouml;nnen. Seien Sie dabei besonders vorsichtig,
+   wenn Sie <a href="#eol_hyphen">getrennte W&ouml;rter</a> wieder zusammenf&uuml;gen
+   oder W&ouml;rter um <a href="#em_dashes">Gedankenstriche</a> bewegen. Sollte der
+   vorhergehende Freiwillige die Zeilenumbr&uuml;che entfernt haben, setzen Sie diese
+   bitte wieder so ein, dass sie der Vorlage entsprechen.
+</p>
+<p>Zus&auml;tzliche Leerzeilen, die nicht auf der Vorlage sind, sollten entfernt
+   werden, au&szlig;er dort, wo wir sie absichtlich f&uuml;r die Formatierung
+   einf&uuml;gen. Leerzeilen am Ende der Seite sind in Ordnung &ndash; sie werden
+   beim Speichern der Seite automatisch entfernt.
+</p>
+
 <!-- END RR -->
-
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="TOC">
-  <tbody>
-    <tr>
-      <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
-    </tr>
-    <tr align="left">
-      <td width="100%" valign="top">
-      <p><img src="tablec.png" alt="" width="500" height="650"></p>
-      </td>
-    </tr>
-    <tr>
-      <th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th>
-    </tr>
-    <tr>
-      <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
-      <p><tt><br><br><br><br>CONTENTS<br><br></tt></p>
-      <p><tt>/*<br>
-          CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<br>
-          <br>
-          I. &lt;sc&gt;The First Wayfarer and the Second Wayfarer<br>
-          Meet and Part on the Highway&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1<br>
-          <br>
-          II. &lt;sc&gt;The First Wayfarer Lays His Pack Aside and<br>
-          Falls in with Friends&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15<br>
-          <br>
-          III. &lt;sc&gt;Mr. Rushcroft Dissolves, Mr. Jones Intervenes,<br>
-          and Two Men Ride Away&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33<br>
-          <br>
-          IV. &lt;sc&gt;An Extraordinary Chambermaid, a Midnight<br>
-          Tragedy, and a Man Who Said "Thank You"&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50<br>
-          <br>
-          V. &lt;sc&gt;The Farm-boy Tells a Ghastly Story, and an<br>
-          Irishman Enters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;67<br>
-          <br>
-          VI. &lt;sc&gt;Charity Begins Far from Home, and a Stroll in<br>
-          the Wildwood Follows&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
-          <br>
-          VII. &lt;sc&gt;Spun-gold Hair, Blue Eyes, and Various Encounters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;103<br>
-          <br>
-          VIII. &lt;sc&gt;A Note, Some Fancies, and an Expedition in<br>
-          Quest of Facts&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;120<br>
-          <br>
-          IX. &lt;sc&gt;The First Wayfarer, the Second Wayfarer, and<br>
-          the Spirit of Chivalry Ascendant&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;134<br>
-          <br>
-          X. &lt;sc&gt;The Prisoner of Green Fancy, and the Lament of<br>
-          Peter the Chauffeur&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;148<br>
-          <br>
-          XI. &lt;sc&gt;Mr. Sprouse Abandons Literature at an Early<br>
-          Hour in the Morning&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;167<br>
-          <br>
-          XII. &lt;sc&gt;The First Wayfarer Accepts an Invitation, and<br>
-          Mr. Dillingford Belabors a Proxy&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
-          <br>
-          XIII. &lt;sc&gt;The Second Wayfarer Receives Two Visitors at<br>
-          Midnight&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;199<br>
-          <br>
-          XIV. &lt;sc&gt;A Flight, a Stone-cutter's Shed, and a Voice<br>
-          Outside&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
-          */<br>
-      </tt>
-</td></tr></table>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<h3><a name="blank_pg">Leere Seiten</a></h3>
-<p>Formatieren Sie diese als <tt>[Blank Page]</tt>, wenn sowohl Text als auch
-   Vorlage leer sind.
-</p>
-<p>Wenn im Formatierfenster Text erscheint, aber eine leere Seite als Vorlage,
-   oder wenn eine Buchseite mit Text angezeigt wird, aber kein Text im Formatierfenster,
-   dann halten Sie sich an die Anweisungen in den Abschnitten <a href="#bad_image">Schlechte
-   Vorlagen</a> und <a href="#bad_text">Falsche Vorlage zum Text</a>.
-</p>
+<!-- We should have an example right here for this. -->
 
 <h3><a name="chap_head">Kapitel&uuml;berschriften</a></h3>
 <p>Formatieren Sie die Kapitel&uuml;berschriften so, wie sie im Text stehen.
@@ -616,138 +763,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    der &Uuml;berschrift und zwei Leerzeilen vor dem Beginn des Textes.
 </p>
 
-<h3><a name="para_side">Randnoten (Marginalien)</a></h3>
-<p>Manche B&uuml;cher haben kurze Zusammenfassungen einzelner Abschnitte auf dem
-   Seitenrand neben dem Text stehen. Diese werden Randnoten (Marginalien) genannt.
-   Platzieren Sie Randnoten &uuml;ber dem Absatz, zu dem sie geh&ouml;ren. Eine
-   Randnote sollte mit einer Randnoten-Markierung <tt>[Sidenote:</tt> und <tt>]</tt>
-   umschlossen werden, mit dem Text der Randnote darin. Formatieren Sie den Text
-   der Randnote so, wie er gedruckt ist. Behalten Sie dabei Zeilenumbr&uuml;che,
-   kursive Schrift, etc. bei. Lassen Sie eine Leerzeile nach der Randnote, damit
-   sie nicht mit dem Absatz vermischt wird, wenn der Text beim Nachbearbeiten
-   umgebrochen wird.
-</p>
-<p>Falls es mehrere Randnoten f&uuml;r einen Absatz gibt, platzieren Sie diese
-   der Reihe nach am Anfang des Absatzes. Lassen Sie zwischen den einzelnen Randnoten
-   jeweils eine Leerzeile frei.
-</p>
-<p>Falls der Absatz auf einer vorhergehenden Seite begonnen hat, platzieren Sie
-   die Randnote oben auf der Seite und kennzeichnen Sie sie mit <tt>*</tt>, damit
-   der Nachbearbeiter sehen kann, dass sie auf die vorherige Seite geh&ouml;rt,
-   so wie hier: <tt>*[Sidenote: <font color="red">(Text der Randnote)</font>]</tt>.
-   Der Nachbearbeiter wird sie an die richtige Stelle verschieben.
-</p>
-<p>Manchmal verlangt ein Projektmanager, dass Sie die Randnoten bei dem Satz
-   platzieren, auf den sie sich beziehen, anstatt am Anfang oder Ende des Absatzes.
-   In diesem Fall trennen Sie sie nicht mit Leerzeilen ab.
-</p>
-<!-- END RR -->
-
-  <table width="100%" align="center" border="1" cellpadding="4"
-       cellspacing="0" summary="Sidenotes"> <col width="128*">
-  <tbody>
-    <tr valign="top">
-      <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
-    </tr>
-    <tr valign="top">
-      <td width="100%" align="left"><img src="side.png" alt=""
-          width="550" height="800"><br>
-      </td>
-    </tr>
-    <tr valign="top">
-      <th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th>
-    </tr>
-    <tr valign="top">
-      <td width="100%">
-<table summary="" border="0" align="left"><tr><td>
-    <p><tt>
-    *[Sidenote: Burning<br>
-    discs<br>
-    thrown into<br>
-    the air.]<br>
-    <br>
-    that such as looked at the fire holding a bit of larkspur<br>
-    before their face would be troubled by no malady of the<br>
-    eyes throughout the year.[1] Further, it was customary at<br>
-    W&uuml;rzburg, in the sixteenth century, for the bishop's followers<br>
-    to throw burning discs of wood into the air from a mountain<br>
-    which overhangs the town. The discs were discharged by<br>
-    means of flexible rods, and in their flight through the darkness<br>
-    presented the appearance of fiery dragons.[2]<br>
-    <br>
-    [Sidenote: The Midsummer<br>
-    fires in<br>
-    Swabia.]<br>
-    <br>
-    [Sidenote: Omens<br>
-    drawn from<br>
-    the leaps<br>
-    over the<br>
-    fires.]<br>
-    <br>
-    [Sidenote: Burning<br>
-    wheels<br>
-    rolled<br>
-    down hill.]<br>
-    <br>
-    In the valley of the Lech, which divides Upper Bavaria<br>
-    from Swabia, the midsummer customs and beliefs are, or<br>
-    used to be, very similar. Bonfires are kindled on the<br>
-    mountains on Midsummer Day; and besides the bonfire<br>
-    a tall beam, thickly wrapt in straw and surmounted by a<br>
-    cross-piece, is burned in many places. Round this cross as<br>
-    it burns the lads dance with loud shouts; and when the<br>
-    flames have subsided, the young people leap over the fire in<br>
-    pairs, a young man and a young woman together. If they<br>
-    escape unsmirched, the man will not suffer from fever, and<br>
-    the girl will not become a mother within the year. Further,<br>
-    it is believed that the flax will grow that year as high as<br>
-    they leap over the fire; and that if a charred billet be taken<br>
-    from the fire and stuck in a flax-field it will promote the<br>
-    growth of the flax.[3] Similarly in Swabia, lads and lasses,<br>
-    hand in hand, leap over the midsummer bonfire, praying<br>
-    that the hemp may grow three ells high, and they set fire<br>
-    to wheels of straw and send them rolling down the hill.<br>
-    Among the places where burning wheels were thus bowled<br>
-    down hill at Midsummer were the Hohenstaufen mountains<br>
-    in Wurtemberg and the Frauenberg near Gerhausen.[4]<br>
-    At Deffingen, in Swabia, as the people sprang over the mid-*<br>
-    <br>
-    [Footnote 1: &lt;i&gt;Op. cit.&lt;/i&gt; iv. 1. p. 242. We have<br>
-    seen (p. 163) that in the sixteenth<br>
-    century these customs and beliefs were<br>
-    common in Germany. It is also a<br>
-    German superstition that a house which<br>
-    contains a brand from the midsummer<br>
-    bonfire will not be struck by lightning<br>
-    (J. W. Wolf, &lt;i&gt;Beitr&auml;ge zur deutschen<br>
-    Mythologie&lt;/i&gt;, i. p. 217, &sect; 185).]<br>
-    <br>
-    [Footnote 2: J. Boemus, &lt;i&gt;Mores, leges et ritus<br>
-    omnium gentium&lt;/i&gt; (Lyons, 1541), p.<br>
-    226.]<br>
-    <br>
-    [Footnote 3: Karl Freiherr von Leoprechting,<br>
-    &lt;i&gt;Aus dem Lechrain&lt;/i&gt; (Munich, 1855),<br>
-    pp. 181 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der<br>
-    Baumkultus&lt;i&gt;, p. 510.]<br>
-    <br>
-    [Footnote 4: A. Birlinger, &lt;i&gt;Volksth&uuml;mliches aus<br>
-    Schwaben&lt;/i&gt; (Freiburg im Breisgau, 1861-1862),<br>
-    ii. pp. 96 &lt;i&gt;sqq.&lt;/i&gt;, &sect; 128, pp. 103<br>
-    &lt;i&gt;sq.&lt;/i&gt;, &sect; 129; &lt;i&gt;id.&lt;/i&gt;, &lt;i&gt;Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
-    1874), ii. 116-120; E. Meier,<br>
-    &lt;i&gt;Deutsche Sagen, Sitten und Gebr&auml;uche<br>
-    aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.<br>
-    423 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der Baumkultus&lt;/i&gt;,<br>
-    p. 510.]<br>
-    </tt></p>
-</td></tr></table>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
 <h3><a name="para_space">Absatzabst&auml;nde und -einr&uuml;ckungen</a></h3>
 <p>F&uuml;gen Sie eine Leerzeile vor dem Beginn eines Absatzes ein, auch wenn
    der Absatz am Anfang der Seite beginnt. Die erste Zeile des Absatzes erh&auml;lt
@@ -759,25 +774,71 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    weiter unten.
 </p>
 
-<h3><a name="mult_col">Mehrspaltige Texte</a></h3>
-<p>Formatieren Sie normalen Text, der in zwei Spalten gedruckt wurde, als eine
-   Spalte.
+<h3><a name="extra_s">Zus&auml;tzliche(r) Abstand/Sternchen/Zeilen zwischen Abs&auml;tzen</a></h3>
+<p>Die meisten Abs&auml;tze beginnen direkt in der Zeile nach dem Ende des
+   vorhergehenden Absatzes. Manchmal sind zwei Abs&auml;tze getrennt, um einen
+   &bdquo;Gedankenwechsel&ldquo; (thought break, tb) anzuzeigen. Ein Gedankenwechsel
+   kann die Form einer Reihe von Sternchen, Strichen oder anderen Zeichen haben, einer
+   einfachen oder blumig verzierten waagerechten Linie, einer einfachen Verzierung
+   oder auch nur einer oder zwei zus&auml;tzlicher Leerzeilen.
 </p>
-<p>Mehrspaltiger Text innerhalb eines sonst einspaltigen Abschnitts sollte als
-   eine fortlaufende Spalte formatiert werden. Dabei kommt die Spalte ganz links
-   zuerst, anschlie&szlig;end der Text der n&auml;chsten und so weiter. Sie brauchen
-   den Umbruch der Spalten nicht extra zu kennzeichnen; verbinden Sie einfach die
-   Spalten.
+<p>Ein Gedankenwechsel kann einen Szenen- oder Themenwechsel, einen Sprung in
+   der Zeit oder Spannung anzeigen. Das ist vom Autor gewollt, also behalten wir
+   es bei, indem wir eine Leerzeile, <tt>&lt;tb&gt;</tt> und eine weitere Leerzeile
+   einf&uuml;gen.
 </p>
-<p>Falls die Spalten Aufz&auml;hlungen enthalten, markieren Sie den Anfang der
-   Liste mit <tt>/*</tt> und das Ende mit <tt>*/</tt>, damit die Zeilen bei der
-   Nachbearbeitung nicht umgebrochen werden. Lassen Sie eine Leerzeile zwischen
-   diesen Markierungen und dem Rest des Textes.
+<p>Projektmanager und/oder Nachbearbeiter k&ouml;nnen verlangen, dass zus&auml;tzliche
+   Informationen in die tb-Markierung mit aufgenommen werden. Beispielsweise unterscheiden
+   einige Projekte verschiedene Arten von tbs durch verschiedene Markierungen,
+   etwa eine Reihe von Sternchen an einer Stelle und eine Leerzeile an einer anderen.
+   In diesem Fall k&ouml;nnen die Projektkommentare verlangen, dass diese mit <tt>&lt;tb
+   stars&gt;</tt> und <tt>&lt;tb&gt;</tt> zu markieren sind. Lesen Sie bitte aufmerksam
+   die Projektkommentare wie immer, damit Sie wissen, was im jeweiligen Projekt
+   verlangt wird. Achten Sie auch darauf, dass Sie diese besonderen Erfordernisse
+   nicht auf ein Projekt mit anderen Anforderungen &uuml;bertragen.
 </p>
-<p>Lesen Sie dazu auch die Abschnitte <a href="#bk_index">Sachregister und
-   Schlagwortverzeichnisse</a>, <a href="#lists">Aufz&auml;hlungen</a> und
-   <a href="#tables">Tabellen</a>.
+<p>Von Druckern wurden manchmal dekorative Linien verwendet, um das Ende von Kapiteln
+   anzuzeigen. Da wir bereits <a href="#chap_head">Kapitel&uuml;berschriften</a>
+   markieren, braucht die tb-Markierung daf&uuml;r nicht eingef&uuml;gt zu werden.
 </p>
+<p>Die &lt;tb&gt;-Markierung ist in der Korrekturlese-Oberfl&auml;che zum Kopieren
+   und Einf&uuml;gen verf&uuml;gbar.
+</p>
+<!-- END RR -->
+<br>
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Thought Break">
+  <tbody>
+    <tr><th align="left" bgcolor="cornsilk"> Beispielvorlage:</th></tr>
+    <tr align="left">
+      <td width="100%" valign="top"> <img src="tbreak.png" alt="thought break"
+          width="500" height="264"> <br>
+      </td>
+    </tr>
+    <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+    <p><tt>
+    like the gentleman with the spiritual hydrophobia<br>
+    in the latter end of Uncle Tom's Cabin.<br>
+    Unconsciously Mr. Dixon has done his best to<br>
+    prove that Legree was not a fictitious character.</tt>
+    </p>
+    <p><tt>&lt;tb&gt;</tt>
+    </p>
+    <p><tt>
+    Joel Chandler Harris, Harry Stillwell Edwards,<br>
+    George W. Cable, Thomas Nelson Page,<br>
+    James Lane Allen, and Mark Twain are Southern<br>
+    men in Mr. Griffith's class. I recommend</tt>
+    </p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 
 <h3><a name="illust">Abbildungen</a></h3>
 <p>Text zu einer Illustration sollte mit einer Abbildungs-Markierung
@@ -1032,398 +1093,211 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   </tbody>
 </table>
 
-<h3><a name="italics">Kursiver Text</a></h3>
-<p>Formatieren Sie <i>kursiv</i> gedruckten Text mit einem <tt>&lt;i&gt;</tt>
-   am Anfang und einem <tt>&lt;/i&gt;</tt> am Ende des kursiv gedruckten Textes.
-   (Beachten Sie den Schr&auml;gstrich &bdquo;/&ldquo; in der schlie&szlig;enden
-   Markierung.)
+<h3><a name="para_side">Randnoten (Marginalien)</a></h3>
+<p>Manche B&uuml;cher haben kurze Zusammenfassungen einzelner Abschnitte auf dem
+   Seitenrand neben dem Text stehen. Diese werden Randnoten (Marginalien) genannt.
+   Platzieren Sie Randnoten &uuml;ber dem Absatz, zu dem sie geh&ouml;ren. Eine
+   Randnote sollte mit einer Randnoten-Markierung <tt>[Sidenote:</tt> und <tt>]</tt>
+   umschlossen werden, mit dem Text der Randnote darin. Formatieren Sie den Text
+   der Randnote so, wie er gedruckt ist. Behalten Sie dabei Zeilenumbr&uuml;che,
+   kursive Schrift, etc. bei. Lassen Sie eine Leerzeile nach der Randnote, damit
+   sie nicht mit dem Absatz vermischt wird, wenn der Text beim Nachbearbeiten
+   umgebrochen wird.
 </p>
-<p>Satzzeichen bleiben <b>au&szlig;erhalb</b> der Markierungen f&uuml;r Kursivdruck,
-   au&szlig;er der gesamte Satz oder Abschnitt ist kursiv gedruckt, oder aber die
-   Interpunktion selbst ist Teil eines Ausdrucks, Titels oder einer Abk&uuml;rzung
-   in kursiver Schrift.
+<p>Falls es mehrere Randnoten f&uuml;r einen Absatz gibt, platzieren Sie diese
+   der Reihe nach am Anfang des Absatzes. Lassen Sie zwischen den einzelnen Randnoten
+   jeweils eine Leerzeile frei.
 </p>
-<p>Die Punkte, die ein abgek&uuml;rztes Wort im Titel einer Zeitschrift wie z.&nbsp;B.
-   <i>Phil. Trans.</i> kennzeichnen, werden im Hinblick auf Kursivauszeichnung
-   als Teil des Titels betrachtet und in die Kursiv-Markierungen einbezogen, also:
-   <tt>&lt;i&gt;Phil. Trans.&lt;/i&gt;</tt>.
+<p>Falls der Absatz auf einer vorhergehenden Seite begonnen hat, platzieren Sie
+   die Randnote oben auf der Seite und kennzeichnen Sie sie mit <tt>*</tt>, damit
+   der Nachbearbeiter sehen kann, dass sie auf die vorherige Seite geh&ouml;rt,
+   so wie hier: <tt>*[Sidenote: <font color="red">(Text der Randnote)</font>]</tt>.
+   Der Nachbearbeiter wird sie an die richtige Stelle verschieben.
 </p>
-<p>Datumsangaben oder &auml;hnliches formatieren Sie insgesamt als kursiv gedruckt,
-   anstatt die W&ouml;rter als kursiv und die Zahlen als nicht-kursiv zu markieren.
-   Der Grund daf&uuml;r ist, dass in vielen Schriftarten &auml;lterer Texte die
-   Zahlen in regul&auml;rer und kursiver Schrift gleich aussehen.
-</p>
-<p>Falls der kursiv gedruckte Text aus einer Reihe/Liste von W&ouml;rtern oder
-   Namen besteht, markieren Sie diese jeweils einzeln mit Kursiv-Markierungen.
+<p>Manchmal verlangt ein Projektmanager, dass Sie die Randnoten bei dem Satz
+   platzieren, auf den sie sich beziehen, anstatt am Anfang oder Ende des Absatzes.
+   In diesem Fall trennen Sie sie nicht mit Leerzeilen ab.
 </p>
 <!-- END RR -->
 
-<p><b>Beispiele</b> &ndash; Kursiver Text:
-</p>
-
-<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Italics">
+  <table width="100%" align="center" border="1" cellpadding="4"
+       cellspacing="0" summary="Sidenotes"> <col width="128*">
   <tbody>
-    <tr>
-      <th valign="top" bgcolor="cornsilk">Ausgangstext:</th>
-      <th valign="top" bgcolor="cornsilk">Richtig formatierter Text:</th>
+    <tr valign="top">
+      <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
     </tr>
-    <tr>
-      <td valign="top"><i>Enacted </i>4<i> July, </i>1776 </td>
-      <td valign="top"><tt>&lt;i&gt;Enacted 4 July, 1776&lt;/i&gt;</tt> </td>
-    </tr>
-    <tr>
-      <td valign="top"><i>God knows what she saw in me!</i> I spoke<br> in such an affected manner.</td>
-      <td valign="top"><tt>&lt;i&gt;God knows what she saw in me!&lt;/i&gt; I spoke<br> in such an affected manner.</tt></td>
-    </tr>
-    <tr>
-      <td valign="top">As in many other of these <i>Studies</i>, and</td>
-      <td valign="top"><tt>As in many other of these &lt;i&gt;Studies&lt;/i&gt;, and</tt></td>
-    </tr>
-    <tr>
-      <td valign="top">(<i>Psychological Review</i>, 1898, p. 160)</td>
-      <td valign="top"><tt>(&lt;i&gt;Psychological Review&lt;/i&gt;, 1898, p. 160)</tt></td>
-    </tr>
-    <tr>
-      <td valign="top">L. Robinson, art. "<i>Ticklishness</i>,"</td>
-      <td valign="top"><tt>L. Robinson, art. "&lt;i&gt;Ticklishness&lt;/i&gt;,"</tt></td>
-    </tr>
-    <tr>
-      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br />
-                     1323 Picadilly Circus</td>
-      <td valign="top"><tt>/*<br />
-         &lt;i&gt;December 3, morning.&lt;/i&gt;<br />
-         1323 Picadilly Circus<br />
-         */</tt></td>
-    </tr>
-    <tr>
-      <td valign="top">
-      Volunteers may be tickled pink to read<br>
-      <i>Ticklishness</i>, <i>Tickling and Laughter</i>,<br>
-      <i>Remarks on Tickling and Laughter</i><br>
-      and <i>Ticklishness, Laughter and Humour</i>.
+    <tr valign="top">
+      <td width="100%" align="left"><img src="side.png" alt=""
+          width="550" height="800"><br>
       </td>
-      <td valign="top">
-      <tt>Volunteers may be tickled pink to read<br>
-      &lt;i&gt;Ticklishness&lt;/i&gt;, &lt;i&gt;Tickling and Laughter&lt;/i&gt;,<br>
-      &lt;i&gt;Remarks on Tickling and Laughter&lt;/i&gt;<br>
-      and &lt;i&gt;Ticklishness, Laughter and Humour&lt;/i&gt;.</tt>
+    </tr>
+    <tr valign="top">
+      <th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th>
+    </tr>
+    <tr valign="top">
+      <td width="100%">
+<table summary="" border="0" align="left"><tr><td>
+    <p><tt>
+    *[Sidenote: Burning<br>
+    discs<br>
+    thrown into<br>
+    the air.]<br>
+    <br>
+    that such as looked at the fire holding a bit of larkspur<br>
+    before their face would be troubled by no malady of the<br>
+    eyes throughout the year.[1] Further, it was customary at<br>
+    W&uuml;rzburg, in the sixteenth century, for the bishop's followers<br>
+    to throw burning discs of wood into the air from a mountain<br>
+    which overhangs the town. The discs were discharged by<br>
+    means of flexible rods, and in their flight through the darkness<br>
+    presented the appearance of fiery dragons.[2]<br>
+    <br>
+    [Sidenote: The Midsummer<br>
+    fires in<br>
+    Swabia.]<br>
+    <br>
+    [Sidenote: Omens<br>
+    drawn from<br>
+    the leaps<br>
+    over the<br>
+    fires.]<br>
+    <br>
+    [Sidenote: Burning<br>
+    wheels<br>
+    rolled<br>
+    down hill.]<br>
+    <br>
+    In the valley of the Lech, which divides Upper Bavaria<br>
+    from Swabia, the midsummer customs and beliefs are, or<br>
+    used to be, very similar. Bonfires are kindled on the<br>
+    mountains on Midsummer Day; and besides the bonfire<br>
+    a tall beam, thickly wrapt in straw and surmounted by a<br>
+    cross-piece, is burned in many places. Round this cross as<br>
+    it burns the lads dance with loud shouts; and when the<br>
+    flames have subsided, the young people leap over the fire in<br>
+    pairs, a young man and a young woman together. If they<br>
+    escape unsmirched, the man will not suffer from fever, and<br>
+    the girl will not become a mother within the year. Further,<br>
+    it is believed that the flax will grow that year as high as<br>
+    they leap over the fire; and that if a charred billet be taken<br>
+    from the fire and stuck in a flax-field it will promote the<br>
+    growth of the flax.[3] Similarly in Swabia, lads and lasses,<br>
+    hand in hand, leap over the midsummer bonfire, praying<br>
+    that the hemp may grow three ells high, and they set fire<br>
+    to wheels of straw and send them rolling down the hill.<br>
+    Among the places where burning wheels were thus bowled<br>
+    down hill at Midsummer were the Hohenstaufen mountains<br>
+    in Wurtemberg and the Frauenberg near Gerhausen.[4]<br>
+    At Deffingen, in Swabia, as the people sprang over the mid-*<br>
+    <br>
+    [Footnote 1: &lt;i&gt;Op. cit.&lt;/i&gt; iv. 1. p. 242. We have<br>
+    seen (p. 163) that in the sixteenth<br>
+    century these customs and beliefs were<br>
+    common in Germany. It is also a<br>
+    German superstition that a house which<br>
+    contains a brand from the midsummer<br>
+    bonfire will not be struck by lightning<br>
+    (J. W. Wolf, &lt;i&gt;Beitr&auml;ge zur deutschen<br>
+    Mythologie&lt;/i&gt;, i. p. 217, &sect; 185).]<br>
+    <br>
+    [Footnote 2: J. Boemus, &lt;i&gt;Mores, leges et ritus<br>
+    omnium gentium&lt;/i&gt; (Lyons, 1541), p.<br>
+    226.]<br>
+    <br>
+    [Footnote 3: Karl Freiherr von Leoprechting,<br>
+    &lt;i&gt;Aus dem Lechrain&lt;/i&gt; (Munich, 1855),<br>
+    pp. 181 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der<br>
+    Baumkultus&lt;i&gt;, p. 510.]<br>
+    <br>
+    [Footnote 4: A. Birlinger, &lt;i&gt;Volksth&uuml;mliches aus<br>
+    Schwaben&lt;/i&gt; (Freiburg im Breisgau, 1861-1862),<br>
+    ii. pp. 96 &lt;i&gt;sqq.&lt;/i&gt;, &sect; 128, pp. 103<br>
+    &lt;i&gt;sq.&lt;/i&gt;, &sect; 129; &lt;i&gt;id.&lt;/i&gt;, &lt;i&gt;Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
+    1874), ii. 116-120; E. Meier,<br>
+    &lt;i&gt;Deutsche Sagen, Sitten und Gebr&auml;uche<br>
+    aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.<br>
+    423 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der Baumkultus&lt;/i&gt;,<br>
+    p. 510.]<br>
+    </tt></p>
+</td></tr></table>
       </td>
     </tr>
   </tbody>
 </table>
 
-<h3><a name="bold">Fett gedruckter Text</a></h3>
-<p>Formatieren Sie <b>fett gedruckten Text</b> (Text, der in kr&auml;ftigeren
-   Lettern gedruckt ist) mit einem <tt>&lt;b&gt;</tt> vor dem fett gedruckten Text
-   und einem <tt>&lt;/b&gt;</tt> danach. (Beachten Sie den Schr&auml;gstrich
-   &bdquo;/&ldquo; in der schlie&szlig;enden Markierung.)
-</p>
-<p>Satzzeichen bleiben <b>au&szlig;erhalb</b> der Markierungen f&uuml;r Fettdruck,
-   au&szlig;er der gesamte Satz oder Abschnitt ist fett gedruckt, oder aber die
-   Interpunktion selbst ist Teil eines Ausdrucks, Titels oder einer Abk&uuml;rzung
-   in fetter Schrift.
-</p>
-<p>Im Text und der Beispielvorlage zu <a href="#page_hf">Kopf- und Fu&szlig;zeilen</a>
-   finden Sie ein Beispiel.
-</p>
-<p>Manche Projektmanager legen in den <a href="#comments">Projektkommentaren</a>
-   fest, dass fett gedruckter Text als Text in Gro&szlig;buchstaben wiedergegeben
-   werden soll.
-</p>
-
-<h3><a name="supers">Hochgestellte Zeichen</a></h3>
-<p>In &auml;lteren B&uuml;chern wurden W&ouml;rter h&auml;ufig mit verk&uuml;rzten
-   Endungen dargestellt, die dann hochgestellt wurden. Zum Beispiel:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
-   Formatieren Sie diese, indem Sie einen einzelnen Zirkumflex ^ einsetzen, gefolgt
-   von dem hochgestellten Text. Also so:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
-</p>
-<p>In wissenschaftlichen und technischen Werken formatieren Sie hochgestellte
-   Zeichen mit umschlie&szlig;enden geschweiften Klammern, <tt>{</tt> und <tt>}</tt>,
-   selbst wenn nur ein Zeichen hochgestellt ist.
-   <br>Zum Beispiel wird
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;... up to x<sup>n-1</sup> elements in the array.
-   <br>formatiert als
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>... up to x^{n-1} elements in the array.<br></tt>
-</p>
-<p>Manche Projektmanager legen in den <a href="#comments">Projektkommentaren</a>
-   fest, dass hochgestellte Zeichen anders markiert werden sollen.
-</p>
-
-<h3><a name="subscr">Tiefgestellte Zeichen</a></h3>
-<p>Tiefgestellte Zeichen kommen oft in wissenschaftlichen Texten vor, in anderen
-   Werken sind sie nicht &uuml;blich. Formatieren Sie tiefgestellte Zeichen durch
-   Einf&uuml;gen eines Unterstriches <tt>_</tt> und Umschlie&szlig;en der Zeichen
-   mit geschweiften Klammern <tt>{</tt> und <tt>}</tt>.<br>
-   Zum Beispiel wird<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.<br>
-   formatiert als:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>H_{2}O.<br></tt>
-</p>
-
-<h3><a name="underl">Unterstrichener Text</a></h3>
-<p>Formatieren Sie <u>unterstrichenen Text</u> wie <a href="#italics">kursiv
-   gedruckten</a>, mit <tt>&lt;i&gt;</tt> und <tt>&lt;/i&gt;</tt>. (Beachten
-   Sie den Schr&auml;gstrich &bdquo;/&ldquo; in der schlie&szlig;enden Markierung.)
-</p>
-<p>Unterstreichungen wurden oft benutzt, um eine Betonung anzuzeigen, wenn der
-   Schriftsetzer den Text nicht kursiv setzen <i>konnte</i>, etwa in einem
-   maschinengeschriebenen Dokument.
-</p>
-<p>Manche Projektmanager legen in den <a href="#comments">Projektkommentaren</a>
-   fest, dass unterstrichener Text mit <tt>&lt;u&gt;</tt> und <tt>&lt;/u&gt;</tt>
-   markiert werden soll.
-</p>
-
-<h3><a name="spaced">G e s p e r r t e r &nbsp; Text</a></h3>
-<p>Formatieren Sie &nbsp; g e s p e r r t e n &nbsp; T e x t &nbsp; mit
-   <tt>&lt;g&gt;</tt> vor dem Text und <tt>&lt;/g&gt;</tt> danach. (Beachten
-   Sie den Schr&auml;gstrich &bdquo;/&ldquo; in der schlie&szlig;enden Markierung.)
-   Entfernen Sie &uuml;berfl&uuml;ssige Leerzeichen zwischen den einzelnen
-   Buchstaben der W&ouml;rter.
-</p>
-<p>Satzzeichen bleiben <b>au&szlig;erhalb</b> der Markierungen, au&szlig;er der
-   gesamte Satz oder Abschnitt ist gesperrt gedruckt, oder aber die Interpunktion
-   selbst ist Teil eines gesperrten Ausdrucks.
-</p>
-<p>Diese schriftsetzerische Technik wurde in vielen &auml;lteren, insbesondere
-   deutschsprachigen B&uuml;chern benutzt, um einen Teil des Textes zu betonen.
-</p>
-
-<h3><a name="font_ch">&Auml;nderungen der Schriftart</a></h3>
-<p>Formatieren Sie eine &Auml;nderung der Schriftart innerhalb eines Absatzes
-   oder einer Zeile mit normalem Text durch <tt>&lt;f&gt;</tt> vor der
-   &Auml;nderung der Schriftart und <tt>&lt;/f&gt;</tt> danach. (Beachten Sie
-   den Schr&auml;gstrich &bdquo;/&ldquo; in der schlie&szlig;enden Markierung.)
-   Benutzen Sie diese Markierungen f&uuml;r alle besonderen Schriftarten oder
-   sonstigen Formatierungen, <b>au&szlig;er</b> bei fett, kursiv, in Kapit&auml;lchen
-   und gesperrt gedrucktem Text, wof&uuml;r es jeweils eigene Markierungen gibt.
-</p>
-<p>Diese Markierungen sollten z. B. in folgenden F&auml;llen verwendet werden:
-</p>
-<ul compact>
-  <li>Antiqua-Schrift innerhalb von Frakturschrift</li>
-  <li>gebrochene Schrift innerhalb eines Abschnitts einer regul&auml;ren Schriftart</li>
-  <li>eine kleinere oder gr&ouml;&szlig;ere Schriftart nur dann, wenn sie sich
-    <b>innerhalb</b> eines Absatzes mit einer regul&auml;ren Schriftart befindet
-    (ganze Abs&auml;tze in einer anderen Schriftart oder -gr&ouml;&szlig;e: siehe
-    Abschnitt <a href="#block_qt">Blockzitate</a>).</li>
-  <li>eine gerade Schriftart innerhalb eines kursiv gedruckten Absatzes</li>
-</ul>
-<p>Die genaue Verwendung der Markierungen in einem Projekt wird &uuml;blicherweise
-   in den <a href="#comments">Projektkommentaren</a> erl&auml;utert. Formatierer
-   sollten im <a href="#forums">Projektforum</a> nachfragen, wenn eine Kennzeichnung
-   erforderlich scheint, aber noch nicht diskutiert wurde.
-</p>
-<p>Satzzeichen bleiben <b>au&szlig;erhalb</b> der Markierungen, au&szlig;er der
-   gesamte Satz steht in einer anderen Schriftart, oder aber die Interpunktion
-   selbst ist Teil eines Ausdrucks, eines Titels oder einer Abk&uuml;rzung in der
-   anderen Schriftart.
-</p>
-
-<h3><a name="font_sz">Unterschiedliche Schriftgr&ouml;&szlig;en</a></h3>
-<p>Normalerweise markieren wir &Auml;nderungen in der Schriftgr&ouml;&szlig;e
-   nicht.
-</p>
-<p>Ausnahmen davon sind, wenn die Schriftgr&ouml;&szlig;e sich &auml;ndert, um
-   <a href="#block_qt">Blockzitate</a> anzuzeigen, oder wenn sie sich innerhalb
-   eines Absatzes oder einer Textzeile &auml;ndert (siehe
-   <a href="#font_ch">&Auml;nderungen der Schriftart</a>).
-</p>
-
-<h3><a name="word_caps">W&ouml;rter in Gro&szlig;buchstaben</a></h3>
-<p>Formatieren Sie W&ouml;rter, die in Gro&szlig;buchstaben gedruckt sind, als
-   Gro&szlig;buchstaben.
-</p>
-<p>Eine Ausnahme ist das erste <a href="#chap_head">Wort eines Kapitels</a>: In
-   vielen alten B&uuml;chern ist das erste Wort in Gro&szlig;buchstaben gedruckt;
-   dies sollte in Gro&szlig;- und Kleinschreibung ge&auml;ndert werden. So wird
-   "ONCE upon a time," zu "<tt>Once upon a time,</tt>".
-</p>
-
-<h3><a name="small_caps">W&ouml;rter in Kapit&auml;lchen</a></h3>
-<p><span style="font-variant:small-caps;">Kapit&auml;lchen in gemischter
-   Schreibweise (Gro&szlig;buchstaben und Kapit&auml;lchen)</span> und
-   <span style="font-variant: small-caps;"> nur kapit&auml;lchen</span>
-   werden unterschiedlich behandelt:
-</p>
-<p>Formatieren Sie W&ouml;rter, die in <span style="font-variant: small-caps;">Kapit&auml;lchen
-   in gemischter Schreibweise</span> gedruckt sind, als normale Gro&szlig;- und
-   Kleinbuchstaben und umschlie&szlig;en Sie den Text mit den Markierungen
-   <tt>&lt;sc&gt;</tt> und <tt>&lt;/sc&gt;</tt>.<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Beispiel:
-   <span style="font-variant: small-caps;">This is Small Caps</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;wird korrekt formatiert als:
-   <tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt>.
-</p>
-
-<p>Formatieren Sie W&ouml;rter, die in <span style="font-variant: small-caps;">nur
-   als kapit&auml;lchen</span> gedruckt sind, als Gro&szlig;buchstaben und
-   umschlie&szlig;en Sie den Text mit den Markierungen <tt>&lt;sc&gt;</tt>
-   und <tt>&lt;/sc&gt;</tt>.<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Beispiel:
-   You cannot be serious about
-   <span style="font-variant: small-caps;">aardvarks</span>!<br>
-&nbsp;&nbsp;&nbsp;&nbsp;wird korrekt formatiert als:
-   <tt>You cannot be serious about
-   &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</tt><br>
-</p>
-
-<p>W&ouml;rter in &Uuml;berschriften (Kapitel-/Abschnitts&uuml;berschriften,
-   Bildunterschriften usw.), die vollst&auml;ndig aus Gro&szlig;buchstaben
-   bestehen, sollten als Gro&szlig;buchstaben formatiert werden, ohne &lt;sc&gt;
-   &lt;/sc&gt;. Das erste Wort eines Kapitels in Kapit&auml;lchen sollte in
-   Gro&szlig;- und Kleinbuchstaben ohne Markierung ge&auml;ndert werden.
-</p>
-
-<h3><a name="poetry">Gedichte/Epigramme</a></h3>
-<p>Dieser Abschnitt bezieht sich auf vereinzelte Gedichte oder Epigramme, die
-   in einem Prosawerk vorkommen. Ganze Gedichtb&auml;nde werden in den
-   <a href="doc-poet.php">Sonderrichtlinien f&uuml;r Lyrik</a> behandelt.
-</p>
-<p>Markieren Sie Gedichte oder Epigramme, damit der Nachbearbeiter sie schneller
-   finden kann. F&uuml;gen Sie eine separate Zeile mit <tt>/*</tt> am Anfang des
-   Gedichtes oder Epigramms und eine separate Zeile mit <tt>*/</tt> am Ende ein.
+<h3><a name="block_qt">Blockzitate</a></h3>
+<p>Umschlie&szlig;en Sie Blockzitate mit den Markierungen <tt>/#</tt> und <tt>#/</tt>.
    Lassen Sie eine Leerzeile zwischen diesen Markierungen und dem Rest des Textes.
+   Die Markierungen stellen sicher, dass Blockzitate beim Nachbearbeiten richtig
+   formatiert werden.
 </p>
-<p>Behalten Sie die relative Einr&uuml;ckung der Zeilen eines Gedichtes oder Epigramms
-   bei. R&uuml;cken Sie die Zeilen dazu um zwei, vier, sechs (oder mehr) Leerzeichen
-   ein, damit sie so aussehen wie auf der Vorlage.
+<p>Abgesehen von den Markierungen sollten Blockzitate genauso formatiert werden
+   wie jeder andere Text.
 </p>
-<p>Wenn eine Verszeile zu lang f&uuml;r die gedruckte Seite ist, steht in vielen
-   Texten das Ende in der n&auml;chsten Zeile mit einer gro&szlig;en Einr&uuml;ckung
-   davor. Diese fortgesetzten Zeilen sollten wieder mit der Zeile dar&uuml;ber
-   zusammengef&uuml;gt werden. Fortgesetzte Zeilen&nbsp;beginnen &uuml;blicherweise
-   mit einem Kleinbuchstaben. Sie treten wahllos auf und unterscheiden sich von
-   normalen Einr&uuml;ckungen, die entsprechend dem Metrum des Gedichts
-   regelm&auml;&szlig;ig auftreten.
-</p>
-<p>Falls das Gedicht auf der gedruckten Seite zentriert ist, versuchen Sie nicht,
-   die Zeilen des Gedichtes beim Formatieren zu zentrieren. Verschieben Sie die
-   Zeilen an den linken Rand und behalten sie die relative Einr&uuml;ckung der
-   Zeilen bei.
-</p>
-<p><b>Fu&szlig;noten</b> in Gedichten sollten beim Formatieren wie regul&auml;re
-   Fu&szlig;noten behandelt werden. Zu den Einzelheiten siehe
-   <a href="#footnotes">Fu&szlig;noten</a>.
-</p>
-<p><b>Zeilennummern</b> in Gedichten sollten beibehalten werden. Stellen Sie sie
-   ans Ende der Zeile und lassen Sie einen Abstand von mindestens sechs Leerzeichen
-   zwischen den Zeilennummern und dem Ende des Textes. Einzelheiten dazu unter
-   <a href="#line_no">Zeilennummern</a>.
-</p>
-<p>Lesen Sie in jedem Falle die <a href="#comments">Projektkommentare</a> des
-   Textes, den Sie formatieren. F&uuml;r Gedichtb&auml;nde gibt es oft besondere
-   Anweisungen vom Projektmanager. H&auml;ufig brauchen Sie bei einem Buch, das
-   &uuml;berwiegend oder ausschlie&szlig;lich Gedichte enth&auml;lt, nicht allen
-   diesen Formatierungsrichtlinien zu folgen.
+<p>Blockzitate sind lange Zitate (&uuml;blicherweise mehrere Zeilen und manchmal
+   mehrere Seiten), die meistens (aber nicht immer) mit breiteren R&auml;ndern
+   oder in einer kleineren Schriftart (oder beidem) gedruckt sind.
 </p>
 <!-- END RR -->
 
-<br>
-<table width="100%" align="center" border="1"  cellpadding="4"
-       cellspacing="0" summary="Poetry Example">
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Block Quotation">
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <th width="100%" valign="top"> <img src="poetry.png" alt=""
-          width="500" height="508"> <br>
-      </th>
-    </tr>
-    <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
-    <tr>
-      <td width="100%" valign="top">
-
-<table summary="" border="0" align="left"><tr><td>
-<tt>
-to the scenery of his own country:<br></tt>
-<p><tt>
-/*<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oh, to be in England<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now that April's there,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And whoever wakes in England<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sees, some morning, unaware,<br>
-That the lowest boughs and the brushwood sheaf<br>
-Round the elm-tree bole are in tiny leaf,<br>
-While the chaffinch sings on the orchard bough<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In England--now!</tt>
-</p><p><tt>
-And after April, when May follows,<br>
-And the whitethroat builds, and all the swallows!<br>
-Hark! where my blossomed pear-tree in the hedge<br>
-Leans to the field and scatters on the clover<br>
-Blossoms and dewdrops--at the bent spray's edge--<br>
-That's the wise thrush; he sings each song twice over,<br>
-Lest you should think he never could recapture<br>
-The first fine careless rapture!<br>
-And though the fields look rough with hoary dew,<br>
-All will be gay, when noontide wakes anew<br>
-The buttercups, the little children's dower;<br>
---Far brighter than this gaudy melon-flower!<br>
-*/<br></tt>
-</p><p><tt>
-So it runs; but it is only a momentary memory;<br>
-and he knew, when he had done it, and to his</tt>
-</p>
-</td></tr></table>
-
+      <td width="100%" valign="top"> <img src="bquote.png" alt="" width="500" height="475"><br>
       </td>
     </tr>
-  </tbody>
-</table>
-
-<h3><a name="letter">Briefe/Korrespondenz</a></h3>
-<p>Formatieren Sie Briefe und Korrespondenz wie <a href="#para_space">Abs&auml;tze</a>.
-   F&uuml;gen Sie eine Leerzeile vor dem Anfang des Briefes ein. Sie brauchen keine
-   Einr&uuml;ckungen nachzubilden.
-</p>
-<p>Umschlie&szlig;en Sie aufeinander folgende Kopf- oder Fu&szlig;zeilen (wie
-   z.&nbsp;B. Adressen, Datumsangaben, Anreden oder Unterschriften) mit den
-   Markierungen <tt>/*</tt> und <tt>*/</tt>. Lassen Sie eine Leerzeile zwischen
-   den Markierungen und dem Rest des Textes. Die Markierungen stellen sicher, dass
-   die jeweiligen Zeilen beim Nachbearbeiten nicht umgebrochen werden.
-</p>
-<p>R&uuml;cken Sie die Kopf- und Fu&szlig;zeilen nicht ein, auch wenn sie in der
-   Vorlage einger&uuml;ckt oder rechtsb&uuml;ndig sind &ndash; richten Sie sie einfach
-   linksb&uuml;ndig aus. Der Nachbearbeiter wird sie entsprechend formatieren.
-</p>
-<!-- END RR -->
-
-<table width="100%" align="center" border="1"  cellpadding="4"
-       cellspacing="0" summary="Letter Example">
-  <tbody>
-    <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
-    <tr align="left">
-      <th width="100%" valign="top"> <img src="letter.png" alt=""
-          width="500" height="217"> <br>
-      </th>
-    </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-<p><tt>&lt;i&gt;John James Audubon to Claude Fran&ccedil;ois Rozier&lt;/i&gt;</tt></p>
-<p><tt>[Letter No. 1, addressed]</tt></p>
-<p><tt>/*<br>
-&lt;sc&gt;M. Fr. Rozier&lt;/sc&gt;,<br>
-Merchant-Nantes.<br>
-&lt;sc&gt;New York&lt;/sc&gt;, &lt;i&gt;10 January, 1807.&lt;/i&gt;</tt></p>
-<p><tt>
-&lt;sc&gt;Dear Sir:&lt;/sc&gt;<br>
-*/</tt></p>
-<p><tt>
-We have had the pleasure of receiving by the &lt;i&gt;Penelope&lt;/i&gt; your<br>
-consignment of 20 pieces of linen cloth, for which we send our<br>
-thanks. As soon as we have sold them, we shall take great<br>
-pleasure in making our return.</tt>
-</p>
+    <p><tt>later day was welcomed in their home on the Hudson.<br>
+    Dr. Bakewell's contribution was as follows:[24]</tt></p>
+    <p><tt>/#<br>
+    The uncertainty as to the place of Audubon's birth has been<br>
+    put to rest by the testimony of an eye witness in the person<br>
+    of old Mandeville Marigny now dead some years. His repeated<br>
+    statement to me was, that on his plantation at Mandeville,<br>
+    Louisiana, on Lake Ponchartrain, Audubon's mother was<br>
+    his guest; and while there gave birth to John James Audubon.<br>
+    Marigny was present at the time, and from his own lips, I have,<br>
+    as already said, repeatedly heard him assert the above fact.<br>
+    He was ever proud to bear this testimony of his protection<br>
+    given to Audubon's mother, and his ability to bear witness as<br>
+    to the place of Audubon's birth, thus establishing the fact that<br>
+    he was a Louisianian by birth.<br>
+    #/<br></tt>
+    </p>
+    <p><tt>We do not doubt the candor and sincerity of the<br>
+    excellent Dr. Bakewell, but are bound to say that the<br>
+    incidents as related above betray a striking lapse of<br>
+    </tt></p>
 </td></tr></table>
       </td>
     </tr>
   </tbody>
 </table>
 
+<h3><a name="mult_col">Mehrspaltige Texte</a></h3>
+<p>Formatieren Sie normalen Text, der in zwei Spalten gedruckt wurde, als eine
+   Spalte.
+</p>
+<p>Mehrspaltiger Text innerhalb eines sonst einspaltigen Abschnitts sollte als
+   eine fortlaufende Spalte formatiert werden. Dabei kommt die Spalte ganz links
+   zuerst, anschlie&szlig;end der Text der n&auml;chsten und so weiter. Sie brauchen
+   den Umbruch der Spalten nicht extra zu kennzeichnen; verbinden Sie einfach die
+   Spalten.
+</p>
+<p>Falls die Spalten Aufz&auml;hlungen enthalten, markieren Sie den Anfang der
+   Liste mit <tt>/*</tt> und das Ende mit <tt>*/</tt>, damit die Zeilen bei der
+   Nachbearbeitung nicht umgebrochen werden. Lassen Sie eine Leerzeile zwischen
+   diesen Markierungen und dem Rest des Textes.
+</p>
+<p>Lesen Sie dazu auch die Abschnitte <a href="#bk_index">Sachregister und
+   Schlagwortverzeichnisse</a>, <a href="#lists">Aufz&auml;hlungen</a> und
+   <a href="#tables">Tabellen</a>.
+</p>
 
 <h3><a name="lists">Aufz&auml;hlungen</a></h3>
 <p>Umschlie&szlig;en Sie Listen mit den Markierungen <tt>/*</tt> und <tt>*/</tt>.
@@ -1593,93 +1467,101 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 </table>
 
 
-<h3><a name="block_qt">Blockzitate</a></h3>
-<p>Umschlie&szlig;en Sie Blockzitate mit den Markierungen <tt>/#</tt> und <tt>#/</tt>.
+<h3><a name="poetry">Gedichte/Epigramme</a></h3>
+<p>Dieser Abschnitt bezieht sich auf vereinzelte Gedichte oder Epigramme, die
+   in einem Prosawerk vorkommen. Ganze Gedichtb&auml;nde werden in den
+   <a href="doc-poet.php">Sonderrichtlinien f&uuml;r Lyrik</a> behandelt.
+</p>
+<p>Markieren Sie Gedichte oder Epigramme, damit der Nachbearbeiter sie schneller
+   finden kann. F&uuml;gen Sie eine separate Zeile mit <tt>/*</tt> am Anfang des
+   Gedichtes oder Epigramms und eine separate Zeile mit <tt>*/</tt> am Ende ein.
    Lassen Sie eine Leerzeile zwischen diesen Markierungen und dem Rest des Textes.
-   Die Markierungen stellen sicher, dass Blockzitate beim Nachbearbeiten richtig
-   formatiert werden.
 </p>
-<p>Abgesehen von den Markierungen sollten Blockzitate genauso formatiert werden
-   wie jeder andere Text.
+<p>Behalten Sie die relative Einr&uuml;ckung der Zeilen eines Gedichtes oder Epigramms
+   bei. R&uuml;cken Sie die Zeilen dazu um zwei, vier, sechs (oder mehr) Leerzeichen
+   ein, damit sie so aussehen wie auf der Vorlage.
 </p>
-<p>Blockzitate sind lange Zitate (&uuml;blicherweise mehrere Zeilen und manchmal
-   mehrere Seiten), die meistens (aber nicht immer) mit breiteren R&auml;ndern
-   oder in einer kleineren Schriftart (oder beidem) gedruckt sind.
+<p>Wenn eine Verszeile zu lang f&uuml;r die gedruckte Seite ist, steht in vielen
+   Texten das Ende in der n&auml;chsten Zeile mit einer gro&szlig;en Einr&uuml;ckung
+   davor. Diese fortgesetzten Zeilen sollten wieder mit der Zeile dar&uuml;ber
+   zusammengef&uuml;gt werden. Fortgesetzte Zeilen&nbsp;beginnen &uuml;blicherweise
+   mit einem Kleinbuchstaben. Sie treten wahllos auf und unterscheiden sich von
+   normalen Einr&uuml;ckungen, die entsprechend dem Metrum des Gedichts
+   regelm&auml;&szlig;ig auftreten.
+</p>
+<p>Falls das Gedicht auf der gedruckten Seite zentriert ist, versuchen Sie nicht,
+   die Zeilen des Gedichtes beim Formatieren zu zentrieren. Verschieben Sie die
+   Zeilen an den linken Rand und behalten sie die relative Einr&uuml;ckung der
+   Zeilen bei.
+</p>
+<p><b>Fu&szlig;noten</b> in Gedichten sollten beim Formatieren wie regul&auml;re
+   Fu&szlig;noten behandelt werden. Zu den Einzelheiten siehe
+   <a href="#footnotes">Fu&szlig;noten</a>.
+</p>
+<p><b>Zeilennummern</b> in Gedichten sollten beibehalten werden. Stellen Sie sie
+   ans Ende der Zeile und lassen Sie einen Abstand von mindestens sechs Leerzeichen
+   zwischen den Zeilennummern und dem Ende des Textes. Einzelheiten dazu unter
+   <a href="#line_no">Zeilennummern</a>.
+</p>
+<p>Lesen Sie in jedem Falle die <a href="#comments">Projektkommentare</a> des
+   Textes, den Sie formatieren. F&uuml;r Gedichtb&auml;nde gibt es oft besondere
+   Anweisungen vom Projektmanager. H&auml;ufig brauchen Sie bei einem Buch, das
+   &uuml;berwiegend oder ausschlie&szlig;lich Gedichte enth&auml;lt, nicht allen
+   diesen Formatierungsrichtlinien zu folgen.
 </p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Block Quotation">
+<br>
+<table width="100%" align="center" border="1"  cellpadding="4"
+       cellspacing="0" summary="Poetry Example">
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="bquote.png" alt="" width="500" height="475"><br>
-      </td>
+      <th width="100%" valign="top"> <img src="poetry.png" alt=""
+          width="500" height="508"> <br>
+      </th>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
+
 <table summary="" border="0" align="left"><tr><td>
-    <p><tt>later day was welcomed in their home on the Hudson.<br>
-    Dr. Bakewell's contribution was as follows:[24]</tt></p>
-    <p><tt>/#<br>
-    The uncertainty as to the place of Audubon's birth has been<br>
-    put to rest by the testimony of an eye witness in the person<br>
-    of old Mandeville Marigny now dead some years. His repeated<br>
-    statement to me was, that on his plantation at Mandeville,<br>
-    Louisiana, on Lake Ponchartrain, Audubon's mother was<br>
-    his guest; and while there gave birth to John James Audubon.<br>
-    Marigny was present at the time, and from his own lips, I have,<br>
-    as already said, repeatedly heard him assert the above fact.<br>
-    He was ever proud to bear this testimony of his protection<br>
-    given to Audubon's mother, and his ability to bear witness as<br>
-    to the place of Audubon's birth, thus establishing the fact that<br>
-    he was a Louisianian by birth.<br>
-    #/<br></tt>
-    </p>
-    <p><tt>We do not doubt the candor and sincerity of the<br>
-    excellent Dr. Bakewell, but are bound to say that the<br>
-    incidents as related above betray a striking lapse of<br>
-    </tt></p>
+<tt>
+to the scenery of his own country:<br></tt>
+<p><tt>
+/*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oh, to be in England<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now that April's there,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And whoever wakes in England<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sees, some morning, unaware,<br>
+That the lowest boughs and the brushwood sheaf<br>
+Round the elm-tree bole are in tiny leaf,<br>
+While the chaffinch sings on the orchard bough<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In England--now!</tt>
+</p><p><tt>
+And after April, when May follows,<br>
+And the whitethroat builds, and all the swallows!<br>
+Hark! where my blossomed pear-tree in the hedge<br>
+Leans to the field and scatters on the clover<br>
+Blossoms and dewdrops--at the bent spray's edge--<br>
+That's the wise thrush; he sings each song twice over,<br>
+Lest you should think he never could recapture<br>
+The first fine careless rapture!<br>
+And though the fields look rough with hoary dew,<br>
+All will be gay, when noontide wakes anew<br>
+The buttercups, the little children's dower;<br>
+--Far brighter than this gaudy melon-flower!<br>
+*/<br></tt>
+</p><p><tt>
+So it runs; but it is only a momentary memory;<br>
+and he knew, when he had done it, and to his</tt>
+</p>
 </td></tr></table>
+
       </td>
     </tr>
   </tbody>
 </table>
-
-<h3><a name="line_br">Zeilenumbr&uuml;che</a></h3>
-<p><b>Lassen Sie alle Zeilenumbr&uuml;che stehen</b>, damit der n&auml;chste
-   Formatierer und der Nachbearbeiter die Zeilen im Text bequem mit den Zeilen
-   in der Vorlage vergleichen k&ouml;nnen. Seien Sie dabei besonders vorsichtig,
-   wenn Sie <a href="#eol_hyphen">getrennte W&ouml;rter</a> wieder zusammenf&uuml;gen
-   oder W&ouml;rter um <a href="#em_dashes">Gedankenstriche</a> bewegen. Sollte der
-   vorhergehende Freiwillige die Zeilenumbr&uuml;che entfernt haben, setzen Sie diese
-   bitte wieder so ein, dass sie der Vorlage entsprechen.
-</p>
-<p>Zus&auml;tzliche Leerzeilen, die nicht auf der Vorlage sind, sollten entfernt
-   werden, au&szlig;er dort, wo wir sie absichtlich f&uuml;r die Formatierung
-   einf&uuml;gen. Leerzeilen am Ende der Seite sind in Ordnung &ndash; sie werden
-   beim Speichern der Seite automatisch entfernt.
-</p>
-
-<!-- END RR -->
-<!-- We should have an example right here for this. -->
-
-<h3><a name="extra_sp">&Uuml;berfl&uuml;ssige Leerzeichen bzw. Tabulatoren zwischen
-    W&ouml;rtern</a></h3>
-<p>Die Texterkennung verursacht oft &uuml;berfl&uuml;ssige Leerzeichen und Tabulatoren
-   im Text. Sie brauchen sich nicht die M&uuml;he zu machen, diese Leerzeichen
-   zu entfernen &ndash; das kann automatisch in der Nachbearbeitung erfolgen.
-</p>
-<p>&Uuml;berfl&uuml;ssige Leerzeichen um Satzzeichen, Gedankenstriche,
-   Anf&uuml;hrungszeichen herum usw. <b>m&uuml;ssen</b> jedoch entfernt werden, wenn
-   sie das Symbol vom Wort trennen.
-</p>
-<p>Im folgenden Beispiel: <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt>
-   muss das Leerzeichen zwischen &bdquo;horse&ldquo;; und dem Semikolon entfernt
-   werden. Die zwei Leerzeichen nach dem Semikolon sind in Ordnung &ndash; Sie
-   brauchen keines der beiden zu l&ouml;schen.
-</p>
 
 <h3><a name="line_no">Zeilennummern</a></h3>
 <p>Zeilennummern werden beibehalten. Stellen Sie diese an das rechte Ende der Zeile,
@@ -1694,65 +1576,51 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
 
-<h3><a name="extra_s">Zus&auml;tzliche(r) Abstand/Sternchen/Zeilen zwischen Abs&auml;tzen</a></h3>
-<p>Die meisten Abs&auml;tze beginnen direkt in der Zeile nach dem Ende des
-   vorhergehenden Absatzes. Manchmal sind zwei Abs&auml;tze getrennt, um einen
-   &bdquo;Gedankenwechsel&ldquo; (thought break, tb) anzuzeigen. Ein Gedankenwechsel
-   kann die Form einer Reihe von Sternchen, Strichen oder anderen Zeichen haben, einer
-   einfachen oder blumig verzierten waagerechten Linie, einer einfachen Verzierung
-   oder auch nur einer oder zwei zus&auml;tzlicher Leerzeilen.
+<h3><a name="letter">Briefe/Korrespondenz</a></h3>
+<p>Formatieren Sie Briefe und Korrespondenz wie <a href="#para_space">Abs&auml;tze</a>.
+   F&uuml;gen Sie eine Leerzeile vor dem Anfang des Briefes ein. Sie brauchen keine
+   Einr&uuml;ckungen nachzubilden.
 </p>
-<p>Ein Gedankenwechsel kann einen Szenen- oder Themenwechsel, einen Sprung in
-   der Zeit oder Spannung anzeigen. Das ist vom Autor gewollt, also behalten wir
-   es bei, indem wir eine Leerzeile, <tt>&lt;tb&gt;</tt> und eine weitere Leerzeile
-   einf&uuml;gen.
+<p>Umschlie&szlig;en Sie aufeinander folgende Kopf- oder Fu&szlig;zeilen (wie
+   z.&nbsp;B. Adressen, Datumsangaben, Anreden oder Unterschriften) mit den
+   Markierungen <tt>/*</tt> und <tt>*/</tt>. Lassen Sie eine Leerzeile zwischen
+   den Markierungen und dem Rest des Textes. Die Markierungen stellen sicher, dass
+   die jeweiligen Zeilen beim Nachbearbeiten nicht umgebrochen werden.
 </p>
-<p>Projektmanager und/oder Nachbearbeiter k&ouml;nnen verlangen, dass zus&auml;tzliche
-   Informationen in die tb-Markierung mit aufgenommen werden. Beispielsweise unterscheiden
-   einige Projekte verschiedene Arten von tbs durch verschiedene Markierungen,
-   etwa eine Reihe von Sternchen an einer Stelle und eine Leerzeile an einer anderen.
-   In diesem Fall k&ouml;nnen die Projektkommentare verlangen, dass diese mit <tt>&lt;tb
-   stars&gt;</tt> und <tt>&lt;tb&gt;</tt> zu markieren sind. Lesen Sie bitte aufmerksam
-   die Projektkommentare wie immer, damit Sie wissen, was im jeweiligen Projekt
-   verlangt wird. Achten Sie auch darauf, dass Sie diese besonderen Erfordernisse
-   nicht auf ein Projekt mit anderen Anforderungen &uuml;bertragen.
-</p>
-<p>Von Druckern wurden manchmal dekorative Linien verwendet, um das Ende von Kapiteln
-   anzuzeigen. Da wir bereits <a href="#chap_head">Kapitel&uuml;berschriften</a>
-   markieren, braucht die tb-Markierung daf&uuml;r nicht eingef&uuml;gt zu werden.
-</p>
-<p>Die &lt;tb&gt;-Markierung ist in der Korrekturlese-Oberfl&auml;che zum Kopieren
-   und Einf&uuml;gen verf&uuml;gbar.
+<p>R&uuml;cken Sie die Kopf- und Fu&szlig;zeilen nicht ein, auch wenn sie in der
+   Vorlage einger&uuml;ckt oder rechtsb&uuml;ndig sind &ndash; richten Sie sie einfach
+   linksb&uuml;ndig aus. Der Nachbearbeiter wird sie entsprechend formatieren.
 </p>
 <!-- END RR -->
-<br>
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Thought Break">
+
+<table width="100%" align="center" border="1"  cellpadding="4"
+       cellspacing="0" summary="Letter Example">
   <tbody>
-    <tr><th align="left" bgcolor="cornsilk"> Beispielvorlage:</th></tr>
+    <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="tbreak.png" alt="thought break"
-          width="500" height="264"> <br>
-      </td>
+      <th width="100%" valign="top"> <img src="letter.png" alt=""
+          width="500" height="217"> <br>
+      </th>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-    <p><tt>
-    like the gentleman with the spiritual hydrophobia<br>
-    in the latter end of Uncle Tom's Cabin.<br>
-    Unconsciously Mr. Dixon has done his best to<br>
-    prove that Legree was not a fictitious character.</tt>
-    </p>
-    <p><tt>&lt;tb&gt;</tt>
-    </p>
-    <p><tt>
-    Joel Chandler Harris, Harry Stillwell Edwards,<br>
-    George W. Cable, Thomas Nelson Page,<br>
-    James Lane Allen, and Mark Twain are Southern<br>
-    men in Mr. Griffith's class. I recommend</tt>
-    </p>
+<p><tt>&lt;i&gt;John James Audubon to Claude Fran&ccedil;ois Rozier&lt;/i&gt;</tt></p>
+<p><tt>[Letter No. 1, addressed]</tt></p>
+<p><tt>/*<br>
+&lt;sc&gt;M. Fr. Rozier&lt;/sc&gt;,<br>
+Merchant-Nantes.<br>
+&lt;sc&gt;New York&lt;/sc&gt;, &lt;i&gt;10 January, 1807.&lt;/i&gt;</tt></p>
+<p><tt>
+&lt;sc&gt;Dear Sir:&lt;/sc&gt;<br>
+*/</tt></p>
+<p><tt>
+We have had the pleasure of receiving by the &lt;i&gt;Penelope&lt;/i&gt; your<br>
+consignment of 20 pieces of linen cloth, for which we send our<br>
+thanks. As soon as we have sold them, we shall take great<br>
+pleasure in making our return.</tt>
+</p>
 </td></tr></table>
       </td>
     </tr>
@@ -1760,13 +1628,145 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 </table>
 
 
-<h3><a name="page_ref">Seitenverweise (&bdquo;siehe S. 123&ldquo;)</a></h3>
-<p>Formatieren Sie Seitenverweise innerhalb des Textes wie <tt>(siehe S. 123)</tt>
-   so, wie sie in der Vorlage erscheinen.
+<h3><a name="blank_pg">Leere Seiten</a></h3>
+<p>Formatieren Sie diese als <tt>[Blank Page]</tt>, wenn sowohl Text als auch
+   Vorlage leer sind.
 </p>
-<p>Pr&uuml;fen Sie die <a href="#comments">Projektkommentare</a>, um zu sehen,
-   ob der Projektmanager besondere Vorgaben f&uuml;r Seitenverweise hat.
+<p>Wenn im Formatierfenster Text erscheint, aber eine leere Seite als Vorlage,
+   oder wenn eine Buchseite mit Text angezeigt wird, aber kein Text im Formatierfenster,
+   dann halten Sie sich an die Anweisungen in den Abschnitten <a href="#bad_image">Schlechte
+   Vorlagen</a> und <a href="#bad_text">Falsche Vorlage zum Text</a>.
 </p>
+
+<h3><a name="title_pg">Vorder- und R&uuml;ckseiten von Titelbl&auml;ttern</a></h3>
+<p>Formatieren Sie den gesamten Text so, wie er auf der Seite gedruckt ist, einerlei
+   ob nur Gro&szlig;buchstaben, Gro&szlig;- und Kleinschreibung o.&nbsp;&auml;.,
+   einschlie&szlig;lich Publikationsjahr und Copyright-Angaben.
+</p>
+<p>In &auml;lteren B&uuml;chern ist der erste Buchstabe oft eine gro&szlig;e,
+   verzierte Grafik &ndash; formatieren Sie ihn einfach als den dargestellten Buchstaben.
+</p>
+<!-- END RR -->
+
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Title Page Example">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top"><img src="title.png" width="500"
+          height="520" alt="Vorlage Titelblatt"><br>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+      <p><tt>GREEN FANCY</tt>
+      </p>
+      <p><tt>BY</tt></p>
+      <p><tt>GEORGE BARR McCUTCHEON</tt></p>
+      <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
+         "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
+      <p><tt>&lt;i&gt;WITH FRONTISPIECE BY&lt;/i&gt;<br>
+         &lt;i&gt;C. ALLAN GILBERT&lt;/i&gt;</tt></p>
+      <p><tt>NEW YORK<br>
+         DODD, MEAD AND COMPANY<br>
+         1917</tt></p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3><a name="toc">Inhaltsverzeichnisse</a></h3>
+<p>Formatieren Sie das Inhaltsverzeichnis so, wie es im Buch abgedruckt ist, einerlei
+   ob in Gro&szlig;buchstaben, in Gro&szlig;- und Kleinschreibung und schlie&szlig;en
+   Sie es in <tt>/*</tt> und <tt>*/</tt> ein. Lassen Sie eine Leerzeile zwischen
+   diesen Markierungen und dem Rest des Textes. Seitenzahlen sollen erhalten bleiben
+   und mit mindestes sechs Leerzeichen vom Rest der Zeile abgesetzt werden.
+</p>
+<p>Entfernen Sie eventuelle Punkte oder Sternchen (F&uuml;hrungszeichen), die
+   zum Ausrichten der Seitenzahlen benutzt wurden.
+</p>
+<!-- END RR -->
+
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="TOC">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Beispielvorlage:</th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top">
+      <p><img src="tablec.png" alt="" width="500" height="650"></p>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+      <p><tt><br><br><br><br>CONTENTS<br><br></tt></p>
+      <p><tt>/*<br>
+          CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<br>
+          <br>
+          I. &lt;sc&gt;The First Wayfarer and the Second Wayfarer<br>
+          Meet and Part on the Highway&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1<br>
+          <br>
+          II. &lt;sc&gt;The First Wayfarer Lays His Pack Aside and<br>
+          Falls in with Friends&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15<br>
+          <br>
+          III. &lt;sc&gt;Mr. Rushcroft Dissolves, Mr. Jones Intervenes,<br>
+          and Two Men Ride Away&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33<br>
+          <br>
+          IV. &lt;sc&gt;An Extraordinary Chambermaid, a Midnight<br>
+          Tragedy, and a Man Who Said "Thank You"&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50<br>
+          <br>
+          V. &lt;sc&gt;The Farm-boy Tells a Ghastly Story, and an<br>
+          Irishman Enters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;67<br>
+          <br>
+          VI. &lt;sc&gt;Charity Begins Far from Home, and a Stroll in<br>
+          the Wildwood Follows&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
+          <br>
+          VII. &lt;sc&gt;Spun-gold Hair, Blue Eyes, and Various Encounters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;103<br>
+          <br>
+          VIII. &lt;sc&gt;A Note, Some Fancies, and an Expedition in<br>
+          Quest of Facts&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;120<br>
+          <br>
+          IX. &lt;sc&gt;The First Wayfarer, the Second Wayfarer, and<br>
+          the Spirit of Chivalry Ascendant&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;134<br>
+          <br>
+          X. &lt;sc&gt;The Prisoner of Green Fancy, and the Lament of<br>
+          Peter the Chauffeur&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;148<br>
+          <br>
+          XI. &lt;sc&gt;Mr. Sprouse Abandons Literature at an Early<br>
+          Hour in the Morning&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;167<br>
+          <br>
+          XII. &lt;sc&gt;The First Wayfarer Accepts an Invitation, and<br>
+          Mr. Dillingford Belabors a Proxy&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
+          <br>
+          XIII. &lt;sc&gt;The Second Wayfarer Receives Two Visitors at<br>
+          Midnight&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;199<br>
+          <br>
+          XIV. &lt;sc&gt;A Flight, a Stone-cutter's Shed, and a Voice<br>
+          Outside&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
+          */<br>
+      </tt>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <h3><a name="bk_index">Sachregister und Schlagwortverzeichnisse</a></h3>
 <p>Bitte erhalten Sie die Seitenzahlen auf Registerseiten. Umschlie&szlig;en Sie

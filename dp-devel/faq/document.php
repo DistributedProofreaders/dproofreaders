@@ -75,37 +75,37 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <td width="1" bgcolor="silver">&nbsp;</td>
     <td bgcolor="white" align="left">
       <ul style="margin-left: 3em;">
-        <li><a href="#title_pg">Front/Back Title Page</a></li>
-        <li><a href="#toc">Table of Contents</a></li>
-        <li><a href="#blank_pg">Blank Page</a></li>
-        <li><a href="#chap_head">Chapter Headers</a></li>
-        <li><a href="#sect_head">Section Headers</a></li>
-        <li><a href="#maj_div">Other Major Divisions in Texts</a></li>
-        <li><a href="#para_side">Paragraph Side-Descriptions (Sidenotes)</a></li>
-        <li><a href="#para_space">Paragraph Spacing/Indenting</a></li>
-        <li><a href="#mult_col">Multiple Columns</a></li>
-        <li><a href="#illust">Illustrations</a></li>
-        <li><a href="#footnotes">Footnotes/Endnotes</a></li>
         <li><a href="#italics">Italics</a></li>
         <li><a href="#bold">Bold Text</a></li>
-        <li><a href="#supers">Superscripts</a></li>
-        <li><a href="#subscr">Subscripts</a></li>
         <li><a href="#underl">Underlined Text</a></li>
         <li><a href="#spaced">S p a c e d &nbsp; O u t &nbsp; Text (gesperrt)</a></li>
         <li><a href="#font_ch">Font Changes</a></li>
-        <li><a href="#font_sz">Font size changes</a></li>
-        <li><a href="#word_caps">Words in all Capitals</a></li>
         <li><a href="#small_caps">Words in <span style="font-variant: small-caps">Small Capitals</span></a></li>
-        <li><a href="#poetry">Poetry/Epigrams</a></li>
-        <li><a href="#letter">Letters/Correspondence</a></li>
+        <li><a href="#word_caps">Words in all Capitals</a></li>
+        <li><a href="#font_sz">Font size changes</a></li>
+        <li><a href="#extra_sp">Extra spaces or tabs between Words</a></li>
+        <li><a href="#supers">Superscripts</a></li>
+        <li><a href="#subscr">Subscripts</a></li>
+        <li><a href="#page_ref">Page References "(See Pg. 123)"</a></li>
+        <li><a href="#line_br">Line Breaks</a></li>
+        <li><a href="#chap_head">Chapter Headers</a></li>
+        <li><a href="#sect_head">Section Headers</a></li>
+        <li><a href="#maj_div">Other Major Divisions in Texts</a></li>
+        <li><a href="#para_space">Paragraph Spacing/Indenting</a></li>
+        <li><a href="#extra_s">Extra Spacing/Stars/Line Between Paragraphs</a></li>
+        <li><a href="#illust">Illustrations</a></li>
+        <li><a href="#footnotes">Footnotes/Endnotes</a></li>
+        <li><a href="#para_side">Paragraph Side-Descriptions (Sidenotes)</a></li>
+        <li><a href="#block_qt">Block Quotations</a></li>
+        <li><a href="#mult_col">Multiple Columns</a></li>
         <li><a href="#lists">Lists of Items</a></li>
         <li><a href="#tables">Tables</a></li>
-        <li><a href="#block_qt">Block Quotations</a></li>
-        <li><a href="#line_br">Line Breaks</a></li>
-        <li><a href="#extra_sp">Extra spaces or tabs between Words</a></li>
+        <li><a href="#poetry">Poetry/Epigrams</a></li>
         <li><a href="#line_no">Line Numbers</a></li>
-        <li><a href="#extra_s">Extra Spacing/Stars/Line Between Paragraphs</a></li>
-        <li><a href="#page_ref">Page References "(See Pg. 123)"</a></li>
+        <li><a href="#letter">Letters/Correspondence</a></li>
+        <li><a href="#blank_pg">Blank Page</a></li>
+        <li><a href="#title_pg">Front/Back Title Page</a></li>
+        <li><a href="#toc">Table of Contents</a></li>
         <li><a href="#bk_index">Indexes</a></li>
         <li><a href="#play_n">Plays: Actor Names/Stage Directions</a></li>
         <li><a href="#anything">Anything else that needs special handling or that you're unsure of</a></li>
@@ -273,143 +273,253 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </table>
 
 
-<h3><a name="title_pg">Front/Back Title Page</a></h3>
-<p>Format all the text, just as it was printed on the page, whether all capitals, upper and
-   lower case, etc., including the years of publication or copyright.
+<h3><a name="italics">Italics</a></h3>
+<p>Format <i>italicized</i> text with <tt>&lt;i&gt;</tt> inserted at the start and
+   <tt>&lt;/i&gt;</tt> inserted at the end of the italics. (Note the "/" in the closing
+   tag.)
 </p>
-<p>Older books often show the first letter as a large ornate graphic&mdash;format this as just the letter.
+<p>Punctuation goes <b>outside</b> the italics, unless it is an entire sentence or section
+   that is italicized, or the punctuation is itself part of a phrase, title,
+   or abbreviation that is italicized.
+</p>
+<p>The periods that mark an abbreviated word in the title of a journal such as <i>Phil. Trans.</i>
+   are part of the title for italicization purposes, and are included within the italic tags, thus:
+   <tt>&lt;i&gt;Phil. Trans.&lt;/i&gt;</tt>.
+</p>
+<p>For dates and similar phrases, format the entire phrase as
+   italics, rather than marking the words as italics and the numbers as non-italics.
+   The reason is that many typefaces found in older texts used the same design for numbers
+   in both regular and italics.
+</p>
+<p>If the italicized text consists of a series/list of words or names, mark these up with
+   italics tags individually.
 </p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Title Page Example">
+<p><b>Examples</b>&mdash;Italics:
+</p>
+
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Italics">
   <tbody>
     <tr>
-      <th align="left" bgcolor="cornsilk">
-      Sample Image:
-      </th>
+      <th valign="top" bgcolor="cornsilk">Original Text:</th>
+      <th valign="top" bgcolor="cornsilk">Correctly Formatted Text:</th>
     </tr>
-    <tr align="left">
-      <td width="100%" valign="top"><img src="title.png" width="500"
-          height="520" alt="title page image"><br>
+    <tr>
+      <td valign="top"><i>Enacted </i>4<i> July, </i>1776 </td>
+      <td valign="top"><tt>&lt;i&gt;Enacted 4 July, 1776&lt;/i&gt;</tt> </td>
+    </tr>
+    <tr>
+      <td valign="top"><i>God knows what she saw in me!</i> I spoke<br> in such an affected manner.</td>
+      <td valign="top"><tt>&lt;i&gt;God knows what she saw in me!&lt;/i&gt; I spoke<br> in such an affected manner.</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">As in many other of these <i>Studies</i>, and</td>
+      <td valign="top"><tt>As in many other of these &lt;i&gt;Studies&lt;/i&gt;, and</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">(<i>Psychological Review</i>, 1898, p. 160)</td>
+      <td valign="top"><tt>(&lt;i&gt;Psychological Review&lt;/i&gt;, 1898, p. 160)</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">L. Robinson, art. "<i>Ticklishness</i>,"</td>
+      <td valign="top"><tt>L. Robinson, art. "&lt;i&gt;Ticklishness&lt;/i&gt;,"</tt></td>
+    </tr>
+    <tr>
+      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br />
+                     1323 Picadilly Circus</td>
+      <td valign="top"><tt>/*<br />
+         &lt;i&gt;December 3, morning.&lt;/i&gt;<br />
+         1323 Picadilly Circus<br />
+         */</tt></td>
+    </tr>
+    <tr>
+    <tr>
+      <td valign="top">
+      Volunteers may be tickled pink to read<br>
+      <i>Ticklishness</i>, <i>Tickling and Laughter</i>,<br>
+      <i>Remarks on Tickling and Laughter</i><br>
+      and <i>Ticklishness, Laughter and Humour</i>.
       </td>
-    </tr>
-    <tr>
-      <th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th>
-    </tr>
-    <tr>
-      <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
-      <p><tt>GREEN FANCY</tt>
-      </p>
-      <p><tt>BY</tt></p>
-      <p><tt>GEORGE BARR McCUTCHEON</tt></p>
-      <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
-         "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
-      <p><tt>&lt;i&gt;WITH FRONTISPIECE BY&lt;/i&gt;<br>
-         &lt;i&gt;C. ALLAN GILBERT&lt;/i&gt;</tt></p>
-      <p><tt>NEW YORK<br>
-         DODD, MEAD AND COMPANY<br>
-         1917</tt></p>
-</td></tr></table>
+      <td valign="top">
+      <tt>Volunteers may be tickled pink to read<br>
+      &lt;i&gt;Ticklishness&lt;/i&gt;, &lt;i&gt;Tickling and Laughter&lt;/i&gt;,<br>
+      &lt;i&gt;Remarks on Tickling and Laughter&lt;/i&gt;<br>
+      and &lt;i&gt;Ticklishness, Laughter and Humour&lt;/i&gt;.</tt>
       </td>
     </tr>
   </tbody>
 </table>
 
-<h3><a name="toc">Table of Contents</a></h3>
-<p>Format the Table of Contents just as it is printed in the book, whether all capitals,
-   upper and lower case, etc. and surround it with <tt>/*</tt> and <tt>*/</tt>. Leave a blank
-   line between these markers and the rest of the text. Page number references should be
-   retained and be placed at least six spaces past the end of the line.
+<h3><a name="bold">Bold Text</a></h3>
+<p>Format <b>bold text</b> (text printed in a heavier typeface) with
+   <tt>&lt;b&gt;</tt> inserted before the bold text and <tt>&lt;/b&gt;</tt> after it. (Note the "/" in the closing
+   tag.)
 </p>
-<p>Remove any periods or asterisks (leaders) used to align the page numbers.
+<p>Punctuation goes <b>outside</b> the bold tags, unless it is an entire sentence or section
+   that is in bold, or the punctuation is itself part of a phrase, title,
+   or abbreviation that is in bold type.
 </p>
+<p>See the <a href="#page_hf">Page Headers/Page Footers</a> image/text for an example.
+</p>
+<p>Some Project Managers may specify in the
+   <a href="#comments">Project Comments</a> that bold text be rendered as all caps.
+</p>
+
+<h3><a name="underl">Underlined Text</a></h3>
+<p>Format <u>underlined text</u> as <a href="#italics">Italics</a>, with <tt>&lt;i&gt;</tt> and
+   <tt>&lt;/i&gt;</tt>. (Note the "/" in the closing tag.)
+</p>
+<p>Underlining was often used to indicate emphasis when the typesetter was unable to actually
+   italicize the text, for example in a typewritten document.
+</p>
+<p>Some Project Managers may specify in the <a href="#comments">Project Comments</a>
+   that underlined text be marked up with the <tt>&lt;u&gt;</tt> and <tt>&lt;/u&gt;</tt> tags.
+</p>
+
+<h3><a name="spaced">S p a c e d &nbsp; O u t &nbsp; Text (gesperrt)</a></h3>
+<p>Format &nbsp; s p a c e d &nbsp; o u t &nbsp; text with <tt>&lt;g&gt;</tt> inserted
+   before the text and <tt>&lt;/g&gt;</tt> after it. (Note the "/" in the closing
+   tag.) Remove the extra spaces between letters in each word.
+</p>
+<p>Punctuation goes <b>outside</b> the tags, unless it is an entire sentence or section
+   that is spaced out, or the punctuation is itself part of a phrase that is spaced out.
+</p>
+<p>This was a typesetting technique used to emphasize a piece of text in some older books,
+   especially in German.
+</p>
+
+<h3><a name="font_ch">Font Changes</a></h3>
+<p>Format a change of font within a paragraph or line of normal text by inserting <tt>&lt;f&gt;</tt> before
+   the change in font and <tt>&lt;/f&gt;</tt> after it. (Note the "/" in the closing tag.)
+   Use this markup to identify any special font or other formatting, <b>except</b> bold,
+   italic, small capped, and spaced out text, which have their own tags.
+</p>
+<p>Possible uses of this markup include:</p>
+<ul compact>
+  <li>antiqua (a variant of roman font) inside fraktur</li>
+  <li>blackletter within a section of regular font</li>
+  <li>smaller or larger font only if it is <b>within</b> a paragraph in regular font
+    (for a whole paragraph in a different font or size, see the
+    <a href="#block_qt">block quotation</a> section)</li>
+  <li>upright font inside of a paragraph of italicized text</li>
+</ul>
+<p>The particular use or uses of this markup in a project will usually be spelled
+   out in the <a href="#comments">Project Comments</a>. Formatters should post in the
+   <a href="#forums">Project Discussion</a> if the markup appears to be needed
+   and has not yet been discussed.
+</p>
+<p>Punctuation goes <b>outside</b> the tags, unless it is an entire sentence
+   that is in a different font, or the punctuation is itself part of a phrase, title,
+   or abbreviation in the different font.
+</p>
+
+<h3><a name="small_caps">Words in Small Capitals</a></h3>
+<p>The markup is different for <span style="font-variant:small-caps;">Mixed Case Small Caps</span>
+   and <span style="font-variant: small-caps;">all small caps</span>:
+</p>
+<p>Format words that are printed in <span style="font-variant: small-caps;">Mixed Small Caps</span>
+   as mixed upper and lowercase, and surround the text with <tt>&lt;sc&gt;</tt> and <tt>&lt;/sc&gt;</tt>
+   markup. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;Example:
+   <span style="font-variant: small-caps;">This is Small Caps</span> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;would correctly be:
+   <tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt>.
+</p>
+
+<p>Format words that are printed in <span style="font-variant: small-caps;">all small caps</span>
+   as ALL-CAPS, and surround the text with <tt>&lt;sc&gt;</tt> and <tt>&lt;/sc&gt;</tt> markup.
+   <br>
+&nbsp;&nbsp;&nbsp;&nbsp;Example:
+   You cannot be serious about
+   <span style="font-variant: small-caps;">aardvarks</span>!<br>
+&nbsp;&nbsp;&nbsp;&nbsp;would correctly be:
+   <tt>You cannot be serious about
+   &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</tt> <br>
+</p>
+
+<p>Words in headings (Chapter Headings, Section Headings, Captions, etc.) that are entirely all-capped
+   should be formatted as all-caps without any &lt;sc&gt; &lt;/sc&gt;. The first word of a chapter
+   that is in Small Caps should be changed to mixed case without the tags.
+</p>
+
+<h3><a name="word_caps">Words in all Capitals</a></h3>
+<p>Format words that are printed in all capital letters as all capital letters.
+</p>
+<p>The exception to this is the <a href="#chap_head">first word of a chapter</a>:
+   many old books typeset the first word of these in all caps; this should be changed to upper and
+   lower case, so "ONCE upon a time," becomes "<tt>Once upon a time,</tt>"
+</p>
+
+<h3><a name="font_sz">Font size changes</a></h3>
+<p>Normally we do not do anything to mark changes in font size.
+</p>
+<p>The exceptions to this are when the font size changes to indicate a
+   <a href="#block_qt">block quotation</a>, or when the font size changes within a single
+   paragraph or line of text (see <a href="#font_ch">Font Changes</a>).
+</p>
+
+<h3><a name="extra_sp">Extra Spaces or Tabs Between Words</a></h3>
+<p>Extra spaces and tab characters between words are common in OCR output. You don't need to bother
+   removing these&mdash;that can be done automatically during post-processing.
+</p>
+<p>However, extra spaces around punctuation, em-dashes, quote marks, etc. <b>do</b> need to be
+   removed when they separate the symbol from the word.
+</p>
+<p>For example, in <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt> the space between
+   the word "horse" and the semicolon should be removed. But the 2 spaces after the semicolon are
+   fine&mdash;you don't have to delete one of them.
+</p>
+
+<h3><a name="supers">Superscripts</a></h3>
+<p>Older books often abbreviated words as contractions, and printed them as
+   superscripts. For example:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
+   Format these by inserting a single caret followed by the superscripted text, like this:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
+</p>
+<p>In scientific &amp; technical works, format superscripted characters with curly braces
+   <tt>{</tt> and <tt>}</tt> surrounding them, even if there is only one character superscripted.
+   <br>For example:
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;... up to x<sup>n-1</sup> elements in the array.
+   <br>would be formatted as
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>... up to x^{n-1} elements in the array.<br></tt>
+</p>
+<p>The Project Manager may specify in the <a href="#comments">Project Comments</a>
+   that superscripted text be marked up differently.
+</p>
+
+<h3><a name="subscr">Subscripts</a></h3>
+<p>Subscripted text is often found in scientific works, but is not common in other
+   material. Format subscripted text by inserting an underline character <tt>_</tt> and
+   surrounding the text with curly braces <tt>{</tt> and <tt>}</tt>.
+   <br>For example:
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
+   <br>would be formatted as
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_{2}O.<br></tt>
+</p>
+
+<h3><a name="page_ref">Page References &quot;See Pg. 123&quot;</a></h3>
+<p>Format page number references within the text such as <tt>(see p. 123)</tt> as
+   they appear in the image.</p>
+<p>Check the <a href="#comments">Project Comments</a> to see if the Project Manager
+   has special requirements for page references.
+</p>
+
+<h3><a name="line_br">Line Breaks</a></h3>
+<p><b>Leave all line breaks in</b> so that the next formatter and the post-processor can easily compare
+   the lines in the text to the lines in the image. Be especially careful about this
+   when rejoining <a href="#eol_hyphen">hyphenated words</a> or moving words around
+   <a href="#em_dashes">em-dashes</a>. If the previous volunteer removed the line breaks,
+   please replace them so that they once again match the image.
+</p>
+<p>Extra blank lines that are not in the image should be removed except where we intentionally
+   add them for formatting. But blank lines at the bottom of the page are fine&mdash;these are removed
+   when you save the page.
+</p>
+
 <!-- END RR -->
-
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="TOC">
-  <tbody>
-    <tr>
-      <th align="left" bgcolor="cornsilk">
-      Sample Image:
-      </th>
-    </tr>
-    <tr align="left">
-      <td width="100%" valign="top">
-      <p><img src="tablec.png" alt="" width="500" height="650"></p>
-      </td>
-    </tr>
-    <tr>
-      <th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th>
-    </tr>
-    <tr>
-      <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
-      <p><tt><br><br><br><br>CONTENTS<br><br></tt></p>
-      <p><tt>/*<br>
-          CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<br>
-          <br>
-          I. &lt;sc&gt;The First Wayfarer and the Second Wayfarer<br>
-          Meet and Part on the Highway&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1<br>
-          <br>
-          II. &lt;sc&gt;The First Wayfarer Lays His Pack Aside and<br>
-          Falls in with Friends&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15<br>
-          <br>
-          III. &lt;sc&gt;Mr. Rushcroft Dissolves, Mr. Jones Intervenes,<br>
-          and Two Men Ride Away&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33<br>
-          <br>
-          IV. &lt;sc&gt;An Extraordinary Chambermaid, a Midnight<br>
-          Tragedy, and a Man Who Said "Thank You"&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50<br>
-          <br>
-          V. &lt;sc&gt;The Farm-boy Tells a Ghastly Story, and an<br>
-          Irishman Enters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;67<br>
-          <br>
-          VI. &lt;sc&gt;Charity Begins Far from Home, and a Stroll in<br>
-          the Wildwood Follows&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
-          <br>
-          VII. &lt;sc&gt;Spun-gold Hair, Blue Eyes, and Various Encounters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;103<br>
-          <br>
-          VIII. &lt;sc&gt;A Note, Some Fancies, and an Expedition in<br>
-          Quest of Facts&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;120<br>
-          <br>
-          IX. &lt;sc&gt;The First Wayfarer, the Second Wayfarer, and<br>
-          the Spirit of Chivalry Ascendant&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;134<br>
-          <br>
-          X. &lt;sc&gt;The Prisoner of Green Fancy, and the Lament of<br>
-          Peter the Chauffeur&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;148<br>
-          <br>
-          XI. &lt;sc&gt;Mr. Sprouse Abandons Literature at an Early<br>
-          Hour in the Morning&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;167<br>
-          <br>
-          XII. &lt;sc&gt;The First Wayfarer Accepts an Invitation, and<br>
-          Mr. Dillingford Belabors a Proxy&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
-          <br>
-          XIII. &lt;sc&gt;The Second Wayfarer Receives Two Visitors at<br>
-          Midnight&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;199<br>
-          <br>
-          XIV. &lt;sc&gt;A Flight, a Stone-cutter's Shed, and a Voice<br>
-          Outside&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
-          */<br>
-      </tt>
-</td></tr></table>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<h3><a name="blank_pg">Blank Page</a></h3>
-<p>Format as <tt>[Blank Page]</tt> if both the text and the image are blank.
-</p>
-<p>If there is text in the formatting text area and a blank image, or if there is an image
-   but no text, follow the directions for a <a href="#bad_image">Bad Image</a>
-   or <a href="#bad_text">Bad Text</a>.
-</p>
+<!-- We should have an example right here for this. -->
 
 <h3><a name="chap_head">Chapter Headers</a></h3>
 <p>Format chapter headers as they appear in the text.
@@ -573,133 +683,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    before the start of the text.
 </p>
 
-<h3><a name="para_side">Paragraph Side-Descriptions (Sidenotes)</a></h3>
-<p>Some books will have short descriptions of the paragraph along the side of the text.
-   These are called sidenotes. Move sidenotes to just above the paragraph that they belong to.
-   A sidenote should be surrounded by a sidenote tag <tt>[Sidenote:&nbsp;</tt> and <tt>]</tt>,
-   with the text of the sidenote placed in between. Format the sidenote text as it is printed,
-   preserving the line breaks, italics, etc. Leave a blank line after the sidenote, so that it
-   does not get merged into the paragraph when the text is rewrapped during post-processing.
-</p>
-<p>If there are multiple sidenotes for a single paragraph, put them one after another
-   at the start of the paragraph. Leave a blank line separating each of them.
-</p>
-<p>If the paragraph began on a previous page, put the sidenote at the top of the page
-   and mark it with <tt>*</tt> so that the post-processor can see that it belongs on
-   the previous page, like this: <tt>*[Sidenote: <font color="red">(text of sidenote)</font>]</tt>. The
-   post-processor will move it to the appropriate place.
-</p>
-<p>Sometimes a Project Manager will request that you put sidenotes next to the sentence
-   they apply to, rather than at the top or bottom of the paragraph. In this case,
-   don't separate them out with blank lines.
-</p>
-<!-- END RR -->
-
-  <table width="100%" align="center" border="1" cellpadding="4"
-       cellspacing="0" summary="Sidenotes"> <col width="128*">
-  <tbody>
-    <tr valign="top">
-      <th align="left" bgcolor="cornsilk">Sample Image:</th>
-    </tr>
-    <tr valign="top">
-      <td width="100%" align="left"><img src="side.png" alt=""
-          width="550" height="800"><br>
-      </td>
-    </tr>
-    <tr valign="top">
-      <th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th>
-    </tr>
-    <tr valign="top">
-      <td width="100%">
-<table summary="" border="0" align="left"><tr><td>
-    <p><tt>
-    *[Sidenote: Burning<br>
-    discs<br>
-    thrown into<br>
-    the air.]<br>
-    <br>
-    that such as looked at the fire holding a bit of larkspur<br>
-    before their face would be troubled by no malady of the<br>
-    eyes throughout the year.[1] Further, it was customary at<br>
-    W&uuml;rzburg, in the sixteenth century, for the bishop's followers<br>
-    to throw burning discs of wood into the air from a mountain<br>
-    which overhangs the town. The discs were discharged by<br>
-    means of flexible rods, and in their flight through the darkness<br>
-    presented the appearance of fiery dragons.[2]<br>
-    <br>
-    [Sidenote: The Midsummer<br>
-    fires in<br>
-    Swabia.]<br>
-    <br>
-    [Sidenote: Omens<br>
-    drawn from<br>
-    the leaps<br>
-    over the<br>
-    fires.]<br>
-    <br>
-    [Sidenote: Burning<br>
-    wheels<br>
-    rolled<br>
-    down hill.]<br>
-    <br>
-    In the valley of the Lech, which divides Upper Bavaria<br>
-    from Swabia, the midsummer customs and beliefs are, or<br>
-    used to be, very similar. Bonfires are kindled on the<br>
-    mountains on Midsummer Day; and besides the bonfire<br>
-    a tall beam, thickly wrapt in straw and surmounted by a<br>
-    cross-piece, is burned in many places. Round this cross as<br>
-    it burns the lads dance with loud shouts; and when the<br>
-    flames have subsided, the young people leap over the fire in<br>
-    pairs, a young man and a young woman together. If they<br>
-    escape unsmirched, the man will not suffer from fever, and<br>
-    the girl will not become a mother within the year. Further,<br>
-    it is believed that the flax will grow that year as high as<br>
-    they leap over the fire; and that if a charred billet be taken<br>
-    from the fire and stuck in a flax-field it will promote the<br>
-    growth of the flax.[3] Similarly in Swabia, lads and lasses,<br>
-    hand in hand, leap over the midsummer bonfire, praying<br>
-    that the hemp may grow three ells high, and they set fire<br>
-    to wheels of straw and send them rolling down the hill.<br>
-    Among the places where burning wheels were thus bowled<br>
-    down hill at Midsummer were the Hohenstaufen mountains<br>
-    in Wurtemberg and the Frauenberg near Gerhausen.[4]<br>
-    At Deffingen, in Swabia, as the people sprang over the mid-*<br>
-    <br>
-    [Footnote 1: &lt;i&gt;Op. cit.&lt;/i&gt; iv. 1. p. 242. We have<br>
-    seen (p. 163) that in the sixteenth<br>
-    century these customs and beliefs were<br>
-    common in Germany. It is also a<br>
-    German superstition that a house which<br>
-    contains a brand from the midsummer<br>
-    bonfire will not be struck by lightning<br>
-    (J. W. Wolf, &lt;i&gt;Beitr&auml;ge zur deutschen<br>
-    Mythologie&lt;/i&gt;, i. p. 217, &sect; 185).]<br>
-    <br>
-    [Footnote 2: J. Boemus, &lt;i&gt;Mores, leges et ritus<br>
-    omnium gentium&lt;/i&gt; (Lyons, 1541), p.<br>
-    226.]<br>
-    <br>
-    [Footnote 3: Karl Freiherr von Leoprechting,<br>
-    &lt;i&gt;Aus dem Lechrain&lt;/i&gt; (Munich, 1855),<br>
-    pp. 181 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der<br>
-    Baumkultus&lt;i&gt;, p. 510.]<br>
-    <br>
-    [Footnote 4: A. Birlinger, &lt;i&gt;Volksth&uuml;mliches aus<br>
-    Schwaben&lt;/i&gt; (Freiburg im Breisgau, 1861-1862),<br>
-    ii. pp. 96 &lt;i&gt;sqq.&lt;/i&gt;, &sect; 128, pp. 103<br>
-    &lt;i&gt;sq.&lt;/i&gt;, &sect; 129; &lt;i&gt;id.&lt;/i&gt;, &lt;i&gt;Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
-    1874), ii. 116-120; E. Meier,<br>
-    &lt;i&gt;Deutsche Sagen, Sitten und Gebr&auml;uche<br>
-    aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.<br>
-    423 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der Baumkultus&lt;/i&gt;,<br>
-    p. 510.]<br>
-    </tt></p>
-</td></tr></table>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
 <h3><a name="para_space">Paragraph Spacing/Indenting</a></h3>
 <p>Put a blank line before the start of paragraphs, even if a paragraph starts at the top of a page.
    You should not indent the start of paragraphs, but if paragraphs are already indented, don't
@@ -708,20 +691,64 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>See the <a href="#chap_head">Chapter Headers</a> image/text for an example.
 </p>
 
-<h3><a name="mult_col">Multiple Columns</a></h3>
-<p>Format ordinary text that has been printed in two columns as a single column.
+<h3><a name="extra_s">Extra Spacing/Stars/Line Between Paragraphs</a></h3>
+<p>Most paragraphs start on the line immediately after the end of the previous one. Sometimes
+   two paragraphs are separated to indicate a "thought break." A "thought break" may take the
+   form of a line of stars, hyphens, or some other character, a plain or floridly decorated
+   horizontal line, a simple decoration, or even just an extra blank line or two.
 </p>
-<p>Spans of multiple-column text within single column sections should be formatted as a single column
-   by placing the text from the left-most column first, the text from the next one after it, and so on.
-   You do not need to mark where the columns were split, just join them together.
+<p>A "thought break" may represent a change of scene or subject, a lapse in time, or a bit
+   of suspense. This is intended by the author, so we preserve it by putting a blank line,
+   <tt>&lt;tb&gt;</tt>, and then another blank line.
 </p>
-<p>If the columns are lists of items, mark the start of the list with <tt>/*</tt>
-   and the end with <tt>*/</tt> so that the lines do not get rewrapped during post-processing.
-   Leave a blank line between these markers and the rest of the text.
+<p>Project Managers and/or Post-Processors may make the request for additional information
+   to be retained in the thought break markup. For example, some projects delineate different
+   types of breaks by the use of different styles of break such as a line of stars in one place
+   and a blank line in another. In these cases, the Project Comments may request that these be
+   marked up: <tt>&lt;tb stars&gt;</tt> and <tt>&lt;tb&gt;</tt>. Please, as always, read the
+   project comments carefully so that you will know what is required for each project. Also
+   be careful not to carry these special requests into other projects with different requirements.
 </p>
-<p>See also the <a href="#bk_index">Indexes</a>, <a href="#lists">Lists of Items</a> and
-   <a href="#tables">Tables</a> sections of these Guidelines.
+<p>Sometimes printers used decorative lines to mark the ends of chapters. As we already mark
+   <a href="#chap_head">Chapter Headers</a>, there is no need to add a "thought break" marker.
 </p>
+<p>The proofreading interface has the "thought break" marker available to cut and paste.
+</p>
+<!-- END RR -->
+<br>
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Thought Break">
+  <tbody>
+    <tr><th align="left" bgcolor="cornsilk"> Sample Image:</th></tr>
+    <tr align="left">
+      <td width="100%" valign="top"> <img src="tbreak.png" alt="thought break"
+          width="500" height="264"> <br>
+      </td>
+    </tr>
+    <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+    <p><tt>
+    like the gentleman with the spiritual hydrophobia<br>
+    in the latter end of Uncle Tom's Cabin.<br>
+    Unconsciously Mr. Dixon has done his best to<br>
+    prove that Legree was not a fictitious character.</tt>
+    </p>
+    <p><tt>&lt;tb&gt;</tt>
+    </p>
+    <p><tt>
+    Joel Chandler Harris, Harry Stillwell Edwards,<br>
+    George W. Cable, Thomas Nelson Page,<br>
+    James Lane Allen, and Mark Twain are Southern<br>
+    men in Mr. Griffith's class. I recommend</tt>
+    </p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 
 <h3><a name="illust">Illustrations</a></h3>
 <p>Text for an illustration should be surrounded by an illustration tag <tt>[Illustration:&nbsp;</tt> and <tt>]</tt>,
@@ -957,356 +984,198 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   </tbody>
 </table>
 
-<h3><a name="italics">Italics</a></h3>
-<p>Format <i>italicized</i> text with <tt>&lt;i&gt;</tt> inserted at the start and
-   <tt>&lt;/i&gt;</tt> inserted at the end of the italics. (Note the "/" in the closing
-   tag.)
+<h3><a name="para_side">Paragraph Side-Descriptions (Sidenotes)</a></h3>
+<p>Some books will have short descriptions of the paragraph along the side of the text.
+   These are called sidenotes. Move sidenotes to just above the paragraph that they belong to.
+   A sidenote should be surrounded by a sidenote tag <tt>[Sidenote:&nbsp;</tt> and <tt>]</tt>,
+   with the text of the sidenote placed in between. Format the sidenote text as it is printed,
+   preserving the line breaks, italics, etc. Leave a blank line after the sidenote, so that it
+   does not get merged into the paragraph when the text is rewrapped during post-processing.
 </p>
-<p>Punctuation goes <b>outside</b> the italics, unless it is an entire sentence or section
-   that is italicized, or the punctuation is itself part of a phrase, title,
-   or abbreviation that is italicized.
+<p>If there are multiple sidenotes for a single paragraph, put them one after another
+   at the start of the paragraph. Leave a blank line separating each of them.
 </p>
-<p>The periods that mark an abbreviated word in the title of a journal such as <i>Phil. Trans.</i>
-   are part of the title for italicization purposes, and are included within the italic tags, thus:
-   <tt>&lt;i&gt;Phil. Trans.&lt;/i&gt;</tt>.
+<p>If the paragraph began on a previous page, put the sidenote at the top of the page
+   and mark it with <tt>*</tt> so that the post-processor can see that it belongs on
+   the previous page, like this: <tt>*[Sidenote: <font color="red">(text of sidenote)</font>]</tt>. The
+   post-processor will move it to the appropriate place.
 </p>
-<p>For dates and similar phrases, format the entire phrase as
-   italics, rather than marking the words as italics and the numbers as non-italics.
-   The reason is that many typefaces found in older texts used the same design for numbers
-   in both regular and italics.
-</p>
-<p>If the italicized text consists of a series/list of words or names, mark these up with
-   italics tags individually.
-</p>
-<!-- END RR -->
-
-<p><b>Examples</b>&mdash;Italics:
-</p>
-
-<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Italics">
-  <tbody>
-    <tr>
-      <th valign="top" bgcolor="cornsilk">Original Text:</th>
-      <th valign="top" bgcolor="cornsilk">Correctly Formatted Text:</th>
-    </tr>
-    <tr>
-      <td valign="top"><i>Enacted </i>4<i> July, </i>1776 </td>
-      <td valign="top"><tt>&lt;i&gt;Enacted 4 July, 1776&lt;/i&gt;</tt> </td>
-    </tr>
-    <tr>
-      <td valign="top"><i>God knows what she saw in me!</i> I spoke<br> in such an affected manner.</td>
-      <td valign="top"><tt>&lt;i&gt;God knows what she saw in me!&lt;/i&gt; I spoke<br> in such an affected manner.</tt></td>
-    </tr>
-    <tr>
-      <td valign="top">As in many other of these <i>Studies</i>, and</td>
-      <td valign="top"><tt>As in many other of these &lt;i&gt;Studies&lt;/i&gt;, and</tt></td>
-    </tr>
-    <tr>
-      <td valign="top">(<i>Psychological Review</i>, 1898, p. 160)</td>
-      <td valign="top"><tt>(&lt;i&gt;Psychological Review&lt;/i&gt;, 1898, p. 160)</tt></td>
-    </tr>
-    <tr>
-      <td valign="top">L. Robinson, art. "<i>Ticklishness</i>,"</td>
-      <td valign="top"><tt>L. Robinson, art. "&lt;i&gt;Ticklishness&lt;/i&gt;,"</tt></td>
-    </tr>
-    <tr>
-      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br />
-                     1323 Picadilly Circus</td>
-      <td valign="top"><tt>/*<br />
-         &lt;i&gt;December 3, morning.&lt;/i&gt;<br />
-         1323 Picadilly Circus<br />
-         */</tt></td>
-    </tr>
-    <tr>
-    <tr>
-      <td valign="top">
-      Volunteers may be tickled pink to read<br>
-      <i>Ticklishness</i>, <i>Tickling and Laughter</i>,<br>
-      <i>Remarks on Tickling and Laughter</i><br>
-      and <i>Ticklishness, Laughter and Humour</i>.
-      </td>
-      <td valign="top">
-      <tt>Volunteers may be tickled pink to read<br>
-      &lt;i&gt;Ticklishness&lt;/i&gt;, &lt;i&gt;Tickling and Laughter&lt;/i&gt;,<br>
-      &lt;i&gt;Remarks on Tickling and Laughter&lt;/i&gt;<br>
-      and &lt;i&gt;Ticklishness, Laughter and Humour&lt;/i&gt;.</tt>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<h3><a name="bold">Bold Text</a></h3>
-<p>Format <b>bold text</b> (text printed in a heavier typeface) with
-   <tt>&lt;b&gt;</tt> inserted before the bold text and <tt>&lt;/b&gt;</tt> after it. (Note the "/" in the closing
-   tag.)
-</p>
-<p>Punctuation goes <b>outside</b> the bold tags, unless it is an entire sentence or section
-   that is in bold, or the punctuation is itself part of a phrase, title,
-   or abbreviation that is in bold type.
-</p>
-<p>See the <a href="#page_hf">Page Headers/Page Footers</a> image/text for an example.
-</p>
-<p>Some Project Managers may specify in the
-   <a href="#comments">Project Comments</a> that bold text be rendered as all caps.
-</p>
-
-<h3><a name="supers">Superscripts</a></h3>
-<p>Older books often abbreviated words as contractions, and printed them as
-   superscripts. For example:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
-   Format these by inserting a single caret followed by the superscripted text, like this:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
-</p>
-<p>In scientific &amp; technical works, format superscripted characters with curly braces
-   <tt>{</tt> and <tt>}</tt> surrounding them, even if there is only one character superscripted.
-   <br>For example:
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;... up to x<sup>n-1</sup> elements in the array.
-   <br>would be formatted as
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>... up to x^{n-1} elements in the array.<br></tt>
-</p>
-<p>The Project Manager may specify in the <a href="#comments">Project Comments</a>
-   that superscripted text be marked up differently.
-</p>
-
-<h3><a name="subscr">Subscripts</a></h3>
-<p>Subscripted text is often found in scientific works, but is not common in other
-   material. Format subscripted text by inserting an underline character <tt>_</tt> and
-   surrounding the text with curly braces <tt>{</tt> and <tt>}</tt>.
-   <br>For example:
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
-   <br>would be formatted as
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_{2}O.<br></tt>
-</p>
-
-<h3><a name="underl">Underlined Text</a></h3>
-<p>Format <u>underlined text</u> as <a href="#italics">Italics</a>, with <tt>&lt;i&gt;</tt> and
-   <tt>&lt;/i&gt;</tt>. (Note the "/" in the closing tag.)
-</p>
-<p>Underlining was often used to indicate emphasis when the typesetter was unable to actually
-   italicize the text, for example in a typewritten document.
-</p>
-<p>Some Project Managers may specify in the <a href="#comments">Project Comments</a>
-   that underlined text be marked up with the <tt>&lt;u&gt;</tt> and <tt>&lt;/u&gt;</tt> tags.
-</p>
-
-<h3><a name="spaced">S p a c e d &nbsp; O u t &nbsp; Text (gesperrt)</a></h3>
-<p>Format &nbsp; s p a c e d &nbsp; o u t &nbsp; text with <tt>&lt;g&gt;</tt> inserted
-   before the text and <tt>&lt;/g&gt;</tt> after it. (Note the "/" in the closing
-   tag.) Remove the extra spaces between letters in each word.
-</p>
-<p>Punctuation goes <b>outside</b> the tags, unless it is an entire sentence or section
-   that is spaced out, or the punctuation is itself part of a phrase that is spaced out.
-</p>
-<p>This was a typesetting technique used to emphasize a piece of text in some older books,
-   especially in German.
-</p>
-
-<h3><a name="font_ch">Font Changes</a></h3>
-<p>Format a change of font within a paragraph or line of normal text by inserting <tt>&lt;f&gt;</tt> before
-   the change in font and <tt>&lt;/f&gt;</tt> after it. (Note the "/" in the closing tag.)
-   Use this markup to identify any special font or other formatting, <b>except</b> bold,
-   italic, small capped, and spaced out text, which have their own tags.
-</p>
-<p>Possible uses of this markup include:</p>
-<ul compact>
-  <li>antiqua (a variant of roman font) inside fraktur</li>
-  <li>blackletter within a section of regular font</li>
-  <li>smaller or larger font only if it is <b>within</b> a paragraph in regular font
-    (for a whole paragraph in a different font or size, see the
-    <a href="#block_qt">block quotation</a> section)</li>
-  <li>upright font inside of a paragraph of italicized text</li>
-</ul>
-<p>The particular use or uses of this markup in a project will usually be spelled
-   out in the <a href="#comments">Project Comments</a>. Formatters should post in the
-   <a href="#forums">Project Discussion</a> if the markup appears to be needed
-   and has not yet been discussed.
-</p>
-<p>Punctuation goes <b>outside</b> the tags, unless it is an entire sentence
-   that is in a different font, or the punctuation is itself part of a phrase, title,
-   or abbreviation in the different font.
-</p>
-
-<h3><a name="font_sz">Font size changes</a></h3>
-<p>Normally we do not do anything to mark changes in font size.
-</p>
-<p>The exceptions to this are when the font size changes to indicate a
-   <a href="#block_qt">block quotation</a>, or when the font size changes within a single
-   paragraph or line of text (see <a href="#font_ch">Font Changes</a>).
-</p>
-
-<h3><a name="word_caps">Words in all Capitals</a></h3>
-<p>Format words that are printed in all capital letters as all capital letters.
-</p>
-<p>The exception to this is the <a href="#chap_head">first word of a chapter</a>:
-   many old books typeset the first word of these in all caps; this should be changed to upper and
-   lower case, so "ONCE upon a time," becomes "<tt>Once upon a time,</tt>"
-</p>
-
-<h3><a name="small_caps">Words in Small Capitals</a></h3>
-<p>The markup is different for <span style="font-variant:small-caps;">Mixed Case Small Caps</span>
-   and <span style="font-variant: small-caps;">all small caps</span>:
-</p>
-<p>Format words that are printed in <span style="font-variant: small-caps;">Mixed Small Caps</span>
-   as mixed upper and lowercase, and surround the text with <tt>&lt;sc&gt;</tt> and <tt>&lt;/sc&gt;</tt>
-   markup. <br>
-&nbsp;&nbsp;&nbsp;&nbsp;Example:
-   <span style="font-variant: small-caps;">This is Small Caps</span> <br>
-&nbsp;&nbsp;&nbsp;&nbsp;would correctly be:
-   <tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt>.
-</p>
-
-<p>Format words that are printed in <span style="font-variant: small-caps;">all small caps</span>
-   as ALL-CAPS, and surround the text with <tt>&lt;sc&gt;</tt> and <tt>&lt;/sc&gt;</tt> markup.
-   <br>
-&nbsp;&nbsp;&nbsp;&nbsp;Example:
-   You cannot be serious about
-   <span style="font-variant: small-caps;">aardvarks</span>!<br>
-&nbsp;&nbsp;&nbsp;&nbsp;would correctly be:
-   <tt>You cannot be serious about
-   &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</tt> <br>
-</p>
-
-<p>Words in headings (Chapter Headings, Section Headings, Captions, etc.) that are entirely all-capped
-   should be formatted as all-caps without any &lt;sc&gt; &lt;/sc&gt;. The first word of a chapter
-   that is in Small Caps should be changed to mixed case without the tags.
-</p>
-
-<h3><a name="poetry">Poetry/Epigrams</a></h3>
-<p>This section applies to an occasional Poem or Epigram in a mainly non-poetry book.
-   For an entire book of poetry, see the
-   <a href="doc-poet.php">special guidelines for Poetry Books</a>.
-</p>
-<p>Mark poetry or epigrams so the post-processor can find it more quickly. Insert
-   a separate line with <tt>/*</tt> at the start of the poetry or epigram and a separate
-   line with <tt>*/</tt> at the end. Leave a blank line between these markers and the rest
-   of the text.
-</p>
-<p>Preserve the relative indentation of the individual lines of the poem or epigram by adding
-   2, 4, 6 (or more) spaces in front of the indented lines to make them resemble the original.
-</p>
-<p>When a line of verse is too long for the printed page, many texts wrap the continuation
-   onto the next printed line and place a wide indentation in front of it. These continuation lines
-   should be rejoined with the line above. Continuation lines usually start with a lower case
-   letter. They will appear randomly unlike normal indentation, which occurs at regular intervals
-   in the metre of the poem.
-</p>
-<p>If the poetry is centered on the printed page, don't try to center the lines of
-   poetry during formatting. Move the lines to the left margin, and preserve the relative
-   indentation of the lines.
-</p>
-<p><b>Footnotes</b> in poetry should be treated the same as regular footnotes during formatting.
-   See <a href="#footnotes">footnotes</a> for details.
-</p>
-<p><b>Line Numbers</b> in poetry should be kept. Put them at the end of the
-   line, leaving at least 6 spaces between them and the end of the text.
-   See <a href="#line_no">Line Numbers</a> for details.
-</p>
-<p>Check the <a href="#comments">Project Comments</a> for the specific text you are formatting.
-   Books of poetry often have special instructions from the Project Manager. Many times, you won't
-   have to follow all these formatting guidelines for a book that is mostly or entirely poetry.
+<p>Sometimes a Project Manager will request that you put sidenotes next to the sentence
+   they apply to, rather than at the top or bottom of the paragraph. In this case,
+   don't separate them out with blank lines.
 </p>
 <!-- END RR -->
 
-<br>
-<table width="100%" align="center" border="1"  cellpadding="4"
-       cellspacing="0" summary="Poetry Example">
+  <table width="100%" align="center" border="1" cellpadding="4"
+       cellspacing="0" summary="Sidenotes"> <col width="128*">
   <tbody>
-    <tr><th align="left" bgcolor="cornsilk">Sample Image:</th></tr>
-    <tr align="left">
-      <th width="100%" valign="top"> <img src="poetry.png" alt=""
-          width="500" height="508"> <br>
-      </th>
+    <tr valign="top">
+      <th align="left" bgcolor="cornsilk">Sample Image:</th>
     </tr>
-    <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
-    <tr>
-      <td width="100%" valign="top">
-
+    <tr valign="top">
+      <td width="100%" align="left"><img src="side.png" alt=""
+          width="550" height="800"><br>
+      </td>
+    </tr>
+    <tr valign="top">
+      <th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th>
+    </tr>
+    <tr valign="top">
+      <td width="100%">
 <table summary="" border="0" align="left"><tr><td>
-<tt>
-to the scenery of his own country:<br></tt>
-<p><tt>
-/*<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oh, to be in England<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now that April's there,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And whoever wakes in England<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sees, some morning, unaware,<br>
-That the lowest boughs and the brushwood sheaf<br>
-Round the elm-tree bole are in tiny leaf,<br>
-While the chaffinch sings on the orchard bough<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In England--now!</tt>
-</p><p><tt>
-And after April, when May follows,<br>
-And the whitethroat builds, and all the swallows!<br>
-Hark! where my blossomed pear-tree in the hedge<br>
-Leans to the field and scatters on the clover<br>
-Blossoms and dewdrops--at the bent spray's edge--<br>
-That's the wise thrush; he sings each song twice over,<br>
-Lest you should think he never could recapture<br>
-The first fine careless rapture!<br>
-And though the fields look rough with hoary dew,<br>
-All will be gay, when noontide wakes anew<br>
-The buttercups, the little children's dower;<br>
---Far brighter than this gaudy melon-flower!<br>
-*/<br></tt>
-</p><p><tt>
-So it runs; but it is only a momentary memory;<br>
-and he knew, when he had done it, and to his</tt>
-</p>
+    <p><tt>
+    *[Sidenote: Burning<br>
+    discs<br>
+    thrown into<br>
+    the air.]<br>
+    <br>
+    that such as looked at the fire holding a bit of larkspur<br>
+    before their face would be troubled by no malady of the<br>
+    eyes throughout the year.[1] Further, it was customary at<br>
+    W&uuml;rzburg, in the sixteenth century, for the bishop's followers<br>
+    to throw burning discs of wood into the air from a mountain<br>
+    which overhangs the town. The discs were discharged by<br>
+    means of flexible rods, and in their flight through the darkness<br>
+    presented the appearance of fiery dragons.[2]<br>
+    <br>
+    [Sidenote: The Midsummer<br>
+    fires in<br>
+    Swabia.]<br>
+    <br>
+    [Sidenote: Omens<br>
+    drawn from<br>
+    the leaps<br>
+    over the<br>
+    fires.]<br>
+    <br>
+    [Sidenote: Burning<br>
+    wheels<br>
+    rolled<br>
+    down hill.]<br>
+    <br>
+    In the valley of the Lech, which divides Upper Bavaria<br>
+    from Swabia, the midsummer customs and beliefs are, or<br>
+    used to be, very similar. Bonfires are kindled on the<br>
+    mountains on Midsummer Day; and besides the bonfire<br>
+    a tall beam, thickly wrapt in straw and surmounted by a<br>
+    cross-piece, is burned in many places. Round this cross as<br>
+    it burns the lads dance with loud shouts; and when the<br>
+    flames have subsided, the young people leap over the fire in<br>
+    pairs, a young man and a young woman together. If they<br>
+    escape unsmirched, the man will not suffer from fever, and<br>
+    the girl will not become a mother within the year. Further,<br>
+    it is believed that the flax will grow that year as high as<br>
+    they leap over the fire; and that if a charred billet be taken<br>
+    from the fire and stuck in a flax-field it will promote the<br>
+    growth of the flax.[3] Similarly in Swabia, lads and lasses,<br>
+    hand in hand, leap over the midsummer bonfire, praying<br>
+    that the hemp may grow three ells high, and they set fire<br>
+    to wheels of straw and send them rolling down the hill.<br>
+    Among the places where burning wheels were thus bowled<br>
+    down hill at Midsummer were the Hohenstaufen mountains<br>
+    in Wurtemberg and the Frauenberg near Gerhausen.[4]<br>
+    At Deffingen, in Swabia, as the people sprang over the mid-*<br>
+    <br>
+    [Footnote 1: &lt;i&gt;Op. cit.&lt;/i&gt; iv. 1. p. 242. We have<br>
+    seen (p. 163) that in the sixteenth<br>
+    century these customs and beliefs were<br>
+    common in Germany. It is also a<br>
+    German superstition that a house which<br>
+    contains a brand from the midsummer<br>
+    bonfire will not be struck by lightning<br>
+    (J. W. Wolf, &lt;i&gt;Beitr&auml;ge zur deutschen<br>
+    Mythologie&lt;/i&gt;, i. p. 217, &sect; 185).]<br>
+    <br>
+    [Footnote 2: J. Boemus, &lt;i&gt;Mores, leges et ritus<br>
+    omnium gentium&lt;/i&gt; (Lyons, 1541), p.<br>
+    226.]<br>
+    <br>
+    [Footnote 3: Karl Freiherr von Leoprechting,<br>
+    &lt;i&gt;Aus dem Lechrain&lt;/i&gt; (Munich, 1855),<br>
+    pp. 181 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der<br>
+    Baumkultus&lt;i&gt;, p. 510.]<br>
+    <br>
+    [Footnote 4: A. Birlinger, &lt;i&gt;Volksth&uuml;mliches aus<br>
+    Schwaben&lt;/i&gt; (Freiburg im Breisgau, 1861-1862),<br>
+    ii. pp. 96 &lt;i&gt;sqq.&lt;/i&gt;, &sect; 128, pp. 103<br>
+    &lt;i&gt;sq.&lt;/i&gt;, &sect; 129; &lt;i&gt;id.&lt;/i&gt;, &lt;i&gt;Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
+    1874), ii. 116-120; E. Meier,<br>
+    &lt;i&gt;Deutsche Sagen, Sitten und Gebr&auml;uche<br>
+    aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.<br>
+    423 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der Baumkultus&lt;/i&gt;,<br>
+    p. 510.]<br>
+    </tt></p>
 </td></tr></table>
-
       </td>
     </tr>
   </tbody>
 </table>
 
-<h3><a name="letter">Letters/Correspondence</a></h3>
-<p>Format letters and correspondence as you would <a href="#para_space">paragraphs</a>.
-   Put a blank line before the start of the letter; you do not need to duplicate any indenting.
+<h3><a name="block_qt">Block Quotations</a></h3>
+<p>Surround block quotations with <tt>/#</tt> and <tt>#/</tt> markers. Leave a blank line between these markers
+   and the rest of the text. The markers will ensure the block quotation is formatted properly during
+   post-processing.
 </p>
-<p>Surround consecutive heading or footer lines (such as addresses, date blocks, salutations, or signatures) with
-   <tt>/*</tt> and <tt>*/</tt> markers. Leave a blank line between the markers and the rest of the
-   text. The markers will ensure the  individual lines are kept in post-processing and not rewrapped.
+<p>Apart from adding the markers, block quotations should be formatted as any other text.
 </p>
-<p>Don't indent the heading or footer lines, even if they are indented or right justified in the original&mdash;just
-   put them at the left margin. The post-processor will format them as needed.
+<p>Block quotations are long quotations (typically several lines and sometimes several pages) and are often
+   (but not always) printed with wider margins or in a smaller font size&mdash;sometimes both.
 </p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1"  cellpadding="4"
-       cellspacing="0" summary="Letter Example">
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Block Quotation">
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Sample Image:</th></tr>
     <tr align="left">
-      <th width="100%" valign="top"> <img src="letter.png" alt=""
-          width="500" height="217"> <br>
-      </th>
+      <td width="100%" valign="top"> <img src="bquote.png" alt="" width="500" height="475"><br>
+      </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-<p><tt>&lt;i&gt;John James Audubon to Claude Fran&ccedil;ois Rozier&lt;/i&gt;</tt></p>
-<p><tt>[Letter No. 1, addressed]</tt></p>
-<p><tt>/*<br>
-&lt;sc&gt;M. Fr. Rozier&lt;/sc&gt;,<br>
-Merchant-Nantes.<br>
-&lt;sc&gt;New York&lt;/sc&gt;, &lt;i&gt;10 January, 1807.&lt;/i&gt;</tt></p>
-<p><tt>
-&lt;sc&gt;Dear Sir:&lt;/sc&gt;<br>
-*/</tt></p>
-<p><tt>
-We have had the pleasure of receiving by the &lt;i&gt;Penelope&lt;/i&gt; your<br>
-consignment of 20 pieces of linen cloth, for which we send our<br>
-thanks. As soon as we have sold them, we shall take great<br>
-pleasure in making our return.</tt>
-</p>
+	<p><tt>later day was welcomed in their home on the Hudson.<br>
+	Dr. Bakewell's contribution was as follows:[24]</tt></p>
+	<p><tt>/#<br>
+	The uncertainty as to the place of Audubon's birth has been<br>
+	put to rest by the testimony of an eye witness in the person<br>
+	of old Mandeville Marigny now dead some years. His repeated<br>
+	statement to me was, that on his plantation at Mandeville,<br>
+	Louisiana, on Lake Ponchartrain, Audubon's mother was<br>
+	his guest; and while there gave birth to John James Audubon.<br>
+	Marigny was present at the time, and from his own lips, I have,<br>
+	as already said, repeatedly heard him assert the above fact.<br>
+	He was ever proud to bear this testimony of his protection<br>
+	given to Audubon's mother, and his ability to bear witness as<br>
+	to the place of Audubon's birth, thus establishing the fact that<br>
+	he was a Louisianian by birth.<br>
+	#/<br></tt>
+	</p>
+	<p><tt>We do not doubt the candor and sincerity of the<br>
+	excellent Dr. Bakewell, but are bound to say that the<br>
+	incidents as related above betray a striking lapse of<br>
+	</tt></p>
 </td></tr></table>
-
       </td>
     </tr>
   </tbody>
 </table>
 
+<h3><a name="mult_col">Multiple Columns</a></h3>
+<p>Format ordinary text that has been printed in two columns as a single column.
+</p>
+<p>Spans of multiple-column text within single column sections should be formatted as a single column
+   by placing the text from the left-most column first, the text from the next one after it, and so on.
+   You do not need to mark where the columns were split, just join them together.
+</p>
+<p>If the columns are lists of items, mark the start of the list with <tt>/*</tt>
+   and the end with <tt>*/</tt> so that the lines do not get rewrapped during post-processing.
+   Leave a blank line between these markers and the rest of the text.
+</p>
+<p>See also the <a href="#bk_index">Indexes</a>, <a href="#lists">Lists of Items</a> and
+   <a href="#tables">Tables</a> sections of these Guidelines.
+</p>
 
 <h3><a name="lists">Lists of Items</a></h3>
 <p>Surround lists with <tt>/*</tt> and <tt>*/</tt> markers. Leave a blank line between these markers
@@ -1468,83 +1337,93 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 
-<h3><a name="block_qt">Block Quotations</a></h3>
-<p>Surround block quotations with <tt>/#</tt> and <tt>#/</tt> markers. Leave a blank line between these markers
-   and the rest of the text. The markers will ensure the block quotation is formatted properly during
-   post-processing.
+<h3><a name="poetry">Poetry/Epigrams</a></h3>
+<p>This section applies to an occasional Poem or Epigram in a mainly non-poetry book.
+   For an entire book of poetry, see the
+   <a href="doc-poet.php">special guidelines for Poetry Books</a>.
 </p>
-<p>Apart from adding the markers, block quotations should be formatted as any other text.
+<p>Mark poetry or epigrams so the post-processor can find it more quickly. Insert
+   a separate line with <tt>/*</tt> at the start of the poetry or epigram and a separate
+   line with <tt>*/</tt> at the end. Leave a blank line between these markers and the rest
+   of the text.
 </p>
-<p>Block quotations are long quotations (typically several lines and sometimes several pages) and are often
-   (but not always) printed with wider margins or in a smaller font size&mdash;sometimes both.
+<p>Preserve the relative indentation of the individual lines of the poem or epigram by adding
+   2, 4, 6 (or more) spaces in front of the indented lines to make them resemble the original.
+</p>
+<p>When a line of verse is too long for the printed page, many texts wrap the continuation
+   onto the next printed line and place a wide indentation in front of it. These continuation lines
+   should be rejoined with the line above. Continuation lines usually start with a lower case
+   letter. They will appear randomly unlike normal indentation, which occurs at regular intervals
+   in the metre of the poem.
+</p>
+<p>If the poetry is centered on the printed page, don't try to center the lines of
+   poetry during formatting. Move the lines to the left margin, and preserve the relative
+   indentation of the lines.
+</p>
+<p><b>Footnotes</b> in poetry should be treated the same as regular footnotes during formatting.
+   See <a href="#footnotes">footnotes</a> for details.
+</p>
+<p><b>Line Numbers</b> in poetry should be kept. Put them at the end of the
+   line, leaving at least 6 spaces between them and the end of the text.
+   See <a href="#line_no">Line Numbers</a> for details.
+</p>
+<p>Check the <a href="#comments">Project Comments</a> for the specific text you are formatting.
+   Books of poetry often have special instructions from the Project Manager. Many times, you won't
+   have to follow all these formatting guidelines for a book that is mostly or entirely poetry.
 </p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Block Quotation">
+<br>
+<table width="100%" align="center" border="1"  cellpadding="4"
+       cellspacing="0" summary="Poetry Example">
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Sample Image:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="bquote.png" alt="" width="500" height="475"><br>
-      </td>
+      <th width="100%" valign="top"> <img src="poetry.png" alt=""
+          width="500" height="508"> <br>
+      </th>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
+
 <table summary="" border="0" align="left"><tr><td>
-	<p><tt>later day was welcomed in their home on the Hudson.<br>
-	Dr. Bakewell's contribution was as follows:[24]</tt></p>
-	<p><tt>/#<br>
-	The uncertainty as to the place of Audubon's birth has been<br>
-	put to rest by the testimony of an eye witness in the person<br>
-	of old Mandeville Marigny now dead some years. His repeated<br>
-	statement to me was, that on his plantation at Mandeville,<br>
-	Louisiana, on Lake Ponchartrain, Audubon's mother was<br>
-	his guest; and while there gave birth to John James Audubon.<br>
-	Marigny was present at the time, and from his own lips, I have,<br>
-	as already said, repeatedly heard him assert the above fact.<br>
-	He was ever proud to bear this testimony of his protection<br>
-	given to Audubon's mother, and his ability to bear witness as<br>
-	to the place of Audubon's birth, thus establishing the fact that<br>
-	he was a Louisianian by birth.<br>
-	#/<br></tt>
-	</p>
-	<p><tt>We do not doubt the candor and sincerity of the<br>
-	excellent Dr. Bakewell, but are bound to say that the<br>
-	incidents as related above betray a striking lapse of<br>
-	</tt></p>
+<tt>
+to the scenery of his own country:<br></tt>
+<p><tt>
+/*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oh, to be in England<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now that April's there,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And whoever wakes in England<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sees, some morning, unaware,<br>
+That the lowest boughs and the brushwood sheaf<br>
+Round the elm-tree bole are in tiny leaf,<br>
+While the chaffinch sings on the orchard bough<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In England--now!</tt>
+</p><p><tt>
+And after April, when May follows,<br>
+And the whitethroat builds, and all the swallows!<br>
+Hark! where my blossomed pear-tree in the hedge<br>
+Leans to the field and scatters on the clover<br>
+Blossoms and dewdrops--at the bent spray's edge--<br>
+That's the wise thrush; he sings each song twice over,<br>
+Lest you should think he never could recapture<br>
+The first fine careless rapture!<br>
+And though the fields look rough with hoary dew,<br>
+All will be gay, when noontide wakes anew<br>
+The buttercups, the little children's dower;<br>
+--Far brighter than this gaudy melon-flower!<br>
+*/<br></tt>
+</p><p><tt>
+So it runs; but it is only a momentary memory;<br>
+and he knew, when he had done it, and to his</tt>
+</p>
 </td></tr></table>
+
       </td>
     </tr>
   </tbody>
 </table>
-
-<h3><a name="line_br">Line Breaks</a></h3>
-<p><b>Leave all line breaks in</b> so that the next formatter and the post-processor can easily compare
-   the lines in the text to the lines in the image. Be especially careful about this
-   when rejoining <a href="#eol_hyphen">hyphenated words</a> or moving words around
-   <a href="#em_dashes">em-dashes</a>. If the previous volunteer removed the line breaks,
-   please replace them so that they once again match the image.
-</p>
-<p>Extra blank lines that are not in the image should be removed except where we intentionally
-   add them for formatting. But blank lines at the bottom of the page are fine&mdash;these are removed
-   when you save the page.
-</p>
-
-<!-- END RR -->
-<!-- We should have an example right here for this. -->
-
-<h3><a name="extra_sp">Extra Spaces or Tabs Between Words</a></h3>
-<p>Extra spaces and tab characters between words are common in OCR output. You don't need to bother
-   removing these&mdash;that can be done automatically during post-processing.
-</p>
-<p>However, extra spaces around punctuation, em-dashes, quote marks, etc. <b>do</b> need to be
-   removed when they separate the symbol from the word.
-</p>
-<p>For example, in <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt> the space between
-   the word "horse" and the semicolon should be removed. But the 2 spaces after the semicolon are
-   fine&mdash;you don't have to delete one of them.
-</p>
 
 <h3><a name="line_no">Line Numbers</a></h3>
 <p>Keep line numbers. Place them at least six spaces past the right hand end of
@@ -1557,71 +1436,192 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
 
-<h3><a name="extra_s">Extra Spacing/Stars/Line Between Paragraphs</a></h3>
-<p>Most paragraphs start on the line immediately after the end of the previous one. Sometimes
-   two paragraphs are separated to indicate a "thought break." A "thought break" may take the
-   form of a line of stars, hyphens, or some other character, a plain or floridly decorated
-   horizontal line, a simple decoration, or even just an extra blank line or two.
+<h3><a name="letter">Letters/Correspondence</a></h3>
+<p>Format letters and correspondence as you would <a href="#para_space">paragraphs</a>.
+   Put a blank line before the start of the letter; you do not need to duplicate any indenting.
 </p>
-<p>A "thought break" may represent a change of scene or subject, a lapse in time, or a bit
-   of suspense. This is intended by the author, so we preserve it by putting a blank line,
-   <tt>&lt;tb&gt;</tt>, and then another blank line.
+<p>Surround consecutive heading or footer lines (such as addresses, date blocks, salutations, or signatures) with
+   <tt>/*</tt> and <tt>*/</tt> markers. Leave a blank line between the markers and the rest of the
+   text. The markers will ensure the  individual lines are kept in post-processing and not rewrapped.
 </p>
-<p>Project Managers and/or Post-Processors may make the request for additional information
-   to be retained in the thought break markup. For example, some projects delineate different
-   types of breaks by the use of different styles of break such as a line of stars in one place
-   and a blank line in another. In these cases, the Project Comments may request that these be
-   marked up: <tt>&lt;tb stars&gt;</tt> and <tt>&lt;tb&gt;</tt>. Please, as always, read the
-   project comments carefully so that you will know what is required for each project. Also
-   be careful not to carry these special requests into other projects with different requirements.
-</p>
-<p>Sometimes printers used decorative lines to mark the ends of chapters. As we already mark
-   <a href="#chap_head">Chapter Headers</a>, there is no need to add a "thought break" marker.
-</p>
-<p>The proofreading interface has the "thought break" marker available to cut and paste.
+<p>Don't indent the heading or footer lines, even if they are indented or right justified in the original&mdash;just
+   put them at the left margin. The post-processor will format them as needed.
 </p>
 <!-- END RR -->
-<br>
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Thought Break">
+
+<table width="100%" align="center" border="1"  cellpadding="4"
+       cellspacing="0" summary="Letter Example">
   <tbody>
-    <tr><th align="left" bgcolor="cornsilk"> Sample Image:</th></tr>
+    <tr><th align="left" bgcolor="cornsilk">Sample Image:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="tbreak.png" alt="thought break"
-          width="500" height="264"> <br>
-      </td>
+      <th width="100%" valign="top"> <img src="letter.png" alt=""
+          width="500" height="217"> <br>
+      </th>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-    <p><tt>
-    like the gentleman with the spiritual hydrophobia<br>
-    in the latter end of Uncle Tom's Cabin.<br>
-    Unconsciously Mr. Dixon has done his best to<br>
-    prove that Legree was not a fictitious character.</tt>
-    </p>
-    <p><tt>&lt;tb&gt;</tt>
-    </p>
-    <p><tt>
-    Joel Chandler Harris, Harry Stillwell Edwards,<br>
-    George W. Cable, Thomas Nelson Page,<br>
-    James Lane Allen, and Mark Twain are Southern<br>
-    men in Mr. Griffith's class. I recommend</tt>
-    </p>
+<p><tt>&lt;i&gt;John James Audubon to Claude Fran&ccedil;ois Rozier&lt;/i&gt;</tt></p>
+<p><tt>[Letter No. 1, addressed]</tt></p>
+<p><tt>/*<br>
+&lt;sc&gt;M. Fr. Rozier&lt;/sc&gt;,<br>
+Merchant-Nantes.<br>
+&lt;sc&gt;New York&lt;/sc&gt;, &lt;i&gt;10 January, 1807.&lt;/i&gt;</tt></p>
+<p><tt>
+&lt;sc&gt;Dear Sir:&lt;/sc&gt;<br>
+*/</tt></p>
+<p><tt>
+We have had the pleasure of receiving by the &lt;i&gt;Penelope&lt;/i&gt; your<br>
+consignment of 20 pieces of linen cloth, for which we send our<br>
+thanks. As soon as we have sold them, we shall take great<br>
+pleasure in making our return.</tt>
+</p>
 </td></tr></table>
+
       </td>
     </tr>
   </tbody>
 </table>
 
 
-<h3><a name="page_ref">Page References &quot;See Pg. 123&quot;</a></h3>
-<p>Format page number references within the text such as <tt>(see p. 123)</tt> as
-   they appear in the image.</p>
-<p>Check the <a href="#comments">Project Comments</a> to see if the Project Manager
-   has special requirements for page references.
+<h3><a name="blank_pg">Blank Page</a></h3>
+<p>Format as <tt>[Blank Page]</tt> if both the text and the image are blank.
 </p>
+<p>If there is text in the formatting text area and a blank image, or if there is an image
+   but no text, follow the directions for a <a href="#bad_image">Bad Image</a>
+   or <a href="#bad_text">Bad Text</a>.
+</p>
+
+<h3><a name="title_pg">Front/Back Title Page</a></h3>
+<p>Format all the text, just as it was printed on the page, whether all capitals, upper and
+   lower case, etc., including the years of publication or copyright.
+</p>
+<p>Older books often show the first letter as a large ornate graphic&mdash;format this as just the letter.
+</p>
+<!-- END RR -->
+
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Title Page Example">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">
+      Sample Image:
+      </th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top"><img src="title.png" width="500"
+          height="520" alt="title page image"><br>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+      <p><tt>GREEN FANCY</tt>
+      </p>
+      <p><tt>BY</tt></p>
+      <p><tt>GEORGE BARR McCUTCHEON</tt></p>
+      <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
+         "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
+      <p><tt>&lt;i&gt;WITH FRONTISPIECE BY&lt;/i&gt;<br>
+         &lt;i&gt;C. ALLAN GILBERT&lt;/i&gt;</tt></p>
+      <p><tt>NEW YORK<br>
+         DODD, MEAD AND COMPANY<br>
+         1917</tt></p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3><a name="toc">Table of Contents</a></h3>
+<p>Format the Table of Contents just as it is printed in the book, whether all capitals,
+   upper and lower case, etc. and surround it with <tt>/*</tt> and <tt>*/</tt>. Leave a blank
+   line between these markers and the rest of the text. Page number references should be
+   retained and be placed at least six spaces past the end of the line.
+</p>
+<p>Remove any periods or asterisks (leaders) used to align the page numbers.
+</p>
+<!-- END RR -->
+
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="TOC">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">
+      Sample Image:
+      </th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top">
+      <p><img src="tablec.png" alt="" width="500" height="650"></p>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+      <p><tt><br><br><br><br>CONTENTS<br><br></tt></p>
+      <p><tt>/*<br>
+          CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<br>
+          <br>
+          I. &lt;sc&gt;The First Wayfarer and the Second Wayfarer<br>
+          Meet and Part on the Highway&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1<br>
+          <br>
+          II. &lt;sc&gt;The First Wayfarer Lays His Pack Aside and<br>
+          Falls in with Friends&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15<br>
+          <br>
+          III. &lt;sc&gt;Mr. Rushcroft Dissolves, Mr. Jones Intervenes,<br>
+          and Two Men Ride Away&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33<br>
+          <br>
+          IV. &lt;sc&gt;An Extraordinary Chambermaid, a Midnight<br>
+          Tragedy, and a Man Who Said "Thank You"&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50<br>
+          <br>
+          V. &lt;sc&gt;The Farm-boy Tells a Ghastly Story, and an<br>
+          Irishman Enters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;67<br>
+          <br>
+          VI. &lt;sc&gt;Charity Begins Far from Home, and a Stroll in<br>
+          the Wildwood Follows&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
+          <br>
+          VII. &lt;sc&gt;Spun-gold Hair, Blue Eyes, and Various Encounters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;103<br>
+          <br>
+          VIII. &lt;sc&gt;A Note, Some Fancies, and an Expedition in<br>
+          Quest of Facts&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;120<br>
+          <br>
+          IX. &lt;sc&gt;The First Wayfarer, the Second Wayfarer, and<br>
+          the Spirit of Chivalry Ascendant&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;134<br>
+          <br>
+          X. &lt;sc&gt;The Prisoner of Green Fancy, and the Lament of<br>
+          Peter the Chauffeur&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;148<br>
+          <br>
+          XI. &lt;sc&gt;Mr. Sprouse Abandons Literature at an Early<br>
+          Hour in the Morning&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;167<br>
+          <br>
+          XII. &lt;sc&gt;The First Wayfarer Accepts an Invitation, and<br>
+          Mr. Dillingford Belabors a Proxy&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
+          <br>
+          XIII. &lt;sc&gt;The Second Wayfarer Receives Two Visitors at<br>
+          Midnight&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;199<br>
+          <br>
+          XIV. &lt;sc&gt;A Flight, a Stone-cutter's Shed, and a Voice<br>
+          Outside&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
+          */<br>
+      </tt>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <h3><a name="bk_index">Indexes</a></h3>
 <p>Please retain page numbers in index pages. Surround the index with <tt>/*</tt> and <tt>*/</tt> tags,

@@ -78,38 +78,38 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <td width="1" bgcolor="silver">&nbsp;</td>
     <td bgcolor="white" align="left">
       <ul style="margin-left: 3em;">
-        <li><a href="#title_pg">Page de titre/fin</a></li>
-        <li><a href="#toc">Table des mati&egrave;res</a></li>
-        <li><a href="#blank_pg">Page blanche</a></li>
-        <li><a href="#chap_head">En-t&ecirc;tes de chapitres</a></li>
-        <li><a href="#sect_head">En-t&ecirc;tes de section</a></li>
-        <li><a href="#maj_div">Autres divisions dans les textes</a></li>
-        <li><a href="#para_side">Commentaires en marge des paragraphes</a></li>
-        <li><a href="#para_space">Espacement et indentation des paragraphes</a></li>
-        <li><a href="#mult_col">Colonnes multiples</a></li>
-        <li><a href="#illust">Illustrations</a></li>
-        <li><a href="#footnotes">Notes de fin et de notes de bas de page</a></li>
         <li><a href="#italics">Italiques</a></li>
         <li><a href="#bold">Texte gras</a></li>
-        <li><a href="#supers">Texte en Exposant</a></li>
-        <li><a href="#subscr">Texte en indice</a></li>
         <li><a href="#underl">Texte soulign&eacute;</a></li>
         <li><a href="#spaced">T e x t e &nbsp; e s p a c &eacute; (gesperrt)</a></li>
         <li><a href="#font_ch">Changement de police</a></li>
-        <li><a href="#font_sz">Changement de taille de police</a></li>
-        <li><a href="#word_caps">Mots enti&egrave;rement en majuscules</a></li>
         <li><a href="#small_caps"><span style="font-variant: small-caps">Petites capitales</span></a></li>
-        <li><a href="#poetry">Po&eacute;sie/&Eacute;pigrammes</a></li>
-        <li><a href="#letter">Lettres (courrier)</a></li>
-        <li><a href="#lists">Listes de choses</a></li>
-        <li><a href="#tables">Tableaux</a></li>
-        <li><a href="#block_qt">Blocs de citations</a></li>
-        <li><a href="#line_br">Retours &agrave; la ligne</a></li>
+        <li><a href="#word_caps">Mots enti&egrave;rement en majuscules</a></li>
+        <li><a href="#font_sz">Changement de taille de police</a></li>
         <li><a href="#extra_sp">Espaces exc&eacute;dentaires entre les mots</a></li>
-        <li><a href="#line_no">Num&eacute;ros de ligne</a></li>
+        <li><a href="#supers">Texte en Exposant</a></li>
+        <li><a href="#subscr">Texte en indice</a></li>
+        <li><a href="#page_ref">R&eacute;f&eacute;rences aux pages "(Voir Pg. 123)"</a></li>
+        <li><a href="#line_br">Retours &agrave; la ligne</a></li>
+        <li><a href="#chap_head">En-t&ecirc;tes de chapitres</a></li>
+        <li><a href="#sect_head">En-t&ecirc;tes de section</a></li>
+        <li><a href="#maj_div">Autres divisions dans les textes</a></li>
+        <li><a href="#para_space">Espacement et indentation des paragraphes</a></li>
         <li><a href="#extra_s">Espaces suppl&eacute;mentaires, lignes et ast&eacute;risques
             entre les paragraphes</a></li>
-        <li><a href="#page_ref">R&eacute;f&eacute;rences aux pages "(Voir Pg. 123)"</a></li>
+        <li><a href="#illust">Illustrations</a></li>
+        <li><a href="#footnotes">Notes de fin et de notes de bas de page</a></li>
+        <li><a href="#para_side">Commentaires en marge des paragraphes</a></li>
+        <li><a href="#block_qt">Blocs de citations</a></li>
+        <li><a href="#mult_col">Colonnes multiples</a></li>
+        <li><a href="#lists">Listes de choses</a></li>
+        <li><a href="#tables">Tableaux</a></li>
+        <li><a href="#poetry">Po&eacute;sie/&Eacute;pigrammes</a></li>
+        <li><a href="#line_no">Num&eacute;ros de ligne</a></li>
+        <li><a href="#letter">Lettres (courrier)</a></li>
+        <li><a href="#blank_pg">Page blanche</a></li>
+        <li><a href="#title_pg">Page de titre/fin</a></li>
+        <li><a href="#toc">Table des mati&egrave;res</a></li>
         <li><a href="#bk_index">Index</a></li>
         <li><a href="#play_n">Th&eacute;&acirc;tre</a></li>
         <li><a href="#anything">Tous autres points n&eacute;cessitant un traitement particulier, ou dont vous
@@ -296,145 +296,276 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </table>
 
 
-<h3><a name="title_pg">Page de titre/fin</a></h3>
-<p>Laissez tout comme c'est imprim&eacute;, m&ecirc;me si c'est tout en majuscules, ou en
-   majuscules et minuscules. Gardez la date de copyright ou de publication.
+<h3><a name="italics">Italiques</a></h3>
+<p>Le texte en <i>italique</i> doit avoir <tt>&lt;i&gt;</tt> ins&eacute;r&eacute; avant et
+   <tt>&lt;/i&gt;</tt> ins&eacute;r&eacute; &agrave; la fin de l'italique.
+   (remarquez le &ldquo;<tt>/</tt>&rdquo; dans le symbole de fin).
 </p>
-<p>Certaines livres, souvent, mettent la premi&egrave;re lettre
-   grande et orn&eacute;e. Tapez simplement la lettre.
+<p>La ponctuation va <b>hors</b> de l'italique, &agrave; moins que le signe de ponctuation ne soit
+   dans une phrase ou une section enti&egrave;re qui est en italique,
+   ou que ce signe fasse partie d'une phrase, titre ou abr&eacute;viation qui
+   est en italique.
+</p>
+<p>Par exemple, le <tt>.</tt> qui signale l'abr&eacute;viation dans le titre d'un journal
+   comme <i>Phil. Trans.</i> est entre les marques d'italiques. D'o&ugrave;&nbsp;:
+   <tt>&lt;i&gt;Phil. Trans.&lt;/i&gt;</tt>. 
+   <!-- the following sentence is not present in the english original -->
+   Voyez l'image de la section
+   <a href="#illust">Illustration</A> pour un exemple de la mani&egrave;re de faire les italiques.
+</p>
+<p>Certaines polices, en particulier les plus vieilles utilisaient les m&ecirc;mes
+   symboles pour les nombres en italique et non italique. Donc, pour les dates et
+   phrases similaires, marquez la phrase enti&egrave;re en italique plut&ocirc;t que de
+   marquer les mots en italique et les nombres en non italique.
+</p>
+<p>Si le texte en italique est une s&eacute;rie/liste de mots ou de noms, mettez chacun
+   d'eux en italiques (et pas la liste dans son ensemble).
 </p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Example de page de titre">
+<p><b>Exemples</b>&mdash;Italiques:
+</p>
+
+<table width="100%" align="center" border="1" cellpadding="4" 
+cellspacing="0" summary="Italique">
   <tbody>
     <tr>
-      <th align="left" bgcolor="cornsilk">
-      Exemple d'image:
-      </th>
+      <th valign="top" bgcolor="cornsilk">Texte original:</th>
+      <th valign="top" bgcolor="cornsilk">Texte correctement format&eacute;:</th>
     </tr>
-    <tr align="left">
-      <td width="100%" valign="top"><img src="title.png" width="500"
-          height="520" alt="title page image"><br>
+    <tr>
+      <td valign="top"><i>Enacted </i>4<i> July, </i>1776 </td>
+      <td valign="top"><tt>&lt;i&gt;Enacted 4 July, 1776&lt;/i&gt;</tt> </td>
+    </tr>
+    <tr>
+      <td valign="top"><i>God knows what she saw in me!</i> I spoke<br> in such an affected manner.</td>
+      <td valign="top"><tt>&lt;i&gt;God knows what she saw in me!&lt;/i&gt; I spoke<br> in such an affected manner.</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">As in many other of these <i>Studies</i>, and</td>
+      <td valign="top"><tt>As in many other of these &lt;i&gt;Studies&lt;/i&gt;, and</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">(<i>Psychological Review</i>, 1898, p. 160)</td>
+      <td valign="top"><tt>(&lt;i&gt;Psychological Review&lt;/i&gt;, 1898, p. 160)</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">L. Robinson, art. "<i>Ticklishness</i>,"</td>
+      <td valign="top"><tt>L. Robinson, art. "&lt;i&gt;Ticklishness&lt;/i&gt;,"</tt></td>
+    </tr>
+    <tr>
+      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br />
+                     1323 Picadilly Circus</td>
+      <td valign="top"><tt>/*<br />
+         &lt;i&gt;December 3, morning.&lt;/i&gt;<br />
+         1323 Picadilly Circus<br />
+         */</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">
+      Volunteers may be tickled pink to read<br>
+      <i>Ticklishness</i>, <i>Tickling and Laughter</i>,<br>
+      <i>Remarks on Tickling and Laughter</i><br>
+      and <i>Ticklishness, Laughter and Humour</i>.
       </td>
-    </tr>
-    <tr>
-      <th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th>
-    </tr>
-    <tr>
-      <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
-      <p><tt>GREEN FANCY</tt>
-      </p>
-      <p><tt>BY</tt></p>
-      <p><tt>GEORGE BARR McCUTCHEON</tt></p>
-      <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
-         "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
-      <p><tt>&lt;i&gt;WITH FRONTISPIECE BY&lt;/i&gt;<br>
-         &lt;i&gt;C. ALLAN GILBERT&lt;/i&gt;</tt></p>
-      <p><tt>NEW YORK<br>
-         DODD, MEAD AND COMPANY<br>
-         1917</tt></p>
-</td></tr></table>
+      <td valign="top">
+      <tt>Volunteers may be tickled pink to read<br>
+      &lt;i&gt;Ticklishness&lt;/i&gt;, &lt;i&gt;Tickling and Laughter&lt;/i&gt;,<br>
+      &lt;i&gt;Remarks on Tickling and Laughter&lt;/i&gt;<br>
+      and &lt;i&gt;Ticklishness, Laughter and Humour&lt;/i&gt;.</tt>
       </td>
     </tr>
   </tbody>
 </table>
 
-<h3><a name="toc">Table des mati&egrave;res</a></h3>
-<p>Laissez le texte de la table des mati&egrave;res comme il est imprim&eacute; (m&ecirc;me si c'est
-   tout en capitales). Encadrez la table par <tt>/*</tt> (pr&eacute;c&eacute;d&eacute;e d'une
-   ligne blanche) au d&eacute;but et <tt>*/</tt> (suivie d'une ligne blanche) &agrave; la
-   fin. Gardez les num&eacute;ros de page et mettez-les 6 espaces apr&egrave;s le texte, en fin de ligne.
+<h3><a name="bold">Texte en gras</a></h3>
+<p>Le <b>texte en gras</b> doit &ecirc;tre marqu&eacute; par <tt>&lt;b&gt;</tt> avant et
+   <tt>&lt;/b&gt;</tt> apr&egrave;s.
+   (remarquez le &ldquo;<tt>/</tt>&rdquo; dans la marque de fin).
 </p>
-<p>Enlevez les points ou les ast&eacute;risques qui forment des lignes horizontales (points de conduite), 
-   entre le texte et le num&eacute;ro.
+<p>Les signes de ponctuation doivent &ecirc;tre <b>hors</b> des marques de "gras", &agrave; moins
+   que ces signes ne soient dans une phrase ou une partie de phrase enti&egrave;rement en
+   gras.
 </p>
+<p>Voyez l'exemple de la section <a href="#page_hf">En-t&ecirc;tes et bas de page</a>.
+</p>
+<p>Certains chefs de projet peuvent sp&eacute;cifier dans les <a href="#comments">commentaires
+   de projet</a> que le texte gras doit &ecirc;tre rendu tout en majuscules.
+</p>
+
+<h3><a name="underl">Texte soulign&eacute;</a></h3>
+<p>Marquez le <u>texte soulign&eacute;</u> comme &eacute;tant de l'<a href="#italics">Italique</a>,
+   avec <tt>&lt;i&gt;</tt> et <tt>&lt;/i&gt;</tt>, &agrave; moins que les <a href="#comments">Commentaires
+   de projet</a> sp&eacute;cifient l'utilisation de <tt>&lt;u&gt;</tt> et <tt>&lt;/u&gt;</tt>
+   pour ce livre.
+</p>
+<p>On avait souvent recours au texte soulign&eacute; &agrave; la place de l'italique quand l'&eacute;diteur
+   &eacute;tait incapable de imprimer en italique, par exemple pour un document tap&eacute; &agrave; la machine.
+</p>
+
+<h3><a name="spaced">T e x t e&nbsp;&nbsp; e s p a c &eacute; (gesperrt)</a></h3>
+<p>Formatez le &nbsp;T e x t e&nbsp;&nbsp; e s p a c &eacute;&nbsp; avec les marques <tt>&lt;g&gt;</tt> avant et
+   <tt>&lt;/g&gt;</tt> apr&egrave;s.
+   (remarquez le &ldquo;<tt>/</tt>&rdquo; dans la marque de fin).
+   Enlevez les espaces exc&eacute;dentaires. 
+</p>
+<p>La ponctuation va <b>en dehors</b> des marques, sauf si une phrase ou une section enti&egrave;re
+   est ainsi espac&eacute;e, ou si la ponctuation fait partie de la partie de texte espac&eacute;e.
+</p>
+<p>Cette technique &eacute;tait utilis&eacute;e pour mettre l'accent sur certains passages 
+   sur certains livres anciens, principalement en allemand.
+</p>
+
+
+<h3><a name="font_ch">Changement de police</a></h3>
+<p>Formatez le changement de police &agrave; l'int&eacute;rieur d'un paragraphe en mettant
+   <tt>&lt;f&gt;</tt> avant et <tt>&lt;/f&gt;</tt> apr&egrave;s le passage. 
+   (remarquez le &ldquo;<tt>/</tt>&rdquo; dans la marque de fin).
+   Utilisez ces marques pour noter la pr&eacute;sence de toute police sp&eacute;ciale ou de 
+   typographie particuli&egrave;re, <b>sauf</b> pour le gras, l'italique, les petites
+   capitales, et le texte espac&eacute;, qui ont leurs marques d&eacute;di&eacute;es.
+</p>
+<p>Parmi les usages possibles de ce marquage, on trouve:
+</p>
+<ul compact>
+  <li>antiqua (une sorte de police en roman) au milieu de texte en fraktur</li>
+  <li>caract&egrave;res gothiques au milieu d'un texte en polices normales</li>
+  <li>une police plus grande ou plus petite, seulement si c'est un passage au milieu
+    d'un paragraphe en police normale (pour un paragraphe entier dans une police ou
+    taille diff&eacute;rente, voir la section <a href="#block_qt">bloc de citation</a>)</li>
+  <li>une police droite au milieu d'un paragraphe en italique</li>
+</ul>
+<p>Les usages particuliers de ce marquage dans un projet seront g&eacute;n&eacute;ralement pr&eacute;cis&eacute;s
+   dans les <a href="#comments">commentaires du projet</a>. Les formateurs devraient
+   signaler dans le <a href="#forums">forum du projet</a> si l'usage de ce marquage
+   semble n&eacute;cessaire et n'a pas encore &eacute;t&eacute; indiqu&eacute;.
+</p>
+<p>La ponctuation va <b>en dehors</b> des marques, sauf si une phrase ou une section enti&egrave;re
+   est ainsi imprim&eacute;e dans une police diff&eacute;rente, ou si la ponctuation fait partie 
+   de la partie de texte dans la police diff&eacute;rente.
+</p>
+
+
+<h3><a name="small_caps">Petites capitales</a></h3>
+<p>Le marquage est diff&eacute;rent pour les <span style="font-variant: small-caps;">Petites Capitales Altern&eacute;es</span>
+   avec des grandes capitales, et pour les mots <span style="font-variant: small-caps;">uniquement en petites capitales</span>:
+</p>
+<p>Corrigez les mots en <span style="font-variant: small-caps;">Petites Capitales Altern&eacute;es</span>
+   en faisant alterner minuscules et majuscules et entourez le texte par les marques
+   <tt>&lt;sc&gt;</tt> et <tt>&lt;/sc&gt;</tt>. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;Exemple:
+   <span style="font-variant: small-caps;">This is Small Caps</span> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;devient:
+   <tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt>.
+</p>
+
+<p>Mais si les mots sont imprim&eacute;s <span style="font-variant: small-caps;">enti&egrave;rement
+   en petites capitales</span>, alors &eacute;crivez-les en CAPITALES, et entourez-les
+   des marques <tt>&lt;sc&gt;</tt> et <tt>&lt;/sc&gt;</tt>.
+   <br>
+&nbsp;&nbsp;&nbsp;&nbsp;Exemple:
+   You cannot be serious about
+   <span style="font-variant: small-caps;">aardvarks</span>!<br>
+&nbsp;&nbsp;&nbsp;&nbsp;devient:
+   <tt>You cannot be serious about
+   &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</tt> <br>
+</p>
+
+<p>Si un mot est en capitales dans un titre (un en-t&ecirc;te de chapitre, ou de section), laissez-le
+   en capitales, sans marques <tt>&lt;sc&gt;</tt> et <tt>&lt;/sc&gt;</tt>. Si le premier mot
+   d'un chapitre est en petites capitales, alors changez-le en majuscules et minuscules, 
+   sans marques de petites capitales.
+</p>
+
+<h3><a name="word_caps">Mots entiers en majuscules</a></h3>
+<p>Si un mot ou groupe de mots dans un texte est imprim&eacute; enti&egrave;rement en
+   majuscules, laissez-les tels qu'ils sont dans votre copie de travail.
+</p>
+<p>Une exception &agrave; cette r&egrave;gle est le <a href="#chap_head">premier
+   mot d'un chapitre ou d'un paragraphe</a>: certains livres anciens mettaient le
+   premier mot de chaque chapitre en majuscule; ce doit &ecirc;tre chang&eacute; en un mot
+   normal (premi&egrave;re lettre en majuscule, le reste en minuscule). Donc "IL &eacute;tait une
+   fois" devient "<tt>Il &eacute;tait une fois</tt>".
+</p>
+
+<h3><a name="font_sz">Changement de taille de police</a></h3>
+<p>Ne faites rien pour indiquer un changement de taille de police.
+</p>
+<p>L'exception &agrave; ceci est lorsque la taille de la police change pour indiquer un
+   <a href="#block_qt">bloc de citation</a>, ou quand le changement de taille
+   a lieu au milieu d'un paragraphe ou d'une ligne du texte 
+   (voir <a href="#font_ch">Changement de police</a>).
+</p>
+
+
+<h3><a name="extra_sp">Espaces exc&eacute;dentaires entre les mots</a></h3>
+<p>Des espaces suppl&eacute;mentaires ou des caract&egrave;res de tabulation 
+   entre les mots sont une erreur d'OCR courante. Il
+   n'est pas n&eacute;cessaire de supprimer ces espaces &eacute;tant donn&eacute;
+   qu'il est facile de le faire automatiquement lors du post-processing.
+</p>
+<p>Mais les espaces exc&eacute;dentaires autour de la ponctuation, des tirets, etc.
+   doivent &ecirc;tre supprim&eacute;s car il est difficile de faire cela automatiquement.
+</p>
+<p>Par exemple, dans <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt> il faut supprimer
+   l'espace avant le point virgule. Mais les deux espaces apr&egrave;s le point
+   virgule ne posent pas de probl&egrave;me&nbsp;: vous n'&ecirc;tes pas oblig&eacute;s
+   d'en supprimer un.
+</p>
+
+<h3><a name="supers">Exposants</a></h3>
+<p>Les vieux livres abr&eacute;geaient souvent les mots en contractions, et les
+   imprimaient en exposant, par exemple:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
+   Formatez ceci en ins&eacute;rez un chapeau (<tt>^</tt>) suivi par le texte en exposant, comme suit:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
+</p>
+<p>Dans les ouvrages scientifiques et techniques utilisez le "chapeau" <tt>^</tt> et mettez
+   le texte en exposant entre accolades <tt>{</tt> et <tt>}</tt>. Mettez toujours le texte
+   en exposant entre accolades, m&ecirc;me si ce texte ne fait qu'un caract&egrave;re.
+   <br>Ainsi:
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;... up to x<sup>n-1</sup> elements in the array.
+   <br>donne
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>... up to x^{n-1} elements in the array.<br></tt>
+</p>
+<p>Si le chef de projet dit de faire autrement dans les <a href="#comments">commentaires
+   de projet</a>, suivez ses instructions.
+</p>
+
+<h3><a name="subscr">Texte en Indice</a></h3>
+<p>On trouve la notation "indice" dans des ouvrages scientifiques, rarement
+   ailleurs. Indiquez l'indice en mettant un signe "soulign&eacute;" <tt>_</tt> devant et
+   en entourant le texte en indice avec des accolades <tt>{</tt> et <tt>}</tt>.
+   <br>Par exemple:
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
+   <br>donne
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_{2}O.<br></tt>
+</p>
+
+<h3><a name="page_ref">R&eacute;f&eacute;rences aux pages "cf. p. 123"</a></h3>
+<p>Laissez ces r&eacute;f&eacute;rences telles qu'elles sont dans le texte, &agrave; moins que le
+   responsable de projet ne prescrive autre chose dans les <a href="#comments">Commentaires
+   de Projet</a>.
+</p>
+
+<h3><a name="line_br">Retours &agrave; la ligne</a></h3>
+<p><b>Laissez tous les retours &agrave; la ligne</b> de mani&egrave;re &agrave; ce que le
+   formateur suivant et le post-processeur puissent comparer les textes facilement. 
+   Faites surtout attention aux
+   cas particulier des <a href="#eol_hyphen">mots coup&eacute;s</a>, ou des
+   <a href="#em_dashes">tirets</a>. Si la personne qui est pass&eacute; avant vous
+   a supprim&eacute; les retours &agrave; la ligne, remettez-les, pour que les lignes
+   correspondent &agrave; l'image.
+</p>
+<p>Les lignes vierges qui ne se trouvent pas dans l'image doivent &ecirc;tre
+   supprim&eacute;es, sauf celles qui ont &eacute;t&eacute; ins&eacute;r&eacute;es
+   intentionnellement pour le formatage. Mais des lignes vierges en bas de la page
+   ne posent pas de probl&egrave;mes, ces derni&egrave;res pouvant &ecirc;tre
+   supprim&eacute;s facilement en post-processing.
+</p>
+
 <!-- END RR -->
-
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="TdM">
-  <tbody>
-    <tr>
-      <th align="left" bgcolor="cornsilk">
-      Exemple d'image:
-      </th>
-    </tr>
-    <tr align="left">
-      <td width="100%" valign="top">
-      <p><img src="tablec.png" alt="" width="500" height="650"></p>
-      </td>
-    </tr>
-    <tr>
-      <th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th>
-    </tr>
-    <tr>
-      <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
-      <p><tt><br><br><br><br>CONTENTS<br><br></tt></p>
-      <p><tt>/*<br>
-          CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<br>
-          <br>
-          I. &lt;sc&gt;The First Wayfarer and the Second Wayfarer<br>
-          Meet and Part on the Highway&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1<br>
-          <br>
-          II. &lt;sc&gt;The First Wayfarer Lays His Pack Aside and<br>
-          Falls in with Friends&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15<br>
-          <br>
-          III. &lt;sc&gt;Mr. Rushcroft Dissolves, Mr. Jones Intervenes,<br>
-          and Two Men Ride Away&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33<br>
-          <br>
-          IV. &lt;sc&gt;An Extraordinary Chambermaid, a Midnight<br>
-          Tragedy, and a Man Who Said "Thank You"&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50<br>
-          <br>
-          V. &lt;sc&gt;The Farm-boy Tells a Ghastly Story, and an<br>
-          Irishman Enters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;67<br>
-          <br>
-          VI. &lt;sc&gt;Charity Begins Far from Home, and a Stroll in<br>
-          the Wildwood Follows&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
-          <br>
-          VII. &lt;sc&gt;Spun-gold Hair, Blue Eyes, and Various Encounters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;103<br>
-          <br>
-          VIII. &lt;sc&gt;A Note, Some Fancies, and an Expedition in<br>
-          Quest of Facts&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;120<br>
-          <br>
-          IX. &lt;sc&gt;The First Wayfarer, the Second Wayfarer, and<br>
-          the Spirit of Chivalry Ascendant&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;134<br>
-          <br>
-          X. &lt;sc&gt;The Prisoner of Green Fancy, and the Lament of<br>
-          Peter the Chauffeur&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;148<br>
-          <br>
-          XI. &lt;sc&gt;Mr. Sprouse Abandons Literature at an Early<br>
-          Hour in the Morning&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;167<br>
-          <br>
-          XII. &lt;sc&gt;The First Wayfarer Accepts an Invitation, and<br>
-          Mr. Dillingford Belabors a Proxy&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
-          <br>
-          XIII. &lt;sc&gt;The Second Wayfarer Receives Two Visitors at<br>
-          Midnight&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;199<br>
-          <br>
-          XIV. &lt;sc&gt;A Flight, a Stone-cutter's Shed, and a Voice<br>
-          Outside&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
-          */<br>
-      </tt></p>
-</td></tr></table>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<h3><a name="blank_pg">Page blanche</a></h3>
-<p>Merci de mettre comme texte <tt>[Blank Page]</tt> si le texte et l'image sont vides.
-</p>
-<p>Si le texte seulement (ou l'image seulement) est vide, suivez la
-   proc&eacute;dure indiqu&eacute;es dans le cas d'une <a href="#bad_image">mauvaise image</a>
-   ou d'un <a href="#bad_text">mauvais texte</a>.
-</p>
+<!-- We should have an example right here for this. -->
 
 <h3><a name="chap_head">En-t&ecirc;tes de chapitres</a></h3>
 <p>Laissez les en-t&ecirc;tes de chapitres dans le texte tels qu'ils sont imprim&eacute;s.
@@ -609,135 +740,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    texte.
 </p>
 
-<h3><a name="para_side">Commentaires en marge</a></h3>
-<p>Certains livres ont de petites descriptions des paragraphes sur le c&ocirc;t&eacute; du
-   texte. Ce sont les notes en marge ("Sidenotes"). D&eacute;placez ces notes juste au-dessus du paragraphe
-   auquel elles appartiennent. Une note en marge est entour&eacute;e par les marques
-   suivantes: <tt>[Sidenote:&nbsp;</tt> avant et <tt>]</tt> apr&egrave;s. Formatez la note
-   pour qu'elle ressemble au texte imprim&eacute;, en gardant les retours &agrave; la ligne, les
-   italiques, etc. Laissez une ligne blanche apr&egrave;s la note, pour qu'elle ne se
-   m&eacute;lange pas avec le paragraphe durant la phase de post-processing.
-</p>
-<p>S'il y a plusieurs notes pour un m&ecirc;me paragraphe, mettez-les l'une apr&egrave;s
-   l'autre au d&eacute;but du paragraphe. S&eacute;parez-les par des lignes blanches.
-</p>
-<p>Si le paragraphe a commenc&eacute; sur une page pr&eacute;c&eacute;dente, mettez la note en haut
-   de la page et marquez-la avec une ast&eacute;risque (&nbsp;<tt>*</tt>&nbsp;) de mani&egrave;re &agrave; ce que
-   le post-processeur puisse voir qu'elle appartient &agrave; la page pr&eacute;c&eacute;dente. De cette
-   mani&egrave;re: <tt>*[Sidenote: <font color="red">texte de la note</font>]</tt>. Le post-processeur
-   d&eacute;placera la note &agrave; l'endroit appropri&eacute;.
-</p>
-<p>Parfois, le chef de projet vous demandera de placer la note &agrave; c&ocirc;t&eacute; de la
-   phrase &agrave; laquelle elle s'applique, et pas au d&eacute;but ou &agrave; la fin du paragraphe.
-   Dans ce cas, ne les s&eacute;parez pas par des lignes blanches.
-</p>
-<!-- END RR -->
-
-  <table width="100%" align="center" border="1" cellpadding="4"
-       cellspacing="0" summary="Notes en marge"> <col width="128*">
-  <tbody>
-    <tr valign="top">
-      <th align="left" bgcolor="cornsilk">Exemple d'image:</th>
-    </tr>
-    <tr valign="top">
-      <td width="100%" align="left"><img src="side.png" alt=""
-          width="550" height="800"><br>
-      </td>
-    </tr>
-    <tr valign="top">
-      <th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th>
-    </tr>
-    <tr valign="top">
-      <td width="100%">
-<table summary="" border="0" align="left"><tr><td>
-    <p><tt>
-    *[Sidenote: Burning<br>
-    discs<br>
-    thrown into<br>
-    the air.]<br>
-    <br>
-    that such as looked at the fire holding a bit of larkspur<br>
-    before their face would be troubled by no malady of the<br>
-    eyes throughout the year.[1] Further, it was customary at<br>
-    W&uuml;rzburg, in the sixteenth century, for the bishop's followers<br>
-    to throw burning discs of wood into the air from a mountain<br>
-    which overhangs the town. The discs were discharged by<br>
-    means of flexible rods, and in their flight through the darkness<br>
-    presented the appearance of fiery dragons.[2]<br>
-    <br>
-    [Sidenote: The Midsummer<br>
-    fires in<br>
-    Swabia.]<br>
-    <br>
-    [Sidenote: Omens<br>
-    drawn from<br>
-    the leaps<br>
-    over the<br>
-    fires.]<br>
-    <br>
-    [Sidenote: Burning<br>
-    wheels<br>
-    rolled<br>
-    down hill.]<br>
-    <br>
-    In the valley of the Lech, which divides Upper Bavaria<br>
-    from Swabia, the midsummer customs and beliefs are, or<br>
-    used to be, very similar. Bonfires are kindled on the<br>
-    mountains on Midsummer Day; and besides the bonfire<br>
-    a tall beam, thickly wrapt in straw and surmounted by a<br>
-    cross-piece, is burned in many places. Round this cross as<br>
-    it burns the lads dance with loud shouts; and when the<br>
-    flames have subsided, the young people leap over the fire in<br>
-    pairs, a young man and a young woman together. If they<br>
-    escape unsmirched, the man will not suffer from fever, and<br>
-    the girl will not become a mother within the year. Further,<br>
-    it is believed that the flax will grow that year as high as<br>
-    they leap over the fire; and that if a charred billet be taken<br>
-    from the fire and stuck in a flax-field it will promote the<br>
-    growth of the flax.[3] Similarly in Swabia, lads and lasses,<br>
-    hand in hand, leap over the midsummer bonfire, praying<br>
-    that the hemp may grow three ells high, and they set fire<br>
-    to wheels of straw and send them rolling down the hill.<br>
-    Among the places where burning wheels were thus bowled<br>
-    down hill at Midsummer were the Hohenstaufen mountains<br>
-    in Wurtemberg and the Frauenberg near Gerhausen.[4]<br>
-    At Deffingen, in Swabia, as the people sprang over the mid-*<br>
-    <br>
-    [Footnote 1: &lt;i&gt;Op. cit.&lt;/i&gt; iv. 1. p. 242. We have<br>
-    seen (p. 163) that in the sixteenth<br>
-    century these customs and beliefs were<br>
-    common in Germany. It is also a<br>
-    German superstition that a house which<br>
-    contains a brand from the midsummer<br>
-    bonfire will not be struck by lightning<br>
-    (J. W. Wolf, &lt;i&gt;Beitr&auml;ge zur deutschen<br>
-    Mythologie&lt;/i&gt;, i. p. 217, &sect; 185).]<br>
-    <br>
-    [Footnote 2: J. Boemus, &lt;i&gt;Mores, leges et ritus<br>
-    omnium gentium&lt;/i&gt; (Lyons, 1541), p.<br>
-    226.]<br>
-    <br>
-    [Footnote 3: Karl Freiherr von Leoprechting,<br>
-    &lt;i&gt;Aus dem Lechrain&lt;/i&gt; (Munich, 1855),<br>
-    pp. 181 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der<br>
-    Baumkultus&lt;i&gt;, p. 510.]<br>
-    <br>
-    [Footnote 4: A. Birlinger, &lt;i&gt;Volksth&uuml;mliches aus<br>
-    Schwaben&lt;/i&gt; (Freiburg im Breisgau, 1861-1862),<br>
-    ii. pp. 96 &lt;i&gt;sqq.&lt;/i&gt;, &sect; 128, pp. 103<br>
-    &lt;i&gt;sq.&lt;/i&gt;, &sect; 129; &lt;i&gt;id.&lt;/i&gt;, &lt;i&gt;Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
-    1874), ii. 116-120; E. Meier,<br>
-    &lt;i&gt;Deutsche Sagen, Sitten und Gebr&auml;uche<br>
-    aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.<br>
-    423 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der Baumkultus&lt;/i&gt;,<br>
-    p. 510.]<br>
-    </tt></p>
-</td></tr></table>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
 <h3><a name="para_space">Espacement/Indentation des paragraphes</a></h3>
 <p>Mettez une ligne blanche avant tout d&eacute;but de paragraphe, m&ecirc;me si ce
    paragraphe d&eacute;marre en haut d'une page. N'indentez pas le d&eacute;but des paragraphes
@@ -749,20 +751,68 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    chapitres</a>.
 </p>
 
-<h3><a name="mult_col">Colonnes Multiples</a></h3>
-<p>R&eacute;unissez les colonnes multiples en une seule colonne.
+<h3><a name="extra_s">Espace suppl&eacute;mentaire, ast&eacute;risques, lignes entre les
+   paragraphes</a></h3>
+<p>La plupart des livres commencent un paragraphe imm&eacute;diatement apr&egrave;s la fin du
+   paragraphe pr&eacute;c&eacute;dent. Mais il peut arriver que deux paragraphes soient
+   s&eacute;par&eacute;s par une rang&eacute;e d'&eacute;toiles, une ligne
+   de tirets, ou autres caract&egrave;res, une ligne droite simple ou d&eacute;cor&eacute;e
+   ou m&ecirc;me simplement une ligne blanche.
 </p>
-<p>Placez la colonne la plus &agrave; gauche en premier puis les autres colonnes
-   &agrave; sa suite. Vous ne devez rien faire de particulier pour marquer la
-   s&eacute;paration des colonnes, rejoignez-les simplement.
+<p>Ceci est utilis&eacute; pour exprimer une pause, une parenth&egrave;se de pens&eacute;e, un changement de
+   sc&egrave;ne, l'&eacute;coulement du temps ou pour cr&eacute;er un peu de suspense. Ceci
+   refl&egrave;te l'intention de l'auteur, donc nous pr&eacute;servons ces lignes en
+   ins&eacute;rant une ligne vierge suivie de <tt>&lt;tb&gt;</tt>, puis une autre ligne
+   vierge.
 </p>
-<p>Si le contenu des colonnes est une liste, mettez un <tt>/*</tt> avant le d&eacute;but de la
-   liste et <tt>*/</tt> apr&egrave;s, pour &eacute;viter de perdre les retours &agrave; la ligne pendant la phase de
-   post-processing. Mettez une ligne vide avant le <tt>/*</tt> et une autre apr&egrave;s le <tt>*/</tt>.
+<p>Les responsables de projet vous demanderont peut-&ecirc;tre de faire la
+   diff&eacute;rence entre les diff&eacute;rents types de pause, pour garder
+   plus d'information. Par exemple, ils vous demanderont de noter une ligne d'&eacute;toiles
+   par <tt>&lt;tb stars&gt;</tt> et une ligne blanche par <tt>&lt;tb&gt;</tt>.
+   Suivez attentivement les directives de projet. Et ne confondez pas les directives
+   des diff&eacute;rents projets!
 </p>
-<p>Voir aussi les sections <a href="#bk_index">Index</a>, <a href="#lists">Listes</a> et
-   <a href="#tables">Tables</a>.
+<p>Parfois, les imprimeurs ajoutent une ligne d&eacute;corative en fin de chapitre.
+   Comme nous marquons d&eacute;j&agrave; les <a href="#chap_head">En-t&ecirc;tes de
+   chapitre</a>, il est inutile d'utiliser la marque de pause.
 </p>
+<p>Dans l'interface de correction, vous pouvez copier/coller la marque <tt>&lt;tb&gt;</tt>.
+</p>
+<!-- END RR -->
+<br>
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Exemple de pause">
+  <tbody>
+    <tr><th align="left" bgcolor="cornsilk">Exemple d'image:</th></tr>
+    <tr align="left">
+      <td width="100%" valign="top"> <img src="tbreak.png" alt="thought break"
+          width="500" height="264"> <br>
+      </td>
+    </tr>
+    <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+    <p><tt>
+    like the gentleman with the spiritual hydrophobia<br>
+    in the latter end of Uncle Tom's Cabin.<br>
+    Unconsciously Mr. Dixon has done his best to<br>
+    prove that Legree was not a fictitious character.</tt>
+    </p>
+    <p><tt>&lt;tb&gt;</tt>
+    </p>
+    <p><tt>
+    Joel Chandler Harris, Harry Stillwell Edwards,<br>
+    George W. Cable, Thomas Nelson Page,<br>
+    James Lane Allen, and Mark Twain are Southern<br>
+    men in Mr. Griffith's class. I recommend</tt>
+    </p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 
 <h3><a name="illust">Illustrations</a></h3>
 <p>Le texte pour une illustration (l&eacute;gende) doit &ecirc;tre entour&eacute; de <tt>[Illustration:&nbsp;le-texte]</tt>.
@@ -1011,378 +1061,201 @@ cellspacing="0" summary="Notes de bas de page">
   </tbody>
 </table>
 
-<h3><a name="italics">Italiques</a></h3>
-<p>Le texte en <i>italique</i> doit avoir <tt>&lt;i&gt;</tt> ins&eacute;r&eacute; avant et
-   <tt>&lt;/i&gt;</tt> ins&eacute;r&eacute; &agrave; la fin de l'italique.
-   (remarquez le &ldquo;<tt>/</tt>&rdquo; dans le symbole de fin).
+<h3><a name="para_side">Commentaires en marge</a></h3>
+<p>Certains livres ont de petites descriptions des paragraphes sur le c&ocirc;t&eacute; du
+   texte. Ce sont les notes en marge ("Sidenotes"). D&eacute;placez ces notes juste au-dessus du paragraphe
+   auquel elles appartiennent. Une note en marge est entour&eacute;e par les marques
+   suivantes: <tt>[Sidenote:&nbsp;</tt> avant et <tt>]</tt> apr&egrave;s. Formatez la note
+   pour qu'elle ressemble au texte imprim&eacute;, en gardant les retours &agrave; la ligne, les
+   italiques, etc. Laissez une ligne blanche apr&egrave;s la note, pour qu'elle ne se
+   m&eacute;lange pas avec le paragraphe durant la phase de post-processing.
 </p>
-<p>La ponctuation va <b>hors</b> de l'italique, &agrave; moins que le signe de ponctuation ne soit
-   dans une phrase ou une section enti&egrave;re qui est en italique,
-   ou que ce signe fasse partie d'une phrase, titre ou abr&eacute;viation qui
-   est en italique.
+<p>S'il y a plusieurs notes pour un m&ecirc;me paragraphe, mettez-les l'une apr&egrave;s
+   l'autre au d&eacute;but du paragraphe. S&eacute;parez-les par des lignes blanches.
 </p>
-<p>Par exemple, le <tt>.</tt> qui signale l'abr&eacute;viation dans le titre d'un journal
-   comme <i>Phil. Trans.</i> est entre les marques d'italiques. D'o&ugrave;&nbsp;:
-   <tt>&lt;i&gt;Phil. Trans.&lt;/i&gt;</tt>. 
-   <!-- the following sentence is not present in the english original -->
-   Voyez l'image de la section
-   <a href="#illust">Illustration</A> pour un exemple de la mani&egrave;re de faire les italiques.
+<p>Si le paragraphe a commenc&eacute; sur une page pr&eacute;c&eacute;dente, mettez la note en haut
+   de la page et marquez-la avec une ast&eacute;risque (&nbsp;<tt>*</tt>&nbsp;) de mani&egrave;re &agrave; ce que
+   le post-processeur puisse voir qu'elle appartient &agrave; la page pr&eacute;c&eacute;dente. De cette
+   mani&egrave;re: <tt>*[Sidenote: <font color="red">texte de la note</font>]</tt>. Le post-processeur
+   d&eacute;placera la note &agrave; l'endroit appropri&eacute;.
 </p>
-<p>Certaines polices, en particulier les plus vieilles utilisaient les m&ecirc;mes
-   symboles pour les nombres en italique et non italique. Donc, pour les dates et
-   phrases similaires, marquez la phrase enti&egrave;re en italique plut&ocirc;t que de
-   marquer les mots en italique et les nombres en non italique.
-</p>
-<p>Si le texte en italique est une s&eacute;rie/liste de mots ou de noms, mettez chacun
-   d'eux en italiques (et pas la liste dans son ensemble).
+<p>Parfois, le chef de projet vous demandera de placer la note &agrave; c&ocirc;t&eacute; de la
+   phrase &agrave; laquelle elle s'applique, et pas au d&eacute;but ou &agrave; la fin du paragraphe.
+   Dans ce cas, ne les s&eacute;parez pas par des lignes blanches.
 </p>
 <!-- END RR -->
 
-<p><b>Exemples</b>&mdash;Italiques:
-</p>
-
-<table width="100%" align="center" border="1" cellpadding="4" 
-cellspacing="0" summary="Italique">
+  <table width="100%" align="center" border="1" cellpadding="4"
+       cellspacing="0" summary="Notes en marge"> <col width="128*">
   <tbody>
-    <tr>
-      <th valign="top" bgcolor="cornsilk">Texte original:</th>
-      <th valign="top" bgcolor="cornsilk">Texte correctement format&eacute;:</th>
+    <tr valign="top">
+      <th align="left" bgcolor="cornsilk">Exemple d'image:</th>
     </tr>
-    <tr>
-      <td valign="top"><i>Enacted </i>4<i> July, </i>1776 </td>
-      <td valign="top"><tt>&lt;i&gt;Enacted 4 July, 1776&lt;/i&gt;</tt> </td>
-    </tr>
-    <tr>
-      <td valign="top"><i>God knows what she saw in me!</i> I spoke<br> in such an affected manner.</td>
-      <td valign="top"><tt>&lt;i&gt;God knows what she saw in me!&lt;/i&gt; I spoke<br> in such an affected manner.</tt></td>
-    </tr>
-    <tr>
-      <td valign="top">As in many other of these <i>Studies</i>, and</td>
-      <td valign="top"><tt>As in many other of these &lt;i&gt;Studies&lt;/i&gt;, and</tt></td>
-    </tr>
-    <tr>
-      <td valign="top">(<i>Psychological Review</i>, 1898, p. 160)</td>
-      <td valign="top"><tt>(&lt;i&gt;Psychological Review&lt;/i&gt;, 1898, p. 160)</tt></td>
-    </tr>
-    <tr>
-      <td valign="top">L. Robinson, art. "<i>Ticklishness</i>,"</td>
-      <td valign="top"><tt>L. Robinson, art. "&lt;i&gt;Ticklishness&lt;/i&gt;,"</tt></td>
-    </tr>
-    <tr>
-      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br />
-                     1323 Picadilly Circus</td>
-      <td valign="top"><tt>/*<br />
-         &lt;i&gt;December 3, morning.&lt;/i&gt;<br />
-         1323 Picadilly Circus<br />
-         */</tt></td>
-    </tr>
-    <tr>
-      <td valign="top">
-      Volunteers may be tickled pink to read<br>
-      <i>Ticklishness</i>, <i>Tickling and Laughter</i>,<br>
-      <i>Remarks on Tickling and Laughter</i><br>
-      and <i>Ticklishness, Laughter and Humour</i>.
-      </td>
-      <td valign="top">
-      <tt>Volunteers may be tickled pink to read<br>
-      &lt;i&gt;Ticklishness&lt;/i&gt;, &lt;i&gt;Tickling and Laughter&lt;/i&gt;,<br>
-      &lt;i&gt;Remarks on Tickling and Laughter&lt;/i&gt;<br>
-      and &lt;i&gt;Ticklishness, Laughter and Humour&lt;/i&gt;.</tt>
+    <tr valign="top">
+      <td width="100%" align="left"><img src="side.png" alt=""
+          width="550" height="800"><br>
       </td>
     </tr>
-  </tbody>
-</table>
-
-<h3><a name="bold">Texte en gras</a></h3>
-<p>Le <b>texte en gras</b> doit &ecirc;tre marqu&eacute; par <tt>&lt;b&gt;</tt> avant et
-   <tt>&lt;/b&gt;</tt> apr&egrave;s.
-   (remarquez le &ldquo;<tt>/</tt>&rdquo; dans la marque de fin).
-</p>
-<p>Les signes de ponctuation doivent &ecirc;tre <b>hors</b> des marques de "gras", &agrave; moins
-   que ces signes ne soient dans une phrase ou une partie de phrase enti&egrave;rement en
-   gras.
-</p>
-<p>Voyez l'exemple de la section <a href="#page_hf">En-t&ecirc;tes et bas de page</a>.
-</p>
-<p>Certains chefs de projet peuvent sp&eacute;cifier dans les <a href="#comments">commentaires
-   de projet</a> que le texte gras doit &ecirc;tre rendu tout en majuscules.
-</p>
-
-<h3><a name="supers">Exposants</a></h3>
-<p>Les vieux livres abr&eacute;geaient souvent les mots en contractions, et les
-   imprimaient en exposant, par exemple:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
-   Formatez ceci en ins&eacute;rez un chapeau (<tt>^</tt>) suivi par le texte en exposant, comme suit:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
-</p>
-<p>Dans les ouvrages scientifiques et techniques utilisez le "chapeau" <tt>^</tt> et mettez
-   le texte en exposant entre accolades <tt>{</tt> et <tt>}</tt>. Mettez toujours le texte
-   en exposant entre accolades, m&ecirc;me si ce texte ne fait qu'un caract&egrave;re.
-   <br>Ainsi:
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;... up to x<sup>n-1</sup> elements in the array.
-   <br>donne
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>... up to x^{n-1} elements in the array.<br></tt>
-</p>
-<p>Si le chef de projet dit de faire autrement dans les <a href="#comments">commentaires
-   de projet</a>, suivez ses instructions.
-</p>
-
-<h3><a name="subscr">Texte en Indice</a></h3>
-<p>On trouve la notation "indice" dans des ouvrages scientifiques, rarement
-   ailleurs. Indiquez l'indice en mettant un signe "soulign&eacute;" <tt>_</tt> devant et
-   en entourant le texte en indice avec des accolades <tt>{</tt> et <tt>}</tt>.
-   <br>Par exemple:
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
-   <br>donne
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_{2}O.<br></tt>
-</p>
-
-<h3><a name="underl">Texte soulign&eacute;</a></h3>
-<p>Marquez le <u>texte soulign&eacute;</u> comme &eacute;tant de l'<a href="#italics">Italique</a>,
-   avec <tt>&lt;i&gt;</tt> et <tt>&lt;/i&gt;</tt>, &agrave; moins que les <a href="#comments">Commentaires
-   de projet</a> sp&eacute;cifient l'utilisation de <tt>&lt;u&gt;</tt> et <tt>&lt;/u&gt;</tt>
-   pour ce livre.
-</p>
-<p>On avait souvent recours au texte soulign&eacute; &agrave; la place de l'italique quand l'&eacute;diteur
-   &eacute;tait incapable de imprimer en italique, par exemple pour un document tap&eacute; &agrave; la machine.
-</p>
-
-<h3><a name="spaced">T e x t e&nbsp;&nbsp; e s p a c &eacute; (gesperrt)</a></h3>
-<p>Formatez le &nbsp;T e x t e&nbsp;&nbsp; e s p a c &eacute;&nbsp; avec les marques <tt>&lt;g&gt;</tt> avant et
-   <tt>&lt;/g&gt;</tt> apr&egrave;s.
-   (remarquez le &ldquo;<tt>/</tt>&rdquo; dans la marque de fin).
-   Enlevez les espaces exc&eacute;dentaires. 
-</p>
-<p>La ponctuation va <b>en dehors</b> des marques, sauf si une phrase ou une section enti&egrave;re
-   est ainsi espac&eacute;e, ou si la ponctuation fait partie de la partie de texte espac&eacute;e.
-</p>
-<p>Cette technique &eacute;tait utilis&eacute;e pour mettre l'accent sur certains passages 
-   sur certains livres anciens, principalement en allemand.
-</p>
-
-
-<h3><a name="font_ch">Changement de police</a></h3>
-<p>Formatez le changement de police &agrave; l'int&eacute;rieur d'un paragraphe en mettant
-   <tt>&lt;f&gt;</tt> avant et <tt>&lt;/f&gt;</tt> apr&egrave;s le passage. 
-   (remarquez le &ldquo;<tt>/</tt>&rdquo; dans la marque de fin).
-   Utilisez ces marques pour noter la pr&eacute;sence de toute police sp&eacute;ciale ou de 
-   typographie particuli&egrave;re, <b>sauf</b> pour le gras, l'italique, les petites
-   capitales, et le texte espac&eacute;, qui ont leurs marques d&eacute;di&eacute;es.
-</p>
-<p>Parmi les usages possibles de ce marquage, on trouve:
-</p>
-<ul compact>
-  <li>antiqua (une sorte de police en roman) au milieu de texte en fraktur</li>
-  <li>caract&egrave;res gothiques au milieu d'un texte en polices normales</li>
-  <li>une police plus grande ou plus petite, seulement si c'est un passage au milieu
-    d'un paragraphe en police normale (pour un paragraphe entier dans une police ou
-    taille diff&eacute;rente, voir la section <a href="#block_qt">bloc de citation</a>)</li>
-  <li>une police droite au milieu d'un paragraphe en italique</li>
-</ul>
-<p>Les usages particuliers de ce marquage dans un projet seront g&eacute;n&eacute;ralement pr&eacute;cis&eacute;s
-   dans les <a href="#comments">commentaires du projet</a>. Les formateurs devraient
-   signaler dans le <a href="#forums">forum du projet</a> si l'usage de ce marquage
-   semble n&eacute;cessaire et n'a pas encore &eacute;t&eacute; indiqu&eacute;.
-</p>
-<p>La ponctuation va <b>en dehors</b> des marques, sauf si une phrase ou une section enti&egrave;re
-   est ainsi imprim&eacute;e dans une police diff&eacute;rente, ou si la ponctuation fait partie 
-   de la partie de texte dans la police diff&eacute;rente.
-</p>
-
-
-<h3><a name="font_sz">Changement de taille de police</a></h3>
-<p>Ne faites rien pour indiquer un changement de taille de police.
-</p>
-<p>L'exception &agrave; ceci est lorsque la taille de la police change pour indiquer un
-   <a href="#block_qt">bloc de citation</a>, ou quand le changement de taille
-   a lieu au milieu d'un paragraphe ou d'une ligne du texte 
-   (voir <a href="#font_ch">Changement de police</a>).
-</p>
-
-
-<h3><a name="word_caps">Mots entiers en majuscules</a></h3>
-<p>Si un mot ou groupe de mots dans un texte est imprim&eacute; enti&egrave;rement en
-   majuscules, laissez-les tels qu'ils sont dans votre copie de travail.
-</p>
-<p>Une exception &agrave; cette r&egrave;gle est le <a href="#chap_head">premier
-   mot d'un chapitre ou d'un paragraphe</a>: certains livres anciens mettaient le
-   premier mot de chaque chapitre en majuscule; ce doit &ecirc;tre chang&eacute; en un mot
-   normal (premi&egrave;re lettre en majuscule, le reste en minuscule). Donc "IL &eacute;tait une
-   fois" devient "<tt>Il &eacute;tait une fois</tt>".
-</p>
-
-<h3><a name="small_caps">Petites capitales</a></h3>
-<p>Le marquage est diff&eacute;rent pour les <span style="font-variant: small-caps;">Petites Capitales Altern&eacute;es</span>
-   avec des grandes capitales, et pour les mots <span style="font-variant: small-caps;">uniquement en petites capitales</span>:
-</p>
-<p>Corrigez les mots en <span style="font-variant: small-caps;">Petites Capitales Altern&eacute;es</span>
-   en faisant alterner minuscules et majuscules et entourez le texte par les marques
-   <tt>&lt;sc&gt;</tt> et <tt>&lt;/sc&gt;</tt>. <br>
-&nbsp;&nbsp;&nbsp;&nbsp;Exemple:
-   <span style="font-variant: small-caps;">This is Small Caps</span> <br>
-&nbsp;&nbsp;&nbsp;&nbsp;devient:
-   <tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt>.
-</p>
-
-<p>Mais si les mots sont imprim&eacute;s <span style="font-variant: small-caps;">enti&egrave;rement
-   en petites capitales</span>, alors &eacute;crivez-les en CAPITALES, et entourez-les
-   des marques <tt>&lt;sc&gt;</tt> et <tt>&lt;/sc&gt;</tt>.
-   <br>
-&nbsp;&nbsp;&nbsp;&nbsp;Exemple:
-   You cannot be serious about
-   <span style="font-variant: small-caps;">aardvarks</span>!<br>
-&nbsp;&nbsp;&nbsp;&nbsp;devient:
-   <tt>You cannot be serious about
-   &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</tt> <br>
-</p>
-
-<p>Si un mot est en capitales dans un titre (un en-t&ecirc;te de chapitre, ou de section), laissez-le
-   en capitales, sans marques <tt>&lt;sc&gt;</tt> et <tt>&lt;/sc&gt;</tt>. Si le premier mot
-   d'un chapitre est en petites capitales, alors changez-le en majuscules et minuscules, 
-   sans marques de petites capitales.
-</p>
-
-<h3><a name="poetry">Po&eacute;sie/&Eacute;pigrammes</a></h3>
-<p>Cette section s'applique aux po&egrave;mes et aux &eacute;pigrammes dans un livre qui n'est
-   pas un livre de po&eacute;sie. Pour les livres de po&eacute;sie, voir les
-   <a href="doc-poet.php">Directives sp&eacute;ciales pour les livres de po&eacute;sie</a> (en anglais).
-</p>
-<p>Marquez les po&eacute;sies ou les &eacute;pigrammes de sorte que le post-processeur puisse les
-   trouver plus vite. Ins&eacute;rez une nouvelle ligne avec un <tt>/*</tt> au d&eacute;but de la
-   po&eacute;sie ou &eacute;pigramme et une ligne s&eacute;par&eacute;e avec <tt>*/</tt>
-   &agrave; la fin. Mettez une ligne blanche avant <tt>/*</tt> et une autre apr&egrave;s <tt>*/</tt>.
-</p>
-<p>Pr&eacute;servez l'indentation relative des vers les uns par rapport aux autres, en
-   ajoutant 2, 4, 6... espaces avant le d&eacute;but du vers de fa&ccedil;on &agrave; ressembler
-   au texte imprim&eacute;.
-</p>
-<p>Quand un vers est trop long pour la page, la plupart des &eacute;ditions cassent le
-   vers et impriment la fin sur une ligne s&eacute;par&eacute;e, vers la marge de droite. Dans
-   ces cas-l&agrave;, rejoignez les deux parties du vers de fa&ccedil;on &agrave; ne former qu'une
-   ligne. Les lignes de continuation commencent souvent par une minuscule, et
-   apparaissent irr&eacute;guli&egrave;rement alors que l'indentation normale appara&icirc;t
-   r&eacute;guli&egrave;rement au cours du po&egrave;me.
-</p>
-<p>Ne passez pas votre temps &agrave; centrer les lignes de po&eacute;sie, m&ecirc;me si elles sont
-   centr&eacute;es sur la page originale. Calez le texte sur la marge de gauche (en
-   indentant les vers les uns par rapport aux autres si n&eacute;cessaire).
-</p>
-<p>Les <b>notes de bas de page</b> dans la po&eacute;sie se traitent comme les autres notes de
-   bas de page. Voyez <a href="#footnotes">notes de bas de page</a> pour plus de details.
-</p>
-<p>Gardez les <b>num&eacute;ros de vers</b> s'ils sont imprim&eacute;s. Mettez-les &agrave; la fin de la
-   ligne, et s&eacute;parez-les du texte par 6 blancs au moins. Voir <a href="#line_no">Num&eacute;ros de
-   ligne</a> pour des d&eacute;tails.
-</p>
-<p>Regardez les <a href="#comments">commentaires de projet</a> pour des instructions
-   sp&eacute;cifiques. Souvent, les livres de po&eacute;sie ont des instructions
-   sp&eacute;cifiques, souvent dans ces livres ces instructions ne s'appliqueront pas.
-</p>
-<!-- END RR -->
-
-<br>
-<table width="100%" align="center" border="1"  cellpadding="4"
-       cellspacing="0" summary="Exemple de po&eacute;sie">
-  <tbody>
-    <tr><th align="left" bgcolor="cornsilk">Exemple d'image:</th></tr>
-    <tr align="left">
-      <th width="100%" valign="top"> <img src="poetry.png" alt=""
-          width="500" height="508"> <br>
-      </th>
+    <tr valign="top">
+      <th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th>
     </tr>
-    <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
-    <tr>
-      <td width="100%" valign="top">
-
+    <tr valign="top">
+      <td width="100%">
 <table summary="" border="0" align="left"><tr><td>
-<tt>
-to the scenery of his own country:<br></tt>
-<p><tt>
-/*<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oh, to be in England<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now that April's there,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And whoever wakes in England<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sees, some morning, unaware,<br>
-That the lowest boughs and the brushwood sheaf<br>
-Round the elm-tree bole are in tiny leaf,<br>
-While the chaffinch sings on the orchard bough<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In England--now!</tt>
-</p><p><tt>
-And after April, when May follows,<br>
-And the whitethroat builds, and all the swallows!<br>
-Hark! where my blossomed pear-tree in the hedge<br>
-Leans to the field and scatters on the clover<br>
-Blossoms and dewdrops--at the bent spray's edge--<br>
-That's the wise thrush; he sings each song twice over,<br>
-Lest you should think he never could recapture<br>
-The first fine careless rapture!<br>
-And though the fields look rough with hoary dew,<br>
-All will be gay, when noontide wakes anew<br>
-The buttercups, the little children's dower;<br>
---Far brighter than this gaudy melon-flower!<br>
-*/<br></tt>
-</p><p><tt>
-So it runs; but it is only a momentary memory;<br>
-and he knew, when he had done it, and to his</tt>
-</p>
+    <p><tt>
+    *[Sidenote: Burning<br>
+    discs<br>
+    thrown into<br>
+    the air.]<br>
+    <br>
+    that such as looked at the fire holding a bit of larkspur<br>
+    before their face would be troubled by no malady of the<br>
+    eyes throughout the year.[1] Further, it was customary at<br>
+    W&uuml;rzburg, in the sixteenth century, for the bishop's followers<br>
+    to throw burning discs of wood into the air from a mountain<br>
+    which overhangs the town. The discs were discharged by<br>
+    means of flexible rods, and in their flight through the darkness<br>
+    presented the appearance of fiery dragons.[2]<br>
+    <br>
+    [Sidenote: The Midsummer<br>
+    fires in<br>
+    Swabia.]<br>
+    <br>
+    [Sidenote: Omens<br>
+    drawn from<br>
+    the leaps<br>
+    over the<br>
+    fires.]<br>
+    <br>
+    [Sidenote: Burning<br>
+    wheels<br>
+    rolled<br>
+    down hill.]<br>
+    <br>
+    In the valley of the Lech, which divides Upper Bavaria<br>
+    from Swabia, the midsummer customs and beliefs are, or<br>
+    used to be, very similar. Bonfires are kindled on the<br>
+    mountains on Midsummer Day; and besides the bonfire<br>
+    a tall beam, thickly wrapt in straw and surmounted by a<br>
+    cross-piece, is burned in many places. Round this cross as<br>
+    it burns the lads dance with loud shouts; and when the<br>
+    flames have subsided, the young people leap over the fire in<br>
+    pairs, a young man and a young woman together. If they<br>
+    escape unsmirched, the man will not suffer from fever, and<br>
+    the girl will not become a mother within the year. Further,<br>
+    it is believed that the flax will grow that year as high as<br>
+    they leap over the fire; and that if a charred billet be taken<br>
+    from the fire and stuck in a flax-field it will promote the<br>
+    growth of the flax.[3] Similarly in Swabia, lads and lasses,<br>
+    hand in hand, leap over the midsummer bonfire, praying<br>
+    that the hemp may grow three ells high, and they set fire<br>
+    to wheels of straw and send them rolling down the hill.<br>
+    Among the places where burning wheels were thus bowled<br>
+    down hill at Midsummer were the Hohenstaufen mountains<br>
+    in Wurtemberg and the Frauenberg near Gerhausen.[4]<br>
+    At Deffingen, in Swabia, as the people sprang over the mid-*<br>
+    <br>
+    [Footnote 1: &lt;i&gt;Op. cit.&lt;/i&gt; iv. 1. p. 242. We have<br>
+    seen (p. 163) that in the sixteenth<br>
+    century these customs and beliefs were<br>
+    common in Germany. It is also a<br>
+    German superstition that a house which<br>
+    contains a brand from the midsummer<br>
+    bonfire will not be struck by lightning<br>
+    (J. W. Wolf, &lt;i&gt;Beitr&auml;ge zur deutschen<br>
+    Mythologie&lt;/i&gt;, i. p. 217, &sect; 185).]<br>
+    <br>
+    [Footnote 2: J. Boemus, &lt;i&gt;Mores, leges et ritus<br>
+    omnium gentium&lt;/i&gt; (Lyons, 1541), p.<br>
+    226.]<br>
+    <br>
+    [Footnote 3: Karl Freiherr von Leoprechting,<br>
+    &lt;i&gt;Aus dem Lechrain&lt;/i&gt; (Munich, 1855),<br>
+    pp. 181 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der<br>
+    Baumkultus&lt;i&gt;, p. 510.]<br>
+    <br>
+    [Footnote 4: A. Birlinger, &lt;i&gt;Volksth&uuml;mliches aus<br>
+    Schwaben&lt;/i&gt; (Freiburg im Breisgau, 1861-1862),<br>
+    ii. pp. 96 &lt;i&gt;sqq.&lt;/i&gt;, &sect; 128, pp. 103<br>
+    &lt;i&gt;sq.&lt;/i&gt;, &sect; 129; &lt;i&gt;id.&lt;/i&gt;, &lt;i&gt;Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
+    1874), ii. 116-120; E. Meier,<br>
+    &lt;i&gt;Deutsche Sagen, Sitten und Gebr&auml;uche<br>
+    aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.<br>
+    423 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der Baumkultus&lt;/i&gt;,<br>
+    p. 510.]<br>
+    </tt></p>
 </td></tr></table>
-
       </td>
     </tr>
   </tbody>
 </table>
 
-<h3><a name="letter">Lettres (courrier)</a></h3>
-<p>Formatez les lettres comme vous feriez pour des <a href="#para_space">paragraphes</a>.
-   Au lieu d'indenter, ins&eacute;rez une ligne vierge avant le d&eacute;but de la lettre.
+<h3><a name="block_qt">Blocs de citations</a></h3>
+<p>Entourez les blocs de citations par les marques <tt>/#</tt> avant et <tt>#/</tt>
+   apr&egrave;s. Laissez une ligne vide entre ces marques et le reste du texte.
 </p>
-<p>Marquez les en-t&ecirc;tes et les fins de lettres (adresse, date, salutations, signature) avec un
-   <tt>/*</tt> sur une ligne isol&eacute;e avant, et <tt>*/</tt> sur une ligne isol&eacute;e
-   apr&egrave;s, comme si c'&eacute;tait de la po&eacute;sie. Mettez une ligne blanche entre ces marques
-   et le reste du texte. De cette fa&ccedil;on, les retours &agrave; la ligne seront conserv&eacute;s au cours de
-   la phase d'assemblage lors du post-processing.
+<p>&Agrave; part l'ajout de ces marques, les blocs de citations se traitent comme du texte normal.
 </p>
-<p>Ne les indentez pas, m&ecirc;me si, sur l'original, elles sont indent&eacute;es ou
-   justifi&eacute;es &agrave; droite. Calez-les sur la marge de gauche. Le post-processeur
-   les formatera correctement.
+<p>Les blocs de citations sont des citations longues (typiquement plusieurs
+   lignes, parfois m&ecirc;me plusieurs pages) incluses dans un livre. Elles sont souvent
+   (mais pas toujours) imprim&eacute;es en caract&egrave;res plus petits, ou avec de plus grandes marges, 
+   ou parfois les deux.
 </p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1"  cellpadding="4"
-       cellspacing="0" summary="Exemple de lettre">
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Bloc de citation">
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Exemple d'image:</th></tr>
     <tr align="left">
-      <th width="100%" valign="top"> <img src="letter.png" alt=""
-          width="500" height="217"> <br>
-      </th>
+      <td width="100%" valign="top"> <img src="bquote.png" alt="" width="500" height="475"><br>
+      </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-<p><tt>&lt;i&gt;John James Audubon to Claude Fran&ccedil;ois Rozier&lt;/i&gt;</tt></p>
-<p><tt>[Letter No. 1, addressed]</tt></p>
-<p><tt>/*<br>
-&lt;sc&gt;M. Fr. Rozier&lt;/sc&gt;,<br>
-Merchant-Nantes.<br>
-&lt;sc&gt;New York&lt;/sc&gt;, &lt;i&gt;10 January, 1807.&lt;/i&gt;</tt></p>
-<p><tt>
-&lt;sc&gt;Dear Sir:&lt;/sc&gt;<br>
-*/</tt></p>
-<p><tt>
-We have had the pleasure of receiving by the &lt;i&gt;Penelope&lt;/i&gt; your<br>
-consignment of 20 pieces of linen cloth, for which we send our<br>
-thanks. As soon as we have sold them, we shall take great<br>
-pleasure in making our return.</tt>
-</p>
+	<p><tt>later day was welcomed in their home on the Hudson.<br>
+	Dr. Bakewell's contribution was as follows:[24]</tt></p>
+	<p><tt>/#<br>
+	The uncertainty as to the place of Audubon's birth has been<br>
+	put to rest by the testimony of an eye witness in the person<br>
+	of old Mandeville Marigny now dead some years. His repeated<br>
+	statement to me was, that on his plantation at Mandeville,<br>
+	Louisiana, on Lake Ponchartrain, Audubon's mother was<br>
+	his guest; and while there gave birth to John James Audubon.<br>
+	Marigny was present at the time, and from his own lips, I have,<br>
+	as already said, repeatedly heard him assert the above fact.<br>
+	He was ever proud to bear this testimony of his protection<br>
+	given to Audubon's mother, and his ability to bear witness as<br>
+	to the place of Audubon's birth, thus establishing the fact that<br>
+	he was a Louisianian by birth.<br>
+	#/<br></tt>
+	</p>
+	<p><tt>We do not doubt the candor and sincerity of the<br>
+	excellent Dr. Bakewell, but are bound to say that the<br>
+	incidents as related above betray a striking lapse of<br>
+	</tt></p>
 </td></tr></table>
-
       </td>
     </tr>
   </tbody>
 </table>
 
+<h3><a name="mult_col">Colonnes Multiples</a></h3>
+<p>R&eacute;unissez les colonnes multiples en une seule colonne.
+</p>
+<p>Placez la colonne la plus &agrave; gauche en premier puis les autres colonnes
+   &agrave; sa suite. Vous ne devez rien faire de particulier pour marquer la
+   s&eacute;paration des colonnes, rejoignez-les simplement.
+</p>
+<p>Si le contenu des colonnes est une liste, mettez un <tt>/*</tt> avant le d&eacute;but de la
+   liste et <tt>*/</tt> apr&egrave;s, pour &eacute;viter de perdre les retours &agrave; la ligne pendant la phase de
+   post-processing. Mettez une ligne vide avant le <tt>/*</tt> et une autre apr&egrave;s le <tt>*/</tt>.
+</p>
+<p>Voir aussi les sections <a href="#bk_index">Index</a>, <a href="#lists">Listes</a> et
+   <a href="#tables">Tables</a>.
+</p>
 
 <h3><a name="lists">Listes de choses</a></h3>
 <p>Marquez ces listes comme de la po&eacute;sie, avec une ligne <tt>/*</tt> avant et
@@ -1550,91 +1423,95 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 </table>
 
 
-<h3><a name="block_qt">Blocs de citations</a></h3>
-<p>Entourez les blocs de citations par les marques <tt>/#</tt> avant et <tt>#/</tt>
-   apr&egrave;s. Laissez une ligne vide entre ces marques et le reste du texte.
+<h3><a name="poetry">Po&eacute;sie/&Eacute;pigrammes</a></h3>
+<p>Cette section s'applique aux po&egrave;mes et aux &eacute;pigrammes dans un livre qui n'est
+   pas un livre de po&eacute;sie. Pour les livres de po&eacute;sie, voir les
+   <a href="doc-poet.php">Directives sp&eacute;ciales pour les livres de po&eacute;sie</a> (en anglais).
 </p>
-<p>&Agrave; part l'ajout de ces marques, les blocs de citations se traitent comme du texte normal.
+<p>Marquez les po&eacute;sies ou les &eacute;pigrammes de sorte que le post-processeur puisse les
+   trouver plus vite. Ins&eacute;rez une nouvelle ligne avec un <tt>/*</tt> au d&eacute;but de la
+   po&eacute;sie ou &eacute;pigramme et une ligne s&eacute;par&eacute;e avec <tt>*/</tt>
+   &agrave; la fin. Mettez une ligne blanche avant <tt>/*</tt> et une autre apr&egrave;s <tt>*/</tt>.
 </p>
-<p>Les blocs de citations sont des citations longues (typiquement plusieurs
-   lignes, parfois m&ecirc;me plusieurs pages) incluses dans un livre. Elles sont souvent
-   (mais pas toujours) imprim&eacute;es en caract&egrave;res plus petits, ou avec de plus grandes marges, 
-   ou parfois les deux.
+<p>Pr&eacute;servez l'indentation relative des vers les uns par rapport aux autres, en
+   ajoutant 2, 4, 6... espaces avant le d&eacute;but du vers de fa&ccedil;on &agrave; ressembler
+   au texte imprim&eacute;.
+</p>
+<p>Quand un vers est trop long pour la page, la plupart des &eacute;ditions cassent le
+   vers et impriment la fin sur une ligne s&eacute;par&eacute;e, vers la marge de droite. Dans
+   ces cas-l&agrave;, rejoignez les deux parties du vers de fa&ccedil;on &agrave; ne former qu'une
+   ligne. Les lignes de continuation commencent souvent par une minuscule, et
+   apparaissent irr&eacute;guli&egrave;rement alors que l'indentation normale appara&icirc;t
+   r&eacute;guli&egrave;rement au cours du po&egrave;me.
+</p>
+<p>Ne passez pas votre temps &agrave; centrer les lignes de po&eacute;sie, m&ecirc;me si elles sont
+   centr&eacute;es sur la page originale. Calez le texte sur la marge de gauche (en
+   indentant les vers les uns par rapport aux autres si n&eacute;cessaire).
+</p>
+<p>Les <b>notes de bas de page</b> dans la po&eacute;sie se traitent comme les autres notes de
+   bas de page. Voyez <a href="#footnotes">notes de bas de page</a> pour plus de details.
+</p>
+<p>Gardez les <b>num&eacute;ros de vers</b> s'ils sont imprim&eacute;s. Mettez-les &agrave; la fin de la
+   ligne, et s&eacute;parez-les du texte par 6 blancs au moins. Voir <a href="#line_no">Num&eacute;ros de
+   ligne</a> pour des d&eacute;tails.
+</p>
+<p>Regardez les <a href="#comments">commentaires de projet</a> pour des instructions
+   sp&eacute;cifiques. Souvent, les livres de po&eacute;sie ont des instructions
+   sp&eacute;cifiques, souvent dans ces livres ces instructions ne s'appliqueront pas.
 </p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Bloc de citation">
+<br>
+<table width="100%" align="center" border="1"  cellpadding="4"
+       cellspacing="0" summary="Exemple de po&eacute;sie">
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Exemple d'image:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="bquote.png" alt="" width="500" height="475"><br>
-      </td>
+      <th width="100%" valign="top"> <img src="poetry.png" alt=""
+          width="500" height="508"> <br>
+      </th>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td width="100%" valign="top">
+
 <table summary="" border="0" align="left"><tr><td>
-	<p><tt>later day was welcomed in their home on the Hudson.<br>
-	Dr. Bakewell's contribution was as follows:[24]</tt></p>
-	<p><tt>/#<br>
-	The uncertainty as to the place of Audubon's birth has been<br>
-	put to rest by the testimony of an eye witness in the person<br>
-	of old Mandeville Marigny now dead some years. His repeated<br>
-	statement to me was, that on his plantation at Mandeville,<br>
-	Louisiana, on Lake Ponchartrain, Audubon's mother was<br>
-	his guest; and while there gave birth to John James Audubon.<br>
-	Marigny was present at the time, and from his own lips, I have,<br>
-	as already said, repeatedly heard him assert the above fact.<br>
-	He was ever proud to bear this testimony of his protection<br>
-	given to Audubon's mother, and his ability to bear witness as<br>
-	to the place of Audubon's birth, thus establishing the fact that<br>
-	he was a Louisianian by birth.<br>
-	#/<br></tt>
-	</p>
-	<p><tt>We do not doubt the candor and sincerity of the<br>
-	excellent Dr. Bakewell, but are bound to say that the<br>
-	incidents as related above betray a striking lapse of<br>
-	</tt></p>
+<tt>
+to the scenery of his own country:<br></tt>
+<p><tt>
+/*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oh, to be in England<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now that April's there,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And whoever wakes in England<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sees, some morning, unaware,<br>
+That the lowest boughs and the brushwood sheaf<br>
+Round the elm-tree bole are in tiny leaf,<br>
+While the chaffinch sings on the orchard bough<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In England--now!</tt>
+</p><p><tt>
+And after April, when May follows,<br>
+And the whitethroat builds, and all the swallows!<br>
+Hark! where my blossomed pear-tree in the hedge<br>
+Leans to the field and scatters on the clover<br>
+Blossoms and dewdrops--at the bent spray's edge--<br>
+That's the wise thrush; he sings each song twice over,<br>
+Lest you should think he never could recapture<br>
+The first fine careless rapture!<br>
+And though the fields look rough with hoary dew,<br>
+All will be gay, when noontide wakes anew<br>
+The buttercups, the little children's dower;<br>
+--Far brighter than this gaudy melon-flower!<br>
+*/<br></tt>
+</p><p><tt>
+So it runs; but it is only a momentary memory;<br>
+and he knew, when he had done it, and to his</tt>
+</p>
 </td></tr></table>
+
       </td>
     </tr>
   </tbody>
 </table>
-
-<h3><a name="line_br">Retours &agrave; la ligne</a></h3>
-<p><b>Laissez tous les retours &agrave; la ligne</b> de mani&egrave;re &agrave; ce que le
-   formateur suivant et le post-processeur puissent comparer les textes facilement. 
-   Faites surtout attention aux
-   cas particulier des <a href="#eol_hyphen">mots coup&eacute;s</a>, ou des
-   <a href="#em_dashes">tirets</a>. Si la personne qui est pass&eacute; avant vous
-   a supprim&eacute; les retours &agrave; la ligne, remettez-les, pour que les lignes
-   correspondent &agrave; l'image.
-</p>
-<p>Les lignes vierges qui ne se trouvent pas dans l'image doivent &ecirc;tre
-   supprim&eacute;es, sauf celles qui ont &eacute;t&eacute; ins&eacute;r&eacute;es
-   intentionnellement pour le formatage. Mais des lignes vierges en bas de la page
-   ne posent pas de probl&egrave;mes, ces derni&egrave;res pouvant &ecirc;tre
-   supprim&eacute;s facilement en post-processing.
-</p>
-
-<!-- END RR -->
-<!-- We should have an example right here for this. -->
-
-<h3><a name="extra_sp">Espaces exc&eacute;dentaires entre les mots</a></h3>
-<p>Des espaces suppl&eacute;mentaires ou des caract&egrave;res de tabulation 
-   entre les mots sont une erreur d'OCR courante. Il
-   n'est pas n&eacute;cessaire de supprimer ces espaces &eacute;tant donn&eacute;
-   qu'il est facile de le faire automatiquement lors du post-processing.
-</p>
-<p>Mais les espaces exc&eacute;dentaires autour de la ponctuation, des tirets, etc.
-   doivent &ecirc;tre supprim&eacute;s car il est difficile de faire cela automatiquement.
-</p>
-<p>Par exemple, dans <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt> il faut supprimer
-   l'espace avant le point virgule. Mais les deux espaces apr&egrave;s le point
-   virgule ne posent pas de probl&egrave;me&nbsp;: vous n'&ecirc;tes pas oblig&eacute;s
-   d'en supprimer un.
-</p>
 
 <h3><a name="line_no">Num&eacute;ros de ligne</a></h3>
 <p>Gardez les num&eacute;ros de ligne. Placez-les au moins 6 espaces &agrave; droite du texte,
@@ -1647,74 +1524,197 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
 
-<h3><a name="extra_s">Espace suppl&eacute;mentaire, ast&eacute;risques, lignes entre les
-   paragraphes</a></h3>
-<p>La plupart des livres commencent un paragraphe imm&eacute;diatement apr&egrave;s la fin du
-   paragraphe pr&eacute;c&eacute;dent. Mais il peut arriver que deux paragraphes soient
-   s&eacute;par&eacute;s par une rang&eacute;e d'&eacute;toiles, une ligne
-   de tirets, ou autres caract&egrave;res, une ligne droite simple ou d&eacute;cor&eacute;e
-   ou m&ecirc;me simplement une ligne blanche.
+<h3><a name="letter">Lettres (courrier)</a></h3>
+<p>Formatez les lettres comme vous feriez pour des <a href="#para_space">paragraphes</a>.
+   Au lieu d'indenter, ins&eacute;rez une ligne vierge avant le d&eacute;but de la lettre.
 </p>
-<p>Ceci est utilis&eacute; pour exprimer une pause, une parenth&egrave;se de pens&eacute;e, un changement de
-   sc&egrave;ne, l'&eacute;coulement du temps ou pour cr&eacute;er un peu de suspense. Ceci
-   refl&egrave;te l'intention de l'auteur, donc nous pr&eacute;servons ces lignes en
-   ins&eacute;rant une ligne vierge suivie de <tt>&lt;tb&gt;</tt>, puis une autre ligne
-   vierge.
+<p>Marquez les en-t&ecirc;tes et les fins de lettres (adresse, date, salutations, signature) avec un
+   <tt>/*</tt> sur une ligne isol&eacute;e avant, et <tt>*/</tt> sur une ligne isol&eacute;e
+   apr&egrave;s, comme si c'&eacute;tait de la po&eacute;sie. Mettez une ligne blanche entre ces marques
+   et le reste du texte. De cette fa&ccedil;on, les retours &agrave; la ligne seront conserv&eacute;s au cours de
+   la phase d'assemblage lors du post-processing.
 </p>
-<p>Les responsables de projet vous demanderont peut-&ecirc;tre de faire la
-   diff&eacute;rence entre les diff&eacute;rents types de pause, pour garder
-   plus d'information. Par exemple, ils vous demanderont de noter une ligne d'&eacute;toiles
-   par <tt>&lt;tb stars&gt;</tt> et une ligne blanche par <tt>&lt;tb&gt;</tt>.
-   Suivez attentivement les directives de projet. Et ne confondez pas les directives
-   des diff&eacute;rents projets!
-</p>
-<p>Parfois, les imprimeurs ajoutent une ligne d&eacute;corative en fin de chapitre.
-   Comme nous marquons d&eacute;j&agrave; les <a href="#chap_head">En-t&ecirc;tes de
-   chapitre</a>, il est inutile d'utiliser la marque de pause.
-</p>
-<p>Dans l'interface de correction, vous pouvez copier/coller la marque <tt>&lt;tb&gt;</tt>.
+<p>Ne les indentez pas, m&ecirc;me si, sur l'original, elles sont indent&eacute;es ou
+   justifi&eacute;es &agrave; droite. Calez-les sur la marge de gauche. Le post-processeur
+   les formatera correctement.
 </p>
 <!-- END RR -->
-<br>
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Exemple de pause">
+
+<table width="100%" align="center" border="1"  cellpadding="4"
+       cellspacing="0" summary="Exemple de lettre">
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Exemple d'image:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="tbreak.png" alt="thought break"
-          width="500" height="264"> <br>
-      </td>
+      <th width="100%" valign="top"> <img src="letter.png" alt=""
+          width="500" height="217"> <br>
+      </th>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-    <p><tt>
-    like the gentleman with the spiritual hydrophobia<br>
-    in the latter end of Uncle Tom's Cabin.<br>
-    Unconsciously Mr. Dixon has done his best to<br>
-    prove that Legree was not a fictitious character.</tt>
-    </p>
-    <p><tt>&lt;tb&gt;</tt>
-    </p>
-    <p><tt>
-    Joel Chandler Harris, Harry Stillwell Edwards,<br>
-    George W. Cable, Thomas Nelson Page,<br>
-    James Lane Allen, and Mark Twain are Southern<br>
-    men in Mr. Griffith's class. I recommend</tt>
-    </p>
+<p><tt>&lt;i&gt;John James Audubon to Claude Fran&ccedil;ois Rozier&lt;/i&gt;</tt></p>
+<p><tt>[Letter No. 1, addressed]</tt></p>
+<p><tt>/*<br>
+&lt;sc&gt;M. Fr. Rozier&lt;/sc&gt;,<br>
+Merchant-Nantes.<br>
+&lt;sc&gt;New York&lt;/sc&gt;, &lt;i&gt;10 January, 1807.&lt;/i&gt;</tt></p>
+<p><tt>
+&lt;sc&gt;Dear Sir:&lt;/sc&gt;<br>
+*/</tt></p>
+<p><tt>
+We have had the pleasure of receiving by the &lt;i&gt;Penelope&lt;/i&gt; your<br>
+consignment of 20 pieces of linen cloth, for which we send our<br>
+thanks. As soon as we have sold them, we shall take great<br>
+pleasure in making our return.</tt>
+</p>
 </td></tr></table>
+
       </td>
     </tr>
   </tbody>
 </table>
 
 
-<h3><a name="page_ref">R&eacute;f&eacute;rences aux pages "cf. p. 123"</a></h3>
-<p>Laissez ces r&eacute;f&eacute;rences telles qu'elles sont dans le texte, &agrave; moins que le
-   responsable de projet ne prescrive autre chose dans les <a href="#comments">Commentaires
-   de Projet</a>.
+<h3><a name="blank_pg">Page blanche</a></h3>
+<p>Merci de mettre comme texte <tt>[Blank Page]</tt> si le texte et l'image sont vides.
 </p>
+<p>Si le texte seulement (ou l'image seulement) est vide, suivez la
+   proc&eacute;dure indiqu&eacute;es dans le cas d'une <a href="#bad_image">mauvaise image</a>
+   ou d'un <a href="#bad_text">mauvais texte</a>.
+</p>
+
+<h3><a name="title_pg">Page de titre/fin</a></h3>
+<p>Laissez tout comme c'est imprim&eacute;, m&ecirc;me si c'est tout en majuscules, ou en
+   majuscules et minuscules. Gardez la date de copyright ou de publication.
+</p>
+<p>Certaines livres, souvent, mettent la premi&egrave;re lettre
+   grande et orn&eacute;e. Tapez simplement la lettre.
+</p>
+<!-- END RR -->
+
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Example de page de titre">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">
+      Exemple d'image:
+      </th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top"><img src="title.png" width="500"
+          height="520" alt="title page image"><br>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+      <p><tt>GREEN FANCY</tt>
+      </p>
+      <p><tt>BY</tt></p>
+      <p><tt>GEORGE BARR McCUTCHEON</tt></p>
+      <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
+         "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
+      <p><tt>&lt;i&gt;WITH FRONTISPIECE BY&lt;/i&gt;<br>
+         &lt;i&gt;C. ALLAN GILBERT&lt;/i&gt;</tt></p>
+      <p><tt>NEW YORK<br>
+         DODD, MEAD AND COMPANY<br>
+         1917</tt></p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3><a name="toc">Table des mati&egrave;res</a></h3>
+<p>Laissez le texte de la table des mati&egrave;res comme il est imprim&eacute; (m&ecirc;me si c'est
+   tout en capitales). Encadrez la table par <tt>/*</tt> (pr&eacute;c&eacute;d&eacute;e d'une
+   ligne blanche) au d&eacute;but et <tt>*/</tt> (suivie d'une ligne blanche) &agrave; la
+   fin. Gardez les num&eacute;ros de page et mettez-les 6 espaces apr&egrave;s le texte, en fin de ligne.
+</p>
+<p>Enlevez les points ou les ast&eacute;risques qui forment des lignes horizontales (points de conduite), 
+   entre le texte et le num&eacute;ro.
+</p>
+<!-- END RR -->
+
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="TdM">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">
+      Exemple d'image:
+      </th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top">
+      <p><img src="tablec.png" alt="" width="500" height="650"></p>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+      <p><tt><br><br><br><br>CONTENTS<br><br></tt></p>
+      <p><tt>/*<br>
+          CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<br>
+          <br>
+          I. &lt;sc&gt;The First Wayfarer and the Second Wayfarer<br>
+          Meet and Part on the Highway&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1<br>
+          <br>
+          II. &lt;sc&gt;The First Wayfarer Lays His Pack Aside and<br>
+          Falls in with Friends&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15<br>
+          <br>
+          III. &lt;sc&gt;Mr. Rushcroft Dissolves, Mr. Jones Intervenes,<br>
+          and Two Men Ride Away&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33<br>
+          <br>
+          IV. &lt;sc&gt;An Extraordinary Chambermaid, a Midnight<br>
+          Tragedy, and a Man Who Said "Thank You"&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50<br>
+          <br>
+          V. &lt;sc&gt;The Farm-boy Tells a Ghastly Story, and an<br>
+          Irishman Enters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;67<br>
+          <br>
+          VI. &lt;sc&gt;Charity Begins Far from Home, and a Stroll in<br>
+          the Wildwood Follows&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
+          <br>
+          VII. &lt;sc&gt;Spun-gold Hair, Blue Eyes, and Various Encounters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;103<br>
+          <br>
+          VIII. &lt;sc&gt;A Note, Some Fancies, and an Expedition in<br>
+          Quest of Facts&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;120<br>
+          <br>
+          IX. &lt;sc&gt;The First Wayfarer, the Second Wayfarer, and<br>
+          the Spirit of Chivalry Ascendant&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;134<br>
+          <br>
+          X. &lt;sc&gt;The Prisoner of Green Fancy, and the Lament of<br>
+          Peter the Chauffeur&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;148<br>
+          <br>
+          XI. &lt;sc&gt;Mr. Sprouse Abandons Literature at an Early<br>
+          Hour in the Morning&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;167<br>
+          <br>
+          XII. &lt;sc&gt;The First Wayfarer Accepts an Invitation, and<br>
+          Mr. Dillingford Belabors a Proxy&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
+          <br>
+          XIII. &lt;sc&gt;The Second Wayfarer Receives Two Visitors at<br>
+          Midnight&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;199<br>
+          <br>
+          XIV. &lt;sc&gt;A Flight, a Stone-cutter's Shed, and a Voice<br>
+          Outside&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
+          */<br>
+      </tt></p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <h3><a name="bk_index">Index</a></h3>
 <p>Laissez les num&eacute;ros de page dans les index. Entourez l'index par deux lignes

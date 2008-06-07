@@ -83,37 +83,37 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <td width="1" bgcolor="silver">&nbsp;</td>
     <td bgcolor="white" align="left">
       <ul style="margin-left: 3em;">
-        <li><a href="#title_pg">Titelpagina aan de voor- of achterkant</a></li>
-        <li><a href="#toc">Inhoudsopgave</a></li>
-        <li><a href="#blank_pg">Lege pagina</a></li>
-        <li><a href="#chap_head">Hoofdstuktitels</a></li>
-        <li><a href="#sect_head">Paragraaftitels</a></li>
-        <li><a href="#maj_div">Andere belangrijke onderdelen in teksten</a></li>
-        <li><a href="#para_side">Beschrijvingen naast een Alinea</a></li>
-        <li><a href="#para_space">Ruimte tussen Alinea's/Inspringingen</a></li>
-        <li><a href="#mult_col">Meerdere kolommen</a></li>
-        <li><a href="#illust">Illustraties</a></li>
-        <li><a href="#footnotes">Voetnoten/Eindnotens</a></li>
         <li><a href="#italics">Cursief gedrukte tekst</a></li>
         <li><a href="#bold">Vet gedrukte tekst</a></li>
-        <li><a href="#supers">Superscript</a></li>
-        <li><a href="#subscr">Subscript</a></li>
         <li><a href="#underl">Onderstreepte Tekst</a></li>
         <li><a href="#spaced">U i t g e s p a t i e e r d e &nbsp; T e k s t</a></li>
         <li><a href="#font_ch">Verandering van Lettertype</a></li>
-        <li><a href="#font_sz">Verandering in grootte van het lettertype</a></li>
-        <li><a href="#word_caps">Woorden in HOOFDLETTERS</a></li>
         <li><a href="#small_caps">Woorden in <span style="font-variant: small-caps">kleine hoofdlettertjes (Klein Kapitaal)</span></a></li>
-        <li><a href="#poetry">Po&euml;zie/Epigrammen</a></li>
-        <li><a href="#letter">Brieven/Correspondentiee</a></li>
+        <li><a href="#word_caps">Woorden in HOOFDLETTERS</a></li>
+        <li><a href="#font_sz">Verandering in grootte van het lettertype</a></li>
+        <li><a href="#extra_sp">Extra spaties of tabs tussen woorden</a></li>
+        <li><a href="#supers">Superscript</a></li>
+        <li><a href="#subscr">Subscript</a></li>
+        <li><a href="#page_ref">Verwijzingen naar pagina's &quot;Zie blz. 123&quot;</a></li>
+        <li><a href="#line_br">Regelafbrekingen</a></li>
+        <li><a href="#chap_head">Hoofdstuktitels</a></li>
+        <li><a href="#sect_head">Paragraaftitels</a></li>
+        <li><a href="#maj_div">Andere belangrijke onderdelen in teksten</a></li>
+        <li><a href="#para_space">Ruimte tussen Alinea's/Inspringingen</a></li>
+        <li><a href="#extra_s">Extra lege regels/Sterretjes/Lijn tussen Alinea's</a></li>
+        <li><a href="#illust">Illustraties</a></li>
+        <li><a href="#footnotes">Voetnoten/Eindnotens</a></li>
+        <li><a href="#para_side">Beschrijvingen naast een Alinea</a></li>
+        <li><a href="#block_qt">Citaten</a></li>
+        <li><a href="#mult_col">Meerdere kolommen</a></li>
         <li><a href="#lists">Lijsten</a></li>
         <li><a href="#tables">Tabellen</a></li>
-        <li><a href="#block_qt">Citaten</a></li>
-        <li><a href="#line_br">Regelafbrekingen</a></li>
-        <li><a href="#extra_sp">Extra spaties of tabs tussen woorden</a></li>
+        <li><a href="#poetry">Po&euml;zie/Epigrammen</a></li>
         <li><a href="#line_no">Regelnummers</a></li>
-        <li><a href="#extra_s">Extra lege regels/Sterretjes/Lijn tussen Alinea's</a></li>
-        <li><a href="#page_ref">Verwijzingen naar pagina's &quot;Zie blz. 123&quot;</a></li>
+        <li><a href="#letter">Brieven/Correspondentiee</a></li>
+        <li><a href="#blank_pg">Lege pagina</a></li>
+        <li><a href="#title_pg">Titelpagina aan de voor- of achterkant</a></li>
+        <li><a href="#toc">Inhoudsopgave</a></li>
         <li><a href="#bk_index">Indexen</a></li>
         <li><a href="#play_n">Toneelstukken: Namen van Spelers/Regieaanwijzingen</a></li>
         <li><a href="#anything">Alles wat op een speciale manier aangepakt moet worden, of waar je onzeker over bent</a></li>
@@ -287,142 +287,256 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   </tbody>
 </table>
 
-<h3><a name="title_pg">Titelpagina aan de voor- of achterkant</a>
- (<i><a href="document.php#title_pg">Front/Back Title Page</a></i>)</h3>
-<p>Formatteer alle tekst, inclusief het jaar waarin het boek is uitgegeven of het jaar van het copyright, 
-   precies zoals het op de pagina's gedrukt is, hoofdletters, kleine letters, enz. 
+<h3><a name="italics">Cursief gedrukte tekst</a>
+ (<i><a href="document.php#italics">Italics</a></i>)</h3>
+<p>Formatteer <i>cursief gedrukte</i> tekst met <tt>&lt;i&gt;</tt> aan het begin en <tt>&lt;/i&gt;</tt> aan het eind.
+  (Let op de "/" in de laatste markering.)
 </p>
-<p>In oudere boeken wordt de eerste letter vaak groot en bewerkt weergegeven, formatteer deze letter gewoon als de letter.
+<p>Interpunctie blijft <b>buiten</b> de markering, tenzij een hele zin of een hele alinea cursief is, 
+   of als de interpunctie zelf onderdeel is van een cursief gedrukte frase, titel of afkorting. 
 </p>
+<p>De punten die een afgekort woord in de titel van een tijdschrift aangeven, zoals <i>Phil. Trans.</i>, 
+   horen bij de titel en worden daarom opgenomen binnen de markering: <tt>&lt;i&gt;Phil. Trans.&lt;/i&gt;</tt>.
+</p>
+<p>Data en dergelijke: formatteer de <b>hele</b> frase als cursief, en n&iacute;et de woorden wel cursief en de 
+   getallen niet cursief. Dit omdat veel lettertypen die je in oudere teksten vindt, dezelfde getallen gebruiken 
+   voor zowel de gewone tekst als de cursief gedrukte tekst.
+</p>
+<p>Als de cursieve tekst uit een serie of een lijst van worden of namen bestaat, markeer deze dan allemaal apart.</p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Title Page Example">
+<p><b>Voorbeelden</b>&mdash;Cursief:
+</p>
+
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Italics">
   <tbody>
     <tr>
-      <th align="left" bgcolor="cornsilk">Origineel:</th>
+      <th valign="top" bgcolor="cornsilk">Origineel:</th>
+      <th valign="top" bgcolor="cornsilk">Correct geformatteerde tekst:</th>
     </tr>
-    <tr align="left">
-      <td width="100%" valign="top"><img src="title.png" width="500"
-          height="520" alt="title page image"><br>
+    <tr>
+      <td valign="top"><i>Enacted </i>4<i> July, </i>1776 </td>
+      <td valign="top"><tt>&lt;i&gt;Enacted 4 July, 1776&lt;/i&gt;</tt> </td>
+    </tr>
+    <tr>
+      <td valign="top"><i>God knows what she saw in me!</i> I spoke<br> in such an affected manner.</td>
+      <td valign="top"><tt>&lt;i&gt;God knows what she saw in me!&lt;/i&gt; I spoke<br> in such an affected manner.</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">As in many other of these <i>Studies</i>, and</td>
+      <td valign="top"><tt>As in many other of these &lt;i&gt;Studies&lt;/i&gt;, and</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">(<i>Psychological Review</i>, 1898, p. 160)</td>
+      <td valign="top"><tt>(&lt;i&gt;Psychological Review&lt;/i&gt;, 1898, p. 160)</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">L. Robinson, art. "<i>Ticklishness</i>,"</td>
+      <td valign="top"><tt>L. Robinson, art. "&lt;i&gt;Ticklishness&lt;/i&gt;,"</tt></td>
+    </tr>
+    <tr>
+      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br />
+                     1323 Picadilly Circus</td>
+      <td valign="top"><tt>/*<br />
+         &lt;i&gt;December 3, morning.&lt;/i&gt;<br />
+         1323 Picadilly Circus<br />
+         */</tt></td>
+    </tr>
+    <tr>
+    <tr>
+      <td valign="top">
+      Volunteers may be tickled pink to read<br>
+      <i>Ticklishness</i>, <i>Tickling and Laughter</i>,<br>
+      <i>Remarks on Tickling and Laughter</i><br>
+      and <i>Ticklishness, Laughter and Humour</i>.
       </td>
-    </tr>
-    <tr>
-      <th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th>
-    </tr>
-    <tr>
-      <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
-      <p><tt>GREEN FANCY</tt>
-      </p>
-      <p><tt>BY</tt></p>
-      <p><tt>GEORGE BARR McCUTCHEON</tt></p>
-      <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
-         "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
-      <p><tt>&lt;i&gt;WITH FRONTISPIECE BY&lt;/i&gt;<br>
-         &lt;i&gt;C. ALLAN GILBERT&lt;/i&gt;</tt></p>
-      <p><tt>NEW YORK<br>
-         DODD, MEAD AND COMPANY<br>
-         1917</tt></p>
-</td></tr></table>
+      <td valign="top">
+      <tt>Volunteers may be tickled pink to read<br>
+      &lt;i&gt;Ticklishness&lt;/i&gt;, &lt;i&gt;Tickling and Laughter&lt;/i&gt;,<br>
+      &lt;i&gt;Remarks on Tickling and Laughter&lt;/i&gt;<br>
+      and &lt;i&gt;Ticklishness, Laughter and Humour&lt;/i&gt;.</tt>
       </td>
     </tr>
   </tbody>
 </table>
 
-<h3><a name="toc">Inhoudsopgave</a>
- (<i><a href="document.php#toc">Table of Contents</a></i>)</h3>
-<p>Formatteer de inhoudsopgave precies zoals deze in het boek gedrukt staat, hoofdletters, kleine letters enz., 
-   en zet er <tt>/*</tt> en <tt>*/</tt> achter. Sla een regel over tussen deze markeringen en de rest van de tekst. 
-   Verwijzingen naar paginanummers moeten behouden blijven. 
-   Zet minstens zes spaties tussen het eind van de regel en het paginanummer.
+<h3><a name="bold">Vet gedrukte tekst</a>
+ (<i><a href="document.php#bold">Bold Text</a></i>)</h3>
+<p>Formatteer <b>vet gedrukte</b> tekst (tekst die is gedrukt in een dikkere versie van het lettertype), 
+   met <tt>&lt;b&gt;</tt> ervoor en <tt>&lt;/b&gt;</tt> erachter. (Let op de "/" in de laatste markering.)
 </p>
-<p>Verwijder alle punten of sterretjes die gebruikt zijn om de paginanummers op &eacute;&eacute;n lijn te krijgen.
+<p>Interpunctie blijft <b>buiten</b> de markering, tenzij een hele zin of een hele alinea vet gedrukt is, 
+   of als de interpunctie zelf onderdeel is van een vet gedrukte frase, titel of afkorting. 
+</p>
+<p>Zie <a href="#page_hf">Koptekst/Voettekst</a> origineel en tekst voor een voorbeeld.
+</p>
+<p>Sommige Project Managers vragen in de <a href="#comments">Project Comments</a>
+   om de vet gedrukte tekst om te zetten in hoofdletters.
+</p>
+
+<h3><a name="underl">Onderstreepte Tekst</a>
+ (<i><a href="document.php#underl">Underlined Text</a></i>)</h3>
+<p>Formatteer <u>onderstreepte tekst</u> op dezelfde manier als <a href="#italics">Cursieve Tekst</a>, 
+   met <tt>&lt;i&gt;</tt> en <tt>&lt;/i&gt;</tt>. (Let op de "/" in de laatste markering.) 
+</p>
+<p>Onderstreping werd vaak gebruikt om nadruk aan te geven, als de zetter geen mogelijkheden had 
+   om de tekst te cursiveren, bijv. in getypte documenten.
+</p>
+   Sommige Project Managers kunnen in de <a href="#comments">Project Comments</a> aangeven dat de
+   onderstreepte tekst met <tt>&lt;u&gt;</tt> en <tt>&lt;/u&gt;</tt> moet worden gemarkeerd.
+</p>
+
+<h3><a name="spaced">U i t g e s p a t i e e r d e &nbsp; T e k s t</a>
+ (<i><a href="document.php#spaced">S p a c e d &nbsp; O u t &nbsp; Text (gesperrt)</a></i>)</h3>
+<p>Formatteer u i t g e s p a t i e e r d e &nbsp; t e k s t door er <tt>&lt;g&gt;</tt> voor en 
+   <tt>&lt;/g&gt;</tt> na te zetten. (Let op de "/" in de laatste markering.) 
+   Verwijder de extra spaties binnen de woorden.
+</p>
+<p>Interpunctie blijft <b>buiten</b> de markering, tenzij een hele zin of een hele alinea uitgespatieerd is, 
+   of als de interpunctie zelf onderdeel is van een uitgespatieerde frase, titel of afkorting.
+</p>
+<p>Uitspati&euml;ring was een zettechniek die vooral in Duitse en Nederlandse boeken gebruikt werd
+   om een deel van de tekst te benadrukken.
+</p>
+
+<h3><a name="font_ch">Verandering van Lettertype</a>
+ (<i><a href="document.php#font_ch">Font Changes</a></i>)</h3>
+<p>Formatteer een verandering van lettertype binnen een alinea of binnen een zin, door 
+   <tt>&lt;f&gt;</tt> voor de tekst in het andere lettertype te zetten en <tt>&lt;/f&gt;</tt> erna.
+   (Let op de "/" in de laatste markering.)
+   Gebruik deze markering om speciale lettertypes of andere formattering aan te geven, <b>uitgezonderd</b>
+   de vet gedrukte, cursief gedrukte, klein kapitaal of uitgespatieerde tekst. 
+   Deze laatste hebben hun eigen markeringen.
+</p>
+<p>Mogelijk gebruik van deze markering:</p>
+<ul compact>
+  <li>antiqua (een versie van een roman lettertype) binnen fraktur</li>
+  <li><b>blackletter</b> binnen een alinea met een normaal lettertype</li>
+  <li>een kleiner of groter lettertype alleen als het voorkomt <b>binnen</b> een alinea in 
+   een normaal lettertype (voor een hele alinea in een ander lettertype of een andere maat, 
+   zie het gedeelte over <a href="#block_qt">Citaten</a>)</li>
+  <li>rechtop lettertype binnen een cursief gedrukte alinea</li>
+</ul>
+<p>Het specifieke gebruik van deze markering in een project wordt meestal aangegeven in de 
+   <a href="#comments">Project Comments</a>. Formatteerders kunnen het beste in de 
+   <a href="#forums">Project Discussie</a> posten als deze markering nodig lijkt en nog niet besproken is.
+</p>
+<p>Interpunctie blijft <b>buiten</b> de markering, tenzij een hele zin of een hele alinea 
+   in een ander lettertype gedrukt is, of als de interpunctie zelf onderdeel is van een 
+   frase, titel of afkorting in een ander lettertype. 
+</p>
+
+<h3><a name="small_caps">Woorden in <span style="font-variant: small-caps">kleine hoofdlettertjes (Klein Kapitaal)</span></a>
+ (<i><a href="document.php#small_caps">Words in Small Capitals</a></i>)</h3>
+<p><span style="font-variant:small-caps;">Gemengd Klein Kapitaal</span> wordt anders gemarkeerd dan 
+   tekst <span style="font-variant:small-caps;">helemaal in klein kapitaal</span>:
+</p>
+<p>Formatteer woorden in <span style="font-variant: small-caps;">Gemengd Klein Kapitaal</span> als 
+   hoofdletters en kleine letters. Zet er <tt>&lt;sc&gt;</tt> en <tt>&lt;/sc&gt;</tt> markering omheen.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Voorbeeld:
+   <span style="font-variant: small-caps;">This is Small Caps</span> <br>
+&nbsp;&nbsp;&nbsp;&nbsp;wordt correct geformatteerd als:
+   <tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt>.
+</p>
+
+<p>Formatteer woorden die <span style="font-variant: small-caps;">helemaal in klein kapitaal</span>
+   als HOOFDLETTERS. Zet er <tt>&lt;sc&gt;</tt> en <tt>&lt;/sc&gt;</tt> markering omheen.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Voorbeeld:
+   You cannot be serious about
+   <span style="font-variant: small-caps;">aardvarks</span>!<br>
+&nbsp;&nbsp;&nbsp;&nbsp;wordt correct geformatteerd als:
+   <tt>You cannot be serious about
+   &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</tt> <br>
+</p>
+
+<p>Woorden in titels (Hoofdstuktitels, paragraaftitels, bijschriften enz.) die helemaal in hoofdletters 
+   staan, moeten worden geformatteerd als hoofdletters, zonder &lt;sc&gt; &lt;/sc&gt;. Als het eerste 
+   woord van een hoofdstuk in <span style="font-variant: small-caps">Klein Kapitaal</span> staat,
+   moet dit worden veranderd in hoofdletter-kleine letters, zonder de markering.
+</p>
+
+<h3><a name="word_caps">Woorden in HOOFDLETTERS</a>
+ (<i><a href="document.php#word_caps">Words in all Capitals</a></i>)</h3>
+<p>Formatteer woorden die gedrukt zijn in HOOFDLETTERS, helemaal in HOOFDLETTERS.
+</p>
+<p>De uitzondering hierop is het <a href="#chap_head">eerste woord van een hoofdstuk</a>: 
+   veel oude boeken drukten het eerste woord van hoofdstukken helemaal in hoofdletters. Dit moet 
+   veranderd worden in hoofdletter-kleine letters, dus "ONCE upon a time," wordt "<tt>Once upon a time,</tt>".
+</p>
+
+<h3><a name="font_sz">Verandering in grootte van het lettertype</a>
+ (<i><a href="document.php#font_sz">Font size changes</a></i>)</h3>
+<p>Normaliter markeren we verandering in grootte van lettertypes niet.
+</p>
+<p>De uitzonderingen zijn, als de grootte verandert om een <a href="#block_qt">citaat</a> aan te geven, 
+   of als de grootte van het lettertype binnen een alinea of binnen een zin verandert. 
+   (Zie <a href="#font_ch">Verandering van Lettertype</a>).
+</p>
+
+<h3><a name="extra_sp">Extra spaties of tabs tussen woorden</a>
+ (<i><a href="document.php#extra_sp">Extra spaces or tabs between Words</a></i>)</h3>
+<p>Extra spaties en tabs tussen woorden komen nogal veel voor in de output van de OCR.
+   Je hoeft ze niet te verwijderen&mdash;dit gebeurt automatisch tijden het post-processen.
+</p>
+<p>Maar, extra spaties rondom interpunctie, em-dashes, aanhalingstekens enz. moeten <b>wel</b>
+   verwijderd worden als ze tussen het symbool en het woord staan.
+</p>
+<p>Bijvoorbeeld: in <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt> moet de spatie
+   tussen "horse" en de puntkomma verwijderd worden. Maar de twee spaties na de puntkomma mogen
+   blijven staan, je hoeft er niet &eacute;&eacute;n weg te halen.
+</p>
+
+<h3><a name="supers">Superscript</a>
+ (<i><a href="document.php#supers">Superscripts</a></i>)</h3>
+<p>Oudere boeken gebruikten vaak samentrekkingen als afkortingen, en drukten deze dan als superscript. Bijv.:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
+   Formatteer deze door een enkel dakje v&oacute;&oacute;r de tekst in superscript te zetten, zo:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
+</p>
+<p>Formatteer in wetenschappelijke en technische werken, superscript met accolades 
+   <tt>{</tt> en <tt>}</tt> ook als er maar &eacute;&eacute;n letterteken in superscript staat..
+   <br>Bijv.:
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;... up to x<sup>n-1</sup> elements in the array.
+   <br>wordt geformatteerd als:
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>... up to x^{n-1} elements in the array.<br></tt>
+</p>
+<p>Het kan zijn dat de Project Manager in de <a href="#comments">Project Comments</a> 
+   vraagt om tekst in superscript op een andere manier te markeren.
+</p>
+
+<h3><a name="subscr">Subscript</a>
+ (<i><a href="document.php#subscr">Subscripts</a></i>)</h3>
+<p>In wetenschappelijke werken wordt vaak subscript gebruikt, al komt het in andere boeken niet vaak voor. 
+   Formatteer tekst in subscript door eerst een laag streepje <tt>_</tt> neer te zetten en zet 
+   vervolgens accolades <tt>{</tt> en <tt>}</tt> om de tekst die in subscript staat. 
+   <br>Bijv.:
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
+   <br>wordt geformatteerd als:
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_{2}O.<br></tt>
+</p>
+
+<h3><a name="page_ref">Verwijzingen naar pagina's &quot;Zie blz. 123&quot;</a>
+ (<i><a href="document.php#page_ref">Page References &quot;(See Pg. 123)&quot;</a></i>)</h3>
+<p>Formatteer verwijzingen naar paginanummers zoals ze in het origineel voorkomen: <tt>(zie pg. 123)</tt>.
+</p>
+<p>Kijk wel na in de <a href="#comments">Project Comments</a>of de Project Manager speciale
+   vereisten heeft voor de verwijzingen naar pagina's.
+</p>
+
+<h3><a name="line_br">Regelafbrekingen</a>
+ (<i><a href="document.php#line_br">Line Breaks</a></i>)</h3>
+<p><b>Laat alle regelafbrekingen staan zoals ze zijn.</b> De volgende formatter en de Post-Processor
+   kunnen dan de regels in de tekst gemakkelijk vergelijken met de regels in het origineel.
+   Let hier speciaal op als je <a href="#eol_hyphen">woorden met een afbreekstreepje</a> samenvoegt,
+   of als je woorden rondom <a href="#em_dashes">em-dashes</a> verplaatst. Als de vorige vrijwilliger
+   regelafbrekingen verwijderd heeft, herstel ze dan alsjeblieft, zodat ze weer zo zijn als in het origineel.
+</p>
+<p>Extra lege regels die niet in het origineel voorkomen, moeten verwijderd worden, behalve als we ze
+   doelbewust toevoegen voor het formatteren. Witregels aan het eind van een pagina maken niets uit, 
+   die worden verwijderd tijdens het post-processen. 
 </p>
 <!-- END RR -->
-
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="TOC">
-  <tbody>
-    <tr>
-      <th align="left" bgcolor="cornsilk">Origineel:</th>
-    </tr>
-    <tr align="left">
-      <td width="100%" valign="top">
-      <p><img src="tablec.png" alt="" width="500" height="650"></p>
-      </td>
-    </tr>
-    <tr>
-      <th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th>
-    </tr>
-    <tr>
-      <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
-      <p><tt><br><br><br><br>CONTENTS<br><br></tt></p>
-      <p><tt>/*<br>
-          CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<br>
-          <br>
-          I. &lt;sc&gt;The First Wayfarer and the Second Wayfarer<br>
-          Meet and Part on the Highway&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1<br>
-          <br>
-          II. &lt;sc&gt;The First Wayfarer Lays His Pack Aside and<br>
-          Falls in with Friends&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15<br>
-          <br>
-          III. &lt;sc&gt;Mr. Rushcroft Dissolves, Mr. Jones Intervenes,<br>
-          and Two Men Ride Away&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33<br>
-          <br>
-          IV. &lt;sc&gt;An Extraordinary Chambermaid, a Midnight<br>
-          Tragedy, and a Man Who Said "Thank You"&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50<br>
-          <br>
-          V. &lt;sc&gt;The Farm-boy Tells a Ghastly Story, and an<br>
-          Irishman Enters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;67<br>
-          <br>
-          VI. &lt;sc&gt;Charity Begins Far from Home, and a Stroll in<br>
-          the Wildwood Follows&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
-          <br>
-          VII. &lt;sc&gt;Spun-gold Hair, Blue Eyes, and Various Encounters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;103<br>
-          <br>
-          VIII. &lt;sc&gt;A Note, Some Fancies, and an Expedition in<br>
-          Quest of Facts&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;120<br>
-          <br>
-          IX. &lt;sc&gt;The First Wayfarer, the Second Wayfarer, and<br>
-          the Spirit of Chivalry Ascendant&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;134<br>
-          <br>
-          X. &lt;sc&gt;The Prisoner of Green Fancy, and the Lament of<br>
-          Peter the Chauffeur&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;148<br>
-          <br>
-          XI. &lt;sc&gt;Mr. Sprouse Abandons Literature at an Early<br>
-          Hour in the Morning&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;167<br>
-          <br>
-          XII. &lt;sc&gt;The First Wayfarer Accepts an Invitation, and<br>
-          Mr. Dillingford Belabors a Proxy&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
-          <br>
-          XIII. &lt;sc&gt;The Second Wayfarer Receives Two Visitors at<br>
-          Midnight&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;199<br>
-          <br>
-          XIV. &lt;sc&gt;A Flight, a Stone-cutter's Shed, and a Voice<br>
-          Outside&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
-          */<br>
-      </tt>
-</td></tr></table>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<h3><a name="blank_pg">Lege Pagina</a>
- (<i><a href="document.php#blank_pg">Blank Page</a></i>)</h3>
-<p>Formatteer als <tt>[Blank Page]</tt> als zowel de tekst als het origineel leeg zijn. 
-</p>
-<p>Als er wel tekst is, waar de te formatteren tekst hoort te staan, maar niet in het origineel, 
-   of als er wel iets in het origineel staat maar er is geen tekst, volg dan de aanwijzingen voor een
-   <a href="#bad_image">Slecht Beeld</a> (Bad Image) of een <a href="#bad_text">Verkeerd beeld voor de tekst</a> (Bad Text).
-</p>
+<!-- We should have an example right here for this. -->
 
 <h3><a name="chap_head">Hoofdstuktitels</a>
  (<i><a href="document.php#chap_head">Chapter Headers</a></i>)</h3>
@@ -586,135 +700,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    manier geformatteerd worden als Hoofdstuktitels, dus 4 lege regels voor de titel en 2 lege regels voor de rest van de tekst. 
 </p>
 
-<h3><a name="para_side">Beschrijvingen naast een Alinea (Sidenotes)</a>
- (<i><a href="document.php#para_side">Paragraph Side-Descriptions (Sidenotes)</a></i>)</h3>
-<p>Sommige boeken hebben korte beschrijvingen van de alinea naast de tekst. Deze beschrijvingen worden sidenotes genoemd. 
-   Verplaats de sidenotes naar vlak boven de alinea waar ze bij horen. Een sidenote moet omgeven worden 
-   door een sidenote markering: <tt>[Sidenote:&nbsp;</tt> en <tt>]</tt>, met de tekst van de sidenote er tussenin. 
-   Formatteer de tekst van de sidenote zoals hij gedrukt is, en handhaaf regelafbrekingen, cursief enz. 
-   Laat een lege regel voor en na de sidenote, zodat hij apart blijft van de alinea als de tekst wordt 
-   <span style="border-bottom: 1px dotted green;"  title="rewrap: het opnieuw aanbrengen van regelafbrekingen"><i>gerewrapped</i></span>
-   tijdens het post-processen. 
-</p>
-<p>Als er meerdere sidenotes bij &eacute;&eacute;n alinea zijn, zet ze dan achter elkaar v&oacute;&oacute;r de alinea. 
-   Laat een lege regel tussen de verschillende sidenotes. 
-</p>
-<p>Als de alinea al op de vorige pagina begonnen is, zet dan de sidenote bovenaan de pagina en 
-   markeer hem met een sterretje (<tt>*</tt>), zodat de Post-Processor kan zien dat de sidenote op de vorige pagina hoort. 
-   Doe het zo: <tt>*[Sidenote: <font color="red">(tekst van de sidenote)</font>]</tt>.
-   De Post-Processor zal de sidenote verplaatsen naar waar hij hoort.
-</p>
-<p>Soms zal een Project Manager vragen, of je de sidenotes naast de zin waar ze bij horen, 
-   wil plaatsen, in plaats van boven of onder de alinea. 
-   In dit geval zet je geen lege regels voor of na de sidenotes.
-</p>
-<!-- END RR -->
-
-  <table width="100%" align="center" border="1" cellpadding="4"
-       cellspacing="0" summary="Sidenotes"> <col width="128*">
-  <tbody>
-    <tr valign="top">
-      <th align="left" bgcolor="cornsilk">Origineel:</th>
-    </tr>
-    <tr valign="top">
-      <td width="100%" align="left"><img src="side.png" alt=""
-          width="550" height="800"><br>
-      </td>
-    </tr>
-    <tr valign="top">
-      <th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th>
-    </tr>
-    <tr valign="top">
-      <td width="100%">
-<table summary="" border="0" align="left"><tr><td>
-    <p><tt>
-    *[Sidenote: Burning<br>
-    discs<br>
-    thrown into<br>
-    the air.]<br>
-    <br>
-    that such as looked at the fire holding a bit of larkspur<br>
-    before their face would be troubled by no malady of the<br>
-    eyes throughout the year.[1] Further, it was customary at<br>
-    W&uuml;rzburg, in the sixteenth century, for the bishop's followers<br>
-    to throw burning discs of wood into the air from a mountain<br>
-    which overhangs the town. The discs were discharged by<br>
-    means of flexible rods, and in their flight through the darkness<br>
-    presented the appearance of fiery dragons.[2]<br>
-    <br>
-    [Sidenote: The Midsummer<br>
-    fires in<br>
-    Swabia.]<br>
-    <br>
-    [Sidenote: Omens<br>
-    drawn from<br>
-    the leaps<br>
-    over the<br>
-    fires.]<br>
-    <br>
-    [Sidenote: Burning<br>
-    wheels<br>
-    rolled<br>
-    down hill.]<br>
-    <br>
-    In the valley of the Lech, which divides Upper Bavaria<br>
-    from Swabia, the midsummer customs and beliefs are, or<br>
-    used to be, very similar. Bonfires are kindled on the<br>
-    mountains on Midsummer Day; and besides the bonfire<br>
-    a tall beam, thickly wrapt in straw and surmounted by a<br>
-    cross-piece, is burned in many places. Round this cross as<br>
-    it burns the lads dance with loud shouts; and when the<br>
-    flames have subsided, the young people leap over the fire in<br>
-    pairs, a young man and a young woman together. If they<br>
-    escape unsmirched, the man will not suffer from fever, and<br>
-    the girl will not become a mother within the year. Further,<br>
-    it is believed that the flax will grow that year as high as<br>
-    they leap over the fire; and that if a charred billet be taken<br>
-    from the fire and stuck in a flax-field it will promote the<br>
-    growth of the flax.[3] Similarly in Swabia, lads and lasses,<br>
-    hand in hand, leap over the midsummer bonfire, praying<br>
-    that the hemp may grow three ells high, and they set fire<br>
-    to wheels of straw and send them rolling down the hill.<br>
-    Among the places where burning wheels were thus bowled<br>
-    down hill at Midsummer were the Hohenstaufen mountains<br>
-    in Wurtemberg and the Frauenberg near Gerhausen.[4]<br>
-    At Deffingen, in Swabia, as the people sprang over the mid-*<br>
-    <br>
-    [Footnote 1: &lt;i&gt;Op. cit.&lt;/i&gt; iv. 1. p. 242. We have<br>
-    seen (p. 163) that in the sixteenth<br>
-    century these customs and beliefs were<br>
-    common in Germany. It is also a<br>
-    German superstition that a house which<br>
-    contains a brand from the midsummer<br>
-    bonfire will not be struck by lightning<br>
-    (J. W. Wolf, &lt;i&gt;Beitr&auml;ge zur deutschen<br>
-    Mythologie&lt;/i&gt;, i. p. 217, &sect; 185).]<br>
-    <br>
-    [Footnote 2: J. Boemus, &lt;i&gt;Mores, leges et ritus<br>
-    omnium gentium&lt;/i&gt; (Lyons, 1541), p.<br>
-    226.]<br>
-    <br>
-    [Footnote 3: Karl Freiherr von Leoprechting,<br>
-    &lt;i&gt;Aus dem Lechrain&lt;/i&gt; (Munich, 1855),<br>
-    pp. 181 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der<br>
-    Baumkultus&lt;i&gt;, p. 510.]<br>
-    <br>
-    [Footnote 4: A. Birlinger, &lt;i&gt;Volksth&uuml;mliches aus<br>
-    Schwaben&lt;/i&gt; (Freiburg im Breisgau, 1861-1862),<br>
-    ii. pp. 96 &lt;i&gt;sqq.&lt;/i&gt;, &sect; 128, pp. 103<br>
-    &lt;i&gt;sq.&lt;/i&gt;, &sect; 129; &lt;i&gt;id.&lt;/i&gt;, &lt;i&gt;Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
-    1874), ii. 116-120; E. Meier,<br>
-    &lt;i&gt;Deutsche Sagen, Sitten und Gebr&auml;uche<br>
-    aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.<br>
-    423 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der Baumkultus&lt;/i&gt;,<br>
-    p. 510.]<br>
-    </tt></p>
-</td></tr></table>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
 <h3><a name="para_space">Ruimte tussen Alinea's/Inspringingen</a>
  (<i><a href="document.php#para_space">Paragraph Spacing/Indenting</a></i>)</h3>
 <p>Zet een lege regel voor het begin van een alinea, zelfs als de alinea bovenaan een bladzijde begint. 
@@ -724,22 +709,64 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Zie het voorbeeld bij de <a href="#chap_head">Hoofdstuktitels</a>.
 </p>
 
-<h3><a name="mult_col">Meerdere kolommen</a>
- (<i><a href="document.php#mult_col">Multiple Columns</a></i>)</h3>
-<p>Formatteer gewone tekst die in 2 kolommen gedrukt is, als een enkele kolom.
+<h3><a name="extra_s">Extra lege regels/Sterretjes/Lijn tussen Alinea's</a>
+ (<i><a href="document.php#extra_s">Extra Spacing/Stars/Line Between Paragraphs</a></i>)</h3>
+<p>De meeste alinea's beginnen op de regel meteen na de vorige alinea. Soms worden alinea's 
+   van elkaar gescheiden om een "gedachtebreuk" ("thought break") aan te geven. 
+   Een "gedachtebreuk" kan de vorm aannemen van een rij sterretjes, streepjes, of een ander teken, of van een lijn,
+   soms rijkelijk versierd, van een decoratie, of zelfs van &eacute;&eacute;n of twee extra lege regels. 
 </p>
-<p>Stukjes met meerdere kolommen binnen een paragraaf van &eacute;&eacute;n kolom, moeten als &eacute;&eacute;n kolom geformatteerd worden, 
-   door de tekst van de linker kolom eerst te zetten, de tekst van de volgende eronder enzovoort. 
-   Je hoeft niet te markeren waar de kolommen gesplitst waren, je kunt ze gewoon achter elkaar zetten.
+<p>Een gedachtebreuk kan een verandering van omgeving of van onderwerp betekenen, een verandering in 
+   tijdstip, of een stuk spanning. Dit is zo bedoeld door de schrijver, dus we handhaven het, 
+   door een lege regel in te voegen, vervolgens <tt>&lt;tb&gt;</tt> en dan nog een lege regel. 
 </p>
-<p>Als de kolommen lijsten zijn, markeer dan het begin van de lijst met <tt>/*</tt> en het einde met <tt>*/</tt>, 
-   zodat de regels tijdens het post-processen niet <span style="border-bottom: 1px dotted green;"
-    title="rewrap: het opnieuw aanbrengen van regelafbrekingen"><i>gerewrapped</i></span> worden.
-   Laat een lege regel achter tussen deze markeringen en de rest van de tekst.
+<p>Project Managers en/of Post-Processors kunnen vragen om aanvullende informatie in de gedachtebreukmarkering
+   te handhaven. Er zijn bijv. projecten die verschillende soorten van onderbrekingen op een verschillende
+   manier aangeven, een lijn met sterretjes op de ene plaats en een lege regel op de andere. In die gevallen, 
+   kan in de Project Comments gevraagd worden dat deze zo worden gemarkeerd: <tt>&lt;tb stars&gt;</tt> en
+   <tt>&lt;tb&gt;</tt>. Lees de Project Comments altijd zorgvuldig, zodat je weet wat er bij elk project van
+   je verwacht wordt. Let ook op dat je deze speciale verzoeken niet ook toepast in andere projecten. 
 </p>
-<p>Zie ook de onderdelen <a href="#bk_index">Indexen</a>, <a href="#lists">Lijsten</a> en 
-   <a href="#tables">Tabellen</a> van deze richtlijnen.
+<p>Soms gebruikten de zetters gedecoreerde lijnen om het eind van een hoofdstuk aan te geven. Aangezien we de
+   <a href="#chap_head">hoofdstuktitels</a> al markeren, hoeft er in dit geval niet ook nog een
+   "thought break" markering te worden toegevoegd. 
 </p>
+<p>De proofreading interface bevat een "thought break" markering die je kunt knippen en plakken. 
+</p>
+<!-- END RR -->
+<br>
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Thought Break">
+  <tbody>
+    <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
+    <tr align="left">
+      <td width="100%" valign="top"> <img src="tbreak.png" alt="thought break"
+          width="500" height="264"> <br>
+      </td>
+    </tr>
+    <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+    <p><tt>
+    like the gentleman with the spiritual hydrophobia<br>
+    in the latter end of Uncle Tom's Cabin.<br>
+    Unconsciously Mr. Dixon has done his best to<br>
+    prove that Legree was not a fictitious character.</tt>
+    </p>
+    <p><tt>&lt;tb&gt;</tt>
+    </p>
+    <p><tt>
+    Joel Chandler Harris, Harry Stillwell Edwards,<br>
+    George W. Cable, Thomas Nelson Page,<br>
+    James Lane Allen, and Mark Twain are Southern<br>
+    men in Mr. Griffith's class. I recommend</tt>
+    </p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <h3><a name="illust">Illustraties</a>
  (<i><a href="document.php#illust">Illustrations</a></i>)</h3>
@@ -972,358 +999,205 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   </tbody>
 </table>
 
-<h3><a name="italics">Cursief gedrukte tekst</a>
- (<i><a href="document.php#italics">Italics</a></i>)</h3>
-<p>Formatteer <i>cursief gedrukte</i> tekst met <tt>&lt;i&gt;</tt> aan het begin en <tt>&lt;/i&gt;</tt> aan het eind.
-  (Let op de "/" in de laatste markering.)
+<h3><a name="para_side">Beschrijvingen naast een Alinea (Sidenotes)</a>
+ (<i><a href="document.php#para_side">Paragraph Side-Descriptions (Sidenotes)</a></i>)</h3>
+<p>Sommige boeken hebben korte beschrijvingen van de alinea naast de tekst. Deze beschrijvingen worden sidenotes genoemd. 
+   Verplaats de sidenotes naar vlak boven de alinea waar ze bij horen. Een sidenote moet omgeven worden 
+   door een sidenote markering: <tt>[Sidenote:&nbsp;</tt> en <tt>]</tt>, met de tekst van de sidenote er tussenin. 
+   Formatteer de tekst van de sidenote zoals hij gedrukt is, en handhaaf regelafbrekingen, cursief enz. 
+   Laat een lege regel voor en na de sidenote, zodat hij apart blijft van de alinea als de tekst wordt 
+   <span style="border-bottom: 1px dotted green;"  title="rewrap: het opnieuw aanbrengen van regelafbrekingen"><i>gerewrapped</i></span>
+   tijdens het post-processen. 
 </p>
-<p>Interpunctie blijft <b>buiten</b> de markering, tenzij een hele zin of een hele alinea cursief is, 
-   of als de interpunctie zelf onderdeel is van een cursief gedrukte frase, titel of afkorting. 
+<p>Als er meerdere sidenotes bij &eacute;&eacute;n alinea zijn, zet ze dan achter elkaar v&oacute;&oacute;r de alinea. 
+   Laat een lege regel tussen de verschillende sidenotes. 
 </p>
-<p>De punten die een afgekort woord in de titel van een tijdschrift aangeven, zoals <i>Phil. Trans.</i>, 
-   horen bij de titel en worden daarom opgenomen binnen de markering: <tt>&lt;i&gt;Phil. Trans.&lt;/i&gt;</tt>.
+<p>Als de alinea al op de vorige pagina begonnen is, zet dan de sidenote bovenaan de pagina en 
+   markeer hem met een sterretje (<tt>*</tt>), zodat de Post-Processor kan zien dat de sidenote op de vorige pagina hoort. 
+   Doe het zo: <tt>*[Sidenote: <font color="red">(tekst van de sidenote)</font>]</tt>.
+   De Post-Processor zal de sidenote verplaatsen naar waar hij hoort.
 </p>
-<p>Data en dergelijke: formatteer de <b>hele</b> frase als cursief, en n&iacute;et de woorden wel cursief en de 
-   getallen niet cursief. Dit omdat veel lettertypen die je in oudere teksten vindt, dezelfde getallen gebruiken 
-   voor zowel de gewone tekst als de cursief gedrukte tekst.
-</p>
-<p>Als de cursieve tekst uit een serie of een lijst van worden of namen bestaat, markeer deze dan allemaal apart.</p>
-<!-- END RR -->
-
-<p><b>Voorbeelden</b>&mdash;Cursief:
-</p>
-
-<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Italics">
-  <tbody>
-    <tr>
-      <th valign="top" bgcolor="cornsilk">Origineel:</th>
-      <th valign="top" bgcolor="cornsilk">Correct geformatteerde tekst:</th>
-    </tr>
-    <tr>
-      <td valign="top"><i>Enacted </i>4<i> July, </i>1776 </td>
-      <td valign="top"><tt>&lt;i&gt;Enacted 4 July, 1776&lt;/i&gt;</tt> </td>
-    </tr>
-    <tr>
-      <td valign="top"><i>God knows what she saw in me!</i> I spoke<br> in such an affected manner.</td>
-      <td valign="top"><tt>&lt;i&gt;God knows what she saw in me!&lt;/i&gt; I spoke<br> in such an affected manner.</tt></td>
-    </tr>
-    <tr>
-      <td valign="top">As in many other of these <i>Studies</i>, and</td>
-      <td valign="top"><tt>As in many other of these &lt;i&gt;Studies&lt;/i&gt;, and</tt></td>
-    </tr>
-    <tr>
-      <td valign="top">(<i>Psychological Review</i>, 1898, p. 160)</td>
-      <td valign="top"><tt>(&lt;i&gt;Psychological Review&lt;/i&gt;, 1898, p. 160)</tt></td>
-    </tr>
-    <tr>
-      <td valign="top">L. Robinson, art. "<i>Ticklishness</i>,"</td>
-      <td valign="top"><tt>L. Robinson, art. "&lt;i&gt;Ticklishness&lt;/i&gt;,"</tt></td>
-    </tr>
-    <tr>
-      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br />
-                     1323 Picadilly Circus</td>
-      <td valign="top"><tt>/*<br />
-         &lt;i&gt;December 3, morning.&lt;/i&gt;<br />
-         1323 Picadilly Circus<br />
-         */</tt></td>
-    </tr>
-    <tr>
-    <tr>
-      <td valign="top">
-      Volunteers may be tickled pink to read<br>
-      <i>Ticklishness</i>, <i>Tickling and Laughter</i>,<br>
-      <i>Remarks on Tickling and Laughter</i><br>
-      and <i>Ticklishness, Laughter and Humour</i>.
-      </td>
-      <td valign="top">
-      <tt>Volunteers may be tickled pink to read<br>
-      &lt;i&gt;Ticklishness&lt;/i&gt;, &lt;i&gt;Tickling and Laughter&lt;/i&gt;,<br>
-      &lt;i&gt;Remarks on Tickling and Laughter&lt;/i&gt;<br>
-      and &lt;i&gt;Ticklishness, Laughter and Humour&lt;/i&gt;.</tt>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<h3><a name="bold">Vet gedrukte tekst</a>
- (<i><a href="document.php#bold">Bold Text</a></i>)</h3>
-<p>Formatteer <b>vet gedrukte</b> tekst (tekst die is gedrukt in een dikkere versie van het lettertype), 
-   met <tt>&lt;b&gt;</tt> ervoor en <tt>&lt;/b&gt;</tt> erachter. (Let op de "/" in de laatste markering.)
-</p>
-<p>Interpunctie blijft <b>buiten</b> de markering, tenzij een hele zin of een hele alinea vet gedrukt is, 
-   of als de interpunctie zelf onderdeel is van een vet gedrukte frase, titel of afkorting. 
-</p>
-<p>Zie <a href="#page_hf">Koptekst/Voettekst</a> origineel en tekst voor een voorbeeld.
-</p>
-<p>Sommige Project Managers vragen in de <a href="#comments">Project Comments</a>
-   om de vet gedrukte tekst om te zetten in hoofdletters.
-</p>
-
-<h3><a name="supers">Superscript</a>
- (<i><a href="document.php#supers">Superscripts</a></i>)</h3>
-<p>Oudere boeken gebruikten vaak samentrekkingen als afkortingen, en drukten deze dan als superscript. Bijv.:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
-   Formatteer deze door een enkel dakje v&oacute;&oacute;r de tekst in superscript te zetten, zo:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
-</p>
-<p>Formatteer in wetenschappelijke en technische werken, superscript met accolades 
-   <tt>{</tt> en <tt>}</tt> ook als er maar &eacute;&eacute;n letterteken in superscript staat..
-   <br>Bijv.:
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;... up to x<sup>n-1</sup> elements in the array.
-   <br>wordt geformatteerd als:
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>... up to x^{n-1} elements in the array.<br></tt>
-</p>
-<p>Het kan zijn dat de Project Manager in de <a href="#comments">Project Comments</a> 
-   vraagt om tekst in superscript op een andere manier te markeren.
-</p>
-
-<h3><a name="subscr">Subscript</a>
- (<i><a href="document.php#subscr">Subscripts</a></i>)</h3>
-<p>In wetenschappelijke werken wordt vaak subscript gebruikt, al komt het in andere boeken niet vaak voor. 
-   Formatteer tekst in subscript door eerst een laag streepje <tt>_</tt> neer te zetten en zet 
-   vervolgens accolades <tt>{</tt> en <tt>}</tt> om de tekst die in subscript staat. 
-   <br>Bijv.:
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
-   <br>wordt geformatteerd als:
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_{2}O.<br></tt>
-</p>
-
-<h3><a name="underl">Onderstreepte Tekst</a>
- (<i><a href="document.php#underl">Underlined Text</a></i>)</h3>
-<p>Formatteer <u>onderstreepte tekst</u> op dezelfde manier als <a href="#italics">Cursieve Tekst</a>, 
-   met <tt>&lt;i&gt;</tt> en <tt>&lt;/i&gt;</tt>. (Let op de "/" in de laatste markering.) 
-</p>
-<p>Onderstreping werd vaak gebruikt om nadruk aan te geven, als de zetter geen mogelijkheden had 
-   om de tekst te cursiveren, bijv. in getypte documenten.
-</p>
-   Sommige Project Managers kunnen in de <a href="#comments">Project Comments</a> aangeven dat de
-   onderstreepte tekst met <tt>&lt;u&gt;</tt> en <tt>&lt;/u&gt;</tt> moet worden gemarkeerd.
-</p>
-
-<h3><a name="spaced">U i t g e s p a t i e e r d e &nbsp; T e k s t</a>
- (<i><a href="document.php#spaced">S p a c e d &nbsp; O u t &nbsp; Text (gesperrt)</a></i>)</h3>
-<p>Formatteer u i t g e s p a t i e e r d e &nbsp; t e k s t door er <tt>&lt;g&gt;</tt> voor en 
-   <tt>&lt;/g&gt;</tt> na te zetten. (Let op de "/" in de laatste markering.) 
-   Verwijder de extra spaties binnen de woorden.
-</p>
-<p>Interpunctie blijft <b>buiten</b> de markering, tenzij een hele zin of een hele alinea uitgespatieerd is, 
-   of als de interpunctie zelf onderdeel is van een uitgespatieerde frase, titel of afkorting.
-</p>
-<p>Uitspati&euml;ring was een zettechniek die vooral in Duitse en Nederlandse boeken gebruikt werd
-   om een deel van de tekst te benadrukken.
-</p>
-
-<h3><a name="font_ch">Verandering van Lettertype</a>
- (<i><a href="document.php#font_ch">Font Changes</a></i>)</h3>
-<p>Formatteer een verandering van lettertype binnen een alinea of binnen een zin, door 
-   <tt>&lt;f&gt;</tt> voor de tekst in het andere lettertype te zetten en <tt>&lt;/f&gt;</tt> erna.
-   (Let op de "/" in de laatste markering.)
-   Gebruik deze markering om speciale lettertypes of andere formattering aan te geven, <b>uitgezonderd</b>
-   de vet gedrukte, cursief gedrukte, klein kapitaal of uitgespatieerde tekst. 
-   Deze laatste hebben hun eigen markeringen.
-</p>
-<p>Mogelijk gebruik van deze markering:</p>
-<ul compact>
-  <li>antiqua (een versie van een roman lettertype) binnen fraktur</li>
-  <li><b>blackletter</b> binnen een alinea met een normaal lettertype</li>
-  <li>een kleiner of groter lettertype alleen als het voorkomt <b>binnen</b> een alinea in 
-   een normaal lettertype (voor een hele alinea in een ander lettertype of een andere maat, 
-   zie het gedeelte over <a href="#block_qt">Citaten</a>)</li>
-  <li>rechtop lettertype binnen een cursief gedrukte alinea</li>
-</ul>
-<p>Het specifieke gebruik van deze markering in een project wordt meestal aangegeven in de 
-   <a href="#comments">Project Comments</a>. Formatteerders kunnen het beste in de 
-   <a href="#forums">Project Discussie</a> posten als deze markering nodig lijkt en nog niet besproken is.
-</p>
-<p>Interpunctie blijft <b>buiten</b> de markering, tenzij een hele zin of een hele alinea 
-   in een ander lettertype gedrukt is, of als de interpunctie zelf onderdeel is van een 
-   frase, titel of afkorting in een ander lettertype. 
-</p>
-
-<h3><a name="font_sz">Verandering in grootte van het lettertype</a>
- (<i><a href="document.php#font_sz">Font size changes</a></i>)</h3>
-<p>Normaliter markeren we verandering in grootte van lettertypes niet.
-</p>
-<p>De uitzonderingen zijn, als de grootte verandert om een <a href="#block_qt">citaat</a> aan te geven, 
-   of als de grootte van het lettertype binnen een alinea of binnen een zin verandert. 
-   (Zie <a href="#font_ch">Verandering van Lettertype</a>).
-</p>
-
-<h3><a name="word_caps">Woorden in HOOFDLETTERS</a>
- (<i><a href="document.php#word_caps">Words in all Capitals</a></i>)</h3>
-<p>Formatteer woorden die gedrukt zijn in HOOFDLETTERS, helemaal in HOOFDLETTERS.
-</p>
-<p>De uitzondering hierop is het <a href="#chap_head">eerste woord van een hoofdstuk</a>: 
-   veel oude boeken drukten het eerste woord van hoofdstukken helemaal in hoofdletters. Dit moet 
-   veranderd worden in hoofdletter-kleine letters, dus "ONCE upon a time," wordt "<tt>Once upon a time,</tt>".
-</p>
-
-<h3><a name="small_caps">Woorden in <span style="font-variant: small-caps">kleine hoofdlettertjes (Klein Kapitaal)</span></a>
- (<i><a href="document.php#small_caps">Words in Small Capitals</a></i>)</h3>
-<p><span style="font-variant:small-caps;">Gemengd Klein Kapitaal</span> wordt anders gemarkeerd dan 
-   tekst <span style="font-variant:small-caps;">helemaal in klein kapitaal</span>:
-</p>
-<p>Formatteer woorden in <span style="font-variant: small-caps;">Gemengd Klein Kapitaal</span> als 
-   hoofdletters en kleine letters. Zet er <tt>&lt;sc&gt;</tt> en <tt>&lt;/sc&gt;</tt> markering omheen.<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Voorbeeld:
-   <span style="font-variant: small-caps;">This is Small Caps</span> <br>
-&nbsp;&nbsp;&nbsp;&nbsp;wordt correct geformatteerd als:
-   <tt>&lt;sc&gt;This is Small Caps&lt;/sc&gt;</tt>.
-</p>
-
-<p>Formatteer woorden die <span style="font-variant: small-caps;">helemaal in klein kapitaal</span>
-   als HOOFDLETTERS. Zet er <tt>&lt;sc&gt;</tt> en <tt>&lt;/sc&gt;</tt> markering omheen.<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Voorbeeld:
-   You cannot be serious about
-   <span style="font-variant: small-caps;">aardvarks</span>!<br>
-&nbsp;&nbsp;&nbsp;&nbsp;wordt correct geformatteerd als:
-   <tt>You cannot be serious about
-   &lt;sc&gt;AARDVARKS&lt;/sc&gt;!</tt> <br>
-</p>
-
-<p>Woorden in titels (Hoofdstuktitels, paragraaftitels, bijschriften enz.) die helemaal in hoofdletters 
-   staan, moeten worden geformatteerd als hoofdletters, zonder &lt;sc&gt; &lt;/sc&gt;. Als het eerste 
-   woord van een hoofdstuk in <span style="font-variant: small-caps">Klein Kapitaal</span> staat,
-   moet dit worden veranderd in hoofdletter-kleine letters, zonder de markering.
-</p>
-
-<h3><a name="poetry">Po&euml;zie/Epigrammen</a>
- (<i><a href="document.php#poetry">Poetry/Epigrams</a></i>)</h3>
-<p>Dit gedeelte geldt voor een enkel gedicht of epigram, in een boek dat in het algemeen proza bevat. 
-   Voor een po&euml;zieboek, zie de <a href="doc-poet.php">speciale handleiding voor po&euml;zieboeken</a>. (<i>Engels</i>) 
-</p>
-<p>Markeer po&euml;zie of epigrammen, zo dat de Post-Processor ze kan vinden. Voeg een regel in met 
-   <tt>/*</tt> voor de start van po&euml;zie of epigram en een regel met <tt>*/</tt> na het eind ervan. 
-   Laat een regel leeg tussen deze markeringen en de rest van de tekst.
-</p>
-<p>Laat de relatieve inspringing van de regels van een gedicht intact, door 2, 4, 6 (of meer) spaties
-   te plaatsen voor de ingesprongen regels, zo dat de tekst zoveel mogelijk op het origineel lijkt.
-</p>
-<p>Als een dichtregel te lang is om op de gedrukte pagina te passen, wordt vaak het restant van de regel
-   op de volgende regel gezet, met een flinke inspringing. Dit restant van de regel moet in zijn geheel
-   worden samengevoegd met de regel erboven. Restregels beginnen in het algemeen met een kleine letter
-   (dus niet een hoofdletter). Bovendien komen ze op onvoorspelbare momenten voor, in tegenstelling tot
-   de normale inspringing, die regelmatig is, in overeenstemming met het metrum van het gedicht.
-</p>
-<p>Als het gedicht op de gedrukte pagina is gecentreerd, negeer dit dan tijdens het formatteren.
-   Sluit de regels links aan; bewaar alleen de relatieve inspringing van de regels.
-</p>
-<p><b>Voetnoten</b> in po&euml;zie moeten worden behandeld als gewone voetnoten.
-   Zie <a href="#footnotes">Voetnoten</a> voor meer details.
-</p>
-<p><b>Regelnummers</b> in po&euml;zie moeten worden behouden. Plaats ze aan het eind van de regel,
-   en laat tenminste 6 spaties tussen het regelnummer en het eind van de tekstregel.
-   Zie <a href="#line_no">Regelnummers</a> voor details.
-</p>
-<p>Controleer de <a href="#comments">Project Comments</a> voor de specifieke tekst die je formatteert.
-   De Project Manager heeft vaak speciale instructies voor boeken met po&euml;zie. Vaak zijn de hier gegeven 
-   richtlijnen niet of niet geheel van toepassing bij een boek dat geheel of bijna geheel uit po&euml;zie bestaat.
+<p>Soms zal een Project Manager vragen, of je de sidenotes naast de zin waar ze bij horen, 
+   wil plaatsen, in plaats van boven of onder de alinea. 
+   In dit geval zet je geen lege regels voor of na de sidenotes.
 </p>
 <!-- END RR -->
 
-<br>
-<table width="100%" align="center" border="1"  cellpadding="4"
-       cellspacing="0" summary="Poetry Example">
+  <table width="100%" align="center" border="1" cellpadding="4"
+       cellspacing="0" summary="Sidenotes"> <col width="128*">
   <tbody>
-    <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
-    <tr align="left">
-      <th width="100%" valign="top"> <img src="poetry.png" alt=""
-          width="500" height="508"> <br>
-      </th>
+    <tr valign="top">
+      <th align="left" bgcolor="cornsilk">Origineel:</th>
     </tr>
-    <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
-    <tr>
-      <td width="100%" valign="top">
-
+    <tr valign="top">
+      <td width="100%" align="left"><img src="side.png" alt=""
+          width="550" height="800"><br>
+      </td>
+    </tr>
+    <tr valign="top">
+      <th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th>
+    </tr>
+    <tr valign="top">
+      <td width="100%">
 <table summary="" border="0" align="left"><tr><td>
-<tt>
-to the scenery of his own country:<br></tt>
-<p><tt>
-/*<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oh, to be in England<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now that April's there,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And whoever wakes in England<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sees, some morning, unaware,<br>
-That the lowest boughs and the brushwood sheaf<br>
-Round the elm-tree bole are in tiny leaf,<br>
-While the chaffinch sings on the orchard bough<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In England--now!</tt>
-</p><p><tt>
-And after April, when May follows,<br>
-And the whitethroat builds, and all the swallows!<br>
-Hark! where my blossomed pear-tree in the hedge<br>
-Leans to the field and scatters on the clover<br>
-Blossoms and dewdrops--at the bent spray's edge--<br>
-That's the wise thrush; he sings each song twice over,<br>
-Lest you should think he never could recapture<br>
-The first fine careless rapture!<br>
-And though the fields look rough with hoary dew,<br>
-All will be gay, when noontide wakes anew<br>
-The buttercups, the little children's dower;<br>
---Far brighter than this gaudy melon-flower!<br>
-*/<br></tt>
-</p><p><tt>
-So it runs; but it is only a momentary memory;<br>
-and he knew, when he had done it, and to his</tt>
-</p>
+    <p><tt>
+    *[Sidenote: Burning<br>
+    discs<br>
+    thrown into<br>
+    the air.]<br>
+    <br>
+    that such as looked at the fire holding a bit of larkspur<br>
+    before their face would be troubled by no malady of the<br>
+    eyes throughout the year.[1] Further, it was customary at<br>
+    W&uuml;rzburg, in the sixteenth century, for the bishop's followers<br>
+    to throw burning discs of wood into the air from a mountain<br>
+    which overhangs the town. The discs were discharged by<br>
+    means of flexible rods, and in their flight through the darkness<br>
+    presented the appearance of fiery dragons.[2]<br>
+    <br>
+    [Sidenote: The Midsummer<br>
+    fires in<br>
+    Swabia.]<br>
+    <br>
+    [Sidenote: Omens<br>
+    drawn from<br>
+    the leaps<br>
+    over the<br>
+    fires.]<br>
+    <br>
+    [Sidenote: Burning<br>
+    wheels<br>
+    rolled<br>
+    down hill.]<br>
+    <br>
+    In the valley of the Lech, which divides Upper Bavaria<br>
+    from Swabia, the midsummer customs and beliefs are, or<br>
+    used to be, very similar. Bonfires are kindled on the<br>
+    mountains on Midsummer Day; and besides the bonfire<br>
+    a tall beam, thickly wrapt in straw and surmounted by a<br>
+    cross-piece, is burned in many places. Round this cross as<br>
+    it burns the lads dance with loud shouts; and when the<br>
+    flames have subsided, the young people leap over the fire in<br>
+    pairs, a young man and a young woman together. If they<br>
+    escape unsmirched, the man will not suffer from fever, and<br>
+    the girl will not become a mother within the year. Further,<br>
+    it is believed that the flax will grow that year as high as<br>
+    they leap over the fire; and that if a charred billet be taken<br>
+    from the fire and stuck in a flax-field it will promote the<br>
+    growth of the flax.[3] Similarly in Swabia, lads and lasses,<br>
+    hand in hand, leap over the midsummer bonfire, praying<br>
+    that the hemp may grow three ells high, and they set fire<br>
+    to wheels of straw and send them rolling down the hill.<br>
+    Among the places where burning wheels were thus bowled<br>
+    down hill at Midsummer were the Hohenstaufen mountains<br>
+    in Wurtemberg and the Frauenberg near Gerhausen.[4]<br>
+    At Deffingen, in Swabia, as the people sprang over the mid-*<br>
+    <br>
+    [Footnote 1: &lt;i&gt;Op. cit.&lt;/i&gt; iv. 1. p. 242. We have<br>
+    seen (p. 163) that in the sixteenth<br>
+    century these customs and beliefs were<br>
+    common in Germany. It is also a<br>
+    German superstition that a house which<br>
+    contains a brand from the midsummer<br>
+    bonfire will not be struck by lightning<br>
+    (J. W. Wolf, &lt;i&gt;Beitr&auml;ge zur deutschen<br>
+    Mythologie&lt;/i&gt;, i. p. 217, &sect; 185).]<br>
+    <br>
+    [Footnote 2: J. Boemus, &lt;i&gt;Mores, leges et ritus<br>
+    omnium gentium&lt;/i&gt; (Lyons, 1541), p.<br>
+    226.]<br>
+    <br>
+    [Footnote 3: Karl Freiherr von Leoprechting,<br>
+    &lt;i&gt;Aus dem Lechrain&lt;/i&gt; (Munich, 1855),<br>
+    pp. 181 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der<br>
+    Baumkultus&lt;i&gt;, p. 510.]<br>
+    <br>
+    [Footnote 4: A. Birlinger, &lt;i&gt;Volksth&uuml;mliches aus<br>
+    Schwaben&lt;/i&gt; (Freiburg im Breisgau, 1861-1862),<br>
+    ii. pp. 96 &lt;i&gt;sqq.&lt;/i&gt;, &sect; 128, pp. 103<br>
+    &lt;i&gt;sq.&lt;/i&gt;, &sect; 129; &lt;i&gt;id.&lt;/i&gt;, &lt;i&gt;Aus Schwaben&lt;/i&gt; (Wiesbaden,<br>
+    1874), ii. 116-120; E. Meier,<br>
+    &lt;i&gt;Deutsche Sagen, Sitten und Gebr&auml;uche<br>
+    aus Schwaben&lt;/i&gt; (Stuttgart, 1852), pp.<br>
+    423 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der Baumkultus&lt;/i&gt;,<br>
+    p. 510.]<br>
+    </tt></p>
 </td></tr></table>
-
       </td>
     </tr>
   </tbody>
 </table>
 
-<h3><a name="letter">Brieven/Correspondentie</a>
- (<i><a href="document.php#letter">Letters/Correspondence</a></i>)</h3>
-<p>Formatteer brieven en correspondentie als <a href="#para_space">alinea's</a>. 
-   Zet een lege regel voor het begin van de brief. Eventuele inspringing wordt genegeerd.
+<h3><a name="block_qt">Citaten</a>
+ (<i><a href="document.php#block_qt">Block Quotations</a></i>)</h3>
+<p>Zet lange citaten (vaak meerdere regels, soms meerdere pagina's en vaak (maar niet altijd) 
+   gezet met bredere kantlijnen of met een kleiner lettertype&mdash;soms allebei)
+   tussen <tt>/#</tt> en <tt>#/</tt> markeringen. Laat een lege regel tussen deze
+   markeringen en de rest van de tekst. De markeringen zorgen ervoor dat het blok citaat
+   correct geformatteerd wordt tijdens het post-processen.
 </p>
-<p>Bij elkaar horende regels van kop- of voettekst (bijvoorbeeld adres, datum, begroeting, ondertekening) 
-   moet in een blok gezet worden, door er <tt>/*</tt> en <tt>*/</tt> markeringen omheen te zetten. 
-   Laat een lege regel tussen de markeringen en de rest van de tekst. 
-   De markeringen zorgen ervoor dat de regeleinden behouden blijven bij het post-processen.
+<p>Voor het overige worden citaten net zo geformatteerd als alle andere tekst. 
 </p>
-<p>Voeg geen inspringing toe aan kop- of voetteksten, ook niet als ze in het origineel zijn 
-   ingesprongen of rechts zijn uitgelijnd&mdash;zet de regels gewoon aan de linkerkant. 
-   De Post-Processor zal er indien gewenst formattering aan toevoegen.
+<p>Blok citaten zijn lange citaten (vaak meerdere regels, soms meerdere pagina's) en vaak (maar niet altijd) 
+   gezet met bredere kantlijnen of met een kleiner lettertype&mdash;soms allebei.
 </p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1"  cellpadding="4"
-       cellspacing="0" summary="Letter Example">
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Block Quotation">
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <th width="100%" valign="top"> <img src="letter.png" alt=""
-          width="500" height="217"> <br>
-      </th>
+      <td width="100%" valign="top"> <img src="bquote.png" alt="" width="500" height="475"><br>
+      </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-<p><tt>&lt;i&gt;John James Audubon to Claude Fran&ccedil;ois Rozier&lt;/i&gt;</tt></p>
-<p><tt>[Letter No. 1, addressed]</tt></p>
-<p><tt>/*<br>
-&lt;sc&gt;M. Fr. Rozier&lt;/sc&gt;,<br>
-Merchant-Nantes.<br>
-&lt;sc&gt;New York&lt;/sc&gt;, &lt;i&gt;10 January, 1807.&lt;/i&gt;</tt></p>
-<p><tt>
-&lt;sc&gt;Dear Sir:&lt;/sc&gt;<br>
-*/</tt></p>
-<p><tt>
-We have had the pleasure of receiving by the &lt;i&gt;Penelope&lt;/i&gt; your<br>
-consignment of 20 pieces of linen cloth, for which we send our<br>
-thanks. As soon as we have sold them, we shall take great<br>
-pleasure in making our return.</tt>
-</p>
+    <p><tt>later day was welcomed in their home on the Hudson.<br>
+    Dr. Bakewell's contribution was as follows:[24]</tt></p>
+    <p><tt>/#<br>
+    The uncertainty as to the place of Audubon's birth has been<br>
+    put to rest by the testimony of an eye witness in the person<br>
+    of old Mandeville Marigny now dead some years. His repeated<br>
+    statement to me was, that on his plantation at Mandeville,<br>
+    Louisiana, on Lake Ponchartrain, Audubon's mother was<br>
+    his guest; and while there gave birth to John James Audubon.<br>
+    Marigny was present at the time, and from his own lips, I have,<br>
+    as already said, repeatedly heard him assert the above fact.<br>
+    He was ever proud to bear this testimony of his protection<br>
+    given to Audubon's mother, and his ability to bear witness as<br>
+    to the place of Audubon's birth, thus establishing the fact that<br>
+    he was a Louisianian by birth.<br>
+    #/<br></tt>
+    </p>
+    <p><tt>We do not doubt the candor and sincerity of the<br>
+    excellent Dr. Bakewell, but are bound to say that the<br>
+    incidents as related above betray a striking lapse of<br>
+    </tt></p>
 </td></tr></table>
-
       </td>
     </tr>
   </tbody>
 </table>
 
+<h3><a name="mult_col">Meerdere kolommen</a>
+ (<i><a href="document.php#mult_col">Multiple Columns</a></i>)</h3>
+<p>Formatteer gewone tekst die in 2 kolommen gedrukt is, als een enkele kolom.
+</p>
+<p>Stukjes met meerdere kolommen binnen een paragraaf van &eacute;&eacute;n kolom, moeten als &eacute;&eacute;n kolom geformatteerd worden, 
+   door de tekst van de linker kolom eerst te zetten, de tekst van de volgende eronder enzovoort. 
+   Je hoeft niet te markeren waar de kolommen gesplitst waren, je kunt ze gewoon achter elkaar zetten.
+</p>
+<p>Als de kolommen lijsten zijn, markeer dan het begin van de lijst met <tt>/*</tt> en het einde met <tt>*/</tt>, 
+   zodat de regels tijdens het post-processen niet <span style="border-bottom: 1px dotted green;"
+    title="rewrap: het opnieuw aanbrengen van regelafbrekingen"><i>gerewrapped</i></span> worden.
+   Laat een lege regel achter tussen deze markeringen en de rest van de tekst.
+</p>
+<p>Zie ook de onderdelen <a href="#bk_index">Indexen</a>, <a href="#lists">Lijsten</a> en 
+   <a href="#tables">Tabellen</a> van deze richtlijnen.
+</p>
 
 <h3><a name="lists">Lijsten</a>
  (<i><a href="document.php#lists">Lists of Items</a></i>)</h3>
@@ -1490,87 +1364,91 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 
 
 
-<h3><a name="block_qt">Citaten</a>
- (<i><a href="document.php#block_qt">Block Quotations</a></i>)</h3>
-<p>Zet lange citaten (vaak meerdere regels, soms meerdere pagina's en vaak (maar niet altijd) 
-   gezet met bredere kantlijnen of met een kleiner lettertype&mdash;soms allebei)
-   tussen <tt>/#</tt> en <tt>#/</tt> markeringen. Laat een lege regel tussen deze
-   markeringen en de rest van de tekst. De markeringen zorgen ervoor dat het blok citaat
-   correct geformatteerd wordt tijdens het post-processen.
+<h3><a name="poetry">Po&euml;zie/Epigrammen</a>
+ (<i><a href="document.php#poetry">Poetry/Epigrams</a></i>)</h3>
+<p>Dit gedeelte geldt voor een enkel gedicht of epigram, in een boek dat in het algemeen proza bevat. 
+   Voor een po&euml;zieboek, zie de <a href="doc-poet.php">speciale handleiding voor po&euml;zieboeken</a>. (<i>Engels</i>) 
 </p>
-<p>Voor het overige worden citaten net zo geformatteerd als alle andere tekst. 
+<p>Markeer po&euml;zie of epigrammen, zo dat de Post-Processor ze kan vinden. Voeg een regel in met 
+   <tt>/*</tt> voor de start van po&euml;zie of epigram en een regel met <tt>*/</tt> na het eind ervan. 
+   Laat een regel leeg tussen deze markeringen en de rest van de tekst.
 </p>
-<p>Blok citaten zijn lange citaten (vaak meerdere regels, soms meerdere pagina's) en vaak (maar niet altijd) 
-   gezet met bredere kantlijnen of met een kleiner lettertype&mdash;soms allebei.
+<p>Laat de relatieve inspringing van de regels van een gedicht intact, door 2, 4, 6 (of meer) spaties
+   te plaatsen voor de ingesprongen regels, zo dat de tekst zoveel mogelijk op het origineel lijkt.
+</p>
+<p>Als een dichtregel te lang is om op de gedrukte pagina te passen, wordt vaak het restant van de regel
+   op de volgende regel gezet, met een flinke inspringing. Dit restant van de regel moet in zijn geheel
+   worden samengevoegd met de regel erboven. Restregels beginnen in het algemeen met een kleine letter
+   (dus niet een hoofdletter). Bovendien komen ze op onvoorspelbare momenten voor, in tegenstelling tot
+   de normale inspringing, die regelmatig is, in overeenstemming met het metrum van het gedicht.
+</p>
+<p>Als het gedicht op de gedrukte pagina is gecentreerd, negeer dit dan tijdens het formatteren.
+   Sluit de regels links aan; bewaar alleen de relatieve inspringing van de regels.
+</p>
+<p><b>Voetnoten</b> in po&euml;zie moeten worden behandeld als gewone voetnoten.
+   Zie <a href="#footnotes">Voetnoten</a> voor meer details.
+</p>
+<p><b>Regelnummers</b> in po&euml;zie moeten worden behouden. Plaats ze aan het eind van de regel,
+   en laat tenminste 6 spaties tussen het regelnummer en het eind van de tekstregel.
+   Zie <a href="#line_no">Regelnummers</a> voor details.
+</p>
+<p>Controleer de <a href="#comments">Project Comments</a> voor de specifieke tekst die je formatteert.
+   De Project Manager heeft vaak speciale instructies voor boeken met po&euml;zie. Vaak zijn de hier gegeven 
+   richtlijnen niet of niet geheel van toepassing bij een boek dat geheel of bijna geheel uit po&euml;zie bestaat.
 </p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Block Quotation">
+<br>
+<table width="100%" align="center" border="1"  cellpadding="4"
+       cellspacing="0" summary="Poetry Example">
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="bquote.png" alt="" width="500" height="475"><br>
-      </td>
+      <th width="100%" valign="top"> <img src="poetry.png" alt=""
+          width="500" height="508"> <br>
+      </th>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
+
 <table summary="" border="0" align="left"><tr><td>
-    <p><tt>later day was welcomed in their home on the Hudson.<br>
-    Dr. Bakewell's contribution was as follows:[24]</tt></p>
-    <p><tt>/#<br>
-    The uncertainty as to the place of Audubon's birth has been<br>
-    put to rest by the testimony of an eye witness in the person<br>
-    of old Mandeville Marigny now dead some years. His repeated<br>
-    statement to me was, that on his plantation at Mandeville,<br>
-    Louisiana, on Lake Ponchartrain, Audubon's mother was<br>
-    his guest; and while there gave birth to John James Audubon.<br>
-    Marigny was present at the time, and from his own lips, I have,<br>
-    as already said, repeatedly heard him assert the above fact.<br>
-    He was ever proud to bear this testimony of his protection<br>
-    given to Audubon's mother, and his ability to bear witness as<br>
-    to the place of Audubon's birth, thus establishing the fact that<br>
-    he was a Louisianian by birth.<br>
-    #/<br></tt>
-    </p>
-    <p><tt>We do not doubt the candor and sincerity of the<br>
-    excellent Dr. Bakewell, but are bound to say that the<br>
-    incidents as related above betray a striking lapse of<br>
-    </tt></p>
+<tt>
+to the scenery of his own country:<br></tt>
+<p><tt>
+/*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oh, to be in England<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now that April's there,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And whoever wakes in England<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sees, some morning, unaware,<br>
+That the lowest boughs and the brushwood sheaf<br>
+Round the elm-tree bole are in tiny leaf,<br>
+While the chaffinch sings on the orchard bough<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In England--now!</tt>
+</p><p><tt>
+And after April, when May follows,<br>
+And the whitethroat builds, and all the swallows!<br>
+Hark! where my blossomed pear-tree in the hedge<br>
+Leans to the field and scatters on the clover<br>
+Blossoms and dewdrops--at the bent spray's edge--<br>
+That's the wise thrush; he sings each song twice over,<br>
+Lest you should think he never could recapture<br>
+The first fine careless rapture!<br>
+And though the fields look rough with hoary dew,<br>
+All will be gay, when noontide wakes anew<br>
+The buttercups, the little children's dower;<br>
+--Far brighter than this gaudy melon-flower!<br>
+*/<br></tt>
+</p><p><tt>
+So it runs; but it is only a momentary memory;<br>
+and he knew, when he had done it, and to his</tt>
+</p>
 </td></tr></table>
+
       </td>
     </tr>
   </tbody>
 </table>
-
-<h3><a name="line_br">Regelafbrekingen</a>
- (<i><a href="document.php#line_br">Line Breaks</a></i>)</h3>
-<p><b>Laat alle regelafbrekingen staan zoals ze zijn.</b> De volgende formatter en de Post-Processor
-   kunnen dan de regels in de tekst gemakkelijk vergelijken met de regels in het origineel.
-   Let hier speciaal op als je <a href="#eol_hyphen">woorden met een afbreekstreepje</a> samenvoegt,
-   of als je woorden rondom <a href="#em_dashes">em-dashes</a> verplaatst. Als de vorige vrijwilliger
-   regelafbrekingen verwijderd heeft, herstel ze dan alsjeblieft, zodat ze weer zo zijn als in het origineel.
-</p>
-<p>Extra lege regels die niet in het origineel voorkomen, moeten verwijderd worden, behalve als we ze
-   doelbewust toevoegen voor het formatteren. Witregels aan het eind van een pagina maken niets uit, 
-   die worden verwijderd tijdens het post-processen. 
-</p>
-<!-- END RR -->
-<!-- We should have an example right here for this. -->
-
-<h3><a name="extra_sp">Extra spaties of tabs tussen woorden</a>
- (<i><a href="document.php#extra_sp">Extra spaces or tabs between Words</a></i>)</h3>
-<p>Extra spaties en tabs tussen woorden komen nogal veel voor in de output van de OCR.
-   Je hoeft ze niet te verwijderen&mdash;dit gebeurt automatisch tijden het post-processen.
-</p>
-<p>Maar, extra spaties rondom interpunctie, em-dashes, aanhalingstekens enz. moeten <b>wel</b>
-   verwijderd worden als ze tussen het symbool en het woord staan.
-</p>
-<p>Bijvoorbeeld: in <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt> moet de spatie
-   tussen "horse" en de puntkomma verwijderd worden. Maar de twee spaties na de puntkomma mogen
-   blijven staan, je hoeft er niet &eacute;&eacute;n weg te halen.
-</p>
 
 <h3><a name="line_no">Regelnummers</a>
  (<i><a href="document.php#line_no">Line Numbers</a></i>)</h3>
@@ -1584,72 +1462,194 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
 
-<h3><a name="extra_s">Extra lege regels/Sterretjes/Lijn tussen Alinea's</a>
- (<i><a href="document.php#extra_s">Extra Spacing/Stars/Line Between Paragraphs</a></i>)</h3>
-<p>De meeste alinea's beginnen op de regel meteen na de vorige alinea. Soms worden alinea's 
-   van elkaar gescheiden om een "gedachtebreuk" ("thought break") aan te geven. 
-   Een "gedachtebreuk" kan de vorm aannemen van een rij sterretjes, streepjes, of een ander teken, of van een lijn,
-   soms rijkelijk versierd, van een decoratie, of zelfs van &eacute;&eacute;n of twee extra lege regels. 
+<h3><a name="letter">Brieven/Correspondentie</a>
+ (<i><a href="document.php#letter">Letters/Correspondence</a></i>)</h3>
+<p>Formatteer brieven en correspondentie als <a href="#para_space">alinea's</a>. 
+   Zet een lege regel voor het begin van de brief. Eventuele inspringing wordt genegeerd.
 </p>
-<p>Een gedachtebreuk kan een verandering van omgeving of van onderwerp betekenen, een verandering in 
-   tijdstip, of een stuk spanning. Dit is zo bedoeld door de schrijver, dus we handhaven het, 
-   door een lege regel in te voegen, vervolgens <tt>&lt;tb&gt;</tt> en dan nog een lege regel. 
+<p>Bij elkaar horende regels van kop- of voettekst (bijvoorbeeld adres, datum, begroeting, ondertekening) 
+   moet in een blok gezet worden, door er <tt>/*</tt> en <tt>*/</tt> markeringen omheen te zetten. 
+   Laat een lege regel tussen de markeringen en de rest van de tekst. 
+   De markeringen zorgen ervoor dat de regeleinden behouden blijven bij het post-processen.
 </p>
-<p>Project Managers en/of Post-Processors kunnen vragen om aanvullende informatie in de gedachtebreukmarkering
-   te handhaven. Er zijn bijv. projecten die verschillende soorten van onderbrekingen op een verschillende
-   manier aangeven, een lijn met sterretjes op de ene plaats en een lege regel op de andere. In die gevallen, 
-   kan in de Project Comments gevraagd worden dat deze zo worden gemarkeerd: <tt>&lt;tb stars&gt;</tt> en
-   <tt>&lt;tb&gt;</tt>. Lees de Project Comments altijd zorgvuldig, zodat je weet wat er bij elk project van
-   je verwacht wordt. Let ook op dat je deze speciale verzoeken niet ook toepast in andere projecten. 
-</p>
-<p>Soms gebruikten de zetters gedecoreerde lijnen om het eind van een hoofdstuk aan te geven. Aangezien we de
-   <a href="#chap_head">hoofdstuktitels</a> al markeren, hoeft er in dit geval niet ook nog een
-   "thought break" markering te worden toegevoegd. 
-</p>
-<p>De proofreading interface bevat een "thought break" markering die je kunt knippen en plakken. 
+<p>Voeg geen inspringing toe aan kop- of voetteksten, ook niet als ze in het origineel zijn 
+   ingesprongen of rechts zijn uitgelijnd&mdash;zet de regels gewoon aan de linkerkant. 
+   De Post-Processor zal er indien gewenst formattering aan toevoegen.
 </p>
 <!-- END RR -->
-<br>
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Thought Break">
+
+<table width="100%" align="center" border="1"  cellpadding="4"
+       cellspacing="0" summary="Letter Example">
   <tbody>
     <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top"> <img src="tbreak.png" alt="thought break"
-          width="500" height="264"> <br>
-      </td>
+      <th width="100%" valign="top"> <img src="letter.png" alt=""
+          width="500" height="217"> <br>
+      </th>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
 <table summary="" border="0" align="left"><tr><td>
-    <p><tt>
-    like the gentleman with the spiritual hydrophobia<br>
-    in the latter end of Uncle Tom's Cabin.<br>
-    Unconsciously Mr. Dixon has done his best to<br>
-    prove that Legree was not a fictitious character.</tt>
-    </p>
-    <p><tt>&lt;tb&gt;</tt>
-    </p>
-    <p><tt>
-    Joel Chandler Harris, Harry Stillwell Edwards,<br>
-    George W. Cable, Thomas Nelson Page,<br>
-    James Lane Allen, and Mark Twain are Southern<br>
-    men in Mr. Griffith's class. I recommend</tt>
-    </p>
+<p><tt>&lt;i&gt;John James Audubon to Claude Fran&ccedil;ois Rozier&lt;/i&gt;</tt></p>
+<p><tt>[Letter No. 1, addressed]</tt></p>
+<p><tt>/*<br>
+&lt;sc&gt;M. Fr. Rozier&lt;/sc&gt;,<br>
+Merchant-Nantes.<br>
+&lt;sc&gt;New York&lt;/sc&gt;, &lt;i&gt;10 January, 1807.&lt;/i&gt;</tt></p>
+<p><tt>
+&lt;sc&gt;Dear Sir:&lt;/sc&gt;<br>
+*/</tt></p>
+<p><tt>
+We have had the pleasure of receiving by the &lt;i&gt;Penelope&lt;/i&gt; your<br>
+consignment of 20 pieces of linen cloth, for which we send our<br>
+thanks. As soon as we have sold them, we shall take great<br>
+pleasure in making our return.</tt>
+</p>
+</td></tr></table>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h3><a name="blank_pg">Lege Pagina</a>
+ (<i><a href="document.php#blank_pg">Blank Page</a></i>)</h3>
+<p>Formatteer als <tt>[Blank Page]</tt> als zowel de tekst als het origineel leeg zijn. 
+</p>
+<p>Als er wel tekst is, waar de te formatteren tekst hoort te staan, maar niet in het origineel, 
+   of als er wel iets in het origineel staat maar er is geen tekst, volg dan de aanwijzingen voor een
+   <a href="#bad_image">Slecht Beeld</a> (Bad Image) of een <a href="#bad_text">Verkeerd beeld voor de tekst</a> (Bad Text).
+</p>
+
+<h3><a name="title_pg">Titelpagina aan de voor- of achterkant</a>
+ (<i><a href="document.php#title_pg">Front/Back Title Page</a></i>)</h3>
+<p>Formatteer alle tekst, inclusief het jaar waarin het boek is uitgegeven of het jaar van het copyright, 
+   precies zoals het op de pagina's gedrukt is, hoofdletters, kleine letters, enz. 
+</p>
+<p>In oudere boeken wordt de eerste letter vaak groot en bewerkt weergegeven, formatteer deze letter gewoon als de letter.
+</p>
+<!-- END RR -->
+
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Title Page Example">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Origineel:</th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top"><img src="title.png" width="500"
+          height="520" alt="title page image"><br>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+      <p><tt>GREEN FANCY</tt>
+      </p>
+      <p><tt>BY</tt></p>
+      <p><tt>GEORGE BARR McCUTCHEON</tt></p>
+      <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
+         "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
+      <p><tt>&lt;i&gt;WITH FRONTISPIECE BY&lt;/i&gt;<br>
+         &lt;i&gt;C. ALLAN GILBERT&lt;/i&gt;</tt></p>
+      <p><tt>NEW YORK<br>
+         DODD, MEAD AND COMPANY<br>
+         1917</tt></p>
 </td></tr></table>
       </td>
     </tr>
   </tbody>
 </table>
 
-<h3><a name="page_ref">Verwijzingen naar pagina's &quot;Zie blz. 123&quot;</a>
- (<i><a href="document.php#page_ref">Page References &quot;(See Pg. 123)&quot;</a></i>)</h3>
-<p>Formatteer verwijzingen naar paginanummers zoals ze in het origineel voorkomen: <tt>(zie pg. 123)</tt>.
+<h3><a name="toc">Inhoudsopgave</a>
+ (<i><a href="document.php#toc">Table of Contents</a></i>)</h3>
+<p>Formatteer de inhoudsopgave precies zoals deze in het boek gedrukt staat, hoofdletters, kleine letters enz., 
+   en zet er <tt>/*</tt> en <tt>*/</tt> achter. Sla een regel over tussen deze markeringen en de rest van de tekst. 
+   Verwijzingen naar paginanummers moeten behouden blijven. 
+   Zet minstens zes spaties tussen het eind van de regel en het paginanummer.
 </p>
-<p>Kijk wel na in de <a href="#comments">Project Comments</a>of de Project Manager speciale
-   vereisten heeft voor de verwijzingen naar pagina's.
+<p>Verwijder alle punten of sterretjes die gebruikt zijn om de paginanummers op &eacute;&eacute;n lijn te krijgen.
 </p>
+<!-- END RR -->
+
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="TOC">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Origineel:</th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top">
+      <p><img src="tablec.png" alt="" width="500" height="650"></p>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Correct geformatteerde tekst:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+      <p><tt><br><br><br><br>CONTENTS<br><br></tt></p>
+      <p><tt>/*<br>
+          CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<br>
+          <br>
+          I. &lt;sc&gt;The First Wayfarer and the Second Wayfarer<br>
+          Meet and Part on the Highway&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1<br>
+          <br>
+          II. &lt;sc&gt;The First Wayfarer Lays His Pack Aside and<br>
+          Falls in with Friends&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15<br>
+          <br>
+          III. &lt;sc&gt;Mr. Rushcroft Dissolves, Mr. Jones Intervenes,<br>
+          and Two Men Ride Away&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33<br>
+          <br>
+          IV. &lt;sc&gt;An Extraordinary Chambermaid, a Midnight<br>
+          Tragedy, and a Man Who Said "Thank You"&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50<br>
+          <br>
+          V. &lt;sc&gt;The Farm-boy Tells a Ghastly Story, and an<br>
+          Irishman Enters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;67<br>
+          <br>
+          VI. &lt;sc&gt;Charity Begins Far from Home, and a Stroll in<br>
+          the Wildwood Follows&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
+          <br>
+          VII. &lt;sc&gt;Spun-gold Hair, Blue Eyes, and Various Encounters&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;103<br>
+          <br>
+          VIII. &lt;sc&gt;A Note, Some Fancies, and an Expedition in<br>
+          Quest of Facts&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;120<br>
+          <br>
+          IX. &lt;sc&gt;The First Wayfarer, the Second Wayfarer, and<br>
+          the Spirit of Chivalry Ascendant&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;134<br>
+          <br>
+          X. &lt;sc&gt;The Prisoner of Green Fancy, and the Lament of<br>
+          Peter the Chauffeur&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;148<br>
+          <br>
+          XI. &lt;sc&gt;Mr. Sprouse Abandons Literature at an Early<br>
+          Hour in the Morning&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;167<br>
+          <br>
+          XII. &lt;sc&gt;The First Wayfarer Accepts an Invitation, and<br>
+          Mr. Dillingford Belabors a Proxy&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
+          <br>
+          XIII. &lt;sc&gt;The Second Wayfarer Receives Two Visitors at<br>
+          Midnight&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;199<br>
+          <br>
+          XIV. &lt;sc&gt;A Flight, a Stone-cutter's Shed, and a Voice<br>
+          Outside&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
+          */<br>
+      </tt>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <h3><a name="bk_index">Indexen</a>
  (<i><a href="document.php#bk_index">Indexes</a></i>)</h3>
