@@ -78,7 +78,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
         <li><a href="#title_pg">Vorder- und R&uuml;ckseiten von Titelbl&auml;ttern</a></li>
         <li><a href="#toc">Inhaltsverzeichnisse</a></li>
         <li><a href="#blank_pg">Leere Seiten</a></li>
-        <li><a href="#page_hf">Kopf- und Fu&szlig;zeilen</a></li>
         <li><a href="#chap_head">Kapitel&uuml;berschriften</a></li>
         <li><a href="#sect_head">Abschnitts&uuml;berschriften</a></li>
         <li><a href="#maj_div">Weitere Hauptbestandteile eines Buches</a></li>
@@ -97,35 +96,17 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
         <li><a href="#font_sz">Unterschiedliche Schriftgr&ouml;&szlig;en</a></li>
         <li><a href="#word_caps">W&ouml;rter in Gro&szlig;buchstaben</a></li>
         <li><a href="#small_caps">W&ouml;rter in <span style="font-variant: small-caps">Kapit&auml;lchen</span></a></li>
-        <li><a href="#drop_caps">&Uuml;berdimensionale, verzierte Gro&szlig;buchstaben
-            als Er&ouml;ffnung (Initialen)</a></li>
-        <li><a href="#em_dashes">Bindestriche, kurze und lange Gedankenstriche</a></li>
-        <li><a href="#eol_hyphen">Trennstriche am Zeilenende</a></li>
-        <li><a href="#eop_hyphen">Trennstriche am Seitenende</a></li>
-        <li><a href="#next_word">Einzelne W&ouml;rter am unteren Seitenrand</a></li>
-        <li><a href="#contract">Zusammenziehungen</a></li>
         <li><a href="#poetry">Gedichte/Epigramme</a></li>
         <li><a href="#letter">Briefe/Korrespondenz</a></li>
         <li><a href="#lists">Aufz&auml;hlungen</a></li>
         <li><a href="#tables">Tabellen</a></li>
         <li><a href="#block_qt">Blockzitate</a></li>
-        <li><a href="#double_q">Doppelte Anf&uuml;hrungszeichen</a></li>
-        <li><a href="#single_q">Einfache Anf&uuml;hrungszeichen</a></li>
-        <li><a href="#quote_ea">Anf&uuml;hrungszeichen auf jeder Zeile</a></li>
-        <li><a href="#period_s">Punkte am Ende von S&auml;tzen</a></li>
-        <li><a href="#punctuat">Satzzeichen</a></li>
         <li><a href="#line_br">Zeilenumbr&uuml;che</a></li>
         <li><a href="#extra_sp">&Uuml;berfl&uuml;ssige Leerzeichen bzw. Tabulatoren
             zwischen W&ouml;rtern</a></li>
-        <li><a href="#trail_s">Leerzeichen am Zeilenende</a></li>
         <li><a href="#line_no">Zeilennummern</a></li>
         <li><a href="#extra_s">Zus&auml;tzliche(r) Abstand/Sternchen/Zeilen
             zwischen Abs&auml;tzen</a></li>
-        <li><a href="#period_p">Auslassungspunkte &bdquo;...&ldquo; (Ellipse)</a></li>
-        <li><a href="#a_chars">Akzente und nicht-ASCII-Zeichen</a></li>
-        <li><a href="#d_chars">Buchstaben mit diakritischen Zeichen</a></li>
-        <li><a href="#f_chars">Nicht-lateinische Zeichen</a></li>
-        <li><a href="#fract_s">Br&uuml;che</a></li>
         <li><a href="#page_ref">Seitenverweise (&bdquo;siehe S. 123&ldquo;)</a></li>
         <li><a href="#bk_index">Sachregister und Schlagwortverzeichnisse</a></li>
         <li><a href="#play_n">Dramen: Rollennamen/Regieanweisungen</a></li>
@@ -165,11 +146,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <td width="1" bgcolor="silver">&nbsp;</td>
     <td bgcolor="white" align="left">
       <ul style="margin-left: 3em;">
-        <li><a href="#OCR_1lI">OCR-Fehler: 1-l-I</a></li>
-        <li><a href="#OCR_0O">OCR-Fehler: 0-O</a></li>
-        <li><a href="#OCR_hyphen">OCR-Fehler: Binde- und Gedankenstriche</a></li>
-        <li><a href="#OCR_scanno">OCR-Fehler: &bdquo;Scannos&ldquo;</a></li>
-        <li><a href="#hand_notes">Handgeschriebene Notizen in B&uuml;chern</a></li>
         <li><a href="#bad_image">Schlechte Vorlagen</a></li>
         <li><a href="#bad_text">Falsche Vorlage zum Text</a></li>
         <li><a href="#round1">Fehler der vorherigen Korrekturleser bzw. Formatierer</a></li>
@@ -468,92 +444,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Vorlagen</a> und <a href="#bad_text">Falsche Vorlage zum Text</a>.
 </p>
 
-<h3><a name="page_hf">Kopf- und Fu&szlig;zeilen</a></h3>
-<p>L&ouml;schen Sie Kopf- und Fu&szlig;zeilen, aber <em>nicht</em>
-   <a href="#footnotes">Fu&szlig;noten</a>.
-</p>
-<p>Kopfzeilen befinden sich normalerweise ganz oben auf der Seite in derselben
-   H&ouml;he wie die Seitenzahl. Kopfzeilen k&ouml;nnen im ganzen Buch (oft der
-   Buchtitel und der Name des Autors) oder f&uuml;r jedes Kapitel (oft die Kapitelnummer)
-   identisch, aber auch auf jeder Seite unterschiedlich sein (mit dem Inhalt der
-   einzelnen Seite). Entfernen Sie unterschiedslos alle, einschlie&szlig;lich der
-   Seitenzahl.
-</p>
-<!-- END RR -->
-
-<p>Im Gegensatz dazu beginnt die <a href="#chap_head">Kapitel&uuml;berschrift</a>
-   weiter unten auf der Seite und hat keine Seitenzahl auf derselben Zeile Ein
-   Beispiel hierf&uuml;r finden Sie im n&auml;chsten Abschnitt.
-</p>
-<br>
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Page Headers and Footers">
-  <tbody>
-    <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
-    <tr align="left">
-      <td width="100%" valign="top">
-      <img src="foot.png" alt="" width="500" height="850"><br>
-      </td>
-    </tr>
-    <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
-    <tr>
-      <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
-    <tt>/#<br>In the United States?[A] In a railroad? In a mining company?<br>
-    In a bank? In a church? In a college?<br>
-    <br>
-    Write a list of all the corporations that you know or have<br>
-    ever heard of, grouping them under the heads &lt;i&gt;public&lt;/i&gt; and &lt;i&gt;private&lt;/i&gt;.<br>
-    <br>
-    How could a pastor collect his salary if the church should<br>
-    refuse to pay it?<br>
-    <br>
-    Could a bank buy a piece of ground "on speculation?" To<br>
-    build its banking-house on? Could a county lend money if it<br>
-    had a surplus? State the general powers of a corporation.<br>
-    Some of the special powers of a bank. Of a city.<br>
-    <br>
-    A portion of a man's farm is taken for a highway, and he is<br>
-    paid damages; to whom does said land belong? The road intersects<br>
-    the farm, and crossing the road is a brook containing<br>
-    trout, which have been put there and cared for by the farmer;<br>
-    may a boy sit on the public bridge and catch trout from that<br>
-    brook? If the road should be abandoned or lifted, to whom<br>
-    would the use of the land go?<br>#/<br>
-    <br>
-    <br>
-    <br>
-    <br>
-    CHAPTER XXXV.<br>
-    <br>
-    &lt;sc&gt;Commercial Paper.&lt;/sc&gt;<br>
-    <br>
-    <br>
-    &lt;b&gt;Kinds and Uses.&lt;/b&gt;--If a man wishes to buy some commodity<br>
-    from another but has not the money to pay for<br>
-    it, he may secure what he wants by giving his written<br>
-    promise to pay at some future time. This written<br>
-    promise, or &lt;i&gt;note&lt;/i&gt;, the seller prefers to an oral promise<br>
-    for several reasons, only two of which need be mentioned<br>
-    here: first, because it is &lt;i&gt;prima facie&lt;/i&gt; evidence of<br>
-    the debt; and, second, because it may be more easily<br>
-    transferred or handed over to some one else.<br>
-    <br>
-    If J. M. Johnson, of Saint Paul, owes C. M. Jones,<br>
-    of Chicago, a hundred dollars, and Nelson Blake, of<br>
-    Chicago, owes J. M. Johnson a hundred dollars, it is<br>
-    plain that the risk, expense, time and trouble of sending<br>
-    the money to and from Chicago may be avoided,<br>
-    <br>
-    [Footnote A: The United States: "Its charter, the constitution. * * * Its flag the<br>
-    symbol of its power; its seal, of its authority."--Dole.]
-    </tt>
-</td></tr></table>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
 <h3><a name="chap_head">Kapitel&uuml;berschriften</a></h3>
 <p>Formatieren Sie die Kapitel&uuml;berschriften so, wie sie im Text stehen.
 </p>
@@ -630,6 +520,74 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     stockings like a boy on Sunday, and hob-nail shoes,<br>
     and a funny coat with "pleats" and a belt, and a<br>
     green hat with a feather sticking up from the band.
+    </tt>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table width="100%" align="center" border="1" cellpadding="4"
+ cellspacing="0" summary="Page Headers and Footers">
+  <tbody>
+    <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
+    <tr align="left">
+      <td width="100%" valign="top">
+      <img src="foot.png" alt="" width="500" height="850"><br>
+      </td>
+    </tr>
+    <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
+    <tr>
+      <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+    <tt>/#<br>In the United States?[A] In a railroad? In a mining company?<br>
+    In a bank? In a church? In a college?<br>
+    <br>
+    Write a list of all the corporations that you know or have<br>
+    ever heard of, grouping them under the heads &lt;i&gt;public&lt;/i&gt; and &lt;i&gt;private&lt;/i&gt;.<br>
+    <br>
+    How could a pastor collect his salary if the church should<br>
+    refuse to pay it?<br>
+    <br>
+    Could a bank buy a piece of ground "on speculation?" To<br>
+    build its banking-house on? Could a county lend money if it<br>
+    had a surplus? State the general powers of a corporation.<br>
+    Some of the special powers of a bank. Of a city.<br>
+    <br>
+    A portion of a man's farm is taken for a highway, and he is<br>
+    paid damages; to whom does said land belong? The road intersects<br>
+    the farm, and crossing the road is a brook containing<br>
+    trout, which have been put there and cared for by the farmer;<br>
+    may a boy sit on the public bridge and catch trout from that<br>
+    brook? If the road should be abandoned or lifted, to whom<br>
+    would the use of the land go?<br>#/<br>
+    <br>
+    <br>
+    <br>
+    <br>
+    CHAPTER XXXV.<br>
+    <br>
+    &lt;sc&gt;Commercial Paper.&lt;/sc&gt;<br>
+    <br>
+    <br>
+    &lt;b&gt;Kinds and Uses.&lt;/b&gt;--If a man wishes to buy some commodity<br>
+    from another but has not the money to pay for<br>
+    it, he may secure what he wants by giving his written<br>
+    promise to pay at some future time. This written<br>
+    promise, or &lt;i&gt;note&lt;/i&gt;, the seller prefers to an oral promise<br>
+    for several reasons, only two of which need be mentioned<br>
+    here: first, because it is &lt;i&gt;prima facie&lt;/i&gt; evidence of<br>
+    the debt; and, second, because it may be more easily<br>
+    transferred or handed over to some one else.<br>
+    <br>
+    If J. M. Johnson, of Saint Paul, owes C. M. Jones,<br>
+    of Chicago, a hundred dollars, and Nelson Blake, of<br>
+    Chicago, owes J. M. Johnson a hundred dollars, it is<br>
+    plain that the risk, expense, time and trouble of sending<br>
+    the money to and from Chicago may be avoided,<br>
+    <br>
+    [Footnote A: The United States: "Its charter, the constitution. * * * Its flag the<br>
+    symbol of its power; its seal, of its authority."--Dole.]
     </tt>
 </td></tr></table>
       </td>
@@ -1319,254 +1277,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Gro&szlig;- und Kleinbuchstaben ohne Markierung ge&auml;ndert werden.
 </p>
 
-<h3><a name="drop_caps">&Uuml;berdimensionale, verzierte Gro&szlig;buchstaben
-  als Er&ouml;ffnung (Initialen)</a></h3>
-<p>Formatieren Sie einen gro&szlig;en, verzierten Buchstaben am Beginn eines Kapitels,
-   eines Abschnitts oder einen Absatzes genau so, als w&auml;re er ein gew&ouml;hnlicher
-   Buchstabe.
-</p>
-
-<h3><a name="em_dashes">Bindestriche, kurze und lange Gedankenstriche</a></h3>
-<p>Normalerweise kommen in B&uuml;chern vier Arten solcher Zeichen vor:
-  <ol compact>
-    <li><i>Bindestriche:</i> Sie werden verwendet, um zwei W&ouml;rter oder eine
-        Vor- oder Nachsilbe mit einem Wort zu <b>verbinden</b>.
-    <br>Belassen Sie diese als einzelnen Bindestrich, ohne Leerzeichen davor oder
-        danach.
-    <br>Beachten Sie, dass es eine allgemeine Ausnahme dazu gibt, die im zweiten
-        Beispiel weiter unten gezeigt wird.
-    </li>
-    <li><i>Kurze Gedankenstriche (En-dashes):</i> Sie sind etwas l&auml;nger als
-        der Bindestrich und werden f&uuml;r <b>Zahlenbereiche</b> oder als mathematisches
-        <b>Minuszeichen</b> verwendet.
-    <br>Formatieren Sie diese ebenfalls als einen einzelnen Bindestrich. Ob Leerzeichen
-        davor oder danach stehen, h&auml;ngt davon ab, wie es im Buch gemacht wurde.
-        Normalerweise gilt: keine Leerzeichen bei Zahlenbereichen, aber Leerzeichen
-        um mathematische Minuszeichen, manchmal auf beiden Seiten, manchmal nur davor.
-    </li>
-    <li><i>Lange (Em-dashes) und extralange Gedankenstriche:</i> Sie dienen in
-        englischsprachigen Texten als <b>Trennzeichen</b> zwischen
-        W&ouml;rtern&mdash;zum Beispiel f&uuml;r Einsch&uuml;be wie diesen&mdash;,
-        oder wenn einem Sprecher das Wort in der Kehle steckenbl&mdash;&mdash;!
-    <br>Formatieren Sie diese als zwei oder, bei besonders langen Gedankenstrichen,
-        als vier Bindestriche. Setzen Sie kein Leerzeichen davor oder danach, auch
-        wenn es im Buch so aussieht.
-    </li>
-    <li><i>Bewusst ausgelassene bzw. zensierte W&ouml;rter oder Namen:</i><br>
-        Formatieren Sie diese als vier Bindestriche. Deutet der Gedankenstrich ein
-        ganzes Wort an, so werden Leerzeichen davor und danach so gesetzt, als
-        st&uuml;nde das Wort da. Wenn er nur Teil eines Wortes ersetzt, werden keine
-        Leerzeichen eingef&uuml;gt. Ist ein normal langer Gedankenstrich gedruckt (in
-        der L&auml;nge eines &bdquo;Em-dash&ldquo;), dann verwenden Sie auch beim
-        Korrekturlesen nur zwei Bindestriche daf&uuml;r.
-    </li>
-  </ol>
-<p>Anmerkung: Steht ein langer Gedankenstrich am Anfang oder am Ende einer Zeile
-   des OCR-Textes, dann verbinden Sie ihn so mit der vorhergehenden oder nachfolgenden
-   Zeile, dass weder Leerzeichen noch Zeilenumbruch rund um den Gedankenstrich
-   stehen. Nur wenn der Autor den Gedankenstrich verwendet hat, um einen Absatz
-   bzw. eine Gedicht- oder Dialogzeile zu beginnen bzw. zu beenden, sollten Sie
-   ihn am Anfang bzw. Ende einer Zeile stehen lassen. (Siehe Beispiele in der Tabelle
-   unten.)
-</p>
-<!-- END RR -->
-
-<p><b>Beispiele</b> &ndash; Bindestriche, kurze und lange Gedankenstriche
-</p>
-
-<table width="100%" align="center" border="1"  cellpadding="4" cellspacing="0" summary="Hyphens and Dashes">
-  <tbody>
-    <tr>
-      <th valign="top" bgcolor="cornsilk">Vorlage:</th>
-      <th valign="top" bgcolor="cornsilk">Richtig formatierter Text:</th>
-      <th valign="top" bgcolor="cornsilk">Typ:</th>
-    </tr>
-    <tr>
-      <td valign="top">semi-detached</td>
-      <td valign="top"><tt>semi-detached</tt></td>
-      <td>Bindestrich</td>
-    </tr>
-    <tr>
-      <td valign="top">three- and four-part harmony</td>
-      <td valign="top"><tt>three- and four-part harmony</tt></td>
-      <td>Bindestrich</td>
-    </tr>
-    <tr>
-      <td valign="top">discoveries which the Crus-<br>
-        aders made and brought home with</td>
-      <td valign="top"><tt>discoveries which the Crusaders<br>
-        made and brought home with</tt></td>
-      <td>Bindestrich</td>
-    </tr>
-    <tr>
-      <td valign="top">factors which mold char-<br>
-        acter&mdash;environment, training and heritage,</td>
-      <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt>
-      <td>Bindestrich</td>
-    </tr>
-    <tr>
-      <td valign="top">See pages 21&ndash;25</td>
-      <td valign="top"><tt>See pages 21-25</tt></td>
-      <td>kurzer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">&ndash;14&deg; below zero</td>
-      <td valign="top"><tt>-14&deg; below zero</tt></td>
-      <td>kurzer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">X &ndash; Y = Z</td>
-      <td valign="top"><tt>X - Y = Z</tt></td>
-      <td>kurzer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">2&ndash;1/2</td>
-      <td valign="top"><tt>2-1/2</tt></td>
-      <td>kurzer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">I am hurt;&mdash;A plague<br>
-        on both your houses!&mdash;I am dead.</td>
-      <td valign="top"><tt>I am hurt;--A plague<br>
-        on both your houses!--I am dead.</tt></td>
-      <td>langer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
-        &mdash;if even all of these are simple tastes. What</td>
-      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
-        even all of these are simple tastes. What</tt></td>
-      <td>langer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
-        with which we are here concerned,</td>
-      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
-        which we are here concerned,</tt></td>
-      <td>langer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
-      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
-      <td>langer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
-        say, but the left-hand cat interrupted her.</td>
-      <td valign="top"><tt>"Three hundred----" "years," she was going to
-        say, but the left-hand cat interrupted her.</tt></td>
-      <td>Auslassungszeichen</td>
-    </tr>
-    <tr>
-      <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
-      <td>Auslassungszeichen</td>
-    </tr>
-    <tr>
-      <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
-      <td>Auslassungszeichen</td>
-    </tr>
-    <tr>
-      <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
-      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
-      <td>Auslassungszeichen</td>
-    </tr>
-    <tr>
-      <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
-      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
-      <td>Auslassungszeichen</td>
-    </tr>
-    <tr>
-      <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
-      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
-      <td>langer Gedankenstrich</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3><a name="eol_hyphen">Trennstriche am Zeilenende</a></h3>
-<p>Wenn ein Bindestrich als Trennzeichen am Zeilenende steht, dann f&uuml;gen
-   Sie die getrennten Wortteile wieder zusammen. Handelt es sich tats&auml;chlich
-   um ein zwei- oder mehrteiliges Wort, wie etwa &bdquo;well-meaning&ldquo;, dann
-   bringen Sie die Wortteile in eine Zeile, lassen aber den Bindestrich stehen.
-   Wenn ein Wort jedoch getrennt wurde, weil es nicht mehr in die Zeile passte
-   und wenn es normalerweise nicht mit Bindestrich geschrieben wird, dann entfernen
-   Sie den Trennstrich. Lassen Sie das zusammengef&uuml;gte Wort in der oberen
-   Zeile und setzen Sie danach einen Zeilenumbruch, um das Zeilenformat zu erhalten
-   &ndash; das macht es einfacher f&uuml;r die Freiwilligen nach Ihnen. Im Abschnitt
-   <a href="#em_dashes">Bindestriche, kurze und lange Gedankenstriche</a> dieser
-   Richtlinien finden Sie Beispiele (&bdquo;nar-row&ldquo; wird zu &bdquo;narrow&ldquo;,
-   aber bei &bdquo;low-lying&ldquo; wird der Bindestrich beibehalten). Folgt nach
-   dem Wort noch ein Satzzeichen, so wird dieses ebenfalls in die obere Zeile
-   &uuml;bernommen.
-</p>
-<p>W&ouml;rter wie &bdquo;to-day&ldquo; und &bdquo;to-morrow&ldquo;, die wir heute
-   zusammenschreiben, stehen in alten B&uuml;chern oft noch mit Bindestrich. Lassen
-   Sie sie mit Bindestrich, wenn sie so im Text stehen. Wenn Sie nicht sicher sind,
-   ob der Autor einen Bindestrich verwendet hat, so lassen Sie ihn stehen, setzen
-   ein <tt>*</tt> dahinter und verbinden das Wort wie hier: <tt>to-*day</tt>. Das
-   Sternchen macht den Nachbearbeiter darauf aufmerksam, der den &Uuml;berblick
-   &uuml;ber alle Seiten hat und feststellen kann, wie der Autor das Wort
-   &uuml;blicherweise geschrieben hat.
-</p>
-
-<h3><a name="eop_hyphen">Trennstriche am Seitenende</a></h3>
-<p>Trenn- und Gedankenstriche am Ende einer Seite werden formatiert, indem Sie
-   das Trennzeichen oder den Gedankenstrich am Ende der letzten Zeile stehen lassen.
-   Setzen Sie ein Sternchen <tt>*</tt> hinter den Trennstrich.<br>
-   Zum Beispiel:<br>
-   &nbsp;<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;something Pat had already become accus-<br>
-   wird formatiert als:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>something Pat had already become accus-*</tt>
-</p>
-<p>Auf Seiten, die mit einem Teil eines Wortes der vorhergehenden Seite bzw. mit
-   einem Gedankenstrich beginnen, setzen Sie ein <tt>*</tt> vor das Teilwort bzw.
-   den Gedankenstrich.<br>
-   Um das obige Beispiel fortzusetzen: Formatieren Sie<br>
-   &nbsp;<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;tomed to from having to do his own family<br>
-   als:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>*tomed to from having to do his own family</tt>
-</p>
-<p>Die Sternchen zeigen dem Nachbearbeiter, dass das Wort beim Zusammenf&uuml;gen
-   der einzelnen Seiten zum endg&uuml;ltigen E-Book verbunden werden muss.
-</p>
-
-<h3><a name="next_word">Einzelne W&ouml;rter am unteren Seitenrand</a></h3>
-<p>Entfernen Sie diese, auch wenn es die zweite H&auml;lfte eines getrennten Wortes
-   ist.
-</p>
-<p>In einigen &auml;lteren B&uuml;chern verweist das einzelne Wort am unteren
-   Seitenrand (genannt &bdquo;Kustos&ldquo;, &uuml;blicherweise am rechten Rand
-   gedruckt) auf das erste Wort auf der n&auml;chsten Seite des Buches. Es half
-   dem Drucker, die richtige R&uuml;ckseite (genannt &bdquo;Verso&ldquo;) zu drucken,
-   und seinen Gehilfen, die Seiten f&uuml;r das Binden vorzubereiten. Au&szlig;erdem
-   diente es als Lesehilfe, damit der Leser nicht mehr als eine Seite umbl&auml;tterte.
-</p>
-<!-- END RR -->
-<!-- We need an example here! -->
-
-
-<h3><a name="contract">Zusammenziehungen</a></h3>
-<p>Entfernen Sie Leerzeichen in Zusammenziehungen: zum Beispiel sollte
-   <tt>would&nbsp;n't</tt> als <tt>wouldn't</tt> formatiert werden.
-</p>
-<p>Diese L&uuml;cken waren h&auml;ufig eine Konvention der fr&uuml;hen Drucker.
-   Sie behielten den Zwischenraum bei, um darauf hinzuweisen, dass &bdquo;would&ldquo;
-   und &bdquo;not&ldquo; urspr&uuml;nglich getrennte W&ouml;rter waren. Manchmal
-   ist der Zwischenraum auch nur ein Artefakt der OCR-Software. In beiden F&auml;llen
-   wird er jedoch entfernt.
-</p>
-<p>Unter Umst&auml;nden geben Projektmanager in den <a href="#comments">Projektkommentaren</a>
-   vor, dass solche Leerzeichen nicht entfernt werden sollen. Dies ist vor allem
-   bei Texten der Fall, die Umgangssprache bzw. Dialekt enthalten oder in einer
-   anderen Sprache als Englisch verfasst sind.
-</p>
-
-
 <h3><a name="poetry">Gedichte/Epigramme</a></h3>
 <p>Dieser Abschnitt bezieht sich auf vereinzelte Gedichte oder Epigramme, die
    in einem Prosawerk vorkommen. Ganze Gedichtb&auml;nde werden in den
@@ -1937,100 +1647,6 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   </tbody>
 </table>
 
-<h3><a name="double_q">Doppelte Anf&uuml;hrungszeichen</a></h3>
-<p>Formatieren Sie diese als gew&ouml;hnliche doppelte ASCII
-   <tt>"</tt>-Anf&uuml;hrungszeichen. Ersetzen Sie keine doppelten durch einfache
-   Anf&uuml;hrungszeichen. Lassen Sie sie so, wie der Autor sie geschrieben hat.
-</p>
-<p>Bei anderen Sprachen als Englisch verwenden Sie bitte die in dieser Sprache
-   &uuml;blichen Anf&uuml;hrungszeichen, sofern sie verf&uuml;gbar sind. Die
-   franz&ouml;sischen Guillemets <tt>&laquo;wie hier&raquo;</tt> sind in den
-   Pulldown-Men&uuml;s der Korrekturlese-Oberfl&auml;che zu finden, weil sie zum
-   Latin-1-Zeichensatz geh&ouml;ren. Bitten denken Sie daran, eventuelle Leerzeichen
-   zwischen den Guillemets und dem zitierten Text zu entfernen; falls sie
-   ben&ouml;tigt werden, werden sie bei der Nachbearbeitung eingef&uuml;gt. Das
-   gleiche gilt f&uuml;r Sprachen, die umgekehrte Guillemets <tt>&raquo;wie
-   hier&laquo;</tt> verwenden.
-</p>
-<p>In manchen Texten (in Deutsch oder anderen Sprachen) werden Anf&uuml;hrungszeichen
-   <tt>&bdquo;wie diese&rdquo;</tt> benutzt.
-<? if(!$utf8_site) { ?>
-   Sie sind nicht in den Pulldown-Men&uuml;s verf&uuml;gbar, weil sie nicht zum
-   Latin-1-Zeichensatz geh&ouml;ren. In diesem Fall folgen Sie den Anweisungen
-   in den Projektkommentaren.
-<? } else { ?>
-   Sie sind auch in den Pulldown-Men&uuml;s enthalten. Der Einfachheit halber sollten
-   Sie immer <tt>&bdquo;</tt> und <tt>&ldquo;</tt> benutzen, egal welche
-   Anf&uuml;hrungszeichen im Originaltext benutzt werden, solange diese deutlich
-   erkennbar untere und obere sind. Falls erforderlich, werden die Anf&uuml;hrungszeichen
-   in der Nachbearbeitung ge&auml;ndert.
-<? } ?>
-</p>
-<p>Unter Umst&auml;nden weist Sie der Projektmanager in den
-   <a href="#comments">Projektkommentaren</a> an, nicht-englische Anf&uuml;hrungszeichen
-   f&uuml;r ein bestimmtes Buch abweichend zu formatieren.
-</p>
-
-<h3><a name="single_q">Einfache Anf&uuml;hrungszeichen</a></h3>
-<p>Formatieren Sie diese als gew&ouml;hnliches einfaches ASCII-Anf&uuml;hrungszeichen
-   <tt>'</tt> (Apostroph). Ersetzen Sie keine einfachen durch doppelte
-   Anf&uuml;hrungszeichen. Lassen Sie sie so, wie der Autor sie geschrieben hat.
-</p>
-
-<h3><a name="quote_ea">Anf&uuml;hrungszeichen auf jeder Zeile</a></h3>
-<p>Stehen bei Zitaten am Beginn jeder Zeile Anf&uuml;hrungszeichen, so entfernen
-   Sie alle <b>mit Ausnahme</b> desjenigen in der ersten Zeile.
-</p>
-<p>Geht das Zitat &uuml;ber mehrere Abs&auml;tze, so sollte am Beginn eines jeden
-   Absatzes ein &ouml;ffnendes Anf&uuml;hrungszeichen stehen.
-</p>
-<p>Oft befindet sich das schlie&szlig;ende Anf&uuml;hrungszeichen erst ganz am
-   Ende des Zitates, also m&ouml;glicherweise nicht auf der Seite, die Sie gerade
-   formatieren. K&uuml;mmern Sie sich nicht darum &ndash; f&uuml;gen Sie keine
-   schlie&szlig;enden Anf&uuml;hrungszeichen hinzu, die nicht auf der Buchseite
-   stehen.
-</p>
-<p>Es gibt einige sprachenspezifische Ausnahmen. Im Franz&ouml;sischen wird beispielsweise
-   bei zitierten Dialogen eine Kombination von verschiedenen Anf&uuml;hrungszeichen
-   benutzt, um unterschiedliche Sprecher anzuzeigen. Wenn Sie mit einer bestimmten
-   Sprache nicht vertraut sind, pr&uuml;fen Sie die Projektkommentare oder hinterlassen
-   Sie zur Kl&auml;rung eine Nachricht f&uuml;r den Projektmanager im Projektforum.
-</p>
-
-<h3><a name="period_s">Punkte am Ende von S&auml;tzen</a></h3>
-<p>Hinter den Punkt, der einen Satz beendet, geh&ouml;rt ein einfaches Leerzeichen.
-</p>
-<p>Es ist nicht n&ouml;tig, zus&auml;tzliche Leerzeichen nach Punkten zu entfernen,
-   wenn sie schon im OCR-Text sind &ndash; wir k&ouml;nnen dies automatisch in
-   der Nachbearbeitung erledigen. Siehe Vorlage und Text zu
-   <a href="#chap_head">Kapitel&uuml;berschriften</a> als Beispiel.
-</p>
-
-<h3><a name="punctuat">Satzzeichen</a></h3>
-<p>Im Allgemeinen sollten keine Leerzeichen vor Satzzeichen stehen, mit Ausnahme
-   von &ouml;ffnenden Anf&uuml;hrungszeichen. Falls im OCR-Text ein Leerzeichen
-   vor dem Satzzeichen steht, so entfernen Sie es. Das gilt auch f&uuml;r Sprachen
-   wie Franz&ouml;sisch, die normalerweise Leerzeichen vor Satzzeichen benutzen.
-</p>
-<p>Leerzeichen vor Satzzeichen kommen bei alten B&uuml;chern manchmal vor, weil im 18.
-   und 19. Jahrhundert vor z. B. Semikolon oder Komma oft &bdquo;Teil-Leerzeichen&ldquo;
-   gesetzt wurden.
-</p>
-<!-- END RR -->
-
-<table width="100%" align="center" border="1"  cellpadding="4" cellspacing="0" summary="Punctuation">
-  <tbody>
-    <tr><th align="left" bgcolor="cornsilk">Gescannter Text:</th></tr>
-    <tr>
-      <td valign="top">and so it goes&nbsp;; ever and ever.</td>
-    </tr>
-    <tr><th align="left" bgcolor="cornsilk">Richtig formatierter Text:</th></tr>
-    <tr>
-      <td valign="top"><tt>and so it goes; ever and ever.</tt></td>
-    </tr>
-  </tbody>
-</table>
-
 <h3><a name="line_br">Zeilenumbr&uuml;che</a></h3>
 <p><b>Lassen Sie alle Zeilenumbr&uuml;che stehen</b>, damit der n&auml;chste
    Formatierer und der Nachbearbeiter die Zeilen im Text bequem mit den Zeilen
@@ -2063,12 +1679,6 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
    muss das Leerzeichen zwischen &bdquo;horse&ldquo;; und dem Semikolon entfernt
    werden. Die zwei Leerzeichen nach dem Semikolon sind in Ordnung &ndash; Sie
    brauchen keines der beiden zu l&ouml;schen.
-</p>
-
-<h3><a name="trail_s">Leerzeichen am Zeilenende</a></h3>
-<p>Verschwenden Sie keine Zeit damit, Leerzeichen am Ende jeder Zeile einzuf&uuml;gen.
-   Das kann sp&auml;ter automatisch erledigt werden. Es ist auch nicht n&ouml;tig,
-   &uuml;berfl&uuml;ssige Leerzeichen am Zeilenende zu entfernen.
 </p>
 
 <h3><a name="line_no">Zeilennummern</a></h3>
@@ -2149,759 +1759,6 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   </tbody>
 </table>
 
-
-<h3><a name="period_p">Auslassungspunkte &bdquo;...&ldquo; (Ellipse)</a></h3>
-<p>Die Richtlinien f&uuml;r Englisch und f&uuml;r andere Sprachen (LOTE, Languages
-   Other Than English) sind unterschiedlich. </p>
-<p><b>ENGLISCH</b>: Lassen Sie ein Leerzeichen vor den drei Punkten und eines
-   danach. Die Ausnahme ist das Satzende: hier steht nach dem letzten Wort kein
-   Leerzeichen, dann vier Punkte und danach ein Leerzeichen. Dasselbe gilt auch
-   f&uuml;r andere Satzendzeichen: die drei Punkte folgen unmittelbar, ohne jedes
-   Leerzeichen.
-</p>
-<p>Zum Beispiel:<br>
-   <tt>
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;That I know ... is true.
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is the end....
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo?...
-   </tt>
-</p>
-<p>Manchmal steht das Satzzeichen auch erst nach der Ellipse. In diesem Fall formatieren
-   Sie so:<br>
-   <tt>
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo...?
-   </tt>
-</p>
-<p>Entfernen Sie vorhandene &uuml;berfl&uuml;ssige Punkte und erg&auml;nzen Sie
-   falls n&ouml;tig fehlende, um immer die erforderlichen drei (oder vier) Punkte
-   zu erhalten.
-</p>
-<p><b>LOTE (Languages Other Than English):</b> Hier gilt die allgemeine Regel:
-   &bdquo;Halten Sie sich so nah wie m&ouml;glich an die gedruckte Seite&ldquo;.
-   F&uuml;gen Sie also Leerzeichen ein, wenn sie vor oder zwischen den Punkten
-   vorhanden sind, und verwenden Sie die gleiche Zahl von Punkten wie auf der Vorlage.
-   Manchmal ist das auf der gedruckten Seite nicht deutlich zu erkennen; in diesem
-   Fall f&uuml;gen Sie ein <tt>[**unclear]</tt> ein, um den Nachbearbeiter auf
-   die Stelle aufmerksam zu machen. (Anmerkung: Nachbearbeiter sollten diese
-   regul&auml;ren Leerzeichen durch gesch&uuml;tzte Leerzeichen ersetzen.)
-</p>
-
-<h3><a name="a_chars">Akzente und nicht-ASCII-Zeichen</a></h3>
-<? if(!$utf8_site) { ?>
-<p>Bitte formatieren Sie diese, indem Sie die entsprechenden Zeichen des Latin-1-Zeichensatzes
-   verwenden, wo dies m&ouml;glich ist. Die korrekte Formatierung f&uuml;r Nicht-Latin-1-Zeichen
-   finden Sie unter <a href="#d_chars">Buchstaben mit diakritischen Zeichen</a>.
-</p>
-<? } else { ?>
-<p>Bitte formatieren Sie diese, indem Sie die richtigen UTF-8 Zeichen verwenden.
-   F&uuml;r Zeichen, die nicht in Unicode sind, gelten die Anweisungen des
-   Projektmanagers in den <a href="#comments">Projektkommentaren</a>.
-</p>
-<? } ?>
-<p>Sind diese Zeichen nicht auf Ihrer Tastatur, so gibt es mehrere M&ouml;glichkeiten
-   zur Eingabe:
-</p>
-<ul compact>
-  <li>Die Pulldown-Men&uuml;s in der Korrekturlese-Oberfl&auml;che.</li>
-  <li>Applets, die im Betriebssystem Ihres Computers enthalten sind.
-      <ul compact>
-      <li>Windows: &sbquo;Zeichentabelle&lsquo;<br>
-          Zugriff haben Sie mit:<br>
-          Start -&gt; Ausf&uuml;hren -&gt; charmap bzw.<br>
-          Start -&gt; Programme -&gt; Zubeh&ouml;r -&gt; Systemprogramme -&gt;
-          Zeichentabelle</li>
-      <li>Macintosh: &sbquo;Tastatur&lsquo; oder &sbquo;Tastatur&uuml;bersicht&lsquo;<br>
-          Bis OS 9 findet man es im Apple-Men&uuml;;<br>
-          unter OS X bis 10.2 im Ordner &sbquo;Anwendungen, Werkzeuge&lsquo;.<br>
-          ab OS X 10.3 im Input-Men&uuml; als &sbquo;Tastatur&uuml;bersicht&lsquo;.</li>
-      <li>Linux: Verschiedene, abh&auml;ngig von der Arbeitsumgebung.<br>
-          Unter KDE k&ouml;nnen Sie KCharSelect (im Untermen&uuml;
-          &sbquo;Dienstprogramme&lsquo; des Startmen&uuml;s) ausprobieren.</li>
-      </ul>
-  </li>
-  <li>Mit einem Online-Programm, wie zum Beispiel <a
-     href="http://free.pages.at/krauss/computer/xml/daten/edicode.html">Edicode</a>.</li>
-  <li>Tastenk&uuml;rzel<br>
-      (Tabellen f&uuml;r <a href="#a_chars_win">Windows</a> und
-      <a href="#a_chars_mac">Macintosh</a> finden Sie weiter unten in diesem Dokument.)</li>
-  <li>Durch Umschalten auf ein Tastaturlayout oder eine andere Landeseinstellung,
-      die Akzente als Tottasten unterst&uuml;tzt.
-    <ul compact>
-       <li>Windows: Systemsteuerung (Regions- und Sprachoptionen)</li>
-       <li>Macintosh: Inputmen&uuml; (in der Men&uuml;leiste)</li>
-       <li>Linux: Einstellen der Tastatur in der X-Konfiguration.</li>
-    </ul>
-  </li>
-</ul>
-<p>Von <a href="http://www.gutenberg.org">Project Gutenberg</a> wird als
-   Minimalvariante eine 7-Bit-ASCII-Version des Textes ver&ouml;ffentlicht. Es werden
-   jedoch auch Versionen in anderen Zeichens&auml;tzen akzeptiert, durch die mehr
-   Informationen des Originals erhalten bleiben. <a href="http://pge.rastko.net">Project
-   Gutenberg Europe</a> ver&ouml;ffentlicht UTF-8 als Standard-Zeichensatz; andere
-   angemessene Zeichens&auml;tze sind dort ebenfalls willkommen.
-</p>
-<p>Gegenw&auml;rtig bedeutet das f&uuml;r <a href="http://www.pgdp.net/">Distributed
-   Proofreaders</a>, dass Latin-1, ISO 8859-1 und -15 verwendet werden. In der
-   Zukunft wird auch Unicode m&ouml;glich sein.
-</p>
-<p><a href="http://dp.rastko.net/">Distributed Proofreaders Europe</a> benutzt
-   bereits Unicode.
-</p>
-<!-- END RR -->
-<a name="a_chars_win"></a>
-<p><b>F&uuml;r Windows</b>:
-</p>
-<ul compact>
-  <li>das Programm &sbquo;Zeichentabelle&lsquo; (Start -&gt; Ausf&uuml;hren -&gt;
-      charmap), dann Ausschneiden (Strg-X) und Einf&uuml;gen (Strg-V)
-  </li>
-  <li>die Pulldown-Men&uuml;s in der Korrekturlese-Oberfl&auml;che
-  </li>
-  <li>oder die Tastenkombination &sbquo;Alt+Zifferntasten&lsquo; als
-      K&uuml;rzel f&uuml;r einzelne Zeichen.<br>
-      Diese Methode ist schneller als Ausschneiden und Einf&uuml;gen,
-      wenn Sie sich einmal an die Codes gew&ouml;hnt haben.<br>
-      Halten Sie dazu die &sbquo;Alt&lsquo;-Taste gedr&uuml;ckt und
-      geben Sie die vier Ziffern am <i>Ziffernblock</i> der Tastatur ein
-      &ndash; die Ziffernreihe &uuml;ber den Buchstaben funktioniert nicht.<br>
-      Sie m&uuml;ssen alle vier Stellen eingeben, einschlie&szlig;lich
-      der f&uuml;hrenden 0 (Null). Beachten Sie, dass der Gro&szlig;buchstabe
-      immer um 32 kleiner ist als der entsprechende Kleinbuchstabe.<br>
-      Diese Anweisungen gelten f&uuml;r das US-englische Tastaturlayout.
-      M&ouml;glicherweise funktionieren sie nicht unter anderen Layouts.<br>
-      Die Tabelle unten zeigt die zu verwendenden Codes.
-      (<a href="charwin.pdf">Druckversion der Tabelle</a>)<br>
-      Verwenden Sie keine anderen Sonderzeichen, es sei denn, der Projektmanager
-      weist das in den <a href="#comments">Projektkommentaren</a> ausdr&uuml;cklich an.
-  </li>
-</ul>
-
-<br>
-<table align="center" border="6" rules="all" summary="Windows shortcuts">
-  <tbody>
-  <tr>
-      <th bgcolor="cornsilk" colspan=14>Windows-Tastenk&uuml;rzel f&uuml;r Latin-1-Symbole</th>
-  </tr>
-  <tr bgcolor="cornsilk">
-      <th colspan=2>` Gravis</th>
-      <th colspan=2>&acute; Akut (aigu)</th>
-      <th colspan=2>^ Zirkumflex</th>
-      <th colspan=2>~ Tilde</th>
-      <th colspan=2>&uml; Umlaut/Trema</th>
-      <th colspan=2>&deg; Ring</th>
-      <th colspan=2>&AElig;-Ligatur</th>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small a grave"         >&agrave; </td><td>Alt-0224</td>
-      <td align="center" bgcolor="mistyrose" title="Small a acute"         >&aacute; </td><td>Alt-0225</td>
-      <td align="center" bgcolor="mistyrose" title="Small a circumflex"    >&acirc;  </td><td>Alt-0226</td>
-      <td align="center" bgcolor="mistyrose" title="Small a tilde"         >&atilde; </td><td>Alt-0227</td>
-      <td align="center" bgcolor="mistyrose" title="Small a umlaut"        >&auml;   </td><td>Alt-0228</td>
-      <td align="center" bgcolor="mistyrose" title="Small a ring"          >&aring;  </td><td>Alt-0229</td>
-      <td align="center" bgcolor="mistyrose" title="Small ae ligature"     >&aelig;  </td><td>Alt-0230</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital A grave"       >&Agrave; </td><td>Alt-0192</td>
-      <td align="center" bgcolor="mistyrose" title="Capital A acute"       >&Aacute; </td><td>Alt-0193</td>
-      <td align="center" bgcolor="mistyrose" title="Capital A circumflex"  >&Acirc;  </td><td>Alt-0194</td>
-      <td align="center" bgcolor="mistyrose" title="Capital A tilde"       >&Atilde; </td><td>Alt-0195</td>
-      <td align="center" bgcolor="mistyrose" title="Capital A umlaut"      >&Auml;   </td><td>Alt-0196</td>
-      <td align="center" bgcolor="mistyrose" title="Capital A ring"        >&Aring;  </td><td>Alt-0197</td>
-      <td align="center" bgcolor="mistyrose" title="Capital AE ligature"   >&AElig;  </td><td>Alt-0198</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small e grave"         >&egrave; </td><td>Alt-0232</td>
-      <td align="center" bgcolor="mistyrose" title="Small e acute"         >&eacute; </td><td>Alt-0233</td>
-      <td align="center" bgcolor="mistyrose" title="Small e circumflex"    >&ecirc;  </td><td>Alt-0234</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Small e umlaut"        >&euml;   </td><td>Alt-0235</td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital E grave"       >&Egrave; </td><td>Alt-0200</td>
-      <td align="center" bgcolor="mistyrose" title="Capital E acute"       >&Eacute; </td><td>Alt-0201</td>
-      <td align="center" bgcolor="mistyrose" title="Capital E circumflex"  >&Ecirc;  </td><td>Alt-0202</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Capital E umlaut"      >&Euml;   </td><td>Alt-0203</td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small i grave"         >&igrave; </td><td>Alt-0236</td>
-      <td align="center" bgcolor="mistyrose" title="Small i acute"         >&iacute; </td><td>Alt-0237</td>
-      <td align="center" bgcolor="mistyrose" title="Small i circumflex"    >&icirc;  </td><td>Alt-0238</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Small i umlaut"        >&iuml;   </td><td>Alt-0239</td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital I grave"       >&Igrave; </td><td>Alt-0204</td>
-      <td align="center" bgcolor="mistyrose" title="Capital I acute"       >&Iacute; </td><td>Alt-0205</td>
-      <td align="center" bgcolor="mistyrose" title="Capital I circumflex"  >&Icirc;  </td><td>Alt-0206</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Capital I umlaut"      >&Iuml;   </td><td>Alt-0207</td>
-      <th colspan=2 bgcolor="cornsilk">/ Schr&auml;gstrich</th>
-      <th colspan=2 bgcolor="cornsilk">&OElig;-Ligatur</th>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small o grave"         >&ograve; </td><td>Alt-0242</td>
-      <td align="center" bgcolor="mistyrose" title="Small o acute"         >&oacute; </td><td>Alt-0243</td>
-      <td align="center" bgcolor="mistyrose" title="Small o circumflex"    >&ocirc;  </td><td>Alt-0244</td>
-      <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Alt-0245</td>
-      <td align="center" bgcolor="mistyrose" title="Small o umlaut"        >&ouml;   </td><td>Alt-0246</td>
-      <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Alt-0248</td>
-      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>
-<? if(!$utf8_site) { ?>
-  [oe] verw.
-<? } else { ?>
-  Alt-0156
-<? } ?>
-      </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Alt-0210</td>
-      <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Alt-0211</td>
-      <td align="center" bgcolor="mistyrose" title="Capital O circumflex"  >&Ocirc;  </td><td>Alt-0212</td>
-      <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Alt-0213</td>
-      <td align="center" bgcolor="mistyrose" title="Capital O umlaut"      >&Ouml;   </td><td>Alt-0214</td>
-      <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Alt-0216</td>
-      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>
-<? if(!$utf8_site) { ?>
-  [OE] verw.
-<? } else { ?>
-  Alt-0140
-<? } ?>
-      </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Alt-0249</td>
-      <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Alt-0250</td>
-      <td align="center" bgcolor="mistyrose" title="Small u circumflex"    >&ucirc;  </td><td>Alt-0251</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Small u umlaut"        >&uuml;   </td><td>Alt-0252</td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital U grave"       >&Ugrave; </td><td>Alt-0217</td>
-      <td align="center" bgcolor="mistyrose" title="Capital U acute"       >&Uacute; </td><td>Alt-0218</td>
-      <td align="center" bgcolor="mistyrose" title="Capital U circumflex"  >&Ucirc;  </td><td>Alt-0219</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Capital U umlaut"      >&Uuml;   </td><td>Alt-0220</td>
-      <th colspan=2 bgcolor="cornsilk">W&auml;hrungen</th>
-      <th colspan=2 bgcolor="cornsilk">Mathematik</th>
-  </tr>
-  <tr><td> </td><td> </td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Small n tilde"         >&ntilde; </td><td>Alt-0241</td>
-      <td align="center" bgcolor="mistyrose" title="Small y umlaut"        >&yuml;   </td><td>Alt-0255</td>
-      <td align="center" bgcolor="mistyrose" title="Cents"                 >&cent;   </td><td>Alt-0162</td>
-      <td align="center" bgcolor="mistyrose" title="plus/minus"            >&plusmn; </td><td>Alt-0177</td>
-  </tr>
-  <tr><td> </td><td> </td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Capital N tilde"       >&Ntilde; </td><td>Alt-0209</td>
-      <td align="center" bgcolor="mistyrose" title=""></td><td></td>
-      <td align="center" bgcolor="mistyrose" title="Pounds"                >&pound;  </td><td>Alt-0163</td>
-      <td align="center" bgcolor="mistyrose" title="Multiplication"        >&times;  </td><td>Alt-0215</td>
-  </tr>
-  <tr><th colspan=2 bgcolor="cornsilk">Cedille </th>
-      <th colspan=2 bgcolor="cornsilk">Isl&auml;ndisch </th>
-      <th colspan=2 bgcolor="cornsilk">Symbole    </th>
-      <th colspan=2 bgcolor="cornsilk">Akzente     </th>
-      <th colspan=2 bgcolor="cornsilk">Satzzeichen </th>
-      <td align="center" bgcolor="mistyrose" title="Yen"                   >&yen;    </td><td>Alt-0165</td>
-      <td align="center" bgcolor="mistyrose" title="Division"              >&divide; </td><td>Alt-0247</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small c cedilla"       >&ccedil; </td><td>Alt-0231</td>
-      <td align="center" bgcolor="mistyrose" title="Capital Thorn"         >&THORN;  </td><td>Alt-0222</td>
-      <td align="center" bgcolor="mistyrose" title="Copyright"             >&copy;   </td><td>Alt-0169</td>
-      <td align="center" bgcolor="mistyrose" title="acute accent"          >&acute;  </td><td>Alt-0180</td>
-      <td align="center" bgcolor="mistyrose" title="Inverted Question Mark">&iquest; </td><td>Alt-0191</td>
-      <td align="center" bgcolor="mistyrose" title="Dollars"               >$   </td><td>Alt-0036</td>
-      <td align="center" bgcolor="mistyrose" title="Logical Not"           >&not;    </td><td>Alt-0172</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital C cedilla"     >&Ccedil; </td><td>Alt-0199</td>
-      <td align="center" bgcolor="mistyrose" title="Small thorn"           >&thorn;  </td><td>Alt-0254</td>
-      <td align="center" bgcolor="mistyrose" title="Registration Mark"     >&reg;    </td><td>Alt-0174</td>
-      <td align="center" bgcolor="mistyrose" title="umlaut accent"         >&uml;    </td><td>Alt-0168</td>
-      <td align="center" bgcolor="mistyrose" title="Inverted Exclamation"  >&iexcl;  </td><td>Alt-0161</td>
-      <td align="center" bgcolor="mistyrose" title="General Currency"      >&curren; </td><td>Alt-0164</td>
-      <td align="center" bgcolor="mistyrose" title="Degrees"               >&deg;    </td><td>Alt-0176</td>
-  </tr>
-  <tr><th colspan=2 bgcolor="cornsilk">Hochzahlen        </th>
-      <td align="center" bgcolor="mistyrose" title="Capital Eth"           >&ETH;    </td><td>Alt-0208</td>
-      <td align="center" bgcolor="mistyrose" title="Trademark"             >&trade;  </td><td>Alt-0153</td>
-      <td align="center" bgcolor="mistyrose" title="macron accent"         >&macr;   </td><td>Alt-0175</td>
-      <td align="center" bgcolor="mistyrose" title="guillemot left"        >&laquo;  </td><td>Alt-0171</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Micro"                 >&micro;  </td><td>Alt-0181</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="superscript 1"         >&sup1;   </td><td>Alt-0185</td>
-      <td align="center" bgcolor="mistyrose" title="Small eth"             >&eth;    </td><td>Alt-0240</td>
-      <td align="center" bgcolor="mistyrose" title="Paragraph (pilcrow)"   >&para;   </td><td>Alt-0182</td>
-      <td align="center" bgcolor="mistyrose" title="cedilla"               >&cedil;  </td><td>Alt-0184</td>
-      <td align="center" bgcolor="mistyrose" title="guillemot right"       >&raquo;  </td><td>Alt-0187</td>
-      <th colspan=2 bgcolor="cornsilk">Ordnungszeichen</th>
-      <td align="center" bgcolor="mistyrose" title="1/4 Fraction"          >&frac14; <sup><small>1</small></sup></td><td>Alt-0188</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="superscript 2"         >&sup2;   </td><td>Alt-0178</td>
-      <th colspan=2 bgcolor="cornsilk">sz-Ligatur        </th>
-      <td align="center" bgcolor="mistyrose" title="Section"               >&sect;   </td><td>Alt-0167</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Middle dot"            >&middot; </td><td>Alt-0183</td>
-      <td align="center" bgcolor="mistyrose" title="Masculine Ordinal"     >&ordm;   </td><td>Alt-0186</td>
-      <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; <sup><small>1</small></sup></td><td>Alt-0189</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="superscript 3"         >&sup3;   </td><td>Alt-0179</td>
-      <td align="center" bgcolor="mistyrose" title="sz ligature"           >&szlig;  </td><td>Alt-0223</td>
-      <td align="center" bgcolor="mistyrose" title="Broken Vertical bar"   >&brvbar; </td><td>Alt-0166</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="asterisk"              >*   </td><td>Alt-0042</td>
-      <td align="center" bgcolor="mistyrose" title="Feminine Ordinal"      >&ordf;   </td><td>Alt-0170</td>
-      <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; <sup><small>1</small></sup></td><td>Alt-0190</td>
-  </tr>
-  </tbody>
-</table>
-<p><sup><small>1</small></sup>Wenn es in den <a href="#comments">Projektkommentaren</a>
-   nicht ausdr&uuml;cklich verlangt wird, verwenden Sie bitte keine Bruch-Symbole,
-   sondern die Regeln f&uuml;r <a href="#fract_s">Br&uuml;che</a> (1/2, 1/4, 3/4,
-   usw.).</p>
-
-<p><b>F&uuml;r Apple Macintosh</b>:
-</p>
-<ul compact>
-  <li>Sie k&ouml;nnen das &sbquo;Tastatur&lsquo;-Programm als Referenz verwenden.<br>
-      Bis OS 9 findet man es im Apple-Men&uuml;; unter OS X bis 10.2 im Ordner
-      &sbquo;Anwendungen, Werkzeuge&lsquo;.<br>
-      Ein Bild der Tastatur erscheint. Bei Dr&uuml;cken der Umschalt-, Wahl- oder
-      Befehlstaste bzw. beliebigen Kombinationen wird angezeigt, wie die einzelnen
-      Zeichen erzeugt werden. Anhand des Bildes k&ouml;nnen Sie sehen, wie Sie ein
-      Zeichen eintippen. Sie k&ouml;nnen das Zeichen aber auch durch Ausschneiden
-      und Einf&uuml;gen in die Korrekturlese-Oberfl&auml;che &uuml;bernehmen.</li>
-  <li>Ab OS X 10.3 erf&uuml;llt diese Funktion eine Palette, die &uuml;ber das
-      Tastaturmen&uuml; verf&uuml;gbar ist (das Pulldown-Men&uuml;, das mit dem
-      Flaggen-Symbol der Landeseinstellungen in der Men&uuml;leiste verbunden ist).
-      Sie ist mit &sbquo;Tastatur&uuml;bersicht einblenden&lsquo; bezeichnet. Befindet
-      sie sich nicht in Ihrem Tastaturmen&uuml; oder haben Sie kein solches Men&uuml;,
-      k&ouml;nnen Sie es aktivieren, indem Sie die Systemeinstellungen &ouml;ffnen
-      und auf &sbquo;Landeseinstellungen&lsquo; klicken. Vergewissern Sie sich,
-      dass &sbquo;Tastatur&uuml;bersicht in der Men&uuml;leiste anzeigen&lsquo;
-      mit einem H&auml;kchen versehen ist. In der Spreadsheet-Ansicht markieren
-      Sie &sbquo;Tastatur&uuml;bersicht&lsquo; zus&auml;tzlich zu etwaigen Landeseinstellungen,
-      die Sie benutzen.
-  </li>
-  <li>die Pulldown-Men&uuml;s in der Korrekturlese-Oberfl&auml;che
-  </li>
-  <li>Oder Sie geben einfach das Apple-Wahltasten-Tastenk&uuml;rzel f&uuml;r das
-      ben&ouml;tigte Zeichen ein.
-      <br>Diese Methode ist viel schneller als &bdquo;Ausschneiden &amp;
-          Einf&uuml;gen&ldquo;, wenn Sie sich einmal an die Codes gew&ouml;hnt haben.
-      <br>Halten Sie dazu die Wahltaste gedr&uuml;ckt und geben Sie zuerst den Akzent
-          und dann den Buchstaben ein. F&uuml;r manche Symbole m&uuml;ssen Sie lediglich
-          die Wahltaste und das Symbol gleichzeitig dr&uuml;cken.
-      <br>Diese Anweisungen gelten f&uuml;r das US-englische Tastaturlayout.
-          M&ouml;glicherweise funktionieren sie nicht unter anderen Layouts.
-      <br>Die Tabelle unten zeigt die zu verwendenden Codes. (<a href="charapp.pdf">Druckversion
-          der Tabelle</a>)
-      <br>Verwenden Sie keine anderen Sonderzeichen, es sei denn, der Projektmanager
-          weist das in den <a href="#comments">Projektkommentaren</a> ausdr&uuml;cklich
-          an.
-  </li>
-</ul>
-
-<br>
-<a name="a_chars_mac"></a>
-<table align="center" border="6" rules="all" summary="Mac shortcuts">
-  <tbody>
-  <tr bgcolor="cornsilk"  >
-      <th colspan=14>Apple-Mac-Tastenk&uuml;rzel f&uuml;r Latin-1-Symbole</th>
-  <tr bgcolor="cornsilk"  >
-      <th colspan=2>` Gravis</th>
-      <th colspan=2>&acute; Akut (aigu)</th>
-      <th colspan=2>^ Zirkumflex</th>
-      <th colspan=2>~ Tilde</th>
-      <th colspan=2>&uml; Umlaut/Trema</th>
-      <th colspan=2>&deg; Ring</th>
-      <th colspan=2>&AElig;-Ligatur</th>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small a grave"         >&agrave; </td><td>Opt-`, a</td>
-      <td align="center" bgcolor="mistyrose" title="Small a acute"         >&aacute; </td><td>Opt-e, a</td>
-      <td align="center" bgcolor="mistyrose" title="Small a circumflex"    >&acirc;  </td><td>Opt-i, a</td>
-      <td align="center" bgcolor="mistyrose" title="Small a tilde"         >&atilde; </td><td>Opt-n, a</td>
-      <td align="center" bgcolor="mistyrose" title="Small a umlaut"        >&auml;   </td><td>Opt-u, a</td>
-      <td align="center" bgcolor="mistyrose" title="Small a ring"          >&aring;  </td><td>Opt-a   </td>
-      <td align="center" bgcolor="mistyrose" title="Small ae ligature"     >&aelig;  </td><td>Opt-'   </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital A grave"       >&Agrave; </td><td>Opt-`, A</td>
-      <td align="center" bgcolor="mistyrose" title="Capital A acute"       >&Aacute; </td><td>Opt-e, A</td>
-      <td align="center" bgcolor="mistyrose" title="Capital A circumflex"  >&Acirc;  </td><td>Opt-i, A</td>
-      <td align="center" bgcolor="mistyrose" title="Capital A tilde"       >&Atilde; </td><td>Opt-n, A</td>
-      <td align="center" bgcolor="mistyrose" title="Capital A umlaut"      >&Auml;   </td><td>Opt-u, A</td>
-      <td align="center" bgcolor="mistyrose" title="Capital A ring"        >&Aring;  </td><td>Opt-A   </td>
-      <td align="center" bgcolor="mistyrose" title="Capital AE ligature"   >&AElig;  </td><td>Opt-"   </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small e grave"         >&egrave; </td><td>Opt-`, e</td>
-      <td align="center" bgcolor="mistyrose" title="Small e acute"         >&eacute; </td><td>Opt-e, e</td>
-      <td align="center" bgcolor="mistyrose" title="Small e circumflex"    >&ecirc;  </td><td>Opt-i, e</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Small e umlaut"        >&euml;   </td><td>Opt-u, e</td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital E grave"       >&Egrave; </td><td>Opt-`, E</td>
-      <td align="center" bgcolor="mistyrose" title="Capital E acute"       >&Eacute; </td><td>Opt-e, E</td>
-      <td align="center" bgcolor="mistyrose" title="Capital E circumflex"  >&Ecirc;  </td><td>Opt-i, E</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Capital E umlaut"      >&Euml;   </td><td>Opt-u, E</td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small i grave"         >&igrave; </td><td>Opt-`, i</td>
-      <td align="center" bgcolor="mistyrose" title="Small i acute"         >&iacute; </td><td>Opt-e, i</td>
-      <td align="center" bgcolor="mistyrose" title="Small i circumflex"    >&icirc;  </td><td>Opt-i, i</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Small i umlaut"        >&iuml;   </td><td>Opt-u, i</td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital I grave"       >&Igrave; </td><td>Opt-`, I</td>
-      <td align="center" bgcolor="mistyrose" title="Capital I acute"       >&Iacute; </td><td>Opt-e, I</td>
-      <td align="center" bgcolor="mistyrose" title="Capital I circumflex"  >&Icirc;  </td><td>Opt-i, I</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Capital I umlaut"      >&Iuml;   </td><td>Opt-u, I</td>
-      <th colspan=2 bgcolor="cornsilk">/ Schr&auml;gstrich</th>
-      <th colspan=2 bgcolor="cornsilk">&OElig;-Ligatur</th>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small o grave"         >&ograve; </td><td>Opt-`, o</td>
-      <td align="center" bgcolor="mistyrose" title="Small o acute"         >&oacute; </td><td>Opt-e, o</td>
-      <td align="center" bgcolor="mistyrose" title="Small o circumflex"    >&ocirc;  </td><td>Opt-i, o</td>
-      <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Opt-n, o</td>
-      <td align="center" bgcolor="mistyrose" title="Small o umlaut"        >&ouml;   </td><td>Opt-u, o</td>
-      <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Opt-o   </td>
-      <td align="center" bgcolor="mistyrose" title="Small oe ligature"     >&oelig;  </td><td>
-<? if(!$utf8_site) { ?>
-  [oe] verw.
-<? } else { ?>
-  Opt-q
-<? } ?>
-      </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Opt-`, O</td>
-      <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Opt-e, O</td>
-      <td align="center" bgcolor="mistyrose" title="Capital I circumflex"  >&Ocirc;  </td><td>Opt-i, O</td>
-      <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Opt-n, O</td>
-      <td align="center" bgcolor="mistyrose" title="Capital O umlaut"      >&Ouml;   </td><td>Opt-u, O</td>
-      <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Opt-O   </td>
-      <td align="center" bgcolor="mistyrose" title="Capital OE ligature"   >&OElig;  </td><td>
-<? if(!$utf8_site) { ?>
-  [OE] verw.
-<? } else { ?>
-  Opt-Q
-<? } ?>
-      </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Opt-`, u</td>
-      <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Opt-e, u</td>
-      <td align="center" bgcolor="mistyrose" title="Small u circumflex"    >&ucirc;  </td><td>Opt-i, u</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Small u umlaut"        >&uuml;   </td><td>Opt-u, u</td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital U grave"       >&Ugrave; </td><td>Opt-`, U</td>
-      <td align="center" bgcolor="mistyrose" title="Capital U acute"       >&Uacute; </td><td>Opt-e, U</td>
-      <td align="center" bgcolor="mistyrose" title="Capital U circumflex"  >&Ucirc;  </td><td>Opt-i, U</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Capital U umlaut"      >&Uuml;   </td><td>Opt-u, U</td>
-      <th colspan=2 bgcolor="cornsilk">W&auml;hrungen</th>
-      <th colspan=2 bgcolor="cornsilk">Mathematik</th>
-  </tr>
-  <tr><td> </td><td> </td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Small n tilde"         >&ntilde; </td><td>Opt-n, n</td>
-      <td align="center" bgcolor="mistyrose" title="Small y umlaut"        >&yuml;   </td><td>Opt-u, y</td>
-      <td align="center" bgcolor="mistyrose" title="Cents"                 >&cent;   </td><td>Opt-4   </td>
-      <td align="center" bgcolor="mistyrose" title="plus/minus"            >&plusmn; </td><td>Shift-Opt-=</td>
-  </tr>
-  <tr><td> </td><td> </td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Capital N tilde"       >&Ntilde; </td><td>Opt-n, N</td>
-      <td align="center" bgcolor="mistyrose" title=""></td><td></td>
-      <td align="center" bgcolor="mistyrose" title="Pounds"                >&pound;  </td><td>Opt-3   </td>
-      <td align="center" bgcolor="mistyrose" title="Multiplication"        >&times;  </td><td>(n.&nbsp;v.)&nbsp;&Dagger;</td>
-  </tr>
-  <tr><th colspan=2 bgcolor="cornsilk">Cedille </th>
-      <th colspan=2 bgcolor="cornsilk">Isl&auml;ndisch  </th>
-      <th colspan=2 bgcolor="cornsilk">Symbole    </th>
-      <th colspan=2 bgcolor="cornsilk">Akzente     </th>
-      <th colspan=2 bgcolor="cornsilk">Satzzeichen </th>
-      <td align="center" bgcolor="mistyrose" title="Yen"                   >&yen;    </td><td>Opt-y   </td>
-      <td align="center" bgcolor="mistyrose" title="Division"              >&divide; </td><td>Opt-/   </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Small c cedilla"       >&ccedil; </td><td>Opt-c   </td>
-      <td align="center" bgcolor="mistyrose" title="Capital Thorn"         >&THORN;  </td><td>(n.&nbsp;v.)&nbsp;&Dagger;</td>
-      <td align="center" bgcolor="mistyrose" title="Copyright"             >&copy;   </td><td>Opt-g   </td>
-      <td align="center" bgcolor="mistyrose" title="acute accent"          >&acute;  </td><td>Opt-E   </td>
-      <td align="center" bgcolor="mistyrose" title="Inverted Question Mark">&iquest; </td><td>Opt-?   </td>
-      <td align="center" bgcolor="mistyrose" title="Dollars"               >$   </td><td>Shift-4</td>
-      <td align="center" bgcolor="mistyrose" title="Logical Not"           >&not;    </td><td>Opt-l   </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital C cedilla"     >&Ccedil; </td><td>Opt-C   </td>
-      <td align="center" bgcolor="mistyrose" title="Small thorn"           >&thorn;  </td><td>(n.&nbsp;v.)&nbsp;&Dagger;</td>
-      <td align="center" bgcolor="mistyrose" title="Registration Mark"     >&reg;    </td><td>Opt-r   </td>
-      <td align="center" bgcolor="mistyrose" title="umlaut accent"         >&uml;    </td><td>Opt-U   </td>
-      <td align="center" bgcolor="mistyrose" title="Inverted Exclamation"  >&iexcl;  </td><td>Opt-1   </td>
-      <td align="center" bgcolor="mistyrose" title="General Currency"      >&curren; </td><td>(n.&nbsp;v.)&nbsp;&Dagger;</td>
-      <td align="center" bgcolor="mistyrose" title="Degrees"               >&deg;    </td><td>Shift-Opt-8   </td>
-  </tr>
-  <tr><th colspan=2 bgcolor="cornsilk">Hochzahlen        </th>
-      <td align="center" bgcolor="mistyrose" title="Capital Eth"           >&ETH;    </td><td>(n.&nbsp;v.)&nbsp;&Dagger;</td>
-      <td align="center" bgcolor="mistyrose" title="Trademark"             >&trade;  </td><td>Opt-2   </td>
-      <td align="center" bgcolor="mistyrose" title="macron accent"         >&macr;   </td><td>Shift-Opt-,</td>
-      <td align="center" bgcolor="mistyrose" title="guillemot left"        >&laquo;  </td><td>Opt-\   </td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Micro"                 >&micro;  </td><td>Opt-m   </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="superscript 1"         >&sup1;   </td><td>(n.&nbsp;v.)&nbsp;&Dagger;</td>
-      <td align="center" bgcolor="mistyrose" title="Small eth"             >&eth;    </td><td>(n.&nbsp;v.)&nbsp;&Dagger;</td>
-      <td align="center" bgcolor="mistyrose" title="Paragraph (pilcrow)"   >&para;   </td><td>Opt-7   </td>
-      <td align="center" bgcolor="mistyrose" title="cedilla"               >&cedil;  </td><td>Opt-Z   </td>
-      <td align="center" bgcolor="mistyrose" title="guillemot right"       >&raquo;  </td><td>Shift-Opt-\</td>
-      <th colspan=2 bgcolor="cornsilk">Ordnungszeichen</th>
-      <td align="center" bgcolor="mistyrose" title="1/4 Fraction"          >&frac14; </td><td>(n.&nbsp;v.)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="superscript 2"         >&sup2;   </td><td>(n.&nbsp;v.)&nbsp;&Dagger;</td>
-      <th colspan=2 bgcolor="cornsilk">sz-Ligatur        </th>
-      <td align="center" bgcolor="mistyrose" title="Section"               >&sect;   </td><td>Opt-6   </td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Middle dot"            >&middot; </td><td>Shift-Opt-9  </td>
-      <td align="center" bgcolor="mistyrose" title="Masculine Ordinal"     >&ordm;   </td><td>Opt-0   </td>
-      <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; </td><td>(n.&nbsp;v.)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="superscript 3"         >&sup3;   </td><td>(n.&nbsp;v.)&nbsp;&Dagger;</td>
-      <td align="center" bgcolor="mistyrose" title="sz ligature"           >&szlig;  </td><td>Opt-s   </td>
-      <td align="center" bgcolor="mistyrose" title="Broken Vertical bar"   >&brvbar; </td><td>(n.&nbsp;v.)&nbsp;&Dagger;</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="asterisk"              >*   </td><td>Shift-8 </td>
-      <td align="center" bgcolor="mistyrose" title="Feminine Ordinal"      >&ordf;   </td><td>Opt-9   </td>
-      <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; </td><td>(n.&nbsp;v.)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
-  </tr>
-  </tbody>
-</table>
-<p>&Dagger;&nbsp;Anmerkung: Kein Tastenk&uuml;rzel vorhanden; verwenden Sie die
-   Pulldown-Men&uuml;s.
-</p>
-<p><sup><small>1</small></sup>Wenn es in den <a href="#comments">Projektkommentaren</a>
-   nicht ausdr&uuml;cklich verlangt wird, verwenden Sie bitte keine Bruch-Symbole,
-   sondern die Regeln f&uuml;r <a href="#fract_s">Br&uuml;che</a> (1/2, 1/4, 3/4,
-   usw.).
-</p>
-
-
-<h3><a name="d_chars">Buchstaben mit diakritischen Zeichen</a></h3>
-<p>In manchen Projekten gibt es Buchstaben mit speziellen Kennzeichnungen &uuml;ber
-   oder unter dem normalen lateinischen Buchstaben A ... Z. Sie werden <i>diakritische
-   Zeichen</i> genannt und weisen auf eine spezielle Aussprache dieses Buchstabens
-   hin.
-<? if($utf8_site) { ?>
-</p>
-<p>Wenn ein solches Zeichen in Unicode nicht existiert, geben Sie es mittels
-   <i>kombinierender diakritischer Zeichen</i> ein. Das sind Unicode-Symbole, die
-   nicht allein stehen k&ouml;nnen, vielmehr erscheinen sie &uuml;ber (oder unter)
-   dem Buchstaben, nach dem sie gesetzt sind. Zun&auml;chst wird der Basisbuchstabe
-   getippt, dann das Kombinationszeichen. Dazu benutzt man Applets und Programme wie
-   <a href="#a_chars">oben</a> genannt.
-</p>
-<p>Auf manchen Rechnern erscheinen diakritische Zeichen nicht genau dort, wo sie
-   sein sollten, sondern z. B. nach rechts verschoben. Sie sollten dennoch benutzt
-   werden, denn auf anderen Rechnern werden sie korrekt angezeigt. Jedoch: Wenn
-   Sie aus irgendeinem Grund Kombinationszeichen nicht ordentlich sehen oder eingeben
-   k&ouml;nnen, markieren Sie einen solchen Buchstaben mit einem <tt>*</tt>. Beachten
-   Sie, dass es auch &bdquo;spacing modifier letters&ldquo; (Zeichen, die wie Buchstaben
-   eigenen Platz beanspruchen) gibt; diese sollten nicht benutzt werden.
-</p>
-<? } else { ?>
-   Beim Formatieren deuten wir sie in unserem normalen ASCII-Text mit einer speziellen
-   Kodierung an, wie: &#259; wird zu <tt>[)a]</tt> f&uuml;r einen Brevis (den
-   u-f&ouml;rmigen Akzent) &uuml;ber dem a oder <tt>[a)]</tt> f&uuml;r einen Brevis
-   unter dem Buchstaben.
-</p>
-<p>Vergessen Sie nicht die eckigen Klammern (<tt>[&nbsp;]</tt>) rund um diese
-   Zeichenkombination, damit der Nachbearbeiter wei&szlig;, zu welchem Buchstaben
-   das Zeichen geh&ouml;rt. Bei der Nachbearbeitung wird es dann durch ein Zeichen
-   ersetzt, das in der endg&uuml;ltigen Textversion (7-bit-ASCII, 8-bit, Unicode,
-   html usw.) m&ouml;glich ist.
-</p>
-<p>Beachten Sie auch, dass es einige Buchstaben mit diakritischen Zeichen (vor
-   allem die Vokale) bereits in unserem Standard-Latin-1-Zeichensatz gibt. <b>Verwenden
-   Sie in diesem Falle das Latin-1-Zeichen (siehe <a href="#a_chars">hier</a>),
-   das Sie zum Beispiel &uuml;ber die Pulldown-Men&uuml;s in der
-   Korrekturlese-Oberfl&auml;che aufrufen k&ouml;nnen.</b>
-</p>
-<!-- END RR -->
-
-<p>Die folgende Tabelle listet die derzeit verwendeten Kodierungen auf. Das
-   &bdquo;x&ldquo; steht dabei f&uuml;r einen beliebigen Buchstaben, der ein
-   diakritisches Zeichen erh&auml;lt.<br>
-   Beim Formatieren verwenden Sie das jeweilige Zeichen aus dem Text anstelle des
-   im Beispiel verwendeten <tt>x</tt>.
-</p>
-
-<!--
-  diacritical mark           above  below
-macron (straight line)       [=x]   [x=]
-2 dots (dieresis or umlaut)  [:x]   [x:]
-1 dot                        [.x]   [x.]
-grave accent                 ['x]   [x'] or [/x] [x/]
-acute (aigu) accent          [`x]   [x`] or [\x] [x\]
-circumflex                   [^x]   [x^]
-caron (v-shaped symbol)      [vx]   [xv]
-breve (u-shaped symbol)      [)x]   [x)]
-tilde                        [~x]   [x~]
-cedilla                      [,x]   [x,]
--->
-
-<table align="center" border="6" rules="all" summary="Diacriticals">
-  <tbody>
-  <tr bgcolor="cornsilk">
-      <th colspan=4>Symbole zum Korrekturlesen von diakritischen Zeichen</th>
-  <tr bgcolor="cornsilk">
-      <th>Diakritisches Zeichen</th>
-      <th>Beispiel</th>
-      <th>&Uuml;ber</th>
-      <th>Unter</th>
-   </tr>
-  <tr><td>Makron (Querstrich)</td>
-      <td align="center">&macr;</td>
-      <td align="center"><tt>[=x]</tt></td>
-      <td align="center"><tt>[x=]</tt></td>
-      </tr>
-  <tr><td>2 Punkte (Trema, Umlaut)</td>
-      <td align="center">&uml;</td>
-      <td align="center"><tt>[:x]</tt></td>
-      <td align="center"><tt>[x:]</tt></td>
-      </tr>
-  <tr><td>1 Punkt</td>
-      <td align="center">&middot;</td>
-      <td align="center"><tt>[.x]</tt></td>
-      <td align="center"><tt>[x.]</tt></td>
-      </tr>
-  <tr><td>Gravis</td>
-      <td align="center">`</td>
-      <td align="center"><tt>[`x]</tt> or <tt>[\x]</tt></td>
-      <td align="center"><tt>[x`]</tt> or <tt>[x\]</tt></td>
-      </tr>
-  <tr><td>Akut (aigu)</td>
-      <td align="center">&acute;</td>
-      <td align="center"><tt>['x]</tt> or <tt>[/x]</tt></td>
-      <td align="center"><tt>[x']</tt> or <tt>[x/]</tt></td>
-      </tr>
-  <tr><td>Zirkumflex</td>
-      <td align="center">&circ;</td>
-      <td align="center"><tt>[^x]</tt></td>
-      <td align="center"><tt>[x^]</tt></td>
-      </tr>
-  <tr><td>Hatschek (v-f&ouml;rmiges Symbol)</td>
-      <td align="center"><font size="-2">&or;</font></td>
-      <td align="center"><tt>[vx]</tt></td>
-      <td align="center"><tt>[xv]</tt></td>
-      </tr>
-  <tr><td>Brevis (u-f&ouml;rmiges Symbol)</td>
-      <td align="center"><font size="-2">&cup;</font></td>
-      <td align="center"><tt>[)x]</tt></td>
-      <td align="center"><tt>[x)]</tt></td>
-      </tr>
-  <tr><td>Tilde</td>
-      <td align="center">&tilde;</td>
-      <td align="center"><tt>[~x]</tt></td>
-      <td align="center"><tt>[x~]</tt></td>
-      </tr>
-  <tr><td>Cedille</td>
-      <td align="center">&cedil;</td>
-      <td align="center"><tt>[,x]</tt></td>
-      <td align="center"><tt>[x,]</tt></td>
-      </tr>
-  </tbody>
-</table>
-<? } ?>
-
-<h3><a name="f_chars">Nicht-lateinische Zeichen</a></h3>
-<p>Manche Projekte beinhalten Zeichen aus nicht-lateinischen Schriften, also andere
-   als die lateinischen Buchstaben A...Z &ndash; beispielsweise griechische, kyrillische
-   (verwendet in Russisch, Slawisch usw.), hebr&auml;ische oder arabische Buchstaben.
-</p>
-<? if(strcasecmp($charset,"UTF-8")) { ?>
-<p>Bei griechischen Buchstaben sollten Sie eine Transliteration versuchen. Dabei
-   wird jeder Buchstabe des fremden Alphabets in den/die betreffenden lateinischen
-   Buchstaben &uuml;bertragen. Ein Tool, das die griechische Transliteration
-   erleichtert, k&ouml;nnen Sie aus der Korrekturlese-Oberfl&auml;che aufrufen.
-</p>
-<p>Klicken Sie dazu auf die Schaltfl&auml;che &sbquo;Greek-Transliterator&lsquo;
-   im unteren Bereich der Korrekturlese-Oberfl&auml;che. W&auml;hlen Sie dann mit
-   der Maus die ben&ouml;tigten griechischen Buchstaben aus. Die entsprechenden
-   Latin-1-Zeichen werden im Textfeld eingef&uuml;gt. Wenn Sie fertig sind,
-   &uuml;bernehmen Sie den transliterierten Text mit &bdquo;Ausschneiden &amp;
-   Einf&uuml;gen&ldquo; in die aktuelle Buchseite. Umschlie&szlig;en Sie den
-   transliterierten Text noch mit der Griechisch-Markierung <tt>[Greek:&nbsp;</tt>
-   und <tt>]</tt>. So wird zum Beispiel <b>&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</b>
-   in der Transliteration zu <tt>[Greek: Biblos]</tt> (&bdquo;Buch&ldquo; &ndash; ein
-   passendes Beispiel f&uuml;r DP!).
-</p>
-<p>Wenn Sie sich Ihrer Transliteration nicht sicher sind, markieren Sie diese mit
-   zwei Sternchen <tt>**</tt>, damit der n&auml;chste Formatierer und der Nachbearbeiter
-   darauf aufmerksam werden. </p>
-<p>Andere Schriften, die nicht so leicht transliteriert werden k&ouml;nnen, wie
-   etwa Kyrillisch, Hebr&auml;isch oder Arabisch, kennzeichnen Sie einfach mit
-   der entsprechenden Markierung <tt>[Cyrillic:&nbsp;**]</tt>, <tt>[Hebrew:&nbsp;**]</tt>
-   oder <tt>[Arabic:&nbsp;**]</tt>. Den Text lassen Sie so stehen, wie er gescannt
-   wurde. Vergessen Sie dabei nicht die beiden Sternchen <tt>**</tt>, damit der
-   Nachbearbeiter den Text leichter finden und bearbeiten kann.
-</p>
-<!-- END RR -->
-
-<ul compact>
-  <li>Griechisch: Hierbei hilft das <a href="<? echo $PG_greek_howto_url; ?>">Greek
-      HOWTO</a> (des Project Gutenberg) und das Popup-Tool &sbquo;Greek
-      Transliterator&lsquo; der Korrekturlese-Oberfl&auml;che.
-  </li>
-  <li>Kyrillisch: Es gibt zwar eine Standard-Transliteration f&uuml;r kyrillische
-      Zeichen, aber Sie sollten sich nur daran versuchen, wenn Sie die entsprechende
-      Sprache in kyrillischer Schrift gut beherrschen und flie&szlig;end sprechen.
-      Andernfalls setzen Sie einfach eine Markierung wie oben beschrieben. Vielleicht
-      wird Ihnen diese <a href="http://learningrussian.com/transliteration.htm">Transliterationstabelle</a>
-      n&uuml;tzlich sein.
-  </li>
-  <li>Hebr&auml;isch und Arabisch: Eine Bearbeitung ist nur sinnvoll, wenn Sie
-      die Sprache flie&szlig;end sprechen. Es gibt einige prinzipielle Probleme
-      bei der Transliteration, und weder <a href="..">Distributed Proofreaders</a>
-      noch <a href="<? echo $PG_home_url; ?>">Project Gutenberg</a> haben bisher
-      eine Standardmethode festgelegt.
-  </li>
-</ul>
-<? } else { ?>
-<p>Diese Zeichen sollten in den Text eingegeben werden wie lateinische Buchstaben
-   (<b>OHNE Transliteration!</b>). </p>
-<p>Ist ein Dokument vollst&auml;ndig in einer nicht-lateinischen Schrift gedruckt,
-   so ist es am besten, einen Tastaturtreiber zu installieren, der die entsprechende
-   Sprache unterst&uuml;tzt. Sehen Sie im Handbuch Ihres Betriebssystems nach,
-   wie das gemacht wird. </p>
-<p>Taucht die Schrift nur bei vereinzelten W&ouml;rtern auf, k&ouml;nnen Sie auch
-   ein externes Programm zur Eingabe verwenden. Einige solche Programme finden
-   sie <a href="#a_chars">weiter oben</a>.
-</p>
-<p>Sollten Sie sich hinsichtlich eines Zeichens oder Akzents unsicher sein, markieren
-   Sie die Stelle mit <tt>*</tt>, damit sie der n&auml;chste Formatierer bzw. der
-   Nachbearbeiter leicht finden kann. </p>
-<p>Bei Schriften, die nicht so einfach transliteriert werden k&ouml;nnen, wie
-   z.B. Arabisch, umgeben Sie den Text mit der entsprechenden Markierung
-   <tt>[Arabic:&nbsp;**]</tt> und lassen ihn wie eingescannt stehen.
-   Schlie&szlig;en Sie die <tt>**</tt> ein, damit der Nachbearbeiter den Text
-   sp&auml;ter leichter finden und bearbeiten kann.
-</p>
-<? } ?>
-
-<h3><a name="fract_s">Br&uuml;che</a></h3>
-<p>Formatieren Sie <b>Br&uuml;che</b> folgenderma&szlig;en: <tt>2&frac12;</tt>
-   wird zu <tt>2-1/2</tt>. Der Bindestrich zwischen ganzer Zahl und Bruch verhindert
-   bei der Nachbearbeitung, dass die Zeile an dieser Stelle umgebrochen wird.
-</p>
 
 <h3><a name="page_ref">Seitenverweise (&bdquo;siehe S. 123&ldquo;)</a></h3>
 <p>Formatieren Sie Seitenverweise innerhalb des Textes wie <tt>(siehe S. 123)</tt>
@@ -3350,85 +2207,6 @@ You told me the walk was private.<br>
 
 <h2>Allgemeine Probleme</h2>
 
-<h3><a name="OCR_1lI">OCR-Fehler: 1-l-I</a></h3>
-<p>OCR-Software hat gew&ouml;hnlich Schwierigkeiten, die Ziffer &bdquo;1&ldquo;
-   (eins), den Kleinbuchstaben &bdquo;l&ldquo; (el) und den Gro&szlig;buchstaben
-   &bdquo;I&ldquo; zu unterscheiden. Das gilt vor allem f&uuml;r B&uuml;cher in
-   ungew&ouml;hnlichen Schrifttypen oder schlechtem Zustand. </p>
-<p>Achten Sie besonders auf diese Zeichen. Lesen Sie den Kontext des Satzes, um
-   zu entscheiden, welches das richtige Zeichen ist. Aber geben Sie Acht &ndash;
-   h&auml;ufig &bdquo;korrigiert&ldquo; Ihr Verstand die Zeichen automatisch beim
-   Lesen. </p>
-<p>Die Unterscheidung dieser Zeichen ist einfacher, wenn Sie eine nicht-proportionale
-   Schriftart verwenden, wie etwa <a href="font_sample.php">DPCustomMono</a> oder
-   Courier.
-</p>
-
-<h3><a name="OCR_0O">OCR-Fehler: 0-O</a></h3>
-<p>OCR-Software hat gew&ouml;hnlich Schwierigkeiten, die Ziffer &bdquo;0&ldquo;
-   (Null) vom Gro&szlig;buchstaben &bdquo;O&ldquo; (Oh) zu unterscheiden. Das gilt
-   vor allem f&uuml;r B&uuml;cher in ungew&ouml;hnlichen Schrifttypen oder
-   schlechtem Zustand.
-</p>
-<p>Achten Sie besonders auf diese Zeichen. Lesen Sie den Kontext des Satzes, um
-   zu entscheiden, welches das richtige Zeichen ist. Aber geben Sie Acht &ndash;
-   h&auml;ufig &bdquo;korrigiert&ldquo; Ihr Verstand die Zeichen automatisch beim
-   Lesen.
-</p>
-<p>Die Unterscheidung dieser Zeichen ist einfacher, wenn Sie eine nicht-proportionale
-   Schriftart verwenden, wie etwa <a href="font_sample.php">DPCustomMono</a> oder
-   Courier.
-</p>
-
-<h3><a name="OCR_hyphen">OCR-Fehler: Binde- und Gedankenstriche</a></h3>
-<p>OCR-Software hat gew&ouml;hnlich Schwierigkeiten, die verschiedenen Gedanken-
-   und Bindestriche zu unterscheiden. Formatieren Sie diese sorgf&auml;ltig &ndash;
-   f&uuml;r Gedankenstriche verwendet die OCR-Software oft nur einen Bindestrich
-   anstatt zwei. N&auml;heres zu den Regeln finden Sie unter
-   <a href="#eol_hyphen">Trennzeichen</a> und <a href="#em-dashes">Gedankenstriche</a>.
-</p>
-<p>Die Unterscheidung dieser Zeichen ist einfacher, wenn Sie eine nicht-proportionale
-   Schriftart verwenden, wie etwa <a href="font_sample.php">DPCustomMono</a> oder
-   Courier.
-</p>
-
-<h3><a name="OCR_scanno">OCR-Fehler: &bdquo;Scannos&ldquo;</a></h3>
-<p>Ein anderes h&auml;ufiges Problem der OCR ist die falsche Erkennung von Zeichen,
-   sogenannte OCR-Fehler (englisch &bdquo;scannos&ldquo;, nachgebildet &bdquo;typos&ldquo;
-   f&uuml;r Druck- und Satzfehler). Die Fehlerkennung kann ein Wort bilden, das</p>
-<ul compact>
-  <li>auf den ersten Blick richtig erscheint, in Wahrheit aber falsch geschrieben ist.<br>
-      Solche W&ouml;rter kann das Programm &sbquo;WordCheck&lsquo; in der
-      Korrekturlese-Oberfl&auml;che entdecken.</li>
-  <li>zu einem anderen, richtigen Wort wird, das nicht dem in der Vorlage entspricht.<br>
-      Solche W&ouml;rter sind besonders unangenehm, weil sie nur erkannt werden,
-      wenn man die Vorlage Satz f&uuml;r Satz mit dem Text vergleicht.</li>
-</ul>
-<p>Das verbreitetste Beispiel f&uuml;r die zweite Art ist wahrscheinlich das Wort
-   &bdquo;and&ldquo;, eingelesen als &bdquo;arid&ldquo;. Weitere Beispiele sind:
-   &bdquo;eve&ldquo; f&uuml;r &bdquo;eye&ldquo;, &bdquo;Torn&ldquo; f&uuml;r
-   &bdquo;Tom&ldquo; und &bdquo;train&ldquo; f&uuml;r &bdquo;tram&ldquo;. Dieser
-   Typ Fehler ist schwer zu entdecken, und wir haben einen speziellen Ausdruck
-   daf&uuml;r: &bdquo;Stealth Scannos&ldquo; (getarnte OCR-Fehler). Beispiele
-   von Stealth Scannos sammeln wir in <a href="<? echo $Stealth_Scannos_URL; ?>">diesem
-   Thread</a>.
-</p>
-<p>Das Erkennen von Scannos ist einfacher, wenn Sie eine nicht-proportionale Schriftart
-   verwenden, wie etwa <a href="font_sample.php">DPCustomMono</a> oder Courier.
-</p>
-<!-- END RR -->
-<!-- More to be added.... -->
-
-<h3><a name="hand_notes">Handgeschriebene Notizen in B&uuml;chern</a></h3>
-<p>&Uuml;bernehmen Sie keine handschriftlichen Erg&auml;nzungen oder Randnotizen
-   in den Text (es sei denn, es wurde verblichener gedruckter Text &uuml;berschrieben,
-   um ihn besser lesbar zu machen). Lassen Sie auch handgeschriebene Kommentare
-   von Lesern usw. au&szlig;en vor. </p>
-<p>Manche Projektmanager legen in den <a href="#comments">Projektkommentaren</a>
-   fest, dass handgeschriebene Notizen mit <tt>[HW: (Text der Notiz)]</tt> markiert
-   werden soll.
-</p>
-
 <h3><a name="bad_image">Schlechte Vorlagen</a></h3>
 <p>Ist eine Vorlage schlecht (sie wird nicht geladen, ist abgeschnitten oder unlesbar),
    so machen Sie einen Eintrag im <a href="#forums">Projektforum</a>. Klicken Sie
@@ -3526,4 +2304,3 @@ You told me the walk was private.<br>
 <?
 theme('','footer');
 ?>
-
