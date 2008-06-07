@@ -81,41 +81,41 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <td width="1" bgcolor="silver">&nbsp;</td>
     <td bgcolor="white" align="left">
       <ul style="margin-left: 3em;">
-        <li><a href="#line_br">Retours &agrave; la ligne</a></li>
         <li><a href="#double_q">Guillemets</a></li>
         <li><a href="#single_q">Apostrophes (simples quotes)</a></li>
         <li><a href="#quote_ea">Guillemets sur chaque ligne</a></li>
         <li><a href="#period_s">Points en fin de phrase</a></li>
         <li><a href="#punctuat">Ponctuation</a></li>
-        <li><a href="#period_p">Points de suspension "..."</a></li>
-        <li><a href="#contract">Contractions</a></li>
         <li><a href="#extra_sp">Espaces exc&eacute;dentaires entre les mots</a></li>
         <li><a href="#trail_s">Espace en fin de ligne</a></li>
-        <li><a href="#line_no">Num&eacute;ros de ligne</a></li>
-        <li><a href="#italics">Italiques et gras</a></li>
-        <li><a href="#supers">Texte en Exposant</a></li>
-        <li><a href="#subscr">Texte en indice</a></li>
-        <li><a href="#font_sz">Changement de taille de police</a></li>
-        <li><a href="#small_caps">Petites capitales</a></li>
         <li><a href="#drop_caps">Lettre de d&eacute;but de paragraphe grande ou orn&eacute;e</a></li>
-        <li><a href="#a_chars">Caract&egrave;res accentu&eacute;s et non-ASCII</a></li>
-        <li><a href="#d_chars">Caract&egrave;res avec marques diacritiques</a></li>
-        <li><a href="#f_chars">Alphabets non latins</a></li>
-        <li><a href="#fract_s">Fractions</a></li>
         <li><a href="#em_dashes">Tirets, traits d'union et signes 'moins'</a></li>
         <li><a href="#eol_hyphen">Traits d'union en fin de ligne</a></li>
         <li><a href="#eop_hyphen">Traits d'union en fin de page</a></li>
-        <li><a href="#next_word">Mot isol&eacute; en fin de page</a></li>
-        <li><a href="#para_space">Espacement et indentation des paragraphes</a></li>
-        <li><a href="#mult_col">Colonnes multiples</a></li>
-        <li><a href="#blank_pg">Page blanche</a></li>
-        <li><a href="#page_hf">En-t&ecirc;tes et pieds de page</a></li>
+        <li><a href="#period_p">Points de suspension "..."</a></li>
+        <li><a href="#contract">Contractions</a></li>
+        <li><a href="#fract_s">Fractions</a></li>
+        <li><a href="#a_chars">Caract&egrave;res accentu&eacute;s et non-ASCII</a></li>
+        <li><a href="#d_chars">Caract&egrave;res avec marques diacritiques</a></li>
+        <li><a href="#f_chars">Alphabets non latins</a></li>
+        <li><a href="#supers">Texte en Exposant</a></li>
+        <li><a href="#subscr">Texte en indice</a></li>
+        <li><a href="#font_sz">Changement de taille de police</a></li>
+        <li><a href="#italics">Italiques et gras</a></li>
+        <li><a href="#small_caps">Petites capitales</a></li>
+        <li><a href="#line_br">Retours &agrave; la ligne</a></li>
         <li><a href="#chap_head">En-t&ecirc;tes de chapitres</a></li>
+        <li><a href="#para_space">Espacement et indentation des paragraphes</a></li>
+        <li><a href="#page_hf">En-t&ecirc;tes et pieds de page</a></li>
         <li><a href="#illust">Illustrations</a></li>
         <li><a href="#footnotes">Notes de fin et notes de bas de page</a></li>
-        <li><a href="#poetry">Po&eacute;sie/&Eacute;pigrammes</a></li>
         <li><a href="#para_side">Commentaires en marge des paragraphes</a></li>
+        <li><a href="#mult_col">Colonnes multiples</a></li>
         <li><a href="#tables">Tableaux</a></li>
+        <li><a href="#poetry">Po&eacute;sie/&Eacute;pigrammes</a></li>
+        <li><a href="#line_no">Num&eacute;ros de ligne</a></li>
+        <li><a href="#next_word">Mot isol&eacute; en fin de page</a></li>
+        <li><a href="#blank_pg">Page blanche</a></li>
         <li><a href="#title_pg">Page de titre/fin</a></li>
         <li><a href="#toc">Table des mati&egrave;res</a></li>
         <li><a href="#bk_index">Index</a></li>
@@ -301,20 +301,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 
 
-<h3><a name="line_br">Retours &agrave; la ligne</a></h3>
-<p><b>Laissez tous les retours &agrave; la ligne</b> de mani&egrave;re &agrave; ce
-   que le correcteur suivant puisse comparer les textes facilement. 
-   Faites particuli&egrave;rement attention &agrave; cela lorsque vous rejoignez
-   des <a href="#eol_hyphen">mots coup&eacute;s en fin de ligne</a>, ou lorsque
-   vous d&eacute;placez des mots adjacents &agrave; des <a href="#em_dashes">tirets</a>.
-   Si le correcteur qui est pass&eacute; avant vous a supprim&eacute; les retours &agrave;
-   la ligne, remettez-les, pour que les lignes correspondent &agrave; l'image.
-</p>
-
-
-<!-- END RR -->
-<!-- We should have an example right here for this. -->
-
 <h3><a name="double_q">Guillemets doubles (&nbsp;"&nbsp;)</a></h3>
 <p>Utilisez les guillemets droits ASCII (<tt>"</tt>). Ne remplacez pas les guillemets
    par des apostrophes. Laissez ce que l'auteur a &eacute;crit.
@@ -397,6 +383,234 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   </tbody>
 </table>
 
+<h3><a name="extra_sp">Espaces exc&eacute;dentaires entre les mots</a></h3>
+<p>Des espaces suppl&eacute;mentaires ou des caract&egrave;res de tabulation 
+   entre les mots sont une erreur d'OCR courante. Il
+   n'est pas n&eacute;cessaire de supprimer ces espaces &eacute;tant donn&eacute; qu'il
+   est facile de le faire automatiquement lors du post-processing.
+</p>
+<p>Mais les espaces exc&eacute;dentaires autour de la ponctuation, des tirets, etc.
+   doivent &ecirc;tre supprim&eacute;s car il est difficile de faire cela automatiquement.
+</p>
+<p>Par exemple, dans <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt>
+   il faut supprimer l'espace avant le point virgule. Mais les deux
+   espaces apr&egrave;s le point virgule ne posent pas de probl&egrave;me&nbsp;: vous n'&ecirc;tes pas
+   oblig&eacute;s d'en supprimer un.
+</p>
+
+<h3><a name="trail_s">Espaces en fin de ligne</a></h3>
+<p>Inutile d'ins&eacute;rer des espaces &agrave; la fin des lignes. N'enlevez pas non plus les
+   espaces en trop. Tout ceci peut se g&eacute;rer automatiquement en phase de
+   post-processing.
+</p>
+
+<h3><a name="drop_caps">Lettre de d&eacute;but de paragraphe grande ou orn&eacute;e</a></h3>
+<p>Souvent, la premi&egrave;re lettre d'un chapitre, section ou paragraphe est imprim&eacute;e
+   tr&egrave;s grande et orn&eacute;e (une lettrine). Dans votre texte, laissez simplement la
+   lettre.
+</p>
+
+
+<h3><a name="em_dashes">Tirets, traits d'unions, et signe &ldquo;moins&rdquo;</a></h3>
+<p>Vous verrez quatre types de traits dans les livres.
+</p>
+  <ol compact>
+    <li>Les traits d'union (<i>Hyphen</i>). Ils sont utilis&eacute;s pour <b>joindre</b> les
+        mots, ou parfois pour joindre les pr&eacute;fixes ou les suffixes &agrave; un mot.
+    <br>Dans votre texte corrig&eacute;, laissez un seul signe <tt>-</tt>, sans espace ni &agrave;
+        droite ni &agrave; gauche.
+    <br>Notez toutefois qu'il y a une exception. Voir le deuxi&egrave;me exemple ci-dessous.
+    </li>
+    <li>Les tirets d'un demi-cadratin (<i>En-dash</i>). Ils sont un peu plus longs, ils sont
+        utilis&eacute;s pour des <b>intervalles</b> de nombres, ou pour le signe
+        math&eacute;matique "moins".
+    <br>L&agrave; aussi, laissez un seul signe <tt>-</tt>. Laissez un espace avant ou apr&egrave;s
+        selon la fa&ccedil;on dont c'est imprim&eacute; sur le livre. En g&eacute;n&eacute;ral,
+        pas d'espace pour les intervalles de nombres, mais, autour du signe "moins", il y
+        en a parfois des deux c&ocirc;t&eacute;s, parfois seulement avant.
+    </li>
+    <li>Les tirets d'un cadratin (<i>Em-dash</i>) et les tirets longs (<i>long dash</i>). 
+        Ils servent de <b>s&eacute;parateurs</b>
+        entre les mots&mdash;parfois pour mettre l'accent, comme ceci&mdash;ou
+        quand une personne prend la parole, ou s'interrompt dans un dialogue.
+    <br>Notez le tiret d'un cadratin avec deux signes <tt>-</tt>, et le tiret long avec 
+        quatre signes <tt>-</tt>, sans espace ni avant ni apr&egrave;s, m&ecirc;me s'il semble y
+        en avoir un sur le document imprim&eacute;.
+    </li>
+    <li>Les traits qui repr&eacute;sentent des mots (ou des noms) <b>omis</b> ou <b>censur&eacute;s</b>.
+    <br>Notez-les avec quatre signes <tt>-</tt>. Si le trait long repr&eacute;sente
+        un mot, laissez des espaces autour des tirets, comme si c'&eacute;tait vraiment le
+        mot. Si c'est seulement une partie de mot, alors pas d'espaces. Joignez-le au
+        reste du mot.
+        Si le tiret a apparemment la m&ecirc;me taille qu'un tiret d'un cadratin, ne mettez
+        que deux signes <tt>-</tt>.
+    </li>
+  </ol>
+<p>Note. Si un tiret <i>em-dash</i> appara&icirc;t au d&eacute;but (ou &agrave; la fin) de votre ligne dans
+   votre texte, joignez-le &agrave; l'autre ligne pour qu'il n'y ait pas d'espace autour
+   du tiret. C'est seulement si l'auteur a utilis&eacute; un tiret au d&eacute;but ou &agrave; la fin
+   d'un paragraphe, ou sur une ligne de po&eacute;sie, ou un dialogue que vous devez le
+   laissez au d&eacute;but ou &agrave; la fin de la ligne. Voir les exemples ci-dessous.
+</p>
+<!-- END RR -->
+
+<p><b>Quelques exemples.</b>
+</p>
+
+<table width="100%" align="center" border="1"  cellpadding="4" cellspacing="0" summary="traits d&apos;union et tirets">
+  <tbody>
+    <tr>
+      <th valign="top" bgcolor="cornsilk">Image de d&eacute;part:</th>
+      <th valign="top" bgcolor="cornsilk">Texte corrig&eacute;:</th>
+      <th valign="top" bgcolor="cornsilk">Type</th>
+    </tr>
+    <tr>
+      <td valign="top">semi-detached</td>
+      <td valign="top"><tt>semi-detached</tt></td>
+      <td>Trait d'union</td>
+    </tr>
+    <tr>
+      <td valign="top">three- and four-part harmony</td>
+      <td valign="top"><tt>three- and four-part harmony</tt></td>
+      <td>Trait d'union</td>
+    </tr>
+    <tr>
+      <td valign="top">discoveries which the Crus-<br>
+        aders made and brought home with</td>
+      <td valign="top"><tt>discoveries which the Crusaders<br>
+        made and brought home with</tt></td>
+      <td>Trait d'union</td>
+    </tr>
+    <tr>
+      <td valign="top">factors which mold char-<br>
+        acter&mdash;environment, training and heritage,</td>
+      <td valign="top"><tt>factors which mold character--environment,<br>
+        training and heritage,</tt>
+      <td>Trait d'union</td>
+    </tr>
+    <tr>
+      <td valign="top">See pages 21&ndash;25</td>
+      <td valign="top"><tt>See pages 21-25</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">&ndash;14&deg; below zero</td>
+      <td valign="top"><tt>-14&deg; below zero</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">X &ndash; Y = Z</td>
+      <td valign="top"><tt>X - Y = Z</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">2&ndash;1/2</td>
+      <td valign="top"><tt>2-1/2</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">I am hurt;&mdash;A plague<br> on both your houses!&mdash;I am dead.</td>
+      <td valign="top"><tt>I am hurt;--A plague<br> on both your houses!--I am dead.</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
+        &mdash;if even all of these are simple tastes. What</td>
+      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
+        even all of these are simple tastes. What</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
+        with which we are here concerned,</td>
+      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
+        which we are here concerned,</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
+      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
+      <td>Em-dash</td>
+    </tr>
+ <tr>
+      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
+       say, but the left-hand cat interrupted her.</td>
+      <td valign="top"><tt>"Three hundred----" "years," she was going to
+       say, but the left-hand cat interrupted her.</tt></td>
+      <td>Long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
+      <td>Long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
+      <td>Long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
+      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
+      <td>Long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
+      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
+      <td>Long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
+      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
+      <td>Em-dash</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3><a name="eol_hyphen">Traits d'union en fin de ligne</a></h3>
+<p>Enlevez le trait d'union en fin de ligne et collez les deux morceaux du mot
+   qui &eacute;tait coup&eacute;. &Agrave; moins que ce ne soit r&eacute;ellement un mot
+   avec tiret tel que porte-manteau. Mais si le mot &eacute;tait coup&eacute; parce
+   que la ligne est trop courte, et non pas parce qu'il prend g&eacute;n&eacute;ralement
+   un trait d'union, alors rejoignez les deux parties. Laissez le mot sur la ligne
+   sup&eacute;rieure et ins&eacute;rez un retour &agrave; la ligne apr&egrave;s ce mot
+   pour conserver la disposition des lignes: cela rend la t&acirc;che plus facile aux
+   correcteurs apr&egrave;s vous. Voyez &agrave; <a href="#em_dashes">Tirets, traits d'unions,
+   et signe &ldquo;moins&rdquo;</a> pour des exemples de chaque type (<tt>ma-chin</tt> est
+   transform&eacute; en <tt>machin</tt>, mais <tt>dix-huit</tt> garde le tiret).
+   Si le mot coup&eacute; est suivi d'un signe de ponctuation, mettez ce signe sur la
+   premi&egrave;re ligne aussi.
+</p>
+<p>Laissez le trait d'union aux mots qui s'&eacute;crivaient anciennement avec un trait
+   d'union mais qui n'en ont plus aujourd'hui. Si vous n'&ecirc;tes pas s&ucirc;r de savoir si
+   l'auteur a mis un tiret ou non, laissez le tiret, mettez un <tt>*</tt> apr&egrave;s, et
+   rejoignez les deux parties du mot, comme ceci&nbsp;: <tt>to-*day</tt>, <tt>long-*temps</tt>. L'ast&eacute;risque
+   attirera l'attention du post-processeur, qui a acc&egrave;s &agrave; toutes les pages et qui
+   verra comment l'auteur &eacute;crit habituellement le mot.
+</p>
+
+<h3><a name="eop_hyphen">Traits d'union en fin de page</a></h3>
+<p>Laissez le trait d'union &agrave; la fin de la derni&egrave;re ligne, mais marquez le avec
+   un ast&eacute;risque (<tt>*</tt>) apr&egrave;s le trait d'union.<br>
+   Par exemple, corrigez:<br>
+   &nbsp;<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;something Pat had already become accus-<br>
+   par:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>something Pat had already become accus-*</tt>
+</p>
+<p>Pour les pages qui commencent avec un mot commenc&eacute; &agrave; la fin de la page
+   pr&eacute;c&eacute;dente, ou un tiret <i>em-dash</i>, placez un <tt>*</tt> avant 
+   le fragment de mot ou le tiret.<br>
+   Pour continuer avec l'exemple ci-dessus, corrigez:<br>
+   &nbsp;<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;tomed to from having to do his own family<br>
+   en:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>*tomed to from having to do his own family</tt>
+</p>
+<p>Ces signes indiquent au post-processeur, quand il produit le texte final,
+   qu'il doit rejoindre les deux parties du mot.
+</p>
+
 <h3><a name="period_p">Points de suspension "..."</a></h3>
 <p>Les r&egrave;gles sont diff&eacute;rentes selon que le texte est en anglais ou non.
 </p>
@@ -447,92 +661,10 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 
-<h3><a name="extra_sp">Espaces exc&eacute;dentaires entre les mots</a></h3>
-<p>Des espaces suppl&eacute;mentaires ou des caract&egrave;res de tabulation 
-   entre les mots sont une erreur d'OCR courante. Il
-   n'est pas n&eacute;cessaire de supprimer ces espaces &eacute;tant donn&eacute; qu'il
-   est facile de le faire automatiquement lors du post-processing.
-</p>
-<p>Mais les espaces exc&eacute;dentaires autour de la ponctuation, des tirets, etc.
-   doivent &ecirc;tre supprim&eacute;s car il est difficile de faire cela automatiquement.
-</p>
-<p>Par exemple, dans <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt>
-   il faut supprimer l'espace avant le point virgule. Mais les deux
-   espaces apr&egrave;s le point virgule ne posent pas de probl&egrave;me&nbsp;: vous n'&ecirc;tes pas
-   oblig&eacute;s d'en supprimer un.
-</p>
-
-<h3><a name="trail_s">Espaces en fin de ligne</a></h3>
-<p>Inutile d'ins&eacute;rer des espaces &agrave; la fin des lignes. N'enlevez pas non plus les
-   espaces en trop. Tout ceci peut se g&eacute;rer automatiquement en phase de
-   post-processing.
-</p>
-
-<h3><a name="line_no">Num&eacute;ros de ligne</a></h3>
-<p>Gardez les num&eacute;ros de ligne. Utilisez quelques espaces pour les s&eacute;parer du reste
-   du texte, pour que les formateurs puissent les rep&eacute;rer facilement.
-</p>
-<p>Il y a souvent des num&eacute;ros de lignes dans la marge, sur les livres de
-   po&eacute;sie, tous les 5, 10 ou 20 vers. Nous gardons ces num&eacute;ros car
-   ils sont utiles au lecteur.
-</p>
-<!-- END RR -->
-<!-- We need an example image and text for this. -->
-
-<h3><a name="italics">Italiques, gras</a></h3>
-<p>Du texte en <i>italiques</i> dans le texte imprim&eacute; peut appara&icirc;tre dans votre page
-   de travail entour&eacute; des marques <tt>&lt;i&gt;</tt> avant et <tt>&lt;/i&gt;</tt>
-   apr&egrave;s. Du <b>texte en gras</b> (imprim&eacute; avec une fonte "lourde") peut
-   appara&icirc;tre avec <tt>&lt;b&gt;</tt> ins&eacute;r&eacute; avant et <tt>&lt;/b&gt;</tt>
-   apr&egrave;s le texte en gras. N'ajoutez pas ces marques, mais ne les supprimez pas (&agrave; moins qu'elles
-   entourent du texte superflu, non pr&eacute;sent dans le texte imprim&eacute;, auquel cas
-   supprimez le tout). La gestion de ces marques se fait au formatage, plus tard
-   dans le processus.
-</p>
-<!-- END RR -->
-
-
-<h3><a name="supers">Exposants</a></h3>
-<p>Les vieux livres abr&eacute;geaient souvent les mots en contractions, et les
-   imprimaient en exposant, par exemple:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
-   Ins&eacute;rez un chapeau (<tt>^</tt>) pour identifier l'abr&eacute;viation/contraction, comme suit:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
-</p>
-
-
-<h3><a name="subscr">Texte en Indice</a></h3>
-<p>On trouve la notation "indice" dans des ouvrages scientifiques, rarement
-   ailleurs. Indiquez l'indice en mettant un signe "soulign&eacute;" <tt>_</tt> devant.
-   <br>Par exemple:
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
-   <br>donne
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.<br></tt>
-</p>
-
-
-<h3><a name="font_sz">Changement de taille de police</a></h3>
-<p>Ne faites rien pour indiquer un changement de taille de police.
-   C'est le travail des formateurs, pour plus tard.
-</p>
-
-<h3><a name="small_caps">Petites capitales</a></h3>
-<p><span style="font-variant: small-caps">Les petites capitales</span>
-   (autrement dit des lettres capitales plus petites que des capitales ordinaires)
-   apparaissent parfois dans votre page de travail avec <tt>&lt;sc&gt;</tt> avant et
-   <tt>&lt;/sc&gt;</tt> apr&egrave;s. N'enlevez
-   pas ces marques de formatage (&agrave; moins qu'elles entourent du mauvais
-   texte, non pr&eacute;sent dans le texte imprim&eacute;). Ne les ajoutez pas non plus.
-   La gestion de ces marques rel&egrave;ve du formatage, qui intervient plus tard
-   dans le processus. &Agrave; l'int&eacute;rieur de ces marques, corrigez le caract&egrave;re lui-m&ecirc;me
-   sans vous pr&eacute;occuper de sa casse. Laissez les majuscules en majuscules, et les
-   minuscules en minuscules.
-</p>
-
-<h3><a name="drop_caps">Lettre de d&eacute;but de paragraphe grande ou orn&eacute;e</a></h3>
-<p>Souvent, la premi&egrave;re lettre d'un chapitre, section ou paragraphe est imprim&eacute;e
-   tr&egrave;s grande et orn&eacute;e (une lettrine). Dans votre texte, laissez simplement la
-   lettre.
+<h3><a name="fract_s">Fractions</a></h3>
+<p>Convertissez les <b>fractions</b> de cette mani&egrave;re: <tt>2&frac12;</tt> devient <tt>2-1/2</tt>.
+   Le trait d'union emp&ecirc;che les deux parties d'&ecirc;tre s&eacute;par&eacute;es par un retour
+   &agrave; la ligne au cours du r&eacute;assemblage des lignes.
 </p>
 
 
@@ -1222,225 +1354,84 @@ cedilla                      [,x]   [x,]
 <? } ?>
 
 
-<h3><a name="fract_s">Fractions</a></h3>
-<p>Convertissez les <b>fractions</b> de cette mani&egrave;re: <tt>2&frac12;</tt> devient <tt>2-1/2</tt>.
-   Le trait d'union emp&ecirc;che les deux parties d'&ecirc;tre s&eacute;par&eacute;es par un retour
-   &agrave; la ligne au cours du r&eacute;assemblage des lignes.
+<h3><a name="supers">Exposants</a></h3>
+<p>Les vieux livres abr&eacute;geaient souvent les mots en contractions, et les
+   imprimaient en exposant, par exemple:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
+   Ins&eacute;rez un chapeau (<tt>^</tt>) pour identifier l'abr&eacute;viation/contraction, comme suit:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
 
 
-<h3><a name="em_dashes">Tirets, traits d'unions, et signe &ldquo;moins&rdquo;</a></h3>
-<p>Vous verrez quatre types de traits dans les livres.
+<h3><a name="subscr">Texte en Indice</a></h3>
+<p>On trouve la notation "indice" dans des ouvrages scientifiques, rarement
+   ailleurs. Indiquez l'indice en mettant un signe "soulign&eacute;" <tt>_</tt> devant.
+   <br>Par exemple:
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
+   <br>donne
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.<br></tt>
 </p>
-  <ol compact>
-    <li>Les traits d'union (<i>Hyphen</i>). Ils sont utilis&eacute;s pour <b>joindre</b> les
-        mots, ou parfois pour joindre les pr&eacute;fixes ou les suffixes &agrave; un mot.
-    <br>Dans votre texte corrig&eacute;, laissez un seul signe <tt>-</tt>, sans espace ni &agrave;
-        droite ni &agrave; gauche.
-    <br>Notez toutefois qu'il y a une exception. Voir le deuxi&egrave;me exemple ci-dessous.
-    </li>
-    <li>Les tirets d'un demi-cadratin (<i>En-dash</i>). Ils sont un peu plus longs, ils sont
-        utilis&eacute;s pour des <b>intervalles</b> de nombres, ou pour le signe
-        math&eacute;matique "moins".
-    <br>L&agrave; aussi, laissez un seul signe <tt>-</tt>. Laissez un espace avant ou apr&egrave;s
-        selon la fa&ccedil;on dont c'est imprim&eacute; sur le livre. En g&eacute;n&eacute;ral,
-        pas d'espace pour les intervalles de nombres, mais, autour du signe "moins", il y
-        en a parfois des deux c&ocirc;t&eacute;s, parfois seulement avant.
-    </li>
-    <li>Les tirets d'un cadratin (<i>Em-dash</i>) et les tirets longs (<i>long dash</i>). 
-        Ils servent de <b>s&eacute;parateurs</b>
-        entre les mots&mdash;parfois pour mettre l'accent, comme ceci&mdash;ou
-        quand une personne prend la parole, ou s'interrompt dans un dialogue.
-    <br>Notez le tiret d'un cadratin avec deux signes <tt>-</tt>, et le tiret long avec 
-        quatre signes <tt>-</tt>, sans espace ni avant ni apr&egrave;s, m&ecirc;me s'il semble y
-        en avoir un sur le document imprim&eacute;.
-    </li>
-    <li>Les traits qui repr&eacute;sentent des mots (ou des noms) <b>omis</b> ou <b>censur&eacute;s</b>.
-    <br>Notez-les avec quatre signes <tt>-</tt>. Si le trait long repr&eacute;sente
-        un mot, laissez des espaces autour des tirets, comme si c'&eacute;tait vraiment le
-        mot. Si c'est seulement une partie de mot, alors pas d'espaces. Joignez-le au
-        reste du mot.
-        Si le tiret a apparemment la m&ecirc;me taille qu'un tiret d'un cadratin, ne mettez
-        que deux signes <tt>-</tt>.
-    </li>
-  </ol>
-<p>Note. Si un tiret <i>em-dash</i> appara&icirc;t au d&eacute;but (ou &agrave; la fin) de votre ligne dans
-   votre texte, joignez-le &agrave; l'autre ligne pour qu'il n'y ait pas d'espace autour
-   du tiret. C'est seulement si l'auteur a utilis&eacute; un tiret au d&eacute;but ou &agrave; la fin
-   d'un paragraphe, ou sur une ligne de po&eacute;sie, ou un dialogue que vous devez le
-   laissez au d&eacute;but ou &agrave; la fin de la ligne. Voir les exemples ci-dessous.
+
+
+<h3><a name="font_sz">Changement de taille de police</a></h3>
+<p>Ne faites rien pour indiquer un changement de taille de police.
+   C'est le travail des formateurs, pour plus tard.
+</p>
+
+<h3><a name="italics">Italiques, gras</a></h3>
+<p>Du texte en <i>italiques</i> dans le texte imprim&eacute; peut appara&icirc;tre dans votre page
+   de travail entour&eacute; des marques <tt>&lt;i&gt;</tt> avant et <tt>&lt;/i&gt;</tt>
+   apr&egrave;s. Du <b>texte en gras</b> (imprim&eacute; avec une fonte "lourde") peut
+   appara&icirc;tre avec <tt>&lt;b&gt;</tt> ins&eacute;r&eacute; avant et <tt>&lt;/b&gt;</tt>
+   apr&egrave;s le texte en gras. N'ajoutez pas ces marques, mais ne les supprimez pas (&agrave; moins qu'elles
+   entourent du texte superflu, non pr&eacute;sent dans le texte imprim&eacute;, auquel cas
+   supprimez le tout). La gestion de ces marques se fait au formatage, plus tard
+   dans le processus.
 </p>
 <!-- END RR -->
 
-<p><b>Quelques exemples.</b>
+
+<h3><a name="small_caps">Petites capitales</a></h3>
+<p><span style="font-variant: small-caps">Les petites capitales</span>
+   (autrement dit des lettres capitales plus petites que des capitales ordinaires)
+   apparaissent parfois dans votre page de travail avec <tt>&lt;sc&gt;</tt> avant et
+   <tt>&lt;/sc&gt;</tt> apr&egrave;s. N'enlevez
+   pas ces marques de formatage (&agrave; moins qu'elles entourent du mauvais
+   texte, non pr&eacute;sent dans le texte imprim&eacute;). Ne les ajoutez pas non plus.
+   La gestion de ces marques rel&egrave;ve du formatage, qui intervient plus tard
+   dans le processus. &Agrave; l'int&eacute;rieur de ces marques, corrigez le caract&egrave;re lui-m&ecirc;me
+   sans vous pr&eacute;occuper de sa casse. Laissez les majuscules en majuscules, et les
+   minuscules en minuscules.
 </p>
 
-<table width="100%" align="center" border="1"  cellpadding="4" cellspacing="0" summary="traits d&apos;union et tirets">
-  <tbody>
-    <tr>
-      <th valign="top" bgcolor="cornsilk">Image de d&eacute;part:</th>
-      <th valign="top" bgcolor="cornsilk">Texte corrig&eacute;:</th>
-      <th valign="top" bgcolor="cornsilk">Type</th>
-    </tr>
-    <tr>
-      <td valign="top">semi-detached</td>
-      <td valign="top"><tt>semi-detached</tt></td>
-      <td>Trait d'union</td>
-    </tr>
-    <tr>
-      <td valign="top">three- and four-part harmony</td>
-      <td valign="top"><tt>three- and four-part harmony</tt></td>
-      <td>Trait d'union</td>
-    </tr>
-    <tr>
-      <td valign="top">discoveries which the Crus-<br>
-        aders made and brought home with</td>
-      <td valign="top"><tt>discoveries which the Crusaders<br>
-        made and brought home with</tt></td>
-      <td>Trait d'union</td>
-    </tr>
-    <tr>
-      <td valign="top">factors which mold char-<br>
-        acter&mdash;environment, training and heritage,</td>
-      <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt>
-      <td>Trait d'union</td>
-    </tr>
-    <tr>
-      <td valign="top">See pages 21&ndash;25</td>
-      <td valign="top"><tt>See pages 21-25</tt></td>
-      <td>En-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">&ndash;14&deg; below zero</td>
-      <td valign="top"><tt>-14&deg; below zero</tt></td>
-      <td>En-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">X &ndash; Y = Z</td>
-      <td valign="top"><tt>X - Y = Z</tt></td>
-      <td>En-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">2&ndash;1/2</td>
-      <td valign="top"><tt>2-1/2</tt></td>
-      <td>En-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">I am hurt;&mdash;A plague<br> on both your houses!&mdash;I am dead.</td>
-      <td valign="top"><tt>I am hurt;--A plague<br> on both your houses!--I am dead.</tt></td>
-      <td>Em-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
-        &mdash;if even all of these are simple tastes. What</td>
-      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
-        even all of these are simple tastes. What</tt></td>
-      <td>Em-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
-        with which we are here concerned,</td>
-      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
-        which we are here concerned,</tt></td>
-      <td>Em-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
-      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
-      <td>Em-dash</td>
-    </tr>
- <tr>
-      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
-       say, but the left-hand cat interrupted her.</td>
-      <td valign="top"><tt>"Three hundred----" "years," she was going to
-       say, but the left-hand cat interrupted her.</tt></td>
-      <td>Long dash</td>
-    </tr>
-    <tr>
-      <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
-      <td>Long dash</td>
-    </tr>
-    <tr>
-      <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
-      <td>Long dash</td>
-    </tr>
-    <tr>
-      <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
-      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
-      <td>Long dash</td>
-    </tr>
-    <tr>
-      <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
-      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
-      <td>Long dash</td>
-    </tr>
-    <tr>
-      <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
-      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
-      <td>Em-dash</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3><a name="eol_hyphen">Traits d'union en fin de ligne</a></h3>
-<p>Enlevez le trait d'union en fin de ligne et collez les deux morceaux du mot
-   qui &eacute;tait coup&eacute;. &Agrave; moins que ce ne soit r&eacute;ellement un mot
-   avec tiret tel que porte-manteau. Mais si le mot &eacute;tait coup&eacute; parce
-   que la ligne est trop courte, et non pas parce qu'il prend g&eacute;n&eacute;ralement
-   un trait d'union, alors rejoignez les deux parties. Laissez le mot sur la ligne
-   sup&eacute;rieure et ins&eacute;rez un retour &agrave; la ligne apr&egrave;s ce mot
-   pour conserver la disposition des lignes: cela rend la t&acirc;che plus facile aux
-   correcteurs apr&egrave;s vous. Voyez &agrave; <a href="#em_dashes">Tirets, traits d'unions,
-   et signe &ldquo;moins&rdquo;</a> pour des exemples de chaque type (<tt>ma-chin</tt> est
-   transform&eacute; en <tt>machin</tt>, mais <tt>dix-huit</tt> garde le tiret).
-   Si le mot coup&eacute; est suivi d'un signe de ponctuation, mettez ce signe sur la
-   premi&egrave;re ligne aussi.
-</p>
-<p>Laissez le trait d'union aux mots qui s'&eacute;crivaient anciennement avec un trait
-   d'union mais qui n'en ont plus aujourd'hui. Si vous n'&ecirc;tes pas s&ucirc;r de savoir si
-   l'auteur a mis un tiret ou non, laissez le tiret, mettez un <tt>*</tt> apr&egrave;s, et
-   rejoignez les deux parties du mot, comme ceci&nbsp;: <tt>to-*day</tt>, <tt>long-*temps</tt>. L'ast&eacute;risque
-   attirera l'attention du post-processeur, qui a acc&egrave;s &agrave; toutes les pages et qui
-   verra comment l'auteur &eacute;crit habituellement le mot.
+<h3><a name="line_br">Retours &agrave; la ligne</a></h3>
+<p><b>Laissez tous les retours &agrave; la ligne</b> de mani&egrave;re &agrave; ce
+   que le correcteur suivant puisse comparer les textes facilement. 
+   Faites particuli&egrave;rement attention &agrave; cela lorsque vous rejoignez
+   des <a href="#eol_hyphen">mots coup&eacute;s en fin de ligne</a>, ou lorsque
+   vous d&eacute;placez des mots adjacents &agrave; des <a href="#em_dashes">tirets</a>.
+   Si le correcteur qui est pass&eacute; avant vous a supprim&eacute; les retours &agrave;
+   la ligne, remettez-les, pour que les lignes correspondent &agrave; l'image.
 </p>
 
-<h3><a name="eop_hyphen">Traits d'union en fin de page</a></h3>
-<p>Laissez le trait d'union &agrave; la fin de la derni&egrave;re ligne, mais marquez le avec
-   un ast&eacute;risque (<tt>*</tt>) apr&egrave;s le trait d'union.<br>
-   Par exemple, corrigez:<br>
-   &nbsp;<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;something Pat had already become accus-<br>
-   par:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>something Pat had already become accus-*</tt>
-</p>
-<p>Pour les pages qui commencent avec un mot commenc&eacute; &agrave; la fin de la page
-   pr&eacute;c&eacute;dente, ou un tiret <i>em-dash</i>, placez un <tt>*</tt> avant 
-   le fragment de mot ou le tiret.<br>
-   Pour continuer avec l'exemple ci-dessus, corrigez:<br>
-   &nbsp;<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;tomed to from having to do his own family<br>
-   en:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>*tomed to from having to do his own family</tt>
-</p>
-<p>Ces signes indiquent au post-processeur, quand il produit le texte final,
-   qu'il doit rejoindre les deux parties du mot.
-</p>
 
-<h3><a name="next_word">Mot isol&eacute; en bas de page</a></h3>
-<p>Nous transcrivons en retirant le mot, m&ecirc;me si c'est la seconde moiti&eacute; d'un mot 
-   coup&eacute; en fin de ligne.
+<!-- END RR -->
+<!-- We should have an example right here for this. -->
+
+<h3><a name="chap_head">En-t&ecirc;tes de chapitres</a></h3>
+<p>Laissez les en-t&ecirc;tes de chapitres dans le texte tels qu'ils sont imprim&eacute;s.
 </p>
-<p>Dans certains livres anciens, ce mot isol&eacute; en bas de page 
-   ("catchword" en anglais, "r&eacute;clame" en fran&ccedil;ais),
-   g&eacute;n&eacute;ralement imprim&eacute; contre la marge de droite, indiquait le premier mot de la page suivante,
-   et permettait &agrave; l'imprimeur et au relieur d'identifier plus facilement l'ordre des pages.
-   Cela permettait &eacute;galement au lecteur de s'apercevoir quand il tournait plusieurs pages d'un coup.
+<p>Un en-t&ecirc;te de chapitre peut commencer plus bas sur la page qu'un <a href="#page_hf">en-t&ecirc;te de
+   page</a> et n'a pas de num&eacute;ro de page sur la m&ecirc;me ligne. Les en-t&ecirc;tes de
+   chapitres sont souvent imprim&eacute;s enti&egrave;rement en majuscules, si c'est le cas,
+   laissez-les tels quels.
+</p>
+<p>Faites attention &agrave; un guillemet (&nbsp;"&nbsp;) au d&eacute;but du premier paragraphe,
+   que certains &eacute;diteurs n'incluaient pas ou que l'OCR ignore &agrave; cause de la
+   grande majuscule dans l'original. Si l'auteur commence le paragraphe avec un
+   dialogue, ins&eacute;rez le guillemet.
 </p>
 <!-- END RR -->
-<!-- We need an example here! -->
 
 
 
@@ -1452,28 +1443,6 @@ cedilla                      [,x]   [x,]
    post-processing).
 </p>
 <p>Voyez l'image et le texte de la section <a href="#para_side">Notes en marge</a> pour avoir un exemple.
-</p>
-
-<h3><a name="mult_col">Colonnes Multiples</a></h3>
-<p>R&eacute;unissez les colonnes multiples en une seule colonne.
-</p>
-<p>Placez la colonne la plus &agrave; gauche en premier puis les autres colonnes
-   &agrave; sa suite. Vous ne devez rien faire de particulier pour marquer la
-   s&eacute;paration des colonnes, rejoignez-les simplement.
-</p>
-<p>Voir aussi <a href="#bk_index">Index</a> et <a href="#tables">Tables</a>.
-</p>
-
-
-<h3><a name="blank_pg">Page blanche</a></h3>
-<p>Si la page est blanche ou si elle ne contient qu'une illustration sans
-   texte, vous verrez le plus souvent <tt>[Blank Page]</tt> sur votre page de travail.
-   Laissez cette marque. Si la page est blanche et que la marque n'appara&icirc;t pas,
-   ce n'est pas la peine de l'ajouter.
-</p>
-<p>Si le texte seulement (ou l'image seulement) est vide, suivez la
-   proc&eacute;dure indiqu&eacute;es dans le cas d'une <a href="#bad_image">mauvaise image</a>
-   ou d'un <a href="#bad_text">mauvais texte</a>.
 </p>
 
 <h3><a name="page_hf">En-t&ecirc;tes et pieds de page</a></h3>
@@ -1557,23 +1526,6 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
-
-<h3><a name="chap_head">En-t&ecirc;tes de chapitres</a></h3>
-<p>Laissez les en-t&ecirc;tes de chapitres dans le texte tels qu'ils sont imprim&eacute;s.
-</p>
-<p>Un en-t&ecirc;te de chapitre peut commencer plus bas sur la page qu'un <a href="#page_hf">en-t&ecirc;te de
-   page</a> et n'a pas de num&eacute;ro de page sur la m&ecirc;me ligne. Les en-t&ecirc;tes de
-   chapitres sont souvent imprim&eacute;s enti&egrave;rement en majuscules, si c'est le cas,
-   laissez-les tels quels.
-</p>
-<p>Faites attention &agrave; un guillemet (&nbsp;"&nbsp;) au d&eacute;but du premier paragraphe,
-   que certains &eacute;diteurs n'incluaient pas ou que l'OCR ignore &agrave; cause de la
-   grande majuscule dans l'original. Si l'auteur commence le paragraphe avec un
-   dialogue, ins&eacute;rez le guillemet.
-</p>
-<!-- END RR -->
-
-
 
 <h3><a name="illust">Illustrations</a></h3>
 <p>Gardez le titre (l&eacute;gende) de l'illustration comme il est imprim&eacute;, en pr&eacute;servant
@@ -1784,77 +1736,6 @@ Les <b>notes sur des <a href="#tables">tables</a></b> doivent rester o&ugrave; e
   </tbody>
 </table>
 
-<h3><a name="poetry">Po&eacute;sie/&Eacute;pigrammes</a></h3>
-<p>Mettez une ligne blanche avant un po&egrave;me, et une ligne blanche apr&egrave;s.
-   Comme &ccedil;a, le formateurs verront clairement o&ugrave; le po&egrave;me commence et finit.
-</p>
-<p>Calez tous les vers &agrave; gauche, et gardez les retours &agrave; la ligne. N'essayez pas
-   de centrer ou d'indenter les vers, laissez cela aux formateurs. Mais ins&eacute;rez
-   une ligne vide entre les strophes (ou couplets).
-</p>
-<p>Les <b>notes de bas de page</b> dans la po&eacute;sie se traitent comme les autres notes de
-   bas de page. Voyez <a href="#footnotes">notes de bas de page</a> pour plus de details.
-</p>
-<p>Gardez les <b>num&eacute;ros de vers</b> s'ils sont imprim&eacute;s. S&eacute;parez-les du reste du texte par 
-  quelques blancs. Voir <a href="#line_no">Num&eacute;ros
-   de ligne</a> pour des d&eacute;tails.
-</p>
-<p>Regardez les <a href="#comments">commentaires de projet</a> pour des instructions sp&eacute;cifiques.
-</p>
-<!-- END RR -->
-
-<br>
-<!-- Need an example that shows overly long lines of poetry, rather than relative indentation -->
-
-<table width="100%" align="center" border="1"  cellpadding="4"
-      cellspacing="0" summary="Exemple de po&eacute;sie">
- <tbody>
-   <tr><th align="left" bgcolor="cornsilk">Exemple d'image:</th></tr>
-   <tr align="left">
-     <th width="100%" valign="top"> <img src="poetry.png" alt=""
-         width="500" height="508"> <br>
-     </th>
-   </tr>
-   <tr><th align="left" bgcolor="cornsilk">Texte corrig&eacute;:</th></tr>
-   <tr>
-     <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
-<tt>
-to the scenery of his own country:<br></tt>
-<p><tt>
-Oh, to be in England<br>
-Now that April's there,<br>
-And whoever wakes in England<br>
-Sees, some morning, unaware,<br>
-That the lowest boughs and the brushwood sheaf<br>
-Round the elm-tree bole are in tiny leaf,<br>
-While the chaffinch sings on the orchard bough<br>
-In England--now!</tt>
-</p><p><tt>
-And after April, when May follows,<br>
-And the whitethroat builds, and all the swallows!<br>
-Hark! where my blossomed pear-tree in the hedge<br>
-Leans to the field and scatters on the clover<br>
-Blossoms and dewdrops--at the bent spray's edge--<br>
-That's the wise thrush; he sings each song twice over,<br>
-Lest you should think he never could recapture<br>
-The first fine careless rapture!<br>
-And though the fields look rough with hoary dew,<br>
-All will be gay, when noontide wakes anew<br>
-The buttercups, the little children's dower;<br>
---Far brighter than this gaudy melon-flower!<br>
-</tt>
-</p><p><tt>
-So it runs; but it is only a momentary memory;<br>
-and he knew, when he had done it, and to his</tt>
-</p>
-</td></tr></table>
-
-     </td>
-   </tr>
- </tbody>
-</table>
-
 <h3><a name="para_side">Commentaires en marge</a></h3>
 <p>Certains livre ont de petites descriptions des paragraphes sur le c&ocirc;t&eacute; du
    texte. Ce sont les notes en marge ("Sidenotes"). 
@@ -1976,6 +1857,17 @@ and he knew, when he had done it, and to his</tt>
   </tbody>
 </table>
 
+<h3><a name="mult_col">Colonnes Multiples</a></h3>
+<p>R&eacute;unissez les colonnes multiples en une seule colonne.
+</p>
+<p>Placez la colonne la plus &agrave; gauche en premier puis les autres colonnes
+   &agrave; sa suite. Vous ne devez rien faire de particulier pour marquer la
+   s&eacute;paration des colonnes, rejoignez-les simplement.
+</p>
+<p>Voir aussi <a href="#bk_index">Index</a> et <a href="#tables">Tables</a>.
+</p>
+
+
 <h3><a name="tables">Tableaux</a></h3>
 <p>Le travail du relecteur consiste &agrave; corriger les erreurs dans le texte,
    pas &agrave; soigner sa pr&eacute;sentation. Le formatage sera g&eacute;r&eacute; plus tard.
@@ -2050,6 +1942,114 @@ Same strip rolled up in  Same, 16 wires bound
   </tbody>
 </table>
 
+
+<h3><a name="poetry">Po&eacute;sie/&Eacute;pigrammes</a></h3>
+<p>Mettez une ligne blanche avant un po&egrave;me, et une ligne blanche apr&egrave;s.
+   Comme &ccedil;a, le formateurs verront clairement o&ugrave; le po&egrave;me commence et finit.
+</p>
+<p>Calez tous les vers &agrave; gauche, et gardez les retours &agrave; la ligne. N'essayez pas
+   de centrer ou d'indenter les vers, laissez cela aux formateurs. Mais ins&eacute;rez
+   une ligne vide entre les strophes (ou couplets).
+</p>
+<p>Les <b>notes de bas de page</b> dans la po&eacute;sie se traitent comme les autres notes de
+   bas de page. Voyez <a href="#footnotes">notes de bas de page</a> pour plus de details.
+</p>
+<p>Gardez les <b>num&eacute;ros de vers</b> s'ils sont imprim&eacute;s. S&eacute;parez-les du reste du texte par 
+  quelques blancs. Voir <a href="#line_no">Num&eacute;ros
+   de ligne</a> pour des d&eacute;tails.
+</p>
+<p>Regardez les <a href="#comments">commentaires de projet</a> pour des instructions sp&eacute;cifiques.
+</p>
+<!-- END RR -->
+
+<br>
+<!-- Need an example that shows overly long lines of poetry, rather than relative indentation -->
+
+<table width="100%" align="center" border="1"  cellpadding="4"
+      cellspacing="0" summary="Exemple de po&eacute;sie">
+ <tbody>
+   <tr><th align="left" bgcolor="cornsilk">Exemple d'image:</th></tr>
+   <tr align="left">
+     <th width="100%" valign="top"> <img src="poetry.png" alt=""
+         width="500" height="508"> <br>
+     </th>
+   </tr>
+   <tr><th align="left" bgcolor="cornsilk">Texte corrig&eacute;:</th></tr>
+   <tr>
+     <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+<tt>
+to the scenery of his own country:<br></tt>
+<p><tt>
+Oh, to be in England<br>
+Now that April's there,<br>
+And whoever wakes in England<br>
+Sees, some morning, unaware,<br>
+That the lowest boughs and the brushwood sheaf<br>
+Round the elm-tree bole are in tiny leaf,<br>
+While the chaffinch sings on the orchard bough<br>
+In England--now!</tt>
+</p><p><tt>
+And after April, when May follows,<br>
+And the whitethroat builds, and all the swallows!<br>
+Hark! where my blossomed pear-tree in the hedge<br>
+Leans to the field and scatters on the clover<br>
+Blossoms and dewdrops--at the bent spray's edge--<br>
+That's the wise thrush; he sings each song twice over,<br>
+Lest you should think he never could recapture<br>
+The first fine careless rapture!<br>
+And though the fields look rough with hoary dew,<br>
+All will be gay, when noontide wakes anew<br>
+The buttercups, the little children's dower;<br>
+--Far brighter than this gaudy melon-flower!<br>
+</tt>
+</p><p><tt>
+So it runs; but it is only a momentary memory;<br>
+and he knew, when he had done it, and to his</tt>
+</p>
+</td></tr></table>
+
+     </td>
+   </tr>
+ </tbody>
+</table>
+
+<h3><a name="line_no">Num&eacute;ros de ligne</a></h3>
+<p>Gardez les num&eacute;ros de ligne. Utilisez quelques espaces pour les s&eacute;parer du reste
+   du texte, pour que les formateurs puissent les rep&eacute;rer facilement.
+</p>
+<p>Il y a souvent des num&eacute;ros de lignes dans la marge, sur les livres de
+   po&eacute;sie, tous les 5, 10 ou 20 vers. Nous gardons ces num&eacute;ros car
+   ils sont utiles au lecteur.
+</p>
+<!-- END RR -->
+<!-- We need an example image and text for this. -->
+
+<h3><a name="next_word">Mot isol&eacute; en bas de page</a></h3>
+<p>Nous transcrivons en retirant le mot, m&ecirc;me si c'est la seconde moiti&eacute; d'un mot 
+   coup&eacute; en fin de ligne.
+</p>
+<p>Dans certains livres anciens, ce mot isol&eacute; en bas de page 
+   ("catchword" en anglais, "r&eacute;clame" en fran&ccedil;ais),
+   g&eacute;n&eacute;ralement imprim&eacute; contre la marge de droite, indiquait le premier mot de la page suivante,
+   et permettait &agrave; l'imprimeur et au relieur d'identifier plus facilement l'ordre des pages.
+   Cela permettait &eacute;galement au lecteur de s'apercevoir quand il tournait plusieurs pages d'un coup.
+</p>
+<!-- END RR -->
+<!-- We need an example here! -->
+
+
+
+<h3><a name="blank_pg">Page blanche</a></h3>
+<p>Si la page est blanche ou si elle ne contient qu'une illustration sans
+   texte, vous verrez le plus souvent <tt>[Blank Page]</tt> sur votre page de travail.
+   Laissez cette marque. Si la page est blanche et que la marque n'appara&icirc;t pas,
+   ce n'est pas la peine de l'ajouter.
+</p>
+<p>Si le texte seulement (ou l'image seulement) est vide, suivez la
+   proc&eacute;dure indiqu&eacute;es dans le cas d'une <a href="#bad_image">mauvaise image</a>
+   ou d'un <a href="#bad_text">mauvais texte</a>.
+</p>
 
 <h3><a name="title_pg">Page de titre/fin</a></h3>
 <p>Laissez tout comme c'est imprim&eacute;, m&ecirc;me si c'est tout en majuscules, ou en

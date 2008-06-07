@@ -77,41 +77,41 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <td width="1" bgcolor="silver">&nbsp;</td>
     <td bgcolor="white" align="left">
       <ul style="margin-left: 3em;">
-        <li><a href="#line_br">Zeilenumbr&uuml;che</a></li>
         <li><a href="#double_q">Doppelte Anf&uuml;hrungszeichen</a></li>
         <li><a href="#single_q">Einfache Anf&uuml;hrungszeichen</a></li>
         <li><a href="#quote_ea">Anf&uuml;hrungszeichen auf jeder Zeile</a></li>
         <li><a href="#period_s">Punkte am Ende von S&auml;tzen</a></li>
         <li><a href="#punctuat">Satzzeichen</a></li>
-        <li><a href="#period_p">Auslassungspunkte &bdquo;...&ldquo; (Ellipse)</a></li>
-        <li><a href="#contract">Zusammenziehungen</a></li>
         <li><a href="#extra_sp">&Uuml;berfl&uuml;ssige Leerzeichen bzw. Tabulatoren zwischen W&ouml;rtern</a></li>
         <li><a href="#trail_s">Leerzeichen am Zeilenende</a></li>
-        <li><a href="#line_no">Zeilennummern</a></li>
-        <li><a href="#italics">Kursiv- und Fettschrift</a></li>
-        <li><a href="#supers">Hochgestellte Zeichen</a></li>
-        <li><a href="#subscr">Tiefgestellte Zeichen</a></li>
-        <li><a href="#font_sz">Unterschiedliche Schriftgr&ouml;&szlig;en</a></li>
-        <li><a href="#small_caps">W&ouml;rter in Kapit&auml;lchen</a></li>
         <li><a href="#drop_caps">&Uuml;berdimensionale, verzierte Gro&szlig;buchstaben als Er&ouml;ffnung (Initialen)</a></li>
-        <li><a href="#a_chars">Akzente und nicht-ASCII-Zeichen</a></li>
-        <li><a href="#d_chars">Buchstaben mit diakritischen Zeichen</a></li>
-        <li><a href="#f_chars">Nicht-lateinische Zeichen</a></li>
-        <li><a href="#fract_s">Br&uuml;che</a></li>
         <li><a href="#em_dashes">Bindestriche, kurze und lange Gedankenstriche</a></li>
         <li><a href="#eol_hyphen">Trennstriche am Zeilenende</a></li>
         <li><a href="#eop_hyphen">Trennstriche am Seitenende</a></li>
-        <li><a href="#next_word">Einzelne W&ouml;rter am unteren Seitenrand</a></li>
-        <li><a href="#para_space">Absatzabst&auml;nde und -einr&uuml;ckungen</a></li>
-        <li><a href="#mult_col">Mehrspaltige Texte</a></li>
-        <li><a href="#blank_pg">Leere Seiten</a></li>
-        <li><a href="#page_hf">Kopf- und Fu&szlig;zeilen</a></li>
+        <li><a href="#period_p">Auslassungspunkte &bdquo;...&ldquo; (Ellipse)</a></li>
+        <li><a href="#contract">Zusammenziehungen</a></li>
+        <li><a href="#fract_s">Br&uuml;che</a></li>
+        <li><a href="#a_chars">Akzente und nicht-ASCII-Zeichen</a></li>
+        <li><a href="#d_chars">Buchstaben mit diakritischen Zeichen</a></li>
+        <li><a href="#f_chars">Nicht-lateinische Zeichen</a></li>
+        <li><a href="#supers">Hochgestellte Zeichen</a></li>
+        <li><a href="#subscr">Tiefgestellte Zeichen</a></li>
+        <li><a href="#font_sz">Unterschiedliche Schriftgr&ouml;&szlig;en</a></li>
+        <li><a href="#italics">Kursiv- und Fettschrift</a></li>
+        <li><a href="#small_caps">W&ouml;rter in Kapit&auml;lchen</a></li>
+        <li><a href="#line_br">Zeilenumbr&uuml;che</a></li>
         <li><a href="#chap_head">Kapitel&uuml;berschriften</a></li>
+        <li><a href="#para_space">Absatzabst&auml;nde und -einr&uuml;ckungen</a></li>
+        <li><a href="#page_hf">Kopf- und Fu&szlig;zeilen</a></li>
         <li><a href="#illust">Abbildungen</a></li>
         <li><a href="#footnotes">Fu&szlig;noten/Endnoten</a></li>
-        <li><a href="#poetry">Gedichte/Epigramme</a></li>
         <li><a href="#para_side">Randnoten (Marginalien)</a></li>
+        <li><a href="#mult_col">Mehrspaltige Texte</a></li>
         <li><a href="#tables">Tabellen</a></li>
+        <li><a href="#poetry">Gedichte/Epigramme</a></li>
+        <li><a href="#line_no">Zeilennummern</a></li>
+        <li><a href="#next_word">Einzelne W&ouml;rter am unteren Seitenrand</a></li>
+        <li><a href="#blank_pg">Leere Seiten</a></li>
         <li><a href="#title_pg">Vorder- und R&uuml;ckseiten von Titelbl&auml;ttern</a></li>
         <li><a href="#toc">Inhaltsverzeichnisse</a></li>
         <li><a href="#bk_index">Sachregister und Schlagwortverzeichnisse</a></li>
@@ -311,19 +311,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </table>
 
 
-<h3><a name="line_br">Zeilenumbr&uuml;che</a></h3>
-<p><b>Lassen Sie alle Zeilenumbr&uuml;che stehen</b>, damit nachfolgende
-   Freiwillige die Zeilen im Text bequem mit den Zeilen in der Vorlage vergleichen
-   k&ouml;nnen. Seien Sie dabei besonders vorsichtig, wenn Sie
-   <a href="#eol_hyphen">getrennte W&ouml;rter</a> wieder zusammenf&uuml;gen
-   oder W&ouml;rter um <a href="#em_dashes">Gedankenstriche</a> bewegen.
-   Sollte der vorhergehende Korrekturleser die Zeilenumbr&uuml;che
-   entfernt haben, setzen Sie diese bitte wieder so ein, dass sie der
-   Vorlage entsprechen.
-</p>
-<!-- END RR -->
-<!-- We should have an example right here for this. -->
-
 <h3><a name="double_q">Doppelte Anf&uuml;hrungszeichen</a></h3>
 <p>Verwenden Sie bitte die gew&ouml;hnlichen ASCII-Anf&uuml;hrungszeichen
    <tt>"</tt>. Ersetzen Sie keine doppelten durch einfache
@@ -419,6 +406,252 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   </tbody>
 </table>
 
+<h3><a name="extra_sp">&Uuml;berfl&uuml;ssige Leerzeichen bzw. Tabulatoren zwischen W&ouml;rtern</a></h3>
+<p>Die Texterkennung verursacht oft &uuml;berfl&uuml;ssige Leerzeichen
+   und Tabulatoren im Text. Sie brauchen sich nicht die M&uuml;he zu
+   machen, diese Leerzeichen zu entfernen &ndash; das kann automatisch
+   in der Nachbearbeitung erfolgen.
+</p>
+<p>&Uuml;berfl&uuml;ssige Leerzeichen um Satzzeichen, Gedankenstriche,
+   Anf&uuml;hrungszeichen herum usw. <b>m&uuml;ssen</b> jedoch entfernt
+   werden, wenn sie das Symbol vom Wort trennen.
+</p>
+<p>Im folgenden Beispiel: <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a
+   horse.</tt> muss das Leerzeichen zwischen &bdquo;horse&ldquo; und
+   dem Semikolon entfernt werden. Die zwei Leerzeichen nach dem Semikolon
+   sind in Ordnung &ndash; Sie brauchen keines der beiden zu l&ouml;schen.
+</p>
+
+<h3><a name="trail_s">Leerzeichen am Zeilenende</a></h3>
+<p>Verschwenden Sie keine Zeit damit, Leerzeichen am Ende jeder Zeile
+   einzuf&uuml;gen. Das kann sp&auml;ter automatisch erledigt werden.
+   Es ist auch nicht n&ouml;tig, &uuml;berfl&uuml;ssige Leerzeichen
+   am Zeilenende zu entfernen.
+</p>
+
+<h3><a name="drop_caps">&Uuml;berdimensionale, verzierte Gro&szlig;buchstaben als Er&ouml;ffnung (Initialen)</a></h3>
+<p>Lesen Sie einen gro&szlig;en, verzierten Buchstaben am Beginn
+   eines Kapitels, eines Abschnitts oder einen Absatzes genau so
+   Korrektur, als w&auml;re er ein gew&ouml;hnlicher Buchstabe.
+</p>
+
+
+<h3><a name="em_dashes">Bindestriche, kurze und lange Gedankenstriche</a></h3>
+<p>Normalerweise kommen in B&uuml;chern vier Arten solcher Zeichen vor:
+  <ol compact>
+    <li><i>Bindestriche:</i> Sie werden verwendet, um zwei
+        W&ouml;rter oder eine Vor- oder Nachsilbe mit einem Wort zu <b>verbinden</b>.<br>
+        Belassen Sie diese als einzelnen Bindestrich, ohne Leerzeichen
+        davor oder danach.<br>
+        Beachten Sie, dass es eine allgemeine Ausnahme dazu gibt,
+        die im zweiten Beispiel weiter unten gezeigt wird.
+    </li>
+    <li><i>Kurze Gedankenstriche (En-dashes):</i> Sie sind etwas
+        l&auml;nger als der Bindestrich und werden f&uuml;r <b>Zahlenbereiche</b>
+        oder als mathematisches <b>Minuszeichen</b> verwendet.<br>
+        Lesen Sie diese ebenfalls als einen einzelnen Bindestrich Korrektur.
+        Ob Leerzeichen davor oder danach stehen, h&auml;ngt davon ab,
+        wie es im Buch gemacht wurde. Normalerweise gilt: keine Leerzeichen
+        bei Zahlenbereichen, aber Leerzeichen um mathematische Minuszeichen,
+        manchmal auf beiden Seiten, manchmal nur davor.
+    </li>
+    <li><i>Lange (Em-dashes) und extralange Gedankenstriche:</i>
+        Sie dienen in englischsprachigen Texten als <b>Trennzeichen</b>
+        zwischen W&ouml;rtern&mdash;zum Beispiel f&uuml;r Einsch&uuml;be
+        wie diesen&mdash;, oder wenn einem Sprecher das Wort in der Kehle
+        steckenbl&mdash;&mdash;!<br>
+        Verwenden Sie daf&uuml;r zwei oder, bei besonders langen
+        Gedankenstrichen, vier Bindestriche. Setzen Sie kein Leerzeichen
+        davor oder danach, auch wenn es im Buch so aussieht.
+    </li>
+    <li><i>Bewusst ausgelassene bzw. zensierte W&ouml;rter oder Namen:</i><br>
+        Setzen Sie daf&uuml;r vier Bindestriche als Auslassungszeichen
+        ein. Deutet der Gedankenstrich ein ganzes Wort an, so werden
+        Leerzeichen davor und danach so gesetzt, als st&uuml;nde das Wort
+        da. Wenn er nur Teil eines Wortes ersetzt, werden keine Leerzeichen
+        eingef&uuml;gt. Ist ein normal langer Gedankenstrich gedruckt
+        (in der L&auml;nge eines &bdquo;Em-dash&ldquo;), dann verwenden
+        Sie auch beim Korrekturlesen nur zwei Bindestriche daf&uuml;r.
+    </li>
+  </ol>
+<p>Anmerkung: Steht ein langer Gedankenstrich am Anfang oder am Ende
+   einer Zeile des OCR-Textes, dann verbinden Sie ihn so mit der
+   vorhergehenden oder nachfolgenden Zeile, dass weder Leerzeichen
+   noch Zeilenumbruch rund um den Gedankenstrich stehen. Nur wenn der
+   Autor den Gedankenstrich verwendet hat, um einen Absatz bzw. eine
+   Gedicht- oder Dialogzeile zu beginnen bzw. zu beenden, sollten Sie
+   ihn am Anfang bzw. Ende einer Zeile stehen lassen. (Siehe Beispiele
+   in der Tabelle unten.)
+</p>
+<!-- END RR -->
+
+<p><b>Beispiele</b> &ndash; Bindestriche, kurze und lange Gedankenstriche
+</p>
+
+<table width="100%" align="center" border="1"  cellpadding="4" cellspacing="0" summary="Hyphens and Dashes">
+  <tbody>
+    <tr>
+      <th valign="top" bgcolor="cornsilk">Vorlage:</th>
+      <th valign="top" bgcolor="cornsilk">Richtig korrigierter Text:</th>
+      <th valign="top" bgcolor="cornsilk">Typ:</th>
+    </tr>
+    <tr>
+      <td valign="top">semi-detached</td>
+      <td valign="top"><tt>semi-detached</tt></td>
+      <td> Bindestrich</td>
+    </tr>
+    <tr>
+      <td valign="top">three- and four-part harmony</td>
+      <td valign="top"><tt>three- and four-part harmony</tt></td>
+      <td> Bindestriche</td>
+    </tr>
+    <tr>
+      <td valign="top">discoveries which the Crus-<br>
+        aders made and brought home with</td>
+      <td valign="top"><tt>discoveries which the Crusaders<br>
+        made and brought home with</tt></td>
+      <td> Bindestrich</td>
+    </tr>
+    <tr>
+      <td valign="top">factors which mold char-<br>
+        acter&mdash;environment, training and heritage,</td>
+      <td valign="top"><tt>factors which mold character--environment,<br>
+        training and heritage,</tt>
+      <td> Bindestrich</td>
+    </tr>
+    <tr>
+      <td valign="top">See pages 21&ndash;25</td>
+      <td valign="top"><tt>See pages 21-25</tt></td>
+      <td>kurzer Gedankenstrich</td>
+    </tr>
+    <tr>
+      <td valign="top">&ndash;14&deg; below zero</td>
+      <td valign="top"><tt>-14&deg; below zero</tt></td>
+      <td>kurzer Gedankenstrich</td>
+    </tr>
+    <tr>
+      <td valign="top">X &ndash; Y = Z</td>
+      <td valign="top"><tt>X - Y = Z</tt></td>
+      <td>kurzer Gedankenstrich</td>
+    </tr>
+    <tr>
+      <td valign="top">2&ndash;1/2</td>
+      <td valign="top"><tt>2-1/2</tt></td>
+      <td>kurzer Gedankenstrich</td>
+    </tr>
+    <tr>
+      <td valign="top">I am hurt;&mdash;A plague<br>
+        on both your houses!&mdash;I am dead.</td>
+      <td valign="top"><tt>I am hurt;--A plague<br>
+        on both your houses!--I am dead.</tt></td>
+      <td>langer Gedankenstrich</td>
+    </tr>
+    <tr>
+      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
+        &mdash;if even all of these are simple tastes. What</td>
+      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
+        even all of these are simple tastes. What</tt></td>
+      <td>langer Gedankenstrich</td>
+    </tr>
+    <tr>
+      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
+        with which we are here concerned,</td>
+      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
+        which we are here concerned,</tt></td>
+      <td>langer Gedankenstrich</td>
+    </tr>
+    <tr>
+      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
+      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
+      <td>langer Gedankenstrich</td>
+    </tr>
+    <tr>
+      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to say, but the left-hand cat interrupted her.</td>
+      <td valign="top"><tt>"Three hundred----" "years," she was going to say, but the left-hand cat interrupted her.</tt></td>
+      <td>Auslassungszeichen</td>
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
+      <td>Auslassungszeichen</td>
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
+      <td>Auslassungszeichen</td>
+    </tr>
+    <tr>
+      <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
+      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
+      <td>Auslassungszeichen</td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
+      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
+      <td>Auslassungszeichen</td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
+      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
+      <td>langer Gedankenstrich</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3><a name="eol_hyphen">Trennstriche am Zeilenende</a></h3>
+<p>Wenn ein Bindestrich als Trennzeichen am Zeilenende steht, dann
+   f&uuml;gen Sie die getrennten Wortteile wieder zusammen. Handelt es
+   sich tats&auml;chlich um ein zwei- oder mehrteiliges Wort, wie etwa
+   &bdquo;well-meaning&ldquo;, dann bringen Sie die Wortteile in eine
+   Zeile, lassen aber den Bindestrich stehen. Wenn ein Wort jedoch getrennt
+   wurde, weil es nicht mehr in die Zeile passte und wenn es normalerweise
+   nicht mit Bindestrich geschrieben wird, dann entfernen Sie den
+   Trennstrich. Lassen Sie das zusammengef&uuml;gte Wort in der oberen
+   Zeile und setzen Sie danach einen Zeilenumbruch, um das Zeilenformat
+   zu erhalten &ndash; das macht es einfacher f&uuml;r die Korrekturleser
+   in sp&auml;teren Runden. Im Abschnitt <a href="#em_dashes">Bindestriche,
+   kurze und lange Gedankenstriche</a> der Korrekturlese-Richtlinien
+   finden Sie Beispiele (&bdquo;nar-row&ldquo; wird zu &bdquo;narrow&ldquo;,
+   aber bei &bdquo;low-lying&ldquo; wird der Bindestrich beibehalten).
+   Folgt nach dem Wort noch ein Satzzeichen, so wird dieses ebenfalls
+   in die obere Zeile &uuml;bernommen.
+</p>
+<p>W&ouml;rter wie &bdquo;to-day&ldquo; und &bdquo;to-morrow&ldquo;,
+   die wir heute zusammenschreiben, stehen in alten B&uuml;chern oft
+   noch mit Bindestrich. Lassen Sie sie mit Bindestrich, wenn sie so
+   im Text stehen. Wenn Sie nicht sicher sind, ob der Autor einen
+   Bindestrich verwendet hat, so lassen Sie ihn stehen, setzen ein
+   <tt>*</tt> dahinter und verbinden das Wort wie hier: <tt>to-*day</tt>.
+   Das Sternchen macht den Nachbearbeiter darauf aufmerksam, der den
+   &Uuml;berblick &uuml;ber alle Seiten hat und feststellen kann,
+   wie der Autor das Wort &uuml;blicherweise geschrieben hat.
+</p>
+
+<h3><a name="eop_hyphen">Trennstriche am Seitenende</a></h3>
+<p>Trenn- und Gedankenstriche am Ende einer Seite werden Korrektur
+   gelesen, indem Sie das Trennzeichen oder den Gedankenstrich am
+   Ende der letzten Zeile stehen lassen. Setzen Sie ein Sternchen
+   <tt>*</tt> hinter den Trennstrich. Beispiel:<br>
+   &nbsp;<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;something Pat had already become accus-<br>
+   wird korrigiert zu:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>something Pat had already become accus-*</tt>
+</p>
+<p>Auf Seiten, die mit einem Teil eines Wortes der vorhergehenden Seite
+   bzw. mit einem Gedankenstrich beginnen, setzen Sie ein <tt>*</tt>
+   vor das Teilwort bzw. den Gedankenstrich.<br>
+   Um das obige Beispiel fortzusetzen: Lesen Sie<br>
+   &nbsp;<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;tomed to from having to do his own family<br>
+   Korrektur als:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>*tomed to from having to do his own family</tt>
+</p>
+<p>Die Sternchen zeigen dem Nachbearbeiter, dass das Wort beim
+   Zusammenf&uuml;gen der einzelnen Seiten zum endg&uuml;ltigen
+   E-Book verbunden werden muss.
+</p>
+
+
 <h3><a name="period_p">Auslassungspunkte &bdquo;...&ldquo; (Ellipse)</a></h3>
 <p>Die Richtlinien f&uuml;r Englisch und f&uuml;r andere Sprachen
    (LOTE, Languages Other Than English) sind unterschiedlich.
@@ -471,98 +704,11 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 
-<h3><a name="extra_sp">&Uuml;berfl&uuml;ssige Leerzeichen bzw. Tabulatoren zwischen W&ouml;rtern</a></h3>
-<p>Die Texterkennung verursacht oft &uuml;berfl&uuml;ssige Leerzeichen
-   und Tabulatoren im Text. Sie brauchen sich nicht die M&uuml;he zu
-   machen, diese Leerzeichen zu entfernen &ndash; das kann automatisch
-   in der Nachbearbeitung erfolgen.
-</p>
-<p>&Uuml;berfl&uuml;ssige Leerzeichen um Satzzeichen, Gedankenstriche,
-   Anf&uuml;hrungszeichen herum usw. <b>m&uuml;ssen</b> jedoch entfernt
-   werden, wenn sie das Symbol vom Wort trennen.
-</p>
-<p>Im folgenden Beispiel: <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a
-   horse.</tt> muss das Leerzeichen zwischen &bdquo;horse&ldquo; und
-   dem Semikolon entfernt werden. Die zwei Leerzeichen nach dem Semikolon
-   sind in Ordnung &ndash; Sie brauchen keines der beiden zu l&ouml;schen.
-</p>
-
-<h3><a name="trail_s">Leerzeichen am Zeilenende</a></h3>
-<p>Verschwenden Sie keine Zeit damit, Leerzeichen am Ende jeder Zeile
-   einzuf&uuml;gen. Das kann sp&auml;ter automatisch erledigt werden.
-   Es ist auch nicht n&ouml;tig, &uuml;berfl&uuml;ssige Leerzeichen
-   am Zeilenende zu entfernen.
-</p>
-
-<h3><a name="line_no">Zeilennummern</a></h3>
-<p>Zeilennummern werden beibehalten. Trennen Sie sie mit mehreren
-   Leerzeichen vom Text, damit die Formatierer sie leicht finden k&ouml;nnen.
-</p>
-<p>Zeilennummern, die am Seitenrand in jeder oder auch nur jeder
-   f&uuml;nften oder zehnten Zeile stehen, sind vor allem in
-   Gedichtb&auml;nden &uuml;blich. Da der Text von Gedichten f&uuml;r
-   das E-Book nicht neu formatiert wird, sind die Zeilennummern auch
-   f&uuml;r den Leser von Interesse.
-</p>
-<!-- END RR -->
-<!-- We need an example image and text for this. -->
-
-<h3><a name="italics">Kursiv- und Fettschrift</a></h3>
-<p><i>Kursiver</i> Text erscheint manchmal mit einem <tt>&lt;i&gt;</tt>
-   am Beginn und einem <tt>&lt;/i&gt;</tt> am Ende. <b>Fettschrift</b>
-   (Text, der mit kr&auml;ftigeren Lettern gedruckt ist) ist entsprechend
-   gelegentlich mit <tt>&lt;b&gt;</tt> am Anfang und <tt>&lt;/b&gt;</tt>
-   am Ende markiert. Entfernen Sie diese Formatierungen nur dann, wenn
-   sie falsch sind oder unbrauchbare Zeichen umschlie&szlig;en, die
-   nicht auf der Seite stehen. F&uuml;gen Sie sie aber nicht hinzu, wo
-   sie fehlen. Das wird von den Formatierern sp&auml;ter im Prozess erledigt.
-</p>
-<!-- END RR -->
-
-
-<h3><a name="supers">Hochgestellte Zeichen</a></h3>
-<p>In &auml;lteren B&uuml;chern wurden W&ouml;rter h&auml;ufig mit
-   verk&uuml;rzten Endungen dargestellt, die dann hochgestellt wurden.
-   Zum Beispiel:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
-   Lesen Sie diese Korrektur, indem Sie einen einzelnen Zirkumflex ^
-   einsetzen, gefolgt von dem hochgestellten Text. Also so:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
-</p>
-
-
-<h3><a name="subscr">Tiefgestellte Zeichen</a></h3>
-<p>Tiefgestellte Zeichen kommen oft in wissenschaftlichen Texten vor,
-   in anderen Werken sind sie nicht &uuml;blich. Korrektur gelesen
-   werden sie durch Einsetzen eines Unterstrichs <tt>_</tt>.<br>
-   Zum Beispiel wird <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.<br>
-   Korrektur gelesen als: <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.<br></tt>
-</p>
-
-
-<h3><a name="font_sz">Unterschiedliche Schriftgr&ouml;&szlig;en</a></h3>
-<p>Ignorieren Sie unterschiedliche Schriftgr&ouml;&szlig;en. Darum
-   k&uuml;mmern sich sp&auml;ter die Formatierer.
-</p>
-
-<h3><a name="small_caps">W&ouml;rter in Kapit&auml;lchen</a></h3>
-<p><span style="font-variant: small-caps">Kapit&auml;lchen</span>
-   (Gro&szlig;buchstaben, die kleiner als die Standardtypen sind)
-   erscheinen manchmal mit <tt>&lt;sc&gt;</tt> davor und <tt>&lt;/sc&gt;</tt>
-   dahinter. Auch hier gilt: Entfernen Sie diese Formatierung nicht,
-   au&szlig;er sie umschlie&szlig;t unbrauchbare Zeichen, die nicht
-   auf der Seite stehen. F&uuml;gen Sie diese Markierungen aber auch
-   nicht ein. Die Formatierer machen das sp&auml;ter. Pr&uuml;fen und
-   korrigieren Sie jedoch die einzelnen Buchstaben. Machen Sie sich dabei
-   keine Gedanken &uuml;ber Gro&szlig;- und Kleinschreibung. Sind die
-   Zeichen schon GROSSBUCHSTABEN, kleinbuchstaben oder GeMIScht, so
-   lassen Sie sie in GROSSBUCHSTABEN, kleinbuchstaben oder GeMIScht stehen.
-</p>
-
-<h3><a name="drop_caps">&Uuml;berdimensionale, verzierte Gro&szlig;buchstaben als Er&ouml;ffnung (Initialen)</a></h3>
-<p>Lesen Sie einen gro&szlig;en, verzierten Buchstaben am Beginn
-   eines Kapitels, eines Abschnitts oder einen Absatzes genau so
-   Korrektur, als w&auml;re er ein gew&ouml;hnlicher Buchstabe.
+<h3><a name="fract_s">Br&uuml;che</a></h3>
+<p>Korrigieren Sie <b>Br&uuml;che</b> folgenderma&szlig;en:
+   <tt>2&frac12;</tt> wird zu <tt>2-1/2</tt>. Der Bindestrich
+   zwischen ganzer Zahl und Bruch verhindert bei der Nachbearbeitung,
+   dass die Zeile an dieser Stelle umgebrochen wird.
 </p>
 
 
@@ -1295,244 +1441,89 @@ cedilla                      [,x]   [x,]
 </p>
 <? } ?>
 
-<h3><a name="fract_s">Br&uuml;che</a></h3>
-<p>Korrigieren Sie <b>Br&uuml;che</b> folgenderma&szlig;en:
-   <tt>2&frac12;</tt> wird zu <tt>2-1/2</tt>. Der Bindestrich
-   zwischen ganzer Zahl und Bruch verhindert bei der Nachbearbeitung,
-   dass die Zeile an dieser Stelle umgebrochen wird.
+<h3><a name="supers">Hochgestellte Zeichen</a></h3>
+<p>In &auml;lteren B&uuml;chern wurden W&ouml;rter h&auml;ufig mit
+   verk&uuml;rzten Endungen dargestellt, die dann hochgestellt wurden.
+   Zum Beispiel:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
+   Lesen Sie diese Korrektur, indem Sie einen einzelnen Zirkumflex ^
+   einsetzen, gefolgt von dem hochgestellten Text. Also so:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
 
 
-<h3><a name="em_dashes">Bindestriche, kurze und lange Gedankenstriche</a></h3>
-<p>Normalerweise kommen in B&uuml;chern vier Arten solcher Zeichen vor:
-  <ol compact>
-    <li><i>Bindestriche:</i> Sie werden verwendet, um zwei
-        W&ouml;rter oder eine Vor- oder Nachsilbe mit einem Wort zu <b>verbinden</b>.<br>
-        Belassen Sie diese als einzelnen Bindestrich, ohne Leerzeichen
-        davor oder danach.<br>
-        Beachten Sie, dass es eine allgemeine Ausnahme dazu gibt,
-        die im zweiten Beispiel weiter unten gezeigt wird.
-    </li>
-    <li><i>Kurze Gedankenstriche (En-dashes):</i> Sie sind etwas
-        l&auml;nger als der Bindestrich und werden f&uuml;r <b>Zahlenbereiche</b>
-        oder als mathematisches <b>Minuszeichen</b> verwendet.<br>
-        Lesen Sie diese ebenfalls als einen einzelnen Bindestrich Korrektur.
-        Ob Leerzeichen davor oder danach stehen, h&auml;ngt davon ab,
-        wie es im Buch gemacht wurde. Normalerweise gilt: keine Leerzeichen
-        bei Zahlenbereichen, aber Leerzeichen um mathematische Minuszeichen,
-        manchmal auf beiden Seiten, manchmal nur davor.
-    </li>
-    <li><i>Lange (Em-dashes) und extralange Gedankenstriche:</i>
-        Sie dienen in englischsprachigen Texten als <b>Trennzeichen</b>
-        zwischen W&ouml;rtern&mdash;zum Beispiel f&uuml;r Einsch&uuml;be
-        wie diesen&mdash;, oder wenn einem Sprecher das Wort in der Kehle
-        steckenbl&mdash;&mdash;!<br>
-        Verwenden Sie daf&uuml;r zwei oder, bei besonders langen
-        Gedankenstrichen, vier Bindestriche. Setzen Sie kein Leerzeichen
-        davor oder danach, auch wenn es im Buch so aussieht.
-    </li>
-    <li><i>Bewusst ausgelassene bzw. zensierte W&ouml;rter oder Namen:</i><br>
-        Setzen Sie daf&uuml;r vier Bindestriche als Auslassungszeichen
-        ein. Deutet der Gedankenstrich ein ganzes Wort an, so werden
-        Leerzeichen davor und danach so gesetzt, als st&uuml;nde das Wort
-        da. Wenn er nur Teil eines Wortes ersetzt, werden keine Leerzeichen
-        eingef&uuml;gt. Ist ein normal langer Gedankenstrich gedruckt
-        (in der L&auml;nge eines &bdquo;Em-dash&ldquo;), dann verwenden
-        Sie auch beim Korrekturlesen nur zwei Bindestriche daf&uuml;r.
-    </li>
-  </ol>
-<p>Anmerkung: Steht ein langer Gedankenstrich am Anfang oder am Ende
-   einer Zeile des OCR-Textes, dann verbinden Sie ihn so mit der
-   vorhergehenden oder nachfolgenden Zeile, dass weder Leerzeichen
-   noch Zeilenumbruch rund um den Gedankenstrich stehen. Nur wenn der
-   Autor den Gedankenstrich verwendet hat, um einen Absatz bzw. eine
-   Gedicht- oder Dialogzeile zu beginnen bzw. zu beenden, sollten Sie
-   ihn am Anfang bzw. Ende einer Zeile stehen lassen. (Siehe Beispiele
-   in der Tabelle unten.)
+<h3><a name="subscr">Tiefgestellte Zeichen</a></h3>
+<p>Tiefgestellte Zeichen kommen oft in wissenschaftlichen Texten vor,
+   in anderen Werken sind sie nicht &uuml;blich. Korrektur gelesen
+   werden sie durch Einsetzen eines Unterstrichs <tt>_</tt>.<br>
+   Zum Beispiel wird <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.<br>
+   Korrektur gelesen als: <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.<br></tt>
+</p>
+
+
+<h3><a name="font_sz">Unterschiedliche Schriftgr&ouml;&szlig;en</a></h3>
+<p>Ignorieren Sie unterschiedliche Schriftgr&ouml;&szlig;en. Darum
+   k&uuml;mmern sich sp&auml;ter die Formatierer.
+</p>
+
+<h3><a name="italics">Kursiv- und Fettschrift</a></h3>
+<p><i>Kursiver</i> Text erscheint manchmal mit einem <tt>&lt;i&gt;</tt>
+   am Beginn und einem <tt>&lt;/i&gt;</tt> am Ende. <b>Fettschrift</b>
+   (Text, der mit kr&auml;ftigeren Lettern gedruckt ist) ist entsprechend
+   gelegentlich mit <tt>&lt;b&gt;</tt> am Anfang und <tt>&lt;/b&gt;</tt>
+   am Ende markiert. Entfernen Sie diese Formatierungen nur dann, wenn
+   sie falsch sind oder unbrauchbare Zeichen umschlie&szlig;en, die
+   nicht auf der Seite stehen. F&uuml;gen Sie sie aber nicht hinzu, wo
+   sie fehlen. Das wird von den Formatierern sp&auml;ter im Prozess erledigt.
 </p>
 <!-- END RR -->
 
-<p><b>Beispiele</b> &ndash; Bindestriche, kurze und lange Gedankenstriche
+
+<h3><a name="small_caps">W&ouml;rter in Kapit&auml;lchen</a></h3>
+<p><span style="font-variant: small-caps">Kapit&auml;lchen</span>
+   (Gro&szlig;buchstaben, die kleiner als die Standardtypen sind)
+   erscheinen manchmal mit <tt>&lt;sc&gt;</tt> davor und <tt>&lt;/sc&gt;</tt>
+   dahinter. Auch hier gilt: Entfernen Sie diese Formatierung nicht,
+   au&szlig;er sie umschlie&szlig;t unbrauchbare Zeichen, die nicht
+   auf der Seite stehen. F&uuml;gen Sie diese Markierungen aber auch
+   nicht ein. Die Formatierer machen das sp&auml;ter. Pr&uuml;fen und
+   korrigieren Sie jedoch die einzelnen Buchstaben. Machen Sie sich dabei
+   keine Gedanken &uuml;ber Gro&szlig;- und Kleinschreibung. Sind die
+   Zeichen schon GROSSBUCHSTABEN, kleinbuchstaben oder GeMIScht, so
+   lassen Sie sie in GROSSBUCHSTABEN, kleinbuchstaben oder GeMIScht stehen.
 </p>
 
-<table width="100%" align="center" border="1"  cellpadding="4" cellspacing="0" summary="Hyphens and Dashes">
-  <tbody>
-    <tr>
-      <th valign="top" bgcolor="cornsilk">Vorlage:</th>
-      <th valign="top" bgcolor="cornsilk">Richtig korrigierter Text:</th>
-      <th valign="top" bgcolor="cornsilk">Typ:</th>
-    </tr>
-    <tr>
-      <td valign="top">semi-detached</td>
-      <td valign="top"><tt>semi-detached</tt></td>
-      <td> Bindestrich</td>
-    </tr>
-    <tr>
-      <td valign="top">three- and four-part harmony</td>
-      <td valign="top"><tt>three- and four-part harmony</tt></td>
-      <td> Bindestriche</td>
-    </tr>
-    <tr>
-      <td valign="top">discoveries which the Crus-<br>
-        aders made and brought home with</td>
-      <td valign="top"><tt>discoveries which the Crusaders<br>
-        made and brought home with</tt></td>
-      <td> Bindestrich</td>
-    </tr>
-    <tr>
-      <td valign="top">factors which mold char-<br>
-        acter&mdash;environment, training and heritage,</td>
-      <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt>
-      <td> Bindestrich</td>
-    </tr>
-    <tr>
-      <td valign="top">See pages 21&ndash;25</td>
-      <td valign="top"><tt>See pages 21-25</tt></td>
-      <td>kurzer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">&ndash;14&deg; below zero</td>
-      <td valign="top"><tt>-14&deg; below zero</tt></td>
-      <td>kurzer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">X &ndash; Y = Z</td>
-      <td valign="top"><tt>X - Y = Z</tt></td>
-      <td>kurzer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">2&ndash;1/2</td>
-      <td valign="top"><tt>2-1/2</tt></td>
-      <td>kurzer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">I am hurt;&mdash;A plague<br>
-        on both your houses!&mdash;I am dead.</td>
-      <td valign="top"><tt>I am hurt;--A plague<br>
-        on both your houses!--I am dead.</tt></td>
-      <td>langer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
-        &mdash;if even all of these are simple tastes. What</td>
-      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
-        even all of these are simple tastes. What</tt></td>
-      <td>langer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
-        with which we are here concerned,</td>
-      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
-        which we are here concerned,</tt></td>
-      <td>langer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
-      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
-      <td>langer Gedankenstrich</td>
-    </tr>
-    <tr>
-      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to say, but the left-hand cat interrupted her.</td>
-      <td valign="top"><tt>"Three hundred----" "years," she was going to say, but the left-hand cat interrupted her.</tt></td>
-      <td>Auslassungszeichen</td>
-    </tr>
-    <tr>
-      <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
-      <td>Auslassungszeichen</td>
-    </tr>
-    <tr>
-      <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
-      <td>Auslassungszeichen</td>
-    </tr>
-    <tr>
-      <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
-      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
-      <td>Auslassungszeichen</td>
-    </tr>
-    <tr>
-      <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
-      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
-      <td>Auslassungszeichen</td>
-    </tr>
-    <tr>
-      <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
-      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
-      <td>langer Gedankenstrich</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3><a name="eol_hyphen">Trennstriche am Zeilenende</a></h3>
-<p>Wenn ein Bindestrich als Trennzeichen am Zeilenende steht, dann
-   f&uuml;gen Sie die getrennten Wortteile wieder zusammen. Handelt es
-   sich tats&auml;chlich um ein zwei- oder mehrteiliges Wort, wie etwa
-   &bdquo;well-meaning&ldquo;, dann bringen Sie die Wortteile in eine
-   Zeile, lassen aber den Bindestrich stehen. Wenn ein Wort jedoch getrennt
-   wurde, weil es nicht mehr in die Zeile passte und wenn es normalerweise
-   nicht mit Bindestrich geschrieben wird, dann entfernen Sie den
-   Trennstrich. Lassen Sie das zusammengef&uuml;gte Wort in der oberen
-   Zeile und setzen Sie danach einen Zeilenumbruch, um das Zeilenformat
-   zu erhalten &ndash; das macht es einfacher f&uuml;r die Korrekturleser
-   in sp&auml;teren Runden. Im Abschnitt <a href="#em_dashes">Bindestriche,
-   kurze und lange Gedankenstriche</a> der Korrekturlese-Richtlinien
-   finden Sie Beispiele (&bdquo;nar-row&ldquo; wird zu &bdquo;narrow&ldquo;,
-   aber bei &bdquo;low-lying&ldquo; wird der Bindestrich beibehalten).
-   Folgt nach dem Wort noch ein Satzzeichen, so wird dieses ebenfalls
-   in die obere Zeile &uuml;bernommen.
-</p>
-<p>W&ouml;rter wie &bdquo;to-day&ldquo; und &bdquo;to-morrow&ldquo;,
-   die wir heute zusammenschreiben, stehen in alten B&uuml;chern oft
-   noch mit Bindestrich. Lassen Sie sie mit Bindestrich, wenn sie so
-   im Text stehen. Wenn Sie nicht sicher sind, ob der Autor einen
-   Bindestrich verwendet hat, so lassen Sie ihn stehen, setzen ein
-   <tt>*</tt> dahinter und verbinden das Wort wie hier: <tt>to-*day</tt>.
-   Das Sternchen macht den Nachbearbeiter darauf aufmerksam, der den
-   &Uuml;berblick &uuml;ber alle Seiten hat und feststellen kann,
-   wie der Autor das Wort &uuml;blicherweise geschrieben hat.
-</p>
-
-<h3><a name="eop_hyphen">Trennstriche am Seitenende</a></h3>
-<p>Trenn- und Gedankenstriche am Ende einer Seite werden Korrektur
-   gelesen, indem Sie das Trennzeichen oder den Gedankenstrich am
-   Ende der letzten Zeile stehen lassen. Setzen Sie ein Sternchen
-   <tt>*</tt> hinter den Trennstrich. Beispiel:<br>
-   &nbsp;<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;something Pat had already become accus-<br>
-   wird korrigiert zu:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>something Pat had already become accus-*</tt>
-</p>
-<p>Auf Seiten, die mit einem Teil eines Wortes der vorhergehenden Seite
-   bzw. mit einem Gedankenstrich beginnen, setzen Sie ein <tt>*</tt>
-   vor das Teilwort bzw. den Gedankenstrich.<br>
-   Um das obige Beispiel fortzusetzen: Lesen Sie<br>
-   &nbsp;<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;tomed to from having to do his own family<br>
-   Korrektur als:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>*tomed to from having to do his own family</tt>
-</p>
-<p>Die Sternchen zeigen dem Nachbearbeiter, dass das Wort beim
-   Zusammenf&uuml;gen der einzelnen Seiten zum endg&uuml;ltigen
-   E-Book verbunden werden muss.
-</p>
-
-
-<h3><a name="next_word">Einzelne W&ouml;rter am unteren Seitenrand</a></h3>
-<p>Entfernen Sie diese, auch wenn es die zweite H&auml;lfte eines
-   getrennten Wortes ist.
-</p>
-<p>In einigen &auml;lteren B&uuml;chern verweist das einzelne Wort am
-   unteren Seitenrand (genannt &bdquo;Kustos&ldquo;, &uuml;blicherweise
-   am rechten Rand gedruckt) auf das erste Wort auf der n&auml;chsten
-   Seite des Buches. Es half dem Drucker, die richtige R&uuml;ckseite
-   (genannt &bdquo;Verso&ldquo;) zu drucken, und seinen Gehilfen, die
-   Seiten f&uuml;r das Binden vorzubereiten. Au&szlig;erdem diente es
-   als Lesehilfe, damit der Leser nicht mehr als eine Seite umbl&auml;tterte.
+<h3><a name="line_br">Zeilenumbr&uuml;che</a></h3>
+<p><b>Lassen Sie alle Zeilenumbr&uuml;che stehen</b>, damit nachfolgende
+   Freiwillige die Zeilen im Text bequem mit den Zeilen in der Vorlage vergleichen
+   k&ouml;nnen. Seien Sie dabei besonders vorsichtig, wenn Sie
+   <a href="#eol_hyphen">getrennte W&ouml;rter</a> wieder zusammenf&uuml;gen
+   oder W&ouml;rter um <a href="#em_dashes">Gedankenstriche</a> bewegen.
+   Sollte der vorhergehende Korrekturleser die Zeilenumbr&uuml;che
+   entfernt haben, setzen Sie diese bitte wieder so ein, dass sie der
+   Vorlage entsprechen.
 </p>
 <!-- END RR -->
-<!-- We need an example here! -->
+<!-- We should have an example right here for this. -->
+
+<h3><a name="chap_head">Kapitel&uuml;berschriften</a></h3>
+<p>Lesen Sie die Kapitel&uuml;berschriften so Korrektur, wie sie
+   im Text stehen.
+</p>
+<p>Eine Kapitel&uuml;berschrift steht normalerweise unterhalb der
+   <a href="#page_hf">Kopfzeile</a> und hat keine Seitenzahl in
+   derselben Zeile. Kapitel&uuml;berschriften sind h&auml;ufig in
+   Gro&szlig;buchstaben gedruckt. Ist das der Fall, so behalten Sie
+   die Gro&szlig;buchstaben bei.
+</p>
+<p>Achten Sie am Beginn des ersten Absatzes besonders auf fehlende
+   doppelte Anf&uuml;hrungszeichen, die von manchen Verlagen am
+   Kapitelanfang weggelassen oder von der OCR wegen eines gro&szlig;en
+   Initials im Original &bdquo;&uuml;bersehen&ldquo; wurden. Wenn der
+   Absatz mit direkter Rede beginnt, f&uuml;gen Sie das doppelte
+   Anf&uuml;hrungszeichen ein.
+</p>
+<!-- END RR -->
 
 
 <h3><a name="para_space">Absatzabst&auml;nde und -einr&uuml;ckungen</a></h3>
@@ -1544,34 +1535,6 @@ cedilla                      [,x]   [x,]
 </p>
 <p>Ein Beispiel finden Sie im Abschnitt <a href="#para_side">Randnoten</a>
    weiter unten.
-</p>
-
-<h3><a name="mult_col">Mehrspaltige Texte</a></h3>
-<p>Lesen Sie normalen Text, der in zwei Spalten gedruckt wurde, als eine Spalte.
-</p>
-<p>Mehrspaltiger Text innerhalb eines sonst einspaltigen Abschnitts
-   sollte als eine fortlaufende Spalte Korrektur gelesen werden. Dabei
-   kommt die Spalte ganz links zuerst, anschlie&szlig;end der Text der
-   n&auml;chsten und so weiter. Sie brauchen den Umbruch der Spalten
-   nicht extra zu kennzeichnen; verbinden Sie einfach die Spalten.
-</p>
-<p>Lesen Sie dazu auch die Abschnitte <a href="#bk_index">Sachregister
-   und Schlagwortverzeichnisse</a> sowie <a href="#tables">Tabellen</a>.
-</p>
-
-
-<h3><a name="blank_pg">Leere Seiten</a></h3>
-<p>Die meisten leeren Seiten bzw. Seiten, die zwar eine Abbildung,
-   aber keinen Text enthalten, sind bereits mit der Markierung
-   <tt>[Blank Page]</tt> gekennzeichnet. K&uuml;mmern Sie sich
-   nicht darum. Wenn die Seite leer und ohne [Blank Page] ist,
-   braucht die Markierung nicht eingef&uuml;gt zu werden.
-</p>
-<p>Wenn im Korrekturfenster Text erscheint, aber eine leere Seite
-   als Vorlage, oder wenn eine Buchseite mit Text angezeigt wird,
-   aber kein Text im Korrekturfenster, dann halten Sie sich an die
-   Anweisungen in den Abschnitten <a href="#bad_image">Schlechte
-   Vorlagen</a> und <a href="#bad_text">Falsche Vorlage zum Text</a>.
 </p>
 
 <h3><a name="page_hf">Kopf- und Fu&szlig;zeilen</a></h3>
@@ -1656,26 +1619,6 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
-
-<h3><a name="chap_head">Kapitel&uuml;berschriften</a></h3>
-<p>Lesen Sie die Kapitel&uuml;berschriften so Korrektur, wie sie
-   im Text stehen.
-</p>
-<p>Eine Kapitel&uuml;berschrift steht normalerweise unterhalb der
-   <a href="#page_hf">Kopfzeile</a> und hat keine Seitenzahl in
-   derselben Zeile. Kapitel&uuml;berschriften sind h&auml;ufig in
-   Gro&szlig;buchstaben gedruckt. Ist das der Fall, so behalten Sie
-   die Gro&szlig;buchstaben bei.
-</p>
-<p>Achten Sie am Beginn des ersten Absatzes besonders auf fehlende
-   doppelte Anf&uuml;hrungszeichen, die von manchen Verlagen am
-   Kapitelanfang weggelassen oder von der OCR wegen eines gro&szlig;en
-   Initials im Original &bdquo;&uuml;bersehen&ldquo; wurden. Wenn der
-   Absatz mit direkter Rede beginnt, f&uuml;gen Sie das doppelte
-   Anf&uuml;hrungszeichen ein.
-</p>
-<!-- END RR -->
-
 
 <h3><a name="illust">Abbildungen</a></h3>
 <p>Lesen Sie den Bildbeschreibungstext so Korrektur, wie er gedruckt
@@ -1895,80 +1838,6 @@ cedilla                      [,x]   [x,]
   </tbody>
 </table>
 
-<h3><a name="poetry">Gedichte/Epigramme</a></h3>
-<p>F&uuml;gen Sie eine Leerzeile vor dem Gedicht oder Epigramm ein
-   und eine danach, damit die Formatierer Anfang und Ende deutlich
-   sehen k&ouml;nnen.
-</p>
-<p>Lassen Sie jede Zeile linksb&uuml;ndig ausgerichtet und behalten
-   Sie die Zeilenumbr&uuml;che bei. Versuchen Sie nicht, den Text zu
-   zentrieren oder einzur&uuml;cken. Das machen die Formatierer.
-   F&uuml;gen Sie aber Leerzeilen zwischen den Strophen ein.
-</p>
-<p><b>Fu&szlig;noten</b> in Gedichten sollten beim Korrekturlesen
-   wie regul&auml;re Fu&szlig;noten behandelt werden. Zu den Einzelheiten
-   siehe <a href="#footnotes">Fu&szlig;noten</a>.
-</p>
-<p><b>Zeilennummern</b> in Gedichten sollten beibehalten werden.
-   Trennen Sie diese durch mehrere Leerzeichen vom Haupttext.
-   Einzelheiten dazu unter <a href="#line_no">Zeilennummern</a>.
-</p>
-<p>Lesen Sie in jedem Falle die <a href="#comments">Projektkommentare</a>
-   des Textes, den Sie bearbeiten.
-</p>
-<!-- END RR -->
-
-<br>
-<!-- Need an example that shows overly long lines of poetry, rather than relative indentation -->
-
-<table width="100%" align="center" border="1"  cellpadding="4"
-      cellspacing="0" summary="Poetry Example">
- <tbody>
-   <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
-   <tr align="left">
-     <th width="100%" valign="top"> <img src="poetry.png" alt=""
-         width="500" height="508"> <br>
-     </th>
-   </tr>
-   <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
-   <tr>
-     <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
-<tt>
-to the scenery of his own country:<br></tt>
-<p><tt>
-Oh, to be in England<br>
-Now that April's there,<br>
-And whoever wakes in England<br>
-Sees, some morning, unaware,<br>
-That the lowest boughs and the brushwood sheaf<br>
-Round the elm-tree bole are in tiny leaf,<br>
-While the chaffinch sings on the orchard bough<br>
-In England--now!</tt>
-</p><p><tt>
-And after April, when May follows,<br>
-And the whitethroat builds, and all the swallows!<br>
-Hark! where my blossomed pear-tree in the hedge<br>
-Leans to the field and scatters on the clover<br>
-Blossoms and dewdrops--at the bent spray's edge--<br>
-That's the wise thrush; he sings each song twice over,<br>
-Lest you should think he never could recapture<br>
-The first fine careless rapture!<br>
-And though the fields look rough with hoary dew,<br>
-All will be gay, when noontide wakes anew<br>
-The buttercups, the little children's dower;<br>
---Far brighter than this gaudy melon-flower!<br>
-</tt>
-</p><p><tt>
-So it runs; but it is only a momentary memory;<br>
-and he knew, when he had done it, and to his</tt>
-</p>
-</td></tr></table>
-     </td>
-   </tr>
- </tbody>
-</table>
-
 <h3><a name="para_side">Randnoten (Marginalien)</a></h3>
 <p>Manche B&uuml;cher haben kurze Zusammenfassungen einzelner
    Abschnitte auf dem Seitenrand neben dem Text stehen. Diese
@@ -2090,6 +1959,20 @@ and he knew, when he had done it, and to his</tt>
   </tbody>
 </table>
 
+<h3><a name="mult_col">Mehrspaltige Texte</a></h3>
+<p>Lesen Sie normalen Text, der in zwei Spalten gedruckt wurde, als eine Spalte.
+</p>
+<p>Mehrspaltiger Text innerhalb eines sonst einspaltigen Abschnitts
+   sollte als eine fortlaufende Spalte Korrektur gelesen werden. Dabei
+   kommt die Spalte ganz links zuerst, anschlie&szlig;end der Text der
+   n&auml;chsten und so weiter. Sie brauchen den Umbruch der Spalten
+   nicht extra zu kennzeichnen; verbinden Sie einfach die Spalten.
+</p>
+<p>Lesen Sie dazu auch die Abschnitte <a href="#bk_index">Sachregister
+   und Schlagwortverzeichnisse</a> sowie <a href="#tables">Tabellen</a>.
+</p>
+
+
 <h3><a name="tables">Tabellen</a></h3>
 <p>Die Aufgabe eines Korrekturlesers ist es sicherzustellen, dass
    die gesamte Information in einer Tabelle richtig ist. Details der
@@ -2167,6 +2050,123 @@ Same strip rolled up in  Same, 16 wires bound
   </tbody>
 </table>
 
+
+<h3><a name="poetry">Gedichte/Epigramme</a></h3>
+<p>F&uuml;gen Sie eine Leerzeile vor dem Gedicht oder Epigramm ein
+   und eine danach, damit die Formatierer Anfang und Ende deutlich
+   sehen k&ouml;nnen.
+</p>
+<p>Lassen Sie jede Zeile linksb&uuml;ndig ausgerichtet und behalten
+   Sie die Zeilenumbr&uuml;che bei. Versuchen Sie nicht, den Text zu
+   zentrieren oder einzur&uuml;cken. Das machen die Formatierer.
+   F&uuml;gen Sie aber Leerzeilen zwischen den Strophen ein.
+</p>
+<p><b>Fu&szlig;noten</b> in Gedichten sollten beim Korrekturlesen
+   wie regul&auml;re Fu&szlig;noten behandelt werden. Zu den Einzelheiten
+   siehe <a href="#footnotes">Fu&szlig;noten</a>.
+</p>
+<p><b>Zeilennummern</b> in Gedichten sollten beibehalten werden.
+   Trennen Sie diese durch mehrere Leerzeichen vom Haupttext.
+   Einzelheiten dazu unter <a href="#line_no">Zeilennummern</a>.
+</p>
+<p>Lesen Sie in jedem Falle die <a href="#comments">Projektkommentare</a>
+   des Textes, den Sie bearbeiten.
+</p>
+<!-- END RR -->
+
+<br>
+<!-- Need an example that shows overly long lines of poetry, rather than relative indentation -->
+
+<table width="100%" align="center" border="1"  cellpadding="4"
+      cellspacing="0" summary="Poetry Example">
+ <tbody>
+   <tr><th align="left" bgcolor="cornsilk">Beispielvorlage:</th></tr>
+   <tr align="left">
+     <th width="100%" valign="top"> <img src="poetry.png" alt=""
+         width="500" height="508"> <br>
+     </th>
+   </tr>
+   <tr><th align="left" bgcolor="cornsilk">Richtig korrigierter Text:</th></tr>
+   <tr>
+     <td width="100%" valign="top">
+<table summary="" border="0" align="left"><tr><td>
+<tt>
+to the scenery of his own country:<br></tt>
+<p><tt>
+Oh, to be in England<br>
+Now that April's there,<br>
+And whoever wakes in England<br>
+Sees, some morning, unaware,<br>
+That the lowest boughs and the brushwood sheaf<br>
+Round the elm-tree bole are in tiny leaf,<br>
+While the chaffinch sings on the orchard bough<br>
+In England--now!</tt>
+</p><p><tt>
+And after April, when May follows,<br>
+And the whitethroat builds, and all the swallows!<br>
+Hark! where my blossomed pear-tree in the hedge<br>
+Leans to the field and scatters on the clover<br>
+Blossoms and dewdrops--at the bent spray's edge--<br>
+That's the wise thrush; he sings each song twice over,<br>
+Lest you should think he never could recapture<br>
+The first fine careless rapture!<br>
+And though the fields look rough with hoary dew,<br>
+All will be gay, when noontide wakes anew<br>
+The buttercups, the little children's dower;<br>
+--Far brighter than this gaudy melon-flower!<br>
+</tt>
+</p><p><tt>
+So it runs; but it is only a momentary memory;<br>
+and he knew, when he had done it, and to his</tt>
+</p>
+</td></tr></table>
+     </td>
+   </tr>
+ </tbody>
+</table>
+
+<h3><a name="line_no">Zeilennummern</a></h3>
+<p>Zeilennummern werden beibehalten. Trennen Sie sie mit mehreren
+   Leerzeichen vom Text, damit die Formatierer sie leicht finden k&ouml;nnen.
+</p>
+<p>Zeilennummern, die am Seitenrand in jeder oder auch nur jeder
+   f&uuml;nften oder zehnten Zeile stehen, sind vor allem in
+   Gedichtb&auml;nden &uuml;blich. Da der Text von Gedichten f&uuml;r
+   das E-Book nicht neu formatiert wird, sind die Zeilennummern auch
+   f&uuml;r den Leser von Interesse.
+</p>
+<!-- END RR -->
+<!-- We need an example image and text for this. -->
+
+<h3><a name="next_word">Einzelne W&ouml;rter am unteren Seitenrand</a></h3>
+<p>Entfernen Sie diese, auch wenn es die zweite H&auml;lfte eines
+   getrennten Wortes ist.
+</p>
+<p>In einigen &auml;lteren B&uuml;chern verweist das einzelne Wort am
+   unteren Seitenrand (genannt &bdquo;Kustos&ldquo;, &uuml;blicherweise
+   am rechten Rand gedruckt) auf das erste Wort auf der n&auml;chsten
+   Seite des Buches. Es half dem Drucker, die richtige R&uuml;ckseite
+   (genannt &bdquo;Verso&ldquo;) zu drucken, und seinen Gehilfen, die
+   Seiten f&uuml;r das Binden vorzubereiten. Au&szlig;erdem diente es
+   als Lesehilfe, damit der Leser nicht mehr als eine Seite umbl&auml;tterte.
+</p>
+<!-- END RR -->
+<!-- We need an example here! -->
+
+
+<h3><a name="blank_pg">Leere Seiten</a></h3>
+<p>Die meisten leeren Seiten bzw. Seiten, die zwar eine Abbildung,
+   aber keinen Text enthalten, sind bereits mit der Markierung
+   <tt>[Blank Page]</tt> gekennzeichnet. K&uuml;mmern Sie sich
+   nicht darum. Wenn die Seite leer und ohne [Blank Page] ist,
+   braucht die Markierung nicht eingef&uuml;gt zu werden.
+</p>
+<p>Wenn im Korrekturfenster Text erscheint, aber eine leere Seite
+   als Vorlage, oder wenn eine Buchseite mit Text angezeigt wird,
+   aber kein Text im Korrekturfenster, dann halten Sie sich an die
+   Anweisungen in den Abschnitten <a href="#bad_image">Schlechte
+   Vorlagen</a> und <a href="#bad_text">Falsche Vorlage zum Text</a>.
+</p>
 
 <h3><a name="title_pg">Vorder- und R&uuml;ckseiten von Titelbl&auml;ttern</a></h3>
 <p>Lesen Sie den gesamten Text so Korrektur, wie er auf der Seite

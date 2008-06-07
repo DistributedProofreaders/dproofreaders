@@ -86,41 +86,41 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <td width="1" bgcolor="silver">&nbsp;</td>
     <td bgcolor="white" align="left">
       <ul style="margin-left: 3em;">
-        <li><a href="#line_br">Regelafbrekingen</a></li>
         <li><a href="#double_q">Dubbele aanhalingstekens</a></li>
         <li><a href="#single_q">Enkele aanhalingstekens</a></li>
         <li><a href="#quote_ea">Aanhalingstekens op iedere regel</a></li>
         <li><a href="#period_s">Punten aan het eind van een zin</a></li>
         <li><a href="#punctuat">Interpunctie</a></li>
-        <li><a href="#period_p">Beletselteken ofwel ellips &quot;&hellip;&quot;</a></li>
-        <li><a href="#contract">Samentrekkingen</a></li>
         <li><a href="#extra_sp">Extra Spaties of Tabs Tussen Woorden</a></li>
         <li><a href="#trail_s">Spaties aan het eind van een regel</a></li>
-        <li><a href="#line_no">Regelnummers</a></li>
-        <li><a href="#italics">Cursief en Vet gedrukte Tekst</a></li>
-        <li><a href="#supers">Superscript</a></li>
-        <li><a href="#subscr">Subscript</a></li>
-        <li><a href="#font_sz">Verandering in grootte van het lettertype</a></li>
-        <li><a href="#small_caps">Woorden in <span style="font-variant: small-caps">kleine hoofdlettertjes (Klein Kapitaal)</a></li>
         <li><a href="#drop_caps">Grote, Versierde Hoofdletter aan het begin</a></li>
-        <li><a href="#a_chars">Tekens met accenten/Non ASCII tekens</a></li>
-        <li><a href="#d_chars">Lettertekens met Diakritische Tekens</a></li>
-        <li><a href="#f_chars">Niet-Latijnse lettertekens</a></li>
-        <li><a href="#fract_s">Breuken</a></li>
         <li><a href="#em_dashes">Liggend streepje: koppelteken, gedachtestreepje, minteken</a></li>
         <li><a href="#eol_hyphen">Woordafbreking aan het eind van een regel</a></li>
         <li><a href="#eop_hyphen">Woordafbreking aan het eind van een bladzijde</a></li>
-        <li><a href="#next_word">Losstaand woord onderaan een pagina</a></li>
-        <li><a href="#para_space">Ruimte tussen Alinea's/Inspringingen</a></li>
-        <li><a href="#mult_col">Meerdere kolommen.</a></li>
-        <li><a href="#blank_pg">Lege Pagina</a></li>
-        <li><a href="#page_hf">Koptekst en Voettekst</a></li>
+        <li><a href="#period_p">Beletselteken ofwel ellips &quot;&hellip;&quot;</a></li>
+        <li><a href="#contract">Samentrekkingen</a></li>
+        <li><a href="#fract_s">Breuken</a></li>
+        <li><a href="#a_chars">Tekens met accenten/Non ASCII tekens</a></li>
+        <li><a href="#d_chars">Lettertekens met Diakritische Tekens</a></li>
+        <li><a href="#f_chars">Niet-Latijnse lettertekens</a></li>
+        <li><a href="#supers">Superscript</a></li>
+        <li><a href="#subscr">Subscript</a></li>
+        <li><a href="#font_sz">Verandering in grootte van het lettertype</a></li>
+        <li><a href="#italics">Cursief en Vet gedrukte Tekst</a></li>
+        <li><a href="#small_caps">Woorden in <span style="font-variant: small-caps">kleine hoofdlettertjes (Klein Kapitaal)</a></li>
+        <li><a href="#line_br">Regelafbrekingen</a></li>
         <li><a href="#chap_head">Hoofdstuktitels</a></li>
+        <li><a href="#para_space">Ruimte tussen Alinea's/Inspringingen</a></li>
+        <li><a href="#page_hf">Koptekst en Voettekst</a></li>
         <li><a href="#illust">Illustraties</a></li>
         <li><a href="#footnotes">Voetnoten/Eindnoten</a></li>
-        <li><a href="#poetry">Po&euml;zie/Epigrammen</a></li>
         <li><a href="#para_side">Beschrijvingen naast een Alinea</a></li>
+        <li><a href="#mult_col">Meerdere kolommen.</a></li>
         <li><a href="#tables">Tabellen</a></li>
+        <li><a href="#poetry">Po&euml;zie/Epigrammen</a></li>
+        <li><a href="#line_no">Regelnummers</a></li>
+        <li><a href="#next_word">Losstaand woord onderaan een pagina</a></li>
+        <li><a href="#blank_pg">Lege Pagina</a></li>
         <li><a href="#title_pg">Titelpagina aan de voor- of achterkant</a></li>
         <li><a href="#toc">Inhoudsopgave</a></li>
         <li><a href="#bk_index">Indexen</a></li>
@@ -284,20 +284,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </table>
 
 
-<h3><a name="line_br">Regelafbrekingen</a>
- (<i><a href="proofreading_guidelines.php#line_br">Line Breaks</a></i>)</h3>
-<p><b>Laat alle regelafbrekingen staan zoals ze zijn.</b> De volgende vrijwilligers, later in het proces,
-   kunnen dan de regels in de tekst gemakkelijk vergelijken met de regels in het origineel.
-   Let hier speciaal op als je <a href="#eol_hyphen">woorden met een afbreekstreepje</a> samenvoegt,
-   of als je woorden rondom <a href="#em_dashes">em-dashes</a> verplaatst. Als de vorige vrijwilliger
-   regelafbrekingen verwijderd heeft, herstel ze dan alsjeblieft, zodat ze weer zo zijn als in het origineel.
-</p>
-
-
-<!-- END RR -->
-<!-- We should have an example right here for this. -->
-
-
 <h3><a name="double_q">Dubbele aanhalingstekens</a>
  (<i><a href="proofreading_guidelines.php#double_q">Double Quotes</a></i>)</h3>
 <p>Aanhalingstekens in Engelse boeken: proeflees deze als gewone ASCII <tt>"</tt> dubbele aanhalingstekens.
@@ -380,6 +366,227 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   </tbody>
 </table>
 
+<h3><a name="extra_sp">Extra Spaties of Tabs Tussen Woorden</a>
+ (<i><a href="proofreading_guidelines.php#extra_sp">Extra spaces or tabs between Words</a></i>)</h3>
+<p>Extra spaties en tabs tussen woorden komen nogal veel voor in de output van de OCR.
+   Je hoeft ze niet te verwijderen&mdash;dit gebeurt automatisch tijden het post-processen.
+</p>
+<p>Maar, extra spaties rondom interpunctie, em-dashes, aanhalingstekens enz. moeten <b>wel</b>
+   verwijderd worden als ze tussen het symbool en het woord staan.
+</p>
+<p>Bijvoorbeeld: in <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt> moet de spatie
+   tussen "horse" en de puntkomma verwijderd worden. Maar de twee spaties na de puntkomma mogen
+   blijven staan, je hoeft er niet &eacute;&eacute;n weg te halen.
+</p>
+
+<h3><a name="trail_s">Spaties aan het eind van een regel</a>
+ (<i><a href="proofreading_guidelines.php#trail_s">Trailing Space at End-of-line</a></i>)</h3>
+<p>Je hoeft aan het eind van een regel geen spatie in te voegen. Dit is verspilling van je tijd,
+   aangezien we het later automatisch kunnen doen. Verspil je tijd ook niet door extra
+   spaties aan het eind van regels weg te halen. 
+</p>
+
+<h3><a name="drop_caps">Grote, Versierde Hoofdletter aan het begin</a>
+ (<i><a href="proofreading_guidelines.php#drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></i>)</h3>
+<p>Proeflees een grote, versierde eerste letter van een hoofdstuk, paragraaf of alinea als een gewone letter.
+</p>
+
+<h3><a name="em_dashes">Liggend streepje: koppelteken, gedachtestreepje, minteken</a>
+ (<i><a href="proofreading_guidelines.php#em_dashes">Dashes, Hyphens, and Minus Signs</a></i>)</h3>
+<p>Over het algemeen zul je vier van dergelijke tekens in boeken tegenkomen:
+  <ol compact>
+    <li><i>Liggend streepje/Koppelteken (Hyphen)</i>. Dit wordt gebruikt om woorden te <b>koppelen</b>
+        tot &eacute;&eacute;n woord, of om voor- of achtervoegsels aan een woord te koppelen.
+    <br>Laat dit teken staan als een enkel streepje; verwijder aan weerskanten een eventueel aanwezige spatie.
+    <br>Er is een (zeker in het Nederlands) veel voorkomende uitzondering op deze regel, 
+        die te zien is in het tweede voorbeeld hieronder.
+    </li>
+    <li><i>Liggend streepje/Minteken (En-dash)</i>. Dit streepje is net iets langer, en wordt gebruikt voor een
+        aaneensluitende getallen<b>reeks</b>, of als een rekenkundig <b>min</b>teken.
+    <br>Laat ook dit teken staan als een enkel streepje. Of er spaties voor of achter staan, wordt
+        bepaald door hoe het in het boek is gedaan. Er zijn meestal geen spaties in een getallenbereik,
+        en meestal wel spaties rond rekenkundige mintekens, soms aan beide zijden, soms alleen ervoor.
+    </li>
+    <li><i>Liggend streepje/Gedachtestreepje/Kastlijn (Em-dashes)</i>. Dit dient als <b>scheidingsteken</b> tussen woorden&mdash;soms 
+        om iets te benadrukken, zoals hier&mdash;of als een spreker zich verslikt in een woord&mdash;&mdash;!
+    <br>Proeflees deze als twee streepjes wanneer het liggende streepje kort is, en als vier streepjes wanneer het liggende streepje lang is.
+        Laat geen spatie staan voor of na de streepjes, zelfs niet als er in de oorspronkelijke tekst een spatie te zien is.
+    </li>
+    <li><i>Met Opzet Weggelaten of Gecensureerde Woorden of Namen</i>.
+    <br>Proeflees deze als 4 streepjes. Als de streepjes een woord voorstellen, dan laten we er
+        spaties omheen staan alsof het echt een woord is. Als het een deel van een woord betreft,
+        dan geen spaties&mdash;koppel het aan de rest van het woord. 
+        Als de streep ongeveer dezelfde lengte heeft als de kortere em-dashes, proeflees deze
+        dan als een enkele em-dash, dus als twee streepjes.
+    </li>
+  </ol>
+<p>NB: Als een em-dash aan het begin of het eind van een regel staat, voeg dan de regel samen met
+   de vorige/volgende regel, z&oacute; dat er geen spatie of regeleinde naast de em-dash staat.
+   Alleen als de auteur de em-dash gebruikt heeft om een alinea, dichtregel of gesproken
+   tekst te beginnen of eindigen, dien je de em-dash te laten staan aan het begin of het
+   eind van een regel. Zie de voorbeelden hieronder. 
+</p>
+<!-- END RR -->
+
+<p><b>Voorbeelden</b>&mdash;Liggende streepjes:
+</p>
+
+<table width="100%" align="center" border="1"  cellpadding="4" cellspacing="0" summary="Hyphens and Dashes">
+  <tbody>
+    <tr>
+      <th valign="top" bgcolor="cornsilk">Origineel (boek):</th>
+      <th valign="top" bgcolor="cornsilk">Correct geformatteerde tekst:</th>
+      <th valign="top" bgcolor="cornsilk">Type</th>
+    </tr>
+    <tr>
+      <td valign="top">semi-detached</td>
+      <td valign="top"><tt>semi-detached</tt></td>
+      <td> Koppelteken</td>
+    </tr>
+    <tr>
+      <td valign="top">three- and four-part harmony</td>
+      <td valign="top"><tt>three- and four-part harmony</tt></td>
+      <td> Koppelteken</td>
+    </tr>
+    <tr>
+      <td valign="top">discoveries which the Crus-<br>
+        aders made and brought home with</td>
+      <td valign="top"><tt>discoveries which the Crusaders<br>
+        made and brought home with</tt></td>
+      <td> Koppelteken</td>
+    </tr>
+    <tr>
+      <td valign="top">factors which mold char-<br>
+        acter&mdash;environment, training and heritage,</td>
+      <td valign="top"><tt>factors which mold character--environment,<br>
+        training and heritage,</tt>
+      <td> Koppelteken</td>
+    </tr>
+    <tr>
+      <td valign="top">See pages 21&ndash;25</td>
+      <td valign="top"><tt>See pages 21-25</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">&ndash;14&deg; below zero</td>
+      <td valign="top"><tt>-14&deg; below zero</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">X &ndash; Y = Z</td>
+      <td valign="top"><tt>X - Y = Z</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">2&ndash;1/2</td>
+      <td valign="top"><tt>2-1/2</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">I am hurt;&mdash;A plague<br> on both your houses!&mdash;I am dead.</td>
+      <td valign="top"><tt>I am hurt;--A plague<br> on both your houses!--I am dead.</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
+        &mdash;if even all of these are simple tastes. What</td>
+      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
+        even all of these are simple tastes. What</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
+        with which we are here concerned,</td>
+      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
+        which we are here concerned,</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
+      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
+      <td>Em-dash</td>
+    </tr>
+ <tr>
+      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
+    say, but the left-hand cat interrupted her.</td>
+      <td valign="top"><tt>"Three hundred----" "years," she was going to
+    say, but the left-hand cat interrupted her.</tt></td>
+      <td>Langere Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
+      <td>Lange Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
+      <td>Lange Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
+      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
+      <td>Lange Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
+      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
+      <td>Lange Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
+      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
+      <td>Em-dash</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3><a name="eol_hyphen">Woordafbreking aan het eind van een regel</a>
+ (<i><a href="proofreading_guidelines.php#eol_hyphen">End-of-line Hyphenation</a></i>)</h3>
+<p>Als een regel eindigt met een afbreekstreepje, voeg dan de twee helften van het afgebroken woord
+   samen tot &eacute;&eacute;n woord. Als het een woord is met een koppelteken, zoals secretaris-generaal,
+   voeg dan de helften samen tot &eacute;&eacute;n woord met het koppelstreepje ertussen. Als de eerste helft met
+   een streepje eindigde omdat het gehele woord niet op de regel paste, en het een woord betreft dat
+   normaal geen koppelteken bevat, voeg dan de twee helften samen en verwijder het streepje.
+   Laat het samengevoegde woord staan op de regel waar de eerste helft stond, en breek de regel na
+   het woord af om de bestaande regel-indeling te behouden&mdash;dit maakt het gemakkelijker voor
+   de na jou komende vrijwilligers. Zie ook het hoofdstuk over <a href="#em_dashes">liggende streepjes</a>
+   voor voorbeelden (ho-ge wordt hoge, maar secretaris-generaal houdt het streepje). Als het woord
+   gevolgd wordt door een leesteken, haal dan ook het leesteken naar de bovenste regel. 
+</p>
+<p>Een aantal woorden (b.v. de Engelse woorden to-day en to-morrow), die tegenwoordig geen koppelteken
+   bevatten, hadden dat vaak wel in de oude boeken die wij onder handen hebben. Dergelijke woorden
+   behouden hun koppelteken zoals de auteur het heeft geschreven. Als je niet zeker weet of de auteur
+   dit woord wel of niet met koppelteken zou hebben geschreven, voeg dan het woord samen tot &eacute;&eacute;n woord,
+   laat het koppelteken staan, en zet een <tt>*</tt> achter het koppelteken. Bijvoorbeeld: <tt>to-*day</tt>.
+   Het sterretje zorgt ervoor dat er naar wordt gekeken door de Post-Processor, die alle pagina's kan
+   bekijken, en kan bepalen hoe de auteur dit woord schreef of geschreven zou hebben. 
+</p>
+
+
+<h3><a name="eop_hyphen">Woordafbreking aan het eind van een bladzijde</a>
+ (<i><a href="proofreading_guidelines.php#eop_hyphen">End-of-page Hyphenation</a></i>)</h3>
+<p>Laat bij een woordafbreking aan het eind van een bladzijde het streepje aan het eind van
+   de laatste regel staan, en breng het ter attentie van de Post-Processor door er een
+   <tt>*</tt> achter te zetten.<br>
+   Bijvoorbeeld:<br>
+   &nbsp;<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;something Pat had already become accus-<br>
+   wordt:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>something Pat had already become accus-*</tt>
+</p>
+<p>Als een bladzijde begint met het tweede deel van een woord dat op de vorige bladzijde is afgebroken,
+   of met een em-dash, zet dan een <tt>*</tt> voor het gedeeltelijke woord, of voor de em-dash.<br>
+   Dus, op de volgende bladzijde van het bovenstaande voorbeeld:<br>
+   &nbsp;<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;tomed to from having to do his own family<br>
+   wordt:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>*tomed to from having to do his own family</tt>
+</p>
+<p>Deze markeringen geven aan de Post-Processor een teken dat het woord moet worden samengevoegd,
+   als de pagina's tot een e-boek worden samengevoegd.
+</p>
+
 <h3><a name="period_p">Beletselteken ofwel ellips &quot;&hellip;&quot;</a>
  (<i><a href="proofreading_guidelines.php#period_p">Period Pause &quot;&hellip;&quot; (Ellipsis)</a></i>)</h3>
 <p>De richtlijnen zijn verschillend voor het Engels en voor andere talen dan het Engels (Languages Other Than English (LOTE)).
@@ -426,89 +633,12 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    betreft met straattaal of dialect, of wanneer de teksten niet in het Engels zijn geschreven. 
 </p>
 
-<h3><a name="extra_sp">Extra Spaties of Tabs Tussen Woorden</a>
- (<i><a href="proofreading_guidelines.php#extra_sp">Extra spaces or tabs between Words</a></i>)</h3>
-<p>Extra spaties en tabs tussen woorden komen nogal veel voor in de output van de OCR.
-   Je hoeft ze niet te verwijderen&mdash;dit gebeurt automatisch tijden het post-processen.
-</p>
-<p>Maar, extra spaties rondom interpunctie, em-dashes, aanhalingstekens enz. moeten <b>wel</b>
-   verwijderd worden als ze tussen het symbool en het woord staan.
-</p>
-<p>Bijvoorbeeld: in <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt> moet de spatie
-   tussen "horse" en de puntkomma verwijderd worden. Maar de twee spaties na de puntkomma mogen
-   blijven staan, je hoeft er niet &eacute;&eacute;n weg te halen.
-</p>
-
-<h3><a name="trail_s">Spaties aan het eind van een regel</a>
- (<i><a href="proofreading_guidelines.php#trail_s">Trailing Space at End-of-line</a></i>)</h3>
-<p>Je hoeft aan het eind van een regel geen spatie in te voegen. Dit is verspilling van je tijd,
-   aangezien we het later automatisch kunnen doen. Verspil je tijd ook niet door extra
-   spaties aan het eind van regels weg te halen. 
-</p>
-
-<h3><a name="line_no">Regelnummers</a>
- (<i><a href="proofreading_guidelines.php#line_no">Line Numbers</a></i>)</h3>
-<p>Laat regelnummers staan. Gebruik een paar spaties om ze apart te zetten van de rest van de tekst
-   op die regel, zo dat de formatteerders ze gemakkelijk kunnen vinden. 
-</p>
-<p>Regelnummers zijn de nummers in de kantlijn. Soms staan ze op elke regel, soms op elke vijfde
-   of tiende regel. Ze komen vaak voor in gedichtenbundels. Ze zijn nuttig voor de lezers van e-boeken,
-   aangezien po&euml;zie niet wordt geherformatteerd in de e-boek versie.
-</p>
-
-<!-- END RR -->
-<!-- We need an example image and text for this. -->
-
-<h3><a name="italics">Cursief en Vet gedrukte Tekst</a>
- (<i><a href="proofreading_guidelines.php#italics">Italic and Bold Text</a></i>)</h3>
-<p><i>Cursief gedrukte</i> tekst heeft soms <tt>&lt;i&gt;</tt> aan het begin en <tt>&lt;/i&gt;</tt>
-   aan het eind van de tekst, die cursief gedrukt is. <b>Vetgedrukte</b> tekst (tekst die is gedrukt in een
-   dikkere versie van het lettertype) heeft soms <tt>&lt;b&gt;</tt> aan het begin en <tt>&lt;/b&gt;</tt>
-   aan het eind van het vet gedrukte stuk tekst. Verwijder deze formattering niet, tenzij het om rommel
-   heen staat, die niet in het origineel voorkomt. Voeg het ook niet toe. De formatteerders doen dit later.
-</p>
-<!-- END RR -->
-
-
-<h3><a name="supers">Superscript</a>
- (<i><a href="proofreading_guidelines.php#supers">Superscripts</a></i>)</h3>
-<p>Oudere boeken gebruikten vaak samentrekkingen als afkortingen, en drukten deze dan als superscript.
-   Bijvoorbeeld:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
-   Proeflees deze door een enkel dakje (<tt>^</tt>) v&oacute;&oacute;r de tekst in superscript te zetten, zo:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
-</p>
-
-<h3><a name="subscr">Subscript</a>
- (<i><a href="proofreading_guidelines.php#subscr">Subscripts</a></i>)</h3>
-<p>In wetenschappelijke werken wordt vaak subscript gebruikt, al komt het in andere boeken niet vaak voor.
-   Proeflees tekst in subscript door een laag streepje <tt>_</tt> neer te zetten.
-   <br>Bijvoorbeeld:
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
-   <br>wordt proefgelezen als
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.<br></tt>
-</p>
-
-<h3><a name="font_sz">Verandering in grootte van het lettertype</a>
- (<i><a href="proofreading_guidelines.php#font_sz">Font Size Changes</a></i>)</h3>
-<p>We markeren een verandering in grootte van lettertypes niet. De formatteerders doen dit later.
-</p>
-
-<h3><a name="small_caps">Woorden in <span style="font-variant: small-caps">kleine hoofdlettertjes (Klein Kapitaal)</span></a>
- (<i><a href="proofreading_guidelines.php#small_caps">Words in Small Capitals</a></i>)</h3>
-<p><span style="font-variant: small-caps">Klein kapitaal</span>
-   (hoofdletters die kleiner zijn dan de standaard hoofdletters) hebben soms
-   <tt>&lt;sc&gt;</tt> v&oacute;&oacute;r het <span style="font-variant: small-caps">klein kapitaal</span>
-   en <tt>&lt;/sc&gt;</tt> achter het <span style="font-variant: small-caps">klein kapitaal</span>.
-   Alweer: verwijder deze formattering niet, tenzij het om rommel staat die in het origineel niet voorkomt.
-   Voeg het ook niet toe als het er niet staat. De formatteerders doen dit later.
-   Proeflees alleen de lettertekens. Laat ze in HOOFDLETTERS, of Klein Kapitaal,
-   of kleine letters, precies zoals ze er staan.
-</p>
-
-<h3><a name="drop_caps">Grote, Versierde Hoofdletter aan het begin</a>
- (<i><a href="proofreading_guidelines.php#drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></i>)</h3>
-<p>Proeflees een grote, versierde eerste letter van een hoofdstuk, paragraaf of alinea als een gewone letter.
+<h3><a name="fract_s">Breuken</a>
+   (<i><a href="proofreading_guidelines.php#fract_s">Fractions</a></i>)</h3>
+<p>Proeflees <b>breuken</b> als volgt: <tt>2&frac12;</tt> wordt <tt>2-1/2</tt>.
+   Het streepje voorkomt dat het hele getal en de breuk tijdens het post-processen bij het 
+   <span style="border-bottom: 1px dotted green;" title="rewrap: het opnieuw aanbrengen van regelafbrekingen">rewrappen</span>
+   van elkaar worden gescheiden.
 </p>
 
 <h3><a name="a_chars">Tekens met accenten/Non ASCII tekens</a>
@@ -1169,222 +1299,81 @@ cedille                      [,x]   [x,]
 </p>
 <? } ?>
 
-<h3><a name="fract_s">Breuken</a>
-   (<i><a href="proofreading_guidelines.php#fract_s">Fractions</a></i>)</h3>
-<p>Proeflees <b>breuken</b> als volgt: <tt>2&frac12;</tt> wordt <tt>2-1/2</tt>.
-   Het streepje voorkomt dat het hele getal en de breuk tijdens het post-processen bij het 
-   <span style="border-bottom: 1px dotted green;" title="rewrap: het opnieuw aanbrengen van regelafbrekingen">rewrappen</span>
-   van elkaar worden gescheiden.
-</p>
-
-<h3><a name="em_dashes">Liggend streepje: koppelteken, gedachtestreepje, minteken</a>
- (<i><a href="proofreading_guidelines.php#em_dashes">Dashes, Hyphens, and Minus Signs</a></i>)</h3>
-<p>Over het algemeen zul je vier van dergelijke tekens in boeken tegenkomen:
-  <ol compact>
-    <li><i>Liggend streepje/Koppelteken (Hyphen)</i>. Dit wordt gebruikt om woorden te <b>koppelen</b>
-        tot &eacute;&eacute;n woord, of om voor- of achtervoegsels aan een woord te koppelen.
-    <br>Laat dit teken staan als een enkel streepje; verwijder aan weerskanten een eventueel aanwezige spatie.
-    <br>Er is een (zeker in het Nederlands) veel voorkomende uitzondering op deze regel, 
-        die te zien is in het tweede voorbeeld hieronder.
-    </li>
-    <li><i>Liggend streepje/Minteken (En-dash)</i>. Dit streepje is net iets langer, en wordt gebruikt voor een
-        aaneensluitende getallen<b>reeks</b>, of als een rekenkundig <b>min</b>teken.
-    <br>Laat ook dit teken staan als een enkel streepje. Of er spaties voor of achter staan, wordt
-        bepaald door hoe het in het boek is gedaan. Er zijn meestal geen spaties in een getallenbereik,
-        en meestal wel spaties rond rekenkundige mintekens, soms aan beide zijden, soms alleen ervoor.
-    </li>
-    <li><i>Liggend streepje/Gedachtestreepje/Kastlijn (Em-dashes)</i>. Dit dient als <b>scheidingsteken</b> tussen woorden&mdash;soms 
-        om iets te benadrukken, zoals hier&mdash;of als een spreker zich verslikt in een woord&mdash;&mdash;!
-    <br>Proeflees deze als twee streepjes wanneer het liggende streepje kort is, en als vier streepjes wanneer het liggende streepje lang is.
-        Laat geen spatie staan voor of na de streepjes, zelfs niet als er in de oorspronkelijke tekst een spatie te zien is.
-    </li>
-    <li><i>Met Opzet Weggelaten of Gecensureerde Woorden of Namen</i>.
-    <br>Proeflees deze als 4 streepjes. Als de streepjes een woord voorstellen, dan laten we er
-        spaties omheen staan alsof het echt een woord is. Als het een deel van een woord betreft,
-        dan geen spaties&mdash;koppel het aan de rest van het woord. 
-        Als de streep ongeveer dezelfde lengte heeft als de kortere em-dashes, proeflees deze
-        dan als een enkele em-dash, dus als twee streepjes.
-    </li>
-  </ol>
-<p>NB: Als een em-dash aan het begin of het eind van een regel staat, voeg dan de regel samen met
-   de vorige/volgende regel, z&oacute; dat er geen spatie of regeleinde naast de em-dash staat.
-   Alleen als de auteur de em-dash gebruikt heeft om een alinea, dichtregel of gesproken
-   tekst te beginnen of eindigen, dien je de em-dash te laten staan aan het begin of het
-   eind van een regel. Zie de voorbeelden hieronder. 
-</p>
-<!-- END RR -->
-
-<p><b>Voorbeelden</b>&mdash;Liggende streepjes:
-</p>
-
-<table width="100%" align="center" border="1"  cellpadding="4" cellspacing="0" summary="Hyphens and Dashes">
-  <tbody>
-    <tr>
-      <th valign="top" bgcolor="cornsilk">Origineel (boek):</th>
-      <th valign="top" bgcolor="cornsilk">Correct geformatteerde tekst:</th>
-      <th valign="top" bgcolor="cornsilk">Type</th>
-    </tr>
-    <tr>
-      <td valign="top">semi-detached</td>
-      <td valign="top"><tt>semi-detached</tt></td>
-      <td> Koppelteken</td>
-    </tr>
-    <tr>
-      <td valign="top">three- and four-part harmony</td>
-      <td valign="top"><tt>three- and four-part harmony</tt></td>
-      <td> Koppelteken</td>
-    </tr>
-    <tr>
-      <td valign="top">discoveries which the Crus-<br>
-        aders made and brought home with</td>
-      <td valign="top"><tt>discoveries which the Crusaders<br>
-        made and brought home with</tt></td>
-      <td> Koppelteken</td>
-    </tr>
-    <tr>
-      <td valign="top">factors which mold char-<br>
-        acter&mdash;environment, training and heritage,</td>
-      <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt>
-      <td> Koppelteken</td>
-    </tr>
-    <tr>
-      <td valign="top">See pages 21&ndash;25</td>
-      <td valign="top"><tt>See pages 21-25</tt></td>
-      <td>En-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">&ndash;14&deg; below zero</td>
-      <td valign="top"><tt>-14&deg; below zero</tt></td>
-      <td>En-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">X &ndash; Y = Z</td>
-      <td valign="top"><tt>X - Y = Z</tt></td>
-      <td>En-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">2&ndash;1/2</td>
-      <td valign="top"><tt>2-1/2</tt></td>
-      <td>En-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">I am hurt;&mdash;A plague<br> on both your houses!&mdash;I am dead.</td>
-      <td valign="top"><tt>I am hurt;--A plague<br> on both your houses!--I am dead.</tt></td>
-      <td>Em-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
-        &mdash;if even all of these are simple tastes. What</td>
-      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
-        even all of these are simple tastes. What</tt></td>
-      <td>Em-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
-        with which we are here concerned,</td>
-      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
-        which we are here concerned,</tt></td>
-      <td>Em-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
-      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
-      <td>Em-dash</td>
-    </tr>
- <tr>
-      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
-    say, but the left-hand cat interrupted her.</td>
-      <td valign="top"><tt>"Three hundred----" "years," she was going to
-    say, but the left-hand cat interrupted her.</tt></td>
-      <td>Langere Em-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
-      <td>Lange Em-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
-      <td>Lange Em-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
-      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
-      <td>Lange Em-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
-      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
-      <td>Lange Em-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
-      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
-      <td>Em-dash</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3><a name="eol_hyphen">Woordafbreking aan het eind van een regel</a>
- (<i><a href="proofreading_guidelines.php#eol_hyphen">End-of-line Hyphenation</a></i>)</h3>
-<p>Als een regel eindigt met een afbreekstreepje, voeg dan de twee helften van het afgebroken woord
-   samen tot &eacute;&eacute;n woord. Als het een woord is met een koppelteken, zoals secretaris-generaal,
-   voeg dan de helften samen tot &eacute;&eacute;n woord met het koppelstreepje ertussen. Als de eerste helft met
-   een streepje eindigde omdat het gehele woord niet op de regel paste, en het een woord betreft dat
-   normaal geen koppelteken bevat, voeg dan de twee helften samen en verwijder het streepje.
-   Laat het samengevoegde woord staan op de regel waar de eerste helft stond, en breek de regel na
-   het woord af om de bestaande regel-indeling te behouden&mdash;dit maakt het gemakkelijker voor
-   de na jou komende vrijwilligers. Zie ook het hoofdstuk over <a href="#em_dashes">liggende streepjes</a>
-   voor voorbeelden (ho-ge wordt hoge, maar secretaris-generaal houdt het streepje). Als het woord
-   gevolgd wordt door een leesteken, haal dan ook het leesteken naar de bovenste regel. 
-</p>
-<p>Een aantal woorden (b.v. de Engelse woorden to-day en to-morrow), die tegenwoordig geen koppelteken
-   bevatten, hadden dat vaak wel in de oude boeken die wij onder handen hebben. Dergelijke woorden
-   behouden hun koppelteken zoals de auteur het heeft geschreven. Als je niet zeker weet of de auteur
-   dit woord wel of niet met koppelteken zou hebben geschreven, voeg dan het woord samen tot &eacute;&eacute;n woord,
-   laat het koppelteken staan, en zet een <tt>*</tt> achter het koppelteken. Bijvoorbeeld: <tt>to-*day</tt>.
-   Het sterretje zorgt ervoor dat er naar wordt gekeken door de Post-Processor, die alle pagina's kan
-   bekijken, en kan bepalen hoe de auteur dit woord schreef of geschreven zou hebben. 
-</p>
-
-
-<h3><a name="eop_hyphen">Woordafbreking aan het eind van een bladzijde</a>
- (<i><a href="proofreading_guidelines.php#eop_hyphen">End-of-page Hyphenation</a></i>)</h3>
-<p>Laat bij een woordafbreking aan het eind van een bladzijde het streepje aan het eind van
-   de laatste regel staan, en breng het ter attentie van de Post-Processor door er een
-   <tt>*</tt> achter te zetten.<br>
+<h3><a name="supers">Superscript</a>
+ (<i><a href="proofreading_guidelines.php#supers">Superscripts</a></i>)</h3>
+<p>Oudere boeken gebruikten vaak samentrekkingen als afkortingen, en drukten deze dan als superscript.
    Bijvoorbeeld:<br>
-   &nbsp;<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;something Pat had already become accus-<br>
-   wordt:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>something Pat had already become accus-*</tt>
-</p>
-<p>Als een bladzijde begint met het tweede deel van een woord dat op de vorige bladzijde is afgebroken,
-   of met een em-dash, zet dan een <tt>*</tt> voor het gedeeltelijke woord, of voor de em-dash.<br>
-   Dus, op de volgende bladzijde van het bovenstaande voorbeeld:<br>
-   &nbsp;<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;tomed to from having to do his own family<br>
-   wordt:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>*tomed to from having to do his own family</tt>
-</p>
-<p>Deze markeringen geven aan de Post-Processor een teken dat het woord moet worden samengevoegd,
-   als de pagina's tot een e-boek worden samengevoegd.
+   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
+   Proeflees deze door een enkel dakje (<tt>^</tt>) v&oacute;&oacute;r de tekst in superscript te zetten, zo:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
 
-<h3><a name="next_word">Losstaand woord onderaan een pagina</a>
- (<i><a href="proofreading_guidelines.php#next_word">Single word at bottom of page</a></i>)</h3>
-<p>Behandel een dergelijk woord door het woord te verwijderen, zelfs als het de tweede helft betreft van een afgebroken woord.
+<h3><a name="subscr">Subscript</a>
+ (<i><a href="proofreading_guidelines.php#subscr">Subscripts</a></i>)</h3>
+<p>In wetenschappelijke werken wordt vaak subscript gebruikt, al komt het in andere boeken niet vaak voor.
+   Proeflees tekst in subscript door een laag streepje <tt>_</tt> neer te zetten.
+   <br>Bijvoorbeeld:
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
+   <br>wordt proefgelezen als
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.<br></tt>
 </p>
-<p>In sommige oudere boeken wordt met een dergelijk losstaand woord ("catchword", meestal tegen de
-   rechter kantlijn van de pagina) aangegeven wat het eerste woord is op de volgende pagina van het
-   boek (ook wel "incipit" genoemd). Dit werd gebruikt om de zetter te helpen de juiste achterzijde
-   ("verso") te zetten, en om het zijn helpers gemakkelijker te maken de pagina's klaar te maken voor
-   het binden. Ook diende het woord om te voorkomen dat de lezer meer dan &eacute;&eacute;n pagina tegelijk omsloeg.
+
+<h3><a name="font_sz">Verandering in grootte van het lettertype</a>
+ (<i><a href="proofreading_guidelines.php#font_sz">Font Size Changes</a></i>)</h3>
+<p>We markeren een verandering in grootte van lettertypes niet. De formatteerders doen dit later.
+</p>
+
+<h3><a name="italics">Cursief en Vet gedrukte Tekst</a>
+ (<i><a href="proofreading_guidelines.php#italics">Italic and Bold Text</a></i>)</h3>
+<p><i>Cursief gedrukte</i> tekst heeft soms <tt>&lt;i&gt;</tt> aan het begin en <tt>&lt;/i&gt;</tt>
+   aan het eind van de tekst, die cursief gedrukt is. <b>Vetgedrukte</b> tekst (tekst die is gedrukt in een
+   dikkere versie van het lettertype) heeft soms <tt>&lt;b&gt;</tt> aan het begin en <tt>&lt;/b&gt;</tt>
+   aan het eind van het vet gedrukte stuk tekst. Verwijder deze formattering niet, tenzij het om rommel
+   heen staat, die niet in het origineel voorkomt. Voeg het ook niet toe. De formatteerders doen dit later.
 </p>
 <!-- END RR -->
-<!-- We need an example here! -->
+
+
+<h3><a name="small_caps">Woorden in <span style="font-variant: small-caps">kleine hoofdlettertjes (Klein Kapitaal)</span></a>
+ (<i><a href="proofreading_guidelines.php#small_caps">Words in Small Capitals</a></i>)</h3>
+<p><span style="font-variant: small-caps">Klein kapitaal</span>
+   (hoofdletters die kleiner zijn dan de standaard hoofdletters) hebben soms
+   <tt>&lt;sc&gt;</tt> v&oacute;&oacute;r het <span style="font-variant: small-caps">klein kapitaal</span>
+   en <tt>&lt;/sc&gt;</tt> achter het <span style="font-variant: small-caps">klein kapitaal</span>.
+   Alweer: verwijder deze formattering niet, tenzij het om rommel staat die in het origineel niet voorkomt.
+   Voeg het ook niet toe als het er niet staat. De formatteerders doen dit later.
+   Proeflees alleen de lettertekens. Laat ze in HOOFDLETTERS, of Klein Kapitaal,
+   of kleine letters, precies zoals ze er staan.
+</p>
+
+<h3><a name="line_br">Regelafbrekingen</a>
+ (<i><a href="proofreading_guidelines.php#line_br">Line Breaks</a></i>)</h3>
+<p><b>Laat alle regelafbrekingen staan zoals ze zijn.</b> De volgende vrijwilligers, later in het proces,
+   kunnen dan de regels in de tekst gemakkelijk vergelijken met de regels in het origineel.
+   Let hier speciaal op als je <a href="#eol_hyphen">woorden met een afbreekstreepje</a> samenvoegt,
+   of als je woorden rondom <a href="#em_dashes">em-dashes</a> verplaatst. Als de vorige vrijwilliger
+   regelafbrekingen verwijderd heeft, herstel ze dan alsjeblieft, zodat ze weer zo zijn als in het origineel.
+</p>
+
+
+<!-- END RR -->
+<!-- We should have an example right here for this. -->
+
+
+<h3><a name="chap_head">Hoofdstuktitels</a>
+ (<i><a href="proofreading_guidelines.php#chap_head">Chapter Headers</a></i>)</h3>
+<p>Proeflees een hoofdstuktitel zoals hij in de tekst staat.
+</p>
+<p>Een hoofdstuktitel begint vaak wat lager op de pagina dan de <a href="#page_hf">koptekst</a>.
+   Er staat geen paginanummer op dezelfde regel. Hoofdstuktitels worden vaak helemaal
+   in hoofdletters gedrukt. Dan handhaaf je de hoofdletters. 
+</p>
+<p>Let op: de aanhalingstekens aan het begin van de eerste alinea ontbreken nog wel eens,
+   &oacute;f doordat de uitgever ze er niet bij zette, &oacute;f doordat de OCR ze miste doordat de eerste
+   letter in het origineel een extra grote hoofdletter is. Als de schrijver de alinea
+   met dialoog begon, voeg dan de aanhalingstekens toe.
+</p>
+<!-- END RR -->
 
 <h3><a name="para_space">Ruimte tussen Alinea's/Inspringingen</a>
  (<i><a href="proofreading_guidelines.php#para_space">Paragraph Spacing/Indenting</a></i>)</h3>
@@ -1393,28 +1382,6 @@ cedille                      [,x]   [x,]
    hoef je die spaties niet te verwijderen&mdash;dat gebeurt automatisch tijdens het post-processen.
 </p>
 <p>Zie het voorbeeld bij de <a href="#para_side">Sidenotes</a>.
-</p>
-
-<h3><a name="mult_col">Meerdere kolommen</a>
- (<i><a href="proofreading_guidelines.php#mult_col">Multiple Columns</a></i>)</h3>
-<p>Proeflees gewone tekst die in 2 kolommen gedrukt is, als een enkele kolom.
-</p>
-<p>Stukjes met meerdere kolommen binnen een paragraaf van &eacute;&eacute;n kolom, moeten als &eacute;&eacute;n kolom proefgelezen worden,
-   door de tekst van de linker kolom eerst te zetten, de tekst van de volgende eronder enzovoort.
-   Je hoeft niet te markeren waar de kolommen gesplitst waren, je kunt ze gewoon achter elkaar zetten.
-</p>
-<p>Zie ook de hoofdstukken <a href="#bk_index">Indexen</a> en
-   <a href="#tables">Tabellen</a> van deze Proeflees-Richtlijnen.
-</p>
-
-<h3><a name="blank_pg">Lege Pagina</a> (<i><a href="proofreading_guidelines.php#blank_pg">Blank Page</a></i>)</h3>
-<p>De meeste lege bladzijden, of bladzijden met een illustratie zonder tekst, zullen al gemarkeerd
-   zijn met <tt>[Blank Page]</tt>. Laat deze markering zoals hij is. Als de bladzijde leeg is,
-   en er staat ook geen [Blank Page], hoef je het ook niet toe te voegen.
-</p>
-<p>Als er wel tekst is, waar de te proeflezen tekst hoort te staan, maar niet in het origineel,
-   of als er wel iets in het origineel staat maar er is geen tekst, volg de aanwijzingen voor een
-   <a href="#bad_image">Slecht beeld (Bad Image)</a> of een <a href="#bad_text">Slechte tekst (Bad Text)</a>.
 </p>
 
 <h3><a name="page_hf">Koptekst en Voettekst</a>
@@ -1495,21 +1462,6 @@ cedille                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
-
-<h3><a name="chap_head">Hoofdstuktitels</a>
- (<i><a href="proofreading_guidelines.php#chap_head">Chapter Headers</a></i>)</h3>
-<p>Proeflees een hoofdstuktitel zoals hij in de tekst staat.
-</p>
-<p>Een hoofdstuktitel begint vaak wat lager op de pagina dan de <a href="#page_hf">koptekst</a>.
-   Er staat geen paginanummer op dezelfde regel. Hoofdstuktitels worden vaak helemaal
-   in hoofdletters gedrukt. Dan handhaaf je de hoofdletters. 
-</p>
-<p>Let op: de aanhalingstekens aan het begin van de eerste alinea ontbreken nog wel eens,
-   &oacute;f doordat de uitgever ze er niet bij zette, &oacute;f doordat de OCR ze miste doordat de eerste
-   letter in het origineel een extra grote hoofdletter is. Als de schrijver de alinea
-   met dialoog begon, voeg dan de aanhalingstekens toe.
-</p>
-<!-- END RR -->
 
 <h3><a name="illust">Illustraties</a>
  (<i><a href="proofreading_guidelines.php#illust">Illustrations</a></i>)</h3>
@@ -1715,78 +1667,6 @@ cedille                      [,x]   [x,]
   </tbody>
 </table>
 
-<h3><a name="poetry">Po&euml;zie/Epigrammen</a>
- (<i><a href="proofreading_guidelines.php#poetry">Poetry/Epigrams</a></i>)</h3>
-<p>Voeg een lege regel toe voor de start van het gedicht of epigram en een lege regel na het
-   eind ervan, zodat de formatteerders begin en eind goed kunnen zien.
-</p>
-<p>Sluit de regels links aan; handhaaf de regelafbrekingen. Probeer de po&euml;zie niet in te springen of
-   te centreren. De Formatteerders zorgen daar voor. Voeg wel een lege regel toe tussen de coupletten.
-</p>
-<p><b>Voetnoten</b> in po&euml;zie moeten worden behandeld als gewone voetnoten. Zie
-   <a href="#footnotes">Voetnoten</a> voor meer details.
-</p>
-<p><b>Regelnummers</b> in po&euml;zie moeten worden behouden. Houd ze apart van de tekst d.m.v.
-   een paar spaties. Zie <a href="#line_no">Regelnummers</a> voor details.
-</p>
-<p>Controleer de  <a href="#comments">Project Comments</a> voor de specifieke tekst waar je aan werkt.
-</p>
-<!-- END RR -->
-
-<br>
-<!-- Need an example that shows overly long lines of poetry, rather than relative indentation -->
-
-<table width="100%" align="center" border="1"  cellpadding="4"
-      cellspacing="0" summary="Poetry Example">
- <tbody>
-   <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
-   <tr align="left">
-     <th width="100%" valign="top"> <img src="poetry.png" alt=""
-         width="500" height="508"> <br>
-     </th>
-   </tr>
-   <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
-   <tr>
-     <td width="100%" valign="top">
-
-
-<table summary="" border="0" align="left"><tr><td>
-<tt>
-to the scenery of his own country:<br></tt>
-<p><tt>
-Oh, to be in England<br>
-Now that April's there,<br>
-And whoever wakes in England<br>
-Sees, some morning, unaware,<br>
-That the lowest boughs and the brushwood sheaf<br>
-Round the elm-tree bole are in tiny leaf,<br>
-While the chaffinch sings on the orchard bough<br>
-In England--now!</tt>
-</p><p><tt>
-And after April, when May follows,<br>
-And the whitethroat builds, and all the swallows!<br>
-Hark! where my blossomed pear-tree in the hedge<br>
-Leans to the field and scatters on the clover<br>
-Blossoms and dewdrops--at the bent spray's edge--<br>
-That's the wise thrush; he sings each song twice over,<br>
-Lest you should think he never could recapture<br>
-The first fine careless rapture!<br>
-And though the fields look rough with hoary dew,<br>
-All will be gay, when noontide wakes anew<br>
-The buttercups, the little children's dower;<br>
---Far brighter than this gaudy melon-flower!<br>
-</tt>
-</p><p><tt>
-So it runs; but it is only a momentary memory;<br>
-and he knew, when he had done it, and to his</tt>
-</p>
-</td></tr></table>
-
-     </td>
-   </tr>
- </tbody>
-</table>
-
 <h3><a name="para_side">Beschrijvingen naast een Alinea (Sidenotes)</a>
  (<i><a href="proofreading_guidelines.php#para_side">Paragraph Side-Descriptions (Sidenotes)</a></i>)</h3>
 <p>Sommige boeken hebben korte beschrijvingen van de alinea naast de tekst. Deze heten sidenotes.
@@ -1905,6 +1785,18 @@ and he knew, when he had done it, and to his</tt>
   </tbody>
 </table>
 
+<h3><a name="mult_col">Meerdere kolommen</a>
+ (<i><a href="proofreading_guidelines.php#mult_col">Multiple Columns</a></i>)</h3>
+<p>Proeflees gewone tekst die in 2 kolommen gedrukt is, als een enkele kolom.
+</p>
+<p>Stukjes met meerdere kolommen binnen een paragraaf van &eacute;&eacute;n kolom, moeten als &eacute;&eacute;n kolom proefgelezen worden,
+   door de tekst van de linker kolom eerst te zetten, de tekst van de volgende eronder enzovoort.
+   Je hoeft niet te markeren waar de kolommen gesplitst waren, je kunt ze gewoon achter elkaar zetten.
+</p>
+<p>Zie ook de hoofdstukken <a href="#bk_index">Indexen</a> en
+   <a href="#tables">Tabellen</a> van deze Proeflees-Richtlijnen.
+</p>
+
 <h3><a name="tables">Tabellen</a>
  (<i><a href="proofreading_guidelines.php#tables">Tables</a></i>)</h3>
 <p>Het is de taak van de proeflezer om te zorgen dat alle informatie in de tabel correct is proefgelezen.
@@ -1980,6 +1872,114 @@ Same strip rolled up in  Same, 16 wires bound
     </tr>
   </tbody>
 </table>
+
+<h3><a name="poetry">Po&euml;zie/Epigrammen</a>
+ (<i><a href="proofreading_guidelines.php#poetry">Poetry/Epigrams</a></i>)</h3>
+<p>Voeg een lege regel toe voor de start van het gedicht of epigram en een lege regel na het
+   eind ervan, zodat de formatteerders begin en eind goed kunnen zien.
+</p>
+<p>Sluit de regels links aan; handhaaf de regelafbrekingen. Probeer de po&euml;zie niet in te springen of
+   te centreren. De Formatteerders zorgen daar voor. Voeg wel een lege regel toe tussen de coupletten.
+</p>
+<p><b>Voetnoten</b> in po&euml;zie moeten worden behandeld als gewone voetnoten. Zie
+   <a href="#footnotes">Voetnoten</a> voor meer details.
+</p>
+<p><b>Regelnummers</b> in po&euml;zie moeten worden behouden. Houd ze apart van de tekst d.m.v.
+   een paar spaties. Zie <a href="#line_no">Regelnummers</a> voor details.
+</p>
+<p>Controleer de  <a href="#comments">Project Comments</a> voor de specifieke tekst waar je aan werkt.
+</p>
+<!-- END RR -->
+
+<br>
+<!-- Need an example that shows overly long lines of poetry, rather than relative indentation -->
+
+<table width="100%" align="center" border="1"  cellpadding="4"
+      cellspacing="0" summary="Poetry Example">
+ <tbody>
+   <tr><th align="left" bgcolor="cornsilk">Origineel:</th></tr>
+   <tr align="left">
+     <th width="100%" valign="top"> <img src="poetry.png" alt=""
+         width="500" height="508"> <br>
+     </th>
+   </tr>
+   <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
+   <tr>
+     <td width="100%" valign="top">
+
+
+<table summary="" border="0" align="left"><tr><td>
+<tt>
+to the scenery of his own country:<br></tt>
+<p><tt>
+Oh, to be in England<br>
+Now that April's there,<br>
+And whoever wakes in England<br>
+Sees, some morning, unaware,<br>
+That the lowest boughs and the brushwood sheaf<br>
+Round the elm-tree bole are in tiny leaf,<br>
+While the chaffinch sings on the orchard bough<br>
+In England--now!</tt>
+</p><p><tt>
+And after April, when May follows,<br>
+And the whitethroat builds, and all the swallows!<br>
+Hark! where my blossomed pear-tree in the hedge<br>
+Leans to the field and scatters on the clover<br>
+Blossoms and dewdrops--at the bent spray's edge--<br>
+That's the wise thrush; he sings each song twice over,<br>
+Lest you should think he never could recapture<br>
+The first fine careless rapture!<br>
+And though the fields look rough with hoary dew,<br>
+All will be gay, when noontide wakes anew<br>
+The buttercups, the little children's dower;<br>
+--Far brighter than this gaudy melon-flower!<br>
+</tt>
+</p><p><tt>
+So it runs; but it is only a momentary memory;<br>
+and he knew, when he had done it, and to his</tt>
+</p>
+</td></tr></table>
+
+     </td>
+   </tr>
+ </tbody>
+</table>
+
+<h3><a name="line_no">Regelnummers</a>
+ (<i><a href="proofreading_guidelines.php#line_no">Line Numbers</a></i>)</h3>
+<p>Laat regelnummers staan. Gebruik een paar spaties om ze apart te zetten van de rest van de tekst
+   op die regel, zo dat de formatteerders ze gemakkelijk kunnen vinden. 
+</p>
+<p>Regelnummers zijn de nummers in de kantlijn. Soms staan ze op elke regel, soms op elke vijfde
+   of tiende regel. Ze komen vaak voor in gedichtenbundels. Ze zijn nuttig voor de lezers van e-boeken,
+   aangezien po&euml;zie niet wordt geherformatteerd in de e-boek versie.
+</p>
+
+<!-- END RR -->
+<!-- We need an example image and text for this. -->
+
+<h3><a name="next_word">Losstaand woord onderaan een pagina</a>
+ (<i><a href="proofreading_guidelines.php#next_word">Single word at bottom of page</a></i>)</h3>
+<p>Behandel een dergelijk woord door het woord te verwijderen, zelfs als het de tweede helft betreft van een afgebroken woord.
+</p>
+<p>In sommige oudere boeken wordt met een dergelijk losstaand woord ("catchword", meestal tegen de
+   rechter kantlijn van de pagina) aangegeven wat het eerste woord is op de volgende pagina van het
+   boek (ook wel "incipit" genoemd). Dit werd gebruikt om de zetter te helpen de juiste achterzijde
+   ("verso") te zetten, en om het zijn helpers gemakkelijker te maken de pagina's klaar te maken voor
+   het binden. Ook diende het woord om te voorkomen dat de lezer meer dan &eacute;&eacute;n pagina tegelijk omsloeg.
+</p>
+<!-- END RR -->
+<!-- We need an example here! -->
+
+<h3><a name="blank_pg">Lege Pagina</a> (<i><a href="proofreading_guidelines.php#blank_pg">Blank Page</a></i>)</h3>
+<p>De meeste lege bladzijden, of bladzijden met een illustratie zonder tekst, zullen al gemarkeerd
+   zijn met <tt>[Blank Page]</tt>. Laat deze markering zoals hij is. Als de bladzijde leeg is,
+   en er staat ook geen [Blank Page], hoef je het ook niet toe te voegen.
+</p>
+<p>Als er wel tekst is, waar de te proeflezen tekst hoort te staan, maar niet in het origineel,
+   of als er wel iets in het origineel staat maar er is geen tekst, volg de aanwijzingen voor een
+   <a href="#bad_image">Slecht beeld (Bad Image)</a> of een <a href="#bad_text">Slechte tekst (Bad Text)</a>.
+</p>
 
 <h3><a name="title_pg">Titelpagina aan de voor- of achterkant</a>
  (<i><a href="proofreading_guidelines.php#title_pg">Front/Back Title Page</a></i>)</h3>

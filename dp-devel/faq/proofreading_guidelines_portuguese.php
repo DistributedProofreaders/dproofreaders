@@ -80,42 +80,42 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <td bgcolor="silver" width="1">&nbsp;</td>
     <td align="left" bgcolor="white">
       <ul style="margin-left: 3em;">
-        <li><a href="#line_br">Quebras de Linha</a></li>
         <li><a href="#double_q">Aspas</a></li>
         <li><a href="#single_q">Plicas</a></li>
         <li><a href="#quote_ea">Aspas no In&iacute;cio de Cada Linha</a></li>
         <li><a href="#period_s">Pontua&ccedil;&atilde;o Entre Frases</a></li>
         <li><a href="#punctuat">Pontua&ccedil;&atilde;o</a></li>
-        <li><a href="#period_p">Elipses (Retic&ecirc;ncias) "..."</a></li>
-        <li><a href="#contract">Contrac&ccedil;&otilde;es</a></li>
         <li><a href="#extra_sp">Espa&ccedil;o Extra Entre Palavras</a></li>
         <li><a href="#trail_s">Espa&ccedil;o Extra no Final da Linha</a></li>
-        <li><a href="#line_no">Numera&ccedil;&atilde;o de Linhas</a></li>
-        <li><a href="#italics">Texto em It&aacute;lico e em Negrito</a></li>
-        <li><a href="#supers">Texto Superescrito (Superscripts)</a></li>
-        <li><a href="#subscr">Texto Subescrito (Subscripts)</a></li>
-        <li><a href="#font_sz">Altera&ccedil;&otilde;es no Tamanho da Fonte</a></li>
-        <li><a href="#small_caps">Texto em Mai&uacute;sculas Mais Pequenas
-          (<span style="font-variant: small-caps;">Small Capitals</span>)</a></li>
         <li><a href="#drop_caps">Letra Grande e Ornamentada no In&iacute;cio do Par&aacute;grafo</a></li>
-        <li><a href="#a_chars">Acentua&ccedil;&atilde;o/Caracteres Non-ASCII</a></li>
-        <li><a href="#d_chars">Caracteres com Sinais Diacr&iacute;ticos</a></li>
-        <li><a href="#f_chars">Caracteres Non-Latin</a></li>
-        <li><a href="#fract_s">Frac&ccedil;&otilde;es</a></li>
         <li><a href="#em_dashes">Tra&ccedil;os, H&iacute;fenes e Sinais de Subtrac&ccedil;&atilde;o</a></li>
         <li><a href="#eol_hyphen">Hifeniza&ccedil;&atilde;o no Final da Linha</a></li>
         <li><a href="#eop_hyphen">Hifeniza&ccedil;&atilde;o no Final da P&aacute;gina</a></li>
-        <li><a href="#next_word">Palavra Isolada no Final da P&aacute;gina</a></li>
-        <li><a href="#para_space">Espa&ccedil;o entre Par&aacute;grafos e Avan&ccedil;os</a></li>
-        <li><a href="#mult_col">V&aacute;rias Colunas</a></li>
-        <li><a href="#blank_pg">P&aacute;gina em Branco</a></li>
-        <li><a href="#page_hf">Cabe&ccedil;alho e Rodap&eacute; da P&aacute;gina</a></li>
+        <li><a href="#period_p">Elipses (Retic&ecirc;ncias) "..."</a></li>
+        <li><a href="#contract">Contrac&ccedil;&otilde;es</a></li>
+        <li><a href="#fract_s">Frac&ccedil;&otilde;es</a></li>
+        <li><a href="#a_chars">Acentua&ccedil;&atilde;o/Caracteres Non-ASCII</a></li>
+        <li><a href="#d_chars">Caracteres com Sinais Diacr&iacute;ticos</a></li>
+        <li><a href="#f_chars">Caracteres Non-Latin</a></li>
+        <li><a href="#supers">Texto Superescrito (Superscripts)</a></li>
+        <li><a href="#subscr">Texto Subescrito (Subscripts)</a></li>
+        <li><a href="#font_sz">Altera&ccedil;&otilde;es no Tamanho da Fonte</a></li>
+        <li><a href="#italics">Texto em It&aacute;lico e em Negrito</a></li>
+        <li><a href="#small_caps">Texto em Mai&uacute;sculas Mais Pequenas
+          (<span style="font-variant: small-caps;">Small Capitals</span>)</a></li>
+        <li><a href="#line_br">Quebras de Linha</a></li>
         <li><a href="#chap_head">T&iacute;tulos de Cap&iacute;tulo</a></li>
+        <li><a href="#para_space">Espa&ccedil;o entre Par&aacute;grafos e Avan&ccedil;os</a></li>
+        <li><a href="#page_hf">Cabe&ccedil;alho e Rodap&eacute; da P&aacute;gina</a></li>
         <li><a href="#illust">Figuras</a></li>
         <li><a href="#footnotes">Notas de Rodap&eacute;</a></li>
-        <li><a href="#poetry">Poesia/Epigramas</a></li>
         <li><a href="#para_side">Notas (Sidenotes)</a></li>
+        <li><a href="#mult_col">V&aacute;rias Colunas</a></li>
         <li><a href="#tables">Tabelas</a></li>
+        <li><a href="#poetry">Poesia/Epigramas</a></li>
+        <li><a href="#line_no">Numera&ccedil;&atilde;o de Linhas</a></li>
+        <li><a href="#next_word">Palavra Isolada no Final da P&aacute;gina</a></li>
+        <li><a href="#blank_pg">P&aacute;gina em Branco</a></li>
         <li><a href="#title_pg">P&aacute;gina de Rosto (Frente e Verso)</a></li>
         <li><a href="#toc">Tabela de Conte&uacute;dos</a></li>
         <li><a href="#bk_index">&Iacute;ndices</a></li>
@@ -317,16 +317,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </table>
 
 
-<h3><a name="line_br">Quebras de Linha</a></h3>
-<p><b>Mantenha todas as quebra de linha existentes</b>, para
-   que o pr&oacute;ximo revisor possa comparar
-   as linhas do texto revisto e as linhas da imagem mais
-   facilmente. Tenha particular aten&ccedil;&atilde;o ao juntar <a href="#eol_hyphen">palavras
-   hifenizadas</a> ou ao mover <a href="#em_dashes">palavras com tra&ccedil;os</a>. Se o revisor
-   alterou as quebras de linha, por favor, recoloque-as
-   de forma a representar a imagem mais fielmente.
-</p>
-
 <h3><a name="double_q">Aspas</a></h3>
 <p>Reveja as como <tt>"</tt>. N&atilde;o as converta em
    plicas ('). Deixe-as como o autor as escreveu.
@@ -411,6 +401,246 @@ texto de exemplo das <a href="#para_side">Notas (Sidenotes)</a>.
   </tbody>
 </table>
 
+<h3><a name="extra_sp">Espa&ccedil;o Extra Entre Palavras</a></h3>
+<p>Os espa&ccedil;os extra entre palavras s&atilde;o comuns nos
+   resultados de OCR. N&atilde;o &eacute; necess&aacute;rio
+   remov&ecirc;-los&mdash;estes s&atilde;o facilmente
+   removidos facilmente durante o p&oacute;s-processamento.
+</p>
+<p>No entanto, <b>&eacute; necess&aacute;rio</b> remover o espa&ccedil;amento
+   extra relativo &agrave; pontua&ccedil;&atilde;o, tra&ccedil;os, aspas, etc.,
+   quando estes sinais surgem separados da palavra.
+</p>
+<p>Por exemplo, em <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a
+   horse.</tt> o espa&ccedil;o entre a palavra "horse" e o ponto e
+   v&iacute;rgula deve ser removido. Mas os dois espa&ccedil;os
+   ap&oacute;s o ponto e v&iacute;rgula n&atilde;o s&atilde;o
+   problem&aacute;ticos&mdash;n&atilde;o &eacute; necess&aacute;rio apagar
+   um deles.
+</p>
+
+<h3><a name="trail_s">Espa&ccedil;o Extra no Final da Linha</a></h3>
+<p>N&atilde;o perca tempo a inserir espa&ccedil;os no final de cada
+   linha do texto. &Eacute; algo que podemos fazer automaticamente
+   mais tarde. O mesmo se aplica relativamente &agrave; remo&ccedil;&atilde;o
+   dos mesmos.
+</p>
+
+<h3><a name="drop_caps">Letra Grande e Ornamentada no In&iacute;cio do Par&aacute;grafo</a></h3>
+<p>Reveja as letras grandes e ornamentadas do in&iacute;cio do
+   cap&iacute;tulo, sec&ccedil;&atilde;o ou par&aacute;grafo como se
+   s&oacute; existisse a letra.
+</p>
+
+<h3><a name="em_dashes">Tra&ccedil;os, H&iacute;fenes e Sinais de Subtrac&ccedil;&atilde;o</a></h3>
+<p>Encontrar&aacute; nos livros quatro tipos principais:
+</p>
+  <ol compact>
+    <li><i>H&iacute;fenes</i>. S&atilde;o usados para <b>unir</b>
+        palavras, ou prefixos ou sufixos a uma palavra.
+    <br>Reveja-os como um h&iacute;fen simples, sem espa&ccedil;os dos dois lados.
+    <br>Repare na excep&ccedil;&atilde;o no segundo exemplo em baixo.
+    </li>
+    <li><i>Tra&ccedil;os</i>. S&atilde;o um pouco mais longos, e
+        s&atilde;o usados na <b>uni&atilde;o</b> de
+        n&uacute;meros, ou como sinais matem&aacute;ticos de <b>subtrac&ccedil;&atilde;o</b>.
+    <br>Reveja-os tamb&eacute;m como um h&iacute;fen &uacute;nico. O uso de
+        espa&ccedil;amento &eacute; determinado pela forma como surge no livro
+        original; geralmente n&atilde;o existem espa&ccedil;os na uni&atilde;o
+        de n&uacute;meros, mas existem para os sinais de
+        menos/subtrac&ccedil;&atilde;o (por vezes em ambos os lados, outras
+        s&oacute; de um).
+    </li>
+    <li><i>Tra&ccedil;os Longos</i>. S&atilde;o <b>separadores</b>
+        entre palavras&mdash;para dar &ecirc;nfase desta forma&mdash;ou quando
+        o narrador se "engasga"&mdash;!
+    <br>Reveja-os com dois h&iacute;fenes, se o tra&ccedil;o for curto, e
+        quatro h&iacute;fenes, se for longo. N&atilde;o deixe espa&ccedil;o
+        antes nem depois, mesmo que o exista na imagem do livro original.
+    </li>
+    <li><i>Nomes ou Palavras Deliberadamente Omitidos ou Censurados</i>
+    <br>Reveja-os com 4 h&iacute;fenes. Quando substitui uma palavra, deixe
+        mais ou menos o mesmo espa&ccedil;o que essa palavra teria. Se for
+        parte de uma palavra, ent&atilde;o n&atilde;o deixe
+        espa&ccedil;os&mdash;junte-a ao resto da palavra. Se o tra&ccedil;o
+        lhe parecer do tamanho dos tra&ccedil;os mais pequenos, reveja-o como
+        tal, ou seja, com dois h&iacute;fenes.
+    </li>
+  </ol>
+<p>Nota: Se um tra&ccedil;o aparecer no princ&iacute;pio ou no final
+   de uma linha do seu texto revisto, junte-a &agrave; linha
+   anterior/posterior para que n&atilde;o existam espa&ccedil;os nem
+   quebras de linha &agrave; sua volta. S&oacute; se o autor usar um
+   tra&ccedil;o no in&iacute;cio ou no final de um par&aacute;grafo, verso
+   ou di&aacute;logo (travess&atilde;o), dever&aacute; deix&aacute;-lo no
+   in&iacute;cio ou final de uma linha.
+</p>
+<!-- END RR -->
+
+<p><b>Exemplos</b>&mdash;Tra&ccedil;os, H&iacute;fenes e Sinais de Subtrac&ccedil;&atilde;o:
+</p>
+
+<table summary="Hyphens and Dashes" align="center" border="1" cellpadding="4" cellspacing="0" width="100%">
+  <tbody>
+    <tr>
+      <th bgcolor="cornsilk" valign="top">Imagem Original:</th>
+      <th bgcolor="cornsilk" valign="top">Texto Revisto Correctamente:</th>
+      <th bgcolor="cornsilk" valign="top">Tipo</th>
+    </tr>
+    <tr>
+      <td valign="top">semi-detached</td>
+      <td valign="top"><tt>semi-detached</tt></td>
+      <td> H&iacute;fen</td>
+    </tr>
+    <tr>
+      <td valign="top">three- and four-part harmony</td>
+      <td valign="top"><tt>three- and four-part harmony</tt></td>
+      <td>H&iacute;fen</td>
+    </tr>
+    <tr>
+      <td valign="top">discoveries which the Crus-<br>
+        aders made and brought home with</td>
+      <td valign="top"><tt>discoveries which the Crusaders<br>
+        made and brought home with</tt></td>
+      <td>H&iacute;fen</td>
+    </tr>
+    <tr>
+      <td valign="top">factors which mold char-<br>
+        acter&mdash;environment, training and heritage,</td>
+      <td valign="top"><tt>factors which mold character--environment,<br>
+        training and heritage,</tt> </td>
+      <td>H&iacute;fen</td>
+    </tr>
+    <tr>
+      <td valign="top">See pages 21&ndash;25</td>
+      <td valign="top"><tt>See pages 21-25</tt></td>
+      <td>Tra&ccedil;o</td>
+    </tr>
+    <tr>
+      <td valign="top">&ndash;14&deg; below zero</td>
+      <td valign="top"><tt>-14&deg; below zero</tt></td>
+      <td>Tra&ccedil;o</td>
+    </tr>
+    <tr>
+      <td valign="top">X &ndash; Y = Z</td>
+      <td valign="top"><tt>X - Y = Z</tt></td>
+      <td>Subtrac&ccedil;&atilde;o</td>
+    </tr>
+    <tr>
+      <td valign="top">2&ndash;1/2</td>
+      <td valign="top"><tt>2-1/2</tt></td>
+      <td>Tra&ccedil;o</td>
+    </tr>
+    <tr>
+      <td valign="top">I am hurt;&mdash;A plague<br>
+        on both your houses!&mdash;I am dead.</td>
+      <td valign="top"><tt>I am hurt;--A plague<br>
+        on both your houses!--I am dead.</tt></td>
+      <td>Tra&ccedil;o</td>
+    </tr>
+    <tr>
+      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
+        &mdash;if even all of these are simple tastes. What</td>
+      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
+        even all of these are simple tastes. What</tt></td>
+      <td>Tra&ccedil;o</td>
+    </tr>
+    <tr>
+      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
+        with which we are here concerned,</td>
+      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
+        which we are here concerned,</tt></td>
+      <td>Tra&ccedil;o</td>
+    </tr>
+    <tr>
+      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
+      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
+      <td>Tra&ccedil;o</td>
+    </tr>
+    <tr>
+      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
+        say, but the left-hand cat interrupted her.</td>
+      <td valign="top"><tt>"Three hundred----" "years," she was going to
+        say, but the left-hand cat interrupted her.</tt></td>
+      <td>Tra&ccedil;o longo</td>
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
+      <td>Tra&ccedil;o longo</td>
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
+      <td>Tra&ccedil;o longo</td>
+    </tr>
+    <tr>
+      <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
+      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
+      <td>Tra&ccedil;o longo</td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
+      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
+      <td>Tra&ccedil;o longo</td>
+    </tr>
+    <tr>
+      <td>&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
+      <td><tt>"I am not a d--d Yankee", he replied.</tt></td>
+      <td>Tra&ccedil;o</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3><a name="eol_hyphen">Hifeniza&ccedil;&atilde;o no Final da Linha</a></h3>
+<p>Quando surge um h&iacute;fen no final da linha, junte as duas partes
+   da palavra. Se for uma palavra realmente hifenizada, como &eacute; o
+   caso de "auto-realiza&ccedil;&atilde;o", junte as duas partes,
+   deixando o h&iacute;fen no meio. Mas se apenas estiver hifenizada por
+   n&atilde;o caber na mesma linha, ou seja, se n&atilde;o for uma palavra
+   habitualmente hifenizada, junte-as as partes na linha de cima, removendo o
+   h&iacute;fen e acrescentando depois uma quebra de linha, para
+   preservar a formata&ccedil;&atilde;o da linha&mdash;tornando o trabalho do
+   revisor da segunda ronda mais f&aacute;cil. Veja os <a href="#em_dashes">Tra&ccedil;os,
+   H&iacute;fenes e Sinais de Subtrac&ccedil;&atilde;o</a> como exemplo em
+   cada um dos casos (<tt>es-treito</tt> torna-se <tt>estreito</tt>,
+   mas <tt>guarda-chuva</tt> mant&eacute;m o h&iacute;fen). Se a palavra
+   for seguida de pontua&ccedil;&atilde;o, tamb&eacute;m esta vai para a
+   linha de cima.
+</p>
+<p>Palavras como to-day e to-morrow que actualmente j&aacute; n&atilde;o
+   levam h&iacute;fen s&atilde;o por vezes hifenizadas em livros antigos
+   como os que trabalhamos. Deixe-as hifenizadas como o autor as deixou.
+   Se n&atilde;o tiver a certeza se o autor as hifenizou ou n&atilde;o,
+   deixe o h&iacute;fen, marque com um <tt>*</tt> depois e junte as partes.
+   Assim: <tt>to-*day</tt>. O asterisco chamar&aacute; a
+   aten&ccedil;&atilde;o do p&oacute;s-processador, que tem
+   acesso a todas as p&aacute;ginas, e pode saber o modo como o autor escreve
+   geralmente determinada palavra.
+</p>
+
+<h3><a name="eop_hyphen">Hifeniza&ccedil;&atilde;o no Final da P&aacute;gina</a></h3>
+<p>Reveja a hifeniza&ccedil;&atilde;o no final da p&aacute;gina,
+   deixando o h&iacute;fen no final da &uacute;ltima linha, e
+   marque-o com asterisco. Por exemplo, reveja:<br>
+   &nbsp;<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;something Pat had already become accus-<br>
+   como:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>something Pat had already become accus-*</tt>
+</p>
+<p>Nas p&aacute;ginas que come&ccedil;arem com apenas uma parte da
+   palavra, coloque um <tt>*</tt> antes da palavra parcial.
+   <br>Continuando o exemplo anterior:<br>
+   &nbsp;<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;tomed to from having to do his own family<br>
+   como:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>*tomed to from having to do his own family</tt>
+</p>
+<p>Os asteriscos chamar&atilde;o a aten&ccedil;&atilde;o do
+   p&oacute;s-processador de que precisa de juntar as duas partes da
+   palavra, quando estiver a fazer o tratamento do e-book final.
+</p>
+
 <h3><a name="period_p">Elipses (Retic&ecirc;ncias) "..."</a></h3>
 <p>As regras referentes a este item s&atilde;o
    diferentes tendo em conta se se trata de um texto em ingl&ecirc;s (English) ou
@@ -473,102 +703,11 @@ texto de exemplo das <a href="#para_side">Notas (Sidenotes)</a>.
    que n&atilde;o a inglesa.
 </p>
 
-<h3><a name="extra_sp">Espa&ccedil;o Extra Entre Palavras</a></h3>
-<p>Os espa&ccedil;os extra entre palavras s&atilde;o comuns nos
-   resultados de OCR. N&atilde;o &eacute; necess&aacute;rio
-   remov&ecirc;-los&mdash;estes s&atilde;o facilmente
-   removidos facilmente durante o p&oacute;s-processamento.
-</p>
-<p>No entanto, <b>&eacute; necess&aacute;rio</b> remover o espa&ccedil;amento
-   extra relativo &agrave; pontua&ccedil;&atilde;o, tra&ccedil;os, aspas, etc.,
-   quando estes sinais surgem separados da palavra.
-</p>
-<p>Por exemplo, em <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a
-   horse.</tt> o espa&ccedil;o entre a palavra "horse" e o ponto e
-   v&iacute;rgula deve ser removido. Mas os dois espa&ccedil;os
-   ap&oacute;s o ponto e v&iacute;rgula n&atilde;o s&atilde;o
-   problem&aacute;ticos&mdash;n&atilde;o &eacute; necess&aacute;rio apagar
-   um deles.
-</p>
-
-<h3><a name="trail_s">Espa&ccedil;o Extra no Final da Linha</a></h3>
-<p>N&atilde;o perca tempo a inserir espa&ccedil;os no final de cada
-   linha do texto. &Eacute; algo que podemos fazer automaticamente
-   mais tarde. O mesmo se aplica relativamente &agrave; remo&ccedil;&atilde;o
-   dos mesmos.
-</p>
-
-<h3><a name="line_no">Numera&ccedil;&atilde;o de Linhas</a></h3>
-<p>Mantenha a numera&ccedil;&atilde;o de linhas.
-   Insira alguns espa&ccedil;os para a separar do resto do texto, na
-   pr&oacute;pria linha, para que os formatadores possam
-   encontr&aacute;-la facilmente.
-</p>
-<p>A numera&ccedil;&atilde;o de linha s&atilde;o n&uacute;meros
-   colocados junto &agrave; margem de cada linha, ou de cada 5 ou 10
-   linhas, sendo comuns em livros de poesia. Uma vez que a poesia
-   n&atilde;o ser&aacute; reformatada numa vers&atilde;o e-book, a
-   numera&ccedil;&atilde;o de linha ser&aacute; &uacute;til para os
-   leitores.
-</p>
-<!-- END RR -->
-<!-- We need an example image and text for this. -->
-
-<h3><a name="italics">Texto em It&aacute;lico e em Negrito</a></h3>
-<p>O texto em <i>it&aacute;lico</i> pode aparecer ocasionalmente
-   <tt>&lt;i&gt;</tt> e <tt>&lt;/i&gt;</tt>. O texto em <b>negrito</b>
-   (texto impresso de forma mais carregada) pode aparecer entre <tt>&lt;b&gt;</tt> e <tt>&lt;/b&gt;</tt>.
-   N&atilde;o remova este tipo de formata&ccedil;&atilde;o, excepto se o texto n&atilde;o
-   existir na p&aacute;gina. N&atilde;o o acrescente, caso n&atilde;o
-   exista. Os formatadores tratar&atilde;o disso mais tarde.
-</p>
-
-<h3><a name="supers">Texto Superescrito (Superscripts)</a></h3>
-<p>Os livros antigos abreviam frequentemente palavras em
-   contrac&ccedil;&otilde;es, e imprimem-nas como texto superescrito, por
-   exemplo: <br>
-   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
-   Reveja estas contrac&ccedil;&otilde;es inserindo o car&aacute;cter ("^") que
-   as identifique como texto superescrito, assim:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
-</p>
-
-<h3><a name="subscr">Texto Subescrito (Subscripts)</a></h3>
-<p>O texto subescrito encontra-se geralmente em trabalhos
-   cient&iacute;ficos, mas n&atilde;o &eacute; comum nos
-   outros livros. Reveja-o colocando um car&aacute;cter <tt>_</tt>.
-   <br>Por exemplo:
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
-   <br>deve ser revisto assim:
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.</tt>
-</p>
-
-<h3><a name="font_sz">Altera&ccedil;&otilde;es no Tamanho da Fonte</a></h3>
-<p>N&atilde;o fazemos nada relativamente a
-   altera&ccedil;&otilde;es no tamanho da fonte. Os formatadores
-   tratar&atilde;o disso mais tarde.
-</p>
-
-<h3><a name="small_caps">Texto em Mai&uacute;sculas Mais Pequenas
-    (<span style="font-variant: small-caps;">Small Caps)</span></a></h3>
-<p>As palavras impressas em letra mai&uacute;scula mais
-   pequena, (<span style="font-variant: small-caps;">Small
-   Caps</span>), misturando letras mai&uacute;sculas de tamanho diferente,
-   (<span style="font-variant: small-caps;">Mixed Small Caps</span>),
-   poder&atilde;o aparecer entre <tt>&lt;sc&gt;</tt> e <tt>&lt;/sc&gt;</tt>.
-   Por favor, n&atilde;o remova este tipo de formata&ccedil;&atilde;o, excepto se
-   o texto n&atilde;o existir na p&aacute;gina. N&atilde;o o acrescente, caso
-   n&atilde;o exista. Os formatadores tratar&atilde;o disso mais tarde. Reveja
-   apenas o caracteres e n&atilde;o se preocupe com as altera&ccedil;&otilde;es
-   de fonte. Se j&aacute; estiverem todas em letra MAI&Uacute;SCULA, Mista ou
-   min&uacute;scula, reveja como se estivessem todas em MAI&Uacute;SCULA,
-   Mista ou min&uacute;scula, tal como aparecem.
-</p>
-
-<h3><a name="drop_caps">Letra Grande e Ornamentada no In&iacute;cio do Par&aacute;grafo</a></h3>
-<p>Reveja as letras grandes e ornamentadas do in&iacute;cio do
-   cap&iacute;tulo, sec&ccedil;&atilde;o ou par&aacute;grafo como se
-   s&oacute; existisse a letra.
+<h3><a name="fract_s">Frac&ccedil;&otilde;es</a></h3>
+<p>Reveja as <b>frac&ccedil;&otilde;es</b> da seguinte forma: <tt>2&frac12;</tt>
+   &eacute; revista como <tt>2-1/2</tt>. O h&iacute;fen impede que o n&uacute;mero e a
+   frac&ccedil;&atilde;o sejam separados na formata&ccedil;&atilde;o
+   autom&aacute;tica, realizada no p&oacute;s-processamento.
 </p>
 
 <h3><a name="a_chars">Acentua&ccedil;&atilde;o/Caracteres Non-ASCII</a></h3>
@@ -1346,234 +1485,84 @@ cedilla                      [,x]   [x,]
 </p>
 <? } ?>
 
-<h3><a name="fract_s">Frac&ccedil;&otilde;es</a></h3>
-<p>Reveja as <b>frac&ccedil;&otilde;es</b> da seguinte forma: <tt>2&frac12;</tt>
-   &eacute; revista como <tt>2-1/2</tt>. O h&iacute;fen impede que o n&uacute;mero e a
-   frac&ccedil;&atilde;o sejam separados na formata&ccedil;&atilde;o
-   autom&aacute;tica, realizada no p&oacute;s-processamento.
+<h3><a name="supers">Texto Superescrito (Superscripts)</a></h3>
+<p>Os livros antigos abreviam frequentemente palavras em
+   contrac&ccedil;&otilde;es, e imprimem-nas como texto superescrito, por
+   exemplo: <br>
+   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
+   Reveja estas contrac&ccedil;&otilde;es inserindo o car&aacute;cter ("^") que
+   as identifique como texto superescrito, assim:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
 
-<h3><a name="em_dashes">Tra&ccedil;os, H&iacute;fenes e Sinais de Subtrac&ccedil;&atilde;o</a></h3>
-<p>Encontrar&aacute; nos livros quatro tipos principais:
+<h3><a name="subscr">Texto Subescrito (Subscripts)</a></h3>
+<p>O texto subescrito encontra-se geralmente em trabalhos
+   cient&iacute;ficos, mas n&atilde;o &eacute; comum nos
+   outros livros. Reveja-o colocando um car&aacute;cter <tt>_</tt>.
+   <br>Por exemplo:
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
+   <br>deve ser revisto assim:
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.</tt>
 </p>
-  <ol compact>
-    <li><i>H&iacute;fenes</i>. S&atilde;o usados para <b>unir</b>
-        palavras, ou prefixos ou sufixos a uma palavra.
-    <br>Reveja-os como um h&iacute;fen simples, sem espa&ccedil;os dos dois lados.
-    <br>Repare na excep&ccedil;&atilde;o no segundo exemplo em baixo.
-    </li>
-    <li><i>Tra&ccedil;os</i>. S&atilde;o um pouco mais longos, e
-        s&atilde;o usados na <b>uni&atilde;o</b> de
-        n&uacute;meros, ou como sinais matem&aacute;ticos de <b>subtrac&ccedil;&atilde;o</b>.
-    <br>Reveja-os tamb&eacute;m como um h&iacute;fen &uacute;nico. O uso de
-        espa&ccedil;amento &eacute; determinado pela forma como surge no livro
-        original; geralmente n&atilde;o existem espa&ccedil;os na uni&atilde;o
-        de n&uacute;meros, mas existem para os sinais de
-        menos/subtrac&ccedil;&atilde;o (por vezes em ambos os lados, outras
-        s&oacute; de um).
-    </li>
-    <li><i>Tra&ccedil;os Longos</i>. S&atilde;o <b>separadores</b>
-        entre palavras&mdash;para dar &ecirc;nfase desta forma&mdash;ou quando
-        o narrador se "engasga"&mdash;!
-    <br>Reveja-os com dois h&iacute;fenes, se o tra&ccedil;o for curto, e
-        quatro h&iacute;fenes, se for longo. N&atilde;o deixe espa&ccedil;o
-        antes nem depois, mesmo que o exista na imagem do livro original.
-    </li>
-    <li><i>Nomes ou Palavras Deliberadamente Omitidos ou Censurados</i>
-    <br>Reveja-os com 4 h&iacute;fenes. Quando substitui uma palavra, deixe
-        mais ou menos o mesmo espa&ccedil;o que essa palavra teria. Se for
-        parte de uma palavra, ent&atilde;o n&atilde;o deixe
-        espa&ccedil;os&mdash;junte-a ao resto da palavra. Se o tra&ccedil;o
-        lhe parecer do tamanho dos tra&ccedil;os mais pequenos, reveja-o como
-        tal, ou seja, com dois h&iacute;fenes.
-    </li>
-  </ol>
-<p>Nota: Se um tra&ccedil;o aparecer no princ&iacute;pio ou no final
-   de uma linha do seu texto revisto, junte-a &agrave; linha
-   anterior/posterior para que n&atilde;o existam espa&ccedil;os nem
-   quebras de linha &agrave; sua volta. S&oacute; se o autor usar um
-   tra&ccedil;o no in&iacute;cio ou no final de um par&aacute;grafo, verso
-   ou di&aacute;logo (travess&atilde;o), dever&aacute; deix&aacute;-lo no
-   in&iacute;cio ou final de uma linha.
+
+<h3><a name="font_sz">Altera&ccedil;&otilde;es no Tamanho da Fonte</a></h3>
+<p>N&atilde;o fazemos nada relativamente a
+   altera&ccedil;&otilde;es no tamanho da fonte. Os formatadores
+   tratar&atilde;o disso mais tarde.
+</p>
+
+<h3><a name="italics">Texto em It&aacute;lico e em Negrito</a></h3>
+<p>O texto em <i>it&aacute;lico</i> pode aparecer ocasionalmente
+   <tt>&lt;i&gt;</tt> e <tt>&lt;/i&gt;</tt>. O texto em <b>negrito</b>
+   (texto impresso de forma mais carregada) pode aparecer entre <tt>&lt;b&gt;</tt> e <tt>&lt;/b&gt;</tt>.
+   N&atilde;o remova este tipo de formata&ccedil;&atilde;o, excepto se o texto n&atilde;o
+   existir na p&aacute;gina. N&atilde;o o acrescente, caso n&atilde;o
+   exista. Os formatadores tratar&atilde;o disso mais tarde.
+</p>
+
+<h3><a name="small_caps">Texto em Mai&uacute;sculas Mais Pequenas
+    (<span style="font-variant: small-caps;">Small Caps)</span></a></h3>
+<p>As palavras impressas em letra mai&uacute;scula mais
+   pequena, (<span style="font-variant: small-caps;">Small
+   Caps</span>), misturando letras mai&uacute;sculas de tamanho diferente,
+   (<span style="font-variant: small-caps;">Mixed Small Caps</span>),
+   poder&atilde;o aparecer entre <tt>&lt;sc&gt;</tt> e <tt>&lt;/sc&gt;</tt>.
+   Por favor, n&atilde;o remova este tipo de formata&ccedil;&atilde;o, excepto se
+   o texto n&atilde;o existir na p&aacute;gina. N&atilde;o o acrescente, caso
+   n&atilde;o exista. Os formatadores tratar&atilde;o disso mais tarde. Reveja
+   apenas o caracteres e n&atilde;o se preocupe com as altera&ccedil;&otilde;es
+   de fonte. Se j&aacute; estiverem todas em letra MAI&Uacute;SCULA, Mista ou
+   min&uacute;scula, reveja como se estivessem todas em MAI&Uacute;SCULA,
+   Mista ou min&uacute;scula, tal como aparecem.
+</p>
+
+<h3><a name="line_br">Quebras de Linha</a></h3>
+<p><b>Mantenha todas as quebra de linha existentes</b>, para
+   que o pr&oacute;ximo revisor possa comparar
+   as linhas do texto revisto e as linhas da imagem mais
+   facilmente. Tenha particular aten&ccedil;&atilde;o ao juntar <a href="#eol_hyphen">palavras
+   hifenizadas</a> ou ao mover <a href="#em_dashes">palavras com tra&ccedil;os</a>. Se o revisor
+   alterou as quebras de linha, por favor, recoloque-as
+   de forma a representar a imagem mais fielmente.
+</p>
+
+<h3><a name="chap_head">T&iacute;tulos de Cap&iacute;tulo</a></h3>
+<p>Reveja os t&iacute;tulos de cap&iacute;tulo tal como surgem no texto.
+</p>
+<p>Um t&iacute;tulo de cap&iacute;tulo pode come&ccedil;ar um pouco
+   mais abaixo do que o <a href="#page_hf">cabe&ccedil;alho</a> e
+   n&atilde;o tem o n&uacute;mero da p&aacute;gina na mesma linha.
+   Os t&iacute;tulos de Cap&iacute;tulo s&atilde;o impressos geralmente em
+   letra mai&uacute;scula; se assim for, mantenha-os desta forma.
+</p>
+<p>Preste aten&ccedil;&atilde;o &agrave; poss&iacute;vel falta de aspas
+   no in&iacute;cio do primeiro par&aacute;grafo. Alguns editores podem
+   n&atilde;o as ter inclu&iacute;do ou o OCR pode n&atilde;o ter captado
+   devido ao in&iacute;cio em mai&uacute;sculas no original. Se o autor
+   come&ccedil;ar o par&aacute;grafo com um di&aacute;logo, coloque
+   aspas.
 </p>
 <!-- END RR -->
-
-<p><b>Exemplos</b>&mdash;Tra&ccedil;os, H&iacute;fenes e Sinais de Subtrac&ccedil;&atilde;o:
-</p>
-
-<table summary="Hyphens and Dashes" align="center" border="1" cellpadding="4" cellspacing="0" width="100%">
-  <tbody>
-    <tr>
-      <th bgcolor="cornsilk" valign="top">Imagem Original:</th>
-      <th bgcolor="cornsilk" valign="top">Texto Revisto Correctamente:</th>
-      <th bgcolor="cornsilk" valign="top">Tipo</th>
-    </tr>
-    <tr>
-      <td valign="top">semi-detached</td>
-      <td valign="top"><tt>semi-detached</tt></td>
-      <td> H&iacute;fen</td>
-    </tr>
-    <tr>
-      <td valign="top">three- and four-part harmony</td>
-      <td valign="top"><tt>three- and four-part harmony</tt></td>
-      <td>H&iacute;fen</td>
-    </tr>
-    <tr>
-      <td valign="top">discoveries which the Crus-<br>
-        aders made and brought home with</td>
-      <td valign="top"><tt>discoveries which the Crusaders<br>
-        made and brought home with</tt></td>
-      <td>H&iacute;fen</td>
-    </tr>
-    <tr>
-      <td valign="top">factors which mold char-<br>
-        acter&mdash;environment, training and heritage,</td>
-      <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt> </td>
-      <td>H&iacute;fen</td>
-    </tr>
-    <tr>
-      <td valign="top">See pages 21&ndash;25</td>
-      <td valign="top"><tt>See pages 21-25</tt></td>
-      <td>Tra&ccedil;o</td>
-    </tr>
-    <tr>
-      <td valign="top">&ndash;14&deg; below zero</td>
-      <td valign="top"><tt>-14&deg; below zero</tt></td>
-      <td>Tra&ccedil;o</td>
-    </tr>
-    <tr>
-      <td valign="top">X &ndash; Y = Z</td>
-      <td valign="top"><tt>X - Y = Z</tt></td>
-      <td>Subtrac&ccedil;&atilde;o</td>
-    </tr>
-    <tr>
-      <td valign="top">2&ndash;1/2</td>
-      <td valign="top"><tt>2-1/2</tt></td>
-      <td>Tra&ccedil;o</td>
-    </tr>
-    <tr>
-      <td valign="top">I am hurt;&mdash;A plague<br>
-        on both your houses!&mdash;I am dead.</td>
-      <td valign="top"><tt>I am hurt;--A plague<br>
-        on both your houses!--I am dead.</tt></td>
-      <td>Tra&ccedil;o</td>
-    </tr>
-    <tr>
-      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
-        &mdash;if even all of these are simple tastes. What</td>
-      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
-        even all of these are simple tastes. What</tt></td>
-      <td>Tra&ccedil;o</td>
-    </tr>
-    <tr>
-      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
-        with which we are here concerned,</td>
-      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
-        which we are here concerned,</tt></td>
-      <td>Tra&ccedil;o</td>
-    </tr>
-    <tr>
-      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
-      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
-      <td>Tra&ccedil;o</td>
-    </tr>
-    <tr>
-      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
-        say, but the left-hand cat interrupted her.</td>
-      <td valign="top"><tt>"Three hundred----" "years," she was going to
-        say, but the left-hand cat interrupted her.</tt></td>
-      <td>Tra&ccedil;o longo</td>
-    </tr>
-    <tr>
-      <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
-      <td>Tra&ccedil;o longo</td>
-    </tr>
-    <tr>
-      <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
-      <td>Tra&ccedil;o longo</td>
-    </tr>
-    <tr>
-      <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
-      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
-      <td>Tra&ccedil;o longo</td>
-    </tr>
-    <tr>
-      <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
-      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
-      <td>Tra&ccedil;o longo</td>
-    </tr>
-    <tr>
-      <td>&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
-      <td><tt>"I am not a d--d Yankee", he replied.</tt></td>
-      <td>Tra&ccedil;o</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3><a name="eol_hyphen">Hifeniza&ccedil;&atilde;o no Final da Linha</a></h3>
-<p>Quando surge um h&iacute;fen no final da linha, junte as duas partes
-   da palavra. Se for uma palavra realmente hifenizada, como &eacute; o
-   caso de "auto-realiza&ccedil;&atilde;o", junte as duas partes,
-   deixando o h&iacute;fen no meio. Mas se apenas estiver hifenizada por
-   n&atilde;o caber na mesma linha, ou seja, se n&atilde;o for uma palavra
-   habitualmente hifenizada, junte-as as partes na linha de cima, removendo o
-   h&iacute;fen e acrescentando depois uma quebra de linha, para
-   preservar a formata&ccedil;&atilde;o da linha&mdash;tornando o trabalho do
-   revisor da segunda ronda mais f&aacute;cil. Veja os <a href="#em_dashes">Tra&ccedil;os,
-   H&iacute;fenes e Sinais de Subtrac&ccedil;&atilde;o</a> como exemplo em
-   cada um dos casos (<tt>es-treito</tt> torna-se <tt>estreito</tt>,
-   mas <tt>guarda-chuva</tt> mant&eacute;m o h&iacute;fen). Se a palavra
-   for seguida de pontua&ccedil;&atilde;o, tamb&eacute;m esta vai para a
-   linha de cima.
-</p>
-<p>Palavras como to-day e to-morrow que actualmente j&aacute; n&atilde;o
-   levam h&iacute;fen s&atilde;o por vezes hifenizadas em livros antigos
-   como os que trabalhamos. Deixe-as hifenizadas como o autor as deixou.
-   Se n&atilde;o tiver a certeza se o autor as hifenizou ou n&atilde;o,
-   deixe o h&iacute;fen, marque com um <tt>*</tt> depois e junte as partes.
-   Assim: <tt>to-*day</tt>. O asterisco chamar&aacute; a
-   aten&ccedil;&atilde;o do p&oacute;s-processador, que tem
-   acesso a todas as p&aacute;ginas, e pode saber o modo como o autor escreve
-   geralmente determinada palavra.
-</p>
-
-<h3><a name="eop_hyphen">Hifeniza&ccedil;&atilde;o no Final da P&aacute;gina</a></h3>
-<p>Reveja a hifeniza&ccedil;&atilde;o no final da p&aacute;gina,
-   deixando o h&iacute;fen no final da &uacute;ltima linha, e
-   marque-o com asterisco. Por exemplo, reveja:<br>
-   &nbsp;<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;something Pat had already become accus-<br>
-   como:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>something Pat had already become accus-*</tt>
-</p>
-<p>Nas p&aacute;ginas que come&ccedil;arem com apenas uma parte da
-   palavra, coloque um <tt>*</tt> antes da palavra parcial.
-   <br>Continuando o exemplo anterior:<br>
-   &nbsp;<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;tomed to from having to do his own family<br>
-   como:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>*tomed to from having to do his own family</tt>
-</p>
-<p>Os asteriscos chamar&atilde;o a aten&ccedil;&atilde;o do
-   p&oacute;s-processador de que precisa de juntar as duas partes da
-   palavra, quando estiver a fazer o tratamento do e-book final.
-</p>
-
-<h3><a name="next_word">Palavra Isolada no Final da P&aacute;gina</a></h3>
-<p>Reveja estes casos eliminando a palavra, mesmo que seja a segunda parte de uma palavra hifenizada.
-</p>
-<p>Em livros mais antigos, a palavra isolada no final da
-   p&aacute;gina (chamada "catchword", normalmente impressa perto da
-   margem direita) indica a primeira palavra da p&aacute;gina seguinte do
-   livro (chamada "incipit"). Era utilizada para que o impressor
-   imprimisse a p&aacute;gina seguinte (chamada verso) correctamente,
-   facilitando o trabalho dos ajudantes do impressor ao ordenar as
-   p&aacute;ginas antes as encadernar, e para ajudar o leitor, evitando que
-   saltesse p&aacute;ginas sem querer.
-</p>
 
 <h3><a name="para_space">Espa&ccedil;o entre Par&aacute;grafos e Avan&ccedil;os</a></h3>
 <p>Coloque uma linha em branco para separar par&aacute;grafos. N&atilde;o deve
@@ -1584,33 +1573,6 @@ cedilla                      [,x]   [x,]
 </p>
 <p>Veja a imagem e o texto das <a href="#para_side">Notas (Sidenotes)</a> como
    exemplo.
-</p>
-
-<h3><a name="mult_col">V&aacute;rias Colunas</a></h3>
-<p>Reveja o texto impresso em duas colunas, como se de uma &uacute;nica
-   se tratasse.
-</p>
-<p>Texto de v&aacute;rias colunas deve ser revisto como uma coluna
-   s&oacute;, colocando o texto da da esquerda em primeiro lugar, depois o
-   da seguinte e por a&iacute; adiante. N&atilde;o &eacute;
-   necess&aacute;rio marcar o local onde as colunas estavam divididas:
-   junte-as.
-</p>
-<p>Veja tamb&eacute;m as sec&ccedil;&otilde;es <a href="#bk_index">&Iacute;ndices</a>
-   e <a href="#tables">Tabelas</a> das Regras de Revis&atilde;o.
-</p>
-
-<h3><a name="blank_pg">P&aacute;gina em Branco</a></h3>
-<p>A maioria das p&aacute;ginas em branco, ou apenas com uma imagem,
-   estar&aacute; marcada com <tt>[Blank Page]</tt>. Mantenha esta
-   marca&ccedil;&atilde;o. Se existir uma p&aacute;gina em branco, em que
-   esta marca&ccedil;&atilde;o n&atilde;o apare&ccedil;a n&atilde;o
-   &eacute; necess&aacute;rio adicion&aacute;-la.
-</p>
-<p>Se houver algum texto para rever na &aacute;rea de texto, ou se
-   tiver uma imagem sem texto, siga as instru&ccedil;&otilde;es
-   escritas em <a href="#bad_image">P&aacute;gina Danificada</a>
-   ou <a href="#bad_text">Texto Danificado</a>.
 </p>
 
 <h3><a name="page_hf">Cabe&ccedil;alho/Rodap&eacute; da P&aacute;gina</a></h3>
@@ -1696,24 +1658,6 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
-
-<h3><a name="chap_head">T&iacute;tulos de Cap&iacute;tulo</a></h3>
-<p>Reveja os t&iacute;tulos de cap&iacute;tulo tal como surgem no texto.
-</p>
-<p>Um t&iacute;tulo de cap&iacute;tulo pode come&ccedil;ar um pouco
-   mais abaixo do que o <a href="#page_hf">cabe&ccedil;alho</a> e
-   n&atilde;o tem o n&uacute;mero da p&aacute;gina na mesma linha.
-   Os t&iacute;tulos de Cap&iacute;tulo s&atilde;o impressos geralmente em
-   letra mai&uacute;scula; se assim for, mantenha-os desta forma.
-</p>
-<p>Preste aten&ccedil;&atilde;o &agrave; poss&iacute;vel falta de aspas
-   no in&iacute;cio do primeiro par&aacute;grafo. Alguns editores podem
-   n&atilde;o as ter inclu&iacute;do ou o OCR pode n&atilde;o ter captado
-   devido ao in&iacute;cio em mai&uacute;sculas no original. Se o autor
-   come&ccedil;ar o par&aacute;grafo com um di&aacute;logo, coloque
-   aspas.
-</p>
-<!-- END RR -->
 
 <h3><a name="illust">Figuras</a></h3>
 <p>Reveja as legendas tal como surgem impressas, mantendo eventuais
@@ -1924,84 +1868,6 @@ As <b>notas de rodap&eacute; em <a href="#tables">Tabelas</a></b> devem
   </tbody>
 </table>
 
-<h3><a name="poetry">Poesia/Epigramas</a></h3>
-<p>Insira uma linha em branco no in&iacute;cio e outra no final da
-   poesia/epigrama, para que os formatadores possam identificar onde
-   come&ccedil;a e acaba.
-</p>
-<p>Deixe as linhas alinhadas &agrave; esquerda e mantenha o
-   espa&ccedil;amento entre as linhas. N&atilde;o tente centrar ou
-   introduzir avan&ccedil;os na poesia. Essa &eacute; a
-   fun&ccedil;&atilde;o dos formatadores. Insira uma linha em
-   branco entre estrofes.
-</p>
-<p>As <b>notas de rodap&eacute;</b> de poesia s&atilde;o revistas da
-   mesma forma que as outras notas de rodap&eacute;. Para mais
-   detalhes, veja o t&oacute;pico sobre as <a href="#footnotes">notas
-   de rodap&eacute;</a>.
-</p>
-<p>A <b>numera&ccedil;&atilde;o de linhas</b> de poesia deve ser
-   mantida. Separe-a do texto inserindo alguns espa&ccedil;os. Para
-   mais detalhes, veja o t&oacute;pico sobre a <a href="#line_no">Numera&ccedil;&atilde;o
-   de Linhas</a>.
-</p>
-<p>Veja os <a href="#comments">Coment&aacute;rios do Projecto</a> do
-   livro que estiver a rever.
-</p>
-<!-- END RR -->
-
-<br>
-<!-- Need an example that shows overly long lines of poetry, rather than relative indentation -->
-
-<table summary="Poetry Example" align="center" border="1" cellpadding="4" cellspacing="0" width="100%">
-  <tbody>
-    <tr>
-      <th align="left" bgcolor="cornsilk">Imagem de Exemplo:</th>
-    </tr>
-    <tr align="left">
-      <th valign="top" width="100%"> <img src="poetry.png" alt="" height="508" width="500">&nbsp; </th>
-    </tr>
-    <tr>
-      <th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th>
-    </tr>
-    <tr>
-      <td valign="top" width="100%">
-<table summary="" border="0" align="left"><tr><td>
-<tt>
-to the scenery of his own country:<br></tt>
-<p><tt>
-Oh, to be in England<br>
-Now that April's there,<br>
-And whoever wakes in England<br>
-Sees, some morning, unaware,<br>
-That the lowest boughs and the brushwood sheaf<br>
-Round the elm-tree bole are in tiny leaf,<br>
-While the chaffinch sings on the orchard bough<br>
-In England--now!</tt>
-</p><p><tt>
-And after April, when May follows,<br>
-And the whitethroat builds, and all the swallows!<br>
-Hark! where my blossomed pear-tree in the hedge<br>
-Leans to the field and scatters on the clover<br>
-Blossoms and dewdrops--at the bent spray's edge--<br>
-That's the wise thrush; he sings each song twice over,<br>
-Lest you should think he never could recapture<br>
-The first fine careless rapture!<br>
-And though the fields look rough with hoary dew,<br>
-All will be gay, when noontide wakes anew<br>
-The buttercups, the little children's dower;<br>
---Far brighter than this gaudy melon-flower!<br>
-</tt>
-</p><p><tt>
-So it runs; but it is only a momentary memory;<br>
-and he knew, when he had done it, and to his</tt>
-</p>
-</td></tr></table>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
 <h3><a name="para_side">Notas (Sidenotes)</a></h3>
 <p>Alguns livros t&ecirc;m pequenas descri&ccedil;&otilde;es do
    par&aacute;grafo ao lado e ao longo do texto. Chamam-se notas
@@ -2121,6 +1987,20 @@ and he knew, when he had done it, and to his</tt>
   </tbody>
 </table>
 
+<h3><a name="mult_col">V&aacute;rias Colunas</a></h3>
+<p>Reveja o texto impresso em duas colunas, como se de uma &uacute;nica
+   se tratasse.
+</p>
+<p>Texto de v&aacute;rias colunas deve ser revisto como uma coluna
+   s&oacute;, colocando o texto da da esquerda em primeiro lugar, depois o
+   da seguinte e por a&iacute; adiante. N&atilde;o &eacute;
+   necess&aacute;rio marcar o local onde as colunas estavam divididas:
+   junte-as.
+</p>
+<p>Veja tamb&eacute;m as sec&ccedil;&otilde;es <a href="#bk_index">&Iacute;ndices</a>
+   e <a href="#tables">Tabelas</a> das Regras de Revis&atilde;o.
+</p>
+
 <h3><a name="tables">Tabelas</a></h3>
 <p>A fun&ccedil;&atilde;o do revisor &eacute; certificar-se de que a
    informa&ccedil;&atilde;o existente na tabela &eacute; revista
@@ -2203,6 +2083,126 @@ Same strip rolled up in  Same, 16 wires bound
     </tr>
   </tbody>
 </table>
+
+<h3><a name="poetry">Poesia/Epigramas</a></h3>
+<p>Insira uma linha em branco no in&iacute;cio e outra no final da
+   poesia/epigrama, para que os formatadores possam identificar onde
+   come&ccedil;a e acaba.
+</p>
+<p>Deixe as linhas alinhadas &agrave; esquerda e mantenha o
+   espa&ccedil;amento entre as linhas. N&atilde;o tente centrar ou
+   introduzir avan&ccedil;os na poesia. Essa &eacute; a
+   fun&ccedil;&atilde;o dos formatadores. Insira uma linha em
+   branco entre estrofes.
+</p>
+<p>As <b>notas de rodap&eacute;</b> de poesia s&atilde;o revistas da
+   mesma forma que as outras notas de rodap&eacute;. Para mais
+   detalhes, veja o t&oacute;pico sobre as <a href="#footnotes">notas
+   de rodap&eacute;</a>.
+</p>
+<p>A <b>numera&ccedil;&atilde;o de linhas</b> de poesia deve ser
+   mantida. Separe-a do texto inserindo alguns espa&ccedil;os. Para
+   mais detalhes, veja o t&oacute;pico sobre a <a href="#line_no">Numera&ccedil;&atilde;o
+   de Linhas</a>.
+</p>
+<p>Veja os <a href="#comments">Coment&aacute;rios do Projecto</a> do
+   livro que estiver a rever.
+</p>
+<!-- END RR -->
+
+<br>
+<!-- Need an example that shows overly long lines of poetry, rather than relative indentation -->
+
+<table summary="Poetry Example" align="center" border="1" cellpadding="4" cellspacing="0" width="100%">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Imagem de Exemplo:</th>
+    </tr>
+    <tr align="left">
+      <th valign="top" width="100%"> <img src="poetry.png" alt="" height="508" width="500">&nbsp; </th>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Texto Revisto Correctamente:</th>
+    </tr>
+    <tr>
+      <td valign="top" width="100%">
+<table summary="" border="0" align="left"><tr><td>
+<tt>
+to the scenery of his own country:<br></tt>
+<p><tt>
+Oh, to be in England<br>
+Now that April's there,<br>
+And whoever wakes in England<br>
+Sees, some morning, unaware,<br>
+That the lowest boughs and the brushwood sheaf<br>
+Round the elm-tree bole are in tiny leaf,<br>
+While the chaffinch sings on the orchard bough<br>
+In England--now!</tt>
+</p><p><tt>
+And after April, when May follows,<br>
+And the whitethroat builds, and all the swallows!<br>
+Hark! where my blossomed pear-tree in the hedge<br>
+Leans to the field and scatters on the clover<br>
+Blossoms and dewdrops--at the bent spray's edge--<br>
+That's the wise thrush; he sings each song twice over,<br>
+Lest you should think he never could recapture<br>
+The first fine careless rapture!<br>
+And though the fields look rough with hoary dew,<br>
+All will be gay, when noontide wakes anew<br>
+The buttercups, the little children's dower;<br>
+--Far brighter than this gaudy melon-flower!<br>
+</tt>
+</p><p><tt>
+So it runs; but it is only a momentary memory;<br>
+and he knew, when he had done it, and to his</tt>
+</p>
+</td></tr></table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3><a name="line_no">Numera&ccedil;&atilde;o de Linhas</a></h3>
+<p>Mantenha a numera&ccedil;&atilde;o de linhas.
+   Insira alguns espa&ccedil;os para a separar do resto do texto, na
+   pr&oacute;pria linha, para que os formatadores possam
+   encontr&aacute;-la facilmente.
+</p>
+<p>A numera&ccedil;&atilde;o de linha s&atilde;o n&uacute;meros
+   colocados junto &agrave; margem de cada linha, ou de cada 5 ou 10
+   linhas, sendo comuns em livros de poesia. Uma vez que a poesia
+   n&atilde;o ser&aacute; reformatada numa vers&atilde;o e-book, a
+   numera&ccedil;&atilde;o de linha ser&aacute; &uacute;til para os
+   leitores.
+</p>
+<!-- END RR -->
+<!-- We need an example image and text for this. -->
+
+<h3><a name="next_word">Palavra Isolada no Final da P&aacute;gina</a></h3>
+<p>Reveja estes casos eliminando a palavra, mesmo que seja a segunda parte de uma palavra hifenizada.
+</p>
+<p>Em livros mais antigos, a palavra isolada no final da
+   p&aacute;gina (chamada "catchword", normalmente impressa perto da
+   margem direita) indica a primeira palavra da p&aacute;gina seguinte do
+   livro (chamada "incipit"). Era utilizada para que o impressor
+   imprimisse a p&aacute;gina seguinte (chamada verso) correctamente,
+   facilitando o trabalho dos ajudantes do impressor ao ordenar as
+   p&aacute;ginas antes as encadernar, e para ajudar o leitor, evitando que
+   saltesse p&aacute;ginas sem querer.
+</p>
+
+<h3><a name="blank_pg">P&aacute;gina em Branco</a></h3>
+<p>A maioria das p&aacute;ginas em branco, ou apenas com uma imagem,
+   estar&aacute; marcada com <tt>[Blank Page]</tt>. Mantenha esta
+   marca&ccedil;&atilde;o. Se existir uma p&aacute;gina em branco, em que
+   esta marca&ccedil;&atilde;o n&atilde;o apare&ccedil;a n&atilde;o
+   &eacute; necess&aacute;rio adicion&aacute;-la.
+</p>
+<p>Se houver algum texto para rever na &aacute;rea de texto, ou se
+   tiver uma imagem sem texto, siga as instru&ccedil;&otilde;es
+   escritas em <a href="#bad_image">P&aacute;gina Danificada</a>
+   ou <a href="#bad_text">Texto Danificado</a>.
+</p>
 
 <h3><a name="title_pg">P&aacute;gina de Rosto (Frente e Verso)</a></h3>
 <p>Reveja todo o texto, tal como foi impresso na p&aacute;gina, mesmo que esteja

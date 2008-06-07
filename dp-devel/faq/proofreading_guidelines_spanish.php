@@ -68,50 +68,43 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <td width="1" bgcolor="silver">&nbsp;</td>
     <td bgcolor="white" align="left">
       <ul style="margin-left: 3em;">
-        <li><a href="#line_br">Saltos de l&iacute;nea</a></li>
         <li><a href="#double_q">Comillas dobles</a></li>
-
         <li><a href="#single_q">Comillas simples</a></li>
         <li><a href="#quote_ea">Comillas en cada l&iacute;nea</a></li>
         <li><a href="#period_s">Punto final de las frases</a></li>
         <li><a href="#punctuat">Puntuaci&oacute;n</a></li>
-        <li><a href="#period_p">Puntos suspensivos "..."</a></li>
-
-        <li><a href="#contract">Contracciones</a></li>
         <li><a href="#extra_sp">Varios espacios en blanco entre palabras</a></li>
         <li><a href="#trail_s">Espacios en blanco al final de la l&iacute;nea</a></li>
-        <li><a href="#line_no">N&uacute;meros de l&iacute;nea</a></li>
-        <li><a href="#italics">Textos en cursiva y negrita</a></li>
-        <li><a href="#supers">Super&iacute;ndice</a></li>
-
-        <li><a href="#subscr">Sub&iacute;ndice</a></li>
-        <li><a href="#font_sz">Cambio de tama&ntilde;o de fuente</a></li>
-        <li><a href="#small_caps">Palabras en may&uacute;sculas peque&ntilde;as-versalitas</a></li>
         <li><a href="#drop_caps">Letras may&uacute;sculas ornamentadas al inicio del p&aacute;rrafo, frase o secci&oacute;n</a></li>
-        <li><a href="#a_chars">Caracteres acentuados</a></li>
-        <li><a href="#d_chars">Signos diacr&iacute;ticos</a></li>
-
-        <li><a href="#f_chars">Caracteres no-Latinos</a></li>
-        <li><a href="#fract_s">Fracciones</a></li>
         <li><a href="#em_dashes">Guiones, el signo menos "-" y rayas</a></li>
         <li><a href="#eol_hyphen">Gui&oacute;n al final de la l&iacute;nea</a></li>
         <li><a href="#eop_hyphen">Gui&oacute;n al final de la p&aacute;gina</a></li>
-        <li><a href="#para_space">P&aacute;rrafos</a></li>
-
-        <li><a href="#mult_col">M&uacute;ltiples Columnas</a></li>
-        <li><a href="#blank_pg">P&aacute;gina en blanco</a></li>
-        <li><a href="#page_hf">Encabezado y pie de p&aacute;gina</a></li>
+        <li><a href="#period_p">Puntos suspensivos "..."</a></li>
+        <li><a href="#contract">Contracciones</a></li>
+        <li><a href="#fract_s">Fracciones</a></li>
+        <li><a href="#a_chars">Caracteres acentuados</a></li>
+        <li><a href="#d_chars">Signos diacr&iacute;ticos</a></li>
+        <li><a href="#f_chars">Caracteres no-Latinos</a></li>
+        <li><a href="#supers">Super&iacute;ndice</a></li>
+        <li><a href="#subscr">Sub&iacute;ndice</a></li>
+        <li><a href="#font_sz">Cambio de tama&ntilde;o de fuente</a></li>
+        <li><a href="#italics">Textos en cursiva y negrita</a></li>
+        <li><a href="#small_caps">Palabras en may&uacute;sculas peque&ntilde;as-versalitas</a></li>
+        <li><a href="#line_br">Saltos de l&iacute;nea</a></li>
         <li><a href="#chap_head">T&iacute;tulos de cap&iacute;tulo</a></li>
+        <li><a href="#para_space">P&aacute;rrafos</a></li>
+        <li><a href="#page_hf">Encabezado y pie de p&aacute;gina</a></li>
         <li><a href="#illust">Ilustraciones - Im&aacute;genes</a></li>
         <li><a href="#footnotes">Notas al pie de p&aacute;gina</a></li>
-
-        <li><a href="#poetry">Poes&iacute;a</a></li>
         <li><a href="#para_side">Notas al margen</a></li>
+        <li><a href="#mult_col">M&uacute;ltiples Columnas</a></li>
         <li><a href="#tables">Tablas</a></li>
+        <li><a href="#poetry">Poes&iacute;a</a></li>
+        <li><a href="#line_no">N&uacute;meros de l&iacute;nea</a></li>
+        <li><a href="#blank_pg">P&aacute;gina en blanco</a></li>
         <li><a href="#title_pg">Portada&mdash;Contraportada</a></li>
         <li><a href="#toc">La tabla de contenidos</a></li>
         <li><a href="#bk_index">&Iacute;ndices</a></li>
-
         <li><a href="#play_n">Obras de teatro&mdash;Nombres de actores&mdash;Directrices esc&eacute;nicas</a></li>
         <li><a href="#anything">Cualquier otra cosa que necesite tratamiento especial o no sepa como tratar</a></li>
         <li><a href="#prev_notes">Notas y comentarios de revisores anteriores</a></li>
@@ -297,17 +290,6 @@ Proofreading Interface Help</a> dependiendo de la interfaz que utilice.
   </tbody>
 </table>
 
-<h3><a name="line_br">Saltos de l&iacute;nea</a></h3>
-
-<p>Conservamos los saltos de l&iacute;nea. <b>Deje todos los saltos de l&iacute;nea donde
-est&aacute;n</b> para que m&aacute;s adelante otros voluntarios puedan comparar f&aacute;cilmente
-las l&iacute;neas del texto con las de la imagen.
-</p>
-
-
-<!-- END RR -->
-<!-- We should have an example right here for this. -->
-
 <h3><a name="double_q">Comillas dobles</a></h3>
 <p>Revise las comillas dobles as&iacute;: ". No las cambie a comillas simples.
 D&eacute;jelas como las escribi&oacute; el autor.
@@ -375,6 +357,252 @@ blanco ante los caracteres de puntuaci&oacute;n.
   </tbody>
 </table>
 
+<h3><a name="extra_sp">Varios espacios en blanco entre palabras</a></h3>
+<p>Las tabulaciones o varios espacios en blanco entre palabras aparecen a
+menudo en los resultados de OCR. No se moleste en eliminarlos&mdash;eso se
+har&aacute; autom&aacute;ticamente en el pos-proceso.
+</p>
+<p>En cambio, <b>s&iacute;</b> es necesario eliminar estos espacios entre las palabras y
+signos de puntuaci&oacute;n (comillas, puntos, punto y coma, etc.).
+</p>
+<p>
+Por ejemplo: <b>A horse&nbsp;;&nbsp;&nbsp;&nbsp;my kingdom for a horse.</b> el espacio entre
+la palabra 'horse' y el punto y coma hay que eliminar. Pero, los dos
+espacios despu&eacute;s del punto y coma se pueden dejar&mdash;no es necesario
+eliminar uno de ellos.
+</p>
+
+<h3><a name="trail_s">Espacios en blanco al final de la l&iacute;nea</a></h3>
+<p>No pierda tiempo en insertar espacios en blanco al final de las l&iacute;neas
+del texto. Es algo que se hace autom&aacute;ticamente m&aacute;s adelante en el
+pos-proceso. Tampoco pierda tiempo en eliminar los que sobran al final
+de las l&iacute;neas.
+</p>
+
+<h3><a name="drop_caps">Letras may&uacute;sculas ornamentadas al inicio del p&aacute;rrafo, frase o secci&oacute;n</a></h3>
+<p>Revise este tipo de letra ornamentada al inicio de un p&aacute;rrafo, frase o
+secci&oacute;n como letras normales.
+</p>
+
+
+<h3><a name="em_dashes">Guiones, el signo menos "-" y rayas</a></h3>
+<p> Generalmente hay cuatro tipos de guiones que se encuentran en los libros:
+  <ol compact>
+    <li><i>Guiones de separaci&oacute;n</i>.
+Se utilizan para juntar dos palabras, o a veces <b>juntan</b> prefijos y sufijos a las palabras.
+    <br>
+D&eacute;jelos como simple gui&oacute;n, sin ning&uacute;n espacio por delante o detr&aacute;s.<br>F&iacute;jese en la excepci&oacute;n del segundo caso.
+    </li>
+    <li><i>El signo menos "-"</i> (En-dash).
+Estos pueden ser un poco m&aacute;s largos y se utilizan para indicar una <b>escala/rango</b> de n&uacute;meros o el signo <b>matem&aacute;tico</b>.
+    <br>
+Rev&iacute;salos como gui&oacute;n simple.  Los espacios (antes o despu&eacute;s) tienen que coincidir
+con el texto original; normalmente no hay espacios para escalas de n&uacute;meros, y s&iacute;
+antes del menos... a veces tambi&eacute;n detr&aacute;s de &eacute;l.
+   </li>
+
+    <li><i>Gui&oacute;n largo</i> (Em-dash, long dash).
+ Estos separan las palabras&mdash;a veces para enfatizar algo, as&iacute;&mdash;o cuando el que habla vacila antes de completar la frase&mdash;!
+
+Rev&iacute;selos como dos guiones (--) si son de tama&ntilde;o normal, o cuatro
+guiones (----) si el gui&oacute;n es m&aacute;s largo de lo normal. No deje ning&uacute;n
+espacio en blanco antes ni tampoco despu&eacute;s, aunque parezca que en el
+texto original haya espacios.
+    </li>
+    <li><i>Palabras o nombres omitidos a prop&oacute;sito</i>.
+    <br>
+Rev&iacute;selos como cuatro guiones (----). Si reemplazan una palabra, deje un espacio en blanco antes y despu&eacute;s de los guiones, como si se tratara de una palabra de verdad. Si es s&oacute;lo parte de una palabra la que est&aacute; sustituida, no deje espacio--j&uacute;ntelos con el resto de la palabra.<br>
+Si la parte omitida de la palabra aparece de tama&ntilde;o de un gui&oacute;n largo, rev&iacute;selo como tal: dos guiones.    </li>
+
+  </ol>
+<p>
+Note: Si un gui&oacute;n largo (em-dash) aparece al principio o al final de la
+l&iacute;nea del texto de OCR, j&uacute;ntelo con la otra l&iacute;nea de texto para que no
+haya espacios alrededor de el. Solamente si el autor utiliz&oacute; un gui&oacute;n
+largo (em-dash) al comienzo o al final del p&aacute;rrafo, l&iacute;nea de poes&iacute;a o
+di&aacute;logo se debe dejar como est&aacute;. Vea los ejemplos que siguen.
+</p>
+<!-- END RR -->
+
+<p><b>Ejemplos</b>&mdash;Guiones, signo menos "-" y rayas:
+</p>
+
+<table width="100%" align="center" border="1"  cellpadding="4" cellspacing="0" summary="Hyphens and Dashes">
+  <tbody>
+    <tr>
+      <th valign="top" bgcolor="cornsilk">Imagen Original:</th>
+
+      <th valign="top" bgcolor="cornsilk">Texto Revisado Correctamente:</th>
+      <th valign="top" bgcolor="cornsilk">Tipo</th>
+    </tr>
+    <tr>
+      <td valign="top">semi-detached</td>
+      <td valign="top"><tt>semi-detached</tt></td>
+      <td> Gui&oacute;n</td>
+
+    </tr>
+    <tr>
+      <td valign="top">three- and four-part harmony</td>
+      <td valign="top"><tt>three- and four-part harmony</tt></td>
+      <td> Gui&oacute;n</td>
+    </tr>
+    <tr>
+
+      <td valign="top">discoveries which the Crus-<br>
+        aders made and brought home with</td>
+      <td valign="top"><tt>discoveries which the Crusaders<br>
+        made and brought home with</tt></td>
+      <td> Gui&oacute;n</td>
+    </tr>
+
+    <tr>
+      <td valign="top">factors which mold char-<br>
+        acter&mdash;environment, training and heritage,</td>
+      <td valign="top"><tt>factors which mold character--environment,<br>
+        training and heritage,</tt>
+      <td> Gui&oacute;n largo</td>
+
+    </tr>
+    <tr>
+      <td valign="top">See pages 21&ndash;25</td>
+      <td valign="top"><tt>See pages 21-25</tt></td>
+      <td>Signo menos</td>
+    </tr>
+    <tr>
+
+      <td valign="top">&ndash;14&deg; below zero</td>
+      <td valign="top"><tt>-14&deg; below zero</tt></td>
+      <td>Signo menos</td>
+    </tr>
+    <tr>
+
+      <td valign="top">X &ndash; Y = Z</td>
+      <td valign="top"><tt>X - Y = Z</tt></td>
+      <td>Signo menos</td>
+    </tr>
+    <tr>
+      <td valign="top">2&ndash;1/2</td>
+
+      <td valign="top"><tt>2-1/2</tt></td>
+      <td>Signo menos</td>
+    </tr>
+    <tr>
+      <td valign="top">I am hurt;&mdash;A plague<br> on both your houses!&mdash;I am dead.</td>
+
+      <td valign="top"><tt>I am hurt;--A plague<br> on both your houses!--I am dead.</tt></td>
+      <td>Gui&oacute;n largo</td>
+    </tr>
+    <tr>
+      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
+        &mdash;if even all of these are simple tastes. What</td>
+
+      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
+        even all of these are simple tastes. What</tt></td>
+      <td>Gui&oacute;n largo</td>
+    </tr>
+    <tr>
+      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
+
+        with which we are here concerned,</td>
+      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
+        which we are here concerned,</tt></td>
+      <td>Gui&oacute;n largo</td>
+    </tr>
+    <tr>
+      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
+
+      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
+      <td>Gui&oacute;n largo</td>
+    </tr>
+ <tr>
+      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
+	say, but the left-hand cat interrupted her.</td>
+      <td valign="top"><tt>"Three hundred----" "years," she was going to
+	say, but the left-hand cat interrupted her.</tt></td>
+
+      <td>Raya</td>
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
+      <td>Raya</td>
+
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
+      <td>Raya</td>
+    </tr>
+
+    <tr>
+      <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
+      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
+      <td>Raya</td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
+
+      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
+      <td>Raya</td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
+      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
+
+      <td>Gui&oacute;n largo</td></tr>
+  </tbody>
+</table>
+
+<h3><a name="eol_hyphen">Gui&oacute;n al final de la l&iacute;nea</a></h3>
+<p>
+Cuando hay un gui&oacute;n que corta la palabra al final de la l&iacute;nea, junte las
+dos partes de la palabra. Si la palabra normalmente lleva gui&oacute;n (como
+pos-proceso o well-meaning), junte sus dos partes dejando el gui&oacute;n donde
+est&aacute;. Si el gui&oacute;n se puso solamente para partir una palabra que no cabe
+entera en la l&iacute;nea (y no se trata de una palabra que normalmente lleva
+gui&oacute;n), junte las dos partes de la palabra y quite el gui&oacute;n. Coloque la
+palabra rejuntada al final de la l&iacute;nea superior, y corte la l&iacute;nea
+despu&eacute;s de ella para mantener el formato de l&iacute;nea. Esto facilitar&aacute; el
+trabajo de voluntarios que sigan la revisi&oacute;n en siguientes rondas. Vea
+<a href="#em_dashes">Guiones, el signo menos "-" y rayas</a> para ver los ejemplos en cada caso (nar-row
+se convierte en narrow, pero low-lying no pierde su gui&oacute;n). Si a la
+palabra le sigue la puntuaci&oacute;n, suba esta tambi&eacute;n al final de la l&iacute;nea
+superior, junto a la palabra rejuntada.
+</p><p>Palabras como &laquo;to-day" y
+"to-morrow" que hoy d&iacute;a no llevan gui&oacute;n aparecen con &eacute;l en muchos libros
+antiquos que estamos revisando. Deje estas palabras con gui&oacute;n como el
+autor las escribi&oacute;. Si no est&aacute; seguro si el autor escribi&oacute; la palabra
+con gui&oacute;n o sin &eacute;l, dejelo como est&aacute;, ponga un asterisco * a
+continuac&iacute;&oacute;n, y rejunte la palabra. As&iacute;: to-*day. El asterisco llamar&aacute;
+atenci&oacute;n del pos-procesador, el que tiene acceso a todas las p&aacute;ginas, y
+puede decidir sobre la pauta que sigui&oacute; el autor en la obra.
+</p>
+
+<h3><a name="eop_hyphen">Gui&oacute;n al final de la p&aacute;gina</a></h3>
+<p>
+Cuando hay un gui&oacute;n que corta la palabra al final de la p&aacute;gina, deje el
+gui&oacute;n y ponga un asterisco <tt>*</tt> a continuaci&oacute;n.<br>
+Por ejemplo:<br>
+   &nbsp;<br>
+   &nbsp; &nbsp; &nbsp; &nbsp;something Pat had already become accus-<br>
+   se convierte en:<br>
+   &nbsp; &nbsp; &nbsp; &nbsp;<tt>something Pat had already become accus-*</tt>
+</p>
+<p>
+En la p&aacute;gina que empieza con la segunda parte de la palabra de la p&aacute;gina
+anterior, o con un gui&oacute;n, ponga un asterisco <tt>*</tt> al principio de todo.
+
+La continuaci&oacute;n del ejemplo de arriba:<br>
+
+   &nbsp;<br>
+   &nbsp; &nbsp; &nbsp; &nbsp;tomed to from having to do his own family<br>
+   se convierte en:<br>
+   &nbsp; &nbsp; &nbsp; &nbsp;<tt>*tomed to from having to do his own family</tt>
+
+</p>
+<p>Estos indiquen al pos-procesor que las dos partes deben juntarse.</p>
+
+
 <h3><a name="period_p">Puntos suspensivos "..."</a></h3>
 <p>Las reglas son diferentes para ingl&eacute;s y otros idiomas (LOTE).
 </p>
@@ -424,102 +652,9 @@ distintos al ingl&eacute;s.
 </p>
 
 
-<h3><a name="extra_sp">Varios espacios en blanco entre palabras</a></h3>
-<p>Las tabulaciones o varios espacios en blanco entre palabras aparecen a
-menudo en los resultados de OCR. No se moleste en eliminarlos&mdash;eso se
-har&aacute; autom&aacute;ticamente en el pos-proceso.
-</p>
-<p>En cambio, <b>s&iacute;</b> es necesario eliminar estos espacios entre las palabras y
-signos de puntuaci&oacute;n (comillas, puntos, punto y coma, etc.).
-</p>
-<p>
-Por ejemplo: <b>A horse&nbsp;;&nbsp;&nbsp;&nbsp;my kingdom for a horse.</b> el espacio entre
-la palabra 'horse' y el punto y coma hay que eliminar. Pero, los dos
-espacios despu&eacute;s del punto y coma se pueden dejar&mdash;no es necesario
-eliminar uno de ellos.
-</p>
-
-<h3><a name="trail_s">Espacios en blanco al final de la l&iacute;nea</a></h3>
-<p>No pierda tiempo en insertar espacios en blanco al final de las l&iacute;neas
-del texto. Es algo que se hace autom&aacute;ticamente m&aacute;s adelante en el
-pos-proceso. Tampoco pierda tiempo en eliminar los que sobran al final
-de las l&iacute;neas.
-</p>
-
-<h3><a name="line_no">N&uacute;meros de l&iacute;nea</a></h3>
-
-<p>Si las l&iacute;neas tienen n&uacute;meros, cons&eacute;rvelos. Col&oacute;quelos al menos seis
-espacios a la derecha del resto del texto, aun cuando originalmente se
-encuentran a la izquierda de la poes&iacute;a/texto original.
-</p>
-<p>N&uacute;meros de l&iacute;nea se encuentran al margen de cada l&iacute;nea, o a veces cada
-cinco o diez l&iacute;neas. Son comunes en libros de poes&iacute;a. Como el libro
-electr&oacute;nico (e-book) no tiene p&aacute;ginas, los n&uacute;meros de los versos sirven
-para orientar al lector.
-</p>
-<!-- END RR -->
-<!-- We need an example image and text for this. -->
-
-<h3><a name="italics">Textos en cursiva y negrita</a></h3>
-<p><i>Textos en cursiva</i> a veces aparecen entre <tt>&lt;i&gt;</tt>y<tt>&lt;/i&gt;</tt>. <b>Texto en negrita</b> a
-veces aparece entre <tt>&lt;b&gt;</tt>y<tt>&lt;/b&gt;</tt>. No elimine esta informaci&oacute;n de formato, a menos
-que <b>no</b> aparezca en la imagen. No agregue este formato en esta
-ronda, las personas que dan formato al texto (los formateadores) lo har&aacute;n
-m&aacute;s adelante.
-</p>
-<!-- END RR -->
-
-
-<h3><a name="supers">Super&iacute;ndice</a></h3>
-<p>En los libros antiguos eran frecuentes las contracciones que se
-imprim&iacute;an en forma de super&iacute;ndices.
-<br>
-Por ejemplo:
-<br>Gen<sup>rl</sup> Washington defeated L<sup>d</sup>  Cornwall's army.
-Aparecen en muchos libros en castellano y franc&eacute;s: S<sup>r</sup> , S<sup>ra</sup>, M<sup>lle</sup>, etc.
-<br>
-Revise estas contracciones insertando un acento circunflejo (car&aacute;cter ^) para identificar que
-lo que sigue es texto en super&iacute;ndice.
-<br>
-As&iacute;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp; <tt>Gen^rl Washington defeated L^d Cornwall's army.
-Y: S^r,S^ra, M^lle, etc.</tt>
-</p>
-
-
-<h3><a name="subscr">Sub&iacute;ndice</a></h3>
-<p>El texto en sub&iacute;ndice se encuentra en obras cient&iacute;ficas pero no es com&uacute;n en otro
-tipo de obras. Revise el texto subscrito insertando un gui&oacute;n bajo (car&aacute;cter <tt>_</tt>), as&iacute;:
-<br>
-   <br>Por ejemplo:
-   <br>&nbsp; &nbsp; &nbsp; &nbsp; H<sub>2</sub>O.
-   <br>se revisa de esta manera:
-   <br>&nbsp; &nbsp; &nbsp; &nbsp; <tt>H_2O.<br></tt>
-
-</p>
-
-
-<h3><a name="font_sz">Cambio de tama&ntilde;o de fuente</a></h3>
-<p>No indique cambios del tama&ntilde;o de fuente. Las personas que dan el formato al texto (los formateadores) lo har&aacute;n m&aacute;s adelante.
-</p>
-
-<h3><a name="small_caps">Palabras en may&uacute;sculas peque&ntilde;as-versalitas</a></h3>
-<p>
-Las palabras impresas en letras may&uacute;sculas peque&ntilde;as-versalitas-(<span style=
-"font-variant:small-caps">Versalitas</span>)
-con letras may&uacute;sculas y may&uacute;sculas peque&ntilde;as-versalitas mezcladas, pueden
-aparecer entre estos s&iacute;mbolos: <tt>&lt;sc&gt;</tt> y <tt>&lt;/sc&gt;</tt>.  Por favor,
-no elimine esta informaci&oacute;n
-de formato, a menos que est&eacute; alrededor de algo que no existe en la imagen.  Tampoco
-la ponga donde no est&eacute; puesta ya.  Las personas que dan formato (los formateadores)
-lo har&aacute;n mas adelante en el proceso.  Revise s&oacute;lo los caracteres mismos, y no se
-preocupe por los cambios de fuente. Si todas las letras son MAY&Uacute;SCULAS, min&uacute;sculas
-o Mezcladas, d&eacute;jelas como est&aacute;n.
-</p>
-
-<h3><a name="drop_caps">Letras may&uacute;sculas ornamentadas al inicio del p&aacute;rrafo, frase o secci&oacute;n</a></h3>
-<p>Revise este tipo de letra ornamentada al inicio de un p&aacute;rrafo, frase o
-secci&oacute;n como letras normales.
+<h3><a name="fract_s">Fracciones</a></h3>
+<p>Revise fracciones as&iacute;:<tt>2&frac12;</tt> se convierte en <tt>2-1/2</tt>.
+El gui&oacute;n evita que se separen el n&uacute;mero y las fracciones cuando las l&iacute;neas se formateen en el pos-proceso.
 </p>
 
 
@@ -1205,228 +1340,92 @@ Distributed Proofreaders</a> ni <a href="http://www.gutenberg.org/"> Project
 Gutenberg</a> han elegido un m&eacute;todo estandardizado.</li>
 </ul>
 
-<h3><a name="fract_s">Fracciones</a></h3>
-<p>Revise fracciones as&iacute;:<tt>2&frac12;</tt> se convierte en <tt>2-1/2</tt>.
-El gui&oacute;n evita que se separen el n&uacute;mero y las fracciones cuando las l&iacute;neas se formateen en el pos-proceso.
+<h3><a name="supers">Super&iacute;ndice</a></h3>
+<p>En los libros antiguos eran frecuentes las contracciones que se
+imprim&iacute;an en forma de super&iacute;ndices.
+<br>
+Por ejemplo:
+<br>Gen<sup>rl</sup> Washington defeated L<sup>d</sup>  Cornwall's army.
+Aparecen en muchos libros en castellano y franc&eacute;s: S<sup>r</sup> , S<sup>ra</sup>, M<sup>lle</sup>, etc.
+<br>
+Revise estas contracciones insertando un acento circunflejo (car&aacute;cter ^) para identificar que
+lo que sigue es texto en super&iacute;ndice.
+<br>
+As&iacute;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp; <tt>Gen^rl Washington defeated L^d Cornwall's army.
+Y: S^r,S^ra, M^lle, etc.</tt>
 </p>
 
 
-<h3><a name="em_dashes">Guiones, el signo menos "-" y rayas</a></h3>
-<p> Generalmente hay cuatro tipos de guiones que se encuentran en los libros:
-  <ol compact>
-    <li><i>Guiones de separaci&oacute;n</i>.
-Se utilizan para juntar dos palabras, o a veces <b>juntan</b> prefijos y sufijos a las palabras.
-    <br>
-D&eacute;jelos como simple gui&oacute;n, sin ning&uacute;n espacio por delante o detr&aacute;s.<br>F&iacute;jese en la excepci&oacute;n del segundo caso.
-    </li>
-    <li><i>El signo menos "-"</i> (En-dash).
-Estos pueden ser un poco m&aacute;s largos y se utilizan para indicar una <b>escala/rango</b> de n&uacute;meros o el signo <b>matem&aacute;tico</b>.
-    <br>
-Rev&iacute;salos como gui&oacute;n simple.  Los espacios (antes o despu&eacute;s) tienen que coincidir
-con el texto original; normalmente no hay espacios para escalas de n&uacute;meros, y s&iacute;
-antes del menos... a veces tambi&eacute;n detr&aacute;s de &eacute;l.
-   </li>
+<h3><a name="subscr">Sub&iacute;ndice</a></h3>
+<p>El texto en sub&iacute;ndice se encuentra en obras cient&iacute;ficas pero no es com&uacute;n en otro
+tipo de obras. Revise el texto subscrito insertando un gui&oacute;n bajo (car&aacute;cter <tt>_</tt>), as&iacute;:
+<br>
+   <br>Por ejemplo:
+   <br>&nbsp; &nbsp; &nbsp; &nbsp; H<sub>2</sub>O.
+   <br>se revisa de esta manera:
+   <br>&nbsp; &nbsp; &nbsp; &nbsp; <tt>H_2O.<br></tt>
 
-    <li><i>Gui&oacute;n largo</i> (Em-dash, long dash).
- Estos separan las palabras&mdash;a veces para enfatizar algo, as&iacute;&mdash;o cuando el que habla vacila antes de completar la frase&mdash;!
+</p>
 
-Rev&iacute;selos como dos guiones (--) si son de tama&ntilde;o normal, o cuatro
-guiones (----) si el gui&oacute;n es m&aacute;s largo de lo normal. No deje ning&uacute;n
-espacio en blanco antes ni tampoco despu&eacute;s, aunque parezca que en el
-texto original haya espacios.
-    </li>
-    <li><i>Palabras o nombres omitidos a prop&oacute;sito</i>.
-    <br>
-Rev&iacute;selos como cuatro guiones (----). Si reemplazan una palabra, deje un espacio en blanco antes y despu&eacute;s de los guiones, como si se tratara de una palabra de verdad. Si es s&oacute;lo parte de una palabra la que est&aacute; sustituida, no deje espacio--j&uacute;ntelos con el resto de la palabra.<br>
-Si la parte omitida de la palabra aparece de tama&ntilde;o de un gui&oacute;n largo, rev&iacute;selo como tal: dos guiones.    </li>
 
-  </ol>
-<p>
-Note: Si un gui&oacute;n largo (em-dash) aparece al principio o al final de la
-l&iacute;nea del texto de OCR, j&uacute;ntelo con la otra l&iacute;nea de texto para que no
-haya espacios alrededor de el. Solamente si el autor utiliz&oacute; un gui&oacute;n
-largo (em-dash) al comienzo o al final del p&aacute;rrafo, l&iacute;nea de poes&iacute;a o
-di&aacute;logo se debe dejar como est&aacute;. Vea los ejemplos que siguen.
+<h3><a name="font_sz">Cambio de tama&ntilde;o de fuente</a></h3>
+<p>No indique cambios del tama&ntilde;o de fuente. Las personas que dan el formato al texto (los formateadores) lo har&aacute;n m&aacute;s adelante.
+</p>
+
+<h3><a name="italics">Textos en cursiva y negrita</a></h3>
+<p><i>Textos en cursiva</i> a veces aparecen entre <tt>&lt;i&gt;</tt>y<tt>&lt;/i&gt;</tt>. <b>Texto en negrita</b> a
+veces aparece entre <tt>&lt;b&gt;</tt>y<tt>&lt;/b&gt;</tt>. No elimine esta informaci&oacute;n de formato, a menos
+que <b>no</b> aparezca en la imagen. No agregue este formato en esta
+ronda, las personas que dan formato al texto (los formateadores) lo har&aacute;n
+m&aacute;s adelante.
 </p>
 <!-- END RR -->
 
-<p><b>Ejemplos</b>&mdash;Guiones, signo menos "-" y rayas:
+
+<h3><a name="small_caps">Palabras en may&uacute;sculas peque&ntilde;as-versalitas</a></h3>
+<p>
+Las palabras impresas en letras may&uacute;sculas peque&ntilde;as-versalitas-(<span style=
+"font-variant:small-caps">Versalitas</span>)
+con letras may&uacute;sculas y may&uacute;sculas peque&ntilde;as-versalitas mezcladas, pueden
+aparecer entre estos s&iacute;mbolos: <tt>&lt;sc&gt;</tt> y <tt>&lt;/sc&gt;</tt>.  Por favor,
+no elimine esta informaci&oacute;n
+de formato, a menos que est&eacute; alrededor de algo que no existe en la imagen.  Tampoco
+la ponga donde no est&eacute; puesta ya.  Las personas que dan formato (los formateadores)
+lo har&aacute;n mas adelante en el proceso.  Revise s&oacute;lo los caracteres mismos, y no se
+preocupe por los cambios de fuente. Si todas las letras son MAY&Uacute;SCULAS, min&uacute;sculas
+o Mezcladas, d&eacute;jelas como est&aacute;n.
 </p>
 
-<table width="100%" align="center" border="1"  cellpadding="4" cellspacing="0" summary="Hyphens and Dashes">
-  <tbody>
-    <tr>
-      <th valign="top" bgcolor="cornsilk">Imagen Original:</th>
+<h3><a name="line_br">Saltos de l&iacute;nea</a></h3>
 
-      <th valign="top" bgcolor="cornsilk">Texto Revisado Correctamente:</th>
-      <th valign="top" bgcolor="cornsilk">Tipo</th>
-    </tr>
-    <tr>
-      <td valign="top">semi-detached</td>
-      <td valign="top"><tt>semi-detached</tt></td>
-      <td> Gui&oacute;n</td>
-
-    </tr>
-    <tr>
-      <td valign="top">three- and four-part harmony</td>
-      <td valign="top"><tt>three- and four-part harmony</tt></td>
-      <td> Gui&oacute;n</td>
-    </tr>
-    <tr>
-
-      <td valign="top">discoveries which the Crus-<br>
-        aders made and brought home with</td>
-      <td valign="top"><tt>discoveries which the Crusaders<br>
-        made and brought home with</tt></td>
-      <td> Gui&oacute;n</td>
-    </tr>
-
-    <tr>
-      <td valign="top">factors which mold char-<br>
-        acter&mdash;environment, training and heritage,</td>
-      <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt>
-      <td> Gui&oacute;n largo</td>
-
-    </tr>
-    <tr>
-      <td valign="top">See pages 21&ndash;25</td>
-      <td valign="top"><tt>See pages 21-25</tt></td>
-      <td>Signo menos</td>
-    </tr>
-    <tr>
-
-      <td valign="top">&ndash;14&deg; below zero</td>
-      <td valign="top"><tt>-14&deg; below zero</tt></td>
-      <td>Signo menos</td>
-    </tr>
-    <tr>
-
-      <td valign="top">X &ndash; Y = Z</td>
-      <td valign="top"><tt>X - Y = Z</tt></td>
-      <td>Signo menos</td>
-    </tr>
-    <tr>
-      <td valign="top">2&ndash;1/2</td>
-
-      <td valign="top"><tt>2-1/2</tt></td>
-      <td>Signo menos</td>
-    </tr>
-    <tr>
-      <td valign="top">I am hurt;&mdash;A plague<br> on both your houses!&mdash;I am dead.</td>
-
-      <td valign="top"><tt>I am hurt;--A plague<br> on both your houses!--I am dead.</tt></td>
-      <td>Gui&oacute;n largo</td>
-    </tr>
-    <tr>
-      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
-        &mdash;if even all of these are simple tastes. What</td>
-
-      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
-        even all of these are simple tastes. What</tt></td>
-      <td>Gui&oacute;n largo</td>
-    </tr>
-    <tr>
-      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
-
-        with which we are here concerned,</td>
-      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
-        which we are here concerned,</tt></td>
-      <td>Gui&oacute;n largo</td>
-    </tr>
-    <tr>
-      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
-
-      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
-      <td>Gui&oacute;n largo</td>
-    </tr>
- <tr>
-      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
-	say, but the left-hand cat interrupted her.</td>
-      <td valign="top"><tt>"Three hundred----" "years," she was going to
-	say, but the left-hand cat interrupted her.</tt></td>
-
-      <td>Raya</td>
-    </tr>
-    <tr>
-      <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
-      <td>Raya</td>
-
-    </tr>
-    <tr>
-      <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
-      <td>Raya</td>
-    </tr>
-
-    <tr>
-      <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
-      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
-      <td>Raya</td>
-    </tr>
-    <tr>
-      <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
-
-      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
-      <td>Raya</td>
-    </tr>
-    <tr>
-      <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
-      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
-
-      <td>Gui&oacute;n largo</td></tr>
-  </tbody>
-</table>
-
-<h3><a name="eol_hyphen">Gui&oacute;n al final de la l&iacute;nea</a></h3>
-<p>
-Cuando hay un gui&oacute;n que corta la palabra al final de la l&iacute;nea, junte las
-dos partes de la palabra. Si la palabra normalmente lleva gui&oacute;n (como
-pos-proceso o well-meaning), junte sus dos partes dejando el gui&oacute;n donde
-est&aacute;. Si el gui&oacute;n se puso solamente para partir una palabra que no cabe
-entera en la l&iacute;nea (y no se trata de una palabra que normalmente lleva
-gui&oacute;n), junte las dos partes de la palabra y quite el gui&oacute;n. Coloque la
-palabra rejuntada al final de la l&iacute;nea superior, y corte la l&iacute;nea
-despu&eacute;s de ella para mantener el formato de l&iacute;nea. Esto facilitar&aacute; el
-trabajo de voluntarios que sigan la revisi&oacute;n en siguientes rondas. Vea
-<a href="#em_dashes">Guiones, el signo menos "-" y rayas</a> para ver los ejemplos en cada caso (nar-row
-se convierte en narrow, pero low-lying no pierde su gui&oacute;n). Si a la
-palabra le sigue la puntuaci&oacute;n, suba esta tambi&eacute;n al final de la l&iacute;nea
-superior, junto a la palabra rejuntada.
-</p><p>Palabras como &laquo;to-day" y
-"to-morrow" que hoy d&iacute;a no llevan gui&oacute;n aparecen con &eacute;l en muchos libros
-antiquos que estamos revisando. Deje estas palabras con gui&oacute;n como el
-autor las escribi&oacute;. Si no est&aacute; seguro si el autor escribi&oacute; la palabra
-con gui&oacute;n o sin &eacute;l, dejelo como est&aacute;, ponga un asterisco * a
-continuac&iacute;&oacute;n, y rejunte la palabra. As&iacute;: to-*day. El asterisco llamar&aacute;
-atenci&oacute;n del pos-procesador, el que tiene acceso a todas las p&aacute;ginas, y
-puede decidir sobre la pauta que sigui&oacute; el autor en la obra.
+<p>Conservamos los saltos de l&iacute;nea. <b>Deje todos los saltos de l&iacute;nea donde
+est&aacute;n</b> para que m&aacute;s adelante otros voluntarios puedan comparar f&aacute;cilmente
+las l&iacute;neas del texto con las de la imagen.
 </p>
 
-<h3><a name="eop_hyphen">Gui&oacute;n al final de la p&aacute;gina</a></h3>
-<p>
-Cuando hay un gui&oacute;n que corta la palabra al final de la p&aacute;gina, deje el
-gui&oacute;n y ponga un asterisco <tt>*</tt> a continuaci&oacute;n.<br>
-Por ejemplo:<br>
-   &nbsp;<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;something Pat had already become accus-<br>
-   se convierte en:<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;<tt>something Pat had already become accus-*</tt>
+
+<!-- END RR -->
+<!-- We should have an example right here for this. -->
+
+<h3><a name="chap_head">T&iacute;tulos de cap&iacute;tulo</a></h3>
+
+<p>Revise los t&iacute;tulos de cap&iacute;tulo como aparecen en el texto.
 </p>
 <p>
-En la p&aacute;gina que empieza con la segunda parte de la palabra de la p&aacute;gina
-anterior, o con un gui&oacute;n, ponga un asterisco <tt>*</tt> al principio de todo.
-
-La continuaci&oacute;n del ejemplo de arriba:<br>
-
-   &nbsp;<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;tomed to from having to do his own family<br>
-   se convierte en:<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;<tt>*tomed to from having to do his own family</tt>
-
+Un t&iacute;tulo de cap&iacute;tulo puede empezar un poco m&aacute;s abajo que el <a href="#page_hf">encabezado
+de la p&aacute;gina</a>, y el n&uacute;mero de p&aacute;gina no est&aacute; en la misma l&iacute;nea. T&iacute;tulos
+de cap&iacute;tulo a veces se imprimen en may&uacute;sculas. Si es as&iacute;, deje todas las
+may&uacute;sculas tal y como est&aacute;n.
 </p>
-<p>Estos indiquen al pos-procesor que las dos partes deben juntarse.</p>
+<p>
+Preste atenci&oacute;n al primer p&aacute;rrafo del cap&iacute;tulo. Puede que el impresor no
+haya incluido (o el programa de OCR no haya reconocido) las comillas con
+las que empieza el primer p&aacute;rrafo. Si el autor empieza este p&aacute;rrafo con
+di&aacute;logo, introduzca las comillas omitidas.
+</p>
+<!-- END RR -->
+
 
 
 <h3><a name="para_space">P&aacute;rrafos</a></h3>
@@ -1434,37 +1433,6 @@ La continuaci&oacute;n del ejemplo de arriba:<br>
 Ponga una l&iacute;nea en blanco entre los p&aacute;rrafos. No sangre los p&aacute;rrafos; si el p&aacute;rrafo est&aacute; ya sangrado no pierda tiempo en quitar los espacios&mdash;eso se hace autom&aacute;ticamente en el pos-proceso.
 </p>
 <p>Vea <a href="#para_side">Notas al margen</a> para un ejemplo.
-</p>
-
-<h3><a name="mult_col">M&uacute;ltiples Columnas</a></h3>
-<p>Revise el texto que est&aacute; editado en dos columnas como una sola.
-</p>
-<p>
-El texto de m&uacute;ltiples columnas tambi&eacute;n se revisa como si fuera de una
-sola columna. Empiece con la primera de la izquierda, siga con la que
-est&aacute; a su derecha, y as&iacute; hasta la &uacute;ltima columna de la derecha. No es
-necesario indicar d&oacute;nde acaba una y empieza la siguiente columna.
-Simplemente j&uacute;ntelo todo en una sola columna.
-</p>
-<p>Vea tambi&eacute;n <a href="#bk_index">&Iacute;ndices</a> y <a href="#tables">Tablas</a> secciones de las reglas de
-revisi&oacute;n.
-</p>
-
-
-<h3><a name="blank_pg">P&aacute;gina en blanco</a></h3>
-
-<p>
-La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilustraci&oacute;n y sin
-texto, ya est&aacute;n marcadas con <tt>[Blank Page]</tt>. D&eacute;jelas como est&aacute;n. Si la
-p&aacute;gina est&aacute; en blanco y no est&aacute; marcada con [Blank Page] no es necesario
-a&ntilde;adir esta marca.
-</p>
-<p>
-Si el texto est&aacute; donde normalmente tiene que estar pero la imagen de la
-p&aacute;gina del libro original est&aacute; en blanco, o; si la imagen est&aacute; pero no
-aparece el texto, siga las instrucciones para <a href="#bad_image">Im&aacute;genes de baja
-calidad</a> o <a href="#bad_text">Imagen
-que no corresponde al texto</a>, correlativamente.
 </p>
 
 <h3><a name="page_hf">Encabezado y pie de p&aacute;gina</a></h3>
@@ -1562,26 +1530,6 @@ Vea la secci&oacute;n siguiente para ejemplos.
     </tr>
   </tbody>
 </table>
-
-<h3><a name="chap_head">T&iacute;tulos de cap&iacute;tulo</a></h3>
-
-<p>Revise los t&iacute;tulos de cap&iacute;tulo como aparecen en el texto.
-</p>
-<p>
-Un t&iacute;tulo de cap&iacute;tulo puede empezar un poco m&aacute;s abajo que el <a href="#page_hf">encabezado
-de la p&aacute;gina</a>, y el n&uacute;mero de p&aacute;gina no est&aacute; en la misma l&iacute;nea. T&iacute;tulos
-de cap&iacute;tulo a veces se imprimen en may&uacute;sculas. Si es as&iacute;, deje todas las
-may&uacute;sculas tal y como est&aacute;n.
-</p>
-<p>
-Preste atenci&oacute;n al primer p&aacute;rrafo del cap&iacute;tulo. Puede que el impresor no
-haya incluido (o el programa de OCR no haya reconocido) las comillas con
-las que empieza el primer p&aacute;rrafo. Si el autor empieza este p&aacute;rrafo con
-di&aacute;logo, introduzca las comillas omitidas.
-</p>
-<!-- END RR -->
-
-
 
 <h3><a name="illust">Ilustraciones - Im&aacute;genes</a></h3>
 <p>
@@ -1824,90 +1772,6 @@ se deben quedar en el lugar en el que est&aacute;n en el texto original.
   </tbody>
 </table>
 
-<h3><a name="poetry">Poes&iacute;a</a></h3>
-<p>
-Introduzca una l&iacute;nea en blanco al comienzo de la poes&iacute;a o epigrama y
-otra al final, para que los formateadores puedan ver claramente donde
-empieza y donde se acaba el formato especial.
-</p>
-<p>
-Justifique todas las l&iacute;neas a la izquierda y mantenga los cambios /
-quiebras de l&iacute;nea. No intente sangrar la poes&iacute;a. Los formateadores lo
-har&aacute;n. Introduzca una l&iacute;nea en blanco entre las estrofas.
-</p>
-
-<p><b>Notas al pie</b>
-en poes&iacute;a deben tratarse de la misma manera que cualquier nota al pie en
-el texto com&uacute;n. Vea <a href="#footnotes">Notas al pie de p&aacute;gina</a>
-para m&aacute;s detalles.
-</p>
-<p><b>La numeraci&oacute;n de las l&iacute;neas</b>
-en poes&iacute;a debe conservarse. Separe los n&uacute;meros del texto con algunos
-espacios. Vea las instrucciones para los <a href="#line_no">N&uacute;meros de l&iacute;nea</a>.
-</p>
-<p>
-Compruebe en los <a href="#comments">Comentarios del proyecto</a> que est&aacute; revisando, si existen indicaciones especiales.
-</p>
-<!-- END RR -->
-
-<br>
-<!-- Need an example that shows overly long lines of poetry, rather than relative indentation -->
-
-<table width="100%" align="center" border="1"  cellpadding="4"
-      cellspacing="0" summary="Poetry Example">
- <tbody>
-   <tr><th align="left" bgcolor="cornsilk">Imagen del ejemplo:</th></tr>
-   <tr align="left">
-     <th width="100%" valign="top"> <img src="poetry.png" alt=""
-         width="500" height="508"> <br>
-
-     </th>
-   </tr>
-   <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
-   <tr>
-     <td width="100%" valign="top">
-
-
-<table summary="" border="0" align="left"><tr><td>
-<tt>
-to the scenery of his own country:<br></tt>
-
-<p><tt>
-Oh, to be in England<br>
-Now that April's there,<br>
-And whoever wakes in England<br>
-Sees, some morning, unaware,<br>
-That the lowest boughs and the brushwood sheaf<br>
-Round the elm-tree hole are in tiny leaf,<br>
-While the chaffinch sings on the orchard bough<br>
-In England--now!</tt>
-
-</p><p><tt>
-And after April, when May follows,<br>
-And the whitethroat builds, and all the swallows!<br>
-Hark! where my blossomed pear-tree in the hedge<br>
-Leans to the field and scatters on the clover<br>
-Blossoms and dewdrops--at the bent spray's edge--<br>
-That's the wise thrush; he sings each song twice over,<br>
-Lest you should think he never could recapture<br>
-The first fine careless rapture!<br>
-
-And though the fields look rough with hoary dew,<br>
-All will be gay, when noontide wakes anew<br>
-The buttercups, the little children's dower;<br>
---Far brighter than this gaudy melon-flower!<br>
-</tt>
-</p><p><tt>
-So it runs; but it is only a momentary memory;<br>
-and he knew, when he had done it, and to his</tt>
-</p>
-</td></tr></table>
-
-     </td>
-   </tr>
- </tbody>
-</table>
-
 <h3><a name="para_side">Notas al margen</a></h3>
 <p>
 En algunos libros existen breves descripciones del p&aacute;rrafo al margen del
@@ -2045,6 +1909,21 @@ el lugar apropiado.</p>
   </tbody>
 </table>
 
+<h3><a name="mult_col">M&uacute;ltiples Columnas</a></h3>
+<p>Revise el texto que est&aacute; editado en dos columnas como una sola.
+</p>
+<p>
+El texto de m&uacute;ltiples columnas tambi&eacute;n se revisa como si fuera de una
+sola columna. Empiece con la primera de la izquierda, siga con la que
+est&aacute; a su derecha, y as&iacute; hasta la &uacute;ltima columna de la derecha. No es
+necesario indicar d&oacute;nde acaba una y empieza la siguiente columna.
+Simplemente j&uacute;ntelo todo en una sola columna.
+</p>
+<p>Vea tambi&eacute;n <a href="#bk_index">&Iacute;ndices</a> y <a href="#tables">Tablas</a> secciones de las reglas de
+revisi&oacute;n.
+</p>
+
+
 <h3><a name="tables">Tablas</a></h3>
 <p>La tarea del revisor es estar seguro que toda la informaci&oacute;n en la tabla
 est&eacute; correctamente revisada. Los detalles de formato de tablas ser&aacute;n
@@ -2127,6 +2006,120 @@ Same strip rolled up in  Same 16 wires bound
   </tbody>
 </table>
 
+
+<h3><a name="poetry">Poes&iacute;a</a></h3>
+<p>
+Introduzca una l&iacute;nea en blanco al comienzo de la poes&iacute;a o epigrama y
+otra al final, para que los formateadores puedan ver claramente donde
+empieza y donde se acaba el formato especial.
+</p>
+<p>
+Justifique todas las l&iacute;neas a la izquierda y mantenga los cambios /
+quiebras de l&iacute;nea. No intente sangrar la poes&iacute;a. Los formateadores lo
+har&aacute;n. Introduzca una l&iacute;nea en blanco entre las estrofas.
+</p>
+
+<p><b>Notas al pie</b>
+en poes&iacute;a deben tratarse de la misma manera que cualquier nota al pie en
+el texto com&uacute;n. Vea <a href="#footnotes">Notas al pie de p&aacute;gina</a>
+para m&aacute;s detalles.
+</p>
+<p><b>La numeraci&oacute;n de las l&iacute;neas</b>
+en poes&iacute;a debe conservarse. Separe los n&uacute;meros del texto con algunos
+espacios. Vea las instrucciones para los <a href="#line_no">N&uacute;meros de l&iacute;nea</a>.
+</p>
+<p>
+Compruebe en los <a href="#comments">Comentarios del proyecto</a> que est&aacute; revisando, si existen indicaciones especiales.
+</p>
+<!-- END RR -->
+
+<br>
+<!-- Need an example that shows overly long lines of poetry, rather than relative indentation -->
+
+<table width="100%" align="center" border="1"  cellpadding="4"
+      cellspacing="0" summary="Poetry Example">
+ <tbody>
+   <tr><th align="left" bgcolor="cornsilk">Imagen del ejemplo:</th></tr>
+   <tr align="left">
+     <th width="100%" valign="top"> <img src="poetry.png" alt=""
+         width="500" height="508"> <br>
+
+     </th>
+   </tr>
+   <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
+   <tr>
+     <td width="100%" valign="top">
+
+
+<table summary="" border="0" align="left"><tr><td>
+<tt>
+to the scenery of his own country:<br></tt>
+
+<p><tt>
+Oh, to be in England<br>
+Now that April's there,<br>
+And whoever wakes in England<br>
+Sees, some morning, unaware,<br>
+That the lowest boughs and the brushwood sheaf<br>
+Round the elm-tree hole are in tiny leaf,<br>
+While the chaffinch sings on the orchard bough<br>
+In England--now!</tt>
+
+</p><p><tt>
+And after April, when May follows,<br>
+And the whitethroat builds, and all the swallows!<br>
+Hark! where my blossomed pear-tree in the hedge<br>
+Leans to the field and scatters on the clover<br>
+Blossoms and dewdrops--at the bent spray's edge--<br>
+That's the wise thrush; he sings each song twice over,<br>
+Lest you should think he never could recapture<br>
+The first fine careless rapture!<br>
+
+And though the fields look rough with hoary dew,<br>
+All will be gay, when noontide wakes anew<br>
+The buttercups, the little children's dower;<br>
+--Far brighter than this gaudy melon-flower!<br>
+</tt>
+</p><p><tt>
+So it runs; but it is only a momentary memory;<br>
+and he knew, when he had done it, and to his</tt>
+</p>
+</td></tr></table>
+
+     </td>
+   </tr>
+ </tbody>
+</table>
+
+<h3><a name="line_no">N&uacute;meros de l&iacute;nea</a></h3>
+
+<p>Si las l&iacute;neas tienen n&uacute;meros, cons&eacute;rvelos. Col&oacute;quelos al menos seis
+espacios a la derecha del resto del texto, aun cuando originalmente se
+encuentran a la izquierda de la poes&iacute;a/texto original.
+</p>
+<p>N&uacute;meros de l&iacute;nea se encuentran al margen de cada l&iacute;nea, o a veces cada
+cinco o diez l&iacute;neas. Son comunes en libros de poes&iacute;a. Como el libro
+electr&oacute;nico (e-book) no tiene p&aacute;ginas, los n&uacute;meros de los versos sirven
+para orientar al lector.
+</p>
+<!-- END RR -->
+<!-- We need an example image and text for this. -->
+
+<h3><a name="blank_pg">P&aacute;gina en blanco</a></h3>
+
+<p>
+La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilustraci&oacute;n y sin
+texto, ya est&aacute;n marcadas con <tt>[Blank Page]</tt>. D&eacute;jelas como est&aacute;n. Si la
+p&aacute;gina est&aacute; en blanco y no est&aacute; marcada con [Blank Page] no es necesario
+a&ntilde;adir esta marca.
+</p>
+<p>
+Si el texto est&aacute; donde normalmente tiene que estar pero la imagen de la
+p&aacute;gina del libro original est&aacute; en blanco, o; si la imagen est&aacute; pero no
+aparece el texto, siga las instrucciones para <a href="#bad_image">Im&aacute;genes de baja
+calidad</a> o <a href="#bad_text">Imagen
+que no corresponde al texto</a>, correlativamente.
+</p>
 
 <h3><a name="title_pg">Portada&mdash;Contraportada</a></h3>
 <p>

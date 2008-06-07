@@ -77,41 +77,41 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <td width="1" bgcolor="silver">&nbsp;</td>
     <td bgcolor="white" align="left">
       <ul style="margin-left: 3em;">
-        <li><a href="#line_br">Line Breaks</a></li>
         <li><a href="#double_q">Double Quotes</a></li>
         <li><a href="#single_q">Single Quotes</a></li>
         <li><a href="#quote_ea">Quote Marks on each line</a></li>
         <li><a href="#period_s">End-of-sentence Periods</a></li>
         <li><a href="#punctuat">Punctuation</a></li>
-        <li><a href="#period_p">Period Pause &quot;...&quot; (Ellipsis)</a></li>
-        <li><a href="#contract">Contractions</a></li>
         <li><a href="#extra_sp">Extra spaces or tabs between Words</a></li>
         <li><a href="#trail_s">Trailing Space at End-of-line</a></li>
-        <li><a href="#line_no">Line Numbers</a></li>
-        <li><a href="#italics">Italic and Bold Text</a></li>
-        <li><a href="#supers">Superscripts</a></li>
-        <li><a href="#subscr">Subscripts</a></li>
-        <li><a href="#font_sz">Font Size Changes</a></li>
-        <li><a href="#small_caps">Words in Small Capitals</a></li>
         <li><a href="#drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></li>
-        <li><a href="#a_chars">Accented/Non-ASCII Characters</a></li>
-        <li><a href="#d_chars">Characters with Diacritical marks</a></li>
-        <li><a href="#f_chars">Non-Latin Characters</a></li>
-        <li><a href="#fract_s">Fractions</a></li>
         <li><a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a></li>
         <li><a href="#eol_hyphen">End-of-line Hyphenation</a></li>
         <li><a href="#eop_hyphen">End-of-page Hyphenation</a></li>
-        <li><a href="#next_word">Single word at bottom of page</a></li>
-        <li><a href="#para_space">Paragraph Spacing/Indenting</a></li>
-        <li><a href="#mult_col">Multiple Columns</a></li>
-        <li><a href="#blank_pg">Blank Page</a></li>
-        <li><a href="#page_hf">Page Headers/Page Footers</a></li>
+        <li><a href="#period_p">Period Pause &quot;...&quot; (Ellipsis)</a></li>
+        <li><a href="#contract">Contractions</a></li>
+        <li><a href="#fract_s">Fractions</a></li>
+        <li><a href="#a_chars">Accented/Non-ASCII Characters</a></li>
+        <li><a href="#d_chars">Characters with Diacritical marks</a></li>
+        <li><a href="#f_chars">Non-Latin Characters</a></li>
+        <li><a href="#supers">Superscripts</a></li>
+        <li><a href="#subscr">Subscripts</a></li>
+        <li><a href="#font_sz">Font Size Changes</a></li>
+        <li><a href="#italics">Italic and Bold Text</a></li>
+        <li><a href="#small_caps">Words in Small Capitals</a></li>
+        <li><a href="#line_br">Line Breaks</a></li>
         <li><a href="#chap_head">Chapter Headers</a></li>
+        <li><a href="#para_space">Paragraph Spacing/Indenting</a></li>
+        <li><a href="#page_hf">Page Headers/Page Footers</a></li>
         <li><a href="#illust">Illustrations</a></li>
         <li><a href="#footnotes">Footnotes/Endnotes</a></li>
-        <li><a href="#poetry">Poetry/Epigrams</a></li>
         <li><a href="#para_side">Paragraph Side-Descriptions (Sidenotes)</a></li>
+        <li><a href="#mult_col">Multiple Columns</a></li>
         <li><a href="#tables">Tables</a></li>
+        <li><a href="#poetry">Poetry/Epigrams</a></li>
+        <li><a href="#line_no">Line Numbers</a></li>
+        <li><a href="#next_word">Single word at bottom of page</a></li>
+        <li><a href="#blank_pg">Blank Page</a></li>
         <li><a href="#title_pg">Front/Back Title Page</a></li>
         <li><a href="#toc">Table of Contents</a></li>
         <li><a href="#bk_index">Indexes</a></li>
@@ -273,18 +273,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 
 
-<h3><a name="line_br">Line Breaks</a></h3>
-<p><b>Leave all line breaks in</b> so that later in the process other volunteers can easily compare
-   the lines in the text to the lines in the image. Be especially careful about this
-   when rejoining <a href="#eol_hyphen">hyphenated words</a> or moving words around
-   <a href="#em_dashes">em-dashes</a>. If the previous proofreader removed the line breaks,
-   please replace them so that they once again match the image.
-</p>
-
-
-<!-- END RR -->
-<!-- We should have an example right here for this. -->
-
 <h3><a name="double_q">Double Quotes</a></h3>
 <p>Proofread these as plain ASCII <tt>"</tt> double quotes. Do not change
    double quotes to single quotes. Leave them as the Author wrote them.
@@ -360,6 +348,222 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   </tbody>
 </table>
 
+<h3><a name="extra_sp">Extra Spaces or Tabs Between Words</a></h3>
+<p>Extra spaces and tab characters between words are common in OCR output. You don't need to bother
+   removing these&mdash;that can be done automatically during post-processing.
+</p>
+<p>However, extra spaces around punctuation, em-dashes, quote marks, etc. <b>do</b> need to be
+   removed when they separate the symbol from the word.
+</p>
+<p>For example, in <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt> the space between
+   the word "horse" and the semicolon should be removed. But the 2 spaces after the semicolon are
+   fine&mdash;you don't have to delete one of them.
+</p>
+
+<h3><a name="trail_s">Trailing Space at End-of-line</a></h3>
+<p>Do not bother inserting spaces at the ends of lines of text. It is a waste of your time for
+   something that we can take care of automatically later. Similarly do not waste your time
+   removing extra spaces at the ends of lines.
+</p>
+
+<h3><a name="drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></h3>
+<p>Proofread a large and ornate graphic first letter of a chapter, section, or paragraph
+   as if it were an ordinary letter.
+</p>
+
+
+<h3><a name="em_dashes">Dashes, Hyphens, and Minus Signs</a></h3>
+<p> There are generally four such marks you will see in books:
+  <ol compact>
+    <li><i>Hyphens</i>. These are used to <b>join</b> words together, or sometimes to
+        join prefixes or suffixes to a word.
+    <br>Leave these as a single hyphen, with no spaces on either side.
+    <br>Note that there is a common exception to this shown in the second example below.
+    </li>
+    <li><i>En-dashes</i>. These are just a little longer, and are used for a
+        <b>range</b> of numbers, or for a mathematical <b>minus</b> sign.
+    <br>Proofread these as a single hyphen, too. Spaces before or after are determined by the
+        way it was done in the book; usually no spaces in number ranges, usually spaces
+        around mathematical minus signs, sometimes both sides, sometimes just before.
+    </li>
+    <li><i>Em-dashes &amp; long dashes</i>. These serve as <b>separators</b> between
+        words&mdash;sometimes for emphasis like this&mdash;or when a speaker gets a word caught in
+        his throat&mdash;&mdash;!
+    <br>Proofread these as two hyphens if the em-dash is short and four hyphens if the em-dash is
+        long. Don't leave a space before or after,
+        even if it looks like there was a space in the original book image.
+    </li>
+    <li><i>Deliberately Omitted or Censored Words or Names</i>.
+    <br>Proofread these as 4 hyphens. When it represents a word, we leave appropriate space
+        around it like it's really a word. If it's only part of a word, then no
+        spaces&mdash;join it with the rest of the word. If the em-dash looks as if it is
+        the size of the rest of the smaller em-dashes, then proofread it as a single em-dash,
+        i.e. two hyphens.
+    </li>
+  </ol>
+<p>Note: If an em-dash appears at the start or end of a line of your OCR'd text, join it with the
+   other line so that there are no spaces or line breaks around it. Only if the
+   author used an em-dash to start or end the paragraph or line of poetry or dialog
+   should you leave it at the start or end of a line. See the examples below.
+</p>
+<!-- END RR -->
+
+<p><b>Examples</b>&mdash;Dashes, Hyphens, and Minus Signs:
+</p>
+
+<table width="100%" align="center" border="1"  cellpadding="4" cellspacing="0" summary="Hyphens and Dashes">
+  <tbody>
+    <tr>
+      <th valign="top" bgcolor="cornsilk">Original Image:</th>
+      <th valign="top" bgcolor="cornsilk">Correctly Proofread Text:</th>
+      <th valign="top" bgcolor="cornsilk">Type</th>
+    </tr>
+    <tr>
+      <td valign="top">semi-detached</td>
+      <td valign="top"><tt>semi-detached</tt></td>
+      <td> Hyphen</td>
+    </tr>
+    <tr>
+      <td valign="top">three- and four-part harmony</td>
+      <td valign="top"><tt>three- and four-part harmony</tt></td>
+      <td> Hyphens</td>
+    </tr>
+    <tr>
+      <td valign="top">discoveries which the Crus-<br>
+        aders made and brought home with</td>
+      <td valign="top"><tt>discoveries which the Crusaders<br>
+        made and brought home with</tt></td>
+      <td> Hyphen</td>
+    </tr>
+    <tr>
+      <td valign="top">factors which mold char-<br>
+        acter&mdash;environment, training and heritage,</td>
+      <td valign="top"><tt>factors which mold character--environment,<br>
+        training and heritage,</tt>
+      <td> Hyphen</td>
+    </tr>
+    <tr>
+      <td valign="top">See pages 21&ndash;25</td>
+      <td valign="top"><tt>See pages 21-25</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">&ndash;14&deg; below zero</td>
+      <td valign="top"><tt>-14&deg; below zero</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">X &ndash; Y = Z</td>
+      <td valign="top"><tt>X - Y = Z</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">2&ndash;1/2</td>
+      <td valign="top"><tt>2-1/2</tt></td>
+      <td>En-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">I am hurt;&mdash;A plague<br> on both your houses!&mdash;I am dead.</td>
+      <td valign="top"><tt>I am hurt;--A plague<br> on both your houses!--I am dead.</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
+        &mdash;if even all of these are simple tastes. What</td>
+      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
+        even all of these are simple tastes. What</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
+        with which we are here concerned,</td>
+      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
+        which we are here concerned,</tt></td>
+      <td>Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
+      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
+      <td>Em-dash</td>
+    </tr>
+ <tr>
+      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
+	say, but the left-hand cat interrupted her.</td>
+      <td valign="top"><tt>"Three hundred----" "years," she was going to
+	say, but the left-hand cat interrupted her.</tt></td>
+      <td>Longer Em-dash</td>
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
+      <td>long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
+      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
+      <td>long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
+      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
+      <td>long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
+      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
+      <td>long dash</td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
+      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
+      <td>Em-dash</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3><a name="eol_hyphen">End-of-line Hyphenation</a></h3>
+<p>Where a hyphen appears at the end of a line, join the two halves of the hyphenated
+   word back together. If it is really a hyphenated word like well-meaning, join the
+   two halves leaving the hyphen in between. But if it was just hyphenated because it
+   wouldn't fit on the line, and is not a word that is usually hyphenated, then join
+   the two halves and remove the hyphen. Keep the joined word on the top line, and put
+   a line break after it to preserve the line formatting&mdash;this makes it easier for
+   volunteers in later rounds. See the <a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a> section
+   of the Proofreading Guidelines for examples of each kind (nar-row turns into narrow,
+   but low-lying keeps the hyphen). If the word is followed
+   by punctuation, then carry that punctuation onto the top line, too.
+</p>
+<p>Words like to-day and to-morrow that we don't commonly hyphenate now were often
+   hyphenated in the old books we are working on. Leave them hyphenated the way the
+   author did. If you're not sure if the author hyphenated it or not, leave the hyphen,
+   put an <tt>*</tt> after it, and join the word together like this:
+   <tt>to-*day</tt>. The asterisk will bring it to the attention of the post
+   processor, who has access to all the pages, and can determine how the author
+   typically wrote this word.
+</p>
+
+<h3><a name="eop_hyphen">End-of-page Hyphenation</a></h3>
+<p>Proofread end-of-page hyphens or em-dashes by leaving the hyphen or em-dash at the end
+   of the last line, and mark it with a <tt>*</tt> after the hyphen.<br>
+   For example, proofread:<br>
+   &nbsp;<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;something Pat had already become accus-<br>
+   as:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>something Pat had already become accus-*</tt>
+</p>
+<p>On pages that start with part of a word from the previous page or an em-dash,
+   place a <tt>*</tt> before the partial word or em-dash.<br>
+   To continue the above example, proofread:<br>
+   &nbsp;<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;tomed to from having to do his own family<br>
+   as:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>*tomed to from having to do his own family</tt>
+</p>
+<p>These markings indicate to the post-processor that the word must be rejoined when the pages are
+   combined to produce the final e-book.
+</p>
+
+
 <h3><a name="period_p">Period Pause &quot;...&quot; (Ellipsis)</a></h3>
 <p>The guidelines are different for English and Languages Other Than English (LOTE).
 </p>
@@ -406,89 +610,10 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 
 
-<h3><a name="extra_sp">Extra Spaces or Tabs Between Words</a></h3>
-<p>Extra spaces and tab characters between words are common in OCR output. You don't need to bother
-   removing these&mdash;that can be done automatically during post-processing.
-</p>
-<p>However, extra spaces around punctuation, em-dashes, quote marks, etc. <b>do</b> need to be
-   removed when they separate the symbol from the word.
-</p>
-<p>For example, in <tt>A horse&nbsp;;&nbsp;&nbsp;my kingdom for a horse.</tt> the space between
-   the word "horse" and the semicolon should be removed. But the 2 spaces after the semicolon are
-   fine&mdash;you don't have to delete one of them.
-</p>
-
-<h3><a name="trail_s">Trailing Space at End-of-line</a></h3>
-<p>Do not bother inserting spaces at the ends of lines of text. It is a waste of your time for
-   something that we can take care of automatically later. Similarly do not waste your time
-   removing extra spaces at the ends of lines.
-</p>
-
-<h3><a name="line_no">Line Numbers</a></h3>
-<p>Keep line numbers. Use a few spaces to separate them from the other text on the line so that
-the formatters can easily find them.
-</p>
-<p>Line numbers are numbers in the margin for each line, or sometimes every fifth or tenth
-   line, and are common in books of poetry. Since poetry will not be reformatted in the e-book
-   version, the line numbers will be useful to readers.
-</p>
-<!-- END RR -->
-<!-- We need an example image and text for this. -->
-
-<h3><a name="italics">Italic and Bold Text</a></h3>
-<p><i>Italicized</i> text may occasionally appear with <tt>&lt;i&gt;</tt> inserted at the start and
-   <tt>&lt;/i&gt;</tt> inserted at the end of the italics. <b>Bold text</b> (text printed in a heavier
-   typeface) may occasionally appear with <tt>&lt;b&gt;</tt> inserted before the bold text and <tt>&lt;/b&gt;</tt>
-   after it. Do not remove this formatting information, unless it surrounds junk that does not appear
-   on the page. Do not add it where it does not appear. The formatters will do that later in the process.
-</p>
-<!-- END RR -->
-
-
-<h3><a name="supers">Superscripts</a></h3>
-<p>Older books often abbreviated words as contractions, and printed them as
-   superscripts. For example:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
-   Proofread these by inserting a single caret followed by the superscripted text, like this:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
-</p>
-
-
-<h3><a name="subscr">Subscripts</a></h3>
-<p>Subscripted text is often found in scientific works, but is not common in other
-   material. Proofread subscripted text by inserting an underline character <tt>_</tt>.
-   <br>For example:
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
-   <br>would be proofread as
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.<br></tt>
-</p>
-
-
-<h3><a name="font_sz">Font size changes</a></h3>
-<p>Do not mark changes in font size. The formatters will take care of this later in the process.
-</p>
-
-<h3><a name="small_caps">Words in Small Capitals</a></h3>
-<p><span style="font-variant: small-caps">Small caps</span>
-   (capital letters which are smaller than the standard capitals)
-   may occasionally appear
-   with <tt>&lt;sc&gt;</tt> inserted
-   before the <span style="font-variant: small-caps">small caps</span>
-   and <tt>&lt;/sc&gt;</tt> after
-   the <span style="font-variant: small-caps">small caps</span>.
-   Once again, do not remove this formatting information,
-   unless it surrounds junk that does not appear on the page.
-   Do not add it where it does not appear.
-   The formatters will do that later in the process.
-   Please proofread only the characters in small caps.
-   Do not worry about case changes.
-   If they are already ALL-CAPPED, Mixed-Cased, or lower-cased,
-   leave them ALL-CAPPED, Mixed-Cased, or lower-cased.
-</p>
-
-<h3><a name="drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></h3>
-<p>Proofread a large and ornate graphic first letter of a chapter, section, or paragraph
-   as if it were an ordinary letter.
+<h3><a name="fract_s">Fractions</a></h3>
+<p>Proofread <b>fractions</b> as follows: <tt>2&frac12;</tt> becomes <tt>2-1/2</tt>.
+   The hyphen prevents the whole and fractional part from becoming
+   separated when the lines are rewrapped during post-processing.
 </p>
 
 
@@ -1150,216 +1275,82 @@ cedilla                      [,x]   [x,]
 </p>
 <? } ?>
 
-<h3><a name="fract_s">Fractions</a></h3>
-<p>Proofread <b>fractions</b> as follows: <tt>2&frac12;</tt> becomes <tt>2-1/2</tt>.
-   The hyphen prevents the whole and fractional part from becoming
-   separated when the lines are rewrapped during post-processing.
+<h3><a name="supers">Superscripts</a></h3>
+<p>Older books often abbreviated words as contractions, and printed them as
+   superscripts. For example:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.<br>
+   Proofread these by inserting a single caret followed by the superscripted text, like this:<br>
+   &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
 
 
-<h3><a name="em_dashes">Dashes, Hyphens, and Minus Signs</a></h3>
-<p> There are generally four such marks you will see in books:
-  <ol compact>
-    <li><i>Hyphens</i>. These are used to <b>join</b> words together, or sometimes to
-        join prefixes or suffixes to a word.
-    <br>Leave these as a single hyphen, with no spaces on either side.
-    <br>Note that there is a common exception to this shown in the second example below.
-    </li>
-    <li><i>En-dashes</i>. These are just a little longer, and are used for a
-        <b>range</b> of numbers, or for a mathematical <b>minus</b> sign.
-    <br>Proofread these as a single hyphen, too. Spaces before or after are determined by the
-        way it was done in the book; usually no spaces in number ranges, usually spaces
-        around mathematical minus signs, sometimes both sides, sometimes just before.
-    </li>
-    <li><i>Em-dashes &amp; long dashes</i>. These serve as <b>separators</b> between
-        words&mdash;sometimes for emphasis like this&mdash;or when a speaker gets a word caught in
-        his throat&mdash;&mdash;!
-    <br>Proofread these as two hyphens if the em-dash is short and four hyphens if the em-dash is
-        long. Don't leave a space before or after,
-        even if it looks like there was a space in the original book image.
-    </li>
-    <li><i>Deliberately Omitted or Censored Words or Names</i>.
-    <br>Proofread these as 4 hyphens. When it represents a word, we leave appropriate space
-        around it like it's really a word. If it's only part of a word, then no
-        spaces&mdash;join it with the rest of the word. If the em-dash looks as if it is
-        the size of the rest of the smaller em-dashes, then proofread it as a single em-dash,
-        i.e. two hyphens.
-    </li>
-  </ol>
-<p>Note: If an em-dash appears at the start or end of a line of your OCR'd text, join it with the
-   other line so that there are no spaces or line breaks around it. Only if the
-   author used an em-dash to start or end the paragraph or line of poetry or dialog
-   should you leave it at the start or end of a line. See the examples below.
+<h3><a name="subscr">Subscripts</a></h3>
+<p>Subscripted text is often found in scientific works, but is not common in other
+   material. Proofread subscripted text by inserting an underline character <tt>_</tt>.
+   <br>For example:
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.
+   <br>would be proofread as
+   <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.<br></tt>
+</p>
+
+
+<h3><a name="font_sz">Font size changes</a></h3>
+<p>Do not mark changes in font size. The formatters will take care of this later in the process.
+</p>
+
+<h3><a name="italics">Italic and Bold Text</a></h3>
+<p><i>Italicized</i> text may occasionally appear with <tt>&lt;i&gt;</tt> inserted at the start and
+   <tt>&lt;/i&gt;</tt> inserted at the end of the italics. <b>Bold text</b> (text printed in a heavier
+   typeface) may occasionally appear with <tt>&lt;b&gt;</tt> inserted before the bold text and <tt>&lt;/b&gt;</tt>
+   after it. Do not remove this formatting information, unless it surrounds junk that does not appear
+   on the page. Do not add it where it does not appear. The formatters will do that later in the process.
 </p>
 <!-- END RR -->
 
-<p><b>Examples</b>&mdash;Dashes, Hyphens, and Minus Signs:
+
+<h3><a name="small_caps">Words in Small Capitals</a></h3>
+<p><span style="font-variant: small-caps">Small caps</span>
+   (capital letters which are smaller than the standard capitals)
+   may occasionally appear
+   with <tt>&lt;sc&gt;</tt> inserted
+   before the <span style="font-variant: small-caps">small caps</span>
+   and <tt>&lt;/sc&gt;</tt> after
+   the <span style="font-variant: small-caps">small caps</span>.
+   Once again, do not remove this formatting information,
+   unless it surrounds junk that does not appear on the page.
+   Do not add it where it does not appear.
+   The formatters will do that later in the process.
+   Please proofread only the characters in small caps.
+   Do not worry about case changes.
+   If they are already ALL-CAPPED, Mixed-Cased, or lower-cased,
+   leave them ALL-CAPPED, Mixed-Cased, or lower-cased.
 </p>
 
-<table width="100%" align="center" border="1"  cellpadding="4" cellspacing="0" summary="Hyphens and Dashes">
-  <tbody>
-    <tr>
-      <th valign="top" bgcolor="cornsilk">Original Image:</th>
-      <th valign="top" bgcolor="cornsilk">Correctly Proofread Text:</th>
-      <th valign="top" bgcolor="cornsilk">Type</th>
-    </tr>
-    <tr>
-      <td valign="top">semi-detached</td>
-      <td valign="top"><tt>semi-detached</tt></td>
-      <td> Hyphen</td>
-    </tr>
-    <tr>
-      <td valign="top">three- and four-part harmony</td>
-      <td valign="top"><tt>three- and four-part harmony</tt></td>
-      <td> Hyphens</td>
-    </tr>
-    <tr>
-      <td valign="top">discoveries which the Crus-<br>
-        aders made and brought home with</td>
-      <td valign="top"><tt>discoveries which the Crusaders<br>
-        made and brought home with</tt></td>
-      <td> Hyphen</td>
-    </tr>
-    <tr>
-      <td valign="top">factors which mold char-<br>
-        acter&mdash;environment, training and heritage,</td>
-      <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt>
-      <td> Hyphen</td>
-    </tr>
-    <tr>
-      <td valign="top">See pages 21&ndash;25</td>
-      <td valign="top"><tt>See pages 21-25</tt></td>
-      <td>En-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">&ndash;14&deg; below zero</td>
-      <td valign="top"><tt>-14&deg; below zero</tt></td>
-      <td>En-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">X &ndash; Y = Z</td>
-      <td valign="top"><tt>X - Y = Z</tt></td>
-      <td>En-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">2&ndash;1/2</td>
-      <td valign="top"><tt>2-1/2</tt></td>
-      <td>En-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">I am hurt;&mdash;A plague<br> on both your houses!&mdash;I am dead.</td>
-      <td valign="top"><tt>I am hurt;--A plague<br> on both your houses!--I am dead.</tt></td>
-      <td>Em-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
-        &mdash;if even all of these are simple tastes. What</td>
-      <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
-        even all of these are simple tastes. What</tt></td>
-      <td>Em-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
-        with which we are here concerned,</td>
-      <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
-        which we are here concerned,</tt></td>
-      <td>Em-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
-      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
-      <td>Em-dash</td>
-    </tr>
- <tr>
-      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
-	say, but the left-hand cat interrupted her.</td>
-      <td valign="top"><tt>"Three hundred----" "years," she was going to
-	say, but the left-hand cat interrupted her.</tt></td>
-      <td>Longer Em-dash</td>
-    </tr>
-    <tr>
-      <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
-      <td>long dash</td>
-    </tr>
-    <tr>
-      <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
-      <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
-      <td>long dash</td>
-    </tr>
-    <tr>
-      <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
-      <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
-      <td>long dash</td>
-    </tr>
-    <tr>
-      <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
-      <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
-      <td>long dash</td>
-    </tr>
-    <tr>
-      <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
-      <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
-      <td>Em-dash</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3><a name="eol_hyphen">End-of-line Hyphenation</a></h3>
-<p>Where a hyphen appears at the end of a line, join the two halves of the hyphenated
-   word back together. If it is really a hyphenated word like well-meaning, join the
-   two halves leaving the hyphen in between. But if it was just hyphenated because it
-   wouldn't fit on the line, and is not a word that is usually hyphenated, then join
-   the two halves and remove the hyphen. Keep the joined word on the top line, and put
-   a line break after it to preserve the line formatting&mdash;this makes it easier for
-   volunteers in later rounds. See the <a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a> section
-   of the Proofreading Guidelines for examples of each kind (nar-row turns into narrow,
-   but low-lying keeps the hyphen). If the word is followed
-   by punctuation, then carry that punctuation onto the top line, too.
-</p>
-<p>Words like to-day and to-morrow that we don't commonly hyphenate now were often
-   hyphenated in the old books we are working on. Leave them hyphenated the way the
-   author did. If you're not sure if the author hyphenated it or not, leave the hyphen,
-   put an <tt>*</tt> after it, and join the word together like this:
-   <tt>to-*day</tt>. The asterisk will bring it to the attention of the post
-   processor, who has access to all the pages, and can determine how the author
-   typically wrote this word.
-</p>
-
-<h3><a name="eop_hyphen">End-of-page Hyphenation</a></h3>
-<p>Proofread end-of-page hyphens or em-dashes by leaving the hyphen or em-dash at the end
-   of the last line, and mark it with a <tt>*</tt> after the hyphen.<br>
-   For example, proofread:<br>
-   &nbsp;<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;something Pat had already become accus-<br>
-   as:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>something Pat had already become accus-*</tt>
-</p>
-<p>On pages that start with part of a word from the previous page or an em-dash,
-   place a <tt>*</tt> before the partial word or em-dash.<br>
-   To continue the above example, proofread:<br>
-   &nbsp;<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;tomed to from having to do his own family<br>
-   as:<br>
-   &nbsp;&nbsp;&nbsp;&nbsp;<tt>*tomed to from having to do his own family</tt>
-</p>
-<p>These markings indicate to the post-processor that the word must be rejoined when the pages are
-   combined to produce the final e-book.
+<h3><a name="line_br">Line Breaks</a></h3>
+<p><b>Leave all line breaks in</b> so that later in the process other volunteers can easily compare
+   the lines in the text to the lines in the image. Be especially careful about this
+   when rejoining <a href="#eol_hyphen">hyphenated words</a> or moving words around
+   <a href="#em_dashes">em-dashes</a>. If the previous proofreader removed the line breaks,
+   please replace them so that they once again match the image.
 </p>
 
 
-<h3><a name="next_word">Single word at bottom of page</a></h3>
-<p>Proofread these by deleting the word, even if it's the second half of a hyphenated word.
+<!-- END RR -->
+<!-- We should have an example right here for this. -->
+
+<h3><a name="chap_head">Chapter Headers</a></h3>
+<p>Proofread chapter headers as they appear in the text.
 </p>
-<p>In some older books, the single word at the bottom of the page (called a "catchword", usually
-   printed near the right margin) indicates the first word on the next page of the book (called
-   an "incipit"). It was used to alert the printer to print the correct reverse (called "verso"),
-   to make it easier for printers' helpers to make up the pages prior to binding, and to help
-   the reader avoid turning over more than one page.
+<p>A chapter header may start a bit farther down the page than the <a href="#page_hf">page header</a>
+   and won't have a page number on the same line. Chapter Headers are often printed all caps; if so,
+   keep them as all caps.
+</p>
+<p>Watch out for a missing double quote at the start of the first paragraph, which some
+   publishers did not include or which the OCR missed due to a large capital in the
+   original. If the author started the paragraph with dialog, insert the double quote.
 </p>
 <!-- END RR -->
-<!-- We need an example here! -->
+
 
 
 <h3><a name="para_space">Paragraph Spacing/Indenting</a></h3>
@@ -1368,28 +1359,6 @@ cedilla                      [,x]   [x,]
    bother removing those spaces&mdash;that can be done automatically during post-processing.
 </p>
 <p>See the <a href="#para_side">Sidenotes</a> image/text for an example.
-</p>
-
-<h3><a name="mult_col">Multiple Columns</a></h3>
-<p>Proofread ordinary text that has been printed in two columns as a single column.
-</p>
-<p>Spans of multiple-column text within single column sections should be proofread as a single column
-   by placing the text from the left-most column first, the text from the next one after it, and so on.
-   You do not need to mark where the columns were split, just join them together.
-</p>
-<p>See also the <a href="#bk_index">Index</a> and
-   <a href="#tables">Table</a> sections of the Proofreading Guidelines.
-</p>
-
-
-<h3><a name="blank_pg">Blank Page</a></h3>
-<p>Most blank pages, or pages with an illustration but no text, will already be
-   marked with <tt>[Blank Page]</tt>. Leave this marking as is. If the page is
-   blank, and [Blank Page] does not appear, there is no need to add it.
-</p>
-<p>If there is text in the proofreading text area and a blank image, or if there is an image
-   but no text, follow the directions for a <a href="#bad_image">Bad Image</a>
-   or <a href="#bad_text">Bad Text</a>.
 </p>
 
 <h3><a name="page_hf">Page Headers/Page Footers</a></h3>
@@ -1471,21 +1440,6 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
-
-<h3><a name="chap_head">Chapter Headers</a></h3>
-<p>Proofread chapter headers as they appear in the text.
-</p>
-<p>A chapter header may start a bit farther down the page than the <a href="#page_hf">page header</a>
-   and won't have a page number on the same line. Chapter Headers are often printed all caps; if so,
-   keep them as all caps.
-</p>
-<p>Watch out for a missing double quote at the start of the first paragraph, which some
-   publishers did not include or which the OCR missed due to a large capital in the
-   original. If the author started the paragraph with dialog, insert the double quote.
-</p>
-<!-- END RR -->
-
-
 
 <h3><a name="illust">Illustrations</a></h3>
 <p>Proofread any caption text as it is printed, preserving
@@ -1689,78 +1643,6 @@ cedilla                      [,x]   [x,]
   </tbody>
 </table>
 
-<h3><a name="poetry">Poetry/Epigrams</a></h3>
-<p>Insert a blank line at the start of the poetry or epigram and another
-   blank line at the end, so that the formatters can clearly see the beginning and end.
-</p>
-<p>Leave each line left-justified and maintain the line breaks. Do not try
-   to center or indent the poetry. The formatters will do that part. Do insert
-   a blank line between stanzas.
-</p>
-<p><b>Footnotes</b> in poetry should be treated the same as regular footnotes during proofreading.
-   See <a href="#footnotes">footnotes</a> for details.
-</p>
-<p><b>Line Numbers</b> in poetry should be kept. Separate them from the main text with a
-   few spaces. See <a href="#line_no">Line Numbers</a> for details.
-</p>
-<p>Check the <a href="#comments">Project Comments</a> for the specific text you are proofreading.
-</p>
-<!-- END RR -->
-
-<br>
-<!-- Need an example that shows overly long lines of poetry, rather than relative indentation -->
-
-<table width="100%" align="center" border="1"  cellpadding="4"
-      cellspacing="0" summary="Poetry Example">
- <tbody>
-   <tr><th align="left" bgcolor="cornsilk">Sample Image:</th></tr>
-   <tr align="left">
-     <th width="100%" valign="top"> <img src="poetry.png" alt=""
-         width="500" height="508"> <br>
-     </th>
-   </tr>
-   <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
-   <tr>
-     <td width="100%" valign="top">
-
-
-<table summary="" border="0" align="left"><tr><td>
-<tt>
-to the scenery of his own country:<br></tt>
-<p><tt>
-Oh, to be in England<br>
-Now that April's there,<br>
-And whoever wakes in England<br>
-Sees, some morning, unaware,<br>
-That the lowest boughs and the brushwood sheaf<br>
-Round the elm-tree bole are in tiny leaf,<br>
-While the chaffinch sings on the orchard bough<br>
-In England--now!</tt>
-</p><p><tt>
-And after April, when May follows,<br>
-And the whitethroat builds, and all the swallows!<br>
-Hark! where my blossomed pear-tree in the hedge<br>
-Leans to the field and scatters on the clover<br>
-Blossoms and dewdrops--at the bent spray's edge--<br>
-That's the wise thrush; he sings each song twice over,<br>
-Lest you should think he never could recapture<br>
-The first fine careless rapture!<br>
-And though the fields look rough with hoary dew,<br>
-All will be gay, when noontide wakes anew<br>
-The buttercups, the little children's dower;<br>
---Far brighter than this gaudy melon-flower!<br>
-</tt>
-</p><p><tt>
-So it runs; but it is only a momentary memory;<br>
-and he knew, when he had done it, and to his</tt>
-</p>
-</td></tr></table>
-
-     </td>
-   </tr>
- </tbody>
-</table>
-
 <h3><a name="para_side">Paragraph Side-Descriptions (Sidenotes)</a></h3>
 <p>Some books will have short descriptions of the paragraph along the side of the text.
    These are called sidenotes. Proofread the sidenote text as it is printed,
@@ -1879,6 +1761,18 @@ and he knew, when he had done it, and to his</tt>
   </tbody>
 </table>
 
+<h3><a name="mult_col">Multiple Columns</a></h3>
+<p>Proofread ordinary text that has been printed in two columns as a single column.
+</p>
+<p>Spans of multiple-column text within single column sections should be proofread as a single column
+   by placing the text from the left-most column first, the text from the next one after it, and so on.
+   You do not need to mark where the columns were split, just join them together.
+</p>
+<p>See also the <a href="#bk_index">Index</a> and
+   <a href="#tables">Table</a> sections of the Proofreading Guidelines.
+</p>
+
+
 <h3><a name="tables">Tables</a></h3>
 <p>
    A proofreader's job is to be sure that all the information in a table is correctly proofread. Details of formatting
@@ -1953,6 +1847,112 @@ Same strip rolled up in  Same, 16 wires bound
   </tbody>
 </table>
 
+
+<h3><a name="poetry">Poetry/Epigrams</a></h3>
+<p>Insert a blank line at the start of the poetry or epigram and another
+   blank line at the end, so that the formatters can clearly see the beginning and end.
+</p>
+<p>Leave each line left-justified and maintain the line breaks. Do not try
+   to center or indent the poetry. The formatters will do that part. Do insert
+   a blank line between stanzas.
+</p>
+<p><b>Footnotes</b> in poetry should be treated the same as regular footnotes during proofreading.
+   See <a href="#footnotes">footnotes</a> for details.
+</p>
+<p><b>Line Numbers</b> in poetry should be kept. Separate them from the main text with a
+   few spaces. See <a href="#line_no">Line Numbers</a> for details.
+</p>
+<p>Check the <a href="#comments">Project Comments</a> for the specific text you are proofreading.
+</p>
+<!-- END RR -->
+
+<br>
+<!-- Need an example that shows overly long lines of poetry, rather than relative indentation -->
+
+<table width="100%" align="center" border="1"  cellpadding="4"
+      cellspacing="0" summary="Poetry Example">
+ <tbody>
+   <tr><th align="left" bgcolor="cornsilk">Sample Image:</th></tr>
+   <tr align="left">
+     <th width="100%" valign="top"> <img src="poetry.png" alt=""
+         width="500" height="508"> <br>
+     </th>
+   </tr>
+   <tr><th align="left" bgcolor="cornsilk">Correctly Proofread Text:</th></tr>
+   <tr>
+     <td width="100%" valign="top">
+
+
+<table summary="" border="0" align="left"><tr><td>
+<tt>
+to the scenery of his own country:<br></tt>
+<p><tt>
+Oh, to be in England<br>
+Now that April's there,<br>
+And whoever wakes in England<br>
+Sees, some morning, unaware,<br>
+That the lowest boughs and the brushwood sheaf<br>
+Round the elm-tree bole are in tiny leaf,<br>
+While the chaffinch sings on the orchard bough<br>
+In England--now!</tt>
+</p><p><tt>
+And after April, when May follows,<br>
+And the whitethroat builds, and all the swallows!<br>
+Hark! where my blossomed pear-tree in the hedge<br>
+Leans to the field and scatters on the clover<br>
+Blossoms and dewdrops--at the bent spray's edge--<br>
+That's the wise thrush; he sings each song twice over,<br>
+Lest you should think he never could recapture<br>
+The first fine careless rapture!<br>
+And though the fields look rough with hoary dew,<br>
+All will be gay, when noontide wakes anew<br>
+The buttercups, the little children's dower;<br>
+--Far brighter than this gaudy melon-flower!<br>
+</tt>
+</p><p><tt>
+So it runs; but it is only a momentary memory;<br>
+and he knew, when he had done it, and to his</tt>
+</p>
+</td></tr></table>
+
+     </td>
+   </tr>
+ </tbody>
+</table>
+
+<h3><a name="line_no">Line Numbers</a></h3>
+<p>Keep line numbers. Use a few spaces to separate them from the other text on the line so that
+the formatters can easily find them.
+</p>
+<p>Line numbers are numbers in the margin for each line, or sometimes every fifth or tenth
+   line, and are common in books of poetry. Since poetry will not be reformatted in the e-book
+   version, the line numbers will be useful to readers.
+</p>
+<!-- END RR -->
+<!-- We need an example image and text for this. -->
+
+<h3><a name="next_word">Single word at bottom of page</a></h3>
+<p>Proofread these by deleting the word, even if it's the second half of a hyphenated word.
+</p>
+<p>In some older books, the single word at the bottom of the page (called a "catchword", usually
+   printed near the right margin) indicates the first word on the next page of the book (called
+   an "incipit"). It was used to alert the printer to print the correct reverse (called "verso"),
+   to make it easier for printers' helpers to make up the pages prior to binding, and to help
+   the reader avoid turning over more than one page.
+</p>
+<!-- END RR -->
+<!-- We need an example here! -->
+
+
+<h3><a name="blank_pg">Blank Page</a></h3>
+<p>Most blank pages, or pages with an illustration but no text, will already be
+   marked with <tt>[Blank Page]</tt>. Leave this marking as is. If the page is
+   blank, and [Blank Page] does not appear, there is no need to add it.
+</p>
+<p>If there is text in the proofreading text area and a blank image, or if there is an image
+   but no text, follow the directions for a <a href="#bad_image">Bad Image</a>
+   or <a href="#bad_text">Bad Text</a>.
+</p>
 
 <h3><a name="title_pg">Front/Back Title Page</a></h3>
 <p>Proofread all the text, just as it was printed on the page, whether all capitals, upper and
@@ -2397,6 +2397,3 @@ You told me the walk was private.<br>
 <?
 theme('','footer');
 ?>
-
-
-
