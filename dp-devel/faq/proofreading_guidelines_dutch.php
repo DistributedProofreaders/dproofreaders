@@ -125,7 +125,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
         <li><a href="#toc">Inhoudsopgave</a></li>
         <li><a href="#bk_index">Indexen</a></li>
         <li><a href="#play_n">Toneelstukken: Namen van Spelers/Regieaanwijzingen</a></li>
-        <li><a href="#anything">Alles wat op een speciale manier aangepakt moet worden, of waar je onzeker over bent</a><BR></li>
+        <li><a href="#anything">Alles wat op een speciale manier aangepakt moet worden, of waar je onzeker over bent</a></li>
         <li><a href="#prev_notes">Aantekeningen/Commentaar van eerdere proeflezers</a></li>
       </ul>
     </td>
