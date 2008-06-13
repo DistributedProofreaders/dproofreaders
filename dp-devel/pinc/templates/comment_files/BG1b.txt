@@ -17,9 +17,9 @@ NOT correct the word in the text if it is a true match to
 the word in the scan. Refer to the <a 
 href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#p_errors">Proofreading
 Guidelines</a> for more information on handling printers' 
-errors and misspellings.</b></p>
+errors and misspellings.</p>
 
-<p>---1. If a line ends in a hyphenated word, move the first 
+<p>1. If a line ends in a hyphenated word, move the first 
 part of the following line up to rejoin the word, then insert 
 a line break at the end of the rejoined word. Remove the 
 hyphen unless it is a compound word normally hyphenated.</p>
@@ -31,7 +31,7 @@ pened today? There'll be an awful row about it."</p>
 <br>"I say, Graham, do you know what's happened</br>
 today? There'll be an awful row about it."</p>
 
-<p>---2. Leave in (or add) the blank line between paragraphs. 
+<p>2. Leave in (or add) the blank line between paragraphs. 
 Do not add paragraph indentation, but if the indentation is 
 present in the text box, it is not necessary to remove it.</p>
 <p><i>Scan Example:</i>
@@ -45,25 +45,27 @@ present in the text box, it is not necessary to remove it.</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;He turned to the package he had dropped next to him on the deck
 <br>and examined its label.</p>
 
-<p>---3. Remove extra space around punctuation. Make it look like common usage today.</p>
+<p>3. Remove extra space around punctuation. Make it look like common usage today.</p>
 <p><i>Scan Example:</i>
 <br>The girl looked at him with tears in her eyes ; she began to cry.
 <p><i>Corrected Example:</i>
 <br>The girl looked at him with tears in her eyes; she began to cry.</p>
 
-<p><p>---4. Remove spaces in words with contractions like "don't" and "isn't"</p>
+<p>4. Remove spaces in words with contractions like "don't" and "isn't"</p>
 <p><i>Scan Example:</i>
 "Do n't!" he cried. "You 'll ruin the whole thing!"
 <p><i>Corrected Example:</i>
 
 "Don't!" he cried. "You'll ruin the whole thing!"</p>
 
-<p>---5. Fix long dashes (em-dashes) by inserting additional 
-hyphen character(s) if needed. Proofread these as two hyphens 
+<p>5. Fix long dashes (em-dashes) by inserting additional 
+hyphen character(s) or removing extras as needed. Proofread these as two hyphens 
 if the em-dash is short and four hyphens if the em-dash is long. If a 
 line ends with a dash, move the first word of the following line up to 
 "clothe the naked dash", then insert a line break following the word 
-you just moved. See the <a 
+you just moved. If a line begins with a dash, move it and the following word
+up to the end of the previous line, then insert a line break following the
+word you just moved. See the <a 
 href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#em_dashes">Proofreading 
 Guidelines</a> for more details.</p>
 <p><i>Scan Example:</i>
@@ -73,13 +75,13 @@ Guidelines</a> for more details.</p>
 <br>He walked over to the window--a strange look on his face--and
 <br>tapped on the glass. "Susan!----Over here!"</p>
 
-<p>---6. If you have a page with a poem on it, read the <a 
+<p>6. If you have a page with a poem on it, read the <a 
 href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#poetry">Proofreading 
 Guidelines</a>, to see how to handle it. Set it off from surrounding 
 text by inserting one blank line before and one blank line after the poem; 
 it is not necessary to preserve indentation or attempt to center lines.</p>
 
-<p>---7. <i>Italics?</i>, Small Caps? or <b>Bold?</b> If the text you are proofing 
+<p>7. <i>Italics?</i>, Small Caps? or <b>Bold?</b> If the text you are proofing 
 includes italics mark-up (<tt>&lt;i&gt;</tt> and 
 <tt>&lt;/i&gt;</tt>), small caps mark-up (<tt>&lt;sc&gt;</tt> and 
 
@@ -87,24 +89,24 @@ includes italics mark-up (<tt>&lt;i&gt;</tt> and
 and <tt>&lt;/b&gt;</tt>)  please leave the mark-up for the formatters to review 
 and correct. Proofers are NOT expected to add or correct this mark-up.</p>
 
-<p>---8. Page Headers and Footers: Running headers/footers may include book 
+<p>8. Page Headers and Footers: Running headers/footers may include book 
 title, author, chapter title, and/or page number. They will be at the very top or 
 bottom of the page. Remove these, including the page numbers. See the <a 
 href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#page_hf">Proofreading 
 Guidelines</a> for an example.
 
-<p>---9. Illustrations? Read the <a 
+<p>9. Illustrations? Read the <a 
 href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#illust">Proofreading 
 Guidelines</a>! Proof the text of the captions, leaving the caption where it falls 
 on the page. If the caption text was omitted from the OCR'ed text, please type it in.
 
-<p>--10. Footnotes? Read the <a 
+<p>10. Footnotes? Read the <a 
 href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#footnotes">Proofreading 
 Guidelines</a>! Leave the note where it falls on the page, and surround the footnote 
 marker in the text with square brackets, i.e., [1] or [*]. 
 
 
-<p>--<b>Most of all--Have fun!</b></p>
+<p><b>Most of all--Have fun!</b></p>
 
 <p><b>SHARING INFORMATION, ASKING QUESTIONS, REPORTING PROBLEMS:</b></p>
 <p>This site has an internal message system. Your personal page shows how many 
