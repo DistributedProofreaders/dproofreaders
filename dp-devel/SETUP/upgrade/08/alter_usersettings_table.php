@@ -43,6 +43,17 @@ echo "$sql\n";
 
 mysql_query($sql) or die( mysql_error() );
 
+echo "Creating the value index...\n";
+$sql = "
+    ALTER TABLE usersettings
+        ADD INDEX value 
+            ( value, setting );
+";
+
+echo "$sql\n";
+
+mysql_query($sql) or die( mysql_error() );
+
 // ------------------------------------------------------------
 
 echo "\nDone!\n";
