@@ -7,7 +7,10 @@ define( 'BROWSER_DEFAULT_STR', _("Browser Default") );
 $p_l= array(_("No Rounds"), _("First Round"), _("Second Round"), _("Both Rounds"));
 $u_l= array(_("English"),_("French"),_("German"),_("Spanish"), _("Italian"), _("Portuguese"));
 $i_r= $i_resolutions;
-$f_f= array(BROWSER_DEFAULT_STR, 'Courier', 'Times', 'Arial', 'Lucida', 'Monospaced', 'DPCustomMono2', 'Lucida Console', 'Monaco');
+$f_f= array('Courier', 'Times', 'Arial', 'Lucida', 'Monospaced', 'DPCustomMono2', 'Lucida Console', 'Monaco');
+// sort font list and prepend default string
+sort($f_f);
+array_unshift($f_f, BROWSER_DEFAULT_STR);
 $f_s= array(BROWSER_DEFAULT_STR,'8pt','9pt','10pt','11pt','12pt','13pt','14pt','15pt','16pt','18pt','20pt');
 $u_n= array('0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20');
 
