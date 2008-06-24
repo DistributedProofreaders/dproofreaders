@@ -55,10 +55,10 @@ if (empty($_REQUEST['project'])) {
 }
 
 
-// To make PPVer collaboration easier, allow any PPVer to fill in the report card.
+// To make PPVer collaboration easier, allow any PPVer to fill in the summary.
 // (The link is still only shown to the PPVer with the project checked-out.)
-// All report cards are sent to the PPVers' list, signed by the person filling
-// out the card, so a mischievous PPVer couldn't get away with anything, anyway.
+// All summaries are sent to the PPVers' list, signed by the person filling
+// out the summary, so a mischievous PPVer couldn't get away with anything, anyway.
 if (!user_can_work_in_stage($pguser, 'PPV')) {
 	echo _("You're not recorded as a Post-Processing Verifier.
             If you feel this is an error, please contact a Site Administrator.");
@@ -93,7 +93,7 @@ This is a message that your Post-Processing Verifier, %2\$s,
 requested you receive from the %4\$s site.
 
 Thank you for your Post-Processing work on \"%3\$s\".
-A copy of the report card submitted by %2\$s is below.
+A copy of the PPV Summary submitted by %2\$s is below.
 If you have any questions about it, please contact him or her.");
 $ppbit = sprintf($ppbita , $pper->username, $ppver->username, $project->nameofwork,$site_name);
 
@@ -104,7 +104,7 @@ This is a message that you requested you receive from the %4\$s
 site.
 
 Thank you for your Post-Processing Verification work on \"%2\$s\".
-A copy of the report you submitted is below. If you see an important error,
+A copy of the summary you submitted is below. If you see an important error,
 please email %3\$s.");
 
 $ppvbit = sprintf($ppvbita, $ppver->username, $nameofwork, $general_help_email_addr, $site_name);
@@ -124,7 +124,7 @@ if(!empty($_POST['promotions']))
      $promotions =  "*    *    *\nPromotions comments:\n  $_POST[promotions]\n*    *    *\n";
 
 $reportcard = "
-\n\nPPV Report Card for $pper->username
+\n\nPPV Summary for $pper->username
 
 
 Project Information
@@ -147,10 +147,10 @@ General Post-Processing Information
 if(!empty($_POST['general_comments']))
     $reportcard .= "\n  General comments:  \n    $_POST[general_comments]";
 if(!empty($_POST['reason_returned']))
-    $reportcard .=  "\n\n  Reason project was returned to PPer: \n    $_POST[reason_returned]";
+    $reportcard .=  "\n\n  Reason project was returned to PPer (if any): \n    $_POST[reason_returned]";
 
 if ($_POST['html_sub'] == "yes") {
-  $reportcard .= "\n\n\nHTML Version: submitted.\n\n  Issues with HTML version, if any:";
+  $reportcard .= "\n\n\nHTML Version: submitted.\n\n  Issues with HTML version (if any):";
   if($_POST['html_markup'])      $reportcard .= "\n    Markup";
   if($_POST['html_css'])         $reportcard .= "\n    CSS";
   if($_POST['html_links'])       $reportcard .= "\n    Internal links";
@@ -182,10 +182,11 @@ if ($_POST['e_spellcheck_num'] || $_POST['e_hyph_num'] || $_POST['e_gutcheck_num
     $_POST['e_other_num'] || $_POST['e_comma_num'] ||  $_POST['e_html_num'])
 {
     $reportcard .= "\n\nApproximate error numbers:";
-    if($_POST['e_comma_num'])      $reportcard .= "\n  Comma/period: $_POST[e_comma_num]";
-    if($_POST['e_spellcheck_num']) $reportcard .= "\n  Spellcheck: $_POST[e_spellcheck_num]";
-    if($_POST['e_hyph_num'])       $reportcard .= "\n  Hyphens: $_POST[e_hyph_num]";
+    if($_POST['e_spellcheck_num']) $reportcard .= "\n  Spellcheck/Scannos: $_POST[e_spellcheck_num]";
+    if($_POST['e_comma_num'])      $reportcard .= "\n  Comma/Period: $_POST[e_comma_num]";
     if($_POST['e_gutcheck_num'])   $reportcard .= "\n  Gutcheck: $_POST[e_gutcheck_num]";
+    if($_POST['e_jeebies_num'])    $reportcard .= "\n  Jeebies: $_POST[e_jeebies_num]";
+    if($_POST['e_hyph_num'])       $reportcard .= "\n  Hyphens/Em dashes: $_POST[e_hyph_num]";
     if($_POST['e_html_num'])       $reportcard .= "\n  HTML: $_POST[e_html_num]";
     if($_POST['e_other_num'])      $reportcard .= "\n  $_POST[other_error_type]: $_POST[e_other_num]";
 }
@@ -214,10 +215,10 @@ if ($_POST['cc_ppv']) {
 }
 
 $to = $ppv_reporting_email_addr;
-$subject = "PPV Report Card - $pper->username ($_POST[eval])";
+$subject = "PPV Summary - $pper->username ($_POST[eval])";
 $message = $promotions.$reportcard.$signoff;
 maybe_mail($to, $subject, $message, "From: $ppver->username <$ppver->email>\r\n");
-echo ("Thanks for PPVing! <br />
+echo ("Thank you for PPVing! <br />
        Return to <a href='../../project.php?id=$projectid'>the Project Page</a>.");
 theme('','footer');
 exit();
@@ -290,6 +291,8 @@ echo "<br />
         <td>
             <label for='eval_excellent'>
 			    <input type='radio' name='eval' id='eval_excellent' value='Excellent'>"._("Excellent")."&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label for='eval_verygood'>
+			    <input type='radio' name='eval' id='eval_verygood' value='Very Good'>"._("Very Good")."&nbsp;&nbsp;&nbsp;&nbsp;</label>
             <label for='eval_good'>
 			    <input type='radio' name='eval' id='eval_good' value='Good'>"._("Good")."&nbsp;&nbsp;&nbsp;&nbsp;</label>
             <label for='eval_fair'>
@@ -351,7 +354,7 @@ echo "<br />
           <input type='checkbox' name='footnotes' id='footnotes'><label for='footnotes'>"._("Footnotes")."</label><br />\n
           <input type='checkbox' name='sidenotes' id='sidenotes'><label for='sidenotes'>"._("Sidenotes")."</label><br />\n
           <input type='checkbox' name='blockquotes' id='blockquotes'><label for='blockquotes'>"._("Blockquotes")."</label><br />\n
-          <input type='checkbox' name='illustrations' id='illustrations'><label for='illustrations'>"._("Illustrations;")."</label><label for='illus_num'>"._(" approx. number:")."</label>
+          <input type='checkbox' name='illustrations' id='illustrations'><label for='illustrations'>"._("Illustrations: ")."</label><label for='illus_num'>"._("(Number of)")."</label>
             <input type='text' size='3' name='illus_num' id='illus_num'><br />\n
           <input type='checkbox' name='multilang' id='multilang'><label for='multilang'>"._("Multiple Languages")."</label><br />\n
         </td>
@@ -362,13 +365,14 @@ echo "<br />
       </tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Approximate number of errors")."</b></td><td>
-          <input type='text' size='3' name='e_comma_num' id='e_comma_num'> "._("Comma/Period Error")."<br />
           <input type='text' size='3' name='e_spellcheck_num' id='e_spellcheck_num'> "._("Spellcheck/Scannos")."<br />
-          <input type='text' size='3' name='e_hyph_num' id='e_hyph_num'> "._("Hyphens/Em-dashes")."<br />
+          <input type='text' size='3' name='e_comma_num' id='e_comma_num'> "._("Comma/Period Error")."<br />
           <input type='text' size='3' name='e_gutcheck_num' id='e_gutcheck_num'> "._("Gutcheck")."<br />
+          <input type='text' size='3' name='e_jeebies_num' id='e_jeebies_num'> "._("Jeebies")."<br />
+          <input type='text' size='3' name='e_hyph_num' id='e_hyph_num'> "._("Hyphens/Em dashes")."<br />
           <input type='text' size='3' name='e_html_num' id='e_html_num'> HTML<br />
-          <input type='text' size='3' name='e_other_num' id='e_other_num'> 
-					  <input type='text' size='12' name='other_error_type' id='other_error_type' value='"._("Other (specify)")."'><br />
+          <input type='text' size='3' name='e_other_num' id='e_other_num'> Other
+					  <input type='text' size='70' name='other_error_type' id='other_error_type' value='"._("(specify)")."'><br />
         </td>
       </tr>
       <tr>
@@ -388,8 +392,8 @@ echo "<br />
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Send to")."</b></td>
         <td><input type='checkbox' name='cc_ppv' id='cc_ppv' /><label for='cc_ppv'>"._("Me")."</label><br />
-            <input type='checkbox' name='cc_pp'  id='cc_pp' /><label for='cc_pp'>$pper->username</label><br />
-            <input type='checkbox' name='foo' checked disabled />"._("PPV Reports")."
+            <input type='checkbox' name='cc_pp' checked id='cc_pp' /><label for='cc_pp'>$pper->username</label><br />
+            <input type='checkbox' name='foo' checked disabled />"._("PPV Summary (mailing list)")."
         </td>
       </tr>
           <tr><td colspan='2' style='text-align: center'>

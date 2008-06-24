@@ -1825,7 +1825,7 @@ function do_ppv_report()
     if ( !$project->PPVer_is_current_user ) return;
 
     $url = "$code_url/tools/post_proofers/ppv_report.php?project={$project->projectid}";
-    echo "<p><a href='$url'>Submit a PPV Report Card for this project</a></p>";
+    echo "<p><a href='$url'>Submit a PPV Summary for this project</a></p>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
