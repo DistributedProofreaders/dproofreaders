@@ -321,7 +321,7 @@ function can_user_get_pages_in_project( $username, $project, $round )
             }
 
             // When a beginner project is in a mentored round,
-            // any given user can work on at most 21 pages
+            // any given user can work on at most 11 pages
             // from that project in that round.
 
             $result = mysql_query("
