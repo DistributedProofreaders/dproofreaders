@@ -330,7 +330,7 @@ function can_user_get_pages_in_project( $username, $project, $round )
                 WHERE {$round->user_column_name} = '$username'
             "); 
             $pagesdone = mysql_result($result, 0, "pagesdone" );
-            if ($pagesdone >= 21)
+            if ($pagesdone >= 11)
             {
                 return
                     _("You have reached your quota of pages from this 'Beginners Only' project, but you're welcome to work on a different one.")
