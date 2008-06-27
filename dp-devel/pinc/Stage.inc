@@ -739,5 +739,88 @@ function user_can_work_in_stage( $username, $stage_id )
     return $uao->can_access;
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function get_stages_user_can_work_in( $username )
+{
+    global $Stage_for_id_;
+
+    $can_access_stages = array();
+    foreach ( $Stage_for_id_ as $stage )
+    {
+        $uao = $stage->user_access($username);
+        if($uao->can_access)
+        {
+            $can_access_stages[$stage->id] = $stage;
+        }
+    }
+
+    return $can_access_stages;
+}
+
+function get_stages_for_which_user_has_access_to_prereqs( $username, $include_accessible_stages = FALSE )
+// Return an array of stages for which the user has access to all prereq
+// stages. If $include_accessible_stages is true, this array also includes
+// stages the user has access to.
+{
+    global $Stage_for_id_;
+
+    $satisfies_prereq = array();
+
+    // get stages that the user can currently access
+    $can_access_stages = get_stages_user_can_work_in($username);
+
+    // if the caller wants the accessible stages too (not just the prereq
+    // stages) start with the accessible list
+    if($include_accessible_stages)
+    {
+        $satisfies_prereq = $can_access_stages;
+    }
+
+    foreach ( $Stage_for_id_ as $stage )
+    {
+        // skip stages for which the user already has access
+        if(isset($can_access_stages[$stage->id]))
+        {
+            continue;
+        }
+
+        $has_access_to_all_prereq_stage_ids = false;
+
+        // get all pre-req stages for this stage
+        $prereq_stage_ids = array();
+        foreach($stage->access_minima as $criterion => $value)
+        {
+            $prereq_stage_ids = array_merge($prereq_stage_ids, explode('+',$criterion));
+        }
+        $prereq_stage_ids = array_unique($prereq_stage_ids);
+
+        // check to see if the user has access to all pre-req stages
+        // assume they do and see about disproving it
+        $has_access_to_all_prereq_stage_ids = true;
+        foreach($prereq_stage_ids as $prereq_stage)
+        {
+            if(@$Stage_for_id_[$prereq_stage] && !isset($can_access_stages[$prereq_stage]))
+            {
+                $has_access_to_all_prereq_stage_ids = false;
+                break;
+            }
+        }
+
+        // remove rounds that have no round access requirements (eg: PPV)
+        if(count($prereq_stage_ids) == 0)
+        {
+            $has_access_to_all_prereq_stage_ids = false;
+        }
+
+        if($has_access_to_all_prereq_stage_ids)
+        {
+            $satisfies_prereq[$stage->id] = $stage;
+        }
+    }
+
+    return $satisfies_prereq;
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
