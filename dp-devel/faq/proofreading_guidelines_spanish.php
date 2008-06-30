@@ -1474,7 +1474,6 @@ Vea la secci&oacute;n siguiente para ejemplos.
     <tr>
       <td width="100%" valign="top">
 
-<table summary="" border="0" align="left"><tr><td>
     <tt>In the United States?[*] In a railroad? In a mining company?<br>
     In a bank? In a church? In a college?<br>
     <br>
@@ -1528,7 +1527,6 @@ Vea la secci&oacute;n siguiente para ejemplos.
     * The United States: "Its charter, the constitution. * * * Its flag the<br>
     symbol of its power; its seal, of its authority."--Dole.
     </tt>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1570,8 +1568,6 @@ est&aacute;n marcadas con <tt>[Blank Page]</tt>. Deje esta marca tal y como est&
    </tr>
     <tr>
     <td width="100%" valign="top">
-      <table summary="" border="0" align="left"><tr>
-      <td>
       <p><tt>Martha told him that he had always been her ideal and<br>
       that she worshipped him.<br>
       <br>
@@ -1579,7 +1575,6 @@ est&aacute;n marcadas con <tt>[Blank Page]</tt>. Deje esta marca tal y como est&
       Frontispiece<br>
       Her Weight in Gold
       </tt></p>
-      </td></tr></table>
     </td>
     </tr>
   </tbody>
@@ -1604,7 +1599,6 @@ est&aacute;n marcadas con <tt>[Blank Page]</tt>. Deje esta marca tal y como est&
    </tr>
     <tr valign="top">
      <td>
-<table summary="" border="0" align="left"><tr><td>
      <p><tt>
      such study are due to Italians. Several of these instruments<br>
 
@@ -1621,7 +1615,6 @@ est&aacute;n marcadas con <tt>[Blank Page]</tt>. Deje esta marca tal y como est&
      For the observation of the vertical and horizontal motions<br>
      of the ground, different apparatus are required. The</tt>
      </p>
-</td></tr></table>
     </td>
     </tr>
 
@@ -1680,7 +1673,6 @@ final&raquo; abajo.
     <tr>
       <td valign="top">
 
-<table summary="" border="0" align="left"><tr><td>
     The principal persons involved in this argument were Caesar<sup>1</sup>, former military<br>
     leader and Imperator, and the orator Cicero<sup>2</sup>. Both were of the aristocratic<br>
     (Patrician) class, and were quite wealthy.<br>
@@ -1688,7 +1680,6 @@ final&raquo; abajo.
     <font size=-1><sup>1</sup> Gaius Julius Caesar.</font><br>
 
     <font size=-1><sup>2</sup> Marcus Tullius Cicero.</font>
-</td></tr></table>
       </td>
     </tr>
     <tr>
@@ -1697,7 +1688,6 @@ final&raquo; abajo.
 
       <tr valign="top">
       <td>
-<table summary="" border="0" align="left"><tr><td>
     <tt>The principal persons involved in this argument were Caesar[1], former military</tt><br>
     <tt>leader and Imperator, and the orator Cicero[2]. Both were of the aristocratic</tt><br>
     <tt>(Patrician) class, and were quite wealthy.</tt><br>
@@ -1706,7 +1696,6 @@ final&raquo; abajo.
 
     <br>
     <tt>2 Marcus Tullius Cicero.</tt>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1741,7 +1730,6 @@ se deben quedar en el lugar en el que est&aacute;n en el texto original.
     <tr><th align="left" bgcolor="cornsilk">Poes&iacute;a original con una nota al pie:</th></tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="left"><tr><td>
     Mary had a little lamb<sup>1</sup><br>
     &nbsp;&nbsp;&nbsp;Whose fleece was white as snow<br>
 
@@ -1750,14 +1738,12 @@ se deben quedar en el lugar en el que est&aacute;n en el texto original.
     <hr align="left" width="50%" noshade size=2>
     <font size=-2><sup>1</sup> This lamb was obviously of the Hampshire breed,<br>
     well known for the pure whiteness of their wool.</font>
-</td></tr></table>
 
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Poes&iacute;a revisada correctamente:</th></tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="left"><tr><td>
     <tt>
     Mary had a little lamb[1]<br>
 
@@ -1769,7 +1755,6 @@ se deben quedar en el lugar en el que est&aacute;n en el texto original.
     well known for the pure whiteness of their wool.<br>
 
     </tt>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1808,7 +1793,6 @@ el lugar apropiado.</p>
     </tr>
     <tr valign="top">
       <td width="100%">
-<table summary="" border="0" align="left"><tr><td>
     <p><tt>
     Burning<br>
 
@@ -1906,7 +1890,6 @@ el lugar apropiado.</p>
     p. 510.<br>
 
     </tt></p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1952,7 +1935,6 @@ pie de p&aacute;gina</a> para m&aacute;s detalles.
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
 <pre>
 Deg. C.  Millimeters of Mercury. Gasolene.
 Pure Benzene.
@@ -1964,7 +1946,6 @@ Pure Benzene.
 40&deg;  182.0  301.8
 
 </pre>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1982,7 +1963,6 @@ Pure Benzene.
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
 <pre>
 TABLE II.
 
@@ -2003,7 +1983,6 @@ Same strip rolled up in  Same 16 wires bound
   the form of a wire  17   15    close together   18    12
 
 </pre>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -2054,7 +2033,6 @@ Compruebe en los <a href="#comments">Comentarios del proyecto</a> que est&aacute
      <td width="100%" valign="top">
 
 
-<table summary="" border="0" align="left"><tr><td>
 <tt>
 to the scenery of his own country:<br></tt>
 
@@ -2087,7 +2065,6 @@ The buttercups, the little children's dower;<br>
 So it runs; but it is only a momentary memory;<br>
 and he knew, when he had done it, and to his</tt>
 </p>
-</td></tr></table>
 
      </td>
    </tr>
@@ -2156,7 +2133,6 @@ ornamentada&mdash;rev&iacute;sela como una letra normal.
     <tr>
       <td width="100%" valign="top">
 
-<table summary="" border="0" align="left"><tr><td>
       <p><tt>GREEN FANCY</tt>
       </p>
       <p><tt>BY</tt></p>
@@ -2169,7 +2145,6 @@ ornamentada&mdash;rev&iacute;sela como una letra normal.
       <p><tt>NEW YORK<br>
          DODD, MEAD AND COMPANY.</tt></p>
       <p><tt>1917</tt></p>
-</td></tr></table>
       </td>
 
     </tr>
@@ -2209,7 +2184,6 @@ proceso.
     </tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
       <p><tt>CONTENTS</tt></p>
 
       <p><tt><br>
@@ -2269,7 +2243,6 @@ proceso.
           XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
           OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221<br>
       </tt></p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -2332,7 +2305,6 @@ especificas al proyecto.
     </tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
 <p><tt>
 Has not his name for nought, he will be trode upon:<br>
 What says my Printer now?
@@ -2364,7 +2336,6 @@ Lap. Hay-day; a Souse, Italica?
 </tt></p><p><tt>
 Clow. Yes, that may hold, Sir,<br>
 Souse is a bona roba, so is Flops too.</tt></p>
-</td></tr></table>
       </td>
     </tr>
 
@@ -2390,7 +2361,6 @@ Souse is a bona roba, so is Flops too.</tt></p>
     <tr>
       <td width="100%" valign="top">
 
-<table summary="" border="0" align="left"><tr><td>
 <p><tt>
 Am. Sure you are fasting;<br>
 Or not slept well to night; some dream (Ismena?)<br>
@@ -2399,7 +2369,6 @@ Ism. My dreams are like my thoughts, honest and innocent,<br>
 Yours are unhappy; who are these that coast us?<br>
 You told me the walk was private.<br>
 </tt></p>
-</td></tr></table>
       </td>
 
     </tr>

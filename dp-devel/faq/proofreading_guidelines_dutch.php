@@ -1414,7 +1414,6 @@ cedille                      [,x]   [x,]
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
     <tt>In the United States?[*] In a railroad? In a mining company?<br>
     In a bank? In a church? In a college?<br>
     <br>
@@ -1460,7 +1459,6 @@ cedille                      [,x]   [x,]
     * The United States: "Its charter, the constitution. * * * Its flag the<br>
     symbol of its power; its seal, of its authority."--Dole.
     </tt>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1495,15 +1493,12 @@ cedille                      [,x]   [x,]
    </tr>
     <tr>
     <td width="100%" valign="top">
-      <table summary="" border="0" align="left"><tr>
-      <td>
       <p><tt>Martha told him that he had always been her ideal and<br>
       that she worshipped him.<br>
       <br>
       Frontispiece<br>
       Her Weight in Gold
       </tt></p>
-      </td></tr></table>
     </td>
     </tr>
   </tbody>
@@ -1526,7 +1521,6 @@ cedille                      [,x]   [x,]
    </tr>
     <tr valign="top">
      <td>
-<table summary="" border="0" align="left"><tr><td>
      <p><tt>
      such study are due to Italians. Several of these instruments<br>
      have already been described in this journal, and on the present<br>
@@ -1541,7 +1535,6 @@ cedille                      [,x]   [x,]
      For the observation of the vertical and horizontal motions<br>
      of the ground, different apparatus are required. The</tt>
      </p>
-</td></tr></table>
     </td>
     </tr>
   </tbody>
@@ -1586,14 +1579,12 @@ cedille                      [,x]   [x,]
     </tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="left"><tr><td>
     The principal persons involved in this argument were Caesar<sup>1</sup>, former military<br>
     leader and Imperator, and the orator Cicero<sup>2</sup>. Both were of the aristocratic<br>
     (Patrician) class, and were quite wealthy.<br>
     <hr align="left" width="50%" noshade size="2">
     <font size=-1><sup>1</sup> Gaius Julius Caesar.</font><br>
     <font size=-1><sup>2</sup> Marcus Tullius Cicero.</font>
-</td></tr></table>
       </td>
     </tr>
     <tr>
@@ -1601,7 +1592,6 @@ cedille                      [,x]   [x,]
     </tr>
       <tr valign="top">
       <td>
-<table summary="" border="0" align="left"><tr><td>
     <tt>The principal persons involved in this argument were Caesar[1], former military</tt><br>
     <tt>leader and Imperator, and the orator Cicero[2]. Both were of the aristocratic</tt><br>
     <tt>(Patrician) class, and were quite wealthy.</tt><br>
@@ -1609,7 +1599,6 @@ cedille                      [,x]   [x,]
     <tt>1 Gaius Julius Caesar.</tt><br>
     <br>
     <tt>2 Marcus Tullius Cicero.</tt>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1640,7 +1629,6 @@ cedille                      [,x]   [x,]
     <tr><th align="left" bgcolor="cornsilk">Origineel, Po&euml;zie met Voetnoot:</th></tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="left"><tr><td>
     Mary had a little lamb<sup>1</sup><br>
     &nbsp;&nbsp;&nbsp;Whose fleece was white as snow<br>
     And everywhere that Mary went<br>
@@ -1648,13 +1636,11 @@ cedille                      [,x]   [x,]
     <hr align="left" width="50%" noshade size=2>
     <font size=-2><sup>1</sup> This lamb was obviously of the Hampshire breed,<br>
     well known for the pure whiteness of their wool.</font>
-</td></tr></table>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="left"><tr><td>
     <tt>
     Mary had a little lamb[1]<br>
     Whose fleece was white as snow<br>
@@ -1664,7 +1650,6 @@ cedille                      [,x]   [x,]
     1 This lamb was obviously of the Hampshire breed,<br>
     well known for the pure whiteness of their wool.<br>
     </tt>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1698,7 +1683,6 @@ cedille                      [,x]   [x,]
     </tr>
     <tr valign="top">
       <td width="100%">
-<table summary="" border="0" align="left"><tr><td>
     <p><tt>
     Burning<br>
     discs<br>
@@ -1782,7 +1766,6 @@ cedille                      [,x]   [x,]
     423 sqq.; W. Mannhardt, Der Baumkultus,<br>
     p. 510.<br>
     </tt></p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1822,7 +1805,6 @@ cedille                      [,x]   [x,]
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
 <pre><tt>
 Deg. C.  Millimeters of Mercury. Gasolene.
 Pure Benzene.
@@ -1833,7 +1815,6 @@ Pure Benzene.
 20&deg;  76.3  203.0
 40&deg;  182.0  301.8
 </tt></pre>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1850,7 +1831,6 @@ Pure Benzene.
     <tr><th align="left" bgcolor="cornsilk">Correct proefgelezen tekst:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
 <pre><tt>
 TABLE II.
 
@@ -1870,7 +1850,6 @@ Same, 5 mm. wide       13  20  Two similar wires    12  30
 Same strip rolled up in  Same, 16 wires bound
   the form of wire  17   15    close together   18    12
 </tt></pre>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1911,7 +1890,6 @@ Same strip rolled up in  Same, 16 wires bound
      <td width="100%" valign="top">
 
 
-<table summary="" border="0" align="left"><tr><td>
 <tt>
 to the scenery of his own country:<br></tt>
 <p><tt>
@@ -1941,7 +1919,6 @@ The buttercups, the little children's dower;<br>
 So it runs; but it is only a momentary memory;<br>
 and he knew, when he had done it, and to his</tt>
 </p>
-</td></tr></table>
 
      </td>
    </tr>
@@ -2009,7 +1986,6 @@ and he knew, when he had done it, and to his</tt>
     </tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
       <p><tt>GREEN FANCY</tt>
       </p>
       <p><tt>BY</tt></p>
@@ -2021,7 +1997,6 @@ and he knew, when he had done it, and to his</tt>
       <p><tt>NEW YORK<br>
          DODD, MEAD AND COMPANY<br>
          1917</tt></p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -2052,7 +2027,6 @@ and he knew, when he had done it, and to his</tt>
     </tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
       <p><tt>CONTENTS</tt></p>
       <p><tt>
           CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -2103,7 +2077,6 @@ and he knew, when he had done it, and to his</tt>
           XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
           OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221<br>
       </tt></p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -2154,7 +2127,6 @@ and he knew, when he had done it, and to his</tt>
     </tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
 <p><tt>
 Has not his name for nought, he will be trode upon:<br>
 What says my Printer now?
@@ -2184,7 +2156,6 @@ Lap. Hay-day; a Souse, Italica?
 </tt></p><p><tt>
 Clow. Yes, that may hold, Sir,<br>
 Souse is a bona roba, so is Flops too.</tt></p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -2207,7 +2178,6 @@ Souse is a bona roba, so is Flops too.</tt></p>
     </tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
 <p><tt>
 Am. Sure you are fasting;<br>
 Or not slept well to night; some dream (Ismena?)<br>
@@ -2216,7 +2186,6 @@ Ism. My dreams are like my thoughts, honest and innocent,<br>
 Yours are unhappy; who are these that coast us?<br>
 You told me the walk was private.<br>
 </tt></p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>

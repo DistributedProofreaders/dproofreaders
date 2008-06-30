@@ -557,7 +557,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
     <tt>
     GREEN FANCY<br>
     <br>
@@ -591,7 +590,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     and a funny coat with "pleats" and a belt, and a<br>
     green hat with a feather sticking up from the band.
     </tt>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -609,7 +607,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
     <tt>/#<br>In the United States?[A] In a railroad? In a mining company?<br>
     In a bank? In a church? In a college?<br>
     <br>
@@ -659,7 +656,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     [Footnote A: The United States: "Its charter, the constitution. * * * Its flag the<br>
     symbol of its power; its seal, of its authority."--Dole.]
     </tt>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -727,7 +723,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
     <p><tt>
     like the gentleman with the spiritual hydrophobia<br>
     in the latter end of Uncle Tom's Cabin.<br>
@@ -742,7 +737,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     James Lane Allen, and Mark Twain are Southern<br>
     men in Mr. Griffith's class. I recommend</tt>
     </p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -784,8 +778,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    </tr>
     <tr>
     <td width="100%" valign="top">
-      <table summary="" border="0" align="left"><tr>
-      <td>
       <p><tt>[Illustration: Martha told him that he had always been her ideal and<br>
       that she worshipped him.<br>
       <br>
@@ -793,7 +785,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       <br>
       &lt;i&gt;Her Weight in Gold&lt;/i&gt;]
       </tt></p>
-      </td></tr></table>
     </td>
     </tr>
   </tbody>
@@ -816,7 +807,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    </tr>
     <tr valign="top">
      <td>
-<table summary="" border="0" align="left"><tr><td>
      <p><tt>
      such study are due to Italians. Several of these instruments<br>
      have already been described in this journal, and on the present<br>
@@ -829,7 +819,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
      For the observation of the vertical and horizontal motions<br>
      of the ground, different apparatus are required. The</tt>
      </p>
-</td></tr></table>
     </td>
     </tr>
   </tbody>
@@ -897,14 +886,12 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="left"><tr><td>
     The principal persons involved in this argument were Caesar<sup>1</sup>, former military<br>
     leader and Imperator, and the orator Cicero<sup>2</sup>. Both were of the aristocratic<br>
     (Patrician) class, and were quite wealthy.<br>
     <hr align="left" width="50%" noshade size="2">
     <font size=-1><sup>1</sup> Gaius Julius Caesar.</font><br>
     <font size=-1><sup>2</sup> Marcus Tullius Cicero.</font>
-</td></tr></table>
       </td>
     </tr>
     <tr>
@@ -912,7 +899,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
       <tr valign="top">
       <td>
-<table summary="" border="0" align="left"><tr><td>
     <tt>The principal persons involved in this argument were Caesar[1], former military</tt><br>
     <tt>leader and Imperator, and the orator Cicero[2]. Both were of the aristocratic</tt><br>
     <tt>(Patrician) class, and were quite wealthy.</tt><br>
@@ -920,7 +906,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <tt>[Footnote 1: Gaius Julius Caesar.]</tt><br>
     <br>
     <tt>[Footnote 2: Marcus Tullius Cicero.]</tt>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -952,7 +937,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <tr><th align="left" bgcolor="cornsilk">Original Footnoted Poetry:</th></tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="left"><tr><td>
     Mary had a little lamb<sup>1</sup><br>
     &nbsp;&nbsp;&nbsp;Whose fleece was white as snow<br>
     And everywhere that Mary went<br>
@@ -960,13 +944,11 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <hr align="left" width="50%" noshade size=2>
     <font size=-2><sup>1</sup> This lamb was obviously of the Hampshire breed,<br>
     well known for the pure whiteness of their wool.</font>
-</td></tr></table>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="left"><tr><td>
     <tt>/*<br>
     Mary had a little lamb[1]<br>
     &nbsp;&nbsp;Whose fleece was white as snow<br>
@@ -977,7 +959,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     [Footnote 1: This lamb was obviously of the Hampshire breed,<br>
     well known for the pure whiteness of their wool.]<br>
     </tt>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1021,7 +1002,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
     <tr valign="top">
       <td width="100%">
-<table summary="" border="0" align="left"><tr><td>
     <p><tt>
     *[Sidenote: Burning<br>
     discs<br>
@@ -1104,7 +1084,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     423 &lt;i&gt;sqq.&lt;/i&gt;; W. Mannhardt, &lt;i&gt;Der Baumkultus&lt;/i&gt;,<br>
     p. 510.]<br>
     </tt></p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1133,7 +1112,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
 	<p><tt>later day was welcomed in their home on the Hudson.<br>
 	Dr. Bakewell's contribution was as follows:[24]</tt></p>
 	<p><tt>/#<br>
@@ -1155,7 +1133,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 	excellent Dr. Bakewell, but are bound to say that the<br>
 	incidents as related above betray a striking lapse of<br>
 	</tt></p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1189,7 +1166,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <tr><th align="left" bgcolor="cornsilk">Original Text:</th></tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="left"><tr><td>
 <pre>
 Andersen, Hans Christian   Daguerre, Louis J. M.    Melville, Herman
 Bach, Johann Sebastian     Darwin, Charles          Newton, Isaac
@@ -1200,13 +1176,11 @@ Churchill, Winston         Freud, Sigmund           Pulitzer, Joseph
 Columbus, Christopher      Lewis, Sinclair          Shakespeare, William
 Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
 </pre>
-</td></tr></table>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="left"><tr><td>
     <tt>
     /*<br>
     Andersen, Hans Christian<br>
@@ -1235,7 +1209,6 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     Tesla, Nikola<br>
     */
     </tt>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1274,7 +1247,6 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
 <pre><tt>/*
 Deg. C.   Millimeters of Mercury.    Gasolene.
                Pure Benzene.
@@ -1285,7 +1257,6 @@ Deg. C.   Millimeters of Mercury.    Gasolene.
   20&deg;               76.3                203.0
   40&deg;              182.0                301.8
 */</tt></pre>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1302,7 +1273,6 @@ Deg. C.   Millimeters of Mercury.    Gasolene.
     <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
 <pre><tt>/*
 TABLE II.
 
@@ -1328,7 +1298,6 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
   the form of wire     | 17 |  15 ||   close together        | 18 |   12
 -----------------------+----+-----++-------------------------+----+------
 */</tt></pre>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1386,7 +1355,6 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <tr>
       <td width="100%" valign="top">
 
-<table summary="" border="0" align="left"><tr><td>
 <tt>
 to the scenery of his own country:<br></tt>
 <p><tt>
@@ -1417,7 +1385,6 @@ The buttercups, the little children's dower;<br>
 So it runs; but it is only a momentary memory;<br>
 and he knew, when he had done it, and to his</tt>
 </p>
-</td></tr></table>
 
       </td>
     </tr>
@@ -1460,7 +1427,6 @@ and he knew, when he had done it, and to his</tt>
     <tr><th align="left" bgcolor="cornsilk">Correctly Formatted Text:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
 <p><tt>&lt;i&gt;John James Audubon to Claude Fran&ccedil;ois Rozier&lt;/i&gt;</tt></p>
 <p><tt>[Letter No. 1, addressed]</tt></p>
 <p><tt>/*<br>
@@ -1476,7 +1442,6 @@ consignment of 20 pieces of linen cloth, for which we send our<br>
 thanks. As soon as we have sold them, we shall take great<br>
 pleasure in making our return.</tt>
 </p>
-</td></tr></table>
 
       </td>
     </tr>
@@ -1518,7 +1483,6 @@ pleasure in making our return.</tt>
     </tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
       <p><tt>GREEN FANCY</tt>
       </p>
       <p><tt>BY</tt></p>
@@ -1530,7 +1494,6 @@ pleasure in making our return.</tt>
       <p><tt>NEW YORK<br>
          DODD, MEAD AND COMPANY<br>
          1917</tt></p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1564,7 +1527,6 @@ pleasure in making our return.</tt>
     </tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
       <p><tt><br><br><br><br>CONTENTS<br><br></tt></p>
       <p><tt>/*<br>
           CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1616,7 +1578,6 @@ pleasure in making our return.</tt>
           Outside&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
           */<br>
       </tt></p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1652,7 +1613,6 @@ pleasure in making our return.</tt>
     </tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="left"><tr><td>
     Elizabeth I, her royal Majesty the<br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Queen, 123, 144-155.<br>
     &nbsp;&nbsp;birth of, 145.<br>
@@ -1660,7 +1620,6 @@ pleasure in making our return.</tt>
     &nbsp;&nbsp;death and burial, 152.<br>
     <br>
     Ethelred II, the Unready, 33.
-</td></tr></table>
       </td>
     </tr>
     <tr>
@@ -1668,7 +1627,6 @@ pleasure in making our return.</tt>
     </tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="left"><tr><td>
     <tt><br>/*<br>
     Elizabeth I, her royal Majesty the Queen, 123, 144-155.<br>
     &nbsp;&nbsp;birth of, 145.<br>
@@ -1677,7 +1635,6 @@ pleasure in making our return.</tt>
     <br>
     Ethelred II, the Unready, 33.<br>
     */</tt>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1688,7 +1645,6 @@ pleasure in making our return.</tt>
     <tr><th align="left" bgcolor="cornsilk">Scanned Text:</th></tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="left"><tr><td>
     Hooker, Jos., maj. gen. U. S. V., 345; assigned<br>
     &nbsp;&nbsp;to command Porter's corps, 350; afterwards,<br>
     &nbsp;&nbsp;McDowell's, 367; in pursuit of Lee, 380;<br>
@@ -1700,7 +1656,6 @@ pleasure in making our return.</tt>
     &nbsp;&nbsp;Cox over escaped slave, 233.<br>
     <br>
     Hosea, Lewis M., 187; capt. on Gen. Wilson's staff, 194.<br>
-</td></tr></table>
       </td>
     </tr>
     <tr>
@@ -1708,7 +1663,6 @@ pleasure in making our return.</tt>
     </tr>
     <tr>
       <td valign="top">
-<table summary="" border="0" align="left"><tr><td>
     <tt><br>/*<br>
     Hooker, Jos., maj. gen. U. S. V., 345;<br>
     &nbsp;&nbsp;assigned to command Porter's corps, 350;<br>
@@ -1724,7 +1678,6 @@ pleasure in making our return.</tt>
     Hosea, Lewis M., 187;<br>
     &nbsp;&nbsp;capt. on Gen. Wilson's staff, 194.<br>
     */</tt>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1782,7 +1735,6 @@ pleasure in making our return.</tt>
     </tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
 <p><tt>/*<br>
 Has not his name for nought, he will be trode upon:<br>
 What says my Printer now?
@@ -1813,7 +1765,6 @@ Indeed I know not what to make on 'em.
 &lt;i&gt;Clow.&lt;/i&gt; Yes, that may hold, Sir,<br>
 &lt;i&gt;Souse&lt;/i&gt; is a &lt;i&gt;bona roba&lt;/i&gt;, so is &lt;i&gt;Flops&lt;/i&gt; too.<br>
 */</tt></p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1835,7 +1786,6 @@ Indeed I know not what to make on 'em.
     </tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
 <p><tt>/*<br>
 &lt;sc&gt;Clin.&lt;/sc&gt; And do I hold thee, my Antiphila,<br>
 Thou only wish and comfort of my soul!<br>
@@ -1887,7 +1837,6 @@ Yonder he stands. I'll go and speak with him.<br>
 Good-morrow, neighbor! I have news for you;<br>
 Such news as you'll be overjoy'd to hear.<br>
 */</tt></p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1910,7 +1859,6 @@ Such news as you'll be overjoy'd to hear.<br>
     </tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
 <p><tt>[&lt;i&gt;Hernda has come from the grove and moves up to his side&lt;/i&gt;]<br>
 <br>
 /*<br>
@@ -1921,7 +1869,6 @@ Some pretty thanks.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
 <br>
 &lt;i&gt;Her.&lt;/i&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I give them, sir.<br>
 */</tt></p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
@@ -1944,7 +1891,6 @@ Some pretty thanks.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
     </tr>
     <tr>
       <td width="100%" valign="top">
-<table summary="" border="0" align="left"><tr><td>
 <p><tt>/*<br>
 &lt;i&gt;Am.&lt;/i&gt; Sure you are fasting;<br>
 Or not slept well to night; some dream (&lt;i&gt;Ismena?&lt;/i&gt;)<br>
@@ -1953,7 +1899,6 @@ Or not slept well to night; some dream (&lt;i&gt;Ismena?&lt;/i&gt;)<br>
 Yours are unhappy; who are these that coast us?<br>
 You told me the walk was private.<br>
 */</tt></p>
-</td></tr></table>
       </td>
     </tr>
   </tbody>
