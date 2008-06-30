@@ -36,15 +36,15 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   <a href="dochist.php"><font size="-1">(Hist&oacute;rico)</font></a></h3>
 
 <h4>Regras de Revis&atilde;o <a href="proofreading_guidelines.php">em Ingl&ecirc;s</a> /
-      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a><br />
+      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a><br>
     Regras de Revis&atilde;o <a href="proofreading_guidelines_francaises.php">em Franc&ecirc;s</a> /
-      Directives de Relecture et correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br />
+      Directives de Relecture et correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br>
     Regras de Revis&atilde;o <a href="proofreading_guidelines_spanish.php">em Castelhano</a> /
-      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br />
+      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br>
     Regras de Revis&atilde;o <a href="proofreading_guidelines_dutch.php">em Holand&ecirc;s</a> /
-      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br />
+      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br>
     Regras de Revis&atilde;o <a href="proofreading_guidelines_german.php">em Alem&atilde;o</a> /
-      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br />
+      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br>
 </h4>
 
 <h4>Ver o <a href="../quiz/start.php">Teste de Revis&atilde;o e Tutorial</a></h4>
@@ -1823,7 +1823,7 @@ cedilla                      [,x]   [x,]
    fiquem separadas de forma clara.
 </p>
 <p>As <b>notas de rodap&eacute; em <a href="#poetry">Poesia</a></b>
-   devem ter o mesmo tratamento que as outras notas de rodap&eacute;.<br /> <br />
+   devem ter o mesmo tratamento que as outras notas de rodap&eacute;.<br> <br>
 
 As <b>notas de rodap&eacute; em <a href="#tables">Tabelas</a></b> devem
    permanecer tal como surgem no texto original.
@@ -2563,11 +2563,11 @@ You told me the walk was private.<br>
    resultar numa palavra que:
 </p>
 <ul compact>
-   <li>parece correcta &agrave; primeira vista, mas surge mal escrita.<br />
+   <li>parece correcta &agrave; primeira vista, mas surge mal escrita.<br>
        Podem ser detectadas utilizando o corrector ortogr&aacute;fico do
        ecr&atilde; de revis&atilde;o.</li>
    <li>existe, mas que tem um significado diferente e que n&atilde;o
-       corresponde &agrave; da imagem<br />
+       corresponde &agrave; da imagem<br>
        Estas s&atilde;o bastante subtis, s&oacute; podendo ser detectadas por
        quem ler o texto.</li>
 </ul>

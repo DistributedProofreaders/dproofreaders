@@ -33,13 +33,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   <a href="dochist.php"><font size="-1">(&Uuml;berarbeitungsverlauf)</font></a></h3>
 
 <h4>Formatierungsrichtlinien <a href="document.php">auf Englisch</a> /
-      Formatting Guidelines <a href="document.php">in English</a> <br />
+      Formatting Guidelines <a href="document.php">in English</a> <br>
     Formatierungsrichtlinien <a href="formatting_guidelines_francaises.php">auf Franz&ouml;sisch</a> /
-      Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a><br />
+      Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a><br>
     Formatierungsrichtlinien <a href="formatting_guidelines_portuguese.php">auf Portugiesisch</a> /
-      Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_portuguese.php">em Portugu&ecirc;s</a><br />
+      Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
     Formatierungsrichtlinien <a href="formatting_guidelines_dutch.php">auf Niederl&auml;ndisch</a> /
-      Formateer-Richtlijnen <a href="formatting_guidelines_dutch.php">in het Nederlands</a><br />
+      Formateer-Richtlijnen <a href="formatting_guidelines_dutch.php">in het Nederlands</a><br>
 </h4>
 
 <h4>Hier geht es zum <a href="../quiz/start.php?show_only=FQ">Formatting Quiz</a> (nur Englisch).</h4>
@@ -360,11 +360,11 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       <td valign="top"><tt>L. Robinson, art. "&lt;i&gt;Ticklishness&lt;/i&gt;,"</tt></td>
     </tr>
     <tr>
-      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br />
+      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br>
                      1323 Picadilly Circus</td>
-      <td valign="top"><tt>/*<br />
-         &lt;i&gt;December 3, morning.&lt;/i&gt;<br />
-         1323 Picadilly Circus<br />
+      <td valign="top"><tt>/*<br>
+         &lt;i&gt;December 3, morning.&lt;/i&gt;<br>
+         1323 Picadilly Circus<br>
          */</tt></td>
     </tr>
     <tr>

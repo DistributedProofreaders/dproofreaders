@@ -41,13 +41,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <HR>
 
 <h4>Formatteer-Richtlijnen <a href="document.php">in het Engels</a> /
-      Formatting Guidelines <a href="document.php">in English</a><br />
+      Formatting Guidelines <a href="document.php">in English</a><br>
     Formatteer-Richtlijnen <a href="formatting_guidelines_francaises.php">in het Frans</a> /
-      Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a><br />
+      Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a><br>
     Formatteer-Richtlijnen <a href="formatting_guidelines_portuguese.php">in het Portuguees</a> /
-      Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_portuguese.php">em Portugu&ecirc;s</a><br />
+      Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
     Formatteer-Richtlijnen <a href="formatting_guidelines_german.php">in het Duits</a> /
-      Formatierungsrichtlinien <a href="formatting_guidelines_german.php">auf Deutsch</a><br />
+      Formatierungsrichtlinien <a href="formatting_guidelines_german.php">auf Deutsch</a><br>
 </h4>
 
 <h4>Bekijk de <a href="../quiz/start.php?show_only=FQ">Formatting Quiz</a>! (dit document bestaat alleen in een Engelse versie)</h4>
@@ -335,11 +335,11 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       <td valign="top"><tt>L. Robinson, art. "&lt;i&gt;Ticklishness&lt;/i&gt;,"</tt></td>
     </tr>
     <tr>
-      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br />
+      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br>
                      1323 Picadilly Circus</td>
-      <td valign="top"><tt>/*<br />
-         &lt;i&gt;December 3, morning.&lt;/i&gt;<br />
-         1323 Picadilly Circus<br />
+      <td valign="top"><tt>/*<br>
+         &lt;i&gt;December 3, morning.&lt;/i&gt;<br>
+         1323 Picadilly Circus<br>
          */</tt></td>
     </tr>
     <tr>

@@ -42,15 +42,15 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <HR>
 
 <h4>Proeflees-Richtlijnen <a href="proofreading_guidelines.php">in het Engels</a> /
-      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a><br />
+      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a><br>
     Proeflees-Richtlijnen <a href="proofreading_guidelines_francaises.php">in het Frans</a> /
-      Directives de Relecture et Correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br />
+      Directives de Relecture et Correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br>
     Proeflees-Richtlijnen <a href="proofreading_guidelines_portuguese.php">in het Portugees</a> /
-      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br />
+      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
     Proeflees-Richtlijnen <a href="proofreading_guidelines_spanish.php">in het Spaans</a> /
-      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br />
+      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br>
     Proeflees-Richtlijnen <a href="proofreading_guidelines_german.php">in het Duits</a> /
-      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br />
+      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br>
 </h4>
 
 <h4>Bekijk de <a href="../quiz/start.php">Proofreading Quiz and Tutorial</a>! (dit document bestaat alleen in een Engelse versie)</h4>
@@ -1630,7 +1630,7 @@ cedille                      [,x]   [x,]
 <!-- Need an example of Endnotes, maybe? Good idea!-->
 
 <p><b>Voetnoten in <a href="#poetry">Po&euml;zie</a></b>
-   moet op dezelfde manier behandeld worden als andere voetnoten.<br /> <br />
+   moet op dezelfde manier behandeld worden als andere voetnoten.<br> <br>
 
 <b>Voetnoten in <a href="#tables">Tabellen</a></b> moeten op de plaats blijven waar ze in de originele tekst staan.
 </p>
@@ -2312,9 +2312,9 @@ You told me the walk was private.<br>
    "scanno's" (zoiets als "typo's"). Deze foutieve herkenning kan leiden tot woorden die:
 </p>
 <ul compact>
-   <li>op het eerste gezicht correct lijken, maar in werkelijkheid een spellingsfout bevatten.<br />
+   <li>op het eerste gezicht correct lijken, maar in werkelijkheid een spellingsfout bevatten.<br>
        Deze woorden kun je meestal onderscheppen door WordCheck te gebruiken.</li>
-   <li>veranderd zijn naar een ander, maar wel goed woord, dat niet overeenkomt met het origineel.<br />
+   <li>veranderd zijn naar een ander, maar wel goed woord, dat niet overeenkomt met het origineel.<br>
        Dit kan alleen opgemerkt worden door iemand die de tekst echt leest.</li>
 </ul>
 <p>In het Engels is het meest voorkomende voorbeeld van het tweede type "and" dat door de OCR wordt weergegeven als "arid".

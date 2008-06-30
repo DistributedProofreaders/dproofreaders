@@ -21,15 +21,15 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <h4>Reglas de Revisi&oacute;n <a href="proofreading_guidelines.php">en ingl&eacute;s</a> /
-      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a><br />
+      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a><br>
     Reglas de Revisi&oacute;n <a href="proofreading_guidelines_francaises.php">en franc&eacute;s</a> /
-      Directives de Relecture et correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br />
+      Directives de Relecture et correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br>
     Reglas de Revisi&oacute;n <a href="proofreading_guidelines_portuguese.php">en portugu&eacute;s</a> /
-      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br />
+      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
     Reglas de Revisi&oacute;n <a href="proofreading_guidelines_dutch.php">en holand&eacute;s</a> /
-      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br />
+      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br>
     Reglas de Revisi&oacute;n <a href="proofreading_guidelines_german.php">en alem&aacute;n</a> /
-      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br />
+      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br>
 </h4>
 
 <h4>V&eacute;alos <a href="../quiz/start.php">Proofreading Quiz and Tutorial</a></h4>

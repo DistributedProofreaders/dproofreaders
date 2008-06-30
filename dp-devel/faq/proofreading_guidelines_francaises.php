@@ -36,15 +36,15 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <h3 align="center">Version 1.9.e, 23 janvier 2008 (traduction de la 1.9.e anglaise de juillet 2007)</h3>
 
 <h4>Directives de Relecture et correction <a href="proofreading_guidelines.php">en anglais</a> /
-      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a><br />
+      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a><br>
     Directives de Relecture et correction <a href="proofreading_guidelines_portuguese.php">en portugais</a> /
-      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br />
+      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
     Directives de Relecture et correction <a href="proofreading_guidelines_spanish.php">en espagnol</a> /
-      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br />
+      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br>
     Directives de Relecture et correction <a href="proofreading_guidelines_dutch.php">en n&eacute;erlandais</a> /
-      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br />
+      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br>
     Directives de Relecture et correction <a href="proofreading_guidelines_german.php">en allemand</a> /
-      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br />
+      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br>
 </h4>
 
 <h4>Allez voir le <a href="../quiz/start.php?show_only=PQ">Tutoriel/Quiz de relecture</a>.</h4>
@@ -1697,7 +1697,7 @@ cedilla                      [,x]   [x,]
 <!-- Need an example of Endnotes, maybe? Good idea!-->
 
 <p>Les <b>notes sur de la <a href="#poetry">po&eacute;sie</a></b> sont trait&eacute;es
-   comme des notes ordinaires.<br /> <br />
+   comme des notes ordinaires.<br> <br>
 
 Les <b>notes sur des <a href="#tables">tables</a></b> doivent rester o&ugrave; elles sont dans le texte original.
 </p>
@@ -2399,11 +2399,11 @@ You told me the walk was private.<br>
    r&eacute;sultat peut &ecirc;tre un mot qui:
 </p>
 <ul compact>
-   <li>a l'air correct &agrave; premi&egrave;re vue, mais qui est mal &eacute;crit.<br />
+   <li>a l'air correct &agrave; premi&egrave;re vue, mais qui est mal &eacute;crit.<br>
        Vous le verrez facilement en faisant tourner WordCheck (le v&eacute;rificateur d'orthographe)
        depuis l'interface de correction.</li>
    <li>a &eacute;t&eacute; transform&eacute; en autre mot, valide, mais qui n'est pas celui
-       qui figure sur la page imprim&eacute;e.<br />
+       qui figure sur la page imprim&eacute;e.<br>
        Ces erreurs ne peuvent pas &ecirc;tre rep&eacute;r&eacute;es automatiquement, mais
        seulement par quelqu'un qui lit vraiment le texte.</li>
 </ul>

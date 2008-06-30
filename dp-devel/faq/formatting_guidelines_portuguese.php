@@ -36,13 +36,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   <a href="dochist.php"><font size="-1">(Hist&oacute;rico)</font></a></h3>
 
 <h4>Regras de Formata&ccedil;&atilde;o <a href="document.php">em Ingl&ecirc;s</a> /
-      Formatting Guidelines <a href="document.php">in English</a><br />
+      Formatting Guidelines <a href="document.php">in English</a><br>
     Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_francaises.php">em Franc&ecirc;s</a> /
-      Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a><br />
+      Directives de Formatage <a href="formatting_guidelines_francaises.php">en fran&ccedil;ais</a><br>
     Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_dutch.php">em Holand&ecirc;s</a> /
-      Formatteer-Richtlijnen <a href="formatting_guidelines_dutch.php">in het Nederlands</a><br />
+      Formatteer-Richtlijnen <a href="formatting_guidelines_dutch.php">in het Nederlands</a><br>
     Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_german.php">em Alem&atilde;o</a> /
-      Formatierungsrichtlinien <a href="formatting_guidelines_german.php">auf Deutsch</a><br />
+      Formatierungsrichtlinien <a href="formatting_guidelines_german.php">auf Deutsch</a><br>
 </h4>
 
 <h4>Fa&ccedil;a o <a href="../quiz/start.php?show_only=FQ">Teste de Formata&ccedil;&atilde;o</a>!</h4>
@@ -369,11 +369,11 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       <td valign="top"><tt>L. Robinson, art. "&lt;i&gt;Ticklishness&lt;/i&gt;,"</tt></td>
     </tr>
     <tr>
-      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br />
+      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br>
                      1323 Picadilly Circus</td>
-      <td valign="top"><tt>/*<br />
-         &lt;i&gt;December 3, morning.&lt;/i&gt;<br />
-         1323 Picadilly Circus<br />
+      <td valign="top"><tt>/*<br>
+         &lt;i&gt;December 3, morning.&lt;/i&gt;<br>
+         1323 Picadilly Circus<br>
          */</tt></td>
     </tr>
     <tr>

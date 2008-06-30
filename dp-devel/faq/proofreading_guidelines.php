@@ -33,15 +33,15 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <h4>Proofreading Guidelines <a href="proofreading_guidelines_francaises.php">in French</a> /
-      Directives de Relecture et Correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br />
+      Directives de Relecture et Correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br>
     Proofreading Guidelines <a href="proofreading_guidelines_portuguese.php">in Portuguese</a> /
-      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br />
+      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
     Proofreading Guidelines <a href="proofreading_guidelines_spanish.php">in Spanish</a> /
-      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br />
+      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br>
     Proofreading Guidelines <a href="proofreading_guidelines_dutch.php">in Dutch</a> /
-      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br />
+      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br>
     Proofreading Guidelines <a href="proofreading_guidelines_german.php">in German</a> /
-      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br />
+      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br>
 </h4>
 
 <h4>Check out the <a href="../quiz/start.php">Proofreading Quiz and Tutorial</a></h4>
@@ -1606,7 +1606,7 @@ cedilla                      [,x]   [x,]
 <!-- Need an example of Endnotes, maybe? Good idea!-->
 
 <p><b>Footnotes in <a href="#poetry">Poetry</a></b>
-   should be treated the same as other footnotes.<br /> <br />
+   should be treated the same as other footnotes.<br> <br>
 
 <b>Footnotes in <a href="#tables">Tables</a></b> should remain where they are in the original text.
 </p>
@@ -2288,9 +2288,9 @@ You told me the walk was private.<br>
 <p>Another common OCR issue is misrecognition of characters. We call these errors "scannos" (like "typos").
    This misrecognition can create a word that:</p>
 <ul compact>
-   <li>appears to be correct at first glance, but is actually misspelled. <br />
+   <li>appears to be correct at first glance, but is actually misspelled. <br>
        This can usually be caught by running WordCheck from the proofreading interface.</li>
-   <li>is changed to a different but otherwise valid word that does not match what is in the page image.<br />
+   <li>is changed to a different but otherwise valid word that does not match what is in the page image.<br>
        This is subtle because it can only be caught by someone actually reading the text.</li>
 </ul>
 <p>Possibly the most common example of the second type is "and" being OCR'd as "arid." Other examples: "eve" for "eye",

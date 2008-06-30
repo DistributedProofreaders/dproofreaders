@@ -33,15 +33,15 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </h3>
 
 <h4>Korrekturlese-Richtlinien <a href="proofreading_guidelines.php">auf Englisch</a> /
-      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a> <br />
+      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a> <br>
     Korrekturlese-Richtlinien <a href="proofreading_guidelines_francaises.php">auf Franz&ouml;sisch</a> /
-      Directives de Relecture et Correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br /> 
+      Directives de Relecture et Correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br> 
     Korrekturlese-Richtlinien <a href="proofreading_guidelines_portuguese.php">auf Portugiesisch</a> /
-      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br /> 
+      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br> 
     Korrekturlese-Richtlinien <a href="proofreading_guidelines_spanish.php">auf Spanisch</a> /
-      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br />
+      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br>
     Korrekturlese-Richtlinien <a href="proofreading_guidelines_dutch.php">auf Niederl&auml;ndisch</a> /
-      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br />
+      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br>
 </h4>
 
 <h4>Hier geht es zum <a href="../quiz/start.php">Proofreading Quiz und Tutorial</a> (nur Englisch).</h4>
@@ -1799,8 +1799,8 @@ cedilla                      [,x]   [x,]
 <!-- Need an example of Endnotes, maybe? Good idea!-->
 
 <p><b>Fu&szlig;noten in <a href="#poetry">Gedichten</a></b> sollten
-   genauso behandelt werden wie andere Fu&szlig;noten.<br />
- <br />
+   genauso behandelt werden wie andere Fu&szlig;noten.<br>
+ <br>
 
 <b>Fu&szlig;noten in <a href="#tables">Tabellen</a></b> sollten
    dort bleiben, wo sie im Original stehen.
@@ -2546,11 +2546,11 @@ You told me the walk was private.<br>
    Druck- und Satzfehler). Die Fehlerkennung kann ein Wort bilden, das</p>
 <ul compact>
    <li>auf den ersten Blick richtig erscheint, in Wahrheit aber
-       falsch geschrieben ist. <br /> Solche W&ouml;rter kann das
+       falsch geschrieben ist. <br> Solche W&ouml;rter kann das
        Programm &sbquo;WordCheck&lsquo; in der Korrekturlese-Oberfl&auml;che
        entdecken.</li>
    <li>zu einem anderen, richtigen Wort wird, das nicht dem in der
-       Vorlage entspricht.<br /> Solche W&ouml;rter sind besonders
+       Vorlage entspricht.<br> Solche W&ouml;rter sind besonders
        unangenehm, weil sie nur erkannt werden, wenn man die Vorlage
        Satz f&uuml;r Satz mit dem Text vergleicht.</li>
 </ul>

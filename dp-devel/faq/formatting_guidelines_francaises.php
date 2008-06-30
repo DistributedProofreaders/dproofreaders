@@ -36,13 +36,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <h3 align="center">Version 1.9.e, le 17 janvier 2008 (traduction de la 1.9.e anglaise de juillet 2007)</h3>
 
 <h4>Directives de Formatage <a href="document.php">en anglais</a> /
-      Formatting Guidelines <a href="document.php">in English</a><br />
+      Formatting Guidelines <a href="document.php">in English</a><br>
     Directives de Formatage <a href="formatting_guidelines_portuguese.php">en portugais</a> /
-      Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_portuguese.php">em Portugu&ecirc;s</a><br />
+      Regras de Formata&ccedil;&atilde;o <a href="formatting_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
     Directives de Formatage <a href="formatting_guidelines_dutch.php">en n&eacute;erlandais</a> /
-      Formatteer-Richtlijnen <a href="formatting_guidelines_dutch.php">in het Nederlands</a><br />
+      Formatteer-Richtlijnen <a href="formatting_guidelines_dutch.php">in het Nederlands</a><br>
     Directives de Formatage <a href="formatting_guidelines_german.php">en allemand</a> /
-      Formatierungsrichtlinien <a href="formatting_guidelines_german.php">auf Deutsch</a><br />
+      Formatierungsrichtlinien <a href="formatting_guidelines_german.php">auf Deutsch</a><br>
 </h4>
 
 <h4>Allez voir le <a href="../quiz/start.php?show_only=FQ">Quiz de formatage</a>.</h4>
@@ -354,11 +354,11 @@ cellspacing="0" summary="Italique">
       <td valign="top"><tt>L. Robinson, art. "&lt;i&gt;Ticklishness&lt;/i&gt;,"</tt></td>
     </tr>
     <tr>
-      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br />
+      <td valign="top" align="right"><i>December</i> 3, <i>morning</i>.<br>
                      1323 Picadilly Circus</td>
-      <td valign="top"><tt>/*<br />
-         &lt;i&gt;December 3, morning.&lt;/i&gt;<br />
-         1323 Picadilly Circus<br />
+      <td valign="top"><tt>/*<br>
+         &lt;i&gt;December 3, morning.&lt;/i&gt;<br>
+         1323 Picadilly Circus<br>
          */</tt></td>
     </tr>
     <tr>
