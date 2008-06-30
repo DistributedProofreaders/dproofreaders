@@ -334,7 +334,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
          */</tt></td>
     </tr>
     <tr>
-    <tr>
       <td valign="top">
       Volunteers may be tickled pink to read<br>
       <i>Ticklishness</i>, <i>Tickling and Laughter</i>,<br>
@@ -1616,7 +1615,7 @@ pleasure in making our return.</tt>
           XIV. &lt;sc&gt;A Flight, a Stone-cutter's Shed, and a Voice<br>
           Outside&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
           */<br>
-      </tt>
+      </tt></p>
 </td></tr></table>
       </td>
     </tr>

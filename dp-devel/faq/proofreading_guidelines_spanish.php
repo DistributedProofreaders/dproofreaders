@@ -459,7 +459,7 @@ di&aacute;logo se debe dejar como est&aacute;. Vea los ejemplos que siguen.
       <td valign="top">factors which mold char-<br>
         acter&mdash;environment, training and heritage,</td>
       <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt>
+        training and heritage,</tt></td>
       <td> Gui&oacute;n largo</td>
 
     </tr>
@@ -695,6 +695,7 @@ donde se muestra los atajos del teclado.</li>
        <li>Macintosh: Input Menu (en la Barra del Men&uacute;)</li>
        <li>Linux: Modifique el teclado en su configuraci&oacute;n X.</li>
       </ul>
+  </li>
 </ul>
 <p>El Proyecto Gutenberg aceptar&aacute; como m&iacute;nimo, versiones de textos 7-bit
 ASCII, aunque acepta tambi&eacute;n otras versiones de codificaci&oacute;n, que
@@ -974,6 +975,7 @@ Si trabaja con la interfaz mejorada &laquo;enhanced&raquo;, haga clic en &ldquo;
   <tr bgcolor="cornsilk"  >
       <th colspan=14>Atajos para los s&iacute;mbolos de Latin-1 para Apple Mac</th>
 
+  </tr>
   <tr bgcolor="cornsilk"  >
       <th colspan=2>` grave</th>
       <th colspan=2>&acute; agudo (aigu)</th>
@@ -1224,6 +1226,7 @@ cedilla                      [,x]   [x,]
   <tr bgcolor="cornsilk">
       <th colspan=4>S&iacute;mbolos de Revisi&oacute;n para Signos Diacr&iacute;ticos</th>
 
+  </tr>
   <tr bgcolor="cornsilk">
       <th>signo diacr&iacute;tico</th>
       <th>ejemplo</th>
@@ -2265,7 +2268,7 @@ proceso.
 
           XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
           OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221<br>
-      </tt>
+      </tt></p>
 </td></tr></table>
       </td>
     </tr>
@@ -2290,7 +2293,7 @@ asegurarse que todo el texto y todos los n&uacute;meros sean correctos.
 
 <p>Para todas las obras de teatro:</p>
 <ul compact>
- <li>Trate cada cambio de personaje como un p&aacute;rrafo nuevo, con una l&iacute;nea en blanco entre los di&aacute;logos.
+ <li>Trate cada cambio de personaje como un p&aacute;rrafo nuevo, con una l&iacute;nea en blanco entre los di&aacute;logos.</li>
 <li>
 Revise las directrices esc&eacute;nicas como est&aacute;n en el texto.<br>
 Si se encuentran en una l&iacute;nea nueva, p&oacute;ngalas en una l&iacute;nea nueva; si est&aacute;n al final de un di&aacute;logo, d&eacute;jelas as&iacute;.
@@ -2513,9 +2516,11 @@ errores en el texto:</p>
 Una palabra que parece correcta a la primera vista pero en verdad est&aacute;
 mal deletreada, se puede detectar utilizando el corrector autom&aacute;tico de
 ortograf&iacute;a.
+   </li>
    <li>
 Una palabra cambiada por otra no menos valida pero no igual a la palabra
 del texto original.
+   </li>
 </ul>
 <p>
 Estos errores son sutiles porque no se pueden detectar de otra manera a

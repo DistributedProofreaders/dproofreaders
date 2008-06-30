@@ -439,7 +439,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       <td valign="top">factors which mold char-<br>
         acter&mdash;environment, training and heritage,</td>
       <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt>
+        training and heritage,</tt></td>
       <td> Hyphen</td>
     </tr>
     <tr>
@@ -652,6 +652,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
        <li>Macintosh: Input Menu (on Menu Bar)</li>
        <li>Linux: Change the keyboard in your X configuration.</li>
       </ul>
+  </li>
 </ul>
 <p>
    The original <a href="http://www.gutenberg.org">Project Gutenberg</a> will post as
@@ -909,6 +910,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   <tbody>
   <tr bgcolor="cornsilk"  >
       <th colspan=14>Apple Mac Shortcuts for Latin-1 symbols</th>
+  </tr>
   <tr bgcolor="cornsilk"  >
       <th colspan=2>` grave</th>
       <th colspan=2>&acute; acute (aigu)</th>
@@ -1151,6 +1153,7 @@ cedilla                      [,x]   [x,]
   <tbody>
   <tr bgcolor="cornsilk">
       <th colspan=4>Proofreading Symbols for Diacritical Marks</th>
+  </tr>
   <tr bgcolor="cornsilk">
       <th>diacritical mark</th>
       <th>sample</th>
@@ -2075,7 +2078,7 @@ the formatters can easily find them.
           <br>
           XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
           OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221<br>
-      </tt>
+      </tt></p>
 </td></tr></table>
       </td>
     </tr>

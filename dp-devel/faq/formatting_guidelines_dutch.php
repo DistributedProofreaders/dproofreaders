@@ -134,7 +134,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     <td bgcolor="white" align="left">
       <ul style="margin-left: 3em;">
         <li><a href="#sp_ency">Encyclopedias</a>     (dit document bestaat alleen in een Engelse versie)</li>
-        <li><a href="#sp_poet">Poetry Books</a></b>  (dit document bestaat alleen in een Engelse versie)</li>
+        <li><a href="#sp_poet">Poetry Books</a>      (dit document bestaat alleen in een Engelse versie)</li>
         <li><a href="#sp_chem">Chemistry Books</a>   [moet nog gemaakt worden.]</li>
         <li><a href="#sp_math">Mathematics Books</a> [moet nog gemaakt worden.]</li>
       </ul>
@@ -343,7 +343,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
          */</tt></td>
     </tr>
     <tr>
-    <tr>
       <td valign="top">
       Volunteers may be tickled pink to read<br>
       <i>Ticklishness</i>, <i>Tickling and Laughter</i>,<br>
@@ -382,7 +381,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Onderstreping werd vaak gebruikt om nadruk aan te geven, als de zetter geen mogelijkheden had 
    om de tekst te cursiveren, bijv. in getypte documenten.
 </p>
-   Sommige Project Managers kunnen in de <a href="#comments">Project Comments</a> aangeven dat de
+<p>Sommige Project Managers kunnen in de <a href="#comments">Project Comments</a> aangeven dat de
    onderstreepte tekst met <tt>&lt;u&gt;</tt> en <tt>&lt;/u&gt;</tt> moet worden gemarkeerd.
 </p>
 
@@ -1279,7 +1278,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
 </p>
 <p>Het is vaak moeilijk een tabel in ASCII tekst te formatteren; doe gewoon je best. 
    Het is veel gemakkelijker wanneer je een 'mono-spaced' lettertype gebruikt, bijvoorbeeld 
-   <a href="font_sample.php">DPCustomMono<a/> of Courier. 
+   <a href="font_sample.php">DPCustomMono</a> of Courier. 
    Houd in gedachten dat we de bedoeling van de auteur willen behouden, en intussen een leesbare 
    tabel in een e-boek willen cre&euml;ren. Soms betekent dit, dat we het originele tabel-formaat zoals het 
    gedrukt is, moeten opofferen. Lees de <a href="#comments">Project Comments</a> en de Project Discussie; 
@@ -1644,7 +1643,7 @@ pleasure in making our return.</tt>
           XIV. &lt;sc&gt;A Flight, a Stone-cutter's Shed, and a Voice<br>
           Outside&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
           */<br>
-      </tt>
+      </tt></p>
 </td></tr></table>
       </td>
     </tr>
@@ -2083,7 +2082,7 @@ You told me the walk was private.<br>
    nieuw venster te tonen. Als dat er wel goed uitziet, dan zit het probleem
    waarschijnlijk in je browser of je systeem.
 </p>
-</p><p>Wat meer voorkomt, is dat het origineel wel goed is, maar dat de geOCRde tekst de eerste
+<p>Wat meer voorkomt, is dat het origineel wel goed is, maar dat de geOCRde tekst de eerste
    paar regels tekst mist. Typ deze regels erbij, alsjeblieft. Als bijna de hele tekst ontbreekt,
    typ hem dan in of klik op de "Return Page to Round" button en de pagina wordt aan iemand anders
    toegekend. Als er meerdere pagina's zoals deze zijn, post dan in het

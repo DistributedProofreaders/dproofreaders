@@ -311,7 +311,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    <tt>&lt;i&gt;Phil. Trans.&lt;/i&gt;</tt>. 
    <!-- the following sentence is not present in the english original -->
    Voyez l'image de la section
-   <a href="#illust">Illustration</A> pour un exemple de la mani&egrave;re de faire les italiques.
+   <a href="#illust">Illustration</a> pour un exemple de la mani&egrave;re de faire les italiques.
 </p>
 <p>Certaines polices, en particulier les plus vieilles utilisaient les m&ecirc;mes
    symboles pour les nombres en italique et non italique. Donc, pour les dates et

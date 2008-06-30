@@ -485,7 +485,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       <td valign="top">factors which mold char-<br>
         acter&mdash;environment, training and heritage,</td>
       <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt>
+        training and heritage,</tt></td>
       <td>Trait d'union</td>
     </tr>
     <tr>
@@ -1281,6 +1281,7 @@ cedilla                      [,x]   [x,]
       <td align="center">&cedil;</td>
       <td align="center"><tt>[,x]</tt></td>
       <td align="center"><tt>[x,]</tt></td>
+      </tr>
       </tr>
   </tbody>
 </table>
@@ -2173,7 +2174,7 @@ and he knew, when he had done it, and to his</tt>
           <br>
           XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
           OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221<br>
-      </tt>
+      </tt></p>
 </td></tr></table>
       </td>
     </tr>

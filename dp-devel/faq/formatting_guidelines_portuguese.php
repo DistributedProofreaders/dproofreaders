@@ -1780,7 +1780,7 @@ pleasure in making our return.</tt>
           XIV. &lt;sc&gt;A Flight, a Stone-cutter's Shed, and a Voice<br>
           Outside&lt;/sc&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;221<br>
           */<br>
-      </tt>
+      </tt></p>
 </td></tr></table>
       </td>
     </tr>

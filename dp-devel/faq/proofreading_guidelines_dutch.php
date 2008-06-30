@@ -107,7 +107,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
         <li><a href="#subscr">Subscript</a></li>
         <li><a href="#font_sz">Verandering in grootte van het lettertype</a></li>
         <li><a href="#italics">Cursief en Vet gedrukte Tekst</a></li>
-        <li><a href="#small_caps">Woorden in <span style="font-variant: small-caps">kleine hoofdlettertjes (Klein Kapitaal)</a></li>
+        <li><a href="#small_caps">Woorden in <span style="font-variant: small-caps">kleine hoofdlettertjes (Klein Kapitaal)</span></a></li>
         <li><a href="#line_br">Regelafbrekingen</a></li>
         <li><a href="#chap_head">Hoofdstuktitels</a></li>
         <li><a href="#para_space">Ruimte tussen Alinea's/Inspringingen</a></li>
@@ -459,7 +459,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       <td valign="top">factors which mold char-<br>
         acter&mdash;environment, training and heritage,</td>
       <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt>
+        training and heritage,</tt></td>
       <td> Koppelteken</td>
     </tr>
     <tr>
@@ -678,6 +678,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
        <li>Macintosh: Input Menu (op de Menu Bar).</li>
        <li>Linux: Verander je toetsenbord in je X configuratie.</li>
       </ul>
+  </li>
 </ul>
 <p>
    Het oorspronkelijke <a href="http://www.gutenberg.org">Project Gutenberg</a> zet minstens
@@ -936,6 +937,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
   <tbody>
   <tr bgcolor="cornsilk"  >
       <th colspan=14>Apple Mac Sneltoetsen voor Latin-1 symbolen</th>
+  </tr>
   <tr bgcolor="cornsilk"  >
       <th colspan=2>` grave</th>
       <th colspan=2>&acute; acute (aigu)</th>
@@ -1175,6 +1177,7 @@ cedille                      [,x]   [x,]
   <tbody>
   <tr bgcolor="cornsilk">
       <th colspan=4>Symbolen voor het Proeflezen van Diakritische Tekens</th>
+  </tr>
   <tr bgcolor="cornsilk">
       <th>diakritisch teken</th>
       <th>voorbeeld</th>
@@ -1616,7 +1619,7 @@ cedille                      [,x]   [x,]
    We handhaven deze lijn niet, dus laat alsjeblieft alleen een lege regel over tussen de tekst en de voetnoten.
    (Zie het voorbeeld hierboven.)
 </p>
-<b>Eindnoten</b> zijn voetnoten die samen aan het eind van een hoofdstuk of aan het eind
+<p><b>Eindnoten</b> zijn voetnoten die samen aan het eind van een hoofdstuk of aan het eind
    van een boek staan. Ze worden op dezelfde manier proefgelezen als voetnoten.
    Als je ergens in de tekst een verwijzing naar een eindnoot vindt, zet er <tt>[</tt> en
    <tt>]</tt> omheen. Als je een van de laatste pagina's aan het proeflezen bent, waar al
@@ -2099,7 +2102,7 @@ and he knew, when he had done it, and to his</tt>
           <br>
           XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
           OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221<br>
-      </tt>
+      </tt></p>
 </td></tr></table>
       </td>
     </tr>

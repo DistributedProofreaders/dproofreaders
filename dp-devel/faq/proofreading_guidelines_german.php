@@ -516,7 +516,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       <td valign="top">factors which mold char-<br>
         acter&mdash;environment, training and heritage,</td>
       <td valign="top"><tt>factors which mold character--environment,<br>
-        training and heritage,</tt>
+        training and heritage,</tt></td>
       <td> Bindestrich</td>
     </tr>
     <tr>
@@ -755,6 +755,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
        <li>Macintosh: Inputmen&uuml; (in der Men&uuml;leiste)</li>
        <li>Linux: Einstellen der Tastatur in der X-Konfiguration.</li>
       </ul>
+  </li>
 </ul>
 <p>Von <a href="http://www.gutenberg.org">Project Gutenberg</a>
    wird als Minimalvariante eine 7-Bit-ASCII-Version des Textes
@@ -1040,6 +1041,7 @@ Alt-0140
   <tbody>
   <tr bgcolor="cornsilk"  >
       <th colspan=14>Apple-Mac-Tastenk&uuml;rzel f&uuml;r Latin-1-Symbole</th>
+  </tr>
   <tr bgcolor="cornsilk"  >
       <th colspan=2>` Gravis</th>
       <th colspan=2>&acute; Akut (aigu)</th>
@@ -1294,6 +1296,7 @@ cedilla                      [,x]   [x,]
   <tbody>
   <tr bgcolor="cornsilk">
       <th colspan=4>Symbole zum Korrekturlesen von diakritischen Zeichen</th>
+  </tr>
   <tr bgcolor="cornsilk">
       <th>Diakritisches Zeichen</th>
       <th>Beispiel</th>
@@ -2296,7 +2299,7 @@ and he knew, when he had done it, and to his</tt>
           <br>
           XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
           OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221<br>
-      </tt>
+      </tt></p>
 </td></tr></table>
       </td>
     </tr>
