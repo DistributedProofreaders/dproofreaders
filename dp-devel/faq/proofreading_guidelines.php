@@ -17,9 +17,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
      There are now HTML comments interspersed in this document that are/will be
      used by a script that automagically slices out the Random Rule text for the
      database. It does this by copying:
-	1) All text from one h_3 to the next h_3
-		-OR-
-	2) All text from h_3 to the END_RR comment line.
+        1) All text from one h_3 to the next h_3
+                -OR-
+        2) All text from h_3 to the END_RR comment line.
 
     This allows us to have "extra" information in the Guidelines, but leave it out
     in the Random Rule for purposes of clarity/brevity.
@@ -488,9 +488,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
  <tr>
       <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
-	say, but the left-hand cat interrupted her.</td>
+        say, but the left-hand cat interrupted her.</td>
       <td valign="top"><tt>"Three hundred----" "years," she was going to
-	say, but the left-hand cat interrupted her.</tt></td>
+        say, but the left-hand cat interrupted her.</tt></td>
       <td>Longer Em-dash</td>
     </tr>
     <tr>

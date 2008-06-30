@@ -1193,27 +1193,27 @@ cellspacing="0" summary="Notes de bas de page">
     <tr><th align="left" bgcolor="cornsilk">Texte correctement format&eacute;:</th></tr>
     <tr>
       <td width="100%" valign="top">
-	<p><tt>later day was welcomed in their home on the Hudson.<br>
-	Dr. Bakewell's contribution was as follows:[24]</tt></p>
-	<p><tt>/#<br>
-	The uncertainty as to the place of Audubon's birth has been<br>
-	put to rest by the testimony of an eye witness in the person<br>
-	of old Mandeville Marigny now dead some years. His repeated<br>
-	statement to me was, that on his plantation at Mandeville,<br>
-	Louisiana, on Lake Ponchartrain, Audubon's mother was<br>
-	his guest; and while there gave birth to John James Audubon.<br>
-	Marigny was present at the time, and from his own lips, I have,<br>
-	as already said, repeatedly heard him assert the above fact.<br>
-	He was ever proud to bear this testimony of his protection<br>
-	given to Audubon's mother, and his ability to bear witness as<br>
-	to the place of Audubon's birth, thus establishing the fact that<br>
-	he was a Louisianian by birth.<br>
-	#/<br></tt>
-	</p>
-	<p><tt>We do not doubt the candor and sincerity of the<br>
-	excellent Dr. Bakewell, but are bound to say that the<br>
-	incidents as related above betray a striking lapse of<br>
-	</tt></p>
+        <p><tt>later day was welcomed in their home on the Hudson.<br>
+        Dr. Bakewell's contribution was as follows:[24]</tt></p>
+        <p><tt>/#<br>
+        The uncertainty as to the place of Audubon's birth has been<br>
+        put to rest by the testimony of an eye witness in the person<br>
+        of old Mandeville Marigny now dead some years. His repeated<br>
+        statement to me was, that on his plantation at Mandeville,<br>
+        Louisiana, on Lake Ponchartrain, Audubon's mother was<br>
+        his guest; and while there gave birth to John James Audubon.<br>
+        Marigny was present at the time, and from his own lips, I have,<br>
+        as already said, repeatedly heard him assert the above fact.<br>
+        He was ever proud to bear this testimony of his protection<br>
+        given to Audubon's mother, and his ability to bear witness as<br>
+        to the place of Audubon's birth, thus establishing the fact that<br>
+        he was a Louisianian by birth.<br>
+        #/<br></tt>
+        </p>
+        <p><tt>We do not doubt the candor and sincerity of the<br>
+        excellent Dr. Bakewell, but are bound to say that the<br>
+        incidents as related above betray a striking lapse of<br>
+        </tt></p>
       </td>
     </tr>
   </tbody>

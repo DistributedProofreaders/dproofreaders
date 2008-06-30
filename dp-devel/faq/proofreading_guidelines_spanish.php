@@ -516,9 +516,9 @@ di&aacute;logo se debe dejar como est&aacute;. Vea los ejemplos que siguen.
     </tr>
  <tr>
       <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
-	say, but the left-hand cat interrupted her.</td>
+        say, but the left-hand cat interrupted her.</td>
       <td valign="top"><tt>"Three hundred----" "years," she was going to
-	say, but the left-hand cat interrupted her.</tt></td>
+        say, but the left-hand cat interrupted her.</tt></td>
 
       <td>Raya</td>
     </tr>
