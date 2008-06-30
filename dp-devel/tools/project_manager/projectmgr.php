@@ -325,7 +325,25 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     ($_GET['show'] == '' && $_GET['up_projectid'] == '' )) {
 
     echo_manager_header('project_search_page');
-    
+
+    // New proofreaders are having a hard time finding stuff because they
+    // end up on the Project Search page instead of the starting round page.
+    // See if we can't help them out by pointing them to the starting
+    // round page.
+    $pagesproofed = get_pages_proofed_maybe_simulated();
+    if($pagesproofed < 100)
+    {
+        echo "<hr width='70%'>\n";
+        $first_round = get_Round_for_round_number(1);
+        $first_round_id = $first_round->id;
+        $round_url = "$code_url/tools/proofers/round.php?round_id=$first_round_id#$first_round_id";
+        echo "<center>";
+        echo "<h2>" . _("Looking for projects to proof?") . "</h2>";
+        echo "<p>" . sprintf(_("If you're looking for projects to proof, consider using the list on the <a href='%s'>%s</a> round page instead of using this search form."), $round_url, $first_round_id) . "</p>";
+        echo "</center>";
+        echo "<hr width='70%'>\n";
+    }
+
     echo "
         <center>
         <h1>Search for Projects</h1>
