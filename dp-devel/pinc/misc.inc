@@ -470,5 +470,40 @@ function requester_is_localhost()
     }
 }
 
+// -----------------------------------------------------------------------------
+
+function is_link_for_current_page($link)
+// Determine if the specified link is for the current page by comparing the
+// paths and the query parameters, but not any anchors.
+// This function, by design, will return TRUE if the link query parameters
+// are a subset of the current page. For example, if the current page is:
+//    http://www.pgdp.net/c/tools/proofers/round.php?round_id=P1&numofpages=12
+// and the link to check is:
+//    http://www.pgdp.net/c/tools/proofers/round.php?round_id=P1
+// the function will return TRUE despite the provided link not having a
+// numofpages parameter. The converse, however, is not true.
+{
+    $url_components = parse_url($link);
+    
+    // first check the path
+    if($url_components['path'] != $_SERVER['SCRIPT_NAME'])
+    {
+        return FALSE;
+    }
+    
+    // now check the queries
+    $parameters = explode('&', $url_components['query']);
+    foreach($parameters as $parameter)
+    {
+        list($key, $value) = explode('=', $parameter);
+        if($_GET[$key] != $value)
+        {
+            return FALSE;
+        }
+    }
+    
+    return TRUE;
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
