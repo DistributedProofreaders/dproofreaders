@@ -2,7 +2,6 @@
 include_once($relPath.'site_vars.php');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'dp_main.inc');
 
 // This file deals with the gradual revelation of site features,
 // based on the number of pages proofed by the user.
