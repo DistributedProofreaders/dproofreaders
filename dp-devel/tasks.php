@@ -595,7 +595,7 @@ function TaskDetails($tid) {
 
 	if (mysql_num_rows($result) >= 1) {
 		while ($row = mysql_fetch_assoc($result)) {
-			$result = mysql_query("SELECT * FROM usersettings WHERE setting = 'taskctr_notice' and (value = $tid org value = 'all') and username = '$pguser'");
+			$result = mysql_query("SELECT * FROM usersettings WHERE setting = 'taskctr_notice' and (value = $tid or value = 'all') and username = '$pguser'");
 			if (mysql_num_rows($result) >= 1) { $already_notified = 1; } else { $already_notified = 0; }
 
 			$result = mysql_query("SELECT username FROM users WHERE u_id = ".$row['opened_by']."");
