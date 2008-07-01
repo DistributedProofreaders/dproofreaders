@@ -11,7 +11,9 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Directives de Formatage','header');
+$theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
+
+theme('Directives de Formatage','header',$theme_args);
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
@@ -31,7 +33,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     If you are updating this document, the above should be kept in mind.
 -->
 
-<h1 align="center">Directives de Formatage</h1>
+<h1 align="center"><a name="top">Directives de Formatage</a></h1>
 
 <h3 align="center">Version 1.9.e, le 17 janvier 2008 (traduction de la 1.9.e anglaise de juillet 2007)</h3>
 
@@ -189,6 +191,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    comparer les lignes du texte corrig&eacute; et les lignes de l'image.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 <table width="100%" border="0" cellspacing="0" summary="R&eacute;sum&eacute; des directives">
   <tbody>
@@ -197,6 +200,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+
 
 <h3><a name="summary">R&eacute;sum&eacute; des directives</a></h3>
 <p>Le <a href="formatting_summary.pdf">R&eacute;sum&eacute; des directives</a> (en anglais)
@@ -208,6 +212,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Vous aurez besoin d'un lecteur de fichiers .pdf. Vous pouvez en t&eacute;l&eacute;charger
    un gratuitement chez Adobe&reg; <a href="http://www.adobe.com/products/acrobat/readstep2.html">ici</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="about">&Agrave; propos de ce document</a></h3>
 <p>Ce document a pour but de r&eacute;duire les diff&eacute;rences de formatage entre les
@@ -228,6 +235,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    envoyant vos suggestions de changements sur le forum Documentation dans
    <a href="<? echo $Guideline_discussion_URL; ?>">ce thread</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="comments">Commentaires des projets</a></h3>
 
@@ -251,6 +261,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    <a href="<? echo $Using_project_details_URL ?>">Ce fil de discussion</a>
    discute les diff&eacute;rentes fa&ccedil;on d'utiliser cette information.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="forums">Forum/Discuter de ce Projet</a></h3>
 <p>Dans la page du projet dans laquelle vous commencez &agrave; formater des pages,
@@ -264,6 +277,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    ce forum est la mani&egrave;re recommand&eacute;e pour discuter avec le responsable de projet
    et les autres correcteurs qui travaillent sur ce livre.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="prev_pg">Corriger des erreurs sur des pages pr&eacute;c&eacute;dentes</a></h3>
 <p>Quand vous s&eacute;lectionnez un projet pour travailler, vous 
@@ -287,6 +303,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    avanc&eacute;e</a>, selon l'interface que vous utilisez.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 <table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Page de titre">
   <tbody>
     <tr>
@@ -377,6 +395,8 @@ cellspacing="0" summary="Italique">
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="bold">Texte en gras</a></h3>
 <p>Le <b>texte en gras</b> doit &ecirc;tre marqu&eacute; par <tt>&lt;b&gt;</tt> avant et
@@ -392,6 +412,9 @@ cellspacing="0" summary="Italique">
 <p>Certains chefs de projet peuvent sp&eacute;cifier dans les <a href="#comments">commentaires
    de projet</a> que le texte gras doit &ecirc;tre rendu tout en majuscules.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="underl">Texte soulign&eacute;</a></h3>
 <p>Marquez le <u>texte soulign&eacute;</u> comme &eacute;tant de l'<a href="#italics">Italique</a>,
@@ -402,6 +425,9 @@ cellspacing="0" summary="Italique">
 <p>On avait souvent recours au texte soulign&eacute; &agrave; la place de l'italique quand l'&eacute;diteur
    &eacute;tait incapable de imprimer en italique, par exemple pour un document tap&eacute; &agrave; la machine.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="spaced">T e x t e&nbsp;&nbsp; e s p a c &eacute; (gesperrt)</a></h3>
 <p>Formatez le &nbsp;T e x t e&nbsp;&nbsp; e s p a c &eacute;&nbsp; avec les marques <tt>&lt;g&gt;</tt> avant et
@@ -415,6 +441,8 @@ cellspacing="0" summary="Italique">
 <p>Cette technique &eacute;tait utilis&eacute;e pour mettre l'accent sur certains passages 
    sur certains livres anciens, principalement en allemand.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="font_ch">Changement de police</a></h3>
@@ -444,6 +472,8 @@ cellspacing="0" summary="Italique">
    est ainsi imprim&eacute;e dans une police diff&eacute;rente, ou si la ponctuation fait partie 
    de la partie de texte dans la police diff&eacute;rente.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="small_caps">Petites capitales</a></h3>
@@ -476,6 +506,9 @@ cellspacing="0" summary="Italique">
    d'un chapitre est en petites capitales, alors changez-le en majuscules et minuscules, 
    sans marques de petites capitales.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="word_caps">Mots entiers en majuscules</a></h3>
 <p>Si un mot ou groupe de mots dans un texte est imprim&eacute; enti&egrave;rement en
@@ -487,6 +520,9 @@ cellspacing="0" summary="Italique">
    normal (premi&egrave;re lettre en majuscule, le reste en minuscule). Donc "IL &eacute;tait une
    fois" devient "<tt>Il &eacute;tait une fois</tt>".
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="font_sz">Changement de taille de police</a></h3>
 <p>Ne faites rien pour indiquer un changement de taille de police.
@@ -496,6 +532,8 @@ cellspacing="0" summary="Italique">
    a lieu au milieu d'un paragraphe ou d'une ligne du texte 
    (voir <a href="#font_ch">Changement de police</a>).
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="extra_sp">Espaces exc&eacute;dentaires entre les mots</a></h3>
@@ -512,6 +550,9 @@ cellspacing="0" summary="Italique">
    virgule ne posent pas de probl&egrave;me&nbsp;: vous n'&ecirc;tes pas oblig&eacute;s
    d'en supprimer un.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="supers">Exposants</a></h3>
 <p>Les vieux livres abr&eacute;geaient souvent les mots en contractions, et les
@@ -531,6 +572,9 @@ cellspacing="0" summary="Italique">
 <p>Si le chef de projet dit de faire autrement dans les <a href="#comments">commentaires
    de projet</a>, suivez ses instructions.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="subscr">Texte en Indice</a></h3>
 <p>On trouve la notation "indice" dans des ouvrages scientifiques, rarement
@@ -541,12 +585,18 @@ cellspacing="0" summary="Italique">
    <br>donne
    <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_{2}O.<br></tt>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="page_ref">R&eacute;f&eacute;rences aux pages "cf. p. 123"</a></h3>
 <p>Laissez ces r&eacute;f&eacute;rences telles qu'elles sont dans le texte, &agrave; moins que le
    responsable de projet ne prescrive autre chose dans les <a href="#comments">Commentaires
    de Projet</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="line_br">Retours &agrave; la ligne</a></h3>
 <p><b>Laissez tous les retours &agrave; la ligne</b> de mani&egrave;re &agrave; ce que le
@@ -563,9 +613,10 @@ cellspacing="0" summary="Italique">
    ne posent pas de probl&egrave;mes, ces derni&egrave;res pouvant &ecirc;tre
    supprim&eacute;s facilement en post-processing.
 </p>
-
 <!-- END RR -->
 <!-- We should have an example right here for this. -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="chap_head">En-t&ecirc;tes de chapitres</a></h3>
 <p>Laissez les en-t&ecirc;tes de chapitres dans le texte tels qu'ils sont imprim&eacute;s.
@@ -713,6 +764,8 @@ cellspacing="0" summary="Italique">
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="sect_head">En-t&ecirc;tes de section</a></h3>
 <p>Dans certains livres, les chapitres sont divis&eacute;s en sections. Laissez les
@@ -727,6 +780,9 @@ cellspacing="0" summary="Italique">
    En revanche nous utilisons le marquage de l'italique et des petites capitales 
    si c'est pr&eacute;sent dans l'en-t&ecirc;te.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="maj_div">Autres divisions dans les textes</a></h3>
 <p>Les autres grandes divisions des textes (Pr&eacute;face, Avant-propos, Introduction,
@@ -735,6 +791,9 @@ cellspacing="0" summary="Italique">
    chapitre. Quatre lignes blanches avant l'en-t&ecirc;te, et deux avant le d&eacute;but du
    texte.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="para_space">Espacement/Indentation des paragraphes</a></h3>
 <p>Mettez une ligne blanche avant tout d&eacute;but de paragraphe, m&ecirc;me si ce
@@ -746,6 +805,9 @@ cellspacing="0" summary="Italique">
 <p>Voyez l'exemple de la section <a href="#chap_head">En-t&ecirc;tes de
    chapitres</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="extra_s">Espace suppl&eacute;mentaire, ast&eacute;risques, lignes entre les
    paragraphes</a></h3>
@@ -806,6 +868,7 @@ cellspacing="0" summary="Italique">
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="illust">Illustrations</a></h3>
@@ -892,6 +955,8 @@ cellspacing="0" summary="Italique">
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="footnotes">Notes de bas de page et de fin</a></h3>
 <p><b>Les notes de bas de page sont "hors ligne"</b>, autrement dit, le texte de la
@@ -1041,6 +1106,8 @@ cellspacing="0" summary="Notes de bas de page">
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="para_side">Commentaires en marge</a></h3>
 <p>Certains livres ont de petites descriptions des paragraphes sur le c&ocirc;t&eacute; du
@@ -1168,6 +1235,8 @@ cellspacing="0" summary="Notes de bas de page">
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="block_qt">Blocs de citations</a></h3>
 <p>Entourez les blocs de citations par les marques <tt>/#</tt> avant et <tt>#/</tt>
@@ -1218,6 +1287,8 @@ cellspacing="0" summary="Notes de bas de page">
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="mult_col">Colonnes Multiples</a></h3>
 <p>R&eacute;unissez les colonnes multiples en une seule colonne.
@@ -1233,6 +1304,9 @@ cellspacing="0" summary="Notes de bas de page">
 <p>Voir aussi les sections <a href="#bk_index">Index</a>, <a href="#lists">Listes</a> et
    <a href="#tables">Tables</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="lists">Listes de choses</a></h3>
 <p>Marquez ces listes comme de la po&eacute;sie, avec une ligne <tt>/*</tt> avant et
@@ -1296,6 +1370,8 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="tables">Tableaux</a></h3>
 <p>Marquez les tables de mani&egrave;re &agrave; ce que le post-processeur puisse les trouver,
@@ -1390,6 +1466,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="poetry">Po&eacute;sie/&Eacute;pigrammes</a></h3>
@@ -1479,6 +1556,8 @@ and he knew, when he had done it, and to his</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="line_no">Num&eacute;ros de ligne</a></h3>
 <p>Gardez les num&eacute;ros de ligne. Placez-les au moins 6 espaces &agrave; droite du texte,
@@ -1490,6 +1569,8 @@ and he knew, when he had done it, and to his</tt>
 </p>
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="letter">Lettres (courrier)</a></h3>
 <p>Formatez les lettres comme vous feriez pour des <a href="#para_space">paragraphes</a>.
@@ -1539,6 +1620,7 @@ pleasure in making our return.</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="blank_pg">Page blanche</a></h3>
@@ -1548,6 +1630,9 @@ pleasure in making our return.</tt>
    proc&eacute;dure indiqu&eacute;es dans le cas d'une <a href="#bad_image">mauvaise image</a>
    ou d'un <a href="#bad_text">mauvais texte</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="title_pg">Page de titre/fin</a></h3>
 <p>Laissez tout comme c'est imprim&eacute;, m&ecirc;me si c'est tout en majuscules, ou en
@@ -1591,6 +1676,8 @@ pleasure in making our return.</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="toc">Table des mati&egrave;res</a></h3>
 <p>Laissez le texte de la table des mati&egrave;res comme il est imprim&eacute; (m&ecirc;me si c'est
@@ -1676,6 +1763,8 @@ pleasure in making our return.</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="bk_index">Index</a></h3>
 <p>Laissez les num&eacute;ros de page dans les index. Entourez l'index par deux lignes
@@ -1784,6 +1873,8 @@ cellspacing="0" summary="Alignement des sous-sujets">
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="play_n">Th&eacute;&acirc;tre</a></h3>
 <p>Pour toutes les pi&egrave;ces:</p>
@@ -2017,6 +2108,8 @@ You told me the walk was private.<br>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="anything">Tout ce qui n&eacute;cessite &eacute;galement un traitement sp&eacute;cial, ou
    dont vous n'&ecirc;tes pas s&ucirc;r</a></h3>
@@ -2045,6 +2138,9 @@ You told me the walk was private.<br>
    (en cliquant sur son nom dans l'interface de correction), pour lui expliquer comment
    g&eacute;rer la situation la prochaine fois. Mais ne supprimez jamais sa note.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="prev_notes">Notes et commentaires des correcteurs pr&eacute;c&eacute;dents</a></h3>
 <p>Les notes des correcteurs pr&eacute;c&eacute;dents <b>doivent</b> &ecirc;tre gard&eacute;es.
@@ -2060,6 +2156,8 @@ You told me the walk was private.<br>
    g&eacute;rer la situation la prochaine fois. Mais ne supprimez jamais sa note.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <table width="100%" border="0" cellspacing="0" summary="Autres r&egrave;gles">
   <tbody>
@@ -2087,6 +2185,8 @@ You told me the walk was private.<br>
   <li><b>                       Chimie               [&agrave; compl&eacute;ter]</b></li>
   <li><b>                       Math&eacute;matiques [&agrave; compl&eacute;ter]</b></li>
 </ul>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <table width="100%" border="0" cellspacing="0" summary="Probl&egrave;mes courants">
   <tbody>
@@ -2097,6 +2197,7 @@ You told me the walk was private.<br>
 </table>
 
 <h2>Probl&egrave;mes courants</h2>
+
 
 <h3><a name="bad_image">Mauvaises images</a></h3>
 <p>Si une image est mauvaise (refuse de se charger, est coup&eacute;e au milieu,
@@ -2119,6 +2220,9 @@ You told me the walk was private.<br>
    et la page sera rendue &agrave; quelqu'un d'autre. Si plusieurs pages sont comme &ccedil;a,
    postez un message sur le <a href="#forums">forum du projet</a> pour l'indiquer au responsable du projet.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="bad_text">Image ne correspondant pas au texte</a></h3>
 <p>Si l'image ne correspond pas au texte, postez un message &agrave; ce propos sur
@@ -2126,6 +2230,9 @@ You told me the walk was private.<br>
    round&rdquo;; si vous le faites, la personne suivante obtiendra cette page.
    Cliquez plut&ocirc;t sur "Report bad page" pour mettre la page &agrave; part.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="round1">Erreurs des correcteurs et formateurs pr&eacute;c&eacute;dents</a></h3>
 <p>Si le volontaire pr&eacute;c&eacute;dent a fait beaucoup d'erreurs ou a laiss&eacute; passer un
@@ -2142,6 +2249,9 @@ You told me the walk was private.<br>
    vous pouvez &eacute;galement lui envoyer un message pour le lui
    dire, surtout si elle a travaill&eacute; sur une page tr&egrave;s difficile.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="p_errors">Erreurs d'impression/d'orthographe</a></h3>
 <p>Corrigez toujours les fautes introduites par l'OCR. Mais ne corrigez pas ce qui peut vous
@@ -2154,6 +2264,9 @@ You told me the walk was private.<br>
    note d&eacute;crivant ce que vous avez chang&eacute; <tt>[**corrig&eacute; "txte" en "texte"]</tt>.
    N'oubliez pas les deux &eacute;toiles <tt>**</tt> pour que le post-processeur voie le probl&egrave;me.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="f_errors">Erreurs factuelles dans le texte</a></h3>
 <p>En g&eacute;n&eacute;ral, ne corrigez pas les erreurs sur les faits dans les livres.
@@ -2167,6 +2280,9 @@ You told me the walk was private.<br>
    via le <a href="#forums">forum du projet</a>, ou en ins&eacute;rant une note <tt>[**sic expliquez-votre-souci]</tt>
    &agrave; cet endroit du texte.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="uncertain">Points incertains</a></h3>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [...&agrave; compl&eacute;ter...]

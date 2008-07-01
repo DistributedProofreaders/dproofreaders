@@ -7,7 +7,9 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Proofreading Guidelines','header');
+$theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
+
+theme('Proofreading Guidelines','header',$theme_args);
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
@@ -27,7 +29,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     If you are updating this document, the above should be kept in mind.
 -->
 
-<h1 align="center">Proofreading Guidelines</h1>
+<h1 align="center"><a name="top">Proofreading Guidelines</a></h1>
 
 <h3 align="center">Version 1.9.e, revised July 19, 2007 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
@@ -174,6 +176,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    This allows them to easily compare the lines in the text to the lines in the image.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 <table width="100%" border="0" cellspacing="0" summary="Summary Guidelines">
   <tbody>
@@ -193,6 +196,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>You may need to download and install a .pdf reader. You can get one free from Adobe&reg;
    <a href="http://www.adobe.com/products/acrobat/readstep2.html">here</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="about">About This Document</a></h3>
@@ -210,6 +215,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>This document is a work in progress. Help us to progress by posting your suggested changes in the
    Documentation Forum in <a href="<? echo $Guideline_discussion_URL; ?>">this thread</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="comments">Project Comments</a></h3>
 
@@ -232,6 +240,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    <a href="<? echo $Using_project_details_URL ?>">This Forum thread</a>
    discusses different ways to use this information.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="forums">Forum/Discuss this Project</a></h3>
 <p>On the Project Page where you start proofreading pages, on the line "Forum", there is
@@ -242,6 +253,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    forum thread is the recommended way to communicate with the Project Manager and other
    proofreaders who are working on this book.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="prev_pg">Fixing errors on Previous Pages</a></h3>
 <p>When you select a project for proofreading, the <a href="#comments">Project Page</a>
@@ -263,6 +277,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Interface Help</a>, depending on which interface you are using.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
+
 <table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Title Page">
   <tbody>
     <tr>
@@ -270,7 +287,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
-
 
 
 <h3><a name="double_q">Double Quotes</a></h3>
@@ -299,11 +315,17 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>The Project Manager may instruct you in the <a href="#comments">Project Comments</a>
    to proofread non-English language quotation marks differently for a particular book.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="single_q">Single Quotes</a></h3>
 <p>Proofread these as the plain ASCII <tt>'</tt> single quote (apostrophe). Do not
    change single quotes to double quotes. Leave them as the Author wrote them.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="quote_ea">Quote Marks on each line</a></h3>
 <p>Proofread quotation marks at the beginning of each line of a quotation by removing
@@ -316,6 +338,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    which may not be on the same page you are proofreading. Leave it that way&mdash;do not
    add closing quotation marks that are not in the page image.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="period_s">End-of-sentence Periods</a></h3>
 <p>Proofread periods that end sentences with a single space after them.
@@ -324,6 +349,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    text&mdash;we can do that automatically during post-processing. See the <a href="#para_side">Sidenotes</a>
    image and text for an example.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="punctuat">Punctuation</a></h3>
 <p>In general, there should be no space before punctuation characters except opening quotation
@@ -347,6 +375,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="extra_sp">Extra Spaces or Tabs Between Words</a></h3>
 <p>Extra spaces and tab characters between words are common in OCR output. You don't need to bother
@@ -359,17 +389,25 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    the word "horse" and the semicolon should be removed. But the 2 spaces after the semicolon are
    fine&mdash;you don't have to delete one of them.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="trail_s">Trailing Space at End-of-line</a></h3>
 <p>Do not bother inserting spaces at the ends of lines of text. It is a waste of your time for
    something that we can take care of automatically later. Similarly do not waste your time
    removing extra spaces at the ends of lines.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></h3>
 <p>Proofread a large and ornate graphic first letter of a chapter, section, or paragraph
    as if it were an ordinary letter.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="em_dashes">Dashes, Hyphens, and Minus Signs</a></h3>
@@ -520,6 +558,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="eol_hyphen">End-of-line Hyphenation</a></h3>
 <p>Where a hyphen appears at the end of a line, join the two halves of the hyphenated
@@ -541,6 +581,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    processor, who has access to all the pages, and can determine how the author
    typically wrote this word.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="eop_hyphen">End-of-page Hyphenation</a></h3>
 <p>Proofread end-of-page hyphens or em-dashes by leaving the hyphen or em-dash at the end
@@ -562,6 +605,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>These markings indicate to the post-processor that the word must be rejoined when the pages are
    combined to produce the final e-book.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="period_p">Period Pause &quot;...&quot; (Ellipsis)</a></h3>
@@ -595,6 +640,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    attention of the post-processor.
    (Note: Post-Processors should replace those regular spaces with non-breaking spaces.)
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="contract">Contractions</a></h3>
 <p>Remove any extra space in contractions: for example, <tt>would&nbsp;n't</tt> should
@@ -608,6 +656,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    not to remove extra spaces in contractions, particularly in the case of texts that
    contain slang, dialect, or are written in languages other than English.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="fract_s">Fractions</a></h3>
@@ -615,6 +665,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    The hyphen prevents the whole and fractional part from becoming
    separated when the lines are rewrapped during post-processing.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="a_chars">Accented/Non-ASCII Characters</a></h3>
@@ -1092,6 +1144,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Comments</a>, please do not use the fraction symbols, but instead use the guidelines for
    <a href="#fract_s">Fractions</a>. (1/2, 1/4, 3/4, etc.)
 </p>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="d_chars">Characters with Diacritical marks</a></h3>
 <p>In some projects, you will find characters with special marks either above or below
@@ -1213,6 +1267,8 @@ cedilla                      [,x]   [x,]
   </tbody>
 </table>
 <? } ?>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="f_chars">Non-Latin Characters</a></h3>
 <p>Some projects contain text printed in non-Latin characters; that is, characters
@@ -1277,6 +1333,8 @@ cedilla                      [,x]   [x,]
    Include the <tt>**</tt> so the post-processor can address it later.
 </p>
 <? } ?>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="supers">Superscripts</a></h3>
 <p>Older books often abbreviated words as contractions, and printed them as
@@ -1285,6 +1343,8 @@ cedilla                      [,x]   [x,]
    Proofread these by inserting a single caret followed by the superscripted text, like this:<br>
    &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="subscr">Subscripts</a></h3>
@@ -1295,11 +1355,16 @@ cedilla                      [,x]   [x,]
    <br>would be proofread as
    <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.<br></tt>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="font_sz">Font size changes</a></h3>
 <p>Do not mark changes in font size. The formatters will take care of this later in the process.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="italics">Italic and Bold Text</a></h3>
 <p><i>Italicized</i> text may occasionally appear with <tt>&lt;i&gt;</tt> inserted at the start and
@@ -1309,6 +1374,7 @@ cedilla                      [,x]   [x,]
    on the page. Do not add it where it does not appear. The formatters will do that later in the process.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="small_caps">Words in Small Capitals</a></h3>
@@ -1328,6 +1394,9 @@ cedilla                      [,x]   [x,]
    If they are already ALL-CAPPED, Mixed-Cased, or lower-cased,
    leave them ALL-CAPPED, Mixed-Cased, or lower-cased.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="line_br">Line Breaks</a></h3>
 <p><b>Leave all line breaks in</b> so that later in the process other volunteers can easily compare
@@ -1336,10 +1405,10 @@ cedilla                      [,x]   [x,]
    <a href="#em_dashes">em-dashes</a>. If the previous proofreader removed the line breaks,
    please replace them so that they once again match the image.
 </p>
-
-
 <!-- END RR -->
 <!-- We should have an example right here for this. -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="chap_head">Chapter Headers</a></h3>
 <p>Proofread chapter headers as they appear in the text.
@@ -1353,7 +1422,7 @@ cedilla                      [,x]   [x,]
    original. If the author started the paragraph with dialog, insert the double quote.
 </p>
 <!-- END RR -->
-
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="para_space">Paragraph Spacing/Indenting</a></h3>
@@ -1363,6 +1432,9 @@ cedilla                      [,x]   [x,]
 </p>
 <p>See the <a href="#para_side">Sidenotes</a> image/text for an example.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="page_hf">Page Headers/Page Footers</a></h3>
 <p>Remove page headers and page footers, but <em>not</em> <a href="#footnotes">footnotes</a>,
@@ -1441,6 +1513,8 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="illust">Illustrations</a></h3>
 <p>Proofread any caption text as it is printed, preserving
@@ -1451,7 +1525,6 @@ cedilla                      [,x]   [x,]
 <p>Most pages with an illustration but no text will already be
    marked with <tt>[Blank Page]</tt>. Leave this marking as is.
 </p>
-
 <!-- END RR -->
 
 <table width="100%" align="center" border="1" cellpadding="4"
@@ -1518,6 +1591,8 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="footnotes">Footnotes/Endnotes</a></h3>
 <p><b>Footnotes are placed out-of-line</b>; that is, the text of the footnote is left
@@ -1538,7 +1613,6 @@ cedilla                      [,x]   [x,]
 <p>Place each footnote on a separate line in order of appearance. Place a blank line between each
    footnote if there is more than one.
 </p>
-
 <!-- END RR -->
 
 <p>See the <a href="#page_hf">Page Headers/Page Footers</a> image/text for a sample footnote.
@@ -1630,6 +1704,8 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="para_side">Paragraph Side-Descriptions (Sidenotes)</a></h3>
 <p>Some books will have short descriptions of the paragraph along the side of the text.
@@ -1640,7 +1716,6 @@ cedilla                      [,x]   [x,]
    Separate them so that the sidenote text is all together, but don't worry about the
    position of the sidenotes on the page. The formatters will move them to the correct locations.
 </p>
-
 <!-- END RR -->
 
   <table width="100%" align="center" border="1" cellpadding="4"
@@ -1746,6 +1821,8 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="mult_col">Multiple Columns</a></h3>
 <p>Proofread ordinary text that has been printed in two columns as a single column.
@@ -1757,6 +1834,8 @@ cedilla                      [,x]   [x,]
 <p>See also the <a href="#bk_index">Index</a> and
    <a href="#tables">Table</a> sections of the Proofreading Guidelines.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="tables">Tables</a></h3>
@@ -1828,6 +1907,7 @@ Same strip rolled up in  Same, 16 wires bound
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="poetry">Poetry/Epigrams</a></h3>
@@ -1899,6 +1979,8 @@ and he knew, when he had done it, and to his</tt>
    </tr>
  </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="line_no">Line Numbers</a></h3>
 <p>Keep line numbers. Use a few spaces to separate them from the other text on the line so that
@@ -1910,6 +1992,8 @@ the formatters can easily find them.
 </p>
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="next_word">Single word at bottom of page</a></h3>
 <p>Proofread these by deleting the word, even if it's the second half of a hyphenated word.
@@ -1922,6 +2006,7 @@ the formatters can easily find them.
 </p>
 <!-- END RR -->
 <!-- We need an example here! -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="blank_pg">Blank Page</a></h3>
@@ -1933,6 +2018,9 @@ the formatters can easily find them.
    but no text, follow the directions for a <a href="#bad_image">Bad Image</a>
    or <a href="#bad_text">Bad Text</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="title_pg">Front/Back Title Page</a></h3>
 <p>Proofread all the text, just as it was printed on the page, whether all capitals, upper and
@@ -1975,6 +2063,8 @@ the formatters can easily find them.
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="toc">Table of Contents</a></h3>
 <p>Proofread the Table of Contents just as it is printed in the book, whether all capitals,
@@ -2057,7 +2147,7 @@ the formatters can easily find them.
     </tr>
   </tbody>
 </table>
-
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="bk_index">Indexes</a></h3>
@@ -2069,6 +2159,7 @@ the formatters can easily find them.
    the text and numbers are correct.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="play_n">Plays: Actor Names/Stage Directions</a></h3>
@@ -2168,6 +2259,7 @@ You told me the walk was private.<br>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="anything">Anything else that needs special handling or that you're unsure of</a></h3>
@@ -2191,6 +2283,9 @@ You told me the walk was private.<br>
    name in the proofreading interface and posting a private message to them explaining how to handle the
    situation in the future. Please, as already stated, do not remove the note.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="prev_notes">Previous Proofreaders' Notes/Comments</a></h3>
 <p>Any notes or comments put in by a previous volunteer <b>must</b> be left in place.
@@ -2206,6 +2301,8 @@ You told me the walk was private.<br>
    Please, as already stated, do not remove the note.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <table width="100%" border="0" cellspacing="0" summary="Common Problems">
   <tbody>
@@ -2216,6 +2313,7 @@ You told me the walk was private.<br>
 </table>
 
 <h2>Common Problems</h2>
+
 
 <h3><a name="OCR_1lI">OCR Problems: 1-l-I</a></h3>
 <p>OCR commonly has trouble distinguishing between the digit '1' (one), the
@@ -2228,6 +2326,9 @@ You told me the walk was private.<br>
 <p>Noticing these is much easier if you use a mono-spaced font such as
    <a href="font_sample.php">DPCustomMono</a> or Courier.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="OCR_0O">OCR Problems: 0-O</a></h3>
 <p>OCR commonly has trouble distinguishing between the digit '0' (zero), and the uppercase letter 'O'.
@@ -2240,6 +2341,8 @@ You told me the walk was private.<br>
 <p>Noticing these is much easier if you use a mono-spaced font such as
    <a href="font_sample.php">DPCustomMono</a> or Courier.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="OCR_hyphen">OCR Problems: Hyphens and Dashes</a></h3>
@@ -2251,6 +2354,8 @@ You told me the walk was private.<br>
 <p>Noticing these is much easier if you use a mono-spaced font such as
    <a href="font_sample.php">DPCustomMono</a> or Courier.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="OCR_scanno">OCR Problems: Scannos</a></h3>
@@ -2271,11 +2376,15 @@ You told me the walk was private.<br>
 </p>
 <!-- END RR -->
 <!-- More to be added.... -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="hand_notes">Handwritten Notes in Book</a></h3>
 <p>Do not include handwritten notes in a book (unless it is overwriting faded, printed text to make it more visible).
    Do not include handwritten marginal notes made by readers, etc.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="bad_image">Bad Images</a></h3>
@@ -2300,6 +2409,9 @@ You told me the walk was private.<br>
    post a note in the <a href="#forums">project discussion</a> to notify the
    Project Manager.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="bad_text">Wrong Image for Text</a></h3>
 <p>If there is a wrong image for the text given, please put a post about this bad image
@@ -2307,6 +2419,9 @@ You told me the walk was private.<br>
    to Round"; if you do, the page will be reissued to the next proofreader. Instead, click
    on the "Report Bad Page" button so this page is 'quarantined'.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="round1">Previous Proofreader Mistakes</a></h3>
 <p>If the previous proofreader made a lot of mistakes or missed a lot of things,
@@ -2322,6 +2437,9 @@ You told me the walk was private.<br>
 <p>If the previous proofreader did an outstanding job, you can also send them a message
    about that&mdash;especially if they were working on a particularly difficult page.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="p_errors">Printer Errors/Misspellings</a></h3>
 <p>Correct all of the words that the OCR has misread (scannos), but do not correct
@@ -2334,6 +2452,9 @@ You told me the walk was private.<br>
    <tt>[**typo fixed, changed from "txet" to "text"]</tt>.
    Include the two asterisks <tt>**</tt> so the post-processor will notice it.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="f_errors">Factual Errors in Texts</a></h3>
 <p>In general, don't correct factual errors in the author's book. Many of the books we
@@ -2346,6 +2467,9 @@ You told me the walk was private.<br>
    message via the <a href="#forums">Forum</a>, or by inserting <tt>[**note sic
    explain-your-concern]</tt> at that point in the text.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="uncertain">Uncertain Items</a></h3>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [...to be completed...]

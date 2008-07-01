@@ -10,7 +10,9 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Regras de Revis&atilde;o','header');
+$theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
+
+theme('Regras de Revis&atilde;o','header',$theme_args);
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
@@ -30,7 +32,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     If you are updating this document, the above should be kept in mind.
 -->
 
-<h1 align="center">Regras de Revis&atilde;o</h1>
+<h1 align="center"><a name="top">Regras de Revis&atilde;o</a></h1>
 
 <h3 align="center">Vers&atilde;o 1.9.e, publicada a 19 de Julho de 2007 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Hist&oacute;rico)</font></a></h3>
@@ -193,6 +195,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    texto e a imagem.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
 
 <table summary="Summary Guidelines" border="0" cellspacing="0" width="100%">
   <tbody>
@@ -201,6 +204,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+
 
 <h3><a name="summary">Resumo das Regras</a></h3>
 <p>O <a href="proofing_summary.pdf">Resumo das Regras</a>
@@ -213,6 +217,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    pdf, pode obt&ecirc;-lo gratuitamente a partir da Adobe&reg;
    <a href="http://www.adobe.com/products/acrobat/readstep2.html">aqui</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="about">Sobre Este Documento</a></h3>
 <p>Este documento existe para minimizar as diferen&ccedil;as de
@@ -235,6 +242,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    sugest&otilde;es no F&oacute;rum da Documenta&ccedil;&atilde;o
    <a href="<? echo $Guideline_discussion_URL; ?>">nesta liga&ccedil;&atilde;o</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="comments">Coment&aacute;rios do Projecto</a></h3>
 <p>Na p&aacute;gina da interface de revis&atilde;o (P&aacute;gina do
@@ -263,6 +273,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    fizeram altera&ccedil;&otilde;es. <a href="<? echo $Using_project_details_URL ?>">Neste F&oacute;rum</a>
    debatem-se diferentes formas de usar este tipo de informa&ccedil;&atilde;o.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="forums">F&oacute;rum/Discuss&atilde;o deste Projecto</a></h3>
 <p>Na p&aacute;gina do ecr&atilde; de revis&atilde;o (P&aacute;gina do
@@ -279,6 +292,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    comunica&ccedil;&atilde;o com o Gestor de Projecto e com outros
    revisores que trabalham nesse projecto.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="prev_pg">Correc&ccedil;&atilde;o de erros em P&aacute;ginas Precedentes</a></h3>
 <p>Quando selecciona um projecto para rever, a <a href="#comments">P&aacute;gina
@@ -308,6 +324,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    dependendo da interface que utilizar.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 <table summary="Title Page" border="0" cellpadding="6" cellspacing="0" width="100%">
   <tbody>
     <tr>
@@ -346,11 +364,17 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    do Projecto</a>, que deve rever as aspas em textos de idioma n&atilde;o-ingl&ecirc;s
    de forma diferente, num determinado livro.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="single_q">Plicas</a></h3>
 <p>Reveja-as como <tt>'</tt> (ap&oacute;strofes). N&atilde;o as converta em
    aspas ("). Deixe-as como o autor as escreveu.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="quote_ea">Aspas no In&iacute;cio de Cada Linha</a></h3>
 <p>Remova as aspas de uma cita&ccedil;&atilde;o no in&iacute;cio de
@@ -364,6 +388,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    p&aacute;gina que estiver a rever. Deixe o texto assim&mdash;n&atilde;o
    feche aspas, se isso n&atilde;o estiver representado na imagem.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="period_s">Pontua&ccedil;&atilde;o Entre Frases</a></h3>
 <p>Reveja os pontos finais entre frases com um espa&ccedil;o logo a seguir.
@@ -373,6 +400,9 @@ possam existir depois de pontos finais&mdash;fazemo-lo automaticamente
 durante o p&oacute;s-processamento. Veja a imagem e o
 texto de exemplo das <a href="#para_side">Notas (Sidenotes)</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="punctuat">Pontua&ccedil;&atilde;o</a></h3>
 <p>Geralmente, n&atilde;o deve existir espa&ccedil;amento antes dos
@@ -400,6 +430,8 @@ texto de exemplo das <a href="#para_side">Notas (Sidenotes)</a>.
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="extra_sp">Espa&ccedil;o Extra Entre Palavras</a></h3>
 <p>Os espa&ccedil;os extra entre palavras s&atilde;o comuns nos
@@ -418,6 +450,9 @@ texto de exemplo das <a href="#para_side">Notas (Sidenotes)</a>.
    problem&aacute;ticos&mdash;n&atilde;o &eacute; necess&aacute;rio apagar
    um deles.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="trail_s">Espa&ccedil;o Extra no Final da Linha</a></h3>
 <p>N&atilde;o perca tempo a inserir espa&ccedil;os no final de cada
@@ -425,12 +460,18 @@ texto de exemplo das <a href="#para_side">Notas (Sidenotes)</a>.
    mais tarde. O mesmo se aplica relativamente &agrave; remo&ccedil;&atilde;o
    dos mesmos.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="drop_caps">Letra Grande e Ornamentada no In&iacute;cio do Par&aacute;grafo</a></h3>
 <p>Reveja as letras grandes e ornamentadas do in&iacute;cio do
    cap&iacute;tulo, sec&ccedil;&atilde;o ou par&aacute;grafo como se
    s&oacute; existisse a letra.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="em_dashes">Tra&ccedil;os, H&iacute;fenes e Sinais de Subtrac&ccedil;&atilde;o</a></h3>
 <p>Encontrar&aacute; nos livros quatro tipos principais:
@@ -591,6 +632,8 @@ texto de exemplo das <a href="#para_side">Notas (Sidenotes)</a>.
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="eol_hyphen">Hifeniza&ccedil;&atilde;o no Final da Linha</a></h3>
 <p>Quando surge um h&iacute;fen no final da linha, junte as duas partes
@@ -618,6 +661,9 @@ texto de exemplo das <a href="#para_side">Notas (Sidenotes)</a>.
    acesso a todas as p&aacute;ginas, e pode saber o modo como o autor escreve
    geralmente determinada palavra.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="eop_hyphen">Hifeniza&ccedil;&atilde;o no Final da P&aacute;gina</a></h3>
 <p>Reveja a hifeniza&ccedil;&atilde;o no final da p&aacute;gina,
@@ -640,6 +686,9 @@ texto de exemplo das <a href="#para_side">Notas (Sidenotes)</a>.
    p&oacute;s-processador de que precisa de juntar as duas partes da
    palavra, quando estiver a fazer o tratamento do e-book final.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="period_p">Elipses (Retic&ecirc;ncias) "..."</a></h3>
 <p>As regras referentes a este item s&atilde;o
@@ -684,6 +733,9 @@ texto de exemplo das <a href="#para_side">Notas (Sidenotes)</a>.
    P&oacute;s-processadores devem substituir os esses espa&ccedil;os por
    espa&ccedil;os que n&atilde;o provoquem quebras de linha).
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="contract">Contrac&ccedil;&otilde;es</a></h3>
 <p>Remova todo e qualquer espa&ccedil;o extra nas
@@ -702,6 +754,9 @@ texto de exemplo das <a href="#para_side">Notas (Sidenotes)</a>.
    coloquialismos, dialectos ou palavras escritas noutra l&iacute;ngua
    que n&atilde;o a inglesa.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="fract_s">Frac&ccedil;&otilde;es</a></h3>
 <p>Reveja as <b>frac&ccedil;&otilde;es</b> da seguinte forma: <tt>2&frac12;</tt>
@@ -709,6 +764,9 @@ texto de exemplo das <a href="#para_side">Notas (Sidenotes)</a>.
    frac&ccedil;&atilde;o sejam separados na formata&ccedil;&atilde;o
    autom&aacute;tica, realizada no p&oacute;s-processamento.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="a_chars">Acentua&ccedil;&atilde;o/Caracteres Non-ASCII</a></h3>
 <? if(!$utf8_site) { ?>
@@ -1263,6 +1321,8 @@ texto de exemplo das <a href="#para_side">Notas (Sidenotes)</a>.
    norma siga as regras relativas &agrave;s <a href="#fract_s">Frac&ccedil;&otilde;es</a>.
    (1/2, 1/4, 3/4, etc.)
 </p>
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="d_chars">Caracteres com Sinais Diacr&iacute;ticos</a></h3>
 <p>Em alguns projectos, encontrar&aacute; caracteres como sinais
@@ -1401,6 +1461,8 @@ cedilla                      [,x]   [x,]
   </tbody>
 </table>
 <? } ?>
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="f_chars">Caracteres Non-Latin</a></h3>
 <p>H&aacute; projectos que cont&ecirc;m texto impresso em caracteres
@@ -1484,6 +1546,8 @@ cedilla                      [,x]   [x,]
    Coloque <tt>**</tt> para que o p&oacute;s-processador possa revolver a quest&atilde;o posteriormente.
 </p>
 <? } ?>
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="supers">Texto Superescrito (Superscripts)</a></h3>
 <p>Os livros antigos abreviam frequentemente palavras em
@@ -1494,6 +1558,9 @@ cedilla                      [,x]   [x,]
    as identifique como texto superescrito, assim:<br>
    &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="subscr">Texto Subescrito (Subscripts)</a></h3>
 <p>O texto subescrito encontra-se geralmente em trabalhos
@@ -1504,12 +1571,18 @@ cedilla                      [,x]   [x,]
    <br>deve ser revisto assim:
    <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.</tt>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="font_sz">Altera&ccedil;&otilde;es no Tamanho da Fonte</a></h3>
 <p>N&atilde;o fazemos nada relativamente a
    altera&ccedil;&otilde;es no tamanho da fonte. Os formatadores
    tratar&atilde;o disso mais tarde.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="italics">Texto em It&aacute;lico e em Negrito</a></h3>
 <p>O texto em <i>it&aacute;lico</i> pode aparecer ocasionalmente
@@ -1519,6 +1592,9 @@ cedilla                      [,x]   [x,]
    existir na p&aacute;gina. N&atilde;o o acrescente, caso n&atilde;o
    exista. Os formatadores tratar&atilde;o disso mais tarde.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="small_caps">Texto em Mai&uacute;sculas Mais Pequenas
     (<span style="font-variant: small-caps;">Small Caps)</span></a></h3>
@@ -1535,6 +1611,9 @@ cedilla                      [,x]   [x,]
    min&uacute;scula, reveja como se estivessem todas em MAI&Uacute;SCULA,
    Mista ou min&uacute;scula, tal como aparecem.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="line_br">Quebras de Linha</a></h3>
 <p><b>Mantenha todas as quebra de linha existentes</b>, para
@@ -1545,6 +1624,9 @@ cedilla                      [,x]   [x,]
    alterou as quebras de linha, por favor, recoloque-as
    de forma a representar a imagem mais fielmente.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="chap_head">T&iacute;tulos de Cap&iacute;tulo</a></h3>
 <p>Reveja os t&iacute;tulos de cap&iacute;tulo tal como surgem no texto.
@@ -1563,6 +1645,8 @@ cedilla                      [,x]   [x,]
    aspas.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="para_space">Espa&ccedil;o entre Par&aacute;grafos e Avan&ccedil;os</a></h3>
 <p>Coloque uma linha em branco para separar par&aacute;grafos. N&atilde;o deve
@@ -1574,6 +1658,9 @@ cedilla                      [,x]   [x,]
 <p>Veja a imagem e o texto das <a href="#para_side">Notas (Sidenotes)</a> como
    exemplo.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="page_hf">Cabe&ccedil;alho/Rodap&eacute; da P&aacute;gina</a></h3>
 <p>Remova o cabe&ccedil;alho e rodap&eacute; das p&aacute;ginas,
@@ -1656,6 +1743,8 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="illust">Figuras</a></h3>
 <p>Reveja as legendas tal como surgem impressas, mantendo eventuais
@@ -1725,6 +1814,8 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="footnotes">Notas de Rodap&eacute;</a></h3>
 <p><b>As notas de rodap&eacute; s&atilde;o colocadas fora da linha</b>;
@@ -1750,7 +1841,6 @@ cedilla                      [,x]   [x,]
    no texto. Se houver mais do que uma, separe as notas de rodap&eacute;
    com uma linha em branco.
 </p>
-
 <!-- END RR -->
 
 <p>Veja a imagem e o texto do <a href="#page_hf">Cabe&ccedil;alho
@@ -1852,6 +1942,8 @@ As <b>notas de rodap&eacute; em <a href="#tables">Tabelas</a></b> devem
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="para_side">Notas (Sidenotes)</a></h3>
 <p>Alguns livros t&ecirc;m pequenas descri&ccedil;&otilde;es do
@@ -1865,7 +1957,6 @@ As <b>notas de rodap&eacute; em <a href="#tables">Tabelas</a></b> devem
    formatadores ir&atilde;o coloc&aacute;-las no s&iacute;tio
    correcto.
 </p>
-
 <!-- END RR -->
 
   <table width="100%" align="center" border="1" cellpadding="4"
@@ -1969,6 +2060,8 @@ As <b>notas de rodap&eacute; em <a href="#tables">Tabelas</a></b> devem
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="mult_col">V&aacute;rias Colunas</a></h3>
 <p>Reveja o texto impresso em duas colunas, como se de uma &uacute;nica
@@ -1983,6 +2076,9 @@ As <b>notas de rodap&eacute; em <a href="#tables">Tabelas</a></b> devem
 <p>Veja tamb&eacute;m as sec&ccedil;&otilde;es <a href="#bk_index">&Iacute;ndices</a>
    e <a href="#tables">Tabelas</a> das Regras de Revis&atilde;o.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="tables">Tabelas</a></h3>
 <p>A fun&ccedil;&atilde;o do revisor &eacute; certificar-se de que a
@@ -2062,6 +2158,8 @@ Same strip rolled up in  Same, 16 wires bound
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="poetry">Poesia/Epigramas</a></h3>
 <p>Insira uma linha em branco no in&iacute;cio e outra no final da
@@ -2138,6 +2236,8 @@ and he knew, when he had done it, and to his</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="line_no">Numera&ccedil;&atilde;o de Linhas</a></h3>
 <p>Mantenha a numera&ccedil;&atilde;o de linhas.
@@ -2154,6 +2254,8 @@ and he knew, when he had done it, and to his</tt>
 </p>
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="next_word">Palavra Isolada no Final da P&aacute;gina</a></h3>
 <p>Reveja estes casos eliminando a palavra, mesmo que seja a segunda parte de uma palavra hifenizada.
@@ -2167,6 +2269,9 @@ and he knew, when he had done it, and to his</tt>
    p&aacute;ginas antes as encadernar, e para ajudar o leitor, evitando que
    saltesse p&aacute;ginas sem querer.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="blank_pg">P&aacute;gina em Branco</a></h3>
 <p>A maioria das p&aacute;ginas em branco, ou apenas com uma imagem,
@@ -2180,6 +2285,9 @@ and he knew, when he had done it, and to his</tt>
    escritas em <a href="#bad_image">P&aacute;gina Danificada</a>
    ou <a href="#bad_text">Texto Danificado</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="title_pg">P&aacute;gina de Rosto (Frente e Verso)</a></h3>
 <p>Reveja todo o texto, tal como foi impresso na p&aacute;gina, mesmo que esteja
@@ -2220,6 +2328,8 @@ and he knew, when he had done it, and to his</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="toc">Tabela de Conte&uacute;dos</a></h3>
 <p>Reveja a Tabela de Conte&uacute;dos tal como est&aacute; impressa no livro,
@@ -2301,6 +2411,8 @@ and he knew, when he had done it, and to his</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="bk_index">&Iacute;ndices</a></h3>
 <p>Por favor, mantenha os n&uacute;meros de p&aacute;ginas nas
@@ -2315,6 +2427,8 @@ and he knew, when he had done it, and to his</tt>
    correctos.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="play_n">Pe&ccedil;as de Teatro: Nome de Actores/Marca&ccedil;&otilde;es C&eacute;nicas</a></h3>
 <ul compact>
@@ -2415,6 +2529,8 @@ You told me the walk was private.<br>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="anything">Qualquer outra situa&ccedil;&atilde;o que
    necessite de um tratamento especial ou que suscite d&uacute;vidas</a></h3>
@@ -2449,6 +2565,9 @@ You told me the walk was private.<br>
    quest&otilde;es semelhantes no futuro. Por favor, relembramos
    que n&atilde;o deve remover a nota.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="prev_notes">Notas de Revisores Precedentes</a></h3>
 <p>Quaisquer notas ou coment&aacute;rios de um revisor
@@ -2466,6 +2585,8 @@ You told me the walk was private.<br>
    como j&aacute; foi referido anteriormente, n&atilde;o remova a nota.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <table summary="Common Problems" border="0" cellspacing="0" width="100%">
   <tbody>
@@ -2476,6 +2597,7 @@ You told me the walk was private.<br>
 </table>
 
 <h2>Problemas Comuns</h2>
+
 
 <h3><a name="OCR_1lI">Problemas de OCR: 1-l-I</a></h3>
 <p>Geralmente, o OCR tem uma certa dificuldade em distinguir o
@@ -2494,6 +2616,9 @@ You told me the walk was private.<br>
    uma fonte mono-espa&ccedil;ada, como por exemplo <a href="font_sample.php">DPCustomMono</a>
    ou Courier.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="OCR_0O">Problemas de OCR: 0-O</a></h3>
 <p>Geralmente, o OCR tem uma certa dificuldade em distinguir o
@@ -2511,6 +2636,9 @@ You told me the walk was private.<br>
    uma fonte mono-espa&ccedil;ada, como por exemplo <a href="font_sample.php">DPCustomMono</a>
    ou Courier.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="OCR_hyphen">Problemas de OCR: H&iacute;fenes e Tra&ccedil;os</a></h3>
 <p>Geralmente, o OCR tem uma certa dificuldade em distinguir
@@ -2524,6 +2652,9 @@ You told me the walk was private.<br>
    uma fonte mono-espa&ccedil;ada, como por exemplo <a href="font_sample.php">DPCustomMono</a>
    ou Courier.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="OCR_scanno">Problemas de OCR: Erros de Leitura (Scannos)</a></h3>
 <p>Outro problema comum do OCR &eacute; o reconhecimento errado de
@@ -2552,6 +2683,9 @@ You told me the walk was private.<br>
    uma fonte mono-espa&ccedil;ada, como por exemplo <a href="font_sample.php">DPCustomMono</a>
    ou Courier.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="hand_notes">Notas Manuscritas no Livro</a></h3>
 <p>N&atilde;o inclua notas manuscritas do livro (excepto se o
@@ -2560,6 +2694,9 @@ You told me the walk was private.<br>
    notas manuscritas de leitores (por vezes surgem nas margens),
    etc.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="bad_image">Imagens Danificadas</a></h3>
 <p>Se uma imagem estiver danificada (n&atilde;o aparecer no
@@ -2589,6 +2726,9 @@ You told me the walk was private.<br>
    no <a href="#forums">f&oacute;rum</a> dos coment&aacute;rios do
    projecto, de forma a alertar o Gestor de Projecto.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="bad_text">Imagem N&atilde;o Corresponde ao Texto</a></h3>
 <p>Se a imagem n&atilde;o corresponder ao texto apresentado, por favor,
@@ -2598,6 +2738,9 @@ You told me the walk was private.<br>
    vez disso, clique em "Reportar Uma P&aacute;gina Danificada", para que
    esta p&aacute;gina fique de 'quarentena'.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="round1">Erros do Revisor Precedente</a></h3>
 <p>Se o revisor precedente cometeu v&aacute;rios erros, ou ignorou
@@ -2619,6 +2762,9 @@ You told me the walk was private.<br>
    enviar-lhe uma mensagem a congratul&aacute;-lo&mdash;especialmente se
    tiver revisto uma p&aacute;gina particularmente dif&iacute;cil.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="p_errors">Erros de Impress&atilde;o/Ortografia</a></h3>
 <p>Corrija todas as palavras que tenham sido lidas de forma
@@ -2635,6 +2781,9 @@ You told me the walk was private.<br>
    alterou: <tt>[**typo corrigido, alterado de "tetxo" para "texto"]</tt>. Inclua
    <tt>**</tt>, para chamar a aten&ccedil;&atilde;o do p&oacute;s-processador.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="f_errors">Erros Factuais no Texto</a></h3>
 <p>Por norma, n&atilde;o corrija erros factuais existentes no livro.
@@ -2650,6 +2799,9 @@ You told me the walk was private.<br>
    no <a href="#forums">F&oacute;rum</a>, ou adicionando <tt>[**note
    sic explique-a-sua-quest&atilde;o]</tt> no local onde verifica tal erro.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
+
 
 <h3><a name="uncertain">Termos Desconhecidos</a></h3>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [...em constru&ccedil;&atilde;o...]

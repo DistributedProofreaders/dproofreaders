@@ -7,7 +7,9 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Formatierungsrichtlinien','header');
+$theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
+
+theme('Formatierungsrichtlinien','header',$theme_args);
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
@@ -27,7 +29,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     If you are updating this document, the above should be kept in mind.
 -->
 
-<h1 align="center">Formatierungsrichtlinien</h1>
+<h1 align="center"><a name="top">Formatierungsrichtlinien</a></h1>
 
 <h3 align="center">Version 1.9.e vom 19. Juli 2007 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(&Uuml;berarbeitungsverlauf)</font></a></h3>
@@ -188,6 +190,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    vergleichen.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 <table width="100%" border="0" cellspacing="0" summary="Summary Guidelines">
   <tbody>
@@ -196,6 +199,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+
 
 <h3><a name="summary">Kurzfassung dieser Richtlinien</a></h3>
 <p>Die Kurzfassung dieser Richtlinien ist ein &uuml;bersichtliches, zweiseitiges
@@ -210,6 +214,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    herunterladen und installieren. Eine kostenlose Version von Adobe&reg; finden
    Sie <a href="http://www.adobe.com/products/acrobat/readstep2.html">hier</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="about">&Uuml;ber dieses Dokument</a></h3>
 <p>Dieses Dokument enth&auml;lt Erkl&auml;rungen zu den Formatierregeln. Jedes
@@ -230,6 +237,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    indem Sie uns Ihre Verbesserungsvorschl&auml;ge im
    <a href="<? echo $Guideline_discussion_URL; ?>">Forum Dokumentation</a> mitteilen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="comments">Projektkommentare</a></h3>
 <p>Auf der Projektseite, dem Ausgangspunkt f&uuml;r das Formatieren, finden Sie
@@ -254,6 +264,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    <a href="<? echo $Using_project_details_URL ?>">Dieses Forum</a>
    er&ouml;rtert verschiedene Arten, diese Informationen zu benutzen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="forums">Forum/Diskussion eines Projektes</a></h3>
 <p>Auf der Projektseite, dem Ausgangspunkt f&uuml;r das Formatieren, gibt es in
@@ -266,6 +279,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    um mit dem Projektmanager und anderen Formatierern zu kommunizieren, die ebenfalls
    an diesem Buch arbeiten.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="prev_pg">Fehler auf fr&uuml;heren Seiten beheben</a></h3>
 <p>Wenn Sie ein Projekt zum Formatieren ausw&auml;hlen, wird die
@@ -295,6 +311,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Benutzeroberfl&auml;che Sie verwenden.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 <table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Title Page">
   <tbody>
     <tr>
@@ -383,6 +401,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="bold">Fett gedruckter Text</a></h3>
 <p>Formatieren Sie <b>fett gedruckten Text</b> (Text, der in kr&auml;ftigeren
@@ -402,6 +422,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    fest, dass fett gedruckter Text als Text in Gro&szlig;buchstaben wiedergegeben
    werden soll.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="underl">Unterstrichener Text</a></h3>
 <p>Formatieren Sie <u>unterstrichenen Text</u> wie <a href="#italics">kursiv
@@ -416,6 +439,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    fest, dass unterstrichener Text mit <tt>&lt;u&gt;</tt> und <tt>&lt;/u&gt;</tt>
    markiert werden soll.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="spaced">G e s p e r r t e r &nbsp; Text</a></h3>
 <p>Formatieren Sie &nbsp; g e s p e r r t e n &nbsp; T e x t &nbsp; mit
@@ -431,6 +457,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Diese schriftsetzerische Technik wurde in vielen &auml;lteren, insbesondere
    deutschsprachigen B&uuml;chern benutzt, um einen Teil des Textes zu betonen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="font_ch">&Auml;nderungen der Schriftart</a></h3>
 <p>Formatieren Sie eine &Auml;nderung der Schriftart innerhalb eines Absatzes
@@ -462,6 +491,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    selbst ist Teil eines Ausdrucks, eines Titels oder einer Abk&uuml;rzung in der
    anderen Schriftart.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="small_caps">W&ouml;rter in Kapit&auml;lchen</a></h3>
 <p><span style="font-variant:small-caps;">Kapit&auml;lchen in gemischter
@@ -497,6 +529,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    &lt;/sc&gt;. Das erste Wort eines Kapitels in Kapit&auml;lchen sollte in
    Gro&szlig;- und Kleinbuchstaben ohne Markierung ge&auml;ndert werden.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="word_caps">W&ouml;rter in Gro&szlig;buchstaben</a></h3>
 <p>Formatieren Sie W&ouml;rter, die in Gro&szlig;buchstaben gedruckt sind, als
@@ -507,6 +542,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    dies sollte in Gro&szlig;- und Kleinschreibung ge&auml;ndert werden. So wird
    "ONCE upon a time," zu "<tt>Once upon a time,</tt>".
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="font_sz">Unterschiedliche Schriftgr&ouml;&szlig;en</a></h3>
 <p>Normalerweise markieren wir &Auml;nderungen in der Schriftgr&ouml;&szlig;e
@@ -517,6 +555,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    eines Absatzes oder einer Textzeile &auml;ndert (siehe
    <a href="#font_ch">&Auml;nderungen der Schriftart</a>).
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="extra_sp">&Uuml;berfl&uuml;ssige Leerzeichen bzw. Tabulatoren zwischen
     W&ouml;rtern</a></h3>
@@ -533,6 +574,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    werden. Die zwei Leerzeichen nach dem Semikolon sind in Ordnung &ndash; Sie
    brauchen keines der beiden zu l&ouml;schen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="supers">Hochgestellte Zeichen</a></h3>
 <p>In &auml;lteren B&uuml;chern wurden W&ouml;rter h&auml;ufig mit verk&uuml;rzten
@@ -553,6 +597,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Manche Projektmanager legen in den <a href="#comments">Projektkommentaren</a>
    fest, dass hochgestellte Zeichen anders markiert werden sollen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="subscr">Tiefgestellte Zeichen</a></h3>
 <p>Tiefgestellte Zeichen kommen oft in wissenschaftlichen Texten vor, in anderen
@@ -564,6 +611,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    formatiert als:<br>
    &nbsp;&nbsp;&nbsp;&nbsp;<tt>H_{2}O.<br></tt>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="page_ref">Seitenverweise (&bdquo;siehe S. 123&ldquo;)</a></h3>
 <p>Formatieren Sie Seitenverweise innerhalb des Textes wie <tt>(siehe S. 123)</tt>
@@ -572,6 +622,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Pr&uuml;fen Sie die <a href="#comments">Projektkommentare</a>, um zu sehen,
    ob der Projektmanager besondere Vorgaben f&uuml;r Seitenverweise hat.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="line_br">Zeilenumbr&uuml;che</a></h3>
 <p><b>Lassen Sie alle Zeilenumbr&uuml;che stehen</b>, damit der n&auml;chste
@@ -587,9 +640,10 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    einf&uuml;gen. Leerzeilen am Ende der Seite sind in Ordnung &ndash; sie werden
    beim Speichern der Seite automatisch entfernt.
 </p>
-
 <!-- END RR -->
 <!-- We should have an example right here for this. -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="chap_head">Kapitel&uuml;berschriften</a></h3>
 <p>Formatieren Sie die Kapitel&uuml;berschriften so, wie sie im Text stehen.
@@ -737,6 +791,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="sect_head">Abschnitts&uuml;berschriften</a></h3>
 <p>Einige Texte haben Abschnitte innerhalb der Kapitel. Formatieren Sie diese
@@ -750,6 +806,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    fett oder gesperrt. Sie sollten jedoch Markierungen f&uuml;r Kursivschrift oder
    Kapit&auml;lchen einbringen, falls diese in der &Uuml;berschrift vorkommen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="maj_div">Weitere Hauptbestandteile eines Buches</a></h3>
 <p>Weitere Hauptbestandteile eines Buches wie Vorwort, Inhaltsverzeichnis, Einf&uuml;hrung,
@@ -758,6 +817,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    werden wie Kapitel&uuml;berschriften, <i>d.&nbsp;h.</i> vier Leerzeilen vor
    der &Uuml;berschrift und zwei Leerzeilen vor dem Beginn des Textes.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="para_space">Absatzabst&auml;nde und -einr&uuml;ckungen</a></h3>
 <p>F&uuml;gen Sie eine Leerzeile vor dem Beginn eines Absatzes ein, auch wenn
@@ -769,6 +831,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Ein Beispiel finden Sie im Abschnitt <a href="#chap_head">Kapitel&uuml;berschriften</a>
    weiter unten.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="extra_s">Zus&auml;tzliche(r) Abstand/Sternchen/Zeilen zwischen Abs&auml;tzen</a></h3>
 <p>Die meisten Abs&auml;tze beginnen direkt in der Zeile nach dem Ende des
@@ -832,6 +897,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="illust">Abbildungen</a></h3>
@@ -918,6 +984,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="footnotes">Fu&szlig;noten/Endnoten</a></h3>
 <p><b>Fu&szlig;noten stehen nicht im Flie&szlig;text</b>, d.&nbsp;h. der Text
@@ -1073,6 +1141,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="para_side">Randnoten (Marginalien)</a></h3>
 <p>Manche B&uuml;cher haben kurze Zusammenfassungen einzelner Abschnitte auf dem
@@ -1203,6 +1273,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="block_qt">Blockzitate</a></h3>
 <p>Umschlie&szlig;en Sie Blockzitate mit den Markierungen <tt>/#</tt> und <tt>#/</tt>.
@@ -1255,6 +1327,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="mult_col">Mehrspaltige Texte</a></h3>
 <p>Formatieren Sie normalen Text, der in zwei Spalten gedruckt wurde, als eine
@@ -1275,6 +1349,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Schlagwortverzeichnisse</a>, <a href="#lists">Aufz&auml;hlungen</a> und
    <a href="#tables">Tabellen</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="lists">Aufz&auml;hlungen</a></h3>
 <p>Umschlie&szlig;en Sie Listen mit den Markierungen <tt>/*</tt> und <tt>*/</tt>.
@@ -1338,6 +1415,8 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="tables">Tabellen</a></h3>
 <p>Umschlie&szlig;en Sie Tabellen mit den Markierungen <tt>/*</tt> und <tt>*/</tt>.
@@ -1434,6 +1513,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="poetry">Gedichte/Epigramme</a></h3>
@@ -1529,6 +1609,8 @@ and he knew, when he had done it, and to his</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="line_no">Zeilennummern</a></h3>
 <p>Zeilennummern werden beibehalten. Stellen Sie diese an das rechte Ende der Zeile,
@@ -1542,6 +1624,8 @@ and he knew, when he had done it, and to his</tt>
 </p>
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="letter">Briefe/Korrespondenz</a></h3>
 <p>Formatieren Sie Briefe und Korrespondenz wie <a href="#para_space">Abs&auml;tze</a>.
@@ -1591,6 +1675,7 @@ pleasure in making our return.</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="blank_pg">Leere Seiten</a></h3>
@@ -1602,6 +1687,9 @@ pleasure in making our return.</tt>
    dann halten Sie sich an die Anweisungen in den Abschnitten <a href="#bad_image">Schlechte
    Vorlagen</a> und <a href="#bad_text">Falsche Vorlage zum Text</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="title_pg">Vorder- und R&uuml;ckseiten von Titelbl&auml;ttern</a></h3>
 <p>Formatieren Sie den gesamten Text so, wie er auf der Seite gedruckt ist, einerlei
@@ -1644,6 +1732,8 @@ pleasure in making our return.</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="toc">Inhaltsverzeichnisse</a></h3>
 <p>Formatieren Sie das Inhaltsverzeichnis so, wie es im Buch abgedruckt ist, einerlei
@@ -1728,6 +1818,8 @@ pleasure in making our return.</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="bk_index">Sachregister und Schlagwortverzeichnisse</a></h3>
 <p>Bitte erhalten Sie die Seitenzahlen auf Registerseiten. Umschlie&szlig;en Sie
@@ -1830,6 +1922,8 @@ pleasure in making our return.</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="play_n">Dramen: Rollennamen/Regieanweisungen</a></h3>
 <p>F&uuml;r alle Dramen gilt:</p>
@@ -2062,6 +2156,8 @@ You told me the walk was private.<br>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="anything">Sonstige Besonderheiten und Behandlung von Unklarheiten</a></h3>
 <p>Vielleicht sto&szlig;en Sie w&auml;hrend des Formatierens auf etwas, das nicht
@@ -2093,6 +2189,9 @@ You told me the walk was private.<br>
    Zukunft behandelt werden soll. Aber, wie bereits gesagt, lassen Sie die Anmerkung
    auf jeden Fall stehen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="prev_notes">Anmerkungen vorhergehender Korrekturleser</a></h3>
 <p>Alle Anmerkungen oder Kommentare von Lesern aus fr&uuml;heren Runden
@@ -2110,8 +2209,11 @@ You told me the walk was private.<br>
    auf jeden Fall stehen.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 <br>
+
+
 <table width="100%" border="0" cellspacing="0" summary="Other Guidelines">
   <tbody>
     <tr>
@@ -2141,6 +2243,8 @@ You told me the walk was private.<br>
   <li><b>Chemieb&uuml;cher [wird erg&auml;nzt]</b></li>
   <li><b>Mathematikb&uuml;cher [wird erg&auml;nzt]</b></li>
 </ul>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <table width="100%" border="0" cellspacing="0" summary="Common Problems">
   <tbody>
@@ -2151,6 +2255,7 @@ You told me the walk was private.<br>
 </table>
 
 <h2>Allgemeine Probleme</h2>
+
 
 <h3><a name="bad_image">Schlechte Vorlagen</a></h3>
 <p>Ist eine Vorlage schlecht (sie wird nicht geladen, ist abgeschnitten oder unlesbar),
@@ -2174,6 +2279,9 @@ You told me the walk was private.<br>
    Gibt es mehrere Seiten dieser Art, sollten Sie im <a href="#forums">Projektforum</a>
    den Projektmanager darauf aufmerksam machen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="bad_text">Falsche Vorlage zum Text</a></h3>
 <p>Wenn eine falsche Vorlage zum Text im Korrekturfenster angezeigt wird, machen
@@ -2183,6 +2291,9 @@ You told me the walk was private.<br>
    Bad Page&lsquo; (unbrauchbare Seite melden), damit die Seite in Quarant&auml;ne
    kommt.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="round1">Fehler der vorherigen Korrekturleser bzw. Formatierer</a></h3>
 <p>Wenn ein vorhergehender Freiwilliger sehr viele Fehler gemacht hat oder viel
@@ -2200,6 +2311,9 @@ You told me the walk was private.<br>
    ihm ebenfalls eine Nachricht senden &ndash; vor allem, wenn die Seite besonders
    schwierig war.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="p_errors">Satz- und Rechtschreibfehler: &bdquo;Typos&ldquo;</a></h3>
 <p>Korrigieren Sie alle Fehler, die die OCR-Software fehlgelesen hat
@@ -2214,6 +2328,9 @@ You told me the walk was private.<br>
    from "Txet" to "Text"]</tt>. Verwenden Sie hierbei die beiden Sternchen <tt>**</tt>,
    damit der Nachbearbeiter auf diese Stelle aufmerksam wird.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="f_errors">Tatsachenfehler im Text</a></h3>
 <p>Im Allgemeinen gilt: Korrigieren Sie keine Tatsachenfehler im Buch des Autors.
@@ -2226,6 +2343,9 @@ You told me the walk was private.<br>
    Benachrichtigen Sie entweder den Projektmanager im <a href="#forums">Projektforum</a>,
    oder f&uuml;gen Sie <tt>[**note sic Ihre Anmerkung]</tt> im Text ein.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="uncertain">Unklare Punkte</a></h3>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[... wird erg&auml;nzt ...]

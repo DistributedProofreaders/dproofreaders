@@ -7,7 +7,9 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Formatting Guidelines','header');
+$theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
+
+theme('Formatting Guidelines','header',$theme_args);
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
@@ -27,7 +29,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     If you are updating this document, the above should be kept in mind.
 -->
 
-<h1 align="center">Formatting Guidelines</h1>
+<h1 align="center"><a name="top">Formatting Guidelines</a></h1>
 
 <h3 align="center">Version 1.9.e, revised July 19, 2007 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
@@ -179,6 +181,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    This allows them to easily compare the lines in the text to the lines in the image.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 <table width="100%" border="0" cellspacing="0" summary="Summary Guidelines">
   <tbody>
@@ -187,6 +190,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+
 
 <h3><a name="summary">Summary Guidelines</a></h3>
 <p>The <a href="formatting_summary.pdf">Formatting Summary</a> is a short, 2-page
@@ -197,6 +201,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>You may need to download and install a .pdf reader. You can get one free from Adobe&reg;
    <a href="http://www.adobe.com/products/acrobat/readstep2.html">here</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="about">About This Document</a></h3>
 <p>This document is written to explain the formatting rules we use to maintain consistency when formatting
@@ -213,6 +220,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>This document is a work in progress. Help us to progress by posting your suggested changes in the
    Documentation Forum in <a href="<? echo $Guideline_discussion_URL; ?>">this thread</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="comments">Project Comments</a></h3>
 
@@ -233,6 +243,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    <a href="<? echo $Using_project_details_URL ?>">This Forum thread</a>
    discusses different ways to use this information.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="forums">Forum/Discuss this Project</a></h3>
 <p>On the Project Page where you start formatting pages, on the line "Forum", there is
@@ -243,6 +256,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    forum thread is the recommended way to communicate with the Project Manager and other
    volunteers who are working on this book.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="prev_pg">Fixing errors on Previous Pages</a></h3>
 <p>When you select a project for formatting, the <a href="#comments">Project Page</a>
@@ -264,6 +280,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Interface Help</a>, depending on which interface you are using.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
+
 <table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Title Page">
   <tbody>
     <tr>
@@ -349,6 +368,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="bold">Bold Text</a></h3>
 <p>Format <b>bold text</b> (text printed in a heavier typeface) with
@@ -364,6 +385,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Some Project Managers may specify in the
    <a href="#comments">Project Comments</a> that bold text be rendered as all caps.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="underl">Underlined Text</a></h3>
 <p>Format <u>underlined text</u> as <a href="#italics">Italics</a>, with <tt>&lt;i&gt;</tt> and
@@ -375,6 +399,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Some Project Managers may specify in the <a href="#comments">Project Comments</a>
    that underlined text be marked up with the <tt>&lt;u&gt;</tt> and <tt>&lt;/u&gt;</tt> tags.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="spaced">S p a c e d &nbsp; O u t &nbsp; Text (gesperrt)</a></h3>
 <p>Format &nbsp; s p a c e d &nbsp; o u t &nbsp; text with <tt>&lt;g&gt;</tt> inserted
@@ -387,6 +414,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>This was a typesetting technique used to emphasize a piece of text in some older books,
    especially in German.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="font_ch">Font Changes</a></h3>
 <p>Format a change of font within a paragraph or line of normal text by inserting <tt>&lt;f&gt;</tt> before
@@ -412,6 +442,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    that is in a different font, or the punctuation is itself part of a phrase, title,
    or abbreviation in the different font.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="small_caps">Words in Small Capitals</a></h3>
 <p>The markup is different for <span style="font-variant:small-caps;">Mixed Case Small Caps</span>
@@ -441,6 +474,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    should be formatted as all-caps without any &lt;sc&gt; &lt;/sc&gt;. The first word of a chapter
    that is in Small Caps should be changed to mixed case without the tags.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="word_caps">Words in all Capitals</a></h3>
 <p>Format words that are printed in all capital letters as all capital letters.
@@ -449,6 +485,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    many old books typeset the first word of these in all caps; this should be changed to upper and
    lower case, so "ONCE upon a time," becomes "<tt>Once upon a time,</tt>"
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="font_sz">Font size changes</a></h3>
 <p>Normally we do not do anything to mark changes in font size.
@@ -457,6 +496,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    <a href="#block_qt">block quotation</a>, or when the font size changes within a single
    paragraph or line of text (see <a href="#font_ch">Font Changes</a>).
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="extra_sp">Extra Spaces or Tabs Between Words</a></h3>
 <p>Extra spaces and tab characters between words are common in OCR output. You don't need to bother
@@ -469,6 +511,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    the word "horse" and the semicolon should be removed. But the 2 spaces after the semicolon are
    fine&mdash;you don't have to delete one of them.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="supers">Superscripts</a></h3>
 <p>Older books often abbreviated words as contractions, and printed them as
@@ -487,6 +532,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>The Project Manager may specify in the <a href="#comments">Project Comments</a>
    that superscripted text be marked up differently.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="subscr">Subscripts</a></h3>
 <p>Subscripted text is often found in scientific works, but is not common in other
@@ -497,6 +545,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    <br>would be formatted as
    <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_{2}O.<br></tt>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="page_ref">Page References &quot;See Pg. 123&quot;</a></h3>
 <p>Format page number references within the text such as <tt>(see p. 123)</tt> as
@@ -504,6 +555,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Check the <a href="#comments">Project Comments</a> to see if the Project Manager
    has special requirements for page references.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="line_br">Line Breaks</a></h3>
 <p><b>Leave all line breaks in</b> so that the next formatter and the post-processor can easily compare
@@ -516,9 +570,10 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    add them for formatting. But blank lines at the bottom of the page are fine&mdash;these are removed
    when you save the page.
 </p>
-
 <!-- END RR -->
 <!-- We should have an example right here for this. -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="chap_head">Chapter Headers</a></h3>
 <p>Format chapter headers as they appear in the text.
@@ -660,6 +715,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="sect_head">Section Headers</a></h3>
 <p>Some texts have sections within chapters. Format these headers as they appear in the text.
@@ -670,6 +727,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    different font or as bold or spaced text; however you should include italics or small-caps
    markup if it appears in the header.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="maj_div">Other Major Divisions in Texts</a></h3>
 <p>Major Divisions in the text such as Preface, Foreword, Table of Contents, Introduction, Prologue, Epilogue,
@@ -677,6 +737,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    be formatted in the same way as Chapter Headers, <i>i.e.</i> 4 blank lines before the heading and 2 blank lines
    before the start of the text.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="para_space">Paragraph Spacing/Indenting</a></h3>
 <p>Put a blank line before the start of paragraphs, even if a paragraph starts at the top of a page.
@@ -685,6 +748,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>See the <a href="#chap_head">Chapter Headers</a> image/text for an example.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="extra_s">Extra Spacing/Stars/Line Between Paragraphs</a></h3>
 <p>Most paragraphs start on the line immediately after the end of the previous one. Sometimes
@@ -741,6 +807,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="illust">Illustrations</a></h3>
@@ -823,6 +890,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="footnotes">Footnotes/Endnotes</a></h3>
 <p><b>Footnotes are placed out-of-line</b>; that is, the text of the footnote is left
@@ -963,6 +1032,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="para_side">Paragraph Side-Descriptions (Sidenotes)</a></h3>
 <p>Some books will have short descriptions of the paragraph along the side of the text.
@@ -1088,6 +1159,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="block_qt">Block Quotations</a></h3>
 <p>Surround block quotations with <tt>/#</tt> and <tt>#/</tt> markers. Leave a blank line between these markers
@@ -1137,6 +1210,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="mult_col">Multiple Columns</a></h3>
 <p>Format ordinary text that has been printed in two columns as a single column.
@@ -1152,6 +1227,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>See also the <a href="#bk_index">Indexes</a>, <a href="#lists">Lists of Items</a> and
    <a href="#tables">Tables</a> sections of these Guidelines.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="lists">Lists of Items</a></h3>
 <p>Surround lists with <tt>/*</tt> and <tt>*/</tt> markers. Leave a blank line between these markers
@@ -1213,6 +1291,8 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="tables">Tables</a></h3>
 <p>Surround tables with <tt>/*</tt> and <tt>*/</tt> markers. Leave a blank line between these markers
@@ -1302,7 +1382,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
   </tbody>
 </table>
-
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="poetry">Poetry/Epigrams</a></h3>
@@ -1390,6 +1470,8 @@ and he knew, when he had done it, and to his</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="line_no">Line Numbers</a></h3>
 <p>Keep line numbers. Place them at least six spaces past the right hand end of
@@ -1401,6 +1483,8 @@ and he knew, when he had done it, and to his</tt>
 </p>
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="letter">Letters/Correspondence</a></h3>
 <p>Format letters and correspondence as you would <a href="#para_space">paragraphs</a>.
@@ -1447,6 +1531,7 @@ pleasure in making our return.</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 
 <h3><a name="blank_pg">Blank Page</a></h3>
@@ -1456,6 +1541,9 @@ pleasure in making our return.</tt>
    but no text, follow the directions for a <a href="#bad_image">Bad Image</a>
    or <a href="#bad_text">Bad Text</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="title_pg">Front/Back Title Page</a></h3>
 <p>Format all the text, just as it was printed on the page, whether all capitals, upper and
@@ -1498,6 +1586,8 @@ pleasure in making our return.</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="toc">Table of Contents</a></h3>
 <p>Format the Table of Contents just as it is printed in the book, whether all capitals,
@@ -1582,6 +1672,8 @@ pleasure in making our return.</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="bk_index">Indexes</a></h3>
 <p>Please retain page numbers in index pages. Surround the index with <tt>/*</tt> and <tt>*/</tt> tags,
@@ -1682,6 +1774,8 @@ pleasure in making our return.</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="play_n">Plays: Actor Names/Stage Directions</a></h3>
 <p>For all plays:</p>
@@ -1903,6 +1997,8 @@ You told me the walk was private.<br>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="anything">Anything else that needs special handling or that you're unsure of</a></h3>
 <p>While formatting, if you encounter something that isn't covered in these guidelines that you
@@ -1925,6 +2021,9 @@ You told me the walk was private.<br>
    name in the proofreading interface and posting a private message to them explaining how to handle the
    situation in the future. Please, as already stated, do not remove the note.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="prev_notes">Previous Proofreaders' Notes/Comments</a></h3>
 <p>Any notes or comments put in by a previous volunteer <b>must</b> be left in place.
@@ -1940,8 +2039,11 @@ You told me the walk was private.<br>
    Please, as already stated, do not remove the note.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
 
 <br>
+
+
 <table width="100%" border="0" cellspacing="0" summary="Other Guidelines">
   <tbody>
     <tr>
@@ -1971,6 +2073,8 @@ You told me the walk was private.<br>
   <li><b>                       Chemistry Books    [to be completed.]</b></li>
   <li><b>                       Mathematics Books  [to be completed.]</b></li>
 </ul>
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <table width="100%" border="0" cellspacing="0" summary="Common Problems">
   <tbody>
@@ -1981,6 +2085,7 @@ You told me the walk was private.<br>
 </table>
 
 <h2>Common Problems</h2>
+
 
 <h3><a name="bad_image">Bad Images</a></h3>
 <p>If an image is bad (not loading, chopped off, unable to be read), please put a post
@@ -2004,6 +2109,9 @@ You told me the walk was private.<br>
    post a note in the <a href="#forums">project discussion</a> to notify the
    Project Manager.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="bad_text">Wrong Image for Text</a></h3>
 <p>If there is a wrong image for the text given, please put a post about this bad image
@@ -2011,6 +2119,9 @@ You told me the walk was private.<br>
    to Round"; if you do, the page will be reissued to the next formatter. Instead, click
    on the "Report Bad Page" button so this page is 'quarantined'.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="round1">Previous Proofreading and Formatting Mistakes</a></h3>
 <p>If a previous volunteer made a lot of mistakes or missed a lot of things,
@@ -2026,6 +2137,9 @@ You told me the walk was private.<br>
 <p>If the previous volunteer did an outstanding job, you can also send them a message
    about that&mdash;especially if they were working on a particularly difficult page.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="p_errors">Printer Errors/Misspellings</a></h3>
 <p>Correct all of the words that the OCR has misread (scannos), but do not correct
@@ -2038,6 +2152,9 @@ You told me the walk was private.<br>
    <tt>[**typo fixed, changed from "txet" to "text"]</tt>.
    Include the two asterisks <tt>**</tt> so the post-processor will notice it.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="f_errors">Factual Errors in Texts</a></h3>
 <p>In general, don't correct factual errors in the author's book. Many of the books we
@@ -2050,6 +2167,9 @@ You told me the walk was private.<br>
    message via the <a href="#forums">Forum</a>, or by inserting <tt>[**note sic
    explain-your-concern]</tt> at that point in the text.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Back to top</a></p>
+
 
 <h3><a name="uncertain">Uncertain Items</a></h3>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[...to be completed...]

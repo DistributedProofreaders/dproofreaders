@@ -10,7 +10,9 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Proeflees-Richtlijnen','header');
+$theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
+
+theme('Proeflees-Richtlijnen','header',$theme_args);
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
@@ -30,7 +32,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     If you are updating this document, the above should be kept in mind.
 -->
 
-<h1 align="center">Proeflees-Richtlijnen</h1>
+<h1 align="center"><a name="top">Proeflees-Richtlijnen</a></h1>
 
 <h3 align="center">Versie 1.9.e, herzien July 19, 2007 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Herzieningsgeschiedenis)</font></a></h3>
@@ -187,6 +189,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Dit helpt hen om de regels in de tekst te vergelijken met de regels in het origineel.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 <table width="100%" border="0" cellspacing="0" summary="Summary Guidelines">
   <tbody>
@@ -207,6 +210,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Misschien moet je een .pdf lezer downloaden en installeren. Je kunt er 
    <a href="http://www.adobe.com/products/acrobat/readstep2.html">hier</a> gratis &eacute;&eacute;n van Adobe&reg; krijgen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="about">Over dit document</a>
  (<i><a href="proofreading_guidelines.php#about">About This Document</a></i>)</h3>
@@ -224,6 +230,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Dit document is in ontwikkeling. Help ons alsjeblieft bij de ontwikkeling hiervan, door veranderingen die je zou willen voorstellen,
    in <a href="<? echo $Guideline_discussion_URL; ?>">deze discussie</a> in het Documentation Forum te posten.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="comments">Toelichting bij een Project</a>
  (<i><a href="proofreading_guidelines.php#comments">Project Comments</a></i>)</h3>
@@ -244,6 +253,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    vrijwilligers veranderingen hebben aangebracht. <a href="<? echo $Using_project_details_URL ?>">Deze Forumdiscussie</a>
    bespreekt verschillende manieren om deze informatie te gebruiken.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="forums">Forum/ Bediscussieer dit Project</a>
  (<i><a href="proofreading_guidelines.php#forums">Forum/Discuss this Project</a></i>)</h3>
@@ -254,6 +266,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    met de tekst enz. Posten in deze Project Discussie is de aanbevolen manier om met de Project Manager en andere
    vrijwilligers die aan het boek werken, te communiceren.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="prev_pg">Het herstellen van vergissingen op voorgaande pagina's</a>
  (<i><a href="proofreading_guidelines.php#prev_pg">Fixing errors on Previous Pages</a></i>)</h3>
@@ -275,6 +290,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Interface Help</a> (deze documenten bestaan alleen in een Engelse versie), afhankelijk van welke interface je gebruikt.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 <table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Title Page">
   <tbody>
     <tr>
@@ -314,12 +331,18 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Het kan zijn dat de Project Manager in de <a href="#comments">Project Comments</a> voor een bepaald
    boek instructies geeft om aanhalingstekens uit een niet-Engelse taal anders te behandelen. 
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="single_q">Enkele aanhalingstekens</a>
  (<i><a href="proofreading_guidelines.php#single_q">Single Quotes</a></i>)</h3>
 <p>Proeflees deze als gewone ASCII <tt>'</tt> enkele aanhalingstekens (apostrof). Verander enkele
    aanhalingstekens niet in dubbele aanhalingstekens. Laat de aanhalingstekens staan zoals in het origineel. 
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="quote_ea">Aanhalingstekens op iedere regel</a>
  (<i><a href="proofreading_guidelines.php#quote_ea">Quote Marks on each line</a></i>)</h3>
@@ -333,6 +356,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    dit kan op een andere pagina zijn dan de pagina die je onder handen hebt.
    Laat dit zo: voeg geen aanhalingstekens toe die niet op de pagina aanwezig zijn. 
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="period_s">Punten aan het eind van een zin</a>
  (<i><a href="proofreading_guidelines.php#period_s">End-of-sentence Periods</a></i>)</h3>
@@ -341,6 +367,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Als er meer spaties achter een punt staan, hoef je die niet weg te halen, dat gebeurt automatisch
    tijdens het post-processen. Zie de <a href="#para_side">Sidenotes</a> voor een voorbeeld.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="punctuat">Interpunctie</a>
  (<i><a href="proofreading_guidelines.php#punctuat">Punctuation</a></i>)</h3>
@@ -365,6 +394,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="extra_sp">Extra Spaties of Tabs Tussen Woorden</a>
  (<i><a href="proofreading_guidelines.php#extra_sp">Extra spaces or tabs between Words</a></i>)</h3>
@@ -378,6 +409,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    tussen "horse" en de puntkomma verwijderd worden. Maar de twee spaties na de puntkomma mogen
    blijven staan, je hoeft er niet &eacute;&eacute;n weg te halen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="trail_s">Spaties aan het eind van een regel</a>
  (<i><a href="proofreading_guidelines.php#trail_s">Trailing Space at End-of-line</a></i>)</h3>
@@ -385,11 +419,17 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    aangezien we het later automatisch kunnen doen. Verspil je tijd ook niet door extra
    spaties aan het eind van regels weg te halen. 
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="drop_caps">Grote, Versierde Hoofdletter aan het begin</a>
  (<i><a href="proofreading_guidelines.php#drop_caps">Large, Ornate opening Capital letter (Drop Cap)</a></i>)</h3>
 <p>Proeflees een grote, versierde eerste letter van een hoofdstuk, paragraaf of alinea als een gewone letter.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="em_dashes">Liggend streepje: koppelteken, gedachtestreepje, minteken</a>
  (<i><a href="proofreading_guidelines.php#em_dashes">Dashes, Hyphens, and Minus Signs</a></i>)</h3>
@@ -540,6 +580,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="eol_hyphen">Woordafbreking aan het eind van een regel</a>
  (<i><a href="proofreading_guidelines.php#eol_hyphen">End-of-line Hyphenation</a></i>)</h3>
@@ -562,6 +604,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Het sterretje zorgt ervoor dat er naar wordt gekeken door de Post-Processor, die alle pagina's kan
    bekijken, en kan bepalen hoe de auteur dit woord schreef of geschreven zou hebben. 
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 
 <h3><a name="eop_hyphen">Woordafbreking aan het eind van een bladzijde</a>
@@ -586,6 +630,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Deze markeringen geven aan de Post-Processor een teken dat het woord moet worden samengevoegd,
    als de pagina's tot een e-boek worden samengevoegd.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="period_p">Beletselteken ofwel ellips &quot;&hellip;&quot;</a>
  (<i><a href="proofreading_guidelines.php#period_p">Period Pause &quot;&hellip;&quot; (Ellipsis)</a></i>)</h3>
@@ -618,6 +665,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    van de Post-Processor er op te vestigen.
    (Noot: Post-Processors dienen deze spaties te vervangen door <i>non-breaking</i> spaties.)
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="contract">Samentrekkingen</a>
  (<i><a href="proofreading_guidelines.php#contract">Contractions</a></i>)</h3>
@@ -632,6 +682,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    dat extra spaties in samentrekkingen niet verwijderd moeten worden, vooral wanneer het tekst
    betreft met straattaal of dialect, of wanneer de teksten niet in het Engels zijn geschreven. 
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="fract_s">Breuken</a>
    (<i><a href="proofreading_guidelines.php#fract_s">Fractions</a></i>)</h3>
@@ -640,6 +693,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    <span style="border-bottom: 1px dotted green;" title="rewrap: het opnieuw aanbrengen van regelafbrekingen">rewrappen</span>
    van elkaar worden gescheiden.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="a_chars">Tekens met accenten/Non ASCII tekens</a>
  (<i><a href="proofreading_guidelines.php#a_chars">Accented/Non-ASCII Characters</a></i>)</h3>
@@ -1119,6 +1175,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    <a href="#comments">Project Comments</a> specifiek gevraagd wordt.
    Volg de richtlijnen voor <a href="#fract_s">Breuken</a> (1/2, 1/4, 3/4 enz.).
 </p>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="d_chars">Lettertekens met Diakritische Tekens</a>
  (<i><a href="proofreading_guidelines.php#d_chars">Characters with Diacritical marks</a></i>)</h3>
@@ -1237,6 +1295,8 @@ cedille                      [,x]   [x,]
   </tbody>
 </table>
 <? } ?>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="f_chars">Niet-Latijnse lettertekens</a>
    (<i><a href="proofreading_guidelines.php#f_chars">Non-Latin Characters</a></i>)</h3>
@@ -1301,6 +1361,8 @@ cedille                      [,x]   [x,]
    de Post-Processor het later kan oplossen.
 </p>
 <? } ?>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="supers">Superscript</a>
  (<i><a href="proofreading_guidelines.php#supers">Superscripts</a></i>)</h3>
@@ -1310,6 +1372,9 @@ cedille                      [,x]   [x,]
    Proeflees deze door een enkel dakje (<tt>^</tt>) v&oacute;&oacute;r de tekst in superscript te zetten, zo:<br>
    &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="subscr">Subscript</a>
  (<i><a href="proofreading_guidelines.php#subscr">Subscripts</a></i>)</h3>
@@ -1320,11 +1385,17 @@ cedille                      [,x]   [x,]
    <br>wordt proefgelezen als
    <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.<br></tt>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="font_sz">Verandering in grootte van het lettertype</a>
  (<i><a href="proofreading_guidelines.php#font_sz">Font Size Changes</a></i>)</h3>
 <p>We markeren een verandering in grootte van lettertypes niet. De formatteerders doen dit later.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="italics">Cursief en Vet gedrukte Tekst</a>
  (<i><a href="proofreading_guidelines.php#italics">Italic and Bold Text</a></i>)</h3>
@@ -1335,6 +1406,7 @@ cedille                      [,x]   [x,]
    heen staat, die niet in het origineel voorkomt. Voeg het ook niet toe. De formatteerders doen dit later.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 
 <h3><a name="small_caps">Woorden in <span style="font-variant: small-caps">kleine hoofdlettertjes (Klein Kapitaal)</span></a>
@@ -1348,6 +1420,9 @@ cedille                      [,x]   [x,]
    Proeflees alleen de lettertekens. Laat ze in HOOFDLETTERS, of Klein Kapitaal,
    of kleine letters, precies zoals ze er staan.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="line_br">Regelafbrekingen</a>
  (<i><a href="proofreading_guidelines.php#line_br">Line Breaks</a></i>)</h3>
@@ -1357,10 +1432,9 @@ cedille                      [,x]   [x,]
    of als je woorden rondom <a href="#em_dashes">em-dashes</a> verplaatst. Als de vorige vrijwilliger
    regelafbrekingen verwijderd heeft, herstel ze dan alsjeblieft, zodat ze weer zo zijn als in het origineel.
 </p>
-
-
 <!-- END RR -->
 <!-- We should have an example right here for this. -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 
 <h3><a name="chap_head">Hoofdstuktitels</a>
@@ -1377,6 +1451,8 @@ cedille                      [,x]   [x,]
    met dialoog begon, voeg dan de aanhalingstekens toe.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="para_space">Ruimte tussen Alinea's/Inspringingen</a>
  (<i><a href="proofreading_guidelines.php#para_space">Paragraph Spacing/Indenting</a></i>)</h3>
@@ -1386,6 +1462,9 @@ cedille                      [,x]   [x,]
 </p>
 <p>Zie het voorbeeld bij de <a href="#para_side">Sidenotes</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="page_hf">Koptekst en Voettekst</a>
  (<i><a href="proofreading_guidelines.php#page_hf">Page Headers/Page Footers</a></i>)</h3>
@@ -1463,6 +1542,8 @@ cedille                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="illust">Illustraties</a>
  (<i><a href="proofreading_guidelines.php#illust">Illustrations</a></i>)</h3>
@@ -1474,7 +1555,6 @@ cedille                      [,x]   [x,]
 <p>De meeste pagina's met een illustratie zonder bijschrift zullen al gemarkeerd zijn
    met <tt>[Blank Page]</tt>. Laat deze markering voor wat hij is.
 </p>
-
 <!-- END RR -->
 
 <table width="100%" align="center" border="1" cellpadding="4"
@@ -1539,6 +1619,8 @@ cedille                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="footnotes">Voetnoten/Eindnoten</a>
  (<i><a href="proofreading_guidelines.php#footnotes">Footnotes/Endnotes</a></i>)</h3>
@@ -1560,7 +1642,6 @@ cedille                      [,x]   [x,]
 </p>
 <p>Als er meer dan &eacute;&eacute;n voetnoot is, moet er een lege regel tussen de voetnoten gezet worden.
 </p>
-
 <!-- END RR -->
 
 <p>Zie <a href="#page_hf">Koptekst/Voettekst</a> origineel&amp;tekst voor een voorbeeld van een voetnoot.
@@ -1654,6 +1735,8 @@ cedille                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="para_side">Beschrijvingen naast een Alinea (Sidenotes)</a>
  (<i><a href="proofreading_guidelines.php#para_side">Paragraph Side-Descriptions (Sidenotes)</a></i>)</h3>
@@ -1770,6 +1853,8 @@ cedille                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="mult_col">Meerdere kolommen</a>
  (<i><a href="proofreading_guidelines.php#mult_col">Multiple Columns</a></i>)</h3>
@@ -1782,6 +1867,9 @@ cedille                      [,x]   [x,]
 <p>Zie ook de hoofdstukken <a href="#bk_index">Indexen</a> en
    <a href="#tables">Tabellen</a> van deze Proeflees-Richtlijnen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="tables">Tabellen</a>
  (<i><a href="proofreading_guidelines.php#tables">Tables</a></i>)</h3>
@@ -1792,7 +1880,6 @@ cedille                      [,x]   [x,]
 <p><b>Voetnoten</b> in tabellen dienen aan het eind van de tabel te worden gezet.
    Zie <a href="#footnotes">Voetnoten</a> voor details.
 </p>
-
 <!-- END RR -->
 <table width="100%" align="center" border="1" cellpadding="4"
  cellspacing="0" summary="Table Example 1">
@@ -1854,6 +1941,8 @@ Same strip rolled up in  Same, 16 wires bound
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="poetry">Po&euml;zie/Epigrammen</a>
  (<i><a href="proofreading_guidelines.php#poetry">Poetry/Epigrams</a></i>)</h3>
@@ -1924,6 +2013,8 @@ and he knew, when he had done it, and to his</tt>
    </tr>
  </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="line_no">Regelnummers</a>
  (<i><a href="proofreading_guidelines.php#line_no">Line Numbers</a></i>)</h3>
@@ -1934,9 +2025,10 @@ and he knew, when he had done it, and to his</tt>
    of tiende regel. Ze komen vaak voor in gedichtenbundels. Ze zijn nuttig voor de lezers van e-boeken,
    aangezien po&euml;zie niet wordt geherformatteerd in de e-boek versie.
 </p>
-
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="next_word">Losstaand woord onderaan een pagina</a>
  (<i><a href="proofreading_guidelines.php#next_word">Single word at bottom of page</a></i>)</h3>
@@ -1950,6 +2042,8 @@ and he knew, when he had done it, and to his</tt>
 </p>
 <!-- END RR -->
 <!-- We need an example here! -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="blank_pg">Lege Pagina</a> (<i><a href="proofreading_guidelines.php#blank_pg">Blank Page</a></i>)</h3>
 <p>De meeste lege bladzijden, of bladzijden met een illustratie zonder tekst, zullen al gemarkeerd
@@ -1960,6 +2054,9 @@ and he knew, when he had done it, and to his</tt>
    of als er wel iets in het origineel staat maar er is geen tekst, volg de aanwijzingen voor een
    <a href="#bad_image">Slecht beeld (Bad Image)</a> of een <a href="#bad_text">Slechte tekst (Bad Text)</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="title_pg">Titelpagina aan de voor- of achterkant</a>
  (<i><a href="proofreading_guidelines.php#title_pg">Front/Back Title Page</a></i>)</h3>
@@ -2001,6 +2098,8 @@ and he knew, when he had done it, and to his</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="toc">Inhoudsopgave</a>
  (<i><a href="proofreading_guidelines.php#toc">Table of Contents</a></i>)</h3>
@@ -2081,6 +2180,8 @@ and he knew, when he had done it, and to his</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="bk_index">Indexen</a>
  (<i><a href="proofreading_guidelines.php#bk_index">Indexes</a></i>)</h3>
@@ -2091,6 +2192,7 @@ and he knew, when he had done it, and to his</tt>
 <p>Het formatteren van indexen gebeurt later. De proeflezer moet er voor zorgen dat de tekst en de getallen kloppen. 
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 
 <h3><a name="play_n">Toneelstukken: Namen van Spelers/Regieaanwijzingen</a>
@@ -2190,6 +2292,8 @@ You told me the walk was private.<br>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="anything">Alles wat op een speciale manier aangepakt moet worden, of waar je onzeker over bent</a>
  (<i><a href="proofreading_guidelines.php#anything">Anything else that needs special handling or that you're unsure of</a></i>)</h3>
@@ -2214,6 +2318,9 @@ You told me the walk was private.<br>
    priv&eacute; boodschap (<i>private message</i>) waarin je uitlegt hoe de situatie aangepakt kan worden.
    Zoals eerder vermeld: verwijder alsjeblieft de aantekening niet.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="prev_notes">Aantekeningen/Commentaar van eerdere proeflezers</a>
  (<i><a href="proofreading_guidelines.php#prev_notes">Previous Proofreaders' Notes</a></i>)</h3>
@@ -2229,6 +2336,8 @@ You told me the walk was private.<br>
    Zoals eerder vermeld: verwijder alsjeblieft de aantekening niet.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <table width="100%" border="0" cellspacing="0" summary="Veel voorkomende problemen">
   <tbody>
@@ -2239,6 +2348,7 @@ You told me the walk was private.<br>
 </table>
 
 <h2>Veel voorkomende problemen</h2>
+
 
 <h3><a name="OCR_1lI">Problemen met de OCR: 1-l-I</a>
  (<i><a href="proofreading_guidelines.php#OCR_1lI">OCR Problems: 1-l-I</a></i>)</h3>
@@ -2251,6 +2361,9 @@ You told me the walk was private.<br>
 <p>Je merkt dit soort dingen veel eerder op als je een 'mono-spaced' lettertype zoals
    <a href="font_sample.php">DPCustomMono</a> of Courier gebruikt.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="OCR_0O">Problemen met de OCR: 0-O</a>
  (<i><a href="proofreading_guidelines.php#OCR_0O">OCR Problems: 0-O</a></i>)</h3>
@@ -2263,6 +2376,9 @@ You told me the walk was private.<br>
 <p>Je merkt dit soort dingen veel eerder op als je een 'mono-spaced' lettertype zoals
    <a href="font_sample.php">DPCustomMono</a> of Courier gebruikt.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="OCR_hyphen">Problemen met de OCR: Afbreekstreepjes en andere streepjes</a>
  (<i><a href="proofreading_guidelines.php#OCR_hyphen">OCR Problems: Hyphens and Dashes</a></i>)</h3>
@@ -2274,6 +2390,9 @@ You told me the walk was private.<br>
 <p>Je merkt dit soort dingen veel eerder op als je een 'mono-spaced' lettertype zoals
    <a href="font_sample.php">DPCustomMono</a> of Courier gebruikt.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="OCR_scanno">Problemen met de OCR: Scanno's</a>
  (<i><a href="proofreading_guidelines.php#OCR_scanno">OCR Problems: Scannos</a></i>)</h3>
@@ -2297,12 +2416,17 @@ You told me the walk was private.<br>
 </p>
 <!-- END RR -->
 <!-- More to be added.... -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="hand_notes">Handgeschreven aantekeningen in een boek</a>
  (<i><a href="proofreading_guidelines.php#hand_notes">Handwritten Notes in Book</a></i>)</h3>
 <p>Laat handgeschreven aantekeningen weg, behalve als de gedrukte tekst verbleekt en vervolgens overgetrokken is om
    de tekst beter zichtbaar te maken. Laat handgeschreven aantekeningen die door lezers e.d. in de kantlijn gezet zijn, weg.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="bad_image">Slecht beeld</a>
  (<i><a href="proofreading_guidelines.php#bad_image">Bad Image</a></i>)</h3>
@@ -2323,6 +2447,9 @@ You told me the walk was private.<br>
    de pagina wordt aan iemand anders toegekend. Als er meerdere pagina's zoals deze zijn, post
    dan in het <a href="#forums">Project Discussie</a> om de Project Manager in te lichten.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="bad_text">Verkeerd beeld voor de tekst</a>
  (<i><a href="proofreading_guidelines.php#bad_text">Wrong Image for Text</a></i>)</h3>
@@ -2331,6 +2458,9 @@ You told me the walk was private.<br>
    want dan wordt de pagina weer aan de volgende proeflezer gepresenteerd.
    Klik op de "Report Bad Page" button, waardoor de pagina in "quarantaine" gaat. 
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="round1">Eerder gemaakte proefleesvergissingen</a>
  (<i><a href="proofreading_guidelines.php#round1">Previous Proofreader Mistakes</a></i>)</h3>
@@ -2347,6 +2477,9 @@ You told me the walk was private.<br>
 <p>Als de vrijwilliger v&oacute;&oacute;r je uitstekend werk verricht heeft, kun je daar ook een boodschap over
    sturen&mdash;in het bijzonder als de pagina extra moeilijk was.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="p_errors">Vergissingen van de drukker/Spelfouten</a>
  (<i><a href="proofreading_guidelines.php#p_errors">Printer Errors/Misspellings</a></i>)</h3>
@@ -2359,6 +2492,9 @@ You told me the walk was private.<br>
    wat je veranderd hebt: <tt>[**typo verbeterd, "teskt" veranderd in "tekst"]</tt>. Zorg dat de
    twee sterretjes <tt>**</tt> er staan, zodat de Post-Processor de aantekening niet over het hoofd ziet. 
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="f_errors">Feitelijke fouten in de tekst</a>
  (<i><a href="proofreading_guidelines.php#f_errors">Factual Errors in Texts</a></i>)</h3>
@@ -2372,6 +2508,9 @@ You told me the walk was private.<br>
    in het <a href="#forums">Forum</a> te posten, of door een <tt>[** aantekening waarin je aangeeft
    wat er aan de hand is]</tt> op de betreffende plaats in de tekst.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="uncertain">Onzekere items</a>
  (<i><a href="proofreading_guidelines.php#uncertain">Uncertain Items</a></i>)</h3>

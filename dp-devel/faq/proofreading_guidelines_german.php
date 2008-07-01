@@ -7,7 +7,9 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Korrekturlese-Richtlinien','header');
+$theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
+
+theme('Korrekturlese-Richtlinien','header',$theme_args);
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
@@ -27,7 +29,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     If you are updating this document, the above should be kept in mind.
 -->
 
-<h1 align="center">Korrekturlese-Richtlinien</h1>
+<h1 align="center"><a name="top">Korrekturlese-Richtlinien</a></h1>
 
 <h3 align="center">Version 1.9.e vom 19. Juli 2007 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="dochist.php"><font size="-1">(&Uuml;berarbeitungsverlauf)</font></a>
 </h3>
@@ -188,6 +190,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Zeilen im Text leichter mit den Zeilen in der Vorlage vergleichen.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 <table width="100%" border="0" cellspacing="0" summary="Summary Guidelines">
   <tbody>
@@ -212,6 +215,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    von PDF-Dateien herunterladen und installieren. Eine kostenlose Version
    von Adobe&reg; finden Sie <a href="http://www.adobe.com/products/acrobat/readstep2.html">hier</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="about">&Uuml;ber dieses Dokument</a></h3>
@@ -233,6 +238,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    dabei, indem Sie uns Ihre Verbesserungsvorschl&auml;ge im
    <a href="<? echo $Guideline_discussion_URL; ?>">Forum Dokumentation</a> mitteilen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="comments">Projektkommentare</a></h3>
 <p>Auf der Projektseite, dem Ausgangspunkt f&uuml;r das Korrekturlesen,
@@ -260,6 +268,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    <a href="<? echo $Using_project_details_URL ?>">Dieses Forum</a>
    er&ouml;rtert verschiedene Arten, diese Informationen zu benutzen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="forums">Forum/Diskussion eines Projektes</a></h3>
 <p>Auf der Projektseite, dem Ausgangspunkt f&uuml;r das Korrekturlesen,
@@ -273,6 +284,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    diesen Forum-Thread, um mit dem Projektmanager und anderen Korrekturlesern
    zu kommunizieren, die ebenfalls an diesem Buch arbeiten.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="prev_pg">Fehler auf fr&uuml;heren Seiten beheben</a></h3>
 <p>Wenn Sie ein Projekt zum Bearbeiten ausw&auml;hlen, wird die
@@ -302,6 +316,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    je nachdem, welche Benutzeroberfl&auml;che Sie verwenden.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 <table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Title Page">
   <tbody>
     <tr>
@@ -348,6 +364,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Anf&uuml;hrungszeichen f&uuml;r ein bestimmtes Buch abweichend
    Korrektur zu lesen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="single_q">Einfache Anf&uuml;hrungszeichen</a></h3>
 <p>Lesen Sie diese bitte Korrektur als gew&ouml;hnliches einfaches
@@ -355,6 +374,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    keine einfachen durch doppelte Anf&uuml;hrungszeichen. Lassen Sie
    sie so, wie der Autor sie geschrieben hat.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="quote_ea">Anf&uuml;hrungszeichen auf jeder Zeile</a></h3>
 <p>Stehen bei Zitaten am Beginn jeder Zeile Anf&uuml;hrungszeichen,
@@ -369,6 +391,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    f&uuml;gen Sie keine schlie&szlig;enden Anf&uuml;hrungszeichen hinzu,
    die nicht auf der Buchseite stehen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="period_s">Punkte am Ende von S&auml;tzen</a></h3>
 <p>Hinter den Punkt, der einen Satz beendet, geh&ouml;rt ein einfaches Leerzeichen.
@@ -379,6 +404,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Beispielvorlage und Text zu <a href="#para_side">Randnoten
    (Marginalien)</a> als Beispiel.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="punctuat">Satzzeichen</a></h3>
 <p>Im Allgemeinen sollten keine Leerzeichen vor Satzzeichen stehen,
@@ -405,6 +433,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="extra_sp">&Uuml;berfl&uuml;ssige Leerzeichen bzw. Tabulatoren zwischen W&ouml;rtern</a></h3>
 <p>Die Texterkennung verursacht oft &uuml;berfl&uuml;ssige Leerzeichen
@@ -421,6 +451,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    dem Semikolon entfernt werden. Die zwei Leerzeichen nach dem Semikolon
    sind in Ordnung &ndash; Sie brauchen keines der beiden zu l&ouml;schen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="trail_s">Leerzeichen am Zeilenende</a></h3>
 <p>Verschwenden Sie keine Zeit damit, Leerzeichen am Ende jeder Zeile
@@ -428,12 +461,17 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Es ist auch nicht n&ouml;tig, &uuml;berfl&uuml;ssige Leerzeichen
    am Zeilenende zu entfernen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="drop_caps">&Uuml;berdimensionale, verzierte Gro&szlig;buchstaben als Er&ouml;ffnung (Initialen)</a></h3>
 <p>Lesen Sie einen gro&szlig;en, verzierten Buchstaben am Beginn
    eines Kapitels, eines Abschnitts oder einen Absatzes genau so
    Korrektur, als w&auml;re er ein gew&ouml;hnlicher Buchstabe.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="em_dashes">Bindestriche, kurze und lange Gedankenstriche</a></h3>
@@ -597,6 +635,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="eol_hyphen">Trennstriche am Zeilenende</a></h3>
 <p>Wenn ein Bindestrich als Trennzeichen am Zeilenende steht, dann
@@ -626,6 +666,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    &Uuml;berblick &uuml;ber alle Seiten hat und feststellen kann,
    wie der Autor das Wort &uuml;blicherweise geschrieben hat.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="eop_hyphen">Trennstriche am Seitenende</a></h3>
 <p>Trenn- und Gedankenstriche am Ende einer Seite werden Korrektur
@@ -650,6 +693,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Zusammenf&uuml;gen der einzelnen Seiten zum endg&uuml;ltigen
    E-Book verbunden werden muss.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="period_p">Auslassungspunkte &bdquo;...&ldquo; (Ellipse)</a></h3>
@@ -685,6 +730,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    auf die Stelle aufmerksam zu machen. (Anmerkung: Nachbearbeiter sollten
    diese regul&auml;ren Leerzeichen durch gesch&uuml;tzte Leerzeichen ersetzen.)
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="contract">Zusammenziehungen</a></h3>
 <p>Entfernen Sie Leerzeichen in Zusammenziehungen: zum Beispiel sollte
@@ -702,6 +750,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    die Umgangssprache bzw. Dialekt enthalten oder in einer anderen Sprache
    als Englisch verfasst sind.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="fract_s">Br&uuml;che</a></h3>
@@ -710,6 +760,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    zwischen ganzer Zahl und Bruch verhindert bei der Nachbearbeitung,
    dass die Zeile an dieser Stelle umgebrochen wird.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="a_chars">Akzente und nicht-ASCII-Zeichen</a></h3>
@@ -1224,6 +1276,8 @@ Opt-Q
    verlangt wird, verwenden Sie bitte keine Bruch-Symbole, sondern die
    Regeln f&uuml;r <a href="#fract_s">Br&uuml;che</a> (1/2, 1/4, 3/4, usw.).
 </p>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="d_chars">Buchstaben mit diakritischen Zeichen</a></h3>
 <p>In manchen Projekten gibt es Buchstaben mit speziellen Kennzeichnungen
@@ -1356,6 +1410,8 @@ cedilla                      [,x]   [x,]
   </tbody>
 </table>
 <? } ?>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="f_chars">Nicht-lateinische Zeichen</a></h3>
 <p>Manche Projekte beinhalten Zeichen aus nicht-lateinischen Schriften,
@@ -1443,6 +1499,8 @@ cedilla                      [,x]   [x,]
    den Text sp&auml;ter leichter finden und bearbeiten kann.
 </p>
 <? } ?>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="supers">Hochgestellte Zeichen</a></h3>
 <p>In &auml;lteren B&uuml;chern wurden W&ouml;rter h&auml;ufig mit
@@ -1453,6 +1511,8 @@ cedilla                      [,x]   [x,]
    einsetzen, gefolgt von dem hochgestellten Text. Also so:<br>
    &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="subscr">Tiefgestellte Zeichen</a></h3>
@@ -1462,12 +1522,17 @@ cedilla                      [,x]   [x,]
    Zum Beispiel wird <br>&nbsp;&nbsp;&nbsp;&nbsp;H<sub>2</sub>O.<br>
    Korrektur gelesen als: <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.<br></tt>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="font_sz">Unterschiedliche Schriftgr&ouml;&szlig;en</a></h3>
 <p>Ignorieren Sie unterschiedliche Schriftgr&ouml;&szlig;en. Darum
    k&uuml;mmern sich sp&auml;ter die Formatierer.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="italics">Kursiv- und Fettschrift</a></h3>
 <p><i>Kursiver</i> Text erscheint manchmal mit einem <tt>&lt;i&gt;</tt>
@@ -1480,6 +1545,7 @@ cedilla                      [,x]   [x,]
    sie fehlen. Das wird von den Formatierern sp&auml;ter im Prozess erledigt.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="small_caps">W&ouml;rter in Kapit&auml;lchen</a></h3>
@@ -1495,6 +1561,9 @@ cedilla                      [,x]   [x,]
    Zeichen schon GROSSBUCHSTABEN, kleinbuchstaben oder GeMIScht, so
    lassen Sie sie in GROSSBUCHSTABEN, kleinbuchstaben oder GeMIScht stehen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="line_br">Zeilenumbr&uuml;che</a></h3>
 <p><b>Lassen Sie alle Zeilenumbr&uuml;che stehen</b>, damit nachfolgende
@@ -1508,6 +1577,8 @@ cedilla                      [,x]   [x,]
 </p>
 <!-- END RR -->
 <!-- We should have an example right here for this. -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="chap_head">Kapitel&uuml;berschriften</a></h3>
 <p>Lesen Sie die Kapitel&uuml;berschriften so Korrektur, wie sie
@@ -1527,6 +1598,7 @@ cedilla                      [,x]   [x,]
    Anf&uuml;hrungszeichen ein.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="para_space">Absatzabst&auml;nde und -einr&uuml;ckungen</a></h3>
@@ -1539,6 +1611,9 @@ cedilla                      [,x]   [x,]
 <p>Ein Beispiel finden Sie im Abschnitt <a href="#para_side">Randnoten</a>
    weiter unten.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="page_hf">Kopf- und Fu&szlig;zeilen</a></h3>
 <p>L&ouml;schen Sie Kopf- und Fu&szlig;zeilen, aber
@@ -1620,6 +1695,8 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="illust">Abbildungen</a></h3>
 <p>Lesen Sie den Bildbeschreibungstext so Korrektur, wie er gedruckt
@@ -1698,6 +1775,8 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="footnotes">Fu&szlig;noten/Endnoten</a></h3>
 <p><b>Fu&szlig;noten stehen nicht im Flie&szlig;text</b>, d.&nbsp;h.
@@ -1825,6 +1904,8 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="para_side">Randnoten (Marginalien)</a></h3>
 <p>Manche B&uuml;cher haben kurze Zusammenfassungen einzelner
@@ -1944,6 +2025,8 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="mult_col">Mehrspaltige Texte</a></h3>
 <p>Lesen Sie normalen Text, der in zwei Spalten gedruckt wurde, als eine Spalte.
@@ -1957,6 +2040,8 @@ cedilla                      [,x]   [x,]
 <p>Lesen Sie dazu auch die Abschnitte <a href="#bk_index">Sachregister
    und Schlagwortverzeichnisse</a> sowie <a href="#tables">Tabellen</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="tables">Tabellen</a></h3>
@@ -2031,6 +2116,7 @@ Same strip rolled up in  Same, 16 wires bound
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="poetry">Gedichte/Epigramme</a></h3>
@@ -2104,6 +2190,8 @@ and he knew, when he had done it, and to his</tt>
    </tr>
  </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="line_no">Zeilennummern</a></h3>
 <p>Zeilennummern werden beibehalten. Trennen Sie sie mit mehreren
@@ -2117,6 +2205,8 @@ and he knew, when he had done it, and to his</tt>
 </p>
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="next_word">Einzelne W&ouml;rter am unteren Seitenrand</a></h3>
 <p>Entfernen Sie diese, auch wenn es die zweite H&auml;lfte eines
@@ -2132,6 +2222,7 @@ and he knew, when he had done it, and to his</tt>
 </p>
 <!-- END RR -->
 <!-- We need an example here! -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="blank_pg">Leere Seiten</a></h3>
@@ -2147,6 +2238,9 @@ and he knew, when he had done it, and to his</tt>
    Anweisungen in den Abschnitten <a href="#bad_image">Schlechte
    Vorlagen</a> und <a href="#bad_text">Falsche Vorlage zum Text</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="title_pg">Vorder- und R&uuml;ckseiten von Titelbl&auml;ttern</a></h3>
 <p>Lesen Sie den gesamten Text so Korrektur, wie er auf der Seite
@@ -2193,6 +2287,8 @@ and he knew, when he had done it, and to his</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="toc">Inhaltsverzeichnisse</a></h3>
 <p>Lesen Sie das Inhaltsverzeichnis so Korrektur, wie es im Buch
@@ -2278,6 +2374,7 @@ and he knew, when he had done it, and to his</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="bk_index">Sachregister und Schlagwortverzeichnisse</a></h3>
@@ -2292,6 +2389,7 @@ and he knew, when he had done it, and to his</tt>
    dass Text und Zahlen insgesamt korrekt sind.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="play_n">Dramen: Rollennamen/Regieanweisungen</a></h3>
@@ -2393,6 +2491,7 @@ You told me the walk was private.<br>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="anything">Sonstige Besonderheiten und Behandlung von Unklarheiten</a></h3>
@@ -2429,6 +2528,9 @@ You told me the walk was private.<br>
    behandelt werden soll. Aber, wie bereits gesagt, lassen Sie die
    Anmerkung auf jeden Fall stehen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="prev_notes">Anmerkungen vorhergehender Korrekturleser</a></h3>
 <p>Alle Anmerkungen oder Kommentare von Lesern aus fr&uuml;heren
@@ -2449,6 +2551,8 @@ You told me the walk was private.<br>
    Anmerkung auf jeden Fall stehen.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <table width="100%" border="0" cellspacing="0" summary="Allgemeine Probleme">
   <tbody>
@@ -2459,6 +2563,7 @@ You told me the walk was private.<br>
 </table>
 
 <h2>Allgemeine Probleme</h2>
+
 
 <h3><a name="OCR_1lI">OCR-Fehler: 1-l-I</a></h3>
 <p>OCR-Software hat gew&ouml;hnlich Schwierigkeiten, die Ziffer
@@ -2476,6 +2581,9 @@ You told me the walk was private.<br>
    nicht-proportionale Schriftart verwenden, wie etwa
    <a href="font_sample.php">DPCustomMono</a> oder Courier.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="OCR_0O">OCR-Fehler: 0-O</a></h3>
 <p>OCR-Software hat gew&ouml;hnlich Schwierigkeiten, die Ziffer
@@ -2492,6 +2600,8 @@ You told me the walk was private.<br>
    nicht-proportionale Schriftart verwenden, wie etwa
    <a href="font_sample.php">DPCustomMono</a> oder Courier.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="OCR_hyphen">OCR-Fehler: Binde- und Gedankenstriche</a></h3>
@@ -2506,6 +2616,8 @@ You told me the walk was private.<br>
    nicht-proportionale Schriftart verwenden, wie etwa
    <a href="font_sample.php">DPCustomMono</a> oder Courier.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="OCR_scanno">OCR-Fehler: &bdquo;Scannos&ldquo;</a></h3>
@@ -2539,6 +2651,8 @@ You told me the walk was private.<br>
 </p>
 <!-- END RR -->
 <!-- More to be added.... -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="hand_notes">Handgeschriebene Notizen in B&uuml;chern</a></h3>
 <p>&Uuml;bernehmen Sie keine handschriftlichen Erg&auml;nzungen oder
@@ -2547,6 +2661,8 @@ You told me the walk was private.<br>
    machen). Lassen Sie auch handgeschriebene Kommentare von Lesern
    usw. au&szlig;en vor.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
 <h3><a name="bad_image">Schlechte Vorlagen</a></h3>
@@ -2577,6 +2693,9 @@ You told me the walk was private.<br>
    Seiten dieser Art, sollten Sie im <a href="#forums">Projektforum</a>
    den Projektmanager darauf aufmerksam machen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="bad_text">Falsche Vorlage zum Text</a></h3>
 <p>Wenn eine falsche Vorlage zum Text im Korrekturfenster angezeigt
@@ -2587,6 +2706,9 @@ You told me the walk was private.<br>
    Page&lsquo; (unbrauchbare Seite melden), damit die Seite in
    Quarant&auml;ne kommt.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="round1">Fehler der vorherigen Korrekturleser</a></h3>
 <p>Wenn ein vorhergehender Korrekturleser sehr viele Fehler gemacht
@@ -2606,6 +2728,9 @@ You told me the walk was private.<br>
    k&ouml;nnen Sie ihm ebenfalls eine Nachricht senden &ndash; vor
    allem, wenn die Seite besonders schwierig war.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="p_errors">Satz- und Rechtschreibfehler: &bdquo;Typos&ldquo;</a></h3>
 <p>Korrigieren Sie alle Fehler, die die OCR-Software fehlgelesen hat
@@ -2624,6 +2749,9 @@ You told me the walk was private.<br>
    die beiden Sternchen <tt>**</tt>, damit der Nachbearbeiter auf
    diese Stelle aufmerksam wird.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="f_errors">Tatsachenfehler im Text</a></h3>
 <p>Im Allgemeinen gilt: Korrigieren Sie keine Tatsachenfehler im
@@ -2638,6 +2766,9 @@ You told me the walk was private.<br>
    den Projektmanager im <a href="#forums">Projektforum</a>, oder
    f&uuml;gen Sie <tt>[**note sic Ihre Anmerkung]</tt> im Text ein.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
+
 
 <h3><a name="uncertain">Unklare Punkte</a></h3>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [... wird erg&auml;nzt ...]

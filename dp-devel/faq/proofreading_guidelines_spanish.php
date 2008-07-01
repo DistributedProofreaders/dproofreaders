@@ -9,12 +9,14 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Reglas de Revisi&oacute;n','header');
+$theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
+
+theme('Reglas de Revisi&oacute;n','header',$theme_args);
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
 
-<h1 align="center">Reglas de Revisi&oacute;n</h1>
+<h1 align="center"><a name="top">Reglas de Revisi&oacute;n</a></h1>
 
 <h3 align="center">Version 1.9.c, generated January 1, 2006
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -178,6 +180,7 @@ Para ayudar al pr&oacute;ximo revisor y las personas que hacen el formato y el p
 texto con la imagen original.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 <table width="100%" border="0" cellspacing="0" summary="Summary Guidelines">
   <tbody>
@@ -187,7 +190,6 @@ texto con la imagen original.
   </tbody>
 
 </table>
-
 
 
 <h3><a name="about">Acerca de este documento</a></h3>
@@ -212,6 +214,9 @@ claro, av&iacute;senos por favor.
 Este documento est&aacute; evolucionando en el tiempo. Ay&uacute;denos a mejorar
 escribiendo sus sugerencias en el Foro de Documentaci&oacute;n en <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=18057"> este enlace</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="comments">Comentarios del proyecto</a></h3>
 
@@ -240,6 +245,9 @@ Proofread, & Differences' (Im&aacute;genes, P&aacute;ginas Revisadas y Diferenci
 permite ver como otros revisores han hecho los cambios. <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=10217"> En este foro</a> se
 habla sobre las diferentes maneras de usar esta informaci&oacute;n.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="forums">Foro/Discusi&oacute;n sobre este proyecto</a></h3>
 <p>En la p&aacute;gina de interfaz (Project Page), donde empieza la revisi&oacute;n de
@@ -253,6 +261,9 @@ para hacer preguntas sobre el libro, avisar al gerente del proyecto
 para comunicarse con el gerente del proyecto y otros revisores que
 trabajan en el mismo.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="prev_pg">Corrigiendo errores en anteriores p&aacute;ginas</a></h3>
 <p>Cuando selecciona un proyecto para revisar, se carga la P&aacute;gina del
@@ -281,6 +292,7 @@ Proofreading Interface Help</a> &oacute;
 Proofreading Interface Help</a> dependiendo de la interfaz que utilice.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Title Page">
   <tbody>
@@ -289,6 +301,7 @@ Proofreading Interface Help</a> dependiendo de la interfaz que utilice.
     </tr>
   </tbody>
 </table>
+
 
 <h3><a name="double_q">Comillas dobles</a></h3>
 <p>Revise las comillas dobles as&iacute;: ". No las cambie a comillas simples.
@@ -304,12 +317,18 @@ Puede que el Project Manager le informe en los <a href="#comments">Comentarios d
 proyecto</a> de la pauta a seguir en un proyecto
 en concreto.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="single_q">Comillas simples</a></h3>
 <p>Rev&iacute;selas como ASCII normal (as&iacute;: <tt>'</tt> ), comilla simple (ap&oacute;strofe). No
 cambie las comillas simples a dobles. D&eacute;jelas como el autor las
 escribi&oacute;.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="quote_ea">Comillas en cada l&iacute;nea</a></h3>
 
@@ -323,6 +342,9 @@ debe retener solamente las comillas de la primera l&iacute;nea del mismo.
 que puede estar en otra p&aacute;gina. D&eacute;jelo como est&aacute;&mdash;no ponga comillas que
 no se ven en la imagen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="period_s">Punto final de las frases</a></h3>
 <p>Deje s&oacute;lo un espacio despu&eacute;s del punto final de la frase.
@@ -330,6 +352,9 @@ no se ven en la imagen.
 <p>Si en el texto escaneado aparecen varios espacios despu&eacute;s del punto
 final, no es necesario quitar los espacios sobrantes&mdash;eso se hace
 autom&aacute;ticamente durante el pos-proceso. Vea las <a href="#para_side">Notas al margen</a> para un ejemplo.
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="punctuat">Puntuaci&oacute;n</a></h3>
 <p>En general, no deber&iacute;a de haber espacios en blanco ante los caracteres
@@ -356,6 +381,8 @@ blanco ante los caracteres de puntuaci&oacute;n.
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="extra_sp">Varios espacios en blanco entre palabras</a></h3>
 <p>Las tabulaciones o varios espacios en blanco entre palabras aparecen a
@@ -371,6 +398,9 @@ la palabra 'horse' y el punto y coma hay que eliminar. Pero, los dos
 espacios despu&eacute;s del punto y coma se pueden dejar&mdash;no es necesario
 eliminar uno de ellos.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="trail_s">Espacios en blanco al final de la l&iacute;nea</a></h3>
 <p>No pierda tiempo en insertar espacios en blanco al final de las l&iacute;neas
@@ -378,11 +408,16 @@ del texto. Es algo que se hace autom&aacute;ticamente m&aacute;s adelante en el
 pos-proceso. Tampoco pierda tiempo en eliminar los que sobran al final
 de las l&iacute;neas.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="drop_caps">Letras may&uacute;sculas ornamentadas al inicio del p&aacute;rrafo, frase o secci&oacute;n</a></h3>
 <p>Revise este tipo de letra ornamentada al inicio de un p&aacute;rrafo, frase o
 secci&oacute;n como letras normales.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 
 <h3><a name="em_dashes">Guiones, el signo menos "-" y rayas</a></h3>
@@ -552,6 +587,8 @@ di&aacute;logo se debe dejar como est&aacute;. Vea los ejemplos que siguen.
       <td>Gui&oacute;n largo</td></tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="eol_hyphen">Gui&oacute;n al final de la l&iacute;nea</a></h3>
 <p>
@@ -577,6 +614,9 @@ continuac&iacute;&oacute;n, y rejunte la palabra. As&iacute;: to-*day. El asteri
 atenci&oacute;n del pos-procesador, el que tiene acceso a todas las p&aacute;ginas, y
 puede decidir sobre la pauta que sigui&oacute; el autor en la obra.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="eop_hyphen">Gui&oacute;n al final de la p&aacute;gina</a></h3>
 <p>
@@ -601,6 +641,8 @@ La continuaci&oacute;n del ejemplo de arriba:<br>
 
 </p>
 <p>Estos indiquen al pos-procesor que las dos partes deben juntarse.</p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 
 <h3><a name="period_p">Puntos suspensivos "..."</a></h3>
@@ -633,6 +675,9 @@ suspensivos, y use el mismo n&uacute;mero de puntos que aparece en la imagen de
 la p&aacute;gina impresa. A veces la imagen no se ve bien.
 En ese caso, deje una nota para llamar atenci&oacute;n del pos-procesador as&iacute;: <tt>[**unclear]</tt>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="contract">Contracciones</a></h3>
 <p>Elimine espacio en blanco de las contracciones. Por ejemplo:
@@ -650,12 +695,16 @@ estos espacios en blanco de las contracciones, especialmente si se trata
 de los textos que contienen argot, dialectos o son textos en idiomas
 distintos al ingl&eacute;s.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 
 <h3><a name="fract_s">Fracciones</a></h3>
 <p>Revise fracciones as&iacute;:<tt>2&frac12;</tt> se convierte en <tt>2-1/2</tt>.
 El gui&oacute;n evita que se separen el n&uacute;mero y las fracciones cuando las l&iacute;neas se formateen en el pos-proceso.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 
 <h3><a name="a_chars">Caracteres acentuados</a></h3>
@@ -705,7 +754,6 @@ formas de codificaci&oacute;n. En este momento Distributed Proofreaders utiliza
 Latin-1 o ISO 8859-1 y -15. pero en el futuro se incluir&aacute; Unicode.
 Distributed Proofreaders Europe ya utiliza Unicode.
 </p>
-
 <!-- END RR -->
 <a name="a_chars_win"></a>
 <p><b>Para Windows</b>:
@@ -1176,6 +1224,8 @@ Si trabaja con la interfaz mejorada &laquo;enhanced&raquo;, haga clic en &ldquo;
 <p><sup><small>1</small></sup>Note: Si no est&aacute; escrito especialmente en los Comentarios del proyecto, no utilice los atajos ("Alt" y n&uacute;mero) s&iacute;mbolos para fracciones. En vez de eso haga los fracciones como dice las reglas de revisi&oacute;n en cuanto a los fracciones (&frac12;, &frac14;, etc.):
 <a href="#fract_s">Fracciones</a>. (1/2, 1/4, 3/4, etc.)
 </p>
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="d_chars">Signos diacr&iacute;ticos</a></h3>
 <p>
@@ -1199,7 +1249,6 @@ encuentran entre los caracteres Latin-1 que utilizamos normalmente.
 <b>En este caso, utilice el car&aacute;cter Latin-1 disponible en el men&uacute; de la interfaz
 del proyecto</b> (vea <a href="#a_chars">aqu&iacute;</a>).
 </p>
-
 <!-- END RR -->
 
 <p>En la siguiente tabla se ven los c&oacute;digos utilizados ahora:<br>
@@ -1293,6 +1342,8 @@ cedilla                      [,x]   [x,]
       </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="f_chars">Caracteres no-Latinos</a></h3>
 <p>
@@ -1342,6 +1393,8 @@ dificultades para transliterar estos idiomas. Ni <a href="http://www.pgdp.net">
 Distributed Proofreaders</a> ni <a href="http://www.gutenberg.org/"> Project
 Gutenberg</a> han elegido un m&eacute;todo estandardizado.</li>
 </ul>
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="supers">Super&iacute;ndice</a></h3>
 <p>En los libros antiguos eran frecuentes las contracciones que se
@@ -1358,6 +1411,8 @@ As&iacute;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp; <tt>Gen^rl Washington defeated L^d Cornwall's army.
 Y: S^r,S^ra, M^lle, etc.</tt>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 
 <h3><a name="subscr">Sub&iacute;ndice</a></h3>
@@ -1370,11 +1425,16 @@ tipo de obras. Revise el texto subscrito insertando un gui&oacute;n bajo (car&aa
    <br>&nbsp; &nbsp; &nbsp; &nbsp; <tt>H_2O.<br></tt>
 
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 
 <h3><a name="font_sz">Cambio de tama&ntilde;o de fuente</a></h3>
 <p>No indique cambios del tama&ntilde;o de fuente. Las personas que dan el formato al texto (los formateadores) lo har&aacute;n m&aacute;s adelante.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="italics">Textos en cursiva y negrita</a></h3>
 <p><i>Textos en cursiva</i> a veces aparecen entre <tt>&lt;i&gt;</tt>y<tt>&lt;/i&gt;</tt>. <b>Texto en negrita</b> a
@@ -1384,6 +1444,7 @@ ronda, las personas que dan formato al texto (los formateadores) lo har&aacute;n
 m&aacute;s adelante.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 
 <h3><a name="small_caps">Palabras en may&uacute;sculas peque&ntilde;as-versalitas</a></h3>
@@ -1399,6 +1460,9 @@ lo har&aacute;n mas adelante en el proceso.  Revise s&oacute;lo los caracteres m
 preocupe por los cambios de fuente. Si todas las letras son MAY&Uacute;SCULAS, min&uacute;sculas
 o Mezcladas, d&eacute;jelas como est&aacute;n.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="line_br">Saltos de l&iacute;nea</a></h3>
 
@@ -1406,10 +1470,10 @@ o Mezcladas, d&eacute;jelas como est&aacute;n.
 est&aacute;n</b> para que m&aacute;s adelante otros voluntarios puedan comparar f&aacute;cilmente
 las l&iacute;neas del texto con las de la imagen.
 </p>
-
-
 <!-- END RR -->
 <!-- We should have an example right here for this. -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="chap_head">T&iacute;tulos de cap&iacute;tulo</a></h3>
 
@@ -1428,7 +1492,7 @@ las que empieza el primer p&aacute;rrafo. Si el autor empieza este p&aacute;rraf
 di&aacute;logo, introduzca las comillas omitidas.
 </p>
 <!-- END RR -->
-
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 
 <h3><a name="para_space">P&aacute;rrafos</a></h3>
@@ -1437,6 +1501,9 @@ Ponga una l&iacute;nea en blanco entre los p&aacute;rrafos. No sangre los p&aacu
 </p>
 <p>Vea <a href="#para_side">Notas al margen</a> para un ejemplo.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="page_hf">Encabezado y pie de p&aacute;gina</a></h3>
 <p>
@@ -1531,6 +1598,8 @@ Vea la secci&oacute;n siguiente para ejemplos.
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="illust">Ilustraciones - Im&aacute;genes</a></h3>
 <p>
@@ -1545,7 +1614,6 @@ formateadores.
 La mayor&iacute;a de las p&aacute;ginas que contienen solamente la ilustraci&oacute;n ya
 est&aacute;n marcadas con <tt>[Blank Page]</tt>. Deje esta marca tal y como est&aacute;.
 </p>
-
 <!-- END RR -->
 
 <table width="100%" align="center" border="1" cellpadding="4"
@@ -1620,6 +1688,8 @@ est&aacute;n marcadas con <tt>[Blank Page]</tt>. Deje esta marca tal y como est&
 
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="footnotes">Notas al pie de p&aacute;gina</a></h3>
 <p><b>Las notas al pie se ubican fuera de la l&iacute;nea de texto</b>;
@@ -1650,7 +1720,6 @@ al pie, que la que utiliza junto a la palabra a la que esta se refiere
 Ponga cada nota al pie en una nueva l&iacute;nea. Ponga una l&iacute;nea en blanco al
 final de cada nota al pie de p&aacute;gina (si hay m&aacute;s que una).
 </p>
-
 <!-- END RR -->
 
 <p>Vea un ejemplo aqu&iacute;: <a href="#page_hf">Encabezado y pie de p&aacute;gina</a>
@@ -1759,6 +1828,8 @@ se deben quedar en el lugar en el que est&aacute;n en el texto original.
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="para_side">Notas al margen</a></h3>
 <p>
@@ -1772,7 +1843,6 @@ con el resto del texto de la p&aacute;gina. Separe el texto de la nota del
 resto del texto, coloc&aacute;ndolo todo junto. No se preocupe de lugar en la
 p&aacute;gina conde coloca el texto de la nota. Los formateadores lo pondr&aacute;n en
 el lugar apropiado.</p>
-
 <!-- END RR -->
 
   <table width="100%" align="center" border="1" cellpadding="4"
@@ -1894,6 +1964,8 @@ el lugar apropiado.</p>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="mult_col">M&uacute;ltiples Columnas</a></h3>
 <p>Revise el texto que est&aacute; editado en dos columnas como una sola.
@@ -1908,6 +1980,8 @@ Simplemente j&uacute;ntelo todo en una sola columna.
 <p>Vea tambi&eacute;n <a href="#bk_index">&Iacute;ndices</a> y <a href="#tables">Tablas</a> secciones de las reglas de
 revisi&oacute;n.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 
 <h3><a name="tables">Tablas</a></h3>
@@ -1987,6 +2061,7 @@ Same strip rolled up in  Same 16 wires bound
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 
 <h3><a name="poetry">Poes&iacute;a</a></h3>
@@ -2070,6 +2145,8 @@ and he knew, when he had done it, and to his</tt>
    </tr>
  </tbody>
 </table>
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="line_no">N&uacute;meros de l&iacute;nea</a></h3>
 
@@ -2084,6 +2161,8 @@ para orientar al lector.
 </p>
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="blank_pg">P&aacute;gina en blanco</a></h3>
 
@@ -2100,6 +2179,9 @@ aparece el texto, siga las instrucciones para <a href="#bad_image">Im&aacute;gen
 calidad</a> o <a href="#bad_text">Imagen
 que no corresponde al texto</a>, correlativamente.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="title_pg">Portada&mdash;Contraportada</a></h3>
 <p>
@@ -2150,6 +2232,8 @@ ornamentada&mdash;rev&iacute;sela como una letra normal.
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="toc">La tabla de contenidos</a></h3>
 <p>
@@ -2248,7 +2332,7 @@ proceso.
   </tbody>
 
 </table>
-
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 
 <h3><a name="bk_index">&Iacute;ndices</a></h3>
@@ -2260,6 +2344,7 @@ que los n&uacute;meros y la puntuaci&oacute;n sean correctos.</p>
 asegurarse que todo el texto y todos los n&uacute;meros sean correctos.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 
 <h3><a name="play_n">Obras de teatro&mdash;Nombres de actores&mdash;Directrices esc&eacute;nicas</a></h3>
@@ -2374,6 +2459,7 @@ You told me the walk was private.<br>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 
 <h3><a name="anything">Cualquier otra cosa que necesite tratamiento especial o no sepa como tratar</a></h3>
@@ -2408,6 +2494,9 @@ un momento para enviarle un mensaje privado haciendo clic en su nombre
 en la interfaz, explic&aacute;ndole c&oacute;mo tratar la situaci&oacute;n en el futuro. Por
 favor, como ya est&aacute; advertido, no elimine su nota.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="prev_notes">Notas y comentarios de revisores anteriores</a></h3>
 <p>
@@ -2426,6 +2515,8 @@ c&oacute;mo tratar la situaci&oacute;n en el futuro. Por favor, como ya est&aacu
 elimine la nota original.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <table width="100%" border="0" cellspacing="0" summary="Common Problems">
   <tbody>
@@ -2437,6 +2528,7 @@ elimine la nota original.
 </table>
 
 <h2>Problemas comunes</h2>
+
 
 <h3><a name="OCR_1lI">Problemas de OCR: 1-l-I</a></h3>
 <p>
@@ -2455,6 +2547,9 @@ mono-espaciada como por ejemplo DPCustomMono o Courier que se puede
 descargar haciendo clic en este
 enlace: <a href="font_sample.php">DPCustomMono</a> o Courier.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="OCR_0O">Problemas de OCR: 0-O</a></h3>
 <p>
@@ -2473,6 +2568,9 @@ mono-espaciada como por ejemplo DPCustomMono o Courier que se puede
 descargar haciendo clic en este
 enlace: <a href="font_sample.php">DPCustomMono</a> o Courier.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="OCR_scanno">Problemas de OCR: Scannos</a></h3>
 <p>
@@ -2508,6 +2606,8 @@ enlace: <a href="font_sample.php">DPCustomMono</a> o Courier.
 </p>
 <!-- END RR -->
 <!-- More to be added.... -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="hand_notes">Notas escritas a mano</a></h3>
 <p>
@@ -2516,6 +2616,8 @@ se trate de texto original que alguien haya reforzado a mano para que se
 vea mejor). No incluya notas escritas al margen por lectores del libro,
 etc.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
 
 
 <h3><a name="bad_image">Im&aacute;genes de baja calidad</a></h3>
@@ -2546,6 +2648,9 @@ ser&aacute; devuelta a la misma ronda para que lo haga otra persona. Si
 encuentra varias p&aacute;ginas as&iacute;, env&iacute;e un mensaje al foro (<a href="#forums">foros</a>) del proyecto y al
 gerente del proyecto.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="bad_text">Imagen que no corresponde al texto</a></h3>
 
@@ -2555,6 +2660,9 @@ p&aacute;gina a la ronda). Si lo hace la p&aacute;gina va al pr&oacute;ximo revi
 de eso, haga clic en &laquo;Report Bad Page&raquo; (informar sobre la baja calidad
 de la p&aacute;gina). La p&aacute;gina se pone en cuarentena.<hr>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="round1">Errores de revisores anteriores</a></h3>
 <p>
@@ -2575,6 +2683,9 @@ Si el revisor anterior hizo un trabajo magn&iacute;fico, tambi&eacute;n puede en
 un mensaje dici&eacute;ndoselo&mdash;especialmente si se trata de una p&aacute;gina
 dif&iacute;cil.<hr>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="p_errors">Errores de impresi&oacute;n / Ortograf&iacute;a</a></h3>
 <p>
@@ -2592,6 +2703,9 @@ y pregunte en el Foro del proyecto. Si cambia algo, incluya una nota que describ
   <tt>[**Transcriber's Note: typo fixed, changed from "txet" to "text"]</tt>
 Incluya los dos asteriscos <tt>**</tt> para llamar atenci&oacute;n del pos-procesor.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="f_errors">Errores de datos o hechos en el texto</a></h3>
 
@@ -2610,6 +2724,9 @@ al gerente del proyecto sobre este hecho, envi&aacute;ndole un mensaje privado
 o un mensaje al foro del proyecto (<a href="#forums">Forum</a>). Tambi&eacute;n ponga en el texto una nota
 tipo: <tt>[**es distinto de la en P&aacute;g. 123]</tt>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Ir arriba</a></p>
+
 
 <h3><a name="uncertain">Inseguridades</a></h3>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [...Est&aacute; por escribir...]

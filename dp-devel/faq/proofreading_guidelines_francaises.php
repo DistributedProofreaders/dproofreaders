@@ -11,7 +11,9 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Directives de Relecture et correction','header');
+$theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
+
+theme('Directives de Relecture et correction','header',$theme_args);
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
@@ -31,7 +33,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     If you are updating this document, the above should be kept in mind.
 -->
 
-<h1 align="center">Directives de Relecture et correction</h1>
+<h1 align="center"><a name="top">Directives de Relecture et correction</a></h1>
 
 <h3 align="center">Version 1.9.e, 23 janvier 2008 (traduction de la 1.9.e anglaise de juillet 2007)</h3>
 
@@ -187,6 +189,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    de comparer les lignes du texte corrig&eacute; et les lignes de l'image.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 <table width="100%" border="0" cellspacing="0" summary="Directives r&eacute;sum&eacute;es">
   <tbody>
@@ -207,6 +210,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Vous aurez besoin d'un lecteur de fichiers .pdf. Vous pouvez en t&eacute;l&eacute;charger
    un gratuitement chez Adobe&reg; <a href="http://www.adobe.com/products/acrobat/readstep2.html">ici</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="about">&Agrave; propos de ce document</a></h3>
@@ -229,6 +234,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    envoyant vos suggestions de changements sur le forum Documentation dans
    <a href="<? echo $Guideline_discussion_URL; ?>">ce thread</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="comments">Commentaires des projets</a></h3>
 
@@ -254,6 +262,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    <a href="<? echo $Using_project_details_URL ?>">Ce fil de discussion</a>
    discute les diff&eacute;rentes fa&ccedil;on d'utiliser cette information.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="forums">Forum/Discuter de ce Projet</a></h3>
 <p>Dans la page du projet dans laquelle vous commencez &agrave; corriger des pages,
@@ -267,6 +278,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    ce forum est la mani&egrave;re recommand&eacute;e pour discuter avec le responsable de projet
    et les autres correcteurs qui travaillent sur ce livre.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="prev_pg">Corriger des erreurs sur des pages pr&eacute;c&eacute;dentes</a></h3>
 <p>Quand vous s&eacute;lectionnez un projet pour travailler, vous 
@@ -291,6 +305,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    avanc&eacute;e</a>, selon l'interface que vous utilisez.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 <table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Page de titre">
   <tbody>
     <tr>
@@ -298,7 +314,6 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
-
 
 
 <h3><a name="double_q">Guillemets doubles (&nbsp;"&nbsp;)</a></h3>
@@ -330,11 +345,17 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Comme d'habitude, le chef de projet peut demander de faire autrement, 
    dans les <a href="#comments">commentaires du projet</a>, pour un livre donn&eacute;.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="single_q">Apostrophes (&nbsp;'&nbsp;)</a></h3>
 <p>Utilisez l'apostrophe droite ASCII (<tt>'</tt>). Ne la changez pas en
    double quote (guillemets). Laissez ce que l'auteur a &eacute;crit.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="quote_ea">Guillemets sur chaque ligne</a></h3>
 <p>Certains livres mettent des guillemets au d&eacute;but de chaque ligne dans une
@@ -347,6 +368,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    dernier paragraphe. Ne changez rien. N'ajoutez pas de guillemets fermants qui ne
    seraient pas dans l'original.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="period_s">Points en fin de phrase</a></h3>
 <p>Mettez un seul espace apr&egrave;s les points et aucun avant.
@@ -356,6 +380,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    est facile de faire &ccedil;a automatiquement lors du post-processing.
    Voyez l'exemple &agrave; la section <a href="#para_side">Notes en marge</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="punctuat">Ponctuation</a></h3>
 <p>En g&eacute;n&eacute;ral, nous ne mettons pas d'espace avant les caract&egrave;res de ponctuation
@@ -382,6 +409,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="extra_sp">Espaces exc&eacute;dentaires entre les mots</a></h3>
 <p>Des espaces suppl&eacute;mentaires ou des caract&egrave;res de tabulation 
@@ -397,18 +426,26 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    espaces apr&egrave;s le point virgule ne posent pas de probl&egrave;me&nbsp;: vous n'&ecirc;tes pas
    oblig&eacute;s d'en supprimer un.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="trail_s">Espaces en fin de ligne</a></h3>
 <p>Inutile d'ins&eacute;rer des espaces &agrave; la fin des lignes. N'enlevez pas non plus les
    espaces en trop. Tout ceci peut se g&eacute;rer automatiquement en phase de
    post-processing.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="drop_caps">Lettre de d&eacute;but de paragraphe grande ou orn&eacute;e</a></h3>
 <p>Souvent, la premi&egrave;re lettre d'un chapitre, section ou paragraphe est imprim&eacute;e
    tr&egrave;s grande et orn&eacute;e (une lettrine). Dans votre texte, laissez simplement la
    lettre.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="em_dashes">Tirets, traits d'unions, et signe &ldquo;moins&rdquo;</a></h3>
@@ -566,6 +603,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="eol_hyphen">Traits d'union en fin de ligne</a></h3>
 <p>Enlevez le trait d'union en fin de ligne et collez les deux morceaux du mot
@@ -588,6 +627,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    attirera l'attention du post-processeur, qui a acc&egrave;s &agrave; toutes les pages et qui
    verra comment l'auteur &eacute;crit habituellement le mot.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="eop_hyphen">Traits d'union en fin de page</a></h3>
 <p>Laissez le trait d'union &agrave; la fin de la derni&egrave;re ligne, mais marquez le avec
@@ -610,6 +652,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Ces signes indiquent au post-processeur, quand il produit le texte final,
    qu'il doit rejoindre les deux parties du mot.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="period_p">Points de suspension "..."</a></h3>
 <p>Les r&egrave;gles sont diff&eacute;rentes selon que le texte est en anglais ou non.
@@ -644,6 +689,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    (Note: les post-processeurs remplaceront d'&eacute;ventuels
    espaces &agrave; l'int&eacute;rieur des points de suspension par des espaces ins&eacute;cables.)
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="contract">Contractions</a></h3>
 <p>En anglais, enlevez les espaces des contractions. Par exemple: <tt>would&nbsp;n't</tt>
@@ -659,6 +707,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    particulier dans des textes &eacute;crits en dialecte, argot ou une langue autre que
    l'anglais.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="fract_s">Fractions</a></h3>
@@ -666,6 +716,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Le trait d'union emp&ecirc;che les deux parties d'&ecirc;tre s&eacute;par&eacute;es par un retour
    &agrave; la ligne au cours du r&eacute;assemblage des lignes.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="a_chars">Caract&egrave;res accentu&eacute;s et non-ASCII</a></h3>
@@ -1164,6 +1216,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Notez le traitement sp&eacute;cial de la ligature oe. Par exemple, le
    mot c&oelig;ur devient <tt>c[oe]ur</tt>.
 </p>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="d_chars">Caract&egrave;res avec marques diacritiques</a></h3>
 <p>Sur certains projets, vous trouverez des caract&egrave;res avec des signes sp&eacute;ciaux
@@ -1286,6 +1340,8 @@ cedilla                      [,x]   [x,]
   </tbody>
 </table>
 <? } ?>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="f_chars">Alphabets non latins</a></h3>
 <p>Certains textes utilisent des caract&egrave;res non latins (autrement dit, autres
@@ -1353,6 +1409,7 @@ cedilla                      [,x]   [x,]
    attirer l'attention du post-processeur.
 </p>
 <? } ?>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="supers">Exposants</a></h3>
@@ -1362,6 +1419,8 @@ cedilla                      [,x]   [x,]
    Ins&eacute;rez un chapeau (<tt>^</tt>) pour identifier l'abr&eacute;viation/contraction, comme suit:<br>
    &nbsp;&nbsp;&nbsp;&nbsp;<tt>Gen^rl Washington defeated L^d Cornwall's army.</tt>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="subscr">Texte en Indice</a></h3>
@@ -1372,12 +1431,17 @@ cedilla                      [,x]   [x,]
    <br>donne
    <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_2O.<br></tt>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="font_sz">Changement de taille de police</a></h3>
 <p>Ne faites rien pour indiquer un changement de taille de police.
    C'est le travail des formateurs, pour plus tard.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="italics">Italiques, gras</a></h3>
 <p>Du texte en <i>italiques</i> dans le texte imprim&eacute; peut appara&icirc;tre dans votre page
@@ -1390,6 +1454,7 @@ cedilla                      [,x]   [x,]
    dans le processus.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="small_caps">Petites capitales</a></h3>
@@ -1404,6 +1469,9 @@ cedilla                      [,x]   [x,]
    sans vous pr&eacute;occuper de sa casse. Laissez les majuscules en majuscules, et les
    minuscules en minuscules.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="line_br">Retours &agrave; la ligne</a></h3>
 <p><b>Laissez tous les retours &agrave; la ligne</b> de mani&egrave;re &agrave; ce
@@ -1414,10 +1482,10 @@ cedilla                      [,x]   [x,]
    Si le correcteur qui est pass&eacute; avant vous a supprim&eacute; les retours &agrave;
    la ligne, remettez-les, pour que les lignes correspondent &agrave; l'image.
 </p>
-
-
 <!-- END RR -->
 <!-- We should have an example right here for this. -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="chap_head">En-t&ecirc;tes de chapitres</a></h3>
 <p>Laissez les en-t&ecirc;tes de chapitres dans le texte tels qu'ils sont imprim&eacute;s.
@@ -1433,7 +1501,7 @@ cedilla                      [,x]   [x,]
    dialogue, ins&eacute;rez le guillemet.
 </p>
 <!-- END RR -->
-
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="para_space">Espacement/Indentation des paragraphes</a></h3>
@@ -1445,6 +1513,9 @@ cedilla                      [,x]   [x,]
 </p>
 <p>Voyez l'image et le texte de la section <a href="#para_side">Notes en marge</a> pour avoir un exemple.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="page_hf">En-t&ecirc;tes et pieds de page</a></h3>
 <p>Enlevez les en-t&ecirc;tes et pieds de page (mais <em>pas</em> les <a href="#footnotes">notes de
@@ -1525,6 +1596,8 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="illust">Illustrations</a></h3>
 <p>Gardez le titre (l&eacute;gende) de l'illustration comme il est imprim&eacute;, en pr&eacute;servant
@@ -1536,7 +1609,6 @@ cedilla                      [,x]   [x,]
 <p>Une page ne comportant qu'une illustration sans texte sera probablement
    marqu&eacute;e comme <tt>[Blank Page]</tt>. N'y changez rien.
 </p>
-
 <!-- END RR -->
 
 <table width="100%" align="center" border="1" cellpadding="4"
@@ -1603,6 +1675,8 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="footnotes">Notes de bas de page et de fin</a></h3>
 <p><b>Les notes de bas de page sont "hors ligne"</b>, autrement dit, le texte de la
@@ -1628,7 +1702,6 @@ cedilla                      [,x]   [x,]
    Mettez une ligne blanche au-dessus de la premi&egrave;re note, ainsi qu'entre chaque
    note s'il y en a plusieurs.
 </p>
-
 <!-- END RR -->
 
 <p>Pour avoir un exemple de note de bas de page, voyez l'exemple de la section
@@ -1721,6 +1794,8 @@ Les <b>notes sur des <a href="#tables">tables</a></b> doivent rester o&ugrave; e
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="para_side">Commentaires en marge</a></h3>
 <p>Certains livre ont de petites descriptions des paragraphes sur le c&ocirc;t&eacute; du
@@ -1735,7 +1810,6 @@ Les <b>notes sur des <a href="#tables">tables</a></b> doivent rester o&ugrave; e
    la note o&ugrave; vous voulez sur la page. Les formateurs s'occuperont de la placer
    correctement.
 </p>
-
 <!-- END RR -->
 
   <table width="100%" align="center" border="1" cellpadding="4"
@@ -1840,6 +1914,8 @@ Les <b>notes sur des <a href="#tables">tables</a></b> doivent rester o&ugrave; e
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="mult_col">Colonnes Multiples</a></h3>
 <p>R&eacute;unissez les colonnes multiples en une seule colonne.
@@ -1850,6 +1926,8 @@ Les <b>notes sur des <a href="#tables">tables</a></b> doivent rester o&ugrave; e
 </p>
 <p>Voir aussi <a href="#bk_index">Index</a> et <a href="#tables">Tables</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="tables">Tableaux</a></h3>
@@ -1921,6 +1999,7 @@ Same strip rolled up in  Same, 16 wires bound
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="poetry">Po&eacute;sie/&Eacute;pigrammes</a></h3>
@@ -1991,6 +2070,8 @@ and he knew, when he had done it, and to his</tt>
    </tr>
  </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="line_no">Num&eacute;ros de ligne</a></h3>
 <p>Gardez les num&eacute;ros de ligne. Utilisez quelques espaces pour les s&eacute;parer du reste
@@ -2002,6 +2083,8 @@ and he knew, when he had done it, and to his</tt>
 </p>
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="next_word">Mot isol&eacute; en bas de page</a></h3>
 <p>Nous transcrivons en retirant le mot, m&ecirc;me si c'est la seconde moiti&eacute; d'un mot 
@@ -2015,7 +2098,7 @@ and he knew, when he had done it, and to his</tt>
 </p>
 <!-- END RR -->
 <!-- We need an example here! -->
-
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="blank_pg">Page blanche</a></h3>
@@ -2028,6 +2111,9 @@ and he knew, when he had done it, and to his</tt>
    proc&eacute;dure indiqu&eacute;es dans le cas d'une <a href="#bad_image">mauvaise image</a>
    ou d'un <a href="#bad_text">mauvais texte</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="title_pg">Page de titre/fin</a></h3>
 <p>Laissez tout comme c'est imprim&eacute;, m&ecirc;me si c'est tout en majuscules, ou en
@@ -2071,6 +2157,8 @@ and he knew, when he had done it, and to his</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="toc">Table des mati&egrave;res</a></h3>
 <p>Laissez le texte de la table des mati&egrave;res comme il est imprim&eacute; (m&ecirc;me si c'est
@@ -2153,6 +2241,7 @@ and he knew, when he had done it, and to his</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="bk_index">Index</a></h3>
@@ -2164,6 +2253,7 @@ and he knew, when he had done it, and to his</tt>
    est simplement de s'assurer que le texte et les num&eacute;ros sont corrects.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="play_n">Th&eacute;&acirc;tre</a></h3>
@@ -2265,6 +2355,7 @@ You told me the walk was private.<br>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="anything">Tout ce qui n&eacute;cessite &eacute;galement un traitement sp&eacute;cial, ou
@@ -2294,6 +2385,9 @@ You told me the walk was private.<br>
    (en cliquant sur son nom dans l'interface de correction), pour lui expliquer comment
    g&eacute;rer la situation la prochaine fois. Mais ne supprimez jamais sa note.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="prev_notes">Notes et commentaires des correcteurs pr&eacute;c&eacute;dents</a></h3>
 <p>Les notes des correcteurs pr&eacute;c&eacute;dents <b>doivent</b> &ecirc;tre gard&eacute;es.
@@ -2309,6 +2403,8 @@ You told me the walk was private.<br>
    g&eacute;rer la situation la prochaine fois. Mais ne supprimez jamais sa note.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <table width="100%" border="0" cellspacing="0" summary="Probl&egrave;mes courants">
   <tbody>
@@ -2319,6 +2415,7 @@ You told me the walk was private.<br>
 </table>
 
 <h2>Probl&egrave;mes courants</h2>
+
 
 <h3><a name="OCR_1lI">Probl&egrave;mes d'OCR: 1-l-I</a></h3>
 <p>Les logiciels d'OCR (Reconnaissance Optique de Caract&egrave;res) ont souvent des
@@ -2334,6 +2431,9 @@ You told me the walk was private.<br>
    comme <a href="font_sample.php">DPCustomMono</a> ou Courier
    permet de rep&eacute;rer plus facilement ce type de probl&egrave;me.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="OCR_0O">Probl&egrave;mes d'OCR: 0-O</a></h3>
 <p>Les logiciels d'OCR ont souvent des difficult&eacute;s pour faire la diff&eacute;rence
@@ -2348,6 +2448,9 @@ You told me the walk was private.<br>
    comme <a href="font_sample.php">DPCustomMono</a> ou Courier
    permet de rep&eacute;rer plus facilement ce type de probl&egrave;me.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="OCR_hyphen">Probl&egrave;mes d'OCR: traits d'union et tirets</a></h3>
 <p>Les logiciels d'OCR ont souvent des difficult&eacute;s pour faire la diff&eacute;rence entre
@@ -2360,6 +2463,8 @@ You told me the walk was private.<br>
    comme <a href="font_sample.php">DPCustomMono</a> ou Courier
    permet de rep&eacute;rer plus facilement ce type de probl&egrave;me.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="OCR_scanno">Probl&egrave;mes d'OCR: Scannos</a></h3>
@@ -2387,12 +2492,16 @@ You told me the walk was private.<br>
 </p>
 <!-- END RR -->
 <!-- More to be added.... -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="hand_notes">Notes manuscrites dans le livre</a></h3>
 <p>N'incluez pas les notes manuscrites dans le livre (&agrave; moins que quelqu'un ait
    repass&eacute; des lettres mal imprim&eacute;es ou effac&eacute;es). N'incluez pas
    les notes &eacute;crites en marge par les lecteurs.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
 <h3><a name="bad_image">Mauvaises images</a></h3>
@@ -2416,6 +2525,9 @@ You told me the walk was private.<br>
    et la page sera rendue &agrave; quelqu'un d'autre. Si plusieurs pages sont comme &ccedil;a,
    postez un message sur le <a href="#forums">forum du projet</a> pour l'indiquer au responsable du projet.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="bad_text">Image ne correspondant pas au texte</a></h3>
 <p>Si l'image ne correspond pas au texte, postez un message &agrave; ce propos sur le
@@ -2423,6 +2535,9 @@ You told me the walk was private.<br>
    si vous le faites, la personne suivante obtiendra cette page. Cliquez plut&ocirc;t
    sur "Report bad page" pour mettre la page &agrave; part.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="round1">Erreurs des correcteurs pr&eacute;c&eacute;dents</a></h3>
 <p>Si le correcteur pr&eacute;c&eacute;dent a fait beaucoup d'erreurs ou a laiss&eacute; passer un
@@ -2439,6 +2554,9 @@ You told me the walk was private.<br>
    &eacute;galement lui envoyer un message pour le lui dire, surtout s'il a travaill&eacute;
    sur une page tr&egrave;s difficile.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="p_errors">Erreurs d'impression/d'orthographe</a></h3>
 <p>Corrigez toujours les fautes introduites par l'OCR. Mais ne corrigez pas ce qui peut vous
@@ -2451,6 +2569,9 @@ You told me the walk was private.<br>
    note d&eacute;crivant ce que vous avez chang&eacute; <tt>[**corrig&eacute; "txte" en "texte"]</tt>.
    N'oubliez pas les deux &eacute;toiles <tt>**</tt> pour que le post-processeur voie le probl&egrave;me.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="f_errors">Erreurs factuelles dans le texte</a></h3>
 <p>En g&eacute;n&eacute;ral, ne corrigez pas les erreurs sur les faits dans les livres.
@@ -2464,6 +2585,9 @@ You told me the walk was private.<br>
    via le <a href="#forums">forum du projet</a>, ou en ins&eacute;rant une note <tt>[**sic expliquez-votre-souci]</tt>
    &agrave; cet endroit du texte.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
+
 
 <h3><a name="uncertain">Points incertains</a></h3>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [...&agrave; compl&eacute;ter...]

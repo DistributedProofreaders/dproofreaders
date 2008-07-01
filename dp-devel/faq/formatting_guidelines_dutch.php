@@ -10,7 +10,9 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Formatteer-Richtlijnen','header');
+$theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
+
+theme('Formatteer-Richtlijnen','header',$theme_args);
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
@@ -30,7 +32,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     If you are updating this document, the above should be kept in mind.
 -->
 
-<h1 align="center">Formatteer-Richtlijnen</h1>
+<h1 align="center"><a name="top">Formatteer-Richtlijnen</a></h1>
 
 <h3 align="center">Versie 1.9.e, herzien July 19, 2007 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Herzieningsgeschiedenis)</font></a></h3>
@@ -191,6 +193,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Dit helpt hen om de regels in de tekst te vergelijken met de regels in het origineel.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 <table width="100%" border="0" cellspacing="0" summary="Samenvatting van de richtlijnen">
   <tbody>
@@ -199,6 +202,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+
 
 <h3><a name="summary">Samenvatting van de richtlijnen</a>
  (<i><a href="document.php#summary">Summary Guidelines</a></i>)</h3>
@@ -210,6 +214,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Misschien moet je een .pdf lezer downloaden en installeren. Je kunt er 
    <a href="http://www.adobe.com/products/acrobat/readstep2.html">hier</a> gratis &eacute;&eacute;n van Adobe&reg; krijgen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="about">Over dit document</a>
  (<i><a href="document.php#about">About This Document</a></i>)</h3>
@@ -229,6 +236,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    veranderingen die je zou willen voorstellen, te <i>posten</i> in 
    <a href="<? echo $Guideline_discussion_URL; ?>">deze discussie</a> in het Documentation Forum.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="comments">Toelichting bij een project</a>
  (<i><a href="document.php#comments">Project Comments</a></i>)</h3>
@@ -249,6 +259,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    <a href="<? echo $Using_project_details_URL ?>">Deze Forumdiscussie</a> 
    bespreekt verschillende manieren om deze informatie te gebruiken. 
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="forums">Forum/Bediscussieer dit Project</a>
  (<i><a href="document.php#forums">Forum/Discuss this Project</a></i>)</h3>
@@ -259,6 +272,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    over problemen met de tekst enz. Posten in deze Project Discussie is de aanbevolen manier om met de Project Manager 
    en andere vrijwilligers die aan het boek werken, te communiceren.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="prev_pg">Het herstellen van vergissingen op voorgaande pagina's</a>
  (<i><a href="document.php#prev_pg">Fixing errors on Previous Pages</a></i>)</h3>
@@ -279,6 +295,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Interface Help</a> (deze documenten bestaan alleen in een Engelse versie), afhankelijk van welke interface je gebruikt.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 <table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Title Page">
   <tbody>
     <tr>
@@ -286,6 +304,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+
 
 <h3><a name="italics">Cursief gedrukte tekst</a>
  (<i><a href="document.php#italics">Italics</a></i>)</h3>
@@ -358,6 +377,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="bold">Vet gedrukte tekst</a>
  (<i><a href="document.php#bold">Bold Text</a></i>)</h3>
@@ -372,6 +393,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Sommige Project Managers vragen in de <a href="#comments">Project Comments</a>
    om de vet gedrukte tekst om te zetten in hoofdletters.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="underl">Onderstreepte Tekst</a>
  (<i><a href="document.php#underl">Underlined Text</a></i>)</h3>
@@ -384,6 +408,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Sommige Project Managers kunnen in de <a href="#comments">Project Comments</a> aangeven dat de
    onderstreepte tekst met <tt>&lt;u&gt;</tt> en <tt>&lt;/u&gt;</tt> moet worden gemarkeerd.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="spaced">U i t g e s p a t i e e r d e &nbsp; T e k s t</a>
  (<i><a href="document.php#spaced">S p a c e d &nbsp; O u t &nbsp; Text (gesperrt)</a></i>)</h3>
@@ -397,6 +424,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Uitspati&euml;ring was een zettechniek die vooral in Duitse en Nederlandse boeken gebruikt werd
    om een deel van de tekst te benadrukken.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="font_ch">Verandering van Lettertype</a>
  (<i><a href="document.php#font_ch">Font Changes</a></i>)</h3>
@@ -424,6 +454,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    in een ander lettertype gedrukt is, of als de interpunctie zelf onderdeel is van een 
    frase, titel of afkorting in een ander lettertype. 
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="small_caps">Woorden in <span style="font-variant: small-caps">kleine hoofdlettertjes (Klein Kapitaal)</span></a>
  (<i><a href="document.php#small_caps">Words in Small Capitals</a></i>)</h3>
@@ -453,6 +486,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    woord van een hoofdstuk in <span style="font-variant: small-caps">Klein Kapitaal</span> staat,
    moet dit worden veranderd in hoofdletter-kleine letters, zonder de markering.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="word_caps">Woorden in HOOFDLETTERS</a>
  (<i><a href="document.php#word_caps">Words in all Capitals</a></i>)</h3>
@@ -462,6 +498,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    veel oude boeken drukten het eerste woord van hoofdstukken helemaal in hoofdletters. Dit moet 
    veranderd worden in hoofdletter-kleine letters, dus "ONCE upon a time," wordt "<tt>Once upon a time,</tt>".
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="font_sz">Verandering in grootte van het lettertype</a>
  (<i><a href="document.php#font_sz">Font size changes</a></i>)</h3>
@@ -471,6 +510,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    of als de grootte van het lettertype binnen een alinea of binnen een zin verandert. 
    (Zie <a href="#font_ch">Verandering van Lettertype</a>).
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="extra_sp">Extra spaties of tabs tussen woorden</a>
  (<i><a href="document.php#extra_sp">Extra spaces or tabs between Words</a></i>)</h3>
@@ -484,6 +526,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    tussen "horse" en de puntkomma verwijderd worden. Maar de twee spaties na de puntkomma mogen
    blijven staan, je hoeft er niet &eacute;&eacute;n weg te halen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="supers">Superscript</a>
  (<i><a href="document.php#supers">Superscripts</a></i>)</h3>
@@ -502,6 +547,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Het kan zijn dat de Project Manager in de <a href="#comments">Project Comments</a> 
    vraagt om tekst in superscript op een andere manier te markeren.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="subscr">Subscript</a>
  (<i><a href="document.php#subscr">Subscripts</a></i>)</h3>
@@ -513,6 +561,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    <br>wordt geformatteerd als:
    <br>&nbsp;&nbsp;&nbsp;&nbsp;<tt>H_{2}O.<br></tt>
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="page_ref">Verwijzingen naar pagina's &quot;Zie blz. 123&quot;</a>
  (<i><a href="document.php#page_ref">Page References &quot;(See Pg. 123)&quot;</a></i>)</h3>
@@ -521,6 +572,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Kijk wel na in de <a href="#comments">Project Comments</a>of de Project Manager speciale
    vereisten heeft voor de verwijzingen naar pagina's.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="line_br">Regelafbrekingen</a>
  (<i><a href="document.php#line_br">Line Breaks</a></i>)</h3>
@@ -536,6 +590,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <!-- END RR -->
 <!-- We should have an example right here for this. -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="chap_head">Hoofdstuktitels</a>
  (<i><a href="document.php#chap_head">Chapter Headers</a></i>)</h3>
@@ -677,6 +733,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="sect_head">Paragraaftitels</a>
  (<i><a href="document.php#sect_head">Section Headers</a></i>)</h3>
@@ -687,6 +745,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    lettertype waardoor ze vet of uitgespatieerd lijken, maar we markeren ze niet als een ander lettertype, of vet, 
    of uitgespatieerd. Als er in de paragraaftitel cursief of klein kapitaal staat, moet dat wel gemarkeerd worden.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="maj_div">Andere belangrijke onderdelen in teksten</a>
  (<i><a href="document.php#maj_div">Other Major Divisions in Texts</a></i>)</h3>
@@ -694,6 +755,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Verwijzingen, Conclusie, Woordenlijst, Samenvatting, Dankbetuigingen, Bibliografie, enz., moeten op dezelfde 
    manier geformatteerd worden als Hoofdstuktitels, dus 4 lege regels voor de titel en 2 lege regels voor de rest van de tekst. 
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="para_space">Ruimte tussen Alinea's/Inspringingen</a>
  (<i><a href="document.php#para_space">Paragraph Spacing/Indenting</a></i>)</h3>
@@ -703,6 +767,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>Zie het voorbeeld bij de <a href="#chap_head">Hoofdstuktitels</a>.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="extra_s">Extra lege regels/Sterretjes/Lijn tussen Alinea's</a>
  (<i><a href="document.php#extra_s">Extra Spacing/Stars/Line Between Paragraphs</a></i>)</h3>
@@ -760,6 +827,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="illust">Illustraties</a>
  (<i><a href="document.php#illust">Illustrations</a></i>)</h3>
@@ -840,6 +909,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="footnotes">Voetnoten/Eindnoten</a>
  (<i><a href="document.php#footnotes">Footnotes/Endnotes</a></i>)</h3>
@@ -978,6 +1049,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="para_side">Beschrijvingen naast een Alinea (Sidenotes)</a>
  (<i><a href="document.php#para_side">Paragraph Side-Descriptions (Sidenotes)</a></i>)</h3>
@@ -1105,6 +1178,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="block_qt">Citaten</a>
  (<i><a href="document.php#block_qt">Block Quotations</a></i>)</h3>
@@ -1157,6 +1232,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="mult_col">Meerdere kolommen</a>
  (<i><a href="document.php#mult_col">Multiple Columns</a></i>)</h3>
@@ -1174,6 +1251,9 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Zie ook de onderdelen <a href="#bk_index">Indexen</a>, <a href="#lists">Lijsten</a> en 
    <a href="#tables">Tabellen</a> van deze richtlijnen.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="lists">Lijsten</a>
  (<i><a href="document.php#lists">Lists of Items</a></i>)</h3>
@@ -1236,6 +1316,8 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="tables">Tabellen</a>
  (<i><a href="document.php#tables">Tables</a></i>)</h3>
@@ -1329,7 +1411,7 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
   </tbody>
 </table>
-
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 
 <h3><a name="poetry">Po&euml;zie/Epigrammen</a>
@@ -1415,6 +1497,8 @@ and he knew, when he had done it, and to his</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="line_no">Regelnummers</a>
  (<i><a href="document.php#line_no">Line Numbers</a></i>)</h3>
@@ -1427,6 +1511,8 @@ and he knew, when he had done it, and to his</tt>
 </p>
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="letter">Brieven/Correspondentie</a>
  (<i><a href="document.php#letter">Letters/Correspondence</a></i>)</h3>
@@ -1476,6 +1562,7 @@ pleasure in making our return.</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 
 <h3><a name="blank_pg">Lege Pagina</a>
@@ -1486,6 +1573,9 @@ pleasure in making our return.</tt>
    of als er wel iets in het origineel staat maar er is geen tekst, volg dan de aanwijzingen voor een
    <a href="#bad_image">Slecht Beeld</a> (Bad Image) of een <a href="#bad_text">Verkeerd beeld voor de tekst</a> (Bad Text).
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="title_pg">Titelpagina aan de voor- of achterkant</a>
  (<i><a href="document.php#title_pg">Front/Back Title Page</a></i>)</h3>
@@ -1527,6 +1617,8 @@ pleasure in making our return.</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="toc">Inhoudsopgave</a>
  (<i><a href="document.php#toc">Table of Contents</a></i>)</h3>
@@ -1610,6 +1702,8 @@ pleasure in making our return.</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="bk_index">Indexen</a>
  (<i><a href="document.php#bk_index">Indexes</a></i>)</h3>
@@ -1712,6 +1806,8 @@ pleasure in making our return.</tt>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="play_n">Toneelstukken: Namen van Spelers/Regieaanwijzingen</a>
  (<i><a href="document.php#play_n">Plays: Actor Names/Stage Directions</a></i>)</h3>
@@ -1934,6 +2030,8 @@ You told me the walk was private.<br>
     </tr>
   </tbody>
 </table>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="anything">Alles wat op een speciale manier aangepakt moet worden, of waar je onzeker over bent</a>
  (<i><a href="document.php#anything">Anything else that needs special handling or that you're unsure of</a></i>)</h3>
@@ -1958,6 +2056,9 @@ You told me the walk was private.<br>
    boodschap (private message) waarin je uitlegt hoe de situatie aangepakt kan worden.
    Zoals eerder vermeld: verwijder alsjeblieft de aantekening niet.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="prev_notes">Aantekeningen/Commentaar van eerdere Proeflezers/Formatteerders</a>
  (<i><a href="document.php#prev_notes">Previous Proofreaders' Notes</a></i>)</h3>
@@ -1973,8 +2074,11 @@ You told me the walk was private.<br>
    Zoals eerder vermeld: verwijder alsjeblieft de aantekening niet.
 </p>
 <!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 <br>
+
+
 <table width="100%" border="0" cellspacing="0" summary="Other Guidelines">
   <tbody>
     <tr>
@@ -2002,6 +2106,8 @@ You told me the walk was private.<br>
   <li><b>                       Chemistry Books       [moet nog gemaakt worden.]</b></li>
   <li><b>                       Mathematics Books     [moet nog gemaakt worden.]</b></li>
 </ul>
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <table width="100%" border="0" cellspacing="0" summary="Common Problems">
   <tbody>
@@ -2012,6 +2118,7 @@ You told me the walk was private.<br>
 </table>
 
 <h2>Veel voorkomende problemen</h2>
+
 
 <h3><a name="bad_image">Slecht beeld</a>
  (<i><a href="document.php#bad_image">Bad Image</a></i>)</h3>
@@ -2033,6 +2140,9 @@ You told me the walk was private.<br>
    toegekend. Als er meerdere pagina's zoals deze zijn, post dan in het
    <a href="#forums">project forum</a> om de Project Manager in te lichten.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="bad_text">Verkeerd beeld voor de tekst</a>
  (<i><a href="document.php#bad_text">Wrong Image for Text</a></i>)</h3>
@@ -2041,6 +2151,9 @@ You told me the walk was private.<br>
    want dan wordt de pagina weer aan de volgende formatteerder gepresenteerd.
    Klik op de "Report Bad Page" button, waardoor de pagina in "quarantaine" gaat.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="round1">Eerder gemaakte Proeflees- en Formatteervergissingen</a>
  (<i><a href="document.php#round1">Previous Proofreading or Formatting Mistakes</a></i>)</h3>
@@ -2057,6 +2170,9 @@ You told me the walk was private.<br>
 <p>Als de vrijwilliger voor je uitstekend werk verricht heeft, kun je daar ook een boodschap
    over sturen&mdash;in het bijzonder als de pagina extra moeilijk was.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="p_errors">Vergissingen van de drukker/Spelfouten</a>
  (<i><a href="document.php#p_errors">Printer Errors/Misspellings</a></i>)</h3>
@@ -2069,6 +2185,9 @@ You told me the walk was private.<br>
    wat je veranderd hebt: <tt>[**typo verbeterd, "teskt" veranderd in "tekst"]</tt>. Zorg dat de
    twee sterretjes <tt>**</tt> er staan, zodat de Post-Processor de aantekening niet over het hoofd ziet. 
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="f_errors">Feitelijke fouten in de tekst</a>
  (<i><a href="document.php#f_errors">Factual Errors in Texts</a></i>)</h3>
@@ -2082,6 +2201,9 @@ You told me the walk was private.<br>
    in het <a href="#forums">Forum</a> te posten, of door een <tt>[** aantekening waarin je aangeeft
    wat er aan de hand is]</tt> op de betreffende plaats in de tekst.
 </p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Terug naar boven</a></p>
+
 
 <h3><a name="uncertain">Onzekere items</a>
  (<i><a href="document.php#uncertain">Uncertain Items</a></i>)</h3>
