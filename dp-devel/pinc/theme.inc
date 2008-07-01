@@ -713,8 +713,8 @@ function show_completed_projects($terse = FALSE)
             SELECT COUNT(projectid)
             FROM projects
             WHERE modifieddate >= $begindate
-                && modifieddate <= $enddate
-                && state = '".PROJ_SUBMIT_PG_POSTED."'
+                and modifieddate <= $enddate
+                and state = '".PROJ_SUBMIT_PG_POSTED."'
         ");
         $totalprojects = mysql_result($result,0);
 

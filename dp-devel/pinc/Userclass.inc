@@ -1991,7 +1991,7 @@ class User
                     FROM phpbb_privmsgs
                     WHERE
                     privmsgs_to_userid = '".$this->_userId()."'
-                         && privmsgs_type IN (1, 5)";
+                         and privmsgs_type IN (1, 5)";
             $result = mysql_query($sql);
             $PM_count = mysql_result($result, 0);
             mysql_free_result($result);

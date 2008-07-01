@@ -295,7 +295,7 @@ foreach ( $Stage_for_id_ as $stage )
         $res = mysql_query("
             SELECT COUNT(*)
             FROM projects
-            WHERE checkedoutby='$pguser' && state='{$stage->project_checkedout_state}'
+            WHERE checkedoutby='$pguser' and state='{$stage->project_checkedout_state}'
         ");
         $n_projects_checked_out_to_user = mysql_result($res,0);
         if ($n_projects_checked_out_to_user  > 0)
