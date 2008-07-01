@@ -472,18 +472,18 @@ function requester_is_localhost()
 
 // -----------------------------------------------------------------------------
 
-function is_link_for_current_page($link)
-// Determine if the specified link is for the current page by comparing the
+function is_url_for_current_page($url)
+// Determine if the specified URL is for the current page by comparing the
 // paths and the query parameters, but not any anchors.
-// This function, by design, will return TRUE if the link query parameters
+// This function, by design, will return TRUE if the URL query parameters
 // are a subset of the current page. For example, if the current page is:
 //    http://www.pgdp.net/c/tools/proofers/round.php?round_id=P1&numofpages=12
-// and the link to check is:
+// and the URL to check is:
 //    http://www.pgdp.net/c/tools/proofers/round.php?round_id=P1
-// the function will return TRUE despite the provided link not having a
+// the function will return TRUE despite the provided URL not having a
 // numofpages parameter. The converse, however, is not true.
 {
-    $url_components = parse_url($link);
+    $url_components = parse_url($url);
     
     // first check the path
     if($url_components['path'] != $_SERVER['SCRIPT_NAME'])
@@ -492,13 +492,16 @@ function is_link_for_current_page($link)
     }
     
     // now check the queries
-    $parameters = explode('&', $url_components['query']);
-    foreach($parameters as $parameter)
+    if(isset($url_components['query']))
     {
-        list($key, $value) = explode('=', $parameter);
-        if($_GET[$key] != $value)
+        $parameters = explode('&', $url_components['query']);
+        foreach($parameters as $parameter)
         {
-            return FALSE;
+            list($key, $value) = explode('=', $parameter);
+            if(@$_GET[$key] != $value)
+            {
+                return FALSE;
+            }
         }
     }
     
