@@ -27,17 +27,15 @@ $theme = ${$theme_name};
 
 function theme ($nameofpage, $location, $extra_args = array()) {
 
-    global $code_url, $theme, $theme_name;
+    global $code_url, $theme, $theme_name, $pguser, $no_stats, $userP;
 
-    if (isset($GLOBALS['pguser'])) {
-        $userP = $GLOBALS['userP'];
+    if (isset($pguser)) {
         $statsbar_align = $userP['u_align'];
     } else {
         $statsbar_align = 0;
-        $userP = "";
     }
 
-    if (!isset($GLOBALS['no_stats'])) {
+    if (!isset($no_stats)) {
         if ($statsbar_align == 1) {
             if ($location == "header") {
                 html_header($nameofpage, $extra_args);
@@ -87,10 +85,10 @@ function theme ($nameofpage, $location, $extra_args = array()) {
 
 function html_header($nameofpage, $extra_args = array()) {
     global $code_url, $theme, $userP, $site_abbreviation;
-    global $relPath;
+    global $relPath, $charset;
     echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
     echo "<html".lang_html_header().">\n<head>\n";
-    echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$GLOBALS['charset']}\">\n";
+    echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\">\n";
     echo "<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
     echo "<title>$site_abbreviation";
     if (isset($nameofpage)) { echo ": $nameofpage"; }
@@ -184,7 +182,7 @@ function html_navbar()
 // Display the horizontal bar containing links to various important points
 // within the site (and the login form if the user is not logged in).
 {
-    global $theme, $code_url, $site_abbreviation;
+    global $theme, $code_url, $site_abbreviation, $pguser, $forums_url, $wiki_url;
 
     echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_headerbar_bg']."'>\n";
     echo "<tr>\n";
@@ -196,7 +194,7 @@ function html_navbar()
     echo headerbar_text("$site_abbreviation","$code_url/default.php");
 
     //Code to display login form if not logged in
-    if (!isset($GLOBALS['pguser'])) {
+    if (!isset($pguser)) {
         echo "</td>\n";
         // If you put the form element inside the td element (which would
         // seem to make sense), Netscape and IE both render the cell
@@ -222,11 +220,11 @@ function html_navbar()
         echo "</form>\n";
     } else {
         //Code to display if the user is logged in
-        $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
+        $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='$pguser' LIMIT 1");
         $pguser_id = mysql_result($result, 0, "user_id");
         $result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id and (privmsgs_type = 1 or privmsgs_type = 5)");
         $numofPMs = mysql_fetch_row($result);
-        $result = mysql_query("SELECT date_created FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
+        $result = mysql_query("SELECT date_created FROM users WHERE username='$pguser' LIMIT 1");
         $datecreated = mysql_result($result, 0, "date_created");
         echo headerbar_text("|&nbsp;");
         if ((time() - $datecreated) < 604800)
@@ -241,19 +239,19 @@ function html_navbar()
 
         $inbox_text = _("My Inbox");
         if($numofPMs[0] > 0) $inbox_text .= sprintf(_(" (%s unread)"),$numofPMs[0]);
-        echo headerbar_text($inbox_text,$GLOBALS['forums_url']."/privmsg.php?folder=inbox",true);
+        echo headerbar_text($inbox_text,$forums_url."/privmsg.php?folder=inbox",true);
 
-        echo headerbar_text(_("Forums"),$GLOBALS['forums_url'],true);
+        echo headerbar_text(_("Forums"),$forums_url,true);
         if(lang_forum())
         {
-            echo headerbar_text(_("Your language forums"),$GLOBALS['forums_url']."/".lang_forum(),true);
+            echo headerbar_text(_("Your language forums"),$forums_url."/".lang_forum(),true);
         }
 
-        if ( !empty($GLOBALS['wiki_url']) )
+        if ( !empty($wiki_url) )
         {
-            echo headerbar_text(_("Wiki"),$GLOBALS['wiki_url'],true);
+            echo headerbar_text(_("Wiki"),$wiki_url,true);
         }
-        echo headerbar_text(_("Log Out ($GLOBALS[pguser])"),"$code_url/tools/logout.php",true);
+        echo headerbar_text(_("Log Out ($pguser)"),"$code_url/tools/logout.php",true);
         echo "</td>\n";
         echo "<td align='right' style='vertical-align: middle;' bgcolor='".$theme['color_headerbar_bg']."'>\n";
         show_quick_links();
@@ -296,7 +294,7 @@ function headerbar_text($text, $link = '', $with_divider = false, $title = '')
 
 function html_statsbar($nameofpage) {
 
-    global $code_url, $PG_home_url;
+    global $code_url, $PG_home_url, $pguser;
     maybe_show_language_selector();
 
     // Show statistics that are pertinent to the particular request.
@@ -341,7 +339,7 @@ function html_statsbar($nameofpage) {
 
         // Only show completed projects list to signed in users, to
         // keep front page uncluttered for visitors.
-        if (isset($GLOBALS['pguser'])) {
+        if (isset($pguser)) {
             show_completed_projects();
         }
     }
@@ -359,7 +357,7 @@ function html_statsbar($nameofpage) {
     echo "</font>";
     echo "</center>\n";
 
-    if (isset($GLOBALS['pguser']))
+    if (isset($pguser))
     {
         // requestor is a logged-in user.
 
@@ -377,7 +375,7 @@ function html_statsbar($nameofpage) {
     show_donation_stuff();
 
     //Display the "About DP" section if user is not logged in
-    if (isset($GLOBALS['pguser']) == NULL)
+    if (!isset($pguser))
     {
         echo sprintf(_("<hr><p><font size='2'>Distributed Proofreaders was founded in 2000 by Charles Franks to support the digitization of Public Domain books. Originally conceived to assist <a href='%s'>Project Gutenberg</a> (PG), Distributed Proofreaders (DP) is now the main source of PG e-books. In 2002, Distributed Proofreaders became an official PG site. In May 2006, Distributed Proofreaders became a separate legal entity and continues to maintain a strong relationship with PG.</font></p>"),$PG_home_url);
     }
@@ -387,7 +385,7 @@ function html_statsbar($nameofpage) {
 
 function maybe_show_language_selector()
 {
-    global $code_url, $userP, $charset;
+    global $code_url, $userP, $charset, $intlang;
     $instl=installed_langs();
     $uninstl=uninstalled_langs();
     if(!(count($instl)>1||count($uninstl)>0))
@@ -405,7 +403,7 @@ function maybe_show_language_selector()
 
         echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n<input type=submit value='"._("Set language:")."'>\n<select name=lang onChange='submitLang(this)'>\n";
         foreach($instl as $v)
-            echo "<option value='".$v."'".(($v==$GLOBALS['intlang'])?" selected":"").">".bilingual_name($v)."</option>\n";
+            echo "<option value='".$v."'".(($v==$intlang)?" selected":"").">".bilingual_name($v)."</option>\n";
         if(count($uninstl)>0) {
             echo "<option value='en_EN' disabled>-------------------</option>\n";
             echo "<option value='en_EN' disabled>(To be translated:)</option>\n";
@@ -485,7 +483,7 @@ function show_quick_links()
 
 function show_tally_specific_stats( $tally_name )
 {
-    global $code_url, $theme, $userP;
+    global $code_url, $theme, $userP, $pguser;
 
     // Put the whole thing in a table, just so we can put a box around it.
     echo "<br>";
@@ -550,7 +548,7 @@ function show_tally_specific_stats( $tally_name )
     echo "</font><br><hr width='75%' align='center'><br>\n";
     // ---------------------------------------------------------------------
 
-    if (isset($GLOBALS['pguser']))
+    if (isset($pguser))
     {
         // The requestor is a logged-in user.
         // Show the user's personal statistics
@@ -558,7 +556,7 @@ function show_tally_specific_stats( $tally_name )
         //Get the personal statistics array
         $neighbors =
             user_get_page_tally_neighborhood(
-                $tally_name, $GLOBALS['pguser'], $userP['u_neigh']);
+                $tally_name, $pguser, $userP['u_neigh']);
         $usern = $neighbors[0];
 
         //get rank
@@ -584,7 +582,7 @@ function show_tally_specific_stats( $tally_name )
         }
 
         // Get userid for personal stats link
-        $result = mysql_query("SELECT u_id FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
+        $result = mysql_query("SELECT u_id FROM users WHERE username='$pguser' LIMIT 1");
         $u_id = mysql_result($result, 0, "u_id");
 
         echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>" . _("Personal Statistics:") . "</b></font></center>\n";
@@ -748,7 +746,7 @@ function show_completed_projects($terse = FALSE)
 
 function show_key_help_links()
 {
-    global $theme, $code_url;
+    global $theme, $code_url, $forums_url;
 
     echo "<center>";
     echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
@@ -774,7 +772,7 @@ function show_key_help_links()
     echo "<br>\n";
 
     echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-    echo "<a href='".$GLOBALS['forums_url']."/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a>";
+    echo "<a href='$forums_url/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a>";
     echo "</font>";
     echo "<br>\n";
 
@@ -816,11 +814,11 @@ function show_donation_stuff()
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function html_footer() {
-    global $code_url, $theme, $site_name;
+    global $code_url, $theme, $site_name, $starttime;
 
     $mtime = explode(" ",microtime());
     $endtime = $mtime[1] + $mtime[0];
-    $totaltime = ($endtime - $GLOBALS['starttime']);
+    $totaltime = ($endtime - $starttime);
 
     //Bottom Copyright Text
     echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_copyright_bg']."'>\n";
