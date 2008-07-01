@@ -224,7 +224,7 @@ function html_navbar()
         //Code to display if the user is logged in
         $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
         $pguser_id = mysql_result($result, 0, "user_id");
-        $result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id && privmsgs_type = 1 || privmsgs_to_userid = $pguser_id && privmsgs_type = 5");
+        $result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id and (privmsgs_type = 1 or privmsgs_type = 5)");
         $numofPMs = mysql_fetch_row($result);
         $result = mysql_query("SELECT date_created FROM users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
         $datecreated = mysql_result($result, 0, "date_created");

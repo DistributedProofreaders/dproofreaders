@@ -130,7 +130,7 @@ class SortUtility {
 
     // Check for a stored preference in the database
     if ($this->_storeSortingInDatabase) {
-      $result = mysql_query("SELECT value FROM usersettings WHERE username='$user' && setting='".$this->_name."_order'");
+      $result = mysql_query("SELECT value FROM usersettings WHERE username='$user' and setting='".$this->_name."_order'");
       if (mysql_num_rows($result) >= 1)
         return $this->_parseSortingRule(mysql_result($result, 0));
     }
@@ -325,7 +325,7 @@ class SortUtility {
                      ($this->getSortingDirection() == ASCENDING ? 'A' : 'D');
 
     // See if there's a preference already
-    $result = mysql_query("SELECT value FROM usersettings WHERE username='$user' && setting='$setting_name'");
+    $result = mysql_query("SELECT value FROM usersettings WHERE username='$user' and setting='$setting_name'");
 
     if (mysql_num_rows($result) > 0)
       // existing preference. UPDATE

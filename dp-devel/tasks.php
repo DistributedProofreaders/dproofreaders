@@ -291,7 +291,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 	$result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'taskctr_notice', ".$_GET['tid'].")");
 	TaskDetails($_GET['tid']);
 } elseif (isset($_GET['f']) && $_GET['f'] == "unnotifyme") {
-	$result = mysql_query("DELETE FROM usersettings WHERE username = '$pguser' && setting = 'taskctr_notice' && value = ".$_GET['tid']."");
+	$result = mysql_query("DELETE FROM usersettings WHERE username = '$pguser' and setting = 'taskctr_notice' and value = ".$_GET['tid']."");
 	TaskDetails($_GET['tid']);
 } elseif (isset($_POST['new_relatedtask'])) {
 	$checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = ".$_POST['related_task']."");
@@ -595,7 +595,7 @@ function TaskDetails($tid) {
 
 	if (mysql_num_rows($result) >= 1) {
 		while ($row = mysql_fetch_assoc($result)) {
-			$result = mysql_query("SELECT * FROM usersettings WHERE setting = 'taskctr_notice' && (value = $tid || value = 'all') && username = '$pguser'");
+			$result = mysql_query("SELECT * FROM usersettings WHERE setting = 'taskctr_notice' and (value = $tid org value = 'all') and username = '$pguser'");
 			if (mysql_num_rows($result) >= 1) { $already_notified = 1; } else { $already_notified = 0; }
 
 			$result = mysql_query("SELECT username FROM users WHERE u_id = ".$row['opened_by']."");
@@ -672,7 +672,7 @@ function TaskDetails($tid) {
 			}
 			echo "</td><td align='right'><br>";
 			
-			$meTooCheck = mysql_query("SELECT id FROM tasks_votes WHERE task_id = ".$tid." && u_id = ".$userP['u_id']."");
+			$meTooCheck = mysql_query("SELECT id FROM tasks_votes WHERE task_id = ".$tid." and u_id = ".$userP['u_id']."");
 			if (mysql_num_rows($meTooCheck) > 0) { echo "&nbsp;"; } else { echo "<input type='button' value='Me Too!' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5' onClick=\"showSpan('MeTooMain');\">"; }
 			
 			echo "</td></tr></table><br>\n";
@@ -758,7 +758,7 @@ function TaskComments($tid) {
 function NotificationMail($tid, $message) {
 	global $code_url, $auto_email_addr, $pguser;
 
-	$result = mysql_query("SELECT username FROM usersettings WHERE setting = 'taskctr_notice' && (value = $tid || value = 'all')");
+	$result = mysql_query("SELECT username FROM usersettings WHERE setting = 'taskctr_notice' and (value = $tid or value = 'all')");
 	while ($row = mysql_fetch_assoc($result)) {
 		if ($row['username'] != $pguser) {
 			$temp = mysql_query("SELECT email FROM users WHERE username = '".$row['username']."'");
