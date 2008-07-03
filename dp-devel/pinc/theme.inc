@@ -505,7 +505,7 @@ function get_activity_links()
 // return a list of round/stage links for the user
 // the returned links are in a format usable by headerbar_text_array
 {
-    global $code_url, $Stage_for_id_, $pguser;
+    global $code_url, $Stage_for_id_, $pguser, $userP;
 
     if (is_null($pguser)) return;
     // Should show links to stages that are accessible to people
@@ -515,7 +515,21 @@ function get_activity_links()
 
     if (user_is_PM())
     {
-        $links[] = array('url' => 'tools/project_manager/projectmgr.php', 'text' => 'PM', 'title' => _('Manage Projects'));
+        // if the PM has a default PM Page defined, use it
+        if ($userP['i_pmdefault'] == 0)
+        {
+            $default_pm_page="?show=user_all";
+        }
+        elseif ($userP['i_pmdefault'] == 1)
+        {
+            $default_pm_page="?show=user_active";
+        }
+        else
+        {
+            $default_pm_page="";
+        }
+
+        $links[] = array('url' => "tools/project_manager/projectmgr.php$default_pm_page", 'text' => 'PM', 'title' => _('Manage Projects'));
     }
 
     // Get all stages the user has access to
