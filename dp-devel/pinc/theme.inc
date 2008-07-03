@@ -272,7 +272,7 @@ function html_navbar()
 
         $links[] = array('text' => _("My Projects"), 'url' => "tools/proofers/my_projects.php");
 
-        $links[] = array('text' => _("Project Search"), 'url' => "tools/project_manager/projectmgr.php");
+        $links[] = array('text' => _("Project Search"), 'url' => "tools/project_manager/projectmgr.php?show=search_form");
 
         echo headerbar_text_array($links);
 
