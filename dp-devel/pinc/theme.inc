@@ -11,6 +11,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'list_projects.inc');
+include_once($relPath.'gradual.inc');
 
 $user_is_logged_in = dpsession_resume();
 
@@ -96,13 +97,39 @@ function html_header($nameofpage, $extra_args = array()) {
     // Global theme CSS
     echo "\n<link type='text/css' rel='Stylesheet' href='";
     echo $relPath . 'templates/' . $theme['template_unix_name'] . "/main.css'>\n";
+
     // Per-page CSS
+    // this first navbar blob needs to be moved to a universal stylesheet but
+    // that'll also require adjustements for the $theme replacements
+    echo "<style type='text/css'>\n";
+    echo "
+        table.navbar {
+            margin: 0;
+            border: 0;
+            width: 100%;
+            background-color: ".$theme['color_headerbar_bg'].";
+        }
+        table.navbar td {
+            font-family: ".$theme['font_headerbar'].";
+            font-size: 0.75em;
+        }
+        table.navbar a,
+        table.navbar a:link,
+        table.navbar a:visited,
+        table.navbar span.text {
+            color: " .$theme['color_headerbar_font'].";
+        }
+        table.navbar span.currentpage {
+            color: " .$theme['color_headerbar_font'].";
+            font-weight: bold;
+        }
+    ";
+    // Any additional style definitions requested by the caller
     if (isset($extra_args['css_data']))
     {
-        echo "<style type='text/css'>\n" .
-            $extra_args['css_data'] .
-            "</style>\n";
+         echo $extra_args['css_data'];
     }
+    echo "</style>\n";
 
     // Per-page Javascript
     if (isset($extra_args['js_data']))
@@ -184,112 +211,169 @@ function html_navbar()
 {
     global $theme, $code_url, $site_abbreviation, $pguser, $forums_url, $wiki_url;
 
-    echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_headerbar_bg']."'>\n";
-    echo "<tr>\n";
-    echo "<td width='10' align='left' bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td>\n";
-    echo "<td align='left' style='padding-bottom:1px;' valign='middle' bgcolor='".$theme['color_headerbar_bg']."'>\n";
-
-    //Create the name of the page
-
-    echo headerbar_text("$site_abbreviation","$code_url/default.php");
+    echo "<table class='navbar' width='100%'>";
+    echo "<tr>";
 
     //Code to display login form if not logged in
     if (!isset($pguser)) {
+        echo "<td>";
+        echo headerbar_text_array(array(array('text' => $site_abbreviation, 'url' => "default.php")));
         echo "</td>\n";
-        // If you put the form element inside the td element (which would
-        // seem to make sense), Netscape and IE both render the cell
-        // (and thus the row and the table) twice as tall as it needs to be.
-        // (Mozilla gets it right, but that's small comfort.)
-        // So instead, put the td element within the form.
-        // (Yeah, it doesn't make sense, but the browsers don't complain.)
-        echo "<form action='$code_url/accounts/login.php' method='post'>\n";
-        echo "<td align='right' bgcolor='".$theme['color_headerbar_bg']."'>\n";
-        echo "<font face='".$theme['font_headerbar']."' size='1' color='".$theme['color_headerbar_font']."'>";
+
+        echo "<td align='right'>";
+
+        $login_form = "<form style='margin: 0; display: inline;' action='$code_url/accounts/login.php' method='post'>\n";
         // if 'destination' was passed into us, keep it in the login form
         // for the subsequent redirect back to the requested page
         if(@$_GET["destination"])
-            echo "<input type='hidden' name='destination' value='" . $_GET["destination"] . "'>";
-        echo _("ID:") . "<input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
-        echo _("Password:") . "<input type='password' name='userPW' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
-        echo "<input type='submit' value='" . _("Sign In") ."' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>";
-        echo headerbar_text(_("Register"), "$code_url/accounts/addproofer.php", true);
-        echo headerbar_text(_("Help"), "$code_url/faq/".lang_dir()."faq_central.php", true);
-        echo "&nbsp;";
-        echo "</font>\n";
+            $login_form .= "<input type='hidden' name='destination' value='" . $_GET["destination"] . "'>";
+
+        // login link text
+        $login_form .= "<span class='text'>" . _("ID:") . "</span> <input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
+        $login_form .= "<span class='text'>" . _("Password:") . "</span> <input type='password' name='userPW' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
+        $login_form .= "<input type='submit' value='" . _("Sign In") ."' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>";
+        $login_form .= "</form>";
+
+        $links=array();
+        $links[] = array('text' => $login_form);
+        $links[] = array('text' => _('Register'), 'url' => "accounts/addproofer.php");
+        $links[] = array('text' => _('Help'), 'url' => "faq/".lang_dir()."faq_central.php");
+        echo headerbar_text_array($links);
         echo "</td>\n";
-        echo "</form>\n";
     } else {
         //Code to display if the user is logged in
+
+        // Fetch some values from the database for use in links later
         $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='$pguser' LIMIT 1");
         $pguser_id = mysql_result($result, 0, "user_id");
         $result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id and (privmsgs_type = 1 or privmsgs_type = 5)");
         $numofPMs = mysql_fetch_row($result);
         $result = mysql_query("SELECT date_created FROM users WHERE username='$pguser' LIMIT 1");
         $datecreated = mysql_result($result, 0, "date_created");
-        echo headerbar_text("|&nbsp;");
-        if ((time() - $datecreated) < 604800)
-            echo headerbar_text(" Start Here -->&nbsp;",'',true);
-        echo headerbar_text(_("Help"),"$code_url/faq/".lang_dir()."faq_central.php",false);
-        echo headerbar_text(_("Activity Hub"),"$code_url/activity_hub.php",true);
-        echo headerbar_text(_("Project Search"),"$code_url/tools/project_manager/projectmgr.php?show=search_form",true);
 
-        echo headerbar_text(_("My Projects"),"$code_url/tools/proofers/my_projects.php",true);
+        echo "<td>";
+        // left side
+        echo "<span style='float: left; padding: 2px;'>";
+        echo headerbar_text_array(array(array('text' => $site_abbreviation, 'url' => "default.php")));
 
-        echo headerbar_text(_("My Preferences"),"$code_url/userprefs.php",true);
+        echo " | ";
 
-        $inbox_text = _("My Inbox");
-        if($numofPMs[0] > 0) $inbox_text .= sprintf(_(" (%s unread)"),$numofPMs[0]);
-        echo headerbar_text($inbox_text,$forums_url."/privmsg.php?folder=inbox",true);
+        $links = array();
+        $links[] = array('text' => _("Activity Hub"), 'url' => "activity_hub.php");
 
-        echo headerbar_text(_("Forums"),$forums_url,true);
+        // use white-space: nowrap; to keep the rounds within []s together
+        $activities_string = "<span style='white-space: nowrap;'>[ ";
+        if(get_pages_proofed_maybe_simulated($pguser) < 100)
+            $activities_string .= "<span class='text'>" . _("Activities:") . " </span>";
+
+        $activities_string .= headerbar_text_array(get_activity_links());
+        $activities_string .= " ]</span>";
+        $links[] = array('text' => $activities_string);
+
+        $links[] = array('text' => _("My Projects"), 'url' => "tools/proofers/my_projects.php");
+
+        $links[] = array('text' => _("Project Search"), 'url' => "tools/project_manager/projectmgr.php");
+
+        echo headerbar_text_array($links);
+
+        echo "</span>";
+
+        // right side
+        // white-space: nowrap is required to have the right side shift
+        // under the left side if the window isn't large enough to have both
+        // on the same line.
+        echo "<span style='text-align: right; float: right; padding: 2px; white-space: nowrap;'>";
+        $links = array();
+        $inbox_text = _("Inbox");
+        if($numofPMs[0] > 0) $inbox_text .= " " . sprintf(_("(%s unread)"),$numofPMs[0]);
+        $links[] = array('text' => $inbox_text, 'url' => $forums_url."/privmsg.php?folder=inbox");
+
+        $links[] = array('text' => _("Forums"), 'url' => $forums_url);
         if(lang_forum())
         {
-            echo headerbar_text(_("Your language forums"),$forums_url."/".lang_forum(),true);
+            $links[] = array('text' => _("Your language forums"), 'url' => $forums_url."/".lang_forum());
         }
 
         if ( !empty($wiki_url) )
         {
-            echo headerbar_text(_("Wiki"),$wiki_url,true);
+            $links[] = array('text' => _("Wiki"), 'url' => $wiki_url);
         }
-        echo headerbar_text(_("Log Out ($pguser)"),"$code_url/tools/logout.php",true);
+
+
+        $links[] = array('text' => _("Stats"), 'url' => "stats/stats_central.php");
+        $links[] = array('text' => _("Prefs"), 'url' => "userprefs.php");
+        $links[] = array('text' => _("Help"), 'url' => "faq/".lang_dir()."faq_central.php");
+        $links[] = array('text' => sprintf(_("Log Out (%s)"),$pguser), 'url' => "tools/logout.php");
+
+        echo headerbar_text_array($links);
+        echo "</span>";
         echo "</td>\n";
-        echo "<td align='right' style='vertical-align: middle;' bgcolor='".$theme['color_headerbar_bg']."'>\n";
-        show_quick_links();
-        echo "&nbsp;</td>";
     }
 
     echo "</tr>\n";
     echo "</table>\n";
 }
 
-function headerbar_text($text, $link = '', $with_divider = false, $title = '')
+function headerbar_text_array($entries)
+// Prints out entries in the navbar contained within $entries.
+// Each $entry is an associative array containing either:
+//    'text' - text to display as-is without changes, can include HTML
+// or:
+//    'url' and 'text' - a link using 'text' as the label
+// Either one can also have a 'title' as well that will be placed in a title
+// attribute on the <a> or <span> tag. The function also determines if the
+// current page is one of the urls and if so it doesn't create the link but
+// instead wraps the text in a span.currentpage tag.
 {
-    global $theme, $code_url;
-    $out = "";
+    global $code_url;
 
-    if ($with_divider)
-        $out .= "&nbsp;&#183;&nbsp;\n";
+    $output_entries = array();
 
-    if(!empty($link))
-        $out .= "<a href='$link'>";
-
-    // Within the label, change any blanks to non-breaking spaces,
-    // so that the label doesn't break there.
-    $text = str_replace(' ', '&nbsp;', $text);
-
-    if ( !empty($title) )
+    foreach($entries as $entry)
     {
-        $text = "<span title='$title'>$text</span>";
+        $text = $entry['text'];
+        $title = @$entry['title'];
+
+        if(!empty($entry['url']))
+        {
+            // ensure we have a full url, if not prefix the $code_url
+            $url= $entry['url'];
+            if(!startswith($url,"http"))
+                $url= "$code_url/$url";
+
+            // within the label, change any blanks to non-breaking spaces
+            // so that the label doesn't break there
+            $text = str_replace(' ', '&nbsp;', $text);
+
+            // set the title if specified
+            $title_attr= '';
+            if(!empty($title))
+                $title_attr= "title='$title'";
+
+            // if we're on the current page, create a span
+            if(is_url_for_current_page($url))
+                $entry_string = "<span class='currentpage' $title_attr>$text</span>";
+            // if we're not, create a link 
+            else
+                $entry_string = "<a href='$url' $title_attr>$text</a>";
+        }
+        elseif(!empty($title))
+        {
+            $entry_string = "<span title='$title'>$text</span>";
+        }
+        else
+        {
+            $entry_string = $text;
+        }
+
+        $output_entries[] = $entry_string;
     }
 
-    $out .= "<font face='$theme[font_headerbar]' size='1' color='$theme[color_headerbar_font]'>"
-        . $text
-        . "</font>";
+    // set the divider
+    // &#183; == &middot; == middle-dot
+    $divider = " &#183; ";
 
-    if(!empty($link))
-        $out .= "</a>\n";
-
-    return $out;
+    return implode($divider, $output_entries);
 }
 
 function html_statsbar($nameofpage) {
@@ -417,10 +501,11 @@ function maybe_show_language_selector()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_quick_links()
-// This parallels the Activity Hub.
+function get_activity_links()
+// return a list of round/stage links for the user
+// the returned links are in a format usable by headerbar_text_array
 {
-    global $site_supports_metadata, $code_url, $theme, $Stage_for_id_, $pguser;
+    global $code_url, $Stage_for_id_, $pguser;
 
     if (is_null($pguser)) return;
     // Should show links to stages that are accessible to people
@@ -430,53 +515,23 @@ function show_quick_links()
 
     if (user_is_PM())
     {
-        $links[] = array('tools/project_manager/projectmgr.php','PM',_('Manage Projects'));
+        $links[] = array('url' => 'tools/project_manager/projectmgr.php', 'text' => 'PM', 'title' => _('Manage Projects'));
     }
 
-    // Show not only the stages that the user has permission to
-    // work in but the next stage as well if that stage is a Round.
-    // (If we don't restrict the "next stage" to a Round, PPV
-    // shows up for everyone since it follows SR and everyone
-    // has SR permission.)
-    $uao_prev = null;
-    foreach ( $Stage_for_id_ as $stage )
+    // Get all stages the user has access to
+    $stages_can_access_and_access_prereqs = get_stages_user_can_work_in($pguser);
+
+    // we still need to loop through $Stage_for_id_ to output the stages
+    // in order
+    foreach( $Stage_for_id_ as $stage)
     {
-        $uao = $stage->user_access($pguser);
-        if($uao_prev == null)
-            $uao_prev = $uao;
-
-        if ($uao->can_access || $uao_prev->can_access)
+        if(isset($stages_can_access_and_access_prereqs[$stage->id]))
         {
-            $links[] = array($stage->relative_url, $stage->id, $stage->name);
-        }
-
-        if(is_a( $stage, "Round" ))
-            $uao_prev = $uao;
-        else
-            $uao_prev = null;
-    }
-
-    if ( count($links) > 0 )
-    {
-
-        while ( list($i, list($rel_url, $text, $title)) = each($links) )
-        {
-
-            $divider = ($i > 0) ? true : false;
-
-            $rel_url_pattern = '@/' . preg_quote($rel_url, '@') . '\b@';
-            if ( preg_match( $rel_url_pattern, $_SERVER['REQUEST_URI'] ) )
-            {
-                // We're at that page; no point to link to it.
-                echo headerbar_text($text,'',$divider,$title);
-            }
-            else
-            {
-                echo headerbar_text($text,"$code_url/$rel_url",$divider,$title);
-            }
-            echo "\n";
+            $links[] = array('url' => $stage->relative_url, 'text' => $stage->id, 'title' => $stage->name);
         }
     }
+
+    return $links;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
