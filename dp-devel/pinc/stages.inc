@@ -355,6 +355,11 @@ function can_user_get_pages_in_project( $username, $project, $round )
     // are reserved for inexperienced users.
     if ( $round->id == 'P1' and $project->language == 'English' and
 
+        // Missing page(s) projects are exempted from being reserved
+        // because we want them to catch up to their "parent" project
+        // as quickly as possible.
+        !str_contains($project->nameofwork, '[missing page') and
+
         // P1->P1 projects are exempted, because they were already reserved
         // for inexperienced users on their first pass through P1.
         !str_contains($project->nameofwork, '{P1->P1}')
