@@ -7,12 +7,31 @@ include($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include($relPath.'project_edit.inc');
 include($relPath.'DPage.inc');
+include_once($relPath.'projectinfo.inc'); 
 
 $projectid = $_GET['project'];
 
 abort_if_cant_edit_project( $projectid );
 
 $loading_tpnv = ( isset($_GET['tpnv']) && $_GET['tpnv'] == '1' );
+
+// abort if a load_disabled user is trying to load normal pages into an empty project 
+if ( (! $loading_tpnv)
+     && user_project_loads_disabled()
+     && Project_getNumPages($projectid) == 0)
+{
+    echo "
+          <p>"
+        ._("You are not currently enabled to create new projects")
+        .".</p>
+          <p>"
+        ._("If you believe you are receiving this message in error, please contact the")
+        ." <a href=\"mailto:$site_manager_email_addr\">"
+        ._("site manager")
+        ."</a>.
+          </p>";
+    exit;
+}
 
 if ( $_GET['rel_source'] == '' )
 {

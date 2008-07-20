@@ -931,11 +931,14 @@ function do_edit_above()
     echo "</a>";
     echo "</p>";
 
-    echo "<p>";
-    echo "<a href='$code_url/tools/project_manager/editproject.php?action=clone&project=$project->projectid'>";
-    echo _("Clone this project");
-    echo "</a>";
-    echo "</p>";
+    if (! user_project_loads_disabled() )
+    {
+        echo "<p>";
+        echo "<a href='$code_url/tools/project_manager/editproject.php?action=clone&project=$project->projectid'>";
+        echo _("Clone this project");
+        echo "</a>";
+        echo "</p>";
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -975,11 +978,15 @@ function do_early_uploads()
     }
 
     // Load text+images from uploads area into project.
+    // Can do this if it's a new project (as measured by the state it's in)
+    // If the user is disabled from uploading new projects, they can only
+    // do this if the project already has some pages loaded
     if (
-        ($state == PROJ_NEW && ! $site_supports_metadata)
-        || ( $site_supports_metadata && ($state == PROJ_NEW_APPROVED || $state == PROJ_NEW_FILE_UPLOADED) )
-        || $state == PROJ_P1_UNAVAILABLE
-    )
+        ( ($state == PROJ_NEW && ! $site_supports_metadata)
+          || ( $site_supports_metadata && ($state == PROJ_NEW_APPROVED || $state == PROJ_NEW_FILE_UPLOADED) )
+          || $state == PROJ_P1_UNAVAILABLE )
+        && ( Project_getNumPages($projectid) > 0 || ! user_project_loads_disabled() )
+        )
     {
         echo "<br>\n";
         echo "<form method='get' action='$code_url/tools/project_manager/add_files.php'>\n";
