@@ -97,6 +97,7 @@ function user_can_delete_project_in_state( $project_state )
 
 function check_user_can_load_projects()
 {
+    global $site_manager_email_addr;
     if (user_has_project_loads_disabled())
     {
         echo "
