@@ -93,15 +93,15 @@ function user_is_PM()
     global $pguser;
     return that_user_is_PM($pguser);
 }
-function that_user_project_loads_disabled($username)
+function that_user_has_project_loads_disabled($username)
 {
     $userSettings =& Settings::get_settings($username);
     return $userSettings->get_boolean("disable_project_loads");
 }
-function user_project_loads_disabled()
+function user_has_project_loads_disabled()
 {
     global $pguser;
-    return that_user_project_loads_disabled($pguser);
+    return that_user_has_project_loads_disabled($pguser);
 }
 
 

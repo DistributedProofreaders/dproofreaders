@@ -81,7 +81,7 @@ function echo_manager_header( $which )
         echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_all'>"._("Show All of Your Projects"),"</a>";
         echo "\n|\n";
         // is this PM allowed to upload projects?
-        if ( ! user_project_loads_disabled() )
+        if ( ! user_has_project_loads_disabled() )
         {
             echo "<a href='$create_project_url'>"._("Create Project")."</a>";
             echo "\n|\n";

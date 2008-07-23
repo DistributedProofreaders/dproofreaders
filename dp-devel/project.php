@@ -931,7 +931,7 @@ function do_edit_above()
     echo "</a>";
     echo "</p>";
 
-    if (! user_project_loads_disabled() )
+    if (! user_has_project_loads_disabled() )
     {
         echo "<p>";
         echo "<a href='$code_url/tools/project_manager/editproject.php?action=clone&project=$project->projectid'>";
@@ -985,7 +985,7 @@ function do_early_uploads()
         ( ($state == PROJ_NEW && ! $site_supports_metadata)
           || ( $site_supports_metadata && ($state == PROJ_NEW_APPROVED || $state == PROJ_NEW_FILE_UPLOADED) )
           || $state == PROJ_P1_UNAVAILABLE )
-        && ( Project_getNumPages($projectid) > 0 || ! user_project_loads_disabled() )
+        && ( Project_getNumPages($projectid) > 0 || ! user_has_project_loads_disabled() )
         )
     {
         echo "<br>\n";

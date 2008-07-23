@@ -95,5 +95,23 @@ function user_can_delete_project_in_state( $project_state )
     );
 }
 
+function check_user_can_load_projects()
+{
+    if (user_has_project_loads_disabled())
+    {
+        echo "
+              <p>"
+            ._("You are not currently permitted to create new projects.")
+            ."</p>
+              <p>"
+            .sprintf(_("If you believe you are receiving this message in error, please contact a <a href='%s'>site manager</a>."),
+                     "mailto:$site_manager_email_addr"
+                     )
+            ."
+              </p>";
+        exit;
+    }
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>

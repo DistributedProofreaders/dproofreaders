@@ -57,23 +57,10 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
     {
         $page_title = _("Edit a Project");
     }
-    else if ( user_project_loads_disabled() )
-    {
-        echo "
-              <p>"
-            ._("You are not currently permitted to create new projects")
-            .".</p>
-              <p>"
-            ._("If you believe you are receiving this message in error, please contact the")
-            ." <a href=\"mailto:$site_manager_email_addr\">"
-            ._("site manager")
-            ."</a>.
-              </p>";
-        exit;
-    }
     else
     {
         // we're creating a new project
+        check_user_can_load_projects();
         if ( isset($pih->up_projectid) )
         {
             $page_title = _("Create a Project from an Uber Project");
@@ -120,23 +107,12 @@ elseif (isset($_POST['quit']))
 else
 {
     $requested_action = @$_REQUEST['action'];
-    if ( user_project_loads_disabled() 
-         && ( $requested_action == 'createnew'
-              || $requested_action == 'clone'
-              || $requested_action == 'createnewfromuber'
-              || $requested_action == 'create_from_marc_record') )
+    if ( $requested_action == 'createnew'
+         || $requested_action == 'clone'
+         || $requested_action == 'createnewfromuber'
+         || $requested_action == 'create_from_marc_record') 
     {
-        echo "
-              <p>"
-            ._("You are not currently permitted to create new projects")
-            .".</p>
-              <p>"
-            ._("If you believe you are receiving this message in error, please contact the")
-            ." <a href=\"mailto:$site_manager_email_addr\">"
-            ._("site manager")
-            ."</a>.
-              </p>";
-        exit;
+        check_user_can_load_projects();
     }
     if ( $requested_action == 'createnew' )
     {
