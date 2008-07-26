@@ -380,11 +380,11 @@ function project_get_auto_PPer( $projectid )
         WHERE projectid = '$projectid'
     ");
     list($checkedoutby, $username) = mysql_fetch_row($res);
-
+    $possible_PPer = '';
     if ( $checkedoutby != '' )
     {
         // The project is reserved for a PPer, so it will be checked out to him/her.
-        return $checkedoutby;
+        $possible_PPer = $checkedoutby;
     }
     else
     {
@@ -403,8 +403,19 @@ function project_get_auto_PPer( $projectid )
         else
         {
             // Otherwise, his/her projects are auto-checked-out to him/her.
-            return $username;
+            $possible_PPer = $username;
         }
+    }
+    // now see if the possible PPer is allowed to check projects out
+    if ( $possible_PPer == ''
+         || ! user_can_work_in_stage($possible_PPer, 'PP') 
+         || that_user_is_over_PP_checked_out_limit($possible_PPer) )
+    {
+        return NULL;
+    }
+    else
+    {
+        return $possible_PPer;
     }
 }
 

@@ -103,7 +103,37 @@ function user_has_project_loads_disabled()
     global $pguser;
     return that_user_has_project_loads_disabled($pguser);
 }
+// ---------
 
+function that_user_is_over_PP_checked_out_limit($username)
+{
+    $userSettings =& Settings::get_settings($username);
+    $limit = $userSettings->get_value("PP_checked_out_limit", 'none');
+    if (! is_numeric($limit) )
+    {
+        return FALSE;
+    }
+    // the user does have a limit
+    $actual_limit = intval($limit);
+
+    // now see how many they have checked out
+    $query = "
+              SELECT  COUNT(*) FROM projects WHERE 
+                checkedoutby LIKE '$username' 
+                AND state = 'proj_post_first_checked_out'";
+    $result = mysql_query( $query );
+    $row =  mysql_fetch_row($result);
+    $number_out = $row[0];
+
+    // a limit of zero counts as no limit
+    return $actual_limit > 0 && $number_out >= $actual_limit;
+}
+
+function user_is_over_PP_checked_out_limit()
+{
+    global $pguser;
+    return that_user_is_over_PP_checked_out_limit($pguser);
+}
 
 // ---------
 

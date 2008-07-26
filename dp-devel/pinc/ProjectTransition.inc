@@ -136,6 +136,23 @@ class ProjectTransition
             // can perform the action.
             return user_can_work_in_stage($who, $stage_id);
         }
+        else if ( $restriction_words[0] == 'user_can_check_out_in_stage' )
+        {
+            assert( count($restriction_words) == 2 );
+            $stage_id = $restriction_words[1];
+            if ($stage_id == 'PP')
+            {
+                // have to be able to work in the stage, and
+                // not be over the limit
+                return user_can_work_in_stage($who, $stage_id) 
+                    && ! that_user_is_over_PP_checked_out_limit($who);
+            }
+            else
+            {
+                // have to be able to work in the stage
+                return user_can_work_in_stage($who, $stage_id);
+            }
+        }
 
         die("transition has bad 'restriction' value: '$simple_who_restriction'");
     }
@@ -738,7 +755,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
                         'action_name'           => _('Skip this round'),
                         'confirmation_question' => '[default]',
                         'detour'                => null,
-                        'settings_template'     => "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' {{$round->id} skipped}'), n_available_pages=0",
+                        'settings_template'     => "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' {{$round->id} skipped}'), n_available_pages=0, checkedoutby=''",
                         'collateral_actions'    => 'round_to_PP_avail_collateral',
                     )
                 );
@@ -935,11 +952,12 @@ function round_to_PP_out_collateral( $project, $transition, $who )
 // -----------------------------------------------------------------------------
 // X_AVAILABLE -> X_CHECKED_OUT
 // Anyone who can work in stage X can check out the project.
+// OR, anyone who is currently allowed to check out in stage X
 
 new ProjectTransition(
     PROJ_POST_FIRST_AVAILABLE,
     PROJ_POST_FIRST_CHECKED_OUT,
-    'user_can_work_in_stage PP',
+    'user_can_check_out_in_stage PP',
     array(
         'project_restriction'   => null,
         'action_name'           => _("Check Out Book"),
