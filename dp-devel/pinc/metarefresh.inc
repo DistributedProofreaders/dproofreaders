@@ -2,8 +2,14 @@
 include_once('doctype.inc');
 include_once('site_vars.php');
 include_once('gettext_setup.inc');
+include_once('misc.inc');
 
-function metarefresh($seconds,$url,$title,$body)
+function metarefresh($seconds,$url,$title="",$body="")
+// This function will redirect the browser to load a specific page. If
+// possible it will use HTTP header redirection (via Location:). If that
+// isn't possible, it will use a browser redirect (via a <meta> tag).
+// If this is a test system ($testing=1 in site_vars.php) the redirect
+// will be delayed by 15 seconds.
 {
     global $relPath, $testing, $docType, $charset;
 
@@ -18,6 +24,29 @@ function metarefresh($seconds,$url,$title,$body)
         $sec = $seconds;
     }
 
+    // If headers haven't been sent yet and the redirect is for 0 seconds
+    // do the redirection using HTTP headers instead of relying on a
+    // browser refresh.
+    if($sec==0 && !headers_sent())
+    {
+        // confirm we have an absolute URL
+        if(!startswith($url,'http'))
+        {
+            // get the proper protocol
+            $absolute_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
+            $absolute_url .= $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']) . "/$url";
+        }
+        else
+        {
+            $absolute_url = $url;
+        }
+
+        header("Location: $url\n\n");
+        exit;
+    }
+
+    // If we can't do the redirection using HTTP headers, fall back to using
+    // a <meta> tag.
     echo $docType."\n";
     echo "<html".lang_html_header()."><head><title>$title</title>\n";
     echo "<meta http-equiv=\"refresh\" content=\"$sec ;URL=$url\">\n";
