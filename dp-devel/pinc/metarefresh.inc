@@ -29,11 +29,7 @@ function metarefresh($seconds,$url,$title,$body)
     if ($testing)
     {
     	echo "\n<hr>\n<i>";
-    	echo _("Normally, you would be directed to the next page in $seconds seconds.
-        However, as we are in testing mode, this has been increased to $sec seconds.
-        If you don't want to wait that long,
-        or if you want this page inserted into your browser history,
-        <a href='$url'>click here</a>.");
+    	echo sprintf(_("Normally, you would be directed to the next page in %d seconds. However, as we are in testing mode, this has been increased to %d seconds. If you don't want to wait that long, or if you want this page inserted into your browser history, <a href='%s'>click here</a>."), $seconds, $sec, $url);
     	echo "</i>";
     }
 
