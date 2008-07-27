@@ -134,10 +134,10 @@ if (!empty($destination))
 }
 else
 {
-    $url = "../activity_hub.php";
+    $url = "$code_url/activity_hub.php";
 }
 $title = _("Sign In");
-metarefresh(1,$url,$title,"");
+metarefresh(0,$url,$title,"");
 
 // vim: sw=4 ts=4 expandtab
 ?>
