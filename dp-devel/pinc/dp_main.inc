@@ -13,6 +13,11 @@ if ($db_Connection->error !='')
 }
 $db_link=$db_Connection->db_lk;
 
+// The next two extract()s simulates having register_globals enabled which
+// is disabled by default in PHP 4.2 and later. The use of extract() on
+// $_GET and $_POST is explicitly warned against in the PHP online manual.
+// We need to strongly work at removing the dependency for such usage.
+
 //all $_GET to globals
 if (!empty($_GET))
 {
