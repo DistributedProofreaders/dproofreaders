@@ -37,6 +37,7 @@ function metarefresh($seconds,$url,$title,$body)
     }
 
     echo "</body></html>";
+    exit;
 }
 
 // vim: sw=4 ts=4 expandtab
