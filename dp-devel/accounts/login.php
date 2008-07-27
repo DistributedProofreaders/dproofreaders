@@ -52,7 +52,7 @@ Please contact the <a href="mailto:<?=$site_manager_email_addr?>">site manager</
 
 $userNM = $_POST['userNM'];
 $userPW = $_POST['userPW'];
-$destination = ( isset($_GET['destination']) ? $_GET['destination'] : '' );
+$destination = ( isset($_REQUEST['destination']) ? $_REQUEST['destination'] : '' );
 
 $err = check_username($userNM);
 if ($err != '')
@@ -124,12 +124,12 @@ if (is_dir($forums_dir)) {
 }
 
 // send them to the correct page
-if (!empty($_REQUEST["destination"]))
+if (!empty($destination))
 {
     // They were heading to $destination (via a bookmark, say)
     // when we sidetracked them into the login pages.
     // Make sure they get to where they were going.
-    $url = $_REQUEST["destination"];
+    $url = $destination;
 }
 else
 {
