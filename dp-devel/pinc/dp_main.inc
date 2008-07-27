@@ -34,7 +34,7 @@ if ( !$user_is_logged_in  )
     // (urlencode it because it might contain characters [specifically, &]
     // that would confuse parsing of the signin.php URL.)
     $request_uri_encoded = urlencode($_SERVER['REQUEST_URI']);
-    $url=$relPath."../accounts/signin.php?destination=$request_uri_encoded";
+    $url="$code_url/accounts/signin.php?destination=$request_uri_encoded";
     $body="<A HREF=\"$url\">" . _("Please Sign In") . "</A>";
     $title = _("Please Sign In");
     metarefresh(0,$url,$title,$body);
