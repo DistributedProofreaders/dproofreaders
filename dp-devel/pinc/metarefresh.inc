@@ -2,10 +2,11 @@
 
 function metarefresh($seconds,$url,$title,$body)
 {
-    global $relPath, $testing;
-    include('doctype.inc');
-    include('site_vars.php');
-    include('gettext_setup.inc');
+    include_once('doctype.inc');
+    include_once('site_vars.php');
+    include_once('gettext_setup.inc');
+
+    global $relPath, $testing, $docType, $charset;
 
     if ($testing)
     {
