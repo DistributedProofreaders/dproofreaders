@@ -113,14 +113,15 @@ $userNM = $u_row['username'];
 dpsession_begin( $userNM );
 
 // Log into phpBB2
-if (is_dir($forums_dir)) {
-	$user_id = mysql_result($bb_res, 0, "user_id");
-	define('IN_PHPBB', true);
-	$phpbb_root_path = $forums_dir."/";
-	include($phpbb_root_path.'extension.inc');
-	include($phpbb_root_path.'common.php');
-	include($phpbb_root_path.'config.php');
-	session_begin($user_id, $user_ip, PAGE_INDEX, false, 1);
+if (is_dir($forums_dir))
+{
+    $user_id = mysql_result($bb_res, 0, "user_id");
+    define('IN_PHPBB', true);
+    $phpbb_root_path = $forums_dir."/";
+    include($phpbb_root_path.'extension.inc');
+    include($phpbb_root_path.'common.php');
+    include($phpbb_root_path.'config.php');
+    session_begin($user_id, $user_ip, PAGE_INDEX, false, 1);
 }
 
 // send them to the correct page
@@ -138,4 +139,5 @@ else
 $title = _("Sign In");
 metarefresh(1,$url,$title,"");
 
+// vim: sw=4 ts=4 expandtab
 ?>
