@@ -2,7 +2,7 @@
 
 function metarefresh($seconds,$url,$title,$body)
 {
-    $relPath=$GLOBALS['relPath'];
+    global $relPath, $testing;
     include('doctype.inc');
     include('site_vars.php');
     include('gettext_setup.inc');
