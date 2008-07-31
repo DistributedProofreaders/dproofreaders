@@ -5,7 +5,7 @@
 
     ************************************
 */
-$relPath='../..//pinc/';
+$relPath='../../pinc/';
 // to establish logon
 include_once($relPath.'dp_main.inc');
 // for dpsql_dump_query
