@@ -125,30 +125,45 @@ if ($showDiffF) {
     $array_of_diffs = array('beginner','easy','average','hard');
 }
 
+
 // build and show the filter selection section
 
-echo "<center>";
-echo _("Filter available ").$label._(" books by").":";
-echo "</center>\n";    
-echo "<br>
+// TODO - Pull this css out
+echo "<style type='text/css'>
+    .filter    { border: 1px solid gray; }
+    .filter caption { font-size: 120%; margin: 0; padding: 0; }
+    .filter td { padding: .25em 0.25em 0em .25em; text-align: center; vertical-align: top; }
+    .filter td select { margin: .25em auto; }
+    </style>";
+
+// Create only ONE table, fill its cells with the selectors
+// Track number of columns added so colspans can be given later
+$filter_column_count = 0;
+
+echo "
     <form method='post' action=''>
     <input type='hidden' name='filter_".$filtertype_stem."' value='filter_on'>";
 
+echo "<table class='filter'>\n";
+echo "<caption>", _("Filter available ").$label._(" books by").":</caption>";
+
+echo "<tr>\n";
 
 // checkboxes for selection of difficulty
 if ($showDiffF) {
-    echo "\r\n<table border=1>";
-    echo "\r\n<tr>";
+    $filter_column_count++;
+    echo "<td>\n";
 
-    echo "<td>"._("Difficulty")."</td>";
-    echo "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"._("All")." <input type='checkbox' name='difficulty1[]' value=''>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-    echo _("Beginners Only").' <input type="checkbox" name="difficulty1[]" value="beginner">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-    echo _("Easy").' <input type="checkbox" name="difficulty1[]" value="easy">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-    echo _("Average").' <input type="checkbox" name="difficulty1[]" value="average">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-    echo _("Hard").' <input type="checkbox" name="difficulty1[]" value="hard"></td>';
+    echo "<b>"._("Difficulty").":</b><br>\n";
+    echo "<p align='right'>\n";
+    echo _("All")." <input type='checkbox' name='difficulty1[]' value=''><br>\n";
+    echo _("Beginners Only")." <input type='checkbox' name='difficulty1[]' value='beginner'><br>\n";
+    echo _("Easy")." <input type='checkbox' name='difficulty1[]' value='easy'><br>\n";
+    echo _("Average")." <input type='checkbox' name='difficulty1[]' value='average'><br>\n";
+    echo _("Hard")." <input type='checkbox' name='difficulty1[]' value='hard'>\n";
 
-    echo "\r\n</tr>";
-    echo "</table>\n";
+    echo "</p>\n";
+    echo "</td>\n";
 }
 
 // drop down multiselect listboxes for Language, Genre, PM, Special Days, PPers (when enabled)
@@ -165,11 +180,11 @@ if ($showDiffF) {
 // LANGUAGE filter
 
 if ($showLangF) {
-
-    echo "\r\n<table style='float: left;' border=1>\n<tr>
-          <td>"._("Language")."</td></tr><tr>
-        <td>
-        <select name='language1[]' size=5 multiple>
+    $filter_column_count++;
+    echo "<td>\n
+          <b>"._("Language").":</b>
+        <br>
+        <select name='language1[]' size='6' multiple>
 	    <option value=''>"._("All languages")."</option>
     ";
 
@@ -178,8 +193,6 @@ if ($showLangF) {
     echo "
         </select>
         </td>
-      </tr>
-     </table>
    ";
 }
 
@@ -187,10 +200,11 @@ if ($showLangF) {
 // GENRE filter
 
 if ($showGenreF) {
-    echo "\r\n<table style='float: left;' border=1>\n<tr>
-          <td>"._("Genre")."</td></tr><tr>
-        <td>
-        <select name='genre1[]' size=5  multiple>
+    $filter_column_count++;
+    echo "<td>\n
+          <b>"._("Genre").":</b>
+        <br>
+        <select name='genre1[]' size='6'  multiple>
 	    <option value=''>"._("All genres")."</option>
     ";
 
@@ -198,8 +212,6 @@ if ($showGenreF) {
     echo "
         </select>
         </td>
-      </tr>
-     </table>
    ";
 }
 
@@ -207,10 +219,11 @@ if ($showGenreF) {
 // PM filter
 
 if ($showPMsF) {
-    echo "\r\n<table style='float: left;' border=1>\n<tr>
-          <td>"._("Project Manager")."</td></tr><tr>
-        <td>
-        <select name='PM1[]' size=5 multiple>
+    $filter_column_count++;
+    echo "<td>\n
+          <b>"._("Project Manager").":</b>
+        <br>
+        <select name='PM1[]' size='6' multiple>
 	    <option value=''>"._("All PMs")."</option>
     ";
 
@@ -218,8 +231,6 @@ if ($showPMsF) {
     echo "
         </select>
         </td>
-      </tr>
-     </table>
    ";
 }
 
@@ -227,10 +238,11 @@ if ($showPMsF) {
 // PP filter
 
 if ($showPPersF) {
-    echo "\r\n<table style='float: left;' border=1>\n<tr>
-          <td>"._("Post Processor")."</td></tr><tr>
-        <td>
-        <select name='PP1[]' size=5 multiple>
+    $filter_column_count++;
+    echo "<td>\n
+          <b>"._("Post Processor").":</b>
+        <br>
+        <select name='PP1[]' size='6' multiple>
 	    <option value=''>"._("All PPers")."</option>
     ";
 
@@ -238,8 +250,6 @@ if ($showPPersF) {
     echo "
         </select>
         </td>
-      </tr>
-     </table>
    ";
 }
 
@@ -248,10 +258,11 @@ if ($showPPersF) {
 // SPECIAL Days filter
 
 if ($showSpecialF) {
-    echo "\r\n<table style='float: left;' border=1>\n<tr>
-          <td>"._("Special Days")."</td></tr><tr>
-        <td>
-        <select name='special1[]' size=5  multiple>
+    $filter_column_count++;
+    echo "<td>\n
+          <b>"._("Special Days").":</b>
+        <br>
+        <select name='special1[]' size='6'  multiple>
 	    <option value=''>"._("All Special Days")."</option>
     ";
 
@@ -261,14 +272,14 @@ if ($showSpecialF) {
     echo "
         </select>
         </td>
-      </tr>
-     </table>
    ";
 }
 
-// Stop the buttons floating next to the table:
-echo "<br style='clear: both;' /><br />";
+echo "</tr>\n";
 
+//Next row, buttons and text
+
+echo "<tr>\n<td colspan='", $filter_column_count, "'>\n";
 
 // buttons
 
@@ -280,16 +291,19 @@ echo "<input type='submit' value='".
 	_("Apply New Filter to Projects")
      ."'>";
 echo "</center>\n";
-echo "</form><br>";
-
 
 // usage notes
 
-echo "<center>";
+echo "<p>\n";
 echo _("If desired, you should be able to select multiple values for each (e.g., by holding down Ctrl).");
-echo "<br><br>";
+echo "<br>";
 echo _("Resetting the filter does not apply it. To see all projects again, Reset then Apply Filter.");
-echo "</center><br><br>\n";    
+echo "</p>\n";    
+
+echo "</table>\n";
+
+echo "</form>\n";
+
 
 // $filtertype_stem (which must be initialised in enclosing file) 
 // allows different filters to be set for different list/pages/purposes
@@ -475,7 +489,7 @@ if ( isset($_POST["filter_$filtertype_stem"]) and ($_POST["filter_$filtertype_st
 	//Note:  When using UPDATE, MySQL will not update columns where the new value is the same as the old value. 
 	//This creates the possiblity that mysql_affected_rows() may not actually equal the number of rows matched, 
 	//only the number of rows that were literally affected by the query.
-	//To avoid the risk of creatign multiple rows per user for each of these two settings,
+	//To avoid the risk of creating multiple rows per user for each of these two settings,
 	//we delete and insert rather than UPDATE and "if no rows affected", INSERT, since the
 	//no rows affected isn't reliable
 
@@ -507,11 +521,15 @@ if ( isset($_POST["filter_$filtertype_stem"]) and ($_POST["filter_$filtertype_st
 
 // report filter in use to user
 
+echo "<p>", _("Current settings:"), " <b>";
+
 if ((isset($show_df) && $show_df) || (isset($display_filter) && $display_filter)) {
-	echo "<center>"._("Currently filtered by:")."<b> $display_filter </b></center><br><br>\n";
+	echo $display_filter;
 } else {
-	echo "<center><b>"._("No filter, all books shown")."</b></center><br><br>\n";
+	echo _("No filter, all books shown.");
 }
+
+echo "</b></p>\n";
 
 // $RFilter is now set to new filter value 
 // for passing to a project listing function in enclosing file
