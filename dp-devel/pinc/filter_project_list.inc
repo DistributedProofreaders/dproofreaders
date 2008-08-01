@@ -133,7 +133,7 @@ echo "<style type='text/css'>
     .filter    { border: 1px solid gray; }
     .filter caption { font-size: 120%; margin: 0; padding: 0; }
     .filter td { padding: .25em 0.25em 0em .25em; text-align: center; vertical-align: top; white-space: nowrap; }
-    .filter td select { margin: .25em auto; }
+    .filter td select { margin: .1em auto; width: 100%; }
     </style>";
 
 // Create only ONE table, fill its cells with the selectors
@@ -149,22 +149,6 @@ echo "<caption>", _("Filter available ").$label._(" books by").":</caption>";
 
 echo "<tr>\n";
 
-// checkboxes for selection of difficulty
-if ($showDiffF) {
-    $filter_column_count++;
-    echo "<td>\n";
-
-    echo "<b>"._("Difficulty").":</b><br>\n";
-    echo "<p align='right'>\n";
-    echo _("All")." <input type='checkbox' name='difficulty1[]' value=''><br>\n";
-    echo _("Beginners Only")." <input type='checkbox' name='difficulty1[]' value='beginner'><br>\n";
-    echo _("Easy")." <input type='checkbox' name='difficulty1[]' value='easy'><br>\n";
-    echo _("Average")." <input type='checkbox' name='difficulty1[]' value='average'><br>\n";
-    echo _("Hard")." <input type='checkbox' name='difficulty1[]' value='hard'>\n";
-
-    echo "</p>\n";
-    echo "</td>\n";
-}
 
 // drop down multiselect listboxes for Language, Genre, PM, Special Days, PPers (when enabled)
 
@@ -177,26 +161,6 @@ if ($showDiffF) {
 // all selected values.
 
 
-// LANGUAGE filter
-
-if ($showLangF) {
-    $filter_column_count++;
-    echo "<td>\n
-          <b>"._("Language").":</b>
-        <br>
-        <select name='language1[]' size='6' multiple>
-	    <option value=''>"._("All languages")."</option>
-    ";
-
-    echo build_selectlist( $state_sql, "language", $array_of_langs);
-
-    echo "
-        </select>
-        </td>
-   ";
-}
-
-
 // GENRE filter
 
 if ($showGenreF) {
@@ -204,7 +168,7 @@ if ($showGenreF) {
     echo "<td>\n
           <b>"._("Genre").":</b>
         <br>
-        <select name='genre1[]' size='6'  multiple>
+        <select name='genre1[]' size='4'  multiple>
 	    <option value=''>"._("All genres")."</option>
     ";
 
@@ -223,7 +187,7 @@ if ($showPMsF) {
     echo "<td>\n
           <b>"._("Project Manager").":</b>
         <br>
-        <select name='PM1[]' size='6' multiple>
+        <select name='PM1[]' size='4' multiple>
 	    <option value=''>"._("All PMs")."</option>
     ";
 
@@ -242,7 +206,7 @@ if ($showPPersF) {
     echo "<td>\n
           <b>"._("Post Processor").":</b>
         <br>
-        <select name='PP1[]' size='6' multiple>
+        <select name='PP1[]' size='4' multiple>
 	    <option value=''>"._("All PPers")."</option>
     ";
 
@@ -262,7 +226,7 @@ if ($showSpecialF) {
     echo "<td>\n
           <b>"._("Special Days").":</b>
         <br>
-        <select name='special1[]' size='6'  multiple>
+        <select name='special1[]' size='4'  multiple>
 	    <option value=''>"._("All Special Days")."</option>
     ";
 
@@ -276,6 +240,44 @@ if ($showSpecialF) {
 }
 
 echo "</tr>\n";
+
+
+// LANGUAGE filter
+// Next row, languages all by themselves since they're so long
+
+if ($showLangF) {
+    echo "<tr><td colspan='", $filter_column_count,"'>\n
+          <b>"._("Language").":</b>
+        <br>
+        <select name='language1[]' size='3' multiple>
+	    <option value=''>"._("All languages")."</option>
+    ";
+
+    echo build_selectlist( $state_sql, "language", $array_of_langs);
+
+    echo "
+        </select>
+        </td></tr>
+   ";
+}
+
+
+// Next row, difficulty checkboxes
+
+// checkboxes for selection of difficulty
+if ($showDiffF) {
+    echo "<tr><td colspan='", $filter_column_count, "'>\n";
+
+    echo "<p><b>"._("Difficulty").":</b>\n";
+    echo _("All")." <input type='checkbox' name='difficulty1[]' value=''>\n";
+    echo _("Beginners Only")." <input type='checkbox' name='difficulty1[]' value='beginner'>\n";
+    echo _("Easy")." <input type='checkbox' name='difficulty1[]' value='easy'>\n";
+    echo _("Average")." <input type='checkbox' name='difficulty1[]' value='average'>\n";
+    echo _("Hard")." <input type='checkbox' name='difficulty1[]' value='hard'>\n";
+
+    echo "</p>\n";
+    echo "</td></tr>\n";
+}
 
 //Next row, buttons and text
 
