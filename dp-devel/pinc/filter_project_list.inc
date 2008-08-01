@@ -132,7 +132,7 @@ if ($showDiffF) {
 echo "<style type='text/css'>
     .filter    { border: 1px solid gray; }
     .filter caption { font-size: 120%; margin: 0; padding: 0; }
-    .filter td { padding: .25em 0.25em 0em .25em; text-align: center; vertical-align: top; }
+    .filter td { padding: .25em 0.25em 0em .25em; text-align: center; vertical-align: top; white-space: nowrap; }
     .filter td select { margin: .25em auto; }
     </style>";
 
