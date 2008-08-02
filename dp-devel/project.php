@@ -939,6 +939,10 @@ function do_edit_above()
         echo "</a>";
         echo "</p>";
     }
+    // possibly print a message, which will appear where the clone project
+    // link would otherwise be, and near where the add/replace files 
+    // section would be.
+    check_user_can_load_projects(false); // keep going, even if they can't
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -980,7 +984,9 @@ function do_early_uploads()
     // Load text+images from uploads area into project.
     // Can do this if it's a new project (as measured by the state it's in)
     // If the user is disabled from uploading new projects, they can only
-    // do this if the project already has some pages loaded
+    // do this if the project already has some pages loaded, but there is
+    // no need to display a message reminding them that they can't, as 
+    // there will already be one instead of the clone project link, just above.
     if (
         ( ($state == PROJ_NEW && ! $site_supports_metadata)
           || ( $site_supports_metadata && ($state == PROJ_NEW_APPROVED || $state == PROJ_NEW_FILE_UPLOADED) )
@@ -1853,6 +1859,13 @@ function do_change_state()
         echo "<p>\n";
         echo _("Check for missing pages and make sure that all illustration files have been uploaded <b>before</b> moving this project into the rounds.");
         echo "</p>\n";
+    }
+
+    // print out a message if PM has project loads disabled,
+    // as they can't move a project out of the unavailable state
+    if ( $project->can_be_managed_by_current_user )
+    {
+        check_user_can_load_projects(false);
     }
 
     $here = $_SERVER['REQUEST_URI'];

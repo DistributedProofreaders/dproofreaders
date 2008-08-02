@@ -19,7 +19,7 @@ $loading_tpnv = ( isset($_GET['tpnv']) && $_GET['tpnv'] == '1' );
 if ( (! $loading_tpnv)
      && Project_getNumPages($projectid) == 0)
 {
-    check_user_can_load_projects();
+    check_user_can_load_projects(true); // exit if they can't
 }
 
 if ( $_GET['rel_source'] == '' )

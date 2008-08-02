@@ -1,6 +1,7 @@
 <?
 include_once($relPath.'site_vars.php');
 include_once($relPath.'user_is.inc');
+include_once($relPath.'project_edit.inc');
 
 function abort_if_not_manager()
 {
@@ -93,6 +94,12 @@ function echo_manager_header( $which )
     // --------------------------
 
     echo "</center>";
+
+    if ( user_is_PM() )
+    {
+        // possibly show message, but don't exit
+        check_user_can_load_projects(false);
+    }
 }
 
 // vim: sw=4 ts=4 expandtab

@@ -60,7 +60,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
     else
     {
         // we're creating a new project
-        check_user_can_load_projects();
+        check_user_can_load_projects(true); // exit if they can't
         if ( isset($pih->up_projectid) )
         {
             $page_title = _("Create a Project from an Uber Project");

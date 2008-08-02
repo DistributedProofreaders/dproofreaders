@@ -98,6 +98,11 @@ class ProjectTransition
                 that_user_is_a_sitemanager($who)
             );
         }
+        elseif ( $simple_who_restriction == 'unrestricted_manager' )
+        {
+            return $project->can_be_managed_by_user($who)
+                && (! that_user_has_project_loads_disabled($who) );
+        }
         elseif ( $simple_who_restriction == 'manager' )
         {
             return $project->can_be_managed_by_user($who);
@@ -490,7 +495,9 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     new ProjectTransition(
         $round->project_unavailable_state,
         $round->project_waiting_state,
-        'manager',
+        // PMs with project loads disabled can't move a project 
+        // out of unavailable, either
+        'unrestricted_manager',
         array(
             'project_restriction'   => null,
             'action_name'           => '[default]',
@@ -1142,7 +1149,9 @@ new ProjectTransition(
 new ProjectTransition(
     PROJ_POST_FIRST_UNAVAILABLE,
     PROJ_POST_FIRST_AVAILABLE,
-    'manager',
+    // PMs with project loads disabled can't move a project
+    // out of unavailable, either
+    'unrestricted_manager',
     array(
         'project_restriction'   => null,
         'action_name'           => _('Make Project Available for Post-Processing'),
@@ -1156,7 +1165,9 @@ new ProjectTransition(
 new ProjectTransition(
     PROJ_POST_FIRST_UNAVAILABLE,
     PROJ_POST_FIRST_CHECKED_OUT,
-    'manager',
+    // PMs with project load disabled can't move a project
+    // out of unavailable, either
+    'unrestricted_manager',
     array(
         'project_restriction'   => null,
         'action_name'           => _('Check Out Project for Post-Processing'),

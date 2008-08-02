@@ -95,22 +95,24 @@ function user_can_delete_project_in_state( $project_state )
     );
 }
 
-function check_user_can_load_projects()
+function check_user_can_load_projects($exit_if_not)
 {
     global $site_manager_email_addr;
     if (user_has_project_loads_disabled())
     {
         echo "
               <p>"
-            ._("You are not currently permitted to create new projects.")
-            ."</p>
-              <p>"
+            ._("You are not currently permitted to create new projects, or move projects out of the unavailable state.")
+            ."<br />"
             .sprintf(_("If you believe you are receiving this message in error, please contact a <a href='%s'>site manager</a>."),
                      "mailto:$site_manager_email_addr"
                      )
             ."
               </p>";
-        exit;
+        if ($exit_if_not) 
+        {
+            exit;
+        }
     }
 }
 
