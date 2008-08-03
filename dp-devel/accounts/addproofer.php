@@ -47,7 +47,7 @@ if ($password=="proofer") {
     // Make sure that email and confirmed email are equal.
     if ($email != $email2)
     {
-        abort_registration( _("The email addresses you entered were not equal.") );
+        abort_registration( _("The e-mail addresses you entered were not equal.") );
     }
 
     // Do some validity-checks on inputted username, password, e-mail and real name
@@ -128,12 +128,13 @@ if ($password=="proofer") {
 
     echo "<center><form method='post' action='addproofer.php'><input type=hidden name='password' value='proofer'>";
     echo "<br><table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse:collapse' width='400'>";
-    echo "<tr><td bgcolor='#e0e8dd' align='center' colspan='2'><b>Note: Please choose your User Name carefully. Your User Name will be visible to other $site_abbreviation users and cannot be changed. <br>
-    Please make sure your E-mail Address is correct. You will be emailed a confirmation link which you will need to follow in order for your $site_abbreviation account to be activated.</b>";
+    echo "<tr><td bgcolor='#e0e8dd' align='center' colspan='2'><p><b>Note: Please choose your User Name carefully. Your User Name will be visible to other $site_abbreviation users and cannot be changed.</p>
+    <p><b>Make sure your E-mail Address is correct. You will be e-mailed a confirmation link which you will need to follow in order for your $site_abbreviation account to be activated.</b></p>
+    <p>If your e-mail provider uses a challenge/response, greylist, or other anti-spam measures, please add our site to the list of permitted senders <i>before</i> submitting this form so that the activation e-mail will reach you.</b></p>";
     if ( $testing )
     {
 	    echo "<br><font color='red'>";
-	    echo "Actually, because this is a test site, that message won't be sent to you. Instead, when you hit the 'Send Email' button, the message will be displayed on the next screen. At that point, you can copy and paste the confirmation link into your browser's location field.";
+	    echo "Actually, because this is a test site, that message won't be sent to you. Instead, when you hit the 'Send E-mail' button, the message will be displayed on the next screen. At that point, you can copy and paste the confirmation link into your browser's location field.";
 	    echo "</font>";
     }
     echo "</td></tr>";
