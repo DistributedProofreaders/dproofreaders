@@ -70,7 +70,6 @@ welcome_see_beginner_forum( $pagesproofed );
 // Site News
 if ($pagesproofed >= 20)
 {
-    echo "<center>";
 
     if ($pagesproofed < 40)
     {
@@ -84,6 +83,7 @@ if ($pagesproofed >= 20)
 
     show_news_for_page("HUB");
 
+    echo "<center>";
     include("./stats/currentstatestats.inc");
     echo "</center>\n";
 }
