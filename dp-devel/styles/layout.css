@@ -15,6 +15,9 @@ div.newsitem {
     margin-top: 0.5em;
     clear: left;
 }
+div.newsitem p {
+    margin: 0 0.5em 0.5em 0;
+}
 
 /* ------------------------------------------------------------------------ */
 /* Attention-getting structures */
