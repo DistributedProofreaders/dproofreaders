@@ -1,8 +1,8 @@
 <?PHP
-include_once('doctype.inc');
-include_once('site_vars.php');
-include_once('gettext_setup.inc');
-include_once('misc.inc');
+include_once($relPath.'doctype.inc');
+include_once($relPath.'site_vars.php');
+include_once($relPath.'gettext_setup.inc');
+include_once($relPath.'misc.inc');
 
 function metarefresh($seconds,$url,$title="",$body="")
 // This function will redirect the browser to load a specific page. If
@@ -11,7 +11,7 @@ function metarefresh($seconds,$url,$title="",$body="")
 // If this is a test system ($testing=1 in site_vars.php) the redirect
 // will be delayed by 15 seconds.
 {
-    global $relPath, $testing, $docType, $charset;
+    global $testing, $docType, $charset;
 
     if ($testing)
     {
