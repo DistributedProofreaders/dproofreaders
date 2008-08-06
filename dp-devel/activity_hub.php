@@ -49,16 +49,19 @@ if ($pagesproofed <= 300)
     $numofPMs = (int) mysql_result($result, 0, "num");
     if ($numofPMs > 0)
     {
-        
-        echo "<center><hr width='75%'></center>\n";
+        echo "<div class='callout'>";
+        echo "<div class='calloutheader'>";
+        echo _("You have received a private message in your Inbox.");
+        echo "</div>";
 
-        echo "<br><br><font color='red' size=3><b>";
-        echo _("You have received a private message in your Inbox!");
-        echo "</b></font><br><br><font color='red'>";
-        echo _("This could be from somebody sending you feedback on some of the pages you had proofread earlier. We strongly recommend you READ your messages. In the links at the top of this page, there is one that says My Inbox. Just click on that to open your Inbox.");
-        echo "</font><br><br><i><font size=-1>";
-        echo _("(After a while this explanatory paragraph will not appear when you have new messages, but the link to your Inbox will always be up there and when you have new messages that will be shown in the link)");
-        echo "</font></i><br><br>\n";
+        echo "<p>";
+        echo _("This could be from somebody sending you feedback on some of the pages you had proofread earlier. We strongly recommend you <b>read</b> your messages. In the links at the top of this page, there is one that says Inbox. Just click on that to open your Inbox.");
+        echo "</p>";
+
+        echo "<p><small>";
+        echo _("After a period of time, this message will no longer appear.");
+        echo "</small></p>";
+        echo "</div>";
     }
 
 }
@@ -73,12 +76,19 @@ if ($pagesproofed >= 20)
 
     if ($pagesproofed < 40)
     {
-        echo "<hr width='75%'>\n";
-        echo "<font size=-1 face=" . $theme['font_mainbody'] . "><i>";
+        echo "<div class='callout'>";
+        echo "<div class='calloutheader'>";
+        echo _("You can now see Site News.");
+        echo "</div>";
+
+        echo "<p>";
         echo _("Now that you have proofread 20 pages you can see the Site News. This is updated regularly with announcements from the administrators.");
-        echo "<br>";
-        echo _("(This explanatory line will eventually vanish.)");
-        echo "</i></font><br><br>\n";
+        echo "</p>";
+
+        echo "<p><small>";
+        echo _("After a period of time, this message will no longer appear.");
+        echo "</small></p>";
+        echo "</div>";
     }
 
     show_news_for_page("HUB");

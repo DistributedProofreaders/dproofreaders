@@ -16,5 +16,24 @@ div.newsitem {
     clear: left;
 }
 
+/* ------------------------------------------------------------------------ */
+/* Attention-getting structures */
+
+div.callout {
+    margin-right: 2em;
+    margin-left: 2em;
+    padding: 1em;
+    background-color: #EEE;
+    border: solid thin black;
+}
+
+div.callout p {
+    margin-bottom: 0;
+}
+
+div.calloutheader {
+    font-weight: bold;
+}
+
 /* vim: sw=4 ts=4 expandtab
 */
