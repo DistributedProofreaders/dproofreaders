@@ -63,14 +63,14 @@ if (isset($_GET['news_page_id'])) {
 
 function handle_any_requested_db_updates( $news_page_id )
 {
-    $allowed_tags = '<a><b><i><u><font><img><p><div>';
+    $allowed_tags = '<a><b><i><u><font><img><p><div><br>';
 
     switch( @$_GET['action'] )
     {
         case 'add':
             // Save a new site news item
             $content = strip_tags($_POST['content'], $allowed_tags);
-            $content = nl2br($content);
+//            $content = nl2br($content);
             $date_posted = time();
             $insert_news = mysql_query("
                 INSERT INTO news_items
@@ -138,7 +138,7 @@ function handle_any_requested_db_updates( $news_page_id )
             // Save an update to a specific site news item
             $content = $_POST['content'];
             $content = strip_tags($_POST['content'], $allowed_tags);
-            $content = nl2br($content);
+//            $content = nl2br($content);
             $item_id = $_POST['item_id'];
             $result = mysql_query("UPDATE news_items SET content='$content' WHERE id=$item_id");
             $result = mysql_query("SELECT status FROM news_items WHERE id=$item_id");
