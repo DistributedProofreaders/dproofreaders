@@ -98,6 +98,9 @@ function html_header($nameofpage, $extra_args = array()) {
     echo "\n<link type='text/css' rel='Stylesheet' href='";
     echo $relPath . 'templates/' . $theme['template_unix_name'] . "/main.css'>\n";
 
+    // Global layout CSS
+    echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/layout.css'>";
+
     // Per-page CSS
     // this first navbar blob needs to be moved to a universal stylesheet but
     // that'll also require adjustements for the $theme replacements

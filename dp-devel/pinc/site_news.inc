@@ -52,15 +52,10 @@ function show_news_for_page( $news_page_id )
 // where the news items are designated for the given page,
 // or for every page.
 {
-    global $theme;
     global $code_url;
 
     $news_subject = get_news_subject($news_page_id);
-
-    echo "<center>";
-
-    echo "<font face='" . $theme['font_mainbody'] . "'>";
-
+    
     // -------------------------------------------
 
     // Get the set of 'current' news items 
@@ -85,15 +80,16 @@ function show_news_for_page( $news_page_id )
 
     // -------------------------------------------
 
-    if (mysql_num_rows($res_current) > 0 || mysql_num_rows($res_random) > 0)
+    if (mysql_num_rows($res_current) > 0 || mysql_num_rows($res_random) > 0
+        || ( user_is_a_sitemanager() or user_is_site_news_editor()))
     {
-        // We have at least one news item to show,
+        // We have at least one news item to show, or are an SA or news editor,
         // so display the news header.
 
-        echo "<hr width='75%'>";
+        echo "<div class='news'>";
 
+        echo "<div class='newsheader'>";
         $header_title = sprintf( _('News for %s'), $news_subject );
-        echo "<b>";
 
         // Show header-title as an image, if available.
         $header_image_url = get_dyn_image_url_for_file("news_header_images/$news_page_id");
@@ -101,13 +97,20 @@ function show_news_for_page( $news_page_id )
         if ( !is_null($header_image_url) )
         {
             echo "<img src='$header_image_url' title='$header_title' alt='$header_title'>";
+            echo "<br>\n";
         }
         else
         {
-            echo "<font size=4>$header_title</font>";
+            echo "<h3>$header_title</h3>";
         }
 
-        echo "<br>\n";
+        echo "<small>";
+        if ( user_is_a_sitemanager() or user_is_site_news_editor())
+        {
+            $url = "$code_url/tools/site_admin/sitenews.php?news_page_id=$news_page_id";
+            $linktext = sprintf( _("Update News for %s"), $news_subject );
+            echo "<a href='$url'>$linktext</a> - ";
+        }
 
         $date_changed = get_news_page_last_modified_date( $news_page_id );
         if ( is_null($date_changed) )
@@ -118,64 +121,45 @@ function show_news_for_page( $news_page_id )
         {
             $formatted_date = strftime(_("%A, %B %e, %Y"), $date_changed);
             echo sprintf( _("last changed %s"), $formatted_date );
-            echo "<br>\n";
         }
+        echo "</small>";
 
         // this commented out until fuller rollout
-
         // echo " <a href='$code_url/feeds/backend.php?content=news'><img src='$code_url/graphics/xml.gif'></a>";
         // echo "<a href='$code_url/feeds/backend.php?content=news&type=rss'><img src='$code_url/graphics/rss.gif'></a>";
 
-        echo "</b>";
-        echo "<br>\n";
-    }
+        echo "</div>"; // div.newsheader
 
-    // -------------------------------------------
-    // Output the 'current' news items, if any.
+        // -------------------------------------------
+        // Output the 'current' news items, if any.
 
-    if (mysql_num_rows($res_current) > 0)
-    {
-        while  ($news_item = mysql_fetch_assoc($res_current)) {
-            echo $news_item['content'];
-            echo "<br>\n";
-            echo "<br>\n";
+        if (mysql_num_rows($res_current) > 0)
+        {
+            while ($news_item = mysql_fetch_assoc($res_current))
+            {
+                echo "<div class='newsitem'>";
+                echo $news_item['content'];
+                echo "</div>";
+            }
         }
+
+        // -------------------------------------------
+        // Output the 'random' news item, if any.
+
+        if (mysql_num_rows($res_random) == 1)
+        {
+            $news_item = mysql_fetch_assoc($res_random);
+
+            echo "<div class='newsitem'>";
+            echo $news_item['content'];
+            $url = "$code_url/pastnews.php?news_page_id=$news_page_id";
+            $linktext = _("See all random news items");
+            echo "<p><small><a href='$url'>$linktext</a></small></p>";
+            echo "</div>";
+        }
+
+        echo "</div>"; // div.news
     }
-
-    // -------------------------------------------
-    // Output the 'random' news item, if any.
-
-    if (mysql_num_rows ($res_random) == 1) {
-
-        echo "<b>", _("Random News Item"), ":</b>";
-        echo "<br>\n";
-        echo "<br>\n";
-
-        $news_item = mysql_fetch_assoc($res_random);
-        echo $news_item['content'];
-        echo "<br>\n";
-        echo "<br>\n";
-
-        $url = "$code_url/pastnews.php?news_page_id=$news_page_id";
-        $linktext = _("See All Random News Items");
-        echo "(<a href='$url'>$linktext</a>)";
-    }
-
-    // -------------------------------------------
-    // Give site admin and news editors a link to add/edit/show/hide/delete
-    // and otherwise manage news items for this page.
-
-    if ( user_is_a_sitemanager() or user_is_site_news_editor()) {
-        echo "<hr width='30%'>\n";
-        $url = "$code_url/tools/site_admin/sitenews.php?news_page_id=$news_page_id";
-        $linktext = sprintf( _("Update News for %s"), $news_subject );
-        echo _("News Editor"), ": <a href='$url'>$linktext</a>";
-        echo "\n";
-    }
-
-    echo "</font>";
-    echo "</center>";
-    echo "<br>\n";
 }
 
 // -----------------------------------------------------------------------------
