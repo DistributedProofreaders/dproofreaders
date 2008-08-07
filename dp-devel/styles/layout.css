@@ -38,5 +38,26 @@ div.calloutheader {
     font-weight: bold;
 }
 
+/* ------------------------------------------------------------------------ */
+/* Round and Pool filter table */
+table.filter {
+    border: 1px solid gray;
+}
+table.filter caption  {
+    font-size: 120%;
+    margin: 0;
+    padding: 0;
+}
+table.filter td {
+    padding: .25em 0.25em 0em .25em;
+    text-align: center;
+    vertical-align: top;
+    white-space: nowrap;
+}
+table.filter td select {
+    margin: .1em auto;
+    width: 100%;
+}
+
 /* vim: sw=4 ts=4 expandtab
 */

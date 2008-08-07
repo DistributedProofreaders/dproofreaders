@@ -128,14 +128,6 @@ if ($showDiffF) {
 
 // build and show the filter selection section
 
-// TODO - Pull this css out
-echo "<style type='text/css'>
-    .filter    { border: 1px solid gray; }
-    .filter caption { font-size: 120%; margin: 0; padding: 0; }
-    .filter td { padding: .25em 0.25em 0em .25em; text-align: center; vertical-align: top; white-space: nowrap; }
-    .filter td select { margin: .1em auto; width: 100%; }
-    </style>";
-
 // Create only ONE table, fill its cells with the selectors
 // Track number of columns added so colspans can be given later
 $filter_column_count = 0;
