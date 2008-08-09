@@ -34,6 +34,8 @@ include_once($relPath.'release_queue.inc'); // cook_project_selector
 include_once($relPath.'user_project_info.inc');
 include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link
+include_once($relPath.'project_edit.inc'); // check_user_can_load_projects
+
 
 // for strftime:
 $datetime_format = _("%A, %B %e, %Y at %X");
