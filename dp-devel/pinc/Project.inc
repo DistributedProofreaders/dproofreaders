@@ -407,10 +407,11 @@ function project_get_auto_PPer( $projectid )
         }
     }
     // now see if the possible PPer is allowed to check projects out
-    // note that this means that the send_to_post setting has no effect
+    // when the relevant bit is uncommented, 
+    // note that it will mean that the send_to_post setting has no effect
     // if the PM does not have PPer status
     if ( $possible_PPer == ''
-         || ! user_can_work_in_stage($possible_PPer, 'PP') 
+         // || ! user_can_work_in_stage($possible_PPer, 'PP') 
          || that_user_is_over_PP_checked_out_limit($possible_PPer) )
     {
         return NULL;
