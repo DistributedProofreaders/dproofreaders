@@ -37,7 +37,6 @@ if (isset($swProfile))
     if (isset($origin))
         $eURL .= '&origin=' . urlencode($origin);
     metarefresh(0,$eURL,_('Profile Selection'),_('Loading Selected Profile....'));
-    exit;
 }
 
 include_once($relPath.'resolution.inc');
@@ -51,7 +50,6 @@ $eURL = isset($origin) ? $origin : 'activity_hub.php';
 if (isset($quitnc))
 {
     metarefresh(0, $eURL, _("Quit"), "");
-    exit;
 }
 
 // restore session values from db
@@ -59,7 +57,6 @@ if (isset($restorec))
 {
     dpsession_set_preferences_from_db();
     metarefresh(0, $eURL, _("Restore"), "");
-    exit;
 }
 
 // Note that these indices are used in two if-else-clauses below
@@ -86,7 +83,6 @@ if (@$_POST["insertdb"] != "") {
     {
         // Quit immediately after saving
         metarefresh(0, $eURL, _("Quit"), "");
-        exit;
     }
     else
     {
@@ -95,7 +91,6 @@ if (@$_POST["insertdb"] != "") {
         if (isset($origin))
             $url .= '&origin=' . urlencode($origin);
         metarefresh(0, $url, _('Saving preferences'), _('Reloading current tab....'));
-        exit;
     }
 }
 
