@@ -56,7 +56,7 @@ if (isset($swProfile))
     // get profile from database
     $curProfile=mysql_query("UPDATE users SET u_profile='$c_profile' WHERE  u_id=$uid  AND username='$pguser'");
     dpsession_set_preferences_from_db();
-    $eURL="userprefs.php?tab=$selected_tab&amp;origin=" . urlencode($origin);
+    $eURL="$code_url/userprefs.php?tab=$selected_tab&amp;origin=" . urlencode($origin);
     metarefresh(0,$eURL,_('Profile Selection'),_('Loading Selected Profile....'));
 }
 
@@ -97,7 +97,7 @@ if (@$_POST["insertdb"] != "") {
     else
     {
         // Show the same tab that was just saved
-        $url = "?tab=$selected_tab&amp;origin=" . urlencode($origin);
+        $url = "$code_url/userprefs.php?tab=$selected_tab&amp;origin=" . urlencode($origin);
         metarefresh(0, $url, _('Saving preferences'), _('Reloading current tab....'));
     }
 }
