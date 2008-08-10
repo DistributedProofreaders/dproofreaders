@@ -37,6 +37,15 @@ else
 }
 // From now on, keep the value of $origin through the browsing of tabs, saving prefs, etc.
 
+// Define the available tabs.
+// The indexes of the array are used elsewhere in this script.
+$tabs = array(0 => _('General'),
+    1 => _('Proofreading'));
+if (user_is_PM())
+    $tabs[2] = _('Project managing');
+
+$selected_tab = get_integer_param($_REQUEST, "tab", 0, 0, max(array_keys($tabs)));
+
 $uid = $userP['u_id'];
 
 $userSettings = Settings::get_Settings($pguser);
@@ -47,7 +56,7 @@ if (isset($swProfile))
     // get profile from database
     $curProfile=mysql_query("UPDATE users SET u_profile='$c_profile' WHERE  u_id=$uid  AND username='$pguser'");
     dpsession_set_preferences_from_db();
-    $eURL="userprefs.php?tab=$tab&amp;origin=" . urlencode($origin);
+    $eURL="userprefs.php?tab=$selected_tab&amp;origin=" . urlencode($origin);
     metarefresh(0,$eURL,_('Profile Selection'),_('Loading Selected Profile....'));
 }
 
@@ -68,15 +77,6 @@ if (isset($restorec))
     dpsession_set_preferences_from_db();
     metarefresh(0, $origin, _("Restore"), "");
 }
-
-// Note that these indices are used in two if-else-clauses below
-$tabs = array(0 => _('General'),
-    1 => _('Proofreading'));
-if (user_is_PM())
-    $tabs[2] = _('Project managing');
-
-$selected_tab = (isset($_REQUEST['tab']) && array_key_exists($_REQUEST['tab'], $tabs))
-    ? $_REQUEST['tab'] : 0;
 
 if (@$_POST["insertdb"] != "") {
     // one of the tabs was displayed and now it has been posted
