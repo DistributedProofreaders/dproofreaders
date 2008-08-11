@@ -3,8 +3,10 @@ $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'js_newpophelp.inc');
 include_once('../includes/team.inc');
-$popHelpDir="$code_url/faq/pophelp/teams/edit_";
+
+$theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/faq/pophelp/teams/edit_"));
 
 //Do we need this anymore?
 if (!empty($_POST['tsid'])) { $tid = $_POST['tsid']; } else { $tid = $_GET['tid']; }
@@ -22,9 +24,8 @@ if ($userP['u_id'] != $curTeam['owner'])
 
 if (isset($_GET['tid']))
 {
-    include($relPath.'js_newpophelp.inc');
     $edit = _("Edit");
-    theme($edit." ".$curTeam['teamname'], "header");
+    theme($edit." ".$curTeam['teamname'], "header", $theme_extra_args);
     echo "<center><br>";
     showEdit(unstripAllString($curTeam['teamname'],0),unstripAllString($curTeam['team_info'],1),unstripAllString($curTeam['webpage'],1),0,$tid,0,0);
     echo "</center>";
@@ -32,9 +33,8 @@ if (isset($_GET['tid']))
 }
 elseif (isset($_POST['edPreview']))
 {
-    include($relPath.'js_newpophelp.inc');
     $preview = _("Preview");
-    theme($preview." ".$_POST['teamname'], "header");
+    theme($preview." ".$_POST['teamname'], "header", $theme_extra_args);
     $teamimages = uploadImages(1,$tid,"both");
     $curTeam['teamname'] = stripAllString($_POST['teamname']);
     $curTeam['team_info'] = stripAllString($_POST['text_data']);
@@ -60,9 +60,8 @@ elseif (isset($_POST['edMake']))
     $result = mysql_query("SELECT id FROM user_teams WHERE id != ".$tid." AND teamname = '".addslashes(stripAllString(trim($_POST['teamname'])))."'");
     if (mysql_num_rows($result) > 0)
     {
-        include($relPath.'js_newpophelp.inc');
         $preview = _("Preview");
-        theme($preview, "header");
+        theme($preview, "header", $theme_extra_args);
         $teamimages = uploadImages(1,$tid,"both");
         if (!empty($_FILES['teamavatar']['tmp_name']))
         {

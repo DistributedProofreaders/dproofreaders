@@ -11,6 +11,7 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'tabs.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'misc.inc'); // startswith(...)
+include_once($relPath.'js_newpophelp.inc');
 
 // The url the user viewed immediately before coming to the preferences.
 // Not all browsers provide this, though.
@@ -61,7 +62,6 @@ if (isset($_POST["swProfile"]))
     metarefresh(0,$eURL,_('Profile Selection'),_('Loading Selected Profile....'));
 }
 
-include_once($relPath.'resolution.inc');
 
 $event_id = 0;
 $window_onload_event= '';
@@ -105,11 +105,9 @@ if (array_get($_POST, "insertdb", "") != "") {
 
 // header, start of table, form, etc. common to all tabs
 $header = _("Personal Preferences");
-theme($header, "header");
+theme($header, "header", array("js_data" => get_newHelpWin_javascript("$code_url/faq/pophelp/prefs/set_")));
 echo_stylesheet_for_tabs();
 echo "<br><center>";
-$popHelpDir="$code_url/faq/pophelp/prefs/set_";
-include($relPath.'js_newpophelp.inc');
 
 ?>
 <script language='javascript'><!--

@@ -3,14 +3,15 @@ $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'js_newpophelp.inc');
 include_once('../includes/team.inc');
-$popHelpDir="$code_url/faq/pophelp/teams/edit_";
+
+$theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/faq/pophelp/teams/edit_"));
 
 if (isset($_POST['mkPreview']))
 {
-    include($relPath.'js_newpophelp.inc');
     $name = _("Preview");
-    theme($name." ".$_POST['teamname'], "header");
+    theme($name." ".$_POST['teamname'], "header", $theme_extra_args);
     $teamimages = uploadImages(1,"","both");
     $curTeam['teamname'] = stripAllString($_POST['teamname']);
     $curTeam['team_info'] = stripAllString($_POST['text_data']);
@@ -104,10 +105,8 @@ else if (isset($_POST['mkMake']))
 }
 else
 {
-    include($relPath.'js_newpophelp.inc');
-
     $name = _("Create a New Team");
-    theme($name, "header");
+    theme($name, "header", $theme_extra_args);
     echo "<center><br>";
     showEdit("","","",1,0,0,0);
     echo "</center>";
