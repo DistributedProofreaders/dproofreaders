@@ -99,7 +99,7 @@ function echo_special_legend( $projects_where_clause) {
     // Find out how many should be in each table column
     $specs_count = count($common_array);
     $max_rows = floor( $specs_count / 3 );
-    $div_prefix = "<div style='border-style: none none solid none; border-color: black; border-width: 0px 0px 1px 0px; width: 100%; padding: 0px 0px 2px 1px; background-color: #";
+    $div_prefix = "<div style='background-color: #";
     $div_midfix = "'>";
     $div_suffix = "</div>\n";
     $columns = array_fill(1,3,"<td valign='top'>" );
@@ -119,7 +119,7 @@ function echo_special_legend( $projects_where_clause) {
     $columns[3] = $columns[3].$div_prefix."FFFF66".$div_midfix._("Other Special").$div_suffix."</td>";
 
     echo "<h3> $legend_text </h3>";
-    echo "<table border='1' cellpadding='1' cellspacing='1' width='100%' summary='$legend_text'>";
+    echo "<table class='special_legend' border='1' cellpadding='1' cellspacing='1' width='100%' summary='$legend_text'>";
     echo "<tr>";
     echo "$columns[1]$columns[2]$columns[3]";
     echo "</tr></table>";

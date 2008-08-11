@@ -44,15 +44,15 @@ if ($logged_in) {
     show_news_for_page("SR_PREV");
 }
 
+echo "<h3>Smooth Reading</h3>";
+
 if (!$logged_in)
 {
     echo "
-    <p>
-    <font size=+1>
+    <p style='font-size: 120%;'>
     This Preview page shows which books are currently available for Smooth Reading.
     Click on a book's title to view more information about it
     or to download the text.
-    </font>
     </p>
 
     <p>
@@ -66,32 +66,30 @@ if (!$logged_in)
 
 {
     echo "
-    <p>
-    <font size=+1>
+    <p style='font-size: 120%;'>
         The goal of 'Smooth Reading' is to read the text attentively, as for pleasure,
         with just a little more attention than usual to punctuation, etc.
         This is NOT full scale proof-reading, and comparison with the scans is not needed.
         Just read it as your normal, sensitized-to-proofing-errors self,
         and report any problem that disrupts the sense or the flow of the book.
         Note that some of these will be due to the author and/or publisher.
-    </font>
     </p>
 
     <p>
     The way to report errors is by adding a comment of the form
-        <blockquote>
-        <font color='red'>[*correction or query]</font><br>
+        <blockquote style='color: red; background-color: inherit;'>
+        [**correction or query]<br>
         </blockquote>
     immediately after the problem spot.
     Do not correct or change the problem, just note it in the above format.
     </p>
 
+    <h3>Examples:</h3>
     <p>
-    Examples:
     <ul>
-    <li>that was the end,[*.] However, the next day</li>
-    <li>that was the end[*.] However, the next day</li>
-    <li>that was the emd.[*end] However, the next day</li>
+    <li>that was the end,[**.] However, the next day</li>
+    <li>that was the end[**.] However, the next day</li>
+    <li>that was the emd.[**end] However, the next day</li>
     </ul>
     </p>
 
@@ -129,9 +127,7 @@ if (!isset($RFilter)) { $RFilter = ""; }
 if (!$logged_in OR !$locuserSettings->get_boolean('hide_special_colors'))
 {
     echo "<hr width='75%'>\n";
-    echo "<p><font face='{$theme['font_mainbody']}'>\n";
     echo_special_legend($state_sql);
-    echo "</font></p><br>\n";
 }
 
 // read saved sort orders from user_settings table;

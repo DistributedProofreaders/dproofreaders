@@ -740,9 +740,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     // furthermore, the PM 'knows' the project and
     // what's so special about it.
     if (!$userSettings->get_boolean('hide_special_colors')) {
-        echo "<p><font face='{$theme['font_mainbody']}'>\n";
         echo_special_legend(" 1 = 1");
-        echo "</font></p><br>\n";
     }
 
     // Commented out until it's working.

@@ -188,12 +188,10 @@ if (!isset($RFilter)) { $RFilter = ""; }
 if ($pagesproofed >= 10 && !$userSettings->get_boolean('hide_special_colors'))
 {
     echo "<hr width='75%'>\n";
-    echo "<p><font face='{$theme['font_mainbody']}'>\n";
     if (!isset($state_sql)) {
         $state_sql = " (state = '{$round->project_available_state}') ";
     }
     echo_special_legend($state_sql);
-    echo "</font></p><br>\n";
 }
 
 show_block_for_round($round->round_number, $RFilter);

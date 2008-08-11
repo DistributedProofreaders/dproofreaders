@@ -68,9 +68,7 @@ The page will let you see the project comments
 if (!$userSettings->get_boolean('hide_special_colors'))
 {
     echo "<hr width='75%'>\n";
-    echo "<p><font face='{$theme['font_mainbody']}'>\n";
     echo_special_legend(" 1 = 1");
-    echo "</font></p><br>\n";
 }
 
 // --------------------------------------------------------------
