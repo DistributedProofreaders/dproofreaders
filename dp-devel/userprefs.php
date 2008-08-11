@@ -618,18 +618,12 @@ function save_proofreading_tab() {
     echo mysql_error();
 
     // set users values
-    /*
-        u_plist is "Show projects from XXX round(s)"
-    */
-    $users_query="UPDATE users SET u_plist='$u_plist'";
     if (isset($mkProfile) || isset($mkProfileAndQuit))
     {
-        $users_query.=", u_profile='".mysql_insert_id($db_link)."'";
+        $users_query="UPDATE users SET u_profile=".mysql_insert_id($db_link)." WHERE u_id=$uid AND username='$pguser'";
+        $result = mysql_query($users_query);
+        echo mysql_error();
     }
-    $users_query .= " WHERE u_id=$uid AND username='$pguser'";
-    $result = mysql_query($users_query);
-
-    echo mysql_error();
 
     $userSettings->set_boolean('hide_special_colors', $show_special_colors=='no');
 
