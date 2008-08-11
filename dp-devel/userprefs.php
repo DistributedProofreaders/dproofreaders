@@ -105,12 +105,9 @@ if (array_get($_POST, "insertdb", "") != "") {
 
 // header, start of table, form, etc. common to all tabs
 $header = _("Personal Preferences");
-theme($header, "header", array("js_data" => get_newHelpWin_javascript("$code_url/faq/pophelp/prefs/set_")));
-echo_stylesheet_for_tabs();
-echo "<br><center>";
+$theme_extra_args["js_data"] =
+    get_newHelpWin_javascript("$code_url/faq/pophelp/prefs/set_") . "
 
-?>
-<script language='javascript'><!--
     // function that can be used to check/uncheck a lot
     // of checkboxes at a time.
     // First parameter: true/false.
@@ -121,11 +118,14 @@ echo "<br><center>";
         var f = document.forms[0];
         for (var i = 1; i < arguments.length; i++) {
             var name = arguments[i];
-            eval("if (f."+name+") f."+name+".checked=value");
+            eval('if (f.'+name+') f.'+name+'.checked=value');
         }
-    }
-// --></script>
-<?
+    }";
+    
+theme($header, "header", $theme_extra_args);
+echo_stylesheet_for_tabs();
+echo "<br><center>";
+
 echo "<form action='userprefs.php' method='post'>";
 echo "<table width='90%' bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
 
