@@ -50,11 +50,12 @@ $uid = $userP['u_id'];
 
 $userSettings = Settings::get_Settings($pguser);
 
-if (isset($swProfile))
+if (isset($_POST["swProfile"]))
 {
     // User clicked "Switch profile"
     // get profile from database
-    $curProfile=mysql_query("UPDATE users SET u_profile='$c_profile' WHERE  u_id=$uid  AND username='$pguser'");
+    $c_profile=get_integer_param($_POST, "c_profile", NULL, 0, NULL);
+    mysql_query("UPDATE users SET u_profile='$c_profile' WHERE  u_id=$uid  AND username='$pguser'");
     dpsession_set_preferences_from_db();
     $eURL="$code_url/userprefs.php?tab=$selected_tab&amp;origin=" . urlencode($origin);
     metarefresh(0,$eURL,_('Profile Selection'),_('Loading Selected Profile....'));
@@ -66,19 +67,19 @@ $event_id = 0;
 $window_onload_event= '';
 
 //just a way to get them back to someplace on quit button
-if (isset($quitnc))
+if (isset($_POST["quitnc"]))
 {
     metarefresh(0, $origin, _("Quit"), "");
 }
 
 // restore session values from db
-if (isset($restorec))
+if (isset($_POST["restorec"]))
 {
     dpsession_set_preferences_from_db();
     metarefresh(0, $origin, _("Restore"), "");
 }
 
-if (@$_POST["insertdb"] != "") {
+if (array_get($_POST, "insertdb", "") != "") {
     // one of the tabs was displayed and now it has been posted
     // determine which and let that tab save 'itself'.
 
@@ -89,7 +90,7 @@ if (@$_POST["insertdb"] != "") {
     else if ($selected_tab == 2)
         save_pm_tab();
 
-    if (isset($saveAndQuit) || isset($mkProfileAndQuit))
+    if (isset($_POST["saveAndQuit"]) || isset($_POST["mkProfileAndQuit"]))
     {
         // Quit immediately after saving
         metarefresh(0, $origin, _("Quit"), "");
@@ -302,36 +303,30 @@ function echo_general_tab() {
 }
 
 function save_general_tab() {
-    global $_POST, $uid, $userP, $pguser;
-    global $real_name, $email, $email_updates;
-    global $u_top10, $u_align, $u_neigh, $u_lang, $i_theme, $i_pmdefault, $u_intlang, $u_privacy;
+    global $uid, $userP, $pguser;
     global $userSettings;
-    global $cp_credit, $ip_credit, $tp_credit, $pm_credit, $pp_credit;
-    global $credit_name, $credit_other;
-
-    $user_id = $_POST['user_id'];
-    $real_name = $_POST['real_name'];
-    $email = $_POST['email'];
-    $email_updates = $_POST['email_updates'];
 
     // set users values
-    $users_query="UPDATE users SET real_name='$real_name', email='$email',
-    email_updates='$email_updates', u_align='$u_align', u_neigh='$u_neigh', u_lang='$u_lang' ,
-    i_prefs='1', i_theme='$i_theme', u_intlang='$u_intlang', u_privacy='$u_privacy'
-    WHERE  u_id=$uid AND username='$pguser'";
-    $result = mysql_query($users_query);
+    $input_string_fields = array("real_name", "email", "email_updates", "i_theme", "u_intlang");
+    $input_numeric_fields = array("u_align", "u_neigh", "u_lang", "u_privacy");
+
+    $update_string = _create_mysql_update_string($_POST, $input_string_fields, $input_numeric_fields);
+    $update_string .= ", i_prefs=1";
+
+    $users_query="UPDATE users SET $update_string WHERE u_id=$uid AND username='$pguser'";
+    mysql_query($users_query);
 
     // Opt-out of credits when Content-Providing (deprecated), Image Preparing, 
     // Text Preparing, Project-Managing and/or Post-Processing.
-    $userSettings->set_boolean('cp_anonymous', !isset($cp_credit));
-    $userSettings->set_boolean('ip_anonymous', !isset($ip_credit));
-    $userSettings->set_boolean('tp_anonymous', !isset($tp_credit));
-    $userSettings->set_boolean('pm_anonymous', !isset($pm_credit));
-    $userSettings->set_boolean('pp_anonymous', !isset($pp_credit));
+    $userSettings->set_boolean('cp_anonymous', !isset($_POST["cp_credit"]));
+    $userSettings->set_boolean('ip_anonymous', !isset($_POST["ip_credit"]));
+    $userSettings->set_boolean('tp_anonymous', !isset($_POST["tp_credit"]));
+    $userSettings->set_boolean('pm_anonymous', !isset($_POST["pm_credit"]));
+    $userSettings->set_boolean('pp_anonymous', !isset($_POST["pp_credit"]));
     // Credit Real Name, Username or Other (specify)
-    $userSettings->set_value('credit_name', $credit_name);
-    if (isset($credit_other))
-        $userSettings->set_value('credit_other', $credit_other);
+    $userSettings->set_value('credit_name', $_POST["credit_name"]);
+    if (isset($_POST["credit_other"]))
+        $userSettings->set_value('credit_other', $_POST["credit_other"]);
 
     echo mysql_error();
     dpsession_set_preferences_from_db();
@@ -585,47 +580,43 @@ function echo_proofreading_tab() {
 }
 
 function save_proofreading_tab() {
-    global $mkProfile, $mkProfileAndQuit, $userP, $uid, $pguser, $db_link;
-    global $u_plist;
-    global $profilename, $i_res, $i_type, $i_layout, $i_newwin, $i_toolbar, $i_statusbar;
-    global $v_fntf, $v_fnts, $v_zoom, $v_tframe, $v_tscroll, $v_tlines, $v_tchars, $v_twrap;
-    global $h_fntf, $h_fnts, $h_zoom, $h_tframe, $h_tscroll, $h_tlines, $h_tchars, $h_twrap;
+    global $uid, $userP, $pguser;
     global $userSettings;
-    global $show_special_colors;
+
+    // set user_profiles values
+    $input_string_fields = array("profilename");
+    $input_numeric_fields = array("i_res", "i_type", "i_layout", "i_newwin", "i_toolbar", "i_statusbar", "v_fntf", "v_fnts", "v_zoom", "v_tframe", "v_tscroll", "v_tlines", "v_tchars", "v_twrap", "h_fntf", "h_fnts", "h_zoom", "h_tframe", "h_tscroll", "h_tlines", "h_tchars", "h_twrap");
+
+    $update_string = _create_mysql_update_string($_POST, $input_string_fields, $input_numeric_fields);
+
+    $create_new_profile = FALSE;
+    if(isset($_POST["mkProfile"]) || isset($_POST["mkProfileAndQuit"]))
+    {
+        $create_new_profile = TRUE;
+    }
 
     // set/create user_profile values
-    if (isset($mkProfile) || isset($mkProfileAndQuit))
+    if ($create_new_profile)
     {
-        $prefs_query="INSERT INTO user_profiles SET u_ref='{$userP['u_id']}', ";
+        $prefs_query="INSERT INTO user_profiles SET u_ref='$uid', $update_string";
     }
     else
     {
-        $prefs_query="UPDATE user_profiles SET ";
+        $prefs_query="UPDATE user_profiles SET $update_string WHERE u_ref='$uid' AND id='{$userP['u_profile']}'";
     }
 
-    $prefs_query.="profilename='$profilename', i_res='$i_res', i_type='$i_type', i_layout='$i_layout',
-    i_newwin='$i_newwin', i_toolbar='$i_toolbar', i_statusbar='$i_statusbar',
-    v_fntf='$v_fntf', v_fnts='$v_fnts', v_zoom='$v_zoom', v_tframe='$v_tframe', v_tscroll='$v_tscroll',
-    v_tlines='$v_tlines', v_tchars='$v_tchars', v_twrap='$v_twrap',
-    h_fntf='$h_fntf', h_fnts='$h_fnts', h_zoom='$h_zoom', h_tframe='$h_tframe', h_tscroll='$h_tscroll',
-    h_tlines='$h_tlines', h_tchars='$h_tchars', h_twrap='$h_twrap'";
-    if (!(isset($mkProfile) || isset($mkProfileAndQuit)))
-    {
-        $prefs_query.=" WHERE u_ref='{$userP['u_id']}' AND id='{$userP['u_profile']}'";
-    }
-
-    $result = mysql_query($prefs_query);
+    mysql_query($prefs_query);
     echo mysql_error();
 
     // set users values
-    if (isset($mkProfile) || isset($mkProfileAndQuit))
+    if ($create_new_profile)
     {
-        $users_query="UPDATE users SET u_profile=".mysql_insert_id($db_link)." WHERE u_id=$uid AND username='$pguser'";
-        $result = mysql_query($users_query);
+        $users_query="UPDATE users SET u_profile=".mysql_insert_id()." WHERE u_id=$uid AND username='$pguser'";
+        mysql_query($users_query);
         echo mysql_error();
     }
 
-    $userSettings->set_boolean('hide_special_colors', $show_special_colors=='no');
+    $userSettings->set_boolean('hide_special_colors', $_POST["show_special_colors"]=='no');
 
     dpsession_set_preferences_from_db();
 }
@@ -637,7 +628,6 @@ function echo_pm_tab() {
     global $userP;
     global $i_pm;
     global $userSettings;
-    global $send_to_post;
 
     echo "<tr>\n";
     show_preference(
@@ -677,29 +667,28 @@ function echo_pm_tab() {
 
 function save_pm_tab() {
     global $uid, $pguser;
-    global $i_pmdefault;
-    global $auto_proj_thread;
     global $userSettings;
-    global $send_to_post;
 
-    /*
-        i_pmdefault is "Default PM Page"
-    */
-    $users_query="UPDATE users SET i_pmdefault='$i_pmdefault'
-                                WHERE u_id=$uid AND username='$pguser'";
-    $result = mysql_query($users_query);
+    // set users values
+    $input_string_fields = array();
+    //  i_pmdefault is "Default PM Page"
+    $input_numeric_fields = array("i_pmdefault");
 
+    $update_string = _create_mysql_update_string($_POST, $input_string_fields, $input_numeric_fields);
+
+    $users_query="UPDATE users SET $update_string WHERE u_id=$uid AND username='$pguser'";
+    mysql_query($users_query);
     echo mysql_error();
 
     // remember if the PM wants to be automatically signed up for email notifications of
     // replies made to their project threads
 
-    $userSettings->set_boolean('auto_proj_thread', $auto_proj_thread == 'yes');
+    $userSettings->set_boolean('auto_proj_thread', $_POST["auto_proj_thread"] == 'yes');
  
     // remember if the PM wants to have their projects automatically assigned 
     // to them for PP 
      
-    $userSettings->set_boolean('send_to_post', $send_to_post == 'yes');
+    $userSettings->set_boolean('send_to_post', $_POST["send_to_post"] == 'yes');
 
     dpsession_set_preferences_from_db();
 }
@@ -896,6 +885,35 @@ function td_pophelp( $pophelp_name )
 }
 
 // ---------------------------------------------------------
+
+function _create_mysql_update_string($source_array, $string_fields = array(), $numeric_fields = array())
+// This function takes a source array (such as $_REQUEST or $_POST), an array
+// of keys into this array that should contain strings, and keys into this array
+// that should contain numeric values. It then creates a string from these
+// that can be used in an update string. Along the way it properly escapes
+// string values and validates that numeric values are actually numeric.
+//
+// Currently this function will set default values ("" for strings, 0 for
+// numeric values) for all fields that are not within $source_array.
+{
+    $fields = array_merge($string_fields, $numeric_fields);
+
+    $update_fields = array();
+    foreach($fields as $field)
+    {
+        if(in_array($field, $string_fields))
+        {
+            $value = "'" . mysql_real_escape_string( array_get( $source_array, $field, "" ) ) . "'";
+        }
+        else
+        {
+            $value = get_integer_param( $source_array, $field, 0, NULL, NULL );
+        }
+        array_push($update_fields, "$field = $value");
+    }
+
+    return implode(", ", $update_fields);
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>
