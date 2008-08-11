@@ -14,9 +14,6 @@ include_once($relPath.'project_edit.inc');
 include_once($relPath.'project_events.inc');
 include_once($relPath.'wordcheck_engine.inc');
 
-$popHelpDir="$code_url/faq/pophelp/project_manager/";
-include_once($relPath.'js_newpophelp.inc');
-
 $return = array_get($_REQUEST,"return","$code_url/tools/project_manager/projectmgr.php");
 
 if ( !user_is_PM() )
