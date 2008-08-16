@@ -15,6 +15,7 @@ $R_round_num = get_integer_param($_GET, 'R_round_num', null, 0, MAX_NUM_PAGE_EDI
 $project = new Project( $projectid );
 $state = $project->state;
 $project_title = $project->nameofwork;
+$navigation_text = "";
 
 // --------------------------------------------------------------
 // get information about this diff
@@ -74,12 +75,13 @@ echo "<h2>$image_link</h2>\n";
 
 do_navigation($projectid, $image, $L_round_num, $R_round_num, 
               $L_user_column_name, $L_user);
+echo $navigation_text;
 
 $url = "$code_url/project.php?id=$projectid&amp;expected_state=$state";
 $label = _("Go to Project Page");
 
-echo "<a href='$url'>$label</a>";
-echo "<br>\n";
+echo "\n<a href='$url'>$label</a>\n";
+echo "<br />\n";
 
 // ---------------------------------------------------------
 
@@ -87,19 +89,31 @@ $diffEngine = new DifferenceEngineWrapper();
 
 $diffEngine->showDiff($L_text, $R_text, $L_label, $R_label);
 
+// don't print out the navigation bit again if there is no difference
+// at the top of the page it's buttons, then project page
+// we reverse the order here for symmetry :)
+if ($L_text != $R_text)
+{
+    echo "\n<a href='$url'>$label</a>\n";
+    echo "<br />\n<br />\n";
+    echo $navigation_text;
+}
 theme("", "footer");
 
+// build up the text for the navigation bit, so we can repeat it
+// again at the bottom of the page
 function do_navigation($projectid, $image, $L_round_num, $R_round_num, 
                        $L_user_column_name, $L_user) 
 {
+    global $navigation_text;
     $jump_to_js = "this.form.image.value=this.form.jumpto[this.form.jumpto.selectedIndex].value; this.form.submit();";
 
-    echo "\n<form method='get' action='diff.php'>";
-    echo "\n<input type='hidden' name='project' value='$projectid'>";
-    echo "\n<input type='hidden' name='image' value='$image'>";
-    echo "\n<input type='hidden' name='L_round_num' value='$L_round_num'>";
-    echo "\n<input type='hidden' name='R_round_num' value='$R_round_num'>";
-    echo "\nJump to: <select name='jumpto' onChange='$jump_to_js'>\n";
+    $navigation_text .= "\n<form method='get' action='diff.php'>";
+    $navigation_text .= "\n<input type='hidden' name='project' value='$projectid'>";
+    $navigation_text .= "\n<input type='hidden' name='image' value='$image'>";
+    $navigation_text .= "\n<input type='hidden' name='L_round_num' value='$L_round_num'>";
+    $navigation_text .= "\n<input type='hidden' name='R_round_num' value='$R_round_num'>";
+    $navigation_text .= "\nJump to: <select name='jumpto' onChange='$jump_to_js'>\n";
 
     $query = "SELECT image, $L_user_column_name  FROM $projectid ORDER BY image ASC";
     $res = mysql_query( $query) or die(mysql_error());
@@ -113,10 +127,10 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num,
     // construct the dropdown; work out where previous and next buttons should take us
     while ( list($this_val, $this_user) = mysql_fetch_row($res) )
     {
-        echo "\n<option value='$this_val'";
+        $navigation_text .= "\n<option value='$this_val'";
         if ($this_val == $image)
         {
-            echo " selected";  // make the correct element of the drop down selected
+            $navigation_text .= " selected";  // make the correct element of the drop down selected
             $got_there = TRUE;
         }
         else if ($got_there && ! $got_to_next) {
@@ -136,40 +150,40 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num,
                 $prev_from_proofer = $this_val;
             }
         }
-        echo ">$this_val</option>";
+        $navigation_text .= ">$this_val</option>";
     }
-    echo "\n</select>";
+    $navigation_text .= "\n</select>";
     $previous_js = "this.form.image.value='$prev_image'; this.form.submit();";
     $next_js = "this.form.image.value='$next_image'; this.form.submit();";
     $previous_from_proofer_js = "this.form.image.value='$prev_from_proofer'; this.form.submit();";
     $next_from_proofer_js = "this.form.image.value='$next_from_proofer'; this.form.submit();";
 
-    echo "\n<input type='button' value='" . _("Previous") . "' onClick=\"$previous_js\"";
+    $navigation_text .=  "\n<input type='button' value='" . _("Previous") . "' onClick=\"$previous_js\"";
     if ( $prev_image == "" ) {
-        echo " disabled";
+        $navigation_text .=  " disabled";
     }
-    echo ">";
-    echo "\n<input type='button' value='" . _("Next") . "' onClick=\"$next_js\"";
+    $navigation_text .=  ">";
+    $navigation_text .=  "\n<input type='button' value='" . _("Next") . "' onClick=\"$next_js\"";
     if ( $next_image == "" ) {
-        echo " disabled";
+        $navigation_text .=  " disabled";
     }
-    echo ">";
+    $navigation_text .=  ">";
 
     if (can_navigate_by_proofer($projectid, $L_user))
     {
-        echo "\n<input type='button' value='" . _("Proofer previous") . "' onClick=\"$previous_from_proofer_js\"";
+        $navigation_text .=  "\n<input type='button' value='" . _("Proofer previous") . "' onClick=\"$previous_from_proofer_js\"";
         if ( $prev_from_proofer == "" ) {
-            echo " disabled";
+            $navigation_text .=  " disabled";
         }
-        echo ">";
-        echo "\n<input type='button' value='" . _("Proofer next") . "' onClick=\"$next_from_proofer_js\"";
+        $navigation_text .=  ">";
+        $navigation_text .=  "\n<input type='button' value='" . _("Proofer next") . "' onClick=\"$next_from_proofer_js\"";
         if ( $next_from_proofer == "" ) {
-            echo " disabled";
+            $navigation_text .=  " disabled";
         }
-        echo ">";
+        $navigation_text .=  ">";
 
     }
-    echo "\n</form>";
+    $navigation_text .=  "\n</form>\n";
 }
 
 // discover whether the user is allowed to see proofer names for this page
