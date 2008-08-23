@@ -655,10 +655,20 @@ function show_tally_specific_stats( $tally_name )
 
         // Get userid for personal stats link
         $result = mysql_query("SELECT u_id FROM users WHERE username='$pguser' LIMIT 1");
-        $u_id = mysql_result($result, 0, "u_id");
+        $u_id = mysql_result($result, 0, "u_id"); // could use $usern->get_u_id() ??
+
+        // get yesterday's and today's page count
+        $snapshot_info = $tallyboard->get_info_from_latest_snapshot($u_id);
+        $yesterday_page_delta = $snapshot_info['tally_delta'];
+        $today_page_delta = $usern->get_current_page_tally() - $snapshot_info['tally_value'];
 
         echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>" . _("Personal Statistics:") . "</b></font></center>\n";
-        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>&nbsp;" . _("Total Pages: ");
+        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+        echo "&nbsp;" . _("Pages Yesterday: ");
+        echo number_format($yesterday_page_delta)."<br>\n";
+        echo "&nbsp;" . _("Pages Today: ");
+        echo number_format($today_page_delta)."<br>\n";
+        echo "&nbsp;" . _("Pages Total: ");
         echo number_format($usern->get_current_page_tally())."<br>\n";
         echo "&nbsp;" . _("Current Position: ");
         echo number_format($usern->get_current_page_tally_rank())."<br>\n";
