@@ -37,10 +37,6 @@ foreach ( $Round_for_round_id_ as $round )
 // distinguished from others in that they are (deemed to be) a fair indicator
 // of the user's experience.
 
-// This assignment particularly assumes that the ELR is the first round
-// defined in stages.inc.
-$ELR_round = get_Round_for_round_number(1);
-
 $users_ELR_page_tallyboard = new TallyBoard( $ELR_round->id, 'U' );
 $teams_ELR_page_tallyboard = new TallyBoard( $ELR_round->id, 'T' );
 

@@ -291,6 +291,25 @@ assert( $n_rounds == MAX_NUM_PAGE_EDITING_ROUNDS );
 
 declare_mentoring_pair( 'P1', 'P2' );
 
+// -----------------------------------------------------------------------------
+
+// Some of the DP code assumes that the site has been configured with an
+// "Entry-Level Round" (ELR): a single round where new users start out and
+// become familiar with the site.  In particular, the page-tallies from this
+// round are distinguished from others in that they are (deemed to be)
+// a fair indicator of the user's experience.
+
+// This particular assignment assumes that the ELR is the first round
+// defined in this file. This is probably correct, but your site is
+// welcome to use a different round as your ELR.
+$ELR_round = get_Round_for_round_number(1);
+
+// On the other hand, if your site doesn't have a distinguished entry-level
+// round (e.g., everyone can work in multiple rounds from their first day),
+// then you may have to do some hacking (sorry).
+
+// -----------------------------------------------------------------------------
+
 function can_user_get_pages_in_project( $username, $project, $round )
 // If the given user is allowed to get a new page
 // of the given project in the given round
