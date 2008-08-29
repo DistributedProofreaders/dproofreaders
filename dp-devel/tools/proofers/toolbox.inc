@@ -74,26 +74,16 @@ function define_pit_tool_button( $id, $accesskey, $title, $label, $onclick )
     # of the labels, and only Opera gets it wrong if pretending to be IE
     $spc = stristr(@$_SERVER['HTTP_USER_AGENT'],"msie") ? "" : "&nbsp;";
 
-    $onmousedown_js = "this.style.position = 'relative'; this.style.top = '1px'; this.style.left = '1px'";
-    $onmouseup_js = "this.style.top = '0px'; this.style.left = '0px'";
-
     global $all_pit_tool_buttons;
     $all_pit_tool_buttons[$id] = <<<EOS
-<a
-    href="#"
+<button
     onclick="$onclick"
     accesskey="$accesskey"
->
-<div
     class='proofbutton'
     style='height: 22px; width: 22px; padding-left: 2px; padding-right: 2px;'
-    onmousedown="$onmousedown_js"
-    onmouseup="$onmouseup_js"
     align="top"
     title="$title"
->$spc$label
-</div>
-</a>
+>$spc$label</button>
 
 EOS;
 }
