@@ -69,10 +69,16 @@ $all_pit_tool_buttons = array();
 
 function define_pit_tool_button( $id, $accesskey, $title, $label, $onclick )
 {
-    # IE, not surprisingly, differs from all other browsers
-    # in rendering the buttons. The difference is in the centering
-    # of the labels, and only Opera gets it wrong if pretending to be IE
-    $spc = stristr(@$_SERVER['HTTP_USER_AGENT'],"msie") ? "" : "&nbsp;";
+    # If the label is very short, the button will be very narrow,
+    # unless we add some padding.
+    # (But in testing whether the label is short,
+    # we have to ignore any markup.)
+    $label_text = strip_tags($label);
+    $lr_padding = (
+        strlen($label_text) == 1
+        ? '7px'
+        : '2px'
+    );
 
     global $all_pit_tool_buttons;
     $all_pit_tool_buttons[$id] = <<<EOS
@@ -80,10 +86,10 @@ function define_pit_tool_button( $id, $accesskey, $title, $label, $onclick )
     onclick="$onclick"
     accesskey="$accesskey"
     class='proofbutton'
-    style='height: 22px; width: 22px; padding-left: 2px; padding-right: 2px;'
+    style='padding-left: $lr_padding; padding-right: $lr_padding;'
     align="top"
     title="$title"
->$spc$label</button>
+>$label</button>
 
 EOS;
 }
