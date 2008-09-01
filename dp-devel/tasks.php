@@ -798,6 +798,7 @@ function RelatedTasks($tid) {
 	echo "<tr><td width='100%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Related Tasks&nbsp;&nbsp;</font></b>";
 	echo "<input type='text' name='related_task' size='30' style='font-family: Verdana; font-size: 10; border: 1px solid #000000; padding: 0; background-color: #EEF7FF'>&nbsp;&nbsp;";
 	echo "<input type='submit' value='Add' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>\n";
+	echo " <span style='font-family: verdana; font-size: 11px;'>(Add the number of an existing, related task. This is optional.)</span>";
 
 	if (!empty($related_tasks)) {
 		$related_tasks = unserialize(base64_decode($related_tasks));
@@ -822,6 +823,7 @@ function RelatedPostings($tid) {
 	echo "<tr><td width='100%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Related Topic ID&nbsp;&nbsp;</font></b>";
 	echo "<input type='text' name='related_posting' size='30' style='font-family: Verdana; font-size: 10; border: 1px solid #000000; padding: 0; background-color: #EEF7FF'>&nbsp;&nbsp;";
 	echo "<input type='submit' value='Add' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>\n";
+	echo " <span style='font-family: verdana; font-size: 11px;'>(Optional)</span>";
 
 	if (!empty($related_postings)) {
 		$related_postings = unserialize(base64_decode($related_postings));
