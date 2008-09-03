@@ -371,6 +371,7 @@ function show_user_access_object( $uao )
     }
     else
     {
+        echo "<a name='Entrance_Requirements'></a>";
         echo "<h2>" . _('Entrance Requirements') . "</h2>\n";
         echo "<p>" . _('To access this round, you must satisfy the following requirements.') . "</p>";
         echo "<table border='1'>\n";
