@@ -885,11 +885,15 @@ function td_pophelp( $pophelp_name )
 // ---------------------------------------------------------
 
 function _create_mysql_update_string($source_array, $string_fields = array(), $numeric_fields = array())
-// This function takes a source array (such as $_REQUEST or $_POST), an array
-// of keys into this array that should contain strings, and keys into this array
-// that should contain numeric values. It then creates a string from these
-// that can be used in an update string. Along the way it properly escapes
-// string values and validates that numeric values are actually numeric.
+// $source_array is an array such as $_REQUEST or $_POST.
+// $string_fields
+//    is a list of keys such that $source_array[$key] should be a string.
+// $numeric_fields
+//    is a list of keys such that $source_array[$key] should be a numeric value.
+// This function checks that those expectations are satisfied, and constructs a
+// string of column=value 'assignments' that can be used in an SQL UPDATE
+// command (where each $key is assumed to be a column name). (String values
+// will be properly escaped in this string.)
 //
 // Currently this function will set default values ("" for strings, 0 for
 // numeric values) for all fields that are not within $source_array.
