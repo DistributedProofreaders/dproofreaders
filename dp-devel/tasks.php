@@ -835,7 +835,7 @@ function RelatedPostings($tid) {
 														phpbb_users ON phpbb_topics.topic_poster = phpbb_users.user_id WHERE phpbb_topics.topic_id = ".$val."") OR die(mysql_error());
 			while ($row = mysql_fetch_assoc($result)) { echo "<br><font face='Verdana' color='#000000' style='font-size: 11px'><a href='$forums_url/viewforum.php?f=".$row['ForumID']."'>".$row['Forum']."</a>&nbsp;&raquo;&nbsp;<a href='$forums_url/viewtopic.php?t=$val'>".$row['Title']."</a> (Posted by: ".$row['Username']." - ".$row['Replies']." replies)</font>\n"; }
 		}
-	echo "</td></tr></table></form>";
 	}
+	echo "</td></tr></table></form>";
 }
 ?>
