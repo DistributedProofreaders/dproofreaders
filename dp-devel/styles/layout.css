@@ -73,5 +73,24 @@ table.filter td select {
     width: 100%;
 }
 
+/* ------------------------------------------------------------------------ */
+/* Registration table */
+
+table.register {
+    width: 80%;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+table.register td.label {
+    background-color: #e0e8dd;
+    text-align: right;
+    font-weight: bold;
+}
+
+table.register td.field {
+    text-align: left;
+}
+
 /* vim: sw=4 ts=4 expandtab
 */

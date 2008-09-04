@@ -132,34 +132,55 @@ if ($password=="proofer") {
     $header = _("Create An Account");
     theme($header, "header");
 
-    echo "<center><form method='post' action='addproofer.php'><input type=hidden name='password' value='proofer'>";
-    echo "<br><table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse:collapse' width='400'>";
-    echo "<tr><td bgcolor='#e0e8dd' align='center' colspan='2'><p><b>Note: Please choose your User Name carefully. Your User Name will be visible to other $site_abbreviation users and cannot be changed.</p>
-    <p><b>Make sure your E-mail Address is correct. You will be e-mailed a confirmation link which you will need to follow in order for your $site_abbreviation account to be activated.</b></p>
-    <p>If your e-mail provider uses a challenge/response, greylist, or other anti-spam measures, please add our site to the list of permitted senders <i>before</i> submitting this form so that the activation e-mail will reach you.</b></p>";
+    echo "<h1>" . _("Account Registration") . "</h1>";
+    echo sprintf(_("Thank you for your interest in %s. Fill out the form below to create an account."), $site_name);
+
+    echo "<h2>" . _("Registration Hints") . "</h2>";
+    echo "<ul>";
+    echo "<li>" . sprintf(_("Please choose your User Name carefully. Your User Name will be visible to other %s users and cannot be changed."), $site_abbreviation) . "</li>";
+    echo "<li>" . sprintf(_("Make sure your E-mail Address is correct. You will be e-mailed a confirmation link which you will need to follow in order for your %s account to be activated."), $site_abbreviation) . "</li>";
+    echo "<li>" . _("If your e-mail provider uses a challenge/response, greylist, or other anti-spam measures, please add our site to the list of permitted senders <i>before</i> submitting this form so that the activation e-mail will reach you.") . "</li>";
+    echo "</ul>";
+
     if ( $testing )
     {
-	    echo "<br><font color='red'>";
-	    echo "Actually, because this is a test site, that message won't be sent to you. Instead, when you hit the 'Send E-mail' button, the message will be displayed on the next screen. At that point, you can copy and paste the confirmation link into your browser's location field.";
-	    echo "</font>";
+	    echo "<p style='color: red'>";
+	    echo _("Because this is a test site, that message won't be sent to you. Instead, when you hit the 'Send E-mail' button, the message will be displayed on the next screen. At that point, you can copy and paste the confirmation link into your browser's location field. <b>Your account won't be created until you access the confirmation link.</b>");
+	    echo "</p>";
     }
-    echo "</td></tr>";
-    echo "<tr><td bgcolor='#e0e8dd' align='center'><b>"._("Real Name").":</b>";
-    echo "<td bgcolor='#ffffff' align='center'><input type='text' maxlength=70 name='real_name' size=20>";
-    echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("User Name").":</b>";
-    echo "<td bgcolor='#ffffff' align='center'><input type='text' maxlength=70 name='userNM' size=20>";
-    echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("Password").":</b>";
-    echo "<td bgcolor='#ffffff' align='center'><input type='password' maxlength=70 name='userPW' size=20>";
-    echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("Confirm Password").":</b>";
-    echo "<td bgcolor='#ffffff' align='center'><input type='password' maxlength=70 name='userPW2' size=20>";
-    echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("E-mail Address").":</b>";
-    echo "<td bgcolor='#ffffff' align='center'><input type='text' maxlength=70 name='email' size=20>";
-    echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("Confirm E-mail Address").":</b>";
-    echo "<td bgcolor='#ffffff' align='center'><input type='text' maxlength=70 name='email2' size=20>";
-    echo "</td></tr><tr><td bgcolor='#e0e8dd' align='center'><b>"._("E-mail Updates").":</b>";
-    echo "</td><td bgcolor='#ffffff' align='center'><input type='radio' name='email_updates' value='1' checked>"._("Yes")."&nbsp;&nbsp;<input type='radio' name='email_updates' value='0'>"._("No");
-    echo "</td></tr><tr><td bgcolor='#336633' colspan='2' align='center'><input type='submit' value='"._("Send E-Mail required to activate account")."'>&nbsp;&nbsp;<input type='reset'>";
-    echo "</td></tr><tr><td bgcolor='#ffffff' colspan='2' align='left'>";
+
+    echo "<center>";
+    echo "<form method='post' action='addproofer.php'>\n";
+    echo "<input type='hidden' name='password' value='proofer'>\n";
+    echo "<table class='register'>";
+    echo "<tr>";
+    echo "  <td class='label'>" . _("Real Name") . ":</td>";
+    echo "  <td class='field'><input type='text' maxlength='70' name='real_name' size='20'></td>";
+    echo "</tr>\n<tr>";
+    echo "  <td class='label'>" . _("User Name") . ":</td>";
+    echo "  <td class='field'><input type='text' maxlength='70' name='userNM' size='20'></td>";
+    echo "</tr>\n<tr>";
+    echo "  <td class='label'>" . _("Password") . ":</td>";
+    echo "  <td class='field'><input type='password' maxlength='70' name='userPW' size='20'></td>";
+    echo "</tr>\n<tr>";
+    echo "  <td class='label'>" . _("Confirm Password") . ":</td>";
+    echo "  <td class='field'><input type='password' maxlength='70' name='userPW2' size='20'></td>";
+    echo "</tr>\n<tr>";
+    echo "  <td class='label'>" . _("E-mail Address") . ":</td>";
+    echo "  <td class='field'><input type='text' maxlength='70' name='email' size='20'></td>";
+    echo "</tr>\n<tr>";
+    echo "  <td class='label'>" . _("Confirm E-mail Address") . ":</td>";
+    echo "  <td class='field'><input type='text' maxlength='70' name='email2' size='20'></td>";
+    echo "</tr>\n<tr>";
+    echo "  <td class='label'><b>" . _("E-mail Updates") . ":</td>";
+    echo "  <td class='field'>";
+    echo "    <input type='radio' name='email_updates' value='1' checked>" . _("Yes") . "&nbsp;&nbsp;";
+    echo "    <input type='radio' name='email_updates' value='0'>" . _("No");
+    echo "  </td>";
+    echo "</tr>\n<tr>";
+    echo "  <td bgcolor='#336633' colspan='2' align='center'><input type='submit' value='" . _("Send E-Mail required to activate account") . "'>&nbsp;&nbsp;<input type='reset'></td>";
+    echo "</td></tr></table></form>";
+    echo "</center>";
 
     if(file_exists($code_dir.'/faq/'.lang_dir().'privacy.php')) {
         include($code_dir.'/faq/'.lang_dir().'privacy.php');
@@ -167,8 +188,6 @@ if ($password=="proofer") {
         include($code_dir.'/faq/privacy.php');
     }
 
-    echo "</td></tr></table></form>";
-    echo "</center>";
 }
 theme("", "footer");
 
