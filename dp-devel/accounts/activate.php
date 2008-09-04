@@ -55,11 +55,11 @@ if (mysql_num_rows($result) == 0) {
 }
 
 $user = mysql_fetch_assoc($result);
-$real_name = addslashes($user['real_name']);
-$username = addslashes($user['username']);
-$email = addslashes($user['email']);
-$date_created = addslashes($user['date_created']);
-$email_updates = addslashes($user['email_updates']);
+$real_name = $user['real_name'];
+$username = $user['username'];
+$email = $user['email'];
+$date_created = $user['date_created'];
+$email_updates = $user['email_updates'];
 $u_intlang = $user['u_intlang'];
 $passwd = $user['user_password'];
 
@@ -67,18 +67,18 @@ $passwd = $user['user_password'];
 mysql_query("DELETE FROM non_activated_users WHERE id='$ID'");
 
 // Insert into 'real' table -- users
-$result = mysql_query ("INSERT INTO users (id, real_name, username, email, manager, date_created, email_updates, u_plist, u_top10, u_neigh, u_intlang)
-            VALUES ('$ID', '$real_name', '$username', '$email', 'no', '$date_created', '$email_updates', '3', '1', '10', '$u_intlang')");
+$query = sprintf("INSERT INTO users (id, real_name, username, email, manager, date_created, email_updates, u_plist, u_top10, u_neigh, u_intlang) VALUES ('%s', '%s', '%s', '%s', 'no', $date_created, $email_updates, 3, 1, 10, '%s')", mysql_real_escape_string($ID), mysql_real_escape_string($real_name), mysql_real_escape_string($username), mysql_real_escape_string($email), mysql_real_escape_string($u_intlang));
 
+$result = mysql_query ($query) or die(mysql_error());
 $u_id = mysql_insert_id($db_link); // auto-incremented users.u_id
 
 // create profile
-$profileString="INSERT INTO user_profiles SET u_ref='$u_id'";
+$profileString="INSERT INTO user_profiles SET u_ref=$u_id";
 $makeProfile=mysql_query($profileString);
 $profile_id = mysql_insert_id($db_link); // auto-incremented user_profiles.id
 
 // add ref to profile
-$refString="UPDATE users SET u_profile='$profile_id' WHERE id='$ID' AND username='$username'";
+$refString=sprintf("UPDATE users SET u_profile=$profile_id WHERE id='%s' AND username='%s'", mysql_real_escape_string($ID), mysql_real_escape_string($username));
 $makeRef=mysql_query($refString);
 
 //code from php forums bb_register.php
@@ -86,11 +86,11 @@ $sql = "SELECT max(user_id) AS total FROM phpbb_users";
 if(!$r = mysql_query($sql))
     die("Error connecting to the database.");
 list($total) = mysql_fetch_array($r);
+mysql_free_result($r);
 $currtime = time();
 
 $total += 1;
-$sql = "INSERT INTO phpbb_users (user_id, username, user_regdate, user_timezone, user_lang, user_email, user_password, user_viewemail)
-    VALUES ('$total', '$username', " . $currtime . ", '-8.00', '".(phpbb_lang()?phpbb_lang():"english")."', '$email', '$passwd', '0')";
+$sql = sprintf("INSERT INTO phpbb_users (user_id, username, user_regdate, user_timezone, user_lang, user_email, user_password, user_viewemail) VALUES ($total, '%s', $currtime, -8.00, '%s', '%s', '%s', 0)", mysql_real_escape_string($username), (phpbb_lang()?phpbb_lang():"english"), mysql_real_escape_string($email), mysql_real_escape_string($passwd));
 $result = mysql_query($sql);
 
 // Send them an introduction e-mail
