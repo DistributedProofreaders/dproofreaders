@@ -7,7 +7,6 @@ include($relPath.'email_address.inc');
 include($relPath.'new_user_mails.inc');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
-$db_link=$db_Connection->db_lk;
 include($relPath.'theme.inc');
 
 // This function takes any error message given to it, displays it & terminates the page
