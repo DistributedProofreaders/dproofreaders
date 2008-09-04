@@ -75,16 +75,22 @@ if ($password=="proofer") {
     $ID = uniqid("userID");
 
     // Make sure that the username is not taken by a non-registered user.
-    $result = mysql_query ("SELECT username FROM users WHERE username='$username'");
+    $query = sprintf("
+        SELECT username
+        FROM users
+        WHERE username='%s'
+        ", mysql_real_escape_string($username));
+    $result = mysql_query ($query);
     if (mysql_num_rows($result) > 0) {
         $error = _("That user name already exists, please try another.");
         abort_registration($error);
     }
 
-    $passwd = md5($userpass);
+    $digested_password = md5($userpass);
 
-    $result = mysql_query ("INSERT INTO non_activated_users (id, real_name, username, email, date_created, email_updates, u_intlang, user_password)
-                VALUES ('$ID', '$real_name', '$username', '$email', '$todaysdate', '$email_updates', '$intlang', '$passwd')");
+    $query = sprintf("INSERT INTO non_activated_users (id, real_name, username, email, date_created, email_updates, u_intlang, user_password) VALUES ('%s', '%s', '%s', '%s', $todaysdate, '%s', '%s', '%s')", mysql_real_escape_string($ID), mysql_real_escape_string($real_name), mysql_real_escape_string($username), mysql_real_escape_string($email), mysql_real_escape_string($email_updates), mysql_real_escape_string($intlang), mysql_real_escape_string($digested_password));
+
+    $result = mysql_query ($query);
 
     if (!$result) {
         if ( mysql_errno() == 1062 ) // ER_DUP_ENTRY
@@ -165,4 +171,6 @@ if ($password=="proofer") {
     echo "</center>";
 }
 theme("", "footer");
+
+// vim: sw=4 ts=4 expandtab
 ?>
