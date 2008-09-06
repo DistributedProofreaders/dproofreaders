@@ -226,10 +226,12 @@ function html_navbar()
         echo "<td align='right'>";
 
         $login_form = "<form style='margin: 0; display: inline;' action='$code_url/accounts/login.php' method='post'>\n";
-        // if 'destination' was passed into us, keep it in the login form
-        // for the subsequent redirect back to the requested page
-        if(@$_GET["destination"])
-            $login_form .= "<input type='hidden' name='destination' value='" . $_GET["destination"] . "'>";
+        // If 'destination' was passed into us, keep it in the login form
+        // for the subsequent redirect back to the requested page.
+        // Otherwise, pass in the current URL as the destination so after
+        // signing in they are returned to the current page.
+        $destination=array_get($_GET,"destination",$_SERVER["REQUEST_URI"]);
+        $login_form .= "<input type='hidden' name='destination' value='$destination'>";
 
         // login link text
         $login_form .= "<span class='text'>" . _("ID:") . "</span> <input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
