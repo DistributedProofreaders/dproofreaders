@@ -253,8 +253,6 @@ function html_navbar()
         $pguser_id = mysql_result($result, 0, "user_id");
         $result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id and (privmsgs_type = 1 or privmsgs_type = 5)");
         $numofPMs = mysql_fetch_row($result);
-        $result = mysql_query("SELECT date_created FROM users WHERE username='$pguser' LIMIT 1");
-        $datecreated = mysql_result($result, 0, "date_created");
 
         echo "<td>";
         // left side
