@@ -92,5 +92,13 @@ table.register td.field {
     text-align: left;
 }
 
+/* ------------------------------------------------------------------------ */
+/* Statistics table */
+
+table.stats td, table.stats th {
+    /* so that right aligned and left aligned columns don't clash */
+    padding-right: 2em;
+}
+
 /* vim: sw=4 ts=4 expandtab
 */

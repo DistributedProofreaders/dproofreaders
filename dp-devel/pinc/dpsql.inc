@@ -166,6 +166,9 @@ function dpsql_dump_query_result_with_rank( $result, $start_at )
 
 function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
 {
+	/* It appears this function is currently only called from a two-line 
+	function called  dpsql_dump_themed_ranked_query earlier in this 
+	include. */
         $theme_name = $GLOBALS['theme_name'];
         $theme = $GLOBALS['theme'];
 
@@ -173,8 +176,14 @@ function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
         $n_curr_row = $start_at;
 
 	print "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>\n";
+	
 	print "<tr><td>\n";
-	print "<table border='0' cellspacing='0' cellpadding='2' width='100%' align='center'>";
+	print "<table border='0' cellspacing='0' cellpadding='2' width='100%' align='center' class='stats'>";
+
+	$perc = 100 / ($n_cols + 1);
+	for ($c = 0; $c < ($n_cols + 1); $c++ ) {
+		print "\n<col width='{$perc}%'>";
+	}
 
 	print "<tr>\n";
 	print "<td bgcolor='" . $theme['color_headerbar_bg'] . "'>\n";
@@ -182,11 +191,15 @@ function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
 	print "Rank";
 	print "</font></td>\n";
 
+	$type = Array();
 	for ($c = 0; $c < ($n_cols); $c++ )
 	{
-		print "<td bgcolor='" . $theme['color_headerbar_bg'] . "'>\n";
+		$type[$c] = mysql_field_type($result, $c);
+		$align = ($type[$c] == 'int') ? " align='right'" : '';
+		print "<td bgcolor='" . $theme['color_headerbar_bg'] . "'$align>\n";
 		print "<font color='".$theme['color_headerbar_font']."'>";
 		print mysql_field_name($result, $c);
+		$type[$c] = mysql_field_type($result, $c);
 		print "</font></td>\n";
 	}
 	print "</tr>\n";
@@ -200,8 +213,8 @@ function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
 
 		for ($c = 0; $c < ($n_cols); $c++ )
 		{
-			print "<td>";
-			print $row[$c];
+			print '<td' . (($type[$c] == 'int') ? ' align="right"' : '') . '>';
+			print ($type[$c] == 'int') ? number_format($row[$c]) : $row[$c];
 			print "</td>\n";
 		}
 		print "</tr>\n";

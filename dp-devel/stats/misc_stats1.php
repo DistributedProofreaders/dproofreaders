@@ -46,7 +46,7 @@ function show_all_time_total()
 
 	$site_tallyboard = new TallyBoard( $tally_name, 'S' );
 	$holder_id = 1;
-	echo $site_tallyboard->get_current_tally($holder_id);
+	echo number_format($site_tallyboard->get_current_tally($holder_id));
 
 	echo "<br>\n";
 	echo "<br>\n";
@@ -126,8 +126,8 @@ function show_month_sums( $which )
 			$tally_name,
 			"SELECT
 				{year_month} as 'Month',
-				SUM(tally_delta) as 'Pages Proofread',
-				SUM(goal) as 'Monthly Goal',
+				CAST(SUM(tally_delta) AS SIGNED) as 'Pages Proofread',
+				CAST(SUM(goal) AS SIGNED) as 'Monthly Goal',
 				IF({is_curr_month}, '******',' ') as 'This Month?'",
 			"",
 			"GROUP BY 1",

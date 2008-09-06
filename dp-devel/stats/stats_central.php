@@ -199,14 +199,14 @@ foreach ( array('created','proofed','PPd','posted') as $which )
     $psd = get_project_status_descriptor( $which );
 
     $res = mysql_query("
-        SELECT SUM(num_projects)
+        SELECT CAST(SUM(num_projects) AS SIGNED)
         FROM project_state_stats
         WHERE $psd->state_selector
         GROUP BY date
         ORDER BY date DESC
         LIMIT 1
     ");
-    $num_so_far = mysql_result($res,0);
+    $num_so_far = number_format(mysql_result($res,0));
 
     $table->row(
         $psd->projects_Xed_title,
