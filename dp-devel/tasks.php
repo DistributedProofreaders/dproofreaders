@@ -254,7 +254,8 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 	if ($_POST['task_severity'] == 999) { $task_severity = "task_severity >= 0"; } else { $task_severity = "task_severity = ".$_POST['task_severity']; }
 	if ($_POST['task_priority'] == 999) { $task_priority = "task_priority >= 0"; } else { $task_priority = "task_priority = ".$_POST['task_priority']; }
 	if ($_POST['task_assignee'] == 999) { $task_assignee = "task_assignee >= 0"; } else { $task_assignee = "task_assignee = ".$_POST['task_assignee']; }
-	if ($_POST['task_category'] == 999) { $task_category = "task_category >= 0"; } else { $task_category = "task_category = ".$_POST['task_category']; }	if ($_POST['task_status'] == 999) { $task_status = "task_status >= 0 AND date_closed = 0"; } elseif ($_POST['task_status'] == 998) { $task_status = "task_status >= 0"; } else { $task_status = "task_status = ".$_POST['task_status']; }
+	if ($_POST['task_category'] == 999) { $task_category = "task_category >= 0"; } else { $task_category = "task_category = ".$_POST['task_category']; }
+	if ($_POST['task_status'] == 999) { $task_status = "task_status >= 0 AND date_closed = 0"; } elseif ($_POST['task_status'] == 998) { $task_status = "task_status >= 0"; } else { $task_status = "task_status = ".$_POST['task_status']; }
 	if ($_POST['task_version'] == 999) { $task_version = "task_version >= 0"; } else { $task_version = "task_version = ".$_POST['task_version']; }
 	$sql_query = "SELECT * FROM tasks WHERE (task_summary LIKE '%".$_POST['search_text']."%' OR task_details LIKE '%".$_POST['search_text']."%') AND $task_type AND $task_severity AND $task_priority AND $task_assignee AND $task_category AND $task_status AND $task_version $order_by";
 
