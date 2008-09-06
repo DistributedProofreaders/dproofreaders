@@ -1,11 +1,11 @@
 <?php
 $relPath="./../pinc/";
-include($relPath.'site_vars.php');
-include($relPath.'new_user_mails.inc');
-include($relPath.'connect.inc');
+include_once($relPath.'site_vars.php');
+include_once($relPath.'new_user_mails.inc');
+include_once($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 $db_link=$db_Connection->db_lk;
-include($relPath.'theme.inc');
+include_once($relPath.'theme.inc');
 
 // A newly registered user has clicked the link in the welcoming e-mail and has thus
 // proved that the e-mail is working. It is time to 'activate' the account, i.e.
