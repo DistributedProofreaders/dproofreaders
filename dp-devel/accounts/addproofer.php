@@ -1,13 +1,13 @@
 <?
 $relPath="./../pinc/";
-include($relPath.'site_vars.php');
-include($relPath.'pg.inc');
-include($relPath.'username.inc');
-include($relPath.'email_address.inc');
-include($relPath.'new_user_mails.inc');
-include($relPath.'connect.inc');
+include_once($relPath.'site_vars.php');
+include_once($relPath.'pg.inc');
+include_once($relPath.'username.inc');
+include_once($relPath.'email_address.inc');
+include_once($relPath.'new_user_mails.inc');
+include_once($relPath.'connect.inc');
 $db_Connection=new dbConnect();
-include($relPath.'theme.inc');
+include_once($relPath.'theme.inc');
 
 function _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates)
 // Validate the user input fields
