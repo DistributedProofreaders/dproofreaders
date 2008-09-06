@@ -123,6 +123,12 @@ if ($password=="proofer") {
         }
     }
 } else {
+    // Initialize variables referenced by the form.
+    $real_name = '';
+    $username = '';
+    $email = '';
+    $email2 = '';
+
     $email_updates = 1;
 }
 
