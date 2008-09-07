@@ -65,6 +65,7 @@ $categories_array = array(1 => "None",
     30 => "Teams",
     31 => "Project Notifications",
     99 => "Other");
+    asort($categories_array);
 $tasks_status_array = array(1 => "New",
     2 => "Accepted",
     3 => "Duplicate",
@@ -83,6 +84,7 @@ $tasks_status_array = array(1 => "New",
     16 => "Researching",
     17 => "Implemented",
     18 => "In Progress");
+    asort($tasks_status_array);
 $search_results_array = array("20",
     "40",
     "60",
@@ -121,6 +123,7 @@ $os_array = array(0 => "All",
     30 => "Windows 2003",
     31 => "Windows Vista",
     99 => "Other");
+    asort($os_array);
 $browser_array = array(0 => "All",
     1 => "Internet Explorer 6.x",
     2 => "Netscape 6.x",
@@ -169,6 +172,7 @@ $browser_array = array(0 => "All",
     46 => "Mozilla Firefox 3.x",
     47 => "Safari 3.x",
     99 => "Other");
+    asort($browser_array);
 $versions_array = array(1 => "pgdp.net (Live)",
     4 => "dp.rastko.net (Live)",
     2 => "texts01 (Beta)",
@@ -182,6 +186,7 @@ $tasks_close_array = array(1 => "Not a Bug",
     7 => "Fixed",
     8 => "Implemented",
     9 => "Resolved");
+    asort($tasks_close_array);
 $percent_complete_array = array(0 => "0%",
     10 => "10%",
     20 => "20%",
@@ -357,9 +362,8 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 echo "</td></tr></table></div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>\n";
 theme("", "footer");
 
-function dropdown_select($field_name, $current_value, $array, $sort_type) {
+function dropdown_select($field_name, $current_value, $array) {
     echo "<select size='1' name='$field_name' ID='$field_name' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n";
-    if (empty($sort_type)) { asort($array); } else { ksort($array); }
     while (list($key, $val) = each($array)) {
         echo "<option value='$key'";
         if ($current_value == $key) { echo " SELECTED"; }
@@ -536,11 +540,11 @@ function TaskForm($tid) {
     echo "<tr><td><b><font face='Verdana' color='#000000' style='font-size: 11px'>Summary&nbsp;</b>&nbsp;&nbsp;<input type='text' name='task_summary' value='$task_summary' size='60' maxlength='80' style='font-family: Verdana; font-size: 10; border: 1px solid #000000; padding: 0; background-color: #EEF7FF'></td></tr>\n";
     echo "<tr><td width='50%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
     echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Task Type</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
-        dropdown_select('task_type', $task_type, $tasks_array, "");  echo "</td></tr>\n";
+        dropdown_select('task_type', $task_type, $tasks_array);  echo "</td></tr>\n";
     echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Category</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
-        dropdown_select('task_category', $task_category, $categories_array, "");  echo "</td></tr>\n";
+        dropdown_select('task_category', $task_category, $categories_array);  echo "</td></tr>\n";
     echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Status</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
-        if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) { dropdown_select('task_status', $task_status, $tasks_status_array, ""); } else { $tasks_status_array = array(1 => "New"); dropdown_select('task_status', $task_status, $tasks_status_array, ""); }  echo "</td></tr>\n";
+        if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) { dropdown_select('task_status', $task_status, $tasks_status_array); } else { $tasks_status_array = array(1 => "New"); dropdown_select('task_status', $task_status, $tasks_status_array); }  echo "</td></tr>\n";
     echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Assigned To</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
         $result = mysql_query("SELECT username, u_id FROM users WHERE sitemanager = 'yes'");
         while ($row = mysql_fetch_assoc($result)) { $task_assignees_array[$row['u_id']] = $row['username']; }
@@ -563,19 +567,19 @@ function TaskForm($tid) {
 
         echo "</select>\n</td></tr>\n";
     echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Operating System</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
-        dropdown_select('task_os', $task_os, $os_array, "");  echo "</td></tr>\n";
+        dropdown_select('task_os', $task_os, $os_array);  echo "</td></tr>\n";
     echo "</table></td><td width='50%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
     echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Browser</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
-        dropdown_select('task_browser', $task_browser, $browser_array, "");  echo "</td></tr>\n";
+        dropdown_select('task_browser', $task_browser, $browser_array);  echo "</td></tr>\n";
     echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Severity</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
-        dropdown_select('task_severity', $task_severity, $severity_array, 1);  echo "</td></tr>\n";
+        dropdown_select('task_severity', $task_severity, $severity_array);  echo "</td></tr>\n";
     echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Priority</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
-        dropdown_select('task_priority', $task_priority, $priority_array, 1);  echo "</td></tr>\n";
+        dropdown_select('task_priority', $task_priority, $priority_array);  echo "</td></tr>\n";
         echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Reported Version</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
-        dropdown_select('task_version', $task_version, $versions_array, "");  echo "</td></tr>\n";
+        dropdown_select('task_version', $task_version, $versions_array);  echo "</td></tr>\n";
     if ((user_is_a_sitemanager() || user_is_taskcenter_mgr())&& !empty($tid)) {
         echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Percent Complete</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
-        dropdown_select('percent_complete', $percent_complete, $percent_complete_array, 1);  echo "</td></tr>\n";
+        dropdown_select('percent_complete', $percent_complete, $percent_complete_array);  echo "</td></tr>\n";
     } elseif ($opened_by == $userP['u_id'] && !user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
         echo "<input type='hidden' name='percent_complete' value='$percent_complete'>";
     }
@@ -665,7 +669,7 @@ function TaskDetails($tid) {
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && empty($row['closed_reason'])) {
                 echo "<form action='tasks.php' method='post'><input type='hidden' name='close_task'><input type='hidden' name='task_id' value='".$row['task_id']."'>\n";
                 echo "<tr><td align='left'><br><table border='0' cellspacing='2' cellpadding='0' width='100%'><tr><td width='20%' align='left' valign='bottom'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Close Task&nbsp;&nbsp;</font></b></td><td align='left' valign='bottom' width='80%'>";
-                dropdown_select('task_close_reason', "", $tasks_close_array, "");
+                dropdown_select('task_close_reason', "", $tasks_close_array);
                 echo "&nbsp;<input type='submit' value='Close Task' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>\n";
                 echo "</td></tr></form></table>\n";
             } elseif (!empty($row['closed_reason'])) {
@@ -699,12 +703,12 @@ function MeToo($tid, $os, $browser) {
     echo "<fieldset style='width: 35em; border: #26a solid 1px;'><legend><b>Are you using the same operating system?</b></legend>";
     echo "&nbsp;<input onClick=\"hideSpan('OS');\" type='radio' name='sameOS' value='1' CHECKED>yes<input onClick=\"showSpan('OS');\" type='radio' name='sameOS' value='0'>no";
     echo "<span id='OS' style='display: none;'><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Operating System</b>&nbsp;";
-    dropdown_select('metoo_os', "1", $os_array, ""); echo "</select>\n</span></fieldset>\n";
+    dropdown_select('metoo_os', "1", $os_array); echo "</select>\n</span></fieldset>\n";
 
     echo "<br><fieldset style='width: 35em; border: #26a solid 1px;'><legend><b>Are you using the same browser?</b></legend>";
     echo "&nbsp;<input onClick=\"hideSpan('Browser');\" type='radio' name='sameBrowser' value='1' CHECKED>yes<input onClick=\"showSpan('Browser');\" type='radio' name='sameBrowser' value='0'>no";
     echo "<span id='Browser' style='display: none;'><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Browser</b>&nbsp;";
-    dropdown_select('metoo_browser', "1", $browser_array, "");  echo "</span></fieldset>\n";
+    dropdown_select('metoo_browser', "1", $browser_array);  echo "</span></fieldset>\n";
 
     echo "<center><input type='submit' value='Send Report' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>&nbsp;<input type='reset' value='Reset' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5' onClick=\"hideSpan('MeTooMain');\"></center>";
     echo "</td></tr></table></font></form></span>";
