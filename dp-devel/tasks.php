@@ -358,15 +358,15 @@ echo "</td></tr></table></div><br><br><br><br><br><br><br><br><br><br><br><br><b
 theme("", "footer");
 
 function dropdown_select($field_name, $current_value, $array, $sort_type) {
-    echo "<select size='1' name='$field_name' ID='$field_name' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>";
+    echo "<select size='1' name='$field_name' ID='$field_name' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n";
     if (empty($sort_type)) { asort($array); } else { ksort($array); }
     while (list($key, $val) = each($array)) {
         echo "<option value='$key'";
         if ($current_value == $key) { echo " SELECTED"; }
-        echo ">$val</option>";
+        echo ">$val</option>\n";
     }
 
-    echo "</select>";
+    echo "</select>\n";
 }
 
 function TaskHeader() {
@@ -391,31 +391,31 @@ function TaskHeader() {
     echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'>\n";
     echo "<tr><td width='10%' align='left' valign='top'><b><font face='Verdana' size='-1'>Search:</font></b></td>\n";
     echo "<td width='70%' align='left' valign='top'><input type='text' value='$search_text' name='search_text' size='50' style='font-family: Verdana; font-size: 10; border: 1px solid #000000; padding: 0; background-color: #EEF7FF'>\n";
-    echo "<select size='1' name='task_type' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='999'>All Task Types</option>\n";
+    echo "<select size='1' name='task_type' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Task Types</option>\n";
         while (list($key, $val) = each($tasks_array)) {
             echo "<option value='$key'";
             if (isset($_POST['task_type']) && $_POST['task_type'] == $key) { echo " SELECTED"; }
             echo ">$val</option>\n";
         }
     echo "</select>\n";
-    echo "<select size='1' name='task_severity' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='999'>All Severities</option>\n";
+    echo "<select size='1' name='task_severity' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Severities</option>\n";
         while (list($key, $val) = each($severity_array)) {
             echo "<option value='$key'";
             if (isset($_POST['task_severity']) && $_POST['task_severity'] == $key) { echo " SELECTED"; }
             echo ">$val</option>\n";
         }
     echo "</select>\n";
-    echo "<select size='1' name='task_priority' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='999'>All Priorities</option>\n";
+    echo "<select size='1' name='task_priority' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Priorities</option>\n";
         while (list($key, $val) = each($priority_array)) {
             echo "<option value='$key'";
             if (isset($_POST['task_priority']) && $_POST['task_priority'] == $key) { echo " SELECTED"; }
             echo ">$val</option>\n";
         }
-    echo "</select><br>\n";
-    echo "<select size='1' name='task_assignee' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='999'>All Developers</option>\n";
+    echo "</select>\n<br>\n";
+    echo "<select size='1' name='task_assignee' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Developers</option>\n";
     echo "<option value='0'";
     if (isset($_REQUEST['task_assignee']) && $_REQUEST['task_assignee'] == 0) { echo " SELECTED"; }
-    echo ">Unassigned</option>";
+    echo ">Unassigned</option>\n";
     $result = mysql_query("SELECT username, u_id FROM users WHERE sitemanager = 'yes'");
     while ($row = mysql_fetch_assoc($result)) { $task_assignees_array[$row['u_id']] = $row['username']; }
         $result = mysql_query("SELECT username FROM usersettings WHERE setting = 'task_center_mgr' AND value = 'yes'");
@@ -433,7 +433,7 @@ function TaskHeader() {
         }
     echo "</select>\n";
 
-    echo "<select size='1' name='task_category' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='999'>All Categories</option>\n";
+    echo "<select size='1' name='task_category' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Categories</option>\n";
         asort($categories_array);
         while (list($key, $val) = each($categories_array)) {
             echo "<option value='$key'";
@@ -441,7 +441,7 @@ function TaskHeader() {
             echo ">$val</option>\n";
         }
     echo "</select>\n";
-    echo "<select size='1' name='task_status' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='998'>All Tasks</option><option value='999'";
+    echo "<select size='1' name='task_status' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='998'>All Tasks</option>\n<option value='999'";
     if (isset($_REQUEST['task_status']) && $_REQUEST['task_status'] == 999) { echo " SELECTED"; }
     echo ">All Open Tasks</option>\n";
         asort($tasks_status_array);
@@ -451,7 +451,7 @@ function TaskHeader() {
             echo ">$val</option>\n";
         }
     echo "</select>\n";
-    echo "<select size='1' name='task_version' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'><option value='999'>All Versions</option>\n";
+    echo "<select size='1' name='task_version' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Versions</option>\n";
         while (list($key, $val) = each($versions_array)) {
             echo "<option value='$key'";
             if (isset($_POST['task_version']) && $_POST['task_version'] == $key) { echo " SELECTED"; }
@@ -551,17 +551,17 @@ function TaskForm($tid) {
             $task_assignees_array[$u_id] = $row['username'];
         }
         natcasesort($task_assignees_array);
-        echo "<select size='1' name='task_assignee' ID='task_assignee' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>";
+        echo "<select size='1' name='task_assignee' ID='task_assignee' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n";
         echo "<option value='0'";
         if ($task_assignee == 0) { echo " SELECTED"; }
-        echo ">Unassigned</option>";
+        echo ">Unassigned</option>\n";
         while (list($key, $val) = each($task_assignees_array)) {
             echo "<option value='$key'";
             if ($task_assignee == $key) { echo " SELECTED"; }
-            echo ">$val</option>";
+            echo ">$val</option>\n";
         }
 
-        echo "</select></td></tr>\n";
+        echo "</select>\n</td></tr>\n";
     echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Operating System</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
         dropdown_select('task_os', $task_os, $os_array, "");  echo "</td></tr>\n";
     echo "</table></td><td width='50%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
@@ -699,7 +699,7 @@ function MeToo($tid, $os, $browser) {
     echo "<fieldset style='width: 35em; border: #26a solid 1px;'><legend><b>Are you using the same operating system?</b></legend>";
     echo "&nbsp;<input onClick=\"hideSpan('OS');\" type='radio' name='sameOS' value='1' CHECKED>yes<input onClick=\"showSpan('OS');\" type='radio' name='sameOS' value='0'>no";
     echo "<span id='OS' style='display: none;'><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Operating System</b>&nbsp;";
-    dropdown_select('metoo_os', "1", $os_array, ""); echo "</select></span></fieldset>\n";
+    dropdown_select('metoo_os', "1", $os_array, ""); echo "</select>\n</span></fieldset>\n";
 
     echo "<br><fieldset style='width: 35em; border: #26a solid 1px;'><legend><b>Are you using the same browser?</b></legend>";
     echo "&nbsp;<input onClick=\"hideSpan('Browser');\" type='radio' name='sameBrowser' value='1' CHECKED>yes<input onClick=\"showSpan('Browser');\" type='radio' name='sameBrowser' value='0'>no";
