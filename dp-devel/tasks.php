@@ -553,7 +553,7 @@ function TaskForm($tid) {
         natcasesort($task_assignees_array);
         echo "<select size='1' name='task_assignee' ID='task_assignee' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>";
         echo "<option value='0'";
-        if ($task_assignees = 0) { echo " SELECTED"; }
+        if ($task_assignee == 0) { echo " SELECTED"; }
         echo ">Unassigned</option>";
         while (list($key, $val) = each($task_assignees_array)) {
             echo "<option value='$key'";
