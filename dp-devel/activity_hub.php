@@ -94,10 +94,6 @@ if ($pagesproofed >= 20)
     }
 
     show_news_for_page("HUB");
-
-    echo "<center>";
-    include("./stats/currentstatestats.inc");
-    echo "</center>\n";
 }
 
 // Show any mentor banners.
