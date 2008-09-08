@@ -563,16 +563,7 @@ function TaskForm($tid) {
     echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Status</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) { dropdown_select('task_status', $task_status, $tasks_status_array); } else { $tasks_status_array = array(1 => "New"); dropdown_select('task_status', $task_status, $tasks_status_array); }  echo "</td></tr>\n";
     echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Assigned To</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
-
-        echo "<select size='1' name='task_assignee' ID='task_assignee' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n";
-        reset($task_assignees_array);
-        while (list($key, $val) = each($task_assignees_array)) {
-            echo "<option value='$key'";
-            if ($task_assignee == $key) { echo " SELECTED"; }
-            echo ">$val</option>\n";
-        }
-
-        echo "</select>\n</td></tr>\n";
+        dropdown_select('task_assignee', $task_assignee, $task_assignees_array); echo "</td></tr>\n";
     echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Operating System</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
         dropdown_select('task_os', $task_os, $os_array);  echo "</td></tr>\n";
     echo "</table></td><td width='50%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
