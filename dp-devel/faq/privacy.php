@@ -17,20 +17,20 @@ else
 }
 ?>
 
-<p align="center"><font size="+2">Privacy Statement:</font></p>
+<h2>Privacy Statement</h2>
 
-<p><font size="+1">Usage of information:</font></p>
+<h3>Usage of information</h3>
 
 <p>This information will allow the project managers to provide feedback to you directly
 or have users send to you a message via the phpBB forum. An introductory e-mail will
 also be sent to you.</p>
 
-<p><font size="+1">Removal of information:</font>
+<h3>Removal of information</h3>
 
 <p>Requests to remove the information beforehand can be sent to the web site manager or
 will be removed based on its age.</p>
 
-<p><font size="+1">Access of information:</font></p>
+<h3>Access of information</h3>
 
 <p>Only the web site manager
 <?
@@ -47,7 +47,7 @@ Project managers will have access to e-mail you directly if needed. Any public
 information you fill out in the phpBB forum or profile will be accessible to other
 users.</p>
 
-<p><font size="+1">Tracking information:</font></p>
+<h3>Tracking information</h3>
 
 <p>The tracking information we collect at this time is the date your account was created, 
 your last login date and some statistical data: number of pages you have
