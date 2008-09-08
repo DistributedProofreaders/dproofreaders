@@ -1,8 +1,9 @@
 <?php
-if(!isset($relPath)) {
-	$relPath="./../pinc/";
-	include_once($relPath.'site_vars.php');
-	header("Content-Type: text/html; charset=$charset");
+if(!isset($relPath))
+{
+    $relPath="./../pinc/";
+    include_once($relPath.'site_vars.php');
+    header("Content-Type: text/html; charset=$charset");
 }
 ?>
 
@@ -47,3 +48,7 @@ Statistics&quot; to &quot;Yes&quot; in your Preferences.</p>
 
 <p>The site uses phpBB forums for discussions among the members. The data you fill out at 
 this forum will also be used on the rest of the site.</p>
+
+<?
+// vim: sw=4 ts=4 expandtab
+?>
