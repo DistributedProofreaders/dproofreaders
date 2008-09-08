@@ -225,6 +225,7 @@ $task_assignees_array = array();
         $task_assignees_array[$u_id] = $row['username'];
     }
     natcasesort($task_assignees_array);
+    $task_assignees_array = array( 0 => 'Unassigned' ) + $task_assignees_array;
 
 $order_by = "ORDER BY date_edited DESC, task_severity ASC, task_type ASC";
 
@@ -444,9 +445,6 @@ function TaskHeader() {
         }
     echo "</select>\n<br>\n";
     echo "<select size='1' name='task_assignee' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Developers</option>\n";
-    echo "<option value='0'";
-    if (isset($_REQUEST['task_assignee']) && $_REQUEST['task_assignee'] == 0) { echo " SELECTED"; }
-    echo ">Unassigned</option>\n";
         reset($task_assignees_array);
         while (list($key, $val) = each($task_assignees_array)) {
             echo "<option value='$key'";
@@ -567,9 +565,6 @@ function TaskForm($tid) {
     echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Assigned To</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
 
         echo "<select size='1' name='task_assignee' ID='task_assignee' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n";
-        echo "<option value='0'";
-        if ($task_assignee == 0) { echo " SELECTED"; }
-        echo ">Unassigned</option>\n";
         reset($task_assignees_array);
         while (list($key, $val) = each($task_assignees_array)) {
             echo "<option value='$key'";
