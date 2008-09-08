@@ -407,9 +407,6 @@ function TaskHeader() {
     global $percent_complete_array, $code_url;
 
     if (isset($_REQUEST['search_text']) && !empty($_REQUEST['search_text'])) { $search_text = $_REQUEST['search_text']; } else { $search_text = ""; }
-    if (isset($_REQUEST['search_text'])) { $t = "search_text=".$_REQUEST['search_text']."&task_type=".$_REQUEST['task_type']."&task_severity=".$_REQUEST['task_severity']."&task_priority=".$_REQUEST['task_priority']."&task_assignee=".$_REQUEST['task_assignee']."&task_category=".$_REQUEST['task_category']."&task_status=".$_REQUEST['task_status']."&task_version=".$_REQUEST['task_version']."&"; } else { $t = ""; }
-    if (isset($_GET['orderby'])) { $t .= "orderby=".$_GET['orderby']."&direction=".$_GET['direction']."&"; }
-
 
     echo "<form action='tasks.php' method='post'><input type='hidden' name='search_tid'>";
     echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
