@@ -200,6 +200,32 @@ $percent_complete_array = array(0 => "0%",
     100 => "100%");
 
 $task_assignees_array = array();
+    $result = mysql_query("
+        SELECT username, u_id
+        FROM users
+        WHERE sitemanager = 'yes'
+    ");
+    while ($row = mysql_fetch_assoc($result))
+    {
+        $task_assignees_array[$row['u_id']] = $row['username'];
+    }
+    $result = mysql_query("
+        SELECT username
+        FROM usersettings
+        WHERE setting = 'task_center_mgr' AND value = 'yes'
+    ");
+    while ($row = mysql_fetch_assoc($result))
+    {
+        $u_idQuery = mysql_query("
+            SELECT u_id
+            FROM users
+            WHERE username = '{$row['username']}'
+        ");
+        $u_id = mysql_result($u_idQuery, 0, "u_id");
+        $task_assignees_array[$u_id] = $row['username'];
+    }
+    natcasesort($task_assignees_array);
+
 $order_by = "ORDER BY date_edited DESC, task_severity ASC, task_type ASC";
 
 echo "<br><div align='center'><table border='0' cellpadding='0' cellspacing='0' width='98%'><tr><td>\n";
@@ -376,6 +402,7 @@ function dropdown_select($field_name, $current_value, $array) {
 function TaskHeader() {
     global $tasks_array, $severity_array, $priority_array, $developers_array, $categories_array, $tasks_status_array;
     global $search_results_array, $os_array, $browser_array, $versions_array, $tasks_close_array;
+    global $task_assignees_array;
     global $percent_complete_array, $code_url;
 
     if (isset($_REQUEST['search_text']) && !empty($_REQUEST['search_text'])) { $search_text = $_REQUEST['search_text']; } else { $search_text = ""; }
@@ -420,16 +447,7 @@ function TaskHeader() {
     echo "<option value='0'";
     if (isset($_REQUEST['task_assignee']) && $_REQUEST['task_assignee'] == 0) { echo " SELECTED"; }
     echo ">Unassigned</option>\n";
-    $result = mysql_query("SELECT username, u_id FROM users WHERE sitemanager = 'yes'");
-    while ($row = mysql_fetch_assoc($result)) { $task_assignees_array[$row['u_id']] = $row['username']; }
-        $result = mysql_query("SELECT username FROM usersettings WHERE setting = 'task_center_mgr' AND value = 'yes'");
-        while ($row = mysql_fetch_assoc($result)) {
-                $u_idQuery = mysql_query("SELECT u_id FROM users WHERE username = '".$row['username']."'");
-                $u_id = mysql_result($u_idQuery, 0, "u_id");
-                $task_assignees_array[$u_id] = $row['username'];
-        }
-
-        natcasesort($task_assignees_array);
+        reset($task_assignees_array);
         while (list($key, $val) = each($task_assignees_array)) {
             echo "<option value='$key'";
             if (isset($_POST['task_assignee']) && $_POST['task_assignee'] == $key) { echo " SELECTED"; }
@@ -514,6 +532,7 @@ function ShowTasks($sql_result) {
 function TaskForm($tid) {
     global $userP, $tasks_array, $severity_array, $developers_array, $categories_array, $tasks_status_array;
     global $search_results_array, $os_array, $browser_array, $versions_array, $tasks_close_array, $percent_complete_array;
+    global $task_assignees_array;
     global $priority_array;
 
     if (!empty($tid)) {
@@ -546,19 +565,12 @@ function TaskForm($tid) {
     echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Status</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) { dropdown_select('task_status', $task_status, $tasks_status_array); } else { $tasks_status_array = array(1 => "New"); dropdown_select('task_status', $task_status, $tasks_status_array); }  echo "</td></tr>\n";
     echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Assigned To</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
-        $result = mysql_query("SELECT username, u_id FROM users WHERE sitemanager = 'yes'");
-        while ($row = mysql_fetch_assoc($result)) { $task_assignees_array[$row['u_id']] = $row['username']; }
-        $result = mysql_query("SELECT username FROM usersettings WHERE setting = 'task_center_mgr' AND value = 'yes'");
-        while ($row = mysql_fetch_assoc($result)) {
-            $u_idQuery = mysql_query("SELECT u_id FROM users WHERE username = '".$row['username']."'");
-            $u_id = mysql_result($u_idQuery, 0, "u_id");
-            $task_assignees_array[$u_id] = $row['username'];
-        }
-        natcasesort($task_assignees_array);
+
         echo "<select size='1' name='task_assignee' ID='task_assignee' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n";
         echo "<option value='0'";
         if ($task_assignee == 0) { echo " SELECTED"; }
         echo ">Unassigned</option>\n";
+        reset($task_assignees_array);
         while (list($key, $val) = each($task_assignees_array)) {
             echo "<option value='$key'";
             if ($task_assignee == $key) { echo " SELECTED"; }
