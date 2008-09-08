@@ -69,6 +69,8 @@ if ($pagesproofed <= 300)
 
 welcome_see_beginner_forum( $pagesproofed );
 
+thoughts_re_mentor_feedback( $pagesproofed );
+
 
 // Site News
 if ($pagesproofed >= 20)
@@ -97,8 +99,6 @@ if ($pagesproofed >= 20)
     include("./stats/currentstatestats.inc");
     echo "</center>\n";
 }
-
-thoughts_re_mentor_feedback( $pagesproofed );
 
 // Show any mentor banners.
 foreach ( $Round_for_round_id_ as $round )
