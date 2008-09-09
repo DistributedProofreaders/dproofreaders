@@ -498,11 +498,11 @@ function ShowTasks($sql_result) {
     if (isset($_REQUEST['search_text'])) { $t = "search_text=".$_REQUEST['search_text']."&task_type=".$_REQUEST['task_type']."&task_severity=".$_REQUEST['task_severity']."&task_priority=".$_REQUEST['task_priority']."&task_assignee=".$_REQUEST['task_assignee']."&task_category=".$_REQUEST['task_category']."&task_status=".$_REQUEST['task_status']."&task_version=".$_REQUEST['task_version']."&"; } else { $t = ""; }
 
     echo "<table cellpadding='5' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC'><tr>\n";
-    echo "<td><center><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_id")."'>ID</a></font></b></center></td>\n";
+    echo "<td style='text-align: center'><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_id")."'>ID</a></font></b></td>\n";
     echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_type")."'>Task Type</a></font></b></td>\n";
     echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_severity")."'>Severity</a></font></b></td>\n";
-    echo "<td width='50%'><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_summary")."'>Summary</a></font></b></td>\n";
-    echo "<td><center><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("date_edited")."'>Date Edited</a></font></b></center></td>\n";
+    echo "<td style='width: 50%'><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_summary")."'>Summary</a></font></b></td>\n";
+    echo "<td style='text-align: center'><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("date_edited")."'>Date Edited</a></font></b></td>\n";
     echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_status")."'>Status</a></font></b></td>\n";
     echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("percent_complete")."'>Progress</a></font></b></td>\n";
     echo "</tr>\n";
@@ -510,11 +510,11 @@ function ShowTasks($sql_result) {
     if (@mysql_num_rows($sql_result) >= 1) {
         while ($row = mysql_fetch_assoc($sql_result)) {
             echo "<tr bgcolor='#ffffff'>\n";
-            echo "<td><center><font face='Verdana' color='#000000' style='font-size: 11px'><a href='tasks.php?f=detail&tid=".$row['task_id']."'>".$row['task_id']."</a></font></center></td>\n";
+            echo "<td style='text-align: center'><font face='Verdana' color='#000000' style='font-size: 11px'><a href='tasks.php?f=detail&tid=".$row['task_id']."'>".$row['task_id']."</a></font></td>\n";
             echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'>".$tasks_array[$row['task_type']]."</font></td>\n";
             echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'>".$severity_array[$row['task_severity']]."</font></td>\n";
-            echo "<td width='50%'><font face='Verdana' color='#000000' style='font-size: 11px'><a href='tasks.php?f=detail&tid=".$row['task_id']."'>".stripslashes($row['task_summary'])."</a></font></td>\n";
-            echo "<td><center><font face='Verdana' color='#000000' style='font-size: 11px'>".date("d-M-Y", $row['date_edited'])."</font></center></td>\n";
+            echo "<td style='width: 50%'><font face='Verdana' color='#000000' style='font-size: 11px'><a href='tasks.php?f=detail&tid=".$row['task_id']."'>".stripslashes($row['task_summary'])."</a></font></td>\n";
+            echo "<td style='text-align: center'><font face='Verdana' color='#000000' style='font-size: 11px'>".date("d-M-Y", $row['date_edited'])."</font></td>\n";
             echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'>".$tasks_status_array[$row['task_status']]."</font></td>\n";
             echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'><img src='$code_url/graphics/task_percentages/small_".$row['percent_complete'].".png' width='50' height='8' alt='".$row['percent_complete']."% Complete'></font></td>\n";
             echo "</tr>\n";
