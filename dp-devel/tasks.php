@@ -266,7 +266,53 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
             $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
             $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
             $u_id = mysql_result($result, 0, "u_id");
-            $result = mysql_query("INSERT INTO tasks (task_id, task_summary, task_type, task_category, task_status, task_assignee, task_severity, task_priority, task_os, task_browser, task_version, task_details, date_opened, opened_by, date_closed, closed_by, date_edited, edited_by, percent_complete, related_tasks, related_postings) VALUES ('', '".addslashes(htmlspecialchars($_POST['task_summary']))."', ".$_POST['task_type'].", ".$_POST['task_category'].", ".$_POST['task_status'].", ".$_POST['task_assignee'].", ".$_POST['task_severity'].", ".$_POST['task_priority'].", ".$_POST['task_os'].", ".$_POST['task_browser'].", ".$_POST['task_version'].", '".addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES))."', ".time().", $u_id, '', '', ".time().", $u_id, 0, '$relatedtasks_array', '$relatedpostings_array')");
+            $result = mysql_query("
+                INSERT INTO tasks (
+                    task_id,
+                    task_summary,
+                    task_type,
+                    task_category,
+                    task_status,
+                    task_assignee,
+                    task_severity,
+                    task_priority,
+                    task_os,
+                    task_browser,
+                    task_version,
+                    task_details,
+                    date_opened,
+                    opened_by,
+                    date_closed,
+                    closed_by,
+                    date_edited,
+                    edited_by,
+                    percent_complete,
+                    related_tasks,
+                    related_postings
+                ) VALUES (
+                    '',
+                    '".addslashes(htmlspecialchars($_POST['task_summary']))."',
+                    ".$_POST['task_type'].",
+                    ".$_POST['task_category'].",
+                    ".$_POST['task_status'].",
+                    ".$_POST['task_assignee'].",
+                    ".$_POST['task_severity'].",
+                    ".$_POST['task_priority'].",
+                    ".$_POST['task_os'].",
+                    ".$_POST['task_browser'].",
+                    ".$_POST['task_version'].",
+                    '".addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES))."',
+                    ".time().",
+                    $u_id,
+                    '',
+                    '',
+                    ".time().",
+                    $u_id,
+                    0,
+                    '$relatedtasks_array',
+                    '$relatedpostings_array'
+                )
+            ");
             $result = mysql_query("SELECT email, username FROM users WHERE u_id = ".$_POST['task_assignee']."");
             if (!empty($_POST['task_assignee'])) { maybe_mail(mysql_result($result, 0, "email"), "DP Task Center: Task #".mysql_insert_id()." has been assigned to you", mysql_result($result, 0, "username").", you have been assigned task #".mysql_insert_id().".  Please visit this task at $code_url/tasks.php?f=detail&tid=".mysql_insert_id().".\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"); }
             $result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'taskctr_notice', ".mysql_insert_id().")");
@@ -276,7 +322,25 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
             NotificationMail($_POST['task_id'], "There has been an edit made to this task by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n");
             $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
             $u_id = mysql_result($result, 0, "u_id");
-            $result = mysql_query("UPDATE tasks SET task_summary = '".addslashes($_POST['task_summary'])."', task_type = ".$_POST['task_type'].", task_category = ".$_POST['task_category'].", task_status = ".$_POST['task_status'].", task_assignee = ".$_POST['task_assignee'].", task_severity = ".$_POST['task_severity'].", task_priority = ".$_POST['task_priority'].", task_os = ".$_POST['task_os'].", task_browser = ".$_POST['task_browser'].", task_version = ".$_POST['task_version'].", task_details = '".addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES))."', date_edited = ".time().", edited_by = $u_id, percent_complete = ".$_POST['percent_complete']." WHERE task_id = ".$_POST['task_id']."");
+            $result = mysql_query("
+                UPDATE tasks
+                SET
+                    task_summary = '".addslashes($_POST['task_summary'])."',
+                    task_type = ".$_POST['task_type'].",
+                    task_category = ".$_POST['task_category'].",
+                    task_status = ".$_POST['task_status'].",
+                    task_assignee = ".$_POST['task_assignee'].",
+                    task_severity = ".$_POST['task_severity'].",
+                    task_priority = ".$_POST['task_priority'].",
+                    task_os = ".$_POST['task_os'].",
+                    task_browser = ".$_POST['task_browser'].",
+                    task_version = ".$_POST['task_version'].",
+                    task_details = '".addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES))."',
+                    date_edited = ".time().",
+                    edited_by = $u_id,
+                    percent_complete = ".$_POST['percent_complete']."
+                WHERE task_id = ".$_POST['task_id']."
+            ");
             $result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
             ShowTasks($result);
         }
