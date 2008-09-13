@@ -177,13 +177,12 @@ function showNW_safe(str)
 // Entity-encode str's HTML-special characters,
 // but reinstate <i> and <b> and <hr> tags,
 // because we want the browser to interpret them (but nothing else) as markup.
-// Also convert <sc></sc> and <g></g> to <spans> that do the right thing.
+// Also convert <sc></sc> to <spans> that do the right thing.
 {
     return html_safe(str)
         .replace(/&lt;(\/?)(i|b|hr)&gt;/ig, '<$1$2>')
         .replace(/&lt;sc&gt;/ig, '<span style="font-variant: small-caps;">')
-        .replace(/&lt;g&gt;/ig, '<span style="text-decoration: underline;">')
-        .replace(/&lt;\/(sc|g)&gt;/ig, '</span>')
+        .replace(/&lt;\/sc&gt;/ig, '</span>')
 }
 
 function html_safe(str)
