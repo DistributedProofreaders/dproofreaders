@@ -887,12 +887,40 @@ function round_to_PP_avail_collateral( $old_project, $project, $transition, $who
     $from_round = get_Round_for_project_state($transition->from_state);
     generate_post_files( $project->projectid, $from_round->id, 'LE', 'Y', '' );
 
+    // Always notify the PM
     $body_blurb =
         "This project has completed all rounds\n".
         "and has been made available for someone else to do the post-processing.\n".
         "You will be notified once it has completed post-processing.";
     maybe_mail_project_manager(
         get_object_vars($project), $body_blurb, "$site_abbreviation: Post-Processing Started" );
+
+    // Was it reserved for someone to PP? If so, tell them they 
+    // are not getting it
+    if ( !empty($old_project->checkedoutby))
+    {
+        $reserved_PPer = $old_project->checkedoutby;
+        global $auto_email_addr, $site_manager_email_addr, $site_signoff;
+
+        $PPer_email_addr = mysql_result(mysql_query("
+            SELECT email FROM users WHERE username = '$reserved_PPer'
+        "),0);
+        $body_blurb =
+             "Hello $reserved_PPer,\n\n".
+             "The project \"{$project->nameofwork}\", which was reserved for you to Post-Process,\n".
+             "has completed the rounds and has been sent to the PP pool.\n" .
+             "It has not been checked out to you because you are not currently  \n" .
+             "permitted to check projects out for PPing.\n" .
+             "If you believe you are receiving this message in error, please contact\n" .
+             "a site manager by emailing $site_manager_email_addr.\n\n" .
+             "$site_signoff";
+
+        maybe_mail(
+            $PPer_email_addr,
+            "$site_abbreviation: Reserved book sent to PP pool",
+            $body_blurb,
+            "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+   }
 
     notify_project_event_subscribers( $project, 'pp_enter' );
 }
