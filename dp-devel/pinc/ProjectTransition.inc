@@ -328,11 +328,13 @@ class ProjectTransition
         if ( $this->collateral_actions )
         {
             // Because of the "UPDATE projects" command, $project is now out of date.
-            // So get an up-to-date version before passing $project around.
-            $project = new Project($projectid);
+            // So get an up-to-date version of the project info (in 
+            // $new_project) and pass both versions to the collateral_actions
+            // function
+            $new_project = new Project($projectid);
 
             $function_name = $this->collateral_actions;
-            $function_name( $project, $this, $who );
+            $function_name( $project, $new_project, $this, $who );
         }
 
         return '';
@@ -785,7 +787,7 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
     }
 }
 
-function round_release_collateral( $project, $transition, $who )
+function round_release_collateral( $old_project, $project, $transition, $who )
 {
     global $site_abbreviation;
     $round = get_Round_for_project_state($transition->to_state);
@@ -827,7 +829,7 @@ function round_release_collateral( $project, $transition, $who )
     }
 }
 
-function bad_project_collateral( $project, $transition, $who )
+function bad_project_collateral( $old_project, $project, $transition, $who )
 {
     global $site_abbreviation;
     $body_blurb =
@@ -841,7 +843,7 @@ You will then be able to put the project back up on the site.";
         get_object_vars($project), $body_blurb, "$site_abbreviation: Bad Project");
 }
 
-function round_complete_collateral( $project, $transition, $who )
+function round_complete_collateral( $old_project, $project, $transition, $who )
 {
     $round = get_Round_for_project_state($transition->to_state);
     assert( !is_null($round) );
@@ -879,7 +881,7 @@ function proj_would_go_to_PP_out( $project, $transition )
     return !is_null(project_get_auto_PPer($project->projectid));
 }
 
-function round_to_PP_avail_collateral( $project, $transition, $who )
+function round_to_PP_avail_collateral( $old_project, $project, $transition, $who )
 {
     global $site_abbreviation;
     $from_round = get_Round_for_project_state($transition->from_state);
@@ -895,7 +897,7 @@ function round_to_PP_avail_collateral( $project, $transition, $who )
     notify_project_event_subscribers( $project, 'pp_enter' );
 }
 
-function round_to_PP_out_collateral( $project, $transition, $who )
+function round_to_PP_out_collateral( $old_project, $project, $transition, $who )
 {
     global $site_abbreviation, $site_signoff;
     $from_round = get_Round_for_project_state($transition->from_state);
@@ -1092,7 +1094,7 @@ new ProjectTransition(
     )
 );
 
-function PP_to_PPV_collateral( $project, $transition, $who )
+function PP_to_PPV_collateral( $old_project, $project, $transition, $who )
 {
     notify_project_event_subscribers( $project, 'ppv_enter' );
 }
@@ -1331,7 +1333,7 @@ new ProjectTransition(
 );
 }
 
-function pg_posted_collateral( $project, $transition, $who )
+function pg_posted_collateral( $old_project, $project, $transition, $who )
 {
     notify_project_event_subscribers( $project, 'posted' );
 }
