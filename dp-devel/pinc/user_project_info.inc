@@ -133,7 +133,7 @@ function user_is_subscribed_to_project_event( $username, $projectid, $event )
 
 function notify_project_event_subscribers( $project, $event, $extras=array() )
 {
-    global $site_name, $code_url, $auto_email_addr, $site_signoff;
+    global $auto_email_addr, $site_signoff;
 
     $event_label = get_label_for_event( $event );
 
@@ -142,13 +142,7 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
 
     $msg_subject = "$event_label: \"$title\"";
 
-    $msg_body =
-        sprintf( _("This is an automated message from the %s site regarding the following project:"), $site_name )
-        . "\n"
-        . "    \"$title\"\n"
-        . "    ($projectid)\n"
-        . "    $code_url/project.php?id=$projectid\n"
-        . "\n";
+    $msg_body = $project->email_introduction();
 
     switch ($event)
     {

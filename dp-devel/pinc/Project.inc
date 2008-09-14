@@ -365,6 +365,30 @@ EOS;
 
         return $topic_id;
     }
+
+    // -------------------------------------------------------------------------
+
+    function email_introduction()
+    // Return a string that can be included in the body of an email message,
+    // introducing this project as the focus of the message.
+    {
+        global $site_name, $code_url;
+
+        $projectid = $this->projectid;
+        $title = $this->nameofwork;
+
+        return
+            sprintf(
+                _("This is an automated message from the %s site regarding the following project:"),
+                // Should really be localized according to the preferences of the *recipient*.
+                $site_name
+            )
+            . "\n"
+            . "    \"$title\"\n"
+            . "    ($projectid)\n"
+            . "    $code_url/project.php?id=$projectid\n"
+            . "\n";
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
