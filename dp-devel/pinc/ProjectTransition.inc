@@ -907,7 +907,8 @@ function round_to_PP_avail_collateral( $old_project, $project, $transition, $who
         "),0);
         $body_blurb =
              "Hello $reserved_PPer,\n\n".
-             "The project \"{$project->nameofwork}\", which was reserved for you to Post-Process,\n".
+             $project->email_introduction().
+             "This project, which was reserved for you to Post-Process,\n".
              "has completed the rounds and has been sent to the PP pool.\n" .
              "It has not been checked out to you because you are not currently  \n" .
              "permitted to check projects out for PPing.\n" .
@@ -971,7 +972,8 @@ function round_to_PP_out_collateral( $old_project, $project, $transition, $who )
         "),0);
         $body_blurb =
             "Hello $PPer,\n\n".
-            "The project \"{$project->nameofwork}\", which is reserved for you to Post-Process,\n".
+            $project->email_introduction().
+            "This project, which is reserved for you to Post-Process,\n".
             "is now ready for you to work on, and should shortly appear in your list\n".
             "of checked out projects.\n".
             "$site_signoff";
