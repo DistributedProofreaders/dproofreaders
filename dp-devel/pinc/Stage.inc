@@ -365,13 +365,14 @@ function show_user_access_object( $uao )
 {
     global $code_url;
 
+    echo "<a name='Entrance_Requirements'></a>";
+
     if ( count($uao->minima_table) == 0 )
     {
         echo "<p>" . _("There are no minimum requirements associated with this stage.") . "</p>";
     }
     else
     {
-        echo "<a name='Entrance_Requirements'></a>";
         echo "<h2>" . _('Entrance Requirements') . "</h2>\n";
         echo "<p>" . _('To access this round, you must satisfy the following requirements.') . "</p>";
         echo "<table border='1'>\n";
