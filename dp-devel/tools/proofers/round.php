@@ -31,6 +31,8 @@ if (is_null($round_id))
     exit;
 }
 
+$state_sql = " (state = '{$round->project_available_state}') ";
+
 if ($userP['i_newwin']==1)
 {
     $newProofWin_js = include($relPath.'js_newwin.inc');
@@ -173,7 +175,6 @@ else
     // filter block
     echo "<hr width='75%'>\n";
 
-	$state_sql = " (state = '{$round->project_available_state}') ";
 	$label = $round->name;
     $filtertype_stem = $round->id;
     include_once($relPath.'filter_project_list.inc');
@@ -188,9 +189,6 @@ if (!isset($RFilter)) { $RFilter = ""; }
 if ($pagesproofed >= 10 && !$userSettings->get_boolean('hide_special_colors'))
 {
     echo "<hr width='75%'>\n";
-    if (!isset($state_sql)) {
-        $state_sql = " (state = '{$round->project_available_state}') ";
-    }
     echo_special_legend($state_sql);
 }
 
