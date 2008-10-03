@@ -357,7 +357,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 
     $result = mysql_query($sql_query);
     ShowTasks($result);
-} elseif ((isset($_GET['f']) && $_GET['f'] == "detail") || isset($_POST['search_tid'])) {
+} elseif (isset($_GET['f']) && $_GET['f'] == "detail") {
     if (is_numeric($_REQUEST['tid'])) {
         TaskDetails($_REQUEST['tid']);
     } else {
@@ -472,7 +472,7 @@ function TaskHeader() {
 
     if (isset($_REQUEST['search_text']) && !empty($_REQUEST['search_text'])) { $search_text = $_REQUEST['search_text']; } else { $search_text = ""; }
 
-    echo "<form action='tasks.php' method='post'><input type='hidden' name='search_tid'>";
+    echo "<form action='tasks.php' method='get'><input type='hidden' name='f' value='detail'>";
     echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
     echo "<tr><td width='50%'>&nbsp;</td>\n";
     echo "<td width='50%' align='right'><b><font face='Verdana' size='1'>Show Task #</font></b>&nbsp;\n";
