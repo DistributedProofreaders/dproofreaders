@@ -14,6 +14,7 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'mentorbanner.inc');
 include_once($relPath.'page_tally.inc');
+include_once($relPath.'filter_project_list.inc');
 
 $userSettings = Settings::get_Settings($pguser);
 
@@ -175,11 +176,8 @@ else
     // filter block
     echo "<hr width='75%'>\n";
 
-	$label = $round->name;
-    $filtertype_stem = $round->id;
-    include_once($relPath.'filter_project_list.inc');
+    process_and_display_project_filter_form($pguser, $round->id, $round->name, $_REQUEST, $state_sql);
 }
-if (!isset($RFilter)) { $RFilter = ""; }
 
 // special colours legend
 // Don't display if the user has selected the
@@ -192,7 +190,7 @@ if ($pagesproofed >= 10 && !$userSettings->get_boolean('hide_special_colors'))
     echo_special_legend($state_sql);
 }
 
-show_block_for_round($round->round_number, $RFilter);
+show_block_for_round($round->round_number, get_project_filter_sql($pguser, $round->id));
 
 theme('', 'footer');
 

@@ -9,6 +9,7 @@ include_once($relPath.'special_colors.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'site_news.inc');
+include_once($relPath.'filter_project_list.inc');
 
 $pool_id = @$_GET['pool_id'];
 
@@ -91,16 +92,13 @@ $header = _('Books Available for Checkout');
 echo "<h2 align='center'>$header</h2>";
 
 // -------
-$label = $pool->name;
 $state_sql = " (state = '{$pool->project_available_state}') ";
-$filtertype_stem = $available_filtertype_stem;
-include($relPath.'filter_project_list.inc');
-if (!isset($RFilter)) { $RFilter = ""; }
+process_and_display_project_filter_form($pguser, $available_filtertype_stem, $pool->name, $_REQUEST, $state_sql);
 // -------
 
 echo "<a name='available'></a>\n";
 echo "<center><b>$header</b></center>";
-show_projects_in_state_plus( $pool, 'available', $RFilter );
+show_projects_in_state_plus( $pool, 'available', get_project_filter_sql($pguser, $available_filtertype_stem) );
 echo "<br>";
 echo "<br>";
 

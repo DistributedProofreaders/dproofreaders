@@ -1,534 +1,480 @@
 <?
-// set $label, $filtertype_stem  and $state_sql before inclusion
+// This file includes functions to handle the creation, update, and display of
+// the project filters used on the Round, Project, and Smooth Reading pages.
+// This includes displaying the form, processing updates made from the form,
+// and getting the filter values from the user_filters table.
+//
+// For consistencly the form field names (also $field and $fields in the
+// functions) use the corresponding column name from the projects table. Hence
+// the field name for the Post Processor is checkedoutby and the field for
+// Project Managers is username.
 
-include_once('select_list.inc');
+function process_and_display_project_filter_form($username, $filter_type, $filter_label, $data, $state_sql, $custom_display_fields=NULL)
+{
+    // process the data passed into us for changes
+    $filter_changed=maybe_update_project_filter($username, $filter_type, $data, $state_sql);
 
-// by default, filters are shown for Language, Genre, PM and Special Day, 
-// and hidden for PPers;
-// these defaults can be overridden by setting appropriate values for 
-// the associated variables, below, in the enclosing file
+    // if the filter was updated or the username is empty, use the new data
+    // to populate the form otherwise pull the data from the stored filter
+    if($filter_changed || $username=="")
+        $form_data_source=$data;
+    else
+        $form_data_source=get_current_project_filter_data($username, $filter_type);
 
-if (!isset($showLangF)) {$showLangF = TRUE;}
-if (!isset($showGenreF)) {$showGenreF = TRUE;}
-if (!isset($showPMsF)) {$showPMsF = TRUE;}
-if (!isset($showDiffF)) {$showDiffF = TRUE;}
-if (!isset($showSpecialF)) {$showSpecialF = TRUE;}
+    // display the form
+    display_project_filter_form($filter_type, $filter_label, $form_data_source, $state_sql, $custom_display_fields);
+    display_current_project_filter_settings($username, $filter_type);
+}
 
-if (!isset($showPPersF)) {$showPPersF = FALSE;}
+function display_project_filter_form($filter_type, $filter_label, $data, $state_sql, $custom_display_fields=NULL)
+{
+    // set the default display state of the form fields
+    $display_fields=array();
+    $display_fields["language"] = TRUE;
+    $display_fields["genre"] = TRUE;
+    $display_fields["username"] = TRUE;
+    $display_fields["difficulty"] = TRUE;
+    $display_fields["special_code"] = TRUE;
+    $display_fields["checkedoutby"] = FALSE;
 
+    // overwrite the default display state of the form fields with any
+    // custom display requests
+    if($custom_display_fields && is_array($custom_display_fields))
+        $display_fields=array_merge($display_fields, $custom_display_fields);
 
-// if no filters enabled, don't show any
+    // if no fields are set for display, we have nothing to do
+    $is_any_field_displayed = TRUE;
+    foreach($display_fields as $field => $is_displayed)
+        $is_any_field_displayed |= $is_displayed;
 
-if ($showLangF OR $showGenreF OR $showPMsF OR $showDiffF OR $showSpecialF OR $showPPersF) {
+    if(!$is_any_field_displayed)
+        return;
 
+    // if they want to reset the filter, zero out the data passed in
+    if(array_key_exists("reset",$data))
+        $data=array();
 
-// arrays to hold legal filter values (determined from database)
-// as some protection against "injection of SQL in URL" attacks
+    // Create only ONE table, fill its cells with the selectors
+    // Track number of columns added so colspans can be given later
+    $filter_column_count = 0;
 
-$array_of_langs = array();
-$array_of_genres = array();
-$array_of_PMs = array();
-$array_of_diffs = array();
-$array_of_specials = array();
-$array_of_PPers = array();
+    echo "<a name='filter_form'></a>";
+    echo "
+        <form method='post' action='#filter_form'>
+        <input type='hidden' name='filter_action' value='update'>";
 
+    echo "<table class='filter'>\n";
+    echo "<caption>" . sprintf(_("Filter available %s books by:"),$filter_label) . "</caption>";
 
-// get legal languages
+    // create the row for listboxes for Language, Genre, PM, Special Days, PPers (when enabled)
+    echo "<tr>\n";
 
-if ($showLangF) {
-    $query = "
-    	    SELECT distinct language FROM projects	WHERE $state_sql ORDER BY language
-	    ";
-    $result = mysql_query($query);
-    $i = 0;
-    while ($a_res = @mysql_fetch_row($result))
+    // TODO: Even though each of the <select>s have an "All" option, it doesn't
+    // really do anything except act as a placeholder for the case where the
+    // user hasn't selected something. For the purposes of updating the filter,
+    // the "All" options are no-ops. There should probably be some javascript
+    // action that would deselect the "All" option if another option was
+    // selected.
+
+    if($display_fields["genre"])
     {
-        $val = $a_res[0];	
-        $array_of_langs[$i] = $val;
-        $i++;
+        $filter_column_count++;
+        $genre_options = _load_project_filter_field_values("genre", $state_sql);
+        echo _build_project_filter_select(_("Genre"), _("All Genres"), "genre", $genre_options, $data["genre"]);
     }
-}
 
-// get legal genres
-
-if ($showGenreF) {
-    $query = "
-	    SELECT distinct genre FROM projects	WHERE $state_sql ORDER BY genre
-    	    ";
-    $result = mysql_query($query);
-    $i = 0;
-    while ($a_res = @mysql_fetch_row($result))
+    if($display_fields["username"])
     {
-        $val = $a_res[0];	
-        $array_of_genres[$i] = $val;
-        $i++;
+        $filter_column_count++;
+        $pm_options=_load_project_filter_field_values("username", $state_sql);
+        echo _build_project_filter_select(_("Project Manager"), _("All PMs"), "username", $pm_options, $data["username"]);
     }
-}
 
-
-// get legal PMs
-if ($showPMsF) {
-    $query = "
-	    SELECT distinct username FROM projects	WHERE $state_sql ORDER BY username
-	    ";
-    $result = mysql_query($query);
-    $i = 0;
-    while ($a_res = @mysql_fetch_row($result))
+    if($display_fields["checkedoutby"])
     {
-        $val = $a_res[0];	
-        $array_of_PMs[$i] = $val;
-        $i++;
+        $filter_column_count++;
+        $pp_options=_load_project_filter_field_values("checkedoutby", $state_sql);
+        echo _build_project_filter_select(_("Post Processor"), _("All PPers"), "checkedoutby", $pp_options, $data["checkedoutby"]);
     }
-}
 
-// get legal PPers
-
-if ($showPPersF) {
-    $query = "
-	    SELECT distinct checkedoutby FROM projects	WHERE $state_sql ORDER BY checkedoutby
-   	    ";
-    $result = mysql_query($query);
-    $i = 0;
-    while ($a_res = @mysql_fetch_row($result))
+    if($display_fields["special_code"])
     {
-        $val = $a_res[0];	
-        $array_of_PPers[$i] = $val;
-        $i++;
+        $filter_column_count++;
+        $specialday_options=_load_project_filter_field_values("special_code", $state_sql);
+        // TODO: "All Special Days" is actually an incorrect label considering
+        // what the resulting output is. Instead it behaves like
+        // "all projects regardless of special day status". Unlike the other "All"
+        // labels, selecting "All Special Days" is not equivilent to selecting all
+        // the other options in this select. See task #797.
+        echo _build_project_filter_select(_("Special Days"), _("All Special Days"), "special_code", $specialday_options, $data["special_code"], 4, TRUE);
     }
-}
 
+    echo "</tr>\n";
 
-// get legal Special day codes
-
-// slightly different array structure, as we want to display one value and filter on another
-
-// note this query does not include Birthday or Otherday Specials
-if ($showSpecialF) {
-    $query = "
-            SELECT  DISTINCT special_code, display_name
-            FROM projects, special_days
-            WHERE projects.special_code = special_days.spec_code AND $state_sql ORDER BY display_name
-   	    ";
-    $result = mysql_query($query);
-    while ($a_res = @mysql_fetch_row($result))
+    // if enabled, the langauge selection will be on a row by itself
+    if($display_fields["language"])
     {
-        $spec_code = $a_res[0];	
-        $val = $a_res[1];	
-        $array_of_specials[$spec_code] = $val;
+        echo "<tr>";
+        $language_options=_load_project_filter_field_values("language", $state_sql);
+        echo _build_project_filter_select(_("Language"), _("All Languages"), "language", $language_options, $data["language"], 3, FALSE, $filter_column_count);
+        echo "</tr>";
     }
+
+    // if enabled, the difficulty selection will be on a row by itself
+    if($display_fields["difficulty"])
+    {
+        echo "<tr><td colspan='$filter_column_count'>";
+
+        echo "<p style='white-space: pre;'><b>" . _("Difficulty") . ":</b> ";
+        echo _("All") . "<input type='checkbox' name='difficulty[]' value=''";
+        if(!count($data["difficulty"]) || (count($data["difficulty"])==1 && $data["difficulty"][0]==""))
+            echo " checked";
+        echo ">   ";
+        $difficulty_options=_load_project_filter_field_values("difficulty", $state_sql);
+        foreach($difficulty_options as $value => $option)
+        {
+            echo "$option<input type='checkbox' name='difficulty[]' value='$value'";
+            if(is_array($data["difficulty"]) && in_array($value, $data["difficulty"]))
+                echo " checked";
+            echo ">   ";
+        }
+        echo "</p>";
+        echo "</td></tr>\n";
+    }
+
+    // Next row, buttons and text
+    echo "<tr>\n<td colspan='$filter_column_count'>\n";
+
+    // buttons
+    echo "<center>";
+    echo "<input type='submit' name='reset' value='".
+        _("Reset New Filter")
+         ."'>";
+    echo "<input type='submit' value='".
+        _("Apply New Filter to Projects")
+         ."'>";
+    echo "</center>\n";
+
+    // usage notes
+    echo "<p>\n";
+    echo _("If desired, you can select multiple values for each (e.g., by holding down Ctrl).");
+    echo "</p>\n";
+
+    echo "</table>\n";
+
+    echo "</form>\n";
 }
 
-// legal difficulties 
+function maybe_update_project_filter($username, $filter_type, $data, $state_sql)
+// This function processes the posted form and updates the database accordingly.
+// The function handles the case where it was asked to process a $_REQUEST
+// but the form wasn't actually posted.
+// If a form was posted, this function returns TRUE, otherwise it returns FALSE.
+{
+    // don't bother updating the filter if there was no update request
+    // (ie: the form wasn't posted) or the username was blank (ie: the user
+    // isn't logged in)
+    if(array_get($data,"filter_action","")!="update" || empty($username))
+        return FALSE;
 
-// TO DO: take into account visibility of beginner?
-if ($showDiffF) {
-    $array_of_diffs = array('beginner','easy','average','hard');
+    // if they want to reset the filter, zero out the data passed in
+    if(array_key_exists("reset",$data))
+        $data=array();
+
+    $filter = "";
+    $display = "";
+
+    // enumerate the expected data fields including their human-friendly
+    // labels to update the filter display
+    $data_fields = array("language" => _("Language"), "genre" => _("Genre"), "username" => _("Project Manager"), "checkedoutby" => _("Post Processor" ), "special_code" => _("Special Days"), "difficulty" => _("Difficulty"));
+
+    foreach($data_fields as $field => $label)
+    {
+        // load the field data
+        $field_data = array_get($data,$field,array());
+
+        // if there is no data, skip it
+        if(!count($field_data))
+            continue;
+
+        // associative arrays are handled differently from non-associative ones
+        $is_associative=FALSE;
+        if($field == "special_code" || $field=="difficulty")
+            $is_associative=TRUE;
+        
+        $filter_segments=array();
+        $display_segments=array();
+
+        // load all possible field values
+        $possible_field_values = _load_project_filter_field_values($field, $state_sql);
+        foreach($field_data as $field_datum)
+        {
+            // check to see if the value is a valid one and if not skip it
+            if(!$is_associative && !in_array($field_datum, $possible_field_values)) continue;
+            elseif($is_associative && !array_key_exists($field_datum, $possible_field_values)) continue;
+
+            $filter_segments[]=sprintf("$field='%s'", mysql_real_escape_string($field_datum));
+            $display_segments[]=$field_datum;
+        }
+
+        // if we have any filter segments, build the filter
+        if(count($filter_segments))
+        {
+            $filter.=" AND (" . implode(" OR ", $filter_segments) . ")";
+            $display.="<br>$label=" . implode(", ", $display_segments);
+        }
+    }
+
+    //Note: When using UPDATE, MySQL will not update columns where the new value is the same as the old value. 
+    //This creates the possiblity that mysql_affected_rows() may not actually equal the number of rows matched, 
+    //only the number of rows that were literally affected by the query. This means we can't try to do an
+    //UPDATE and based on the value of mysql_affected_rows() do an INSERT. Instead, well just DELETE and INSERT
+    //our changes.
+
+    // _internal filter is database-readable SQL for WHERE clause in queries
+    // _display filter is human readable summary for reporting current filter to user
+
+    // remove old filter values (if any) from table
+    $query = sprintf("DELETE FROM user_filters WHERE username = '%s' AND filtertype = '%s_internal'", mysql_real_escape_string($username), mysql_real_escape_string($filter_type));
+    $result = mysql_query($query);
+
+    $query = sprintf("DELETE FROM user_filters WHERE username = '%s' AND filtertype = '%s_display'", mysql_real_escape_string($username), mysql_real_escape_string($filter_type));
+    $result = mysql_query($query);
+
+    // if the filter isn't empty, add the filter and the display to the table
+    if(!empty($filter))
+    {
+        $query = sprintf("INSERT INTO user_filters (username, filtertype, value) VALUES ('%s', '%s_internal', '%s')", mysql_real_escape_string($username), mysql_real_escape_string($filter_type), mysql_real_escape_string($filter));
+        $result = mysql_query($query);
+
+        $query = sprintf("INSERT INTO user_filters (username, filtertype, value) VALUES ('%s', '%s_display', '%s')", mysql_real_escape_string($username), mysql_real_escape_string($filter_type), mysql_real_escape_string($display));
+        $result = mysql_query($query);
+    }
+
+    return TRUE;
+}
+
+function get_project_filter_sql($username, $filter_type)
+{
+    $filter = "";
+
+    $query = sprintf("SELECT value FROM user_filters WHERE username = '%s' AND filtertype = '%s_internal'", mysql_real_escape_string($username), mysql_real_escape_string($filter_type));
+    $result = mysql_query($query);
+    if (mysql_num_rows($result) >= 1)
+    {
+        $filter = mysql_result($result, 0, "value");
+        mysql_free_result($result);
+    }
+
+    return $filter;
+}
+
+function get_project_filter_display($username, $filter_type)
+{
+    $filter_display="";
+
+    $query = sprintf("SELECT value FROM user_filters WHERE username = '%s' AND filtertype = '%s_display'", mysql_real_escape_string($username), mysql_real_escape_string($filter_type));
+    $result = mysql_query($query);
+    if (mysql_num_rows($result) >= 1)
+    {
+        $filter_display = mysql_result($result, 0, "value");
+        mysql_free_result($result);
+    }
+
+    return $filter_display;
+}
+
+function get_current_project_filter_data($username, $filter_type)
+// Return a data array of the current project filter
+{
+    $filter=get_project_filter_sql($username, $filter_type);
+    return _populate_project_filter_data_from_filter($filter);
+}
+
+function display_current_project_filter_settings($username, $filter_type)
+// Print out the current project filter settings for a given user and filter type
+{
+    // if the username is blank (ie: the user isn't logged in) just return
+    // as there would be nothing to show them
+    if(empty($username))
+        return;
+
+    $display_filter = get_project_filter_display($username, $filter_type);
+
+    echo "<p>", _("Current settings:"), " <b>";
+
+    if(!empty($display_filter))
+        echo $display_filter;
+    else
+        echo _("No filter, all books shown.");
+
+    echo "</b></p>\n";
 }
 
 
-// build and show the filter selection section
+//----------------------------------------------------------------------------
+// Supporting functions
 
-// Create only ONE table, fill its cells with the selectors
-// Track number of columns added so colspans can be given later
-$filter_column_count = 0;
-
-echo "
-    <form method='post' action=''>
-    <input type='hidden' name='filter_".$filtertype_stem."' value='filter_on'>";
-
-echo "<table class='filter'>\n";
-echo "<caption>", _("Filter available ").$label._(" books by").":</caption>";
-
-echo "<tr>\n";
-
-
-// drop down multiselect listboxes for Language, Genre, PM, Special Days, PPers (when enabled)
-
-
+function _build_project_filter_select($label, $all_label, $name, $options, $selected=NULL, $size=4, $are_options_associative=FALSE, $colspan=0)
+// This function builds the <select> form inputs for the project filter table
+// and returns the HTML code needed to show the form element to the user,
+// including the encapsulating <td> tags.
+//
+// It takes the following arguments:
+//   $label     - the label placed above the <select>
+//   $all_label - the string to use for the "All of these" option prepended
+//       to the top of the <select>'s options
+//   $name      - the name of the <select>
+//   $options   - an array containing the options
+//   $selected  - an array containing already-selected values
+//   $size      - the size of the <select>, by default this is 4
+//   $are_options_associativea - if the options are an associative array,
+//       this needs to be set to TRUE, otherwise a flat array is assumed
+//   $colspan   - the colspan value for the <td>, by default this is left off
+//
 // In the <select> tags, we set the name attribute to 'whatever[]'.
 // I'm pretty sure this doesn't mean anything to HTML/HTTP,
 // but PHP takes it as a cue to make the multiple values of
 // the select control available as an array.
 // That is, $_POST['whatever'] will be an array containing
 // all selected values.
+{
+    // ensure that $selected is an array
+    if($selected==NULL)
+        $selected=array();
+    elseif(!is_array($selected))
+        $selected=array($selected);
 
+    $return="<td";
+    if($colspan!=0)
+        $return.=" colspan='$colspan'";
+    $return.=">";
+    $return.="<b>$label:</b>";
+    $return.="<br>";
+    $return.="<select name='{$name}[]' size='$size' multiple>";
+    $return.="<option value=''";
+    if(!count($selected) || in_array("",$selected))
+        $return.=" selected";
+    $return.=">$all_label</option>";
+    foreach($options as $value => $option)
+    {
+        $return.="<option ";
+        if($are_options_associative)
+        {
+            $return.="value='$value'";
+            if(in_array($value, $selected))
+                $return.=" selected";
+        }
+        else
+        {
+            $return.="value='$option'";
+            if(in_array($option, $selected))
+                $return.=" selected";
+        }
 
-// GENRE filter
-
-if ($showGenreF) {
-    $filter_column_count++;
-    echo "<td>\n
-          <b>"._("Genre").":</b>
-        <br>
-        <select name='genre1[]' size='4'  multiple>
-	    <option value=''>"._("All genres")."</option>
-    ";
-
-    echo build_selectlist( $state_sql, "genre", $array_of_genres);
-    echo "
-        </select>
-        </td>
-   ";
-}
-
-
-// PM filter
-
-if ($showPMsF) {
-    $filter_column_count++;
-    echo "<td>\n
-          <b>"._("Project Manager").":</b>
-        <br>
-        <select name='PM1[]' size='4' multiple>
-	    <option value=''>"._("All PMs")."</option>
-    ";
-
-    echo build_selectlist( $state_sql, "username", $array_of_PMs);
-    echo "
-        </select>
-        </td>
-   ";
-}
-
-
-// PP filter
-
-if ($showPPersF) {
-    $filter_column_count++;
-    echo "<td>\n
-          <b>"._("Post Processor").":</b>
-        <br>
-        <select name='PP1[]' size='4' multiple>
-	    <option value=''>"._("All PPers")."</option>
-    ";
-
-    echo build_selectlist( $state_sql, "checkedoutby", $array_of_PPers);
-    echo "
-        </select>
-        </td>
-   ";
-}
-
-
-
-// SPECIAL Days filter
-
-if ($showSpecialF) {
-    $filter_column_count++;
-    echo "<td>\n
-          <b>"._("Special Days").":</b>
-        <br>
-        <select name='special1[]' size='4'  multiple>
-	    <option value=''>"._("All Special Days")."</option>
-    ";
-
-    foreach ($array_of_specials as $key => $display) {
-        echo "<option value='$key'>$display</option>\n";
+        $return.=">$option</option>";
     }
-    echo "
-        </select>
-        </td>
-   ";
+    $return.="</select>";
+    $return.="</td>\n";
+
+    return $return;
 }
 
-echo "</tr>\n";
+function _populate_project_filter_data_from_filter($filter)
+// This function parses out the SQL filter into an associative
+// array that can be used to populate the filter form when
+// passed into display_project_filter_form().
+{
+    $data = array();
 
+    // clean up no-ops and redundant strings in the filter
+    $noops = array("/1\s+AND\s+/i","/0\s+OR\s+/i","/projects\./");
+    $filter = preg_replace($noops,"",$filter);
 
-// LANGUAGE filter
-// Next row, languages all by themselves since they're so long
+    // split the filter into segments; each segment will contain
+    // the ( ... OR ... ) string for one form field
+    $segments = split(" AND ", $filter);
+    foreach($segments as $segment)
+    {
+        // remove trailing quotes, spaces, or parens
+        $segment = rtrim($segment,"' )");
+        $segment = ltrim($segment,"' (");
 
-if ($showLangF) {
-    echo "<tr><td colspan='", $filter_column_count,"'>\n
-          <b>"._("Language").":</b>
-        <br>
-        <select name='language1[]' size='3' multiple>
-	    <option value=''>"._("All languages")."</option>
-    ";
+        // split each segment into a set of column='value' pairs
+        $value_pairs = split(" OR ", $segment);
+        foreach($value_pairs as $value_pair)
+        {
+            // split the column='value' pairs into their two parts
+            list($field, $value) = split("=", $value_pair);
 
-    echo build_selectlist( $state_sql, "language", $array_of_langs);
+            // clean up the $value, which looks like: 'value'
+            $value = rtrim($value,"' ");
+            $value = ltrim($value,"' ");
 
-    echo "
-        </select>
-        </td></tr>
-   ";
+            // skip any empty values
+            if($value=="") continue;
+
+            if(!is_array($data[$field]))
+                $data[$field]=array();
+
+            $data[$field][]=$value;
+        }
+    }
+
+    return $data;
 }
 
+function _load_project_filter_field_values($field, $state_sql)
+// Given a specific field, return all possible values for that field.
+{
+    $load_associative = FALSE;
 
-// Next row, difficulty checkboxes
+    switch($field)
+    {
+        case "language":
+            $query = "SELECT distinct language FROM projects WHERE $state_sql ORDER BY language";
+            break;
+        case "genre":
+            $query = "SELECT distinct genre FROM projects WHERE $state_sql ORDER BY genre";
+            break;
+        case "special_code":
+            $query = "
+                SELECT  DISTINCT special_code, display_name
+                FROM projects, special_days
+                WHERE projects.special_code = special_days.spec_code AND $state_sql ORDER BY display_name
+            ";
+            $load_associative = TRUE;
+            break;
+        case "difficulty":
+            $difficulty_options = array('beginner' => _("Beginners Only"), 'easy' => _("Easy"), 'average' => _("Average"), 'hard' => _("Hard"));
+            return $difficulty_options;
+            break;
+        case "username":
+            $query = "SELECT distinct username FROM projects WHERE $state_sql ORDER BY username";
+            break;
+        case "checkedoutby":
+            $query = "SELECT distinct checkedoutby FROM projects WHERE $state_sql ORDER BY checkedoutby";
+            break;
+        default:
+            die("Invalid field type.");
+    }
 
-// checkboxes for selection of difficulty
-if ($showDiffF) {
-    echo "<tr><td colspan='", $filter_column_count, "'>\n";
+    $return = array();
 
-    echo "<p><b>"._("Difficulty").":</b>\n";
-    echo _("All")." <input type='checkbox' name='difficulty1[]' value=''>\n";
-    echo _("Beginners Only")." <input type='checkbox' name='difficulty1[]' value='beginner'>\n";
-    echo _("Easy")." <input type='checkbox' name='difficulty1[]' value='easy'>\n";
-    echo _("Average")." <input type='checkbox' name='difficulty1[]' value='average'>\n";
-    echo _("Hard")." <input type='checkbox' name='difficulty1[]' value='hard'>\n";
+    $result = mysql_query($query);
+    while ($a_res = @mysql_fetch_row($result))
+    {
+        if($load_associative)
+            $return[$a_res[0]] = $a_res[1];
+        else
+            $return[]=$a_res[0];
+    }
 
-    echo "</p>\n";
-    echo "</td></tr>\n";
+    if($result)
+        mysql_free_result($result);
+
+    return $return;
 }
 
-//Next row, buttons and text
-
-echo "<tr>\n<td colspan='", $filter_column_count, "'>\n";
-
-// buttons
-
-echo "<center>";
-echo "<input type='reset' value='".
-	_("Reset New Filter")
-     ."'>";
-echo "<input type='submit' value='".
-	_("Apply New Filter to Projects")
-     ."'>";
-echo "</center>\n";
-
-// usage notes
-
-echo "<p>\n";
-echo _("If desired, you should be able to select multiple values for each (e.g., by holding down Ctrl).");
-echo "<br>";
-echo _("Resetting the filter does not apply it. To see all projects again, Reset then Apply Filter.");
-echo "</p>\n";    
-
-echo "</table>\n";
-
-echo "</form>\n";
-
-
-// $filtertype_stem (which must be initialised in enclosing file) 
-// allows different filters to be set for different list/pages/purposes
-// (e.g. "proof" and "PP")
-
-$FT_int = $filtertype_stem . "_internal";
-$FT_dis = $filtertype_stem . "_display";
-
-
-// read saved filters (actual and display) from user_filters table 
-
-$result = mysql_query("SELECT value FROM user_filters WHERE username = '$pguser' AND filtertype = '$FT_int'");
-if (mysql_num_rows($result) >= 1) {
-	$RFilter = mysql_result($result, 0, "value");
-}
-$result = mysql_query("SELECT value FROM user_filters WHERE username = '$pguser' AND filtertype = '$FT_dis'");
-if (mysql_num_rows($result) >= 1) {
-	$display_filter = mysql_result($result, 0, "value");
-}
-
-
-// get new filters from passed arguments (if any) in HTTP request
-
-// validate each set value against the arrays of legal values
-// as some protection against the "injection of SQL into URL" attack
-
-if ( isset($_POST["filter_$filtertype_stem"]) and ($_POST["filter_$filtertype_stem"] == 'filter_on')) {
-
-	$RFilter = " ";
-	$display_filter = "";
-	$show_df = FALSE;
-
-
-	// construct language clause of new filter
-
-	$condition1 = '1';
-	if ( isset($_POST['language1']) && count($_POST['language1']) > 0 )
-	{
-	    $condition1 .= " AND (0";
-	    $display_filter .= "<br>Languages=";
-	    foreach( $_POST['language1'] as $lang )
-	    {
-
-		if ( $lang == '' )
-		{
-		    $condition1 .= " OR 1";
-		}
-		else
-		{
-		    if (!in_array( $lang, $array_of_langs )) { echo "UHOH" & exit(); }
-		    $condition1 .= " OR language='$lang'";
-                    $display_filter .= $lang." ";
-		    $show_df = TRUE;
-		}
-	    }
-	    $condition1 .= ")";
-	}
-
-	// construct genre clause of new filter
-
-	if ( isset($_POST['genre1']) && count($_POST['genre1']) > 0 )
-	{
-	    $condition1 .= " AND (0";
-	    $display_filter .= "<br>Genres=";
-	    foreach( $_POST['genre1'] as $genre )
-	    {
-		if ( $genre == '' )
-		{
-		    $condition1 .= " OR 1";
-		}
-		else
-		{
-		    if (!in_array($genre, $array_of_genres )) { echo "UHOH" &  exit(); }
-		    $condition1 .= " OR genre='$genre'";
-                    $display_filter .= $genre." ";
-		    $show_df = TRUE;
-		}
-	    }
-	    $condition1 .= ")";
-	}
-
-	// construct PM clause of new filter
-
-	if ( isset($_POST['PM1']) && count($_POST['PM1']) > 0 )
-	{
-	    $condition1 .= " AND (0";
-	    $display_filter .= "<br>PMs=";
-	    foreach( $_POST['PM1'] as $PM )
-	    {
-		if ( $PM == '' )
-		{
-		    $condition1 .= " OR 1";
-		}
-		else
-		{
-		    if (!in_array($PM, $array_of_PMs )) { echo "UHOH" & exit(); }
-		    $condition1 .= " OR projects.username='$PM'";
-                    $display_filter .= $PM." ";
-		    $show_df = TRUE;
-		}
-	    }
-	    $condition1 .= ")";
-	}
-
-
-	// construct PP clause of new filter
-
-	if ( isset($_POST['PP1']) && count($_POST['PP1']) > 0 )
-	{
-	    $condition1 .= " AND (0";
-	    $display_filter .= "<br>PPs=";
-	    foreach( $_POST['PP1'] as $PP )
-	    {
-		if ( $PP == '' )
-		{
-		    $condition1 .= " OR 1";
-		}
-		else
-		{
-		    if (!in_array($PP, $array_of_PPers )) { echo "UHOH" & exit(); }
-		    $condition1 .= " OR checkedoutby='$PP'";
-                    $display_filter .= $PP." ";
-		    $show_df = TRUE;
-		}
-	    }
-	    $condition1 .= ")";
-	}
-
-
-	// construct Special day clause of new filter
-        // note that for specials we use key for matching but display value
-
-	if ( isset($_POST['special1']) && count($_POST['special1']) > 0 )
-	{
-	    $condition1 .= " AND (0";
-	    $display_filter .= "<br>Special Days=";
-	    foreach( $_POST['special1'] as $special )
-	    {
-		if ( $special == '' )
-		{
-		    $condition1 .= " OR 1";
-		}
-		else
-		{
-		    if (!array_key_exists($special, $array_of_specials )) { echo "UHOH" & exit(); }
-		    $condition1 .= " OR special_code='$special'";
-                    $display_filter .= $array_of_specials[$special]." ";
-		    $show_df = TRUE;
-		}
-	    }
-	    $condition1 .= ")";
-	}
-
-
-
-	// construct difficulty clause of new filter
-
-	if ( isset($_POST['difficulty1']) && count($_POST['difficulty1']) > 0 )
-	{
-	    $condition1 .= " AND (0";
-	    $display_filter .= "<br>Difficulty=";
-	    foreach( $_POST['difficulty1'] as $diff )
-	    {
-		if ( $diff == '' )
-		{
-		    $condition1 .= " OR 1";
-		}
-		else
-		{
-		    if (!in_array($diff, $array_of_diffs )) { echo "UHOH" & exit(); }
-		    $condition1 .= " OR difficulty='$diff'";
-                    $display_filter .= $diff." ";
-		    $show_df = TRUE;
-		}
-	    }
-	    $condition1 .= ")";
-	}
-
-	$RFilter = " AND ".$condition1;
-
-	// save or update filter to usersettings table (since they've potentially changed)
-
-	//Note:  When using UPDATE, MySQL will not update columns where the new value is the same as the old value. 
-	//This creates the possiblity that mysql_affected_rows() may not actually equal the number of rows matched, 
-	//only the number of rows that were literally affected by the query.
-	//To avoid the risk of creating multiple rows per user for each of these two settings,
-	//we delete and insert rather than UPDATE and "if no rows affected", INSERT, since the
-	//no rows affected isn't reliable
-
-	// _internal filter is database-readable SQL for WHERE clause in queries
-	// _display filter is human readable summary for reporting current filter to user
-
-
-	// remove old filter values (if any) from table and add news ones
-
-	$query = "
-		DELETE FROM user_filters WHERE username = '$pguser' AND filtertype = '$FT_int'
-		";
-	$result = mysql_query($query);
-	$query = "
-		DELETE FROM user_filters WHERE username = '$pguser' AND filtertype = '$FT_dis'
-		";
-	$result = mysql_query($query);
-
-	$query = "INSERT INTO user_filters (username, filtertype, value) VALUES ('$pguser', '$FT_int', '".addslashes($RFilter)."')";
-	$result = mysql_query($query);
-
-	$query = "
-		INSERT INTO user_filters (username, filtertype, value) VALUES ('$pguser', '$FT_dis', '".addslashes($display_filter)."')
-		";
-	$result = mysql_query($query);
-
-}
-
-
-// report filter in use to user
-
-echo "<p>", _("Current settings:"), " <b>";
-
-if ((isset($show_df) && $show_df) || (isset($display_filter) && $display_filter)) {
-	echo $display_filter;
-} else {
-	echo _("No filter, all books shown.");
-}
-
-echo "</b></p>\n";
-
-// $RFilter is now set to new filter value 
-// for passing to a project listing function in enclosing file
-
-
-} // end if any filters enabled
-
+// vim: sw=4 ts=4 expandtab
 ?>

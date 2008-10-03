@@ -9,6 +9,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'page_header.inc');
+include_once($relPath.'filter_project_list.inc');
 
 // the user_is functions don't work unless this has been executed previously!
 // it's in dp_main.inc, but we also want this page to be accessible to 
@@ -105,20 +106,7 @@ if (!$logged_in)
 echo "<hr width='75%'>\n";
 
 $state_sql = " (state = 'proj_post_first_checked_out' AND smoothread_deadline > UNIX_TIMESTAMP() ) ";
-$label = "Smooth Reading";
-$filtertype_stem = "SR";
-include_once($relPath.'filter_project_list.inc');
-
-// if not logged in, don't keep filter setting
-if (!$logged_in) {
-    $result = mysql_query("
-        DELETE
-        FROM user_filters
-        WHERE username = '' and filtertype like 'SR%'
-    ");
-}
-
-if (!isset($RFilter)) { $RFilter = ""; }
+process_and_display_project_filter_form($pguser, "SR", _("Smooth Reading"), $_REQUEST, $state_sql, array("checkedoutby" => TRUE));
 
 // special colours legend
 // Don't display if the user has selected the
@@ -284,6 +272,7 @@ foreach ( $_GET as $name => $value )
 $linkbase = "<a href='?{$other_settings}{$order_param}=";
 $linkend = "'";
 
+$project_filter = get_project_filter_sql($pguser, "SR");
 $query = "
         SELECT projects.*,
                 n_pages,
@@ -296,7 +285,7 @@ $query = "
         WHERE
                 state = 'proj_post_first_checked_out'
                 AND smoothread_deadline > UNIX_TIMESTAMP()
-                $RFilter
+                $project_filter
         ORDER BY
                 $orderclause
 ";
