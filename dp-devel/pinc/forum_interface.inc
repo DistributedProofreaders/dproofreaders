@@ -1,4 +1,5 @@
 <?
+// forum_interface.inc
 
 // Parameters for topic_create() and topic_add_post()
 // are in the order Where, What, Who:

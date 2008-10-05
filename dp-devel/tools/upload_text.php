@@ -7,7 +7,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'topic.inc');
+include_once($relPath.'forum_interface.inc');
 
 // use:
 // $code_url/tools/upload_text.php?project=projectid&curr_state=...

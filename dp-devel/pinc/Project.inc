@@ -2,7 +2,7 @@
 include_once($relPath.'connect.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'topic.inc'); // topic_create
+include_once($relPath.'forum_interface.inc'); // topic_create
 
 new dbConnect;
 

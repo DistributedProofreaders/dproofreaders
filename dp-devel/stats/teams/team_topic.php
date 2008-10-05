@@ -4,7 +4,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'topic.inc'); // topic_create
+include_once($relPath.'forum_interface.inc'); // topic_create
 
 // Which team?
 $team_id = get_integer_param( $_GET, 'team', null, 0, null );

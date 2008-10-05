@@ -260,7 +260,7 @@ _AUTO_POST_TO_PROJECT_TOPIC=FALSE
 _PHP_CLI_EXECUTABLE=/usr/local/bin/php
 # The location of the command-line version of PHP.
 # We use this in SETUP/dp.cron for some cron jobs,
-# and in pinc/topic.inc to invoke some phpBB functions
+# and in pinc/forum_interface.inc to invoke some phpBB functions
 # without including the phpBB namespace into ours.
 
 # ----------------------------------------------------------------------
