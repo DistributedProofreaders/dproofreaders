@@ -4,12 +4,12 @@ include($relPath.'site_vars.php');
 include($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 include($relPath.'theme.inc');
+include($relPath.'forum_interface.inc');
 
 $auth = false;
 
 if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
-	$result = mysql_query("SELECT * FROM phpbb_users WHERE username='".$_SERVER['PHP_AUTH_USER']."' AND user_password='".md5($_SERVER['PHP_AUTH_PW'])."'");
-	if (mysql_numrows($result) != 0) {
+	if (is_username_password_valid($_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW'])) {
 		$result = mysql_query("SELECT sitemanager FROM users WHERE username='".$_SERVER['PHP_AUTH_USER']."'");
 		if (mysql_result($result, 0, "sitemanager") == "yes") { $auth = true; }
 	}
