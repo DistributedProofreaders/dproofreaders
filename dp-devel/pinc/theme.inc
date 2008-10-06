@@ -12,6 +12,7 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'list_projects.inc');
 include_once($relPath.'gradual.inc');
+include_once($relPath.'forum_interface.inc');
 
 $user_is_logged_in = dpsession_resume();
 
@@ -249,10 +250,7 @@ function html_navbar()
         //Code to display if the user is logged in
 
         // Fetch some values from the database for use in links later
-        $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='$pguser' LIMIT 1");
-        $pguser_id = mysql_result($result, 0, "user_id");
-        $result = mysql_query("SELECT COUNT(*) FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id and (privmsgs_type = 1 or privmsgs_type = 5)");
-        $numofPMs = mysql_fetch_row($result);
+        $numofPMs = get_number_of_unread_messages($pguser);
 
         echo "<td>";
         // left side
@@ -289,7 +287,7 @@ function html_navbar()
         $links = array();
         $inbox_text = _("Inbox");
         if($numofPMs[0] > 0) $inbox_text .= " " . sprintf(_("(%s unread)"),$numofPMs[0]);
-        $links[] = array('text' => $inbox_text, 'url' => $forums_url."/privmsg.php?folder=inbox");
+        $links[] = array('text' => $inbox_text, 'url' => get_url_for_inbox());
 
         $links[] = array('text' => _("Forums"), 'url' => $forums_url);
         if(lang_forum())
