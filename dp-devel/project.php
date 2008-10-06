@@ -1106,7 +1106,7 @@ function do_event_subscriptions()
 
     echo "<div style='margin-left:3em'>\n";
 
-    $user_email_address = get_subscriber_email_addr($pguser);
+    $user_email_address = get_forum_email_address($pguser);
     echo "<p>";
     echo _("Here you can sign up to be notified when certain events happen to this project.");
     echo "\n";

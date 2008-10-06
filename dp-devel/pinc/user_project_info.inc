@@ -1,6 +1,7 @@
 <?PHP
 include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
 include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'forum_interface.inc'); // get_forum_email_address()
 
 function upi_ensure_row( $username, $projectid )
 // There may not yet be a row for this ($username,$projectid) pair
@@ -197,7 +198,7 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
     $n_subscribers = mysql_num_rows($res1);
     while ( list($username) = mysql_fetch_row($res1) )
     {
-        $email = get_subscriber_email_addr($username);
+        $email = get_forum_email_address($username);
         maybe_mail(
             $email,
             $msg_subject,
@@ -216,16 +217,6 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
             WHERE projectid = '$projectid'
         ") or die(mysql_error());
     }
-}
-
-function get_subscriber_email_addr( $username )
-{
-    $res = mysql_query("
-        SELECT user_email
-        FROM phpbb_users
-        WHERE username = '$username'
-    ") or die(mysql_error());
-    return mysql_result($res, 0);
 }
 
 // -----------------------------------------------------------------------------
