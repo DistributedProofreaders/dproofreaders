@@ -35,6 +35,7 @@ include_once($relPath.'user_project_info.inc');
 include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link
 include_once($relPath.'project_edit.inc'); // check_user_can_load_projects
+include_once($relPath.'forum_interface.inc'); // get_last_post_time_in_topic & get_url_*()
 
 
 // for strftime:
@@ -668,8 +669,7 @@ function do_project_info_table()
     $topic_id = $project->topic_id;
     if (!empty($topic_id))
     {
-        $last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = $topic_id ORDER BY post_time DESC LIMIT 1");
-        $last_post_date = mysql_result($last_post,0,"post_time");
+        $last_post_date = get_last_post_time_in_topic($topic_id);
         $last_post_date = strftime($datetime_format, $last_post_date);
         echo_row_a( _("Last Forum Post"), $last_post_date );
     }
@@ -1097,7 +1097,7 @@ function do_waiting_queues()
 
 function do_event_subscriptions()
 {
-    global $project, $code_url, $forums_url, $subscribable_project_events, $pguser;
+    global $project, $code_url, $subscribable_project_events, $pguser;
 
     $projectid = $project->projectid;
 
@@ -1113,7 +1113,7 @@ function do_event_subscriptions()
     echo sprintf(
         _("Notifications will be sent to your email address, which is currently &lt;%s&gt;. (If this is not correct, please visit <a href='%s'>your profile</a>.)"),
         $user_email_address,
-        "$forums_url/profile.php?mode=editprofile"
+        get_url_to_edit_profile()
     );
     echo "\n";
     echo _("Your current subscriptions are shown below with a shaded background.");
@@ -1661,7 +1661,7 @@ function do_postcomments()
 
 function do_smooth_reading()
 {
-    global $project, $code_url, $pguser, $forums_url, $date_format;
+    global $project, $code_url, $pguser, $date_format;
 
     if ( $project->state != PROJ_POST_FIRST_CHECKED_OUT ) return;
 
@@ -1811,7 +1811,7 @@ function do_smooth_reading()
                 echo "<ul>";
                 foreach ($sr_list as $sr_user)
                 {
-                    $user_privmsg_url = sprintf("%s/privmsg.php?mode=post&u=%d", $forums_url, get_bb_user_id($sr_user));
+                    $user_privmsg_url = get_url_to_compose_message_to_user($sr_user);
                     echo "<li>";
                     echo "<a href=$user_privmsg_url>$sr_user</a>";
                     echo "</li>\n";

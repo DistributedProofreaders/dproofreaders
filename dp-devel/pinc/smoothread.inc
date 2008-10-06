@@ -246,40 +246,4 @@ function sr_echo_withdrawal_form($projectid)
 
 }
 
-/***************************************************************************************
-*
-* function get_bb_user_id: get the userid for phpBB for the given username
-*
-* inputs: username
-*
-* output: userid
-*
-* Remarks:
-*
-* This is actually a more common function that should move at some point into a different 
-* module.
-*
-****************************************************************************************/
-
-function get_bb_user_id($username)
-{
-   $id = NULL;
-
-   $res = mysql_query("
-       SELECT user_id
-       FROM phpbb_users
-       WHERE username = '$username' 
-       ") or die(mysql_error());
-
-    if (mysql_num_rows($res) == 0)
-    {
-        return NULL;
-    }
-
-    $row = mysql_fetch_row($res);
-    $id = $row[0];
-    return $id;
-
-}
-
 ?>
