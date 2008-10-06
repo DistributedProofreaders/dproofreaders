@@ -4,7 +4,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'forum_interface.inc'); // topic_create
+include_once($relPath.'forum_interface.inc'); // topic_create & get_url_to_view_topic
 
 // Which team?
 $team_id = get_integer_param( $_GET, 'team', null, 0, null );
@@ -56,6 +56,6 @@ Use this area to have a discussion with your fellow teammates! :-D
 
 // By here, either we had a topic or we've just created one, so redirect to it
 
-$redirect_url = "$forums_url/viewtopic.php?t=$topic_id";
+$redirect_url = get_url_to_view_topic($topic_id);
 header("Location: $redirect_url");
 ?>
