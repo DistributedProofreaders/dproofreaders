@@ -13,6 +13,6 @@ $project = new Project($project_id);
 
 $topic_id = $project->ensure_topic();
 
-$redirect_url = get_url_to_view_forum($topic_id);
+$redirect_url = get_url_to_view_topic($topic_id);
 header("Location: $redirect_url");
 ?>
