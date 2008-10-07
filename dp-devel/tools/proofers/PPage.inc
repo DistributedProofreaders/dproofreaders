@@ -4,6 +4,8 @@ include_once($relPath.'page_tally.inc');
 include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
 include_once($relPath.'LPage.inc');
 include_once($relPath.'abort.inc');
+include_once($relPath.'links.inc'); // private_message_link()
+include_once($relPath.'forum_interface.inc'); // get_forum_user_id()
 
 // Page-related code that's common to the standard and enhanced interfaces.
 
@@ -152,8 +154,6 @@ class PPage
 
     function echo_info()
     {
-        global $forums_url;
-
         //display page number
         $pageNum=substr($this->lpage->imagefile,0,-4);
         echo "<font size='-1'><b>";
@@ -174,13 +174,9 @@ class PPage
                 if ($show_comma) { echo ", "; } else { $show_comma = TRUE; }
                 echo "$other_round->id: ";
 
-                $res = mysql_query("
-                    SELECT user_id
-                    FROM phpbb_users
-                    WHERE username = '$username'
-                ");
+                $user_id = get_forum_user_id($username);
 
-                if ( $username == '' || mysql_num_rows($res) == 0 )
+                if ( $username == '' || $user_id == NULL )
                 {
                     // Grey, because it's not the link expected by the user.
                     echo "<span style='color: #666;'>";
@@ -196,9 +192,7 @@ class PPage
                 }
                 else
                 {
-                    $user_id = mysql_result($res, 0, "user_id");
-
-                    echo "<a href='$forums_url/privmsg.php?mode=post&u=$user_id' target='comments'>$username</a>";
+                    echo private_message_link($username, "comments");
                 }
             }
         }

@@ -6,6 +6,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'forum_interface.inc');
 
 if (!isset($_POST['resolution'])) {
     //Get variables to use for form
@@ -44,14 +45,12 @@ if (!isset($_POST['resolution'])) {
     echo "<B><font color='".$theme['color_headerbar_font']."'>Bad Page Report</font></B></td></tr>";
     
     if (!empty($b_User)) {
-        //Get the user id of the reporting user to be used for private messaging
-        $result = mysql_query("SELECT * FROM phpbb_users WHERE username='$b_User'");
-        $b_UserID = mysql_result($result,0,"user_id");
+        $contact_url = get_url_to_compose_message_to_user($b_User);
 
         echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
         echo "<strong>Username:</strong></td>";
         echo "<td bgcolor='#ffffff' align='center'>";
-        echo "$b_User (<a href='$forums_url/privmsg.php?mode=post&u=$b_UserID'>Private Message</a>)</td></tr>";
+        echo "$b_User (<a href='$contact_url'>Private Message</a>)</td></tr>";
     }
     
     if (!empty($b_Code)) {

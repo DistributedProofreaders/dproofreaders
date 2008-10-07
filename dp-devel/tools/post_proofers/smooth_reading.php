@@ -10,6 +10,7 @@ include_once($relPath.'site_news.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'page_header.inc');
 include_once($relPath.'filter_project_list.inc');
+include_once($relPath.'forum_interface.inc');
 
 // the user_is functions don't work unless this has been executed previously!
 // it's in dp_main.inc, but we also want this page to be accessible to 
@@ -276,12 +277,9 @@ $project_filter = get_project_filter_sql($pguser, "SR");
 $query = "
         SELECT projects.*,
                 n_pages,
-                phpbb_users.user_id, 
                 round((smoothread_deadline - unix_timestamp())/(24 * 60 * 60)) AS days_left,
                 projects.username as PM
         FROM projects
-            LEFT OUTER JOIN phpbb_users
-                ON (phpbb_users.username = projects.checkedoutby)
         WHERE
                 state = 'proj_post_first_checked_out'
                 AND smoothread_deadline > UNIX_TIMESTAMP()
@@ -390,7 +388,8 @@ while ($rownum2 < $numrows) {
 
             if ($logged_in) {
                 echo "\n<td>$pm</td>";
-                echo "\n<td><a href='$forums_url/privmsg.php?mode=post&u=".$book['user_id']."'>{$book['checkedoutby']}</a></td>";
+                $contact_url = get_url_to_compose_message_to_user($book['checkedoutby']);
+                echo "\n<td><a href='$contact_url'>{$book['checkedoutby']}</a></td>";
 
                 global $projects_dir;
                 if ($done_files = glob("$projects_dir/$prid/*smooth_done_*.zip") ) {
