@@ -8,6 +8,7 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'access_log.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'../stats/includes/common.inc');
+include_once($relPath.'forum_interface.inc');
 
 function showMbrInformation( $curMbr, $tally_name )
 {
@@ -129,16 +130,11 @@ function showMbrRoles($siteadmin, $manager, $proj_facilitator, $postprocessor, $
 function showForumProfile($username) {
     global $forums_url, $theme;
 
-    $result = mysql_query("
-        SELECT *
-        FROM phpbb_users
-        WHERE username = '$username'
-    ");
-    $bb_user = mysql_fetch_object($result);
+    $bb_user = get_forum_user_details($username);
 
-    if (isset($GLOBALS['pguser']) && $bb_user->username == $GLOBALS['pguser'])
+    if (isset($GLOBALS['pguser']) && $bb_user["username"] == $GLOBALS['pguser'])
     {
-        $edit_url = "$forums_url/profile.php?mode=editprofile&u=$bb_user->user_id";
+        $edit_url = get_url_to_edit_profile();
         $text = _('Edit');
         $colored_text = "<font color='".$theme['color_headerbar_font']."' size='2'>$text</font>";
         $editlink = "&nbsp;[<a href='$edit_url'>$colored_text</a>]";
@@ -154,13 +150,14 @@ function showForumProfile($username) {
         array( 'width'=>100 )
     );
 
-    if (empty($bb_user->user_avatar))
+    $avatar = get_url_for_user_avatar($username);
+    
+    if ($avatar == NULL)
     {
         $rhs = '(none)';
     }
     else
     {
-        $avatar = $GLOBALS['forums_url']."/images/avatars/$bb_user->user_avatar";
         $rhs = "<img border='0' src='$avatar' alt='avatar'>";
     }
     $t->row(
@@ -168,55 +165,55 @@ function showForumProfile($username) {
         $rhs
     );
 
-    if (!empty($bb_user->user_from) || !empty($bb_user->user_occ) || !empty($bb_user->user_interests) || !empty($bb_user->user_website)) { $t->hr( 90 ); }
-    if (!empty($bb_user->user_from))      { $t->row( _("Location"),   $bb_user->user_from ); }
-    if (!empty($bb_user->user_occ))       { $t->row( _("Occupation"), $bb_user->user_occ ); }
-    if (!empty($bb_user->user_interests)) { $t->row( _("Interests"),  $bb_user->user_interests ); }
-    if (!empty($bb_user->user_website))   { $t->row( _("Website"),    "<a href='$bb_user->user_website'>".$bb_user->user_website."</a>" ); }
+    if (!empty($bb_user["from"]) || !empty($bb_user["occ"]) || !empty($bb_user["interests"]) || !empty($bb_user["website"])) { $t->hr( 90 ); }
+    if (!empty($bb_user["from"]))      { $t->row( _("Location"),   $bb_user["from"] ); }
+    if (!empty($bb_user["occ"]))       { $t->row( _("Occupation"), $bb_user["occ"] ); }
+    if (!empty($bb_user["interests"])) { $t->row( _("Interests"),  $bb_user["interests"] ); }
+    if (!empty($bb_user["website"]))   { $t->row( _("Website"),    "<a href='" . $bb_user["website"] . "'>".$bb_user["website"]."</a>" ); }
 
     $t->hr( 90 );
 
     $contact_data = array(
         array(
-            !empty($bb_user->user_viewemail),
+            !empty($bb_user["viewemail"]),
             _("E-mail"),
             "icon_email.gif",
-            "mailto:$bb_user->user_email",
+            "mailto:" . $bb_user["email"],
             ''
         ),
         array(
             TRUE,
             _("Private Message"),
             "icon_pm.gif",
-            "$forums_url/privmsg.php?mode=post&u=$bb_user->user_id",
+            get_url_to_compose_message_to_user($username),
             ''
         ),
         array(
-            !empty($bb_user->user_aim),
+            !empty($bb_user["aim"]),
             "AIM",
             "icon_aim.gif",
-            "aim:goim?screenname={$bb_user->user_aim}&message=Hello!+Are+you+there?++I+am+IMing+you+from+$site_abbreviation",
+            "aim:goim?screenname=".$bb_user["aim"]."&message=Hello!+Are+you+there?++I+am+IMing+you+from+$site_abbreviation",
             ''
         ),
         array(
-            !empty($bb_user->user_msnm),
+            !empty($bb_user["msnm"]),
             "MSN",
             "icon_msnm.gif",
-            "javascript:alert(\"$bb_user->user_msnm\")",
+            "javascript:alert(\"" . $bb_user["msnm"] . "\")",
             ''
         ),
         array(
-            !empty($bb_user->user_yim),
+            !empty($bb_user["yim"]),
             "Yahoo Message",
             "icon_yim.gif",
-            "http://edit.yahoo.com/config/send_webmesg?.target={$bb_user->user_yim}&.src=pg",
+            "http://edit.yahoo.com/config/send_webmesg?.target=" . $bb_user["yim"] . "&.src=pg",
             "_new"
         ),
         array(
-            !empty($bb_user->user_icq),
+            !empty($bb_user["icq"]),
             "ICQ",
             "icon_icq.gif",
-            "http://wwp.icq.com/scripts/search.dll?to=$bb_user->user_icq",
+            "http://wwp.icq.com/scripts/search.dll?to=" . $bb_user["icq"],
             "_new"
         ),
     );
@@ -228,7 +225,7 @@ function showForumProfile($username) {
         if (!$condition) continue;
         
         $icon_path = "$forums_url/templates/subSilver/images/lang_english/$icon_filename";
-        $img_tag = "<img src='$icon_path' alt='$label $bb_user->username' border='0'>";
+        $img_tag = "<img src='$icon_path' alt='$label " . $bb_user["username"] . "' border='0'>";
         $target_str = ( empty($target) ? '' : " target='$target'" );
 
         $t->row(
