@@ -18,6 +18,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'mentorbanner.inc');
+include_once($relPath.'forum_interface.inc');
 
 $_Activity_Hub = _("Activity Hub");
 
@@ -42,11 +43,7 @@ $pagesproofed = get_pages_proofed_maybe_simulated();
 // Unread messages
 if ($pagesproofed <= 300)
 {
-    $result = mysql_query("SELECT user_id FROM phpbb_users WHERE username='".$GLOBALS['pguser']."' LIMIT 1");
-    $pguser_id = mysql_result($result, 0, "user_id");
-
-    $result = mysql_query("SELECT COUNT(*) as num FROM phpbb_privmsgs WHERE privmsgs_to_userid = $pguser_id and (privmsgs_type = 1 or privmsgs_type = 5)");
-    $numofPMs = (int) mysql_result($result, 0, "num");
+    $numofPMs = get_number_of_unread_messages($pguser);
     if ($numofPMs > 0)
     {
         echo "<div class='callout'>";
