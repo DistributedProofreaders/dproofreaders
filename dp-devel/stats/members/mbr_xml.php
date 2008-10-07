@@ -5,6 +5,7 @@ include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'connect.inc');
 include_once($relPath.'xml.inc');
 include_once($relPath.'page_tally.inc');
+include_once($relPath.'forum_interface.inc');
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
 $db_Connection=new dbConnect();
@@ -28,14 +29,13 @@ echo "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
 echo "<memberstats xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"memberstats.xsd\">\n";
 	
 
+$curMbr = get_forum_user_details($_GET['username']);
 $result = mysql_query("
 	SELECT *
 	FROM users
 	WHERE username = '".$_GET['username']."'
 	LIMIT 1
 ");
-$curMbr = mysql_fetch_assoc($result);
-$result = mysql_query("SELECT * FROM phpbb_users WHERE username = '".$curMbr['username']."'");
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
 
 $u_id = $curMbr['u_id'];
@@ -52,10 +52,10 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 			<username>".xmlencode($curMbr['username'])."</username>
 			<datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
 			<lastlogin>".date("m/d/Y", $curMbr['last_login'])."</lastlogin>
-			<location>".xmlencode($curMbr['user_from'])."</location>
-			<occupation>".xmlencode($curMbr['user_occ'])."</occupation>
-			<interests>".xmlencode($curMbr['user_interests'])."</interests>
-			<website>".xmlencode($curMbr['user_website'])."</website>";
+			<location>".xmlencode($curMbr['from'])."</location>
+			<occupation>".xmlencode($curMbr['occ'])."</occupation>
+			<interests>".xmlencode($curMbr['interests'])."</interests>
+			<website>".xmlencode($curMbr['website'])."</website>";
 
 
 	foreach ( $page_tally_names as $tally_name => $tally_title )

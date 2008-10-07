@@ -5,6 +5,7 @@ include_once($relPath.'prefs_options.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'xml.inc');
 include_once($relPath.'page_tally.inc');
+include_once($relPath.'forum_interface.inc'); // get_url_to_view_topic
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
 $db_Connection=new dbConnect();
@@ -42,7 +43,7 @@ $team_id = $curTeam['id'];
 			<leader>".xmlencode($curTeam['createdby'])."</leader>
 			<description>".xmlencode($curTeam['team_info'])."</description>
 			<website>".xmlencode($curTeam['webpage'])."</website>
-			<forums>".xmlencode($GLOBALS['forums_url']."/viewtopic.php?t=".$curTeam['topic_id'])."</forums>
+			<forums>".xmlencode(get_url_to_view_topic($curTeam['topic_id']))."</forums>
 			<totalmembers>".$curTeam['member_count']."</totalmembers>
 			<currentmembers>".$curTeam['active_members']."</currentmembers>
 			<retiredmembers>".($curTeam['member_count'] - $curTeam['active_members'])."</retiredmembers>";

@@ -5,6 +5,7 @@ include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'site_vars.php');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'ThemedTable.inc');
+include_once($relPath.'forum_interface.inc');
 include_once($relPath.'../stats/includes/common.inc');
 
 $team_avatars_dir = "$dyn_dir/teams/avatar";
@@ -106,12 +107,9 @@ function showTeamProfile($curTeam) {
         $joinquitlink = "&nbsp;[<a href='$op_url'>$colored_text</a>]";
     }
 
-    $last_post = mysql_query("SELECT post_time FROM phpbb_posts WHERE topic_id = ".$curTeam['topic_id']." ORDER BY post_time DESC LIMIT 1");
-    if ($last_post && mysql_num_rows($last_post) > 0) {
-        $last_post_date = mysql_result($last_post,0,"post_time");
+    $last_post_date = get_last_post_time_in_topic($curTeam['topic_id']);
+    if ($last_post_date != NULL) {
         $last_post_date = date("n/j/Y g:i:sA", $last_post_date);
-    } else {
-        $last_post_date = NULL;
     }
 
     $now = time();

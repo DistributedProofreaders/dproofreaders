@@ -6,6 +6,7 @@ include_once($relPath.'privacy.inc');
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'forum_interface.inc');
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
 $db_Connection=new dbConnect();
@@ -58,7 +59,6 @@ echo "</tr>";
 if (!empty($mRows)) {
 	$i = 0;
 	while ($row = mysql_fetch_assoc($mResult)) {
-        	$phpbbID = mysql_query("SELECT user_id FROM phpbb_users WHERE username = '".$row['username']."' LIMIT 1");
         	if (($i % 2) == 0) { echo "<tr bgcolor='".$theme['color_mainbody_bg']."'>"; } else { echo "<tr bgcolor='".$theme['color_navbar_bg']."'>"; }
 
 		if ( can_reveal_details_about($row['username'], $row['u_privacy']) ) {
@@ -66,7 +66,8 @@ if (!empty($mRows)) {
 			echo "<td width='5%' align='center'><b>".$row['u_id']."</b></td>";
 			echo "<td width='25%'>".$row['username']."</td>";
 			echo "<td width='22%' align='center'>".date("m/d/Y", $row['date_created'])."</td>";
-			echo "<td width='23%' align='center'><b><a href='mdetail.php?id=".$row['u_id']."'>"._("Statistics")."</a>&nbsp;|&nbsp;<a href='$forums_url/privmsg.php?mode=post&u=".mysql_result($phpbbID, 0, "user_id")."'>"._("PM")."</a></b></td>";
+			$contact_url = get_url_to_compose_message_to_user($row['username']);
+			echo "<td width='23%' align='center'><b><a href='mdetail.php?id=".$row['u_id']."'>"._("Statistics")."</a>&nbsp;|&nbsp;<a href='$contact_url'>"._("PM")."</a></b></td>";
 
 		} else {
 			// Print Anonymous Info
