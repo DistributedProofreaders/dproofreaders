@@ -10,6 +10,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'filter_project_list.inc');
+include_once($relPath.'forum_interface.inc');
 
 $pool_id = @$_GET['pool_id'];
 
@@ -373,19 +374,19 @@ function show_projects_in_state_plus(
         }
 
         $foo_username = $book[$pool->foo_field_name];
-        $users = mysql_query("SELECT user_id, user_email FROM phpbb_users WHERE username = '$foo_username'");
+        $user_id = get_forum_user_id($foo_username);
         
-        if ( mysql_num_rows($users) > 0 )
+        if ( $user_id != NULL )
         {
             if ($show_email)
             {
-                $foo_email = mysql_result($users, 0, "user_email");
+                $foo_email = get_forum_email_address($username);
                 $foo_cell = "<A HREF=\"mailto:$foo_email\">".$book[$pool->foo_field_name]."</A>";
             }
             else
             {
-                $foo_userid = mysql_result($users, 0, "user_id");
-                $foo_cell = "<A HREF=\"".$GLOBALS['forums_url']."/privmsg.php?mode=post&u=$foo_userid\">".$book[$pool->foo_field_name]."</A>";
+                $contact_url = get_url_to_compose_message_to_user($foo_username);
+                $foo_cell = "<a href='$contact_url'>".$book[$pool->foo_field_name]."</a>";
             }
         }
         else
