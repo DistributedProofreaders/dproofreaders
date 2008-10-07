@@ -7,6 +7,7 @@ $db_Connection=new dbConnect();
 include_once($relPath.'dpsession.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'forum_interface.inc');
 
 function abort_login( $error )
 {
@@ -67,14 +68,8 @@ if ($userPW == '')
     abort_login($error);
 }
 
-// Look for user in 'phpbb_users' table.
-$digested_password = MD5($userPW);
-$q = "
-    SELECT * FROM phpbb_users
-    WHERE username='$userNM' AND user_password='$digested_password'
-";
-$bb_res = mysql_query($q) or die(mysql_error());
-if (mysql_num_rows($bb_res)==0)
+// Confirm a valid username and password
+if (!is_username_password_valid($userNM, $userPW))
 {
    abort_login(_("Username or password is incorrect."));
 }
@@ -115,7 +110,7 @@ dpsession_begin( $userNM );
 // Log into phpBB2
 if (is_dir($forums_dir))
 {
-    $user_id = mysql_result($bb_res, 0, "user_id");
+    $user_id = get_forum_user_id($userNM);
     define('IN_PHPBB', true);
     $phpbb_root_path = $forums_dir."/";
     include($phpbb_root_path.'extension.inc');

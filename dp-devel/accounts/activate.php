@@ -6,6 +6,7 @@ include_once($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 $db_link=$db_Connection->db_lk;
 include_once($relPath.'theme.inc');
+include_once($relPath.'forum_interface.inc');
 
 // A newly registered user has clicked the link in the welcoming e-mail and has thus
 // proved that the e-mail is working. It is time to 'activate' the account, i.e.
@@ -81,17 +82,7 @@ $profile_id = mysql_insert_id($db_link); // auto-incremented user_profiles.id
 $refString=sprintf("UPDATE users SET u_profile=$profile_id WHERE id='%s' AND username='%s'", mysql_real_escape_string($ID), mysql_real_escape_string($username));
 $makeRef=mysql_query($refString);
 
-//code from php forums bb_register.php
-$sql = "SELECT max(user_id) AS total FROM phpbb_users";
-if(!$r = mysql_query($sql))
-    die("Error connecting to the database.");
-list($total) = mysql_fetch_array($r);
-mysql_free_result($r);
-$currtime = time();
-
-$total += 1;
-$sql = sprintf("INSERT INTO phpbb_users (user_id, username, user_regdate, user_timezone, user_lang, user_email, user_password, user_viewemail) VALUES ($total, '%s', $currtime, -8.00, '%s', '%s', '%s', 0)", mysql_real_escape_string($username), (phpbb_lang()?phpbb_lang():"english"), mysql_real_escape_string($email), mysql_real_escape_string($passwd));
-$result = mysql_query($sql);
+create_forum_user($username, $passwd, $email, TRUE);
 
 // Send them an introduction e-mail
 maybe_welcome_mail($email, $real_name, $username);
