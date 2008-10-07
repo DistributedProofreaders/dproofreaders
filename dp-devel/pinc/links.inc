@@ -1,5 +1,6 @@
 <?PHP
 include_once($relPath.'site_vars.php');
+include_once($relPath.'forum_interface.inc');
 
 function new_window_link( $href, $linktext )
 // Returns a string containing a snippet of HTML
@@ -55,16 +56,14 @@ function private_message_link( $proofer_username, $target="_blank" )
 // specified user
 {
     global $code_url;
-    global $forums_url;
-
-    // get proofer's phpBB userID
-    $userid=_get_uid_from_username( $proofer_username );
 
     $targetString="";
     if(!empty($target))
         $targetString = " target='$target'";
 
-    $a = "<a href='$forums_url/privmsg.php?mode=post&amp;u=$userid' $targetString>$proofer_username</a>";
+    $message_url = get_url_to_compose_message_to_user($proofer_username);
+
+    $a = "<a href='$message_url' $targetString>$proofer_username</a>";
 
     if($target == "_blank") {
         $title = _('Link opens in a new window');
@@ -75,28 +74,6 @@ function private_message_link( $proofer_username, $target="_blank" )
 
     return $a;
 }
-
-function _get_uid_from_username( $username )
-// returns the phpBB userID for a given dp username
-{
-    // use a local in-memory cache so we don't pummel the database
-    // for pages that end up calling this for the same small set 
-    // of users over and over. cache is local to this function
-    static $uidCache;
-    // if it's in the cache, return it
-    if(isset($uidCache[$username])) return $uidCache[$username];
-
-    $query="SELECT user_id FROM phpbb_users WHERE username='$username'";
-    $result = mysql_query($query);
-    list($userid) = mysql_fetch_array( $result );
-    mysql_free_result($result);
-
-    // update the cache
-    $uidCache[$username] = $userid;
-
-    return $userid;
-}
-
 
 // vim: sw=4 ts=4 expandtab
 ?>
