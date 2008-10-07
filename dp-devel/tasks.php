@@ -6,6 +6,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'forum_interface.inc');
 $no_stats=1;
 theme('Task Center','header');
 ?><script language='javascript'><!--
@@ -407,7 +408,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
         ShowNotification("You must supply a valid related task id number.");
     }
 } elseif (isset($_POST['new_relatedposting'])) {
-    $checkTopicExists = mysql_query("SELECT 1 FROM phpbb_topics WHERE topic_id = ".$_POST['related_posting']."");
+    $checkTopicExists = does_topic_exist($_POST['related_posting']);
     $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = ".$_POST['new_relatedposting']."");
     $relatedpostings_array = unserialize(base64_decode(mysql_result($result, 0, "related_postings")));
     if (!is_array($relatedpostings_array)) { $relatedpostings_array = array(); }
@@ -895,11 +896,10 @@ function RelatedPostings($tid) {
         $related_postings = unserialize(base64_decode($related_postings));
         asort($related_postings);
         while (list($key, $val) = each($related_postings)) {
-            $result = mysql_query("SELECT phpbb_topics.topic_title AS Title, phpbb_topics.topic_replies AS Replies, 
-                phpbb_forums.forum_name AS Forum, phpbb_forums.forum_id As ForumID, phpbb_users.username AS Username FROM phpbb_topics 
-                INNER JOIN phpbb_forums ON phpbb_topics.forum_id = phpbb_forums.forum_id INNER JOIN 
-                phpbb_users ON phpbb_topics.topic_poster = phpbb_users.user_id WHERE phpbb_topics.topic_id = ".$val."") OR die(mysql_error());
-            while ($row = mysql_fetch_assoc($result)) { echo "<br><font face='Verdana' color='#000000' style='font-size: 11px'><a href='$forums_url/viewforum.php?f=".$row['ForumID']."'>".$row['Forum']."</a>&nbsp;&raquo;&nbsp;<a href='$forums_url/viewtopic.php?t=$val'>".$row['Title']."</a> (Posted by: ".$row['Username']." - ".$row['Replies']." replies)</font>\n"; }
+            $row = get_topic_details($val);
+            $forum_url = get_url_to_view_forum($row["forum_id"]);
+            $topic_url = get_url_to_view_topic($row["topic_id"]);
+            echo "<br><font face='Verdana' color='#000000' style='font-size: 11px'><a href='$forum_url'>".$row['forum_name']."</a>&nbsp;&raquo;&nbsp;<a href='$topic_url'>".$row['title']."</a> (Posted by: ".$row['creator_username']." - ".$row['num_replies']." replies)</font>\n";
         }
     }
     echo "</td></tr></table></form>";
