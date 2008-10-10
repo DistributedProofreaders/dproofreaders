@@ -80,8 +80,7 @@ echo $navigation_text;
 $url = "$code_url/project.php?id=$projectid&amp;expected_state=$state";
 $label = _("Go to Project Page");
 
-echo "\n<a href='$url'>$label</a>\n";
-echo "<br />\n";
+echo "\n<p><a href='$url'>$label</a></p>\n";
 
 // ---------------------------------------------------------
 
@@ -94,8 +93,7 @@ $diffEngine->showDiff($L_text, $R_text, $L_label, $R_label);
 // we reverse the order here for symmetry :)
 if ($L_text != $R_text)
 {
-    echo "\n<a href='$url'>$label</a>\n";
-    echo "<br />\n<br />\n";
+    echo "\n<p><a href='$url'>$label</a></p>\n";
     echo $navigation_text;
 }
 theme("", "footer");
