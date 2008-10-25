@@ -119,8 +119,17 @@ if (is_dir($forums_dir))
     session_begin($user_id, $user_ip, PAGE_INDEX, false, 1);
 }
 
+// It's possible that a user might be redirected back to this page after
+// a successful login in this scenario:
+//   1. User logs in with an incorrect password and ends up on login.php.
+//   2. While on login.php user logs in with a correct password and is
+//      redirected back to login.php as that was the page they were on
+//      prior to login.
+//   3. User is presented with an error message since $_POST has no login
+//      information.
+// To avoid this case we ignore $destination if it points to login.php.
 // send them to the correct page
-if (!empty($destination))
+if (!empty($destination) && $destination != $_SERVER["REQUEST_URI"])
 {
     // They were heading to $destination (via a bookmark, say)
     // when we sidetracked them into the login pages.
