@@ -249,7 +249,7 @@ function get_last_post_time_in_topic($topic_id)
 // If no topic is found, function returns NULL.
 {
     // Validate that $topic_id is an integer and if not, return NULL
-    if(!is_int($topic_id))
+    if(!is_numeric($topic_id))
         return NULL;
 
     $query = "
