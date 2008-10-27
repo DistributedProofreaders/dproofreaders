@@ -4,7 +4,7 @@
 // This includes displaying the form, processing updates made from the form,
 // and getting the filter values from the user_filters table.
 //
-// For consistencly the form field names (also $field and $fields in the
+// For consistency the form field names (also $field and $fields in the
 // functions) use the corresponding column name from the projects table. Hence
 // the field name for the Post Processor is checkedoutby and the field for
 // Project Managers is username.
@@ -43,9 +43,9 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
         $display_fields=array_merge($display_fields, $custom_display_fields);
 
     // if no fields are set for display, we have nothing to do
-    $is_any_field_displayed = TRUE;
+    $is_any_field_displayed = FALSE;
     foreach($display_fields as $field => $is_displayed)
-        $is_any_field_displayed |= $is_displayed;
+        $is_any_field_displayed ||= $is_displayed;
 
     if(!$is_any_field_displayed)
         return;
@@ -111,7 +111,7 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
 
     echo "</tr>\n";
 
-    // if enabled, the langauge selection will be on a row by itself
+    // if enabled, the language selection will be on a row by itself
     if($display_fields["language"])
     {
         echo "<tr>";
@@ -218,6 +218,8 @@ function maybe_update_project_filter($username, $filter_type, $data, $state_sql)
         }
 
         // if we have any filter segments, build the filter
+        // note the the filter needs to be parseable by
+        // _populate_project_filter_data_from_filter()
         if(count($filter_segments))
         {
             $filter.=" AND (" . implode(" OR ", $filter_segments) . ")";
@@ -328,7 +330,7 @@ function _build_project_filter_select($label, $all_label, $name, $options, $sele
 //   $options   - an array containing the options
 //   $selected  - an array containing already-selected values
 //   $size      - the size of the <select>, by default this is 4
-//   $are_options_associativea - if the options are an associative array,
+//   $are_options_associative - if the options are an associative array,
 //       this needs to be set to TRUE, otherwise a flat array is assumed
 //   $colspan   - the colspan value for the <td>, by default this is left off
 //
@@ -387,7 +389,8 @@ function _populate_project_filter_data_from_filter($filter)
 {
     $data = array();
 
-    // clean up no-ops and redundant strings in the filter
+    // remove no-ops and redundant strings in the filter
+    // that were used in older code
     $noops = array("/1\s+AND\s+/i","/0\s+OR\s+/i","/projects\./");
     $filter = preg_replace($noops,"",$filter);
 
