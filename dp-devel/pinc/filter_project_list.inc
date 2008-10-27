@@ -45,7 +45,7 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
     // if no fields are set for display, we have nothing to do
     $is_any_field_displayed = FALSE;
     foreach($display_fields as $field => $is_displayed)
-        $is_any_field_displayed ||= $is_displayed;
+        $is_any_field_displayed = $is_any_field_displayed || $is_displayed;
 
     if(!$is_any_field_displayed)
         return;
