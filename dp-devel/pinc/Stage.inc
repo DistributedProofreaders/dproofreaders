@@ -117,7 +117,9 @@ class Stage
     // -- all_minima_satisfied:
     //         boolean
     // -- request_status:
-    //         enumerated type
+    //         enumerated type: sat-unneeded, sat-granted, sat-available, sat-requested,
+    //                          sat-wait,
+    //                          unsat-granted, unsat-requested, unsat-ungranted
     // -- evaluation_criteria:
     //         message to display about evaluation
     // 
@@ -135,7 +137,10 @@ class Stage
         $user_scores = get_user_scores($username);
 
         // -----------------------------------
-
+        // recorded_access is the value recorded in the db for whether the user
+        // can access this stage. It's read from the usersettings table.
+        // If there is a relevant usersetting, it can take values 'yes' or 'no'.
+        // No relevant usersetting has the same effect as 'no'.
         {
             $res = mysql_query("
                 SELECT value
@@ -182,6 +187,7 @@ class Stage
 
         if ($uao->all_minima_satisfied)
         {
+            // They've satisfied the requirements...
             switch ($this->after_satisfying_minima)
             {
                 case 'IMMEDIATE':
@@ -194,11 +200,13 @@ class Stage
                     // They must ask for access, but it is auto-granted.
                     if ( $recorded_access == 'yes' )
                     {
+                        // They already have access
                         $uao->request_status = 'sat-granted';
                         $uao->can_access = TRUE;
                     }
                     else
                     {
+                        // They haven't asked yet, but can
                         $uao->request_status = 'sat-available';
                         $uao->can_access = FALSE;
                     }
@@ -208,16 +216,19 @@ class Stage
                     // They must ask for access, and it must be human-granted.
                     if ( $recorded_access == 'yes' )
                     {
+                        // They already have access
                         $uao->request_status = 'sat-granted';
                         $uao->can_access = TRUE;
                     }
                     elseif ( $recorded_access == 'requested' )
                     {
+                        // They've asked, but it hasn't been granted yet
                         $uao->request_status = 'sat-requested';
                         $uao->can_access = FALSE;
                     }
                     else
                     {
+                        // They haven't asked yet, but can
                         $uao->request_status = 'sat-available';
                         $uao->can_access = FALSE;
                     }
@@ -229,11 +240,13 @@ class Stage
                     // they are approved.
                     if ( $recorded_access == 'yes' )
                     {
+                        // They already have access
                         $uao->request_status = 'sat-granted';
                         $uao->can_access = TRUE;
                     }
                     else
                     {
+                        // They are waiting
                         $uao->request_status = 'sat-wait';
                         $uao->can_access = FALSE;
                     }
@@ -245,13 +258,16 @@ class Stage
         }
         else
         {
+            // They don't satisfy the requirements
             if ( $recorded_access == 'yes' )
             {
+                // but they already have access anyway
                 $uao->request_status = 'unsat-granted';
                 $uao->can_access = TRUE;
             }
             elseif ( $recorded_access == 'requested' )
             {
+                // but they've requested access, but don't have it yet
                 // This is unusual, but can happen.
                 // E.g., at some point in the past, they satisfied the minima and
                 // requested access, but now they no longer satisfy the minima
@@ -261,6 +277,7 @@ class Stage
             }
             else
             {
+                // and they can't ask for access
                 $uao->request_status = 'unsat-ungranted';
                 $uao->can_access = FALSE;
             }
