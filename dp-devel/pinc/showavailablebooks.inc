@@ -51,6 +51,15 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
 {
     global $code_url, $userP, $pguser;
 
+    // Some columns (notably those with numbers in them)
+    // have special formatting styles -- specify them here.
+    $column_styles = array(
+        "n_available_pages" => "text-align: center;",
+        "n_pages"   => "text-align: center;",
+        "days"      => "text-align: center;",
+        "days_left" => "text-align: center;"
+    );
+    
     // Load the sort column and direction
     list($sort_column, $sort_direction) = process_sorting_control($columns, $user_setting);
 
@@ -115,7 +124,7 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
     foreach($columns as $name => $label)
     {
         echo "<td>"; 
-    
+
         $link_sort_by=$name;
         if($name == $sort_column)
             $link_sort_by .= ":" . ($sort_direction == "asc" ? "desc" : "asc");
@@ -197,8 +206,13 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
                 $cell = $book[$name];
             }
 
+            // Determine any special style formatting.
+            $style_attribute="";
+            if(@$column_styles[$name])
+                $style_attribute="style='{$column_styles[$name]}'";
+
             // Finally, output the table cell.
-            echo "\n<td>$cell</td>";
+            echo "\n<td $style_attribute>$cell</td>";
         }
 
         $rownum++;
