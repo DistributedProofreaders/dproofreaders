@@ -13,18 +13,16 @@ function show_block_for_round( $round_number, $projects_filter )
 
     $setting = "{$round->id}_order";
 
-    // read saved sort orders from user_settings table 
-    $order_old = get_sort_criteria( $pguser, $setting, 'DaysA' );
-
-    // read new sort order from url, if any
-    $url_param = "order{$round->id}";
-    $order_new = (isset($_GET[$url_param]) ? $_GET[$url_param] : $order_old );
-
-    // if orders have changed, save them to database
-    if ($order_new != $order_old)
-    {
-        set_sort_criteria( $pguser, $setting, $order_new );
-    }
+    $columns = array(
+        "nameofwork"  => _("Title"),
+        "authorsname" => _("Author"),
+        "language"    => _("Language"),
+        "genre"       => _("Genre"),
+        "username"    => _("Project Manager"),
+        "n_available_pages" => _("Available Pages"),
+        "n_pages"     => _("Total Pages"),
+        "days_avail"  => _("Days")
+    );
 
     $where_filter = "state = '{$round->project_available_state}'";
     $where_filter .= " $projects_filter";
@@ -34,106 +32,36 @@ function show_block_for_round( $round_number, $projects_filter )
     echo "\n<h3>$title</h3>";
     echo "\n<p>{$round->description}</p>";
 
-    show_project_listing( $round, $where_filter, $order_new );
+    show_project_listing( $round, $setting, $columns, $where_filter );
 }
 
 // -----------------------------------------------------------------------------
 
-function show_project_listing( $stage, $where_filter = " ", $order = "DaysD" )
+function show_project_listing( $stage, $user_setting, $columns, $where_filter = " " )
 {
     global $code_url, $userP;
 
-    $flip_title = FALSE;
-    $flip_author = FALSE;
-    $flip_lang = FALSE;
-    $flip_genre = FALSE;
-    $flip_PM = FALSE;
-    $flip_PgAv = FALSE;
-    $flip_PgTot = FALSE;
-    $flip_days = FALSE;
-    
-    if ( $order == 'TitleA' )
-    {
-        $orderclause = 'nameofwork ASC';
-        $flip_title = TRUE;
-    }
-    elseif ( $order == 'TitleD' )
-    {
-        $orderclause = 'nameofwork DESC';
-    }
-    elseif ( $order == 'AuthorA' )
-    {
-        $orderclause = 'authorsname ASC, nameofwork ASC';
-        $flip_author = TRUE;
-    }    
-    elseif ( $order == 'AuthorD' )
-    {
-        $orderclause = 'authorsname DESC, nameofwork ASC';
-    }
-    elseif ( $order == 'LangA' )
-    {
-        $orderclause = 'language ASC, nameofwork ASC';
-        $flip_lang = TRUE;
-    }
-    elseif ( $order == 'LangD' )
-    {
-        $orderclause = 'language DESC, nameofwork ASC';
-    }
-    elseif ( $order == 'GenreA' )
-    {
-        $orderclause = 'genre ASC, nameofwork ASC';
-        $flip_genre = TRUE;
-    }
-    elseif ( $order == 'GenreD' )
-    {
-        $orderclause = 'genre DESC, nameofwork ASC';
-    }
-    elseif ( $order == 'PMA' )
-    {
-        $orderclause = 'username ASC, nameofwork ASC';
-        $flip_PM = TRUE;
-    }
-    elseif ( $order == 'PMD' )
-    {
-        $orderclause = 'username DESC, nameofwork ASC';
-    }
-    elseif ( $order == 'PgAvA' )
-    {
-        $orderclause = 'n_available_pages ASC, nameofwork ASC';
-        $flip_PgAv = TRUE;
-    }
-    elseif ( $order == 'PgAvD' )
-    {
-        $orderclause = 'n_available_pages DESC, nameofwork ASC';
-    }
-    elseif ( $order == 'PgTotA' )
-    {
-        $orderclause = 'n_pages ASC, nameofwork ASC';
-        $flip_PgTot = TRUE;
-    }
-    elseif ( $order == 'PgTotD' )
-    {
-        $orderclause = 'n_pages DESC, nameofwork ASC';
-    }
+    // Load the sort column and direction
+    list($sort_column, $sort_direction) = process_sorting_control($columns, $user_setting);
 
-    // note that we SHOW "days since M", but *order* by M, so the logic is flipped
-
-    elseif ( $order == 'DaysA' )
+    // Determine SQL order by criteria based on the sorting information.
+    if($sort_column == "days")
     {
-        $orderclause = 'modifieddate DESC, nameofwork ASC';
-        $flip_days = TRUE;
-    }
-    elseif ( $order == 'DaysD' )
-    {
-        $orderclause = 'modifieddate ASC, nameofwork ASC';
+        $orderclause = "modifieddate $sort_direction";
     }
     else
     {
-        echo "showavailablebooks.inc: bad order value: '$order'";
-        exit;
+        $orderclause = "$sort_column $sort_direction";
     }
 
-    $order_param = "order{$stage->id}";
+    // Sort on nameofwork ASC as a secondary criteria if it isn't the primary
+    // criteria.
+    if($sort_column != "nameofwork")
+    {
+        $orderclause .= ", nameofwork ASC";
+    }
+
+    $order_param = "{$user_setting}_sort_by";
 
     // The originating request may have query-string settings (other than
     // for $order_param). We should preserve those, and just append the
@@ -146,9 +74,6 @@ function show_project_listing( $stage, $where_filter = " ", $order = "DaysD" )
             $other_settings .= "$name=$value&amp;";
         }
     }
-
-    $linkbase = "<a href='?{$other_settings}{$order_param}=";
-    $linkend = "#{$stage->id}'";
 
     // $presort allows us to place certain projects at the top of all project
     // listings such as BEGIN projects, but only for Rounds.
@@ -176,37 +101,19 @@ function show_project_listing( $stage, $where_filter = " ", $order = "DaysD" )
 
     echo "<tr align=center bgcolor='{$stage->listing_bgcolors[1]}'>";
 
-    $word = _("Title");
-    $link = $linkbase.($flip_title?"TitleD":"TitleA")."$linkend>";
-    echo "\n<td>$link<b>$word</b></a></td>";
+    // Print out the header row with links.
+    foreach($columns as $name => $label)
+    {
+        echo "<td>"; 
+    
+        $link_sort_by=$name;
+        if($name == $sort_column)
+            $link_sort_by .= ":" . ($sort_direction == "asc" ? "desc" : "asc");
 
-    $word = _("Author");
-    $link = $linkbase.($flip_author?"AuthorD":"AuthorA")."$linkend>";
-    echo "\n<td>$link<b>$word</b></a></td>";
+        echo "<b><a href='?{$other_settings}{$order_param}=$link_sort_by#{$stage->id}'>$label</a></b>";
 
-    $word = _("Language");
-    $link = $linkbase.($flip_lang?"LangD":"LangA")."$linkend>";
-    echo "\n<td>$link<b>$word</b></a></td>";
-
-    $word = _("Genre");
-    $link = $linkbase.($flip_genre?"GenreD":"GenreA")."$linkend>";
-    echo "\n<td>$link<b>$word</b></a></td>";
-
-    $word = _("Project Manager");
-    $link = $linkbase.($flip_PM?"PMD":"PMA")."$linkend>";
-    echo "\n<td>$link<b>$word</b></a></td>";
-
-    $word = _("Available Pages");
-    $link = $linkbase.($flip_PgAv?"PgAvD":"PgAvA")."$linkend>";
-    echo "\n<td>$link<b>$word</b></a></td>";
-
-    $word = _("Total Pages");
-    $link = $linkbase.($flip_PgTot?"PgTotD":"PgTotA")."$linkend>";
-    echo "\n<td>$link<b>$word</b></a></td>";
-
-    $word = _("Days");
-    $link = $linkbase.($flip_days?"DaysD":"DaysA")."$linkend>";
-    echo "\n<td>$link<b>$word</b></a></td>";
+        echo "</td>";
+    }
 
     echo "</tr>";
 
@@ -237,50 +144,137 @@ function show_project_listing( $stage, $where_filter = " ", $order = "DaysD" )
         }
 
         echo "<tr bgcolor='$bgcolor'>";
-        $eURL = "$code_url/project.php?id={$book['projectid']}&amp;expected_state={$book['state']}";
-        if ($userP['i_newwin']==0)
-            {$temp="<a href=\"$eURL\">";}
-        else
-            {$temp="<a href=\"$eURL\" onclick=\"newProofWin('$eURL'); return false;\">";}
-        $temp.="{$book['nameofwork']}</a>";
-        echo "\n<td>$temp</td>";
-        echo "\n<td>{$book['authorsname']}</td>";
-        echo "\n<td>{$book['language']}</td>";
-        if ($book['difficulty'] == "beginner")
+        foreach($columns as $name => $label)
         {
-            $genre = $book['genre'];
-            if( is_a( $stage, 'Round' ) )
+            $cell = "";
+            if($name == "nameofwork")
             {
-                if ( $stage->is_a_mentee_round() )
-                    $genre = _("BEGINNERS ONLY")." ".$book['genre'];
-                else if ( $stage->is_a_mentor_round() )
-                    $genre = _("MENTORS ONLY")." ".$book['genre'];
+                $eURL = "$code_url/project.php?id={$book['projectid']}&amp;expected_state={$book['state']}";
+                if ($userP['i_newwin']==0)
+                    {$cell="<a href=\"$eURL\">";}
+                else
+                    {$cell="<a href=\"$eURL\" onclick=\"newProofWin('$eURL'); return false;\">";}
+                $cell.="{$book['nameofwork']}</a>";
             }
-        }
-        elseif ($book['difficulty'] == "easy")
-        {
-            $genre = _("EASY")." ".$book['genre'];
-        }
-        elseif ($book['difficulty'] == "hard")
-        {
-            $genre = _("HARD")." ".$book['genre'];
-        }
-        else
-        {
-            $genre = $book['genre'];
-        }
-        echo "\n<td>$genre</td>";
-        echo "\n<td>{$book['username']}</td>";
+            elseif($name == "genre")
+            {
+                if ($book['difficulty'] == "beginner")
+                {
+                    $genre = $book['genre'];
+                    if( is_a( $stage, 'Round' ) )
+                    {
+                        if ( $stage->is_a_mentee_round() )
+                            $genre = _("BEGINNERS ONLY")." ".$book['genre'];
+                        else if ( $stage->is_a_mentor_round() )
+                            $genre = _("MENTORS ONLY")." ".$book['genre'];
+                    }
+                }
+                elseif ($book['difficulty'] == "easy")
+                {
+                    $genre = _("EASY")." ".$book['genre'];
+                }
+                elseif ($book['difficulty'] == "hard")
+                {
+                    $genre = _("HARD")." ".$book['genre'];
+                }
+                else
+                {
+                   $genre = $book['genre'];
+                }
+                $cell = $genre;
+            }
+            else
+            {
+                $cell = $book[$name];
+            }
 
-        echo "\n<td align=center>{$book['n_available_pages']}</td>";
-        echo "\n<td align=center>{$book['n_pages']}</td>";
-
-        echo "\n<td align=center>{$book['days_avail']}</td>";
+            // Finally, output the table cell.
+            echo "\n<td>$cell</td>";
+        }
 
         $rownum++;
     }
 
     echo "</table>\n<br>";
+}
+
+// -----------------------------------------------------------------------------
+
+function process_sorting_control($columns, $user_setting = NULL)
+// This function's purpose is to intelligently determine the user's
+// intent for a sort criteria. It does this by:
+//   1. Checking $_GET for explicit sort order changes
+//   2. If that fails pulling the previous sort order from the database
+//   3. If that fails using a default sort order (first column) 
+// After we have a sort criteria, validate it and fall back to
+// the default sort column in ascending order if necessary.
+// After validation the sort criteria is written to the database.
+// Arguments:
+//   $columns      - an associative array containing the valid columns in the
+//                   table
+//   $user_setting - the setting to use in the usersettings table. This value
+//                   is also used in determining the sort order via the URL.
+//                   Doing so allows for multiple tables to be on the same
+//                   page and sorted in different orders.
+// Returns the array($sort_column, $sort_direction):
+//   $sort_column    - name of the column to sort by
+//   $sort_direction - direction to sort by (asc or desc)
+{
+    global $pguser;
+
+    // The default sort column is the first entry in $columns.
+    $default_sort_column = array_shift(array_keys($columns));
+
+    // Read new sort order from URL, if any.
+    $sort_by = array_get($_GET, "{$user_setting}_sort_by", NULL);
+
+    // If that failed $sort_by will be set to NULL in which case we use the
+    // value from the database.
+    if($user_setting && $sort_by == NULL)
+    {
+        $sort_by = get_sort_criteria( $pguser, $user_setting, NULL );
+    }
+
+    // If that failed (there was no previous sort order) fall back to the
+    // default value (first column).
+    if($sort_by == NULL)
+    {
+        $sort_by = $default_sort_column;
+    }
+
+    // Parse the $sort_by into its column:direction parts.
+    list($sort_column, $sort_direction) = explode(":", $sort_by);
+
+    // Confirm $sort_column is in $columns and if not, use the first entry.
+    if(!array_key_exists($sort_column, $columns))
+    {
+        $sort_column = $default_sort_column;
+    }
+
+    // Default to ascending for the sort direction if none is specified
+    // or if we don't recognize the sort direction.
+    if(empty($sort_direction) || !in_array($sort_direction, array("asc", "desc")))
+    {
+        $sort_direction="asc";
+    }
+
+    // Recombine into $sort_by after error checking and correction.
+    $sort_by="$sort_column:$sort_direction";
+
+    // If a $user_setting was provided, save the results to the database.
+    if($user_setting)
+    {
+        // Load the previous search criteria.
+        $sort_by_old = get_sort_criteria( $pguser, $user_setting, NULL );
+
+        // If orders have changed, save them to database.
+        if ($sort_by != $sort_by_old)
+        {
+            set_sort_criteria( $pguser, $user_setting, $sort_by );
+        }
+    }
+
+    return array($sort_column, $sort_direction);
 }
 
 // -----------------------------------------------------------------------------
