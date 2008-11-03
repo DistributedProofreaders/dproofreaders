@@ -14,19 +14,7 @@ function show_block_for_round( $round_number, $projects_filter )
     $setting = "{$round->id}_order";
 
     // read saved sort orders from user_settings table 
-    $result = mysql_query("
-        SELECT value
-        FROM usersettings
-        WHERE username = '$pguser' AND setting = '$setting'"
-    );
-    if (mysql_num_rows($result) >= 1)
-    {
-        $order_old = mysql_result($result, 0, "value");
-    }
-    else
-    {
-        $order_old = 'DaysA';
-    }
+    $order_old = get_sort_criteria( $pguser, $setting, 'DaysA' );
 
     // read new sort order from url, if any
     $url_param = "order{$round->id}";
@@ -35,14 +23,7 @@ function show_block_for_round( $round_number, $projects_filter )
     // if orders have changed, save them to database
     if ($order_new != $order_old)
     {
-        $result = mysql_query("
-            DELETE FROM usersettings
-            WHERE username = '$pguser' AND setting = '$setting'
-        ");
-        $result = mysql_query("
-            INSERT INTO usersettings
-            VALUES ('$pguser', '$setting', '$order_new')
-        ");
+        set_sort_criteria( $pguser, $setting, $order_new );
     }
 
     echo "\n<a name='{$round->id}'></a>";
@@ -295,6 +276,52 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
         $rownum++;
     }
 
+}
+
+// -----------------------------------------------------------------------------
+
+function get_sort_criteria( $username, $user_setting, $default = "" )
+// Return the sort criteria for a specific user and user_setting (ie: table).
+// Arguments:
+//   $username     - user for which to load the sort order
+//   $user_setting - setting name to use
+//   $default      - value to return if no previous setting was found
+// Returns:
+//   $sort_by      - the value returned from the database or $default
+{
+    $result = mysql_query("
+        SELECT value
+        FROM usersettings
+        WHERE username = '$username' AND setting = '$user_setting'"
+    );
+    if (mysql_num_rows($result) >= 1)
+    {
+        $sort_by = mysql_result($result, 0, "value");
+        mysql_free_result($result);
+    }
+    else
+    {
+        $sort_by = $default;
+    }
+
+    return $sort_by;
+}
+
+function set_sort_criteria( $username, $user_setting, $sort_by )
+// Sets the sort criteria for a specific user and user_setting (ie: table)
+// Arguments:
+//   $username     - user for which to save the sort criteria
+//   $user_setting - setting name to use
+//   $sort_by      - sort criteria to save
+{
+    $result = mysql_query("
+        DELETE FROM usersettings
+        WHERE username = '$username' AND setting = '$user_setting'
+    ");
+    $result = mysql_query("
+        INSERT INTO usersettings
+        VALUES ('$username', '$user_setting', '$sort_by')
+    ");
 }
 
 // vim: sw=4 ts=4 expandtab
