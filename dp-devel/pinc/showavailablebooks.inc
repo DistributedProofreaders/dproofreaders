@@ -26,12 +26,15 @@ function show_block_for_round( $round_number, $projects_filter )
         set_sort_criteria( $pguser, $setting, $order_new );
     }
 
+    $where_filter = "state = '{$round->project_available_state}'";
+    $where_filter .= " $projects_filter";
+
     echo "\n<a name='{$round->id}'></a>";
     $title = _('Projects Currently Available');
     echo "\n<h3>$title</h3>";
     echo "\n<p>{$round->description}</p>";
 
-    show_books_available_for_proofing( $round, $userP, $projects_filter, $order_new );
+    show_books_available_for_proofing( $round, $userP, $where_filter, $order_new );
 }
 
 // -----------------------------------------------------------------------------
@@ -156,7 +159,6 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
             round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) AS days_avail
         FROM projects
         WHERE
-            (state = '{$round->project_available_state}')
             $where_filter
         ORDER BY
             $presort
