@@ -32,14 +32,24 @@ function show_block_for_round( $round_number, $projects_filter )
     echo "\n<h3>$title</h3>";
     echo "\n<p>{$round->description}</p>";
 
-    show_project_listing( $round, $setting, $columns, $where_filter );
+    show_project_listing( $round, $setting, $round->id, $columns, $where_filter );
 }
 
 // -----------------------------------------------------------------------------
 
-function show_project_listing( $stage, $user_setting, $columns, $where_filter = " " )
+function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_filter = " " )
+// Create the sortable project listing.
+// Arguments:
+//   $stage        - stage object (Round, Pool, or Stage)
+//   $user_setting - the setting value to use when saving the sort order
+//   $anchor       - the anchor on the page to jump to
+//   $columns      - the columns to include in the table, this is an associative
+//                   array with the key being the column name and the value
+//                   being the label
+//   $where_filter - the where filter for the projects table (usually a
+//                   combination of a state filter and a project filter)
 {
-    global $code_url, $userP;
+    global $code_url, $userP, $pguser;
 
     // Load the sort column and direction
     list($sort_column, $sort_direction) = process_sorting_control($columns, $user_setting);
@@ -84,7 +94,7 @@ function show_project_listing( $stage, $user_setting, $columns, $where_filter = 
         if (!empty($presort)) $presort .= ',';
     }
 
-    // Always put the BEGIN projects at the top.
+    // Build and execute the query against the projects table.
     $query = "
         SELECT *,
             round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) AS days_avail
@@ -97,8 +107,8 @@ function show_project_listing( $stage, $user_setting, $columns, $where_filter = 
     ";
     $result = mysql_query($query);
 
+    // Start the table.
     echo "\r\n<table border=1>";
-
     echo "<tr align=center bgcolor='{$stage->listing_bgcolors[1]}'>";
 
     // Print out the header row with links.
@@ -110,7 +120,7 @@ function show_project_listing( $stage, $user_setting, $columns, $where_filter = 
         if($name == $sort_column)
             $link_sort_by .= ":" . ($sort_direction == "asc" ? "desc" : "asc");
 
-        echo "<b><a href='?{$other_settings}{$order_param}=$link_sort_by#{$stage->id}'>$label</a></b>";
+        echo "<b><a href='?{$other_settings}{$order_param}=$link_sort_by#$anchor'>$label</a></b>";
 
         echo "</td>";
     }
@@ -122,7 +132,6 @@ function show_project_listing( $stage, $user_setting, $columns, $where_filter = 
     // background colors) in the project listing.
     // Regardless of the preference, don't display
     // special colors to newbies.
-    global $pguser;
     $userSettings =& Settings::get_Settings($pguser);
     $show_special_colors = (get_pages_proofed_maybe_simulated() >= 10
                                 && !$userSettings->get_boolean('hide_special_colors'));
