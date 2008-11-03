@@ -183,7 +183,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
             round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) AS days_avail
         FROM projects
         WHERE
-                   (state = '{$round->project_available_state}')
+            (state = '{$round->project_available_state}')
             $where_filter
         ORDER BY
             $presort
@@ -237,12 +237,10 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
     $show_special_colors = (get_pages_proofed_maybe_simulated() >= 10
                                 && !$userSettings->get_boolean('hide_special_colors'));
 
-    $numrows = mysql_num_rows($result);
     $rownum = 0;
-    $rownum2 = 0;
 
-    while ($rownum2 < $numrows) {
-        $book=mysql_fetch_assoc($result);
+    while ($book=mysql_fetch_assoc($result))
+    {
         $bgcolor = $round->listing_bgcolors[$rownum % 2];
 
         // Special colours for special books of various types
@@ -255,54 +253,46 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
             }
         }
 
-        if (TRUE)
+        echo "<tr bgcolor='$bgcolor'>";
+        $eURL = "$code_url/project.php?id={$book['projectid']}&amp;expected_state={$book['state']}";
+        if ($userP['i_newwin']==0)
+            {$temp="<a href=\"$eURL\">";}
+        else
+            {$temp="<a href=\"$eURL\" onclick=\"newProofWin('$eURL'); return false;\">";}
+        $temp.="{$book['nameofwork']}</a>";
+        echo "\n<td>$temp</td>";
+        echo "\n<td>{$book['authorsname']}</td>";
+        echo "\n<td>{$book['language']}</td>";
+        if ($book['difficulty'] == "beginner")
         {
-            echo "<tr bgcolor='$bgcolor'>";
-            $eURL = "$code_url/project.php?id={$book['projectid']}&amp;expected_state={$book['state']}";
-            if ($userP['i_newwin']==0)
-                {$temp="<a href=\"$eURL\">";}
+            if ( $round->is_a_mentee_round() )
+                $genre = _("BEGINNERS ONLY")." ".$book['genre'];
+            else if ( $round->is_a_mentor_round() )
+                $genre = _("MENTORS ONLY")." ".$book['genre'];
             else
-                {$temp="<a href=\"$eURL\" onclick=\"newProofWin('$eURL'); return false;\">";}
-            $temp.="{$book['nameofwork']}</a>";
-            echo "\n<td>$temp</td>";
-            echo "\n<td>{$book['authorsname']}</td>";
-            echo "\n<td>{$book['language']}</td>";
-            if ($book['difficulty'] == "beginner")
-            {
-                if ( $round->is_a_mentee_round() )
-                    $genre = _("BEGINNERS ONLY")." ".$book['genre'];
-                else if ( $round->is_a_mentor_round() )
-                    $genre = _("MENTORS ONLY")." ".$book['genre'];
-                else
-                    $genre = $book['genre'];
-            }
-            elseif ($book['difficulty'] == "easy")
-            {
-                $genre = _("EASY")." ".$book['genre'];
-            }
-            elseif ($book['difficulty'] == "hard")
-            {
-                $genre = _("HARD")." ".$book['genre'];
-            }
-            else
-            {
                 $genre = $book['genre'];
-            }
-            echo "\n<td>$genre</td>";
-            echo "\n<td>{$book['username']}</td>";
-
-            echo "\n<td align=center>{$book['n_available_pages']}</td>";
-            echo "\n<td align=center>{$book['n_pages']}</td>";
-
-            echo "\n<td align=center>{$book['days_avail']}</td>";
-
+        }
+        elseif ($book['difficulty'] == "easy")
+        {
+            $genre = _("EASY")." ".$book['genre'];
+        }
+        elseif ($book['difficulty'] == "hard")
+        {
+            $genre = _("HARD")." ".$book['genre'];
         }
         else
         {
-            $rownum--;
+            $genre = $book['genre'];
         }
+        echo "\n<td>$genre</td>";
+        echo "\n<td>{$book['username']}</td>";
+
+        echo "\n<td align=center>{$book['n_available_pages']}</td>";
+        echo "\n<td align=center>{$book['n_pages']}</td>";
+
+        echo "\n<td align=center>{$book['days_avail']}</td>";
+
         $rownum++;
-        $rownum2++;
     }
 
 }
