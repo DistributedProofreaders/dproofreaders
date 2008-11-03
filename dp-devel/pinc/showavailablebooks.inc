@@ -94,7 +94,7 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
     {
         if ( $name != $order_param )
         {
-            $other_settings .= "$name=$value&amp;";
+            $other_settings .= urlencode($name) . "=" . urlencode($value) . "&amp;";
         }
     }
 
@@ -110,7 +110,8 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
     // Build and execute the query against the projects table.
     $query = "
         SELECT *,
-            round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) AS days_avail
+            round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) AS days_avail,
+            round((smoothread_deadline - unix_timestamp())/(24 * 60 * 60)) AS days_left
         FROM projects
         WHERE
             $where_filter
