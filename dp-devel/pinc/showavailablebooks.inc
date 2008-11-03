@@ -35,6 +35,89 @@ function show_block_for_round( $round_number, $projects_filter )
     show_project_listing( $round, $setting, $round->id, $columns, $where_filter );
 }
 
+function show_projects_available_for_postprocessing( $pool, $checkedout_or_available, $projects_filter )
+// Print out the heading information and the table for the pool
+// project listing.
+{
+    global $pguser;
+
+    $columns = array(
+        "nameofwork"  => _("Title"),
+        "authorsname" => _("Author"),
+        "language"    => _("Language"),
+        "genre"       => _("Genre"),
+        "n_pages"     => _("Pages"),
+        $pool->foo_field_name => $pool->foo_Header,
+        "days_avail"  => _("Days")
+    );
+
+    if ( $checkedout_or_available == 'checkedout' )
+    {
+        $proj_state = $pool->project_checkedout_state;
+    }
+    elseif ( $checkedout_or_available == 'available' )
+    {
+        $proj_state = $pool->project_available_state;
+    }
+
+    $where_filter = "state = '$proj_state'";
+
+    if ( $checkedout_or_available == 'checkedout' )
+    {
+        // The project must be checked-out to somebody.
+        // We're only interested if it's checked out to the current user.
+        $where_filter .= " AND checkedoutby = '$pguser'";
+    }
+
+    $where_filter .= " $projects_filter";
+
+    $user_setting = "order_{$checkedout_or_available}";
+
+    show_project_listing( $pool, $user_setting, $checkedout_or_available, $columns, $where_filter );
+}
+
+function show_projects_available_for_smoothreading( $stage, $projects_filter )
+// Print out the heading information and the table for the pool
+// project listing.
+{
+    global $pguser;
+
+    $columns = array(
+        "nameofwork"  => _("Title"),
+        "authorsname" => _("Author"),
+        "language"    => _("Language"),
+        "genre"       => _("Genre")
+    );
+
+    // only show PM, PP, and Uploaded if they are logged in
+    if($pguser)
+    {
+        $columns = array_merge($columns, array(
+            "username"     => _("Project Manager"),
+            "checkedoutby" => _("Post Processor"),
+            "uploaded"     => _("Uploaded")
+        ));
+    }
+
+    $columns = array_merge($columns, array(
+        "n_pages"   => _("Total Pages"),
+        "days_left" => _("Days Left")
+    ));
+
+    $where_filter = "state = 'proj_post_first_checked_out'";
+    $where_filter .= " AND smoothread_deadline > UNIX_TIMESTAMP()";
+    $where_filter .= " $projects_filter";
+
+    $user_setting = "orderSR";
+
+    echo "\n<a name='{$stage->id}'></a>";
+    $title = _('Projects Currently Available for Smooth Reading');
+    echo "\n<h3>$title</h3>";
+    echo "\n<p>{$stage->description}</p>";
+
+    show_project_listing( $stage, $user_setting, $stage->id, $columns, $where_filter );
+}
+
 // -----------------------------------------------------------------------------
 
 function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_filter = " " )
@@ -274,6 +357,9 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
     }
 
     echo "</table>\n<br>";
+
+    // Free the search results.
+    mysql_free_result($result);
 }
 
 // -----------------------------------------------------------------------------
