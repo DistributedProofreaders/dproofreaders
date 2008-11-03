@@ -59,6 +59,10 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
         "days"      => "text-align: center;",
         "days_left" => "text-align: center;"
     );
+
+    // Identify columns that we know we can't sort by because their values
+    // come from outside the database.
+    $unsortable_columns = array( "uploaded" );
     
     // Load the sort column and direction
     list($sort_column, $sort_direction) = process_sorting_control($columns, $user_setting);
@@ -125,25 +129,48 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
     {
         echo "<td>"; 
 
-        $link_sort_by=$name;
-        if($name == $sort_column)
-            $link_sort_by .= ":" . ($sort_direction == "asc" ? "desc" : "asc");
+        if(!in_array($name, $unsortable_columns))
+        {
+            $link_sort_by=$name;
+            if($name == $sort_column)
+                $link_sort_by .= ":" . ($sort_direction == "asc" ? "desc" : "asc");
 
-        echo "<b><a href='?{$other_settings}{$order_param}=$link_sort_by#$anchor'>$label</a></b>";
+            echo "<b><a href='?{$other_settings}{$order_param}=$link_sort_by#$anchor'>$label</a></b>";
+        }
+        else
+        {
+            echo "<b>$label</b>";
+        }
 
         echo "</td>";
     }
 
     echo "</tr>";
 
-    // Determine whether to use special colors or not
-    // (this does not affect the alternating between two
-    // background colors) in the project listing.
-    // Regardless of the preference, don't display
-    // special colors to newbies.
-    $userSettings =& Settings::get_Settings($pguser);
-    $show_special_colors = (get_pages_proofed_maybe_simulated() >= 10
+    $show_special_colors = FALSE;
+    $show_email = FALSE;
+    if($pguser)
+    {
+        // Determine whether to use special colors or not
+        // (this does not affect the alternating between two
+        // background colors) in the project listing.
+        // Regardless of the preference, don't display
+        // special colors to newbies.
+        $userSettings =& Settings::get_Settings($pguser);
+        $show_special_colors = (get_pages_proofed_maybe_simulated() >= 10
                                 && !$userSettings->get_boolean('hide_special_colors'));
+
+        // Show email addresses for site administrators
+        // TODO: Figure out why uids 1342 and 12417 are exceptions, why we're
+        // bothering to do a SQL lookup if we're using literals (why can't we
+        // just use the usernames themselves?) and why this is in here at all.
+        // If/when the literals are removed, this can be moved outside the
+        // if($pguser) statement.
+        $userid_q = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
+        $u_id = mysql_result($userid_q, 0, "u_id");
+        $show_email = user_is_a_sitemanager() || $u_id == 1342 || $u_id == 12417;
+    }
+
 
     $rownum = 0;
 
@@ -200,6 +227,33 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
                    $genre = $book['genre'];
                 }
                 $cell = $genre;
+            }
+            elseif($name == "username" || $name == "checkedoutby" || $name == "postproofer" || $name == "correctedby")
+            // Create email or PM links for usernames.
+            {
+                if ($show_email)
+                {
+                    $email = get_forum_email_address($book[$name]);
+                    $cell = "<a href='mailto:$email'>".$book[$name]."</a>";
+                }
+
+                if (!$show_email || $email == "")
+                {
+                    $contact_url = get_url_to_compose_message_to_user($book[$name]);
+                    $cell = "<a href='$contact_url'>".$book[$name]."</a>";
+                }
+            }
+            elseif($name == "uploaded")
+            // Uploaded is a special case because it is pulled from the
+            // filesystem and not from the database, and is hence not sortable.
+            {
+                global $projects_dir;
+                if ($done_files = glob("$projects_dir/{$book['projectid']}/*smooth_done_*.zip") ) {
+                   $num_done = count($done_files);
+                } else {
+                   $num_done = 0;
+                }
+                $cell = $num_done;
             }
             else
             {
