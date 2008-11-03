@@ -7,7 +7,7 @@ include_once($relPath.'special_colors.inc');
 
 function show_block_for_round( $round_number, $projects_filter )
 {
-    global $pguser, $userP;
+    global $pguser;
 
     $round = get_Round_for_round_number($round_number);
 
@@ -34,14 +34,14 @@ function show_block_for_round( $round_number, $projects_filter )
     echo "\n<h3>$title</h3>";
     echo "\n<p>{$round->description}</p>";
 
-    show_books_available_for_proofing( $round, $userP, $where_filter, $order_new );
+    show_project_listing( $round, $where_filter, $order_new );
 }
 
 // -----------------------------------------------------------------------------
 
-function show_books_available_for_proofing( $round, $userP, $where_filter = " ", $order = "DaysD" )
+function show_project_listing( $stage, $where_filter = " ", $order = "DaysD" )
 {
-    global $code_url;
+    global $code_url, $userP;
 
     $flip_title = FALSE;
     $flip_author = FALSE;
@@ -133,7 +133,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
         exit;
     }
 
-    $order_param = "order{$round->id}";
+    $order_param = "order{$stage->id}";
 
     // The originating request may have query-string settings (other than
     // for $order_param). We should preserve those, and just append the
@@ -148,10 +148,16 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
     }
 
     $linkbase = "<a href='?{$other_settings}{$order_param}=";
-    $linkend = "#{$round->id}'";
+    $linkend = "#{$stage->id}'";
 
-    $presort = round_project_listing_presort($round);
-    if (!empty($presort)) $presort .= ',';
+    // $presort allows us to place certain projects at the top of all project
+    // listings such as BEGIN projects, but only for Rounds.
+    $presort = "";
+    if( is_a( $stage, 'Round' ) )
+    {
+        $presort = round_project_listing_presort($stage);
+        if (!empty($presort)) $presort .= ',';
+    }
 
     // Always put the BEGIN projects at the top.
     $query = "
@@ -168,7 +174,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 
     echo "\r\n<table border=1>";
 
-    echo "<tr align=center bgcolor='{$round->listing_bgcolors[1]}'>";
+    echo "<tr align=center bgcolor='{$stage->listing_bgcolors[1]}'>";
 
     $word = _("Title");
     $link = $linkbase.($flip_title?"TitleD":"TitleA")."$linkend>";
@@ -218,7 +224,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
 
     while ($book=mysql_fetch_assoc($result))
     {
-        $bgcolor = $round->listing_bgcolors[$rownum % 2];
+        $bgcolor = $stage->listing_bgcolors[$rownum % 2];
 
         // Special colours for special books of various types
         if ($show_special_colors)
@@ -242,12 +248,14 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
         echo "\n<td>{$book['language']}</td>";
         if ($book['difficulty'] == "beginner")
         {
-            if ( $round->is_a_mentee_round() )
-                $genre = _("BEGINNERS ONLY")." ".$book['genre'];
-            else if ( $round->is_a_mentor_round() )
-                $genre = _("MENTORS ONLY")." ".$book['genre'];
-            else
-                $genre = $book['genre'];
+            $genre = $book['genre'];
+            if( is_a( $stage, 'Round' ) )
+            {
+                if ( $stage->is_a_mentee_round() )
+                    $genre = _("BEGINNERS ONLY")." ".$book['genre'];
+                else if ( $stage->is_a_mentor_round() )
+                    $genre = _("MENTORS ONLY")." ".$book['genre'];
+            }
         }
         elseif ($book['difficulty'] == "easy")
         {
