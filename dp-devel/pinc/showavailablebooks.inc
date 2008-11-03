@@ -71,7 +71,8 @@ function show_projects_available_for_postprocessing( $pool, $checkedout_or_avail
 
     $where_filter .= " $projects_filter";
 
-    $user_setting = "order_{$checkedout_or_available}";
+    $ch_or_av = substr( $checkedout_or_available, 0, 2 );
+    $user_setting = "{$pool->id}_{$ch_or_av}_order";
 
     show_project_listing( $pool, $user_setting, $checkedout_or_available, $columns, $where_filter );
 }
@@ -108,7 +109,7 @@ function show_projects_available_for_smoothreading( $stage, $projects_filter )
     $where_filter .= " AND smoothread_deadline > UNIX_TIMESTAMP()";
     $where_filter .= " $projects_filter";
 
-    $user_setting = "orderSR";
+    $user_setting = "SR_order";
 
     echo "\n<a name='{$stage->id}'></a>";
     $title = _('Projects Currently Available for Smooth Reading');
