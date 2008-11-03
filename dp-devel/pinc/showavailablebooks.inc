@@ -27,19 +27,11 @@ function show_block_for_round( $round_number, $projects_filter )
     }
 
     echo "\n<a name='{$round->id}'></a>";
-    echo "\r\n<table border=1>";
-    echo "\r\n<tr bgcolor='{$round->listing_bgcolors[1]}'>";
-
     $title = _('Projects Currently Available');
-    echo "\n<td colspan=2><h3>$title</h3></td>";
+    echo "\n<h3>$title</h3>";
+    echo "\n<p>{$round->description}</p>";
 
-    {
-        echo "\n<td colspan=6>{$round->description}</td>";
-        echo "</tr>";
-
-        show_books_available_for_proofing( $round, $userP, $projects_filter, $order_new );
-    }
-    echo "</table>\n<br>";
+    show_books_available_for_proofing( $round, $userP, $projects_filter, $order_new );
 }
 
 // -----------------------------------------------------------------------------
@@ -172,6 +164,8 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
     ";
     $result = mysql_query($query);
 
+    echo "\r\n<table border=1>";
+
     echo "<tr align=center bgcolor='{$round->listing_bgcolors[1]}'>";
 
     $word = _("Title");
@@ -276,6 +270,7 @@ function show_books_available_for_proofing( $round, $userP, $where_filter = " ",
         $rownum++;
     }
 
+    echo "</table>\n<br>";
 }
 
 // -----------------------------------------------------------------------------
