@@ -116,7 +116,7 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
     {
         echo "<tr>";
         $language_options=_load_project_filter_field_values("language", $state_sql);
-        echo _build_project_filter_select(_("Language"), _("All Languages"), "language", $language_options, $data["language"], 3, FALSE, $filter_column_count);
+        echo _build_project_filter_select(_("Language"), _("All Languages"), "language", $language_options, $data["language"], 4, FALSE, $filter_column_count);
         echo "</tr>";
     }
 
