@@ -70,6 +70,7 @@ table.filter td {
 }
 table.filter td select {
     margin: .1em auto;
+    width: 100%;
 }
 
 /* ------------------------------------------------------------------------ */
