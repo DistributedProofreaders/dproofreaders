@@ -76,37 +76,57 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
     // action that would deselect the "All" option if another option was
     // selected.
 
+    // Firefox/Opera/IE6 and IE7 display calculates the width of the <td> and
+    // <select> in different ways if the width is set to 100% on the select.
+    // Firefox/Opera/IE6 determines the width of the <td>s first without regard
+    // to the content of the <select>s and then increases the size of the
+    // <select> to match. IE7 determines the size of the <td>s based on the
+    // names of the column headers, ignoring the widths of the <option>s in
+    // the <select>, and then increases the size of the <select> to match.
+    // This makes the Project Manager field very big (because Project Manager
+    // is a long label) and Genre field very small (because Genre is a short
+    // label). Instead we'd prefer the Firefox/Opera/IE6 method to give
+    // the shorter labeled <select>s more room. To do this we'll set the
+    // widths of the <td>s all to the same percentage based on how many <td>s
+    // there are in the row.
+
+    $display_fields_on_first_line = array("genre", "username", "checkedoutby", "special_code");
+    foreach($display_fields_on_first_line as $field)
+    {
+        if(@$display_fields[$field])
+            $filter_column_count++;
+    }
+
+    // Calculate the <td> width for cells on the first line
+    $td_width = floor(100 / $filter_column_count) . '%';
+
     if($display_fields["genre"])
     {
-        $filter_column_count++;
         $genre_options = _load_project_filter_field_values("genre", $state_sql);
-        echo _build_project_filter_select(_("Genre"), _("All Genres"), "genre", $genre_options, $data["genre"]);
+        echo _build_project_filter_select(_("Genre"), _("All Genres"), "genre", $genre_options, $data["genre"], $td_width);
     }
 
     if($display_fields["username"])
     {
-        $filter_column_count++;
         $pm_options=_load_project_filter_field_values("username", $state_sql);
-        echo _build_project_filter_select(_("Project Manager"), _("All PMs"), "username", $pm_options, $data["username"]);
+        echo _build_project_filter_select(_("Project Manager"), _("All PMs"), "username", $pm_options, $data["username"], $td_width);
     }
 
     if($display_fields["checkedoutby"])
     {
-        $filter_column_count++;
         $pp_options=_load_project_filter_field_values("checkedoutby", $state_sql);
-        echo _build_project_filter_select(_("Post Processor"), _("All PPers"), "checkedoutby", $pp_options, $data["checkedoutby"]);
+        echo _build_project_filter_select(_("Post Processor"), _("All PPers"), "checkedoutby", $pp_options, $data["checkedoutby"], $td_width);
     }
 
     if($display_fields["special_code"])
     {
-        $filter_column_count++;
         $specialday_options=_load_project_filter_field_values("special_code", $state_sql);
         // TODO: "All Special Days" is actually an incorrect label considering
         // what the resulting output is. Instead it behaves like
         // "all projects regardless of special day status". Unlike the other "All"
         // labels, selecting "All Special Days" is not equivilent to selecting all
         // the other options in this select. See task #797.
-        echo _build_project_filter_select(_("Special Days"), _("All Special Days"), "special_code", $specialday_options, $data["special_code"], 4, TRUE);
+        echo _build_project_filter_select(_("Special Days"), _("All Special Days"), "special_code", $specialday_options, $data["special_code"], $td_width, TRUE);
     }
 
     echo "</tr>\n";
@@ -116,7 +136,7 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
     {
         echo "<tr>";
         $language_options=_load_project_filter_field_values("language", $state_sql);
-        echo _build_project_filter_select(_("Language"), _("All Languages"), "language", $language_options, $data["language"], 4, FALSE, $filter_column_count);
+        echo _build_project_filter_select(_("Language"), _("All Languages"), "language", $language_options, $data["language"], "auto", FALSE, $filter_column_count);
         echo "</tr>";
     }
 
@@ -317,7 +337,7 @@ function display_current_project_filter_settings($username, $filter_type)
 //----------------------------------------------------------------------------
 // Supporting functions
 
-function _build_project_filter_select($label, $all_label, $name, $options, $selected=NULL, $size=4, $are_options_associative=FALSE, $colspan=0)
+function _build_project_filter_select($label, $all_label, $name, $options, $selected=NULL, $width="auto", $are_options_associative=FALSE, $colspan=0)
 // This function builds the <select> form inputs for the project filter table
 // and returns the HTML code needed to show the form element to the user,
 // including the encapsulating <td> tags.
@@ -329,7 +349,7 @@ function _build_project_filter_select($label, $all_label, $name, $options, $sele
 //   $name      - the name of the <select>
 //   $options   - an array containing the options
 //   $selected  - an array containing already-selected values
-//   $size      - the size of the <select>, by default this is 4
+//   $width     - the width of the enclosing <td> tag, by default this is auto
 //   $are_options_associative - if the options are an associative array,
 //       this needs to be set to TRUE, otherwise a flat array is assumed
 //   $colspan   - the colspan value for the <td>, by default this is left off
@@ -350,10 +370,12 @@ function _build_project_filter_select($label, $all_label, $name, $options, $sele
     $return="<td";
     if($colspan!=0)
         $return.=" colspan='$colspan'";
+    if($width!="auto")
+        $return.=" style='width: $width;'";
     $return.=">";
     $return.="<b>$label:</b>";
     $return.="<br>";
-    $return.="<select name='{$name}[]' size='$size' multiple>";
+    $return.="<select name='{$name}[]' size='4' multiple>";
     $return.="<option value=''";
     if(!count($selected) || in_array("",$selected))
         $return.=" selected";
