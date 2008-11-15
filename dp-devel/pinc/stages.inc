@@ -540,7 +540,7 @@ new Stage(
     array(),
     'IMMEDIATE',
     '',
-    _('Before a PPer has submitted a final e-text, they can optionally make it available for Smooth Reading. Anyone can volunteer to Smooth Read a text, which is basically just reading through it and marking possible errors before returning it to the Post-Processor.'),
+    _('Before a final e-text is posted to PG, it can be optionally uploaded for Smooth Reading. Anyone can volunteer to Smooth Read a text, which involves reading through the text for smoothness, marking possible errors and returning it to the PPer.'),
     NULL,
     array(
         '#CCFFCC',
