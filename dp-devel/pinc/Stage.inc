@@ -118,8 +118,9 @@ class Stage
     //         boolean
     // -- request_status:
     //         enumerated type: sat-unneeded, sat-granted, sat-available, sat-requested,
-    //                          sat-wait,
-    //                          unsat-granted, unsat-requested, unsat-ungranted
+    //                          sat-wait, sat-denied
+    //                          unsat-granted, unsat-requested, unsat-ungranted, 
+    //                          unsat-denied
     // -- evaluation_criteria:
     //         message to display about evaluation
     // 
@@ -139,7 +140,8 @@ class Stage
         // -----------------------------------
         // recorded_access is the value recorded in the db for whether the user
         // can access this stage. It's read from the usersettings table.
-        // If there is a relevant usersetting, it can take values 'yes' or 'no'.
+        // If there is a relevant usersetting, it can take values 'yes', 'no'
+        // or 'denied'.
         // No relevant usersetting has the same effect as 'no'.
         {
             $res = mysql_query("
@@ -185,7 +187,21 @@ class Stage
 
         }
 
-        if ($uao->all_minima_satisfied)
+        if ($recorded_access == 'denied')
+        {
+            // they are not allowed to access this stage or to request access
+            $uao->can_access = FALSE;
+            if ($uao->all_minima_satisfied)
+            {
+                $uao->request_status = 'sat-denied';
+            }
+            else
+            {
+                $uao->request_status = 'unsat-denied';
+            }
+
+        }
+        else if ($uao->all_minima_satisfied)
         {
             // They've satisfied the requirements...
             switch ($this->after_satisfying_minima)
@@ -457,6 +473,10 @@ function show_user_access_object( $uao )
             // Users in this stage will monitor your work and will let you know once you have qualified for access
             break;
 
+        case 'sat-denied':
+            $request_status_string=_('However, you are not currently permitted to apply for access to this stage.');
+            break;
+
         case 'unsat-granted':
             $request_status_string=_("However, you have been granted access to this stage.");
             break;
@@ -473,6 +493,10 @@ function show_user_access_object( $uao )
             }
             // Don't mention possibility of special permission.
             // $request_status_string.=_("However, you can be granted access to this stage. See XXX for details.");
+            break;
+
+        case 'unsat-denied':
+            // leave the string empty, so nothing prints out
             break;
 
         default:
@@ -613,6 +637,12 @@ function show_user_access_chart( $username )
             case 'unsat-ungranted':
                 $could_grant = TRUE;
                 break;
+
+            case 'sat-denied':
+            case 'unsat-denied':
+                echo 'denied';
+                break;
+
 
             default:
                 die( "bad request_status '$uao->request_status'" );

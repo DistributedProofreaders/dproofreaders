@@ -95,7 +95,11 @@ foreach ( $_POST as $name => $value )
         {
             die( "Error: The user already has access to $activity_id" );
         }
-    } 
+        if ( $uao->request_status == 'sat-denied' || $uao->request_status == 'unsat-denied' )
+        {
+            die( "Error: The user has been denied access to $activity_id" );
+        }
+   } 
     elseif ( $action_type == 'revoke' )
     {
         if ( !$uao->can_access )

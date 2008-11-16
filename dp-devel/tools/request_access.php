@@ -51,6 +51,11 @@ else
             echo _('First you must satisfy the minimum requirements.');
             break;
 
+        case 'sat-denied':
+        case 'unsat-denied':
+            echo _('You are not allowed to request access to this stage.');
+            break;
+
         case 'sat-available':
             if ( $stage->after_satisfying_minima == 'REQ-AUTO' )
             {
