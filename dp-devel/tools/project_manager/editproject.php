@@ -688,13 +688,7 @@ class ProjectInfoHolder
 
             // We're particularly interested in knowing
             // when the project comments change.
-            $res = mysql_query("
-                SELECT comments
-                FROM projects
-                WHERE projectid='{$this->projectid}'
-            ") or die(mysql_error());
-            list($current_comments) = mysql_fetch_row($res);
-            if ( $this->comments == $current_comments )
+            if ( strpos($changed_fields, 'Project Comments') == FALSE )
             {
                 // no change
                 $tlcc_setter = '';
