@@ -128,7 +128,7 @@ function showMbrRoles($siteadmin, $manager, $proj_facilitator, $postprocessor, $
 }
 
 function showForumProfile($username) {
-    global $forums_url, $theme;
+    global $forums_url, $theme, $site_abbreviation;
 
     $bb_user = get_forum_user_details($username);
 
