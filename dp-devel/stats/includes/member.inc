@@ -127,7 +127,13 @@ function showMbrRoles($siteadmin, $manager, $proj_facilitator, $postprocessor, $
         global $code_url;
         list($id, $label, $icon_width) = $role;
         $icon_url = "$code_url/graphics/icon_$id.png";
-        $mbrStatus .= "<img style='vertical-align: middle' src='$icon_url' border='0' alt='$label' title='$label' width='$icon_width' height='25'>&nbsp;";
+        $mbrStatus .= "<img
+            src='$icon_url'
+            alt='$label' title='$label'
+            width='$icon_width' height='25'
+            style='vertical-align: middle'
+            border='0'
+        >&nbsp;";
     }
     $mbrStatus .= "&nbsp;";
 
