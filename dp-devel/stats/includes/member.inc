@@ -113,7 +113,7 @@ function showMbrRoles($siteadmin, $manager, $proj_facilitator, $postprocessor, $
     global $code_url;
     $mbrStatus = "";
     if ($pagescompleted < 50)  { $mbrStatus .= "<img style='vertical-align: middle' src='$code_url/graphics/icon_newbie.png' border='0' alt='"._("Newbie")."' title='"._("Newbie")."' width='25' height='25'>&nbsp;"; }
-    if ($pagescompleted >= 50) { $mbrStatus .= "<img style='vertical-align: middle' src='$code_url/graphics/icon_proofer.png' border='0' alt='"._("Proofer")."' title='"._("Proofreader")."' width='25' height='25'>&nbsp;"; }
+    if ($pagescompleted >= 50) { $mbrStatus .= "<img style='vertical-align: middle' src='$code_url/graphics/icon_proofer.png' border='0' alt='"._("Proofreader")."' title='"._("Proofreader")."' width='25' height='25'>&nbsp;"; }
     // Formatter
     if ($manager == "yes") { $mbrStatus .= "<img style='vertical-align: middle' src='$code_url/graphics/icon_pm.png' border='0' alt='"._("Project Manager")."' title='"._("Project Manager")."' width='50' height='25'>&nbsp;"; }
     if ($mentor == "yes") { $mbrStatus .= "<img style='vertical-align: middle' src='$code_url/graphics/icon_mentor.png' border='0' alt='"._("Mentor")."' title='"._("Mentor")."' width='25' height='25'>&nbsp;"; }
