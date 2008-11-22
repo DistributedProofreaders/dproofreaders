@@ -111,15 +111,48 @@ function showMbrDpProfile( $curMbr )
 
 function showMbrRoles($siteadmin, $manager, $proj_facilitator, $postprocessor, $pp_verifier, $pagescompleted, $mentor) {
     $roles = array();
-    if ($pagescompleted < 50)  { $roles[] = array( 'newbie', _("Newbie"), 25 ); }
-    if ($pagescompleted >= 50) { $roles[] = array( 'proofer', _("Proofreader"), 25 ); }
+
+    if ($pagescompleted < 50)
+    {
+        $roles[] = array( 'newbie', _("Newbie"), 25 );
+    }
+
+    if ($pagescompleted >= 50)
+    {
+        $roles[] = array( 'proofer', _("Proofreader"), 25 );
+    }
+
     // Formatter
-    if ($manager == "yes") { $roles[] = array( 'pm', _("Project Manager"), 50 ); }
-    if ($mentor == "yes") { $roles[] = array( 'mentor', _("Mentor"), 25 ); }
-    if ($postprocessor == "yes") { $roles[] = array( 'pp', _("Post-Processor"), 25 ); }
-    if ($pp_verifier == "yes") { $roles[] = array( 'ppv', _("Post-Processing Verifier"), 25 ); }
-    if ($proj_facilitator == "yes") { $roles[] = array( 'pf', _("Project Facilitator"), 25 ); }
-    if ($siteadmin == "yes") { $roles[] = array( 'sa', _("Site Administrator"), 25 ); }
+
+    if ($manager == "yes")
+    {
+        $roles[] = array( 'pm', _("Project Manager"), 50 );
+    }
+
+    if ($mentor == "yes")
+    {
+        $roles[] = array( 'mentor', _("Mentor"), 25 );
+    }
+
+    if ($postprocessor == "yes")
+    {
+        $roles[] = array( 'pp', _("Post-Processor"), 25 );
+    }
+
+    if ($pp_verifier == "yes")
+    {
+        $roles[] = array( 'ppv', _("Post-Processing Verifier"), 25 );
+    }
+
+    if ($proj_facilitator == "yes")
+    {
+        $roles[] = array( 'pf', _("Project Facilitator"), 25 );
+    }
+
+    if ($siteadmin == "yes")
+    {
+        $roles[] = array( 'sa', _("Site Administrator"), 25 );
+    }
 
     $mbrStatus = "";
     foreach ( $roles as $role )
