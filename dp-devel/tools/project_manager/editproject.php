@@ -313,14 +313,17 @@ class ProjectInfoHolder
     // -------------------------------------------------------------------------
     // edit an existing project, or create a new project by
     // cloning an existing project
-    function set_from_db($edit_existing)
+    function set_from_db($edit_existing, $projectid='')
     {
-        if (!isset($_GET['project']))
+        if (!isset($_GET['project']) && $projectid == '')
         {
             return _("parameter 'project' is unset");
         }
 
-        $projectid = $_GET['project'];
+        if ( $projectid == '' )
+        {
+            $projectid = $_GET['project'];
+        }
         if ( $projectid == '' )
         {
             return _("parameter 'project' is empty");
@@ -671,6 +674,18 @@ class ProjectInfoHolder
             // needn't change $pm_setter, as there is no change if the user
             // isn't an SA
 
+            // find out what we are changing from
+            $old_pih = new ProjectInfoHolder;
+            $fatal_error = $old_pih->set_from_db(TRUE, $this->projectid);
+            if ($fatal_error != '')
+            {
+                $fatal_error = _('site error') . ': ' . $fatal_error;
+                echo "<br><center><font size='+1' color='#ff0000'><b>$fatal_error</b></font></center>";
+                theme('', 'footer');
+                exit;
+            }
+            $changed_fields = get_changed_fields($this, $old_pih);
+
             // We're particularly interested in knowing
             // when the project comments change.
             $res = mysql_query("
@@ -699,7 +714,7 @@ class ProjectInfoHolder
                 WHERE projectid='{$this->projectid}'
             ") or die(mysql_error());
 
-            $e = log_project_event( $this->projectid, $GLOBALS['pguser'], 'edit' );
+            $e = log_project_event( $this->projectid, $GLOBALS['pguser'], 'edit', $changed_fields );
             if ( !empty($e) ) die($e);
 
             $result = mysql_query("
@@ -988,6 +1003,104 @@ class ProjectInfoHolder
 
         echo "</table><br><br>";
     }
+}
+
+// get a list of the fields that have changed, using the names they are given
+// on the edit page. 
+function get_changed_fields($new_pih, $old_pih)
+{
+    $changed_fields = 'Changed fields: ';
+    $found_change = FALSE;
+    if ($new_pih->deletion_reason != $old_pih->deletion_reason)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."Reason for Deletion";
+        $found_change = TRUE;
+    }
+    if ($new_pih->nameofwork != $old_pih->nameofwork)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) . 'Name of work';
+        $found_change = TRUE;
+    }
+    if ($new_pih->authorsname != $old_pih->authorsname)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."Author's Name";
+        $found_change = TRUE;
+    }
+    if ($new_pih->username != $old_pih->username)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."Project Manager";
+        $found_change = TRUE;
+    }
+    if ($new_pih->language != $old_pih->language)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."Language";
+        $found_change = TRUE;
+    }
+    if ($new_pih->genre != $old_pih->genre)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."Genre";
+        $found_change = TRUE;
+    }
+    if ($new_pih->difficulty_level != $old_pih->difficulty_level)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."Difficulty Level";
+        $found_change = TRUE;
+    }
+    if ($new_pih->special_code != $old_pih->special_code)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."Special Day";
+        $found_change = TRUE;
+    }
+    if ($new_pih->checkedoutby != $old_pih->checkedoutby)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."PPer/PPVer";
+        $found_change = TRUE;
+    }
+    if ($new_pih->image_source != $old_pih->image_source)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."Original Image Source";
+        $found_change = TRUE;
+    }
+    if ($new_pih->image_preparer != $old_pih->image_preparer)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."Image Preparer";
+        $found_change = TRUE;
+    }
+    if ($new_pih->text_preparer != $old_pih->text_preparer)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."Text Preparer";
+        $found_change = TRUE;
+    }
+    if ($new_pih->extra_credits != $old_pih->extra_credits)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."Extra Credits";
+        $found_change = TRUE;
+    }
+    if ($new_pih->scannercredit != $old_pih->scannercredit)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."Scanner Credit";
+        $found_change = TRUE;
+    }
+    if ($new_pih->clearance != $old_pih->clearance)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."Clearance Information";
+        $found_change = TRUE;
+    }
+    if ($new_pih->postednum != $old_pih->postednum)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."Posted Number";
+        $found_change = TRUE;
+    }
+    if ($new_pih->comments != $old_pih->comments)
+    { 
+        $changed_fields .= ($found_change ? ', ' : '' ) ."Project Comments";
+        $found_change = TRUE;
+    }
+    if ( ! $found_change )
+    { 
+        $changed_fields .= "none";
+    }
+    return $changed_fields;
 }
 
 // vim: sw=4 ts=4 expandtab
