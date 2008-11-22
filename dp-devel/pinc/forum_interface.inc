@@ -95,6 +95,10 @@ function get_forum_user_details($username)
         {
             $return_data[$column]=$row[$column];
         }
+        else
+        {
+            $return_data[$column]=NULL;
+        }
     }
 
     return $return_data;
