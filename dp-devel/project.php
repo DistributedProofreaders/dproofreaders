@@ -1227,7 +1227,10 @@ function do_history()
                 echo "<td>until $deadline_f</td>\n";
             }
         }
-
+        elseif ( $event['details1'] != '' )
+        {
+            echo "<td colspan='3'>{$event['details1']}</td>\n";
+        }
         echo "</tr>\n";
     }
     echo "</table>\n";
