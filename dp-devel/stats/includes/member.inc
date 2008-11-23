@@ -9,6 +9,7 @@ include_once($relPath.'access_log.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'../stats/includes/common.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'SettingsClass.inc');
 
 function showMbrInformation( $curMbr, $tally_name )
 {
@@ -101,15 +102,8 @@ function showMbrRoles($curMbr)
 {
     global $users_ELR_page_tallyboard;
     $current_P_page_tally = $users_ELR_page_tallyboard->get_current_tally( $curMbr['u_id'] );
-    $facilitator = @mysql_result(mysql_query("SELECT * FROM `usersettings`
-        WHERE `setting` ='proj_facilitator'
-            AND `username` = '".$curMbr['username']."'"),0,"value");
-    $ppver = @mysql_result(mysql_query("SELECT * FROM `usersettings`
-        WHERE `setting` ='PPV.access'
-            AND `username` = '".$curMbr['username']."'"),0,"value");
-    $mentor = @mysql_result(mysql_query("SELECT * FROM `usersettings`
-        WHERE `setting` ='P2_mentor.access'
-            AND `username` = '".$curMbr['username']."'"),0,"value");
+
+    $settings =& Settings::get_Settings($curMbr['username']);
 
     $roles = array();
 
@@ -129,7 +123,7 @@ function showMbrRoles($curMbr)
         $roles[] = array( 'pm', _("Project Manager"), 50 );
     }
 
-    if ($mentor == "yes")
+    if ($settings->get_boolean('P2_mentor.access'))
     {
         $roles[] = array( 'mentor', _("Mentor"), 25 );
     }
@@ -139,12 +133,12 @@ function showMbrRoles($curMbr)
         $roles[] = array( 'pp', _("Post-Processor"), 25 );
     }
 
-    if ($ppver == "yes")
+    if ($settings->get_boolean('PPV.access'))
     {
         $roles[] = array( 'ppv', _("Post-Processing Verifier"), 25 );
     }
 
-    if ($facilitator == "yes")
+    if ($settings->get_boolean('proj_facilitator'))
     {
         $roles[] = array( 'pf', _("Project Facilitator"), 25 );
     }
