@@ -179,6 +179,7 @@ class ProjectTransition
     {
         global $testing;
 
+        // make sure this transition is valid
         assert( $this->is_valid_for( $project, $who ) );
 
         $projectid = $project->projectid;
@@ -187,6 +188,7 @@ class ProjectTransition
         $to_round   = get_Round_for_project_state($this->to_state);
         if ( !is_null($to_round) )
         {
+            // do some checks on the project if it's going into a round
             if ( $this->to_state == $to_round->project_waiting_state
               || $this->to_state == $to_round->project_available_state )
             {
@@ -228,7 +230,7 @@ class ProjectTransition
         }
 
         // ----------------------------------------------------------------------
-
+        // deal with updating the projects table
         $settings = "state='{$this->to_state}'";
         if ( !empty($this->settings_template) )
         {
@@ -277,6 +279,7 @@ class ProjectTransition
 
             $settings .= ", $settings_addition";
         }
+        // finished expanding the template, so we can go ahead and update the table
 
         if ($testing)
         {
@@ -296,13 +299,23 @@ class ProjectTransition
         // Now make any collateral changes to other tables.
         // (This needs to be expanded.)
 
+        $PPer = '';
+        if ( $this->to_state == PROJ_POST_FIRST_CHECKED_OUT )
+        {
+            // we want the project event to record who it's been
+            // checked out to
+            $PPer = mysql_result(mysql_query("
+               SELECT checkedoutby FROM projects WHERE projectid = '$projectid'
+            "), 0);
+        }
+        // log the project event
         $err = log_project_event(
             $projectid,
             $who,
             'transition',
             $this->from_state,
             $this->to_state,
-            @$extras['details']
+            ($PPer != '' ? $PPer : @$extras['details'])
         );
         if ( $err )
         {
