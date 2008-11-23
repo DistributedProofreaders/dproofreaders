@@ -89,7 +89,16 @@ function showMbrDpProfile( $curMbr )
         _("Last Seen"),
         date("m/d/Y", $curMbr['t_last_activity']) . "&nbsp;($daysSinceLastSeen)"
     );
+    $t->row(
+        _('Roles'),
+        showMbrRoles($curMbr)
+    );
 
+    $t->end();
+}
+
+function showMbrRoles($curMbr)
+{
     global $users_ELR_page_tallyboard;
     $current_P_page_tally = $users_ELR_page_tallyboard->get_current_tally( $curMbr['u_id'] );
     $facilitator = @mysql_result(mysql_query("SELECT * FROM `usersettings`
@@ -101,15 +110,10 @@ function showMbrDpProfile( $curMbr )
     $mentor = @mysql_result(mysql_query("SELECT * FROM `usersettings`
         WHERE `setting` ='P2_mentor.access'
             AND `username` = '".$curMbr['username']."'"),0,"value");
-    $t->row(
-        _('Roles'),
-        showMbrRoles($curMbr['sitemanager'], $curMbr['manager'], $facilitator, $curMbr['postprocessor'], $ppver, $current_P_page_tally, $mentor)
-    );
 
-    $t->end();
-}
+    list($siteadmin, $manager, $proj_facilitator, $postprocessor, $pp_verifier, $pagescompleted, $mentor) =
+        array($curMbr['sitemanager'], $curMbr['manager'], $facilitator, $curMbr['postprocessor'], $ppver, $current_P_page_tally, $mentor);
 
-function showMbrRoles($siteadmin, $manager, $proj_facilitator, $postprocessor, $pp_verifier, $pagescompleted, $mentor) {
     $roles = array();
 
     if ($pagescompleted < 50)
