@@ -565,9 +565,30 @@ class ProjectInfoHolder
         $this->checkedoutby = @$_POST['checkedoutby'];
         if ($this->checkedoutby != '')
         {
+            // make sure the named PPer/PPVer actually exists
             $errors .= check_user_exists($this->checkedoutby, 'PPer/PPVer');
         }
-
+        else if ( isset($this->projectid) )
+        {
+            // don't allow an empty PPer/PPVer if the project is checked out
+            // Somewhat kludgey to have to do this query here.
+            $res = mysql_query("
+                SELECT state, checkedoutby, username
+                FROM projects
+                WHERE projectid='{$this->projectid}'
+            ") or die(mysql_error());
+            list($state, $PPer, $PM) = mysql_fetch_row($res);
+            if ( $state == PROJ_POST_FIRST_CHECKED_OUT ||
+                 $state == PROJ_POST_SECOND_CHECKED_OUT ) 
+            {
+                $errors .= "This project is checked out: you must specify a PPer/PPVer";
+                $this->checkedoutby = $PPer;
+            }
+            if ( $this->projectmanager == '' )
+            {
+                $this->projectmanager = $PM;
+            }
+        }
         $this->image_preparer = @$_POST['image_preparer'];
         if ($this->image_preparer != '')
         {
@@ -889,9 +910,13 @@ class ProjectInfoHolder
     function show_visible_controls()
     {
         global $site_abbreviation;
+        $can_edit_PPer = TRUE;
+        $is_checked_out = FALSE;
         if (!empty($this->projectid))
         {
             $this->row( _("Project ID"), 'just_echo', $this->projectid );
+
+            // do some things that depend on the project state
 
             // Somewhat kludgey to have to do this query here.
             $res = mysql_query("
@@ -903,6 +928,19 @@ class ProjectInfoHolder
             if ($state == PROJ_DELETE)
             {
                 $this->row( _("Reason for Deletion"),         'text_field',          $this->deletion_reason, 'deletion_reason' );
+            }
+            else if ( $state == PROJ_POST_FIRST_CHECKED_OUT )
+            {
+                // once the project is in PP, PPer can only be changed by an SA, 
+                // or if it's checked out to the PM
+                $is_checked_out = TRUE;
+                $can_edit_PPer = ( ($this->projectmanager == $this->checkedoutby) || 
+                                   user_is_a_sitemanager() );
+            }
+            else if ( $state == PROJ_POST_SECOND_CHECKED_OUT )
+            {
+                $is_checked_out = TRUE;
+                $can_edit_PPer = user_is_a_sitemanager();
             }
         }
         if (!empty($this->up_projectid))
@@ -927,7 +965,15 @@ class ProjectInfoHolder
         $this->row( _("Genre"),                       'genre_list',          $this->genre            );
         $this->row( _("Difficulty Level"),            'difficulty_list',     $this->difficulty_level );
         $this->row( _("Special Day (optional)"),      'special_list',        $this->special_code     );
-        $this->row( _("PPer/PPVer"),                  'DP_user_field',       $this->checkedoutby,    'checkedoutby' , sprintf(_("Optionally reserve for a PPer. %s username only."),$site_abbreviation));
+        if ( $can_edit_PPer )
+        {
+            $this->row( _("PPer/PPVer"),                  'DP_user_field',       $this->checkedoutby,    'checkedoutby' , sprintf(_("Optionally reserve for a PPer. %s username only."),$site_abbreviation));
+        }
+        else
+        {
+            $this->row( _("PPer/PPVer"),                  'just_echo',       $this->checkedoutby);
+            echo "<input type='hidden' name='checkedoutby' value='$this->projectid'>";
+        }
         $this->row( _("Original Image Source"),       'image_source_list',   $this->image_source     );
         $this->row( _("Image Preparer"),              'DP_user_field',       $this->image_preparer,  'image_preparer', sprintf(_("%s user who scanned or harvested the images."),$site_abbreviation));
         $this->row( _("Text Preparer"),               'DP_user_field',       $this->text_preparer,   'text_preparer', sprintf(_("%s user who prepared the text files."),$site_abbreviation) );
