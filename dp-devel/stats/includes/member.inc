@@ -128,7 +128,7 @@ function showMbrRoles($curMbr)
         $roles[] = array( 'mentor', _("Mentor"), 25 );
     }
 
-    if ($curMbr['postprocessor'] == "yes")
+    if ($settings->get_boolean('PP.access'))
     {
         $roles[] = array( 'pp', _("Post-Processor"), 25 );
     }
