@@ -111,24 +111,20 @@ function showMbrRoles($curMbr)
         WHERE `setting` ='P2_mentor.access'
             AND `username` = '".$curMbr['username']."'"),0,"value");
 
-    list($siteadmin, $manager, $proj_facilitator, $postprocessor, $pp_verifier, $pagescompleted, $mentor) =
-        array($curMbr['sitemanager'], $curMbr['manager'], $facilitator, $curMbr['postprocessor'], $ppver, $current_P_page_tally, $mentor);
-
     $roles = array();
 
-    if ($pagescompleted < 50)
+    if ($current_P_page_tally < 50)
     {
         $roles[] = array( 'newbie', _("Newbie"), 25 );
     }
-
-    if ($pagescompleted >= 50)
+    else
     {
         $roles[] = array( 'proofer', _("Proofreader"), 25 );
     }
 
     // Formatter
 
-    if ($manager == "yes")
+    if ($curMbr['manager'] == "yes")
     {
         $roles[] = array( 'pm', _("Project Manager"), 50 );
     }
@@ -138,22 +134,22 @@ function showMbrRoles($curMbr)
         $roles[] = array( 'mentor', _("Mentor"), 25 );
     }
 
-    if ($postprocessor == "yes")
+    if ($curMbr['postprocessor'] == "yes")
     {
         $roles[] = array( 'pp', _("Post-Processor"), 25 );
     }
 
-    if ($pp_verifier == "yes")
+    if ($ppver == "yes")
     {
         $roles[] = array( 'ppv', _("Post-Processing Verifier"), 25 );
     }
 
-    if ($proj_facilitator == "yes")
+    if ($facilitator == "yes")
     {
         $roles[] = array( 'pf', _("Project Facilitator"), 25 );
     }
 
-    if ($siteadmin == "yes")
+    if ($curMbr['sitemanager'] == "yes")
     {
         $roles[] = array( 'sa', _("Site Administrator"), 25 );
     }
