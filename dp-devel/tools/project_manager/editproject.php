@@ -931,11 +931,12 @@ class ProjectInfoHolder
             }
             else if ( $state == PROJ_POST_FIRST_CHECKED_OUT )
             {
-                // once the project is in PP, PPer can only be changed by an SA, 
+                // once the project is in PP, PPer can only be changed by an SA, PF, 
                 // or if it's checked out to the PM
                 $is_checked_out = TRUE;
                 $can_edit_PPer = ( ($this->projectmanager == $this->checkedoutby) || 
-                                   user_is_a_sitemanager() );
+                                   user_is_a_sitemanager() ||
+                                   user_is_proj_facilitator());
             }
             else if ( $state == PROJ_POST_SECOND_CHECKED_OUT )
             {
