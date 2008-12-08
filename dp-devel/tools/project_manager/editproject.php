@@ -1056,7 +1056,7 @@ function get_changed_fields($new_pih, $old_pih)
         'deletion_reason'  => "Reason for Deletion",
         'nameofwork'       => "Name of work",
         'authorsname'      => "Author's Name",
-        'username'         => "Project Manager",
+        'projectmanager'   => "Project Manager",
         'language'         => "Language",
         'genre'            => "Genre",
         'difficulty_level' => "Difficulty Level",
