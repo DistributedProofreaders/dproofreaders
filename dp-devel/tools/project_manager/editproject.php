@@ -1052,90 +1052,32 @@ function get_changed_fields($new_pih, $old_pih)
 {
     $changed_fields = 'Changed fields: ';
     $found_change = FALSE;
-    if ($new_pih->deletion_reason != $old_pih->deletion_reason)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."Reason for Deletion";
-        $found_change = TRUE;
-    }
-    if ($new_pih->nameofwork != $old_pih->nameofwork)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) . 'Name of work';
-        $found_change = TRUE;
-    }
-    if ($new_pih->authorsname != $old_pih->authorsname)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."Author's Name";
-        $found_change = TRUE;
-    }
-    if ($new_pih->username != $old_pih->username)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."Project Manager";
-        $found_change = TRUE;
-    }
-    if ($new_pih->language != $old_pih->language)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."Language";
-        $found_change = TRUE;
-    }
-    if ($new_pih->genre != $old_pih->genre)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."Genre";
-        $found_change = TRUE;
-    }
-    if ($new_pih->difficulty_level != $old_pih->difficulty_level)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."Difficulty Level";
-        $found_change = TRUE;
-    }
-    if ($new_pih->special_code != $old_pih->special_code)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."Special Day";
-        $found_change = TRUE;
-    }
-    if ($new_pih->checkedoutby != $old_pih->checkedoutby)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."PPer/PPVer";
-        $found_change = TRUE;
-    }
-    if ($new_pih->image_source != $old_pih->image_source)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."Original Image Source";
-        $found_change = TRUE;
-    }
-    if ($new_pih->image_preparer != $old_pih->image_preparer)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."Image Preparer";
-        $found_change = TRUE;
-    }
-    if ($new_pih->text_preparer != $old_pih->text_preparer)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."Text Preparer";
-        $found_change = TRUE;
-    }
-    if ($new_pih->extra_credits != $old_pih->extra_credits)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."Extra Credits";
-        $found_change = TRUE;
-    }
-    if ($new_pih->scannercredit != $old_pih->scannercredit)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."Scanner Credit";
-        $found_change = TRUE;
-    }
-    if ($new_pih->clearance != $old_pih->clearance)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."Clearance Information";
-        $found_change = TRUE;
-    }
-    if ($new_pih->postednum != $old_pih->postednum)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."Posted Number";
-        $found_change = TRUE;
-    }
-    if ($new_pih->comments != $old_pih->comments)
-    { 
-        $changed_fields .= ($found_change ? ', ' : '' ) ."Project Comments";
-        $found_change = TRUE;
+    $field_info = array(
+        'deletion_reason'  => "Reason for Deletion",
+        'nameofwork'       => "Name of work",
+        'authorsname'      => "Author's Name",
+        'username'         => "Project Manager",
+        'language'         => "Language",
+        'genre'            => "Genre",
+        'difficulty_level' => "Difficulty Level",
+        'special_code'     => "Special Day",
+        'checkedoutby'     => "PPer/PPVer",
+        'image_source'     => "Original Image Source",
+        'image_preparer'   => "Image Preparer",
+        'text_preparer'    => "Text Preparer",
+        'extra_credits'    => "Extra Credits",
+        'scannercredit'    => "Scanner Credit",
+        'clearance'        => "Clearance Information",
+        'postednum'        => "Posted Number",
+        'comments'         => "Project Comments",
+    );
+    foreach ( $field_info as $field_name => $label )
+    {
+        if ($new_pih->$field_name != $old_pih->$field_name)
+        { 
+            $changed_fields.= ($found_change ? ', ' : '' ) . $label;
+            $found_change = TRUE;
+        }
     }
     if ( ! $found_change )
     { 
