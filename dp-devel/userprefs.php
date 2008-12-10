@@ -49,7 +49,7 @@ $selected_tab = get_integer_param($_REQUEST, "tab", 0, 0, max(array_keys($tabs))
 
 $uid = $userP['u_id'];
 
-$userSettings = Settings::get_Settings($pguser);
+$userSettings =& Settings::get_Settings($pguser);
 
 if (isset($_POST["swProfile"]))
 {
