@@ -174,6 +174,14 @@ class Settings
     // Otherwise, set Value to $value.
     function set_value($settingCode, $value)
     {
+        if($this->username == '')
+        {
+            // If we don't have a username set, don't try to write anything
+            // to the database. A likely cause of this would be that the
+            // current http-requestor is a "guest", not a logged-in user.
+            return;
+        }
+
         if(!$this->_isSettable($settingCode))
         {
             die("Error: cannot set '$settingCode'");
