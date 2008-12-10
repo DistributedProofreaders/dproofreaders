@@ -34,14 +34,19 @@ function metarefresh($seconds,$url,$title="",$body="")
         {
             // get the proper protocol
             $absolute_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
-            $absolute_url .= $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']) . "/$url";
+            $absolute_url .= $_SERVER['HTTP_HOST'];
+            if(!startswith($url,'/'))
+            {
+                $absolute_url .= dirname($_SERVER['SCRIPT_NAME']) . "/";
+            }
+            $absolute_url .= $url;
         }
         else
         {
             $absolute_url = $url;
         }
 
-        header("Location: $url\n\n");
+        header("Location: $absolute_url\n\n");
         exit;
     }
 
