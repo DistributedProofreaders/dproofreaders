@@ -11,8 +11,6 @@ function show_block_for_round( $round_number, $projects_filter )
 
     $round = get_Round_for_round_number($round_number);
 
-    $setting = "{$round->id}_order";
-
     $columns = array(
         "nameofwork"  => _("Title"),
         "authorsname" => _("Author"),
@@ -32,7 +30,7 @@ function show_block_for_round( $round_number, $projects_filter )
     echo "\n<h3>$title</h3>";
     echo "\n<p>{$round->description}</p>";
 
-    show_project_listing( $round, $setting, $round->id, $columns, $where_filter );
+    show_project_listing( $round, $round->id, $columns, $where_filter );
 }
 
 function show_projects_available_for_postprocessing( $pool, $checkedout_or_available, $projects_filter )
@@ -72,9 +70,8 @@ function show_projects_available_for_postprocessing( $pool, $checkedout_or_avail
     $where_filter .= " $projects_filter";
 
     $ch_or_av = substr( $checkedout_or_available, 0, 2 );
-    $user_setting = "{$pool->id}_{$ch_or_av}_order";
 
-    show_project_listing( $pool, $user_setting, "{$pool->id}_{$ch_or_av}", $columns, $where_filter );
+    show_project_listing( $pool, "{$pool->id}_{$ch_or_av}", $columns, $where_filter );
 }
 
 function show_projects_available_for_smoothreading( $stage, $projects_filter )
@@ -109,23 +106,20 @@ function show_projects_available_for_smoothreading( $stage, $projects_filter )
     $where_filter .= " AND smoothread_deadline > UNIX_TIMESTAMP()";
     $where_filter .= " $projects_filter";
 
-    $user_setting = "SR_order";
-
     echo "\n<a name='{$stage->id}'></a>";
     $title = _('Projects Currently Available for Smooth Reading');
     echo "\n<h3>$title</h3>";
     echo "\n<p>{$stage->description}</p>";
 
-    show_project_listing( $stage, $user_setting, $stage->id, $columns, $where_filter );
+    show_project_listing( $stage, $stage->id, $columns, $where_filter );
 }
 
 // -----------------------------------------------------------------------------
 
-function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_filter = " " )
+function show_project_listing( $stage, $anchor, $columns, $where_filter = " " )
 // Create the sortable project listing.
 // Arguments:
 //   $stage        - stage object (Round, Pool, or Stage)
-//   $user_setting - the setting value to use when saving the sort order
 //   $anchor       - the anchor on the page to jump to
 //   $columns      - the columns to include in the table, this is an associative
 //                   array with the key being the column name and the value
@@ -149,6 +143,7 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
     $unsortable_columns = array( "uploaded" );
     
     // Load the sort column and direction
+    $user_setting = $anchor . "_order";
     list($sort_column, $sort_direction) = process_sorting_control($columns, $user_setting);
 
     // Determine SQL order by criteria based on the sorting information.
