@@ -387,6 +387,9 @@ function process_sorting_control($columns, $user_setting = NULL)
 {
     global $pguser;
 
+    // Load user settings
+    $userSettings =& Settings::get_Settings($pguser);
+
     // The default sort column is the first entry in $columns.
     $default_sort_column = array_shift(array_keys($columns));
 
@@ -397,7 +400,7 @@ function process_sorting_control($columns, $user_setting = NULL)
     // value from the database.
     if($user_setting && $sort_by == NULL)
     {
-        $sort_by = get_sort_criteria( $pguser, $user_setting, NULL );
+        $sort_by = $userSettings->get_value($user_setting, NULL);
     }
 
     // If that failed (there was no previous sort order) fall back to the
@@ -430,62 +433,16 @@ function process_sorting_control($columns, $user_setting = NULL)
     if($user_setting)
     {
         // Load the previous search criteria.
-        $sort_by_old = get_sort_criteria( $pguser, $user_setting, NULL );
+        $sort_by_old = $userSettings->get_value($user_setting, NULL);
 
         // If orders have changed, save them to database.
         if ($sort_by != $sort_by_old)
         {
-            set_sort_criteria( $pguser, $user_setting, $sort_by );
+            $userSettings->set_value($user_setting, $sort_by);
         }
     }
 
     return array($sort_column, $sort_direction);
-}
-
-// -----------------------------------------------------------------------------
-
-function get_sort_criteria( $username, $user_setting, $default = "" )
-// Return the sort criteria for a specific user and user_setting (ie: table).
-// Arguments:
-//   $username     - user for which to load the sort order
-//   $user_setting - setting name to use
-//   $default      - value to return if no previous setting was found
-// Returns:
-//   $sort_by      - the value returned from the database or $default
-{
-    $result = mysql_query("
-        SELECT value
-        FROM usersettings
-        WHERE username = '$username' AND setting = '$user_setting'"
-    );
-    if (mysql_num_rows($result) >= 1)
-    {
-        $sort_by = mysql_result($result, 0, "value");
-        mysql_free_result($result);
-    }
-    else
-    {
-        $sort_by = $default;
-    }
-
-    return $sort_by;
-}
-
-function set_sort_criteria( $username, $user_setting, $sort_by )
-// Sets the sort criteria for a specific user and user_setting (ie: table)
-// Arguments:
-//   $username     - user for which to save the sort criteria
-//   $user_setting - setting name to use
-//   $sort_by      - sort criteria to save
-{
-    $result = mysql_query("
-        DELETE FROM usersettings
-        WHERE username = '$username' AND setting = '$user_setting'
-    ");
-    $result = mysql_query("
-        INSERT INTO usersettings
-        VALUES ('$username', '$user_setting', '$sort_by')
-    ");
 }
 
 // vim: sw=4 ts=4 expandtab
