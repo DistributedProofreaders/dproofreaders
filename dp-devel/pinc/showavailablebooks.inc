@@ -74,7 +74,7 @@ function show_projects_available_for_postprocessing( $pool, $checkedout_or_avail
     $ch_or_av = substr( $checkedout_or_available, 0, 2 );
     $user_setting = "{$pool->id}_{$ch_or_av}_order";
 
-    show_project_listing( $pool, $user_setting, $checkedout_or_available, $columns, $where_filter );
+    show_project_listing( $pool, $user_setting, "{$pool->id}_{$ch_or_av}", $columns, $where_filter );
 }
 
 function show_projects_available_for_smoothreading( $stage, $projects_filter )
