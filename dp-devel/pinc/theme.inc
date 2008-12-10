@@ -227,11 +227,23 @@ function html_navbar()
         echo "<td align='right'>";
 
         $login_form = "<form style='margin: 0; display: inline;' action='$code_url/accounts/login.php' method='post'>\n";
-        // If 'destination' was passed into us, keep it in the login form
-        // for the subsequent redirect back to the requested page.
-        // Otherwise, pass in the current URL as the destination so after
-        // signing in they are returned to the current page.
-        $destination=array_get($_GET,"destination",$_SERVER["REQUEST_URI"]);
+
+        // We pass a hidden 'destination' parameter to login.php to indicate
+        // where the user should be sent (preferably, where they want to go)
+        // after a successful login.
+        //
+        // If a 'destination' parameter has been passed to the current script,
+        // we simply pass that on. Note that the pass-in can happen:
+        // -- via the query string of a GET request (after a redirect), or
+        // -- via the body of a POST request (after a failed login attempt).
+        // We handle both these cases by checking $_REQUEST['destination'].
+        //
+        // Otherwise (if a destination hasn't been passed in), we use the URI
+        // of the current request, so that after logging in, they are returned
+        // to (the "logged-in" version of) the page that's currently being built.
+        //
+        $destination = array_get($_REQUEST, "destination", $_SERVER["REQUEST_URI"]);
+
         $login_form .= "<input type='hidden' name='destination' value='$destination'>";
 
         // login link text
