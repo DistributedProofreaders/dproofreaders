@@ -204,6 +204,7 @@ class ProjectInfoHolder
         $this->extra_credits    = '';
         $this->deletion_reason  = '';
         // $this->year          = '';
+        $this->state            = '';    
     }
 
     // -------------------------------------------------------------------------
@@ -255,6 +256,7 @@ class ProjectInfoHolder
         $this->text_preparer    = $pguser;
         $this->extra_credits    = '';
         $this->deletion_reason  = '';
+        $this->state            = '';
 
         $this->original_marc_array_encd = $r1;
     }
@@ -304,6 +306,7 @@ class ProjectInfoHolder
         $this->text_preparer    = $up_info['d_text_preparer'];
         $this->extra_credits    = $up_info['d_extra_credits'];
         $this->deletion_reason  = '';
+        $this->state            = '';
 
         // $this->year          = $up_info['d_year'];
 
@@ -378,6 +381,7 @@ class ProjectInfoHolder
             $this->deletion_reason  = $ar['deletion_reason'];
             $this->posted           = @$_GET['posted'];        
             $this->postednum        = $ar['postednum'];
+            $this->state            = $ar['state'];
         }
         else
         {
@@ -385,6 +389,7 @@ class ProjectInfoHolder
             $this->postednum        = '';
             $this->deletion_reason  = '';
             $this->clone_projectid = $ar['projectid'];
+            $this->state            = '';
         }
         $this->up_projectid     = $ar['up_projectid'];
 
@@ -563,23 +568,22 @@ class ProjectInfoHolder
         }
 
         $this->checkedoutby = @$_POST['checkedoutby'];
-        if ($this->checkedoutby != '')
+        // if it's an existing project, we want to know its state
+        if ( isset($this->projectid) )
         {
-            // make sure the named PPer/PPVer actually exists
-            $errors .= check_user_exists($this->checkedoutby, 'PPer/PPVer');
-        }
-        else if ( isset($this->projectid) )
-        {
-            // don't allow an empty PPer/PPVer if the project is checked out
-            // Somewhat kludgey to have to do this query here.
+             // Somewhat kludgey to have to do this query here.
             $res = mysql_query("
                 SELECT state, checkedoutby, username
                 FROM projects
                 WHERE projectid='{$this->projectid}'
             ") or die(mysql_error());
             list($state, $PPer, $PM) = mysql_fetch_row($res);
-            if ( $state == PROJ_POST_FIRST_CHECKED_OUT ||
-                 $state == PROJ_POST_SECOND_CHECKED_OUT ) 
+            $this->state = $state;
+
+            // don't allow an empty PPer/PPVer if the project is checked out
+            if ( ( $this->state == PROJ_POST_FIRST_CHECKED_OUT ||
+                   $this->state == PROJ_POST_SECOND_CHECKED_OUT ) &&
+                 $this->checkedoutby == '')
             {
                 $errors .= "This project is checked out: you must specify a PPer/PPVer";
                 $this->checkedoutby = $PPer;
@@ -589,6 +593,17 @@ class ProjectInfoHolder
                 $this->projectmanager = $PM;
             }
         }
+        else
+        {
+            $this->state = '';
+        }
+
+        if ($this->checkedoutby != '')
+        {
+            // make sure the named PPer/PPVer actually exists
+            $errors .= check_user_exists($this->checkedoutby, 'PPer/PPVer');
+        }
+
         $this->image_preparer = @$_POST['image_preparer'];
         if ($this->image_preparer != '')
         {
@@ -917,19 +932,11 @@ class ProjectInfoHolder
             $this->row( _("Project ID"), 'just_echo', $this->projectid );
 
             // do some things that depend on the project state
-
-            // Somewhat kludgey to have to do this query here.
-            $res = mysql_query("
-                SELECT state
-                FROM projects
-                WHERE projectid='{$this->projectid}'
-            ") or die(mysql_error());
-            list($state) = mysql_fetch_row($res);
-            if ($state == PROJ_DELETE)
+            if ($this->state == PROJ_DELETE)
             {
                 $this->row( _("Reason for Deletion"),         'text_field',          $this->deletion_reason, 'deletion_reason' );
             }
-            else if ( $state == PROJ_POST_FIRST_CHECKED_OUT )
+            else if ( $this->state == PROJ_POST_FIRST_CHECKED_OUT )
             {
                 // once the project is in PP, PPer can only be changed by an SA, PF, 
                 // or if it's checked out to the PM
@@ -938,7 +945,7 @@ class ProjectInfoHolder
                                    user_is_a_sitemanager() ||
                                    user_is_proj_facilitator());
             }
-            else if ( $state == PROJ_POST_SECOND_CHECKED_OUT )
+            else if ( $this->state == PROJ_POST_SECOND_CHECKED_OUT )
             {
                 $is_checked_out = TRUE;
                 $can_edit_PPer = user_is_a_sitemanager();
