@@ -734,18 +734,44 @@ class ProjectInfoHolder
                 // changed!
                 $tlcc_setter = 't_last_change_comments = UNIX_TIMESTAMP(),';
             }
+            // We also want to know if the edit is resulting in the project
+            // effectively being checked out to a new PPer
+            if ( $old_pih->state == PROJ_POST_FIRST_CHECKED_OUT &&
+                 strpos($changed_fields, 'PPer/PPVer') != FALSE )
+            {
+                $md_setter = 'modifieddate = UNIX_TIMESTAMP(),';
+                $PPer_checkout = TRUE;
+            }
+            else
+            {
+                $md_setter = '';
+                $PPer_checkout = FALSE;
+            }
 
             // Update the projects database with the updated info
             mysql_query("
                 UPDATE projects SET
                     $pm_setter
                     $tlcc_setter
+                    $md_setter
                     $common_project_settings
                 WHERE projectid='{$this->projectid}'
             ") or die(mysql_error());
 
             $e = log_project_event( $this->projectid, $GLOBALS['pguser'], 'edit', $changed_fields );
             if ( !empty($e) ) die($e);
+            if ($PPer_checkout)
+            {
+                // we fake the project transition...
+                $e = log_project_event( $this->projectid, 
+                                        $GLOBALS['pguser'], 
+                                        'transition', 
+                                        PROJ_POST_FIRST_CHECKED_OUT,
+                                        PROJ_POST_FIRST_CHECKED_OUT,
+                                        $this->checkedoutby
+                                        );
+                if ( !empty($e) ) die($e);
+            }
 
             $result = mysql_query("
                 SELECT updated_array
