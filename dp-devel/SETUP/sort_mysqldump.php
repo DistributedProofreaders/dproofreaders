@@ -37,12 +37,21 @@ else
     $postamble = '';
 }
 
+// For each table-chunk, extract the table-name.
+$named_chunks = array();
+foreach ( $chunks as $chunk )
+{
+    preg_match('/^--\n-- Table structure for table `(.*)`/', $chunk, $matches );
+    $table_name = $matches[1];
+    $named_chunks[$table_name] = $chunk;
+}
+
 // Sort all the table-chunks by table-name.
-sort($chunks);
+ksort($named_chunks);
 
 // And now output everything.
 echo $preamble;
-foreach ( $chunks as $chunk ) echo $chunk;
+foreach ( $named_chunks as $chunk ) echo $chunk;
 echo $postamble;
 
 // vim: sw=4 ts=4 expandtab
