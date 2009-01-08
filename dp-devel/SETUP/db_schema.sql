@@ -141,7 +141,8 @@ CREATE TABLE `marc_records` (
   `original_marc` text NOT NULL,
   `updated_marc` text NOT NULL,
   `original_array` text NOT NULL,
-  `updated_array` text NOT NULL
+  `updated_array` text NOT NULL,
+  PRIMARY KEY  (`projectid`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -214,7 +215,9 @@ CREATE TABLE `page_events` (
   `round_id` char(2) default NULL,
   PRIMARY KEY  (`event_id`),
   KEY `projectid` (`projectid`,`image`,`round_id`),
-  KEY `username` (`username`,`round_id`)
+  KEY `username` (`username`,`round_id`),
+  KEY `projectid_username` (`projectid`,`username`),
+  KEY `username_projectid_round_time` (`username`,`projectid`,`round_id`,`timestamp`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -482,7 +485,8 @@ CREATE TABLE `project_events` (
   `details2` varchar(255) NOT NULL default '',
   `details3` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`event_id`),
-  KEY `project` (`projectid`)
+  KEY `project` (`projectid`),
+  KEY `timestamp` (`timestamp`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -542,6 +546,7 @@ CREATE TABLE `project_state_stats` (
   `date` date NOT NULL default '2003-00-00',
   `state` varchar(50) NOT NULL default '0',
   `num_projects` int(12) NOT NULL default '0',
+  `num_pages` int(12) NOT NULL default '0',
   `comments` varchar(255) default NULL,
   KEY `date` (`date`),
   KEY `state` (`state`)
@@ -567,6 +572,8 @@ CREATE TABLE `projects` (
   `correctedby` varchar(25) NOT NULL default '',
   `modifieddate` int(20) NOT NULL default '0',
   `t_last_edit` int(11) NOT NULL default '0',
+  `t_last_change_comments` int(11) NOT NULL default '0',
+  `t_last_page_done` int(11) NOT NULL default '0',
   `scannercredit` tinytext NOT NULL,
   `state` varchar(50) default NULL,
   `postednum` smallint(5) unsigned default NULL,
@@ -592,7 +599,8 @@ CREATE TABLE `projects` (
   `deletion_reason` tinytext NOT NULL,
   PRIMARY KEY  (`projectid`),
   KEY `state` (`state`),
-  KEY `special_code` (`special_code`)
+  KEY `special_code` (`special_code`),
+  KEY `projectid_archived_state` (`projectid`,`archived`,`state`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -917,6 +925,29 @@ CREATE TABLE `user_profiles` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `user_project_info`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `user_project_info` (
+  `username` varchar(25) NOT NULL default '',
+  `projectid` varchar(22) NOT NULL default '',
+  `t_latest_home_visit` int(10) unsigned NOT NULL default '0',
+  `t_latest_page_event` int(10) unsigned NOT NULL default '0',
+  `iste_round_available` tinyint(1) NOT NULL default '0',
+  `iste_round_complete` tinyint(1) NOT NULL default '0',
+  `iste_pp_enter` tinyint(1) NOT NULL default '0',
+  `iste_sr_available` tinyint(1) NOT NULL default '0',
+  `iste_ppv_enter` tinyint(1) NOT NULL default '0',
+  `iste_posted` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`username`,`projectid`),
+  KEY `projectid` (`projectid`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
 # Table structure for table `user_teams`
 #
 # Creation:
@@ -998,7 +1029,30 @@ CREATE TABLE `usersettings` (
   `username` varchar(25) NOT NULL default '',
   `setting` varchar(25) NOT NULL default '',
   `value` varchar(25) NOT NULL default '',
-  FULLTEXT KEY `setting` (`setting`)
+  KEY `username_setting_val` (`username`,`setting`,`value`),
+  KEY `setting` (`setting`,`value`),
+  KEY `value` (`value`,`setting`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
+# Table structure for table `wordcheck_events`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `wordcheck_events` (
+  `check_id` int(10) unsigned NOT NULL auto_increment,
+  `projectid` varchar(22) NOT NULL default '',
+  `timestamp` int(10) unsigned NOT NULL default '0',
+  `image` varchar(12) NOT NULL default '',
+  `round_id` char(2) NOT NULL default '',
+  `username` varchar(25) NOT NULL default '',
+  `suggestions` text,
+  `corrections` text,
+  PRIMARY KEY  (`check_id`),
+  KEY `pc_compound` (`projectid`,`timestamp`,`image`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
