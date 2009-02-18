@@ -68,6 +68,8 @@ show_news_for_page("FAQ");
   <font size="-1">The details of the guidelines we use for proofreading documents.</font></p>
 
   <p><a href="proofing_summary.pdf">Proofreading Summary</a><br>
+  <span style='font-size: smaller; color: #335;'>Also available in 
+     <a href='proofing_summary_french.pdf'>French</a>.</span><br>
   <font size="-1">Printable (.pdf) two-page summary of the most commonly needed
   proofreading standards from the Proofreading Guidelines, done as a big example! </font></p>
 

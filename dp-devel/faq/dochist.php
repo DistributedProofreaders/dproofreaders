@@ -31,6 +31,42 @@ theme('Proofreading and Formatting Guidelines Revision History','header');
     </tr>
 
     <tr>
+      <td>02/14/2009 </td>
+      <td>Ver.&nbsp;2.0</td>
+      <td>acunning40 and JHowse</td>
+      <td>
+        <!-- CVS version of document.php which reflects this entry is v1.*** -->
+        <h3>Formatting Guidelines changes</h3>
+        <ul compact="compact">
+                <li>Reorganization of topics and subdivisions for formatting at the character, paragraph, and page level</li>
+                <li>New alphabetical index to the bottom</li>
+                <li>Removed sections for topics that are handled completely during proofreading</li>
+                <li>New sections about the placement of inline and out-of-line markup; italics examples moved to the inline markup section</li>
+                <li>Use the /# #/ markup for a block of text that's printed differently from the regular text, regardless of whether it's quoted material</li>
+                <li>When aligning tables, account for the way that markup will be converted in the plaintext version</li>
+                <li>Mark right-aligned text with /* */</li>
+                <li>Removed the special guidelines for poetry and encyclopedias</li>
+                <li>Numerous clarifications and changes</li>
+        </ul>
+        <!-- CVS version of proofreading_guidelines.php which reflects this entry is v1.*** -->
+        <h3>Proofreading Guidelines changes</h3>
+        <ul compact="compact">
+                <li>Reorganization of topics and subdivisions for proofreading at the character, paragraph, and page level</li>
+                <li>New alphabetical index to the bottom</li>
+                <li>In poetry, don't remove extra quote marks on each line</li>
+                <li>Blank line at the top of the page for a new paragraph is now proofer's responsibility</li>
+                <li>Removed [/x] and [\x]</li>
+                <li>Braces for superscripts and subscripts are now handled in proofing not formatting</li>
+                <li>For superscripts, use braces any time more than one character is superscripted</li>
+                <li>No longer using the ordinal characters, just treat them as superscripts</li>
+                <li>New section under Common Problems for degree signs, ordinals, and superscripts</li>
+                <li>New section under Common Problems for preexisting formatting</li>
+                <li>Several sections about common OCR problems have been condensed into one</li>
+                <li>Numerous clarifications and changes</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>07/19/2007 </td>
       <td>Ver.&nbsp;1.9e </td>
       <td>The DP Community</td>
