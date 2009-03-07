@@ -1349,19 +1349,19 @@ function do_extra_files()
 
     echo "<ul>";
 
-    if ( count($filenames) == 0 )
+    $n_extra_files = 0;
+    foreach ($filenames as $filename)
+    {
+        if ( is_an_extra_file($filename) )
+        {
+            echo "<li><a href='$project->url/$filename'>$filename</a></li>";
+            $n_extra_files += 1;
+        }
+    }
+
+    if ( $n_extra_files == 0 )
     {
         echo "<li>(none)</li>\n";
-    }
-    else
-    {
-        foreach ($filenames as $filename)
-        {
-            if ( is_an_extra_file($filename) )
-            {
-                echo "<li><a href='$project->url/$filename'>$filename</a></li>";
-            }
-        }
     }
 
     echo "</ul>";
