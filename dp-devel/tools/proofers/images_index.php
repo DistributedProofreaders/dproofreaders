@@ -2,13 +2,19 @@
 $relPath="./../../pinc/";
 include($relPath.'site_vars.php');
 include($relPath.'theme.inc');
+include($relPath.'Project.inc');
 
 $projectid = $_GET['project'];
 
-theme("Image Index", 'header');
+$project = new Project($projectid);
+
+$image_index_str = _('Image Index');
+
+theme("$image_index_str: {$project->nameofwork}", 'header');
 
 echo "
-    <H1 ALIGN=CENTER>Image Index</H1>
+    <h1>{$project->nameofwork}</h1>
+    <h2>$image_index_str</h2>
     <P>Here are the individual images for project $projectid:</P>
     <HR>
 ";
@@ -28,4 +34,5 @@ echo "
 
 theme("", 'footer');
 
+// vim: sw=4 ts=4 expandtab
 ?>
