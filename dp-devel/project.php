@@ -1376,16 +1376,10 @@ function is_an_extra_file( $filename )
     static $excluded_filenames = NULL;
     if ( is_null($excluded_filenames) )
     {
-        // Exclude page-image files.
-        $res = mysql_query("
-            SELECT image
-            FROM $project->projectid
-        ") or die(mysql_error());
         $excluded_filenames = array();
-        while ( list($excluded_filename) = mysql_fetch_row($res) )
-        {
-                $excluded_filenames[$excluded_filename] = 1;
-        }
+        // A small set of filenames that we know a priori
+        // will be excluded if they occur.
+
 
         // These appear at "Word Lists":
         foreach ( array('good', 'bad') as $code )
@@ -1404,7 +1398,14 @@ function is_an_extra_file( $filename )
         // don't know their names in advance
     }
 
-    return !array_key_exists( $filename, $excluded_filenames );
+    if ( array_key_exists( $filename, $excluded_filenames ) ) return FALSE;
+
+    // Exclude all images (both page-images and non-page-images).
+    $image_extensions = array('png','jpg');
+    $extension = pathinfo($filename,PATHINFO_EXTENSION);
+    if ( in_array($extension, $image_extensions) ) return FALSE;
+
+    return TRUE;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
