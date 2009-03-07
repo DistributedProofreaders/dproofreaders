@@ -8,9 +8,6 @@ $projectid = $_GET['project'];
 theme("Image Index", 'header');
 
 echo "
-    <HTML>
-    <HEAD>  <TITLE>Image Index</TITLE>  </HEAD>
-    <BODY>
     <H1 ALIGN=CENTER>Image Index</H1>
     <P>Here are the individual images for project $projectid:</P>
     <HR>
@@ -27,8 +24,6 @@ foreach( glob("*.{png,jpg}", GLOB_BRACE) as $image_filename )
 
 echo "
     <HR>
-    </BODY>
-    </HTML>
 ";
 
 theme("", 'footer');
