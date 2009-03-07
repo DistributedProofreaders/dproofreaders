@@ -1355,6 +1355,27 @@ function do_extra_files()
     }
     else
     {
+        foreach ($filenames as $filename)
+        {
+            if ( is_an_extra_file($filename) )
+            {
+                echo "<li><a href='$project->url/$filename'>$filename</a></li>";
+            }
+        }
+    }
+
+    echo "</ul>";
+
+    chdir($saved_dir);
+}
+
+function is_an_extra_file( $filename )
+{
+    global $project;
+
+    static $excluded_filenames = NULL;
+    if ( is_null($excluded_filenames) )
+    {
         // Exclude page-image files.
         $res = mysql_query("
             SELECT image
@@ -1381,19 +1402,9 @@ function do_extra_files()
         // should really exclude uploaded SR, PP and PPV files too,
         // but we can't just add them to excluded_filenames because we
         // don't know their names in advance
-
-        foreach ($filenames as $filename)
-        {
-            if ( !array_key_exists( $filename, $excluded_filenames ) )
-            {
-                echo "<li><a href='$project->url/$filename'>$filename</a></li>";
-            }
-        }
     }
 
-    echo "</ul>";
-
-    chdir($saved_dir);
+    return !array_key_exists( $filename, $excluded_filenames );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
