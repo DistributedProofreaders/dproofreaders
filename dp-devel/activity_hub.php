@@ -231,19 +231,6 @@ function summarize_projects( $project_states, $filtertype_stem )
 
 
 
-// Providing Content
-{
-    echo "<li>\n";
-    echo _("Providing Content");
-    echo "<br>";
-    echo _("Want to help out the site by providing material for us to proofread? ");
-    echo "<a href='$code_url/faq/cp.php'>";
-    echo _("Find out how!");
-    echo "</a>\n";
-    echo "</li>\n";
-    echo "<br>\n";
-}
-
 foreach ( $Stage_for_id_ as $stage )
 {
     echo "<li>\n";
@@ -259,9 +246,6 @@ foreach ( $Stage_for_id_ as $stage )
         $stage_id_bit = "($stage->id)";
     }
     echo "$stage_id_bit <a href='$code_url/{$stage->relative_url}'>{$stage->name}</a>";
-    echo "<br>\n";
-
-    echo $stage->description;
     echo "<br>\n";
 
 
@@ -316,6 +300,43 @@ foreach ( $Stage_for_id_ as $stage )
 
 echo "</ul>\n";
 
+activity_descriptions();
+
+function activity_descriptions()
+// Prints out a list of activities (Stages, Rounds, and Pools) and their
+// description.
+{
+    global $Stage_for_id_, $code_url;
+    
+    echo "<h2>" . _("Activity descriptions") . "</h2>";
+    echo "<div id='stagedescriptions'>";
+    echo "<dl>\n";
+    
+    // Providing Content
+    {
+        echo "<dt>";
+        echo _("Providing Content");
+        echo "</dt>";
+        echo "<dd>";
+        echo sprintf(_("Want to help out the site by providing material for us to proofread? <a href='%s'>Find out how!</a>"), "$code_url/faq/cp.php");
+        echo "</dd>\n";
+    }
+    
+    foreach ( $Stage_for_id_ as $stage )
+    {
+        $stage_icon_url = get_dyn_image_url_for_file("stage_icons/{$stage->id}");
+        if ( !is_null($stage_icon_url) )
+            $stage_id_bit = "<img style='vertical-align: middle;' src='$stage_icon_url' alt='($stage->id)' title='$stage->id'>";
+        else
+            $stage_id_bit = "($stage->id)";
+
+        echo "<dt>$stage_id_bit <a href='$code_url/{$stage->relative_url}'>{$stage->name}</a></dt>";
+        echo "<dd>{$stage->description}</dd>\n";
+    }
+
+    echo "</dl>";
+    echo "</div>";
+}
 
 theme("", "footer");
 
