@@ -206,7 +206,7 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     }
 
     echo "<div style='width: 100%;'>";
-    echo "<table class='roundtable'>";
+    echo "<table class='snapshottable'>";
 
     // Loop through the stages three times, once each for Round, Pool, and
     // everything else.
