@@ -24,7 +24,7 @@ $_Activity_Hub = _("Activity Hub");
 
 theme($_Activity_Hub, "header");
 
-echo "<center><img src='$code_url/graphics/Activity_Hub.jpg' width='350' height='60' border='0' title='$_Activity_Hub' alt='$_Activity_Hub'></center>\n";
+echo "<center><img src='$code_url/graphics/Activity_Hub.png' width='350' height='60' border='0' title='$_Activity_Hub' alt='$_Activity_Hub'></center>\n";
 
 echo "<p>\n";
 echo sprintf(_('Welcome to the %1$s Activity Hub. From this page you can view the phases of %1$s production.'),$site_abbreviation);
