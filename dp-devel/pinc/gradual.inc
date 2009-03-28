@@ -36,19 +36,45 @@ function get_pages_proofed_maybe_simulated()
     return $pagesproofed;
 }
 
-function welcome_see_beginner_forum( $pagesproofed )
+function welcome_see_beginner_forum( $pagesproofed, $page_id )
 {
-    global $theme, $beginners_site_forum_url;
+    global $code_url, $ELR_round, $beginners_site_forum_url;
 
     if ($pagesproofed <= 100)
     {
-        echo "<hr width='75%'>\n";
+        echo "<div class='callout'>";
+        echo "<div class='calloutheader'>";
+        echo _("Welcome!");
+        echo "</div>";
 
-        echo '<font face="'. $theme['font_mainbody'] .'" color = "blue" size=+3><br><b>';
-        echo _("Welcome");
-        echo "</b></font><br><br>";
+        // If the user is not on the entry level round page, direct
+        // them to that page.
+        if($page_id != $ELR_round->id)
+        {
+            echo "<p>";
+            $round_url = "$code_url/tools/proofers/round.php?round_id={$ELR_round->id}";
+            echo sprintf(_("To begin proofreading, see the list of projects on the <a href='%s'>%s</a> round page."), $round_url, $ELR_round->id);
+            echo "</p>";
+        }
+        // If they are on the entry level round page, let them know that here
+        // is a good place to start.
+        else
+        {
+            echo "<p>";
+            // We explicitly don't include a jump to the list of projects in
+            // the text to make them scroll down pass the simple proofreading
+            // guidelines.
+            echo _("This page is where you can find a project to begin proofreading. See the list of projects at the bottom of this page.");
+            echo "</p>";
+        }
+        echo "<p>";
         echo sprintf(_("Please see our <a href='%s'>Beginner's Forum</a> for answers to common questions."), $beginners_site_forum_url);
-        echo "<br><br>\n";
+        echo "</p>";
+
+        echo "<p><small>";
+        echo _("After a period of time, this message will no longer appear.");
+        echo "</small></p>";
+        echo "</div>";
     }
 }
 

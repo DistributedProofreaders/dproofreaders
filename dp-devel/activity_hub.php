@@ -41,7 +41,7 @@ $pagesproofed = get_pages_proofed_maybe_simulated();
 
 alert_re_unread_messages( $pagesproofed );
 
-welcome_see_beginner_forum( $pagesproofed );
+welcome_see_beginner_forum( $pagesproofed, "HUB" );
 
 thoughts_re_mentor_feedback( $pagesproofed );
 
