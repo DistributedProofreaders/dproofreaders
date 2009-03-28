@@ -116,8 +116,26 @@ if ( user_is_PM() )
     echo "<br>\n";
 }
 
-// ----------------------------------
+// Get the project transitions for the number of projects completed today
+// set the timestamp representing the start of today
+$t_start_of_today = mktime(0,0,0,date('m'),date('d'),date('y'));
 
+// For transition events (event_type = 'transition'), details2 gives
+// the project's new state.
+$res = mysql_query("
+    SELECT details2, count(distinct projectid)
+    FROM project_events
+    WHERE event_type = 'transition' AND timestamp >= $t_start_of_today
+    GROUP BY details2
+") or die(mysql_error());
+
+$n_projects_transitioned_to_state_ = array();
+while ( list($project_state,$count) = mysql_fetch_row($res) )
+{
+    $n_projects_transitioned_to_state_[$project_state] = $count;
+}   
+
+// Get the current count for the number of projects in their current state
 $res = mysql_query("
     SELECT state, COUNT(*)
     FROM projects
