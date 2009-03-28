@@ -2,6 +2,7 @@
 include_once($relPath.'site_vars.php');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'forum_interface.inc');
 
 // This file deals with the gradual revelation of site features,
 // based on the number of pages proofed by the user.
@@ -61,6 +62,32 @@ function thoughts_re_mentor_feedback( $pagesproofed )
 
         echo sprintf(_("New Proofreaders: <a href='%s'>What did you think of the Mentor feedback you received?</a>"), "$forums_url/viewtopic.php?t=6651");
         echo "<br><br>";
+    }
+}
+
+function alert_re_unread_messages( $pagesproofed )
+{
+    global $pguser;
+
+    if ($pagesproofed <= 300)
+    {
+        $numofPMs = get_number_of_unread_messages($pguser);
+        if ($numofPMs > 0)
+        {
+            echo "<div class='callout'>";
+            echo "<div class='calloutheader'>";
+            echo _("You have received a private message in your Inbox.");
+            echo "</div>";
+    
+            echo "<p>";
+            echo _("This could be from somebody sending you feedback on some of the pages you had proofread earlier. We strongly recommend you <b>read</b> your messages. In the links at the top of this page, there is one that says Inbox. Just click on that to open your Inbox.");
+            echo "</p>";
+    
+            echo "<p><small>";
+            echo _("After a period of time, this message will no longer appear.");
+            echo "</small></p>";
+            echo "</div>";
+        }
     }
 }
 

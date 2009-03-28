@@ -18,7 +18,6 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'mentorbanner.inc');
-include_once($relPath.'forum_interface.inc');
 include_once($relPath.'filter_project_list.inc');
 include_once($relPath.'SettingsClass.inc');
 
@@ -40,30 +39,7 @@ echo "</p>\n";
 
 $pagesproofed = get_pages_proofed_maybe_simulated();
 
-
-// Unread messages
-if ($pagesproofed <= 300)
-{
-    $numofPMs = get_number_of_unread_messages($pguser);
-    if ($numofPMs > 0)
-    {
-        echo "<div class='callout'>";
-        echo "<div class='calloutheader'>";
-        echo _("You have received a private message in your Inbox.");
-        echo "</div>";
-
-        echo "<p>";
-        echo _("This could be from somebody sending you feedback on some of the pages you had proofread earlier. We strongly recommend you <b>read</b> your messages. In the links at the top of this page, there is one that says Inbox. Just click on that to open your Inbox.");
-        echo "</p>";
-
-        echo "<p><small>";
-        echo _("After a period of time, this message will no longer appear.");
-        echo "</small></p>";
-        echo "</div>";
-    }
-
-}
-
+alert_re_unread_messages( $pagesproofed );
 
 welcome_see_beginner_forum( $pagesproofed );
 

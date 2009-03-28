@@ -61,6 +61,7 @@ if ( !$uao->can_access )
 
 $pagesproofed = get_pages_proofed_maybe_simulated();
 
+alert_re_unread_messages( $pagesproofed );
 
 welcome_see_beginner_forum( $pagesproofed );
 
