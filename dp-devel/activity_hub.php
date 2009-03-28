@@ -19,6 +19,11 @@ include_once($relPath.'gradual.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'mentorbanner.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'filter_project_list.inc');
+include_once($relPath.'SettingsClass.inc');
+
+// Load user settings
+$userSettings =& Settings::get_Settings($pguser);
 
 $_Activity_Hub = _("Activity Hub");
 
@@ -103,14 +108,7 @@ foreach ( $Round_for_round_id_ as $round )
 
 echo "\n<hr>\n";
 
-echo "<ul>\n";
-
-if ( user_is_PM() )
-{
-    echo "<br>\n";
-    echo "<li><a href='$code_url/tools/project_manager/projectmgr.php'>" . _("Manage My Projects") . "</a></li>";
-    echo "<br>\n";
-}
+// ----------------------------------
 
 // Get the project transitions for the number of projects completed today
 // set the timestamp representing the start of today
@@ -129,7 +127,7 @@ $n_projects_transitioned_to_state_ = array();
 while ( list($project_state,$count) = mysql_fetch_row($res) )
 {
     $n_projects_transitioned_to_state_[$project_state] = $count;
-}   
+}
 
 // Get the current count for the number of projects in their current state
 $res = mysql_query("
@@ -144,165 +142,35 @@ while ( list($project_state,$count) = mysql_fetch_row($res) )
     $n_projects_in_state_[$project_state] = $count;
 }
 
-// -----------
+// Users can elect to show project stats for all projects, or just for
+// projects that match their project filter (ie: the filter used on
+// the corresponding Round or Pool pages to limit the projects shown on those
+// pages). We use the show_filtered_numbers userSetting value to persist the
+// user's selection between visits to this page.
+//
+// When the user toggles to view the other version of the stats (by clicking
+// the "All" or "Filtered" link) this re-requests the page with a setting for
+// the show_filtered parameter. This new setting is stored in the
+// show_filtered_numbers userSetting for use the next time they visit the
+// page.
+$user_filtered_projects_setting = $userSettings->get_boolean("show_filtered_numbers");
+$page_filtered_projects_setting = (array_get( $_GET, "show_filtered", $user_filtered_projects_setting) == 1);
+if($user_filtered_projects_setting != $page_filtered_projects_setting)
+    $userSettings->set_boolean("show_filtered_numbers", $page_filtered_projects_setting);
+$show_filtered_projects = $page_filtered_projects_setting;
 
-function summarize_projects( $project_states, $filtertype_stem )
+$show_filtering_links = TRUE;
+
+// Proofers with fewer than 21 pages can't see the filter box on the Round
+// pages so prevent those users from selecting the filtered option.
+if ($pagesproofed <= 20)
 {
-    global $n_projects_in_state_;
-    global $pguser;
-    global $theme;
-
-    $total = 0;
-    foreach ($project_states as $project_state)
-    {
-        $count = array_get( $n_projects_in_state_, $project_state, 0 );
-        $total += $count;
-    }
-
-    $font_str = "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='-1'>";
-
-    echo "<table border='3' CELLSPACING='1' CELLPADDING='5'>";
-    echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='center' rowspan='2'>".$font_str.
-         _("All projects")."</font></td>";
-    $title_row = '';
-    foreach ($project_states as $project_state)
-    {
-        $state_label_name = project_states_text($project_state);
-        if (strpos($state_label_name, ':') > 0) {
-            $state_label_name = substr($state_label_name,strpos($state_label_name, ':') + 1);
-        }
-        $title_row .= "<td align='center'>".$font_str.$state_label_name."</font></td>";
-    }
-
-    $title_row .= "<td align='center'>".$font_str._("Total projects")."</font></td></tr>";
-
-    echo $title_row;
-
-    echo "<tr>";
-
-    foreach ($project_states as $project_state)
-    {
-        $count = array_get( $n_projects_in_state_, $project_state, 0 );
-        echo "<td align='center'>$count</td>";
-    }
-
-    echo "<td align='center'>$total</td></tr>";
-
-    // -----------------------
-
-    // And now, with filtering...
-
-    $res1 = mysql_query("
-        SELECT value
-        FROM user_filters
-        WHERE username='$pguser' AND filtertype='{$filtertype_stem}_internal'
-    ") or die(mysql_error());
-    if ( mysql_num_rows($res1) == 0 )
-    {
-        // echo _("You have no project filtering set up for this stage.");
-        echo "</table>";
-        return;
-    }
-
-    list($project_filter) = mysql_fetch_row($res1);
-
-    $states_list = '';
-    foreach ( $project_states as $project_state )
-    {
-        if ($states_list) $states_list .= ',';
-        $states_list .= "'$project_state'";
-    }
-
-    $res2 = mysql_query("
-        SELECT state, COUNT(*)
-        FROM projects
-        WHERE state IN ($states_list) $project_filter
-        GROUP BY state
-    ") or die(mysql_error());
-
-    $n_filtered_projects_in_state_ = array();
-    $filtered_total = 0;
-    while ( list($project_state,$count) = mysql_fetch_row($res2) )
-    {
-        $n_filtered_projects_in_state_[$project_state] = $count;
-        $filtered_total += $count;
-    }
-
-    echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td align='center' rowspan='2'>".
-         $font_str._("After applying<br>your filter")."</font></td>";
-    echo $title_row;
-
-    foreach ($project_states as $project_state)
-    {
-        $count = array_get( $n_filtered_projects_in_state_, $project_state, 0 );
-        echo "<td align='center'>$count</td>\n";
-    }
-    echo "<td align='center'>$filtered_total</td>\n";
-    echo "</tr>";
-    echo "</table>";
-
+    $show_filtered_projects = FALSE;
+    $show_filtering_links = FALSE;
 }
 
 
-
-foreach ( $Stage_for_id_ as $stage )
-{
-    echo "<li>\n";
-
-    $stage_icon_path = "$dyn_dir/stage_icons/$stage->id.jpg";
-    $stage_icon_url  = "$dyn_url/stage_icons/$stage->id.jpg";
-    if ( file_exists($stage_icon_path) )
-    {
-        $stage_id_bit = "<img src='$stage_icon_url' alt='($stage->id)' title='$stage->id' align='middle'>";
-    }
-    else
-    {
-        $stage_id_bit = "($stage->id)";
-    }
-    echo "$stage_id_bit <a href='$code_url/{$stage->relative_url}'>{$stage->name}</a>";
-    echo "<br>\n";
-
-
-    if ( is_a( $stage, 'Round' ) )
-    {
-        echo "<br>\n";
-        summarize_projects( array(
-            $stage->project_waiting_state,
-            $stage->project_available_state,
-            ),
-            $stage->id
-        );
-    }
-    elseif ( is_a($stage, 'Pool' ) )
-    {
-        echo "<br>\n";
-        summarize_projects( array(
-            $stage->project_available_state,
-            $stage->project_checkedout_state,
-            ),
-            "{$stage->id}_av"
-        );
-
-        $res = mysql_query("
-            SELECT COUNT(*)
-            FROM projects
-            WHERE checkedoutby='$pguser' and state='{$stage->project_checkedout_state}'
-        ");
-        $n_projects_checked_out_to_user = mysql_result($res,0);
-        if ($n_projects_checked_out_to_user  > 0)
-        {
-            echo sprintf(
-                _("You currently have %d projects checked out in this stage."),
-                $n_projects_checked_out_to_user );
-            echo "<br>\n";
-        }
-    }
-
-    echo "</li>\n";
-    echo "<br>\n";
-}
-
-echo "</ul>\n";
+progress_snapshot_table($show_filtered_projects, $show_filtering_links, ($pagesproofed < 300));
 
 activity_descriptions();
 
@@ -310,16 +178,336 @@ theme("", "footer");
 
 // ----------------------------------
 
+function progress_snapshot_table($show_filtered_projects, $show_filtering_links, $show_beginner_help)
+// Prints out a table containing a row for each stage including the user's
+// access for that stage as well as project and page metrics.
+// Arguments:
+//   $show_filtered_projects - if TRUE, the table will show numbers based on
+//                             the user's project filter for that stage
+//   $show_filtering_links   - if TRUE, the table will allow the user to
+//                             toggle between viewing numbers for ALL projects
+//                             and just those for filters.
+//   $show_beginner_help     - if TRUE, the table will be prefaced with an
+//                             informational paragraph
+{
+    global $Stage_for_id_;
+
+    // start the table
+    echo "<a name='progress_snapshot'></a>";
+    echo "<h2>" . _("Site Progress Snapshot") . "</h2>";
+
+    echo "<p>" . sprintf(_("The following table provides an overview of what has been happening in the various stages of e-book production since midnight server-time (currently %s server-time)."),strftime("%H:%M")) . "</p>";
+
+    if($show_beginner_help)
+    {
+        echo "<p>" . _("The Project detail, on the left side, details the total number of projects in each production stage, how many of these are waiting to be made available for work, how many are currently active and available for volunteers to work on, and finally, the number of projects that have completed this production stage today.") . "</p>";
+        echo "<p>" . _("Each production stage has a daily goal which has been designed to assist in keeping work flowing through all production stages and motivating volunteers. The right side of the table provides details on the minimum number of pages we'd like to see each round complete per day, how many pages have actually been completed since midnight server time in each round and a percentage representation of the progress. Further, a \"Traffic Light\" color coding system indicates the likelihood of each production stage reaching its goal based on the rate of pages completed today.") . "</p>";
+        echo "<p>" . sprintf(_("See the <a href='%s'>workflow diagram</a> for more information about the overall process."),"faq/DPflow.php") . "</p>";
+    }
+
+    echo "<div style='width: 100%;'>";
+    echo "<table class='roundtable'>";
+
+    // Loop through the stages three times, once each for Round, Pool, and
+    // everything else.
+
+    // Round headers
+    echo "<tr>";
+    $img_alt = _("Proofing/Formatting Activities");
+    echo "<td rowspan='2' colspan='3' style='border: none;'><img src='graphics/icon_proofer.png' alt='$img_alt' title='$img_alt'></td>";
+    echo "<th colspan='4'>" .  _("Projects") . " - ";
+    if($show_filtered_projects)
+    {
+        if($show_filtering_links)
+            echo "<a href='?show_filtered=0#progress_snapshot'>" . _("All") . "</a> | ";
+        echo "<b>" . _("Filtered") . "</b>";
+    }
+    else
+    {
+        echo "<b>" . _("All") . "</b>";
+        if($show_filtering_links)
+            echo " | <a href='?show_filtered=1#progress_snapshot'>" . _("Filtered") . "</a>";
+    }
+    echo "</th>";
+    echo "<th colspan='3'>" . _("Pages Today") . "</th>";
+    echo "</tr>\n";
+
+    echo "<tr>";
+    echo "<th>" . _("Total") . "</th>";
+    echo "<th>" . _("Waiting") . "</th>";
+    echo "<th>" . _("Available") . "</th>";
+    echo "<th>" . _("Completed<br>Today") . "</th>";
+    echo "<th>" . _("Goal") . "</th>";
+    echo "<th>" . _("Completed") . "</th>";
+    echo "<th>" . _("Status") . "</th>";
+    echo "</tr>\n";
+
+    // Round rows
+    foreach ( $Stage_for_id_ as $stage )
+    {
+        if( !is_a( $stage, 'Round' ) )
+            continue;
+    
+        $desired_states = array($stage->project_waiting_state, $stage->project_available_state, $stage->project_complete_state);
+
+        summarize_stage($stage, $desired_states, $show_filtered_projects, $stage->id);
+    }
+
+    // Pool and Stage headers
+    echo "<tr>";
+    $img_alt = _("Post-Processing Activities");
+    echo "<td rowspan='2' colspan='3' style='border: none;'><img src='graphics/icon_pp.png' alt='$img_alt' title='$img_alt'></td>";
+    echo "<th colspan='3'>" . _("Projects") . " - ";
+    if($show_filtered_projects)
+    {
+        if($show_filtering_links)
+            echo "<a href='?show_filtered=0#progress_snapshot'>" . _("All") . "</a> | ";
+        echo "<b>" . _("Filtered") . "</b>";
+    }
+    else
+    {
+        echo "<b>" . _("All") . "</b>";
+        if($show_filtering_links)
+            echo " | <a href='?show_filtered=1#progress_snapshot'>" . _("Filtered") . "</a>";
+    }
+    echo "</th>";
+    echo "<td colspan='4' class='nocell'></td>";
+    echo "</tr>\n";
+
+    echo "<tr>";
+    echo "<th>" . _("Total") . "</th>";
+    echo "<th>" . _("Available") . "</th>";
+    echo "<th>" . _("In Progress") . "</th>";
+    echo "<td colspan='4' class='nocell'></td>";
+    echo "</tr>\n";
+
+    // Pool rows
+    foreach ( $Stage_for_id_ as $stage )
+    {
+        if( !is_a( $stage, 'Pool' ) )
+            continue;
+
+        $desired_states = array($stage->project_available_state, $stage->project_checkedout_state);
+
+        summarize_stage($stage, $desired_states, $show_filtered_projects, "{$stage->id}_av");
+    }
+
+    // Stage rows
+    foreach ( $Stage_for_id_ as $stage )
+    {
+        if( is_a( $stage, 'Pool' ) || is_a( $stage, 'Round') )
+            continue;
+
+        $desired_states = array();
+
+        summarize_stage($stage, $desired_states);
+    }
+    echo "<tr>";
+    echo "<td class='nocell' style='text-align: right;' colspan='10'>";
+    echo "<a href='faq/site_progress_snapshot_legend.php' target='SPSLegend'>" . _("Information about this table") . "</a>";
+    echo "</td>";
+    echo "</tr>";
+
+    echo "</table>";
+    echo "</div>";
+}
+
+
+function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE, $filter_type="")
+// Prints out an activity summary table row for a specific stage (be it a
+// Round, Pool, or Stage).
+{
+    global $pguser, $n_projects_in_state_, $n_projects_transitioned_to_state_;
+
+    // Get the stage identifier.
+    $stage_icon_url = get_dyn_image_url_for_file("stage_icons/{$stage->id}");
+    if ( !is_null($stage_icon_url) )
+        $stage_id_bit = "<img src='$stage_icon_url' alt='($stage->id)' title='$stage->id'>";
+    else
+        $stage_id_bit = "$stage->id";
+
+    // Get the stage description for displaying in the title of the link.
+    $description = strip_tags($stage->description);
+
+    // Determine access eligibility for this stage.
+    $uao = $stage->user_access( $pguser );
+    if($uao->can_access)
+    {
+        $access_icon = "graphics/access_yes.png";
+        $access_text = _("You can work in this activity");
+        $access_link = '';
+    }
+    elseif($uao->all_minima_satisfied)
+    {
+        $access_icon = "graphics/access_eligible.png";
+        $access_text = _("You are eligible to work in this activity");
+        $access_link = "{$stage->relative_url}#Entrance_Requirements";
+    }
+    else
+    {
+        $access_icon = "graphics/access_no.png";
+        $access_text = _("You are not yet eligible to work in this activity");
+        $access_link = "{$stage->relative_url}#Entrance_Requirements";
+    }
+
+    // If we're a round, get page information and calcluate status.
+    if ( is_a( $stage, 'Round' ) )
+    {
+        $round_stats = get_site_page_tally_summary($stage->id);
+
+        list($progress_bar_width, $progress_bar_color, $percent_complete) =
+            calculate_progress_bar_properties($round_stats->curr_day_actual, $round_stats->curr_day_goal);
+    }
+
+    // Calculate the total number of projects.
+    $total_projects = 0;
+    $stage_totals = array();
+    foreach($desired_states as $stage_state)
+    {
+        // Pull the number of completed projects from the project
+        // transitions array and the others from the current state array.
+        if($stage_state == $stage->project_complete_state)
+            $count = array_get( $n_projects_transitioned_to_state_, $stage_state, 0 );
+        else
+            $count = array_get( $n_projects_in_state_, $stage_state, 0 );
+
+        $stage_totals[$stage_state] = $count;
+        $total_projects += $count;
+    }
+
+    // Pull the project filter
+    $n_projects_in_state_by_filter_ = array();
+    if($show_filtered_projects)
+        $project_filter = get_project_filter_sql($pguser, $filter_type);
+
+    // We can't load filtered numbers without a filter and without
+    // a list of desired states.
+    $load_filtered_projects = FALSE;
+    if($show_filtered_projects && $project_filter!="" && count($desired_states)!=0)
+        $load_filtered_projects = TRUE;
+
+    // Load any projects based on filters
+    if($load_filtered_projects)
+    {
+        $states_list = '';
+        foreach ( $desired_states as $desired_state )
+        {
+            if ($states_list) $states_list .= ',';
+            $states_list .= "'$desired_state'";
+            $n_projects_in_state_by_filter_[$desired_state] = 0;
+            if($desired_state == $stage->project_complete_state)
+                $n_projects_in_state_by_filter_[$desired_state] = _("N/A");
+        }
+
+        $res = mysql_query("
+            SELECT state, COUNT(*)
+            FROM projects
+            WHERE state IN ($states_list) $project_filter
+            GROUP BY state
+        ") or die(mysql_error());
+
+        $total_projects = 0;
+        while ( list($project_state,$count) = mysql_fetch_row($res) )
+        {
+            $n_projects_in_state_by_filter_[$project_state] = $count;
+            $total_projects += $count;
+        }
+    }
+
+    // Output the table row.
+    echo "<tr>";
+
+    // If we're showing the filter for this line, we need the
+    // round cell to span two rows.
+    if($show_filtered_projects)
+        $span_rows = "rowspan='2'";
+    else
+        $span_rows = "";
+
+    // Every row gets a label, name, and access information.
+    echo "<td style='border-right: 0;' $span_rows>$stage_id_bit</td>";
+    echo "<td style='text-align: left; border-left: 0; border-right: 0;' $span_rows><a href='{$stage->relative_url}' title='$description'>{$stage->name}</a></td>";
+
+    // Output the access status icon. If the user does not yet have access
+    // make the image a link to the access requirements.
+    echo "<td style='border-left: 0;' $span_rows>";
+    if($access_link)
+        echo "<a href='$access_link'>";
+    echo "<img src='$access_icon' alt='$access_text' title='$access_text'>";
+    if($access_link)
+        echo "</a>";
+    echo "</td>";
+
+    // Rounds and Pools also get project totals.
+    if ( is_a( $stage, 'Round' ) || is_a( $stage, 'Pool' ) )
+    {
+        echo "<td>$total_projects</td>";
+        foreach ( $desired_states as $desired_state )
+        {
+            echo "<td>";
+            if($load_filtered_projects)
+                echo $n_projects_in_state_by_filter_[$desired_state];
+            else
+                echo $stage_totals[$desired_state];
+            echo "</td>";
+        }
+    }
+    else
+    {
+        echo "<td colspan='3' class='nocell'></td>";
+    }
+
+    // Rounds also get page totals.
+    if ( is_a( $stage, 'Round' ) )
+    {
+        echo "<td>{$round_stats->curr_day_goal}</td>";
+        echo "<td>{$round_stats->curr_day_actual}</td>";
+        echo "<td><div class='progressbar' style='background-color: $progress_bar_color; width: $progress_bar_width%;'>&nbsp;</div><p style='clear: both; margin-top: 0;'>$percent_complete%</p></td>";
+    }
+    else
+    {
+        // IE6 & 7 do not display the top and left borders of a cell if
+        // border-collapse=collapse and the border=1px. The following
+        // tweak is to ensure that if we show the filter that the filter
+        // cell has a border all the way around it.
+        if($show_filtered_projects)
+            echo "<td colspan='4' class='nocell' style='border-bottom: 1px solid black;'></td>";
+        else
+            echo "<td colspan='4' class='nocell'></td>";
+    }
+
+    echo "</tr>\n";
+
+    if($show_filtered_projects)
+    {
+        if($load_filtered_projects)
+        {
+            $display_filter = get_project_filter_display($pguser, $filter_type);
+            $display_filter = preg_replace(array("/^<br>/","/<br>/"),array(""," | "),$display_filter);
+        }
+        else
+        {
+            $display_filter = "<i>" . _("None") . "</i>";
+        }
+        echo "<tr>";
+        echo "<td colspan='7' style='text-align: left;'>";
+        echo "<small><a href='{$stage->relative_url}#filter_form'>" . _("Filter") . "</a>: $display_filter</small>";
+        echo "</td>";
+        echo "</tr>";
+    }
+}
+
+
 function activity_descriptions()
 // Prints out a list of activities (Stages, Rounds, and Pools) and their
 // description.
 {
     global $Stage_for_id_, $code_url;
-    
+
     echo "<h2>" . _("Activity descriptions") . "</h2>";
     echo "<div id='stagedescriptions'>";
     echo "<dl>\n";
-    
+
     // Providing Content
     {
         echo "<dt>";
@@ -329,7 +517,7 @@ function activity_descriptions()
         echo sprintf(_("Want to help out the site by providing material for us to proofread? <a href='%s'>Find out how!</a>"), "$code_url/faq/cp.php");
         echo "</dd>\n";
     }
-    
+
     foreach ( $Stage_for_id_ as $stage )
     {
         $stage_icon_url = get_dyn_image_url_for_file("stage_icons/{$stage->id}");
