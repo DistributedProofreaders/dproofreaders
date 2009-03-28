@@ -335,15 +335,19 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $pagesproofed = get_pages_proofed_maybe_simulated();
     if($pagesproofed < 100)
     {
-        echo "<hr width='70%'>\n";
-        $first_round = get_Round_for_round_number(1);
-        $first_round_id = $first_round->id;
-        $round_url = "$code_url/tools/proofers/round.php?round_id=$first_round_id#$first_round_id";
-        echo "<center>";
-        echo "<h2>" . _("Looking for projects to proof?") . "</h2>";
-        echo "<p>" . sprintf(_("If you're looking for projects to proof, consider using the list on the <a href='%s'>%s</a> round page instead of using this search form."), $round_url, $first_round_id) . "</p>";
-        echo "</center>";
-        echo "<hr width='70%'>\n";
+        echo "<div class='callout'>";
+        echo "<div class='calloutheader'>";
+        echo _("Looking for projects to proof?");
+        echo "</div>";
+
+        $round_url = "$code_url/tools/proofers/round.php?round_id={$ELR_round->id}#{$ELR_round->id}";
+        echo "<p>" . sprintf(_("If you're looking for projects to proof, consider using the list on the <a href='%s'>%s</a> round page instead of this search form."), $round_url, $ELR_round->id) . "</p>";
+        echo "</p>";
+
+        echo "<p><small>";
+        echo _("After a period of time, this message will no longer appear.");
+        echo "</small></p>";
+        echo "</div>";
     }
 
     echo "
