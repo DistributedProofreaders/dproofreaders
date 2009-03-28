@@ -29,10 +29,6 @@ echo "<center><img src='$code_url/graphics/Activity_Hub.png' width='350' height=
 echo "<p>\n";
 echo sprintf(_('Welcome to the %1$s Activity Hub. From this page you can view the phases of %1$s production.'),$site_abbreviation);
 echo "\n";
-/*
-echo _("The information below is customised for you, and details the phases of production in which you can particpate.");
-echo "\n";
-*/
 echo _("Follow the links to the specific areas of the site.");
 echo "</p>\n";
 
@@ -267,21 +263,12 @@ foreach ( $Stage_for_id_ as $stage )
     echo "<br>\n";
 
 
-    /*
-	$uao = $stage->user_access( $pguser, $pagesproofed );
-    show_user_access_object( $uao );
-    echo "<br>\n";
-    */
-
     if ( is_a( $stage, 'Round' ) )
     {
         echo "<br>\n";
         summarize_projects( array(
             $stage->project_waiting_state,
             $stage->project_available_state,
-            // $stage->project_complete_state,
-            // $stage->project_unavailable_state,
-            // $stage->project_bad_state
             ),
             $stage->id
         );
@@ -290,7 +277,6 @@ foreach ( $Stage_for_id_ as $stage )
     {
         echo "<br>\n";
         summarize_projects( array(
-            // $stage->project_unavailable_state,
             $stage->project_available_state,
             $stage->project_checkedout_state,
             ),
@@ -319,6 +305,10 @@ foreach ( $Stage_for_id_ as $stage )
 echo "</ul>\n";
 
 activity_descriptions();
+
+theme("", "footer");
+
+// ----------------------------------
 
 function activity_descriptions()
 // Prints out a list of activities (Stages, Rounds, and Pools) and their
@@ -355,8 +345,6 @@ function activity_descriptions()
     echo "</dl>";
     echo "</div>";
 }
-
-theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab
 ?>
