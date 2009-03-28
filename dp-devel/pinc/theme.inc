@@ -940,5 +940,77 @@ function html_footer() {
     echo "</html>\n";
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function calculate_progress_bar_properties($actual, $goal, $time_scale=TRUE, $color_thresholds=NULL)
+// A simple progress bar can be created by using the following HTML:
+//   <div class='progressbar' style='background-color: $color; width: $width%;'>&nbsp;</div>
+// The <div> can be placed inside another container used to control
+// the total width. This function assists in calculating the $color and $width
+// values used above in addition to returning the actual percentage of the
+// goal achieved.
+// Arguments:
+//   actual           - actual value obtained
+//   goal             - goal
+//   time_scale       - if TRUE, the returned color will be calculated based
+//                      on how much of the current day has passed. This is
+//                      useful so that at the beginning of a new day the bar
+//                      isn't at the low color.
+//   color_thresholds - associative array containing the colors to use for
+//                      each percentage completed range
+//                      eg: array(100 => "lightgreen", 75 => "orange", 0 => "red");
+//
+// Returns three values via a non-associative array():
+//   progress_bar_width - percentage width of the progress bar in range [0-100]
+//   progress_bar_color - color of progress bar using step-wise colors
+//   percent_complete   - actual percentage complete in whole numbers
+{
+    // Define the colors used for the status bar graph
+    if(!is_array($color_thresholds))
+    {
+        // Thresholds defined here are assumed to be highest to
+        // lowest. Thresholds passed into this function are sorted.
+        $color_thresholds = array(100 => "lightgreen", 75 => "orange", 0 => "red");
+    }
+    else
+    {
+        krsort($color_thresholds);
+    }
+
+    // calculate the width and percentage complete
+    if($goal > 0)
+    { 
+        $percent_complete = ceil(($actual / $goal) * 100);
+        $progress_bar_width = min($percent_complete, 100);
+    }
+    else
+    {
+        $percent_complete = 100;
+        $progress_bar_width = 100;
+    }
+
+    // Calculate the progress bar color scaling based on the time of day.
+    if($time_scale)
+    {
+        $t_start_of_today = mktime(0,0,0,date('m'),date('d'),date('y'));
+        $percentage_of_day_passed = (time() - $t_start_of_today) / (60*60*24);
+    }
+    else
+    {
+        $percentage_of_day_passed = 1;
+    }
+
+    foreach($color_thresholds as $threshold => $color)
+    {
+        if($percent_complete >= ($threshold * $percentage_of_day_passed))
+        {
+            $progress_bar_color = $color;
+            break;
+        }
+    }
+
+    return array($progress_bar_width, $progress_bar_color, $percent_complete);
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
