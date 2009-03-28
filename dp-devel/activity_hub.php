@@ -196,12 +196,12 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     echo "<a name='progress_snapshot'></a>";
     echo "<h2>" . _("Site Progress Snapshot") . "</h2>";
 
-    echo "<p>" . sprintf(_("The following table provides an overview of what has been happening in the various stages of e-book production since midnight server-time (currently %s server-time)."),strftime("%H:%M")) . "</p>";
+    echo "<p>" . sprintf(_("The following table provides an overview of what has been happening in the various stages of e-book production since midnight server-time. Current server-time is %s."),strftime("%H:%M")) . "</p>";
 
     if($show_beginner_help)
     {
-        echo "<p>" . _("The Project detail, on the left side, details the total number of projects in each production stage, how many of these are waiting to be made available for work, how many are currently active and available for volunteers to work on, and finally, the number of projects that have completed this production stage today.") . "</p>";
-        echo "<p>" . _("Each production stage has a daily goal which has been designed to assist in keeping work flowing through all production stages and motivating volunteers. The right side of the table provides details on the minimum number of pages we'd like to see each round complete per day, how many pages have actually been completed since midnight server time in each round and a percentage representation of the progress. Further, a \"Traffic Light\" color coding system indicates the likelihood of each production stage reaching its goal based on the rate of pages completed today.") . "</p>";
+        echo "<p>" . _("The left side of the table lists each production stage an e-book will go through, and indicates your ability to work in that stage. The \"Projects\" section, in the center of the table, shows the total number of projects in each stage, how many of these are waiting to be made available for work, how many are currently active and available for volunteers to work on, and finally, the number of projects that have completed that stage today.") . "</p>";
+        echo "<p>" . _("Each stage has a daily goal which has been designed to motivate volunteers and keep work flowing through the site. The \"Pages Today\" section, on the right side of the table, shows the number of pages we'd like to see that stage complete today, how many pages have actually been completed since midnight server-time, and a percentage representation of the progress. Further, a \"traffic light\" color-coding system indicates the likelihood of that stage reaching its goal based on the rate of pages completed so far today.") . "</p>";
         echo "<p>" . sprintf(_("See the <a href='%s'>workflow diagram</a> for more information about the overall process."),"faq/DPflow.php") . "</p>";
     }
 
