@@ -46,11 +46,7 @@ function welcome_see_beginner_forum( $pagesproofed )
         echo '<font face="'. $theme['font_mainbody'] .'" color = "blue" size=+3><br><b>';
         echo _("Welcome");
         echo "</b></font><br><br>";
-        echo _("Please see our");
-        echo " <a href='$beginners_site_forum_url'>";
-        echo _("Beginner's Forum");
-        echo "</a> ";
-        echo _("for answers to common questions.");
+        echo sprintf(_("Please see our <a href='%s'>Beginner's Forum</a> for answers to common questions."), $beginners_site_forum_url);
         echo "<br><br>\n";
     }
 }
@@ -63,10 +59,8 @@ function thoughts_re_mentor_feedback( $pagesproofed )
     {
         echo "<hr width='75%'>\n";
 
-        echo _("New Proofreaders:");
-        echo " <a href='$forums_url/viewtopic.php?t=6651'>";
-        echo _("What did you think of the Mentor feedback you received?");
-        echo "</a><br><br>";
+        echo sprintf(_("New Proofreaders: <a href='%s'>What did you think of the Mentor feedback you received?</a>"), "$forums_url/viewtopic.php?t=6651");
+        echo "<br><br>";
     }
 }
 
