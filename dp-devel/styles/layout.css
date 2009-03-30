@@ -143,5 +143,32 @@ table.stats td, table.stats th {
     padding-right: 2em;
 }
 
+/* ------------------------------------------------------------------------ */
+/* Available Project Listings */
+
+table.availprojectlisting {
+    width: 100%;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+table.availprojectlisting tr th {
+    font-weight: bold;
+    text-align: left;
+    border-bottom: 1px solid black;
+}
+
+table.availprojectlisting tr th img {
+    border: 0;
+}
+
+table.availprojectlisting tr td,
+table.availprojectlisting tr th
+ {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+
 /* vim: sw=4 ts=4 expandtab
 */

@@ -138,10 +138,10 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
     // Some columns (notably those with numbers in them)
     // have special formatting styles -- specify them here.
     $column_styles = array(
-        "n_available_pages" => "text-align: center;",
-        "n_pages"   => "text-align: center;",
-        "days"      => "text-align: center;",
-        "days_left" => "text-align: center;"
+        "n_available_pages" => "text-align: right;",
+        "n_pages"   => "text-align: right;",
+        "days_avail"=> "text-align: right;",
+        "days_left" => "text-align: right;"
     );
 
     // Identify columns that we know we can't sort by because their values
@@ -206,13 +206,13 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
     $result = mysql_query($query);
 
     // Start the table.
-    echo "\r\n<table border=1>";
+    echo "\r\n<table class='availprojectlisting'>";
     echo "<tr align=center bgcolor='{$stage->listing_bgcolors[1]}'>";
 
     // Print out the header row with links.
     foreach($columns as $name => $label)
     {
-        echo "<td>"; 
+        echo "<th>"; 
 
         if(!in_array($name, $unsortable_columns))
         {
@@ -220,14 +220,14 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
             if($name == $sort_column)
                 $link_sort_by .= ":" . ($sort_direction == "asc" ? "desc" : "asc");
 
-            echo "<b><a href='?{$other_settings}{$order_param}=$link_sort_by#$anchor'>$label</a></b>";
+            echo "<a href='?{$other_settings}{$order_param}=$link_sort_by#$anchor'>$label</a>";
         }
         else
         {
             echo "<b>$label</b>";
         }
 
-        echo "</td>";
+        echo "</th>";
     }
 
     echo "</tr>";
