@@ -220,7 +220,19 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
             if($name == $sort_column)
                 $link_sort_by .= ":" . ($sort_direction == "asc" ? "desc" : "asc");
 
-            echo "<a href='?{$other_settings}{$order_param}=$link_sort_by#$anchor'>$label</a>";
+            echo "<a href='?{$other_settings}{$order_param}=$link_sort_by#$anchor'>";
+            // Change spaces in label to <br>s to force them to wrap. This
+            // improves table layout in all browsers.
+            $label = preg_replace("/ /","<br>",$label);
+            echo $label;
+            echo "</a>";
+            if($name == $sort_column)
+            {
+                if($sort_direction == "asc")
+                    echo "&nbsp;<img src='$code_url/graphics/sort_asc.png'>";
+                else
+                    echo "&nbsp;<img src='$code_url/graphics/sort_desc.png'>";
+            }
         }
         else
         {
