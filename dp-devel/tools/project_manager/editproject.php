@@ -628,6 +628,12 @@ class ProjectInfoHolder
             else if ( ! preg_match('/^[1-9][0-9]*$/', $this->postednum ) )
             {
                 $errors .= "Posted Number \"$this->postednum\" is not of the correct format.<br>";
+                // You'll sometimes see PG etext numbers with a 'C' appended.
+                // The 'C' is not part of the etext number
+                // (e.g., it does not appear in PG's RDF catalog),
+                // rather it's a bit of information about the identified text,
+                // namely that it's still under (US) copyright.
+                // Anyhow, the 'C' should not be included here.
             }
         }
 
