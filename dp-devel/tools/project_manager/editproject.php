@@ -13,6 +13,9 @@ include_once('edit_common.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'project_events.inc');
 include_once($relPath.'wordcheck_engine.inc');
+include_once($relPath.'js_newpophelp.inc');
+
+$theme_args['js_data'] = get_newHelpWin_javascript("$code_url/faq/pophelp/project_manager/");
 
 $return = array_get($_REQUEST,"return","$code_url/tools/project_manager/projectmgr.php");
 
@@ -73,7 +76,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
     }
 
     $no_stats=1;
-    theme($page_title, "header");
+    theme($page_title, "header", $theme_args);
     echo "<br><h2 align='center'>$page_title</h2>\n";
 
     if ($errors != '')
@@ -143,7 +146,7 @@ else
     }
 
     $no_stats=1;
-    theme($page_title, "header");
+    theme($page_title, "header", $theme_args);
     echo "<br><h2 align='center'>$page_title</h2>\n";
 
     if ($fatal_error != '')
