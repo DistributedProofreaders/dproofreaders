@@ -942,7 +942,7 @@ function html_footer() {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function calculate_progress_bar_properties($actual, $goal, $time_scale=TRUE, $color_thresholds=NULL)
+function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_color=TRUE, $color_thresholds=NULL)
 // A simple progress bar can be created by using the following HTML:
 //   <div class='progressbar' style='background-color: $color; width: $width%;'>&nbsp;</div>
 // The <div> can be placed inside another container used to control
@@ -952,7 +952,8 @@ function calculate_progress_bar_properties($actual, $goal, $time_scale=TRUE, $co
 // Arguments:
 //   actual           - actual value obtained
 //   goal             - goal
-//   time_scale       - if TRUE, the returned color will be calculated based
+//   prorate_goal_for_color
+//                    - if TRUE, the returned color will be calculated based
 //                      on how much of the current day has passed. This is
 //                      useful so that at the beginning of a new day the bar
 //                      isn't at the low color.
@@ -990,19 +991,22 @@ function calculate_progress_bar_properties($actual, $goal, $time_scale=TRUE, $co
     }
 
     // Calculate the progress bar color scaling based on the time of day.
-    if($time_scale)
+    if($prorate_goal_for_color)
     {
         $t_start_of_today = mktime(0,0,0,date('m'),date('d'),date('y'));
-        $percentage_of_day_passed = (time() - $t_start_of_today) / (60*60*24);
+        $fraction_of_day_passed = (time() - $t_start_of_today) / (60*60*24);
+        // Note: Calculation assumes a 24-hour day which is true except
+        // possibly for the first and last days of daylight saving time
+        // depending on how PHP calculates DST in the mktime() call.
     }
     else
     {
-        $percentage_of_day_passed = 1;
+        $fraction_of_day_passed = 1;
     }
 
     foreach($color_thresholds as $threshold => $color)
     {
-        if($percent_complete >= ($threshold * $percentage_of_day_passed))
+        if($percent_complete >= ($threshold * $fraction_of_day_passed))
         {
             $progress_bar_color = $color;
             break;
