@@ -22,5 +22,11 @@ function slim_header($title="",$include_doctype=TRUE,$close_head_open_body=TRUE)
     }
 }
 
+function slim_footer()
+{
+    echo "\n</body>\n";
+    echo "</html>\n";
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
