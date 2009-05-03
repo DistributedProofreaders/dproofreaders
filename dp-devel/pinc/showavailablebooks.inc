@@ -427,7 +427,8 @@ function process_sorting_control($columns, $user_setting = NULL)
     }
 
     // Parse the $sort_by into its column:direction parts.
-    list($sort_column, $sort_direction) = explode(":", $sort_by);
+    @list($sort_column, $sort_direction) = explode(":", $sort_by);
+    // '@' to suppress "Notice: Undefined offset: 1" when $sort_by has no colon.
 
     // Confirm $sort_column is in $columns and if not, use the first entry.
     if(!array_key_exists($sort_column, $columns))
