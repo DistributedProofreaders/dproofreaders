@@ -240,7 +240,7 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
         }
         else
         {
-            echo "<b>$label</b>";
+            echo $label;
         }
 
         echo "</th>";
