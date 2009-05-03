@@ -340,8 +340,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         echo _("Looking for projects to proof?");
         echo "</div>";
 
-        $round_url = "$code_url/tools/proofers/round.php?round_id={$ELR_round->id}#{$ELR_round->id}";
-        echo "<p>" . sprintf(_("If you're looking for projects to proof, consider using the list on the <a href='%s'>%s</a> round page instead of this search form."), $round_url, $ELR_round->id) . "</p>";
+        echo "<p>" . sprintf(_("If you're looking for projects to proof, consider using the list on the <a href='%s'>%s</a> round page instead of this search form."), "$code_url/{$ELR_round->relative_url}#{$ELR_round->id}", $ELR_round->id) . "</p>";
         echo "</p>";
 
         echo "<p><small>";
