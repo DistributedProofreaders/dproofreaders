@@ -216,7 +216,7 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
         if(@$column_styles[$name])
             $style_attribute="style='{$column_styles[$name]}'";
 
-        echo "<th $style_attribute>";
+        echo "\n<th $style_attribute>";
 
         if(!in_array($name, $unsortable_columns))
         {
