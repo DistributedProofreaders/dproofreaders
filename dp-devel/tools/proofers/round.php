@@ -171,9 +171,13 @@ else
     }
 }
 
+// Don't display the filter block or the special colours legend to newbies.
+$show_filter_block = ($pagesproofed > 20);
+$allow_special_colors_legend = ($pagesproofed >= 10);
+
 $state_sql = "state = '{$round->project_available_state}'";
 
-if ($pagesproofed > 20)
+if ($show_filter_block)
 {
     // filter block
     echo "<hr width='75%'>\n";
@@ -184,10 +188,8 @@ if ($pagesproofed > 20)
 // special colours legend
 // Don't display if the user has selected the
 // setting "Show Special Colors: No".
-// Regardless of the preference, don't display
-// the legend to newbies.
 $userSettings = Settings::get_Settings($pguser);
-if ($pagesproofed >= 10 && !$userSettings->get_boolean('hide_special_colors'))
+if ($allow_special_colors_legend && !$userSettings->get_boolean('hide_special_colors'))
 {
     echo "<hr width='75%'>\n";
     echo_special_legend($state_sql);
