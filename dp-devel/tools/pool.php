@@ -7,10 +7,8 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'user_is.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'filter_project_list.inc');
-include_once($relPath.'forum_interface.inc');
 include_once($relPath.'showavailablebooks.inc');
 
 $pool_id = @$_GET['pool_id'];
