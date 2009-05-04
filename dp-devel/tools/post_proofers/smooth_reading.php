@@ -7,9 +7,7 @@ include_once($relPath.'dpsession.inc');
 include_once($relPath.'maintenance_mode.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
-include_once($relPath.'special_colors.inc');
 include_once($relPath.'page_header.inc');
-include_once($relPath.'filter_project_list.inc');
 include_once($relPath.'showavailablebooks.inc');
 
 // the user_is functions don't work unless this has been executed previously!
@@ -20,8 +18,6 @@ dpsession_resume();
 
 //Check to see if we are in a maintenance mode
 abort_if_in_maintenance_mode();
-
-$locuserSettings = Settings::get_Settings($pguser);
 
 // ---------------------------------------
 //Page construction varies with whether the user is logged in or out
@@ -102,24 +98,7 @@ if (!$logged_in)
     ";
 }
 
-
-// filter block
-echo "<hr width='75%'>\n";
-
-$state_sql = "state = 'proj_post_first_checked_out' AND smoothread_deadline > UNIX_TIMESTAMP()";
-process_and_display_project_filter_form($pguser, "SR", _("Smooth Reading"), $_REQUEST, $state_sql, array("checkedoutby" => TRUE));
-
-// special colours legend
-// Don't display if the user has selected the
-// setting "Show Special Colors: No";
-// visitors (not logged in) get to see them
-if (!$logged_in OR !$locuserSettings->get_boolean('hide_special_colors'))
-{
-    echo "<hr width='75%'>\n";
-    echo_special_legend($state_sql);
-}
-
-show_projects_available_for_smoothreading( get_Stage_for_id("SR"), get_project_filter_sql($pguser, "SR") );
+show_projects_for_smooth_reading();
 
 theme('', 'footer');
 

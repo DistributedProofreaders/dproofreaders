@@ -63,6 +63,30 @@ function show_block_for_round( $round_number, $projects_filter )
 
 // -----------------------------------------------------------------------------
 
+function show_projects_for_smooth_reading()
+{
+    global $pguser;
+
+    $state_sql = "state = 'proj_post_first_checked_out' AND smoothread_deadline > UNIX_TIMESTAMP()";
+
+    // filter block
+    echo "<hr width='75%'>\n";
+    process_and_display_project_filter_form($pguser, "SR", _("Smooth Reading"), $_REQUEST, $state_sql, array("checkedoutby" => TRUE));
+
+    // special colours legend
+    // Don't display if the user has selected the
+    // setting "Show Special Colors: No";
+    // visitors (not logged in) get to see them
+    $userSettings = Settings::get_Settings($pguser);
+    if (!isset($pguser) OR !$userSettings->get_boolean('hide_special_colors'))
+    {
+        echo "<hr width='75%'>\n";
+        echo_special_legend($state_sql);
+    }
+
+    show_projects_available_for_smoothreading( get_Stage_for_id("SR"), get_project_filter_sql($pguser, "SR") );
+}
+
 function show_projects_available_for_smoothreading( $stage, $projects_filter )
 // Print out the heading information and the table for the pool
 // project listing.
