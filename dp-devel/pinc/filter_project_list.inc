@@ -457,16 +457,16 @@ function _load_project_filter_field_values($field, $state_sql)
     switch($field)
     {
         case "language":
-            $query = "SELECT distinct language FROM projects WHERE $state_sql ORDER BY language";
+            $query = "SELECT distinct language FROM projects WHERE ($state_sql) ORDER BY language";
             break;
         case "genre":
-            $query = "SELECT distinct genre FROM projects WHERE $state_sql ORDER BY genre";
+            $query = "SELECT distinct genre FROM projects WHERE ($state_sql) ORDER BY genre";
             break;
         case "special_code":
             $query = "
                 SELECT  DISTINCT special_code, display_name
                 FROM projects, special_days
-                WHERE projects.special_code = special_days.spec_code AND $state_sql ORDER BY display_name
+                WHERE projects.special_code = special_days.spec_code AND ($state_sql) ORDER BY display_name
             ";
             $load_associative = TRUE;
             break;
@@ -475,10 +475,10 @@ function _load_project_filter_field_values($field, $state_sql)
             return $difficulty_options;
             break;
         case "username":
-            $query = "SELECT distinct username FROM projects WHERE $state_sql ORDER BY username";
+            $query = "SELECT distinct username FROM projects WHERE ($state_sql) ORDER BY username";
             break;
         case "checkedoutby":
-            $query = "SELECT distinct checkedoutby FROM projects WHERE $state_sql ORDER BY checkedoutby";
+            $query = "SELECT distinct checkedoutby FROM projects WHERE ($state_sql) ORDER BY checkedoutby";
             break;
         default:
             die("Invalid field type.");
