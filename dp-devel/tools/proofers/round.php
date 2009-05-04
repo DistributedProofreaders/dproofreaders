@@ -16,7 +16,6 @@ include_once($relPath.'mentorbanner.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'filter_project_list.inc');
 
-$userSettings = Settings::get_Settings($pguser);
 
 $round_id = array_get( $_GET, 'round_id', NULL );
 if (is_null($round_id))
@@ -31,8 +30,6 @@ if (is_null($round_id))
     echo "round.php invoked with invalid round_id='$round_id'.";
     exit;
 }
-
-$state_sql = "state = '{$round->project_available_state}'";
 
 if ($userP['i_newwin']==1)
 {
@@ -172,8 +169,12 @@ else
         );
         echo "\n";
     }
+}
 
+$state_sql = "state = '{$round->project_available_state}'";
 
+if ($pagesproofed > 20)
+{
     // filter block
     echo "<hr width='75%'>\n";
 
@@ -185,6 +186,7 @@ else
 // setting "Show Special Colors: No".
 // Regardless of the preference, don't display
 // the legend to newbies.
+$userSettings = Settings::get_Settings($pguser);
 if ($pagesproofed >= 10 && !$userSettings->get_boolean('hide_special_colors'))
 {
     echo "<hr width='75%'>\n";
