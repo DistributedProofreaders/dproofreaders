@@ -131,6 +131,40 @@ function show_projects_available_for_smoothreading( $stage, $projects_filter )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function show_projects_for_pool( $pool, $checkedout_or_available )
+{
+    global $pguser;
+
+    if ( $checkedout_or_available == 'checkedout' )
+    {
+        $header = _('Books I Have Checked Out');
+
+        echo "<h2 align='center'>$header</h2>";
+
+        echo "<a name='checkedout'></a>\n";
+        show_projects_available_for_postprocessing( $pool, 'checkedout', "" );
+    }
+    elseif ( $checkedout_or_available == 'available' )
+    {
+        $header = _('Books Available for Checkout');
+
+        echo "<h2 align='center'>$header</h2>";
+
+        $available_filtertype_stem = "{$pool->id}_av";
+
+        $state_sql = "state = '{$pool->project_available_state}'";
+        process_and_display_project_filter_form($pguser, $available_filtertype_stem, $pool->name, $_REQUEST, $state_sql);
+
+        echo "<a name='available'></a>\n";
+        echo "<center><b>$header</b></center>";
+        show_projects_available_for_postprocessing( $pool, 'available', get_project_filter_sql($pguser, $available_filtertype_stem) );
+    }
+    else
+    {
+        assert(FALSE);
+    }
+}
+
 function show_projects_available_for_postprocessing( $pool, $checkedout_or_available, $projects_filter )
 // Print out the heading information and the table for the pool
 // project listing.

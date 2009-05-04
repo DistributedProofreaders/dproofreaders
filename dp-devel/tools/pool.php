@@ -8,7 +8,6 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
-include_once($relPath.'filter_project_list.inc');
 include_once($relPath.'showavailablebooks.inc');
 
 $pool_id = @$_GET['pool_id'];
@@ -18,8 +17,6 @@ if ( is_null($pool) )
 {
     die("bad 'pool_id' parameter: '$pool_id'");
 }
-
-$available_filtertype_stem = "{$pool->id}_av";
 
 // -----------------------------------------------------------------------------
 
@@ -75,30 +72,16 @@ if (!$userSettings->get_boolean('hide_special_colors'))
 // --------------------------------------------------------------
 echo "<hr>\n";
 
-$header = _('Books I Have Checked Out');
+show_projects_for_pool( $pool, 'checkedout' );
 
-echo "<h2 align='center'>$header</h2>";
-
-echo "<a name='checkedout'></a>\n";
-show_projects_available_for_postprocessing( $pool, 'checkedout', "" );
 echo "<br>";
 echo "<br>";
 
 // --------------------------------------------------------------
 echo "<hr>\n";
 
-$header = _('Books Available for Checkout');
+show_projects_for_pool( $pool, 'available' );
 
-echo "<h2 align='center'>$header</h2>";
-
-// -------
-$state_sql = "state = '{$pool->project_available_state}'";
-process_and_display_project_filter_form($pguser, $available_filtertype_stem, $pool->name, $_REQUEST, $state_sql);
-// -------
-
-echo "<a name='available'></a>\n";
-echo "<center><b>$header</b></center>";
-show_projects_available_for_postprocessing( $pool, 'available', get_project_filter_sql($pguser, $available_filtertype_stem) );
 echo "<br>";
 echo "<br>";
 
