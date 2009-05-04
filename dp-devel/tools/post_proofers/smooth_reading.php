@@ -107,7 +107,7 @@ if (!$logged_in)
 // filter block
 echo "<hr width='75%'>\n";
 
-$state_sql = " (state = 'proj_post_first_checked_out' AND smoothread_deadline > UNIX_TIMESTAMP() ) ";
+$state_sql = "state = 'proj_post_first_checked_out' AND smoothread_deadline > UNIX_TIMESTAMP()";
 process_and_display_project_filter_form($pguser, "SR", _("Smooth Reading"), $_REQUEST, $state_sql, array("checkedoutby" => TRUE));
 
 // special colours legend

@@ -32,7 +32,7 @@ if (is_null($round_id))
     exit;
 }
 
-$state_sql = " (state = '{$round->project_available_state}') ";
+$state_sql = "state = '{$round->project_available_state}'";
 
 if ($userP['i_newwin']==1)
 {

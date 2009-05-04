@@ -94,7 +94,7 @@ $header = _('Books Available for Checkout');
 echo "<h2 align='center'>$header</h2>";
 
 // -------
-$state_sql = " (state = '{$pool->project_available_state}') ";
+$state_sql = "state = '{$pool->project_available_state}'";
 process_and_display_project_filter_form($pguser, $available_filtertype_stem, $pool->name, $_REQUEST, $state_sql);
 // -------
 
