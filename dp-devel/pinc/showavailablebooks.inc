@@ -35,47 +35,7 @@ function show_block_for_round( $round_number, $projects_filter )
     show_project_listing( $round, $setting, $round->id, $columns, $where_filter );
 }
 
-function show_projects_available_for_postprocessing( $pool, $checkedout_or_available, $projects_filter )
-// Print out the heading information and the table for the pool
-// project listing.
-{
-    global $pguser;
-
-    $columns = array(
-        "nameofwork"  => _("Title"),
-        "authorsname" => _("Author"),
-        "language"    => _("Language"),
-        "genre"       => _("Genre"),
-        "n_pages"     => _("Pages"),
-        $pool->foo_field_name => $pool->foo_Header,
-        "days_avail"  => _("Days")
-    );
-
-    if ( $checkedout_or_available == 'checkedout' )
-    {
-        $proj_state = $pool->project_checkedout_state;
-    }
-    elseif ( $checkedout_or_available == 'available' )
-    {
-        $proj_state = $pool->project_available_state;
-    }
-
-    $where_filter = "state = '$proj_state'";
-
-    if ( $checkedout_or_available == 'checkedout' )
-    {
-        // The project must be checked-out to somebody.
-        // We're only interested if it's checked out to the current user.
-        $where_filter .= " AND checkedoutby = '$pguser'";
-    }
-
-    $where_filter .= " $projects_filter";
-
-    $ch_or_av = substr( $checkedout_or_available, 0, 2 );
-    $user_setting = "{$pool->id}_{$ch_or_av}_order";
-
-    show_project_listing( $pool, $user_setting, $checkedout_or_available, $columns, $where_filter );
-}
+// -----------------------------------------------------------------------------
 
 function show_projects_available_for_smoothreading( $stage, $projects_filter )
 // Print out the heading information and the table for the pool
@@ -119,7 +79,51 @@ function show_projects_available_for_smoothreading( $stage, $projects_filter )
     show_project_listing( $stage, $user_setting, $stage->id, $columns, $where_filter );
 }
 
-// -----------------------------------------------------------------------------
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function show_projects_available_for_postprocessing( $pool, $checkedout_or_available, $projects_filter )
+// Print out the heading information and the table for the pool
+// project listing.
+{
+    global $pguser;
+
+    $columns = array(
+        "nameofwork"  => _("Title"),
+        "authorsname" => _("Author"),
+        "language"    => _("Language"),
+        "genre"       => _("Genre"),
+        "n_pages"     => _("Pages"),
+        $pool->foo_field_name => $pool->foo_Header,
+        "days_avail"  => _("Days")
+    );
+
+    if ( $checkedout_or_available == 'checkedout' )
+    {
+        $proj_state = $pool->project_checkedout_state;
+    }
+    elseif ( $checkedout_or_available == 'available' )
+    {
+        $proj_state = $pool->project_available_state;
+    }
+
+    $where_filter = "state = '$proj_state'";
+
+    if ( $checkedout_or_available == 'checkedout' )
+    {
+        // The project must be checked-out to somebody.
+        // We're only interested if it's checked out to the current user.
+        $where_filter .= " AND checkedoutby = '$pguser'";
+    }
+
+    $where_filter .= " $projects_filter";
+
+    $ch_or_av = substr( $checkedout_or_available, 0, 2 );
+    $user_setting = "{$pool->id}_{$ch_or_av}_order";
+
+    show_project_listing( $pool, $user_setting, $checkedout_or_available, $columns, $where_filter );
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_filter = " " )
 // Create the sortable project listing.
