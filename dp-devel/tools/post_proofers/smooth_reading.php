@@ -10,7 +10,6 @@ include_once($relPath.'site_news.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'page_header.inc');
 include_once($relPath.'filter_project_list.inc');
-include_once($relPath.'forum_interface.inc');
 include_once($relPath.'showavailablebooks.inc');
 
 // the user_is functions don't work unless this has been executed previously!
