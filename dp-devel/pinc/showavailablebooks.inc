@@ -142,7 +142,7 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         echo "<h2 align='center'>$header</h2>";
 
         echo "<a name='checkedout'></a>\n";
-        show_projects_available_for_postprocessing( $pool, 'checkedout', "" );
+        $projects_filter = "";
     }
     elseif ( $checkedout_or_available == 'available' )
     {
@@ -157,12 +157,14 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
 
         echo "<a name='available'></a>\n";
         echo "<center><b>$header</b></center>";
-        show_projects_available_for_postprocessing( $pool, 'available', get_project_filter_sql($pguser, $available_filtertype_stem) );
+        $projects_filter = get_project_filter_sql($pguser, $available_filtertype_stem);
     }
     else
     {
         assert(FALSE);
     }
+
+    show_projects_available_for_postprocessing( $pool, $checkedout_or_available, $projects_filter );
 }
 
 function show_projects_available_for_postprocessing( $pool, $checkedout_or_available, $projects_filter )
