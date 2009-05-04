@@ -10,12 +10,9 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'showavailablebooks.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'gradual.inc');
-include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'mentorbanner.inc');
 include_once($relPath.'page_tally.inc');
-include_once($relPath.'filter_project_list.inc');
-
 
 $round_id = array_get( $_GET, 'round_id', NULL );
 if (is_null($round_id))
@@ -175,27 +172,7 @@ else
 $show_filter_block = ($pagesproofed > 20);
 $allow_special_colors_legend = ($pagesproofed >= 10);
 
-$state_sql = "state = '{$round->project_available_state}'";
-
-if ($show_filter_block)
-{
-    // filter block
-    echo "<hr width='75%'>\n";
-
-    process_and_display_project_filter_form($pguser, $round->id, $round->name, $_REQUEST, $state_sql);
-}
-
-// special colours legend
-// Don't display if the user has selected the
-// setting "Show Special Colors: No".
-$userSettings = Settings::get_Settings($pguser);
-if ($allow_special_colors_legend && !$userSettings->get_boolean('hide_special_colors'))
-{
-    echo "<hr width='75%'>\n";
-    echo_special_legend($state_sql);
-}
-
-show_block_for_round($round->round_number, get_project_filter_sql($pguser, $round->id));
+show_projects_for_round( $round, $show_filter_block, $allow_special_colors_legend );
 
 theme('', 'footer');
 

@@ -2,8 +2,34 @@
 include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'gettext_setup.inc');
+include_once($relPath.'filter_project_list.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');
+
+function show_projects_for_round( $round, $show_filter_block, $allow_special_colors_legend )
+{
+    global $pguser;
+
+    $state_sql = "state = '{$round->project_available_state}'";
+
+    if ($show_filter_block)
+    {
+        echo "<hr width='75%'>\n";
+        process_and_display_project_filter_form($pguser, $round->id, $round->name, $_REQUEST, $state_sql);
+    }
+
+    // special colors legend
+    // Don't display if the user has selected the
+    // setting "Show Special Colors: No".
+    $userSettings = Settings::get_Settings($pguser);
+    if ($allow_special_colors_legend && !$userSettings->get_boolean('hide_special_colors'))
+    {
+        echo "<hr width='75%'>\n";
+        echo_special_legend($state_sql);
+    }
+
+    show_block_for_round($round->round_number, get_project_filter_sql($pguser, $round->id));
+}
 
 function show_block_for_round( $round_number, $projects_filter )
 {
