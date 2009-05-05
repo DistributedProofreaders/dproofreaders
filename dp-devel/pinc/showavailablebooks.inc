@@ -12,6 +12,8 @@ function show_projects_for_round( $round, $show_filter_block, $allow_special_col
 
     $state_sql = "state = '{$round->project_available_state}'";
 
+    $filter_custom_display_fields = NULL;
+
     $columns = array(
         "nameofwork"  => _("Title"),
         "authorsname" => _("Author"),
@@ -23,10 +25,12 @@ function show_projects_for_round( $round, $show_filter_block, $allow_special_col
         "days_avail"  => _("Days")
     );
 
+    $stage = $round;
+
     if ($show_filter_block)
     {
         echo "<hr width='75%'>\n";
-        process_and_display_project_filter_form($pguser, $round->id, $round->name, $_REQUEST, $state_sql);
+        process_and_display_project_filter_form($pguser, $stage->id, $stage->name, $_REQUEST, $state_sql, $filter_custom_display_fields);
     }
 
     // special colors legend
@@ -39,19 +43,19 @@ function show_projects_for_round( $round, $show_filter_block, $allow_special_col
         echo_special_legend($state_sql);
     }
 
-    $projects_filter = get_project_filter_sql($pguser, $round->id);
+    $projects_filter = get_project_filter_sql($pguser, $stage->id);
 
-    $setting = "{$round->id}_order";
+    $setting = "{$stage->id}_order";
 
     $where_filter = $state_sql;
     $where_filter .= " $projects_filter";
 
-    echo "\n<a name='{$round->id}'></a>";
+    echo "\n<a name='{$stage->id}'></a>";
     $title = _('Projects Currently Available');
     echo "\n<h3>$title</h3>";
-    echo "\n<p>{$round->description}</p>";
+    echo "\n<p>{$stage->description}</p>";
 
-    show_project_listing( $round, $setting, $round->id, $columns, $where_filter );
+    show_project_listing( $stage, $setting, $stage->id, $columns, $where_filter );
 }
 
 // -----------------------------------------------------------------------------
@@ -61,6 +65,8 @@ function show_projects_for_smooth_reading()
     global $pguser;
 
     $state_sql = "state = 'proj_post_first_checked_out' AND smoothread_deadline > UNIX_TIMESTAMP()";
+
+    $filter_custom_display_fields = array("checkedoutby" => TRUE);
 
     $columns = array(
         "nameofwork"  => _("Title"),
@@ -84,9 +90,11 @@ function show_projects_for_smooth_reading()
         "days_left" => _("Days Left")
     ));
 
+    $stage = get_Stage_for_id("SR");
+
     // filter block
     echo "<hr width='75%'>\n";
-    process_and_display_project_filter_form($pguser, "SR", _("Smooth Reading"), $_REQUEST, $state_sql, array("checkedoutby" => TRUE));
+    process_and_display_project_filter_form($pguser, $stage->id, $stage->name, $_REQUEST, $state_sql, $filter_custom_display_fields);
 
     // special colours legend
     // Don't display if the user has selected the
@@ -99,8 +107,7 @@ function show_projects_for_smooth_reading()
         echo_special_legend($state_sql);
     }
 
-    $stage = get_Stage_for_id("SR");
-    $projects_filter = get_project_filter_sql($pguser, "SR");
+    $projects_filter = get_project_filter_sql($pguser, $stage->id);
 
     // Print out the heading information and the table for the pool
     // project listing.
@@ -108,7 +115,7 @@ function show_projects_for_smooth_reading()
     $where_filter = $state_sql;
     $where_filter .= " $projects_filter";
 
-    $user_setting = "SR_order";
+    $user_setting = "{$stage->id}_order";
 
     echo "\n<a name='{$stage->id}'></a>";
     $title = _('Projects Currently Available for Smooth Reading');
