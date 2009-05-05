@@ -86,6 +86,29 @@ function show_projects_for_stage(
     $filter_custom_display_fields,
     $allow_special_colors_legend,
     $columns )
+// Generate a chunk of HTML consisting of:
+// (1) an optional filter widget,
+// (2) an optional "Special Days" color legend, and
+// (3) a listing of projects.
+// 
+// Arguments:
+// $stage:
+//     An instance of the Stage class (or a subclass thereof).
+//     This is used for various things, but most importantly,
+//     $stage->id is deemed to identify this listing.
+// $state_sql:
+//     A string containing an SQL condition (suitable for use in a
+//     WHERE clause on the 'projects' table) that selects all the
+//     projects that would be listed in the absence of a user's filter.
+// $show_filter_block:
+//     A boolean: should we show the filter widget?
+// $filter_custom_display_fields:
+//     An array naming any custom fields that should appear in the filter widget.
+// $allow_special_colors_legend:
+//     A boolean: should we show the special colors legend?
+//     (This can be overriden by the corresponding user preference.)
+// $columns:
+//     An array specifying which columns should appear in the listing.
 {
     global $pguser;
 
