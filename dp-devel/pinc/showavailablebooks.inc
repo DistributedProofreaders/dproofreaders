@@ -12,6 +12,17 @@ function show_projects_for_round( $round, $show_filter_block, $allow_special_col
 
     $state_sql = "state = '{$round->project_available_state}'";
 
+    $columns = array(
+        "nameofwork"  => _("Title"),
+        "authorsname" => _("Author"),
+        "language"    => _("Language"),
+        "genre"       => _("Genre"),
+        "username"    => _("Project Manager"),
+        "n_available_pages" => _("Available Pages"),
+        "n_pages"     => _("Total Pages"),
+        "days_avail"  => _("Days")
+    );
+
     if ($show_filter_block)
     {
         echo "<hr width='75%'>\n";
@@ -32,17 +43,6 @@ function show_projects_for_round( $round, $show_filter_block, $allow_special_col
 
     $setting = "{$round->id}_order";
 
-    $columns = array(
-        "nameofwork"  => _("Title"),
-        "authorsname" => _("Author"),
-        "language"    => _("Language"),
-        "genre"       => _("Genre"),
-        "username"    => _("Project Manager"),
-        "n_available_pages" => _("Available Pages"),
-        "n_pages"     => _("Total Pages"),
-        "days_avail"  => _("Days")
-    );
-
     $where_filter = "state = '{$round->project_available_state}'";
     $where_filter .= " $projects_filter";
 
@@ -61,27 +61,6 @@ function show_projects_for_smooth_reading()
     global $pguser;
 
     $state_sql = "state = 'proj_post_first_checked_out' AND smoothread_deadline > UNIX_TIMESTAMP()";
-
-    // filter block
-    echo "<hr width='75%'>\n";
-    process_and_display_project_filter_form($pguser, "SR", _("Smooth Reading"), $_REQUEST, $state_sql, array("checkedoutby" => TRUE));
-
-    // special colours legend
-    // Don't display if the user has selected the
-    // setting "Show Special Colors: No";
-    // visitors (not logged in) get to see them
-    $userSettings = Settings::get_Settings($pguser);
-    if (!isset($pguser) OR !$userSettings->get_boolean('hide_special_colors'))
-    {
-        echo "<hr width='75%'>\n";
-        echo_special_legend($state_sql);
-    }
-
-    $stage = get_Stage_for_id("SR");
-    $projects_filter = get_project_filter_sql($pguser, "SR");
-
-    // Print out the heading information and the table for the pool
-    // project listing.
 
     $columns = array(
         "nameofwork"  => _("Title"),
@@ -104,6 +83,27 @@ function show_projects_for_smooth_reading()
         "n_pages"   => _("Total Pages"),
         "days_left" => _("Days Left")
     ));
+
+    // filter block
+    echo "<hr width='75%'>\n";
+    process_and_display_project_filter_form($pguser, "SR", _("Smooth Reading"), $_REQUEST, $state_sql, array("checkedoutby" => TRUE));
+
+    // special colours legend
+    // Don't display if the user has selected the
+    // setting "Show Special Colors: No";
+    // visitors (not logged in) get to see them
+    $userSettings = Settings::get_Settings($pguser);
+    if (!isset($pguser) OR !$userSettings->get_boolean('hide_special_colors'))
+    {
+        echo "<hr width='75%'>\n";
+        echo_special_legend($state_sql);
+    }
+
+    $stage = get_Stage_for_id("SR");
+    $projects_filter = get_project_filter_sql($pguser, "SR");
+
+    // Print out the heading information and the table for the pool
+    // project listing.
 
     $where_filter = "state = 'proj_post_first_checked_out'";
     $where_filter .= " AND smoothread_deadline > UNIX_TIMESTAMP()";
