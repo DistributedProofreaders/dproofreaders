@@ -8,8 +8,6 @@ include_once($relPath.'special_colors.inc');
 
 function show_projects_for_round( $round, $show_filter_block, $allow_special_colors_legend )
 {
-    global $pguser;
-
     $state_sql = "state = '{$round->project_available_state}'";
 
     $filter_custom_display_fields = NULL;
@@ -25,37 +23,13 @@ function show_projects_for_round( $round, $show_filter_block, $allow_special_col
         "days_avail"  => _("Days")
     );
 
-    $stage = $round;
-
-    if ($show_filter_block)
-    {
-        echo "<hr width='75%'>\n";
-        process_and_display_project_filter_form($pguser, $stage->id, $stage->name, $_REQUEST, $state_sql, $filter_custom_display_fields);
-    }
-
-    // special colors legend
-    // Don't display if the user has selected the
-    // setting "Show Special Colors: No".
-    $userSettings = Settings::get_Settings($pguser);
-    if ($allow_special_colors_legend && !$userSettings->get_boolean('hide_special_colors'))
-    {
-        echo "<hr width='75%'>\n";
-        echo_special_legend($state_sql);
-    }
-
-    $projects_filter = get_project_filter_sql($pguser, $stage->id);
-
-    $setting = "{$stage->id}_order";
-
-    $where_filter = $state_sql;
-    $where_filter .= " $projects_filter";
-
-    echo "\n<a name='{$stage->id}'></a>";
-    $title = _('Projects Currently Available');
-    echo "\n<h3>$title</h3>";
-    echo "\n<p>{$stage->description}</p>";
-
-    show_project_listing( $stage, $setting, $stage->id, $columns, $where_filter );
+    show_projects_for_stage(
+        $round,
+        $state_sql,
+        $show_filter_block,
+        $filter_custom_display_fields,
+        $allow_special_colors_legend,
+        $columns );
 }
 
 // -----------------------------------------------------------------------------
@@ -66,7 +40,10 @@ function show_projects_for_smooth_reading()
 
     $state_sql = "state = 'proj_post_first_checked_out' AND smoothread_deadline > UNIX_TIMESTAMP()";
 
+    $show_filter_block = TRUE;
     $filter_custom_display_fields = array("checkedoutby" => TRUE);
+
+    $allow_special_colors_legend = TRUE;
 
     $columns = array(
         "nameofwork"  => _("Title"),
@@ -90,27 +67,52 @@ function show_projects_for_smooth_reading()
         "days_left" => _("Days Left")
     ));
 
-    $stage = get_Stage_for_id("SR");
 
-    // filter block
-    echo "<hr width='75%'>\n";
-    process_and_display_project_filter_form($pguser, $stage->id, $stage->name, $_REQUEST, $state_sql, $filter_custom_display_fields);
+    show_projects_for_stage(
+        get_Stage_for_id("SR"),
+        $state_sql,
+        $show_filter_block,
+        $filter_custom_display_fields,
+        $allow_special_colors_legend,
+        $columns );
+}
 
-    // special colours legend
-    // Don't display if the user has selected the
-    // setting "Show Special Colors: No";
-    // visitors (not logged in) get to see them
-    $userSettings = Settings::get_Settings($pguser);
-    if (!isset($pguser) OR !$userSettings->get_boolean('hide_special_colors'))
+// -----------------------------------------------------------------------------
+
+function show_projects_for_stage(
+    $stage,
+    $state_sql,
+    $show_filter_block,
+    $filter_custom_display_fields,
+    $allow_special_colors_legend,
+    $columns )
+{
+    global $pguser;
+
+    if ($show_filter_block)
     {
         echo "<hr width='75%'>\n";
-        echo_special_legend($state_sql);
+        process_and_display_project_filter_form($pguser, $stage->id, $stage->name, $_REQUEST, $state_sql, $filter_custom_display_fields);
+    }
+
+    // special colors legend
+    if ($allow_special_colors_legend )
+    {
+        // Show the special colors legend if
+        // the requestor is a guest (not logged in),
+        // or is logged in and hasn't opted to suppress it
+        // via the preference "Show Special Colors: No".
+        $userSettings = Settings::get_Settings($pguser);
+        if (!isset($pguser) OR !$userSettings->get_boolean('hide_special_colors'))
+        {
+            echo "<hr width='75%'>\n";
+            echo_special_legend($state_sql);
+        }
     }
 
     $projects_filter = get_project_filter_sql($pguser, $stage->id);
 
-    // Print out the heading information and the table for the pool
-    // project listing.
+    // Print out the heading information and the table for the project listing.
 
     $where_filter = $state_sql;
     $where_filter .= " $projects_filter";
