@@ -43,7 +43,7 @@ function show_projects_for_round( $round, $show_filter_block, $allow_special_col
 
     $setting = "{$round->id}_order";
 
-    $where_filter = "state = '{$round->project_available_state}'";
+    $where_filter = $state_sql;
     $where_filter .= " $projects_filter";
 
     echo "\n<a name='{$round->id}'></a>";
@@ -105,8 +105,7 @@ function show_projects_for_smooth_reading()
     // Print out the heading information and the table for the pool
     // project listing.
 
-    $where_filter = "state = 'proj_post_first_checked_out'";
-    $where_filter .= " AND smoothread_deadline > UNIX_TIMESTAMP()";
+    $where_filter = $state_sql;
     $where_filter .= " $projects_filter";
 
     $user_setting = "SR_order";
@@ -130,6 +129,12 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         $header = _('Books I Have Checked Out');
 
         echo "<h2 align='center'>$header</h2>";
+
+        $state_sql = "state = '{$pool->project_checkedout_state}'";
+
+        // The project must be checked-out to somebody.
+        // We're only interested if it's checked out to the current user.
+        $state_sql .= " AND checkedoutby = '$pguser'";
 
         echo "<a name='checkedout'></a>\n";
         $projects_filter = "";
@@ -167,24 +172,7 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         "days_avail"  => _("Days")
     );
 
-    if ( $checkedout_or_available == 'checkedout' )
-    {
-        $proj_state = $pool->project_checkedout_state;
-    }
-    elseif ( $checkedout_or_available == 'available' )
-    {
-        $proj_state = $pool->project_available_state;
-    }
-
-    $where_filter = "state = '$proj_state'";
-
-    if ( $checkedout_or_available == 'checkedout' )
-    {
-        // The project must be checked-out to somebody.
-        // We're only interested if it's checked out to the current user.
-        $where_filter .= " AND checkedoutby = '$pguser'";
-    }
-
+    $where_filter = $state_sql;
     $where_filter .= " $projects_filter";
 
     $ch_or_av = substr( $checkedout_or_available, 0, 2 );
