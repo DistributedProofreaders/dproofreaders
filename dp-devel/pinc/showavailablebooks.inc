@@ -118,7 +118,7 @@ function show_projects_for_smooth_reading()
     $user_setting = "{$stage->id}_order";
 
     echo "\n<a name='{$stage->id}'></a>";
-    $title = _('Projects Currently Available for Smooth Reading');
+    $title = _('Projects Currently Available');
     echo "\n<h3>$title</h3>";
     echo "\n<p>{$stage->description}</p>";
 
