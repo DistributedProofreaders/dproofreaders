@@ -28,14 +28,7 @@ function show_projects_for_round( $round, $show_filter_block, $allow_special_col
         echo_special_legend($state_sql);
     }
 
-    show_block_for_round($round->round_number, get_project_filter_sql($pguser, $round->id));
-}
-
-function show_block_for_round( $round_number, $projects_filter )
-{
-    global $pguser;
-
-    $round = get_Round_for_round_number($round_number);
+    $projects_filter = get_project_filter_sql($pguser, $round->id);
 
     $setting = "{$round->id}_order";
 
@@ -84,14 +77,11 @@ function show_projects_for_smooth_reading()
         echo_special_legend($state_sql);
     }
 
-    show_projects_available_for_smoothreading( get_Stage_for_id("SR"), get_project_filter_sql($pguser, "SR") );
-}
+    $stage = get_Stage_for_id("SR");
+    $projects_filter = get_project_filter_sql($pguser, "SR");
 
-function show_projects_available_for_smoothreading( $stage, $projects_filter )
-// Print out the heading information and the table for the pool
-// project listing.
-{
-    global $pguser;
+    // Print out the heading information and the table for the pool
+    // project listing.
 
     $columns = array(
         "nameofwork"  => _("Title"),
@@ -164,14 +154,8 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         assert(FALSE);
     }
 
-    show_projects_available_for_postprocessing( $pool, $checkedout_or_available, $projects_filter );
-}
-
-function show_projects_available_for_postprocessing( $pool, $checkedout_or_available, $projects_filter )
-// Print out the heading information and the table for the pool
-// project listing.
-{
-    global $pguser;
+    // Print out the heading information and the table for the pool
+    // project listing.
 
     $columns = array(
         "nameofwork"  => _("Title"),
