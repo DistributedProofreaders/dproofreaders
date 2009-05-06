@@ -8,7 +8,7 @@ include_once($relPath.'special_colors.inc');
 
 function show_projects_for_round( $round, $show_filter_block, $allow_special_colors_legend )
 {
-    $state_sql = "state = '{$round->project_available_state}'";
+    $initial_project_selector = "state = '{$round->project_available_state}'";
 
     $filter_custom_display_fields = NULL;
 
@@ -25,7 +25,7 @@ function show_projects_for_round( $round, $show_filter_block, $allow_special_col
 
     show_projects_for_stage(
         $round,
-        $state_sql,
+        $initial_project_selector,
         $show_filter_block,
         $filter_custom_display_fields,
         $allow_special_colors_legend,
@@ -38,7 +38,7 @@ function show_projects_for_smooth_reading()
 {
     global $pguser;
 
-    $state_sql = "state = 'proj_post_first_checked_out' AND smoothread_deadline > UNIX_TIMESTAMP()";
+    $initial_project_selector = "state = 'proj_post_first_checked_out' AND smoothread_deadline > UNIX_TIMESTAMP()";
 
     $show_filter_block = TRUE;
     $filter_custom_display_fields = array("checkedoutby" => TRUE);
@@ -70,7 +70,7 @@ function show_projects_for_smooth_reading()
 
     show_projects_for_stage(
         get_Stage_for_id("SR"),
-        $state_sql,
+        $initial_project_selector,
         $show_filter_block,
         $filter_custom_display_fields,
         $allow_special_colors_legend,
@@ -81,7 +81,7 @@ function show_projects_for_smooth_reading()
 
 function show_projects_for_stage(
     $stage,
-    $state_sql,
+    $initial_project_selector,
     $show_filter_block,
     $filter_custom_display_fields,
     $allow_special_colors_legend,
@@ -96,7 +96,7 @@ function show_projects_for_stage(
 //     An instance of the Stage class (or a subclass thereof).
 //     This is used for various things, but most importantly,
 //     $stage->id is deemed to identify this listing.
-// $state_sql:
+// $initial_project_selector:
 //     A string containing an SQL condition (suitable for use in a
 //     WHERE clause on the 'projects' table) that selects all the
 //     projects that would be listed in the absence of a user's filter.
@@ -115,7 +115,7 @@ function show_projects_for_stage(
     if ($show_filter_block)
     {
         echo "<hr width='75%'>\n";
-        process_and_display_project_filter_form($pguser, $stage->id, $stage->name, $_REQUEST, $state_sql, $filter_custom_display_fields);
+        process_and_display_project_filter_form($pguser, $stage->id, $stage->name, $_REQUEST, $initial_project_selector, $filter_custom_display_fields);
     }
 
     // special colors legend
@@ -129,7 +129,7 @@ function show_projects_for_stage(
         if (!isset($pguser) OR !$userSettings->get_boolean('hide_special_colors'))
         {
             echo "<hr width='75%'>\n";
-            echo_special_legend($state_sql);
+            echo_special_legend($initial_project_selector);
         }
     }
 
@@ -137,7 +137,7 @@ function show_projects_for_stage(
 
     // Print out the heading information and the table for the project listing.
 
-    $where_filter = "$state_sql $projects_filter";
+    $filtered_project_selector = "$initial_project_selector $projects_filter";
 
     $user_setting = "{$stage->id}_order";
 
@@ -146,7 +146,7 @@ function show_projects_for_stage(
     echo "\n<h3>$title</h3>";
     echo "\n<p>{$stage->description}</p>";
 
-    show_project_listing( $stage, $user_setting, $stage->id, $columns, $where_filter );
+    show_project_listing( $stage, $user_setting, $stage->id, $columns, $filtered_project_selector );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -161,11 +161,11 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
 
         echo "<h2 align='center'>$header</h2>";
 
-        $state_sql = "state = '{$pool->project_checkedout_state}'";
+        $initial_project_selector = "state = '{$pool->project_checkedout_state}'";
 
         // The project must be checked-out to somebody.
         // We're only interested if it's checked out to the current user.
-        $state_sql .= " AND checkedoutby = '$pguser'";
+        $initial_project_selector .= " AND checkedoutby = '$pguser'";
 
         echo "<a name='checkedout'></a>\n";
         $projects_filter = "";
@@ -178,8 +178,8 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
 
         $available_filtertype_stem = "{$pool->id}_av";
 
-        $state_sql = "state = '{$pool->project_available_state}'";
-        process_and_display_project_filter_form($pguser, $available_filtertype_stem, $pool->name, $_REQUEST, $state_sql);
+        $initial_project_selector = "state = '{$pool->project_available_state}'";
+        process_and_display_project_filter_form($pguser, $available_filtertype_stem, $pool->name, $_REQUEST, $initial_project_selector);
 
         echo "<a name='available'></a>\n";
         echo "<center><b>$header</b></center>";
@@ -203,17 +203,17 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         "days_avail"  => _("Days")
     );
 
-    $where_filter = "$state_sql $projects_filter";
+    $filtered_project_selector = "$initial_project_selector $projects_filter";
 
     $ch_or_av = substr( $checkedout_or_available, 0, 2 );
     $user_setting = "{$pool->id}_{$ch_or_av}_order";
 
-    show_project_listing( $pool, $user_setting, $checkedout_or_available, $columns, $where_filter );
+    show_project_listing( $pool, $user_setting, $checkedout_or_available, $columns, $filtered_project_selector );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_filter = " " )
+function show_project_listing( $stage, $user_setting, $anchor, $columns, $filtered_project_selector = " " )
 // Create the sortable project listing.
 // Arguments:
 //   $stage        - stage object (Round, Pool, or Stage)
@@ -222,8 +222,9 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
 //   $columns      - the columns to include in the table, this is an associative
 //                   array with the key being the column name and the value
 //                   being the label
-//   $where_filter - the where filter for the projects table (usually a
-//                   combination of a state filter and a project filter)
+//   $filtered_project_selector
+//                 - an SQL condition (on the 'projects' table) specifying
+//                   which projects to list.
 {
     global $code_url, $userP, $pguser;
 
@@ -290,7 +291,7 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $where_
             round((smoothread_deadline - unix_timestamp())/(24 * 60 * 60)) AS days_left
         FROM projects
         WHERE
-            $where_filter
+            $filtered_project_selector
         ORDER BY
             $presort
             $orderclause
