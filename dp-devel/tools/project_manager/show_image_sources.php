@@ -18,7 +18,7 @@ dpsession_resume();
 //Check to see if we are in a maintenance mode
 abort_if_in_maintenance_mode();
 
-$locuserSettings = Settings::get_Settings($pguser);
+$locuserSettings =& Settings::get_Settings($pguser);
 
 $no_stats = 1;
 

@@ -125,7 +125,7 @@ function show_projects_for_stage(
         // the requestor is a guest (not logged in),
         // or is logged in and hasn't opted to suppress it
         // via the preference "Show Special Colors: No".
-        $userSettings = Settings::get_Settings($pguser);
+        $userSettings =& Settings::get_Settings($pguser);
         if (!isset($pguser) OR !$userSettings->get_boolean('hide_special_colors'))
         {
             echo "<hr width='75%'>\n";

@@ -23,7 +23,7 @@ if ( is_null($pool) )
 theme("$pool->id: $pool->name", "header");
 
 global $pguser;
-$userSettings = Settings::get_Settings($pguser);
+$userSettings =& Settings::get_Settings($pguser);
 
 $uao = $pool->user_access($pguser);
 

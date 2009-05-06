@@ -606,7 +606,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     // Determine whether to use special colors or not
     // (this does not affect the alternating between two
     // background colors) in the project listing.
-    $userSettings = Settings::get_Settings($pguser);
+    $userSettings =& Settings::get_Settings($pguser);
     $show_special_colors = !$userSettings->get_boolean('hide_special_colors');
 
     $tr_num = 0;
