@@ -137,8 +137,7 @@ function show_projects_for_stage(
 
     // Print out the heading information and the table for the project listing.
 
-    $where_filter = $state_sql;
-    $where_filter .= " $projects_filter";
+    $where_filter = "$state_sql $projects_filter";
 
     $user_setting = "{$stage->id}_order";
 
@@ -204,8 +203,7 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         "days_avail"  => _("Days")
     );
 
-    $where_filter = $state_sql;
-    $where_filter .= " $projects_filter";
+    $where_filter = "$state_sql $projects_filter";
 
     $ch_or_av = substr( $checkedout_or_available, 0, 2 );
     $user_setting = "{$pool->id}_{$ch_or_av}_order";
