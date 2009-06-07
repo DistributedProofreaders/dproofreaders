@@ -1314,15 +1314,13 @@ function do_images()
 
     $projectid = $project->projectid;
 
+    $link_url = "$code_url/tools/proofers/images_index.php?project=$projectid";
+
+    $link_text = _("View Images Online");
+
     echo "<h4>", _('Images'), "</h4>";
     echo "<ul>";
-
-    echo "<li>";
-    echo "<a href='$code_url/tools/proofers/images_index.php?project=$projectid'>";
-    echo _("View Images Online");
-    echo "</a>";
-    echo "</li>\n";
-
+    echo "<li><a href='$link_url'>$link_text</a></li>\n";
     echo "</ul>\n";
 }
 
