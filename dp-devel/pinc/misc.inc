@@ -1,6 +1,11 @@
 <?PHP
 // Miscellaneous little (non-DP-specific) functions
 
+function define_if_necc( $name, $value )
+{
+    if ( !defined($name) ) define($name, $value);
+}
+
 function array_get( $arr, $key, $default )
 // Return $arr[$key], or if it's not defined, $default.
 {
@@ -265,6 +270,46 @@ function mkdir_recursive( $dir, $mode )
     {
         mkdir_recursive( dirname($dir), $mode );
         mkdir( $dir, $mode ) or die( "Unable to create $dir" );
+    }
+}
+
+// -----------------------------------------------------------------------------
+
+// The following became PHP constants in PHP 4.3.0. 
+define_if_necc( 'UPLOAD_ERR_OK',         0 );
+define_if_necc( 'UPLOAD_ERR_INI_SIZE',   1 );
+define_if_necc( 'UPLOAD_ERR_FORM_SIZE',  2 );
+define_if_necc( 'UPLOAD_ERR_PARTIAL',    3 );
+define_if_necc( 'UPLOAD_ERR_NO_FILE',    4 );
+define_if_necc( 'UPLOAD_ERR_NO_TMP_DIR', 6 );
+define_if_necc( 'UPLOAD_ERR_CANT_WRITE', 7 );
+define_if_necc( 'UPLOAD_ERR_EXTENSION',  8 );
+
+function get_upload_err_msg($upload_error_code)
+// Return an error message appropriate to $upload_error_code.
+// (The wording is taken from "Handling File Uploads: Error Messages Explained"
+// in the PHP online documentation.)
+{
+    switch ($upload_error_code)
+    {
+        case UPLOAD_ERR_OK:
+            return _('There is no error, the file uploaded with success.');
+        case UPLOAD_ERR_INI_SIZE:
+            return _('The uploaded file exceeds the upload_max_filesize directive in php.ini.');
+        case UPLOAD_ERR_FORM_SIZE:
+            return _('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.');
+        case UPLOAD_ERR_PARTIAL:
+            return _('The uploaded file was only partially uploaded.');
+        case UPLOAD_ERR_NO_FILE:
+            return _('No file was uploaded.');
+        case UPLOAD_ERR_NO_TMP_DIR:
+            return _('Missing a temporary folder.');
+        case UPLOAD_ERR_CANT_WRITE:
+            return _('Failed to write file to disk.');
+        case UPLOAD_ERR_EXTENSION:
+            return _('File upload stopped by extension.');
+        default:
+            return _('Unknown upload error code');
     }
 }
 
