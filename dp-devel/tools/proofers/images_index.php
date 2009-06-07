@@ -15,6 +15,7 @@ theme("$image_index_str: {$project->nameofwork}", 'header');
 echo "
     <h1>{$project->nameofwork}</h1>
     <p>$projectid</p>
+    <p><a href='$code_url/project.php?id=$projectid'>", _('Return to project page'), "</a></p>
     <h2>$image_index_str</h2>
     <P>Here are the individual images for this project:</P>
     <HR>
