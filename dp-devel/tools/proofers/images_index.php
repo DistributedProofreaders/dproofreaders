@@ -53,7 +53,7 @@ theme("", 'footer');
 
 function list_images( $image_names, $these_are_page_images )
 {
-    global $existing_image_names;
+    global $project, $existing_image_names;
 
     if ( $these_are_page_images )
     {
@@ -65,12 +65,18 @@ function list_images( $image_names, $these_are_page_images )
     }
     echo "<h4 align='center'>$header</h4>";
 
+    $show_replace_links = $project->can_be_managed_by_current_user;
+
     echo "<table>\n";
 
     {
         echo "<tr>\n";
         echo "<th>", _('name'), "</th>\n";
         echo "<th>", _('size (bytes)'), "</th>\n";
+        if ( $show_replace_links )
+        {
+            echo "<th>", _('replace'), "</th>\n";
+        }
         echo "</tr>\n";
     }
 
@@ -91,6 +97,20 @@ function list_images( $image_names, $these_are_page_images )
 
             $size = filesize($image_name);
             echo "<td align='right'>$size</td>\n";
+        }
+
+        if ( $show_replace_links )
+        {
+            global $code_url;
+            if ( $these_are_page_images)
+            {
+                $replace_url = "$code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&amp;image=$image_name&amp;modify=image";
+            }
+            else
+            {
+                $replace_url = "$code_url/tools/project_manager/replace_image.php?projectid=$projectid&amp;image=$image_name";
+            }
+            echo "<td><a href='$replace_url'>", _('replace'), "</a></td>\n";
         }
 
         echo "</tr>\n";
