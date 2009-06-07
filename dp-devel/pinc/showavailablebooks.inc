@@ -395,28 +395,24 @@ function show_project_listing( $stage, $user_setting, $anchor, $columns, $filter
             }
             elseif($name == "genre")
             {
+                $genre = $book['genre'];
                 if ($book['difficulty'] == "beginner")
                 {
-                    $genre = $book['genre'];
                     if( is_a( $stage, 'Round' ) )
                     {
                         if ( $stage->is_a_mentee_round() )
-                            $genre = _("BEGINNERS ONLY")." ".$book['genre'];
+                            $genre = _("BEGINNERS ONLY")." ".$genre;
                         else if ( $stage->is_a_mentor_round() )
-                            $genre = _("MENTORS ONLY")." ".$book['genre'];
+                            $genre = _("MENTORS ONLY")." ".$genre;
                     }
                 }
                 elseif ($book['difficulty'] == "easy")
                 {
-                    $genre = _("EASY")." ".$book['genre'];
+                    $genre = _("EASY")." ".$genre;
                 }
                 elseif ($book['difficulty'] == "hard")
                 {
-                    $genre = _("HARD")." ".$book['genre'];
-                }
-                else
-                {
-                   $genre = $book['genre'];
+                    $genre = _("HARD")." ".$genre;
                 }
                 $cell = $genre;
             }
