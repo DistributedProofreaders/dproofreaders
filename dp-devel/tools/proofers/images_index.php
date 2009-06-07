@@ -14,8 +14,9 @@ theme("$image_index_str: {$project->nameofwork}", 'header');
 
 echo "
     <h1>{$project->nameofwork}</h1>
+    <p>$projectid</p>
     <h2>$image_index_str</h2>
-    <P>Here are the individual images for project $projectid:</P>
+    <P>Here are the individual images for this project:</P>
     <HR>
 ";
 
