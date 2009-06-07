@@ -1316,7 +1316,11 @@ function do_images()
 
     $link_url = "$code_url/tools/proofers/images_index.php?project=$projectid";
 
-    $link_text = _("View Images Online");
+    $link_text = (
+        $project->can_be_managed_by_current_user
+        ? _("View/Replace Images")
+        : _("View Images Online")
+    );
 
     echo "<h4>", _('Images'), "</h4>";
     echo "<ul>";
