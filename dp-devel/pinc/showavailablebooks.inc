@@ -117,6 +117,8 @@ function show_projects_for_stage(
         echo "<hr width='75%'>\n";
         process_and_display_project_filter_form($pguser, $stage->id, $stage->name, $_REQUEST, $initial_project_selector, $filter_custom_display_fields);
     }
+    $projects_filter = get_project_filter_sql($pguser, $stage->id);
+    $filtered_project_selector = "$initial_project_selector $projects_filter";
 
     // special colors legend
     if ($allow_special_colors_legend )
@@ -133,11 +135,7 @@ function show_projects_for_stage(
         }
     }
 
-    $projects_filter = get_project_filter_sql($pguser, $stage->id);
-
     // Print out the heading information and the table for the project listing.
-
-    $filtered_project_selector = "$initial_project_selector $projects_filter";
 
     $user_setting = "{$stage->id}_order";
 
