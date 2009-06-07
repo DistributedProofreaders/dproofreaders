@@ -22,19 +22,32 @@ echo "
 ";
 
 chdir("$projects_dir/$projectid");
-foreach( glob("*.{png,jpg}", GLOB_BRACE) as $image_filename )
-{
-    $size = filesize($image_filename);
-    $encoded_url = "$projects_url/$projectid/" . rawurlencode($image_filename);
-    echo "<A HREF='$encoded_url'><B>$image_filename</B></A>";
-    echo " <I>($size bytes)</I><BR>\n";
-}
+$existing_image_names = glob("*.{png,jpg}", GLOB_BRACE);
+
+list_images( $existing_image_names );
 
 echo "
     <HR>
 ";
 
 theme("", 'footer');
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function list_images( $image_names )
+{
+    foreach ( $image_names as $image_name )
+    {
+        {
+            global $projects_url, $projectid;
+            $encoded_url = "$projects_url/$projectid/" . rawurlencode($image_name);
+            echo "<A HREF='$encoded_url'><B>$image_name</B></A>";
+
+            $size = filesize($image_name);
+            echo " <I>($size bytes)</I><BR>\n";
+        }
+    }
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>
