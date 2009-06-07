@@ -36,17 +36,32 @@ theme("", 'footer');
 
 function list_images( $image_names )
 {
+    echo "<table>\n";
+
+    {
+        echo "<tr>\n";
+        echo "<th>", _('name'), "</th>\n";
+        echo "<th>", _('size (bytes)'), "</th>\n";
+        echo "</tr>\n";
+    }
+
     foreach ( $image_names as $image_name )
     {
+        echo "<tr>\n";
+
         {
             global $projects_url, $projectid;
             $encoded_url = "$projects_url/$projectid/" . rawurlencode($image_name);
-            echo "<A HREF='$encoded_url'><B>$image_name</B></A>";
+            echo "<td><A HREF='$encoded_url'><B>$image_name</B></A></td>\n";
 
             $size = filesize($image_name);
-            echo " <I>($size bytes)</I><BR>\n";
+            echo "<td align='right'>$size</td>\n";
         }
+
+        echo "</tr>\n";
     }
+
+    echo "</table>\n";
 }
 
 // vim: sw=4 ts=4 expandtab
