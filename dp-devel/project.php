@@ -1185,7 +1185,7 @@ function do_history()
         );
         echo "</td>\n";
 
-        echo "<td align-='center'>{$event['who']}</td>\n";
+        echo "<td>{$event['who']}</td>\n";
 
         echo "<td>{$event['event_type']}</td>\n";
 
