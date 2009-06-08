@@ -29,7 +29,7 @@ $DPWiki_HTML_guide_URL=$DPWiki_Guide_to_HTML_URL;
 // Topic IDs:
 $FineReader_tips_id=0; // 5293;
 $Guiprep_topic_id=0; // 2237;
-$Guideline_discussion_id=0; // 25492 (v1.9d)
+$Guideline_discussion_id=0; // 37893 (v2.0)
 $Using_project_details_id=0; // 10217
 $Gallery_of_Table_Layouts_id=0; // 4311
 $Stealth_Scannos_id=0; // 1563
@@ -39,7 +39,7 @@ $XHTML_suggestion_id=0; // 4405
 // Following usually need not be changed:
 $FineReader_tips_URL=make_forum_url("t",$FineReader_tips_id,5293);
 $Guiprep_topic_URL=make_forum_url("t",$Guiprep_topic_id,2237);
-$Guideline_discussion_URL=make_forum_url("t",$Guideline_discussion_id,27997);
+$Guideline_discussion_URL=make_forum_url("t",$Guideline_discussion_id,37893);
 $Using_project_details_URL=make_forum_url("t",$Using_project_details_id,10217);
 $Gallery_of_Table_Layouts_URL=make_forum_url("t",$Gallery_of_Table_Layouts_id,4311);
 $Stealth_Scannos_URL=make_forum_url("t",$Stealth_Scannos_id,1563);

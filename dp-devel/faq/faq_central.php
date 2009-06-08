@@ -63,8 +63,9 @@ show_news_for_page("FAQ");
      <a href='proofreading_guidelines_francaises.php'>French</a>,
      <a href='proofreading_guidelines_portuguese.php'>Portuguese</a>,
      <a href='proofreading_guidelines_spanish.php'>Spanish</a>,
-     <a href='proofreading_guidelines_dutch.php'>Dutch</a>, and
-     <a href='proofreading_guidelines_german.php'>German</a>.</span><br>
+     <a href='proofreading_guidelines_dutch.php'>Dutch</a>,
+     <a href='proofreading_guidelines_german.php'>German</a>, and
+     <a href='proofreading_guidelines_italian.php'>Italian</a>.</span><br>
   <font size="-1">The details of the guidelines we use for proofreading documents.</font></p>
 
   <p><a href="proofing_summary.pdf">Proofreading Summary</a><br>
@@ -91,8 +92,9 @@ show_news_for_page("FAQ");
   <span style='font-size: smaller; color: #335;'>Also available in 
      <a href='formatting_guidelines_francaises.php'>French</a>,
      <a href='formatting_guidelines_portuguese.php'>Portuguese</a>,
-     <a href='formatting_guidelines_dutch.php'>Dutch</a>, and
-     <a href='formatting_guidelines_german.php'>German</a>.</span><br>
+     <a href='formatting_guidelines_dutch.php'>Dutch</a>,
+     <a href='formatting_guidelines_german.php'>German</a>, and
+     <a href='formatting_guidelines_italian.php'>Italian</a>.</span><br>
   <font size="-1">The full details of the guidelines we use for formatting documents.</font></p>
 
   <p><a href="formatting_summary.pdf">Formatting Summary</a><br>

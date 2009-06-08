@@ -31,7 +31,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 <h1 align="center"><a name="top">Formatting Guidelines</a></h1>
 
-<h3 align="center">Version 2.0, revised February 14, 2009 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 2.0, revised June 7, 2009 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <p>Formatting Guidelines <a href="formatting_guidelines_francaises.php">in French</a> /
@@ -42,6 +42,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       Formatteer-Richtlijnen <a href="formatting_guidelines_dutch.php">in het Nederlands</a><br>
     Formatting Guidelines <a href="formatting_guidelines_german.php">in German</a> /
       Formatierungsrichtlinien <a href="formatting_guidelines_german.php">auf Deutsch</a><br>
+    Formatting Guidelines <a href="formatting_guidelines_italian.php">in Italian</a> /
+      Regole di Formattazione <a href="formatting_guidelines_italian.php">in Italiano</a><br>
 </p>
 
 <p>Check out the <a href="../quiz/start.php?show_only=FQ">Formatting Quiz</a>!
@@ -89,7 +91,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
           <li><a href="#extra_sp">Extra Spaces or Tabs Between Words</a></li>
           <li><a href="#supers">Superscripts</a></li>
           <li><a href="#subscr">Subscripts</a></li>
-          <li><a href="#page_ref">Page References "See p. 123"</a></li>
+          <li><a href="#page_ref">Page References &quot;See p. 123&quot;</a></li>
         </ul></li>
         <li style="margin-top:.25em;"><font size="+1">Formatting at the Paragraph Level:</font>
         <ul>
@@ -206,7 +208,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>If there are any items missing, or items that you
    consider should be done differently, or if something is vague, please let us know.
-<? if($site_url = "http://www.pgdp.net" || $site_url = "http://www.pgdp.org") { ?>
+<? if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    If you come across an unfamiliar term in these guidelines, see the
    <a href="http://www.pgdp.net/wiki/DP_Jargon">wiki jargon guide</a>.
 <? } ?>
@@ -586,7 +588,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p class="backtotop"><a href="#top">Back to top</a></p>
 
 
-<h3><a name="page_ref">Page References "See p. 123"</a></h3>
+<h3><a name="page_ref">Page References &quot;See p. 123&quot;</a></h3>
 <p>Format page number references within the text such as <tt>(see p. 123)</tt> as
    they appear in the image.</p>
 <p>Check the <a href="#comments">Project Comments</a> to see if the Project Manager
@@ -1684,8 +1686,10 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     </tr>
     <tr>
       <td width="100%" valign="top">
-        <p><tt><br><br><br><br>CONTENTS<br><br></tt></p>
-        <p><tt>/*<br>
+        <p><tt><br><br><br><br>CONTENTS<br>
+        <br>
+        <br>
+        /*<br>
         CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

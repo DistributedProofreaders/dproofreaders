@@ -10,7 +10,7 @@ echo _("1) Don't rewrap lines. Leave the ends of lines where they are in the ima
 echo "<br><br>&nbsp;&nbsp;&nbsp;&nbsp;";
 echo _("a) except, please put words that are broken across lines back together.");
 echo "<br><br>";
-echo _("2) Use a blank line between paragraphs and don't indent at the beginning of a paragraph.");
+echo _("2) Use a blank line before each paragraph and don't indent at the beginning of a paragraph.");
 echo "<br><br>";
 echo _("3) Remove extra spaces around punctuation mistakenly inserted by the OCR software.");
 echo "<br><br>";

@@ -31,11 +31,11 @@ theme('Proofreading and Formatting Guidelines Revision History','header');
     </tr>
 
     <tr>
-      <td>02/14/2009 </td>
+      <td>06/07/2009 </td>
       <td>Ver.&nbsp;2.0</td>
       <td>acunning40 and JHowse</td>
       <td>
-        <!-- CVS version of document.php which reflects this entry is v1.97 -->
+        <!-- CVS version of document.php which reflects this entry is v1.98 -->
         <h3>Formatting Guidelines changes</h3>
         <ul compact="compact">
                 <li>Reorganization of topics and subdivisions for formatting at the character, paragraph, and page level</li>
@@ -48,7 +48,7 @@ theme('Proofreading and Formatting Guidelines Revision History','header');
                 <li>Removed the special guidelines for poetry and encyclopedias</li>
                 <li>Numerous clarifications and changes</li>
         </ul>
-        <!-- CVS version of proofreading_guidelines.php which reflects this entry is v1.41 -->
+        <!-- CVS version of proofreading_guidelines.php which reflects this entry is v1.42 -->
         <h3>Proofreading Guidelines changes</h3>
         <ul compact="compact">
                 <li>Reorganization of topics and subdivisions for proofreading at the character, paragraph, and page level</li>

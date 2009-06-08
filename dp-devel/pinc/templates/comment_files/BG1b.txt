@@ -31,7 +31,7 @@ pened today? There'll be an awful row about it."</p>
 <br>"I say, Graham, do you know what's happened</br>
 today? There'll be an awful row about it."</p>
 
-<p>2. Leave in (or add) the blank line between paragraphs. 
+<p>2. Leave in (or add) the blank line before each paragraph. 
 Do not add paragraph indentation, but if the indentation is 
 present in the text box, it is not necessary to remove it.</p>
 <p><i>Scan Example:</i>

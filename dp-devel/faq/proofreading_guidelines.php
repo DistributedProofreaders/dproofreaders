@@ -31,7 +31,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 <h1 align="center"><a name="top">Proofreading Guidelines</a></h1>
 
-<h3 align="center">Version 2.0, revised February 14, 2009 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<h3 align="center">Version 2.0, revised June 7, 2009 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
 
 <p>Proofreading Guidelines <a href="proofreading_guidelines_francaises.php">in French</a> /
@@ -44,6 +44,8 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
       Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br>
     Proofreading Guidelines <a href="proofreading_guidelines_german.php">in German</a> /
       Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br>
+    Proofreading Guidelines <a href="proofreading_guidelines_italian.php">in Italian</a> /
+      Regole di Correzione <a href="proofreading_guidelines_italian.php">in Italiano</a><br>
 </p>
 
 <p>Check out the <a href="../quiz/start.php?show_only=PQ">Proofreading Quiz and Tutorial</a>!
@@ -88,7 +90,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
           <li><a href="#em_dashes">Dashes, Hyphens, and Minus Signs</a></li>
           <li><a href="#eol_hyphen">End-of-line Hyphenation and Dashes</a></li>
           <li><a href="#eop_hyphen">End-of-page Hyphenation and Dashes</a></li>
-          <li><a href="#period_p">Period Pause "..." (Ellipsis)</a></li>
+          <li><a href="#period_p">Period Pause &quot;...&quot; (Ellipsis)</a></li>
           <li><a href="#contract">Contractions</a></li>
           <li><a href="#fract_s">Fractions</a></li>
           <li><a href="#a_chars">Accented/Non-ASCII Characters</a></li>
@@ -218,7 +220,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>If there are any items missing, or items that you
    consider should be done differently, or if something is vague, please let us know.
-<? if($site_url = "http://www.pgdp.net" || $site_url = "http://www.pgdp.org") { ?>
+<? if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    If you come across an unfamiliar term in these guidelines, see the
    <a href="http://www.pgdp.net/wiki/DP_Jargon">wiki jargon guide</a>.
 <? } ?>
@@ -688,7 +690,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p class="backtotop"><a href="#top">Back to top</a></p>
 
 
-<h3><a name="period_p">Period Pause "..." (Ellipsis)</a></h3>
+<h3><a name="period_p">Period Pause &quot;...&quot; (Ellipsis)</a></h3>
 <p>The guidelines are different for English and Languages Other Than English (LOTE).
 </p>
 <p><b>ENGLISH</b>: An ellipsis should have three dots.  Regarding the spacing, in the middle of a
