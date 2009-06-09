@@ -32,7 +32,7 @@ if (empty($_REQUEST['lang']) && empty($func)) {
 
 if (!empty($_GET['lang']) && $func == "translate") {
 	$lang = $_GET['lang'];
-	$location = $_GET['location'];
+	$location = @$_GET['location'];
 	$translation = parse_po(file("$dyn_locales_dir/$lang/LC_MESSAGES/messages.po"));
 
 /* Structure of $translation array:
@@ -117,7 +117,7 @@ function loc_eq($loc) {
 //		...
         );
 
-	if($a[$loc]) return $a[$loc]; else return $loc;
+	if(@$a[$loc]) return $a[$loc]; else return $loc;
 }
 
 function visible_invisibles($str)
