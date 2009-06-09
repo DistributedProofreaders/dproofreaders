@@ -41,7 +41,7 @@ if (!empty($_GET['lang']) && $func == "create_newlang") {
 	mkdir("$dyn_locales_dir/$lang/LC_MESSAGES/", 0755);
 
 	chdir($code_dir);
-	exec("xgettext `find -name \"*.php\" -o -name \"*.inc\"` -p locale/$lang/LC_MESSAGES/ --keyword=_ -C");
+	exec("xgettext `find -name \"*.php\" -o -name \"*.inc\"` -p $dyn_locales_dir/$lang/LC_MESSAGES/ --keyword=_ -C");
 
 	chdir("$dyn_locales_dir/$lang/LC_MESSAGES/");
 	exec("msgfmt messages.po -o messages.mo");
