@@ -33,6 +33,10 @@ while ( list($image) = mysql_fetch_row($res) )
 
 chdir("$projects_dir/$projectid");
 $existing_image_names = glob("*.{png,jpg}", GLOB_BRACE);
+// That returns a sorted list of the .png files
+// followed by a sorted list of the .jpg files,
+// but we want the two lists interleaved...
+sort($existing_image_names);
 
 $nonpage_image_names = array_diff($existing_image_names, $page_image_names);
 
