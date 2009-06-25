@@ -49,11 +49,25 @@ else if ($_GET['action'] == 'list_all') {
             <a href='?action=list_all&order_by=real_name'>real name (ascending)</a>,
             <a href='?action=list_all&order_by=email'>email address (ascending)</a>, or
             <a href='?action=list_all&order_by=username'>username (ascending)</a>.</p>";
-        echo "<p>The following accounts are awaiting activation:\n<ul>\n";
-        while ($row = mysql_fetch_assoc($result)) {
-            echo "<li><a href='?action=get_user&username=".urlencode($row['username'])."'>{$row['username']}</a> &mdash; {$row['real_name']} &mdash; {$row['email']} ({$row['date']})</li>\n";
+        echo "<p>The following accounts are awaiting activation:</p>\n";
+        echo "<table border='1'>\n";
+        {
+            echo "<tr>\n";
+            echo "<th>username</th>\n";
+            echo "<th>real name</th>\n";
+            echo "<th>email address</th>\n";
+            echo "<th>date registered</th>\n";
+            echo "</tr>\n";
         }
-        echo "</ul></p>";
+        while ($row = mysql_fetch_assoc($result)) {
+            echo "<tr>\n";
+            echo "<td><a href='?action=get_user&username=".urlencode($row['username'])."'>{$row['username']}</a></td>\n";
+            echo "<td>{$row['real_name']}</td>\n";
+            echo "<td>{$row['email']}</td>\n";
+            echo "<td>{$row['date']}</td>\n";
+            echo "</tr>\n";
+        }
+        echo "</table>\n";
     }
 }
 else if ($_GET['action'] == 'get_user') {
