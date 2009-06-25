@@ -33,7 +33,15 @@ else if ($_GET['action'] == 'list_all') {
         $order_by = $_GET['order_by'];
     else
         $order_by = 'date_created DESC';
-    $result = mysql_query("SELECT username, real_name, email, FROM_UNIXTIME(date_created, '%M %e, %Y, %H:%i') AS date FROM non_activated_users ORDER BY $order_by");
+    $result = mysql_query("
+        SELECT
+            username,
+            real_name,
+            email,
+            FROM_UNIXTIME(date_created, '%M %e, %Y, %H:%i') AS date
+        FROM non_activated_users
+        ORDER BY $order_by
+    ");
     if (mysql_num_rows($result) == 0)
         echo "<p>No user accounts are awaiting activation.</p>";
     else {
@@ -49,7 +57,11 @@ else if ($_GET['action'] == 'list_all') {
     }
 }
 else if ($_GET['action'] == 'get_user') {
-    $result = mysql_query("SELECT email FROM non_activated_users WHERE username='$username'");
+    $result = mysql_query("
+        SELECT email
+        FROM non_activated_users
+        WHERE username='$username'
+    ");
 
     if (mysql_num_rows($result) == 0) {
         ?>
@@ -77,8 +89,16 @@ else if ($_GET['action'] == 'get_user') {
     }
 }
 else if ($_GET['action'] == 'set_email') {
-    mysql_query("UPDATE non_activated_users SET email='$email' WHERE username='$username'");
-    $result = mysql_query("SELECT id, real_name, u_intlang FROM non_activated_users WHERE username='$username'");
+    mysql_query("
+        UPDATE non_activated_users
+        SET email='$email'
+        WHERE username='$username'
+    ");
+    $result = mysql_query("
+        SELECT id, real_name, u_intlang
+        FROM non_activated_users
+        WHERE username='$username'
+    ");
     $row = mysql_fetch_assoc($result);
 
     maybe_activate_mail($email, $row['real_name'], $row['id'], stripslashes($username), $row['u_intlang']);
