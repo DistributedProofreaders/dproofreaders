@@ -45,18 +45,15 @@ else if ($_GET['action'] == 'list_all') {
     if (mysql_num_rows($result) == 0)
         echo "<p>No user accounts are awaiting activation.</p>";
     else {
-        echo "<p>Sort by <a href='?action=list_all&order_by=date_created+DESC'>registration date (latest first)</a>, 
-            <a href='?action=list_all&order_by=real_name'>real name (ascending)</a>,
-            <a href='?action=list_all&order_by=email'>email address (ascending)</a>, or
-            <a href='?action=list_all&order_by=username'>username (ascending)</a>.</p>";
-        echo "<p>The following accounts are awaiting activation:</p>\n";
+        echo "<p>The following accounts are awaiting activation.
+            (Click on a column header to sort by that column.)</p>\n";
         echo "<table border='1'>\n";
         {
             echo "<tr>\n";
-            echo "<th>username</th>\n";
-            echo "<th>real name</th>\n";
-            echo "<th>email address</th>\n";
-            echo "<th>date registered</th>\n";
+            echo "<th><a href='?action=list_all&order_by=username'>username</a></th>\n";
+            echo "<th><a href='?action=list_all&order_by=real_name'>real name</a></th>\n";
+            echo "<th><a href='?action=list_all&order_by=email'>email address</a></th>\n";
+            echo "<th><a href='?action=list_all&order_by=date_created+DESC'>date registered</a></th>\n";
             echo "</tr>\n";
         }
         while ($row = mysql_fetch_assoc($result)) {
