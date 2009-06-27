@@ -17,7 +17,7 @@ echo "
     <p>$projectid</p>
     <p><a href='$code_url/project.php?id=$projectid'>", _('Return to project page'), "</a></p>
     <h2>$image_index_str</h2>
-    <P>Here are the individual images for this project:</P>
+    <P>" . _('Below are the individual images for this project.') . "</P>
 ";
 
 $page_image_names = array();
