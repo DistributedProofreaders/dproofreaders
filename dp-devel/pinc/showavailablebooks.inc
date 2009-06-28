@@ -144,7 +144,13 @@ function show_projects_for_stage(
     echo "\n<h3>$title</h3>";
     echo "\n<p>{$stage->description}</p>";
 
-    show_project_listing( $stage, $user_setting, $stage->id, $columns, $filtered_project_selector );
+    show_project_listing(
+        $stage,
+        $user_setting,
+        $stage->id,
+        $columns,
+        $filtered_project_selector
+    );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -206,12 +212,24 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
     $ch_or_av = substr( $checkedout_or_available, 0, 2 );
     $user_setting = "{$pool->id}_{$ch_or_av}_order";
 
-    show_project_listing( $pool, $user_setting, $checkedout_or_available, $columns, $filtered_project_selector );
+    show_project_listing(
+        $pool,
+        $user_setting,
+        $checkedout_or_available,
+        $columns,
+        $filtered_project_selector
+    );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_project_listing( $stage, $user_setting, $anchor, $columns, $filtered_project_selector = " " )
+function show_project_listing(
+    $stage,
+    $user_setting,
+    $anchor,
+    $columns,
+    $filtered_project_selector = " "
+)
 // Create the sortable project listing.
 // Arguments:
 //   $stage        - stage object (Round, Pool, or Stage)
