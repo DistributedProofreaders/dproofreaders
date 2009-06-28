@@ -274,15 +274,7 @@ function show_project_listing(
     list($sort_column, $sort_direction) =
         process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name);
 
-    // Determine SQL order by criteria based on the sorting information.
-    if($sort_column == "days")
-    {
-        $orderclause = "modifieddate $sort_direction";
-    }
-    else
-    {
-        $orderclause = "$sort_column $sort_direction";
-    }
+    $orderclause = "$sort_column $sort_direction";
 
     // Sort on nameofwork ASC as a secondary criteria if it isn't the primary
     // criteria.
