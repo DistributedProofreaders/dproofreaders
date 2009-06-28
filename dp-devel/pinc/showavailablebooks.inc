@@ -519,21 +519,33 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
     // The default sort column is the first entry in $columns.
     $default_sort_column = array_shift(array_keys($columns));
 
-    // Read new sort order from URL, if any.
-    $sort_by = array_get($_GET, $ext_sort_param_name, NULL);
+    // We get an ext_sort from one of three places,
+    // which we consult in the following order,
+    // stopping as soon as we get a non-NULL value.
+    $ext_sort_providers = array(
 
-    // If that failed $sort_by will be set to NULL in which case we use the
-    // value from the database.
-    if($sort_by == NULL)
-    {
-        $sort_by = $userSettings->get_value($ext_sort_setting_name, NULL);
-    }
+        // A parameter in the invoking URL's query-string:
+        @$_GET[$ext_sort_param_name],
 
-    // If that failed (there was no previous sort order) fall back to the
-    // default value (first column).
-    if($sort_by == NULL)
+        // A setting in the usersettings table in the DB (accessed via Setting class):
+        $userSettings->get_value($ext_sort_setting_name),
+
+        // A fallback default:
+        $default_sort_column,
+    );
+
+    foreach ( $ext_sort_providers as $ext_sort_provider )
     {
-        $sort_by = $default_sort_column;
+        $sort_by = $ext_sort_provider;
+
+        if ( is_null($sort_by) )
+        {
+            // This (potential) provider isn't supplying a value this time.
+            continue;
+        }
+
+        // This provider supplied a sort value, so look no further.
+        break;
     }
 
     // Parse the $sort_by into its column:direction parts.
