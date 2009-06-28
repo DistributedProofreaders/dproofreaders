@@ -137,6 +137,7 @@ function show_projects_for_stage(
 
     // Print out the heading information and the table for the project listing.
 
+    $ext_sort_param_name = "order{$stage->id}";
     $ext_sort_setting_name = "{$stage->id}_order";
 
     $anchor = $stage->id;
@@ -148,6 +149,7 @@ function show_projects_for_stage(
     show_project_listing(
         $filtered_project_selector,
         $columns,
+        $ext_sort_param_name,
         $ext_sort_setting_name,
         $anchor,
         $stage
@@ -213,11 +215,13 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
     $filtered_project_selector = "$initial_project_selector $projects_filter";
 
     $ch_or_av = substr( $checkedout_or_available, 0, 2 );
+    $ext_sort_param_name = "order_{$checkedout_or_available}";
     $ext_sort_setting_name = "{$pool->id}_{$ch_or_av}_order";
 
     show_project_listing(
         $filtered_project_selector,
         $columns,
+        $ext_sort_param_name,
         $ext_sort_setting_name,
         $anchor,
         $pool
@@ -238,6 +242,9 @@ function show_project_listing(
         // array with the key being the column name and the value
         // being the label
 
+    $ext_sort_param_name,
+        // The parameter-name to use when specifying a sort order
+        // in a URL query-string.
     $ext_sort_setting_name,
         // the setting value to use when saving the sort order
 
@@ -262,8 +269,6 @@ function show_project_listing(
     // Identify columns that we know we can't sort by because their values
     // come from outside the database.
     $unsortable_columns = array( "uploaded" );
-
-    $ext_sort_param_name = "{$ext_sort_setting_name}_sort_by";
 
     // Load the sort column and direction
     list($sort_column, $sort_direction) =
