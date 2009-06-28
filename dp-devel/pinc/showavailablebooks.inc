@@ -137,7 +137,7 @@ function show_projects_for_stage(
 
     // Print out the heading information and the table for the project listing.
 
-    $user_setting = "{$stage->id}_order";
+    $ext_sort_setting_name = "{$stage->id}_order";
 
     $anchor = $stage->id;
     echo "\n<a name='$anchor'></a>";
@@ -148,7 +148,7 @@ function show_projects_for_stage(
     show_project_listing(
         $filtered_project_selector,
         $columns,
-        $user_setting,
+        $ext_sort_setting_name,
         $anchor,
         $stage
     );
@@ -213,12 +213,12 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
     $filtered_project_selector = "$initial_project_selector $projects_filter";
 
     $ch_or_av = substr( $checkedout_or_available, 0, 2 );
-    $user_setting = "{$pool->id}_{$ch_or_av}_order";
+    $ext_sort_setting_name = "{$pool->id}_{$ch_or_av}_order";
 
     show_project_listing(
         $filtered_project_selector,
         $columns,
-        $user_setting,
+        $ext_sort_setting_name,
         $anchor,
         $pool
     );
@@ -238,7 +238,7 @@ function show_project_listing(
         // array with the key being the column name and the value
         // being the label
 
-    $user_setting,
+    $ext_sort_setting_name,
         // the setting value to use when saving the sort order
 
     $anchor,
@@ -264,7 +264,7 @@ function show_project_listing(
     $unsortable_columns = array( "uploaded" );
     
     // Load the sort column and direction
-    list($sort_column, $sort_direction) = process_sorting_control($columns, $user_setting);
+    list($sort_column, $sort_direction) = process_sorting_control($columns, $ext_sort_setting_name);
 
     // Determine SQL order by criteria based on the sorting information.
     if($sort_column == "days")
@@ -283,15 +283,15 @@ function show_project_listing(
         $orderclause .= ", nameofwork ASC";
     }
 
-    $order_param = "{$user_setting}_sort_by";
+    $ext_sort_param_name = "{$ext_sort_setting_name}_sort_by";
 
     // The originating request may have query-string settings (other than
-    // for $order_param). We should preserve those, and just append the
-    // setting for $order_param.
+    // for $ext_sort_param_name). We should preserve those, and just append the
+    // setting for $ext_sort_param_name.
     $other_settings = '';
     foreach ( $_GET as $name => $value )
     {
-        if ( $name != $order_param )
+        if ( $name != $ext_sort_param_name )
         {
             $other_settings .= urlencode($name) . "=" . urlencode($value) . "&amp;";
         }
@@ -339,7 +339,7 @@ function show_project_listing(
             if($name == $sort_column)
                 $link_sort_by .= ":" . ($sort_direction == "asc" ? "desc" : "asc");
 
-            echo "<a href='?{$other_settings}{$order_param}=$link_sort_by#$anchor'>";
+            echo "<a href='?{$other_settings}{$ext_sort_param_name}=$link_sort_by#$anchor'>";
             // Change spaces in label to <br>s to force them to wrap. This
             // improves table layout in all browsers.
             $label = preg_replace("/ /","<br>",$label);
@@ -492,7 +492,7 @@ function show_project_listing(
 
 // -----------------------------------------------------------------------------
 
-function process_sorting_control($columns, $user_setting = NULL)
+function process_sorting_control($columns, $ext_sort_setting_name = NULL)
 // This function's purpose is to intelligently determine the user's
 // intent for a sort criteria. It does this by:
 //   1. Checking $_GET for explicit sort order changes
@@ -504,7 +504,7 @@ function process_sorting_control($columns, $user_setting = NULL)
 // Arguments:
 //   $columns      - an associative array containing the valid columns in the
 //                   table
-//   $user_setting - the setting to use in the usersettings table. This value
+//   $ext_sort_setting_name - the setting to use in the usersettings table. This value
 //                   is also used in determining the sort order via the URL.
 //                   Doing so allows for multiple tables to be on the same
 //                   page and sorted in different orders.
@@ -521,13 +521,13 @@ function process_sorting_control($columns, $user_setting = NULL)
     $default_sort_column = array_shift(array_keys($columns));
 
     // Read new sort order from URL, if any.
-    $sort_by = array_get($_GET, "{$user_setting}_sort_by", NULL);
+    $sort_by = array_get($_GET, "{$ext_sort_setting_name}_sort_by", NULL);
 
     // If that failed $sort_by will be set to NULL in which case we use the
     // value from the database.
-    if($user_setting && $sort_by == NULL)
+    if($ext_sort_setting_name && $sort_by == NULL)
     {
-        $sort_by = $userSettings->get_value($user_setting, NULL);
+        $sort_by = $userSettings->get_value($ext_sort_setting_name, NULL);
     }
 
     // If that failed (there was no previous sort order) fall back to the
@@ -557,16 +557,16 @@ function process_sorting_control($columns, $user_setting = NULL)
     // Recombine into $sort_by after error checking and correction.
     $sort_by="$sort_column:$sort_direction";
 
-    // If a $user_setting was provided, save the results to the database.
-    if($user_setting)
+    // If a $ext_sort_setting_name was provided, save the results to the database.
+    if($ext_sort_setting_name)
     {
         // Load the previous search criteria.
-        $sort_by_old = $userSettings->get_value($user_setting, NULL);
+        $sort_by_old = $userSettings->get_value($ext_sort_setting_name, NULL);
 
         // If orders have changed, save them to database.
         if ($sort_by != $sort_by_old)
         {
-            $userSettings->set_value($user_setting, $sort_by);
+            $userSettings->set_value($ext_sort_setting_name, $sort_by);
         }
     }
 
