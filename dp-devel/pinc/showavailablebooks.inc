@@ -240,7 +240,7 @@ function show_project_listing(
         // array with the key being the column name and the value
         // being the label
 
-    $filtered_project_selector = " "
+    $filtered_project_selector
         // an SQL condition (on the 'projects' table) specifying
         // which projects to list.
 )
