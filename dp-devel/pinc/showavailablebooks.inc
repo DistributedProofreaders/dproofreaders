@@ -532,10 +532,21 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
 
         // A fallback default:
         $default_sort_column,
+
+        // And if none of those works, give up.
+        'ABORT'
     );
 
     foreach ( $ext_sort_providers as $ext_sort_provider )
     {
+        if ($ext_sort_provider == 'ABORT')
+        {
+            echo "\n<p>";
+            echo _("system error: the fallback default failed!");
+            echo "</p>";
+            exit;
+        }
+
         $sort_by = $ext_sort_provider;
 
         if ( is_null($sort_by) )
