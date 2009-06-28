@@ -223,24 +223,27 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_project_listing(
-    $stage,
-    $user_setting,
-    $anchor,
-    $columns,
-    $filtered_project_selector = " "
-)
 // Create the sortable project listing.
-// Arguments:
-//   $stage        - stage object (Round, Pool, or Stage)
-//   $user_setting - the setting value to use when saving the sort order
-//   $anchor       - the anchor on the page to jump to
-//   $columns      - the columns to include in the table, this is an associative
-//                   array with the key being the column name and the value
-//                   being the label
-//   $filtered_project_selector
-//                 - an SQL condition (on the 'projects' table) specifying
-//                   which projects to list.
+function show_project_listing(
+
+    $stage,
+        // stage object (Round, Pool, or Stage)
+
+    $user_setting,
+        // the setting value to use when saving the sort order
+
+    $anchor,
+        // the anchor on the page to jump to
+
+    $columns,
+        // the columns to include in the table, this is an associative
+        // array with the key being the column name and the value
+        // being the label
+
+    $filtered_project_selector = " "
+        // an SQL condition (on the 'projects' table) specifying
+        // which projects to list.
+)
 {
     global $code_url, $userP, $pguser;
 
