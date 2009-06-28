@@ -490,7 +490,7 @@ function show_project_listing(
 
 // -----------------------------------------------------------------------------
 
-function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name = NULL)
+function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name)
 // This function's purpose is to intelligently determine the user's
 // intent for a sort criteria. It does this by:
 //   1. Checking $_GET for explicit sort order changes
@@ -524,7 +524,7 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
 
     // If that failed $sort_by will be set to NULL in which case we use the
     // value from the database.
-    if($ext_sort_setting_name && $sort_by == NULL)
+    if($sort_by == NULL)
     {
         $sort_by = $userSettings->get_value($ext_sort_setting_name, NULL);
     }
@@ -556,8 +556,7 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
     // Recombine into $sort_by after error checking and correction.
     $sort_by="$sort_column:$sort_direction";
 
-    // If a $ext_sort_setting_name was provided, save the results to the database.
-    if($ext_sort_setting_name)
+    // Save the results to the database.
     {
         // Load the previous search criteria.
         $sort_by_old = $userSettings->get_value($ext_sort_setting_name, NULL);
