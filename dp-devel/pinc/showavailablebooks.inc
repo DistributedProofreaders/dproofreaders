@@ -262,9 +262,12 @@ function show_project_listing(
     // Identify columns that we know we can't sort by because their values
     // come from outside the database.
     $unsortable_columns = array( "uploaded" );
-    
+
+    $ext_sort_param_name = "{$ext_sort_setting_name}_sort_by";
+
     // Load the sort column and direction
-    list($sort_column, $sort_direction) = process_sorting_control($columns, $ext_sort_setting_name);
+    list($sort_column, $sort_direction) =
+        process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name);
 
     // Determine SQL order by criteria based on the sorting information.
     if($sort_column == "days")
@@ -282,8 +285,6 @@ function show_project_listing(
     {
         $orderclause .= ", nameofwork ASC";
     }
-
-    $ext_sort_param_name = "{$ext_sort_setting_name}_sort_by";
 
     // The originating request may have query-string settings (other than
     // for $ext_sort_param_name). We should preserve those, and just append the
@@ -492,7 +493,7 @@ function show_project_listing(
 
 // -----------------------------------------------------------------------------
 
-function process_sorting_control($columns, $ext_sort_setting_name = NULL)
+function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name = NULL)
 // This function's purpose is to intelligently determine the user's
 // intent for a sort criteria. It does this by:
 //   1. Checking $_GET for explicit sort order changes
@@ -504,6 +505,7 @@ function process_sorting_control($columns, $ext_sort_setting_name = NULL)
 // Arguments:
 //   $columns      - an associative array containing the valid columns in the
 //                   table
+//   $ext_sort_param_name - the parameter-name to use in the URL query-string
 //   $ext_sort_setting_name - the setting to use in the usersettings table. This value
 //                   is also used in determining the sort order via the URL.
 //                   Doing so allows for multiple tables to be on the same
@@ -521,7 +523,7 @@ function process_sorting_control($columns, $ext_sort_setting_name = NULL)
     $default_sort_column = array_shift(array_keys($columns));
 
     // Read new sort order from URL, if any.
-    $sort_by = array_get($_GET, "{$ext_sort_setting_name}_sort_by", NULL);
+    $sort_by = array_get($_GET, $ext_sort_param_name, NULL);
 
     // If that failed $sort_by will be set to NULL in which case we use the
     // value from the database.
