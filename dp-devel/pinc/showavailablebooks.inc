@@ -145,11 +145,11 @@ function show_projects_for_stage(
     echo "\n<p>{$stage->description}</p>";
 
     show_project_listing(
-        $stage,
+        $filtered_project_selector,
+        $columns,
         $user_setting,
         $stage->id,
-        $columns,
-        $filtered_project_selector
+        $stage
     );
 }
 
@@ -213,11 +213,11 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
     $user_setting = "{$pool->id}_{$ch_or_av}_order";
 
     show_project_listing(
-        $pool,
+        $filtered_project_selector,
+        $columns,
         $user_setting,
         $checkedout_or_available,
-        $columns,
-        $filtered_project_selector
+        $pool
     );
 }
 
@@ -226,8 +226,14 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
 // Create the sortable project listing.
 function show_project_listing(
 
-    $stage,
-        // stage object (Round, Pool, or Stage)
+    $filtered_project_selector,
+        // an SQL condition (on the 'projects' table) specifying
+        // which projects to list.
+
+    $columns,
+        // the columns to include in the table, this is an associative
+        // array with the key being the column name and the value
+        // being the label
 
     $user_setting,
         // the setting value to use when saving the sort order
@@ -235,14 +241,8 @@ function show_project_listing(
     $anchor,
         // the anchor on the page to jump to
 
-    $columns,
-        // the columns to include in the table, this is an associative
-        // array with the key being the column name and the value
-        // being the label
-
-    $filtered_project_selector
-        // an SQL condition (on the 'projects' table) specifying
-        // which projects to list.
+    $stage
+        // stage object (Round, Pool, or Stage)
 )
 {
     global $code_url, $userP, $pguser;
