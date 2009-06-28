@@ -139,7 +139,8 @@ function show_projects_for_stage(
 
     $user_setting = "{$stage->id}_order";
 
-    echo "\n<a name='{$stage->id}'></a>";
+    $anchor = $stage->id;
+    echo "\n<a name='$anchor'></a>";
     $title = _('Projects Currently Available');
     echo "\n<h3>$title</h3>";
     echo "\n<p>{$stage->description}</p>";
@@ -148,7 +149,7 @@ function show_projects_for_stage(
         $filtered_project_selector,
         $columns,
         $user_setting,
-        $stage->id,
+        $anchor,
         $stage
     );
 }
@@ -158,6 +159,8 @@ function show_projects_for_stage(
 function show_projects_for_pool( $pool, $checkedout_or_available )
 {
     global $pguser;
+
+    $anchor = $checkedout_or_available;
 
     if ( $checkedout_or_available == 'checkedout' )
     {
@@ -171,7 +174,7 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         // We're only interested if it's checked out to the current user.
         $initial_project_selector .= " AND checkedoutby = '$pguser'";
 
-        echo "<a name='checkedout'></a>\n";
+        echo "<a name='$anchor'></a>\n";
         $projects_filter = "";
     }
     elseif ( $checkedout_or_available == 'available' )
@@ -185,7 +188,7 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         $initial_project_selector = "state = '{$pool->project_available_state}'";
         process_and_display_project_filter_form($pguser, $available_filtertype_stem, $pool->name, $_REQUEST, $initial_project_selector);
 
-        echo "<a name='available'></a>\n";
+        echo "<a name='$anchor'></a>\n";
         echo "<center><b>$header</b></center>";
         $projects_filter = get_project_filter_sql($pguser, $available_filtertype_stem);
     }
@@ -216,7 +219,7 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         $filtered_project_selector,
         $columns,
         $user_setting,
-        $checkedout_or_available,
+        $anchor,
         $pool
     );
 }
