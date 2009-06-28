@@ -525,13 +525,19 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
     $ext_sort_providers = array(
 
         // A parameter in the invoking URL's query-string:
-        @$_GET[$ext_sort_param_name],
+        array(
+            sprintf( _("URL parameter '%s'"), $ext_sort_param_name ),
+            @$_GET[$ext_sort_param_name] ),
 
         // A setting in the usersettings table in the DB (accessed via Setting class):
-        $userSettings->get_value($ext_sort_setting_name),
+        array(
+            sprintf( _("DB setting '%s'"), $ext_sort_setting_name ),
+            $userSettings->get_value($ext_sort_setting_name) ),
 
         // A fallback default:
-        $default_sort_column,
+        array(
+            _("site default"),
+            $default_sort_column ),
 
         // And if none of those works, give up.
         'ABORT'
@@ -547,7 +553,15 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
             exit;
         }
 
-        $sort_by = $ext_sort_provider;
+        list($provider_noun, $sort_by) = $ext_sort_provider;
+        if (1) // debug trace
+        {
+            echo "\n<p>";
+            echo sprintf(
+                    _("%s supplies value '%s'"),
+                    $provider_noun, $sort_by );
+            echo "</p>";
+        }
 
         if ( is_null($sort_by) )
         {
