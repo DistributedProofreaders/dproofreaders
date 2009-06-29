@@ -492,6 +492,7 @@ function show_project_listing(
             echo "\n<td $style_attribute>$cell</td>";
         }
 
+        echo "</tr>\n";
         $rownum++;
     }
 
