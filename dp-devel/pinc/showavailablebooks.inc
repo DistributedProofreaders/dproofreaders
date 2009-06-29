@@ -418,10 +418,10 @@ function show_project_listing(
             {
                 $eURL = "$code_url/project.php?id={$book['projectid']}&amp;expected_state={$book['state']}";
                 if ($userP['i_newwin']==0)
-                    {$cell="<a href=\"$eURL\">";}
+                    $onclick_attr = "";
                 else
-                    {$cell="<a href=\"$eURL\" onclick=\"newProofWin('$eURL'); return false;\">";}
-                $cell.="{$book['nameofwork']}</a>";
+                    $onclick_attr = "onclick=\"newProofWin('$eURL'); return false;\"";
+                $cell = "<a href=\"$eURL\" $onclick_attr>{$book['nameofwork']}</a>";
             }
             elseif($col_id == "genre")
             {
