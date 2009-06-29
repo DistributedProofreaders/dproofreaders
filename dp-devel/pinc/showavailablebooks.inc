@@ -46,27 +46,24 @@ function show_projects_for_smooth_reading()
     $allow_special_colors_legend = TRUE;
 
     $columns = array(
-        "nameofwork"  => _("Title"),
-        "authorsname" => _("Author"),
-        "language"    => _("Language"),
-        "genre"       => _("Genre")
+        "nameofwork"   => _("Title"),
+        "authorsname"  => _("Author"),
+        "language"     => _("Language"),
+        "genre"        => _("Genre"),
+        "username"     => _("Project Manager"),
+        "checkedoutby" => _("Post Processor"),
+        "uploaded"     => _("Uploaded"),
+        "n_pages"      => _("Total Pages"),
+        "days_left"    => _("Days Left"),
     );
 
-    // only show PM, PP, and Uploaded if they are logged in
-    if($pguser)
+    // But only show PM, PP, and Uploaded if they are logged in.
+    if ( !isset($pguser) )
     {
-        $columns = array_merge($columns, array(
-            "username"     => _("Project Manager"),
-            "checkedoutby" => _("Post Processor"),
-            "uploaded"     => _("Uploaded")
-        ));
+        unset($columns['username']);
+        unset($columns['checkedoutby']);
+        unset($columns['uploaded']);
     }
-
-    $columns = array_merge($columns, array(
-        "n_pages"   => _("Total Pages"),
-        "days_left" => _("Days Left")
-    ));
-
 
     show_projects_for_stage(
         get_Stage_for_id("SR"),
