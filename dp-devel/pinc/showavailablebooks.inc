@@ -320,11 +320,11 @@ function show_project_listing(
     echo "<tr align=center bgcolor='{$stage->listing_bgcolors[1]}'>";
 
     // Print out the header row with links.
-    foreach($columns as $name => $label)
+    foreach($columns as $col_id => $label)
     {
         $style_attribute="";
-        if(@$column_styles[$name])
-            $style_attribute="style='{$column_styles[$name]}'";
+        if(@$column_styles[$col_id])
+            $style_attribute="style='{$column_styles[$col_id]}'";
 
         echo "\n<th $style_attribute>";
 
@@ -332,20 +332,20 @@ function show_project_listing(
         // improves table layout in all browsers.
         $label = preg_replace("/ /","<br>",$label);
 
-        if(in_array($name, $unsortable_columns))
+        if(in_array($col_id, $unsortable_columns))
         {
             echo $label;
         }
         else
         {
-            $link_sort_by=$name;
-            if($name == $curr_sql_sort_col)
-                $link_sort_by .= ":" . ($curr_sql_sort_dir == "asc" ? "desc" : "asc");
+            $ext_sort=$col_id;
+            if($col_id == $curr_sql_sort_col)
+                $ext_sort .= ":" . ($curr_sql_sort_dir == "asc" ? "desc" : "asc");
 
-            echo "<a href='?{$other_settings}{$ext_sort_param_name}=$link_sort_by#$anchor'>";
+            echo "<a href='?{$other_settings}{$ext_sort_param_name}=$ext_sort#$anchor'>";
             echo $label;
             echo "</a>";
-            if($name == $curr_sql_sort_col)
+            if($col_id == $curr_sql_sort_col)
             {
                 if($curr_sql_sort_dir == "asc")
                     echo "&nbsp;<img src='$code_url/graphics/sort_asc.png'>";
@@ -401,10 +401,10 @@ function show_project_listing(
         }
 
         echo "<tr bgcolor='$bgcolor'>";
-        foreach($columns as $name => $label)
+        foreach($columns as $col_id => $label)
         {
             $cell = "";
-            if($name == "nameofwork")
+            if($col_id == "nameofwork")
             {
                 $eURL = "$code_url/project.php?id={$book['projectid']}&amp;expected_state={$book['state']}";
                 if ($userP['i_newwin']==0)
@@ -413,7 +413,7 @@ function show_project_listing(
                     {$cell="<a href=\"$eURL\" onclick=\"newProofWin('$eURL'); return false;\">";}
                 $cell.="{$book['nameofwork']}</a>";
             }
-            elseif($name == "genre")
+            elseif($col_id == "genre")
             {
                 $genre = $book['genre'];
                 if ($book['difficulty'] == "beginner")
@@ -436,10 +436,10 @@ function show_project_listing(
                 }
                 $cell = $genre;
             }
-            elseif($name == "username" || $name == "checkedoutby" || $name == "postproofer" || $name == "correctedby")
+            elseif($col_id == "username" || $col_id == "checkedoutby" || $col_id == "postproofer" || $col_id == "correctedby")
             // Create email or PM links for usernames.
             {
-                $user_name = $book[$name];
+                $user_name = $book[$col_id];
                 if ($show_email)
                 {
                     $email = get_forum_email_address($user_name);
@@ -452,7 +452,7 @@ function show_project_listing(
                     $cell = "<a href='$contact_url'>$user_name</a>";
                 }
             }
-            elseif($name == "uploaded")
+            elseif($col_id == "uploaded")
             // Uploaded is a special case because it is pulled from the
             // filesystem and not from the database, and is hence not sortable.
             {
@@ -466,13 +466,13 @@ function show_project_listing(
             }
             else
             {
-                $cell = $book[$name];
+                $cell = $book[$col_id];
             }
 
             // Determine any special style formatting.
             $style_attribute="";
-            if(@$column_styles[$name])
-                $style_attribute="style='{$column_styles[$name]}'";
+            if(@$column_styles[$col_id])
+                $style_attribute="style='{$column_styles[$col_id]}'";
 
             // Finally, output the table cell.
             echo "\n<td $style_attribute>$cell</td>";
