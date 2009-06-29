@@ -663,6 +663,15 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         }
     }
 
+    // Make some sanity-check assertions on the values we're about to return.
+
+    // $curr_sql_sort_col is the col_id of one of the columns in $columns:
+    assert( isset($columns[$curr_sql_sort_col]) );
+    // And that column is sortable:
+    assert( !is_null($columns[$curr_sql_sort_col][0]) );
+
+    assert( $curr_sql_sort_dir == "asc" || $curr_sql_sort_dir == "desc" );
+
     return array($curr_sql_sort_col, $curr_sql_sort_dir);
 }
 
