@@ -374,8 +374,7 @@ function show_project_listing(
 
     echo "</tr>";
 
-    $show_special_colors = FALSE;
-    if($pguser)
+    if(isset($pguser))
     {
         // Determine whether to use special colors or not
         // (this does not affect the alternating between two
@@ -385,6 +384,11 @@ function show_project_listing(
         $userSettings =& Settings::get_Settings($pguser);
         $show_special_colors = (get_pages_proofed_maybe_simulated() >= 10
                                 && !$userSettings->get_boolean('hide_special_colors'));
+    }
+    else
+    {
+        // Visitors see the special colours.
+        $show_special_colors = TRUE;
     }
 
     // Show email addresses for site administrators
