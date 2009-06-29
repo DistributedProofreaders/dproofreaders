@@ -439,16 +439,17 @@ function show_project_listing(
             elseif($name == "username" || $name == "checkedoutby" || $name == "postproofer" || $name == "correctedby")
             // Create email or PM links for usernames.
             {
+                $user_name = $book[$name];
                 if ($show_email)
                 {
-                    $email = get_forum_email_address($book[$name]);
-                    $cell = "<a href='mailto:$email'>".$book[$name]."</a>";
+                    $email = get_forum_email_address($user_name);
+                    $cell = "<a href='mailto:$email'>$user_name</a>";
                 }
 
                 if (!$show_email || $email == "")
                 {
-                    $contact_url = get_url_to_compose_message_to_user($book[$name]);
-                    $cell = "<a href='$contact_url'>".$book[$name]."</a>";
+                    $contact_url = get_url_to_compose_message_to_user($user_name);
+                    $cell = "<a href='$contact_url'>$user_name</a>";
                 }
             }
             elseif($name == "uploaded")
