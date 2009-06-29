@@ -136,6 +136,7 @@ function show_projects_for_stage(
 
     $ext_sort_param_name = "order{$stage->id}";
     $ext_sort_setting_name = "{$stage->id}_order";
+    $default_ext_sort = 'DaysA';
 
     $anchor = $stage->id;
     echo "\n<a name='$anchor'></a>";
@@ -148,6 +149,7 @@ function show_projects_for_stage(
         $columns,
         $ext_sort_param_name,
         $ext_sort_setting_name,
+        $default_ext_sort,
         $anchor,
         $stage
     );
@@ -214,12 +216,14 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
     $ch_or_av = substr( $checkedout_or_available, 0, 2 );
     $ext_sort_param_name = "order_{$checkedout_or_available}";
     $ext_sort_setting_name = "{$pool->id}_{$ch_or_av}_order";
+    $default_ext_sort = 'DaysD';
 
     show_project_listing(
         $filtered_project_selector,
         $columns,
         $ext_sort_param_name,
         $ext_sort_setting_name,
+        $default_ext_sort,
         $anchor,
         $pool
     );
@@ -246,6 +250,8 @@ function show_project_listing(
         // in a URL query-string.
     $ext_sort_setting_name,
         // the setting value to use when saving the sort order
+    $default_ext_sort,
+        // The sort to use when one isn't specified by url-parameter or db-setting.
 
     $anchor,
         // the anchor on the page to jump to
@@ -267,7 +273,7 @@ function show_project_listing(
 
     // Load the sort column and direction
     list($curr_sql_sort_col, $curr_sql_sort_dir) =
-        process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name);
+        process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name, $default_ext_sort);
 
     $curr_sql_orderclause = "$curr_sql_sort_col $curr_sql_sort_dir";
 
@@ -498,7 +504,7 @@ function show_project_listing(
 
 // -----------------------------------------------------------------------------
 
-function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name)
+function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name, $default_ext_sort)
 // This function's purpose is to intelligently determine the user's
 // intent for a sort criteria. It does this by:
 //   1. Checking $_GET for explicit sort order changes
@@ -515,6 +521,8 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
 //                   is also used in determining the sort order via the URL.
 //                   Doing so allows for multiple tables to be on the same
 //                   page and sorted in different orders.
+//   $default_ext_sort - the sort to use when one isn't specified by
+//                   url-parameter or db-setting.
 // Returns the array($curr_sql_sort_col, $curr_sql_sort_dir):
 //   $curr_sql_sort_col - name of the column to sort by
 //   $curr_sql_sort_dir - direction to sort by (asc or desc)
@@ -523,9 +531,6 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
 
     // Load user settings
     $userSettings =& Settings::get_Settings($pguser);
-
-    // The default sort column is the first entry in $columns.
-    $default_ext_sort = current(current($columns)) . 'A';
 
     // We get an ext_sort from one of three places,
     // which we consult in the following order,
