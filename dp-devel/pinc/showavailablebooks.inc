@@ -328,6 +328,10 @@ function show_project_listing(
 
         echo "\n<th $style_attribute>";
 
+        // Change spaces in label to <br>s to force them to wrap. This
+        // improves table layout in all browsers.
+        $label = preg_replace("/ /","<br>",$label);
+
         if(in_array($name, $unsortable_columns))
         {
             echo $label;
@@ -339,9 +343,6 @@ function show_project_listing(
                 $link_sort_by .= ":" . ($curr_sql_sort_dir == "asc" ? "desc" : "asc");
 
             echo "<a href='?{$other_settings}{$ext_sort_param_name}=$link_sort_by#$anchor'>";
-            // Change spaces in label to <br>s to force them to wrap. This
-            // improves table layout in all browsers.
-            $label = preg_replace("/ /","<br>",$label);
             echo $label;
             echo "</a>";
             if($name == $curr_sql_sort_col)
