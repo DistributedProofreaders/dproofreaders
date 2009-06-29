@@ -320,7 +320,7 @@ function show_project_listing(
     $result = mysql_query($query);
 
     // Start the table.
-    echo "\r\n<table class='availprojectlisting'>";
+    echo "\n<table class='availprojectlisting'>";
     echo "<tr align=center bgcolor='{$stage->listing_bgcolors[1]}'>";
 
     // Print out the header row with links.
