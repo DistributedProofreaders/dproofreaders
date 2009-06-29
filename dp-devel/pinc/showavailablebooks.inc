@@ -569,25 +569,25 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
             continue;
         }
 
-        // This provider supplied a sort value, so look no further.
+        // Parse the $curr_ext_sort into its column:direction parts.
+        @list($sort_column, $sort_direction) = explode(":", $curr_ext_sort);
+        // '@' to suppress "Notice: Undefined offset: 1" when $curr_ext_sort has no colon.
+
+        // Confirm $sort_column is in $columns and if not, skip to the next provider.
+        if(!array_key_exists($sort_column, $columns))
+        {
+            continue;
+        }
+
+        // Default to ascending for the sort direction if none is specified
+        // or if we don't recognize the sort direction.
+        if(empty($sort_direction) || !in_array($sort_direction, array("asc", "desc")))
+        {
+            $sort_direction="asc";
+        }
+
+        // This provider supplied a valid sort value, so look no further.
         break;
-    }
-
-    // Parse the $curr_ext_sort into its column:direction parts.
-    @list($sort_column, $sort_direction) = explode(":", $curr_ext_sort);
-    // '@' to suppress "Notice: Undefined offset: 1" when $curr_ext_sort has no colon.
-
-    // Confirm $sort_column is in $columns and if not, use the first entry.
-    if(!array_key_exists($sort_column, $columns))
-    {
-        $sort_column = $default_sort_column;
-    }
-
-    // Default to ascending for the sort direction if none is specified
-    // or if we don't recognize the sort direction.
-    if(empty($sort_direction) || !in_array($sort_direction, array("asc", "desc")))
-    {
-        $sort_direction="asc";
     }
 
     // Recombine into $curr_ext_sort after error checking and correction.
