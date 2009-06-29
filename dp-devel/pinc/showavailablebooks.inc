@@ -338,19 +338,26 @@ function show_project_listing(
         }
         else
         {
-            $ext_sort=$col_id;
-            if($col_id == $curr_sql_sort_col)
-                $ext_sort .= ":" . ($curr_sql_sort_dir == "asc" ? "desc" : "asc");
-
-            echo "<a href='?{$other_settings}{$ext_sort_param_name}=$ext_sort#$anchor'>";
-            echo $label;
-            echo "</a>";
             if($col_id == $curr_sql_sort_col)
             {
-                if($curr_sql_sort_dir == "asc")
-                    echo "&nbsp;<img src='$code_url/graphics/sort_asc.png'>";
-                else
-                    echo "&nbsp;<img src='$code_url/graphics/sort_desc.png'>";
+                // The header-link reverses the current sort direction.
+                $ext_sort = $col_id . ":" . ($curr_sql_sort_dir == "asc" ? "desc" : "asc");
+            }
+            else
+            {
+                // The header-link does an ascending sort.
+                $ext_sort = $col_id;
+            }
+
+            $sort_url = "?{$other_settings}{$ext_sort_param_name}={$ext_sort}#{$anchor}";
+            echo "<a href='$sort_url'>$label</a>";
+
+            if($col_id == $curr_sql_sort_col)
+            {
+                // Add a visual indicator that this is the sorted-by column,
+                // and show which way the column has been sorted.
+                $img_url = "$code_url/graphics/sort_{$curr_sql_sort_dir}.png";
+                echo "&nbsp;<img src='$img_url'>";
             }
         }
 
