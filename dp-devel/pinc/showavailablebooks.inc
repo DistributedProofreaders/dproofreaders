@@ -8,6 +8,8 @@ include_once($relPath.'special_colors.inc');
 include_once($relPath.'forum_interface.inc'); // get_forum_email_address get_url_to_compose_message_to_user
 include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
 
+// -----------------------------------------------------------------------------
+
 function show_projects_for_round( $round, $show_filter_block, $allow_special_colors_legend )
 {
     $initial_project_selector = "state = '{$round->project_available_state}'";
@@ -134,14 +136,13 @@ function show_projects_for_stage(
         }
     }
 
-    // Print out the heading information and the table for the project listing.
-
     $ext_sort_param_name = "order{$stage->id}";
     $ext_sort_setting_name = "{$stage->id}_order";
     $default_ext_sort = 'DaysA';
 
     $anchor = $stage->id;
     echo "\n<a name='$anchor'></a>";
+
     $title = _('Projects Currently Available');
     echo "\n<h3>$title</h3>";
     echo "\n<p>{$stage->description}</p>";
@@ -203,9 +204,6 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
 
     $filtered_project_selector = "$initial_project_selector $projects_filter";
 
-    // Print out the heading information and the table for the pool
-    // project listing.
-
     $columns = array(
         "nameofwork"          => array( 'Title',  _("Title") ),
         "authorsname"         => array( 'Author', _("Author") ),
@@ -252,7 +250,7 @@ function show_project_listing(
         // The parameter-name to use when specifying a sort order
         // in a URL query-string.
     $ext_sort_setting_name,
-        // the setting value to use when saving the sort order
+        // the setting name to use when saving the sort order in the db
     $default_ext_sort,
         // The sort to use when one isn't specified by url-parameter or db-setting.
 
@@ -414,6 +412,7 @@ function show_project_listing(
         }
 
         echo "<tr bgcolor='$bgcolor'>";
+
         foreach($columns as $col_id => $col_info)
         {
             if($col_id == "nameofwork")
@@ -534,6 +533,10 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
 
     // Load user settings
     $userSettings =& Settings::get_Settings($pguser);
+    // Note that if requestor is a guest, $pguser is NULL, and
+    // $userSettings->get_value() will return
+    // the supplied default (if any) or NULL (if not).
+    // And $userSettings->set_value() is a no-op.
 
     // We get an ext_sort from one of three places,
     // which we consult in the following order,
@@ -653,7 +656,7 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         // which avoids unnecessarily saving the default.)
         $saved_ext_sort = $userSettings->get_value($ext_sort_setting_name, $default_ext_sort);
 
-        // If orders have changed, save them to database.
+        // If sort order has changed, save it to database.
         if ($curr_ext_sort != $saved_ext_sort)
         {
             $userSettings->set_value($ext_sort_setting_name, $curr_ext_sort);
