@@ -328,7 +328,11 @@ function show_project_listing(
 
         echo "\n<th $style_attribute>";
 
-        if(!in_array($name, $unsortable_columns))
+        if(in_array($name, $unsortable_columns))
+        {
+            echo $label;
+        }
+        else
         {
             $link_sort_by=$name;
             if($name == $curr_sql_sort_col)
@@ -347,10 +351,6 @@ function show_project_listing(
                 else
                     echo "&nbsp;<img src='$code_url/graphics/sort_desc.png'>";
             }
-        }
-        else
-        {
-            echo $label;
         }
 
         echo "</th>";
