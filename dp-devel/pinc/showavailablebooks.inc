@@ -175,8 +175,9 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         // We're only interested if it's checked out to the current user.
         $initial_project_selector .= " AND checkedoutby = '$pguser'";
 
-        echo "<a name='$anchor'></a>\n";
         $projects_filter = "";
+
+        echo "<a name='$anchor'></a>\n";
     }
     elseif ( $checkedout_or_available == 'available' )
     {
@@ -188,15 +189,17 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
 
         $initial_project_selector = "state = '{$pool->project_available_state}'";
         process_and_display_project_filter_form($pguser, $available_filtertype_stem, $pool->name, $_REQUEST, $initial_project_selector);
+        $projects_filter = get_project_filter_sql($pguser, $available_filtertype_stem);
 
         echo "<a name='$anchor'></a>\n";
         echo "<center><b>$header</b></center>";
-        $projects_filter = get_project_filter_sql($pguser, $available_filtertype_stem);
     }
     else
     {
         assert(FALSE);
     }
+
+    $filtered_project_selector = "$initial_project_selector $projects_filter";
 
     // Print out the heading information and the table for the pool
     // project listing.
@@ -210,8 +213,6 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         $pool->foo_field_name => array( 'Person', $pool->foo_Header ),
         "days_avail"          => array( 'Days',   _("Days") ),
     );
-
-    $filtered_project_selector = "$initial_project_selector $projects_filter";
 
     $ch_or_av = substr( $checkedout_or_available, 0, 2 );
     $ext_sort_param_name = "order_{$checkedout_or_available}";
