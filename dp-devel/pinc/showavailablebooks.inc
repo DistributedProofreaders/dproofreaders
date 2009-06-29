@@ -375,7 +375,6 @@ function show_project_listing(
     echo "</tr>";
 
     $show_special_colors = FALSE;
-    $show_email = FALSE;
     if($pguser)
     {
         // Determine whether to use special colors or not
@@ -386,18 +385,10 @@ function show_project_listing(
         $userSettings =& Settings::get_Settings($pguser);
         $show_special_colors = (get_pages_proofed_maybe_simulated() >= 10
                                 && !$userSettings->get_boolean('hide_special_colors'));
-
-        // Show email addresses for site administrators
-        // TODO: Figure out why uids 1342 and 12417 are exceptions, why we're
-        // bothering to do a SQL lookup if we're using literals (why can't we
-        // just use the usernames themselves?) and why this is in here at all.
-        // If/when the literals are removed, this can be moved outside the
-        // if($pguser) statement.
-        $userid_q = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-        $u_id = mysql_result($userid_q, 0, "u_id");
-        $show_email = user_is_a_sitemanager() || $u_id == 1342 || $u_id == 12417;
     }
 
+    // Show email addresses for site administrators
+    $show_email = user_is_a_sitemanager();
 
     $rownum = 0;
 
