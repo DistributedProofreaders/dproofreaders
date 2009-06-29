@@ -271,16 +271,16 @@ function show_project_listing(
     $unsortable_columns = array( "uploaded" );
 
     // Load the sort column and direction
-    list($sort_column, $sort_direction) =
+    list($curr_sql_sort_col, $curr_sql_sort_dir) =
         process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name);
 
-    $orderclause = "$sort_column $sort_direction";
+    $curr_sql_orderclause = "$curr_sql_sort_col $curr_sql_sort_dir";
 
     // Sort on nameofwork ASC as a secondary criteria if it isn't the primary
     // criteria.
-    if($sort_column != "nameofwork")
+    if($curr_sql_sort_col != "nameofwork")
     {
-        $orderclause .= ", nameofwork ASC";
+        $curr_sql_orderclause .= ", nameofwork ASC";
     }
 
     // The originating request may have query-string settings (other than
@@ -314,7 +314,7 @@ function show_project_listing(
             $filtered_project_selector
         ORDER BY
             $presort
-            $orderclause
+            $curr_sql_orderclause
     ";
     $result = mysql_query($query);
 
@@ -334,8 +334,8 @@ function show_project_listing(
         if(!in_array($name, $unsortable_columns))
         {
             $link_sort_by=$name;
-            if($name == $sort_column)
-                $link_sort_by .= ":" . ($sort_direction == "asc" ? "desc" : "asc");
+            if($name == $curr_sql_sort_col)
+                $link_sort_by .= ":" . ($curr_sql_sort_dir == "asc" ? "desc" : "asc");
 
             echo "<a href='?{$other_settings}{$ext_sort_param_name}=$link_sort_by#$anchor'>";
             // Change spaces in label to <br>s to force them to wrap. This
@@ -343,9 +343,9 @@ function show_project_listing(
             $label = preg_replace("/ /","<br>",$label);
             echo $label;
             echo "</a>";
-            if($name == $sort_column)
+            if($name == $curr_sql_sort_col)
             {
-                if($sort_direction == "asc")
+                if($curr_sql_sort_dir == "asc")
                     echo "&nbsp;<img src='$code_url/graphics/sort_asc.png'>";
                 else
                     echo "&nbsp;<img src='$code_url/graphics/sort_desc.png'>";
@@ -507,9 +507,9 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
 //                   is also used in determining the sort order via the URL.
 //                   Doing so allows for multiple tables to be on the same
 //                   page and sorted in different orders.
-// Returns the array($sort_column, $sort_direction):
-//   $sort_column    - name of the column to sort by
-//   $sort_direction - direction to sort by (asc or desc)
+// Returns the array($curr_sql_sort_col, $curr_sql_sort_dir):
+//   $curr_sql_sort_col - name of the column to sort by
+//   $curr_sql_sort_dir - direction to sort by (asc or desc)
 {
     global $pguser;
 
@@ -570,20 +570,20 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         }
 
         // Parse the $curr_ext_sort into its column:direction parts.
-        @list($sort_column, $sort_direction) = explode(":", $curr_ext_sort);
+        @list($curr_sql_sort_col, $curr_sql_sort_dir) = explode(":", $curr_ext_sort);
         // '@' to suppress "Notice: Undefined offset: 1" when $curr_ext_sort has no colon.
 
-        // Confirm $sort_column is in $columns and if not, skip to the next provider.
-        if(!array_key_exists($sort_column, $columns))
+        // Confirm $curr_sql_sort_col is in $columns and if not, skip to the next provider.
+        if(!array_key_exists($curr_sql_sort_col, $columns))
         {
             continue;
         }
 
         // Default to ascending for the sort direction if none is specified
         // or if we don't recognize the sort direction.
-        if(empty($sort_direction) || !in_array($sort_direction, array("asc", "desc")))
+        if(empty($curr_sql_sort_dir) || !in_array($curr_sql_sort_dir, array("asc", "desc")))
         {
-            $sort_direction="asc";
+            $curr_sql_sort_dir="asc";
         }
 
         // This provider supplied a valid sort value, so look no further.
@@ -591,7 +591,7 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
     }
 
     // Recombine into $curr_ext_sort after error checking and correction.
-    $curr_ext_sort="$sort_column:$sort_direction";
+    $curr_ext_sort="$curr_sql_sort_col:$curr_sql_sort_dir";
 
     // Save the results to the database.
     {
@@ -605,7 +605,7 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         }
     }
 
-    return array($sort_column, $sort_direction);
+    return array($curr_sql_sort_col, $curr_sql_sort_dir);
 }
 
 // vim: sw=4 ts=4 expandtab
