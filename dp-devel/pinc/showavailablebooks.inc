@@ -457,14 +457,15 @@ function show_project_listing(
                 if ($show_email)
                 {
                     $email = get_forum_email_address($user_name);
-                    $cell = "<a href='mailto:$email'>$user_name</a>";
+                    $contact_url = "mailto:$email";
                 }
 
                 if (!$show_email || $email == "")
                 {
                     $contact_url = get_url_to_compose_message_to_user($user_name);
-                    $cell = "<a href='$contact_url'>$user_name</a>";
                 }
+
+                $cell = "<a href='$contact_url'>$user_name</a>";
             }
             elseif($col_id == "uploaded")
             // Uploaded is a special case because it is pulled from the
