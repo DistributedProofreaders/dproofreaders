@@ -645,8 +645,10 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
 
     // Save the results to the database.
     {
-        // Load the previous search criteria.
-        $saved_ext_sort = $userSettings->get_value($ext_sort_setting_name, NULL);
+        // Get the saved sort order.
+        // (Or if there isn't one, use the default,
+        // which avoids unnecessarily saving the default.)
+        $saved_ext_sort = $userSettings->get_value($ext_sort_setting_name, $default_ext_sort);
 
         // If orders have changed, save them to database.
         if ($curr_ext_sort != $saved_ext_sort)
