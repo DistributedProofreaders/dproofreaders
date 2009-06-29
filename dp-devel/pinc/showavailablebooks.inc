@@ -553,17 +553,17 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
             exit;
         }
 
-        list($provider_noun, $sort_by) = $ext_sort_provider;
+        list($provider_noun, $curr_ext_sort) = $ext_sort_provider;
         if (1) // debug trace
         {
             echo "\n<p>";
             echo sprintf(
                     _("%s supplies value '%s'"),
-                    $provider_noun, $sort_by );
+                    $provider_noun, $curr_ext_sort );
             echo "</p>";
         }
 
-        if ( is_null($sort_by) )
+        if ( is_null($curr_ext_sort) )
         {
             // This (potential) provider isn't supplying a value this time.
             continue;
@@ -573,9 +573,9 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         break;
     }
 
-    // Parse the $sort_by into its column:direction parts.
-    @list($sort_column, $sort_direction) = explode(":", $sort_by);
-    // '@' to suppress "Notice: Undefined offset: 1" when $sort_by has no colon.
+    // Parse the $curr_ext_sort into its column:direction parts.
+    @list($sort_column, $sort_direction) = explode(":", $curr_ext_sort);
+    // '@' to suppress "Notice: Undefined offset: 1" when $curr_ext_sort has no colon.
 
     // Confirm $sort_column is in $columns and if not, use the first entry.
     if(!array_key_exists($sort_column, $columns))
@@ -590,18 +590,18 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         $sort_direction="asc";
     }
 
-    // Recombine into $sort_by after error checking and correction.
-    $sort_by="$sort_column:$sort_direction";
+    // Recombine into $curr_ext_sort after error checking and correction.
+    $curr_ext_sort="$sort_column:$sort_direction";
 
     // Save the results to the database.
     {
         // Load the previous search criteria.
-        $sort_by_old = $userSettings->get_value($ext_sort_setting_name, NULL);
+        $saved_ext_sort = $userSettings->get_value($ext_sort_setting_name, NULL);
 
         // If orders have changed, save them to database.
-        if ($sort_by != $sort_by_old)
+        if ($curr_ext_sort != $saved_ext_sort)
         {
-            $userSettings->set_value($ext_sort_setting_name, $sort_by);
+            $userSettings->set_value($ext_sort_setting_name, $curr_ext_sort);
         }
     }
 
