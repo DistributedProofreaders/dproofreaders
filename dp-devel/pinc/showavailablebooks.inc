@@ -531,6 +531,8 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
 {
     global $pguser;
 
+    $local_trace = FALSE; // set to TRUE when debugging
+
     // Load user settings
     $userSettings =& Settings::get_Settings($pguser);
     // Note that if requestor is a guest, $pguser is NULL, and
@@ -573,7 +575,7 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         }
 
         list($provider_noun, $curr_ext_sort) = $ext_sort_provider;
-        if (1) // debug trace
+        if ($local_trace)
         {
             echo "\n<p>";
             echo sprintf(
@@ -659,6 +661,14 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         // If sort order has changed, save it to database.
         if ($curr_ext_sort != $saved_ext_sort)
         {
+            if ($local_trace)
+            {
+                echo "\n<p>";
+                echo sprintf(
+                        _("DB setting '%s' receives value '%s'"),
+                        $ext_sort_setting_name, $curr_ext_sort );
+                echo "</p>";
+            }
             $userSettings->set_value($ext_sort_setting_name, $curr_ext_sort);
         }
     }
