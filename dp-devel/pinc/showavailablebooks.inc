@@ -265,10 +265,6 @@ function show_project_listing(
         "days_left" => "text-align: right;"
     );
 
-    // Identify columns that we know we can't sort by because their values
-    // come from outside the database.
-    $unsortable_columns = array( "uploaded" );
-
     // Load the sort column and direction
     list($curr_sql_sort_col, $curr_sql_sort_dir) =
         process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name);
@@ -336,8 +332,9 @@ function show_project_listing(
         // improves table layout in all browsers.
         $label = preg_replace("/ /","<br>",$label);
 
-        if(in_array($col_id, $unsortable_columns))
+        if(is_null($ext_sort_col))
         {
+            // We can't sort on this column, so it's a plain header.
             echo $label;
         }
         else
