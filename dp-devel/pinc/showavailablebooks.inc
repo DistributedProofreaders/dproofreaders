@@ -440,6 +440,10 @@ function show_project_listing(
                         else if ( $stage->is_a_mentor_round() )
                             $genre = _("MENTORS ONLY")." ".$genre;
                     }
+                    elseif ( $stage->id == 'SR' )
+                    {
+                        $genre = _("BEGINNERS")." ".$genre;
+                    }
                 }
                 elseif ($book['difficulty'] == "easy")
                 {
