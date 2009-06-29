@@ -413,7 +413,6 @@ function show_project_listing(
         echo "<tr bgcolor='$bgcolor'>";
         foreach($columns as $col_id => $col_info)
         {
-            $cell = "";
             if($col_id == "nameofwork")
             {
                 $eURL = "$code_url/project.php?id={$book['projectid']}&amp;expected_state={$book['state']}";
