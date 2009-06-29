@@ -13,14 +13,14 @@ function show_projects_for_round( $round, $show_filter_block, $allow_special_col
     $filter_custom_display_fields = NULL;
 
     $columns = array(
-        "nameofwork"  => _("Title"),
-        "authorsname" => _("Author"),
-        "language"    => _("Language"),
-        "genre"       => _("Genre"),
-        "username"    => _("Project Manager"),
-        "n_available_pages" => _("Available Pages"),
-        "n_pages"     => _("Total Pages"),
-        "days_avail"  => _("Days")
+        "nameofwork"        => array( 'Title',  _("Title") ),
+        "authorsname"       => array( 'Author', _("Author") ),
+        "language"          => array( 'Lang',   _("Language") ),
+        "genre"             => array( 'Genre',  _("Genre") ),
+        "username"          => array( 'PM',     _("Project Manager") ),
+        "n_available_pages" => array( 'PgAv',   _("Available Pages") ),
+        "n_pages"           => array( 'PgTot',  _("Total Pages") ),
+        "days_avail"        => array( 'Days',   _("Days") ),
     );
 
     show_projects_for_stage(
@@ -46,15 +46,15 @@ function show_projects_for_smooth_reading()
     $allow_special_colors_legend = TRUE;
 
     $columns = array(
-        "nameofwork"   => _("Title"),
-        "authorsname"  => _("Author"),
-        "language"     => _("Language"),
-        "genre"        => _("Genre"),
-        "username"     => _("Project Manager"),
-        "checkedoutby" => _("Post Processor"),
-        "uploaded"     => _("Uploaded"),
-        "n_pages"      => _("Total Pages"),
-        "days_left"    => _("Days Left"),
+        "nameofwork"   => array( 'Title',  _("Title") ),
+        "authorsname"  => array( 'Author', _("Author") ),
+        "language"     => array( 'Lang',   _("Language") ),
+        "genre"        => array( 'Genre',  _("Genre") ),
+        "username"     => array( 'PM',     _("Project Manager") ),
+        "checkedoutby" => array( 'PP',     _("Post Processor") ),
+        "uploaded"     => array(  NULL,    _("Uploaded") ),
+        "n_pages"      => array( 'PgTot',  _("Total Pages") ),
+        "days_left"    => array( 'Days',   _("Days Left") ),
     );
 
     // But only show PM, PP, and Uploaded if they are logged in.
@@ -200,13 +200,13 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
     // project listing.
 
     $columns = array(
-        "nameofwork"  => _("Title"),
-        "authorsname" => _("Author"),
-        "language"    => _("Language"),
-        "genre"       => _("Genre"),
-        "n_pages"     => _("Pages"),
-        $pool->foo_field_name => $pool->foo_Header,
-        "days_avail"  => _("Days")
+        "nameofwork"          => array( 'Title',  _("Title") ),
+        "authorsname"         => array( 'Author', _("Author") ),
+        "language"            => array( 'Lang',   _("Language") ),
+        "genre"               => array( 'Genre',  _("Genre") ),
+        "n_pages"             => array( 'PgTot',  _("Pages") ),
+        $pool->foo_field_name => array( 'Person', $pool->foo_Header ),
+        "days_avail"          => array( 'Days',   _("Days") ),
     );
 
     $filtered_project_selector = "$initial_project_selector $projects_filter";
@@ -237,7 +237,9 @@ function show_project_listing(
     $columns,
         // the columns to include in the table, this is an associative
         // array with the key being the column name and the value
-        // being the label
+        // being an array consisting of:
+        //     - the column's name for the purposes of ext_sort
+        //     - the column's header-label.
 
     $ext_sort_param_name,
         // The parameter-name to use when specifying a sort order
@@ -320,8 +322,10 @@ function show_project_listing(
     echo "<tr align=center bgcolor='{$stage->listing_bgcolors[1]}'>";
 
     // Print out the header row with links.
-    foreach($columns as $col_id => $label)
+    foreach($columns as $col_id => $col_info)
     {
+        list($ext_sort_col, $label) = $col_info;
+
         $style_attribute="";
         if(@$column_styles[$col_id])
             $style_attribute="style='{$column_styles[$col_id]}'";
@@ -341,13 +345,14 @@ function show_project_listing(
             if($col_id == $curr_sql_sort_col)
             {
                 // The header-link reverses the current sort direction.
-                $ext_sort = $col_id . ":" . ($curr_sql_sort_dir == "asc" ? "desc" : "asc");
+                $ext_sort_dir = ($curr_sql_sort_dir == "asc" ? "D" : "A");
             }
             else
             {
                 // The header-link does an ascending sort.
-                $ext_sort = $col_id;
+                $ext_sort_dir = 'A';
             }
+            $ext_sort = $ext_sort_col . $ext_sort_dir;
 
             $sort_url = "?{$other_settings}{$ext_sort_param_name}={$ext_sort}#{$anchor}";
             echo "<a href='$sort_url'>$label</a>";
@@ -408,7 +413,7 @@ function show_project_listing(
         }
 
         echo "<tr bgcolor='$bgcolor'>";
-        foreach($columns as $col_id => $label)
+        foreach($columns as $col_id => $col_info)
         {
             $cell = "";
             if($col_id == "nameofwork")
@@ -523,11 +528,11 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
     $userSettings =& Settings::get_Settings($pguser);
 
     // The default sort column is the first entry in $columns.
-    $default_sort_column = array_shift(array_keys($columns));
+    $default_ext_sort = current(current($columns)) . 'A';
 
     // We get an ext_sort from one of three places,
     // which we consult in the following order,
-    // stopping as soon as we get a non-NULL value.
+    // stopping as soon as we get a valid value.
     $ext_sort_providers = array(
 
         // A parameter in the invoking URL's query-string:
@@ -543,7 +548,7 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         // A fallback default:
         array(
             _("site default"),
-            $default_sort_column ),
+            $default_ext_sort ),
 
         // And if none of those works, give up.
         'ABORT'
@@ -575,29 +580,66 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
             continue;
         }
 
-        // Parse the $curr_ext_sort into its column:direction parts.
-        @list($curr_sql_sort_col, $curr_sql_sort_dir) = explode(":", $curr_ext_sort);
-        // '@' to suppress "Notice: Undefined offset: 1" when $curr_ext_sort has no colon.
+        // Parse the $curr_ext_sort into its column & direction parts.
+        $curr_ext_sort_col = substr($curr_ext_sort, 0, -1);
+        $curr_ext_sort_dir = substr($curr_ext_sort, -1);
 
-        // Confirm $curr_sql_sort_col is in $columns and if not, skip to the next provider.
-        if(!array_key_exists($curr_sql_sort_col, $columns))
+        // Check column & convert to sql...
+
+        // Find the entry in $columns whose $ext_sort_col matches $curr_ext_sort_col.
+        foreach ( $columns as $col_id => $col_info )
         {
+            list($ext_sort_col, $label) = $col_info;
+            if ($ext_sort_col == $curr_ext_sort_col)
+            {
+                $curr_sql_sort_col = $col_id;
+                break;
+            }
+        }
+
+        if ( !isset($curr_sql_sort_col) )
+        {
+            echo "\n<p class='error'>\n";
+            echo sprintf(
+                    _("%s value '%s' has bad column part: '%s'"),
+                    $provider_noun, $curr_ext_sort, $curr_ext_sort_col );
+            echo "\n</p>";
             continue;
         }
 
-        // Default to ascending for the sort direction if none is specified
-        // or if we don't recognize the sort direction.
-        if(empty($curr_sql_sort_dir) || !in_array($curr_sql_sort_dir, array("asc", "desc")))
+        // Check direction & convert to sql...
+        if ( $curr_ext_sort_dir == 'A' )
         {
-            $curr_sql_sort_dir="asc";
+            $curr_sql_sort_dir = 'asc';
+        }
+        elseif ( $curr_ext_sort_dir == 'D' )
+        {
+            $curr_sql_sort_dir = 'desc';
+        }
+        else
+        {
+            echo "\n<p class='error'>\n";
+            echo sprintf(
+                    _("%s value '%s' has bad direction part: '%s'"),
+                    $provider_noun, $curr_ext_sort, $curr_ext_sort_dir );
+
+            // We could skip to the next provider via 'continue',
+            // but that seems a bit draconian.
+
+            $curr_ext_sort_dir = 'A';
+            $curr_sql_sort_dir = 'asc';
+            $curr_ext_sort = $curr_ext_sort_col .  $curr_ext_sort_dir;
+
+            echo "\n";
+            echo sprintf(
+                    _("Using '%s' instead."),
+                    $curr_ext_sort_dir );
+            echo "\n</p>";
         }
 
         // This provider supplied a valid sort value, so look no further.
         break;
     }
-
-    // Recombine into $curr_ext_sort after error checking and correction.
-    $curr_ext_sort="$curr_sql_sort_col:$curr_sql_sort_dir";
 
     // Save the results to the database.
     {
