@@ -61,8 +61,7 @@ $templates = array(
 
 foreach ( $templates as $basename => $long_name )
 {
-    $anchor = strtolower($basename);
-    echo "<a href=\"#$anchor\">$basename.txt</a> $long_name<br />\n";
+    echo "<a href=\"#$basename\">$basename.txt</a> $long_name<br />\n";
 }
 
 ?>
@@ -109,9 +108,8 @@ into the commment window on your Project Information page.
 
 foreach ( $templates as $basename => $long_name )
 {
-    $anchor = strtolower($basename);
     echo "<!-- $basename.txt info -->\n";
-    echo "<a name=\"$anchor\"><h3>$basename.txt</h3></a> <br>\n";
+    echo "<a name=\"$basename\"><h3>$basename.txt</h3></a> <br>\n";
     include("../pinc/templates/comment_files/$basename.txt");
     echo "\n";
     echo "\n";
