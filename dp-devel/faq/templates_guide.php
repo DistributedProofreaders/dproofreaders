@@ -47,14 +47,25 @@ These can be accessed by pointing to a specific file <br />
 within the comments section of the Project Comments form.<br />
 <br />
 The standard template files currently available are:<br />
-<a href="#bae1">bae1.txt</a> Bureau of American Ethnology<br />
-<a href="#bg1a">BG1a.txt</a> Beginners Only, round one, upper<br />
-<a href="#bg1b">BG1b.txt</a> Beginners Only, round one, lower<br />
-<a href="#bgr2">BGr2.txt</a> Beginners Only, round two extra<br />
-<a href="#diac">diac.txt</a> diacritical marks<br />
-<a href="#pgnm">pgnm.txt</a> preserve index page numbers<br />
-<a href="#port">port.txt</a> Portuguese National Library<br />
-<a href="#wrrn">wrrn.txt</a> Warren Commission<br />
+<?
+$templates = array(
+    'bae1' => "Bureau of American Ethnology",
+    'BG1a' => "Beginners Only, round one, upper",
+    'BG1b' => "Beginners Only, round one, lower",
+    'BGr2' => "Beginners Only, round two extra",
+    'diac' => "diacritical marks",
+    'pgnm' => "preserve index page numbers",
+    'port' => "Portuguese National Library",
+    'wrrn' => "Warren Commission",
+);
+
+foreach ( $templates as $basename => $long_name )
+{
+    $anchor = strtolower($basename);
+    echo "<a href=\"#$anchor\">$basename.txt</a> $long_name<br />\n";
+}
+
+?>
 <br />
 <br />
 To place any one of the above samples into your comments simply include the line:<br />
@@ -94,74 +105,20 @@ into the commment window on your Project Information page.
 <h1>Preview of Templates available for Project Comments</h1>
 <br>
 <br>
-<!-- bae1.txt info -->
-<a name="bae1"><h3>bae1.txt</h3></a><br>
 <?
-include('../pinc/templates/comment_files/bae1.txt');
+
+foreach ( $templates as $basename => $long_name )
+{
+    $anchor = strtolower($basename);
+    echo "<!-- $basename.txt info -->\n";
+    echo "<a name=\"$anchor\"><h3>$basename.txt</h3></a> <br>\n";
+    include("../pinc/templates/comment_files/$basename.txt");
+    echo "\n";
+    echo "\n";
+    echo "<br><hr><a href=\"#standardtemp\">Back to Standard Templates</a><hr><br>\n";
+    echo "\n";
+}
 ?>
-
-		
-<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
-
-<!-- BG1a.txt info -->
-<a name="bg1a"><h3>BG1a.txt</h3></a> <br>
-<?
-include('../pinc/templates/comment_files/BG1a.txt');
-?>
-		
-<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
-
-<!-- BG1b.txt info -->		
-<a name="bg1b"><h3>BG1b.txt</h3></a> <br>
-<?
-include('../pinc/templates/comment_files/BG1b.txt');
-?>
-
-<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
-
-<!-- BGr2.txt info -->
-<a name="bgr2"><h3>BGr2.txt</h3></a><br>
-<?
-include('../pinc/templates/comment_files/BGr2.txt');
-?>
-
-<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
-
-<!-- diac.txt info -->
-<a name="diac"><h3>diac.txt</h3></a><br>
-<?
-include('../pinc/templates/comment_files/diac.txt');
-?>
-
-		
-<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
-
-<!-- pgnm.html info -->		
-<a name="pgnm"><h3>pgnm.txt</h3></a> <br>
-<?
-include('../pinc/templates/comment_files/pgnm.txt');
-?>
-
-
-<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
-
-<!-- port.txt info -->
-<a name="port"><h3>port.txt</h3></a> <br>
-<?
-include('../pinc/templates/comment_files/port.txt');
-?>
-
-
-<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
-
-<!-- wrrn.txt info -->
-<a name="wrrn"><h3>wrrn.txt</h3></a><br>
-<?
-include('../pinc/templates/comment_files/wrrn.txt');
-?>
-
-
-<br><hr><a href="#standardtemp">Back to Standard Templates</a><hr><br>
 
 <br><hr><br>		
 
