@@ -35,7 +35,7 @@ fitted into your comments like jigsaw pieces. </li>
 <li>fill-in-the-blank skeleton templates, for which you will have to <br>
 manually copy and paste the code and then fill in <br>
 specific information relating to the individual project.<br> 
-</li><ol>
+</li></ol>
 <br>
 <b>Both types can be done as text or HTML, either plain or fancy.</b>
 <br><br>
