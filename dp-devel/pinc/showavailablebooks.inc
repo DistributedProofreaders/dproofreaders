@@ -309,8 +309,8 @@ function show_project_listing(
     // Build and execute the query against the projects table.
     $query = "
         SELECT *,
-            round((unix_timestamp() - modifieddate)/(24 * 60 * 60)) AS days_avail,
-            round((smoothread_deadline - unix_timestamp())/(24 * 60 * 60)) AS days_left
+            (unix_timestamp()    - modifieddate    )/(24 * 60 * 60) AS days_avail,
+            (smoothread_deadline - unix_timestamp())/(24 * 60 * 60) AS days_left
         FROM projects
         WHERE
             $filtered_project_selector
@@ -479,6 +479,10 @@ function show_project_listing(
                    $num_done = 0;
                 }
                 $cell = $num_done;
+            }
+            elseif( $col_id == "days_avail" || $col_id == "days_left" )
+            {
+                $cell = round( $book[$col_id] );
             }
             else
             {
