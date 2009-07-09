@@ -482,7 +482,9 @@ function show_project_listing(
             }
             elseif( $col_id == "days_avail" || $col_id == "days_left" )
             {
-                $cell = round( $book[$col_id] );
+                $precision = ( $col_id == "days_left" ? 1 : 0 );
+                $format = "%.{$precision}f";
+                $cell = sprintf( $format, $book[$col_id] );
             }
             else
             {
