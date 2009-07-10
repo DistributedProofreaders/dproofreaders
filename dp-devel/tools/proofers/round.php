@@ -28,17 +28,7 @@ if (is_null($round_id))
     exit;
 }
 
-if ($userP['i_newwin']==1)
-{
-    $newProofWin_js = include($relPath.'js_newwin.inc');
-    $theme_extras = array( 'js_data' => $newProofWin_js );
-}
-else
-{
-    $theme_extras = array();
-}
-
-theme( "$round->id: $round->name", 'header', $theme_extras );
+theme( "$round->id: $round->name", 'header' );
 
 $uao = $round->user_access( $pguser );
 

@@ -6,18 +6,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'project_states.inc');
-
-if ($userP['i_newwin']==1)
-{
-    $newProofWin_js = include($relPath.'js_newwin.inc');
-    $theme_args['js_data'] = $newProofWin_js;
-    $link_js = "onclick=\"newProofWin('%s'); return false;\"";
-}
-else
-{
-    $theme_args = array();
-    $link_js = '';
-}
+include_once($relPath.'js_newwin.inc');
 
 $qs_username = '';
 if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
@@ -48,7 +37,9 @@ else
 $sorting = array_get($_GET, 'sort', '');
 
 $no_stats = 1;
-theme( $out_title, 'header', $theme_args );
+theme( $out_title, 'header' );
+
+prep_for_links_to_project_pages();
 
 echo "<a name='proof' id='proof'></a><h2>$heading_proof</h2>";
 
@@ -170,7 +161,8 @@ while ( $row = mysql_fetch_object($res) )
         echo $orig_nameofwork . " <i>" .  _("merged into") . "</i> ";
     }
     $url = "$code_url/project.php?id=$projectid";
-    echo "<a href='$url' ".sprintf($link_js,$url).">$nameofwork</a>";
+    $onclick_attr = get_onclick_attr_for_link_to_project_page($url);
+    echo "<a href='$url' $onclick_attr>$nameofwork</a>";
     echo "</td>\n";
 
     echo "<td nowrap>";
