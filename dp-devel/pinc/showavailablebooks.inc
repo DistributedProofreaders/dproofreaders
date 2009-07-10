@@ -321,7 +321,10 @@ function show_project_listing(
     ";
     $result = mysql_query($query);
 
-    prep_for_links_to_project_pages();
+    if( is_a( $stage, 'Round' ) )
+    {
+        prep_for_links_to_project_pages();
+    }
 
     // Start the table.
     echo "\n<table class='availprojectlisting'>";
@@ -421,7 +424,11 @@ function show_project_listing(
             if($col_id == "nameofwork")
             {
                 $eURL = "$code_url/project.php?id={$book['projectid']}&amp;expected_state={$book['state']}";
-                $onclick_attr = get_onclick_attr_for_link_to_project_page($eURL);
+                $onclick_attr = (
+                    is_a( $stage, 'Round' )
+                    ? get_onclick_attr_for_link_to_project_page($eURL)
+                    : ""
+                );
                 $cell = "<a href=\"$eURL\" $onclick_attr>{$book['nameofwork']}</a>";
             }
             elseif($col_id == "genre")
