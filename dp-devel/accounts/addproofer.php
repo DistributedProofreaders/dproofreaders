@@ -154,7 +154,7 @@ if ($password=="proofer") {
     if ( $testing )
     {
 	    echo "<p style='color: red'>";
-	    echo _("Because this is a test site, an email won't be sent to you. Instead, when you hit the 'Send E-mail' button, the email will be displayed on the next screen. At that point, you need to copy and paste the confirmation link into your browser's location field. <b>Your account won't be created until you access the confirmation link.</b>");
+	    echo _("Because this is a test site, an email <b>won't</b> be sent to you. Instead, when you hit the 'Send E-mail ...' button below, the text of the would-be email will be displayed on the next screen. After the greeting, there's a line that ends 'please visit this URL:', followed by a confirmation URL. Copy and paste that URL into your browser's location field and hit return. <b>Your account won't be created until you access the confirmation link.</b>");
 	    echo "</p>";
     }
 
