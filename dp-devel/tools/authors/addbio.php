@@ -56,7 +56,7 @@
       else {
         // failure!
         theme(_('An error has occured'), 'header');
-        echo _('It was not possible to save the biography.') . _('The following error-message was recieved:') . ' ' .
+        echo _('It was not possible to save the biography.') . _('The following error-message was received:') . ' ' .
                mysql_error($result);
         theme('', 'footer');
       }
@@ -72,7 +72,7 @@
   else {
     // someone's trying to display this page outside of the workflow.
     theme(_('An error has occured'), 'header');
-    echo _('Some information is missing and this page can not be displayed. This has most likely occured' .
+    echo _('Some information is missing and this page can not be displayed. This has most likely occured ' .
            'because you have entered the URL manually. Please enter this page by following links from other pages.');
     theme('', 'footer');
     exit;
