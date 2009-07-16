@@ -7,7 +7,7 @@ include_once($relPath.'theme.inc');
 include_once('./post_files.inc');
 include_once("./word_freq_table.inc");
 
-$datetime_format = _("%A, %B %e, %Y at %X");
+$datetime_format = "%A, %B %e, %Y %X";
 
 set_time_limit(0); // no time limit
 
@@ -178,7 +178,7 @@ if($roundsWithData>1) {
         $context_array[$word]=recycle_window_link("show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord",_("Context"),"context");
     }
     $all_suggestions_w_occurances["[[TITLE]]"]=_("Times Suggested");
-    $all_suggestions_w_occurances["[[STYLE]]"]=_("text-align: right;");
+    $all_suggestions_w_occurances["[[STYLE]]"]="text-align: right;";
 
     echo "<h2>" . _("All rounds") . "</h2>";
     $word_checkbox = build_checkbox_array($all_suggestions_w_freq,'all');
@@ -201,7 +201,7 @@ foreach($rounds as $round) {
         $context_array[$word]=recycle_window_link("show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord",_("Context"),"context");
     }
     $round_suggestions_w_occurances[$round]["[[TITLE]]"]=_("Times Suggested");
-    $round_suggestions_w_occurances[$round]["[[STYLE]]"]=_("text-align: right;");
+    $round_suggestions_w_occurances[$round]["[[STYLE]]"]="text-align: right;";
 
     $round_string=sprintf(_("Round %s"),$round);
     $page_num_string=sprintf(_("Number of pages with suggestions: %d"), $round_page_count[$round]);
