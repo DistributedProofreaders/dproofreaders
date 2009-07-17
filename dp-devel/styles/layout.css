@@ -158,6 +158,10 @@ table.availprojectlisting tr th {
     border-bottom: 1px solid black;
 }
 
+table.availprojectlisting tr td {
+    border-bottom: 1px solid #888;
+}
+
 table.availprojectlisting tr th img {
     border: 0;
 }
