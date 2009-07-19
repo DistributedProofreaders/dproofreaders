@@ -117,7 +117,7 @@ include_once($relPath.'TallyBoard.inc');
     echo "<br>" . _("Oldest project listed first.") . "<br>";
 
     $mentored_round_id = $mentoring_round->mentee_round->id;
-    $result = mysql_query(project_sql($mentoring_round->id));
+    $result = mysql_query(project_sql($mentoring_round));
     while ($proj =  mysql_fetch_object($result))
     {
         // Display project summary info
@@ -138,7 +138,7 @@ include_once($relPath.'TallyBoard.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function project_sql($round_id)
+function project_sql($mentoring_round)
 {
     return "
         SELECT
@@ -150,7 +150,7 @@ function project_sql($round_id)
         WHERE
             difficulty = 'BEGINNER'
         AND
-            state='".constant("PROJ_{$round_id}_AVAILABLE")."'
+            state='".constant("PROJ_{$mentoring_round->id}_AVAILABLE")."'
         ORDER BY
             modifieddate ASC" ;
 }
