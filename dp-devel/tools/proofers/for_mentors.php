@@ -116,7 +116,7 @@ include_once($relPath.'TallyBoard.inc');
     echo "<h2>" . sprintf(_("Pages available to Mentors in round %s"), $mentoring_round->id) . "</h2>";
     echo "<br>" . _("Oldest project listed first.") . "<br>";
 
-    $mentored_round_id = $mentoring_round->mentee_round->id;
+    $mentored_round = $mentoring_round->mentee_round;
     $result = mysql_query(project_sql($mentoring_round));
     while ($proj =  mysql_fetch_object($result))
     {
@@ -125,7 +125,7 @@ include_once($relPath.'TallyBoard.inc');
         echo "<b>$proj->nameofwork by $proj->authorsname</b>" ;
         echo "<br>" ;
 
-        dpsql_dump_query(page_summary_sql($proj->projectid));
+        dpsql_dump_query(page_summary_sql($mentored_round, $proj->projectid));
 
         echo "<br>" ;
         echo _('Which proofreader did each page...') ;
@@ -157,11 +157,11 @@ function project_sql($mentoring_round)
 
 // -------------------------------------------------------------------
 
-function page_summary_sql($projectid)
+function page_summary_sql($mentored_round, $projectid)
 {
-    global $forums_url,$code_url,$mentored_round_id;
+    global $forums_url,$code_url;
 
-    $round_tallyboard = new TallyBoard($mentored_round_id, 'U' );
+    $round_tallyboard = new TallyBoard($mentored_round->id, 'U' );
 
     list($joined_with_user_page_tallies,$user_page_tally_column) =
             $round_tallyboard->get_sql_joinery_for_current_tallies('u.u_id');
@@ -174,7 +174,7 @@ function page_summary_sql($projectid)
                 '\">',u.username,'</a>')
             END AS " . _("Proofreader") . ",
             COUNT(1) AS '" . _("Pages this project") . "',
-            $user_page_tally_column AS '" . sprintf(_("Total %s Pages"),$mentored_round_id) . "',
+            $user_page_tally_column AS '" . sprintf(_("Total %s Pages"),$mentored_round->id) . "',
             DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') AS Joined
         FROM $projectid  AS p
             INNER JOIN users AS u ON p.round1_user = u.username
