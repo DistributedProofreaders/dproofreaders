@@ -100,7 +100,7 @@ function page_list_sql($projectid)
     else
     {
         // Consider the page they came from.
-        $referer = $_SERVER['HTTP_REFERER'];
+        $referer = @$_SERVER['HTTP_REFERER'];
 
         // If they're coming to this page from a MENTORS ONLY book in X2, 
         // referrer should contain &expected_state=X2.proj_avail.
