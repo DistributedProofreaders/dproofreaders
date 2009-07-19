@@ -130,7 +130,7 @@ include_once($relPath.'TallyBoard.inc');
         echo "<br>" ;
         echo _('Which proofreader did each page...') ;
 
-        dpsql_dump_query(page_list_sql($proj->projectid));
+        dpsql_dump_query(page_list_sql($mentored_round, $proj->projectid));
     }
 
     echo "<br><br><br><hr>\n";
@@ -185,7 +185,7 @@ function page_summary_sql($mentored_round, $projectid)
 
 // -------------------------------------------------------------------
 
-function page_list_sql($projectid)
+function page_list_sql($mentored_round, $projectid)
 {
     return "
         SELECT
