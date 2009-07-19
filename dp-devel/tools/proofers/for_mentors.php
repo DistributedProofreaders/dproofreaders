@@ -20,22 +20,12 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'TallyBoard.inc');
 
 
-// Collect the data.
-
-// Project selection. ****************************************************************
-
-// Collect the projects to report.
-// Hold the result in an array
-// and release the database locks.
-
-
-    // Page header. **********************************************************************
-
     // Display page header.
-
     theme(_("For Mentors"), "header");
 
     // ---------------------------------------------------------------
+
+    // Decide which mentoring-round we're dealing with.
 
     $round_id = @$_GET['round_id'];
     if ( $round_id != '' )
@@ -118,6 +108,10 @@ include_once($relPath.'TallyBoard.inc');
     }
 
     // ---------------------------------------------------------------
+
+    // For each mentorable project (in this round),
+    // show a summary (one line per mentee)
+    // and then a listing (one line per page).
 
     echo "<h2>" . sprintf(_("Pages available to Mentors in round %s"), $mentoring_round->id) . "</h2>";
     echo "<br>" . _("Oldest project listed first.") . "<br>";
