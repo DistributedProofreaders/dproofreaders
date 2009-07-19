@@ -40,9 +40,18 @@ foreach ( $_POST as $name => $value )
         die( "Error: bad parameter name '$name'" );
     }
 
-    if ( $activity_id == 'P2_mentor' )
+    if ( endswith($activity_id, "_mentor") )
     {
-        // fine
+        $round_id = preg_replace('/_mentor$/', '', $activity_id);
+        $round = get_Round_for_round_id($round_id);
+        if ( is_null($round) )
+        {
+            die( "Error: no round with id='$round_id'");
+        }
+        if ( !$round->is_a_mentor_round() )
+        {
+            die( "Error: round '$round_id' is not a mentoring round" );
+        }
     }
     else
     {
@@ -76,7 +85,7 @@ foreach ( $_POST as $name => $value )
 
     // And it's an action that the current user is permitted to take.
 
-    if ( $activity_id == 'P2_mentor' )
+    if ( endswith($activity_id, "_mentor") )
     {
         $settings =& Settings::get_Settings($subject_username);
 

@@ -21,7 +21,13 @@ foreach ( $Stage_for_id_ as $stage )
     }
 }
 
-$activity_ids[] = 'P2_mentor';
+foreach ( $Round_for_round_id_ as $round )
+{
+    if ( $round->is_a_mentor_round() )
+    {
+        $activity_ids[] = $round->id . "_mentor";
+    }
+}
 
 // Look for unexpected activity_ids
 $res = mysql_query("

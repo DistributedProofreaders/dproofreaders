@@ -123,9 +123,18 @@ function showMbrRoles($curMbr)
         $roles[] = array( 'pm', _("Project Manager"), 50 );
     }
 
-    if ($settings->get_boolean('P2_mentor.access'))
+    global $Round_for_round_id_;
+    foreach ( $Round_for_round_id_ as $round )
     {
-        $roles[] = array( 'mentor', _("Mentor"), 25 );
+        if ( $round->is_a_mentor_round() )
+        {
+            $access_id = $round->id . "_mentor.access";
+            if ($settings->get_boolean($access_id))
+            {
+                $label = sprintf(_("Mentor in round %s"), $round->id);
+                $roles[] = array( 'mentor', $label, 25 );
+            }
+        }
     }
 
     if ($settings->get_boolean('PP.access'))

@@ -684,9 +684,15 @@ function show_user_access_chart( $username )
         echo "</tr>\n";
     }
 
-        // kludge for P2_mentor
-        $activity_id = 'P2_mentor';
+    // mentor lines
+	foreach ( $Stage_for_id_ as $stage )
+    {
+        if ( is_a( $stage, 'Round' ) && $stage->is_a_mentor_round() )
         {
+            $activity_id = $stage->id . "_mentor";
+            // We're assuming there isn't a *stage* whose id ends with "_mentor".
+            // If there is, this construction could lead to problems.
+
             echo "<tr>";
             echo "<th>$activity_id</th>";
             foreach ( $CRITERIA as $criterion_code => $criterion_descr )
@@ -744,6 +750,7 @@ function show_user_access_chart( $username )
             }
             echo "</tr>\n";
         }
+    }
     
     echo "<tr><td colspan='14' style='text-align: center;'>" .
            "<input type='checkbox' name='notify_user' checked />Notify user of change" .
