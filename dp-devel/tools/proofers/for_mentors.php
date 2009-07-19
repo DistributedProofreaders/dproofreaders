@@ -19,61 +19,6 @@ include_once($relPath.'project_states.inc');
 // for TallyBoard
 include_once($relPath.'TallyBoard.inc');
 
-function project_sql($round_id)
-{
-    return
-        "SELECT
-            projectid,
-            nameofwork,
-            authorsname
-        FROM
-            projects
-        WHERE
-            difficulty = 'BEGINNER'
-        AND
-            state='".constant("PROJ_{$round_id}_AVAILABLE")."'
-        ORDER BY
-            modifieddate ASC" ;
-}
-
-function page_summary_sql($projectid)
-{
-    global $forums_url,$code_url,$mentored_round_id;
-
-    $round_tallyboard = new TallyBoard($mentored_round_id, 'U' );
-
-    list($joined_with_user_page_tallies,$user_page_tally_column) =
-            $round_tallyboard->get_sql_joinery_for_current_tallies('u.u_id');
-
-    return "SELECT
-                CASE WHEN u.u_privacy = ".PRIVACY_ANONYMOUS." THEN 'Anonymous'
-                ELSE CONCAT('<a href=\""
-                    .$code_url . "/stats/members/mdetail.php?&id=',u.u_id,
-                    '\">',u.username,'</a>')
-                END AS " . _("Proofreader") . ",
-                COUNT(1) AS '" . _("Pages this project") . "',
-                $user_page_tally_column AS '" . sprintf(_("Total %s Pages"),$mentored_round_id) . "',
-                DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') AS Joined
-            FROM $projectid  AS p
-                INNER JOIN users AS u ON p.round1_user = u.username
-                INNER JOIN phpbb_users AS bbu ON u.username = bbu.username
-                $joined_with_user_page_tallies
-            GROUP BY p.round1_user" ;
-}
-
-function page_list_sql($projectid)
-{
-    return "
-    SELECT
-        p.fileid AS '" . _('Page') . "',
-        CASE WHEN u.u_privacy=".PRIVACY_ANONYMOUS." THEN 'Anonymous'
-        ELSE p.round1_user
-        END AS " . _('Proofreader') . "
-    FROM $projectid AS p
-        INNER JOIN users AS u ON p.round1_user = u.username
-    ORDER BY fileid " ;
-}
-
 
 // Collect the data.
 
@@ -196,6 +141,68 @@ function page_list_sql($projectid)
 
     echo "<br><br><br><hr>\n";
     theme("","footer");
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function project_sql($round_id)
+{
+    return "
+        SELECT
+            projectid,
+            nameofwork,
+            authorsname
+        FROM
+            projects
+        WHERE
+            difficulty = 'BEGINNER'
+        AND
+            state='".constant("PROJ_{$round_id}_AVAILABLE")."'
+        ORDER BY
+            modifieddate ASC" ;
+}
+
+// -------------------------------------------------------------------
+
+function page_summary_sql($projectid)
+{
+    global $forums_url,$code_url,$mentored_round_id;
+
+    $round_tallyboard = new TallyBoard($mentored_round_id, 'U' );
+
+    list($joined_with_user_page_tallies,$user_page_tally_column) =
+            $round_tallyboard->get_sql_joinery_for_current_tallies('u.u_id');
+
+    return "
+        SELECT
+            CASE WHEN u.u_privacy = ".PRIVACY_ANONYMOUS." THEN 'Anonymous'
+            ELSE CONCAT('<a href=\""
+                .$code_url . "/stats/members/mdetail.php?&id=',u.u_id,
+                '\">',u.username,'</a>')
+            END AS " . _("Proofreader") . ",
+            COUNT(1) AS '" . _("Pages this project") . "',
+            $user_page_tally_column AS '" . sprintf(_("Total %s Pages"),$mentored_round_id) . "',
+            DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') AS Joined
+        FROM $projectid  AS p
+            INNER JOIN users AS u ON p.round1_user = u.username
+            INNER JOIN phpbb_users AS bbu ON u.username = bbu.username
+            $joined_with_user_page_tallies
+        GROUP BY p.round1_user" ;
+}
+
+// -------------------------------------------------------------------
+
+function page_list_sql($projectid)
+{
+    return "
+        SELECT
+            p.fileid AS '" . _('Page') . "',
+            CASE WHEN u.u_privacy=".PRIVACY_ANONYMOUS." THEN 'Anonymous'
+            ELSE p.round1_user
+            END AS " . _('Proofreader') . "
+        FROM $projectid AS p
+            INNER JOIN users AS u ON p.round1_user = u.username
+        ORDER BY fileid " ;
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>
