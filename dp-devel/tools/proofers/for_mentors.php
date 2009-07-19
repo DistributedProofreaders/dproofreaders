@@ -150,7 +150,7 @@ function project_sql($mentoring_round)
         WHERE
             difficulty = 'BEGINNER'
         AND
-            state='".constant("PROJ_{$mentoring_round->id}_AVAILABLE")."'
+            state='{$mentoring_round->project_available_state}'
         ORDER BY
             modifieddate ASC" ;
 }
