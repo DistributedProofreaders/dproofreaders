@@ -1,4 +1,4 @@
-<?
+<?php
 
 // This is an ad hoc file for testing things on the server,
 // for developers who don't have shell accounts on it.
