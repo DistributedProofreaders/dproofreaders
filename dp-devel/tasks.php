@@ -589,6 +589,12 @@ function ShowTasks($sql_result) {
     }
 
     echo "</table><br>\n";
+    
+    // if 2 tasks or more found, display the number of reported tasks
+    if (@mysql_num_rows($sql_result) > 1) {
+        echo "<p><font face='Verdana' color='#000000' style='font-size: 11px'>" 
+          . @mysql_num_rows($sql_result) . " tasks listed.</font></p>";
+    }
 }
 
 function TaskForm($tid) {
