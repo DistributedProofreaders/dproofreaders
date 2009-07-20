@@ -398,7 +398,7 @@
 
 <?php
 
-// argument 'view': 'enabled'(defualt), 'disabled', 'all'
+// argument 'view': 'enabled'(default), 'disabled', 'all'
 // provide links for those and also buttons for submitting/resetting form.
 $view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'enabled';
 

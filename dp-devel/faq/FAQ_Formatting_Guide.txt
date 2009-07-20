@@ -632,7 +632,7 @@ instead the following HTML, to the browser:
 
 
 (NB The details of this lump of code, following,
- are not important; it's just the definition 
+are not important; it's just the definition 
 of our standard header. The point is that although
 this HTML code shows up in the web browser,
 it is not actually in the FAQ file)
