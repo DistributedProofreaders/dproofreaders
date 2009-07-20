@@ -51,7 +51,7 @@ if($frame=="master") {
 <frame name="imageframe" src="show_good_word_suggestions_detail.php?projectid=<?php echo $projectid; ?>&amp;word=<?php echo $encWord; ?>&amp;timeCutoff=<?php echo $timeCutoff; ?>&amp;frame=right">
 </frameset>
 <noframes>
-<?php _("Your browser currently does not display frames!"); ?>
+<?php echo _("Your browser currently does not display frames!"); ?>
 </noframes>
 </html>
 <?php

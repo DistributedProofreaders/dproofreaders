@@ -96,6 +96,6 @@ $frameGet="?" . $_SERVER['QUERY_STRING'];
 <frame name="menuframe" src="ctrl_frame.php?round_id=<?php echo $round->id; ?>" marginwidth="2" marginheight="2" frameborder="0">
 </frameset>
 <noframes>
-<?php _("Your browser currently does not display frames!"); ?>
+<?php echo _("Your browser currently does not display frames!"); ?>
 </noframes>
 </html>

@@ -65,7 +65,7 @@ if($frame=="master") {
 <frame name="detailframe" src="<?php echo $_SERVER["PHP_SELF"]; ?>?frame=right">
 </frameset>
 <noframes>
-<?php _("Your browser currently does not display frames!"); ?>
+<?php echo _("Your browser currently does not display frames!"); ?>
 </noframes>
 </html>
 <?php

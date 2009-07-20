@@ -47,7 +47,7 @@ if($frame=="master") {
 <frame name="imageframe" src="show_word_context.php?projectid=<?php echo $projectid; ?>&amp;word=<?php echo $encWord; ?>&amp;wordInstances=<?php echo $wordInstances; ?>&amp;frame=right">
 </frameset>
 <noframes>
-<?php _("Your browser currently does not display frames!"); ?>
+<?php echo _("Your browser currently does not display frames!"); ?>
 </noframes>
 </html>
 <?php
