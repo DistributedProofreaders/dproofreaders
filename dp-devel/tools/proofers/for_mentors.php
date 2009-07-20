@@ -177,10 +177,10 @@ function page_summary_sql($mentored_round, $projectid)
             $user_page_tally_column AS '" . sprintf(_("Total %s Pages"),$mentored_round->id) . "',
             DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') AS Joined
         FROM $projectid  AS p
-            INNER JOIN users AS u ON p.round1_user = u.username
+            INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
             INNER JOIN phpbb_users AS bbu ON u.username = bbu.username
             $joined_with_user_page_tallies
-        GROUP BY p.round1_user" ;
+        GROUP BY p.{$mentored_round->user_column_name}" ;
 }
 
 // -------------------------------------------------------------------
@@ -191,10 +191,10 @@ function page_list_sql($mentored_round, $projectid)
         SELECT
             p.fileid AS '" . _('Page') . "',
             CASE WHEN u.u_privacy=".PRIVACY_ANONYMOUS." THEN 'Anonymous'
-            ELSE p.round1_user
+            ELSE p.{$mentored_round->user_column_name}
             END AS " . _('Proofreader') . "
         FROM $projectid AS p
-            INNER JOIN users AS u ON p.round1_user = u.username
+            INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
         ORDER BY fileid " ;
 }
 
