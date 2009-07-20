@@ -1,4 +1,4 @@
-<?
+<?php
 
 // Translated by user 'Pierre' at pgdp.net, 2006-02-08
 // Updated by user 'lvl', 2009-03-20
@@ -241,13 +241,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>S'il manque des r&eacute;ponses dans ce document, ou que vous consid&eacute;rez que certaines
    choses devraient &ecirc;tre trait&eacute;es de mani&egrave;re diff&eacute;rente,
    ou que l'explication est trop vague, merci de nous le faire savoir.
-<? if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    Si vous rencontrez une expression inconnue dans ces directives, consultez le
    <a href="http://www.pgdp.net/wiki/French/Jargon">guide du jargon sur le wiki</a>.
-<? } ?>
+<?php } ?>
    Ce document est en &eacute;volution permanente. Aidez-nous &agrave; l'am&eacute;liorer en nous
    faisant part de vos suggestions sur le forum Documentation dans
-   <a href="<? echo $Guideline_discussion_URL; ?>">ce fil de discussions</a>.
+   <a href="<?php echo $Guideline_discussion_URL; ?>">ce fil de discussions</a>.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
@@ -274,7 +274,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>Sur la page du projet, le lien &ldquo;Images, Pages Proofread, &amp; Differences&rdquo;
    permet de voir comment les autres relecteurs ont chang&eacute; le texte.
-   <a href="<? echo $Using_project_details_URL ?>">Ce fil de discussion</a>
+   <a href="<?php echo $Using_project_details_URL; ?>">Ce fil de discussion</a>
    discute les diff&eacute;rentes fa&ccedil;on d'utiliser cette information.
 </p>
 <!-- END RR -->
@@ -348,7 +348,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>Les guillemets utilis&eacute;s dans certains livres (en allemand ou dans d'autres langues),&nbsp;
    <tt>&bdquo;comme ceci&rdquo;</tt>
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
    ne sont pas disponibles dans les listes d&eacute;roulantes, car ils ne font pas partie du
    jeu de caract&egrave;res Latin-1. Ils sont souvent convertis en guillemets&nbsp;
    <tt>&raquo;comme ceci&laquo;</tt>&nbsp;
@@ -356,14 +356,14 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    les guillemets &nbsp; <tt>&ldquo;de cette fa&ccedil;on&bdquo;</tt>),
    mais v&eacute;rifiez les <a href="#comments">commentaires de projet</a>
    au cas o&ugrave; le responsable de projet ait donn&eacute; des instructions diff&eacute;rentes.
-<? } else { ?>
+<?php } else { ?>
    sont &eacute;galement disponibles dans les listes d&eacute;roulantes; par simplicit&eacute;, vous devriez
    toujours utiliser&nbsp; <tt>&bdquo;</tt>&nbsp; et&nbsp; <tt>&ldquo;</tt>&nbsp; quels que soient les types de
    guillemets utilis&eacute;s dans le texte original, tant que ces guillemets sont clairement
    situ&eacute;s respectivement dans le bas ou le haut de la ligne.
    Au besoin, le post-processeur modifiera les guillemets en phase finale
    pour se rapprocher de l'original.
-<? } ?>
+<?php } ?>
 </p>
 <p>Comme d'habitude, le responsable de projet peut demander de faire autrement,
    dans les <a href="#comments">commentaires du projet</a>, pour un livre donn&eacute;.
@@ -854,23 +854,23 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 
 <h3><a name="a_chars">Caract&egrave;res accentu&eacute;s et non-ASCII</a></h3>
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
 <p>Veuillez repr&eacute;senter ces caract&egrave;res en utilisant le symbole ou le caract&egrave;re
    accentu&eacute; correspondant &agrave; l'image, en faisant attention &agrave; l'accent ou l'absence
    d'accent. Nous pouvons uniquement utiliser les caract&egrave;res du jeu Latin-1 dans
    l'interface de relecture; si vous n'&ecirc;tes pas certain de la pr&eacute;sence d'un
    caract&egrave;re particulier dans le jeu de caract&egrave;res Latin-1,
    vous pouvez vous r&eacute;f&eacute;rer aux <a href="#insert_char">tables plus bas</a>.
-<? } else { ?>
+<?php } else { ?>
 <p>Repr&eacute;sentez ces caract&egrave;res avec le caract&egrave;re appropri&eacute; en UTF-8. Pour les caract&egrave;res qui
    ne sont pas pr&eacute;sents dans le jeu Unicode, consultez les instructions du responsable de
    projet dans les <a href="#comments">commentaires de projet</a>.
-<? } ?>
+<?php } ?>
    La section <a href="#insert_char">Saisie des caract&egrave;res sp&eacute;ciaux</a> contient
    des informations sur la fa&ccedil;on de saisir certains caract&egrave;res qui ne sont pas
    pr&eacute;sents sur votre clavier.
 </p>
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
 <p>Le caract&egrave;res &oelig; (ligature oe) n'est pas dans le jeu Latin-1, et pour
    cette raison nous le repr&eacute;sentons avec des crochets, comme dans
    <tt>man[oe]uvre</tt>, ou <tt>[OE]dipe</tt> pour la ligature en majuscule &OElig;.
@@ -883,7 +883,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    directives, r&eacute;f&eacute;rez-vous aux instructions du responsable de projet dans les
    <a href="#comments">commentaires de projet</a>.
 </p>
-<? } ?>
+<?php } ?>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
@@ -892,7 +892,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Sur certains projets, vous trouverez des caract&egrave;res avec des signes sp&eacute;ciaux
    au-dessus ou au-dessous du caract&egrave;re latin normal. Ce sont des <i>marques
    diacritiques</i>. Elles indiquent une prononciation sp&eacute;ciale.
-<? if($utf8_site) { ?>
+<?php if($utf8_site) { ?>
 </p>
 <p>Si un tel caract&egrave;re n'existe pas en Unicode, il faut le repr&eacute;senter &agrave; l'aide
    des <i>caract&egrave;res diacritiques combinatoires</i>: ce sont des symboles Unicode
@@ -909,7 +909,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    une <tt>[**note]</tt>. Notez qu'il existe &eacute;galement des &ldquo;<i>Spacing modifier letters</i>&rdquo;;
    ceux-ci ne doivent pas &ecirc;tre utilis&eacute;s.
 </p>
-<? } else { ?>
+<?php } else { ?>
    Nous les indiquons
    dans notre texte corrig&eacute; avec un codage sp&eacute;cifique. Par exemple,
    <span style="font-size:110%;">&#259;</span>
@@ -1013,7 +1013,7 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
-<? } ?>
+<?php } ?>
 <p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
@@ -1022,7 +1022,7 @@ cedilla                      [,x]   [x,]
    que A..Z). Par exemple, les caract&egrave;res Grecs, Cyrilliques (utilis&eacute; pour
    les langues russes, slaves, ou d'autres), H&eacute;breux, ou Arabes.
 </p>
-<? if(strcasecmp($charset,"UTF-8")) { ?>
+<?php if(strcasecmp($charset,"UTF-8")) { ?>
 <p>Pour le grec, faites une translitt&eacute;ration. Autrement dit, traduisez chaque
    caract&egrave;re grec en son &eacute;quivalent latin. Le grec appara&icirc;t tellement
    souvent dans nos textes que nous avons inclus dans l'interface un outil de
@@ -1035,7 +1035,7 @@ cedilla                      [,x]   [x,]
    de la zone de texte vers votre page de travail. Entourez le texte obtenu par les
    marques <tt>[Greek:&nbsp;</tt> et <tt>]</tt>. Par exemple,
    <span style="font-size:115%;">&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</span>
-   devient <tt>[Greek: Biblos]</tt>. (&ldquo;livre&rdquo;, vous &ecirc;tes bien sur <? echo "$site_abbreviation"; ?>!)
+   devient <tt>[Greek: Biblos]</tt>. (&ldquo;livre&rdquo;, vous &ecirc;tes bien sur <?php echo "$site_abbreviation"; ?>!)
 </p>
 <p>Si vous n'&ecirc;tes pas s&ucirc;r de votre translitt&eacute;ration, ajoutez deux &eacute;toiles <tt>**</tt>, pour
    attirer l'attention du correcteur suivant, ou du post-processeur.
@@ -1049,8 +1049,8 @@ cedilla                      [,x]   [x,]
 <!-- END RR -->
 
 <ul compact>
-  <li>Grec: voyez la page <a href="<? echo $greek_wiki_url_french; ?>">Translitt&eacute;ration du grec</a>
-      sur le wiki, et la <a href="<? echo $PG_greek_howto_url; ?>">Table de conversion Grec
+  <li>Grec: voyez la page <a href="<?php echo $greek_wiki_url_french; ?>">Translitt&eacute;ration du grec</a>
+      sur le wiki, et la <a href="<?php echo $PG_greek_howto_url; ?>">Table de conversion Grec
       vers latin-1</a> (du Project Gutenberg), ou utilisez l'outil &ldquo;Greek transliterator&rdquo;
       accessible dans l'interface de relecture.
   </li>
@@ -1062,11 +1062,11 @@ cedilla                      [,x]   [x,]
       Non recommand&eacute; &agrave; moins que vous lisiez ces langues
       couramment. Il existe des difficult&eacute;s importantes dans la conversion de ces
       langues en caract&egrave;res latins et ni Distributed
-      Proofreaders ni le <a href="<? echo $PG_home_url; ?>">Projet Gutenberg</a>
+      Proofreaders ni le <a href="<?php echo $PG_home_url; ?>">Projet Gutenberg</a>
       n'ont encore choisi de m&eacute;thode standard.
   </li>
 </ul>
-<? } else { ?>
+<?php } else { ?>
 <p>Ces caract&egrave;res devraient &ecirc;tre ins&eacute;r&eacute;s directement dans le texte tout comme le
    sont les caract&egrave;res latins (<b>SANS translit&eacute;ration</b>).
 </p>
@@ -1086,7 +1086,7 @@ cedilla                      [,x]   [x,]
    indiquez le texte par les marques appropri&eacute;es: <tt>[Arabic:&nbsp;**]</tt>.
    Ajoutez bien les deux &eacute;toiles <tt>**</tt>, pour attirer l'attention du post-processeur.
 </p>
-<? } ?>
+<?php } ?>
 <p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
 
 
@@ -2171,11 +2171,11 @@ Plural   {   2d   "  ye, or you,   you,
    &ldquo;a&rdquo; pour &ldquo;&agrave;&rdquo;,
    &ldquo;f&icirc;t&rdquo; pour &ldquo;fit&rdquo;, etc. Nous les appelons les
    &ldquo;Scannos furtifs&rdquo;, car ils sont plus difficiles &agrave; voir. Des exemples ont &eacute;t&eacute;
-   collect&eacute;s <a href="<? echo $Stealth_Scannos_URL; ?>">ici</a>.
+   collect&eacute;s <a href="<?php echo $Stealth_Scannos_URL; ?>">ici</a>.
 </p>
 <p>Les scannos sont plus faciles &agrave; voir avec une police de caract&egrave;res &agrave; espacement fixe comme
    <a href="font_sample.php">DPCustomMono</a> ou Courier. Pour aider la relecture, l'usage de
-   <a href="wordcheck-faq.php">WordCheck</a> (ou &eacute;quivalent) est recommand&eacute; en <? echo $ELR_round->id; ?>,
+   <a href="wordcheck-faq.php">WordCheck</a> (ou &eacute;quivalent) est recommand&eacute; en <?php echo $ELR_round->id; ?>,
    et obligatoire dans les autres tours de relecture.
 </p>
 <!-- END RR -->
@@ -2320,10 +2320,10 @@ Plural   {   2d   "  ye, or you,   you,
 <ul compact>
   <li>Les menus d&eacute;roulants de votre interface de correction.</li>
   <li>Des applications fournies avec votre syst&egrave;me d'exploitation.
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
       Si vous utilisez celles-ci, assurez-vous de n'ins&eacute;rer que des caract&egrave;res
       du jeu Latin-1 (ceux figurant dans les tableaux ci-dessous).
-<? } ?>
+<?php } ?>
     <ul compact>
       <li>Windows: la &ldquo;Table des caract&egrave;res&rdquo;<br> Acc&egrave;s par:<br>
           D&eacute;marrer: Ex&eacute;cuter: charmap, ou<br>
@@ -2873,16 +2873,16 @@ Plural   {   2d   "  ye, or you,   you,
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Retour vers:
-      <a href=".."><? echo "$site_name"; ?> home page</a>,
+      <a href=".."><?php echo "$site_name"; ?> home page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><? echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
+      <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
       </font>
     </td>
   </tr>
 </table>
 
-<?
+<?php
 theme('','footer');
 ?>

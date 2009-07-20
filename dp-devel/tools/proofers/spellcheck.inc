@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
@@ -25,7 +25,7 @@ spellcheck_echo_script();
 <script language="JavaScript" type="text/javascript">
 <!--
 function ldAll()
-{top.initializeStuff(<?PHP
+{top.initializeStuff(<?php
   if ($userP['i_type']==1)
     {echo "2";}
   else
@@ -40,11 +40,11 @@ function toggleWCHeader() {
     if(header) {
         if(header.style.display=='') {
             header.style.display='none';
-            headerLink.innerHTML='<?=_("Show WordCheck Header");?>';
+            headerLink.innerHTML='<?php echo _("Show WordCheck Header"); ?>';
             headerStateSave.value=0;
         } else{
             header.style.display='';
-            headerLink.innerHTML='<?=_("Hide WordCheck Header");?>';
+            headerLink.innerHTML='<?php echo _("Hide WordCheck Header"); ?>';
             headerStateSave.value=1;
         }
     }
@@ -63,7 +63,7 @@ body {
   overflow:auto;
   margin-top: 0;
   }
-<?
+<?php
 if($userP['i_type']==1)
     ibe_echo_styles();
 ?>
@@ -88,7 +88,7 @@ if($userP['i_type']==1)
 </head><body 
   onload="ldAll()">
 
-<?PHP
+<?php
 // print basic image html
 if ($userP['i_type']==1) {
     if ($userP['i_layout']==1)
@@ -104,7 +104,7 @@ if ($userP['i_type']==1) {
 }
 ?>
 <form name="spcorrects" action="processtext.php" method="POST">
-<?PHP
+<?php
     // change all EOL characters to [lf]
     $revert_text = str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$revert_text);
 
@@ -178,11 +178,11 @@ if ($userP['i_type']==1) {
 <input
     type="submit"
     name="rerunauxlanguage"
-    value="<? echo _("Check"); ?>"
-    title="<? echo _("Check page against an additional language"); ?>"
+    value="<?php echo _("Check"); ?>"
+    title="<?php echo _("Check page against an additional language"); ?>"
 >
 <br>
-<?
+<?php
     // show help blurb on the UA&S icon
     echo sprintf(
         _("The %s icon accepts the word for this page and suggests it for the dictionary."),
@@ -195,11 +195,11 @@ if ($userP['i_type']==1) {
 ?>
 <table id="tbtext" cellpadding="10" align="center">
 <tr><td id="tdtop">
-<? echo _("Resize image:"); ?>
-    <input title="<? echo _("Zoom Out 25%"); ?>" id="zoomout_button" type="button" value="-25%" onclick="top.reSizeRelative(0.75)?true:this.disabled=true;">
-    <input title="<? echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25); document.getElementById('zoomout_button').disabled=false;">
-    <input title="<? echo _("Zoom to Original Size"); ?>" type="button" value="100%" onclick="top.reSizeRelative(-1); document.getElementById('zoomout_button').disabled=false;">
-<?
+<?php echo _("Resize image:"); ?>
+    <input title="<?php echo _("Zoom Out 25%"); ?>" id="zoomout_button" type="button" value="-25%" onclick="top.reSizeRelative(0.75)?true:this.disabled=true;">
+    <input title="<?php echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25); document.getElementById('zoomout_button').disabled=false;">
+    <input title="<?php echo _("Zoom to Original Size"); ?>" type="button" value="100%" onclick="top.reSizeRelative(-1); document.getElementById('zoomout_button').disabled=false;">
+<?php
     // print the link to the WordCheck FAQ
     echo " &nbsp; ";
     echo sprintf(
@@ -212,7 +212,7 @@ if ($userP['i_type']==1) {
 <td 
   id="tdtext" 
   valign="top">
-<?PHP
+<?php
     $ppage->echo_hidden_fields();
     echo $page_contents;
 ?>
@@ -223,15 +223,15 @@ if ($userP['i_type']==1) {
         <input
             type="submit"
             name="spcorrect"
-            value="<? echo _("Submit Corrections"); ?>"
-            title="<? echo _("Keep corrections and return to proofreading this page"); ?>"
+            value="<?php echo _("Submit Corrections"); ?>"
+            title="<?php echo _("Keep corrections and return to proofreading this page"); ?>"
         >
         &nbsp;&nbsp;&nbsp;
         <input
             type="submit"
             name="spexit"
-            value="<? echo _("Quit WordCheck"); ?>"
-            title="<? echo _("Abandon corrections and return to proofreading this page"); ?>"
+            value="<?php echo _("Quit WordCheck"); ?>"
+            title="<?php echo _("Abandon corrections and return to proofreading this page"); ?>"
             onClick="return confirmExit();"
         >
     </td>
@@ -241,5 +241,5 @@ if ($userP['i_type']==1) {
 </div>
 </body>
 </html>
-<? // vim: sw=4 ts=4 expandtab
+<?php // vim: sw=4 ts=4 expandtab
 ?>

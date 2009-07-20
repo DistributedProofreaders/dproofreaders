@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../../pinc/';
 include_once($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
@@ -61,7 +61,7 @@ theme(_('Proofreading Tutorial and Interactive Quiz -- Step 5'),'header');
     (who may also want to check the text against the image). </p>
 <a href="../generic/main.php?type=step5">continue</a>
 
-<?
+<?php
 theme("","footer")
 ?>
 </body>

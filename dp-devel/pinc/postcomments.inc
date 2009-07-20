@@ -1,4 +1,4 @@
-<?
+<?php
 
 function get_formatted_postcomments( $projectid )
 // Return the PP-ers' comments for a certain project

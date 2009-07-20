@@ -1,4 +1,4 @@
-<?
+<?php
 /*
    Test version of for_mentors.php.  Displays information useful to Mentors
    (i.e. those who are second-round proofreading projects with difficulty = "BEGINNER")

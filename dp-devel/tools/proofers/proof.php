@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../../pinc/";
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'Project.inc');
@@ -92,10 +92,10 @@ $frameGet="?" . $_SERVER['QUERY_STRING'];
 <script language="JavaScript" type="text/javascript" src="dp_scroll.js?1.18"></script>
 </head>
 <frameset rows="*,73">
-<frame name="proofframe" src="<?PHP echo "$code_url/tools/proofers/proof_frame.php{$frameGet}";?>" marginwidth="2" marginheight="2" frameborder="0">
-<frame name="menuframe" src="ctrl_frame.php?round_id=<? echo $round->id; ?>" marginwidth="2" marginheight="2" frameborder="0">
+<frame name="proofframe" src="<?php echo "$code_url/tools/proofers/proof_frame.php{$frameGet}";?>" marginwidth="2" marginheight="2" frameborder="0">
+<frame name="menuframe" src="ctrl_frame.php?round_id=<?php echo $round->id; ?>" marginwidth="2" marginheight="2" frameborder="0">
 </frameset>
 <noframes>
-<? _("Your browser currently does not display frames!"); ?>
+<?php _("Your browser currently does not display frames!"); ?>
 </noframes>
 </html>

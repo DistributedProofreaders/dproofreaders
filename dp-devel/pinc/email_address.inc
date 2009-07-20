@@ -1,4 +1,4 @@
-<?
+<?php
 include_once($relPath.'site_vars.php');
 
 function check_email_address( $email_address )

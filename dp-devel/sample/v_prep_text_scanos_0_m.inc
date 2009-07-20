@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
 # Following this is the scanno correction pairs list:
 #

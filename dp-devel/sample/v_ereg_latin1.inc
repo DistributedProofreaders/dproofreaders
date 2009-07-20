@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // all latin1 characters (except 160)
 $regLatin1=']A-Za-z0-9 ~!@#$%^&*()_+`={}|\:;<>?,./';
 // latin1 characters ns (no space) (- 160)

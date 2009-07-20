@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'forum_interface.inc'); // get_forum_email_address()

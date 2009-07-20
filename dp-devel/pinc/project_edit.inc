@@ -1,4 +1,4 @@
-<?
+<?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'project_states.inc');

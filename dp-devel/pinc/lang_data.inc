@@ -1,4 +1,4 @@
-<?
+<?php
 $inst_lang_data=array(
 "en_US",
 );

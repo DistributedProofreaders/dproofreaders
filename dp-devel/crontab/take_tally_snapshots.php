@@ -1,4 +1,4 @@
-<?
+<?php
 
 // Take a snapshot of all current TallyBoards.
 // (This assumes that you want to snapshot all of them on the same schedule.)

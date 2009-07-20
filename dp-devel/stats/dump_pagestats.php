@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'connect.inc');
 include($relPath.'dpsql.inc');

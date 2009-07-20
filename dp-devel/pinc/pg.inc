@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 // Variables, functions, etc. (mostly URL-related) related to Project Gutenberg.
 

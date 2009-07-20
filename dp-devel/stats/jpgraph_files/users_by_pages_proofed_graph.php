@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($jpgraph_dir.'/src/jpgraph.php');

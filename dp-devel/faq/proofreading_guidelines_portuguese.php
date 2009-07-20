@@ -1,4 +1,4 @@
-<?
+<?php
 
 // File received from user 'rfarinha' at pgdp.net, 2/25/2009
 
@@ -248,13 +248,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>Se faltar algum item, se achar que deveria haver uma outra metodologia, ou se achar alguma
    explica&ccedil;&atilde;o vaga, por favor diga-nos.
-<? if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    Se se deparar com um termo desconhecido nestas regras, consulte o
    <a href="http://www.pgdp.net/wiki/DP_Jargon">guia de jarg&atilde;o wiki</a>.
-<? } ?>
+<?php } ?>
    Este documento &eacute; um trabalho em curso. Ajude-nos, dando-nos
    sugest&otilde;es no F&oacute;rum da Documenta&ccedil;&atilde;o
-   <a href="<? echo $Guideline_discussion_URL; ?>">nesta liga&ccedil;&atilde;o</a>.
+   <a href="<?php echo $Guideline_discussion_URL; ?>">nesta liga&ccedil;&atilde;o</a>.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
@@ -284,7 +284,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>Na P&aacute;gina do Projecto, a liga&ccedil;&atilde;o 'Images, Pages
    Proofread, &amp; Differences' permite ver como &eacute; que outros revisores
-   fizeram altera&ccedil;&otilde;es. <a href="<? echo $Using_project_details_URL ?>">Neste F&oacute;rum</a>
+   fizeram altera&ccedil;&otilde;es. <a href="<?php echo $Using_project_details_URL; ?>">Neste F&oacute;rum</a>
    debatem-se diferentes formas de usar este tipo de informa&ccedil;&atilde;o.
 </p>
 <!-- END RR -->
@@ -366,20 +366,20 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    em que se utilizam aspas inversas, <tt>&raquo;como estas&laquo;</tt>.
 </p>
 <p>As aspas utilizadas em alguns textos (em alem&atilde;o e outros idiomas),&nbsp; <tt>&bdquo;como estas&rdquo;</tt>
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
    n&atilde;o est&atilde;o dispon&iacute;veis nos menus nem fazem parte do Latin-1.
    Frequentemente s&atilde;o convertidas em aspas&nbsp; <tt>&raquo;como
    estas&laquo;</tt>&nbsp; (ou&nbsp; <tt>&laquo;como estas&raquo;</tt>&nbsp;
    em idiomas que utilizem as aspas&nbsp; <tt>&ldquo;desta forma&bdquo;</tt>).
    No entanto, verifique se o Gestor de Projecto deu instru&ccedil;&otilde;es
    diferentes nos <a href="#comments">Coment&aacute;rios do Projecto</a>.
-<? } else { ?>
+<?php } else { ?>
    est&atilde;o tamb&eacute;m dispon&iacute;veis nos menus. Para simplificar,
    deve utilizar sempre&nbsp; <tt>&bdquo;</tt>&nbsp; e&nbsp; <tt>&ldquo;</tt>&nbsp;
    independentemente das aspas que surjam no texto original, desde que as
    aspas utilizadas no texto original estejam claramente em baixo e em cima. Se necess&aacute;rio,
    as aspas ser&atilde;o alteradas para as utilizadas no texto, na fase de p&oacute;s-processamento.
-<? } ?>
+<?php } ?>
 </p>
 <p>O Gestor de Projecto pode indicar-lhe, nos <a href="#comments">Coment&aacute;rios
    do Projecto</a>, que deve rever as aspas em textos de idioma n&atilde;o-ingl&ecirc;s
@@ -897,23 +897,23 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 
 <h3><a name="a_chars">Acentua&ccedil;&atilde;o/Caracteres Non-ASCII</a></h3>
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
 <p>Por favor, reveja-os utilizando os s&iacute;mbolos ou caracteres acentuados
    apropriados, correspondentes &agrave; imagem, inclu&iacute;ndo o uso ou
    n&atilde;o da acentua&ccedil;&atilde;o, sempre que poss&iacute;vel.
    Durante a revis&atilde;o, apenas podemos utlizar caracteres Latin-1.
    Se n&atilde;o tiver a certeza se &eacute; um caracter Latin-1,
    consulte as <a href="#insert_char">tabelas abaixo</a>.
-<? } else { ?>
+<?php } else { ?>
 <p>Por favor, reveja-os utilizando os caracteres UTF-8 apropriados. Para caracteres que n&atilde;o
    existam em Unicode, consulte as instru&ccedil;&otilde;es do Gestor de Projecto no
    <a href="#comments">Coment&aacute;rios do Projecto</a>.
-<? } ?>
+<?php } ?>
    Se n&atilde;o existirem no seu teclado, consulte a sec&ccedil;&atilde;o
    <a href="#insert_char">Inser&ccedil;&atilde;o de Caracteres Especiais</a>
    para mais informa&ccedil;&otilde;es sobre como os incluir na revis&atilde;o.
 </p>
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
 <p>O caracter &oelig; (ligadura oe) n&atilde;o &eacute; Latin-1, assim
    sinalizamo-lo com os par&ecirc;nteses rectos, da seguinte forma:
    <tt>man[oe]uvre</tt>, ou <tt>[OE]dipus</tt> no caso de letra
@@ -928,7 +928,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    consulte as instru&ccedil;&otilde;es do Gestor de Projecto nos
    <a href="#comments">Coment&aacute;rios do Projecto</a>.
 </p>
-<? } ?>
+<?php } ?>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
 
@@ -938,7 +938,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    especiais, acima ou abaixo dos caracteres latinos normais (A...Z). A
    estes d&aacute;-se o nome de <i>sinais diacr&iacute;ticos</i>.
    Eles atribuem uma pron&uacute;ncia especial a este caracter.
-<? if($utf8_site) { ?>
+<?php if($utf8_site) { ?>
 </p>
 <p>Se esse caracter n&atilde;o existir em Unicode, deve ser revisto de forma a utilizar
    os <i>sinais diacr&iacute;ticos correspondentes</i>: estes s&atilde;o s&iacute;mbolos Unicode que n&atilde;o
@@ -954,7 +954,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    que <i>Letras modificadoras de espa&ccedil;os</i> tamb&eacute;m existem;
    estas n&atilde;o devem ser utilizadas.
 </p>
-<? } else { ?>
+<?php } else { ?>
    Para a revis&atilde;o, indicamo-los no texto ASCII utilizando uma
    codifica&ccedil;&atilde;o espec&iacute;fica. Por exemplo:
    <span style="font-size:110%;">&#259;</span> transforma-se em <tt>[)a]</tt>
@@ -1059,7 +1059,7 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
-<? } ?>
+<?php } ?>
 <p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
 
 
@@ -1069,7 +1069,7 @@ cedilla                      [,x]   [x,]
    de A a Z&mdash;por exemplo, caracteres Gregos, Cir&iacute;licos (utilizados em
    russo, eslavo e outros idiomas), Hebraicos ou &Aacute;rabes.
 </p>
-<? if(strcasecmp($charset,"UTF-8")) { ?>
+<?php if(strcasecmp($charset,"UTF-8")) { ?>
 <p>No caso do Grego, deve tentar transliterar. A
    translitera&ccedil;&atilde;o consiste em converter cada caracter
    do texto estrangeiro na(s) letra(s) ASCII Latin equivalentes. No
@@ -1088,7 +1088,7 @@ cedilla                      [,x]   [x,]
    grega <tt>[Greek:&nbsp;</tt> e <tt>]</tt>. Por
    exemplo, <span style="font-size:115%;">&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</span>
    ser&aacute; revista como <tt>[Greek: Biblos]</tt>.
-   ("Livro"&mdash;exemplo apropriado para o <? echo "$site_abbreviation"; ?>!)
+   ("Livro"&mdash;exemplo apropriado para o <?php echo "$site_abbreviation"; ?>!)
 </p>
 <p>Se n&atilde;o estiver seguro quanto &agrave; sua
    translitera&ccedil;&atilde;o, sinalize-a com um <tt>**</tt>
@@ -1106,8 +1106,8 @@ cedilla                      [,x]   [x,]
 <!-- END RR -->
 
 <ul compact>
-  <li>Grego: Consulte a p&aacute;gina wiki <a href="<? echo $greek_wiki_url; ?>">Transliterating
-      Greek</a>, a <a href="<? echo $PG_greek_howto_url; ?>">Greek HOWTO</a>
+  <li>Grego: Consulte a p&aacute;gina wiki <a href="<?php echo $greek_wiki_url; ?>">Transliterating
+      Greek</a>, a <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a>
       do Projecto Gutenberg, ou o "Greek Transliterator" atrav&eacute;s,
       acess&iacute;vel atrav&eacute;s da janela de ferramentas no ecr&atilde;
       de revis&atilde;o.
@@ -1119,11 +1119,11 @@ cedilla                      [,x]   [x,]
   <li>Hebraico e &Aacute;rabe: S&oacute; recomendado para pessoas que
       sejam fluentes nestas l&iacute;nguas. H&aacute; grandes dificuldades na
       translitera&ccedil;&atilde;o destas l&iacute;nguas e nem o Distributed
-      Proofreaders nem o <a href="<? echo $PG_home_url; ?>">Projecto
+      Proofreaders nem o <a href="<?php echo $PG_home_url; ?>">Projecto
       Gutenberg</a> definiram um modo de procedimento.
   </li>
 </ul>
-<? } else { ?>
+<?php } else { ?>
 <p>Estes caracteres devem ser inseridos no texto como os caracteres Latin.
    (<b>SEM translitera&ccedil;&atilde;o!</b>)
 </p>
@@ -1144,7 +1144,7 @@ cedilla                      [,x]   [x,]
    entre os s&iacute;mbolos apropriados: <tt>[Arabic:&nbsp;**]</tt>.
    Coloque <tt>**</tt> para que o p&oacute;s-processador possa revolver a quest&atilde;o posteriormente.
 </p>
-<? } ?>
+<?php } ?>
 <p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
 
 
@@ -2263,14 +2263,14 @@ Plural   {   2d   "  ye, or you,   you,
    "delia" em vez de "della", "coin" em vez de "com",
    "era" em vez de "em". Este tipo de erros &eacute; mais
    dif&iacute;cil de detectar, tendo direito a um nome especial: "Stealth
-   Scannos" (Furtivos). Coleccionamos exemplos <a href="<? echo $Stealth_Scannos_URL; ?>">neste
+   Scannos" (Furtivos). Coleccionamos exemplos <a href="<?php echo $Stealth_Scannos_URL; ?>">neste
    t&oacute;pico</a>.
 </p>
 <p>Detectar este tipo de erros, torna-se mais f&aacute;cil se utilizar
    uma fonte mono-espa&ccedil;ada, como por exemplo <a href="font_sample.php">DPCustomMono</a>
    ou Courier. Para ajudar na revis&atilde;o, recomendamos a utiliza&ccedil;&atilde;o
    do <a href="wordcheck-faq.php">WordCheck</a> (ou equivalente) em
-   <? echo $ELR_round->id; ?>, sendo necess&aacute;ria noutras rondas de
+   <?php echo $ELR_round->id; ?>, sendo necess&aacute;ria noutras rondas de
    revis&atilde;o.
 </p>
 <!-- END RR -->
@@ -2426,10 +2426,10 @@ Plural   {   2d   "  ye, or you,   you,
 <ul compact>
   <li>Os menus da interface de revis&atilde;o.</li>
   <li>Aplica&ccedil;&otilde;es existentes no seu sistema operativo.
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
 Se utiliar um destes, certifique-se que insere apenas caracteres Latin-1
    (listados nas tabelas abaixo).
-<? } ?>
+<?php } ?>
     <ul compact>
       <li>Windows: "Mapa de Caracteres"<br>
           Acess&iacute;vel atrav&eacute;s de:<br>
@@ -3059,16 +3059,16 @@ Se utiliar um destes, certifique-se que insere apenas caracteres Latin-1
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Voltar para:
-      <a href="..">P&aacute;gina Principal do <? echo "$site_name"; ?></a>,
+      <a href="..">P&aacute;gina Principal do <?php echo "$site_name"; ?></a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><? echo "$site_abbreviation"; ?> P&aacute;gina do Centro de FAQ's</a>,
+      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> P&aacute;gina do Centro de FAQ's</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="<? echo $PG_home_url; ?>">P&aacute;gina Principal do Projecto Gutenberg</a>.
+      <a href="<?php echo $PG_home_url; ?>">P&aacute;gina Principal do Projecto Gutenberg</a>.
       </font>
     </td>
   </tr>
 </table>
 
-<?
+<?php
 theme('','footer');
 ?>

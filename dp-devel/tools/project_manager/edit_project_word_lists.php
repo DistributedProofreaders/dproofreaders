@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
@@ -317,7 +317,7 @@ class ProjectWordListHolder
     table.wordlisttable textarea { width: 100%; }
     p.error { color: red; }
     </style>
-<?
+<?php
     }
 
     function show_hidden_controls()

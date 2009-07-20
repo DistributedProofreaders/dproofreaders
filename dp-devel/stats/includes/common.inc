@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // A file for (UI) code that's used by both user and team stats pages.
 
 include_once($relPath.'site_vars.php'); // $code_url

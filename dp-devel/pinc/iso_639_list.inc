@@ -1,4 +1,4 @@
-<?
+<?php
 $iso_639=array(
 "aa" =>
 "Afar",

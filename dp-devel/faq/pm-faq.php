@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'site_vars.php');
 include($relPath.'faq.inc');
@@ -32,7 +32,7 @@ to manage a project that someone else has prepared.
 </p>
 
 <p>
-To become a PM, send an email to <? echo $PM_rights_giver_contact; ?>.
+To become a PM, send an email to <?php echo $PM_rights_giver_contact; ?>.
 </p>
 
 <hr>
@@ -190,10 +190,10 @@ on its Project Details page.
 
 <h3><a name='project_detail_page'>Project Detail Page</a></h3>
 
-<h4>Add Text+Images from <? echo $uploads_account; ?> Account</h4>
+<h4>Add Text+Images from <?php echo $uploads_account; ?> Account</h4>
 
 <p>
-You can now specify a directory (in the <? echo $uploads_account; ?>
+You can now specify a directory (in the <?php echo $uploads_account; ?>
 account) from which to add text+images into your project. This means
 that you are now free to choose the name of the upload directory you
 create, instead of having to use the project's ID. (E.g., you might
@@ -204,9 +204,9 @@ Text+Images button.
 </p>
 <p>
 Moreover, the string you type is actually interpreted as a 'path'
-(relative to the root of the <? echo $uploads_account; ?> account), so
+(relative to the root of the <?php echo $uploads_account; ?> account), so
 it can be a directory within a directory. For instance, you may find it
-convenient to create a personal directory in the <? echo $uploads_account; ?>
+convenient to create a personal directory in the <?php echo $uploads_account; ?>
 account, and then create your project-specific directories within it.
 (If you do this, it's recommended that you use your DP login name for
 the name of the personal directory, as that may be an assumed default in
@@ -238,6 +238,6 @@ on the question mark next to each preference setting will pop up a new
 window which describes each setting in further detail.
 </p>
 
-<?
+<?php
 theme('','footer');
 ?>

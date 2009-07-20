@@ -1,4 +1,4 @@
-<?PHP
+<?php
 $relPath='./pinc/';
 
 // gettext_setup.inc has a reference (in top-level code) to $userP,

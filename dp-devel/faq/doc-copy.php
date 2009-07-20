@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'site_vars.php');
 include($relPath.'pg.inc');
@@ -63,7 +63,7 @@ and also some common guidelines.
         The usual format is a capital letter followed by 6 numbers, but the OCR
         scanner often has trouble with this, and frequently mis-reads them.     </li>
     <li>Contrary to the
-        <a href="<? echo $code_url ?>/faq/document.php#abbrev">General Guidelines</a>,
+        <a href="<?php echo $code_url; ?>/faq/document.php#abbrev">General Guidelines</a>,
 	do not remove spaces between initials in names.
 	For example, do not change
 	<tt>G.&nbsp;B.&nbsp;Shaw</tt> to
@@ -157,7 +157,7 @@ BENNETT, MARIE MARGUERITE                                        <br>
 
 <li>
 <b>Example:</b>
-(for <a href="<? echo $projects_url; ?>/projectID3f5be9a8c1685/269.png">this image</a>)
+(for <a href="<?php echo $projects_url; ?>/projectID3f5be9a8c1685/269.png">this image</a>)
 <table width="50%" border="1"  cellpadding="4"
        cellspacing="0"> <col width="128*">
   <tbody>
@@ -225,12 +225,12 @@ R554718.
         &nbsp;&nbsp;&nbsp;
         <a href="faq_central.php">DP FAQ Central page</a>,
         &nbsp;&nbsp;&nbsp;
-        <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
+        <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
         </font>
     </td>
 </tr>
 </table>
 
-<?
+<?php
 theme('','footer');
 ?>

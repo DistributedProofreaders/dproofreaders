@@ -1,4 +1,5 @@
-<? $relPath='../../pinc/';
+<?php
+$relPath='../../pinc/';
 include_once($relPath.'site_vars.php');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
@@ -31,7 +32,7 @@ $font_size = $f_s[$font_size_i];
 <head>
 <meta name="generator" content="HTML Tidy, see www.w3.org">
 <script type='text/javascript'>
-s = "<?
+s = "<?php
 if ($testing)
 echo str_replace("\n",'\n',addslashes($solutions[0]));?>";
 </script>
@@ -39,7 +40,7 @@ echo str_replace("\n",'\n',addslashes($solutions[0]));?>";
 <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 <body bgcolor='#ffffff'>
-<form action="./returnfeed.php?type=<?=$page_id?>&quiz_id=<?=$quiz_id?>" target="right" method="post">
+<form action="./returnfeed.php?type=<?php echo $page_id; ?>&quiz_id=<?php echo $quiz_id; ?>" target="right" method="post">
 <textarea rows="12" cols="60" name="output" id='output' wrap="off"
 <?php 
     echo "style='";

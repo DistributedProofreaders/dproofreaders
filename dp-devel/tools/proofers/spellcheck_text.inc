@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'wordcheck_engine.inc');
 
@@ -260,8 +260,8 @@ function spellcheck_echo_script()
         // If we're here, we should be disabling the button
         var button = document.getElementById("button_" + wordID);
         if(button && a && a.href) {
-            button.src = "<?=$code_url;?>/graphics/Book-Plus-Small-Disabled.gif";
-            button.title = "<?=_("Word has been edited; unable to Suggest");?>";
+            button.src = "<?php echo $code_url; ?>/graphics/Book-Plus-Small-Disabled.gif";
+            button.title = "<?php echo _("Word has been edited; unable to Suggest"); ?>";
             a.removeAttribute('href');
         }
 
@@ -275,8 +275,8 @@ function spellcheck_echo_script()
         var button = document.getElementById("button_" + wordID);
         var a = document.getElementById("a_" + wordID);
         if(button && a) {
-            button.src = "<?=$code_url;?>/graphics/Book-Plus-Small.gif";
-            button.title = "<?=_("Unflag All & Suggest Word");?>";
+            button.src = "<?php echo $code_url; ?>/graphics/Book-Plus-Small.gif";
+            button.title = "<?php echo _("Unflag All & Suggest Word"); ?>";
             a.href="#";
         }
         return false;
@@ -287,7 +287,7 @@ function spellcheck_echo_script()
         // see if changes have been made
         var changesMade = document.getElementById("is_changed").value;
         if(changesMade==1) {
-            return confirm("<?=_("Changes have been made. OK to quit without saving?");?>");
+            return confirm("<?php echo _("Changes have been made. OK to quit without saving?"); ?>");
         }
 
         // return true (ie: confirm exit) if no changes were made
@@ -304,7 +304,7 @@ function spellcheck_echo_script()
 
     // -->
     </script>
-<?
+<?php
 }
 
 // --------------------------------------------

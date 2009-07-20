@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 // A "tally" is simply a running count of some specified quantity for
 // some specified agent (e.g., a user or team), called the tally's 'holder'.

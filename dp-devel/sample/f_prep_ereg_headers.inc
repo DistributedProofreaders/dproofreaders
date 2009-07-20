@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // all functions return true if line has only that content type
 
 function isRoman($line)

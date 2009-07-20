@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'user_is.inc');

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
   $relPath = '../../pinc/';
   include_once($relPath.'theme.inc');
@@ -15,7 +15,7 @@
 ?>
 
 <h1 align="center">Authors</h1>
-<?
+<?php
   if (isset($_GET['message']))
     echo '<center>' . $_GET['message'] . '</center><br />';
 
@@ -26,9 +26,9 @@
   echo_search_form();
 ?>
 
-<h2 align="center"><?=get_search_title()?></h2>
+<h2 align="center"><?php echo get_search_title(); ?></h2>
 
-<?
+<?php
 
   $can_edit = user_is_PM() || user_is_authors_db_manager();
 

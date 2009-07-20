@@ -1,4 +1,4 @@
-<?
+<?php
 include_once($relPath.'stages.inc');
 
 //A file full of book statistic functions

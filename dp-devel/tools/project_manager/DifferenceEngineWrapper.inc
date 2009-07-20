@@ -1,4 +1,4 @@
-<?
+<?php
 // This file allows us (PGDP) to use DifferenceEngine.php from WikiMedia
 // without any* content modification, which should make it easier
 // to upgrade when WikiMedia publishes a new version of the file.

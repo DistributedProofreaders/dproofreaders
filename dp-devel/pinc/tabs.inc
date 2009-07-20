@@ -67,7 +67,7 @@ body {
 #tabs {
   float:left;
   width:100%;
-  background:<?=$tabs['background']?> url("<?=$image_path?>/tabs_bg.png") repeat-x <?=$tabs['background-position']?>;
+  background:<?php echo $tabs['background']; ?> url("<?php echo $image_path; ?>/tabs_bg.png") repeat-x <?php echo $tabs['background-position']; ?>;
   font-size:80%;
   line-height:normal;
 }
@@ -80,15 +80,15 @@ body {
    
 #tabs li {
   float:left;
-  background:url("<?=$image_path?>/tabs_left.png") no-repeat left top;
+  background:url("<?php echo $image_path; ?>/tabs_left.png") no-repeat left top;
   margin:0;
-  padding:0 0 0 <?=$tabs['padding-left']?>;
+  padding:0 0 0 <?php echo $tabs['padding-left']; ?>;
 }
    
 #tabs a {
   float:left;
   display:block;
-  background:url("<?=$image_path?>/tabs_right.png") no-repeat right top;
+  background:url("<?php echo $image_path; ?>/tabs_right.png") no-repeat right top;
   padding:5px 15px 4px 6px;
   text-decoration:none;
   font-weight:bold;
@@ -107,11 +107,11 @@ body {
 }
    
 #tabs #current {
-  background-image:url("<?=$image_path?>/tabs_left_on.png");
+  background-image:url("<?php echo $image_path; ?>/tabs_left_on.png");
 }
    
 #tabs #current a {
-  background-image:url("<?=$image_path?>/tabs_right_on.png");
+  background-image:url("<?php echo $image_path; ?>/tabs_right_on.png");
   color:#333;
   padding-bottom:5px;
 }

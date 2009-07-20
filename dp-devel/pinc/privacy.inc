@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 
 function can_reveal_details_about( $username, $user_privacy_setting )

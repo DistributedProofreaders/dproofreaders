@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../../pinc/';
 include_once($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
@@ -39,6 +39,6 @@ theme(_('Proofreading Tutorial and Interactive Quiz -- Step 3'),'header');
 
 
 <a href="../generic/main.php?type=step3">continue</a>
-<?
+<?php
 theme("","footer")
 ?>

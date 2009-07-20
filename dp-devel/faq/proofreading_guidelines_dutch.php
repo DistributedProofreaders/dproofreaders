@@ -1,4 +1,4 @@
-<?
+<?php
 
 // Translated by PGDP Team Netherlands; file received from user Clog 17 Feb 2009
 
@@ -233,12 +233,12 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>Als er iets ontbreekt, of als je denkt dat iets op een andere manier behandeld zou moeten worden,
    of als iets vaag is, laat het ons alsjeblieft weten.
-<? if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    Wanneer je in deze richtlijnen een onbekende term tegenkomt, dan is deze (of de engelse vertaling hiervan)
    te vinden in <a href="http://www.pgdp.net/wiki/DP_Jargon">wiki jargon guide</a> (Engels).
-<? } ?>
+<?php } ?>
    Dit document is in ontwikkeling. Help ons bij de ontwikkeling hiervan, door veranderingen die je zou willen voorstellen,
-   in <a href="<? echo $Guideline_discussion_URL; ?>">deze discussie</a> in het Documentation Forum te posten.
+   in <a href="<?php echo $Guideline_discussion_URL; ?>">deze discussie</a> in het Documentation Forum te posten.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
@@ -261,7 +261,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    terugkerende problemen in het project, en hoe deze het beste kunnen worden aangepakt. (Zie hieronder.)
 </p>
 <p>Op de Project Pagina staat een link 'Images, Pages Proofread, &amp; Differences'. Daar kun je zien hoe andere
-   vrijwilligers veranderingen hebben aangebracht. <a href="<? echo $Using_project_details_URL ?>">Deze forumdiscussie</a>
+   vrijwilligers veranderingen hebben aangebracht. <a href="<?php echo $Using_project_details_URL; ?>">Deze forumdiscussie</a>
    bespreekt verschillende manieren om deze informatie te gebruiken.
 </p>
 <!-- END RR -->
@@ -329,20 +329,20 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>De lage aanhalingstekens die in sommige teksten voorkomen (in het Nederlands en Duits, en sommige andere talen)&nbsp;
    <tt>&bdquo;zoals dit&ldquo;</tt>
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
    kunnen niet gekozen worden in de uitklapmenu's, aangezien ze niet in de Latin-1 tekenset voorkomen.
    Deze worden vaak omgezet in guillemets&nbsp; <tt>&raquo;zoals dit&laquo;</tt>&nbsp; (of&nbsp;
    <tt>&laquo;zoals dit&raquo;</tt>&nbsp; voor talen die de aanhalingstekens&nbsp;
    <tt>&ldquo;op deze manier&bdquo;</tt> gebruiken), maar vergeet niet om de
    <a href="#comments">Project Comments </a> te lezen, in het geval dat de
    Project Manager andere instructies heeft gegeven.
-<? } else { ?>
+<?php } else { ?>
    zijn ook beschikbaar in de uitklapmenu's. Om de zaak eenvoudig te houden, moet je altijd&nbsp;
    <tt>&bdquo;</tt>&nbsp; en&nbsp; <tt>&ldquo;</tt>&nbsp; gebruiken als de aanhalingstekens in het
    origineel duidelijk lage en hoge aanhalingstekens zijn, ongeacht welke aanhalingstekens in de
    originele tekst gebruikt worden. De aanhalingstekens zullen zo nodig tijden het post-processen
    veranderd worden in de aanhalingstekens die in de tekst gebruikt zijn.
-<? } ?>
+<?php } ?>
 </p>
 <p>Het kan zijn dat de Project Manager in de <a href="#comments">Project Comments</a> voor een bepaald
    boek instructies geeft om aanhalingstekens uit een niet-Engelse taal anders te behandelen.
@@ -825,20 +825,20 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 <h3><a name="a_chars">Letters met Accenten/Niet-ASCII Letters</a>
  (<i><a href="proofreading_guidelines.php#a_chars">Accented/Non-ASCII Characters</a></i>)</h3>
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
 <p>Proeflees deze door de passende symbolen of letters met accenten te gebruiken om het overeen te
    laten komen met het origineel, waar mogelijk inclusief het wel of niet gebruiken van accenten.
    We kunnen alleen Latin-1 tekens gebruiken tijdens het proeflezen; wanneer je niet zeker bent of
    een letter in de Latin-1-tekenset voorkomt, controleer dat dan in de
    <a href="#insert_char">tabellen hieronder</a>.
-<? } else { ?>
+<?php } else { ?>
 <p>Proeflees deze a.u.b. door de juiste UTF-8 tekens te gebruiken. Voor tekens die niet in
    Unicode zitten, zie de Project Manager instructies in de <a href="#comments">Project Comments</a>.
-<? } ?>
+<?php } ?>
    Als je ze niet op je toetsenbord hebt, zie dan <a href="#insert_char">Toevoegen van Speciale Letters</a>
    voor meer informatie over hoe deze tekens tijdens het proeflezen in te voegen.
 </p>
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
 <p>Het &oelig; teken (oe ligature) is niet beschikbaar in Latin-1, we markeren het daar om met blokhaken
    in <tt>man[oe]uvre</tt>, of <tt>[OE]dipus</tt> voor de hoofdletter &OElig;. Let op dat het &aelig; teken
    (ae ligature, zoals in <tt>encyclop&aelig;dia</tt>) wel Latin-1 is, dus dit teken kan direct ingevoegd worden.
@@ -848,7 +848,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Zie de instructies van de Project Manager in de <a href="#comments">Project Comments</a> voor letters
    die niet in deze richtlijnen worden behandeld.
 </p>
-<? } ?>
+<?php } ?>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
@@ -857,7 +857,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
  (<i><a href="proofreading_guidelines.php#d_chars">Characters with Diacritical Marks</a></i>)</h3>
 <p>In sommige projecten vind je lettertekens met speciale tekens boven of onder de letters van A tot Z.
    Deze heten <i>diakritische tekens</i> en geven een bijzondere uitspraak van de letter aan.
-<? if($utf8_site) { ?>
+<?php if($utf8_site) { ?>
 </p>
 <p>Als een dergelijk karakter in Unicode niet bestaat, dan moet het worden
    ingegeven door <i>gecombineerde diakritische tekens</i>: dit zijn symbolen in Unicode die niet
@@ -872,7 +872,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    tekens niet goed kunt zien, markeer zo'n letter dan met een [**noot]. Overigens bestaan
    er ook <i>Spacing modifier letters</i>; deze mogen niet gebruikt worden.
 </p>
-<? } else { ?>
+<?php } else { ?>
    Voor het proeflezen geven we ze in de tekst aan met speciale codes, bijvoorbeeld
    <span style="font-size:110%;">&#259;</span> wordt <tt>[)a]</tt> voor een breve
    (het accent als een omgekeerd boogje) boven een a, of <tt>[a)]</tt> voor een breve onder de a.
@@ -969,7 +969,7 @@ cedille                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
-<? } ?>
+<?php } ?>
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 
@@ -979,7 +979,7 @@ cedille                      [,x]   [x,]
    de Latijnse A...Z. Het kan dan gaan om Griekse, Cyrillische (dat wordt gebruikt in Russisch,
    Slavisch en andere talen), Hebreeuwse of Arabische letters.
 </p>
-<? if(strcasecmp($charset,"UTF-8")) { ?>
+<?php if(strcasecmp($charset,"UTF-8")) { ?>
 <p>Voor het Grieks moet je proberen elke letter om te zetten in de equivalente Latijnse letter(s).
    (Transliteration). In de proofreading interface vindt je een "Greek transliteration" hulpmiddel,
    waar dit heel gemakkelijk mee gaat.
@@ -990,7 +990,7 @@ cedille                      [,x]   [x,]
    Als je klaar bent, knip en plak je de omgezette tekst in de bladzijde die je aan het proeflezen bent.
    Zet om de omgezette tekst de volgende markering: <tt>[Greek:&nbsp;</tt> en <tt>]</tt>.
    Bijvoorbeeld: <span style="font-size:115%;">&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</span> wordt
-   <tt>[Greek: Biblos]</tt>. ("Boek"&mdash;erg toepasselijk bij <? echo "$site_abbreviation"; ?>!)
+   <tt>[Greek: Biblos]</tt>. ("Boek"&mdash;erg toepasselijk bij <?php echo "$site_abbreviation"; ?>!)
 </p>
 <p>Als je onzeker bent over je omzetting, markeer hem dan met <tt>**</tt> om te zorgen dat de
    aandacht van de volgende proeflezer of de Post-Processor er op gevestigd wordt.
@@ -1003,8 +1003,8 @@ cedille                      [,x]   [x,]
 <!-- END RR -->
 
 <ul compact>
-  <li>Grieks: Zie de <a href="<? echo $greek_wiki_url; ?>">Transliterating Greek</a> wiki-pagina (Engels), 
-      <a href="<? echo $PG_greek_howto_url; ?>">Greek HOWTO</a> (van het Project Gutenberg)
+  <li>Grieks: Zie de <a href="<?php echo $greek_wiki_url; ?>">Transliterating Greek</a> wiki-pagina (Engels), 
+      <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a> (van het Project Gutenberg)
       of gebruik de "Greek Transliterator" pop-up in de proofreading interface.
   </li>
   <li>Cyrillisch: Er is een standaard omzetschema voor Cyrillisch. We bevelen aan dat je dit alleen maar gebruikt
@@ -1012,10 +1012,10 @@ cedille                      [,x]   [x,]
   </li>
   <li>Hebreeuws en Arabisch: niet aanbevolen tenzij je de taal vloeiend beheerst. Het omzetten
       van deze talen stuit op grote moeilijkheden en noch Distributed Proofreaders noch
-      <a href="<? echo $PG_home_url; ?>">Project Gutenberg</a> heeft al een standaard methode gekozen.
+      <a href="<?php echo $PG_home_url; ?>">Project Gutenberg</a> heeft al een standaard methode gekozen.
   </li>
 </ul>
-<? } else { ?>
+<?php } else { ?>
 <p>Deze lettertekens moeten, net als de Latijnse letters, in de tekst worden gezet.
    (<b>ZONDER omzetting!</b>)
 </p>
@@ -1034,7 +1034,7 @@ cedille                      [,x]   [x,]
    <tt>[Arabic:&nbsp;**]</tt>. Zorg voor de <tt>**</tt> zodat
    de Post-Processor het later kan oplossen.
 </p>
-<? } ?>
+<?php } ?>
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
 
 
@@ -2072,12 +2072,12 @@ Plural   {   2d   "  ye, or you,   you,
   Andere voorbeelden zijn: "eve" voor "eye", "Torn" voor "Tom", "train" voor "tram". In het Nederlands wordt "elken"
   vaak door "eiken" weergegeven, en "mensch" door "mensen". Dit type fout is veel moeilijker om op te sporen en
   we hebben een speciale term ervoor: "Stealth Scanno's".
-  We verzamelen voorbeelden van Stealth Scannos in <a href="<? echo $Stealth_Scannos_URL; ?>">deze discussie</a>.
+  We verzamelen voorbeelden van Stealth Scannos in <a href="<?php echo $Stealth_Scannos_URL; ?>">deze discussie</a>.
 </p>
 <p>Het opmerken van scanno's is veel gemakkelijker als je een 'mono-spaced' lettertype zoals
    <a href="font_sample.php">DPCustomMono</a> of Courier gebruikt. Om het proeflezen te helpen
    is het gebruik van <a href="wordcheck-faq.php">WordCheck</a> (of zijn equivalent) aanbevolen
-   in <? echo $ELR_round->id; ?> en verplicht in de andere proeflees-ronden.
+   in <?php echo $ELR_round->id; ?> en verplicht in de andere proeflees-ronden.
 </p>
 <!-- END RR -->
 <!-- More to be added.... -->
@@ -2203,9 +2203,9 @@ Plural   {   2d   "  ye, or you,   you,
 <ul compact>
   <li>De uitklapmenu's in de proofreading interface.</li>
   <li>Hulpprogrammaatjes inbegrepen in je besturingssysteem.
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
 Wanneer je deze gebruikt, wees zeker om alleen Latin-1 letters in te voegen (degene opgesomd in de tabellen hieronder).
-<? } ?>
+<?php } ?>
     <ul compact>
       <li>Windows: "Speciale tekens"<br> Te benaderen door:<br>
           Start: Uitvoeren: charmap, ofr<br>
@@ -2816,16 +2816,16 @@ Wanneer je deze gebruikt, wees zeker om alleen Latin-1 letters in te voegen (deg
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Terug naar:
-      <a href=".."><? echo "$site_name"; ?> home page</a>,
+      <a href=".."><?php echo "$site_name"; ?> home page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><? echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
+      <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
       </font>
     </td>
   </tr>
 </table>
 
-<?
+<?php
 theme('','footer');
 ?>

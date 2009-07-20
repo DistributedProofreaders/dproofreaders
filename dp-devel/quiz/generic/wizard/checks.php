@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../../../pinc/';
 include_once($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
@@ -122,7 +122,7 @@ to error messages you've previously defined. You have to fill out this for for e
 
 
 
-<?
+<?php
 }
 else // we are coming from this page (checks.php)
 {
@@ -167,7 +167,7 @@ function chkFormular () {
 Search case sensitive? <input type="radio" name="forbiddentext_case_sensitive" checked value="yes">Yes 
 <input type="radio" name="forbiddentext_case_sensitive" value="no">No<br> 
 Error message to be given if text is found: <select size="1" name="forbiddentext_error">
-<? echo $errlist; ?>
+<?php echo $errlist; ?>
 </select>
 </p>
 <hr>
@@ -192,7 +192,7 @@ edit the final file.</p>
 Search case sensitive? <input type="radio" name="expectedtext_case_sensitive" checked value="yes">Yes 
 <input type="radio" name="expectedtext_case_sensitive" value="no">No<br> 
 Error message to be given if none of those texts is found: <select size="1" name="expectedtext_error">
-<? echo $errlist; ?>
+<?php echo $errlist; ?>
 </select>
 </p>
 <hr>
@@ -203,7 +203,7 @@ Error message to be given if none of those texts is found: <select size="1" name
 Search case sensitive? <input type="radio" name="wrongtextorder_case_sensitive" checked value="yes">Yes 
 <input type="radio" name="wrongtextorder_case_sensitive" value="no">No<br> 
 Error message to be given if texts are found in wrong order: <select size="1" name="wrongtextorder_error">
-<? echo $errlist; ?>
+<?php echo $errlist; ?>
 </select>
 </p>
 <hr>
@@ -213,7 +213,7 @@ Error message to be given if texts are found in wrong order: <select size="1" na
 Search case sensitive? <input type="radio" name="multioccurrence_case_sensitive" checked value="yes">Yes 
 <input type="radio" name="multioccurrence_case_sensitive" value="no">No<br> 
 Error message to be given if text is found more than once: <select size="1" name="multioccurrence_error">
-<? echo $errlist; ?>
+<?php echo $errlist; ?>
 </select>
 </p>
 <hr>
@@ -224,7 +224,7 @@ Error message to be given if text is found more than once: <select size="1" name
 Search case sensitive? <input type="radio" name="markupmissing_case_sensitive" checked value="yes">Yes 
 <input type="radio" name="markupmissing_case_sensitive" value="no">No<br> 
 Error message to be given if no opening and no closing tag is found: <select size="1" name="markupmissing_error">
-<? echo $errlist; ?>
+<?php echo $errlist; ?>
 </select>
 </p>
 <hr>
@@ -237,7 +237,7 @@ So it basically only works OK, if there is just one pair of opening/closing tags
 Search case sensitive? <input type="radio" name="markupcorrupt_case_sensitive" checked value="yes">Yes 
 <input type="radio" name="markupcorrupt_case_sensitive" value="no">No<br> 
 Error message to be given if markup is corrupt: <select size="1" name="markupcorrupt_error">
-<? echo $errlist; ?>
+<?php echo $errlist; ?>
 </select>
 </p>
 <hr>
@@ -249,10 +249,10 @@ Search case sensitive? <input type="radio" name="expectedlinebreaks_case_sensiti
 <input type="radio" name="expectedlinebreaks_case_sensitive" value="no">No<br> 
 <p>number of expected linebreaks: <input type="text" name="expectedlinebreaks_number" size="10"><br>
 Error message to be given if number of linebreaks is lower than expected: <select size="1" name="expectedlinebreaks_errorlow">
-<? echo $errlist; ?>
+<?php echo $errlist; ?>
 </select><br>
 Error message to be given if number of linebreaks is higher than expected: <select size="1" name="expectedlinebreaks_errorhigh">
-<? echo $errlist; ?>
+<?php echo $errlist; ?>
 </select>
 </p>
 <hr>
@@ -260,7 +260,7 @@ Error message to be given if number of linebreaks is higher than expected: <sele
 <p><input type="radio" name="type" value="longline"><b>Check for long lines.</b></p>
 <p>max. allowed line length: <input type="text" name="longline_lengthlimit" size="10"><br>
 Error message to be given if a line is loger than allowed: <select size="1" name="longline_error">
-<? echo $errlist; ?>
+<?php echo $errlist; ?>
 </select><br>
 </p>
 <hr>
@@ -272,7 +272,7 @@ Error message to be given if a line is loger than allowed: <select size="1" name
 
 
 
-<?
+<?php
 $_SESSION['quiz_data']['lastpage'] = 'checks';
 
 theme("", "footer");

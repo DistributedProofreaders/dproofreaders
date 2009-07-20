@@ -1,4 +1,4 @@
-<?
+<?php
 $iso_3166['af'] = "Afghanistan";
 $iso_3166['al'] = "Albania";
 $iso_3166['dz'] = "Algeria";

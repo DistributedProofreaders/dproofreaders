@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include_once($relPath.'site_vars.php');
 include_once($relPath.'pg.inc');
@@ -21,10 +21,10 @@ theme('FAQ Central','header', $theme_args);
 <h1>FAQ Central</h1>
 
 <p>This page contains links to all the Documentation and FAQ (Frequently Asked Questions)
-   files about the <? echo "$site_name"; ?> website.</p>
+   files about the <?php echo "$site_name"; ?> website.</p>
 <p><small>Updated August 2, 2008</small></p>
 
-<?
+<?php
 show_news_for_page("FAQ");
 ?>
 
@@ -45,8 +45,8 @@ show_news_for_page("FAQ");
   <font size="-1">An overview of site changes from the last few years,
   including the distinction between proofreading and formatting.</font></p>
 
-  <p><a href="privacy.php"><? echo "$site_abbreviation"; ?> Privacy Policy</a><br>
-  <font size="-1">The <? echo "$site_name"; ?> Privacy Policy
+  <p><a href="privacy.php"><?php echo "$site_abbreviation"; ?> Privacy Policy</a><br>
+  <font size="-1">The <?php echo "$site_name"; ?> Privacy Policy
    that you saw when you first registered at this site.</font></p>
     </td>
   </tr>
@@ -111,7 +111,7 @@ show_news_for_page("FAQ");
  <br />
   <table width='100%' cellpadding='4'>
   <tr>
-   <td class='faqheader'>&nbsp;<? echo "$site_abbreviation"; ?> Tools</td>
+   <td class='faqheader'>&nbsp;<?php echo "$site_abbreviation"; ?> Tools</td>
   </tr>
   
   <!-- As well as the font, this section should also hold any PP 
@@ -167,7 +167,7 @@ show_news_for_page("FAQ");
   </tr>
   <tr>
     <td>
-  <p><a href="<?=$code_url?>/tools/proofers/for_mentors.php">Mentors' Page</a><br>
+  <p><a href="<?php echo $code_url; ?>/tools/proofers/for_mentors.php">Mentors' Page</a><br>
   <font size="-1">A page detailing currently available mentor projects.</font></p>
 
   </tr>
@@ -199,7 +199,7 @@ show_news_for_page("FAQ");
   <tr>
     <td>
 
-  <p><a href="<?=$code_url?>/tasks.php">Task Center</a><br>
+  <p><a href="<?php echo $code_url; ?>/tasks.php">Task Center</a><br>
   <font size="-1">Here you will find a list of feature requests and bugs. 
   You may add tasks after searching to see that the issue isn't already there.</font></p>
 
@@ -216,7 +216,7 @@ show_news_for_page("FAQ");
   <tr>
   <td>
   <p><a href="http://www.pgdp.net/mailman/listinfo">Mailing Lists for Users</a><br>
-  <font size="-1">Information about the email lists <? echo "$site_abbreviation"; ?> has available for users.</font></p>
+  <font size="-1">Information about the email lists <?php echo "$site_abbreviation"; ?> has available for users.</font></p>
   </td>
   </tr>
  </table>
@@ -228,9 +228,9 @@ show_news_for_page("FAQ");
   </tr>
   <tr>
   <td>
-  <p><a href="<?=$PG_faq_url?>">Project Gutenberg FAQ</a><br>
+  <p><a href="<?php echo $PG_faq_url; ?>">Project Gutenberg FAQ</a><br>
   <font size="-1">The <i>massive</i> FAQ from 
-      <a href="<?=$PG_home_url?>">Project Gutenberg</a>.</font></p>
+      <a href="<?php echo $PG_home_url; ?>">Project Gutenberg</a>.</font></p>
   </td>
   </tr>
  </table>
@@ -244,17 +244,17 @@ show_news_for_page("FAQ");
 <tr><td width='10'>&nbsp;</td>
     <td width='100%' align="center"><font face='verdana, helvetica, sans-serif' size='1'>
         Return to:
-        <a href=".."><? echo "$site_name"; ?> home page</a>,
+        <a href=".."><?php echo "$site_name"; ?> home page</a>,
         &nbsp;&nbsp;&nbsp;
-        <a href="faq_central.php"><? echo "$site_abbreviation"; ?> FAQ Central page</a>,
+        <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
         &nbsp;&nbsp;&nbsp;
-        <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
+        <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
         </font>
 
     </td>
 </tr>
 </table>
 
-<?
+<?php
 theme('','footer');
 ?>

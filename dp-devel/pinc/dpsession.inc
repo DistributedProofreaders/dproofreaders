@@ -1,4 +1,4 @@
-<?
+<?php
 
 // An API of session-handling functions:
 //

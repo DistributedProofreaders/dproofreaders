@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../pinc/";
 include_once($relPath.'site_vars.php');
 include($relPath.'connect.inc');

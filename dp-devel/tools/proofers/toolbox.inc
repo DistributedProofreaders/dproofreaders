@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($relPath.'site_vars.php'); // $wikihiero_dir
 
 $utf8_site = (strcasecmp($charset,"UTF-8") == 0);
@@ -400,7 +400,7 @@ function echo_character_selectors_block()
     global $utf8_site;
 
     ?>
-        <td valign="top" <? if($utf8_site) echo "rowspan='2'"; ?>>
+        <td valign="top" <?php if($utf8_site) echo "rowspan='2'"; ?>>
             <input
                 TYPE="text"
                 VALUE=""
@@ -411,7 +411,7 @@ function echo_character_selectors_block()
                 onclick="this.select()"
             >
         </td>
-    <?
+    <?php
 
     echo "</tr>\n";
     // END OF ROW 1

@@ -1,4 +1,4 @@
-<?
+<?php
     // $Id$
 
 include_once($relPath.'site_vars.php');

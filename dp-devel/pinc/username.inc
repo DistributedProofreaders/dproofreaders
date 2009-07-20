@@ -1,4 +1,4 @@
-<?
+<?php
 
 function check_username( $username )
 // Check whether $username is a reasonable/acceptable User Name (ID).

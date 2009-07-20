@@ -1,4 +1,4 @@
-<?
+<?php
 /* The use of HTML numeric entities in these strings assumes that they will
  * only be used when outputing HTML or XML. Until the assumptions in the
  * current codebase about ISO-Latin-1 being the standard character encoding

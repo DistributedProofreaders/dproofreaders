@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 $db_server   = '<<DB_SERVER>>';
 $db_user     = '<<DB_USER>>';

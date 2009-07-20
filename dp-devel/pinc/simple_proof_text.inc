@@ -1,4 +1,4 @@
-<?
+<?php
 
 // Simple Proofreading Rules text, for inclusion in other files only
 

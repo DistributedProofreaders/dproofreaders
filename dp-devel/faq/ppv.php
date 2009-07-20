@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'site_vars.php');
 include($relPath.'connect.inc');
@@ -140,11 +140,11 @@ Check for the following types of errors, using tools you usually use for PPing:
 <li>HTML&mdash;filenames and folder names not in lowercase&mdash;(for a first project treat this as a Level 1 error)</li>
 <li>HTML&mdash;images not in "images" directory</li>
 <li>HTML&mdash;images not optimized (i.e., inappropriate file size and/or
-    dimensions<? if($site_abbreviation = "DP" || $site_abbreviation = "DPT") { ?>&mdash;see
+    dimensions<?php if($site_abbreviation = "DP" || $site_abbreviation = "DPT") { ?>&mdash;see
     <a href="http://www.pgdp.net/wiki/Guide_to_Image_Processing#Scaling_the_Image_Display_Dimensions">display dimensions</a>
     and
     <a href="http://www.pgdp.net/wiki/Guide_to_Image_Processing#Exporting_to_the_Final_Output_Format"> output format</a> in the wiki)
-    <? } ?>
+    <?php } ?>
     </li>
 </ul>
 
@@ -429,6 +429,6 @@ fit into one of the above categories.
 
 </div>
     
-<?
+<?php
 theme('','footer');
 ?>

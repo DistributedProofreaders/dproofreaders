@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="../pinc/";
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'misc.inc');

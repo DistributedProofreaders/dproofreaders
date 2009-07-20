@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
   // Tool for 'harvesting' existing bios from project comments.
   // They should have been marked as such:
@@ -62,7 +62,7 @@
 ?>
 
 <form name="harvest" method="POST">
-<input type="submit" name="actionBtn" value="<?='Simulate harvest'?>">
+<input type="submit" name="actionBtn" value="<?php echo 'Simulate harvest'; ?>">
 </form>
   
 <?php
@@ -100,8 +100,8 @@
             below that you believe should be addressed, and click the 'Harvest'-button.";
       ?>
       <form name="harvest" method="POST">
-      <input type="submit" name="actionBtn" value="<?='Simulate harvest'?>">
-      <input type="submit" name="actionBtn" value="<?='Harvest'?>">
+      <input type="submit" name="actionBtn" value="<?php echo 'Simulate harvest'; ?>">
+      <input type="submit" name="actionBtn" value="<?php echo 'Harvest'; ?>">
       </form>
       <?php
     }

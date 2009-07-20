@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../../../pinc/";
 include_once($relPath.'slim_header.inc');
 
@@ -44,11 +44,11 @@ $syntax=array("-",":","*","!");
 <table>
 <tr><td rowspan="2">
 <textarea name="hierobox" rows="4" cols="30">
-<? echo $hierobox=stripslashes(@$_POST['hierobox']); ?>
+<?php echo $hierobox=stripslashes(@$_POST['hierobox']); ?>
 </textarea>
 </td><td colspan="2">
 <select onChange="window.parent.hierotable.location='table.php?table='+this.value;">
-<?
+<?php
 echo "<option>".WH_Text("Tables")."</option>\n";
 echo "<option>----</option>\n";
 foreach($tables as $v)
@@ -58,7 +58,7 @@ foreach($tables as $v)
 </td></tr>
 <tr><td>
 <select onChange="hierobox.value+=this.value; this.value=0;">
-<?
+<?php
 echo "<option value=\"0\">".WH_Text("Syntax")."</option>\n";
 echo "<option>----</option>\n";
 foreach($syntax as $v)
@@ -70,7 +70,7 @@ foreach($syntax as $v)
 <input type="button" value="Reset" onClick="hierobox.value='';">
 </td></tr>
 <tr><td colspan="3">
-<?
+<?php
 // Stupid, but it works:
 echo preg_replace(
 	"|".WH_IMG_DIR.WH_IMG_PRE."|",
@@ -81,7 +81,7 @@ echo preg_replace(
 </td></tr>
 </table>
 </form>
-<?
+<?php
 // Based on Wikihiero's WH_Text in its index.php
 
   function WH_Text( $index )

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($relPath.'authors.inc');
 
 // Project comments can contain two kinds of special markup:

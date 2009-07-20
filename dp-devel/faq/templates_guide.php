@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'site_vars.php');
 include($relPath.'connect.inc');
@@ -47,7 +47,7 @@ These can be accessed by pointing to a specific file <br />
 within the comments section of the Project Comments form.<br />
 <br />
 The standard template files currently available are:<br />
-<?
+<?php
 $templates = array(
     'bae1' => "Bureau of American Ethnology",
     'BG1a' => "Beginners Only, round one, upper",
@@ -73,7 +73,7 @@ where <i>file.txt</i> is the name of the template you wish to have included <br>
 in your project comments. You can use as many as you wish.<br />
 <br />
 <b>If you would like to create your own re-usable templates</b> similar to those above<br />
-please email them as a text file to <a href="<? echo $general_help_email_addr; ?>">DP Help</a>.<br />
+please email them as a text file to <a href="<?php echo $general_help_email_addr; ?>">DP Help</a>.<br />
 The filename needs to be four letters in length.
 <br>
   <br />
@@ -104,7 +104,7 @@ into the commment window on your Project Information page.
 <h1>Preview of Templates available for Project Comments</h1>
 <br>
 <br>
-<?
+<?php
 
 foreach ( $templates as $basename => $long_name )
 {
@@ -350,6 +350,6 @@ HALF IN THE SECOND COLUMN.*****
 <br>
 
 
-<?
+<?php
 theme('','footer');
 ?>

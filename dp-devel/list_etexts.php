@@ -53,9 +53,9 @@ if($x == "g" OR $x == "") {
 theme("$type E-Texts", "header");
 ?>
 
-<center><font face="Verdana" size="6" color="<? echo $type; ?>"><b><? echo $status." ".$type; ?> E-Texts</b></font></center>
+<center><font face="Verdana" size="6" color="<?php echo $type; ?>"><b><?php echo $status." ".$type; ?> E-Texts</b></font></center>
 <center>
-<?
+<?php
 $listsuffix = "&amp;sort=$sort&amp;per_page=$per_page";
 if ($type == "Gold") {
     echo "Gold | <a href='list_etexts.php?x=s$listsuffix'>Silver</a> | <a href='list_etexts.php?x=b$listsuffix'>Bronze</a>";
@@ -67,23 +67,23 @@ if ($type == "Gold") {
 ?>
 </center><br>
 
-<center><? echo $info . " " . $boilerplate; ?></center><br>
+<center><?php echo $info . " " . $boilerplate; ?></center><br>
 
-<?
+<?php
 $listurl = "list_etexts.php?x=$x&amp;per_page=$per_page&amp;offset=$offset";
 ?>
 <center>
-<i>Title:</i>          <a href="<? echo $listurl;?>&amp;sort=0">asc</a> or
-                       <a href="<? echo $listurl;?>&amp;sort=1">desc</a> |
-<i>Author:</i>         <a href="<? echo $listurl;?>&amp;sort=2">asc</a> or
-                       <a href="<? echo $listurl;?>&amp;sort=3">desc</a> |
-<i>Submitted Date:</i> <a href="<? echo $listurl;?>&amp;sort=4">asc</a> or
-                       <a href="<? echo $listurl;?>&amp;sort=5">desc</a>
+<i>Title:</i>          <a href="<?php echo $listurl;?>&amp;sort=0">asc</a> or
+                       <a href="<?php echo $listurl;?>&amp;sort=1">desc</a> |
+<i>Author:</i>         <a href="<?php echo $listurl;?>&amp;sort=2">asc</a> or
+                       <a href="<?php echo $listurl;?>&amp;sort=3">desc</a> |
+<i>Submitted Date:</i> <a href="<?php echo $listurl;?>&amp;sort=4">asc</a> or
+                       <a href="<?php echo $listurl;?>&amp;sort=5">desc</a>
 <br>
 </center>
 <hr width="75%" align="center">
 
-<?
+<?php
 $sortlist[0]="ORDER BY nameofwork asc";
 $sortlist[1]="ORDER BY nameofwork desc";
 $sortlist[2]="ORDER BY authorsname asc";

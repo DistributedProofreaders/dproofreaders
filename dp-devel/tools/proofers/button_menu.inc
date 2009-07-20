@@ -1,4 +1,4 @@
-<?
+<?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'prefs_options.inc');
 include_once($relPath.'button_defs.inc');
@@ -18,7 +18,7 @@ HREF="#" accesskey="," onfocus="scrollImage('left')" onclick="scrollImage('left'
 HREF="#" accesskey="." onfocus="scrollImage('right')" onclick="scrollImage('right')"></A><A
 HREF="#" accesskey="'" onfocus="scrollImage('up')" onclick="scrollImage('up')"></A><A
 HREF="#" accesskey="/" onfocus="scrollImage('down')" onclick="scrollImage('down')"></A><select
-name="fntFace" ID="fntFace"  class="dropsmall" title="Change Font Face" onChange="top.chFFace(this.selectedIndex)"><?PHP
+name="fntFace" ID="fntFace"  class="dropsmall" title="Change Font Face" onChange="top.chFFace(this.selectedIndex)"><?php
   $ff=$userP['i_layout']==1? $userP['v_fntf']:$userP['h_fntf'];
 //  $f_s= array('Font Face','Courier','Times','Arial','Lucida','Monospaced','DPCustomMono2');
   $ff_len = count($f_f);
@@ -29,7 +29,7 @@ name="fntFace" ID="fntFace"  class="dropsmall" title="Change Font Face" onChange
   $optP.=">$f_f[$i]</option>";
   echo $optP;}
 ?></select><select
-name="fntSize" ID="fntSize"  class="dropsmall" title="Change Font Size" onChange="top.chFSize(this.selectedIndex)"><?PHP
+name="fntSize" ID="fntSize"  class="dropsmall" title="Change Font Size" onChange="top.chFSize(this.selectedIndex)"><?php
   $fs=$userP['i_layout']==1? $userP['v_fnts']:$userP['h_fnts'];
 //  $f_f= array('Size','8pt','9pt','10pt','11pt','12pt','13pt','14pt','15pt','16pt','18pt','20pt');
   $fs_len = count($f_s);
@@ -41,11 +41,11 @@ name="fntSize" ID="fntSize"  class="dropsmall" title="Change Font Size" onChange
   echo $optP;}
 ?></select>
 <input
-type="text" value="<?PHP
+type="text" value="<?php
   if ($userP['i_layout']==1)
     {echo $userP['v_zoom'];}
   else{echo $userP['h_zoom'];}
-?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="Input Zoom %" onKeyPress="disableEnterKey()"><?
+?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="Input Zoom %" onKeyPress="disableEnterKey()"><?php
 
 echo_button(SET_IMAGE_ZOOM,'a');
 echo "\n";
@@ -55,8 +55,8 @@ echo "\n";
 
 ?>
 <a href="#"
-onclick="top.proofframe.imageframe.document.scanimage.src='<? echo $ppage->url_for_image() ?>'"><?  echo_img(REFRESH_IMAGE,'a'); ?></a>
-<?
+onclick="top.proofframe.imageframe.document.scanimage.src='<?php echo $ppage->url_for_image(); ?>'"><?php echo_img(REFRESH_IMAGE,'a'); ?></a>
+<?php
 
 echo_button(REVERT_TO_ORIGINAL,'a');
 echo "\n";
@@ -71,10 +71,10 @@ echo "\n";
   }
 
 ?>
-<a href="#" onclick="top.showNW()"><? echo_img(SHOW_ALL_TEXT,'a'); ?></a>
+<a href="#" onclick="top.showNW()"><?php echo_img(SHOW_ALL_TEXT,'a'); ?></a>
 <a
-href="<? echo $ppage->url_for_project_comments(); ?>" TARGET="viewcomments"><? echo_img(PROJECT_COMMENTS,'a'); ?></a>
-<?
+href="<?php echo $ppage->url_for_project_comments(); ?>" TARGET="viewcomments"><?php echo_img(PROJECT_COMMENTS,'a'); ?></a>
+<?php
 
 echo_button(SPELL_CHECK,'a');
 /*

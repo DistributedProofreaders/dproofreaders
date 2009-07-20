@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 // Searching for book records in an external catalog
 // via Z39.50 protocol (implemented by yaz library).

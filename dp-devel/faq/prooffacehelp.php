@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'site_vars.php');
 include($relPath.'connect.inc');
@@ -127,7 +127,7 @@ Now you will understand the following explanations of what the buttons do.
 
 <hr>
 
-<?
+<?php
 
 // -----------------------------------------------------------------------------
 
@@ -543,7 +543,7 @@ COLSPAN="2">
 <TR><TD ALIGN="CENTER" COLSPAN="2">
 <P><A NAME="ibtns"> </A> <P><FONT SIZE="+1">Button and Selection Menu</FONT><P></TD></TR>
 
-<?
+<?php
 
 function echo_row( $name, $tooltip, $button_image_base, $accelerator )
 {
@@ -619,7 +619,7 @@ Currently, this is the only method for scrolling the image.<BR>
 </TD></TR>
 </TABLE></DIV></CENTER>
 
-<?
+<?php
 }
 // -----------------------------------------------------------------------------
 ?>
@@ -855,9 +855,9 @@ and then paste the text from the clipboard (using ctrl-v/cmd-v).
     or find an error in it,
     or can make a clarification,
     please post a message in
-    <a href='<? echo $Proofing_Interface_Help_URL; ?>'>this forum topic</a>.
+    <a href='<?php echo $Proofing_Interface_Help_URL; ?>'>this forum topic</a>.
 </p>
 <br>
-<?
+<?php
 theme('','footer');
 ?>

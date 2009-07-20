@@ -1,4 +1,4 @@
-<?PHP
+<?php
   $relPath = '../../pinc/';
   include_once($relPath.'theme.inc');
   include_once("authors.inc");
@@ -171,7 +171,7 @@
 function validate() {
   var form = document.addform;
   if (form.last_name.value == "") {
-    alert("<?=_('Invalid last name.')?>");
+    alert("<?php echo _('Invalid last name.'); ?>");
     form.last_name.focus();
     return false;
   }
@@ -179,13 +179,13 @@ function validate() {
   var born = form.byear.value;
   if (born != "") {
     if (!isInteger(born) || born == "0") {
-      alert("<?=_('Invalid birth year.')?>");
+      alert("<?php echo _('Invalid birth year.'); ?>");
       form.byear.focus();
       return false;
     }
   }
   else if (form.bbc.checked) {
-    alert("<?=_('No birth year entered, but B. C. checked. Inconsecvent.')?>");
+    alert("<?php echo _('No birth year entered, but B. C. checked. Inconsecvent.'); ?>");
     return false;
   }
   if (form.bbc.checked)
@@ -193,13 +193,13 @@ function validate() {
   var dead = form.dyear.value;
   if (dead != "") {
     if (!isInteger(dead) || dead == "0") {
-      alert("<?=_('Invalid death year.')?>");
+      alert("<?php echo _('Invalid death year.'); ?>");
       form.dyear.focus();
       return false;
     }
   }
   else if (form.dbc.checked) {
-    alert("<?=_('No death year entered, but B. C. checked. Inconsecvent.')?>");
+    alert("<?php echo _('No death year entered, but B. C. checked. Inconsecvent.'); ?>");
     return false;
   }
   if (form.dbc.checked)
@@ -214,11 +214,11 @@ function validate() {
   //             unknown month implies unknown day
   // date of death: same check....
   if (!isValidDate(born, bmonth, bday)) {
-    alert("<?=_('Invalid birth-date: Bad mix of unknown/known constraints.')?>");
+    alert("<?php echo _('Invalid birth-date: Bad mix of unknown/known constraints.'); ?>");
     return false;
   }
   if (!isValidDate(dead, dmonth, dday)) {
-    alert("<?=_('Invalid date of death: Bad mix of unknown/known constraints.')?>");
+    alert("<?php echo _('Invalid date of death: Bad mix of unknown/known constraints.'); ?>");
     return false;
   }
 
@@ -231,11 +231,11 @@ function validate() {
       // year of birth AND writes a book.
       // A better solution includes validating the
       // days specified within that year
-      alert("<?=_('Invalid combination of year of birth and year of death.')?>");
+      alert("<?php echo _('Invalid combination of year of birth and year of death.'); ?>");
       return false;
     }
     if (150 < lifeSpan) {
-      alert("<?=_('Invalid length of life.')?>");
+      alert("<?php echo _('Invalid length of life.'); ?>");
       return false;
     }
   }
@@ -296,7 +296,7 @@ function setComments(bd, comments) {
   }
 ?>
 <form name="addform" action="add.php" method="POST" onSubmit="return validate();">
-<?
+<?php
   if (isset($author_id))
     echo "<input type='hidden' name='author_id' value='$author_id'>\n";
 
@@ -308,19 +308,19 @@ function setComments(bd, comments) {
   function echo_date_fields($bd) {
 ?>
 <table>
-<tr><td><?=_('Month')?>:</td><td>
-<?=write_months_list($bd, _var($bd, 'month'))?></td></tr>
-<tr><td><?=_('Day')?>:</td><td>
-<?=write_days_list($bd, _var($bd, 'day'))?></td></tr>
-<tr><td><?=_('Year')?>:</td><td>
-<input type="radio" name="<?=$bd?>yearRadio" value="0"<?=(_var($bd, 'yearRadio')=='0'?' CHECKED':'')?> /><?=_('Unknown')?>
-<br/><input type="radio" name="<?=$bd?>yearRadio" value="entered"<?=(_var($bd, 'yearRadio')=='entered'?' CHECKED':'')?> onClick="this.form.<?=$bd?>year.focus();" /><?=_('As entered')?>:
-<input type="text" name="<?=$bd?>year" size="4" maxlength="4"<?=(_var($bd, 'yearRadio')=='entered'?' VALUE="'.abs(_var($bd, 'year')).'"':'')?> onFocus="this.form.<?=$bd?>yearRadio[1].checked=true;" />
-<input type="checkbox" name="<?=$bd?>bc" value="yes"<?=(_var($bd, 'bc')?' CHECKED':'')?> /><?=_('B. C.')?>
-</td></tr><tr><td><?=_('Comments (in<br />English, please)')?>:</td><td><input type="text" size="20" maxlength="20" name="<?=$bd?>comments" value="<?=htmlspecialchars(_var($bd, 'comments'),ENT_QUOTES)?>" /> 
-<?=_('Handy links:').' ' ?>
-<a href="javascript:setComments('<?=$bd?>', '');" onClick="false">Empty (Unknown)</A> | 
-<a href="javascript:setComments('<?=$bd?>', '(circa)');" onClick="false">(circa)</A>
+<tr><td><?php echo _('Month'); ?>:</td><td>
+<?php echo write_months_list($bd, _var($bd, 'month')); ?></td></tr>
+<tr><td><?php echo _('Day'); ?>:</td><td>
+<?php echo write_days_list($bd, _var($bd, 'day')); ?></td></tr>
+<tr><td><?php echo _('Year'); ?>:</td><td>
+<input type="radio" name="<?php echo $bd; ?>yearRadio" value="0"<?php echo (_var($bd, 'yearRadio')=='0'?' CHECKED':''); ?> /><?php echo _('Unknown'); ?>
+<br/><input type="radio" name="<?php echo $bd; ?>yearRadio" value="entered"<?php echo (_var($bd, 'yearRadio')=='entered'?' CHECKED':''); ?> onClick="this.form.<?php echo $bd; ?>year.focus();" /><?php echo _('As entered'); ?>:
+<input type="text" name="<?php echo $bd; ?>year" size="4" maxlength="4"<?php echo (_var($bd, 'yearRadio')=='entered'?' VALUE="'.abs(_var($bd, 'year')).'"':''); ?> onFocus="this.form.<?php echo $bd; ?>yearRadio[1].checked=true;" />
+<input type="checkbox" name="<?php echo $bd; ?>bc" value="yes"<?php echo (_var($bd, 'bc')?' CHECKED':''); ?> /><?php echo _('B. C.'); ?>
+</td></tr><tr><td><?php echo _('Comments (in<br />English, please)'); ?>:</td><td><input type="text" size="20" maxlength="20" name="<?php echo $bd; ?>comments" value="<?php echo htmlspecialchars(_var($bd, 'comments'),ENT_QUOTES); ?>" /> 
+<?php echo _('Handy links:').' '; ?>
+<a href="javascript:setComments('<?php echo $bd; ?>', '');" onClick="false">Empty (Unknown)</A> | 
+<a href="javascript:setComments('<?php echo $bd; ?>', '(circa)');" onClick="false">(circa)</A>
 <?php
     // 'Still alive' only if death-field.
     if ($bd == 'd')
@@ -347,30 +347,30 @@ echo '<p>' .
 
 ?>
 <center><table cellspacing='0' cellpadding='5' border='1' width='90%' bordercolor='#000000' style='border-collapse:collapse'>
-<tr><td bgcolor='<?=$theme['color_headerbar_bg']?>' colspan='2'><center><b><font color='<?=$theme['color_headerbar_font']?>'>
-<?=(isset($_GET['author_id']))
+<tr><td bgcolor='<?php echo $theme['color_headerbar_bg']; ?>' colspan='2'><center><b><font color='<?php echo $theme['color_headerbar_font']; ?>'>
+<?php echo (isset($_GET['author_id']))
      ?
        _('Edit Author')
      :
-       _('Add Author')?></font></b></center></td></tr>
-<tr><th bgcolor='#CCCCCC'><?=_('Last name')?></th><td><input type="text" size="40" name="last_name" VALUE="<?=htmlspecialchars($last_name,ENT_QUOTES)?>"/></td></tr>
-<tr><th bgcolor='#CCCCCC'><?=_('Other name(s)')?></th><td><input type="text" size="40" name="other_names" VALUE="<?=htmlspecialchars($other_names,ENT_QUOTES)?>"/></td></tr>
-<tr><th bgcolor='#CCCCCC'><?=_('Born')?></th><td>
-<?
+       _('Add Author'); ?></font></b></center></td></tr>
+<tr><th bgcolor='#CCCCCC'><?php echo _('Last name'); ?></th><td><input type="text" size="40" name="last_name" VALUE="<?php echo htmlspecialchars($last_name,ENT_QUOTES); ?>"/></td></tr>
+<tr><th bgcolor='#CCCCCC'><?php echo _('Other name(s)'); ?></th><td><input type="text" size="40" name="other_names" VALUE="<?php echo htmlspecialchars($other_names,ENT_QUOTES); ?>"/></td></tr>
+<tr><th bgcolor='#CCCCCC'><?php echo _('Born'); ?></th><td>
+<?php
   echo_date_fields('b');
 ?>
 </td></tr>
-<tr><th bgcolor='#CCCCCC'><?=_('Deceased')?></th><td>
-<?
+<tr><th bgcolor='#CCCCCC'><?php echo _('Deceased'); ?></th><td>
+<?php
   echo_date_fields('d');
 ?>
 </td></tr>
 <tr><td colspan="2" bgcolor='#CCCCCC' align="center">
-<input type="submit" name="Preview" value="<?=_('Preview')?>" />
-<input type="submit" name="SaveAndExit" value="<?=_('Save and Exit')?>" />
-<input type="submit" name="SaveAndBio" value="<?=_('Save and add Biography')?>" />
-<input type="submit" name="SaveAndNew" value="<?=_('Save and add Another')?>" />
-<input type="button" value="<?=_('Exit without saving')?>" onClick="location='<?=$exit_to?>';"/></td>
+<input type="submit" name="Preview" value="<?php echo _('Preview'); ?>" />
+<input type="submit" name="SaveAndExit" value="<?php echo _('Save and Exit'); ?>" />
+<input type="submit" name="SaveAndBio" value="<?php echo _('Save and add Biography'); ?>" />
+<input type="submit" name="SaveAndNew" value="<?php echo _('Save and add Another'); ?>" />
+<input type="button" value="<?php echo _('Exit without saving'); ?>" onClick="location='<?php echo $exit_to; ?>';"/></td>
 </td></tr>
 </table>
 </center>

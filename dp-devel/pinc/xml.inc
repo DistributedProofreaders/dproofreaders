@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // This file holds XML-related functions
 
 function xmlencode($data) {

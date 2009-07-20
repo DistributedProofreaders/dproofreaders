@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include_once($relPath.'site_vars.php');
 include_once($relPath.'theme.inc');
@@ -282,6 +282,6 @@ them are actually called, and we do plan to solve the technical difficulties onc
 
 <p>
 </div>
-<?
+<?php
 theme('','footer');
 ?>

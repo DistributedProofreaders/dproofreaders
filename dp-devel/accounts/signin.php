@@ -1,4 +1,4 @@
-<?PHP
+<?php
 $relPath="./../pinc/";
 include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');

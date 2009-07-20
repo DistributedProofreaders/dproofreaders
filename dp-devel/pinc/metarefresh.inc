@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($relPath.'doctype.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'gettext_setup.inc');

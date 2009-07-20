@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 // Declarations for all stages.
 // (Construction of all Stage objects.)

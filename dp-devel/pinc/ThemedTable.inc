@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 // A "themed table" is an HTML table that uses various settings
 // from the current $theme for some of its presentational aspects.

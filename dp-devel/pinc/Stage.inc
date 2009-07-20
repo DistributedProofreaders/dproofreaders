@@ -1,4 +1,4 @@
-<?
+<?php
 // This file defines the class 'Stage', which (depending on your point of view)
 // represents:
 // -- a stage in the life of a project, or

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'theme.inc');
 include_once($relPath.'stages.inc');
@@ -393,12 +393,12 @@ function echo_page_table(
     {
 ?>
 <script language="JavaScript" type="text/javascript"><!--
-avail_pages=new Array(<? echo substr($avail_pages,0,-1); ?>);
+avail_pages=new Array(<?php echo substr($avail_pages,0,-1); ?>);
 
 function changeSelection(sel) {
     switch(sel) {
         case "all":
-            for(i=1;i<=<? echo $num_rows; ?>;i++)
+            for(i=1;i<=<?php echo $num_rows; ?>;i++)
                 document.pagesform.elements[i].checked=true;
             break;
         case "unproofed":
@@ -407,11 +407,11 @@ function changeSelection(sel) {
                 document.pagesform.elements[avail_pages[i]].checked=true;
             break;
         case "invert":
-            for(i=1;i<=<? echo $num_rows; ?>;i++)
+            for(i=1;i<=<?php echo $num_rows; ?>;i++)
                 document.pagesform.elements[i].checked=!document.pagesform.elements[i].checked;
             break;
         case "clear":
-            for(i=1;i<=<? echo $num_rows; ?>;i++)
+            for(i=1;i<=<?php echo $num_rows; ?>;i++)
                 document.pagesform.elements[i].checked=false;
             break;
         default:
@@ -419,7 +419,7 @@ function changeSelection(sel) {
     }
 }
 // --></script>
-<?
+<?php
         echo "<br>\n";
         echo "<select name='select' onChange='changeSelection(this.options[this.selectedIndex].value)'>\n";
         echo "<option value='0'>"._("Select...")."</option>";
@@ -646,7 +646,7 @@ function echo_pagetable_stylesheet() {
     .done_current { background-color: #9F6; }
     .done_previous { background-color: #F36; }
     </style>
-<?
+<?php
 }
 
 // vim: sw=4 ts=4 expandtab

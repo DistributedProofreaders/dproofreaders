@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 // Wrappers around some phpBB2 functionality.
 

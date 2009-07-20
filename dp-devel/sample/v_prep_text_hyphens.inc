@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
 # List of hypenated words that should NOT be de-hyphenated when at
 # the end of a line. (common compound words and hyphenated prefixes, first half)

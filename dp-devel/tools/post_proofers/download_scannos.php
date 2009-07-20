@@ -1,4 +1,4 @@
-<?
+<?php
 // Convert Big Bill's list of stealth scannos into .rc files for PPing tools on-the-fly
 // Bill's lists are in CVS in the format scanno\tscanno\r\n (two words per line, tab separated)
 // Guiguts' .rc files should be in the format 'scanno' => 'scanno',\n

@@ -380,7 +380,7 @@
   }
 // --></SCRIPT>
 
-<?
+<?php
 
   $sortUtility = new SortUtility('authors_manage');
 
@@ -392,9 +392,9 @@
 
 ?>
 
-<a name="results"></a><h2 align="center"><?=get_search_title()?></h2>
+<a name="results"></a><h2 align="center"><?php echo get_search_title(); ?></h2>
 
-<form name="adminform" action="?<?=$query.$sortby?>" method="POST" onSubmit="return evaluateForm(this);">
+<form name="adminform" action="?<?php echo $query.$sortby; ?>" method="POST" onSubmit="return evaluateForm(this);">
 
 <?php
 
@@ -428,7 +428,7 @@ echo $links_and_buttons;
 
 <table align="center" border="1">
 <tr>
-<?
+<?php
   // print headers
   // links to allow sorting (asc/desc)
 

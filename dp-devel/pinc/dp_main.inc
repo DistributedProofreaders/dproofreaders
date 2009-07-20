@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
 include_once($relPath.'dpsession.inc');

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // Display lists of image sources, or lists of projects that used image sources
 // List contents vary with user permissions
 

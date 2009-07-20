@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'site_vars.php');
 include($relPath.'faq.inc');
@@ -68,7 +68,7 @@ expired). In general this tends to mean books that were written before
 1923. There <i>are</i> exceptions to the 1923 rule, but a lot of times
 it is troublesome to try to prove them. There is a good detailed
 discussion of what is and isn't eligible at the Project Gutenberg site
-on <a href="<? echo $PG_copyright_howto_url; ?>">this</a> page.&nbsp;
+on <a href="<?php echo $PG_copyright_howto_url; ?>">this</a> page.&nbsp;
 For a discussion of copyright terms in other countries, check out <a
  href="http://digital.library.upenn.edu/books/okbooks.html">this</a>
 page.<br>
@@ -81,10 +81,10 @@ site exists as a feeder site to Project Gutenberg, and it makes little
 sense to spend all the time and effort on a text that is already there.
 A different <span style="font-style: italic;">version</span> of an
 existing book is OK though. You can check the <a
- href="<? echo $PG_catalog_url; ?>">Project Gutenberg online catalog</a> to
+ href="<?php echo $PG_catalog_url; ?>">Project Gutenberg online catalog</a> to
 see if a book is already on there.</p>
 <p>There is also a site called <a
- href="<? echo $PG_in_progress_url; ?>">David's
+ href="<?php echo $PG_in_progress_url; ?>">David's
 In-Progress List</a> listing all of the books that people are presently
 working on. Again, this is helpful to avoid duplication of effort.
 If you find your book listed but the clearance date is over a few years old
@@ -115,7 +115,7 @@ for both sites, but permission to be a PM must be obtained separately
 from the administrators of each site.
 If you have a query about whether a text in a non-English language is appropriate for DP,
 please post a question to the
-<a href="<? echo $content_providing_forum_url; ?>">Providing Content Forum</a>.
+<a href="<?php echo $content_providing_forum_url; ?>">Providing Content Forum</a>.
 </p>
 
 <p> It is helpful, though not strictly necessary that you understand the
@@ -164,7 +164,7 @@ plus though.<br>
 </p>
 <p>There is a large list of possible scan source sites in the Content
 Providers Forum under the topic <a class="maintitle"
- href="<? echo $Online_sources_URL; ?>">"Online sources of scanned book images"</a></p>
+ href="<?php echo $Online_sources_URL; ?>">"Online sources of scanned book images"</a></p>
 Please follow the individual site guidelines regarding acceptable use
 and protocol. We don't want to be bad neighbors.<br>
 If you <i>do</i> go this route, it is considered good form to credit the
@@ -336,7 +336,7 @@ converted to .pngs for later use.<br>
 <p>
 For more help with ABBYY FineReader,
 please see our
-<a href="<? echo $FineReader_tips_URL; ?>">FineReader Tips and Tricks forum topic</a>.
+<a href="<?php echo $FineReader_tips_URL; ?>">FineReader Tips and Tricks forum topic</a>.
 </p>
 
 <div><br>
@@ -351,7 +351,7 @@ at the same place though the path you take may be different.<br>
 </p>
 <p>If you don't have an OCR package,
 you can take advantage of the DP
-<a href="<? echo $OCR_Pool_URL; ?>">OCR Pool</a>.
+<a href="<?php echo $OCR_Pool_URL; ?>">OCR Pool</a>.
 Other DP volunteers who do have OCR packages
 are more than happy to OCR images on your behalf.
 </p>
@@ -569,7 +569,7 @@ automate a lot of the upload.<br>
 <p><big><a name="upload"><b>OK, I'm finished, how do I upload the
 project?</b></a></big></p>
 <p>If this is your first time contributing a project and/or you are not a
- project manager,&nbsp; send an email to <? echo $clearance_verifier_contact; ?>, that includes
+ project manager,&nbsp; send an email to <?php echo $clearance_verifier_contact; ?>, that includes
 the author, title, etc and, ideally, the clearance line and any comments
 you may want included on the project page. &nbsp;Make sure you include
 your name and a contact email address (if different from the sending
@@ -582,7 +582,7 @@ You can also upload a single .zip file of all the .png &amp; .txt files.
 section, or,&nbsp; the guiprep toolkit has an FTP client built in that
 will automate some of the process.)
 Alternately, if you anticipate having several
-projects, you may want to send a message to <? echo $PM_rights_giver_contact; ?> and ask
+projects, you may want to send a message to <?php echo $PM_rights_giver_contact; ?> and ask
 to be made a project manager. This will open up access to some of the
 project creation and control features. The same general procedures are
 used once you are a project manager, you just need to create your own
@@ -616,7 +616,7 @@ software:</span><br>
 software.&nbsp;&nbsp;&nbsp; Very nice. :-)&nbsp;&nbsp;&nbsp;Quite
 expensive. :-(&nbsp;&nbsp;&nbsp;Free Trial. :-)
 &nbsp;&nbsp;&nbsp;
-See our <a href="<? echo $FineReader_tips_URL; ?>">FineReader Tips and Tricks forum topic</a>.
+See our <a href="<?php echo $FineReader_tips_URL; ?>">FineReader Tips and Tricks forum topic</a>.
 </p>
 <blockquote> <font size="-1">5.0 Pro is <i>much</i> cheaper than 6.0
 and is still available (though not directly from ABBYY software) and
@@ -635,7 +635,7 @@ processing tools:</span><br>
 specifically geared toward pre-processing text
 files for use by Distributed Proofreaders. Automatic markup extraction,
 dehyphenization, filtering, renaming &amp; more.
-See also <a href="<? echo $Guiprep_topic_URL; ?>">this forum topic</a>.
+See also <a href="<?php echo $Guiprep_topic_URL; ?>">this forum topic</a>.
 Guiprep requires perl.
 Please see the guiprep manual for more infomation
 about obtaining a perl interpreter for your system.
@@ -727,6 +727,6 @@ use FTP client. Free for-non commercial use.<br>
 
 <hr style="width: 100%; height: 2px;"><br>
 
-<?
+<?php
 theme('','footer');
 ?>

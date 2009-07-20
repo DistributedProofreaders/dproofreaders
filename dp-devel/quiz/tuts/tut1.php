@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../../pinc/';
 include_once($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
@@ -66,6 +66,6 @@ easy texts the rate of things to correct is usually much lower than that.
     <tt>&lt;b&gt;</tt> inserted before the bold text and <tt>&lt;/b&gt;</tt>after it.
 </p>
 <a href="../generic/main.php?type=step1">continue</a>
-<?
+<?php
 theme("", "footer");
 ?>

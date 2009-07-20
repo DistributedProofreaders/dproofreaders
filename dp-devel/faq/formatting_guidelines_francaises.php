@@ -1,4 +1,4 @@
-<?
+<?php
 
 // Translated by user 'Pierre' at pgdp.net, 2006-02-08
 // Updated by user lvl, 2009-03-20
@@ -229,13 +229,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>S'il manque des r&eacute;ponses dans ce document, ou que vous consid&eacute;rez que certaines
    choses devraient &ecirc;tre trait&eacute;es de mani&egrave;re diff&eacute;rente, ou ou que l'explication est
    trop vague, merci de nous le faire savoir.
-<? if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    Si vous rencontrez une expression inconnue dans ces directives, voyez le
    <a href="http://www.pgdp.net/wiki/French/Jargon">guide du Jargon sur le wiki</a>.
-<? } ?>
+<?php } ?>
    Ce document est en &eacute;volution permanente. Aidez-nous &agrave; l'am&eacute;liorer en nous
    faisant part de vos suggestions sur le forum Documentation dans
-   <a href="<? echo $Guideline_discussion_URL; ?>">ce fil de discussions</a>.
+   <a href="<?php echo $Guideline_discussion_URL; ?>">ce fil de discussions</a>.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Retour au d&eacute;but</a></p>
@@ -271,7 +271,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>Sur la page du projet, le lien &ldquo;Images, Pages Proofread, &amp; Differences&rdquo;
    permet de voir comment les autres relecteurs ont chang&eacute; le texte.
-   <a href="<? echo $Using_project_details_URL ?>">Ce fil de discussion</a>
+   <a href="<?php echo $Using_project_details_URL; ?>">Ce fil de discussion</a>
    discute les diff&eacute;rentes fa&ccedil;on d'utiliser cette information.
 </p>
 <!-- END RR -->
@@ -1456,7 +1456,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
    du tableau. Regardez les <a href="#comments">commentaires de projet</a>, et le forum du projet:
    d'autres formateurs se sont peut-&ecirc;tre mis d'accord sur un format sp&eacute;cifique.
    Vous trouverez peut-&ecirc;tre des mod&egrave;les utiles
-   dans la <a href="<? echo $Gallery_of_Table_Layouts_URL; ?>">Galerie de tableaux</a> sur
+   dans la <a href="<?php echo $Gallery_of_Table_Layouts_URL; ?>">Galerie de tableaux</a> sur
    le forum.
 </p>
 <p>Les <b>notes de bas de page</b> dans les tableaux conservent l'emplacement
@@ -2478,16 +2478,16 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Retour vers:
-      <a href=".."><? echo "$site_name"; ?> home page</a>,
+      <a href=".."><?php echo "$site_name"; ?> home page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><? echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
+      <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
       </font>
     </td>
   </tr>
 </table>
 
-<?
+<?php
 theme('','footer');
 ?>

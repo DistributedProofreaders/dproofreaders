@@ -1,4 +1,4 @@
-<?
+<?php
 $mtime = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
 include_once($relPath.'misc.inc');
@@ -496,7 +496,7 @@ function maybe_show_language_selector()
                 top.document.langform.submit();
             }
         // --></script>
-        <?
+        <?php
 
         echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n<input type=submit value='"._("Set language:")."'>\n<select name=lang onChange='submitLang(this)'>\n";
         foreach($instl as $v)

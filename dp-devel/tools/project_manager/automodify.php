@@ -1,4 +1,4 @@
-<?
+<?php
 // This script is actually 4 scripts in one file:
 //   - Cleanup Files: Removes duplicates and checks in missing pages after 3 hours
 //   - Promote Level: If a project is ready to be promoted, it sends it to round 2

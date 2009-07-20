@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 // This file implements the "Launch in New Window" preference.
 // This should be the only code that uses $userP['i_newwin']

@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
@@ -47,14 +47,14 @@ echo "</ul>";
 ?>
 <table class='wordlisttable'>
 <tr>
-    <td class='label'><? echo _("Page"); ?></td>
-    <td class='label'><? echo _("State"); ?></td>
-<?
+    <td class='label'><?php echo _("Page"); ?></td>
+    <td class='label'><?php echo _("State"); ?></td>
+<?php
     foreach($Round_for_round_id_ as $round)
         echo "<td class='label'>$round->id</td>";
 ?>
 </tr>
-<?
+<?php
 
 // identifying pages that were proofed pre-WordCheck requires
 // $t_wordcheck_start being defined in site_vars.php
@@ -138,7 +138,7 @@ mysql_free_result($res);
 
 ?>
 </table>
-<?
+<?php
 
 theme('',"footer");
 
@@ -167,7 +167,7 @@ function echo_stylesheet() {
     .noWC { background-color: #ffb321; font-weight: bold; }
     .WC { background-color: #97fc9e; }
     </style>
-<?
+<?php
 }
 
 // vim: sw=4 ts=4 expandtab

@@ -1,4 +1,4 @@
-<?
+<?php
 
 // Translated by user 'rfarinha' at pgdp.net, 3/7/2009
 
@@ -233,13 +233,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>Se faltar algum item, se achar que deveria haver uma outra metodologia,
    ou se achar alguma explica&ccedil;&atilde;o vaga, por favor diga-nos.
-<? if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    Se se deparar com um termo desconhecido nestas regras, consulte o
    <a href="http://www.pgdp.net/wiki/DP_Jargon">guia de jarg&atilde;o wiki</a>.
-<? } ?>
+<?php } ?>
    Este documento &eacute; um trabalho em curso. Ajude-nos, dando-nos
    sugest&otilde;es no F&oacute;rum da Documenta&ccedil;&atilde;o
-   <a href="<? echo $Guideline_discussion_URL; ?>">nesta liga&ccedil;&atilde;o</a>.
+   <a href="<?php echo $Guideline_discussion_URL; ?>">nesta liga&ccedil;&atilde;o</a>.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Voltar ao in&iacute;cio</a></p>
@@ -279,7 +279,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Na P&aacute;gina do Projecto, a liga&ccedil;&atilde;o 'Images, Pages Proofread,
    &amp; Differences' permite ver
    como &eacute; que outros volunt&aacute;rios fizeram altera&ccedil;&otilde;es.
-   <a href="<? echo $Using_project_details_URL ?>">Neste F&oacute;rum</a>
+   <a href="<?php echo $Using_project_details_URL; ?>">Neste F&oacute;rum</a>
    debatem-se diferentes formas de usar este tipo de informa&ccedil;&atilde;o.
 </p>
 <!-- END RR -->
@@ -1495,7 +1495,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
    original da tabela da p&aacute;gina impressa. Consulte os <a href="#comments">Coment&aacute;rios
    do Projecto</a> e o seu f&oacute;rum, porque pode ter sido definido um determinado
    formato. Se n&atilde;o existir a&iacute; nenhuma refer&ecirc;ncia, pode
-   encontrar algumas dicas &uacute;teis na <a href="<? echo $Gallery_of_Table_Layouts_URL; ?>">Galeria
+   encontrar algumas dicas &uacute;teis na <a href="<?php echo $Gallery_of_Table_Layouts_URL; ?>">Galeria
    de Formata&ccedil;&atilde;o de Tabelas</a>.
 </p>
 <p>As <b>notas de rodap&eacute;</b> de tabelas devem estar no fim da tabela.
@@ -2552,16 +2552,16 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Voltar para:
-      <a href="..">P&aacute;gina Principal do <? echo "$site_name"; ?></a>,
+      <a href="..">P&aacute;gina Principal do <?php echo "$site_name"; ?></a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><? echo "$site_abbreviation"; ?> P&aacute;gina do Centro de FAQ's</a>,
+      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> P&aacute;gina do Centro de FAQ's</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="<? echo $PG_home_url; ?>">P&aacute;gina Principal do Projecto Gutenberg</a>.
+      <a href="<?php echo $PG_home_url; ?>">P&aacute;gina Principal do Projecto Gutenberg</a>.
       </font>
     </td>
   </tr>
 </table>
 
-<?
+<?php
 theme('','footer');
 ?>

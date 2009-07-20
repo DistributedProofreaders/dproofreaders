@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // A place for shared functions dealing with release queues.
 
 $today_MMDD    = strftime( '%m%d', strtotime('today') );

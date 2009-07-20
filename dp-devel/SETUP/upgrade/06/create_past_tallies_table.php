@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 // One-time script to create 'best_tally_rank' & 'past_tallies' tables
 // and populate them from 'member_stats' and 'user_teams_stats'.

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($relPath.'stages.inc');
 
 $NEWS_PAGES = array(

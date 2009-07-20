@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // Variables (constants?) whose values are specific
 // to the local installation of the DP code.
 

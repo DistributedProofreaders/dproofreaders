@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // Invoking this file via include() causes the "image & text & buttons" parts
 // of the proofing interface (i.e., everything but the "AEIOU+" panel)
 // to be sent to the user.

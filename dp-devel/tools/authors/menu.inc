@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($relPath.'user_is.inc');
 
 function echo_menu() {

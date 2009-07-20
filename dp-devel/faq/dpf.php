@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../pinc/";
 include_once($relPath.'theme.inc');
 
@@ -165,7 +165,7 @@ dpfoundation@pgdp.net
 
 <div style="height:4em;"><br /></div>
 
-<?
+<?php
 theme("","footer");
 
 // ---------------------------------------------------------

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // The following variables must be defined by the file that includes this one:
 // $relPath
 // $userP

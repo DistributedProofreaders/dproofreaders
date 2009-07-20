@@ -1,4 +1,4 @@
-<?
+<?php
 // This include file holds functions needed for various language issues.
 // It is meant to be designed as if it is a class - at first I wanted to make
 // a class, but as it needs no instantiation and PHP does not support static 

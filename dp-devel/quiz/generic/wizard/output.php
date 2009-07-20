@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../../../pinc/';
 include_once($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
@@ -26,7 +26,7 @@ function sdbsn($x)
 
 function make_output()
 {
-  $out  = '<?PHP' . "\n\n";
+  $out  = '<?php' . "\n\n";
   $out .= 'function quizsolved()';
   $out .= "{\n";
   $out .= "}\n\n";
@@ -198,7 +198,7 @@ or <a href="./checks.php">error tests</a> if you missed any.</p>
 <p>
 <table bgcolor="#AAAAAA"><tr><td>
 <pre>
-<? echo make_output(); ?>
+<?php echo make_output(); ?>
 </pre>
 </td></tr></table>
 </p>
@@ -206,7 +206,7 @@ or <a href="./checks.php">error tests</a> if you missed any.</p>
 
 <a href="./start.php">Clear all data and restart quiz wizard.</a>
 
-<?
+<?php
 $_SESSION['quiz_data']['lastpage'] = 'output';
 
 theme("", "footer");

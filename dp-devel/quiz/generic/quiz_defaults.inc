@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 $default_hintlink         = 'Desperate? Can\'t find it?';
 $default_challenge        = 'Try to correct that or press \'restart\' to restart.';

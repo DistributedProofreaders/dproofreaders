@@ -1,4 +1,4 @@
-<?PHP
+<?php
 $relPath="./../../pinc/";
 include($relPath.'doctype.inc');
 include($relPath.'pg.inc');
@@ -43,7 +43,7 @@ p.info {
 
 <img name="greekimg" 
 
-<?
+<?php
 // Use the form x/y coords for image button to see which one was pressed.
 // Later, we can add other glyphsets and image maps, for alternate glyphs.
 
@@ -59,9 +59,9 @@ else
 
 <tr>
 <td valign="top">
-<form name="greek" action="<? echo $_SERVER["PHP_SELF"] ?>">
+<form name="greek" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
 <input type="text" name="textbox" length="65" size="65"
-<? if ($greek_contents != "") { echo "value=\"$greek_contents\""; } ?>
+<?php if ($greek_contents != "") { echo "value=\"$greek_contents\""; } ?>
 >
 </td>
 <td align="right" valign="top">
@@ -98,7 +98,7 @@ begins with 'r'. For those, put 'h' <emp>after</emp> the 'r'.
 <tr>
 <td colspan="3">
 Please read the Project Gutenberg 
-<a href="<? echo $PG_greek_howto_url; ?>" target="_new">
+<a href="<?php echo $PG_greek_howto_url; ?>" target="_new">
 Greek HOWTO</a> for more information.
 <br>
 <a href="#" onclick="window.close()"><b>Close</b></a>

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 include_once($relPath.'dpsession.inc');
 include_once($relPath.'project_states.inc');

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 $relPath="./../../pinc/";
 include_once($relPath.'stages.inc');
 include_once($relPath.'dp_main.inc');

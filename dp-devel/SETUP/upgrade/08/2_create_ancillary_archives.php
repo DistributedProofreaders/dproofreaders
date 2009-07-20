@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 // Create page_events and wordcheck_events tables in the archive db,
 // and populate them (well, really just page_events at this point)

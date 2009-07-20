@@ -552,18 +552,18 @@ you want to change something, you should start with an
 (up-to-date) copy of the .php file on the server, and
 not a 'Save' of the document that reaches your browser.
 
-"(2) If you don't understand the stuff between the <? ?>
+"(2) If you don't understand the stuff between the <?php ?>
 marks, that's okay, just leave it alone. (One problem
 here is that if you view a .php file in an HTML
 browser, links like
-    <a href="<? echo $projects_forum_url ?>">foo</a>
+    <a href="<?php echo $projects_forum_url; ?>">foo</a>
 aren't going to work.) If you add something (usually a
-URL) that would be better expressed as a <??>, a more
+URL) that would be better expressed as a <?php ?>, a more
 PHP-knowledgeable person can take care of rephrasing
 it."
 
 
-<a href="<? echo $projects_forum_url ?>">  
+<a href="<?php echo $projects_forum_url; ?>">  
 is what we use for the project forums URL, instead
 of something like <a href="http://www.pgdp.net/phpBB2/viewforum.php?f=2">.
 This anchor will never need changing, even if the site 
@@ -586,7 +586,7 @@ them if necessary before committing the file
 to CVS (a necessary prelude to rolling it out
 on site). When you are making changes or 
 creating later versions of the FAQ, though,
-please do not change any of the <? echo $blah ?>
+please do not change any of the <?php echo $blah; ?>
 style links back to the http://www.pgdp.net/phpbb2/ 
 style, as I will then only have to change them 
 back again to php style myself before the FAQ
@@ -606,7 +606,7 @@ is allow all of them to appear with the
 standard site header. This is done by starting
 the FAQ file with a snippet of PHP code like:
 
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'site_vars.php');
 include($relPath.'connect.inc');
@@ -694,7 +694,7 @@ slightly different version, with different colours. PHP
 produces customised HTML code on the fly, which is why
 we can start our FAQs with
 
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'site_vars.php');
 include($relPath.'connect.inc');

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($relPath.'site_vars.php');
 
 function page_header( $img_base, $title )

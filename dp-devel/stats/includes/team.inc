@@ -1,4 +1,4 @@
-<?
+<?php
 //A file full of functions used in team stats
 
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*

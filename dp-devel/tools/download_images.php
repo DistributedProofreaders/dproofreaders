@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 // Download a generated-on-demand zip of the
 // image files in a given project directory.

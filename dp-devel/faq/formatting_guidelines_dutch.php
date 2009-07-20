@@ -1,4 +1,4 @@
-<?
+<?php
 
 // Translated by PGDP Team Netherlands; file received from user Clog 17 Feb 2009
 
@@ -222,13 +222,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>Als er iets ontbreekt, of als je denkt dat iets op een andere manier behandeld zou moeten worden,
    of als iets vaag is, laat het ons alsjeblieft weten.
-<? if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    Wanneer je in deze richtlijnen een onbekende term tegenkomt, dan is deze (of de engelse vertaling hiervan)
    te vinden in <a href="http://www.pgdp.net/wiki/DP_Jargon">wiki jargon guide</a> (Engels).
-<? } ?>
+<?php } ?>
    Dit document is in ontwikkeling. Help ons alsjeblieft bij de ontwikkeling van de richtlijnen, door
    veranderingen die je zou willen voorstellen, te <i>posten</i> in
-   <a href="<? echo $Guideline_discussion_URL; ?>">deze discussie</a> in het Documentation Forum.
+   <a href="<?php echo $Guideline_discussion_URL; ?>">deze discussie</a> in het Documentation Forum.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Terug naar boven</a></p>
@@ -262,7 +262,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>Op de Project Pagina staat een link 'Images, Pages Proofread, &amp; Differences'.
    Daar kun je zien hoe andere vrijwilligers veranderingen hebben aangebracht.
-   <a href="<? echo $Using_project_details_URL ?>">Deze Forumdiscussie</a>
+   <a href="<?php echo $Using_project_details_URL; ?>">Deze Forumdiscussie</a>
    bespreekt verschillende manieren om deze informatie te gebruiken.
 </p>
 <!-- END RR -->
@@ -1396,7 +1396,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
    tabel in een e-boek willen cre&euml;ren. Soms betekent dit, dat we het originele tabel-formaat zoals het
    gedrukt is, moeten opofferen. Lees de <a href="#comments">Project Comments</a> en de Project Discussie;
    andere vrijwilligers kunnen al besloten hebben tot een specifiek formaat. Als je daar niets kan vinden,
-   kun je misschien meer vinden in de Engelse Forumdiscussie <a href="<? echo $Gallery_of_Table_Layouts_URL; ?>">Gallery of Table Layouts</a>.
+   kun je misschien meer vinden in de Engelse Forumdiscussie <a href="<?php echo $Gallery_of_Table_Layouts_URL; ?>">Gallery of Table Layouts</a>.
 </p>
 <p><b>Voetnoten</b> in tabellen moeten blijven waar ze in het origineel staan.
    Zie <a href="#footnotes">Voetnoten</a> voor details.
@@ -2439,16 +2439,16 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Terug naar:
-      <a href=".."><? echo "$site_name"; ?> home page</a>,
+      <a href=".."><?php echo "$site_name"; ?> home page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><? echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
+      <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
       </font>
     </td>
   </tr>
 </table>
 
-<?
+<?php
 theme('','footer');
 ?>

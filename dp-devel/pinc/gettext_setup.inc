@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // Localization setup
 include_once('languages.inc');
 include_once($relPath.'site_vars.php'); // $charset $dyn_locales_dir $system_locales_dir

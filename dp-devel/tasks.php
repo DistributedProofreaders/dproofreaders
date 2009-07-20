@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='pinc/';
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
@@ -16,7 +16,7 @@ function showSpan(id) {
 function hideSpan(id) {
     document.getElementById(id).style.display="none";
 }
-// --></script><?
+// --></script><?php
 
 $tasks_array = array(1 => "Bug Report",
     2 => "Feature Request",

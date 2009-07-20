@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include_once($relPath.'site_vars.php');
 include_once($relPath.'faq.inc');
@@ -77,7 +77,7 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
    are shown on that round's page.
 </p>
 
-<p>The <a href="<?=$Workflow_Change_Announcement_URL?>">Workflow Change
+<p>The <a href="<?php echo $Workflow_Change_Announcement_URL; ?>">Workflow Change
    Announcement Thread</a> from 2005 contains more details of the changes.
 </p>
 
@@ -120,10 +120,10 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 </p>
 
 <p>Please note that the above is by no means a comprehensive list. The P rounds 
-   have a revised set of <a href="<?=$code_url?>/faq/proofreading_guidelines.php">Proofreading
+   have a revised set of <a href="<?php echo $code_url; ?>/faq/proofreading_guidelines.php">Proofreading
    Guidelines</a> to reflect the new responsibilities for this round and everyone is
    enthusiastically encouraged to check these Guidelines. There is also a new
-   <a href="<?=$code_url?>/quiz/start.php?show_only=PQ">Proofreading Quiz</a>.
+   <a href="<?php echo $code_url; ?>/quiz/start.php?show_only=PQ">Proofreading Quiz</a>.
 </p>
 
 <p>P1 proofreaders should run WordCheck on their pages.</p>
@@ -154,10 +154,10 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
    text on the page as required: indenting poetry, aligning tables, etc. Formatters are not 
    responsible for finding and fixing scannos or doing a letter-by-letter comparison 
    of the text, although they are encouraged to fix anything that catches their eye. 
-   The F rounds use the <a href="<?=$code_url?>/faq/document.php">Formatting Guidelines</a>,
+   The F rounds use the <a href="<?php echo $code_url; ?>/faq/document.php">Formatting Guidelines</a>,
    which are similar to the previous guidelines, with a few
    modifications such as the addition of small caps notation. There is a new 
-   <a href="<?=$code_url?>/quiz/start.php?show_only=FQ">Formatting Quiz</a>.
+   <a href="<?php echo $code_url; ?>/quiz/start.php?show_only=FQ">Formatting Quiz</a>.
 </p>
 
 <h2><a name="counts">Page Counts</a></h2>
@@ -190,7 +190,7 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
    mention on the Project Page, these projects have been proofread under older versions of the Guidelines. 
    As per above, proofreaders should <b>not</b> adjust any of the formatting. 
    Formatting checks will be completed by the formatters. Proofreaders should proof 
-   according to <a href="<?=$code_url?>/faq/proofreading_guidelines.php">current
+   according to <a href="<?php echo $code_url; ?>/faq/proofreading_guidelines.php">current
    Guidelines</a>, for example, insert page numbers into tables of contents
    and indexes if they were removed previously.
 </p>
@@ -201,22 +201,22 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 WordCheck. In this enhanced approach, projects can each have a project-specific set of
 "good" and "bad" word lists which affect how these words are presented to the proofreader
 when checking for spelling problems or steath scannos. Returning Project Managers should
-review the <a href="<?=$code_url?>/faq/wordcheck-faq.php">Wordcheck FAQ</a> which covers the details of the process.
+review the <a href="<?php echo $code_url; ?>/faq/wordcheck-faq.php">Wordcheck FAQ</a> which covers the details of the process.
 </p>
 
 
 <h2><a name="links">Useful Links</a></h2>
 
 <ul style="margin-left: 3em;">
-    <li><a href="<?=$Workflow_Change_Announcement_URL?>">The Workflow Change Announcement Thread</a></li>
-    <li><a href="<?=$code_url?>/faq/proofreading_guidelines.php">The Proofreading Guidelines</a></li>
-    <li><a href="<?=$code_url?>/faq/proofing_summary.pdf">The Proofreading Summary (PDF)</a></li>
-    <li><a href="<?=$code_url?>/quiz/start.php?show_only=PQ">The Proofreading Quiz</a></li>
-    <li><a href="<?=$code_url?>/faq/document.php">The Formatting Guidelines</a></li>
-    <li><a href="<?=$code_url?>/faq/formatting_summary.pdf">The Formatting Summary (PDF)</a></li>
-    <li><a href="<?=$code_url?>/quiz/start.php?show_only=FQ">The Formatting Quiz</a></li>
-    <li><a href="<?=$code_url?>/stats/stats_central.php">Statistics Central</a></li>
-    <li><a href="<?=$code_url?>/faq/wordcheck-faq.php">Wordcheck FAQ</a></li>
+    <li><a href="<?php echo $Workflow_Change_Announcement_URL; ?>">The Workflow Change Announcement Thread</a></li>
+    <li><a href="<?php echo $code_url; ?>/faq/proofreading_guidelines.php">The Proofreading Guidelines</a></li>
+    <li><a href="<?php echo $code_url; ?>/faq/proofing_summary.pdf">The Proofreading Summary (PDF)</a></li>
+    <li><a href="<?php echo $code_url; ?>/quiz/start.php?show_only=PQ">The Proofreading Quiz</a></li>
+    <li><a href="<?php echo $code_url; ?>/faq/document.php">The Formatting Guidelines</a></li>
+    <li><a href="<?php echo $code_url; ?>/faq/formatting_summary.pdf">The Formatting Summary (PDF)</a></li>
+    <li><a href="<?php echo $code_url; ?>/quiz/start.php?show_only=FQ">The Formatting Quiz</a></li>
+    <li><a href="<?php echo $code_url; ?>/stats/stats_central.php">Statistics Central</a></li>
+    <li><a href="<?php echo $code_url; ?>/faq/wordcheck-faq.php">Wordcheck FAQ</a></li>
  </ul>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="silver" summary="Links">
@@ -224,16 +224,16 @@ review the <a href="<?=$code_url?>/faq/wordcheck-faq.php">Wordcheck FAQ</a> whic
   <td width="10">&nbsp;</td>
   <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
      Return to:
-     <a href=".."><? echo "$site_name"; ?> home page</a>,
+     <a href=".."><?php echo "$site_name"; ?> home page</a>,
      &nbsp;&nbsp;&nbsp;
-     <a href="faq_central.php"><? echo "$site_abbreviation"; ?> FAQ Central page</a>,
+     <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
      &nbsp;&nbsp;&nbsp;
-     <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
+     <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
      </font>
   </td>
 </tr>
 </table>
 
-<?
+<?php
 theme('','footer');
 ?>

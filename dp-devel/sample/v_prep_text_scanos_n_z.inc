@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
   see file v_prep_text_scanos_0_m.inc for comments.
 */

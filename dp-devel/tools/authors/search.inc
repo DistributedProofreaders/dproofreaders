@@ -135,17 +135,17 @@ function echo_search_form() {
   ?>
   <form method="GET">
   <table border="1" align="center"><td><table border="0">
-  <tr><th colspan="2"><?=_('Search')?></th></tr>
-  <tr><td colspan="2"><?=_('Case insensitive.') . '<br />' .
+  <tr><th colspan="2"><?php echo _('Search'); ?></th></tr>
+  <tr><td colspan="2"><?php echo _('Case insensitive.') . '<br />' .
                          sprintf(
                            _('Use %1$s for partial matches or %2$s to match exactly one character.' .
                              '%3$s encodes start-of-string and %4$s encodes end-of-string.'),
-                           '<b>*</b>', '<br /><b>?</b>', '<br /><b>^</b>', '<br /><b>$</b>')?></td></tr>
-  <tr><td>Last name:</td><td><input type="text" name="last_name" size="20" value="<?=$last_name?>"></td></tr>
+                           '<b>*</b>', '<br /><b>?</b>', '<br /><b>^</b>', '<br /><b>$</b>'); ?></td></tr>
+  <tr><td>Last name:</td><td><input type="text" name="last_name" size="20" value="<?php echo $last_name; ?>"></td></tr>
   <tr><td>Other name(s):</td>
-      <td><input type="text" name="other_names" size="20" value="<?=$other_names?>"></td></tr>
-  <tr><td><input type="submit" value="<?=_('Search')?>"></td>
-      <td align="right"><input type="button" onClick="var f=this.form;f.last_name.value='';f.other_names.value='';" value="<?=_('Reset')?>"></td></tr>
+      <td><input type="text" name="other_names" size="20" value="<?php echo $other_names; ?>"></td></tr>
+  <tr><td><input type="submit" value="<?php echo _('Search'); ?>"></td>
+      <td align="right"><input type="button" onClick="var f=this.form;f.last_name.value='';f.other_names.value='';" value="<?php echo _('Reset'); ?>"></td></tr>
   </table></td></table>
   <?php
   echo "  <center><a href='${_SERVER['PHP_SELF']}'>" . _('List all') . "</a></center>\n";

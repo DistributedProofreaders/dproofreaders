@@ -1,4 +1,5 @@
-<? $relPath='../../pinc/';
+<?php
+$relPath='../../pinc/';
 include_once($relPath.'site_vars.php');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
@@ -13,13 +14,13 @@ include "./data/qd_${page_id}.inc";
 <html>
 <head>
 <title><?php echo $browser_title; ?></title>
-<META http-equiv="Content-Type" content="text/html; charset=<?echo "$charset";?>">
+<META http-equiv="Content-Type" content="text/html; charset=<?php echo "$charset"; ?>">
 </head>
 <frameset cols="60%,*">
 <frameset name="left" rows="40%,*">
-<frame src="orig.php?type=<?=$page_id?>">
-<frame name="pf" src="proof.php?type=<?=$page_id?>&quiz_id=<?=$quiz_id?>">
+<frame src="orig.php?type=<?php echo $page_id; ?>">
+<frame name="pf" src="proof.php?type=<?php echo $page_id; ?>&quiz_id=<?php echo $quiz_id; ?>">
 </frameset>
-<frame name="right" src="right.php?type=<?=$page_id?>&quiz_id=<?=$quiz_id?>">
+<frame name="right" src="right.php?type=<?php echo $page_id; ?>&quiz_id=<?php echo $quiz_id; ?>">
 </frameset>
 </html>

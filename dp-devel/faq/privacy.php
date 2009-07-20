@@ -33,7 +33,7 @@ will be removed based on its age.</p>
 <h3>Access of information</h3>
 
 <p>Only the web site manager
-<?
+<?php
 if ($testing)
 {
     echo "<font style='color: red'>";
@@ -59,7 +59,7 @@ Statistics&quot; to &quot;Yes&quot; in your Preferences.</p>
 <p>The site uses phpBB forums for discussions among the members. The data you fill out at 
 this forum will also be used on the rest of the site.</p>
 
-<?
+<?php
 // If file wasn't include()d, we need to close the body and html tags
 // that were opened by slim_header();
 if(!$file_is_included)

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 // An elapsed-time timer with (potentially) microsecond granularity.
 

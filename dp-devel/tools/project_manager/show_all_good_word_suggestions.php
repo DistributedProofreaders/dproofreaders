@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
@@ -60,15 +60,15 @@ if($frame=="master") {
     else $timeCutoffSpec="";
 ?>
 </head>
-<frameset <?=$frameSpec;?>>
-<frame src="<?=$_SERVER["PHP_SELF"];?>?pm=<?=$pm;?>&amp;freqCutoff=<?=$freqCutoff;?>&amp;<?=$timeCutoffSpec;?>frame=left">
-<frame name="detailframe" src="<?=$_SERVER["PHP_SELF"];?>?frame=right">
+<frameset <?php echo $frameSpec; ?>>
+<frame src="<?php echo $_SERVER["PHP_SELF"]; ?>?pm=<?php echo $pm; ?>&amp;freqCutoff=<?php echo $freqCutoff; ?>&amp;<?php echo $timeCutoffSpec; ?>frame=left">
+<frame name="detailframe" src="<?php echo $_SERVER["PHP_SELF"]; ?>?frame=right">
 </frameset>
 <noframes>
-<? _("Your browser currently does not display frames!"); ?>
+<?php _("Your browser currently does not display frames!"); ?>
 </noframes>
 </html>
-<?
+<?php
     exit;
 }
 

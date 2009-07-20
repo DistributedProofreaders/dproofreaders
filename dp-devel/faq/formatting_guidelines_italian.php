@@ -1,4 +1,4 @@
-<?
+<?php
 // Translated by user babymag 18 Feb 2009
 
 $relPath='../pinc/';
@@ -226,13 +226,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>Se alcuni argomenti mancano, o pensi debbano
    essere affrontati diversamente, o se qualcosa &egrave; vago, faccelo sapere.
-<? if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    Se c'&egrave; un termine in queste guide che non ti &egrave; familiare, leggi il
    <a href="http://www.pgdp.net/wiki/DP_Jargon">glossario nella Wiki</a>.
-<? } ?>
+<?php } ?>
    Questo documento &egrave; un lavoro in corso. Aiutaci a migliorarlo suggerendo
    i cambiamenti nel Forum relativo alla Documentazione (Documentation Forum) in
-   <a href="<? echo $Guideline_discussion_URL; ?>">questo thread</a>.
+   <a href="<?php echo $Guideline_discussion_URL; ?>">questo thread</a>.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Torna all'inizio</a></p>
@@ -271,7 +271,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Nella Project Page (Pagina del progetto), il collegamento 'Images, Pages Proofread, &amp; Differences'
    (Immagini, Pagine corrette e Differenze) ti permette di vedere che tipo di
    cambiamenti sono stati effettuati dagli altri correttori.
-   <a href="<? echo $Using_project_details_URL ?>">Questa discussione nel forum</a>
+   <a href="<?php echo $Using_project_details_URL; ?>">Questa discussione nel forum</a>
    riguarda modi diversi in cui usare queste informazioni.
 </p>
 <!-- END RR -->
@@ -1449,7 +1449,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
    <a href="#comments">Project Comments</a> (Commenti al progetto) e la Discussione
    sul progetto, perch&eacute; altri volontari potrebbero essersi accordati su un
    formato particolare. Se non trovi nulla, puoi trovare qualche consiglio utile
-   nella discussione <a href="<? echo $Gallery_of_Table_Layouts_URL; ?>">Gallery of Table Layouts</a>
+   nella discussione <a href="<?php echo $Gallery_of_Table_Layouts_URL; ?>">Gallery of Table Layouts</a>
    (Esempi di formattazione di tabelle).
 </p>
 <p>Le <b>Note a pi&egrave; di pagina</b> nelle tabelle vanno lasciate dove sono
@@ -2493,16 +2493,16 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Ritorna a:
-      <a href=".."><? echo "$site_name"; ?> home page</a>,
+      <a href=".."><?php echo "$site_name"; ?> home page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><? echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
+      <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
       </font>
     </td>
   </tr>
 </table>
 
-<?
+<?php
 theme('','footer');
 ?>

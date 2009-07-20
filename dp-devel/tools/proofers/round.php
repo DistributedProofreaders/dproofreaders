@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // Give information about a single round,
 // including (most importantly) the list of projects available for work.
 

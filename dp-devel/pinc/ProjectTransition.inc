@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');

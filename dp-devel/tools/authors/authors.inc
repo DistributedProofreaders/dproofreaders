@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
   $months = array( _('Unknown'),
                    _('January'), _('February'), _('March'),
@@ -13,16 +13,16 @@
     $name = $last_name . ($other_names!='' ? ", $other_names" : '');
 ?>
 
-<h2 align="center"><?=htmlspecialchars($name)?>
-<?
+<h2 align="center"><?php echo htmlspecialchars($name); ?>
+<?php
 if ($author_id) {
   echo " <a href='{$GLOBALS['code_url']}/tools/authors/authorxml.php?author_id=$author_id'><img src='{$GLOBALS['code_url']}/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>\n";
 }
 ?>
 </h2>
 <table align="center" border="1">
-<tr><th>Born</th><td><?=$born?></td></tr>
-<tr><th>Deceased</th><td><?=$dead?></td></tr>
+<tr><th>Born</th><td><?php echo $born; ?></td></tr>
+<tr><th>Deceased</th><td><?php echo $dead; ?></td></tr>
 <?php
     if ($author_id) {
       // this author actually exists - not only Preview before adding

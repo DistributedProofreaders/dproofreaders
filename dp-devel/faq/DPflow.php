@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'site_vars.php');
 include($relPath.'connect.inc');
@@ -13,6 +13,6 @@ theme('Workflow Diagram','header');
 <img SRC="project_workflow.png"></p><p>
 <a href="ProoferFAQ.php">Back</a> to Proofreaders FAQ.</p>
 
-<?
+<?php
 theme('','footer');
 ?>

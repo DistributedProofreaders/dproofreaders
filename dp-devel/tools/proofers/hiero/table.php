@@ -68,7 +68,7 @@ function add(glyph) {
 	window.parent.hierodisplay.document.hieroform.hierobox.value+=sep+glyph;
 }
 </script>
-<?
+<?php
     if($dh = opendir("$wikihiero_dir/".WH_IMG_DIR)) 
     {
       while(($file = readdir($dh)) !== false) 

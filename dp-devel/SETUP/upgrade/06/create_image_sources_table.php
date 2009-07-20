@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 // One-time script to create 'image_sources' table
 

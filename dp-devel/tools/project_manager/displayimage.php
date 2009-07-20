@@ -1,4 +1,4 @@
-<?PHP
+<?php
 $relPath='../../pinc/';
 include($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
@@ -48,18 +48,18 @@ echo "</head>\n\n<body onLoad=\"self.focus()\">\n";
 ?>
 
 <form method="get" action="displayimage.php">
-<input type="hidden" name="project" value="<?echo $project;?>">
-<input type="hidden" name="imagefile" value="<?echo $imagefile;?>">
-<input type="hidden" name="showreturnlink" value="<?echo $showreturnlink;?>">
-<input type="hidden" name="preload" value="<?echo $preload;?>">
+<input type="hidden" name="project" value="<?php echo $project; ?>">
+<input type="hidden" name="imagefile" value="<?php echo $imagefile; ?>">
+<input type="hidden" name="showreturnlink" value="<?php echo $showreturnlink; ?>">
+<input type="hidden" name="preload" value="<?php echo $preload; ?>">
 
 Resize:
-<input type="text" maxlength="3" name="percent" size="3" value="<?echo $percent;?>">%
+<input type="text" maxlength="3" name="percent" size="3" value="<?php echo $percent; ?>">%
 <input type="submit" value="Resize" size="3">
 
 Jump to:
 <select name="jumpto" onChange="this.form.imagefile.value=this.form.jumpto[this.form.jumpto.selectedIndex].value; this.form.submit();">
-<?
+<?php
 // Populate the options in the popup menu based on the database query earlier
 for ($row=0; $row<$num_rows;$row++)
 {
@@ -70,7 +70,7 @@ for ($row=0; $row<$num_rows;$row++)
 }
 ?>
 </select>
-<?
+<?php
 function prevnext_buttons()
 {
     global  $prev_image, $next_image;
@@ -97,7 +97,7 @@ echo "<br>\n";
 echo "<img src='$projects_url/$project/$imagefile' width='$width' border='1'>";
 ?>
 <center>
-<?
+<?php
 prevnext_buttons();
 // vim: sw=4 ts=4 expandtab
 ?>

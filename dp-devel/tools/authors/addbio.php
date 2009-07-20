@@ -1,4 +1,4 @@
-<?PHP
+<?php
   $relPath = '../../pinc/';
   include_once($relPath.'theme.inc');
   include_once("authors.inc");
@@ -103,22 +103,22 @@
   }
 ?>
 <form name="addform" action="addbio.php" method="POST">
-<input type="hidden" name="author_id" value="<?=$author_id?>">
+<input type="hidden" name="author_id" value="<?php echo $author_id; ?>">
 <?php
   if (isset($bio_id))
     echo '<input type="hidden" name="bio_id" value="' . $bio_id . '">';
 ?>
 <table align="center" border="1">
-<tr><th><?=_('Biography') . ' (' . _('HTML') . ')'?></th></tr>
+<tr><th><?php echo _('Biography') . ' (' . _('HTML') . ')'; ?></th></tr>
 <tr><td><textarea cols="70" rows="20" name="bio">
-<?=htmlentities($bio)?></textarea></td></tr>
+<?php echo htmlentities($bio); ?></textarea></td></tr>
 <tr><td>
 <table><tr>
-<td><input type="submit" name="Preview" value="<?=_('Preview')?>" /></td>
-<td><input type="submit" name="SaveAndExit" value="<?=_('Save and Exit')?>" /></td>
-<td><input type="submit" name="SaveAndView" value="<?=_('Save and View')?>" /></td>
-<td><input type="submit" name="SaveAndNew" value="<?=_('Save and add Author')?>" /></td>
-<td><input type="button" value="<?=_('Exit without saving')?>" onClick="location='listing.php';"/></td>
+<td><input type="submit" name="Preview" value="<?php echo _('Preview'); ?>" /></td>
+<td><input type="submit" name="SaveAndExit" value="<?php echo _('Save and Exit'); ?>" /></td>
+<td><input type="submit" name="SaveAndView" value="<?php echo _('Save and View'); ?>" /></td>
+<td><input type="submit" name="SaveAndNew" value="<?php echo _('Save and add Author'); ?>" /></td>
+<td><input type="button" value="<?php echo _('Exit without saving'); ?>" onClick="location='listing.php';"/></td>
 </tr></table>
 </td></tr>
 </table>

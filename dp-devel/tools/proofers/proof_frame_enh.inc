@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'slim_header.inc');
@@ -31,7 +31,7 @@ function echo_proof_frame_enh( $ppage )
                 text-align:center;
                 overflow:hidden;
             }
-            <?  ibe_echo_styles(); ?>
+            <?php ibe_echo_styles(); ?>
             #tbtext {
                 border:1px solid #000000;
                 text-align:center;
@@ -71,7 +71,7 @@ function echo_proof_frame_enh( $ppage )
             text="#000000"
             topmargin="0"
             onload="ldAll()">
-            <?
+            <?php
 
                 if ($userP['i_layout']==1)
                     {$iWidth=$userP['v_zoom'];}
@@ -86,24 +86,24 @@ function echo_proof_frame_enh( $ppage )
                     name="editform" id="editform"
                     method="POST"
                     action="processtext.php">
-                    <?PHP $ppage->echo_hidden_fields(); ?>
+                    <?php $ppage->echo_hidden_fields(); ?>
                     <table
                         id="tbtext"
                         cellspacing="0"
                         align="center">
                         <tr>
                             <td id="tdtop" valign="middle">
-                                <?PHP echo_button_menu( $ppage ); ?>
+                                <?php echo_button_menu( $ppage ); ?>
                             </td>
                         </tr>
                         <tr>
                             <td id="tdtext" valign="top">
-                                <?PHP $ppage->echo_proofing_textarea(); ?>
+                                <?php $ppage->echo_proofing_textarea(); ?>
                             </td>
                         </tr>
                         <tr>
                             <td id="tdbottom" valign="top">
-                                <?PHP $ppage->echo_info(); ?>
+                                <?php $ppage->echo_info(); ?>
                             </td>
                         </tr>
                     </table>
@@ -111,7 +111,7 @@ function echo_proof_frame_enh( $ppage )
             </div>
         </body>
     </html>
-    <?
+    <?php
 }
 
 // vim: sw=4 ts=4 expandtab

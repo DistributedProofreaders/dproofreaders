@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // A script to change project URLs in phpbb posts.
 // (from c/tools/proofers/projects.php?project=foo to c/project.php?id=foo)
 

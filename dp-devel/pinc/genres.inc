@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 $GENRES = array(
     'Other'              => _('Other'),

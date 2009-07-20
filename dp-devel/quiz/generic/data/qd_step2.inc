@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 include_once($relPath."Quiz.inc");
 

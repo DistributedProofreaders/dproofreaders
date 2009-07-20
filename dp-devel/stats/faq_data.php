@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../pinc/";
 include_once($relPath.'site_vars.php');
 
@@ -18,7 +18,7 @@ $faq_file=array(
 );
 
 if($f=fopen("$dynstats_dir/faq_data.inc","w")) {
-	fwrite($f,"<?\n\$faq_data=array(\n");
+	fwrite($f,"<?php\n\$faq_data=array(\n");
 	read_dir("");
 	fwrite($f,");\n?>");
 

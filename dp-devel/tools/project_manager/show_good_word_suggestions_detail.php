@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
@@ -46,15 +46,15 @@ if($frame=="master") {
     else $frameSpec='cols="30%,70%"';
 ?>
 </head>
-<frameset <?=$frameSpec;?>>
-<frame name="worddetailframe" src="show_good_word_suggestions_detail.php?projectid=<?=$projectid;?>&amp;word=<?=$encWord;?>&amp;timeCutoff=<?=$timeCutoff;?>&amp;frame=left">
-<frame name="imageframe" src="show_good_word_suggestions_detail.php?projectid=<?=$projectid;?>&amp;word=<?=$encWord;?>&amp;timeCutoff=<?=$timeCutoff;?>&amp;frame=right">
+<frameset <?php echo $frameSpec; ?>>
+<frame name="worddetailframe" src="show_good_word_suggestions_detail.php?projectid=<?php echo $projectid; ?>&amp;word=<?php echo $encWord; ?>&amp;timeCutoff=<?php echo $timeCutoff; ?>&amp;frame=left">
+<frame name="imageframe" src="show_good_word_suggestions_detail.php?projectid=<?php echo $projectid; ?>&amp;word=<?php echo $encWord; ?>&amp;timeCutoff=<?php echo $timeCutoff; ?>&amp;frame=right">
 </frameset>
 <noframes>
-<? _("Your browser currently does not display frames!"); ?>
+<?php _("Your browser currently does not display frames!"); ?>
 </noframes>
 </html>
-<?
+<?php
     exit;
 }
 

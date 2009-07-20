@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // Replace an image file.
 
 $relPath = '../../pinc/';

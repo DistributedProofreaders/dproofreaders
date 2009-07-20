@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'site_vars.php');
 include($relPath.'faq.inc');
@@ -208,12 +208,12 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>If there are any items missing, or items that you
    consider should be done differently, or if something is vague, please let us know.
-<? if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    If you come across an unfamiliar term in these guidelines, see the
    <a href="http://www.pgdp.net/wiki/DP_Jargon">wiki jargon guide</a>.
-<? } ?>
+<?php } ?>
    This document is a work in progress. Help us to improve it by posting your suggested changes in the
-   Documentation Forum in <a href="<? echo $Guideline_discussion_URL; ?>">this thread</a>.
+   Documentation Forum in <a href="<?php echo $Guideline_discussion_URL; ?>">this thread</a>.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Back to top</a></p>
@@ -244,7 +244,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>On the Project Page, the link 'Images, Pages Proofread, &amp; Differences' allows you to
    see how other volunteers have made changes.
-   <a href="<? echo $Using_project_details_URL ?>">This forum thread</a>
+   <a href="<?php echo $Using_project_details_URL; ?>">This forum thread</a>
    discusses different ways to use this information.
 </p>
 <!-- END RR -->
@@ -1351,7 +1351,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
    readable table in an e-book. Sometimes this requires sacrificing the original
    format of the table on the printed page. Check the <a href="#comments">Project Comments</a> and discussion
    thread because other volunteers may have settled on a specific format. If there is nothing there, you might
-   find something useful in the <a href="<? echo $Gallery_of_Table_Layouts_URL; ?>">Gallery of Table Layouts</a> forum thread.
+   find something useful in the <a href="<?php echo $Gallery_of_Table_Layouts_URL; ?>">Gallery of Table Layouts</a> forum thread.
 </p>
 <p><b>Footnotes</b> in tables should remain where they are in the image. See <a href="#footnotes">footnotes</a> for details.
 </p>
@@ -2363,16 +2363,16 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Return to:
-      <a href=".."><? echo "$site_name"; ?> home page</a>,
+      <a href=".."><?php echo "$site_name"; ?> home page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><? echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
+      <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
       </font>
     </td>
   </tr>
 </table>
 
-<?
+<?php
 theme('','footer');
 ?>

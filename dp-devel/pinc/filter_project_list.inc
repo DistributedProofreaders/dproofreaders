@@ -1,4 +1,4 @@
-<?
+<?php
 // This file includes functions to handle the creation, update, and display of
 // the project filters used on the Round, Project, and Smooth Reading pages.
 // This includes displaying the form, processing updates made from the form,

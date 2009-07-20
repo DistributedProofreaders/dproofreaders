@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../../../pinc/';
 include_once($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
@@ -66,7 +66,7 @@ HTML allowed. A typical value would be: &lt;a href='../generic/main.php?type=ste
 
 
 
-<?
+<?php
 $_SESSION['quiz_data']['lastpage'] = 'general';
 
 theme("", "footer");

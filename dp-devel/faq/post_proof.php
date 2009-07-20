@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'site_vars.php');
 include($relPath.'faq.inc');
@@ -180,7 +180,7 @@ But, if you think you can handle it, give it a try!
 </p>
  
 <p>
-Check the <a href="<? echo $projects_forum_url ?>">Project Questions and Comments Forum</a> 
+Check the <a href="<?php echo $projects_forum_url; ?>">Project Questions and Comments Forum</a> 
 for your book's title to see what proofreaders have been saying about it. 
 Again, this might alert you of issues which might make the work 
 more difficult than you had realized.
@@ -263,7 +263,7 @@ if you are so inclined.
     Otherwise, someone else might check it out later and duplicate all of your hard work!<br>
 
 <li>Look for comments and questions proofreaders had while proofreading your book 
-    in the <a href="<? echo $projects_forum_url ?>">Project Questions and Comments Forum</a>.<br> 
+    in the <a href="<?php echo $projects_forum_url; ?>">Project Questions and Comments Forum</a>.<br> 
  
 <li>Download the book's images (optional) and text.
 	Make sure to select "Download Zipped Text" and not "Download Zipped TEI Text"
@@ -500,7 +500,7 @@ that may have been introduced by the rewrap.
  
 <li><a name="19">Give the whole thing a quick eyeball to make sure that all is well.</a>  
     If you are not sure what the finished text should look like, 
-    download a text from <a href="<? echo $PG_home_url; ?>">Project Gutenberg</a> 
+    download a text from <a href="<?php echo $PG_home_url; ?>">Project Gutenberg</a> 
     and skim it to get a clearer idea.
     Some proofreaders believe that this is best done the next day, 
     when you have a fresher eye and might be more likely to spot oversights.
@@ -561,7 +561,7 @@ if you have trouble with it, and they can send you a list of results.
 <p>
 Many people have trouble setting up Gutcheck for the first time.
 If you too have trouble, don't worry.
-Someone in the <a href="<? echo $projects_forum_url ?>">Post-Processing Forum</a>
+Someone in the <a href="<?php echo $projects_forum_url; ?>">Post-Processing Forum</a>
 will be only too happy to help you.  Just post and ask for help!
 </p>
 
@@ -748,7 +748,7 @@ For example, a lisp or perl script will need a lisp or perl interpreter to work,
 ActivePerl, available <a href="http://www.activestate.com/Products/ActivePerl/">here</a>,
 and Clisp, available <a href="http://clisp.sourceforge.net/">here</a>, both for free.
 If you need help getting them to work, or your platform isn't supported by these,
-ask in the <a href="<? $post_processing_forum_url ?>">Post-Processing Forum</a> for help;
+ask in the <a href="<?php $post_processing_forum_url; ?>">Post-Processing Forum</a> for help;
 almost certainly someone will be able to assist you!
 </p>
  
@@ -888,7 +888,7 @@ If the text really should be produced in a version
 that will allow future readers to view the images, 
 and you are unable or unwilling to do the work to put it in such a version, 
 return it and post your concerns in the 
-<a href="<? echo $projects_forum_url ?>">Post-Processing Forum</a>.</p>
+<a href="<?php echo $projects_forum_url; ?>">Post-Processing Forum</a>.</p>
 <br> 
 <h3><a name="Poetry">Poetry</a></h3> 
 <br> 
@@ -940,7 +940,7 @@ which will need rewrapping.
 </p>
  
 <p>
-<a href="<? echo $forums_url ?>/privmsg.php?mode=post&amp;u=3561">bconstan</a> 
+<a href="<?php echo $forums_url; ?>/privmsg.php?mode=post&amp;u=3561">bconstan</a> 
 has graciously offered to aid anyone who needs extra help post-processing poetry books. 
 If you have any questions, send her a message.
 </p>
@@ -999,7 +999,7 @@ and will be an annoyance rather than a help.
 If your book fits this mold, consider leaving out the sidenotes. 
 BUT, think long and hard about this, as this is altering the text of the original, a DP no-no. 
 Email the Project Manager and/or post in the 
-<a href="<? echo $projects_forum_url ?>">Forums</a> 
+<a href="<?php echo $projects_forum_url; ?>">Forums</a> 
 for a second opinion before taking this step.
 </p>
 <br> 
@@ -1080,7 +1080,7 @@ Many languages, like Arabic and Hebrew, are difficult to transcribe
 without an intimate knowledge of the language. 
 If your text contains snippets of such a language 
 and you don't have the knowledge to transcribe it yourself, 
-try posting in the <a href="<? echo $projects_forum_url ?>">Forums</a> 
+try posting in the <a href="<?php echo $projects_forum_url; ?>">Forums</a> 
 to find someone to team up with for transcription.
 </p>
  
@@ -1126,7 +1126,7 @@ here are a few web pages provided by proofreaders to help you:<br>
 <p>
 This section has room to grow. 
 If you find any other good links, 
-please <a href="<? echo $forums_url ?>/privmsg.php?mode=post&amp;u=1674">PM me</a>.
+please <a href="<?php echo $forums_url; ?>/privmsg.php?mode=post&amp;u=1674">PM me</a>.
 </p>
  
 <p>
@@ -1237,7 +1237,7 @@ Only a few of the most common scannos will be listed here.
  
 <p>
 A more complete, and constantly growing list is maintained by 
-<a href="<? echo $forums_url ?>/privmsg.php?mode=post&amp;u=6141"> big_bill</a>. 
+<a href="<?php echo $forums_url; ?>/privmsg.php?mode=post&amp;u=6141"> big_bill</a>. 
 If you have found a "stealth scanno" which isn't on his lists, send it to him. 
 He also collects statistics on the appearance rates of those already on the lists,
 so if you care to keep count of sightings of old stealth scannos he'd be just as happy
@@ -1288,7 +1288,7 @@ or find a partner to do it for you.
 </p>
 
 <p>There are several requirements for HTML. 
-First, be sure to read the <a href="<? echo $PG_html_faq_url; ?>">PG HTML FAQ</a> and follow all the
+First, be sure to read the <a href="<?php echo $PG_html_faq_url; ?>">PG HTML FAQ</a> and follow all the
 requirements. Before submitting your HTML for PPV, please do the following:<br>
 Validate the HTML at <a href="http://validator.w3.org/">http://validator.w3.org</a>; 
 validate the CSS, if any, at <a href="http://jigsaw.w3.org/css-validator/">http://jigsaw.w3.org/css-validator</a>; 
@@ -1296,14 +1296,14 @@ check all the links to make sure that they work and to double check that all you
 linkchecker at <a href="http://validator.w3.org/checklink">http://validator.w3.org/checklink</a> 
 or another linkchecker such as <a href="http://home.snafu.de/tilman/xenulink.html">xenulink</a>; 
 run <a href="http://www.w3.org/People/Raggett/tidy/">HTML Tidy</a> to uncover any remaining problems in the HTML.
-Any HTML questions not answered in the PG HTML FAQ or <a href="<? echo $DPWiki_Guide_to_HTML_id; ?>">DP's DPWiki's Guide to HTML</a> should be discussed
+Any HTML questions not answered in the PG HTML FAQ or <a href="<?php echo $DPWiki_Guide_to_HTML_id; ?>">DP's DPWiki's Guide to HTML</a> should be discussed
 in the Post-Processing forum.</p>
 
 <p>
 There have been a few especially useful discussion in the Post-Processing Forum.
-One is a <a href="<? echo $XHTML_suggestion_URL; ?>">post</a>
+One is a <a href="<?php echo $XHTML_suggestion_URL; ?>">post</a>
 which suggests a format for documents based on XHTML 1.0. 
-Another is <a href="<? echo $DPWiki_HTML_guide_URL; ?>">
+Another is <a href="<?php echo $DPWiki_HTML_guide_URL; ?>">
 this DPWiki post</a>
 which gives a suggested guide for HTML writers and provides an index of HTML-related topics.
 </p>
@@ -1335,7 +1335,7 @@ or give you a scan for a missing page.
  
 <p>
 If they don't have the text, 
-join <a href="<? echo $PG_mailing_lists_url; ?>">gutvol-d</a> 
+join <a href="<?php echo $PG_mailing_lists_url; ?>">gutvol-d</a> 
 and post a message asking for help. 
 Give the name and author of the book which you are working on, 
 what you will require as help 
@@ -1365,7 +1365,7 @@ and select Return to Available from its drop-down menu.
 This will erase all of your changes and send it back to the pool for another post-processor.
 If you have done a lot of work on it, you might be better to arrange for 
 someone else to pick up where you left off by making a post 
-in the <a href="<? echo $post_processing_forum_url ?>">Post-Processing Forum</a>.
+in the <a href="<?php echo $post_processing_forum_url; ?>">Post-Processing Forum</a>.
 </p>
 <br>
 <h3><a name="Split">Projects with Multiple Parts</a></h3>
@@ -1421,7 +1421,7 @@ how to handle particular formatting issues and make global format changes.
 <p>
 If your common sense and personal judgement aren't helping you solve
 some particular problem, post your question in the 
-<a href="<? echo $post_processing_forum_url ?>">Post-Processing Forum</a>. 
+<a href="<?php echo $post_processing_forum_url; ?>">Post-Processing Forum</a>. 
 Other post-processors can then tell you how they would handle the situation. 
 Their suggestions might give you a logical answer for your text, 
 or inspire your own idea as to how to handle the issue.
@@ -1431,7 +1431,7 @@ or inspire your own idea as to how to handle the issue.
  
 <p>
 If you think that something should be added to the FAQ, 
-<a href="<? echo $forums_url ?>/privmsg.php?mode=post&amp;u=1674">PM me</a>. 
+<a href="<?php echo $forums_url; ?>/privmsg.php?mode=post&amp;u=1674">PM me</a>. 
 I don't mind answering questions, really I don't!.
 </p>
 
@@ -1440,11 +1440,11 @@ If you have any suggestions
 (ex. a nifty new spell checker or text editor that I haven't included, 
 comments on grammar, anything!), 
 please don't be afraid to 
-<a href="<? echo $forums_url ?>/privmsg.php?mode=post&amp;u=1674">tell me about them</a>.
+<a href="<?php echo $forums_url; ?>/privmsg.php?mode=post&amp;u=1674">tell me about them</a>.
 </p>
 <br> 
 
-<?
+<?php
 theme('','footer');
 ?>
 

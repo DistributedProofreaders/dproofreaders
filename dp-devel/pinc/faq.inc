@@ -1,4 +1,4 @@
-<?
+<?php
 // This include holds information about DP people in charge of various things,
 // that is used in FAQs. Also information about forums and wiki used in FAQs.
 

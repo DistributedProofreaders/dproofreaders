@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 // One-time script to create and seed 'site_tally_goals' table.
 

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 function log_project_event( $projectid, $who, $event_type, $details1='', $details2='', $details3='' )
 {

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 // There are two different ways of counting saved-as-done pages in the DP code:
 //

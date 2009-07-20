@@ -1,4 +1,4 @@
-<?
+<?php
 // This file creates quiz objects for each quiz with data in CVS
 include_once($relPath."Quiz.inc");
 

@@ -1,6 +1,6 @@
 <html>
 <head>
-<?
+<?php
 $charset="UTF-8";
 
 define("ARRAY_PAD_FRONT", -1);
@@ -14,23 +14,23 @@ $col=intval($_POST['col']); $col=($col>1)?$col:1;
 $bord=($_POST['border']=="n")?FALSE:TRUE;
 $trim=($_POST['trim']=="on")?TRUE:FALSE;
 ?>
-<meta http-equiv="Content-Type" content="text/html; charset=<? echo $charset; ?>">
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $charset; ?>">
 <title>Table Maker</title>
 </head>
 <body>
 <form method="POST">
 <input type="submit" value="Create">
-<input type="text" name="row" value="<? echo $row; ?>" size="2"> rows and
-<input type="text" name="col" value="<? echo $col; ?>" size="2"> columns table
+<input type="text" name="row" value="<?php echo $row; ?>" size="2"> rows and
+<input type="text" name="col" value="<?php echo $col; ?>" size="2"> columns table
 <select name="border">
-<option value="y"<? echo $bord?" selected":""; ?>>with</option>
-<option value="n"<? echo $bord?"":" selected"; ?>>without</option>
+<option value="y"<?php echo $bord?" selected":""; ?>>with</option>
+<option value="n"<?php echo $bord?"":" selected"; ?>>without</option>
 </select> border;
-<input type="checkbox" name="trim"<? echo $trim?" checked":""; ?>> trim spaces.<br/>
+<input type="checkbox" name="trim"<?php echo $trim?" checked":""; ?>> trim spaces.<br/>
 <table>
 <tr>
 <td>&nbsp;</td>
-<?
+<?php
 
 if(isset($_POST['clear'])) {
 	for($i=0;$i<$row;$i++) {
@@ -111,10 +111,10 @@ for($i=0;$i<$row;$i++) {
 		if(($t=count($a[$i][$j]))>$tll[$i])
 			$tll[$i]=$t;
 ?>
-<td><textarea name="<? echo $name; ?>" wrap="off">
-<? echo htmlspecialchars($_POST[$name]); ?>
+<td><textarea name="<?php echo $name; ?>" wrap="off">
+<?php echo htmlspecialchars($_POST[$name]); ?>
 </textarea></td>
-<?
+<?php
 	}
 	echo "</tr>";
 }
@@ -125,7 +125,7 @@ for($i=0;$i<$row;$i++) {
 </form>
 <form>
 <textarea rows="20" cols="80" wrap="off">
-<?
+<?php
 if($bord) hline();
 
 for($i=0;$i<$row;$i++) {
@@ -148,7 +148,7 @@ for($i=0;$i<$row;$i++) {
 ?>
 </textarea>
 </form>
-<?
+<?php
 function hline()
 {
 global $col,$lng,$bord;

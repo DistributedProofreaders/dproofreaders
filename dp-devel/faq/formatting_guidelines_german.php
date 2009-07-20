@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'site_vars.php');
 include($relPath.'faq.inc');
@@ -225,13 +225,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>Falls Sie etwas vermissen, etwas Ihrer Ansicht
    nach anders beschrieben werden sollte oder unklar f&uuml;r Sie ist, so lassen
    Sie es uns bitte wissen.
-<? if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    Wenn Sie in diesen Richtlinien auf einen Ausdruck sto&szlig;en, mit dem Sie nicht
    vertraut sind, dann schauen Sie in den
    <a href="http://www.pgdp.net/wiki/DP_Jargon">"wiki jargon guide" (nur Englisch)</a>.
-<? } ?>
+<?php } ?>
    Diese Richtlinien werden laufend &uuml;berarbeitet. Helfen Sie uns dabei,
-   indem Sie uns Ihre Verbesserungsvorschl&auml;ge in <a href="<? echo $Guideline_discussion_URL; ?>">
+   indem Sie uns Ihre Verbesserungsvorschl&auml;ge in <a href="<?php echo $Guideline_discussion_URL; ?>">
    diesem Thread</a> mitteilen.
 </p>
 <!-- END RR -->
@@ -270,7 +270,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>&Uuml;ber den Link &sbquo;Images, Pages Proofread, &amp; Differences&lsquo;
    (Vorlagen, korrigierte Seiten &amp; &Auml;nderungen) auf der Projektseite
    kann man sehen, was andere Freiwillige ge&auml;ndert haben.
-   <a href="<? echo $Using_project_details_URL ?>">Dieses Forum</a>
+   <a href="<?php echo $Using_project_details_URL; ?>">Dieses Forum</a>
    er&ouml;rtert verschiedene Arten, diese Informationen zu benutzen.
 </p>
 <!-- END RR -->
@@ -1463,7 +1463,7 @@ Curie, Marie               Magellan, Ferdinand      Tesla, Nikola
    <a href="#comments">Projektkommentare</a> und -forum, ob sich andere Freiwillige
    auf ein bestimmtes Format verst&auml;ndigt haben. Falls dort nichts steht, finden
    Sie vielleicht n&uuml;tzliche Hinweise im Forum
-   <a href="<? echo $Gallery_of_Table_Layouts_URL; ?>">Gallery of Table Layouts</a>.
+   <a href="<?php echo $Gallery_of_Table_Layouts_URL; ?>">Gallery of Table Layouts</a>.
 </p>
 <p><b>Fu&szlig;noten</b> in Tabellen sollen dort bleiben, wo sie in der Vorlage stehen. Zu
    den Einzelheiten siehe <a href="#footnotes">Fu&szlig;noten</a>.
@@ -2521,16 +2521,16 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Return to:
-      <a href=".."><? echo "$site_name"; ?> home page</a>,
+      <a href=".."><?php echo "$site_name"; ?> home page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><? echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
+      <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
       </font>
     </td>
   </tr>
 </table>
 
-<?
+<?php
 theme('','footer');
 ?>

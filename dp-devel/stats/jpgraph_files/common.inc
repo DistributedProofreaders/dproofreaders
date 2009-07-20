@@ -1,4 +1,4 @@
-<?
+<?php
 
 // Various utilities for the scripts in this directory.
 

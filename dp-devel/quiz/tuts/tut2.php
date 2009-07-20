@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../../pinc/';
 include_once($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
@@ -39,4 +39,4 @@ Note: If a dash appears at the start or end of a line of your OCR'd text, join i
 
 <a href="../generic/main.php?type=step2">continue</a>
 
-<? theme('','footer') ?>
+<?php theme('','footer'); ?>

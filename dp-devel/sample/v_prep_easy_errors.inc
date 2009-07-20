@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
   easy paragraph level replaces
   (will work on whole doc too, but does not include <p></p> related error handling)

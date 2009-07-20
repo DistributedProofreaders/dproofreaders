@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'theme.inc');

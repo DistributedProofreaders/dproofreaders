@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../../pinc/';
 include_once($relPath.'connect.inc');
 include_once($relPath.'project_edit.inc');

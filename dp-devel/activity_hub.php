@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // This page covers all project-related activities of the site.
 // For each, it:
 // -- describes the activity;

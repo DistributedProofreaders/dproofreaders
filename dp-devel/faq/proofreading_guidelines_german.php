@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'site_vars.php');
 include($relPath.'faq.inc');
@@ -242,13 +242,13 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>Falls Sie etwas vermissen, etwas Ihrer Ansicht nach anders
    beschrieben werden sollte oder unklar f&uuml;r Sie ist, so lassen Sie es uns bitte wissen.
-<? if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
    Wenn Ihnen ein unbekannter Ausdruck in diesen Richtlinien begegnet, schlagen Sie nach im
    <a href="http://www.pgdp.net/wiki/DP_Jargon">wiki jargon guide</a>.
-<? } ?>
+<?php } ?>
    Dieses Dokument wird laufend &uuml;berarbeitet. Helfen Sie uns
    dabei, indem Sie uns Ihre Verbesserungsvorschl&auml;ge im
-   <a href="<? echo $Guideline_discussion_URL; ?>">Forum Dokumentation</a> mitteilen.
+   <a href="<?php echo $Guideline_discussion_URL; ?>">Forum Dokumentation</a> mitteilen.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
@@ -277,7 +277,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 <p>&Uuml;ber den Link &sbquo;Images, Pages Proofread, &amp; Differences&lsquo;
    (Vorlagen, korrigierte Seiten &amp; &Auml;nderungen) auf der Projektseite
    kann man sehen, was andere Korrekturleser ge&auml;ndert haben.
-   <a href="<? echo $Using_project_details_URL ?>">Dieses Forum</a>
+   <a href="<?php echo $Using_project_details_URL; ?>">Dieses Forum</a>
    er&ouml;rtert verschiedene Arten, diese Informationen zu benutzen.
 </p>
 <!-- END RR -->
@@ -361,7 +361,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 </p>
 <p>Die in manchen Texten (in Deutsch oder anderen Sprachen) benutzten
    Anf&uuml;hrungszeichen&nbsp; <tt>&bdquo;wie diese&ldquo;</tt>&nbsp;
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
    sind nicht in den Pulldown-Men&uuml;s verf&uuml;gbar, weil
    sie nicht zum Latin-1-Zeichensatz geh&ouml;ren. Sie werden oft in
    Guillemets&nbsp; <tt>&raquo;wie hier&laquo;</tt>&nbsp; umgewandelt
@@ -370,14 +370,14 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    aber lesen Sie unbedingt die <a href="#comments">Projektkommentare</a>,
    f&uuml;r den Fall, dass der Projektmanager abweichende Anweisungen gegeben
    hat. In diesem Fall folgen Sie den Anweisungen in den Projektkommentaren.
-<? } else { ?>
+<?php } else { ?>
    sind auch in den Pulldown-Men&uuml;s enthalten. Der Einfachheit
    halber sollten Sie immer&nbsp; <tt>&bdquo;</tt>&nbsp; und&nbsp; <tt>&ldquo;</tt>&nbsp;
    benutzen, egal welche Anf&uuml;hrungszeichen im Originaltext benutzt
    werden, solange diese deutlich erkennbar untere und obere sind. Falls
    erforderlich, werden die Anf&uuml;hrungszeichen in der Nachbearbeitung
    ge&auml;ndert.
-<? } ?>
+<?php } ?>
 </p>
 <p>Unter Umst&auml;nden weist Sie der Projektmanager in den
    <a href="#comments">Projektkommentaren</a> an, nicht-englische
@@ -895,24 +895,24 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 
 
 <h3><a name="a_chars">Akzente und nicht-ASCII-Zeichen</a></h3>
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
 <p>Bitte lesen Sie diese Korrektur, indem Sie die dem Original
    entsprechenden Symbole oder Buchstaben verwenden, soweit
    m&ouml;glich einschlie&szlig;lich der Akzente. Wir k&ouml;nnen
    beim Korrekturlesen nur Latin-1-Buchstaben verwenden. Wenn Sie
    nicht sicher sind, ob ein Zeichen dazu geh&ouml;rt, sehen
    Sie in der <a href="#insert_char">Tabelle unten</a> nach.
-<? } else { ?>
+<?php } else { ?>
 <p>Bitte lesen Sie diese Korrektur, indem Sie die richtigen UTF-8
    Zeichen verwenden. F&uuml;r Zeichen, die nicht in Unicode enthalten sind,
    siehe die Anweisungen der Projekt-Managers in den
    <a href="#comments">Projektkommentaren</a>.
-<? } ?>
+<?php } ?>
    Wenn Zeichen nicht auf Ihrer Tastatur sind, lesen Sie <a href="#insert_char">
    Eingabe spezieller Zeichen</a> mit Informationen dar&uuml;ber,
    wie diese Zeichen beim Korrekturlesen eingegeben werden.
 </p>
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
 <p>Der &oelig; Buchstabe (oe-Ligatur) ist nicht in Latin-1, deshalb
    markieren wir ihn mit eckigen Klammern wie in <tt>man[oe]uvre</tt>
    oder <tt>[OE]dipus</tt> f&uuml;r den Gro&szlig;buchstaben &OElig;.
@@ -926,7 +926,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    Richtlinien nicht behandelt werden, lesen Sie die Anweisungen des
    Projektmanagers in den <a href="#comments">Projektkommentaren</a>.
 </p>
-<? } ?>
+<?php } ?>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
@@ -936,7 +936,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    &uuml;ber oder unter dem normalen lateinischen Buchstaben A ... Z.
    Sie werden <i>diakritische Zeichen</i> genannt und weisen auf eine
    spezielle Aussprache dieses Buchstabens hin.
-<? if($utf8_site) { ?>
+<?php if($utf8_site) { ?>
 </p>
 <p>Wenn ein solches Zeichen in Unicode nicht existiert, geben Sie es
    mittels <i>kombinierender diakritischer Zeichen</i> ein. Das sind
@@ -956,7 +956,7 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
    letters&ldquo; (Zeichen, die wie Buchstaben eigenen Platz beanspruchen)
    gibt; diese sollten nicht benutzt werden.
 </p>
-<? } else { ?>
+<?php } else { ?>
    Beim Korrekturlesen deuten wir sie in unserem normalen ASCII-Text mit
    einer speziellen Kodierung an, wie: <span style="font-size:110%;">&#259;</span> wird zu <tt>[)a]</tt>
    f&uuml;r einen Brevis (den u-f&ouml;rmigen Akzent) &uuml;ber dem a
@@ -1063,7 +1063,7 @@ cedilla                      [,x]   [x,]
     </tr>
   </tbody>
 </table>
-<? } ?>
+<?php } ?>
 <p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
@@ -1073,7 +1073,7 @@ cedilla                      [,x]   [x,]
    beispielsweise griechische, kyrillische (verwendet in Russisch,
    Slawisch und anderen Sprachen), hebr&auml;ische oder arabische Buchstaben.
 </p>
-<? if(strcasecmp($charset,"UTF-8")) { ?>
+<?php if(strcasecmp($charset,"UTF-8")) { ?>
 <p>Bei griechischen Buchstaben sollten Sie eine Transliteration
    versuchen. Dabei wird jeder Buchstabe des fremden Alphabets in
    den/die betreffenden lateinischen Buchstaben &uuml;bertragen.
@@ -1091,7 +1091,7 @@ cedilla                      [,x]   [x,]
    der Griechisch-Markierung <tt>[Greek:&nbsp;</tt> und <tt>]</tt>.
    So wird zum Beispiel <span style="font-size:115%;">&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</span>
    in der Transliteration zu <tt>[Greek: Biblos]</tt>
-   (&bdquo;Buch&ldquo; &ndash; ein passendes Beispiel f&uuml;r <? echo "$site_abbreviation"; ?>!).
+   (&bdquo;Buch&ldquo; &ndash; ein passendes Beispiel f&uuml;r <?php echo "$site_abbreviation"; ?>!).
 </p>
 <p>Wenn Sie sich Ihrer Transliteration nicht sicher sind, markieren Sie
    diese mit <tt>**</tt>, damit die Korrekturleser in den
@@ -1109,7 +1109,7 @@ cedilla                      [,x]   [x,]
 
 <ul compact>
   <li>Griechisch: Hierbei hilft das
-      <a href="<? echo $PG_greek_howto_url; ?>">Greek HOWTO</a> (des
+      <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a> (des
       Project Gutenberg) und das Popup-Tool &sbquo;Greek Transliterator&lsquo;
       der Korrekturlese-Oberfl&auml;che.
   </li>
@@ -1123,11 +1123,11 @@ cedilla                      [,x]   [x,]
       wenn Sie die Sprache flie&szlig;end sprechen. Es gibt einige
       prinzipielle Probleme bei der Transliteration, und weder
       Distributed Proofreaders noch
-      <a href="<? echo $PG_home_url; ?>">Project Gutenberg</a>
+      <a href="<?php echo $PG_home_url; ?>">Project Gutenberg</a>
       haben bisher eine Standardmethode festgelegt.
   </li>
 </ul>
-<? } else { ?>
+<?php } else { ?>
 <p>Diese Zeichen sollten in den Text eingegeben werden wie lateinische
    Buchstaben (<b>OHNE Transliteration!</b>).
 </p>
@@ -1151,7 +1151,7 @@ cedilla                      [,x]   [x,]
    Schlie&szlig;en Sie die <tt>**</tt> ein, damit der Nachbearbeiter
    den Text sp&auml;ter leichter finden und bearbeiten kann.
 </p>
-<? } ?>
+<?php } ?>
 <p class="backtotop"><a href="#top">Zur&uuml;ck nach oben</a></p>
 
 
@@ -2267,13 +2267,13 @@ Plural   {   2d   "  ye, or you,   you,
    Dieser Typ Fehler ist schwer zu entdecken, und wir haben einen
    speziellen Ausdruck daf&uuml;r: &bdquo;Stealth Scannos&ldquo;
    (getarnte OCR-Fehler). Beispiele von Stealth Scannos sammeln wir in
-   <a href="<? echo $Stealth_Scannos_URL; ?>">diesem Thread</a>.
+   <a href="<?php echo $Stealth_Scannos_URL; ?>">diesem Thread</a>.
 </p>
 <p>Das Erkennen von Scannos ist einfacher, wenn Sie eine
    nicht-proportionale Schriftart verwenden, wie etwa
    <a href="font_sample.php">DPCustomMono</a> oder Courier. Um das Korrekturlesen
    zu unterst&uuml;tzen wird der Gebrauch von <a href="wordcheck-faq.php">WordCheck</a>
-   (oder etwas vergleichbarem) in <? echo $ELR_round->id; ?> empfohlen.
+   (oder etwas vergleichbarem) in <?php echo $ELR_round->id; ?> empfohlen.
    In den anderen Korrekturlese-Runden ist es vorgeschrieben.
 </p>
 <!-- END RR -->
@@ -2427,10 +2427,10 @@ Plural   {   2d   "  ye, or you,   you,
 <ul compact>
   <li>Die Pulldown-Men&uuml;s in der Korrekturlese-Oberfl&auml;che.</li>
   <li>Applets, die im Betriebssystem Ihres Computers enthalten sind.
-<? if(!$utf8_site) { ?>
+<?php if(!$utf8_site) { ?>
 Wenn Sie diese benutzen, dann sichern Sie ab, dass Sie nur Latin-1 Zeichen eingeben,
 wie sie in den Tabellen weiter unten aufgelistet sind.
-<? } ?>
+<?php } ?>
     <ul compact>
       <li>Windows: &sbquo;Zeichentabelle&lsquo;<br> Zugriff haben Sie mit:<br>
           Start -&gt;Ausf&uuml;hren-&gt; charmap bzw.<br>
@@ -3054,16 +3054,16 @@ wie sie in den Tabellen weiter unten aufgelistet sind.
     <td width="10">&nbsp;</td>
     <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
       Return to:
-      <a href=".."><? echo "$site_name"; ?> home page</a>,
+      <a href=".."><?php echo "$site_name"; ?> home page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="faq_central.php"><? echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
       &nbsp;&nbsp;&nbsp;
-      <a href="<? echo $PG_home_url; ?>">Project Gutenberg home page</a>.
+      <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
       </font>
     </td>
   </tr>
 </table>
 
-<?
+<?php
 theme('','footer');
 ?>

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // Send real HTTP headers to user-agents - at least one of these headers should
 // be honored by all clients/proxies/caches.
 //

@@ -1,4 +1,4 @@
-<?
+<?php
 include_once($relPath.'links.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'metarefresh.inc');
@@ -32,8 +32,8 @@ function echo_cutoff_script($cutoffOptions,$instances) {
 ?>
 <script language="javascript">
     function setCutoff(newCutoff) {
-        var cutoffArray = new Array(<?=$cutoffJSArray;?>);
-        var instances = <?=$instances;?>;
+        var cutoffArray = new Array(<?php echo $cutoffJSArray; ?>);
+        var instances = <?php echo $instances; ?>;
         for(cutoffIndex in cutoffArray.reverse()) {
             cutoff = cutoffArray[cutoffIndex];
             for(instance = instances; instance>=0; instance--) {
@@ -91,7 +91,7 @@ function echo_cutoff_script($cutoffOptions,$instances) {
     }
 
 </script>
-<? } // end of echo_cutoff_script
+<?php } // end of echo_cutoff_script
 
 // given the list of cutoff options and the word count
 // make sure the intial cutoff shows something
@@ -244,7 +244,7 @@ table.freq td.num { text-align: right; }
 span.hl { background-color: yellow; color: black; }
 p.warning { color: red; }
 </style>
-<?
+<?php
 }
 
 function echo_page_header($title,$projectid) {

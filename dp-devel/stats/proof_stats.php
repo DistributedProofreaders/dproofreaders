@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'dp_main.inc');

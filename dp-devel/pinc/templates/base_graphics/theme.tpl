@@ -1,4 +1,4 @@
-<?
+<?php
 //
 //
 // The Default Template

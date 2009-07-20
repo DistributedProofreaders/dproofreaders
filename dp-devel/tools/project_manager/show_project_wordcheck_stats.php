@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
@@ -140,54 +140,54 @@ if($total["num_pages"]>0) {
 ?>
 <table class='wordlisttable'>
 <tr>
-    <td class='label'><? echo _("Number of pages in project"); ?></td>
-    <td style='text-align: right;'><?=$total["num_pages"];?></td>
+    <td class='label'><?php echo _("Number of pages in project"); ?></td>
+    <td style='text-align: right;'><?php echo $total["num_pages"]; ?></td>
 </tr>
 <tr>
-    <td class='label'><? echo _("Number of flagged words in project"); ?></td>
-    <td style='text-align: right;'><?=$total["flagged"];?></td>
+    <td class='label'><?php echo _("Number of flagged words in project"); ?></td>
+    <td style='text-align: right;'><?php echo $total["flagged"]; ?></td>
 </tr>
 <tr>
-    <td class='label'><? echo _("Number of flagged words from site's Bad Word List"); ?></td>
-    <td style='text-align: right;'><?=$total["site_bad_words"];?></td>
+    <td class='label'><?php echo _("Number of flagged words from site's Bad Word List"); ?></td>
+    <td style='text-align: right;'><?php echo $total["site_bad_words"]; ?></td>
 </tr>
 <tr>
-    <td class='label'><? echo _("Number of flagged words from project's Bad Word List"); ?></td>
-    <td style='text-align: right;'><?=$total["proj_bad_words"];?></td>
+    <td class='label'><?php echo _("Number of flagged words from project's Bad Word List"); ?></td>
+    <td style='text-align: right;'><?php echo $total["proj_bad_words"]; ?></td>
 </tr>
 <tr>
-    <td class='label'><? echo _("Mean flagged words per page"); ?></td>
-    <td style='text-align: right;'><?=number_format($total["flagged_avg"],3);?></td>
+    <td class='label'><?php echo _("Mean flagged words per page"); ?></td>
+    <td style='text-align: right;'><?php echo number_format($total["flagged_avg"],3); ?></td>
 </tr>
 <tr>
-    <td class='label'><? echo _("Mean of words from site's Bad Word List flagged per page"); ?></td>
-    <td style='text-align: right;'><?=number_format($total["site_bad_words_avg"],3);?></td>
+    <td class='label'><?php echo _("Mean of words from site's Bad Word List flagged per page"); ?></td>
+    <td style='text-align: right;'><?php echo number_format($total["site_bad_words_avg"],3); ?></td>
 </tr>
 <tr>
-    <td class='label'><? echo _("Mean of words from project's Bad Word List flagged per page"); ?></td>
-    <td style='text-align: right;'><?=number_format($total["proj_bad_words_avg"],3);?></td>
+    <td class='label'><?php echo _("Mean of words from project's Bad Word List flagged per page"); ?></td>
+    <td style='text-align: right;'><?php echo number_format($total["proj_bad_words_avg"],3); ?></td>
 </tr>
 <tr>
-    <td class='label'><? echo _("Maximum flagged words per page"); ?></td>
-    <td style='text-align: right;'><?=$total["flagged_max"];?> on <? echo new_window_link("displayimage.php?project=$projectid&amp;imagefile=" . $total["flagged_max_page"], $total["flagged_max_page"]); ?></a></td>
+    <td class='label'><?php echo _("Maximum flagged words per page"); ?></td>
+    <td style='text-align: right;'><?php echo $total["flagged_max"]; ?> on <?php echo new_window_link("displayimage.php?project=$projectid&amp;imagefile=" . $total["flagged_max_page"], $total["flagged_max_page"]); ?></a></td>
 </tr>
 <tr>
-    <td class='label'><? echo _("Minimum flagged words per page"); ?></td>
-    <td style='text-align: right;'><?=$total["flagged_min"];?></td>
+    <td class='label'><?php echo _("Minimum flagged words per page"); ?></td>
+    <td style='text-align: right;'><?php echo $total["flagged_min"]; ?></td>
 </tr>
 <tr>
-    <td class='label'><? echo _("Mode of flagged words per page"); ?></td>
-    <td style='text-align: right;'><? echo $total["flagged_mode"] . " (" . $total["flagged_mode_num"] . ")";?></td>
+    <td class='label'><?php echo _("Mode of flagged words per page"); ?></td>
+    <td style='text-align: right;'><?php echo $total["flagged_mode"] . " (" . $total["flagged_mode_num"] . ")"; ?></td>
 </tr>
 </table>
 
-<h2><?=_("Flagged words distribution");?></h2>
+<h2><?php echo _("Flagged words distribution"); ?></h2>
 
-<p><img src="graph_flags_per_page.php?projectid=<?=$projectid;?>" alt="<?=_("Graph showing the number of flagged words per page");?>"></p>
+<p><img src="graph_flags_per_page.php?projectid=<?php echo $projectid; ?>" alt="<?php echo _("Graph showing the number of flagged words per page"); ?>"></p>
 
-<p><img src="graph_pages_per_number_of_flags.php?projectid=<?=$projectid;?>" alt="<?=_("Graph showing the number of pages with a given number of flagged words");?>"></p>
+<p><img src="graph_pages_per_number_of_flags.php?projectid=<?php echo $projectid; ?>" alt="<?php echo _("Graph showing the number of pages with a given number of flagged words"); ?>"></p>
 
-<?
+<?php
 
 theme('',"footer");
 
@@ -210,7 +210,7 @@ function echo_stylesheet() {
     table.wordlisttable .mono { font-family: monospace; }
     table.wordlisttable textarea { width: 100%; }
     </style>
-<?
+<?php
 }
 
 // vim: sw=4 ts=4 expandtab

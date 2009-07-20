@@ -1,4 +1,4 @@
-<?
+<?php
 // Translated by user 'cbgrf' at pgdp.net, 2006-08-26
 
 $relPath='../../c/pinc/';
@@ -2742,6 +2742,6 @@ Volver <A
 href="http://www.pgdp.net/"> al la p&aacute;gina principal de Distributed
 Proofreaders</A><BR><BR><BR>
 
-<?
+<?php
 theme('','footer');
 ?>

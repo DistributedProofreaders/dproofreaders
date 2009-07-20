@@ -1,4 +1,4 @@
-<?
+<?php
 //clear cookie if one is already set
 $relPath='./../pinc/';
 include_once($relPath.'dpsession.inc');

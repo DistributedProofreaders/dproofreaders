@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
   // Display the biography specified by bio_id-argument
 
@@ -50,8 +50,8 @@
   if (isset($_GET['message']))
     echo '<center>' . $_GET['message'] . '</center><br />';
 ?>
-<h2 align="center"><?=$name?> 
-<a href='<?=$code_url?>/tools/authors/bioxml.php?bio_id=<?=$id?>'><img src='<?=$code_url?>/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>
+<h2 align="center"><?php echo $name; ?> 
+<a href='<?php echo $code_url; ?>/tools/authors/bioxml.php?bio_id=<?php echo $id; ?>'><img src='<?php echo $code_url; ?>/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>
 </h2>
 <?php
   if (user_is_PM() || user_is_authors_db_manager()) {
@@ -62,7 +62,7 @@
 <br /><br />
 <table align="center" border="1">
 <tr><td>
-<?=$bio?>
+<?php echo $bio; ?>
 </td></tr>
 </table>
 <?php

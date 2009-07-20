@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../pinc/";
 include($relPath.'metarefresh.inc');
 include($relPath.'dp_main.inc');

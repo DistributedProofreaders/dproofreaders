@@ -1,4 +1,4 @@
-<?
+<?php
 // DP includes
 $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');

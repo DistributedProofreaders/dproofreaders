@@ -206,7 +206,7 @@ Do a quick check to ensure that the commit process
 <p>
 If everything still works in your sandbox, contact the Site Admins
  to have your code <b>installed to the test site</b>.
-A Site Admin will make your changes visible at <? echo $test_site_code_url; ?>
+A Site Admin will make your changes visible at <?php echo $test_site_code_url; ?>
  as time permits.
 </p>
 
@@ -254,6 +254,6 @@ If it doesn't work for you,
 
 <br>
 
-<?
+<?php
 theme('', 'footer');
 ?>

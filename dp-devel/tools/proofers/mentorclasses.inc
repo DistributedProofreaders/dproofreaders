@@ -1,4 +1,4 @@
-<?
+<?php
 // The following class provides all the info about a user required for project_detail.php.
 // It uses 3 completely optimized sql calls, and eliminates dozens, mostly in user_is.inc.
 

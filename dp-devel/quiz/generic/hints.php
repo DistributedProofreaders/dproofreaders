@@ -1,4 +1,4 @@
-<? 
+<?php 
 $relPath='../../pinc/';
 include_once('../small_theme.inc');
 

@@ -1,4 +1,4 @@
-<?
+<?php
 
 // The 'queue_defns' table defines the various release queues that the autorelease code
 // polls every hour in case any can release a new book for proofing.

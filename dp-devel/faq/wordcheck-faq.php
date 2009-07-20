@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'site_vars.php');
 include($relPath.'faq.inc');
@@ -29,7 +29,7 @@ span.mono
 <ul>
   <li><a href="#why_spellcheck">Why should I use a spell-checker? I'm a good speller!</a></li>
   <li><a href="#when_wordcheck">Should I run WordCheck before or after I "manually" proof a page?</a></li>
-  <li><a href="#ua_button">What's the "Unflag All &amp; Suggest" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) and what does it do?</a></li>
+  <li><a href="#ua_button">What's the "Unflag All &amp; Suggest" button (<img src="<?php echo $code_url; ?>/graphics/Book-Plus-Small.gif" border="0">) and what does it do?</a></li>
   <li><a href="#need_aw">Do I have to hit the Unflag All button for every word on the page?</a></li>
   <li><a href="#ua_diff">Why don't all Flagged words have an Unflag All button?</a></li>
   <li><a href="#wrong_ua">I hit Unflag All for a word but it was wrong - what do I do now?</a></li>
@@ -71,7 +71,7 @@ span.mono
   <li>The standard interface now shows the page image beside the spellcheck page for direct comparison to the original text.</li>
   <li>Page text is still checked against the dictionaries for all project languages. In addition the user has the ability to select additional languages to check the page against, useful if an English-only project has a page with a long quote in French for example.</li>
   <li>Each project has 'good' and 'bad' word lists that are used when determining words to flag in the interface. Good words are words that are valid for the project even though they are not found in the dictionary. Such words will often include proper nouns of people or places used frequently. Good words can be thought of as a project-specific dictionary. Bad Words are words that should be flagged for a project even though they may be found in the dictionary. These words might include common project-specific stealth scannos. Both the Good and Bad Word Lists are managed by the Project Manager.</li>
-  <li>Misspelled words have an "<a href="#ua_button">Unflag All &amp; Suggest</a>" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) next to them. The button is used to indicate that the word matches the image. Once clicked all identically spelled words on the page are also accepted as correct. After a word has been modified, the Unflag All button for that word will become disabled (<img src="<?=$code_url;?>/graphics/Book-Plus-Small-Disabled.gif" border="0">).</li>
+  <li>Misspelled words have an "<a href="#ua_button">Unflag All &amp; Suggest</a>" button (<img src="<?php echo $code_url; ?>/graphics/Book-Plus-Small.gif" border="0">) next to them. The button is used to indicate that the word matches the image. Once clicked all identically spelled words on the page are also accepted as correct. After a word has been modified, the Unflag All button for that word will become disabled (<img src="<?php echo $code_url; ?>/graphics/Book-Plus-Small-Disabled.gif" border="0">).</li>
   <li>Words that are flagged by proofers as accepted via the <a href="#ua_button">Unflag All</a> button are added to a file for review by the Project Manager. Commonly unflagged words can be added to the 'good' word list.</li>
 </ul>
 <p>The new interface has been relabeled as WordCheck to identify the broader scope of the tool.</p>
@@ -117,7 +117,7 @@ span.mono
 <P>Also at this level, the text is compared against the project's Bad Words List. Any words in the text that are found on the project's Bad Words List are added to the list of Flagged words for this page. For this example, <span class="mono">fiat</span> is added to the list.</p>
 <p><i>Current list of Flagged words leaving level:</i> <span class="mono">tumbleweed arid 1and fiat</span></p>
 
-<p>The final list of Flagged words would be presented to the user and prompt the user to correct or accept them. The proofer might click the <a href="#ua_button">Unflag All</a> button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) next to <span class="mono">tumbleweed</span> to mark it is valid for this page. The next time the Project Manager generates suggestions from the Accepted Words list, <span class="mono">tumbleweed</span> will show up for possible inclusion on the Good Word List.</p>
+<p>The final list of Flagged words would be presented to the user and prompt the user to correct or accept them. The proofer might click the <a href="#ua_button">Unflag All</a> button (<img src="<?php echo $code_url; ?>/graphics/Book-Plus-Small.gif" border="0">) next to <span class="mono">tumbleweed</span> to mark it is valid for this page. The next time the Project Manager generates suggestions from the Accepted Words list, <span class="mono">tumbleweed</span> will show up for possible inclusion on the Good Word List.</p>
 <p>Because <span class="mono">arid</span> is a Site-level Bad word (a stealth scanno in this case), it will not have an <a href="#ua_button">Unflag All</a> button. This will force the proofer to look closely at all instances. In this situation the first instance of <span class="mono">arid</span> is correct while the second instance of the word is a scanno for the word <span class="mono">and</span>.</p>
 
 <h3><a name="capitalization"></a>How does capitalization affect the word lists?</h3>
@@ -144,10 +144,10 @@ span.mono
 <p>And other proofers will prefer other approaches to using WordCheck. Thus, run WordCheck at the time when it best fits into your particular page proofreading method.</p>
 
 
-<h3><a name="ua_button"></a>What's the "Unflag All &amp; Suggest" button (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">) and what does it do?</h3>
-<p>This button, whose icon shows a book and a plus sign (<img src="<?=$code_url;?>/graphics/Book-Plus-Small.gif" border="0">), provides a way for proofers to indicate that the word matches the image. Once clicked the button will cause all identically spelled words to be unflagged, just as if the word had been found in a dictionary or "good word" list. Additionally words for which the button has been clicked are added to a file for the project manager. The project manager can review these unflagged words and add those that occur frequently to the project's Good Word list.</p>
+<h3><a name="ua_button"></a>What's the "Unflag All &amp; Suggest" button (<img src="<?php echo $code_url; ?>/graphics/Book-Plus-Small.gif" border="0">) and what does it do?</h3>
+<p>This button, whose icon shows a book and a plus sign (<img src="<?php echo $code_url; ?>/graphics/Book-Plus-Small.gif" border="0">), provides a way for proofers to indicate that the word matches the image. Once clicked the button will cause all identically spelled words to be unflagged, just as if the word had been found in a dictionary or "good word" list. Additionally words for which the button has been clicked are added to a file for the project manager. The project manager can review these unflagged words and add those that occur frequently to the project's Good Word list.</p>
 
-<p>After a word has been modified, the Unflag All button for that word becomes disabled (<img src="<?=$code_url;?>/graphics/Book-Plus-Small-Disabled.gif" border="0">)because the proofer has decided that the word as shown was not correct. In addition, words are only unflagged for the current wordcheck session and do not persist for the proofer across wordcheck sessions either for the same or different pages.</p>
+<p>After a word has been modified, the Unflag All button for that word becomes disabled (<img src="<?php echo $code_url; ?>/graphics/Book-Plus-Small-Disabled.gif" border="0">)because the proofer has decided that the word as shown was not correct. In addition, words are only unflagged for the current wordcheck session and do not persist for the proofer across wordcheck sessions either for the same or different pages.</p>
 
 
 <h3><a name="need_aw"></a>Do I have to hit the Unflag All button for every word on the page?</h3>
@@ -178,12 +178,12 @@ span.mono
 <h3><a name="site_word_lists"></a>How do I view Site Word Lists?</h3>
 <p>Site-level words are stored in language-specific files.</p>
 <p>Site-level Good and Bad word lists are used when calculating Flagged words in a body of text. Here is the current set of such lists:</p>
-<? createWordListTable(get_site_good_bad_word_lists()); ?>
+<?php createWordListTable(get_site_good_bad_word_lists()); ?>
 
 <p>Possible Bad word lists are used to suggest possible Bad words for a Project Manager. Here is the current set of such lists:</p>
-<? createWordListTable(get_site_possible_bad_word_lists()); ?>
+<?php createWordListTable(get_site_possible_bad_word_lists()); ?>
 
-<?
+<?php
 function createWordListTable($word_lists) {
     // return if there aren't any word_lists
     if(count($word_lists)==0) {
@@ -224,7 +224,7 @@ function createWordListTable($word_lists) {
 <h3><a name="site_dictionaries"></a>What dictionaries are installed on the site?</h3>
 <p>The following languages have dictionaries installed on the site:</p>
 <ul>
-<?
+<?php
 $languages=array_values(get_languages_with_dictionaries());
 sort($languages);
 foreach($languages as $language) {
@@ -262,11 +262,11 @@ foreach($languages as $language) {
 
 
 <h3><a name="manage_suggestions"></a>Can I view all proofer suggestions at once or do I have to do it project by project?</h3>
-<p>A recent WordCheck update allows PMs to manage all proofer suggestionst at once, rather than opening up every project to see if there are suggestions to review. To do this, access the Manage All Proofer's Suggestions link from the <a href="<?=$code_url;?>/tools/project_manager/projectmgr.php">Project Search</a> page.</p>
+<p>A recent WordCheck update allows PMs to manage all proofer suggestionst at once, rather than opening up every project to see if there are suggestions to review. To do this, access the Manage All Proofer's Suggestions link from the <a href="<?php echo $code_url; ?>/tools/project_manager/projectmgr.php">Project Search</a> page.</p>
 
 
 <h3><a name="wordlist_value"></a>Why is it important to define project-specific lists?</h3>
-<p>One of the most frequently requested improvements (do a search on the task page at <a href="<?=$code_url;?>/tasks.php"><?=$code_url;?>/tasks.php</a> for "dictionary" and "spell") on site over the years has been for the ability to add words to the various dictionaries used by the spell checker.</p>
+<p>One of the most frequently requested improvements (do a search on the task page at <a href="<?php echo $code_url; ?>/tasks.php"><?php echo $code_url; ?>/tasks.php</a> for "dictionary" and "spell") on site over the years has been for the ability to add words to the various dictionaries used by the spell checker.</p>
 
 <p>WordCheck, which effectively replaced the spell checker, provides this capability through the project bad and good lists. A word placed in the project good list will not be flagged, even if it is not recognised by the aspell dictionary. This is exactly the sort of behaviour that is ideal for words that validly appear in your project but not in the standard aspell dictionary, such as proper nouns, names, technical terms and jargon, etc.</p>
 
@@ -297,7 +297,7 @@ foreach($languages as $language) {
 <h3><a name="repeated_rounds"></a>What do retreads/repeats/second passes do to the proofer suggestions?</h3>
 <p>If a project is cycled back through a previous round, the output of the Suggestion from Proofers page may give odd results. If the good_word_suggestions.txt file is preserved during the move, previous proofer suggestions will be retained and may show up on the Suggestion from Proofers page if not all suggestions have been added to one of the project's Word List. It is therefore possible for retread projects to list proofer suggestions for rounds later than the project is currently in. It is also possible for a word that only appears once in the text to show up as being suggested twice. WordCheck will not be affected by this and the PM can safely ignore the earlier data if they so choose.</p>
 
-<?
+<?php
 theme('','footer');
 // vim: sw=4 ts=4 expandtab
 ?>

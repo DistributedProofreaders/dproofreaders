@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 // One-time script to create 'news_pages' table and modify news_table
 

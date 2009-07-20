@@ -1,4 +1,4 @@
-<?
+<?php
 function mentor_banner($round)
 {
     global $wiki_url;

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // Give information on smooth reading
 // including (most importantly) the list of projects currently available
 

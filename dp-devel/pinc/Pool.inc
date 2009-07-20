@@ -1,4 +1,4 @@
-<?PHP
+<?php
 
 include_once($relPath.'misc.inc');
 include_once($relPath.'Stage.inc');

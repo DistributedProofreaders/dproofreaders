@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
 include_once($relPath.'abort.inc');

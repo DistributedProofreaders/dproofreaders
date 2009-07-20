@@ -1,4 +1,4 @@
-<?
+<?php
 
 // One-time script to create 'access_log' table
 

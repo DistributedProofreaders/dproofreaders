@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
@@ -76,7 +76,7 @@ else if ($_GET['action'] == 'get_user') {
 
     if (mysql_num_rows($result) == 0) {
         ?>
-        No user '<?=stripslashes($username)?>' was found in the list of non-validated users.
+        No user '<?php echo stripslashes($username); ?>' was found in the list of non-validated users.
         <p>Note that you can also <a href="?action=list_all">list all user accounts
         awaiting activation</a>.</p>
         <?php
@@ -89,10 +89,10 @@ else if ($_GET['action'] == 'get_user') {
         <br />
         <form method='get'>
         <input type='hidden' name='action' value='set_email' />
-        <input type='hidden' name='username' value='<?=htmlspecialchars($username)?>' />
-        Username: <?=htmlspecialchars($username)?>
+        <input type='hidden' name='username' value='<?php echo htmlspecialchars($username); ?>' />
+        Username: <?php echo htmlspecialchars($username); ?>
         <br />
-        E-mail: <input type='text' name='email' value='<?=$email?>' />
+        E-mail: <input type='text' name='email' value='<?php echo $email; ?>' />
         <br />
         <input type='submit' value='Update address and resend activation mail' />
         </form>

@@ -1,4 +1,4 @@
-<?
+<?php
 //A file full of member statistic functions
 
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*

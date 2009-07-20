@@ -65,7 +65,7 @@ text-align: center;
 background: #FFF8DC;
 display:inline;
 margin: 0 1px 1px 0;
-<? if(!stristr($_SERVER['HTTP_USER_AGENT'],"msie"))
+<?php if(!stristr($_SERVER['HTTP_USER_AGENT'],"msie"))
      echo "line-height:140%;\n"; ?>
 padding-top: 1px;
 cursor: pointer;
@@ -93,7 +93,7 @@ cursor: pointer;
 ><tr><td
 	valign="top"
 	align="right"
-><?
+><?php
 
 echo_character_selectors_block();
 
@@ -118,7 +118,7 @@ echo_character_selectors_block();
 	size="9"
 	onclick="this.select()"
 >
-<?
+<?php
 
 echo_tool_buttons( $round->pi_tools['tool_buttons'] );
 
@@ -137,11 +137,11 @@ src="gfx/tags/sub.png" width="22" height="22" border="0" align="top" title="subs
 ?></td><td
 	align="right"
 	valign="top">
-<?
+<?php
 echo "<b><font color='red'>"._("HELP")."---&gt;</font></b>";
 ?>
       <a
-	href="../../faq/<? echo lang_dir(); ?>prooffacehelp.php"
+	href="../../faq/<?php echo lang_dir(); ?>prooffacehelp.php"
 	accesskey="1"
 	target="helpNewWin"
 ><img
@@ -150,14 +150,14 @@ echo "<b><font color='red'>"._("HELP")."---&gt;</font></b>";
 	height="18"
 	border="0"
 	align="top"
-	alt="<? echo _("Help"); ?>"
-	title="<? echo _("Help"); ?>"
+	alt="<?php echo _("Help"); ?>"
+	title="<?php echo _("Help"); ?>"
 ></a>
 </td></tr><tr><td
 	valign="top"
 	colspan="3"
 	align="center">
-<?PHP 
+<?php
 echo "<font size='-1'>\n";
 
 echo "<i>"._("Markup shortcuts").":</i>\n";
@@ -175,9 +175,9 @@ echo _('Guidelines');
 echo "</a>\n";
 
 echo "<i>"._("Proofreading Diagrams:")."</i>\n"; ?>
-[<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_blank'><? echo _("High Res"); ?></a>] 
-[<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_MedRes.gif' target='_blank'><? echo _("Medium Res"); ?></a>] 
-[<a style="color:#0000FF; text-decoration: underline;" href='<? echo $code_url; ?>/faq/ProofingDiagram_LowRes.gif' target='_blank'><? echo _("Low Res"); ?></a>]
+[<a style="color:#0000FF; text-decoration: underline;" href='<?php echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_blank'><?php echo _("High Res"); ?></a>] 
+[<a style="color:#0000FF; text-decoration: underline;" href='<?php echo $code_url; ?>/faq/ProofingDiagram_MedRes.gif' target='_blank'><?php echo _("Medium Res"); ?></a>] 
+[<a style="color:#0000FF; text-decoration: underline;" href='<?php echo $code_url; ?>/faq/ProofingDiagram_LowRes.gif' target='_blank'><?php echo _("Low Res"); ?></a>]
 
 </font>
 </td>

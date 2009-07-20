@@ -11,7 +11,7 @@ slim_header("$site_abbreviation Catalog");
 
 ?>
 
-<h1><?=$site_name?> Catalog</h1>
+<h1><?php echo $site_name; ?> Catalog</h1>
 
 
 

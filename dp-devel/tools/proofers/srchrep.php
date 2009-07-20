@@ -107,29 +107,29 @@ window.onload = test_and_enable_nonregex;
 <form>
 <table id="tbl">
 <tr><td align="right">
-<? echo _("Search:"); ?>
+<?php echo _("Search:"); ?>
 </td><td>
 <input type="text" name="search" id='search' />
 </td></tr>
 <tr><td align="right">
-<? echo _("Replace:"); ?>
+<?php echo _("Replace:"); ?>
 </td><td>
 <input type="text" name="replace" id='replace' />
 </td></tr>
 <tr><td align="right">
-<label for='is_regex'><? echo _("Regular Expression?"); ?></label>
+<label for='is_regex'><?php echo _("Regular Expression?"); ?></label>
 </td><td>
 <input type="checkbox" name="is_regex" id='is_regex' checked disabled />
 </td></tr>
 </table>
 <center>
-    <input type="button" value="<? echo _("Replace all."); ?>" onClick="do_replace()">
-    <input type="button" id='undo' value="<? echo _("Undo."); ?>" onClick="restore_saved_text()" disabled />
+    <input type="button" value="<?php echo _("Replace all."); ?>" onClick="do_replace()">
+    <input type="button" id='undo' value="<?php echo _("Undo."); ?>" onClick="restore_saved_text()" disabled />
 </center>
 </form>
-<p><? echo _("Warning: Undo is only possible for the most recent replace!"); ?></p>
+<p><?php echo _("Warning: Undo is only possible for the most recent replace!"); ?></p>
 <p id='regex_help_title' onclick='toggle_regex_help();'><span id='regex_arrow'>&#9654;</span>
-<?= _('Regular expression?')?></p>
+<?php echo _('Regular expression?'); ?></p>
 <p id='regex_help'>
 . &mdash; any character<br />
 [a-z0-9] &mdash; lowercase letters and numbers<br />

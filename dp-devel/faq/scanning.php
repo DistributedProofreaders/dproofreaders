@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath='../pinc/';
 include($relPath.'site_vars.php');
 include($relPath.'connect.inc');
@@ -198,6 +198,6 @@ Just be aware, in the OCR world, you typically get what you pay for.
 <br>
 </p>
 
-<?
+<?php
 theme('','footer');
 ?>

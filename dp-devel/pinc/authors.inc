@@ -1,4 +1,4 @@
-<?PHP
+<?php
   function get_biography($id) {
     $result = mysql_query("SELECT bio FROM biographies WHERE bio_id = $id;");
     if (!$result || mysql_num_rows($result) == 0) {

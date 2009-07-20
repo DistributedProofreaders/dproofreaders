@@ -1,4 +1,4 @@
-<?
+<?php
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'button_defs.inc');
 include_once($relPath.'slim_header.inc');
@@ -13,7 +13,7 @@ function echo_text_frame_std( $ppage )
     <body onload="top.initializeStuff(0)">
     <center>
     <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe">
-        <?
+        <?php
 
         $ppage->echo_proofing_textarea();
 
@@ -57,15 +57,15 @@ function echo_text_frame_std( $ppage )
 
         echo _("Image Resize:");
         ?>
-        <input title="<? echo _("Zoom Out 25%"); ?>" id="zoomout_button" type="button" value="-25%" onclick="top.reSizeRelative(0.75)?true:this.disabled=true;">
-        <input title="<? echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25); document.getElementById('zoomout_button').disabled=false;">
-        <input title="<? echo _("Zoom to Original Size"); ?>" type="button" value="Original" onclick="top.reSizeRelative(-1); document.getElementById('zoomout_button').disabled=false;">
+        <input title="<?php echo _("Zoom Out 25%"); ?>" id="zoomout_button" type="button" value="-25%" onclick="top.reSizeRelative(0.75)?true:this.disabled=true;">
+        <input title="<?php echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25); document.getElementById('zoomout_button').disabled=false;">
+        <input title="<?php echo _("Zoom to Original Size"); ?>" type="button" value="Original" onclick="top.reSizeRelative(-1); document.getElementById('zoomout_button').disabled=false;">
 
     </form>
     </center>
     </body>
     </html>
-    <?
+    <?php
 }
 // vim: sw=4 ts=4 expandtab
 ?>

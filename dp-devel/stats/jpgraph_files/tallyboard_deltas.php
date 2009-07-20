@@ -1,4 +1,4 @@
-<?
+<?php
 $relPath="./../../pinc/";
 include_once($relPath.'misc.inc');
 include_once($relPath.'TallyBoard.inc');

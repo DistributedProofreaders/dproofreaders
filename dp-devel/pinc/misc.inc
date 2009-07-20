@@ -1,4 +1,4 @@
-<?PHP
+<?php
 // Miscellaneous little (non-DP-specific) functions
 
 function define_if_necc( $name, $value )

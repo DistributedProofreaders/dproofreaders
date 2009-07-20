@@ -1,4 +1,4 @@
-<?
+<?php
 
 define('CHANGE_LAYOUT',               'A');
 define('QUIT',                        'B');

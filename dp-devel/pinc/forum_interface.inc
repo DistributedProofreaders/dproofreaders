@@ -1,4 +1,4 @@
-<?
+<?php
 // forum_interface.inc
 
 include_once($relPath."languages.inc"); // phpbb_lang()

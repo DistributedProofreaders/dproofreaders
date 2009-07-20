@@ -40,7 +40,7 @@ theme("$type E-Texts", "header");
 <center><font face="Verdana" size="6"><b>E-Texts</b></font></center>
 
 <center>
-<?
+<?php
 
 $i = 0;
 foreach ( array('gold','silver','bronze') as $metal )
@@ -57,7 +57,7 @@ foreach ( array('gold','silver','bronze') as $metal )
 </center><br>
 
 <center>
-<?
+<?php
 
 $field_map = array(
     'nameofwork'   => _('Title'),
@@ -83,7 +83,7 @@ foreach ( array('nameofwork', 'author', 'modifieddate') as $other_field_name )
 </center>
 <hr width="75%" align="center"><br>
 
-<?
+<?php
 
 showtexts($etext_limit, $type, $orderby, $field_name, $search_char, $show_total);
 

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 $relPath="./../../pinc/";
 include($relPath.'doctype.inc');
 echo $docType. "\r\n";

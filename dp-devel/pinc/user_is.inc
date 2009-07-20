@@ -1,4 +1,4 @@
-<?
+<?php
 // $Id$
 
 // This file provides settings (mostly permissions) for the logged-on user.
