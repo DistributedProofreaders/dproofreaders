@@ -61,8 +61,9 @@ function user_is_taskcenter_mgr()
     return user_is_a_sitemanager() || $userSettings->get_boolean("task_center_mgr");
 }
 
-function user_can_modify_access()
+function user_can_modify_access_of($subject_username)
 {
+    // Currently, $subject_username is ignored.
     if ( user_is_a_sitemanager() || user_is_an_access_request_reviewer() )
     {
         $can_grant = TRUE; $can_revoke = TRUE;

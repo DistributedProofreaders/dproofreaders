@@ -290,7 +290,7 @@ function showForumProfile($username) {
 
 function showMbrAccess( $curMbr )
 {
-    list($can_grant,$can_revoke) = user_can_modify_access();
+    list($can_grant,$can_revoke) = user_can_modify_access_of($curMbr['username']);
     if ( !$can_grant ) return;
 
     echo "<i>(";

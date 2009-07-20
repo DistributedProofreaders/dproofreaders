@@ -515,7 +515,7 @@ function show_user_access_chart( $username )
 
     if ( is_null($username) ) die('show_user_access_chart: $username is null');
 
-    list($allow_grant,$allow_revoke) = user_can_modify_access();
+    list($allow_grant,$allow_revoke) = user_can_modify_access_of($username);
 
     if ( $allow_grant || $allow_revoke )
     {

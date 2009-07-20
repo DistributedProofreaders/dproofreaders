@@ -7,12 +7,11 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'access_log.inc');
 
-list($can_grant,$can_revoke) = user_can_modify_access();
-
-if ( !$can_grant && !$can_revoke ) die( "Error: you are not permitted to execute this script" );
-
 $subject_username = @$_POST['subject_username'];
 if (empty($subject_username)) die( "parameter 'subject_username' is empty" );
+
+list($can_grant,$can_revoke) = user_can_modify_access_of($subject_username);
+if ( !$can_grant && !$can_revoke ) die( "Error: you are not permitted to modify the access of user '$subject_username'." );
 
 if ($_POST['notify_user'] == 'on') $notify_user = true;
 
