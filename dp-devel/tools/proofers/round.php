@@ -124,7 +124,7 @@ if ($pagesproofed <= 20)
         echo "<hr width='75%'>\n";
 
         echo "<font face=" . $theme['font_mainbody'] ."><b>";
-        echo _("Click on the name of a book in the list below to start proofreading.");
+        echo _("Click on the title of a book in the list below to start proofreading.");
         echo "</b></font><br><br>\n";
     }
 }
