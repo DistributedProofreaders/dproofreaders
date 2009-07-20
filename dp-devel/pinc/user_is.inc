@@ -63,7 +63,7 @@ function user_is_taskcenter_mgr()
 
 function user_can_modify_access_of($subject_username)
 {
-    // Currently, $subject_username is ignored.
+    // Currently, $subject_username is ignored unless $testing is true.
     if ( user_is_a_sitemanager() || user_is_an_access_request_reviewer() )
     {
         $can_grant = TRUE; $can_revoke = TRUE;
@@ -76,6 +76,21 @@ function user_can_modify_access_of($subject_username)
     {
         $can_grant = FALSE; $can_revoke = FALSE;
     }
+
+    global $testing, $pguser;
+    if ( $testing && (!$can_grant || !$can_revoke) && $subject_username == $pguser)
+    {
+        static $shown = FALSE;
+        if  (!$shown)
+        {
+            echo "<p style='color:red'>";
+            echo _("You would not normally be able to grant+revoke access, but because this is a test site, you are permitted to do so <i>for yourself</i>.");
+            echo "</p>";
+            $shown = TRUE;
+        }
+        $can_grant = TRUE; $can_revoke = TRUE;
+    }
+
     return array( $can_grant, $can_revoke );
 }
 
