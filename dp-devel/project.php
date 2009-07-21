@@ -2,8 +2,8 @@
 $relPath='./pinc/';
 
 // gettext_setup.inc has a reference (in top-level code) to $userP,
-// which isn't set properly (if at all) until dpsesion_resume() is called.
-// Thus, we must include dpsession.inc and call dpsesion_resume()
+// which isn't set properly (if at all) until dpsession_resume() is called.
+// Thus, we must include dpsession.inc and call dpsession_resume()
 // before we include gettext_setup.inc (directly or indirectly).
 // (There's probably several scripts that don't do this,
 // so we need a better mechanism.)
