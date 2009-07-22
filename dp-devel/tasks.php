@@ -412,11 +412,10 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
         ShowNotification("You must supply a valid related task id number.");
     }
 } elseif (isset($_POST['new_relatedposting'])) {
-    $checkTopicExists = does_topic_exist($_POST['related_posting']);
     $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = ".$_POST['new_relatedposting']."");
     $relatedpostings_array = unserialize(base64_decode(mysql_result($result, 0, "related_postings")));
     if (!is_array($relatedpostings_array)) { $relatedpostings_array = array(); }
-    if (is_numeric($_POST['related_posting']) && mysql_num_rows($checkTopicExists) >= 1 && !in_array($_POST['related_posting'], $relatedpostings_array)) {
+    if (is_numeric($_POST['related_posting']) && does_topic_exist($_POST['related_posting']) && !in_array($_POST['related_posting'], $relatedpostings_array)) {
         array_push($relatedpostings_array, $_POST['related_posting']);
         $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
         $result = mysql_query("UPDATE tasks SET related_postings = '$relatedpostings_array' WHERE task_id = ".$_POST['new_relatedposting']."");
