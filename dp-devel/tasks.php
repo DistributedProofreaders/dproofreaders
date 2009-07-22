@@ -172,10 +172,14 @@ $browser_array = array(0 => "All",
     45 => "Mozilla Firefox 2.x",
     46 => "Mozilla Firefox 3.x",
     47 => "Safari 3.x",
+    48 => "Internet Explorer 8.x",
+    49 => "Safari 4.x",
+    50 => "Opera 10.x",
     99 => "Other");
     asort($browser_array);
 $versions_array = array(1 => "pgdp.net (Live)",
     4 => "dp.rastko.net (Live)",
+    5 => "pgdpcanada.net (Live)",
     2 => "texts01 (Beta)",
     3 => "CVS");
 $tasks_close_array = array(1 => "Not a Bug",
