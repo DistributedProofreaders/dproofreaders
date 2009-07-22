@@ -358,8 +358,24 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
     if ($_POST['task_category'] == 999) { $task_category = "task_category >= 0"; } else { $task_category = "task_category = ".$_POST['task_category']; }
     if ($_POST['task_status'] == 999) { $task_status = "task_status >= 0 AND date_closed = 0"; } elseif ($_POST['task_status'] == 998) { $task_status = "task_status >= 0"; } else { $task_status = "task_status = ".$_POST['task_status']; }
     if ($_POST['task_version'] == 999) { $task_version = "task_version >= 0"; } else { $task_version = "task_version = ".$_POST['task_version']; }
-    $sql_query = "SELECT * FROM tasks WHERE (task_summary LIKE '%".$_POST['search_text']."%' OR task_details LIKE '%".$_POST['search_text']."%') AND $task_type AND $task_severity AND $task_priority AND $task_assignee AND $task_category AND $task_status AND $task_version $order_by";
-
+    
+    $search_text_summary = addslashes(htmlspecialchars($_POST['search_text']));
+    $search_text_details = addslashes(htmlspecialchars($_POST['search_text'], ENT_QUOTES));
+    // TODO, should we protect % and _ ?
+    $sql_query = "
+        SELECT *
+        FROM tasks
+        WHERE
+            (task_summary LIKE '%$search_text_summary%' OR task_details LIKE '%$search_text_details%')
+            AND $task_type
+            AND $task_severity
+            AND $task_priority
+            AND $task_assignee
+            AND $task_category
+            AND $task_status
+            AND $task_version
+        $order_by
+    ";
     $result = mysql_query($sql_query);
     ShowTasks($result);
 } elseif (isset($_GET['f']) && $_GET['f'] == "detail") {
@@ -446,7 +462,13 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
         if ($_GET['task_status'] == 999) { $task_status = "task_status >= 0 AND date_closed = 0"; } elseif ($_GET['task_status'] == 998) { $task_status = "task_status >= 0"; } else { $task_status = "task_status = ".$_GET['task_status']; }
         if ($_GET['task_version'] == 999) { $task_version = "task_version >= 0"; } else { $task_version = "task_version = ".$_GET['task_version']; }
         $criteria = "$task_type AND $task_severity AND $task_assignee AND $task_category AND $task_status AND $task_version";
-        if (!empty($_GET['search_text'])) { $criteria = "task_summary LIKE '%".$_GET['search_text']."%' OR task_details LIKE '%".$_GET['search_text']."%' AND $criteria"; }
+
+        if (!empty($_GET['search_text']))
+        {
+            $search_text_summary = addslashes(htmlspecialchars($_GET['search_text']));
+            $search_text_details = addslashes(htmlspecialchars($_GET['search_text'], ENT_QUOTES));
+            $criteria = "task_summary LIKE '%$search_text_summary%' OR task_details LIKE '%$search_text_details%' AND $criteria"; 
+        }
     } else {
         $criteria = "date_closed = 0";
     }
@@ -474,7 +496,14 @@ function TaskHeader() {
     global $task_assignees_array;
     global $percent_complete_array, $code_url;
 
-    if (isset($_REQUEST['search_text']) && !empty($_REQUEST['search_text'])) { $search_text = $_REQUEST['search_text']; } else { $search_text = ""; }
+    if (isset($_REQUEST['search_text']) && !empty($_REQUEST['search_text'])) 
+    {
+        if (get_magic_quotes_gpc())
+            $_REQUEST['search_text'] = stripslashes($_REQUEST['search_text']);
+        $search_text = htmlspecialchars($_REQUEST['search_text'], ENT_QUOTES); 
+    } 
+    else 
+        $search_text = "";
 
     echo "<form action='tasks.php' method='get'><input type='hidden' name='f' value='detail'>";
     echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
@@ -563,8 +592,20 @@ function ShowTasks($sql_result) {
     global $code_url, $tasks_array, $severity_array, $developers_array, $categories_array, $tasks_status_array;
     global $search_results_array, $os_array, $browser_array, $versions_array, $tasks_close_array, $percent_complete_array;
 
-    if (isset($_REQUEST['search_text'])) { $t = "search_text=".$_REQUEST['search_text']."&task_type=".$_REQUEST['task_type']."&task_severity=".$_REQUEST['task_severity']."&task_priority=".$_REQUEST['task_priority']."&task_assignee=".$_REQUEST['task_assignee']."&task_category=".$_REQUEST['task_category']."&task_status=".$_REQUEST['task_status']."&task_version=".$_REQUEST['task_version']."&"; } else { $t = ""; }
-
+    if (isset($_REQUEST['search_text']))
+    {
+        $t = "search_text=" . urlencode($_REQUEST['search_text'])
+             . "&task_type=" . $_REQUEST['task_type']
+             . "&task_severity=" . $_REQUEST['task_severity']
+             . "&task_priority=" . $_REQUEST['task_priority']
+             . "&task_assignee=" . $_REQUEST['task_assignee']
+             . "&task_category=" . $_REQUEST['task_category']
+             . "&task_status=" . $_REQUEST['task_status']
+             . "&task_version=" . $_REQUEST['task_version']
+             . "&"; 
+    }
+    else
+        $t = "";
     echo "<table cellpadding='5' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC'><tr>\n";
     echo "<td style='text-align: center'><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_id")."'>ID</a></font></b></td>\n";
     echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_type")."'>Task Type</a></font></b></td>\n";
