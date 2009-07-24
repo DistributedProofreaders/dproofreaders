@@ -359,6 +359,16 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
     if ($_POST['task_status'] == 999) { $task_status = "task_status >= 0 AND date_closed = 0"; } elseif ($_POST['task_status'] == 998) { $task_status = "task_status >= 0"; } else { $task_status = "task_status = ".$_POST['task_status']; }
     if ($_POST['task_version'] == 999) { $task_version = "task_version >= 0"; } else { $task_version = "task_version = ".$_POST['task_version']; }
     
+    // we're converting $searchtext using addslashes(htmlspecialchars(...))
+    // because that's how the text summary and text details happen to be 
+    // stored in the database. 
+
+    // TODO: The 'right' way would be to change how the data is stored in
+    // the database using mysql_real_escape_string(), have an upgrade
+    // script in c/SETUP/upgrade/08 that would fix any existing data
+    // before the updated code was deployed, and then use
+    // mysql_real_escape_string() when doing the query.
+
     $search_text_summary = addslashes(htmlspecialchars($_POST['search_text']));
     $search_text_details = addslashes(htmlspecialchars($_POST['search_text'], ENT_QUOTES));
     // TODO, should we protect % and _ ?
