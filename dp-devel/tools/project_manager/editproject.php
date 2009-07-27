@@ -1006,7 +1006,16 @@ class ProjectInfoHolder
         }
         $this->row( _("Language"),                    'language_list',       $this->language         );
         $this->row( _("Genre"),                       'genre_list',          $this->genre            );
-        $this->row( _("Difficulty Level"),            'difficulty_list',     $this->difficulty_level );
+        if ($this->difficulty_level == "beginner" && user_is_proj_facilitator())
+        {
+            // allow PF to edit a BEGIN project, but without altering the difficulty
+            $this->row( _("Difficulty Level"), 'just_echo', $this->difficulty_level );
+            echo "<input type='hidden' name='difficulty_level' value='$this->difficulty_level'>";
+        } 
+        else 
+        {
+            $this->row( _("Difficulty Level"),        'difficulty_list',     $this->difficulty_level );
+        }
         $this->row( _("Special Day (optional)"),      'special_list',        $this->special_code     );
         if ( $can_edit_PPer )
         {
