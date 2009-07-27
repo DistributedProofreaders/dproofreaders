@@ -8,7 +8,7 @@
   Note: Everything marked "Implementation:" is information
         that should remain encapsulated inside the class.
 
- This class rovides access to user settings.
+ This class provides access to user settings.
      ******
      Implementation: Initially limited to those stored in the usersettings table.
                      Subsequently expanded to cover "manager", "postprocessor",
