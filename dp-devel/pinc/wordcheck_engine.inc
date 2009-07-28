@@ -469,6 +469,27 @@ function save_wordcheck_event($projectid,$round,$page,$proofer,$suggestions,$cor
     }
 }
 
+function count_wordcheck_suggestion_events($projectid, $start_time=0) 
+// Count the number of wordcheck_events for this project
+// which are more recent than $start_time, and which contain
+// suggestions. This function can be used as a faster alternative
+// to counting the result of load_wordcheck_events, when one does
+// not need the precise number of suggested words.
+{
+    $sql = "SELECT count(*) AS numevents FROM wordcheck_events 
+            WHERE projectid='$projectid' 
+            AND timestamp>$start_time AND suggestions<>''";
+
+    $res = mysql_query($sql);
+    if ($res === FALSE) return 0;
+    
+    $num_events = mysql_result($res,0,"numevents");
+
+    mysql_free_result($res);
+
+    return $num_events;
+}
+
 function load_wordcheck_events($projectid, $start_time=0) {
     $sql = "SELECT * FROM wordcheck_events 
             WHERE projectid='$projectid' AND timestamp>$start_time";
