@@ -134,8 +134,8 @@ and what the PMs do.
     <p>
 	If a page has not been proofed well, you have the option of clearing the
 	page. This will clear the effects of the round and make the page
-	available again. It will also decrement the page count for the proofer.
-	You should send the proofer feedback if you clear pages from your
+	available again. It will also decrement the page count for the proofreader.
+	You should send the proofreader feedback if you clear pages from your
 	projects.
     </p>
     </li>
@@ -143,7 +143,7 @@ and what the PMs do.
     <li>
     <b>Bad page handling.</b>
     <p>
-	If a proofer marks a page bad in R1, the project will stall until you
+	If a proofreader marks a page bad in the first round, the project will stall until you
 	resolve the report. Click on the 'X' on the project details page for the
 	project and follow the instructions on the screen.
     </p>
