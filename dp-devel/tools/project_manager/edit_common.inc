@@ -101,20 +101,16 @@ function difficulty_list($difficulty_level)
     $array_list = array('Beginner', 'Easy', 'Average', 'Hard');
 
     // only show the beginner level to the BEGIN PM or SiteAdmins
-    // don't let garvint create EASY projects
     for ($i=0;$i<count($array_list);$i++)
     {
         if (($i > 0) || ($pguser == "BEGIN") || ($sa))
         {
-            if (!($pguser == "garvint" && $i == 1))
+            echo "<input type='radio' name='difficulty_level' value='".encodeFormValue(strtolower($array_list[$i]))."'";
+            if (strtolower($difficulty_level) == strtolower($array_list[$i]))
             {
-                echo "<input type='radio' name='difficulty_level' value='".encodeFormValue(strtolower($array_list[$i]))."'";
-                if (strtolower($difficulty_level) == strtolower($array_list[$i]))
-                {
-                    echo " CHECKED";
-                }
-                echo ">$array_list[$i]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                echo " CHECKED";
             }
+            echo ">$array_list[$i]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
         }
     }
 }
