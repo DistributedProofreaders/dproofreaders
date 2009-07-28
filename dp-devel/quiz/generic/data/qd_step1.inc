@@ -49,7 +49,7 @@ $messages["sci"] = array("message_text" => "<h2>Small caps markup inserted</h2>\
 $messages["comper"] = array("message_text" => "<h2>Scanno</h2>\nYou've missed a typical scanno: a comma (,) has been mis-recognised as a period (.).", "hints" => array());
 $messages["ellipsis"] = array("message_text" => "<h2>Ellipsis incorrectly proofread</h2>\nNormalise the number of periods to three, and leave a space on either side of an ellipsis. The exception is at the beginning and end of a sentence, when you should leave no space.", "hints" => array());
 $messages["decap"] = array("message_text" => "<h2>Small caps text decapitalised</h2>\nLeave the case-correction of text in small caps to the formatting rounds.", "hints" => array());
-$messages["longdash"] = array("message_text" => "<h2>Long dash incorrectly proofed</h2>\nMatch the number of dashes used in the proofread text to the size of the dash in the image.", "hints" => array());
+$messages["longdash"] = array("message_text" => "<h2>Long dash incorrectly proofread</h2>\nMatch the number of dashes used in the proofread text to the size of the dash in the image.", "hints" => array());
 $messages["tbe"] = array("message_text" => "<h2>Scanno</h2>\n<p>You've missed one typical 'scanno' in the text: A 'h' mis-recognised as a 'b'.</p>\n", "hints" => array());
 $messages["cat"] = array("message_text" => "<h2>Scanno</h2>\n<p>You've missed one typical 'scanno' in the text: An 'e' mis-recognised as a 'c'.</p>\n", "hints" => array());
 ?>
