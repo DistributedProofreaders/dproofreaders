@@ -102,7 +102,7 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
         die("Bad value for 'preceding_proofer_restriction': '$preceding_proofer_restriction'.");
     }
 
-    // Find page to be proofed.
+    // Find page to be proofread.
     // (It appears that a simultaneous query from someone else would return the same page.)
     $dbQuery = "
         SELECT image, state
@@ -187,7 +187,7 @@ class LPage
         $this->page_state = $page_state;
         $this->reverting_to_orig = $reverting_to_orig;
 
-        // It's debateable whether LPage should have a 'reverting_to_orig' property.
+        // It's debatable whether LPage should have a 'reverting_to_orig' property.
         // You could argue that it's an interface-level artifact,
         // and thus belongs in PPage.
 
@@ -299,7 +299,7 @@ class LPage
     }
 
     function markAsBad( $user, $reason )
-    // Return TRUE iff this report causes project to be marked bad.
+    // Return TRUE if this report causes project to be marked bad.
     {
         global $code_url, $PAGE_BADNESS_REASONS;
 
@@ -349,7 +349,7 @@ the project will automatically be made unavailable.";
             $this->page_state = Page_reopen( $this->projectid, $this->imagefile, $this->round, $pguser );
 
             // When it was saved, the user's page-count was incremented.
-            // Now they 'unsaving' it, so decrement their page-count.
+            // Now they are 'unsaving' it, so decrement their page-count.
             // They'll get it back if/when they save-as-done again.
             // (Plugs a former page-count cheat.)
 

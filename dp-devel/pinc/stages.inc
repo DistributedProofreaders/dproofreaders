@@ -158,7 +158,7 @@ new Round(
     _('Proofreading Round 3'),
     array( 'P1+P2' => 400, 'P2' => 50, 'F1' => 50, 'days since reg' => 42, 'quiz/P' => 1 ),
     'REQ-HUMAN',
-    _("Once you have met the requirements and requested access to P3, an evaluator will check over at least 50 of your recent P2 pages that have been completed in P3. If you proofed them to P3 standards, you'll be granted access."),
+    _("Once you have met the requirements and requested access to P3, an evaluator will check over at least 50 of your recent P2 pages that have been completed in P3. If you proofread them to P3 standards, you'll be granted access."),
     _("The page-texts have already been proofread, but now need to be examined <b>closely</b> for small errors that may have been missed."),
     'proofreading_guidelines.php',
     array(
@@ -223,7 +223,7 @@ new Round(
          30000 => _('Fabulous Formatter'),
          40000 => _('Upgrader of Texts'),
          50000 => _('Famous Formatter'),
-         60000 => _('Indefatigible Formatter'),
+         60000 => _('Indefatigable Formatter'),
          70000 => _('Finisher of Texts'),
          80000 => _('Formatter of Choice'),
          90000 => _('Capital Formatter'),

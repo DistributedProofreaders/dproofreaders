@@ -5,13 +5,13 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'forum_interface.inc');
 
 // This file deals with the gradual revelation of site features,
-// based on the number of pages proofed by the user.
+// based on the number of pages proofread by the user.
 // (So far, it only has the code that is shared between multiple files.
 // Maybe it should include unshared stuff too, for completeness.)
 
 
 function get_pages_proofed_maybe_simulated()
-// Retrieve the number of pages proofed by the current user.
+// Retrieve the number of pages proofread by the current user.
 // For demo purposes, allow the user (via the URL parameter 'numofpages')
 // to pretend to have a different number of pages,
 // as long as it's less than their actual number.
