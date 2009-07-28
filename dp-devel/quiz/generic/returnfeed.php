@@ -41,7 +41,7 @@ function multilinertrim($x)
   return implode("\n",$out);
 }
 
-function numberofoccurances($haystack, $needle, $cs)
+function number_of_occurrences($haystack, $needle, $cs)
 {
   if (!$cs)
   {
@@ -186,7 +186,7 @@ function error_check()
         $part = stristr($text,$value["starttext"]);
         $part= substr($part, $len, stripos($part,$value["stoptext"]) - $len);
       }
-      $num = numberofoccurances($part, "\n", TRUE);
+      $num = number_of_occurrences($part, "\n", TRUE);
       if ($num < $value["number"])
       {
         return $value["errorlow"];
@@ -198,7 +198,7 @@ function error_check()
     }
     if ($value["type"]=="multioccurrence") 
     {
-      if (numberofoccurances($text, $value["searchtext"], $value["case_sensitive"]) > 1)
+      if (number_of_occurrences($text, $value["searchtext"], $value["case_sensitive"]) > 1)
       {
         return $value["error"];
       }
@@ -277,7 +277,7 @@ else
     echo $default_feedbacktext;
   }
 }
- ?>
- </div>
-</body>
-</html>
+
+echo "\n</div>\n</body>\n</html>";
+?>
+
