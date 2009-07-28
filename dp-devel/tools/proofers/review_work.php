@@ -241,10 +241,10 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
        ");
     list($done_in_rround) = mysql_fetch_row($review_round_result);
     if (0 == $done_in_rround) {
-        // hasn't been proofed in review round. We are not interested.
+        // hasn't been proofread in review round. We are not interested.
         $messages[] = array("<a href='$url'>$nameofwork</a>",
                             $state,
-                            sprintf(_("Has not been proofed in %s"), $review_round_id),
+                            sprintf(_("Has not been proofread in %s"), $review_round_id),
                             MESSAGE_INFO);
         continue;
     }
