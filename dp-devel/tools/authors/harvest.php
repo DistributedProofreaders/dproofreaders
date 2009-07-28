@@ -78,7 +78,7 @@
     echo '<li>' . 'Authors and biographies are linked the way they were found in the database harvest.
     This means they are all in a one-to-one relationship. There may be duplicate entries
     for the same author. There should only be one author entry per author,
-    and it should link to all biographies. This is done manually. Multiple occurances of a
+    and it should link to all biographies. This is done manually. Multiple occurrences of a
     biography should be reduced to one.';
     echo '<li>' . 'Make frequent and possibly creative use of the searching
     and listing possibilities to identify duplicate authors.';
