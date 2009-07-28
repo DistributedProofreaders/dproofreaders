@@ -110,7 +110,7 @@ They are:
 
     <li>
     <b><a name=bad>"BAD"</a></b>
-    All changes abandoned, page is unproofably damaged or flawed
+    All changes are abandoned, page cannot be proofread due to damage or flaws
     and is made unavailable until it can be repaired by the Project Manager.
     </li>
 
@@ -204,7 +204,7 @@ $help['Report Bad Page'] = "
     Loads the Report Bad Page form.
 </p>
 <p>
-    Rarely, some damaged pages are unproofable.
+    Rarely, some damaged pages cannot be proofread.
     For instance, the image may be incomplete or unreadable,
     or the OCR text may be from a different image.
     In these cases, where some repairs have to be made to the files
@@ -470,7 +470,7 @@ if ( $i_type == 0 )
     </p>
     </dd>
 
-    <dt>Proofed by:</dt>
+    <dt>Proofread by:</dt>
     <dd>
     <p>
 	This appears only in the second round.
@@ -689,7 +689,7 @@ Currently, this is the only method for scrolling the image.<BR>
 <p>
     All of the Greek letters in the popup box are clickable.
     Click the ones that appear in the Greek word in the image,
-    and the latin transliterations appear in the text box,
+    and the Latin transliterations appear in the text box,
     from whence they can be cut-and-pasted into the proofread text
     and surrounded with [Greek: ] tags.
 </p>

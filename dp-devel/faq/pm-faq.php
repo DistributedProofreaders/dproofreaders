@@ -132,7 +132,7 @@ and what the PMs do.
     <li>
     <b>Clear effects of round.</b>
     <p>
-	If a page has not been proofed well, you have the option of clearing the
+	If a page has not been proofread well, you have the option of clearing the
 	page. This will clear the effects of the round and make the page
 	available again. It will also decrement the page count for the proofreader.
 	You should send the proofreader feedback if you clear pages from your
