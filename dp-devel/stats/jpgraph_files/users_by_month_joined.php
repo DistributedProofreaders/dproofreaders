@@ -18,7 +18,7 @@ new dbConnect();
 ///////////////////////////////////////////////////
 // For each month (in which at least one person joined),
 // get the number who joined,
-// and the number who have since proofed at least one page.
+// and the number who have since proofread at least one page.
 //
 $result = mysql_query("
 	SELECT
@@ -73,7 +73,7 @@ $b1plot->SetLegend(_("Newly Joined Users"));
 
 $b2plot = new BarPlot ($data2y);
 $b2plot ->SetFillColor ("chartreuse");
-$b2plot->SetLegend(_("Newly Joined Users who Proofed"));
+$b2plot->SetLegend(_("Newly Joined Users who Proofread"));
 
 // Create the grouped bar plot
 $gbplot = new GroupBarPlot (array($b1plot ,$b2plot));
@@ -86,7 +86,7 @@ $graph->Add( $gbplot);
 //$lplot = new LinePlot ($data3y);
 //$lplot->SetColour("blue");
 //$lplot->SetWeight(2);
-//$lplot->SetLegend(_("% of Newly Joined Users who Proofed"));
+//$lplot->SetLegend(_("% of Newly Joined Users who Proofread"));
 
 //$graph->AddY2($lplot);
 
@@ -109,4 +109,3 @@ $graph->Stroke();
 
 
 ?>
-

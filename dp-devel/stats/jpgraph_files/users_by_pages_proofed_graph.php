@@ -85,12 +85,12 @@ $graph->SetScale("textint");
 //set X axis
 $graph->xaxis->SetTickLabels($datax);
 $graph->xaxis->SetLabelAngle(90);
-$graph->xaxis->title->Set(_("Pages Proofed"));
+$graph->xaxis->title->Set(_("Pages Proofread"));
 // Only draw labels on every 100th tick mark
 $graph->xaxis->SetTextTickInterval(1000);
 
 //Set Y axis
-$graph->yaxis->title->Set(_("Number of Proofers"));
+$graph->yaxis->title->Set(_("Number of Proofreaders"));
 $graph->yaxis->SetTitleMargin(45);
 
 //Set background to white
@@ -133,7 +133,7 @@ $graph->Add( $gbplot);
 
 // Setup the title
 $graph->title->Set(
-	_("Numbers of Proofers who have Proofed X pages")
+	_("Numbers of Proofreaders who have Proofread X pages")
 );
 $graph->subtitle->Set(
 	_("and How Recently Logged In")

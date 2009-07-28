@@ -15,7 +15,7 @@ new dbConnect();
 ///////////////////////////////////////////////////
 // For each month in which someone joined,
 // get the number who joined,
-// and the number of those who have proofed at least one page.
+// and the number of those who have proofread at least one page.
 //
 $result = mysql_query("
 	SELECT
@@ -49,7 +49,7 @@ draw_simple_bar_graph(
 	$data1y,
 	$x_text_tick_interval,
 	'Percentage of New Users Who Went on to Proof By Month',
-	'% of newly Joined Users who Proofed'
+	'% of newly Joined Users who Proofread'
 );
 
 ?>

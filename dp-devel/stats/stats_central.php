@@ -231,7 +231,7 @@ $table->row(
 );
 
 $img_url = "jpgraph_files/cumulative_total_proj_summary_graph.php";
-$alt_text = _("Total Projects Created, Proofed, PPd and Posted");
+$alt_text = _("Total Projects Created, Proofread, Post-Processed and Posted");
 
 $table->row(
     "<img src='$img_url' alt='$alt_text'>"

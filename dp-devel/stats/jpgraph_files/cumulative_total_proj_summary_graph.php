@@ -75,7 +75,7 @@ $graph->yaxis->SetLabelSide(SIDE_RIGHT);
 $graph->yaxis->SetTitleMargin(45);
 
 
-$graph->title->Set(_("Total Projects Created, Proofed, PPd and Posted"));
+$graph->title->Set(_("Total Projects Created, Proofread, Post-Processed and Posted"));
 $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
