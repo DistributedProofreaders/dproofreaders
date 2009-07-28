@@ -159,7 +159,7 @@ echo "<br>";
         if(!count($suggestions)) continue;
 
         // get the data
-        list($suggestions_w_freq,$suggestions_w_occurances,$messages) =
+        list($suggestions_w_freq,$suggestions_w_occurrences,$messages) =
             _get_word_list($projectid,$suggestions);
 
         // if no words are returned (probably because something was
@@ -183,11 +183,11 @@ echo "<br>";
             $word_checkbox[$word]="<input type='checkbox' id='cb_{$projectid}_{$count}' name='cb_{$projectid}_{$count}' value='$encWord'>";
             $count++;
         }
-        $suggestions_w_occurances['[[TITLE]]']=_("Sugg");
-        $suggestions_w_occurances['[[STYLE]]']="text-align: right;";
+        $suggestions_w_occurrences['[[TITLE]]']=_("Sugg");
+        $suggestions_w_occurrences['[[STYLE]]']="text-align: right;";
         $context_array['[[TITLE]]']=_("Show Context");
 
-        printTableFrequencies($initialFreq,$cutoffOptions,$suggestions_w_freq,$instances--,array($suggestions_w_occurances,$context_array),$word_checkbox);
+        printTableFrequencies($initialFreq,$cutoffOptions,$suggestions_w_freq,$instances--,array($suggestions_w_occurrences,$context_array),$word_checkbox);
 
         echo "<p><input type='submit' value='$submitLabel'></p>";
     }
@@ -245,8 +245,8 @@ function _get_word_list($projectid,$suggestions) {
     // now, remove any words that are already on the project's good or bad words lists
     $all_suggestions = array_diff( $all_suggestions, array_merge($project_good_words,$project_bad_words) );
 
-    // get the number of suggestion occurances
-    $all_suggestions_w_occurances = generate_frequencies( $all_suggestions );
+    // get the number of suggestion occurrences
+    $all_suggestions_w_occurrences = generate_frequencies( $all_suggestions );
 
     // $all_suggestions doesn't have frequency info,
     // so start with the info in $all_words_w_freq,
@@ -259,7 +259,7 @@ function _get_word_list($projectid,$suggestions) {
     // sort the list by frequency, then by word
     array_multisort( array_values( $all_suggestions_w_freq ), SORT_DESC, array_map( 'strtolower', array_keys( $all_suggestions_w_freq ) ), SORT_ASC, $all_suggestions_w_freq );
 
-    return array($all_suggestions_w_freq, $all_suggestions_w_occurances, $messages);
+    return array($all_suggestions_w_freq, $all_suggestions_w_occurrences, $messages);
 }
 
 function _get_projects_for_pm($pm) {

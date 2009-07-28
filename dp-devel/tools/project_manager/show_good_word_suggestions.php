@@ -42,7 +42,7 @@ if($format=="update") {
     $format="html";
 }
 
-list($all_suggestions_w_freq,$all_suggestions_w_occurances,$round_suggestions_w_freq,$round_suggestions_w_occurances,$rounds,$round_page_count,$messages) =
+list($all_suggestions_w_freq,$all_suggestions_w_occurrences,$round_suggestions_w_freq,$round_suggestions_w_occurrences,$rounds,$round_page_count,$messages) =
     _get_word_list($projectid,$timeCutoff);
 
 $title = _("Candidates for Good Words List from Proofreaders");
@@ -74,7 +74,7 @@ if($format == "file") {
     // print out the complete list first
     echo _("All rounds") . "\r\n";
     foreach( $all_suggestions_w_freq as $word => $freq )
-        echo "$word - $freq - " . $all_suggestions_w_occurances[$word] . "\r\n";
+        echo "$word - $freq - " . $all_suggestions_w_occurrences[$word] . "\r\n";
     echo "\r\n";
 
     // now per round
@@ -85,7 +85,7 @@ if($format == "file") {
             echo "$round_string\r\n";
             echo "$page_num_string\r\n"; 
             foreach( $round_suggestions_w_freq[$round] as $word => $freq)
-                echo "$word - $freq - " . $round_suggestions_w_occurances[$round][$word] . "\r\n";
+                echo "$word - $freq - " . $round_suggestions_w_occurrences[$round][$word] . "\r\n";
             echo "\r\n";
         }
     }
@@ -144,7 +144,7 @@ echo "</p></form>";
 
 // if there are no suggestions available (probably because they are all already
 // on the Good Words List) stop here
-if(count($all_suggestions_w_occurances)==0) {
+if(count($all_suggestions_w_occurrences)==0) {
     echo "<p>" . _("There are no suggestions in the given time frame that aren't already on the Good Words List.") . "</p>";
     theme('','footer');
     exit;
@@ -166,26 +166,26 @@ $context_array["[[TITLE]]"]=_("Show Context");
 // see how many rounds actually have data in them
 $roundsWithData=0;
 foreach($rounds as $round) {
-    if(count($round_suggestions_w_occurances[$round])>0)
+    if(count($round_suggestions_w_occurrences[$round])>0)
         $roundsWithData++;
 }
 
 // print out the complete list first but only if
 // we have more than one round with data
 if($roundsWithData>1) {
-    foreach($all_suggestions_w_occurances as $word => $occur) {
+    foreach($all_suggestions_w_occurrences as $word => $occur) {
         $encWord = encode_word($word);
         $context_array[$word]=recycle_window_link("show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord",_("Context"),"context");
     }
-    $all_suggestions_w_occurances["[[TITLE]]"]=_("Times Suggested");
-    $all_suggestions_w_occurances["[[STYLE]]"]="text-align: right;";
+    $all_suggestions_w_occurrences["[[TITLE]]"]=_("Times Suggested");
+    $all_suggestions_w_occurrences["[[STYLE]]"]="text-align: right;";
 
     echo "<h2>" . _("All rounds") . "</h2>";
     $word_checkbox = build_checkbox_array($all_suggestions_w_freq,'all');
     echo_checkbox_selects(count($all_suggestions_w_freq),'all');
     echo_checkbox_form_submit($submit_label);
 
-    printTableFrequencies($initialFreq,$cutoffOptions,$all_suggestions_w_freq,$instances--,array($all_suggestions_w_occurances,$context_array), $word_checkbox);
+    printTableFrequencies($initialFreq,$cutoffOptions,$all_suggestions_w_freq,$instances--,array($all_suggestions_w_occurrences,$context_array), $word_checkbox);
 
     echo_checkbox_form_submit($submit_label);
 }
@@ -193,15 +193,15 @@ if($roundsWithData>1) {
 // now per round
 foreach($rounds as $round) {
     // if there are no words for this round, skip it
-    if(count($round_suggestions_w_occurances[$round])==0)
+    if(count($round_suggestions_w_occurrences[$round])==0)
         continue;
 
-    foreach($round_suggestions_w_occurances[$round] as $word => $occur) {
+    foreach($round_suggestions_w_occurrences[$round] as $word => $occur) {
         $encWord = encode_word($word);
         $context_array[$word]=recycle_window_link("show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord",_("Context"),"context");
     }
-    $round_suggestions_w_occurances[$round]["[[TITLE]]"]=_("Times Suggested");
-    $round_suggestions_w_occurances[$round]["[[STYLE]]"]="text-align: right;";
+    $round_suggestions_w_occurrences[$round]["[[TITLE]]"]=_("Times Suggested");
+    $round_suggestions_w_occurrences[$round]["[[STYLE]]"]="text-align: right;";
 
     $round_string=sprintf(_("Round %s"),$round);
     $page_num_string=sprintf(_("Number of pages with suggestions: %d"), $round_page_count[$round]);
@@ -212,7 +212,7 @@ foreach($rounds as $round) {
     echo_checkbox_selects(count($round_suggestions_w_freq[$round]),$round);
     echo_checkbox_form_submit($submit_label);
 
-    printTableFrequencies( $initialFreq,$cutoffOptions,$round_suggestions_w_freq[$round],$instances--,array($round_suggestions_w_occurances[$round],$context_array),$word_checkbox );
+    printTableFrequencies( $initialFreq,$cutoffOptions,$round_suggestions_w_freq[$round],$instances--,array($round_suggestions_w_occurrences[$round],$context_array),$word_checkbox );
 
     echo_checkbox_form_submit($submit_label);
 }
@@ -271,8 +271,8 @@ function _get_word_list($projectid,$timeCutoff) {
         // remove any words already on the project's good or bad words lists
         $round_suggestions = array_diff( $round_suggestions, array_merge($project_good_words,$project_bad_words) );
 
-        // get the suggestion occurances
-        $round_suggestions_w_occurances[$round] = generate_frequencies($round_suggestions);
+        // get the suggestion occurrences
+        $round_suggestions_w_occurrences[$round] = generate_frequencies($round_suggestions);
 
         // get suggestion with project word frequency
         $round_suggestions_w_freq[$round] = array_intersect_key( $all_words_w_freq, array_flip( $round_suggestions ) );
@@ -287,8 +287,8 @@ function _get_word_list($projectid,$timeCutoff) {
     // now, remove any words that are already on the project's good or bad words lists
     $all_suggestions = array_diff( $all_suggestions, array_merge($project_good_words,$project_bad_words) );
 
-    // get the number of suggestion occurances
-    $all_suggestions_w_occurances = generate_frequencies( $all_suggestions );
+    // get the number of suggestion occurrences
+    $all_suggestions_w_occurrences = generate_frequencies( $all_suggestions );
 
     // $all_suggestions doesn't have frequency info,
     // so start with the info in $all_words_w_freq,
@@ -304,7 +304,7 @@ function _get_word_list($projectid,$timeCutoff) {
     // get a list of all rounds
     $rounds = array_keys($round_suggestions_w_freq);
 
-    return array($all_suggestions_w_freq, $all_suggestions_w_occurances, $round_suggestions_w_freq, $round_suggestions_w_occurances,$rounds, $round_page_count, $messages);
+    return array($all_suggestions_w_freq, $all_suggestions_w_occurrences, $round_suggestions_w_freq, $round_suggestions_w_occurrences,$rounds, $round_page_count, $messages);
 }
 
 // vim: sw=4 ts=4 expandtab
