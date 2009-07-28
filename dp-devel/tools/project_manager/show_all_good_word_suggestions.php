@@ -85,7 +85,7 @@ if($frame=="left") {
     $instances=count( $projects ) + 1;
     // what are the cutoff options?
     $cutoffOptions = array(1,2,3,4,5,10,25,50);
-    // what is the intial cutoff frequecny?
+    // what is the initial cutoff frequency?
     $initialFreq=getInitialCutoff($freqCutoff,$cutoffOptions);
 
     // echo page support text, like JS and stylesheets
@@ -125,9 +125,9 @@ echo "<br>";
     if($timeCutoff==-1)
         $time_cutoff_text = _("Suggestions since the project's Good Words List was last modified are included.");
     elseif($timeCutoff==0)
-        $time_cutoff_text = _("<b>All proofer suggestions</b> are included in the results.");
+        $time_cutoff_text = _("<b>All proofreader suggestions</b> are included in the results.");
     else
-        $time_cutoff_text = sprintf(_("Only proofer suggestions made <b>after %s</b> are included in the results."),strftime($datetime_format,$timeCutoff));
+        $time_cutoff_text = sprintf(_("Only proofreader suggestions made <b>after %s</b> are included in the results."),strftime($datetime_format,$timeCutoff));
 
     echo "<p>" . $time_cutoff_text . "</p>";
 
@@ -193,7 +193,7 @@ echo "<br>";
     }
 
     if($projectsNeedingAttention==0) {
-        echo "<p>" . _("No projects have proofer suggestions for the given timeframe.") . "</p>";
+        echo "<p>" . _("No projects have proofreader suggestions for the given timeframe.") . "</p>";
     } else {
         echo "<hr>";
     }

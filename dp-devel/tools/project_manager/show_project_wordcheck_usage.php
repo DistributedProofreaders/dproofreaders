@@ -33,7 +33,7 @@ if(is_array($events)) {
     }
 }
 
-echo "<p>" . _("The following table lists the number of times WordCheck was run against a page in each round and the last user to work on the page. Click the proofer's username to compose a private message to them.") . "</p>";
+echo "<p>" . _("The following table lists the number of times WordCheck was run against a page in each round and the last user to work on the page. Click the proofreader's username to compose a private message to them.") . "</p>";
 
 echo "<p><b>" . _("Legend") . "</b></p>";
 echo "<ul>";
@@ -56,7 +56,7 @@ echo "</ul>";
 </tr>
 <?php
 
-// identifying pages that were proofed pre-WordCheck requires
+// identifying pages that were proofread pre-WordCheck requires
 // $t_wordcheck_start being defined in site_vars.php
 // with its value set to the timestamp of when WordCheck was
 // deployed on the site
@@ -103,7 +103,7 @@ while($result = mysql_fetch_assoc($res)) {
             $lastProoferLink = private_message_link($lastProofer);
         
         $class = $data = "";
-        // if there is no proofer's name, the round was likely skipped
+        // if there is no proofreader's name, the round was likely skipped
         // or the page has never been worked on
         if(empty($lastProofer)) {
             // placeholder

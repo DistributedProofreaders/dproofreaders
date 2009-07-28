@@ -169,12 +169,12 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num,
 
     if (can_navigate_by_proofer($projectid, $L_user))
     {
-        $navigation_text .=  "\n<input type='button' value='" . _("Proofer previous") . "' onClick=\"$previous_from_proofer_js\"";
+        $navigation_text .=  "\n<input type='button' value='" . _("Proofreader previous") . "' onClick=\"$previous_from_proofer_js\"";
         if ( $prev_from_proofer == "" ) {
             $navigation_text .=  " disabled";
         }
         $navigation_text .=  ">";
-        $navigation_text .=  "\n<input type='button' value='" . _("Proofer next") . "' onClick=\"$next_from_proofer_js\"";
+        $navigation_text .=  "\n<input type='button' value='" . _("Proofreader next") . "' onClick=\"$next_from_proofer_js\"";
         if ( $next_from_proofer == "" ) {
             $navigation_text .=  " disabled";
         }
@@ -184,12 +184,12 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num,
     $navigation_text .=  "\n</form>\n";
 }
 
-// discover whether the user is allowed to see proofer names for this page
+// discover whether the user is allowed to see proofreader names for this page
 function can_see_names_for_page($projectid, $image)
 {
     global $pguser, $Round_for_round_id_;
 
-    // If requestor isn't logged in, they can't see any names.
+    // If requester isn't logged in, they can't see any names.
     if ( $pguser == '' ) return FALSE;
 
     $project = new Project( $projectid );
@@ -217,7 +217,7 @@ function can_see_names_for_page($projectid, $image)
     return $answer;
 }
 
-// discover whether the user is allowed to navigate by proofer for this page
+// discover whether the user is allowed to navigate by proofreader for this page
 function can_navigate_by_proofer($projectid, $L_user) 
 {
     global $pguser;

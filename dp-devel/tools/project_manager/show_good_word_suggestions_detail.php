@@ -105,7 +105,7 @@ if($frame=="left") {
 
         echo "<p><b>" . _("Date") . "</b>: " . strftime($datetime_format,$time) . "<br>";
         echo "<b>" . _("Round") . "</b>: $round &nbsp; | &nbsp; ";
-        echo "<b>" . _("Proofer") . "</b>: " . private_message_link($proofer) . "<br>";
+        echo "<b>" . _("Proofreader") . "</b>: " . private_message_link($proofer) . "<br>";
         echo "<b>" . _("Page") . "</b>: <a href='displayimage.php?project=$projectid&amp;imagefile=$page&amp;showreturnlink=0' target='imageframe'>$page</a><br>";
         foreach($context_strings as $lineNum => $context_string) {
             $context_string=_highlight_word(htmlspecialchars($context_string),$word);

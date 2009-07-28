@@ -20,12 +20,12 @@ $freqCutoff = array_get($_REQUEST, "freqCutoff", 5);
 enforce_edit_authorization($projectid);
 
 if($timeCutoff==0)
-    $time_cutoff_text = _("<b>All proofer suggestions</b> are included in the results below.");
+    $time_cutoff_text = _("<b>All proofreader suggestions</b> are included in the results below.");
 else
-    $time_cutoff_text = sprintf(_("Only proofer suggestions made <b>after %s</b> are included in the results below."),strftime($datetime_format,$timeCutoff));
+    $time_cutoff_text = sprintf(_("Only proofreader suggestions made <b>after %s</b> are included in the results below."),strftime($datetime_format,$timeCutoff));
 
 
-// $format determins what is presented from this page:
+// $format determines what is presented from this page:
 //   'html' - page is rendered with frequencies included
 //   'file' - all words and frequencies are presented as a
 //            downloaded file
@@ -45,10 +45,10 @@ if($format=="update") {
 list($all_suggestions_w_freq,$all_suggestions_w_occurances,$round_suggestions_w_freq,$round_suggestions_w_occurances,$rounds,$round_page_count,$messages) =
     _get_word_list($projectid,$timeCutoff);
 
-$title = _("Candidates for Good Words List from Proofers");
-$page_text = sprintf(_("Displayed below are the words that proofers have suggested (via the %s button) in the WordCheck interface that have not been already included in the project's Good Words List."),"<img src='$code_url/graphics/Book-Plus-Small.gif'>");
+$title = _("Candidates for Good Words List from Proofreaders");
+$page_text = sprintf(_("Displayed below are the words that proofreaders have suggested (via the %s button) in the WordCheck interface that have not been already included in the project's Good Words List."),"<img src='$code_url/graphics/Book-Plus-Small.gif'>");
 $page_text .= " ";
-$page_text .= _("The results list also shows how many times each word occurs in the project text and how many times each word was suggested by proofers.");
+$page_text .= _("The results list also shows how many times each word occurs in the project text and how many times each word was suggested by proofreaders.");
 
 if($format == "file") {
     $filename="${projectid}_proofer_suggestions.txt";
@@ -106,7 +106,7 @@ echo_page_header($title,$projectid);
 $instances=count( $rounds ) + 1;
 // what are the cutoff options?
 $cutoffOptions = array(1,2,3,4,5,10,25,50);
-// what is the intial cutoff frequecny?
+// what is the initial cutoff frequency?
 $initialFreq=getInitialCutoff($freqCutoff,$cutoffOptions,$all_suggestions_w_freq);
 
 // echo page support text, like JS and stylesheets

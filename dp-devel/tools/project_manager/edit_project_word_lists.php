@@ -395,7 +395,7 @@ class ProjectWordListHolder
             if($exist_pages_in_P1_or_later) {
                 echo "<tr>";
                 echo "<td class='label'>" . _("WordCheck Usage") . "</td>";
-                echo "<td>" . new_window_link("show_project_wordcheck_usage.php?projectid=$this->projectid",_("Show WordCheck proofer interface usage")) . "</td>";
+                echo "<td>" . new_window_link("show_project_wordcheck_usage.php?projectid=$this->projectid",_("Show WordCheck interface usage")) . "</td>";
                 echo "</tr>";
             }
 
@@ -427,7 +427,7 @@ class ProjectWordListHolder
             if (count($suggestions))
             {
                 echo "<p>";
-                echo "<b>" . _("Suggestions from proofers:") . "</b><br>";
+                echo "<b>" . _("Suggestions from proofreaders:") . "</b><br>";
                 echo new_window_link(
                     "show_good_word_suggestions.php?projectid=$this->projectid",
                     _("Display")
@@ -495,7 +495,7 @@ class ProjectWordListHolder
         echo "</tr>";
 
         echo "<tr>";
-        echo "<td style='widht: 50%;'>";
+        echo "<td style='width: 50%;'>";
         echo "<textarea class='mono' name='good_words' cols='40' rows='20'>$goodWordData</textarea>";
         echo "</td>";
 
