@@ -693,7 +693,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                 // In future, there might be various reasons to do so.
                 // (But then what would we put in the tooltip?)
                 $f_g  = get_project_word_file( $projectid, 'good' );
-                if ( count( load_project_good_word_suggestions($projectid, $f_g->mod_time) ) )
+                $count = count_wordcheck_suggestion_events($projectid, $f_g->mod_time);
+                if ( $count >= 1 )
                 {
                     $tooltip = _('"Suggestions from proofers" list has changed; click here to view');
                     echo " <a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>";
