@@ -799,9 +799,9 @@ class User
         
 
     /*
-        proofer - how many have the same count?
+        proofreader - how many have the same count?
         how many have higher count? (rank = this + 1)
-        identify proofer 10 ranks away.
+        identify proofreader 10 ranks away.
         from his count, get his rank. All with same
         count have same rank.
 
@@ -1203,7 +1203,7 @@ class User
             return _("Prishan of Proofreaders");
         }
         if ($this->pageCount() <= 110000) {
-            return _("Proofer of Proofers");
+            return _("Proofreader of Proofreaders");
         }
         if ($this->pageCount() <= 120000) {
             return _("Proofreader Extraordinaire");

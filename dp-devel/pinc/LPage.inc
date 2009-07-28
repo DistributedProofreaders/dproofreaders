@@ -38,8 +38,8 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
     if ( $project->difficulty == 'beginner' and $round->is_a_mentor_round() )
     {
             // For beginner projects in a mentor round,
-            // we serve up pages in order of the proofer in the mentee round.
-            // (So that mentors can easily get all the pages by one proofer.)
+            // we serve up pages in order of the proofreader in the mentee round.
+            // (So that mentors can easily get all the pages by one proofreader.)
             $order = "{$round->mentee_round->user_column_name} ASC, image ASC";
     }
 
@@ -58,7 +58,7 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
         // (Where "preceding" takes into account skipped rounds.)
         if ( $round->round_number > 1 )
         {
-            // We need an SQL expression for the preceding proofer.
+            // We need an SQL expression for the preceding proofreader.
             $preceding_proofer = "CASE";
             for ( $rn = $round->round_number-1; $rn > 0; $rn-- )
             {
@@ -76,7 +76,7 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
             // which is always NULL (effectively false), so no pages will
             // satisfy the restriction, which is not what we want.
             //
-            // Instead, add an ELSE clause saying that the preceding proofer's
+            // Instead, add an ELSE clause saying that the preceding proofreader's
             // name was the empty string. So we'll end up requiring that
             //     '' != '$pguser'
             // which is always true, so any (available) page will satisfy the
