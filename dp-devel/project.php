@@ -771,12 +771,13 @@ function do_project_info_table()
     // --------
 
     // For now, we suppress Project Comments for guests.
-    // (They might be confused by the instructions for proofers.)
+    // (They might be confused by the instructions for proofreaders.)
     if ( $user_is_logged_in )
     {
         $comments = $project->comments;
 
-        // automatically prepend R2 intro for Beginners Only
+        // Automatically prepend second round comments template for Beginners Only
+	// The r2 in the template name is an artifact of the old two-round structure
         if ($project->difficulty == "beginner")
         {
             if ($round && $round->is_a_mentor_round() )
@@ -1527,11 +1528,11 @@ function do_post_downloads()
     echo "the latest text saved in any round up to and including the selected round.<br>\n";
     echo "(If every page has been saved in the selected round, then the two choices are equivalent.)<br>\n";
 
-    // proofer names allowed for people who can see proofer names
+    // Proofreader names allowed for people who can see proofreader names
     // on the page details
     if ( $project->names_can_be_seen_by_current_user )
     {
-        echo "Include proofer names? &nbsp;&nbsp; ";
+        echo "Include usernames? &nbsp;&nbsp; ";
         echo "<input type='radio' name='include_proofers' value='1' CHECKED />";
         echo "Yes &nbsp;&nbsp; ";
         echo "<input type='radio' name='include_proofers' value='0' />";
