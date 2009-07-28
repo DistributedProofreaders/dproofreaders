@@ -81,7 +81,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
         for($lineIndex = 0; $lineIndex<strlen($origLine); $lineIndex++) {
             $character = $origLine[$lineIndex];
             if(in_array($character,$puncArray)) {
-                // check to see if we're deaing with an escaped HTML char
+                // check to see if we're dealing with an escaped HTML char
                 // (aka: &amp; &lt; &gt) and if so, skip it
                 if($character==';' && preg_match("/&\w+;$|&#\d+;$/",substr($origLine,0,$lineIndex+1))) {
                    continue;
@@ -218,7 +218,7 @@ function spellcheck_echo_script()
         // loop through all bad words
         var totalNumWords = document.getElementById("sptotal").value;
         for(wordIndex=1; wordIndex<=totalNumWords; wordIndex++) {
-            // find occurances of the word
+            // find occurrences of the word
             var wordOccurID = wordIDprefix + "_" + wordIndex;
 
             // check to see if this instance has been edited already
