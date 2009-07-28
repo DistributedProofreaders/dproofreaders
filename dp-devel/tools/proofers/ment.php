@@ -5,8 +5,8 @@
 
    BEGIN projects active:
    BEGIN pages queued:                      Oldest since:
-   Newbie proofers queued:                  Oldest since:
-   Unmentored proofers queued:              Oldest since:
+   Newbie proofreaders queued:              Oldest since:
+   Unmentored proofreaders queued:          Oldest since:
 
    BEGIN projects open:
 
@@ -14,11 +14,11 @@
    BEGIN pages
 
 
-   FIRST QUEUED PROOFER
+   FIRST QUEUED PROOFREADER
 
-   proofer registered date/time
-   number of proofed pages previously second-proofed:       most recent: mm/dd hh:nn
-   number of pages currently available for proofing:        first: mm/dd/yy   last: mm/dd/yy
+   proofreader registered date/time
+   number of proofread pages previously second-proofread:   most recent: mm/dd hh:nn
+   number of pages currently available for proofreading:    first: mm/dd/yy   last: mm/dd/yy
 
  */
 
@@ -66,25 +66,25 @@ function ment_main()
     }
     Say( "Total page count = " . $pgset->Count());
 
-    Say( "BEGIN proofer count: " . count($projects->Newbies()));
+    Say( "BEGIN proofreader count: " . count($projects->Newbies()));
 
     // create a list of the newbies who have no R2+ pages - they are unmentored.
     $rawnewbies = array_filter($projects->Newbies(),"UnMentored");
-    Say("Unmentored proofer count: " . count($rawnewbies));
+    Say("Unmentored proofreader count: " . count($rawnewbies));
     Say();
-    SaySubhead("Unmentored Proofers:");
+    SaySubhead("Unmentored Proofreaders:");
 
     $i = 0;
     foreach($rawnewbies AS $newbie) {
         Say();
-        Say("Name---->    proofer" . ++$i); // $newbie->username);
+        Say("Name---->    proofreader" . ++$i); // $newbie->username);
         Say("  oldest page: " . mdy($newbie->earliest_time));
         Say("  newest page: " . mdy($newbie->latest_time));
         Say("  joined: " . $newbie->date_joined_string);
         Say("  BEGIN pgs: " . $newbie->active_page_count);
         Say("  Prior Mentored pages (R2, in process or completed:) "
                 . $newbie->mentored_page_count);
-        Say( "  Total proofed pgs: " . $newbie->total_page_count);
+        Say( "  Total proofread pgs: " . $newbie->total_page_count);
         Say("Active BEGIN Project Pages---- " 
             . ($newbie->active_page_count - $newbie->mentored_page_count));
         EchoPageList($pgset->Pages(), $newbie);
