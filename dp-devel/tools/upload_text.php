@@ -30,7 +30,7 @@ if ($stage == 'post_1')
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
-    $back_blurb = _("Back to Post Proofers Page");
+    $back_blurb = _("Back to Post Processors Page");
     $bottom_blurb = $standard_blurb;
 }
 else if ($stage == 'return_1')
@@ -41,7 +41,7 @@ else if ($stage == 'return_1')
     $new_state = PROJ_POST_FIRST_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
-    $back_blurb = _("Back to Post Proofers Page");
+    $back_blurb = _("Back to Post Processors Page");
     $bottom_blurb = $standard_blurb . 
         "  <b>" . 
         _("To return the project to the pool without uploading a file, leave the file name empty and click on Upload.") .
@@ -55,7 +55,7 @@ else if ($stage == 'return_2')
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PPV";
-    $back_blurb = _("Back to Post Proofer Verification Page");
+    $back_blurb = _("Back to Post Processor Verification Page");
     $bottom_blurb = $standard_blurb . 
         "  <b>" . 
         _("To return the project to the pool without uploading a file, leave the file name empty and click on Upload.") .
