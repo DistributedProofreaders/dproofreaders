@@ -3,19 +3,13 @@
 // that is used in FAQs. Also information about forums and wiki used in FAQs.
 
 // People:
-$PM_rights_giver="JulietS";
 $PM_rights_giver_contact="<a href=\"mailto:juliet.sutherland@verizon.net\">JulietS</a>";
-$proj_comments_supplier_1="Robert";
-$proj_comments_supplier_2="Charlz";
-$PG_poster="Charlz";
 $site_funder="Charles";
-$clearance_verifier="JulietS";
 $clearance_verifier_contact="<a href=\"mailto:juliet.sutherland@verizon.net\">JulietS</a>";
 
 // Wiki:
 $greek_wiki_url="$wiki_url/Transliterating_Greek";
 $greek_wiki_url_french="$wiki_url/French/Translitt%C3%A9ration_du_grec";
-$Stealth_Scannos_URL_Spanish="$wiki_url/Scannos_en_espa%C3%B1ol";
 
 $OCR_Pool_URL="$wiki_url/The_OCR_Pool";
 $DPWiki_Guide_to_HTML_URL="$wiki_url/HTML_advice_threads";
