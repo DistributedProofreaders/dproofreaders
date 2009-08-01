@@ -143,13 +143,15 @@ function create_dc_xml_oai($projectid, $scannercredit, $genre, $language, $autho
 		touch($filename);
 	}
 
+	// This code should perhaps be replaced by a call to
+	// Project::_create_credit_line.
 	$result = mysql_query("SELECT real_name FROM users WHERE username = '".$GLOBALS['pguser']."'");
 	$createdby = "Produced by ".mysql_result($result, 0, "real_name").", ";
 	if (!empty($scannercredit) && $scannercredit != $GLOBALS['pguser']) {
 		$result = mysql_query("SELECT real_name FROM users WHERE username = '$scannercredit'");
 		$createdby .= mysql_result($result, 0, "real_name").", ";
 	}
-	$createdby .= " Charles Franks and the Online Distributed Proofreading Team.";
+	$createdby .= "and the Online Distributed Proofreading Team at {$GLOBALS['site_url']}";
 
       $xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"{$GLOBALS['charset']}\" ?".">
 	<dc xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://purl.org/dc/elements/1.1/ http://www.openarchives.org/OAI/dc.xsd\">
