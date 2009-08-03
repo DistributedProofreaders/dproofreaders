@@ -19,31 +19,30 @@ show_news_for_page("STATS");
 //Member/team stats searches and listings
 ?>
 
-<table border='0' align='center' width='95%' cellspacing='2' cellpadding='2'>
+<table style='width: 95%; margin: 2em auto;'>
 <tr>
     <td>
     <form action='<?php echo $code_url; ?>/stats/members/mbr_list.php' method='post'>
-        <input type='text' name='uname' size='20'>
+        <input type='text' name='uname' size='20' style='margin-left: 0;'>
         <input type='submit' value='<?php echo _("Member Search"); ?>'>
         <br>
-        <input type='checkbox' name='uexact' value='yes'> <?php echo _("Exact match"); ?>
+        <input type='checkbox' name='uexact' value='yes' style='margin-left: 0;'> <?php echo _("Exact match"); ?>
         <br><br>
         <a href='<?php echo $code_url; ?>/stats/members/mbr_list.php'><?php echo _("Member List"); ?></a>
     </form>
     </td>
     <td>
     <form action='<?php echo $code_url; ?>/stats/teams/tlist.php' method='post'>
-        <input type='text' name='tname' size='20'>
+        <input type='text' name='tname' size='20' style='margin-left: 0;'>
         <input type='submit' value='<?php echo _("Team Search"); ?>'>
         <br>
-        <input type='checkbox' name='texact' value='yes'> <?php echo _("Exact match"); ?>
+        <input type='checkbox' name='texact' value='yes' style='margin-left: 0;'> <?php echo _("Exact match"); ?>
         <br><br>
         <a href='<?php echo $code_url; ?>/stats/teams/tlist.php'><?php echo _("Team List"); ?></a>
     </form>
     </td>
 </tr>
 </table>
-<br>
 
 <?php
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
