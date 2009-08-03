@@ -20,11 +20,33 @@ show_news_for_page("STATS");
 ?>
 
 <table border='0' align='center' width='95%' cellspacing='2' cellpadding='2'>
-<tr><td align='left'><form action='<?php echo $code_url; ?>/stats/members/mbr_list.php' method='post'>
-<font color='<?php echo $theme['color_headerbar_font']; ?>'><input type='text' name='uname' size='20'>&nbsp;<input type='submit' value='<?php echo _("Member Search"); ?>'></font></form></td>
-<td align='right'><form action='<?php echo $code_url; ?>/stats/teams/tlist.php' method='post'>
-<font color='<?php echo $theme['color_headerbar_font']; ?>'><input type='text' name='tname' size='20'>&nbsp;<input type='submit' value='<?php echo _("Team Search"); ?>'></font></form></td>
-</tr><tr><td align='center'><a href='<?php echo $code_url; ?>/stats/members/mbr_list.php'><?php echo _("Member List"); ?></a></td><td align='center'><a href='<?php echo $code_url; ?>/stats/teams/tlist.php'><?php echo _("Team List"); ?></a></td></tr></table>
+<tr>
+    <td align='left'>
+    <form action='<?php echo $code_url; ?>/stats/members/mbr_list.php' method='post'>
+    <font color='<?php echo $theme['color_headerbar_font']; ?>'>
+        <input type='text' name='uname' size='20'>
+        <input type='submit' value='<?php echo _("Member Search"); ?>'>
+    </font>
+    </form>
+    </td>
+    <td align='right'>
+    <form action='<?php echo $code_url; ?>/stats/teams/tlist.php' method='post'>
+    <font color='<?php echo $theme['color_headerbar_font']; ?>'>
+        <input type='text' name='tname' size='20'>
+        <input type='submit' value='<?php echo _("Team Search"); ?>'>
+    </font>
+    </form>
+    </td>
+</tr>
+<tr>
+    <td align='center'>
+        <a href='<?php echo $code_url; ?>/stats/members/mbr_list.php'><?php echo _("Member List"); ?></a>
+    </td>
+    <td align='center'>
+        <a href='<?php echo $code_url; ?>/stats/teams/tlist.php'><?php echo _("Team List"); ?></a>
+    </td>
+</tr>
+</table>
 <br>
 
 <?php
