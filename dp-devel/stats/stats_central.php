@@ -21,25 +21,21 @@ show_news_for_page("STATS");
 
 <table border='0' align='center' width='95%' cellspacing='2' cellpadding='2'>
 <tr>
-    <td align='left'>
+    <td>
     <form action='<?php echo $code_url; ?>/stats/members/mbr_list.php' method='post'>
         <input type='text' name='uname' size='20'>
         <input type='submit' value='<?php echo _("Member Search"); ?>'>
+        <br><br>
+        <a href='<?php echo $code_url; ?>/stats/members/mbr_list.php'><?php echo _("Member List"); ?></a>
     </form>
     </td>
-    <td align='right'>
+    <td>
     <form action='<?php echo $code_url; ?>/stats/teams/tlist.php' method='post'>
         <input type='text' name='tname' size='20'>
         <input type='submit' value='<?php echo _("Team Search"); ?>'>
-    </form>
-    </td>
-</tr>
-<tr>
-    <td align='center'>
-        <a href='<?php echo $code_url; ?>/stats/members/mbr_list.php'><?php echo _("Member List"); ?></a>
-    </td>
-    <td align='center'>
+        <br><br>
         <a href='<?php echo $code_url; ?>/stats/teams/tlist.php'><?php echo _("Team List"); ?></a>
+    </form>
     </td>
 </tr>
 </table>
