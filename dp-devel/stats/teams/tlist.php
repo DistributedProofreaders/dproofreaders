@@ -16,7 +16,12 @@ $direction = get_enumerated_param(
 $tstart = get_integer_param( $_GET, 'tstart', 0, 0, null );
 
 if (!empty($_REQUEST['tname'])) {
-	$tResult = select_from_teams("teamname LIKE '%{$_REQUEST['tname']}%'", "ORDER BY $order $direction LIMIT $tstart,20");
+	if ($_REQUEST['texact'] == 'yes')
+		$where_body = "teamname='{$_REQUEST['tname']}'";
+	else
+		$where_body = "teamname LIKE '%{$_REQUEST['tname']}%'";
+
+	$tResult = select_from_teams($where_body, "ORDER BY $order $direction LIMIT $tstart,20");
 	$tRows = mysql_num_rows($tResult);
 	if ($tRows == 1) { metarefresh(0,"tdetail.php?tid=".mysql_result($tResult,0,"id")."",'',''); exit; }
 	$tname = "tname=".$_REQUEST['uname']."&";

@@ -19,10 +19,15 @@ $direction = get_enumerated_param(
 $mstart = get_integer_param( $_GET, 'mstart', 0, 0, null );
 
 if (!empty($_REQUEST['uname'])) {
+	if ($_REQUEST['uexact'] == 'yes')
+		$where_clause = "WHERE username='{$_REQUEST['uname']}'";
+	else
+		$where_clause = "WHERE username LIKE '%{$_REQUEST['uname']}%'";
+
 	$mResult = mysql_query("
 		SELECT u_id, username, date_created, u_privacy
 		FROM users
-		WHERE username LIKE '%".$_REQUEST['uname']."%'
+		$where_clause
 		ORDER BY $order $direction
 		LIMIT $mstart,20
 	");

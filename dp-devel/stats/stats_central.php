@@ -25,6 +25,8 @@ show_news_for_page("STATS");
     <form action='<?php echo $code_url; ?>/stats/members/mbr_list.php' method='post'>
         <input type='text' name='uname' size='20'>
         <input type='submit' value='<?php echo _("Member Search"); ?>'>
+        <br>
+        <input type='checkbox' name='uexact' value='yes'> <?php echo _("Exact match"); ?>
         <br><br>
         <a href='<?php echo $code_url; ?>/stats/members/mbr_list.php'><?php echo _("Member List"); ?></a>
     </form>
@@ -33,6 +35,8 @@ show_news_for_page("STATS");
     <form action='<?php echo $code_url; ?>/stats/teams/tlist.php' method='post'>
         <input type='text' name='tname' size='20'>
         <input type='submit' value='<?php echo _("Team Search"); ?>'>
+        <br>
+        <input type='checkbox' name='texact' value='yes'> <?php echo _("Exact match"); ?>
         <br><br>
         <a href='<?php echo $code_url; ?>/stats/teams/tlist.php'><?php echo _("Team List"); ?></a>
     </form>
