@@ -23,18 +23,14 @@ show_news_for_page("STATS");
 <tr>
     <td align='left'>
     <form action='<?php echo $code_url; ?>/stats/members/mbr_list.php' method='post'>
-    <font color='<?php echo $theme['color_headerbar_font']; ?>'>
         <input type='text' name='uname' size='20'>
         <input type='submit' value='<?php echo _("Member Search"); ?>'>
-    </font>
     </form>
     </td>
     <td align='right'>
     <form action='<?php echo $code_url; ?>/stats/teams/tlist.php' method='post'>
-    <font color='<?php echo $theme['color_headerbar_font']; ?>'>
         <input type='text' name='tname' size='20'>
         <input type='submit' value='<?php echo _("Team Search"); ?>'>
-    </font>
     </form>
     </td>
 </tr>
