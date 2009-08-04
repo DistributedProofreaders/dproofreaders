@@ -124,7 +124,8 @@ if (!isset($_POST['resolution'])) {
         echo "<input type='hidden' name='prevtext_column' value='$prevtext_column'>";
         echo _("The textarea below contains the text from the previous round for ").$image.".<br>";
         echo _("You may use it as-is, or insert other replacement text for this page:<br>");
-        echo "<textarea name='prev_text' cols=70 rows=10>";
+        // newline after <textarea> needed to prevent the text box from eating the first blank line
+        echo "<textarea name='prev_text' cols=70 rows=10>\n";
         // SENDING PAGE-TEXT TO USER
         echo htmlspecialchars($prev_text,ENT_NOQUOTES);
         echo "</textarea><br><br>";
