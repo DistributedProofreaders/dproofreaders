@@ -696,7 +696,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                 $count = count_wordcheck_suggestion_events($projectid, $f_g->mod_time);
                 if ( $count >= 1 )
                 {
-                    $tooltip = _('"Suggestions from proofers" list has changed; click here to view');
+                    $tooltip = _('"Suggestions from proofreaders" list has changed; click here to view');
                     echo " <a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>";
                     echo "<img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0'>";
                     echo "</a>";
