@@ -114,7 +114,7 @@ class ProjectWordListHolder
             return array(_("unexpected return value from user_can_edit_project") . ": '$ucep_result'");
         }
 
-        $res = mysql_query("SELECT * FROM projects WHERE projectid = '$projectid'");
+        $res = mysql_query("SELECT nameofwork, username, authorsname, language, checkedoutby, state FROM projects WHERE projectid = '$projectid'");
         if (mysql_num_rows($res) == 0)
         {
             return array(_("parameter 'projectid' is invalid") . ": '$projectid'");
