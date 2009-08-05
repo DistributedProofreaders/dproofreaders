@@ -35,7 +35,7 @@ function maybe_mail_project_manager( $project, $info, $prefix)
 	if (is_string($project))
 	{
 		$project = mysql_fetch_assoc(mysql_query("
-			SELECT * FROM projects WHERE projectid='$project'
+			SELECT projectid, nameofwork, username FROM projects WHERE projectid='$project'
 		"));
 	}
 
