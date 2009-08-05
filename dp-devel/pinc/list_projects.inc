@@ -45,7 +45,16 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
     global $code_url;
     global $site_supports_corrections_after_posting;
     $sql = "
-        SELECT SQL_CALC_FOUND_ROWS *
+        SELECT SQL_CALC_FOUND_ROWS
+            projectid,
+            authorsname,
+            nameofwork,
+            language,
+            n_pages,
+            modifieddate,
+            postednum,
+            formats,
+            state
         FROM projects
             LEFT OUTER JOIN pg_books
             ON projects.postednum=pg_books.etext_number
