@@ -24,7 +24,7 @@ if (!isset($_POST['resolution'])) {
     $b_User = $page['b_user'];
     $b_Code = $page['b_code'];
 
-    $result = mysql_query("SELECT * FROM projects WHERE projectid='$projectid'");
+    $result = mysql_query("SELECT nameofwork FROM projects WHERE projectid='$projectid'");
     $b_NameofWork = mysql_result($result,0,"nameofwork");
     
     $round = get_Round_for_page_state($state);
