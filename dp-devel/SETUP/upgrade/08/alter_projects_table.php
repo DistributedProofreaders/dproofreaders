@@ -72,6 +72,30 @@ echo "$sql\n";
 
 mysql_query($sql) or die( mysql_error() );
 
+// ---------------------------------------------------
+
+echo "Replacing 'state' index with 'state,modifieddate' index...\n";
+echo "Adding an index for state,modifieddate index ...\n";
+$sql = "
+    ALTER TABLE `projects`
+        ADD INDEX `state_moddate`
+            ( `state`, `modifieddate` );
+";
+
+echo "$sql\n";
+
+mysql_query($sql) or die( mysql_error() );
+
+echo "Dropping 'state' index ...\n";
+$sql = "
+    ALTER TABLE `projects`
+        DROP INDEX `state`;
+";
+
+echo "$sql\n";
+
+mysql_query($sql) or die( mysql_error() );
+
 echo "\nDone!\n";
 
 

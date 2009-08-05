@@ -800,7 +800,7 @@ function show_completed_projects($terse = FALSE)
         $displaydate = strftime(_("%b %Y"), $begindate );
 
         $result = mysql_query("
-            SELECT COUNT(projectid)
+            SELECT COUNT(*)
             FROM projects
             WHERE modifieddate >= $begindate
                 and modifieddate <= $enddate
