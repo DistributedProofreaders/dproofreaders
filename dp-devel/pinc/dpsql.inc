@@ -45,7 +45,7 @@ function dpsql_query( $query )
 		print "The following mysql query:<br>\n";
 		print $query . "<br>\n";
 		print "raised the following error:<br>\n";
-		print mysql_error(); "<br>\n";
+		print mysql_error() . "<br>\n";
 		print "<br>\n";
 	}
 	return $result;
