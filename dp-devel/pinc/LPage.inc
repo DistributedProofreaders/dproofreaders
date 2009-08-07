@@ -301,7 +301,7 @@ class LPage
     function markAsBad( $user, $reason )
     // Return TRUE if this report causes project to be marked bad.
     {
-        global $code_url, $PAGE_BADNESS_REASONS;
+        global $code_url, $site_abbreviation, $PAGE_BADNESS_REASONS;
 
         Page_markAsBad( $this->projectid, $this->imagefile, $this->round, $user, $reason );
 
