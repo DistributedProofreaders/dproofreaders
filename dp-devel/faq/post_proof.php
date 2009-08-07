@@ -1296,7 +1296,7 @@ check all the links to make sure that they work and to double check that all you
 linkchecker at <a href="http://validator.w3.org/checklink">http://validator.w3.org/checklink</a> 
 or another linkchecker such as <a href="http://home.snafu.de/tilman/xenulink.html">xenulink</a>; 
 run <a href="http://www.w3.org/People/Raggett/tidy/">HTML Tidy</a> to uncover any remaining problems in the HTML.
-Any HTML questions not answered in the PG HTML FAQ or <a href="<?php echo $DPWiki_Guide_to_HTML_id; ?>">DP's DPWiki's Guide to HTML</a> should be discussed
+Any HTML questions not answered in the PG HTML FAQ or <a href="<?php echo $DPWiki_Guide_to_HTML_URL; ?>">DP's DPWiki's Guide to HTML</a> should be discussed
 in the Post-Processing forum.</p>
 
 <p>
