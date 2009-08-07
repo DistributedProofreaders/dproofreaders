@@ -1,5 +1,6 @@
 <?php
-include_once($relPath.'site_vars.php'); // $archive_db_name $projects_dir $archive_projects_dir
+include_once($relPath.'site_vars.php'); // $projects_dir $archive_projects_dir
+include_once($relPath.'udb_user.php'); // $archive_db_name
 include_once($relPath.'project_events.inc'); // log_project_event
 include_once($relPath.'project_states.inc'); // PROJ_SUBMIT_PG_POSTED PROJ_DELETE
 include_once($relPath.'Stopwatch.inc');
