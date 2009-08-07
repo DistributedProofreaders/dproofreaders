@@ -34,6 +34,7 @@ $res = dpsql_query("
         AND ($now - date_created) > 28512000
 ") or die("Aborting");
 
+$birthdays = array();
 while ( list($username,$date_created) = mysql_fetch_row($res) )
 {
     $user_day = getdate($date_created);
