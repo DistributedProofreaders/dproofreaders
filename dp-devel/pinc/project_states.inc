@@ -26,6 +26,7 @@ include_once($relPath.'site_vars.php');
 */
 
 $PROJECT_STATES_IN_ORDER = array();
+$project_state_medium_label_ = array();
 $project_state_long_label_ = array();
 $project_state_forum_ = array();
 $project_state_phase_ = array();
