@@ -262,7 +262,7 @@ class ProjectTransition
                         break;
 
                     case '<G:postcomments>':
-                        global $postcomments;
+                        global $postcomments; // defined in upload_text.php
                         $replacement = $postcomments;
                         break;
 
