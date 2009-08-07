@@ -1,10 +1,10 @@
 <?php
 $relPath="./pinc/";
-include($relPath.'site_vars.php');
-include($relPath.'connect.inc');
+include_once($relPath.'site_vars.php');
+include_once($relPath.'connect.inc');
 $db_Connection=new dbConnect();
-include($relPath.'theme.inc');
-include($relPath.'forum_interface.inc');
+include_once($relPath.'theme.inc');
+include_once($relPath.'forum_interface.inc');
 
 $auth = false;
 
@@ -75,7 +75,7 @@ if (!$auth) {
 		fclose($udb_user_file);
 		echo "<br><center><b>Update Completed!</b></center>";
 	}
-	include($relPath.'site_vars.php');
+	include_once($relPath.'site_vars.php');
 
 	echo "<br><form method='post' action='".$_SERVER['PHP_SELF']."'>";
 
