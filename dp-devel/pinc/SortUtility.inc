@@ -128,7 +128,8 @@ class SortUtility {
 
     // Check for a stored preference in the database
     if ($this->_storeSortingInDatabase) {
-      $result = mysql_query("SELECT value FROM usersettings WHERE username='$user' and setting='".$this->_name."_order'");
+      global $pguser;
+      $result = mysql_query("SELECT value FROM usersettings WHERE username='$pguser' and setting='".$this->_name."_order'");
       if (mysql_num_rows($result) >= 1)
         return $this->_parseSortingRule(mysql_result($result, 0));
     }
@@ -322,17 +323,19 @@ class SortUtility {
     $setting_value = $currentlySortedValue->getName() .
                      ($this->getSortingDirection() == ASCENDING ? 'A' : 'D');
 
+    global $pguser;
+
     // See if there's a preference already
-    $result = mysql_query("SELECT value FROM usersettings WHERE username='$user' and setting='$setting_name'");
+    $result = mysql_query("SELECT value FROM usersettings WHERE username='$pguser' and setting='$setting_name'");
 
     if (mysql_num_rows($result) > 0)
       // existing preference. UPDATE
       mysql_query("UPDATE usersettings SET value='$setting_value'" .
-                  "WHERE (username = '$user' AND setting='$setting_name')");
+                  "WHERE (username = '$pguser' AND setting='$setting_name')");
     else
       // no preference yet. INSERT
       mysql_query('INSERT INTO usersettings (username, setting, value) ' .
-                  "VALUES ('$user', '$setting_name', '$setting_value')");
+                  "VALUES ('$pguser', '$setting_name', '$setting_value')");
   }
 
 }
