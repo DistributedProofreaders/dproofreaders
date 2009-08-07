@@ -538,9 +538,6 @@ if (0)
 		$round = get_Round_for_page_state($page_state);
 		echo "$page_state\t$round->id\n";
 	}
-
-	var_dump($P1);
-	var_dump($P2);
 }
 
 if (0)
