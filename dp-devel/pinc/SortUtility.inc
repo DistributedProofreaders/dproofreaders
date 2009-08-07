@@ -43,9 +43,7 @@ class SortableValue {
 
   function _flipAscendDescendSqlRule($sqlRuleAscending) {
     $vars = explode(',', $sqlRuleAscending);
-    $newVars;
-    $oldVar;
-    $newVar;
+    $newVars = array();
     $count = 0;
     foreach ($vars as $var) {
       $oldVar = $var;
