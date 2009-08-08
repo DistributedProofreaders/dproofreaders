@@ -8,6 +8,8 @@ include_once($relPath.'theme.inc');
 
 theme("Post-Processing Mysteries", "header");
 
+$order = @$_GET['order'];
+
 if ($order == 'default') {
     $order ='nameofwork';
 }
