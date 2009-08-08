@@ -1,6 +1,7 @@
 <?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'pg.inc'); // $PG_home_url
 
 // Two mails are sent out to new users. First an activation mail where they
 // need to follow a link in order to complete the registration. Then,
