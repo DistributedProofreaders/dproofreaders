@@ -6,6 +6,9 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'project_trans.inc');
 
+$projectid    = @$_POST['projectid'];
+$postcomments = @$_POST['postcomments'];
+
 // Verify that it's the pp-er trying to perform this action.
 
 $project = new Project($projectid);
