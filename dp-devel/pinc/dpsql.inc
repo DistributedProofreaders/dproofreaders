@@ -249,7 +249,7 @@ function dpsql_fetch_all_keyed( $res )
 function dpsql_fetch_columns( $res )
 // Return an array of arrays, one for each column of the result-set.
 {
-    $columms = array();
+    $columns = array();
     $num_cols = mysql_num_fields($res);
     for ( $c = 0; $c < $num_cols; $c++ )
     {
