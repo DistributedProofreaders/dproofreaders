@@ -87,7 +87,6 @@ function dpsql_dump_query_result( $result )
 
 function dpsql_dump_themed_query_result( $result )
 {
-        $theme_name = $GLOBALS['theme_name'];
         $theme = $GLOBALS['theme'];
 
 	$n_cols = mysql_num_fields($result);
@@ -169,7 +168,6 @@ function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
 	/* It appears this function is currently only called from a two-line 
 	function called  dpsql_dump_themed_ranked_query earlier in this 
 	include. */
-        $theme_name = $GLOBALS['theme_name'];
         $theme = $GLOBALS['theme'];
 
 	$n_cols = mysql_num_fields($result);
