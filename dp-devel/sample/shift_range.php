@@ -172,7 +172,7 @@ function shift_range( $projectid, $n_digits, $lo, $hi, $offset, $dryrun )
 				echo "    updating the page table\n";
 				if ( !$dryrun )
 				{
-
+					global $writeBIGtable;
 					if ($writeBIGtable) {
 						$q = "UPDATE project_pages SET fileid='$padded_j', image='$png_filename_j' WHERE projectid = '$projectid' AND  image='$png_filename_i'";
 						// echo "    $q\n";
