@@ -7,7 +7,7 @@ include_once($relPath.'dpsql.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'page_tally.inc');
 
-$taly_name = @$_GET['tally_name'];
+$tally_name = @$_GET['tally_name'];
 if (empty($tally_name))
 {
 	die("parameter 'tally_name' is unset/empty");
