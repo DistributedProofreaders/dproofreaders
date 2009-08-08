@@ -5,7 +5,7 @@ include_once($relPath.'slim_header.inc');
 
 function abort_if_in_maintenance_mode()
 {
-    global $maintenance, $pguser;
+    global $maintenance, $pguser, $site_name;
 
     if ($maintenance)
     {
