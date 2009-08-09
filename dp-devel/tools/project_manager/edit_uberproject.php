@@ -4,6 +4,43 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once('edit_common.inc');
 
+// For each control that can appear in the form, create and
+// initialize a variable if there's a POST parameter by that name,
+// so we don't have to rely on the extract($_POST) in dp_main.inc.
+$var_names = array(
+    'rec',
+    'up_projectid',
+    'up_nameofwork',
+    'up_description',
+    'nameofwork',
+    'authorsname',
+    'pri_language',
+    'sec_language',
+    'genre',
+    'difficulty_level',
+    'special_code',
+    'bdaymonth',
+    'bdayday',
+    'checkedoutby',
+    'image_source',
+    'image_preparer',
+    'text_preparer',
+    'extra_credits',
+    'scannercredit',
+    'clearance',
+    'comments',
+    'saveUberAndQuit',
+    'saveUberAndNewProject',
+    'saveUberAndReturn',
+);
+foreach ( $var_names as $var_name )
+{
+    if (array_key_exists($var_name, $_POST) )
+    {
+        ${$var_name} = $_POST[$var_name];
+    }
+}
+
 // -----------------------------------------------------------------------------
 
 if ( isset($_REQUEST['action']) &&
