@@ -4,6 +4,29 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once('edit_common.inc');
 
+// This script has some bugs due to inconsistencies between the code that writes
+// the form and the code that reads the form submission.
+//
+// For instance, the code calls special_list() to write the "Special Day"
+// widget, which involves three controls, named 'special_code', 'bdaymonth',
+// and 'bdayday'. But saveUberProject() looks in $_POST['special'] for such
+// information, which will never be defined.
+//
+// saveUberProject() also assumes that $_POST contains entries for several
+// items that aren't represented at all in the form:
+//     'extra_comments'
+//     'up_comments_post_id'
+//     'up_contents_post_id'
+//     'up_topic_id'
+//     'year'
+// (And there seems to be some confusion between up_comments_post_id and
+// up_contents_post_id.)
+//
+// (Note that although we've "released" this script, we haven't provided any
+// means to invoke it, which is why none of these bugs has come to light.)
+
+// -----------------------------------------------------------------------------
+
 // For each control that can appear in the form, create and
 // initialize a variable if there's a POST parameter by that name,
 // so we don't have to rely on the extract($_POST) in dp_main.inc.
