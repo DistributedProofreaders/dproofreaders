@@ -151,38 +151,49 @@ if ($userP['i_layout']==1)
 else {$iWidth=$userP['h_zoom'];}
 $iWidth=round((1000*$iWidth)/100);
 
+// The outside table has a single row containing two cells.
+echo "<tr>\n";
 
+// The left cell contains the page image
 echo "<td><img name='scanimage' id='scanimage' title='' alt='' src='$projects_url/$projectid/$imagename' width = '$iWidth'></td>";
 
+// The right cell contains the metadata form.
+echo "<td valign = 'top'>\n";
 
 //start the metadata table
-echo "<form method = 'post'><td valign = 'top'><table cols ='2' border = '1'>";
-echo "<td colspan ='2' align = 'center'><b>This Image Contains:</b></td><tr>
+echo "<form method = 'post'><table cols ='2' border = '1'>";
+echo "<tr><td colspan ='2' align = 'center'><b>This Image Contains:</b></td></tr>
 ";
 
 foreach ( $md_groups as $header => $md_items )
 {
+    echo "<tr>";
     echo "<td><b>$header</b></td>";
     echo "<td></td>";
-    echo "<tr>\n";
+    echo "</tr>\n";
     foreach ( $md_items as $item_id => $item_label )
     {
+        echo "<tr>";
         echo "<td>$item_label</td>";
         echo "<td><input type='checkbox' name='$item_id'></td>";
-        echo "<tr>\n";
+        echo "</tr>\n";
     }
     echo "\n";
 }
 
 echo "
-    <td></td><td></td><tr>
-    <td></td><td></td><tr>
-    <td></td><td></td><tr>
-    <td colspan ='2' align = 'center'><INPUT TYPE=SUBMIT VALUE='Save and Quit' NAME = 'done'></td><tr>
-    <td colspan ='2' align = 'center'><INPUT TYPE=SUBMIT VALUE='Quit Without Saving' NAME = 'quit'></td><tr>
-    <td colspan ='2' align = 'center'><INPUT TYPE=SUBMIT VALUE='Save and Do Another'NAME = 'continue'></td><tr>";
-echo "</form></table>";
-echo "</table></body></html>";
+    <tr><td></td><td></td></tr>
+    <tr><td></td><td></td></tr>
+    <tr><td></td><td></td></tr>
+    <tr><td colspan ='2' align = 'center'><INPUT TYPE=SUBMIT VALUE='Save and Quit' NAME = 'done'></td></tr>
+    <tr><td colspan ='2' align = 'center'><INPUT TYPE=SUBMIT VALUE='Quit Without Saving' NAME = 'quit'></td></tr>
+    <tr><td colspan ='2' align = 'center'><INPUT TYPE=SUBMIT VALUE='Save and Do Another'NAME = 'continue'></td></tr>";
+echo "</table></form>";
+
+// End the right cell, the single row, and the outside table.
+echo "</td></tr></table>\n";
+
+echo "</body></html>";
 
 // vim: sw=4 ts=4 expandtab
 ?>
