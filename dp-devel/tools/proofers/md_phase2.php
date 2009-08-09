@@ -101,6 +101,44 @@ if (isset($_POST['continue']))
 
 }
 
+$md_groups = array(
+    'Front Matter' => array(
+            'acknowledge'  => 'Acknowledgement',
+            'dedication'   => 'Dedication',
+            'ednotes'      => "Editor's Notes",
+            'foreword'     => 'Foreword',
+            'intro'        => 'Introduction',
+            'loi'          => 'List of Illustrations',
+            'preface'      => 'Preface',
+            'prologue'     => 'Prologue',
+            'toc'          => 'Table of Contents',
+            'titlepage'    => 'Title Page',
+        ),
+    'Body of Book' => array(
+            'abbreviation' => 'Abbreviation',
+            'division'     => 'Chapter/Part/Book Heading',
+            'epigraph'     => 'Dedication/Epigraph',
+            'footnote'     => 'Footnote',
+            'illustration' => 'Illustration or Drawing',
+            'letter'       => 'Letter',
+            'list'         => 'List',
+            'math'         => 'Symbolic Notation',
+            'poetry'       => 'Poetry/Verse',
+            'sidenote'     => 'Sidenote',
+            'verse'        => 'Song/Music',
+            'table'        => 'Table',
+        ),
+    'Back Matter' => array(
+            'appendix'     => 'Appendix',
+            'afterword'    => 'Afterword',
+            'biblio'       => 'Bibliography',
+            'colophon'     => 'Colophon',
+            'endnote'      => 'End Note',
+            'epilogue'     => 'Epilogue',
+            'index'        => 'Index',
+        ),
+);
+
 
 echo "<html><head><title>Image Frame</title></head><body bgcolor=#e0e8dd>";
 
@@ -120,42 +158,23 @@ echo "<td><img name=\"scanimage\" id=\"scanimage\" title=\"\" alt=\"\" src=\"$pr
 //start the metadata table
 echo "<form method = 'post'><td valign = \"top\"><table cols =\"2\" border = \"1\">";
 echo "<td colspan =\"2\" align = \"center\"><b>This Image Contains:</b></td><tr>
-    <td><b>Front Matter</b></td><tr>
-    <td>Acknowledgement</td><td><input type='checkbox' name='acknowledge'></td><tr>
-    <td>Dedication</td><td><input type='checkbox' name='dedication'></td><tr>
-    <td>Editor's Notes</td><td><input type='checkbox' name='ednotes'></td><tr>
-    <td>Foreword</td><td><input type='checkbox' name='foreword'></td><tr>
-    <td>Introduction</td><td><input type='checkbox' name='intro'></td><tr>
-    <td>List of Illustrations</td><td><input type='checkbox' name='loi'></td><tr>
-    <td>Preface</td><td><input type='checkbox' name='preface'></td><tr>
-    <td>Prologue</td><td><input type='checkbox' name='prologue'></td><tr>
-    <td>Table of Contents</td><td><input type='checkbox' name='toc'></td><tr>
-    <td>Title Page</td><td><input type='checkbox' name='titlepage'></td><tr>
+";
 
-    <td><b>Body of Book</b></td><td></td><tr>
-    <td>Abbreviation</td><td><input type='checkbox' name='abbreviation'></td></td><tr>
-    <td>Chapter/Part/Book Heading</td><td><input type='checkbox' name='division'></td></td><tr>
-    <td>Dedication/Epigraph</td><td><input type='checkbox' name='epigraph'></td><tr>
-    <td>Footnote</td><td><input type='checkbox' name='footnote'></td><tr>
-    <td>Illustration or Drawing</td><td><input type='checkbox' name='illustration'></td><tr>
-    <td>Letter</td><td><input type='checkbox' name='letter'></td><tr>
-    <td>List</td><td><input type='checkbox' name='list'></td><tr>
-    <td>Symbolic Notation</td><td><input type='checkbox' name='math'></td><tr>
-    <td>Poetry/Verse</td><td><input type='checkbox' name='poetry'></td><tr>
-    <td>Sidenote</td><td><input type='checkbox' name='sidenote'></td><tr>
-    <td>Song/Music</td><td><input type='checkbox' name='verse'></td><tr>
-    <td>Table</td><td><input type='checkbox' name='table'></td><tr>
+foreach ( $md_groups as $header => $md_items )
+{
+    echo "<td><b>$header</b></td>";
+    echo "<td></td>";
+    echo "<tr>\n";
+    foreach ( $md_items as $item_id => $item_label )
+    {
+        echo "<td>$item_label</td>";
+        echo "<td><input type='checkbox' name='$item_id'></td>";
+        echo "<tr>\n";
+    }
+    echo "\n";
+}
 
-    <td><b>Back Matter</b></td><td></td><tr>
-    <td>Appendix</td><td><input type='checkbox' name='appendix'></td><tr>
-    <td>Afterword</td><td><input type='checkbox' name='afterword'></td><tr>
-    <td>Bibliography</td><td><input type='checkbox' name='biblio'></td><tr>
-    <td>Colophon</td><td><input type='checkbox' name='colophon'></td><tr>
-    <td>End Note</td><td><input type='checkbox' name='endnote'></td><tr>
-    <td>Epilogue</td><td><input type='checkbox' name='epilogue'></td><tr>
-    <td>Index</td><td><input type='checkbox' name='index'></td><tr>
- 
-
+echo "
     <td></td><td></td><tr>
     <td></td><td></td><tr>
     <td></td><td></td><tr>
