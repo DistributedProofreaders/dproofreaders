@@ -173,6 +173,7 @@ if (!isset($_POST['resolution'])) {
     $projectid = $_POST['projectid'];
     $image = $_POST['image'];
     $state = $_POST['state'];
+    $resolution = $_POST['resolution'];
 
     //If the PM fixed the problem or stated the report was invalid update the database to reflect
     if (($resolution == "fixed") || ($resolution == "invalid")) {
