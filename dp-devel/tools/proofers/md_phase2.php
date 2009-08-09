@@ -143,7 +143,7 @@ $md_groups = array(
 echo "<html><head><title>Image Frame</title></head><body bgcolor=#e0e8dd>";
 
 //Start the outside table
-echo "<table cols =\"2\" border = \"1\">";
+echo "<table cols ='2' border = '1'>";
 
 //Display image
 if ($userP['i_layout']==1)
@@ -152,12 +152,12 @@ else {$iWidth=$userP['h_zoom'];}
 $iWidth=round((1000*$iWidth)/100);
 
 
-echo "<td><img name=\"scanimage\" id=\"scanimage\" title=\"\" alt=\"\" src=\"$projects_url/$projectid/$imagename\" width = \"$iWidth\"></td>";
+echo "<td><img name='scanimage' id='scanimage' title='' alt='' src='$projects_url/$projectid/$imagename' width = '$iWidth'></td>";
 
 
 //start the metadata table
-echo "<form method = 'post'><td valign = \"top\"><table cols =\"2\" border = \"1\">";
-echo "<td colspan =\"2\" align = \"center\"><b>This Image Contains:</b></td><tr>
+echo "<form method = 'post'><td valign = 'top'><table cols ='2' border = '1'>";
+echo "<td colspan ='2' align = 'center'><b>This Image Contains:</b></td><tr>
 ";
 
 foreach ( $md_groups as $header => $md_items )
@@ -178,9 +178,9 @@ echo "
     <td></td><td></td><tr>
     <td></td><td></td><tr>
     <td></td><td></td><tr>
-    <td colspan =\"2\" align = \"center\"><INPUT TYPE=SUBMIT VALUE=\"Save and Quit\" NAME = \"done\"></td><tr>
-    <td colspan =\"2\" align = \"center\"><INPUT TYPE=SUBMIT VALUE=\"Quit Without Saving\" NAME = \"quit\"></td><tr>
-    <td colspan =\"2\" align = \"center\"><INPUT TYPE=SUBMIT VALUE=\"Save and Do Another\"NAME = \"continue\"></td><tr>";
+    <td colspan ='2' align = 'center'><INPUT TYPE=SUBMIT VALUE='Save and Quit' NAME = 'done'></td><tr>
+    <td colspan ='2' align = 'center'><INPUT TYPE=SUBMIT VALUE='Quit Without Saving' NAME = 'quit'></td><tr>
+    <td colspan ='2' align = 'center'><INPUT TYPE=SUBMIT VALUE='Save and Do Another'NAME = 'continue'></td><tr>";
 echo "</form></table>";
 echo "</table></body></html>";
 
