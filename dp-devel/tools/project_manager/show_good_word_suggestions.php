@@ -11,9 +11,8 @@ $datetime_format = "%A, %B %e, %Y %X";
 
 set_time_limit(0); // no time limit
 
-$fileObject = get_project_word_file($projectid,"good");
-
 $projectid  = array_get($_REQUEST, "projectid",  "");
+$fileObject = get_project_word_file($projectid,"good");
 $timeCutoff = array_get($_REQUEST, "timeCutoff", $fileObject->mod_time);
 $freqCutoff = array_get($_REQUEST, "freqCutoff", 5);
 
