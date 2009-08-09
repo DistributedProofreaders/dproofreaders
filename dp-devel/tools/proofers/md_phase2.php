@@ -12,6 +12,9 @@ if (!$site_supports_metadata)
     exit();
 }
 
+$projectid = @$_GET['projectid'];
+$imagename = @$_GET['imagename'];
+
 // $ppage = get_requested_PPage();
 
 
