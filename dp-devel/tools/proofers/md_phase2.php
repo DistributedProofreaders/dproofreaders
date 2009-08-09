@@ -64,14 +64,14 @@ if (isset($_POST['done']))
     }
 
     //change page status and back to md_available.php
-    $result = mysql_query("UPDATE $projectid SET state = 'save_md_second' WHERE image = '$image'");
+    $result = mysql_query("UPDATE $projectid SET state = 'save_md_second' WHERE image = '$imagename'");
     metarefresh(0,'md_available.php',"Image Metadata Collection","");
 }
 
 if (isset($_POST['quit']))
 {
     //they don't want to save so set page to avail return them to md_available
-    $result = mysql_query("UPDATE $projectid SET state = 'avail_md_second' WHERE image = '$image'");
+    $result = mysql_query("UPDATE $projectid SET state = 'avail_md_second' WHERE image = '$imagename'");
     metarefresh(0,'md_available.php',"Image Metadata Collection","");
 }
 
