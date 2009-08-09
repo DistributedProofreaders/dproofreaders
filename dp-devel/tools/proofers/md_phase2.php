@@ -84,6 +84,7 @@ if (isset($_POST['continue']))
 
     //concat new metadata
     $i=0;
+    $new_md = '';
     foreach($HTTP_POST_VARS as $key => $val)
     {
         if ($val =='on')
