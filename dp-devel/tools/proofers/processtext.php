@@ -15,7 +15,10 @@ $_POST:
     $button1_x, $button2_x, $button3_x, $button4_x, ...
 */
 
-$text_data = isset($text_data) ? $text_data : '';
+$projectid  = $_POST['projectid'];
+$proj_state = $_POST['proj_state'];
+$imagefile  = $_POST['imagefile'];
+$text_data  = array_get($_POST, 'text_data', '');
 
 define('B_TEMPSAVE',                1);
 define('B_SAVE_AND_DO_ANOTHER',     2);
@@ -31,27 +34,31 @@ define('B_RUN_COMMON_ERRORS_CHECK', 11);
 
 
 // set tbutton
-if (isset($button1) || isset($button1_x)) {$tbutton=B_TEMPSAVE;}
-if (isset($button2) || isset($button2_x)) {$tbutton=B_SAVE_AND_DO_ANOTHER;}
-if (isset($button3) || isset($button3_x)) {$tbutton=B_QUIT;}
-if (isset($button4) || isset($button4_x)) {$tbutton=B_SWITCH_LAYOUT;}
-if (isset($button5) || isset($button5_x)) {$tbutton=B_SAVE_AND_QUIT;}
-if (isset($button6) || isset($button6_x)) {$tbutton=B_REPORT_BAD_PAGE;}
-if (isset($button7) || isset($button7_x)) {$tbutton=B_RETURN_PAGE_TO_ROUND;}
-if (isset($button8) || isset($button8_x)) {$tbutton=B_REVERT_TO_ORIGINAL;}
-if (isset($button9) || isset($button9_x)) {$tbutton=B_REVERT_TO_LAST_TEMPSAVE;}
-if (isset($button10) || isset($button10_x)) {$tbutton=B_RUN_SPELL_CHECK;}
-if (isset($button11) || isset($button11_x)) {$tbutton=B_RUN_COMMON_ERRORS_CHECK;}
+if (isset($_POST['button1']) || isset($_POST['button1_x'])) {$tbutton=B_TEMPSAVE;}
+if (isset($_POST['button2']) || isset($_POST['button2_x'])) {$tbutton=B_SAVE_AND_DO_ANOTHER;}
+if (isset($_POST['button3']) || isset($_POST['button3_x'])) {$tbutton=B_QUIT;}
+if (isset($_POST['button4']) || isset($_POST['button4_x'])) {$tbutton=B_SWITCH_LAYOUT;}
+if (isset($_POST['button5']) || isset($_POST['button5_x'])) {$tbutton=B_SAVE_AND_QUIT;}
+if (isset($_POST['button6']) || isset($_POST['button6_x'])) {$tbutton=B_REPORT_BAD_PAGE;}
+if (isset($_POST['button7']) || isset($_POST['button7_x'])) {$tbutton=B_RETURN_PAGE_TO_ROUND;}
+if (isset($_POST['button8']) || isset($_POST['button8_x'])) {$tbutton=B_REVERT_TO_ORIGINAL;}
+if (isset($_POST['button9']) || isset($_POST['button9_x'])) {$tbutton=B_REVERT_TO_LAST_TEMPSAVE;}
+if (isset($_POST['button10']) || isset($_POST['button10_x'])) {$tbutton=B_RUN_SPELL_CHECK;}
+if (isset($_POST['button11']) || isset($_POST['button11_x'])) {$tbutton=B_RUN_COMMON_ERRORS_CHECK;}
 
-if (isset($spcorrect)) {$tbutton=101;} // Make Spelling Corrections
-if (isset($spexit)) {$tbutton=102;} // Exit Spelling Corrections
-if (isset($rerunauxlanguage)) {$tbutton=103;} // Spellcheck against another language
-if (isset($errcorrect)) {$tbutton=111;} // Make Spelling Corrections
-if (isset($errexit)) {$tbutton=112;} // Exit Spelling Corrections
+if (isset($_POST['spcorrect'])) {$tbutton=101;} // Make Spelling Corrections
+if (isset($_POST['spexit'])) {$tbutton=102;} // Exit Spelling Corrections
+if (isset($_POST['rerunauxlanguage'])) {$tbutton=103;} // Spellcheck against another language
+if (isset($_POST['errcorrect'])) {$tbutton=111;} // Make Spelling Corrections
+if (isset($_POST['errexit'])) {$tbutton=112;} // Exit Spelling Corrections
 
 // set prefs
 if ($userP['i_type']==1)
 {
+    $fntFace = $_POST['fntFace'];
+    $fntSize = $_POST['fntSize'];
+    $zmSize  = $_POST['zmSize'];
+
     $isChg=0;
     if ($userP['i_layout']==1)
     {
@@ -82,7 +89,6 @@ if ($tbutton == B_QUIT)
 $ppage = get_requested_PPage( $_POST );
 
 // $_SESSION key name for storing WordCheck corrections
-$projectid=$_POST["projectid"];
 $page=$ppage->lpage->imagefile;
 $wcTempCorrections = "WC_temp_corrections-$projectid-$page";
 
