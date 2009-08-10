@@ -44,8 +44,12 @@ echo "<table border=1>\n";
     // Header row
     echo "
         <tr>
-            <td align='center' colspan='4'><b>Books Waiting for Copyright Approval</b></td><tr></tr>
-            <td align='center' colspan='4'>The following books need to be approved/disapproved for copyright clearance.</td><tr></tr>
+            <td align='center' colspan='4'><b>Books Waiting for Copyright Approval</b></td>
+        </tr>
+        <tr>
+            <td align='center' colspan='4'>The following books need to be approved/disapproved for copyright clearance.</td>
+        </tr>
+        <tr>
             <td align='center' colspan='1'><b>Title</b></td>
             <td align='center' colspan='1'><b>Author</b></td>
             <td align='center' colspan='1'><b>Clearance Line</b></td>
@@ -82,16 +86,14 @@ echo "<table border=1>\n";
                 Approved<input type='radio' name='metadata' value='approved'>
                 Disapproved<input type='radio' name='metadata' value='disapproved'>
                 <INPUT TYPE=SUBMIT VALUE='update'>
-            </td>
                 </form>
+            </td>
             </tr>
         ";
 
         $rownum++;
     }
 
-    //echo "</table>";
-    echo "<br>";
     echo "<tr></tr>\n";
     echo "<tr></tr>\n";
     echo "<tr></tr>\n";
@@ -101,7 +103,6 @@ echo "<table border=1>\n";
 
 
 echo "</table>";
-echo "</center>";
 echo "<br>";
 theme("","footer");
 
