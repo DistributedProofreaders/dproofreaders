@@ -23,7 +23,9 @@ if (!user_is_a_sitemanager())
 }
 
 //----------------------------------------------------------------------------------
-if (isset($_GET['update']))
+
+$update = @$_GET['update'];
+if (isset($update))
 {
     //update project approval status
     if ($_GET['metadata'] =='approved')
