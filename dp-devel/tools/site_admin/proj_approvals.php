@@ -35,9 +35,11 @@ if (isset($_GET['update']))
         $statuschange = 'project_new_unapp';     
     }
 
-    $result = mysql_query("UPDATE projects SET state = '$statuschange' WHERE projectid = '$update'");
-
-
+    $result = mysql_query("
+        UPDATE projects
+        SET state = '$statuschange'
+        WHERE projectid = '$update'
+    ");
 }
 
 echo "<table border=1>\n";
@@ -57,8 +59,11 @@ echo "<table border=1>\n";
         </tr>
     ";
 
-    $result = mysql_query("SELECT projectid, nameofwork, authorsname, clearance, state FROM projects WHERE state = 
-'project_new_waiting_app'");
+    $result = mysql_query("
+        SELECT projectid, nameofwork, authorsname, clearance, state
+        FROM projects
+        WHERE state = 'project_new_waiting_app'
+    ");
     $numrows = mysql_num_rows($result);
     $rownum = 0;
 
