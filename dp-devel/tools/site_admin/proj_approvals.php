@@ -24,8 +24,8 @@ if (!user_is_a_sitemanager())
 
 //----------------------------------------------------------------------------------
 
-$update = @$_GET['update'];
-if (isset($update))
+$projectid = @$_GET['projectid'];
+if (isset($projectid))
 {
     //update project approval status
     if ($_GET['metadata'] =='approved')
@@ -40,7 +40,7 @@ if (isset($update))
     $result = mysql_query("
         UPDATE projects
         SET state = '$statuschange'
-        WHERE projectid = '$update'
+        WHERE projectid = '$projectid'
     ");
 }
 
@@ -89,7 +89,6 @@ echo "<table border=1>\n";
             <td><input type='text' size='67' name='clearance' value='$clearance'></td>
             <td>
                 <form action='proj_approvals.php?projectid=$projectid'>
-                <input type='hidden' name='update' value='$projectid'>
                 Approved<input type='radio' name='metadata' value='approved'>
                 Disapproved<input type='radio' name='metadata' value='disapproved'>
                 <INPUT TYPE=SUBMIT VALUE='update'>
