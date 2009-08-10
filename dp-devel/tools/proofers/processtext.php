@@ -31,43 +31,43 @@ define('B_RUN_COMMON_ERRORS_CHECK', 11);
 
 
 // set tbutton
-  if (isset($button1) || isset($button1_x)) {$tbutton=B_TEMPSAVE;}
-  if (isset($button2) || isset($button2_x)) {$tbutton=B_SAVE_AND_DO_ANOTHER;}
-  if (isset($button3) || isset($button3_x)) {$tbutton=B_QUIT;}
-  if (isset($button4) || isset($button4_x)) {$tbutton=B_SWITCH_LAYOUT;}
-  if (isset($button5) || isset($button5_x)) {$tbutton=B_SAVE_AND_QUIT;}
-  if (isset($button6) || isset($button6_x)) {$tbutton=B_REPORT_BAD_PAGE;}
-  if (isset($button7) || isset($button7_x)) {$tbutton=B_RETURN_PAGE_TO_ROUND;}
-  if (isset($button8) || isset($button8_x)) {$tbutton=B_REVERT_TO_ORIGINAL;}
-  if (isset($button9) || isset($button9_x)) {$tbutton=B_REVERT_TO_LAST_TEMPSAVE;}
-  if (isset($button10) || isset($button10_x)) {$tbutton=B_RUN_SPELL_CHECK;}
-  if (isset($button11) || isset($button11_x)) {$tbutton=B_RUN_COMMON_ERRORS_CHECK;}
+if (isset($button1) || isset($button1_x)) {$tbutton=B_TEMPSAVE;}
+if (isset($button2) || isset($button2_x)) {$tbutton=B_SAVE_AND_DO_ANOTHER;}
+if (isset($button3) || isset($button3_x)) {$tbutton=B_QUIT;}
+if (isset($button4) || isset($button4_x)) {$tbutton=B_SWITCH_LAYOUT;}
+if (isset($button5) || isset($button5_x)) {$tbutton=B_SAVE_AND_QUIT;}
+if (isset($button6) || isset($button6_x)) {$tbutton=B_REPORT_BAD_PAGE;}
+if (isset($button7) || isset($button7_x)) {$tbutton=B_RETURN_PAGE_TO_ROUND;}
+if (isset($button8) || isset($button8_x)) {$tbutton=B_REVERT_TO_ORIGINAL;}
+if (isset($button9) || isset($button9_x)) {$tbutton=B_REVERT_TO_LAST_TEMPSAVE;}
+if (isset($button10) || isset($button10_x)) {$tbutton=B_RUN_SPELL_CHECK;}
+if (isset($button11) || isset($button11_x)) {$tbutton=B_RUN_COMMON_ERRORS_CHECK;}
 
-  if (isset($spcorrect)) {$tbutton=101;} // Make Spelling Corrections
-  if (isset($spexit)) {$tbutton=102;} // Exit Spelling Corrections
-  if (isset($rerunauxlanguage)) {$tbutton=103;} // Spellcheck against another language
-  if (isset($errcorrect)) {$tbutton=111;} // Make Spelling Corrections
-  if (isset($errexit)) {$tbutton=112;} // Exit Spelling Corrections
+if (isset($spcorrect)) {$tbutton=101;} // Make Spelling Corrections
+if (isset($spexit)) {$tbutton=102;} // Exit Spelling Corrections
+if (isset($rerunauxlanguage)) {$tbutton=103;} // Spellcheck against another language
+if (isset($errcorrect)) {$tbutton=111;} // Make Spelling Corrections
+if (isset($errexit)) {$tbutton=112;} // Exit Spelling Corrections
 
 // set prefs
-  if ($userP['i_type']==1)
-  {
+if ($userP['i_type']==1)
+{
     $isChg=0;
-      if ($userP['i_layout']==1)
-      {
+    if ($userP['i_layout']==1)
+    {
         if (isset($fntFace) && $userP['v_fntf']!=$fntFace) {$userP['v_fntf']=$fntFace;$isChg=1;}
         if (isset($fntSize) && $userP['v_fnts']!=$fntSize) {$userP['v_fnts']=$fntSize;$isChg=1;}
         if (isset($zmSize) && $userP['v_zoom']!=$zmSize) {$userP['v_zoom']=$zmSize;$isChg=1;}
-      }
-      else
-      {
+    }
+    else
+    {
         if (isset($fntFace) && $userP['h_fntf']!=$fntFace) {$userP['h_fntf']=$fntFace;$isChg=1;}
         if (isset($fntSize) && $userP['h_fnts']!=$fntSize) {$userP['h_fnts']=$fntSize;$isChg=1;}
         if (isset($zmSize) && $userP['h_zoom']!=$zmSize) {$userP['h_zoom']=$zmSize;$isChg=1;}
-      }
+    }
     $userP['prefschanged']=$isChg;
     dpsession_set_preferences_temp( $userP );
-  }
+}
 
 // If the user simply wants to leave the proofing interface,
 // then it doesn't matter what state the project or page is in.
