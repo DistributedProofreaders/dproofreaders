@@ -81,7 +81,7 @@ echo "<table border=1>\n";
             <td align='right'>$author</td>
             <td><input type='text' size='67' name='clearance' value='$clearance'></td>
             <td>
-                <form action='proj_approvals.php?project=$projectid'>
+                <form action='proj_approvals.php?projectid=$projectid'>
                 <input type='hidden' name='update' value='$projectid'>
                 Approved<input type='radio' name='metadata' value='approved'>
                 Disapproved<input type='radio' name='metadata' value='disapproved'>
