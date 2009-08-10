@@ -74,12 +74,12 @@ clearance.</td><tr></tr>\n";
         echo "<td align='right'><a href = '$code_url/project.php?id=$projectid'>$name</a></td>\n";
         echo "<td align='right'>$author</td>\n";
         echo "<td><input type='text' size='67' name='clearance' value='$clearance'></td>";
-        echo "<td><form action = \"proj_approvals.php?project=$projectid\"><input type ='hidden' name ='update' value 
+        echo "<td><form action = 'proj_approvals.php?project=$projectid'><input type ='hidden' name ='update' value 
         ='$projectid'>";
 
         echo "Approved<input type='radio' name='metadata' value='approved'>
             Disapproved<input type='radio' name='metadata' value='disapproved'>
-            <INPUT TYPE=SUBMIT VALUE=\"update\"></td></form>";
+            <INPUT TYPE=SUBMIT VALUE='update'></td></form>";
 
         $rownum++;
         echo "</tr>";
