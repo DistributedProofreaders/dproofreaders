@@ -42,15 +42,16 @@ if (isset($_GET['update']))
 
 echo "<table border=1>\n";
     // Header row
-    echo "<tr>\n";
-    echo "    <td align='center' colspan='4'><b>Books Waiting for Copyright Approval</b></td><tr></tr>\n";
-            echo "    <td align='center' colspan='4'>The following books need to be approved/disapproved for copyright 
-clearance.</td><tr></tr>\n";
-    echo "    <td align='center' colspan='1'><b>Title</b></td>\n";
-    echo "    <td align='center' colspan='1'><b>Author</b></td>\n";
-    echo "    <td align='center' colspan='1'><b>Clearance Line</b></td>\n";
-    echo "    <td align='center' colspan='1'><b>Approved/Disapproved</b></td>\n";
-    echo "</tr>\n";
+    echo "
+        <tr>
+            <td align='center' colspan='4'><b>Books Waiting for Copyright Approval</b></td><tr></tr>
+            <td align='center' colspan='4'>The following books need to be approved/disapproved for copyright clearance.</td><tr></tr>
+            <td align='center' colspan='1'><b>Title</b></td>
+            <td align='center' colspan='1'><b>Author</b></td>
+            <td align='center' colspan='1'><b>Clearance Line</b></td>
+            <td align='center' colspan='1'><b>Approved/Disapproved</b></td>
+        </tr>
+    ";
 
     $result = mysql_query("SELECT projectid, nameofwork, authorsname, clearance, state FROM projects WHERE state = 
 'project_new_waiting_app'");
@@ -70,19 +71,23 @@ clearance.</td><tr></tr>\n";
             $row_color = $theme['color_navbar_bg'];
         }
 
-        echo "<tr bgcolor='$row_color'>";
-        echo "<td align='right'><a href = '$code_url/project.php?id=$projectid'>$name</a></td>\n";
-        echo "<td align='right'>$author</td>\n";
-        echo "<td><input type='text' size='67' name='clearance' value='$clearance'></td>";
-        echo "<td><form action = 'proj_approvals.php?project=$projectid'><input type ='hidden' name ='update' value 
-        ='$projectid'>";
-
-        echo "Approved<input type='radio' name='metadata' value='approved'>
-            Disapproved<input type='radio' name='metadata' value='disapproved'>
-            <INPUT TYPE=SUBMIT VALUE='update'></td></form>";
+        echo "
+            <tr bgcolor='$row_color'>
+            <td align='right'><a href='$code_url/project.php?id=$projectid'>$name</a></td>
+            <td align='right'>$author</td>
+            <td><input type='text' size='67' name='clearance' value='$clearance'></td>
+            <td>
+                <form action='proj_approvals.php?project=$projectid'>
+                <input type='hidden' name='update' value='$projectid'>
+                Approved<input type='radio' name='metadata' value='approved'>
+                Disapproved<input type='radio' name='metadata' value='disapproved'>
+                <INPUT TYPE=SUBMIT VALUE='update'>
+            </td>
+                </form>
+            </tr>
+        ";
 
         $rownum++;
-        echo "</tr>";
     }
 
     //echo "</table>";
