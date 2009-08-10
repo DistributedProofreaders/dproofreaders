@@ -18,7 +18,7 @@ url_for_pi_do_whichever_page()
 $projectid, $proj_state
 */
 
-if (isset($page_state)) {
+if (isset($_GET['page_state'])) {
     // The user clicked on a saved page.
 
     // get_requested_PPage() expects a 'reverting' parameter.
@@ -32,6 +32,8 @@ else
 {
     // The user clicked "Start Proofreading" or "Save as 'Done' & Proofread Next Page".
 
+    $projectid  = $_REQUEST['projectid'];
+    $proj_state = $_REQUEST['proj_state'];
 
     // Consider the page (if any) that this user most recently "opened" in
     // this session, either via 'Start Proofreading' or via the 'Done' or
