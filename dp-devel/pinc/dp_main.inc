@@ -16,8 +16,17 @@ $db_link=$db_Connection->db_lk;
 // The next two extract()s simulates having register_globals enabled which
 // is disabled by default in PHP 4.2 and later. The use of extract() on
 // $_GET and $_POST is explicitly warned against in the PHP online manual.
-// We need to strongly work at removing the dependency for such usage.
-
+//
+// I think we have eliminated all reliance on this code, but it's hard to
+// be sure, so I'm only disabling it under $testing. We can completely
+// disable it (and remove the code) only after:
+// (a) we've installed the new versions of all the scripts that used to
+//     rely on it, and
+// (b) we're convinced (by testing or further analysis) that we've indeed
+//     eliminated all reliance on it.
+//
+if (!$testing)
+{
 //all $_GET to globals
 if (!empty($_GET))
 {
@@ -28,6 +37,7 @@ if (!empty($_GET))
 if (!empty($_POST))
 {
     extract($_POST);
+}
 }
 
 // Require that the sender be logged in.
