@@ -48,11 +48,15 @@ if($format == "file") {
     header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
     header('Pragma: public');
 
-    // fix lookup for numeric keys
+    // Process the $instances_[changed_to|changed|left] arrays with the
+    // prep_numeric_keys_for_multisort() function to ensure numeric keys
+    // are evaluated as strings. This is necessary as the $percent_changed
+    // array (iterated over below) has had this function used against it
+    // and we use the $percent_changed keys as lookups into the $instances_*
+    // arrays.
     prep_numeric_keys_for_multisort( $instances_changed_to );
     prep_numeric_keys_for_multisort( $instances_changed );
     prep_numeric_keys_for_multisort( $instances_left );
-    prep_numeric_keys_for_multisort( $instances_total);
 
     echo $title . "\r\n";
     echo sprintf(_("Project: %s"),get_project_name($projectid)) . "\r\n";
@@ -145,7 +149,6 @@ prep_numeric_keys_for_multisort( $word_notes );
 echo_checkbox_selects(count($percent_changed));
 
 $checkbox_form["projectid"]=$projectid;
-$checkbox_form["freqCutoff"]=$freqCutoff;
 echo_checkbox_form_start($checkbox_form);
 echo_checkbox_form_submit(_("Add selected words to Bad Words List"));
 
