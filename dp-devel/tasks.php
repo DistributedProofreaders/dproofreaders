@@ -401,10 +401,10 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
         $u_id = mysql_result($result, 0, "u_id");
         $result = mysql_query("UPDATE tasks SET percent_complete = 100, task_status = 14, date_closed = ".time().", closed_by = $u_id, closed_reason = ".$_POST['task_close_reason'].", date_edited = ".time().", edited_by = $u_id WHERE task_id = ".$_POST['task_id']."");
         $result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
+        ShowTasks($result);
     } else {
         ShowNotification("The user $pguser does not have permission to close tasks.");
     }
-    ShowTasks($result);
 } elseif (isset($_POST['new_comment'])) {
     if (!empty($_POST['task_comment'])) {
         NotificationMail($_POST['new_comment'], "There has been a comment added to this task by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n");
