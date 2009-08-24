@@ -472,11 +472,12 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
     if (isset($_GET['search_text'])) {
         if ($_GET['task_type'] == 999) { $task_type = "task_type >= 0"; } else { $task_type = "task_type = ".$_GET['task_type']; }
         if ($_GET['task_severity'] == 999) { $task_severity = "task_severity >= 0"; } else { $task_severity = "task_severity = ".$_GET['task_severity']; }
+        if ($_GET['task_priority'] == 999) { $task_priority = "task_priority >= 0"; } else { $task_priority = "task_priority = ".$_GET['task_priority']; }
         if ($_GET['task_assignee'] == 999) { $task_assignee = "task_assignee >= 0"; } else { $task_assignee = "task_assignee = ".$_GET['task_assignee']; }
         if ($_GET['task_category'] == 999) { $task_category = "task_category >= 0"; } else { $task_category = "task_category = ".$_GET['task_category']; }
         if ($_GET['task_status'] == 999) { $task_status = "task_status >= 0 AND date_closed = 0"; } elseif ($_GET['task_status'] == 998) { $task_status = "task_status >= 0"; } else { $task_status = "task_status = ".$_GET['task_status']; }
         if ($_GET['task_version'] == 999) { $task_version = "task_version >= 0"; } else { $task_version = "task_version = ".$_GET['task_version']; }
-        $criteria = "$task_type AND $task_severity AND $task_assignee AND $task_category AND $task_status AND $task_version";
+        $criteria = "$task_type AND $task_severity AND $task_priority AND $task_assignee AND $task_category AND $task_status AND $task_version";
 
         if (!empty($_GET['search_text']))
         {
