@@ -353,44 +353,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
         }
     }
 } elseif (isset($_POST['search_task'])) {
-    if ($_POST['task_type'] == 999) { $task_type = "task_type >= 0"; } else { $task_type = "task_type = ".$_POST['task_type']; }
-    if ($_POST['task_severity'] == 999) { $task_severity = "task_severity >= 0"; } else { $task_severity = "task_severity = ".$_POST['task_severity']; }
-    if ($_POST['task_priority'] == 999) { $task_priority = "task_priority >= 0"; } else { $task_priority = "task_priority = ".$_POST['task_priority']; }
-    if ($_POST['task_assignee'] == 999) { $task_assignee = "task_assignee >= 0"; } else { $task_assignee = "task_assignee = ".$_POST['task_assignee']; }
-    if ($_POST['task_category'] == 999) { $task_category = "task_category >= 0"; } else { $task_category = "task_category = ".$_POST['task_category']; }
-    if ($_POST['task_status'] == 999) { $task_status = "task_status >= 0 AND date_closed = 0"; } elseif ($_POST['task_status'] == 998) { $task_status = "task_status >= 0"; } else { $task_status = "task_status = ".$_POST['task_status']; }
-    if ($_POST['task_version'] == 999) { $task_version = "task_version >= 0"; } else { $task_version = "task_version = ".$_POST['task_version']; }
-    
-    // we're converting $searchtext using addslashes(htmlspecialchars(...))
-    // because that's how the text summary and text details happen to be 
-    // stored in the database. 
-
-    // TODO: The 'right' way would be to change how the data is stored in
-    // the database using mysql_real_escape_string(), have an upgrade
-    // script in c/SETUP/upgrade/08 that would fix any existing data
-    // before the updated code was deployed, and then use
-    // mysql_real_escape_string() when doing the query.
-
-    $search_text_summary = addslashes(htmlspecialchars($_POST['search_text']));
-    $search_text_details = addslashes(htmlspecialchars($_POST['search_text'], ENT_QUOTES));
-    // TODO, should we protect % and _ ?
-    $sql_query = "
-        SELECT *
-        FROM tasks
-        WHERE
-            (task_summary LIKE '%$search_text_summary%' OR task_details LIKE '%$search_text_details%')
-            AND $task_type
-            AND $task_severity
-            AND $task_priority
-            AND $task_assignee
-            AND $task_category
-            AND $task_status
-            AND $task_version
-        $order_by
-    ";
-    if ($testing) echo_html_comment($sql_query);
-    $result = mysql_query($sql_query);
-    ShowTasks($result);
+    search_and_list_tasks($_POST, $order_by);
 } elseif (isset($_GET['f']) && $_GET['f'] == "detail") {
     if (is_numeric($_REQUEST['tid'])) {
         TaskDetails($_REQUEST['tid']);
@@ -470,24 +433,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
     }
 
     if (isset($_GET['search_text'])) {
-        if ($_GET['task_type'] == 999) { $task_type = "task_type >= 0"; } else { $task_type = "task_type = ".$_GET['task_type']; }
-        if ($_GET['task_severity'] == 999) { $task_severity = "task_severity >= 0"; } else { $task_severity = "task_severity = ".$_GET['task_severity']; }
-        if ($_GET['task_priority'] == 999) { $task_priority = "task_priority >= 0"; } else { $task_priority = "task_priority = ".$_GET['task_priority']; }
-        if ($_GET['task_assignee'] == 999) { $task_assignee = "task_assignee >= 0"; } else { $task_assignee = "task_assignee = ".$_GET['task_assignee']; }
-        if ($_GET['task_category'] == 999) { $task_category = "task_category >= 0"; } else { $task_category = "task_category = ".$_GET['task_category']; }
-        if ($_GET['task_status'] == 999) { $task_status = "task_status >= 0 AND date_closed = 0"; } elseif ($_GET['task_status'] == 998) { $task_status = "task_status >= 0"; } else { $task_status = "task_status = ".$_GET['task_status']; }
-        if ($_GET['task_version'] == 999) { $task_version = "task_version >= 0"; } else { $task_version = "task_version = ".$_GET['task_version']; }
-        $criteria = "$task_type AND $task_severity AND $task_priority AND $task_assignee AND $task_category AND $task_status AND $task_version";
-
-        {
-            $search_text_summary = addslashes(htmlspecialchars($_GET['search_text']));
-            $search_text_details = addslashes(htmlspecialchars($_GET['search_text'], ENT_QUOTES));
-            $criteria = "(task_summary LIKE '%$search_text_summary%' OR task_details LIKE '%$search_text_details%') AND $criteria"; 
-        }
-        $sql_query = "SELECT * FROM tasks WHERE $criteria $order_by";
-        if ($testing) echo_html_comment($sql_query);
-        $result = mysql_query($sql_query);
-        ShowTasks($result);
+        search_and_list_tasks($_GET, $order_by);
     } else {
         list_all_open_tasks($order_by);
     }
@@ -600,6 +546,59 @@ function list_all_open_tasks($order_by)
     $result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
     ShowTasks($result);
 }
+
+// -----------------------------------------------------------------------------
+
+function search_and_list_tasks($request_params, $order_by)
+{
+    global $testing;
+
+    if ($request_params['task_type'] == 999) { $task_type = "task_type >= 0"; } else { $task_type = "task_type = ".$request_params['task_type']; }
+    if ($request_params['task_severity'] == 999) { $task_severity = "task_severity >= 0"; } else { $task_severity = "task_severity = ".$request_params['task_severity']; }
+    if ($request_params['task_priority'] == 999) { $task_priority = "task_priority >= 0"; } else { $task_priority = "task_priority = ".$request_params['task_priority']; }
+    if ($request_params['task_assignee'] == 999) { $task_assignee = "task_assignee >= 0"; } else { $task_assignee = "task_assignee = ".$request_params['task_assignee']; }
+    if ($request_params['task_category'] == 999) { $task_category = "task_category >= 0"; } else { $task_category = "task_category = ".$request_params['task_category']; }
+    if ($request_params['task_status'] == 999) { $task_status = "task_status >= 0 AND date_closed = 0"; } elseif ($request_params['task_status'] == 998) { $task_status = "task_status >= 0"; } else { $task_status = "task_status = ".$request_params['task_status']; }
+    if ($request_params['task_version'] == 999) { $task_version = "task_version >= 0"; } else { $task_version = "task_version = ".$request_params['task_version']; }
+
+    // we're converting $searchtext using addslashes(htmlspecialchars(...))
+    // because that's how the text summary and text details happen to be 
+    // stored in the database. 
+
+    // TODO: The 'right' way would be to change how the data is stored in
+    // the database using mysql_real_escape_string(), have an upgrade
+    // script in c/SETUP/upgrade/08 that would fix any existing data
+    // before the updated code was deployed, and then use
+    // mysql_real_escape_string() when doing the query.
+
+    $search_text_summary = addslashes(htmlspecialchars($request_params['search_text']));
+    $search_text_details = addslashes(htmlspecialchars($request_params['search_text'], ENT_QUOTES));
+    // TODO, should we protect % and _ ?
+
+    $sql_query = "
+        SELECT *
+        FROM tasks
+        WHERE
+            (
+                task_summary LIKE '%$search_text_summary%'
+                OR
+                task_details LIKE '%$search_text_details%'
+            )
+            AND $task_type
+            AND $task_severity
+            AND $task_priority
+            AND $task_assignee
+            AND $task_category
+            AND $task_status
+            AND $task_version
+        $order_by
+    ";
+    if ($testing) echo_html_comment($sql_query);
+    $result = mysql_query($sql_query);
+    ShowTasks($result);
+}
+
+// -----------------------------------------------------------------------------
 
 function OrderBy($orderby_var) {
     if (isset($_GET['orderby']) && $_GET['orderby'] == $orderby_var) {
