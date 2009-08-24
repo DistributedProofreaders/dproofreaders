@@ -561,6 +561,12 @@ function search_and_list_tasks($request_params, $order_by)
     if ($request_params['task_status'] == 999) { $task_status = "task_status >= 0 AND date_closed = 0"; } elseif ($request_params['task_status'] == 998) { $task_status = "task_status >= 0"; } else { $task_status = "task_status = ".$request_params['task_status']; }
     if ($request_params['task_version'] == 999) { $task_version = "task_version >= 0"; } else { $task_version = "task_version = ".$request_params['task_version']; }
 
+    // Note that, although TaskHeader has already run stripslashes()
+    // on $_REQUEST['search_text'], $_REQUEST is a distinct variable
+    // from $_GET and $_POST (and thus $request_params), so
+    // $request_params['search_text'] is still "slashed".
+    if ($testing) echo_html_comment( "\$request_params['search_text'] = {$request_params['search_text']}" );
+
     // we're converting $searchtext using addslashes(htmlspecialchars(...))
     // because that's how the text summary and text details happen to be 
     // stored in the database. 
