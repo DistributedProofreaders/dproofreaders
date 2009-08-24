@@ -152,6 +152,27 @@ function get_integer_param( $arr, $key, $default, $min, $max )
     }
 }
 
+function echo_html_comment($comment_body)
+{
+    // We need to check/tweak $comment_body to ensure that we generate a valid
+    // HTML comment. The actual syntax of HTML comments is rather interesting --
+    // see http://htmlhelp.com/reference/wilbur/misc/comment.html for some
+    // discussion and surprising examples.
+    // Of course, what browsers accept is a different matter.
+    // Here, we adopt the rule that a comment's body cannot contain two adjacent
+    // hyphens, and so replace any double-hyphen in $comment_body with the
+    // similar-looking double-tilde.
+    $safe_comment_body = str_replace('--', '~~', $comment_body, $n_occurrences);
+
+    echo "<!--\n";
+    if ( $n_occurrences > 0 )
+    {
+        echo "(NOTE: In this comment, $n_occurrences occurrence(s) of double-hyphen have been changed to double-tilde.)\n";
+    }
+    echo $safe_comment_body;
+    echo "\n-->";
+}
+
 // -----------------------------------------------------------------------------
 
 function startswith( $subject, $prefix )
