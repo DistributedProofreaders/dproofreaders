@@ -573,16 +573,15 @@ function search_and_list_tasks($request_params, $order_by)
 
     $search_text_summary = addslashes(htmlspecialchars($request_params['search_text']));
     $search_text_details = addslashes(htmlspecialchars($request_params['search_text'], ENT_QUOTES));
-    // TODO, should we protect % and _ ?
 
     $sql_query = "
         SELECT *
         FROM tasks
         WHERE
             (
-                task_summary LIKE '%$search_text_summary%'
+                INSTR(task_summary, '$search_text_summary')
                 OR
-                task_details LIKE '%$search_text_details%'
+                INSTR(task_details, '$search_text_details')
             )
             AND $task_type
             AND $task_severity
