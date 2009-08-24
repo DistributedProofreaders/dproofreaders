@@ -321,8 +321,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
             $result = mysql_query("SELECT email, username FROM users WHERE u_id = ".$_POST['task_assignee']."");
             if (!empty($_POST['task_assignee'])) { maybe_mail(mysql_result($result, 0, "email"), "DP Task Center: Task #".mysql_insert_id()." has been assigned to you", mysql_result($result, 0, "username").", you have been assigned task #".mysql_insert_id().".  Please visit this task at $code_url/tasks.php?f=detail&tid=".mysql_insert_id().".\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"); }
             $result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'taskctr_notice', ".mysql_insert_id().")");
-            $result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
-            ShowTasks($result);
+            list_all_open_tasks($order_by);
         } else {
             NotificationMail($_POST['task_id'], "There has been an edit made to this task by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n");
             $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
@@ -346,8 +345,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
                     percent_complete = ".$_POST['percent_complete']."
                 WHERE task_id = ".$_POST['task_id']."
             ");
-            $result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
-            ShowTasks($result);
+            list_all_open_tasks($order_by);
         }
     }
 } elseif (isset($_POST['search_task'])) {
@@ -400,8 +398,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
         $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
         $u_id = mysql_result($result, 0, "u_id");
         $result = mysql_query("UPDATE tasks SET percent_complete = 100, task_status = 14, date_closed = ".time().", closed_by = $u_id, closed_reason = ".$_POST['task_close_reason'].", date_edited = ".time().", edited_by = $u_id WHERE task_id = ".$_POST['task_id']."");
-        $result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
-        ShowTasks($result);
+        list_all_open_tasks($order_by);
     } else {
         ShowNotification("The user $pguser does not have permission to close tasks.");
     }
@@ -432,8 +429,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
         $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
         $result = mysql_query("UPDATE tasks SET related_tasks = '$relatedtasks_array' WHERE task_id = ".$_POST['new_relatedtask']."");
         NotificationMail($_POST['new_relatedtask'], "This task had a related task added to it by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n");
-        $result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
-        ShowTasks($result);
+        list_all_open_tasks($order_by);
     } else {
         ShowNotification("You must supply a valid related task id number.");
     }
@@ -446,8 +442,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
         $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
         $result = mysql_query("UPDATE tasks SET related_postings = '$relatedpostings_array' WHERE task_id = ".$_POST['new_relatedposting']."");
         NotificationMail($_POST['new_relatedposting'], "This task had a related posting added to it by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n");
-        $result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
-        ShowTasks($result);
+        list_all_open_tasks($order_by);
     } else {
         ShowNotification("You must supply a valid related topic id number.", true);
     }
@@ -482,9 +477,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
         $result = mysql_query("SELECT * FROM tasks WHERE $criteria $order_by");
         ShowTasks($result);
     } else {
-        $criteria = "date_closed = 0";
-        $result = mysql_query("SELECT * FROM tasks WHERE $criteria $order_by");
-        ShowTasks($result);
+        list_all_open_tasks($order_by);
     }
 }
 echo "</td></tr></table></div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>\n";
@@ -586,6 +579,12 @@ function TaskHeader() {
     echo "<input type='submit' value='Search' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'></td>\n";
     echo "<td width='30%' align='right' valign='top'><font face='Verdana' size='1' color='#03008F'><a href='$code_url/tasks.php'>Home</a> | <a href='$code_url/tasks.php?f=newtask'>New Task</a></font></td></tr>\n";
     echo "</table></form><br>\n";
+}
+
+function list_all_open_tasks($order_by)
+{
+    $result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
+    ShowTasks($result);
 }
 
 function OrderBy($orderby_var) {
