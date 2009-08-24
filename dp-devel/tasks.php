@@ -479,7 +479,6 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
         if ($_GET['task_version'] == 999) { $task_version = "task_version >= 0"; } else { $task_version = "task_version = ".$_GET['task_version']; }
         $criteria = "$task_type AND $task_severity AND $task_priority AND $task_assignee AND $task_category AND $task_status AND $task_version";
 
-        if (!empty($_GET['search_text']))
         {
             $search_text_summary = addslashes(htmlspecialchars($_GET['search_text']));
             $search_text_details = addslashes(htmlspecialchars($_GET['search_text'], ENT_QUOTES));
