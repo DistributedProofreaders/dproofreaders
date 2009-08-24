@@ -271,7 +271,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
             $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
             $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
             $u_id = mysql_result($result, 0, "u_id");
-            $result = mysql_query("
+            $sql_query = "
                 INSERT INTO tasks (
                     task_id,
                     task_summary,
@@ -317,7 +317,8 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
                     '$relatedtasks_array',
                     '$relatedpostings_array'
                 )
-            ");
+            ";
+            $result = mysql_query($sql_query);
             $result = mysql_query("SELECT email, username FROM users WHERE u_id = ".$_POST['task_assignee']."");
             if (!empty($_POST['task_assignee'])) { maybe_mail(mysql_result($result, 0, "email"), "DP Task Center: Task #".mysql_insert_id()." has been assigned to you", mysql_result($result, 0, "username").", you have been assigned task #".mysql_insert_id().".  Please visit this task at $code_url/tasks.php?f=detail&tid=".mysql_insert_id().".\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"); }
             $result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'taskctr_notice', ".mysql_insert_id().")");
@@ -326,7 +327,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
             NotificationMail($_POST['task_id'], "There has been an edit made to this task by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n");
             $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
             $u_id = mysql_result($result, 0, "u_id");
-            $result = mysql_query("
+            $sql_query = "
                 UPDATE tasks
                 SET
                     task_summary = '".addslashes(htmlspecialchars($_POST['task_summary']))."',
@@ -344,7 +345,8 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
                     edited_by = $u_id,
                     percent_complete = ".$_POST['percent_complete']."
                 WHERE task_id = ".$_POST['task_id']."
-            ");
+            ";
+            $result = mysql_query($sql_query);
             list_all_open_tasks($order_by);
         }
     }
@@ -474,7 +476,8 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
             $search_text_details = addslashes(htmlspecialchars($_GET['search_text'], ENT_QUOTES));
             $criteria = "task_summary LIKE '%$search_text_summary%' OR task_details LIKE '%$search_text_details%' AND $criteria"; 
         }
-        $result = mysql_query("SELECT * FROM tasks WHERE $criteria $order_by");
+        $sql_query = "SELECT * FROM tasks WHERE $criteria $order_by";
+        $result = mysql_query($sql_query);
         ShowTasks($result);
     } else {
         list_all_open_tasks($order_by);
