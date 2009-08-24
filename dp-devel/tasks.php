@@ -318,6 +318,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
                     '$relatedpostings_array'
                 )
             ";
+            if ($testing) echo_html_comment($sql_query);
             $result = mysql_query($sql_query);
             $result = mysql_query("SELECT email, username FROM users WHERE u_id = ".$_POST['task_assignee']."");
             if (!empty($_POST['task_assignee'])) { maybe_mail(mysql_result($result, 0, "email"), "DP Task Center: Task #".mysql_insert_id()." has been assigned to you", mysql_result($result, 0, "username").", you have been assigned task #".mysql_insert_id().".  Please visit this task at $code_url/tasks.php?f=detail&tid=".mysql_insert_id().".\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"); }
@@ -346,6 +347,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
                     percent_complete = ".$_POST['percent_complete']."
                 WHERE task_id = ".$_POST['task_id']."
             ";
+            if ($testing) echo_html_comment($sql_query);
             $result = mysql_query($sql_query);
             list_all_open_tasks($order_by);
         }
@@ -386,6 +388,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
             AND $task_version
         $order_by
     ";
+    if ($testing) echo_html_comment($sql_query);
     $result = mysql_query($sql_query);
     ShowTasks($result);
 } elseif (isset($_GET['f']) && $_GET['f'] == "detail") {
@@ -477,6 +480,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
             $criteria = "task_summary LIKE '%$search_text_summary%' OR task_details LIKE '%$search_text_details%' AND $criteria"; 
         }
         $sql_query = "SELECT * FROM tasks WHERE $criteria $order_by";
+        if ($testing) echo_html_comment($sql_query);
         $result = mysql_query($sql_query);
         ShowTasks($result);
     } else {
