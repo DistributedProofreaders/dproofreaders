@@ -483,7 +483,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
         {
             $search_text_summary = addslashes(htmlspecialchars($_GET['search_text']));
             $search_text_details = addslashes(htmlspecialchars($_GET['search_text'], ENT_QUOTES));
-            $criteria = "task_summary LIKE '%$search_text_summary%' OR task_details LIKE '%$search_text_details%' AND $criteria"; 
+            $criteria = "(task_summary LIKE '%$search_text_summary%' OR task_details LIKE '%$search_text_details%') AND $criteria"; 
         }
         $sql_query = "SELECT * FROM tasks WHERE $criteria $order_by";
         if ($testing) echo_html_comment($sql_query);
