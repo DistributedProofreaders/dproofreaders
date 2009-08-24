@@ -460,6 +460,11 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
     ShowNotification("Thank you for your report!  It has been recorded below.", false, "#000000");
     TaskDetails($_POST['meToo']);
 } else {
+    // Either they just entered the Task Center
+    // (e.g., by clicking the "Report a Bug" link)
+    // or they clicked a column-header-link in a listing of tasks.
+    // (Or they followed a bookmark of one of those.)
+    
     if (isset($_GET['orderby']) && isset($_GET['direction'])) {
         $order_by = "ORDER BY ".$_GET['orderby']." ".$_GET['direction'];
     }
@@ -489,6 +494,8 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 }
 echo "</td></tr></table></div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>\n";
 theme("", "footer");
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function dropdown_select($field_name, $current_value, $array) {
     echo "<select size='1' name='$field_name' ID='$field_name' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n";
