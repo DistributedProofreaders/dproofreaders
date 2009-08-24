@@ -585,9 +585,9 @@ function search_and_list_tasks($request_params, $order_by)
         FROM tasks
         WHERE
             (
-                INSTR(task_summary, '$search_text_summary')
+                POSITION('$search_text_summary' IN task_summary)
                 OR
-                INSTR(task_details, '$search_text_details')
+                POSITION('$search_text_details' IN task_details)
             )
             AND $task_type
             AND $task_severity
