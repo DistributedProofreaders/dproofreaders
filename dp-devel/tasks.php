@@ -479,12 +479,13 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
             $search_text_details = addslashes(htmlspecialchars($_GET['search_text'], ENT_QUOTES));
             $criteria = "task_summary LIKE '%$search_text_summary%' OR task_details LIKE '%$search_text_details%' AND $criteria"; 
         }
+        $result = mysql_query("SELECT * FROM tasks WHERE $criteria $order_by");
+        ShowTasks($result);
     } else {
         $criteria = "date_closed = 0";
+        $result = mysql_query("SELECT * FROM tasks WHERE $criteria $order_by");
+        ShowTasks($result);
     }
-
-    $result = mysql_query("SELECT * FROM tasks WHERE $criteria $order_by");
-    ShowTasks($result);
 }
 echo "</td></tr></table></div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>\n";
 theme("", "footer");
