@@ -484,21 +484,21 @@ function TaskHeader() {
     echo "<select size='1' name='task_type' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Task Types</option>\n";
         while (list($key, $val) = each($tasks_array)) {
             echo "<option value='$key'";
-            if (isset($_POST['task_type']) && $_POST['task_type'] == $key) { echo " SELECTED"; }
+            if (isset($_REQUEST['task_type']) && $_REQUEST['task_type'] == $key) { echo " SELECTED"; }
             echo ">$val</option>\n";
         }
     echo "</select>\n";
     echo "<select size='1' name='task_severity' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Severities</option>\n";
         while (list($key, $val) = each($severity_array)) {
             echo "<option value='$key'";
-            if (isset($_POST['task_severity']) && $_POST['task_severity'] == $key) { echo " SELECTED"; }
+            if (isset($_REQUEST['task_severity']) && $_REQUEST['task_severity'] == $key) { echo " SELECTED"; }
             echo ">$val</option>\n";
         }
     echo "</select>\n";
     echo "<select size='1' name='task_priority' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Priorities</option>\n";
         while (list($key, $val) = each($priority_array)) {
             echo "<option value='$key'";
-            if (isset($_POST['task_priority']) && $_POST['task_priority'] == $key) { echo " SELECTED"; }
+            if (isset($_REQUEST['task_priority']) && $_REQUEST['task_priority'] == $key) { echo " SELECTED"; }
             echo ">$val</option>\n";
         }
     echo "</select>\n<br>\n";
@@ -506,7 +506,7 @@ function TaskHeader() {
         reset($task_assignees_array);
         while (list($key, $val) = each($task_assignees_array)) {
             echo "<option value='$key'";
-            if (isset($_POST['task_assignee']) && $_POST['task_assignee'] == $key) { echo " SELECTED"; }
+            if (isset($_REQUEST['task_assignee']) && $_REQUEST['task_assignee'] == $key) { echo " SELECTED"; }
             echo ">$val</option>\n";
         }
     echo "</select>\n";
@@ -515,7 +515,7 @@ function TaskHeader() {
         asort($categories_array);
         while (list($key, $val) = each($categories_array)) {
             echo "<option value='$key'";
-            if (isset($_POST['task_category']) && $_POST['task_category'] == $key) { echo " SELECTED"; }
+            if (isset($_REQUEST['task_category']) && $_REQUEST['task_category'] == $key) { echo " SELECTED"; }
             echo ">$val</option>\n";
         }
     echo "</select>\n";
@@ -525,14 +525,14 @@ function TaskHeader() {
         asort($tasks_status_array);
         while (list($key, $val) = each($tasks_status_array)) {
             echo "<option value='$key'";
-            if (isset($_POST['task_status']) && $_POST['task_status'] == $key) { echo " SELECTED"; }
+            if (isset($_REQUEST['task_status']) && $_REQUEST['task_status'] == $key) { echo " SELECTED"; }
             echo ">$val</option>\n";
         }
     echo "</select>\n";
     echo "<select size='1' name='task_version' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Versions</option>\n";
         while (list($key, $val) = each($versions_array)) {
             echo "<option value='$key'";
-            if (isset($_POST['task_version']) && $_POST['task_version'] == $key) { echo " SELECTED"; }
+            if (isset($_REQUEST['task_version']) && $_REQUEST['task_version'] == $key) { echo " SELECTED"; }
             echo ">$val</option>\n";
         }
     echo "</select>\n";
