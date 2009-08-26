@@ -355,11 +355,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
 } elseif (isset($_POST['search_task'])) {
     search_and_list_tasks($_POST, $order_by);
 } elseif (isset($_GET['f']) && $_GET['f'] == "detail") {
-    if (is_numeric($_REQUEST['tid'])) {
         TaskDetails($_REQUEST['tid']);
-    } else {
-        ShowTasks("");
-    }
 } elseif (isset($_POST['close_task'])) {
     if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
         NotificationMail($_POST['task_id'], "This task was closed by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n\nThe reason for closing was: ".$tasks_close_array[$_POST['task_close_reason']].".\n");
@@ -737,6 +733,12 @@ function TaskDetails($tid) {
     global $userP, $code_url, $tasks_array, $severity_array, $developers_array, $categories_array, $tasks_status_array;
     global $search_results_array, $os_array, $browser_array, $versions_array, $tasks_close_array, $percent_complete_array;
     global $priority_array, $pguser;
+
+    if (!is_numeric($tid))
+    {
+        ShowNotification("Error: task identifier '$tid' is not numeric.");
+        return;
+    }
 
     $result = mysql_query("SELECT * FROM tasks WHERE task_id = $tid LIMIT 1");
 
