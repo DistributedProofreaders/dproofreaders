@@ -959,7 +959,10 @@ class ProjectInfoHolder
 
     function show_visible_controls()
     {
-        global $site_abbreviation;
+        global $site_abbreviation, $pguser;
+
+        $can_set_difficulty_tofrom_beginner = ($pguser == "BEGIN") || user_is_a_sitemanager();
+
         $can_edit_PPer = TRUE;
         $is_checked_out = FALSE;
         if (!empty($this->projectid))
@@ -1006,7 +1009,7 @@ class ProjectInfoHolder
         }
         $this->row( _("Language"),                    'language_list',       $this->language         );
         $this->row( _("Genre"),                       'genre_list',          $this->genre            );
-        if ($this->difficulty_level == "beginner" && user_is_proj_facilitator())
+        if ($this->difficulty_level == "beginner" && !$can_set_difficulty_tofrom_beginner )
         {
             // allow PF to edit a BEGIN project, but without altering the difficulty
             $this->row( _("Difficulty Level"), 'just_echo', $this->difficulty_level );
