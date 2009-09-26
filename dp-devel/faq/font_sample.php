@@ -101,18 +101,8 @@ echo "
     </tr>
 
     <tr>
-    <td><img src='images/${compare_font}_A.gif'></td>
-    <td><img src='images/DPCustomMono2_A.gif'></td>
-    </tr>
-
-    <tr>
-    <td><img src='images/${compare_font}_B.gif'></td>
-    <td><img src='images/DPCustomMono2_B.gif'></td>
-    </tr>
-
-    <tr>
-    <td><img src='images/${compare_font}_C.gif'></td>
-    <td><img src='images/DPCustomMono2_C.gif'></td>
+    <td><img src='images/${compare_font}.png'></td>
+    <td><img src='images/DPCustomMono2.png'></td>
     </tr>
 
     </table>
