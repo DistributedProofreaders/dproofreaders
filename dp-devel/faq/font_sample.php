@@ -56,7 +56,7 @@ echo "<h1>$title</h1>\n";
 
 echo "<p>" . _("This page demonstrates the differences between <span style='font-family: DPCustomMono2'>DPCustomMono2</span> and other fonts.") . "</p>\n";
 
-echo "<p>" . sprintf(_("DPCustomMono2 is a font adapted by DP's own big_bill, based on the suggestions and ideas of many experienced proofreaders. Using DPCustomMono2 as your proofreading font can help you find mistakes. You can change the font that you use for proofreading in your <a href='%s'>preferences</a>."), "$code_url/userprefs.php") . "</p>\n";
+echo "<p>" . sprintf(_("DPCustomMono2 is a font adapted by DP volunteers, based on the suggestions and ideas of many experienced proofreaders. Using DPCustomMono2 as your proofreading font can help you find mistakes. You can change the font that you use for proofreading in your <a href='%s'>preferences</a>."), "$code_url/userprefs.php") . "</p>\n";
 
 if(!empty($proofreading_font))
     echo "<p>" . sprintf(_("Your current proofreading font is <b>%s</b>."), $proofreading_font) . "</p>\n";
