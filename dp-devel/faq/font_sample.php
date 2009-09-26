@@ -8,9 +8,6 @@ new dbConnect();
 
 /* TODO: 
     * not all proofreading fonts have images
-    * code doesn't handle compare_font having spaces in it
-      (which isn't a problem currently but would be if
-      images were added for fonts with spaces)
 */
 
 $title = _("Proofreading Font Comparison");
@@ -80,9 +77,9 @@ foreach ($selectable_fonts as $font)
     if(is_file(get_sample_image_for_font($font)))
     {
         if($compare_font == $font)
-            $sample_font_links[] = "<span style='font-family: $font'>$font</span>";
+            $sample_font_links[] = "<span style='font-family: \"$font\"'>$font</span>";
         else
-            $sample_font_links[] = "<a style='font-family: $font' href='?compare=$font'>$font</a>";
+            $sample_font_links[] = "<a style='font-family: \"$font\"' href='?compare=$font'>$font</a>";
     }
 }
 
@@ -116,7 +113,11 @@ function get_sample_image_for_font($font)
 // Given a font name, return the path (relative to the current directory)
 // for the sample image for that font (whether the file exists or not).
 {
-    return "images/{$font}.png";
+    // We don't want to have files with spaces in their names,
+    // so if the font name contains any spaces, replace each
+    // with an underscore in the file name.
+    $base = str_replace(' ', '_', $font);
+    return "images/{$base}.png";
 }
 
 // vim: sw=4 ts=4 expandtab
