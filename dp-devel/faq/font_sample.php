@@ -6,9 +6,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
 new dbConnect();
 
-/* TODO: 
-    * not all proofreading fonts have images
-*/
 
 $title = _("Proofreading Font Comparison");
 $no_stats=1;
