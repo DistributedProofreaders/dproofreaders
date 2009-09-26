@@ -6,6 +6,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
 new dbConnect();
 
+// Note: The text used for font sample images is stored in font_sample.txt
 
 $title = _("Proofreading Font Comparison");
 $no_stats=1;
