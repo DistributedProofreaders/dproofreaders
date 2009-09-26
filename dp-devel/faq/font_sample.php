@@ -77,7 +77,7 @@ $sample_font_links=array();
 foreach ($selectable_fonts as $font)
 {
     // don't print a link if we don't have an image for the font
-    if(is_file("$code_dir/faq/images/${font}_A.gif"))
+    if(is_file("$code_dir/faq/images/${font}.png"))
     {
         if($compare_font == $font)
             $sample_font_links[] = "<span style='font-family: $font'>$font</span>";
