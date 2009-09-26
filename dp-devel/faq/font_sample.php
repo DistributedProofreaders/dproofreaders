@@ -92,28 +92,31 @@ echo "<p>" . _("Select a font from the list below to see a sample text in the de
 echo "<p>" . implode("\n| ", $sample_font_links) . "</p>\n";
 
 // print out the comparison images
-echo "<table class='fontcompare'>";
-echo "<tr>";
-echo "<th>" . sprintf(_("Selected Font (%s)"), $compare_font) . "</th>";
-echo "<th>" . _("DPCustomMono2") . "</th>";
-echo "</tr>";
+echo "
+    <table class='fontcompare'>
 
-echo "<tr>";
-echo "<td><img src='images/${compare_font}_A.gif'></td>";
-echo "<td><img src='images/DPCustomMono2_A.gif'></td>";
-echo "</tr>";
+    <tr>
+    <th>" . sprintf(_("Selected Font (%s)"), $compare_font) . "</th>
+    <th>" . _("DPCustomMono2") . "</th>
+    </tr>
 
-echo "<tr>";
-echo "<td><img src='images/${compare_font}_B.gif'></td>";
-echo "<td><img src='images/DPCustomMono2_B.gif'></td>";
-echo "</tr>";
+    <tr>
+    <td><img src='images/${compare_font}_A.gif'></td>
+    <td><img src='images/DPCustomMono2_A.gif'></td>
+    </tr>
 
-echo "<tr>";
-echo "<td><img src='images/${compare_font}_C.gif'></td>";
-echo "<td><img src='images/DPCustomMono2_C.gif'></td>";
-echo "</tr>";
+    <tr>
+    <td><img src='images/${compare_font}_B.gif'></td>
+    <td><img src='images/DPCustomMono2_B.gif'></td>
+    </tr>
 
-echo "</table>";
+    <tr>
+    <td><img src='images/${compare_font}_C.gif'></td>
+    <td><img src='images/DPCustomMono2_C.gif'></td>
+    </tr>
+
+    </table>
+";
 
 theme("", "footer");
 
