@@ -57,20 +57,20 @@ else
 $compare_font = get_enumerated_param( $_GET, 'compare', $compare_font, $selectable_fonts );
 
 // print page header
-echo "<h1>$title</h1>";
+echo "<h1>$title</h1>\n";
 
-echo "<p>" . _("This page demonstrates the differences between <span style='font-family: DPCustomMono2'>DPCustomMono2</span> and other fonts.") . "</p>";
+echo "<p>" . _("This page demonstrates the differences between <span style='font-family: DPCustomMono2'>DPCustomMono2</span> and other fonts.") . "</p>\n";
 
-echo "<p>" . sprintf(_("DPCustomMono2 is a font adapted by DP's own big_bill, based on the suggestions and ideas of many experienced proofreaders. Using DPCustomMono2 as your proofreading font can help you find mistakes. You can change the font that you use for proofreading in your <a href='%s'>preferences</a>."), "$code_url/userprefs.php") . "</p>";
+echo "<p>" . sprintf(_("DPCustomMono2 is a font adapted by DP's own big_bill, based on the suggestions and ideas of many experienced proofreaders. Using DPCustomMono2 as your proofreading font can help you find mistakes. You can change the font that you use for proofreading in your <a href='%s'>preferences</a>."), "$code_url/userprefs.php") . "</p>\n";
 
 if(!empty($proofreading_font))
-    echo "<p>" . sprintf(_("Your current proofreading font is <b>%s</b>."), $proofreading_font) . "</p>";
+    echo "<p>" . sprintf(_("Your current proofreading font is <b>%s</b>."), $proofreading_font) . "</p>\n";
 
-echo "<p style='font-family: DPCustomMono2'>" . _("If you already have DPCustomMono2 installed, you will see this paragraph in that typeface. If this paragraph's font doesn't look radically different to that of the paragraph above, you can download DPCustomMono2 from <a href='DPCustomMono2.ttf'>here</a> (right click the link, and choose Save Target As..) After you have installed the font please refresh this page to make sure DPCustomMono2 is installed correctly.") . "</p>";
+echo "<p style='font-family: DPCustomMono2'>" . _("If you already have DPCustomMono2 installed, you will see this paragraph in that typeface. If this paragraph's font doesn't look radically different to that of the paragraph above, you can download DPCustomMono2 from <a href='DPCustomMono2.ttf'>here</a> (right click the link, and choose Save Target As..) After you have installed the font please refresh this page to make sure DPCustomMono2 is installed correctly.") . "</p>\n";
 
-echo "<p>" . sprintf(_("For more information on installing and using the font, see the <a href='http://www.pgdp.net/wiki/Installing_DPCustomMono'>Installing DPCustomMono</a> wiki page at pgdp.net."),"$code_url/userprefs.php") . "</p>";
+echo "<p>" . sprintf(_("For more information on installing and using the font, see the <a href='http://www.pgdp.net/wiki/Installing_DPCustomMono'>Installing DPCustomMono</a> wiki page at pgdp.net."),"$code_url/userprefs.php") . "</p>\n";
 
-echo "<hr width='70%'>";
+echo "<hr width='70%'>\n";
 
 // build a list of fonts that we have comparison images for
 $sample_font_links=array();
@@ -87,9 +87,9 @@ foreach ($selectable_fonts as $font)
 }
 
 
-echo "<p>" . _("Select a font from the list below to see a sample text in the desired font compared to the sample text in DPCustomMono2.") . "</p>";
+echo "<p>" . _("Select a font from the list below to see a sample text in the desired font compared to the sample text in DPCustomMono2.") . "</p>\n";
 
-echo "<p>" . implode(' | ', $sample_font_links) . "</p>";
+echo "<p>" . implode("\n| ", $sample_font_links) . "</p>\n";
 
 // print out the comparison images
 echo "<table class='fontcompare'>";
