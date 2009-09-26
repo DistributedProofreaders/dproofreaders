@@ -97,7 +97,7 @@ echo "
 
     <tr>
     <th>" . sprintf(_("Selected Font (%s)"), $compare_font) . "</th>
-    <th>" . _("DPCustomMono2") . "</th>
+    <th>DPCustomMono2</th>
     </tr>
 
     <tr>
