@@ -77,7 +77,7 @@ $sample_font_links=array();
 foreach ($selectable_fonts as $font)
 {
     // don't print a link if we don't have an image for the font
-    if(is_file("$code_dir/faq/images/${font}.png"))
+    if(is_file(get_sample_image_for_font($font)))
     {
         if($compare_font == $font)
             $sample_font_links[] = "<span style='font-family: $font'>$font</span>";
@@ -101,14 +101,23 @@ echo "
     </tr>
 
     <tr>
-    <td><img src='images/${compare_font}.png'></td>
-    <td><img src='images/DPCustomMono2.png'></td>
+    <td><img src='" . get_sample_image_for_font($compare_font) . "'></td>
+    <td><img src='" . get_sample_image_for_font('DPCustomMono2') . "'></td>
     </tr>
 
     </table>
 ";
 
 theme("", "footer");
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function get_sample_image_for_font($font)
+// Given a font name, return the path (relative to the current directory)
+// for the sample image for that font (whether the file exists or not).
+{
+    return "images/{$font}.png";
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>
