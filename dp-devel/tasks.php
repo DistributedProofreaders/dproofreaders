@@ -533,7 +533,7 @@ function TaskHeader() {
         }
     echo "</select>\n";
     echo "<input type='submit' value='Search' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'></td>\n";
-    echo "<td width='30%' align='right' valign='top'><font face='Verdana' size='1' color='#03008F'><a href='$code_url/tasks.php'>Home</a> | <a href='$code_url/tasks.php?f=newtask'>New Task</a></font></td></tr>\n";
+    echo "<td width='30%' align='right' valign='top'><font face='Verdana' size='1' color='#03008F'><a href='$code_url/tasks.php'>Task Center Home</a> | <a href='$code_url/tasks.php?f=newtask'>New Task</a></font></td></tr>\n";
     echo "</table></form><br>\n";
 }
 
