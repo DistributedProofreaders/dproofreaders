@@ -952,7 +952,9 @@ function RelatedTasks($tid) {
         asort($related_tasks);
         while (list($key, $val) = each($related_tasks)) {
             $result = mysql_query("SELECT task_summary FROM tasks WHERE task_id = $val") or die(mysql_error());
-            $task_summary = mysql_result($result, 0, "task_summary");
+            // summary is stored in the database as addslashes(htmlspecialchars(...)),
+            // so we need to use stripslashes() to display it in HTML.
+            $task_summary = stripslashes(mysql_result($result, 0, "task_summary"));
             echo "<br><font face='Verdana' color='#000000' style='font-size: 11px'><a href='$code_url/tasks.php?f=detail&tid=$val'>Task #$val</a> - $task_summary</font>\n"; }
     }
 
