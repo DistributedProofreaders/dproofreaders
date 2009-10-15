@@ -516,7 +516,7 @@ function TaskHeader() {
         }
     echo "</select>\n";
     echo "<select size='1' name='task_status' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='998'>All Tasks</option>\n<option value='999'";
-    if (isset($_REQUEST['task_status']) && $_REQUEST['task_status'] == 999) { echo " SELECTED"; }
+    if (!isset($_REQUEST['task_status']) || $_REQUEST['task_status'] == 999) { echo " SELECTED"; }
     echo ">All Open Tasks</option>\n";
         asort($tasks_status_array);
         while (list($key, $val) = each($tasks_status_array)) {
