@@ -162,7 +162,8 @@ function echo_html_comment($comment_body)
     // Here, we adopt the rule that a comment's body cannot contain two adjacent
     // hyphens, and so replace any double-hyphen in $comment_body with the
     // similar-looking double-tilde.
-    $safe_comment_body = str_replace('--', '~~', $comment_body, $n_occurrences);
+    $n_occurrences = substr_count($comment_body, '--');
+    $safe_comment_body = str_replace('--', '~~', $comment_body);
 
     echo "<!--\n";
     if ( $n_occurrences > 0 )
