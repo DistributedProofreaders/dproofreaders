@@ -326,7 +326,7 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
         $access_link = "{$stage->relative_url}#Entrance_Requirements";
     }
 
-    // If we're a round, get page information and calcluate status.
+    // If we're a round, get page information and calculate status.
     if ( is_a( $stage, 'Round' ) )
     {
         $round_stats = get_site_page_tally_summary($stage->id);
