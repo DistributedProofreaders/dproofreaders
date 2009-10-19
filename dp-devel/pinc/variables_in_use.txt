@@ -10,10 +10,6 @@ dp_main.inc
                    test on this variable for pages which rely on a database connection.
      $db_link = the database link returned by the connection
 
- *** NOTE:  Pages which include dp_main.inc have all $_GET and $_POST variables autoglobal.
-            $_GET variables are extracted first and $_POST variables are extracted secondly.
-            So, $_POST variables will overwrite $_GET variables with the same name.
-
 site_vars.php
 
 	 $code_url
