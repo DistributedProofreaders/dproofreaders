@@ -121,7 +121,6 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
 
                 // sanitize the words for the AW javascript
                 $jsSanitizedWord = bin2hex($word);
-                $jsSafeWord = preg_replace("/'/","\'",$word);
                 @$wordCount[$word]++;
                 $wordID="{$jsSanitizedWord}_{$wordCount[$word]}";
                 $numBadWords++;
