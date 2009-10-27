@@ -1336,7 +1336,8 @@ function do_extra_files()
     global $project;
 
     if ( !$project->can_be_managed_by_current_user
-        && !$project->PPer_is_current_user )
+        && !$project->PPer_is_current_user
+        && !$project->PPVer_is_current_user )
     {
         return;
     }
