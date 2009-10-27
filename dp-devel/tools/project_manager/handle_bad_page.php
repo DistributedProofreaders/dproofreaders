@@ -7,6 +7,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'forum_interface.inc');
+include_once('page_table.inc');  // page_state_is_a_bad_state()
 
 if (!isset($_POST['resolution'])) {
     //Get variables to use for form
@@ -29,8 +30,18 @@ if (!isset($_POST['resolution'])) {
     
     $round = get_Round_for_page_state($state);
 
+    // Is it a bad page report, or are we merely fixing an ordinary page
+    $is_a_bad_page = page_state_is_a_bad_state($state);
+    if ($is_a_bad_page)
+    {
+        $header = _("Bad Page Report");
+    }
+    else
+    {
+        $header = _("Fix Page");
+    }
+    
     //Display form
-    $header = _("Bad Page Report");
     theme($header, "header");
 
     echo "<br><h3>Project/Page: ".$b_NameofWork."&mdash;".$image."</h3>";
@@ -42,7 +53,7 @@ if (!isset($_POST['resolution'])) {
     echo "<input type='hidden' name='state' value='$state'>";
     echo "<br><div align='center'><table bgcolor='".$theme['color_mainbody_bg']."' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
     echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2' align='center'>";
-    echo "<B><font color='".$theme['color_headerbar_font']."'>Bad Page Report</font></B></td></tr>";
+    echo "<B><font color='".$theme['color_headerbar_font']."'>$header</font></B></td></tr>";
     
     if (!empty($b_User)) {
         $contact_url = get_url_to_compose_message_to_user($b_User);
@@ -95,7 +106,7 @@ if (!isset($_POST['resolution'])) {
     echo "</td></tr>";
     echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
     
-    if (!empty($b_User) && !empty($b_Code)) {
+    if ($is_a_bad_page) {
         echo "<strong>What to do:&nbsp;&nbsp;</strong></td>";
         echo "<td bgcolor='#ffffff' align='center'>";
         echo "<input name='resolution' value='fixed' type='radio'>Fixed&nbsp;";
