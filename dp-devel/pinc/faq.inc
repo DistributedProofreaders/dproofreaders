@@ -3,7 +3,7 @@
 // that is used in FAQs. Also information about forums and wiki used in FAQs.
 
 // People:
-$PM_rights_giver_contact="<a href=\"mailto:juliet.sutherland@verizon.net\">JulietS</a>";
+$PM_rights_giver_contact="<a href=\"mailto:dp-genmgr@pgdp.net\">ldavies (Louise)</a>";
 $site_funder="Charles";
 $clearance_verifier_contact="<a href=\"mailto:juliet.sutherland@verizon.net\">JulietS</a>";
 
