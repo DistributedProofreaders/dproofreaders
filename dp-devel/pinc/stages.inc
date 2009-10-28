@@ -488,13 +488,6 @@ function round_project_listing_presort( $round )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-$someone_maintains_the_PP_faq =
-    sprintf( _("%s (<a href='%s'>%s</a>) maintains our <a href='%s'>Post-Processing FAQ</a>."),
-        'Julie Barkley',
-        'http://www.pgdp.net/phpBB2/privmsg.php?mode=post&u=1674',
-        'juliebarkley',
-        "$code_url/faq/post_proof.php" );
-
 new Pool(
     'PP',
     _('Post-Processing'),
