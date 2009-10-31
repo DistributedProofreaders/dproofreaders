@@ -952,9 +952,17 @@ function RelatedTasks($tid) {
         asort($related_tasks);
         while (list($key, $val) = each($related_tasks)) {
             $result = mysql_query("SELECT task_summary FROM tasks WHERE task_id = $val") or die(mysql_error());
-            // summary is stored in the database as addslashes(htmlspecialchars(...)),
-            // so we need to use stripslashes() to display it in HTML.
-            $task_summary = stripslashes(mysql_result($result, 0, "task_summary"));
+            if (mysql_num_rows($result) == 0)
+            {
+                // The task must have been deleted from the table manually.
+                $task_summary = "[not found]";
+            }
+            else
+            {
+                // summary is stored in the database as addslashes(htmlspecialchars(...)),
+                // so we need to use stripslashes() to display it in HTML.
+                $task_summary = stripslashes(mysql_result($result, 0, "task_summary"));
+            }
             echo "<br><font face='Verdana' color='#000000' style='font-size: 11px'><a href='$code_url/tasks.php?f=detail&tid=$val'>Task #$val</a> - $task_summary</font>\n"; }
     }
 
