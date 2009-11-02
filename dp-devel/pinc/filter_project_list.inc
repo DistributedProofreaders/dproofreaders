@@ -124,7 +124,7 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
         // TODO: "All Special Days" is actually an incorrect label considering
         // what the resulting output is. Instead it behaves like
         // "all projects regardless of special day status". Unlike the other "All"
-        // labels, selecting "All Special Days" is not equivilent to selecting all
+        // labels, selecting "All Special Days" is not equivalent to selecting all
         // the other options in this select. See task #797.
         echo _build_project_filter_select(_("Special Days"), _("All Special Days"), "special_code", $specialday_options, $data["special_code"], $td_width, TRUE);
     }
