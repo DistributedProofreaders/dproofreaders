@@ -58,6 +58,9 @@ function fatal_error( $msg )
 // and we haven't just asked it, ask it now.
 if ( !is_null($transition->confirmation_question) && $confirmed != 'yes' )
 {
+    echo "<p><b>" . _("Project ID:") . "</b> $projectid<br>\n";
+    echo "<b>" . _("Title:") . "</b> {$project->nameofwork}<br>\n";
+    echo "<b>" . _("Author:") . "</b> {$project->authorsname}</p>\n";
     echo $transition->confirmation_question;
     echo <<<EOS
         <br>
