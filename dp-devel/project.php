@@ -1746,12 +1746,8 @@ function do_smooth_reading()
 
             if (!$project->PPer_is_current_user)
             {
-                echo "<li>";
-                echo "<a href='$project->url/{$projectid}_smooth_avail.zip'>";
-                echo _('Download zipped text for smooth reading');
-                echo "</a>";
-                echo "</li>\n";
-
+                echo_download_zip( _("Download zipped text for smooth reading"), '_smooth_avail' );
+                
                 // We don't allow guests to upload the results of smooth-reading.
                 global $user_is_logged_in;
                 if ( $user_is_logged_in )
