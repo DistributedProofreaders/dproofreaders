@@ -660,7 +660,9 @@ function do_project_info_table()
         $postednum = $project->postednum;
         echo_row_a(
             _("PG etext number"),
-            get_pg_catalog_link_for_etext($postednum, $postednum) );
+            $postednum . " &ndash; " .
+            sprintf(_("<a href='%s'>Read this text</a> at Project Gutenberg"),
+                 get_pg_catalog_url_for_etext($postednum)));
     }
 
     // -------------------------------------------------------------------------
