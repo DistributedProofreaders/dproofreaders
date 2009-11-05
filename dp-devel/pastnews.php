@@ -26,22 +26,28 @@ if (isset($_GET['news_page_id'])) {
 
 // echo "<center>Feeds: <a href='$code_url/feeds/backend.php?content=news'><img src='$code_url/graphics/xml.gif'></a>";
 // echo "<a href='$code_url/feeds/backend.php?content=news&type=rss'><img src='$code_url/graphics/rss.gif'></a>";
+// echo "</center>";
 
-if (isset($_GET['num'])) {
-    $num = " LIMIT ".$_GET['num'];
-    echo " <a href='pastnews.php?news_page_id=$news_page_id'>Show All $news_subject News</a>";
-} else $num = "";
-
-echo "</center>";
+$num = get_integer_param($_GET, 'num', 0, 0, NULL);
+if ($num == 0)
+{
+    // Invoking this script with num=0 (or without
+    // the 'num' parameter) means "no limit".
+    $limit_clause = "";
+}
+else
+{
+    $limit_clause = "LIMIT $num";
+    echo "<a href='pastnews.php?news_page_id=$news_page_id'>Show All $news_subject News</a>";
+}
 
 $result = mysql_query("
     SELECT * FROM news_items 
     WHERE news_page_id = '$news_page_id' AND 
         status = 'recent'
     ORDER BY id DESC
-".$num);
-
-$total = 1;
+    $limit_clause
+");
 
 if (mysql_numrows($result)== 0) {
   echo "<br><br>"._("No recent news items for ").$news_subject;
