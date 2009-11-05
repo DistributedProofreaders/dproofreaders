@@ -322,7 +322,7 @@ declare_project_state(
     "PROJ_SUBMIT_PG_POSTED",
     "proj_submit_pgposted",
     _("Posted to PG"),
-    _("Posted to Project Gutenberg"),
+    _("Completed and Posted to Project Gutenberg"),
     $posted_projects_forum_idx,
     'GB',
     'GOLD'
