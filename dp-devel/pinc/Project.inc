@@ -3,6 +3,7 @@ include_once($relPath.'connect.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'forum_interface.inc'); // topic_create
+include_once($relPath.'SettingsClass.inc');
 
 new dbConnect;
 
@@ -413,13 +414,9 @@ function project_get_auto_PPer( $projectid )
     else
     {
         // The project does not have a reserved PPer.
-
-        $res = mysql_query("
-            SELECT value
-            FROM usersettings
-            WHERE username = '$username' AND setting = 'send_to_post' AND value = 'yes'
-        ");
-        if ( mysql_num_rows($res) > 0 )
+      
+        $settings =& Settings::get_Settings($username);
+        if ($settings->get_boolean('send_to_post'))
         {
             // The PM has send_to_post=yes, so his/her projects go straight to PP.avail.
             return NULL;
