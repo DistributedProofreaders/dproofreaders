@@ -39,6 +39,15 @@ $sorting = array_get($_GET, 'sort', '');
 $no_stats = 1;
 theme( $out_title, 'header' );
 
+if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
+{
+    echo "<form action='#' method='get'><p>";
+    echo _("See projects that another user has worked on") . ": ";
+    echo "<input type='text' name='username' value='$username'>";
+    echo "<input type='submit' value='" . htmlspecialchars(_("Refresh"), ENT_QUOTES) . "'>";
+    echo "</p></form>\n";
+}
+
 prep_for_links_to_project_pages();
 
 echo "<a name='proof' id='proof'></a><h2>$heading_proof</h2>";
