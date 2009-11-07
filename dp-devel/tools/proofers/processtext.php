@@ -49,8 +49,6 @@ if (isset($_POST['button11']) || isset($_POST['button11_x'])) {$tbutton=B_RUN_CO
 if (isset($_POST['spcorrect'])) {$tbutton=101;} // Make Spelling Corrections
 if (isset($_POST['spexit'])) {$tbutton=102;} // Exit Spelling Corrections
 if (isset($_POST['rerunauxlanguage'])) {$tbutton=103;} // Spellcheck against another language
-if (isset($_POST['errcorrect'])) {$tbutton=111;} // Make Spelling Corrections
-if (isset($_POST['errexit'])) {$tbutton=112;} // Exit Spelling Corrections
 
 // set prefs
 if ($userP['i_type']==1)
