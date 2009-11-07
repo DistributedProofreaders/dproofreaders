@@ -79,7 +79,8 @@ else
                 echo "We received two near-simultaneous requests from you\n";
                 echo "for the same resource, so we are ignoring the second one\n";
                 echo "(other than to send this error message).\n";
-                echo sprintf("Please inform a <a href='%s'>Site Admin</a> that you received this message.\n",
+                echo "If you are unsure of why this happened,";
+                echo sprintf("please inform a <a href='%s'>Site Admin</a> that you received this message.\n",
                              "mailto:".$GLOBALS['site_manager_email_addr']);
                 echo "</p>";
                 exit();
