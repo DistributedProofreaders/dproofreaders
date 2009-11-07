@@ -29,7 +29,10 @@ class Pool extends Stage
 
         $foo_Header,
         $foo_field_name,
-            // Don't ask.
+            // The relevant person to display in pool listings, both
+            // as shown to the user and as a field in the projects table
+            // (e.g. "postprocessor" when listing books available for PPV). 
+            // Used by pinc/showavailablebooks.inc
 
         $blather
             // An array of strings to echo on the pool's home page.
