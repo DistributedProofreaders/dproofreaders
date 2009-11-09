@@ -749,15 +749,19 @@ function TaskDetails($tid) {
 
             $result = mysql_query("SELECT username FROM users WHERE u_id = ".$row['opened_by']."");
             $opened_by = mysql_result($result, 0, "username");
+            $opened_by_link = PrivateMessageLink($opened_by);            
 
             $result = mysql_query("SELECT username FROM users WHERE u_id = ".$row['edited_by']."");
             $edited_by = mysql_result($result, 0, "username");
+            $edited_by_link = PrivateMessageLink($edited_by);
 
             if (empty($row['task_assignee'])) {
                 $task_assignee_username = "Unassigned";
+                $task_assignee_username_link = $task_assignee_username;
             } else {
                 $result = mysql_query("SELECT username FROM users WHERE u_id = ".$row['task_assignee']."");
                 $task_assignee_username = mysql_result($result, 0, "username");
+                $task_assignee_username_link = PrivateMessageLink($task_assignee_username);
             }
 
             echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'>\n";
@@ -770,14 +774,14 @@ function TaskDetails($tid) {
                 echo "&nbsp;</td></tr></form></table>";
             }
             echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'>\n";
-            echo "<tr><td width='50%'><font face='Verdana' color='#000000' style='font-size: 9px'>Opened by $opened_by - ".date("d-M-Y", $row['date_opened'])."<br>Last edited by $edited_by - ".date("d-M-Y", $row['date_edited'])."</td><td width='50%' align='right' valign='top'><font face='Verdana' color='#000000' style='font-size: 11px'>";
+            echo "<tr><td width='50%'><font face='Verdana' color='#000000' style='font-size: 9px'>Opened by $opened_by_link - ".date("d-M-Y", $row['date_opened'])."<br>Last edited by $edited_by_link - ".date("d-M-Y", $row['date_edited'])."</td><td width='50%' align='right' valign='top'><font face='Verdana' color='#000000' style='font-size: 11px'>";
             if (empty($already_notified)) { echo "<a href='tasks.php?f=notifyme&tid=$tid'>Signup for task notifications</a>"; } else { echo "<a href='tasks.php?f=unnotifyme&tid=$tid'>Remove me from task notifications</a>"; }
             echo "</font></tr>\n";
             echo "<tr><td width='40%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
             EchoTaskProperty( "Task Type",        $tasks_array[$row['task_type']] );
             EchoTaskProperty( "Category",         $categories_array[$row['task_category']] );
             EchoTaskProperty( "Status",           $tasks_status_array[$row['task_status']] );
-            EchoTaskProperty( "Assigned To",      $task_assignee_username );
+            EchoTaskProperty( "Assigned To",      $task_assignee_username_link );
             EchoTaskProperty( "Operating System", $os_array[$row['task_os']] );
             echo "</table></td><td width='50%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
             EchoTaskProperty( "Browser",          $browser_array[$row['task_browser']] );
@@ -891,7 +895,8 @@ function TaskComments($tid) {
         while ($row = mysql_fetch_assoc($result)) {
             $usernameQuery = mysql_query("SELECT username FROM users WHERE u_id = ".$row['u_id']."");
             $comment_username = mysql_result($usernameQuery, 0, "username");
-            echo "<b><font face='Verdana' color='#000000' style='font-size: 11px'>Comment by $comment_username - ".date("l, d M Y, g:ia", $row['comment_date'])."</font></b><br>";
+            $comment_username_link = PrivateMessageLink($comment_username);
+            echo "<b><font face='Verdana' color='#000000' style='font-size: 11px'>Comment by $comment_username_link - ".date("l, d M Y, g:ia", $row['comment_date'])."</font></b><br>";
             echo "<br><font face='Verdana' color='#000000' style='font-size: 11px'>".nl2br(stripslashes($row['comment']))."</font><br><br><hr width='80%' align='center'>";
         }
         echo  "</td></tr></table>";
@@ -995,5 +1000,10 @@ function RelatedPostings($tid) {
     echo "</td></tr></table></form>";
 }
 
+function PrivateMessageLink($username) {
+    return "<a href='" 
+        . get_url_to_compose_message_to_user($username)
+        . "'>$username</a>";
+}
 // vim: sw=4 ts=4 expandtab
 ?>
