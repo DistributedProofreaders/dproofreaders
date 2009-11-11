@@ -7,6 +7,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'links.inc');   // private_message_link()
 $no_stats=1;
 theme('Task Center','header');
 ?><script language='javascript'><!--
@@ -749,11 +750,11 @@ function TaskDetails($tid) {
 
             $result = mysql_query("SELECT username FROM users WHERE u_id = ".$row['opened_by']."");
             $opened_by = mysql_result($result, 0, "username");
-            $opened_by_link = PrivateMessageLink($opened_by);            
+            $opened_by_link = private_message_link($opened_by, NULL);            
 
             $result = mysql_query("SELECT username FROM users WHERE u_id = ".$row['edited_by']."");
             $edited_by = mysql_result($result, 0, "username");
-            $edited_by_link = PrivateMessageLink($edited_by);
+            $edited_by_link = private_message_link($edited_by, NULL);
 
             if (empty($row['task_assignee'])) {
                 $task_assignee_username = "Unassigned";
@@ -761,7 +762,8 @@ function TaskDetails($tid) {
             } else {
                 $result = mysql_query("SELECT username FROM users WHERE u_id = ".$row['task_assignee']."");
                 $task_assignee_username = mysql_result($result, 0, "username");
-                $task_assignee_username_link = PrivateMessageLink($task_assignee_username);
+                $task_assignee_username_link = private_message_link(
+                    $task_assignee_username, NULL);
             }
 
             echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'>\n";
@@ -895,7 +897,7 @@ function TaskComments($tid) {
         while ($row = mysql_fetch_assoc($result)) {
             $usernameQuery = mysql_query("SELECT username FROM users WHERE u_id = ".$row['u_id']."");
             $comment_username = mysql_result($usernameQuery, 0, "username");
-            $comment_username_link = PrivateMessageLink($comment_username);
+            $comment_username_link = private_message_link($comment_username, NULL);
             echo "<b><font face='Verdana' color='#000000' style='font-size: 11px'>Comment by $comment_username_link - ".date("l, d M Y, g:ia", $row['comment_date'])."</font></b><br>";
             echo "<br><font face='Verdana' color='#000000' style='font-size: 11px'>".nl2br(stripslashes($row['comment']))."</font><br><br><hr width='80%' align='center'>";
         }
@@ -998,12 +1000,6 @@ function RelatedPostings($tid) {
         }
     }
     echo "</td></tr></table></form>";
-}
-
-function PrivateMessageLink($username) {
-    return "<a href='" 
-        . get_url_to_compose_message_to_user($username)
-        . "'>$username</a>";
 }
 // vim: sw=4 ts=4 expandtab
 ?>
