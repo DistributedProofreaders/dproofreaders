@@ -110,7 +110,7 @@ function get_forum_user_id($username)
     // Use a local in-memory cache so we don't pummel the database
     // for pages that end up calling this for the same small set 
     // of users over and over. Cache is local to this function.
-    static $uidCache;
+    static $uidCache = array();
     // if it's in the cache, return it
     if(isset($uidCache[$username])) return $uidCache[$username];
 
