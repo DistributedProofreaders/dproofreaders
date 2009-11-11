@@ -87,7 +87,9 @@ function echo_button( $button_id, $which_interface )
 				'name'      => "button7",
 				$label      => _("Return Page to Round"),
 				'title'     => _("Return Page to Round"),
-				'onclick'   => "return(confirm('"._("Are you sure you want to")."{$CRLF}"._("return this page to the current round?")."'));",
+				'onclick'   => "return(confirm('"
+				     ._("This will discard all changes you have made on this page.")
+				     ."{$CRLF}"._("Are you sure you want to return this page to the current round?")."'));",
 				'src'       => "gfx/bt15.png",
 			);
 			break;
