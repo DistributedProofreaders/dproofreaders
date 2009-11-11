@@ -18,6 +18,10 @@ $weeks   = @$_REQUEST['weeks'];
 $action  = @$_REQUEST['action'];
 
 $standard_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
+$big_upload_blurb = sprintf(_("<b>Note about big uploads:</b> 
+    If you are trying to upload a very big zip file (e.g. 10 Mb)
+    and the upload does not succeed, upload a small placeholder zip file 
+    instead and email %s for assistance."), $db_requests_email_addr);
 
 $standard_file_blurb = "<STRONG>"._("Zipped File:")."</STRONG>";
 $optional_file_blurb = "<STRONG>"._("Zipped File (optional):")."</STRONG>";
@@ -101,6 +105,26 @@ else if ($stage == 'smooth_done')
     $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
 
 }
+else if (!isset($stage))
+{
+    // this may be due to a timeout when uploading big files.
+    include_once($relPath.'slim_header.inc');
+    
+    slim_header(_("Upload failed"));
+    
+    echo "<p>" . _("The upload failed.") . "</p>\n";
+    echo "<p>" . sprintf(_("<b>Note about big uploads:</b> If you were trying
+        to upload a very big zip file (e.g. 10 Mb), upload a small 
+        placeholder zip file instead and email %s for assistance."), 
+        $db_requests_email_addr) . "</p>\n";
+    
+    echo "<p>" . sprintf(_("Please go <a href='%s'>back</a> and try uploading 
+        the original again or uploading a smaller placeholder instead."), 
+        "javascript:history.back()") . "</p>";
+    
+    slim_footer();
+    exit;
+}
 
 else
 {
@@ -142,6 +166,7 @@ if (!isset($action))
     echo "<INPUT TYPE='submit' VALUE='Upload'>";
     echo "<tr><td bgcolor='#ffffff' colspan='2' align='center'>";
     echo $bottom_blurb;
+    echo "<br>$big_upload_blurb";
     echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
     echo "<A HREF='$back_url'><B>$back_blurb</B></A>";
     echo "</TD></TR></TABLE></FORM></DIV></CENTER>";
