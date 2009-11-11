@@ -53,7 +53,9 @@ function new_help_window_link( $help_topic_id, $linktext )
 function private_message_link( $proofer_username, $target="_blank" )
 // returns a string containing a snippet of HTML
 // for a link that opens a window to send a PM to the
-// specified user
+// specified user.
+// Specifying a NULL $target parameter will return a link to send
+// a PM in the current window.
 {
     global $code_url;
 
@@ -63,7 +65,7 @@ function private_message_link( $proofer_username, $target="_blank" )
 
     $message_url = get_url_to_compose_message_to_user($proofer_username);
 
-    $a = "<a href='$message_url' $targetString>$proofer_username</a>";
+    $a = "<a href='$message_url'$targetString>$proofer_username</a>";
 
     if($target == "_blank") {
         $title = _('Link opens in a new window');
