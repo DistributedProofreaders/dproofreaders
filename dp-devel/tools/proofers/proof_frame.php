@@ -76,11 +76,7 @@ else
                 //    new page, nor send a proofing interface.
                 header('HTTP/1.1 409 Conflict');
                 echo "<p>";
-                echo "We received two near-simultaneous requests from you\n";
-                echo "for the same resource, so we are ignoring the second one\n";
-                echo "(other than to send this error message).\n";
-                echo "If you are unsure of why this happened,";
-                echo sprintf("please inform a <a href='%s'>Site Admin</a> that you received this message.\n",
+                echo sprintf(_("We received two near-simultaneous requests from you for the same resource, so we are ignoring the second one (other than to send this error message). If you are unsure of why this happened, please inform a <a href='%s'>Site Admin</a> that you received this message."),
                              "mailto:".$GLOBALS['site_manager_email_addr']);
                 echo "</p>";
                 exit();
