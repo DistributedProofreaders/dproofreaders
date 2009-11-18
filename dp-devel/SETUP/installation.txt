@@ -39,7 +39,7 @@ assuming it isn't already.
 
 --- Install MySQL.
         Version: We know that our queries work on 4.0.24 and 5.0.22.
-        We believe that they'll work on any version from 4.0.0 up.
+        We believe that they'll work on any version from 4.0.14 up.
         (For various reasons, we're thinking of increasing the minimum required
         version to at least 4.1. Let us know what you think of this at
         <http://www.pgdp.net/phpBB2/viewtopic.php?t=25529>.)
