@@ -440,6 +440,63 @@ function save_project_bad_words($projectid, $words) {
 
 // -----------------------------------------------------------------------------
 
+function delete_project_wordcheck_events($projectid) 
+// Delete any wordcheck_events for this project.
+// This is called when deleting a project.
+{
+    mysql_query(sprintf("
+        DELETE FROM wordcheck_events
+        WHERE projectid='%s'
+        ", mysql_real_escape_string($projectid)));
+}
+
+function merge_project_wordcheck_data($from_projectid, $to_projectid)
+// Merge the word list from the source project into the destination
+// project, and also copy the wordcheck events to the destination
+// project.
+{
+    // good words
+    $from_words = load_project_good_words( $from_projectid );
+    $to_words = load_project_good_words( $to_projectid );
+    $to_words = array_merge($to_words, $from_words);
+    save_project_good_words( $to_projectid, $to_words );
+
+    // bad words
+    $from_words = load_project_bad_words( $from_projectid );
+    $to_words = load_project_bad_words( $to_projectid );
+    $to_words = array_merge($to_words, $from_words);
+    save_project_bad_words( $to_projectid, $to_words );
+
+    // suggestions
+    copy_project_wordcheck_events($from_projectid,$to_projectid);
+}
+
+function copy_project_wordcheck_events($from_projectid, $to_projectid) 
+// Copy wordcheck events from one project to another project.
+// (This is used for instance when splitting or rejoining
+// project parts.)
+{
+    // MySQL version NOTE:
+    //     "Prior to MySQL 4.0.14, the target table of the INSERT 
+    //     statement cannot appear in the FROM clause of the SELECT 
+    //     part of the query."
+    // thus the code below requires version 4.0.14 or later.
+  
+    $sql = sprintf("
+        INSERT INTO wordcheck_events
+            (projectid, timestamp, image, round_id, username, suggestions, corrections)
+        SELECT '%s', timestamp, image, round_id, username, suggestions, corrections
+        FROM wordcheck_events 
+        WHERE projectid = '%s'
+        ", mysql_real_escape_string($to_projectid),
+        mysql_real_escape_string($from_projectid));
+
+    mysql_query($sql);
+    // no results for an INSERT clause, so no need to free the results.
+}
+
+// -----------------------------------------------------------------------------
+
 function save_wordcheck_event($projectid,$round,$page,$proofer,$suggestions,$corrections) {
     $suggestion_list = implode("\n",$suggestions);
 
