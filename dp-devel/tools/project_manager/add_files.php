@@ -28,7 +28,9 @@ if ( $_GET['rel_source'] == '' )
 }
 else
 {
-    $rel_source = stripslashes($_GET['rel_source']);
+    $rel_source = $_GET['rel_source'];
+    if (get_magic_quotes_gpc()) 
+        $rel_source = stripslashes($rel_source);
     // Prevent sneaky parent-link tricks.
     if ( ereg( '\.\.', $rel_source ) )
     {
@@ -117,6 +119,9 @@ if ( $loading_tpnv )
     echo "    $source_project_dir\n";
     echo "to\n";
     echo "    $dest_project_dir\n";
+    // NOTE about file names: since here we are not doing any check over the
+    // file names, it is possible to find filenames with a space or other
+    // strange characters in the /tpnv directory.
     system("cp *.png $dest_project_dir");
     system("cp *.jpg $dest_project_dir");
     echo "</pre>\n";
@@ -453,9 +458,21 @@ class Loader
             return _('file is unreadable by server process');
         }
 
+        // Note: putting \w instead of explicitly a-zA-Z0-9 may cause
+        // trouble since it will allow extra characters depending on 
+        // the user's locale.
         if ( !preg_match('/^[-.\w]+$/', $filename ) )
         {
             return _('filename has disallowed characters');
+        }
+
+        // image files starting with a hyphen are excluded because
+        // they may be mistaken with command line options of
+        // shell utilities such as cmp (in this file, below) and zip
+        // (when generating zips to download image files) 
+        if ( preg_match('/^-/', $filename ) )
+        {
+            return _('filename starts with a hyphen');
         }
 
         if ( substr_count( $filename, '.' ) == 0 )
