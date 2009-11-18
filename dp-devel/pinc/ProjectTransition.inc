@@ -211,6 +211,8 @@ class ProjectTransition
 
             project_drop_pages( $projectid );
 
+            delete_project_wordcheck_events( $projectid );
+
             if ( $this->from_state == PROJ_NEW )
             {
                 $result = mysql_query("
