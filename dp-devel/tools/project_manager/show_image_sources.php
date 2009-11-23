@@ -153,24 +153,19 @@ if (!isset($_GET['name']))
         switch ($which)
         {
             case 'ALL':
-                $adjective = _("All");
                 $where_cls = " ";
-                $other_label = _("Completed");
                 $other_which = 'DONE';
-                $tense = _("being produced");
-                $other_tense = _("produced");
+                $title = sprintf( _("All Ebooks being produced from scans from %s"), $imso['full_name'] );
+                $link_text = sprintf( _("See list of Completed Ebooks produced from scans from %s"), $imso['full_name'] ); 
                 break;
             case 'DONE':
             default:
-                $adjective = _("Completed");
                 $where_cls = " AND  ".SQL_CONDITION_GOLD." ";
-                $other_label = _("All");
                 $other_which = 'ALL';
-                $tense = _("produced");
-                $other_tense = _("being produced");
+                $title = sprintf( _("Completed Ebooks produced from scans from %s"), $imso['full_name'] );
+                $link_text = sprintf( _("See list of All Ebooks being produced from scans from %s"), $imso['full_name'] ); 
         }
 
-        $title = $adjective." "._("Ebooks")." ".$tense." "._("from scans from")." ".$imso['full_name'];
         $sub_title  = $imso['public_comment'];
         $details    = $imso['internal_comment'];
         $more_info  = $imso['more_info'];
@@ -189,8 +184,7 @@ if (!isset($_GET['name']))
 
 
         echo  "<a href='show_image_sources.php?name=".$imso_code.
-            "&which=".$other_which."'>"._("See list of")." ".$other_label." ".
-            _("Ebooks")." ".$other_tense." "._("from scans from")." ".$imso['full_name']."</a><br><br>";
+            "&which=".$other_which."'>" . $link_text . "</a><br><br>";
 
         echo  "<a href='show_image_sources.php'>"._("Back to the full listing of all Image Sources")."</a><br><br>";
 
