@@ -8,6 +8,7 @@ include_once($relPath.'maintenance_mode.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'dpsql.inc');
+include_once($relPath.'misc.inc'); // array_get()
 
 // the user_is functions don't work unless this has been executed previously!
 // it's in dp_main.inc, but we also want this page to be accessible to
@@ -17,6 +18,8 @@ dpsession_resume();
 
 //Check to see if we are in a maintenance mode
 abort_if_in_maintenance_mode();
+
+$which = array_get($_GET, "which", "DONE");
 
 $locuserSettings =& Settings::get_Settings($pguser);
 
@@ -147,36 +150,24 @@ if (!isset($_GET['name']))
 
     if ($can_see) {
 
-        if (isset($_GET['which']))
+        switch ($which)
         {
-            $which = $_GET['which'];
-
-            switch ($which)
-            {
-                case 'ALL':
-                    $adjective = _("All");
-                    $where_cls = " ";
-                    $other_label = _("Completed");
-                    $other_which = 'DONE';
-                    $tense = _("being produced");
-                    $other_tense = _("produced");
-                    break;
-                case 'DONE':
-                default:
-                    $adjective = _("Completed");
-                    $where_cls = " AND  ".SQL_CONDITION_GOLD." ";
-                    $other_label = _("All");
-                    $other_which = 'ALL';
-                    $tense = _("produced");
-                    $other_tense = _("being produced");
-            }
-
-        } else {
-            $adjective = _("Completed");
-            $where_cls = " AND  ".SQL_CONDITION_GOLD." ";
-            $other_label = _("All");
-            $other_which = 'ALL';
-            $tense = _("produced");
+            case 'ALL':
+                $adjective = _("All");
+                $where_cls = " ";
+                $other_label = _("Completed");
+                $other_which = 'DONE';
+                $tense = _("being produced");
+                $other_tense = _("produced");
+                break;
+            case 'DONE':
+            default:
+                $adjective = _("Completed");
+                $where_cls = " AND  ".SQL_CONDITION_GOLD." ";
+                $other_label = _("All");
+                $other_which = 'ALL';
+                $tense = _("produced");
+                $other_tense = _("being produced");
         }
 
         $title = $adjective." "._("Ebooks")." ".$tense." "._("from scans from")." ".$imso['full_name'];
