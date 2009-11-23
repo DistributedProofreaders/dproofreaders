@@ -152,6 +152,56 @@ function get_integer_param( $arr, $key, $default, $min, $max )
     }
 }
 
+// -----------------------------------------------------------------------------
+
+function attr_safe($string)
+//  Return a copy of $str that has been rendered safe to send as
+//  (part of) the value of an attribute in an HTML or XML document.
+//
+//  Specifically, this function replaces any double-quote or
+//  single-quote/apostrophe with an equivalent character reference.
+//  The result is then safe for inclusion in attribute values,
+//  whether they are delimited by single- or double-quotes. E.g.:
+//      $result = attr_safe("Don't!");
+//      echo "<e attr='$result'/>";
+//      echo "<e attr=\"$result\"/>";
+//      echo '<e attr="' . $result . '"/>';
+//
+//  (Note that in HTML, the delimiting quotes around an attribute value
+//  can sometimes be omitted. This function is *not* guaranteed to make
+//  $str safe for use in/as such an undelimited attribute value.)
+//
+//  This function does not replace angle brackets (< >) with character
+//  references, because angle brackets are not treated specially within
+//  attribute values.
+//
+//  This function also does not replace ampersands (&), even though they
+//  *are* treated specially within attribute values (as the start of
+//  character and entity references). The reason for this omission is
+//  that one of the intended usage scenarios for this function is to
+//  handle the results of gettext-translation, and we want to allow
+//  translators to use character references in their translations.
+//  For example, a French translator might translate
+//      Name of work
+//  as
+//      Nom de l'&oelig;uvre
+//  If we have the code:
+//      echo "<e attr='" . attr_safe(_('Name of Work')) . "'/>";
+//  then
+//      _('Name of work')
+//  would, in a French locale, evaluate to the string value:
+//      Nom de l'&oelig;uvre
+//  and we want attr_safe(...) to return:
+//      Nom de l&#39;&oelig;uvre
+//  not:
+//      Nom de l&#39;&amp;oelig;uvre
+{
+    return str_replace( 
+        array("'", "\""), array("&#39;", "&quot;"), $string);
+}
+
+// -----------------------------------------------------------------------------
+
 function echo_html_comment($comment_body)
 {
     // We need to check/tweak $comment_body to ensure that we generate a valid
