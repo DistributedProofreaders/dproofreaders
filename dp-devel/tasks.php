@@ -415,8 +415,25 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
     if ($_POST['sameOS'] == 1) { $vote_os = $_POST['task_os']; } else { $vote_os = $_POST['metoo_os']; }
     if ($_POST['sameBrowser'] == 1) { $vote_browser = $_POST['task_browser']; } else { $vote_browser = $_POST['metoo_browser']; }
 
-    $result = mysql_query("INSERT INTO tasks_votes (task_id, u_id, vote_os, vote_browser) VALUES (".$_POST['meToo'].", ".$userP['u_id'].", ".$vote_os.", ".$vote_browser.")");
+    $task_id = $_POST['meToo'];
+    $user_id = $userP['u_id'];
 
+    if (!is_numeric($task_id) || !is_numeric($vote_os) 
+        || !is_numeric($vote_browser))
+    {
+        die("An incorrect parameter was given."); 
+    }
+
+    // Do not insert twice the same vote if the user refreshes the browser
+    $meTooCheck = mysql_query("SELECT 1 FROM tasks_votes 
+        WHERE task_id = $task_id and u_id = $user_id LIMIT 1");
+    if (mysql_num_rows($meTooCheck) == 0)
+        mysql_query("INSERT INTO tasks_votes 
+            (task_id, u_id, vote_os, vote_browser) 
+            VALUES ($task_id, $user_id, $vote_os, $vote_browser)");
+    mysql_free_result($meTooCheck);
+
+    // No need to display a different error message if the user was refreshing
     ShowNotification("Thank you for your report!  It has been recorded below.", false, "#000000");
     TaskDetails($_POST['meToo']);
 } else {
@@ -540,8 +557,30 @@ function TaskHeader() {
 
 function list_all_open_tasks($order_by)
 {
-    $result = mysql_query("SELECT * FROM tasks WHERE date_closed = 0 $order_by");
+    $result = mysql_query(
+        sql_query_for_tasks("WHERE date_closed = 0", $order_by));
     ShowTasks($result);
+}
+
+function sql_query_for_tasks($where_clause, $order_by)
+{
+    return "
+        SELECT task_id,
+          task_type,
+          task_severity,
+          task_summary,
+          date_edited,
+          task_status,
+          percent_complete,
+          CASE WHEN
+             vote_os IS NULL THEN NULL
+             ELSE COUNT(*) END AS votes
+        FROM tasks
+          LEFT OUTER JOIN tasks_votes USING (task_id)
+        $where_clause
+        GROUP BY task_id
+        $order_by
+    ";
 }
 
 // -----------------------------------------------------------------------------
@@ -577,9 +616,7 @@ function search_and_list_tasks($request_params, $order_by)
     $search_text_summary = addslashes(htmlspecialchars($request_params['search_text']));
     $search_text_details = addslashes(htmlspecialchars($request_params['search_text'], ENT_QUOTES));
 
-    $sql_query = "
-        SELECT *
-        FROM tasks
+    $where_clause = "
         WHERE
             (
                 POSITION('$search_text_summary' IN task_summary)
@@ -592,9 +629,9 @@ function search_and_list_tasks($request_params, $order_by)
             AND $task_assignee
             AND $task_category
             AND $task_status
-            AND $task_version
-        $order_by
-    ";
+            AND $task_version";
+    $sql_query = sql_query_for_tasks($where_clause, $order_by);
+
     if ($testing) echo_html_comment($sql_query);
     $result = mysql_query($sql_query);
     ShowTasks($result);
@@ -626,6 +663,7 @@ function ShowTasks($sql_result) {
              . "&task_assignee=" . $_REQUEST['task_assignee']
              . "&task_category=" . $_REQUEST['task_category']
              . "&task_status=" . $_REQUEST['task_status']
+             . "&votes=" . $_REQUEST['votes']
              . "&task_version=" . $_REQUEST['task_version']
              . "&"; 
     }
@@ -638,6 +676,7 @@ function ShowTasks($sql_result) {
     echo "<td style='width: 50%'><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_summary")."'>Summary</a></font></b></td>\n";
     echo "<td style='text-align: center'><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("date_edited")."'>Date Edited</a></font></b></td>\n";
     echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_status")."'>Status</a></font></b></td>\n";
+    echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("votes")."'>Votes</a></font></b></td>\n";
     echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("percent_complete")."'>Progress</a></font></b></td>\n";
     echo "</tr>\n";
 
@@ -650,6 +689,7 @@ function ShowTasks($sql_result) {
             echo "<td style='width: 50%'><font face='Verdana' color='#000000' style='font-size: 11px'><a href='tasks.php?f=detail&tid=".$row['task_id']."'>".stripslashes($row['task_summary'])."</a></font></td>\n";
             echo "<td style='text-align: center'><font face='Verdana' color='#000000' style='font-size: 11px'>".date("d-M-Y", $row['date_edited'])."</font></td>\n";
             echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'>".$tasks_status_array[$row['task_status']]."</font></td>\n";
+            echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'>".$row['votes']."</font></td>\n";
             echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'><img src='$code_url/graphics/task_percentages/small_".$row['percent_complete'].".png' width='50' height='8' alt='".$row['percent_complete']."% Complete'></font></td>\n";
             echo "</tr>\n";
         }
@@ -827,12 +867,25 @@ function TaskDetails($tid) {
             }
             echo "</td><td align='right'><br>";
 
-            $meTooCheck = mysql_query("SELECT id FROM tasks_votes WHERE task_id = ".$tid." and u_id = ".$userP['u_id']."");
-            if (mysql_num_rows($meTooCheck) > 0) { echo "&nbsp;"; } else { echo "<input type='button' value='Me Too!' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5' onClick=\"showSpan('MeTooMain');\">"; }
+            $meTooCheckResult = mysql_query("SELECT id FROM tasks_votes WHERE task_id = ".$tid." and u_id = ".$userP['u_id']."");
+            $meTooAllowed = (mysql_num_rows($meTooCheckResult) == 0);
+            mysql_free_result($meTooCheckResult);
+            
+            if ($meTooAllowed)
+            { 
+                echo "<input type='button' value='Me Too!' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5' onClick=\"showSpan('MeTooMain');\">"; 
+            } 
+            else 
+            { 
+                echo "&nbsp;"; 
+            }
 
             echo "</td></tr></table><br>\n";
 
-            MeToo($tid, $row['task_os'], $row['task_browser']);
+            if (meTooAllowed)
+            {
+                MeToo($tid, $row['task_os'], $row['task_browser']);
+            }
             TaskComments($tid);
             RelatedTasks($tid);
             RelatedPostings($tid);
