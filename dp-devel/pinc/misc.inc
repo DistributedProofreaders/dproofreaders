@@ -202,6 +202,113 @@ function attr_safe($string)
 
 // -----------------------------------------------------------------------------
 
+function javascript_safe($str, $encoding)
+// Return a string that is safe for inclusion in a javascript string
+// (surrounded by either single or double quotes). 
+// Does an implied attr_safe(), so the output can be enclosed directly
+// in an html attribute. 
+//
+// Example usage: 
+// echo '<script> ... alert("' . javascript_safe($string) . '"); </script>';
+// echo "<script> ... alert('" . javascript_safe($string) . "'); </script>";
+// echo '<a ... onClick=\'confirm("' . javascript_safe($string) . '")\'>';
+// echo "<a ... onClick=\"confirm('" . javascript_safe($string) . '")\">";
+//
+// Here are the detailed conversions applied:
+// - single quotes and double quotes are converted to \ooo octal notation
+//   (this makes the result safe for inclusion inside an HTML attribute)
+// - '<' is converted to \ooo octal: this guarantees that "</script>" is not
+//   present in the returned string
+// - backslash will be converted to \ooo octal too. It needs to be encoded
+//   anyway, and \ooo allows to reuse the same regexp.
+// - also convert anything that may be control characters to \ooo octal or
+//   \uHHHH hexadecimal. That will notably ensure that line ending 
+//   characters are not present in the returned string.
+//   (according to the ECMA-262 specification, line ending characters can
+//   include weird characters such as \u2028 (Line separator) and \u2029 
+//   (Paragraph separator) in addition to the plain \r and \n.)
+//   Specifically: 
+//   - If the encoding is latin-1, \ooo octal encoded will be used for
+//     all characters in the range [\000-\017\177-\237]
+//   - If the encoding is utf-8, \uHHHH encoding is used for all non-ASCII 
+//     characters, and \ooo for control ASCII chars [\000-\017\177]
+{
+    
+    if (!strcasecmp($encoding, 'UTF-8')) 
+    {
+        // /e modifier causes preg_replace() to evaluate the replacement
+        // string as php code and uses the evaluation's return value.
+        // When using the /e modifier single quotes, double quotes,
+        // backslashes (\) and NULL chars will be escaped by backslashes.
+        // So, to avoid computing ord("\'") we handle the single quote
+        // separately 
+        $str = preg_replace('/([\000-\037\"\\\\<\177])/e', 
+            'sprintf("\\%03o", ord("$1"))', $str);
+        $str = str_replace("'", '\047', $str);
+    
+        // convert non-7bit ascii characters to \uHHHH notation
+        $str = preg_replace('/([^\000-\177])/eu', 
+            'sprintf("\\u%04x", utf8_ord("$1") & 0xffff)', $str);
+    }
+    else
+    {
+        // assume Latin-1 encoding
+        // See comment above about the /e modifier in preg_replace(). 
+        $str = preg_replace('/([\000-\017\\\\"<\177-\237])/e', 
+            'sprintf("\\%03o", ord("$1"))', $str);
+        $str = str_replace("'", '\047', $str);
+    }
+    return $str;
+}
+
+
+if (version_compare(PHP_VERSION, '6.0.0') >= 0)
+{
+    // PHP v6 is said to have native utf-8 support (untested)
+    
+    function utf8_ord($str)
+    {
+        return ord($str);
+    }
+} 
+else
+{
+    function utf8_ord($str)
+    // Implementation of UTF-8 compliant ord() function.
+    // Characters higher than U+ffff are not supported.
+    {
+        if ($str == '') 
+        {
+            return 0;
+        }
+        $u = unpack('C*', $str);
+        $count = count($u);
+        if ($count >= 1 && ($u[1] & 0x80) == 0)
+        {
+            // 0xxxxxxx    
+            return $u[1];
+        }
+        else if ($count >= 2 && ($u[1] & 0xE0) == 0xC0)  
+        {
+            // 110xxxxx   
+            return (($u[1] & 0x1F) << 6) | ($u[2] & 0x3F);  
+        }
+        else if ($count >= 3 && ($u[1] & 0xF0) == 0xE0)
+        {
+            // 1110xxxx 
+            return (($u[1] & 0x0F) << 12) 
+               | (($u[2] & 0x3F) << 6) | ($u[3] & 0x3F);
+        }
+        else
+        {
+            // higher characters, or malformed string, return '?'
+            return ord('?');
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------
+
 function echo_html_comment($comment_body)
 {
     // We need to check/tweak $comment_body to ensure that we generate a valid
