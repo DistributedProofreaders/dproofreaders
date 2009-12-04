@@ -6,6 +6,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'Project.inc'); //user_can_work_in_stage()
 include_once($relPath.'projectinfo.inc');
+include_once($relPath.'misc.inc');  // javascript_safe()
 
 $theme_args['js_data'] = "
 function set_html(sw)
@@ -18,6 +19,51 @@ document.ppvform.html_image_size.disabled = sw;
 document.ppvform.html_image_links.disabled = sw;
 document.ppvform.html_header.disabled = sw;
 return true;
+}
+
+function confirmExit() 
+{
+    // see if any of the complexity checkboxes have been checked
+    checkboxes = new Array('tables',
+        'poetry',
+        'index',
+        'footnotes',
+        'sidenotes',
+        'blockquotes',
+        'illustrations',
+        'multilang');
+
+    for (i = 0; i < checkboxes.length; i++)
+    {
+        if (document.getElementById(checkboxes[i]).checked)
+            return true;
+    }
+
+    // see if any of the complexity texts have been filled in
+    texts = new Array('unusual_formatting',
+        'e_spellcheck_num',
+        'e_comma_num',
+        'e_gutcheck_num',
+        'e_jeebies_num',
+        'e_hyph_num',
+        'e_html_num',
+        'e_other_num',
+        'other_error_type');
+
+    for (i = 0; i < texts.length; i++)
+    {
+        if (document.getElementById(texts[i]).value != '')
+            return true;
+    }
+
+
+    // If none of the complexity checkboxes or texts have been altered,
+    // ask for confirmation before submitting.
+    return confirm('" 
+        . javascript_safe(
+            _("Are you sure you want to submit without complexity details filled in?"),
+            $charset)
+        . "');
 }
 
 function grow_textarea(textarea_id)
@@ -79,7 +125,54 @@ $difficulty_level = $project->difficulty;
 $pages = Project_getNumPages($projectid);
 $subdate = date("jS of F, Y");
 
+// number of books post-processed by this PPer (including this one).
+$psd = get_project_status_descriptor('PPd');
+$result = mysql_query("
+    SELECT COUNT(*) AS num_post_processed 
+    FROM projects
+    WHERE $psd->state_selector
+      AND postproofer = '$project->postproofer'
+");
+$number_post_processed = mysql_result($result, 0, "num_post_processed");
 
+// Compute the date of PP upload. We must take into account cases when 
+// the project is being sent back to the PPer, and also when a PPer 
+// takes back a project from the PPV pool before a PPV has picked 
+// up the project.
+//
+// So, the date we are looking for is the latest transition to PPV.avail
+// before the earliest transition from PPV.avail to PPV.checked out...
+
+$pp_date = "";
+
+// earliest transition from PPV.avail to PPV.checked out
+$result = mysql_query("SELECT timestamp FROM project_events
+    WHERE projectid = '$projectid'
+      AND event_type = 'transition'
+      AND details1 = '" . PROJ_POST_SECOND_AVAILABLE . "'
+      AND details2 = '" . PROJ_POST_SECOND_CHECKED_OUT . "'
+    ORDER BY timestamp ASC
+    LIMIT 1");
+if (mysql_num_rows($result) != 0) 
+{
+    $earliest_in_ppv = mysql_result($result, 0);
+    mysql_free_result($result);
+
+    // latest transition from PP.checked out to PPV.avail
+    $result = mysql_query("SELECT timestamp FROM project_events
+        WHERE projectid = '$projectid'
+          AND event_type = 'transition'
+          AND details1 = '" . PROJ_POST_FIRST_CHECKED_OUT . "'
+          AND details2 = '" . PROJ_POST_SECOND_AVAILABLE . "'
+          AND timestamp < $earliest_in_ppv
+        ORDER BY timestamp DESC
+        LIMIT 1");
+    if (mysql_num_rows($result) != 0) 
+    {
+        $pp_date = date("d-M-Y", mysql_result($result, 0));
+    }
+}
+mysql_free_result($result);
 
 
 if ($_GET['send']) {
@@ -119,12 +212,15 @@ $_POST['general_comments'] = wordwrap($_POST['general_comments'], 78, "\n    ");
 $_POST['html_desc'] = wordwrap($_POST['html_desc'], 78, "\n    ");
 $_POST['unusual_formatting'] = wordwrap($_POST['unusual_formatting'], 78, "\n    ");
 $_POST['promotions'] = wordwrap($_POST['promotions'], 78, "\n    ");
+$_POST['other_error_type'] = wordwrap($_POST['other_error_type'], 78, "\n    ");
 
 if(!empty($_POST['promotions']))
      $promotions =  "*    *    *\nPromotions comments:\n  $_POST[promotions]\n*    *    *\n";
 
 $reportcard = "
 \n\nPPV Summary for $pper->username
+
+  Number of books post-processed by $pper->username (including this one): $number_post_processed
 
 
 Project Information
@@ -137,9 +233,12 @@ Project Information
   Number of pages: $pages
   Post-processed by: $pper->username
   Verified by: $ppver->username
-  Verified on: $subdate
+  Verified on: $subdate";
+  
+if (!empty($_POST['pp_date']))
+    $reportcard .= "\n  Submitted by PP on: $_POST[pp_date]";
 
-General Post-Processing Information
+$reportcard .= "\n\nGeneral Post-Processing Information
 
   PPing Difficulty: $_POST[difficulty_level_pp]
   Overall evaluation of PPer's work: $_POST[eval]";
@@ -163,23 +262,29 @@ else {
     $reportcard .= "\n\nNo HTML version submitted\n";
 }
 
-$reportcard .= "\n\nComplexity Details\n";
-$reportcard .= "  Present in the text:";
+if ($_POST['tables'] || $_POST['poetry'] || $_POST['footnotes'] || 
+    $_POST['sidenotes'] || $_POST['index'] || $_POST['blockquotes'] ||
+    $_POST['multilang'] || $_POST['illustrations'] || $_POST['unusual_formatting'])
+{
+    $reportcard .= "\n\nComplexity Details\n";
+    $reportcard .= "  Present in the text:";
 
-if($_POST['tables'])        $reportcard .= "\n    Tables";
-if($_POST['poetry'])        $reportcard .= "\n    Poetry";
-if($_POST['footnotes'])     $reportcard .= "\n    Footnotes";
-if($_POST['sidenotes'])     $reportcard .= "\n    Sidenotes";
-if($_POST['index'])         $reportcard .= "\n    Index";
-if($_POST['blockquotes'])   $reportcard .= "\n    Blockquotes";
-if($_POST['multilang'])     $reportcard .= "\n    Multiple languages";
-if($_POST['illustrations']) $reportcard .= "\n    $_POST[illus_num] Illustrations";
+    if($_POST['tables'])        $reportcard .= "\n    Tables";
+    if($_POST['poetry'])        $reportcard .= "\n    Poetry";
+    if($_POST['footnotes'])     $reportcard .= "\n    Footnotes";
+    if($_POST['sidenotes'])     $reportcard .= "\n    Sidenotes";
+    if($_POST['index'])         $reportcard .= "\n    Index";
+    if($_POST['blockquotes'])   $reportcard .= "\n    Blockquotes";
+    if($_POST['multilang'])     $reportcard .= "\n    Multiple languages";
+    if($_POST['illustrations']) $reportcard .= "\n    $_POST[illus_num] Illustrations";
 
-if(!empty($_POST['unusual_formatting']))
-    $reportcard .= "\n\n  Unusual formatting:\n    $_POST[unusual_formatting]";
+    if(!empty($_POST['unusual_formatting']))
+        $reportcard .= "\n\n  Unusual formatting:\n    $_POST[unusual_formatting]";
+}
 
 if ($_POST['e_spellcheck_num'] || $_POST['e_hyph_num'] || $_POST['e_gutcheck_num'] ||
-    $_POST['e_other_num'] || $_POST['e_comma_num'] ||  $_POST['e_html_num'])
+    $_POST['e_other_num'] || $_POST['e_comma_num'] || $_POST['e_html_num'] || 
+    $_POST['other_error_type'])
 {
     $reportcard .= "\n\nApproximate error numbers:";
     if($_POST['e_spellcheck_num']) $reportcard .= "\n  Spellcheck/Scannos: $_POST[e_spellcheck_num]";
@@ -188,7 +293,10 @@ if ($_POST['e_spellcheck_num'] || $_POST['e_hyph_num'] || $_POST['e_gutcheck_num
     if($_POST['e_jeebies_num'])    $reportcard .= "\n  Jeebies: $_POST[e_jeebies_num]";
     if($_POST['e_hyph_num'])       $reportcard .= "\n  Hyphens/Em dashes: $_POST[e_hyph_num]";
     if($_POST['e_html_num'])       $reportcard .= "\n  HTML: $_POST[e_html_num]";
-    if($_POST['e_other_num'])      $reportcard .= "\n  $_POST[other_error_type]: $_POST[e_other_num]";
+    if($_POST['e_other_num'])      $reportcard .= "\n  Other errors: $_POST[e_other_num]";
+
+    if($_POST['other_error_type'])
+        $reportcard .= "\n  Other errors (details):\n    $_POST[other_error_type]";
 }
 
 
@@ -235,6 +343,7 @@ function textarea_size_control($id, $br = true)
 }
 
 echo "<br />
+
       <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&send=1'
 			 name='ppvform' method='post'>
       <table border='1' id='report_card' style='width: 95%';>
@@ -266,7 +375,12 @@ echo "<br />
       </tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Post-Processed by")."</b></td>
-        <td>$pper->username</td>
+        <td>$pper->username<br>
+        Number of books post-processed by $pper->username (including this one): $number_post_processed</td>
+      </tr>
+      <tr>
+        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Submitted by PP on")."</b></td>
+        <td><input type='text' size='20' name='pp_date' id='pp_date' value='$pp_date'></td>
       </tr>
 
 
@@ -342,7 +456,7 @@ echo "<br />
       </tr>
       <tr>
         <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>
-          "._("Complexity Details (optional)")."
+          "._("Complexity Details (Recommended)")."
         </td>
       </tr>
       <tr>
@@ -371,8 +485,8 @@ echo "<br />
           <input type='text' size='3' name='e_jeebies_num' id='e_jeebies_num'> "._("Jeebies")."<br />
           <input type='text' size='3' name='e_hyph_num' id='e_hyph_num'> "._("Hyphens/Em dashes")."<br />
           <input type='text' size='3' name='e_html_num' id='e_html_num'> HTML<br />
-          <input type='text' size='3' name='e_other_num' id='e_other_num'> Other
-					  <input type='text' size='70' name='other_error_type' id='other_error_type' value='"._("(specify)")."'><br />
+          <input type='text' size='3' name='e_other_num' id='e_other_num'> "._("Other: (specify below)")."<br />
+					  <textarea rows='3' cols='67' name='other_error_type' id='other_error_type' wrap='physical'></textarea>".textarea_size_control('other_error_type')."
         </td>
       </tr>
       <tr>
@@ -397,7 +511,8 @@ echo "<br />
         </td>
       </tr>
           <tr><td colspan='2' style='text-align: center'>
-          <input type='submit' value='"._("Send")."'></td></tr>
+          <input type='submit' value='"._("Send")."' 
+              onClick='return confirmExit();'></td></tr>
 </table>
 </form>";
 }
