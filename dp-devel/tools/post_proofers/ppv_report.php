@@ -134,6 +134,7 @@ $result = mysql_query("
       AND postproofer = '$project->postproofer'
 ");
 $number_post_processed = mysql_result($result, 0, "num_post_processed");
+mysql_free_result($result);
 
 // Compute the date of PP upload. We must take into account cases when 
 // the project is being sent back to the PPer, and also when a PPer 
@@ -511,7 +512,7 @@ echo "<br />
         </td>
       </tr>
           <tr><td colspan='2' style='text-align: center'>
-          <input type='submit' value='"._("Send")."' 
+          <input type='submit' value='".attr_safe(_("Send"))."' 
               onClick='return confirmExit();'></td></tr>
 </table>
 </form>";
