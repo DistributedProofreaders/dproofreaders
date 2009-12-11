@@ -23,12 +23,16 @@ header('Content-type: text/plain');
 set_time_limit(60);
 
 $display_mapping = array(
+    'application/epub+zip'     => 'EPUB',
     'application/msword'       => 'MS Word',
     'application/ogg'          => 'Ogg Audio',
     'application/pdf'          => 'PDF',
     'application/postscript'   => 'Postscript',
+    'application/prs.plucker'  => 'Plucker',
     'application/vnd.palm'     => 'Palm',
     'application/x-iso9660-image' => 'ISO CD/DVD Image',
+    'application/x-mobipocket-ebook' => 'Mobipocket',
+    'application/x-qioo-ebook' => 'QiOO',
     'application/xml'          => 'XML',
     'audio/midi'               => 'MIDI',
     'audio/mp4'                => 'MP4 Audio',
