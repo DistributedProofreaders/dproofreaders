@@ -176,7 +176,7 @@ if (mysql_num_rows($result) != 0)
 mysql_free_result($result);
 
 
-if ($_GET['send']) {
+if (@$_GET['send']) {
 
 // The Spanish PPer shouldn't get a French email because that's the PPVer's
 // language, so temporarily change the current locale.
@@ -217,6 +217,8 @@ $_POST['other_error_type'] = wordwrap($_POST['other_error_type'], 78, "\n    ");
 
 if(!empty($_POST['promotions']))
      $promotions =  "*    *    *\nPromotions comments:\n  $_POST[promotions]\n*    *    *\n";
+else
+     $promotions = "";
 
 $reportcard = "
 \n\nPPV Summary for $pper->username
@@ -249,7 +251,7 @@ if(!empty($_POST['general_comments']))
 if(!empty($_POST['reason_returned']))
     $reportcard .=  "\n\n  Reason project was returned to PPer (if any): \n    $_POST[reason_returned]";
 
-if ($_POST['html_sub'] == "yes") {
+if (@$_POST['html_sub'] == "yes") {
   $reportcard .= "\n\n\nHTML Version: submitted.\n\n  Issues with HTML version (if any):";
   if($_POST['html_markup'])      $reportcard .= "\n    Markup";
   if($_POST['html_css'])         $reportcard .= "\n    CSS";
@@ -263,21 +265,21 @@ else {
     $reportcard .= "\n\nNo HTML version submitted\n";
 }
 
-if ($_POST['tables'] || $_POST['poetry'] || $_POST['footnotes'] || 
-    $_POST['sidenotes'] || $_POST['index'] || $_POST['blockquotes'] ||
-    $_POST['multilang'] || $_POST['illustrations'] || $_POST['unusual_formatting'])
+if (@$_POST['tables'] || @$_POST['poetry'] || @$_POST['footnotes'] || 
+    @$_POST['sidenotes'] || @$_POST['index'] || @$_POST['blockquotes'] ||
+    @$_POST['multilang'] || @$_POST['illustrations'] || @$_POST['unusual_formatting'])
 {
     $reportcard .= "\n\nComplexity Details\n";
     $reportcard .= "  Present in the text:";
 
-    if($_POST['tables'])        $reportcard .= "\n    Tables";
-    if($_POST['poetry'])        $reportcard .= "\n    Poetry";
-    if($_POST['footnotes'])     $reportcard .= "\n    Footnotes";
-    if($_POST['sidenotes'])     $reportcard .= "\n    Sidenotes";
-    if($_POST['index'])         $reportcard .= "\n    Index";
-    if($_POST['blockquotes'])   $reportcard .= "\n    Blockquotes";
-    if($_POST['multilang'])     $reportcard .= "\n    Multiple languages";
-    if($_POST['illustrations']) $reportcard .= "\n    $_POST[illus_num] Illustrations";
+    if(@$_POST['tables'])        $reportcard .= "\n    Tables";
+    if(@$_POST['poetry'])        $reportcard .= "\n    Poetry";
+    if(@$_POST['footnotes'])     $reportcard .= "\n    Footnotes";
+    if(@$_POST['sidenotes'])     $reportcard .= "\n    Sidenotes";
+    if(@$_POST['index'])         $reportcard .= "\n    Index";
+    if(@$_POST['blockquotes'])   $reportcard .= "\n    Blockquotes";
+    if(@$_POST['multilang'])     $reportcard .= "\n    Multiple languages";
+    if(@$_POST['illustrations']) $reportcard .= "\n    $_POST[illus_num] Illustrations";
 
     if(!empty($_POST['unusual_formatting']))
         $reportcard .= "\n\n  Unusual formatting:\n    $_POST[unusual_formatting]";
