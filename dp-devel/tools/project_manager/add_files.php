@@ -466,7 +466,7 @@ class Loader
             return _('filename has disallowed characters');
         }
 
-        // image files starting with a hyphen are excluded because
+        // Filenames starting with a hyphen are excluded because
         // they may be mistaken with command line options of
         // shell utilities such as cmp (in this file, below) and zip
         // (when generating zips to download image files) 
