@@ -276,6 +276,20 @@ $widgets = array(
         'q_contrib'  => array('checkedoutby', 'LIKE'),
     )),
     new Widget( array(
+        'id'         => 'pp_er',
+        'label'      => _('Post-processor'),
+        'type'       => 'text',
+        'q_part'     => 'WHERE',
+        'q_contrib'  => array('postproofer', 'LIKE'),
+    )),
+    new Widget( array(
+        'id'         => 'ppv_er',
+        'label'      => _('Post-processing Verifier'),
+        'type'       => 'text',
+        'q_part'     => 'WHERE',
+        'q_contrib'  => array('ppverifier', 'LIKE'),
+    )),
+    new Widget( array(
         'id'           => 'postednum',
         'label'        => _('PG etext number'),
         'type'         => 'text',
