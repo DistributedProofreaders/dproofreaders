@@ -8,7 +8,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'Stage.inc');
 include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'Pool.inc');
-include_once($relPath.'misc.inc'); // str_contains
+include_once($relPath.'misc.inc'); // str_contains startswith
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -480,10 +480,27 @@ function round_project_listing_presort( $round )
 // If you don't want any criteria to take precedence over column-sorts,
 // return NULL or the empty string.
 {
-    return "
-        (difficulty = 'beginner') DESC,
-        (nameofwork LIKE '%Newcomers Only%' OR nameofwork LIKE '%Rapid Review%') DESC
-    ";
+    if ( startswith($round->id, 'P') )
+    {
+        return "
+            (difficulty = 'beginner') DESC,
+            (nameofwork LIKE '%Newcomers Only%' OR nameofwork LIKE '%Rapid Review%') DESC
+        ";
+    }
+    else if ( startswith($round->id, 'F') )
+    {
+        return "
+            (
+                nameofwork LIKE '%Fast Formatting Feedback%' OR
+                nameofwork LIKE '%F1 Apprentice%' OR
+                nameofwork LIKE '%F2 Qual%'
+            ) DESC
+        ";
+    }
+    else
+    {
+        assert( FALSE );
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
