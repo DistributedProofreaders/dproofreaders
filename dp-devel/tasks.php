@@ -884,7 +884,7 @@ function TaskDetails($tid) {
 
             echo "</td></tr></table><br>\n";
 
-            if (meTooAllowed)
+            if ($meTooAllowed)
             {
                 MeToo($tid, $row['task_os'], $row['task_browser']);
             }
