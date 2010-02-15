@@ -567,7 +567,7 @@ function list_all_open_tasks($order_by)
 function sql_query_for_tasks($where_clause, $order_by)
 {
     return "
-        SELECT task_id,
+        SELECT tasks.task_id,
           task_type,
           task_severity,
           task_summary,
