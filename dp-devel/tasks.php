@@ -665,7 +665,6 @@ function ShowTasks($sql_result) {
              . "&task_assignee=" . $_REQUEST['task_assignee']
              . "&task_category=" . $_REQUEST['task_category']
              . "&task_status=" . $_REQUEST['task_status']
-             . "&votes=" . $_REQUEST['votes']
              . "&task_version=" . $_REQUEST['task_version']
              . "&"; 
     }
