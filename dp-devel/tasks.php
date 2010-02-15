@@ -557,8 +557,8 @@ function TaskHeader() {
 
 function list_all_open_tasks($order_by)
 {
-    $result = mysql_query(
-        sql_query_for_tasks("WHERE date_closed = 0", $order_by));
+    $sql_query = sql_query_for_tasks("WHERE date_closed = 0", $order_by);
+    $result = mysql_query($sql_query) or die(mysql_error());
     ShowTasks($result);
 }
 
