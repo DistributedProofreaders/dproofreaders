@@ -344,7 +344,9 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
         // transitions array and the others from the current state array.
         // Only sum the stats that aren't project_complete_state as they're
         // already included in the following round's numbers.
-        if($stage_state == $stage->project_complete_state)
+        // (Use '@' to suppress "Undefined property" notice:
+        // not every stage has a 'project_complete_state'.)
+        if($stage_state == @$stage->project_complete_state)
             $count = array_get( $n_projects_transitioned_to_state_, $stage_state, 0 );
         else
         {
