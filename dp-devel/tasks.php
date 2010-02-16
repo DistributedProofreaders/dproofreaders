@@ -368,16 +368,17 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
         ShowNotification("The user $pguser does not have permission to close tasks.");
     }
 } elseif (isset($_POST['new_comment'])) {
+    $task_id = $_POST['new_comment'];
     if (!empty($_POST['task_comment'])) {
-        NotificationMail($_POST['new_comment'], "There has been a comment added to this task by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n");
+        NotificationMail($task_id, "There has been a comment added to this task by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n");
         $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
         $u_id = mysql_result($result, 0, "u_id");
-        $result = mysql_query("INSERT INTO tasks_comments (task_id, u_id, comment_date, comment) VALUES (".$_POST['new_comment'].", $u_id, ".time().", '".addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES))."')");
-        $result = mysql_query("UPDATE tasks SET date_edited = ".time().", edited_by = $u_id WHERE task_id = ".$_POST['new_comment']);
-        TaskDetails($_POST['new_comment']);
+        $result = mysql_query("INSERT INTO tasks_comments (task_id, u_id, comment_date, comment) VALUES ($task_id, $u_id, ".time().", '".addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES))."')");
+        $result = mysql_query("UPDATE tasks SET date_edited = ".time().", edited_by = $u_id WHERE task_id = $task_id");
+        TaskDetails($task_id);
     } else {
         ShowNotification("You must supply a comment before clicking Add Comment.");
-        TaskDetails($_POST['new_comment']);
+        TaskDetails($task_id);
     }
 } elseif (isset($_GET['f']) && $_GET['f'] == "notifyme") {
     $result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'taskctr_notice', ".$_GET['tid'].")");
