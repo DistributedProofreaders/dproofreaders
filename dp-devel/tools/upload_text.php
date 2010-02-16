@@ -138,38 +138,56 @@ if (!isset($action))
 
     theme($title, "header");
 
-    echo "<form action='upload_text.php' method='POST' enctype='multipart/form-data'>";
-    echo "<br><table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
-    echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
-    echo "<B><font color='#ffffff'>$title</font></B>";
-    echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<input type='hidden' name='project' value='$projectid'>";
-    echo "<input type='hidden' name='stage' value='$stage'>";
-    echo "<input type='hidden' name='weeks' value='$weeks'>";
-    echo "<input type='hidden' name='action' value='1'>";
-    echo "<input type='hidden' name='MAX_FILE_SIZE' value='25165824'>";
-    echo "<tr><td bgcolor='#e0e8dd' align='center'>";
-    echo $file_blurb;
-    echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<input type='file' name='files[]' size='25' maxsize='50'>";
-    echo "<tr><td bgcolor='$theme[color_logobar_bg]' colspan='2' align='center'>";
+    echo "<form action='upload_text.php' method='POST' enctype='multipart/form-data'>\n";
+    echo "<br>\n";
+    echo "<table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>\n";
+    echo "<tr>\n";
+    echo "<td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>\n";
+    echo "  <b><font color='#ffffff'>$title</font></b>\n";
+    echo "<td bgcolor='#ffffff' align='center'>\n";
+    echo "  <input type='hidden' name='project' value='$projectid'>\n";
+    echo "  <input type='hidden' name='stage' value='$stage'>\n";
+    echo "  <input type='hidden' name='weeks' value='$weeks'>\n";
+    echo "  <input type='hidden' name='action' value='1'>\n";
+    echo "  <input type='hidden' name='MAX_FILE_SIZE' value='25165824'>\n";
+
+    echo "<tr>\n";
+    echo "<td bgcolor='#e0e8dd' align='center'>\n";
+    echo    $file_blurb;
+    echo "<td bgcolor='#ffffff' align='center'>\n";
+    echo "  <input type='file' name='files[]' size='25' maxsize='50'>\n";
+
+    echo "<tr>\n";
+    echo "<td bgcolor='$theme[color_logobar_bg]' colspan='2' align='center'>\n";
     if ($stage != 'smooth_done') {
         if ($stage != 'smooth_avail') {
-            echo "<strong>"._("Leave Comments:")."</strong>";
+            echo "<strong>"._("Leave Comments:")."</strong>\n";
         } else {
-            echo "<strong>"._("Leave Instructions for Smooth Readers:")."</strong>";
+            echo "<strong>"._("Leave Instructions for Smooth Readers:")."</strong>\n";
         }
-        echo "<tr><td bgcolor='#e0e8dd' colspan='2' align='center'>";
-        echo "<textarea name='postcomments' cols='50' rows='16'></textarea>";
+        echo "<tr>\n";
+        echo "<td bgcolor='#e0e8dd' colspan='2' align='center'>\n";
+        echo "  <textarea name='postcomments' cols='50' rows='16'></textarea>\n";
     }
-    echo "<tr><td bgcolor='$theme[color_logobar_bg]' colspan='2' align='center'>";
-    echo "<input type='submit' value='Upload'>";
-    echo "<tr><td bgcolor='#ffffff' colspan='2' align='center'>";
-    echo $bottom_blurb;
-    echo "<br>$big_upload_blurb";
-    echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
-    echo "<a href='$back_url'><b>$back_blurb</b></a>";
-    echo "</td></tr></table></form></div></center>";
+
+    echo "<tr>\n";
+    echo "<td bgcolor='$theme[color_logobar_bg]' colspan='2' align='center'>\n";
+    echo "  <input type='submit' value='Upload'>\n";
+
+    echo "<tr>\n";
+    echo "<td bgcolor='#ffffff' colspan='2' align='center'>\n";
+    echo    $bottom_blurb;
+    echo "  <br>$big_upload_blurb\n";
+
+    echo "<tr>\n";
+    echo "<td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>\n";
+    echo "<a href='$back_url'><b>$back_blurb</b></a>\n";
+    echo "</td>\n";
+    echo "</tr>\n";
+    echo "</table>\n";
+    echo "</form>\n";
+    echo "</div></center>\n";
+
     theme("", "footer");
 
 }
