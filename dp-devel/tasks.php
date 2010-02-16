@@ -369,7 +369,9 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
     }
 } elseif (isset($_POST['new_comment'])) {
     $task_id = $_POST['new_comment'];
-    if (!empty($_POST['task_comment'])) {
+    if (!is_numeric($task_id)) {
+        ShowNotification("Error: task identifier '$task_id' is not numeric.");
+    } else if (!empty($_POST['task_comment'])) {
         NotificationMail($task_id, "There has been a comment added to this task by $pguser on ".date("l, F jS, Y", time())." at ".date("g:i a", time()).".\n");
         $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
         $u_id = mysql_result($result, 0, "u_id");
