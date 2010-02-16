@@ -17,14 +17,14 @@ $stage   = $_REQUEST['stage'];
 $weeks   = @$_REQUEST['weeks'];
 $action  = @$_REQUEST['action'];
 
-$standard_blurb = _("<B>Note:</B>Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
+$standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
 $big_upload_blurb = sprintf(_("<b>Note about big uploads:</b> 
     If you are trying to upload a very big zip file (e.g. 10 Mb)
     and the upload does not succeed, upload a small placeholder zip file 
     instead and email %s for assistance."), $db_requests_email_addr);
 
-$standard_file_blurb = "<STRONG>"._("Zipped File:")."</STRONG>";
-$optional_file_blurb = "<STRONG>"._("Zipped File (optional):")."</STRONG>";
+$standard_file_blurb = "<strong>"._("Zipped File:")."</strong>";
+$optional_file_blurb = "<strong>"._("Zipped File (optional):")."</strong>";
 
 if ($stage == 'post_1')
 {
@@ -138,38 +138,38 @@ if (!isset($action))
 
     theme($title, "header");
 
-    echo "<FORM ACTION='upload_text.php' METHOD='POST' ENCTYPE='multipart/form-data'>";
+    echo "<form action='upload_text.php' method='POST' enctype='multipart/form-data'>";
     echo "<br><table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
     echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
     echo "<B><font color='#ffffff'>$title</font></B>";
     echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<INPUT TYPE='hidden' NAME='project' VALUE='$projectid'>";
-    echo "<INPUT TYPE='hidden' NAME='stage' VALUE='$stage'>";
-    echo "<INPUT TYPE='hidden' NAME='weeks' VALUE='$weeks'>";
-    echo "<INPUT TYPE='hidden' NAME='action' VALUE='1'>";
-    echo "<INPUT TYPE='hidden' NAME='MAX_FILE_SIZE' VALUE='25165824'>";
+    echo "<input type='hidden' name='project' value='$projectid'>";
+    echo "<input type='hidden' name='stage' value='$stage'>";
+    echo "<input type='hidden' name='weeks' value='$weeks'>";
+    echo "<input type='hidden' name='action' value='1'>";
+    echo "<input type='hidden' name='MAX_FILE_SIZE' value='25165824'>";
     echo "<tr><td bgcolor='#e0e8dd' align='center'>";
     echo $file_blurb;
     echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<INPUT TYPE='file' NAME='files[]' SIZE='25' MAXSIZE='50'>";
+    echo "<input type='file' name='files[]' size='25' maxsize='50'>";
     echo "<tr><td bgcolor='$theme[color_logobar_bg]' colspan='2' align='center'>";
     if ($stage != 'smooth_done') {
         if ($stage != 'smooth_avail') {
-            echo "<STRONG>"._("Leave Comments:")."</STRONG>";
+            echo "<strong>"._("Leave Comments:")."</strong>";
         } else {
-            echo "<STRONG>"._("Leave Instructions for Smooth Readers:")."</STRONG>";
+            echo "<strong>"._("Leave Instructions for Smooth Readers:")."</strong>";
         }
         echo "<tr><td bgcolor='#e0e8dd' colspan='2' align='center'>";
-        echo "<textarea NAME='postcomments' COLS='50' ROWS='16'></textarea>";
+        echo "<textarea name='postcomments' cols='50' rows='16'></textarea>";
     }
     echo "<tr><td bgcolor='$theme[color_logobar_bg]' colspan='2' align='center'>";
-    echo "<INPUT TYPE='submit' VALUE='Upload'>";
+    echo "<input type='submit' value='Upload'>";
     echo "<tr><td bgcolor='#ffffff' colspan='2' align='center'>";
     echo $bottom_blurb;
     echo "<br>$big_upload_blurb";
     echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
-    echo "<A HREF='$back_url'><B>$back_blurb</B></A>";
-    echo "</TD></TR></TABLE></FORM></DIV></CENTER>";
+    echo "<a href='$back_url'><b>$back_blurb</b></a>";
+    echo "</td></tr></table></form></div></center>";
     theme("", "footer");
 
 }
