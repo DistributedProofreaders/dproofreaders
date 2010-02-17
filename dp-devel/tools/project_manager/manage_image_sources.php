@@ -8,6 +8,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 $theme_args['css_data'] = "
 table.source { width:75%; border-collapse:collapse;
@@ -20,14 +21,9 @@ td.pa {width:30%; font-weight:bold; }";
 
 $page_url = "$code_url/tools/project_manager/manage_image_sources.php?".rand(1000,9999);
 
-$action = @$_REQUEST['action'];
-
-if (empty($action))
-    $action = 'show_sources';
-
-if ( !in_array($action,array('show_sources','add_source','edit_source','update_oneshot')) )
-    die("Bad 'action': $action");
-
+$action = get_enumerated_param($_REQUEST, 'action', 'show_sources',
+              array('show_sources','add_source','edit_source','update_oneshot')
+          );
 
 $can_edit = user_is_image_sources_manager();
 
