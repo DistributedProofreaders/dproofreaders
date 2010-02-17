@@ -28,8 +28,8 @@ $optional_file_blurb = "<strong>"._("Zipped File (optional):")."</strong>";
 
 if ($stage == 'post_1')
 {
-    $title = _("Upload Post-Processed File for Verification");
-    $intro_blurb = _("This page allows you to upload a Post-Processed file for Verification.");
+    $title = _("Upload post-processed file for verification");
+    $intro_blurb = _("This page allows you to upload a post-processed file for verification.");
     $submit_button = _("Upload file");
     $file_blurb = $standard_file_blurb;
     $indicator = "_second";
@@ -41,8 +41,8 @@ if ($stage == 'post_1')
 }
 else if ($stage == 'return_1')
 {
-    $title = _("Return project to the Post-Processing Pool");
-    $intro_blurb = _("This page allows you to return the project to the post-processing pool. You can optionally upload a partially Post-Processed file for another Post Processor to pick up and use.");
+    $title = _("Return project to the post-processing pool");
+    $intro_blurb = _("This page allows you to return the project to the post-processing pool. You can optionally upload a partially post-processed file for another post-processor to pick up and use.");
     $submit_button = _("Return project");
     $file_blurb = $optional_file_blurb;
     $indicator = "_first_in_prog_".$pguser;
@@ -57,8 +57,8 @@ else if ($stage == 'return_1')
 }
 else if ($stage == 'return_2')
 {
-    $title = _("Return project to the Post-Processing Verification Pool");
-    $intro_blurb = _("This page allows you to return the project to the post-processing verification pool. You can optionally upload a partially Verified file for another Verifier to pick up and use.");
+    $title = _("Return project to the post-processing verification pool");
+    $intro_blurb = _("This page allows you to return the project to the post-processing verification pool. You can optionally upload a partially verified file for another verifier to pick up and use.");
     $submit_button = _("Return project");
     $file_blurb = $optional_file_blurb;
     $indicator = "_second_in_prog_".$pguser;
@@ -73,7 +73,7 @@ else if ($stage == 'return_2')
 }
 else if ($stage == 'correct')
 {
-    $title = _("Upload Corrected Edition");
+    $title = _("Upload corrected edition");
     $intro_blurb = _("This page allows you to upload a corrected version of the completed e-text if you've found an error.");
     $submit_button = _("Upload file");
     $file_blurb = $standard_file_blurb;
@@ -90,8 +90,8 @@ else if ($stage == 'correct')
 }
 else if ($stage == 'smooth_avail')
 {
-    $title = _("Upload File for Smooth Reading");
-    $intro_blurb = _("This page allows you to upload a fully Post-Processed file for Smooth Reading.");
+    $title = _("Upload file for smooth reading");
+    $intro_blurb = _("This page allows you to upload a fully post-processed file for smooth reading.");
     $submit_button = _("Upload file");
     $file_blurb = $standard_file_blurb;
     $indicator = "_smooth_avail";
@@ -104,8 +104,8 @@ else if ($stage == 'smooth_avail')
 }
 else if ($stage == 'smooth_done')
 {
-    $title = _("Upload Smooth Read Version");
-    $intro_blurb = _("This page allows you to upload a Smooth Read version of the project.");
+    $title = _("Upload smooth read version");
+    $intro_blurb = _("This page allows you to upload a smooth read version of the project.");
     $submit_button = _("Upload file");
     $file_blurb = $standard_file_blurb;
     $indicator = "_smooth_done_".$pguser;
@@ -177,7 +177,7 @@ if (!isset($action))
         if ($stage != 'smooth_avail') {
             echo "<strong>"._("Leave Comments:")."</strong>\n";
         } else {
-            echo "<strong>"._("Leave Instructions for Smooth Readers:")."</strong>\n";
+            echo "<strong>"._("Leave Instructions for smooth readers:")."</strong>\n";
         }
         echo "</td>\n";
         echo "</tr>\n";
