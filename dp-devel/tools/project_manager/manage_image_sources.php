@@ -27,47 +27,7 @@ $action = get_enumerated_param($_REQUEST, 'action', 'show_sources',
 
 $can_edit = user_is_image_sources_manager();
 
-if ($action == 'show_sources')
-{
-    // The more detailed listing of image sources is only available
-    // to managers.
-    if (!$can_edit)
-        metarefresh(0,"$code_url/tools/project_manager/show_image_sources.php");
-
-    theme(_('List Image Sources'),'header', $theme_args);
-
-    show_is_toolbar();
-
-    $result = mysql_query("SELECT code_name FROM image_sources ORDER BY display_name ASC");
-
-    echo "<br />";
-    while ( list($source_name) = mysql_fetch_row($result) )
-    {
-        $source = new ImageSource($source_name);
-        $source->show_summary();
-        echo "<hr style='margin: 1em auto 1em auto; width:50%;text-align:center;' />";
-    }
-
-}
-
-elseif ($action == 'edit_source')
-{
-    $source = new ImageSource($_REQUEST['source']);
-    theme(sprintf(_("Editing %s"),$source->display_name),'header',$theme_args);
-    show_is_toolbar();
-    $source->show_edit_form();
-}
-
-elseif ($action == 'add_source')
-{
-    $title = $can_edit ? _('Add a new image source') : _('Propose a new image source');
-    theme($title,'header',$theme_args);
-    show_is_toolbar();
-    $blank = new ImageSource(null);
-    $blank->show_edit_form();
-}
-
-elseif ($action == 'update_oneshot')
+if ($action == 'update_oneshot')
 {
 
     if (isset($_REQUEST['edit']))
@@ -132,6 +92,46 @@ elseif ($action == 'update_oneshot')
         echo _("Your proposal has been successfully recorded. You will be
             notified by email once it has been approved.");
     }
+}
+
+elseif ($action == 'show_sources')
+{
+    // The more detailed listing of image sources is only available
+    // to managers.
+    if (!$can_edit)
+        metarefresh(0,"$code_url/tools/project_manager/show_image_sources.php");
+
+    theme(_('List Image Sources'),'header', $theme_args);
+
+    show_is_toolbar();
+
+    $result = mysql_query("SELECT code_name FROM image_sources ORDER BY display_name ASC");
+
+    echo "<br />";
+    while ( list($source_name) = mysql_fetch_row($result) )
+    {
+        $source = new ImageSource($source_name);
+        $source->show_summary();
+        echo "<hr style='margin: 1em auto 1em auto; width:50%;text-align:center;' />";
+    }
+
+}
+
+elseif ($action == 'edit_source')
+{
+    $source = new ImageSource($_REQUEST['source']);
+    theme(sprintf(_("Editing %s"),$source->display_name),'header',$theme_args);
+    show_is_toolbar();
+    $source->show_edit_form();
+}
+
+elseif ($action == 'add_source')
+{
+    $title = $can_edit ? _('Add a new image source') : _('Propose a new image source');
+    theme($title,'header',$theme_args);
+    show_is_toolbar();
+    $blank = new ImageSource(null);
+    $blank->show_edit_form();
 }
 
 
