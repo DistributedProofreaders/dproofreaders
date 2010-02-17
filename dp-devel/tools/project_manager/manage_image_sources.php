@@ -22,39 +22,43 @@ td.pa {width:30%; font-weight:bold; }";
 $page_url = "$code_url/tools/project_manager/manage_image_sources.php?".rand(1000,9999);
 
 $action = get_enumerated_param($_REQUEST, 'action', 'show_sources',
-              array('show_sources','add_source','edit_source','update_oneshot')
+              array('show_sources','add_source','update_oneshot')
           );
 
 $can_edit = user_is_image_sources_manager();
 
+// Action 'update_oneshot' is used as a target for form submit buttons. The
+// desired action is based on the submit button's name. Here we do the action
+// and set $action to 'show_sources' to display the list all in one page load.
 if ($action == 'update_oneshot')
 {
-
     if (isset($_REQUEST['edit']))
-        metarefresh(0,"$page_url&action=edit_source&source=$_REQUEST[source]");
-    if (isset($_REQUEST['enable']))
+    {
+        $action = 'edit_source';
+    }
+
+    elseif (isset($_REQUEST['enable']))
     {
         $source = new ImageSource($_REQUEST['source']);
         $source->enable();
-        metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]");
+        $action='show_sources';
     }
 
-    if (isset($_REQUEST['disable']))
+    elseif (isset($_REQUEST['disable']))
     {
         $source = new ImageSource($_REQUEST['source']);
         $source->disable();
-        metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]");
+        $action='show_sources';
     }
 
-    if (isset($_REQUEST['approve']))
+    elseif (isset($_REQUEST['approve']))
     {
         $source = new ImageSource($_REQUEST['source']);
         $source->approve();
-        metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]");
+        $action='show_sources';
     }
 
-
-    if (isset($_REQUEST['save_edits']))
+    elseif (isset($_REQUEST['save_edits']))
     {
         # This handles both edits to existing sources, and the creation of new sources
         $source = new ImageSource;
@@ -84,17 +88,23 @@ if ($action == 'update_oneshot')
 
         $source->save_from_post();
         if ($can_edit)
-            metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]");
+        {
+            $action = 'show_sources';
+        }
+        else
+        {
+            theme('','header');
+                if ($new)
+                    $source->log_request_for_approval($pguser);
+                echo _("Your proposal has been successfully recorded. You will be
+                    notified by email once it has been approved.");
+            theme('','footer');
+        }
 
-        theme('','header');
-        if ($new)
-            $source->log_request_for_approval($pguser);
-        echo _("Your proposal has been successfully recorded. You will be
-            notified by email once it has been approved.");
     }
 }
 
-elseif ($action == 'show_sources')
+if ($action == 'show_sources')
 {
     // The more detailed listing of image sources is only available
     // to managers.
@@ -115,6 +125,7 @@ elseif ($action == 'show_sources')
         echo "<hr style='margin: 1em auto 1em auto; width:50%;text-align:center;' />";
     }
 
+    theme('','footer');
 }
 
 elseif ($action == 'edit_source')
@@ -123,6 +134,7 @@ elseif ($action == 'edit_source')
     theme(sprintf(_("Editing %s"),$source->display_name),'header',$theme_args);
     show_is_toolbar();
     $source->show_edit_form();
+    theme('','footer');
 }
 
 elseif ($action == 'add_source')
@@ -132,10 +144,9 @@ elseif ($action == 'add_source')
     show_is_toolbar();
     $blank = new ImageSource(null);
     $blank->show_edit_form();
+    theme('','footer');
 }
 
-
-theme('','footer');
 
 // ----------------------------------------------------------------------------
 
@@ -168,7 +179,7 @@ class ImageSource
         $sid = $this->code_name;
         echo "<a name='$sid' id='$sid'></a>
             <table class='source'><form method='post'
-            action='$page_url&amp;action=update_oneshot&amp;source=$sid'>\n";
+            action='$page_url&amp;action=update_oneshot&amp;source=$sid#$sid'>\n";
 
         $this->_show_summary_row(_('Image Source ID'), $this->code_name);
         $this->_show_summary_row(_('Display Name'),$this->display_name);
@@ -213,7 +224,7 @@ class ImageSource
     {
         global $page_url;
         echo "<table class='source'><form method='post'
-            action='$page_url&amp;action=update_oneshot'>\n";
+            action='$page_url&amp;action=update_oneshot#$this->code_name'>\n";
 
         if($this->new_source)
         {
