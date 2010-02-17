@@ -29,23 +29,25 @@ $optional_file_blurb = "<strong>"._("Zipped File (optional):")."</strong>";
 if ($stage == 'post_1')
 {
     $title = _("Upload Post-Processed File for Verification");
+    $intro_blurb = _("This page allows you to upload a Post-Processed file for Verification.");
     $file_blurb = $standard_file_blurb;
     $indicator = "_second";
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
-    $back_blurb = _("Back to Post Processors Page");
+    $back_blurb = _("Back to Post-Processing Page");
     $bottom_blurb = $standard_blurb;
 }
 else if ($stage == 'return_1')
 {
-    $title = _("Upload In progress Post-Processed File for others to work on");
+    $title = _("Return project to the Post-Processing Pool");
+    $intro_blurb = _("This page allows you to return the project to the post-processing pool. You can optionally upload a partially Post-Processed file for another Post Processor to pick up and use.");
     $file_blurb = $optional_file_blurb;
     $indicator = "_first_in_prog_".$pguser;
     $new_state = PROJ_POST_FIRST_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
-    $back_blurb = _("Back to Post Processors Page");
+    $back_blurb = _("Back to Post-Processing Page");
     $bottom_blurb = $standard_blurb . 
         "  <b>" . 
         _("To return the project to the pool without uploading a file, leave the file name empty and click on Upload.") .
@@ -53,13 +55,14 @@ else if ($stage == 'return_1')
 }
 else if ($stage == 'return_2')
 {
-    $title = _("Upload In progress Verified File for others to work on");
+    $title = _("Return project to the Post-Processing Verification Pool");
+    $intro_blurb = _("This page allows you to return the project to the post-processing verification pool. You can optionally upload a partially Verified file for another Verifier to pick up and use.");
     $file_blurb = $optional_file_blurb;
     $indicator = "_second_in_prog_".$pguser;
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PPV";
-    $back_blurb = _("Back to Post Processor Verification Page");
+    $back_blurb = _("Back to Post-Processing Verification Page");
     $bottom_blurb = $standard_blurb . 
         "  <b>" . 
         _("To return the project to the pool without uploading a file, leave the file name empty and click on Upload.") .
@@ -68,6 +71,7 @@ else if ($stage == 'return_2')
 else if ($stage == 'correct')
 {
     $title = _("Upload Corrected Edition for Verification");
+    $intro_blurb = _("This page allows you to upload a corrected Post-Processed file for Verification.");
     $file_blurb = $standard_file_blurb;
     $indicator = "_corrections";
     $new_state = PROJ_CORRECT_AVAILABLE;
@@ -82,7 +86,8 @@ else if ($stage == 'correct')
 }
 else if ($stage == 'smooth_avail')
 {
-    $title = _("Upload File Ready for Smooth Reading");
+    $title = _("Upload File for Smooth Reading");
+    $intro_blurb = _("This page allows you to upload a fully Post-Processed file for Smooth Reading.");
     $file_blurb = $standard_file_blurb;
     $indicator = "_smooth_avail";
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
@@ -95,6 +100,7 @@ else if ($stage == 'smooth_avail')
 else if ($stage == 'smooth_done')
 {
     $title = _("Upload Smooth Read Version");
+    $intro_blurb = _("This page allows you to upload a Smooth Read version of the project.");
     $file_blurb = $standard_file_blurb;
     $indicator = "_smooth_done_".$pguser;
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
@@ -138,6 +144,9 @@ if (!isset($action))
 
     theme($title, "header");
 
+    echo "<h1>$title</h1>";
+    echo "<p>$intro_blurb</p>";
+
     echo "<form action='upload_text.php' method='POST' enctype='multipart/form-data'>\n";
     echo "<input type='hidden' name='project' value='$projectid'>\n";
     echo "<input type='hidden' name='stage' value='$stage'>\n";
@@ -147,12 +156,6 @@ if (!isset($action))
 
     echo "<br>\n";
     echo "<table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>\n";
-    echo "<tr>\n";
-    echo "<td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>\n";
-    echo "  <b><font color='#ffffff'>$title</font></b>\n";
-    echo "</td>\n";
-    echo "</tr>\n";
-
     echo "<tr>\n";
     echo "<td bgcolor='#e0e8dd' align='center'>\n";
     echo    $file_blurb;
