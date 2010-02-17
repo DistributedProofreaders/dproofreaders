@@ -26,15 +26,12 @@ $big_upload_blurb = sprintf(_("<b>Note about big uploads:</b>
     and the upload does not succeed, upload a small placeholder zip file 
     instead and email %s for assistance."), $db_requests_email_addr);
 
-$standard_file_blurb = "<strong>"._("Zipped File:")."</strong>";
-$optional_file_blurb = "<strong>"._("Zipped File (optional):")."</strong>";
-
 if ($stage == 'post_1')
 {
     $title = _("Upload post-processed file for verification");
     $intro_blurb = _("This page allows you to upload a post-processed file for verification.");
     $submit_button = _("Upload file");
-    $file_blurb = $standard_file_blurb;
+    $is_file_optional = FALSE;
     $indicator = "_second";
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
@@ -47,7 +44,7 @@ else if ($stage == 'return_1')
     $title = _("Return project to the post-processing pool");
     $intro_blurb = _("This page allows you to return the project to the post-processing pool. You can optionally upload a partially post-processed file for another post-processor to pick up and use.");
     $submit_button = _("Return project");
-    $file_blurb = $optional_file_blurb;
+    $is_file_optional = TRUE;
     $indicator = "_first_in_prog_".$pguser;
     $new_state = PROJ_POST_FIRST_AVAILABLE;
     $extras = array();
@@ -63,7 +60,7 @@ else if ($stage == 'return_2')
     $title = _("Return project to the post-processing verification pool");
     $intro_blurb = _("This page allows you to return the project to the post-processing verification pool. You can optionally upload a partially verified file for another verifier to pick up and use.");
     $submit_button = _("Return project");
-    $file_blurb = $optional_file_blurb;
+    $is_file_optional = TRUE;
     $indicator = "_second_in_prog_".$pguser;
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
@@ -79,7 +76,7 @@ else if ($stage == 'correct')
     $title = _("Upload corrected edition");
     $intro_blurb = _("This page allows you to upload a corrected version of the completed e-text if you've found an error.");
     $submit_button = _("Upload file");
-    $file_blurb = $standard_file_blurb;
+    $is_file_optional = FALSE;
     $indicator = "_corrections";
     $new_state = PROJ_CORRECT_AVAILABLE;
     $extras = array();
@@ -96,7 +93,7 @@ else if ($stage == 'smooth_avail')
     $title = _("Upload file for smooth reading");
     $intro_blurb = _("This page allows you to upload a fully post-processed file for smooth reading.");
     $submit_button = _("Upload file");
-    $file_blurb = $standard_file_blurb;
+    $is_file_optional = FALSE;
     $indicator = "_smooth_avail";
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $extras = array();
@@ -110,7 +107,7 @@ else if ($stage == 'smooth_done')
     $title = _("Upload smooth read version");
     $intro_blurb = _("This page allows you to upload a smooth read version of the project.");
     $submit_button = _("Upload file");
-    $file_blurb = $standard_file_blurb;
+    $is_file_optional = FALSE;
     $indicator = "_smooth_done_".$pguser;
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $extras = array();
@@ -170,7 +167,11 @@ if (!isset($action))
     echo "<table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>\n";
     echo "<tr>\n";
     echo "<td bgcolor='#e0e8dd' align='center'>\n";
-    echo    $file_blurb;
+    if($is_file_optional) {
+        echo "<strong>"._("Zipped File (optional):")."</strong>";
+    } else {
+        echo "<strong>"._("Zipped File:")."</strong>";
+    }
     echo "</td>\n";
     echo "<td bgcolor='#ffffff' align='center'>\n";
     echo "  <input type='file' name='files[]' size='25' maxsize='50'>\n";
