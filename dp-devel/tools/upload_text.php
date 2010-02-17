@@ -163,55 +163,40 @@ if (!isset($action))
     echo "<input type='hidden' name='action' value='1'>\n";
     echo "<input type='hidden' name='MAX_FILE_SIZE' value='25165824'>\n";
 
-    echo "<br>\n";
-    echo "<table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>\n";
-    echo "<tr>\n";
-    echo "<td bgcolor='#e0e8dd' align='center'>\n";
+    echo "<p>" . _("Follow these steps:") . "</p>\n";
+    echo "<ol>\n";
+
+    echo "<li>";
     if($is_file_optional) {
-        echo "<strong>"._("Zipped File (optional):")."</strong>";
+        echo _("(optional) Select a zipped file to upload:");
     } else {
-        echo "<strong>"._("Zipped File:")."</strong>";
+        echo _("Select a zipped file to upload:");
     }
-    echo "</td>\n";
-    echo "<td bgcolor='#ffffff' align='center'>\n";
-    echo "  <input type='file' name='files[]' size='25' maxsize='50'>\n";
-    echo "</td>\n";
-    echo "</tr>\n";
+    echo "<br>\n";
+    echo "<input type='file' name='files[]' size='25' maxsize='50'>\n";
+    echo "<p>$bottom_blurb</p>";
+    echo "<p>$big_upload_blurb</p>\n";
+    echo "</li>\n";
 
-    echo "<tr>\n";
-    echo "<td bgcolor='$theme[color_logobar_bg]' colspan='2' align='center'>\n";
     if ($stage != 'smooth_done') {
+        echo "<li>";
         if ($stage != 'smooth_avail') {
-            echo "<strong>"._("Leave Comments:")."</strong>\n";
+            echo _("(optional) Leave comments for the next person who checks out this project:");
         } else {
-            echo "<strong>"._("Leave Instructions for smooth readers:")."</strong>\n";
+            echo _("Leave instructions for smooth readers:");
         }
-        echo "</td>\n";
-        echo "</tr>\n";
-
-        echo "<tr>\n";
-        echo "<td bgcolor='#e0e8dd' colspan='2' align='center'>\n";
-        echo "  <textarea name='postcomments' cols='50' rows='16'></textarea>\n";
+        echo "<br>\n";
+        echo "<textarea style='margin-bottom: 1em;' name='postcomments' cols='75' rows='10'></textarea>\n";
+        echo "</li>\n";
     }
-    echo "</td>\n";
-    echo "</tr>\n";
 
-    echo "<tr>\n";
-    echo "<td bgcolor='$theme[color_logobar_bg]' colspan='2' align='center'>\n";
+    echo "<li>";
     echo sprintf(_('<input type="submit" value="%1$s"> or return to the <a href="%2$s">%3$s</a>.'),
             attr_safe($submit_button), $back_url, $back_blurb);
-    echo "</td>\n";
-    echo "</tr>\n";
-
-    echo "<tr>\n";
-    echo "<td bgcolor='#ffffff' colspan='2' align='center'>\n";
-    echo    $bottom_blurb;
     echo "<p>" . sprintf($submit_blurb,$submit_button) . "</p>";
-    echo "  $big_upload_blurb\n";
-    echo "</td>\n";
-    echo "</tr>\n";
+    echo "</li>\n";
+    echo "</ol>";
 
-    echo "</table>\n";
     echo "</form>\n";
 
     theme("", "footer");
