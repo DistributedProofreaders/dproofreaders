@@ -10,14 +10,23 @@ include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param()
 
+$no_stats=1;
 $theme_args['css_data'] = "
+table.listing { border-collapse:collapse; }
+table.listing td { border: 1px solid #999; }
+table.listing tr.e { background-color: white; }
+table.listing tr.o { background-color: #ddd; }
+table.listing td { padding: 5px; }
+table.listing td.enabled { background-color: #9f9; text-align: center; }
+table.listing td.disabled { background-color: #ddd; text-align: center; }
+table.listing td.pending { background-color: #ff8; text-align: center; }
+table.listing td.center { text-align: center; }
+form { padding: 0; margin: 0; }
+
 table.source { width:75%; border-collapse:collapse;
     margin-left: auto; margin-right: auto; }
 table.source td { border:1px solid black; padding:5px; }
-td.enabled { background-color: #9f9; }
-td.disabled { background-color: #ddd; }
-td.pending { background-color: #ff8; }
-td.pa {width:30%; font-weight:bold; }";
+table.source td.pa {width:30%; font-weight:bold; }";
 
 $page_url = "$code_url/tools/project_manager/manage_image_sources.php?";
 
@@ -118,12 +127,26 @@ if ($action == 'show_sources')
     $result = mysql_query("SELECT code_name FROM image_sources ORDER BY display_name ASC");
 
     echo "<br />";
+    echo "<table class='listing'>";
+    echo "<tr>";
+    echo "<th>" . _("ID") . "</th>";
+    echo "<th>" . _("Display Name") . "</th>";
+    echo "<th>" . _("Full Name") . "</th>";
+    echo "<th>" . _("Status") . "</th>";
+    echo "<th>" . _("Images<br>stored") . "</th>";
+    echo "<th>" . _("Images<br>published") . "</th>";
+    echo "<th>" . _("Source shown to") . "</th>";
+    echo "</tr>";
+    $count=0;
     while ( list($source_name) = mysql_fetch_row($result) )
     {
+        $count++;
+
         $source = new ImageSource($source_name);
-        $source->show_summary();
-        echo "<hr style='margin: 1em auto 1em auto; width:50%;text-align:center;' />";
+        $source->show_listing_row($count);
     }
+    echo "</table>";
+    echo "<br>";
 
     theme('','footer');
 }
@@ -173,35 +196,59 @@ class ImageSource
         }
     }
 
-    function show_summary()
+    function show_listing_row($count)
     {
         global $page_url;
         $sid = $this->code_name;
-        echo "<a name='$sid' id='$sid'></a>
-            <table class='source'><form method='post'
-            action='$page_url&amp;action=update_oneshot&amp;source=$sid#$sid'>\n";
 
-        $this->_show_summary_row(_('Image Source ID'), $this->code_name);
-        $this->_show_summary_row(_('Display Name'),$this->display_name);
-        $this->_show_summary_row(_('Full Name'),$this->full_name);
-        echo "<tr><td class='pa'>" . _("Status") . "</td>" .
-                $this->_get_status_cell($this->is_active,' pb') . "</tr>";
-        $this->_show_summary_row(_('Web site'),make_link($this->url),false);
-        $this->_show_summary_row(_('Credits Line'),$this->credit);
-        echo "<tr><td class='pa'>" . _("Permissions") . "</td>" .
-                 $this->_get_permissions_cell(
-                     $this->ok_keep_images,
-                     $this->ok_show_images,
-                     $this->info_page_visibility
-                 ) . "</tr>";
-        $this->_show_summary_row(_('Comment (public)'),$this->public_comment);
-        $this->_show_summary_row(_('Notes (internal)'),$this->internal_comment);
+        if($count%2 == "1")
+            $row_class = "o";
+        else
+            $row_class = "e";
 
-        echo "<tr><td colspan='2' style='text-align:center;'>";
-            $this->show_buttons();
-        echo "</td> </tr> </form> </table>\n\n";
+        // calculate how many rows this listing will have so we can span them
+        // for some columns
+        $listing_rows = 2;
+        if($this->public_comment)
+            $listing_rows++;
+        if($this->internal_comment)
+            $listing_rows++;
+
+        echo "<tr class='$row_class'>";
+        echo "<td rowspan='$listing_rows'><a name='$sid' id='$sid'></a>$this->code_name</td>";
+        echo "<td>" . $this->display_name . "</td>";
+        echo "<td>" . make_link($this->url, $this->full_name) . "</td>";
+        echo $this->_get_status_cell($this->is_active,' pb');
+        echo "<td class='center'>" . $this->_may_maynot_unknown($this->ok_keep_images) . "</td>";
+        echo "<td class='center'>" . $this->_may_maynot_unknown($this->ok_show_images) . "</td>";
+        echo "<td>" . $this->_showto($this->info_page_visibility) . "</td>";
+        echo "<td class='center' rowspan='$listing_rows'>";
+        echo "<form method='post' action='$page_url#$sid'>";
+        echo "  <input type='hidden' name='action' value='update_oneshot'>\n";
+        echo "  <input type='hidden' name='source' value='$sid'>\n";
+                $this->show_buttons();
+        echo "</form>";
+        echo "</td>";
+        echo "</tr>";
+
+        echo "<tr class='$row_class'>";
+        echo "<td colspan='6'>" . sprintf(_("<b>Credits Line:</b> %s"), $this->credit) . "</td>";
+        echo "</tr>";
+
+        if($this->public_comment)
+        {
+            echo "<tr class='$row_class'>";
+            echo "<td colspan='6'>" . sprintf(_("<b>Comment (public):</b> %s"), $this->public_comment) . "</td>";
+            echo "</tr>";
+        }
+
+        if($this->internal_comment)
+        {
+            echo "<tr class='$row_class'>";
+            echo "<td colspan='6'>" . sprintf(_("<b>Notes (internal):</b> %s"), $this->internal_comment) . "</td>";
+            echo "</tr>";
+        }
     }
-
 
     function show_buttons()
     {
@@ -453,27 +500,19 @@ class ImageSource
         return $open . $middle . '</td>';
     }
 
-    function _get_permissions_cell($can_keep, $can_publish, $show_to, $class = '')
+    function _may_maynot_unknown($value)
+    {
+        if ($value != '-1')
+        {
+            return ( $value ? _('may') : _('may not') );
+        }
+        else
+            return "unknown";
+    }
+
+    function _showto($show_to)
     {
         global $site_abbreviation;
-        $cell = "<td class='$class'>";
-
-        if ($can_keep != '-1')
-        {
-            $cell .= sprintf("Images from this provider <b>%s</b> be stored.<br />",
-               ( $can_keep ? _('may') : _('may not') ));
-        }
-        else
-            $cell .= _("It is <b>unknown</b> whether images from this source may be stored. <br />");
-
-        if ($can_publish != '-1')
-        {
-            $cell .= sprintf("Images from this provider <b>%s</b> be published.<br />",
-               ( $can_publish ? _('may') : _('may not') ));
-        }
-        else
-            $cell .= _("It is <b>unknown</b> whether images from this source may be published.<br />");
-
         switch ($show_to)
         {
             case '0': $to_whom = _("Image Managers Only");
@@ -485,14 +524,7 @@ class ImageSource
             case '3':  $to_whom = _("All Users and Visitors");
                 break;
         }
-
-        $cell .= sprintf("Information about this source is shown to <b>%s</b>.<br />",
-                   $to_whom);
-
-
-       $cell .= '</td>';
-
-       return $cell;
+        return $to_whom;
     }
 
     function log_request_for_approval($requestor_username)
@@ -522,16 +554,16 @@ class ImageSource
 
 // ----------------------------------------------------------------------------
 
-function make_link($url)
+function make_link($url,$label)
 {
     $start = substr($url,0,3);
     if ($start == 'htt')
     {
-        return "<a href='$url'>$url</a>";
+        return "<a href='$url'>$label</a>";
     }
     else
     {
-        return "<a href='http://$url'>$url</a>";
+        return "<a href='http://$url'>$label</a>";
     }
 }
 
