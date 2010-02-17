@@ -32,10 +32,7 @@ if ($action == 'show_sources')
     // The more detailed listing of image sources is only available
     // to managers.
     if (!$can_edit)
-    {
-        header("Location: $code_url/tools/project_manager/show_image_sources.php");
-        die;
-    }
+        metarefresh(0,"$code_url/tools/project_manager/show_image_sources.php");
 
     theme(_('List Image Sources'),'header', $theme_args);
 
@@ -74,32 +71,26 @@ elseif ($action == 'update_oneshot')
 {
 
     if (isset($_REQUEST['edit']))
-    {
-        metarefresh(0,"$page_url&action=edit_source&source=$_REQUEST[source]",'','');
-        die;
-    }
+        metarefresh(0,"$page_url&action=edit_source&source=$_REQUEST[source]");
     if (isset($_REQUEST['enable']))
     {
         $source = new ImageSource($_REQUEST['source']);
         $source->enable();
-        metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]",'','');
-        die;
+        metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]");
     }
 
     if (isset($_REQUEST['disable']))
     {
         $source = new ImageSource($_REQUEST['source']);
         $source->disable();
-        metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]",'','');
-        die;
+        metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]");
     }
 
     if (isset($_REQUEST['approve']))
     {
         $source = new ImageSource($_REQUEST['source']);
         $source->approve();
-        metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]",'','');
-        die;
+        metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]");
     }
 
 
@@ -133,10 +124,7 @@ elseif ($action == 'update_oneshot')
 
         $source->save_from_post();
         if ($can_edit)
-        {
-            metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]",'','');
-            die;
-        }
+            metarefresh(0,"$page_url&action=show_sources#$_REQUEST[source]");
 
         theme('','header');
         if ($new)
