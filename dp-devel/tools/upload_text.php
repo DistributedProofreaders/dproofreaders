@@ -17,6 +17,8 @@ $stage   = $_REQUEST['stage'];
 $weeks   = @$_REQUEST['weeks'];
 $action  = @$_REQUEST['action'];
 
+$project = new Project($projectid);
+
 $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc. After you click Upload, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
 $big_upload_blurb = sprintf(_("<b>Note about big uploads:</b> 
     If you are trying to upload a very big zip file (e.g. 10 Mb)
@@ -151,6 +153,7 @@ if (!isset($action))
     theme($title, "header");
 
     echo "<h1>$title</h1>";
+    echo "<h2>" . sprintf("Project: %s", $project->nameofwork) . "</h2>";
     echo "<p>$intro_blurb</p>";
 
     echo "<form action='upload_text.php' method='POST' enctype='multipart/form-data'>\n";
@@ -353,8 +356,6 @@ else
         {
             log_project_event( $projectid, $pguser, 'smooth-reading', 'text available', $deadline );
         }
-
-        $project = new Project($projectid);
 
         notify_project_event_subscribers( $project, 'sr_available' );
 
