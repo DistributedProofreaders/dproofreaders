@@ -30,6 +30,7 @@ if ($stage == 'post_1')
 {
     $title = _("Upload Post-Processed File for Verification");
     $intro_blurb = _("This page allows you to upload a Post-Processed file for Verification.");
+    $submit_button = _("Upload file");
     $file_blurb = $standard_file_blurb;
     $indicator = "_second";
     $new_state = PROJ_POST_SECOND_AVAILABLE;
@@ -42,6 +43,7 @@ else if ($stage == 'return_1')
 {
     $title = _("Return project to the Post-Processing Pool");
     $intro_blurb = _("This page allows you to return the project to the post-processing pool. You can optionally upload a partially Post-Processed file for another Post Processor to pick up and use.");
+    $submit_button = _("Return project");
     $file_blurb = $optional_file_blurb;
     $indicator = "_first_in_prog_".$pguser;
     $new_state = PROJ_POST_FIRST_AVAILABLE;
@@ -57,6 +59,7 @@ else if ($stage == 'return_2')
 {
     $title = _("Return project to the Post-Processing Verification Pool");
     $intro_blurb = _("This page allows you to return the project to the post-processing verification pool. You can optionally upload a partially Verified file for another Verifier to pick up and use.");
+    $submit_button = _("Return project");
     $file_blurb = $optional_file_blurb;
     $indicator = "_second_in_prog_".$pguser;
     $new_state = PROJ_POST_SECOND_AVAILABLE;
@@ -72,6 +75,7 @@ else if ($stage == 'correct')
 {
     $title = _("Upload Corrected Edition for Verification");
     $intro_blurb = _("This page allows you to upload a corrected Post-Processed file for Verification.");
+    $submit_button = _("Upload file");
     $file_blurb = $standard_file_blurb;
     $indicator = "_corrections";
     $new_state = PROJ_CORRECT_AVAILABLE;
@@ -88,6 +92,7 @@ else if ($stage == 'smooth_avail')
 {
     $title = _("Upload File for Smooth Reading");
     $intro_blurb = _("This page allows you to upload a fully Post-Processed file for Smooth Reading.");
+    $submit_button = _("Upload file");
     $file_blurb = $standard_file_blurb;
     $indicator = "_smooth_avail";
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
@@ -101,6 +106,7 @@ else if ($stage == 'smooth_done')
 {
     $title = _("Upload Smooth Read Version");
     $intro_blurb = _("This page allows you to upload a Smooth Read version of the project.");
+    $submit_button = _("Upload file");
     $file_blurb = $standard_file_blurb;
     $indicator = "_smooth_done_".$pguser;
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
@@ -185,7 +191,7 @@ if (!isset($action))
 
     echo "<tr>\n";
     echo "<td bgcolor='$theme[color_logobar_bg]' colspan='2' align='center'>\n";
-    echo "  <input type='submit' value='Upload'>\n";
+    echo "  <input type='submit' value='$submit_button'>\n";
     echo "</td>\n";
     echo "</tr>\n";
 
