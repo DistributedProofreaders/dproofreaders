@@ -73,8 +73,8 @@ else if ($stage == 'return_2')
 }
 else if ($stage == 'correct')
 {
-    $title = _("Upload Corrected Edition for Verification");
-    $intro_blurb = _("This page allows you to upload a corrected Post-Processed file for Verification.");
+    $title = _("Upload Corrected Edition");
+    $intro_blurb = _("This page allows you to upload a corrected version of the completed e-text if you've found an error.");
     $submit_button = _("Upload file");
     $file_blurb = $standard_file_blurb;
     $indicator = "_corrections";
