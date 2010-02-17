@@ -37,7 +37,6 @@ if ($stage == 'post_1')
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
     $back_blurb = _("Post-Processing Page");
-    $bottom_blurb = $standard_blurb;
 }
 else if ($stage == 'return_1')
 {
@@ -50,10 +49,6 @@ else if ($stage == 'return_1')
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
     $back_blurb = _("Post-Processing Page");
-    $bottom_blurb = $standard_blurb . 
-        "  <b>" . 
-        _("To return the project to the pool without uploading a file, leave the file name empty and click on Upload.") .
-        "</b>";
 }
 else if ($stage == 'return_2')
 {
@@ -66,10 +61,6 @@ else if ($stage == 'return_2')
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PPV";
     $back_blurb = _("Post-Processing Verification Page");
-    $bottom_blurb = $standard_blurb . 
-        "  <b>" . 
-        _("To return the project to the pool without uploading a file, leave the file name empty and click on Upload.") .
-        "</b>";
 }
 else if ($stage == 'correct')
 {
@@ -86,7 +77,6 @@ else if ($stage == 'correct')
         _("When making corrections, please read over the entire book and compare your corrections to the <a href='%s'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums."),
         "$code_url/project.php?id=$projectid&detail_level=3"
     );
-    $bottom_blurb = $standard_blurb;
 }
 else if ($stage == 'smooth_avail')
 {
@@ -99,7 +89,6 @@ else if ($stage == 'smooth_avail')
     $extras = array();
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
     $back_blurb = _("Project Page");
-    $bottom_blurb = $standard_blurb;
     $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
 }
 else if ($stage == 'smooth_done')
@@ -113,7 +102,6 @@ else if ($stage == 'smooth_done')
     $extras = array();
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
     $back_blurb = _("Project Page");
-    $bottom_blurb = $standard_blurb;
     $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
 
 }
@@ -174,7 +162,7 @@ if (!isset($action))
     }
     echo "<br>\n";
     echo "<input type='file' name='files[]' size='25' maxsize='50'>\n";
-    echo "<p>$bottom_blurb</p>";
+    echo "<p>$standard_blurb</p>";
     echo "<p>$big_upload_blurb</p>\n";
     echo "</li>\n";
 
