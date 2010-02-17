@@ -19,7 +19,7 @@ td.disabled { background-color: #ddd; }
 td.pending { background-color: #ff8; }
 td.pa {width:30%; font-weight:bold; }";
 
-$page_url = "$code_url/tools/project_manager/manage_image_sources.php?".rand(1000,9999);
+$page_url = "$code_url/tools/project_manager/manage_image_sources.php?";
 
 $action = get_enumerated_param($_REQUEST, 'action', 'show_sources',
               array('show_sources','add_source','update_oneshot')
