@@ -39,7 +39,7 @@ if ($stage == 'post_1')
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
-    $back_blurb = _("Back to Post-Processing Page");
+    $back_blurb = _("Post-Processing Page");
     $bottom_blurb = $standard_blurb;
 }
 else if ($stage == 'return_1')
@@ -52,7 +52,7 @@ else if ($stage == 'return_1')
     $new_state = PROJ_POST_FIRST_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PP";
-    $back_blurb = _("Back to Post-Processing Page");
+    $back_blurb = _("Post-Processing Page");
     $bottom_blurb = $standard_blurb . 
         "  <b>" . 
         _("To return the project to the pool without uploading a file, leave the file name empty and click on Upload.") .
@@ -68,7 +68,7 @@ else if ($stage == 'return_2')
     $new_state = PROJ_POST_SECOND_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/tools/pool.php?pool_id=PPV";
-    $back_blurb = _("Back to Post-Processing Verification Page");
+    $back_blurb = _("Post-Processing Verification Page");
     $bottom_blurb = $standard_blurb . 
         "  <b>" . 
         _("To return the project to the pool without uploading a file, leave the file name empty and click on Upload.") .
@@ -84,7 +84,7 @@ else if ($stage == 'correct')
     $new_state = PROJ_CORRECT_AVAILABLE;
     $extras = array();
     $back_url = "$code_url/list_etexts.php?x=g";
-    $back_blurb = _("Back to Gold List");
+    $back_blurb = _("Gold List");
     $pre_step_instructions = sprintf(
         _("When making corrections, please read over the entire book and compare your corrections to the <a href='%s'>page images</a> available. Frequently Asked Questions will be developed as this feature is used more. Put any questions in the forums."),
         "$code_url/project.php?id=$projectid&detail_level=3"
@@ -101,7 +101,7 @@ else if ($stage == 'smooth_avail')
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $extras = array();
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
-    $back_blurb = _("Back to Project Page");
+    $back_blurb = _("Project Page");
     $bottom_blurb = $standard_blurb;
     $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
 }
@@ -115,7 +115,7 @@ else if ($stage == 'smooth_done')
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $extras = array();
     $back_url = "$code_url/project.php?id=$projectid&amp;expected_state=$new_state";
-    $back_blurb = _("Back to Project Page");
+    $back_blurb = _("Project Page");
     $bottom_blurb = $standard_blurb;
     $deadline = time() + ($weeks * 60 * 60 * 24 * 7);
 
@@ -197,7 +197,8 @@ if (!isset($action))
 
     echo "<tr>\n";
     echo "<td bgcolor='$theme[color_logobar_bg]' colspan='2' align='center'>\n";
-    echo "  <input type='submit' value='$submit_button'>\n";
+    echo sprintf(_('<input type="submit" value="%1$s"> or return to the <a href="%2$s">%3$s</a>.'),
+            attr_safe($submit_button), $back_url, $back_blurb);
     echo "</td>\n";
     echo "</tr>\n";
 
@@ -209,11 +210,6 @@ if (!isset($action))
     echo "</td>\n";
     echo "</tr>\n";
 
-    echo "<tr>\n";
-    echo "<td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>\n";
-    echo "<a href='$back_url'><b>$back_blurb</b></a>\n";
-    echo "</td>\n";
-    echo "</tr>\n";
     echo "</table>\n";
     echo "</form>\n";
 
