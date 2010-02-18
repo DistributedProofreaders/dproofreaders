@@ -215,8 +215,8 @@ class ImageSource
             $listing_rows++;
 
         echo "<tr class='$row_class'>";
-        echo "<td rowspan='$listing_rows'><a name='$sid' id='$sid'></a>$this->code_name</td>";
-        echo "<td>" . $this->display_name . "</td>";
+        echo "<td rowspan='$listing_rows'>$this->code_name</td>";
+        echo "<td><a name='$sid' id='$sid'></a>" . $this->display_name . "</td>";
         echo "<td>" . make_link($this->url, $this->full_name) . "</td>";
         echo $this->_get_status_cell($this->is_active,' pb');
         echo "<td class='center'>" . $this->_may_maynot_unknown($this->ok_keep_images) . "</td>";
