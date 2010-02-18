@@ -68,6 +68,7 @@ function get_label_for_event( $event )
 }
 
 // -----------------------------------------------------------------------------
+// "iste" = "is subscribed to event"
 
 function subscribe_user_to_project_event( $username, $projectid, $event )
 {
