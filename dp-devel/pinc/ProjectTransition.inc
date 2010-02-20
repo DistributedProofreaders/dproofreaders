@@ -302,7 +302,8 @@ class ProjectTransition
         // (This needs to be expanded.)
 
         $checkedoutby = '';
-        if ( $this->to_state == PROJ_POST_FIRST_CHECKED_OUT )
+        $pool = get_Pool_for_state($this->to_state);
+        if ( !is_null($pool) && $this->to_state == $pool->project_checkedout_state )
         {
             // we want the project event to record who it's been
             // checked out to
