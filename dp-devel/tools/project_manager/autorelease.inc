@@ -45,7 +45,7 @@ function attempt_to_release( $round, $project, $queue_name )
     }
 
 
-    $error_msg = project_transition( $projectid, $new_state, PT_AUTO, array('details' => $queue_name) );
+    $error_msg = project_transition( $projectid, $new_state, PT_AUTO, array('details' => "via_q: $queue_name") );
     if ($error_msg)
     {
         echo "$error_msg\n";

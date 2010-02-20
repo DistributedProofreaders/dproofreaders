@@ -1211,11 +1211,20 @@ function do_history()
             if ( $to_state_t == '' ) $to_state_t = $to_state;
 
             $details3 = $event['details3'];
-            $details3_t = (
-                $details3 == ''
-                ? ''
-                : sprintf( _('via "%s" queue'), $details3 )
+            $details3_t = $details3; // but that can be overridden by ...
+            $mappings = array(
+                '/^via_q:\s*$/'     => _('via no queue'),
+                '/^via_q:\s*(.*)/'  => _('via "%s" queue'),
             );
+            foreach ( $mappings as $pattern => $format )
+            {
+                if ( preg_match($pattern, $details3, $matches) )
+                {
+                    unset($matches[0]); // the (sub)string that matched the whole pattern
+                    $details3_t = vsprintf($format, $matches);
+                    break;
+                }
+            }
 
             echo "<td>from $from_state_t</td>\n";
             echo "<td>to $to_state_t</td>\n";
