@@ -108,6 +108,10 @@ if ( $cumulative_or_increments == 'increments' )
 {
     // to ensure we have enough data to use, go back 21 days before the start date
     $where_start_timestamp = $start_timestamp - (21 * 60*60*24);
+    // Unless it's for all_time, where we need 21 days after the start date to
+    // prevent jpgraph from choking
+    if ( $start_timestamp == 0 )
+	$where_start_timestamp = $start_timestamp + (21 * 60*60*24);
 
     $sql = "
         SELECT t1.timestamp,
