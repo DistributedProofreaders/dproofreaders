@@ -1215,6 +1215,7 @@ function do_history()
             $mappings = array(
                 '/^via_q:\s*$/'     => _('via no queue'),
                 '/^via_q:\s*(.*)/'  => _('via "%s" queue'),
+                '/^out_to:\s*(.*)/' => _('checked out to %s'),
             );
             foreach ( $mappings as $pattern => $format )
             {

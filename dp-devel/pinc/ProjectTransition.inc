@@ -318,7 +318,7 @@ class ProjectTransition
             'transition',
             $this->from_state,
             $this->to_state,
-            ($checkedoutby != '' ? $checkedoutby : @$extras['details'])
+            ($checkedoutby != '' ? "out_to: $checkedoutby" : @$extras['details'])
         );
         if ( $err )
         {
