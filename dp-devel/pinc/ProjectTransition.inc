@@ -301,12 +301,12 @@ class ProjectTransition
         // Now make any collateral changes to other tables.
         // (This needs to be expanded.)
 
-        $PPer = '';
+        $checkedoutby = '';
         if ( $this->to_state == PROJ_POST_FIRST_CHECKED_OUT )
         {
             // we want the project event to record who it's been
             // checked out to
-            $PPer = mysql_result(mysql_query("
+            $checkedoutby = mysql_result(mysql_query("
                SELECT checkedoutby FROM projects WHERE projectid = '$projectid'
             "), 0);
         }
@@ -317,7 +317,7 @@ class ProjectTransition
             'transition',
             $this->from_state,
             $this->to_state,
-            ($PPer != '' ? $PPer : @$extras['details'])
+            ($checkedoutby != '' ? $checkedoutby : @$extras['details'])
         );
         if ( $err )
         {
