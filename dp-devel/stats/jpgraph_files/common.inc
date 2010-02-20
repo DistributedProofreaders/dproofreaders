@@ -1,4 +1,4 @@
-<?php
+<?
 
 // Various utilities for the scripts in this directory.
 
@@ -84,6 +84,8 @@ function draw_pages_graph(
     $x_dates,
     $y_actual_n_pages,
     $y_page_goal,
+    $y_average,
+    $y_average_label,
     $x_frequency,
     $cumulative_or_increments,
     $title
@@ -99,7 +101,7 @@ function draw_pages_graph(
     if ( array_get( $_GET, 'echo_graph_data', FALSE ) )
     {
         echo "$title\n\n";
-        echo_graph_data( $x_dates, $y_actual_n_pages, $y_page_goal );
+        echo_graph_data( $x_dates, $y_actual_n_pages, $y_page_goal, $y_average );
         return;
     }
 
@@ -166,6 +168,15 @@ function draw_pages_graph(
     }
     $graph->Add($pages_plot);
 
+    if (!is_null($y_page_goal) || !is_null($y_average))
+    {
+        // Add a legend for the 'actual' plot.
+        $pages_plot->SetLegend(_("Actual"));
+
+        $graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
+        $graph->legend->Pos(0.05,0.5,"right" ,"top");
+    }
+
     if (!is_null($y_page_goal))
     {
         // Create the plot for the page goals.
@@ -174,12 +185,16 @@ function draw_pages_graph(
         $goal_plot->SetWeight(2);
         $goal_plot->SetLegend(_('Goal'));
         $graph->Add($goal_plot);
+    }
 
-        // Add a legend for the 'actual' plot too.
-        $pages_plot->SetLegend(_("Actual"));
-
-        $graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
-        $graph->legend->Pos(0.05,0.5,"right" ,"top");
+    if (!is_null($y_average))
+    {
+        // Create the plot for the average.
+        $average_plot = new LinePlot($y_average);
+        $average_plot->SetColor("red");
+        $average_plot->SetWeight(3);
+        $average_plot->SetLegend($y_average_label);
+        $graph->Add($average_plot);
     }
 
     add_graph_timestamp($graph);

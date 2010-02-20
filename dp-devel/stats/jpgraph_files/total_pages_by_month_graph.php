@@ -39,6 +39,8 @@ draw_pages_graph(
 	$datax,
 	$datay1,
 	$datay2,
+	null,
+	null,
 	'monthly',
 	'increments',
 	'Pages Done Each Month Since the Beginning of Statistics Collection'

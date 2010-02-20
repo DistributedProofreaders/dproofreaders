@@ -102,6 +102,57 @@ if (empty($datay1)) {
     $datay1[0] = 0;
 }
 
+
+// Calculate a 21-day simple moving average for 'increments' graphs
+if ( $cumulative_or_increments == 'increments' )
+{
+    // to ensure we have enough data to use, go back 21 days before the start date
+    $where_start_timestamp = $start_timestamp - (21 * 60*60*24);
+
+    $sql = "
+        SELECT t1.timestamp,
+            (SELECT round(sum(t2.tally_delta)/count(t2.tally_delta))
+            FROM past_tallies as t2
+            WHERE t2.holder_type = 'S'
+                AND t2.holder_id = '1'
+                AND t2.tally_name = '$tally_name'
+                AND datediff(from_unixtime(t1.timestamp), from_unixtime(t2.timestamp)) between 0 and 21 )
+            as '21daysma'
+        FROM past_tallies as t1
+        WHERE t1.holder_type = 'S'
+            AND t1.tally_name = '$tally_name'
+            AND t1.holder_id = '1'
+            AND t1.timestamp > $where_start_timestamp
+        ORDER BY t1.timestamp desc
+        ";
+    $res = mysql_query($sql);
+
+    // store the results in a date-based array we can use to populate the
+    // graph's data array
+    while( $result = mysql_fetch_assoc($res) )
+    {
+        $average_lookup[strftime("%Y-%m-%d",$result["timestamp"])]=$result["21daysma"];
+    }
+    mysql_free_result($res);
+
+    // don't go past the current date
+    $end_timestamp = min( $end_timestamp, time() );
+
+    // loop through each day in the graph and pull in the SMA if it exists
+    for($dateTimestamp=$start_timestamp; $dateTimestamp<=$end_timestamp; $dateTimestamp+=(60*60*24))
+    {
+        $day = strftime( '%Y-%m-%d', $dateTimestamp );
+        if(isset($average_lookup[$day]))
+            $moving_average[]=$average_lookup[$day];
+        else
+            $moving_average[]=0;
+    }
+}
+else
+{
+    $moving_average=null;
+}
+
 // if no data was returned from the SELECT, create an empty dataset
 // otherwise we get an unsightly jpgraph error
 if (empty($datax)) {
@@ -125,6 +176,8 @@ draw_pages_graph(
     $datax,
     $datay1,
     $datay2,
+    $moving_average,
+    _("21-day SMA"),
     'daily',
     $cumulative_or_increments,
     "$main_title ($title_timeframe)"
