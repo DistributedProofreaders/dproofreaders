@@ -103,16 +103,20 @@ if (empty($datay1)) {
 }
 
 
-// Calculate a 21-day simple moving average for 'increments' graphs
+// Calculate a simple moving average for 'increments' graphs
 if ( $cumulative_or_increments == 'increments' )
 {
-    // to ensure we have enough data to use, go back 21 days before the start date
-    $where_start_timestamp = $start_timestamp - (21 * 60*60*24);
+    $days_to_average = 21;
+
+    // to ensure we have enough data to use, go back $days_to_average 
+    // days before the start date
+    $where_start_timestamp = $start_timestamp - ($days_to_average * 60*60*24);
 
     // Unless it's for all_time when start_timestamp==0. For this case we need
-    // 21 days after the timestamp is zero to ensure the average is correct.
+    // $days_to_average days after the timestamp is zero to ensure the average
+    // is correct.
     if ( $start_timestamp == 0 )
-	    $where_start_timestamp = $start_timestamp + (21 * 60*60*24);
+	    $where_start_timestamp = $start_timestamp + ($days_to_average * 60*60*24);
 
     $sql = "
         SELECT t1.timestamp,
@@ -121,8 +125,8 @@ if ( $cumulative_or_increments == 'increments' )
             WHERE t2.holder_type = 'S'
                 AND t2.holder_id = '1'
                 AND t2.tally_name = '$tally_name'
-                AND datediff(from_unixtime(t1.timestamp), from_unixtime(t2.timestamp)) between 0 and 21 )
-            as '21daysma'
+                AND datediff(from_unixtime(t1.timestamp), from_unixtime(t2.timestamp)) between 0 and $days_to_average )
+            as 'sma'
         FROM past_tallies as t1
         WHERE t1.holder_type = 'S'
             AND t1.tally_name = '$tally_name'
@@ -136,7 +140,7 @@ if ( $cumulative_or_increments == 'increments' )
     // graph's data array
     while( $result = mysql_fetch_assoc($res) )
     {
-        $average_lookup[strftime("%Y-%m-%d",$result["timestamp"])]=$result["21daysma"];
+        $average_lookup[strftime("%Y-%m-%d",$result["timestamp"])]=$result["sma"];
     }
     mysql_free_result($res);
 
@@ -182,7 +186,7 @@ draw_pages_graph(
     $datay1,
     $datay2,
     $moving_average,
-    _("21-day SMA"),
+    sprintf(_("%d-day SMA"), $days_to_average),
     'daily',
     $cumulative_or_increments,
     "$main_title ($title_timeframe)"
