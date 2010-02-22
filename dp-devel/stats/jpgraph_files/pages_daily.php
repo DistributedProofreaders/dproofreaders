@@ -132,18 +132,28 @@ if ( $cumulative_or_increments == 'increments' )
             AND t1.tally_name = '$tally_name'
             AND t1.holder_id = '1'
             AND t1.timestamp > $where_start_timestamp
-        ORDER BY t1.timestamp desc
+        ORDER BY t1.timestamp asc
         ";
     $res = mysql_query($sql);
+
+    // Get the earliest start date to use in our population of $moving_average
+    // Because the results are sorted ascending by timestamp, the first one
+    // is the one we want.
+    $earliest_timestamp=null;
 
     // store the results in a date-based array we can use to populate the
     // graph's data array
     while( $result = mysql_fetch_assoc($res) )
     {
+        if($earliest_timestamp===null)
+            $earliest_timestamp=$result["timestamp"];
+
         $average_lookup[strftime("%Y-%m-%d",$result["timestamp"])]=$result["sma"];
     }
     mysql_free_result($res);
 
+    // Don't start before the earliest timestamp
+    $start_timestamp = max( $start_timestamp, $earliest_timestamp );
     // don't go past the current date
     $end_timestamp = min( $end_timestamp, time() );
 
@@ -156,6 +166,11 @@ if ( $cumulative_or_increments == 'increments' )
         else
             $moving_average[]=0;
     }
+
+    // Ensure we don't have more SMA data points than we do $datax points.
+    // This can happen if the statistics use to be kept but aren't any longer.
+    for($index=count($moving_average)-count($datax); $index>0; $index--)
+        array_pop($moving_average);
 }
 else
 {
