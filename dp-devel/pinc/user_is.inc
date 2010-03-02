@@ -1,4 +1,4 @@
-<?php
+<?
 // $Id$
 
 // This file provides settings (mostly permissions) for the logged-on user.
@@ -163,6 +163,14 @@ function user_is_site_translator()
 {
     $userSettings =& get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("site_translator");
+}
+
+function user_can_mentor_in_round($round)
+{
+    $userSettings =& get_pguser_settings();
+    return user_is_a_sitemanager()
+            || user_is_proj_facilitator()
+            || $userSettings->get_boolean("{$round->id}_mentor.access");
 }
 
 function user_can_work_on_beginner_pages_in_round($round)
