@@ -370,9 +370,11 @@ function can_user_get_pages_in_project( $username, $project, $round )
         }
     }
 
-    // In P1, English projects, for a while after their release,
+    // In P1, English and French projects, for a while after their release,
     // are reserved for inexperienced users.
-    if ( $round->id == 'P1' and $project->language == 'English' and
+    if ( $round->id == 'P1' and
+
+        ($project->language == 'English' or $project->language == 'French') and
 
         // Missing page(s) projects are exempted from being reserved
         // because we want them to catch up to their "parent" project
