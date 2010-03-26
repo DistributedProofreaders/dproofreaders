@@ -60,7 +60,12 @@ if ( substr($abs_source, -4) == ".zip" )
         chmod($source_project_dir, 0777);
     }
 
-    exec("unzip -o -j $abs_source -d $source_project_dir");
+    // $abs_source and $source_project_dir cannot begin with a hyphen,
+    // and therefore cannot be mistaken for command line options.
+    exec("unzip -o -j "
+        . escapeshellarg($abs_source)
+        . " -d "
+        . escapeshellarg($source_project_dir));
 
     // (Assuming the unzip worked), remove the zip file.
     unlink($abs_source);
@@ -75,7 +80,7 @@ else
 // Attempt to make everything all-readable.
 // (This will probably only succeed if we have just upacked
 // a zip file [above], but no harm in trying in all cases.)
-exec("chmod -R a+r $source_project_dir");
+exec("chmod -R a+r " . escapeshellarg($source_project_dir));
 
 
 //if they are uploading tpnv files then put them in /tpnv 
@@ -122,8 +127,8 @@ if ( $loading_tpnv )
     // NOTE about file names: since here we are not doing any check over the
     // file names, it is possible to find filenames with a space or other
     // strange characters in the /tpnv directory.
-    system("cp *.png $dest_project_dir");
-    system("cp *.jpg $dest_project_dir");
+    system("cp *.png " . escapeshellarg($dest_project_dir));
+    system("cp *.jpg " . escapeshellarg($dest_project_dir));
     echo "</pre>\n";
 
     $result = mysql_query("UPDATE projects SET state = 'project_new_waiting_app' WHERE projectid = '$projectid'");
@@ -598,7 +603,8 @@ class Loader
             $same = (
                 is_file($p_file)
                 &&
-                shell_exec( "cmp $src_file $p_file" ) == ''
+                shell_exec( "cmp " . escapeshellarg($src_file) 
+                    . " " . escapeshellarg($p_file) ) == ''
             );
         }
         if ( $same )
@@ -782,7 +788,9 @@ class Loader
         // Non-page files
         foreach ( $this->non_page_files as $filename )
         {
-            $this->_do_command( "cp $filename $this->dest_project_dir" );
+            $this->_do_command( sprintf("cp %s %s", 
+                escapeshellarg($filename), 
+                escapeshellarg($this->dest_project_dir)) );
         }
 
         // Page files
@@ -833,8 +841,9 @@ class Loader
                     }
                 }
 
-                $this->_do_command(
-                    "cp $src_image_file_name $this->dest_project_dir" );
+                $this->_do_command( sprintf("cp %s %s", 
+                    escapeshellarg($src_image_file_name), 
+                    escapeshellarg($this->dest_project_dir)) );
             }
             else
             {
@@ -885,12 +894,13 @@ class Loader
                                 $pguser );
                         }
 
-                        $this->_do_command(
-                            "rm $this->dest_project_dir/$db_image_file_name" );
+                        $this->_do_command( "rm " . escapeshellarg(
+                            "$this->dest_project_dir/$db_image_file_name") );
                     }
 
-                    $this->_do_command(
-                        "cp $src_image_file_name $this->dest_project_dir" );
+                    $this->_do_command( sprintf("cp %s %s", 
+                        escapeshellarg($src_image_file_name), 
+                        escapeshellarg($this->dest_project_dir)) );
                 }
             }
         }
