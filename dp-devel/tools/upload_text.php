@@ -201,7 +201,7 @@ else
     set_time_limit(14400);
     $path_to_file = "$projects_dir/$projectid";
 
-    $files = $HTTP_POST_FILES['files'];
+    $files = $_FILES['files'];
 
     // do some checks. File must exist (except if we are returning to PP 
     // or PPV available.
