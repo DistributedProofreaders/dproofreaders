@@ -149,7 +149,7 @@ function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,
 
     // output the table heading
     echo '<tr><th>' . _('Word') . '</th>';
-    if($wordCount['[[TITLE]]']) {
+    if(isset($wordCount['[[TITLE]]'])) {
         echo '<th>' . $wordCount['[[TITLE]]'] . '</th>';
         unset($wordCount['[[TITLE]]']);
     } else {

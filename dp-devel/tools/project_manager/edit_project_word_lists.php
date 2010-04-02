@@ -359,7 +359,7 @@ class ProjectWordListHolder
         // that as just as good
         if(!$exist_pages_in_P1_or_later) {
             $current_project_round = get_Round_for_project_state($this->state);
-            if($current_project_round->round_number > 1)
+            if($current_project_round && $current_project_round->round_number > 1)
                 $exist_pages_in_P1_or_later = true;
         }
 

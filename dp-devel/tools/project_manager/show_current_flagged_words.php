@@ -26,9 +26,8 @@ if($format=="update") {
 
     $words = load_project_good_words($projectid);
     $words = array_merge($words,$postedWords);
-    save_project_good_words($projectid,$words);
-
-    $format="html";
+    $update_status = save_project_good_words($projectid,$words);
+    $format = "html";
 }
 
 list($bad_words_w_freq ,$messages) = _get_word_list($projectid);
@@ -115,6 +114,10 @@ foreach($project_bad_words as $word)
 
 $context_array["[[TITLE]]"]=_("Show Context");
 $word_notes["[[TITLE]]"]=_("Notes");
+
+if (isset($update_status) && $update_status !== "Success") {
+    echo_any_warnings_errors(array($update_status));
+}
 
 $word_checkbox = build_checkbox_array($bad_words_w_freq);
 

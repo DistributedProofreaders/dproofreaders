@@ -355,7 +355,7 @@ function get_bad_words_via_pattern( $input_words_w_freq, $langcode3s ) {
     $exceptions = array();
     foreach ( $langcode3s as $langcode3 )
     {
-        $exceptions[] = $exceptions_for_lang[$langcode3];
+        $exceptions[] = array_get($exceptions_for_lang, $langcode3, "");
     }
     $exceptions = implode('|', $exceptions);
     $exceptions_pattern = "/^($exceptions)$/";
@@ -784,7 +784,7 @@ function save_word_list( $path, $words )
 
     if ( $fh === FALSE )
     {
-        return "Error: Unable to write to file $path\n";
+        return "Error: Unable to write to wordlist file.";
     }
 
     // get an exclusive lock; lock is cleared by fclose
