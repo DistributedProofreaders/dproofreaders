@@ -10,14 +10,38 @@ include_once($relPath.'forum_interface.inc');
 include_once($relPath.'links.inc');   // private_message_link()
 $no_stats=1;
 theme('Task Center','header');
-?><script language='javascript'><!--
+?>
+<script language='javascript'><!--
 function showSpan(id) {
     document.getElementById(id).style.display="";
 }
 function hideSpan(id) {
     document.getElementById(id).style.display="none";
 }
-// --></script><?php
+// --></script>
+<style type="text/css">
+table.tasks        { width:98%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size:11px; }
+table.tasks td     { font-size:11px; padding:2px!important; vertical-align:top; text-align:left; }
+table.tasks th     { font-weight:bold; text-align:left; padding:5px; vertical-align:top; }
+table.taskslist    { width:98%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size:11px; }
+table.taskslist td { padding:5px!important; }
+table.taskslist th { font-weight:bold; text-align:left; padding:5px; vertical-align:top; padding:5px!important; }
+table.taskplain    { width:98%; border:none; border-collapse:collapse; }
+table.taskplain td { font-size: 11px; padding:2px; vertical-align:top; text-align:left; }
+td.taskproperty    { width:40%; font-weight: bold; }
+td.taskvalue       { width:60%; border-bottom:#CCCCCC 1px solid; }
+select.taskselect  { font-size:12px; color:#03008F; background-color:#EEF7FF; }
+input.taskinp1     { font-size:12px; border:1px solid #000000; margin:2px; padding:0px; background-color:#EEF7FF; }
+input.taskinp2     { font-size:12px; color:#FFFFFF; font-weight:bold; border:1px ridge #000000; margin:2px; padding:0px; background-color:#838AB5; }
+legend.task        { font-weight:bold; }
+fieldset.task      { width:35em; border:#2266AA solid 1px; }
+small.task         { font-family:Verdana; font-size:10px; }
+center.taskwarn    { color:#FF0000; font-weight:bold; font-size: 12pt; font-family:Verdana; padding:2em; }
+center.taskinfo    { color:#00CC00; font-weight:bold; font-size: 12pt; font-family:Verdana; padding:2em; }
+p                  { font-family:Verdana; font-size:11px; }
+</style>
+
+<?php
 
 $tasks_array = array(1 => "Bug Report",
     2 => "Feature Request",
@@ -235,7 +259,7 @@ $task_assignees_array = array();
 
 $order_by = "ORDER BY date_edited DESC, task_severity ASC, task_type ASC";
 
-echo "<br><div align='center'><table border='0' cellpadding='0' cellspacing='0' width='98%'><tr><td>\n";
+echo "<div align='center'><table class='taskplain' width='98%'><tr><td>\n";
 TaskHeader();
 
 if (isset($_GET['f']) && $_GET['f'] == "newtask") {
@@ -437,7 +461,7 @@ if (isset($_GET['f']) && $_GET['f'] == "newtask") {
     mysql_free_result($meTooCheck);
 
     // No need to display a different error message if the user was refreshing
-    ShowNotification("Thank you for your report!  It has been recorded below.", false, "#000000");
+    ShowNotification("Thank you for your report!  It has been recorded below.", false, "info");
     TaskDetails($_POST['meToo']);
 } else {
     // Either they just entered the Task Center
@@ -461,7 +485,7 @@ theme("", "footer");
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function dropdown_select($field_name, $current_value, $array) {
-    echo "<select size='1' name='$field_name' ID='$field_name' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n";
+    echo "<select size='1' name='$field_name' ID='$field_name' class='taskselect'>\n";
     while (list($key, $val) = each($array)) {
         echo "<option value='$key'";
         if ($current_value == $key) { echo " SELECTED"; }
@@ -487,39 +511,39 @@ function TaskHeader() {
         $search_text = "";
 
     echo "<form action='tasks.php' method='get'><input type='hidden' name='f' value='detail'>";
-    echo "<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
+    echo "<table class='taskplain'>\n";
     echo "<tr><td width='50%'>&nbsp;</td>\n";
-    echo "<td width='50%' align='right'><b><font face='Verdana' size='1'>Show Task #</font></b>&nbsp;\n";
-    echo "<input type='text' name='tid' size='12' style='font-family: Verdana; font-size: 10; border: 1px solid #000000; padding: 0; background-color: #EEF7FF'>&nbsp;\n";
-    echo "<input type='submit' value='Go!' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>\n";
+    echo "<td width='50%' style='text-align:right;'><b><small class='task'>Show Task #</small></b>&nbsp;\n";
+    echo "<input type='text' name='tid' size='12' class='taskinp1'>&nbsp;\n";
+    echo "<input type='submit' value='Go!' class='taskinp2'>\n";
     echo "</td></tr></table></form><br>\n";
 
     echo "<form action='tasks.php' method='post'><input type='hidden' name='search_task'>";
-    echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'>\n";
-    echo "<tr><td width='10%' align='left' valign='top'><b><font face='Verdana' size='-1'>Search:</font></b></td>\n";
-    echo "<td width='70%' align='left' valign='top'><input type='text' value='$search_text' name='search_text' size='50' style='font-family: Verdana; font-size: 10; border: 1px solid #000000; padding: 0; background-color: #EEF7FF'>\n";
-    echo "<select size='1' name='task_type' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Task Types</option>\n";
+    echo "<table class='tasks'>\n";
+    echo "<tr><td width='10%'><b><small class='task'>Search:</small></b></td>\n";
+    echo "<td width='70%'><input type='text' value='$search_text' name='search_text' size='50' class='taskinp1'>\n";
+    echo "<select size='1' name='task_type' class='taskselect'>\n<option value='999'>All Task Types</option>\n";
         while (list($key, $val) = each($tasks_array)) {
             echo "<option value='$key'";
             if (isset($_REQUEST['task_type']) && $_REQUEST['task_type'] == $key) { echo " SELECTED"; }
             echo ">$val</option>\n";
         }
     echo "</select>\n";
-    echo "<select size='1' name='task_severity' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Severities</option>\n";
+    echo "<select size='1' name='task_severity' class='taskselect'>\n<option value='999'>All Severities</option>\n";
         while (list($key, $val) = each($severity_array)) {
             echo "<option value='$key'";
             if (isset($_REQUEST['task_severity']) && $_REQUEST['task_severity'] == $key) { echo " SELECTED"; }
             echo ">$val</option>\n";
         }
     echo "</select>\n";
-    echo "<select size='1' name='task_priority' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Priorities</option>\n";
+    echo "<select size='1' name='task_priority' class='taskselect'>\n<option value='999'>All Priorities</option>\n";
         while (list($key, $val) = each($priority_array)) {
             echo "<option value='$key'";
             if (isset($_REQUEST['task_priority']) && $_REQUEST['task_priority'] == $key) { echo " SELECTED"; }
             echo ">$val</option>\n";
         }
     echo "</select>\n<br>\n";
-    echo "<select size='1' name='task_assignee' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Developers</option>\n";
+    echo "<select size='1' name='task_assignee' class='taskselect'>\n<option value='999'>All Developers</option>\n";
         reset($task_assignees_array);
         while (list($key, $val) = each($task_assignees_array)) {
             echo "<option value='$key'";
@@ -528,7 +552,7 @@ function TaskHeader() {
         }
     echo "</select>\n";
 
-    echo "<select size='1' name='task_category' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Categories</option>\n";
+    echo "<select size='1' name='task_category' class='taskselect'>\n<option value='999'>All Categories</option>\n";
         asort($categories_array);
         while (list($key, $val) = each($categories_array)) {
             echo "<option value='$key'";
@@ -536,7 +560,7 @@ function TaskHeader() {
             echo ">$val</option>\n";
         }
     echo "</select>\n";
-    echo "<select size='1' name='task_status' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='998'>All Tasks</option>\n<option value='999'";
+    echo "<select size='1' name='task_status' class='taskselect'>\n<option value='998'>All Tasks</option>\n<option value='999'";
     if (!isset($_REQUEST['task_status']) || $_REQUEST['task_status'] == 999) { echo " SELECTED"; }
     echo ">All Open Tasks</option>\n";
         asort($tasks_status_array);
@@ -546,15 +570,15 @@ function TaskHeader() {
             echo ">$val</option>\n";
         }
     echo "</select>\n";
-    echo "<select size='1' name='task_version' style='font-family: Verdana; font-size: 11; color: #03008F; background-color: #EEF7FF'>\n<option value='999'>All Versions</option>\n";
+    echo "<select size='1' name='task_version' class='taskselect'>\n<option value='999'>All Versions</option>\n";
         while (list($key, $val) = each($versions_array)) {
             echo "<option value='$key'";
             if (isset($_REQUEST['task_version']) && $_REQUEST['task_version'] == $key) { echo " SELECTED"; }
             echo ">$val</option>\n";
         }
     echo "</select>\n";
-    echo "<input type='submit' value='Search' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'></td>\n";
-    echo "<td width='30%' align='right' valign='top'><font face='Verdana' size='1' color='#03008F'><a href='$code_url/tasks.php'>Task Center Home</a> | <a href='$code_url/tasks.php?f=newtask'>New Task</a></font></td></tr>\n";
+    echo "<input type='submit' value='Search' class='taskinp2'></td>\n";
+    echo "<td width='30%' style='text-align: right;'><small class='task'><a href='$code_url/tasks.php'>Task Center Home</a> | <a href='$code_url/tasks.php?f=newtask'>New Task</a></small></td></tr>\n";
     echo "</table></form><br>\n";
 }
 
@@ -661,52 +685,49 @@ function ShowTasks($sql_result) {
 
     if (isset($_REQUEST['search_text']))
     {
-        $t = "search_text=" . urlencode($_REQUEST['search_text'])
-             . "&task_type=" . $_REQUEST['task_type']
+        $t = "search_text="      . urlencode($_REQUEST['search_text'])
+             . "&task_type="     . $_REQUEST['task_type']
              . "&task_severity=" . $_REQUEST['task_severity']
              . "&task_priority=" . $_REQUEST['task_priority']
              . "&task_assignee=" . $_REQUEST['task_assignee']
              . "&task_category=" . $_REQUEST['task_category']
-             . "&task_status=" . $_REQUEST['task_status']
-             . "&task_version=" . $_REQUEST['task_version']
+             . "&task_status="   . $_REQUEST['task_status']
+             . "&task_version="  . $_REQUEST['task_version']
              . "&"; 
     }
     else
         $t = "";
-    echo "<table cellpadding='5' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC'><tr>\n";
-    echo "<td style='text-align: center'><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_id")."'>ID</a></font></b></td>\n";
-    echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_type")."'>Task Type</a></font></b></td>\n";
-    echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_severity")."'>Severity</a></font></b></td>\n";
-    echo "<td style='width: 50%'><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_summary")."'>Summary</a></font></b></td>\n";
-    echo "<td style='text-align: center'><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("date_edited")."'>Date Edited</a></font></b></td>\n";
-    echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("task_status")."'>Status</a></font></b></td>\n";
-    echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("votes")."'>Votes</a></font></b></td>\n";
-    echo "<td><b><font face='Verdana' color='#03008f' style='font-size: 11px'><a href='tasks.php?$t".OrderBy("percent_complete")."'>Progress</a></font></b></td>\n";
+    echo "<table class='taskslist'><tr>\n";
+    echo "<th style='text-align: center;'><a href='tasks.php?$t".OrderBy("task_id")."'>ID</a></th>\n";
+    echo "<th><a href='tasks.php?$t".OrderBy("task_type")."'>Task Type</a></th>\n";
+    echo "<th><a href='tasks.php?$t".OrderBy("task_severity")."'>Severity</a></th>\n";
+    echo "<th style='width: 50%;'><a href='tasks.php?$t".OrderBy("task_summary")."'>Summary</a></th>\n";
+    echo "<th style='text-align: center;'><a href='tasks.php?$t".OrderBy("date_edited")."'>Date Edited</a></th>\n";
+    echo "<th><a href='tasks.php?$t".OrderBy("task_status")."'>Status</a></th>\n";
+    echo "<th><a href='tasks.php?$t".OrderBy("votes")."'>Votes</a></th>\n";
+    echo "<th><a href='tasks.php?$t".OrderBy("percent_complete")."'>Progress</a></th>\n";
     echo "</tr>\n";
 
     if (@mysql_num_rows($sql_result) >= 1) {
         while ($row = mysql_fetch_assoc($sql_result)) {
             echo "<tr bgcolor='#ffffff'>\n";
-            echo "<td style='text-align: center'><font face='Verdana' color='#000000' style='font-size: 11px'><a href='tasks.php?f=detail&tid=".$row['task_id']."'>".$row['task_id']."</a></font></td>\n";
-            echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'>".$tasks_array[$row['task_type']]."</font></td>\n";
-            echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'>".$severity_array[$row['task_severity']]."</font></td>\n";
-            echo "<td style='width: 50%'><font face='Verdana' color='#000000' style='font-size: 11px'><a href='tasks.php?f=detail&tid=".$row['task_id']."'>".stripslashes($row['task_summary'])."</a></font></td>\n";
-            echo "<td style='text-align: center'><font face='Verdana' color='#000000' style='font-size: 11px'>".date("d-M-Y", $row['date_edited'])."</font></td>\n";
-            echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'>".$tasks_status_array[$row['task_status']]."</font></td>\n";
-            echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'>".$row['votes']."</font></td>\n";
-            echo "<td><font face='Verdana' color='#000000' style='font-size: 11px'><img src='$code_url/graphics/task_percentages/small_".$row['percent_complete'].".png' width='50' height='8' alt='".$row['percent_complete']."% Complete'></font></td>\n";
+            echo "<td style='text-align: center;'><a href='tasks.php?f=detail&tid=".$row['task_id']."'>".$row['task_id']."</a></td>\n";
+            echo "<td>".$tasks_array[$row['task_type']]."</td>\n";
+            echo "<td>".$severity_array[$row['task_severity']]."</td>\n";
+            echo "<td style='width: 50%;'><a href='tasks.php?f=detail&tid=".$row['task_id']."'>".stripslashes($row['task_summary'])."</a></td>\n";
+            echo "<td style='text-align: center;'>".date("d-M-Y", $row['date_edited'])."</td>\n";
+            echo "<td>".$tasks_status_array[$row['task_status']]."</td>\n";
+            echo "<td>".$row['votes']."</td>\n";
+            echo "<td><img src='$code_url/graphics/task_percentages/small_".$row['percent_complete'].".png' width='50' height='8' alt='".$row['percent_complete']."% Complete'></td>\n";
             echo "</tr>\n";
+            echo "</table><br>\n";
         }
     } else {
-        echo "<tr bgcolor='#ffffff'><td colspan='7'><center><font face='Verdana' color='#000000' style='font-size: 11px'>No tasks found!</font></center></td></tr>";
+        ShowNotification("No tasks found!");
     }
-
-    echo "</table><br>\n";
-    
     // if 2 tasks or more found, display the number of reported tasks
     if (@mysql_num_rows($sql_result) > 1) {
-        echo "<p><font face='Verdana' color='#000000' style='font-size: 11px'>" 
-          . @mysql_num_rows($sql_result) . " tasks listed.</font></p>";
+        echo "<p>" . @mysql_num_rows($sql_result) . " tasks listed.</p>";
     }
 }
 
@@ -736,41 +757,41 @@ function TaskForm($tid) {
 
     echo "<form action='tasks.php' method='post'><input type='hidden' name='newtask'>\n";
     if (!empty($tid)) { echo "<input type='hidden' name='task_id' value='$tid'>"; }
-    echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'>\n";
-    echo "<tr><td><b><font face='Verdana' color='#000000' style='font-size: 11px'>Summary&nbsp;</b>&nbsp;&nbsp;<input type='text' name='task_summary' value=\"$task_summary\" size='60' maxlength='80' style='font-family: Verdana; font-size: 10; border: 1px solid #000000; padding: 0; background-color: #EEF7FF'></td></tr>\n";
-    echo "<tr><td width='50%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
-    echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Task Type</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
+    echo "<table class='tasks'>\n";
+    echo "<tr><td colspan='2'><b>Summary&nbsp;</b>&nbsp;&nbsp;<input type='text' name='task_summary' value=\"$task_summary\" size='60' maxlength='80' class='taskinp1'></td></tr>\n";
+    echo "<tr><td width='50%'><table class='taskplain'>\n";
+    echo "<tr><td width='40%'><b>Task Type</b>&nbsp;</td><td width='60%'>\n";
         dropdown_select('task_type', $task_type, $tasks_array);  echo "</td></tr>\n";
-    echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Category</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
+    echo "<tr><td width='40%'><b>Category</b>&nbsp;</td><td width='60%'>\n";
         dropdown_select('task_category', $task_category, $categories_array);  echo "</td></tr>\n";
-    echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Status</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
+    echo "<tr><td width='40%'><b>Status</b>&nbsp;</td><td width='60%'>\n";
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) { dropdown_select('task_status', $task_status, $tasks_status_array); } else { $tasks_status_array = array(1 => "New"); dropdown_select('task_status', $task_status, $tasks_status_array); }  echo "</td></tr>\n";
-    echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Assigned To</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
+    echo "<tr><td width='40%'><b>Assigned To</b>&nbsp;</td><td width='60%'>\n";
         dropdown_select('task_assignee', $task_assignee, $task_assignees_array); echo "</td></tr>\n";
-    echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Operating System</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
+    echo "<tr><td width='40%'><b>Operating System</b>&nbsp;</td><td width='60%'>\n";
         dropdown_select('task_os', $task_os, $os_array);  echo "</td></tr>\n";
-    echo "</table></td><td width='50%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
-    echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Browser</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
+    echo "</table></td><td width='50%'><table class='taskplain'>\n";
+    echo "<tr><td width='40%'><b>Browser</b>&nbsp;</td><td width='60%'>\n";
         dropdown_select('task_browser', $task_browser, $browser_array);  echo "</td></tr>\n";
-    echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Severity</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
+    echo "<tr><td width='40%'><b>Severity</b>&nbsp;</td><td width='60%'>\n";
         dropdown_select('task_severity', $task_severity, $severity_array);  echo "</td></tr>\n";
-    echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Priority</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
+    echo "<tr><td width='40%'><b>Priority</b>&nbsp;</td><td width='60%'>\n";
         dropdown_select('task_priority', $task_priority, $priority_array);  echo "</td></tr>\n";
-        echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Reported Version</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
+        echo "<tr><td width='40%'><b>Reported Version</b>&nbsp;</td><td width='60%'>\n";
         dropdown_select('task_version', $task_version, $versions_array);  echo "</td></tr>\n";
     if ((user_is_a_sitemanager() || user_is_taskcenter_mgr())&& !empty($tid)) {
-        echo "<tr><td width='40%' align='right' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Percent Complete</font></b>&nbsp;</td><td width='60%' align='left' valign='top'>\n";
+        echo "<tr><td width='40%'><b>Percent Complete</b>&nbsp;</td><td width='60%'>\n";
         dropdown_select('percent_complete', $percent_complete, $percent_complete_array);  echo "</td></tr>\n";
     } elseif ($opened_by == $userP['u_id'] && !user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
         echo "<input type='hidden' name='percent_complete' value='$percent_complete'>";
     }
-    echo "</table></td></tr><tr><td align='left' valign='top'>\n";
-    echo "<table border='0' cellspacing='0' cellpadding='0' width='100%'><tr><td width='5%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Details</font></b>&nbsp;&nbsp;</td>\n";
-    echo "<td align='left' width='95%'><textarea name='task_details' cols='60' rows='5'>".$task_details."</textarea></td></tr></table>\n";
+    echo "</table></td></tr><tr><td>\n";
+    echo "<table class='taskplain'><tr><td width='5%'><b>Details</b>&nbsp;&nbsp;</td>\n";
+    echo "<td width='95%'><textarea name='task_details' cols='60' rows='5'>".$task_details."</textarea></td></tr></table>\n";
     echo "</td></tr><tr><td colspan='2'><center>\n";
     echo "<input type='submit' value='";
     if (empty($tid)) { echo "Add Task"; } else { echo "Submit Edit"; }
-    echo "' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>\n";
+    echo "' class='taskinp2'>\n";
     echo "</center></td></tr></table><br>\n";
 }
 
@@ -810,26 +831,26 @@ function TaskDetails($tid) {
                     $task_assignee_username, NULL);
             }
 
-            echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'>\n";
-            echo "<tr bgcolor='#ecdbb7'><td width='90%' align='left' valign='center'><font face='Verdana' color='#000000' style='font-size: 11px'>Task #$tid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".stripslashes($row['task_summary'])."</font></td><td width='10%' align='right' valign='center'><form action='tasks.php' method='post'>\n";
+            echo "<table class='tasks'>\n";
+            echo "<tr bgcolor='#ecdbb7'><td width='90%' valign='center'>Task #$tid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".stripslashes($row['task_summary'])."</td><td width='10%' valign='center' style='text-align:right;'><form action='tasks.php' method='post'>\n";
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr() || $row['opened_by'] == $userP['u_id']) && empty($row['closed_reason'])) {
-                echo "<input type='hidden' name='edit_task' value='".$row['task_id']."'><input type='submit' value='Edit Task' style='font-family: Verdana; font-size: 11px; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'></td></tr></form></table>\n";
+                echo "<input type='hidden' name='edit_task' value='".$row['task_id']."'><input type='submit' value='Edit Task' class='taskinp2'></td></tr></form></table>\n";
             } elseif (!empty($row['closed_reason'])) {
-                echo "<input type='hidden' name='reopen_task' value='".$row['task_id']."'><input type='submit' value='Re-Open Task' style='font-family: Verdana; font-size: 11px; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'></td></tr></form></table>\n";
+                echo "<input type='hidden' name='reopen_task' value='".$row['task_id']."'><input type='submit' value='Re-Open Task' class='taskinp2'></td></tr></form></table>\n";
             } else {
                 echo "&nbsp;</td></tr></form></table>";
             }
-            echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'>\n";
-            echo "<tr><td width='50%'><font face='Verdana' color='#000000' style='font-size: 9px'>Opened by $opened_by_link - ".date("d-M-Y", $row['date_opened'])."<br>Last edited by $edited_by_link - ".date("d-M-Y", $row['date_edited'])."</td><td width='50%' align='right' valign='top'><font face='Verdana' color='#000000' style='font-size: 11px'>";
+            echo "<table class='tasks'>\n";
+            echo "<tr><td width='50%'><small class='task'>Opened by $opened_by_link - ".date("d-M-Y", $row['date_opened'])."<br>Last edited by $edited_by_link - ".date("d-M-Y", $row['date_edited'])."</small></td><td width='50%' style='text-align:right;'>";
             if (empty($already_notified)) { echo "<a href='tasks.php?f=notifyme&tid=$tid'>Signup for task notifications</a>"; } else { echo "<a href='tasks.php?f=unnotifyme&tid=$tid'>Remove me from task notifications</a>"; }
-            echo "</font></tr>\n";
-            echo "<tr><td width='40%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
+            echo "</tr>\n";
+            echo "<tr><td width='40%'><table class='taskplain'>\n";
             EchoTaskProperty( "Task Type",        $tasks_array[$row['task_type']] );
             EchoTaskProperty( "Category",         $categories_array[$row['task_category']] );
             EchoTaskProperty( "Status",           $tasks_status_array[$row['task_status']] );
             EchoTaskProperty( "Assigned To",      $task_assignee_username_link );
             EchoTaskProperty( "Operating System", $os_array[$row['task_os']] );
-            echo "</table></td><td width='50%' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0'>\n";
+            echo "</table></td><td width='50%'><table class='taskplain'>\n";
             EchoTaskProperty( "Browser",          $browser_array[$row['task_browser']] );
             EchoTaskProperty( "Severity",         $severity_array[$row['task_severity']] );
             EchoTaskProperty( "Priority",         $priority_array[$row['task_priority']] );
@@ -843,33 +864,33 @@ function TaskDetails($tid) {
             if (mysql_num_rows($voteInfo) > 0) {
                 $reportedOS = "";
                 $reportedBrowser = "";
-                echo "<tr><td colspan='2' align='left' valign='top'><table border='0' cellspacing='2' cellpadding='0' width='100%'>";
-                echo "<tr><td width='25%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Votes&nbsp;&nbsp;</font></b></td>\n";
-                echo "<td align='left' width='75%'><font face='Verdana' color='#000000' style='font-size: 11px'>".mysql_num_rows($voteInfo)."</font></td></tr>";
-                echo "<tr><td width='25%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Reported Operating Systems&nbsp;&nbsp;</font></b></td>\n";
-                echo "<td align='left' width='75%'><font face='Verdana' color='#000000' style='font-size: 11px'>";
+                echo "<tr><td colspan='2'><table class='taskplain'>";
+                echo "<tr><td width='25%'><b>Votes&nbsp;&nbsp;</b></td>\n";
+                echo "<td width='75%'>".mysql_num_rows($voteInfo)."</td></tr>";
+                echo "<tr><td width='25%'><b>Reported Operating Systems&nbsp;&nbsp;</b></td>\n";
+                echo "<td width='75%'>";
                 while ($rowOS = mysql_fetch_assoc($osInfo)) { $reportedOS .= $os_array[$rowOS['vote_os']].", "; }
-                echo substr($reportedOS, 0, -2)."</font></td></tr>";
-                echo "<tr><td width='25%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Reported Browsers&nbsp;&nbsp;</font></b></td>\n";
-                echo "<td align='left' width='75%'><font face='Verdana' color='#000000' style='font-size: 11px'>";
+                echo substr($reportedOS, 0, -2)."</td></tr>";
+                echo "<tr><td width='25%'><b>Reported Browsers&nbsp;&nbsp;</b></td>\n";
+                echo "<td width='75%'>";
                 while ($rowBrowser = mysql_fetch_assoc($browserInfo)) { $reportedBrowser .= $browser_array[$rowBrowser['vote_browser']].", "; }
-                echo substr($reportedBrowser, 0, -2)."</font></td></tr></table></td></tr>";
+                echo substr($reportedBrowser, 0, -2)."</td></tr></table></td></tr>";
             }
 
-            echo "<tr><td align='left' valign='top'><br><table border='0' cellspacing='2' cellpadding='0' width='100%'><tr><td width='5%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Details&nbsp;&nbsp;</font></b></td>\n";
-            echo "<td align='left' width='95%' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'><font face='Verdana' color='#000000' style='font-size: 11px'>".nl2br(stripslashes($row['task_details']))."</font></td></tr></table></td></tr>\n";
+            echo "<tr><td><br><table class='taskplain'><tr><td width='5%'><b>Details&nbsp;&nbsp;</b></td>\n";
+            echo "<td width='95%' class='taskvalue'>".nl2br(stripslashes($row['task_details']))."</td></tr></table></td></tr>\n";
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && empty($row['closed_reason'])) {
                 echo "<form action='tasks.php' method='post'><input type='hidden' name='close_task'><input type='hidden' name='task_id' value='".$row['task_id']."'>\n";
-                echo "<tr><td align='left'><br><table border='0' cellspacing='2' cellpadding='0' width='100%'><tr><td width='20%' align='left' valign='bottom'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Close Task&nbsp;&nbsp;</font></b></td><td align='left' valign='bottom' width='80%'>";
+                echo "<tr><td><br><table class='taskplain'><tr><td width='20%' valign='bottom'><b>Close Task&nbsp;&nbsp;</b></td><td valign='bottom' width='80%'>";
                 dropdown_select('task_close_reason', "", $tasks_close_array);
-                echo "&nbsp;<input type='submit' value='Close Task' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>\n";
+                echo "&nbsp;<input type='submit' value='Close Task' class='taskinp2'>\n";
                 echo "</td></tr></form></table>\n";
             } elseif (!empty($row['closed_reason'])) {
                 $result = mysql_query("SELECT username FROM users WHERE u_id = ".$row['closed_by']."");
                 $closed_by = mysql_result($result, 0, "username");
-                echo "<tr><td align='left'><br><font face='Verdana' color='#000000' style='font-size: 9px'>Closed by: $closed_by<br>Date Closed: ".date("d-M-Y", $row['date_closed'])."<br>Reason: ".$tasks_close_array[$row['closed_reason']]."";
+                echo "<tr><td><br><small class='task'>Closed by: $closed_by<br>Date Closed: ".date("d-M-Y", $row['date_closed'])."<br>Reason: ".$tasks_close_array[$row['closed_reason']]."";
             }
-            echo "</td><td align='right'><br>";
+            echo "</small></td><td><br>";
 
             $meTooCheckResult = mysql_query("SELECT id FROM tasks_votes WHERE task_id = ".$tid." and u_id = ".$userP['u_id']."");
             $meTooAllowed = (mysql_num_rows($meTooCheckResult) == 0);
@@ -877,7 +898,7 @@ function TaskDetails($tid) {
             
             if ($meTooAllowed)
             { 
-                echo "<input type='button' value='Me Too!' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5' onClick=\"showSpan('MeTooMain');\">"; 
+                echo "<input type='button' value='Me Too!' class='taskinp2' onClick=\"showSpan('MeTooMain');\">"; 
             } 
             else 
             { 
@@ -895,7 +916,7 @@ function TaskDetails($tid) {
             RelatedPostings($tid);
         }
     } else {
-        echo "<tr bgcolor='#ffffff'><td colspan='7'><center><font face='Verdana' color='#000000' style='font-size: 11px'>Task #$tid was not found!</font></center></td></tr>";
+        ShowNotification("Task #$tid was not found!");
     }
 }
 
@@ -904,43 +925,38 @@ function MeToo($tid, $os, $browser) {
 
     echo "<span id='MeTooMain' style='display: none;'>";
     echo "<form action='tasks.php' method='post'><input type='hidden' name='meToo' value='$tid'><input type='hidden' name='task_os' value='$os'><input type='hidden' name='task_browser' value='$browser'>";
-    echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'><tr><td><font face='Verdana' color='#000000' style='font-size: 11px'>\n"; 
-    echo "<fieldset style='width: 35em; border: #26a solid 1px;'><legend><b>Are you using the same operating system?</b></legend>";
+    echo "<table class='tasks'><tr><td>\n"; 
+    echo "<fieldset class='task'><legend class='task'>Are you using the same operating system?</legend>";
     echo "&nbsp;<input onClick=\"hideSpan('OS');\" type='radio' name='sameOS' value='1' CHECKED>yes<input onClick=\"showSpan('OS');\" type='radio' name='sameOS' value='0'>no";
     echo "<span id='OS' style='display: none;'><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Operating System</b>&nbsp;";
     dropdown_select('metoo_os', "1", $os_array); echo "</select>\n</span></fieldset>\n";
 
-    echo "<br><fieldset style='width: 35em; border: #26a solid 1px;'><legend><b>Are you using the same browser?</b></legend>";
+    echo "<br><fieldset class='task'><legend class='task'>Are you using the same browser?</legend>";
     echo "&nbsp;<input onClick=\"hideSpan('Browser');\" type='radio' name='sameBrowser' value='1' CHECKED>yes<input onClick=\"showSpan('Browser');\" type='radio' name='sameBrowser' value='0'>no";
     echo "<span id='Browser' style='display: none;'><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Browser</b>&nbsp;";
     dropdown_select('metoo_browser', "1", $browser_array);  echo "</span></fieldset>\n";
 
-    echo "<center><input type='submit' value='Send Report' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>&nbsp;<input type='reset' value='Reset' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5' onClick=\"hideSpan('MeTooMain');\"></center>";
-    echo "</td></tr></table></font></form></span>";
+    echo "<center><input type='submit' value='Send Report' class='taskinp2'>&nbsp;<input type='reset' value='Reset' class='taskinp2' onClick=\"hideSpan('MeTooMain');\"></center>";
+    echo "</td></tr></table></form></span>";
 
 }
 
-function ShowNotification($warn, $goback = false, $col='#ff0000') {
+function ShowNotification($warn, $goback = false, $type="warn") {
+    if ($type == "info") { echo "<center class='taskinfo'>"; } else { echo "<center class='taskwarn'>"; }
     if ($goback) $warn .= "  Please go <a href='javascript:history.back()'>back</a> and correct this.";
-    echo "<center><b><font face='Verdana' color='$col' style='font-size: 11px'>$warn</font></b></center><br>\n";
+    echo "$warn</center>\n";
 }
 
 function EchoTaskProperty($name, $value) {
     echo "<tr>";
 
-    echo "<td width='40%' align='left'>";
-    echo "<b>";
-    echo "<font face='Verdana' color='#000000' style='font-size: 11px'>";
+    echo "<td class='taskproperty'>";
     echo $name;
     echo "&nbsp;&nbsp;";
-    echo "</font>";
-    echo "</b>";
     echo "</td>";
 
-    echo "<td width='60%' align='left' style='BORDER-RIGHT: #cccccc 1px; BORDER-TOP: #cccccc 1px; BORDER-LEFT: #cccccc 1px; BORDER-BOTTOM: #cccccc 1px solid'>";
-    echo "<font face='Verdana' color='#000000' style='font-size: 11px'>";
+    echo "<td class='taskvalue'>";
     echo $value;
-    echo "</font>";
     echo "</td>";
 
     echo "</tr>";
@@ -950,21 +966,21 @@ function EchoTaskProperty($name, $value) {
 function TaskComments($tid) {
     $result = mysql_query("SELECT * FROM tasks_comments WHERE task_id = $tid");
     if (mysql_num_rows($result) >= 1) {
-        echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'><tr><td width='100%' align='left'>\n";
+        echo "<table class='tasks'><tr><td width='100%'>\n";
         while ($row = mysql_fetch_assoc($result)) {
             $usernameQuery = mysql_query("SELECT username FROM users WHERE u_id = ".$row['u_id']."");
             $comment_username = mysql_result($usernameQuery, 0, "username");
             $comment_username_link = private_message_link($comment_username, NULL);
-            echo "<b><font face='Verdana' color='#000000' style='font-size: 11px'>Comment by $comment_username_link - ".date("l, d M Y, g:ia", $row['comment_date'])."</font></b><br>";
-            echo "<br><font face='Verdana' color='#000000' style='font-size: 11px'>".nl2br(stripslashes($row['comment']))."</font><br><br><hr width='80%' align='center'>";
+            echo "<b>Comment by $comment_username_link - ".date("l, d M Y, g:ia", $row['comment_date'])."</b><br>";
+            echo "<br>".nl2br(stripslashes($row['comment']))."<br><br><hr width='80%' align='center'>";
         }
         echo  "</td></tr></table>";
     }
     echo "<form action='tasks.php' method='post'><input type='hidden' name='new_comment' value='$tid'>";
-    echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'><tr><td>\n";
-    echo "<tr><td width='10%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Add comment</font></b></td>";
-    echo "<td width='90%' align='left' valign='top'><textarea name='task_comment' cols='60' rows='5'></textarea></td></tr>";
-    echo "<tr><td width='100%' align='center' valign='top' colspan='2'><input type='submit' value='Add Comment' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>\n";
+    echo "<table class='tasks'><tr><td>\n";
+    echo "<tr><td width='10%'><b>Add comment</b></td>";
+    echo "<td width='90%'><textarea name='task_comment' cols='60' rows='5'></textarea></td></tr>";
+    echo "<tr><td width='100%' align='center' colspan='2'><input type='submit' value='Add Comment' class='taskinp2'>\n";
     echo "</td></tr></table></form>";
 }
 
@@ -980,7 +996,7 @@ function NotificationMail($tid, $message) {
                 "You have requested notification of updates to task #$tid. "
                 ."$message"
                 ."\n"
-                ."You can see task #$tid by visiting $code_url/tasks.php?f=detail&tid=$tid."
+                ."You can see task #$tid by visiting $code_url/tasks.php?f=detail&tid=$tid"
                 ."\n"
                 ."\n"
                 ."--"
@@ -1005,11 +1021,11 @@ function RelatedTasks($tid) {
     $related_tasks = mysql_result($result, 0, "related_tasks");
 
     echo "<form action='tasks.php' method='post'><input type='hidden' name='new_relatedtask' value='$tid'>";
-    echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'>\n";
-    echo "<tr><td width='100%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Related Tasks&nbsp;&nbsp;</font></b>";
-    echo "<input type='text' name='related_task' size='30' style='font-family: Verdana; font-size: 10; border: 1px solid #000000; padding: 0; background-color: #EEF7FF'>&nbsp;&nbsp;";
-    echo "<input type='submit' value='Add' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>\n";
-    echo " <span style='font-family: verdana; font-size: 11px;'>(Add the number of an existing, related task. This is optional.)</span>";
+    echo "<table class='tasks'>\n";
+    echo "<tr><td width='100%'><b>Related Tasks&nbsp;&nbsp;</b>";
+    echo "<input type='text' name='related_task' size='30' class='taskinp1'>&nbsp;&nbsp;";
+    echo "<input type='submit' value='Add' class='taskinp2'>\n";
+    echo " (Add the number of an existing, related task. This is optional.)";
 
     if (!empty($related_tasks)) {
         $related_tasks = unserialize(base64_decode($related_tasks));
@@ -1027,7 +1043,7 @@ function RelatedTasks($tid) {
                 // so we need to use stripslashes() to display it in HTML.
                 $task_summary = stripslashes(mysql_result($result, 0, "task_summary"));
             }
-            echo "<br><font face='Verdana' color='#000000' style='font-size: 11px'><a href='$code_url/tasks.php?f=detail&tid=$val'>Task #$val</a> - $task_summary</font>\n"; }
+            echo "<br><a href='$code_url/tasks.php?f=detail&tid=$val'>Task #$val</a> - $task_summary\n"; }
     }
 
     echo "</td></tr></table></form>";
@@ -1040,11 +1056,11 @@ function RelatedPostings($tid) {
     $related_postings = mysql_result($result, 0, "related_postings");
 
     echo "<form action='tasks.php' method='post'><input type='hidden' name='new_relatedposting' value='$tid'>";
-    echo "<table cellpadding='2' cellspacing='0' width='100%' bgcolor='#e6eef6' style='border-collapse: collapse; border: 1px solid #CCCCCC; padding: 0'>\n";
-    echo "<tr><td width='100%' align='left' valign='top'><b><font face='Verdana' color='#000000' style='font-size: 11px'>Related Topic ID&nbsp;&nbsp;</font></b>";
-    echo "<input type='text' name='related_posting' size='30' style='font-family: Verdana; font-size: 10; border: 1px solid #000000; padding: 0; background-color: #EEF7FF'>&nbsp;&nbsp;";
-    echo "<input type='submit' value='Add' style='font-family: Verdana; font-size: 11; color: #FFFFFF; font-weight: bold; border: 1px ridge #000000; padding: 0; background-color: #838AB5'>\n";
-    echo " <span style='font-family: verdana; font-size: 11px;'>(Optional)</span>";
+    echo "<table class='tasks'>\n";
+    echo "<tr><td width='100%'><b>Related Topic ID&nbsp;&nbsp;</b>";
+    echo "<input type='text' name='related_posting' size='30' class='taskinp1'>&nbsp;&nbsp;";
+    echo "<input type='submit' value='Add' class='taskinp2'>\n";
+    echo " (Optional)";
 
     if (!empty($related_postings)) {
         $related_postings = unserialize(base64_decode($related_postings));
@@ -1053,7 +1069,7 @@ function RelatedPostings($tid) {
             $row = get_topic_details($val);
             $forum_url = get_url_to_view_forum($row["forum_id"]);
             $topic_url = get_url_to_view_topic($row["topic_id"]);
-            echo "<br><font face='Verdana' color='#000000' style='font-size: 11px'><a href='$forum_url'>".$row['forum_name']."</a>&nbsp;&raquo;&nbsp;<a href='$topic_url'>".$row['title']."</a> (Posted by: ".$row['creator_username']." - ".$row['num_replies']." replies)</font>\n";
+            echo "<br><a href='$forum_url'>".$row['forum_name']."</a>&nbsp;&raquo;&nbsp;<a href='$topic_url'>".$row['title']."</a> (Posted by: ".$row['creator_username']." - ".$row['num_replies']." replies)\n";
         }
     }
     echo "</td></tr></table></form>";
