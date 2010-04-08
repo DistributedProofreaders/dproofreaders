@@ -13,6 +13,8 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
 // Validate the user input fields
 // Returns an empty string upon success and an error message upon failure
 {
+    global $testing;
+    
     // Make sure that password and confirmed password are equal.
     if ($userpass != $userpass2)
     {
@@ -33,10 +35,16 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
         return $err;
     }
 
-    $err = check_email_address( $email );
-    if ( $err != '' )
-    {
-        return $err;
+    // In testing mode, a fake email address is constructed using
+    // 'localhost' as the domain. check_email_address() incorrectly
+    // thinks the domain should end in a 2-4 character top level
+    // domain, so disable the address check for testing.
+    if (!$testing) {
+        $err = check_email_address( $email );
+        if ( $err != '' )
+        {
+            return $err;
+        }
     }
 
     if (empty($userpass) || empty($real_name))
@@ -77,6 +85,17 @@ if ($password=="proofer") {
     $email2 = $_POST['email2'];
     $email_updates = $_POST['email_updates'];
 
+    // When in testing mode, to avoid leaking private email addresses,
+    // create a fake but distinct email address based on the username.
+    // DP usernames allow [0-9A-Za-z@._ -]. '@' and ' ' are not valid
+    // (unless quoted) in the local part of an email address, so
+    // convert those to '%' and '+' respectively.
+    if ($testing) {
+        $local_part = str_replace(array('@', ' '), array('%', '+'), $username);
+        $email      = $local_part . "@localhost";
+        $email2     = $email;
+    }
+    
     $error = _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates);
 
     // if all fields validated, create the registration
@@ -154,7 +173,7 @@ if ($password=="proofer") {
     if ( $testing )
     {
 	    echo "<p style='color: red'>";
-	    echo _("Because this is a test site, an email <b>won't</b> be sent to you. Instead, when you hit the 'Send E-mail ...' button below, the text of the would-be email will be displayed on the next screen. After the greeting, there's a line that ends 'please visit this URL:', followed by a confirmation URL. Copy and paste that URL into your browser's location field and hit return. <b>Your account won't be created until you access the confirmation link.</b>");
+	    echo _("Because this is a test site, you <b>don't</b> need to provide an email address and an email <b>won't</b> be sent to you. Instead, when you hit the 'Send E-mail ...' button below, the text of the would-be email will be displayed on the next screen. After the greeting, there's a line that ends 'please visit this URL:', followed by a confirmation URL. Copy and paste that URL into your browser's location field and hit return. <b>Your account won't be created until you access the confirmation link.</b>");
 	    echo "</p>";
     }
 
@@ -182,12 +201,14 @@ if ($password=="proofer") {
     echo "  <td class='label'>" . _("Confirm Password") . ":</td>";
     echo "  <td class='field'><input type='password' maxlength='70' name='userPW2' size='20'></td>";
     echo "</tr>\n<tr>";
-    echo "  <td class='label'>" . _("E-mail Address") . ":</td>";
-    echo "  <td class='field'><input type='text' maxlength='70' name='email' size='20' value='$email'></td>";
-    echo "</tr>\n<tr>";
-    echo "  <td class='label'>" . _("Confirm E-mail Address") . ":</td>";
-    echo "  <td class='field'><input type='text' maxlength='70' name='email2' size='20' value='$email2'></td>";
-    echo "</tr>\n<tr>";
+    if (!$testing) {
+        echo "  <td class='label'>" . _("E-mail Address") . ":</td>";
+        echo "  <td class='field'><input type='text' maxlength='70' name='email' size='20' value='$email'></td>";
+        echo "</tr>\n<tr>";
+        echo "  <td class='label'>" . _("Confirm E-mail Address") . ":</td>";
+        echo "  <td class='field'><input type='text' maxlength='70' name='email2' size='20' value='$email2'></td>";
+        echo "</tr>\n<tr>";
+    }
     echo "  <td class='label'><b>" . _("E-mail Updates") . ":</td>";
     echo "  <td class='field'>";
     echo "    <input type='radio' name='email_updates' value='1' "; if($email_updates) echo "checked"; echo ">" . _("Yes") . "&nbsp;&nbsp;";
