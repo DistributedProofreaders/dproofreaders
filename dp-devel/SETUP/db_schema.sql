@@ -990,7 +990,6 @@ CREATE TABLE `users` (
   `date_created` int(20) NOT NULL default '0',
   `last_login` int(20) NOT NULL default '0',
   `t_last_activity` int(10) unsigned NOT NULL default '0',
-  `emailupdates` varchar(4) NOT NULL default '',
   `postprocessor` tinytext NOT NULL,
   `sitemanager` tinytext NOT NULL,
   `active` tinytext NOT NULL,
