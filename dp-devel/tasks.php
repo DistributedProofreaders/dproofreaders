@@ -11,6 +11,10 @@ include_once($relPath.'links.inc'); // private_message_link()
 
 $tasks_url = $code_url . "/" . basename(__FILE__);
 
+$valid_orderbys = array('task_id','task_type','task_severity','votes','task_summary','date_edited','task_status','percent_complete');
+
+$valid_f = get_enumerated_param($_GET, 'f', null, array('newtask', 'detail', 'notifyme', 'unnotifyme'), true);
+
 $no_stats = 1;
 theme('Task Center', 'header');
 ?>
@@ -279,35 +283,69 @@ while ($row = mysql_fetch_assoc($result)) {
     $task_assignees_array[$u_id] = $row['username'];
 }
 natcasesort($task_assignees_array);
+
+// Make the 'all' versions of each array used by search.
+$tasks_all_array          = array(999 => 'All Task Types') + $tasks_array;
+$categories_all_array     = array(999 => 'All Categories') +$categories_array;
+$tasks_status_all_array   = array(998 => 'All Tasks', 999 => 'All Open Tasks') + $tasks_status_array;
+$task_assignees_all_array = array(999 => 'All Developers') + $task_assignees_array;
+$severity_all_array       = array(999 => 'All Severities') + $severity_array;
+$priority_all_array       = array(999 => 'All Priorities') + $priority_array;
+$versions_all_array       = array(999 => 'All Versions') + $versions_array;
+
 $order_by = "ORDER BY date_edited DESC, task_severity ASC, task_type ASC";
 
 echo "<br /><div align='center'><table class='taskplain' width='98%'><tr><td>\n";
 TaskHeader();
 
-if (isset($_GET['f']) && $_GET['f'] == "newtask") {
-    TaskForm("");
+if (isset($valid_f)) {
+    switch ( $valid_f )
+    {
+        case 'newtask':
+            TaskForm("");
+            break;
+
+        case 'detail':
+            $task_id = get_integer_param($_REQUEST, 'tid', null, 1, null);
+            TaskDetails($task_id);
+            break;
+
+        case 'notifyme':
+            $task_id = get_integer_param($_REQUEST, 'tid', null, 1, null);
+            $result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'taskctr_notice', " . $task_id . ")");
+            TaskDetails($task_id);
+            break;
+
+        case 'unnotifyme':
+            $task_id = get_integer_param($_REQUEST, 'tid', null, 1, null);
+            $result = mysql_query("DELETE FROM usersettings WHERE username = '$pguser' and setting = 'taskctr_notice' and value = " . $task_id . "");
+            TaskDetails($task_id);
+            break;
+    }
 }
 elseif (isset($_POST['edit_task'])) {
+    $task_id = get_integer_param($_POST, 'edit_task', null, 1, null);
     $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
     $u_id = mysql_result($result, 0, "u_id");
-    $result = mysql_query("SELECT * FROM tasks WHERE task_id = " . $_POST['edit_task'] . "");
+    $result = mysql_query("SELECT * FROM tasks WHERE task_id = " . $task_id . "");
     $opened_by = mysql_result($result, 0, "opened_by");
     $closed_reason = mysql_result($result, 0, "closed_reason");
     if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $opened_by == $u_id && empty($closed_reason)) {
-        TaskForm($_POST['edit_task']);
+        TaskForm($task_id);
     }
     else {
         ShowNotification("The user $pguser does not have permission to edit this task.");
-        TaskDetails($_POST['edit_task']);
+        TaskDetails($task_id);
     }
 }
 elseif (isset($_POST['reopen_task'])) {
-    NotificationMail($_POST['reopen_task'], "This task was reopened by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
+    $task_id = get_integer_param($_POST, 'reopen_task', null, 1, null);
+    NotificationMail($task_id, "This task was reopened by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
     $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
     $u_id = mysql_result($result, 0, "u_id");
-    $result = mysql_query("UPDATE tasks SET task_status = 15, edited_by = $u_id, date_edited = " . time() . ", date_closed = 0, closed_by = 0, closed_reason = 0 WHERE task_id = " . $_POST['reopen_task'] . "");
-    $result = mysql_query("SELECT * FROM tasks WHERE task_id = " . $_POST['reopen_task'] . "");
-    TaskDetails($_POST['reopen_task']);
+    $result = mysql_query("UPDATE tasks SET task_status = 15, edited_by = $u_id, date_edited = " . time() . ", date_closed = 0, closed_by = 0, closed_reason = 0 WHERE task_id = " . $task_id . "");
+    $result = mysql_query("SELECT * FROM tasks WHERE task_id = " . $task_id . "");
+    TaskDetails($task_id);
 }
 elseif (isset($_POST['newtask'])) {
     if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
@@ -321,6 +359,16 @@ elseif (isset($_POST['newtask'])) {
             $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
             $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
             $u_id = mysql_result($result, 0, "u_id");
+            $newt_type     = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
+            $newt_category = (int) get_enumerated_param($_POST, 'task_category', null, array_keys($categories_array));
+            $newt_status   = (int) get_enumerated_param($_POST, 'task_status', null, array_keys($tasks_status_array));
+            $newt_assignee = (int) get_enumerated_param($_POST, 'task_assignee', null, array_keys($task_assignees_array));
+            $newt_severity = (int) get_enumerated_param($_POST, 'task_severity', null, array_keys($severity_array));
+            $newt_priority = (int) get_enumerated_param($_POST, 'task_priority', null, array_keys($priority_array));
+            $newt_os       = (int) get_enumerated_param($_POST, 'task_os', null, array_keys($os_array));
+            $newt_browser  = (int) get_enumerated_param($_POST, 'task_browser', null, array_keys($browser_array));
+            $newt_version  = (int) get_enumerated_param($_POST, 'task_version', null, array_keys($versions_array));
+
             $sql_query = "
                 INSERT INTO tasks (
                     task_id,
@@ -347,15 +395,15 @@ elseif (isset($_POST['newtask'])) {
                 ) VALUES (
                     '',
                     '" . addslashes(htmlspecialchars($_POST['task_summary'])) . "',
-                    " . $_POST['task_type'] . ",
-                    " . $_POST['task_category'] . ",
-                    " . $_POST['task_status'] . ",
-                    " . $_POST['task_assignee'] . ",
-                    " . $_POST['task_severity'] . ",
-                    " . $_POST['task_priority'] . ",
-                    " . $_POST['task_os'] . ",
-                    " . $_POST['task_browser'] . ",
-                    " . $_POST['task_version'] . ",
+                    "  . $newt_type . ",
+                    "  . $newt_category . ",
+                    "  . $newt_status . ",
+                    "  . $newt_assignee . ",
+                    "  . $newt_severity . ",
+                    "  . $newt_priority . ",
+                    "  . $newt_os . ",
+                    "  . $newt_browser . ",
+                    "  . $newt_version . ",
                     '" . addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES)) . "',
                     "  . time() . ",
                     $u_id,
@@ -370,35 +418,47 @@ elseif (isset($_POST['newtask'])) {
             ";
             if ($testing) echo_html_comment($sql_query);
             $result = mysql_query($sql_query);
-            $result = mysql_query("SELECT email, username FROM users WHERE u_id = " . $_POST['task_assignee'] . "");
-            if (!empty($_POST['task_assignee'])) {
+            $result = mysql_query("SELECT email, username FROM users WHERE u_id = " . $newt_assignee . "");
+            if (!empty($newt_assignee)) {
                 maybe_mail(mysql_result($result, 0, "email") , "DP Task Center: Task #" . mysql_insert_id() . " has been assigned to you", mysql_result($result, 0, "username") . ", you have been assigned task #" . mysql_insert_id() . ".  Please visit this task at $task_url?f=detail&tid=" . mysql_insert_id() . ".\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
             }
             $result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'taskctr_notice', " . mysql_insert_id() . ")");
             list_all_open_tasks($order_by);
         }
         else {
-            NotificationMail($_POST['task_id'], "There has been an edit made to this task by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
+            $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
+            NotificationMail($task_id, "There has been an edit made to this task by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
             $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
             $u_id = mysql_result($result, 0, "u_id");
+            $edit_type     = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
+            $edit_category = (int) get_enumerated_param($_POST, 'task_category', null, array_keys($categories_array));
+            $edit_status   = (int) get_enumerated_param($_POST, 'task_status', null, array_keys($tasks_status_array));
+            $edit_assignee = (int) get_enumerated_param($_POST, 'task_assignee', null, array_keys($task_assignees_array));
+            $edit_severity = (int) get_enumerated_param($_POST, 'task_severity', null, array_keys($severity_array));
+            $edit_priority = (int) get_enumerated_param($_POST, 'task_priority', null, array_keys($priority_array));
+            $edit_os       = (int) get_enumerated_param($_POST, 'task_os', null, array_keys($os_array));
+            $edit_browser  = (int) get_enumerated_param($_POST, 'task_browser', null, array_keys($browser_array));
+            $edit_version  = (int) get_enumerated_param($_POST, 'task_version', null, array_keys($versions_array));
+            $edit_percent  = (int) get_enumerated_param($_POST, 'percent_complete', null, array_keys($percent_complete_array));
+
             $sql_query = "
                 UPDATE tasks
                 SET
-                    task_summary = '" . addslashes(htmlspecialchars($_POST['task_summary'])) . "',
-                    task_type = " . $_POST['task_type'] . ",
-                    task_category = " . $_POST['task_category'] . ",
-                    task_status = " . $_POST['task_status'] . ",
-                    task_assignee = " . $_POST['task_assignee'] . ",
-                    task_severity = " . $_POST['task_severity'] . ",
-                    task_priority = " . $_POST['task_priority'] . ",
-                    task_os = " . $_POST['task_os'] . ",
-                    task_browser = " . $_POST['task_browser'] . ",
-                    task_version = " . $_POST['task_version'] . ",
-                    task_details = '" . addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES)) . "',
-                    date_edited = " . time() . ",
-                    edited_by = $u_id,
-                    percent_complete = " . $_POST['percent_complete'] . "
-                WHERE task_id = " . $_POST['task_id'] . "
+                    task_summary     = '" . addslashes(htmlspecialchars($_POST['task_summary'])) . "',
+                    task_type        = "  . $edit_type . ",
+                    task_category    = "  . $edit_category . ",
+                    task_status      = "  . $edit_status . ",
+                    task_assignee    = "  . $edit_assignee . ",
+                    task_severity    = "  . $edit_severity . ",
+                    task_priority    = "  . $edit_priority . ",
+                    task_os          = "  . $edit_os . ",
+                    task_browser     = "  . $edit_browser . ",
+                    task_version     = "  . $edit_version . ",
+                    task_details     = '" . addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES)) . "',
+                    date_edited      = "  . time() . ",
+                    edited_by        = $u_id,
+                    percent_complete = "  . $edit_percent . "
+                WHERE task_id = " . $task_id . "
             ";
             if ($testing) echo_html_comment($sql_query);
             $result = mysql_query($sql_query);
@@ -409,15 +469,14 @@ elseif (isset($_POST['newtask'])) {
 elseif (isset($_POST['search_task'])) {
     search_and_list_tasks($_POST, $order_by);
 }
-elseif (isset($_GET['f']) && $_GET['f'] == "detail") {
-    TaskDetails($_REQUEST['tid']);
-}
 elseif (isset($_POST['close_task'])) {
     if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
-        NotificationMail($_POST['task_id'], "This task was closed by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n\nThe reason for closing was: " . $tasks_close_array[$_POST['task_close_reason']] . ".\n");
+        $task_id   = get_integer_param($_POST, 'task_id', null, 1, null);
+        $tc_reason = (int) get_enumerated_param($_POST, 'task_close_reason', null, array_keys($tasks_close_array));
+        NotificationMail($task_id, "This task was closed by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n\nThe reason for closing was: " . $tc_reason . ".\n");
         $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
         $u_id = mysql_result($result, 0, "u_id");
-        $result = mysql_query("UPDATE tasks SET percent_complete = 100, task_status = 14, date_closed = " . time() . ", closed_by = $u_id, closed_reason = " . $_POST['task_close_reason'] . ", date_edited = " . time() . ", edited_by = $u_id WHERE task_id = " . $_POST['task_id'] . "");
+        $result = mysql_query("UPDATE tasks SET percent_complete = 100, task_status = 14, date_closed = " . time() . ", closed_by = $u_id, closed_reason = " . $tc_reason . ", date_edited = " . time() . ", edited_by = $u_id WHERE task_id = " . $task_id . "");
         list_all_open_tasks($order_by);
     }
     else {
@@ -425,11 +484,8 @@ elseif (isset($_POST['close_task'])) {
     }
 }
 elseif (isset($_POST['new_comment'])) {
-    $task_id = $_POST['new_comment'];
-    if (!is_numeric($task_id)) {
-        ShowNotification("Error: task identifier '$task_id' is not numeric.");
-    }
-    else if (!empty($_POST['task_comment'])) {
+    $task_id = get_integer_param($_POST, 'new_comment', null, 1, null);
+    if (!empty($_POST['task_comment'])) {
         NotificationMail($task_id, "There has been a comment added to this task by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
         $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
         $u_id = mysql_result($result, 0, "u_id");
@@ -442,26 +498,20 @@ elseif (isset($_POST['new_comment'])) {
         TaskDetails($task_id);
     }
 }
-elseif (isset($_GET['f']) && $_GET['f'] == "notifyme") {
-    $result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'taskctr_notice', " . $_GET['tid'] . ")");
-    TaskDetails($_GET['tid']);
-}
-elseif (isset($_GET['f']) && $_GET['f'] == "unnotifyme") {
-    $result = mysql_query("DELETE FROM usersettings WHERE username = '$pguser' and setting = 'taskctr_notice' and value = " . $_GET['tid'] . "");
-    TaskDetails($_GET['tid']);
-}
 elseif (isset($_POST['new_relatedtask'])) {
     if (empty($_POST['related_task'])) {
         ShowNotification("You must supply a related task ID.", true);
     } else {
-        $checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = " . $_POST['related_task'] . "");
-        $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = " . $_POST['new_relatedtask'] . "");
+        $nr_task_id = get_integer_param($_POST, 'new_relatedtask', null, 1, null);
+        $r_task_id  = get_integer_param($_POST, 'related_task', null, 1, null);
+        $checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = " . $nr_task_id . "");
+        $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = " . $nr_task_id . "");
         $relatedtasks_array = decode_array(mysql_result($result, 0, "related_tasks"));
-        if (is_numeric($_POST['related_task']) && mysql_num_rows($checkTaskExists) >= 1 && $_POST['related_task'] != $_POST['new_relatedtask'] && !in_array($_POST['related_task'], $relatedtasks_array)) {
-            array_push($relatedtasks_array, $_POST['related_task']);
+        if (mysql_num_rows($checkTaskExists) >= 1 && $r_task_id != $nr_task_id && !in_array($r_task_id, $relatedtasks_array)) {
+            array_push($relatedtasks_array, $r_task_id);
             $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
-            $result = mysql_query("UPDATE tasks SET related_tasks = '$relatedtasks_array' WHERE task_id = " . $_POST['new_relatedtask'] . "");
-            NotificationMail($_POST['new_relatedtask'], "This task had a related task added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
+            $result = mysql_query("UPDATE tasks SET related_tasks = '$relatedtasks_array' WHERE task_id = " . $nr_task_id . "");
+            NotificationMail($nr_task_id, "This task had a related task added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
             list_all_open_tasks($order_by);
         }
         else {
@@ -473,13 +523,15 @@ elseif (isset($_POST['new_relatedposting'])) {
     if (empty($_POST['related_posting'])) {
         ShowNotification("You must supply a related topic ID.", true);
     } else {
-        $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = " . $_POST['new_relatedposting'] . "");
+        $nrp_task_id = get_integer_param($_POST, 'new_relatedposting', null, 1, null);
+        $r_posting = get_integer_param($_POST, 'related_posting', null, 1, null);
+        $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = " . $nrp_task_id . "");
         $relatedpostings_array = decode_array(mysql_result($result, 0, "related_postings"));
-        if (is_numeric($_POST['related_posting']) && does_topic_exist($_POST['related_posting']) && !in_array($_POST['related_posting'], $relatedpostings_array)) {
-            array_push($relatedpostings_array, $_POST['related_posting']);
+        if (does_topic_exist($r_posting) && !in_array($r_posting, $relatedpostings_array)) {
+            array_push($relatedpostings_array, $r_posting);
             $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
-            $result = mysql_query("UPDATE tasks SET related_postings = '$relatedpostings_array' WHERE task_id = " . $_POST['new_relatedposting'] . "");
-            NotificationMail($_POST['new_relatedposting'], "This task had a related posting added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
+            $result = mysql_query("UPDATE tasks SET related_postings = '$relatedpostings_array' WHERE task_id = " . $nrp_task_id . "");
+            NotificationMail($nrp_task_id, "This task had a related posting added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
             list_all_open_tasks($order_by);
         }
         else {
@@ -488,23 +540,15 @@ elseif (isset($_POST['new_relatedposting'])) {
     }
 }
 elseif (isset($_POST['meToo'])) {
-    if ($_POST['sameOS'] == 1) {
-        $vote_os = $_POST['task_os'];
-    }
-    else {
-        $vote_os = $_POST['metoo_os'];
-    }
-    if ($_POST['sameBrowser'] == 1) {
-        $vote_browser = $_POST['task_browser'];
-    }
-    else {
-        $vote_browser = $_POST['metoo_browser'];
-    }
-    $task_id = $_POST['meToo'];
+    $metoo_or_task = array('metoo', 'task');
+    $task_id       = get_integer_param($_REQUEST, 'meToo', null, 1, null);
+    $sameOS        = get_integer_param($_REQUEST, 'sameOS', null, 0, 1);
+    $sameBrowser   = get_integer_param($_REQUEST, 'sameBrowser', null, 0, 1);
+    $vote_os       = (int) get_enumerated_param($_POST, $metoo_or_task[$sameOS] . '_os', null, array_keys($os_array));
+    $vote_browser  = (int) get_enumerated_param($_POST, $metoo_or_task[$sameBrowser] . '_browser', null, array_keys($browser_array));
+
     $user_id = $userP['u_id'];
-    if (!is_numeric($task_id) || !is_numeric($vote_os) || !is_numeric($vote_browser)) {
-        die("An incorrect parameter was given.");
-    }
+
     // Do not insert twice the same vote if the user refreshes the browser
     $meTooCheck = mysql_query("SELECT 1 FROM tasks_votes 
         WHERE task_id = $task_id and u_id = $user_id LIMIT 1");
@@ -512,17 +556,20 @@ elseif (isset($_POST['meToo'])) {
             (task_id, u_id, vote_os, vote_browser) 
             VALUES ($task_id, $user_id, $vote_os, $vote_browser)");
     mysql_free_result($meTooCheck);
+
     // No need to display a different error message if the user was refreshing
     ShowNotification("Thank you for your report!  It has been recorded below.", false, "info");
-    TaskDetails($_POST['meToo']);
+    TaskDetails($task_id);
 }
 else {
     // Either they just entered the Task Center
     // (e.g., by clicking the "Report a Bug" link)
     // or they clicked a column-header-link in a listing of tasks.
     // (Or they followed a bookmark of one of those.)
-    if (isset($_GET['orderby']) && isset($_GET['direction'])) {
-        $order_by = "ORDER BY " . $_GET['orderby'] . " " . $_GET['direction'];
+    $req_direction = get_enumerated_param($_GET, 'direction', 'desc', array('asc', 'desc'));
+    $req_order = get_enumerated_param($_GET, 'orderby', 'date_edited', $valid_orderbys);
+    if (isset($req_order) && isset($req_direction)) {
+        $order_by = "ORDER BY " . $req_order . " " . $req_direction;
     }
     if (isset($_GET['search_text'])) {
         search_and_list_tasks($_GET, $order_by);
@@ -551,9 +598,9 @@ function dropdown_select($field_name, $current_value, $array)
 
 function TaskHeader()
 {
-    global $tasks_array, $severity_array, $priority_array, $categories_array, $tasks_status_array;
-    global $search_results_array, $os_array, $browser_array, $versions_array, $tasks_close_array;
-    global $task_assignees_array;
+    global $tasks_all_array, $severity_all_array, $priority_all_array, $task_assignees_all_array;
+    global $categories_all_array, $tasks_status_all_array, $versions_all_array;
+    global $search_results_array, $os_array, $browser_array, $tasks_close_array;
     global $percent_complete_array, $tasks_url;
     if (isset($_REQUEST['search_text']) && !empty($_REQUEST['search_text'])) {
         if (get_magic_quotes_gpc()) $_REQUEST['search_text'] = stripslashes($_REQUEST['search_text']);
@@ -571,76 +618,23 @@ function TaskHeader()
     echo "<table class='tasks'>\n";
     echo "<tr><td width='10%'><b><small class='task'>Search:</small></b></td>\n";
     echo "<td width='70%'><input type='text' value='$search_text' name='search_text' size='50' class='taskinp1'>\n";
-    echo "<select size='1' name='task_type' class='taskselect'>\n<option value='999'>All Task Types</option>\n";
-    while (list($key, $val) = each($tasks_array)) {
-        echo "<option value='$key'";
-        if (isset($_REQUEST['task_type']) && $_REQUEST['task_type'] == $key) {
-            echo " SELECTED";
-        }
-        echo ">$val</option>\n";
-    }
-    echo "</select>\n";
-    echo "<select size='1' name='task_severity' class='taskselect'>\n<option value='999'>All Severities</option>\n";
-    while (list($key, $val) = each($severity_array)) {
-        echo "<option value='$key'";
-        if (isset($_REQUEST['task_severity']) && $_REQUEST['task_severity'] == $key) {
-            echo " SELECTED";
-        }
-        echo ">$val</option>\n";
-    }
-    echo "</select>\n";
-    echo "<select size='1' name='task_priority' class='taskselect'>\n<option value='999'>All Priorities</option>\n";
-    while (list($key, $val) = each($priority_array)) {
-        echo "<option value='$key'";
-        if (isset($_REQUEST['task_priority']) && $_REQUEST['task_priority'] == $key) {
-            echo " SELECTED";
-        }
-        echo ">$val</option>\n";
-    }
-    echo "</select>\n<br />\n";
-    echo "<select size='1' name='task_assignee' class='taskselect'>\n<option value='999'>All Developers</option>\n";
-    reset($task_assignees_array);
-    while (list($key, $val) = each($task_assignees_array)) {
-        echo "<option value='$key'";
-        if (isset($_REQUEST['task_assignee']) && $_REQUEST['task_assignee'] == $key) {
-            echo " SELECTED";
-        }
-        echo ">$val</option>\n";
-    }
-    echo "</select>\n";
-    echo "<select size='1' name='task_category' class='taskselect'>\n<option value='999'>All Categories</option>\n";
-    asort($categories_array);
-    while (list($key, $val) = each($categories_array)) {
-        echo "<option value='$key'";
-        if (isset($_REQUEST['task_category']) && $_REQUEST['task_category'] == $key) {
-            echo " SELECTED";
-        }
-        echo ">$val</option>\n";
-    }
-    echo "</select>\n";
-    echo "<select size='1' name='task_status' class='taskselect'>\n<option value='998'>All Tasks</option>\n<option value='999'";
-    if (!isset($_REQUEST['task_status']) || $_REQUEST['task_status'] == 999) {
-        echo " SELECTED";
-    }
-    echo ">All Open Tasks</option>\n";
-    asort($tasks_status_array);
-    while (list($key, $val) = each($tasks_status_array)) {
-        echo "<option value='$key'";
-        if (isset($_REQUEST['task_status']) && $_REQUEST['task_status'] == $key) {
-            echo " SELECTED";
-        }
-        echo ">$val</option>\n";
-    }
-    echo "</select>\n";
-    echo "<select size='1' name='task_version' class='taskselect'>\n<option value='999'>All Versions</option>\n";
-    while (list($key, $val) = each($versions_array)) {
-        echo "<option value='$key'";
-        if (isset($_REQUEST['task_version']) && $_REQUEST['task_version'] == $key) {
-            echo " SELECTED";
-        }
-        echo ">$val</option>\n";
-    }
-    echo "</select>\n";
+
+    $task_type     = (int) get_enumerated_param($_REQUEST, 'task_type',     '999', array_keys($tasks_all_array));
+    $task_severity = (int) get_enumerated_param($_REQUEST, 'task_severity', '999', array_keys($severity_all_array));
+    $task_priority = (int) get_enumerated_param($_REQUEST, 'task_priority', '999', array_keys($priority_all_array));
+    $task_assignee = (int) get_enumerated_param($_REQUEST, 'task_assignee', '999', array_keys($task_assignees_all_array));
+    $task_category = (int) get_enumerated_param($_REQUEST, 'task_category', '999', array_keys($categories_all_array));
+    $task_status   = (int) get_enumerated_param($_REQUEST, 'task_status',   '999', array_keys($tasks_status_all_array));
+    $task_version  = (int) get_enumerated_param($_REQUEST, 'task_version',  '999', array_keys($versions_all_array));
+
+    dropdown_select('task_type',     $task_type,     $tasks_all_array);
+    dropdown_select('task_severity', $task_severity, $severity_all_array);
+    dropdown_select('task_priority', $task_priority, $priority_all_array);
+    dropdown_select('task_assignee', $task_assignee, $task_assignees_all_array);
+    dropdown_select('task_category', $task_category, $categories_all_array);
+    dropdown_select('task_status',   $task_status,   $tasks_status_all_array);
+    dropdown_select('task_version',  $task_version,  $versions_all_array);
+    
     echo "<input type='submit' value='Search' class='taskinp2'></td>\n";
     echo "<td width='30%' style='text-align: right;'><small class='task'><a href='$tasks_url'>Task Center Home</a> | <a href='$tasks_url?f=newtask'>New Task</a></small></td></tr>\n";
     echo "</table></form><br />\n";
@@ -714,7 +708,6 @@ function search_and_list_tasks($request_params, $order_by)
     else {
         $task_status = "task_status = " . $request_params['task_status'];
     }
-    
     // Note that, although TaskHeader has already run stripslashes()
     // on $_REQUEST['search_text'], $_REQUEST is a distinct variable
     // from $_GET and $_POST (and thus $request_params), so
@@ -750,6 +743,7 @@ function search_and_list_tasks($request_params, $order_by)
     $sql_query = sql_query_for_tasks($where_clause, $order_by);
     if ($testing) echo_html_comment($sql_query);
     $result = mysql_query($sql_query);
+
     ShowTasks($result);
 }
 
@@ -757,36 +751,40 @@ function search_and_list_tasks($request_params, $order_by)
 
 function OrderBy($orderby_var)
 {
-    if (isset($_GET['orderby']) && $_GET['orderby'] == $orderby_var) {
-        if ($_GET['direction'] == "asc") {
+    global $valid_orderbys;
+    $direction = get_enumerated_param($_GET, 'direction', 'asc', array('asc', 'desc'));
+    $orderby   = get_enumerated_param($_GET, 'orderby', null, $valid_orderbys, true);
+
+    if ($orderby == $orderby_var) {
+        if ($direction == "asc") {
             $direction = "desc";
         } else {
             $direction = "asc";
         }
     }
-    else {
-        $direction = "desc";
-    }
-    $p = "orderby=$orderby_var&direction=$direction";
-    return $p;
+    return "orderby=$orderby_var&direction=$direction";
 }
 
 function ShowTasks($sql_result)
 {
     global $code_url, $tasks_url;
-    global $tasks_array, $severity_array, $categories_array, $tasks_status_array;
-    global $search_results_array, $os_array, $browser_array, $versions_array, $tasks_close_array, $percent_complete_array;
+    global $tasks_all_array, $severity_all_array, $task_assignees_all_array, $categories_all_array;
+    global $tasks_status_all_array, $priority_all_array, $versions_all_array;
+    global $tasks_array, $severity_array, $task_assignees_array, $categories_array;
+    global $tasks_status_array, $priority_array, $versions_array;
+    global $search_results_array, $os_array, $browser_array, $tasks_close_array, $percent_complete_array;
     if (isset($_REQUEST['search_text'])) {
-        $t = "search_text="    . urlencode($_REQUEST['search_text'])
-           . "&task_type="     . $_REQUEST['task_type']
-           . "&task_severity=" . $_REQUEST['task_severity']
-           . "&task_priority=" . $_REQUEST['task_priority']
-           . "&task_assignee=" . $_REQUEST['task_assignee']
-           . "&task_category=" . $_REQUEST['task_category']
-           . "&task_status="   . $_REQUEST['task_status']
-           . "&task_version="  . $_REQUEST['task_version']
-           . "&";
-    } else {
+        $t = "search_text="     . urlencode($_REQUEST['search_text'])
+            . "&task_type="     . get_enumerated_param($_REQUEST,'task_type'    , '1',          array_keys($tasks_all_array))
+            . "&task_severity=" . get_enumerated_param($_REQUEST,'task_severity', '4',       array_keys($severity_all_array))
+            . "&task_priority=" . get_enumerated_param($_REQUEST,'task_priority', '3',       array_keys($priority_all_array))
+            . "&task_assignee=" . get_enumerated_param($_REQUEST,'task_assignee', '1', array_keys($task_assignees_all_array))
+            . "&task_category=" . get_enumerated_param($_REQUEST,'task_category', '1',     array_keys($categories_all_array))
+            . "&task_status="   . get_enumerated_param($_REQUEST,'task_status'  , '1',   array_keys($tasks_status_all_array))
+            . "&task_version="  . get_enumerated_param($_REQUEST,'task_version' , '1',       array_keys($versions_all_array)) 
+            . "&";
+    }
+    else {
         $t = "";
     }
     echo "<table class='taskslist'><tr>\n";
@@ -1194,8 +1192,7 @@ function NotificationMail($tid, $message)
               . "$message" . "\n"
               . "You can see task #$tid by visiting $tasks_url?f=detail&tid=$tid" . "\n\n"
               . "--" . "\n"
-              . "Distributed Proofreaders" . "\n"
-              . "$code_url" . "\n\n"
+              . "Distributed Proofreaders" . "\n" . "$code_url" . "\n\n"
               . "This is an automated message that you had requested, please do not respond directly to this e-mail.",
                 "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
         }
