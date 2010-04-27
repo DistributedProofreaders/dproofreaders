@@ -412,6 +412,7 @@ function sql_collater_for_project_state( $state_column )
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+$project_status_descriptors = array('created', 'proofed', 'PPd', 'posted');
 
 function get_project_status_descriptor( $which )
 // $which is a word denoting a possible status of a project
@@ -482,7 +483,7 @@ function get_project_status_descriptor( $which )
             break;
 
         default:
-            die("bad value for 'which': '$which'");
+            die(htmlspecialchars("bad value for 'which': '$which'"));
     }
 
     return $obj;

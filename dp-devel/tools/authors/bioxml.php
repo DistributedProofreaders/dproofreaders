@@ -1,6 +1,7 @@
 <?php
   $relPath = '../../pinc/';
   include_once($relPath.'site_vars.php');
+  include_once($relPath.'misc.inc');
   include_once($relPath.'connect.inc');
   $db_Connection=new dbConnect();
   $db_link=$db_Connection->db_lk;
@@ -12,19 +13,22 @@
   //   or
   //   a timestamp is supplied (only bios edited after that time)
 
-  if (isset($_GET['author_id']) && !eregi('[^0-9]', $_GET['author_id'])) {
-    $clause = "WHERE author_id = {$_GET['author_id']}";
+  $author_id      = get_integer_param($_GET, 'author_id', null, 0, null, true);
+  $bio_id         = get_integer_param($_GET, 'bio_id', null, 0, null, true);
+  $modified_since = get_integer_param($_GET, 'modified_since', null, 0, null, true);
+  if (isset($author_id)) {
+    $clause = "WHERE author_id = $author_id";
     $wrap_in_big_tag = true;
   }
-  if (isset($_GET['bio_id']) && !eregi('[^0-9]', $_GET['bio_id'])) {
-    $clause = "WHERE bio_id = {$_GET['bio_id']}";
+  if (isset($bio_id)) {
+    $clause = "WHERE bio_id = $bio_id";
     $wrap_in_big_tag = false;
   }
-  else if (isset($_GET['modified_since']) && !eregi('[^0-9]', $_GET['modified_since'])) {
+  else if (isset($modified_since)) {
     // Pad timestamp with zeroes.
     // This means a date, e.g. 20040810, will be sent to
     // the parser as a timestamp, e.g. 20040810000000
-    $last_modified = str_pad($_GET['modified_since'], 14, '0');
+    $last_modified = str_pad($modified_since, 14, '0');
     $clause = "WHERE last_modified >= $last_modified";
     $wrap_in_big_tag = true;
   }

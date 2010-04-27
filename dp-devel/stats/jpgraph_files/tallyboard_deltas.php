@@ -5,22 +5,22 @@ include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'connect.inc');
 include_once('common.inc');
 
+$valid_rounds = array_keys($Round_for_round_id_);
+$tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_rounds);
+$holder_type  = get_enumerated_param($_GET, 'holder_type', null, array('U', 'T'));
+$holder_id    = get_integer_param($_GET, 'holder_id', null, 0, null);
+if (@$_GET['days_back'] == 'all') {
+    $days_back = 'all';
+} else {
+    $days_back = get_integer_param($_GET, 'days_back', 30, 1, null);
+}
+
 // Initialize the graph before anything else.
 // This makes use of the jpgraph cache if enabled.
 // Last argument to init_simple_bar_graph is the cache timeout in minutes.
 $graph = init_simple_bar_graph(600, 300, 60);
 
 new dbConnect();
-
-$tally_name  = array_get( $_GET, 'tally_name',  '' );
-$holder_type = array_get( $_GET, 'holder_type', '' );
-$holder_id   = array_get( $_GET, 'holder_id',   '' );
-$days_back   = array_get( $_GET, 'days_back', '30' );
-
-if ( $tally_name  == '' ) die( "tally_name is empty" );
-if ( $holder_type == '' ) die( "holder_type is empty" );
-if ( $holder_id   == '' ) die( "holder_id is empty" );
-if ( $days_back   == '' ) die( "days_back is empty" );
 
 if ($days_back == "all")
 {

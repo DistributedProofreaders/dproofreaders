@@ -3,18 +3,19 @@ $relPath="./../../pinc/";
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'connect.inc');
 include_once('common.inc');
+
+$past      = get_enumerated_param($_GET, 'past', null, array('year', 'day'));
+$preceding = get_enumerated_param($_GET, 'preceding', null, array('hour', 'day', 'week', 'fourweek'));
+
 new dbConnect();
 
 // For each hour in the $past interval,
 // show the number of (distinct) users who had logged in
 // (at least once) during the $preceding interval.
 
-$past = $_GET['past'];
-$preceding = $_GET['preceding'];
-
 $seconds_per_day = 24 * 60 * 60;
 
-switch ( $past )
+switch ($past)
 {
 	case 'year':
 		$min_timestamp = time() - 366 * $seconds_per_day;
@@ -30,7 +31,7 @@ switch ( $past )
 		die("bad value for 'past'");
 }
 
-switch ( $preceding )
+switch ($preceding)
 {
 	case 'hour':
 		$title = "Number of users newly logged in each hour";

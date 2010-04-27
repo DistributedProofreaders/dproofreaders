@@ -4,51 +4,27 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 
-$state = ( isset($_GET['state']) ? $_GET['state'] : PROJ_POST_FIRST_CHECKED_OUT );
-if ( $state == PROJ_POST_FIRST_CHECKED_OUT )
-{
-	$activity = _('Post Processing');
-      $order = (isset($_GET['order']) ? $_GET['order'] : 'checkedoutby' );
+$ordermap = array(
+    'nameofwork'             => 'nameofwork ASC',
+    'checkedoutby'           => 'checkedoutby ASC, modifieddate ASC',
+    'postproofer'            => 'postproofer ASC, modifieddate ASC',
+    'modifieddate'           => 'modifieddate ASC',
+    'holder_t_last_activity' => 'holder_t_last_activity ASC'
+);
+
+$order = get_enumerated_param($_GET, 'order', 'checkedoutby', array_keys($ordermap));
+$state = get_enumerated_param($_GET, 'state', PROJ_POST_FIRST_CHECKED_OUT,
+    array(PROJ_POST_FIRST_CHECKED_OUT, PROJ_POST_SECOND_CHECKED_OUT));
+
+if ( $state == PROJ_POST_FIRST_CHECKED_OUT ) {
+    $activity = _('Post Processing');
 }
-elseif ( $state == PROJ_POST_SECOND_CHECKED_OUT )
-{
-	$activity = _('Post Processing Verification');
-       $inPPV = 1;
-      $order = (isset($_GET['order']) ? $_GET['order'] : 'postproofer' );
-}
-else
-{
-	echo "checkedout.php: bad value for state: '$state'";
-	exit;
+if ( $state == PROJ_POST_SECOND_CHECKED_OUT ) {
+    $activity = _('Post Processing Verification');
+    $inPPV = 1;
 }
 
-$order = (isset($_GET['order']) ? $_GET['order'] : 'checkedoutby' );
-
-if ( $order == 'nameofwork' )
-{
-	$orderclause = 'nameofwork ASC';
-}
-elseif ( $order == 'checkedoutby' )
-{
-	$orderclause = 'checkedoutby ASC, modifieddate ASC';
-}
-elseif ( $order == 'postproofer' )
-{
-	$orderclause = 'postproofer ASC, modifieddate ASC';
-}
-elseif ( $order == 'modifieddate' )
-{
-	$orderclause = 'modifieddate ASC';
-}
-elseif ( $order == 'holder_t_last_activity' )
-{
-	$orderclause = 'holder_t_last_activity ASC';
-}
-else
-{
-	echo "checkedout.php: bad order value: '$order'";
-	exit;
-}
+$orderclause = $ordermap[$order];
 
 // ------------------
 
@@ -63,34 +39,25 @@ echo "<br><h2>$title</h2>\n";
 
 if (isset($inPPV)) {
     $colspecs = array(
-	'#'                  => 'bogus',
-	'Name of Work'       => 'nameofwork',
-       'PPer'              => 'postproofer',
-	'Checked Out To'     => 'checkedoutby',
-	'Date Last Modified' => 'modifieddate',
-	'User Last on Site'  => 'holder_t_last_activity'
+        '#'                  => 'bogus',
+        'Name of Work'       => 'nameofwork',
+        'PPer'               => 'postproofer',
+        'Checked Out To'     => 'checkedoutby',
+        'Date Last Modified' => 'modifieddate',
+        'User Last on Site'  => 'holder_t_last_activity'
    );
-
-   $numcols = 6;
-
 } else {
-
-$colspecs = array(
-	'#'                  => 'bogus',
-	'Name of Work'       => 'nameofwork',
-	'Checked Out To'     => 'checkedoutby',
-	'Date Last Modified' => 'modifieddate',
-	'User Last on Site'  => 'holder_t_last_activity'
-);
-
-   $numcols = 5;
-
+    $colspecs = array(
+        '#'                  => 'bogus',
+        'Name of Work'       => 'nameofwork',
+        'Checked Out To'     => 'checkedoutby',
+        'Date Last Modified' => 'modifieddate',
+        'User Last on Site'  => 'holder_t_last_activity'
+    );
 }
 
-
-
 echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>\n";
-echo "<tr><td colspan='$numcols' bgcolor='".$theme['color_headerbar_bg']."'><center><font color='".$theme['color_headerbar_font']."'><b>$title</b></font></center></td></tr>";
+echo "<tr><td colspan='" .count($colspecs)."' bgcolor='".$theme['color_headerbar_bg']."'><center><font color='".$theme['color_headerbar_font']."'><b>$title</b></font></center></td></tr>";
 
 echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 foreach ( $colspecs as $col_header => $col_order )

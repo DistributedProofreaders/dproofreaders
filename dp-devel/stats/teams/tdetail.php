@@ -8,9 +8,11 @@ include_once($relPath.'theme.inc');
 include_once('../includes/team.inc');
 $db_Connection=new dbConnect();
 
-$tally_name = array_get( $_GET, 'tally_name', null );
 
-$req_team_id = get_integer_param( $_GET, 'tid', null, 0, null );
+# tally_name may be empty/unspecified, or a round name.
+$valid_rounds = array_keys($Round_for_round_id_);
+$tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_rounds, true);
+$req_team_id  = get_integer_param( $_GET, 'tid', null, 0, null );
 
 $result = select_from_teams("id = {$req_team_id}");
 $curTeam = mysql_fetch_assoc($result);

@@ -6,20 +6,19 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'showtexts.inc');
 
-
-$type = $_GET['type'];
-$etext_limit = $_GET['etext_limit'];
-$type = $_GET['type'];
-$orderby = $_GET['orderby'];
-$field_name = $_GET['field_name'];
-$search_char = $_GET['search_char'];
-$show_total = $_GET['show_total'];
-
 $metal_map = array(
     'bronze' => _('Bronze'),
     'silver' => _('Silver'),
     'gold'   => _('Gold'),
+    'all'    => _('All'),
 );
+
+$type        = get_enumerated_param($_GET, 'type', 'all', array_keys($metal_map));
+$etext_limit = get_integer_param($_GET, 'etext_limit', 0, 0, NULL);
+$orderby     = get_enumerated_param($_GET, 'orderby', 'asc', array('asc', 'desc'));
+$field_name  = @$_GET['field_name'];
+$search_char = @$_GET['search_char'];
+$show_total  = @$_GET['show_total'];
 
 function echo_other_type( $other_type )
 {

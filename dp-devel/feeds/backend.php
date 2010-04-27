@@ -1,6 +1,7 @@
 <?php
 $relPath="./../pinc/";
 include_once($relPath.'site_vars.php');
+include_once($relPath.'misc.inc');
 include_once($relPath.'xml.inc');
 
 //Try our best to make sure no browser caches the page
@@ -10,12 +11,9 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
-$content = $_GET['content']; //Which feed the user wants
+$content = get_enumerated_param($_GET, 'content', 'posted', array('posted', 'postprocessing', 'proofing', 'news')); //Which feed the user wants
 $refreshdelay = 30; //Time in minutes for how often the feeds get refreshed
 $refreshdelay = time()-($refreshdelay*60); //Find out how long ago $refreshdelay was in UNIX time
-
-//If the user did not specify a xml feed set posted as the default
-if (($content != "posted") && ($content != "postprocessing") && ($content != "proofing") && ($content != "news")) { $content = "posted"; }
 
 //Determine if we should display a 0.91 compliant RSS feed or our own feed
 if (isset($_GET['type'])) { $xmlfile = $xmlfeeds_dir."/".$content."_rss.xml"; } else { $xmlfile = $xmlfeeds_dir."/".$content.".xml"; }

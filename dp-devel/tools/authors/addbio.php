@@ -93,12 +93,13 @@
 <h1 align="center">Add Biography</h1>
 <?php
   if (isset($msg))
-    echo $msg;
+    echo htmlspecialchars($msg);
 
-  if (isset($_GET['message']))
-    echo '<center>' . $_GET['message'] . '</center><br />';
+  $message = @$_GET['message'];
+  if (isset($message))
+    echo '<center>' . htmlspecialchars($message) . '</center><br />';
   elseif (isset($_POST['Preview'])) {
-    echo '<table align="center" border="1"><td>' . $bio . '</td></table>';
+    echo '<table align="center" border="1"><td>' . htmlspecialchars($bio) . '</td></table>';
     echo '<br/>';
   }
 ?>
@@ -111,7 +112,7 @@
 <table align="center" border="1">
 <tr><th><?php echo _('Biography') . ' (' . _('HTML') . ')'; ?></th></tr>
 <tr><td><textarea cols="70" rows="20" name="bio">
-<?php echo htmlentities($bio); ?></textarea></td></tr>
+<?php echo htmlspecialchars($bio); ?></textarea></td></tr>
 <tr><td>
 <table><tr>
 <td><input type="submit" name="Preview" value="<?php echo _('Preview'); ?>" /></td>

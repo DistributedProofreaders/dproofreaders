@@ -1,11 +1,13 @@
 <?php
 $relPath="../../pinc/";
 include_once($relPath.'dp_main.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'project_states.inc');
 
-$projectid  = $_GET['project'];
-$page_image = $_GET['page_image'];
-$which      = $_GET['which'];
+$projectid  = validate_projectID('project', $_GET['project']);
+$page_image = validate_page_image_filename('page_image', @$_GET['page_image']);
+$which      = get_enumerated_param($_GET, 'which', null,
+    array('round1', 'round2', 'round3', 'round4', 'round5'));
 
 $column = $which . '_text';
 
@@ -14,7 +16,7 @@ $rows = mysql_query($query) or die(mysql_error());
 
 if ( mysql_numrows($rows) == 0 )
 {
-    echo "no such image $page_image<br>\n";
+    echo "no such image " . htmlspecialchars($page_image) . "<br>\n";
 }
 else
 {

@@ -10,15 +10,20 @@
   $bbc = $dbc = FALSE;
 
   // load posted values or defaults
-  if (isset($_POST['last_name'])) {
+  $last_name = @$_POST['last_name'];
+  if (isset($last_name)) {
     // get the values from the form
-    $vars = array( 'last_name', 'other_names',
-                   'byear', 'bmonth', 'bday', 'bcomments', 'byearRadio',
-                   'dyear', 'dmonth', 'dday', 'dcomments', 'dyearRadio'  );
-
-    foreach ($vars as $var) {
-      $$var = $_POST[$var];
-    }
+    $other_names = @$_POST['other_names'];
+    $byear      = get_integer_param($_POST, 'byear', null, 0, null);
+    $bmonth     = get_integer_param($_POST, 'bmonth', null, 1, 12);
+    $bday       = get_integer_param($_POST, 'bday', null, 1, 31);
+    $bcomments  = @$_POST['bcomments'];
+    $byearRadio = get_integer_param($_POST, 'byearRadio', null, 0, 1);
+    $dyear      = get_integer_param($_POST, 'dyear', null, 0, null);
+    $dmonth     = get_integer_param($_POST, 'dmonth', null, 1, 12);
+    $dday       = get_integer_param($_POST, 'dday', null, 1, 31);
+    $dcomments  = @$_POST['dcomments'];
+    $dyearRadio = get_integer_param($_POST, 'dyearRadio', null, 0, 1);
 
     // years are specified using radio-buttons and text-fields.
     // a little logic to get the right data
@@ -283,8 +288,9 @@ function setComments(bd, comments) {
 // -->
 </script>
 <?php
-  if (isset($_GET['message']))
-    echo '<center>' . $_GET['message'] . '</center><br />';
+  $message = @$_GET['message'];
+  if (isset($message))
+    echo '<center>' . htmlspecialchars($message) . '</center><br />';
   elseif (isset($_POST['Preview'])) {
     echo_author($last_name, $other_names,
                 format_date($byear, $bmonth, $bday, $bcomments),

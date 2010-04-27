@@ -5,18 +5,15 @@ include_once($relPath.'connect.inc');
 include_once($relPath.'page_tally.inc');
 include_once('common.inc');
 
+$valid_rounds = array_keys($Round_for_round_id_);
+$tally_name  = get_enumerated_param($_GET, 'tally_name', null, $valid_rounds);
+
 // Initialize the graph before anything else.
 // This makes use of the jpgraph cache if enabled.
 // Argument to init_pages_graph is the cache timeout in minutes.
 $graph = init_pages_graph(60);
 
 new dbConnect();
-
-$tally_name = @$_GET['tally_name'];
-if (empty($tally_name))
-{
-    die("parameter 'tally_name' is unset/empty");
-}
 
 ///////////////////////////////////////////////////
 //Total pages by month since beginning of stats

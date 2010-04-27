@@ -8,18 +8,7 @@ include_once($relPath.'theme.inc');
 
 theme("Post-Processing Mysteries", "header");
 
-$order = @$_GET['order'];
-
-if ($order == 'default') {
-    $order ='nameofwork';
-}
-
-
-$ok_orders = array("nameofwork","authorsname","username","projectid","modifieddate");
-
-if (! in_array ($order, $ok_orders)) {
-	$order = 'nameofwork';
-}
+$order = get_enumerated_param($_GET, 'order', 'nameofwork', array('nameofwork', 'authorsname', 'username', 'projectid', 'modifieddate'));
 
 echo "<br><br><h2>Post-Processing Mysteries</h2><br>\n";
 

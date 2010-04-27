@@ -51,9 +51,13 @@ error_reporting(E_ALL);
 // in a list of projects.
 // But there are lots of other less-used pages that link here.
 
-$projectid      = @$_GET['id'];
-$expected_state = @$_GET['expected_state'];
-$detail_level   = @$_GET['detail_level'];
+$MIN_DETAIL_LEVEL = 1;
+$MAX_DETAIL_LEVEL = 4;
+
+// Validate all the input
+$projectid      = validate_projectID('id', @$_GET['id']);
+$expected_state = get_enumerated_param($_GET, 'expected_state', null, $PROJECT_STATES_IN_ORDER, true);
+$detail_level   = get_integer_param($_GET, 'detail_level', 2, $MIN_DETAIL_LEVEL, $MAX_DETAIL_LEVEL);
 
 // -----------------------------------------------------------------------------
 
@@ -89,26 +93,6 @@ if ( !$user_is_logged_in )
     theme('', 'footer');
     return;
 }
-
-// -----------------------------------------------------------------------------
-
-$VALID_DETAIL_LEVELS = array('1','2','3','4');
-if ( is_null($detail_level) )
-{
-    // unspecified
-    $detail_level = 2;
-}
-elseif ( in_array($detail_level, $VALID_DETAIL_LEVELS ) )
-{
-    // fine
-    $detail_level = intval($detail_level);
-}
-else
-{
-    die("bad 'detail_level' parameter: '$detail_level'");
-}
-
-// -----------------------------------------------------------------------------
 
 if ( $user_is_logged_in )
 {
@@ -228,7 +212,7 @@ function do_pm_header()
 
 function do_detail_level_switch()
 {
-    global $project, $detail_level, $VALID_DETAIL_LEVELS;
+    global $project, $detail_level, $MIN_DETAIL_LEVEL, $MAX_DETAIL_LEVEL;
 
     echo sprintf(
         _('This page is being presented at detail level %d.'),
@@ -236,7 +220,7 @@ function do_detail_level_switch()
     );
     echo "\n";
     echo _('Switch to:'), "\n";
-    foreach( $VALID_DETAIL_LEVELS as $v )
+    for($v = $MIN_DETAIL_LEVEL; $v <= $MAX_DETAIL_LEVEL; $v++ )
     {
         if ( $v != $detail_level )
         {

@@ -3,15 +3,12 @@ $relPath='./../pinc/';
 include_once($relPath.'connect.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
+
+$which = get_enumerated_param($_GET, 'which', null, $project_status_descriptors);
+
 new dbConnect();
 
-$which = $_GET['which'];
-if (empty($which))
-{
-    die("parameter 'which' is unset/empty");
-}
-
-$psd = get_project_status_descriptor( $which );
+$psd = get_project_status_descriptor($which);
 
 theme($psd->graphs_title,'header');
 

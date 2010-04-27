@@ -5,11 +5,8 @@ include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_tally.inc');
 
-$tally_name = @$_GET['tally_name'];
-if ( empty($tally_name) )
-{
-	die("parameter 'tally_name' is unset/empty");
-}
+$valid_rounds = array_keys($Round_for_round_id_);
+$tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_rounds);
 
 // -----------------------------------
 

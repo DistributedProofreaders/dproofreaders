@@ -11,11 +11,7 @@ $db_Connection=new dbConnect();
 
 $tally_name = array_get( $_GET, 'tally_name', null );
 
-$id = array_get( $_GET, 'id', '' );
-if (empty($id)) {
-	echo "mdetail.php: missing or empty 'id' parameter";
-	exit;
-}
+$id = get_integer_param($_GET, 'id', null, 0, null);
 
 $result = mysql_query("
 	SELECT *

@@ -497,5 +497,22 @@ function get_credit_name( $login_name )
     return $name;
 }
 
+// Checks if $value has the form of a valid project ID.
+// If it does, it returns it, otherwise dies with a warning.
+function validate_projectID($param_name, $value) 
+{
+    if (1 == preg_match('/\b(projectID[0-9a-f]{13})\b/', $value)) return $value;
+    die("Parameter $param_name is not a valid projectID.");
+}
+
+// Checks if $value contains only legitimate characters for
+// the filename of a page image file in a project.
+// If it does, it returns it, otherwise dies with a warning.
+function validate_page_image_filename($param_name, $value)
+{
+    if (1 == preg_match('/^[a-zA-Z0-9_.-]{5,16}$/', $value)) return $value;
+    die("Parameter $param_name is not a valid page image filename.");
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>

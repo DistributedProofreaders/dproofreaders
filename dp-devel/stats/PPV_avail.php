@@ -5,28 +5,14 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 
 
-$order = (isset($_GET['order']) ? $_GET['order'] : 'nameofwork' );
-if ( $order == 'nameofwork' )
-{
-	$orderclause = 'nameofwork ASC';
-}
-elseif ( $order == 'modifieddate' )
-{
-	$orderclause = 'modifieddate ASC';
-}
-elseif ( $order == 'PPer' )
-{
-	$orderclause = 'postproofer ASC';
-}
-elseif ( $order == 'PM' )
-{
-	$orderclause = 'username ASC';
-}
-else
-{
-	echo "PPV_avail.php: bad order value: '$order'";
-	exit;
-}
+$clausemap = array(
+    'nameofwork'   => 'nameofwork ASC',
+    'modifieddate' => 'modifieddate ASC',
+    'PPer'         => 'postproofer ASC',
+    'PM'           => 'username ASC'
+);
+$order = get_enumerated_param($_GET, 'order', 'nameofwork', array_keys($clausemap));
+$orderclause = $clausemap[$order];
 
 // ------------------
 

@@ -71,7 +71,7 @@ foreach ( $PROJECT_STATES_IN_ORDER as $proj_state )
 
             $language    = $row['language'];
 
-            echo "<a href='$code_url/project.php?id=$projectid'>\"$nameofwork\"</a> by $authorsname (in $language)<br>\n";
+            echo "\"<a href='$code_url/project.php?id=$projectid'>" . htmlspecialchars($nameofwork) . "</a>\" by " . htmlspecialchars($authorsname) . " (in " . htmlspecialchars($language) .")<br>\n";
 
         }
 

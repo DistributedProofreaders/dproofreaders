@@ -10,10 +10,21 @@ include_once('../includes/team.inc');
 include_once('../includes/member.inc');
 $db_Connection=new dbConnect();
 
-if (empty($_GET['username'])) {
+$username = @$_GET['username'];
+
+if (empty($username)) {
 	include_once($relPath.'theme.inc');
 	theme("Error!", "header");
 	echo "<br><center>A username must specified in the following format:<br>$code_url/stats/members/mbr_xml.php?username=*****</center>";
+	theme("", "footer");
+	exit();
+}
+
+$curMbr = get_forum_user_details($username);
+if (empty($curMbr)) {
+    	include_once($relPath.'theme.inc');
+	theme("Error!", "header");
+	printf("<br><center>User '%s' does not exist.</center>", htmlspecialchars($username));
 	theme("", "footer");
 	exit();
 }
@@ -29,11 +40,10 @@ echo "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
 echo "<memberstats xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"memberstats.xsd\">\n";
 	
 
-$curMbr = get_forum_user_details($_GET['username']);
 $result = mysql_query("
 	SELECT *
 	FROM users
-	WHERE username = '".$_GET['username']."'
+	WHERE username = '$username'
 	LIMIT 1
 ");
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));

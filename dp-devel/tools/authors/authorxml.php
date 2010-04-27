@@ -1,6 +1,7 @@
 <?php
   $relPath = '../../pinc/';
   include_once($relPath.'site_vars.php');
+  include_once($relPath.'misc.inc');
   include_once($relPath.'connect.inc');
   $db_Connection=new dbConnect();
   $db_link=$db_Connection->db_lk;
@@ -9,12 +10,14 @@
   //   an author_id is supplied (only that author)
   //   or
   //   a timestamp is supplied (only authors edited after that time)
+  $author_id      = get_integer_param($_GET, 'author_id', null, 0, null, true);
+  $modified_since = get_integer_param($_GET, 'modified_since', null, 0, null, true);
 
-  if (isset($_GET['author_id']) && !eregi('[^0-9]', $_GET['author_id'])) {
-    $clause = "WHERE author_id = {$_GET['author_id']}";
+  if (isset($author_id)) {
+    $clause = "WHERE author_id = $author_id";
     $wrap_in_big_tag = false;
   }
-  else if (isset($_GET['modified_since']) && !eregi('[^0-9]', $_GET['modified_since'])) {
+  else if (isset($modified_since)) {
     // Pad timestamp with zeroes.
     // This means a date, e.g. 20040810, will be sent to
     // the parser as a timestamp, e.g. 20040810000000

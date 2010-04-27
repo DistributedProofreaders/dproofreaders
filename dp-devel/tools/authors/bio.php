@@ -7,9 +7,12 @@
   include_once('authors.inc');
   include_once('menu.inc');
 
+  $bio_id  = get_integer_param($_GET, 'bio_id', null, 0, null, true);
+  $message = @$_GET['message'];
+  
   // argument provided?
-  if (isset($_GET['bio_id'])) {
-    $id = $_GET['bio_id'];
+  if (isset($bio_id)) {
+    $id = $bio_id;
   }
   else {
     theme(_('No biography-id specified'), 'header');
@@ -47,10 +50,10 @@
 
   echo '<h1 align="center">' . _('Biography') . '</h1>';
 
-  if (isset($_GET['message']))
-    echo '<center>' . $_GET['message'] . '</center><br />';
+  if (isset($message))
+    echo '<center>' . htmlspecialchars($message) . '</center><br />';
 ?>
-<h2 align="center"><?php echo $name; ?> 
+<h2 align="center"><?php echo htmlspecialchars($name); ?> 
 <a href='<?php echo $code_url; ?>/tools/authors/bioxml.php?bio_id=<?php echo $id; ?>'><img src='<?php echo $code_url; ?>/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>
 </h2>
 <?php
@@ -62,7 +65,7 @@
 <br /><br />
 <table align="center" border="1">
 <tr><td>
-<?php echo $bio; ?>
+<?php echo htmlspecialchars($bio); ?>
 </td></tr>
 </table>
 <?php

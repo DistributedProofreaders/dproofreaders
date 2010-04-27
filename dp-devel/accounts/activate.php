@@ -8,14 +8,20 @@ $db_link=$db_Connection->db_lk;
 include_once($relPath.'theme.inc');
 include_once($relPath.'forum_interface.inc');
 
+// Checks if $value has the form of a valid user ID.
+// If its does, it returns it, otherwise dies with a warning.
+function validate_userID($param_name, $value) 
+{
+    if (1 == preg_match('/\b(userID[0-9a-f]{13})\b/', $value)) return $value;
+    die("Parameter $param_name is not a valid userID.");
+}
+
 // A newly registered user has clicked the link in the welcoming e-mail and has thus
 // proved that the e-mail is working. It is time to 'activate' the account, i.e.
 // create a record in the users table, create a profile, stats data, etc.
 // and send a welcome mail.
-
 theme(_('Activate account'), 'header');
-
-$ID = $_GET['id'];
+$ID = validate_userID('id', @$_GET['id']);
 
 $result = mysql_query("SELECT * FROM non_activated_users WHERE id='$ID'");
 

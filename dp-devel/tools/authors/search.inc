@@ -23,6 +23,8 @@ function prepare_search() {
          $sort_author_id, $sort_last_name, $sort_other_names,
          $sort_born, $sort_dead;
 
+  $view = get_enumerated_param($_REQUEST, 'view', null, array('enabled', 'disabled', 'all'), true);
+
   // Create columns
   $sort_author_id = new SortableValue('author_id', 'Id');
   $sort_last_name = new SortableValue('last_name', 'Last name');
@@ -78,14 +80,14 @@ function prepare_search() {
 
   $query_without_view = $query;
 
-  if (user_is_authors_db_manager() && isset($_REQUEST['view'])) {
+  if (user_is_authors_db_manager() && isset($view)) {
     // argument 'view': 'enabled'(default), 'disabled', 'all'
-    if ($_REQUEST['view'] == 'disabled')
+    if ($view == 'disabled')
       $sql_what_to_list = "enabled != 'yes' AND ($sql_what_to_list)";
-    else if ($_REQUEST['view'] != 'all')
+    else if ($view != 'all')
       $sql_what_to_list = "($sql_what_to_list) AND enabled = 'yes'";
     // the view argument should be passed on to any re-sorts
-    $query .= "view={$_REQUEST['view']}&";
+    $query .= "view=" . urlencode($view) . "&";
   }
   else
     $sql_what_to_list = "($sql_what_to_list) AND enabled = 'yes'";
@@ -132,6 +134,9 @@ function sql_like_encode($str) {
 
 function echo_search_form() {
   global $last_name, $other_names;
+  $view    = $_REQUEST['view'];
+  $orderby = $_REQUEST['orderby'];
+  $desc    = $_REQUEST['desc']
   ?>
   <form method="GET">
   <table border="1" align="center"><td><table border="0">
@@ -150,11 +155,11 @@ function echo_search_form() {
   <?php
   echo "  <center><a href='${_SERVER['PHP_SELF']}'>" . _('List all') . "</a></center>\n";
 
-  if (isset($_REQUEST['view']))
-    echo "  <input type='hidden' name='view' value='{$_REQUEST['view']}' />\n";
-  if (isset($_REQUEST['orderby']))
-    echo "  <input type='hidden' name='orderby' value='{$_REQUEST['orderby']}' />\n";
-  if (isset($_REQUEST['desc']))
+  if (isset($view))
+    echo "  <input type='hidden' name='view' value='" . htmlspecialchars($view, ENT_QUOTES) . "' />\n";
+  if (isset($orderby))
+    echo "  <input type='hidden' name='orderby' value='" . htmlspecialchars($orderby, ENT_QUOTES) . "' />\n";
+  if (isset($desc))
     echo "  <input type='hidden' name='desc' value='' />\n";
   echo '</form>';
 }

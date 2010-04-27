@@ -19,7 +19,9 @@ else
     $user_can_see_queue_settings = user_is_a_sitemanager() || user_is_proj_facilitator();
 }
 
-$round_id = array_get( $_GET, 'round_id', NULL );
+$round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_), true);
+$name     = @$_GET['name'];
+
 if (is_null($round_id))
 {
     $title = _("Release Queues");
@@ -40,7 +42,7 @@ if (is_null($round_id))
 
 $round = get_Round_for_round_id($round_id);
 
-if (!isset($_GET['name']))
+if (!isset($name))
 {
     $title = sprintf( _("Release Queues for Round '%s'"), $round_id);
     theme($title,'header');
@@ -116,17 +118,19 @@ if (!isset($_GET['name']))
 else
 {
     $no_stats=0; // Only suppress stats on this page, since it is very wide.
-    $name = $_GET['name'];
 
     $qd = mysql_fetch_object( mysql_query("
         SELECT *
         FROM queue_defns
         WHERE round_id='$round_id' AND name='$name'
     "));
+    if (!$qd) {
+        die(htmlspecialchars("No such release queue '$name' in $round_id."));
+    }
     $cooked_project_selector = cook_project_selector($qd->project_selector);
     $comment = $qd->comment;
 
-    $title = "\"$name\" " . _("Release Queue");
+    $title = "\"" . htmlspecialchars($name) . "\" " . _("Release Queue");
     $title = preg_replace('/(\\\\)/', "", $title); // Unescape apostrophes, etc.
     theme($title,'header');
     echo "<br><h2>$title</h2>";

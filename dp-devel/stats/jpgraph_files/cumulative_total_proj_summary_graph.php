@@ -27,7 +27,7 @@ $graph->img->SetAntiAliasing();
 
 $max_num_data = 0;
 
-foreach ( array( 'created', 'proofed', 'PPd', 'posted' ) as $which )
+foreach ($project_status_descriptors as $which)
 {
 	$psd = get_project_status_descriptor($which);
 

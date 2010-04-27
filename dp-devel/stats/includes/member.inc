@@ -521,7 +521,11 @@ function showMbrTeams($curMbr, $tally_name) {
 
 function showMbrHistory($curMbr, $tally_name) {
 
-    if (empty($_GET['range'])) { $range = 30; } else { $range = $_GET['range']; }
+    if (@$_GET['range'] == 'all') {
+        $range = 'all';
+    } else {
+        $range = get_integer_param($_GET, 'range', 30, 1, null);
+    }
 
     $choices = array();
     $u_id = $curMbr['u_id'];

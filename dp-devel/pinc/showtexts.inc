@@ -31,7 +31,7 @@ function showtexts($etext_limit, $type, $orderby, $field_name, $search_char, $sh
 		$state .= " AND $field_name = '$search_char%'";
 	}
 
-	if (!empty($orderby)) {
+	if (!empty($field_name) && !empty($orderby)) {
 		$state .= " ORDER BY $field_name $orderby";
 	}
 

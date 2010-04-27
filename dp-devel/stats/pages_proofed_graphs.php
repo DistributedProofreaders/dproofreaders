@@ -2,11 +2,8 @@
 $relPath='./../pinc/';
 include_once($relPath.'theme.inc');
 
-$tally_name = @$_GET['tally_name'];
-if (empty($tally_name))
-{
-    die("parameter 'tally_name' is undefined/empty");
-}
+$valid_rounds = array_keys($Round_for_round_id_);
+$tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_rounds);
 
 $title = sprintf( _('Graphs for Pages Saved-as-Done in Round %s'), $tally_name );
 

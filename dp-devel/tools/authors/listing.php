@@ -16,8 +16,10 @@
 
 <h1 align="center">Authors</h1>
 <?php
-  if (isset($_GET['message']))
-    echo '<center>' . $_GET['message'] . '</center><br />';
+
+  $message  = @$_GET['message'];
+  if (isset($message))
+    echo '<center>' . htmlspecialchars($message) . '</center><br />';
 
   $sortUtility = new SortUtility('authors_listing');
 
@@ -80,8 +82,8 @@
   while ($i++ < $count && $row = @mysql_fetch_array($result)) {
     $id = $row['author_id'];
     echo "<tr><td>$id</td><td><a href=\"author.php?author_id=$id\">" .
-         $row['last_name'] . "</a></td><td>" .
-	 $row['other_names'] . "</td><td>" .
+         htmlspecialchars($row['last_name']) . "</a></td><td>" .
+         htmlspecialchars($row['other_names']) . "</td><td>" .
          format_date_from_array($row, 'b') . '</td><td>' .
          format_date_from_array($row, 'd') . '</td>' .
          ($can_edit?("<td><a href='add.php?author_id=$id'>" .

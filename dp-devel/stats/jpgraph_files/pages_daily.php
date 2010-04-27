@@ -6,18 +6,16 @@ include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'page_tally.inc');
 include_once('common.inc');
 
+$tally_name = get_enumerated_param($_GET, 'tally_name', null, array_keys($Round_for_round_id_));
+$timeframe  = get_enumerated_param($_GET, 'timeframe', null, array('curr_month', 'prev_month', 'all_time'));
+$c_or_i     = get_enumerated_param($_GET, 'cori', null, array('cumulative', 'increments'));
+
 // Initialize the graph before anything else.
 // This makes use of the jpgraph cache if enabled.
 // Argument to init_pages_graph is the cache timeout in minutes.
 $graph = init_pages_graph(60);
 
 new dbConnect();
-
-$tally_name = @$_GET['tally_name'];
-if (empty($tally_name))
-{
-    die("parameter 'tally_name' is unset/empty");
-}
 
 $site_tallyboard = new TallyBoard( $tally_name, 'S' );
 
@@ -27,7 +25,7 @@ $now_assoc = getdate($now_timestamp);
 $curr_y = $now_assoc['year'];
 $curr_m = $now_assoc['mon'];
 
-switch ( @$_GET['timeframe'] )
+switch ($timeframe)
 {
     case 'curr_month':
         $start_timestamp = mktime( 0,0,0, $curr_m,   1, $curr_y );
@@ -51,8 +49,7 @@ switch ( @$_GET['timeframe'] )
         die("bad 'timeframe' value: '$title_timeframe'");
 }
 
-$cumulative_or_increments = @$_GET['cori'];
-switch ( $cumulative_or_increments )
+switch ($c_or_i)
 {
     case 'increments':
         $main_title = _('Pages Done Per Day');
@@ -63,7 +60,7 @@ switch ( $cumulative_or_increments )
         break;
 
     default:
-        die("bad 'cori' value: '$cumulative_or_increments'");
+        die("bad 'cori' value: '$c_or_i'");
 }
 
 // -----------------------------------------------------------------------------
@@ -81,7 +78,7 @@ $result = dpsql_query(
 
 list($datax,$datay1,$datay2) = dpsql_fetch_columns($result);
 
-if ( $cumulative_or_increments == 'cumulative' )
+if ( $c_or_i == 'cumulative' )
 {
     $datay1 = array_accumulate( $datay1 );
     $datay2 = array_accumulate( $datay2 );
@@ -104,7 +101,7 @@ if (empty($datay1)) {
 
 
 // Calculate a simple moving average for 'increments' graphs
-if ( $cumulative_or_increments == 'increments' )
+if ($c_or_i == 'increments')
 {
     $days_to_average = 21;
 
@@ -203,7 +200,7 @@ draw_pages_graph(
     $moving_average,
     sprintf(_("%d-day SMA"), $days_to_average),
     'daily',
-    $cumulative_or_increments,
+    $c_or_i,
     "$main_title ($title_timeframe)"
 );
 

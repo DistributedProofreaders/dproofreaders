@@ -8,17 +8,10 @@ include_once($relPath.'page_tally.inc');
 include_once($relPath.'forum_interface.inc'); // get_url_to_view_topic
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
-$db_Connection=new dbConnect();
-
-if (empty($_GET['id'])) {
-	include_once($relPath.'theme.inc');
-	theme("Error!", "header");
-	echo "<br><center>A team id must specified in the following format:<br>$code_url/stats/teams/teams_xml.php?id=****</center>";
-	theme("", "footer");
-	exit();
-}
 
 $req_team_id = get_integer_param( $_GET, 'id', null, 0, null );
+
+$db_Connection=new dbConnect();
 
 //Try our best to make sure no browser caches the page
 header("Content-Type: text/xml");

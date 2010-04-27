@@ -15,14 +15,15 @@ $order = get_enumerated_param(
 	$_GET, 'order', 'u_id', array('u_id', 'username', 'date_created') );
 $direction = get_enumerated_param(
 	$_GET, 'direction', 'asc', array('asc', 'desc') );
-
 $mstart = get_integer_param( $_GET, 'mstart', 0, 0, null );
+$uname = @$_REQUEST['uname'];
+$uexact = @$_REQUEST['uexact'];
 
-if (!empty($_REQUEST['uname'])) {
-	if ($_REQUEST['uexact'] == 'yes')
-		$where_clause = "WHERE username='{$_REQUEST['uname']}'";
+if (!empty($uname)) {
+	if ($uexact == 'yes')
+		$where_clause = "WHERE username='" . $uname . "'";
 	else
-		$where_clause = "WHERE username LIKE '%{$_REQUEST['uname']}%'";
+		$where_clause = "WHERE username LIKE '%" . addcslashes($uname, "%_") . "%'";
 
 	$mResult = mysql_query("
 		SELECT u_id, username, date_created, u_privacy
@@ -33,7 +34,7 @@ if (!empty($_REQUEST['uname'])) {
 	");
 	$mRows = mysql_num_rows($mResult);
 	if ($mRows == 1) { metarefresh(0,"mdetail.php?id=".mysql_result($mResult,0,"u_id")."",'',''); exit; }
-	$uname = "uname=".$_REQUEST['uname']."&";
+	$uname = "uname=".$uname."&";
 } else {
 	$mResult=mysql_query("
 		SELECT u_id, username, date_created, u_privacy

@@ -25,13 +25,7 @@ function get_pages_proofed_maybe_simulated()
         $pagesproofed += $ru_tallyboard->get_current_tally( $userP['u_id'] );
     }
 
-    if (isset($_GET['numofpages']))
-    {
-        if ($_GET['numofpages'] < $pagesproofed)
-        {
-            $pagesproofed =  $_GET['numofpages'];
-        }
-    }
+    $pagesproofed = get_integer_param($_GET, 'numofpages', $pagesproofed, 0, $pagesproofed);
 
     return $pagesproofed;
 }

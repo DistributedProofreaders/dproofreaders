@@ -23,9 +23,9 @@
   echo_menu();
 
   echo '<h2 align="center">Manage biographies</h2>';
-
-  if (isset($_GET['message']))
-    echo '<center>' . $_GET['message'] . '</center><br />';
+  $message = @$_GET['message'];
+  if (isset($message))
+    echo '<center>' . htmlspecialchars($message) . '</center><br />';
 
   if (isset($_POST) && count($_POST)>0) {
 
@@ -400,7 +400,7 @@
 
 // argument 'view': 'enabled'(default), 'disabled', 'all'
 // provide links for those and also buttons for submitting/resetting form.
-$view = isset($_REQUEST['view']) ? $_REQUEST['view'] : 'enabled';
+$view = get_enumerated_param($_REQUEST, 'view', 'enabled', array('enabled', 'disabled', 'all'));
 
 $links_and_buttons = _('View:') . ' ';
 if ($view != 'disabled' && $view != 'all')

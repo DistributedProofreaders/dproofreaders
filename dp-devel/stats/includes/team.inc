@@ -284,8 +284,9 @@ function showTeamStats($curTeam, $tally_name) {
 function showTeamMbrs($curTeam, $tally_name) {
     global $code_url, $site_abbreviation;
 
-    if (empty($_GET['order'])) { $order = "mbr"; } else { $order = $_GET['order']; }
-    if (empty($_GET['direction'])) { $direction = "asc"; } else { $direction = $_GET['direction']; }
+    $order       = get_enumerated_param($_GET, 'order', 'mbr', array('mbr', 'pages', 'date'));
+    $direction   = get_enumerated_param($_GET, 'direction', 'asc', array('asc', 'desc'));
+    $req_team_id = get_integer_param($_GET, 'tid', null, 0, null);
 
     $subtitle = null;
     $latestMbr = mysql_query("SELECT users.username AS Username, users.u_privacy AS Privacy FROM user_teams INNER JOIN users ON user_teams.latestUser = users.u_id WHERE user_teams.id = ".$curTeam['id']." AND user_teams.latestUser <> 0");
@@ -354,8 +355,6 @@ function showTeamMbrs($curTeam, $tally_name) {
     list( $joined_with_user_tallies, $user_tally_column ) =
         $users_tallyboard->get_sql_joinery_for_current_tallies( 'u_id' );
 
-    $req_team_id = get_integer_param( $_GET, 'tid', null, 0, null );
-
     $mbrQuery = mysql_query("
         SELECT *, $user_tally_column AS current_tally
         FROM users $joined_with_user_tallies
@@ -403,7 +402,11 @@ function showTeamMbrs($curTeam, $tally_name) {
 }
 
 function showTeamHistory($curTeam, $tally_name) {
-    if (empty($_GET['range'])) { $range = 30; } else { $range = $_GET['range']; }
+    if (@$_GET['range'] == 'all') {
+        $range = 'all';
+    } else {
+        $range = get_integer_param($_GET, 'range', 30, 1, null);
+    }
 
     $choices = array();
     foreach ( array( 7, 14, 30, 60, 365, 'all' ) as $d )

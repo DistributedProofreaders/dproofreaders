@@ -392,15 +392,22 @@ function headerbar_text_array($entries)
 function html_statsbar($nameofpage) {
 
     global $code_url, $PG_home_url, $pguser;
+    global $Round_for_round_id_;
     maybe_show_language_selector();
 
     // Show statistics that are pertinent to the particular request.
     // (i.e., to the main content of the page).
 
-    $tally_name = @$_REQUEST['tally_name'];
-    if (empty($tally_name)) $tally_name = @$_REQUEST['round_id'];
+    $rounds = array_keys($Round_for_round_id_);
+    // The tally_name may be unspecified, or a round name.
+    $tally_name = get_enumerated_param($_REQUEST, 'tally_name', null, $rounds, true);
+    
+    // If tally_name is unspecfied, try to see if round_id is set.
+    if (!isset($tally_name)) {
+        $tally_name = get_enumerated_param($_REQUEST, 'round_id', null, $rounds, true);
+    }
 
-    if (empty($tally_name))
+    if (!isset($tally_name))
     {
         if (strpos($_SERVER['PHP_SELF'],'activity_hub.php') !== false)
         {

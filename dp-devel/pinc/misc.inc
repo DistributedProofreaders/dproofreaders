@@ -19,14 +19,19 @@ function array_get( $arr, $key, $default )
     }
 }
 
-function get_enumerated_param( $arr, $key, $default, $choices )
+function get_enumerated_param( $arr, $key, $default, $choices, $allownull = false)
 // If $arr[$key] is defined and is one of the strings in $choices,
 // return that string.
 // If it's not defined, and $default is non-null, return $default.
-// Otherwise, die with an error.
+// If $default is null and $allownull is true, return null (useful for optional params).
+// Otherwise die with an error.
 //
-// Example usage:
+// Example usages:
 //     $dir = get_enumerated_param( $_GET, 'direction', 'asc', array('asc', 'desc') );
+// The direction must be asc/desc, and defaults to asc if not provided.
+//
+//     $round = get_enumerated_param( $_GET, 'tally_name', null, $rounds, true);
+// The tally_name must be one of the rounds, but show a round menu if not specified.
 {
     {
         // sanity checks on the args
@@ -40,6 +45,7 @@ function get_enumerated_param( $arr, $key, $default, $choices )
         if ( !is_null($default) )
         {
             assert( in_array($default, $choices) );
+            assert( !$allownull);
         }
     }
 
@@ -57,16 +63,16 @@ function get_enumerated_param( $arr, $key, $default, $choices )
         }
         else
         {
-            die("parameter '$key' ('$s') is not valid");
+            die(htmlspecialchars("parameter '$key' ('$s') is not valid"));
         }
     }
     else
     {
         // parameter not set, use default
-        if ( is_null($default) )
+        if ( is_null($default) && !$allownull )
         {
             // There is no default. The parameter is required.
-            die("parameter '$key' is required");
+            die(htmlspecialchars("parameter '$key' is required"));
         }
         else
         {
@@ -75,17 +81,22 @@ function get_enumerated_param( $arr, $key, $default, $choices )
     }
 }
 
-function get_integer_param( $arr, $key, $default, $min, $max )
+function get_integer_param( $arr, $key, $default, $min, $max, $allownull = false )
 // If $arr[$key] is defined and is the string-rep of an integer
 // satisfying certain simple constraints, return that integer.
 // If it's not defined, and $default is non-null, return $default.
+// If it's not defined, and $default is null and $allownull is true, return null.
 // Otherwise, die with an error.
 //
-// Example usage:
+// Example usages:
 //     $per_page = get_integer_param($_GET, 'per_page', 20, 1, NULL );
 // If the script is not given a 'per_page' parameter via the $_GET array,
 // use a default value of 20. If it is supplied, ensure it's an integer
 // and that it's at least 1, with no upper limit.
+//
+//     $per_page = get_integer_param($_GET, 'per_page', null, 1, null, true);
+// As before, except if no limit is provided, return null, so the caller can
+// know to display all pages rather than some arbitrary maximum.
 {
     {
         // sanity checks on the args
@@ -100,6 +111,7 @@ function get_integer_param( $arr, $key, $default, $min, $max )
         {
             if (!is_null($min)) assert( $default >= $min );
             if (!is_null($max)) assert( $default <= $max );
+            assert(!$allownull);
         }
 
         if ( !is_null($min) && !is_null($max) )
@@ -122,28 +134,28 @@ function get_integer_param( $arr, $key, $default, $min, $max )
             $i = intval($s);
             if ( !is_null($min) && $i < $min )
             {
-                die("parameter '$key' ($s) is less than the minimum $min");
+                die(htmlspecialchars("parameter '$key' ($s) is less than the minimum $min"));
             }
 
             if ( !is_null($max) && $i > $max )
             {
-                die("parameter '$key' ($s) is greater than the maximum $max");
+                die(htmlspecialchars("parameter '$key' ($s) is greater than the maximum $max"));
             }
 
             return $i;
         }
         else
         {
-            die("parameter '$key' ('$s') is not an integer");
+            die(htmlspecialchars("parameter '$key' ('$s') is not an integer"));
         }
     }
     else
     {
         // not set, use default
-        if ( is_null($default) )
+        if ( is_null($default) && !$allownull )
         {
             // There is no default. The parameter is required.
-            die("parameter '$key' is required");
+            die(htmlspecialchars("parameter '$key' is required"));
         }
         else
         {
