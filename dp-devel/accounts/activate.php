@@ -12,7 +12,7 @@ include_once($relPath.'forum_interface.inc');
 // If its does, it returns it, otherwise dies with a warning.
 function validate_userID($param_name, $value) 
 {
-    if (1 == preg_match('/\b(userID[0-9a-f]{13})\b/', $value)) return $value;
+    if (1 == preg_match('/^userID[0-9a-f]{13}$/', $value)) return $value;
     die("Parameter $param_name is not a valid userID.");
 }
 
