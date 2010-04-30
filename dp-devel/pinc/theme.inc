@@ -244,7 +244,7 @@ function html_navbar()
         //
         $destination = array_get($_REQUEST, "destination", $_SERVER["REQUEST_URI"]);
 
-        $login_form .= "<input type='hidden' name='destination' value='$destination'>";
+        $login_form .= "<input type='hidden' name='destination' value='" . htmlspecialchars($destination,ENT_QUOTES) . "'>";
 
         // login link text
         $login_form .= "<span class='text'>" . _("ID:") . "</span> <input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
