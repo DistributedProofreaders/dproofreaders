@@ -339,6 +339,12 @@ function can_user_get_pages_in_project( $username, $project, $round )
                     . _("Perhaps you could try working on an EASY project.");
             }
 
+            if (user_is_a_sitemanager() || user_is_proj_facilitator())
+            {
+                // User is exempt from 11-pages-per-project restriction.
+            }
+            else
+            {
                 // When a beginner project is in a mentored round,
                 // any given user can work on at most 11 pages
                 // from that project in that round.
@@ -356,6 +362,7 @@ function can_user_get_pages_in_project( $username, $project, $round )
                         . " "
                         . _("Or you could try working on an EASY project.");
                 }
+            }
         }
         else if ( $round->is_a_mentor_round() )
         {
