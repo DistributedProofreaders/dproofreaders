@@ -339,23 +339,23 @@ function can_user_get_pages_in_project( $username, $project, $round )
                     . _("Perhaps you could try working on an EASY project.");
             }
 
-            // When a beginner project is in a mentored round,
-            // any given user can work on at most 11 pages
-            // from that project in that round.
+                // When a beginner project is in a mentored round,
+                // any given user can work on at most 11 pages
+                // from that project in that round.
 
-            $result = mysql_query("
-                SELECT COUNT(*) as pagesdone
-                FROM {$project->projectid}
-                WHERE {$round->user_column_name} = '$username'
-            "); 
-            $pagesdone = mysql_result($result, 0, "pagesdone" );
-            if ($pagesdone >= 11)
-            {
-                return
-                    _("You have reached your quota of pages from this 'Beginners Only' project, but you're welcome to work on a different one.")
-                    . " "
-                    . _("Or you could try working on an EASY project.");
-            }
+                $result = mysql_query("
+                    SELECT COUNT(*) as pagesdone
+                    FROM {$project->projectid}
+                    WHERE {$round->user_column_name} = '$username'
+                "); 
+                $pagesdone = mysql_result($result, 0, "pagesdone" );
+                if ($pagesdone >= 11)
+                {
+                    return
+                        _("You have reached your quota of pages from this 'Beginners Only' project, but you're welcome to work on a different one.")
+                        . " "
+                        . _("Or you could try working on an EASY project.");
+                }
         }
         else if ( $round->is_a_mentor_round() )
         {
