@@ -5,7 +5,7 @@ include_once($relPath.'dpsql.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 
-$title = "Post-Processing Statistics";
+$title = _("Post-Processing Statistics");
 theme($title,'header');
 
 echo "<br><br><h2>$title</h2><br>\n";

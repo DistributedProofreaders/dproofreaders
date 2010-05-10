@@ -4,19 +4,16 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 
-// Not translating these strings since the PP mysteries are old English-only projects
-
-theme("Post-Processing Mysteries", "header");
+$title = _("Post-Processing Mysteries");
+theme($title, "header");
 
 $order = get_enumerated_param($_GET, 'order', 'nameofwork', array('nameofwork', 'authorsname', 'username', 'projectid', 'modifieddate'));
 
-echo "<br><br><h2>Post-Processing Mysteries</h2><br>\n";
+echo "<br><br><h2>$title</h2><br>\n";
 
 echo "<br>\n";
 
-echo "We don't know for sure who PPd these books; if you do know, or if you did, please send email
-	e-mail: <a href='mailto:$general_help_email_addr'>$general_help_email_addr</a> 
-	quoting the other information in the row, including the project ID. Thanks!<br><br>";
+echo sprintf( _("We don't know for sure who PPd these books; if you do know, or if you did, please send an email: <a ref='%1\s'>%2\s</a> quoting the other information in the row, including the project ID. Thanks!"), "mailto:$general_help_email_addr", "$general_help_email_addr");
 
 	
 //get projects that have been PPd but we don't know by whom
@@ -36,11 +33,11 @@ $rownum = 0;
 
 echo "<table cols = \"6\" border =\"1\">";
 echo "<td><b>Number</b></td>
-      <td><b><a href =\"PP_unknown.php?order=nameofwork\">Title</b></td>
-      <td><b><a href =\"PP_unknown.php?order=authorsname\">Author</b></td>
-      <td><b><a href =\"PP_unknown.php?order=username\">Project Manager</b></td>
-      <td><b><a href =\"PP_unknown.php?order=projectid\">Project ID</b></td>
-      <td><b><a href =\"PP_unknown.php?order=modifieddate\">Date Last Modified</a></b></td><tr>";
+      <td><b><a href =\"PP_unknown.php?order=nameofwork\">" . _("Title") . "</b></td>
+      <td><b><a href =\"PP_unknown.php?order=authorsname\">" . _("Author") . "</b></td>
+      <td><b><a href =\"PP_unknown.php?order=username\">" . _("Project Manager") . "</b></td>
+      <td><b><a href =\"PP_unknown.php?order=projectid\">" . _("Project ID") . "</b></td>
+      <td><b><a href =\"PP_unknown.php?order=modifieddate\">" . _("Date Last Modified") . "</a></b></td><tr>";
 
 $index = 0;
 while ($rownum < $numrows) {

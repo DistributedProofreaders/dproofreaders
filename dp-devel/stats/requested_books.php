@@ -10,8 +10,8 @@ include_once($relPath.'user_project_info.inc');
 $title = _("Most Requested Books");
 theme($title,'header');
 
-echo "<br><h2 style='color: $theme[color_headerbar_bg];'>$title</h2><br>\n
-<p>You can sign up for notifications in the 'Event Subscriptions' section of the Project Comments page when proofreading.</p>";
+echo "<br><h2 style='color: $theme[color_headerbar_bg];'>$title</h2><br>\n";
+echo "<p>" . _("You can sign up for notifications in the 'Event Subscriptions' section of the Project Comments page when proofreading.") . "</p>";
 
 echo "<br><br><h3 style='color: $theme[color_headerbar_bg];'>" . _("Most Requested Books Being Proofread") . "</h2><br>\n";
 

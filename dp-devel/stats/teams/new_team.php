@@ -53,7 +53,7 @@ else if (isset($_POST['mkMake']))
         {
             $ticon = 1;
         }
-        echo "<center><br>The team name must be unique.  Please make any changes and resubmit.<br>";
+        echo "<center><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
         showEdit(htmlentities(stripslashes($_POST['teamname'])),stripslashes($_POST['text_data']),stripslashes($_POST['teamwebpage']),1,0,$tavatar,$ticon);
         echo "<br></center><br>";
         theme("", "footer");
