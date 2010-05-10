@@ -8,7 +8,8 @@
   include_once('search.inc');
   include_once('menu.inc');
 
-  theme('Manage biographies', 'header');
+  $title=_("Manage biographies");
+  theme($title, 'header');
 
   abort_if_not_authors_db_manager();
 
@@ -22,7 +23,7 @@
 
   echo_menu();
 
-  echo '<h2 align="center">Manage biographies</h2>';
+  echo '<h2 align="center">$title</h2>';
   $message = @$_GET['message'];
   if (isset($message))
     echo '<center>' . htmlspecialchars($message) . '</center><br />';
@@ -369,11 +370,11 @@
     }
 
     if (toMove && !moveTo) {
-      alert("You have selected one or more biographies for moving, but no author to move them to.");
+      alert(_("You have selected one or more biographies for moving, but no author to move them to."));
       return false;
     }
     else if (!toMove && moveTo) {
-      alert("You have selected an author to move biographies to, but no biographies to move.");
+      alert(_("You have selected an author to move biographies to, but no biographies to move."));
       return false;
     }
     return true;

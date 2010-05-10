@@ -31,14 +31,14 @@ if ($author_id) {
       $numrow = mysql_numrows($result);
       if ($numrow == 1) {
         $bio_id = mysql_result($result, 0);
-        echo "<tr><th>" . _('Biography') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . _('Biography') . " $bio_id</a></td></tr>\n";
+        echo "<tr><th>" . _('Biography') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_('Biography %d'),$bio_id) . "</a></td></tr>\n";
       }
       elseif ($numrow > 1) {
         $bio_id = mysql_result($result, 0);
         echo "<tr><th rowspan=\"$numrow\" valign=\"top\">" . _('Biographies') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . _('Biography') . " $bio_id</a></td></tr>\n";
         for ($rownum = 1; $rownum < $numrow; $rownum++) {
           $bio_id = mysql_result($result, $rownum);
-          echo "<tr><td><a href=\"bio.php?bio_id=$bio_id\">Biography $bio_id</a></td></tr>\n";
+          echo "<tr><td><a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_("Biography %s", $bio_id)) . "</a></td></tr>\n";
         }
       }
     }

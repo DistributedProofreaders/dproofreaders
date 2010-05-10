@@ -20,26 +20,26 @@
 
   abort_if_not_authors_db_manager(true);
 
-  theme('Harvest existing biographies from project comments', 'header');
+  theme( _("Harvest existing biographies from project comments"), 'header');
 
   // Tables must exist (because this script shouldn't need to care about creating them)
   // and be empty (because if they're not, the harvest is likely done in error)
 
   if (!table_exists('authors') || !table_exists('biographies')) {
-    echo 'The tables have not been created! Please create them by having a Site Admin run create_authors_bios_tables.php.';
+    echo _("The tables have not been created! Please create them by having a Site Admin run create_authors_bios_tables.php.");
     theme('', 'footer');
     exit;
   }
 
   $result = mysql_query('SELECT * FROM authors');
   if (mysql_num_rows($result) > 0) {
-    echo 'The table `authors` is not empty. Please empty it and try again.';
+    echo _("The table 'authors' is not empty. Please empty it and try again.");
     theme('', 'footer');
     exit;
   }
   $result = mysql_query('SELECT * FROM biographies');
   if (mysql_num_rows($result) > 0) {
-    echo 'The table `biographies` is not empty. Please empty it and try again.';
+    echo _("The table 'biographies' is not empty. Please empty it and try again.");
     theme('', 'footer');
     exit;
   }
@@ -50,63 +50,47 @@
 
     // print usage and the button to simulate harvesting
 
-    echo '<p>' . sprintf(
-                   'When you click the button below, the project comments of all projects will be searched for biographies.
-                      Records in the database will be created for both the author and the biography, but they will of course
-                      need to be examined. This will be done using the <a href="%1$s">managing tool</a> and the process is
-                      explained further below.',
-                   'manage.php');
+    echo '<p>' . sprintf( _("When you click the button below, the project comments of all projects will be searched for biographies. Records in the database will be created for both the author and the biography, but they will of course need to be examined. This will be done using the <a href='%1\$s'>managing tool</a> and the process is explained further below."), 'manage.php');
 
-    echo '<p>' . 'Please do note that this is a one-time event.';
+    echo '<p>' . _("Please do note that this is a one-time event.");
 
 ?>
 
 <form name="harvest" method="POST">
-<input type="submit" name="actionBtn" value="<?php echo 'Simulate harvest'; ?>">
+<input type="submit" name="actionBtn" value="<?php echo _("Simulate harvest"); ?>">
 </form>
   
 <?php
 
-    echo '<h2>' . 'Following the harvest' . '</h2>';
+    echo '<h2>' . _("Following the harvest") . '</h2>';
 
-    echo '<p>' . 'The authors and biographies need be examined
-    for duplicates and obvious errors such as misplaced data.';
+    echo '<p>' . _("The authors and biographies need be examined for duplicates and obvious errors such as misplaced data.");
 
-    echo ' ' . sprintf('This will be done using the <a href="%1$s">managing tool</a>:', 'manage.php');
+    echo " " . sprintf( _("This will be done using the <a href='%s'>managing tool</a>:"), 'manage.php');
     echo '<ul><li>';
-    echo 'Select to only view non-enabled authors.';
-    echo '<li>' . 'Authors and biographies are linked the way they were found in the database harvest.
-    This means they are all in a one-to-one relationship. There may be duplicate entries
-    for the same author. There should only be one author entry per author,
-    and it should link to all biographies. This is done manually. Multiple occurrences of a
-    biography should be reduced to one.';
-    echo '<li>' . 'Make frequent and possibly creative use of the searching
-    and listing possibilities to identify duplicate authors.';
-    echo '<li>' . 'The authors and biographies are all marked as "not enabled" in the database.
-    Until you check the "enabled" box next to it in this listing and submit, the author/bio
-    will not appear to the average user but you will see it here. After that, it will be the
-    other way round. This means you should only check that box when you are certain you won\'t
-    need to edit that author again or move more biographies to it.';
+    echo _("Select to only view non-enabled authors.");
+    echo "<li>" . _("Authors and biographies are linked the way they were found in the database harvest. This means they are all in a one-to-one relationship. There may be duplicate entries for the same author. There should only be one author entry per author, and it should link to all biographies. This is done manually. Multiple occurances of a biography should be reduced to one.");
+    echo "<li>" . _("Make frequent and possibly creative use of the searching and listing possibilities to identify duplicate authors.");
+    echo "<li>" . _("The authors and biographies are all marked as 'not enabled' in the database. Until you check the 'enabled' box next to it in this listing and submit, the author/bio will not appear to the average user but you will see it here. After that, it will be the other way round. This means you should only check that box when you are certain you won't need to edit that author again or move more biographies to it.");
     echo '</ul></p>';
 
   } // end of usage and button
   else {
 
     // Are we simulating? Determined by the label of the button clicked.
-    $simulating = ($_POST['actionBtn'] == 'Simulate harvest');
+    $simulating = ($_POST['actionBtn'] == _("Simulate harvest"));
 
     if ($simulating) {
-      echo "<strong>Simulating!</strong> Queries are not run. Check that there are no peculiarities
-            below that you believe should be addressed, and click the 'Harvest'-button.";
+      echo _("<strong>Simulating!</strong> Queries are not run. Check that there are no peculiarities below that you believe should be addressed, and click the 'Harvest'-button.");
       ?>
       <form name="harvest" method="POST">
-      <input type="submit" name="actionBtn" value="<?php echo 'Simulate harvest'; ?>">
-      <input type="submit" name="actionBtn" value="<?php echo 'Harvest'; ?>">
+      <input type="submit" name="actionBtn" value="<?php echo _("Simulate harvest"); ?>">
+      <input type="submit" name="actionBtn" value="<?php echo _("Harvest"); ?>">
       </form>
       <?php
     }
     else {
-      echo "<strong>Harvesting!</strong> Below should be a log of what has been done.";
+      echo _("<strong>Harvesting!</strong> Below should be a log of what has been done.");
     }
 
     // Harvest
@@ -124,10 +108,10 @@
       $matches = array();
       $count = preg_match_all("/<!-- begin bio: (.*?) (\((.*?)\))? -->(.*?)<!-- end bio/is", $row[1], $matches, PREG_SET_ORDER);
       $project_id = $row[0];
-      echo '  ' . sprintf('Project %1$s contains %2$d biographies.', $project_id, $count) . "\n";
+      echo '  ' . sprintf( _("Project %1$s contains %2$d biographies."), $project_id, $count) . "\n";
 
       if ($count == 0) {
-        echo 'It seems the biography in this project was not properly marked. Please check manually:';
+        echo _("It seems the biography in this project was not properly marked. Please check manually:");
         echo " $code_url/project.php?id=$project_id";
         continue;
       }
@@ -149,12 +133,12 @@
         if ($comma) {
           $last_name = addslashes(trim(substr($match[1], 0, $comma)));
           $other_names = addslashes(trim(substr($match[1], $comma+1)));
-          echo '    ' . sprintf("Name split into '%1\$s', '%2\$s'.", $last_name, $other_names) . "\n";
+          echo '    ' . sprintf( _("Name split into '%1\$s', '%2\$s'."), $last_name, $other_names) . "\n";
         }
         else {
           $last_name = addslashes(trim($match[1]));
           $other_names = '';
-          echo '    ' . 'Name not split.' . "\n";
+          echo '    ' . _("Name not split") . "\n";
         }
 
         // The dates need some extra parsing.
@@ -210,36 +194,36 @@
                  "(last_name, other_names, byear, bmonth, bday, dyear, dmonth, dday, bcomments, dcomments, enabled)\n" .
                  "VALUES('$last_name', '$other_names', $date_fields_str '', '', 'no')";
         if ($simulating) {
-          echo "<font color='red'>    The following query would have been run:\n      " .
+          echo "<font color='red'>    " . _("The following query would have been run:") . "\n      " .
                str_replace("\n", "\n      ", htmlspecialchars($query)) . "</font>\n";
           $author_id='#new author id#';
         }
         else {
           $store_result = mysql_query($query);
           if (!$store_result) {
-            echo '    ' . 'An error occured while saving the author:' . ' ' . mysql_error() . "\n";
+            echo '    ' . _("An error occured while saving the author:") . ' ' . mysql_error() . "\n";
             exit;
           }
           $author_id = mysql_insert_id();
-          echo '    ' . sprintf('The author was inserted into the database with the id %1$d.', $author_id) . "\n";
+          echo '    ' . sprintf( _("The author was inserted into the database with the id %d."), $author_id) . "\n";
         }
         $query = "INSERT INTO biographies ".
                  "(author_id, bio) " .
                  "VALUES($author_id, '$bio');";
         if ($simulating)
-          echo "<font color='blue'>    The following query would have been run:\n      " .
+          echo "<font color='blue'>    " . _("The following query would have been run:") . "\n      " .
                str_replace("\n", "\n      ", htmlspecialchars($query)) . "</font>\n";
         else {
           $store_result = mysql_query($query);
           if (!$store_result) {
-            echo '    ' . 'An error occured while saving the biography:' . ' ' . mysql_error() . "\n";
+            echo '    ' . _("An error occured while saving the biography:") . ' ' . mysql_error() . "\n";
             exit;
           }
-          echo '    ' . sprintf('The biography was inserted into the database with the id %1$d.', mysql_insert_id()) . "\n\n";
+          echo '    ' . sprintf( _("The biography was inserted into the database with the id %d."), mysql_insert_id()) . "\n\n";
         }
       }
     }
-    echo "\nDone. All projects searched.";
+    echo "\n" . _("Done. All projects searched.");
   }
 
   function ensure_digits($digits_or_question_mark) {

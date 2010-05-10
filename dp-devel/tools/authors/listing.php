@@ -61,18 +61,18 @@
   // links to allow (asc/desc) sorting
 
   echo "<th><a href='listing.php?$query".$sortUtility->getQueryStringForSortableValue($sort_author_id).
-       "'>Id</a></th>\n";
+       "'>" . _("Id") . "</a></th>\n";
   echo "<th><a href='listing.php?$query".$sortUtility->getQueryStringForSortableValue($sort_last_name).
-       "'>Last name</a></th>\n";
+       "'>" . _("Last name") . "</a></th>\n";
   echo "<th><a href='listing.php?$query".$sortUtility->getQueryStringForSortableValue($sort_other_names).
-       "'>Other name(s)</a></th>\n";
+       "'>" . _("Other name(s)") . "</a></th>\n";
   echo "<th><a href='listing.php?$query".$sortUtility->getQueryStringForSortableValue($sort_born).
-       "'>Born</a></th>\n";
+       "'>" . _("Born") . "</a></th>\n";
   echo "<th><a href='listing.php?$query".$sortUtility->getQueryStringForSortableValue($sort_dead).
-       "'>Deceased</a></th>\n";
+       "'>" . _("Deceased") . "</a></th>\n";
 
   if ($can_edit)
-    echo "<th>Edit</th>\n";
+    echo "<th>" . _("Edit") . "</th>\n";
 
   echo "\n";
 
