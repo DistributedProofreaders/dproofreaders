@@ -436,7 +436,7 @@ function AP_setup( $round )
     mysql_query("
         CREATE TEMPORARY TABLE active_page_counts
         (
-            projectid  TEXT NOT NULL,
+            projectid  varchar(22),
             pages      INT(4)
         )
     ") or die(mysql_error());
