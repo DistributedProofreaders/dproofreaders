@@ -5,6 +5,7 @@ include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'Project.inc'); // does_project_page_table_exist()
 
 define("MESSAGE_INFO",0);
 define("MESSAGE_WARNING",1);
@@ -222,7 +223,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     $projects_done[$projectid] = $projectid;
 
     // see if the pages table exists
-    if (!mysql_query("SELECT 1 FROM $projectid LIMIT 0"))
+    if (!does_project_page_table_exist($projectid))
     {
         // table doesn't exist. We are not interested.
         $messages[] = array("<a href='$url'>$nameofwork</a>",

@@ -84,8 +84,7 @@ class Project
         $this->dir = "$projects_dir/$this->projectid";
         $this->dir_exists = is_dir($this->dir);
 
-        $this->pages_table_exists = 
-            ( mysql_query("DESCRIBE $this->projectid") != FALSE );
+        $this->pages_table_exists = does_project_page_table_exist($this->projectid);
 
         // -------------------------------------------------
 
@@ -496,6 +495,27 @@ function get_credit_name( $login_name )
     }
     return $name;
 }
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// Determines if the project's pages table exists
+function does_project_page_table_exist($projectid)
+{
+    // Two queries can be done to determine if a table exists:
+    //    DESCRIBE table
+    //    SELECT 1 FROM table LIMIT 0
+    // The second is a mysql-ism and performs better, so we use that one.
+    $result = mysql_query("SELECT 1 FROM $projectid LIMIT 0");
+
+    if($result) {
+        mysql_free_result($result);
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Checks if $value has the form of a valid project ID.
 // If it does, it returns it, otherwise dies with a warning.

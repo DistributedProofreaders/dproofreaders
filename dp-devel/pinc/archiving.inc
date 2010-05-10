@@ -4,6 +4,7 @@ include_once($relPath.'udb_user.php'); // $archive_db_name
 include_once($relPath.'project_events.inc'); // log_project_event
 include_once($relPath.'project_states.inc'); // PROJ_SUBMIT_PG_POSTED PROJ_DELETE
 include_once($relPath.'Stopwatch.inc');
+include_once($relPath.'Project.inc'); // does_project_page_table_exist()
 
 
 function archive_project( $project, $dry_run )
@@ -18,7 +19,7 @@ function archive_project( $project, $dry_run )
     echo "$projectid ($mod_time_str) \"$project->nameofwork\"\n";
 
     global $archive_db_name;
-    if (!mysql_query("DESCRIBE $projectid"))
+    if (!does_project_page_table_exist($projectid))
     {
         echo "    Table $projectid does not exist.\n";
     }
@@ -109,8 +110,7 @@ function archive_ancillary_data_for_project( $project, $indent, $dry_run )
         return;
     }
 
-    $res2 = mysql_query("DESCRIBE `$projectid`");
-    if ( $res2 === FALSE && mysql_errno() == 1146 )
+    if ( does_project_page_table_exist($projectid) == FALSE )
     {
         // project's page table doesn't exist.
         // Good, that's consistent with it having archived='1'
