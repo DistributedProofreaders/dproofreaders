@@ -112,14 +112,14 @@ foreach ( $activity_ids as $activity_id )
 
         {
             echo "<tr>";
-            echo "<th>username (link to member stats)</th>";
+            echo "<th>"._("username (link to member stats)")."</th>";
             if ( $can_review_work )
             {
-                echo "<th>link to review work</th>";
+                echo "<th>"._("link to review work")."</th>";
             }
-            echo "<th>this request</th>";
-            echo "<th>prev denial</th>";
-            echo "<th>last on site</th>";
+            echo "<th>"._("this request")."</th>";
+            echo "<th>"._("prev denial")."</th>";
+            echo "<th>"._("last on site")."</th>";
             echo "</tr>";
             echo "\n";
         }

@@ -23,18 +23,18 @@ $project = new Project($projectid);
 
 if ( $project->state != $curr_state )
 {
-    fatal_error( "Your request appears to be out-of-date.\nThe project's current state is now '$project->state'." );
+    fatal_error( _("Your request appears to be out-of-date. The project's current state is now '%s'."), $project->state));
 }
 
 $transition = get_transition( $curr_state, $next_state );
 if ( is_null($transition) )
 {
-    fatal_error( "This transition is not recognized." );
+    fatal_error( _("This transition is not recognized.") );
 }
 
 if ( !$transition->is_valid_for( $project, $pguser ) )
 {
-    fatal_error( "You are not permitted to perform this action." );
+    fatal_error( _("You are not permitted to perform this action.") );
 }
 
 function fatal_error( $msg )
@@ -42,7 +42,7 @@ function fatal_error( $msg )
     global $projectid, $project, $curr_state, $next_state;
 
     echo "<pre>\n";
-    echo "You requested:\n";
+    echo _("You requested:") . "\n";
     echo "    projectid  = $projectid ($project->nameofwork)\n";
     echo "    curr_state = $curr_state\n";
     echo "    next_state = $next_state\n";
@@ -84,7 +84,7 @@ EOS;
 if ( !empty($transition->detour) )
 {
     // Detour (to collect data).
-    $title = "Transferring...";
+    $title = _("Transferring...");
     $body = "";
     $refresh_url = prepare_url( $transition->detour );
     metarefresh(2, $refresh_url, $title, $body);
@@ -102,8 +102,8 @@ if ( !empty($transition->detour) )
 
     if ($error_msg == '')
     {
-        $title = "Action Successful";
-        $body = "Your request ('$transition->action_name') was successful.";
+        $title = _("Action Successful");
+        $body = sprintf( _("Your request ('%s') was successful."), $transition->action_name);
     }
     else
     {

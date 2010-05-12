@@ -16,7 +16,7 @@ $rows = mysql_query($query) or die(mysql_error());
 
 if ( mysql_numrows($rows) == 0 )
 {
-    echo "no such image " . htmlspecialchars($page_image) . "<br>\n";
+    echo sprintf(_("No such image %s"), htmlspecialchars($page_image)) . "<br>\n";
 }
 else
 {

@@ -46,19 +46,9 @@ echo "<hr width='75%'>\n";
 echo "<br>\n";
 echo implode( "\n", $pool->blather );
 
-echo "
-<br>
-<p>
-If there's a project you're interested in,
-  you can get to a page about that project
-  by clicking on the title of the work.
-(We strongly recommend you right-click
-  and open this project-specific page in a new window or tab.)
-The page will let you see the project comments
-  and check the project in or out
-  as well as download the associated text and image files.
-</p>
-";
+
+echo "<br><p>" . _("If there's a project you're interested in, you can get to a page about that project by clicking on the title of the work. (We strongly recommend you right-click and open this project-specific page in a new window or tab.) The page will let you see the project comments and check the project in or out as well as download the associated text and image files.") . "</p>";
+
 
 // special colours legend
 // Don't display if the user has selected the
