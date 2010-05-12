@@ -5,19 +5,14 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'site_vars.php');
 
-slim_header("$site_abbreviation Catalog");
+$title = sprintf(_("%s Catalog"), $site_name);
 
-?>
-<h1><?php echo $site_name; ?> Catalog</h1>
+slim_header($title);
 
-<p>
-This page lists all projects, grouped by state.
-(We could have other ways of grouping/ordering.
-We could also have a search interface.)
-Click on a project title to go to its home page.
-</p>
+echo "<h1>$title</h1>";
 
-<?php
+echo "<p>" . _("This page lists all projects, grouped by state. (We could have other ways of grouping/ordering. We could also have a search interface.) Click on a project title to go to its home page.") . "</p>";
+
 foreach ( $PROJECT_STATES_IN_ORDER as $proj_state )
 {
     echo "<h3>";
@@ -38,7 +33,11 @@ foreach ( $PROJECT_STATES_IN_ORDER as $proj_state )
             $nameofwork  = $row['nameofwork'];
             $authorsname = $row['authorsname'];
             $language    = $row['language'];
-            echo "\"<a href='$code_url/project.php?id=$projectid'>" . htmlspecialchars($nameofwork) . "</a>\" by " . htmlspecialchars($authorsname) . " (in " . htmlspecialchars($language) .")<br>\n";
+            echo sprintf(_("<a href='%1\$s'>%2\$s</a> by %3\$s (in %4\$s)"),
+                "$code_url/project.php?id=$projectid",
+                htmlspecialchars($nameofwork),
+                htmlspecialchars($authorsname),
+                htmlspecialchars($language)) . "<br>\n";
         }
     }
 }
