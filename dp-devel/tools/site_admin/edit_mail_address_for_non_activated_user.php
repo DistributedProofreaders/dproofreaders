@@ -5,6 +5,9 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'new_user_mails.inc');
+include_once($relPath.'misc.inc');
+include_once($relPath.'username.inc');
+include_once($relPath.'email_address.inc');
 
 theme('Edit mail-address for non-activated user', 'header');
 
@@ -14,7 +17,9 @@ if (!user_is_a_sitemanager()) {
     exit;
 }
 
-if (!isset($_GET['action'])) {
+$action   = get_enumerated_param($_GET, 'action', 'default', array('list_all', 'get_user', 'set_email', 'default'));
+
+if ($action == 'default') {
     ?>
     This form should be used when a mail has been received from a user who has not received
     his or her welcome email due to entering a bad email address when registering.
@@ -28,11 +33,8 @@ if (!isset($_GET['action'])) {
     <br />
     <?php
 }
-else if ($_GET['action'] == 'list_all') {
-    if (isset($_GET['order_by']))
-        $order_by = $_GET['order_by'];
-    else
-        $order_by = 'date_created DESC';
+else if ($action == 'list_all') {
+    $order_by = get_enumerated_param($_GET, 'order_by', 'date_created DESC', array('username', 'real_name', 'email', 'date_created DESC'));
     $result = mysql_query("
         SELECT
             username,
@@ -67,7 +69,9 @@ else if ($_GET['action'] == 'list_all') {
         echo "</table>\n";
     }
 }
-else if ($_GET['action'] == 'get_user') {
+else if ($action == 'get_user') {
+    $username = @$_GET['username'];
+    if (check_username($username) != '') die("Invalid parameter username.");
     $result = mysql_query("
         SELECT email
         FROM non_activated_users
@@ -76,7 +80,7 @@ else if ($_GET['action'] == 'get_user') {
 
     if (mysql_num_rows($result) == 0) {
         ?>
-        No user '<?php echo stripslashes($username); ?>' was found in the list of non-validated users.
+        No user '<?php echo htmlspecialchars(stripslashes($username)); ?>' was found in the list of non-validated users.
         <p>Note that you can also <a href="?action=list_all">list all user accounts
         awaiting activation</a>.</p>
         <?php
@@ -89,17 +93,22 @@ else if ($_GET['action'] == 'get_user') {
         <br />
         <form method='get'>
         <input type='hidden' name='action' value='set_email' />
-        <input type='hidden' name='username' value='<?php echo htmlspecialchars($username); ?>' />
+        <input type='hidden' name='username' value='<?php echo htmlspecialchars($username, ENT_QUOTES); ?>' />
         Username: <?php echo htmlspecialchars($username); ?>
         <br />
-        E-mail: <input type='text' name='email' value='<?php echo $email; ?>' />
+        E-mail: <input type='text' name='email' value='<?php echo htmlspecialchars($email, ENT_QUOTES); ?>' />
         <br />
         <input type='submit' value='Update address and resend activation mail' />
         </form>
         <?php
     }
 }
-else if ($_GET['action'] == 'set_email') {
+else if ($action == 'set_email') {
+    $username = @$_GET['username'];
+    $email    = @$_GET['email'];
+    if (check_username($username) != '') die("Invalid parameter username.");
+    if (check_email_address($email) != '') die("Invalid parameter email.");
+    
     mysql_query("
         UPDATE non_activated_users
         SET email='$email'
