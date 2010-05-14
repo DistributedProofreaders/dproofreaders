@@ -77,7 +77,7 @@ if (!$auth) {
 	}
 	include_once($relPath.'site_vars.php');
 
-	echo "<br><form method='post' action='".$_SERVER['PHP_SELF']."'>";
+	echo "<br><form method='post' action='" . htmlspecialchars($_SESSION['PHP_SELF'], ENT_QUOTES) . "'>";
 
 	start_section( 'Basic Configuration' );
 	echo "<tr><td align='right' width='30%' valign='top'>Testing Mode:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'>";

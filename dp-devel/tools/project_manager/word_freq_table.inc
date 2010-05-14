@@ -424,7 +424,7 @@ function echo_checkbox_selects($wordCount,$instance=0) {
 }
 
 function echo_checkbox_form_start($checkbox_form) {
-    echo "<form action='" . $_SERVER["PHP_SELF"] . "' method='post'>";
+    echo "<form action='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) . "' method='post'>";
     echo "<input type='hidden' name='format' value='update'>";
     foreach($checkbox_form as $name => $value) {
         echo "<input type='hidden' name='$name' value='$value'>";

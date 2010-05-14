@@ -13,8 +13,8 @@ include($relPath.'theme.inc');
 $lang = $_GET['language'];
 // Currently valid types: common, rare, suspect
 $flavour = $_GET['type'];
-
 $filename = "$code_dir/faq/stealth_scannos_".$lang."_".$flavour.".txt";
+$this_url = htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES);
 
 if (!file_exists($filename)) {
 
@@ -23,18 +23,18 @@ if (!file_exists($filename)) {
           <p>"._("The following scanno lists are available in .rc format:")."</p>
           <table border='1'>
           <tr><th>"._("Language")."</th><th></th><th></th><th></th></tr>
-          <tr><td>"._("English")."</td><td><a href='$_SERVER[PHP_SELF]?language=eng&amp;type=common'>"._("Common")."</a></td>
-                                       <td><a href='$_SERVER[PHP_SELF]?language=eng&amp;type=suspect'>"._("Suspect")."</a></td>
-                                       <td><a href='$_SERVER[PHP_SELF]?language=eng&amp;type=rare'>"._("Rare")."</a></td></tr>
-          <tr><td>"._("French")."</td><td><a href='$_SERVER[PHP_SELF]?language=fr&amp;type=common'>"._("Common")."</a></td>
-                                       <td><a href='$_SERVER[PHP_SELF]?language=fr&amp;type=suspect'>"._("Suspect")."</a></td>
-                                       <td><a href='$_SERVER[PHP_SELF]?language=fr&amp;type=rare'>"._("Rare")."</a></td></tr>
-          <tr><td>"._("German")."</td><td><a href='$_SERVER[PHP_SELF]?language=ger&amp;type=common'>"._("Common")."</a></td>
-                                       <td><a href='$_SERVER[PHP_SELF]?language=ger&amp;type=suspect'>"._("Suspect")."</a></td>
-                                       <td><a href='$_SERVER[PHP_SELF]?language=ger&amp;type=rare'>"._("Rare")."</a></td></tr>
-          <tr><td>"._("Spanish")."</td><td><a href='$_SERVER[PHP_SELF]?language=es&amp;type=common'>"._("Common")."</a></td>
-                                       <td><!-- <a href='$_SERVER[PHP_SELF]?language=es&amp;type=suspect'>"._("Suspect")."</a> --></td>
-                                       <td><!-- <a href='$_SERVER[PHP_SELF]?language=es&amp;type=rare'>"._("Rare")."</a></td> --></tr>
+          <tr><td>"._("English")."</td><td><a href='$this_url?language=eng&amp;type=common'>"._("Common")."</a></td>
+                                       <td><a href='$this_url?language=eng&amp;type=suspect'>"._("Suspect")."</a></td>
+                                       <td><a href='$this_url?language=eng&amp;type=rare'>"._("Rare")."</a></td></tr>
+          <tr><td>"._("French")."</td><td><a href='$this_url?language=fr&amp;type=common'>"._("Common")."</a></td>
+                                       <td><a href='$this_url?language=fr&amp;type=suspect'>"._("Suspect")."</a></td>
+                                       <td><a href='$this_url?language=fr&amp;type=rare'>"._("Rare")."</a></td></tr>
+          <tr><td>"._("German")."</td><td><a href='$this_url?language=ger&amp;type=common'>"._("Common")."</a></td>
+                                       <td><a href='$this_url?language=ger&amp;type=suspect'>"._("Suspect")."</a></td>
+                                       <td><a href='$this_url?language=ger&amp;type=rare'>"._("Rare")."</a></td></tr>
+          <tr><td>"._("Spanish")."</td><td><a href='$this_url?language=es&amp;type=common'>"._("Common")."</a></td>
+                                       <td><!-- <a href='$this_url?language=es&amp;type=suspect'>"._("Suspect")."</a> --></td>
+                                       <td><!-- <a href='$this_url?language=es&amp;type=rare'>"._("Rare")."</a></td> --></tr>
           </table>
           ";
 

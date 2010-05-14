@@ -89,7 +89,7 @@ if($frame=="left") {
          _("Show full context set for this word") . "</a>";
 
     echo " | ";
-    echo "<a target='_PARENT' href='" . $_SERVER["PHP_SELF"] . "?projectid=$projectid&amp;word=$encWord&amp;timeCutoff=$timeCutoff&amp;";
+    echo "<a target='_PARENT' href='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) . "?projectid=$projectid&amp;word=$encWord&amp;timeCutoff=$timeCutoff&amp;";
     if($layout == LAYOUT_HORIZ)
         echo "layout=" . LAYOUT_VERT . "'>" . _("Change to vertical layout");
     else

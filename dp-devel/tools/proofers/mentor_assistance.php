@@ -91,7 +91,7 @@
 
 
     echo "
-          <form id='coform' method='post' action='$urlself'>
+          <form id='coform' method='post' action='" . htmlspecialchars($urlself, ENT_QUOTES) . "'>
           <input type='hidden' id='username' value='$username' />
           <input type='hidden' id='projectid' value='$projectid' />\n";
     $strmsg = sprintf( _("%s Mentor pages"), $mentoring_round->id );

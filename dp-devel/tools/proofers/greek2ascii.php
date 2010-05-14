@@ -59,7 +59,7 @@ else
 
 <tr>
 <td valign="top">
-<form name="greek" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
+<form name="greek" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES); ?>">
 <input type="text" name="textbox" length="65" size="65"
 <?php if ($greek_contents != "") { echo "value=\"$greek_contents\""; } ?>
 >

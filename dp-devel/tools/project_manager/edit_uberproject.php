@@ -150,7 +150,7 @@ if ( isset($_REQUEST['action']) &&
 
     $bgcol = $theme['color_navbar_bg'];
 
-    echo "<form method='post' enctype='multipart/form-data' action='".$_SERVER['PHP_SELF']."'>";
+    echo "<form method='post' enctype='multipart/form-data' action='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) . "'>";
     if (!empty($rec)) { echo "<input type='hidden' name='rec' value='".base64_encode(serialize($rec))."'>"; }
     if (isset($up_projectid)) { echo "<input type='hidden' name='up_projectid' value='$up_projectid'>"; }
     if (isset($errorMsg)) { echo "<br><center><font size='+1' color='#ff0000'><b>$errorMsg</b></font></center>"; }

@@ -893,7 +893,7 @@ class ProjectInfoHolder
     {
         global $theme;
 
-        echo "<form method='post' enctype='multipart/form-data' action='".$_SERVER['PHP_SELF']."'>";
+        echo "<form method='post' enctype='multipart/form-data' action='". htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES)."'>";
 
         $this->show_hidden_controls();
 

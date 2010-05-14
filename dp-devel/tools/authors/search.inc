@@ -153,7 +153,7 @@ function echo_search_form() {
       <td align="right"><input type="button" onClick="var f=this.form;f.last_name.value='';f.other_names.value='';" value="<?php echo _('Reset'); ?>"></td></tr>
   </table></td></table>
   <?php
-  echo "  <center><a href='${_SERVER['PHP_SELF']}'>" . _('List all') . "</a></center>\n";
+  echo "  <center><a href='" . htmlspecialchars($_SESSION['PHP_SELF'], ENT_QUOTES) . "'>" . _('List all') . "</a></center>\n";
 
   if (isset($view))
     echo "  <input type='hidden' name='view' value='" . htmlspecialchars($view, ENT_QUOTES) . "' />\n";

@@ -61,8 +61,8 @@ if($frame=="master") {
 ?>
 </head>
 <frameset <?php echo $frameSpec; ?>>
-<frame src="<?php echo $_SERVER["PHP_SELF"]; ?>?pm=<?php echo $pm; ?>&amp;freqCutoff=<?php echo $freqCutoff; ?>&amp;<?php echo $timeCutoffSpec; ?>frame=left">
-<frame name="detailframe" src="<?php echo $_SERVER["PHP_SELF"]; ?>?frame=right">
+<frame src="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES); ?>?pm=<?php echo htmlspecialchars($pm, ENT_QUOTES); ?>&amp;freqCutoff=<?php echo $freqCutoff; ?>&amp;<?php echo $timeCutoffSpec; ?>frame=left">
+<frame name="detailframe" src="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES); ?>?frame=right">
 </frameset>
 <noframes>
 <?php echo _("Your browser currently does not display frames!"); ?>
@@ -97,7 +97,7 @@ if($frame=="left") {
 
     echo "<p><a href='$code_url/tools/project_manager/projectmgr.php' target='_TOP'>" . _("Return to the PM page") . "</a></p>";
 
-    echo "<form action='" . $_SERVER['PHP_SELF'] . "' method='get'>";
+    echo "<form action='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) . "' method='get'>";
     echo "<input type='hidden' name='frame' value='left'>";
     echo "<p>";
     if ( user_is_a_sitemanager() || user_is_proj_facilitator() ) {
@@ -137,7 +137,7 @@ echo "<br>";
 
     $t_before = $watch->read();
 
-    echo "<form action='" . $_SERVER["PHP_SELF"] . "' method='post'>";
+    echo "<form action='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) . "' method='post'>";
     echo "<input type='hidden' name='frame' value='update'>";
     echo "<input type='hidden' name='pm' value='$pm'>";
     echo "<input type='hidden' name='timeCutoff' value='$timeCutoff'>";
