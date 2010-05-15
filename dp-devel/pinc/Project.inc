@@ -519,8 +519,9 @@ function does_project_page_table_exist($projectid)
 
 // Checks if $value has the form of a valid project ID.
 // If it does, it returns it, otherwise dies with a warning.
-function validate_projectID($param_name, $value) 
+function validate_projectID($param_name, $value, $allownull = false)
 {
+    if (!isset($value) && $allownull) return null;
     if (1 == preg_match('/^projectID[0-9a-f]{13}$/', $value)) return $value;
     die("Parameter $param_name is not a valid projectID.");
 }
@@ -528,8 +529,9 @@ function validate_projectID($param_name, $value)
 // Checks if $value contains only legitimate characters for
 // the filename of a page image file in a project.
 // If it does, it returns it, otherwise dies with a warning.
-function validate_page_image_filename($param_name, $value)
+function validate_page_image_filename($param_name, $value, $allownull = false)
 {
+    if (!isset($value) && $allownull) return null;
     if (1 == preg_match('/^[a-zA-Z0-9_.-]{5,16}$/', $value)) return $value;
     die("Parameter $param_name is not a valid page image filename.");
 }
