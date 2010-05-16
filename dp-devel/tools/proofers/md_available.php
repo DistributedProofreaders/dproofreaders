@@ -10,11 +10,11 @@ include_once($relPath.'projectinfo.inc');
 //include_once('projectmgr.inc');
 //include_once('page_table.inc');
 
-theme("Image Metadata Collection", "header");
+theme( _("Image Metadata Collection"), "header");
 
 if (!$site_supports_metadata)
 {
-	echo 'md_available.php: $site_supports_metadata is false, so exiting.';
+	echo _("md_available.php: \$site_supports_metadata is false, so exiting.");
 	exit();
 }
 
@@ -23,11 +23,11 @@ if (!$site_supports_metadata)
 echo "<table border=1>\n";
       // Header row
 		echo "<tr>\n";
-		echo "    <td align='center' colspan='4'><b>Books Waiting for Phase 1 Review</b></td><tr></tr>\n";
-            echo "    <td align='center' colspan='4'>In this phase we determine that the book has all of its pages and annotate what the original page number was in the printed version.</td><tr></tr>\n";
-		echo "    <td align='center' colspan='1'><b>Title</b></td>\n";
-		echo "    <td align='center' colspan='1'><b>Author</b></td>\n";
-		echo "    <td align='center' colspan='1'><b>Total Pages</b></td>\n";
+		echo "    <td align='center' colspan='4'><b>" . _("Books Waiting for Phase 1 Review") . "</b></td><tr></tr>\n";
+      echo "    <td align='center' colspan='4'>" . _("In this phase we determine that the book has all of its pages and annotate what the original page number was in the printed version.") . "</td><tr></tr>\n";
+		echo "    <td align='center' colspan='1'><b>" . _("Title") . "</b></td>\n";
+		echo "    <td align='center' colspan='1'><b>" . _("Author") . "</b></td>\n";
+		echo "    <td align='center' colspan='1'><b>" . _("Total Pages") . "</b></td>\n";
 //		echo "    <td align='center' colspan='1'><b>Remaining Pages</b></td>\n";
 		echo "</tr>\n";
 
@@ -76,12 +76,12 @@ echo "<br>";
 //echo "<table border=1>\n";
       // Header row
 		echo "<tr>\n";
-		echo "    <td align='center' colspan='4'><b>Books Waiting for Phase 2 Review</b></td><tr></tr>\n";
-            echo "    <td align='center' colspan='4'>In this phase we go through each page and annotate which pages contain footnotes, chapter headings, etc.</td><tr></tr>\n";
-		echo "    <td align='center' colspan='1'><b>Title</b></td>\n";
-		echo "    <td align='center' colspan='1'><b>Author</b></td>\n";
-		echo "    <td align='center' colspan='1'><b>Total Pages</b></td>\n";
-		echo "    <td align='center' colspan='1'><b>Remaining Pages</b></td>\n";
+		echo "    <td align='center' colspan='4'><b>" . _("Books Waiting for Phase 2 Review") . "</b></td><tr></tr>\n";
+            echo "    <td align='center' colspan='4'>" . _("In this phase we go through each page and annotate which pages contain footnotes, chapter headings, etc.") . "</td><tr></tr>\n";
+		echo "    <td align='center' colspan='1'><b>" . _("Title") . "</b></td>\n";
+		echo "    <td align='center' colspan='1'><b>" . _("Author") . "</b></td>\n";
+		echo "    <td align='center' colspan='1'><b>" . _("Total Pages") . "</b></td>\n";
+		echo "    <td align='center' colspan='1'><b>" . _("Remaining Pages") . "</b></td>\n";
 		echo "</tr>\n";
 
       $result = mysql_query("SELECT projectid, nameofwork, authorsname, language, username, state FROM projects

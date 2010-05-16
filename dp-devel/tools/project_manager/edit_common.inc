@@ -52,7 +52,7 @@ function language_list($language)
     $array_list = $GLOBALS['lang_list'];
 
     echo "<select name='pri_language'>";
-    echo "<option value=''>Primary Language</option>";
+    echo "<option value=''>" . _("Primary Language") . "</option>";
     echo "\n";
     for ($i=0;$i<count($array_list);$i++)
     {
@@ -62,7 +62,7 @@ function language_list($language)
         echo "\n";
     }
     echo "</select>&nbsp;&nbsp;<select name='sec_language'>";
-    echo "<option value=''>Secondary Language</option>";
+    echo "<option value=''>" . _("Secondary Language") . "</option>";
     echo "\n";
     for ($i=0;$i<count($array_list);$i++)
     {

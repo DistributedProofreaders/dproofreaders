@@ -14,8 +14,8 @@ abort_if_not_manager();
 
 echo "<pre>\n";
 
-echo "Moving projects from '$curr_state' to '$new_state'...\n";
-echo "\n";
+echo sprintf( _("Moving projects from '%1\$s' to '%2\$s'..."), $curr_state, $new_state);
+echo "\n\n";
 
 foreach( $projectids as $projectid )
 {
@@ -25,12 +25,12 @@ foreach( $projectids as $projectid )
 	$result = user_can_edit_project($projectid);
 	if ( $result == PROJECT_DOES_NOT_EXIST )
 	{
-		echo "    does not exist.\n";
+		echo "    " . _("does not exist.") . "\n";
 		continue;
 	}
 	else if ( $result == USER_CANNOT_EDIT_PROJECT )
 	{
-		echo "    You are not allowed to edit that project.\n";
+		echo "    " . _("You are not allowed to edit that project.") . "\n";
 		continue;
 	}
 
@@ -46,7 +46,7 @@ foreach( $projectids as $projectid )
 
 	if ( $project['state'] != $curr_state )
 	{
-		echo "    is no longer in $curr_state (now in {$project['state']}).\n";
+		echo "    " . sprintf( _("is no longer in %1\$s. Now in %2\$s."), $curr_state,  $project['state']) . "\n";
 		continue;
 	}
 
@@ -57,11 +57,11 @@ foreach( $projectids as $projectid )
 		continue;
 	}
 
-	echo "    successfully moved\n";
+	echo "    " . _("successfully moved.") . "\n";
 }
 
 echo "</pre>\n";
 
 echo "<hr>\n";
-echo "<p>Back to <a href='projectmgr.php'>project manager</a> page.</p>\n";
+echo "<p>" . sprintf(_("Back to the <a href='%s'>project manager</a> page."), "projectmgr.php") . "</p>\n";
 ?>

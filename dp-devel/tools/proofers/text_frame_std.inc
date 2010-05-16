@@ -7,7 +7,7 @@ function echo_text_frame_std( $ppage )
 {
     global $pguser;
 
-    slim_header("Text Frame",TRUE,FALSE);
+    slim_header( _("Text Frame"),TRUE,FALSE);
     ?>
     </head>
     <body onload="top.initializeStuff(0)">

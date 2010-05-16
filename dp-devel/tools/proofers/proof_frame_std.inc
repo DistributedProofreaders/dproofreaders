@@ -47,7 +47,7 @@ function echo_proof_frame_std( $ppage )
         <FRAME NAME='imageframe' SRC='image_frame_std.php?$params' $margins>
         <FRAME NAME='textframe' SRC='text_frame_std.php?$params' $margins $text_scrolling>
         </FRAMESET>
-        <NOFRAMES>Your browser is not frames capable!</NOFRAMES>
+        <NOFRAMES>"._("Your browser is not frames capable!")."</NOFRAMES>
         </HTML>
     ";
 }

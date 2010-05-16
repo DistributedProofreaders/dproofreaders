@@ -5,7 +5,7 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
-include_once($relPath.'misc.inc');
+include_once($relPath.'misc.inc'); // attr_safe()
 //include_once($relPath.'project_edit.inc');
 $show_image_size = '';
 
@@ -13,8 +13,8 @@ $projectid = $_GET['projectid'];
 
 if (!$site_supports_metadata)
 {
-    echo 'md_phase1.php: $site_supports_metadata is false, so exiting.';
-    exit();
+	echo _("md_phase1.php: \$site_supports_metadata is false, so exiting.");
+	exit();
 }
 
 
@@ -23,11 +23,11 @@ if (isset($_POST['done']))
     $badmetadata = handle_page_params();
     if ($badmetadata == 1) {
         $result = mysql_query("UPDATE projects SET state = 'project_md_bad' WHERE projectid = '$projectid'");
-        metarefresh(0,'md_available.php',"Image Metadata Collection","");
+        metarefresh(0,'md_available.php', _("Image Metadata Collection"),"");
     } else {
         $result = mysql_query("UPDATE projects SET state = 'project_md_second' WHERE projectid = '$projectid'");
         $result = mysql_query("UPDATE $projectid SET state = 'avail_md_second'");
-        metarefresh(0,'md_available.php',"Image Metadata Collection","");
+        metarefresh(0,'md_available.php', _("Image Metadata Collection"),"");
     }
     exit;
 }
@@ -35,7 +35,7 @@ if (isset($_POST['done']))
 if(isset($_POST['return']))
 {
     //they don't want to save so clean it up and return them to md_available
-    metarefresh(0,'md_available.php',"Image Metadata Collection","");
+    metarefresh(0,'md_available.php', _("Image Metadata Collection"),"");
     exit;
 }
 
@@ -83,16 +83,14 @@ $language = mysql_result($result, 0, "language");
 
 $numpages = Project_getNumPages( $projectid );
 
-theme("Image Metadata Phase1", "header");
+theme( _("Image Metadata Phase1"), "header");
 
 echo "<center><table border=1>";
 
-echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan=6><b><font color='".$theme['color_headerbar_font']."' 
-size=+1>Project Name: $name </b></td></tr>";
+echo "<tr><td bgcolor='" . $theme['color_headerbar_bg'] . "' colspan=6><b><font color='" . $theme['color_headerbar_font'] . "' size=+1>" . sprintf(_("Project Name: %s"),$name) . "</b></td></tr>";
 
-echo "<tr><td bgcolor='".$theme['color_navbar_bg']."'><b>Author:</b></td><td>$author</td><td 
-bgcolor='".$theme['color_navbar_bg']."'><b>Total Number of Master Pages:</b></td><td>$numpages</td>";
-echo "<td bgcolor='".$theme['color_navbar_bg']."'><b>Language:</b></td><td>$language</td></tr><tr></tr>";
+echo "<tr><td bgcolor='" . $theme['color_navbar_bg'] . "'><b>" . _("Author") . ":</b></td><td>$author</td><td bgcolor='" . $theme['color_navbar_bg'] . "'><b>" . _("Total Number of Master Pages") . ":</b></td><td>$numpages</td>";
+echo "<td bgcolor='" . $theme['color_navbar_bg'] . "'><b>" . _("Language") . ":</b></td><td>$language</td></tr><tr></tr>";
 echo "</table>";
 
 //---------------------------------------------------------------------------------------------------
@@ -106,11 +104,11 @@ echo "<form method ='post'><table border=1>\n";
 
     // Top header row
     echo "<tr>\n";
-    echo "    <td align='center' colspan='1'><b>I</b></td>\n";
-    echo "    <td align='center' colspan='1'><b>Image Name</b></td>\n";
-    echo "    <td align='center' colspan='1'><b>Original Page #</b></td>\n";
-    echo "    <td align='center' colspan='1'><b>Page Metadata</b></td>\n";
-    echo "    <td align='center' colspan='1'><b>Thumbnail</b></td>\n";
+    echo "    <td align='center' colspan='1'><b>" . _("Index") . "</b></td>\n";
+    echo "    <td align='center' colspan='1'><b>" . _("Image Name") . "</b></td>\n";
+    echo "    <td align='center' colspan='1'><b>" . _("Original Page #") . "</b></td>\n";
+    echo "    <td align='center' colspan='1'><b>" . _("Page Metadata") . "</b></td>\n";
+    echo "    <td align='center' colspan='1'><b>" . _("Thumbnail") . "</b></td>\n";
     echo "</tr>\n";
 
     // Image rows
@@ -156,12 +154,12 @@ echo "<form method ='post'><table border=1>\n";
 
         // Set up existing page metadata if there is any, page defaults to nonblank
         $metadata_possibles = array(
-            'illustration' => 'Illustration',
-            'blank'        => 'Blank',
-            'missing'      => 'Page Missing After This One',
-            'badscan'      => 'Bad Scan',
-            'sequence'     => 'Page Out of Sequence',
-            'nonblank'     => 'Non-Blank',
+            'illustration' => _("Illustration"),
+            'blank'        => _("Blank"),
+            'missing'      => _("Page Missing After This One"),
+            'badscan'      => _("Bad Scan"),
+            'sequence'     => _("Page Out of Sequence"),
+            'nonblank'     => _("Non-Blank"),
         );
 
         if ( !array_key_exists($metadata, $metadata_possibles) )
@@ -187,9 +185,9 @@ echo "<form method ='post'><table border=1>\n";
     }
     echo "</table>";
 
-    echo "<INPUT TYPE=SUBMIT VALUE=\"Save and Continue Working\" NAME =\"continue\">
-        <INPUT TYPE=SUBMIT VALUE=\"Save as Done\" NAME =\"done\">
-        <INPUT TYPE=SUBMIT VALUE=\"Leave As Is and Quit\" NAME =\"return\">";
+    echo "<INPUT TYPE=SUBMIT VALUE=\"" . attr_safe(_("Save and Continue Working")) . "\" NAME =\"continue\">
+        <INPUT TYPE=SUBMIT VALUE=\"" . attr_safe(_("Save as Done")) . "\" NAME =\"done\">
+        <INPUT TYPE=SUBMIT VALUE=\"" . attr_safe(_("Leave As-Is and Quit")) . "\" NAME =\"return\">";
 
 echo "</form></center>";
 echo "<br>";

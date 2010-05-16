@@ -85,23 +85,20 @@ else
 <tr>
 <td colspan="3">
 <p class="info">
-The Greek glyphs above are <b>clickable</b>.<br>
-Diacritical marks may be ignored except for the rough-breathing mark,
-(<img src="gfx/greekrough.png" height="12" width="10">) above the
-letter.<br>
-For these, put 'h' before the letter <emp>unless</emp> the word
-begins with 'r'. For those, put 'h' <emp>after</emp> the 'r'.
+<?php 
+echo _("The Greek glyphs above are <b>clickable</b>.") . "<br>";
+echo sprintf( _("Diacritical marks may be ignored except for the rough-breathing mark, (<img src='gfx/greekrough.png' height='12' width='10'>) above the letter.") . "<br>";
+echo _("For these, put 'h' before the letter <emp>unless</emp> the word begins with 'r'. For those, put 'h' <emp>after</emp> the 'r'.");
+?>
 </p>
 </td>
 </tr>
 
 <tr>
 <td colspan="3">
-Please read the Project Gutenberg 
-<a href="<?php echo $PG_greek_howto_url; ?>" target="_new">
-Greek HOWTO</a> for more information.
+<?php echo sprintf( _("Please read the Project Gutenberg <a href='%s' target='_new'>Greek HOWTO</a> for more information."), $PG_greek_howto_url) ; ?> 
 <br>
-<a href="#" onclick="window.close()"><b>Close</b></a>
+<a href="#" onclick="window.close()"><b><?php echo _("Close"); ?></b></a>
 </td>
 </tr>
 

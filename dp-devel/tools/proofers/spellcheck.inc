@@ -15,7 +15,7 @@ $revert_text=isset($_POST['revert_text']) ? stripslashes($_POST['revert_text']) 
 
 $is_header_visible = array_get($_SESSION,"is_header_visible",1);
 
-slim_header("WordCheck",TRUE,FALSE);
+slim_header(_("WordCheck"),TRUE,FALSE);
 
 if($userP['i_type']==1)
     ibe_echo_script();

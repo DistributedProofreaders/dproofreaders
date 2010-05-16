@@ -11,7 +11,7 @@ function echo_proof_frame_enh( $ppage )
 {
     global $userP;
 
-    slim_header("Proofreading Page",TRUE,FALSE);
+    slim_header( _("Proofreading Page"),TRUE,FALSE);
 
     ibe_echo_script();
     ?>
