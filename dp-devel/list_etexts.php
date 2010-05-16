@@ -33,8 +33,8 @@ if($x == "g" OR $x == "") {
 theme($title, "header");
 ?>
 
-<center><font face="Verdana" size="6" color="<?php echo $type; ?>"><b><?php echo $title; ?></b></font></center>
 <center>
+<font face="Verdana" size="6" color="<?php echo $type; ?>"><b><?php echo $title; ?></b></font><br>
 <?php
 $listsuffix = "&amp;sort=$sort&amp;per_page=$per_page";
 if ($type == "Gold")
@@ -59,13 +59,13 @@ else
 ?>
 </center><br>
 
-<center><?php echo $info . " " . $boilerplate; ?></center><br>
-
 <?php
-$listurl = "list_etexts.php?x=$x&amp;per_page=$per_page&amp;offset=$offset";
+echo "<p>$info</p>";
+echo "<p>$boilerplate</p>";
 ?>
 <center>
 <?php
+$listurl = "list_etexts.php?x=$x&amp;per_page=$per_page&amp;offset=$offset";
 echo sprintf( _("<i>Title:</i> <a href='%1\$s'>asc</a> or <a href='%2\$s'>desc</a> | "), "$listurl&amp;sort=0", "$listurl&amp;sort=1");
 echo sprintf( _("<i>Author:</i> <a href='%1\$s'>asc</a> or <a href='%2\$s'>desc</a> | "), "$listurl&amp;sort=2", "$listurl&amp;sort=3");
 echo sprintf( _("<i>Submitted Date:</i> <a href='%1\$s'>asc</a> or <a href='%2\$s'>desc</a>"), "$listurl&amp;sort=4", "$listurl&amp;sort=5");
@@ -87,5 +87,3 @@ list_projects($state, $sortlist[$sort], "list_etexts.php?x=$x&amp;sort=$sort&amp
 theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab
-?>
-
