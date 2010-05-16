@@ -83,13 +83,13 @@ if (filemtime($xmlfile) > $refreshdelay) {
 				<!DOCTYPE rss SYSTEM \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">
 				<rss version=\"0.91\">
 				<channel>
-				<title>$site_name - Latest Releases</title>
-				<link>$code_url</link>
-				<description>The latest releases from $site_name posted to Project Gutenberg</description>
+				<title>".xmlencode($site_name)." - Latest Releases</title>
+				<link>".xmlencode($code_url)."</link>
+				<description>The latest releases from ".xmlencode($site_name)." posted to Project Gutenberg</description>
 				<language>en-us</language>
-				<webMaster>$site_manager_email_addr</webMaster>
-				<pubDate>$lastupdated</pubDate>
-				<lastBuildDate>$lastupdated</lastBuildDate>
+				<webMaster>".xmlencode($site_manager_email_addr)."</webMaster>
+				<pubDate>".xmlencode($lastupdated)."</pubDate>
+				<lastBuildDate>".xmlencode($lastupdated)."</lastBuildDate>
 				$data
 				</channel>
 				</rss>";
@@ -108,8 +108,8 @@ if (filemtime($xmlfile) > $refreshdelay) {
 		while ($news_item = mysql_fetch_array($result)) {
 			$posteddate = date("l, F jS, Y",($news_item['date_posted']));
 			$data .= "<item>
-				<title>$site_name News Update for $posteddate</title>
-				<link>$code_url/pastnews.php?#".$news_item['id']."</link>
+				<title>".xmlencode($site_name)." News Update for ".xmlencode($posteddate)."</title>
+				<link>".xmlencode("$code_url/pastnews.php?#".$news_item['id'])."</link>
 				<description>".xmlencode(strip_tags($news_item['content']))."</description>
 				</item>
 				";
@@ -119,13 +119,13 @@ if (filemtime($xmlfile) > $refreshdelay) {
 				<!DOCTYPE rss SYSTEM \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">
 				<rss version=\"0.91\">
 				<channel>
-				<title>$site_name - Latest News</title>
-				<link>$code_url</link>
-				<description>The latest news related to $site_name</description>
+				<title>".xmlencode($site_name)." - Latest News</title>
+				<link>".xmlencode($code_url)."</link>
+				<description>The latest news related to ".xmlencode($site_name)."</description>
 				<language>en-us</language>
-				<webMaster>$site_manager_email_addr</webMaster>
-				<pubDate>$lastupdated</pubDate>
-				<lastBuildDate>$lastupdated</lastBuildDate>
+				<webMaster>".xmlencode($site_manager_email_addr)."</webMaster>
+				<pubDate>".xmlencode($lastupdated)."</pubDate>
+				<lastBuildDate>".xmlencode($lastupdated)."</lastBuildDate>
 				$data
 				</channel>
 				</rss>";
