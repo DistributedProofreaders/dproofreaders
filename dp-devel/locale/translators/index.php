@@ -37,7 +37,12 @@ if (!empty($_GET['lang']) && $func == "translate") {
 
 /* Structure of $translation array:
 $translation=array(
-    'comments'=>"Comments",
+    'file_comments'=>"Comments from the top of the PO file",
+    'comments'=>array(
+        0=>"comment 1",
+        1=>"comment 2",
+        ...
+    ),
     'location'=>array(
         0=>"#: default.php:22",
         1=>"#: default.php:22",
@@ -83,7 +88,7 @@ $translation=array(
 
         echo "<table align='center' border='0' cellpadding='0' cellspacing='0' width='95%'><tr><td>";
         echo "<form action='save_po.php' method='post'>";
-        echo "<br><center><b>"._("Comments")."</b>:<br><textarea name='comments' rows=5 cols=85>".trim($translation['comments'])."</textarea></center><br>\n";
+        echo "<br><center><b>"._("File comments")."</b>:<br><textarea name='file_comments' rows=5 cols=85>".trim($translation['file_comments'])."</textarea></center><br>\n";
 
             $i = 0;
         while ($i < $numOfTranslations) {

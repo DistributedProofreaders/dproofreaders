@@ -24,7 +24,7 @@ if (isset($_POST['lang']) && isset($_POST['save_po'])) {
     $real_name = mysql_result($result, 0, "real_name");
     $email_addr = mysql_result($result, 0, "email");
     if($po_file = @fopen("messages_temp.po", "w")) {
-        fputs($po_file, "# ".str_replace("\n", "\n# ", stripslashes($_POST['comments']))."\n");
+        fputs($po_file, "# ".str_replace("\n", "\n# ", stripslashes($_POST['file_comments']))."\n");
         fputs($po_file, "msgid \"\"\n");
         fputs($po_file, "msgstr \"\"\n");
         fputs($po_file, "\"Project-Id-Version: 1.0\\n\"\n");

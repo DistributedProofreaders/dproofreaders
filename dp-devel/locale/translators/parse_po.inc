@@ -3,7 +3,7 @@ include_once($relPath.'misc.inc'); // startswith()
 
 function parse_po($messages_po_filename) {
     $p = 0;
-    $translation['comments'] = "";
+    $translation['file_comments'] = "";
     $comments_done = 0;
 
     // open file for reading
@@ -22,9 +22,16 @@ function parse_po($messages_po_filename) {
             $comments_done = 1;
 
         if (startswith($line, "# ") && $comments_done != 1) {
-            $translation['comments'] .= trim(preg_replace("/^#/", "", $line))."\n";
+            $translation['file_comments'] .= trim(preg_replace("/^#/", "", $line))."\n";
         }
-        if (startswith($line, "#:")) {
+        if (startswith($line, "#:") || startswith($line, "#.")) {
+            while (!empty($line) && startswith($line, "#.")) {
+                if (!isset($translation['comments'][$p])) { $translation['comments'][$p] = ""; }
+                $formatted_comment = trim(preg_replace("/^#./", "", $line));
+                $translation['comments'][$p] .= $formatted_comment."\n";
+                $line = fgets($fh);
+            }
+
             while (!empty($line) && (startswith($line, "#:") || startswith($line, "#,"))) {
                 if (!isset($translation['location'][$p])) { $translation['location'][$p] = ""; }
                 $formatted_location = trim($line);
