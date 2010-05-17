@@ -775,13 +775,13 @@ function ShowTasks($sql_result)
     global $search_results_array, $os_array, $browser_array, $tasks_close_array, $percent_complete_array;
     if (isset($_REQUEST['search_text'])) {
         $t = "search_text="     . urlencode($_REQUEST['search_text'])
-            . "&task_type="     . get_enumerated_param($_REQUEST,'task_type'    , '1',          array_keys($tasks_all_array))
-            . "&task_severity=" . get_enumerated_param($_REQUEST,'task_severity', '4',       array_keys($severity_all_array))
-            . "&task_priority=" . get_enumerated_param($_REQUEST,'task_priority', '3',       array_keys($priority_all_array))
-            . "&task_assignee=" . get_enumerated_param($_REQUEST,'task_assignee', '1', array_keys($task_assignees_all_array))
-            . "&task_category=" . get_enumerated_param($_REQUEST,'task_category', '1',     array_keys($categories_all_array))
-            . "&task_status="   . get_enumerated_param($_REQUEST,'task_status'  , '1',   array_keys($tasks_status_all_array))
-            . "&task_version="  . get_enumerated_param($_REQUEST,'task_version' , '1',       array_keys($versions_all_array)) 
+            . "&task_type="     . get_enumerated_param($_REQUEST,'task_type'    ,   '1',          array_keys($tasks_all_array))
+            . "&task_severity=" . get_enumerated_param($_REQUEST,'task_severity',   '4',       array_keys($severity_all_array))
+            . "&task_priority=" . get_enumerated_param($_REQUEST,'task_priority',   '3',       array_keys($priority_all_array))
+            . "&task_assignee=" . get_enumerated_param($_REQUEST,'task_assignee', '999', array_keys($task_assignees_all_array))
+            . "&task_category=" . get_enumerated_param($_REQUEST,'task_category',   '1',     array_keys($categories_all_array))
+            . "&task_status="   . get_enumerated_param($_REQUEST,'task_status'  ,   '1',   array_keys($tasks_status_all_array))
+            . "&task_version="  . get_enumerated_param($_REQUEST,'task_version' ,   '1',       array_keys($versions_all_array)) 
             . "&";
     }
     else {
