@@ -103,7 +103,7 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
             $langcode3 = langcode3_for_langname( $language );
             if ( is_null($langcode3) )
             {
-                $acc->messages[] = "warning: unknown language '$language'";
+                $acc->messages[] = sprintf(_("Warning: unknown language '%s'"),$language);
             }
             else
             {
@@ -239,7 +239,7 @@ function get_bad_words_via_external_checker( $input_words_w_freq, $projectid, $i
     $wasWritten = file_put_contents($tmp_file_path,$tmp_file_text);
     if($wasWritten === FALSE)
     {
-        $messages[] = "Error: unable to write text to temp file: $tmp_file_path";
+        $messages[] = sprintf(_("Error: unable to write text to temp file: %s"),$tmp_file_path);
         return array( array(), $messages );
     }
 
@@ -263,12 +263,12 @@ function get_bad_words_via_external_checker( $input_words_w_freq, $projectid, $i
             }
             else
             {
-                $messages[] = "Warning: no external dictionary installed for '$language'";
+                $messages[] = sprintf(_("Warning: no external dictionary installed for '%s'"),$language);
             }
         }
         else
         {
-            $messages[] = "Warning: unknown language name '$language'";
+            $messages[] = sprintf(_("Warning: unknown language name '%s'"),$language);
         }
     }
 
@@ -522,7 +522,7 @@ function save_wordcheck_event($projectid,$round,$page,$proofer,$suggestions,$cor
             corrections='$correction_list'";
 
     if(mysql_query($sql) === FALSE) {
-        return "Error adding suggestions to wordcheck_events: " . mysql_error();
+        return sprintf(_("Error adding suggestions to wordcheck_events: %s"),mysql_error());
     }
 }
 
@@ -736,7 +736,7 @@ function load_word_list( $path )
     $words = file($path);
     if ( $words === FALSE )
     {
-        return "Error reading file $path";
+        return sprintf(_("Error reading file %s"),$path);
     }
 
     // trim word list to remove trailing spaces
@@ -784,7 +784,7 @@ function save_word_list( $path, $words )
 
     if ( $fh === FALSE )
     {
-        return "Error: Unable to write to wordlist file.";
+        return _("Error: Unable to write to wordlist file.");
     }
 
     // get an exclusive lock; lock is cleared by fclose
@@ -1046,4 +1046,3 @@ function rtrim_walk(&$item)
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

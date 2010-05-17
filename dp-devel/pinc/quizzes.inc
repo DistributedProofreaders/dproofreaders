@@ -21,7 +21,7 @@ $FQ = new Quiz(
 
 $PQ = new Quiz(
  "PQ",
- "Proofreading Quiz",
+ _("Proofreading Quiz"),
  _("This quiz covers the corrections you should make in the proofreading rounds."),
  array(
  _('Page One') => 'step1',

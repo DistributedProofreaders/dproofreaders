@@ -20,31 +20,24 @@ function abort_login( $error )
 
     echo "<br>\n";
     echo "<b>$error</b>\n";
-?>
-<p>Please attempt again to log in above. If problems persist, review the following possible fixes:
-<ol>
-<?php
-if ($testing)
-{
-	echo "<li>Register! (Note that this is a test site, and has a separate database from the production site, so you need to register separately.)\n";
-}
-?>
-<li>Type your username in the exact same way as when you registered.</li>
-<li><A HREF="<?php echo $reset_password_url; ?>">Reset</A> your password.</li>
-<li>Enable Javascript.</li>
-<li>Accept cookies (at least from us at <?php echo $_SERVER["HTTP_HOST"]; ?>)</li>
-<li>Allow popup windows (at least from us at <?php echo $_SERVER["HTTP_HOST"]; ?>)</li>
-<li>caching set to off (or: refresh page every visit)</li>
-<li>Ensure your PC clock is set to the correct date &amp; time</li>
-</ol>
-<p>If all of this fails, contact the <a href="mailto:<?php echo $site_manager_email_addr; ?>">site manager</a>.</p>
-<p>Note: If you have just registered, you will need to wait for the welcome mail to arrive to your mailbox.
-Once it does, please click the activation link to complete the registration
-(this is to prevent others from signing you up to the site without your knowledge). 
-If you have waited for an hour or so and have still not received any mail from us
-(please check any spam filters!), it is likely that you misentered your email-address.
-Please contact the <a href="mailto:<?php echo $site_manager_email_addr; ?>">site manager</a> to solve the problem.</li></p>
-<?php
+
+    echo "<p>" . _("Please attempt again to log in above. If problems persist, review the following possible fixes:") . "</p>";
+    echo "<ol>";
+    if ($testing)
+    {
+    	echo "<li>" . _("Register! (Note that this is a test site, and has a separate database from the production site, so you need to register separately.)") . "</li>\n";
+    }
+    echo "<li>" . _("Type your username in the exact same way as when you registered.") . "</li>\n";
+    echo "<li>" . sprintf( _("<a href='%s'>Reset</a> your password."), $reset_password_url) . "</li>\n";
+    echo "<li>" . _("Enable Javascript.") . "</li>\n";
+    echo "<li>" . sprintf(_("Accept cookies (at least from us at %s)."), $_SERVER["HTTP_HOST"]) . "</li>\n";
+    echo "<li>" . sprintf(_("Allow popup windows (at least from us at %s)."), $_SERVER["HTTP_HOST"]) . "</li>\n";
+    echo "<li>" . _("Caching set to off (or: refresh page every visit).") . "</li>\n";
+    echo "<li>" . _("Ensure your PC clock is set to the correct date &amp; time.") . "</li>\n";
+    echo "</ol>";
+    echo "<p>" . sprintf( _("If all of this fails, contact the <a href='%s'>site manager</a>."), "mailto:$site_manager_email_addr") . "</p>";
+    echo "<p>" . sprintf( _("Note: If you have just registered, you will need to wait for the welcome mail to arrive to your mailbox. Once it does, please click the activation link to complete the registration (this is to prevent others from signing you up to the site without your knowledge). If you have waited for an hour or so and have still not received any mail from us (please check any spam filters!), it is likely that you misentered your email-address. Please contact the <a href='%s'>site manager</a> to solve the problem."), "mailto:$site_manager_email_addr") . "</p>";
+
     theme("", "footer");
     exit();
 }
