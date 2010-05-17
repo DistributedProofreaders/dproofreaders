@@ -23,7 +23,10 @@ function project_transition( $projectid, $new_state, $who, $extras = array() )
 
 	$current_state = $project->state;
 
-	$transition_str = "$projectid: "._("transition from")." $current_state "._("to")." $new_state";
+	// TRANSLATORS: This is an error message about a project state transition.
+	// The format is: "$projectid: transition from $from_state to $to_state; status: $status
+	$transition_str_format = _('%1$s: transition from %2$s to %3$s; status: %4$s');
+
 	if ($testing)
 	{
 		$indent = '    ';
@@ -51,7 +54,8 @@ function project_transition( $projectid, $new_state, $who, $extras = array() )
 		// No attendant processing.
 		if ($testing)
 		{
-			echo "{$indent}$transition_str: "._("succeeds trivially")."{$eol}";
+			echo $indent . sprintf($transition_str_format, $projectid, $current_state,
+					$new_state, _("succeeded trivially - states are the same")) . $eol;
 		}
 		return '';
 	}
@@ -62,7 +66,8 @@ function project_transition( $projectid, $new_state, $who, $extras = array() )
 	if ( is_null($transition) )
 	{
 		// Requested transition is illegal.
-		$error = "$transition_str "._("is illegal");
+		$error = sprintf($transition_str_format, $projectid, $current_state,
+				$new_state, _("is illegal"));
 		return $error;
 	}
 
@@ -74,14 +79,16 @@ function project_transition( $projectid, $new_state, $who, $extras = array() )
 		// success
 		if ($testing)
 		{
-			echo "{$indent}$transition_str: success{$eol}";
+			echo $indent . sprintf($transition_str_format, $projectid, $current_state,
+					$new_state, _("succeeded")) . $eol;
 		}
 	}
 	else
 	{
 		// failure
 		// Prepend $transition_str to the error message.
-		$error = "$transition_str: $error";
+		$error = sprintf($transition_str_format, $projectid, $current_state,
+				$new_state, $error);
 	}
 	return $error;
 }
