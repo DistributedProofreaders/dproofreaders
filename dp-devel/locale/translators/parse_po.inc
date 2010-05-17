@@ -1,46 +1,54 @@
 <?php
 include_once($relPath.'misc.inc'); // startswith()
 
-function parse_po($messages_po) {
-    $i = 0;
+function parse_po($messages_po_filename) {
     $p = 0;
     $translation['comments'] = "";
     $comments_done = 0;
 
-    $total_messages = count($messages_po);
-    while ($i < $total_messages) {
-        if (!$comments_done && !startswith($messages_po[$i],"# "))
+    // open file for reading
+    $fh = fopen($messages_po_filename, "rt");
+
+    // if we're unable to open the file, return NULL
+    if(!$fh)
+        return NULL;
+
+    // parse the file one line at a time
+    while(!feof($fh))
+    {
+        $line = fgets($fh);
+
+        if (!$comments_done && !startswith($line,"# "))
             $comments_done = 1;
 
-        if (startswith($messages_po[$i], "# ") && $comments_done != 1) {
-            $translation['comments'] .= trim(preg_replace("/^#/", "", $messages_po[$i]))."\n";
+        if (startswith($line, "# ") && $comments_done != 1) {
+            $translation['comments'] .= trim(preg_replace("/^#/", "", $line))."\n";
         }
-        if (startswith($messages_po[$i], "#:")) {
-            while (!empty($messages_po[$i]) && (startswith($messages_po[$i], "#:") || startswith($messages_po[$i], "#,"))) {
+        if (startswith($line, "#:")) {
+            while (!empty($line) && (startswith($line, "#:") || startswith($line, "#,"))) {
                 if (!isset($translation['location'][$p])) { $translation['location'][$p] = ""; }
-                $formatted_location = trim($messages_po[$i]);
+                $formatted_location = trim($line);
                 $translation['location'][$p] .= $formatted_location."\n";
-                $i++;
+                $line = fgets($fh);
             }
 
-            while (!empty($messages_po[$i]) && (startswith($messages_po[$i], "msgid") || startswith($messages_po[$i], "\""))) {
+            while (!empty($line) && (startswith($line, "msgid") || startswith($line, "\""))) {
                 if (!isset($translation['msgid'][$p])) { $translation['msgid'][$p] = ""; }
-                $formatted_msgid = trim(preg_replace("/^msgid/", "", $messages_po[$i]));
+                $formatted_msgid = trim(preg_replace("/^msgid/", "", $line));
                 $formatted_msgid = substr($formatted_msgid, 1, (strlen($formatted_msgid)-2));
                 $translation['msgid'][$p] .= $formatted_msgid;
-                $i++;
+                $line = fgets($fh);
             }
 
-            while (!empty($messages_po[$i]) && (startswith($messages_po[$i], "msgstr") || startswith($messages_po[$i], "\""))) {
+            while (!empty($line) && (startswith($line, "msgstr") || startswith($line, "\""))) {
                 if (!isset($translation['msgstr'][$p])) { $translation['msgstr'][$p] = ""; }
-                $formatted_msgstr = trim(preg_replace("/^msgstr/", "", $messages_po[$i]));
+                $formatted_msgstr = trim(preg_replace("/^msgstr/", "", $line));
                 $formatted_msgstr = substr($formatted_msgstr, 1, (strlen($formatted_msgstr)-2));
                 $translation['msgstr'][$p] .= $formatted_msgstr;
-                $i++;
+                $line = fgets($fh);
             }
             $p++;
         }
-        $i++;
     }
     return $translation;
 }

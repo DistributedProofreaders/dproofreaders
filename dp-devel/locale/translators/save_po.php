@@ -19,7 +19,7 @@ if (isset($_POST['lang']) && isset($_POST['save_po'])) {
 
     $lang = $_POST['lang'];
     chdir("$dyn_locales_dir/$lang/LC_MESSAGES/");
-    $translation = parse_po(file("messages.po"));
+    $translation = parse_po("$dyn_locales_dir/$lang/LC_MESSAGES/messages.po");
     $result = mysql_query("SELECT real_name, email FROM users WHERE username = '$pguser'");
     $real_name = mysql_result($result, 0, "real_name");
     $email_addr = mysql_result($result, 0, "email");

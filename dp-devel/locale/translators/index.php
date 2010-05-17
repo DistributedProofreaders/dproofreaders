@@ -33,7 +33,7 @@ if (empty($_REQUEST['lang']) && empty($func)) {
 if (!empty($_GET['lang']) && $func == "translate") {
     $lang = $_GET['lang'];
     $location = @$_GET['location'];
-    $translation = parse_po(file("$dyn_locales_dir/$lang/LC_MESSAGES/messages.po"));
+    $translation = parse_po("$dyn_locales_dir/$lang/LC_MESSAGES/messages.po");
 
 /* Structure of $translation array:
 $translation=array(
