@@ -14,9 +14,11 @@ function parse_po($messages_po) {
 
     $total_messages = count($messages_po);
     while ($i < $total_messages) {
+        if (!$comments_done && !startswith($messages_po[$i],"# "))
+            $comments_done = 1;
+
         if (startswith($messages_po[$i], "# ") && $comments_done != 1) {
             $translation['comments'] .= trim(preg_replace("/^#/", "", $messages_po[$i]))."\n";
-            if (! startswith($messages_po[$i+1], "#")) { $comments_done = 1; }
         }
         if (startswith($messages_po[$i], "#:")) {
             while (!empty($messages_po[$i]) && (startswith($messages_po[$i], "#:") || startswith($messages_po[$i], "#,"))) {
