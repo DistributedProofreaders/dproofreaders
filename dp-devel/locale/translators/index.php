@@ -86,27 +86,39 @@ $translation=array(
     {
         $numOfTranslations = count($translation['location']);
 
-        echo "<table align='center' border='0' cellpadding='0' cellspacing='0' width='95%'><tr><td>";
         echo "<form action='save_po.php' method='post'>";
-        echo "<br><center><b>"._("File comments")."</b>:<br><textarea name='file_comments' rows=5 cols=85>".trim($translation['file_comments'])."</textarea></center><br>\n";
-
-            $i = 0;
-        while ($i < $numOfTranslations) {
-            if($location=="all" || strstr($translation['location'][$i],$location)!==FALSE) {
-                if($location=="all") $loc = trim(substr($translation['location'][$i], 2, strpos(substr($translation['location'][$i], 2), ":"))); else $loc = $location;
-                echo "<b><i>".visible_invisibles(htmlspecialchars($translation['msgid'][$i]))."</b></i>\n(<a href='$code_url/".loc_eq($loc)."' target='_new'>"._("Location")."</a>)<br>\n";
-                echo "<input type='hidden' name='location_".$i."' value='".base64_encode(serialize($translation['location'][$i]))."'>\n<input type='hidden' name='msgid_".$i."' value='".base64_encode(serialize($translation['msgid'][$i]))."'>\n";
-                echo "<textarea name='msgstr_".$i."'rows=3 cols=85>".htmlspecialchars($translation['msgstr'][$i])."</textarea><br><br>\n\n";
-            }
-            $i++;
-        }
-
         echo "<input type='hidden' name='numofTranslations' value='".($numOfTranslations-1)."'>";
         echo "<input type='hidden' name='lang' value='$lang'>";
         echo "<input type='hidden' name='location' value='$location'>";
-        echo "<center><input type='submit' name='save_po' value='"._("Save and Compile")."'>";
-        echo "</center><br></form>";
-        echo "</td></tr></table>\n";
+
+        echo "<h2>"._("File comments")."</h2>";
+        echo "<textarea name='file_comments' rows='5' style='width: 100%';>".trim($translation['file_comments'])."</textarea>\n";
+
+        echo "<hr>";
+        echo "<h2>"._("Translatable strings")."</h2>";
+        if($location!="all")
+            echo "<p>" . sprintf(_("<b>Location for all strings:</b> <a href='%1\$s' target='_new'>%2\$s</a>"),"$code_url/".loc_eq($location),loc_eq($location)) . "</p>";
+
+        for($i = 0; $i < $numOfTranslations; $i++)
+        {
+            if($location=="all" || strstr($translation['location'][$i],$location)!==FALSE) {
+                if($location=="all") $loc = trim(substr($translation['location'][$i], 2, strpos(substr($translation['location'][$i], 2), ":"))); else $loc = $location;
+                echo "<p>";
+                echo sprintf(_("<b>String:</b> %s"),visible_invisibles(htmlspecialchars($translation['msgid'][$i]))) . "<br>";
+                if($location=="all")
+                    echo sprintf(_("<b>Location:</b> <a href='%1\$s' target='_new'>%2\$s</a>"),"$code_url/".loc_eq($loc),loc_eq($loc)) . "<br>";
+                if(isset($translation['comments'][$i]))
+                    echo _("<b>Comments:</b>") . "<div style='margin-left: 2em;'>" . nl2br(htmlspecialchars($translation['comments'][$i])) . "</div>";
+
+                echo "<input type='hidden' name='location_".$i."' value='".base64_encode(serialize($translation['location'][$i]))."'>\n";
+                echo "<input type='hidden' name='msgid_".$i."' value='".base64_encode(serialize($translation['msgid'][$i]))."'>\n";
+                echo "<textarea name='msgstr_".$i."' rows='3' style='width: 100%'>".htmlspecialchars($translation['msgstr'][$i])."</textarea>";
+                echo "</p>";
+            }
+        }
+
+        echo "<center><input type='submit' name='save_po' value='"._("Save and Compile")."'></center>";
+        echo "</form>";
         }
     }
 
