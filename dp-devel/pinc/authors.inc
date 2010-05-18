@@ -3,11 +3,7 @@
     $result = mysql_query("SELECT bio FROM biographies WHERE bio_id = $id;");
     if (!$result || mysql_num_rows($result) == 0) {
       // not found!
-      return _("An error has occurred somewhere. The project manager of this project has " .
-               "requested that a biography be automatically inserted here, but no biography is known " .
-               "by the id provided:")
-             . " <b>$id</b><br /><br />\n" .
-             _("You may wish to contact the project manager so that the problem can be resolved.");
+      return sprintf(_("An error has occurred somewhere. The project manager of this project has requested that a biography be automatically inserted here, but no biography is known by the id provided: <b>%s</b>.<br /><br />You may wish to contact the project manager so that the problem can be resolved."),$id);
     }
     else {
       $bio_text = mysql_result($result, 0, 'bio');
