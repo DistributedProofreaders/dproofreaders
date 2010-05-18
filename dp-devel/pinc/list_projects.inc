@@ -135,7 +135,12 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
         // Counter
         echo "$counter) ";
         // Title
-        echo "<font color='#444444'><b>", '"', $title, '"', "</b></font>";
+        if (is_null($postednum))
+        {
+            echo "\"<a style=\"font-weight: bold;text-decoration:none\" href=\"$code_url/project.php?id=$projectid\">$title</a>\"";
+        } else {
+            echo "\"<span style=\"font-weight: bold;color:#444444\">$title</span>\"";
+        }
         // Author
         echo ", ", $author;
         // Language
