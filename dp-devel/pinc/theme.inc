@@ -816,7 +816,10 @@ function show_completed_projects($terse = FALSE)
         $totalprojects = mysql_result($result,0);
 
         if ($terse) {
-            echo "$totalprojects " . _("in") . " $displaydate&nbsp;&mdash;&nbsp;";
+            // TRANSLATORS: string is in the format: $totalprojects in $date
+            // where $date is an already-translated strftime()-formatted string
+            // with the month and year
+            echo sprintf(_('%1$d in %2$s'),$totalprojects,$displaydate) . "&nbsp;&mdash;&nbsp;";
         } else {
             echo "<tr>";
             echo   "<td width='60%' align='right'>";
