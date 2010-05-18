@@ -1201,7 +1201,7 @@ function NotificationMail($tid, $message)
 
 function RelatedTasks($tid)
 {
-    global $tasks_url;
+    global $tasks_url, $tasks_status_array;
     $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $tid");
     $related_tasks = mysql_result($result, 0, "related_tasks");
     echo "<form action='$tasks_url' method='post'><input type='hidden' name='new_relatedtask' value='$tid'>";
@@ -1213,7 +1213,7 @@ function RelatedTasks($tid)
     $related_tasks = decode_array($related_tasks);
     asort($related_tasks);
     while (list($key, $val) = each($related_tasks)) {
-        $result = mysql_query("SELECT task_summary FROM tasks WHERE task_id = $val") or die(mysql_error());
+        $result = mysql_query("SELECT task_status, task_summary FROM tasks WHERE task_id = $val") or die(mysql_error());
         if (mysql_num_rows($result) == 0) {
             // The task must have been deleted from the table manually.
             $task_summary = "[not found]";
@@ -1222,8 +1222,9 @@ function RelatedTasks($tid)
             // summary is stored in the database as addslashes(htmlspecialchars(...)),
             // so we need to use stripslashes() to display it in HTML.
             $task_summary = stripslashes(mysql_result($result, 0, "task_summary"));
+            $task_status  = $tasks_status_array[mysql_result($result, 0, "task_status")];
         }
-        echo "<br /><a href='$tasks_url?f=detail&tid=$val'>Task #$val</a> - $task_summary\n";
+        echo "<br /><a href='$tasks_url?f=detail&tid=$val'>Task #$val</a> ($task_status) - $task_summary\n";
     }
     echo "</td></tr></table></form>";
 }
