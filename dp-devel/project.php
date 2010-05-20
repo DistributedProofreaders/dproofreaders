@@ -673,7 +673,14 @@ function do_project_info_table()
             $blurb = _("Discuss this project");
         }
         $url = "$code_url/tools/proofers/project_topic.php?project=$projectid";
-        echo_row_a( _("Forum"), "<a href='$url'>$blurb</a>" );
+	if (($state == PROJ_DELETE) && ($topic_id == ""))
+	{
+	    echo_row_a( _("Forum"), _("The project has been deleted, and no discussion exists."));
+	}
+	else
+	{
+            echo_row_a( _("Forum"), "<a href='$url'>$blurb</a>" );
+	}
     }
 
     // -------------------------------------------------------------------------
