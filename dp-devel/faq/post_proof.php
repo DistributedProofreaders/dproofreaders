@@ -15,7 +15,7 @@ theme('Post-Processing FAQ','header',$theme_args);
 ?>
 
 <h1>Post-Processing FAQ</h1>
-<h5>(Version 3.8; last updated May 5, 2010)</h5>
+<h5>(Version 3.8; last updated May 20, 2010)</h5>
 
 <p>
 Note that there are additional references at the end of this document under
@@ -1036,7 +1036,7 @@ done on a text version.
 </p>
 
 <p>
-Save a new version of your book (such as &lt;funnyname-smooth.txt&gt;,
+Save a new version of your book (such as &lt;funnyname-smooth.txt&gt;),
 then place this file into a zip folder.
 </p>
 
