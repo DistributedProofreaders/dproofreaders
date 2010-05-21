@@ -7,1444 +7,1981 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 new dbConnect();
 $no_stats=1;
-theme('Post-Processing FAQ','header');
+
+$theme_args["css_data"] = "div.note {padding: .75em; background: #f9f9f9; border: 3px #aaa double; width: 90%; margin: 1em 1em 1em 3em;}
+.spaced li {margin-bottom: .5em;}";
+
+theme('Post-Processing FAQ','header',$theme_args);
 ?>
 
-<h1>Post-Processing FAQ</h1> 
-<h5>(Version 3.7; last updated January 25, 2005)</h5>
-<br> 
-<h3>Getting Started</h3> 
- 
-<a href="#Introduction">What is Post-Processing?</a><br>
-<a href="#Tools">Tools</a><br> 
-<a href="#Selecting">Selecting a Book</a><br>
-<a href="#Time">How Long Do Etexts Take?</a><br>
-<a href="#Walkthrough">Walkthrough</a><br> 
-	<ul> 
-	<li><a href="#1-5">1-5. Choose a book and prepare it for proofreading.</a>
-	<li><a href="#6">6. Format the title page.</a> 
-	<li><a href="#7">7. Scan the book and correct obvious errors.</a>
-	<li><a href="#8">8. Spell check.</a> 
-	<li><a href="#9">9. Search for -. Perform any other "paranoid "checks" 
-                            (ex. searching for Stealth Scannos).</a> 
-	<li><a href="#10">10. Search for *.</a> 
-	<li><a href="#11">11. Format the book.</a> 
-	<li><a href="#12">12. Remove page markers.</a> 
-	<li><a href="#13-15"> 13-15. Search for hyphens adjacent to spaces, 
-                             double spaces, and spaces at the end of lines.</a>
-	<li><a href="#16">16. Replace all HTML elements.</a> 
-	<li><a href="#17">17. Rewrap lines.</a> 
-	<li><a href="#18">18. Run Gutcheck.</a>  
-	<li><a href="#19">19. Look the book over again.</a>
-	<li><a href="#20">20. Upload book for verification.</a>
-	</ul> 
-<br> 
-<h3><a href="#Software">Software</a></h3> 
-
-<h4><a href="#Basic">The Basics</a></h4>
-<a href="#Gutcheck">Gutcheck</a><br> 
-<a href="#Editors">Text Editors</a><br> 
-<a href="#Images">Image Viewers</a><br>
-<a href="#Spell">Spell Checkers</a><br>
-<a href="#HTML">HTML Validators</a><br>
-
-<h4><a href="#Dedicated">Dedicated Proofreading Tools</a></h4>
-<a href="#Guiguts">Guiguts</a>
-<a href="#Gut">The Gut* Foursome</a>
-<a href="#Extras">Other Tools</a><br> 
-<br> 
-<h3>Advanced Proofreading Questions</h3>
-
-<h4>Special Formatting Issues</h4>
-<a href="#Footnotes">Footnotes</a><br> 
-<a href="#Illustrations">Illustrations</a><br> 
-<a href="#Poetry">Poetry</a><br> 
-<a href="#Tables">Tables</a><br>
-<a href="#Sidenotes">Sidenotes</a><br> 
-<a href="#Headings">Headings and Subheadings</a><br>
-<a href="#Indexes">Indexes</a><br> 
-<a href="#Errata">Errata Pages</a><br>
-<h4>Symbols and Scripts</h4>
-<a href="#Non-ASCII">Non-ASCII Characters</a><br> 
-<a href="#Symbols">Non-Latin Scripts and Unusual Symbols</a><br> 
-<h4>Extra Checks</h4>
-<a href="#Bonus">Paranoid Proofreading Checks (Stealth Scannos, etc.)</a><br> 
-<h4>Technical Questions</h4>
-<a href="#Formats">Non-ASCII Formats</a><br> 
-<a href="#Missing">Missing or Problem Images</a><br> 
-<a href="#Returning">Returning a Project</a><br>
-<a href="#Split">Projects with Multiple Parts</a><br>
-<a href="#PPV">Post-Processing Verification</a>
-<a href="#Other">Other Questions, and Suggestions for the FAQ</a><br> 
-<br> 
-<hr> 
+<h1>Post-Processing FAQ</h1>
+<h5>(Version 3.8; last updated May 5, 2010)</h5>
 
 <p>
-This FAQ is designed as a guide for post-processors, especially new ones. 
-I hope that it makes the task of post-processing a little less frightening!
-</p> 
- 
-<hr> 
-<br>
-<h2>Getting Started</h2> 
-<br> 
-<p>
-This section is designed especially for the first-time post-processor.  
-It provides a walkthrough of all of the essential steps needed 
-to proofread a relatively simple book.  
-For more difficult books, please see the Advanced Proofreading Questions section for advice.
-</p>
-<br>
-<h4><a name="Introduction">What is post-processing, and who can post-process?</a></h4>
-
-<p>
-The purpose of post-processing is to massage an etext into a readable form.  
-In its journey through two proofreading rounds, 
-the text will have been edited by perhaps hundreds of proofreaders.  
-The post-processor must standardize the formatting of the book 
-and adjust it to comply with Project Gutenberg's requirements.  
-The post-processor must also correct as many errors as possible 
-that have survived both proofreading rounds.  
-The ultimate goal of post-processing is to create a plain-text etext 
-with consistent formatting throughout, which contains as few errors as possible, 
-and which accurately reflects the intentions of the author.
+Note that there are additional references at the end of this document under
+<a href="#also">See also ...</a>
 </p>
 
-<p>
-Post-processors require more experience than ordinary proofreaders.  
-Because they are preparing the text for uploading to Project Gutenberg, 
-they are the final editors of the text.  
-Because of this, post-processing is only available for proofreaders 
-who have completed at least <b>400</b> pages in the first and/or second proofreading rounds.  
-Also, post-processors should be very familiar with the 
-<a href="document.php">Proofreading Guidelines</a> before attempting to post-process.
-</p>
-<br>
-<h4><a name="Tools">What software will I need to get started?</a></h4> 
- 
-<p>The requirements for software are minimal:</p> 
-	<ul> 
-	<li>a <a href="#Editors">text editor</a>,
-	<li>a program capable of opening <a href="#Images">images</a>,
-	<li>a <a href="#Spell">spell checker</a>, and
-	<li><a href="#Gutcheck">Gutcheck</a>. 
-	</ul> 
- 
-<p>
-There are other useful <a href="#Software">programs</a> available which are not essential,
-but which can be extremely useful and might save you a lot of time. 
-Take a look and see if any of them would be of use to you.
-</p> 
-<br> 
-<h4><a name="Selecting"> All right. I have everything I need to get started except a book. 
-Which one should I choose?</a></h4> 
- 
-<p>
-For your first project, it's a good idea to pick a fiction book 
-with a relatively small number of pages. Here's why:
-</p> 
-	<ul> 
-    <li>fiction usually has fewer words per page than non-fiction 
-        and a more streamlined format, 
-        which means that it scans clearer and is unlikely to be riddled 
-        with OCR errors and inconsistent formatting;
-    <li>fiction generally lacks footnotes, tables, and other items 
-        which could be difficult for a new post-processor to deal with; and  
-    <li>a low page count makes the work go faster and is easier to handle. 
-	</ul>
+<ul>
+<li><a href="#what">What is post-processing?</a></li>
+<li><a href="#who">Who can post-process?</a></li>
+<li><a href="#helpavail">What help is available?</a></li>
+<li><a href="#tools">What tools can I use?</a></li>
+<li><a href="#choose">How do I choose a book to process?</a></li>
+<li><a href="#long">How long will it take?</a></li>
+<li><a href="#change">What if I change my mind, or don't have time?</a></li>
+<li><a href="#do">So what do I have to do?</a>
+    <ul>
+        <li><a href="#research">Do some research</a></li>
+        <li><a href="#list">Keep a "To Do" list</a></li>
+        <li><a href="#first">First pass check</a></li>
+        <li><a href="#asterisk">Check for asterisks * left by proofreaders,
+            making you aware of questions/problems/markup</a></li>
+        <li><a href="#markup">Check the markup</a></li>
+        <li><a href="#title">Straighten up the title page, table of contents,
+            and list of illustrations</a></li>
+        <li><a href="#foot">Footnotes</a></li>
+        <li><a href="#problems">Check the text for problems</a></li>
+        <li><a href="#illus">Handle any illustrations</a></li>
+        <li><a href="#join">Rejoin pages</a></li>
+        <li><a href="#spell">Spellcheck</a></li>
+        <li><a href="#paranoid">Paranoid text checks (stealth scannos, etc.)</a></li>
+        <li><a href="#rewrap">Rewrap the text</a></li>
+        <li><a href="#gut">Gutcheck</a>
+            <ul>
+                <li><a href="#common">Some common things to watch for</a></li>
+            </ul></li>
+        <li><a href="#tn">Create a Transcriber's Note</a></li>
+        <li><a href="#backup">Back-up including HTML tags</a></li>
+        <li><a href="#plain">Creating a plain text version</a>
+            <ul>
+                 <li><a href="#formatting">Check formatting&mdash;text version</a></li>
+            </ul></li>
+        <li><a href="#smooth">Smoothreading</a></li>
+        <li><a href="#html">Creating an HTML version</a>
+            <ul>
+                <li><a href="#main">Main issues to check</a></li>
+            </ul></li>
+    </ul></li>
+<li><a href="#finished">I've finished&mdash;now what...?</a>
+    <ul>
+        <li><a href="#ppv">Uploading for verification (PPV)</a></li>
+        <li><a href="#then">What happens to my book now?</a></li>
+    </ul></li>
+<li><a href="#du">I've been granted direct upload access. What do I do?</a></li>
+<li><a href="#help">Help! I've got a problem with ... </a>
+    <ul>
+        <li><a href="#missing">Missing or problem images or pages</a></li>
+        <li><a href="#multiple">Projects with multiple parts</a></li>
+        <li><a href="#other">Other formats</a>
+            <ul>
+                <li><a href="#html2">HTML</a></li>
+                <li><a href="#lilypond">Lilypond</a></li>
+                <li><a href="#latex">LaTeX</a></li>
+                <li><a href="#tei">TEI</a></li>
+                <li><a href="#pdf">PDF</a></li>
+                <li><a href="#proprietary">Proprietary text formats</a></li>
+                <li><a href="#unicode">Unicode, UTF-8, UTF-16, etc.</a></li>
+            </ul></li>
+        <li><a href="#symbols">Symbols and scripts, non-ASCII characters,
+            non-Latin scripts, and downright weird things</a></li>
+        <li><a href="#footnotes">Footnotes</a></li>
+        <li><a href="#sidenotes">Sidenotes</a></li>
+        <li><a href="#illustrations">Illustrations</a></li>
+        <li><a href="#poetry">Poetry</a></li>
+        <li><a href="#tables">Tables</a></li>
+        <li><a href="#greek">Greek</a></li>
+        <li><a href="#minorlote">Occasional use of other languages</a></li>
+        <li><a href="#index">Indexes</a></li>
+        <li><a href="#errata">Errata pages</a></li>
+        <li><a href="#after">A problem after the project has posted!</a></li>
+    </ul></li>
+<li><a href="#different">What's different about ... </a>
+    <ul>
+        <li><a href="#periodicals">Periodicals and &Uuml;berprojects</a></li>
+        <li><a href="#drama">Drama</a></li>
+        <li><a href="#music">Music</a></li>
+        <li><a href="#maths">Maths (LaTeX)</a></li>
+        <li><a href="#lote">LOTE (Languages Other Than English)</a></li>
+    </ul></li>
+<li><a href="#also">See also ...</a></li>
+</ul>
+
+
+<h2><a name="what" id="what"></a>What is post-processing?</h2>
 
 <p>
-Take a look at the Post-Processing section of the Activity Hub
-to see all of the works available for post-processing.
-Books labelled "BEGINNERS" or "MENTORS" were originally set aside for new proofreaders.  
-These books are relatively easy, and would make good first projects.
-Alternatively, pick a text with a title that is likely to be fiction.
-"The Boy Scout Camera Club" is a good bet; "Copyright Renewals" is not. 
-These texts are often marked "EASY" and are available to all post-processors.
+The purpose of post-processing is to massage the pages worked on in the
+rounds into a final <a href="<?php echo $wiki_url; ?>/Etext">etext</a>
+for uploading to <a href="<?php echo $PG_home_url; ?>">Project
+Gutenberg</a> (PG). On its journey through multiple proofreading and formatting
+rounds, the text may have been worked on by hundreds of volunteers. The
+post-processor must standardize the formatting of the book and adjust it
+to comply with Project Gutenberg's requirements. They must also deal
+with any detectable mistakes that have survived all proofreading and
+formatting rounds. The ultimate goal of post-processing is to create a
+consistently formatted etext, which contains as few errors as possible
+and which accurately reflects the intentions of the author. A plain-text
+version is always needed (a .txt file), but many projects now also
+require other formats. Don't be put off by this&mdash;there are people
+who can help with them if you don't want to do them yourself.
+</p>
+
+
+<h2><a name="who" id="who"></a>Who can post-process?</h2>
+
+<p>
+Post-processors require more experience than ordinary proofreaders.
+Since they are preparing the text for uploading to Project Gutenberg,
+they make choices and decisions about the layout and look of the text.
+Because of this, post-processing is usually only available for volunteers
+who have completed a number of pages in F1.
+Refer to the chart on your <a href="../activity_hub.php">Activity Hub</a>
+to see if you already have access. If you do not, clicking on the icon
+will take you to a statement of whether you meet the requirements, and,
+if so, a button to request access (this is automatically granted).
 </p>
 
 <p>
-Download the text you have chosen by going to its Book Options scrollbar 
-and selecting "Download Zipped Text".
-Do not select "Download Zipped TEI Text" (a different encoding)
-unless you know what TEI is and want to play around with it.
+If you are not yet eligible, but have a reason for wanting to post-process
+(special language skills are a common basis for exceptions),
+please request access by sending an email to
+<a href="mailto:<?php echo $db_requests_email_addr; ?>"><?php echo $db_requests_email_addr; ?></a>.
+</p>
+
+
+<h2><a name="helpavail" id="helpavail"></a>What help is available?</h2>
+
+<p>
+This FAQ contains a <strong>lot</strong> of information, particularly in the
+<a href="#help">Help</a> section.
+The <a href="<?php echo $post_processing_forum_url; ?>">Post-Processing Forum</a>
+also has some helpful sticky threads, especially
+the <a href="<?php echo make_forum_url('t', 15019, ''); ?>">No Dumb Questions</a>
+topic which is the best place to post new questions. For faster help, try using
+<a href="<?php echo $wiki_url; ?>/Jabber_instructions">Jabber</a> to visit
+the <?php echo $site_abbreviation; ?> chat room&mdash;there's usually someone around
+who can point you in the right direction (all time zones covered!).
+</p>
+
+<p>
+You can also get <a href="<?php echo $wiki_url; ?>/PP_Mentoring">PP mentoring</a> help.
+PG produces its own <a href="<?php echo $PG_faq_url; ?>">guidelines</a>.
+Finally, a <strong>strongly</strong> recommended step is to look at existing PG books,
+especially if you can find a book similar to the one you are about to post-process
+(same author, related topic, etc.).
+</p>
+
+
+<h2><a name="tools" id="tools"></a>What tools can I use?</h2>
+
+<p>
+Post-processors use a variety of
+<a href="<?php echo make_forum_url('t', 15775, ''); ?>">operating systems</a>
+and <a href="<?php echo $wiki_url; ?>/PPTools">PPing Tools</a>
+to do the post-processing work. Which ones you use is your choice, but
+the minimum software you will need includes:
+</p>
+
+<ul>
+<li>a text editor (with monospaced font for <a href="#plain">plain text</a> files)</li>
+<li>a program capable of opening images</li>
+<li>spellchecker</li>
+<li><a href="#gut">Gutcheck</a></li>
+<li>capability to create and handle zip folders</li>
+</ul>
+
+<p>
+To create and check an <a href="<?php echo $wiki_url; ?>/HTML">HTML</a> version
+you will also need to use an online <a href="http://validator.w3.org/">HTML
+validator</a> and <a href="http://jigsaw.w3.org/css-validator/">CSS validator</a>,
+<a href="http://infohound.net/tidy/">Tidy</a>, and a link checker.
+If your project contains illustrations, you will need an image editor.
+</p>
+
+<p>
+There are other <a href="<?php echo $wiki_url; ?>/PPTools">useful programs</a>
+available which are not essential, but which can be extremely useful and
+will usually save you a lot of time. Some have Gutcheck built in,
+such as <a href="<?php echo $wiki_url; ?>/Guiguts">Guiguts</a>, for which
+there is a lot of <a href="<?php echo make_forum_url('t', 3075, ''); ?>">support</a>,
+a <a href="<?php echo $wiki_url; ?>/Guiguts_PP_Process_Checklist">PP Checklist using Guiguts</a>,
+and a <a href="<?php echo make_forum_url('t', 6304, ''); ?>">PPing tutorial</a>.
+</p>
+
+<p>
+If using a Mac, see
+<a href="<?php echo $wiki_url; ?>/Post-Processing_on_the_Mac">Post-Processing on the Mac</a>.
+</p>
+
+
+<h2><a name="choose" id="choose"></a>How do I choose a book to process?</h2>
+
+<p>
+For your first project, it's best to pick a fiction book with a
+relatively small number of pages (less than 200 or so). Here's why:
+</p>
+
+<ul>
+<li>A low page count makes the work go faster and is easier to handle.</li>
+<li>
+Fiction usually has fewer words per page and a simpler format than non-fiction,
+so it scans more clearly and is less likely to result in OCR errors and
+inconsistent formatting.
+</li>
+<li>
+Fiction generally lacks complicating features such as footnotes,
+tables, illustrations, poetry, and/or other items that could be
+difficult for a new post-processor to deal with.
+</li>
+</ul>
+
+<p>
+Many post-processors did not follow this rule to start with,
+and have turned out all right anyway. But it's a reasonable guide.
+</p>
+
+<p>There are three good ways to find a book for post-processing:</p>
+
+<ol>
+<li>
+Check the <a href="<?php echo make_forum_url('t', 15937, ''); ?>">Projects
+for new PPers</a> thread for books that have completed the rounds and
+would make good starting points. Or post there that you are in the market
+for a good book!
+</li>
+
+<li>
+If you are proofreading or formatting a particularly enjoyable book,
+or one that seems quite straightforward, ask the project manager
+if a post-processor has been assigned already (or look for that section
+on the project page). If there is none, (or sometimes if the project manager
+is listed as post-processing it themselves,) ask if you can post-process the book.
+You'll need to wait for it to finish the rounds first. An alternative is
+reviewing the <a href="../../noncvs/no_PPer_yet.php">Books with no PPer yet</a>
+list and contacting project managers directly. Be careful what you ask for,
+though, as you may get it.
+</li>
+
+<li>
+Contact a <a href="<?php echo $wiki_url; ?>/PP_Mentors">PP Mentor</a>.
+Not only can they help if you have questions about the process, but
+they can occasionally provide more suitable projects, or suggest
+alternatives to the above methods.
+</li>
+</ol>
+
+<div class="note">
+Note: There is no commitment in volunteering for a book. If you wish
+to stop post-processing it for any reason, it's best to contact
+the person who assigned it to you, so they can pass it on appropriately.
+They will <strong>not</strong> twist your arm or criticize you for not finishing.
+Think of it as allowing someone else the chance to work on it, and
+freeing up your own valuable time for another project!
+</div>
+
+<p>
+Download your chosen text by going to its project page,
+scrolling to the bottom of the page, and selecting "Download Zipped Text".
+Do not select "Download Zipped <a href="<?php echo $wiki_url; ?>/TEI">TEI</a> Text"
+(a different encoding) unless you know what TEI is and want to work with it.
 The plain text is the version that you need.
 </p>
 
 <p>
-Scroll through the <i>whole</i> text to see if there are any difficulties, 
-like footnotes, poetry, foreign languages, dialects, and tables in it. 
-This way, you will know what you will be dealing with before you commit to the project. 
-If you see any of these items, you would be wise to choose a different project.
-But, if you think you can handle it, give it a try!
+Scroll through the whole text to see if there are any difficulties,
+like footnotes, poetry, foreign languages, dialects, and tables in it.
+This way, you will know what you will be dealing with
+before you commit to the project. If you see any of these items,
+you might want to pick a different project. But if you think
+you can handle it, give it a try! There's always lots of help available.
 </p>
- 
-<p>
-Check the <a href="<?php echo $projects_forum_url; ?>">Project Questions and Comments Forum</a> 
-for your book's title to see what proofreaders have been saying about it. 
-Again, this might alert you of issues which might make the work 
-more difficult than you had realized.
-</p>
- 
-<p>
-When you have found a work that you want to do, 
-check it out by going to its Book Options dropdown listbox and selecting Check Out Book. 
-The book is now yours!
-(Make absolutely sure that the book appears as checked out to you, or you might end up
-working for hours on your text only to find that someone else has checked it out and submitted it!)
-</p>
-<br>
-<h4><a name="Time">How long will it take me to post-process my book?</a></h4>
 
 <p>
-It is impossible to answer this question in advance.  
-The time that a book will take to complete depends essentially on three factors:
+Check the project thread for your book's title to see what proofreaders
+have been saying about it. Again, this can alert you to issues
+that might make the work more difficult than you had realized.
 </p>
-	<ul>
-	<li>the difficulty and length of the work itself;
-	<li>the tools being used; and
-	<li>the amount of experience the post-processor has.
-	</ul>
 
 <p>
-Some proofreaders can finish an easy book in only an hour or two 
-(or even less, for the especially speedy).  
-However, most proofreaders require longer than this to do a good job.  
+If you decide you want to work on the book, and the book was not
+already checked out to you by the project manager, then go to the project page,
+scroll down and select the "Check Out Book" button.
+Make sure that the book appears as checked out to you, or
+you might end up working for hours on it only to find that someone else
+has checked it out and submitted it! Your post-processing choice will appear
+near the middle of the
+<a href="../tools/pool.php?pool_id=PP">post-processing page</a>.
+</p>
+
+<div class="note">
+Note: Occasionally, perfectly lovely books appear in the PP Pool
+(at the bottom of the post-processing page). If you wish
+to take one of these to work on, click on its title on that page,
+perform the above checks (downloading text, reviewing the
+project discussion, etc.) and if you still want to go ahead, scroll to
+the bottom of the project page to the "Check Out Book" button.
+Click it, double-check that the book has been assigned to you,
+and start work.
+</div>
+
+
+<h2><a name="long" id="long"></a>How long will it take?</h2>
+
+<p>
+It's very difficult to answer this question in advance.
+The time that a book will take to complete depends on three factors:
+</p>
+<ul>
+<li>the difficulty and length of the work itself</li>
+<li>the tools being used</li>
+<li>the amount of experience the post-processor has</li>
+</ul>
+
+<p>
+It can vary from several hours to several days.
 Some especially difficult works can take weeks (or more!) to complete.
+Remember to save your work often, using a new filename each time,
+so that if you make a mistake, you can easily recover.
+Take it at your own pace&mdash;you will be the last person going through
+this book in detail before its posting (although two other people
+will verify your work).
 </p>
 
 <p>
-Try not to feel discouraged if you take more than a day to complete an "easy" book.  
-Concentrate on learning the process of post-processing, 
-familiarizing yourself with any tools you might be using, 
-and doing a quality job, rather than on working quickly.  
-You will speed up naturally with practice.
+Try not to feel discouraged if it seems like it takes a long time
+to complete an "easy" book. Concentrate on learning the process of
+post-processing, familiarizing yourself with any tools you might be using,
+and doing a quality job, rather than on working quickly. You will speed up
+naturally with practice.
 </p>
-<br> 
-<h4><a name="Walkthrough">Great!  Now what am I supposed to <i>do</i>?</a></h4> 
- 
+
+
+<h2><a name="change" id="change"></a>What if I change my mind, or don't have time?</h2>
+
 <p>
-<b>There is no one way to post-process books.</b> 
-Every post-processor has a different technique and uses different tools to do the job. 
-The technique described below is the one the author personally uses,
-but there are many ways of achieving the same end result. 
-In time, you will probably develop your own technique.
-</p>
- 
-<p>
-This walkthrough describes a very hands-on way of post-processing, 
-which is why it is recommended for first-time post-processors. 
-It takes longer to complete the book this way 
-than if macros, global find-and-replace, and other tools are used,
-but it gives the first-timer a feel for what they should look out for 
-by making the proofreader scroll through the book several times.  
-Also, the walk-through below is suitable for use on all operating systems, 
-regardless of what text editor is used or what tools are available for that operating system. 
-Once you get the hang of what post-processing is all about,
-please experiment with the <a href="#Software">software</a> available below,
-especially the <a href="#Dedicated">dedicated post-processing tools</a>.
-You do not <i>have</i> to use and of them, but any post-processors find them indispensable!
+If you realize that the project you've chosen is too complicated for you,
+or if you find yourself short of time, it is perfectly okay to return
+the project to the PP pool using the "Return to Available" button
+on the project page. You can look for an easier project straight away
+or take another one when you have more time.
 </p>
 
 <p>
-It is strongly advised that you read through the following walkthrough 
-<i>before</i> starting to post-process. 
-This will give you an idea of what you will be doing in advance. 
-You might also like to look for helpful <a href="#Software">software</a> first
-if you are so inclined.
-</p>
-<br> 
-<h4>The Walkthrough</h4> 
- 
-<ol> 
-<li><a name="1-5">Choose a book and sign it out.</a>  
-    For guidance, see <a href="#Selecting">Selecting a Book</a>, above.
-    Make sure that the book appears in the Post-Processing list as checked out to you.
-    Otherwise, someone else might check it out later and duplicate all of your hard work!<br>
-
-<li>Look for comments and questions proofreaders had while proofreading your book 
-    in the <a href="<?php echo $projects_forum_url; ?>">Project Questions and Comments Forum</a>.<br> 
- 
-<li>Download the book's images (optional) and text.
-	Make sure to select "Download Zipped Text" and not "Download Zipped TEI Text"
-	unless you know how to work with TEI text encoding. 
-    You may wish to make a local backup of the text file, 
-    for ease of reference later in the process.<br> 
- 
-<li>If you are using a Mac, change the character set to Mac. 
-    In BBEdit Lite, use MIDex to do this by clicking on the ISO-&gt;Mac button. 
-    You will need to convert the book back to ISO when it is complete.<br>
- 
-<li>If the document is not displayed in a monospaced font 
-    (that is, a font where each letter, space, and punctuation mark 
-    take up exactly the same amount of space), make this adjustment now.
-    "Monaco" or any font with "Mono" in its name will be monospaced.  
-    Please make sure that the project is always saved as text (.txt).  
-    This is a Project Gutenberg requirement, 
-    and is easily done in all word processing and text editing programs.<br>
- 
-<li><a name="6">Format the first page(s) to your liking.</a> 
-    These pages contain the title of the book, the author's name, 
-    and occasionally information on a translator, etc. 
-    Retain the publication date and publisher name, but delete words or phrases
-    such as "copyright," "all rights reserved," etc.
-    If this section is in ALL CAPS, you can change it to Capitalized Text if you wish.<br>
- 
-<li><a name="7">Scan the entire book for problems and formatting issues.</a> 
-    You will almost always run across things which obviously <i>just aren't right</i>, 
-    which can be corrected at this time. 
-    There are many other things that you can look for during this first pass. 
-    For instance, you may notice deviations from the proofreading guidelines, 
-    which should be corrected.  
-    Here are a few examples of the sorts of things to watch for:
-    <ul> 
-	<li>poetry, tables, and other areas which <b>must not</b> be re-wrapped 
-            (i.e. where line breaks are important).  
-            These <i>should</i> be surrounded by /* */, but be wary, as some might not be!;
-	<li>punctuation in odd places (usually from specks on the scanned image) 
-            and dubious spellings;
-	<li>lines of asterisks: if you find one, it may be worth looking through the images 
-            to make sure that none were missed. 
-            Also, make sure that they are correctly written 
-            (7 spaces, then 5 asterisks separated by 7 spaces);
-	<li>extra line breaks within paragraphs that clearly shouldn't be there, 
-            or lack of space between paragraphs;
-	<li>bad spacing: double spaces, indented paragraphs, wordsthatruntogether;
-    <li>words in ALL CAPS at the beginning of paragraphs 
-	<li>words that are italicized everywhere, like ships' names 
-            (watch for non-italicized occurrences);
-    <li>words containing an accent (watch for the loss of the accent); 
-	<li>hyphenation: em-dashes should be marked --, and hyphens -, 
-            with no spaces on either side. 
-            If it's clearly wrong, fix it;
-	<li>missing pages:  check the image numbers 
-            to make sure that there are none missing, 
-            and read the last few words on each page 
-            and the first few words on the next page 
-            to make sure that they go together; and
-	<li>pages which look like they haven't been proofread at all; 
-            you'll have to look carefully for errors in these areas. 
-    </ul> 
- 
-<p>
-Some pages will begin with a full sentence. 
-Since you won't know if these sentences are the beginning of a new paragraph 
-or a continuation of the previous one, either mark these with a * 
-and check them later, 
-or check them against the book's images as you come across them 
-and format accordingly.
-</p> 
- 
-<p>
-If you wish, you may remove the page markers on the way through. 
-Most people remove them at this stage, 
-though some leave them in to make checking the text against the images easier. 
-If you choose to remove them, make an unedited copy of the file 
-to give you a reference with the page numbers still included.
-You can always unzip or download a fresh file if something happens to your backup.
-<a href="#Guiguts">Guiguts</a> will remove the page markers 
-while still remembering the page's identity.
-</p>
- 
-<li><a name="8">Run a spell check.</a> 
-    Mark any words that are even remotely questionable with a *, 
-    or check each questionable word against the book's images as you go 
-    and correct when necessary. 
-    Proofreaders often miss some misspellings, such as ltttle for little.  
-    Books of PG vintage, especially books of poetry, 
-    may also contain archaic and unusual spellings and words.
-    DO NOT correct these, but only obvious typos or OCR errors.
-    If you do not have a spell checker, you can pick one up <a href="#Spell">here</a>.<br> 
- 
-<li><a name="9">Search for -.</a> 
-    If you run across something bizarre, 
-    mark it with a * or check it against the images. 
-    The purpose of this step is essentially to make sure that 
-    there are no em-dashes in the middle of words, 
-    no single dashes that should be em-dashes, 
-    and that all end-of-line hyphenation is fixed. 
-<p>
-Some proofreaders like to replace all hyphens with unbreaking hyphens 
-in order to minimize the work in browsing for hyphenated words 
-split between lines at the end. 
-In Microsoft Word, the unbreaking hyphen character can be inserted 
-by doing a global find-and-replace of - into ^~. 
-If you choose to do this, you must change all unbreaking hyphens 
-back to regular hyphens at the end, 
-as they are non-ASCII and do not display properly on all machines.
-</p>
- 
-<p>
-There are many other <a href="#Bonus">"paranoid checks"</a> 
-that proofreaders perform at this stage. 
-These checks are particularly useful when the book scanned badly 
-or the font was unusual, 
-since these conditions introduce a lot of errors that are difficult for proofreaders to spot. 
-If this is your first book, you don't need to worry about these "bonus" checks, 
-but once you learn the basics of proofreading, 
-you will want to be sure that you do a thorough job 
-and catch as many mistakes as you can, 
-and these extra checks will help you produce high quality etexts.
+To return a project, find the title of the book you are working on
+on your <a href="../tools/pool.php?pool_id=PP">PP page</a> and
+click on its title. That shows you the specific project page for that text
+and, scrolling to the bottom, you will find an option for Return to Available.
+Click that button to go to the upload page. To put the project
+back into the Post-Processing Pool, leave everything blank and
+click the Return project button.
 </p>
 
 <p>
-<a href="#Guiguts">Guiguts</a> makes performing paranoid checks a lot easier,
-as it incorporates Gutcheck into its interface.  
-<a href="#Gut">GutAxe</a> makes these checks as well.
-
-</p>
- 
-<li><a name="10">Search for *.</a> 
-In addition to the asterisks that you may have inserted
-yourself to mark potential problems, proofreaders may have used them to mark
-problems that they had to bring them to your attention. If you have left in
-the page markers, use them to guide you to the image containing the text
-that you are checking. Resolve all the problems and remove the asterisks
-before uploading for PPV. If you can't resolve the problem on your own,
-contact the project manager or ask your question in the post-processing
-forum.<br>
- 
-<li><a name="11">Format chapter headings and any subheadings 
-    that you may find in the text.</a> 
-    It is recommended that there be three blank lines between chapters, 
-    two after the chapter title, and four between larger sections (eg.  Part 1 and 2), 
-    but the exact numbers are not very important. 
-    As long as you are consistent within your work, 
-    use whatever spacing seems appropriate and looks good to you.
- 
-<p>
-Scan the book and make sure that all of the chapter headings and subheadings are there! 
-Proofreaders sometimes remove these accidentally. 
-If there is a table of contents, use it as a checklist; otherwise, refer to the images. 
-If the chapters are simply numbered Chapter 1, 2, etc., 
-just make sure that there are no numbers missing.
-</p> 
- 
-<li><a name="12">Remove page markers, either manually or with a tool or search.</a> 
-    Remove [Blank Page] tags as well.<br>
- 
-<li><a name="13-15">Search for space-hyphen and hyphen-space 
-    and replace each instance with hyphen.</a> 
-    The exception here is hyphens replacing a word, like a person's name; 
-    in that case, leave spaces before and after the hyphens to indicate this. 
-    There may be other exceptions like this as well, 
-    but you'll be able to identify them from their context.<br>
- 
-<li>Search for double space and replace with single space. 
-    DO NOT do a global find and replace 
-    if your text contained poetry, charts, or lines of asterisks, 
-    all of which legitimately contain multiple spaces.
-    <a href="#Gut">GutSweeper</a> will do this for you automatically.<br>
- 
-<li>Remove end-of-line spaces by searching for spaces followed by returns 
-    and replacing them with returns only. Again, don't do a global replace. 
-    RewrapIndent has a feature which will remove end-of-line spaces 
-    automatically.<br>
- 
-<li><a name="16">Find and replace all incidences of &lt;i&gt; and &lt;/i&gt; with _.</a> 
-    Make sure that the same number of &lt;i&gt; were replaced as &lt;/i&gt;. 
-    If there were more or less, some of the tags may not have been correctly typed, 
-    and you'll have to track them down.   
-    Search for &lt;b&gt; and &lt;/b&gt; and replace them with *, +, 
-    or any other character which is not used in your text 
-    (suggestions from other post-processors are ~, %, #, =, 
-    and converting words in bold to ALL CAPS). 
-    Try searching for &gt;, &lt;, and / to find both of these more quickly.  
-    You may wish to preface your text with a transcriber's note explaining 
-    which symbol you used for italics and which for bold, 
-    but this is not absolutely necessary.<br>
- 
-<li><a name="17">Time to rewrap.</a> 
-    Did you see any poetry, tables, etc.? 
-    If not, rewrapping the lines should be easy. 
-    You will need to rewrap the lines to between 65 and 75 characters in length. 
-    Each program has a different way of doing this, 
-    and you will have to find the way that works best for you. 
-    In BBEdit Lite, select Hard Wrap from the Text menu. 
-    For MS Word, save as Text with Line Breaks. 
-    Many <a href="#Dedicated">tools</a> will rewrap for you,
-    including Guiguts, GutHammer, and RewrapIndent. 
-    If worst comes to worst and you cannot find an easy way to rewrap the lines, 
-    find and replace all line breaks with spaces, 
-    count any line to find to see approximately where 65-75 characters falls, 
-    and insert lines breaks manually at this point. 
-    It's painful, but it works. 
-    Be grateful that you chose a book with a low page count!
-    However, this extreme step should not be necessary.<br>
- 
-<p>
-If you have areas that you must not wrap, you must be more careful. 
-In BBEdit, it is possible to rewrap a section by highlighting it and selecting Hard Wrap. 
-This allows you to rewrap the text in blocks between tables or poems. 
-Other programs may have a similar feature. 
-<a href="#Dedicated">RewrapIndent, Guiguts, and Guthammer</a> feature selective rewrapping, 
-though the user needs to learn a small amount of special markup.
-<!-- removed prtk specific reference to rewrap.html -->
+If you have done considerable work on the project, you can upload
+a partially finished project to the PP pool for another post-processor to complete.
+After choosing the Return to Available option, when the upload page opens,
+you can upload a zipped folder and leave a comment for the next person.
 </p>
 
-<p>Make sure to remove the /* */ markup around poetry and tables after the rewrap is complete!</p>
+
+<h2><a name="do" id="do"></a>So what do I have to do?</h2>
 
 <p>
-Rewrapping sometimes reveals spacing errors.  
-Repeat steps 13 and 15 to catch any new problems 
-that may have been introduced by the rewrap.
-</p>
- 
-<li><a name="18">Run Gutcheck.</a> 
-    Check every potential problem that it brings to your attention.  
-    Not all Gutcheck "flags" are genuine errors 
-   (for example, it may report short lines where the text contains poetry or a table), 
-   but each must be looked into and corrected if necessary.
-   Continue to run Gutcheck after each series of corrections 
-   until it doesn't flag any more "true" errors.<br>
- 
-<li><a name="19">Give the whole thing a quick eyeball to make sure that all is well.</a>  
-    If you are not sure what the finished text should look like, 
-    download a text from <a href="<?php echo $PG_home_url; ?>">Project Gutenberg</a> 
-    and skim it to get a clearer idea.
-    Some proofreaders believe that this is best done the next day, 
-    when you have a fresher eye and might be more likely to spot oversights.
-    If you switched character sets (eg. used MIDex on a Mac), switch back to ISO encoding now.<br>
-
-<li><a name="20">Zip the finished product and upload it to the site.</a> 
-    <b>Make sure that the text version is saved as plain text (i.e., not as Word format, WordPerfect
-    format, etc). The file extension should be .txt. If you are submitting an
-    HTML version or another version in addition to the plain text version,
-    please include this in the same zip file as the plain text version.</b>
-    Go to your Post-Processing page, 
-    and select Upload for Verification from the project's drop-down menu. 
-    Enter your name and email address in the submit form if you would like your real name
-    to be listed in the credits of the final etext.
-    If you do not wish for your name to appear, 
-    put in a note that you would like to remain anonymous.
-    Your email address will not be displayed in the credits line,
-    but is used by the PPVer to give you feedback.
-    If you do not include an email address,
-    this feedback will be sent via a personal message on the site.
-    <br>
-
-<p>
-NOTE:  Please ensure that your files .zip extension is in lower case, NOT in upper case.  
-Some people have not been able to upload their files 
-when the .zip extension was written in upper case.
+Many post-processing tasks can be automated using tools
+designed to minimize the complexity and repetition of such jobs.
+Please refer to the software-specific tutorials or user guides
+to find out how to use these utilities effectively.
 </p>
 
-<li>Relax.  You're done! 
-</ol> 
- 
-<hr> 
-<a name="Software"></a>
-<h2>Software</h2> 
-<br>
-<h3>The Basics</h3>
-<br>
-<h3><a name="Gutcheck">Gutcheck</a></h3>
-<br> 
-<h4>What is Gutcheck, and how do I use it?</h4> 
- 
+
+<h3><a name="research" id="research"></a>Do some research</h3>
+
 <p>
-Gutcheck is a nifty piece of software created by Jim Tinsley 
-for people working on Project Gutenberg etexts. 
-It checks for errors which are common, but not easy to spot, 
-like mismatched quotes, short lines, etc.
+Read the project comments and project thread for your post-processing project.
+If the proofreaders found anything of concern, make a note of it
+for special attention while processing the text.
+You will also need to make sure you follow the project manager's instructions
+for the text. Many request an HTML version as well as the text version.
 </p>
- 
+
+
+<h3><a name="list" id="list"></a>Keep a "To Do" list</h3>
+
 <p>
-Gutcheck is currently being produced for Windows and *nix systems, 
-and can be found <a href="http://gutcheck.sourceforge.net">here</a>.
-A quick-and-dirty Mac build can be downloaded
-<a href="http://gutcheck.sourceforge.net/gc-098-MacPPCOSX.zip">here</a>.
-You could also simply ask another post-processor to run Gutcheck for you
-if you have trouble with it, and they can send you a list of results.
+You may like to put notes about your progress in the "Post-Processor's
+Comments" box which can be found on the project page of your project,
+towards the bottom. These comments are visible to those who need to see them.
+They can act as a "To Do" list, or notes on points to watch out for from proofreader
+comments, and are particularly useful if you have to take a break from post-processing
+for a short while, so you can start working with your project right where
+you left off. Also, if you leave <?php echo $site_abbreviation; ?> your notes
+could help another volunteer to take over where you have left off.
 </p>
 
 <p>
-Many people have trouble setting up Gutcheck for the first time.
-If you too have trouble, don't worry.
-Someone in the <a href="<?php echo $projects_forum_url; ?>">Post-Processing Forum</a>
-will be only too happy to help you.  Just post and ask for help!
+There is a <a href="<?php echo $wiki_url; ?>/Guiguts_PP_Process_Checklist">Guiguts
+PP Process Checklist</a> that may be useful if you use Guiguts.
+Some post-processors make their own checklist, some in a spreadsheet format,
+some at the top of the text they are working with (but if you use this option
+remember to remove your list before uploading the project for verification).
 </p>
 
-<p>If you are using Guiguts, you will not need Gutcheck, as it is a part of Guiguts.</p>
-<br> 
-<h4><a name="Editors">Text Editors</a></h4> 
- 
-<p>
-Any text editor can be used for post-processing, 
-but some have tools which make them more suitable than others for the job. 
-<a href="ftp://ftp.barebones.com/pub/freeware/BBEdit_Lite_612.smi.hqx">BBEdit Lite</a> 
-is an excellent choice for Mac users. 
-It is no longer being supported, but remains on the site for download.  
-Be sure to download the 
-<a href="http://ftp.barebones.com//pub/third-party-plugins/MIDex_1.4.2.hqx">MIDex</a> 
-plug-in as well. 
-Other useful plug-ins for BBEdit are available 
-<a href="http://www.barebones.com/support/bbedit/plugin_library.shtml">here</a>.
-Many *nix users use emacs, which can be downloaded 
-<a href="http://ftp.gnu.org/pub/gnu/emacs/">here</a>, 
-though it is probably on your machine already. 
-It is also available for 
-<a href="http://www.emacs.mirkolinkonline.de/install_en.html">Windows</a>. 
-If you use Microsoft Word for any platform, 
-you will be able to run a useful <a href="#Extras">macro</a>.
-</p>
-<br> 
-<h4><a name="Images">Image Viewers</a></h4> 
- 
-<p>
-You will need to be able to look at your book's scanned images 
-at some point in the post-processing process. 
-You can either download them and use a third-party program to view them, 
-or view them online through a browser. 
-Any program that will display images will do.
-</p>
- 
-<p>
-Some people have recommended utilities which allow you to see thumbnails of images 
-without opening them, making it easier to find the one you're looking for. 
-<a href="http://www.lemkesoft.de/en/index.htm">GraphicConverter</a> 
-is one such program for Macintosh machines. 
-<a href="http://www.irfanview.com/main_download_engl.htm">Irfanview</a> 
-is a quality Windows image manipulation program. 
-<a href="http://www.xnview.com/">Xnview</a> 
-runs on Windows, *nix, and a host of smaller operating systems.
-</p>
 
-<h4><a name="Spell">Spell Checkers</a></h4>
+<h3><a name="first" id="first"></a>First pass check</h3>
 
 <p>
-Many text editors do not provide a spell checking feature.  
-Instead, spell check programs are used to provide this essential function.  
-A separate spell-checking program is also useful 
-when post-processing texts which are not in English.  
-Many post-processors do not have access to non-English spell checkers, 
-and buying add-ons for programs like Microsoft Windows can be very expensive.  
-Independent spell checkers provide dictionaries 
-for a wide range of common (French, Spanish, Dutch) 
-and not-so-common (Catalan, Estonian, or English Biomedical word list) for free.
+Check through the text page by page, opening the corresponding page scan
+in your image viewer. You'll quickly notice unmarked poems or
+block quotes this way. Check for missing pages (rare, but it does happen)
+and illustrations. If the project has problems like missing pages,
+it would be nice if you could go to the project page and state the issue
+in the comments in order to make others aware of it.
 </p>
 
-<p>
-<b>Excalibur</b> is a Macintosh spellchecker.  
-It has separate downloadable dictionaries for many different languages.  
-The dictionaries provided are very complete.  It works with LaTex.  
-The major drawback of this program is that its dictionaries are difficult to edit.  
-Though adding words is easy, removing words (such as common Stealth Scannos) is not.  
-Excalibur can be downloaded 
-<a href="http://www.eg.bucknell.edu/~excalibr/excalibur.html">here</a>.
-</p>
+
+<h3><a name="asterisk" id="asterisk"></a>Check for asterisks * left by proofreaders,
+making you aware of questions/problems/markup</h3>
 
 <p>
-<b>Aspell</b> is a spell checker which is available 
-both as a Windows executable and as a perl script.  
-It provides a good selection of different language dictionaries.  
-It is available <a href="http://aspell.sourceforge.net/">here</a>.
+Run a search for * to find notes left by proofreaders/formatters
+to make you aware of their questions/solutions and potential problems.
 </p>
 
-<p>
-<b>Ispell</b> has been ported to Windows, OS/2, and also runs on *nix and MacOSX.  
-It does not run on DOS or older Mac OS machines.  
-Like the other two spell checkers, 
-there are a good selection of language dictionaries available for downloading.  
-Ispell can be found <a href="http://fmg-www.cs.ucla.edu/geoff/ispell.html">here</a>.
-</p>
 
-<h4><a name="HTML">HTML Validators</a></h4>
-<br>
-<p>
-<a href="http://tidy.sourceforge.net/">HTML Tidy</a> is an excellent HTML validator
-which runs on a myriad of systems.  
-Files to be validated can be uploaded to <a href="http://validator.w3.org/">this website</a> [w3.org]
-or <a href="http://infohound.net/tidy/">this one</a> and validated online.
-</p>
-
-<h4><a name="CSS">CSS Validators</a></h4>
-<br>
-<p>
-CSS can be validated at <a href="http://jigsaw.w3.org/css-validator/">this website</a> [w3.org].
-Note that if you choose to upload a file for verification, only the section between the &lt;style&gt;
-tags should be in the file since anything other than CSS will confuse it (and you) terribly. It is
-probably easiest to cut and paste the css into the section of the form called "Validate by direct input."
-</p>
-
-<h3><a name="Dedicated">Dedicated Proofreading Tools</a></h3> 
-<br>
+<h3><a name="markup" id="markup"></a>Check the markup</h3>
 
 <p>
-There are presently two pieces of software 
-which have been specifically written by post-processors for post-processors.  
-Both provide an all-in-one kit, so you can use them for all of your post-processing needs, 
-or just take advantage of some of their extra features.  
-Each program has their supporters and detractors, so give them both a try!
+Make sure that the /* */, /# #/, etc. tags are balanced.
+Be sure that any poetry is in the correct markup to save messes later.
+This is a good time to check each poem is indented correctly or has
+the relative indents correctly added. Every &lt;i&gt; tag needs
+a closing and properly placed &lt;/i&gt; tag and so on. You may wish to change
+some formatting tags to markup specific for your post-processing tools
+(e.g. /p p/, /f f/); check your tool's manual for details. Some PMs
+may request particular markup in the rounds. Also, check any markup
+that ranges over a page break and make sure it will still result in
+the desired formatting (usually by deleting all but the first and
+last markers for a particular section).
 </p>
-<br>
-<h4><a name="Guiguts">Guiguts</a></h4>
+
+<table summary="key to formatting tags" cellpadding="1" cellspacing="0" border="1">
+<tr>
+  <th>&nbsp;</th>
+  <th><a href="#rewrap">Rewrap?</a></th>
+  <th>Indent?</th>
+</tr>
+<tr>
+  <td>No special markup, the default</td>
+  <td>yes</td>
+  <td>no</td>
+</tr>
+<tr>
+  <td>/*&nbsp;*/ poetry, etc.</td>
+  <td>no</td>
+  <td>no</td>
+</tr>
+<tr>
+  <td>/#&nbsp;#/ block quotes, etc.</td>
+  <td>yes</td>
+  <td>yes</td>
+</tr>
+<tr>
+  <td colspan="3">Not officially adopted, but in use by various post-processing tools</td>
+</tr>
+<tr>
+  <td>/$&nbsp;$/ tables, etc.</td>
+  <td>no</td>
+  <td>no</td>
+</tr>
+<tr>
+  <td>/p&nbsp;p/ poetry, etc.</td>
+  <td>no</td>
+  <td>yes</td>
+</tr>
+</table>
+
 <p>
-Guiguts was written by thundergnat.  
-The tool is almost a complete post-processing kit in itself. 
-It began as a graphical interface for gutcheck, but has evolved to become much more. 
-Among its special features are the ability to 
-automatically remove page headers while keeping track of each page's identity, 
-analysis of word frequencies 
-(especially useful for catching misspelled proper names and other odd spellings), 
-automated checks for markup errors, a footnote moving function, 
-easy checking of "Stealth Scannos", and much more.  
-You won't even need a text editor or Gutcheck, because they're built in!
-Guiguts is very well-documented.
+All of these markups normally should have a blank line before the opening tag
+and a blank line after the closing tag. They should be on a new line
+with no other text, unless your post-processing tool allows it.
+</p>
+
+
+<h3><a name="title" id="title"></a>Straighten up the title page,
+table of contents, and list of illustrations</h3>
+
+<p>
+When formatting the title page, you have a bit of leeway.
+You can adjust the pieces a bit if you like: for example,
+you could move the author's name directly under the "by".
+Relative indenting is not required, but can be added if you wish.
 </p>
 
 <p>
-Guiguts is available from <a href="http://mywebpages.comcast.net/thundergnat/guiguts.html">here</a>.  
-Guiguts does not come with a spell checker, but integrates well with Aspell.
-</p>
-<br>
-<h4><a name="Gut">The Gut* Foursome</a></h4>
-<p>BillFlis has created a set of four tools which run on the Windows platform only.</p>
-
-<p> 
-<b>GutSweeper</b> scans the text and makes a lot of automatic corrections, 
-such as eliminating double spaces and end-of-line blanks, 
-fixing hyphenation errors, and splitting oe ligatures.  
-It is markup sensitive, 
-so that it will not ruin the formatting of poetry, block quotes, and tables.  
-This saves some time for the proofreader, 
-as all of its changes are ones that they would have to be made anyway.
+Do block indent a consistent amount (from one to four spaces) if there are
+consecutive lines that should not be rejoined later in the process.
+The space is a flag in many text readers to preserve the given line endings
+should the general text need to be rewrapped to different margins.
 </p>
 
 <p>
-<b>GutAxe</b> is an interactive tool, 
-which allows the post-processor to make more complicated changes to the text.  
-It works a bit like a spell checker, 
-highlighting a "problem" area and suggesting possible solutions.  
-It scans for common "Stealth Scannos" and punctuation errors, among other things.
-It also removes page markers. 
+For the table of contents and list of illustrations, please retain
+the page numbers. Line up the chapter titles and page numbers
+to make it look neat and easy to read. Copying the original format
+of the table of contents usually works fairly well. Leave all
+the original information on the title page, including the edition,
+year of publication and any copyright notice (unless this is
+a reprint&mdash;check with the project manager if in doubt).
+It is better to keep as much information as possible than to try to find it
+once the book has been posted for years.
+</p>
+
+
+<h3><a name="foot" id="foot"></a>Footnotes</h3>
+
+<p>
+You will need to rejoin footnotes split across pages.
+Then, in the plain-text version, you can put the footnote
+after the paragraph it refers to or at the end of the chapter or section.
+Make sure that the number/letter/symbol in the text matches the tag in
+the note itself. In-line footnotes (footnote within a line of text)
+are discouraged even when extremely short.
 </p>
 
 <p>
-<b>GutWrench</b> supplements Gutcheck with a lot of extra checks.
-</p>
-
-<p>  
-<b>GutHammer</b> rewraps the text in a similar way to Big_Bill's RewrapIndent tool 
-(see Macros, below).
-It also replaces HTML markup with ASCII symbols.
-</p>
-
-<p>
-The changes made by these programs are saved as new files, 
-with no alteration being made to the original, 
-so they are totally undoable if something goes wrong.  
-The tools can be downloaded 
-<a href="http://frankfordinstitute.bravepages.com/GutWrench.htm">here</a>.
-They have excellent documentation, 
-and include a suggested post-processing walkthrough written especially for the Gut* tools. 
-</p>
-
-<a name="Extras">Other Tools</a>
-
-<p>
-Please note that macros may need an additional piece of software in order to run.  
-For example, a lisp or perl script will need a lisp or perl interpreter to work, such as 
-ActivePerl, available <a href="http://www.activestate.com/Products/ActivePerl/">here</a>,
-and Clisp, available <a href="http://clisp.sourceforge.net/">here</a>, both for free.
-If you need help getting them to work, or your platform isn't supported by these,
-ask in the <a href="<?php echo $post_processing_forum_url; ?>">Post-Processing Forum</a> for help;
-almost certainly someone will be able to assist you!
-</p>
- 
-<p>
-There is a macro available for <a href="Wordmacro.html">Microsoft Word</a>, 
-which rewraps text while preserving paragraph breaks. 
-It may also replace double spaces with single ones 
-and adjust the margins to less than 75 characters (I am less sure about these functions). 
-Please note that this macro will not work in Word 97 or older versions.
-</p>
- 
-<p>
-Naomi Parkhurst has written an <a href="BBEditscript.sit">Applescript</a> macro, 
-which rewraps the text (including around poetry) and removes superfluous spaces. 
-It works for BBEdit (but not BBEdit Lite).
-</p>
- 
-<p>
-Garweyne has written a 
-<a href="http://www.dm.unipi.it/%7Etraverso/Ebooks/Lsp/footnotes.lsp">lisp script</a> 
-to aid post-processors wishing to rearrange footnotes. 
-A more elaborate description of the script's abilites is available at the link above. 
-Many more useful lisp scripts are available 
-<a href="http://www.dm.unipi.it/%7Etraverso/Ebooks/Lsp/dptools.el">here</a>.
-</p>
- 
-<p>
-Bill Keir (big_bill) has written a lisp script called 
-<a href="http://users.hunterlink.net.au/%7Embbbk/RewrapIndent.zip">RewrapIndent</a> 
-which will both rewrap and indent text automatically. 
-It honours the /*  */ tags that proofreaders use to mark poetry, 
-so poetry will not be rewrapped but will be automatically indented,
-and allows the addition of other tags to handle block quotes automatically if needed.
-It handles complicated cases like poetry nested inside block quotes, 
-and multiple levels of block quotes within block quotes, 
-but can also be used to quickly and tidily rewrap any simple book 
-that needs no special indenting, to whatever line length you choose, too.
-For more details see the HTML documentation inside the zip file.
-</p>
- 
-<br>
-<hr>
-<br>
-<h2>Advanced Proofreading Questions</h2> 
-<br> 
-<p>
-This section contains information on the more complex aspects of post-processing.  
-It is designed for advanced post-processors, rather than beginners.
+Consider using end-of-paragraph footnotes if the footnotes are short,
+unique, and not common. Use end-of-section or chapter footnotes
+for longer footnotes (such as those that have poetry or block quotes),
+or those that have multiple references in the text for one footnote.
+Whichever you choose, be consistent within the work. Use all end-of-paragraph
+footnotes or end-of-section/chapter footnotes within one work.
+Don't switch back and forth.
 </p>
 
 <p>
-The formatting issues treated below are also discussed 
-in the <a href="document.php">Proofreading Guidelines</a>, 
-should you need information on proper markup.
-</p>
-<br> 
-<h3><a name="Footnotes">Footnotes</a></h3> 
-<br> 
-<h4>Should I leave footnotes inline, or move them elsewhere?</h4> 
- 
-<p>
-This depends a great deal on the length of the footnotes, their frequency, 
-and on the type of text that you are proofreading.
-</p>
- 
-<p>
-It is suggested that you should leave the footnotes where they occur in the text 
-if they are short and relatively uncommon. 
-In these cases, the footnotes won't disrupt the flow of the text very much.
-</p>
- 
-<p>
-If the footnotes in your text are long, numerous, 
-or are primarily bibliographic references, 
-you might be wise to move them to the end of the paragraph where they occur, 
-on their own line, and just leave a marker (ex. [2]) in the paragraph.
-</p>
- 
-<p>
-If the footnotes are so common that even this would be highly disruptive to the reader, 
-consider collecting them all and moving them to the end of the chapter. 
-This is a bit of a pain, but it makes such works infinitely more readable. 
-Mark the endnote in the text as you would an ordinary footnote, 
-fix all of the numbering, 
-and list the endnotes at the end of the chapter with the new numbering.
+For the HTML version, they can be moved to the end of the chapter or section
+or to the end of the project. They also need to be hyperlinked.
+Most of the post-processing tools will do this automatically.
+Refer to the tutorials, guides, or manual for your software, to find out how.
 </p>
 
 <p>
-If you should you decide to move footnotes, Garweyne has a 
-<a href="http://www.dm.unipi.it/%7Etraverso/Ebooks/Lsp/footnotes.lsp"> lisp tool</a> 
-which makes this MUCH easier.
-</p> 
+The preferred method is to renumber the footnotes so that each one in the book
+has a unique number, alphabetic letter, or Roman numeral to make it easier
+for the reader to search the text. Alphabetic letters and Roman numerals
+are not recommended for more than 20&ndash;30 footnotes as they become hard
+to read/distinguish. There may be some projects where you may prefer
+to retain the numbering as in the original publication.
+</p>
+
+<h3><a name="problems" id="problems"></a>Check the text for problems</h3>
+
+<ul>
+<li>end-of-line spaces need to be removed to prevent double spaces
+    when text is rewrapped</li>
+<li>inconsistent line spacing around chapter and section headings</li>
+<li>spaces around hyphens</li>
+<li>spaces before punctuation . ! ? ; : ,</li>
+<li>spaces around quotes in English and/or LOTE</li>
+<li>mis-matched quotation marks</li>
+<li>he/be errors</li>
+<li>spaces around (&nbsp;){&nbsp;}[&nbsp;]</li>
+<li>spaces within abbreviations</li>
+<li>multiple spaces in non-marked text (skip /* poetry */ )</li>
+<li>incorrectly formatted thought breaks</li>
+<li>incorrectly formatted ellipses (according to the rules of the text's language,
+    or ensuring they all match the original if that is what you prefer)</li>
+<li>dashes with three hyphens (---) instead of two (--) for an em-dash</li>
+<li>appropriate spacing of em-dashes (-- and ----)</li>
+<li>incorrect paragraph breaks</li>
+<li>sort out any asterisks/stars/daisies/comments left in the text by
+    proofreaders and formatters</li>
+<li>
+compare hyphenated words throughout the text and decide whether to standardize,
+and whether to mention in a transcriber's note&mdash;for example,
+if there are 20 occurrences of "to-morrow", but only one of "tomorrow"
+you can decide whether to change the irregular one, but if there is not
+a clear majority, you will have to decide whether to leave them as proofread,
+or make a judgment on which way to change the odd one out (and then,
+whether you note this in a <a href="#tn">Transcriber's Note</a> or not)
+</li>
+<li>
+As the post-processor, you are responsible for resolving problems noted
+by the proofreaders. If you need advice or a second opinion, try any
+of the methods listed in the <a href="#help">Help</a> section of this document.
+</li>
+</ul>
+
+
+<h3><a name="illus" id="illus"></a>Handle any illustrations</h3>
 
 <p>
-Footnotes in poetry are a special case worth mentioning. 
-Most post-processors agree that the footnotes should not be simply inserted into the text 
-where they occur, as this interferes with the rhythm of the poetry. 
-Mark the place referenced by the footnote, 
-then move the footnote to its own line or to the end of the poem, 
-whichever seems most appropriate.
-</p>
- 
-<p>
-Whatever format you choose, make sure that it is consistent throughout the text.
-</p> 
-<br> 
-<h3><a name="Illustrations">Illustrations</a></h3> 
-<br> 
-<h4>Should I leave in all of those [Illustration] tags?  
-    What about the ones with captions?</h4> 
- 
-<p>
-[Illustration] tags with no captions should <b>not</b> be removed. 
-This is so that if someone decides to make an HTML version in the future, 
-the tags will be there and it will be easier to correctly place the images.
-If you are making an HTML, XML, or similar version yourself, 
-replace the tags with links to the images.
-</p>
- 
-<p>[Illustration] tags with captions should be left in place for the reader to enjoy.
-</p>
-<br> 
-<h4>My text will make no sense if the actual illustrations aren't included.</h4> 
- 
-<p>
-If the text was scanned with the intention of just converting it to ASCII, 
-email the Project Manager and ask for advice. 
-If you are willing and able and the scans are available, 
-they may ask you to do an HTML version 
-and provide good quality scans for the missing images. 
-Alternately, they may decide that the project doesn't really need the images 
-and explain their opinion.
-</p>
- 
-<p>
-If the text really should be produced in a version 
-that will allow future readers to view the images, 
-and you are unable or unwilling to do the work to put it in such a version, 
-return it and post your concerns in the 
-<a href="<?php echo $projects_forum_url; ?>">Post-Processing Forum</a>.</p>
-<br> 
-<h3><a name="Poetry">Poetry</a></h3> 
-<br> 
-<h4>My book contains a few verses of poetry.  How should I format them?</h4> 
- 
-<p>
-The proofreaders should have surrounded any verses of poetry with the markers /* and */. 
-Remove the markers, and check against the original image to make sure 
-that the formatting is correct. 
-A quick scan should reveal if the spacing in your text and the original match.
-</p>
- 
-<p>
-Make sure that the indentation is consistent, at least within each poem. 
-It's entirely possible that one proofreader indented some lines four spaces, 
-while the proofreader who got the next page indented five, 
-when the image shows the same amount of indentation. 
+Move each illustration tag to an appropriate paragraph break.
+Some post-processors like to have them just before, or after,
+the text they illustrate. Others prefer to place them at the end
+of the chapter, not wishing to interrupt the flow of the text.
+Do whatever you think is right for your book.
 </p>
 
 <p>
-Indent all of the poetry by 2 spaces (or more if you prefer), 
-preserving any further indenting that the author intended.
-</p>
- 
-<p>
-DO NOT REWRAP LINES. You will have to take special care when you rewrap the text 
-not to rewrap your poetry. 
-However, if a line is broken in two due to its length, 
-but it was not intended to be 
-(the second line of these is usually highly indented and not capitalized), 
-join the two parts of the line together. 
-If they still don't fit on one line, break them and indent the second half heavily.
-</p>
-<br> 
-<h4>My book <i>is</i> poetry.  How do I format it?</h4> 
- 
-<p>
-Aside from the fact that poems won't be marked by poetry markers, 
-the book should be formatted as for occasional verses (check the indentation, etc.). 
-Also, the poem(s) need not be indented two spaces by default, as they are the main text, 
-and don't need to stand out from it.
-</p>
- 
-<p>
-Books which are entirely comprised of poetry do not need to have their lines rewrapped 
-(watch the Gutcheck output for overly long lines, though). 
-However, the book may contain an introduction or other prose section 
-which will need rewrapping.
-</p>
- 
-<p>
-<a href="<?php echo $forums_url; ?>/privmsg.php?mode=post&amp;u=3561">bconstan</a> 
-has graciously offered to aid anyone who needs extra help post-processing poetry books. 
-If you have any questions, send her a message.
-</p>
-<br> 
-<h3><a name="Tables">Tables</a></h3> 
-<br> 
-<h4>What do I do with tables?</h4> 
- 
-<p>
-Tables should have been marked with /* */ by the proofreaders, 
-but a quick scan of the book should turn any up even if they are unmarked, 
-as they are quite conspicuous.
-</p>
- 
-<p>
-You will have to move the text in the table around to make it as readable as possible. 
-If the headings are broken between lines, put them on the same line if you can. 
-Adjust the spacing of the columns so that they look good on the screen 
-and aren't too close together. 
-Make all of the column entries line up. 
-If you are lucky, this formatting was already done for you, 
-but not all proofreaders can format tables accurately 
-(if their display font isn't monospace, for example). 
-Watch for tables that span multiple pages, 
-as they will be unlikely to have similar formatting. 
-"Related" tables should be formatted consistently, if possible.
-</p>
- 
-<p>
-DO NOT REWRAP LINES! You don't want to destroy all of your hard work, now do you?
-</p>
-<br> 
-<h4>The table will not fit into the lines widths allowed by PG.</h4> 
- 
-<p>You have a couple of options here:</p> 
- 
-<ol> 
-<li>Try your best. You may have to split the chart into multiple rows. 
-    Or you may come up with your own way to format the information in the troublesome chart. 
-    Be inventive.
-<li>Go over the PG limit.  PG will accept books with a few lines longer than their standard
-	if there is a good reason for them to be extra-long.
-	However, try <b>very</b> hard to make it fit in the PG limit before bending the rules.
-<li>Give up. Mark the chart up as an [Illustration], use the title as the caption, 
-    and write it off. It's not ideal, but sometimes it's the only way.
-</ol> 
-<br> 
-<h3><a name="Sidenotes">Sidenotes</a></h3> 
-<br> 
-<h4>These [Sidenote] tags seem redundant!</h4> 
- 
-<p>
-In most cases, sidenotes add a bit of summary or description to the text, 
-but, in very rare cases, the sidenotes add nothing to the book 
-and will be an annoyance rather than a help. 
-If your book fits this mold, consider leaving out the sidenotes. 
-BUT, think long and hard about this, as this is altering the text of the original, a DP no-no. 
-Email the Project Manager and/or post in the 
-<a href="<?php echo $projects_forum_url; ?>">Forums</a> 
-for a second opinion before taking this step.
-</p>
-<br> 
-<h3><a name="Headings">Headings and Subheadings</a></h3> 
-<br> 
-<h4>How do I differentiate subheadings from headings?</h4> 
- 
-<p>
-Usually, the easiest way to differentiate between subheadings and headings 
-is to change the line spacing 
-(ex. leave three lines blank when a new heading begins, and only one for a new subheading). 
-However, some texts may have more than one layer of subheading. 
-In these cases, you will have to devise a markup which is appropriate to the text. 
-You could indent subheadings a certain number of spaces depending on their "layer", 
-for example.
-</p>
-<br> 
-<h3><a name="Indexes">Indexes</a></h3> 
-<br> 
-<h4>Is there anything special that I should know about formatting indexes?</h4> 
- 
-<p>
-Pay attention to the presence/absence of trailing commas and semicolons. 
-You may either leave these in or remove them, as long as you are consistent.
-</p>
- 
-<p>
-DO NOT REWRAP LINES. 
-Unless you have placed a blank line between each and every entry, 
-rewrapping will destroy the format of the index. Be careful!
-</p>
-
-<p>If you are creating an HTML version, why not make a hyperlinked index?</p> 
-<br>
-<h3><a name="Errata">Errata Pages</a></h3>
-<br>
-<h4>My book has an errata page at the end.  Should I correct the errors?</h4>
-
-<p>
-Yes.  The list of errata at the end of the book reflect the author's intention, 
-and one of the guiding principles of etext production 
-is to preserve the author's original intent.  
-First- and second-round proofreaders had access to only one page of the book at a time, 
-so none of the errata errors will have been corrected by them.  
-This job therefore falls to the post-processor, 
-who has access to all of the pages of the book.
-Find and correct all of the errata, and delete the errata page from the book.
-</p>
-<br>
-<h3><a name="Non-ASCII">Non-ASCII Characters</a></h3> 
-<br> 
-<h4>My text has accents, pound signs, or other non-ASCII characters in it. 
-Should I preserve them in the final version?</h4> 
- 
-<p>
-In general, yes. Keep all of the accented words (or symbols) as they are. 
-An ISO-8859-1 (also called Latin-1 or 8-bit ASCII) file can be made which preserves them. 
-If the text is in a language containing many accents 
-that are not found in ASCII or ISO-8859-1, 
-there are other forms of encoding out there in which they can be preserved.
-</p>
- 
-<br> 
-<h3><a name="Symbols">Non-Latin Scripts and Unusual Symbols</a></h3> 
-<br> 
-<h4>How do I handle footnotes, etc. in Greek, Russian, 
-or other texts with a non-Latin alphabet?</h4> 
- 
-<p>
-If possible, the text should be transcribed into the Latin alphabet. 
-It's not a lossless process, but it's the only way to preserve these snippets in ASCII. 
-Information of the transcription process is available in the 
-<a href="document.php">Proofreading Guidelines</a>.
-</p>
- 
-<p>
-Many languages, like Arabic and Hebrew, are difficult to transcribe 
-without an intimate knowledge of the language. 
-If your text contains snippets of such a language 
-and you don't have the knowledge to transcribe it yourself, 
-try posting in the <a href="<?php echo $projects_forum_url; ?>">Forums</a> 
-to find someone to team up with for transcription.
-</p>
- 
-<p>
-If there is a significant amount of text in a non-Latin script, 
-it may be worth making a Unicode (HTML) version, 
-which would allow the original script to be preserved.
-</p>
- 
-<p>
-If you cannot transcribe the language, 
-and you can't find anyone else who is capable of doing it for you, 
-mark its presence with [Arabic] (for Arabic), 
-and delete any OCR garbage that may have been left in the text. 
-It's too bad that the information will be lost, but you've done the best you could.
-</p>
-<br> 
-<h4>My text has weird symbols in it (Zodiac signs, medical abbreviations, etc.).  
-How do I mark these up?</h4> 
- 
-<p>
-If you are lucky, the proofreader will have done some research 
-and found the meaning of the symbol for you. 
-However, often the proofreader will mark the symbol with a * and leave you with the legwork.
-</p>
- 
-<p>
-If know what the symbol represents, write out its meaning, e.g. [Symbol: Jupiter]. 
-Do not try to replicate the symbol itself in ASCII.
-</p>
- 
-<p>
-If you have never run across the symbol before, 
-here are a few web pages provided by proofreaders to help you:<br>
-
-<a href="http://www.lib.umich.edu/eebo/docs/dox/medical.html">Apothecaries'/Medical</a><br> 
-<a href="http://www.lib.umich.edu/eebo/docs/dox/alchem.html">Alchemical</a><br> 
-<a href="http://www.lib.umich.edu/eebo/docs/dox/moresyms.html">Astronomical</a><br> 
-<a href="http://www.lib.umich.edu/eebo/docs/dox/latabbrs.html">Latin Abbreviations</a><br> 
-<a href="http://www.symbols.com/graphicsearch.html">Graphic Search for Symbols</a> 
-</p> 
- 
-<p>
-This section has room to grow. 
-If you find any other good links, 
-please <a href="<?php echo $forums_url; ?>/privmsg.php?mode=post&amp;u=1674">PM me</a>.
-</p>
- 
-<p>
-Note that some symbols may have more than one meaning. 
-If this is the case, try to determine the best meaning from the context of the symbol.
-</p>
-<br> 
-<h3><a name="Bonus">Paranoid Proofreading Checks</a></h3> 
-<br> 
-<h4>I want to make sure that I do a really good job post-processing my book. 
-Are there any common errors that often make it through the checking system?</h4> 
- 
-<p>
-Yes, there are a few kinds of errors which often make it through both rounds of proofreading 
-and into the final etext. 
-These errors fit into three categories: 
-specks that introduce punctuation, 
-errors introduced by the tags used in proofreading, 
-and "scannos" that can make it through a spell check.
-</p>
- 
-<p>
-To check for random punctuation caused by specks on the image that was OCRed, 
-search for the following things:
-</p>
-	<ul> 
-	<li>, or . followed immediately by a letter, 
-	<li>. followed by a space and a lowercase letter, 
-	<li>, followed by a space and an uppercase letter, 
-	<li>/ and /', which often occur instead of ," and .",
-	<li>.' for ." (reverse these if your book uses single quotes as double quotes, 
-	<li>{ and } instead of [ and ],
-	<li>standalone ' followed by a hard return, and
-	<li>standalone symbols, like &amp;, $, ^, =, \, /, &laquo;, &raquo;, 
-            @, ~, `, #, %, =, +, and |, which can creep in.
-	</ul> 
- 
-<p>
-A few errors are introduced by the HTML and other proofreading markup that DP uses for proofreading. 
-To eliminate these, do the following:
-</p>
-	<ul> 
-	<li>before deleting the HTML elements, 
-            search for &lt;i&gt; followed by a space, and &lt;/i&gt; preceded by a space, 
-	<li>[ and ], to make sure that all [Footnote] and [Illustration] tags 
-            are properly formatted, and
-	<li>after replacing the HTML elements, search for &gt;, &lt;, and / 
-            to make sure that all of the tags have been replaced.
-	</ul> 
- 
-<p>
-There are myriad errors which will make it through a spell checker. 
-If you would like to avoid tedious find-and-replaces, 
-you could remove these words from your program's spell checker. 
-Only a few of the most common scannos will be listed here.
-</p>
- 
-	<ul> 
-	<li>standalone 1 and 0, which sometimes replace I and O, 
-	<li>arid, for and,
-	<li>arc, for are, 
-	<li>m, for in,
-	<li>yon, for you,
-	<li>modem, for modern,
-	<li>loth, for 10th, 
-	<li>bad, for had,
-	<li>lie, for he (and the),
-	<li>hut, for but,
-	<li>clay, for day,
-	<li>wen, for well,
-	<li>ail, for all,
-	<li>fail, for fall,
-	<li>tho, for the,
-	<li>bo, for be,
-	<li>ho, for he,
-	<li>lime, for time,
-	<li>coining, for coming,
-	<li>tiling, for thing,
-	<li>docs, for does,
-	<li>riot, for not,
-	<li>tum, for turn,
-	<li>cur, for our,
-	<li>ringer, for finger,
-	<li>mined, for ruined,
-	<li>carnage, for carriage,
-	<li>carne, for came,
-	<li>tip, for up,
-	<li>tile, for the,
-	<li>bat, for but,
-	<li>comer, for corner,
-	<li>44 and 11, for ",
-	<li>Borne, for Rome,
-	<li>ease, for case,
-	<li>Spam, for Spain,
-	<li>tram, for train,
-	<li>gram, for grain,
-	<li>guru, for gun,
-	<li>vas, for was,
-	<li>bum, for burn,
-	<li>Alien, for Allen,
-	<li>j, for ;,
-	<li>gaming, for gaining,
-	<li>art, for act,
-	<li>eve(s), for eye(s),
-	<li>car, for ear, and
-	<li>cat, for eat.
-	</ul> 
- 
-<p>
-A more complete, and constantly growing list is maintained by 
-<a href="<?php echo $forums_url; ?>/privmsg.php?mode=post&amp;u=6141"> big_bill</a>. 
-If you have found a "stealth scanno" which isn't on his lists, send it to him. 
-He also collects statistics on the appearance rates of those already on the lists,
-so if you care to keep count of sightings of old stealth scannos he'd be just as happy
-to accept those as reports of new ones.
-</p>
- 
-<p>
-The latest version (presently 1.22) of big_bill's lists can be found here:
-</p> 
-<a href="stealth_scannos_eng_common.txt">Common English Scannos</a><br> 
-<a href="stealth_scannos_eng_rare.txt">Rare English Scannos</a><br> 
-<a href="stealth_scannos_eng_suspect.txt">
-  Theoretical (But as yet Unwitnessed) English Scannos</a> <br> 
-<a href="stealth_scannos_fr_common.txt">Common French Scannos</a><br> 
-<a href="stealth_scannos_fr_rare.txt">Rare French Scannos</a><br> 
-<a href="stealth_scannos_fr_suspect.txt">
-  Theoretical (But as yet Unwitnessed) French Scannos</a><br> 
-<a href="stealth_scannos_ger_common.txt">Common German Scannos</a><br> 
-<a href="stealth_scannos_ger_rare.txt">Rare German Scannos</a><br> 
-<a href="stealth_scannos_ger_suspect.txt">
-  Theoretical (But as yet Unwitnessed) German Scannos</a><br> 
- 
-<p>
-The lists are plain text, and could also be used by an adventurous programmer 
-to check for common letter shifts (ex. h -&gt; b) and such. 
-The custom built post-processing <a href="#Dedicated">tools</a> make use of them, also.
-</p>
-<br> 
-<h3><a name="Formats">Non-ASCII Formats</a></h3> 
-<br> 
-<h4>I want to do something special with this text. 
-Can I make a version of the text in HTML/XML/etc.?</h4> 
- 
-<p>
-Yes! Feel free to make non-ASCII versions if you wish. 
-As long as you also produce an ASCII version, 
-PG will be glad to accept any other version that you may produce.
+Note: Keep illustration markers in the plain-text version, in case
+people want to refer to the HTML version later. Please do not
+delete them unless requested in the project comments and/or discussion.
 </p>
 
 <p>
-Check the project comments to find out whether the project manager has
-requested an HTML version. If they have not requested an HTML version, you
-may still create one if you wish, but it is not necessary.
-
-If you wish to work on a text which will need HTML treatment,
-you must either be willing to produce the extra version yourself 
-or find a partner to do it for you.
+If you do not want to produce an HTML version, but your book has pictures,
+post in the <a href="<?php echo make_forum_url('t', 12240, ''); ?>">HTML pool</a>,
+where you can enlist someone to generate the HTML and pass it back to you
+for uploading. HTML versions are required for every book produced
+at <?php echo $site_abbreviation; ?> with pictures (even if
+the project manager does not request it).
 </p>
 
-<p>There are several requirements for HTML. 
-First, be sure to read the <a href="<?php echo $PG_html_faq_url; ?>">PG HTML FAQ</a> and follow all the
-requirements. Before submitting your HTML for PPV, please do the following:<br>
-Validate the HTML at <a href="http://validator.w3.org/">http://validator.w3.org</a>; 
-validate the CSS, if any, at <a href="http://jigsaw.w3.org/css-validator/">http://jigsaw.w3.org/css-validator</a>; 
-check all the links to make sure that they work and to double check that all your images are present, using the
-linkchecker at <a href="http://validator.w3.org/checklink">http://validator.w3.org/checklink</a> 
-or another linkchecker such as <a href="http://home.snafu.de/tilman/xenulink.html">xenulink</a>; 
-run <a href="http://www.w3.org/People/Raggett/tidy/">HTML Tidy</a> to uncover any remaining problems in the HTML.
-Any HTML questions not answered in the PG HTML FAQ or <a href="<?php echo $DPWiki_Guide_to_HTML_URL; ?>">DP's DPWiki's Guide to HTML</a> should be discussed
-in the Post-Processing forum.</p>
+
+<h3><a name="join" id="join"></a>Rejoin pages</h3>
 
 <p>
-There have been a few especially useful discussion in the Post-Processing Forum.
-One is a <a href="<?php echo $XHTML_suggestion_URL; ?>">post</a>
-which suggests a format for documents based on XHTML 1.0. 
-Another is <a href="<?php echo $DPWiki_HTML_guide_URL; ?>">
-this DPWiki post</a>
-which gives a suggested guide for HTML writers and provides an index of HTML-related topics.
+Remove page separators, checking either side of them to see
+if the next page requires a blank line, is a section or chapter,
+or needs to be continuous text. You can rejoin words split across pages
+at this point if you haven't done so earlier.
 </p>
 
-<p>Some useful HTML entity codes can be found 
-<a href="http://www.w3schools.com/html/html_entitiesref.asp">here</a>.
-</p>
-<br>
-<h4>I checked out a math text, and it's full of strange markup.
-How should I treat it?</h4>
+
+<h3><a name="spell" id="spell"></a>Spellcheck</h3>
 
 <p>
-Most math texts which are being proofread use the LaTeX markup language 
-to clarify the mathematical symbols and formulas in the book.
-This means that the post-processor of math books <i>must</i> understand this markup,
-and be willing to produce a LaTeX version for PG.
-</p>
-<br> 
-<h3><a name="Missing">Missing or Problem Images</a></h3> 
-<br> 
-<h4>There's a page missing from the scans, 
-or some words/pages are blurred/chopped off, etc.</h4> 
- 
-<p>
-Try emailing the Project Manager. 
-If they still have the text, they may be able to clarify blurred or missing words, 
-or give you a scan for a missing page.
-</p>
- 
-<p>
-If they don't have the text, 
-join <a href="<?php echo $PG_mailing_lists_url; ?>">gutvol-d</a> 
-and post a message asking for help. 
-Give the name and author of the book which you are working on, 
-what you will require as help 
-(usually looking at a paper book to clarify a few words), 
-and how much work there will be 
-(are only a few lines cut off, or are there whole pages missing?). 
-These volunteers will reply to you if they have access to your book. 
-You should then send them the text with comments 
-so that they can find the damaged portions, 
-correct them, and send them back to you. 
-You could also do this process yourself if the book exists in your local library.
+Even if it looks like it's going to be a pain, spellchecking is always needed.
+Texts written before spelling was regularized might be the only reasonable
+exception, but even for those spellchecking is often useful. Even books with
+dialect or other deliberate non-standard spelling can be spellchecked.
+You may want to leave this step until later in your checklist, and/or repeat
+the spellcheck whenever you type in new information, including a transcriber's note.
 </p>
 
+<h3><a name="paranoid" id="paranoid"></a>Paranoid text checks (stealth scannos, etc.)</h3>
+
 <p>
-Please do not submit the project for Verification until the missing text has been found.
-</p>
-<br> 
-<h3><a name="Returning">Returning a Project</a></h3> 
-<br> 
-<h4>This project is too hard, or I don't have time for it, 
-or I just don't want to do it any more!  How do I get rid of it?</h4> 
- 
-<p>
-To dispose of your project and return it to the pool for another post-processor, 
-go to your Post-Processing page, find the title of the book which you are returning, 
-and select Return to Available from its drop-down menu.
-This will erase all of your changes and send it back to the pool for another post-processor.
-If you have done a lot of work on it, you might be better to arrange for 
-someone else to pick up where you left off by making a post 
+These may be run by separate tools or by your main post-processing program.
+Refer to the manual or tutorial for the toolset you are using, or ask
 in the <a href="<?php echo $post_processing_forum_url; ?>">Post-Processing Forum</a>.
 </p>
-<br>
-<h3><a name="Split">Projects with Multiple Parts</a></h3>
-<br>
-<h4>Why are some projects split into different parts?</h4>
 
 <p>
-In the proofreading rounds, books intended for beginners were generally split into smaller units.  
-This was not only to ensure a constant supply of projects for beginners, 
-but to get feedback from mentors to the proofreaders faster than if the books were kept in one piece.  
-It is encouraged, though not absolutely essential, 
-for the same post-processor to check out all of the pieces 
-of these books at the same time so that the formatting will be consistent throughout.  
-The pieces should be joined together into one file for submission.
-</p>
-<br>
-<h3>Post-Processing Verification</h3>
-<br>
-<h4><a name="PPV">What is Post-Processing Verification, and who can do it?</a></h4>
-
-<p>
-Post-processing verification is the "second round" of post-processing.  
-The post-processor looks over the post-processed etext for errors big and small, 
-and submits them to Project Gutenberg.  
-They will often provide feedback to post-processors as well, 
-so that they can improve the quality of their work.
+Examples include "smart" programs which can check for he/be irregularities,
+or regexes (a form of search) which flag unusual letter combinations,
+such as "tb" (possible scanno for "th") or "rn" (for "m").
 </p>
 
 <p>
-PPV's (as they are known) need to be experienced post-processors, 
-familiar with common problems in etexts and able to provide feedback.  
-Because of this, there is only a limited pool of people capable of PPVing.  
-Once a person has submitted a number of consistently good etexts, 
-the PPV will (at their discretion) give them permission to PPV projects themselves.  
-If you have not been given this permission, you will not be able to check out PPV projects.
-</p>
-
-<br>
-<h3><a name="Other">Other Questions</a></h3> 
-<br> 
-<h4>I have a question which isn't in this FAQ.</h4> 
- 
-<p>
-Post-processing involves common sense and personal judgement. 
-The only solid rule is for the post-processor to preserve the author's intention 
-to the best of their ability. 
-There can be more than one way to handle a particular piece of formatting, 
-and all of them can be right. 
-You, as post-processor, have a great deal of freedom to decide 
-how to handle particular formatting issues and make global format changes.
-</p>
- 
-<p>
-If your common sense and personal judgement aren't helping you solve
-some particular problem, post your question in the 
-<a href="<?php echo $post_processing_forum_url; ?>">Post-Processing Forum</a>. 
-Other post-processors can then tell you how they would handle the situation. 
-Their suggestions might give you a logical answer for your text, 
-or inspire your own idea as to how to handle the issue.
-</p>
-
-<hr>
- 
-<p>
-If you think that something should be added to the FAQ, 
-<a href="<?php echo $forums_url; ?>/privmsg.php?mode=post&amp;u=1674">PM me</a>. 
-I don't mind answering questions, really I don't!.
+Various regex-searches are available and some tools will run these as a set,
+through your usual search-and-replace box&mdash;again, check the manual/tutorial
+for the software you're using. Otherwise, have a look at
+the <a href="<?php echo make_forum_url('t', 4381, ''); ?>">Regular Expression
+Clinic</a> for more information and help.
 </p>
 
 <p>
-If you have any suggestions 
-(ex. a nifty new spell checker or text editor that I haven't included, 
-comments on grammar, anything!), 
-please don't be afraid to 
-<a href="<?php echo $forums_url; ?>/privmsg.php?mode=post&amp;u=1674">tell me about them</a>.
+A great formatting check to run is the regex <strong>\n\n\n</strong>
+which catches all chapter and section spacing allowing you to confirm
+their consistency, as well as finding any extra line breaks between
+paragraphs&mdash;especially common after block quotes or poetry.
+It's a good idea to run this again on the text version,
+after you've removed markup such as /**/ and /##/. (See <a href="#remove">below</a>.)
 </p>
-<br> 
+
+
+<h3><a name="rewrap" id="rewrap"></a>Rewrap the text</h3>
+
+<p>
+Time to rewrap. PG advises to keep the HTML version as close as possible
+to the text version, so some post-processors will use the rewrapped
+text version for the basis of their HTML version of the ebook.
+Some however prefer to use the text before rewrapping to avoid having
+to adjust the text version a second time after formatting tags have been
+converted&mdash;see <a href="#plain">Creating a plain text version</a>.
+
+<p>
+Did you see any poetry, tables, etc.? If not, rewrapping the lines
+should be easy. You will need to rewrap the lines to around 65&ndash;75
+characters in length. (See <a href="#linelength">PG's recommendation
+for line length</a>.) Each program has a different way of doing this,
+and you will have to find the way that works best for you. Read the manual
+or instruction book for your utility.
+</p>
+
+<p>
+If you found poetry, tables, etc. care needs to be taken when
+rewrapping that line endings are preserved as intended, and that they
+are block indented from at least one to four character spaces to prevent
+rewrapping in future versions of your texts.
+</p>
+
+<p>
+If worst comes to worst and you cannot find an easy way to rewrap the lines,
+find and replace all line breaks with spaces, count any line to find approximately
+where 60&ndash;72 characters falls, and insert line breaks manually at this point.
+It's painful, but it works. (Be grateful that you chose a book with a low page count!)
+Alternatively, type a line like this:
+</p>
+<pre><tt>123456789012345678901234567890123456789012345678901234567890123456789012</tt></pre>
+<p>
+at the top of your text and use this as your guide. However, manually rewrapping
+in this way should not be necessary.
+</p>
+
+<p>
+Once your text is suitably rewrapped, remove any end of line spaces.
+(Again, use the post-processing software wherever possible!
+All current tools include this task.)
+</p>
+
+
+<h3><a name="gut" id="gut"></a>Gutcheck</h3>
+
+<p>
+The Gutcheck tool was written
+specifically to pick out many of the most common problems with PG texts.
+It is probably the single most important check you will perform.
+Follow the instructions with your post-processing software.
+If you are not using a post-processing-specific tool, you can download
+Gutcheck from <a href="http://gutcheck.sourceforge.net/">here</a>,
+and run it according to the instructions given there. Either run the check
+initially with all options turned on, or run each check individually,
+but make sure not to skip any. Check every potential problem that
+it brings to your attention. Not all Gutcheck "flags" are genuine errors
+(for example, it may report short lines where the text contains poetry
+or a table), but each must be looked into and corrected if necessary.
+Continue to run Gutcheck after each series of corrections until
+it doesn't flag any more "true" errors.
+</p>
+
+<p>
+If you do not want to download Gutcheck, use Project Gutenberg's
+<a href="http://upload.pglaf.org/gutcheck.php">online gutcheck</a>.
+</p>
+
+<h4><a name="common" id="common"></a>Some common things to watch for</h4>
+
+<ul class="spaced">
+<li>
+Footnote markers are falsely flagged as "Wrongly spaced brackets".
+Check them anyway.
+</li>
+
+<li>
+Lengthy hyphenated words often cause short lines above or below.
+Try rewrapping just that paragraph a few spaces shorter to rearrange
+the words sufficiently to cure this error. Short lines for the
+table of contents, lines of poetry, etc. are okay.
+</li>
+
+<li>
+<a name="linelength" id="linelength"></a>PG's standard line length is
+60&ndash;70 characters for regular text and should be no more than
+75 characters wide. If a threshold of 72 is used, with the random lengths
+of words, most lines will end up being 70 or less. The PG posting team also makes
+allowance for Chinese text, which has double-wide characters, to have line lengths
+around 40 characters. There may be justification for 80 characters for tables or
+other essentials (long line poetry might be another example). If there's absolutely
+no way to shorten a feature such as a family tree, you can leave it as is. It is often
+worth posting in the <a href="<?php echo $post_processing_forum_url; ?>">Post-Processing Forum</a>
+though as others may see a sensible way to condense or reformat the feature. 
+</li>
+
+<li>
+Unless you are checking a deliberately-ASCII version of your text,
+you do not need to worry about characters flagged by "Non-ASCII character".
+</li>
+
+<li>
+Wrongly spaced/missing quotes often appear where characters' quoted speech
+runs through several paragraphs. Check these, but if they are right according
+to the proofreading guidelines, that's good enough for Gutenberg posting.
+</li>
+</ul>
+
+
+<h3><a name="tn" id="tn"></a>Create a Transcriber's Note</h3>
+
+<p>
+If you make any changes to the text it is a good idea to include a
+Transcriber's Note. Sometimes these are quite simple:
+</p>
+<pre><tt>Transcriber's Note: Punctuation has been normalized.</tt></pre>
+
+<p>
+Sometimes the writing of the Transcriber's Note is not always as straightforward
+as it might seem. Some suggest using wording such as "obvious errors
+have been corrected" but others say that what is obvious to one person
+may not be obvious to another. Also, correcting what someone might think
+is an obvious error, may in fact be correct spelling/phrasing for the time
+the book was written.
+</p>
+
+<p>A useful general one, especially for older, less regular texts, is:</p>
+<pre><tt>Transcriber's Note: All apparent printer's errors retained.</tt></pre>
+<p>
+This one stops the <a href="<?php echo $wiki_url; ?>/PG_Posting_Team">PG
+whitewashers</a> from getting long errata requests to "fix" your text.
+It is not, however, an excuse for leaving in bad OCR, scannos, or
+similar detectable problems that are wrong in comparison to the page scan.
+</p>
+
+<p>Sometimes the notes can be quite lengthy.</p>
+<pre><tt>Transcriber's Notes:
+
+Page 13, "10,00 troops" changed to "10,000 troops." (We fought 10,000 troops at St Germaine.)
+
+Page 27, "Faw-cett" changed to "Fawcett". (Major Fawcett dictated the memo.)
+
+etc. etc.</tt></pre>
+
+<p>
+While we don't retain the individual page numbers in the text version,
+this gives the reader an idea of where it is in the book. The reader can search
+for the text you have included in the parentheses to find the exact location of your edit.
+</p>
+
+<p>
+In the HTML version, the use of "hover" or "inserted" tags is a good way
+to shrink your list of changes while still maintaining the integrity
+of the original. Check the post-processing forum for ways of doing this,
+or follow the instructions here:
+<a href="<?php echo $wiki_url; ?>/CSS_Cookbook/Basic_Text#Corrections">CSS Cookbook&mdash;Corrections</a>.
+</p>
+
+<p>
+Many post-processors do fix what appear to be printer's "errers"
+(such as changing "errers" to "errors"). <strong>Do not</strong> modernize
+or switch the spelling from British English to American English or
+the other way around however. We are preserving history, not improving it.
+</p>
+
+<p>
+Some put shorter notes, or ones that apply to the whole text
+in a general way, at the start of the book (before the title page),
+and longer lists at the end of the book (after any index or footnotes).
+</p>
+
+<p>
+Transcriber's Notes are optional, but can help the reader's understanding
+of how you've processed the text. It's up to you how much or how little
+you note. If in doubt, talk to other post-processors in the forums, Jabber,
+or by PM about how they've handled various situations.
+</p>
+
+
+<h3><a name="backup" id="backup"></a>Back-up including HTML tags</h3>
+
+<p>
+At the end of the above process, you have a processed book which contains
+HTML markup, as well as <?php echo $site_abbreviation; ?> tags like
+[Footnote] or &lt;tb&gt;. <strong>Save a copy of this "dual" purpose file,
+calling it something like &lt;name-backup.txt&gt;</strong>.
+</p>
+
+
+<h3><a name="plain" id="plain"></a>Creating a plain text version</h3>
+
+<ul class="spaced">
+<li>
+Take the file you've been working on and name it something like:
+&lt;funnyname.txt&gt; Make sure you still have a version of the file
+containing the markup and call that &lt;funnyname.html&gt;.
+If you are going to produce different types of text files,
+call another copy &lt;funnyname-ltn1.txt&gt; and &lt;funnyname-utf8.txt&gt;.
+</li>
+
+<li>
+Note that all file and folder names need to be in lower-case characters
+to ensure there is no upper/lower-case conflict later in the process
+at post-processing verification (PPV) and/or at PG. PG does ask for
+lower case and though it is technically not necessary this practice
+does prevent potential future linking problems. Also helpful if you
+are going to be working on many books is to give the file a name
+that can easily be associated with the book you are working on,
+and keep the name short but at least four characters long
+(files of three characters have been known to cause PG problems).
+</li>
+
+<li>
+Use a monospaced font to enable alignment in display items such as
+tables and verse.
+</li>
+
+<li>
+<strong>Now that you have various copies of your master file, you need
+to change them all if you find and correct any further errors.</strong>
+</li>
+
+<li>
+For the plain text version(s), &lt;i&gt; and &lt;/i&gt; need to be changed to _ and
+&lt;b&gt;/&lt;/b&gt; to your preferred bold markup such as =; see
+the <a href="<?php echo make_forum_url('t', 14131, ''); ?>">bold-markup thread</a>
+for discussion of options. &lt;f&gt; and &lt;g&gt; tags can be handled similarly to bold,
+or stripped out if you prefer.
+</li>
+
+<li>
+If your project contains any &lt;sc&gt; markup, refer to the
+<a href="<?php echo $wiki_url; ?>/Guide_to_smallcaps">Guide to Small Caps</a>
+to find out how to handle them.
+</li>
+
+<li>
+Do a quick search for the &lt; and &gt; characters to make sure
+none have slipped through.
+</li>
+
+<li>
+Determine how you want to handle [oe] ligatures. Some post-processors
+will convert them to just oe in the plain text version. If the brackets
+are retained, mention this in a transcriber's note.
+</li>
+
+<li>
+If you want to tidy your footnotes, (that is, make them read [1] text,
+rather than [Footnote 1: text] do it now).
+</li>
+
+<li>
+If you haven't yet rewrapped your text to around 72 characters,
+do that now&mdash;see <a href="#rewrap">time to rewrap</a>.
+</li>
+
+<li>
+<a name="remove" id="remove">Remove markup</a> from the funnyname.txt file.
+Rewrap markers and [Blank Page] tags need to go. Make sure there are no queries
+or notes left in the text.
+</li>
+</ul>
+
+<h4><a name="formatting" id="formatting"></a>Check formatting&mdash;text version</h4>
+
+<p>
+PG will accept <a href="#other">alternatives</a> to the following.
+The important thing is to be consistent throughout your book.
+</p>
+
+<ul class="spaced">
+<li>
+Chapters should have four blank lines above them, one between lines
+of the chapter heading, and two blank lines after, but before
+the main text of the chapter starts.
+</li>
+
+<li>
+Sections should have two blank lines above, and one blank line after.
+This is all as per 
+<?php echo $site_abbreviation; ?> <a href="document.php">Formatting Guidelines</a>.
+</li>
+
+<li>
+&lt;tb&gt; should be replaced with a line of asterisks&mdash;that is,
+7 spaces, followed by 5 stars, each spaced by 7 from the next, like this:<br>
+<pre><tt>       *       *       *       *       *</tt></pre>
+</li>
+
+<li>
+Poetry should be indented from one to four spaces (this is a PG requirement,
+to prevent rewrapping in future versions of your text). Indents within the poem,
+i.e. relative indents, should be added on to your chosen indent.
+(For example, if a line is indented by 2 spaces from the line above, and you are using
+a 4-space indent for poetry, in your final version this line will be indented
+6 spaces altogether.)
+</li>
+
+<li>
+Block quotes should also be indented to show their separation from the rest of the text.
+If blocks in the book are not separated from the rest of the text, i.e. they appear as
+regular paragraphs, there is no need to indent them.
+</li>
+
+<li>
+Tables, including tables of contents and lists of illustrations,
+also need to be indented to avoid rewrap/respacing.
+</li>
+
+<li>
+Unusual features&mdash;tables, Greek, poetry, etc.
+see the <a href="#help">Help! section</a>.
+</li>
+
+<li>
+Do a final <a href="#gut">Gutcheck</a>, to make sure that there are no
+remaining problems, and that no issues have been introduced during the
+tidy-up process (such as short lines being left after the removal of HTML markup).
+</li>
+</ul>
+
+<p>
+If you want to make your book available for
+<a href="<?php echo $wiki_url;?>/Smooth-reading_FAQ">smoothreading</a>,
+now's the time.
+</p>
+
+<p>Mac and *nix users need to change line endings to CR/LF.</p>
+
+
+<h3><a name="smooth" id="smooth"></a>Smoothreading</h3>
+
+<p>
+An extra pair of eyes is always helpful in finding things you might have overlooked
+in the text. <a href="<?php echo $wiki_url;?>/Smooth-reading_FAQ">Smoothreading</a>
+is an option available to all post-processors and is generally
+done on a text version.
+</p>
+
+<p>
+Save a new version of your book (such as &lt;funnyname-smooth.txt&gt;,
+then place this file into a zip folder.
+</p>
+
+<p>
+Make sure that the file name contains some combination of
+a-z, 0-9, -, _ and one . separating the filename from the extension
+(no capital letters, no spaces, no special characters other than
+those mentioned above). For example:<br>
+<b>Correct</b>: funnyname-smooth.txt<br>
+<b>Incorrect</b>: Smooth.txt
+</p>
+
+<p>
+Go to the project page for your book. At the bottom of the page,
+you have three options: make the project available for smoothreading for
+one week, two weeks, or four weeks. Select the desired duration and
+upload the zip folder with the text file for smoothreading.
+You can provide comments about what to look for during proofreading,
+or to ask for attention in a particular section (this is very helpful
+in long texts). You might also like to advertise the availability of your book
+in the project thread, or in relevant team threads (see the
+<a href="<?php echo $wiki_url; ?>/Teams_List">Teams List</a> for ideas).
+</p>
+
+<p>
+Smoothreaders will mark possible errors in the text with [**description of query].
+This is a standard format and should not be altered in your comments.
+When they finish, they will upload the smoothread project back to the project.
+At the end of the smoothreading period, you can download the smoothread versions
+from the bottom of the project page and search the text for [**.
+Not all [**comments] will be valid, just correct those that are.
+Make your corrections in the master file which still contains &lt;i&gt; markup
+(or else make each change in every version of the text that you have,
+e.g. plaintext and HTML).
+</p>
+
+<p>
+While your book is being smoothread, why not start work on any other formats
+that are required, or begin fixing up any illustrations?
+</p>
+
+
+<h3><a name="html" id="html"></a>Creating an HTML version</h3>
+
+<p>
+Go back to your <a href="#backup">marked-up copy</a>.
+Use a <strong>copy</strong> of the marked-up file, named something like:
+&lt;funnyname-htm.html&gt;. Make sure you keep a version of
+the marked-up file for backup and reference.
+</p>
+
+<p>
+See <a href="#html2">HTML</a> in the Help section of this document and
+<a href="<?php echo $wiki_url; ?>/Philosophy_Guide_to_creating_HTML_versions">Creating
+HTML versions</a>.
+</p>
+
+<p>
+Also see PG's <a href="<?php echo $PG_faq_url; ?>">guidelines</a>.
+</p>
+
+<h4><a name="main" id="main"></a>Main issues to check</h4>
+
+<ol class="spaced">
+<li>
+Ensure the HTML header title contains the line &lt;title&gt;The Project Gutenberg
+eBook of Name of Book, by Name of Author&lt;/title&gt;
+</li>
+
+<li>
+Page numbers are correct and appear on the first line of the page
+of the original publication. Sometimes page numbers are not used
+by post-processors, but many feel they add value and do retain them.
+</li>
+
+<li>
+Images must be in a folder called &lt;images&gt;, file names must all
+be in lower-case characters, and the path of the links must go to
+the images folder within the same folder that contains the HTML file.
+</li>
+
+<li>
+<a href="http://jigsaw.w3.org/css-validator/">Validate the CSS</a>&mdash;the
+validator allows the full HTML file to be uploaded from your own computer.
+If you have web space, upload the file and check from there instead
+if you prefer, or, if you have direct upload access to PG you can
+validate when uploading.
+</li>
+
+<li><a href="http://validator.w3.org/">Validate the HTML markup</a>.</li>
+
+<li>
+<a href="http://infohound.net/tidy/">Check HTML with Tidy</a>&mdash;note,
+don't let Tidy change your file, instead view the flags and make the appropriate
+changes yourself, otherwise the code will be difficult for anyone else to read
+or troubleshoot. Various tools including Guiguts have an inbuilt Tidy check.
+</li>
+
+<li>
+Check links&mdash;if you have web space you can use the online
+<a href="http://validator.w3.org/checklink">link checker</a>;
+if not, various tools including Guiguts have inbuilt link checkers.
+</li>
+</ol>
+
+<p>
+Note that external links are generally not permitted, except for
+links to other ebooks within the PG site. If used, there must be a disclaimer
+at the beginning of the file to explain that links going outside of
+the document may not work for various reasons, for various people,
+at various times.
+</p>
+
+
+<h2><a name="finished" id="finished"></a>I've finished&mdash;now what...?</h2>
+
+<h3><a name="ppv" id="ppv"></a>Uploading for verification (PPV)</h3>
+<p>
+Create a new zip folder. Keep the filenames short, with only letters, numbers,
+hyphens, and/or underscores&mdash;no spaces or special characters like ?, #, $,
+etc. Filenames and directory names must be all lower case. Add into this archive
+your plaintext file, and any other formats that you've made. Any illustrations
+should already be stored inside an "images" folder, and this entire folder
+should be added to the zip archive. If you've been post-processing with Guiguts,
+add into the archive the .bin files for the plaintext version and HTML version
+if they are available&mdash;this is incredibly helpful for post-processing verifiers
+(PPVers) who also use Guiguts. They won't be uploaded to PG. Be sure
+<strong>not to include the page scans</strong> in your zip archive.
+</p>
+
+<p>Your zip folder should look something like this:</p>
+
+<ul>
+<li>projectname.txt (this is the Latin-1 text version)</li>
+<li>projectname.html</li>
+<li>projectname.txt.bin (if you have it from Guiguts)</li>
+<li>projectname.html.bin (if you have it from Guiguts)</li>
+<li>images (a folder)&mdash;check there are no thumbs.db or system files in this folder
+    <ul>
+        <li>image1.png</li>
+        <li>image2.png</li>
+        <li>image3.png</li>
+    </ul></li>
+<li>projectname-utf8.txt (ONLY if you are including a UTF-8 file
+    as well as or instead of projectname.txt)</li>
+<li>projectname-ascii.txt (ONLY if you are including an ASCII file
+    as well as or instead of projectname.txt)</li>
+</ul>
+
+<p>Check there are no system files such as a thumbs.db in any of the folders.</p>
+
+<p>
+Depending on your zip software, you may have to adjust its settings to
+"Save Relative Paths". This prevents the PPVer from getting extra
+(undesired) folders on their computers.
+</p>
+
+<p>
+If you are using a Mac, you may need to "omit Finder files" too
+(leaves out invisible files).
+</p>
+
+<p>
+Go to the project page for your book, and select Upload for Verification
+from the buttons at the bottom of the page. Include an email address
+in your post-processing comments section if you want email notification
+when the book is Posted! You can also use these comments to note any checks
+you've done or point out special features of the work which the PPVer should
+be alert to. Ensure that your <a href="../userprefs.php">site preferences</a>
+with regard to post-processing credits are correct, as they are what will
+be used to credit you in the finished book. If you do not wish to be credited,
+or would like a different name to be used, please note this in the comments.
+</p>
+
+<p>
+Your email address will not be displayed in the credits line, but can be used
+by the PPVer to give you feedback (if you request that option). If you do not
+request this, feedback will be sent via a private message on the site.
+</p>
+
+
+<h3><a name="then" id="then"></a>What happens to my book now?</h3>
+
+<p>
+First, your book goes to an experienced post-processor for Post-Processing
+Verification (PPV). This person will carefully go over your work making sure
+that all of the requirements have been met, i.e., spellcheck has been done,
+images are correctly sized and formatted, it passes Gutcheck, the HTML is
+valid, etc. Sometimes a PPVer will request that a project be returned to you
+for further work. This does not mean you are a horrible post-processor.
+It probably just means that you missed a step or two of the process.
+An email or private message will accompany a return explaining why
+and what steps you can take to repair your file and usually offering
+assistance or suggesting where assistance can be obtained.
+</p>
+
+<p>
+After your work has completed PPV, the PPVer uploads it to Project Gutenberg.
+There a friendly <a href="<?php echo $wiki_url; ?>/PG_Posting_Team">Gutenberg
+whitewasher</a> (WWer) will make a final check of your work (and the PPVer's work)
+and add the Project Gutenberg boilerplate of names and legal information.
+Sometimes a WWer will have a question for you and that question may come
+through your PPVer.
+</p>
+
+<p>
+Finally your project is posted on Project Gutenberg for the world to enjoy!
+Congratulations! After your project posts, you can expect to receive feedback
+if you have not already received feedback from your PPVer. This feedback
+will tell you the great things that you did along with any suggestions
+for improvements in future work. Feel free to contact your PPVer with
+any questions that you have about your project. If you do not receive feedback
+and your project has posted, please drop a line in the
+<a href="<?php echo make_forum_url('t', 19095, ''); ?>">PPVer help requested
+thread</a> and someone will look into it.
+</p>
+
+<p>
+If you find an error after the book has posted, (really, it sometimes happens),
+send a note to your PPVer with the details. The PPVer will contact the WWer.
+If it has been posted more than a week or two, you can send an
+<a href="http://www.gutenberg.org/wiki/Gutenberg:Contact_Information">errata</a>
+note to PG.
+</p>
+
+
+<h2><a name="du" id="du"></a>I've been granted direct upload access. What do I do?</h2>
+
+<p>
+Once you've had several projects run through the PPV process, and have been
+granted the ability to upload your work directly to PG, you will be sent
+instructions by the PPV coordinator on how to proceed. Please also see
+the <a href="<?php echo make_forum_url('t', 27097, ''); ?>">Guide to
+Direct Uploading (DU) and Posting to PG</a> for more details.
+</p>
+
+
+<h2><a name="help" id="help"></a>Help! I've got a problem with ... </h2>
+
+<h3><a name="missing" id="missing"></a>Missing or problem images or pages</h3>
+
+<p>
+Sometimes the content provider accidentally skips one or more pages when scanning.
+They usually check through afterwards for any missing pages, but don't rely
+on this&mdash;check for yourself, too. Occasionally the scan is present,
+but part or all of it is unreadable. First, attempt to contact the PM
+to get a better scan. If the PM is for some reason unable to get a good scan
+for you, there are other people who can try to get these pages for you.
+Find them on the <a href="<?php echo $wiki_url; ?>/Missing_pages">Missing Pages
+Wiki</a>. You can research here, looking at various library catalogues for
+Missing Page Finders and contacting them by PM if you find a copy of your book
+in their library. If no catalogues seem to have the book, log into the wiki
+and post the book's details and your username in the "Missing Pages" list.
+</p>
+
+<p>
+If you do obtain additional pages, illustrations or just replacement images,
+please email <a href="mailto:<?php echo $db_requests_email_addr; ?>"><?php echo $db_requests_email_addr; ?></a>.
+Include the location of the images on <?php echo $uploads_account; ?> (your 
+page-finder can tell you this), the title and projectID of the project,
+and the project will be fixed for you. Please wait for confirmation before 
+uploading your project to PPV or PG. <strong>This is very important for
+archiving purposes.</strong>
+</p>
+
+
+<h3><a name="multiple" id="multiple"></a>Projects with multiple parts</h3>
+
+<p>
+If you have multiple sections of a single book and you would like
+to have them "stitched together" for ease of post-processing, please email
+<a href="mailto:<?php echo $db_requests_email_addr; ?>"><?php echo $db_requests_email_addr; ?></a>.
+Working on one file is easier than doing your own "stitching" or working on
+separate files, and is especially helpful if you wish to retain the original
+page numbers in HTML, or if the png image names overlap.
+</p>
+
+<p>
+NOTE: Multiple volumes of a book can be posted to PG separately if
+appropriate&mdash;they do not need this treatment. If in doubt, ask the PM or
+email <a href="mailto:<?php echo $db_requests_email_addr; ?>"><?php echo $db_requests_email_addr; ?></a>.
+</p>
+
+
+<h3><a name="other" id="other"></a>Other formats</h3>
+
+<p>
+Every project <strong>must</strong> have a plaintext file (unless the project
+absolutely will not work in a plaintext form&mdash;e.g. a musical score.)
+However, there are other formats, which add information and value to the basic text.
+See <a href="http://www.gutenberg.org/wiki/Gutenberg:File_Formats_FAQ">PG's
+File Format FAQ</a>.
+</p>
+
+<h4><a name="html2" id="html2"></a>HTML</h4>
+
+<p>
+This is the most common non-plaintext format requested or required for projects.
+If you are working on a text which is part of an &uuml;berproject or
+is a periodical, you may find a style guide defined for you&mdash;check
+the <a href="<?php echo make_forum_url('f', 14, ''); ?>">&Uuml;berProjects
+forum</a>. Otherwise it is up to you to make the project consistent and readable.
+To produce HTML, you may wish to use tools that you are familiar with
+if you have done web-editing previously. The major post-processing tools
+such as <a href="<?php echo $wiki_url; ?>/Guiguts">Guiguts</a> will also
+produce basic HTML which will just need some polishing to be valid and
+look attractive. There is also
+<a href="<?php echo make_forum_url('t', 16219, ''); ?>">PG2HTML</a>
+which will generate a very basic HTML version for you to work with.
+</p>
+
+<p>
+Ask in the <a href="<?php echo make_forum_url('t', 15019, ''); ?>">No Dumb
+Questions</a> thread for post-processors, and/or
+<a href="<?php echo make_forum_url('t', 23805, ''); ?>">HELP! HTML thread</a>
+if you'd like more help with this. Many people have learned HTML for
+the first time here, as part of their post-processing, and it doesn't
+have to be terribly difficult!
+</p>
+
+<p>
+Alternatively, you can post in the
+<a href="<?php echo make_forum_url('t', 12240, ''); ?>">PPing HTML pool</a>,
+giving a little information about your project. Other
+<?php echo $site_abbreviation; ?> volunteers enjoy the process of making HTML
+and will be happy to produce an HTML file for you.
+</p>
+
+<p>
+HTML is essential for projects with illustrations. It is also very useful
+for projects with many footnotes (because they can be hyperlinked back
+and forth, making the text more usable) or with different letters used
+from the Latin alphabet (such as Greek, which can be encoded so that any reader
+with an adequate font will see the Greek letters). Even if your project has
+none of these, many readers will find an HTML file more readable than
+the plaintext, and if possible, it's always worth producing one.
+</p>
+
+<p>
+If you do an HTML version, make sure that the &lt;title&gt; tags contain
+the phrase The Project Gutenberg eBook of &lt;put the name of the book here&gt;,
+by &lt;and the name of the author here&gt;. So for example, if the project
+you were doing was "A Christmas Carol" by Charles Dickens, you would make
+sure the title tags looked like:<br>
+&lt;title&gt;The Project Gutenberg eBook of A Christmas Carol, by Charles Dickens&lt;/title&gt;
+</p>
+
+<p>
+If you are not sure what CSS to use, feel free to copy and paste
+the <a href="<?php echo make_forum_url('p', 592349, ''); ?>">HTML header from Guiguts</a>
+at the top of your document and adjust as required for your needs, or refer
+to the <a href="<?php echo $wiki_url; ?>/CSS_Cookbook">CSS Cookbook</a>.
+</p>
+
+<h4><a name="lilypond" id="lilypond"></a>Lilypond</h4>
+
+<p>
+Lilypond is used for representing music&mdash;see the
+<a href="<?php echo $wiki_url; ?>/Music_Guidelines">Music Guidelines</a>
+and ask for help or information from the
+<a href="<?php echo make_forum_url('t', 9413, ''); ?>">Music Team</a>.
+</p>
+
+<h4><a name="latex" id="latex"></a>LaTeX</h4>
+
+<p>
+LaTeX is a markup language, entirely distinct from other types of DP formatting,
+but normally confined to projects containing a lot of math. See the
+<a href="#maths">section on LaTeX</a> below, or post in the
+<a href="<?php echo make_forum_url('t', 34532, ''); ?>">LaTeX Forum for
+Post-Processors</a> for more help.
+</p>
+
+<h4><a name="tei" id="tei"></a>TEI</h4>
+
+<p>
+TEI is a form of markup which is used to generate plaintext, HTML and
+other formats by automatic converters. PG does not currently use
+the full <a href="http://www.tei-c.org/">TEI standard</a>, but is evolving
+a subset. See <a href="http://pgtei.pglaf.org/marcello/0.4/">PGTEI</a>.
+As long as it is a valid PGTEI document, David Widger of the Whitewashing Team
+will take the .tei master file and autogenerate the plain text, HTML and
+PDF files, but, if you have generated these files, include them with the upload
+as they make running Gutcheck easier for the WhiteWasher.
+</p>
+
+<p>
+Check the post-processing forum for more information about PGTEI such as
+the <a href="<?php echo make_forum_url('t', 16829, ''); ?>">PGTEI primer</a>
+and <a href="<?php echo $wiki_url; ?>/PGTEI">PGTEI</a>. Alternatively, you can
+post-process using TEI but submit only the product of your own transformations
+(plaintext, HTML and other formats if desired). Such projects are likely to be
+posted more quickly, and will look more exactly as you specify. PG prefers all
+versions of the files.
+</p>
+
+<h4><a name="pdf" id="pdf"></a>PDF</h4>
+
+<p>
+PDF versions are usually accepted by PG only if an original master file
+is supplied so that making any changes if necessary is not troublesome&mdash;for
+example, projects formatted using <a href="#tei">PGTEI</a>. It is very useful
+for certain projects (e.g. those involving LaTeX) which benefit from a fixed
+paginated layout and embedded specialized fonts, but is less helpful for
+other projects because it is difficult to make changes to the PDF once
+it's complete. Some PG readers do like this format.
+</p>
+
+<h4><a name="proprietary" id="proprietary"></a>Proprietary text formats</h4>
+
+<p>
+Project Gutenberg will accept proprietary text formats such as .doc,
+but prefers not to. Issues of software compatibility and conversion arise
+more frequently with these formats than with simple plaintext or HTML.
+If you are considering an unusual format, you may wish to discuss it
+with a <a href="<?php echo $wiki_url; ?>/PP_Mentoring">PP Mentor</a>
+or the project manager.
+</p>
+
+<h4><a name="unicode" id="unicode"></a>Unicode, UTF-8, UTF-16, etc.</h4>
+
+<p>
+A UTF-8 file can be produced if you require characters which are not in Latin-1
+(the "usual" character-set used by <?php echo $site_abbreviation; ?> in the
+proofreading interface and dropdowns.) This probably isn't useful if you have
+a single word with an &oelig;, but if your project has a fair amount of Greek
+or other characters, a UTF-8 version will preserve the text most faithfully.
+Most post-processing tools have support for this&mdash;check the user guide
+or manual for more information. Ask in the post-processing forum for more help
+with this. Also ask if you think you will need to use UTF-16 ...
+it's not common and there may be a good alternative.
+</p>
+
+<p>
+If you produce a UTF-8 text file, name it something like: projectname-utf8.txt
+when you upload for PPV. This will help the PPVer and is how the Whitewashers
+have requested such files be labelled. The WWers have a script to automagically
+convert UTF-8 characters to a reasonable ASCII equivalent, so that both formats
+will be posted in the final PG archive. If you think that this conversion process
+will not produce a readable or useful ASCII file, you can produce one of your own
+with all UTF-8 characters translated. Name that file projectname-ascii.txt.
+Make sure it really is ASCII and that no UTF-8 characters have slipped in!
+Remember to include both files when you upload for PPV.
+</p>
+
+
+<h3><a name="symbols" id="symbols"></a>Symbols and scripts, non-ASCII characters,
+non-Latin scripts, and downright weird things</h3>
+
+<p>
+If you are unsure how to represent a symbol, post, with a link to the page image
+containing the symbol, in the
+<a href="<?php echo $post_processing_forum_url; ?>">Post-Processing Forum</a>.
+Asking there will net you a varied range of ideas about whether the problematic
+ink blob is in Latin-1, Unicode, or can be improvised using ASCII-art or
+represented in another fashion.
+</p>
+
+
+<h3><a name="footnotes" id="footnotes"></a>Footnotes</h3>
+
+<p>Some things to look out for when handling footnotes:</p>
+
+<ol class="spaced">
+<li>
+In the text version, renumber the footnotes consecutively so that the reader
+does not find many anchors when searching for say [1].
+</li>
+
+<li>
+Sometimes many tags reference the same footnote&mdash;for example, 18 anchors
+for 1 in the text and only one footnote. This is not a problem;
+just make sure that all 1s go to the right Footnote in the HTML version.
+</li>
+
+<li>
+There is no anchor-text for this tag and/or I have no tag for this footnote text.
+If you can make out where the tag should go in the text, then it is probably
+best to insert it with a Transcriber's Note. If there is a tag without a footnote,
+then just a Transcriber's Note is probably best. See the section on
+<a href="#tn">Transcriber's Notes</a> for details on how to word this and
+where to place it.
+</li>
+
+<li>
+I can't read this tiny text! If neither you, nor the proofreaders,
+can figure out the footnote, contact the PM or see
+<a href="<?php echo $wiki_url; ?>/Missing_pages">Missing Pages</a>
+to obtain a clearer scan.</li>
+</ol>
+
+
+<h3><a name="sidenotes" id="sidenotes"></a>Sidenotes</h3>
+
+<p>
+Many post-processors panic when they see sidenotes.
+This is usually the wrong reaction (though is sometimes justified).
+</p>
+
+<p>
+The simplest case is when there are few sidenotes, usually only one
+per paragraph, and usually at the start of the paragraph.
+In this case you can just put them before the paragraph they refer to.
+In the plain text it is probably best to leave them inside the
+[Sidenote: Text of sidenote.] markup, so the reader can tell what they are.
+Some people like to have them as headings, leaving a blank line between
+the sidenote and the paragraph.
+</p>
+
+<p>
+In HTML, it is probably best to float them off to the side. You can choose
+whether to put them in the margin, so that they don't interrupt the flow
+of the text, or whether you want them to stick into the text which will then
+flow around them. It's probably best to follow the original as much as you can.
+If you want them in the margin, you'll probably want to use a larger margin
+than usual in order to make room for them. It is probably easier to read
+the HTML version if you put all the sidenotes on the same side.
+</p>
+
+<p>
+If there are lots of sidenotes, with many sidenotes per paragraph,
+the situation gets more complicated. Putting them all at the start
+of the paragraph will lose information. In most cases there is a definite place
+in the text that the sidenotes are connected to, and that's roughly where
+the sidenote should go.
+</p>
+
+<p>
+In the plain text there are at least a couple of options. The first is
+to put each sidenote (still in its [Sidenote: Text of sidenote.] markup)
+at the start of the sentence to which it refers. This has the advantage that
+the text stays easy to read, but, if the sentences are long, the sidenotes
+may end up quite far from their referents. The second is to try to place
+the sidenotes more exactly, by putting them in the middle of sentences.
+This makes for a text that is much harder to read.
+</p>
+
+<p>
+Sidenote placement is easier in the HTML version in that it is easy to get them
+closer to their referents. However, you should check them in several different
+browsers and at different browser window sizes, as it is very easy to get them
+overlaying each other so that they are illegible.
+</p>
+
+
+<h3><a name="illustrations" id="illustrations"></a>Illustrations</h3>
+
+<p>
+Many post-processors have a hard time with images at first. Images are
+the most common reason for PMs to require an HTML version, but if you don't
+feel comfortable with HTML or dealing with images, it's okay! Make use of the
+<a href="<?php echo make_forum_url('t', 12240, ''); ?>">HTML pool</a>&mdash;there
+are many people who don't like to do the text portion of a project.
+</p>
+
+<p>Not frightened off? Good!</p>
+
+<p>
+Some projects have only one or two images, like a frontispiece or
+an author portrait. The image files should be resized, so you can then
+display them at their actual resolution within the HTML.  For example,
+if you want an image to appear 400px wide in the HTML you should save it
+at that size, rather than saving a larger image and using HTML code
+to display it smaller.
+</p>
+
+<p>
+Other projects are heavily illustrated, and often the point of posting them
+is for making the illustrations available to a wide audience. Image-heavy projects
+should use small copies at lower resolution and color-depth (commonly called
+thumbnails) that link to larger, better quality illustrations.
+This allows people on dial-up connection to the internet to get a feel
+for the project without having to wait hours for the HTML to load.
+Check to see if your PM included high-resolution illustrations along with the project pngs.
+These are usually located at the very end of the images and
+often have the extension .jpg.
+</p>
+
+<p>
+A good rule of thumb is a maximum of 400px in width or 600px in height
+for thumbnails and full page illustrations, and a maximum of 1200px
+in the larger direction for linked-to images. The illustrations should scale
+accordingly. If your largest image is a full page illustration
+that you have made 400px, then your emblems that show up above the chapter header
+should only be a fraction of that. Imagine that you are holding the book,
+about what fraction of the page is the illustration taking up and adjust
+your px number accordingly. If you need to decrease the file size further,
+or touch up the pictures in some way, please see the
+<a href="<?php echo $wiki_url; ?>/Guide_to_Image_Processing">Guide to
+Image Processing</a>.
+</p>
+
+<p>
+If even the high-resolution images are too dark or corrupted, contact the PM
+for replacements. Sometimes the PM has given you the best the book had to offer.
+Your next option is to try the
+<a href="<?php echo $wiki_url; ?>/Missing_pages">Missing Pages Wiki</a>
+to see if someone can provide better scans of the images.
+</p>
+
+<p>
+All images for use in your final HTML should be stored inside a folder
+called images within the project directory. Do a final check, when you've
+completed work on the HTML, to make sure that all images are used correctly
+within your page, and that you haven't included any temporary or redundant files.
+</p>
+
+<p>
+For any questions or advice about any illustration related matter&mdash;contact
+the <a href="<?php echo make_forum_url('t', 17712, ''); ?>">Illustrators Team</a>.
+</p>
+
+
+<h3><a name="poetry" id="poetry"></a>Poetry</h3>
+
+<p>
+As long as you make sure your rewrap markers are set correctly, post-processing
+poetry shouldn't be any different from producing a prose book. Make sure you save
+backup copies of your file regularly as you work&mdash;it will be much easier
+to recover from a formatting decision gone terribly wrong. Have a look at
+recently posted poetry books at PG for layout ideas.
+Some post-processing software has extra features for
+handling poetry&mdash;refer to the user guide or manual for more information.
+</p>
+
+
+<h3><a name="tables" id="tables"></a>Tables</h3>
+
+<p>
+Sometimes tables in your text will already have received the careful attention
+of a member of the <a href="<?php echo make_forum_url('t', 11960, ''); ?>">Turn
+the Tables</a> team, and be sized to fit within PG guidelines (ideally,
+less than 75 characters wide, or 80 if desperate). If you need help with a table,
+or have questions about the HTML formatting, post in the team topic or
+in the post-processing forum.
+</p>
+
+
+<h3><a name="greek" id="greek"></a>Greek</h3>
+
+<p>
+Greek will usually have been
+<a href="<?php echo $wiki_url; ?>/Transliterating_Greek">transliterated</a>
+(converted to Latin letters) during proofreading.
+There are various ways to handle this.
+</p>
+
+<p>
+In the plaintext you can leave the transliteration, commonly removing
+the [Greek: Transliterated text.] markup although you may wish to use
+another markup of your own, such as a +, and mention its use to indicate Greek
+in a Transcriber's Note. Or, if you have a significant amount of Greek or
+other unusual letters, you can produce a UTF-8 version, which will contain
+the original letters. Post in the forums if you'd like help with this.
+Faster help can often be obtained for short phrases via the
+<?php echo $site_abbreviation; ?> 
+ <a href="<?php echo $wiki_url; ?>/Jabber_instructions">Jabber</a> chat room.
+</p>
+
+<p>
+In the HTML, you can always use Greek letters (whether your file is saved as UTF-8 or not);
+if it's not UTF-8, then you'll need to encode the Greek letters using
+<a href="http://www.w3schools.com/tags/ref_symbols.asp">HTML entities</a>.
+Either way it will display for the reader if they have a relevant font installed.
+It's a nice idea to enclose the Greek in a &lt;span&gt; which uses
+the transliteration as a "title" attribute&mdash;that way non-Greek readers
+can still access the word. Again, ask for help if you need it.
+There really are people who enjoy doing this!
+</p>
+
+
+<h3><a name="minorlote" id="minorlote"></a>Occasional use of other languages</h3>
+
+<p>
+Check the <a href="<?php echo $wiki_url; ?>/Language_Skills_List">Language
+Skills List</a> to ask for help or advice. If a native speaker hasn't been
+at <?php echo $site_abbreviation; ?> for some weeks, or can't help with
+your particular problem, have a look at the
+<a href="<?php echo $teams_forum_url; ?>">Teams Forum</a> or on
+the <a href="<?php echo $wiki_url; ?>/Teams_List">wiki teams list</a>
+to see if there's a team for the language or relevant country or countries.
+Don't worry if there are few members or the forum hasn't been posted to
+in a while&mdash;your question might be all it takes to create a lively
+and helpful community discussion.
+</p>
+
+
+<h3><a name="index" id="index"></a>Indexes</h3>
+
+<p>
+Keep the page numbers in the index, even in the plain text version.
+In the HTML version it's very easy to link numbers to page anchors&mdash;see
+the user guide or manual for your post-processing software. If you need a way
+to do this linking semi-automatically (you'll need to check that non-index
+numbers aren't being included!), then just ask in the
+<a href="<?php echo make_forum_url('t', 4381, ''); ?>">Regular Expression Clinic</a>.
+For further help, or formatting queries, try the
+<a href="<?php echo make_forum_url('t', 10794, ''); ?>">Junkies, Index</a> team.
+</p>
+
+
+<h3><a name="errata" id="errata"></a>Errata pages</h3>
+
+<p>
+These should be included as printed. There are two ways to handle these:
+you can leave the amendments up to the reader, or you can make corrections
+in the text, adding a Transcriber's Note that you've done so.
+Whichever you choose depends on the project and on you as post-processor.
+Just don't make silent corrections and don't leave the pages out.
+</p>
+
+<p>
+A possible middle ground would be to include the page's content as printed
+in the plaintext version, and use a correction &lt;span&gt; in the HTML version
+to indicate that a change was made to the text&mdash;making the erratum amendment,
+but including the original text to pop-up when the change is highlighted/hovered
+over by the reader's mouse pointer. See the
+<a href="<?php echo $post_processing_forum_url; ?>">PP forum</a> for more on this.
+</p>
+
+
+<h3><a name="after" id="after"></a>A problem after the project has posted!</h3>
+
+<p>
+<strong>Don't Panic!</strong> Everyone who post-processes has done this.
+If they haven't, they will eventually.
+</p>
+
+<p>
+If the book is quite recently posted to PG (in the last week or two),
+contact your PPVer and let them know the problem. They'll pass it on to
+the WhiteWasher who archived your book and can most easily fix it.
+</p>
+
+<p>
+If the book posted a longer time ago, contact PG's
+<a href="http://www.gutenberg.org/wiki/Gutenberg:Contact_Information">errata</a>.
+Say that you are the post-processor of the book, and include the PG text number,
+title, and author with a clear description of the problem and how to fix it.
+If you've checked the problem against the page images, mention that too.
+</p>
+
+
+<h2><a name="different" id="different"></a>What's different about ... </h2>
+
+<h3><a name="periodicals" id="periodicals"></a>Periodicals and
+&Uuml;berprojects</h3>
+
+<p>
+See the <a href="<?php echo make_forum_url('f', 14, ''); ?>">&Uuml;berProjects
+Forum</a> for a list of the large multivolume projects that are likely
+to be seen on <?php echo $site_abbreviation; ?> for quite some time.
+</p>
+
+<p>
+See also the <a href="<?php echo make_forum_url('t', 22556, ''); ?>">Proofreading
+Periodicals</a> team.
+</p>
+
+<p>
+Many periodicals have a standard style for the text and HTML versions
+that ensures a consistent look for the whole project. If the periodical is part
+of an &uuml;berproject, check the
+<a href="<?php echo make_forum_url('f', 14, ''); ?>">&Uuml;berProjects Forum</a>
+for details.
+</p>
+
+<p>
+Many people are put off proofreading, formatting, or post-processing periodicals
+because they are perceived as "hard" in some way. Canny post-processors will
+therefore quickly realize that mastering a periodical style will give them access
+to many entertaining projects with little competition. A Style Guide puts an end
+to those hours spent mulling over whether a heading should be marked with
+&lt;h2&gt; or &lt;h3&gt;. Periodicals often have longer pages than usual and
+may have adverts or other unusual formatting issues.
+These will all have been encountered previously, and recommended handling
+should be explained in the &Uuml;berproject thread. If not,
+or if the explanation is unclear, post there for help.
+</p>
+
+<p>
+An excellent source of inspiration will be the most recently posted issues
+of that periodical at PG&mdash;refer to these to help. Make sure you select ones
+which have also been posted by <?php echo $site_abbreviation; ?> to ensure 
+absolute consistency of style.
+</p>
+
+
+<h3><a name="drama" id="drama"></a>Drama</h3>
+
+<p>
+Many people are put off proofreading, formatting, or post-processing drama
+because it is perceived as "hard" in some way. Sometimes it actually
+is quite hard, for example, when written in sixteenth-century English
+with little attention paid to spelling or grammatical niceties.
+Mostly though drama is quite straightforward.
+</p>
+
+<p>
+For all plays, check the <a href="document.php#play_n">Formatting Guidelines</a>,
+and ensure your plain text version is in line with these.
+</p>
+
+<p>
+Format character names as similarly as possible to the original text.
+If the text is metrical (written like poetry where line breaks are significant),
+check the /* */ markers carefully before doing any rewrapping (or consider
+checking through for rewrap sections, such as stage directions, by hand.)
+</p>
+
+<p>
+If the project contains unclosed brackets, be aware that Gutcheck will have
+many false positives.
+</p>
+
+<p>
+There are various ways to format plays in HTML; searching PG for
+recent postings may give some ideas, as will posting in the
+<a href="<?php echo $post_processing_forum_url; ?>">Post-Processing Forum</a>.
+The <a href="<?php echo make_forum_url('t', 15089, ''); ?>">Plays The Thing</a>
+team can also offer help and advice. Ideally, make it look as much like
+the original text as is sensible.
+</p>
+
+
+<h3><a name="music" id="music"></a>Music</h3>
+
+<p>
+Books with sections of music, or a short tune for a song sung in the text,
+or entirely about music, are regularly put into PG by <?php echo $site_abbreviation; ?>.
+A simple way to post-process a book containing music is to include all scores
+as illustrations in the HTML. However, much more value can be added to the book
+by transcribing the music into a common notation format.
+This has three great advantages:
+</p>
+
+<ul>
+<li>a clear musical score for HTML</li>
+<li>a midi file for HTML, so the PG reader can actually listen to the music</li>
+<li>the reader can edit the music</li>
+</ul>
+
+<p>
+The <a href="<?php echo $wiki_url; ?>/Music_Guidelines">wiki music guidelines</a>
+contain a detailed discussion of the different music transcription programs,
+such as Lilypond, Finale, Sibelius, and so forth, all of which can produce
+sound and image files, as well as editable source files. The guidelines
+also contain information for PPers about different ways to present music
+in the HTML, along with a list of sample e-books containing music.
+</p>
+
+<p>
+To obtain help with music transcription, simply post a message to the
+<a href="<?php echo make_forum_url('t', 9413, ''); ?>">Music team</a> thread,
+or send a private message to one of the volunteer music transcribers
+listed at the end of the Music Guidelines page.
+</p>
+
+
+<h3><a name="maths" id="maths"></a>Maths (LaTeX)</h3>
+
+<p>
+<strong>LaTeX</strong> is an integrated collection of typesetting software.
+Though oriented toward mathematical and scientific content not easily
+representable in plain text or HTML, LaTeX can create beautifully formatted
+printed works of all types, featuring complex page layout, camera-quality printed
+output, and auto-generated indexes, tables of contents, cross-references
+(including hyper-linked PDF), and bibliographies.
+</p>
+
+<p>
+LaTeX projects submitted to PG must include the LaTeX source as a single file,
+together with any illustrations (in an "images" subdirectory,
+as for non-LaTeX projects). Projects must be compilable with
+<a href="http://www.tug.org/texlive/">TeX Live</a>, which the PG whitewasher
+will use to generate the uploaded PDF. The <a href="http://miktex.org/">MiKTeX</a>
+distribution for Windows may be assumed equivalent to TeX Live for formatting
+and post-processing.
+</p>
+
+<p>
+The primary repositories of LaTeX information and advice at
+<?php echo $site_abbreviation; ?> are:
+</p>
+
+<ul>
+<li><a href="<?php echo $wiki_url; ?>/LaTeX_resources">LaTeX resources</a></li>
+<li><a href="<?php echo $wiki_url; ?>/Category:LaTeX">LaTeX Category</a> Wiki pages</li>
+<li><a href="<?php echo make_forum_url('t', 34532, ''); ?>">LaTeX Forum for Post-Processors</a></li>
+</ul>
+
+
+<h3><a name="lote" id="lote"></a>LOTE (Languages Other Than English)</h3>
+
+<p>
+You probably want to speak the language, or have a native speaker
+spellcheck/smoothread it. However, for some languages, there are few or no
+native speakers available on the site. These projects can be taken by people who
+are willing to put in the extra effort involved in dealing with a language that
+they do not speak. Check the
+<a href="<?php echo $wiki_url; ?>/Language_Skills_List">Language Skills List</a>
+to find who to ask for help or advice.
+</p>
+
+<p>
+When you submit a Latin-1 version of your text there is no need to also produce
+an ASCII version as PG has the tools to easily make an ASCII version based on
+the Latin-1 text. However, if the ideal ASCII-version would be different from the
+result you get by making standard replacements like &uuml; -&gt; ue, &eacute;
+-&gt; e, etc., you should produce an ASCII version yourself. Explain your reason
+for doing so when uploading for PPV, so they can pass that message on to PG.
+</p>
+
+<p>
+As a post-processor you have a bit of freedom in choosing the best format
+for your text. For LOTE texts this may sometimes lead to decisions which would
+be unusual or even plainly incorrect in English. If you make such a decision,
+you might get lots of Gutcheck errors. <strong>If</strong> you have a good reason
+for your decision and if you have applied it consistently, you can ignore
+<strong>those</strong> errors. You might want to mention this decision
+in your upload notes. Example: For many languages it looks more natural
+to have spaces around em-dashes. It's perfectly fine to leave or insert them.
+</p>
+
+<p>
+You should replace English markup words which appear in the final text
+with translations of those words in the main language of the text. e.g.
+Footnote/Fu&szlig;note/Apostille/Ootnotefay/&Upsilon;&pi;&omicron;&sigma;&eta;&mu;&epsilon;&iota;&omega;&sigma;&eta;/Voetnoot/Nota de rodap&eacute;.
+</p>
+
+
+<h2><a name="also" id="also"></a>See also ...</h2>
+
+<ul>
+<li><a href="<?php echo $post_processing_forum_url; ?>">Post-Processing Forum</a>,
+    which contains a <a href="<?php echo make_forum_url('t', 15019, ''); ?>">"No
+    Dumb Questions" for PPers</a> thread</li>
+<li><a href="<?php echo $wiki_url; ?>/PPTools/FAQ">PP Tools&mdash;FAQ</a></li>
+<li><a href="<?php echo $wiki_url; ?>/Post-Processing_Advice">Post-processing Advice</a></li>
+<li><a href="<?php echo $wiki_url; ?>/Guiguts_PP_Process_Checklist">Guiguts PP Process Checklist</a></li>
+<li><a href="<?php echo $wiki_url; ?>/User:Miller">Miller's PP walkthrough using Guiguts</a></li>
+<li><a href="<?php echo $wiki_url; ?>/Post-Processing_German_books">Post-processing German Books</a></li>
+<li><a href="<?php echo $wiki_url; ?>/French/FAQ_post-processing">Post-processing FAQ en fran&ccedil;ais</a></li>
+</ul>
 
 <?php
 theme('','footer');
 ?>
-
