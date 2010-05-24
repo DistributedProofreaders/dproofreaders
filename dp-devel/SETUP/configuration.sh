@@ -12,7 +12,7 @@
 # so you can use any syntax that /bin/sh allows.  However, in typical
 # usage, you would merely assign literal values to shell variables.
 
-# Bug/limitation: if a variable's value contains an apostrophe, the
+# Bug/limitation: if a variables value contains an apostrophe, the
 # configuration process will not work correctly. (Note that it's fine to
 # use apostrophes to delimit string literals; they aren't part of the
 # value.) This is unlikely to be a problem outside the "Identifying
@@ -147,13 +147,13 @@ _EXTERNAL_CATALOG_LOCATOR='z3950.loc.gov:7090/Voyager'
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-# Proofing Projects
+# Proofreading Projects
 # -----------------
 
 _PRECEDING_PROOFER_RESTRICTION=not_immediately_preceding
 
-# When a user asks to proof a page in a project, the code chooses which
-# page to assign to the user. Generally, it just chooses the "next"
+# When a user asks to proofread a page in a project, the code chooses
+# which page to assign to the user. Generally, it just chooses the "next"
 # (i.e., lowest-numbered) available page, but it can be configured (with
 # this setting) to avoid pages that the user has worked on before.
 # Specifically, there are three recognized values for this setting:
@@ -176,15 +176,15 @@ _PUBLIC_PAGE_DETAILS=FALSE
 # those names.
 # If TRUE, all logged-in users can see all names for all pages in all
 #     projects.
-# If FALSE, the proofer names for a given page in a given project are
-#     visible only to:
+# If FALSE, the proofreader names for a given page in a given project
+#     are visible only to:
 #     --- Site Administrators and Project Facilitators;
 #     --- the project's PM, PPer, and PPVer; and
 #     --- any other user that worked on the same page.
 
 # ----------------------------------------------------------------------
 
-# In the proofing interface, the Spell-Checking functionality relies on
+# In the proofreading interface, the Spell-Checking functionality relies on
 # a local installation of 'aspell'...
 
 _ASPELL_EXECUTABLE=/usr/local/bin/aspell
@@ -207,7 +207,7 @@ _WIKIHIERO_URL=$base_url/wikihiero
 # If you're dealing with text containing Egyptian hieroglyphs, you may
 # want to install wikihiero to help with the transcription. If so, set
 # these variables to the location you installed it, and a link will
-# appear in the proofing interface.
+# appear in the proofreading interface.
 # If you haven't installed wikihiero, leave them empty.
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

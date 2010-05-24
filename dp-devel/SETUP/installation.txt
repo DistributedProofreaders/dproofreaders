@@ -150,8 +150,8 @@ assuming it isn't already.
         automatically-created discussion topic. You should create a forum to
         house the team topics, and four forums for project topics, one for each
         of:
-        --- projects not yet released for proofing
-        --- projects released for proofing
+        --- projects not yet released for proofreading
+        --- projects released for proofreading
         --- projects in post-processing
         --- projects that have been posted
 
@@ -159,7 +159,7 @@ assuming it isn't already.
         operational sense above, but just to provides helpful links.
         --- general
         --- beginners' site Q&A
-        --- beginners' proofing Q&A
+        --- beginners' proofreading Q&A
         --- content providers
         --- post-processing
 
@@ -173,7 +173,7 @@ assuming it isn't already.
 
             For Beginners
                 ** Common Site Q&A
-                ** Common Proofing Q&A
+                ** Common Proofreading Q&A
             Site
                 ** General
                 -- Future Features
@@ -187,7 +187,7 @@ assuming it isn't already.
                 ** Post-Processing
             Projects
                 ** Projects Waiting
-                ** Projects Being Proofed or Formatted
+                ** Projects Being Proofread or Formatted
                 ** Projects Being Post-Processed or Verified
                 -- UberProjects
                 ** Archive of Posted Projects

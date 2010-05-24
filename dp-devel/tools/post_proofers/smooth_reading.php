@@ -13,7 +13,7 @@ include_once($relPath.'showavailablebooks.inc');
 // the user_is functions don't work unless this has been executed previously!
 // it's in dp_main.inc, but we also want this page to be accessible to 
 // people who aren't logged in, so we can't include that file,
-// which requries a visitor to log in
+// which requires a visitor to log in
 dpsession_resume();
 
 //Check to see if we are in a maintenance mode
@@ -57,7 +57,7 @@ if (!$logged_in)
 
 {
     
-    echo "<p style='font-size: 120%;'>" . _("The goal of 'Smooth Reading' is to read the text attentively, as for pleasure, with just a little more attention than usual to punctuation, etc. This is NOT full scale proof-reading, and comparison with the scans is not needed. Just read it as your normal, sensitized-to-proofing-errors self, and report any problem that disrupts the sense or the flow of the book. Note that some of these will be due to the author and/or publisher.") . "</p>";
+    echo "<p style='font-size: 120%;'>" . _("The goal of 'Smooth Reading' is to read the text attentively, as for pleasure, with just a little more attention than usual to punctuation, etc. This is NOT full scale proofreading, and comparison with the scans is not needed. Just read it as your normal, sensitized-to-proofreading-errors self, and report any problem that disrupts the sense or the flow of the book. Note that some of these will be due to the author and/or publisher.") . "</p>";
     
 
     

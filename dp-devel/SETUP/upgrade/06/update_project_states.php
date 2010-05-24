@@ -18,7 +18,7 @@ echo "Changing project states...\n";
 // Find any projects in those states and move them to
 // an appropriate state that still exists.
 
-// Also, the proofing-round state values have changed format.
+// Also, the proofreading-round state values have changed format.
 
 $case = "
 	CASE state

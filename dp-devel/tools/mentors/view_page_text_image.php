@@ -185,7 +185,7 @@ elseif ($frame=="image") {
 }
 
 //If it's the text frame, we show the saved text in a textarea 
-//with some of the user's preferences from the proofing interface
+//with some of the user's preferences from the proofreading interface
 elseif ($frame=="text") {
     slim_header(_("Text Frame"),TRUE,TRUE);
     if (!count($error_messages)) {
