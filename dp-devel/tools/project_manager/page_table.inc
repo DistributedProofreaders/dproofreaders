@@ -307,8 +307,8 @@ function echo_page_table(
         }
         else
         {
-            // The user can see the names of all the proofers for this page
-            // only if they are one of those proofers.
+            // The user can see the names of all the proofreaders for this page
+            // only if they are one of those proofreaders.
             $can_see_names_for_this_page = FALSE;
             foreach ( $rounds_to_display as $round )
             {
@@ -333,7 +333,7 @@ function echo_page_table(
         // or else make them global, which I don't want to do.)
 
         // --------------------------------------------
-        // Link to proofing interface
+        // Link to proofreading interface
         if ($project_phase == 'PAGE_EDITING')
         {
             if ($page_res[$project_round->user_column_name] == $pguser

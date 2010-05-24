@@ -351,10 +351,10 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     {
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
-        echo _("Looking for projects to proof?");
+        echo _("Looking for projects to proofread?");
         echo "</div>";
 
-        echo "<p>" . sprintf(_("If you're looking for projects to proof, consider using the list on the <a href='%s'>%s</a> round page instead of this search form."), "$code_url/{$ELR_round->relative_url}#{$ELR_round->id}", $ELR_round->id) . "</p>";
+        echo "<p>" . sprintf(_("If you're looking for projects to proofread, consider using the list on the <a href='%s'>%s</a> round page instead of this search form."), "$code_url/{$ELR_round->relative_url}#{$ELR_round->id}", $ELR_round->id) . "</p>";
         echo "</p>";
 
         echo "<p><small>";
@@ -837,7 +837,7 @@ function list_uber_projects( $can_see_all )
 {
     global $pguser, $theme, $PROJECT_IS_ACTIVE_sql;
 
-    // site managers and project facilitors can see all uber projects
+    // site managers and project facilitators can see all uber projects
 
     if ($can_see_all) {
 

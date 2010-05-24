@@ -94,7 +94,7 @@ function echo_cutoff_script($cutoffOptions,$instances) {
 <?php } // end of echo_cutoff_script
 
 // given the list of cutoff options and the word count
-// make sure the intial cutoff shows something
+// make sure the initial cutoff shows something
 function getInitialCutoff($idealCutoff,$cutoffOptions,$wordCount=null) {
     // validate the idealCutoff is in $cutoffOptions
     if(!in_array($idealCutoff,$cutoffOptions))
@@ -200,7 +200,7 @@ function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,
 
         $line .= "<td class='num'>$freq</td>";
 
-        // if avaiable, process any aux data
+        // if available, process any aux data
         if(is_array($auxData)) {
             for($index=0;$index<count($auxData);$index++) {
                 $line .= "<td";
@@ -268,7 +268,7 @@ function echo_page_instruction_text($wordListType,$format) {
             $page_instructions_string .= _("You can do this either by using the checkboxes provided, or by copying from below and pasting them into the Good Words input box on the Edit Project Word Lists page (taking care not to overwrite any existing words).");
         }
     } elseif( $wordListType == "bad" ) {
-        $page_instructions_string = _("If you find any words in the results list that should be flagged in the WordCheck interface for extra attention by proofers, add them to the project's Bad Words List.");
+        $page_instructions_string = _("If you find any words in the results list that should be flagged in the WordCheck interface for extra attention by proofreaders, add them to the project's Bad Words List.");
         if( $format == "html" ) {
             $page_instructions_string .= " ";
             $page_instructions_string .= _("You can do this either by using the checkboxes provided, or by copying them from below and pasting them into the Bad Words input box on the Edit Project Word Lists page (taking care not to overwrite any existing words).");
