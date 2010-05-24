@@ -23,7 +23,7 @@ if($x == "g" OR $x == "") {
     $info = _("Below is the list of Silver e-texts that have almost completed processing on our site. Silver e-texts are books that have passed through all phases of proofreading and formatting and are now in the post-processing phase. Post-processing is the final assembly stage in which one volunteer performs a series of checks for consistency and correctness before the e-book is submitted to Project Gutenberg for your enjoyment and download.");
 } elseif ($x == "b") {
     $type = "Bronze";
-    $title = _("Now Proofing Bronze E-Texts");
+    $title = _("Now Proofreading Bronze E-Texts");
     $state = SQL_CONDITION_BRONZE;
     $info = _("Below is the list of Bronze e-texts that are currently available for proofreading on this site. Bronze e-texts are what our newest volunteers see and what you can work on now by logging in. These e-texts are in the initial stages of proofreading where everyone has a chance to correct any OCR errors which may be found. After going through a number of other phases, the e-text then goes to an experienced volunteer for final assembly (post-processing), after which the e-text is submitted to Project Gutenberg for your enjoyment and download.");
 } else {

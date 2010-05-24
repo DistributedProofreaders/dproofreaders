@@ -48,7 +48,7 @@ draw_simple_bar_graph(
 	$datax,
 	$data1y,
 	$x_text_tick_interval,
-	'Percentage of New Users Who Went on to Proof By Month',
+	'Percentage of New Users Who Went on to Proofread By Month',
 	'% of newly Joined Users who Proofread'
 );
 

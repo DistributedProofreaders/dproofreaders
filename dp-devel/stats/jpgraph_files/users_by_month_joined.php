@@ -82,7 +82,7 @@ $gbplot = new GroupBarPlot (array($b1plot ,$b2plot));
 $graph->Add( $gbplot);
 
 
-// line plot showing percentage of joining users who proof
+// line plot showing percentage of joining users who proofread
 //$lplot = new LinePlot ($data3y);
 //$lplot->SetColour("blue");
 //$lplot->SetWeight(2);

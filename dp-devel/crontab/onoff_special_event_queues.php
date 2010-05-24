@@ -1,7 +1,7 @@
 <?php
 
 // The 'queue_defns' table defines the various release queues that the autorelease code
-// polls every hour in case any can release a new book for proofing.
+// polls every hour in case any can release a new book for proofreading.
 
 // SPECIAL DAY queues are those that open on specific days only. They are defined in the 
 // 'special_days' table. This script opens and closes these queues based upon the dates

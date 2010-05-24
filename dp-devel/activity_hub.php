@@ -137,7 +137,7 @@ $show_filtered_projects = $page_filtered_projects_setting;
 
 $show_filtering_links = TRUE;
 
-// Proofers with fewer than 21 pages can't see the filter box on the Round
+// Proofreaders with fewer than 21 pages can't see the filter box on the Round
 // pages so prevent those users from selecting the filtered option.
 if ($pagesproofed <= 20)
 {
@@ -189,7 +189,7 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
 
     // Round headers
     echo "<tr>";
-    $img_alt = _("Proofing/Formatting Activities");
+    $img_alt = _("Proofreading/Formatting Activities");
     echo "<td rowspan='2' colspan='3' style='border: none;'><img src='graphics/icon_proofer.png' alt='$img_alt' title='$img_alt'></td>";
     echo "<th colspan='4'>" .  _("Projects") . " - ";
     if($show_filtered_projects)

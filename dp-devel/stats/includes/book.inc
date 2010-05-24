@@ -76,7 +76,7 @@ function activityCenter($curProj) {
 
 	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$projects_url/$projectid/images.zip'>Download Page Images</a></font></td></tr>";
 
-// Start Proofing
+// Start Proofreading
 
 	if ( $project_phase == 'PAGE_EDITING' )
 	{
