@@ -1,10 +1,10 @@
-<p>This is a second-time for this text to be proofed. Many small errors 
-remained after the normal 2 rounds of proofing, so we are trying to 
+<p>This is a second-time for this text to be proofread. Many small errors 
+remained after the normal 2 rounds of proofreading, so we are trying to 
 eliminate them prior to post processing.</p>
 <p>Two common reasons for these remaining errors are:</p>
 <ul>
 <li>The images are copies (of copies of...) typewritten material. They 
-are  difficult to see unless you proof with at least 100% zoom.</li>
+are  difficult to see unless you proofread with at least 100% zoom.</li>
 <li>The vernacular means you cannot assume anything about a word's 
 spelling. Reading is not sufficient, you have to compare to the image. Many 
 people are finding it best to start at the bottom and work backwards so 
@@ -58,7 +58,7 @@ often mistaken for each
 "dey" (dialect for "they") is often
          presented as "day" from the OCR software. Look very carefully at 
 the scans while you are
-         proofing. <em>Only people can find these!</em>
+         proofreading. <em>Only people can find these!</em>
          </li>
          <li>Dialect: You will find examples of both "wuz" and "waz", and 
 "chillun" and "chillen"; only
@@ -76,11 +76,11 @@ a word ... fix it to be "Oh!"
          "B (double-quote, upper-case B). Please keep an eye out for this.
          </li>
          <li>Some combinations of letters are more likely to have been 
-missed in the first proofing
+missed in the first proofreading
          rounds. Combinations that tend to misscan:  <br />
          Kl&#8594;KL,  li&#8594;ll,  ch&#8594;oh,  rn&#8596;m</li>
          <li>Some individual scannos that were often missed in the first 
-proofing rounds are: <br />
+proofreading rounds are: <br />
          e&#8596;a,  e&#8596;s,  s&#8594;a,  c&#8596;o,  h&#8594;n, 
 M&#8596;N,  H&#8596;M,  W&#8594;v,  W&#8594;w,  I&#8594;i</li>
          <li>Perhaps because of so many dialect words, another commonly 

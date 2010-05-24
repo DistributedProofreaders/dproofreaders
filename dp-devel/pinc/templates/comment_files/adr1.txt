@@ -1,5 +1,5 @@
-<div align="center"><font color="maroon" size="+1">Proof Reader</font></div>
-<p>It is an old spanish text, so it is frequent old spelling conventions. Keep
+<div align="center"><font color="maroon" size="+1">Proofreaders</font></div>
+<p>It is an old Spanish text, so it is frequent old spelling conventions. Keep
 original text, please. For more information, read <a
 href="http://www.pgdp.net/c/faq/proofreading_guidelines.php#p_errors">Printer
 Errors/Misspellings</a>. </p>
@@ -7,7 +7,7 @@ Errors/Misspellings</a>. </p>
 <p>It is written in a heavy font and OCR interpreted it as bold. Remove general
 bold marks and keep only those specific ones, please. </p>
 
-<p>P2 and P3 don't use modern spanish spellchecker (such as Microsoft Word) as
+<p>P2 and P3 don't use modern Spanish spellchecker (such as Microsoft Word) as
 it is useless.</p>
 
 <div align="center"><font color="maroon" size="+1">Revisión</font></div>

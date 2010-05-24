@@ -49,7 +49,7 @@ way.  Please mark these in one of the following two ways:</p>
 
 <h3 id="dashes"><a name="dashes"></a>Dashes</h3>
 
-<p>Recently the Proofing Guidelines changed so that all dashes are now represented
+<p>Recently the Proofreading Guidelines changed so that all dashes are now represented
 by two hyphens (--).  <b>However,</b> in the testimony, it is very clear that some
 dashes are longer than others.  For longer dashes, please use four hyphens
 (----).</p>
@@ -101,7 +101,7 @@ exact &ndash; it's the text and meaning of the documents that are important.</p>
 <h3 id="underline"><a name="underline"></a>Underlined Text</h3>
 
 <p>Some of the Commission Exhibits contain documents that have underlined text.  The
-Proofing Guidelines say to mark underlined text similarly to italicized text;
+Proofreading Guidelines say to mark underlined text similarly to italicized text;
 <strong>however,</strong> we would like for this project to have underlined text
 marked with &lt;u&lt; and &lt;/u&lt; tags.  For example:
 

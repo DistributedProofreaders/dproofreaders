@@ -11,7 +11,7 @@ href="http://www.bodley.ox.ac.uk/ilej/">ILEJ</a>). The collection
 covers the period January 1843 to December 1863.</p>
 
 
-<h2>Proofing</h2>
+<h2>Proofreading</h2>
 
 <p>Misspelling in the image should not be changed. Add a [**spelling]
 tag to draw PP attention.</p>
@@ -38,5 +38,5 @@ Guidelines</a> for anything else.</p>
 <h2>General</h2>
 
 <p>Please leave notes to the PP that were left by the previous
-proofers/formatters.</p>
+proofreaders/formatters.</p>
 

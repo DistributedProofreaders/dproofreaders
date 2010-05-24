@@ -4,7 +4,7 @@ or not</i> the general Guidelines currently say the same thing:<br>
 * Preserve all information about diacritical marks, sub-/superscripts and other special characters.</p>
 
 <p>BAE-specific information is collected in the
-<a href = "http://www.pgdp.net/wiki/BAE/Formatting#Proofing">BAE Proofing Wiki</a>.
+<a href = "http://www.pgdp.net/wiki/BAE/Formatting#Proofing">BAE Proofreading Wiki</a>.
 For everything else, refer to the
 <a href = "http://www.pgdp.net/c/faq/proofreading_guidelines.php">Proofreading Guidelines</a>
 and <a href="http://www.pgdp.net/c/faq/document.php">Formatting Guidelines</a>.</p>
