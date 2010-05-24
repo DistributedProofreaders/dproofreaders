@@ -10,7 +10,7 @@ function project_continuity_check($projectid,$orig_state,$no_more_pages)
 // then the action is no longer valid.
 //
 // If $no_more_pages is true, then the action was/is to
-// "proof the next available page", and the error message (if any)
+// "proofread the next available page", and the error message (if any)
 // should be slightly more explanatory.
 {
 	$err = project_continuity_test($projectid, $orig_state, $no_more_pages);

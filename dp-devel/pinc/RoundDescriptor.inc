@@ -15,7 +15,7 @@ $Round_for_page_state_    = array();
 $PAGE_STATES_IN_ORDER   = array();
 
 class Round extends Stage
-// A container for various constants relating to a particular round of proofing.
+// A container for various constants relating to a particular round of proofreading.
 {
     function Round(
         $round_id,
@@ -31,8 +31,8 @@ class Round extends Stage
             // See Stage.inc for documentation.
 
         $pi_tools,
-            // A list of which tools should be available in the proofing
-            // interface's toolbox when proofing a page in this round.
+            // A list of which tools should be available in the proofreading
+            // interface's toolbox when proofreading a page in this round.
 
         $other_rounds_with_visible_usernames,
             // An array of round_ids.
@@ -184,7 +184,7 @@ function get_Round_for_round_id( $round_id )
 // ---------------------------
 
 function get_Round_for_round_number( $round_number )
-// If $round_number is a valid proofing-round number,
+// If $round_number is a valid proofreading-round number,
 // return the appropriate Round instance.
 // Otherwise, return NULL.
 {

@@ -104,7 +104,7 @@ function dump_request_info()
     echo "requested path: " . htmlspecialchars($_SERVER['PHP_SELF']) . "\n";
 
     // If this error occurred when they hit one of the submit buttons
-    // in the proofing interface, echoing the request parameters will
+    // in the proofreading interface, echoing the request parameters will
     // give them a last chance to save the page text.
 
     foreach ( array('_GET', '_POST') as $array_name )

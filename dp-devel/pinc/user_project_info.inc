@@ -294,7 +294,7 @@ subscription would look for project-events in which
 
 Rather than forcing each subscription to be attached to a particular project,
 it would be possible to allow pattern-matching on the project. E.g. a user could
-be notified when any book of a specified genre is available for P1 proofing
+be notified when any book of a specified genre is available for P1 proofreading
 (Task 16) or smooth-reading (Task 677).
 
 The main problem with this scheme is specifying and implementing the event

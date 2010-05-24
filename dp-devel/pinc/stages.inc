@@ -437,15 +437,15 @@ function can_user_get_pages_in_project( $username, $project, $round )
                 {
                     // Yes, inexperienced.
                     // So not subject to this restriction
-                    // (and so, allowed to proof, unless there's some other problem).
+                    // (and so, allowed to proofread, unless there's some other problem).
                 }
                 else
                 {
                     // No, experienced.
-                    // So cannot proof this project yet.
+                    // So cannot proofread this project yet.
                     return
                         sprintf(
-                            _('This project is currently reserved for proofers who joined less than %d days ago or have done less than %s P1 pages.'),
+                            _('This project is currently reserved for proofreaders who joined less than %d days ago or have done less than %s P1 pages.'),
                             $days_on_site_threshold,
                             $page_tally_threshold
                         )

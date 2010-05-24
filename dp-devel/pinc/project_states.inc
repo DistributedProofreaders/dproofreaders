@@ -451,7 +451,7 @@ function get_project_status_descriptor( $which )
 	    $obj->Xed_title = _('Proofread');
             $obj->projects_Xed_title = _('Projects Proofread');
             $obj->graphs_title = _('Proofread Projects Graphs');
-            $obj->per_day_title = _('Projects Proofed Each Day');
+            $obj->per_day_title = _('Projects Proofread Each Day');
             $obj->cumulative_title = _('Cumulative Projects Proofread');
             break;
 
