@@ -28,7 +28,7 @@ span.mono
 <h3>Proofreader Questions</h3>
 <ul>
   <li><a href="#why_spellcheck">Why should I use a spell-checker? I'm a good speller!</a></li>
-  <li><a href="#when_wordcheck">Should I run WordCheck before or after I "manually" proof a page?</a></li>
+  <li><a href="#when_wordcheck">Should I run WordCheck before or after I "manually" proofread a page?</a></li>
   <li><a href="#ua_button">What's the "Unflag All &amp; Suggest" button (<img src="<?php echo $code_url; ?>/graphics/Book-Plus-Small.gif" border="0">) and what does it do?</a></li>
   <li><a href="#need_aw">Do I have to hit the Unflag All button for every word on the page?</a></li>
   <li><a href="#ua_diff">Why don't all Flagged words have an Unflag All button?</a></li>
@@ -134,12 +134,12 @@ span.mono
 <p>The checker will attempt to flag these kinds of situations for the proofreader's attention, so that the proofreader can consider them carefully, and take proper action in each case.</p>
 
 
-<h3><a name="when_wordcheck"></a>Should I run WordCheck before or after I "manually" proof a page?</h3>
+<h3><a name="when_wordcheck"></a>Should I run WordCheck before or after I "manually" proofread a page?</h3>
 <p>The answer to this question is entirely up to you.</p>
 
-<p>Some people will like to use WordCheck as a "first pass" through the page text to catch the more obvious OCR errors, and to highlight potential typographical errors and stealth scannos. Some folks believe that finding and fixing those types of errors before they proof the page in regular text-editing mode eliminates them as a possible source of distraction at finding other errors remaining in the page.</p>
+<p>Some people will like to use WordCheck as a "first pass" through the page text to catch the more obvious OCR errors, and to highlight potential typographical errors and stealth scannos. Some folks believe that finding and fixing those types of errors before they proofread the page in regular text-editing mode eliminates them as a possible source of distraction at finding other errors remaining in the page.</p>
 
-<p>Other people will prefer to proof the page in text-editing mode first, and then use the WordCheck as a "final pass" through the page to re-check the punctuation and potential stealth scannos one more time. Some folks feel a great deal of satisfaction in finding that any word which WordCheck may flag is actually a "false flag" since they see it as an affirmation of their proofreading skills.</p>
+<p>Other people will prefer to proofread the page in text-editing mode first, and then use the WordCheck as a "final pass" through the page to re-check the punctuation and potential stealth scannos one more time. Some folks feel a great deal of satisfaction in finding that any word which WordCheck may flag is actually a "false flag" since they see it as an affirmation of their proofreading skills.</p>
 
 <p>And other proofreaders will prefer other approaches to using WordCheck. Thus, run WordCheck at the time when it best fits into your particular page proofreading method.</p>
 
@@ -234,7 +234,7 @@ foreach($languages as $language) {
 </ul>
 
 <h3><a name="add_another_language"></a>Can I add additional language dictionaries to WordCheck?</h3>
-<p>When a page is checked against the external spell-checker the checker uses dictionaries from the project's languages. There is currently no way for the project manager to specify additional project-wide dictionaries beyond those for the project's (one or two) languages. If a project has only a Primary language, the Project Manager can elect to select a Secondary language for the project to have that language's dictionary used in the spell-checker. Secondary languages are often used by Proofreaders when determining projects to proof so it is recommended that only projects with significant use of a second language have a Secondary language specified.</p>
+<p>When a page is checked against the external spell-checker the checker uses dictionaries from the project's languages. There is currently no way for the project manager to specify additional project-wide dictionaries beyond those for the project's (one or two) languages. If a project has only a Primary language, the Project Manager can elect to select a Secondary language for the project to have that language's dictionary used in the spell-checker. Secondary languages are often used by Proofreaders when determining projects to proofread so it is recommended that only projects with significant use of a second language have a Secondary language specified.</p>
 
 <p>Proofreaders can select an ad-hoc language to use on a per-page basis if that page contains text from a non-project language, such as a quote. Project Managers may wish to include such a suggestion in the project instructions and/or in the forum for the project.</p>
 

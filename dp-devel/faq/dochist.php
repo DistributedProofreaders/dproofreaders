@@ -54,9 +54,9 @@ theme('Proofreading and Formatting Guidelines Revision History','header');
                 <li>Reorganization of topics and subdivisions for proofreading at the character, paragraph, and page level</li>
                 <li>New alphabetical index to the bottom</li>
                 <li>In poetry, don't remove extra quote marks on each line</li>
-                <li>Blank line at the top of the page for a new paragraph is now proofer's responsibility</li>
+                <li>Blank line at the top of the page for a new paragraph is now proofreader's responsibility</li>
                 <li>Removed [/x] and [\x]</li>
-                <li>Braces for superscripts and subscripts are now handled in proofing not formatting</li>
+                <li>Braces for superscripts and subscripts are now handled in proofreading not formatting</li>
                 <li>For superscripts, use braces any time more than one character is superscripted</li>
                 <li>No longer using the ordinal characters, just treat them as superscripts</li>
                 <li>New section under Common Problems for degree signs, ordinals, and superscripts</li>

@@ -40,7 +40,7 @@ theme(_('Site Progress Snapshot'),'header');
 </p>
 
 <h2>Project information</h2>
-<p>For each activity, information about projects in that activity is included. For projects in the proofing rounds, this includes the Total, Waiting, and Available projects as well as a count of how many projects were Completed Today. For non-proofing rounds, this includes the Total, Available, and In Progress projects.</p>
+<p>For each activity, information about projects in that activity is included. For projects in the proofreading rounds, this includes the Total, Waiting, and Available projects as well as a count of how many projects were Completed Today. For non-proofreading rounds, this includes the Total, Available, and In Progress projects.</p>
 
 <p>Project numbers can optionally be filtered using the filter criteria specified on corresponding pages. You can toggle between viewing project numbers for All projects or Filtered projects that match your filter.</p>
 

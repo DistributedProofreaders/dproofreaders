@@ -189,7 +189,7 @@ $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
    rounds from the PP pool or from PPer's personal queues. As many of these projects 
    mention on the Project Page, these projects have been proofread under older versions of the Guidelines. 
    As per above, proofreaders should <b>not</b> adjust any of the formatting. 
-   Formatting checks will be completed by the formatters. Proofreaders should proof 
+   Formatting checks will be completed by the formatters. Proofreaders should proofread 
    according to <a href="<?php echo $code_url; ?>/faq/proofreading_guidelines.php">current
    Guidelines</a>, for example, insert page numbers into tables of contents
    and indexes if they were removed previously.
