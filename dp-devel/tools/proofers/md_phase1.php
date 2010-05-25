@@ -87,7 +87,7 @@ theme( _("Image Metadata Phase1"), "header");
 
 echo "<center><table border=1>";
 
-echo "<tr><td bgcolor='" . $theme['color_headerbar_bg'] . "' colspan=6><b><font color='" . $theme['color_headerbar_font'] . "' size=+1>" . sprintf(_("Project Name: %s"),$name) . "</b></td></tr>";
+echo "<tr><td bgcolor='" . $theme['color_headerbar_bg'] . "' colspan=6><b><font color='" . $theme['color_headerbar_font'] . "' size=+1>" . sprintf(_("Project Name: %1\$s"),$name) . "</b></td></tr>";
 
 echo "<tr><td bgcolor='" . $theme['color_navbar_bg'] . "'><b>" . _("Author") . ":</b></td><td>$author</td><td bgcolor='" . $theme['color_navbar_bg'] . "'><b>" . _("Total Number of Master Pages") . ":</b></td><td>$numpages</td>";
 echo "<td bgcolor='" . $theme['color_navbar_bg'] . "'><b>" . _("Language") . ":</b></td><td>$language</td></tr><tr></tr>";
