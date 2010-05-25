@@ -25,23 +25,23 @@ function showProjProfile($curProj) {
 
 // Author of Book
 
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Author</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".$curProj['authorsname']."</font></td></tr>";
+        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Author")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".$curProj['authorsname']."</font></td></tr>";
 
 // Language of Book
 
-	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Language</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".$curProj['language']."</font></td></tr>";
+	echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Language")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".$curProj['language']."</font></td></tr>";
 
 // Genre of Book
 
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Genre</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".$curProj['genre']."</font></td></tr>";
+        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Genre")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".$curProj['genre']."</font></td></tr>";
 
 // State of Book
 
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Current State</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".project_states_text($curProj['state'])."</font></td></tr>";
+        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Current State")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".project_states_text($curProj['state'])."</font></td></tr>";
 
 // Last Modified
 
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>Last Modified</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".date("l, F jS, Y",$curProj['modifieddate'])."</font></td></tr>";
+        echo "<tr bgcolor='".$theme['color_navbar_bg']."'><td width='30%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'><b>"._("Last Modified")."</b>:</font></td><td width='70%' align='left' valign='top'><font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>".date("l, F jS, Y",$curProj['modifieddate'])."</font></td></tr>";
 
 	echo "</table></td></tr>";
 	echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td width='35%' valign='top' align='left'>";
@@ -70,18 +70,18 @@ function activityCenter($curProj) {
 
 // View Page Images
 
-	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$code_url/tools/proofers/images_index.php?project=$projectid'>View Page Images</a></font></td></tr>";
+	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$code_url/tools/proofers/images_index.php?project=$projectid'>"._("View Page Images")."</a></font></td></tr>";
 
 // Download Page Images
 
-	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$projects_url/$projectid/images.zip'>Download Page Images</a></font></td></tr>";
+	echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$projects_url/$projectid/images.zip'>"._("Download Page Images")."</a></font></td></tr>";
 
 // Start Proofreading
 
 	if ( $project_phase == 'PAGE_EDITING' )
 	{
 		$round = get_Round_for_project_state($curProj['state']);
-		echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$code_url/project.php?id=$projectid&amp;expected_state={$round->project_available_state}'>Start Proofreading!</a></font></td></tr>\n";
+		echo "<tr><td align='left'><font face='".$theme['font_mainbody']."' size='2'><a href='$code_url/project.php?id=$projectid&amp;expected_state={$round->project_available_state}'>"._("Start Proofreading!")."</a></font></td></tr>\n";
 	}
 
 //	Book is Posted
