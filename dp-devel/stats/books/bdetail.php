@@ -12,7 +12,7 @@ $project = validate_projectID('project', @$_GET['project']);
 $result = mysql_query("SELECT * FROM projects WHERE projectid = '". $project ."'");
 $curProj = mysql_fetch_assoc($result);
 
-theme($curProj['nameofwork']."'s Details", "header");
+theme(sprintf(_("%s's Details"), $curProj['nameofwork']), "header");
 echo "<br><center>";
 
 if (!empty($curProj['projectid'])) {

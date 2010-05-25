@@ -1,17 +1,14 @@
 <?php
 $relPath = '../pinc/';
-include($relPath.'connect.inc');
+include($relPath.'site_vars.php');
+include($relPath.'theme.inc');
 new dbConnect();
-include($relPath.'project_states.inc');
 
-echo "
-<HTML>
-<HEAD><TITLE>Copyright Renewals Status</TITLE></HEAD>
-<BODY>
-<H1>Status of Copyright Renewals Projects</H1>
-";
+$title = _("Copyright Renewals");
+theme($title,'header');
 
-$title = "Copyright Renewals";
+echo "<br><h2>" . _("Status of Copyright Renewals Projects") . "</h2>";
+
 $selector = "nameofwork like 'Copyright Renewal%'";
 
 $res =
@@ -46,19 +43,20 @@ $bgcolor = array(
 
 $n_proofings_total = array( 1 => array(), 2 => array() );
 
-echo "<p>(The horizontal bars may or may not be rendered correctly, depending on your browser.)</p>\n";
-
+echo "<p>";
+echo _("(The horizontal bars may or may not be rendered correctly, depending on your browser.)");
+echo "</p>\n";
 echo "<table border=1>\n";
 echo "<tr>\n";
 echo "<th colspan=3></th>\n";
-echo "<th colspan=2>round 1</th>\n";
-echo "<th colspan=2>round 2</th>\n";
-echo "<th colspan=2>both rounds</th>\n";
+echo "<th colspan=2>" . _("round 1") . "</th>\n";
+echo "<th colspan=2>" . _("round 2") . "</th>\n";
+echo "<th colspan=2>" . _("both rounds") . "</th>\n";
 echo "</tr>\n";
 echo "<tr>\n";
-echo "<th>Title</th>\n";
-echo "<th>State</th>\n";
-echo "<th>Pages</th>\n";
+echo "<th>" . _("Title") . "</th>\n";
+echo "<th>" . _("State") . "</th>\n";
+echo "<th>" . _("Pages") . "</th>\n";
 foreach ($rounds as $which_round)
 {
 	foreach ($done_left as $dl)
@@ -154,7 +152,7 @@ for ( $year = 1950; $year < 1978; $year ++ )
 	}
 	else
 	{
-		$state_str = 'Not Yet On-site';
+		$state_str = _("Not Yet On-site");
 		$n_proofings[1]['done'] = 0;
 		$n_proofings[2]['done'] = 0;
 	}
@@ -213,8 +211,9 @@ echo "</table>\n";
 $num = $n_proofings_total['both']['done'];
 $den = 2 * $n_pages_total;
 $percentage = sprintf( "%.1f", 100 * $num / $den ); 
-echo "<p><b>Proofreading is $percentage% ($num/$den) done.</b>";
+echo "<p><b>";
+echo sprintf( _("Proofreading is %1\$s (%2\$s / %3\$s) done."), "$percentage%", $num, $den);
+echo "</b>\n";
 
-echo "</BODY></HTML>\n";
-
+theme('','footer');
 ?>

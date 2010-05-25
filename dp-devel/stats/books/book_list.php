@@ -33,7 +33,7 @@ function echo_other_order( $other_field_name, $other_direction )
     echo "<a href='$code_url/stats/books/book_list.php?etext_limit=$etext_limit&type=$type&orderby=$other_direction&field_name=$other_field_name&search_char=$search_char&show_total=$show_total'>$other_direction</a>";
 }
 
-theme("$type E-Texts", "header");
+theme($type." "._("E-Texts"), "header");
 ?>
 
 <center><font face="Verdana" size="6"><b>E-Texts</b></font></center>
@@ -74,7 +74,7 @@ foreach ( array('nameofwork', 'author', 'modifieddate') as $other_field_name )
     echo "<i>$field_name_t:</i>\n";
 
     echo_other_order( $other_field_name, 'asc' );
-    echo " or ";
+    echo " "._("or")." ";
     echo_other_order( $other_field_name, 'desc' );
 }
 
