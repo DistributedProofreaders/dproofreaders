@@ -26,9 +26,9 @@ if (count($messages[$error]["hints"]) > (1 + $number))
   }
   else
   {
-    echo "Desperate? Can't find it?";
+    echo _("Desperate? Can't find it?");
   }
-  echo " Get more hints <a href='./hints.php?type=" . $page_id . "&error=" . $error . "&number=" . ($number + 1) . "'>here</a>.<p>";
+  echo sprintf( _("Get more hints <a href='%s'>here</a>.<p>"), "./hints.php?type=" . $page_id . "&error=" . $error . "&number=" . ($number + 1));
 }
 
  ?>

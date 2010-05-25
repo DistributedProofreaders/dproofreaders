@@ -182,18 +182,14 @@ function make_output()
 }
 
 ?>
-<h2>Done!</h2>
-<p>Below you will find some prepared php code. Choose a unique name for your quiz (&lt;yourquizname&gt;),
-copy the code in an editor and save it under the name qd_&lt;yourquizname&gt;.inc. Save the image you've prepared 
-under the name qi_&lt;yourquizname&gt;.png. For testing the quiz it is highly recommended to contact a developer with
-a sandbox on the DP test server (www.pgdp.org). The inc file has to be placed in /quiz/generic/data and the image in 
-/quiz/generic/images. When that has happened you can call your quiz under the URL http://www.pgdp.org/~&lt;user&gt;/c/quiz/generic/main.php?type=&lt;yourquizname&gt;, 
-where &lt;user&gt; is the username of the sandbox 'owner'.
+<h2><?php echo _("Done!"); ?></h2>
+<p>
+<?php echo _("Below you will find some prepared php code. Choose a unique name for your quiz (&lt;yourquizname&gt;), copy the code in an editor and save it under the name qd_&lt;yourquizname&gt;.inc. Save the image you've prepared under the name qi_&lt;yourquizname&gt;.png. For testing the quiz it is highly recommended to contact a developer with a sandbox on the DP test server (www.pgdp.org). The inc file has to be placed in quiz/generic/data and the image in /quiz/generic/images. When that has happened you can call your quiz under the URL http://www.pgdp.org/~&lt;user&gt;/c/quiz/generic/main.php?type=&lt;yourquizname&gt;, where &lt;user&gt; is the username of the sandbox 'owner'. Once it is on the real site, the URL will be  http://www.pgdp.net/c/quiz/generic/main.php?type=&lt;yourquizname&gt;"); ?>
+</p>
 
-Once it is on the real site, the URL will be  http://www.pgdp.net/c/quiz/generic/main.php?type=&lt;yourquizname&gt;</p>
-
-<p>You can also enter more <a href="./messages.php">error messages</a>
-or <a href="./checks.php">error tests</a> if you missed any.</p>
+<p>
+<a href="./messages.php"><?php echo _("Enter more error messages"); ?></a> 
+ <?php echo _("or"); ?> <a href="./checks.php"> <?php echo _("Enter more error tests"); ?></a> 
 
 <p>
 <table bgcolor="#AAAAAA"><tr><td>
@@ -204,7 +200,7 @@ or <a href="./checks.php">error tests</a> if you missed any.</p>
 </p>
 
 
-<a href="./start.php">Clear all data and restart quiz wizard.</a>
+<a href="./start.php"><?php echo _("Clear all data and restart quiz wizard."); ?></a>
 
 <?php
 $_SESSION['quiz_data']['lastpage'] = 'output';

@@ -64,9 +64,9 @@ if ($_SESSION['quiz_data']['lastpage'] == 'general')
 {
   evalstart();
 ?>
-<h3>Error messages</h3>
-<p>Now you need to fill out this form for each error message you want to define.
-In the next step you can define <b>when</b> these messages will be given.</p>
+<h3><?php echo _("Error messages"); ?></h3>
+<p><?php echo _("Now you need to fill out this form for each error message you want to define. In the next step you can define <b>when</b> these messages will be given."); ?>
+</p>
 
 
 
@@ -79,8 +79,8 @@ elseif ($_SESSION['quiz_data']['lastpage'] == 'messages')
     $fill = TRUE;
 ?>  
 
-<p>The error name '<?php echo $_POST['name']; ?>' was already taken. 
-Please choose a different one.</p>
+<p><?php echo _("This error name is already taken:"); ?> '<?php echo $_POST['name']; ?>'  
+<?php echo _("Please choose a different one."); ?></p>
 
 <?php
   }
@@ -89,48 +89,85 @@ Please choose a different one.</p>
     $fill = FALSE;
   }
 }
+?>  
+
+<?php 
+echo "<p>" .  sprintf( _("If you have entered all error messages click <a href='%s'>here</a> to proceed with the next steps."), "./checks.php") . "</p>";
+
+echo "<p>" . sprintf( _("You can also <a href='%s'>view the results</a> of the data you've entered"), "./output.php") . "</p>";
+
+echo "<form method='post' action='./messages.php'>";
+
+echo "<p>" . _("Error name (this will not be displayed, it is only used for reference later):");
+
+echo "<input type='text' name='name' size='20'></p><hr>";
+
+echo "<p>" . _("Message text:");
+
+echo "<input type='text' name='message_text' size='100' value='" . filltext('message_text') . "'><br>";
+
+echo _("HTML allowed. A typical value would be: &lt;h2&gt;Scanno&lt;/h2&gt; You've missed one typical 'scanno' in the text.") . "</p>";
+
+echo "<hr>";
+
+echo "<p>" . _("Text telling the user he should try to correct the error: ");
+
+echo "<input type='text' name='challengetext' size='100' value='" . filltext('challengetext') . "'><br>";
+
+echo _("HTML allowed. This field is optional. If you leave it empty the following default will appear: ");
+
+echo "$default_challenge</p><hr>";
+
+echo "<p>" . _("Text telling the user where they can report feedback about this quiz: ");
+
+echo "<input type='text' name='feedbacktext' size='100' value='" . filltext('feedbacktext') . "'><br>";
+
+echo _("HTML allowed. This field is optional. If you leave it empty the following default will appear: ");
+
+echo "$default_feedbacktext</p><hr>";
+
+echo "<p>" . _("For very tricky errors you can prepare additional hints, which will not be shown before the user requests this by clicking a link. This feature was introduced because too many people couldn't find scannos like tbe and arid and answering all the forum messages got somewhat burdensome. :-)") . "</p>";
+
+echo "<p>" . _("Introducing text for 1st hint: ");
+
+echo "<input type='text' name='linktext' size='100' value='" . filltext('linktext') . "'><br>";
+
+echo _("HTML allowed. This field is optional. If you leave it empty the following default will appear: ");
+
+echo "$default_hintlink</p>";
+
+echo "<p>" . _("Text of 1st hint: ");
+
+echo "<input type='text' name='hinttext' size='100' value='" . filltext('hinttext') . "'><br>";
+
+echo _("HTML allowed. This field is optional. If you leave it empty there will be no hint for this type of error.") . "</p>";
+
+echo "<hr>";
+
+echo "<p>" . _("You can even add another hint in case the user is still helpless.") . "</p>";
+
+echo "<p>" . _("Introducing text for 2nd hint: ");
+
+echo "<input type='text' name='linktext2' size='100' value='" . filltext('linktext2') . "'><br>";
+
+echo _("HTML allowed. This field is optional. If you leave it empty the following default will appear: ");
+
+echo "$default_hintlink</p>";
+
+echo "<p>" . _("Text of 2nd hint: ");
+
+echo "<input type='text' name='hinttext2' size='100' value='" . filltext('hinttext2') . "'><br>";
+
+echo _("HTML allowed. This field is optional. If you leave it empty there will be no 2nd hint for this type of error.") . "</p>";
+
+echo "<p>" . _("Theoretically you can add more hints, but again you have to manually edit the final file for this.") . "</p>";
+
 ?>
-
-<p>If you have entered all error messages click <a href="./checks.php">here</a> to proceed with the next steps.</p>
-<p>You can also <a href="./output.php">view the results</a> of the data you've entered</p>
-
-<form method="post" action="./messages.php">
-
-<p>Error name (this will not be displayed, it is only used for reference later): <input type="text" name="name" size="20"></p>
-<hr>
-<p>Message text: <input type="text" name="message_text" size="100" value="<?php filltext('message_text'); ?>"><br>
-HTML allowed. A typical value would be: &lt;h2&gt;Scanno&lt;/h2&gt; You've missed one typical 'scanno' in the text.</p>
-<hr>
-<p>Text telling the user he should try to correct the error: <input type="text" name="challengetext" size="100" value="<?php filltext('challengetext'); ?>"><br>
-HTML allowed. This field is optional. If you leave it empty the following default will appear: <?php echo $default_challenge; ?></p>
-<hr>
-<p>Text telling the user where they can report feedback about this quiz: <input type="text" name="feedbacktext" size="100" value="<?php filltext('feedbacktext'); ?>"><br>
-HTML allowed. This field is optional. If you leave it empty the following default will appear: <?php echo $default_feedbacktext; ?></p>
-<hr>
-<p>For very tricky errors you can prepare additional hints, which will not be shown before the user 
-requests this by clicking a link. This feature was introduced because too many people couldn't 
-find scannos like tbe and arid and answering all the forum messages got somewhat burdensome. :-)</p>
-
-<p>Introducing text for 1st hint: <input type="text" name="linktext" size="100" value="<?php filltext('linktext'); ?>"><br>
-HTML allowed. This field is optional. If you leave it empty the following default will appear: <?php echo $default_hintlink; ?></p>
-
-<p>Text of 1st hint: <input type="text" name="hinttext" size="100" value="<?php filltext('hinttext'); ?>"><br>
-HTML allowed. This field is optional. If you leave it empty there will be no hint for this type of error.</p>
-<hr>
-
-<p>You can even add another hint in case the user is still helpless.</p>
-
-<p>Introducing text for 2nd hint: <input type="text" name="linktext2" size="100" value="<?php filltext('linktext2'); ?>"><br>
-HTML allowed. This field is optional. If you leave it empty the following default will appear: <?php echo $default_hintlink; ?></p>
-
-<p>Text of 2nd hint: <input type="text" name="hinttext2" size="100" value="<?php filltext('hinttext2'); ?>"><br>
-HTML allowed. This field is optional. If you leave it empty there will be no 2nd hint for this type of error.</p>
-
-<p>Theoretically you can add more hints, but again you have to manually edit the final file for this.</p>
 
 <p><input type="submit" value="send"></p>
 
 </form>
+
 
 
 

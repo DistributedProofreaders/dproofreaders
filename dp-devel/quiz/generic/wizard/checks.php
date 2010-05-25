@@ -116,9 +116,8 @@ foreach($_SESSION['quiz_data']['messages'] as $key => $dummy)
 if ($_SESSION['quiz_data']['lastpage'] != 'checks') // we are coming from elsewhere
 {
 ?>
-<h3>Error tests</h3>
-<p>Now you can define tests which shall be applied to the text and link them 
-to error messages you've previously defined. You have to fill out this for for each test.</p>
+<h3><?php echo _("Error tests"); ?></h3>
+<p><?php echo _("Now you can define tests which shall be applied to the text and link them to error messages you've previously defined. You have to fill out this for for each test."); ?></p>
 
 
 
@@ -148,32 +147,32 @@ return true;
 function chkFormular () {
   if (nonechecked(document.checkform.type)) 
   {
-    alert("Please explicitly choose one of the test types.");
+    alert(<?php echo _("Please explicitly choose one of the test types."); ?>;
     return false;
   }
 }
 </script>
 
-<p>If you have entered all error tests click <a href="./output.php">here</a> to view the output.</p>
-<p>You can also go back to add further <a href="./messages.php">error messages</a>.
+<p><?php echo sprintf( _("If you have entered all error tests click <a href='%s'>here</a> to view the output."), "./output.php"); ?></p>
+<p><?php echo sprintf( _("You can also go back to add further <a href='%s'>error messages.</a>"), "./messages.php"); ?>
 
 <form name="checkform" method="post" action="./checks.php" onSubmit="return chkFormular();">
 
-<p>In all textfields below you can encode linebreaks as \n if you need them.</p>
+<p><?php echo _("In all textfields below you can encode linebreaks as \n if you need them."); ?></p>
 
 <hr>
-<p><input type="radio" name="type" value="forbiddentext"><b>Check for forbidden text</b></p>
-<p>Text: <input type="text" name="forbiddentext_searchtext" size="50"><br>
-Search case sensitive? <input type="radio" name="forbiddentext_case_sensitive" checked value="yes">Yes 
+<p><input type="radio" name="type" value="forbiddentext"><b><?php echo _("Check for forbidden text"); ?></b></p>
+<p><?php echo _("Text:"); ?> <input type="text" name="forbiddentext_searchtext" size="50"><br>
+<?php echo _("Search case sensitive?"); ?> <input type="radio" name="forbiddentext_case_sensitive" checked value="yes">Yes 
 <input type="radio" name="forbiddentext_case_sensitive" value="no">No<br> 
-Error message to be given if text is found: <select size="1" name="forbiddentext_error">
+<?php echo _("Error message to be given if text is found:"); ?> <select size="1" name="forbiddentext_error">
 <?php echo $errlist; ?>
 </select>
 </p>
 <hr>
 
-<p><input type="radio" name="type" value="expectedtext"><b>Check for expected text</b></p>
-<p>This will look if at least one of the strings you give here does occur in the text.</p>
+<p><input type="radio" name="type" value="expectedtext"><b><?php echo _("Check for expected text"); ?></b></p>
+<p><?php echo _("This will look if at least one of the strings you give here does occur in the text."); ?></p>
 <p>
 Text: <input type="text" name="expectedtext_searchtext1" size="50"><br>
 Text: <input type="text" name="expectedtext_searchtext2" size="50"><br>
@@ -186,80 +185,78 @@ Text: <input type="text" name="expectedtext_searchtext8" size="50"><br>
 Text: <input type="text" name="expectedtext_searchtext9" size="50"><br>
 Text: <input type="text" name="expectedtext_searchtext10" size="50"><br>
 </p>
-<p>Should you need more than 10 texts being searched simultaneously you'll have to
-edit the final file.</p>
+<p><?php echo _("Should you need more than 10 texts being searched simultaneously you'll have to edit the final file."); ?></p>
 <p>
-Search case sensitive? <input type="radio" name="expectedtext_case_sensitive" checked value="yes">Yes 
-<input type="radio" name="expectedtext_case_sensitive" value="no">No<br> 
-Error message to be given if none of those texts is found: <select size="1" name="expectedtext_error">
+<?php echo _("Search case sensitive?"); ?> <input type="radio" name="expectedtext_case_sensitive" checked value="yes"><?php echo _("Yes"); ?> 
+<input type="radio" name="expectedtext_case_sensitive" value="no"><?php echo _("No"); ?><br> 
+<?php echo _("Error message to be given if none of those texts is found:"); ?> <select size="1" name="expectedtext_error">
 <?php echo $errlist; ?>
 </select>
 </p>
 <hr>
 
-<p><input type="radio" name="type" value="wrongtextorder"><b>Check for text in wrong order</b></p>
-<p>first Text (has to be before second text): <input type="text" name="wrongtextorder_firsttext" size="50"><br>
-<p>second Text (has to be before first text): <input type="text" name="wrongtextorder_secondtext" size="50"><br>
-Search case sensitive? <input type="radio" name="wrongtextorder_case_sensitive" checked value="yes">Yes 
-<input type="radio" name="wrongtextorder_case_sensitive" value="no">No<br> 
-Error message to be given if texts are found in wrong order: <select size="1" name="wrongtextorder_error">
+<p><input type="radio" name="type" value="wrongtextorder"><b><?php echo _("Check for text in wrong order"); ?></b></p>
+<p><?php echo _("first Text (has to be before second text):"); ?> <input type="text" name="wrongtextorder_firsttext" size="50"><br>
+<p><?php echo _("second Text (has to be before first text):"); ?> <input type="text" name="wrongtextorder_secondtext" size="50"><br>
+<?php echo _("Search case sensitive?"); ?> <input type="radio" name="wrongtextorder_case_sensitive" checked value="yes"><?php echo _("Yes"); ?> 
+<input type="radio" name="wrongtextorder_case_sensitive" value="no"><?php echo _("No"); ?><br> 
+<?php echo _("Error message to be given if texts are found in wrong order:"); ?> <select size="1" name="wrongtextorder_error">
 <?php echo $errlist; ?>
 </select>
 </p>
 <hr>
 
-<p><input type="radio" name="type" value="multioccurrence"><b>Check for text incorrectly appearing twice or more times</b></p>
-<p>Text which is expected only once: <input type="text" name="multioccurrence_searchtext" size="50"><br>
-Search case sensitive? <input type="radio" name="multioccurrence_case_sensitive" checked value="yes">Yes 
-<input type="radio" name="multioccurrence_case_sensitive" value="no">No<br> 
-Error message to be given if text is found more than once: <select size="1" name="multioccurrence_error">
+<p><input type="radio" name="type" value="multioccurrence"><b><?php echo _("Check for text incorrectly appearing twice or more times"); ?></b></p>
+<p><?php echo _("Text which is expected only once:"); ?> <input type="text" name="multioccurrence_searchtext" size="50"><br>
+<?php echo _("Search case sensitive?"); ?> <input type="radio" name="multioccurrence_case_sensitive" checked value="yes"><?php echo _("Yes"); ?>
+<input type="radio" name="multioccurrence_case_sensitive" value="no"><?php echo _("No"); ?><br> 
+<?php echo _("Error message to be given if text is found more than once:"); ?> <select size="1" name="multioccurrence_error">
 <?php echo $errlist; ?>
 </select>
 </p>
 <hr>
 
-<p><input type="radio" name="type" value="markupmissing"><b>Check for markup with opening and closing tag which is completely missing</b></p>
-<p>opening tag: <input type="text" name="markupmissing_opentext" size="50"><br>
-<p>closing tag: <input type="text" name="markupmissing_closetext" size="50"><br>
-Search case sensitive? <input type="radio" name="markupmissing_case_sensitive" checked value="yes">Yes 
-<input type="radio" name="markupmissing_case_sensitive" value="no">No<br> 
-Error message to be given if no opening and no closing tag is found: <select size="1" name="markupmissing_error">
+<p><input type="radio" name="type" value="markupmissing"><b><?php echo _("Check for markup with opening and closing tag which is completely missing"); ?></b></p>
+<p><?php echo _("opening tag:"); ?> <input type="text" name="markupmissing_opentext" size="50"><br>
+<p><?php echo _("closing tag:"); ?> <input type="text" name="markupmissing_closetext" size="50"><br>
+<?php echo _("Search case sensitive?"); ?> <input type="radio" name="markupmissing_case_sensitive" checked value="yes"><?php echo _("Yes"); ?> 
+<input type="radio" name="markupmissing_case_sensitive" value="no"><?php echo _("No"); ?><br> 
+<?php echo _("Error message to be given if no opening and no closing tag is found:"); ?> <select size="1" name="markupmissing_error">
 <?php echo $errlist; ?>
 </select>
 </p>
 <hr>
 
-<p><input type="radio" name="type" value="markupcorrupt"><b>Check for corrupt markup with opening and closing tag</b></p>
-<p>For now this only checks for <b>one</b> orphaned opening or closing tag and for the correct oder of the tags.
-So it basically only works OK, if there is just one pair of opening/closing tags expected in the text.</p>
-<p>opening tag: <input type="text" name="markupcorrupt_opentext" size="50"><br>
-<p>closing tag: <input type="text" name="markupcorrupt_closetext" size="50"><br>
-Search case sensitive? <input type="radio" name="markupcorrupt_case_sensitive" checked value="yes">Yes 
-<input type="radio" name="markupcorrupt_case_sensitive" value="no">No<br> 
-Error message to be given if markup is corrupt: <select size="1" name="markupcorrupt_error">
+<p><input type="radio" name="type" value="markupcorrupt"><b><?php echo _("Check for corrupt markup with opening and closing tag"); ?></b></p>
+<p><?php echo _("For now this only checks for <b>one</b> orphaned opening or closing tag and for the correct oder of the tags. So it basically only works OK, if there is just one pair of opening/closing tags expected in the text."); ?> </p>
+<p><?php echo _("opening tag:"); ?> <input type="text" name="markupcorrupt_opentext" size="50"><br>
+<p><?php echo _("closing tag:"); ?> <input type="text" name="markupcorrupt_closetext" size="50"><br>
+<?php echo _("Search case sensitive?"); ?> <input type="radio" name="markupcorrupt_case_sensitive" checked value="yes"><?php echo _("Yes"); ?> 
+<input type="radio" name="markupcorrupt_case_sensitive" value="no"><?php echo _("No"); ?><br> 
+<?php echo _("Error message to be given if markup is corrupt:"); ?> <select size="1" name="markupcorrupt_error">
 <?php echo $errlist; ?>
 </select>
 </p>
 <hr>
 
-<p><input type="radio" name="type" value="expectedlinebreaks"><b>Check for expected number of linebreaks between two chunks of text.</b></p>
-<p>first text: <input type="text" name="expectedlinebreaks_starttext" size="50"><br>
-<p>second text: <input type="text" name="expectedlinebreaks_stoptext" size="50"><br>
-Search case sensitive? <input type="radio" name="expectedlinebreaks_case_sensitive" checked value="yes">Yes 
-<input type="radio" name="expectedlinebreaks_case_sensitive" value="no">No<br> 
-<p>number of expected linebreaks: <input type="text" name="expectedlinebreaks_number" size="10"><br>
-Error message to be given if number of linebreaks is lower than expected: <select size="1" name="expectedlinebreaks_errorlow">
+<p><input type="radio" name="type" value="expectedlinebreaks"><b><?php echo _("Check for expected number of linebreaks between two chunks of text."); ?></b></p>
+<p><?php echo _("first text:"); ?> <input type="text" name="expectedlinebreaks_starttext" size="50"><br>
+<p><?php echo _("second text:"); ?> <input type="text" name="expectedlinebreaks_stoptext" size="50"><br>
+Search case sensitive? <input type="radio" name="expectedlinebreaks_case_sensitive" checked value="yes"><?php echo _("Yes"); ?>
+<input type="radio" name="expectedlinebreaks_case_sensitive" value="no"><?php echo _("No"); ?><br> 
+<p><?php echo _("number of expected linebreaks:"); ?> <input type="text" name="expectedlinebreaks_number" size="10"><br>
+<?php echo _("Error message to be given if number of linebreaks is lower than expected:"); ?> <select size="1" name="expectedlinebreaks_errorlow">
 <?php echo $errlist; ?>
 </select><br>
-Error message to be given if number of linebreaks is higher than expected: <select size="1" name="expectedlinebreaks_errorhigh">
+<?php echo _("Error message to be given if number of linebreaks is higher than expected:"); ?> <select size="1" name="expectedlinebreaks_errorhigh">
 <?php echo $errlist; ?>
 </select>
 </p>
 <hr>
 
-<p><input type="radio" name="type" value="longline"><b>Check for long lines.</b></p>
-<p>max. allowed line length: <input type="text" name="longline_lengthlimit" size="10"><br>
-Error message to be given if a line is loger than allowed: <select size="1" name="longline_error">
+<p><input type="radio" name="type" value="longline"><b><?php echo _("Check for long lines."); ?></b></p>
+<p><?php echo _("max. allowed line length:"); ?> <input type="text" name="longline_lengthlimit" size="10"><br>
+<?php echo _("Error message to be given if a line is loger than allowed:"); ?> <select size="1" name="longline_error">
 <?php echo $errlist; ?>
 </select><br>
 </p>

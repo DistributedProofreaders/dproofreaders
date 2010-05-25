@@ -8,25 +8,26 @@ function quizsolved()
       record_quiz_attempt($pguser,"formatting5","pass");
 }
 
-$browser_title                = "Formatting Quiz";
-$welcome                      = "<h2>Formatting Quiz, page 5</h2> Try to correct the text.";
+$browser_title                = _("Formatting Quiz");
+$welcome                      = _("<h2>Formatting Quiz, page 5</h2> Try to correct the text.");
+//Quiz test and solution in English so the user results evaluation works.
 $ocr_text                     = "CAMPFIRE GIRLS WEAR WHYPSLOVENS     191\n\nthe necessity of nursing her.\"\n\n\"Come on, girls; get your wraps; we will all go over.\nIt's only a couple[1] of blocks. Hurry, everybody!\"\n\n\"Wait, and I'll tell Kitty we're going out,\" Marion said.\nShe ran through several rooms, calling \"Kittie! Kittie!\"\nbut received no response.\nWhere is Kitty?\n\"I wonder where she is,\" the\nhostess said, in a puzzled manner.\n\"Well, we haven't time to find her.\nCome on.\"\n\n\"I think I saw her go out more\nthan half an hour ago,\" Harriet\nNewcomb said. \"She called someone up on the\ntelephone, and then put her hat and coat on and went\nout the side way, and I haven't seen her since.\"\n\n1Harriet was lying; really, the whypsloven factory was\nseveral miles away.";
 $solutions                    = array("the necessity of nursing her.\"\n\n\"Come on, girls; get your wraps; we will all go over.\nIt's only a couple[1] of blocks. Hurry, everybody!\"\n\n\"Wait, and I'll tell Kitty we're going out,\" Marion said.\n\nShe ran through several rooms, calling \"Kittie! Kittie!\"\nbut received no response.\n\n[Illustration: Where is Kitty?]\n\n\"I wonder where she is,\" the\nhostess said, in a puzzled manner.\n\"Well, we haven't time to find her.\nCome on.\"\n\n\"I think I saw her go out more\nthan half an hour ago,\" Harriet\nNewcomb said. \"She called someone up on the\ntelephone, and then put her hat and coat on and went\nout the side way, and I haven't seen her since.\"\n\n[Footnote 1: Harriet was lying; really, the whypsloven factory was\nseveral miles away.]");
 $showsolution                 = TRUE;
-$solved_message               = "<h2>Quiz successfully solved</h2> Congratulations, no errors found!";
-$links_out                    = "<br /><a href='../start.php' target='_top'>Quizzes home.</a>";
+$solved_message               = _("<h2>Quiz successfully solved</h2> Congratulations, no errors found!");
+$links_out                    = "<br><a href='../start.php' target='_top'>" . _("Quizzes home.") . "</a>";
 
 
 // error messages
-$messages["sqbr"] = array("message_text" => "<h2>Incorrect brackets.</h2>\nPlease use square brackets [] for illustration and footnote markup.", "hints" => array());
-$messages["pageheader"] = array("message_text" => "<h2>Page header left in</h2>\nRemove the page header and the page number.", "hints" => array());
-$messages["illusmissing"] = array("message_text" => "<h2>Illustration missing.</h2>\nIt seems you haven't marked the illustration correctly. Put the illustration caption within <tt>[Illustration: ]</tt>", "hints" => array());
-$messages["illuswrong"] = array("message_text" => "<h2>Illustration incorrectly marked.</h2>\nCheck the case of the caption, and make sure there is a blank line before and after the illustration marker.", "hints" => array());
-$messages["nofn"] = array("message_text" => "<h2>Footnote markup missing.</h2>\nIt seems you haven't marked the footnote at the bottom correctly. Put the footnote text within <tt>[Footnote _: ]</tt> placing the correct marker where the underscore is.", "hints" => array());
-$messages["wrongfn"] = array("message_text" => "<h2>Footnote markup wrong.</h2>\nIt seems you haven't marked the footnote at the bottom correctly. Put the footnote text within <tt>[Footnote _: ]</tt> placing the correct marker where the underscore is. Remember to leave a blank line before the footnote.", "hints" => array());
-$messages["wrongblank"] = array("message_text" => "<h2>Extra blank line.</h2>\nThe page starts in the middle of a paragraph, so there should not be a blank line at the top.", "hints" => array());
-$messages["missingline"] = array("message_text" => "<h2>Missing blank line</h2> All paragraphs are delimited by blank lines.", "hints" => array());
-$messages["missinglinecheckindents"] = array("message_text" => "<h2>Missing blank line</h2> All paragraphs are delimited by blank lines. <b>Hint: Look closely at the indent of each line to see whether it is a new paragraph or not.</b>", "hints" => array());
+$messages["sqbr"] = array("message_text" => "<h2>" . _("Incorrect brackets.") . "</h2>\n" . _("Please use square brackets [] for illustration and footnote markup."), "hints" => array());
+$messages["pageheader"] = array("message_text" => "<h2>" . _("Page header left in") . "</h2>\n" . _("Remove the page header and the page number."), "hints" => array());
+$messages["illusmissing"] = array("message_text" => "<h2>" . _("Illustration missing.") . "</h2>\n" . _("It seems you haven't marked the illustration correctly. Put the illustration caption within <tt>[Illustration: ]</tt>"), "hints" => array());
+$messages["illuswrong"] = array("message_text" => "<h2>" . _("Illustration incorrectly marked.") . "</h2>\n" . _("Check the case of the caption and make sure there is a blank line before and after the illustration marker."), "hints" => array());
+$messages["nofn"] = array("message_text" => "<h2>" . _("Footnote markup missing.") . "</h2>\n" . _("It seems you haven't marked the footnote at the bottom correctly. Put the footnote text within <tt>[Footnote _: ]</tt> placing the correct marker where the underscore is."), "hints" => array());
+$messages["wrongfn"] = array("message_text" => "<h2>" . _("Footnote markup wrong.") . "</h2>\n" . _("It seems you haven't marked the footnote at the bottom correctly. Put the footnote text within <tt>[Footnote _: ]</tt> placing the correct marker where the underscore is. Remember to leave a blank line before the footnote."), "hints" => array());
+$messages["wrongblank"] = array("message_text" => "<h2>" . _("Extra blank line.") . "</h2>\n" . _("The page starts in the middle of a paragraph, so there should not be a blank line at the top."), "hints" => array());
+$messages["missingline"] = array("message_text" => "<h2>" . _("Missing blank line") . "</h2> " . _("All paragraphs are delimited by blank lines."), "hints" => array());
+$messages["missinglinecheckindents"] = array("message_text" => "<h2>" . _("Missing blank line") . "</h2>" . _("All paragraphs are delimited by blank lines. <b>Hint: Look closely at the indent of each line to see whether it is a new paragraph or not.</b>"), "hints" => array());
 
 
 
