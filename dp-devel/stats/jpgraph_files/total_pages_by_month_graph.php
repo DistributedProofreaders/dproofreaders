@@ -40,7 +40,7 @@ draw_pages_graph(
 	null,
 	'monthly',
 	'increments',
-	'Pages Done Each Month Since the Beginning of Statistics Collection'
+	_('Pages Done Each Month Since the Beginning of Statistics Collection')
 );
 
 ?>
