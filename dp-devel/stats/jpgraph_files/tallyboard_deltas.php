@@ -56,8 +56,8 @@ draw_simple_bar_graph(
     $datax,
     $datay,
 	$x_text_tick_interval,
-    _('Pages Completed per Day'),
-    _('Pages')
+    'Pages Completed per Day',
+    'Pages'
 );
 
 // vim: sw=4 ts=4 expandtab
