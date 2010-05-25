@@ -58,7 +58,7 @@ if (filemtime($xmlfile) > $refreshdelay) {
 				$data .= "<item>
 				<title>".xmlencode($row['nameofwork'])." - ".xmlencode($row['authorsname'])."</title>
 				<link>$code_url/project.php?id=".$row['projectid']."</link>
-				<description>Language: ".xmlencode($row['language'])." - Genre: ".xmlencode($row['genre'])."</description>
+				<description>" . sprintf(_("Language: %1\$s - Genre: %2\$s"), xmlencode($row['language']), xmlencode($row['genre'])) . "</description>
 				</item>
 				";
 			} else {
@@ -83,10 +83,10 @@ if (filemtime($xmlfile) > $refreshdelay) {
 				<!DOCTYPE rss SYSTEM \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">
 				<rss version=\"0.91\">
 				<channel>
-				<title>".xmlencode($site_name)." - Latest Releases</title>
+				<title>".xmlencode($site_name)." - " . _("Latest Releases") . "</title>
 				<link>".xmlencode($code_url)."</link>
-				<description>The latest releases from ".xmlencode($site_name)." posted to Project Gutenberg</description>
-				<language>en-us</language>
+				<description>" . sprintf( _("The latest releases posted to Project Gutenberg from %1\$s."), xmlencode($site_name)) . "</description>
+				<language>" . _("en-us") . "</language>
 				<webMaster>".xmlencode($site_manager_email_addr)."</webMaster>
 				<pubDate>".xmlencode($lastupdated)."</pubDate>
 				<lastBuildDate>".xmlencode($lastupdated)."</lastBuildDate>
@@ -108,7 +108,8 @@ if (filemtime($xmlfile) > $refreshdelay) {
 		while ($news_item = mysql_fetch_array($result)) {
 			$posteddate = date("l, F jS, Y",($news_item['date_posted']));
 			$data .= "<item>
-				<title>".xmlencode($site_name)." News Update for ".xmlencode($posteddate)."</title>
+				<title>" . sprintf( _("News Update for %1\$s."), xmlencode($posteddate)) . "</title>
+	<description>" . sprintf( _("The latest news related to %1\$s."), xmlencode($site_name)) . "</description>
 				<link>".xmlencode("$code_url/pastnews.php?#".$news_item['id'])."</link>
 				<description>".xmlencode(strip_tags($news_item['content']))."</description>
 				</item>
@@ -119,9 +120,9 @@ if (filemtime($xmlfile) > $refreshdelay) {
 				<!DOCTYPE rss SYSTEM \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">
 				<rss version=\"0.91\">
 				<channel>
-				<title>".xmlencode($site_name)." - Latest News</title>
+				<title>".xmlencode($site_name) . " - " . _("Latest News") . "</title>
 				<link>".xmlencode($code_url)."</link>
-				<description>The latest news related to ".xmlencode($site_name)."</description>
+				<description>" . sprintf( _("The latest news related to %1\$s."), xmlencode($site_name)) . "</description>
 				<language>en-us</language>
 				<webMaster>".xmlencode($site_manager_email_addr)."</webMaster>
 				<pubDate>".xmlencode($lastupdated)."</pubDate>
