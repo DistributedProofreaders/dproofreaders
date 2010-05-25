@@ -26,10 +26,10 @@ $fdest = $dest.'/projectID'.$projectid;
 $c=0;$t=0;$p=0;
 
 ?>
-<html><head><title>Distributed Proofreaders: Tiff to Png Conversion</title></head>
+<html><head><title><?php echo _("Distributed Proofreaders: Tiff to Png Conversion"); ?></title></head>
 <body>
-<h3> Looking for TIFFs and PNGs in <?php echo ($fsrc); ?><br>
-Please Wait </h3><hr>
+<h3> <?php echo sprintf( _("Looking for TIFFs and PNGs in %1\$s."), $fsrc); ?><br>
+<?php echo _("Please Wait"); ?> </h3><hr>
 
 <?php
 print str_repeat(" ", 300) . "\n"; //this should force IE to flush :-0
@@ -50,34 +50,34 @@ if (is_dir($fsrc)) {
 			rename ($srcfile,$archfile);
 			if ($res[1] == "TIFF") {
 				$t++;
-				echo ("$c. Found TIFF file: $afile, Converting to PNG.");
+				echo sprintf( _("%1d. Found TIFF file: %2\$s, Converting to PNG."), $c, $afile);
 				flush();
 				`convert $archfile $destfile`;
 				chmod ($destfile,0664);	//convert insits on messing ownership
-				echo (" Done.<br>\n");
+				echo " " . _("Done.") . "<br>\n";
 				flush();
 			}
 			else {
 				$p++;
-				echo ("$c. Found PNG file: $afile, Just Copying.<BR>\n");
+				echo sprintf( _("%1d. Found TIFF file: %2\$s, Just Copying."), $c, $afile) . "<br>\n";
 				flush();
 				copy ($archfile,$destfile);
 			}
 		}
 		else {
-			echo ("$c. Found non-TIFF/PNG file: $afile, Ignoring.<BR>\n");
+			echo sprintf( _("%1d. Found non-TIFF/PNG file: %2\$s, Ignoring."), $c, $afile) . "<br>\n";
 			flush();
 		}
 	}
 
 }
 closedir ($dir);
-echo ("<HR> Found $c files in $fsrc.<br>");
-echo ("$t TIFFs converted and moved to $farch.<br>");
-echo ("$p PNGs moved to $farch.<BR>");
-echo ($c-($p+$t)." files ignored and left is $fsrc.<br>"); 
-echo ($p+$t." Files renamed and put in $fdest.<br>");
-echo ('<HR><A href="'.$_SERVER['HTTP_REFERER'].'">Back to Project Page</a>');
+echo "<hr> " . sprintf( _("Found %1d files in %2\$s."), $c, $fsrc) . "<br>";
+echo sprintf( _("%1d TIFFs converted and moved to %2\$s."), $t, $farch) . "<br>";
+echo sprintf( _("%1d PNGs moved to %2\$s."), $p, $farch) . "<br>";
+echo sprintf( _("%1d files ignored and left in %2\$s."), $c-($p+$t), $fsrc) . "<br>";
+echo sprintf( _("%1d files renamed and put in %2\$s."), $p+$t, $fdest) . "<br>";
+echo "<hr><a href='" . $_SERVER['HTTP_REFERER'] . "'>" . _("Back to Project Page") . "</a>";
 ?>
 </body>
 </html>

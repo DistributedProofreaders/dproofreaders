@@ -1,5 +1,5 @@
 <?php
-$relPath = '../../pinc/';
+$relPath = './../pinc/';
 include_once( $relPath.'site_vars.php' );
 include_once( $relPath.'dpsql.inc' );
 include_once( $relPath.'connect.inc' );
@@ -37,14 +37,14 @@ function shift_range( $projectid, $n_digits, $lo, $hi, $offset, $dryrun )
 		}
 		else
 		{
-			echo "ERROR: shift_range: assertion failed: $assertion\n";
+			echo sprintf( _("ERROR: shift_range: assertion failed: %s"), $assertion) . "\n";
 			$n_assertions_that_failed ++;
 		}
 	}
 
 	if ( $n_assertions_that_failed > 0 )
 	{
-		echo "Aborting due to assertion failures.\n";
+		echo _("Aborting due to assertion failures.") . "\n";
 		echo "</pre>";
 		return;
 	}
@@ -83,11 +83,11 @@ function shift_range( $projectid, $n_digits, $lo, $hi, $offset, $dryrun )
 		{
 			if ( $dryrun )
 			{
-				echo "(dry run)\n";
+				echo _("(dry run)") . "\n";
 			}
 			else
 			{
-				echo "(the real thing!)\n";
+				echo _("(the real thing!)") . "\n";
 			}
 		}
 
@@ -118,14 +118,14 @@ function shift_range( $projectid, $n_digits, $lo, $hi, $offset, $dryrun )
 			{
 				if ( is_file( $png_filename_j ) )
 				{
-					echo "ERROR: shift_range: $png_filename_i would become $png_filename_j, but that already exists.\n";
+					echo sprintf( _("ERROR: shift_range: %1\$s would become %2\$s, but that already exists."), $png_filename_i, $png_filename_j) . "\n";
 					echo "</pre>";
 					return;
 				}
 			}
 			else
 			{
-				echo "    renaming $png_filename_i as $png_filename_j\n";
+				echo "    " . sprintf( _("renaming %1\$s as %2\$s"), $png_filename_i, $png_filename_j) . "\n";
 				if ( !$dryrun ) rename( $png_filename_i, $png_filename_j );
 			}
 
@@ -140,14 +140,14 @@ function shift_range( $projectid, $n_digits, $lo, $hi, $offset, $dryrun )
 			{
 				if ( is_file( $txt_filename_j ) )
 				{
-					echo "ERROR: shift_range: $txt_filename_i would become $txt_filename_j, but that already exists.\n";
+					echo sprintf( _("ERROR: shift_range: %1\$s would become %2\$s, but that already exists."), $txt_filename_i, $txt_filename_j) . "\n";
 					echo "</pre>";
 					return;
 				}
 			}
 			else
 			{
-				echo "    renaming $txt_filename_i as $txt_filename_j\n";
+				echo "    " . sprintf( _("renaming %1\$s as %2\$s"), $txt_filename_i, $txt_filename_j) . "\n";
 				if ( !$dryrun ) rename( $txt_filename_i, $txt_filename_j );
 			}
 
@@ -161,7 +161,7 @@ function shift_range( $projectid, $n_digits, $lo, $hi, $offset, $dryrun )
 				// echo "    $q\n";
 				if ( mysql_num_rows( dpsql_query($q) ) > 0 )
 				{
-					echo "ERROR: shift_range: $png_filename_i would become $png_filename_j, but there is already a row in the page table for the latter.\n";
+					echo sprintf( _("ERROR: shift_range: %1\$s would become %2\$s, but there is already a row in the page table for the latter."), $png_filename_i, $png_filename_j) . "\n";
 					echo "</pre>";
 					return;
 				}
@@ -169,7 +169,7 @@ function shift_range( $projectid, $n_digits, $lo, $hi, $offset, $dryrun )
 			}
 			else
 			{
-				echo "    updating the page table\n";
+				echo "    " . _("updating the page table") . "\n";
 				if ( !$dryrun )
 				{
 					global $writeBIGtable;
@@ -186,7 +186,7 @@ function shift_range( $projectid, $n_digits, $lo, $hi, $offset, $dryrun )
 		}
 
 		echo "\n";
-		echo "PASS $pass done\n";
+		echo sprintf( _("PASS %d done"), $pass) . "\n";
 	}
 
 	echo "</pre>";
