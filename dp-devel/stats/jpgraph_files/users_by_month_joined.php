@@ -51,7 +51,7 @@ $graph->xaxis->SetLabelAngle(90);
 $graph->xaxis->title->Set("");
 
 //Set Y axis
-$graph->yaxis->title->Set(_('New Users'));
+$graph->yaxis->title->Set('New Users');
 $graph->yaxis->SetTitleMargin(45);
 
 //Set background to white
@@ -93,7 +93,7 @@ $graph->Add( $gbplot);
 
 
 // Setup the title
-$graph->title->Set(_("Number of New Users By Month"));
+$graph->title->Set("Number of New Users By Month");
 
 
 $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
