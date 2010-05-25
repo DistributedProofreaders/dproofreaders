@@ -23,7 +23,7 @@ $project = new Project($projectid);
 
 if ( $project->state != $curr_state )
 {
-    fatal_error(sprintf( _("Your request appears to be out-of-date.") . _("The project's current state is now %1\$s."), $project->state));
+    fatal_error( _("Your request appears to be out-of-date. The project's current state is now '%s'."), $project->state));
 }
 
 $transition = get_transition( $curr_state, $next_state );
