@@ -87,7 +87,7 @@ else
 <p class="info">
 <?php 
 echo _("The Greek glyphs above are <b>clickable</b>.") . "<br>";
-echo sprintf( _("Diacritical marks may be ignored except for the rough-breathing mark, (<img src='gfx/greekrough.png' height='12' width='10'>) above the letter.") . "<br>";
+echo _("Diacritical marks may be ignored except for the rough-breathing mark, (<img src='gfx/greekrough.png' height='12' width='10'>) above the letter.") . "<br>";
 echo _("For these, put 'h' before the letter <emp>unless</emp> the word begins with 'r'. For those, put 'h' <emp>after</emp> the 'r'.");
 ?>
 </p>
