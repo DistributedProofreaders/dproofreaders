@@ -11,11 +11,11 @@ include_once($relPath.'ProjectTransition.inc');
 header("Content-Type: text/html; charset=$charset");
 
 // Get Passed parameters to code
-$projectid  = $_POST['projectid'];
-$curr_state = $_POST['curr_state'];
-$next_state = $_POST['next_state'];
-$confirmed = @$_POST['confirmed'];
-$return_uri = $_POST['return_uri'];
+$projectid  = validate_projectID('projectid', $_POST['projectid']);
+$curr_state = get_enumerated_param($_POST, 'curr_state', null, $PROJECT_STATES_IN_ORDER);
+$next_state = get_enumerated_param($_POST, 'next_state', null, $PROJECT_STATES_IN_ORDER);
+$confirmed  = get_enumerated_param($_POST, 'confirmed', null, array('yes'), true);
+$return_uri = @$_POST['return_uri'];
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -23,7 +23,7 @@ $project = new Project($projectid);
 
 if ( $project->state != $curr_state )
 {
-    fatal_error( _("Your request appears to be out-of-date. The project's current state is now '%s'."), $project->state));
+    fatal_error( sprintf(_("Your request appears to be out-of-date. The project's current state is now '%s'."), $project->state));
 }
 
 $transition = get_transition( $curr_state, $next_state );
