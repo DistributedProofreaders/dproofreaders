@@ -44,7 +44,7 @@ $syntax=array("-",":","*","!");
 <table>
 <tr><td rowspan="2">
 <textarea name="hierobox" rows="4" cols="30">
-<?php echo $hierobox=stripslashes(@$_POST['hierobox']); ?>
+<?php $hierobox=stripslashes(@$_POST['hierobox']); echo htmlspecialchars($hierobox); ?>
 </textarea>
 </td><td colspan="2">
 <select onChange="window.parent.hierotable.location='table.php?table='+this.value;">

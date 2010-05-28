@@ -190,10 +190,10 @@ if ($password=="proofer") {
     echo "<table class='register'>";
     echo "<tr>";
     echo "  <td class='label'>" . _("Real Name") . ":</td>";
-    echo "  <td class='field'><input type='text' maxlength='70' name='real_name' size='20' value='$real_name'></td>";
+    echo "  <td class='field'><input type='text' maxlength='70' name='real_name' size='20' value='". htmlspecialchars(stripslashes($real_name), ENT_QUOTES) ."'></td>";
     echo "</tr>\n<tr>";
     echo "  <td class='label'>" . _("User Name") . ":</td>";
-    echo "  <td class='field'><input type='text' maxlength='70' name='userNM' size='20' value='$username'></td>";
+    echo "  <td class='field'><input type='text' maxlength='70' name='userNM' size='20' value='" . htmlspecialchars(stripslashes($username), ENT_QUOTES) . "'></td>";
     echo "</tr>\n<tr>";
     echo "  <td class='label'>" . _("Password") . ":</td>";
     echo "  <td class='field'><input type='password' maxlength='70' name='userPW' size='20'></td>";
@@ -203,10 +203,10 @@ if ($password=="proofer") {
     echo "</tr>\n<tr>";
     if (!$testing) {
         echo "  <td class='label'>" . _("E-mail Address") . ":</td>";
-        echo "  <td class='field'><input type='text' maxlength='70' name='email' size='20' value='$email'></td>";
+        echo "  <td class='field'><input type='text' maxlength='70' name='email' size='20' value='". htmlspecialchars(stripslashes($email), ENT_QUOTES) . "'></td>";
         echo "</tr>\n<tr>";
         echo "  <td class='label'>" . _("Confirm E-mail Address") . ":</td>";
-        echo "  <td class='field'><input type='text' maxlength='70' name='email2' size='20' value='$email2'></td>";
+        echo "  <td class='field'><input type='text' maxlength='70' name='email2' size='20' value='" . htmlspecialchars(stripslashes($email2), ENT_QUOTES) . "'></td>";
         echo "</tr>\n<tr>";
     }
     echo "  <td class='label'><b>" . _("E-mail Updates") . ":</td>";

@@ -101,7 +101,7 @@ if($frame=="left") {
     echo "<input type='hidden' name='frame' value='left'>";
     echo "<p>";
     if ( user_is_a_sitemanager() || user_is_proj_facilitator() ) {
-        echo _("View projects for user:") . " <input type='text' name='pm' value='$pm' size='10'><br>";
+        echo _("View projects for user:") . " <input type='text' name='pm' value='" . htmlspecialchars($pm, ENT_QUOTES) . "' size='10'><br>";
     }
 
 echo _("Show:") . " ";
@@ -139,7 +139,7 @@ echo "<br>";
 
     echo "<form action='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) . "' method='post'>";
     echo "<input type='hidden' name='frame' value='update'>";
-    echo "<input type='hidden' name='pm' value='$pm'>";
+    echo "<input type='hidden' name='pm' value='" . htmlspecialchars($pm, ENT_QUOTES) . "'>";
     echo "<input type='hidden' name='timeCutoff' value='$timeCutoff'>";
 
     $projectsNeedingAttention=0;

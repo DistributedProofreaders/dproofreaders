@@ -199,7 +199,7 @@ class ImageSource
     function show_listing_row($count)
     {
         global $page_url;
-        $sid = $this->code_name;
+        $sid = htmlspecialchars($this->code_name, ENT_QUOTES);
 
         if($count%2 == "1")
             $row_class = "o";
@@ -215,8 +215,8 @@ class ImageSource
             $listing_rows++;
 
         echo "<tr class='$row_class'>";
-        echo "<td rowspan='$listing_rows'>$this->code_name</td>";
-        echo "<td><a name='$sid' id='$sid'></a>" . $this->display_name . "</td>";
+        echo "<td rowspan='$listing_rows'>" . htmlspecialchars($this->code_name) . "</td>";
+        echo "<td><a name='$sid' id='$sid'></a>" . htmlspecialchars($this->display_name) . "</td>";
         echo "<td>" . make_link($this->url, $this->full_name) . "</td>";
         echo $this->_get_status_cell($this->is_active,' pb');
         echo "<td class='center'>" . $this->_may_maynot_unknown($this->ok_keep_images) . "</td>";
@@ -232,20 +232,20 @@ class ImageSource
         echo "</tr>";
 
         echo "<tr class='$row_class'>";
-        echo "<td colspan='6'>" . sprintf(_("<b>Credits Line:</b> %s"), $this->credit) . "</td>";
+        echo "<td colspan='6'>" . sprintf(_("<b>Credits Line:</b> %s"), htmlspecialchars($this->credit)) . "</td>";
         echo "</tr>";
 
         if($this->public_comment)
         {
             echo "<tr class='$row_class'>";
-            echo "<td colspan='6'>" . sprintf(_("<b>Comment (public):</b> %s"), $this->public_comment) . "</td>";
+            echo "<td colspan='6'>" . sprintf(_("<b>Comment (public):</b> %s"), htmlspecialchars($this->public_comment)) . "</td>";
             echo "</tr>";
         }
 
         if($this->internal_comment)
         {
             echo "<tr class='$row_class'>";
-            echo "<td colspan='6'>" . sprintf(_("<b>Notes (internal):</b> %s"), $this->internal_comment) . "</td>";
+            echo "<td colspan='6'>" . sprintf(_("<b>Notes (internal):</b> %s"), htmlspecialchars($this->internal_comment)) . "</td>";
             echo "</tr>";
         }
     }
@@ -280,7 +280,7 @@ class ImageSource
         else
         {
             echo "<input type='hidden' name='editing' value='true' />" .
-                "<input type='hidden' name='code_name' value='$this->code_name' />";
+                "<input type='hidden' name='code_name' value='" . htmlspecialchars($this->code_name, ENT_QUOTES) ."' />";
             $this->_show_summary_row(_('Image source ID'),$this->code_name);
         }
         $this->_show_edit_row('display_name',_('Display name'),false,30);

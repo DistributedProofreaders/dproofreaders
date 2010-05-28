@@ -61,7 +61,7 @@ else
 <td valign="top">
 <form name="greek" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES); ?>">
 <input type="text" name="textbox" length="65" size="65"
-<?php if ($greek_contents != "") { echo "value=\"$greek_contents\""; } ?>
+<?php echo "value=\"" . htmlspecialchars($greek_contents, ENT_QUOTES) . "\""; ?>
 >
 </td>
 <td align="right" valign="top">
@@ -85,7 +85,7 @@ else
 <tr>
 <td colspan="3">
 <p class="info">
-<?php 
+<?php
 echo _("The Greek glyphs above are <b>clickable</b>.") . "<br>";
 echo _("Diacritical marks may be ignored except for the rough-breathing mark, (<img src='gfx/greekrough.png' height='12' width='10'>) above the letter.") . "<br>";
 echo _("For these, put 'h' before the letter <emp>unless</emp> the word begins with 'r'. For those, put 'h' <emp>after</emp> the 'r'.");

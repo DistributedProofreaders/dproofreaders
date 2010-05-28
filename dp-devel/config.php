@@ -77,7 +77,7 @@ if (!$auth) {
 	}
 	include_once($relPath.'site_vars.php');
 
-	echo "<br><form method='post' action='" . htmlspecialchars($_SESSION['PHP_SELF'], ENT_QUOTES) . "'>";
+	echo "<br><form method='post' action='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) . "'>";
 
 	start_section( 'Basic Configuration' );
 	echo "<tr><td align='right' width='30%' valign='top'>Testing Mode:</td><td bgcolor='#dee3e7' align='left' width='70%' valign='top'>";
@@ -185,7 +185,7 @@ function tr_text( $label, $size, $name, $value, $note=NULL )
 	echo "<tr>";
 	echo   "<td align='right' width='30%' valign='top'>$label:</td>";
 	echo   "<td bgcolor='#dee3e7' align='left' width='70%' valign='top'>";
-	echo     "<input type='text' size='$size' name='$name' value='$value'>";
+	echo     "<input type='text' size='$size' name='$name' value='" . htmlspecialchars(stripslashes($value), ENT_QUOTES) . "'>";
 	if (!is_null($note))
 	{
 		echo "&nbsp;<font size='2'>$note</font>";
