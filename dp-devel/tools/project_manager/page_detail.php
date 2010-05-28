@@ -7,8 +7,8 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once('page_table.inc');
 
-$projectid = @$_GET['project'];
-$show_image_size = array_get( $_GET, 'show_image_size', 0 );
+$projectid = validate_projectID('project', @$_GET['project']);
+$show_image_size = isset($_GET['show_image_size']);
 
 $project = new Project( $projectid );
 

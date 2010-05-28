@@ -11,7 +11,7 @@ include_once("./word_freq_table.inc");
 
 set_time_limit(0); // no time limit
 
-$projectid = $_GET["projectid"];
+$projectid = validate_projectID('projectid', @$_GET['projectid']);
 $project = new Project($projectid);
 
 enforce_edit_authorization($projectid);

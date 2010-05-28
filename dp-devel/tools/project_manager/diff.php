@@ -7,8 +7,8 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'links.inc');
 include_once("DifferenceEngineWrapper.inc");
 
-$projectid   = $_GET['project'];
-$image       = $_GET['image'];
+$projectid   = validate_projectID('project', @$_GET['project']);
+$image       = validate_page_image_filename('image', @$_GET['image'], true);
 $L_round_num = get_integer_param($_GET, 'L_round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
 $R_round_num = get_integer_param($_GET, 'R_round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
 

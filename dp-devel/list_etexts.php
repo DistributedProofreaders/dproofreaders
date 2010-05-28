@@ -4,14 +4,14 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'list_projects.inc');
 
-$x        = array_get($_GET, 'x', 'g');
+$x        = get_enumerated_param($_GET, 'x', 'g', array('g', 's', 'b'));
 $sort     = get_integer_param($_GET, 'sort',      0, 0, 5);
 $per_page = get_integer_param($_GET, 'per_page', 20, 1, NULL);
 $offset   = get_integer_param($_GET, 'offset',    0, 0, NULL);
 
 $boilerplate = _("These e-texts are the product of hundreds of hours of labor donated by all of our volunteers. The list is sorted with the most recently submitted e-texts at the top. You can sort them based upon your own preferences by clicking below. Enjoy!!");
 
-if($x == "g" OR $x == "") {
+if($x == "g") {
     $type = "Gold";
     $title = _("Completed Gold E-Texts");
     $state = SQL_CONDITION_GOLD;

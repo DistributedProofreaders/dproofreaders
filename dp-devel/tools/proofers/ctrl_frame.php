@@ -6,10 +6,8 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
 include_once('toolbox.inc');
 
-$round_id = @$_GET['round_id'];
-assert( !empty($round_id) );
+$round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_));
 $round = get_Round_for_round_id($round_id);
-assert( !is_null($round) );
 
 /*
 include_once($relPath.'resolution.inc');

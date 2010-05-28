@@ -11,8 +11,8 @@ include_once($relPath.'misc.inc'); // get_upload_err_msg
 // (This script's functionality overlaps that of handle_bad_page.php.
 // They should perhaps be refactored.)
 
-$projectid = $_REQUEST['projectid'];
-$image     = $_REQUEST['image'];
+$projectid = validate_projectID('projectid', @$_REQUEST['projectid']);
+$image     = validate_page_image_filename('image', @$_REQUEST['image']);
 
 $project = new Project($projectid);
 

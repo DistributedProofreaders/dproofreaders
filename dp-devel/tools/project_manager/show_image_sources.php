@@ -19,7 +19,7 @@ dpsession_resume();
 //Check to see if we are in a maintenance mode
 abort_if_in_maintenance_mode();
 
-$which = array_get($_GET, "which", "DONE");
+$which = get_enumerated_param($_GET, 'which', 'DONE', array('ALL', 'DONE'));
 
 $locuserSettings =& Settings::get_Settings($pguser);
 

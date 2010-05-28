@@ -12,7 +12,7 @@ include_once('./word_freq_table.inc');
 
 set_time_limit(0); // no time limit
 
-$projectid = $_REQUEST["projectid"];
+$projectid = validate_projectID('projectid', @$_REQUEST['projectid']);
 
 enforce_edit_authorization($projectid);
 
@@ -21,7 +21,7 @@ enforce_edit_authorization($projectid);
 //   'file' - all words and frequencies are presented as a
 //            downloaded file
 // 'update' - update the list
-$format = array_get($_REQUEST, "format", "html");
+$format = get_enumerated_param($_REQUEST, 'format', 'html', array('html', 'file', 'update'));
 
 if($format=="update") {
     $postedWords = parse_posted_words($_POST);

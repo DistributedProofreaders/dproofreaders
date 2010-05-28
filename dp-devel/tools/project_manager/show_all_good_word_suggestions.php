@@ -15,8 +15,8 @@ $watch->start();
 
 set_time_limit(0); // no time limit
 
-$freqCutoff = array_get($_REQUEST,"freqCutoff",5);
-$timeCutoff = array_get($_REQUEST,"timeCutoff",-1);
+$freqCutoff = get_integer_param($_REQUEST, 'freqCutoff', 5, 0, null);
+$timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', -1, -1, null);
 
 // load the PM
 $pm = array_get($_REQUEST,"pm",$pguser);
@@ -29,12 +29,12 @@ if ( !user_is_a_sitemanager() && !user_is_proj_facilitator() ) {
 //   'left' - we're the left frame with the text
 //  'right' - we're the right frame for the context info
 // 'update' - not a frame at all - process the incoming data
-$frame = array_get($_REQUEST,"frame","master");
+$frame = get_enumerated_param($_REQUEST, 'frame', 'master', array('master', 'left', 'right', 'update'));
 
 if($frame=="update") {
     $newProjectWords=array();
     foreach($_POST as $key => $val) {
-        if(preg_match("/cb_(projectID.*)_(\d+)/",$key,$matches)) {
+        if(preg_match("/cb_(projectID[0-9a-f]{13})_(\d+)/",$key,$matches)) {
             $projectid=$matches[1];
             $word=decode_word($val);
             if(!is_array($newProjectWords[$projectid]))

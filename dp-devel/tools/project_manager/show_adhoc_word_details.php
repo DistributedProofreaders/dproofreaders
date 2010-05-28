@@ -3,14 +3,15 @@ $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once('./post_files.inc');
 include_once('./word_freq_table.inc');
 
 set_time_limit(0); // no time limit
 
-$projectid  = array_get($_REQUEST, "projectid",  "");
-$freqCutoff = array_get($_REQUEST, "freqCutoff", 5);
+$projectid  = validate_projectID('projectid', @$_REQUEST['projectid']);
+$freqCutoff = get_integer_param($_REQUEST, 'freqCutoff', 5, 0, null);
 
 $queryWordText = array_get($_POST, "queryWordText", "");
 // do some cleanup on the input string
@@ -31,9 +32,8 @@ enforce_edit_authorization($projectid);
 // $format determins what is presented from this page:
 //    'html' - page is rendered with frequencies included
 // 'update' - update the list
-$format = array_get($_REQUEST, "format", "html");
-
-$wordListTarget = array_get($_POST, "wordlisttarget", "bad");
+$format         = get_enumerated_param($_REQUEST, 'update', 'format', array('format', 'html'));
+$wordListTarget = get_enumerated_param($_POST, 'wordlisttarget', 'bad', array('good', 'bad'));
 
 if($format=="update") {
      $postedWords = parse_posted_words($_POST);

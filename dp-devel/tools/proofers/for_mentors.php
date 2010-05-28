@@ -27,7 +27,7 @@ include_once($relPath.'TallyBoard.inc');
 
     // Decide which mentoring-round we're dealing with.
 
-    $round_id = @$_GET['round_id'];
+    $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_), true);
     if ( $round_id != '' )
     {
         $mentoring_round = get_Round_for_round_id($round_id);

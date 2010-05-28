@@ -3,14 +3,15 @@ $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once('./post_files.inc');
 include_once('./word_freq_table.inc');
 
 set_time_limit(0); // no time limit
 
-$projectid  = array_get($_REQUEST, "projectid",  "");
-$freqCutoff = array_get($_REQUEST, "freqCutoff", 5);
+$projectid  = validate_projectID('projectid', @$_REQUEST['projectid']);
+$freqCutoff = get_integer_param($_REQUEST, 'freqCutoff', 5, 0, null);
 
 enforce_edit_authorization($projectid);
 
@@ -19,7 +20,7 @@ enforce_edit_authorization($projectid);
 //   'file' - all words and frequencies are presented as a
 //            downloaded file
 // 'update' - update the list
-$format = array_get($_REQUEST, "format", "html");
+$format = get_enumerated_param($_REQUEST, 'format', 'html', array('html', 'file', 'update'));
 
 if($format=="update") {
     $postedWords = parse_posted_words($_POST);

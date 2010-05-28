@@ -9,10 +9,8 @@ include($relPath.'site_vars.php');
 include($relPath.'theme.inc');
 
 
-// Currently valid languages: eng, fr, ger
-$lang = $_GET['language'];
-// Currently valid types: common, rare, suspect
-$flavour = $_GET['type'];
+$lang     = get_enumerated_param($_GET, 'language', null, array('eng', 'es', 'fr', 'ger'));
+$flavour  = get_enumerated_param($_GET, 'type', null, array('common', 'suspect', 'rare'));
 $filename = "$code_dir/faq/stealth_scannos_".$lang."_".$flavour.".txt";
 $this_url = htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES);
 
@@ -26,10 +24,10 @@ if (!file_exists($filename)) {
           <tr><td>"._("English")."</td><td><a href='$this_url?language=eng&amp;type=common'>"._("Common")."</a></td>
                                        <td><a href='$this_url?language=eng&amp;type=suspect'>"._("Suspect")."</a></td>
                                        <td><a href='$this_url?language=eng&amp;type=rare'>"._("Rare")."</a></td></tr>
-          <tr><td>"._("French")."</td><td><a href='$this_url?language=fr&amp;type=common'>"._("Common")."</a></td>
+          <tr><td>"._("French"). "</td><td><a href='$this_url?language=fr&amp;type=common'>"._("Common")."</a></td>
                                        <td><a href='$this_url?language=fr&amp;type=suspect'>"._("Suspect")."</a></td>
                                        <td><a href='$this_url?language=fr&amp;type=rare'>"._("Rare")."</a></td></tr>
-          <tr><td>"._("German")."</td><td><a href='$this_url?language=ger&amp;type=common'>"._("Common")."</a></td>
+          <tr><td>"._("German"). "</td><td><a href='$this_url?language=ger&amp;type=common'>"._("Common")."</a></td>
                                        <td><a href='$this_url?language=ger&amp;type=suspect'>"._("Suspect")."</a></td>
                                        <td><a href='$this_url?language=ger&amp;type=rare'>"._("Rare")."</a></td></tr>
           <tr><td>"._("Spanish")."</td><td><a href='$this_url?language=es&amp;type=common'>"._("Common")."</a></td>

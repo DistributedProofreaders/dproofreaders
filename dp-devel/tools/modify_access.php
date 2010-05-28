@@ -6,9 +6,10 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'access_log.inc');
+include_once($relPath.'username.inc');
 
 $subject_username = @$_POST['subject_username'];
-if (empty($subject_username)) die( "parameter 'subject_username' is empty" );
+if (check_username($subject_username) != '') die("Invalid parameter subject_username.");
 
 list($can_grant,$can_revoke) = user_can_modify_access_of($subject_username);
 if ( !$can_grant && !$can_revoke ) die( "Error: you are not permitted to modify the access of user '$subject_username'." );

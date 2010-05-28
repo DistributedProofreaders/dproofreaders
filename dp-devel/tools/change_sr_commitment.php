@@ -1,6 +1,7 @@
 <?php
 $relPath="../pinc/";
 include_once($relPath.'dp_main.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'smoothread.inc');
 
@@ -19,9 +20,9 @@ include_once($relPath.'smoothread.inc');
 *
 ****************************************************************************************/
 
-$projectid  = $_POST['projectid'];
-$action = $_POST['action'];
-$refresh_url = $_POST['next_url'];
+$projectid   = validate_projectID('projectid', @$_POST['projectid']);
+$action      = get_enumerated_param($_POST, 'action', null, array('commit', 'withdraw'));
+$refresh_url = @$_POST['next_url'];
 
 switch ($action) {
 case "commit":

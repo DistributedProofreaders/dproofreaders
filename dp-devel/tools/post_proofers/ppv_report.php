@@ -8,6 +8,8 @@ include_once($relPath.'Project.inc'); //user_can_work_in_stage()
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'misc.inc');  // javascript_safe()
 
+$projectid = validate_projectID('project', @$_REQUEST['project']);
+
 $theme_args['js_data'] = "
 function set_html(sw)
 {
@@ -94,13 +96,6 @@ div.shrinker a {
 theme(_('Post-Processing Verification Reporting'),'header', $theme_args);
 
 
-if (empty($_REQUEST['project'])) {
-   	echo _("No project specified. Supply a 'project' parameter.");
-   	theme('','footer');
-   	die;
-}
-
-
 // To make PPVer collaboration easier, allow any PPVer to fill in the summary.
 // (The link is still only shown to the PPVer with the project checked-out.)
 // All summaries are sent to the PPVers' list, signed by the person filling
@@ -111,8 +106,6 @@ if (!user_can_work_in_stage($pguser, 'PPV')) {
   theme('','footer');
  	exit();
 }
-
-$projectid = mysql_real_escape_string($_REQUEST['project']);
 
 $project = mysql_fetch_object(mysql_query("SELECT * FROM projects WHERE projectid = '$projectid'"));
 $ppver = mysql_fetch_object(mysql_query("SELECT * FROM users WHERE username = '$pguser'"));

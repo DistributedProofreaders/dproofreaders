@@ -10,15 +10,9 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'showavailablebooks.inc');
 
-$pool_id = @$_GET['pool_id'];
+$pool_id = get_enumerated_param($_GET, 'pool_id', null, array_keys($Pool_for_id_));
 
 $pool = get_Pool_for_id($pool_id);
-if ( is_null($pool) )
-{
-    die("bad 'pool_id' parameter: '$pool_id'");
-}
-
-// -----------------------------------------------------------------------------
 
 theme("$pool->id: $pool->name", "header");
 

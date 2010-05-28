@@ -2,6 +2,7 @@
 $relPath="./../../pinc/";
 include($relPath.'site_vars.php');
 include($relPath.'dp_main.inc');
+include($relPath.'Project.inc');
 include_once($relPath.'project_states.inc');
 include($relPath."doctype.inc");
 include_once($relPath.'theme.inc');
@@ -12,14 +13,18 @@ if (!$site_supports_metadata)
     exit();
 }
 
-$projectid = @$_GET['projectid'];
-$imagename = @$_GET['imagename'];
+$projectid = validate_projectID('projectid', @$_GET['projectid']);
+if (!isset($_GET['imagename'])) {
+    $imagename = null;
+} else {   
+    $imagename = validate_page_image_filename('imagename', @$_GET['imagename']);
+}
 
 // $ppage = get_requested_PPage();
 
 
 
-if(!isset($_GET['imagename']))
+if(!isset($imagename))
 {
     //find next available page for this project
     $result = mysql_query("SELECT image FROM $projectid WHERE state = 'avail_md_second' ORDER BY image ASC LIMIT 1");

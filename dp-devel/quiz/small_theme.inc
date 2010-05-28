@@ -7,7 +7,7 @@ include_once($relPath.'quizzes.inc');
 // From theme.inc
 html_header('');
 
-$current_quiz = $_REQUEST['quiz_id'];
+$current_quiz = get_enumerated_param($_REQUEST, 'quiz_id', null, $valid_quiz_ids);
 $quiz_name = ${$current_quiz}->name;
 
 echo "<table cellspacing=0 cellpadding=0 width='100%'>";

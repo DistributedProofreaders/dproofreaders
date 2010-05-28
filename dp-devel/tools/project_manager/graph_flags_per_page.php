@@ -1,8 +1,9 @@
 <?php
 $relPath="../../pinc/";
+include_once($relPath . 'Project.inc');
 include_once('../../stats/jpgraph_files/common.inc');
 
-$projectid = $_GET["projectid"];
+$projectid = validate_projectID("projectid", @$_GET["projectid"]);
 
 // data for this graph is generated in show_wordcheck_page_stats.php
 

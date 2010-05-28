@@ -22,23 +22,22 @@ $watch->start();
 
 set_time_limit(0); // no time limit
 
-$projectid  = $_GET["projectid"];
+$projectid  = validate_projectID('projectid', @$_REQUEST['projectid']);
 $encWord    = $_GET["word"];
 $word       = decode_word($encWord);
-$timeCutoff = array_get($_GET,"timeCutoff",0);
+$timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', 0, 0, null);
 
 enforce_edit_authorization($projectid);
 
 // get the correct layout
-$layout = array_get($_GET,"layout",@$_SESSION["show_good_word_suggestions_detail"]["layout"]);
-if(empty($layout)) $layout=LAYOUT_HORIZ;
-$_SESSION["show_good_word_suggestions_detail"]["layout"]=$layout;
+$layout     = get_integer_param($_GET, 'layout', intval(@$_SESSION["show_good_word_suggestions_detail"]["layout"]), LAYOUT_HORIZ, LAYOUT_VERT);
+$_SESSION["show_good_word_suggestions_detail"]["layout"] = $layout;
 
 // $frame determines which frame we're operating from
-//    none - we're the master frame
-//  'left' - we're the left frame with the text
-// 'right' - we're the right frame for the image
-$frame = array_get($_GET,"frame","master");
+// 'master' - we're the master frame
+//   'left' - we're the left frame with the text
+//  'right' - we're the right frame for the image
+$frame = get_enumerated_param($_GET, 'frame', 'master', array('master', 'left', 'right'));
 
 if($frame=="master") {
     slim_header(_("Suggestion Detail"),TRUE,FALSE);

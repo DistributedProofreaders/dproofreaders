@@ -5,17 +5,18 @@ include_once($relPath.'connect.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'dpsession.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'Project.inc');
 
 $user_is_logged_in = dpsession_resume();
 
 $default_percent = array_get( @$_SESSION["displayimage"], 'percent', 100 );
 
 // get variables passed into page
-$project   = $_GET['project'];
-$imagefile = $_GET['imagefile'];
-$percent   = get_integer_param($_GET, 'percent', $default_percent, 1, 999);
+$project        = validate_projectID('project', @$_GET['project']);
+$imagefile      = validate_page_image_filename('imagefile', @$_GET['imagefile'], true);
+$percent        = get_integer_param($_GET, 'percent', $default_percent, 1, 999);
 $showreturnlink = get_integer_param($_GET, 'showreturnlink', 1, 0, 1);
-$preload   = array_get($_GET, "preload", "");
+$preload        = get_enumerated_param($_GET, 'preload', null, array('prev', 'next'), true);
 
 $width = 10 * $percent;
 

@@ -69,10 +69,10 @@ if(!count($error_messages)) {
 
 
 // $frame determines which frame we're operating from
-//    none - we're the master frame
-//   'top' - we're the top frame with the basic info
-// 'image' - frame with the image
-//  'text' - we're the bottom frame for the text
+// 'master' - we're the master frame
+//    'top' - we're the top frame with the basic info
+//  'image' - frame with the image
+//   'text' - we're the bottom frame for the text
 $frame = get_enumerated_param($_GET,"frame","master",array("master","top","image","text"));
 
 if ($frame=="master") {

@@ -18,6 +18,10 @@ include_once($relPath.'Project.inc'); // project_get_auto_PPer
 
 include('autorelease.inc');
 
+$one_project = validate_projectID('project', @$_GET['project'], true);
+$refresh_url = @$_GET['return_uri'];
+if (!isset($refresh_url)) $refresh_url = 'projectmgr.php';
+
 $trace = FALSE;
 
 // -----------------------------------------------------------------------------
@@ -83,8 +87,6 @@ function ensure_project_blurb( $project )
 // -----------------------------------------------------------------------------
 
 echo "<pre>\n";
-
-$one_project = isset($_GET['project'])?$_GET['project']:0;
 
 if ($one_project) {
     $verbose = 0;
@@ -352,8 +354,6 @@ else
                VALUES ('automodify.php', $tracetimea, 'END', 'end single, started at $tracetime, took $tooktime seconds')");
 
 
-    $refresh_url = @$_GET['return_uri'];
-    if ( empty($refresh_url) ) $refresh_url = 'projectmgr.php';
     echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=$refresh_url\">";
 }
 

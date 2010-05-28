@@ -7,13 +7,14 @@ include($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include($relPath.'project_edit.inc');
 include($relPath.'DPage.inc');
-include_once($relPath.'projectinfo.inc'); 
+include_once($relPath.'Project.inc');
+include_once($relPath.'projectinfo.inc');
 
-$projectid = $_GET['project'];
+$projectid    = validate_projectID('project', @$_GET['project']);
+$loading_tpnv = (@$_GET['tpnv'] == '1');
 
 abort_if_cant_edit_project( $projectid );
 
-$loading_tpnv = ( isset($_GET['tpnv']) && $_GET['tpnv'] == '1' );
 
 // abort if a load_disabled user is trying to load normal pages into an empty project 
 if ( (! $loading_tpnv)

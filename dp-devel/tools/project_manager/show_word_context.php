@@ -16,8 +16,8 @@ define("LAYOUT_VERT",  2);
 
 set_time_limit(0); // no time limit
 
-$projectid = $_GET["projectid"];
-$encWord   = $_GET["word"];
+$projectid = validate_projectID('projectid', @$_GET['projectid']);
+$encWord   = @$_GET["word"];
 $word      = rtrim(decode_word($encWord));
 
 enforce_edit_authorization($projectid);
@@ -28,13 +28,13 @@ if(empty($layout)) $layout=LAYOUT_HORIZ;
 $_SESSION["show_word_context"]["layout"]=$layout;
 
 
-$wordInstances = array_get($_GET,"wordInstances",20);
+$wordInstances =  get_integer_param($_GET, 'wordInstances', 20, 0, null);
 
 // $frame determines which frame we're operating from
-//    none - we're the master frame
-//  'left' - we're the left frame with the text
-// 'right' - we're the right frame for the image
-$frame = array_get($_GET,"frame","master");
+// 'master' - we're the master frame
+//  'left'  - we're the left frame with the text
+// 'right'  - we're the right frame for the image
+$frame = get_enumerated_param($_GET, 'frame', 'master', array('master', 'left', 'right'));
 
 if($frame=="master") {
     slim_header(_("Word Context"),TRUE,FALSE);

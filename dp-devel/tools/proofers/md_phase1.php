@@ -4,12 +4,13 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
 //include_once($relPath.'project_edit.inc');
 $show_image_size = '';
 
-$projectid = $_GET['projectid'];
+$projectid = validate_projectID('projectid', @$_GET['projectid']);
 
 if (!$site_supports_metadata)
 {

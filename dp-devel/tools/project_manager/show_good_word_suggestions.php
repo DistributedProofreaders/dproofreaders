@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'wordcheck_engine.inc');
+include_once($relPath.'project.inc');
 include_once($relPath.'theme.inc');
 include_once('./post_files.inc');
 include_once("./word_freq_table.inc");
@@ -11,10 +12,10 @@ $datetime_format = "%A, %B %e, %Y %X";
 
 set_time_limit(0); // no time limit
 
-$projectid  = array_get($_REQUEST, "projectid",  "");
+$projectid  = validate_projectID('projectid', @$_REQUEST['projectid']);
 $fileObject = get_project_word_file($projectid,"good");
-$timeCutoff = array_get($_REQUEST, "timeCutoff", $fileObject->mod_time);
-$freqCutoff = array_get($_REQUEST, "freqCutoff", 5);
+$timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', $fileObject->mod_time, 0, null);
+$freqCutoff = get_integer_param($_REQUEST, 'freqCutoff', 5, 0, null);
 
 enforce_edit_authorization($projectid);
 
@@ -29,7 +30,7 @@ else
 //   'file' - all words and frequencies are presented as a
 //            downloaded file
 // 'update' - update the list
-$format = array_get($_REQUEST, "format", "html");
+$format = get_enumerated_param($_REQUEST, 'format', 'html', array('html', 'file', 'update'));
 
 if($format=="update") {
     $postedWords = parse_posted_words($_POST);

@@ -8,6 +8,7 @@ include_once('edit_common.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'project_edit.inc');
+include_once($relPath.'Project.inc');
 
 $return = array_get($_REQUEST,"return","$code_url/tools/project_manager/projectmgr.php");
 
@@ -88,11 +89,7 @@ class ProjectWordListHolder
     // load data from database
     function set_from_db()
     {
-        $projectid = $_REQUEST['projectid'];
-        if ( $projectid == '' )
-        {
-            return array(_("parameter 'projectid' is empty"));
-        }
+        $projectid = validate_projectID('projectid', @$_REQUEST['projectid']);
 
         $ucep_result = user_can_edit_project($projectid);
         // we only let people clone projects that they can edit, so this
@@ -185,7 +182,7 @@ class ProjectWordListHolder
 
         if ( isset($_POST['projectid']) )
         {
-            $this->projectid = $_POST['projectid'];
+            $this->projectid = validate_projectID('projectid', @$_POST['projectid']);
 
             $ucep_result = user_can_edit_project($this->projectid);
             if ( $ucep_result == PROJECT_DOES_NOT_EXIST )
@@ -206,11 +203,11 @@ class ProjectWordListHolder
             }
         }
 
-        $this->projectid        = @$_POST['projectid'];
+        $this->projectid        = validate_projectID('projectid', @$_POST['projectid']);
         $this->good_words       = @$_POST['good_words'];
         $this->bad_words        = @$_POST['bad_words'];
-        $this->gwl_timestamp    = @$_POST['gwl_timestamp'];
-        $this->bwl_timestamp    = @$_POST['bwl_timestamp'];
+        $this->gwl_timestamp    = get_integer_param($_POST, 'gwl_timestamp', null, null, null);
+        $this->bwl_timestamp    = get_integer_param($_POST, 'bwl_timestamp', null, null, null);
 
         return array();
     }

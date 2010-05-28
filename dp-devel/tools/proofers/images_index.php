@@ -4,7 +4,7 @@ include($relPath.'site_vars.php');
 include($relPath.'theme.inc');
 include($relPath.'Project.inc');
 
-$projectid = $_GET['project'];
+$projectid = validate_projectID('project', @$_GET['project']);
 
 $project = new Project($projectid);
 

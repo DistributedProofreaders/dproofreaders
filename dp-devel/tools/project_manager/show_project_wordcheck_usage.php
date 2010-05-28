@@ -3,13 +3,14 @@ $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'wordcheck_engine.inc');
+include_once($relPath.'project.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'links.inc');
 include_once("./word_freq_table.inc");
 
 set_time_limit(0); // no time limit
 
-$projectid = $_GET["projectid"];
+$projectid = validate_projectID('projectid', @$_GET['projectid']);
 
 enforce_edit_authorization($projectid);
 

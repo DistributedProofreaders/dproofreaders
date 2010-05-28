@@ -5,18 +5,15 @@ include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'DPage.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'forum_interface.inc');
 include_once('page_table.inc');  // page_state_is_a_bad_state()
 
 if (!isset($_POST['resolution'])) {
     //Get variables to use for form
-    $projectid = $_GET['projectid'];
-    $image = $_GET['image'];
-    if (!isset($projectid)) {
-        $projectid = $_POST['projectid'];
-        $image = $_POST['image'];
-    }
+    $projectid = validate_projectID('projectid', @$_REQUEST['projectid']);
+    $image     = validate_page_image_filename('image', @$_REQUEST['image']);
 
     //Find out information about the bad page report
     $result = mysql_query("SELECT * FROM $projectid WHERE image='$image'");
@@ -181,9 +178,9 @@ if (!isset($_POST['resolution'])) {
 } else {
 
     //Get variables passed from form
-    $projectid = $_POST['projectid'];
-    $image = $_POST['image'];
-    $state = $_POST['state'];
+    $projectid = validate_projectID('projectid', @$_POST['projectid']);
+    $image = validate_page_image_filename('image', @$_POST['image']);
+    $state = get_enumerated_param($_POST, 'state', null, $PAGE_STATES_IN_ORDER);
     $resolution = $_POST['resolution'];
 
     //If the PM fixed the problem or stated the report was invalid update the database to reflect
