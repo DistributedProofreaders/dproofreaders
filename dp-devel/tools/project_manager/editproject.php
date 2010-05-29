@@ -8,6 +8,7 @@ include_once($relPath.'marc_format.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'DPage.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'comment_inclusions.inc');
 include_once('edit_common.inc');
 include_once($relPath.'project_edit.inc');
@@ -35,22 +36,11 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
         if (isset($_POST['saveAndQuit']))
         {
             metarefresh(0, "projectmgr.php", _("Save and Go To PM Page"), "");
-            exit;
         }
         elseif (isset($_POST['saveAndProject']))
         {
             metarefresh(0, "$code_url/project.php?id=$pih->projectid", _("Save and Go To Project"), "");
-            exit;
         }
-        elseif (isset($_POST['saveAndPreview']))
-        {
-            // No errors, but fall through.
-        }
-    }
-    else
-    {
-        // Errors.
-        // fall through
     }
 
     if ( isset($pih->projectid) )
@@ -102,47 +92,46 @@ elseif (isset($_POST['quit']))
 
     // do the redirect
     metarefresh(0, $return, _("Quit without Saving"), "");
-    exit;
 }
 else
 {
-    $requested_action = @$_REQUEST['action'];
-    if ( $requested_action == 'createnew'
-         || $requested_action == 'clone'
-         || $requested_action == 'createnewfromuber'
-         || $requested_action == 'create_from_marc_record') 
+    $requested_action = get_enumerated_param($_REQUEST, 'action', null, array('createnew', 'clone', 'createnewfromuber', 'create_from_marc_record', 'edit'));
+
+    if (in_array($requested_action, array('createnew', 'clone', 'createnewfromuber', 'create_from_marc_record')))
     {
         check_user_can_load_projects();
     }
-    if ( $requested_action == 'createnew' )
+
+    switch ($requested_action)
     {
-        $page_title = _("Create a Project");
-        $fatal_error = $pih->set_from_nothing();
-    }
-    elseif ( $requested_action == 'clone' )
-    {
-        $page_title = _("Clone a Project");
-        $fatal_error = $pih->set_from_db(FALSE);
-    }
-    elseif ( $requested_action == 'createnewfromuber' )
-    {
-        $page_title = _("Create a Project from an Uber Project");
-        $fatal_error = $pih->set_from_uberproject();
-    }
-    elseif ( $requested_action == 'create_from_marc_record' )
-    {
-        $page_title = _("Create a Project from a MARC Record");
-        $fatal_error = $pih->set_from_marc_record();
-    }
-    elseif ( $requested_action == 'edit' )
-    {
-        $page_title = _("Edit a Project");
-        $fatal_error = $pih->set_from_db(TRUE);
-    }
-    else
-    {
-        $page_title = 'editproject.php';
-        $fatal_error = _("parameter 'action' is invalid") . ": '$requested_action'";
+        case 'createnew':
+            $page_title = _("Create a Project");
+            $fatal_error = $pih->set_from_nothing();
+            break;
+        
+        case 'clone':
+            $page_title = _("Clone a Project");
+            $fatal_error = $pih->set_from_db(FALSE);
+            break;
+
+        case 'createnewfromuber':
+            $page_title = _("Create a Project from an Uber Project");
+            $fatal_error = $pih->set_from_uberproject();
+            break;
+        
+        case 'create_from_marc_record':
+            $page_title = _("Create a Project from a MARC Record");
+            $fatal_error = $pih->set_from_marc_record();
+            break;
+
+        case 'edit':
+            $page_title = _("Edit a Project");
+            $fatal_error = $pih->set_from_db(TRUE);
+            break;
+    
+        default:
+            $page_title = 'editproject.php';
+            $fatal_error = _("parameter 'action' is invalid") . ": '$requested_action'";
     }
 
     $no_stats=1;
