@@ -88,7 +88,7 @@ while($result = mysql_fetch_assoc($res)) {
         $roundID = $round->id;
 
         // the ' + 0' forces timesChecked to be numeric
-        $timesChecked = $wordcheck_usage[$page][$roundID] + 0;
+        $timesChecked = @$wordcheck_usage[$page][$roundID] + 0;
         $lastProofer = $result[$round->user_column_name];
         $timeProofed = $result[$round->time_column_name];
 
@@ -115,7 +115,7 @@ while($result = mysql_fetch_assoc($res)) {
             $data = "$timesChecked: $lastProoferLink";
         }
         // if the page was finished before WordCheck was deployed on the site
-        elseif($pageIsDoneInRound && $timesChecked==0 && $timeProofed < $t_wordcheck_start) {
+        elseif($pageIsDoneInRound && $timesChecked==0 && $timeProofed < @$t_wordcheck_start) {
             $class = "class='preWC'";
             $data = $lastProoferLink;
         }
