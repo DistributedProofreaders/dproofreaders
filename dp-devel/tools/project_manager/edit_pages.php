@@ -16,6 +16,7 @@ if (!is_array($selected_pages))
 foreach($selected_pages as $image => $setting)
     validate_page_image_filename('selected_pages', $image);
 
+
 $no_stats=1;
 theme( _("Edit Pages Confirmation"), "header");
 echo "<br>\n";
@@ -36,37 +37,20 @@ if ( count($selected_pages) == 0 )
 }
 
 // -----------------------------------------------------------------------------
-// Check the requested operation.
 
-switch ( $operation )
-{
-    /*
-    Not implemented.
-    Marking a page bad requires a reason.
-    case 'bad':
-        $your_request = _('You requested that each page be marked bad.');
-    break;
-    */
+$page_func_map = array(
+    'clear'  => 'page_clear',
+    'delete' => 'page_del'
+);
 
-    case 'clear':
-        $your_request = _('You requested that each page have the effects of its current round be cleared.');
-        $page_func = 'page_clear';
-    break;
+$page_request_map = array(
+    // 'bad' => _('You requested that each page be marked bad.'),
+    'clear'  => _('You requested that each page have the effects of its current round be cleared.'),
+    'delete' => _('You requested that each page be deleted.')
+);
 
-    case 'delete':
-        $your_request = _('You requested that each page be deleted.');
-        $page_func = 'page_del';
-    break;
-
-    default:
-        echo _("Error: unexpected 'operation' value:") . " '$operation'.<br>\n";
-        echo "<br>\n";
-        theme("","footer");
-        exit;
-    break;
-}
-
-// -----------------------------------------------------------------------------
+$page_func    = $page_func_map[$operation];
+$your_request = $page_request_map[$operation];
 
 if ( @$_REQUEST['confirmed'] == 'yes' )
 {
