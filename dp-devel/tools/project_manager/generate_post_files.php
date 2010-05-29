@@ -7,11 +7,18 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once('./post_files.inc');
 
-$projectid = @$_REQUEST['projectid'];
-$round_id  = @$_REQUEST['round_id'];
-$which_text= @$_REQUEST['which_text'];
-$include_proofers = @$_REQUEST['include_proofers'];
-$save_files = @$_REQUEST['save_files'];
+$valid_round_ids = array_keys($Round_for_round_id_);
+array_unshift($valid_round_ids, '[OCR]');
+
+if (@$_REQUEST['projectid'] == 'many') {
+    $projectid        = 'many';
+} else {
+    $projectid        = validate_projectID('projectid', @$_REQUEST['projectid']);
+}
+$round_id             = get_enumerated_param($_REQUEST, 'round_id', null, $valid_round_ids);
+$which_text           = get_enumerated_param($_REQUEST, 'which_text', null, array('EQ', 'LE'));
+$include_proofers     = isset($_REQUEST['include_proofers']);
+$save_files           = isset($_REQUEST['save_files']);
 
 // only sitemanagers are allowed to save files
 if ($save_files && !user_is_a_sitemanager())
@@ -41,26 +48,6 @@ if ($save_files)
     echo "save_files= '$save_files'<br>\n";
 }
 
-if ( empty($projectid) )
-{
-    die( "parameter 'projectid' is empty or unset" );
-}
-
-if ( empty($round_id) )
-{
-    die( "parameter 'round_id' is empty or unset" );
-}
-
-if ( empty($which_text) )
-{
-    die( "parameter 'which_text' is empty or unset" );
-}
-
-// don't check $include_proofers, as it is allowed to be '0' which counts
-// as empty. 
-// if it hasn't been set, it'll default to FALSE, which will be OK. 
-
-// same for $save_files
 
 if ($projectid == 'many' && !$save_files )
 {
