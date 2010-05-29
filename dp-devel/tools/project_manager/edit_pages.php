@@ -6,32 +6,19 @@ include_once($relPath.'Project.inc');
 include_once('page_table.inc');
 include_once('page_operations.inc');
 
+$projectid      = validate_projectID('projectid', @$_REQUEST['projectid']);
+$operation      = get_enumerated_param($_REQUEST, 'operation', null, array('clear', 'delete'));
+$selected_pages = @$_REQUEST['selected_pages'];
+if (!is_array($selected_pages))
+{
+    die(_('selected_pages is not a list of pages.'));
+}    
+foreach($selected_pages as $image => $setting)
+    validate_page_image_filename('selected_pages', $image);
+
 $no_stats=1;
 theme( _("Edit Pages Confirmation"), "header");
 echo "<br>\n";
-
-// -----------------------------------------------------------------------------
-// Check for required parameters.
-
-$do_exit = 0;
-foreach ( array('projectid','selected_pages','operation') as $required_param )
-{
-    if ( !isset($_REQUEST[$required_param]) )
-    {
-        echo "Error: edit_pages.php: '$required_param' parameter is not set.<br>";
-        $do_exit = 1;
-    }
-}
-if ( $do_exit )
-{
-    echo "<br>\n";
-    theme("","footer");
-    exit;
-}
-
-$projectid      = $_REQUEST['projectid'];
-$selected_pages = $_REQUEST['selected_pages'];
-$operation      = $_REQUEST['operation'];
 
 $project = new Project( $projectid );
 
@@ -81,7 +68,7 @@ switch ( $operation )
 
 // -----------------------------------------------------------------------------
 
-if ( isset($_REQUEST['confirmed']) and $_REQUEST['confirmed'] == 'yes' )
+if ( @$_REQUEST['confirmed'] == 'yes' )
 {
     // Perform the operation.
 
