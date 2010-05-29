@@ -75,12 +75,14 @@ echo sprintf( _("<i>Submitted Date:</i> <a href='%1\$s'>asc</a> or <a href='%2\$
 <hr width="75%" align="center">
 
 <?php
-$sortlist[0]="ORDER BY nameofwork asc";
-$sortlist[1]="ORDER BY nameofwork desc";
-$sortlist[2]="ORDER BY authorsname asc";
-$sortlist[3]="ORDER BY authorsname desc";
-$sortlist[4]="ORDER BY modifieddate asc";
-$sortlist[5]="ORDER BY modifieddate desc";
+$sortlist = array(
+    "ORDER BY nameofwork asc",
+    "ORDER BY nameofwork desc",
+    "ORDER BY authorsname asc",
+    "ORDER BY authorsname desc",
+    "ORDER BY modifieddate asc",
+    "ORDER BY modifieddate desc"
+);
 
 list_projects($state, $sortlist[$sort], "list_etexts.php?x=$x&amp;sort=$sort&amp;", $per_page, $offset);
 
