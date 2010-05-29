@@ -1,5 +1,7 @@
 <?php
 include_once($relPath.'site_vars.php');
+include_once($relPath.'Project.inc');         // $PROJECT_STATES_IN_ORDER
+include_once($relPath.'RoundDescriptor.inc'); // $PAGE_STATES_IN_ORDER
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
 include_once($relPath.'LPage.inc');
@@ -41,42 +43,23 @@ function url_for_pi_do_particular_page( $projectid, $proj_state, $imagefile, $pa
 
 function get_requested_PPage( $request_params )
 {
-        foreach(
-            array( 'projectid', 'proj_state', 'imagefile', 'page_state', 'reverting' )
-            as
-            $param_name
-        )
-        {
-            if (!isset($request_params[$param_name]) )
-            {
-                $err = sprintf(
-                    _("parameter '%s' is not set."),
-                    $param_name );
-                abort($err);
-            }
-            else if ($request_params[$param_name] == '')
-            {
-                $err = sprintf(
-                    _("parameter '%s' is empty."),
-                    $param_name );
-                abort($err);
-            }
-        }
+    global $PROJECT_STATES_IN_ORDER, $PAGE_STATES_IN_ORDER;
+    $projectid  = validate_projectID('projectid', @$request_params['projectid']);
+    $proj_state = get_enumerated_param($request_params, 'proj_state', null, $PROJECT_STATES_IN_ORDER);
+    $imagefile  = validate_page_image_filename('imagefile', @$request_params['imagefile']);
+    $page_state = get_enumerated_param($request_params, 'page_state', null, $PAGE_STATES_IN_ORDER);
+    $reverting  = get_integer_param($request_params, 'reverting', 0, 0, 1);
 
-        $lpage = get_indicated_LPage(
-            $request_params['projectid'],
-            $request_params['proj_state'],
-            $request_params['imagefile'],
-            $request_params['page_state'],
-            $request_params['reverting']
-        );
+    $lpage = get_indicated_LPage(
+        $projectid,$proj_state, $imagefile, $page_state, $reverting
+    );
 
-        if ( is_null($lpage) )
-        {
-            abort($err);
-        }
+    if (is_null($lpage))
+    {
+        abort($err);
+    }
 
-        return new PPage($lpage, $request_params['proj_state']);
+    return new PPage($lpage, $proj_state);
 }
 
 // ---------------------------------------------------------
