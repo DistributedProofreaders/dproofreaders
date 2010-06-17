@@ -52,6 +52,7 @@ A:active {
   }
 .dropchars {
   background-color:#EEDFCC;
+  font-size: 1.3em;
 /*
   #CDCDC1;
   #EEDFCC;
