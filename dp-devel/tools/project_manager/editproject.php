@@ -31,6 +31,7 @@ $pih = new ProjectInfoHolder;
 if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_POST['saveAndPreview']) )
 {
     $errors = $pih->set_from_post();
+    $pih->normalize_spaces();
     if (empty($errors))
     {
         $pih->save_to_db();
@@ -147,6 +148,7 @@ else
         exit;
     }
 
+    $pih->normalize_spaces();
     $pih->show_form();
 
     theme("", "footer");
@@ -470,10 +472,17 @@ class ProjectInfoHolder
         }
 
         $this->nameofwork = @$_POST['nameofwork'];
-        if ( $this->nameofwork == '' ) { $errors .= "Name of work is required.<br>"; }
+        // we're using preg_match as this field will be space-normalised later
+        if ( preg_match('/^\s*$/', $this->nameofwork) ) 
+        { 
+            $errors .= "Name of work is required.<br>"; 
+        }
 
         $this->authorsname = @$_POST['authorsname'];
-        if ( $this->authorsname == '' ) { $errors .= "Author is required.<br>"; }
+        if ( preg_match('/^\s*$/', $this->authorsname) ) 
+        { 
+            $errors .= "Author is required.<br>"; 
+        }
 
         if ( user_is_a_sitemanager() )  // only SAs can change PM
         {
@@ -1090,6 +1099,18 @@ class ProjectInfoHolder
         echo "</td></tr>\n";
 
         echo "</table><br><br>";
+    }
+    
+    // -------------------------------------------------------------------------
+
+    function normalize_spaces()
+    // In the project's text fields, replace sequences of space characters 
+    // with a unique space, and trim beginning and end space
+    {
+        $this->nameofwork = preg_replace('/\s+/', ' ', trim($this->nameofwork));
+        $this->authorsname = preg_replace('/\s+/', ' ', trim($this->authorsname));
+        $this->clearance = preg_replace('/\s+/', ' ', trim($this->clearance));
+        $this->extra_credits = preg_replace('/\s+/', ' ', trim($this->extra_credits));
     }
 }
 
