@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'dp_main.inc');
+include_once($relPath.'misc.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'marc_format.inc');
 include_once($relPath.'project_states.inc');
@@ -323,6 +324,7 @@ class ProjectInfoHolder
         {
             return _("parameter 'project' is empty");
         }
+        validate_projectID('project', $projectid);
 
         $ucep_result = user_can_edit_project($projectid);
         // we only let people clone projects that they can edit, so this
@@ -439,6 +441,7 @@ class ProjectInfoHolder
 
         if ( isset($_POST['projectid']) )
         {
+            validate_projectID('projectid', @$_POST['projectid']);
             $this->projectid = $_POST['projectid'];
 
             $ucep_result = user_can_edit_project($this->projectid);
@@ -462,6 +465,7 @@ class ProjectInfoHolder
         else if ( isset($_POST['clone_projectid']) )
         {
             // we're creating a clone
+            validate_projectID('clone_projectid', @$_POST['clone_projectid']);
             $this->clone_projectid = $_POST['clone_projectid'];
         }
 
