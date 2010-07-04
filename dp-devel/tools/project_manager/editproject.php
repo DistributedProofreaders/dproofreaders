@@ -397,7 +397,7 @@ class ProjectInfoHolder
         }
         else
         {
-            // we're cloaning, load the original project's words
+            // we're cloning, load the original project's words
             $good_words = load_project_good_words($this->clone_projectid);
             $bad_words=load_project_bad_words($this->clone_projectid);
         }
