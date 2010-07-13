@@ -61,7 +61,7 @@ if ($pagesproofed <= 100 && $ELR_round->id == $round_id)
     {
         echo "<i><font size=-1>";
         echo _("After you proof a few more pages, the following introductory Simple Proofreading Rules will be removed from this page. However, they are permanently available ");
-        echo "<a href =" . $code_url . "/faq/simple_proof_rules.php>";
+        echo "<a href='$code_url/faq/simple_proof_rules.php'>";
         echo _("here");
         echo "</a> ";
         echo _("if you wish to refer to them later. (You can bookmark that link if you like.)");
@@ -82,7 +82,7 @@ if ($pagesproofed >= 10)
     {
         echo "<font size=-1 face=" . $theme['font_mainbody'] . "><i>";
         echo _("Now that you have proofread 10 pages you can see the Random Rule. Every time this page is refreshed, a random rule is selected from the");
-        echo " <a href=" . $round_doc_url . ">";
+        echo " <a href='$round_doc_url'>";
         echo _("Guidelines");
         echo "</a> ";
         echo _("and displayed in this section");
@@ -123,7 +123,7 @@ if ($pagesproofed <= 20)
     {
         echo "<hr width='75%'>\n";
 
-        echo "<font face=" . $theme['font_mainbody'] ."><b>";
+        echo "<font face='" . $theme['font_mainbody'] ."'><b>";
         echo _("Click on the title of a book in the list below to start proofreading.");
         echo "</b></font><br><br>\n";
     }
