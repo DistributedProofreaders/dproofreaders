@@ -115,7 +115,8 @@ include_once($relPath.'TallyBoard.inc');     // for TallyBoard
     {
         // Display project summary info
         echo "<br>" ;
-        echo "<b>$proj->nameofwork by $proj->authorsname</b>" ;
+        $proj_url = "$code_url/project.php?id=$proj->projectid";
+        echo "<b><a href='$proj_url'>$proj->nameofwork</a> by $proj->authorsname</b>";
         echo "<br>" ;
 
         dpsql_dump_query(page_summary_sql($mentored_round, $proj->projectid));
