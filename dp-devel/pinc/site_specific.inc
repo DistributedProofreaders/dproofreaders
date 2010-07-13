@@ -14,14 +14,15 @@ if ($testing)
         echo "<div style='color: red'>";
         echo "<center>";
         echo "<p>";
-        echo "<b>THIS IS A TEST SITE!!!</b>";
+        echo "<b>" . _("THIS IS A TEST SITE!!!") . "</b>";
         echo "</p>";
         echo "<p>";
-        echo "For the real site, go to <a href='$real_site_url'>$real_site_url</a>.";
+        printf(_("For the real site, go to <a href='%s'>%s</a>."), $real_site_url, $real_site_url);
         echo "</p>";
         echo "<p>";
-        echo "To leave feedback or report bugs regarding this TEST site, ";
-        echo "please go to <a href='$real_site_url/phpBB2/viewtopic.php?t=12226'>this forum topic</a> on the real site.";
+        printf(_("To leave feedback or report bugs regarding this TEST site,
+            please go to <a href='%s'>this forum topic</a> on the real site."),
+            "$real_site_url/phpBB2/viewtopic.php?t=12226");
         echo "</p>";
         echo "</center>";
         echo "</div>";
