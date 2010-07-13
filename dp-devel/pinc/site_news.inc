@@ -1,5 +1,6 @@
 <?php
 include_once($relPath.'stages.inc');
+include_once($relPath.'misc.inc');
 
 $NEWS_PAGES = array(
     'FRONT'   => _('Front Page'),
@@ -96,7 +97,8 @@ function show_news_for_page( $news_page_id )
 
         if ( !is_null($header_image_url) )
         {
-            echo "<img src='$header_image_url' title='$header_title' alt='$header_title'>";
+            echo "<img src='$header_image_url' title='" . attr_safe($header_title)
+                . "' alt='" . attr_safe($header_title) . "'>";
             echo "<br>\n";
         }
         else
