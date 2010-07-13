@@ -24,7 +24,7 @@ include_once($relPath.'SettingsClass.inc');
 // Load user settings
 $userSettings =& Settings::get_Settings($pguser);
 
-$_Activity_Hub = _("Activity Hub");
+$_Activity_Hub = attr_safe(_("Activity Hub"));
 
 theme($_Activity_Hub, "header");
 
@@ -189,7 +189,7 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
 
     // Round headers
     echo "<tr>";
-    $img_alt = _("Proofreading/Formatting Activities");
+    $img_alt = attr_safe(_("Proofreading/Formatting Activities"));
     echo "<td rowspan='2' colspan='3' style='border: none;'><img src='graphics/icon_proofer.png' alt='$img_alt' title='$img_alt'></td>";
     echo "<th colspan='4'>" .  _("Projects") . " - ";
     if($show_filtered_projects)
@@ -231,7 +231,7 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
 
     // Pool and Stage headers
     echo "<tr>";
-    $img_alt = _("Post-Processing Activities");
+    $img_alt = attr_safe(_("Post-Processing Activities"));
     echo "<td rowspan='2' colspan='3' style='border: none;'><img src='graphics/icon_pp.png' alt='$img_alt' title='$img_alt'></td>";
     echo "<th colspan='3'>" . _("Projects") . " - ";
     if($show_filtered_projects)
@@ -303,7 +303,7 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
         $stage_id_bit = "$stage->id";
 
     // Get the stage description for displaying in the title of the link.
-    $description = strip_tags($stage->description);
+    $description = attr_safe(strip_tags($stage->description));
 
     // Determine access eligibility for this stage.
     $uao = $stage->user_access( $pguser );
@@ -415,7 +415,8 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
     echo "<td style='border-left: 0;' $span_rows>";
     if($access_link)
         echo "<a href='$access_link'>";
-    echo "<img src='$access_icon' alt='$access_text' title='$access_text'>";
+    echo "<img src='$access_icon' alt='" . attr_safe($access_text) 
+        . "' title='" . attr_safe($access_text) . "'>";
     if($access_link)
         echo "</a>";
     echo "</td>";
