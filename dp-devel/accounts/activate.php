@@ -7,6 +7,7 @@ $db_Connection=new dbConnect();
 $db_link=$db_Connection->db_lk;
 include_once($relPath.'theme.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'misc.inc');
 
 // Checks if $value has the form of a valid user ID.
 // If its does, it returns it, otherwise dies with a warning.
@@ -93,12 +94,18 @@ create_forum_user($username, $passwd, $email, TRUE);
 // Send them an introduction e-mail
 maybe_welcome_mail($email, $real_name, $username);
 
-echo sprintf(
-        _("User %s activated successfully. Please check the e-mail being sent to you for further information about %s."),
-        $username, $site_name);
+printf(_("User %s activated successfully."), $username);
+echo " ";        
+// TRANSLATORS: %s is the site name
+printf(_("Please check the e-mail being sent to you for further information about %s."),
+        $site_name);
+
 echo "<center>";
 echo "<br><font size=+1>"._("Enter your password below to sign in and start proofreading!!");
-echo "<form action='login.php' method='post'><input type='hidden' name='userNM' value='".$username."'><input type='password' name='userPW'><input type='submit' value='"._("Sign In")."'></form>";
+echo "<form action='login.php' method='post'>
+<input type='hidden' name='userNM' value='".htmlspecialchars($username,ENT_QUOTES)."'>
+<input type='password' name='userPW'>
+<input type='submit' value='".attr_safe(_("Sign In"))."'></form>";
 
 theme("", "footer");
 

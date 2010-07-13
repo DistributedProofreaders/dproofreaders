@@ -8,6 +8,7 @@ include_once($relPath.'new_user_mails.inc');
 include_once($relPath.'connect.inc');
 $db_Connection=new dbConnect();
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc');
 
 function _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates)
 // Validate the user input fields
@@ -215,7 +216,7 @@ if ($password=="proofer") {
     echo "    <input type='radio' name='email_updates' value='0' "; if(!$email_updates) echo "checked"; echo ">" . _("No");
     echo "  </td>";
     echo "</tr>\n<tr>";
-    echo "  <td bgcolor='#336633' colspan='2' align='center'><input type='submit' value='" . _("Send E-Mail required to activate account") . "'>&nbsp;&nbsp;<input type='reset'></td>";
+    echo "  <td bgcolor='#336633' colspan='2' align='center'><input type='submit' value='" . attr_safe(_("Send E-Mail required to activate account")) . "'>&nbsp;&nbsp;<input type='reset'></td>";
     echo "</tr></table></form>";
     echo "</center>";
 
