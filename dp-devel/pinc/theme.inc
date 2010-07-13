@@ -361,7 +361,7 @@ function headerbar_text_array($entries)
             // set the title if specified
             $title_attr= '';
             if(!empty($title))
-                $title_attr= "title='$title'";
+                $title_attr= "title='" . attr_safe($title) . "'";
 
             // if we're on the current page, create a span
             if(is_url_for_current_page($url))
@@ -372,7 +372,7 @@ function headerbar_text_array($entries)
         }
         elseif(!empty($title))
         {
-            $entry_string = "<span title='$title'>$text</span>";
+            $entry_string = "<span title='" . attr_safe($title) . "'>$text</span>";
         }
         else
         {
@@ -481,7 +481,9 @@ function html_statsbar($nameofpage) {
     //Display the "About DP" section if user is not logged in
     if (!isset($pguser))
     {
-        echo sprintf(_("<hr><p><font size='2'>Distributed Proofreaders was founded in 2000 by Charles Franks to support the digitization of Public Domain books. Originally conceived to assist <a href='%s'>Project Gutenberg</a> (PG), Distributed Proofreaders (DP) is now the main source of PG e-books. In 2002, Distributed Proofreaders became an official PG site. In May 2006, Distributed Proofreaders became a separate legal entity and continues to maintain a strong relationship with PG.</font></p>"),$PG_home_url);
+        echo "<hr><p><font size='2'>";
+        echo sprintf(_("Distributed Proofreaders was founded in 2000 by Charles Franks to support the digitization of Public Domain books. Originally conceived to assist <a href='%s'>Project Gutenberg</a> (PG), Distributed Proofreaders (DP) is now the main source of PG e-books. In 2002, Distributed Proofreaders became an official PG site. In May 2006, Distributed Proofreaders became a separate legal entity and continues to maintain a strong relationship with PG."), $PG_home_url);
+        echo "</font></p>";
     }
 }
 
@@ -505,12 +507,14 @@ function maybe_show_language_selector()
         // --></script>
         <?php
 
-        echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n<input type=submit value='"._("Set language:")."'>\n<select name=lang onChange='submitLang(this)'>\n";
+        echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n";
+        echo "<input type=submit value='".attr_safe(_("Set language:"))."'>\n";
+        echo "<select name=lang onChange='submitLang(this)'>\n";
         foreach($instl as $v)
             echo "<option value='".$v."'".(($v==$intlang)?" selected":"").">".bilingual_name($v)."</option>\n";
         if(count($uninstl)>0) {
             echo "<option value='en_EN' disabled>-------------------</option>\n";
-            echo "<option value='en_EN' disabled>(To be translated:)</option>\n";
+            echo "<option value='en_EN' disabled>" . _("(To be translated:)") . "</option>\n";
             foreach($uninstl as $v)
                 echo "<option value='"."en_EN"."' disabled>".bilingual_name($v)."</option>\n";
         }
@@ -654,7 +658,7 @@ function show_tally_specific_stats( $tally_name )
         {
             // Don't let people discover the honorifics by
             // playing with inflated pagecounts at test-site.
-            $rankname = 'Valued Tester';
+           $rankname = _('Valued Tester');
         }
         else
         {
@@ -666,7 +670,7 @@ function show_tally_specific_stats( $tally_name )
             }
             else
             {
-                $rankname = '[unknown]';
+                $rankname = _('[unknown]');
             }
         }
 
@@ -698,7 +702,9 @@ function show_tally_specific_stats( $tally_name )
         //Show the Neighbor table if the user has requested so
         if ($userP['u_neigh']) {
             echo "<br><hr width='75%' align='center'><br>\n";
-            echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>Your Neighborhood:</b></font></center>\n";
+            echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>";
+            echo _("Your Neighborhood:");
+            echo "</b></font></center>\n";
             echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
 
             foreach ( $neighbors as $rel_posn => $neighbor )
@@ -899,7 +905,8 @@ function show_donation_stuff()
     echo "<input type='hidden' name='cmd' value='_xclick'>\n";
     echo "<input type='hidden' name='business' value='$paypal_business_id'>\n";
     echo "<input type='hidden' name='item_name' value='donation'>\n";
-    echo "<input type='image' src='$code_url/pinc/templates/".$theme_name.$theme['image_donate']."' name='submit' alt='Donate to $site_name'>\n";
+    echo "<input type='image' src='$code_url/pinc/templates/".$theme_name.$theme['image_donate']."' name='submit' alt='"
+        . attr_safe(sprintf(_("Donate to %s"), $site_name)) . "'>\n";
     echo "</form>";
     echo "</center>\n";
 
