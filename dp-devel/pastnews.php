@@ -12,8 +12,7 @@ if (isset($_GET['news_page_id'])) {
     $news_page_id = $_GET['news_page_id'];
     if ( isset($NEWS_PAGES[$news_page_id]) ) {
         $news_subject = get_news_subject($news_page_id);
-        theme("Recent Site News Items for ".$news_subject, "header");
-        echo "<br>";
+        theme(sprintf(_("Recent Site News Items for %s"), $news_subject), "header");        echo "<br>";
     } else {
        echo _("Error").": <b>".$news_page_id."</b> "._("Unknown news_page_id specified, exiting.");
        exit();
@@ -38,7 +37,9 @@ if ($num == 0)
 else
 {
     $limit_clause = "LIMIT $num";
-    echo "<a href='pastnews.php?news_page_id=$news_page_id'>Show All $news_subject News</a>";
+    echo "<a href='pastnews.php?news_page_id=$news_page_id'>"
+        // TRANSLATORS: %s is the news subject.
+        . sprintf(_("Show All %s News"), $news_subject) . "</a>";
 }
 
 $result = mysql_query("
@@ -49,9 +50,12 @@ $result = mysql_query("
     $limit_clause
 ");
 
-if (mysql_numrows($result)== 0) {
-  echo "<br><br>"._("No recent news items for ").$news_subject;
-} else {
+if (mysql_numrows($result)== 0)
+{
+    echo "<br><br>" . sprintf(_("No recent news items for %s"), $news_subject);
+} 
+else 
+{
     while($news_item = mysql_fetch_array($result)) {
         $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
         echo "<br><a name='".$news_item['id']."'><b>$date_posted</b><br>".$news_item['content']."<br><hr align='center' width='75%'><br>";
