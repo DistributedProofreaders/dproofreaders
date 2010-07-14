@@ -2,6 +2,7 @@
 include_once($relPath.'site_vars.php');
 include_once($relPath.'prefs_options.inc');
 include_once($relPath.'button_defs.inc');
+include_once($relPath.'misc.inc');
 include_once('PPage.inc');
 
 function echo_button_menu( $ppage )
@@ -18,7 +19,9 @@ HREF="#" accesskey="," onfocus="scrollImage('left')" onclick="scrollImage('left'
 HREF="#" accesskey="." onfocus="scrollImage('right')" onclick="scrollImage('right')"></A><A
 HREF="#" accesskey="'" onfocus="scrollImage('up')" onclick="scrollImage('up')"></A><A
 HREF="#" accesskey="/" onfocus="scrollImage('down')" onclick="scrollImage('down')"></A><select
-name="fntFace" ID="fntFace"  class="dropsmall" title="Change Font Face" onChange="top.chFFace(this.selectedIndex)"><?php
+name="fntFace" ID="fntFace"  class="dropsmall" title="<?php 
+    echo attr_safe(_("Change Font Face"));
+?>" onChange="top.chFFace(this.selectedIndex)"><?php
   $ff=$userP['i_layout']==1? $userP['v_fntf']:$userP['h_fntf'];
 //  $f_s= array('Font Face','Courier','Times','Arial','Lucida','Monospaced','DPCustomMono2');
   $ff_len = count($f_f);
@@ -29,7 +32,9 @@ name="fntFace" ID="fntFace"  class="dropsmall" title="Change Font Face" onChange
   $optP.=">$f_f[$i]</option>";
   echo $optP;}
 ?></select><select
-name="fntSize" ID="fntSize"  class="dropsmall" title="Change Font Size" onChange="top.chFSize(this.selectedIndex)"><?php
+name="fntSize" ID="fntSize"  class="dropsmall" title="<?php 
+    echo attr_safe(_("Change Font Size"));
+?>" onChange="top.chFSize(this.selectedIndex)"><?php
   $fs=$userP['i_layout']==1? $userP['v_fnts']:$userP['h_fnts'];
 //  $f_f= array('Size','8pt','9pt','10pt','11pt','12pt','13pt','14pt','15pt','16pt','18pt','20pt');
   $fs_len = count($f_s);
@@ -45,7 +50,9 @@ type="text" value="<?php
   if ($userP['i_layout']==1)
     {echo $userP['v_zoom'];}
   else{echo $userP['h_zoom'];}
-?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="Input Zoom %" onKeyPress="disableEnterKey()"><?php
+?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="<?php 
+    echo attr_safe(_("Input Zoom %"));
+?>" onKeyPress="disableEnterKey()"><?php
 
 echo_button(SET_IMAGE_ZOOM,'a');
 echo "\n";

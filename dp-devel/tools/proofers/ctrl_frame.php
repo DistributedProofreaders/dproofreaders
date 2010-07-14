@@ -17,7 +17,7 @@ $menuWidth=$wSize[0]<=800?'99%':'820';
 */
 
 include_once($relPath.'slim_header.inc');
-slim_header("Control Frame",TRUE,FALSE);
+slim_header(_("Control Frame"),TRUE,FALSE);
 
 ?>
 <style type="text/css">
@@ -163,7 +163,7 @@ echo "<i>"._("Markup shortcuts").":</i>\n";
 echo_tool_links( $round->pi_tools['tool_links'] );
 echo "\n<br>\n";
 
-echo "<i>", _('Pop-up tools'), ":</i>\n";
+echo "<i>". _('Pop-up tools'). ":</i>\n";
 echo_popup_links( $round->pi_tools['popup_links'] );
 echo "\n<br>\n";
 
