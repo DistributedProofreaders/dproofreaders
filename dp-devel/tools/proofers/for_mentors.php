@@ -116,7 +116,10 @@ include_once($relPath.'TallyBoard.inc');     // for TallyBoard
         // Display project summary info
         echo "<br>" ;
         $proj_url = "$code_url/project.php?id=$proj->projectid";
-        echo "<b><a href='$proj_url'>$proj->nameofwork</a> by $proj->authorsname</b>";
+        // TRANSLATORS: format is <title> by <author>.
+        echo "<b>" . sprintf("%1\$s by %2\$s", 
+            "<a href='$proj_url'>$proj->nameofwork</a>",
+            $proj->authorsname) . "</b>";
         echo "<br>" ;
 
         dpsql_dump_query(page_summary_sql($mentored_round, $proj->projectid));
@@ -166,10 +169,14 @@ function page_summary_sql($mentored_round, $projectid)
             ELSE CONCAT('<a href=\""
                 .$code_url . "/stats/members/mdetail.php?&id=',u.u_id,
                 '\">',u.username,'</a>')
-            END AS " . _("Proofreader") . ",
-            COUNT(1) AS '" . _("Pages this project") . "',
-            $user_page_tally_column AS '" . sprintf(_("Total %s Pages"),$mentored_round->id) . "',
-            DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') AS Joined
+            END AS '" . mysql_real_escape_string(_("Proofreader")) . "',
+            COUNT(1) AS '" . mysql_real_escape_string(_("Pages this project")) . "',
+            $user_page_tally_column AS '" . 
+                // TRANSLATORS: %s is a round ID
+                mysql_real_escape_string(
+                    sprintf(_("Total %s Pages"), $mentored_round->id)) . "',
+            DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') AS '" .
+                mysql_real_escape_string(_("Joined")) . "'
         FROM $projectid  AS p
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
             INNER JOIN phpbb_users AS bbu ON u.username = bbu.username
@@ -183,10 +190,11 @@ function page_list_sql($mentored_round, $projectid)
 {
     return "
         SELECT
-            p.fileid AS '" . _('Page') . "',
-            CASE WHEN u.u_privacy=".PRIVACY_ANONYMOUS." THEN 'Anonymous'
+            p.fileid AS '" . mysql_real_escape_string(_("Page")) . "',
+            CASE WHEN u.u_privacy=".PRIVACY_ANONYMOUS." THEN '" .
+                mysql_real_escape_string(_("Anonymous")) . "'
             ELSE p.{$mentored_round->user_column_name}
-            END AS " . _('Proofreader') . "
+            END AS '" . mysql_real_escape_string(_("Proofreader")) . "'
         FROM $projectid AS p
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
         ORDER BY fileid " ;
