@@ -6,6 +6,7 @@ include($relPath.'connect.inc');
 include($relPath.'theme.inc');
 include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'site_news.inc');
+include_once($relPath.'misc.inc');
 new dbConnect();
 
 $title = _("Statistics Central");
@@ -24,7 +25,7 @@ show_news_for_page("STATS");
     <td>
     <form action='<?php echo $code_url; ?>/stats/members/mbr_list.php' method='post'>
         <input type='text' name='uname' size='20' style='margin-left: 0;'>
-        <input type='submit' value='<?php echo _("Member Search"); ?>'>
+        <input type='submit' value='<?php echo attr_safe(_("Member Search")); ?>'>
         <br>
         <input type='checkbox' name='uexact' value='yes' style='margin-left: 0;'> <?php echo _("Exact match"); ?>
         <br><br>
@@ -34,7 +35,7 @@ show_news_for_page("STATS");
     <td>
     <form action='<?php echo $code_url; ?>/stats/teams/tlist.php' method='post'>
         <input type='text' name='tname' size='20' style='margin-left: 0;'>
-        <input type='submit' value='<?php echo _("Team Search"); ?>'>
+        <input type='submit' value='<?php echo attr_safe(_("Team Search")); ?>'>
         <br>
         <input type='checkbox' name='texact' value='yes' style='margin-left: 0;'> <?php echo _("Exact match"); ?>
         <br><br>
@@ -254,7 +255,7 @@ $img_url = "jpgraph_files/cumulative_total_proj_summary_graph.php";
 $alt_text = _("Total Projects Created, Proofread, Post-Processed and Posted");
 
 $table->row(
-    "<img src='$img_url' alt='$alt_text'>"
+    "<img src='$img_url' alt='" . attr_safe($alt_text) . "'>"
 );
 
 $table->end();
