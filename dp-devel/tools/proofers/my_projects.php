@@ -44,7 +44,7 @@ if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
     echo "<form action='#' method='get'><p>";
     echo _("See projects that another user has worked on") . ": ";
     echo "<input type='text' name='username' value='$username'>";
-    echo "<input type='submit' value='" . htmlspecialchars(_("Refresh"), ENT_QUOTES) . "'>";
+    echo "<input type='submit' value='" . attr_safe(_("Refresh")) . "'>";
     echo "</p></form>\n";
 }
 
@@ -195,7 +195,7 @@ while ( $row = mysql_fetch_object($res) )
 
 echo "</table>\n";
 
-echo sprintf("(%d projects)", $n_rows_displayed );
+echo sprintf(_("(%d projects)"), $n_rows_displayed );
 echo "<br>\n";
 
 // -----------------------------------------------------------------------------
