@@ -17,7 +17,7 @@ function check_username( $username )
 
     if ( strlen($username) > $username_max_len )
     {
-	$error = _("Your User Name is too long.<br>(The maximum is")." $username_max_len "._("characters").".)";
+	$error = sprintf(_("Your User Name is too long.<br>(The maximum is %s characters.)"), $username_max_len);
 	return $error;
     }
 
