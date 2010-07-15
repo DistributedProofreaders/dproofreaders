@@ -6,7 +6,7 @@
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'SettingsClass.inc');
 
-// This function reuturns the Settings object for $pguser.
+// This function returns the Settings object for $pguser.
 // It should work properly (by returning appropriate null-type values) if
 // the user is not logged on.
 
