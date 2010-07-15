@@ -140,7 +140,7 @@ class PPage
         //display page number
         $pageNum=substr($this->lpage->imagefile,0,-4);
         echo "<font size='-1'><b>";
-        echo _("Page: $pageNum");
+        echo sprintf(_("Page: %s"), $pageNum);
 
         $round = $this->lpage->round;
         $other_round_ids = $round->other_rounds_with_visible_usernames;
@@ -167,7 +167,7 @@ class PPage
                     {
                         // e.g., the project might have skipped $other_round,
                         // or it could be a future round.
-                        echo "[none]";
+                        echo _("[none]");
                     }
                     else
                         echo $username;
