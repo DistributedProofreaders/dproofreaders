@@ -1,5 +1,6 @@
 <?php
 include_once($relPath.'site_vars.php'); // $wikihiero_dir
+include_once($relPath.'misc.inc'); // attr_safe()
 
 $utf8_site = (strcasecmp($charset,"UTF-8") == 0);
 
@@ -81,6 +82,7 @@ function define_pit_tool_button( $id, $accesskey, $title, $label, $onclick )
     );
 
     global $all_pit_tool_buttons;
+    $title_safe = attr_safe($title);
     $all_pit_tool_buttons[$id] = <<<EOS
 <button
     onclick="$onclick"
@@ -88,7 +90,7 @@ function define_pit_tool_button( $id, $accesskey, $title, $label, $onclick )
     class='proofbutton'
     style='padding-left: $lr_padding; padding-right: $lr_padding;'
     align="top"
-    title="$title"
+    title="$title_safe"
 >$label</button>
 
 EOS;
@@ -211,7 +213,7 @@ define_pit_tool_link(
 define_pit_tool_link(
     'note',
     '[** ]',
-    'Note',
+    _('Note'),
     "top.surroundSelection('[** ',']')"
 );
 define_pit_tool_link(
@@ -264,11 +266,12 @@ function echo_character_selector( $id, $title, $option_args )
     global $utf8_site;
 
     echo '<td align="right">';
+    $title_safe = attr_safe($title);
     echo <<<EOS
 <select
     name="tChars{$id}"
     ID="tChars{$id}"
-    title="{$title}"
+    title="{$title_safe}"
     onchange="if (this.options[selectedIndex].value !=0){top.insertCharacter(this.options[selectedIndex].value);}"
     class="dropchars"
 >
@@ -365,7 +368,7 @@ function echo_character_selectors_block()
 
     echo_character_selector(
         'M',
-        'More',
+        _('More'),
         array(
             '+',
             '--',
@@ -463,7 +466,7 @@ function echo_character_selectors_block()
 
         echo_character_selector(
             'Cyr',
-            'Cyrillic',
+            _('Cyrillic'),
             array(
                 '&#1035;',
                 '--',
@@ -473,7 +476,7 @@ function echo_character_selectors_block()
 
         echo_character_selector(
             'OCyr',
-            'OldCyrillic',
+            _('OldCyrillic'),
             array(
                 '&#1122;',
                 '--',
