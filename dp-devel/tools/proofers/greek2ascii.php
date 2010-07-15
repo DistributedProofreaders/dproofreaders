@@ -94,7 +94,7 @@ echo _("The Greek glyphs above are <b>clickable</b>.") . "<br>";
 // TRANSLATORS: %s is an image of a rough-breathing mark.
 echo sprintf(_("Diacritical marks may be ignored except for the rough-breathing mark, (%s) above the letter."),
     "<img src='gfx/greekrough.png' height='12' width='10'>") . "<br>";
-echo _("For these, put 'h' before the letter <emp>unless</emp> the word begins with 'r'. For those, put 'h' <emp>after</emp> the 'r'.");
+echo _("For these, put '<code>h</code>' before the letter <em>unless</em> the word begins with '<code>r</code>'. For those, put '<code>h</code>' <em>after</em> the '<code>r</code>'.");
 ?>
 </p>
 </td>
