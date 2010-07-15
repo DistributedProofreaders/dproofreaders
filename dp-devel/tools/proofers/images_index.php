@@ -91,7 +91,7 @@ function list_images( $image_names, $these_are_page_images )
         if ( $these_are_page_images && !in_array( $image_name, $existing_image_names ) )
         {
             echo "<td>$image_name</td>\n";
-            echo "<td bgcolor='#ff9999'>missing</td>\n";
+            echo "<td bgcolor='#ff9999'>" . _("missing") . "</td>\n";
         }
         else
         {
