@@ -51,15 +51,14 @@ if ( $code != $project->CBP_OKAY )
 
     slim_header( $project->nameofwork, TRUE, TRUE );
 
-    echo "project: \"{$project->nameofwork}\"<br>\n";
-    echo "state: ", project_states_text($project->state), "<br>\n";
+    echo _("project:") . " \"{$project->nameofwork}\"<br>\n";
+    echo _("state:") . " " . project_states_text($project->state) . "<br>\n";
     echo "<p>$msg</p>\n";
 
     echo "<p>";
     echo sprintf(
-        _('Back to <a href="%s">%s</a>'),
-        "$code_url/activity_hub.php",
-        _('Activity Hub')
+        _('Back to <a href="%s">Activity Hub</a>'),
+        "$code_url/activity_hub.php"
     );
     echo "</p>\n";
 
@@ -83,7 +82,7 @@ $frameGet="?" . $_SERVER['QUERY_STRING'];
 // at this, and continue to use a cached version after it is out of date.
 // To thwart this, we add a query string to the src reference, and update it
 // when the JS script file changes. (The query string can be anything, but
-// it makes sense to just use the CVS rev number. An alternatve would be date.)
+// it makes sense to just use the CVS rev number. An alternative would be date.)
 // The browser sees that the src URL no longer matches that of its cached
 // script, and so fetches the new version. (Of course, the JS script doesn't
 // do anything with the query string, but the browser doesn't know that.)
