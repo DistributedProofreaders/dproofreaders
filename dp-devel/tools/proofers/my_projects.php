@@ -12,6 +12,10 @@ $qs_username = '';
 if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
 {
     $username = array_get( $_GET, 'username', $pguser );
+    if ( preg_match( "/[^-a-zA-Z0-9@._ ]/", $username) )
+    {
+        die("Incorrect parameter.");
+    }
     if ( $username != $pguser )
     {
         $qs_username = "username=" . urlencode($username) . '&amp;';
