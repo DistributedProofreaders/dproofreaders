@@ -8,6 +8,8 @@ include_once($relPath.'misc.inc');
 $title = _("Greek to Latin-1 Transliteration");
 slim_header($title,TRUE,FALSE);
 $greek_contents = @$_GET['textbox'];
+if (get_magic_quotes_gpc())
+    $greek_contents = stripslashes($greek_contents);
 ?>
 <!-- Graphics and html/javascript for Greek text conversion
      by D Garcia 12/24/02 for Distributed Proofreaders
