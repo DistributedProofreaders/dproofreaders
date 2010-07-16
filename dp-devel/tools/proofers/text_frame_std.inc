@@ -2,6 +2,7 @@
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'button_defs.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'misc.inc');
 
 function echo_text_frame_std( $ppage )
 {
@@ -48,18 +49,18 @@ function echo_text_frame_std( $ppage )
         echo "&nbsp;";
 
         $comments_url = $ppage->url_for_project_comments();
-        echo _("View:")." <a href=\"$comments_url\" title=\"". _("View Project Comments in New Window")."\" target=\"viewcomments\">"._("Project Comments")."</a> ";
+        echo _("View:")." <a href=\"$comments_url\" title=\"". attr_safe(_("View Project Comments in New Window"))."\" target=\"viewcomments\">"._("Project Comments")."</a> ";
 
         $image_url = $ppage->url_for_image();
-        echo "| <a href=\"$image_url\" title=\"". _("View Image in New Window")."\" target=\"lg_image\">"._("Image")."</a> ";
+        echo "| <a href=\"$image_url\" title=\"". attr_safe(_("View Image in New Window"))."\" target=\"lg_image\">"._("Image")."</a> ";
 
         echo "<br>\n";
 
         echo _("Image Resize:");
         ?>
-        <input title="<?php echo _("Zoom Out 25%"); ?>" id="zoomout_button" type="button" value="-25%" onclick="top.reSizeRelative(0.75)?true:this.disabled=true;">
-        <input title="<?php echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25); document.getElementById('zoomout_button').disabled=false;">
-        <input title="<?php echo _("Zoom to Original Size"); ?>" type="button" value="Original" onclick="top.reSizeRelative(-1); document.getElementById('zoomout_button').disabled=false;">
+        <input title="<?php echo attr_safe(_("Zoom Out 25%")); ?>" id="zoomout_button" type="button" value="-25%" onclick="top.reSizeRelative(0.75)?true:this.disabled=true;">
+        <input title="<?php echo attr_safe(_("Zoom In 25%")); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25); document.getElementById('zoomout_button').disabled=false;">
+        <input title="<?php echo attr_safe(_("Zoom to Original Size")); ?>" type="button" value="<?php echo attr_safe(_("Original")); ?>" onclick="top.reSizeRelative(-1); document.getElementById('zoomout_button').disabled=false;">
 
     </form>
     </center>
