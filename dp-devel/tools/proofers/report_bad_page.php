@@ -8,6 +8,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
+include_once($relPath.'misc.inc');
 include_once('PPage.inc');
 
 $no_stats=1;
@@ -38,7 +39,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "<li>"._("First, we need to look at what a bad page really is.  Remember this is proofreading so you may see line breaks after every word.  A column may seem to have text missing but all you may need to do is look further down in the text, sometimes the columns may not wrap properly.  There may actually be a portion of the text missing but not all of it.  In these circumstances as well as similiar ones you would want to proofread the page like normal.  Move the text where it needs to be, type in any missing text, etc...  These would <b>not</b> be bad pages.")."<br><br>\n";
 	echo "<li>"._("Sometimes, the image may not show up due to technical problems with your browser.  Depending upon your browser there are many ways to try to reload that image.  For example, in Internet Explorer you can right click on the image & left click Show Image or Refresh.  This 90% of the time causes the image to then display.  Again, this would <b>not</b> be a bad page.")."<br><br>\n";
 	echo "<li>"._("Occasionally, you may come across a page that has so many mistakes in the optical character recognition (OCR) that you may think it is a bad page that needs to be re-OCRed.  However, this is what you are there for.  You may want to copy it into your local word editing program (eg: Microsoft Word, StarOffice, vi, etc.) and make the changes there & copy them back into the editor.")."<br><br>\n";
-	echo "<li>"._("Lastly, checking out our common solutions thread may also help you with making sure the report is as correct as possible.  Here's a link to it <a href='$forums_url/viewtopic.php?t=1659' target='_new'>here</a>.")."<br><br>\n";
+	echo "<li>".sprintf(_("Lastly, checking out our common solutions thread may also help you with making sure the report is as correct as possible.  Here's a link to it <a href=%s>here</a>."), "'$forums_url/viewtopic.php?t=1659' target='_new'") ."<br><br>\n";
 	echo "<li>"._("If you've made sure that nothing is going wrong with your computer and you still think it is a bad page please let us know by filling out the information below.  However, if you are at the least bit hesitant that it may not actually be a bad page please do not mark it so & just hit Cancel on the form above.  Marking pages bad when they really aren't takes time away from the project managers so we want to make sure they don't spend their entire time correcting & adding pages back to the project that aren't bad.");
 	echo "</ul></td></tr></table></div></center></font>";
 	echo "<br><br>\n<center>";
@@ -65,8 +66,8 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 	echo "<input name='redirect_action' value='proof' type='radio'>"._("Continue Proofreading")."<input name='redirect_action' value='quit' checked type='radio'>"._("Stop Proofreading");
 	echo "\n";
 	echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
-	echo "<input type='submit' value='"._("Submit Report")."'>";
-	echo "<input type='button' value='"._("Cancel")."' onclick='javascript:history.go(-1)'>";
+	echo "<input type='submit' value='".attr_safe(_("Submit Report"))."'>";
+	echo "<input type='button' value='".attr_safe(_("Cancel"))."' onclick='javascript:history.go(-1)'>";
 	echo "\n";
 	echo "<tr><td bgcolor='#ffffff' colspan='2' align='center'>";
 	echo "<B>"._("Note").":</B> "._("If this report causes a project to be marked<br> bad you will be redirected to the Activity Hub.");
@@ -101,9 +102,11 @@ else
   } else {
 		$frame1 = "../../activity_hub.php";
 		$title = _("Stop Proofreading");
-		$body = _("Exiting proofreading interface");
-		$body = sprintf(_("Return to the %s Activity Hub%s."),
-                                       "<a href='$frame1' target='_top'>","</a>");
+		
+		// I have commented this line out since it did have no effect.
+		// $body = _("Exiting proofreading interface");
+		$body = sprintf(_("Return to the <a href=%s>Activity Hub</a>."),
+                                       "'$frame1' target='_top'");
     echo "<html><head><title>$title</title></head><body>$body</body></html>";
     exit;
 	}
