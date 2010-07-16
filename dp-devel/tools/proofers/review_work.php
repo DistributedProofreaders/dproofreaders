@@ -162,10 +162,13 @@ echo "<tr>";
 echo "<th>" . ("Title") . "</th>";
 echo "<th>" . ("Current State") . "</th>";
 echo "<th>" . ("Last Saved") . "</th>";
+// TRANSLATORS: %s is the round ID.
 echo "<th>" . sprintf(_("Pages saved by user in %s"),$work_round->id) . "</th>";
+// TRANSLATORS: %s is the round ID.
 echo "<th>" . sprintf(_("Pages saved by others in %s"),$review_round->id) . "</th>";
 echo "<th>" . _("Pages with differences") . "</th>";
-echo "<th>" . _("$sampleLimit most recent diffs") . "</th>";
+// TRANSLATORS: %s is a number of diffs.
+echo "<th>" . sprintf(_("%s most recent diffs"), $sampleLimit) . "</th>";
 echo "</tr>";
 
 $total_n_saved   = 0;
@@ -350,7 +353,8 @@ $total_invalid_projects = count($messages);
 if($total_invalid_projects) {
     echo "<h2>" . _("Other projects") . "</h2>";
     echo "<table border='1'>";
-    echo "<tr><th>Project</th><th>Current state</th><th>Status</th></tr>";
+    echo "<tr><th>" . _("Project") . "</th><th>" . _("Current state") 
+        . "</th><th>" . _("Status") ."</th></tr>";
     foreach($messages as $message)
     {
         echo "<tr><td>{$message[0]}</td>";
