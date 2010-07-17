@@ -60,11 +60,8 @@ if ($pagesproofed <= 100 && $ELR_round->id == $round_id)
     if ($pagesproofed > 80)
     {
         echo "<i><font size=-1>";
-        echo _("After you proof a few more pages, the following introductory Simple Proofreading Rules will be removed from this page. However, they are permanently available ");
-        echo "<a href='$code_url/faq/simple_proof_rules.php'>";
-        echo _("here");
-        echo "</a> ";
-        echo _("if you wish to refer to them later. (You can bookmark that link if you like.)");
+        printf(_("After you proof a few more pages, the following introductory Simple Proofreading Rules will be removed from this page. However, they are permanently available <a href='%s'>here</a> if you wish to refer to them later. (You can bookmark that link if you like.)"),
+            "$code_url/faq/simple_proof_rules.php");
         echo "</font></i><br><br>";
     }
 
@@ -81,11 +78,8 @@ if ($pagesproofed >= 10)
     if ($pagesproofed < 40)
     {
         echo "<font size=-1 face=" . $theme['font_mainbody'] . "><i>";
-        echo _("Now that you have proofread 10 pages you can see the Random Rule. Every time this page is refreshed, a random rule is selected from the");
-        echo " <a href='$round_doc_url'>";
-        echo _("Guidelines");
-        echo "</a> ";
-        echo _("and displayed in this section");
+        printf(_("Now that you have proofread 10 pages you can see the Random Rule. Every time this page is refreshed, a random rule is selected from the <a href='%s'>Guidelines</a> and displayed in this section"),
+            $round_doc_url);
         echo "<br>";
         echo _("(This explanatory line will eventually vanish.)");
         echo "</i></font><br><br>";
@@ -101,11 +95,10 @@ if ($pagesproofed >= 10)
     $rule = mysql_fetch_assoc($result);
     echo "<i>".$rule['subject']."</i><br>";
     echo "".$rule['rule']."<br>";
-    echo _("See the ");
-    echo "<a href='$round_doc_url#".$rule['anchor']."'>".$rule['subject']."</a>";
-    echo _(" section of the ");
-    echo "<a href='$round_doc_url'>";
-    echo _("Guidelines");
+    // TRANSLATORS: %1$s is the linked name of a random Guideline section.
+    printf(_("See the %1\$s section of the <a href='%2\$s'>Guidelines</a>"),
+        "<a href='$round_doc_url#".$rule['anchor']."'>".$rule['subject']."</a>",
+        $round_doc_url);
     echo "</a><br><br>";
 }
 
