@@ -4,6 +4,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'links.inc'); // new_window_link
+include_once($relPath.'misc.inc'); // javascript_safe, attr_safe
 include_once('spellcheck_text.inc');
 include_once('PPage.inc');
 include_once('image_block_enh.inc');
@@ -40,11 +41,11 @@ function toggleWCHeader() {
     if(header) {
         if(header.style.display=='') {
             header.style.display='none';
-            headerLink.innerHTML='<?php echo _("Show WordCheck Header"); ?>';
+            headerLink.innerHTML='<?php echo javascript_safe(_("Show WordCheck Header"), $charset); ?>';
             headerStateSave.value=0;
         } else{
             header.style.display='';
-            headerLink.innerHTML='<?php echo _("Hide WordCheck Header"); ?>';
+            headerLink.innerHTML='<?php echo javascript_safe(_("Hide WordCheck Header"), $charset); ?>';
             headerStateSave.value=1;
         }
     }
@@ -179,8 +180,8 @@ if ($userP['i_type']==1) {
 <input
     type="submit"
     name="rerunauxlanguage"
-    value="<?php echo _("Check"); ?>"
-    title="<?php echo _("Check page against an additional language"); ?>"
+    value="<?php echo attr_safe(_("Check")); ?>"
+    title="<?php echo attr_safe(_("Check page against an additional language")); ?>"
 >
 <br>
 <?php
@@ -197,16 +198,13 @@ if ($userP['i_type']==1) {
 <table id="tbtext" cellpadding="10" align="center">
 <tr><td id="tdtop">
 <?php echo _("Resize image:"); ?>
-    <input title="<?php echo _("Zoom Out 25%"); ?>" id="zoomout_button" type="button" value="-25%" onclick="top.reSizeRelative(0.75)?true:this.disabled=true;">
-    <input title="<?php echo _("Zoom In 25%"); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25); document.getElementById('zoomout_button').disabled=false;">
-    <input title="<?php echo _("Zoom to Original Size"); ?>" type="button" value="100%" onclick="top.reSizeRelative(-1); document.getElementById('zoomout_button').disabled=false;">
+    <input title="<?php echo attr_safe(_("Zoom Out 25%")); ?>" id="zoomout_button" type="button" value="-25%" onclick="top.reSizeRelative(0.75)?true:this.disabled=true;">
+    <input title="<?php echo attr_safe(_("Zoom In 25%")); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25); document.getElementById('zoomout_button').disabled=false;">
+    <input title="<?php echo attr_safe(_("Zoom to Original Size")); ?>" type="button" value="100%" onclick="top.reSizeRelative(-1); document.getElementById('zoomout_button').disabled=false;">
 <?php
     // print the link to the WordCheck FAQ
     echo " &nbsp; ";
-    echo sprintf(
-        _("%s"),
-        new_window_link( "$code_url/faq/wordcheck-faq.php", _("WordCheck FAQ") )
-    );
+    echo new_window_link( "$code_url/faq/wordcheck-faq.php", _("WordCheck FAQ") );
 ?>
 </td></tr>
 <tr>
@@ -224,15 +222,15 @@ if ($userP['i_type']==1) {
         <input
             type="submit"
             name="spcorrect"
-            value="<?php echo _("Submit Corrections"); ?>"
-            title="<?php echo _("Keep corrections and return to proofreading this page"); ?>"
+            value="<?php echo attr_safe(_("Submit Corrections")); ?>"
+            title="<?php echo attr_safe(_("Keep corrections and return to proofreading this page")); ?>"
         >
         &nbsp;&nbsp;&nbsp;
         <input
             type="submit"
             name="spexit"
-            value="<?php echo _("Quit WordCheck"); ?>"
-            title="<?php echo _("Abandon corrections and return to proofreading this page"); ?>"
+            value="<?php echo attr_safe(_("Quit WordCheck")); ?>"
+            title="<?php echo attr_safe(_("Abandon corrections and return to proofreading this page")); ?>"
             onClick="return confirmExit();"
         >
     </td>
