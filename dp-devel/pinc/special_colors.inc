@@ -119,7 +119,7 @@ function echo_special_legend( $projects_where_clause) {
     $columns[3] = $columns[3].$div_prefix."FFFF66".$div_midfix._("Other Special").$div_suffix."</td>";
 
     echo "<h3> $legend_text </h3>";
-    echo "<table class='special_legend' border='1' cellpadding='1' cellspacing='1' width='100%' summary='$legend_text'>";
+    echo "<table class='special_legend' border='1' cellpadding='1' cellspacing='1' width='100%' summary='" . attr_safe($legend_text) . "'>";
     echo "<tr>";
     echo "$columns[1]$columns[2]$columns[3]";
     echo "</tr></table>";
