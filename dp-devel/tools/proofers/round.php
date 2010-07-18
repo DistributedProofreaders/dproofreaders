@@ -60,7 +60,7 @@ if ($pagesproofed <= 100 && $ELR_round->id == $round_id)
     if ($pagesproofed > 80)
     {
         echo "<i><font size=-1>";
-        printf(_("After you proof a few more pages, the following introductory Simple Proofreading Rules will be removed from this page. However, they are permanently available <a href='%s'>here</a> if you wish to refer to them later. (You can bookmark that link if you like.)"),
+        printf(_("After you proofread a few more pages, the following introductory Simple Proofreading Rules will be removed from this page. However, they are permanently available <a href='%s'>here</a> if you wish to refer to them later. (You can bookmark that link if you like.)"),
             "$code_url/faq/simple_proof_rules.php");
         echo "</font></i><br><br>";
     }
