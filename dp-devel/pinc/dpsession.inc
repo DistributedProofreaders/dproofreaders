@@ -57,12 +57,21 @@ function dpsession_begin( $userID )
 
 function dpsession_resume()
 {
+    // Since this function is sometimes called several times per page,
+    // and since the side-effects or result will not change in one
+    // page, we cache the result of this function.
+    static $cached_result = NULL;
+    if (isset($cached_result))
+    {
+        return $cached_result;
+    }
+    
     $user_is_logged_in = dpsession_resume_();
     if ( $user_is_logged_in )
     {
         _update_user_activity_time( FALSE );
     }
-    return $user_is_logged_in;
+    return $cached_result = $user_is_logged_in;
 }
 
 function _update_user_activity_time( $update_login_time_too )
