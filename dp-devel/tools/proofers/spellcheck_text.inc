@@ -1,6 +1,7 @@
 <?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'wordcheck_engine.inc');
+include_once($relPath.'misc.inc');  // attr_safe(), javascript_safe()
 
 // Arguments:
 //   orig_text - original text to run through dictionary
@@ -153,7 +154,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                 if($badWordHash[$word] == WC_WORLD ) {
                     $replaceString .=
                         "<a href='#' id='a_$wordID' onClick=\"return acceptWord('$jsSanitizedWord','$wordCount[$word]');\">" .
-                        "<img id='button_$wordID' src='$code_url/graphics/Book-Plus-Small.gif' title='" . _("Unflag All &amp; Suggest Word") . "' class='aw'></a>" .
+                        "<img id='button_$wordID' src='$code_url/graphics/Book-Plus-Small.gif' title='" . attr_safe(_("Unflag All &amp; Suggest Word")) . "' class='aw'></a>" .
                         "</span>";
                 }
 
@@ -260,7 +261,7 @@ function spellcheck_echo_script()
         var button = document.getElementById("button_" + wordID);
         if(button && a && a.href) {
             button.src = "<?php echo $code_url; ?>/graphics/Book-Plus-Small-Disabled.gif";
-            button.title = "<?php echo _("Word has been edited; unable to Suggest"); ?>";
+            button.title = "<?php echo javascript_safe(_("Word has been edited; unable to Suggest"), $charset); ?>";
             a.removeAttribute('href');
         }
 
@@ -275,7 +276,7 @@ function spellcheck_echo_script()
         var a = document.getElementById("a_" + wordID);
         if(button && a) {
             button.src = "<?php echo $code_url; ?>/graphics/Book-Plus-Small.gif";
-            button.title = "<?php echo _("Unflag All & Suggest Word"); ?>";
+            button.title = "<?php echo javascript_safe(_("Unflag All & Suggest Word"), $charset); ?>";
             a.href="#";
         }
         return false;
@@ -286,7 +287,7 @@ function spellcheck_echo_script()
         // see if changes have been made
         var changesMade = document.getElementById("is_changed").value;
         if(changesMade==1) {
-            return confirm("<?php echo _("Changes have been made. OK to quit without saving?"); ?>");
+            return confirm("<?php echo javascript_safe(_("Changes have been made. OK to quit without saving?"), $charset); ?>");
         }
 
         // return true (ie: confirm exit) if no changes were made
