@@ -2,6 +2,7 @@
 $relPath = './../../pinc/';
 include_once($relPath."site_vars.php");
 include_once($relPath."slim_header.inc");
+include_once($relPath."misc.inc");
 slim_header(_("Search/Replace"));
 ?>
 
@@ -123,20 +124,20 @@ window.onload = test_and_enable_nonregex;
 </td></tr>
 </table>
 <center>
-    <input type="button" value="<?php echo _("Replace all."); ?>" onClick="do_replace()">
-    <input type="button" id='undo' value="<?php echo _("Undo."); ?>" onClick="restore_saved_text()" disabled />
+    <input type="button" value="<?php echo attr_safe(_("Replace all.")); ?>" onClick="do_replace()">
+    <input type="button" id='undo' value="<?php echo attr_safe(_("Undo.")); ?>" onClick="restore_saved_text()" disabled />
 </center>
 </form>
 <p><?php echo _("Warning: Undo is only possible for the most recent replace!"); ?></p>
 <p id='regex_help_title' onclick='toggle_regex_help();'><span id='regex_arrow'>&#9654;</span>
 <?php echo _('Regular expression?'); ?></p>
-<p id='regex_help'>
-. &mdash; any character<br />
-[a-z0-9] &mdash; lowercase letters and numbers<br />
-a{4} &mdash; four lowercase As<br />
-[Aa]{6} &mdash; six As of either case<br />
-A{2,8} &mdash; between 2 and 8 capital As<br />
-[hb]e &mdash; 'he' or 'be'<br />
-</p>
+<p id='regex_help'><?php
+echo _(". &mdash; any character") . "<br />\n";
+echo _("[a-z0-9] &mdash; lowercase letters and numbers") . "<br />\n";
+echo _("a{4} &mdash; four lowercase As") . "<br />\n";
+echo _("[Aa]{6} &mdash; six As of either case") . "<br />\n";
+echo _("A{2,8} &mdash; between 2 and 8 capital As") . "<br />\n";
+echo _("[hb]e &mdash; 'he' or 'be'") . "<br />\n";
+?></p>
 </body>
 </html>
