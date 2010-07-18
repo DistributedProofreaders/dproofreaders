@@ -10,7 +10,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'tabs.inc');
 include_once($relPath.'SettingsClass.inc');
-include_once($relPath.'misc.inc'); // startswith(...)
+include_once($relPath.'misc.inc'); // startswith(...), attr_safe()
 include_once($relPath.'js_newpophelp.inc');
 
 // The url the user viewed immediately before coming to the preferences.
@@ -131,7 +131,9 @@ echo "<table width='90%' bgcolor='#ffffff' border='1' bordercolor='#111111' cell
 
 echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='6' align='center'>";
 
-echo "<font size=\"+2\" color='".$theme['color_headerbar_font']."'><b>"._("Preferences Page for ")."$pguser</font></b>\n";
+echo "<font size=\"+2\" color='".$theme['color_headerbar_font']."'><b>"
+    // TRANSLATORS: %s is the user ID
+    . sprintf(_("Preferences Page for %s"), $pguser) . "</font></b>\n";
 echo "<br><font color='".$theme['color_headerbar_font']."'><i>"._("Your preferences are grouped into tabs. Switch between the tabs by clicking on e.g. 'General' or 'Proofreading'.")."</font></i>\n";
 echo "<br><font color='".$theme['color_headerbar_font']."'><i>"._("(click the ? for help on that specific preference)")."</font></i></td></tr>";
 
@@ -378,7 +380,7 @@ function echo_proofreading_tab() {
         echo ">$pf_Val</option>";
     }
     echo "</select>";
-    echo " <input type=\"submit\" value=\""._("Switch Profiles")."\" name=\"swProfile\">&nbsp;";
+    echo " <input type=\"submit\" value=\"".attr_safe(_("Switch Profiles"))."\" name=\"swProfile\">&nbsp;";
     echo "</td>";
     td_pophelp( 'switch' );
     echo "</tr>\n";
@@ -419,8 +421,8 @@ function echo_proofreading_tab() {
         $userP['i_layout'],
         'radio_group',
         array(
-            1 => '<img src="tools/proofers/gfx/bt4.png" width="26" alt="'._("Vertical").'">',
-            0 => '<img src="tools/proofers/gfx/bt5.png" width="26" alt="'._("Horizontal").'">'
+            1 => '<img src="tools/proofers/gfx/bt4.png" width="26" alt="'.attr_safe(_("Vertical")).'">',
+            0 => '<img src="tools/proofers/gfx/bt5.png" width="26" alt="'.attr_safe(_("Horizontal")).'">'
         )
     );
     show_preference(
@@ -564,16 +566,26 @@ function echo_proofreading_tab() {
     echo "<tr><td bgcolor='#ffffff' colspan='6' align='center'>";
     if ($userP['prefschanged']==1)
     {
-        echo "<input type='submit' value="._("'Restore to Saved Preferences'")." name='restorec'> &nbsp;";
+        echo "<input type='submit' value='" 
+            . attr_safe(_("Restore to Saved Preferences")) 
+            . "' name='restorec'> &nbsp;";
     }
-    echo "<input type='submit' value="._("'Save Preferences'")." name='change'> &nbsp;";
-    echo "<input type='submit' value="._("'Save Preferences and Quit'")." name='saveAndQuit'> &nbsp;";
+    echo "<input type='submit' value='" . attr_safe(_("Save Preferences"))
+        . "' name='change'> &nbsp;";
+    echo "<input type='submit' value='" 
+        . attr_safe(_("Save Preferences and Quit"))
+        . "' name='saveAndQuit'> &nbsp;";
     if ($pf_num < 10)
     {
-        echo "<input type='submit' value="._("'Save as New Profile'")." name='mkProfile'> &nbsp;";
-        echo "<input type='submit' value="._("'Save as New Profile and Quit'")." name='mkProfileAndQuit'> &nbsp;";
+        echo "<input type='submit' value='"
+            . attr_safe(_("Save as New Profile")) 
+            . "' name='mkProfile'> &nbsp;";
+        echo "<input type='submit' value='" 
+            . attr_safe(_("Save as New Profile and Quit"))
+            . "' name='mkProfileAndQuit'> &nbsp;";
     }
-    echo "<input type='submit' value="._("'Quit'")." name='quitnc'>";
+    echo "<input type='submit' value='" . attr_safe(_("Quit")) 
+        . "' name='quitnc'>";
     echo "</td></tr>\n";
 }
 
@@ -696,9 +708,9 @@ function save_pm_tab() {
 function echo_bottom_button_row()
 {
     echo "<tr><td bgcolor='#ffffff' colspan='6' align='center'>";
-    echo "<input type='submit' value="._("'Save Preferences'")." name='change'> &nbsp;";
-    echo "<input type='submit' value="._("'Save Preferences and Quit'")." name='saveAndQuit'> &nbsp;";
-    echo "<input type='submit' value="._("'Quit'")." name='quitnc'>";
+    echo "<input type='submit' value='".attr_safe(_("Save Preferences"))."' name='change'> &nbsp;";
+    echo "<input type='submit' value='".attr_safe(_("Save Preferences and Quit"))."' name='saveAndQuit'> &nbsp;";
+    echo "<input type='submit' value='".attr_safe(_("Quit"))."' name='quitnc'>";
     echo "</td></tr>\n";
 }
 
