@@ -221,10 +221,10 @@ function javascript_safe($str, $encoding)
 // in an html attribute. 
 //
 // Example usage: 
-// echo '<script> ... alert("' . javascript_safe($string) . '"); </script>';
-// echo "<script> ... alert('" . javascript_safe($string) . "'); </script>";
-// echo '<a ... onClick=\'confirm("' . javascript_safe($string) . '")\'>';
-// echo "<a ... onClick=\"confirm('" . javascript_safe($string) . '")\">";
+// echo '<script>alert("' . javascript_safe($string, $charset) . '"); </script>';
+// echo "<script>alert('" . javascript_safe($string, $charset) . "'); </script>";
+// echo '<a ... onClick=\'confirm("' . javascript_safe($string, $charset) . '")\'>';
+// echo "<a ... onClick=\"confirm('" . javascript_safe($string, $charset) . '")\">";
 //
 // Here are the detailed conversions applied:
 // - single quotes and double quotes are converted to \ooo octal notation
