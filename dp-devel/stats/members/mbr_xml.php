@@ -27,7 +27,7 @@ if (empty($curMbr)) {
     	include_once($relPath.'theme.inc');
 	theme(_("Error!"), "header");
  	echo "<br><center>";
-	echo sprintf("User '%s' does not exist.", htmlspecialchars($username));
+	echo sprintf(_("User '%s' does not exist."), htmlspecialchars($username));
  	echo "</center>";
 	theme("", "footer");
 	exit();

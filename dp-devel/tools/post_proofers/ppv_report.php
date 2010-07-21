@@ -322,8 +322,8 @@ $to = $ppv_reporting_email_addr;
 $subject = "PPV Summary - $pper->username ($_POST[eval])";
 $message = $promotions.$reportcard.$signoff;
 maybe_mail($to, $subject, $message, "From: $ppver->username <$ppver->email>\r\n");
-echo ("Thank you for PPVing! <br />
-       Return to <a href='../../project.php?id=$projectid'>the Project Page</a>.");
+echo _("Thank you for PPVing!") . "<br />\n";
+printf(_("Return to <a href='%s'>the Project Page</a>"), "../../project.php?id=$projectid");
 theme('','footer');
 exit();
 }
@@ -372,7 +372,8 @@ echo "<br />
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Post-Processed by")."</b></td>
         <td>$pper->username<br>
-        Number of books post-processed by $pper->username (including this one): $number_post_processed</td>
+        " . sprintf(_("Number of books post-processed by %s (including this one):"),
+            $pper->username) . " $number_post_processed</td>
       </tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Submitted by PP on")."</b></td>
@@ -418,8 +419,9 @@ echo "<br />
         <td><textarea rows='4' cols='67' name='reason_returned' id='reason_returned' wrap='physical'></textarea>".textarea_size_control('reason_returned')."</td>
       </tr>
       <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("General comments on this project
-        or your experience with working with this PPer.")."</b></td>
+        <td bgcolor='#CCCCCC' style='width: 40%;'><b>" . 
+        _("General comments on this project or your experience with working with this PPer.")
+        . "</b></td>
         <td><textarea rows='4' cols='67' name='general_comments' id='general_comments'  wrap='physical'></textarea>".textarea_size_control('general_comments')."</td>
       </tr>
 
