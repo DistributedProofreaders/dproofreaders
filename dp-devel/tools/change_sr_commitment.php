@@ -3,6 +3,7 @@ $relPath="../pinc/";
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'smoothread.inc');
 
 /***************************************************************************************
@@ -27,14 +28,16 @@ $refresh_url = @$_POST['next_url'];
 switch ($action) {
 case "commit":
     sr_commit($projectid, $pguser);
-    $title = "Commit to SR";
-    $body = "Registered SR-commitment of user $pguser for project $projectid.";
+    $title = _("Commit to SR");
+    $body = sprintf(_("Registered SR-commitment of user %s for project %s."),
+        $pguser, $projectid);
     break;
 
 case "withdraw":
     sr_withdraw_commitment($projectid, $pguser);
-    $title = "Withdraw SR-commitment";
-    $body = "Withdraw SR-commitment of user $pguser for project $projectid.";
+    $title = _("Withdraw SR-commitment");
+    $body = sprintf(_("Withdraw SR-commitment of user %s for project %s."),
+        $pguser, $projectid);
     break;
 
 default:

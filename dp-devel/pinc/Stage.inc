@@ -25,6 +25,7 @@ $CRITERIA = array(
 if ( TRUE )
 {
     // kludge
+    // TRANSLATORS: %s is a round ID, such as P1 or P1+P2
     $CRITERIA['R*+P1'] = sprintf( _("'%s' pages completed"), 'R1+R2+P1' );
     $CRITERIA['P1+P2'] = sprintf( _("'%s' pages completed"), 'P1+P2' );
 }
@@ -436,7 +437,7 @@ function show_user_access_object( $uao )
         }
         else
         {
-            echo _('Some requirements are not yet satisfied. ');
+            echo _('Some requirements are not yet satisfied.') . ' ';
             echo $uao->evaluation_criteria;
         }
         echo "</p>";
@@ -461,15 +462,15 @@ function show_user_access_object( $uao )
 
         case 'sat-available':
             $request_status_string=$uao->evaluation_criteria;
-            $request_status_string.=sprintf(
-                _(' If you would like to work in this stage, <a href="%s">click here</a> to submit a request.'),
+            $request_status_string.= " " . sprintf(
+                _('If you would like to work in this stage, <a href="%s">click here</a> to submit a request.'),
                 "$code_url/tools/request_access.php?stage_id={$uao->stage_id}"
             );
             break;
 
         case 'sat-wait':
-            $request_status_string=_('However, you must wait for approval to work in this stage. ');
-            $request_status_string.=$uao->evaluation_criteria;
+            $request_status_string=_('However, you must wait for approval to work in this stage.');
+            $request_status_string.=" " . $uao->evaluation_criteria;
             // Users in this stage will monitor your work and will let you know once you have qualified for access
             break;
 
@@ -530,21 +531,21 @@ function show_user_access_chart( $username )
         $n_criteria = count($CRITERIA);
         echo "<tr>";
         echo "<th></th>";
-        echo "<th colspan='$n_criteria'>Criteria</th>";
-        echo "<th rowspan='3'>all sat?</th>";
-        echo "<th rowspan='3'>request</th>";
+        echo "<th colspan='$n_criteria'>" . _("Criteria") . "</th>";
+        echo "<th rowspan='3'>" . _("all sat?") . "</th>";
+        echo "<th rowspan='3'>" . _("request") . "</th>";
         if ( $allow_revoke )
         {
-            echo "<th rowspan='3'>deny request?</th>";
+            echo "<th rowspan='3'>" . _("deny request?") . "</th>";
         }
-        echo "<th rowspan='3'>ACCESS?</th>";
+        echo "<th rowspan='3'>" . _("ACCESS?") . "</th>";
         if ( $allow_grant )
         {
-            echo "<th rowspan='3'>grant?</th>";
+            echo "<th rowspan='3'>" . _("grant?") . "</th>";
         }
         if ( $allow_revoke )
         {
-            echo "<th rowspan='3'>revoke?</th>";
+            echo "<th rowspan='3'>" . _("revoke?") . "</th>";
         }
         echo "</tr>\n";
     }
@@ -565,7 +566,7 @@ function show_user_access_chart( $username )
         $user_scores = get_user_scores($username);
 
         echo "<tr>";
-        echo "<th>user score:</th>";
+        echo "<th>" . _("user score:") . "</th>";
         foreach ( $CRITERIA as $criterion_code => $criterion_descr )
         {
             $user_score = $user_scores[$criterion_code];
@@ -597,7 +598,7 @@ function show_user_access_chart( $username )
         }
 
         echo td_w_bgcolor(
-            ($uao->all_minima_satisfied ? 'yes' : 'no'),
+            ($uao->all_minima_satisfied ? _('yes') : _('no')),
             $uao->all_minima_satisfied );
 
         $could_grant = FALSE;
@@ -608,29 +609,30 @@ function show_user_access_chart( $username )
         switch( $uao->request_status )
         {
             case 'sat-unneeded':
-                echo 'unnec';
+                // TRANSLATORS: abbreviation for "unnecessary"
+                echo _('unnec');
                 break;
 
             case 'sat-granted':
             case 'unsat-granted':
-                echo 'granted';
+                echo _('granted');
                 $could_revoke = TRUE;
                 break;
 
             case 'sat-requested':
             case 'unsat-requested':
-                echo 'requested';
+                echo _('requested');
                 $could_grant = TRUE;
                 $could_deny_request = TRUE;
                 break;
 
             case 'sat-wait':
-                echo 'waiting';
+                echo _('waiting');
                 $could_grant = TRUE;
                 break;
 
             case 'sat-available':
-                echo 'not yet';
+                echo _('not yet');
                 $could_grant = TRUE;
                 break;
 
@@ -640,7 +642,7 @@ function show_user_access_chart( $username )
 
             case 'sat-denied':
             case 'unsat-denied':
-                echo 'denied';
+                echo _('denied');
                 break;
 
 
@@ -659,7 +661,7 @@ function show_user_access_chart( $username )
             echo "</td>";
         }
 
-        echo td_w_bgcolor( ($uao->can_access?'YES':'NO'), $uao->can_access );
+        echo td_w_bgcolor( ($uao->can_access?_('YES'):_('NO')), $uao->can_access );
 
         if ( $allow_grant )
         {
@@ -700,7 +702,7 @@ function show_user_access_chart( $username )
                 echo "<td></td>";
             }
 
-            echo td_w_bgcolor( 'yes', TRUE );
+            echo td_w_bgcolor( _('yes'), TRUE );
 
             $settings =& Settings::get_Settings($username);
             $can_access = $settings->get_boolean("$activity_id.access");
@@ -711,12 +713,12 @@ function show_user_access_chart( $username )
             echo "<td>";
             if ( $can_access )
             {
-                echo 'granted';
+                echo _('granted');
                 $could_revoke = TRUE;
             }
             else
             {
-                echo "can't";
+                echo _("can't");
                 $could_grant = TRUE;
             }
             echo "</td>";
@@ -727,7 +729,7 @@ function show_user_access_chart( $username )
                 echo "</td>";
             }
 
-            echo td_w_bgcolor( ($can_access?'YES':'NO'), $can_access );
+            echo td_w_bgcolor( ($can_access?_('YES'):_('NO')), $can_access );
 
             if ( $allow_grant )
             {
@@ -760,7 +762,7 @@ function show_user_access_chart( $username )
 
     if ( $allow_grant || $allow_revoke )
     {
-        echo "<input type='submit' value='". _("Submit Changes") . "'>\n";
+        echo "<input type='submit' value='". attr_safe(_("Submit Changes")) . "'>\n";
         echo "</form>\n";
     }
 }
