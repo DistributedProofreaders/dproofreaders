@@ -1,5 +1,6 @@
 <?php
 include_once($relPath.'site_vars.php');
+include_once($relPath.'misc.inc');   // attr_safe()
 
 function page_header( $img_base, $title )
 // Display a page-header, either an image (if available) or a textual title.
@@ -13,7 +14,8 @@ function page_header( $img_base, $title )
     {
         echo "<br>";
         echo "<center>";
-        echo "<img src='$header_images_url/$img_base.jpg' title='$title' alt='$title'>";
+        echo "<img src='$header_images_url/$img_base.jpg' title='" 
+            . attr_safe($title) . "' alt='" . attr_safe($title) . "'>";
         echo "</center>";
     }
     else
