@@ -47,7 +47,7 @@ echo "<memberstats xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xs
 $result = mysql_query("
 	SELECT *
 	FROM users
-	WHERE username = '$username'
+	WHERE username = '" . mysql_real_escape_string($username) . "'
 	LIMIT 1
 ");
 $curMbr = array_merge($curMbr, mysql_fetch_assoc($result));
