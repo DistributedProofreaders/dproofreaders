@@ -5,7 +5,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'project_states.inc'); // get_phase_containing_project_state
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_do_particular_page
-include_once($relPath.'misc.inc'); // surround_and_join
+include_once($relPath.'misc.inc'); // surround_and_join, attr_safe
 include_once($relPath.'links.inc'); // private_message_link
 
 function echo_page_table(
@@ -434,7 +434,7 @@ function changeSelection(sel) {
         echo "  <option value='clear' >" . _("Clear effects of current round") . "</option>\n";
         echo "  <option value='delete'>" . _("Delete") . "</option>\n";
         echo "</select>\n";
-        echo "<input type='submit' value='" . _("Go") . "'>\n";
+        echo "<input type='submit' value='" . attr_safe(_("Go")) . "'>\n";
         echo "</form>\n";
 
         // We can't easily do a multipage mark-as-bad,

@@ -168,10 +168,10 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
     // buttons
     echo "<center>";
     echo "<input type='submit' name='reset' value='".
-        _("Reset New Filter")
+        attr_safe(_("Reset New Filter"))
          ."'>";
     echo "<input type='submit' value='".
-        _("Apply New Filter to Projects")
+        attr_safe(_("Apply New Filter to Projects"))
          ."'>";
     echo "</center>\n";
 
