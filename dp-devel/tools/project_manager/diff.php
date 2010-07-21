@@ -111,7 +111,7 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num,
     $navigation_text .= "\n<input type='hidden' name='image' value='$image'>";
     $navigation_text .= "\n<input type='hidden' name='L_round_num' value='$L_round_num'>";
     $navigation_text .= "\n<input type='hidden' name='R_round_num' value='$R_round_num'>";
-    $navigation_text .= "\nJump to: <select name='jumpto' onChange='$jump_to_js'>\n";
+    $navigation_text .= "\n" . _("Jump to:") . " <select name='jumpto' onChange='$jump_to_js'>\n";
 
     $query = "SELECT image, $L_user_column_name  FROM $projectid ORDER BY image ASC";
     $res = mysql_query( $query) or die(mysql_error());
@@ -156,12 +156,12 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num,
     $previous_from_proofer_js = "this.form.image.value='$prev_from_proofer'; this.form.submit();";
     $next_from_proofer_js = "this.form.image.value='$next_from_proofer'; this.form.submit();";
 
-    $navigation_text .=  "\n<input type='button' value='" . _("Previous") . "' onClick=\"$previous_js\"";
+    $navigation_text .=  "\n<input type='button' value='" . attr_safe(_("Previous")) . "' onClick=\"$previous_js\"";
     if ( $prev_image == "" ) {
         $navigation_text .=  " disabled";
     }
     $navigation_text .=  ">";
-    $navigation_text .=  "\n<input type='button' value='" . _("Next") . "' onClick=\"$next_js\"";
+    $navigation_text .=  "\n<input type='button' value='" . attr_safe(_("Next")) . "' onClick=\"$next_js\"";
     if ( $next_image == "" ) {
         $navigation_text .=  " disabled";
     }
@@ -169,12 +169,12 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num,
 
     if (can_navigate_by_proofer($projectid, $L_user))
     {
-        $navigation_text .=  "\n<input type='button' value='" . _("Proofreader previous") . "' onClick=\"$previous_from_proofer_js\"";
+        $navigation_text .=  "\n<input type='button' value='" . attr_safe(_("Proofreader previous")) . "' onClick=\"$previous_from_proofer_js\"";
         if ( $prev_from_proofer == "" ) {
             $navigation_text .=  " disabled";
         }
         $navigation_text .=  ">";
-        $navigation_text .=  "\n<input type='button' value='" . _("Proofreader next") . "' onClick=\"$next_from_proofer_js\"";
+        $navigation_text .=  "\n<input type='button' value='" . attr_safe(_("Proofreader next")) . "' onClick=\"$next_from_proofer_js\"";
         if ( $next_from_proofer == "" ) {
             $navigation_text .=  " disabled";
         }
