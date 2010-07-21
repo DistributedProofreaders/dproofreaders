@@ -22,14 +22,14 @@ dpsql_dump_query("
                       color,
                       '\"><a href=\"show_specials.php?null=',now(),'\" title=\"',display_name,'\">',
                 display_name,
-                      '</a></span>') as 'Name',
+                      '</a></span>') as '" . mysql_real_escape_string(_("Name")) . "',
                       concat('<span style=\"background-color: #',
                       color,
                       '\" title=\"',comment,'\">',
                 comment,
-                      '</a></span>') as 'Comment',
-                concat(' ',DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%b %e')) as 'Start Date',
-                concat('<a href=\"',info_url,'\">',info_url,'</a>') as 'More Info'
+                      '</a></span>') as '" . mysql_real_escape_string(_("Comment")) . "',
+                concat(' ',DATE_FORMAT(concat('2000-',open_month,'-',open_day),'%b %e')) as '" . mysql_real_escape_string(_("Start Date")) . "',
+                concat('<a href=\"',info_url,'\">',info_url,'</a>') as '" . mysql_real_escape_string(_("More Info")) . "'
         FROM special_days
         WHERE enable = 1
         ORDER BY open_month, open_day
