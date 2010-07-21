@@ -134,7 +134,7 @@ function showTeamProfile($curTeam) {
     $t->row(
         _("Created"),
         date("m/d/Y", $curTeam['created'])
-        . "&nbsp;($daysInExistence "._("days").")"
+        . "&nbsp;(" . sprintf(_("%s days"), $daysInExistence) . ")"
     );
 
     $owner_url = "$code_url/stats/members/mdetail.php?id=" . $curTeam['owner'];
@@ -389,10 +389,7 @@ function showTeamMbrs($curTeam, $tally_name) {
     if ($totalAnonUsers > 0)
     {
         $t->row(
-            _("Anonymous")
-                . ( isset($GLOBALS['pguser']) ? '' : ("/"._("Private")) )
-                . " "
-                . _("users"),
+            isset($GLOBALS['pguser']) ? _("Anonymous users") : _("Anonymous/Private users"), 
             number_format($totalPagesAnonUsers),
             "&nbsp;"
         );
@@ -480,7 +477,7 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
 
     if ($tedit == 1 && $userP['team_1'] != 0 && $userP['team_2'] != 0 && $userP['team_3'] != 0) {
         echo "\n<tr bgcolor='".$theme['color_mainbody_bg']."'><td><center>"._("You must join the team to create it, which team space would you like to use?")."<br>";
-        echo "<select name='tteams' title='"._("Team List")."'>";
+        echo "<select name='tteams' title='".attr_safe(_("Team List"))."'>";
         $teamQuery = mysql_query("SELECT teamname, id FROM user_teams WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})");
         while ($row = mysql_fetch_assoc($teamQuery)) {
             echo "<option value='".$row['id']."'>".unstripAllString(strip_tags($row['teamname']),1)."</option>";
@@ -492,15 +489,15 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
 
     if($tedit == 1) {
         echo "\n<tr bgcolor='".$theme['color_headerbar_bg']."'><td><center>";
-        echo "<input type='submit' name='mkPreview' value='"._("Preview Team Display")."'>&nbsp;&nbsp;&nbsp;";
-        echo "<input type='submit' name='mkMake' value='"._("Make Team")."'>&nbsp;&nbsp;&nbsp;";
-        echo "<input type='submit' name='Quit' value='"._("Quit")."'>";
+        echo "<input type='submit' name='mkPreview' value='".attr_safe(_("Preview Team Display"))."'>&nbsp;&nbsp;&nbsp;";
+        echo "<input type='submit' name='mkMake' value='".attr_safe(_("Make Team"))."'>&nbsp;&nbsp;&nbsp;";
+        echo "<input type='submit' name='Quit' value='".attr_safe(_("Quit"))."'>";
         echo "</center></td></tr></table></form>";
     } else {
         echo "\n<tr bgcolor='".$theme['color_headerbar_bg']."'><td><center>";
-        echo "<input type='submit' name='edPreview' value='"._("Preview Changes")."'>&nbsp;&nbsp;&nbsp;";
-        echo "<input type='submit' name='edMake' value='"._("Save Changes")."'>&nbsp;&nbsp;&nbsp;";
-        echo "<input type='submit' name='edQuit' value='"._("Quit")."'>";
+        echo "<input type='submit' name='edPreview' value='".attr_safe(_("Preview Changes"))."'>&nbsp;&nbsp;&nbsp;";
+        echo "<input type='submit' name='edMake' value='".attr_safe(_("Save Changes"))."'>&nbsp;&nbsp;&nbsp;";
+        echo "<input type='submit' name='edQuit' value='".attr_safe(_("Quit"))."'>";
         echo "</center></td></tr></table></form>";
     }
 }
