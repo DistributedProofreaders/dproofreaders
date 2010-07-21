@@ -1,5 +1,6 @@
 <?php
 include_once($relPath.'site_vars.php');
+include_once($relPath.'misc.inc');  // attr_safe()
 
 /***************************************************************************************
 *
@@ -211,7 +212,7 @@ function sr_echo_commitment_form($projectid)
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
     echo "<input type='hidden' name='action' value='commit'>\n";
     echo "<input type='hidden' name='next_url' value='$next_url'>\n";
-    echo "<input type='submit' value='$button_text'>";
+    echo "<input type='submit' value='" . attr_safe($button_text) . "'>";
     echo "</form>\n";
 }
 
@@ -241,7 +242,7 @@ function sr_echo_withdrawal_form($projectid)
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
     echo "<input type='hidden' name='action' value='withdraw'>\n";
     echo "<input type='hidden' name='next_url' value='$next_url'>\n";
-    echo "<input type='submit' value='$button_text'>";
+    echo "<input type='submit' value='" . attr_safe($button_text) . "'>";
     echo "</form>\n";
 
 }
