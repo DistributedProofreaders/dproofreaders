@@ -77,6 +77,7 @@ function showMbrDpProfile( $curMbr )
 
     $t = new ThemedTable(
         2,
+        // TRANSLATORS: %s is the site abbreviation
         sprintf(_("%s Profile"),$site_abbreviation),
         array( 'width'=>100 )
     );
@@ -165,7 +166,7 @@ function showMbrRoles($curMbr)
         $icon_url = "$code_url/graphics/icon_$id.png";
         $mbrStatus .= "<img
             src='$icon_url'
-            alt='$label' title='$label'
+            alt='" . attr_safe($label) . "' title='" . attr_safe($label) . "'
             width='$icon_width' height='25'
             style='vertical-align: middle'
             border='0'
@@ -203,7 +204,7 @@ function showForumProfile($username) {
     
     if ($avatar == NULL)
     {
-        $rhs = '(none)';
+        $rhs = _("(none)");
     }
     else
     {
@@ -253,7 +254,7 @@ function showForumProfile($username) {
         ),
         array(
             !empty($bb_user["yim"]),
-            "Yahoo Message",
+            _("Yahoo Message"),
             "icon_yim.gif",
             "http://edit.yahoo.com/config/send_webmesg?.target=" . $bb_user["yim"] . "&.src=pg",
             "_new"
@@ -274,7 +275,7 @@ function showForumProfile($username) {
         if (!$condition) continue;
         
         $icon_path = "$forums_url/templates/subSilver/images/lang_english/$icon_filename";
-        $img_tag = "<img src='$icon_path' alt='$label " . $bb_user["username"] . "' border='0'>";
+        $img_tag = "<img src='$icon_path' alt='" . attr_safe($label) ."' border='0'>";
         $target_str = ( empty($target) ? '' : " target='$target'" );
 
         $t->row(
@@ -375,7 +376,8 @@ function showMbrPageStats( $curMbr, $tally_name )
         $daysInRoundInteger = floor(($now - $firstWorkInRound)/86400);
     }
 
-    $daysInRoundString = number_format($daysInRoundInteger)._(" days"); // '1,234 days'
+    $daysInRoundString = sprintf(_("%s days"), 
+        number_format($daysInRoundInteger)); // '1,234 days' (not localized)
 
     $bestDayTime = date("M. jS, Y", ($vitals->best_delta_timestamp-1));
 
@@ -463,11 +465,13 @@ function showMbrNeighbors($curMbr, $tally_name) {
             $date_created = $neighbor->get_date_joined();
 
             $username_html = "<a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id&tally_name=$tally_name'>$username</a>";
-            $day_html = date("m/d/Y", $date_created)." <i>(".number_format(floor(($now - $date_created)/86400))." "._("days").")</i>";
+            $day_html = date("m/d/Y", $date_created)." <i>("
+                . sprintf(_("%s days"), number_format(floor(($now - $date_created)/86400)))
+                . ")</i>";
 
         } else {
             $username_html = "Anonymous";
-            $day_html = "--/--/-- <i>(--- "._("days").")</i>";
+            $day_html = "--/--/-- <i>(" . sprintf(_("%s days"), '---') .")</i>";
         }
         $t->row(
             $rank,
@@ -511,8 +515,8 @@ function showMbrTeams($curMbr, $tally_name) {
         $url = $GLOBALS['code_url']."/stats/teams/tdetail.php?tid=".$row['id'];
         $t->row(
             "<a href='$url'>".$row['teamname']."</a>",
-            number_format($row['page_count'])." "._("pages"),
-            number_format($row['active_members'])." "._("members")
+            sprintf(_("%s pages"), number_format($row['page_count'])),
+            sprintf(_("%s members"), number_format($row['active_members']))
         );
     }
 
