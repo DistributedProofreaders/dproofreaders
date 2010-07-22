@@ -10,8 +10,8 @@ $theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/faq/
 
 if (isset($_POST['mkPreview']))
 {
-    $name = _("Preview");
-    theme($name." ".$_POST['teamname'], "header", $theme_extra_args);
+    $title = sprintf(_("Preview %s"), $_POST['teamname']);  // *Ouch*, data not validated.
+    theme($title, "header", $theme_extra_args);
     $teamimages = uploadImages(1,"","both");
     $curTeam['teamname'] = stripAllString($_POST['teamname']);
     $curTeam['team_info'] = stripAllString($_POST['text_data']);

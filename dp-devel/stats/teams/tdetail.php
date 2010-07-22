@@ -17,9 +17,9 @@ $req_team_id  = get_integer_param( $_GET, 'tid', null, 0, null );
 $result = select_from_teams("id = {$req_team_id}");
 $curTeam = mysql_fetch_assoc($result);
 
-$stats = _("Statistics");
-
-theme($curTeam['teamname']." ".$stats, "header");
+// TRANSLATORS: %s is a team name
+$title = sprintf(_("%s Statistics"), $curTeam['teamname']);
+theme($title, "header");
 echo "<br><center>";
 
 showTeamInformation($curTeam, $tally_name);
