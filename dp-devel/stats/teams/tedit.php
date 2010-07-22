@@ -8,10 +8,11 @@ include_once('../includes/team.inc');
 
 $theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/faq/pophelp/teams/edit_"));
 
-//Do we need this anymore?
+// Either the parameter is $_POST['tsid'] when coming from the edit form,
+// or it is $_GET['tid'] when using the link on top of the team summary.
 $tid = get_integer_param($_POST, 'tsid', null, 1, null, true);
 if (!isset($tid)) {
-    $tid = get_integer_param($_POST, 'tid', null, 1, null);
+    $tid = get_integer_param($_GET, 'tid', null, 1, null);
 }
 
 $result = select_from_teams("id = $tid");
