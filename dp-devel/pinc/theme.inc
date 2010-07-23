@@ -13,11 +13,12 @@ include_once($relPath.'page_tally.inc');
 include_once($relPath.'list_projects.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
-
-$user_is_logged_in = dpsession_resume();
-
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'languages.inc');
+
+// Since gettext_setup.inc selects the language according to the
+// user preference, $pguser and $userP are guaranteed to be setup 
+// after including gettext_setup.inc
 
 if(isset($userP['i_theme']) && $userP['i_theme'] != '' ) {
     $theme_name = $userP['i_theme'];
@@ -36,6 +37,7 @@ function theme ($nameofpage, $location, $extra_args = array()) {
     } else {
         $statsbar_align = 0;
     }
+
 
     if (!isset($no_stats)) {
         if ($statsbar_align == 1) {
@@ -148,6 +150,12 @@ function html_header($nameofpage, $extra_args = array()) {
     echo "' link='" . $theme['body_link'] . "' vlink='" . $theme['body_vlink'];
     echo "' alink='" . $theme['body_alink'];
     echo "' style='margin: 0;'>\n\n";
+    
+    global $debug_msg;
+    if (isset($debug_msg))
+    {
+        echo "<!--<small>$debug_msg</small>-->";
+    }
 }
 
 function html_logobar() {
@@ -399,6 +407,7 @@ function html_statsbar($nameofpage) {
     // (i.e., to the main content of the page).
 
     $rounds = array_keys($Round_for_round_id_);
+    $rounds[] = 'R*';
     // The tally_name may be unspecified, or a round name.
     $tally_name = get_enumerated_param($_REQUEST, 'tally_name', null, $rounds, true);
     
