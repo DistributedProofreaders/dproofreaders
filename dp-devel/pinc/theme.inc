@@ -38,7 +38,6 @@ function theme ($nameofpage, $location, $extra_args = array()) {
         $statsbar_align = 0;
     }
 
-
     if (!isset($no_stats)) {
         if ($statsbar_align == 1) {
             if ($location == "header") {
@@ -150,12 +149,6 @@ function html_header($nameofpage, $extra_args = array()) {
     echo "' link='" . $theme['body_link'] . "' vlink='" . $theme['body_vlink'];
     echo "' alink='" . $theme['body_alink'];
     echo "' style='margin: 0;'>\n\n";
-    
-    global $debug_msg;
-    if (isset($debug_msg))
-    {
-        echo "<!--<small>$debug_msg</small>-->";
-    }
 }
 
 function html_logobar() {
