@@ -400,7 +400,6 @@ function html_statsbar($nameofpage) {
     // (i.e., to the main content of the page).
 
     $rounds = array_keys($Round_for_round_id_);
-    $rounds[] = 'R*';
     // The tally_name may be unspecified, or a round name.
     $tally_name = get_enumerated_param($_REQUEST, 'tally_name', null, $rounds, true);
     

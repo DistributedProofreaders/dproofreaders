@@ -8,7 +8,6 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'page_tally.inc');
 
 $valid_rounds = array_keys($Round_for_round_id_);
-$valid_rounds[] = 'R*';
 $tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_rounds);
 
 $title = sprintf( _('Top 100 Proofreaders for Round %s'), $tally_name );

@@ -6,7 +6,6 @@ include_once($relPath.'connect.inc');
 include_once('common.inc');
 
 $valid_rounds = array_keys($Round_for_round_id_);
-$valid_rounds[] = 'R*';
 $tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_rounds);
 $holder_type  = get_enumerated_param($_GET, 'holder_type', null, array('U', 'T'));
 $holder_id    = get_integer_param($_GET, 'holder_id', null, 0, null);

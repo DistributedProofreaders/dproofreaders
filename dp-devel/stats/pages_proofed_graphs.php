@@ -3,7 +3,6 @@ $relPath='./../pinc/';
 include_once($relPath.'theme.inc');
 
 $valid_rounds = array_keys($Round_for_round_id_);
-$valid_rounds[] = 'R*';
 $tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_rounds);
 
 $title = sprintf( _('Graphs for Pages Saved-as-Done in Round %s'), $tally_name );
