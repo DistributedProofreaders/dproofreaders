@@ -62,19 +62,18 @@ if ( !is_null($transition->confirmation_question) && $confirmed != 'yes' )
     echo "<b>" . _("Title:") . "</b> {$project->nameofwork}<br>\n";
     echo "<b>" . _("Author:") . "</b> {$project->authorsname}</p>\n";
     echo $transition->confirmation_question;
-    echo <<<EOS
-        <br>
+    echo "<br>
         <form action='changestate.php' method='POST'>
         <input type='hidden' name='projectid'  value='$projectid'>
         <input type='hidden' name='curr_state' value='$curr_state'>
         <input type='hidden' name='next_state' value='$next_state'>
         <input type='hidden' name='confirmed'  value='yes'>
-        <input type='hidden' name='return_uri' value='$return_uri'>
-        If so, click
-        <input type='submit' value='here'>,
-        otherwise go back to <a href='$return_uri'>where you were</a>.
-        </form>
-EOS;
+        <input type='hidden' name='return_uri' value='$return_uri'>"
+        // TRANSLATORS: %1$s is a button labeled "here".
+        . sprintf(_("If so, click %1\$s, otherwise go back to <a href='%2\$s'>where you were</a>"),
+            "<input type='submit' value='" . attr_safe(_("here")) . "'>",
+            $return_uri)
+        . "</form>";
     exit();
 }
 
