@@ -6,8 +6,8 @@ include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'page_tally.inc');
 include_once('common.inc');
 
-$valid_rounds = array_keys($Round_for_round_id_);
-$tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_rounds);
+$valid_tally_names = array_keys($page_tally_names);
+$tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
 $timeframe  = get_enumerated_param($_GET, 'timeframe', null, array('curr_month', 'prev_month', 'all_time'));
 $c_or_i     = get_enumerated_param($_GET, 'cori', null, array('cumulative', 'increments'));
 

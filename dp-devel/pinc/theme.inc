@@ -399,12 +399,14 @@ function html_statsbar($nameofpage) {
     // Show statistics that are pertinent to the particular request.
     // (i.e., to the main content of the page).
 
-    $rounds = array_keys($Round_for_round_id_);
-    // The tally_name may be unspecified, or a round name.
-    $tally_name = get_enumerated_param($_REQUEST, 'tally_name', null, $rounds, true);
+    // The tally_name may be unspecified, or a tally name.
+    global $page_tally_names;
+    $valid_tally_names = array_keys($page_tally_names);
+    $tally_name = get_enumerated_param($_REQUEST, 'tally_name', null, $valid_tally_names, true);
     
     // If tally_name is unspecfied, try to see if round_id is set.
     if (!isset($tally_name)) {
+        $rounds = array_keys($Round_for_round_id_);
         $tally_name = get_enumerated_param($_REQUEST, 'round_id', null, $rounds, true);
     }
 

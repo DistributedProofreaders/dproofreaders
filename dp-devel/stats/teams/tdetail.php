@@ -10,8 +10,8 @@ $db_Connection=new dbConnect();
 
 
 # tally_name may be empty/unspecified, or a round name.
-$valid_rounds = array_keys($Round_for_round_id_);
-$tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_rounds, true);
+$valid_tally_names = array_keys($page_tally_names);
+$tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names, true);
 $req_team_id  = get_integer_param( $_GET, 'tid', null, 0, null );
 
 $result = select_from_teams("id = {$req_team_id}");

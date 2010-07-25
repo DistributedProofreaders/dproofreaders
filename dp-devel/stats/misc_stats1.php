@@ -5,8 +5,8 @@ include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_tally.inc');
 
-$valid_rounds = array_keys($Round_for_round_id_);
-$tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_rounds);
+$valid_tally_names = array_keys($page_tally_names);
+$tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
 
 // -----------------------------------
 
