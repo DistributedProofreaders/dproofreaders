@@ -191,6 +191,15 @@ function join_proofed_text ($project, $pages_res, $include_proofers, $save_files
             $filedata .= $fileinfo;
         }
     }
+    // add a final newline
+    if ($save_files)
+    {
+        fputs($fp, $eol);
+    }
+    else
+    {
+        $filedata .= $eol;
+    }
     return $filedata;
 }
 
