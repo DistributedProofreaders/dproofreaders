@@ -41,8 +41,8 @@ if (!isset($_POST['resolution'])) {
     //Display form
     theme($header, "header");
 
-    echo "<br><h3>Project/Page: ".$b_NameofWork."&mdash;".$image."</h3>";
-    echo "<h3>State: ".$state."</h3>";
+    echo "<br><h3>" . _("Project/Page") . ": ".$b_NameofWork."&mdash;".$image."</h3>";
+    echo "<h3>" . _("State") . ": ".$state."</h3>";
 
     echo "<form action='handle_bad_page.php' method='post'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>";
@@ -56,14 +56,14 @@ if (!isset($_POST['resolution'])) {
         $contact_url = get_url_to_compose_message_to_user($b_User);
 
         echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
-        echo "<strong>Username:</strong></td>";
+        echo "<strong>" . _("Username") . ":</strong></td>";
         echo "<td bgcolor='#ffffff' align='center'>";
-        echo "$b_User (<a href='$contact_url'>Private Message</a>)</td></tr>";
+        echo "$b_User (<a href='$contact_url'>" . _("Private Message") . "</a>)</td></tr>";
     }
     
     if (!empty($b_Code)) {
         echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
-        echo "<strong>Reason:</strong></td>";
+        echo "<strong>" . _("Reason") . ":</strong></td>";
         echo "<td bgcolor='#ffffff' align='center'>";
         echo $PAGE_BADNESS_REASONS[$b_Code]."</td></tr>";
     }
@@ -87,28 +87,28 @@ if (!isset($_POST['resolution'])) {
     }
 
     echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
-    echo "<strong>Originals:</strong></td>";
+    echo "<strong>"._("Originals").":</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<a href='downloadproofed.php?project=$projectid&image=$image&round_num=$prev_round_num' target='_new'>View Text</a>";
+    echo "<a href='downloadproofed.php?project=$projectid&image=$image&round_num=$prev_round_num' target='_new'>" . _("View Text") . "</a>";
     echo " | ";
-    echo "<a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>View Image</a>";
+    echo "<a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>" . _("View Image") . "</a>";
     echo "</td></tr>";
     echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
 
-    echo "<strong>Modify:</strong></td>";
+    echo "<strong>"._("Modify").":</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=text'>Text from Previous Round</a>";
+    echo "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=text'>"._("Text from Previous Round")."</a>";
     echo " | ";
-    echo "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=image'>Original Image</a>";
+    echo "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=image'>"._("Original Image")."</a>";
     echo "</td></tr>";
     echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
     
     if ($is_a_bad_page) {
-        echo "<strong>What to do:&nbsp;&nbsp;</strong></td>";
+        echo "<strong>"._("What to do").":&nbsp;&nbsp;</strong></td>";
         echo "<td bgcolor='#ffffff' align='center'>";
-        echo "<input name='resolution' value='fixed' type='radio'>Fixed&nbsp;";
-        echo "<input name='resolution' value='invalid' type='radio'>Invalid Report&nbsp;";
-        echo "<input name='resolution' value='unfixed' checked type='radio'>Not Fixed&nbsp;";
+        echo "<input name='resolution' value='fixed' type='radio'>"._("Fixed")."&nbsp;";
+        echo "<input name='resolution' value='invalid' type='radio'>"._("Invalid Report")."&nbsp;";
+        echo "<input name='resolution' value='unfixed' checked type='radio'>"._("Not Fixed")."&nbsp;";
         echo "</td></tr>";
     }
     else
@@ -118,7 +118,7 @@ if (!isset($_POST['resolution'])) {
     }
     
     echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
-    echo "<input type='submit' VALUE='Continue'>";
+    echo "<input type='submit' value='" . attr_safe(_("Continue")) . "'>";
     echo "</td></tr></table></form></div><br><br>";
 
     //Determine if modify is set & if so display the form to either modify the image or text
@@ -130,14 +130,16 @@ if (!isset($_POST['resolution'])) {
         echo "<input type='hidden' name='projectid' value='$projectid'>";
         echo "<input type='hidden' name='image' value='$image'>";
         echo "<input type='hidden' name='prevtext_column' value='$prevtext_column'>";
-        echo _("The textarea below contains the text from the previous round for ").$image.".<br>";
-        echo _("You may use it as-is, or insert other replacement text for this page:<br>");
+        // TRANSLATORS: %s is the image name.
+        echo sprintf(_("The textarea below contains the text from the previous round for %s."), $image) . "<br>";
+        echo _("You may use it as-is, or insert other replacement text for this page:") . "<br>";
         // newline after <textarea> needed to prevent the text box from eating the first blank line
         echo "<textarea name='prev_text' cols=70 rows=10>\n";
         // SENDING PAGE-TEXT TO USER
         echo htmlspecialchars($prev_text,ENT_NOQUOTES);
         echo "</textarea><br><br>";
-        echo "<input type='submit' value='Update Text From Previous Round'></form>";
+        echo "<input type='submit' value='" 
+            . attr_safe(_("Update Text From Previous Round")) . "'></form>";
 
     } elseif (isset($_POST['modify']) && $_POST['modify'] == "text") {
         $prev_text = $_POST['prev_text'];
@@ -150,9 +152,10 @@ if (!isset($_POST['resolution'])) {
         echo "<input type='hidden' name='modify' value='image'>";
         echo "<input type='hidden' name='projectid' value='$projectid'>";
         echo "<input type='hidden' name='image' value='$image'>";
-        echo _("Select an image to upload and replace ").$image._(" with:<br>");
+        // TRANSLATORS: %s is the image name.
+        echo sprintf(_("Select an image to upload and replace %s with:"), $image) . "<br>";
         echo "<input type='file' name='image_upload' size=30><br><br>";
-        echo "<input type='submit' value='Update Original Image'></form>";
+        echo "<input type='submit' value='" . attr_safe(_("Update Original Image")) . "'></form>";
     } elseif (isset($_POST['modify']) && $_POST['modify'] == "image") {
 
         $org_image_ext = substr($image, -4);
@@ -162,14 +165,18 @@ if (!isset($_POST['resolution'])) {
         if ( $tmp_image_ext == ".png" || $tmp_image_ext == ".jpg" ) {
             if ( $tmp_image_ext == $org_image_ext ) {
                 copy($_FILES['image_upload']['tmp_name'],"$projects_dir/$projectid/$image") or die("Could not upload new image!");
-                echo "<b>"._("Update of Original Image ").$image._(" Complete!")."</b>";
+                echo "<b>" . sprintf(_("Update of Original Image %s Complete!"), $image) . "</b>";
             } else {
                 echo "<b>"._("Image NOT updated.<br>");
-                echo _("The uploaded file type ($tmp_image_ext) does not match the original file type ($org_image_ext).<br>");
-		echo _("Click ") . "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=image'>"._("here")."</a>"._(" to return.")."</b>";
+                echo sprintf(_("The uploaded file type (%s) does not match the original file type (%s)."),
+                    $tmp_image_ext, $org_image_ext) . "<br>";
+                echo sprintf(_("Click <a href='%s'>here</a> to return."),
+                    "handle_bad_page.php?projectid=$projectid&image=$image&modify=image") . "</b>";
             }
         } else {
-            echo "<b>"._("The uploaded file must be a PNG or JPG file! Click")." <a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=image'>"._("here")."</a>"._(" to return.")."</b>";
+            echo "<b>"._("The uploaded file must be a PNG or JPG file!") . " "
+                . sprintf(_("Click <a href='%s'>here</a> to return."), 
+                    "handle_bad_page.php?projectid=$projectid&image=$image&modify=image") . "</b>";
         }
     }
 
