@@ -208,7 +208,7 @@ function join_proofed_text_tei ($project, $pages_res, $include_proofers, $fp)
     // Join the round 2 page-texts of the given project,
     // and write the result to file-object $fp.
 
-    global $code_url, $projects_url;
+    global $code_url, $projects_url, $charset;
    
     $result = mysql_query("SELECT nameofwork, authorsname, language, postednum FROM projects WHERE projectid = '$project'");
     //echo mysql_errno().": ".mysql_error()."<BR>";
@@ -219,7 +219,7 @@ function join_proofed_text_tei ($project, $pages_res, $include_proofers, $fp)
     $language    = $row[2];
     $postednum   = $row[3];
 
-    fputs($fp,"<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>\r\n");
+    fputs($fp,"<?xml version=\"1.0\" encoding=\"$charset\" ?>\r\n");
     fputs($fp,"<!DOCTYPE TEI.2 SYSTEM \"http://www.gutenberg.org/tei/marcello/0.4/dtd/pgtei.dtd\">");
     fputs($fp,"\r\n");
     fputs($fp,"<TEI.2 lang=\"en\">\r\n");
