@@ -166,7 +166,8 @@ function check_user_exists($possible_user, $description)
             ");
     if (mysql_num_rows($res) == 0)
     {
-        $result = "$description must be an existing user - check case and spelling of username.<br>";
+        $result = sprintf(_("%s must be an existing user - check case and spelling of username."),
+            $description) . "<br>";
     }
     return $result;
 }
@@ -489,7 +490,7 @@ class ProjectInfoHolder
             $this->projectmanager = @$_POST['username'];
             if ( $this->projectmanager == '' )
             {
-                $errors .= "Project manager is required.<br>";
+                $errors .= _("Project manager is required.") . "<br>";
             }
             else
             {
@@ -497,7 +498,7 @@ class ProjectInfoHolder
             }
             if ( empty($errors) && !that_user_is_PM($this->projectmanager) )
             {
-                $errors .= "{$this->projectmanager} is not a PM.<br>";
+                $errors .= sprintf(_("%s is not a PM."), $this->projectmanager) . "<br>";
             }
         }
         else // it'll be set when we save the info to the db
@@ -506,7 +507,7 @@ class ProjectInfoHolder
         }
 
         $pri_language = @$_POST['pri_language'];
-        if ( $pri_language == '' ) { $errors .= "Primary Language is required.<br>"; }
+        if ( $pri_language == '' ) { $errors .= _("Primary Language is required.")."<br>"; }
 
         $sec_language = @$_POST['sec_language'];
 
@@ -516,12 +517,12 @@ class ProjectInfoHolder
             : $pri_language );
 
         $this->genre = @$_POST['genre'];
-        if ( $this->genre == '' ) { $errors .= "Genre is required.<br>"; }
+        if ( $this->genre == '' ) { $errors .= _("Genre is required.")."<br>"; }
 
         $this->image_source = @$_POST['image_source'];
         if ($this->image_source == '')
         {
-            $errors .= "Image Source is required. If the one you want isn't in list, you can propose to add it.<br>";
+            $errors .= _("Image Source is required. If the one you want isn't in list, you can propose to add it.")."<br>";
             $this->image_source = '_internal';
         }
 
@@ -554,7 +555,7 @@ class ProjectInfoHolder
             {
                 if (empty($_POST['bdayday']) or empty($_POST['bdaymonth']))
                 {
-                    $errors .= "Month and Day are required for Birthday or Otherday Specials.<br>";
+                    $errors .= _("Month and Day are required for Birthday or Otherday Specials.")."<br>";
                 }
                 else
                 {
@@ -562,7 +563,7 @@ class ProjectInfoHolder
                     $bdayday = $_POST['bdayday'];
                     if (!checkdate ( $bdaymonth, $bdayday, 2000))
                     {
-                        $errors .= "Invalid date supplied for Birthday or Otherday Special.<br>";
+                        $errors .= _("Invalid date supplied for Birthday or Otherday Special.")."<br>";
                     }
                     else
                     {
@@ -590,7 +591,7 @@ class ProjectInfoHolder
                    $this->state == PROJ_POST_SECOND_CHECKED_OUT ) &&
                  $this->checkedoutby == '')
             {
-                $errors .= "This project is checked out: you must specify a PPer/PPVer";
+                $errors .= _("This project is checked out: you must specify a PPer/PPVer");
                 $this->checkedoutby = $PPer;
             }
             if ( $this->projectmanager == '' )
@@ -628,11 +629,13 @@ class ProjectInfoHolder
             // We are in the process of marking this project as posted.
             if ( $this->postednum == '' )
             {
-                $errors .= "Posted Number is required.<br>";
+                $errors .= _("Posted Number is required.")."<br>";
             }
             else if ( ! preg_match('/^[1-9][0-9]*$/', $this->postednum ) )
             {
-                $errors .= "Posted Number \"$this->postednum\" is not of the correct format.<br>";
+                $errors .= sprintf(
+                    _("Posted Number \"%s\" is not of the correct format."),
+                    $this->postednum) . "<br>";
                 // You'll sometimes see PG etext numbers with a 'C' appended.
                 // The 'C' is not part of the etext number
                 // (e.g., it does not appear in PG's RDF catalog),
@@ -907,10 +910,10 @@ class ProjectInfoHolder
 
         echo "<tr>";
         echo   "<td bgcolor='#CCCCCC' colspan='2' align='center'>";
-        echo     "<input type='submit' name='saveAndQuit' value='"._("Save and Go To PM Page")."'>";
-        echo     "<input type='submit' name='saveAndProject' value='"._("Save and Go To Project")."'>";
-        echo     "<input type='submit' name='saveAndPreview' value='"._("Save and Preview")."'>";
-        echo     "<input type='submit' name='quit' value='"._("Quit Without Saving")."'>";
+        echo     "<input type='submit' name='saveAndQuit' value='".attr_safe(_("Save and Go To PM Page"))."'>";
+        echo     "<input type='submit' name='saveAndProject' value='".attr_safe(_("Save and Go To Project"))."'>";
+        echo     "<input type='submit' name='saveAndPreview' value='".attr_safe(_("Save and Preview"))."'>";
+        echo     "<input type='submit' name='quit' value='".attr_safe(_("Quit Without Saving"))."'>";
         echo   "</td>";
         echo "</tr>\n";
 
@@ -1078,20 +1081,20 @@ class ProjectInfoHolder
         $now = strftime(_("%A, %B %e, %Y at %X"));
 
         echo "<br><table width='90%' border=1>";
-        echo "<tr><td align='middle' bgcolor='#cccccc'><h3>Preview<br>Project</h3></td>";
-        echo "<td bgcolor='#cccccc'><b>This is a preview of your project and roughly how it will look to the proofreaders.</b></td></tr>\n";
-        echo "<tr><td align='middle' bgcolor='#cccccc'><b>Title</b></td><td>$this->nameofwork</td></tr>\n";
-        echo "<tr><td align='middle' bgcolor='#cccccc'><b>Author</b></td><td>$this->authorsname</td></tr>\n";
+        echo "<tr><td align='middle' bgcolor='#cccccc'><h3>", _("Preview<br>Project"), "</h3></td>";
+        echo "<td bgcolor='#cccccc'><b>", _("This is a preview of your project and roughly how it will look to the proofreaders."), "</b></td></tr>\n";
+        echo "<tr><td align='middle' bgcolor='#cccccc'><b>", _("Title"), "</b></td><td>$this->nameofwork</td></tr>\n";
+        echo "<tr><td align='middle' bgcolor='#cccccc'><b>", _("Author"), "</b></td><td>$this->authorsname</td></tr>\n";
         if (user_is_a_sitemanager())
         {
             // SAs are the only ones who can change this.
-            echo "<tr><td align='middle' bgcolor='#cccccc'><b>Project Manager</b></td><td>$this->projectmanager</td></tr>\n";
+            echo "<tr><td align='middle' bgcolor='#cccccc'><b>", _("Project Manager"), "</b></td><td>$this->projectmanager</td></tr>\n";
         }
-        echo "<tr><td align='middle' bgcolor='#cccccc'><b>Last Proofread</b></td><td>$now</td></tr>\n";
-        echo "<tr><td align='middle' bgcolor='#cccccc'><b>Forum</b></td><td>Start a discussion about this project</td></tr>\n";
+        echo "<tr><td align='middle' bgcolor='#cccccc'><b>", _("Last Proofread"), "</b></td><td>$now</td></tr>\n";
+        echo "<tr><td align='middle' bgcolor='#cccccc'><b>", _("Forum"), "</b></td><td>", _("Start a discussion about this project"), "</td></tr>\n";
 
         echo "<tr><td colspan='2' bgcolor='#cccccc' align='center'>";
-        echo "<font size='+1'><b>Project Comments</b></font>";
+        echo "<font size='+1'><b>", _("Project Comments"), "</b></font>";
         echo "<br>$a<br>$b";
         echo "</td></tr>\n";
         echo "<tr><td colspan='2'>";
