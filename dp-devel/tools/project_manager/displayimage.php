@@ -54,11 +54,11 @@ echo "</head>\n\n<body onLoad=\"self.focus()\">\n";
 <input type="hidden" name="showreturnlink" value="<?php echo $showreturnlink; ?>">
 <input type="hidden" name="preload" value="<?php echo $preload; ?>">
 
-Resize:
+<?php echo _("Resize"); ?>:
 <input type="text" maxlength="3" name="percent" size="3" value="<?php echo $percent; ?>">%
-<input type="submit" value="Resize" size="3">
+<input type="submit" value="<?php echo attr_safe(_("Resize")); ?>" size="3">
 
-Jump to:
+<?php echo _("Jump to"); ?>:
 <select name="jumpto" onChange="this.form.imagefile.value=this.form.jumpto[this.form.jumpto.selectedIndex].value; this.form.submit();">
 <?php
 // Populate the options in the popup menu based on the database query earlier
@@ -75,10 +75,10 @@ for ($row=0; $row<$num_rows;$row++)
 function prevnext_buttons()
 {
     global  $prev_image, $next_image;
-    echo "<input type='button' value='" . _("Previous") . "' onClick=\"this.form.imagefile.value='$prev_image'; this.form.preload.value='prev'; this.form.submit();\"";
+    echo "<input type='button' value='" . attr_safe(_("Previous")) . "' onClick=\"this.form.imagefile.value='$prev_image'; this.form.preload.value='prev'; this.form.submit();\"";
     if ( $prev_image == "" ) echo " disabled";
     echo ">\n";
-    echo "<input type='button' value='" . _("Next") . "' onClick=\"this.form.imagefile.value='$next_image'; this.form.preload.value='next'; this.form.submit();\"";
+    echo "<input type='button' value='" . attr_safe(_("Next")) . "' onClick=\"this.form.imagefile.value='$next_image'; this.form.preload.value='next'; this.form.submit();\"";
     if ( $next_image == "" ) echo " disabled";
     echo ">\n";
 }
