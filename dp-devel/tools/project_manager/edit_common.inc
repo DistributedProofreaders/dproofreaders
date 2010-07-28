@@ -148,7 +148,7 @@ function special_list($special)
     echo "<select name='special_code'>";
 
     // add special case values first
-    echo "<option value=''>NONE</option>";
+    echo "<option value=''>", _("NONE"), "</option>";
     echo "\n";
 
     echo "<option value='Birthday'";
@@ -158,7 +158,7 @@ function special_list($special)
         $bdaymonth = substr($special, 9, 2);
         $bdayday = substr($special, 11, 2);
     }
-    echo ">Birthday</option>";
+    echo ">", _("Birthday"), "</option>";
     echo "\n";
 
     echo "<option value='Otherday'";
@@ -168,7 +168,7 @@ function special_list($special)
         $bdaymonth = substr($special, 9, 2);
         $bdayday = substr($special, 11, 2);
     }
-    echo ">Otherday</option>";
+    echo ">", _("Otherday"), "</option>";
     echo "\n";
 
 
@@ -186,7 +186,7 @@ function special_list($special)
     echo "<br>";
 
     // drop down selects for month and date, used for Birthday and Otherday specials
-    echo " Birthday/Otherday: (month) <select name='bdaymonth'>";
+    echo " ", _("Birthday/Otherday: (month)"), " <select name='bdaymonth'>";
     echo "<option value=''></option>";
     echo "\n";
     $i = 1;
@@ -201,7 +201,7 @@ function special_list($special)
     }
     echo "</select>";
 
-    echo " (day) <select name='bdayday'>";
+    echo " ", _("(day)"), " <select name='bdayday'>";
     echo "<option value=''></option>";
     echo "\n";
     $i = 1;
@@ -247,6 +247,7 @@ function image_source_list($image_source)
     // add special case value "x Internal"
     echo "<option value='_internal' ";
     if (strcmp ( $image_source, '_internal') == 0) { echo " SELECTED"; }
+    // TRANSLATORS: %s is the site abbreviation
     echo ">".sprintf(_("%s Internal"),$site_abbreviation)."</option>";
     echo "\n";
 
