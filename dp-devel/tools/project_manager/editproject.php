@@ -1017,7 +1017,7 @@ class ProjectInfoHolder
         if ($this->difficulty_level == "beginner" && !$can_set_difficulty_tofrom_beginner )
         {
             // allow PF to edit a BEGIN project, but without altering the difficulty
-            $this->row( _("Difficulty Level"), 'just_echo', $this->difficulty_level );
+            $this->row( _("Difficulty Level"), 'just_echo', _("Beginner") );
             echo "<input type='hidden' name='difficulty_level' value='$this->difficulty_level'>";
         } 
         else 
