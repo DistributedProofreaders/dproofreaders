@@ -63,6 +63,7 @@ $detail_level   = get_integer_param($_GET, 'detail_level', 2, $MIN_DETAIL_LEVEL,
 
 $project = new Project( $projectid );
 
+// TRANSLATORS: this is the project page title.
 // In a tabbed browser, the page-title passed to theme() will appear in
 // the tab, which tends to be small, as soon as you have a few of them.
 // So, put the distinctive part of the page-title (i.e. the name of the
@@ -970,7 +971,7 @@ function do_early_uploads()
             $initial_rel_source = "$user_dir/";
             echo "~$uploads_account/ <input type='text' name='rel_source' size='50' value='$initial_rel_source'>";
             echo "<br>\n";
-            echo "<input type='submit' value='Add'>";
+            echo "<input type='submit' value='", attr_safe(_("Add")), "'>";
             echo "<br>\n";
             echo "</form>\n";
             $add_reminder = TRUE;
@@ -1001,7 +1002,7 @@ function do_early_uploads()
         echo "<p>\n";
         echo _("Remember to upload the illustration files as well as the page files!");
         echo "</p>\n";
-        echo "<input type='submit' value='Add/Replace'>";
+        echo "<input type='submit' value='", attr_safe(_("Add/Replace")), "'>";
         echo "<br>\n";
         echo "</form>\n";
         $add_reminder = TRUE;
@@ -1013,8 +1014,10 @@ function do_early_uploads()
         global $uploads_host,$uploads_account,$uploads_password;
         echo "<p>";
         echo sprintf(
-            _("Reminder for uploads: host=<b>%s</b> account=<b>%s</b> password=<i><font color='#DDDDDD'>%s</font></i>"),
-            $uploads_host, $uploads_account, $uploads_password );
+            _("Reminder for uploads: host=%s account=%s password=%s"),
+            "<b>$uploads_host</b>", 
+            "<b>$uploads_account</b>", 
+            "<i><font color='#DDDDDD'>$uploads_password</font></i>" );
         echo "</p>";
     }
 }
@@ -1081,7 +1084,7 @@ function do_waiting_queues()
         }
         if ( $n_queues == 0 )
         {
-            echo "<li>(none!)</li>\n";
+            echo "<li>" . _("(none!)") . "</li>\n";
         }
         echo "</ul>\n";
     }
@@ -1137,7 +1140,7 @@ function do_event_subscriptions()
         echo "</tr>\n";
     }
     echo "</table>\n";
-    echo "<input type='submit' value='Update Event Subscriptions'>\n";
+    echo "<input type='submit' value='", attr_safe(_("Update Event Subscriptions")), "'>\n";
     echo "</form>\n";
 
     echo "</div>\n";
@@ -1149,7 +1152,7 @@ function do_history()
 {
     global $project;
 
-    echo "<h4>Project History</h4>\n";
+    echo "<h4>", _("Project History"), "</h4>\n";
 
     $res = mysql_query("
         SELECT timestamp, who, event_type, details1, details2, details3
@@ -1165,6 +1168,17 @@ function do_history()
     }
 
     $events2 = fill_gaps_in_events( $events );
+    
+    // The project history is only partially translated right now.
+    $event_type_labels = array(
+        "archive" => _("archive"),
+        "creation" => _("creation"),
+        "deletion" => _("deletion"),
+        "edit" => _("edit"),
+        "smooth-reading" => _("smoothreading"),
+        "transition" => _("transition"),
+        "transition(s)" => _("transition(s)")
+    );
 
     echo "<table border='1'>\n";
     foreach ( $events2 as $event )
@@ -1181,7 +1195,10 @@ function do_history()
 
         echo "<td>{$event['who']}</td>\n";
 
-        echo "<td>{$event['event_type']}</td>\n";
+        $event_type = $event['event_type'];
+        echo "<td>",
+             array_get($event_type_labels, $event_type, $event_type),
+             "</td>\n";
 
         if ( $event['event_type'] == 'transition' || $event['event_type'] == 'transition(s)')
         {
@@ -1218,8 +1235,8 @@ function do_history()
                 }
             }
 
-            echo "<td>from $from_state_t</td>\n";
-            echo "<td>to $to_state_t</td>\n";
+            echo "<td>", sprintf(_("from %s"), $from_state_t), "</td>\n";
+            echo "<td>", sprintf(_("to %s"), $to_state_t), "</td>\n";
             echo "<td>$details3_t</td>\n";
         }
         elseif ( $event['event_type'] == 'smooth-reading' )
@@ -1368,7 +1385,7 @@ function do_extra_files()
 
     if ( $n_extra_files == 0 )
     {
-        echo "<li>(none)</li>\n";
+        echo "<li>", _("(none)"), "</li>\n";
     }
 
     echo "</ul>";
@@ -1500,11 +1517,11 @@ function do_post_downloads()
     echo "<li>";
     if ( user_is_a_sitemanager() )
     {
-        echo "Generate Post Files (This will overwrite existing post files, if any.)\n";
+        echo _("Generate Post Files (This will overwrite existing post files, if any.)"), "\n";
     }
     else
     {
-        echo "Download Concatenated Text\n";
+        echo _("Download Concatenated Text"), "\n";
     }
     echo "<form method='post' action='$code_url/tools/project_manager/generate_post_files.php'>\n";
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
@@ -1525,22 +1542,22 @@ function do_post_downloads()
     }
     echo "<br>";
 
-    echo "For each page, use:<br>\n";
+    echo _("For each page, use:"), "<br>\n";
     echo "<input type='radio' name='which_text' value='EQ' CHECKED>";
-    echo "the text (if any) saved in the selected round; or<br>\n";
+    echo _("the text (if any) saved in the selected round; or"), "<br>\n";
     echo "<input type='radio' name='which_text' value='LE'>";
-    echo "the latest text saved in any round up to and including the selected round.<br>\n";
-    echo "(If every page has been saved in the selected round, then the two choices are equivalent.)<br>\n";
+    echo _("the latest text saved in any round up to and including the selected round."), "<br>\n";
+    echo _("(If every page has been saved in the selected round, then the two choices are equivalent.)"), "<br>\n";
 
     // Proofreader names allowed for people who can see proofreader names
     // on the page details
     if ( $project->names_can_be_seen_by_current_user )
     {
-        echo "Include usernames? &nbsp;&nbsp; ";
+        echo _("Include usernames?"), " &nbsp;&nbsp; ";
         echo "<input type='radio' name='include_proofers' value='1' CHECKED />";
-        echo "Yes &nbsp;&nbsp; ";
+        echo _("Yes"), " &nbsp;&nbsp; ";
         echo "<input type='radio' name='include_proofers' value='0' />";
-        echo "No<br />\n";
+        echo _("No"), "<br />\n";
     }
     else
     {
@@ -1550,18 +1567,18 @@ function do_post_downloads()
     // saving files allowed only for sitemanagers
     if (user_is_a_sitemanager())
     {
-        echo "Save file on server?  &nbsp;&nbsp; ";
+        echo _("Save file on server?"), "  &nbsp;&nbsp; ";
         echo "<input type='radio' name='save_files' value='1' CHECKED />";
-        echo "Yes &nbsp;&nbsp; ";
+        echo _("Yes"), " &nbsp;&nbsp; ";
         echo "<input type='radio' name='save_files' value='0' />";
-        echo "No<br />\n";
+        echo _("No"), "<br />\n";
 
-        echo "<input type='submit' value='(Re)generate'>\n";
+        echo "<input type='submit' value='", attr_safe(_("(Re)generate")), "'>\n";
     }
     else
     {
         echo "<input type='hidden' name='save_files' value='0' />";
-        echo "<input type='submit' value='Download'>\n";
+        echo "<input type='submit' value='", attr_safe(_("Download")), "'>\n";
     }
 
     echo "</form>\n";
@@ -1578,6 +1595,7 @@ function echo_uploaded_zips($discriminator, $upload_type)
   $done_files = glob("$project->dir/*".$discriminator."*.zip");
   if ($done_files)
     {
+      // TRANSLATORS: %s is an adjective like "partially verified" or "smoothread"
       echo sprintf( _("Download %s file uploaded by:"), $upload_type);
       echo "<ul>";
       foreach ($done_files as $filename)
@@ -1590,6 +1608,7 @@ function echo_uploaded_zips($discriminator, $upload_type)
     }
   else
     {
+      // TRANSLATORS: %s is an adjective like "partially verified" or "smoothread"
       echo sprintf( _("No %s results have been uploaded."), $upload_type);
     }
 
@@ -1633,7 +1652,7 @@ function echo_download_zip( $link_text, $discriminator )
     echo "<a href='$url'>";
     echo $link_text;
     echo "</a>";
-    echo " ($filesize_kb kb)";
+    echo " (", sprintf(_("%d kb"), $filesize_kb), ")";
     echo "</li>";
     echo "\n";
 }
@@ -1672,7 +1691,7 @@ function do_postcomments()
       echo htmlspecialchars($project->postcomments);
       echo "</textarea>\n";
       echo "<input type='hidden' name='projectid' value='$projectid' />\n";
-      echo "<br /><input type='submit' value='" . _('Update comment and project status') . "'/>";
+      echo "<br /><input type='submit' value='" . attr_safe(_('Update comment and project status')) . "'/>";
       echo "</form>\n";
 
     }
@@ -1858,14 +1877,14 @@ function do_ppv_report()
     if ( !$project->PPVer_is_current_user ) return;
 
     $url = "$code_url/tools/post_proofers/ppv_report.php?project={$project->projectid}";
-    echo "<p><a href='$url'>Submit a PPV Summary for this project</a></p>";
+    echo "<p><a href='$url'>", _("Submit a PPV Summary for this project"), "</a></p>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function do_change_state()
 {
-    global $project, $pguser, $code_url;
+    global $project, $pguser, $code_url, $charset;
 
     $valid_transitions = get_valid_transitions( $project, $pguser );
     if (count($valid_transitions) == 0 ) return;
@@ -1913,10 +1932,11 @@ function do_change_state()
         }
         else
         {
-            $onClick_condition = "return confirm(\"$question\");";
+            $onClick_condition = "return confirm(\"" 
+                . javascript_safe($question, $charset) . "\");";
         }
         $onclick_attr = "onClick='$onClick_condition'";
-        echo "<input type='submit' value='{$transition->action_name}' $onclick_attr>";
+        echo "<input type='submit' value='", attr_safe($transition->action_name), "' $onclick_attr>";
         if (1)
         {
             // Say who is allowed to do this transition.
