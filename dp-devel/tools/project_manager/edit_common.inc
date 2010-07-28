@@ -98,20 +98,25 @@ function difficulty_list($difficulty_level)
     $result = mysql_query("SELECT * FROM users WHERE username = '$pguser'");
     if (mysql_result($result,0,"sitemanager") == "yes") $sa = 1; else $sa = 0;
 
-    $array_list = array('Beginner', 'Easy', 'Average', 'Hard');
+    $difficulty_list = array(
+        'beginner' => _("Beginner"), 
+        'easy'     => _("Easy"), 
+        'average'  => _("Average"), 
+        'hard'     => _("Hard")
+    );
 
     // only show the beginner level to the BEGIN PM or SiteAdmins
-    for ($i=0;$i<count($array_list);$i++)
+    if (($pguser != "BEGIN") && (!$sa))
+        unset($difficulty_list['beginner']);
+        
+    foreach ($difficulty_list as $name => $label)
     {
-        if (($i > 0) || ($pguser == "BEGIN") || ($sa))
+        echo "<input type='radio' name='difficulty_level' value='".encodeFormValue($name)."'";
+        if (strtolower($difficulty_level) == $name)
         {
-            echo "<input type='radio' name='difficulty_level' value='".encodeFormValue(strtolower($array_list[$i]))."'";
-            if (strtolower($difficulty_level) == strtolower($array_list[$i]))
-            {
-                echo " CHECKED";
-            }
-            echo ">$array_list[$i]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            echo " CHECKED";
         }
+        echo ">$label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     }
 }
 
