@@ -40,9 +40,10 @@ function dpsession_resume_()
 			'/'
 		);
 
-		// Extract all $_SESSION items to globals.
-		// In particular, this sets $pguser and $userP.
-		extract($_SESSION);
+		// set global variables $pguser and $userP.
+		if (isset($_SESSION['pguser'])) 
+		    $pguser = $_SESSION['pguser'];
+		$userP = $_SESSION['userP'];
 		return TRUE;
 	}
 	else
