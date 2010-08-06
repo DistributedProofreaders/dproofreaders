@@ -64,7 +64,7 @@ echo "<p>$page_text</p>";
 echo "<form action='show_adhoc_word_details.php' method='post'>";
 echo "<input type='hidden' name='projectid' value='$projectid'>";
 echo "<p><textarea cols='20' rows='6' name='queryWordText'>$queryWordText</textarea></p>";
-echo "<input type='submit' value='" . _("Show details") . "'>";
+echo "<input type='submit' value='", attr_safe(_("Show details")), "'>";
 echo "</form>";
 
 if(count($queryWords)) {
