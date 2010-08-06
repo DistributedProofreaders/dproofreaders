@@ -27,7 +27,7 @@ else
 
 function show_query_form()
 {
-    theme("Create a Project", "header");
+    theme(_("Create a Project"), "header");
     if (!function_exists('yaz_connect'))
     {
         echo "<br>";
@@ -100,10 +100,9 @@ function show_query_form()
             echo "</tr>\n";
         }
 
-        $search = _('Search');
         echo "<tr>";
         echo   "<td bgcolor='".$theme['color_headerbar_bg']."' colspan='2' align='center'>";
-        echo     "<input type='submit' value='$search'>";
+        echo     "<input type='submit' value='", attr_safe(_('Search')), "'>";
         echo   "</td>";
         echo "</tr>\n";
 
@@ -204,17 +203,18 @@ function do_search_and_show_hits()
         echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
         foreach ( array(
-                'Title'     => $title,
-                'Author'    => $author,
-                'Publisher' => $publisher,
-                'Language'  => $language,
-                'LCCN'      => $lccn,
-                'ISBN'      => $isbn,
+                array( 'label' => _("Title"),     'value' => $title ),
+                array( 'label' => _("Author"),    'value' => $author ),
+                array( 'label' => _("Publisher"), 'value' => $publisher ),
+                array( 'label' => _("Language"),  'value' => $language ),
+                array( 'label' => _("LCCN"),      'value' => $lccn ),
+                array( 'label' => _("ISBN"),      'value' => $isbn )
             )
-            as
-            $label => $value
+            as $couple
         )
         {
+            $label = $couple['label'];
+            $value = $couple['value'];
             echo "<tr>";
             echo   "<td width='20%' align='left' valign='top'><b>$label</b>:</td>";
             echo   "<td align='left' valign='top'>$value</td>";
@@ -263,20 +263,20 @@ function do_search_and_show_hits()
     echo "</table><br><center>";
     if (yaz_hits($id) != 0)
     {
-        echo "<input type='submit' value='Create the Project'>&nbsp;";
+        echo "<input type='submit' value='", attr_safe(_("Create the Project")), "'>&nbsp;";
     }
 
-    $label = _('Search Again');
+    $label = attr_safe(_('Search Again'));
     $url = "external_catalog_search.php?action=show_query_form";
     echo "<input type='button' value='$label' onclick='javascript:location.href=\"$url\";'>";
     echo "&nbsp;";
 
-    $label = _('No Matches');
+    $label = attr_safe(_('No Matches'));
     $url = "editproject.php?action=createnew";
     echo "<input type='button' value='$label' onclick='javascript:location.href=\"$url\";'>";
     echo "&nbsp;";
 
-    $label = _('Quit');
+    $label = attr_safe(_('Quit'));
     $url = "projectmgr.php";
     echo "<input type='button' value='$label' onclick='javascript:location.href=\"$url\";'>";
 
