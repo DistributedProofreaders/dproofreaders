@@ -19,18 +19,21 @@ echo "<br><h2>$title</h2>\n";
 echo "<br>\n";
 echo "<br>\n";
 
+// the 
+$sql_anonymous = mysql_real_escape_string(_("Anonymous"));
+
 if (isset($GLOBALS['pguser'])) 
 // if user logged on
 {
 
 	// hide names of users who don't want even logged on people to see their names
-	$proofreader_expr = "IF(u_privacy = ".PRIVACY_ANONYMOUS.",'Anonymous', username)";
+	$proofreader_expr = "IF(u_privacy = ".PRIVACY_ANONYMOUS.",'$sql_anonymous', username)";
 } 
 else
 {
 
 	// hide names of users who don't want unlogged on people to see their names
-	$proofreader_expr = "IF(u_privacy != ".PRIVACY_PUBLIC.",'Anonymous', username)";
+	$proofreader_expr = "IF(u_privacy != ".PRIVACY_PUBLIC.",'$sql_anonymous', username)";
 }
 
 {
@@ -43,10 +46,13 @@ else
 	list($joined_with_user_page_tallies,$user_page_tally_column) =
 		$users_tallyboard->get_sql_joinery_for_current_tallies('users.u_id');
 
+	$sql_upt_column_name = mysql_real_escape_string(
+	    // TRANSLATORS: %s is a page tally name (i.e. 'P1' or 'F2' or 'R*')
+	    sprintf(_("%s Pages Completed"), $tally_name));
 	dpsql_dump_themed_ranked_query("
 		SELECT
-			$proofreader_expr AS 'Proofreader',
-			$user_page_tally_column AS '$tally_name Pages Completed'
+			$proofreader_expr AS '" . mysql_real_escape_string(_("Proofreader")) . "',
+			$user_page_tally_column AS '$sql_upt_column_name'
 		FROM users $joined_with_user_page_tallies
 		WHERE $user_page_tally_column > 0
 		ORDER BY 2 DESC, 1 ASC
