@@ -9,14 +9,11 @@ function abort_if_not_manager()
 
     if ( !user_is_PM()) 
     {
-        echo "
-              <p>".sprintf(_("
-              You are not listed as a project manager.
-              Please contact the
-              %ssite manager%s
-              about resolving this problem."),"<a href='mailto:$site_manager_email_addr'>","</a>")."
+        echo "<p>".sprintf(_("You are not listed as a project manager.
+            Please contact the <a href='%s'>site manager</a>
+            about resolving this problem."),"mailto:$site_manager_email_addr")."
               </p><p>
-              ".sprintf(_("Back to %shome page%s"),"<a href='$code_url/default.php'>","</a>")."
+              ".sprintf(_("Back to <a href='%s'>home page</a>"),"$code_url/default.php")."
               </p>";
     theme("","footer");
     exit();
