@@ -16,7 +16,8 @@ echo "<h3>" . _("Number of Distinct Project Managers") . "</h3>\n";
 
 dpsql_dump_themed_query("
 	SELECT
-		count(distinct username) as 'Different PMs'
+		count(distinct username) as '" 
+		    . mysql_real_escape_string(_("Different PMs")) . "'
 	FROM projects
 ");
 
@@ -28,8 +29,8 @@ echo "<h4>" . _("(Number of Projects Created)") . "</h4>\n";
 $psd = get_project_status_descriptor('created');
 dpsql_dump_themed_ranked_query("
 	SELECT
-		username as 'PM',
-		count(*) as 'Projects Created'
+		username as '" . mysql_real_escape_string(_("PM")) . "',
+		count(*) as '" . mysql_real_escape_string(_("Projects Created")) . "'
 	FROM projects
 	WHERE $psd->state_selector
 	GROUP BY username
@@ -45,8 +46,8 @@ echo "<h4>" . _("(Number of Projects Posted to PG)") . "</h4>\n";
 $psd = get_project_status_descriptor('posted');
 dpsql_dump_themed_ranked_query("
 	SELECT
-		username as 'PM',
-		count(*) as 'Projects Posted to PG'
+		username as '" . mysql_real_escape_string(_("PM")) . "',
+		count(*) as '" . mysql_real_escape_string(_("Projects Posted to PG")) . "'
 	FROM projects
 	WHERE $psd->state_selector
 	GROUP BY username
