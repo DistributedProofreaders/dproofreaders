@@ -26,18 +26,18 @@ echo "<br><h2>$title</h2>\n";
 // Header row
 
 $colspecs = array(
-	'#'                  => 'bogus',
-	'Name of Work'       => 'nameofwork',
-	'Project Manager'    => 'PM',
-	'Post-Processed By'  => 'PPer',
-	'Date Last Modified' => 'modifieddate'
+    'bogus'        => _('#'),
+    'nameofwork'   => _('Name of Work'),
+    'PM'           => _('Project Manager'),
+    'PPer'         => _('Post-Processed By'),
+    'modifieddate' => _('Date Last Modified'),
 );
 
 echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>\n";
 echo "<tr><td colspan='5' bgcolor='".$theme['color_headerbar_bg']."'><center><font color='".$theme['color_headerbar_font']."'><b>$title</b></font></center></td></tr>";
 
 echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
-foreach ( $colspecs as $col_header => $col_order )
+foreach ( $colspecs as $col_order => $col_header )
 {
 	$s = $col_header;
 	// Make each column-header a link that will sort on that column,
