@@ -75,9 +75,10 @@ function show_top_days( $n, $when )
 		select_from_site_past_tallies_and_goals(
 			$tally_name,
 			"SELECT
-				{date} as 'Date',
-				tally_delta as 'Pages Proofread',
-				IF({is_curr_month}, '******',' ') as 'This Month?'",
+				{date} as '" . mysql_real_escape_string(_("Date")) . "',
+				tally_delta as '" . mysql_real_escape_string(_("Pages Proofread")) . "',
+				IF({is_curr_month}, '******',' ') as '" 
+				   . mysql_real_escape_string(_("This Month?")) . "'",
 			$where,
 			"",
 			"ORDER BY 2 DESC",
@@ -122,10 +123,13 @@ function show_month_sums( $which )
 		select_from_site_past_tallies_and_goals(
 			$tally_name,
 			"SELECT
-				{year_month} as 'Month',
-				CAST(SUM(tally_delta) AS SIGNED) as 'Pages Proofread',
-				CAST(SUM(goal) AS SIGNED) as 'Monthly Goal',
-				IF({is_curr_month}, '******',' ') as 'This Month?'",
+				{year_month} as '" . mysql_real_escape_string(_("Month")) . "',
+				CAST(SUM(tally_delta) AS SIGNED) as '" 
+				    . mysql_real_escape_string(_("Pages Proofread")) . "',
+				CAST(SUM(goal) AS SIGNED) as '" 
+				    . mysql_real_escape_string(_("Monthly Goal")) . "',
+				IF({is_curr_month}, '******',' ') as '" 
+				    . mysql_real_escape_string(_("This Month?")) . "'",
 			"",
 			"GROUP BY 1",
 			"ORDER BY $order",
@@ -147,9 +151,10 @@ function show_months_with_most_days_over( $n )
 		select_from_site_past_tallies_and_goals(
 			$tally_name,
 			"SELECT
-				{year_month} as 'Month',
-				count(*) as 'Number of Days',
-				IF({is_curr_month}, '******',' ') as 'This Month?'",
+				{year_month} as '" . mysql_real_escape_string(_("Month")) . "',
+				count(*) as '" . mysql_real_escape_string(_("Number of Days")) . "',
+				IF({is_curr_month}, '******',' ') as '" 
+				    . mysql_real_escape_string(_("This Month?")) . "'",
 			"WHERE tally_delta >= $n",
 			"GROUP BY 1",
 			"ORDER BY 2 DESC",
