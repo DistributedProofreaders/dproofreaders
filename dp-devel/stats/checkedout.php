@@ -17,10 +17,10 @@ $state = get_enumerated_param($_GET, 'state', PROJ_POST_FIRST_CHECKED_OUT,
     array(PROJ_POST_FIRST_CHECKED_OUT, PROJ_POST_SECOND_CHECKED_OUT));
 
 if ( $state == PROJ_POST_FIRST_CHECKED_OUT ) {
-    $activity = _('Post Processing');
+    $title = _('Books Checked Out for Post Processing');
 }
 if ( $state == PROJ_POST_SECOND_CHECKED_OUT ) {
-    $activity = _('Post Processing Verification');
+    $title = _('Books Checked Out for Post Processing Verification');
     $inPPV = 1;
 }
 
@@ -28,7 +28,6 @@ $orderclause = $ordermap[$order];
 
 // ------------------
 
-$title = _("Books Checked Out for ") . $activity;
 theme($title,'header');
 
 echo "<br><h2>$title</h2>\n";
@@ -39,20 +38,21 @@ echo "<br><h2>$title</h2>\n";
 
 if (isset($inPPV)) {
     $colspecs = array(
-        '#'                  => 'bogus',
-        'Name of Work'       => 'nameofwork',
-        'PPer'               => 'postproofer',
-        'Checked Out To'     => 'checkedoutby',
-        'Date Last Modified' => 'modifieddate',
-        'User Last on Site'  => 'holder_t_last_activity'
+        // TRANSLATORS: this is a column header meaning "number"
+        'bogus'                  => _('#'),
+        'nameofwork'             => _('Name of Work'),
+        'postproofer'            => _('PPer'),
+        'checkedoutby'           => _('Checked Out To'),
+        'modifieddate'           => _('Date Last Modified'),
+        'holder_t_last_activity' => _('User Last on Site')
    );
 } else {
     $colspecs = array(
-        '#'                  => 'bogus',
-        'Name of Work'       => 'nameofwork',
-        'Checked Out To'     => 'checkedoutby',
-        'Date Last Modified' => 'modifieddate',
-        'User Last on Site'  => 'holder_t_last_activity'
+        'bogus'                  => _('#'),
+        'nameofwork'             => _('Name of Work'),
+        'checkedoutby'           => _('Checked Out To'),
+        'modifieddate'           => _('Date Last Modified'),
+        'holder_t_last_activity' => _('User Last on Site')
     );
 }
 
@@ -60,7 +60,7 @@ echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' st
 echo "<tr><td colspan='" .count($colspecs)."' bgcolor='".$theme['color_headerbar_bg']."'><center><font color='".$theme['color_headerbar_font']."'><b>$title</b></font></center></td></tr>";
 
 echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
-foreach ( $colspecs as $col_header => $col_order )
+foreach ( $colspecs as $col_order => $col_header )
 {
 	$s = $col_header;
 	// Make each column-header a link that will sort on that column,
