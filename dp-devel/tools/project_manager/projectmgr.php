@@ -368,7 +368,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         <h1>Search for Projects</h1>
         "._("Search for projects matching the following criteria:")."<br>
         <form method=get action='projectmgr.php'>
-        <input type='hidden' name='show' value='search'>
+        <input type='hidden' name='show' value='", attr_safe(_("search")), "'>
         <table>
     ";
 
@@ -404,8 +404,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             <td>
                 <table width='100%'>
                 <tr>
-                    <td align='left'><input type='submit' value='"._("Search")."'></td>
-                    <td align='right'><input type='reset' value='"._("Clear form")."'></td>
+                    <td align='left'><input type='submit' value='", attr_safe(_("Search")), "'></td>
+                    <td align='right'><input type='reset' value='", attr_safe(_("Clear form")), "'></td>
                 </tr>
                 </table>
             </td>
@@ -496,7 +496,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $res_found = mysql_query("SELECT FOUND_ROWS()");
     $num_found_rows = mysql_result($res_found,0);
 
-    echo "<h1>Search Results</h1>\n";
+    echo "<h1>", _("Search Results"), "</h1>\n";
 
     if ( $numrows == 0 )
     {
@@ -528,7 +528,9 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             $projectids_str = implode( ',', $projectids );
 
             echo "<a href='move_projects.php?curr_state=$curr_state&new_state=$new_state&projects=$projectids_str'>";
-            echo _("Move all")." <b>$curr_blurb</b> "._("projects on this page to")." <b>$new_blurb</b>";
+            // TRANSLATORS: both %s are project states
+            printf(_("Move all %s projects on this page to %s"),
+                "<b>$curr_blurb</b>", "<b>$new_blurb</b>");
             echo "</a>";
             echo "<br>";
             echo "<br>";
@@ -710,7 +712,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                 $count = count_wordcheck_suggestion_events($projectid, $f_g->mod_time);
                 if ( $count >= 1 )
                 {
-                    $tooltip = _('"Suggestions from proofreaders" list has changed; click here to view');
+                    $tooltip = attr_safe(_('"Suggestions from proofreaders" list has changed; click here to view'));
                     echo " <a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>";
                     echo "<img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0'>";
                     echo "</a>";
@@ -724,12 +726,12 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                     $project->state == PROJ_POST_FIRST_AVAILABLE ||
                     $project->state == PROJ_POST_FIRST_CHECKED_OUT)
                 {
-                    print " <a href=\"$projects_url/$projectid/$projectid.zip\">D/L</A>";
+                    echo " <a href=\"$projects_url/$projectid/$projectid.zip\">", _("D/L"), "</a>";
                 }
                 if ($project->state == PROJ_POST_SECOND_CHECKED_OUT ||
                     $project->state == PROJ_POST_COMPLETE)
                 {
-                    print " <a href=\"$projects_url/$projectid/".$projectid."_second.zip\">D/L</A>";
+                    echo " <a href=\"$projects_url/$projectid/".$projectid."_second.zip\">", _("D/L"), "</a>";
                 }
             }
             echo "</td>\n";
@@ -822,7 +824,7 @@ function echo_project_state_option($project_state,$selected)
     echo ">";
     if ($project_state == 'automodify')
     {
-        echo 'automodify';
+        echo _('automodify');
     }
     else
     {
