@@ -61,7 +61,8 @@ if($frame=="left") {
     slim_header(_("Suggestion Detail"),TRUE,TRUE);
 
     $project_name = get_project_name($projectid);
-    echo "<h2>Context for '$word' in $project_name</h2>";
+    // TRANSLATORS: %1$s is a word, %2$s is the project name.
+    echo "<h2>", sprintf(_("Context for '%1\$s' in %2\$s"), $word, $project_name), "</h2>";
 
     echo_word_freq_style();
 
@@ -90,7 +91,9 @@ if($frame=="left") {
         echo "<b>" . _("Page") . "</b>: <a href='displayimage.php?project=$projectid&amp;imagefile=$page&amp;showreturnlink=0' target='imageframe'>$page</a><br>";
         foreach($context_strings as $lineNum => $context_string) {
             $context_string=_highlight_word(htmlspecialchars($context_string),$word);
-            echo "<b>" . _("Line") . "</b>: ~$lineNum of $totalLines &nbsp; | &nbsp; ";
+            echo "<b>", _("Line"), "</b>: ", 
+                sprintf(_("~%d of %d"), $lineNum, $totalLines),
+                " &nbsp; | &nbsp; ";
             echo "<b>" . _("Context") . "</b>:<br><span class='mono'>$context_string</span><br>";
         }
         echo "</p>";
