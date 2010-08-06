@@ -3,7 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'wordcheck_engine.inc');
-include_once($relPath.'project.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'theme.inc');
 include_once('./post_files.inc');
 include_once("./word_freq_table.inc");
