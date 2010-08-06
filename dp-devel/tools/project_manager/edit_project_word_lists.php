@@ -9,6 +9,7 @@ include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'Project.inc');
+include_once($relPath.'misc.inc');  // attr_safe()
 
 $return = array_get($_REQUEST,"return","$code_url/tools/project_manager/projectmgr.php");
 
@@ -230,6 +231,7 @@ class ProjectWordListHolder
         $current_bwl_timestamp = $bwl_object->mod_time;
 
         if($current_gwl_timestamp != $this->gwl_timestamp) {
+            // TRANSLATORS: %s is a link to the Good Word List
             $error = sprintf(_("The Good Words List was changed by another process during your edit session. Your changes to this list have not been saved to prevent data loss. View the %s and merge your changes manually. If you want the superset of both lists, simply append the contents of the Good Words List to that within the Good Words edit box below - the server will remove any duplicates. Saving this page again will override this message."),new_window_link($gwl_object->abs_url,_("Good Words List")));
             $this->gwl_timestamp = $current_gwl_timestamp;
             array_push($messages,$error);
@@ -241,6 +243,7 @@ class ProjectWordListHolder
         }
 
         if($current_bwl_timestamp != $this->bwl_timestamp) {
+            // TRANSLATORS: %s is a link to the Bad Word List
             $error = sprintf(_("The Bad Words List was changed by another process during your edit session. Your changes to this list have not been saved to prevent data loss. View the %s and merge your changes manually. If you want the superset of both lists, simply append the contents of the Bad Words List to that within the Bad Words edit box below - the server will remove any duplicates. Saving this page again will override this message."),new_window_link($bwl_object->abs_url,_("Bad Words List")));
             $this->bwl_timestamp = $current_bwl_timestamp;
             array_push($messages,$error);
@@ -272,13 +275,15 @@ class ProjectWordListHolder
 
         $this->show_visible_controls();
 
+        // The space between buttons ensures that very long (translated) button
+        // labels do not force the display to be wider than the screen.
         echo "<tr>";
         echo   "<td class='label' colspan='2' align='center' style='padding: 0.5em;'>";
-        echo     "<input type='submit' name='saveAndPM' value='"._("Save and Go To PM Page")."'>";
-        echo     "<input type='submit' name='saveAndProject' value='"._("Save and Go To Project")."'>";
-        echo     "<input type='submit' name='save' value='"._("Save")."'>";
-        echo     "<input type='submit' name='quit' value='"._("Quit Without Saving")."'>";
-        echo     "<input type='submit' name='reload' value='"._("Refresh Word Lists")."'>";
+        echo     "<input type='submit' name='saveAndPM' value='", attr_safe(_("Save and Go To PM Page")), "'> ";
+        echo     "<input type='submit' name='saveAndProject' value='", attr_safe(_("Save and Go To Project")), "'> ";
+        echo     "<input type='submit' name='save' value='", attr_safe(_("Save")), "'> ";
+        echo     "<input type='submit' name='quit' value='", attr_safe(_("Quit Without Saving")), "'> ";
+        echo     "<input type='submit' name='reload' value='", attr_safe(_("Refresh Word Lists")), "'>";
         echo   "</td>";
         echo "</tr>\n";
 
@@ -509,6 +514,7 @@ class ProjectWordListHolder
         echo "<td colspan='2' style='text-align: center;'>";
 
         echo sprintf(
+            // TRANSLATORS: %s is a link to the WordCheck FAQ.
             _("See the %s for more information on word lists."),
             new_window_link( "../../faq/wordcheck-faq.php", _("WordCheck FAQ") )
         );
