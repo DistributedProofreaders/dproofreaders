@@ -52,15 +52,15 @@ if (!isset($name))
     echo "<td colspan='7'><center><font color='".$theme['color_headerbar_font']."'><b>".$title."</b></font></center></td></tr>\n";
     {
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
-        echo "<th>ordering</th>\n";
-        echo "<th>enabled</th>\n";
-        echo "<th>name</th>\n";
-        echo "<th>current<br>length</th>\n";
+        echo "<th>", _("ordering"), "</th>\n";
+        echo "<th>", _("enabled"), "</th>\n";
+        echo "<th>", _("name"), "</th>\n";
+        echo "<th>", _("current<br>length"), "</th>\n";
         if ($user_can_see_queue_settings)
         {
-            echo "<th>project_selector</th>\n";
-            echo "<th>release_criterion</th>\n";
-            echo "<th>comment</th>\n";
+            echo "<th>", _("project_selector"), "</th>\n";
+            echo "<th>", _("release_criterion"), "</th>\n";
+            echo "<th>", _("comment"), "</th>\n";
         }
         echo "</tr>\n";
     }
@@ -130,14 +130,15 @@ else
     $cooked_project_selector = cook_project_selector($qd->project_selector);
     $comment = $qd->comment;
 
-    $title = "\"" . htmlspecialchars($name) . "\" " . _("Release Queue");
+    //// TRANSLATORS: %s is the name of this release queue.
+    $title = sprintf(_("\"%s\" Release Queue"), htmlspecialchars($name));
     $title = preg_replace('/(\\\\)/', "", $title); // Unescape apostrophes, etc.
     theme($title,'header');
     echo "<br><h2>$title</h2>";
 
     if ($user_can_see_queue_settings)
     {
-        echo "<h4>project_selector: $qd->project_selector</h4>\n\n";
+        echo "<h4>", _("project_selector"), ": $qd->project_selector</h4>\n\n";
         if ( $cooked_project_selector != $qd->project_selector )
         {
             echo "($cooked_project_selector)\n\n";
@@ -155,13 +156,15 @@ else
     dpsql_dump_themed_query("
         SELECT
 
-            concat('$comments_url1',projectID,'$comments_url2', nameofwork, '$comments_url3')  as 'Name of Work',
-            authorsname as 'Author\'s Name',
-            language    as 'Language',
-            genre       as 'Genre',
-            difficulty  as 'Difficulty',
-            username    as 'Project Manager',
-            FROM_UNIXTIME(modifieddate) as 'Date Last Modified'
+            concat('$comments_url1',projectID,'$comments_url2', nameofwork, '$comments_url3') as '" 
+                . mysql_real_escape_string(_("Name of Work")) . "',
+            authorsname as '" . mysql_real_escape_string(_("Author's Name")) . "',
+            language    as '" . mysql_real_escape_string(_("Language")) . "',
+            genre       as '" . mysql_real_escape_string(_("Genre")) . "',
+            difficulty  as '" . mysql_real_escape_string(_("Difficulty")) . "',
+            username    as '" . mysql_real_escape_string(_("Project Manager")) . "',
+            FROM_UNIXTIME(modifieddate) as '" 
+                . mysql_real_escape_string(_("Date Last Modified")) . "'
         FROM projects
         WHERE ($cooked_project_selector)
             AND state='{$round->project_waiting_state}'
