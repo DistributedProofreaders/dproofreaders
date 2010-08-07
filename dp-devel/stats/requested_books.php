@@ -37,15 +37,15 @@ for ( $rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++ )
 }
 dpsql_dump_themed_ranked_query("
     SELECT
-        CONCAT('$comments_url1',projects.projectid,'$comments_url2', nameofwork, '$comments_url3') AS 'Title', 
-        authorsname AS 'Author', 
-        genre AS 'Genre',
-        language AS 'Language',
-        pesgbp.nouste_posted AS 'Notification Requests'
+        CONCAT('$comments_url1',projects.projectid,'$comments_url2', nameofwork, '$comments_url3') AS '" . mysql_real_escape_string(_("Title")) . "', 
+        authorsname AS '" . mysql_real_escape_string(_("Author")) . "', 
+        genre AS '" . mysql_real_escape_string(_("Genre")) . "',
+        language AS '" . mysql_real_escape_string(_("Language")) . "',
+        pesgbp.nouste_posted AS '" . mysql_real_escape_string(_("Notification Requests")) . "'
     FROM project_event_subscriptions_grouped_by_project AS pesgbp, projects
     WHERE pesgbp.projectid = projects.projectid
         AND ($state_condition)
-    ORDER BY 'Notification Requests' DESC 
+    ORDER BY 5 DESC 
     LIMIT 50
 ");
 
@@ -56,15 +56,15 @@ echo "<br><br><h3 style='color: $theme[color_headerbar_bg];'>" . _("Most Request
 
 dpsql_dump_themed_ranked_query("
     SELECT
-        CONCAT('$comments_url1',projects.projectid,'$comments_url2', nameofwork, '$comments_url3') AS 'Title', 
-        authorsname AS 'Author', 
-        genre AS 'Genre',
-        language AS 'Language',
-        pesgbp.nouste_posted AS 'Notification Requests'
+        CONCAT('$comments_url1',projects.projectid,'$comments_url2', nameofwork, '$comments_url3') AS '" . mysql_real_escape_string(_("Title")) . "', 
+        authorsname AS '" . mysql_real_escape_string(_("Author")) . "', 
+        genre AS '" . mysql_real_escape_string(_("Genre")) . "',
+        language AS '" . mysql_real_escape_string(_("Language")) . "',
+        pesgbp.nouste_posted AS '" . mysql_real_escape_string(_("Notification Requests")) . "'
     FROM project_event_subscriptions_grouped_by_project AS pesgbp, projects
     WHERE pesgbp.projectid = projects.projectid
         AND ".SQL_CONDITION_SILVER."
-    ORDER BY 'Notification Requests' DESC 
+    ORDER BY 5 DESC 
     LIMIT 50
 ");
 
@@ -74,15 +74,15 @@ echo "<br><br><h3 style='color: $theme[color_headerbar_bg];'>" . _("Most Request
 $pg_url1 = mysql_escape_string("<a href='http://www.gutenberg.org/etext/");
 dpsql_dump_themed_ranked_query("
     SELECT
-        CONCAT('$pg_url1',postednum,'$comments_url2', nameofwork, '$comments_url3') AS 'Title', 
-        authorsname AS 'Author', 
-        genre AS 'Genre',
-        language AS 'Language',
-        int_level AS 'Notification Requests' 
+        CONCAT('$pg_url1',postednum,'$comments_url2', nameofwork, '$comments_url3') AS '" . mysql_real_escape_string(_("Title")) . "', 
+        authorsname AS '" . mysql_real_escape_string(_("Author")) . "', 
+        genre AS '" . mysql_real_escape_string(_("Genre")) . "',
+        language AS '" . mysql_real_escape_string(_("Language")) . "',
+        int_level AS '" . mysql_real_escape_string(_("Notification Requests")) . "' 
     FROM projects 
     WHERE ".SQL_CONDITION_GOLD."
         AND int_level !=0
-    ORDER BY 'Notification Requests' DESC 
+    ORDER BY 5 DESC 
     LIMIT 50
 ");
 
