@@ -91,10 +91,9 @@ else
 echo "</p>\n";
 
 echo "<p>";
-echo sprintf(
-    _('Back to <a href="%s">%s</a>'),
-    "$code_url/activity_hub.php",
-    _('Activity Hub')
+printf(
+    _("Back to <a href='%s'>Activity Hub</a>"),
+    "$code_url/activity_hub.php"
 );
 echo "</p>\n";
 
