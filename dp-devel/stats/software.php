@@ -131,9 +131,9 @@ foreach($faq_data as $v) {
 
 ksort($faqs);
 
-define('YES_MARK',"Y");
-define('NO_MARK',"N");
-define('NA_MARK',"n/a");
+define('YES_MARK', _("Yes"));
+define('NO_MARK', _("No"));
+define('NA_MARK', _("n/a"));
 
 $a=installed_langs();
 foreach($a as $k=>$v) {
