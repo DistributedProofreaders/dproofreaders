@@ -53,7 +53,8 @@ function abort_if_cant_edit_project( $projectid )
             <P>
             "._("There appears to be no such project")." ($projectid).
             <P>
-            "._("If this message is an error, contact the")." <a href=\"mailto:$site_manager_email_addr\">"._("site manager")."</a>.
+            ", sprintf(_("If this message is an error, contact the <a href='%s'>site manager</a>"),
+                "mailto:$site_manager_email_addr"), "
             <P><a href=\"projectmgr.php\">"._("Back")."</a>";
         theme( "", "footer" );
         exit;
@@ -64,7 +65,8 @@ function abort_if_cant_edit_project( $projectid )
             <P>
             "._("You are not allowed to change this project")." ($projectid).
             <P>
-            "._("If this message is an error, contact the")." <a href=\"mailto:$site_manager_email_addr\">"._("site manager")."</a>.
+            ", sprintf(_("If this message is an error, contact the <a href='%s'>site manager</a>"),
+                "mailto:$site_manager_email_addr"), "
             <P><a href=\"projectmgr.php\">"._("Back")."</a>";
         theme( "", "footer" );
         exit;
