@@ -259,7 +259,7 @@ $percent_complete_array = array(
     100 => "100%"
 );
 
-$task_assignees_array = array(0 => 'Unassigned');
+$task_assignees_array = array();
 $result = mysql_query("
         SELECT username, u_id
         FROM users
@@ -283,6 +283,7 @@ while ($row = mysql_fetch_assoc($result)) {
     $task_assignees_array[$u_id] = $row['username'];
 }
 natcasesort($task_assignees_array);
+$task_assignees_array = array(0 => 'Unassigned') + $task_assignees_array;
 
 // Make the 'all' versions of each array used by search.
 $tasks_all_array          = array(999 => 'All Task Types') + $tasks_array;
