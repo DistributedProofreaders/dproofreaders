@@ -959,18 +959,45 @@ function TaskDetails($tid)
                 $task_assignee_username_link = private_message_link($task_assignee_username, NULL);
             }
             echo "<table class='tasks'>\n";
-            echo "<tr bgcolor='#ecdbb7'><td width='90%' valign='center'>Task #$tid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . stripslashes($row['task_summary']) . "</td><td width='10%' valign='center' style='text-align:right;'><form action='$tasks_url' method='post'>\n";
+            echo "<tr bgcolor='#ecdbb7'>";
+            echo "<td width='90%' valign='center'>";
+            echo "Task #$tid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . stripslashes($row['task_summary']);
+            echo "</td>";
+            echo "<td width='10%' valign='center' style='text-align:right;'>";
+            echo "<form action='$tasks_url' method='post'>\n";
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr() || $row['opened_by'] == $userP['u_id']) && empty($row['closed_reason'])) {
-                echo "<input type='hidden' name='edit_task' value='" . $row['task_id'] . "'><input type='submit' value='Edit Task' class='taskinp2'></td></tr></form></table>\n";
+                echo "<input type='hidden' name='edit_task' value='" . $row['task_id'] . "'>";
+                echo "<input type='submit' value='Edit Task' class='taskinp2'>";
+                echo "</td>";
+                echo "</tr>";
+                echo "</form>";
+                echo "</table>\n";
             }
             elseif (!empty($row['closed_reason'])) {
-                echo "<input type='hidden' name='reopen_task' value='" . $row['task_id'] . "'><input type='submit' value='Re-Open Task' class='taskinp2'></td></tr></form></table>\n";
+                echo "<input type='hidden' name='reopen_task' value='" . $row['task_id'] . "'>";
+                echo "<input type='submit' value='Re-Open Task' class='taskinp2'>";
+                echo "</td>";
+                echo "</tr>";
+                echo "</form>";
+                echo "</table>\n";
             }
             else {
-                echo "&nbsp;</td></tr></form></table>";
+                echo "&nbsp;";
+                echo "</td>";
+                echo "</tr>";
+                echo "</form>";
+                echo "</table>";
             }
             echo "<table class='tasks'>\n";
-            echo "<tr><td width='50%'><small class='task'>Opened by $opened_by_link - " . date("d-M-Y", $row['date_opened']) . "<br />Last edited by $edited_by_link - " . date("d-M-Y", $row['date_edited']) . "</small></td><td width='50%' style='text-align:right;'>";
+            echo "<tr>";
+            echo "<td width='50%'>";
+            echo "<small class='task'>";
+            echo "Opened by $opened_by_link - " . date("d-M-Y", $row['date_opened']);
+            echo "<br />";
+            echo "Last edited by $edited_by_link - " . date("d-M-Y", $row['date_edited']);
+            echo "</small>";
+            echo "</td>";
+            echo "<td width='50%' style='text-align:right;'>";
             if (empty($already_notified)) {
                 echo "<a href='$tasks_url?f=notifyme&tid=$tid'>Signup for task notifications</a>";
             }
@@ -978,56 +1005,122 @@ function TaskDetails($tid)
                 echo "<a href='$tasks_url?f=unnotifyme&tid=$tid'>Remove me from task notifications</a>";
             }
             echo "</tr>\n";
-            echo "<tr><td width='40%'><table class='taskplain'>\n";
+            echo "<tr>";
+            echo "<td width='40%'>";
+            echo "<table class='taskplain'>\n";
             EchoTaskProperty("Task Type",        $tasks_array[$row['task_type']]);
             EchoTaskProperty("Category",         $categories_array[$row['task_category']]);
             EchoTaskProperty("Status",           $tasks_status_array[$row['task_status']]);
             EchoTaskProperty("Assigned To",      $task_assignee_username_link);
             EchoTaskProperty("Operating System", $os_array[$row['task_os']]);
-            echo "</table></td><td width='50%'><table class='taskplain'>\n";
+            echo "</table>";
+            echo "</td>";
+            echo "<td width='50%'>";
+            echo "<table class='taskplain'>\n";
             EchoTaskProperty("Browser",          $browser_array[$row['task_browser']]);
             EchoTaskProperty("Severity",         $severity_array[$row['task_severity']]);
             EchoTaskProperty("Priority",         $priority_array[$row['task_priority']]);
             EchoTaskProperty("Reported Version", $versions_array[$row['task_version']]);
             EchoTaskProperty("Percent Complete", "<img src='$code_url/graphics/task_percentages/large_" . $row['percent_complete'] . ".png' width='150' height='10' border='0' alt='" . $row['percent_complete'] . "% Complete'>");
-            echo "</table></td></tr>\n";
+            echo "</table>";
+            echo "</td>";
+            echo "</tr>\n";
             $voteInfo = mysql_query("SELECT id FROM tasks_votes WHERE task_id = " . $tid . "");
             $osInfo = mysql_query("SELECT DISTINCT vote_os FROM tasks_votes WHERE task_id = " . $tid . "");
             $browserInfo = mysql_query("SELECT DISTINCT vote_browser FROM tasks_votes WHERE task_id = " . $tid . "");
             if (mysql_num_rows($voteInfo) > 0) {
                 $reportedOS = "";
                 $reportedBrowser = "";
-                echo "<tr><td colspan='2'><table class='taskplain'>";
-                echo "<tr><td width='25%'><b>Votes&nbsp;&nbsp;</b></td>\n";
-                echo "<td width='75%'>" . mysql_num_rows($voteInfo) . "</td></tr>";
-                echo "<tr><td width='25%'><b>Reported Operating Systems&nbsp;&nbsp;</b></td>\n";
+                echo "<tr>";
+                echo "<td colspan='2'>";
+                echo "<table class='taskplain'>";
+                echo "<tr>";
+                echo "<td width='25%'>";
+                echo "<b>Votes&nbsp;&nbsp;</b>";
+                echo "</td>\n";
+                echo "<td width='75%'>";
+                echo mysql_num_rows($voteInfo);
+                echo "</td>";
+                echo "</tr>";
+                echo "<tr>";
+                echo "<td width='25%'>";
+                echo "<b>Reported Operating Systems&nbsp;&nbsp;</b>";
+                echo "</td>\n";
                 echo "<td width='75%'>";
                 while ($rowOS = mysql_fetch_assoc($osInfo)) {
                     $reportedOS.= $os_array[$rowOS['vote_os']] . ", ";
                 }
-                echo substr($reportedOS, 0, -2) . "</td></tr>";
-                echo "<tr><td width='25%'><b>Reported Browsers&nbsp;&nbsp;</b></td>\n";
+                echo substr($reportedOS, 0, -2);
+                echo "</td>";
+                echo "</tr>";
+                echo "<tr>";
+                echo "<td width='25%'>";
+                echo "<b>Reported Browsers&nbsp;&nbsp;</b>";
+                echo "</td>\n";
                 echo "<td width='75%'>";
                 while ($rowBrowser = mysql_fetch_assoc($browserInfo)) {
                     $reportedBrowser.= $browser_array[$rowBrowser['vote_browser']] . ", ";
                 }
-                echo substr($reportedBrowser, 0, -2) . "</td></tr></table></td></tr>";
+                echo substr($reportedBrowser, 0, -2);
+                echo "</td>";
+                echo "</tr>";
+                echo "</table>";
+                echo "</td>";
+                echo "</tr>";
             }
-            echo "<tr><td><br /><table class='taskplain'><tr><td width='5%'><b>Details&nbsp;&nbsp;</b></td>\n";
-            echo "<td width='95%' class='taskvalue'>" . nl2br(stripslashes($row['task_details'])) . "</td></tr></table></td></tr>\n";
+            echo "<tr>";
+            echo "<td>";
+            echo "<br />";
+            echo "<table class='taskplain'>";
+            echo "<tr>";
+            echo "<td width='5%'>";
+            echo "<b>Details&nbsp;&nbsp;</b>";
+            echo "</td>\n";
+            echo "<td width='95%' class='taskvalue'>";
+            echo nl2br(stripslashes($row['task_details']));
+            echo "</td>";
+            echo "</tr>";
+            echo "</table>";
+            echo "</td>";
+            echo "</tr>\n";
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && empty($row['closed_reason'])) {
-                echo "<form action='$tasks_url' method='post'><input type='hidden' name='close_task'><input type='hidden' name='task_id' value='" . $row['task_id'] . "'>\n";
-                echo "<tr><td><br /><table class='taskplain'><tr><td width='20%' valign='bottom'><b>Close Task&nbsp;&nbsp;</b></td><td valign='bottom' width='80%'>";
+                echo "<form action='$tasks_url' method='post'>";
+                echo "<input type='hidden' name='close_task'>";
+                echo "<input type='hidden' name='task_id' value='" . $row['task_id'] . "'>\n";
+                echo "<tr>";
+                echo "<td>";
+                echo "<br />";
+                echo "<table class='taskplain'>";
+                echo "<tr>";
+                echo "<td width='20%' valign='bottom'>";
+                echo "<b>Close Task&nbsp;&nbsp;</b>";
+                echo "</td>";
+                echo "<td valign='bottom' width='80%'>";
                 dropdown_select('task_close_reason', "", $tasks_close_array);
-                echo "&nbsp;<input type='submit' value='Close Task' class='taskinp2'>\n";
-                echo "</td></tr></form></table>\n";
+                echo "&nbsp;";
+                echo "<input type='submit' value='Close Task' class='taskinp2'>\n";
+                echo "</td>";
+                echo "</tr>";
+                echo "</form>";
+                echo "</table>\n";
             }
             elseif (!empty($row['closed_reason'])) {
                 $result = mysql_query("SELECT username FROM users WHERE u_id = " . $row['closed_by'] . "");
                 $closed_by = mysql_result($result, 0, "username");
-                echo "<tr><td><br /><small class='task'>Closed by: $closed_by<br />Date Closed: " . date("d-M-Y", $row['date_closed']) . "<br />Reason: " . $tasks_close_array[$row['closed_reason']] . "";
+                echo "<tr>";
+                echo "<td>";
+                echo "<br />";
+                echo "<small class='task'>";
+                echo "Closed by: $closed_by";
+                echo "<br />";
+                echo "Date Closed: " . date("d-M-Y", $row['date_closed']);
+                echo "<br />";
+                echo "Reason: " . $tasks_close_array[$row['closed_reason']] . "";
             }
-            echo "</small></td><td><br />";
+            echo "</small>";
+            echo "</td>";
+            echo "<td>";
+            echo "<br />";
             $meTooCheckResult = mysql_query("SELECT id FROM tasks_votes WHERE task_id = " . $tid . " and u_id = " . $userP['u_id'] . "");
             $meTooAllowed = (mysql_num_rows($meTooCheckResult) == 0);
             mysql_free_result($meTooCheckResult);
@@ -1037,7 +1130,10 @@ function TaskDetails($tid)
             else {
                 echo "&nbsp;";
             }
-            echo "</td></tr></table><br />\n";
+            echo "</td>";
+            echo "</tr>";
+            echo "</table>";
+            echo "<br />\n";
             if ($meTooAllowed) {
                 MeToo($tid, $row['task_os'], $row['task_browser']);
             }
