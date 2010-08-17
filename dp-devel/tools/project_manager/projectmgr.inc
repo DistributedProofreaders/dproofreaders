@@ -56,7 +56,7 @@ function echo_manager_header( $which )
     // Links for everyone
 
     {
-        echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'>"._("<b>Search for Projects</b>")."</a>";
+        echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form'><b>"._("Search for Projects")."</b></a>";
         echo "\n|\n";
         echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=site_active'>"._("Show All Active Projects")."</a>"; 
         echo "\n|\n";
@@ -72,7 +72,7 @@ function echo_manager_header( $which )
         echo "<br>\n";
         echo _("PM links"), ": ";
         $enc_pguser = urlencode($pguser);
-        echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form&project_manager=$enc_pguser'>"._("<b>Search Your Projects</b>")."</a>"; 
+        echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form&project_manager=$enc_pguser'><b>"._("Search Your Projects")."</b></a>"; 
         echo "\n|\n";
         echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_active'>"._("Show Your Active Projects")."</a>";
         echo "\n|\n";

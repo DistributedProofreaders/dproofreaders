@@ -365,7 +365,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
     echo "
         <center>
-        <h1>Search for Projects</h1>
+        <h1>", _("Search for Projects"), "</h1>
         "._("Search for projects matching the following criteria:")."<br>
         <form method=get action='projectmgr.php'>
         <input type='hidden' name='show' value='", attr_safe(_("search")), "'>
