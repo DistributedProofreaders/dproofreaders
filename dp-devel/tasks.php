@@ -1058,7 +1058,7 @@ function TaskDetails($tid)
 // MUST match an entry in $os_array.
 function guess_OS_from_UA()
 {
-    $ua = $_SERVER['HTTP_USER_AGENT'];
+    $ua = @$_SERVER['HTTP_USER_AGENT'];
     if (str_contains($ua, "Linux")) {
         $os = "Linux";
     } elseif (str_contains($ua, "Windows NT 6.1")) {
@@ -1084,7 +1084,7 @@ function guess_OS_from_UA()
 // MUST match an entry in $browser_array.
 function guess_browser_from_UA()
 {
-    $ua = $_SERVER['HTTP_USER_AGENT'];
+    $ua = @$_SERVER['HTTP_USER_AGENT'];
     if (str_contains($ua, "MSIE 8.0")) {
         $browser = "Internet Explorer 8.x";
     } elseif (str_contains($ua, "MSIE 7.0")) {
