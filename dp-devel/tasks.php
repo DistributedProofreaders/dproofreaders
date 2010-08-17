@@ -958,6 +958,8 @@ function TaskDetails($tid)
                 $task_assignee_username = mysql_result($result, 0, "username");
                 $task_assignee_username_link = private_message_link($task_assignee_username, NULL);
             }
+
+            // Task id, summary, and possible Edit/Re-Open Task buttons.
             echo "<table class='tasks'>\n";
             echo "<tr bgcolor='#ecdbb7'>";
             echo "<td width='90%' valign='center'>";
@@ -989,6 +991,8 @@ function TaskDetails($tid)
                 echo "</table>";
             }
             echo "<table class='tasks'>\n";
+
+            // Row 1: Opened & Last edited. Link to toggle task notifications.
             echo "<tr>";
             echo "<td width='50%'>";
             echo "<small class='task'>";
@@ -1005,6 +1009,8 @@ function TaskDetails($tid)
                 echo "<a href='$tasks_url?f=unnotifyme&tid=$tid'>Remove me from task notifications</a>";
             }
             echo "</tr>\n";
+
+            // Row 2: most of the task's simple properties
             echo "<tr>";
             echo "<td width='40%'>";
             echo "<table class='taskplain'>\n";
@@ -1025,6 +1031,8 @@ function TaskDetails($tid)
             echo "</table>";
             echo "</td>";
             echo "</tr>\n";
+
+            // Row 3: summary of votes/metoos
             $voteInfo = mysql_query("SELECT id FROM tasks_votes WHERE task_id = " . $tid . "");
             $osInfo = mysql_query("SELECT DISTINCT vote_os FROM tasks_votes WHERE task_id = " . $tid . "");
             $browserInfo = mysql_query("SELECT DISTINCT vote_browser FROM tasks_votes WHERE task_id = " . $tid . "");
@@ -1068,6 +1076,8 @@ function TaskDetails($tid)
                 echo "</td>";
                 echo "</tr>";
             }
+
+            // Row 4: details
             echo "<tr>";
             echo "<td>";
             echo "<br />";
@@ -1083,6 +1093,8 @@ function TaskDetails($tid)
             echo "</table>";
             echo "</td>";
             echo "</tr>\n";
+
+            // Row 5: Close Task. Me Too!
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && empty($row['closed_reason'])) {
                 echo "<form action='$tasks_url' method='post'>";
                 echo "<input type='hidden' name='close_task'>";
@@ -1132,8 +1144,10 @@ function TaskDetails($tid)
             }
             echo "</td>";
             echo "</tr>";
+
             echo "</table>";
             echo "<br />\n";
+
             if ($meTooAllowed) {
                 MeToo($tid, $row['task_os'], $row['task_browser']);
             }
