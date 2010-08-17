@@ -132,7 +132,7 @@ function dpsql_dump_query_result_with_rank( $result, $start_at )
 
 	print "<tr>\n";
 	print "<th>";
-	print "Rank";
+	print _("Rank");
 	print "</th>\n";
 
 	for ($c = 0; $c < ($n_cols); $c++ )
@@ -186,7 +186,7 @@ function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
 	print "<tr>\n";
 	print "<td bgcolor='" . $theme['color_headerbar_bg'] . "'>\n";
 	print "<font color='".$theme['color_headerbar_font']."'>";
-	print "Rank";
+	print _("Rank");
 	print "</font></td>\n";
 
 	$type = Array();
