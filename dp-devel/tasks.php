@@ -942,17 +942,13 @@ function TaskDetails($tid)
             else {
                 $already_notified = 0;
             }
-            $opened_by = get_username_for_uid($row['opened_by']);
-            $opened_by_link = private_message_link($opened_by, NULL);
-            $edited_by = get_username_for_uid($row['edited_by']);
-            $edited_by_link = private_message_link($edited_by, NULL);
+            $opened_by_link = private_message_link_for_uid($row['opened_by']);
+            $edited_by_link = private_message_link_for_uid($row['edited_by']);
             if (empty($row['task_assignee'])) {
-                $task_assignee_username = "Unassigned";
-                $task_assignee_username_link = $task_assignee_username;
+                $task_assignee_username_link = "Unassigned";
             }
             else {
-                $task_assignee_username = get_username_for_uid($row['task_assignee']);
-                $task_assignee_username_link = private_message_link($task_assignee_username, NULL);
+                $task_assignee_username_link = private_message_link_for_uid($row['task_assignee']);
             }
 
             // Task id, summary, and possible Edit/Re-Open Task buttons.
@@ -1276,8 +1272,7 @@ function TaskComments($tid)
     if (mysql_num_rows($result) >= 1) {
         echo "<table class='tasks'><tr><td width='100%'>\n";
         while ($row = mysql_fetch_assoc($result)) {
-            $comment_username = get_username_for_uid($row['u_id']);
-            $comment_username_link = private_message_link($comment_username, NULL);
+            $comment_username_link = private_message_link_for_uid($row['u_id']);
             echo "<b>Comment by $comment_username_link - " . date("l, d M Y, g:ia", $row['comment_date']) . "</b><br />";
             echo "<br />" . nl2br(stripslashes($row['comment'])) . "<br /><br /><hr width='80%' align='center'>";
         }
@@ -1361,6 +1356,14 @@ function RelatedPostings($tid)
         echo "<br /><a href='$forum_url'>" . $row['forum_name'] . "</a>&nbsp;&raquo;&nbsp;<a href='$topic_url'>" . $row['title'] . "</a> (Posted by: " . $row['creator_username'] . " - " . $row['num_replies'] . " replies)\n";
     }
     echo "</td></tr></table></form>";
+}
+
+function private_message_link_for_uid($u_id)
+// Return a 'private message link' for the user specified by $u_id.
+{
+    $username = get_username_for_uid($u_id);
+    $link = private_message_link($username, NULL);
+    return $link;
 }
 
 function get_username_for_uid($u_id)
