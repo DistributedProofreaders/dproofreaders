@@ -503,16 +503,16 @@ elseif (isset($_POST['new_relatedtask'])) {
     if (empty($_POST['related_task'])) {
         ShowNotification("You must supply a related task ID.", true);
     } else {
-        $nr_task_id = get_integer_param($_POST, 'new_relatedtask', null, 1, null);
-        $r_task_id  = get_integer_param($_POST, 'related_task', null, 1, null);
-        $checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = " . $nr_task_id . "");
-        $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = " . $nr_task_id . "");
+        $this_task_id    = get_integer_param($_POST, 'new_relatedtask', null, 1, null);
+        $related_task_id = get_integer_param($_POST, 'related_task', null, 1, null);
+        $checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = " . $this_task_id . "");
+        $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = " . $this_task_id . "");
         $relatedtasks_array = decode_array(mysql_result($result, 0, "related_tasks"));
-        if (mysql_num_rows($checkTaskExists) >= 1 && $r_task_id != $nr_task_id && !in_array($r_task_id, $relatedtasks_array)) {
-            array_push($relatedtasks_array, $r_task_id);
+        if (mysql_num_rows($checkTaskExists) >= 1 && $related_task_id != $this_task_id && !in_array($related_task_id, $relatedtasks_array)) {
+            array_push($relatedtasks_array, $related_task_id);
             $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
-            $result = mysql_query("UPDATE tasks SET related_tasks = '$relatedtasks_array' WHERE task_id = " . $nr_task_id . "");
-            NotificationMail($nr_task_id, "This task had a related task added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
+            $result = mysql_query("UPDATE tasks SET related_tasks = '$relatedtasks_array' WHERE task_id = " . $this_task_id . "");
+            NotificationMail($this_task_id, "This task had a related task added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
             list_all_open_tasks($order_by);
         }
         else {
