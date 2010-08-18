@@ -932,9 +932,9 @@ function TaskDetails($tid)
         ShowNotification("Error: task identifier '$tid' is not numeric.");
         return;
     }
-    $result = mysql_query("SELECT * FROM tasks WHERE task_id = $tid LIMIT 1");
-    if (mysql_num_rows($result) >= 1) {
-        while ($row = mysql_fetch_assoc($result)) {
+    $res = mysql_query("SELECT * FROM tasks WHERE task_id = $tid LIMIT 1");
+    if (mysql_num_rows($res) >= 1) {
+        while ($row = mysql_fetch_assoc($res)) {
             $result = mysql_query("SELECT * FROM usersettings WHERE setting = 'taskctr_notice' and (value = $tid or value = 'all') and username = '$pguser'");
             if (mysql_num_rows($result) >= 1) {
                 $already_notified = 1;
