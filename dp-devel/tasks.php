@@ -570,9 +570,7 @@ else {
     // (Or they followed a bookmark of one of those.)
     $req_direction = get_enumerated_param($_GET, 'direction', 'desc', array('asc', 'desc'));
     $req_order = get_enumerated_param($_GET, 'orderby', 'date_edited', $valid_orderbys);
-    if (isset($req_order) && isset($req_direction)) {
-        $order_by = "ORDER BY " . $req_order . " " . $req_direction;
-    }
+    $order_by = "ORDER BY " . $req_order . " " . $req_direction;
     if (isset($_GET['search_text'])) {
         search_and_list_tasks($_GET, $order_by);
     }
