@@ -1096,40 +1096,45 @@ function TaskDetails($tid)
 
             // Row 5: Close Task. Me Too!
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && empty($row['closed_reason'])) {
-                echo "<form action='$tasks_url' method='post'>";
-                echo "<input type='hidden' name='close_task'>";
-                echo "<input type='hidden' name='task_id' value='" . $tid . "'>\n";
-                echo "<tr>";
-                echo "<td>";
-                echo "<br />";
-                echo "<table class='taskplain'>";
-                echo "<tr>";
-                echo "<td width='20%' valign='bottom'>";
-                echo "<b>Close Task&nbsp;&nbsp;</b>";
-                echo "</td>";
-                echo "<td valign='bottom' width='80%'>";
+                echo "
+                      <form action='$tasks_url' method='post'>
+                        <input type='hidden' name='close_task'>
+                        <input type='hidden' name='task_id' value='" . $tid . "'>\n
+                  <tr>
+                    <td>
+                      <br />
+                        <table class='taskplain'>
+                          <tr>
+                            <td width='20%' valign='bottom'>
+                              <b>Close Task&nbsp;&nbsp;</b>
+                            </td>
+                            <td valign='bottom' width='80%'>
+                ";
                 dropdown_select('task_close_reason', "", $tasks_close_array);
-                echo "&nbsp;";
-                echo "<input type='submit' value='Close Task' class='taskinp2'>\n";
-                echo "</td>";
-                echo "</tr>";
-                echo "</form>";
-                echo "</table>\n";
+                echo "
+                              <input type='submit' value='Close Task' class='taskinp2'>
+                            </td>
+                          </tr>
+                      </form>
+                        </table>\n
+                ";
             }
             elseif (!empty($row['closed_reason'])) {
                 $result = mysql_query("SELECT username FROM users WHERE u_id = " . $row['closed_by'] . "");
                 $closed_by = mysql_result($result, 0, "username");
                 $date_closed = date("d-M-Y", $row['date_closed']);
                 $reason = $tasks_close_array[$row['closed_reason']];
-                echo "<tr>";
-                echo "<td>";
-                echo "<br />";
-                echo "<small class='task'>";
-                echo "Closed by: $closed_by";
-                echo "<br />";
-                echo "Date Closed: " . $date_closed;
-                echo "<br />";
-                echo "Reason: " . $reason . "";
+                echo "
+                  <tr>
+                    <td>
+                      <br />
+                      <small class='task'>
+                        Closed by: $closed_by
+                        <br />
+                        Date Closed: $date_closed
+                        <br />
+                        Reason: $reason
+                ";
             }
             echo "</small>";
             echo "</td>";
