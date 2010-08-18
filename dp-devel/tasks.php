@@ -942,19 +942,16 @@ function TaskDetails($tid)
             else {
                 $already_notified = 0;
             }
-            $result = mysql_query("SELECT username FROM users WHERE u_id = " . $row['opened_by'] . "");
-            $opened_by = mysql_result($result, 0, "username");
+            $opened_by = get_username_for_uid($row['opened_by']);
             $opened_by_link = private_message_link($opened_by, NULL);
-            $result = mysql_query("SELECT username FROM users WHERE u_id = " . $row['edited_by'] . "");
-            $edited_by = mysql_result($result, 0, "username");
+            $edited_by = get_username_for_uid($row['edited_by']);
             $edited_by_link = private_message_link($edited_by, NULL);
             if (empty($row['task_assignee'])) {
                 $task_assignee_username = "Unassigned";
                 $task_assignee_username_link = $task_assignee_username;
             }
             else {
-                $result = mysql_query("SELECT username FROM users WHERE u_id = " . $row['task_assignee'] . "");
-                $task_assignee_username = mysql_result($result, 0, "username");
+                $task_assignee_username = get_username_for_uid($row['task_assignee']);
                 $task_assignee_username_link = private_message_link($task_assignee_username, NULL);
             }
 
@@ -1120,8 +1117,7 @@ function TaskDetails($tid)
                 ";
             }
             elseif (!empty($row['closed_reason'])) {
-                $result = mysql_query("SELECT username FROM users WHERE u_id = " . $row['closed_by'] . "");
-                $closed_by = mysql_result($result, 0, "username");
+                $closed_by = get_username_for_uid($row['closed_by']);
                 $date_closed = date("d-M-Y", $row['date_closed']);
                 $reason = $tasks_close_array[$row['closed_reason']];
                 echo "
@@ -1280,8 +1276,7 @@ function TaskComments($tid)
     if (mysql_num_rows($result) >= 1) {
         echo "<table class='tasks'><tr><td width='100%'>\n";
         while ($row = mysql_fetch_assoc($result)) {
-            $usernameQuery = mysql_query("SELECT username FROM users WHERE u_id = " . $row['u_id'] . "");
-            $comment_username = mysql_result($usernameQuery, 0, "username");
+            $comment_username = get_username_for_uid($row['u_id']);
             $comment_username_link = private_message_link($comment_username, NULL);
             echo "<b>Comment by $comment_username_link - " . date("l, d M Y, g:ia", $row['comment_date']) . "</b><br />";
             echo "<br />" . nl2br(stripslashes($row['comment'])) . "<br /><br /><hr width='80%' align='center'>";
@@ -1367,5 +1362,13 @@ function RelatedPostings($tid)
     }
     echo "</td></tr></table></form>";
 }
+
+function get_username_for_uid($u_id)
+{
+    $res = mysql_query("SELECT username FROM users WHERE u_id = $u_id");
+    $username = mysql_result($res, 0, "username");
+    return $username;
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
