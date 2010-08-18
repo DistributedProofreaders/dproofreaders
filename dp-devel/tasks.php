@@ -474,7 +474,7 @@ elseif (isset($_POST['close_task'])) {
     if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
         $task_id   = get_integer_param($_POST, 'task_id', null, 1, null);
         $tc_reason = (int) get_enumerated_param($_POST, 'task_close_reason', null, array_keys($tasks_close_array));
-        NotificationMail($task_id, "This task was closed by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n\nThe reason for closing was: " . $tc_reason . ".\n");
+        NotificationMail($task_id, "This task was closed by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
         $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
         $u_id = mysql_result($result, 0, "u_id");
         $result = mysql_query("UPDATE tasks SET percent_complete = 100, task_status = 14, date_closed = " . time() . ", closed_by = $u_id, closed_reason = " . $tc_reason . ", date_edited = " . time() . ", edited_by = $u_id WHERE task_id = " . $task_id . "");
