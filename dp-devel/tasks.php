@@ -541,12 +541,13 @@ elseif (isset($_POST['new_relatedposting'])) {
     }
 }
 elseif (isset($_POST['meToo'])) {
-    $metoo_or_task = array('metoo', 'task');
     $task_id       = get_integer_param($_REQUEST, 'meToo', null, 1, null);
     $sameOS        = get_integer_param($_REQUEST, 'sameOS', null, 0, 1);
     $sameBrowser   = get_integer_param($_REQUEST, 'sameBrowser', null, 0, 1);
-    $vote_os       = (int) get_enumerated_param($_POST, $metoo_or_task[$sameOS] . '_os', null, array_keys($os_array));
-    $vote_browser  = (int) get_enumerated_param($_POST, $metoo_or_task[$sameBrowser] . '_browser', null, array_keys($browser_array));
+    $os_param_name      = ( $sameOS      ? 'task_os'      : 'metoo_os' );
+    $browser_param_name = ( $sameBrowser ? 'task_browser' : 'metoo_browser' );
+    $vote_os       = (int) get_enumerated_param($_POST, $os_param_name, null, array_keys($os_array));
+    $vote_browser  = (int) get_enumerated_param($_POST, $browser_param_name, null, array_keys($browser_array));
 
     $user_id = $userP['u_id'];
 
