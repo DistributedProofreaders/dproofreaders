@@ -505,7 +505,7 @@ elseif (isset($_POST['new_relatedtask'])) {
     } else {
         $this_task_id    = get_integer_param($_POST, 'new_relatedtask', null, 1, null);
         $related_task_id = get_integer_param($_POST, 'related_task', null, 1, null);
-        $checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = " . $this_task_id . "");
+        $checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = " . $related_task_id . "");
         $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = " . $this_task_id . "");
         $relatedtasks_array = decode_array(mysql_result($result, 0, "related_tasks"));
         if (mysql_num_rows($checkTaskExists) >= 1 && $related_task_id != $this_task_id && !in_array($related_task_id, $relatedtasks_array)) {
