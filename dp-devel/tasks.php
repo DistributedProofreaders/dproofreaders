@@ -1095,14 +1095,14 @@ function TaskDetails($tid)
             echo "</tr>\n";
 
             // Row 5: Close Task. Me Too!
+            echo "<tr>\n";
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && empty($row['closed_reason'])) {
                 echo "
-                      <form action='$tasks_url' method='post'>
-                        <input type='hidden' name='close_task'>
-                        <input type='hidden' name='task_id' value='" . $tid . "'>\n
-                  <tr>
                     <td>
                       <br />
+                      <form action='$tasks_url' method='post'>
+                        <input type='hidden' name='close_task'>
+                        <input type='hidden' name='task_id' value='$tid'>
                         <table class='taskplain'>
                           <tr>
                             <td width='20%' valign='bottom'>
@@ -1115,8 +1115,9 @@ function TaskDetails($tid)
                               <input type='submit' value='Close Task' class='taskinp2'>
                             </td>
                           </tr>
+                        </table>
                       </form>
-                        </table>\n
+                    </td>
                 ";
             }
             elseif (!empty($row['closed_reason'])) {
@@ -1125,7 +1126,6 @@ function TaskDetails($tid)
                 $date_closed = date("d-M-Y", $row['date_closed']);
                 $reason = $tasks_close_array[$row['closed_reason']];
                 echo "
-                  <tr>
                     <td>
                       <br />
                       <small class='task'>
@@ -1134,10 +1134,10 @@ function TaskDetails($tid)
                         Date Closed: $date_closed
                         <br />
                         Reason: $reason
+                      </small>
+                    </td>
                 ";
             }
-            echo "</small>";
-            echo "</td>";
             echo "<td>";
             echo "<br />";
             $meTooCheckResult = mysql_query("SELECT id FROM tasks_votes WHERE task_id = " . $tid . " and u_id = " . $userP['u_id'] . "");
