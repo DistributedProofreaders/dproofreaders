@@ -873,18 +873,18 @@ function TaskForm($tid)
     echo "<table class='tasks'>\n";
     echo "<tr><td colspan='2'><b>" . property_get_label('task_summary', FALSE) . "&nbsp;</b>&nbsp;&nbsp;<input type='text' name='task_summary' value=\"$task_summary\" size='60' maxlength='80' class='taskinp1'></td></tr>\n";
     echo "<tr><td width='50%'><table class='taskplain'>\n";
-    property_echo_select_tr(property_get_label('task_type', FALSE),     'task_type', $task_type, $tasks_array);
-    property_echo_select_tr(property_get_label('task_category', FALSE), 'task_category', $task_category, $categories_array);
-    property_echo_select_tr(property_get_label('task_status', FALSE),   'task_status', $task_status, $tasks_status_array);
-    property_echo_select_tr(property_get_label('task_assignee', FALSE), 'task_assignee', $task_assignee, $task_assignees_array);
-    property_echo_select_tr(property_get_label('task_os', FALSE),       'task_os', $task_os, $os_array);
+    property_echo_select_tr('task_type', $task_type, $tasks_array);
+    property_echo_select_tr('task_category', $task_category, $categories_array);
+    property_echo_select_tr('task_status', $task_status, $tasks_status_array);
+    property_echo_select_tr('task_assignee', $task_assignee, $task_assignees_array);
+    property_echo_select_tr('task_os', $task_os, $os_array);
     echo "</table></td><td width='50%'><table class='taskplain'>\n";
-    property_echo_select_tr(property_get_label('task_browser', FALSE),  'task_browser', $task_browser, $browser_array);
-    property_echo_select_tr(property_get_label('task_severity', FALSE), 'task_severity', $task_severity, $severity_array);
-    property_echo_select_tr(property_get_label('task_priority', FALSE), 'task_priority', $task_priority, $priority_array);
-    property_echo_select_tr(property_get_label('task_version', FALSE),  'task_version', $task_version, $versions_array);
+    property_echo_select_tr('task_browser', $task_browser, $browser_array);
+    property_echo_select_tr('task_severity', $task_severity, $severity_array);
+    property_echo_select_tr('task_priority', $task_priority, $priority_array);
+    property_echo_select_tr('task_version', $task_version, $versions_array);
     if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && !empty($tid)) {
-        property_echo_select_tr(property_get_label('percent_complete', FALSE), 'percent_complete', $percent_complete, $percent_complete_array);
+        property_echo_select_tr('percent_complete', $percent_complete, $percent_complete_array);
     }
     elseif ($opened_by == $userP['u_id'] && !user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
         echo "<input type='hidden' name='percent_complete' value='$percent_complete'>";
@@ -904,9 +904,10 @@ function TaskForm($tid)
     echo "</center></td></tr></table><br />\n";
 }
 
-function property_echo_select_tr($label, $property_id, $current_value, $options)
+function property_echo_select_tr($property_id, $current_value, $options)
 // Echo a <tr> element containing a label and a <select> for the given property.
 {
+    $label = property_get_label($property_id, FALSE);
     echo "<tr><td width='40%'><b>$label</b>&nbsp;</td><td width='60%'>\n";
     dropdown_select($property_id, $current_value, $options);
     echo "</td></tr>\n";
