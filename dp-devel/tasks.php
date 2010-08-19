@@ -861,6 +861,11 @@ function TaskForm($tid)
         $opened_by        = mysql_result($result, 0, "opened_by");
     }
 
+    // Non-managers can only set the task status to New.
+    if (!user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
+        $tasks_status_array = array(1 => "New");
+    }
+
     echo "<form action='$tasks_url' method='post'><input type='hidden' name='newtask'>\n";
     if (!empty($tid)) {
         echo "<input type='hidden' name='task_id' value='$tid'>";
@@ -868,42 +873,18 @@ function TaskForm($tid)
     echo "<table class='tasks'>\n";
     echo "<tr><td colspan='2'><b>Summary&nbsp;</b>&nbsp;&nbsp;<input type='text' name='task_summary' value=\"$task_summary\" size='60' maxlength='80' class='taskinp1'></td></tr>\n";
     echo "<tr><td width='50%'><table class='taskplain'>\n";
-    echo "<tr><td width='40%'><b>Task Type</b>&nbsp;</td><td width='60%'>\n";
-    dropdown_select('task_type', $task_type, $tasks_array);
-    echo "</td></tr>\n";
-    echo "<tr><td width='40%'><b>Category</b>&nbsp;</td><td width='60%'>\n";
-    dropdown_select('task_category', $task_category, $categories_array);
-    echo "</td></tr>\n";
-    echo "<tr><td width='40%'><b>Status</b>&nbsp;</td><td width='60%'>\n";
-    // Non-managers can only set the task status to New.
-    if (!user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
-        $tasks_status_array = array(1 => "New");
-    }
-    dropdown_select('task_status', $task_status, $tasks_status_array);
-    echo "</td></tr>\n";
-    echo "<tr><td width='40%'><b>Assigned To</b>&nbsp;</td><td width='60%'>\n";
-    dropdown_select('task_assignee', $task_assignee, $task_assignees_array);
-    echo "</td></tr>\n";
-    echo "<tr><td width='40%'><b>Operating System</b>&nbsp;</td><td width='60%'>\n";
-    dropdown_select('task_os', $task_os, $os_array);
-    echo "</td></tr>\n";
+    property_echo_select_tr("Task Type",        'task_type', $task_type, $tasks_array);
+    property_echo_select_tr("Category",         'task_category', $task_category, $categories_array);
+    property_echo_select_tr("Status",           'task_status', $task_status, $tasks_status_array);
+    property_echo_select_tr("Assigned To",      'task_assignee', $task_assignee, $task_assignees_array);
+    property_echo_select_tr("Operating System", 'task_os', $task_os, $os_array);
     echo "</table></td><td width='50%'><table class='taskplain'>\n";
-    echo "<tr><td width='40%'><b>Browser</b>&nbsp;</td><td width='60%'>\n";
-    dropdown_select('task_browser', $task_browser, $browser_array);
-    echo "</td></tr>\n";
-    echo "<tr><td width='40%'><b>Severity</b>&nbsp;</td><td width='60%'>\n";
-    dropdown_select('task_severity', $task_severity, $severity_array);
-    echo "</td></tr>\n";
-    echo "<tr><td width='40%'><b>Priority</b>&nbsp;</td><td width='60%'>\n";
-    dropdown_select('task_priority', $task_priority, $priority_array);
-    echo "</td></tr>\n";
-    echo "<tr><td width='40%'><b>Reported Version</b>&nbsp;</td><td width='60%'>\n";
-    dropdown_select('task_version', $task_version, $versions_array);
-    echo "</td></tr>\n";
+    property_echo_select_tr("Browser",          'task_browser', $task_browser, $browser_array);
+    property_echo_select_tr("Severity",         'task_severity', $task_severity, $severity_array);
+    property_echo_select_tr("Priority",         'task_priority', $task_priority, $priority_array);
+    property_echo_select_tr("Reported Version", 'task_version', $task_version, $versions_array);
     if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && !empty($tid)) {
-        echo "<tr><td width='40%'><b>Percent Complete</b>&nbsp;</td><td width='60%'>\n";
-        dropdown_select('percent_complete', $percent_complete, $percent_complete_array);
-        echo "</td></tr>\n";
+        property_echo_select_tr("Percent Complete", 'percent_complete', $percent_complete, $percent_complete_array);
     }
     elseif ($opened_by == $userP['u_id'] && !user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
         echo "<input type='hidden' name='percent_complete' value='$percent_complete'>";
@@ -921,6 +902,14 @@ function TaskForm($tid)
     }
     echo "' class='taskinp2'>\n";
     echo "</center></td></tr></table><br />\n";
+}
+
+function property_echo_select_tr($label, $property_id, $current_value, $options)
+// Echo a <tr> element containing a label and a <select> for the given property.
+{
+    echo "<tr><td width='40%'><b>$label</b>&nbsp;</td><td width='60%'>\n";
+    dropdown_select($property_id, $current_value, $options);
+    echo "</td></tr>\n";
 }
 
 function TaskDetails($tid)
