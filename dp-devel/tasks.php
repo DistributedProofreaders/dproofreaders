@@ -788,14 +788,14 @@ function ShowTasks($sql_result)
         $t = "";
     }
     echo "<table class='taskslist'><tr>\n";
-    echo "<th style='text-align: center;'><a href='$tasks_url?$t" . OrderBy("task_id") . "'>ID</a></th>\n";
-    echo "<th><a href='$tasks_url?$t" . OrderBy("task_type") . "'>Task Type</a></th>\n";
-    echo "<th><a href='$tasks_url?$t" . OrderBy("task_severity") . "'>Severity</a></th>\n";
-    echo "<th style='width: 50%;'><a href='$tasks_url?$t" . OrderBy("task_summary") . "'>Summary</a></th>\n";
-    echo "<th style='text-align: center;'><a href='$tasks_url?$t" . OrderBy("date_edited") . "'>Date Edited</a></th>\n";
-    echo "<th><a href='$tasks_url?$t" . OrderBy("task_status") . "'>Status</a></th>\n";
-    echo "<th><a href='$tasks_url?$t" . OrderBy("votes") . "'>Votes</a></th>\n";
-    echo "<th><a href='$tasks_url?$t" . OrderBy("percent_complete") . "'>Progress</a></th>\n";
+    echo "<th style='text-align: center;'><a href='$tasks_url?$t" . OrderBy("task_id") . "'>" . property_get_label('task_id', TRUE) . "</a></th>\n";
+    echo "<th><a href='$tasks_url?$t" . OrderBy("task_type") . "'>" . property_get_label('task_type', TRUE) . "</a></th>\n";
+    echo "<th><a href='$tasks_url?$t" . OrderBy("task_severity") . "'>" . property_get_label('task_severity', TRUE) . "</a></th>\n";
+    echo "<th style='width: 50%;'><a href='$tasks_url?$t" . OrderBy("task_summary") . "'>" . property_get_label('task_summary', TRUE) . "</a></th>\n";
+    echo "<th style='text-align: center;'><a href='$tasks_url?$t" . OrderBy("date_edited") . "'>" . property_get_label('date_edited', TRUE) . "</a></th>\n";
+    echo "<th><a href='$tasks_url?$t" . OrderBy("task_status") . "'>" . property_get_label('task_status', TRUE) . "</a></th>\n";
+    echo "<th><a href='$tasks_url?$t" . OrderBy("votes") . "'>" . property_get_label('votes', TRUE) . "</a></th>\n";
+    echo "<th><a href='$tasks_url?$t" . OrderBy("percent_complete") . "'>" . property_get_label('percent_complete', TRUE) . "</a></th>\n";
     echo "</tr>\n";
     if (@mysql_num_rows($sql_result) >= 1) {
         while ($row = mysql_fetch_assoc($sql_result)) {
@@ -871,20 +871,20 @@ function TaskForm($tid)
         echo "<input type='hidden' name='task_id' value='$tid'>";
     }
     echo "<table class='tasks'>\n";
-    echo "<tr><td colspan='2'><b>Summary&nbsp;</b>&nbsp;&nbsp;<input type='text' name='task_summary' value=\"$task_summary\" size='60' maxlength='80' class='taskinp1'></td></tr>\n";
+    echo "<tr><td colspan='2'><b>" . property_get_label('task_summary', FALSE) . "&nbsp;</b>&nbsp;&nbsp;<input type='text' name='task_summary' value=\"$task_summary\" size='60' maxlength='80' class='taskinp1'></td></tr>\n";
     echo "<tr><td width='50%'><table class='taskplain'>\n";
-    property_echo_select_tr("Task Type",        'task_type', $task_type, $tasks_array);
-    property_echo_select_tr("Category",         'task_category', $task_category, $categories_array);
-    property_echo_select_tr("Status",           'task_status', $task_status, $tasks_status_array);
-    property_echo_select_tr("Assigned To",      'task_assignee', $task_assignee, $task_assignees_array);
-    property_echo_select_tr("Operating System", 'task_os', $task_os, $os_array);
+    property_echo_select_tr(property_get_label('task_type', FALSE),     'task_type', $task_type, $tasks_array);
+    property_echo_select_tr(property_get_label('task_category', FALSE), 'task_category', $task_category, $categories_array);
+    property_echo_select_tr(property_get_label('task_status', FALSE),   'task_status', $task_status, $tasks_status_array);
+    property_echo_select_tr(property_get_label('task_assignee', FALSE), 'task_assignee', $task_assignee, $task_assignees_array);
+    property_echo_select_tr(property_get_label('task_os', FALSE),       'task_os', $task_os, $os_array);
     echo "</table></td><td width='50%'><table class='taskplain'>\n";
-    property_echo_select_tr("Browser",          'task_browser', $task_browser, $browser_array);
-    property_echo_select_tr("Severity",         'task_severity', $task_severity, $severity_array);
-    property_echo_select_tr("Priority",         'task_priority', $task_priority, $priority_array);
-    property_echo_select_tr("Reported Version", 'task_version', $task_version, $versions_array);
+    property_echo_select_tr(property_get_label('task_browser', FALSE),  'task_browser', $task_browser, $browser_array);
+    property_echo_select_tr(property_get_label('task_severity', FALSE), 'task_severity', $task_severity, $severity_array);
+    property_echo_select_tr(property_get_label('task_priority', FALSE), 'task_priority', $task_priority, $priority_array);
+    property_echo_select_tr(property_get_label('task_version', FALSE),  'task_version', $task_version, $versions_array);
     if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && !empty($tid)) {
-        property_echo_select_tr("Percent Complete", 'percent_complete', $percent_complete, $percent_complete_array);
+        property_echo_select_tr(property_get_label('percent_complete', FALSE), 'percent_complete', $percent_complete, $percent_complete_array);
     }
     elseif ($opened_by == $userP['u_id'] && !user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
         echo "<input type='hidden' name='percent_complete' value='$percent_complete'>";
@@ -995,20 +995,20 @@ function TaskDetails($tid)
             echo "<tr>";
             echo "<td width='40%'>";
             echo "<table class='taskplain'>\n";
-            EchoTaskProperty("Task Type",        $tasks_array[$row['task_type']]);
-            EchoTaskProperty("Category",         $categories_array[$row['task_category']]);
-            EchoTaskProperty("Status",           $tasks_status_array[$row['task_status']]);
-            EchoTaskProperty("Assigned To",      $task_assignee_username_link);
-            EchoTaskProperty("Operating System", $os_array[$row['task_os']]);
+            EchoTaskProperty( property_get_label('task_type', FALSE),     $tasks_array[$row['task_type']]);
+            EchoTaskProperty( property_get_label('task_category', FALSE), $categories_array[$row['task_category']]);
+            EchoTaskProperty( property_get_label('task_status', FALSE),   $tasks_status_array[$row['task_status']]);
+            EchoTaskProperty( property_get_label('task_assignee', FALSE), $task_assignee_username_link);
+            EchoTaskProperty( property_get_label('task_os', FALSE),       $os_array[$row['task_os']]);
             echo "</table>";
             echo "</td>";
             echo "<td width='50%'>";
             echo "<table class='taskplain'>\n";
-            EchoTaskProperty("Browser",          $browser_array[$row['task_browser']]);
-            EchoTaskProperty("Severity",         $severity_array[$row['task_severity']]);
-            EchoTaskProperty("Priority",         $priority_array[$row['task_priority']]);
-            EchoTaskProperty("Reported Version", $versions_array[$row['task_version']]);
-            EchoTaskProperty("Percent Complete", "<img src='$code_url/graphics/task_percentages/large_" . $row['percent_complete'] . ".png' width='150' height='10' border='0' alt='" . $row['percent_complete'] . "% Complete'>");
+            EchoTaskProperty( property_get_label('task_browser', FALSE),     $browser_array[$row['task_browser']]);
+            EchoTaskProperty( property_get_label('task_severity', FALSE),    $severity_array[$row['task_severity']]);
+            EchoTaskProperty( property_get_label('task_priority', FALSE),    $priority_array[$row['task_priority']]);
+            EchoTaskProperty( property_get_label('task_version', FALSE),     $versions_array[$row['task_version']]);
+            EchoTaskProperty( property_get_label('percent_complete', FALSE), "<img src='$code_url/graphics/task_percentages/large_" . $row['percent_complete'] . ".png' width='150' height='10' border='0' alt='" . $row['percent_complete'] . "% Complete'>");
             echo "</table>";
             echo "</td>";
             echo "</tr>\n";
@@ -1345,6 +1345,29 @@ function RelatedPostings($tid)
         echo "<br /><a href='$forum_url'>" . $row['forum_name'] . "</a>&nbsp;&raquo;&nbsp;<a href='$topic_url'>" . $row['title'] . "</a> (Posted by: " . $row['creator_username'] . " - " . $row['num_replies'] . " replies)\n";
     }
     echo "</td></tr></table></form>";
+}
+
+function property_get_label( $property_id, $for_list_of_tasks )
+{
+    switch ( $property_id )
+    {
+        case 'date_edited'   : return 'Date Edited';
+        case 'task_assignee' : return 'Assigned To';
+        case 'task_browser'  : return 'Browser';
+        case 'task_category' : return 'Category';
+        case 'task_id'       : return 'ID';
+        case 'task_os'       : return 'Operating System';
+        case 'task_priority' : return 'Priority';
+        case 'task_severity' : return 'Severity';
+        case 'task_status'   : return 'Status';
+        case 'task_summary'  : return 'Summary';
+        case 'task_type'     : return 'Task Type';
+        case 'task_version'  : return 'Reported Version';
+        case 'votes'         : return 'Votes';
+
+        case 'percent_complete':
+            return ( $for_list_of_tasks ? "Progress" : "Percent Complete" );
+    }
 }
 
 function private_message_link_for_uid($u_id)
