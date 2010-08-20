@@ -987,20 +987,20 @@ function TaskDetails($tid)
             echo "<tr>";
             echo "<td width='40%'>";
             echo "<table class='taskplain'>\n";
-            EchoTaskProperty( property_get_label('task_type', FALSE),     property_format_value('task_type',     $row, FALSE));
-            EchoTaskProperty( property_get_label('task_category', FALSE), property_format_value('task_category', $row, FALSE));
-            EchoTaskProperty( property_get_label('task_status', FALSE),   property_format_value('task_status',   $row, FALSE));
-            EchoTaskProperty( property_get_label('task_assignee', FALSE), property_format_value('task_assignee', $row, FALSE));
-            EchoTaskProperty( property_get_label('task_os', FALSE),       property_format_value('task_os',       $row, FALSE));
+            property_echo_value_tr('task_type',        $row);
+            property_echo_value_tr('task_category',    $row);
+            property_echo_value_tr('task_status',      $row);
+            property_echo_value_tr('task_assignee',    $row);
+            property_echo_value_tr('task_os',          $row);
             echo "</table>";
             echo "</td>";
             echo "<td width='50%'>";
             echo "<table class='taskplain'>\n";
-            EchoTaskProperty( property_get_label('task_browser', FALSE),     property_format_value('task_browser',     $row, FALSE));
-            EchoTaskProperty( property_get_label('task_severity', FALSE),    property_format_value('task_severity',    $row, FALSE));
-            EchoTaskProperty( property_get_label('task_priority', FALSE),    property_format_value('task_priority',    $row, FALSE));
-            EchoTaskProperty( property_get_label('task_version', FALSE),     property_format_value('task_version',     $row, FALSE));
-            EchoTaskProperty( property_get_label('percent_complete', FALSE), property_format_value('percent_complete', $row, FALSE));
+            property_echo_value_tr('task_browser',     $row);
+            property_echo_value_tr('task_severity',    $row);
+            property_echo_value_tr('task_priority',    $row);
+            property_echo_value_tr('task_version',     $row);
+            property_echo_value_tr('percent_complete', $row);
             echo "</table>";
             echo "</td>";
             echo "</tr>\n";
@@ -1138,6 +1138,14 @@ function TaskDetails($tid)
     else {
         ShowNotification("Task #$tid was not found!");
     }
+}
+
+function property_echo_value_tr( $property_id, $row )
+{
+    EchoTaskProperty(
+        property_get_label($property_id, FALSE),
+        property_format_value($property_id, $row, FALSE)
+    );
 }
 
 // Guess what OS the user is running based on the User Agent.
