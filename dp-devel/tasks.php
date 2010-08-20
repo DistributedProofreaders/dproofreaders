@@ -1142,10 +1142,14 @@ function TaskDetails($tid)
 
 function property_echo_value_tr( $property_id, $row )
 {
-    EchoTaskProperty(
-        property_get_label($property_id, FALSE),
-        property_format_value($property_id, $row, FALSE)
-    );
+    $label = property_get_label($property_id, FALSE);
+    $formatted_value = property_format_value($property_id, $row, FALSE);
+
+    echo "<tr>";
+    echo "<td class='taskproperty'>{$label}&nbsp;&nbsp;</td>";
+    echo "<td class='taskvalue'>$formatted_value</td>";
+    echo "</tr>";
+    echo "\n";
 }
 
 // Guess what OS the user is running based on the User Agent.
@@ -1238,20 +1242,6 @@ function ShowNotification($warn, $goback = false, $type = "warn")
     }
     if ($goback) $warn.= "  Please go <a href='javascript:history.back()'>back</a> and correct this.";
     echo "$warn</center>\n";
-}
-
-function EchoTaskProperty($name, $value)
-{
-    echo "<tr>";
-    echo "<td class='taskproperty'>";
-    echo $name;
-    echo "&nbsp;&nbsp;";
-    echo "</td>";
-    echo "<td class='taskvalue'>";
-    echo $value;
-    echo "</td>";
-    echo "</tr>";
-    echo "\n";
 }
 
 function TaskComments($tid)
