@@ -784,27 +784,34 @@ function ShowTasks($sql_result)
     else {
         $t = "";
     }
+
+    $columns = array(
+        'task_id'          => " style='text-align: center;'",
+        'task_type'        => "",
+        'task_severity'    => "",
+        'task_summary'     => " style='width: 50%;'",
+        'date_edited'      => " style='text-align: center;'",
+        'task_status'      => "",
+        'votes'            => "",
+        'percent_complete' => "",
+    );
+
     echo "<table class='taskslist'><tr>\n";
-    echo "<th style='text-align: center;'><a href='$tasks_url?$t" . OrderBy("task_id") . "'>" . property_get_label('task_id', TRUE) . "</a></th>\n";
-    echo "<th><a href='$tasks_url?$t" . OrderBy("task_type") . "'>" . property_get_label('task_type', TRUE) . "</a></th>\n";
-    echo "<th><a href='$tasks_url?$t" . OrderBy("task_severity") . "'>" . property_get_label('task_severity', TRUE) . "</a></th>\n";
-    echo "<th style='width: 50%;'><a href='$tasks_url?$t" . OrderBy("task_summary") . "'>" . property_get_label('task_summary', TRUE) . "</a></th>\n";
-    echo "<th style='text-align: center;'><a href='$tasks_url?$t" . OrderBy("date_edited") . "'>" . property_get_label('date_edited', TRUE) . "</a></th>\n";
-    echo "<th><a href='$tasks_url?$t" . OrderBy("task_status") . "'>" . property_get_label('task_status', TRUE) . "</a></th>\n";
-    echo "<th><a href='$tasks_url?$t" . OrderBy("votes") . "'>" . property_get_label('votes', TRUE) . "</a></th>\n";
-    echo "<th><a href='$tasks_url?$t" . OrderBy("percent_complete") . "'>" . property_get_label('percent_complete', TRUE) . "</a></th>\n";
+    foreach ( $columns as $property_id => $attrs )
+    {
+        $url = "$tasks_url?$t" . OrderBy($property_id);
+        $label = property_get_label($property_id, TRUE);
+        echo "<th$attrs><a href='$url'>$label</a></th>\n";
+    }
     echo "</tr>\n";
     if (@mysql_num_rows($sql_result) >= 1) {
         while ($row = mysql_fetch_assoc($sql_result)) {
             echo "<tr bgcolor='#ffffff'>\n";
-            echo "<td style='text-align: center;'>" . property_format_value('task_id', $row, TRUE) . "</td>\n";
-            echo "<td>" . property_format_value('task_type', $row, TRUE) . "</td>\n";
-            echo "<td>" . property_format_value('task_severity', $row, TRUE) . "</td>\n";
-            echo "<td style='width: 50%;'>" . property_format_value('task_summary', $row, TRUE) . "</td>\n";
-            echo "<td style='text-align: center;'>" . property_format_value('date_edited', $row, TRUE) . "</td>\n";
-            echo "<td>" . property_format_value('task_status', $row, TRUE) . "</td>\n";
-            echo "<td>" . property_format_value('votes', $row, TRUE) . "</td>\n";
-            echo "<td>" . property_format_value('percent_complete', $row, TRUE) . "</td>\n";
+            foreach ( $columns as $property_id => $attrs )
+            {
+                $formatted_value = property_format_value($property_id, $row, TRUE);
+                echo "<td$attrs>$formatted_value</td>\n";
+            }
             echo "</tr>\n";
         }
     }
