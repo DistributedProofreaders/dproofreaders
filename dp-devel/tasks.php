@@ -752,8 +752,8 @@ function search_and_list_tasks($request_params, $order_by)
 function OrderBy($orderby_var)
 {
     global $valid_orderbys;
-    $direction = get_enumerated_param($_GET, 'direction', 'asc', array('asc', 'desc'));
-    $orderby   = get_enumerated_param($_GET, 'orderby', null, $valid_orderbys, true);
+    $direction = get_enumerated_param($_GET, 'direction', 'desc', array('asc', 'desc'));
+    $orderby   = get_enumerated_param($_GET, 'orderby', 'date_edited', $valid_orderbys);
 
     if ($orderby == $orderby_var) {
         if ($direction == "asc") {
