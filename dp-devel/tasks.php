@@ -761,6 +761,8 @@ function OrderBy($orderby_var)
         } else {
             $direction = "asc";
         }
+    } else {
+        $direction = "desc";
     }
     return "orderby=$orderby_var&direction=$direction";
 }
