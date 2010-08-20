@@ -749,29 +749,13 @@ function search_and_list_tasks($request_params, $order_by)
 
 // -----------------------------------------------------------------------------
 
-function OrderBy($orderby_var)
-{
-    global $valid_orderbys;
-    $direction = get_enumerated_param($_GET, 'direction', 'desc', array('asc', 'desc'));
-    $orderby   = get_enumerated_param($_GET, 'orderby', 'date_edited', $valid_orderbys);
-
-    if ($orderby == $orderby_var) {
-        if ($direction == "asc") {
-            $direction = "desc";
-        } else {
-            $direction = "asc";
-        }
-    } else {
-        $direction = "desc";
-    }
-    return "orderby=$orderby_var&direction=$direction";
-}
-
 function ShowTasks($sql_result)
 {
     global $tasks_url;
     global $tasks_all_array, $severity_all_array, $task_assignees_all_array, $categories_all_array;
     global $tasks_status_all_array, $priority_all_array, $versions_all_array;
+    global $valid_orderbys;
+
     if (isset($_REQUEST['search_text'])) {
         $t = "search_text="     . urlencode($_REQUEST['search_text'])
             . "&task_type="     . get_enumerated_param($_REQUEST,'task_type'    ,   '1',          array_keys($tasks_all_array))
@@ -798,10 +782,33 @@ function ShowTasks($sql_result)
         'percent_complete' => "",
     );
 
+    $curr_orderby   = get_enumerated_param($_GET, 'orderby', 'date_edited', $valid_orderbys);
+    $curr_direction = get_enumerated_param($_GET, 'direction', 'desc', array('asc', 'desc'));
+
     echo "<table class='taskslist'><tr>\n";
     foreach ( $columns as $property_id => $attrs )
     {
-        $url = "$tasks_url?$t" . OrderBy($property_id);
+        // Each column-header is a link; clicking on it will cause
+        // the resulting listing to be sorted on that column.
+        $orderby_for_link = $property_id;
+
+        // But sorted in which direction?
+        if ($property_id == $curr_orderby) {
+            // This column is the one that the current listing is sorted on.
+            // A header-click will just reverse the direction of the sort.
+            if ($curr_direction == "asc") {
+                $direction_for_link = "desc";
+            } else {
+                $direction_for_link = "asc";
+            }
+        } else {
+            // This column is not the current sort-column.
+            // A header-click will sort by that column in descending order.
+            // (Might be better for each column to have its own default direction.)
+            $direction_for_link = "desc";
+        }
+
+        $url = "$tasks_url?{$t}orderby=$orderby_for_link&direction=$direction_for_link";
         $label = property_get_label($property_id, TRUE);
         echo "<th$attrs><a href='$url'>$label</a></th>\n";
     }
