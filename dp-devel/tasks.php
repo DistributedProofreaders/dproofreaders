@@ -767,12 +767,9 @@ function OrderBy($orderby_var)
 
 function ShowTasks($sql_result)
 {
-    global $code_url, $tasks_url;
+    global $tasks_url;
     global $tasks_all_array, $severity_all_array, $task_assignees_all_array, $categories_all_array;
     global $tasks_status_all_array, $priority_all_array, $versions_all_array;
-    global $tasks_array, $severity_array, $task_assignees_array, $categories_array;
-    global $tasks_status_array, $priority_array, $versions_array;
-    global $search_results_array, $os_array, $browser_array, $tasks_close_array, $percent_complete_array;
     if (isset($_REQUEST['search_text'])) {
         $t = "search_text="     . urlencode($_REQUEST['search_text'])
             . "&task_type="     . get_enumerated_param($_REQUEST,'task_type'    ,   '1',          array_keys($tasks_all_array))
@@ -800,14 +797,14 @@ function ShowTasks($sql_result)
     if (@mysql_num_rows($sql_result) >= 1) {
         while ($row = mysql_fetch_assoc($sql_result)) {
             echo "<tr bgcolor='#ffffff'>\n";
-            echo "<td style='text-align: center;'><a href='$tasks_url?f=detail&tid=" . $row['task_id'] . "'>" . $row['task_id'] . "</a></td>\n";
-            echo "<td>" . $tasks_array[$row['task_type']] . "</td>\n";
-            echo "<td>" . $severity_array[$row['task_severity']] . "</td>\n";
-            echo "<td style='width: 50%;'><a href='$tasks_url?f=detail&tid=" . $row['task_id'] . "'>" . stripslashes($row['task_summary']) . "</a></td>\n";
-            echo "<td style='text-align: center;'>" . date("d-M-Y", $row['date_edited']) . "</td>\n";
-            echo "<td>" . $tasks_status_array[$row['task_status']] . "</td>\n";
-            echo "<td>" . $row['votes'] . "</td>\n";
-            echo "<td><img src='$code_url/graphics/task_percentages/small_" . $row['percent_complete'] . ".png' width='50' height='8' alt='" . $row['percent_complete'] . "% Complete'></td>\n";
+            echo "<td style='text-align: center;'>" . property_format_value('task_id', $row, TRUE) . "</td>\n";
+            echo "<td>" . property_format_value('task_type', $row, TRUE) . "</td>\n";
+            echo "<td>" . property_format_value('task_severity', $row, TRUE) . "</td>\n";
+            echo "<td style='width: 50%;'>" . property_format_value('task_summary', $row, TRUE) . "</td>\n";
+            echo "<td style='text-align: center;'>" . property_format_value('date_edited', $row, TRUE) . "</td>\n";
+            echo "<td>" . property_format_value('task_status', $row, TRUE) . "</td>\n";
+            echo "<td>" . property_format_value('votes', $row, TRUE) . "</td>\n";
+            echo "<td>" . property_format_value('percent_complete', $row, TRUE) . "</td>\n";
             echo "</tr>\n";
         }
     }
@@ -915,9 +912,9 @@ function property_echo_select_tr($property_id, $current_value, $options)
 
 function TaskDetails($tid)
 {
-    global $userP, $code_url, $tasks_url, $tasks_array, $severity_array, $categories_array, $tasks_status_array;
-    global $search_results_array, $os_array, $browser_array, $versions_array, $tasks_close_array, $percent_complete_array;
-    global $priority_array, $pguser;
+    global $userP, $tasks_url;
+    global $os_array, $browser_array, $tasks_close_array;
+    global $pguser;
     if (!is_numeric($tid)) {
         ShowNotification("Error: task identifier '$tid' is not numeric.");
         return;
@@ -932,20 +929,14 @@ function TaskDetails($tid)
             else {
                 $already_notified = 0;
             }
-            $opened_by_link = private_message_link_for_uid($row['opened_by']);
-            $edited_by_link = private_message_link_for_uid($row['edited_by']);
-            if (empty($row['task_assignee'])) {
-                $task_assignee_username_link = "Unassigned";
-            }
-            else {
-                $task_assignee_username_link = private_message_link_for_uid($row['task_assignee']);
-            }
+            $opened_by_link = property_format_value('opened_by', $row, FALSE);
+            $edited_by_link = property_format_value('edited_by', $row, FALSE);
 
             // Task id, summary, and possible Edit/Re-Open Task buttons.
             echo "<table class='tasks'>\n";
             echo "<tr bgcolor='#ecdbb7'>";
             echo "<td width='90%' valign='center'>";
-            echo "Task #$tid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . stripslashes($row['task_summary']);
+            echo "Task #$tid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . property_format_value('task_summary', $row, FALSE);
             echo "</td>";
             echo "<td width='10%' valign='center' style='text-align:right;'>";
             echo "<form action='$tasks_url' method='post'>\n";
@@ -978,9 +969,9 @@ function TaskDetails($tid)
             echo "<tr>";
             echo "<td width='50%'>";
             echo "<small class='task'>";
-            echo "Opened by $opened_by_link - " . date("d-M-Y", $row['date_opened']);
+            echo "Opened by $opened_by_link - " . property_format_value('date_opened', $row, FALSE);
             echo "<br />";
-            echo "Last edited by $edited_by_link - " . date("d-M-Y", $row['date_edited']);
+            echo "Last edited by $edited_by_link - " . property_format_value('date_edited', $row, FALSE);
             echo "</small>";
             echo "</td>";
             echo "<td width='50%' style='text-align:right;'>";
@@ -996,20 +987,20 @@ function TaskDetails($tid)
             echo "<tr>";
             echo "<td width='40%'>";
             echo "<table class='taskplain'>\n";
-            EchoTaskProperty( property_get_label('task_type', FALSE),     $tasks_array[$row['task_type']]);
-            EchoTaskProperty( property_get_label('task_category', FALSE), $categories_array[$row['task_category']]);
-            EchoTaskProperty( property_get_label('task_status', FALSE),   $tasks_status_array[$row['task_status']]);
-            EchoTaskProperty( property_get_label('task_assignee', FALSE), $task_assignee_username_link);
-            EchoTaskProperty( property_get_label('task_os', FALSE),       $os_array[$row['task_os']]);
+            EchoTaskProperty( property_get_label('task_type', FALSE),     property_format_value('task_type',     $row, FALSE));
+            EchoTaskProperty( property_get_label('task_category', FALSE), property_format_value('task_category', $row, FALSE));
+            EchoTaskProperty( property_get_label('task_status', FALSE),   property_format_value('task_status',   $row, FALSE));
+            EchoTaskProperty( property_get_label('task_assignee', FALSE), property_format_value('task_assignee', $row, FALSE));
+            EchoTaskProperty( property_get_label('task_os', FALSE),       property_format_value('task_os',       $row, FALSE));
             echo "</table>";
             echo "</td>";
             echo "<td width='50%'>";
             echo "<table class='taskplain'>\n";
-            EchoTaskProperty( property_get_label('task_browser', FALSE),     $browser_array[$row['task_browser']]);
-            EchoTaskProperty( property_get_label('task_severity', FALSE),    $severity_array[$row['task_severity']]);
-            EchoTaskProperty( property_get_label('task_priority', FALSE),    $priority_array[$row['task_priority']]);
-            EchoTaskProperty( property_get_label('task_version', FALSE),     $versions_array[$row['task_version']]);
-            EchoTaskProperty( property_get_label('percent_complete', FALSE), "<img src='$code_url/graphics/task_percentages/large_" . $row['percent_complete'] . ".png' width='150' height='10' border='0' alt='" . $row['percent_complete'] . "% Complete'>");
+            EchoTaskProperty( property_get_label('task_browser', FALSE),     property_format_value('task_browser',     $row, FALSE));
+            EchoTaskProperty( property_get_label('task_severity', FALSE),    property_format_value('task_severity',    $row, FALSE));
+            EchoTaskProperty( property_get_label('task_priority', FALSE),    property_format_value('task_priority',    $row, FALSE));
+            EchoTaskProperty( property_get_label('task_version', FALSE),     property_format_value('task_version',     $row, FALSE));
+            EchoTaskProperty( property_get_label('percent_complete', FALSE), property_format_value('percent_complete', $row, FALSE));
             echo "</table>";
             echo "</td>";
             echo "</tr>\n";
@@ -1069,7 +1060,7 @@ function TaskDetails($tid)
             echo "<b>Details&nbsp;&nbsp;</b>";
             echo "</td>\n";
             echo "<td width='95%' class='taskvalue'>";
-            echo nl2br(stripslashes($row['task_details']));
+            echo property_format_value('task_details', $row, FALSE);
             echo "</td>";
             echo "</tr>";
             echo "</table>";
@@ -1103,9 +1094,9 @@ function TaskDetails($tid)
                 ";
             }
             elseif (!empty($row['closed_reason'])) {
-                $closed_by = get_username_for_uid($row['closed_by']);
-                $date_closed = date("d-M-Y", $row['date_closed']);
-                $reason = $tasks_close_array[$row['closed_reason']];
+                $closed_by   = property_format_value('closed_by',     $row, FALSE);
+                $date_closed = property_format_value('date_closed',   $row, FALSE);
+                $reason      = property_format_value('closed_reason', $row, FALSE);
                 echo "
                     <td>
                       <br />
@@ -1369,6 +1360,90 @@ function property_get_label( $property_id, $for_list_of_tasks )
         case 'percent_complete':
             return ( $for_list_of_tasks ? "Progress" : "Percent Complete" );
     }
+}
+
+function property_format_value($property_id, $task_a, $for_list_of_tasks)
+{
+    global $code_url, $tasks_url;
+    global $browser_array;
+    global $categories_array;
+    global $os_array;
+    global $priority_array;
+    global $severity_array;
+    global $tasks_array;
+    global $tasks_close_array;
+    global $tasks_status_array;
+    global $versions_array;
+
+    $raw_value = $task_a[$property_id];
+    switch ($property_id)
+    {
+        // The raw value is used directly:
+        case 'votes': return $raw_value;
+        case 'task_id': $fv = $raw_value; break; // maybe wrap in <a>
+
+        // The raw value is an index into an array.
+        case 'closed_reason' : return $tasks_close_array[$raw_value];
+        case 'task_browser'  : return $browser_array[$raw_value];
+        case 'task_category' : return $categories_array[$raw_value];
+        case 'task_os'       : return $os_array[$raw_value];
+        case 'task_priority' : return $priority_array[$raw_value];
+        case 'task_severity' : return $severity_array[$raw_value];
+        case 'task_status'   : return $tasks_status_array[$raw_value];
+        case 'task_type'     : return $tasks_array[$raw_value];
+        case 'task_version'  : return $versions_array[$raw_value];
+
+        // The raw value is an integer denoting seconds-since-epoch.
+        case 'date_edited' : return date("d-M-Y", $raw_value);
+        case 'date_opened' : return date("d-M-Y", $raw_value);
+        case 'date_closed' : return date("d-M-Y", $raw_value);
+
+        // The raw value is a user's u_id:
+        case 'opened_by' : return private_message_link_for_uid($raw_value);
+        case 'edited_by' : return private_message_link_for_uid($raw_value);
+        case 'closed_by' : return get_username_for_uid($raw_value);
+        case 'task_assignee':
+            return (
+                empty($raw_value)
+                ? "Unassigned"
+                : private_message_link_for_uid($raw_value)
+            );
+
+        // The raw value is some text typed in by a user:
+        case 'task_summary':
+            $fv = stripslashes($raw_value); break; // maybe wrap in <a>
+
+        case 'task_details':
+            return nl2br(stripslashes($raw_value));
+
+        // The raw value is an integer denoting state of progress:
+        case 'percent_complete':
+            if ($for_list_of_tasks) {
+                $s = 'small'; $w = '50'; $h = '8'; $b = "";
+            } else {
+                $s = 'large'; $w = '150'; $h = '10'; $b = " border='0'";
+            }
+            $url = "$code_url/graphics/task_percentages/{$s}_{$raw_value}.png";
+            $alt = "{$raw_value}% Complete";
+            return "<img src='$url' width='$w' height='$h'$b alt='$alt'>";
+
+        default:
+            assert(FALSE);
+    }
+
+    // Cases that don't return directly,
+    // but instead set $fv and then break,
+    // fall through to here.
+    // If appropriate, wrap $fv in an <a> element
+    // that links to the task's details page.
+
+    assert( isset($fv) );
+    if ($for_list_of_tasks)
+    {
+        $url = "$tasks_url?f=detail&tid=" . $task_a['task_id'];
+        $fv = "<a href='$url'>$fv</a>";
+    }
+    return $fv;
 }
 
 function private_message_link_for_uid($u_id)
