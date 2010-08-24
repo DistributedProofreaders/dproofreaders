@@ -77,7 +77,7 @@ if ($action == 'update_oneshot')
         $new_code_name = rtrim(ltrim($_REQUEST[code_name]));
 
         if (strlen($new_code_name) < 1) 
-            $errmsgs .= _("A value for Image Source ID is required. Please enter one. ");
+            $errmsgs .= _("A value for Image Source ID is required. Please enter one.") . " ";
 
         $result = mysql_query("SELECT COUNT(*)
             FROM image_sources
@@ -92,7 +92,7 @@ if ($action == 'update_oneshot')
         {
             $errmsgs .= sprintf(_('An image source with this ID already exists. If you
             wish to edit the details of an existing source, please contact %s.
-            Otherwise, choose a different ID for this source. <br />'),$db_requests_email_addr);
+            Otherwise, choose a different ID for this source.'),$db_requests_email_addr) . "<br />";
         }
 
         $source->save_from_post();
@@ -252,17 +252,17 @@ class ImageSource
 
     function show_buttons()
     {
-        echo "<input type='submit' name='edit' value='"._('Edit')."' /> ";
+        echo "<input type='submit' name='edit' value='".attr_safe(_('Edit'))."' /> ";
         switch ($this->is_active)
         {
             case('-1'):
-                echo "<input type='submit' name='approve' value='"._('Approve')."' /> ";
+                echo "<input type='submit' name='approve' value='".attr_safe(_('Approve'))."' /> ";
                 break;
             case('0'):
-                echo "<input type='submit' name='enable' value='"._('Enable')."' /> ";
+                echo "<input type='submit' name='enable' value='".attr_safe(_('Enable'))."' /> ";
                 break;
             case('1'):
-                echo "<input type='submit' name='disable' value='"._('Disable')."' /> ";
+                echo "<input type='submit' name='disable' value='".attr_safe(_('Disable'))."' /> ";
                 break;
         }
     }
@@ -292,7 +292,7 @@ class ImageSource
         $this->_show_edit_row('internal_comment',_('Notes (internal)'),true);
 
         echo "<tr><td colspan='2' style='text-align:center;'>
-            <input type='submit' name='save_edits' value='"._('Save')."' />
+            <input type='submit' name='save_edits' value='".attr_safe(_('Save'))."' />
             </td> </tr> </form> </table>\n\n";
     }
 
@@ -340,9 +340,9 @@ class ImageSource
                 : $this->$field;
 
             $editing .= "$col[label] <select name='$col[field]'>";
-            foreach (array('1' => 'Yes','0' => 'No','-1' => 'Unknown') as $val => $opt)
+            foreach (array('1' => _('Yes'),'0' => _('No'),'-1' => _('Unknown')) as $val => $opt)
             {
-                if (! (!$col['allow_unknown'] && $opt == 'Unknown') )
+                if (! (!$col['allow_unknown'] && $val == -1) )
                 {
                 $editing .= "<option value='$val' " .
                     ($existing_value == $val ? 'selected' :'') .
@@ -363,8 +363,14 @@ class ImageSource
                 ? (empty($_REQUEST[$field]) ? '2' : $_REQUEST[$field])
                 : $this->$field;
 
-            $editing .= "Visibility on Info Page <select name='$field'>";
-            foreach (array('0' => 'IS Managers Only','1' => 'Also PMs','2' => "All $site_abbreviation Users",'3' => 'Publicly Visible') as $val => $opt)
+            $editing .= _("Visibility on Info Page") . " <select name='$field'>";
+            foreach (array(
+                    '0' => _('IS Managers Only'),
+                    '1' => _('Also PMs'),
+                    // TRANSLATORS: %s is the site abbreviation
+                    '2' => sprintf(_("All %s Users"), $site_abbreviation),
+                    '3' => _('Publicly Visible')) 
+                as $val => $opt)
             {
                 {
                 $editing .= "<option value='$val' " .
