@@ -149,22 +149,26 @@ foreach ( $activity_ids as $activity_id )
             {
                 $review_work_url = "$code_url/tools/proofers/review_work.php?username=$username&amp;$round_params";
                 echo   "<td align='center'>";
-                echo     "<a href='$review_work_url'>rw</a>";
+                echo     "<a href='$review_work_url'>", _("review"), "</a>";
                 echo   "</td>";
             }
             echo   "<td align='left'>";
             echo     $t_latest_request_f;
-            echo " ($t_latest_request_d&nbsp;days)";
+            echo " <span style='white-space: nowrap'>(",
+                sprintf(_("%s days"), $t_latest_request_d), ")</span>";
             echo   "</td>";
             echo   "<td align='left'>";
             echo     $t_latest_deny_f;
-            if ($t_latest_deny_d >= 0) {
-                echo " ($t_latest_deny_d&nbsp;days)";
+            if ($t_latest_deny_d >= 0) 
+            {
+                echo " <span style='white-space: nowrap'>(",
+                    sprintf(_("%s days"), $t_latest_deny_d), ")</span>";
             }
             echo   "</td>";
             echo   "<td align='left'>";
             echo     $t_last_on_site_f;
-            echo " ($t_last_on_site_d&nbsp;days)";
+            echo " <span style='white-space: nowrap'>(",
+                sprintf(_("%s days"), $t_last_on_site_d), ")</span>";
             echo   "</td>";
             echo "</tr>";
             echo "\n";
