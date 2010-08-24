@@ -520,7 +520,9 @@ class Loader
             // hand-tweaking the page-table.
             return array(
                 'error',
-                "Multiple $toi in db!"
+                ($toi == 'text')
+                ? _("Multiple text in db!")
+                : _("Multiple image in db!")
             );
         }
 
@@ -530,7 +532,9 @@ class Loader
             // e.g. src dir contains 001.txt 001.png 001.jpg
             return array(
                 'error',
-                "Multiple $toi in source dir."
+                ($toi == 'text')
+                ? _("Multiple text in source dir.")
+                : _("Multiple image in source dir.")
             );
         }
 
@@ -656,7 +660,7 @@ class Loader
         echo "<h3>Ignored Files</h3>\n";
         if ( count($this->ignored_files) == 0 )
         {
-            echo "none";
+            echo _("none");
         }
         else
         {
@@ -679,12 +683,13 @@ class Loader
         echo "<h3>Non-page files</h3>\n";
         if ( count($this->non_page_files) == 0 )
         {
-            echo "none";
+            echo _("none");
         }
         else
         {
-            echo "(Usually these are illustrations.)\n";
-            echo "They will simply be copied into the project directory.<br>\n";
+            echo "(", _("Usually these are illustrations."), ")\n";
+            echo _("They will simply be copied into the project directory."), 
+                "<br>\n";
             echo "<table border='1'>";
             foreach ( $this->non_page_files as $filename )
             {
@@ -695,30 +700,30 @@ class Loader
 
         // --------------
 
-        echo "<h3>Page files</h3>\n";
+        echo "<h3>", _("Page files"), "</h3>\n";
         if ( count($this->page_file_table) == 0 )
         {
-            echo "none";
+            echo _("none");
         }
         else
         {
             echo "<table border='1'>\n";
             {
                 echo "<tr>";
-                echo "<th rowspan='2'>base</th>";
-                echo "<th colspan='3'>text</th>";
-                echo "<th colspan='3'>image</th>";
-                echo "<th rowspan='2'>error msgs</th>";
+                echo "<th rowspan='2'>", _("base"), "</th>";
+                echo "<th colspan='3'>", _("text"), "</th>";
+                echo "<th colspan='3'>", _("image"), "</th>";
+                echo "<th rowspan='2'>", _("error msgs"), "</th>";
                 echo "</tr>";
             }
             {
                 echo "<tr>";
-                echo "<th>pre-existing</th>";
-                echo "<th>new</th>";
-                echo "<th>action</th>";
-                echo "<th>pre-existing</th>";
-                echo "<th>new</th>";
-                echo "<th>action</th>";
+                echo "<th>", _("pre-existing"), "</th>";
+                echo "<th>", _("new"), "</th>";
+                echo "<th>", _("action"), "</th>";
+                echo "<th>", _("pre-existing"), "</th>";
+                echo "<th>", _("new"), "</th>";
+                echo "<th>", _("action"), "</th>";
                 echo "</tr>";
             }
             foreach ( $this->page_file_table as $base => $row )
@@ -751,9 +756,16 @@ class Loader
                         'same'    => '#ffffff',
                         'error'   => '#ffcccc',
                     );
+                    $action_labels = array(
+                        ''        => '',
+                        'add'     => _('add'),
+                        'replace' => _('replace'),
+                        'same'    => _('same'),
+                        'error'   => _('error'),
+                    );
                     $action_bgcolor = $bgcolors[$action];
                     echo "<td align='center' bgcolor='$action_bgcolor'>";
-                    echo $action;
+                    echo $action_labels[$action];
                     echo "</td>";
                 }
 
