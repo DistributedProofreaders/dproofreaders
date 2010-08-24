@@ -60,21 +60,21 @@ if (!isset($_GET['name']))
     if ($logged_in) {
         $query = "
             SELECT
-                display_name as '"._("Name in<br>Dropdown")."',
+                display_name as '".mysql_real_escape_string(_("Name in<br>Dropdown"))."',
                 case when length(url) > 5 then concat('<a href=\"',url,'\">',full_name,'</a>')
-                    else full_name end as '"._("Full Name")."',
-                public_comment as '"._("Description")."',
+                    else full_name end as '".mysql_real_escape_string(_("Full Name"))."',
+                public_comment as '".mysql_real_escape_string(_("Description"))."',
                 CASE ok_show_images
-                    WHEN  1 THEN '<center>"._('Yes')    ."</center>'
-                    WHEN  0 THEN '<center>"._('No')     ."</center>'
-                    WHEN -1 THEN '<center>"._('Unknown')."</center>'
-                END AS '"._('OK to publish images?')."',
+                    WHEN  1 THEN '<center>".mysql_real_escape_string(_('Yes'))    ."</center>'
+                    WHEN  0 THEN '<center>".mysql_real_escape_string(_('No'))     ."</center>'
+                    WHEN -1 THEN '<center>".mysql_real_escape_string(_('Unknown'))."</center>'
+                END AS '".mysql_real_escape_string(_('OK to publish images?'))."',
                 case when count(distinct  projectid) = 0 then '<center>0</center>'
-                    else concat('<center><a href=\"show_image_sources.php?name=',code_name,'&which=ALL\" >',count(distinct projectid),'</a></center>') end as '"._("Works In Progress")."',
+                    else concat('<center><a href=\"show_image_sources.php?name=',code_name,'&which=ALL\" >',count(distinct projectid),'</a></center>') end as '".mysql_real_escape_string(_("Works In Progress"))."',
                 case when isnull(sum(".SQL_CONDITION_GOLD.")) then '<center>0</center>'
                      when sum(".SQL_CONDITION_GOLD.") = 0 then '<center>0</center>'
-                    else concat('<center><a href=\"show_image_sources.php?name=',code_name,'\" >',sum(".SQL_CONDITION_GOLD."),'</a></center>') end as '"._("Works Completed")."',
-                internal_comment as '"._("Notes")."'
+                    else concat('<center><a href=\"show_image_sources.php?name=',code_name,'\" >',sum(".SQL_CONDITION_GOLD."),'</a></center>') end as '".mysql_real_escape_string(_("Works Completed"))."',
+                internal_comment as '".mysql_real_escape_string(_("Notes"))."'
             FROM image_sources i left join projects p on i.code_name = p.image_source
             WHERE info_page_visibility >= $min_vis_level
             GROUP BY code_name
@@ -84,18 +84,18 @@ if (!isset($_GET['name']))
         $query = "
             SELECT
                 case when length(url) > 5 then concat('<a href=\"',url,'\">',full_name,'</a>')
-                    else full_name end as '"._("Image Source")."',
-                public_comment as '"._("Description")."',
+                    else full_name end as '".mysql_real_escape_string(_("Image Source")). "',
+                public_comment as '".mysql_real_escape_string(_("Description"))."',
                 CASE ok_show_images
-                    WHEN  1 THEN '<center>"._('Yes')    ."</center>'
-                    WHEN  0 THEN '<center>"._('No')     ."</center>'
-                    WHEN -1 THEN '<center>"._('Unknown')."</center>'
-                END AS '"._('OK to publish images?')."',
+                    WHEN  1 THEN '<center>".mysql_real_escape_string(_('Yes'))    ."</center>'
+                    WHEN  0 THEN '<center>".mysql_real_escape_string(_('No'))     ."</center>'
+                    WHEN -1 THEN '<center>".mysql_real_escape_string(_('Unknown'))."</center>'
+                END AS '".mysql_real_escape_string(_('OK to publish images?'))."',
                 case when count(distinct  projectid) = 0 then '<center>0</center>'
-                    else concat('<center><a href=\"show_image_sources.php?name=',code_name,'&which=ALL\" >',count(distinct projectid),'</a></center>') end as '"._("Works In Progress")."',
+                    else concat('<center><a href=\"show_image_sources.php?name=',code_name,'&which=ALL\" >',count(distinct projectid),'</a></center>') end as '".mysql_real_escape_string(_("Works In Progress"))."',
                 case when isnull(sum(".SQL_CONDITION_GOLD.")) then '<center>0</center>'
                     when sum(".SQL_CONDITION_GOLD.") = 0 then '<center>0</center>'
-                    else concat('<center><a href=\"show_image_sources.php?name=',code_name,'\" >',sum(".SQL_CONDITION_GOLD."),'</a></center>') end as '"._("Works Completed")."'
+                    else concat('<center><a href=\"show_image_sources.php?name=',code_name,'\" >',sum(".SQL_CONDITION_GOLD."),'</a></center>') end as '".mysql_real_escape_string(_("Works Completed"))."'
             FROM image_sources i left join projects p on i.code_name = p.image_source
             WHERE info_page_visibility >= $min_vis_level
             GROUP BY code_name
@@ -190,11 +190,11 @@ if (!isset($_GET['name']))
 
         dpsql_dump_query("
             SELECT
-                concat('<a href=\"$code_url/project.php?id=',projectid,'\">',nameofwork,'</a>') as "._('Title').",
-                authorsname as "._('Author').",
-                genre as "._('Genre').",
-                language as "._('Language').",
-                IF(postednum, concat('<a href=\"http://www.gutenberg.net/etext/',postednum,'\">',postednum,'</a>'),'In Progress') as '"._('PG Number<br>and Link')."'
+                concat('<a href=\"$code_url/project.php?id=',projectid,'\">',nameofwork,'</a>') as '".mysql_real_escape_string(_('Title'))."',
+                authorsname as '".mysql_real_escape_string(_('Author'))."',
+                genre as '".mysql_real_escape_string(_('Genre'))."',
+                language as '".mysql_real_escape_string(_('Language'))."',
+                IF(postednum, concat('<a href=\"http://www.gutenberg.net/etext/',postednum,'\">',postednum,'</a>'),'".mysql_real_escape_string(_('In Progress'))."') as '".mysql_real_escape_string(_('PG Number<br>and Link'))."'
             FROM projects
             WHERE image_source = '".$imso_code."' ".$where_cls."
             ORDER BY nameofwork
