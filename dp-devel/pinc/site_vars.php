@@ -119,6 +119,13 @@ $readBIGtable = <<READBIGTABLE>>;
 
 // -----------------------------------------------------------------------------
 
+// Placeholders for gettext functions.
+
+// These functions should be moved into gettext_setup.inc as soon 
+// as issues about the order of include files are solved, so as to
+// guarantee that gettext_setup.inc is included before any call
+// to _() or other gettext functions.
+
 // If the gettext extension is compiled into PHP, then the function named '_'
 // (an alias for 'gettext') will be defined.
 // If it's not defined (e.g., on dproofreaders.sourceforge.net),
@@ -127,6 +134,16 @@ if (! function_exists('_') )
 {
     function _($str) { return $str; }
 }
+
+if (! function_exists(ngettext) )
+{
+    function ngettext($singular, $plural, $number)
+    {
+        return ($number == 1) ? $singular : $plural;
+    }
+}
+
+// -----------------------------------------------------------------------------
 
 // Make sure magic_quotes_gpc is turned on, we rely heavily on it.
 if (get_magic_quotes_gpc() == 0) {
