@@ -9,7 +9,7 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'username.inc');
 include_once($relPath.'email_address.inc');
 
-theme('Edit mail-address for non-activated user', 'header');
+theme(_('Edit mail-address for non-activated user'), 'header');
 
 if (!user_is_a_sitemanager()) {
     echo _('You are not authorized to invoke this script.');
@@ -20,15 +20,15 @@ if (!user_is_a_sitemanager()) {
 $action   = get_enumerated_param($_GET, 'action', 'default', array('list_all', 'get_user', 'set_email', 'default'));
 
 if ($action == 'default') {
+    echo _("This form should be used when a mail has been received from a user who has not received
+    his or her welcome email due to entering a bad email address when registering.");
+    printf(_("To change the address, please enter the name of the user below or
+    <a href='%s'>list all user accounts awaiting activation</a>."), "?action=list_all");
     ?>
-    This form should be used when a mail has been received from a user who has not received
-    his or her welcome email due to entering a bad email address when registering.
-    To change the address, please enter the name of the user below or
-    <a href="?action=list_all">list all user accounts awaiting activation</a>.
     <br />
     <form method='get'><input type='hidden' name='action' value='get_user' />
-    Username: <input type='text' name='username' />
-    <input type='submit' value='Continue' />
+    <?php echo _("Username:"); ?> <input type='text' name='username' />
+    <input type='submit' value='<?php echo attr_safe(_("Continue")); ?>' />
     </form>
     <br />
     <?php
@@ -45,17 +45,17 @@ else if ($action == 'list_all') {
         ORDER BY $order_by
     ");
     if (mysql_num_rows($result) == 0)
-        echo "<p>No user accounts are awaiting activation.</p>";
+        echo "<p>", _("No user accounts are awaiting activation."), "</p>";
     else {
-        echo "<p>The following accounts are awaiting activation.
-            (Click on a column header to sort by that column.)</p>\n";
+        echo "<p>", _("The following accounts are awaiting activation."), "
+            ", _("(Click on a column header to sort by that column.)"), "</p>\n";
         echo "<table border='1'>\n";
         {
             echo "<tr>\n";
-            echo "<th><a href='?action=list_all&order_by=username'>username</a></th>\n";
-            echo "<th><a href='?action=list_all&order_by=real_name'>real name</a></th>\n";
-            echo "<th><a href='?action=list_all&order_by=email'>email address</a></th>\n";
-            echo "<th><a href='?action=list_all&order_by=date_created+DESC'>date registered</a></th>\n";
+            echo "<th><a href='?action=list_all&order_by=username'>", _("username"), "</a></th>\n";
+            echo "<th><a href='?action=list_all&order_by=real_name'>", _("real name"), "</a></th>\n";
+            echo "<th><a href='?action=list_all&order_by=email'>", _("email address"), "</a></th>\n";
+            echo "<th><a href='?action=list_all&order_by=date_created+DESC'>", _("date registered"), "</a></th>\n";
             echo "</tr>\n";
         }
         while ($row = mysql_fetch_assoc($result)) {
@@ -79,26 +79,26 @@ else if ($action == 'get_user') {
     ");
 
     if (mysql_num_rows($result) == 0) {
-        ?>
-        No user '<?php echo htmlspecialchars(stripslashes($username)); ?>' was found in the list of non-validated users.
-        <p>Note that you can also <a href="?action=list_all">list all user accounts
-        awaiting activation</a>.</p>
-        <?php
+        printf(_("No user '%s' was was found in the list of non-validated users."),
+            htmlspecialchars(stripslashes($username)));
+        echo "<p>", 
+            sprintf(_("Note that you can also <a href='%s'>list all user accounts awaiting activation</a>"), "?action=list_all"), 
+            "</p>";
     }
     else {
         $username = stripslashes($username);
         $email = mysql_result($result, 0, 'email');
+        echo _("Enter the correct email-address below. When you submit the form, the activation mail will be resent.");
         ?>
-        Enter the correct email-address below. When you submit the form, the activation mail will be resent.
         <br />
         <form method='get'>
         <input type='hidden' name='action' value='set_email' />
         <input type='hidden' name='username' value='<?php echo htmlspecialchars($username, ENT_QUOTES); ?>' />
-        Username: <?php echo htmlspecialchars($username); ?>
+        <?php echo _("Username:"); ?> <?php echo htmlspecialchars($username); ?>
         <br />
-        E-mail: <input type='text' name='email' value='<?php echo htmlspecialchars($email, ENT_QUOTES); ?>' />
+        <?php echo _("E-mail:"); ?> <input type='text' name='email' value='<?php echo htmlspecialchars($email, ENT_QUOTES); ?>' />
         <br />
-        <input type='submit' value='Update address and resend activation mail' />
+        <input type='submit' value='<?php echo attr_safe(_("Update address and resend activation mail")); ?>' />
         </form>
         <?php
     }
