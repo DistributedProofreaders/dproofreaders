@@ -178,7 +178,11 @@ function join_proofed_text ($project, $pages_res, $include_proofers, $save_files
                 $info_str .= "$proofer_name\\";
             }
         }
-        $separator_line = str_pad( $info_str, 75, '-', STR_PAD_RIGHT );
+        
+        // This will ensure that the separator line ends with a '-'
+        // (in case some PPing software or regex expect that last dash),
+        // and pad the string to length 75, if not wider than 75 chars.
+        $separator_line = str_pad( $info_str, 74, '-', STR_PAD_RIGHT ) . '-';
         $fileinfo = $eol . $separator_line . $eol . $text_data;
         if ($save_files) 
         {
