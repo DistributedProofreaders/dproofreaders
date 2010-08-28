@@ -58,6 +58,13 @@ echo "<a name='proof' id='proof'></a><h2>$heading_proof</h2>";
 
 // ---------------
 
+// $colspecs = array ( 
+//     $id => array ( 'label' => $label, 'sql' => $sql ) 
+// );
+// $id is the column name as passed by GET argument.
+// $label is the translatable label displayed in the column header
+// $sql is the SQL collater expression, or NULL for unsortable columns.
+
 $colspecs = array(
     'title' =>
         array(
