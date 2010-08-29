@@ -694,7 +694,8 @@ function clause_all_or_match($request_params, $key)
 
 function search_and_list_tasks($request_params, $order_by)
 {
-    global $testing;
+    global $testing, $tasks_status_all_array;
+
     $task_type     = clause_all_or_match($request_params, 'task_type');
     $task_severity = clause_all_or_match($request_params, 'task_severity');
     $task_priority = clause_all_or_match($request_params, 'task_priority');
@@ -702,14 +703,15 @@ function search_and_list_tasks($request_params, $order_by)
     $task_category = clause_all_or_match($request_params, 'task_category');
     $task_version  = clause_all_or_match($request_params, 'task_version');
 
-    if ($request_params['task_status'] == 999) {
+    $status_value = get_enumerated_param($request_params, 'task_status', null, array_keys($tasks_status_all_array), true);
+    if (is_null($status_value) || $status_value == 999) {
         $task_status = "task_status >= 0 AND date_closed = 0";
     }
-    elseif ($request_params['task_status'] == 998) {
+    elseif ($status_value == 998) {
         $task_status = "task_status >= 0";
     }
     else {
-        $task_status = "task_status = " . $request_params['task_status'];
+        $task_status = "task_status = $status_value";
     }
     // Note that, although TaskHeader has already run stripslashes()
     // on $_REQUEST['search_text'], $_REQUEST is a distinct variable
