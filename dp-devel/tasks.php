@@ -685,8 +685,9 @@ function sql_query_for_tasks($where_clause, $order_by)
 
 function clause_all_or_match($request_params, $key)
 {
-    if ($request_params[$key] == 999) return $key . " >= 0";
-    return $key . " = " . $request_params[$key];
+    $value = $request_params[$key];
+    if ($value == 999) return "$key >= 0";
+    return "$key = $value";
 }
 
 function search_and_list_tasks($request_params, $order_by)
