@@ -13,7 +13,13 @@ $tasks_url = $code_url . "/" . basename(__FILE__);
 
 $valid_orderbys = array('task_id','task_type','task_severity','votes','task_summary','date_edited','task_status','percent_complete');
 
+$order_by = "ORDER BY date_edited DESC, task_severity ASC, task_type ASC";
+
 $valid_f = get_enumerated_param($_GET, 'f', null, array('newtask', 'detail', 'notifyme', 'unnotifyme'), true);
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// This section sets up all the "pick from a list" properties of a task.
 
 $tasks_array = array(
     1 => "Bug Report",
@@ -258,8 +264,6 @@ $task_assignees_all_array = array(999 => 'All Developers') + $task_assignees_arr
 $severity_all_array       = array(999 => 'All Severities') + $severity_array;
 $priority_all_array       = array(999 => 'All Priorities') + $priority_array;
 $versions_all_array       = array(999 => 'All Versions') + $versions_array;
-
-$order_by = "ORDER BY date_edited DESC, task_severity ASC, task_type ASC";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
