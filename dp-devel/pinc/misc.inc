@@ -57,6 +57,45 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         // Trim whitespace from both ends of the string.
         $s = trim($s);
 
+        // Although this function was written assuming that $choices is an array
+        // of strings, tasks.php started calling it with an array of integers.
+        // Now, $s is definitely a string, so you might expect that in_array()
+        // would say that it doesn't match any value in an array of integers, and
+        // return false, whereupon this function would die saying $s is invalid.
+        // And in fact, that's exactly what would happen if we passed TRUE to
+        // in_array's $strict parameter. But instead, we let $strict take its
+        // default value of FALSE. What happens then is that in_array()
+        // converts $s to a numeric value and compares *that* to the integer
+        // values in $choices.
+        // 
+        // Now, that would be fine and exactly what we want to have happen,
+        // except that PHP's string-to-number conversion is rather loose: it
+        // only looks for valid numeric data at the start of the string, and
+        // doesn't care if that data is followed by non-numeric characters.
+        // (See "String conversion to numbers" in the PHP online manual.)
+        // For example,
+        //     in_array("2y", array(0,1,2,3))
+        // returns true. Thus, in such a case, the in_array() test is not catching
+        // invalid input.
+        //
+        // To handle this, we check if the first value in $choices is an
+        // integer, and if so, require that $s contain only an integer numeral.
+        // (Note that this wouldn't work if $choices contained both integers and
+        // non-numeric strings.)
+        //
+        if (is_int(current($choices)))
+        {
+            if (!is_numeric($s))
+            {
+                die(htmlspecialchars("parameter '$key' ('$s') is not numeric"));
+            }
+            $s = 0 + $s;
+            if (!is_int($s))
+            {
+                die(htmlspecialchars("parameter '$key' ('$s') is not an integer"));
+            }
+        }
+
         if ( in_array($s, $choices) )
         {
             return $s;
