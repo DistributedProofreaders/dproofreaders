@@ -15,41 +15,6 @@ $valid_orderbys = array('task_id','task_type','task_severity','votes','task_summ
 
 $valid_f = get_enumerated_param($_GET, 'f', null, array('newtask', 'detail', 'notifyme', 'unnotifyme'), true);
 
-$no_stats = 1;
-theme('Task Center', 'header');
-?>
-<script language='javascript'><!--
-function showSpan(id) {
-    document.getElementById(id).style.display="";
-}
-function hideSpan(id) {
-    document.getElementById(id).style.display="none";
-}
-// --></script>
-<style type="text/css">
-table.tasks        { width:98%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size:11px; }
-table.tasks td     { font-size:11px; padding:2px!important; vertical-align:top; text-align:left; }
-table.tasks th     { font-weight:bold; text-align:left; padding:5px; vertical-align:top; }
-table.taskslist    { width:98%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size:11px; }
-table.taskslist td { padding:5px!important; }
-table.taskslist th { font-weight:bold; text-align:left; padding:5px; vertical-align:top; padding:5px!important; }
-table.taskplain    { width:98%; border:none; border-collapse:collapse; }
-table.taskplain td { font-size: 11px; padding:2px; vertical-align:top; text-align:left; }
-td.taskproperty    { width:40%; font-weight: bold; }
-td.taskvalue       { width:60%; border-bottom:#CCCCCC 1px solid; }
-select.taskselect  { font-size:12px; color:#03008F; background-color:#EEF7FF; }
-input.taskinp1     { font-size:12px; border:1px solid #000000; margin:2px; padding:0px; background-color:#EEF7FF; }
-input.taskinp2     { font-size:12px; color:#FFFFFF; font-weight:bold; border:1px ridge #000000; margin:2px; padding:0px; background-color:#838AB5; }
-legend.task        { font-weight:bold; }
-fieldset.task      { width:35em; border:#2266AA solid 1px; }
-small.task         { font-family:Verdana; font-size:10px; }
-center.taskwarn    { color:#FF0000; font-weight:bold; font-size: 12pt; font-family:Verdana; padding:2em; }
-center.taskinfo    { color:#00CC00; font-weight:bold; font-size: 12pt; font-family:Verdana; padding:2em; }
-p                  { font-family:Verdana; font-size:11px; }
-</style>
-
-<?php
-
 $tasks_array = array(
     1 => "Bug Report",
     2 => "Feature Request",
@@ -295,6 +260,45 @@ $priority_all_array       = array(999 => 'All Priorities') + $priority_array;
 $versions_all_array       = array(999 => 'All Versions') + $versions_array;
 
 $order_by = "ORDER BY date_edited DESC, task_severity ASC, task_type ASC";
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// This is the point at which the script starts to produce output.
+
+$no_stats = 1;
+theme('Task Center', 'header');
+?>
+<script language='javascript'><!--
+function showSpan(id) {
+    document.getElementById(id).style.display="";
+}
+function hideSpan(id) {
+    document.getElementById(id).style.display="none";
+}
+// --></script>
+<style type="text/css">
+table.tasks        { width:98%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size:11px; }
+table.tasks td     { font-size:11px; padding:2px!important; vertical-align:top; text-align:left; }
+table.tasks th     { font-weight:bold; text-align:left; padding:5px; vertical-align:top; }
+table.taskslist    { width:98%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size:11px; }
+table.taskslist td { padding:5px!important; }
+table.taskslist th { font-weight:bold; text-align:left; padding:5px; vertical-align:top; padding:5px!important; }
+table.taskplain    { width:98%; border:none; border-collapse:collapse; }
+table.taskplain td { font-size: 11px; padding:2px; vertical-align:top; text-align:left; }
+td.taskproperty    { width:40%; font-weight: bold; }
+td.taskvalue       { width:60%; border-bottom:#CCCCCC 1px solid; }
+select.taskselect  { font-size:12px; color:#03008F; background-color:#EEF7FF; }
+input.taskinp1     { font-size:12px; border:1px solid #000000; margin:2px; padding:0px; background-color:#EEF7FF; }
+input.taskinp2     { font-size:12px; color:#FFFFFF; font-weight:bold; border:1px ridge #000000; margin:2px; padding:0px; background-color:#838AB5; }
+legend.task        { font-weight:bold; }
+fieldset.task      { width:35em; border:#2266AA solid 1px; }
+small.task         { font-family:Verdana; font-size:10px; }
+center.taskwarn    { color:#FF0000; font-weight:bold; font-size: 12pt; font-family:Verdana; padding:2em; }
+center.taskinfo    { color:#00CC00; font-weight:bold; font-size: 12pt; font-family:Verdana; padding:2em; }
+p                  { font-family:Verdana; font-size:11px; }
+</style>
+
+<?php
 
 echo "<br /><div align='center'><table class='taskplain' width='98%'><tr><td>\n";
 TaskHeader();
