@@ -739,8 +739,7 @@ function search_and_list_tasks($request_params, $order_by)
 
     $search_text_summary = addslashes(htmlspecialchars($request_params['search_text']));
     $search_text_details = addslashes(htmlspecialchars($request_params['search_text'], ENT_QUOTES));
-    $where_clause = "
-        WHERE
+    $condition = "
             (
                 POSITION('$search_text_summary' IN task_summary)
                 OR
@@ -753,6 +752,8 @@ function search_and_list_tasks($request_params, $order_by)
             AND $task_category
             AND $task_status
             AND $task_version";
+
+    $where_clause = "WHERE $condition";
     $sql_query = sql_query_for_tasks($where_clause, $order_by);
     if ($testing) echo_html_comment($sql_query);
     $result = mysql_query($sql_query);
