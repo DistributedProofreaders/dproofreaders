@@ -685,7 +685,9 @@ function sql_query_for_tasks($where_clause, $order_by)
 
 function clause_all_or_match($request_params, $key)
 {
-    $value = @$request_params[$key];
+    // This should properly be a call to get_enumerated_param(),
+    // using the "all" array that's appropriate for $key.
+    $value = get_integer_param($request_params, $key, null, 0, null, true);
     if (is_null($value) || $value == 999) return "$key >= 0";
     return "$key = $value";
 }
