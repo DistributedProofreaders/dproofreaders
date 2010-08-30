@@ -307,23 +307,6 @@ function SearchParams_get_sql_condition($request_params)
 {
     global $testing, $tasks_status_all_array;
 
-    $task_type     = clause_all_or_match($request_params, 'task_type');
-    $task_severity = clause_all_or_match($request_params, 'task_severity');
-    $task_priority = clause_all_or_match($request_params, 'task_priority');
-    $task_assignee = clause_all_or_match($request_params, 'task_assignee');
-    $task_category = clause_all_or_match($request_params, 'task_category');
-    $task_version  = clause_all_or_match($request_params, 'task_version');
-
-    $status_value = get_enumerated_param($request_params, 'task_status', null, array_keys($tasks_status_all_array), true);
-    if (is_null($status_value) || $status_value == 999) {
-        $task_status = "task_status >= 0 AND date_closed = 0";
-    }
-    elseif ($status_value == 998) {
-        $task_status = "task_status >= 0";
-    }
-    else {
-        $task_status = "task_status = $status_value";
-    }
     // Note that, although TaskHeader has already run stripslashes()
     // on $_REQUEST['search_text'], $_REQUEST is a distinct variable
     // from $_GET and $_POST (and thus $request_params), so
@@ -342,12 +325,35 @@ function SearchParams_get_sql_condition($request_params)
 
     $search_text_summary = addslashes(htmlspecialchars($request_params['search_text']));
     $search_text_details = addslashes(htmlspecialchars($request_params['search_text'], ENT_QUOTES));
+
     $condition = "
             (
                 POSITION('$search_text_summary' IN task_summary)
                 OR
                 POSITION('$search_text_details' IN task_details)
-            )
+            )";
+
+    // ------
+
+    $task_type     = clause_all_or_match($request_params, 'task_type');
+    $task_severity = clause_all_or_match($request_params, 'task_severity');
+    $task_priority = clause_all_or_match($request_params, 'task_priority');
+    $task_assignee = clause_all_or_match($request_params, 'task_assignee');
+    $task_category = clause_all_or_match($request_params, 'task_category');
+    $task_version  = clause_all_or_match($request_params, 'task_version');
+
+    $status_value = get_enumerated_param($request_params, 'task_status', null, array_keys($tasks_status_all_array), true);
+    if (is_null($status_value) || $status_value == 999) {
+        $task_status = "task_status >= 0 AND date_closed = 0";
+    }
+    elseif ($status_value == 998) {
+        $task_status = "task_status >= 0";
+    }
+    else {
+        $task_status = "task_status = $status_value";
+    }
+
+    $condition .= "
             AND $task_type
             AND $task_severity
             AND $task_priority
@@ -355,6 +361,7 @@ function SearchParams_get_sql_condition($request_params)
             AND $task_category
             AND $task_status
             AND $task_version";
+
     return $condition;
 }
 
