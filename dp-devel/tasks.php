@@ -268,6 +268,10 @@ $SearchParams_choices = array(
     'task_version'  => array(999 => 'All Versions') + $versions_array,
 );
 
+// XXX Re task_assignee, there's a long-standing bug involving
+// a sitemanager/task_center_mgr whose u_id happens to be 999.
+// However, there's a fairly low chance of it ever being triggered.
+
 function SearchParams_echo_controls()
 // For each of the search parameters, echo its control (HTML markup),
 // initializing it with any (valid) value that the current request
