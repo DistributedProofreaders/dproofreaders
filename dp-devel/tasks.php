@@ -337,21 +337,19 @@ function SearchParams_get_sql_condition($request_params)
                 $param_condition = "$param_name = $value";
             }
         } else {
-            $param_condition = clause_all_or_match($request_params, $param_name);
+            // This should properly be a call to get_enumerated_param(),
+            // using $SearchParams_choices[$param_name].
+            $value = get_integer_param($request_params, $param_name, null, 0, null, true);
+            if (is_null($value) || $value == 999) {
+                $param_condition = "$param_name >= 0";
+            } else {
+                $param_condition = "$param_name = $value";
+            }
         }
         $condition .= "\n            AND $param_condition";
     }
 
     return $condition;
-}
-
-function clause_all_or_match($request_params, $key)
-{
-    // This should properly be a call to get_enumerated_param(),
-    // using $SearchParams_choices[$key].
-    $value = get_integer_param($request_params, $key, null, 0, null, true);
-    if (is_null($value) || $value == 999) return "$key >= 0";
-    return "$key = $value";
 }
 
 function SearchParams_get_url_query_string()
