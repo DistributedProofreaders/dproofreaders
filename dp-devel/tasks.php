@@ -259,21 +259,20 @@ $task_assignees_array = array(0 => 'Unassigned') + $task_assignees_array;
 // -----------------------------------------------------------------------------
 
 // Make the 'all' versions of each array used by search.
-$tasks_all_array          = array(999 => 'All Task Types') + $tasks_array;
-$categories_all_array     = array(999 => 'All Categories') +$categories_array;
-$tasks_status_all_array   = array(998 => 'All Tasks', 999 => 'All Open Tasks') + $tasks_status_array;
-$task_assignees_all_array = array(999 => 'All Developers') + $task_assignees_array;
-$severity_all_array       = array(999 => 'All Severities') + $severity_array;
-$priority_all_array       = array(999 => 'All Priorities') + $priority_array;
-$versions_all_array       = array(999 => 'All Versions') + $versions_array;
+$SearchParams_choices['task_type']          = array(999 => 'All Task Types') + $tasks_array;
+$SearchParams_choices['task_category']     = array(999 => 'All Categories') +$categories_array;
+$SearchParams_choices['task_status']   = array(998 => 'All Tasks', 999 => 'All Open Tasks') + $tasks_status_array;
+$SearchParams_choices['task_assignee'] = array(999 => 'All Developers') + $task_assignees_array;
+$SearchParams_choices['task_severity']       = array(999 => 'All Severities') + $severity_array;
+$SearchParams_choices['task_priority']       = array(999 => 'All Priorities') + $priority_array;
+$SearchParams_choices['task_version']       = array(999 => 'All Versions') + $versions_array;
 
 function SearchParams_echo_controls()
 // For each of the search parameters, echo its control (HTML markup),
 // initializing it with any (valid) value that the current request
 // has supplied for the parameter.
 {
-    global $tasks_all_array, $severity_all_array, $priority_all_array, $task_assignees_all_array;
-    global $categories_all_array, $tasks_status_all_array, $versions_all_array;
+    global $SearchParams_choices;
 
     if (isset($_REQUEST['search_text']) && !empty($_REQUEST['search_text'])) {
         if (get_magic_quotes_gpc()) $_REQUEST['search_text'] = stripslashes($_REQUEST['search_text']);
@@ -283,21 +282,21 @@ function SearchParams_echo_controls()
 
     echo "<input type='text' value='$search_text' name='search_text' size='50' class='taskinp1'>\n";
 
-    $task_type     = (int) get_enumerated_param($_REQUEST, 'task_type',     '999', array_keys($tasks_all_array));
-    $task_severity = (int) get_enumerated_param($_REQUEST, 'task_severity', '999', array_keys($severity_all_array));
-    $task_priority = (int) get_enumerated_param($_REQUEST, 'task_priority', '999', array_keys($priority_all_array));
-    $task_assignee = (int) get_enumerated_param($_REQUEST, 'task_assignee', '999', array_keys($task_assignees_all_array));
-    $task_category = (int) get_enumerated_param($_REQUEST, 'task_category', '999', array_keys($categories_all_array));
-    $task_status   = (int) get_enumerated_param($_REQUEST, 'task_status',   '999', array_keys($tasks_status_all_array));
-    $task_version  = (int) get_enumerated_param($_REQUEST, 'task_version',  '999', array_keys($versions_all_array));
+    $task_type     = (int) get_enumerated_param($_REQUEST, 'task_type',     '999', array_keys($SearchParams_choices['task_type']));
+    $task_severity = (int) get_enumerated_param($_REQUEST, 'task_severity', '999', array_keys($SearchParams_choices['task_severity']));
+    $task_priority = (int) get_enumerated_param($_REQUEST, 'task_priority', '999', array_keys($SearchParams_choices['task_priority']));
+    $task_assignee = (int) get_enumerated_param($_REQUEST, 'task_assignee', '999', array_keys($SearchParams_choices['task_assignee']));
+    $task_category = (int) get_enumerated_param($_REQUEST, 'task_category', '999', array_keys($SearchParams_choices['task_category']));
+    $task_status   = (int) get_enumerated_param($_REQUEST, 'task_status',   '999', array_keys($SearchParams_choices['task_status']));
+    $task_version  = (int) get_enumerated_param($_REQUEST, 'task_version',  '999', array_keys($SearchParams_choices['task_version']));
 
-    dropdown_select('task_type',     $task_type,     $tasks_all_array);
-    dropdown_select('task_severity', $task_severity, $severity_all_array);
-    dropdown_select('task_priority', $task_priority, $priority_all_array);
-    dropdown_select('task_assignee', $task_assignee, $task_assignees_all_array);
-    dropdown_select('task_category', $task_category, $categories_all_array);
-    dropdown_select('task_status',   $task_status,   $tasks_status_all_array);
-    dropdown_select('task_version',  $task_version,  $versions_all_array);
+    dropdown_select('task_type',     $task_type,     $SearchParams_choices['task_type']);
+    dropdown_select('task_severity', $task_severity, $SearchParams_choices['task_severity']);
+    dropdown_select('task_priority', $task_priority, $SearchParams_choices['task_priority']);
+    dropdown_select('task_assignee', $task_assignee, $SearchParams_choices['task_assignee']);
+    dropdown_select('task_category', $task_category, $SearchParams_choices['task_category']);
+    dropdown_select('task_status',   $task_status,   $SearchParams_choices['task_status']);
+    dropdown_select('task_version',  $task_version,  $SearchParams_choices['task_version']);
 }
 
 function SearchParams_get_sql_condition($request_params)
@@ -305,7 +304,7 @@ function SearchParams_get_sql_condition($request_params)
 // implied by the values (if any) supplied for the search parameters
 // by the current request.
 {
-    global $testing, $tasks_status_all_array;
+    global $testing, $SearchParams_choices;
 
     // Note that, although TaskHeader has already run stripslashes()
     // on $_REQUEST['search_text'], $_REQUEST is a distinct variable
@@ -342,7 +341,7 @@ function SearchParams_get_sql_condition($request_params)
     $task_category = clause_all_or_match($request_params, 'task_category');
     $task_version  = clause_all_or_match($request_params, 'task_version');
 
-    $status_value = get_enumerated_param($request_params, 'task_status', null, array_keys($tasks_status_all_array), true);
+    $status_value = get_enumerated_param($request_params, 'task_status', null, array_keys($SearchParams_choices['task_status']), true);
     if (is_null($status_value) || $status_value == 999) {
         $task_status = "task_status >= 0 AND date_closed = 0";
     }
@@ -368,7 +367,7 @@ function SearchParams_get_sql_condition($request_params)
 function clause_all_or_match($request_params, $key)
 {
     // This should properly be a call to get_enumerated_param(),
-    // using the "all" array that's appropriate for $key.
+    // using $SearchParams_choices[$key].
     $value = get_integer_param($request_params, $key, null, 0, null, true);
     if (is_null($value) || $value == 999) return "$key >= 0";
     return "$key = $value";
@@ -379,18 +378,17 @@ function SearchParams_get_url_query_string()
 // that represents (and possibly just reiterates) the values (if any)
 // supplied for the search parameters by the current request.
 {
-    global $tasks_all_array, $severity_all_array, $task_assignees_all_array, $categories_all_array;
-    global $tasks_status_all_array, $priority_all_array, $versions_all_array;
+    global $SearchParams_choices;
 
     if (isset($_REQUEST['search_text'])) {
         $t = "search_text="     . urlencode($_REQUEST['search_text'])
-            . "&task_type="     . get_enumerated_param($_REQUEST,'task_type'    , '999',          array_keys($tasks_all_array))
-            . "&task_severity=" . get_enumerated_param($_REQUEST,'task_severity', '999',       array_keys($severity_all_array))
-            . "&task_priority=" . get_enumerated_param($_REQUEST,'task_priority', '999',       array_keys($priority_all_array))
-            . "&task_assignee=" . get_enumerated_param($_REQUEST,'task_assignee', '999', array_keys($task_assignees_all_array))
-            . "&task_category=" . get_enumerated_param($_REQUEST,'task_category', '999',     array_keys($categories_all_array))
-            . "&task_status="   . get_enumerated_param($_REQUEST,'task_status'  , '999',   array_keys($tasks_status_all_array))
-            . "&task_version="  . get_enumerated_param($_REQUEST,'task_version' , '999',       array_keys($versions_all_array)) 
+            . "&task_type="     . get_enumerated_param($_REQUEST,'task_type'    , '999',          array_keys($SearchParams_choices['task_type']))
+            . "&task_severity=" . get_enumerated_param($_REQUEST,'task_severity', '999',       array_keys($SearchParams_choices['task_severity']))
+            . "&task_priority=" . get_enumerated_param($_REQUEST,'task_priority', '999',       array_keys($SearchParams_choices['task_priority']))
+            . "&task_assignee=" . get_enumerated_param($_REQUEST,'task_assignee', '999', array_keys($SearchParams_choices['task_assignee']))
+            . "&task_category=" . get_enumerated_param($_REQUEST,'task_category', '999',     array_keys($SearchParams_choices['task_category']))
+            . "&task_status="   . get_enumerated_param($_REQUEST,'task_status'  , '999',   array_keys($SearchParams_choices['task_status']))
+            . "&task_version="  . get_enumerated_param($_REQUEST,'task_version' , '999',       array_keys($SearchParams_choices['task_version'])) 
             . "&";
     }
     else {
