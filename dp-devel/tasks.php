@@ -327,8 +327,8 @@ function SearchParams_get_sql_condition($request_params)
 
     foreach ($SearchParams_choices as $param_name => $choices)
     {
+        $value = get_enumerated_param($request_params, $param_name, null, array_keys($choices), true);
         if ($param_name == 'task_status') {
-            $value = get_enumerated_param($request_params, $param_name, null, array_keys($choices), true);
             if (is_null($value) || $value == 999) {
                 $param_condition = "$param_name >= 0 AND date_closed = 0";
             } elseif ($value == 998) {
@@ -337,9 +337,6 @@ function SearchParams_get_sql_condition($request_params)
                 $param_condition = "$param_name = $value";
             }
         } else {
-            // This should properly be a call to get_enumerated_param(),
-            // using $SearchParams_choices[$param_name].
-            $value = get_integer_param($request_params, $param_name, null, 0, null, true);
             if (is_null($value) || $value == 999) {
                 $param_condition = "$param_name >= 0";
             } else {
