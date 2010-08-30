@@ -88,8 +88,8 @@ else
     if (is_null($lpage))
     {
         $round = get_Round_for_project_state($proj_state);
-        $body = $err . "<br> " . sprintf(_("Return to the <a href=%s>project listing page</a>."),
-            "'round.php?round_id={$round->id}' target='_top'");
+        $body = $err . "<br> " . sprintf(_("Return to the <a %s>project listing page</a>."),
+            "href='round.php?round_id={$round->id}' target='_top'");
         $title = _("Unable to get an available page");
         echo "<html><head><title>$title</title></head><body>$body</body></html>";
         exit;
