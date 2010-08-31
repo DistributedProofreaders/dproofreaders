@@ -431,13 +431,13 @@ if (isset($valid_f)) {
 
         case 'notifyme':
             $task_id = get_integer_param($_REQUEST, 'tid', null, 1, null);
-            $result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'taskctr_notice', " . $task_id . ")");
+            $result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'taskctr_notice', $task_id)");
             TaskDetails($task_id);
             break;
 
         case 'unnotifyme':
             $task_id = get_integer_param($_REQUEST, 'tid', null, 1, null);
-            $result = mysql_query("DELETE FROM usersettings WHERE username = '$pguser' and setting = 'taskctr_notice' and value = " . $task_id . "");
+            $result = mysql_query("DELETE FROM usersettings WHERE username = '$pguser' and setting = 'taskctr_notice' and value = $task_id");
             TaskDetails($task_id);
             break;
     }
@@ -446,7 +446,7 @@ elseif (isset($_POST['edit_task'])) {
     $task_id = get_integer_param($_POST, 'edit_task', null, 1, null);
     $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
     $u_id = mysql_result($result, 0, "u_id");
-    $result = mysql_query("SELECT * FROM tasks WHERE task_id = " . $task_id . "");
+    $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
     $opened_by = mysql_result($result, 0, "opened_by");
     $closed_reason = mysql_result($result, 0, "closed_reason");
     if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $opened_by == $u_id && empty($closed_reason)) {
@@ -462,8 +462,8 @@ elseif (isset($_POST['reopen_task'])) {
     NotificationMail($task_id, "This task was reopened by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
     $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
     $u_id = mysql_result($result, 0, "u_id");
-    $result = mysql_query("UPDATE tasks SET task_status = 15, edited_by = $u_id, date_edited = " . time() . ", date_closed = 0, closed_by = 0, closed_reason = 0 WHERE task_id = " . $task_id . "");
-    $result = mysql_query("SELECT * FROM tasks WHERE task_id = " . $task_id . "");
+    $result = mysql_query("UPDATE tasks SET task_status = 15, edited_by = $u_id, date_edited = " . time() . ", date_closed = 0, closed_by = 0, closed_reason = 0 WHERE task_id = $task_id");
+    $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
     TaskDetails($task_id);
 }
 elseif (isset($_POST['newtask'])) {
@@ -514,15 +514,15 @@ elseif (isset($_POST['newtask'])) {
                 ) VALUES (
                     '',
                     '" . addslashes(htmlspecialchars($_POST['task_summary'])) . "',
-                    "  . $newt_type . ",
-                    "  . $newt_category . ",
-                    "  . $newt_status . ",
-                    "  . $newt_assignee . ",
-                    "  . $newt_severity . ",
-                    "  . $newt_priority . ",
-                    "  . $newt_os . ",
-                    "  . $newt_browser . ",
-                    "  . $newt_version . ",
+                    $newt_type,
+                    $newt_category,
+                    $newt_status,
+                    $newt_assignee,
+                    $newt_severity,
+                    $newt_priority,
+                    $newt_os,
+                    $newt_browser,
+                    $newt_version,
                     '" . addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES)) . "',
                     "  . time() . ",
                     $u_id,
@@ -537,7 +537,7 @@ elseif (isset($_POST['newtask'])) {
             ";
             if ($testing) echo_html_comment($sql_query);
             $result = mysql_query($sql_query);
-            $result = mysql_query("SELECT email, username FROM users WHERE u_id = " . $newt_assignee . "");
+            $result = mysql_query("SELECT email, username FROM users WHERE u_id = $newt_assignee");
             if (!empty($newt_assignee)) {
                 maybe_mail(mysql_result($result, 0, "email") , "DP Task Center: Task #" . mysql_insert_id() . " has been assigned to you", mysql_result($result, 0, "username") . ", you have been assigned task #" . mysql_insert_id() . ".  Please visit this task at $tasks_url?f=detail&tid=" . mysql_insert_id() . ".\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
             }
@@ -564,20 +564,20 @@ elseif (isset($_POST['newtask'])) {
                 UPDATE tasks
                 SET
                     task_summary     = '" . addslashes(htmlspecialchars($_POST['task_summary'])) . "',
-                    task_type        = "  . $edit_type . ",
-                    task_category    = "  . $edit_category . ",
-                    task_status      = "  . $edit_status . ",
-                    task_assignee    = "  . $edit_assignee . ",
-                    task_severity    = "  . $edit_severity . ",
-                    task_priority    = "  . $edit_priority . ",
-                    task_os          = "  . $edit_os . ",
-                    task_browser     = "  . $edit_browser . ",
-                    task_version     = "  . $edit_version . ",
+                    task_type        = $edit_type,
+                    task_category    = $edit_category,
+                    task_status      = $edit_status,
+                    task_assignee    = $edit_assignee,
+                    task_severity    = $edit_severity,
+                    task_priority    = $edit_priority,
+                    task_os          = $edit_os,
+                    task_browser     = $edit_browser,
+                    task_version     = $edit_version,
                     task_details     = '" . addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES)) . "',
                     date_edited      = "  . time() . ",
                     edited_by        = $u_id,
-                    percent_complete = "  . $edit_percent . "
-                WHERE task_id = " . $task_id . "
+                    percent_complete = $edit_percent
+                WHERE task_id = $task_id
             ";
             if ($testing) echo_html_comment($sql_query);
             $result = mysql_query($sql_query);
@@ -595,7 +595,7 @@ elseif (isset($_POST['close_task'])) {
         NotificationMail($task_id, "This task was closed by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
         $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
         $u_id = mysql_result($result, 0, "u_id");
-        $result = mysql_query("UPDATE tasks SET percent_complete = 100, task_status = 14, date_closed = " . time() . ", closed_by = $u_id, closed_reason = " . $tc_reason . ", date_edited = " . time() . ", edited_by = $u_id WHERE task_id = " . $task_id . "");
+        $result = mysql_query("UPDATE tasks SET percent_complete = 100, task_status = 14, date_closed = " . time() . ", closed_by = $u_id, closed_reason = $tc_reason, date_edited = " . time() . ", edited_by = $u_id WHERE task_id = $task_id");
         list_all_open_tasks($order_by);
     }
     else {
@@ -623,13 +623,13 @@ elseif (isset($_POST['new_relatedtask'])) {
     } else {
         $this_task_id    = get_integer_param($_POST, 'new_relatedtask', null, 1, null);
         $related_task_id = get_integer_param($_POST, 'related_task', null, 1, null);
-        $checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = " . $related_task_id . "");
-        $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = " . $this_task_id . "");
+        $checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = $related_task_id");
+        $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $this_task_id");
         $relatedtasks_array = decode_array(mysql_result($result, 0, "related_tasks"));
         if (mysql_num_rows($checkTaskExists) >= 1 && $related_task_id != $this_task_id && !in_array($related_task_id, $relatedtasks_array)) {
             array_push($relatedtasks_array, $related_task_id);
             $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
-            $result = mysql_query("UPDATE tasks SET related_tasks = '$relatedtasks_array' WHERE task_id = " . $this_task_id . "");
+            $result = mysql_query("UPDATE tasks SET related_tasks = '$relatedtasks_array' WHERE task_id = $this_task_id");
             NotificationMail($this_task_id, "This task had a related task added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
             list_all_open_tasks($order_by);
         }
@@ -644,12 +644,12 @@ elseif (isset($_POST['new_relatedposting'])) {
     } else {
         $nrp_task_id = get_integer_param($_POST, 'new_relatedposting', null, 1, null);
         $r_posting = get_integer_param($_POST, 'related_posting', null, 1, null);
-        $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = " . $nrp_task_id . "");
+        $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = $nrp_task_id");
         $relatedpostings_array = decode_array(mysql_result($result, 0, "related_postings"));
         if (does_topic_exist($r_posting) && !in_array($r_posting, $relatedpostings_array)) {
             array_push($relatedpostings_array, $r_posting);
             $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
-            $result = mysql_query("UPDATE tasks SET related_postings = '$relatedpostings_array' WHERE task_id = " . $nrp_task_id . "");
+            $result = mysql_query("UPDATE tasks SET related_postings = '$relatedpostings_array' WHERE task_id = $nrp_task_id");
             NotificationMail($nrp_task_id, "This task had a related posting added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
             list_all_open_tasks($order_by);
         }
@@ -688,7 +688,7 @@ else {
     // (Or they followed a bookmark of one of those.)
     $req_direction = get_enumerated_param($_GET, 'direction', 'desc', array('asc', 'desc'));
     $req_order = get_enumerated_param($_GET, 'orderby', 'date_edited', $valid_orderbys);
-    $order_by = "ORDER BY " . $req_order . " " . $req_direction;
+    $order_by = "ORDER BY $req_order $req_direction";
     if (isset($_GET['search_text'])) {
         search_and_list_tasks($_GET, $order_by);
     }
@@ -925,7 +925,7 @@ function TaskForm($tid)
     }
     echo "</table></td></tr><tr><td>\n";
     echo "<table class='taskplain'><tr><td width='5%'><b>Details</b>&nbsp;&nbsp;</td>\n";
-    echo "<td width='95%'><textarea name='task_details' cols='60' rows='5'>" . $task_details . "</textarea></td></tr></table>\n";
+    echo "<td width='95%'><textarea name='task_details' cols='60' rows='5'>$task_details</textarea></td></tr></table>\n";
     echo "</td></tr><tr><td colspan='2'><center>\n";
     echo "<input type='submit' value='";
     if (empty($tid)) {
@@ -978,7 +978,7 @@ function TaskDetails($tid)
             echo "<td width='10%' valign='center' style='text-align:right;'>";
             echo "<form action='$tasks_url' method='post'>\n";
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr() || $row['opened_by'] == $userP['u_id']) && empty($row['closed_reason'])) {
-                echo "<input type='hidden' name='edit_task' value='" . $tid . "'>";
+                echo "<input type='hidden' name='edit_task' value='$tid'>";
                 echo "<input type='submit' value='Edit Task' class='taskinp2'>";
                 echo "</td>";
                 echo "</tr>";
@@ -986,7 +986,7 @@ function TaskDetails($tid)
                 echo "</table>\n";
             }
             elseif (!empty($row['closed_reason'])) {
-                echo "<input type='hidden' name='reopen_task' value='" . $tid . "'>";
+                echo "<input type='hidden' name='reopen_task' value='$tid'>";
                 echo "<input type='submit' value='Re-Open Task' class='taskinp2'>";
                 echo "</td>";
                 echo "</tr>";
@@ -1043,9 +1043,9 @@ function TaskDetails($tid)
             echo "</tr>\n";
 
             // Row 3: summary of votes/metoos
-            $voteInfo = mysql_query("SELECT id FROM tasks_votes WHERE task_id = " . $tid . "");
-            $osInfo = mysql_query("SELECT DISTINCT vote_os FROM tasks_votes WHERE task_id = " . $tid . "");
-            $browserInfo = mysql_query("SELECT DISTINCT vote_browser FROM tasks_votes WHERE task_id = " . $tid . "");
+            $voteInfo = mysql_query("SELECT id FROM tasks_votes WHERE task_id = $tid");
+            $osInfo = mysql_query("SELECT DISTINCT vote_os FROM tasks_votes WHERE task_id = $tid");
+            $browserInfo = mysql_query("SELECT DISTINCT vote_browser FROM tasks_votes WHERE task_id = $tid");
             if (mysql_num_rows($voteInfo) > 0) {
                 $reportedOS = "";
                 $reportedBrowser = "";
@@ -1149,7 +1149,7 @@ function TaskDetails($tid)
             }
             echo "<td>";
             echo "<br />";
-            $meTooCheckResult = mysql_query("SELECT id FROM tasks_votes WHERE task_id = " . $tid . " and u_id = " . $userP['u_id'] . "");
+            $meTooCheckResult = mysql_query("SELECT id FROM tasks_votes WHERE task_id = $tid and u_id = " . $userP['u_id'] . "");
             $meTooAllowed = (mysql_num_rows($meTooCheckResult) == 0);
             mysql_free_result($meTooCheckResult);
             if ($meTooAllowed) {
