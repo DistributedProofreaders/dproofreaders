@@ -766,6 +766,8 @@ function search_and_list_tasks($request_params, $order_by)
 function select_and_list_tasks($sql_condition, $sql_order_by_clause)
 {
     global $testing;
+    global $tasks_url;
+    global $valid_orderbys;
 
     $sql_query = "
         SELECT tasks.task_id,
@@ -787,13 +789,6 @@ function select_and_list_tasks($sql_condition, $sql_order_by_clause)
     if ($testing) echo_html_comment($sql_query);
 
     $sql_result = mysql_query($sql_query) or die(mysql_error());
-    ShowTasks($sql_result);
-}
-
-function ShowTasks($sql_result)
-{
-    global $tasks_url;
-    global $valid_orderbys;
 
     $t = SearchParams_get_url_query_string();
 
