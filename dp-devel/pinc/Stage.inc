@@ -538,7 +538,7 @@ function show_user_access_chart( $username )
         {
             echo "<th rowspan='3'>" . _("deny request?") . "</th>";
         }
-        echo "<th rowspan='3'>" . _("ACCESS?") . "</th>";
+        echo "<th rowspan='3'>" . _("access?") . "</th>";
         if ( $allow_grant )
         {
             echo "<th rowspan='3'>" . _("grant?") . "</th>";
@@ -661,7 +661,7 @@ function show_user_access_chart( $username )
             echo "</td>";
         }
 
-        echo td_w_bgcolor( ($uao->can_access?_('YES'):_('NO')), $uao->can_access );
+        echo td_w_bgcolor( ($uao->can_access?_('yes'):_('no')), $uao->can_access );
 
         if ( $allow_grant )
         {
@@ -729,7 +729,7 @@ function show_user_access_chart( $username )
                 echo "</td>";
             }
 
-            echo td_w_bgcolor( ($can_access?_('YES'):_('NO')), $can_access );
+            echo td_w_bgcolor( ($can_access?_('yes'):_('no')), $can_access );
 
             if ( $allow_grant )
             {
