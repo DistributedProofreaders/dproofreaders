@@ -748,33 +748,12 @@ function decode_array($str)
     return array();
 }
 
+// -----------------------------------------------------------------------------
+
 function list_all_open_tasks($order_by)
 {
     select_and_list_tasks("date_closed = 0", $order_by);
 }
-
-function sql_query_for_tasks($where_clause, $order_by)
-{
-    return "
-        SELECT tasks.task_id,
-          task_type,
-          task_severity,
-          task_summary,
-          date_edited,
-          task_status,
-          percent_complete,
-          CASE WHEN
-             vote_os IS NULL THEN NULL
-             ELSE COUNT(*) END AS votes
-        FROM tasks
-          LEFT OUTER JOIN tasks_votes USING (task_id)
-        $where_clause
-        GROUP BY task_id
-        $order_by
-    ";
-}
-
-// -----------------------------------------------------------------------------
 
 function search_and_list_tasks($request_params, $order_by)
 {
@@ -788,7 +767,23 @@ function select_and_list_tasks($sql_condition, $sql_order_by_clause)
 {
     global $testing;
 
-    $sql_query = sql_query_for_tasks("WHERE $sql_condition", $sql_order_by_clause);
+    $sql_query = "
+        SELECT tasks.task_id,
+          task_type,
+          task_severity,
+          task_summary,
+          date_edited,
+          task_status,
+          percent_complete,
+          CASE WHEN
+             vote_os IS NULL THEN NULL
+             ELSE COUNT(*) END AS votes
+        FROM tasks
+          LEFT OUTER JOIN tasks_votes USING (task_id)
+        WHERE $sql_condition
+        GROUP BY task_id
+        $sql_order_by_clause
+    ";
     if ($testing) echo_html_comment($sql_query);
 
     $sql_result = mysql_query($sql_query) or die(mysql_error());
