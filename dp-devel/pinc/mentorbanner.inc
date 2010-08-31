@@ -40,8 +40,8 @@ function mentor_banner($round)
     echo "<br><center>";
     echo "<b><font size=+$font_boost color=$font_col>";
     printf(ngettext(
-            _("Oldest English <a href='%s'>MENTORS ONLY</a> book in %s is %d day old."),
-            _("Oldest English <a href='%s'>MENTORS ONLY</a> book in %s is %d days old."),
+            _("Oldest English <a href='%1\$s'>MENTORS ONLY</a> book in %2\$s is %3\$d day old."),
+            _("Oldest English <a href='%1\$s'>MENTORS ONLY</a> book in %2\$s is %3\$d days old."),
             $oldest),
         "$wiki_url/Mentoring",
         $round_id,
