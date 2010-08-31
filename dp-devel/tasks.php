@@ -431,13 +431,19 @@ if (isset($valid_f)) {
 
         case 'notifyme':
             $task_id = get_integer_param($_REQUEST, 'tid', null, 1, null);
-            $result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'taskctr_notice', $task_id)");
+            $result = mysql_query("
+                INSERT INTO usersettings (username, setting, value)
+                VALUES ('$pguser', 'taskctr_notice', $task_id)
+            ");
             TaskDetails($task_id);
             break;
 
         case 'unnotifyme':
             $task_id = get_integer_param($_REQUEST, 'tid', null, 1, null);
-            $result = mysql_query("DELETE FROM usersettings WHERE username = '$pguser' and setting = 'taskctr_notice' and value = $task_id");
+            $result = mysql_query("
+                DELETE FROM usersettings
+                WHERE username = '$pguser' and setting = 'taskctr_notice' and value = $task_id
+            ");
             TaskDetails($task_id);
             break;
     }
@@ -463,7 +469,17 @@ elseif (isset($_POST['reopen_task'])) {
         "This task was reopened by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
     $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
     $u_id = mysql_result($result, 0, "u_id");
-    $result = mysql_query("UPDATE tasks SET task_status = 15, edited_by = $u_id, date_edited = " . time() . ", date_closed = 0, closed_by = 0, closed_reason = 0 WHERE task_id = $task_id");
+    $result = mysql_query("
+        UPDATE tasks
+        SET
+            task_status = 15,
+            edited_by = $u_id,
+            date_edited = " . time() . ",
+            date_closed = 0,
+            closed_by = 0,
+            closed_reason = 0
+        WHERE task_id = $task_id
+    ");
     $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
     TaskDetails($task_id);
 }
@@ -542,7 +558,10 @@ elseif (isset($_POST['newtask'])) {
             if (!empty($newt_assignee)) {
                 maybe_mail(mysql_result($result, 0, "email") , "DP Task Center: Task #" . mysql_insert_id() . " has been assigned to you", mysql_result($result, 0, "username") . ", you have been assigned task #" . mysql_insert_id() . ".  Please visit this task at $tasks_url?f=detail&tid=" . mysql_insert_id() . ".\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
             }
-            $result = mysql_query("INSERT INTO usersettings (username, setting, value) VALUES ('$pguser', 'taskctr_notice', " . mysql_insert_id() . ")");
+            $result = mysql_query("
+                INSERT INTO usersettings (username, setting, value)
+                VALUES ('$pguser', 'taskctr_notice', " . mysql_insert_id() . ")
+            ");
             list_all_open_tasks($order_by);
         }
         else {
@@ -598,7 +617,18 @@ elseif (isset($_POST['close_task'])) {
             "This task was closed by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
         $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
         $u_id = mysql_result($result, 0, "u_id");
-        $result = mysql_query("UPDATE tasks SET percent_complete = 100, task_status = 14, date_closed = " . time() . ", closed_by = $u_id, closed_reason = $tc_reason, date_edited = " . time() . ", edited_by = $u_id WHERE task_id = $task_id");
+        $result = mysql_query("
+            UPDATE tasks
+            SET
+                percent_complete = 100,
+                task_status = 14,
+                date_closed = " . time() . ",
+                closed_by = $u_id,
+                closed_reason = $tc_reason,
+                date_edited = " . time() . ",
+                edited_by = $u_id
+            WHERE task_id = $task_id
+        ");
         list_all_open_tasks($order_by);
     }
     else {
@@ -612,8 +642,15 @@ elseif (isset($_POST['new_comment'])) {
             "There has been a comment added to this task by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
         $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
         $u_id = mysql_result($result, 0, "u_id");
-        $result = mysql_query("INSERT INTO tasks_comments (task_id, u_id, comment_date, comment) VALUES ($task_id, $u_id, " . time() . ", '" . addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES)) . "')");
-        $result = mysql_query("UPDATE tasks SET date_edited = " . time() . ", edited_by = $u_id WHERE task_id = $task_id");
+        $result = mysql_query("
+            INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
+            VALUES ($task_id, $u_id, " . time() . ", '" . addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES)) . "')
+        ");
+        $result = mysql_query("
+            UPDATE tasks
+            SET date_edited = " . time() . ", edited_by = $u_id
+            WHERE task_id = $task_id
+        ");
         TaskDetails($task_id);
     }
     else {
@@ -633,7 +670,11 @@ elseif (isset($_POST['new_relatedtask'])) {
         if (mysql_num_rows($checkTaskExists) >= 1 && $related_task_id != $this_task_id && !in_array($related_task_id, $relatedtasks_array)) {
             array_push($relatedtasks_array, $related_task_id);
             $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
-            $result = mysql_query("UPDATE tasks SET related_tasks = '$relatedtasks_array' WHERE task_id = $this_task_id");
+            $result = mysql_query("
+                UPDATE tasks
+                SET related_tasks = '$relatedtasks_array'
+                WHERE task_id = $this_task_id
+            ");
             NotificationMail($this_task_id,
                 "This task had a related task added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
             list_all_open_tasks($order_by);
@@ -654,7 +695,11 @@ elseif (isset($_POST['new_relatedposting'])) {
         if (does_topic_exist($r_posting) && !in_array($r_posting, $relatedpostings_array)) {
             array_push($relatedpostings_array, $r_posting);
             $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
-            $result = mysql_query("UPDATE tasks SET related_postings = '$relatedpostings_array' WHERE task_id = $nrp_task_id");
+            $result = mysql_query("
+                UPDATE tasks
+                SET related_postings = '$relatedpostings_array'
+                WHERE task_id = $nrp_task_id
+            ");
             NotificationMail($nrp_task_id,
                 "This task had a related posting added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
             list_all_open_tasks($order_by);
@@ -676,11 +721,14 @@ elseif (isset($_POST['meToo'])) {
     $user_id = $userP['u_id'];
 
     // Do not insert twice the same vote if the user refreshes the browser
-    $meTooCheck = mysql_query("SELECT 1 FROM tasks_votes 
-        WHERE task_id = $task_id and u_id = $user_id LIMIT 1");
-    if (mysql_num_rows($meTooCheck) == 0) mysql_query("INSERT INTO tasks_votes 
+    $meTooCheck = mysql_query("
+        SELECT 1 FROM tasks_votes WHERE task_id = $task_id and u_id = $user_id LIMIT 1
+    ");
+    if (mysql_num_rows($meTooCheck) == 0) mysql_query("
+            INSERT INTO tasks_votes 
             (task_id, u_id, vote_os, vote_browser) 
-            VALUES ($task_id, $user_id, $vote_os, $vote_browser)");
+            VALUES ($task_id, $user_id, $vote_os, $vote_browser)
+        ");
     mysql_free_result($meTooCheck);
 
     // No need to display a different error message if the user was refreshing
@@ -965,7 +1013,11 @@ function TaskDetails($tid)
     $res = mysql_query("SELECT * FROM tasks WHERE task_id = $tid LIMIT 1");
     if (mysql_num_rows($res) >= 1) {
         while ($row = mysql_fetch_assoc($res)) {
-            $result = mysql_query("SELECT * FROM usersettings WHERE setting = 'taskctr_notice' and (value = $tid or value = 'all') and username = '$pguser'");
+            $result = mysql_query("
+                SELECT *
+                FROM usersettings
+                WHERE setting = 'taskctr_notice' and (value = $tid or value = 'all') and username = '$pguser'
+            ");
             if (mysql_num_rows($result) >= 1) {
                 $already_notified = 1;
             }
@@ -1155,7 +1207,11 @@ function TaskDetails($tid)
             }
             echo "<td>";
             echo "<br />";
-            $meTooCheckResult = mysql_query("SELECT id FROM tasks_votes WHERE task_id = $tid and u_id = " . $userP['u_id'] . "");
+            $meTooCheckResult = mysql_query("
+                SELECT id
+                FROM tasks_votes
+                WHERE task_id = $tid and u_id = " . $userP['u_id'] . "
+            ");
             $meTooAllowed = (mysql_num_rows($meTooCheckResult) == 0);
             mysql_free_result($meTooCheckResult);
             if ($meTooAllowed) {
@@ -1290,7 +1346,12 @@ function ShowNotification($warn, $goback = false, $type = "warn")
 function TaskComments($tid)
 {
     global $tasks_url;
-    $result = mysql_query("SELECT * FROM tasks_comments WHERE task_id = $tid ORDER BY comment_date ASC");
+    $result = mysql_query("
+        SELECT *
+        FROM tasks_comments
+        WHERE task_id = $tid
+        ORDER BY comment_date ASC
+    ");
     if (mysql_num_rows($result) >= 1) {
         echo "<table class='tasks'><tr><td width='100%'>\n";
         while ($row = mysql_fetch_assoc($result)) {
@@ -1311,7 +1372,11 @@ function TaskComments($tid)
 function NotificationMail($tid, $message)
 {
     global $code_url, $tasks_url, $auto_email_addr, $pguser;
-    $result = mysql_query("SELECT username FROM usersettings WHERE setting = 'taskctr_notice' and (value = $tid or value = 'all')");
+    $result = mysql_query("
+        SELECT username
+        FROM usersettings
+        WHERE setting = 'taskctr_notice' and (value = $tid or value = 'all')
+    ");
     while ($row = mysql_fetch_assoc($result)) {
         if ($row['username'] != $pguser) {
             $temp = mysql_query("SELECT email FROM users WHERE username = '" . $row['username'] . "'");
@@ -1342,7 +1407,9 @@ function RelatedTasks($tid)
     $related_tasks = decode_array($related_tasks);
     asort($related_tasks);
     while (list($key, $val) = each($related_tasks)) {
-        $result = mysql_query("SELECT task_status, task_summary FROM tasks WHERE task_id = $val") or die(mysql_error());
+        $result = mysql_query("
+            SELECT task_status, task_summary FROM tasks WHERE task_id = $val
+        ") or die(mysql_error());
         if (mysql_num_rows($result) == 0) {
             // The task must have been deleted from the table manually.
             $task_summary = "[not found]";
