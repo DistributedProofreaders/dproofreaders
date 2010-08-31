@@ -60,10 +60,10 @@ function dpsession_resume()
     // Since this function is sometimes called several times per page,
     // and since the side-effects or result will not change in one
     // page, we cache the result of this function.
-    static $cached_result = NULL;
-    if (isset($cached_result))
+    static $user_is_logged_in = NULL;
+    if ( $user_is_logged_in !== NULL )
     {
-        return $cached_result;
+        return $user_is_logged_in;
     }
     
     $user_is_logged_in = dpsession_resume_();
@@ -71,7 +71,7 @@ function dpsession_resume()
     {
         _update_user_activity_time( FALSE );
     }
-    return $cached_result = $user_is_logged_in;
+    return $user_is_logged_in;
 }
 
 function _update_user_activity_time( $update_login_time_too )
