@@ -135,7 +135,7 @@ if (! function_exists('_') )
     function _($str) { return $str; }
 }
 
-if (! function_exists(ngettext) )
+if (! function_exists('ngettext') )
 {
     function ngettext($singular, $plural, $number)
     {
