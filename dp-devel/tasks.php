@@ -459,7 +459,8 @@ elseif (isset($_POST['edit_task'])) {
 }
 elseif (isset($_POST['reopen_task'])) {
     $task_id = get_integer_param($_POST, 'reopen_task', null, 1, null);
-    NotificationMail($task_id, "This task was reopened by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
+    NotificationMail($task_id,
+        "This task was reopened by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
     $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
     $u_id = mysql_result($result, 0, "u_id");
     $result = mysql_query("UPDATE tasks SET task_status = 15, edited_by = $u_id, date_edited = " . time() . ", date_closed = 0, closed_by = 0, closed_reason = 0 WHERE task_id = $task_id");
@@ -546,7 +547,8 @@ elseif (isset($_POST['newtask'])) {
         }
         else {
             $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
-            NotificationMail($task_id, "There has been an edit made to this task by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
+            NotificationMail($task_id,
+                "There has been an edit made to this task by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
             $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
             $u_id = mysql_result($result, 0, "u_id");
             $edit_type     = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
@@ -592,7 +594,8 @@ elseif (isset($_POST['close_task'])) {
     if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
         $task_id   = get_integer_param($_POST, 'task_id', null, 1, null);
         $tc_reason = (int) get_enumerated_param($_POST, 'task_close_reason', null, array_keys($tasks_close_array));
-        NotificationMail($task_id, "This task was closed by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
+        NotificationMail($task_id,
+            "This task was closed by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
         $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
         $u_id = mysql_result($result, 0, "u_id");
         $result = mysql_query("UPDATE tasks SET percent_complete = 100, task_status = 14, date_closed = " . time() . ", closed_by = $u_id, closed_reason = $tc_reason, date_edited = " . time() . ", edited_by = $u_id WHERE task_id = $task_id");
@@ -605,7 +608,8 @@ elseif (isset($_POST['close_task'])) {
 elseif (isset($_POST['new_comment'])) {
     $task_id = get_integer_param($_POST, 'new_comment', null, 1, null);
     if (!empty($_POST['task_comment'])) {
-        NotificationMail($task_id, "There has been a comment added to this task by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
+        NotificationMail($task_id,
+            "There has been a comment added to this task by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
         $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
         $u_id = mysql_result($result, 0, "u_id");
         $result = mysql_query("INSERT INTO tasks_comments (task_id, u_id, comment_date, comment) VALUES ($task_id, $u_id, " . time() . ", '" . addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES)) . "')");
@@ -630,7 +634,8 @@ elseif (isset($_POST['new_relatedtask'])) {
             array_push($relatedtasks_array, $related_task_id);
             $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
             $result = mysql_query("UPDATE tasks SET related_tasks = '$relatedtasks_array' WHERE task_id = $this_task_id");
-            NotificationMail($this_task_id, "This task had a related task added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
+            NotificationMail($this_task_id,
+                "This task had a related task added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
             list_all_open_tasks($order_by);
         }
         else {
@@ -650,7 +655,8 @@ elseif (isset($_POST['new_relatedposting'])) {
             array_push($relatedpostings_array, $r_posting);
             $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
             $result = mysql_query("UPDATE tasks SET related_postings = '$relatedpostings_array' WHERE task_id = $nrp_task_id");
-            NotificationMail($nrp_task_id, "This task had a related posting added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
+            NotificationMail($nrp_task_id,
+                "This task had a related posting added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
             list_all_open_tasks($order_by);
         }
         else {
