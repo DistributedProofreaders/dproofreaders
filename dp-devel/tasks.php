@@ -750,11 +750,7 @@ function decode_array($str)
 
 function list_all_open_tasks($order_by)
 {
-    global $testing;
-    $sql_query = sql_query_for_tasks("WHERE date_closed = 0", $order_by);
-    if ($testing) echo_html_comment($sql_query);
-    $result = mysql_query($sql_query) or die(mysql_error());
-    ShowTasks($result);
+    select_and_list_tasks("date_closed = 0", $order_by);
 }
 
 function sql_query_for_tasks($where_clause, $order_by)
@@ -782,19 +778,22 @@ function sql_query_for_tasks($where_clause, $order_by)
 
 function search_and_list_tasks($request_params, $order_by)
 {
-    global $testing;
-
     $condition = SearchParams_get_sql_condition($request_params);
-
-    $where_clause = "WHERE $condition";
-    $sql_query = sql_query_for_tasks($where_clause, $order_by);
-    if ($testing) echo_html_comment($sql_query);
-    $result = mysql_query($sql_query);
-
-    ShowTasks($result);
+    select_and_list_tasks($condition, $order_by);
 }
 
 // -----------------------------------------------------------------------------
+
+function select_and_list_tasks($sql_condition, $sql_order_by_clause)
+{
+    global $testing;
+
+    $sql_query = sql_query_for_tasks("WHERE $sql_condition", $sql_order_by_clause);
+    if ($testing) echo_html_comment($sql_query);
+
+    $sql_result = mysql_query($sql_query) or die(mysql_error());
+    ShowTasks($sql_result);
+}
 
 function ShowTasks($sql_result)
 {
