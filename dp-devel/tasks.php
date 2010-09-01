@@ -750,7 +750,11 @@ else {
         list_all_open_tasks($order_by);
     }
 }
-echo "</td></tr></table></div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />\n";
+echo "</td>";
+echo "</tr>";
+echo "</table>";
+echo "</div>";
+echo "<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />\n";
 theme("", "footer");
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -775,7 +779,9 @@ function TaskHeader()
     echo "<form action='$tasks_url' method='get'><input type='hidden' name='f' value='detail'>";
     echo "<table class='taskplain'>\n";
     echo "<tr><td width='50%'>&nbsp;</td>\n";
-    echo "<td width='50%' style='text-align:right;'><b><small class='task'>Show Task #</small></b>&nbsp;\n";
+    echo "<td width='50%' style='text-align:right;'>";
+    echo "<b><small class='task'>Show Task #</small></b>";
+    echo "&nbsp;\n";
     echo "<input type='text' name='tid' size='12' class='taskinp1'>&nbsp;\n";
     echo "<input type='submit' value='Go!' class='taskinp2'>\n";
     echo "</td></tr></table></form><br />\n";
@@ -787,7 +793,12 @@ function TaskHeader()
     SearchParams_echo_controls();
 
     echo "<input type='submit' value='Search' class='taskinp2'></td>\n";
-    echo "<td width='30%' style='text-align: right;'><small class='task'><a href='$tasks_url'>Task Center Home</a> | <a href='$tasks_url?f=newtask'>New Task</a></small></td></tr>\n";
+    echo "<td width='30%' style='text-align: right;'>";
+    echo "<small class='task'>";
+    echo "<a href='$tasks_url'>Task Center Home</a> | <a href='$tasks_url?f=newtask'>New Task</a>";
+    echo "</small>";
+    echo "</td>";
+    echo "</tr>\n";
     echo "</table></form><br />\n";
 }
 
@@ -959,7 +970,13 @@ function TaskForm($tid)
         echo "<input type='hidden' name='task_id' value='$tid'>";
     }
     echo "<table class='tasks'>\n";
-    echo "<tr><td colspan='2'><b>" . property_get_label('task_summary', FALSE) . "&nbsp;</b>&nbsp;&nbsp;<input type='text' name='task_summary' value=\"$task_summary\" size='60' maxlength='80' class='taskinp1'></td></tr>\n";
+    echo "<tr>";
+    echo "<td colspan='2'>";
+    echo "<b>" . property_get_label('task_summary', FALSE) . "&nbsp;</b>";
+    echo "&nbsp;&nbsp;";
+    echo "<input type='text' name='task_summary' value=\"$task_summary\" size='60' maxlength='80' class='taskinp1'>";
+    echo "</td>";
+    echo "</tr>\n";
     echo "<tr><td width='50%'><table class='taskplain'>\n";
     property_echo_select_tr('task_type', $task_type, $tasks_array);
     property_echo_select_tr('task_category', $task_category, $categories_array);
@@ -979,7 +996,11 @@ function TaskForm($tid)
     }
     echo "</table></td></tr><tr><td>\n";
     echo "<table class='taskplain'><tr><td width='5%'><b>Details</b>&nbsp;&nbsp;</td>\n";
-    echo "<td width='95%'><textarea name='task_details' cols='60' rows='5'>$task_details</textarea></td></tr></table>\n";
+    echo "<td width='95%'>";
+    echo "<textarea name='task_details' cols='60' rows='5'>$task_details</textarea>";
+    echo "</td>";
+    echo "</tr>";
+    echo "</table>\n";
     echo "</td></tr><tr><td colspan='2'><center>\n";
     echo "<input type='submit' value='";
     if (empty($tid)) {
@@ -1315,19 +1336,41 @@ function MeToo($tid, $os, $browser)
 {
     global $tasks_url, $browser_array, $os_array, $userP;
     echo "<span id='MeTooMain' style='display: none;'>";
-    echo "<form action='$tasks_url' method='post'><input type='hidden' name='meToo' value='$tid'><input type='hidden' name='task_os' value='$os'><input type='hidden' name='task_browser' value='$browser'>";
+    echo "<form action='$tasks_url' method='post'>";
+    echo "<input type='hidden' name='meToo' value='$tid'>";
+    echo "<input type='hidden' name='task_os' value='$os'>";
+    echo "<input type='hidden' name='task_browser' value='$browser'>";
     echo "<table class='tasks'><tr><td>\n";
-    echo "<fieldset class='task'><legend class='task'>Are you using the same operating system?</legend>";
-    echo "&nbsp;<input onClick=\"hideSpan('OS');\" type='radio' name='sameOS' value='1' CHECKED>yes<input onClick=\"showSpan('OS');\" type='radio' name='sameOS' value='0'>no";
-    echo "<span id='OS' style='display: none;'><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Operating System</b>&nbsp;";
+    echo "<fieldset class='task'>";
+    echo "<legend class='task'>Are you using the same operating system?</legend>";
+    echo "&nbsp;";
+    echo "<input onClick=\"hideSpan('OS');\" type='radio' name='sameOS' value='1' CHECKED>yes";
+    echo "<input onClick=\"showSpan('OS');\" type='radio' name='sameOS' value='0'>no";
+    echo "<span id='OS' style='display: none;'>";
+    echo "<br />";
+    echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+    echo "<b>Operating System</b>";
+    echo "&nbsp;";
     dropdown_select('metoo_os', array_search(guess_OS_from_UA(), $os_array), $os_array);
     echo "</select>\n</span></fieldset>\n";
-    echo "<br /><fieldset class='task'><legend class='task'>Are you using the same browser?</legend>";
-    echo "&nbsp;<input onClick=\"hideSpan('Browser');\" type='radio' name='sameBrowser' value='1' CHECKED>yes<input onClick=\"showSpan('Browser');\" type='radio' name='sameBrowser' value='0'>no";
-    echo "<span id='Browser' style='display: none;'><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Browser</b>&nbsp;";
+    echo "<br />";
+    echo "<fieldset class='task'>";
+    echo "<legend class='task'>Are you using the same browser?</legend>";
+    echo "&nbsp;";
+    echo "<input onClick=\"hideSpan('Browser');\" type='radio' name='sameBrowser' value='1' CHECKED>yes";
+    echo "<input onClick=\"showSpan('Browser');\" type='radio' name='sameBrowser' value='0'>no";
+    echo "<span id='Browser' style='display: none;'>";
+    echo "<br />";
+    echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+    echo "<b>Browser</b>";
+    echo "&nbsp;";
     dropdown_select('metoo_browser', array_search(guess_browser_from_UA(), $browser_array), $browser_array);
     echo "</span></fieldset>\n";
-    echo "<center><input type='submit' value='Send Report' class='taskinp2'>&nbsp;<input type='reset' value='Reset' class='taskinp2' onClick=\"hideSpan('MeTooMain');\"></center>";
+    echo "<center>";
+    echo "<input type='submit' value='Send Report' class='taskinp2'>";
+    echo "&nbsp;";
+    echo "<input type='reset' value='Reset' class='taskinp2' onClick=\"hideSpan('MeTooMain');\">";
+    echo "</center>";
     echo "</td></tr></table></form></span>";
 }
 
@@ -1361,11 +1404,14 @@ function TaskComments($tid)
         }
         echo "</td></tr></table>";
     }
-    echo "<form action='$tasks_url' method='post'><input type='hidden' name='new_comment' value='$tid'>";
+    echo "<form action='$tasks_url' method='post'>";
+    echo "<input type='hidden' name='new_comment' value='$tid'>";
     echo "<table class='tasks'><tr><td>\n";
     echo "<tr><td width='10%'><b>Add comment</b></td>";
     echo "<td width='90%'><textarea name='task_comment' cols='60' rows='5'></textarea></td></tr>";
-    echo "<tr><td width='100%' align='center' colspan='2'><input type='submit' value='Add Comment' class='taskinp2'>\n";
+    echo "<tr>";
+    echo "<td width='100%' align='center' colspan='2'>";
+    echo "<input type='submit' value='Add Comment' class='taskinp2'>\n";
     echo "</td></tr></table></form>";
 }
 
@@ -1398,7 +1444,8 @@ function RelatedTasks($tid)
     global $tasks_url, $tasks_status_array;
     $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $tid");
     $related_tasks = mysql_result($result, 0, "related_tasks");
-    echo "<form action='$tasks_url' method='post'><input type='hidden' name='new_relatedtask' value='$tid'>";
+    echo "<form action='$tasks_url' method='post'>";
+    echo "<input type='hidden' name='new_relatedtask' value='$tid'>";
     echo "<table class='tasks'>\n";
     echo "<tr><td width='100%'><b>Related Tasks&nbsp;&nbsp;</b>";
     echo "<input type='text' name='related_task' size='30' class='taskinp1'>&nbsp;&nbsp;";
@@ -1430,7 +1477,8 @@ function RelatedPostings($tid)
     global $forums_url, $tasks_url;
     $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = $tid");
     $related_postings = mysql_result($result, 0, "related_postings");
-    echo "<form action='$tasks_url' method='post'><input type='hidden' name='new_relatedposting' value='$tid'>";
+    echo "<form action='$tasks_url' method='post'>";
+    echo "<input type='hidden' name='new_relatedposting' value='$tid'>";
     echo "<table class='tasks'>\n";
     echo "<tr><td width='100%'><b>Related Topic ID&nbsp;&nbsp;</b>";
     echo "<input type='text' name='related_posting' size='30' class='taskinp1'>&nbsp;&nbsp;";
@@ -1442,7 +1490,11 @@ function RelatedPostings($tid)
         $row = get_topic_details($val);
         $forum_url = get_url_to_view_forum($row["forum_id"]);
         $topic_url = get_url_to_view_topic($row["topic_id"]);
-        echo "<br /><a href='$forum_url'>" . $row['forum_name'] . "</a>&nbsp;&raquo;&nbsp;<a href='$topic_url'>" . $row['title'] . "</a> (Posted by: " . $row['creator_username'] . " - " . $row['num_replies'] . " replies)\n";
+        echo "<br />";
+        echo "<a href='$forum_url'>" . $row['forum_name'] . "</a>";
+        echo "&nbsp;&raquo;&nbsp;";
+        echo "<a href='$topic_url'>" . $row['title'] . "</a>";
+        echo " (Posted by: " . $row['creator_username'] . " - " . $row['num_replies'] . " replies)\n";
     }
     echo "</td></tr></table></form>";
 }
