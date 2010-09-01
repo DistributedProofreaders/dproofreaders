@@ -26,7 +26,7 @@ $tid  = get_integer_param( $_GET, 'tid', null, 0, null );
 			$redirect_team = 1;
 		} else {
 			include_once($relPath.'theme.inc');
-			$title = _("Three Team Maximum!");
+			$title = _("Three Team Maximum");
 			theme($title, "header");
 			echo "<br><center>";
 			echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='3' style='border-collapse: collapse' width='95%'>";
