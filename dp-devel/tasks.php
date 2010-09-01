@@ -556,7 +556,12 @@ elseif (isset($_POST['newtask'])) {
             $result = mysql_query($sql_query);
             $result = mysql_query("SELECT email, username FROM users WHERE u_id = $newt_assignee");
             if (!empty($newt_assignee)) {
-                maybe_mail(mysql_result($result, 0, "email") , "DP Task Center: Task #" . mysql_insert_id() . " has been assigned to you", mysql_result($result, 0, "username") . ", you have been assigned task #" . mysql_insert_id() . ".  Please visit this task at $tasks_url?f=detail&tid=" . mysql_insert_id() . ".\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+                maybe_mail(
+                    mysql_result($result, 0, "email"),
+                    "DP Task Center: Task #" . mysql_insert_id() . " has been assigned to you",
+                    mysql_result($result, 0, "username") . ", you have been assigned task #" . mysql_insert_id() . ".  Please visit this task at $tasks_url?f=detail&tid=" . mysql_insert_id() . ".\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n",
+                    "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"
+                );
             }
             $result = mysql_query("
                 INSERT INTO usersettings (username, setting, value)
