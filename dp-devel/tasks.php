@@ -557,7 +557,7 @@ elseif (isset($_POST['newtask'])) {
             $task_id = mysql_insert_id();
 
             $result = mysql_query("SELECT email, username FROM users WHERE u_id = $newt_assignee");
-            if (!empty($newt_assignee)) {
+            if ($newt_assignee != 0) {
                 maybe_mail(
                     mysql_result($result, 0, "email"),
                     "DP Task Center: Task #$task_id has been assigned to you",
