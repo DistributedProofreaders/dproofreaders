@@ -30,7 +30,18 @@ $timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', 0, 0, null);
 enforce_edit_authorization($projectid);
 
 // get the correct layout
-$layout     = get_integer_param($_GET, 'layout', intval(@$_SESSION["show_good_word_suggestions_detail"]["layout"]), LAYOUT_HORIZ, LAYOUT_VERT);
+$default_layout = @$_SESSION["show_good_word_suggestions_detail"]["layout"];
+if (is_null($default_layout)) {
+    // The normal case for the session's first visit.
+    $default_layout = LAYOUT_HORIZ;
+} else if ($default_layout === LAYOUT_HORIZ || $default_layout === LAYOUT_VERT) {
+    // The normal case for the session's subsequent visits.
+} else {
+    // I don't know how this could happen.
+    $default_layout = LAYOUT_HORIZ;
+    // Alternatively, we could raise an error or warning.
+}
+$layout = get_integer_param($_GET, 'layout', $default_layout, LAYOUT_HORIZ, LAYOUT_VERT);
 $_SESSION["show_good_word_suggestions_detail"]["layout"] = $layout;
 
 // $frame determines which frame we're operating from
