@@ -119,7 +119,12 @@ if($frame=="left") {
         echo "<b>" . _("Page") . "</b>: <a href='displayimage.php?project=$projectid&amp;imagefile=$page&amp;showreturnlink=0' target='imageframe'>$page</a><br>";
         foreach($context_strings as $lineNum => $context_string) {
             $context_string=_highlight_word(htmlspecialchars($context_string),$word);
-            echo "<b>" . _("Line") . "</b>: ~$lineNum of $totalLines &nbsp; | &nbsp; ";
+            echo "<b>" . _("Line") . "</b>: ", 
+                // TRANSLATORS: %1$d is the approximate line number, and 
+                // %2$d is the total number of lines when displaying the 
+                // context of a word.
+                sprintf(_('~%1$d of %2$d'), $lineNum, $totalLines),
+                " &nbsp; | &nbsp; ";
             echo "<b>" . _("Context") . "</b>:<br><span class='mono'>$context_string</span><br>";
         }
         echo "</p>";
