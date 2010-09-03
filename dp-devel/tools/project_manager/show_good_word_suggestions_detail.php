@@ -25,7 +25,7 @@ set_time_limit(0); // no time limit
 $projectid  = validate_projectID('projectid', @$_REQUEST['projectid']);
 $encWord    = $_GET["word"];
 $word       = decode_word($encWord);
-$timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', 0, 0, null);
+$timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', -1, -1, null);
 
 enforce_edit_authorization($projectid);
 
