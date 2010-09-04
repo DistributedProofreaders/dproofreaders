@@ -90,7 +90,11 @@ if($frame=="left") {
     slim_header(_("Suggestion Detail"),TRUE,TRUE);
 
     $project_name = get_project_name($projectid);
-    echo "<h2>Suggestion context for '$word' in $project_name</h2>";
+    echo "<h2>", 
+        // TRANSLATORS: %1$s is a word and %2$s is a project name.
+        sprintf(_("Suggestion context for '%1\$s' in %2\$s"),
+            $word, $project_name),
+        "</h2>";
 
     echo_word_freq_style();
 
