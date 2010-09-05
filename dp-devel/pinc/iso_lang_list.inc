@@ -581,5 +581,115 @@ function langcode3_for_langname( $langname )
     return NULL;
 }
 
+
+// ====================================================================
+
+// This array maps the bibliographical 3-letter codes to 2-letter codes
+// for those languages having a 2-letter code in the ISO-639-1 list. 
+// It is used to map 3-letter codes to IETF-like language tags, since
+// these language tags use the 2-letter code when present, or the
+// 3-letter bibliographical codes for languages having no 2-letter code.
+
+$iso_639_1_list_ = array (
+    // This part extracted from ISO-639-2 downloaded on 2010-08-18 from
+    // http://www.loc.gov/standards/iso639-2/php/code_list.php
+    "aar" => "aa",  "abk" => "ab",  "afr" => "af",  "aka" => "ak",
+    "alb" => "sq",  "amh" => "am",  "ara" => "ar",  "arg" => "an",
+    "arm" => "hy",  "asm" => "as",  "ava" => "av",  "ave" => "ae",
+    "aym" => "ay",  "aze" => "az",  "bak" => "ba",  "bam" => "bm",
+    "baq" => "eu",  "bel" => "be",  "ben" => "bn",  "bih" => "bh",
+    "bis" => "bi",  "bos" => "bs",  "bre" => "br",  "bul" => "bg",
+    "bur" => "my",  "cat" => "ca",  "cha" => "ch",  "che" => "ce",
+    "chi" => "zh",  "chu" => "cu",  "chv" => "cv",  "cor" => "kw",
+    "cos" => "co",  "cre" => "cr",  "cze" => "cs",  "dan" => "da",
+    "div" => "dv",  "dut" => "nl",  "dzo" => "dz",  "eng" => "en",
+    "epo" => "eo",  "est" => "et",  "ewe" => "ee",  "fao" => "fo",
+    "fij" => "fj",  "fin" => "fi",  "fre" => "fr",  "fry" => "fy",
+    "ful" => "ff",  "geo" => "ka",  "ger" => "de",  "gla" => "gd",
+    "gle" => "ga",  "glg" => "gl",  "glv" => "gv",  "gre" => "el",
+    "grn" => "gn",  "guj" => "gu",  "hat" => "ht",  "hau" => "ha",
+    "heb" => "he",  "her" => "hz",  "hin" => "hi",  "hmo" => "ho",
+    "hun" => "hu",  "ibo" => "ig",  "ice" => "is",  "ido" => "io",
+    "iii" => "ii",  "iku" => "iu",  "ile" => "ie",  "ina" => "ia",
+    "ind" => "id",  "ipk" => "ik",  "ita" => "it",  "jav" => "jv",
+    "jpn" => "ja",  "kal" => "kl",  "kan" => "kn",  "kas" => "ks",
+    "kau" => "kr",  "kaz" => "kk",  "khm" => "km",  "kik" => "ki",
+    "kin" => "rw",  "kir" => "ky",  "kom" => "kv",  "kon" => "kg",
+    "kor" => "ko",  "kua" => "kj",  "kur" => "ku",  "lao" => "lo",
+    "lat" => "la",  "lav" => "lv",  "lim" => "li",  "lin" => "ln",
+    "lit" => "lt",  "ltz" => "lb",  "lub" => "lu",  "lug" => "lg",
+    "mac" => "mk",  "mah" => "mh",  "mal" => "ml",  "mao" => "mi",
+    "mar" => "mr",  "may" => "ms",  "mlg" => "mg",  "mlt" => "mt",
+    "mol" => "mo",  "mon" => "mn",  "nau" => "na",  "nav" => "nv",
+    "nbl" => "nr",  "nde" => "nd",  "ndo" => "ng",  "nep" => "ne",
+    "nno" => "nn",  "nob" => "nb",  "nor" => "no",  "nya" => "ny",
+    "oci" => "oc",  "oji" => "oj",  "ori" => "or",  "orm" => "om",
+    "oss" => "os",  "pan" => "pa",  "per" => "fa",  "pli" => "pi",
+    "pol" => "pl",  "por" => "pt",  "pus" => "ps",  "que" => "qu",
+    "roh" => "rm",  "rum" => "ro",  "run" => "rn",  "rus" => "ru",
+    "sag" => "sg",  "san" => "sa",  "scc" => "sr",  "scr" => "hr",
+    "sin" => "si",  "slo" => "sk",  "slv" => "sl",  "sme" => "se",
+    "smo" => "sm",  "sna" => "sn",  "snd" => "sd",  "som" => "so",
+    "sot" => "st",  "spa" => "es",  "srd" => "sc",  "ssw" => "ss",
+    "sun" => "su",  "swa" => "sw",  "swe" => "sv",  "tah" => "ty",
+    "tam" => "ta",  "tat" => "tt",  "tel" => "te",  "tgk" => "tg",
+    "tgl" => "tl",  "tha" => "th",  "tib" => "bo",  "tir" => "ti",
+    "ton" => "to",  "tsn" => "tn",  "tso" => "ts",  "tuk" => "tk",
+    "tur" => "tr",  "twi" => "tw",  "uig" => "ug",  "ukr" => "uk",
+    "urd" => "ur",  "uzb" => "uz",  "ven" => "ve",  "vie" => "vi",
+    "vol" => "vo",  "wel" => "cy",  "wln" => "wa",  "wol" => "wo",
+    "xho" => "xh",  "yid" => "yi",  "yor" => "yo",  "zha" => "za",
+    "zul" => "zu",
+    
+    // This part is further edited to suit our internal conventions.
+    // "qsr" is our private code for Serbian with Latin alphabet
+    "qsr" => "sr-latn"
+);
+
+function langtag_for_langcode3( $langcode3 )
+// For a given 3-letter code according to the list in pinc/iso_lang_list.inc,
+// return a language tag conforming to the IETF language tag standard 
+// as specified in RFC 5646 (http://tools.ietf.org/html/rfc5646).
+// (the language tag is in lowercase since language tags are case
+// insensitive and keeping them all in lowercase simplifies matching)
+{
+    global $iso_639_1_list_;
+    // return the 2-letter code if it exists, or the 3-letter code.
+    if (array_key_exists($langcode3, $iso_639_1_list_))
+    {
+        return $iso_639_1_list_[$langcode3];
+    }
+    return $langcode3;
+}
+
+function langcode3_for_langtag( $langtag )
+// The opposite of langtag_for_langcode3(). Convert a language tag
+// to a 3-letter code according to the list in pinc/iso_lang_list.inc,
+// or NULL if no match was found.
+{
+    global $iso_639_1_list_;
+    $langtag = strtolower($langtag);
+    $key = array_search($langtag, $iso_639_1_list_);
+    if ($key) 
+    {
+        // key found in the 3-letter code => lang tag table. 
+        // Return the 3-letter code.
+        return $key;
+    }
+    elseif(strlen($langtag) != 3)
+    {
+        return NULL;
+    }
+    else
+    {
+        // else search the tag as a 3-letter code.
+        $name = langname_for_langcode3($langtag);
+        if (isset($name))
+            return $langtag;
+        else
+            return NULL;
+    }
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>
