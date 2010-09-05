@@ -1,4 +1,43 @@
 <?php
+// The 3-letter language *CODES* in the table below are mostly those 
+// defined in the ISO-639-2 standard, with the exception of code "qsr"
+// which is not defined in that standard at all and is used in our
+// convention to denote "Serbian (Latin)" 
+// ("qsr" is in the range qaa-qtz reserved for local use in the standard). 
+// 
+// For those languages having two different 3-letter codes in ISO-639-2
+// (a bibliographic code, and a terminology code), both codes are given
+// separated with a slash.
+// 
+// As regards language *NAMES*, there are many differences with ISO.
+// For instance in case of language variants in the standard, we sometimes
+// have duplicate entries, i.e. where ISO says 
+//     "Adygei; Adyghe"
+// we have: 
+//     array("lang_name" => "Adygei", "lang_code" => "ady"),
+//     array("lang_name" => "Adyghe", "lang_code" => "ady"),
+// and sometimes we rename the language completely, e.g. when ISO has
+//     "Official Aramaic (700-300 BCE); Imperial Aramaic (700-300 BCE)"
+// we have the simple
+//     array("lang_name" => "Aramaic", "lang_code" => "arc"),
+//
+// We also have other differences in the language names, e.g. where
+// ISO has 
+//     "Afro-Asiatic languages"
+// we have:
+//     array("lang_name" => "Afro-Asiatic (Other)", "lang_code" => "afa"),
+//
+// This is a reason why using the raw ISO entries as a language name 
+// is not a good idea, since nobody wants a ridiculously long name like
+//     "Official Aramaic (700-300 BCE); Imperial Aramaic (700-300 BCE)"
+// and why approaches such as the isocodes projects
+//     (http://alioth.debian.org/projects/pkg-isocodes/)
+// which try to create gettext packages to translate english names into
+// foreigh names will not work properly. To properly translate these
+// language names the sane solution is to use codes instead of names
+// and then have a mapping of language codes to language names in the 
+// desired locale.
+
 $lang_list=array(
     array("lang_name" => "English", "lang_code" => "eng"),
     array("lang_name" => "Dutch", "lang_code" => "dut/nld"),
