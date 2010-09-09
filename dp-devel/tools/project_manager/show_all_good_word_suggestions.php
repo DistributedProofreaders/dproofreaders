@@ -179,7 +179,7 @@ echo "<br>";
         $count=0;
         foreach($suggestions_w_freq as $word => $freq) {
             $encWord = encode_word($word);
-            $context_array[$word]="<a href='show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord&amp;timeCutoff=$timeCutoff' target='detailframe'>" . _("Context") . "</a>";
+            $context_array[$word]="<a href='show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord&amp;timeCutoff=$timeCutoffActual' target='detailframe'>" . _("Context") . "</a>";
             $word_checkbox[$word]="<input type='checkbox' id='cb_{$projectid}_{$count}' name='cb_{$projectid}_{$count}' value='$encWord'>";
             $count++;
         }
