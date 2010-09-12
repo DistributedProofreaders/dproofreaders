@@ -14,7 +14,10 @@ function abort_if_in_maintenance_mode()
             $title = sprintf(_("%s Maintenance"),$site_name);
             $message = _("We are currently performing maintenance on the server.  Please be patient, we should have the site back up and running shortly.");
             slim_header($title);
-            echo "<center><h2>$pguser $message</h2></center></body></html>";
+            echo "<center><h2>";
+            if (isset($pguser))
+                echo "$pguser ";
+            echo "$message</h2></center></body></html>";
             exit();
         }
     }
