@@ -440,12 +440,27 @@ function do_project_info_table()
 
     // -------------------------------------------------------------------------
     // Information about the work itself (independent of DP)
+    
+    // the array below should guarantee that the strings 'beginner',
+    // 'easy', 'average' and 'hard' reach the po file, so that using
+    // later _($project->difficulty) should translate the project
+    // difficulty, if regularly formed, or display the (irregular)
+    // english project difficulty.
+    if (0) 
+    {
+        $difficulty_labels = array(
+            'beginner' => _('beginner'),
+            'easy'     => _('easy'),
+            'average'  => _('average'),
+            'hard'     => _('hard'),
+        );
+    }
 
     echo_row_a( _("Title"),           $project->nameofwork );
     echo_row_a( _("Author"),          $project->authorsname );
     echo_row_a( _("Language"),        $project->language );
     echo_row_a( _("Genre"),           $project->genre );
-    echo_row_a( _("Difficulty"),      $project->difficulty );
+    echo_row_a( _("Difficulty"),      _($project->difficulty) );
 
     // -------------------------------------------------------------------------
     // Basic DP info
