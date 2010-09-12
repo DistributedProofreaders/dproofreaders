@@ -459,7 +459,7 @@ function do_project_info_table()
     echo_row_a( _("Title"),           $project->nameofwork );
     echo_row_a( _("Author"),          $project->authorsname );
     echo_row_a( _("Language"),        $project->language );
-    echo_row_a( _("Genre"),           $project->genre );
+    echo_row_a( _("Genre"),           _($project->genre) );
     echo_row_a( _("Difficulty"),      _($project->difficulty) );
 
     // -------------------------------------------------------------------------
