@@ -354,7 +354,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         echo _("Looking for projects to proofread?");
         echo "</div>";
 
-        echo "<p>" . sprintf(_("If you're looking for projects to proofread, consider using the list on the <a href='%s'>%s</a> round page instead of this search form."), "$code_url/{$ELR_round->relative_url}#{$ELR_round->id}", $ELR_round->id) . "</p>";
+        echo "<p>" . sprintf(_("If you're looking for projects to proofread, consider using the list on the <a href='%1\$s'>%2\$s</a> round page instead of this search form."), "$code_url/{$ELR_round->relative_url}#{$ELR_round->id}", $ELR_round->id) . "</p>";
         echo "</p>";
 
         echo "<p><small>";
@@ -368,7 +368,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         <h1>", _("Search for Projects"), "</h1>
         "._("Search for projects matching the following criteria:")."<br>
         <form method=get action='projectmgr.php'>
-        <input type='hidden' name='show' value='", attr_safe(_("search")), "'>
+        <input type='hidden' name='show' value='search'>
         <table>
     ";
 
@@ -528,8 +528,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             $projectids_str = implode( ',', $projectids );
 
             echo "<a href='move_projects.php?curr_state=$curr_state&new_state=$new_state&projects=$projectids_str'>";
-            // TRANSLATORS: both %s are project states
-            printf(_("Move all %s projects on this page to %s"),
+            // TRANSLATORS: both values are project states
+            printf(_("Move all %1\$s projects on this page to %2\$s"),
                 "<b>$curr_blurb</b>", "<b>$new_blurb</b>");
             echo "</a>";
             echo "<br>";
@@ -570,7 +570,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         }
 
         echo sprintf(
-            _("Projects %d to %d of %d"),
+            // TRANSLATORS: these are paging results: eg: "Projects 1 to 100 of 495"
+            _("Projects %1\$d to %2\$d of %3\$d"),
             $results_offset + 1,
             $results_offset + $numrows,
             $num_found_rows
