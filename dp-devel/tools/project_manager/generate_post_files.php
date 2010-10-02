@@ -17,8 +17,8 @@ if (@$_REQUEST['projectid'] == 'many') {
 }
 $round_id             = get_enumerated_param($_REQUEST, 'round_id', null, $valid_round_ids);
 $which_text           = get_enumerated_param($_REQUEST, 'which_text', null, array('EQ', 'LE'));
-$include_proofers     = isset($_REQUEST['include_proofers']);
-$save_files           = isset($_REQUEST['save_files']);
+$include_proofers     = get_integer_param($_REQUEST,'include_proofers',0,0,1);
+$save_files           = get_integer_param($_REQUEST,'save_files',0,0,1);
 
 // only sitemanagers are allowed to save files
 if ($save_files && !user_is_a_sitemanager())
