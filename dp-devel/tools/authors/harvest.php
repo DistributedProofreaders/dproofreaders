@@ -50,7 +50,7 @@
 
     // print usage and the button to simulate harvesting
 
-    echo '<p>' . sprintf( _("When you click the button below, the project comments of all projects will be searched for biographies. Records in the database will be created for both the author and the biography, but they will of course need to be examined. This will be done using the <a href='%1\$s'>managing tool</a> and the process is explained further below."), 'manage.php');
+    echo '<p>' . sprintf( _("When you click the button below, the project comments of all projects will be searched for biographies. Records in the database will be created for both the author and the biography, but they will of course need to be examined. This will be done using the <a href='%s'>managing tool</a> and the process is explained further below."), 'manage.php');
 
     echo '<p>' . _("Please do note that this is a one-time event.");
 
@@ -66,7 +66,7 @@
 
     echo '<p>' . _("The authors and biographies need be examined for duplicates and obvious errors such as misplaced data.");
 
-    echo " " . sprintf( _("This will be done using the <a href='%1\$s'>managing tool</a>:"), 'manage.php');
+    echo " " . sprintf( _("This will be done using the <a href='%s'>managing tool</a>:"), 'manage.php');
     echo '<ul><li>';
     echo _("Select to only view non-enabled authors.");
     echo "<li>" . _("Authors and biographies are linked the way they were found in the database harvest. This means they are all in a one-to-one relationship. There may be duplicate entries for the same author. There should only be one author entry per author, and it should link to all biographies. This is done manually. Multiple occurances of a biography should be reduced to one.");
@@ -81,7 +81,7 @@
     $simulating = ($_POST['actionBtn'] == _("Simulate harvest"));
 
     if ($simulating) {
-      echo _("<strong>Simulating!</strong> Queries are not run. Check that there are no peculiarities below that you believe should be addressed, and click the \'Harvest\'-button.");
+      echo _("<strong>Simulating!</strong> Queries are not run. Check that there are no peculiarities below that you believe should be addressed, and click the 'Harvest' button.");
       ?>
       <form name="harvest" method="POST">
       <input type="submit" name="actionBtn" value="<?php echo _("Simulate harvest"); ?>">
@@ -100,7 +100,7 @@
     // Get all the project comments that contain a biography
 
     $result = mysql_query("SELECT projectID, comments FROM projects WHERE comments LIKE '%<!-- begin bio%'");
-    echo sprintf('Found %1$d projects with biographies in them. Processing....', mysql_num_rows($result)) . "\n";
+    echo sprintf('Found %d projects with biographies in them. Processing....', mysql_num_rows($result)) . "\n";
 
     // Loop through, extracting all bios
     while ($row = mysql_fetch_row($result)) {
@@ -108,7 +108,7 @@
       $matches = array();
       $count = preg_match_all("/<!-- begin bio: (.*?) (\((.*?)\))? -->(.*?)<!-- end bio/is", $row[1], $matches, PREG_SET_ORDER);
       $project_id = $row[0];
-      echo '  ' . sprintf( _("Project %1$s contains %2$d biographies."), $project_id, $count) . "\n";
+      echo '  ' . sprintf( _("Project %1\$s contains %2\$d biographies."), $project_id, $count) . "\n";
 
       if ($count == 0) {
         echo _("It seems the biography in this project was not properly marked. Please check manually:");
@@ -205,7 +205,7 @@
             exit;
           }
           $author_id = mysql_insert_id();
-          echo '    ' . sprintf( _("The author was inserted into the database with the id %1\$d."), $author_id) . "\n";
+          echo '    ' . sprintf( _("The author was inserted into the database with the id %d."), $author_id) . "\n";
         }
         $query = "INSERT INTO biographies ".
                  "(author_id, bio) " .
@@ -219,7 +219,7 @@
             echo '    ' . _("An error occured while saving the biography:") . ' ' . mysql_error() . "\n";
             exit;
           }
-          echo '    ' . sprintf( _("The biography was inserted into the database with the id %1\$d."), mysql_insert_id()) . "\n\n";
+          echo '    ' . sprintf( _("The biography was inserted into the database with the id %d."), mysql_insert_id()) . "\n\n";
         }
       }
     }
