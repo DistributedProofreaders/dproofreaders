@@ -372,8 +372,8 @@ echo "<br />
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Post-Processed by")."</b></td>
         <td>$pper->username<br>
-        " . sprintf(_("Number of books post-processed by %s (including this one):"),
-            $pper->username) . " $number_post_processed</td>
+        " . sprintf(_("Number of books post-processed by %1\$s (including this one): %2\$d"),
+            $pper->username, $number_post_processed) . "</td>
       </tr>
       <tr>
         <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Submitted by PP on")."</b></td>
