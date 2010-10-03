@@ -38,7 +38,7 @@ if ($author_id) {
         echo "<tr><th rowspan=\"$numrow\" valign=\"top\">" . _('Biographies') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . _('Biography') . " $bio_id</a></td></tr>\n";
         for ($rownum = 1; $rownum < $numrow; $rownum++) {
           $bio_id = mysql_result($result, $rownum);
-          echo "<tr><td><a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_("Biography %s", $bio_id)) . "</a></td></tr>\n";
+          echo "<tr><td><a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_("Biography %d", $bio_id)) . "</a></td></tr>\n";
         }
       }
     }
