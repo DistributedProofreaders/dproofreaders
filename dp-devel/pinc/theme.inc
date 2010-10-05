@@ -774,7 +774,7 @@ function show_birthdays()
         SELECT username,value
         FROM usersettings
         WHERE setting ='birthday_today'
-        ORDER BY value DESC");
+        ORDER BY CAST(value AS UNSIGNED) DESC");
 
     if (mysql_num_rows($result) == 0)
         return;
