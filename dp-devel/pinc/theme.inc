@@ -16,6 +16,8 @@ include_once($relPath.'forum_interface.inc');
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'languages.inc');
 
+$user_is_logged_in = dpsession_resume();
+
 // Since gettext_setup.inc selects the language according to the
 // user preference, $pguser and $userP are guaranteed to be setup 
 // after including gettext_setup.inc
