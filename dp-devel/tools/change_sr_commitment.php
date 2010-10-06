@@ -39,13 +39,9 @@ case "withdraw":
     $body = sprintf(_("Withdraw SR-commitment of user %1\$s for project %2\$s."),
         $pguser, $projectid);
     break;
-
-default:
-    $title = "Error SR-commitment";
-    $body = "Error: invalid action $action for SR-commitment change of user $pguser for project $projectid.";
 }
 
 
 metarefresh(2, $refresh_url, $title, $body);
 
-?>
+// vim: sw=4 ts=4 expandtab
