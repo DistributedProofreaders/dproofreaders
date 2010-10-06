@@ -29,14 +29,14 @@ switch ($action) {
 case "commit":
     sr_commit($projectid, $pguser);
     $title = _("Commit to SR");
-    $body = sprintf(_("Registered SR-commitment of user %s for project %s."),
+    $body = sprintf(_("Registered SR-commitment of user %1\$s for project %2\$s."),
         $pguser, $projectid);
     break;
 
 case "withdraw":
     sr_withdraw_commitment($projectid, $pguser);
     $title = _("Withdraw SR-commitment");
-    $body = sprintf(_("Withdraw SR-commitment of user %s for project %s."),
+    $body = sprintf(_("Withdraw SR-commitment of user %1\$s for project %2\$s."),
         $pguser, $projectid);
     break;
 
