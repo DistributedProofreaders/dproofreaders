@@ -17,7 +17,7 @@ if ($testing)
         echo "<b>" . _("THIS IS A TEST SITE!!!") . "</b>";
         echo "</p>";
         echo "<p>";
-        printf(_("For the real site, go to <a href='%s'>%s</a>."), $real_site_url, $real_site_url);
+        printf(_("For the real site, go to <a href='%1\$s'>%2\$s</a>."), $real_site_url, $real_site_url);
         echo "</p>";
         echo "<p>";
         printf(_("To leave feedback or report bugs regarding this TEST site,
