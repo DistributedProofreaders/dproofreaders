@@ -5,12 +5,11 @@
 
 function default_page_heading()
 {
-global $code_url, $testing;
-$real_site_url = 'http://www.pgdp.net';
+    global $code_url, $testing;
+    $real_site_url = 'http://www.pgdp.net';
 
-// if ($code_url != "$real_site_url/c" )
-if ($testing)
-{
+    if ($testing)
+    {
         echo "<div style='color: red'>";
         echo "<center>";
         echo "<p>";
@@ -26,7 +25,8 @@ if ($testing)
         echo "</p>";
         echo "</center>";
         echo "</div>";
-}
+    }
 
 }
-?>
+
+// vim: sw=4 ts=4 expandtab
