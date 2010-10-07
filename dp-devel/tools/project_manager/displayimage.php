@@ -16,7 +16,7 @@ $project        = validate_projectID('project', @$_GET['project']);
 $imagefile      = validate_page_image_filename('imagefile', @$_GET['imagefile'], true);
 $percent        = get_integer_param($_GET, 'percent', $default_percent, 1, 999);
 $showreturnlink = get_integer_param($_GET, 'showreturnlink', 1, 0, 1);
-$preload        = get_enumerated_param($_GET, 'preload', null, array('prev', 'next'), true);
+$preload        = get_enumerated_param($_GET, 'preload', '', array('', 'prev', 'next'));
 
 $width = 10 * $percent;
 
