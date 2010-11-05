@@ -95,6 +95,35 @@ if (array_get($_POST, "insertdb", "") != "") {
         // Quit immediately after saving
         metarefresh(0, $origin, _("Quit"), "");
     }
+    else if (isset($_POST["deletenc"]))
+    {
+    // Delete the profile which was displayed on the previous screen.
+    // This is slightly cumbersome because the user has to switch to a profile
+    // profile in order to be able to delete it, meaning the code has to handle
+    // the aftereffects by setting a new current profile once that has been done.
+    // Deletion is prevented when the user has only one profile by disabling
+    // the button in the options at the bottom of the proofreading tab.
+
+    // Get and delete currently selected profile.
+    $del_target_profile_name = $userP['profilename'];
+    echo sprintf(_("Deleting usersettings profile: %s ..."),$del_target_profile_name) . "\n<br>\n";
+    mysql_query("delete from user_profiles WHERE u_ref = '$uid' AND profilename = '$del_target_profile_name'");
+
+    // Set the first remaining available profile to be active.
+    $result=mysql_query("SELECT * FROM user_profiles WHERE  u_ref=$uid");
+    $new_profile_name = mysql_result($result,0,"profilename");
+    $new_profile_id = mysql_result($result,0,"id");
+    echo sprintf(_("Active usersettings profile is now: %s"),$new_profile_name) . "\n<br>\n";
+    
+    mysql_query("UPDATE users SET u_profile='$new_profile_id' WHERE  u_id=$uid  AND username='$pguser'");
+    // Reload preferences to reflect changed active profile.
+    dpsession_set_preferences_from_db();
+
+    // Bounce user back to the proofreading preferences tab.
+    $selected_tab=1;
+    $url = "$code_url/userprefs.php?tab=$selected_tab&amp;origin=" . urlencode($origin);
+    metarefresh(3, $url, _('Delete profile'), _('Reloading current tab....'));
+    }
     else
     {
         // Show the same tab that was just saved
@@ -585,7 +614,11 @@ function echo_proofreading_tab() {
             . "' name='mkProfileAndQuit'> &nbsp;";
     }
     echo "<input type='submit' value='" . attr_safe(_("Quit")) 
-        . "' name='quitnc'>";
+        . "' name='quitnc'> &nbsp;";
+    // Grey out the delete option if user has only one profile
+    $disabled = ($pf_num <= 1) ? "disabled" : "";
+    echo "<input type='submit' value='" . attr_safe(_("Delete this Profile"))
+        . "' name='deletenc' $disabled>";
     echo "</td></tr>\n";
 }
 
