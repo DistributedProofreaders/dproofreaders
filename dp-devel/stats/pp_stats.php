@@ -41,8 +41,6 @@ dpsql_dump_themed_query("
 
 echo "<br>\n";
 
-
-
 echo "<h3>" . _("Most Prolific Post-Processors") . "</h3>\n";
 echo "<h4>" . _("(Number of Projects Finished PPing)") . "</h4>\n";
 
@@ -51,7 +49,9 @@ dpsql_dump_themed_ranked_query("
 	SELECT
 		postproofer as '" . mysql_real_escape_string(_("PPer")) . "',
 		count(*) as '" 
-		    . mysql_real_escape_string(_("Projects Finished PPing")) . "'
+		    . mysql_real_escape_string(_("Projects Finished PPing")) . "',
+		cast(sum(n_pages) as unsigned) as '"
+		    . mysql_real_escape_string(_("Pages Finished PPing")) . "'
 	FROM projects
 	WHERE $psd->state_selector
 		AND postproofer is not null
@@ -61,7 +61,6 @@ dpsql_dump_themed_ranked_query("
 
 echo "<br>\n";
 
-
 echo "<h3>" . _("Most Prolific Post-Processors") . "</h3>\n";
 echo "<h4>" . _("(Number of Projects Posted to PG)") . "</h4>\n";
 
@@ -69,7 +68,9 @@ $psd = get_project_status_descriptor('posted');
 dpsql_dump_themed_ranked_query("
 	SELECT
 		postproofer as '" . mysql_real_escape_string(_("PPer")) . "',
-		count(*) as '" . mysql_real_escape_string(_("Projects Posted to PG")) . "'
+		count(*) as '" . mysql_real_escape_string(_("Projects Posted to PG")) . "',
+		cast(sum(n_pages) as unsigned) as '"
+		    . mysql_real_escape_string(_("Pages Posted to PG")) . "'
 	FROM projects
 	WHERE $psd->state_selector
 	AND postproofer is not null
@@ -79,10 +80,7 @@ dpsql_dump_themed_ranked_query("
 
 echo "<br>\n";
 
-
-
 echo "<br>\n";
 
 theme("","footer");
 ?>
-
