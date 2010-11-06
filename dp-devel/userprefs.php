@@ -105,9 +105,11 @@ if (array_get($_POST, "insertdb", "") != "") {
     // the button in the options at the bottom of the proofreading tab.
 
     // Get and delete currently selected profile.
+    // Since profilename is not unique, identify by u_profile.
+    $del_target_profile_id =$userP['u_profile'];
     $del_target_profile_name = $userP['profilename'];
-    echo sprintf(_("Deleting usersettings profile: %s ..."),$del_target_profile_name) . "\n<br>\n";
-    mysql_query("delete from user_profiles WHERE u_ref = '$uid' AND profilename = '$del_target_profile_name'");
+    echo sprintf(_("Deleting usersettings profile: %s (id=%s)..."),$del_target_profile_name,$del_target_profile_id) . "\n<br>\n";
+    mysql_query("delete from user_profiles WHERE u_ref = '$uid' AND id = '$del_target_profile_id'");
 
     // Set the first remaining available profile to be active.
     $result=mysql_query("SELECT * FROM user_profiles WHERE  u_ref=$uid");
@@ -115,7 +117,7 @@ if (array_get($_POST, "insertdb", "") != "") {
     $new_profile_id = mysql_result($result,0,"id");
     echo sprintf(_("Active usersettings profile is now: %s"),$new_profile_name) . "\n<br>\n";
     
-    mysql_query("UPDATE users SET u_profile='$new_profile_id' WHERE  u_id=$uid  AND username='$pguser'");
+    mysql_query("UPDATE users SET u_profile='$new_profile_id' WHERE u_id='$uid' AND username='$pguser'");
     // Reload preferences to reflect changed active profile.
     dpsession_set_preferences_from_db();
 
