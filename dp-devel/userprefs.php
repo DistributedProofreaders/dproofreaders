@@ -108,7 +108,7 @@ if (array_get($_POST, "insertdb", "") != "") {
     // Since profilename is not unique, identify by u_profile.
     $del_target_profile_id =$userP['u_profile'];
     $del_target_profile_name = $userP['profilename'];
-    echo sprintf(_("Deleting usersettings profile: %s (id=%s)..."),$del_target_profile_name,$del_target_profile_id) . "\n<br>\n";
+    echo sprintf(_("Deleting usersettings profile: %1\$s (id=%2\$d)..."),$del_target_profile_name,$del_target_profile_id) . "\n<br>\n";
     mysql_query("delete from user_profiles WHERE u_ref = '$uid' AND id = '$del_target_profile_id'");
 
     // Set the first remaining available profile to be active.
