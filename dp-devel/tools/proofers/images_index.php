@@ -7,10 +7,16 @@ include($relPath.'dp_main.inc'); // require user is logged in
 
 $projectid = validate_projectID('project', @$_GET['project']);
 
+$zip_type = get_enumerated_param( $_GET, 'zip_type', NULL, array('pages', 'illos'), TRUE );
+
 $project = new Project($projectid);
 
 $image_index_str = _('Image Index');
 
+// Suppress display if we're streaming back a zipfile
+// so that we can control the http headers
+if (is_null($zip_type))
+{
 theme("$image_index_str: {$project->nameofwork}", 'header');
 
 echo "
@@ -20,6 +26,7 @@ echo "
     <h2>$image_index_str</h2>
     <p>" . _('Below are the individual images for this project.') . "</p>
 ";
+}
 
 $page_image_names = array();
 $res = mysql_query("
@@ -41,16 +48,53 @@ sort($existing_image_names);
 
 $nonpage_image_names = array_diff($existing_image_names, $page_image_names);
 
-echo "<table border='1'>\n";
-echo "<tr>\n";
-echo "<td valign='top'>\n";
-list_images( $page_image_names, TRUE );
-echo "</td>\n";
-echo "<td valign='top'>\n";
-list_images( $nonpage_image_names, FALSE );
-echo "</td>\n";
-echo "</tr>\n";
-echo "</table>\n";
+if (!is_null($zip_type))
+{
+    chdir("$projects_dir/$projectid");
+    $list_name = $projectid."_".$zip_type."_flist.txt";
+    switch($zip_type)
+    {
+    case "illos":
+	$files_list=$nonpage_image_names;
+	break;
+    default:
+    case "pages":
+	$files_list=$page_image_names;
+    }
+    $files=implode(chr(10),$files_list);
+    file_put_contents( $list_name, $files );
+
+    // Create the zip on-the-fly and stream it back
+    $zipfile=$projectid . "_" . $zip_type . ".zip";
+    header('Content-type: application/zip');
+    header('Content-Disposition: attachment; filename="'.$zipfile.'"');
+    header("Cache-Control: no-cache, must-revalidate");
+    header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+    passthru("cat $list_name |zip -@ -");
+    unlink($list_name);
+    exit();
+}
+else
+{
+    echo "<table border='1'>\n";
+    echo "<tr>\n";
+    echo "<td valign='top'>\n";
+    list_images( $page_image_names, TRUE );
+    echo "</td>\n";
+    echo "<td valign='top'>\n";
+    list_images( $nonpage_image_names, FALSE );
+    echo "</td>\n";
+    echo "</tr>\n";
+    echo "<tr>\n";
+    echo "<td align='center'>\n";
+    show_dl_link( $page_image_names, TRUE );
+    echo "</td>\n";
+    echo "<td align='center'>\n";
+    show_dl_link( $nonpage_image_names, FALSE );
+    echo "</td>\n";
+    echo "</tr>\n";
+    echo "</table>\n";
+}
 
 theme("", 'footer');
 
@@ -122,6 +166,32 @@ function list_images( $image_names, $these_are_page_images )
     }
 
     echo "</table>\n";
+
+}
+
+function show_dl_link( $image_names, $these_are_page_images )
+{
+    global $projectid, $code_url;
+
+    if ( $these_are_page_images )
+    {
+	$tvalue=_("Download Page Images");
+	$ztype="pages";
+    }
+    else
+    {
+	$tvalue=_("Download Illustrations");
+	$ztype="illos";
+    }
+
+    // Show a download button for non-empty images list
+    if(!empty($image_names))
+    {
+	$form_target="$code_url/tools/proofers/images_index.php?project=$projectid&zip_type=$ztype";
+	echo "<form name='idl' id='idl' action='$form_target' method='POST'>\n";
+        echo "<input id='zip_type' type='submit' value='$tvalue'>";
+        echo "</form>";
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
