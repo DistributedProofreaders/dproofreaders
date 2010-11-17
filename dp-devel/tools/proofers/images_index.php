@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include($relPath.'site_vars.php');
 include($relPath.'theme.inc');
 include($relPath.'Project.inc');
+include($relPath.'dp_main.inc'); // require user is logged in
 
 $projectid = validate_projectID('project', @$_GET['project']);
 
@@ -17,7 +18,7 @@ echo "
     <p>$projectid</p>
     <p><a href='$code_url/project.php?id=$projectid'>", _('Return to project page'), "</a></p>
     <h2>$image_index_str</h2>
-    <P>" . _('Below are the individual images for this project.') . "</P>
+    <p>" . _('Below are the individual images for this project.') . "</p>
 ";
 
 $page_image_names = array();
@@ -97,7 +98,7 @@ function list_images( $image_names, $these_are_page_images )
         {
             global $projects_url, $projectid;
             $encoded_url = "$projects_url/$projectid/" . rawurlencode($image_name);
-            echo "<td><A HREF='$encoded_url'><B>$image_name</B></A></td>\n";
+            echo "<td><a href='$encoded_url'><b>$image_name</b></a></td>\n";
 
             $size = filesize($image_name);
             echo "<td align='right'>$size</td>\n";
