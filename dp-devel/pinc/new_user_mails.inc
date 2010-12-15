@@ -104,9 +104,13 @@ Most volunteers participate at $site_abbreviation by proofreading. However, ther
 many other ways to contribute, including Smooth Reading and Post Processing.
 For more detailed information on these and other phases of ebook production
 at $site_abbreviation, please visit the main help page (FAQ Central) at:
-  $code_url/faq/faq_central.php
-browse the site wiki:
-  $wiki_url
+  $code_url/faq/faq_central.php" .
+(
+    $wiki_url
+    ? "\nbrowse the site wiki:\n  $wiki_url"
+    : ""
+) .
+"
 or email:
   $general_help_email_addr
 
@@ -205,4 +209,3 @@ The $site_name Team
 
 // vim: sw=4 ts=4 expandtab
 ?>
-
