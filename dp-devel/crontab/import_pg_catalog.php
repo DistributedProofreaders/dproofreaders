@@ -20,7 +20,7 @@ new dbConnect();
 
 header('Content-type: text/plain');
 
-set_time_limit(60);
+set_time_limit(90);
 
 $display_mapping = array(
     'application/epub+zip'     => 'EPUB',
@@ -52,6 +52,7 @@ $display_mapping = array(
     'text/html'                => 'HTML',
     'text/plain'               => 'Text',
     'text/rtf'                 => 'RTF',
+    'text/x-rst'               => 'reStructuredText',
     'text/xml'                 => 'XML',
     'video/mpeg'               => 'MPEG Video',
     'video/quicktime'          => 'Quicktime Video',
@@ -95,6 +96,12 @@ if ( !$fp )
 $display_format = null;
 while( $line = fgets( $fp ) )
 {
+    // Flag the PG auto-generated formats
+    if ( preg_match(
+        '/<pgterms:file rdf:about=(.*)cache/', $line ) )
+    {
+        $autogen = TRUE;
+    }
     if ( preg_match(
         '#<dc:format><dcterms:IMT><rdf:value>(.*)</rdf:value></dcterms:IMT></dc:format>#',
         $line, $line_groups ) )
@@ -146,7 +153,11 @@ while( $line = fgets( $fp ) )
         {
             $etexts[$etext_number] = array();
         }
-        $etexts[$etext_number][$display_format] = 1;
+        if ( !$autogen )
+        {
+            $etexts[$etext_number][$display_format] = 1;
+        }
+        $autogen = FALSE;
         $display_format = null;
     }
 }
