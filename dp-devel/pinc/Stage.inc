@@ -27,7 +27,6 @@ if ( TRUE )
     // kludge
     // TRANSLATORS: %s is a round ID, such as P1 or P1+P2
     $CRITERIA['R*+P1'] = sprintf( _("'%s' pages completed"), 'R1+R2+P1' );
-    $CRITERIA['P1+P2'] = sprintf( _("'%s' pages completed"), 'P1+P2' );
 }
 
 class Stage
