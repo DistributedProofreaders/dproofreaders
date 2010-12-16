@@ -537,7 +537,7 @@ function show_user_access_chart( $username )
         {
             echo "<th rowspan='3'>" . _("deny request?") . "</th>";
         }
-        echo "<th rowspan='3'>" . _("access?") . "</th>";
+        echo "<th rowspan='3'>" . _("can access?") . "</th>";
         if ( $allow_grant )
         {
             echo "<th rowspan='3'>" . _("grant?") . "</th>";
