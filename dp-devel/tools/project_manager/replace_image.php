@@ -12,7 +12,16 @@ include_once($relPath.'misc.inc'); // get_upload_err_msg, attr_safe
 // They should perhaps be refactored.)
 
 $projectid = validate_projectID('projectid', @$_REQUEST['projectid']);
-$image     = validate_page_image_filename('image', @$_REQUEST['image']);
+
+$image     = @$_REQUEST['image'];
+// Note that using validate_page_image_filename() here would be inappropriate,
+// because it's specific to *page* images (which this isn't),
+// and so enforces a maximum filename length.
+if (!preg_match('/^\w[\w.-]*\.(png|jpg)$/', $image)) // see _check_file() in add_files.php
+{
+    // This should only happen if someone is URL-tweaking.
+    die(_("Parameter 'image' is not a valid image filename."));
+}
 
 $project = new Project($projectid);
 
@@ -26,6 +35,16 @@ echo "<h2>$replace_image_str: $image</h2>\n";
 if (!$project->can_be_managed_by_current_user)
 {
     echo "<p>", _('You are not authorized to manage this project.'), "</p>\n";
+    theme('', 'footer');
+}
+
+if (!is_file("$projects_dir/$projectid/$image"))
+{
+    // This too should only happen if someone is URL-tweaking.
+    // (Or conceivably, the file was recently deleted, and the user
+    // has an image_index that was generated before the deletion.)
+
+    echo "<p>", _('There is no such image in the project.'), "</p>\n";
     theme('', 'footer');
 }
 
