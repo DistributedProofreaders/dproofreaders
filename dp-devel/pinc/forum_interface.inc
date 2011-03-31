@@ -404,7 +404,7 @@ function my_escapeshellarg( $arg )
 
 // -----------------------------------------------------------------------------
 
-function topic_change_forum( $topic_id, $to_forum_id)
+function topic_change_forum( $topic_id, $to_forum_id )
 {
     assert( $topic_id != '' );
 
@@ -413,6 +413,11 @@ function topic_change_forum( $topic_id, $to_forum_id)
         FROM phpbb_topics
         WHERE topic_id=$topic_id
     ");
+
+    // If no rows were returned (because the topic_id doesn't exist), stop.
+    if(mysql_num_rows($result)==0)
+        return;
+
     $from_forum_id = mysql_result($result, 0, "forum_id");  
 
     if ($from_forum_id != $to_forum_id)
