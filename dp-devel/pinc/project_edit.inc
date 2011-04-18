@@ -2,6 +2,7 @@
 include_once($relPath.'site_vars.php');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'theme.inc'); // theme()
 
 
 define('PROJECT_DOES_NOT_EXIST',  1);
