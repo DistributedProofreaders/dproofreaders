@@ -965,32 +965,27 @@ function do_early_uploads()
     if (!$project->can_be_managed_by_current_user) return;
 
     $projectid = $project->projectid;
-    $state = $project->state;
 
     $add_reminder = FALSE;
 
     $user_dir = str_replace( ' ', '_', $pguser );
 
-    // Load TP&V images
-    global $site_supports_metadata;
-    if ($site_supports_metadata)
+    // Load TP&V (Title Page & Verso) images
+    if(user_can_add_project_pages($projectid, "tp&v"))
     {
-        if ($state == PROJ_NEW)
-        {
-            echo "<br>\n";
-            echo "<form method='get' action='$code_url/tools/project_manager/add_files.php'>\n";
-            echo "<input type='hidden' name='project' value='$projectid'>\n";
-            echo "<input type='hidden' name='tpnv' value='1'>\n";
-            echo "<b>", _("Add title page and verso from directory or zip file:"), "</b>";
-            echo "<br>\n";
-            $initial_rel_source = "$user_dir/";
-            echo "~$uploads_account/ <input type='text' name='rel_source' size='50' value='$initial_rel_source'>";
-            echo "<br>\n";
-            echo "<input type='submit' value='", attr_safe(_("Add")), "'>";
-            echo "<br>\n";
-            echo "</form>\n";
-            $add_reminder = TRUE;
-        }
+        echo "<br>\n";
+        echo "<form method='get' action='$code_url/tools/project_manager/add_files.php'>\n";
+        echo "<input type='hidden' name='project' value='$projectid'>\n";
+        echo "<input type='hidden' name='tpnv' value='1'>\n";
+        echo "<b>", _("Add title page and verso from directory or zip file:"), "</b>";
+        echo "<br>\n";
+        $initial_rel_source = "$user_dir/";
+        echo "~$uploads_account/ <input type='text' name='rel_source' size='50' value='$initial_rel_source'>";
+        echo "<br>\n";
+        echo "<input type='submit' value='", attr_safe(_("Add")), "'>";
+        echo "<br>\n";
+        echo "</form>\n";
+        $add_reminder = TRUE;
     }
 
     // Load text+images from uploads area into project.
@@ -999,12 +994,7 @@ function do_early_uploads()
     // do this if the project already has some pages loaded, but there is
     // no need to display a message reminding them that they can't, as 
     // there will already be one instead of the clone project link, just above.
-    if (
-        ( ($state == PROJ_NEW && ! $site_supports_metadata)
-          || ( $site_supports_metadata && ($state == PROJ_NEW_APPROVED || $state == PROJ_NEW_FILE_UPLOADED) )
-          || $state == PROJ_P1_UNAVAILABLE )
-        && ( Project_getNumPages($projectid) > 0 || ! user_has_project_loads_disabled() )
-        )
+    if(user_can_add_project_pages($projectid, "normal"))
     {
         echo "<br>\n";
         echo "<form method='get' action='$code_url/tools/project_manager/add_files.php'>\n";

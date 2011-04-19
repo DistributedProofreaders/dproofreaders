@@ -39,6 +39,44 @@ function user_can_edit_project( $projectid )
     return USER_CANNOT_EDIT_PROJECT;
 }
 
+function user_can_add_project_pages( $projectid, $page_type = "normal" )
+{
+    global $site_supports_metadata;
+
+    $project = new Project($projectid);
+    $state = $project->state;
+
+    if ($page_type == "tp&v" ) # TP&V = Title Page & Verso
+    {
+        if ($site_supports_metadata && $state == PROJ_NEW)
+            return TRUE;
+        else
+            return FALSE;
+    }
+    elseif ($page_type == "normal")
+    {
+        // Load text+images from uploads area into project.
+        // Can do this if it's a new project (as measured by the state it's in)
+        // If the user is disabled from uploading new projects, they can only
+        // do this if the project already has some pages loaded.
+        if (
+            ( ($state == PROJ_NEW && ! $site_supports_metadata)
+              || ( $site_supports_metadata && ($state == PROJ_NEW_APPROVED || $state == PROJ_NEW_FILE_UPLOADED) )
+              || $state == PROJ_P1_UNAVAILABLE )
+            && ( Project_getNumPages($projectid) > 0 || ! user_has_project_loads_disabled() )
+            )
+        {
+            return TRUE;
+        }
+        else
+            return FALSE;
+    }
+    else
+    {
+        assert(FALSE);
+    }
+}
+
 function abort_if_cant_edit_project( $projectid )
 // Politely abort if the current user ($pguser)
 // is not allowed to edit the specified project

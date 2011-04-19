@@ -15,12 +15,16 @@ $loading_tpnv = (@$_GET['tpnv'] == '1');
 
 abort_if_cant_edit_project( $projectid );
 
-
-// abort if a load_disabled user is trying to load normal pages into an empty project 
-if ( (! $loading_tpnv)
-     && Project_getNumPages($projectid) == 0)
+if(!user_can_add_project_pages($projectid, $loading_tpnv == 1 ? "tp&v" : "normal"))
 {
+    // abort if a load_disabled user is trying to load normal pages into an empty project 
     check_user_can_load_projects(true); // exit if they can't
+
+    // otherwise the state must have been wrong
+    echo  "<p>"
+        . _("Pages cannot be added to the project in its current state.")
+        . "</p>";
+    exit();
 }
 
 if ( $_GET['rel_source'] == '' )
