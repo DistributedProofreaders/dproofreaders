@@ -274,6 +274,14 @@ else
   }
   else
   {
+    // Forum topic ID replacements in the default text
+    // P quizzes start with 's' (step), F quizzes start with 'f'
+    if (substr($page_id,0,1) === "f")
+        // We're in a Formatting Quiz.
+        $default_feedbacktext = str_replace("TID","47863",$default_feedbacktext); 
+    else
+        // We're in a Proofreading Quiz 
+        $default_feedbacktext = str_replace("TID","9165",$default_feedbacktext);
     echo $default_feedbacktext;
   }
 }
