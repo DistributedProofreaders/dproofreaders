@@ -160,6 +160,7 @@ declare_project_state(
     ''
 );
 
+// METADATA
 if ($site_supports_metadata)
 {
 	declare_project_state(
@@ -329,24 +330,27 @@ declare_project_state(
 );
 
 // CORRECT
-declare_project_state(
-    "PROJ_CORRECT_AVAILABLE",
-    "proj_correct_available",
-    _("Verify Corrections"),
-    _("Verify Corrections"),
-    $posted_projects_forum_idx,
-    'NONE',
-    'GOLD'
-);
-declare_project_state(
-    "PROJ_CORRECT_CHECKED_OUT",
-    "proj_correct_checked_out",
-    _("Verifying Corrections"),
-    _("Verifying Corrections"),
-    $posted_projects_forum_idx,
-    'NONE',
-    'GOLD'
-);
+if ($site_supports_corrections_after_posting)
+{
+    declare_project_state(
+        "PROJ_CORRECT_AVAILABLE",
+        "proj_correct_available",
+        _("Verify Corrections"),
+        _("Verify Corrections"),
+        $posted_projects_forum_idx,
+        'NONE',
+        'GOLD'
+    );
+    declare_project_state(
+        "PROJ_CORRECT_CHECKED_OUT",
+        "proj_correct_checked_out",
+        _("Verifying Corrections"),
+        _("Verifying Corrections"),
+        $posted_projects_forum_idx,
+        'NONE',
+        'GOLD'
+    );
+}
 
 // for complete project
 declare_project_state(
