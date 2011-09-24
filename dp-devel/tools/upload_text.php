@@ -62,7 +62,7 @@ else if ($stage == 'return_2')
     $back_url = "$code_url/tools/pool.php?pool_id=PPV";
     $back_blurb = _("Post-Processing Verification Page");
 }
-else if ($stage == 'correct')
+else if ($site_supports_corrections_after_posting && $stage == 'correct' )
 {
     $title = _("Upload corrected edition");
     $intro_blurb = _("This page allows you to upload a corrected version of the completed e-text if you've found an error.");
