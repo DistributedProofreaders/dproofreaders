@@ -169,14 +169,14 @@ echo "\n<br>\n";
 
 echo "<i>"._("Reference Information").":</i> ";
 $url = "$code_url/faq/".lang_dir().$round->document;
-echo "<a style=\"color:#0000FF; text-decoration: underline;\" href='$url' target='_blank'>";
+echo "[<a style=\"color:#0000FF; text-decoration: underline;\" href='$url' target='_blank'>";
 echo _('Guidelines');
-echo "</a>\n";
+echo "</a>]\n";
 
-echo "<i>"._("Proofreading Diagrams:")."</i>\n"; ?>
-[<a style="color:#0000FF; text-decoration: underline;" href='<?php echo $code_url; ?>/faq/ProofingDiagram_HighRes.gif' target='_blank'><?php echo _("High Res"); ?></a>] 
-[<a style="color:#0000FF; text-decoration: underline;" href='<?php echo $code_url; ?>/faq/ProofingDiagram_MedRes.gif' target='_blank'><?php echo _("Medium Res"); ?></a>] 
-[<a style="color:#0000FF; text-decoration: underline;" href='<?php echo $code_url; ?>/faq/ProofingDiagram_LowRes.gif' target='_blank'><?php echo _("Low Res"); ?></a>]
+$url = "$code_url/faq/InterfaceDiagram.png";
+echo "[<a style=\"color:#0000FF; text-decoration: underline;\" href='$url' target='_blank'>";
+echo "["._("Proofreading Diagram");
+echo "</a>]\n"; ?>
 
 </font>
 </td>
