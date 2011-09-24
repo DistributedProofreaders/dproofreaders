@@ -1444,7 +1444,7 @@ function is_an_extra_file( $filename )
 
 function do_post_downloads()
 {
-    global $project, $pguser;
+    global $project, $pguser, $site_supports_corrections_after_posting;
 
     if ( !$project->dir_exists && !$project->pages_table_exists ) return;
 
