@@ -393,6 +393,7 @@ function do_project_info_table()
 {
     global $project, $code_url, $datetime_format, $date_format, $time_format;
     global $user_is_logged_in;
+    global $site_supports_corrections_after_posting;
 
     $projectid = $project->projectid;
     $state = $project->state;
@@ -519,6 +520,14 @@ function do_project_info_table()
     if ( $user_is_logged_in )
     {
         echo_row_a( _("Project Manager"), $project->username );
+	$checkedout_states = array(
+            PROJ_POST_SECOND_CHECKED_OUT,
+            PROJ_POST_COMPLETE,
+            PROJ_SUBMIT_PG_POSTED);
+        if ( $site_supports_corrections_after_posting )
+        {
+	    $checkedout_states[] = PROJ_CORRECT_CHECKED_OUT;
+	}
 
         if ( !empty($project->postproofer) )
         {
@@ -526,13 +535,7 @@ function do_project_info_table()
         }
         else if ( !empty($project->checkedoutby) &&
             !in_array(
-                $project->state,
-                array(
-                    PROJ_POST_SECOND_CHECKED_OUT,
-                    PROJ_POST_COMPLETE,
-                    PROJ_SUBMIT_PG_POSTED,
-                    PROJ_CORRECT_CHECKED_OUT,
-                )
+                $project->state,$checkedout_states
             )
         )
         {
@@ -565,7 +568,6 @@ function do_project_info_table()
             echo_row_a( _("PP Verifier"), $PPVer );
         }
 
-        global $site_supports_corrections_after_posting;
         if ($site_supports_corrections_after_posting)
         {
             // included for completeness
@@ -654,8 +656,9 @@ function do_project_info_table()
 
     $state = $project->state;
     if ( $state == PROJ_SUBMIT_PG_POSTED
-      || $state == PROJ_CORRECT_AVAILABLE
-      || $state == PROJ_CORRECT_CHECKED_OUT )
+      || ( $site_supports_corrections_after_posting
+      && ( $state == PROJ_CORRECT_AVAILABLE
+      ||   $state == PROJ_CORRECT_CHECKED_OUT )))
     {
         $postednum = $project->postednum;
         echo_row_a(
@@ -1478,7 +1481,8 @@ function do_post_downloads()
             echo_uploaded_zips('_second_in_prog_', _('partially verified'));
             echo "</li>";
         }
-        elseif ($state==PROJ_CORRECT_AVAILABLE || $state==PROJ_CORRECT_CHECKED_OUT)
+        elseif ($site_supports_corrections_after_posting
+                && ($state==PROJ_CORRECT_AVAILABLE || $state==PROJ_CORRECT_CHECKED_OUT))
         {
             echo_download_zip( _("Download Zipped Text"), '_corrections' );
         }
