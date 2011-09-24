@@ -17,14 +17,11 @@ echo sprintf( _("We don't know for sure who PPd these books; if you do know, or 
 
 	
 //get projects that have been PPd but we don't know by whom
+$psd = get_project_status_descriptor('PPd');
 $result = mysql_query("	SELECT nameofwork, authorsname, username, 
 			projectid , from_unixtime(modifieddate) as 'LMDate'
-			FROM projects WHERE state in ('"
-				.PROJ_POST_SECOND_AVAILABLE."','"
-				.PROJ_POST_SECOND_CHECKED_OUT."','"
-				.PROJ_SUBMIT_PG_POSTED."','"
-				.PROJ_CORRECT_AVAILABLE."','"
-				.PROJ_CORRECT_CHECKED_OUT."')
+			FROM projects WHERE
+			$psd->state_selector
 			AND postproofer = 'No Known PPer' 
 			ORDER BY '$order' ASC");
 
