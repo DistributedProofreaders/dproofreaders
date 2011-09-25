@@ -71,7 +71,7 @@ dpsql_dump_themed_ranked_query("
 echo "<br>\n";
 echo "<br><br><h3 style='color: $theme[color_headerbar_bg];'>" . _("Most Requested Books Posted to Project Gutenberg") . "</h2><br>\n";
 
-$pg_url1 = mysql_escape_string("<a href='http://www.gutenberg.org/etext/");
+$pg_url1 = mysql_escape_string("<a href='http://www.gutenberg.org/ebooks/");
 dpsql_dump_themed_ranked_query("
     SELECT
         CONCAT('$pg_url1',postednum,'$comments_url2', nameofwork, '$comments_url3') AS '" . mysql_real_escape_string(_("Title")) . "', 
