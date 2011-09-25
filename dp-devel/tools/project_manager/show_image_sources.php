@@ -9,6 +9,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'misc.inc'); // array_get()
+include_once($relPath.'pg.inc');
 
 // the user_is functions don't work unless this has been executed previously!
 // it's in dp_main.inc, but we also want this page to be accessible to
@@ -194,7 +195,7 @@ if (!isset($_GET['name']))
                 authorsname as '".mysql_real_escape_string(_('Author'))."',
                 genre as '".mysql_real_escape_string(_('Genre'))."',
                 language as '".mysql_real_escape_string(_('Language'))."',
-                IF(postednum, concat('<a href=\"http://www.gutenberg.net/etext/',postednum,'\">',postednum,'</a>'),'".mysql_real_escape_string(_('In Progress'))."') as '".mysql_real_escape_string(_('PG Number<br>and Link'))."'
+                IF(postednum, concat('<a href=\"{$PG_home_url}ebooks/',postednum,'\">',postednum,'</a>'),'".mysql_real_escape_string(_('In Progress'))."') as '".mysql_real_escape_string(_('PG Number<br>and Link'))."'
             FROM projects
             WHERE image_source = '".$imso_code."' ".$where_cls."
             ORDER BY nameofwork
