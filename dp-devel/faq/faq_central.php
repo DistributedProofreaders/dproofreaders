@@ -45,6 +45,10 @@ show_news_for_page("FAQ");
   <font size="-1">An overview of site changes from the last few years,
   including the distinction between proofreading and formatting.</font></p>
 
+  <p><a href="InterfaceDiagram.png">Proofreading Interface Diagram</a><br>
+  <font size="-1">An overview flowchart which outlines the operation of the
+  proofreading interface.</font></p>
+
   <p><a href="privacy.php"><?php echo "$site_abbreviation"; ?> Privacy Policy</a><br>
   <font size="-1">The <?php echo "$site_name"; ?> Privacy Policy
    that you saw when you first registered at this site.</font></p>
