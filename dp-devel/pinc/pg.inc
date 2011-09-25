@@ -22,7 +22,7 @@ $PG_paypal_business_id  = "donate@gutenberg.org";
 function get_pg_catalog_url_for_etext( $etext_number )
 // Given a PG etext number, return a URL for the PG catalog page for that text.
 {
-    return "http://www.gutenberg.org/etext/$etext_number";
+    return "http://www.gutenberg.org/ebooks/$etext_number";
 }
 
 // -----------------------------------------------------------------------------
