@@ -66,14 +66,34 @@ function showMbrProfile($curMbr) {
     echo "</td></tr></table><p>";
 }
 
+function days_to_now($timestamp)
+// return a string like "Today!", or "Yesterday", or "2 days ago" depending on
+// a timestamp 
+{
+    // Ensure that all calls to this function have the same base time.
+    static $now = NULL;
+    if (is_null($now)) $now = time();
+    
+    $days = floor(($now - $timestamp)/86400);
+    if ($days == 0)
+        return _("Today!");
+    elseif ($days == 1)
+        return _("Yesterday");
+    else
+        return sprintf(ngettext(_("%s day ago"), _("%s days ago"), $days),  
+            number_format($days)); 
+}
+
 function showMbrDpProfile( $curMbr )
 {
     global $site_abbreviation;
     $now = time();
-    $daysInExistenceInteger = floor(($now - $curMbr['date_created'])/86400);
-    $daysInExistenceString = number_format($daysInExistenceInteger)._(" days"); // '1,234 days'
-    $daysSinceLastSeen = number_format(floor(($now - $curMbr['t_last_activity'])/86400));
-    if (empty($daysSinceLastSeen)) { $daysSinceLastSeen = _("Today!"); } else { $daysSinceLastSeen = $daysSinceLastSeen._(" days"); }
+    // Days since joined:
+    $daysInExistenceString = days_to_now($curMbr['date_created']);
+    if ($curMbr['t_last_activity'] != 0)
+    {
+        $daysSinceLastSeen = days_to_now($curMbr['t_last_activity']);
+    }
 
     $t = new ThemedTable(
         2,
@@ -89,7 +109,9 @@ function showMbrDpProfile( $curMbr )
     );
     $t->row(
         _("Last Seen"),
-        date("m/d/Y", $curMbr['t_last_activity']) . "&nbsp;($daysSinceLastSeen)"
+        ($curMbr['t_last_activity'] == 0)
+        ? _("Never")
+        : date("m/d/Y", $curMbr['t_last_activity']) . "&nbsp;($daysSinceLastSeen)"
     );
     $t->row(
         _('Roles'),
