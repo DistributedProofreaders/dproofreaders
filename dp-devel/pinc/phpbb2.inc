@@ -125,6 +125,7 @@ function _insert_post(
 // -- attachsig is deduced from poster's preferences;
 // -- we override $user_ip;
 // -- we omit some of insert_post()'s parameters, and rearrange the rest
+// -- we disable smilies
 {
     if ( $poster_is_real )
     {
@@ -172,7 +173,13 @@ function _insert_post(
         $poster_attachsig,
         $topic_id,
         POST_NORMAL,
-        TRUE
+        TRUE,   // $do_notification
+        FALSE,  // $notify_user
+        0,      // $current_time
+        '',     // $error_die_function
+        0,      // $html_on
+        1,      // $bbcode_on
+        0       // $smilies_on
     );
 
     $post_result['poster_id'] = $poster_id;
