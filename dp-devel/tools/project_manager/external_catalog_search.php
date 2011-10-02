@@ -141,7 +141,7 @@ function do_search_and_show_hits()
     if (!empty($errorMsg))
     {
         echo "<center>";
-        echo _("The following error has occured:");
+        echo _("The following error has occurred:");
         echo "<br><br>";
         echo "<b><i>$errorMsg</i></b>";
         echo "<p>";
