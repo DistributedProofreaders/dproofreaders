@@ -39,8 +39,8 @@ theme('Beginning Proofreaders\' FAQ','header');
         <li><a href="#7">What is the entire process for creating an etext?     </a></li>
         <li><a href="#8">How can I get copies of the etexts I've worked on?    </a></li>
         <li><a href="#9">How can I get copies of other Gutenberg etexts?       </a></li>
-        <li><a href="#10">I think I messed something up (done something wrong),
-                          How can I fix it?                                    </a></li>
+        <li><a href="#10">I think I messed something up (did something wrong),
+                          how can I fix it?                                    </a></li>
         <li><a href="#11">I'm having trouble on the webpage trying to ...
                           Log in/Proofread a page/Get a new page                   </a></li>
       </ol>
