@@ -175,7 +175,7 @@ echo "</a>]\n";
 
 $url = "$code_url/faq/InterfaceDiagram.png";
 echo "[<a style=\"color:#0000FF; text-decoration: underline;\" href='$url' target='_blank'>";
-echo "["._("Proofreading Diagram");
+echo _("Proofreading Diagram");
 echo "</a>]\n"; ?>
 
 </font>
