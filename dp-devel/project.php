@@ -520,14 +520,14 @@ function do_project_info_table()
     if ( $user_is_logged_in )
     {
         echo_row_a( _("Project Manager"), $project->username );
-	$checkedout_states = array(
+        $checkedout_states = array(
             PROJ_POST_SECOND_CHECKED_OUT,
             PROJ_POST_COMPLETE,
             PROJ_SUBMIT_PG_POSTED);
         if ( $site_supports_corrections_after_posting )
         {
-	    $checkedout_states[] = PROJ_CORRECT_CHECKED_OUT;
-	}
+            $checkedout_states[] = PROJ_CORRECT_CHECKED_OUT;
+        }
 
         if ( !empty($project->postproofer) )
         {
@@ -657,8 +657,8 @@ function do_project_info_table()
     $state = $project->state;
     if ( $state == PROJ_SUBMIT_PG_POSTED
       || ( $site_supports_corrections_after_posting
-      && ( $state == PROJ_CORRECT_AVAILABLE
-      ||   $state == PROJ_CORRECT_CHECKED_OUT )))
+          && ( $state == PROJ_CORRECT_AVAILABLE
+          ||   $state == PROJ_CORRECT_CHECKED_OUT )))
     {
         $postednum = $project->postednum;
         echo_row_a(
@@ -692,14 +692,14 @@ function do_project_info_table()
             $blurb = _("Discuss this project");
         }
         $url = "$code_url/tools/proofers/project_topic.php?project=$projectid";
-	if (($state == PROJ_DELETE) && ($topic_id == ""))
-	{
-	    echo_row_a( _("Forum"), _("The project has been deleted, and no discussion exists."));
-	}
-	else
-	{
+        if (($state == PROJ_DELETE) && ($topic_id == ""))
+        {
+            echo_row_a( _("Forum"), _("The project has been deleted, and no discussion exists."));
+        }
+        else
+        {
             echo_row_a( _("Forum"), "<a href='$url'>$blurb</a>" );
-	}
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -789,7 +789,7 @@ function do_project_info_table()
         $comments = $project->comments;
 
         // Automatically prepend second round comments template for Beginners Only
-	// The r2 in the template name is an artifact of the old two-round structure
+        // The r2 in the template name is an artifact of the old two-round structure
         if ($project->difficulty == "beginner")
         {
             if ($round && $round->is_a_mentor_round() )
