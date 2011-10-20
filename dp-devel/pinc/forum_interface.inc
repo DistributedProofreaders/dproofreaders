@@ -111,7 +111,6 @@ function set_forum_user_details($username,$details)
 //     occ       - occupation
 //     interests - interests
 //     email     - email
-//     avatar    - filename of their avatar, if defined
 //     icq       - ICQ address
 //     website   - website URL
 //     aim       - AIM address
@@ -120,7 +119,7 @@ function set_forum_user_details($username,$details)
 //     jabber    - Jabber address
 // Returns TRUE if the update succeeded or FALSE otherwise.
 {
-    $interested_columns = array("from","occ","interests","email","avatar","icq","website","aim","yim","msnm","jabber");
+    $interested_columns = array("from","occ","interests","email","icq","website","aim","yim","msnm","jabber");
 
     $set_data = array();
 
@@ -148,7 +147,7 @@ function set_forum_user_details($username,$details)
         ", 
         implode($set_data, ", "),
         mysql_real_escape_string($username));
-    $res = mysql_query($query) or die(mysql_error());
+    $res = mysql_query($query);
 
     return $res;
 }
