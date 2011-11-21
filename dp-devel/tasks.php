@@ -569,7 +569,7 @@ elseif (isset($_POST['newtask'])) {
                 INSERT INTO usersettings (username, setting, value)
                 VALUES ('$pguser', 'taskctr_notice', $task_id)
             ");
-            list_all_open_tasks($default_order_by);
+            list_all_open_tasks();
         }
         else {
             $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
@@ -609,12 +609,12 @@ elseif (isset($_POST['newtask'])) {
             ";
             if ($testing) echo_html_comment($sql_query);
             $result = mysql_query($sql_query);
-            list_all_open_tasks($default_order_by);
+            list_all_open_tasks();
         }
     }
 }
 elseif (isset($_POST['search_task'])) {
-    search_and_list_tasks($_POST, $default_order_by);
+    search_and_list_tasks($_POST);
 }
 elseif (isset($_POST['close_task'])) {
     if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
@@ -636,7 +636,7 @@ elseif (isset($_POST['close_task'])) {
                 edited_by = $u_id
             WHERE task_id = $task_id
         ");
-        list_all_open_tasks($default_order_by);
+        list_all_open_tasks();
     }
     else {
         ShowNotification("The user $pguser does not have permission to close tasks.");
@@ -684,7 +684,7 @@ elseif (isset($_POST['new_relatedtask'])) {
             ");
             NotificationMail($this_task_id,
                 "This task had a related task added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
-            list_all_open_tasks($default_order_by);
+            list_all_open_tasks();
         }
         else {
             ShowNotification("You must supply a valid related task id number.");
@@ -709,7 +709,7 @@ elseif (isset($_POST['new_relatedposting'])) {
             ");
             NotificationMail($nrp_task_id,
                 "This task had a related posting added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
-            list_all_open_tasks($default_order_by);
+            list_all_open_tasks();
         }
         else {
             ShowNotification("You must supply a valid related topic id number.", true);
@@ -747,14 +747,12 @@ else {
     // (e.g., by clicking the "Report a Bug" link)
     // or they clicked a column-header-link in a listing of tasks.
     // (Or they followed a bookmark of one of those.)
-    $req_direction = get_enumerated_param($_GET, 'direction', 'desc', array('asc', 'desc'));
-    $req_order = get_enumerated_param($_GET, 'orderby', 'date_edited', $valid_orderbys);
-    $order_by = "ORDER BY $req_order $req_direction";
+
     if (isset($_GET['search_text'])) {
-        search_and_list_tasks($_GET, $order_by);
+        search_and_list_tasks($_GET);
     }
     else {
-        list_all_open_tasks($order_by);
+        list_all_open_tasks();
     }
 }
 echo "</td>";
@@ -822,24 +820,29 @@ function decode_array($str)
 
 // -----------------------------------------------------------------------------
 
-function list_all_open_tasks($order_by)
+function list_all_open_tasks()
 {
-    select_and_list_tasks("date_closed = 0", $order_by);
+    select_and_list_tasks("date_closed = 0");
 }
 
-function search_and_list_tasks($request_params, $order_by)
+function search_and_list_tasks($request_params)
 {
     $condition = SearchParams_get_sql_condition($request_params);
-    select_and_list_tasks($condition, $order_by);
+    select_and_list_tasks($condition);
 }
 
 // -----------------------------------------------------------------------------
 
-function select_and_list_tasks($sql_condition, $sql_order_by_clause)
+function select_and_list_tasks($sql_condition)
 {
     global $testing;
     global $tasks_url;
     global $valid_orderbys;
+
+    $req_direction = get_enumerated_param($_GET, 'direction', 'desc', array('asc', 'desc'));
+    $req_order = get_enumerated_param($_GET, 'orderby', 'date_edited', $valid_orderbys);
+    $order_by = "ORDER BY $req_order $req_direction";
+    $sql_order_by_clause = $order_by;
 
     $sql_query = "
         SELECT tasks.task_id,
