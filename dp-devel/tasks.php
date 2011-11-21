@@ -837,9 +837,9 @@ function select_and_list_tasks($sql_condition)
     global $tasks_url;
     global $valid_orderbys;
 
-    $req_direction = get_enumerated_param($_GET, 'direction', 'desc', array('asc', 'desc'));
-    $req_order = get_enumerated_param($_GET, 'orderby', 'date_edited', $valid_orderbys);
-    $order_by = "ORDER BY $req_order $req_direction";
+    $curr_sort_dir = get_enumerated_param($_GET, 'direction', 'desc', array('asc', 'desc'));
+    $curr_sort_col = get_enumerated_param($_GET, 'orderby', 'date_edited', $valid_orderbys);
+    $order_by = "ORDER BY $curr_sort_col $curr_sort_dir";
     $sql_order_by_clause = $order_by;
 
     $sql_query = "
@@ -876,9 +876,6 @@ function select_and_list_tasks($sql_condition)
         'percent_complete' => "",
     );
 
-    $curr_orderby   = get_enumerated_param($_GET, 'orderby', 'date_edited', $valid_orderbys);
-    $curr_direction = get_enumerated_param($_GET, 'direction', 'desc', array('asc', 'desc'));
-
     echo "<table class='taskslist'><tr>\n";
     foreach ( $columns as $property_id => $attrs )
     {
@@ -887,10 +884,10 @@ function select_and_list_tasks($sql_condition)
         $orderby_for_link = $property_id;
 
         // But sorted in which direction?
-        if ($property_id == $curr_orderby) {
+        if ($property_id == $curr_sort_col) {
             // This column is the one that the current listing is sorted on.
             // A header-click will just reverse the direction of the sort.
-            if ($curr_direction == "asc") {
+            if ($curr_sort_dir == "asc") {
                 $direction_for_link = "desc";
             } else {
                 $direction_for_link = "asc";
