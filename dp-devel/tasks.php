@@ -11,8 +11,6 @@ include_once($relPath.'links.inc'); // private_message_link()
 
 $tasks_url = $code_url . "/" . basename(__FILE__);
 
-$valid_orderbys = array('task_id','task_type','task_severity','votes','task_summary','date_edited','task_status','percent_complete');
-
 $valid_f = get_enumerated_param($_GET, 'f', null, array('newtask', 'detail', 'notifyme', 'unnotifyme'), true);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -835,10 +833,20 @@ function select_and_list_tasks($sql_condition)
 {
     global $testing;
     global $tasks_url;
-    global $valid_orderbys;
+
+    $columns = array(
+        'task_id'          => " style='text-align: center;'",
+        'task_type'        => "",
+        'task_severity'    => "",
+        'task_summary'     => " style='width: 50%;'",
+        'date_edited'      => " style='text-align: center;'",
+        'task_status'      => "",
+        'votes'            => "",
+        'percent_complete' => "",
+    );
 
     $curr_sort_dir = get_enumerated_param($_GET, 'direction', 'desc', array('asc', 'desc'));
-    $curr_sort_col = get_enumerated_param($_GET, 'orderby', 'date_edited', $valid_orderbys);
+    $curr_sort_col = get_enumerated_param($_GET, 'orderby', 'date_edited', array_keys($columns));
 
     $sql_query = "
         SELECT tasks.task_id,
@@ -862,17 +870,6 @@ function select_and_list_tasks($sql_condition)
     $sql_result = mysql_query($sql_query) or die(mysql_error());
 
     $t = SearchParams_get_url_query_string();
-
-    $columns = array(
-        'task_id'          => " style='text-align: center;'",
-        'task_type'        => "",
-        'task_severity'    => "",
-        'task_summary'     => " style='width: 50%;'",
-        'date_edited'      => " style='text-align: center;'",
-        'task_status'      => "",
-        'votes'            => "",
-        'percent_complete' => "",
-    );
 
     echo "<table class='taskslist'><tr>\n";
     foreach ( $columns as $property_id => $attrs )
