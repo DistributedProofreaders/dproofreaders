@@ -13,7 +13,7 @@ $tasks_url = $code_url . "/" . basename(__FILE__);
 
 $valid_orderbys = array('task_id','task_type','task_severity','votes','task_summary','date_edited','task_status','percent_complete');
 
-$order_by = "ORDER BY date_edited DESC, task_severity ASC, task_type ASC";
+$default_order_by = "ORDER BY date_edited DESC, task_severity ASC, task_type ASC";
 
 $valid_f = get_enumerated_param($_GET, 'f', null, array('newtask', 'detail', 'notifyme', 'unnotifyme'), true);
 
@@ -569,7 +569,7 @@ elseif (isset($_POST['newtask'])) {
                 INSERT INTO usersettings (username, setting, value)
                 VALUES ('$pguser', 'taskctr_notice', $task_id)
             ");
-            list_all_open_tasks($order_by);
+            list_all_open_tasks($default_order_by);
         }
         else {
             $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
@@ -609,12 +609,12 @@ elseif (isset($_POST['newtask'])) {
             ";
             if ($testing) echo_html_comment($sql_query);
             $result = mysql_query($sql_query);
-            list_all_open_tasks($order_by);
+            list_all_open_tasks($default_order_by);
         }
     }
 }
 elseif (isset($_POST['search_task'])) {
-    search_and_list_tasks($_POST, $order_by);
+    search_and_list_tasks($_POST, $default_order_by);
 }
 elseif (isset($_POST['close_task'])) {
     if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
@@ -636,7 +636,7 @@ elseif (isset($_POST['close_task'])) {
                 edited_by = $u_id
             WHERE task_id = $task_id
         ");
-        list_all_open_tasks($order_by);
+        list_all_open_tasks($default_order_by);
     }
     else {
         ShowNotification("The user $pguser does not have permission to close tasks.");
@@ -684,7 +684,7 @@ elseif (isset($_POST['new_relatedtask'])) {
             ");
             NotificationMail($this_task_id,
                 "This task had a related task added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
-            list_all_open_tasks($order_by);
+            list_all_open_tasks($default_order_by);
         }
         else {
             ShowNotification("You must supply a valid related task id number.");
@@ -709,7 +709,7 @@ elseif (isset($_POST['new_relatedposting'])) {
             ");
             NotificationMail($nrp_task_id,
                 "This task had a related posting added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
-            list_all_open_tasks($order_by);
+            list_all_open_tasks($default_order_by);
         }
         else {
             ShowNotification("You must supply a valid related topic id number.", true);
