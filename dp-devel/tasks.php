@@ -13,8 +13,6 @@ $tasks_url = $code_url . "/" . basename(__FILE__);
 
 $valid_orderbys = array('task_id','task_type','task_severity','votes','task_summary','date_edited','task_status','percent_complete');
 
-$default_order_by = "ORDER BY date_edited DESC";
-
 $valid_f = get_enumerated_param($_GET, 'f', null, array('newtask', 'detail', 'notifyme', 'unnotifyme'), true);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
