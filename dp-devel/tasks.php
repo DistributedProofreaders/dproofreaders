@@ -839,8 +839,6 @@ function select_and_list_tasks($sql_condition)
 
     $curr_sort_dir = get_enumerated_param($_GET, 'direction', 'desc', array('asc', 'desc'));
     $curr_sort_col = get_enumerated_param($_GET, 'orderby', 'date_edited', $valid_orderbys);
-    $order_by = "ORDER BY $curr_sort_col $curr_sort_dir";
-    $sql_order_by_clause = $order_by;
 
     $sql_query = "
         SELECT tasks.task_id,
@@ -857,7 +855,7 @@ function select_and_list_tasks($sql_condition)
           LEFT OUTER JOIN tasks_votes USING (task_id)
         WHERE $sql_condition
         GROUP BY task_id
-        $sql_order_by_clause
+        ORDER BY $curr_sort_col $curr_sort_dir
     ";
     if ($testing) echo_html_comment($sql_query);
 
