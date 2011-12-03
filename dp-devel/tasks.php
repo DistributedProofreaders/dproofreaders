@@ -447,11 +447,11 @@ if (isset($valid_f)) {
 elseif (isset($_POST['edit_task'])) {
     $task_id = get_integer_param($_POST, 'edit_task', null, 1, null);
     $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-    $u_id = mysql_result($result, 0, "u_id");
+    $requester_u_id = mysql_result($result, 0, "u_id");
     $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
     $opened_by = mysql_result($result, 0, "opened_by");
     $closed_reason = mysql_result($result, 0, "closed_reason");
-    if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $opened_by == $u_id && empty($closed_reason)) {
+    if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $opened_by == $requester_u_id && empty($closed_reason)) {
         TaskForm($task_id);
     }
     else {
@@ -464,12 +464,12 @@ elseif (isset($_POST['reopen_task'])) {
     NotificationMail($task_id,
         "This task was reopened by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
     $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-    $u_id = mysql_result($result, 0, "u_id");
+    $requester_u_id = mysql_result($result, 0, "u_id");
     $result = wrapped_mysql_query("
         UPDATE tasks
         SET
             task_status = 15,
-            edited_by = $u_id,
+            edited_by = $requester_u_id,
             date_edited = " . time() . ",
             date_closed = 0,
             closed_by = 0,
@@ -490,7 +490,7 @@ elseif (isset($_POST['newtask'])) {
             $relatedpostings_array = array();
             $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
             $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-            $u_id = mysql_result($result, 0, "u_id");
+            $requester_u_id = mysql_result($result, 0, "u_id");
             $newt_type     = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
             $newt_category = (int) get_enumerated_param($_POST, 'task_category', null, array_keys($categories_array));
             $newt_status   = (int) get_enumerated_param($_POST, 'task_status', null, array_keys($tasks_status_array));
@@ -517,11 +517,11 @@ elseif (isset($_POST['newtask'])) {
                     task_version     = $newt_version,
                     task_details     = '" . addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES)) . "',
                     date_opened      = "  . time() . ",
-                    opened_by        = $u_id,
+                    opened_by        = $requester_u_id,
                     date_closed      = '',
                     closed_by        = '',
                     date_edited      = "  . time() . ",
-                    edited_by        = $u_id,
+                    edited_by        = $requester_u_id,
                     percent_complete = 0,
                     related_tasks    = '$relatedtasks_array',
                     related_postings = '$relatedpostings_array'
@@ -549,7 +549,7 @@ elseif (isset($_POST['newtask'])) {
             NotificationMail($task_id,
                 "There has been an edit made to this task by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
             $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-            $u_id = mysql_result($result, 0, "u_id");
+            $requester_u_id = mysql_result($result, 0, "u_id");
             $edit_type     = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
             $edit_category = (int) get_enumerated_param($_POST, 'task_category', null, array_keys($categories_array));
             $edit_status   = (int) get_enumerated_param($_POST, 'task_status', null, array_keys($tasks_status_array));
@@ -576,7 +576,7 @@ elseif (isset($_POST['newtask'])) {
                     task_version     = $edit_version,
                     task_details     = '" . addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES)) . "',
                     date_edited      = "  . time() . ",
-                    edited_by        = $u_id,
+                    edited_by        = $requester_u_id,
                     percent_complete = $edit_percent
                 WHERE task_id = $task_id
             ";
@@ -595,17 +595,17 @@ elseif (isset($_POST['close_task'])) {
         NotificationMail($task_id,
             "This task was closed by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
         $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-        $u_id = mysql_result($result, 0, "u_id");
+        $requester_u_id = mysql_result($result, 0, "u_id");
         $result = wrapped_mysql_query("
             UPDATE tasks
             SET
                 percent_complete = 100,
                 task_status = 14,
                 date_closed = " . time() . ",
-                closed_by = $u_id,
+                closed_by = $requester_u_id,
                 closed_reason = $tc_reason,
                 date_edited = " . time() . ",
-                edited_by = $u_id
+                edited_by = $requester_u_id
             WHERE task_id = $task_id
         ");
         list_all_open_tasks();
@@ -620,14 +620,14 @@ elseif (isset($_POST['new_comment'])) {
         NotificationMail($task_id,
             "There has been a comment added to this task by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
         $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-        $u_id = mysql_result($result, 0, "u_id");
+        $requester_u_id = mysql_result($result, 0, "u_id");
         $result = wrapped_mysql_query("
             INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
-            VALUES ($task_id, $u_id, " . time() . ", '" . addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES)) . "')
+            VALUES ($task_id, $requester_u_id, " . time() . ", '" . addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES)) . "')
         ");
         $result = wrapped_mysql_query("
             UPDATE tasks
-            SET date_edited = " . time() . ", edited_by = $u_id
+            SET date_edited = " . time() . ", edited_by = $requester_u_id
             WHERE task_id = $task_id
         ");
         TaskDetails($task_id);
