@@ -502,51 +502,29 @@ elseif (isset($_POST['newtask'])) {
             $newt_version  = (int) get_enumerated_param($_POST, 'task_version', null, array_keys($versions_array));
 
             $sql_query = "
-                INSERT INTO tasks (
-                    task_id,
-                    task_summary,
-                    task_type,
-                    task_category,
-                    task_status,
-                    task_assignee,
-                    task_severity,
-                    task_priority,
-                    task_os,
-                    task_browser,
-                    task_version,
-                    task_details,
-                    date_opened,
-                    opened_by,
-                    date_closed,
-                    closed_by,
-                    date_edited,
-                    edited_by,
-                    percent_complete,
-                    related_tasks,
-                    related_postings
-                ) VALUES (
-                    '',
-                    '" . addslashes(htmlspecialchars($_POST['task_summary'])) . "',
-                    $newt_type,
-                    $newt_category,
-                    $newt_status,
-                    $newt_assignee,
-                    $newt_severity,
-                    $newt_priority,
-                    $newt_os,
-                    $newt_browser,
-                    $newt_version,
-                    '" . addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES)) . "',
-                    "  . time() . ",
-                    $u_id,
-                    '',
-                    '',
-                    "  . time() . ",
-                    $u_id,
-                    0,
-                    '$relatedtasks_array',
-                    '$relatedpostings_array'
-                )
+                INSERT INTO tasks
+                SET
+                    task_id          = '',
+                    task_summary     = '" . addslashes(htmlspecialchars($_POST['task_summary'])) . "',
+                    task_type        = $newt_type,
+                    task_category    = $newt_category,
+                    task_status      = $newt_status,
+                    task_assignee    = $newt_assignee,
+                    task_severity    = $newt_severity,
+                    task_priority    = $newt_priority,
+                    task_os          = $newt_os,
+                    task_browser     = $newt_browser,
+                    task_version     = $newt_version,
+                    task_details     = '" . addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES)) . "',
+                    date_opened      = "  . time() . ",
+                    opened_by        = $u_id,
+                    date_closed      = '',
+                    closed_by        = '',
+                    date_edited      = "  . time() . ",
+                    edited_by        = $u_id,
+                    percent_complete = 0,
+                    related_tasks    = '$relatedtasks_array',
+                    related_postings = '$relatedpostings_array'
             ";
             if ($testing) echo_html_comment($sql_query);
             $result = mysql_query($sql_query);
