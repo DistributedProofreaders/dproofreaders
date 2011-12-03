@@ -13,8 +13,11 @@ $tasks_url = $code_url . "/" . basename(__FILE__);
 
 $requester_u_id = $userP['u_id'];
 
-$date_str = date("l, F jS, Y", time());
-$time_of_day_str = date("g:i a", time());
+$now_sse = time();
+// The current time, expressed as Seconds Since the (Unix) Epoch.
+
+$date_str = date("l, F jS, Y", $now_sse);
+$time_of_day_str = date("g:i a", $now_sse);
 
 $valid_f = get_enumerated_param($_GET, 'f', null, array('newtask', 'detail', 'notifyme', 'unnotifyme'), true);
 
@@ -471,7 +474,7 @@ elseif (isset($_POST['reopen_task'])) {
         SET
             task_status = 15,
             edited_by = $requester_u_id,
-            date_edited = " . time() . ",
+            date_edited = $now_sse,
             date_closed = 0,
             closed_by = 0,
             closed_reason = 0
@@ -515,11 +518,11 @@ elseif (isset($_POST['newtask'])) {
                     task_browser     = $newt_browser,
                     task_version     = $newt_version,
                     task_details     = '" . addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES)) . "',
-                    date_opened      = "  . time() . ",
+                    date_opened      = $now_sse,
                     opened_by        = $requester_u_id,
                     date_closed      = '',
                     closed_by        = '',
-                    date_edited      = "  . time() . ",
+                    date_edited      = $now_sse,
                     edited_by        = $requester_u_id,
                     percent_complete = 0,
                     related_tasks    = '$relatedtasks_array',
@@ -572,7 +575,7 @@ elseif (isset($_POST['newtask'])) {
                     task_browser     = $edit_browser,
                     task_version     = $edit_version,
                     task_details     = '" . addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES)) . "',
-                    date_edited      = "  . time() . ",
+                    date_edited      = $now_sse,
                     edited_by        = $requester_u_id,
                     percent_complete = $edit_percent
                 WHERE task_id = $task_id
@@ -596,10 +599,10 @@ elseif (isset($_POST['close_task'])) {
             SET
                 percent_complete = 100,
                 task_status = 14,
-                date_closed = " . time() . ",
+                date_closed = $now_sse,
                 closed_by = $requester_u_id,
                 closed_reason = $tc_reason,
-                date_edited = " . time() . ",
+                date_edited = $now_sse,
                 edited_by = $requester_u_id
             WHERE task_id = $task_id
         ");
@@ -616,11 +619,11 @@ elseif (isset($_POST['new_comment'])) {
             "There has been a comment added to this task by $pguser on $date_str at $time_of_day_str.\n");
         $result = wrapped_mysql_query("
             INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
-            VALUES ($task_id, $requester_u_id, " . time() . ", '" . addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES)) . "')
+            VALUES ($task_id, $requester_u_id, $now_sse, '" . addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES)) . "')
         ");
         $result = wrapped_mysql_query("
             UPDATE tasks
-            SET date_edited = " . time() . ", edited_by = $requester_u_id
+            SET date_edited = $now_sse, edited_by = $requester_u_id
             WHERE task_id = $task_id
         ");
         TaskDetails($task_id);
