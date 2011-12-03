@@ -103,13 +103,6 @@ $tasks_status_array = array(
     18 => "In Progress"
 );
 asort($tasks_status_array);
-$search_results_array = array(
-    "20",
-    "40",
-    "60",
-    "80",
-    "100"
-);
 $os_array = array(
     0 => "All",
     1 => "Windows 3.1",
@@ -896,7 +889,7 @@ function select_and_list_tasks($sql_condition)
 function TaskForm($tid)
 {
     global $requester_u_id, $tasks_array, $severity_array, $categories_array, $tasks_status_array;
-    global $search_results_array, $os_array, $browser_array, $versions_array, $tasks_close_array, $percent_complete_array;
+    global $os_array, $browser_array, $versions_array, $tasks_close_array, $percent_complete_array;
     global $task_assignees_array;
     global $priority_array, $tasks_url;
     if (!empty($tid)) {
