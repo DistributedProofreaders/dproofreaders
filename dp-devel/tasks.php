@@ -11,6 +11,9 @@ include_once($relPath.'links.inc'); // private_message_link()
 
 $tasks_url = $code_url . "/" . basename(__FILE__);
 
+$result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
+$requester_u_id = mysql_result($result, 0, "u_id");
+
 $valid_f = get_enumerated_param($_GET, 'f', null, array('newtask', 'detail', 'notifyme', 'unnotifyme'), true);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -446,8 +449,6 @@ if (isset($valid_f)) {
 }
 elseif (isset($_POST['edit_task'])) {
     $task_id = get_integer_param($_POST, 'edit_task', null, 1, null);
-    $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-    $requester_u_id = mysql_result($result, 0, "u_id");
     $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
     $opened_by = mysql_result($result, 0, "opened_by");
     $closed_reason = mysql_result($result, 0, "closed_reason");
@@ -463,8 +464,6 @@ elseif (isset($_POST['reopen_task'])) {
     $task_id = get_integer_param($_POST, 'reopen_task', null, 1, null);
     NotificationMail($task_id,
         "This task was reopened by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
-    $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-    $requester_u_id = mysql_result($result, 0, "u_id");
     $result = wrapped_mysql_query("
         UPDATE tasks
         SET
@@ -489,8 +488,6 @@ elseif (isset($_POST['newtask'])) {
             $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
             $relatedpostings_array = array();
             $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
-            $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-            $requester_u_id = mysql_result($result, 0, "u_id");
             $newt_type     = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
             $newt_category = (int) get_enumerated_param($_POST, 'task_category', null, array_keys($categories_array));
             $newt_status   = (int) get_enumerated_param($_POST, 'task_status', null, array_keys($tasks_status_array));
@@ -548,8 +545,6 @@ elseif (isset($_POST['newtask'])) {
             $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
             NotificationMail($task_id,
                 "There has been an edit made to this task by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
-            $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-            $requester_u_id = mysql_result($result, 0, "u_id");
             $edit_type     = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
             $edit_category = (int) get_enumerated_param($_POST, 'task_category', null, array_keys($categories_array));
             $edit_status   = (int) get_enumerated_param($_POST, 'task_status', null, array_keys($tasks_status_array));
@@ -594,8 +589,6 @@ elseif (isset($_POST['close_task'])) {
         $tc_reason = (int) get_enumerated_param($_POST, 'task_close_reason', null, array_keys($tasks_close_array));
         NotificationMail($task_id,
             "This task was closed by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
-        $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-        $requester_u_id = mysql_result($result, 0, "u_id");
         $result = wrapped_mysql_query("
             UPDATE tasks
             SET
@@ -619,8 +612,6 @@ elseif (isset($_POST['new_comment'])) {
     if (!empty($_POST['task_comment'])) {
         NotificationMail($task_id,
             "There has been a comment added to this task by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
-        $result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-        $requester_u_id = mysql_result($result, 0, "u_id");
         $result = wrapped_mysql_query("
             INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
             VALUES ($task_id, $requester_u_id, " . time() . ", '" . addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES)) . "')
