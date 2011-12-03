@@ -11,8 +11,7 @@ include_once($relPath.'links.inc'); // private_message_link()
 
 $tasks_url = $code_url . "/" . basename(__FILE__);
 
-$result = mysql_query("SELECT u_id FROM users WHERE username = '$pguser'");
-$requester_u_id = mysql_result($result, 0, "u_id");
+$requester_u_id = $userP['u_id'];
 
 $valid_f = get_enumerated_param($_GET, 'f', null, array('newtask', 'detail', 'notifyme', 'unnotifyme'), true);
 
@@ -688,16 +687,14 @@ elseif (isset($_POST['meToo'])) {
     $vote_os       = (int) get_enumerated_param($_POST, $os_param_name, null, array_keys($os_array));
     $vote_browser  = (int) get_enumerated_param($_POST, $browser_param_name, null, array_keys($browser_array));
 
-    $user_id = $userP['u_id'];
-
     // Do not insert twice the same vote if the user refreshes the browser
     $meTooCheck = mysql_query("
-        SELECT 1 FROM tasks_votes WHERE task_id = $task_id and u_id = $user_id LIMIT 1
+        SELECT 1 FROM tasks_votes WHERE task_id = $task_id and u_id = $requester_u_id LIMIT 1
     ");
     if (mysql_num_rows($meTooCheck) == 0) wrapped_mysql_query("
             INSERT INTO tasks_votes 
             (task_id, u_id, vote_os, vote_browser) 
-            VALUES ($task_id, $user_id, $vote_os, $vote_browser)
+            VALUES ($task_id, $requester_u_id, $vote_os, $vote_browser)
         ");
     mysql_free_result($meTooCheck);
 
@@ -888,7 +885,7 @@ function select_and_list_tasks($sql_condition)
 
 function TaskForm($tid)
 {
-    global $userP, $tasks_array, $severity_array, $categories_array, $tasks_status_array;
+    global $requester_u_id, $tasks_array, $severity_array, $categories_array, $tasks_status_array;
     global $search_results_array, $os_array, $browser_array, $versions_array, $tasks_close_array, $percent_complete_array;
     global $task_assignees_array;
     global $priority_array, $tasks_url;
@@ -957,7 +954,7 @@ function TaskForm($tid)
     if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && !empty($tid)) {
         property_echo_select_tr('percent_complete', $percent_complete, $percent_complete_array);
     }
-    elseif ($opened_by == $userP['u_id'] && !user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
+    elseif ($opened_by == $requester_u_id && !user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
         echo "<input type='hidden' name='percent_complete' value='$percent_complete'>";
     }
     echo "</table></td></tr><tr><td>\n";
@@ -990,7 +987,7 @@ function property_echo_select_tr($property_id, $current_value, $options)
 
 function TaskDetails($tid)
 {
-    global $userP, $tasks_url;
+    global $requester_u_id, $tasks_url;
     global $os_array, $browser_array, $tasks_close_array;
     global $pguser;
     if (!is_numeric($tid)) {
@@ -1022,7 +1019,7 @@ function TaskDetails($tid)
             echo "</td>";
             echo "<td width='10%' valign='center' style='text-align:right;'>";
             echo "<form action='$tasks_url' method='post'>\n";
-            if ((user_is_a_sitemanager() || user_is_taskcenter_mgr() || $row['opened_by'] == $userP['u_id']) && empty($row['closed_reason'])) {
+            if ((user_is_a_sitemanager() || user_is_taskcenter_mgr() || $row['opened_by'] == $requester_u_id) && empty($row['closed_reason'])) {
                 echo "<input type='hidden' name='edit_task' value='$tid'>";
                 echo "<input type='submit' value='Edit Task' class='taskinp2'>";
                 echo "</td>";
@@ -1197,7 +1194,7 @@ function TaskDetails($tid)
             $meTooCheckResult = mysql_query("
                 SELECT id
                 FROM tasks_votes
-                WHERE task_id = $tid and u_id = " . $userP['u_id'] . "
+                WHERE task_id = $tid and u_id = $requester_u_id
             ");
             $meTooAllowed = (mysql_num_rows($meTooCheckResult) == 0);
             mysql_free_result($meTooCheckResult);
@@ -1300,7 +1297,7 @@ function guess_browser_from_UA()
 
 function MeToo($tid, $os, $browser)
 {
-    global $tasks_url, $browser_array, $os_array, $userP;
+    global $tasks_url, $browser_array, $os_array;
     echo "<span id='MeTooMain' style='display: none;'>";
     echo "<form action='$tasks_url' method='post'>";
     echo "<input type='hidden' name='meToo' value='$tid'>";
