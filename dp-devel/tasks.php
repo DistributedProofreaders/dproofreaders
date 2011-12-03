@@ -425,6 +425,7 @@ if (isset($valid_f)) {
     switch ( $valid_f )
     {
         case 'newtask':
+            // Open a form to specify the properties of a new task.
             TaskForm("");
             break;
 
@@ -484,11 +485,13 @@ elseif (isset($_POST['reopen_task'])) {
     TaskDetails($task_id);
 }
 elseif (isset($_POST['newtask'])) {
+    // The user is supplying values for the properties of a new OR pre-existing task.
     if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
         ShowNotification("You must supply a Task Summary and Task Details.", true);
     }
     else {
         if (!isset($_POST['task_id'])) {
+            // Create a new task.
             $relatedtasks_array = array();
             $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
             $relatedpostings_array = array();
@@ -547,6 +550,7 @@ elseif (isset($_POST['newtask'])) {
             list_all_open_tasks();
         }
         else {
+            // Update a pre-existing task.
             $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
             NotificationMail($task_id,
                 "There has been an edit made to this task by $pguser on $date_str at $time_of_day_str.\n");
@@ -899,6 +903,8 @@ function TaskForm($tid)
         $result = mysql_query("SELECT * FROM tasks WHERE task_id = $tid");
     }
     if (empty($tid)) {
+        // The user wants to create a task.
+        // Initialize the form with default values.
         $task_version     = 1;
         $task_severity    = 4;
         $task_priority    = 3;
@@ -914,6 +920,8 @@ function TaskForm($tid)
         $opened_by        = "";
     }
     else {
+        // The user wants to edit an existing task.
+        // Initialize the form with the current values of the task's properties.
         $task_version     = mysql_result($result, 0, "task_version");
         $task_severity    = mysql_result($result, 0, "task_severity");
         $task_priority    = mysql_result($result, 0, "task_priority");
