@@ -526,8 +526,7 @@ elseif (isset($_POST['newtask'])) {
                     related_tasks    = '$relatedtasks_array',
                     related_postings = '$relatedpostings_array'
             ";
-            if ($testing) echo_html_comment($sql_query);
-            $result = mysql_query($sql_query);
+            $result = wrapped_mysql_query($sql_query);
             $task_id = mysql_insert_id();
 
             $result = mysql_query("SELECT email, username FROM users WHERE u_id = $newt_assignee");
@@ -581,8 +580,7 @@ elseif (isset($_POST['newtask'])) {
                     percent_complete = $edit_percent
                 WHERE task_id = $task_id
             ";
-            if ($testing) echo_html_comment($sql_query);
-            $result = mysql_query($sql_query);
+            $result = wrapped_mysql_query($sql_query);
             list_all_open_tasks();
         }
     }
@@ -809,7 +807,6 @@ function search_and_list_tasks($request_params)
 
 function select_and_list_tasks($sql_condition)
 {
-    global $testing;
     global $tasks_url;
 
     $columns = array(
@@ -845,9 +842,7 @@ function select_and_list_tasks($sql_condition)
         GROUP BY task_id
         ORDER BY $curr_sort_col $curr_sort_dir
     ";
-    if ($testing) echo_html_comment($sql_query);
-
-    $sql_result = mysql_query($sql_query) or die(mysql_error());
+    $sql_result = wrapped_mysql_query($sql_query);
 
     $t = SearchParams_get_url_query_string();
 
@@ -1599,6 +1594,15 @@ function get_username_for_uid($u_id)
     $res = mysql_query("SELECT username FROM users WHERE u_id = $u_id");
     $username = mysql_result($res, 0, "username");
     return $username;
+}
+
+function wrapped_mysql_query($sql_query)
+{
+    global $testing;
+    if ($testing) echo_html_comment($sql_query);
+    $res = mysql_query($sql_query);
+    if ($res === FALSE) die(mysql_error());
+    return $res;
 }
 
 // vim: sw=4 ts=4 expandtab
