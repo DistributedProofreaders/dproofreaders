@@ -13,6 +13,9 @@ $tasks_url = $code_url . "/" . basename(__FILE__);
 
 $requester_u_id = $userP['u_id'];
 
+$date_str = date("l, F jS, Y", time());
+$time_of_day_str = date("g:i a", time());
+
 $valid_f = get_enumerated_param($_GET, 'f', null, array('newtask', 'detail', 'notifyme', 'unnotifyme'), true);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -462,7 +465,7 @@ elseif (isset($_POST['edit_task'])) {
 elseif (isset($_POST['reopen_task'])) {
     $task_id = get_integer_param($_POST, 'reopen_task', null, 1, null);
     NotificationMail($task_id,
-        "This task was reopened by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
+        "This task was reopened by $pguser on $date_str at $time_of_day_str.\n");
     $result = wrapped_mysql_query("
         UPDATE tasks
         SET
@@ -543,7 +546,7 @@ elseif (isset($_POST['newtask'])) {
         else {
             $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
             NotificationMail($task_id,
-                "There has been an edit made to this task by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
+                "There has been an edit made to this task by $pguser on $date_str at $time_of_day_str.\n");
             $edit_type     = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
             $edit_category = (int) get_enumerated_param($_POST, 'task_category', null, array_keys($categories_array));
             $edit_status   = (int) get_enumerated_param($_POST, 'task_status', null, array_keys($tasks_status_array));
@@ -587,7 +590,7 @@ elseif (isset($_POST['close_task'])) {
         $task_id   = get_integer_param($_POST, 'task_id', null, 1, null);
         $tc_reason = (int) get_enumerated_param($_POST, 'task_close_reason', null, array_keys($tasks_close_array));
         NotificationMail($task_id,
-            "This task was closed by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
+            "This task was closed by $pguser on $date_str at $time_of_day_str.\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
         $result = wrapped_mysql_query("
             UPDATE tasks
             SET
@@ -610,7 +613,7 @@ elseif (isset($_POST['new_comment'])) {
     $task_id = get_integer_param($_POST, 'new_comment', null, 1, null);
     if (!empty($_POST['task_comment'])) {
         NotificationMail($task_id,
-            "There has been a comment added to this task by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
+            "There has been a comment added to this task by $pguser on $date_str at $time_of_day_str.\n");
         $result = wrapped_mysql_query("
             INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
             VALUES ($task_id, $requester_u_id, " . time() . ", '" . addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES)) . "')
@@ -645,7 +648,7 @@ elseif (isset($_POST['new_relatedtask'])) {
                 WHERE task_id = $this_task_id
             ");
             NotificationMail($this_task_id,
-                "This task had a related task added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
+                "This task had a related task added to it by $pguser on $date_str at $time_of_day_str.\n");
             list_all_open_tasks();
         }
         else {
@@ -670,7 +673,7 @@ elseif (isset($_POST['new_relatedposting'])) {
                 WHERE task_id = $nrp_task_id
             ");
             NotificationMail($nrp_task_id,
-                "This task had a related posting added to it by $pguser on " . date("l, F jS, Y", time()) . " at " . date("g:i a", time()) . ".\n");
+                "This task had a related posting added to it by $pguser on $date_str at $time_of_day_str.\n");
             list_all_open_tasks();
         }
         else {
