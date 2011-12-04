@@ -62,7 +62,7 @@ if ($request_method == 'GET')
         'search',
         'list_open',
     );
-    $GET_action = get_enumerated_param($_GET, 'action', 'list_open', $valid_actions);
+    $action = get_enumerated_param($_GET, 'action', 'list_open', $valid_actions);
 }
 elseif ($request_method == 'POST')
 {
@@ -78,7 +78,7 @@ elseif ($request_method == 'POST')
         'reopen',
         'search',
     );
-    $POST_action = get_enumerated_param($_POST, 'action', null, $valid_actions);
+    $action = get_enumerated_param($_POST, 'action', null, $valid_actions);
 }
 else
 {
@@ -479,8 +479,8 @@ p                  { font-family:Verdana; font-size:11px; }
 echo "<br /><div align='center'><table class='taskplain' width='98%'><tr><td>\n";
 TaskHeader();
 
-if (isset($GET_action)) {
-    switch ( $GET_action )
+if ($request_method == 'GET') {
+    switch ( $action )
     {
         case 'show_creation_form':
             // Open a form to specify the properties of a new task.
@@ -523,7 +523,7 @@ if (isset($GET_action)) {
             break;
     }
 }
-elseif ($POST_action == 'show_editing_form') {
+elseif ($action == 'show_editing_form') {
     $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
     $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
     $opened_by = mysql_result($result, 0, "opened_by");
@@ -536,7 +536,7 @@ elseif ($POST_action == 'show_editing_form') {
         TaskDetails($task_id);
     }
 }
-elseif ($POST_action == 'reopen') {
+elseif ($action == 'reopen') {
     $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
     NotificationMail($task_id,
         "This task was reopened by $pguser on $date_str at $time_of_day_str.\n");
@@ -554,7 +554,7 @@ elseif ($POST_action == 'reopen') {
     $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
     TaskDetails($task_id);
 }
-elseif ($POST_action == 'create') {
+elseif ($action == 'create') {
     // The user is supplying values for the properties of a new task.
     if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
         ShowNotification("You must supply a Task Summary and Task Details.", true);
@@ -620,7 +620,7 @@ elseif ($POST_action == 'create') {
             list_all_open_tasks();
     }
 }
-elseif ($POST_action == 'edit') {
+elseif ($action == 'edit') {
     // The user is supplying values for the properties of a pre-existing task.
     if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
         ShowNotification("You must supply a Task Summary and Task Details.", true);
@@ -664,10 +664,10 @@ elseif ($POST_action == 'edit') {
             list_all_open_tasks();
     }
 }
-elseif ($POST_action == 'search') {
+elseif ($action == 'search') {
     search_and_list_tasks($_POST);
 }
-elseif ($POST_action == 'close') {
+elseif ($action == 'close') {
     if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
         $task_id   = get_integer_param($_POST, 'task_id', null, 1, null);
         $tc_reason = (int) get_enumerated_param($_POST, 'task_close_reason', null, array_keys($tasks_close_array));
@@ -691,7 +691,7 @@ elseif ($POST_action == 'close') {
         ShowNotification("The user $pguser does not have permission to close tasks.");
     }
 }
-elseif ($POST_action == 'add_comment') {
+elseif ($action == 'add_comment') {
     $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
     if (!empty($_POST['task_comment'])) {
         NotificationMail($task_id,
@@ -712,7 +712,7 @@ elseif ($POST_action == 'add_comment') {
         TaskDetails($task_id);
     }
 }
-elseif ($POST_action == 'add_related_task') {
+elseif ($action == 'add_related_task') {
     if (empty($_POST['related_task'])) {
         ShowNotification("You must supply a related task ID.", true);
     } else {
@@ -738,7 +738,7 @@ elseif ($POST_action == 'add_related_task') {
         }
     }
 }
-elseif ($POST_action == 'add_related_topic') {
+elseif ($action == 'add_related_topic') {
     if (empty($_POST['related_posting'])) {
         ShowNotification("You must supply a related topic ID.", true);
     } else {
@@ -763,7 +763,7 @@ elseif ($POST_action == 'add_related_topic') {
         }
     }
 }
-elseif ($POST_action == 'add_metoo') {
+elseif ($action == 'add_metoo') {
     $task_id       = get_integer_param($_REQUEST, 'task_id', null, 1, null);
     $sameOS        = get_integer_param($_REQUEST, 'sameOS', null, 0, 1);
     $sameBrowser   = get_integer_param($_REQUEST, 'sameBrowser', null, 0, 1);
