@@ -503,8 +503,8 @@ if (isset($GET_action)) {
             break;
     }
 }
-elseif (isset($_POST['edit_task'])) {
-    $task_id = get_integer_param($_POST, 'edit_task', null, 1, null);
+elseif ($_POST['action'] == 'show_editing_form') {
+    $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
     $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
     $opened_by = mysql_result($result, 0, "opened_by");
     $closed_reason = mysql_result($result, 0, "closed_reason");
@@ -516,8 +516,8 @@ elseif (isset($_POST['edit_task'])) {
         TaskDetails($task_id);
     }
 }
-elseif (isset($_POST['reopen_task'])) {
-    $task_id = get_integer_param($_POST, 'reopen_task', null, 1, null);
+elseif ($_POST['action'] == 'reopen') {
+    $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
     NotificationMail($task_id,
         "This task was reopened by $pguser on $date_str at $time_of_day_str.\n");
     $result = wrapped_mysql_query("
@@ -534,7 +534,7 @@ elseif (isset($_POST['reopen_task'])) {
     $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
     TaskDetails($task_id);
 }
-elseif (isset($_POST['newtask'])) {
+elseif ($_POST['action'] == 'create_or_edit') {
     // The user is supplying values for the properties of a new OR pre-existing task.
     if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
         ShowNotification("You must supply a Task Summary and Task Details.", true);
@@ -639,10 +639,10 @@ elseif (isset($_POST['newtask'])) {
         }
     }
 }
-elseif (isset($_POST['search_task'])) {
+elseif ($_POST['action'] == 'search') {
     search_and_list_tasks($_POST);
 }
-elseif (isset($_POST['close_task'])) {
+elseif ($_POST['action'] == 'close') {
     if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
         $task_id   = get_integer_param($_POST, 'task_id', null, 1, null);
         $tc_reason = (int) get_enumerated_param($_POST, 'task_close_reason', null, array_keys($tasks_close_array));
@@ -666,8 +666,8 @@ elseif (isset($_POST['close_task'])) {
         ShowNotification("The user $pguser does not have permission to close tasks.");
     }
 }
-elseif (isset($_POST['new_comment'])) {
-    $task_id = get_integer_param($_POST, 'new_comment', null, 1, null);
+elseif ($_POST['action'] == 'add_comment') {
+    $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
     if (!empty($_POST['task_comment'])) {
         NotificationMail($task_id,
             "There has been a comment added to this task by $pguser on $date_str at $time_of_day_str.\n");
@@ -687,11 +687,11 @@ elseif (isset($_POST['new_comment'])) {
         TaskDetails($task_id);
     }
 }
-elseif (isset($_POST['new_relatedtask'])) {
+elseif ($_POST['action'] == 'add_related_task') {
     if (empty($_POST['related_task'])) {
         ShowNotification("You must supply a related task ID.", true);
     } else {
-        $this_task_id    = get_integer_param($_POST, 'new_relatedtask', null, 1, null);
+        $this_task_id    = get_integer_param($_POST, 'task_id', null, 1, null);
         $related_task_id = get_integer_param($_POST, 'related_task', null, 1, null);
         $checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = $related_task_id");
         $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $this_task_id");
@@ -713,11 +713,11 @@ elseif (isset($_POST['new_relatedtask'])) {
         }
     }
 }
-elseif (isset($_POST['new_relatedposting'])) {
+elseif ($_POST['action'] == 'add_related_topic') {
     if (empty($_POST['related_posting'])) {
         ShowNotification("You must supply a related topic ID.", true);
     } else {
-        $nrp_task_id = get_integer_param($_POST, 'new_relatedposting', null, 1, null);
+        $nrp_task_id = get_integer_param($_POST, 'task_id', null, 1, null);
         $r_posting = get_integer_param($_POST, 'related_posting', null, 1, null);
         $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = $nrp_task_id");
         $relatedpostings_array = decode_array(mysql_result($result, 0, "related_postings"));
@@ -738,8 +738,8 @@ elseif (isset($_POST['new_relatedposting'])) {
         }
     }
 }
-elseif (isset($_POST['meToo'])) {
-    $task_id       = get_integer_param($_REQUEST, 'meToo', null, 1, null);
+elseif ($_POST['action'] == 'add_metoo') {
+    $task_id       = get_integer_param($_REQUEST, 'task_id', null, 1, null);
     $sameOS        = get_integer_param($_REQUEST, 'sameOS', null, 0, 1);
     $sameBrowser   = get_integer_param($_REQUEST, 'sameBrowser', null, 0, 1);
     $os_param_name      = ( $sameOS      ? 'task_os'      : 'metoo_os' );
@@ -800,7 +800,7 @@ function TaskHeader()
     echo "<input type='text' name='task_id' size='12' class='taskinp1'>&nbsp;\n";
     echo "<input type='submit' value='Go!' class='taskinp2'>\n";
     echo "</td></tr></table></form><br />\n";
-    echo "<form action='$tasks_url' method='post'><input type='hidden' name='search_task'>";
+    echo "<form action='$tasks_url' method='post'><input type='hidden' name='action' value='search'>";
     echo "<table class='tasks'>\n";
     echo "<tr><td width='10%'><b><small class='task'>Search:</small></b></td>\n";
     echo "<td width='70%'>";
@@ -982,7 +982,7 @@ function TaskForm($tid)
         $tasks_status_array = array(1 => "New");
     }
 
-    echo "<form action='$tasks_url' method='post'><input type='hidden' name='newtask'>\n";
+    echo "<form action='$tasks_url' method='post'><input type='hidden' name='action' value='create_or_edit'>\n";
     if (!empty($tid)) {
         echo "<input type='hidden' name='task_id' value='$tid'>";
     }
@@ -1074,11 +1074,13 @@ function TaskDetails($tid)
             echo "<td width='10%' valign='center' style='text-align:right;'>";
             echo "<form action='$tasks_url' method='post'>\n";
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr() || $row['opened_by'] == $requester_u_id) && empty($row['closed_reason'])) {
-                echo "<input type='hidden' name='edit_task' value='$tid'>\n";
+                echo "<input type='hidden' name='action' value='show_editing_form'>\n";
+                echo "<input type='hidden' name='task_id' value='$tid'>\n";
                 echo "<input type='submit' value='Edit Task' class='taskinp2'>\n";
             }
             elseif (!empty($row['closed_reason'])) {
-                echo "<input type='hidden' name='reopen_task' value='$tid'>\n";
+                echo "<input type='hidden' name='action' value='reopen'>\n";
+                echo "<input type='hidden' name='task_id' value='$tid'>\n";
                 echo "<input type='submit' value='Re-Open Task' class='taskinp2'>\n";
             }
             else {
@@ -1200,7 +1202,7 @@ function TaskDetails($tid)
                     <td>
                       <br />
                       <form action='$tasks_url' method='post'>
-                        <input type='hidden' name='close_task'>
+                        <input type='hidden' name='action' value='close'>
                         <input type='hidden' name='task_id' value='$tid'>
                         <table class='taskplain'>
                           <tr>
@@ -1347,7 +1349,8 @@ function MeToo($tid, $os, $browser)
     global $tasks_url, $browser_array, $os_array;
     echo "<span id='MeTooMain' style='display: none;'>";
     echo "<form action='$tasks_url' method='post'>";
-    echo "<input type='hidden' name='meToo' value='$tid'>";
+    echo "<input type='hidden' name='action' value='add_metoo'>";
+    echo "<input type='hidden' name='task_id' value='$tid'>";
     echo "<input type='hidden' name='task_os' value='$os'>";
     echo "<input type='hidden' name='task_browser' value='$browser'>";
     echo "<table class='tasks'><tr><td>\n";
@@ -1415,7 +1418,8 @@ function TaskComments($tid)
         echo "</td></tr></table>";
     }
     echo "<form action='$tasks_url' method='post'>";
-    echo "<input type='hidden' name='new_comment' value='$tid'>";
+    echo "<input type='hidden' name='action' value='add_comment'>";
+    echo "<input type='hidden' name='task_id' value='$tid'>";
     echo "<table class='tasks'><tr><td>\n";
     echo "<tr><td width='10%'><b>Add comment</b></td>";
     echo "<td width='90%'><textarea name='task_comment' cols='60' rows='5'></textarea></td></tr>";
@@ -1455,7 +1459,8 @@ function RelatedTasks($tid)
     $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $tid");
     $related_tasks = mysql_result($result, 0, "related_tasks");
     echo "<form action='$tasks_url' method='post'>";
-    echo "<input type='hidden' name='new_relatedtask' value='$tid'>";
+    echo "<input type='hidden' name='action' value='add_related_task'>";
+    echo "<input type='hidden' name='task_id' value='$tid'>";
     echo "<table class='tasks'>\n";
     echo "<tr><td width='100%'><b>Related Tasks&nbsp;&nbsp;</b>";
     echo "<input type='text' name='related_task' size='30' class='taskinp1'>&nbsp;&nbsp;";
@@ -1488,7 +1493,8 @@ function RelatedPostings($tid)
     $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = $tid");
     $related_postings = mysql_result($result, 0, "related_postings");
     echo "<form action='$tasks_url' method='post'>";
-    echo "<input type='hidden' name='new_relatedposting' value='$tid'>";
+    echo "<input type='hidden' name='action' value='add_related_topic'>";
+    echo "<input type='hidden' name='task_id' value='$tid'>";
     echo "<table class='tasks'>\n";
     echo "<tr><td width='100%'><b>Related Topic ID&nbsp;&nbsp;</b>";
     echo "<input type='text' name='related_posting' size='30' class='taskinp1'>&nbsp;&nbsp;";
