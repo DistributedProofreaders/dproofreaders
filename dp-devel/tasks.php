@@ -19,7 +19,51 @@ $now_sse = time();
 $date_str = date("l, F jS, Y", $now_sse);
 $time_of_day_str = date("g:i a", $now_sse);
 
-$valid_f = get_enumerated_param($_GET, 'f', null, array('newtask', 'detail', 'notifyme', 'unnotifyme'), true);
+// ---------------------------------------------------------
+// Convert old-style GET requests into new-style,
+// in case people have them in bookmarks/links.
+
+if (isset($_GET['f']) && !isset($_GET['action']))
+{
+    $f_map = array(
+        'newtask'    => 'show_creation_form',
+        'detail'     => 'show',
+        'notifyme'   => 'notify_me',
+        'unnotifyme' => 'unnotify_me',
+    );
+    $f = get_enumerated_param($_GET, 'f', null, array_keys($f_map));
+    $_REQUEST['action'] = $_GET['action'] = $f_map[$f];
+    unset($_GET['f']);
+    unset($_REQUEST['f']);
+}
+
+if (isset($_GET['tid']) && !isset($_GET['task_id']))
+{
+    $_REQUEST['task_id'] = $_GET['task_id'] = $_GET['tid'];
+    unset($_GET['tid']);
+    unset($_REQUEST['tid']);
+}
+
+if (isset($_GET['search_text']) && !isset($_GET['action']))
+{
+    $_REQUEST['action'] = $_GET['action'] = 'search';
+}
+
+// ---------------------------------------------------------
+
+$request_method = $_SERVER['REQUEST_METHOD'];
+if ($request_method == 'GET')
+{
+    $valid_actions = array(
+        'show_creation_form',
+        'show',
+        'notify_me',
+        'unnotify_me',
+        'search',
+        'list_open',
+    );
+    $GET_action = get_enumerated_param($_GET, 'action', 'list_open', $valid_actions);
+}
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -282,6 +326,7 @@ function SearchParams_echo_controls()
     }
     else $search_text = "";
 
+    echo "<input type='hidden' name='action' value='search'>\n";
     echo "<input type='text' value='$search_text' name='search_text' size='50' class='taskinp1'>\n";
 
     foreach ($SearchParams_choices as $param_name => $choices)
@@ -358,7 +403,7 @@ function SearchParams_get_url_query_string()
     global $SearchParams_choices;
 
     if (isset($_REQUEST['search_text'])) {
-        $t = "search_text=" . urlencode($_REQUEST['search_text']);
+        $t = "action=search&search_text=" . urlencode($_REQUEST['search_text']);
         foreach ($SearchParams_choices as $param_name => $choices)
         {
             $value = get_enumerated_param($_REQUEST, $param_name, '999', array_keys($choices));
@@ -414,21 +459,21 @@ p                  { font-family:Verdana; font-size:11px; }
 echo "<br /><div align='center'><table class='taskplain' width='98%'><tr><td>\n";
 TaskHeader();
 
-if (isset($valid_f)) {
-    switch ( $valid_f )
+if (isset($GET_action)) {
+    switch ( $GET_action )
     {
-        case 'newtask':
+        case 'show_creation_form':
             // Open a form to specify the properties of a new task.
             TaskForm("");
             break;
 
-        case 'detail':
-            $task_id = get_integer_param($_REQUEST, 'tid', null, 1, null);
+        case 'show':
+            $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
             TaskDetails($task_id);
             break;
 
-        case 'notifyme':
-            $task_id = get_integer_param($_REQUEST, 'tid', null, 1, null);
+        case 'notify_me':
+            $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
             $result = wrapped_mysql_query("
                 INSERT INTO usersettings (username, setting, value)
                 VALUES ('$pguser', 'taskctr_notice', $task_id)
@@ -436,13 +481,25 @@ if (isset($valid_f)) {
             TaskDetails($task_id);
             break;
 
-        case 'unnotifyme':
-            $task_id = get_integer_param($_REQUEST, 'tid', null, 1, null);
+        case 'unnotify_me':
+            $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
             $result = wrapped_mysql_query("
                 DELETE FROM usersettings
                 WHERE username = '$pguser' and setting = 'taskctr_notice' and value = $task_id
             ");
             TaskDetails($task_id);
+            break;
+
+        case 'search':
+            // The user clicked a column-header-link in a listing of tasks
+            // (or followed a bookmark of such a link).
+            search_and_list_tasks($_GET);
+            break;
+
+        case 'list_open':
+            // The user just entered the Task Center
+            // (e.g., by clicking the "Report a Bug" link).
+            list_all_open_tasks();
             break;
     }
 }
@@ -532,7 +589,7 @@ elseif (isset($_POST['newtask'])) {
                 maybe_mail(
                     mysql_result($result, 0, "email"),
                     "DP Task Center: Task #$task_id has been assigned to you",
-                    mysql_result($result, 0, "username") . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?f=detail&tid=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n",
+                    mysql_result($result, 0, "username") . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n",
                     "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"
                 );
             }
@@ -706,17 +763,7 @@ elseif (isset($_POST['meToo'])) {
     TaskDetails($task_id);
 }
 else {
-    // Either they just entered the Task Center
-    // (e.g., by clicking the "Report a Bug" link)
-    // or they clicked a column-header-link in a listing of tasks.
-    // (Or they followed a bookmark of one of those.)
-
-    if (isset($_GET['search_text'])) {
-        search_and_list_tasks($_GET);
-    }
-    else {
-        list_all_open_tasks();
-    }
+    die("shouldn't be able to reach here");
 }
 echo "</td>";
 echo "</tr>";
@@ -744,13 +791,13 @@ function TaskHeader()
 {
     global $tasks_url;
 
-    echo "<form action='$tasks_url' method='get'><input type='hidden' name='f' value='detail'>";
+    echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
     echo "<table class='taskplain'>\n";
     echo "<tr><td width='50%'>&nbsp;</td>\n";
     echo "<td width='50%' style='text-align:right;'>";
     echo "<b><small class='task'>Show Task #</small></b>";
     echo "&nbsp;\n";
-    echo "<input type='text' name='tid' size='12' class='taskinp1'>&nbsp;\n";
+    echo "<input type='text' name='task_id' size='12' class='taskinp1'>&nbsp;\n";
     echo "<input type='submit' value='Go!' class='taskinp2'>\n";
     echo "</td></tr></table></form><br />\n";
     echo "<form action='$tasks_url' method='post'><input type='hidden' name='search_task'>";
@@ -763,7 +810,7 @@ function TaskHeader()
     echo "<input type='submit' value='Search' class='taskinp2'></td>\n";
     echo "<td width='30%' style='text-align: right;'>";
     echo "<small class='task'>";
-    echo "<a href='$tasks_url'>Task Center Home</a> | <a href='$tasks_url?f=newtask'>New Task</a>";
+    echo "<a href='$tasks_url'>Task Center Home</a> | <a href='$tasks_url?action=show_creation_form'>New Task</a>";
     echo "</small>";
     echo "</td>";
     echo "</tr>\n";
@@ -1062,10 +1109,10 @@ function TaskDetails($tid)
             echo "</td>";
             echo "<td width='50%' style='text-align:right;'>";
             if (empty($already_notified)) {
-                echo "<a href='$tasks_url?f=notifyme&tid=$tid'>Signup for task notifications</a>";
+                echo "<a href='$tasks_url?action=notify_me&task_id=$tid'>Signup for task notifications</a>";
             }
             else {
-                echo "<a href='$tasks_url?f=unnotifyme&tid=$tid'>Remove me from task notifications</a>";
+                echo "<a href='$tasks_url?action=unnotify_me&task_id=$tid'>Remove me from task notifications</a>";
             }
             echo "</tr>\n";
 
@@ -1400,7 +1447,7 @@ function NotificationMail($tid, $message)
             maybe_mail($email, "DP Task Center: Task #$tid has been updated",
                 "You have requested notification of updates to task #$tid. "
               . "$message" . "\n"
-              . "You can see task #$tid by visiting $tasks_url?f=detail&tid=$tid" . "\n\n"
+              . "You can see task #$tid by visiting $tasks_url?action=show&task_id=$tid" . "\n\n"
               . "--" . "\n"
               . "Distributed Proofreaders" . "\n" . "$code_url" . "\n\n"
               . "This is an automated message that you had requested, please do not respond directly to this e-mail.",
@@ -1437,7 +1484,7 @@ function RelatedTasks($tid)
             $task_summary = stripslashes(mysql_result($result, 0, "task_summary"));
             $task_status  = $tasks_status_array[mysql_result($result, 0, "task_status")];
         }
-        echo "<br /><a href='$tasks_url?f=detail&tid=$val'>Task #$val</a> ($task_status) - $task_summary\n";
+        echo "<br /><a href='$tasks_url?action=show&task_id=$val'>Task #$val</a> ($task_status) - $task_summary\n";
     }
     echo "</td></tr></table></form>";
 }
@@ -1570,7 +1617,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
     assert( isset($fv) );
     if ($for_list_of_tasks)
     {
-        $url = "$tasks_url?f=detail&tid=" . $task_a['task_id'];
+        $url = "$tasks_url?action=show&task_id=" . $task_a['task_id'];
         $fv = "<a href='$url'>$fv</a>";
     }
     return $fv;
