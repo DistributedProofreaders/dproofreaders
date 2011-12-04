@@ -693,20 +693,20 @@ else {
         if (empty($_POST['related_task'])) {
             ShowNotification("You must supply a related task ID.", true);
         } else {
-            $this_task_id    = get_integer_param($_POST, 'task_id', null, 1, null);
+            $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
             $related_task_id = get_integer_param($_POST, 'related_task', null, 1, null);
             $checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = $related_task_id");
-            $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $this_task_id");
+            $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $task_id");
             $relatedtasks_array = decode_array(mysql_result($result, 0, "related_tasks"));
-            if (mysql_num_rows($checkTaskExists) >= 1 && $related_task_id != $this_task_id && !in_array($related_task_id, $relatedtasks_array)) {
+            if (mysql_num_rows($checkTaskExists) >= 1 && $related_task_id != $task_id && !in_array($related_task_id, $relatedtasks_array)) {
                 array_push($relatedtasks_array, $related_task_id);
                 $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
                 $result = wrapped_mysql_query("
                     UPDATE tasks
                     SET related_tasks = '$relatedtasks_array'
-                    WHERE task_id = $this_task_id
+                    WHERE task_id = $task_id
                 ");
-                NotificationMail($this_task_id,
+                NotificationMail($task_id,
                     "This task had a related task added to it by $pguser on $date_str at $time_of_day_str.\n");
                 list_all_open_tasks();
             }
@@ -719,9 +719,9 @@ else {
         if (empty($_POST['related_posting'])) {
             ShowNotification("You must supply a related topic ID.", true);
         } else {
-            $nrp_task_id = get_integer_param($_POST, 'task_id', null, 1, null);
+            $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
             $r_posting = get_integer_param($_POST, 'related_posting', null, 1, null);
-            $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = $nrp_task_id");
+            $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = $task_id");
             $relatedpostings_array = decode_array(mysql_result($result, 0, "related_postings"));
             if (does_topic_exist($r_posting) && !in_array($r_posting, $relatedpostings_array)) {
                 array_push($relatedpostings_array, $r_posting);
@@ -729,9 +729,9 @@ else {
                 $result = wrapped_mysql_query("
                     UPDATE tasks
                     SET related_postings = '$relatedpostings_array'
-                    WHERE task_id = $nrp_task_id
+                    WHERE task_id = $task_id
                 ");
-                NotificationMail($nrp_task_id,
+                NotificationMail($task_id,
                     "This task had a related posting added to it by $pguser on $date_str at $time_of_day_str.\n");
                 list_all_open_tasks();
             }
