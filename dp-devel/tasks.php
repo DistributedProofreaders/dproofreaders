@@ -475,7 +475,7 @@ p                  { font-family:Verdana; font-size:11px; }
 echo "<br /><div align='center'><table class='taskplain' width='98%'><tr><td>\n";
 TaskHeader();
 
-if ($request_method == 'GET') {
+if (!isset($_REQUEST['task_id'])) {
     switch ( $action )
     {
         case 'show_creation_form':
@@ -483,33 +483,10 @@ if ($request_method == 'GET') {
             TaskForm("");
             break;
 
-        case 'show':
-            $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
-            TaskDetails($task_id);
-            break;
-
-        case 'notify_me':
-            $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
-            $result = wrapped_mysql_query("
-                INSERT INTO usersettings (username, setting, value)
-                VALUES ('$pguser', 'taskctr_notice', $task_id)
-            ");
-            TaskDetails($task_id);
-            break;
-
-        case 'unnotify_me':
-            $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
-            $result = wrapped_mysql_query("
-                DELETE FROM usersettings
-                WHERE username = '$pguser' and setting = 'taskctr_notice' and value = $task_id
-            ");
-            TaskDetails($task_id);
-            break;
-
         case 'search':
             // The user clicked a column-header-link in a listing of tasks
             // (or followed a bookmark of such a link).
-            search_and_list_tasks($_GET);
+            search_and_list_tasks($_REQUEST);
             break;
 
         case 'list_open':
@@ -517,45 +494,14 @@ if ($request_method == 'GET') {
             // (e.g., by clicking the "Report a Bug" link).
             list_all_open_tasks();
             break;
-    }
-}
-    elseif ($action == 'show_editing_form') {
-        $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
-        $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
-        $opened_by = mysql_result($result, 0, "opened_by");
-        $closed_reason = mysql_result($result, 0, "closed_reason");
-        if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $opened_by == $requester_u_id && empty($closed_reason)) {
-            TaskForm($task_id);
-        }
-        else {
-            ShowNotification("The user $pguser does not have permission to edit this task.");
-            TaskDetails($task_id);
-        }
-    }
-    elseif ($action == 'reopen') {
-        $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
-        NotificationMail($task_id,
-            "This task was reopened by $pguser on $date_str at $time_of_day_str.\n");
-        $result = wrapped_mysql_query("
-            UPDATE tasks
-            SET
-                task_status = 15,
-                edited_by = $requester_u_id,
-                date_edited = $now_sse,
-                date_closed = 0,
-                closed_by = 0,
-                closed_reason = 0
-            WHERE task_id = $task_id
-        ");
-        $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
-        TaskDetails($task_id);
-    }
-    elseif ($action == 'create') {
-        // The user is supplying values for the properties of a new task.
-        if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
-            ShowNotification("You must supply a Task Summary and Task Details.", true);
-        }
-        else {
+
+        case 'create': {
+            // The user is supplying values for the properties of a new task.
+            if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
+                ShowNotification("You must supply a Task Summary and Task Details.", true);
+                break;
+            }
+
             assert (!isset($_POST['task_id']));
             // Create a new task.
             $relatedtasks_array = array();
@@ -614,7 +560,45 @@ if ($request_method == 'GET') {
                 VALUES ('$pguser', 'taskctr_notice', $task_id)
             ");
             list_all_open_tasks();
+            break;
         }
+    }
+}
+else {
+    if ($action == 'show') {
+        $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
+        TaskDetails($task_id);
+    }
+    elseif ($action == 'show_editing_form') {
+        $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
+        $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
+        $opened_by = mysql_result($result, 0, "opened_by");
+        $closed_reason = mysql_result($result, 0, "closed_reason");
+        if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $opened_by == $requester_u_id && empty($closed_reason)) {
+            TaskForm($task_id);
+        }
+        else {
+            ShowNotification("The user $pguser does not have permission to edit this task.");
+            TaskDetails($task_id);
+        }
+    }
+    elseif ($action == 'reopen') {
+        $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
+        NotificationMail($task_id,
+            "This task was reopened by $pguser on $date_str at $time_of_day_str.\n");
+        $result = wrapped_mysql_query("
+            UPDATE tasks
+            SET
+                task_status = 15,
+                edited_by = $requester_u_id,
+                date_edited = $now_sse,
+                date_closed = 0,
+                closed_by = 0,
+                closed_reason = 0
+            WHERE task_id = $task_id
+        ");
+        $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
+        TaskDetails($task_id);
     }
     elseif ($action == 'edit') {
         // The user is supplying values for the properties of a pre-existing task.
@@ -659,9 +643,6 @@ if ($request_method == 'GET') {
             $result = wrapped_mysql_query($sql_query);
             list_all_open_tasks();
         }
-    }
-    elseif ($action == 'search') {
-        search_and_list_tasks($_POST);
     }
     elseif ($action == 'close') {
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
@@ -783,9 +764,26 @@ if ($request_method == 'GET') {
         ShowNotification("Thank you for your report!  It has been recorded below.", false, "info");
         TaskDetails($task_id);
     }
+    elseif ($action == 'notify_me') {
+        $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
+        $result = wrapped_mysql_query("
+            INSERT INTO usersettings (username, setting, value)
+            VALUES ('$pguser', 'taskctr_notice', $task_id)
+        ");
+        TaskDetails($task_id);
+    }
+    elseif ($action == 'unnotify_me') {
+        $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
+        $result = wrapped_mysql_query("
+            DELETE FROM usersettings
+            WHERE username = '$pguser' and setting = 'taskctr_notice' and value = $task_id
+        ");
+        TaskDetails($task_id);
+    }
     else {
         die("shouldn't be able to reach here");
     }
+}
 echo "</td>";
 echo "</tr>";
 echo "</table>";
