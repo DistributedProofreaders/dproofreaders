@@ -565,12 +565,12 @@ if (!isset($_REQUEST['task_id'])) {
     }
 }
 else {
+    $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
+
     if ($action == 'show') {
-        $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
         TaskDetails($task_id);
     }
     elseif ($action == 'show_editing_form') {
-        $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
         $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
         $opened_by = mysql_result($result, 0, "opened_by");
         $closed_reason = mysql_result($result, 0, "closed_reason");
@@ -583,7 +583,6 @@ else {
         }
     }
     elseif ($action == 'reopen') {
-        $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
         NotificationMail($task_id,
             "This task was reopened by $pguser on $date_str at $time_of_day_str.\n");
         $result = wrapped_mysql_query("
@@ -607,7 +606,6 @@ else {
         }
         else {
             // Update a pre-existing task.
-            $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
             NotificationMail($task_id,
                 "There has been an edit made to this task by $pguser on $date_str at $time_of_day_str.\n");
             $edit_type     = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
@@ -669,7 +667,6 @@ else {
         }
     }
     elseif ($action == 'add_comment') {
-        $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
         if (!empty($_POST['task_comment'])) {
             NotificationMail($task_id,
                 "There has been a comment added to this task by $pguser on $date_str at $time_of_day_str.\n");
@@ -693,7 +690,6 @@ else {
         if (empty($_POST['related_task'])) {
             ShowNotification("You must supply a related task ID.", true);
         } else {
-            $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
             $related_task_id = get_integer_param($_POST, 'related_task', null, 1, null);
             $checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = $related_task_id");
             $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $task_id");
@@ -719,7 +715,6 @@ else {
         if (empty($_POST['related_posting'])) {
             ShowNotification("You must supply a related topic ID.", true);
         } else {
-            $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
             $r_posting = get_integer_param($_POST, 'related_posting', null, 1, null);
             $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = $task_id");
             $relatedpostings_array = decode_array(mysql_result($result, 0, "related_postings"));
@@ -765,7 +760,6 @@ else {
         TaskDetails($task_id);
     }
     elseif ($action == 'notify_me') {
-        $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
         $result = wrapped_mysql_query("
             INSERT INTO usersettings (username, setting, value)
             VALUES ('$pguser', 'taskctr_notice', $task_id)
@@ -773,7 +767,6 @@ else {
         TaskDetails($task_id);
     }
     elseif ($action == 'unnotify_me') {
-        $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
         $result = wrapped_mysql_query("
             DELETE FROM usersettings
             WHERE username = '$pguser' and setting = 'taskctr_notice' and value = $task_id
