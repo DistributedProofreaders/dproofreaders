@@ -1074,28 +1074,21 @@ function TaskDetails($tid)
             echo "<td width='10%' valign='center' style='text-align:right;'>";
             echo "<form action='$tasks_url' method='post'>\n";
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr() || $row['opened_by'] == $requester_u_id) && empty($row['closed_reason'])) {
-                echo "<input type='hidden' name='edit_task' value='$tid'>";
-                echo "<input type='submit' value='Edit Task' class='taskinp2'>";
-                echo "</td>";
-                echo "</tr>";
-                echo "</form>";
-                echo "</table>\n";
+                echo "<input type='hidden' name='edit_task' value='$tid'>\n";
+                echo "<input type='submit' value='Edit Task' class='taskinp2'>\n";
             }
             elseif (!empty($row['closed_reason'])) {
-                echo "<input type='hidden' name='reopen_task' value='$tid'>";
-                echo "<input type='submit' value='Re-Open Task' class='taskinp2'>";
-                echo "</td>";
-                echo "</tr>";
-                echo "</form>";
-                echo "</table>\n";
+                echo "<input type='hidden' name='reopen_task' value='$tid'>\n";
+                echo "<input type='submit' value='Re-Open Task' class='taskinp2'>\n";
             }
             else {
-                echo "&nbsp;";
-                echo "</td>";
-                echo "</tr>";
-                echo "</form>";
-                echo "</table>";
+                echo "&nbsp;\n";
             }
+            echo "</td>";
+            echo "</tr>";
+            echo "</form>";
+            echo "</table>\n";
+
             echo "<table class='tasks'>\n";
 
             // Row 1: Opened & Last edited. Link to toggle task notifications.
