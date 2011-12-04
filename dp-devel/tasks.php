@@ -341,8 +341,8 @@ function SearchParams_echo_controls()
     global $SearchParams_choices;
 
     if (isset($_REQUEST['search_text']) && !empty($_REQUEST['search_text'])) {
-        if (get_magic_quotes_gpc()) $_REQUEST['search_text'] = stripslashes($_REQUEST['search_text']);
-        $search_text = htmlspecialchars($_REQUEST['search_text'], ENT_QUOTES);
+        $st = stripslashes_if_magic($_REQUEST['search_text']);
+        $search_text = htmlspecialchars($st, ENT_QUOTES);
     }
     else $search_text = "";
 
@@ -363,10 +363,6 @@ function SearchParams_get_sql_condition($request_params)
 {
     global $testing, $SearchParams_choices;
 
-    // Note that, although TaskHeader has already run stripslashes()
-    // on $_REQUEST['search_text'], $_REQUEST is a distinct variable
-    // from $_GET and $_POST (and thus $request_params), so
-    // $request_params['search_text'] is still "slashed".
     if ($testing) echo_html_comment("\$request_params['search_text'] = {$request_params['search_text']}");
 
     // we're converting $searchtext using addslashes(htmlspecialchars(...))
@@ -423,7 +419,7 @@ function SearchParams_get_url_query_string()
     global $SearchParams_choices;
 
     if (isset($_REQUEST['search_text'])) {
-        $t = "action=search&search_text=" . urlencode($_REQUEST['search_text']);
+        $t = "action=search&search_text=" . urlencode(stripslashes_if_magic($_REQUEST['search_text']));
         foreach ($SearchParams_choices as $param_name => $choices)
         {
             $value = get_enumerated_param($_REQUEST, $param_name, '999', array_keys($choices));
@@ -1672,6 +1668,14 @@ function wrapped_mysql_query($sql_query)
     $res = mysql_query($sql_query);
     if ($res === FALSE) die(mysql_error());
     return $res;
+}
+
+function stripslashes_if_magic($s)
+{
+    if (get_magic_quotes_gpc())
+        return stripslashes($s);
+    else
+        return $s;
 }
 
 // vim: sw=4 ts=4 expandtab
