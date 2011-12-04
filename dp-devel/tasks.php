@@ -64,6 +64,25 @@ if ($request_method == 'GET')
     );
     $GET_action = get_enumerated_param($_GET, 'action', 'list_open', $valid_actions);
 }
+elseif ($request_method == 'POST')
+{
+    $valid_actions = array(
+        'show_editing_form',
+        'create_or_edit',
+        'add_comment',
+        'add_related_task',
+        'add_related_topic',
+        'add_metoo',
+        'close',
+        'reopen',
+        'search',
+    );
+    $POST_action = get_enumerated_param($_POST, 'action', null, $valid_actions);
+}
+else
+{
+    die("unexpected REQUEST_METHOD: '$request_method'");
+}
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -503,7 +522,7 @@ if (isset($GET_action)) {
             break;
     }
 }
-elseif ($_POST['action'] == 'show_editing_form') {
+elseif ($POST_action == 'show_editing_form') {
     $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
     $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
     $opened_by = mysql_result($result, 0, "opened_by");
@@ -516,7 +535,7 @@ elseif ($_POST['action'] == 'show_editing_form') {
         TaskDetails($task_id);
     }
 }
-elseif ($_POST['action'] == 'reopen') {
+elseif ($POST_action == 'reopen') {
     $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
     NotificationMail($task_id,
         "This task was reopened by $pguser on $date_str at $time_of_day_str.\n");
@@ -534,7 +553,7 @@ elseif ($_POST['action'] == 'reopen') {
     $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
     TaskDetails($task_id);
 }
-elseif ($_POST['action'] == 'create_or_edit') {
+elseif ($POST_action == 'create_or_edit') {
     // The user is supplying values for the properties of a new OR pre-existing task.
     if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
         ShowNotification("You must supply a Task Summary and Task Details.", true);
@@ -639,10 +658,10 @@ elseif ($_POST['action'] == 'create_or_edit') {
         }
     }
 }
-elseif ($_POST['action'] == 'search') {
+elseif ($POST_action == 'search') {
     search_and_list_tasks($_POST);
 }
-elseif ($_POST['action'] == 'close') {
+elseif ($POST_action == 'close') {
     if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
         $task_id   = get_integer_param($_POST, 'task_id', null, 1, null);
         $tc_reason = (int) get_enumerated_param($_POST, 'task_close_reason', null, array_keys($tasks_close_array));
@@ -666,7 +685,7 @@ elseif ($_POST['action'] == 'close') {
         ShowNotification("The user $pguser does not have permission to close tasks.");
     }
 }
-elseif ($_POST['action'] == 'add_comment') {
+elseif ($POST_action == 'add_comment') {
     $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
     if (!empty($_POST['task_comment'])) {
         NotificationMail($task_id,
@@ -687,7 +706,7 @@ elseif ($_POST['action'] == 'add_comment') {
         TaskDetails($task_id);
     }
 }
-elseif ($_POST['action'] == 'add_related_task') {
+elseif ($POST_action == 'add_related_task') {
     if (empty($_POST['related_task'])) {
         ShowNotification("You must supply a related task ID.", true);
     } else {
@@ -713,7 +732,7 @@ elseif ($_POST['action'] == 'add_related_task') {
         }
     }
 }
-elseif ($_POST['action'] == 'add_related_topic') {
+elseif ($POST_action == 'add_related_topic') {
     if (empty($_POST['related_posting'])) {
         ShowNotification("You must supply a related topic ID.", true);
     } else {
@@ -738,7 +757,7 @@ elseif ($_POST['action'] == 'add_related_topic') {
         }
     }
 }
-elseif ($_POST['action'] == 'add_metoo') {
+elseif ($POST_action == 'add_metoo') {
     $task_id       = get_integer_param($_REQUEST, 'task_id', null, 1, null);
     $sameOS        = get_integer_param($_REQUEST, 'sameOS', null, 0, 1);
     $sameBrowser   = get_integer_param($_REQUEST, 'sameBrowser', null, 0, 1);
