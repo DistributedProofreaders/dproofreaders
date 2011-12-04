@@ -67,8 +67,9 @@ if ($request_method == 'GET')
 elseif ($request_method == 'POST')
 {
     $valid_actions = array(
+        'create',
         'show_editing_form',
-        'create_or_edit',
+        'edit',
         'add_comment',
         'add_related_task',
         'add_related_topic',
@@ -553,13 +554,13 @@ elseif ($POST_action == 'reopen') {
     $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
     TaskDetails($task_id);
 }
-elseif ($POST_action == 'create_or_edit') {
-    // The user is supplying values for the properties of a new OR pre-existing task.
+elseif ($POST_action == 'create') {
+    // The user is supplying values for the properties of a new task.
     if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
         ShowNotification("You must supply a Task Summary and Task Details.", true);
     }
     else {
-        if (!isset($_POST['task_id'])) {
+        assert (!isset($_POST['task_id']));
             // Create a new task.
             $relatedtasks_array = array();
             $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
@@ -617,8 +618,14 @@ elseif ($POST_action == 'create_or_edit') {
                 VALUES ('$pguser', 'taskctr_notice', $task_id)
             ");
             list_all_open_tasks();
-        }
-        else {
+    }
+}
+elseif ($POST_action == 'edit') {
+    // The user is supplying values for the properties of a pre-existing task.
+    if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
+        ShowNotification("You must supply a Task Summary and Task Details.", true);
+    }
+    else {
             // Update a pre-existing task.
             $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
             NotificationMail($task_id,
@@ -655,7 +662,6 @@ elseif ($POST_action == 'create_or_edit') {
             ";
             $result = wrapped_mysql_query($sql_query);
             list_all_open_tasks();
-        }
     }
 }
 elseif ($POST_action == 'search') {
@@ -1001,8 +1007,11 @@ function TaskForm($tid)
         $tasks_status_array = array(1 => "New");
     }
 
-    echo "<form action='$tasks_url' method='post'><input type='hidden' name='action' value='create_or_edit'>\n";
-    if (!empty($tid)) {
+    echo "<form action='$tasks_url' method='post'>";
+    if (empty($tid)) {
+        echo "<input type='hidden' name='action' value='create'>\n";
+    } else {
+        echo "<input type='hidden' name='action' value='edit'>\n";
         echo "<input type='hidden' name='task_id' value='$tid'>";
     }
     echo "<table class='tasks'>\n";
