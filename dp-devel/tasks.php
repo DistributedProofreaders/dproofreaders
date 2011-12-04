@@ -523,44 +523,44 @@ if ($request_method == 'GET') {
             break;
     }
 }
-elseif ($action == 'show_editing_form') {
-    $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
-    $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
-    $opened_by = mysql_result($result, 0, "opened_by");
-    $closed_reason = mysql_result($result, 0, "closed_reason");
-    if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $opened_by == $requester_u_id && empty($closed_reason)) {
-        TaskForm($task_id);
+    elseif ($action == 'show_editing_form') {
+        $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
+        $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
+        $opened_by = mysql_result($result, 0, "opened_by");
+        $closed_reason = mysql_result($result, 0, "closed_reason");
+        if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $opened_by == $requester_u_id && empty($closed_reason)) {
+            TaskForm($task_id);
+        }
+        else {
+            ShowNotification("The user $pguser does not have permission to edit this task.");
+            TaskDetails($task_id);
+        }
     }
-    else {
-        ShowNotification("The user $pguser does not have permission to edit this task.");
+    elseif ($action == 'reopen') {
+        $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
+        NotificationMail($task_id,
+            "This task was reopened by $pguser on $date_str at $time_of_day_str.\n");
+        $result = wrapped_mysql_query("
+            UPDATE tasks
+            SET
+                task_status = 15,
+                edited_by = $requester_u_id,
+                date_edited = $now_sse,
+                date_closed = 0,
+                closed_by = 0,
+                closed_reason = 0
+            WHERE task_id = $task_id
+        ");
+        $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
         TaskDetails($task_id);
     }
-}
-elseif ($action == 'reopen') {
-    $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
-    NotificationMail($task_id,
-        "This task was reopened by $pguser on $date_str at $time_of_day_str.\n");
-    $result = wrapped_mysql_query("
-        UPDATE tasks
-        SET
-            task_status = 15,
-            edited_by = $requester_u_id,
-            date_edited = $now_sse,
-            date_closed = 0,
-            closed_by = 0,
-            closed_reason = 0
-        WHERE task_id = $task_id
-    ");
-    $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
-    TaskDetails($task_id);
-}
-elseif ($action == 'create') {
-    // The user is supplying values for the properties of a new task.
-    if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
-        ShowNotification("You must supply a Task Summary and Task Details.", true);
-    }
-    else {
-        assert (!isset($_POST['task_id']));
+    elseif ($action == 'create') {
+        // The user is supplying values for the properties of a new task.
+        if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
+            ShowNotification("You must supply a Task Summary and Task Details.", true);
+        }
+        else {
+            assert (!isset($_POST['task_id']));
             // Create a new task.
             $relatedtasks_array = array();
             $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
@@ -618,14 +618,14 @@ elseif ($action == 'create') {
                 VALUES ('$pguser', 'taskctr_notice', $task_id)
             ");
             list_all_open_tasks();
+        }
     }
-}
-elseif ($action == 'edit') {
-    // The user is supplying values for the properties of a pre-existing task.
-    if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
-        ShowNotification("You must supply a Task Summary and Task Details.", true);
-    }
-    else {
+    elseif ($action == 'edit') {
+        // The user is supplying values for the properties of a pre-existing task.
+        if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
+            ShowNotification("You must supply a Task Summary and Task Details.", true);
+        }
+        else {
             // Update a pre-existing task.
             $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
             NotificationMail($task_id,
@@ -662,134 +662,134 @@ elseif ($action == 'edit') {
             ";
             $result = wrapped_mysql_query($sql_query);
             list_all_open_tasks();
+        }
     }
-}
-elseif ($action == 'search') {
-    search_and_list_tasks($_POST);
-}
-elseif ($action == 'close') {
-    if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
-        $task_id   = get_integer_param($_POST, 'task_id', null, 1, null);
-        $tc_reason = (int) get_enumerated_param($_POST, 'task_close_reason', null, array_keys($tasks_close_array));
-        NotificationMail($task_id,
-            "This task was closed by $pguser on $date_str at $time_of_day_str.\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
-        $result = wrapped_mysql_query("
-            UPDATE tasks
-            SET
-                percent_complete = 100,
-                task_status = 14,
-                date_closed = $now_sse,
-                closed_by = $requester_u_id,
-                closed_reason = $tc_reason,
-                date_edited = $now_sse,
-                edited_by = $requester_u_id
-            WHERE task_id = $task_id
-        ");
-        list_all_open_tasks();
+    elseif ($action == 'search') {
+        search_and_list_tasks($_POST);
     }
-    else {
-        ShowNotification("The user $pguser does not have permission to close tasks.");
-    }
-}
-elseif ($action == 'add_comment') {
-    $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
-    if (!empty($_POST['task_comment'])) {
-        NotificationMail($task_id,
-            "There has been a comment added to this task by $pguser on $date_str at $time_of_day_str.\n");
-        $result = wrapped_mysql_query("
-            INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
-            VALUES ($task_id, $requester_u_id, $now_sse, '" . addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES)) . "')
-        ");
-        $result = wrapped_mysql_query("
-            UPDATE tasks
-            SET date_edited = $now_sse, edited_by = $requester_u_id
-            WHERE task_id = $task_id
-        ");
-        TaskDetails($task_id);
-    }
-    else {
-        ShowNotification("You must supply a comment before clicking Add Comment.");
-        TaskDetails($task_id);
-    }
-}
-elseif ($action == 'add_related_task') {
-    if (empty($_POST['related_task'])) {
-        ShowNotification("You must supply a related task ID.", true);
-    } else {
-        $this_task_id    = get_integer_param($_POST, 'task_id', null, 1, null);
-        $related_task_id = get_integer_param($_POST, 'related_task', null, 1, null);
-        $checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = $related_task_id");
-        $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $this_task_id");
-        $relatedtasks_array = decode_array(mysql_result($result, 0, "related_tasks"));
-        if (mysql_num_rows($checkTaskExists) >= 1 && $related_task_id != $this_task_id && !in_array($related_task_id, $relatedtasks_array)) {
-            array_push($relatedtasks_array, $related_task_id);
-            $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
+    elseif ($action == 'close') {
+        if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
+            $task_id   = get_integer_param($_POST, 'task_id', null, 1, null);
+            $tc_reason = (int) get_enumerated_param($_POST, 'task_close_reason', null, array_keys($tasks_close_array));
+            NotificationMail($task_id,
+                "This task was closed by $pguser on $date_str at $time_of_day_str.\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
             $result = wrapped_mysql_query("
                 UPDATE tasks
-                SET related_tasks = '$relatedtasks_array'
-                WHERE task_id = $this_task_id
+                SET
+                    percent_complete = 100,
+                    task_status = 14,
+                    date_closed = $now_sse,
+                    closed_by = $requester_u_id,
+                    closed_reason = $tc_reason,
+                    date_edited = $now_sse,
+                    edited_by = $requester_u_id
+                WHERE task_id = $task_id
             ");
-            NotificationMail($this_task_id,
-                "This task had a related task added to it by $pguser on $date_str at $time_of_day_str.\n");
             list_all_open_tasks();
         }
         else {
-            ShowNotification("You must supply a valid related task id number.");
+            ShowNotification("The user $pguser does not have permission to close tasks.");
         }
     }
-}
-elseif ($action == 'add_related_topic') {
-    if (empty($_POST['related_posting'])) {
-        ShowNotification("You must supply a related topic ID.", true);
-    } else {
-        $nrp_task_id = get_integer_param($_POST, 'task_id', null, 1, null);
-        $r_posting = get_integer_param($_POST, 'related_posting', null, 1, null);
-        $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = $nrp_task_id");
-        $relatedpostings_array = decode_array(mysql_result($result, 0, "related_postings"));
-        if (does_topic_exist($r_posting) && !in_array($r_posting, $relatedpostings_array)) {
-            array_push($relatedpostings_array, $r_posting);
-            $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
+    elseif ($action == 'add_comment') {
+        $task_id = get_integer_param($_POST, 'task_id', null, 1, null);
+        if (!empty($_POST['task_comment'])) {
+            NotificationMail($task_id,
+                "There has been a comment added to this task by $pguser on $date_str at $time_of_day_str.\n");
+            $result = wrapped_mysql_query("
+                INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
+                VALUES ($task_id, $requester_u_id, $now_sse, '" . addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES)) . "')
+            ");
             $result = wrapped_mysql_query("
                 UPDATE tasks
-                SET related_postings = '$relatedpostings_array'
-                WHERE task_id = $nrp_task_id
+                SET date_edited = $now_sse, edited_by = $requester_u_id
+                WHERE task_id = $task_id
             ");
-            NotificationMail($nrp_task_id,
-                "This task had a related posting added to it by $pguser on $date_str at $time_of_day_str.\n");
-            list_all_open_tasks();
+            TaskDetails($task_id);
         }
         else {
-            ShowNotification("You must supply a valid related topic id number.", true);
+            ShowNotification("You must supply a comment before clicking Add Comment.");
+            TaskDetails($task_id);
         }
     }
-}
-elseif ($action == 'add_metoo') {
-    $task_id       = get_integer_param($_REQUEST, 'task_id', null, 1, null);
-    $sameOS        = get_integer_param($_REQUEST, 'sameOS', null, 0, 1);
-    $sameBrowser   = get_integer_param($_REQUEST, 'sameBrowser', null, 0, 1);
-    $os_param_name      = ( $sameOS      ? 'task_os'      : 'metoo_os' );
-    $browser_param_name = ( $sameBrowser ? 'task_browser' : 'metoo_browser' );
-    $vote_os       = (int) get_enumerated_param($_POST, $os_param_name, null, array_keys($os_array));
-    $vote_browser  = (int) get_enumerated_param($_POST, $browser_param_name, null, array_keys($browser_array));
+    elseif ($action == 'add_related_task') {
+        if (empty($_POST['related_task'])) {
+            ShowNotification("You must supply a related task ID.", true);
+        } else {
+            $this_task_id    = get_integer_param($_POST, 'task_id', null, 1, null);
+            $related_task_id = get_integer_param($_POST, 'related_task', null, 1, null);
+            $checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = $related_task_id");
+            $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $this_task_id");
+            $relatedtasks_array = decode_array(mysql_result($result, 0, "related_tasks"));
+            if (mysql_num_rows($checkTaskExists) >= 1 && $related_task_id != $this_task_id && !in_array($related_task_id, $relatedtasks_array)) {
+                array_push($relatedtasks_array, $related_task_id);
+                $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
+                $result = wrapped_mysql_query("
+                    UPDATE tasks
+                    SET related_tasks = '$relatedtasks_array'
+                    WHERE task_id = $this_task_id
+                ");
+                NotificationMail($this_task_id,
+                    "This task had a related task added to it by $pguser on $date_str at $time_of_day_str.\n");
+                list_all_open_tasks();
+            }
+            else {
+                ShowNotification("You must supply a valid related task id number.");
+            }
+        }
+    }
+    elseif ($action == 'add_related_topic') {
+        if (empty($_POST['related_posting'])) {
+            ShowNotification("You must supply a related topic ID.", true);
+        } else {
+            $nrp_task_id = get_integer_param($_POST, 'task_id', null, 1, null);
+            $r_posting = get_integer_param($_POST, 'related_posting', null, 1, null);
+            $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = $nrp_task_id");
+            $relatedpostings_array = decode_array(mysql_result($result, 0, "related_postings"));
+            if (does_topic_exist($r_posting) && !in_array($r_posting, $relatedpostings_array)) {
+                array_push($relatedpostings_array, $r_posting);
+                $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
+                $result = wrapped_mysql_query("
+                    UPDATE tasks
+                    SET related_postings = '$relatedpostings_array'
+                    WHERE task_id = $nrp_task_id
+                ");
+                NotificationMail($nrp_task_id,
+                    "This task had a related posting added to it by $pguser on $date_str at $time_of_day_str.\n");
+                list_all_open_tasks();
+            }
+            else {
+                ShowNotification("You must supply a valid related topic id number.", true);
+            }
+        }
+    }
+    elseif ($action == 'add_metoo') {
+        $task_id       = get_integer_param($_REQUEST, 'task_id', null, 1, null);
+        $sameOS        = get_integer_param($_REQUEST, 'sameOS', null, 0, 1);
+        $sameBrowser   = get_integer_param($_REQUEST, 'sameBrowser', null, 0, 1);
+        $os_param_name      = ( $sameOS      ? 'task_os'      : 'metoo_os' );
+        $browser_param_name = ( $sameBrowser ? 'task_browser' : 'metoo_browser' );
+        $vote_os       = (int) get_enumerated_param($_POST, $os_param_name, null, array_keys($os_array));
+        $vote_browser  = (int) get_enumerated_param($_POST, $browser_param_name, null, array_keys($browser_array));
 
-    // Do not insert twice the same vote if the user refreshes the browser
-    $meTooCheck = mysql_query("
-        SELECT 1 FROM tasks_votes WHERE task_id = $task_id and u_id = $requester_u_id LIMIT 1
-    ");
-    if (mysql_num_rows($meTooCheck) == 0) wrapped_mysql_query("
-            INSERT INTO tasks_votes 
-            (task_id, u_id, vote_os, vote_browser) 
-            VALUES ($task_id, $requester_u_id, $vote_os, $vote_browser)
+        // Do not insert twice the same vote if the user refreshes the browser
+        $meTooCheck = mysql_query("
+            SELECT 1 FROM tasks_votes WHERE task_id = $task_id and u_id = $requester_u_id LIMIT 1
         ");
-    mysql_free_result($meTooCheck);
+        if (mysql_num_rows($meTooCheck) == 0) wrapped_mysql_query("
+                INSERT INTO tasks_votes 
+                (task_id, u_id, vote_os, vote_browser) 
+                VALUES ($task_id, $requester_u_id, $vote_os, $vote_browser)
+            ");
+        mysql_free_result($meTooCheck);
 
-    // No need to display a different error message if the user was refreshing
-    ShowNotification("Thank you for your report!  It has been recorded below.", false, "info");
-    TaskDetails($task_id);
-}
-else {
-    die("shouldn't be able to reach here");
-}
+        // No need to display a different error message if the user was refreshing
+        ShowNotification("Thank you for your report!  It has been recorded below.", false, "info");
+        TaskDetails($task_id);
+    }
+    else {
+        die("shouldn't be able to reach here");
+    }
 echo "</td>";
 echo "</tr>";
 echo "</table>";
