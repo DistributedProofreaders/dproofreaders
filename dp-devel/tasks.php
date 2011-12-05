@@ -675,7 +675,7 @@ function handle_action_on_a_specified_task()
     elseif ($action == 'close') {
         global $tasks_close_array;
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
-            $tc_reason = (int) get_enumerated_param($_POST, 'task_close_reason', null, array_keys($tasks_close_array));
+            $tc_reason = (int) get_enumerated_param($_POST, 'closed_reason', null, array_keys($tasks_close_array));
             NotificationMail($task_id,
                 "This task was closed by $pguser on $date_str at $time_of_day_str.\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
             wrapped_mysql_query("
@@ -1248,7 +1248,7 @@ function TaskDetails($tid)
                             </td>
                             <td valign='bottom' width='80%'>
                 ";
-                dropdown_select('task_close_reason', "", $tasks_close_array);
+                dropdown_select('closed_reason', "", $tasks_close_array);
                 echo "
                               <input type='submit' value='Close Task' class='taskinp2'>
                             </td>
