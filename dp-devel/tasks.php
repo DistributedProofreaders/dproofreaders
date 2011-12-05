@@ -584,14 +584,16 @@ function handle_action_on_a_specified_task()
 
     $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
 
+    // Fetch the state of the specified task
+    // before any requested changes.
+    $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
+    $pre_task = mysql_fetch_object($result);
+
     if ($action == 'show') {
         TaskDetails($task_id);
     }
     elseif ($action == 'show_editing_form') {
-        $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
-        $opened_by = mysql_result($result, 0, "opened_by");
-        $closed_reason = mysql_result($result, 0, "closed_reason");
-        if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $opened_by == $requester_u_id && empty($closed_reason)) {
+        if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $pre_task->opened_by == $requester_u_id && empty($pre_task->closed_reason)) {
             TaskForm($task_id);
         }
         else {
@@ -613,7 +615,6 @@ function handle_action_on_a_specified_task()
                 closed_reason = 0
             WHERE task_id = $task_id
         ");
-        $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
         TaskDetails($task_id);
     }
     elseif ($action == 'edit') {
@@ -721,8 +722,7 @@ function handle_action_on_a_specified_task()
         } else {
             $related_task_id = get_integer_param($_POST, 'related_task', null, 1, null);
             $checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = $related_task_id");
-            $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $task_id");
-            $relatedtasks_array = decode_array(mysql_result($result, 0, "related_tasks"));
+            $relatedtasks_array = decode_array($pre_task->related_tasks);
             if (mysql_num_rows($checkTaskExists) >= 1 && $related_task_id != $task_id && !in_array($related_task_id, $relatedtasks_array)) {
                 array_push($relatedtasks_array, $related_task_id);
                 $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
@@ -745,8 +745,7 @@ function handle_action_on_a_specified_task()
             ShowNotification("You must supply a related topic ID.", true);
         } else {
             $r_posting = get_integer_param($_POST, 'related_posting', null, 1, null);
-            $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = $task_id");
-            $relatedpostings_array = decode_array(mysql_result($result, 0, "related_postings"));
+            $relatedpostings_array = decode_array($pre_task->related_postings);
             if (does_topic_exist($r_posting) && !in_array($r_posting, $relatedpostings_array)) {
                 array_push($relatedpostings_array, $r_posting);
                 $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
