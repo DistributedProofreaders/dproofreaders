@@ -644,7 +644,6 @@ else {
     }
     elseif ($action == 'close') {
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
-            $task_id   = get_integer_param($_POST, 'task_id', null, 1, null);
             $tc_reason = (int) get_enumerated_param($_POST, 'task_close_reason', null, array_keys($tasks_close_array));
             NotificationMail($task_id,
                 "This task was closed by $pguser on $date_str at $time_of_day_str.\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
@@ -736,7 +735,6 @@ else {
         }
     }
     elseif ($action == 'add_metoo') {
-        $task_id       = get_integer_param($_REQUEST, 'task_id', null, 1, null);
         $sameOS        = get_integer_param($_REQUEST, 'sameOS', null, 0, 1);
         $sameBrowser   = get_integer_param($_REQUEST, 'sameBrowser', null, 0, 1);
         $os_param_name      = ( $sameOS      ? 'task_os'      : 'metoo_os' );
