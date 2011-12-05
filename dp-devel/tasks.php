@@ -565,6 +565,23 @@ if (!isset($_REQUEST['task_id'])) {
     }
 }
 else {
+    handle_action_on_a_specified_task();
+}
+echo "</td>";
+echo "</tr>";
+echo "</table>";
+echo "</div>";
+echo "<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />\n";
+theme("", "footer");
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function handle_action_on_a_specified_task()
+{
+    global $pguser, $requester_u_id;
+    global $now_sse, $date_str, $time_of_day_str;
+    global $action;
+
     $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
 
     if ($action == 'show') {
@@ -608,6 +625,18 @@ else {
             // Update a pre-existing task.
             NotificationMail($task_id,
                 "There has been an edit made to this task by $pguser on $date_str at $time_of_day_str.\n");
+
+            global $tasks_array;
+            global $categories_array;
+            global $tasks_status_array;
+            global $task_assignees_array;
+            global $severity_array;
+            global $priority_array;
+            global $os_array;
+            global $browser_array;
+            global $versions_array;
+            global $percent_complete_array;
+
             $edit_type     = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
             $edit_category = (int) get_enumerated_param($_POST, 'task_category', null, array_keys($categories_array));
             $edit_status   = (int) get_enumerated_param($_POST, 'task_status', null, array_keys($tasks_status_array));
@@ -643,6 +672,7 @@ else {
         }
     }
     elseif ($action == 'close') {
+        global $tasks_close_array;
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
             $tc_reason = (int) get_enumerated_param($_POST, 'task_close_reason', null, array_keys($tasks_close_array));
             NotificationMail($task_id,
@@ -735,6 +765,7 @@ else {
         }
     }
     elseif ($action == 'add_metoo') {
+        global $os_array, $browser_array;
         $sameOS        = get_integer_param($_REQUEST, 'sameOS', null, 0, 1);
         $sameBrowser   = get_integer_param($_REQUEST, 'sameBrowser', null, 0, 1);
         $os_param_name      = ( $sameOS      ? 'task_os'      : 'metoo_os' );
@@ -775,12 +806,6 @@ else {
         die("shouldn't be able to reach here");
     }
 }
-echo "</td>";
-echo "</tr>";
-echo "</table>";
-echo "</div>";
-echo "<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />\n";
-theme("", "footer");
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
