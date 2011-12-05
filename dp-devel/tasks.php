@@ -480,7 +480,7 @@ if (!isset($_REQUEST['task_id'])) {
     {
         case 'show_creation_form':
             // Open a form to specify the properties of a new task.
-            TaskForm("");
+            TaskForm(NULL);
             break;
 
         case 'search':
@@ -594,7 +594,7 @@ function handle_action_on_a_specified_task()
     }
     elseif ($action == 'show_editing_form') {
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $pre_task->opened_by == $requester_u_id && empty($pre_task->closed_reason)) {
-            TaskForm($task_id);
+            TaskForm($pre_task);
         }
         else {
             ShowNotification("The user $pguser does not have permission to edit this task.");
@@ -967,16 +967,14 @@ function select_and_list_tasks($sql_condition)
     }
 }
 
-function TaskForm($tid)
+function TaskForm($task)
 {
     global $requester_u_id, $tasks_array, $severity_array, $categories_array, $tasks_status_array;
     global $os_array, $browser_array, $versions_array, $tasks_close_array, $percent_complete_array;
     global $task_assignees_array;
     global $priority_array, $tasks_url;
-    if (!empty($tid)) {
-        $result = mysql_query("SELECT * FROM tasks WHERE task_id = $tid");
-    }
-    if (empty($tid)) {
+
+    if (is_null($task)) {
         // The user wants to create a task.
         // Initialize the form with default values.
         $task_version     = 1;
@@ -992,23 +990,25 @@ function TaskForm($tid)
         $task_details     = "";
         $percent_complete = 0;
         $opened_by        = "";
+        $tid              = "";
     }
     else {
         // The user wants to edit an existing task.
         // Initialize the form with the current values of the task's properties.
-        $task_version     = mysql_result($result, 0, "task_version");
-        $task_severity    = mysql_result($result, 0, "task_severity");
-        $task_priority    = mysql_result($result, 0, "task_priority");
-        $task_type        = mysql_result($result, 0, "task_type");
-        $task_category    = mysql_result($result, 0, "task_category");
-        $task_status      = mysql_result($result, 0, "task_status");
-        $task_os          = mysql_result($result, 0, "task_os");
-        $task_browser     = mysql_result($result, 0, "task_browser");
-        $task_assignee    = mysql_result($result, 0, "task_assignee");
-        $task_summary     = stripslashes(mysql_result($result, 0, "task_summary"));
-        $task_details     = stripslashes(mysql_result($result, 0, "task_details"));
-        $percent_complete = mysql_result($result, 0, "percent_complete");
-        $opened_by        = mysql_result($result, 0, "opened_by");
+        $task_version     = $task->task_version;
+        $task_severity    = $task->task_severity;
+        $task_priority    = $task->task_priority;
+        $task_type        = $task->task_type;
+        $task_category    = $task->task_category;
+        $task_status      = $task->task_status;
+        $task_os          = $task->task_os;
+        $task_browser     = $task->task_browser;
+        $task_assignee    = $task->task_assignee;
+        $task_summary     = stripslashes($task->task_summary);
+        $task_details     = stripslashes($task->task_details);
+        $percent_complete = $task->percent_complete;
+        $opened_by        = $task->opened_by;
+        $tid              = $task->task_id;
     }
 
     // Non-managers can only set the task status to New.
