@@ -543,7 +543,7 @@ if (!isset($_REQUEST['task_id'])) {
                     related_tasks    = '$relatedtasks_array',
                     related_postings = '$relatedpostings_array'
             ";
-            $result = wrapped_mysql_query($sql_query);
+            wrapped_mysql_query($sql_query);
             $task_id = mysql_insert_id();
 
             $result = mysql_query("SELECT email, username FROM users WHERE u_id = $newt_assignee");
@@ -555,7 +555,7 @@ if (!isset($_REQUEST['task_id'])) {
                     "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"
                 );
             }
-            $result = wrapped_mysql_query("
+            wrapped_mysql_query("
                 INSERT INTO usersettings (username, setting, value)
                 VALUES ('$pguser', 'taskctr_notice', $task_id)
             ");
@@ -602,7 +602,7 @@ function handle_action_on_a_specified_task()
     elseif ($action == 'reopen') {
         NotificationMail($task_id,
             "This task was reopened by $pguser on $date_str at $time_of_day_str.\n");
-        $result = wrapped_mysql_query("
+        wrapped_mysql_query("
             UPDATE tasks
             SET
                 task_status = 15,
@@ -667,7 +667,7 @@ function handle_action_on_a_specified_task()
                     percent_complete = $edit_percent
                 WHERE task_id = $task_id
             ";
-            $result = wrapped_mysql_query($sql_query);
+            wrapped_mysql_query($sql_query);
             list_all_open_tasks();
         }
     }
@@ -677,7 +677,7 @@ function handle_action_on_a_specified_task()
             $tc_reason = (int) get_enumerated_param($_POST, 'task_close_reason', null, array_keys($tasks_close_array));
             NotificationMail($task_id,
                 "This task was closed by $pguser on $date_str at $time_of_day_str.\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
-            $result = wrapped_mysql_query("
+            wrapped_mysql_query("
                 UPDATE tasks
                 SET
                     percent_complete = 100,
@@ -699,11 +699,11 @@ function handle_action_on_a_specified_task()
         if (!empty($_POST['task_comment'])) {
             NotificationMail($task_id,
                 "There has been a comment added to this task by $pguser on $date_str at $time_of_day_str.\n");
-            $result = wrapped_mysql_query("
+            wrapped_mysql_query("
                 INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
                 VALUES ($task_id, $requester_u_id, $now_sse, '" . addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES)) . "')
             ");
-            $result = wrapped_mysql_query("
+            wrapped_mysql_query("
                 UPDATE tasks
                 SET date_edited = $now_sse, edited_by = $requester_u_id
                 WHERE task_id = $task_id
@@ -726,7 +726,7 @@ function handle_action_on_a_specified_task()
             if (mysql_num_rows($checkTaskExists) >= 1 && $related_task_id != $task_id && !in_array($related_task_id, $relatedtasks_array)) {
                 array_push($relatedtasks_array, $related_task_id);
                 $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
-                $result = wrapped_mysql_query("
+                wrapped_mysql_query("
                     UPDATE tasks
                     SET related_tasks = '$relatedtasks_array'
                     WHERE task_id = $task_id
@@ -750,7 +750,7 @@ function handle_action_on_a_specified_task()
             if (does_topic_exist($r_posting) && !in_array($r_posting, $relatedpostings_array)) {
                 array_push($relatedpostings_array, $r_posting);
                 $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
-                $result = wrapped_mysql_query("
+                wrapped_mysql_query("
                     UPDATE tasks
                     SET related_postings = '$relatedpostings_array'
                     WHERE task_id = $task_id
@@ -789,14 +789,14 @@ function handle_action_on_a_specified_task()
         TaskDetails($task_id);
     }
     elseif ($action == 'notify_me') {
-        $result = wrapped_mysql_query("
+        wrapped_mysql_query("
             INSERT INTO usersettings (username, setting, value)
             VALUES ('$pguser', 'taskctr_notice', $task_id)
         ");
         TaskDetails($task_id);
     }
     elseif ($action == 'unnotify_me') {
-        $result = wrapped_mysql_query("
+        wrapped_mysql_query("
             DELETE FROM usersettings
             WHERE username = '$pguser' and setting = 'taskctr_notice' and value = $task_id
         ");
