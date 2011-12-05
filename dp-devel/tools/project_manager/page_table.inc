@@ -97,7 +97,7 @@ function echo_page_table(
         echo "    <td>&nbsp;</td>\n";
         foreach ( $rounds_to_display as $round )
         {
-            if ($round->id == $project_round->id && $project_phase == 'PAGE_EDITING')
+            if ($project_phase == 'PAGE_EDITING' && $round->id == $project_round->id)
             {
                 $n_cols_per_round++;
             }
