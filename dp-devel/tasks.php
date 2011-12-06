@@ -62,7 +62,7 @@ if ($request_method == 'GET')
         'search',
         'list_open',
     );
-    $action = get_enumerated_param($_GET, 'action', 'list_open', $valid_actions);
+    $action = get_enumerated_param($_GET, 'action', null, $valid_actions, true);
 }
 elseif ($request_method == 'POST')
 {
@@ -476,6 +476,10 @@ echo "<br /><div align='center'><table class='taskplain' width='98%'><tr><td>\n"
 TaskHeader();
 
 if (!isset($_REQUEST['task_id'])) {
+
+    // Default 'action' when no task is specified:
+    if (is_null($action)) $action = 'list_open';
+
     switch ( $action )
     {
         case 'show_creation_form':
@@ -581,6 +585,9 @@ function handle_action_on_a_specified_task()
     global $pguser, $requester_u_id;
     global $now_sse, $date_str, $time_of_day_str;
     global $action;
+
+    // Default 'action' when a task is specified:
+    if (is_null($action)) $action = 'show';
 
     $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
 
