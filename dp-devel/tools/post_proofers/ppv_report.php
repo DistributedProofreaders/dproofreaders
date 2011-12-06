@@ -116,7 +116,7 @@ $authorsname = $project->authorsname;
 $language = $project->language;
 $difficulty_level = $project->difficulty;
 $pages = Project_getNumPages($projectid);
-$subdate = date("jS of F, Y");
+$subdate = date('jS \o\f F, Y');
 
 // number of books post-processed by this PPer (including this one).
 $psd = get_project_status_descriptor('PPd');
