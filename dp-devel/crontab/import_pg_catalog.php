@@ -42,6 +42,7 @@ $display_mapping = array(
     'audio/mp4'                => 'MP4 Audio',
     'audio/mpeg'               => 'MPEG Audio',
     'audio/ogg'                => 'Ogg Audio',
+    'audio/x-ms-wma'           => 'MS Audio',
     'audio/x-wav'              => 'MS Wave Audio',
     'image/gif'                => 'GIF',
     'image/jpeg'               => 'JPEG',
