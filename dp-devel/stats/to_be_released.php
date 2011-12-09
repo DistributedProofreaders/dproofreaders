@@ -21,7 +21,7 @@ if ($order == 'default') {
 $result = mysql_query("SELECT nameofwork, username, modifieddate, language, genre
                      FROM projects
                      WHERE state = '".PROJ_P1_WAITING_FOR_RELEASE."'
-                     ORDER BY '$order' ASC");
+                     ORDER BY $order ASC");
 
 $numrows = mysql_numrows($result);
 $rownum = 0;

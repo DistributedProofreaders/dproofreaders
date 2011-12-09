@@ -23,7 +23,7 @@ $result = mysql_query("	SELECT nameofwork, authorsname, username,
 			FROM projects WHERE
 			$psd->state_selector
 			AND postproofer = 'No Known PPer' 
-			ORDER BY '$order' ASC");
+			ORDER BY $order ASC");
 
 $numrows = mysql_numrows($result);
 $rownum = 0;
