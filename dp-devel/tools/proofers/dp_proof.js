@@ -314,7 +314,7 @@ function isDigit(num)
 function isLetter(chr)
 {
         if (chr.length>1){return false;}
-        var string="abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var string="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         if (string.indexOf(chr)!=-1){return true;}
         return false;
 }
