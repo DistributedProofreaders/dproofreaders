@@ -17,6 +17,17 @@ $state = $project->state;
 $project_title = $project->nameofwork;
 $navigation_text = "";
 
+if (!$project->pages_table_exists)
+{
+    // This shouldn't normally happen --
+    // if the page table doesn't exist, a "diff" link shouldn't be shown.
+    // But a user might have a bookmarked or otherwise saved a 'diff' URL.
+    echo "<p>", _("Page details are not available for this project."), "</p>\n";
+    echo "<p>", sprintf(_("projectid: %s"), $projectid), "</p>\n";
+    echo "<p>", sprintf(_("Title: %s"), $project_title), "</p>\n";
+    exit;
+}
+
 // --------------------------------------------------------------
 // get information about this diff
 if ( $L_round_num == 0 )
@@ -53,7 +64,7 @@ $query = "
     FROM $projectid
     WHERE image='$image'";
 
-$res = mysql_query($query);
+$res = mysql_query($query) or die(mysql_error());
 list($L_text, $R_text, $L_user, $R_user) = mysql_fetch_row($res);
 $can_see_names_for_this_page = can_see_names_for_page($projectid, $image);
 if ( $can_see_names_for_this_page) {
