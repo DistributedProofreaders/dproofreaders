@@ -524,7 +524,7 @@ function validate_projectID($param_name, $value, $allownull = false)
     if (!isset($value) && $allownull) return null;
     if (1 == preg_match('/^projectID[0-9a-f]{13}$/', $value)) return $value;
     die(sprintf(
-        _("The value of parameter '%s' ('%s') is not a valid projectID."),
+        _("The value of parameter '%1\$s' ('%2\$s') is not a valid projectID."),
         htmlspecialchars($param_name),
         htmlspecialchars($value)
     ));
@@ -538,7 +538,7 @@ function validate_page_image_filename($param_name, $value, $allownull = false)
     if (!isset($value) && $allownull) return null;
     if (1 == preg_match('/^[a-zA-Z0-9_.-]{5,16}$/', $value)) return $value;
     die(sprintf(
-        _("The value of parameter '%s' ('%s') is not a valid page image filename."),
+        _("The value of parameter '%1\$s' ('%2\$s') is not a valid page image filename."),
         htmlspecialchars($param_name),
         htmlspecialchars($value)
     ));
