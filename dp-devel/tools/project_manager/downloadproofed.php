@@ -16,8 +16,18 @@ include_once($relPath.'stages.inc');
     }
 
     $result = mysql_query("SELECT $text_column_name FROM $project WHERE image = '$image'"); 
+    if ($result === FALSE)
+    {
+        // Likely the project's page-table does not exist (in thie database).
+        // This could happen if a user saved a URL involving this script,
+        // and the project's page-table later got archived.
+        die(mysql_error());
+    }
     if (mysql_num_rows($result) == 0)
     {
+        // The page-table exists, but the WHERE clause did not match any row.
+        // This could happen if a user saved a URL involving this script,
+        // and the page was later deleted or renamed.
         die("Could not find text for $image in $project");
     }
 
