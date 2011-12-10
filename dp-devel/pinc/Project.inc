@@ -523,7 +523,11 @@ function validate_projectID($param_name, $value, $allownull = false)
 {
     if (!isset($value) && $allownull) return null;
     if (1 == preg_match('/^projectID[0-9a-f]{13}$/', $value)) return $value;
-    die("Parameter $param_name is not a valid projectID.");
+    die(sprintf(
+        _("The value of parameter '%s' ('%s') is not a valid projectID."),
+        htmlspecialchars($param_name),
+        htmlspecialchars($value)
+    ));
 }
 
 // Checks if $value contains only legitimate characters for
@@ -533,7 +537,11 @@ function validate_page_image_filename($param_name, $value, $allownull = false)
 {
     if (!isset($value) && $allownull) return null;
     if (1 == preg_match('/^[a-zA-Z0-9_.-]{5,16}$/', $value)) return $value;
-    die("Parameter $param_name is not a valid page image filename.");
+    die(sprintf(
+        _("The value of parameter '%s' ('%s') is not a valid page image filename."),
+        htmlspecialchars($param_name),
+        htmlspecialchars($value)
+    ));
 }
 
 // vim: sw=4 ts=4 expandtab
