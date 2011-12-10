@@ -18,7 +18,7 @@ include_once($relPath.'stages.inc');
     $result = mysql_query("SELECT $text_column_name FROM $project WHERE image = '$image'"); 
     if ($result === FALSE)
     {
-        // Likely the project's page-table does not exist (in thie database).
+        // Likely the project's page-table does not exist (in this database).
         // This could happen if a user saved a URL involving this script,
         // and the project's page-table later got archived.
         die(mysql_error());
