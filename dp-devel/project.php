@@ -1653,6 +1653,19 @@ function echo_download_zip( $link_text, $discriminator )
     {
         $p = "$projectid$discriminator.zip";
 
+        if (!file_exists("$project->dir/$p"))
+        {
+            // The file doesn't exist yet, so there's no point providing a link to it.
+            echo "<li>";
+            echo $link_text;
+            echo " (";
+            echo _("File has not been generated yet.");
+            echo ")";
+            echo "</li>";
+            echo "\n";
+            return;
+        }
+
         $url = "$project->url/$p";
         $filesize_kb = round( filesize( "$project->dir/$p") / 1024 );
     }
