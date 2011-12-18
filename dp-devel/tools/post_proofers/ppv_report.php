@@ -115,7 +115,7 @@ $nameofwork = $project->nameofwork;
 $authorsname = $project->authorsname;
 $language = $project->language;
 $difficulty_level = $project->difficulty;
-$pages = Project_getNumPages($projectid);
+$pages = $project->n_pages;
 $subdate = date('jS \o\f F, Y');
 
 // number of books post-processed by this PPer (including this one).
