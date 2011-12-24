@@ -90,7 +90,7 @@ function theme ($nameofpage, $location, $extra_args = array()) {
 
 function html_header($nameofpage, $extra_args = array()) {
     global $code_url, $theme, $userP, $site_abbreviation;
-    global $relPath, $charset;
+    global $charset;
     echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
     echo "<html".lang_html_header().">\n<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\">\n";
@@ -100,7 +100,7 @@ function html_header($nameofpage, $extra_args = array()) {
     echo "</title>\n";
     // Global theme CSS
     echo "\n<link type='text/css' rel='Stylesheet' href='";
-    echo $relPath . 'templates/' . $theme['template_unix_name'] . "/main.css'>\n";
+    echo "$code_url/pinc/templates/" . $theme['template_unix_name'] . "/main.css'>\n";
 
     // Global layout CSS
     echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/layout.css'>";
