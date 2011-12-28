@@ -738,7 +738,7 @@ class ProjectInfoHolder
 
             // We're particularly interested in knowing
             // when the project comments change.
-            if ( strpos($changed_fields, 'Project Comments') == FALSE )
+            if ( !in_array('comments', $changed_fields) )
             {
                 // no change
                 $tlcc_setter = '';
@@ -772,7 +772,21 @@ class ProjectInfoHolder
                 WHERE projectid='{$this->projectid}'
             ") or die(mysql_error());
 
-            $e = log_project_event( $this->projectid, $GLOBALS['pguser'], 'edit', $changed_fields );
+            $details1 = implode(' ', $changed_fields);
+
+            if ( $details1 == '' )
+            {
+                // There are no changed fields.
+
+                // Don't just save '' for the details1 column,
+                // because then do_history() won't be able to distinguish
+                // this case (no changed fields) from old cases
+                // (edit occurred before we started recording changed fields).
+                // Instead, use a special value.
+
+                $details1 = 'NONE';
+            }
+            $e = log_project_event( $this->projectid, $GLOBALS['pguser'], 'edit', $details1 );
             if ( !empty($e) ) die($e);
             if ($PPer_checkout)
             {
@@ -1117,42 +1131,43 @@ class ProjectInfoHolder
     }
 }
 
-// get a list of the fields that have changed, using the names they are given
-// on the edit page. 
 function get_changed_fields($new_pih, $old_pih)
+// Return an array whose values are the names of the properties
+// whose values differ between the two objects $new_pih and $old_pih.
+// [Note that this is completely generic code, so we could consider
+// moving it to pinc/misc.inc.]
 {
-    $changed_fields = 'Changed fields: ';
-    $found_change = FALSE;
-    $field_info = array(
-        'deletion_reason'  => "Reason for Deletion",
-        'nameofwork'       => "Name of work",
-        'authorsname'      => "Author's Name",
-        'projectmanager'   => "Project Manager",
-        'language'         => "Language",
-        'genre'            => "Genre",
-        'difficulty_level' => "Difficulty Level",
-        'special_code'     => "Special Day",
-        'checkedoutby'     => "PPer/PPVer",
-        'image_source'     => "Original Image Source",
-        'image_preparer'   => "Image Preparer",
-        'text_preparer'    => "Text Preparer",
-        'extra_credits'    => "Extra Credits",
-        'scannercredit'    => "Scanner Credit",
-        'clearance'        => "Clearance Information",
-        'postednum'        => "Posted Number",
-        'comments'         => "Project Comments",
-    );
-    foreach ( $field_info as $field_name => $label )
+    $old_pih_as_array = (array)$old_pih;
+    $new_pih_as_array = (array)$new_pih;
+    // They should have the same set of keys, but just in case,
+    // merge the two sets of keys:
+    $all_keys = array_keys($old_pih_as_array + $new_pih_as_array);
+
+    /*
     {
-        if ($new_pih->$field_name != $old_pih->$field_name)
-        { 
-            $changed_fields.= ($found_change ? ', ' : '' ) . $label;
-            $found_change = TRUE;
+        if (count($old_pih_as_array) != count($all_keys))
+        {
+            echo "<p>all - old:";
+            var_dump(array_diff($all_keys, array_keys($old_pih_as_array)));
+            echo "</p>\n";
+        }
+        if (count($new_pih_as_array) != count($all_keys))
+        {
+            echo "<p>all - new:";
+            var_dump(array_diff($all_keys, array_keys($new_pih_as_array)));
+            echo "</p>\n";
         }
     }
-    if ( ! $found_change )
-    { 
-        $changed_fields .= "none";
+    */
+
+    $changed_fields = array();
+    foreach ( $all_keys as $key )
+    {
+        if ($new_pih_as_array[$key] != $old_pih_as_array[$key])
+        { 
+            // echo "<p>'$key' changed from '{$old_pih_as_array[$key]}' to '{$new_pih_as_array[$key]}'</p>\n";
+            $changed_fields[] = $key;
+        }
     }
     return $changed_fields;
 }

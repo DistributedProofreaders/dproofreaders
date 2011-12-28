@@ -1256,9 +1256,72 @@ function do_history()
                 echo "<td>until $deadline_f</td>\n";
             }
         }
-        elseif ( $event['details1'] != '' )
+        elseif ( $event['event_type'] == 'edit' )
         {
-            echo "<td colspan='3'>{$event['details1']}</td>\n";
+            $changed_fields = $event['details1'];
+
+            if ( $changed_fields == '' )
+            {
+                // This is an old edit event,
+                // from before we recorded changed fields.
+                // Just leave the rest of the row blank.
+            }
+            else
+            {
+                // List the changed fields (localized for the current user).
+
+                if ( $changed_fields == 'NONE' )
+                {
+                    $list_of_changed_fields = _("none");
+                }
+                else
+                {
+                    // Maybe move this array to Project.inc
+                    $label_for_project_field_ = array(
+                        'deletion_reason'  => _("Reason for Deletion"),
+                        'nameofwork'       => _("Name of work"),
+                        'authorsname'      => _("Author's Name"),
+                        'projectmanager'   => _("Project Manager"),
+                        'language'         => _("Language"),
+                        'genre'            => _("Genre"),
+                        'difficulty_level' => _("Difficulty Level"),
+                        'special_code'     => _("Special Day"),
+                        'checkedoutby'     => _("PPer/PPVer"),
+                        'image_source'     => _("Original Image Source"),
+                        'image_preparer'   => _("Image Preparer"),
+                        'text_preparer'    => _("Text Preparer"),
+                        'extra_credits'    => _("Extra Credits"),
+                        'scannercredit'    => _("Scanner Credit"),
+                        'clearance'        => _("Clearance Information"),
+                        'postednum'        => _("Posted Number"),
+                        'comments'         => _("Project Comments"),
+                    );
+
+                    $labels = array();
+                    foreach ( explode(' ', $changed_fields) as $fieldname )
+                    {
+                        $labels[] = array_get($label_for_project_field_, $fieldname, $fieldname);
+                    }
+                    // Note that this lists the changed fields in the same order
+                    // as they appear in the 'details1' field of the events table,
+                    // which isn't necessarily consistent (or logical).
+                    // However, I'm not sure it's worth doing anything about that.
+
+                    if ( count($labels) == 0 )
+                    {
+                        // This shouldn't happen.
+                        $list_of_changed_fields = _("none");
+                    }
+                    else
+                    {
+                        $list_of_changed_fields = implode(', ', $labels);
+                    }
+                }
+                echo "<td colspan='3'>";
+                echo _("Changed fields:");
+                echo " ", $list_of_changed_fields;
+                echo "</td>\n";
+            }
         }
         echo "</tr>\n";
     }
