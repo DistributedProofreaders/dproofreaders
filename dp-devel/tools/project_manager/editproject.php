@@ -651,7 +651,7 @@ class ProjectInfoHolder
         $this->bad_words        = @$_POST['bad_words'];
         $this->clearance        = @$_POST['clearance'];
         $this->difficulty_level = @$_POST['difficulty_level'];
-        $this->up_projectid     = @$_POST['up_projectid'];
+        $this->up_projectid     = intval(@$_POST['up_projectid']);
         $this->original_marc_array_encd = @$_POST['rec'];
         $this->extra_credits    = @$_POST['extra_credits'];
         $this->deletion_reason  = @$_POST['deletion_reason'];
