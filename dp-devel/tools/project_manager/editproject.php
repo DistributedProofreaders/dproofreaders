@@ -409,22 +409,26 @@ class ProjectInfoHolder
 
         if ( is_string($good_words) )
         {
+            // It's an error message.
             echo "$good_words<br>\n";
             $this->good_words = '';
         }
         else
         {
-            $this->good_words = implode("\n", $good_words);
+            $this->good_words = implode("\r\n", $good_words);
+            // Join with CRLF to match line-endings in $_POST['good_words']
         }
 
         if ( is_string($bad_words) )
         {
+            // It's an error message.
             echo "$bad_words<br>\n";
             $this->bad_words = '';
         }
         else
         {
-            $this->bad_words = implode("\n", $bad_words);
+            $this->bad_words = implode("\r\n", $bad_words);
+            // Join with CRLF to match line-endings in $_POST['bad_words']
         }
     }
 
