@@ -187,8 +187,6 @@ class ProjectInfoHolder
         $this->language         = '';
         $this->scannercredit    = '';
         $this->comments         = '';
-        $this->good_words       = '';
-        $this->bad_words        = '';
         $this->clearance        = '';
         $this->postednum        = '';
         $this->genre            = '';
@@ -241,8 +239,6 @@ class ProjectInfoHolder
         $this->checkedoutby     = '';
         $this->scannercredit    = '';
         $this->comments         = '';
-        $this->good_words       = '';
-        $this->bad_words        = '';
         $this->clearance        = '';
         $this->postednum        = '';
         $this->difficulty_level = ( $pguser == "BEGIN" ? "beginner" : "average" );
@@ -290,8 +286,6 @@ class ProjectInfoHolder
         $this->language         = $up_info['d_language'];
         $this->scannercredit    = $up_info['d_scannercredit'];
         $this->comments         = $up_info['d_comments'];
-        $this->good_words       = '';
-        $this->bad_words        = '';
         $this->clearance        = $up_info['d_clearance'];
         $this->postednum        = $up_info['d_postednum'];
         $this->genre            = $up_info['d_genre'];
@@ -389,47 +383,6 @@ class ProjectInfoHolder
             $this->state            = '';
         }
         $this->up_projectid     = $ar['up_projectid'];
-
-        // load non-db project settings
-        // Failure to load isn't a fatal error, according to this code.
-
-        // the word list loading code is needed for cloning purposes
-        // not because this page allows us to edit word lists
-        if($edit_existing)
-        {
-            $good_words = load_project_good_words($this->projectid);
-            $bad_words=load_project_bad_words($this->projectid);
-        }
-        else
-        {
-            // we're cloning, load the original project's words
-            $good_words = load_project_good_words($this->clone_projectid);
-            $bad_words=load_project_bad_words($this->clone_projectid);
-        }
-
-        if ( is_string($good_words) )
-        {
-            // It's an error message.
-            echo "$good_words<br>\n";
-            $this->good_words = '';
-        }
-        else
-        {
-            $this->good_words = implode("\r\n", $good_words);
-            // Join with CRLF to match line-endings in $_POST['good_words']
-        }
-
-        if ( is_string($bad_words) )
-        {
-            // It's an error message.
-            echo "$bad_words<br>\n";
-            $this->bad_words = '';
-        }
-        else
-        {
-            $this->bad_words = implode("\r\n", $bad_words);
-            // Join with CRLF to match line-endings in $_POST['bad_words']
-        }
     }
 
     // -------------------------------------------------------------------------
@@ -651,8 +604,6 @@ class ProjectInfoHolder
 
         $this->scannercredit    = @$_POST['scannercredit'];
         $this->comments         = @$_POST['comments'];
-        $this->good_words       = @$_POST['good_words'];
-        $this->bad_words        = @$_POST['bad_words'];
         $this->clearance        = @$_POST['clearance'];
         $this->difficulty_level = @$_POST['difficulty_level'];
         $this->up_projectid     = intval(@$_POST['up_projectid']);
@@ -872,19 +823,43 @@ class ProjectInfoHolder
                     updated_array  = '".base64_encode(serialize($updated_marc_array))."',
                     updated_marc   = '".base64_encode(serialize($updated_marc_str))."'
             ");
+
+            // Create the project's 'good word list' and 'bad word list'.
+
+            if ( isset($this->clone_projectid) )
+            {
+                // We're creating a project via cloning.
+                // Copy the original project's word-lists.
+
+                $good_words = load_project_good_words($this->clone_projectid);
+                if ( is_string($good_words) )
+                {
+                    // It's an error message.
+                    echo "$good_words<br>\n";
+                    $good_words = array();
+                }
+
+                $bad_words = load_project_bad_words($this->clone_projectid);
+                if ( is_string($bad_words) )
+                {
+                    // It's an error message.
+                    echo "$bad_words<br>\n";
+                    $bad_words = array();
+                }
+            }
+            else
+            {
+                // We're creating a project by means other than cloning
+                // (from_nothing, from_marc_record, from_uberproject).
+                // Initialize its GWL and BWL to empty.
+
+                $good_words = array();
+                $bad_words = array();
+            }
+
+            save_project_good_words($this->projectid, $good_words);
+            save_project_bad_words($this->projectid, $bad_words);
         }
-
-        // save non-database information, like the custom dictonaries
-
-        // this code is needed to support project cloning, not because
-        // this page allows editing of the word lists
-
-        // explode the strings into an array
-        $good_words = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->good_words));
-        $bad_words = explode("[lf]",str_replace(array("\r","\n"),array('',"[lf]"),$this->bad_words));
-
-        save_project_good_words($this->projectid, $good_words);
-        save_project_bad_words($this->projectid, $bad_words);
 
 // TODO not scannercredit below!
 
@@ -966,14 +941,6 @@ class ProjectInfoHolder
         if (!empty($this->clone_projectid))
         {
             echo "<input type='hidden' name='clone_projectid' value='$this->clone_projectid'>";
-        }
-        if (!empty($this->good_words))
-        {
-            echo "<input type='hidden' name='good_words' value='" . htmlentities($this->good_words,ENT_QUOTES) . "'>";
-        }
-        if (!empty($this->bad_words))
-        {
-            echo "<input type='hidden' name='bad_words' value='" . htmlentities($this->bad_words,ENT_QUOTES) . "'>";
         }
         echo "<input type='hidden' name='return' value='$return'>";
     }
