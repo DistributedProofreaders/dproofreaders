@@ -53,11 +53,24 @@ $messages["fnpos"] = array(
 $messages["lie"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>" .
         _("You've missed one typical 'scanno' in the text. An 'h' mis-read as 'li'."),
-    "hints" => array(array("hint_text" => "<h2>" . _("Scanno: hints") . "</h2>" .
-        "<p>" . _("Read the text again, slowly and carefully. Try not to look at the words, look at the letters individually.") .
-        "<p>" . _("You are looking for an occurrence of 'li' that is wrong. There are only 2 words with 'li' in the text. Once you've found them you will immediately know which one is the culprit.") .
-        "<p>" . _("If you can only find 1 word with a 'li', consider copying the text into an editor and searching for 'li'. You'll get 2 results, guaranteed!") .
-        "<p>" . _("No, we won't give away the solution, after all this is a quiz!")))
+    "hints" => array(
+        array(
+            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>" .
+            _("Read the text again, slowly and carefully. Try not to look at the words, look at the letters individually.")
+        ),
+        array(
+            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>" .
+            _("You are looking for an occurrence of 'li' that is wrong. There are only 2 words with 'li' in the text. Once you've found them you will immediately know which one is the culprit.")
+        ),
+        array(
+            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>" .
+            _("If you can only find 1 word with a 'li', consider copying the text into an editor and searching for 'li'. You'll get 2 results, guaranteed!")
+        ),
+        array(
+            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>" .
+            _("No, we won't give away the solution, after all this is a quiz!")
+        ),
+    )
 );
 $messages["nocaption"] = array(
     "message_text" => "<h2>" . _("Illustration caption missing.") . "</h2>" .

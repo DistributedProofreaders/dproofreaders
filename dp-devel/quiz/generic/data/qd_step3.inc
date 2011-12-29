@@ -28,11 +28,24 @@ $messages["spquote"] = array(
 $messages["arid"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>" .
         _("You've missed one typical 'scanno' in the text. A 'n' mis-read as 'ri'."),
-    "hints" => array(array("hint_text" => "<h2>" . _("Scanno: hints") . "</h2>" .
-        _("Read the text again, slowly and carefully. Try not to look at the words, look at the letters individually.") .
-        "<p>" . _("You are looking for an occurrence of 'ri' that is wrong. There is only one word with 'ri' in the text. Once you've found it you will immediately know it is wrong.") .
-        "<p>" . _("If you can't find any word with 'ri', consider copying the text into an editor and searching for 'ri'. You'll get a result, guaranteed!") . 
-        "<p>" . _("No, we won't give away the solution, after all this is a quiz!")))
+    "hints" => array(
+        array(
+            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>" .
+            _("Read the text again, slowly and carefully. Try not to look at the words, look at the letters individually.")
+        ),
+        array(
+            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>" .
+            _("You are looking for an occurrence of 'ri' that is wrong. There is only one word with 'ri' in the text. Once you've found it you will immediately know it is wrong.")
+        ),
+        array(
+            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>" .
+            _("If you can't find any word with 'ri', consider copying the text into an editor and searching for 'ri'. You'll get a result, guaranteed!")
+        ),
+        array(
+            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>" .
+            _("No, we won't give away the solution, after all this is a quiz!")
+        )
+    )
 );
 $messages["numberinheader"] = array(
     "message_text" => "<h2>" . _("Number of blank lines within chapter header section incorrect") . "</h2>" .

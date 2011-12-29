@@ -257,7 +257,7 @@ else
     {
       echo $default_hintlink;
     }
-    echo sprintf( _("Get more hints <a href='%s'>here</a>.<p>"), "./hints.php?type=" . $page_id . "&error=" . $error_found . "&number=0");
+    echo "<p>" . sprintf( _("Get more hints <a href='%s'>here</a>."), "./hints.php?quiz_id=$current_quiz&type=$page_id&error=$error_found&number=0") . "</p>";
   }
   if (isset($messages[$error_found]["challengetext"]))
   {

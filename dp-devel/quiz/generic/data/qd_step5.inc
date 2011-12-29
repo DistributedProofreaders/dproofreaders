@@ -23,11 +23,24 @@ $links_out                    = sprintf("<a href='../start.php' target='_top'>%s
 $messages["hands"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>" .
         _("You've missed one typical 'scanno' in the text. A 'b' mis-read as an 'h'."),
-    "hints" => array(array("hint_text" => "<h2>" . _("Scanno: hints") . "</h2>" .
-        "<p>" . _("Read the text again, slowly and carefully. Try not to look at the words, look at the letters individually.") . 
-        "<p>" . _("You are looking for an 'h' that is wrong. There are 21 words with an 'h' in the text. Two of those words would also make sense if you replaced the 'h' by a 'b'. Check them with the original and you'll know.") .
-        "<p>" . _("If you can't find all 21 words with an 'h', consider copying the text into an editor and searching for 'h'.") . 
-        "<p>" . _("No, we won't give away the solution, after all this is a quiz!")))
+    "hints" => array(
+        array(
+            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>" .
+            _("Read the text again, slowly and carefully. Try not to look at the words, look at the letters individually.")
+        ),
+        array(
+            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>" .
+            _("You are looking for an 'h' that is wrong. There are 21 words with an 'h' in the text. Two of those words would also make sense if you replaced the 'h' by a 'b'. Check them with the original and you'll know.")
+        ),
+        array(
+            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>" .
+            _("If you can't find all 21 words with an 'h', consider copying the text into an editor and searching for 'h'.")
+        ),
+        array(
+            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>" .
+            _("No, we won't give away the solution, after all this is a quiz!")
+        )
+    )
 );
 $messages["boldfont"] = array(
     "message_text" => "<h2>" . _("Font change marked as bold") . "</h2>" .
