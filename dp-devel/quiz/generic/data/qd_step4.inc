@@ -1,5 +1,4 @@
 <?php
-
 include_once($relPath."Quiz.inc");
 
 function quizsolved()
@@ -8,7 +7,6 @@ function quizsolved()
   if (isset($pguser))
       record_quiz_attempt($pguser,"step4","pass");
 }
-
 
 $browser_title                = _("DP -- Proofreading Quiz");
 $ocr_text                     = "printing would be good for nothing but\nwaste paper, might not\nbe realised. The work\nappeared about the end\nof December 18|8 with\n1819 on the title-page.\nSchopenhauer had\nmeanwhile proceeded in\nSeptember to Italy, where lie revised the\nfinal proofs.\n\nHigh art.\n\nSo far as the reception of the work was\n\nWallace, p. 108.";
@@ -19,22 +17,7 @@ $solved_message               = "<h2>" . _("Part 4 of quiz successfully solved")
 $links_out                    = _("<a href='../generic/main.php?type=step5&quiz_id=PQ' target='_top'>Next step of quiz</a><br /><a href='../start.php' target='_top'>Quizzes home.</a>");
 
 
-
-
-$tests[] = array("type" => "longline", "lengthlimit" => 60, "error" => "longline");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "(A)", "case_sensitive" => FALSE, "error" => "sqbr");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "{A}", "case_sensitive" => FALSE, "error" => "sqbr");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "(1)", "case_sensitive" => FALSE, "error" => "sqbr");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "{1}", "case_sensitive" => FALSE, "error" => "sqbr");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "lie", "case_sensitive" => TRUE, "error" => "lie");
-$tests[] = array("type" => "expectedtext", "searchtext" => array("[*]"), "case_sensitive" => FALSE, "error" => "fnmarkermissing");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "[Footnote", "case_sensitive" => FALSE, "error" => "footmarked");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "18|8", "case_sensitive" => FALSE, "error" => "datescanno");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "[Illustration", "case_sensitive" => FALSE, "error" => "illusmarked");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "*Wallace", "case_sensitive" => FALSE, "error" => "fnbottomnospace");
-$tests[] = array("type" => "expectedtext", "searchtext" => array("* Wallace"), "case_sensitive" => FALSE, "error" => "fnbottommissing");
-
-
+// error messages
 $messages["sqbr"] = array("message_text" => "<h2>" . _("Incorrect brackets.") . "</h2>\n" . _("Please use square brackets [] for illustration and footnote markup."), "hints" => array());
 $messages["longline"] = array("message_text" => "<h2>" . _("Long line") . "</h2>\n" . _("You've probably joined two lines by deleting a line break. If you join words around hyphens or dashes, move only one word up to the end of the previous line."), "hints" => array());
 $messages["fnmarkermissing"] = array("message_text" => "<h2>" . _("Footnote marker missing") . "</h2>\n" . _("It seems you haven't inserted the required footnote marker. The marker should be in square brackets, and have its symbol replaced with an *."), "hints" => array());
@@ -50,77 +33,18 @@ $messages["fnbottommissing"] = array("message_text" => "<h2>" . _("Footnote mark
 $messages["fnbottomnospace"] = array("message_text" => "<h2>" . _("Footnote marker not spaced footnote text") . "</h2>\n" . _("Precede the footnote text with the same mark you used in the text, without square brackets but <b>with a space between them</b>."), "hints" => array());
 
 
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// error checks
+$tests[] = array("type" => "longline", "lengthlimit" => 60, "error" => "longline");
+$tests[] = array("type" => "forbiddentext", "searchtext" => "(A)", "case_sensitive" => FALSE, "error" => "sqbr");
+$tests[] = array("type" => "forbiddentext", "searchtext" => "{A}", "case_sensitive" => FALSE, "error" => "sqbr");
+$tests[] = array("type" => "forbiddentext", "searchtext" => "(1)", "case_sensitive" => FALSE, "error" => "sqbr");
+$tests[] = array("type" => "forbiddentext", "searchtext" => "{1}", "case_sensitive" => FALSE, "error" => "sqbr");
+$tests[] = array("type" => "forbiddentext", "searchtext" => "lie", "case_sensitive" => TRUE, "error" => "lie");
+$tests[] = array("type" => "expectedtext", "searchtext" => array("[*]"), "case_sensitive" => FALSE, "error" => "fnmarkermissing");
+$tests[] = array("type" => "forbiddentext", "searchtext" => "[Footnote", "case_sensitive" => FALSE, "error" => "footmarked");
+$tests[] = array("type" => "forbiddentext", "searchtext" => "18|8", "case_sensitive" => FALSE, "error" => "datescanno");
+$tests[] = array("type" => "forbiddentext", "searchtext" => "[Illustration", "case_sensitive" => FALSE, "error" => "illusmarked");
+$tests[] = array("type" => "forbiddentext", "searchtext" => "*Wallace", "case_sensitive" => FALSE, "error" => "fnbottomnospace");
+$tests[] = array("type" => "expectedtext", "searchtext" => array("* Wallace"), "case_sensitive" => FALSE, "error" => "fnbottommissing");
+
+// vim: sw=4 ts=4 expandtab

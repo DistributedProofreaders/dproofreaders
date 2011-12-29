@@ -1,5 +1,4 @@
 <?php
-
 include_once($relPath."Quiz.inc");
 
 function quizsolved()
@@ -8,7 +7,6 @@ function quizsolved()
   if (isset($pguser))
       record_quiz_attempt($pguser,"step2","pass");
 }
-
 
 $browser_title                = _("DP -- Proofreading Quiz");
 $ocr_text                     = "a detective, why was he watching? There was\nindeed no reward offered whatsoever for his arrest.\nPerhaps he belonged to the wretched type of beings\nwho do pride themselves on their public spirit--\nmen who wrote letters to the newspapers and\ninterfered in other people's business. He might now\nwell have wanted to show his public spirit by hand-\ning him over to the police. The newspaper in his\nhand! Of course. He had read his description there,\nand identified him.\nCharles now found himself conjecturing how the\nman would set about carrying out his task of pub-";
@@ -19,19 +17,7 @@ $solved_message               = "<h2>" . _("Part 2 of quiz successfully solved")
 $links_out                    = _("<a href='../generic/main.php?type=step3&quiz_id=PQ' target='_top'>Next step of quiz</a><br /><a href='../start.php' target='_top'>Quizzes home.</a>");
 
 
-
-
-$tests[] = array("type" => "expectedtext", "searchtext" => array("pub-*"), "case_sensitive" => TRUE, "error" => "eophyphen");
-$tests[] = array("type" => "expectedtext", "searchtext" => array("handing"), "case_sensitive" => TRUE, "error" => "hyphen");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "-\n", "case_sensitive" => TRUE, "error" => "eolhyphen");
-$tests[] = array("type" => "forbiddentext", "searchtext" => " --", "case_sensitive" => TRUE, "error" => "spacedem");
-$tests[] = array("type" => "forbiddentext", "searchtext" => "-- ", "case_sensitive" => TRUE, "error" => "spacedem");
-$tests[] = array("type" => "expectedlinebreaks", "number" => 2, "starttext" => "him.", "stoptext" => "Charles now", "case_sensitive" => TRUE, "errorhigh" => "toomanylb", "errorlow" => "para");
-$tests[] = array("type" => "longline", "lengthlimit" => 60, "error" => "longline");
-
-
-
-
+// error messages
 $messages["para"] = array("message_text" => "<h2>" . _("Paragraph not marked") . "</h2>\n<p>" . _("Paragraphs should be divided by a blank line.</p>"), "hints" => array());
 $messages["toomanylb"] = array("message_text" => "<h2>" . _("Too many linebreaks inserted") . "</h2>\n<p>" . _("Paragraphs should be divided by exactly one blank line.</p>"), "hints" => array());
 $messages["eolhyphen"] = array("message_text" => "<h2>" . _("End-of-line hyphen or dash") . "</h2>\n" . _("You've left a hyphen or dash at the end of a line. The first word of the next line should be moved up to that line (and possibly the word should be joined and the hyphen deleted.)"), "hints" => array());
@@ -40,4 +26,14 @@ $messages["hyphen"] = array("message_text" => "<h2>" . _("End-of-line Hyphenatio
 $messages["spacedem"] = array("message_text" => "<h2>" . _("Spaced em-dash") . "</h2>\n" . _("You have inserted spaces around the em-dash (--). Please remove them."), "hints" => array());
 $messages["longline"] = array("message_text" => "<h2>" . _("Long line") . "</h2>\n" . _("You've probably joined two lines by deleting a line break. If you join words around hyphens or dashes, move only one word up to the end of the previous line."), "hints" => array());
 
-?>
+
+// error checks
+$tests[] = array("type" => "expectedtext", "searchtext" => array("pub-*"), "case_sensitive" => TRUE, "error" => "eophyphen");
+$tests[] = array("type" => "expectedtext", "searchtext" => array("handing"), "case_sensitive" => TRUE, "error" => "hyphen");
+$tests[] = array("type" => "forbiddentext", "searchtext" => "-\n", "case_sensitive" => TRUE, "error" => "eolhyphen");
+$tests[] = array("type" => "forbiddentext", "searchtext" => " --", "case_sensitive" => TRUE, "error" => "spacedem");
+$tests[] = array("type" => "forbiddentext", "searchtext" => "-- ", "case_sensitive" => TRUE, "error" => "spacedem");
+$tests[] = array("type" => "expectedlinebreaks", "number" => 2, "starttext" => "him.", "stoptext" => "Charles now", "case_sensitive" => TRUE, "errorhigh" => "toomanylb", "errorlow" => "para");
+$tests[] = array("type" => "longline", "lengthlimit" => 60, "error" => "longline");
+
+// vim: sw=4 ts=4 expandtab
