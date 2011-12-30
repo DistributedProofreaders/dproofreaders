@@ -535,18 +535,19 @@ new Pool(
 
     array(
         "<p>",
+        "<b>" . _("First Time Here?") . "</b>",
+        sprintf( _("Please read the <a href='%s'>Post-Processing FAQ</a> as it covers all the steps needed to post-process an e-text."),
+        "$code_url/faq/post_proof.php"),
+        _("Select an easy work to get started on (usually fiction with a low page count is a good starter book; projects whose manager is BEGIN make excellent first projects for a new post-processor)."),
+        sprintf( _("Check out the <a href='%s'>Post-Processing Forum</a> to post all your questions."), $post_processing_forum_url ),
+        _("If nothing interests you right now, check back later and there will be more!"),
+        "</p>",
+
+        "<p>",
         _("Each book listed below has gone through multiple rounds of proofreading and formatting, and now needs to be massaged into a final e-text."),
         _("Once you have checked out and downloaded a book it will remain checked out to you until you check it back in."),
         _("When you have finished your work on the book, select <i>Upload for Verification</i> from the drop-down list for that project."),
         _("If you have several files to submit for a single project (say a text and HTML version), zip them up together first."),
-        "</p>",
-
-        "<p>",
-        "<b>" . _("First Time Here?") . "</b>",
-        _("Please read the FAQ as it covers all the steps needed to post-process an e-text."),
-        _("Select an easy work to get started on (usually fiction with a low page count is a good starter book; projects whose manager is BEGIN make excellent first projects for a new post-processor)."),
-        sprintf( _("Check out the <a href='%s'>Post-Processing Forum</a> to post all your questions."), $post_processing_forum_url ),
-        _("If nothing interests you right now, check back later and there will be more!"),
         "</p>",
     )
 );
@@ -592,11 +593,9 @@ new Pool(
     array(
         "<p>",
         _("In this pool, experienced volunteers verify texts that have already been Post-Processed, and mentor new Post-Processors."),
-        "<font color='red' size=4>",
-        sprintf( _("Before working in this pool, make sure you read the <b>new</b> <a href='%s'>Post-Processing Verification Guidelines</a> and use the <a href='%s'>PPV Summary Form</a> for each project you PPV."),
+        sprintf( _("<b>Before working in this pool</b>, make sure you read the <a href='%s'>Post-Processing Verification Guidelines</a> <b>and</b> use the <a href='%s'>PPV Summary Form</a> for each project you PPV."),
             "$code_url/faq/ppv.php",
             "$code_url/faq/ppv_report.txt" ),
-        "</font>",
         "</p>",
 
         "<p>",
