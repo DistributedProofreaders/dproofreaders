@@ -59,24 +59,24 @@ if (is_dir($fsrc)) {
 			}
 			else {
 				$p++;
-				echo sprintf( _("%1d. Found TIFF file: %2\$s, Just Copying."), $c, $afile) . "<br>\n";
+				echo sprintf( _("%1\$d. Found TIFF file: %2\$s, Just Copying."), $c, $afile) . "<br>\n";
 				flush();
 				copy ($archfile,$destfile);
 			}
 		}
 		else {
-			echo sprintf( _("%1d. Found non-TIFF/PNG file: %2\$s, Ignoring."), $c, $afile) . "<br>\n";
+			echo sprintf( _("%1\$d. Found non-TIFF/PNG file: %2\$s, Ignoring."), $c, $afile) . "<br>\n";
 			flush();
 		}
 	}
 
 }
 closedir ($dir);
-echo "<hr> " . sprintf( _("Found %1d files in %2\$s."), $c, $fsrc) . "<br>";
-echo sprintf( _("%1d TIFFs converted and moved to %2\$s."), $t, $farch) . "<br>";
-echo sprintf( _("%1d PNGs moved to %2\$s."), $p, $farch) . "<br>";
-echo sprintf( _("%1d files ignored and left in %2\$s."), $c-($p+$t), $fsrc) . "<br>";
-echo sprintf( _("%1d files renamed and put in %2\$s."), $p+$t, $fdest) . "<br>";
+echo "<hr> " . sprintf( _("Found %1\$d files in %2\$s."), $c, $fsrc) . "<br>";
+echo sprintf( _("%1\$d TIFFs converted and moved to %2\$s."), $t, $farch) . "<br>";
+echo sprintf( _("%1\$d PNGs moved to %2\$s."), $p, $farch) . "<br>";
+echo sprintf( _("%1\$d files ignored and left in %2\$s."), $c-($p+$t), $fsrc) . "<br>";
+echo sprintf( _("%1\$d files renamed and put in %2\$s."), $p+$t, $fdest) . "<br>";
 echo "<hr><a href='" . $_SERVER['HTTP_REFERER'] . "'>" . _("Back to Project Page") . "</a>";
 ?>
 </body>
