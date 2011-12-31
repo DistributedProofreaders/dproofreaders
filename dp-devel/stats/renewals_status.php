@@ -5,6 +5,7 @@ include($relPath.'theme.inc');
 new dbConnect();
 
 $title = _("Copyright Renewals");
+$no_stats = 1;
 theme($title,'header');
 
 echo "<br><h2>" . _("Status of Copyright Renewals Projects") . "</h2>";
