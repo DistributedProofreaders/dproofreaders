@@ -12,13 +12,16 @@ include_once($relPath.'iso_639_list.inc');
 include_once($relPath.'iso_639_loc_list.inc');
 include_once($relPath.'lang_data.inc');
 
-function installed_langs() {
+// Return a list of installed langauges (as defined in lang_data.inc).
+function installed_langs()
+{
     return $GLOBALS['inst_lang_data'];
 }
 
 // This function returns array of all languages that are not installed on the
-// site, but whose installation is planned. Languages with "strange" codes
-// (hy, br, cy, ...) are those for which there is no gettext() support.
+// site, but whose installation is planned.
+// See maybe_show_language_selector() in theme.inc for details on how this is
+// used.
 function uninstalled_langs()
 {
     return $GLOBALS['uninst_lang_data'];
@@ -27,17 +30,22 @@ function uninstalled_langs()
 function lang_code($shortcode) {
     global $locales;
 
-    $l=&$shortcode;
-//    if($locales[$l]||$locales[$l=substr($l,0,5)]||$locales[$l=substr($l,0,2)]) return $locales[$l];
-    if(isset($locales[$l])||isset($locales[$l=substr($l,0,5)])||isset($locales[$l=substr($l,0,2)])) return $locales[$l];
+    if(isset($locales[$shortcode]) ||
+       isset($locales[$shortcode=substr($shortcode,0,5)]) ||
+       isset($locales[$shortcode=substr($shortcode,0,2)]))
+        return $locales[$shortcode];
+
     return FALSE;
 }
 
+// Return the 2-letter short code for the specified locale specifier.
+// If no locale is passed in, the locale of the current user is used.
 function short_lang_code($langcode=FALSE)
 {
-    if($langcode===FALSE) $langcode=$GLOBALS['locale'];
+    if($langcode===FALSE)
+        $langcode=$GLOBALS['locale'];
 
-    return $langcode?substr($langcode,0,2):"en";
+    return $langcode ? substr($langcode,0,2) : "en";
 }
 
 // Returns ISO 639 code(s) for language(s) of a project.
@@ -72,20 +80,31 @@ function proj_lang_code($proj_lang,$which="all")
     }
 }
 
+// Given a 2-letter language code, return the language name in that
+// language.
 function lang_name($langcode)
 {
     global $iso_639_loc,$lang_name_data;
-    if(isset($lang_name_data[$langcode])) return $lang_name_data[$langcode];
+
+    if(isset($lang_name_data[$langcode]))
+        return $lang_name_data[$langcode];
+
     return $iso_639_loc[substr($langcode,0,2)];
 }
 
+// Given a 2-letter language code, return the language name in English.
 function eng_name($langcode)
 {
     global $iso_639,$eng_name_data;
-    if(isset($eng_name_data[$langcode])) return $eng_name_data[$langcode];
+
+    if(isset($eng_name_data[$langcode]))
+        return $eng_name_data[$langcode];
+
     return $iso_639[substr($langcode,0,2)];
 }
 
+// Given a 2-letter langauge code, return a name for that language both
+// in English and in the native langauge.
 function bilingual_name($langcode)
 {
     $a=eng_name($langcode);
@@ -100,19 +119,23 @@ function bilingual_name($langcode)
     }
 }
 
+// Return a direction for a given langauge. Returns either:
+// LTR for left-to-right langauges
+// RTL for right-to-left langauges
 function lang_direction($langcode=FALSE)
 {
-    if($langcode===FALSE) $langcode=$GLOBALS['locale'];
+    if($langcode===FALSE)
+        $langcode=$GLOBALS['locale'];
 
     switch(substr($langcode,0,2)) {
         case "ar":
         case "fa":
         case "he":
         case "ur": //surely more
-            return FALSE;
+            return "RTL";
             break;
         default:
-            return TRUE;
+            return "LTR";
             break;
     }
 }
@@ -121,11 +144,14 @@ function lang_dir($langcode=FALSE)
 {
     global $lang_dir_data;
 
-    if($langcode===FALSE) $langcode=$GLOBALS['locale'];
+    if($langcode===FALSE)
+        $langcode=$GLOBALS['locale'];
 
     $a=substr($langcode,0,2);
 
-    if(in_array($a,$lang_dir_data)) return $a."/";
+    if(in_array($a,$lang_dir_data))
+        return $a."/";
+
     return "";
 }
 
@@ -136,22 +162,30 @@ function lang_forum($langcode=FALSE)
 {
     global $lang_forum_data;
 
-    if($langcode===FALSE) $langcode=$GLOBALS['locale'];
+    if($langcode===FALSE)
+        $langcode=$GLOBALS['locale'];
 
-    if (isset($lang_forum_data[$langcode])) { return $lang_forum_data[$langcode]; } else { return false; }
+    if (isset($lang_forum_data[$langcode]))
+        return $lang_forum_data[$langcode];
+    else
+        return false;
 }
 
 function phpbb_lang($langcode=FALSE) {
     global $phpbblangs;
 
-    if($langcode===FALSE) $langcode=$GLOBALS['locale'];
+    if($langcode===FALSE)
+        $langcode=$GLOBALS['locale'];
 
     return $phpbblangs[$langcode];
 }
 
 function lang_html_header($langcode=FALSE)
 {
-    return " lang='".short_lang_code($langcode).(lang_direction($langcode)?"'":"' dir='RTL'");
+    $string=" lang='" . short_lang_code($langcode) . "'";
+    if(lang_direction($langcode) == "RTL")
+        $string.=" dir='RTL'";
+    return $string;
 }
 
 // vim: sw=4 ts=4 expandtab
