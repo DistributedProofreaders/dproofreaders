@@ -17,11 +17,11 @@ function abort_if_in_maintenance_mode()
             echo "<center><h2>";
             if (isset($pguser))
                 echo "$pguser ";
-            echo "$message</h2></center></body></html>";
+            echo "$message</h2></center>";
+            slim_footer();
             exit();
         }
     }
 }
 
 // vim: sw=4 ts=4 expandtab
-?>
