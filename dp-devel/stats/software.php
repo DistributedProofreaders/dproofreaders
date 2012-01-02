@@ -87,7 +87,26 @@ echo "</table>";
 echo "<br>\n";
 
 echo "<h3>"._("Language statistics")."</h3>\n";
+echo "<h4>" . _("Detection") . "</h4>";
+echo "<ul>";
+echo "<li>" . sprintf(_("Language cookie set to: %s"), $_COOKIE['language'] ? $_COOKIE['language'] : "<i>" . _("not set") . "</i>") . "</li>";
+echo "<li>" . sprintf(_("User preference set to: %s"), $userP['u_intlang']) . "</li>";
+// logic taken from gettext_setup.inc
+$langs=explode(",",$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+foreach($langs as $i) {
+    $i = explode(";",$i);
+    $i = trim($i[0]);
+    if(lang_code($i)) {
+        $browser_language=lang_code($i);
+        break;
+    }
+}
+echo "<li>" . sprintf(_("Browser 'accept language' found to be: %s"), $browser_language) . "</li>";
+echo "<li>" . sprintf(_("Final interface language was set to: %s"), $GLOBALS['intlang']) . "</li>";
+echo "<li>" . sprintf(_("Locale was set to: %s"), $GLOBALS['locale'] ? $GLOBALS['locale'] : "<i>" . _("not set") . "</i>") . "</li>";
+echo "</ul>";
 
+echo "<h4>" . _("Server") . "</h4>";
 echo "<table border='1'>\n";
 
 echo "<tr valign='bottom'><th>"._("Language")."</th><th>"._("Local name")."</th><th>"._("Translation")."</th><th>"._("Documentation")."</th><th>"._("Forum interface")."</th><th>"._("Forums")."</th></tr>\n";
@@ -195,4 +214,4 @@ if (@chdir(rtrim(`$aspell_executable config -e dict-dir`)))
 
 theme("","footer");
 
-?>
+// vim: sw=4 ts=4 expandtab
