@@ -524,7 +524,9 @@ function maybe_show_language_selector()
                 echo "<option value='"."en_EN"."' disabled>".bilingual_name($v)."</option>\n";
         }
         echo "</select><input type=hidden name=returnto value='".$_SERVER['REQUEST_URI']."'>\n</form>\n";
-        echo sprintf( _("Languages below the line are planned to be added to the site, but currently are not; visit <a href='%s'>this page</a> if you can help us with translating the site into one of them."), "$code_url/faq/translate.php") . "<hr>\n";
+        if(count($uninstl)>0)
+            echo sprintf( _("Languages below the line are planned to be added to the site, but currently are not; visit <a href='%s'>this page</a> if you can help us with translating the site into one of them."), "$code_url/faq/translate.php");
+        echo "<hr>\n";
     }
 }
 
