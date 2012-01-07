@@ -610,6 +610,10 @@ function show_tally_specific_stats( $tally_name )
         . "<br>\n";
     echo "&nbsp;"._("Today's Total:")." "
         . number_format($site_stats->curr_day_actual)
+        . ($site_stats->curr_day_goal
+            ? (" (" . number_format(($site_stats->curr_day_actual/$site_stats->curr_day_goal)*100, 2) . "%)")
+            : ""
+        ) 
         . "<br><br>\n";
 
     // Yesterday's Numbers
@@ -618,6 +622,10 @@ function show_tally_specific_stats( $tally_name )
         . "<br>\n";
     echo "&nbsp;"._("Yesterday's Total:")." "
         . number_format($site_stats->prev_day_actual)
+        . ($site_stats->prev_day_goal
+            ? (" (" . number_format(($site_stats->prev_day_actual/$site_stats->prev_day_goal)*100, 2) . "%)")
+            : ""
+        )
         . "<br><br>\n";
 
     // Month's Numbers
