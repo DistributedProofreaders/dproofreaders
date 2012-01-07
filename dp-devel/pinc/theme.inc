@@ -599,6 +599,7 @@ function show_tally_specific_stats( $tally_name )
     global $page_tally_names;
     echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
     echo "<b>" . $page_tally_names[$tally_name] . "</b><br><br>\n";
+    echo _("Server Time:") . " " . strftime("%R") . "<br><br>\n";
     echo "<b>" . _("Site Statistics:") . "</b></font></center>\n";
     echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
 
@@ -609,7 +610,7 @@ function show_tally_specific_stats( $tally_name )
         . "<br>\n";
     echo "&nbsp;"._("Today's Total:")." "
         . number_format($site_stats->curr_day_actual)
-        . " (" . strftime("%R") . ")<br><br>\n";
+        . "<br><br>\n";
 
     // Yesterday's Numbers
     echo "&nbsp;"._("Yesterday's Goal:")." "
