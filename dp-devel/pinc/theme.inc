@@ -623,13 +623,13 @@ function show_tally_specific_stats( $tally_name )
     // Month's Numbers
     echo "&nbsp;".strftime(_("%B's Goal:"))." "
         . number_format($site_stats->curr_month_goal)
+        . "<br>\n";
+    echo "&nbsp;".strftime(_("%B's Total:"))." "
+        . number_format($site_stats->curr_month_actual)
         . ($site_stats->curr_month_goal
             ? (" (" . number_format(($site_stats->curr_month_actual/$site_stats->curr_month_goal)*100, 2) . "%)")
             : ""
         )
-        . "<br>\n";
-    echo "&nbsp;".strftime(_("%B's Total:"))." "
-        . number_format($site_stats->curr_month_actual)
         . "<br>\n";
     echo "<br>\n";
 
