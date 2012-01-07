@@ -603,43 +603,17 @@ function show_tally_specific_stats( $tally_name )
     echo "<b>" . _("Site Statistics:") . "</b></font></center>\n";
     echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
 
+    show_tally_vs_goal(
+        _("Today's Goal:"),  $site_stats->curr_day_goal,
+        _("Today's Total:"), $site_stats->curr_day_actual );
 
-    // Today's Numbers
-    echo "&nbsp;"._("Today's Goal:")." "
-        . number_format($site_stats->curr_day_goal)
-        . "<br>\n";
-    echo "&nbsp;"._("Today's Total:")." "
-        . number_format($site_stats->curr_day_actual)
-        . ($site_stats->curr_day_goal
-            ? (" (" . number_format(($site_stats->curr_day_actual/$site_stats->curr_day_goal)*100, 2) . "%)")
-            : ""
-        ) 
-        . "<br><br>\n";
+    show_tally_vs_goal(
+        _("Yesterday's Goal:"),  $site_stats->prev_day_goal,
+        _("Yesterday's Total:"), $site_stats->prev_day_actual );
 
-    // Yesterday's Numbers
-    echo "&nbsp;"._("Yesterday's Goal:")." "
-        . number_format($site_stats->prev_day_goal)
-        . "<br>\n";
-    echo "&nbsp;"._("Yesterday's Total:")." "
-        . number_format($site_stats->prev_day_actual)
-        . ($site_stats->prev_day_goal
-            ? (" (" . number_format(($site_stats->prev_day_actual/$site_stats->prev_day_goal)*100, 2) . "%)")
-            : ""
-        )
-        . "<br><br>\n";
-
-    // Month's Numbers
-    echo "&nbsp;".strftime(_("%B's Goal:"))." "
-        . number_format($site_stats->curr_month_goal)
-        . "<br>\n";
-    echo "&nbsp;".strftime(_("%B's Total:"))." "
-        . number_format($site_stats->curr_month_actual)
-        . ($site_stats->curr_month_goal
-            ? (" (" . number_format(($site_stats->curr_month_actual/$site_stats->curr_month_goal)*100, 2) . "%)")
-            : ""
-        )
-        . "<br>\n";
-    echo "<br>\n";
+    show_tally_vs_goal(
+        strftime(_("%B's Goal:")),  $site_stats->curr_month_goal,
+        strftime(_("%B's Total:")), $site_stats->curr_month_actual );
 
     // Number of users
     $res = mysql_query("SELECT COUNT(*) FROM users" );
@@ -739,6 +713,22 @@ function show_tally_specific_stats( $tally_name )
     echo "<br>";
     echo "</td></tr></table>";
     echo "</center>";
+}
+
+function show_tally_vs_goal($label_for_goal, $goal, $label_for_actual, $actual)
+{
+    echo "&nbsp;$label_for_goal ", number_format($goal);
+    echo "<br>\n";
+
+    echo "&nbsp;$label_for_actual ", number_format($actual);
+    if ($goal)
+    {
+        // Show $actual as a percentage of $goal.
+        echo " (", number_format(($actual/$goal)*100, 2), "%)";
+    }
+    echo "<br><br>\n";
+
+    echo "\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
