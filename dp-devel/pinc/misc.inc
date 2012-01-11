@@ -387,7 +387,7 @@ function echo_html_comment($comment_body)
 function startswith( $subject, $prefix )
 // Return TRUE iff $subject starts with $prefix.
 {
-	return ( strncmp( $subject, $prefix, strlen($prefix) ) == 0 );
+    return ( strncmp( $subject, $prefix, strlen($prefix) ) == 0 );
 }
 
 function endswith( $subject, $suffix )
@@ -552,31 +552,31 @@ function all_possible_concatenations()
 // the set of all strings obtained by picking one string from each arg and
 // concatenating them in the given (args) order.
 {
-	$args = func_get_args();
-	return all_possible_concats_r( $args );
+    $args = func_get_args();
+    return all_possible_concats_r( $args );
 }
 
 function all_possible_concats_r( $args )
 {
-	if ( count($args) == 0 ) return array('');
+    if ( count($args) == 0 ) return array('');
 
-	$arg0 = array_shift( $args );
-	$rest_concats = all_possible_concats_r( $args );
+    $arg0 = array_shift( $args );
+    $rest_concats = all_possible_concats_r( $args );
 
-	if ( is_string($arg0) )
-	{
-		$arg0 = array( $arg0 );
-	}
+    if ( is_string($arg0) )
+    {
+        $arg0 = array( $arg0 );
+    }
 
-	$result = array();
-	foreach ( $arg0 as $str0 )
-	{
-		foreach ( $rest_concats as $rest )
-		{
-			$result[] = $str0 . $rest;
-		}
-	}
-	return $result;
+    $result = array();
+    foreach ( $arg0 as $str0 )
+    {
+        foreach ( $rest_concats as $rest )
+        {
+            $result[] = $str0 . $rest;
+        }
+    }
+    return $result;
 }
 
 // -----------------------------------------------------------------------------
@@ -595,59 +595,59 @@ function factor_strings( $strings )
 //     $strings[$i] == $left_common . $middles[$i] . $right_common
 // for all $i.
 {
-	assert( count($strings) > 0 );
+    assert( count($strings) > 0 );
 
-	// Find the shortest string
+    // Find the shortest string
     $str_with_minlen = NULL;
-	$minlen = NULL;
-	foreach ( $strings as $string )
-	{
-		$len = strlen($string);
-		if (is_null($minlen) || $len < $minlen)
-		{
-			$minlen = $len;
+    $minlen = NULL;
+    foreach ( $strings as $string )
+    {
+        $len = strlen($string);
+        if (is_null($minlen) || $len < $minlen)
+        {
+            $minlen = $len;
             $str_with_minlen = $string;
-		}
-	}
+        }
+    }
 
     $base = $str_with_minlen;
 
-	// --------------------------------------------------------------
+    // --------------------------------------------------------------
 
-	for ( $L = 0; ; $L++ )
-	{
-		// Invariant: all strings match in their first $L characters.
+    for ( $L = 0; ; $L++ )
+    {
+        // Invariant: all strings match in their first $L characters.
 
         if ($L == $minlen) break;
 
         // Do they match in their first $L+1 characters?
         // Examine the ($L+1)th character, i.e. the one at index $L.
 
-		$c = substr( $base, $L, 1 );
-		foreach ( $strings as $string )
-		{
-			if ( substr( $string, $L, 1 ) == $c )
-			{
-				// good so far
-			}
-			else
-			{
-				// mismatch.
-				// The invariant does not hold for $L+1.
+        $c = substr( $base, $L, 1 );
+        foreach ( $strings as $string )
+        {
+            if ( substr( $string, $L, 1 ) == $c )
+            {
+                // good so far
+            }
+            else
+            {
+                // mismatch.
+                // The invariant does not hold for $L+1.
                 // So $L is the maximum value that satisfies the invariant.
-				break 2;
-			}
-		}
-		// No mismatch found for any string for index $L.
-		// So the invariant holds for $L+1.
-	}
-	$left_match_length = $L;
+                break 2;
+            }
+        }
+        // No mismatch found for any string for index $L.
+        // So the invariant holds for $L+1.
+    }
+    $left_match_length = $L;
 
-	// --------------------------------------------------------------
+    // --------------------------------------------------------------
 
-	for ( $R = 0; ; $R++ )
-	{
-		// Invariant: all strings match in their last $R characters.
+    for ( $R = 0; ; $R++ )
+    {
+        // Invariant: all strings match in their last $R characters.
 
         if ( $left_match_length + $R == $minlen ) break;
 
@@ -656,35 +656,35 @@ function factor_strings( $strings )
         // e.g. when $R == 0, examine the last character, at index -1
         //      when $R == 1, examine the 2nd-last character, at index -2
 
-		$c = substr($base,-($R+1),1);
+        $c = substr($base,-($R+1),1);
 
-		foreach ( $strings as $string )
-		{
-			if ( substr( $string, -($R+1), 1 ) == $c )
-			{
-				// good so far
-			}
-			else
-			{
-				// mismatch.
-				// The invariant does not hold for $R+1.
+        foreach ( $strings as $string )
+        {
+            if ( substr( $string, -($R+1), 1 ) == $c )
+            {
+                // good so far
+            }
+            else
+            {
+                // mismatch.
+                // The invariant does not hold for $R+1.
                 // So $R is the maximum value that satisfies the invariant.
-				break 2;
-			}
-		}
-		// No mismatch found for any string at that index.
-		// So the invariant holds for $R+1.
-	}
-	$right_match_length = $R;
+                break 2;
+            }
+        }
+        // No mismatch found for any string at that index.
+        // So the invariant holds for $R+1.
+    }
+    $right_match_length = $R;
 
-	// --------------------------------------------------------------
+    // --------------------------------------------------------------
 
     $left_common = NULL;
     $right_common = NULL;
-	$middles = array();
+    $middles = array();
 
-	foreach ( $strings as $string )
-	{
+    foreach ( $strings as $string )
+    {
         assert( $left_match_length >= 0 );
         assert( $right_match_length >= 0 );
         assert( $left_match_length + $right_match_length <= strlen($string) );
@@ -723,10 +723,10 @@ function factor_strings( $strings )
             assert( $right == $right_common );
         }
 
-		$middles[] = $middle;
-	}
+        $middles[] = $middle;
+    }
 
-	return array( $left_common, $middles, $right_common );
+    return array( $left_common, $middles, $right_common );
 }
 
 // -----------------------------------------------------------------------------
