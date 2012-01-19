@@ -60,8 +60,7 @@ function proj_lang_code($proj_lang,$which="all")
     global $relPath;
 
     static $iso_639 = NULL;
-    if(!$iso_639)
-        include_once($relPath.'iso_639_list.inc');
+    if(!$iso_639) include($relPath.'iso_639_list.inc');
 
     $languages = preg_split('/ with /', $proj_lang );
 
@@ -88,8 +87,7 @@ function lang_name($langcode)
 {
     global $relPath, $lang_name_data;
     static $iso_639_loc = NULL;
-    if(!$iso_639_loc)
-        include_once($relPath.'iso_639_loc_list.inc');
+    if(!$iso_639_loc) include($relPath.'iso_639_loc_list.inc');
 
     if(isset($lang_name_data[$langcode]))
         return $lang_name_data[$langcode];
@@ -103,8 +101,7 @@ function eng_name($langcode)
     global $relPath, $eng_name_data;
 
     static $iso_639 = NULL;
-    if(!$iso_639)
-        include_once($relPath.'iso_639_list.inc');
+    if(!$iso_639) include($relPath.'iso_639_list.inc');
 
     if(isset($eng_name_data[$langcode]))
         return $eng_name_data[$langcode];
@@ -171,8 +168,7 @@ function get_languages_with_dictionaries() {
     global $relPath, $aspell_prefix;
 
     static $iso_639 = NULL;
-    if(!$iso_639)
-        include_once($relPath.'iso_639_list.inc');
+    if(!$iso_639) include($relPath.'iso_639_list.inc');
 
     $returnArray = array();
 
