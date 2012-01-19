@@ -155,6 +155,28 @@ function lang_dir($langcode=FALSE)
     return "";
 }
 
+// Returns an associative array of those languages with a dictionary that is
+// installed on the system
+//   $array[$langcode]=$language;
+function get_languages_with_dictionaries() {
+    global $relPath, $aspell_prefix;
+
+    static $iso_639 = NULL;
+    if(!$iso_639)
+        include_once($relPath.'iso_639_list.inc');
+
+    $returnArray = array();
+
+    foreach($iso_639 as $langcode => $language) {
+        $dict_file = "$aspell_prefix/lib/aspell/$langcode.multi";
+        if( is_file( $dict_file ) ) {
+            $returnArray[$langcode] = $language;
+        }
+    }
+
+    return $returnArray;
+}
+
 // This function returns forum of a particular language. If there is no such
 // forum, it might return a team thread or whatever is appropriate (or nothing,
 // of course).

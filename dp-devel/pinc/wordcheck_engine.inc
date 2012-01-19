@@ -1,6 +1,6 @@
 <?php
 include_once($relPath.'site_vars.php');
-include_once($relPath.'iso_639_list.inc');
+include_once($relPath.'languages.inc');
 include_once($relPath.'iso_lang_list.inc'); // langcode3_for_langname
 include_once($relPath.'misc.inc'); // str_contains
 
@@ -228,7 +228,7 @@ class BadWordAccumulator
 //
 function get_bad_words_via_external_checker( $input_words_w_freq, $projectid, $imagefile, $languages) {
     global $aspell_temp_dir;
-    global $aspell_executable, $aspell_prefix, $iso_639, $charset;
+    global $aspell_executable, $aspell_prefix, $charset;
 
     $messages = array();
 
@@ -245,7 +245,7 @@ function get_bad_words_via_external_checker( $input_words_w_freq, $projectid, $i
 
     $misspellings = array();
     foreach( $languages as $language ) {
-        $langcode = array_search( $language, $iso_639 );
+        $langcode = proj_lang_code( $language, "primary" );
         if( $langcode ) {
             $dict_file = "$aspell_prefix/lib/aspell/$langcode.multi";
             if( is_file( $dict_file ) ) {
@@ -804,30 +804,9 @@ function save_word_list( $path, $words )
 
 // -----------------------------------------------------------------------------
 
-// Returns an associative array of those languages with a dictionary that is
-// installed on the system
-//   $array[$langcode]=$language;
-function get_languages_with_dictionaries() {
-    global $iso_639, $aspell_prefix;
-
-    $returnArray = array();
-
-    foreach($iso_639 as $langcode => $language) {
-        $dict_file = "$aspell_prefix/lib/aspell/$langcode.multi";
-        if( is_file( $dict_file ) ) {
-            $returnArray[$langcode] = $language;
-        }
-    }
-
-    return $returnArray;
-}
-
-
 // Returns an associative array of all languages for a project
 //   $array[$langcode]=$language;
 function get_project_languages($projectid) {
-    global $iso_639;
-
     $returnArray = array();
 
     $res = mysql_query("SELECT language FROM projects WHERE projectid='$projectid'");
@@ -838,7 +817,7 @@ function get_project_languages($projectid) {
     $languages = preg_split('/ with /', $project_language_property );
 
     foreach( $languages as $language ) {
-        $langcode = array_search( $language, $iso_639 );
+        $langcode = proj_lang_code( $language, "primary" );
         if( $langcode ) {
             $returnArray[$langcode] = $language;
         }
