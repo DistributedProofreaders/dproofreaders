@@ -8,8 +8,6 @@
 // change! Use the functions, or write your own functions if neither of the
 // existing ones is appropriate.
 
-include_once($relPath.'iso_639_list.inc');
-include_once($relPath.'iso_639_loc_list.inc');
 include_once($relPath.'lang_data.inc');
 
 // Return a list of installed langauges (as defined in lang_data.inc).
@@ -59,7 +57,11 @@ function short_lang_code($langcode=FALSE)
 // Some code copied from tools/proofers/spellcheck_text.inc
 function proj_lang_code($proj_lang,$which="all")
 {
-    global $iso_639;
+    global $relPath;
+
+    static $iso_639 = NULL;
+    if(!$iso_639)
+        include_once($relPath.'iso_639_list.inc');
 
     $languages = preg_split('/ with /', $proj_lang );
 
@@ -84,7 +86,10 @@ function proj_lang_code($proj_lang,$which="all")
 // language.
 function lang_name($langcode)
 {
-    global $iso_639_loc,$lang_name_data;
+    global $relPath, $lang_name_data;
+    static $iso_639_loc = NULL;
+    if(!$iso_639_loc)
+        include_once($relPath.'iso_639_loc_list.inc');
 
     if(isset($lang_name_data[$langcode]))
         return $lang_name_data[$langcode];
@@ -95,7 +100,11 @@ function lang_name($langcode)
 // Given a 2-letter language code, return the language name in English.
 function eng_name($langcode)
 {
-    global $iso_639,$eng_name_data;
+    global $relPath, $eng_name_data;
+
+    static $iso_639 = NULL;
+    if(!$iso_639)
+        include_once($relPath.'iso_639_list.inc');
 
     if(isset($eng_name_data[$langcode]))
         return $eng_name_data[$langcode];
