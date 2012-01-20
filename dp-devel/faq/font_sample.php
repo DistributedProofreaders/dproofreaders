@@ -12,16 +12,22 @@ $title = _("Proofreading Font Comparison");
 $no_stats=1;
 theme($title,'header');
 
-// load all fonts into an array except BROWSER_DEFAULT_STR,
-// Monospaced, and DPCustomMono2 which are not selectable
-// because they are either not a specific font or because
-// it's DPCM2
+// This page allows the user to select a font
+// (for comparison to DPCustomMono2)
+// from the following list:
 $selectable_fonts = array();
 foreach($f_f as $font)
 {
     if($font == BROWSER_DEFAULT_STR ||
-        $font == "Monospaced" ||
-        $font == "DPCustomMono2")
+        $font == "Monospaced")
+        // These values of $font don't refer to specific font faces,
+        // so we don't have sample image files for them.
+        continue;
+
+    if ($font == "DPCustomMono2")
+        // We do have a sample image file for this font,
+        // but it always appears on the right of the page,
+        // so there's no point in making it a selectable font.
         continue;
 
     $selectable_fonts[] = $font;
@@ -67,7 +73,7 @@ echo "<p>" . sprintf(_("For more information on installing and using the font, s
 
 echo "<hr width='70%'>\n";
 
-// build a list of fonts that we have comparison images for
+// build the list of font-selection links
 $sample_font_links=array();
 foreach ($selectable_fonts as $font)
 {
