@@ -18,10 +18,9 @@ theme($title,'header');
 $selectable_fonts = array();
 foreach($f_f as $font)
 {
-    if($font == BROWSER_DEFAULT_STR ||
-        $font == "Monospaced")
-        // These values of $font don't refer to specific font faces,
-        // so we don't have sample image files for them.
+    if (!is_file(get_sample_image_for_font($font)))
+        // We don't have a sample image file for this font,
+        // so there's no point making it selectable.
         continue;
 
     if ($font == "DPCustomMono2")
@@ -77,14 +76,10 @@ echo "<hr width='70%'>\n";
 $sample_font_links=array();
 foreach ($selectable_fonts as $font)
 {
-    // don't print a link if we don't have an image for the font
-    if(is_file(get_sample_image_for_font($font)))
-    {
         if($compare_font == $font)
             $sample_font_links[] = "<span style='font-family: \"$font\"'>$font</span>";
         else
             $sample_font_links[] = "<a style='font-family: \"$font\"' href='?compare=$font'>$font</a>";
-    }
 }
 
 
