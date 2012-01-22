@@ -168,7 +168,7 @@ if (!isset($_POST['resolution'])) {
                 echo "<b>" . sprintf(_("Update of Original Image %s Complete!"), $image) . "</b>";
             } else {
                 echo "<b>"._("Image NOT updated.<br>");
-                echo sprintf(_("The uploaded file type (%s) does not match the original file type (%s)."),
+                echo sprintf(_("The uploaded file type (%1\$s) does not match the original file type (%2\$s)."),
                     $tmp_image_ext, $org_image_ext) . "<br>";
                 echo sprintf(_("Click <a href='%s'>here</a> to return."),
                     "handle_bad_page.php?projectid=$projectid&image=$image&modify=image") . "</b>";
