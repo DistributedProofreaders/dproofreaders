@@ -30,30 +30,30 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'slim_header.inc');
 $lang=short_lang_code();
 
-  include "$wikihiero_dir/wh_language.php";
-  include "$wikihiero_dir/wikihiero.php";
+include "$wikihiero_dir/wh_language.php";
+include "$wikihiero_dir/wikihiero.php";
 
-  $wh_img_url="$wikihiero_url/".WH_IMG_DIR;
+$wh_img_url="$wikihiero_url/".WH_IMG_DIR;
 
-  if(array_key_exists("table", $_GET))
+if(array_key_exists("table", $_GET))
     $table = $_GET["table"];
-  else
+else
     $table = "";
 
-  function WH_Text( $index )
-  {
+function WH_Text( $index )
+{
     global $wh_language;
     global $lang;
 
     if(isset($wh_language[$index]))
     {
-      if(isset($wh_language[$index][$lang]))
-        return $wh_language[$index][$lang];
-      else
-        return $wh_language[$index]["en"];
+        if(isset($wh_language[$index][$lang]))
+            return $wh_language[$index][$lang];
+        else
+            return $wh_language[$index]["en"];
     }
     return "";
-  }
+}
 
 slim_header("$table - ".WH_Text($table));
 ?>
@@ -71,49 +71,49 @@ function add(glyph) {
 <?php
     if($dh = opendir("$wikihiero_dir/".WH_IMG_DIR)) 
     {
-      while(($file = readdir($dh)) !== false) 
-      {
-        $files[]=$file;
-      }
-      closedir($dh);
+        while(($file = readdir($dh)) !== false) 
+        {
+            $files[]=$file;
+        }
+        closedir($dh);
     }
     natsort($files);
 
     foreach($files as $file) {
-      $code=WH_GetCode($file);
+        $code=WH_GetCode($file);
 
-      if($table == "All")
-      {
-        if(in_array($code, $wh_phonemes))
-          echo img("$wh_img_url/$file","$code [".array_search($code, $wh_phonemes)."]");
+        if($table == "All")
+        {
+            if(in_array($code, $wh_phonemes))
+                echo img("$wh_img_url/$file","$code [".array_search($code, $wh_phonemes)."]");
+            else
+                echo img("$wh_img_url/$file",$code);
+        }
+        else if($table == "Phoneme")
+        {
+            if(in_array($code, $wh_phonemes))
+                echo img("$wh_img_url/$file","$code [".array_search($code, $wh_phonemes)."]");
+        }
+        else if($table == "Aa")
+        {
+            if((substr($code, 0, 2) == $table) && ctype_digit($code[2]))
+            {
+                if(in_array($code, $wh_phonemes))
+                    echo img("$wh_img_url/$file","$code [".array_search($code, $wh_phonemes)."]");
+                else
+                    echo img("$wh_img_url/$file",$code);
+            }
+        }
         else
-          echo img("$wh_img_url/$file",$code);
-      }
-      else if($table == "Phoneme")
-      {
-        if(in_array($code, $wh_phonemes))
-          echo img("$wh_img_url/$file","$code [".array_search($code, $wh_phonemes)."]");
-      }
-      else if($table == "Aa")
-      {
-        if((substr($code, 0, 2) == $table) && ctype_digit($code[2]))
         {
-          if(in_array($code, $wh_phonemes))
-            echo img("$wh_img_url/$file","$code [".array_search($code, $wh_phonemes)."]");
-          else
-            echo img("$wh_img_url/$file",$code);
+            if(($code[0] == $table) && ctype_digit($code[1]))
+            {
+                if(in_array($code, $wh_phonemes))
+                    echo img("$wh_img_url/$file","$code [".array_search($code, $wh_phonemes)."]");
+                else
+                    echo img("$wh_img_url/$file",$code);
+            }
         }
-      }
-      else
-      {
-        if(($code[0] == $table) && ctype_digit($code[1]))
-        {
-          if(in_array($code, $wh_phonemes))
-            echo img("$wh_img_url/$file","$code [".array_search($code, $wh_phonemes)."]");
-          else
-           echo img("$wh_img_url/$file",$code);
-        }
-      }
     }
 
 function img($src,$title)
@@ -121,6 +121,6 @@ function img($src,$title)
 	return "<img src=\"$src\" title=\"$title\" onClick=\"add('".preg_replace(array("/^.*[[]/","/[]].*$/"),"",$title)."');\">\n";
 }
 
-    ?>
-  </body>
+?>
+</body>
 </html>
