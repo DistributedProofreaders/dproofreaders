@@ -64,7 +64,7 @@ this forum will also be used on the rest of the site.</p>
 // that were opened by slim_header();
 if(!$file_is_included)
 {
-    echo "</body></html>";
+    slim_footer();
 }
 // vim: sw=4 ts=4 expandtab
 ?>

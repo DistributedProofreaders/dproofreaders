@@ -277,8 +277,7 @@ function leave_proofing_interface( $title, $body )
     echo "setTimeout(\"top.location.href='$url';\", 1000);\n";
     echo "// --></script>\n";
 
-    echo "</body>";
-    echo "</html>";
+    slim_footer();
 }
 
 // vim: sw=4 ts=4 expandtab

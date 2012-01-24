@@ -121,6 +121,4 @@ function img($src,$title)
 	return "<img src=\"$src\" title=\"$title\" onClick=\"add('".preg_replace(array("/^.*[[]/","/[]].*$/"),"",$title)."');\">\n";
 }
 
-?>
-</body>
-</html>
+slim_footer();

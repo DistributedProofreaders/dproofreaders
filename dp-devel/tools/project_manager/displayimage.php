@@ -104,4 +104,5 @@ prevnext_buttons();
 ?>
 </center>
 </form>
-</body></html>
+<?php
+slim_footer();

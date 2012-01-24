@@ -136,16 +136,14 @@ if($frame=="left") {
 
     }
 
-    echo "</body>";
-    echo "</html>";
+    slim_footer();
     exit;
 }
 
 if($frame=="right") {
     slim_header(_("Image Frame"),TRUE,TRUE);
     echo "<p>" . _("Select one of the page links to view the page image (scan).") . "</p>";
-    echo "</body>";
-    echo "</html>";
+    slim_footer();
     exit;
 }
 

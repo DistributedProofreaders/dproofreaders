@@ -139,5 +139,6 @@ echo _("[Aa]{6} &mdash; six As of either case") . "<br />\n";
 echo _("A{2,8} &mdash; between 2 and 8 capital As") . "<br />\n";
 echo _("[hb]e &mdash; 'he' or 'be'") . "<br />\n";
 ?></p>
-</body>
-</html>
+
+<?php
+slim_footer();

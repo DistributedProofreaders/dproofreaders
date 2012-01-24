@@ -238,7 +238,7 @@ if ($userP['i_type']==1) {
 </table>
 </form>
 </div>
-</body>
-</html>
-<?php // vim: sw=4 ts=4 expandtab
-?>
+<?php
+slim_footer();
+
+// vim: sw=4 ts=4 expandtab

@@ -21,5 +21,5 @@ width="<?php
   echo $iWidth;
 ?>"></div></center>
 
-</body>
-</html>
+<?php
+slim_footer();

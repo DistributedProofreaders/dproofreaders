@@ -175,5 +175,5 @@ echo _("For these, put '<code>h</code>' before the letter <em>unless</em> the wo
 <area shape="default" nohref>
 </map>
 
-</body>
-</html>
+<?php
+slim_footer();

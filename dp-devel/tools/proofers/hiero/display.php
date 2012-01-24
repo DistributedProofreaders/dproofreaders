@@ -98,6 +98,5 @@ echo preg_replace(
     }
     return "";
   }
-?>
-</body>
-</html>
+
+slim_footer();
