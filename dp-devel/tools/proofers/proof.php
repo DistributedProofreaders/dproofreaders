@@ -40,6 +40,8 @@ if ($expected_state != $project->state)
     );
     echo "</p>\n";
 
+    slim_footer();
+
     return;
 }
 
@@ -61,6 +63,8 @@ if ( $code != $project->CBP_OKAY )
         "$code_url/activity_hub.php"
     );
     echo "</p>\n";
+
+    slim_footer();
 
     return;
 }
