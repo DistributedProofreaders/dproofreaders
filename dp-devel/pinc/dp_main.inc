@@ -3,7 +3,6 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
 include_once($relPath.'dpsession.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'maintenance_mode.inc');
 
 //global db vars
 $db_Connection=new dbConnect();
@@ -56,8 +55,19 @@ if ( !$user_is_logged_in  )
     exit;
 }
 
-//Check to see if we are in a maintenance mode
-abort_if_in_maintenance_mode();
+// Simply including maintenance_mode.inc causes a perf impact because it
+// includes user_is.inc, which includes page_tally.inc, which includes
+// stages.inc. That's a whole lot of work for every single page load
+// to satisfy a rare edge case (that we're in maintenance mode). 
+// Until that's resolved, conditionally include it. This is a band-aid,
+// not a fix!
+if($maintenance)
+{
+    include_once($relPath.'maintenance_mode.inc');
+
+    // Check to see if we are in a maintenance mode
+    abort_if_in_maintenance_mode();
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>
