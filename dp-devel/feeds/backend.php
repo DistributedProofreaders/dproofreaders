@@ -25,6 +25,11 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
     include($relPath.'project_states.inc');
     $db_Connection=new dbConnect();
 
+    $absolute_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
+    $absolute_url .= $_SERVER['HTTP_HOST'];
+    $absolute_url .= $_SERVER['REQUEST_URI'];
+    $encoded_url = xmlencode($absolute_url);
+
     if ($content == "posted" || $content == "postprocessing" || $content == "proofing") {
         switch($content) {
             case "posted":
@@ -48,6 +53,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 $data .= "<item>
                 <title>".xmlencode($row['nameofwork'])." - ".xmlencode($row['authorsname'])."</title>
                 <link>$code_url/project.php?id=".$row['projectid']."</link>
+                <guid>$code_url/project.php?id=".$row['projectid']."</guid>
                 <description>" . sprintf(_("Language: %1\$s - Genre: %2\$s"), xmlencode($row['language']), xmlencode($row['genre'])) . "</description>
                 </item>
                 ";
@@ -70,14 +76,13 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
         $lastupdated = date("r");
         if (isset($_GET['type'])) {
             $xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
-                <!DOCTYPE rss SYSTEM \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">
-                <rss version=\"0.91\">
+                <rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">
                 <channel>
+                <atom:link href=\"$encoded_url\" rel=\"self\" type=\"application/rss+xml\" />
                 <title>".xmlencode($site_name)." - " . _("Latest Releases") . "</title>
                 <link>".xmlencode($code_url)."</link>
                 <description>" . sprintf( _("The latest releases posted to Project Gutenberg from %1\$s."), xmlencode($site_name)) . "</description>
-                <language>" . $intlang /* from gettext_setup.inc */ . "</language>
-                <webMaster>".xmlencode($site_manager_email_addr)."</webMaster>
+                <webMaster>".xmlencode($site_manager_email_addr)." (" . xmlencode(_("Site Manager")) . ")</webMaster>
                 <pubDate>".xmlencode($lastupdated)."</pubDate>
                 <lastBuildDate>".xmlencode($lastupdated)."</lastBuildDate>
                 $data
@@ -99,22 +104,21 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
             $posteddate = date("l, F jS, Y",($news_item['date_posted']));
             $data .= "<item>
                 <title>" . sprintf( _("News Update for %1\$s."), xmlencode($posteddate)) . "</title>
-    <description>" . sprintf( _("The latest news related to %1\$s."), xmlencode($site_name)) . "</description>
                 <link>".xmlencode("$code_url/pastnews.php?#".$news_item['id'])."</link>
+                <guid>".xmlencode("$code_url/pastnews.php?#".$news_item['id'])."</guid>
                 <description>".xmlencode(strip_tags($news_item['content']))."</description>
                 </item>
                 ";
         }
         $lastupdated = date("r");
         $xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
-                <!DOCTYPE rss SYSTEM \"http://my.netscape.com/publish/formats/rss-0.91.dtd\">
-                <rss version=\"0.91\">
+                <rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">
                 <channel>
+                <atom:link href=\"$encoded_url\" rel=\"self\" type=\"application/rss+xml\" />
                 <title>".xmlencode($site_name) . " - " . _("Latest News") . "</title>
                 <link>".xmlencode($code_url)."</link>
                 <description>" . sprintf( _("The latest news related to %1\$s."), xmlencode($site_name)) . "</description>
-                <language>en-us</language>
-                <webMaster>".xmlencode($site_manager_email_addr)."</webMaster>
+                <webMaster>".xmlencode($site_manager_email_addr)." (" . xmlencode(_("Site Manager")) . ")</webMaster>
                 <pubDate>".xmlencode($lastupdated)."</pubDate>
                 <lastBuildDate>".xmlencode($lastupdated)."</lastBuildDate>
                 $data
