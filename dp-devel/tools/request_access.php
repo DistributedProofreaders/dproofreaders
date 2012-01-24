@@ -97,6 +97,8 @@ printf(
 );
 echo "</p>\n";
 
+slim_footer();
+
 // -----------------------------------------------------------------------------
 
 function delete_and_insert( $username, $setting, $value )
