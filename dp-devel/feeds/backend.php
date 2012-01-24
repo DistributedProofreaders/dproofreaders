@@ -52,9 +52,9 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
             if (isset($_GET['type'])) {
                 $data .= "<item>
                 <title>".xmlencode($row['nameofwork'])." - ".xmlencode($row['authorsname'])."</title>
-                <link>$code_url/project.php?id=".$row['projectid']."</link>
-                <guid>$code_url/project.php?id=".$row['projectid']."</guid>
-                <description>" . sprintf(_("Language: %1\$s - Genre: %2\$s"), xmlencode($row['language']), xmlencode($row['genre'])) . "</description>
+                <link>".xmlencode("$code_url/project.php?id=".$row['projectid'])."</link>
+                <guid>".xmlencode("$code_url/project.php?id=".$row['projectid'])."</guid>
+                <description>".xmlencode(sprintf(_("Language: %1\$s - Genre: %2\$s"), $row['language'], $row['genre']))."</description>
                 </item>
                 ";
             } else {
@@ -65,8 +65,8 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 <posteddate>".$posteddate."</posteddate>
                 <genre>".xmlencode($row['genre'])."</genre>
                 <links>
-                <PG_catalog>".get_pg_catalog_url_for_etext($row['postednum'])."</PG_catalog>
-                <library>$code_url/project.php?id=".$row['projectid']."</library>
+                <PG_catalog>".xmlencode(get_pg_catalog_url_for_etext($row['postednum']))."</PG_catalog>
+                <library>".xmlencode("$code_url/project.php?id=".$row['projectid'])."</library>
                 </links>
                 </project>
                 ";
@@ -81,7 +81,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 <atom:link href=\"$encoded_url\" rel=\"self\" type=\"application/rss+xml\" />
                 <title>".xmlencode($site_name)." - " . _("Latest Releases") . "</title>
                 <link>".xmlencode($code_url)."</link>
-                <description>" . sprintf( _("The latest releases posted to Project Gutenberg from %1\$s."), xmlencode($site_name)) . "</description>
+                <description>".xmlencode(sprintf( _("The latest releases posted to Project Gutenberg from %1\$s."), $site_name))."</description>
                 <webMaster>".xmlencode($site_manager_email_addr)." (" . xmlencode(_("Site Manager")) . ")</webMaster>
                 <pubDate>".xmlencode($lastupdated)."</pubDate>
                 <lastBuildDate>".xmlencode($lastupdated)."</lastBuildDate>
@@ -103,7 +103,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
         while ($news_item = mysql_fetch_array($result)) {
             $posteddate = date("l, F jS, Y",($news_item['date_posted']));
             $data .= "<item>
-                <title>" . sprintf( _("News Update for %1\$s."), xmlencode($posteddate)) . "</title>
+                <title>".xmlencode(sprintf( _("News Update for %1\$s."), $posteddate))."</title>
                 <link>".xmlencode("$code_url/pastnews.php?#".$news_item['id'])."</link>
                 <guid>".xmlencode("$code_url/pastnews.php?#".$news_item['id'])."</guid>
                 <description>".xmlencode(strip_tags($news_item['content']))."</description>
@@ -117,7 +117,7 @@ if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 <atom:link href=\"$encoded_url\" rel=\"self\" type=\"application/rss+xml\" />
                 <title>".xmlencode($site_name) . " - " . _("Latest News") . "</title>
                 <link>".xmlencode($code_url)."</link>
-                <description>" . sprintf( _("The latest news related to %1\$s."), xmlencode($site_name)) . "</description>
+                <description>".xmlencode(sprintf( _("The latest news related to %1\$s."), $site_name))."</description>
                 <webMaster>".xmlencode($site_manager_email_addr)." (" . xmlencode(_("Site Manager")) . ")</webMaster>
                 <pubDate>".xmlencode($lastupdated)."</pubDate>
                 <lastBuildDate>".xmlencode($lastupdated)."</lastBuildDate>
