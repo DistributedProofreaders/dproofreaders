@@ -16,7 +16,7 @@ $ocr_text                     = "a box of St. Louis candy for his wife, and spin
 $solutions                    = array("a box of St. Louis candy for his wife, and spins back\nhome, where he listens to music \"canned\" in New Jersey.\n\n\nTHE BETTER WAY\n\nCharles M. Schwab, congratulated in Pittsburgh on a\nlarge wired telegraph order contract that had been received\nfrom one of the warring nations, said:\n\n\"Some call it luck, but they are mistaken--whatever\nsuccess I have is due to hard work and not to luck.");
 $showsolution                 = TRUE;
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>" . _("Congratulations, no errors found!");
-$links_out                    = sprintf("<a href='../generic/main.php?type=formatting2&quiz_id=FQ' target='_top'>%s</a><br><a href='../start.php' target='_top'>%s</a>", _("Next step of quiz"), _("Quizzes home."));
+$links_out                    = sprintf("<a href='../generic/main.php?type=formatting3&quiz_id=FQ' target='_top'>%s</a><br><a href='../start.php' target='_top'>%s</a>", _("Next step of quiz"), _("Quizzes home."));
 
 
 // error messages
