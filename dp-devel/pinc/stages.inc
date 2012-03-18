@@ -552,6 +552,31 @@ new Pool(
     )
 );
 
+function echo_postcomments_instructions()
+// If a project is checked out for PP,
+// and the post-processor is viewing the project page,
+// then the page will have an editable text area
+// entitled "Post-Processor's Comments".
+// This function is called between the title and the text area,
+// and should give (site-specific) instructions to the post-processor
+// on how to use (or not use) the postcomments field.
+{
+    global $forums_url;
+
+    echo '<p>' . sprintf(
+        _("You can use this text area to enter comments on how you're
+        doing with the post-processing, both to keep track for yourself
+        and so that we will know that there's still work in progress.
+        You will not receive an e-mail reminder about this project for at
+        least another %1\$d days.") .
+        _("You can use this feature to keep track of your progress,
+        missing pages, etc. (if you are waiting on missing images or page
+        scans, please add the details to the <a href='%2\$s'>Missing Page
+        Wiki</a>)."),
+        90, "$forums_url/viewtopic.php?t=7584") . ' ' .
+        _("Note that your old comments will be replaced by those you enter here.") . '</p>';
+}
+
 // -----------------------------------------------------------------------------
 
 new Stage(

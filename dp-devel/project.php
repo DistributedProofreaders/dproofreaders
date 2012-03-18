@@ -1746,7 +1746,7 @@ function echo_download_zip( $link_text, $discriminator )
 
 function do_postcomments()
 {
-    global $project, $code_url, $forums_url;
+    global $project, $code_url;
 
     if ( $project->state != PROJ_POST_FIRST_CHECKED_OUT ) return;
 
@@ -1757,19 +1757,7 @@ function do_postcomments()
 
       echo "<h4>" . _("Post-Processor's Comments") . "</h4>";
 
-      // Give the PP-er a chance to update the project record
-      // (limit of 90 days is mentioned below).
-      echo '<p>' . sprintf(_("You can use this text area to enter comments on how you're
-                     doing with the post-processing, both to keep track for yourself
-                     and so that we will know that there's still work in progress.
-                     You will not receive an e-mail reminder about this project for at
-                     least another %1\$d days.") .
-                     _("You can use this feature to keep track of your progress,
-                     missing pages, etc. (if you are waiting on missing images or page
-                     scans, please add the details to the <a href='%2\$s'>Missing Page
-                     Wiki</a>)."),
-                     90, "$forums_url/viewtopic.php?t=7584") . ' ' .
-                     _("Note that your old comments will be replaced by those you enter here.") . '</p>';
+      echo_postcomments_instructions();
 
       echo "<form name='pp_update' method='post' action='$code_url/tools/post_proofers/postcomments.php'>\n";
       echo "<textarea name='postcomments' cols='60' rows='6'>\n";
