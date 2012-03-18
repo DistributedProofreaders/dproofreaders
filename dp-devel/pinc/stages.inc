@@ -568,13 +568,20 @@ function echo_postcomments_instructions()
         doing with the post-processing, both to keep track for yourself
         and so that we will know that there's still work in progress.
         You will not receive an e-mail reminder about this project for at
-        least another %1\$d days.") .
-        _("You can use this feature to keep track of your progress,
-        missing pages, etc. (if you are waiting on missing images or page
-        scans, please add the details to the <a href='%2\$s'>Missing Page
+        least another %d days.
+        You can use this feature to keep track of your progress,
+        missing pages, etc."),
+        90)
+        . '</p>';
+    echo '<p>' . sprintf(
+        _("(if you are waiting on missing images or page
+        scans, please add the details to the <a href='%s'>Missing Page
         Wiki</a>)."),
-        90, "$forums_url/viewtopic.php?t=7584") . ' ' .
-        _("Note that your old comments will be replaced by those you enter here.") . '</p>';
+        "$forums_url/viewtopic.php?t=7584")
+        . '</p>';
+    echo '<p>'
+        . _("Note that your old comments will be replaced by those you enter here.")
+        . '</p>';
 }
 
 // -----------------------------------------------------------------------------
