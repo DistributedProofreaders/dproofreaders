@@ -561,23 +561,21 @@ function echo_postcomments_instructions()
 // and should give (site-specific) instructions to the post-processor
 // on how to use (or not use) the postcomments field.
 {
-    global $forums_url;
+    global $wiki_url;
 
-    echo '<p>' . sprintf(
+    echo '<p>' .
         _("You can use this text area to enter comments on how you're
         doing with the post-processing, both to keep track for yourself
-        and so that we will know that there's still work in progress.
-        You will not receive an e-mail reminder about this project for at
-        least another %d days.
-        You can use this feature to keep track of your progress,
-        missing pages, etc."),
-        90)
+        and so that we will know that there's still work in progress.")
         . '</p>';
     echo '<p>' . sprintf(
-        _("(if you are waiting on missing images or page
-        scans, please add the details to the <a href='%s'>Missing Page
-        Wiki</a>)."),
-        "$forums_url/viewtopic.php?t=7584")
+        _("If you find that some proofing images are missing or unreadable,
+        or that illustration images are missing or inadequate,
+        first let the PM know what you've found (or not found).
+        If you don't hear back from the PM within a reasonable amount of time,
+        let the <a href='%s'>db-req</a> squirrels know about the issues
+        so we can get the project fixed."),
+        "$wiki_url/Db-req")
         . '</p>';
     echo '<p>'
         . _("Note that your old comments will be replaced by those you enter here.")
