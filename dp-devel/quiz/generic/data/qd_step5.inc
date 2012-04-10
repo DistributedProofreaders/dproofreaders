@@ -73,7 +73,7 @@ $messages["capitalmissed"] = array(
     "hints" => array()
 );
 $messages["ellipsis"] = array(
-    "message_text" => "<h2>" . _("Spaced Ellipsis") . "</h2" .
+    "message_text" => "<h2>" . _("Spaced Ellipsis") . "</h2>" .
         _("At the end of a sentence an ellipsis should have four dots, or three dots plus a '<tt>!</tt>' or '<tt>?</tt>', and no space before it."),
     "hints" => array()
 );
