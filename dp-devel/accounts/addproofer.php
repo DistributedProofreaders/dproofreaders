@@ -104,7 +104,8 @@ if ($password=="proofer") {
     {
         $todaysdate = time();
 
-        $ID = uniqid("userID");
+        // 16 random bytes turn into a 32-character hex string prefixed with 'userID'
+        $ID = "userID" . bin2hex(openssl_random_pseudo_bytes(16));
 
         $digested_password = md5($userpass);
 
