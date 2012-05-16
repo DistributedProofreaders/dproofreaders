@@ -1,17 +1,15 @@
 <?php
 $relPath="./pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
-include_once($relPath.'connect.inc');
-include_once($relPath.'maintenance_mode.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_specific.inc');
-$db_Connection=new dbConnect();
 include_once($relPath.'showstartexts.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'site_news.inc');
 
-abort_if_in_maintenance_mode();
+undo_all_magic_quotes();
+
 theme(_("Welcome"), "header");
 $etext_limit = 10;
 
@@ -87,4 +85,3 @@ echo "</center>&nbsp;<br>\n";
 theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab
-?>

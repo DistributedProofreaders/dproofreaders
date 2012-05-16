@@ -9,10 +9,8 @@
 // forums, documentation/faqs, development, admin.)
 
 $relPath="./pinc/";
-include_once($relPath.'misc.inc');
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'gradual.inc');
@@ -20,6 +18,9 @@ include_once($relPath.'site_news.inc');
 include_once($relPath.'mentorbanner.inc');
 include_once($relPath.'filter_project_list.inc');
 include_once($relPath.'SettingsClass.inc');
+
+require_login();
+undo_all_magic_quotes();
 
 // Load user settings
 $userSettings =& Settings::get_Settings($pguser);
@@ -518,4 +519,3 @@ function activity_descriptions()
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

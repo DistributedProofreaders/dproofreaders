@@ -1,8 +1,7 @@
 <?php
 $relPath="./pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'doctype.inc');
 include_once($relPath.'resolution.inc');
 include_once($relPath.'prefs_options.inc');
@@ -12,6 +11,9 @@ include_once($relPath.'tabs.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'misc.inc'); // startswith(...), attr_safe()
 include_once($relPath.'js_newpophelp.inc');
+
+require_login();
+undo_all_magic_quotes();
 
 // The url the user viewed immediately before coming to the preferences.
 // Not all browsers provide this, though.
@@ -965,4 +967,3 @@ function _create_mysql_update_string($source_array, $string_fields = array(), $n
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

@@ -1,13 +1,14 @@
 <?php
 $relPath='pinc/';
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'links.inc'); // private_message_link()
+
+require_login();
 
 $tasks_url = $code_url . "/" . basename(__FILE__);
 
@@ -1699,4 +1700,3 @@ function stripslashes_if_magic($s)
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

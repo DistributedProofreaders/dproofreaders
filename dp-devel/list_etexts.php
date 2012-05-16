@@ -1,8 +1,11 @@
 <?php
 $relPath="./pinc/";
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'list_projects.inc');
+
+undo_all_magic_quotes();
 
 $x        = get_enumerated_param($_GET, 'x', 'g', array('g', 's', 'b'));
 $sort     = get_integer_param($_GET, 'sort',      0, 0, 5);

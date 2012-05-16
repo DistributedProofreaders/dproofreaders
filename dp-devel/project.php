@@ -1,20 +1,6 @@
 <?php
 $relPath='./pinc/';
-
-// gettext_setup.inc has a reference (in top-level code) to $userP,
-// which isn't set properly (if at all) until dpsession_resume() is called.
-// Thus, we must include dpsession.inc and call dpsession_resume()
-// before we include gettext_setup.inc (directly or indirectly).
-// (There's probably several scripts that don't do this,
-// so we need a better mechanism.)
-
-include_once($relPath.'dpsession.inc');
-$user_is_logged_in = dpsession_resume();
-// If the requestor is not logged in,
-// we refer to them as a "guest".
-
-include_once($relPath.'site_vars.php');
-include_once($relPath.'gettext_setup.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
@@ -37,6 +23,9 @@ include_once($relPath.'links.inc'); // new_window_link
 include_once($relPath.'project_edit.inc'); // check_user_can_load_projects
 include_once($relPath.'forum_interface.inc'); // get_last_post_time_in_topic & get_url_*()
 
+undo_all_magic_quotes();
+
+// If the requestor is not logged in, we refer to them as a "guest".
 
 // for strftime:
 $datetime_format = _("%A, %B %e, %Y at %X");
@@ -1129,7 +1118,7 @@ function do_event_subscriptions()
     $url = "$code_url/tools/set_project_event_subs.php";
     echo "<form method='post' action='$url'>\n";
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
-    echo "<input type='hidden' name='return_uri' value='{$_SERVER['REQUEST_URI']}#event_subscriptions'>\n";
+    echo "<input type='hidden' name='return_uri' value='" . urlencode($_SERVER['REQUEST_URI']) . "#event_subscriptions'>\n";
     echo "<table>\n";
     echo "<tr>";
     echo "<th>", _("Event"), "</th>";

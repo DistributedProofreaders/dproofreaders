@@ -1,8 +1,11 @@
 <?php
 $relPath="./pinc/";
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
+
+require_login();
+undo_all_magic_quotes();
 
 // Very basic display of the 'recent' news stories for the given news page
 //
@@ -12,7 +15,8 @@ if (isset($_GET['news_page_id'])) {
     $news_page_id = $_GET['news_page_id'];
     if ( isset($NEWS_PAGES[$news_page_id]) ) {
         $news_subject = get_news_subject($news_page_id);
-        theme(sprintf(_("Recent Site News Items for %s"), $news_subject), "header");        echo "<br>";
+        theme(sprintf(_("Recent Site News Items for %s"), $news_subject), "header");
+        echo "<br>";
     } else {
        echo _("Error").": <b>".$news_page_id."</b> "._("Unknown news_page_id specified, exiting.");
        exit();
@@ -62,8 +66,5 @@ else
     }
 }
 
-
-
 theme("", "footer");
-
-?>
+// vim: sw=4 ts=4 expandtab
