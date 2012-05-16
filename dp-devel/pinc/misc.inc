@@ -481,6 +481,28 @@ if ( !function_exists('str_split') )
     }
 }
 
+// openssl_random_pseudo_bytes() is defined in PHP 5.2 and later
+if ( !function_exists('openssl_random_pseudo_bytes') )
+{
+    // based on:
+    // http://us.php.net/manual/en/function.openssl-random-pseudo-bytes.php#93078
+    function openssl_random_pseudo_bytes($length)
+    {
+        $length_n = (int) $length; // shell injection is no fun
+        $handle = popen("/usr/bin/openssl rand $length_n", "r");
+        $data = stream_get_contents($handle);
+        pclose($handle);
+
+        // if no data, the call to openssl failed, fall back to /dev/urandom
+        if(!$data) {
+            $handle = fopen("/dev/urandom","r");
+            $data = fread($handle, $length);
+            fclose($handle);
+        }
+        return $data;
+    }
+}   
+
 function mkdir_recursive( $dir, $mode )
 // Like mkdir, but recursively creates any parent directories too.
 // (PHP 5's mkdir has this capability built-in.)
@@ -784,4 +806,3 @@ function is_url_for_current_page($url)
 }
 
 // vim: sw=4 ts=4 expandtab
-?>
