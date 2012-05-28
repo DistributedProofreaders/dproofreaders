@@ -7,6 +7,7 @@ include_once($relPath.'site_specific.inc');
 include_once($relPath.'showstartexts.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'site_news.inc');
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 

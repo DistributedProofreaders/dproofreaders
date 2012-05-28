@@ -11,6 +11,7 @@ include_once($relPath.'tabs.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'misc.inc'); // startswith(...), attr_safe()
 include_once($relPath.'js_newpophelp.inc');
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 require_login();
 undo_all_magic_quotes();
