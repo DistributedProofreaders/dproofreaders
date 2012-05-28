@@ -6,29 +6,33 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-include_once($dynstats_dir."/faq_data.inc");
+if(file_exists($dynstats_dir."/faq_data.inc")) {
+    include_once($dynstats_dir."/faq_data.inc");
+} else {
+    $faq_data = array();
+}
 
 if(isset($_GET['id'])) {
-	if($faq_data[$_GET['id']]) {
-		$f=$code_dir."/faq/".$faq_data[$_GET['id']];
+    if(@$faq_data[$_GET['id']]) {
+        $f=$code_dir."/faq/".$faq_data[$_GET['id']];
 
-		header("Content-Type: text/x-php; charset=$charset");
-		header("Content-Length: ".filesize($f));
-		header("Content-Disposition: attachment; filename=".basename($f));
+        header("Content-Type: text/x-php; charset=$charset");
+        header("Content-Length: ".filesize($f));
+        header("Content-Disposition: attachment; filename=".basename($f));
 
-		readfile($f);
-	}
+        readfile($f);
+    }
 } else {
-	theme(_("Download FAQs"),"header");
+    theme(_("Download FAQs"),"header");
 
-	echo "<center><h1>"._("Download FAQs")."</h1></center>\n";
+    echo "<center><h1>"._("Download FAQs")."</h1></center>\n";
 
-	echo "<ul>\n";
-	foreach($faq_data as $k=>$v) {
-		echo "<li><a href='download.php?id=$k'>$v</a></li>\n";
-	}
-	echo "</ul>\n";
+    echo "<ul>\n";
+    foreach($faq_data as $k=>$v) {
+        echo "<li><a href='download.php?id=$k'>$v</a></li>\n";
+    }
+    echo "</ul>\n";
 
-	theme("","footer");
+    theme("","footer");
 }
 // vim: sw=4 ts=4 expandtab
