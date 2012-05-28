@@ -1,13 +1,15 @@
 <?php
 $relPath='../pinc/';
-include($relPath.'site_vars.php');
-include($relPath.'connect.inc');
-include($relPath.'theme.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
+include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+
+undo_all_magic_quotes();
+
 $no_stats=1;
 theme("Beginners' Simple Proofreading Rules",'header');
 echo "<br><br>";
-include($relPath.'simple_proof_text.inc');
+include_once($relPath.'simple_proof_text.inc');
 echo "<br><br>";
 theme('','footer');
-?>
+// vim: sw=4 ts=4 expandtab

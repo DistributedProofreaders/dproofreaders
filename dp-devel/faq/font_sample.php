@@ -1,10 +1,11 @@
 <?php
 $relPath='../pinc/';
-include_once($relPath.'site_vars.php');
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
-new dbConnect();
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+
+undo_all_magic_quotes();
 
 // Note: The text used for font sample images is stored in font_sample.txt
 
@@ -120,4 +121,3 @@ function get_sample_image_for_font($font)
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

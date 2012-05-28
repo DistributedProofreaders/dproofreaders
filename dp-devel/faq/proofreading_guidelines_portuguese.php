@@ -3,12 +3,14 @@
 // File received from user 'rfarinha' at pgdp.net, 2/25/2009
 
 $relPath='../pinc/';
-include($relPath.'site_vars.php');
-include($relPath.'faq.inc');
-include($relPath.'pg.inc');
-include($relPath.'connect.inc');
-include($relPath.'theme.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
+include_once($relPath.'faq.inc');
+include_once($relPath.'pg.inc');
+include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+
+undo_all_magic_quotes();
+
 $no_stats=1;
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
@@ -3071,4 +3073,4 @@ Se utiliar um destes, certifique-se que insere apenas caracteres Latin-1
 
 <?php
 theme('','footer');
-?>
+// vim: sw=4 ts=4 expandtab

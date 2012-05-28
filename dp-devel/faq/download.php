@@ -1,9 +1,12 @@
 <?php
 $relPath="./../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
-include($dynstats_dir."/faq_data.inc");
+undo_all_magic_quotes();
+
+include_once($dynstats_dir."/faq_data.inc");
 
 if(isset($_GET['id'])) {
 	if($faq_data[$_GET['id']]) {
@@ -28,4 +31,4 @@ if(isset($_GET['id'])) {
 
 	theme("","footer");
 }
-?>
+// vim: sw=4 ts=4 expandtab

@@ -1,11 +1,13 @@
 <?php
 $relPath='../pinc/';
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
-include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
-new dbConnect();
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+
+undo_all_magic_quotes();
+
 $no_stats=1;
 $theme_args = array("css_data" => "
 table.faqs td {font-family: Tahoma, sans-serif;}
@@ -261,4 +263,4 @@ show_news_for_page("FAQ");
 
 <?php
 theme('','footer');
-?>
+// vim: sw=4 ts=4 expandtab

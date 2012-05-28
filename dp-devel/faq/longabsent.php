@@ -1,10 +1,12 @@
 <?php
 $relPath='../pinc/';
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
-include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+
+undo_all_magic_quotes();
 
 $no_stats=1;
 theme('Welcome Back, Alumni','header');
@@ -236,4 +238,4 @@ review the <a href="<?php echo $code_url; ?>/faq/wordcheck-faq.php">Wordcheck FA
 
 <?php
 theme('','footer');
-?>
+// vim: sw=4 ts=4 expandtab

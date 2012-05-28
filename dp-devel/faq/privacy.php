@@ -1,4 +1,5 @@
 <?php
+
 // This file can be accessed directly in which case it needs appropriate
 // HTML tags, and it can be include()d into other files, such as
 // addproofer.php. We determine which is the case by checking if $relPath
@@ -7,8 +8,12 @@ if(!isset($relPath))
 {
     $file_is_included = FALSE;
     $relPath="./../pinc/";
-    include_once($relPath.'site_vars.php');
+    include_once($relPath.'base.inc');
     include_once($relPath.'slim_header.inc');
+    include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+
+    undo_all_magic_quotes();
+
     slim_header(_("Privacy Statement"));
 }
 else
@@ -67,4 +72,3 @@ if(!$file_is_included)
     slim_footer();
 }
 // vim: sw=4 ts=4 expandtab
-?>

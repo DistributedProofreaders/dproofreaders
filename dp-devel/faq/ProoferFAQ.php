@@ -1,11 +1,13 @@
 <?php
 $relPath='../pinc/';
-include($relPath.'site_vars.php');
-include($relPath.'faq.inc');
-include($relPath.'pg.inc');
-include($relPath.'connect.inc');
-include($relPath.'theme.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
+include_once($relPath.'faq.inc');
+include_once($relPath.'pg.inc');
+include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+
+undo_all_magic_quotes();
+
 $no_stats=1;
 theme('Beginning Proofreaders\' FAQ','header');
 ?>
@@ -329,7 +331,7 @@ different pages.  This will significantly speed up the proofreading process.
 <hr align="center" width="66%">
 <h4>Revision History of this Document</h4>
        05/27/2004 -- Version 1.7: Major changes by pourlean - updated for caching changes
-       04/16/2004 -- Version 1.6: Major changes by pourlean - removed all personal email addresses.
+   <br>04/16/2004 -- Version 1.6: Major changes by pourlean - removed all personal email addresses.
    <br>06/16/2003 -- Version 1.5: Additional updates & style revision done by Tim Bonham.
    <br>10/27/2002 -- updated version produced by Charles Franks.
    <br>10/16/2001 -- original version of this document produced by Robert Rowe.
@@ -350,4 +352,4 @@ different pages.  This will significantly speed up the proofreading process.
 
 <?php
 theme('','footer');
-?>
+// vim: sw=4 ts=4 expandtab

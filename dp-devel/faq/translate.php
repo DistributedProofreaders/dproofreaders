@@ -1,7 +1,11 @@
 <?php
 $relPath='../pinc/';
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+
+undo_all_magic_quotes();
+
 $no_stats=1;
 theme('FAQ Central','header');
 ?>
@@ -284,4 +288,4 @@ them are actually called, and we do plan to solve the technical difficulties onc
 </div>
 <?php
 theme('','footer');
-?>
+// vim: sw=4 ts=4 expandtab

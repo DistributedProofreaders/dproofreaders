@@ -1,11 +1,13 @@
 <?php
 $relPath='../pinc/';
-include($relPath.'site_vars.php');
-include($relPath.'faq.inc');
-include($relPath.'pg.inc');
-include($relPath.'connect.inc');
-include($relPath.'theme.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
+include_once($relPath.'faq.inc');
+include_once($relPath.'pg.inc');
+include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+
+undo_all_magic_quotes();
+
 $no_stats=1;
 theme("Content Provider's FAQ",'header');
 ?>
@@ -729,4 +731,4 @@ use FTP client. Free for-non commercial use.<br>
 
 <?php
 theme('','footer');
-?>
+// vim: sw=4 ts=4 expandtab

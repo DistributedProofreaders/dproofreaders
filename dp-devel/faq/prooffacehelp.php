@@ -1,10 +1,11 @@
 <?php
 $relPath='../pinc/';
-include($relPath.'site_vars.php');
-include($relPath.'connect.inc');
-include($relPath.'theme.inc');
-include($relPath.'faq.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
+include_once($relPath.'theme.inc');
+include_once($relPath.'faq.inc');
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+
+undo_all_magic_quotes();
 
 if ( isset($_GET['i_type']) )
 {
@@ -860,4 +861,4 @@ and then paste the text from the clipboard (using ctrl-v/cmd-v).
 <br>
 <?php
 theme('','footer');
-?>
+// vim: sw=4 ts=4 expandtab

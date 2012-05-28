@@ -1,11 +1,13 @@
 <?php
 $relPath='../pinc/';
-include($relPath.'site_vars.php');
-include($relPath.'faq.inc');
-include($relPath.'pg.inc');
-include($relPath.'connect.inc');
-include($relPath.'theme.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
+include_once($relPath.'faq.inc');
+include_once($relPath.'pg.inc');
+include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+
+undo_all_magic_quotes();
+
 $no_stats=1;
 
 $theme_args["css_data"] = "div.note {padding: .75em; background: #f9f9f9; border: 3px #aaa double; width: 90%; margin: 1em 1em 1em 3em;}
@@ -1984,4 +1986,4 @@ Footnote/Fu&szlig;note/Apostille/Ootnotefay/&Upsilon;&pi;&omicron;&sigma;&eta;&m
 
 <?php
 theme('','footer');
-?>
+// vim: sw=4 ts=4 expandtab

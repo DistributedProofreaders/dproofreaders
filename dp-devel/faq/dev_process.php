@@ -1,7 +1,10 @@
 <?php
 $relPath='../pinc/';
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+
+undo_all_magic_quotes();
 
 $test_host='http://www.pgdp.org';	
 $test_site_code_url="$test_host/c";	
@@ -256,4 +259,4 @@ If it doesn't work for you,
 
 <?php
 theme('', 'footer');
-?>
+// vim: sw=4 ts=4 expandtab

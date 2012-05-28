@@ -1,9 +1,11 @@
 <?php
 $relPath='../pinc/';
-include($relPath.'site_vars.php');
-include($relPath.'connect.inc');
-include($relPath.'theme.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
+include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+
+undo_all_magic_quotes();
+
 $no_stats=1;
 theme('Templates available for Project Comments','header');
 ?>
@@ -110,7 +112,7 @@ foreach ( $templates as $basename => $long_name )
 {
     echo "<!-- $basename.txt info -->\n";
     echo "<a name=\"$basename\"><h3>$basename.txt</h3></a> <br>\n";
-    include("../pinc/templates/comment_files/$basename.txt");
+    include_once("../pinc/templates/comment_files/$basename.txt");
     echo "\n";
     echo "\n";
     echo "<br><hr><a href=\"#standardtemp\">Back to Standard Templates</a><hr><br>\n";
@@ -352,4 +354,4 @@ HALF IN THE SECOND COLUMN.*****
 
 <?php
 theme('','footer');
-?>
+// vim: sw=4 ts=4 expandtab
