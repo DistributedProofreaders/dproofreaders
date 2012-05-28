@@ -5,6 +5,7 @@ include_once($relPath.'username.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
