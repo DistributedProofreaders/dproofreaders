@@ -1,13 +1,12 @@
 <?php
 $relPath="./../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'username.inc');
-include_once($relPath.'connect.inc');
-$db_Connection=new dbConnect();
-include_once($relPath.'dpsession.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'forum_interface.inc');
+
+undo_all_magic_quotes();
 
 function abort_login( $error )
 {
@@ -137,4 +136,3 @@ $title = _("Sign In");
 metarefresh(0,$url,$title,"");
 
 // vim: sw=4 ts=4 expandtab
-?>

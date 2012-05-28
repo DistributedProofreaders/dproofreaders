@@ -1,14 +1,14 @@
 <?php
 $relPath="./../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'username.inc');
 include_once($relPath.'email_address.inc');
 include_once($relPath.'new_user_mails.inc');
-include_once($relPath.'connect.inc');
-$db_Connection=new dbConnect();
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc');
+
+undo_all_magic_quotes();
 
 function _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates)
 // Validate the user input fields
@@ -128,7 +128,7 @@ if ($password=="proofer") {
             }
         } else {
             // Send them an activation e-mail
-            maybe_activate_mail($email, $real_name, $ID, stripslashes($username), $intlang);
+            maybe_activate_mail($email, $real_name, $ID, $username, $intlang);
 
             // Page shown when account is successfully created
 
@@ -192,10 +192,10 @@ if ($password=="proofer") {
     echo "<table class='register'>";
     echo "<tr>";
     echo "  <td class='label'>" . _("Real Name") . ":</td>";
-    echo "  <td class='field'><input type='text' maxlength='70' name='real_name' size='20' value='". htmlspecialchars(stripslashes($real_name), ENT_QUOTES) ."'></td>";
+    echo "  <td class='field'><input type='text' maxlength='70' name='real_name' size='20' value='". htmlspecialchars($real_name, ENT_QUOTES) ."'></td>";
     echo "</tr>\n<tr>";
     echo "  <td class='label'>" . _("User Name") . ":</td>";
-    echo "  <td class='field'><input type='text' maxlength='70' name='userNM' size='20' value='" . htmlspecialchars(stripslashes($username), ENT_QUOTES) . "'></td>";
+    echo "  <td class='field'><input type='text' maxlength='70' name='userNM' size='20' value='" . htmlspecialchars($username, ENT_QUOTES) . "'></td>";
     echo "</tr>\n<tr>";
     echo "  <td class='label'>" . _("Password") . ":</td>";
     echo "  <td class='field'><input type='password' maxlength='70' name='userPW' size='20'></td>";
@@ -205,10 +205,10 @@ if ($password=="proofer") {
     echo "</tr>\n<tr>";
     if (!$testing) {
         echo "  <td class='label'>" . _("E-mail Address") . ":</td>";
-        echo "  <td class='field'><input type='text' maxlength='70' name='email' size='20' value='". htmlspecialchars(stripslashes($email), ENT_QUOTES) . "'></td>";
+        echo "  <td class='field'><input type='text' maxlength='70' name='email' size='20' value='". htmlspecialchars($email, ENT_QUOTES) . "'></td>";
         echo "</tr>\n<tr>";
         echo "  <td class='label'>" . _("Confirm E-mail Address") . ":</td>";
-        echo "  <td class='field'><input type='text' maxlength='70' name='email2' size='20' value='" . htmlspecialchars(stripslashes($email2), ENT_QUOTES) . "'></td>";
+        echo "  <td class='field'><input type='text' maxlength='70' name='email2' size='20' value='" . htmlspecialchars($email2, ENT_QUOTES) . "'></td>";
         echo "</tr>\n<tr>";
     }
     echo "  <td class='label'><b>" . _("E-mail Updates") . ":</td>";
@@ -230,4 +230,3 @@ if ($password=="proofer") {
 theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab
-?>

@@ -1,13 +1,13 @@
 <?php
 $relPath="./../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'new_user_mails.inc');
-include_once($relPath.'connect.inc');
-$db_Connection=new dbConnect();
 $db_link=$db_Connection->db_lk;
 include_once($relPath.'theme.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc');
+
+undo_all_magic_quotes();
 
 // Checks if $value has the form of a valid user ID.
 // If its does, it returns it, otherwise dies with a warning.
@@ -29,8 +29,7 @@ $result = mysql_query("SELECT * FROM non_activated_users WHERE id='$ID'");
 if (mysql_num_rows($result) == 0) {
     echo "<p>\n";
     echo sprintf(
-        _("There is no account with the id '%s' waiting to be activated."),
-        stripslashes($ID)
+        _("There is no account with the id '%s' waiting to be activated."), $ID
     );
 
     $res2 = mysql_query("
@@ -110,4 +109,3 @@ echo "<form action='login.php' method='post'>
 theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab
-?>
