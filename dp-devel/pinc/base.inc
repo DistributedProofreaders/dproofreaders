@@ -44,6 +44,8 @@ if($maintenance)
 function require_login()
 {
     global $user_is_logged_in;
+    global $code_url;
+    global $relPath;
 
     // return if the user is already logged in
     if($user_is_logged_in)
