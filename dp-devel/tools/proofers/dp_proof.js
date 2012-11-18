@@ -319,35 +319,44 @@ function isLetter(chr)
         return false;
 }
 
-function processText(tagOpen,tagClose,innerText)
+// Used when wrapping body text in markup or tags.
+// Modify the opening and closing tags and body text depending
+// on the context to make editing easier for the user.
+// Return updated tags and body.
+function processText(tagOpen, tagClose, bodyText)
 {
-    // Any special processing on the contents of the selection is performed here
 
-    if (tagOpen == '[Footnote #: ')
-    {
-        if (innerText.charAt(1) == ' ' && (isDigit(innerText.charAt(0)) || isLetter(innerText.charAt(0))))
-        {
-            tagOpen = '[Footnote ' + innerText.charAt(0) + ': ';
-            innerText = innerText.substr(2);
+    // If there's no selected text:
+    // * Illustration markup may appear w/o a title, so remove the ': '.
+    // * Formatting markup is redundant w/o any content, so don't produce it.
+    if (bodyText == '') {
+        if (tagOpen == '[Illustration: ') {
+            tagOpen = '[Illustration';
         }
-        // Separate if-thens for 2- and 3- digit numbers are somewhat inelegant,
-        // but the sensible regex-based method doesn't work in all browsers.
-        else if (innerText.charAt(2) == ' ' && isDigit(innerText.charAt(0)) && isDigit(innerText.charAt(1)))
-        {
-            tagOpen = '[Footnote ' + innerText.charAt(0) + innerText.charAt(1) + ': ';
-            innerText = innerText.substr(3);
+        
+        if (tagOpen[0] == '<') {
+            tagOpen = '';
+            tagClose = '';
         }
-        else if (innerText.charAt(3) == ' ' && isDigit(innerText.charAt(0))
-            && isDigit(innerText.charAt(1)) && isDigit(innerText.charAt(2)))
-        {
-            tagOpen = '[Footnote ' + innerText.charAt(0) + innerText.charAt(1) + innerText.charAt(2) + ': ';
-            innerText = innerText.substr(4);
+    }
+    
+    // Handle footnote index substitution
+    if (tagOpen == '[Footnote #: ') {
+        // Split the selected text on the first space in the string.
+        // If the first part is a letter or a number then replace the # with
+        // it, otherwise wrap the selected text in the tags as normally.
+        i = innerText.indexOf(' ');
+        if (i != -1) {
+            indexText = bodyText.substr(0, i)
+            if (isLetter(indexText) || parseInt(indexText) == indexText) {
+                tagOpen = tagOpen.replace('#', indexText);
+                bodyText = bodyText.substr(i+1);
+        }
         }
     }
 
-    return [tagOpen, tagClose, innerText];
+    return [tagOpen, tagClose, bodyText];
 }
-
 
 
 // ----------
