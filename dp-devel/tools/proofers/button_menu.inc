@@ -10,8 +10,19 @@ function echo_button_menu( $ppage )
   global $pguser, $userP, $f_f, $f_s;
 ?>
 <script language="javascript">
-function disableEnterKey() { 
-	if (window.event.keyCode == 13) window.event.keyCode = 0;
+function refuseNonNumeric(event) {
+    // Deal with the IE/Firefox/WebKit keycode mess...
+    var e = event || window.event;
+    var key = event.which || event.keyCode || window.event.keyCode;
+
+    // Allow accelerator keys through (for navigation/control) even if we have focus
+    if (e.ctrlKey || e.altKey || e.metaKey) return true;
+
+    // Allow backspace, tab, delete, left and right cursor (for editing and navigation)
+    if (key == 8 || key == 9 || key == 46 || key == 37 || key == 39) return true;
+
+    // Finally, allow only the 0-9 keys and only if shift isn't pressed
+    return (key >= 48 && key <= 57 && !e.shiftKey);
 }
 </script>
 <A
@@ -50,7 +61,7 @@ type="text" value="<?php
   else{echo $userP['h_zoom'];}
 ?>" name="zmSize" ID="zmSize" class="boxnormal"  align="bottom" size="3" title="<?php 
     echo attr_safe(_("Input Zoom %"));
-?>" onKeyPress="disableEnterKey()"><?php
+?>" onkeydown="return refuseNonNumeric(event)"><?php
 
 echo_button(SET_IMAGE_ZOOM,'a');
 echo "\n";
