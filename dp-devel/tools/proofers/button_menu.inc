@@ -21,9 +21,8 @@ HREF="#" accesskey="'" onfocus="scrollImage('up')" onclick="scrollImage('up')"><
 HREF="#" accesskey="/" onfocus="scrollImage('down')" onclick="scrollImage('down')"></A><select
 name="fntFace" ID="fntFace"  class="dropsmall" title="<?php 
     echo attr_safe(_("Change Font Face"));
-?>" onChange="top.chFFace(this.selectedIndex)"><?php
+?>" onChange="top.changeFontFamily(this.options[this.selectedIndex].text)"><?php
   $ff=$userP['i_layout']==1? $userP['v_fntf']:$userP['h_fntf'];
-//  $f_s= array('Font Face','Courier','Times','Arial','Lucida','Monospaced','DPCustomMono2');
   $ff_len = count($f_f);
   for ($i=0;$i<$ff_len;$i++)
     {$optP="<option \r\n value=\"$i\"";
@@ -34,9 +33,8 @@ name="fntFace" ID="fntFace"  class="dropsmall" title="<?php
 ?></select><select
 name="fntSize" ID="fntSize"  class="dropsmall" title="<?php 
     echo attr_safe(_("Change Font Size"));
-?>" onChange="top.chFSize(this.selectedIndex)"><?php
+?>" onChange="top.changeFontSize(this.options[this.selectedIndex].text)"><?php
   $fs=$userP['i_layout']==1? $userP['v_fnts']:$userP['h_fnts'];
-//  $f_f= array('Size','8pt','9pt','10pt','11pt','12pt','13pt','14pt','15pt','16pt','18pt','20pt');
   $fs_len = count($f_s);
   for ($i=0;$i<$fs_len;$i++)
     {$optP="<option \r\n value=\"$i\"";

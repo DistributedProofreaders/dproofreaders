@@ -54,30 +54,6 @@ function surroundSelection(wOT,wCT)
 
 // start of general interface functions
 
-// Font Face Selection values
-aFnt=new Array();
-aFnt[1]='Courier New';
-aFnt[2]='Times New Roman';
-aFnt[3]='Arial';
-aFnt[4]='Lucida Sans Typewriter';
-aFnt[5]='monospace';
-aFnt[6]='DPCustomMono2';
-aFnt[7]='Courier';	// re-added per Task 400
-
-// Font Size Selection values
-bFnt=new Array();
-bFnt[1]='8';
-bFnt[2]='9';
-bFnt[3]='10';
-bFnt[4]='11';
-bFnt[5]='12';
-bFnt[6]='13';
-bFnt[7]='14';
-bFnt[8]='15';
-bFnt[9]='16';
-bFnt[10]='18';
-bFnt[11]='20';
-
 ieW=0;
 ieH=0;
 ieSt=0;
@@ -102,22 +78,24 @@ function fixText()
     //}
 }
 
-function chFFace(fF)
+function changeFontFamily(font_family)
 {
-    if(parseInt(fF))
-    {
-        setText();docRef.editform.text_data.style.fontFamily=aFnt[fF];
-        fixText();
+    setText();
+    if (font_family == 'Browser Default') {
+        font_family = null;
     }
+    docRef.editform.text_data.style.fontFamily = font_family;
+    fixText();
 }
 
-function chFSize(fS)
+function changeFontSize(font_size)
 {
-    if(parseInt(fS))
-    {
-        setText();docRef.editform.text_data.style.fontSize=bFnt[fS]+'pt';
-        fixText();
+    setText();
+    if (font_size == 'Browser Default') {
+        font_size = null;
     }
+    docRef.editform.text_data.style.fontSize = font_size;
+    fixText();
 }
 
 function showAllText()
