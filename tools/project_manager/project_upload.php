@@ -97,11 +97,8 @@ if (!is_dir($home_path)) {
 // is carried by the variable $curr_relpath, but we don't set the latter
 // until the former validates.
 
-$cdrp = @$_REQUEST['cdrp'];
-if (is_null($cdrp)) {
-    // The invocation didn't set cdrp.
-    $cdrp = $home_dirname;
-}
+// Default to home dir if the invocation didn't set cdrp.
+$cdrp = array_get($_REQUEST, 'cdrp', $home_dirname);
 
 // Validate it.
 // (Yeah, do this even if we just set it to $home_dirname, as a sanity check.)
@@ -443,7 +440,7 @@ if ($action == 'showdir') {
     theme($page_title, "header");
     echo "<h1>$page_title</h1>\n";
 
-    $item_name = $_POST['item_name'];
+    $item_name = @$_POST['item_name'];
     confirmIsLocal('FD', $item_name, TRUE);
 
     $hae_item_name = hae($item_name);
@@ -468,12 +465,12 @@ if ($action == 'showdir') {
 // -----------------------------------------------------------------------------
 } else if ($action == 'rename') {
 
-    $item_name = $_POST['item_name'];
+    $item_name = @$_POST['item_name'];
     confirmIsLocal('FD', $item_name);
 
     $item_path = "$curr_abspath/$item_name";
 
-    $new_item_name = $_POST['new_item_name'];
+    $new_item_name = @$_POST['new_item_name'];
 
     $okay_item_name_pattern = '/^[a-zA-Z_0-9][a-zA-Z_0-9.-]{0,200}$/';
     if (!preg_match($okay_item_name_pattern, $new_item_name)) {
@@ -525,7 +522,7 @@ if ($action == 'showdir') {
     $valid_target_dirs = searchdir($uploads_dir."/", 1, "DIRS");
     unset($valid_target_dirs[0]); // Remove first element (which is $uploads_dir itself)
 
-    $item_name = $_POST['item_name'];
+    $item_name = @$_POST['item_name'];
     confirmIsLocalFile($item_name);
 
     echo "<p><b>"._("Warning:")."</b> "._("Moving a file to another user cannot be undone.")."</p>";
@@ -564,13 +561,12 @@ if ($action == 'showdir') {
 // -----------------------------------------------------------------------------
 } else if ($action == 'move') {
 
-    $item_name = $_POST['item_name'];
-
+    $item_name = @$_POST['item_name'];
     confirmIsLocalFile($item_name);
 
     $src_path = "$curr_abspath/$item_name";
 
-    $dst_dir_relpath = $_POST['target_dir'];
+    $dst_dir_relpath = @$_POST['target_dir'];
 
     $dst_dir_relpath = trim($dst_dir_relpath, '/');
     if ( str_contains($dst_dir_relpath, '/')
@@ -608,8 +604,7 @@ if ($action == 'showdir') {
 // -----------------------------------------------------------------------------
 } else if ($action == 'download') {
 
-    $item_name = $_POST['item_name'];
-
+    $item_name = @$_POST['item_name'];
     confirmIsLocalFile($item_name);
 
     $src_path = "$curr_abspath/$item_name";
@@ -633,8 +628,8 @@ if ($action == 'showdir') {
     theme($page_title, "header");
     echo "<h1>$page_title</h1>\n";
 
-    $item_name = $_POST['item_name'];
-    confirmIsLocal('FD', $item_name, TRUE);
+    $item_name = @$_POST['item_name'];
+    confirmIsLocal('FD', $item_name);
 
     $item_path = "$curr_abspath/$item_name";
 
@@ -670,7 +665,7 @@ if ($action == 'showdir') {
 // -----------------------------------------------------------------------------
 } else if ($action == 'delete') {
 
-    $item_name = $_POST['del_file'];
+    $item_name = @$_POST['del_file'];
     confirmIsLocal('FD', $item_name);
 
     $src_path = "$curr_abspath/$item_name";
