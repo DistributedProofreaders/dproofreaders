@@ -62,12 +62,12 @@ if ($access_mode == 'common' ) {
 }
 
 if (is_null($home_dirname)) {
-    $page_title = sprintf( _("Manage your %s folder"), $uploads_account );
+    $page_title = sprintf(_("Manage your %s folder"), hce($uploads_account));
     theme($page_title, "header");
     echo "<h1>$page_title</h1>\n";
     echo "<p>" . _("Your user permissions do not allow access to this script.") . "</p>";
-    echo "<p>" . sprintf( _("If you are a Content Provider, please email db-req with the subject '%s access request' and request access to the 'common' %s area in the body of your message."), $uploads_account, $uploads_account) . "</p>";
-    echo "<p>" . sprintf( _("If you are a Missing Pages Provider, please email db-req with the subject '%s access request' and request 'self' access to %s."), $uploads_account, $uploads_account). "</p>";
+    echo "<p>" . sprintf(_("If you are a Content Provider, please email db-req with the subject '%s access request' and request access to the 'common' %s area in the body of your message."), hce($uploads_account), hce($uploads_account)) . "</p>";
+    echo "<p>" . sprintf(_("If you are a Missing Pages Provider, please email db-req with the subject '%s access request' and request 'self' access to %s."), hce($uploads_account), hce($uploads_account)). "</p>";
     theme("", "footer");
     exit;
 }
@@ -217,10 +217,10 @@ if ($action == 'showdir') {
     // are sent, which is why a flag for this exists above.
 
     if ( $home_dir_created ) {
-        showMessage('info', sprintf(_("Home folder created for user %s."), $pguser));
+        showMessage('info', sprintf(_("Home folder created for user %s."), hce($pguser)));
     }
 
-    echo "<p>" . sprintf( _("This page allows you to manage content in this %s folder.<br>Additional file management features are gradually being added. See Current Conditions, below."), $uploads_account ) . "</p>\n";
+    echo "<p>" . sprintf(_("This page allows you to manage content in this %s folder.<br>Additional file management features are gradually being added. See Current Conditions, below."), hce($uploads_account)) . "</p>\n";
 
     if (dpscans_access_mode($pguser) == 'common') {
         showMessage('info', _("Because you are not a PM, your files are located in a common, shared area.<br><u>Please take care to avoid affecting other users' files.</u>"));
@@ -496,7 +496,7 @@ if ($action == 'showdir') {
     $new_item_path = "$curr_abspath/$new_item_name";
 
     if (file_exists($new_item_path)) {
-        fatalError( sprintf(_("%s already exists"), $new_item_name) );
+        fatalError(sprintf(_("%s already exists"), hce($new_item_name)));
     }
 
     $r = @rename($item_path, $new_item_path);
