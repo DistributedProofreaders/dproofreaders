@@ -424,8 +424,7 @@ if ($action == 'showdir') {
         // but the pattern could change.
     }
 
-    $r = mkdir($new_dir_abspath);
-    if (!$r) {
+    if (!mkdir($new_dir_abspath)) {
         fatalError( sprintf(_("Unable to create folder")) );
     }
 
@@ -493,8 +492,7 @@ if ($action == 'showdir') {
         fatalError(sprintf(_("%s already exists"), hce($new_item_name)));
     }
 
-    $r = @rename($item_path, $new_item_path);
-    if (!$r) {
+    if (!@rename($item_path, $new_item_path)) {
         fatalError( sprintf(_("Unable to rename item %s as %s."), hce($item_name), hce($new_item_name)) );
     }
 
@@ -587,8 +585,7 @@ if ($action == 'showdir') {
         fatalError( _("File already exists in destination folder.") );
     }
 
-    $result = @rename($src_path, $dst_path);
-    if (!$result) {
+    if (!@rename($src_path, $dst_path)) {
         fatalError( sprintf(_("Unable to move file %s to destination folder: %s."), hce($item_name), hce($dst_dir_relpath)) );
     }
 
@@ -607,8 +604,7 @@ if ($action == 'showdir') {
     header("Content-type: " . mime_content_type($src_path) );
     header("Content-disposition: attachment; filename=\"$slashed_item_name\"");
 
-    $r = @readfile($src_path);
-    if ( $r === FALSE ) {
+    if (@readfile($src_path) === FALSE) {
         // Switch back to HTML in order to show the error message (and return-link).
         header("Content-type: text/html");
         header("Content-disposition: inline");
@@ -669,10 +665,7 @@ if ($action == 'showdir') {
 
     // For safety, we move the item into TRASH and let the
     // existing cron job remove it instead of using unlink()
-    $result = @rename($src_path, $dst_path);
-
-    // Handle errors
-    if (!$result) {
+    if (!@rename($src_path, $dst_path)) {
         fatalError( sprintf(_("Unable to move %s to TRASH folder."), hce($item_name)) );
     }
 
