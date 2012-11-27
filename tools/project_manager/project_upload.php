@@ -217,25 +217,19 @@ if ($action == 'showdir') {
         showMessage('info', $autoprefix_message);
     }
 
-    $upload_preamble = _("Click the button to upload a file to this folder:");
-    $upload_label = _("Upload a File");
-    echo "<div style='border: 1px solid grey; margin-left: .5em; padding: .25em;'>\n";
-    echo "<form style='margin: 0em;' action='?' method='POST' enctype='multipart/form-data'>\n";
-    echo "<input type='hidden' name='action' value='showupload'>\n";
-    echo "<input type='hidden' name='cdrp' value='$hae_curr_relpath'>\n";
-    echo "$upload_preamble&nbsp;<input type='submit' value='$upload_label'>\n";
-    echo "</form>\n";
-    echo "</div>\n";
+    showForm(
+        'showupload',
+        $curr_relpath,
+        _("Click the button to upload a file to this folder:"),
+        _("Upload a File")
+    );
 
-    $mkdir_preamble = _("Click the button to create a new subfolder:");
-    $mkdir_label = _("Create a Subfolder");
-    echo "<div style='border: 1px solid grey; margin-left: .5em; padding: .25em;'>\n";
-    echo "<form style='margin: 0em;' action='?' method='POST' enctype='multipart/form-data'>\n";
-    echo "<input type='hidden' name='action' value='showmkdir'>\n";
-    echo "<input type='hidden' name='cdrp' value='$hae_curr_relpath'>\n";
-    echo "$mkdir_preamble&nbsp;<input type='submit' value='$mkdir_label'>\n";
-    echo "</form>\n";
-    echo "</div>\n";
+    showForm(
+        'showmkdir',
+        $curr_relpath,
+        _("Click the button to create a new subfolder:"),
+        _("Create a Subfolder")
+    );
 
     // Display the directory listing
     showContent();
@@ -255,19 +249,20 @@ if ($action == 'showdir') {
     theme($page_title, "header");
     echo "<h1>$page_title</h1>\n";
 
-    echo "<div style='border: 1px solid grey; margin-left: .5em; padding: .25em;'>\n";
-    echo "<form style='margin: 0em;' action='?' method='POST' enctype='multipart/form-data'>\n";
-    echo "<input type='hidden' name='action' value='upload'>\n";
-    echo "<input type='hidden' name='cdrp' value='$hae_curr_relpath'>\n";
+    $form_content = "";
     if (dpscans_access_mode($pguser) == 'common') {
-        showMessage('info', $autoprefix_message);
+        $form_content .= getMessage('info', $autoprefix_message);
     }
-    echo "<p style='margin-top: 0em;'>$standard_blurb</p>\n";
-    echo _("File to upload:")."&nbsp;";
-    echo "<input type='file' name='the_file' size='25' maxsize='50'>&nbsp;";
-    echo "<input type='submit' value='" . _("Upload") ."'>\n";
-    echo "</form>\n";
-    echo "</div>\n";
+    $form_content .= "<p style='margin-top: 0em;'>$standard_blurb</p>\n";
+    $form_content .= _("File to upload:") . "&nbsp;";
+    $form_content .= "<input type='file' name='the_file' size='25' maxsize='50'>";
+
+    showForm(
+        'upload',
+        $curr_relpath,
+        $form_content,
+        _("Upload")
+    );
 
     // Display the users directory listing
 //    showContent();
@@ -395,15 +390,13 @@ if ($action == 'showdir') {
     theme($page_title, "header");
     echo "<h1>$page_title</h1>\n";
 
-    echo "<div style='border: 1px solid grey; margin-left: .5em; padding: .25em;'>\n";
-    echo "<form style='margin: 0em;' action='?' method='POST' enctype='multipart/form-data'>\n";
-    echo "<input type='hidden' name='action' value='mkdir'>\n";
-    echo "<input type='hidden' name='cdrp' value='$hae_curr_relpath'>\n";
-    echo _("Name of subfolder to create:")."&nbsp;";
-    echo "<input type='text' name='new_dir_name' size='25' maxsize='50'>&nbsp;";
-    echo "<input type='submit' value='" . _("Create") ."'>\n";
-    echo "</form>\n";
-    echo "</div>\n";
+    $form_content = _("Name of subfolder to create:") ."&nbsp;<input type='text' name='new_dir_name' size='25' maxsize='50'>";
+    showForm(
+        'mkdir',
+        $curr_relpath,
+        $form_content,
+        _("Create")
+    );
 
     showReturnLink();
     theme("", "footer");
@@ -445,21 +438,19 @@ if ($action == 'showdir') {
     $item_name = @$_POST['item_name'];
     confirmIsLocal('FD', $item_name, TRUE);
 
-    $hae_item_name = hae($item_name);
-
-    echo "<form style='margin: 0em;' action='?' method='POST' enctype='multipart/form-data'>\n";
-    echo "<input type='hidden' name='action' value='rename'>\n";
-    echo "<input type='hidden' name='cdrp' value='$hae_curr_relpath'>\n";
-    echo "<input type='hidden' name='item_name' value='$hae_item_name'>\n";
-    echo "<p>";
-    echo sprintf(
+    $form_content = "<input type='hidden' name='item_name' value='" . hae($item_name) . "'>\n";
+    $form_content .= sprintf(
         _("Rename %s as %s"),
         hce($item_name),
         "<input type='text' name='new_item_name' size='25'>"
     );
-    echo "<input type='submit' value='". _("Rename") . "'>\n";
-    echo "</p>\n";
-    echo "</form>\n";
+
+    showForm(
+        'rename',
+        $curr_relpath,
+        $form_content,
+        _("Rename")
+    );
 
     showReturnLink();
     theme("", "footer");
@@ -527,12 +518,8 @@ if ($action == 'showdir') {
     $item_name = @$_POST['item_name'];
     confirmIsLocalFile($item_name);
 
-    echo "<p><b>"._("Warning:")."</b> "._("Moving a file to another user cannot be undone.")."</p>";
-    echo "<form style='margin: 0em;' action='?' method='POST' enctype='multipart/form-data'>\n";
-    echo "<input type='hidden' name='action' value='move'>\n";
-    echo "<input type='hidden' name='cdrp' value='$hae_curr_relpath'>\n";
-    echo "<p>"._("Select the folder of the user who should receive this file:")."&nbsp;";
-    echo "<select name='target_dir'>\n";
+    $form_content  = "<p>"._("Select the folder of the user who should receive this file:")."&nbsp;";
+    $form_content .= "<select name='target_dir'>\n";
 
     foreach($valid_target_dirs as $u) {
         // Don't display the current directory, it's not a valid target
@@ -541,21 +528,22 @@ if ($action == 'showdir') {
         $w = explode("/", trim($u, "/")); // Get rid of leading and trailing slash first
         $v = array_pop($w);
 
-        $hae_v = hae($v);
-        $hce_v = hce($v);
-        echo "<option value='$hae_v'>$hce_v</option>\n";
+        $form_content .= "<option value='" . hae($v) . "'>" . hce($v) . "</option>\n";
     }
-    echo "</select>\n";
-
-    $hae_item_name = hae($item_name);
-    $question = sprintf(
+    $form_content .= "</select>\n";
+    $form_content .= "<p><b>" . sprintf(
         _("Are you sure you want to move&nbsp;%s&nbsp;?"),
-        "<input type='text' name='item_name' size='25' maxsize='50' value='$hae_item_name' READONLY>"
+        "<input type='text' name='item_name' size='25' maxsize='50' value='" . hae($item_name) . "' READONLY>"
+    ) . "</b>";
+
+    echo "<p><b>"._("Warning:")."</b> "._("Moving a file to another user cannot be undone.")."</p>";
+    showForm(
+        'move',
+        $curr_relpath,
+        $form_content,
+        _("Move File")
     );
-    echo "<p><b>$question</b>&nbsp;";
-    echo "<input type='submit' value='" . _("Move File") ."'>\n";
-    echo "</p>";
-    echo "</form>\n";
+
 
     showReturnLink();
     theme("", "footer");
@@ -645,21 +633,18 @@ if ($action == 'showdir') {
         fatalError( _("Unable to determine status of delete request.") );
     }
 
-    $hae_item_name = hae($item_name);
-    $question = sprintf( $question_template,
-        "<input type='text' name='del_file' size='25' maxsize='50' value='$hae_item_name' READONLY>" );
+    $form_content  = "<p style='margin-top: 0em;'><b>"._("Warning:")."</b> ";
+    $form_content .= _("Deletion is permanent and cannot be undone.")."<br> ";
+    $form_content .= _("This script does not check that folders are empty. ");
+    $form_content .= "<b>" . sprintf( $question_template,
+        "<input type='text' name='del_file' size='25' maxsize='50' value='" . hae($item_name) . "' READONLY>" ) . "</b>";
 
-    $standard_blurb = "<b>"._("Warning:")."</b> "._("Deletion is permanent and cannot be undone.")."<br> "._("This script does not check that folders are empty.");
-
-    echo "<div style='border: 1px solid grey; margin-left: .5em; padding: .25em;'>\n";
-    echo "<p style='margin-top: 0em;'>$standard_blurb</p>";
-    echo "<form style='margin: 0em;' action='?' method='POST' enctype='multipart/form-data'>\n";
-    echo "<input type='hidden' name='action' value='delete'>\n";
-    echo "<input type='hidden' name='cdrp' value='$hae_curr_relpath'>\n";
-    echo "<b>$question</b>";
-    echo "<input type='submit' value='" . _("Delete") ."'>\n";
-    echo "</form>\n";
-    echo "</div>\n";
+    showForm(
+        'delete',
+        $curr_relpath,
+        $form_content,
+        _("Delete")
+    );
 
     showReturnLink();
     theme("", "footer");
@@ -970,8 +955,8 @@ function fatalError($message) {
     exit();
 }
 
-// Display a formatted informational or error message
-function showMessage($type, $message) {
+// return or echo a formatted informational or error message
+function getMessage($type, $message) {
     if ($type == 'error') {
         $prefix = _("ERROR:");
         $style = "color: red;";
@@ -980,7 +965,11 @@ function showMessage($type, $message) {
         $style = "background-color: lightgreen; color: black;";
     }
     $style .= " border: 1px solid black; padding: .5em; margin: 0.8em 0;";
-    echo "<div style='$style'><b>$prefix</b> $message</div>\n";
+    return "<div style='$style'><b>$prefix</b> $message</div>\n";
+}
+
+function showMessage($type, $message) {
+    echo getMessage($type, $message);
 }
 
 // Display a return link (to the 'showdir' view)
@@ -1032,6 +1021,18 @@ function searchdir( $dir_path, $maxdepth = -1, $mode = "FULL", $d = 0 )
 
 
 // ===================================================================================
+function showForm($action, $cdrp, $form_content, $submit_label)
+{
+    // Display a div with a form containing action and cdrp hidden inputs; some content,
+    // which can be abritrary HTML/other inputs; and finally a labeled submit button
+    echo "<div style='border: 1px solid grey; margin-left: .5em; padding: .25em;'>\n";
+    echo "<form style='margin: 0em;' action='?' method='POST' enctype='multipart/form-data'>\n";
+    echo "<input type='hidden' name='action' value='" . hae($action) . "'>\n";
+    echo "<input type='hidden' name='cdrp' value='" . hae($cdrp) . "'>\n";
+    echo "$form_content&nbsp;<input type='submit' value='$submit_label'>\n";
+    echo "</form>\n";
+    echo "</div>\n";
+}
 
 function showCaveats() {
     echo "<style type='text/css'>\nli { line-height:100%!important; font-size:90%; }\n</style>\n";
