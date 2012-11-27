@@ -372,23 +372,22 @@ if ($action == 'showdir') {
     } else {
         $file_prefix = "";
     }
-    $installed_name = $file_prefix . $file_info['name'];
-    $installed_path = $curr_abspath . "/" . $installed_name;
+    $target_name = $file_prefix . $file_info['name'];
+    $target_path = "$curr_abspath/$target_name";
 
     // XXX
-    // If there's already something at $installed_path,
+    // If there's already something at $temporary_path,
     // this will silently overwrite it.
     // That might or might not be the user's intent.
-
-    if (! @move_uploaded_file($temporary_path, $installed_path) ) {
-        fatalError( _("Failed to install the file.") );
+    if (! @move_uploaded_file($temporary_path, $target_path) ) {
+        fatalError( _("Webserver failed to copy uploaded file from temporary location to upload folder.") );
     }
 
-    echo "<p>" . sprintf(_("File %s successfully uploaded to folder %s."), hce($installed_name), $hce_curr_displaypath), "</p>\n";
+    echo "<p>" . sprintf(_("File %s successfully uploaded to folder %s."), hce($target_name), $hce_curr_displaypath), "</p>\n";
 
     // Log the file upload
     // In part so that we can possibly clean up with some automation later
-    $reporting_string = "DPSCANS: File uploaded to " . $installed_path;
+    $reporting_string = "DPSCANS: File uploaded to " . $target_path;
     error_log($reporting_string);
 
     showReturnLink();
