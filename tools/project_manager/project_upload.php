@@ -913,6 +913,7 @@ function confirmIsLocal($type, $item_name)
 
     assert( $type == 'F' || $type == 'D' || $type == 'FD' );
 
+    // NB this catches $item_name == NULL too
     if ( $item_name == '' ) {
         fatalError( _("Item name must not be empty.") );
     }
