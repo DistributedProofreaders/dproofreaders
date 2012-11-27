@@ -41,23 +41,33 @@ global $pguser;
 $despecialed_username = str_replace( ' ', '_', $pguser );
 
 // Check user's access to the uploads area.
-if (dpscans_access_mode($pguser) === 'common' ) {
+// The user's dpscans setting takes priority:
+// * 'common' means the user gets access to the Commons directory,
+// * 'self' means they get their own home directory
+// * 'disabled' means they have no upload access.
+// Otherwise, the default policy is that PMs, PFs & SAs
+// get their own home dir, and other users have no upload access.
+$access_mode = dpscans_access_mode($pguser);
+if ($access_mode == 'common' ) {
     $home_dirname = "Commons";
     $autoprefix_message = "<b>"._("Uploaded files will automatically be prefixed with your username and an underscore.")."</b>";
-} else if (dpscans_access_mode($pguser) === 'self') {
+} else if ($access_mode == 'self') {
     $home_dirname = $despecialed_username;
+} else if ($access_mode == 'disabled') {
+    $home_dirname = NULL;
 } else if (user_is_PM() || user_is_proj_facilitator() || user_is_a_sitemanager()) {
     $home_dirname = $despecialed_username;
 } else {
+    $home_dirname = NULL;
+}
+
+if (is_null($home_dirname)) {
     $page_title = sprintf( _("Manage your %s folder"), $uploads_account );
     theme($page_title, "header");
     echo "<h1>$page_title</h1>\n";
-    $blurb1 = _("Your user permissions do not allow access to this script.");
-    $blurb2 = sprintf( _("If you are a Content Provider, please email db-req with the subject '%s access request' and request access to the 'common' %s area in the body of your message."), $uploads_account, $uploads_account );
-    $blurb3 = sprintf( _("If you are a Missing Pages Provider, please email db-req with the subject '%s access request' and request 'self' access to %s."), $uploads_account, $uploads_account );
-    echo "<p><b>$blurb1</b></p>";
-    echo "<p>$blurb2</p>";
-    echo "<p>$blurb3</p>";
+    echo "<p>" . _("Your user permissions do not allow access to this script.") . "</p>";
+    echo "<p>" . sprintf( _("If you are a Content Provider, please email db-req with the subject '%s access request' and request access to the 'common' %s area in the body of your message."), $uploads_account, $uploads_account) . "</p>";
+    echo "<p>" . sprintf( _("If you are a Missing Pages Provider, please email db-req with the subject '%s access request' and request 'self' access to %s."), $uploads_account, $uploads_account). "</p>";
     theme("", "footer");
     exit;
 }
