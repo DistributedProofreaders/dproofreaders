@@ -751,7 +751,7 @@ function showContent() {
                 <th class='actions'>$actions_blurb</th>
                 <td><img src='wfb_images/wfb_file.gif'>&nbsp;$hce_item_name</td>
                 <td align='left'><span style='font-family: monospace!important;'>".date ('d-M-Y H:i:s', filemtime($item_path))."</span></td>
-                <td align='right'>".formatFileSize(filesize($item_path))."</td>
+                <td align='right'><span style='font-family: monospace!important;'>".humanizeBytes(filesize($item_path))."</span></td>
             </tr>
             ";
         } elseif (is_dir($item_path)) {
@@ -869,23 +869,16 @@ function getActionsBlock( $item_name, $valid_actions )
     return $form;
 }
 
-// Prettyprinting for filesizes
-function formatFileSize($sizeInBytes, $precision=1) {
-    if ($sizeInBytes < 1024) {
-        $formatted_size = $sizeInBytes;
-        $formatted_unit = "b";
-    } else {
-        $k = intval($sizeInBytes/1024);
-        if ($k < 1024) {
-            $formatted_size = $k;
-            $formatted_unit = "k";
-        } else {
-            $m = number_format((($sizeInBytes/1024) / 1024), $precision);
-            $formatted_size = $m;
-            $formatted_unit = "M";
-        }
+// Represent $n bytes as a  $m kB-- $m PB string
+function humanizeBytes($n)
+{
+    $fmt   = "%d B";
+    $units = array("PB", "TB", "GB", "MB", "kB");
+    while($n >= 1024) {
+        $n   /= 1024.0;
+        $fmt  = "%.2f " . array_pop($units);
     }
-    return $formatted_size . "&nbsp;<span style='font-family: monospace!important;'>$formatted_unit</span>";
+    return sprintf($fmt, $n);
 }
 
 function confirmIsLocalFile($filename)
