@@ -72,6 +72,12 @@ if (is_null($home_dirname)) {
     exit;
 }
 
+// Access predicates
+function user_may_access_all_upload_dirs()
+{
+    return user_is_a_sitemanager();
+}
+
 $home_path = "$uploads_dir/$home_dirname";
 
 // Create the user's home directory if it doesn't yet exist.
@@ -143,10 +149,9 @@ if (TRUE) {
     }
 }
 
-// XXX
-// Do we restrict a user to their home directory and its descendants?
-if (TRUE) {
-    if (!startswith("$cdrp_sanitized/", "/$home_dirname/")) {
+// Only SAs are allowed access other home folders.
+if (!user_may_access_all_upload_dirs()) {
+    if (!startswith("$cdrp_sanitized/", "$home_dirname/")) {
         fatalError( _("You are restricted to your home folder and its descendants") );
     }
 }
@@ -721,9 +726,12 @@ function showContent() {
     ";
 
     // Always put the "up" entry at the top.
-    if ( str_contains($curr_relpath,'/') )
+    // Allow parent directory access if we're in a user's subdir, or the user has access to
+    // all directories, and isn't already in the root upload directory.
+    if (str_contains($curr_relpath, '/') || ($curr_relpath != '' && user_may_access_all_upload_dirs()))
     {
         $parent_relpath = dirname($curr_relpath);
+        if ($parent_relpath == '.' || $parent_relpath == '/') $parent_relpath = ''; // Canonicalise the root dir.
         $url = "?cdrp=" . urlencode($parent_relpath);
         $text = _("up one level");
         echo "
@@ -756,7 +764,13 @@ function showContent() {
         } elseif (is_dir($item_path)) {
             $actions_blurb =
                 getActionsBlock( $item_name, array('showdelete', 'showrename') );
-            $url = "?cdrp=" . urlencode("$curr_relpath/$item_name");
+            // If we're in the root directory, subdir paths must be 'foo', not '/foo' to be canonical
+            if ($curr_relpath == "") {
+                $url = "?cdrp=" . urlencode($item_name);
+            } else {
+                $url = "?cdrp=" . urlencode("$curr_relpath/$item_name");
+            }
+
             echo "
             <tr>
                 <th class='actions'>$actions_blurb</th>
