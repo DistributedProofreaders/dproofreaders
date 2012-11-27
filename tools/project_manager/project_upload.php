@@ -523,14 +523,12 @@ if ($action == 'showdir') {
     $form_content  = "<p>"._("Select the folder of the user who should receive this file:")."&nbsp;";
     $form_content .= "<select name='target_dir'>\n";
 
-    foreach($valid_target_dirs as $u) {
+    foreach($valid_target_dirs as $full_dir) {
         // Don't display the current directory, it's not a valid target
-        if ($u == "$curr_abspath/") continue;
+        if ($full_dir == "$curr_abspath/") continue;
+        $dir = basename($full_dir);
 
-        $w = explode("/", trim($u, "/")); // Get rid of leading and trailing slash first
-        $v = array_pop($w);
-
-        $form_content .= "<option value='" . hae($v) . "'>" . hce($v) . "</option>\n";
+        $form_content .= "<option value='" . hae($dir) . "'>" . hce($dir) . "</option>\n";
     }
     $form_content .= "</select>\n";
     $form_content .= "<p><b>" . sprintf(
