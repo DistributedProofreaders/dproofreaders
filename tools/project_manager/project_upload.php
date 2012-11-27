@@ -124,28 +124,21 @@ $cdrp = array_get($_REQUEST, 'cdrp', $home_dirname);
 // $cdrp = '/././e/f/';
 // $cdrp = 'e/f';
 
-// To simplify subsequent patterns, temporarily tack a slash on either end.
-$cdrp_temp1 = "/$cdrp/";
-
-// If any component of the path is '..'
-// the requester is trying something sneaky.
-if (str_contains($cdrp_temp1, '/../')) {
-    fatalError( _("Invalid cdrp") );
+// Canonicalise input paths by splitting into components,
+// removing empty components, rejecting parent traversal,
+// and re-joining them.
+$cdrp_sanitized = array();
+foreach(split('/', $cdrp) as $c) {
+    if ($c == '..') fatalError( _("Invalid cdrp"));
+    if ($c == '' || $c == '.') continue;
+    $cdrp_sanitized[] = $c;
 }
-
-// Do some normalization on the path.
-// 1. Collapse consecutive slashes.
-// 2. Eliminate components consisting only of '.'.
-$cdrp_temp2 = preg_replace(
-    array('!/+!', '!/\.(?=/)!'), 
-    array('/',     ''),
-    $cdrp_temp1
-);
+$cdrp_sanitized = join('/', $cdrp_sanitized);
 
 // XXX
 // Do we reject any cdrp that isn't in normalized form?
 if (TRUE) {
-    if ($cdrp_temp2 != $cdrp_temp1) {
+    if ($cdrp_sanitized != $cdrp) {
         fatalError( _("cdrp was not in normalized form") );
     }
 }
@@ -153,25 +146,22 @@ if (TRUE) {
 // XXX
 // Do we restrict a user to their home directory and its descendants?
 if (TRUE) {
-    if (!startswith($cdrp_temp2, "/$home_dirname/")) {
+    if (!startswith("$cdrp_sanitized/", "/$home_dirname/")) {
         fatalError( _("You are restricted to your home folder and its descendants") );
     }
 }
 
-// At the point, we can get rid of the end-slashes:
-$cdrp_temp3 = trim($cdrp_temp2, '/');
-
 // Finally, does the specified directory actually exist?
-if (!is_dir("$uploads_dir/$cdrp_temp3")) {
+if (!is_dir("$uploads_dir/$cdrp_sanitized")) {
     // (It's possible a user could get this without URL-tweaking,
     // if they deleted a directory but still had an old directory listing
     // in another browser window.)
-    fatalError( sprintf(_("'%s' does not exist, or is not a folder"), hce($cdrp_temp3)) );
+    fatalError( sprintf(_("'%s' does not exist, or is not a folder"), hce($cdrp_sanitized)) );
 }
 
 // Yay, cdrp has passed all the tests!
 
-$curr_relpath = $cdrp_temp3;
+$curr_relpath = $cdrp_sanitized;
 
 $curr_abspath = "$uploads_dir/$curr_relpath";
 // The absolute path of the current directory.
