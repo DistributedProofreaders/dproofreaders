@@ -598,6 +598,12 @@ if ($action == 'showdir') {
 
     $src_path = "$curr_abspath/$item_name";
 
+    // The validated filenames we're using don't use any characters requiring escaping,
+    // and the escaping of Content-Disposition filenames is complex mess due to late
+    // standardization and differing browser implementations. For US-ASCII though,
+    // quoted & backslash-escaped names is enough. See the following URLs for more:
+    // http://stackoverflow.com/questions/93551/how-to-encode-the-filename-parameter
+    // http://greenbytes.de/tech/tc2231/
     $slashed_item_name = addslashes($item_name);
     header("Content-type: " . mime_content_type($src_path) );
     header("Content-disposition: attachment; filename=\"$slashed_item_name\"");
