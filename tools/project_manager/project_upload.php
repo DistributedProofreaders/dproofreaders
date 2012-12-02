@@ -132,14 +132,21 @@ $cdrp = array_get($_REQUEST, 'cdrp', $home_dirname);
 
 // Canonicalise input paths by splitting into components,
 // removing empty components, rejecting parent traversal,
-// and re-joining them.
-$cdrp_sanitized = array();
-foreach(split('/', $cdrp) as $c) {
-    if ($c == '..') fatalError( _("Invalid cdrp"));
-    if ($c == '' || $c == '.') continue;
-    $cdrp_sanitized[] = $c;
+// and re-joining them. Returns False is path contains
+// invalid components.
+function canonicalize_path($relpath)
+{
+    $canonical_path = array();
+        foreach(explode('/', $relpath) as $c) {
+        if ($c == '..') return False;
+        if ($c == '' || $c == '.') continue;
+        $canonical_path[] = $c;
+    }
+    return join('/', $canonical_path);
 }
-$cdrp_sanitized = join('/', $cdrp_sanitized);
+
+$cdrp_sanitized = canonicalize_path($cdrp);
+if ($cdrp_sanitized === False) fatalError( _("Invalid cdrp"));
 
 // XXX
 // Do we reject any cdrp that isn't in normalized form?
