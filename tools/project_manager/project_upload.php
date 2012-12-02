@@ -52,11 +52,11 @@ if ($access_mode == 'common' ) {
     $home_dirname = "Commons";
     $autoprefix_message = "<b>"._("Uploaded files will automatically be prefixed with your username and an underscore.")."</b>";
 } else if ($access_mode == 'self') {
-    $home_dirname = $despecialed_username;
+    $home_dirname = "Users/$despecialed_username";
 } else if ($access_mode == 'disabled') {
     $home_dirname = NULL;
 } else if (user_is_PM() || user_is_proj_facilitator() || user_is_a_sitemanager()) {
-    $home_dirname = $despecialed_username;
+    $home_dirname = "Users/$despecialed_username";
 } else {
     $home_dirname = NULL;
 }
@@ -77,6 +77,38 @@ function user_may_access_all_upload_dirs()
 {
     return user_is_a_sitemanager();
 }
+
+// Is this a subdirectory of the user's home dir?
+function is_subdir_of_home($dir)
+{
+    global $home_dirname;
+    // Does the path start with the home dir?
+    // If not, it can't be this user's subdirectory
+    if (strpos($dir, "$home_dirname/") !== 0) return False;
+
+    // If there's anything left in the path after stripping
+    // off the home dir prefix, it's a user subdirectory.
+    $rel = substr($dir, strlen("$home_dirname/"));
+    return strlen($rel) !== 0;
+}
+
+// May the user move files to the specified relative directory?
+function is_valid_move_destination($dir)
+{
+    // Users may move files to the commons directory
+    if ($dir == "Commons") return True;
+
+    // Users may not move files anywhere else except the Users dir.
+    if (strpos($dir, "Users/") !== 0) return False;
+    $rel = substr($dir, strlen("Users/"));
+
+    // Users may only move files to a user's home directory root
+    // and not a subdirectory of it.
+    return strpos($rel, "/") === False;
+}
+
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 $home_path = "$uploads_dir/$home_dirname";
 
@@ -518,11 +550,14 @@ if ($action == 'showdir') {
     theme($page_title, "header");
     echo "<h1>$page_title</h1>\n";
 
-    // Get an array of all directory names in the uploads directory
+    // Get an array of all directory names in the Users directory
     // This is used to identify the "target user"
     // (Which really means that user's directory).
-    $valid_target_dirs = searchdir($uploads_dir."/", 1, "DIRS");
-    unset($valid_target_dirs[0]); // Remove first element (which is $uploads_dir itself)
+    $valid_target_dirs = searchdir("$uploads_dir/Users", 1, "DIRS");
+    // Remove first element (which is $uploads_dir itself)
+    unset($valid_target_dirs[0]);
+    // Allow users to tranfer files to Commons too
+    array_unshift($valid_target_dirs, "$uploads_dir/Commons/");
 
     $item_name = @$_POST['item_name'];
     confirmIsLocalFile($item_name);
@@ -533,7 +568,7 @@ if ($action == 'showdir') {
     foreach($valid_target_dirs as $full_dir) {
         // Don't display the current directory, it's not a valid target
         if ($full_dir == "$curr_abspath/") continue;
-        $dir = basename($full_dir);
+        $dir = rtrim(substr($full_dir, strlen("$uploads_dir/")), '/');
 
         $form_content .= "<option value='" . hae($dir) . "'>" . hce($dir) . "</option>\n";
     }
@@ -563,14 +598,9 @@ if ($action == 'showdir') {
 
     $src_path = "$curr_abspath/$item_name";
 
-    $dst_dir_relpath = @$_POST['target_dir'];
+    $dst_dir_relpath = canonicalize_path(trim(@$_POST['target_dir'], '/'));
 
-    $dst_dir_relpath = trim($dst_dir_relpath, '/');
-    if ( str_contains($dst_dir_relpath, '/')
-        || $dst_dir_relpath == '..'
-        || $dst_dir_relpath == '.'
-        || $dst_dir_relpath == ''
-    ) {
+    if ($dst_dir_relpath === False || !is_valid_move_destination($dst_dir_relpath)) {
         fatalError( _("Invalid target folder") );
     }
 
@@ -730,12 +760,13 @@ function showContent() {
     ";
 
     // Always put the "up" entry at the top.
-    // Allow parent directory access if we're in a user's subdir, or the user has access to
+    // Allow parent directory access if we're in a user-owned subdir, or the user has access to
     // all directories, and isn't already in the root upload directory.
-    if (str_contains($curr_relpath, '/') || ($curr_relpath != '' && user_may_access_all_upload_dirs()))
+    if (is_subdir_of_home($curr_relpath) || ($curr_relpath != '' && user_may_access_all_upload_dirs()))
     {
         $parent_relpath = dirname($curr_relpath);
-        if ($parent_relpath == '.' || $parent_relpath == '/') $parent_relpath = ''; // Canonicalise the root dir.
+        // Canonicalise the root dir so it passes the CDRP checks
+        if ($parent_relpath == '.' || $parent_relpath == '/') $parent_relpath = '';
         $url = "?cdrp=" . urlencode($parent_relpath);
         $text = _("up one level");
         echo "
