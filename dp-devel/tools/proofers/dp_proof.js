@@ -436,24 +436,20 @@ function title_case(str)
 
 function lc_common(str)
 {
-    str_array = str.split(' ');
-    common_lc_words = new Array('And','Of','The','In','On','De','Van','Am','Pm','Bc','Ad','A','An','At','By','For','La','Le');
+    words = str.split(' ');
+    common_lc_words = ':And:Of:The:In:On:De:Van:Am:Pm:Bc:Ad:A:An:At:By:For:La:Le:';
 
-    for(i=0;i<str_array.length;i++)
+    for(i = 0; i < words.length; i++)
     {
-        var cur_word = str_array[i];
-        for(n=0;n<common_lc_words.length;n++) 
+        // If the word appears in the :-delimited list above, it should be lower case
+        if (common_lc_words.indexOf(':' + words[i] + ':') != -1)
         {
-            if (common_lc_words[n]==cur_word)
-            {
-                str_array[i] = cur_word.toLowerCase();
-            }
+            words[i] = words[i].toLowerCase();
         }
     }
     // Make the first letter uppercase.
-    str_array[0] = str_array[0].substr(0,1).toUpperCase() + str_array[0].substr(1,str_array[0].length);
-    str = str_array.join(' ');
-    return str;
+    words[0] = words[0][0].toUpperCase() + words[0].substr(1);
+    return words.join(' ');
 }
 
 // vim: sw=4 ts=4 expandtab
