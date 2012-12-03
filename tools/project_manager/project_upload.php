@@ -366,8 +366,14 @@ if ($action == 'showdir') {
 
     // Verify that what was uploaded is actually a zip archive
     $zip_test_result = array();
-    $zip_retval=0;
-    exec("/usr/bin/file -b -i $temporary_path", $zip_test_result, $zip_retval);
+    $zip_retval = 0;
+
+    // /usr/bin/file
+    // -b: brief output
+    // -i: input file
+    // --: don't parse any further arguments starting with -/-- as options
+    $cmd = "/usr/bin/file -b -i -- " . escapeshellcmd($temporary_path);
+    exec($cmd, $zip_test_result, $zip_retval);
     list($file_type) = explode(';', $zip_test_result[0], 2);
     if ($file_type == 'application/x-zip' ||
         $file_type == 'application/zip') {
@@ -381,7 +387,11 @@ if ($action == 'showdir') {
     // Anti-virus check: perform 'clamscan <FILENAME>' and expect return value = 0
     $av_test_result = array();
     $av_retval=0;
-    if (!$testing) exec("/usr/bin/clamscan $temporary_path", $av_test_result, $av_retval);
+
+    // /usr/bin/clamscan
+    // --: don't parse any further arguments starting with -/-- as options
+    $cmd = "/usr/bin/clamscan -- " . escapeshellcmd($temporary_path);
+    if (!$testing) exec($cmd, $av_test_result, $av_retval);
     if ($av_retval == 0) {
         showMessage('info', _("OK: AV pass."));
     } else if ($av_retval == 1) {
