@@ -220,6 +220,9 @@ $hce_curr_displaypath = hce($curr_displaypath);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+
+// Decide what to do based on the action parameter
+
 $action = @$_REQUEST['action'];
 if (is_null($action)) {
     // Two possibilities:
@@ -240,8 +243,30 @@ if (is_null($action)) {
     }
 }
 
-// -----------------------------------------------------------------------------
-if ($action == 'showdir') {
+switch ($action) {
+    case 'showdir':    do_showdir();    break;
+    case 'showupload': do_showupload(); break;
+    case 'upload':     do_upload();     break;
+    case 'showmkdir':  do_showmkdir();  break;
+    case 'mkdir':      do_mkdir();      break;
+    case 'showrename': do_showrename(); break;
+    case 'rename':     do_rename();     break;
+    case 'showmove':   do_showmove();   break;
+    case 'move':       do_move();       break;
+    case 'download':   do_download();   break;
+    case 'showdelete': do_showdelete(); break;
+    case 'delete':     do_delete();     break;
+    default:
+        // no matching $action in input
+        fatalError(sprintf(_("Invalid action: '%s'"), hce($action)));
+        break;
+}
+
+function do_showdir()
+{
+    global $curr_relpath, $hce_curr_displaypath;
+    global $uploads_account, $pguser, $home_dir_created, $autoprefix_message;
+
     $page_title =  sprintf( _("Manage folder %s"), $hce_curr_displaypath );
     theme($page_title, "header");
     echo "<h1>$page_title</h1>\n";
@@ -282,9 +307,12 @@ if ($action == 'showdir') {
     showCaveats();
 
     theme("", "footer");
+}
 
-// -----------------------------------------------------------------------------
-} else if ($action == 'showupload') {
+function do_showupload()
+{
+    global $curr_relpath, $hce_curr_displaypath;
+    global $pguser, $autoprefix_message;
 
     $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.).<br> The file should have the .zip extension, NOT .Zip, .ZIP, etc.<br>The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen.");
     $submit_blurb = _("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
@@ -313,9 +341,12 @@ if ($action == 'showdir') {
 
     showReturnLink();
     theme("", "footer");
+}
 
-// -----------------------------------------------------------------------------
-} else if ($action == 'upload') {
+function do_upload()
+{
+    global $curr_abspath, $hce_curr_displaypath, $testing;
+    global $pguser, $despecialed_username;
 
     set_time_limit(14400);
 
@@ -425,9 +456,11 @@ if ($action == 'showdir') {
     error_log($reporting_string);
 
     showReturnLink();
+}
 
-// -----------------------------------------------------------------------------
-} else if ($action == 'showmkdir') {
+function do_showmkdir()
+{
+    global $curr_relpath, $hce_curr_displaypath;
 
     $page_title =  sprintf( _("Create a subfolder in folder %s"), $hce_curr_displaypath );
     theme($page_title, "header");
@@ -443,9 +476,11 @@ if ($action == 'showdir') {
 
     showReturnLink();
     theme("", "footer");
+}
 
-// -----------------------------------------------------------------------------
-} else if ($action == 'mkdir') {
+function do_mkdir()
+{
+    global $curr_abspath;
 
     $new_dir_name = @$_POST['new_dir_name'];
 
@@ -468,9 +503,11 @@ if ($action == 'showdir') {
 
     showMessage('info', sprintf(_("Created folder %s"), hce($new_dir_name)));
     showReturnLink();
+}
 
-// -----------------------------------------------------------------------------
-} else if ($action == 'showrename') {
+function do_showrename()
+{
+    global $curr_relpath;
 
     $page_title =  _("Rename an item");
     theme($page_title, "header");
@@ -495,9 +532,11 @@ if ($action == 'showdir') {
 
     showReturnLink();
     theme("", "footer");
+}
 
-// -----------------------------------------------------------------------------
-} else if ($action == 'rename') {
+function do_rename()
+{
+    global $curr_abspath;
 
     $item_name = @$_POST['item_name'];
     confirmIsLocal('FD', $item_name);
@@ -535,9 +574,11 @@ if ($action == 'showdir') {
 
     showMessage('info', sprintf(_("Item %s has been renamed as %s."), hce($item_name), hce($new_item_name)));
     showReturnLink();
+}
 
-// -----------------------------------------------------------------------------
-} else if ($action == 'showmove') {
+function do_showmove()
+{
+    global $uploads_dir, $curr_abspath, $curr_relpath;
 
     // NOTE: 'move' is a special case of 'rename' and could be coded as such
     // However, since we only want to allow the user to move a file to a valid
@@ -587,9 +628,11 @@ if ($action == 'showdir') {
 
     showReturnLink();
     theme("", "footer");
+}
 
-// -----------------------------------------------------------------------------
-} else if ($action == 'move') {
+function do_move()
+{
+    global $uploads_dir, $curr_abspath, $curr_relpath;
 
     $item_name = @$_POST['item_name'];
     confirmIsLocalFile($item_name);
@@ -624,9 +667,11 @@ if ($action == 'showdir') {
 
     showMessage('info', sprintf(_("File %s has been moved to folder %s"), hce($item_name), hce($dst_dir_relpath)));
     showReturnLink();
+}
 
-// -----------------------------------------------------------------------------
-} else if ($action == 'download') {
+function do_download()
+{
+    global $curr_abspath;
 
     $item_name = @$_POST['item_name'];
     confirmIsLocalFile($item_name);
@@ -649,9 +694,11 @@ if ($action == 'showdir') {
         header("Content-disposition: inline");
         fatalError( _("Unable to send file") );
     }
+}
 
-// -----------------------------------------------------------------------------
-} else if ($action == 'showdelete') {
+function do_showdelete()
+{
+    global $curr_abspath, $curr_relpath, $hce_curr_displaypath;
 
     $page_title = sprintf(_("Delete an item from folder %s"), $hce_curr_displaypath);
     theme($page_title, "header");
@@ -687,9 +734,11 @@ if ($action == 'showdir') {
 
     showReturnLink();
     theme("", "footer");
+}
 
-// -----------------------------------------------------------------------------
-} else if ($action == 'delete') {
+function do_delete()
+{
+    global $curr_abspath, $uploads_dir;
 
     $item_name = @$_POST['del_file'];
     confirmIsLocal('FD', $item_name);
@@ -710,11 +759,6 @@ if ($action == 'showdir') {
 
     showMessage('info', sprintf(_("%s has been moved to the TRASH folder for deletion."), hce($item_name)));
     showReturnLink();
-
-// -----------------------------------------------------------------------------
-} else {
-    // no matching $action in input
-    fatalError( sprintf(_("Invalid action: '%s'"), hce($action)) );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
