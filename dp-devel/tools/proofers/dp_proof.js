@@ -422,12 +422,14 @@ function title_case(str)
     str    = str.toLowerCase(),
     newStr = '';
 
-    for ( var i = 0, l = str.length; i < l; i++ )
+    for (i = 0; i < str.length; i++)
     {
-        newStr += ( i == 0 || str.charAt( i - 1 ) ==  ' ' || str.charAt( i - 1 ) ==  '\n' 
-            ||str.charAt( i - 1 ) ==  '.')?
-            str.charAt( i ).toUpperCase():
-            str.charAt( i );
+        // Capitalise the first letter, or anything after a space, newline or period.
+        if (i == 0 || ' \n.'.indexOf(str[i - 1]) != -1) {
+            newStr += str[i].toUpperCase();
+        } else {
+            newStr += str[i];
+        }
     }
 
     newStr = lc_common(newStr);
