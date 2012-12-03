@@ -340,18 +340,8 @@ if ($action == 'showdir') {
         fatalError( _("File is empty.") );
     }
 
-    // Check that the user-supplied name is okay.
-    $okay_filename_pattern = '/^[a-zA-Z_0-9][a-zA-Z_0-9-]{0,200}\.zip$/';
-    // Somewhat more simply:
-    // $okay_filename_pattern = '/^\w[\w-]{0,200}\.zip$/';
-    // That would usually mean the same, because \w means
-    // any letter or digit or the underscore character.
-    // But the meaning of "letter" and "digit" is locale-dependent,
-    // so the pattern involving \w might be more permissive.
-    // On the other hand, that might be what some site wants.
-    //
-    if (!preg_match($okay_filename_pattern, $file_info['name'])) {
-        fatalError( _("Invalid Filename.") );
+    if (!is_valid_filename($file_info['name'], "zip")) {
+        fatalError( _("Invalid filename.") );
         // (Alternatively, we could construct a name that *was* okay,
         // and use that instead.)
     }
@@ -459,8 +449,7 @@ if ($action == 'showdir') {
 
     $new_dir_name = @$_POST['new_dir_name'];
 
-    $okay_dirname_pattern = '/^[a-zA-Z_0-9][a-zA-Z_0-9.-]{0,200}$/';
-    if (!preg_match($okay_dirname_pattern, $new_dir_name)) {
+    if (!is_valid_filename($new_dir_name)) {
         fatalError( _("Invalid folder name.") );
     }
 
@@ -469,7 +458,7 @@ if ($action == 'showdir') {
     $new_dir_abspath = "$curr_abspath/$new_dir_name";
     if ( file_exists($new_dir_abspath) ) {
         fatalError( sprintf(_("%s already exists"), hce($new_dir_name)) );
-        // hce isn't needed when $okay_dirname_pattern is so bland,
+        // hce isn't needed when is_valid_filename()is so bland,
         // but the pattern could change.
     }
 
@@ -517,8 +506,7 @@ if ($action == 'showdir') {
 
     $new_item_name = @$_POST['new_item_name'];
 
-    $okay_item_name_pattern = '/^[a-zA-Z_0-9][a-zA-Z_0-9.-]{0,200}$/';
-    if (!preg_match($okay_item_name_pattern, $new_item_name)) {
+    if (!is_valid_filename($new_item_name)) {
         fatalError( _("Invalid new item name.") );
     }
 
@@ -1120,28 +1108,24 @@ function hae($string)
         array("&", "'", "\""), array("&amp;", "&#39;", "&quot;"), $string);
 }
 
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-// unused...
+function is_valid_filename($filename, $restrict_extension=False)
+{
+    // Base the filename restrictions on removing anything that could
+    // conceivably be a shell escape, control character etc.
+    // See http://www.owasp.org/index.php/Unrestricted_File_Upload
 
-// TODO: Function to sanitize filenames to prevent possible directory traversals
-//
-// From OWASP.org:
-// (http://www.owasp.org/index.php/Unrestricted_File_Upload)
-// All the control characters and Unicode ones should be removed from the filenames
-// and their extensions without any exception. Also, the special characters such as
-// ";:></\", additional ".*%$", and so on should be
-// discarded as well. If it is applicable and there is no need to have Unicode
-// characters, it is highly recommended to only accept Alpha-Numeric characters
-// and only 1 dot as an input for the file name and the extension; in which the
-// file name and also the extension should not be empty at all.
-//
-// Regular expression: [a-zA-Z0-9]{1,200}\.[a-zA-Z0-9]{1,10}
-//
-// NOTE: We should probably allow hyphen and underscore. (donovan)
+    if ($restrict_extension === False) {
+        // Ordinarly we allow filenames to start with an alphanumeric, followed
+        // by 0 or more alphanumerics, hypens, dashes or periods.
+        $regexp = '/^[a-zA-Z_0-9][a-zA-Z_0-9.-]{0,200}$/';
+    } else {
+        // If we want to restrict filename extensions, '.'s aren't allowed in the
+        // body of the filename, and the filename must end with '.ext'
+        $regexp = '/^[a-zA-Z_0-9][a-zA-Z_0-9-]{0,200}\.' . $restrict_extension . '$/';
+    }
 
-function sanitizeFilename($name) {
-    // TODO
-    return $name;
+    // The filename is valid if the regexp matches exactly once.
+    return preg_match($regexp, $filename) == 1;
 }
 
 // vim: sw=4 ts=4 expandtab
