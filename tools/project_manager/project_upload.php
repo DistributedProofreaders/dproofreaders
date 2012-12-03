@@ -412,7 +412,7 @@ function do_upload()
     // /usr/bin/clamscan
     // --: don't parse any further arguments starting with -/-- as options
     $cmd = "/usr/bin/clamscan -- " . escapeshellcmd($temporary_path);
-    if (!$testing) exec($cmd, $av_test_result, $av_retval);
+    exec($cmd, $av_test_result, $av_retval);
     if ($av_retval == 0) {
         showMessage('info', _("OK: AV pass."));
     } else if ($av_retval == 1) {
