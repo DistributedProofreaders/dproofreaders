@@ -283,18 +283,12 @@ function insertTags(tagOpen, tagClose, sampleText, replace)
 
 function isDigit(num)
 {
-        if (num.length>1){return false;}
-        var string="1234567890";
-        if (string.indexOf(num)!=-1){return true;}
-        return false;
+    return num.length == 1 && "1234567890".indexOf(num) != -1;
 }
 
 function isLetter(chr)
 {
-        if (chr.length>1){return false;}
-        var string="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        if (string.indexOf(chr)!=-1){return true;}
-        return false;
+    return chr.length == 1 && "abcdefghijklmnopqrstuvwxyz".indexOf(chr.toLowerCase()) != -1;
 }
 
 // Used when wrapping body text in markup or tags.
