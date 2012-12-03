@@ -6,6 +6,16 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'misc.inc'); // get_upload_err_msg()
 
+
+# Directory structure under uploads dir
+$trash_dir       = "$uploads_dir/TRASH";
+
+$commons_rel_dir = "Commons";
+$commons_dir     = "$uploads_dir/$commons_rel_dir";
+
+$users_rel_dir   = "Users";
+$users_dir       = "$uploads_dir/Users";
+
 if ( get_magic_quotes_gpc() )
 {
     $_GET     = array_map('stripslashes', $_GET);
@@ -49,14 +59,14 @@ $despecialed_username = str_replace( ' ', '_', $pguser );
 // get their own home dir, and other users have no upload access.
 $access_mode = dpscans_access_mode($pguser);
 if ($access_mode == 'common' ) {
-    $home_dirname = "Commons";
+    $home_dirname = $commons_rel_dir;
     $autoprefix_message = "<b>"._("Uploaded files will automatically be prefixed with your username and an underscore.")."</b>";
 } else if ($access_mode == 'self') {
-    $home_dirname = "Users/$despecialed_username";
+    $home_dirname = "$users_rel_dir/$despecialed_username";
 } else if ($access_mode == 'disabled') {
     $home_dirname = NULL;
 } else if (user_is_PM() || user_is_proj_facilitator() || user_is_a_sitemanager()) {
-    $home_dirname = "Users/$despecialed_username";
+    $home_dirname = "$users_rel_dir/$despecialed_username";
 } else {
     $home_dirname = NULL;
 }
@@ -95,12 +105,14 @@ function is_subdir_of_home($dir)
 // May the user move files to the specified relative directory?
 function is_valid_move_destination($dir)
 {
+    global $commons_rel_dir, $users_rel_dir;
+
     // Users may move files to the commons directory
-    if ($dir == "Commons") return True;
+    if ($dir == $commons_rel_dir) return True;
 
     // Users may not move files anywhere else except the Users dir.
-    if (strpos($dir, "Users/") !== 0) return False;
-    $rel = substr($dir, strlen("Users/"));
+    if (strpos($dir, "$users_rel_dir/") !== 0) return False;
+    $rel = substr($dir, strlen("$users_rel_dir/"));
 
     // Users may only move files to a user's home directory root
     // and not a subdirectory of it.
@@ -578,7 +590,7 @@ function do_rename()
 
 function do_showmove()
 {
-    global $uploads_dir, $curr_abspath, $curr_relpath;
+    global $uploads_dir, $commons_dir, $users_dir, $curr_abspath, $curr_relpath;
 
     // NOTE: 'move' is a special case of 'rename' and could be coded as such
     // However, since we only want to allow the user to move a file to a valid
@@ -592,11 +604,11 @@ function do_showmove()
     // Get an array of all directory names in the Users directory
     // This is used to identify the "target user"
     // (Which really means that user's directory).
-    $valid_target_dirs = searchdir("$uploads_dir/Users", 1, "DIRS");
+    $valid_target_dirs = searchdir($users_dir, 1, "DIRS");
     // Remove first element (which is $uploads_dir itself)
     unset($valid_target_dirs[0]);
     // Allow users to tranfer files to Commons too
-    array_unshift($valid_target_dirs, "$uploads_dir/Commons/");
+    array_unshift($valid_target_dirs, $commons_dir);
 
     $item_name = @$_POST['item_name'];
     confirmIsLocalFile($item_name);
@@ -738,18 +750,17 @@ function do_showdelete()
 
 function do_delete()
 {
-    global $curr_abspath, $uploads_dir;
+    global $curr_abspath, $trash_dir;
 
     $item_name = @$_POST['del_file'];
     confirmIsLocal('FD', $item_name);
 
     $src_path = "$curr_abspath/$item_name";
 
-    $trash_path = "$uploads_dir/TRASH";
     // XXX Create $trash_path if it doesn't exist yet?
 
     // Use time() to avoid destination collisions
-    $dst_path = $trash_path."/".time()."_".$item_name;
+    $dst_path = $trash_dir."/".time()."_".$item_name;
 
     // For safety, we move the item into TRASH and let the
     // existing cron job remove it instead of using unlink()
