@@ -433,7 +433,12 @@ function title_case(str)
 function lc_common(str)
 {
     words = str.split(' ');
-    common_lc_words = ':And:Of:The:In:On:De:Van:Am:Pm:Bc:Ad:A:An:At:By:For:La:Le:';
+    common_lc_words = ':At:Under:Near:Upon:By:Of:In:On:For' + // prepositions
+                      ':Is:Was:Are' +    // 'small' verbs
+                      ':But:And:Or' +    // conjunctions
+                      ':A:An:The' +      // articles
+                      ':Am:Pm:Bc:Ad' +   // small caps abbreviations
+                      ':De:Van:La:Le:';  // LOTE
 
     for(i = 0; i < words.length; i++)
     {
