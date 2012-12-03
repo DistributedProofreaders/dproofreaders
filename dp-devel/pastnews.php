@@ -3,7 +3,7 @@ $relPath="./pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
-include_once($relPath.'pastnews.inc'); // undo_all_magic_quotes()
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 require_login();
 undo_all_magic_quotes();
