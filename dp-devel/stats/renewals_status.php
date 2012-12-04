@@ -42,7 +42,8 @@ $bgcolor = array(
 		'left' => 'E0E0E0' ),
 );
 
-$n_proofings_total = array( 1 => array(), 2 => array() );
+$n_proofings_total = array( 1 => array(), 2 => array(), 'both' => array() );
+$n_pages_total     = 0;
 
 echo "<p>";
 echo _("(The horizontal bars may or may not be rendered correctly, depending on your browser.)");
@@ -110,7 +111,7 @@ for ( $year = 1950; $year < 1978; $year ++ )
 
 	$n_proofings = array( 1 => array(), 2 => array(), 'both' => array() );
 
-	$project = $projects[$nameofwork];
+	$project = @$projects[$nameofwork];
 	if ($project)
 	{
 		$state = $project['state'];
@@ -175,8 +176,9 @@ for ( $year = 1950; $year < 1978; $year ++ )
 			echo "<td align='right' bgcolor='#{$bgcolor[$which_round][$dl]}'>";
 			echo $n_proofings[$which_round][$dl];
 			echo "</td>\n";
-
-			$n_proofings_total[$which_round][$dl] += $n_proofings[$which_round][$dl];
+			$n_proofings_total[$which_round][$dl] =
+				array_get($n_proofings_total[$which_round], $dl, 0)
+				+ $n_proofings[$which_round][$dl];
 		}
 	}
 	echo "<td>\n";

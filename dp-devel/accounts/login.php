@@ -44,8 +44,8 @@ function abort_login( $error )
 
 // -----------------------------------------------------------------------------
 
-$userNM = $_POST['userNM'];
-$userPW = $_POST['userPW'];
+$userNM = @$_POST['userNM'];
+$userPW = @$_POST['userPW'];
 $destination = ( isset($_REQUEST['destination']) ? $_REQUEST['destination'] : '' );
 
 $err = check_username($userNM);

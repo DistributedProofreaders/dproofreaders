@@ -172,7 +172,8 @@ if ($c_or_i == 'increments')
 }
 else
 {
-    $moving_average=null;
+    $moving_average = null;
+    $days_to_average = 0;
 }
 
 // if no data was returned from the SELECT, create an empty dataset

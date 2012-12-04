@@ -89,7 +89,7 @@ echo "<br>\n";
 echo "<h3>"._("Language statistics")."</h3>\n";
 echo "<h4>" . _("Detection") . "</h4>";
 echo "<ul>";
-echo "<li>" . sprintf(_("Language cookie set to: %s"), $_COOKIE['language'] ? $_COOKIE['language'] : "<i>" . _("not set") . "</i>") . "</li>";
+echo "<li>" . sprintf(_("Language cookie set to: %s"), array_get($_COOKIE, 'language', "<i>" . _("not set") . "</i>")) . "</li>";
 echo "<li>" . sprintf(_("User preference set to: %s"), $userP['u_intlang']) . "</li>";
 // logic taken from gettext_setup.inc
 $langs=explode(",",$_SERVER['HTTP_ACCEPT_LANGUAGE']);
@@ -204,8 +204,8 @@ if (@chdir(rtrim(`$aspell_executable config -e dict-dir`)))
     if (count($dicts) > 0)
     {
         echo "<table border='1'>\n";
-        foreach($dicts as $k=>$v)
-            echo "<tr><td>" . bilingual_name(substr($v,0,2)) . "</td></tr>\n";
+        foreach($dicts as $d)
+            echo "<tr><td>" . bilingual_name(substr($d,0,2)) . "</td></tr>\n";
         echo "</table>\n<br>\n";
     }
 } else {

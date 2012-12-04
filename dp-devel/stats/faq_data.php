@@ -3,18 +3,18 @@ $relPath="./../pinc/";
 include_once($relPath.'site_vars.php');
 
 $faq_file=array(
-	"ProoferFAQ.php"=>TRUE,
-	"doc-copy.php"=>TRUE,
-	"doc-ency.php"=>TRUE,
-	"doc-poet.php"=>TRUE,
-	"document.php"=>TRUE,
-	"faq_central.php"=>TRUE,
-	"pm-faq.php"=>TRUE,
-	"post_proof.php"=>TRUE,
-	"ppv.php"=>TRUE,
-	"privacy.php"=>TRUE,
-	"scanning.php"=>TRUE,
-	"cp.php"=>TRUE,
+	"ProoferFAQ.php",
+	"doc-copy.php",
+	"doc-ency.php",
+	"doc-poet.php",
+	"document.php",
+	"faq_central.php",
+	"pm-faq.php",
+	"post_proof.php",
+	"ppv.php",
+	"privacy.php",
+	"scanning.php",
+	"cp.php",
 );
 
 if($f=fopen("$dynstats_dir/faq_data.inc","w")) {
@@ -36,7 +36,7 @@ function read_dir($a)
 	while(($n=readdir($d))!==FALSE) {
 		if(preg_match("/^([a-z][a-z])$/",$n)) {
 			read_dir("$a/$n");
-		} else if($faq_file[$n] && filesize("$code_dir/faq/$a/$n")>1024) {
+		} else if(in_array($n, $faq_file) && filesize("$code_dir/faq/$a/$n")>1024) {
 			fwrite($f,"'".substr("$a/",1).$n."',\n");
 		}
 	}

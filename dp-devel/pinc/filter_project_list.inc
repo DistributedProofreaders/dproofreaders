@@ -103,19 +103,19 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
     if($display_fields["genre"])
     {
         $genre_options = _load_project_filter_field_values("genre", $state_sql);
-        echo _build_project_filter_select(_("Genre"), _("All Genres"), "genre", $genre_options, $data["genre"], $td_width);
+        echo _build_project_filter_select(_("Genre"), _("All Genres"), "genre", $genre_options, @$data["genre"], $td_width);
     }
 
     if($display_fields["username"])
     {
         $pm_options=_load_project_filter_field_values("username", $state_sql);
-        echo _build_project_filter_select(_("Project Manager"), _("All PMs"), "username", $pm_options, $data["username"], $td_width);
+        echo _build_project_filter_select(_("Project Manager"), _("All PMs"), "username", $pm_options, @$data["username"], $td_width);
     }
 
     if($display_fields["checkedoutby"])
     {
         $pp_options=_load_project_filter_field_values("checkedoutby", $state_sql);
-        echo _build_project_filter_select(_("Post Processor"), _("All PPers"), "checkedoutby", $pp_options, $data["checkedoutby"], $td_width);
+        echo _build_project_filter_select(_("Post Processor"), _("All PPers"), "checkedoutby", $pp_options, @$data["checkedoutby"], $td_width);
     }
 
     if($display_fields["special_code"])
@@ -126,7 +126,7 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
         // "all projects regardless of special day status". Unlike the other "All"
         // labels, selecting "All Special Days" is not equivalent to selecting all
         // the other options in this select. See task #797.
-        echo _build_project_filter_select(_("Special Days"), _("All Special Days"), "special_code", $specialday_options, $data["special_code"], $td_width, TRUE);
+        echo _build_project_filter_select(_("Special Days"), _("All Special Days"), "special_code", $specialday_options, @$data["special_code"], $td_width, TRUE);
     }
 
     echo "</tr>\n";
@@ -136,7 +136,7 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
     {
         echo "<tr>";
         $language_options=_load_project_filter_field_values("language", $state_sql);
-        echo _build_project_filter_select(_("Language"), _("All Languages"), "language", $language_options, $data["language"], "auto", FALSE, $filter_column_count);
+        echo _build_project_filter_select(_("Language"), _("All Languages"), "language", $language_options, @$data["language"], "auto", FALSE, $filter_column_count);
         echo "</tr>";
     }
 
@@ -147,14 +147,15 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
 
         echo "<p style='white-space: pre;'><b>" . _("Difficulty") . ":</b> ";
         echo _("All") . "<input type='checkbox' name='difficulty[]' value=''";
-        if(!count($data["difficulty"]) || (count($data["difficulty"])==1 && $data["difficulty"][0]==""))
+        $difficulty = @$data["difficulty"];
+        if(!count($difficulty) || (count($difficulty)==1 && $difficulty[0]==""))
             echo " checked";
         echo ">   ";
         $difficulty_options=_load_project_filter_field_values("difficulty", $state_sql);
         foreach($difficulty_options as $value => $option)
         {
             echo "$option<input type='checkbox' name='difficulty[]' value='$value'";
-            if(is_array($data["difficulty"]) && in_array($value, $data["difficulty"]))
+            if(is_array($difficulty) && in_array($value, $difficulty))
                 echo " checked";
             echo ">   ";
         }
@@ -430,7 +431,9 @@ function _populate_project_filter_data_from_filter($filter)
         foreach($value_pairs as $value_pair)
         {
             // split the column='value' pairs into their two parts
-            list($field, $value) = split("=", $value_pair);
+            $value_pair = explode("=", $value_pair);
+            if (count($value_pair) != 2) continue;
+            list($field, $value) = $value_pair;
 
             // clean up the $value, which looks like: 'value'
             $value = rtrim($value,"' ");

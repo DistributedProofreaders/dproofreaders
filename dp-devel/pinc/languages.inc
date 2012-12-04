@@ -204,7 +204,7 @@ function phpbb_lang($langcode=FALSE) {
     if($langcode===FALSE)
         $langcode=$GLOBALS['locale'];
 
-    return $phpbblangs[$langcode];
+    return @$phpbblangs[$langcode];
 }
 
 function lang_html_header($langcode=FALSE)
