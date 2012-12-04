@@ -25,6 +25,7 @@ define('CONVERT_UTF8',                'R');
 function echo_button( $button_id, $which_interface )
 {
     global $userP;
+    global $charset;
     $CRLF = '\r\n';
     if ($which_interface == 's')
     {
