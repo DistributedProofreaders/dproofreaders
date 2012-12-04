@@ -4,6 +4,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'dp_main.inc');
 include_once($relPath.'LPage.inc');
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'abort.inc');
 include_once($relPath.'site_vars.php');
 include_once('PPage.inc');
 include_once('proof_frame.inc');
@@ -79,6 +80,7 @@ else
                 echo sprintf(_("We received two near-simultaneous requests from you for the same resource, so we are ignoring the second one (other than to send this error message). If you are unsure of why this happened, please inform a <a href='%s'>Site Admin</a> that you received this message."),
                              "mailto:".$GLOBALS['site_manager_email_addr']);
                 echo "</p>";
+                provide_escape_links();
                 exit();
         }
     }
