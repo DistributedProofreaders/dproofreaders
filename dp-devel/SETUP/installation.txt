@@ -277,8 +277,6 @@ assuming it isn't already.
     Check that the values inserted by the DP configuration script are correct,
     then install the crontab onto your system as an appropriate user.
 
---- Run stats/faq_data.php
-
 =======================================================================
 Upgrading
 ---------
