@@ -1,11 +1,13 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'iso_639_list.inc');
+include_once($relPath.'languages.inc');
 include_once($relPath.'metarefresh.inc');
 include_once('parse_po.inc');
+
+require_login();
+undo_all_magic_quotes();
 
 $no_stats=1;
 theme(_("Translation Center"), "header");
@@ -24,7 +26,10 @@ if (empty($_REQUEST['lang']) && empty($func)) {
     echo "<table border='0' cellspacing='3' cellpadding='0' width='100%'><ul>\n";
      while (false !== ($file = readdir($dir))) {
          if ($file != "." && $file != ".." && $file != "CVS" && $file != "translators") {
-             echo "<tr><td width='50%'><li>".$iso_639[$file]."</li></td><td width='50%'>[ <a href='index.php?func=translate&amp;lang=$file'>"._("Translate")."</a> ]</td></tr>\n";
+             $language = eng_name($file);
+             if($language) {
+                 echo "<tr><td width='50%'><li>$language</li></td><td width='50%'>[ <a href='index.php?func=translate&amp;lang=$file'>"._("Translate")."</a> ]</td></tr>\n";
+             }
          }
      }
      echo "</ul></table>\n";

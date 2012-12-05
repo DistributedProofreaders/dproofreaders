@@ -1,11 +1,13 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'iso_639_list.inc');
+include_once($relPath.'languages.inc');
 include_once($relPath.'metarefresh.inc');
 include_once('parse_po.inc');
+
+require_login();
+undo_all_magic_quotes();
 
 theme(_("Translation Center"), "header");
 
@@ -126,7 +128,7 @@ if (isset($_POST['lang']) && isset($_POST['rebuild_strings'])) {
 
         echo "<center><b><i><font size='+2'>"._("Strings Rebuilt!")."</font></i></b><br><br>";
     }
-    echo "<a href='index.php?func=translate&amp;lang=$lang'>"._("Please click here to return to translate the ").$iso_639[$lang]." "._("language file").".</a>";
+    echo "<a href='index.php?func=translate&amp;lang=$lang'>".sprintf(_("Please click here to return to translate the %s language file."), lang_name($lang)).".</a>";
 }
 
 theme('','footer');
