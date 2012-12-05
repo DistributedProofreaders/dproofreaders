@@ -90,7 +90,7 @@ $graph->Add( $gbplot);
 
 
 // Setup the title
-$graph->title->Set("Number of New Users By Month");
+$graph->title->Set(_("Number of New Users By Month"));
 
 
 $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
