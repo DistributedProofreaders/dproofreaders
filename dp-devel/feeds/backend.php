@@ -1,9 +1,10 @@
 <?php
 $relPath="./../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'xml.inc');
-include_once($relPath.'gettext_setup.inc');
+
+undo_all_magic_quotes();
 
 $content = get_enumerated_param($_GET, 'content', 'posted', array('posted', 'postprocessing', 'proofing', 'news')); // Which feed the user wants
 $refreshDelay = 30 * 60; // Time in seconds for how often the feeds get refreshed
