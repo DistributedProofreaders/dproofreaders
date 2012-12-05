@@ -124,13 +124,13 @@ if ($dir)
 {
     while ( $file = readdir($dir) )
     {
-    	if (preg_match('#^lang_#i', $file) && !is_file(@phpbb_realpath($phpbb_root_path . $dirname . '/' . $file)) && !is_link(@phpbb_realpath($phpbb_root_path . $dirname . '/' . $file)))
-    	{
-    		$filename = trim(str_replace("lang_", "", $file));
-    		$displayname = preg_replace("/^(.*?)_(.*)$/", "\\1 [ \\2 ]", $filename);
-    		$displayname = preg_replace("/\[(.*?)_(.*)\]/", "[ \\1 - \\2 ]", $displayname);
-    		$lang[$displayname] = $filename;
-    	}
+        if (preg_match('#^lang_#i', $file) && !is_file(@phpbb_realpath($phpbb_root_path . $dirname . '/' . $file)) && !is_link(@phpbb_realpath($phpbb_root_path . $dirname . '/' . $file)))
+        {
+            $filename = trim(str_replace("lang_", "", $file));
+            $displayname = preg_replace("/^(.*?)_(.*)$/", "\\1 [ \\2 ]", $filename);
+            $displayname = preg_replace("/\[(.*?)_(.*)\]/", "[ \\1 - \\2 ]", $displayname);
+            $lang[$displayname] = $filename;
+        }
     }
 }
 // End of copied code
@@ -160,14 +160,14 @@ foreach($a as $k=>$v) {
         echo eng_name($v);
         echo "</td><td>";
         echo lang_name($v);
-	echo "</td><td>";
-	echo YES_MARK;
-	echo "</td><td>";
-	echo (@$faqs[short_lang_code($v)]||short_lang_code($v)=="en")?YES_MARK:NO_MARK;
+    echo "</td><td>";
+    echo YES_MARK;
+    echo "</td><td>";
+    echo (@$faqs[short_lang_code($v)]||short_lang_code($v)=="en")?YES_MARK:NO_MARK;
         echo "</td><td>";
-	echo phpbb_lang($v)?($lang[phpbb_lang($v)]?YES_MARK:NO_MARK):NA_MARK;
+    echo phpbb_lang($v)?($lang[phpbb_lang($v)]?YES_MARK:NO_MARK):NA_MARK;
         echo "</td><td>";
-	echo lang_forum($v)?YES_MARK:NO_MARK;
+    echo lang_forum($v)?YES_MARK:NO_MARK;
         echo "</td></tr>\n";
 }
 
@@ -182,12 +182,12 @@ echo "<table border='1'>\n";
 echo "<tr valign='bottom'><th>"._("Language")."</th><th>"._("Documents")."</th></tr>\n";
 
 foreach($faqs as $k=>$v) {
-	echo "<tr><td rowspan='".(count($v)+1)."' valign='top'><b>".
-		bilingual_name(lang_code($k?$k:"en")).
-		":</b></td></tr>\n";
-	foreach($v as $v1) {
-		echo "<tr><td><a href='$code_url/faq/$k".($k?"/":"")."$v1'>$v1</a></td></tr>\n";
-	}
+    echo "<tr><td rowspan='".(count($v)+1)."' valign='top'><b>".
+        bilingual_name(lang_code($k?$k:"en")).
+        ":</b></td></tr>\n";
+    foreach($v as $v1) {
+        echo "<tr><td><a href='$code_url/faq/$k".($k?"/":"")."$v1'>$v1</a></td></tr>\n";
+    }
 }
 
 echo "</table>";

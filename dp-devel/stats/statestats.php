@@ -22,11 +22,11 @@ if ($cday != 1) {
 } else {
     $descrip = "since the start of last month";
     if ($cmonth != 1) {
-	$temp = $cmonth -1;
-	$start_date = $cyear."-".$temp."-01";
+        $temp = $cmonth -1;
+        $start_date = $cyear."-".$temp."-01";
     } else {
-	$temp = $cyear - 1;
- 	$start_date = $temp."-12-01";
+        $temp = $cyear - 1;
+        $start_date = $temp."-12-01";
     }
 }
 

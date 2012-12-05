@@ -39,15 +39,15 @@ echo "<tr><td colspan='5' bgcolor='".$theme['color_headerbar_bg']."'><center><fo
 echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 foreach ( $colspecs as $col_order => $col_header )
 {
-	$s = $col_header;
-	// Make each column-header a link that will sort on that column,
-	// except for the header of the column that we're already sorting on.
-	if ( $col_order != $order && $col_order != 'bogus' )
-	{
-		$s = "<a href='PPV_avail.php?order=$col_order'>$s</a>";
-	}
-	$s = "<th><center>".$s."</center></th>";
-	echo "$s\n";
+    $s = $col_header;
+    // Make each column-header a link that will sort on that column,
+    // except for the header of the column that we're already sorting on.
+    if ( $col_order != $order && $col_order != 'bogus' )
+    {
+        $s = "<a href='PPV_avail.php?order=$col_order'>$s</a>";
+    }
+    $s = "<th><center>".$s."</center></th>";
+    echo "$s\n";
 }
 echo "</tr>\n";
 
@@ -56,37 +56,37 @@ echo "</tr>\n";
 // Body
 
 $result = mysql_query("
-	SELECT
-		nameofwork,
+    SELECT
+        nameofwork,
              username,
-		postproofer,
-		modifieddate
-	FROM projects
-	WHERE state = '".PROJ_POST_SECOND_AVAILABLE."'
-	ORDER BY $orderclause
+        postproofer,
+        modifieddate
+    FROM projects
+    WHERE state = '".PROJ_POST_SECOND_AVAILABLE."'
+    ORDER BY $orderclause
 ");
 
 $rownum = 0;
 while ( $project = mysql_fetch_object( $result ) )
 {
-	$rownum++;
+    $rownum++;
 
-	//calc last modified date for project
-	$today = getdate($project->modifieddate);
-	$month = $today['month'];
-	$mday = $today['mday'];
-	$year = $today['year'];
-	$datestamp = "$month $mday, $year";
+    //calc last modified date for project
+    $today = getdate($project->modifieddate);
+    $month = $today['month'];
+    $mday = $today['mday'];
+    $year = $today['year'];
+    $datestamp = "$month $mday, $year";
 
-	echo "
-		<tr bgcolor='".$theme['color_navbar_bg']."'>
-		<td>$rownum</td>
-		<td width='200'>$project->nameofwork</td>
-		<td>$project->username</td>
-		<td>$project->postproofer</td>
-		<td>$datestamp</td>
-		</tr>
-	";
+    echo "
+        <tr bgcolor='".$theme['color_navbar_bg']."'>
+        <td>$rownum</td>
+        <td width='200'>$project->nameofwork</td>
+        <td>$project->username</td>
+        <td>$project->postproofer</td>
+        <td>$datestamp</td>
+        </tr>
+    ";
 }
 
 echo "</table>";

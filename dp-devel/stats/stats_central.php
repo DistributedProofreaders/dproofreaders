@@ -66,7 +66,7 @@ $table->set_column_alignments( 'left', 'right', 'left' );
     $table->row(
         _("Proofreaders active in the last 7 days:"),
         $totalusers,
-	""
+        ""
     );
 
   //get total books posted  in the last 7 days
@@ -78,7 +78,7 @@ $table->set_column_alignments( 'left', 'right', 'left' );
     $table->row(
         _("Books posted in the last 7 days:"),
         $totalbooks,
-	""
+        ""
     );
 
 
@@ -91,7 +91,7 @@ $table->set_column_alignments( 'left', 'right', 'left' );
     $table->row(
         _("Books waiting to be released for first round:"),
         $totalfirstwaiting,
-	"&nbsp;<a href ='to_be_released.php?order=default'>$view_books</a>"
+        "&nbsp;<a href ='to_be_released.php?order=default'>$view_books</a>"
     );
 
   //get total non-English books waiting to be released
@@ -102,7 +102,7 @@ $table->set_column_alignments( 'left', 'right', 'left' );
     $table->row(
         _("Non-English Books waiting to be released for first round:"),
         $totalnonwaiting,
-	""
+        ""
     );
 
   //get total books waiting to be post processed
@@ -113,7 +113,7 @@ $table->set_column_alignments( 'left', 'right', 'left' );
     $table->row(
         _("Books waiting for post processing:"),
         $totalwaitingpost,
-	""
+        ""
     );
 
   //get total books being post processed
@@ -124,7 +124,7 @@ $table->set_column_alignments( 'left', 'right', 'left' );
     $table->row(
         _("Books being post processed:"),
         $totalinpost,
-	"&nbsp;<a href ='checkedout.php?state=".PROJ_POST_FIRST_CHECKED_OUT."'>$view_books</a>"
+        "&nbsp;<a href ='checkedout.php?state=".PROJ_POST_FIRST_CHECKED_OUT."'>$view_books</a>"
     );
 
   //get total books in verify
@@ -135,7 +135,7 @@ $table->set_column_alignments( 'left', 'right', 'left' );
     $table->row(
         _("Books waiting to be verified:"),
         $totalverify,
-	"&nbsp;<a href ='PPV_avail.php'>$view_books</a>"
+        "&nbsp;<a href ='PPV_avail.php'>$view_books</a>"
     );
 
   //get total books in verifying
@@ -146,7 +146,7 @@ $table->set_column_alignments( 'left', 'right', 'left' );
     $table->row(
         _("Books being verified:"),
         $totalverifying,
-	"&nbsp;<a href ='checkedout.php?state=".PROJ_POST_SECOND_CHECKED_OUT."'>$view_books</a>"
+        "&nbsp;<a href ='checkedout.php?state=".PROJ_POST_SECOND_CHECKED_OUT."'>$view_books</a>"
     );
 
 $table->end();

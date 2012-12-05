@@ -35,134 +35,134 @@ show_months_with_most_days_over(9000);
 
 function show_all_time_total()
 {
-	global $tally_name;
+    global $tally_name;
 
-	$sub_title = _("Total Pages Proofread Since Statistics Were Kept");
-	echo "<h3>$sub_title</h3>\n";
+    $sub_title = _("Total Pages Proofread Since Statistics Were Kept");
+    echo "<h3>$sub_title</h3>\n";
 
 
-	$site_tallyboard = new TallyBoard( $tally_name, 'S' );
-	$holder_id = 1;
-	echo number_format($site_tallyboard->get_current_tally($holder_id));
+    $site_tallyboard = new TallyBoard( $tally_name, 'S' );
+    $holder_id = 1;
+    echo number_format($site_tallyboard->get_current_tally($holder_id));
 
-	echo "<br>\n";
-	echo "<br>\n";
+    echo "<br>\n";
+    echo "<br>\n";
 }
 
 function show_top_days( $n, $when )
 {
-	global $tally_name;
+    global $tally_name;
 
-	switch ( $when )
-	{
-		case 'ever':
-			$where = '';
-			$sub_title = sprintf( _('Top %d Proofreading Days Ever'), $n );
-			break;
+    switch ( $when )
+    {
+        case 'ever':
+            $where = '';
+            $sub_title = sprintf( _('Top %d Proofreading Days Ever'), $n );
+            break;
 
-		case 'this_year':
-			$where = 'WHERE {is_curr_year}';
-			$sub_title = sprintf( _('Top %d Proofreading Days This Year'), $n );
-			break;
+        case 'this_year':
+            $where = 'WHERE {is_curr_year}';
+            $sub_title = sprintf( _('Top %d Proofreading Days This Year'), $n );
+            break;
 
-		default:
-			die( "bad value for 'when': '$when'" );
-	}
+        default:
+            die( "bad value for 'when': '$when'" );
+    }
 
-	echo "<h3>$sub_title</h3>\n";
+    echo "<h3>$sub_title</h3>\n";
 
-	dpsql_dump_themed_ranked_query(
-		select_from_site_past_tallies_and_goals(
-			$tally_name,
-			"SELECT
-				{date} as '" . mysql_real_escape_string(_("Date")) . "',
-				tally_delta as '" . mysql_real_escape_string(_("Pages Proofread")) . "',
-				IF({is_curr_month}, '******',' ') as '" 
-				   . mysql_real_escape_string(_("This Month?")) . "'",
-			$where,
-			"",
-			"ORDER BY 2 DESC",
-			"LIMIT $n"
-		)
-	);
+    dpsql_dump_themed_ranked_query(
+        select_from_site_past_tallies_and_goals(
+            $tally_name,
+            "SELECT
+                {date} as '" . mysql_real_escape_string(_("Date")) . "',
+                tally_delta as '" . mysql_real_escape_string(_("Pages Proofread")) . "',
+                IF({is_curr_month}, '******',' ') as '" 
+                   . mysql_real_escape_string(_("This Month?")) . "'",
+            $where,
+            "",
+            "ORDER BY 2 DESC",
+            "LIMIT $n"
+        )
+    );
 
-	echo "<br>\n";
+    echo "<br>\n";
 }
 
 function show_month_sums( $which )
 {
-	global $tally_name;
+    global $tally_name;
 
-	switch ( $which )
-	{
-		case 'top_ten':
-			$sub_title = _("Top Ten Best Proofreading Months");
-			$order = '2 DESC';
-			$limit = 'LIMIT 10';
-			break;
+    switch ( $which )
+    {
+        case 'top_ten':
+            $sub_title = _("Top Ten Best Proofreading Months");
+            $order = '2 DESC';
+            $limit = 'LIMIT 10';
+            break;
 
-		case 'all_chron':
-			$sub_title = _("Historical Log of Total Pages Proofread Per Month");
-			$order = '1'; // chronological
-			$limit = '';
-			break;
+        case 'all_chron':
+            $sub_title = _("Historical Log of Total Pages Proofread Per Month");
+            $order = '1'; // chronological
+            $limit = '';
+            break;
 
-		case 'all_by_pages':
-			$sub_title = _("Total Pages Proofread Per Month");
-			$order = '2 DESC';
-			$limit = '';
-			break;
+        case 'all_by_pages':
+            $sub_title = _("Total Pages Proofread Per Month");
+            $order = '2 DESC';
+            $limit = '';
+            break;
 
-		default:
-			die( "bad value for 'which': '$which'" );
-	}
+        default:
+            die( "bad value for 'which': '$which'" );
+    }
 
-	echo "<h3>$sub_title</h3>\n";
+    echo "<h3>$sub_title</h3>\n";
 
-	dpsql_dump_themed_ranked_query(
-		select_from_site_past_tallies_and_goals(
-			$tally_name,
-			"SELECT
-				{year_month} as '" . mysql_real_escape_string(_("Month")) . "',
-				CAST(SUM(tally_delta) AS SIGNED) as '" 
-				    . mysql_real_escape_string(_("Pages Proofread")) . "',
-				CAST(SUM(goal) AS SIGNED) as '" 
-				    . mysql_real_escape_string(_("Monthly Goal")) . "',
-				IF({is_curr_month}, '******',' ') as '" 
-				    . mysql_real_escape_string(_("This Month?")) . "'",
-			"",
-			"GROUP BY 1",
-			"ORDER BY $order",
-			$limit
-		)
-	);
+    dpsql_dump_themed_ranked_query(
+        select_from_site_past_tallies_and_goals(
+            $tally_name,
+            "SELECT
+                {year_month} as '" . mysql_real_escape_string(_("Month")) . "',
+                CAST(SUM(tally_delta) AS SIGNED) as '" 
+                    . mysql_real_escape_string(_("Pages Proofread")) . "',
+                CAST(SUM(goal) AS SIGNED) as '" 
+                    . mysql_real_escape_string(_("Monthly Goal")) . "',
+                IF({is_curr_month}, '******',' ') as '" 
+                    . mysql_real_escape_string(_("This Month?")) . "'",
+            "",
+            "GROUP BY 1",
+            "ORDER BY $order",
+            $limit
+        )
+    );
 
-	echo "<br>\n";
+    echo "<br>\n";
 }
 
 function show_months_with_most_days_over( $n )
 {
-	global $tally_name;
+    global $tally_name;
 
-	$sub_title = sprintf( _('Months with most days over %s pages'), number_format($n) );
-	echo "<h3>$sub_title</h3>\n";
+    $sub_title = sprintf( _('Months with most days over %s pages'), number_format($n) );
+    echo "<h3>$sub_title</h3>\n";
 
-	dpsql_dump_themed_ranked_query(
-		select_from_site_past_tallies_and_goals(
-			$tally_name,
-			"SELECT
-				{year_month} as '" . mysql_real_escape_string(_("Month")) . "',
-				count(*) as '" . mysql_real_escape_string(_("Number of Days")) . "',
-				IF({is_curr_month}, '******',' ') as '" 
-				    . mysql_real_escape_string(_("This Month?")) . "'",
-			"WHERE tally_delta >= $n",
-			"GROUP BY 1",
-			"ORDER BY 2 DESC",
-			"LIMIT 10"
-		)
-	);
+    dpsql_dump_themed_ranked_query(
+        select_from_site_past_tallies_and_goals(
+            $tally_name,
+            "SELECT
+                {year_month} as '" . mysql_real_escape_string(_("Month")) . "',
+                count(*) as '" . mysql_real_escape_string(_("Number of Days")) . "',
+                IF({is_curr_month}, '******',' ') as '" 
+                    . mysql_real_escape_string(_("This Month?")) . "'",
+            "WHERE tally_delta >= $n",
+            "GROUP BY 1",
+            "ORDER BY 2 DESC",
+            "LIMIT 10"
+        )
+    );
 
-	echo "<br>\n";
+    echo "<br>\n";
 }
 
 theme("","footer");

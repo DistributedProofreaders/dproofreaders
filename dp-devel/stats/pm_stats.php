@@ -15,10 +15,10 @@ echo "<br>\n";
 echo "<h3>" . _("Number of Distinct Project Managers") . "</h3>\n";
 
 dpsql_dump_themed_query("
-	SELECT
-		count(distinct username) as '" 
-		    . mysql_real_escape_string(_("Different PMs")) . "'
-	FROM projects
+    SELECT
+        count(distinct username) as '" 
+            . mysql_real_escape_string(_("Different PMs")) . "'
+    FROM projects
 ");
 
 echo "<br>\n";
@@ -28,13 +28,13 @@ echo "<h4>" . _("(Number of Projects Created)") . "</h4>\n";
 
 $psd = get_project_status_descriptor('created');
 dpsql_dump_themed_ranked_query("
-	SELECT
-		username as '" . mysql_real_escape_string(_("PM")) . "',
-		count(*) as '" . mysql_real_escape_string(_("Projects Created")) . "'
-	FROM projects
-	WHERE $psd->state_selector
-	GROUP BY username
-	ORDER BY 2 DESC
+    SELECT
+        username as '" . mysql_real_escape_string(_("PM")) . "',
+        count(*) as '" . mysql_real_escape_string(_("Projects Created")) . "'
+    FROM projects
+    WHERE $psd->state_selector
+    GROUP BY username
+    ORDER BY 2 DESC
 ");
 
 echo "<br>\n";
@@ -45,13 +45,13 @@ echo "<h4>" . _("(Number of Projects Posted to PG)") . "</h4>\n";
 
 $psd = get_project_status_descriptor('posted');
 dpsql_dump_themed_ranked_query("
-	SELECT
-		username as '" . mysql_real_escape_string(_("PM")) . "',
-		count(*) as '" . mysql_real_escape_string(_("Projects Posted to PG")) . "'
-	FROM projects
-	WHERE $psd->state_selector
-	GROUP BY username
-	ORDER BY 2 DESC
+    SELECT
+        username as '" . mysql_real_escape_string(_("PM")) . "',
+        count(*) as '" . mysql_real_escape_string(_("Projects Posted to PG")) . "'
+    FROM projects
+    WHERE $psd->state_selector
+    GROUP BY username
+    ORDER BY 2 DESC
 ");
 
 echo "<br>\n";

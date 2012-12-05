@@ -11,7 +11,7 @@ theme($title,'header');
 echo "<br><h2>$title</h2>\n";
 
 $order = get_enumerated_param(
-	$_GET, 'order', 'default', array('default', 'username', 'modifieddate') );
+        $_GET, 'order', 'default', array('default', 'username', 'modifieddate') );
 
 if ($order == 'default') {
     $order ='nameofwork';

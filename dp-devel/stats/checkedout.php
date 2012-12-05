@@ -62,15 +62,15 @@ echo "<tr><td colspan='" .count($colspecs)."' bgcolor='".$theme['color_headerbar
 echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 foreach ( $colspecs as $col_order => $col_header )
 {
-	$s = $col_header;
-	// Make each column-header a link that will sort on that column,
-	// except for the header of the column that we're already sorting on.
-	if ( $col_order != $order && $col_order != 'bogus' )
-	{
-		$s = "<a href='checkedout.php?state=$state&order=$col_order'>$s</a>";
-	}
-	$s = "<th><center>".$s ."</font></th>";
-	echo "$s\n";
+    $s = $col_header;
+    // Make each column-header a link that will sort on that column,
+    // except for the header of the column that we're already sorting on.
+    if ( $col_order != $order && $col_order != 'bogus' )
+    {
+        $s = "<a href='checkedout.php?state=$state&order=$col_order'>$s</a>";
+    }
+    $s = "<th><center>".$s ."</font></th>";
+    echo "$s\n";
 }
 echo "</tr>\n";
 
@@ -79,54 +79,54 @@ echo "</tr>\n";
 // Body
 
 $result = mysql_query("
-	SELECT
-		nameofwork,
+    SELECT
+        nameofwork,
              postproofer,
-		checkedoutby,
-		modifieddate,
-		users.t_last_activity AS holder_t_last_activity
-	FROM projects
-		LEFT OUTER JOIN users
-		ON projects.checkedoutby = users.username
-	WHERE state = '$state'
-	ORDER BY $orderclause
+        checkedoutby,
+        modifieddate,
+        users.t_last_activity AS holder_t_last_activity
+    FROM projects
+        LEFT OUTER JOIN users
+        ON projects.checkedoutby = users.username
+    WHERE state = '$state'
+    ORDER BY $orderclause
 ");
 
 $rownum = 0;
 while ( $project = mysql_fetch_object( $result ) )
 {
-	$rownum++;
+    $rownum++;
 
-	//calc last modified date for project
-	$today = getdate($project->modifieddate);
-	$month = $today['month'];
-	$mday = $today['mday'];
-	$year = $today['year'];
-	$datestamp = "$month $mday, $year";
+    //calc last modified date for project
+    $today = getdate($project->modifieddate);
+    $month = $today['month'];
+    $mday = $today['mday'];
+    $year = $today['year'];
+    $datestamp = "$month $mday, $year";
 
-	//calc date of user's latest site-activity
-	$today = getdate($project->holder_t_last_activity);
-	$month = $today['month'];
-	$mday = $today['mday'];
-	$year = $today['year'];
-	$holder_t_last_activity_date = "$month $mday, $year";
+    //calc date of user's latest site-activity
+    $today = getdate($project->holder_t_last_activity);
+    $month = $today['month'];
+    $mday = $today['mday'];
+    $year = $today['year'];
+    $holder_t_last_activity_date = "$month $mday, $year";
 
-	echo "
-		<tr bgcolor='".$theme['color_navbar_bg']."'>
-		<td>$rownum</td>
-		<td width='200'>$project->nameofwork</td>
+    echo "
+        <tr bgcolor='".$theme['color_navbar_bg']."'>
+        <td>$rownum</td>
+        <td width='200'>$project->nameofwork</td>
       ";
      
       if (isset($inPPV)) { 
 
-            echo "	<td>$project->postproofer</td>";
+            echo "    <td>$project->postproofer</td>";
       }
       echo "       
-		<td>$project->checkedoutby</td>
-		<td>$datestamp</td>
-		<td>$holder_t_last_activity_date</td>
-		</tr>
-	";
+        <td>$project->checkedoutby</td>
+        <td>$datestamp</td>
+        <td>$holder_t_last_activity_date</td>
+        </tr>
+    ";
 }
 
 echo "</table>";
