@@ -1,9 +1,11 @@
 <?php
 $relPath='../pinc/';
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
+
+require_login();
 
 $title = _("Project Manager Statistics");
 theme($title,'header');
@@ -59,4 +61,5 @@ echo "<br>\n";
 echo "<br>\n";
 
 theme("","footer");
-?>
+
+// vim: sw=4 ts=4 expandtab

@@ -1,13 +1,11 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'privacy.inc');
-include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_tally.inc');
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
-$db_Connection=new dbConnect();
 
 $tally_name = array_get( $_GET, 'tally_name', null );
 
@@ -64,4 +62,5 @@ else
 
 echo "</center>";
 theme("", "footer");
-?>
+
+// vim: sw=4 ts=4 expandtab

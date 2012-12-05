@@ -1,11 +1,13 @@
 <?php
 $relPath='../pinc/';
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_project_info.inc');
+
+require_login();
 
 $title = _("Most Requested Books");
 theme($title,'header');
@@ -88,4 +90,4 @@ dpsql_dump_themed_ranked_query("
 
 theme("","footer");
 
-?>
+// vim: sw=4 ts=4 expandtab

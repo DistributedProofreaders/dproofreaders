@@ -1,8 +1,8 @@
 <?php
 $relPath="./../../pinc/";
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'TallyBoard.inc');
-include_once($relPath.'connect.inc');
 include_once('common.inc');
 
 $valid_tally_names = array_keys($page_tally_names);
@@ -19,8 +19,6 @@ if (@$_GET['days_back'] == 'all') {
 // This makes use of the jpgraph cache if enabled.
 // Last argument to init_simple_bar_graph is the cache timeout in minutes.
 $graph = init_simple_bar_graph(600, 300, 60);
-
-new dbConnect();
 
 if ($days_back == "all")
 {
@@ -61,4 +59,3 @@ draw_simple_bar_graph(
 );
 
 // vim: sw=4 ts=4 expandtab
-?>

@@ -1,13 +1,11 @@
 <?php
 $relPath="./../../pinc/";
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-include_once($relPath.'connect.inc');
 include_once('common.inc');
 
 $past      = get_enumerated_param($_GET, 'past', null, array('year', 'day'));
 $preceding = get_enumerated_param($_GET, 'preceding', null, array('hour', 'day', 'week', 'fourweek'));
-
-new dbConnect();
 
 // For each hour in the $past interval,
 // show the number of (distinct) users who had logged in
@@ -90,4 +88,4 @@ draw_simple_bar_graph(
     _('Fresh Logons')
 );
 
-?>
+// vim: sw=4 ts=4 expandtab

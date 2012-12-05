@@ -1,8 +1,10 @@
 <?php
 $relPath="../pinc/";
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
+
+require_login();
 
 $ordermap = array(
     'nameofwork'             => 'nameofwork ASC',
@@ -131,5 +133,5 @@ while ( $project = mysql_fetch_object( $result ) )
 
 echo "</table>";
 theme("","footer");
-?>
 
+// vim: sw=4 ts=4 expandtab

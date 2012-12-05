@@ -1,9 +1,11 @@
 <?php
 $relPath='../pinc/';
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_tally.inc');
+
+require_login();
 
 $valid_tally_names = array_keys($page_tally_names);
 $tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names);
@@ -166,5 +168,5 @@ function show_months_with_most_days_over( $n )
 }
 
 theme("","footer");
-?>
 
+// vim: sw=4 ts=4 expandtab

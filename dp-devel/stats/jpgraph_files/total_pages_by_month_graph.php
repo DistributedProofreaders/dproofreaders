@@ -1,7 +1,7 @@
 <?php
 $relPath="./../../pinc/";
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-include_once($relPath.'connect.inc');
 include_once($relPath.'page_tally.inc');
 include_once('common.inc');
 
@@ -12,8 +12,6 @@ $tally_name  = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_name
 // This makes use of the jpgraph cache if enabled.
 // Argument to init_pages_graph is the cache timeout in minutes.
 $graph = init_pages_graph(60);
-
-new dbConnect();
 
 ///////////////////////////////////////////////////
 //Total pages by month since beginning of stats
@@ -43,4 +41,4 @@ draw_pages_graph(
     'Pages Done Each Month Since the Beginning of Statistics Collection'
 );
 
-?>
+// vim: sw=4 ts=4 expandtab

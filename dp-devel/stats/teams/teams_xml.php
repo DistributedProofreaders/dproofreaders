@@ -1,14 +1,12 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'prefs_options.inc');
-include_once($relPath.'connect.inc');
 include_once($relPath.'xml.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'forum_interface.inc'); // get_url_to_view_topic
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
-$db_Connection=new dbConnect();
 
 if (empty($_GET["id"])) {
     include_once($relPath.'theme.inc');
@@ -104,4 +102,5 @@ $data
 </teamstats>";
 
 echo $xmlpage;
-?>
+
+// vim: sw=4 ts=4 expandtab

@@ -1,11 +1,8 @@
 <?php
 $relPath='./../pinc/';
-include($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
-include($relPath.'connect.inc');
-include('statestats.inc');
-include_once($relPath.'gettext_setup.inc');
-$db_Connection=new dbConnect();
+include_once('statestats.inc');
 
 
 // Not translating this file since it is not used by end-users
@@ -90,6 +87,4 @@ $FinPP +=   28; // historical adjustment for first days of Oct
 echo "<b>$FinPP</b> projects were PPd $descrip<br>";
 
 
-
-
-?>
+// vim: sw=4 ts=4 expandtab

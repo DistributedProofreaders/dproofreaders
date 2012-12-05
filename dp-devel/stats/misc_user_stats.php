@@ -1,5 +1,6 @@
 <?php
 $relPath='./../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
 $title=_("Miscellaneous User Statistics");
@@ -13,4 +14,5 @@ echo "<center><img src=\"jpgraph_files/users_by_country.php\"></center><br>";
 echo "<center><img src=\"jpgraph_files/users_by_month_joined.php\"></center><br>";
 
 theme('','footer');
-?>
+
+// vim: sw=4 ts=4 expandtab

@@ -1,8 +1,10 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
+include_once($relPath.'metarefresh.inc');
 include_once('../includes/team.inc');
+
+require_login();
 
 $tid = get_integer_param($_GET, 'tid', null, 0, null);
 
@@ -23,4 +25,5 @@ if ($userP['team_1'] == $tid || $userP['team_2'] == $tid || $userP['team_3'] == 
     $desc = _("Unable to quit team....");
     metarefresh(3,"../teams/tdetail.php?tid=".$tid."",$title,$desc);
 }
-?>
+
+// vim: sw=4 ts=4 expandtab

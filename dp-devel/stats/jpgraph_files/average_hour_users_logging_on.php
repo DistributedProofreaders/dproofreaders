@@ -1,15 +1,13 @@
 <?php
 $relPath="./../../pinc/";
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-include_once($relPath.'connect.inc');
 include_once('common.inc');
 
 // Initialize the graph before anything else.
 // This makes use of the jpgraph cache if enabled.
 // Last argument to init_simple_bar_graph is the cache timeout in minutes.
 $graph = init_simple_bar_graph(640, 400, 58);
-
-new dbConnect();
 
 ///////////////////////////////////////////////////
 //Numbers of users logging on in each hour of the day, since the start of stats
@@ -36,4 +34,4 @@ draw_simple_bar_graph(
     _('Fresh Logons')
 );
 
-?>
+// vim: sw=4 ts=4 expandtab

@@ -1,9 +1,11 @@
 <?php
 $relPath='../pinc/';
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
+
+require_login();
 
 $title = _("Post-Processing Verification Statistics");
 theme($title,'header');
@@ -33,4 +35,5 @@ echo _("Note that the above figures are as accurate as possible within the bound
 echo "<br>\n";
 
 theme("","footer");
-?>
+
+// vim: sw=4 ts=4 expandtab

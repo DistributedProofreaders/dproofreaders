@@ -1,13 +1,11 @@
 <?php
 $relPath='./../pinc/';
-include($relPath.'site_vars.php');
-include($relPath.'project_states.inc');
-include($relPath.'connect.inc');
-include($relPath.'theme.inc');
+include_once($relPath.'base.inc');
+include_once($relPath.'project_states.inc');
+include_once($relPath.'theme.inc');
 include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'misc.inc');
-new dbConnect();
 
 $title = _("Statistics Central");
 theme($title,'header');
@@ -263,4 +261,3 @@ $table->end();
 theme('','footer');
 
 // vim: sw=4 ts=4 expandtab
-?>

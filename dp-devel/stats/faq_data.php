@@ -1,6 +1,6 @@
 <?php
 $relPath="./../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 
 $faq_file=array(
     "ProoferFAQ.php",
@@ -44,4 +44,4 @@ function read_dir($a)
     closedir($d);
 }
 
-?>
+// vim: sw=4 ts=4 expandtab

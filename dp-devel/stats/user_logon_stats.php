@@ -1,5 +1,6 @@
 <?php
 $relPath='./../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
 theme(_("User Logon Statistics"),'header');
@@ -12,7 +13,6 @@ echo "<center><img src=\"jpgraph_files/users_logging_on.php?past=year&preceding=
 echo "<center><img src=\"jpgraph_files/users_logging_on.php?past=year&preceding=week\"></center><br>";
 echo "<center><img src=\"jpgraph_files/users_logging_on.php?past=year&preceding=fourweek\"></center><br>";
 
-
-
 theme('','footer');
-?>
+
+// vim: sw=4 ts=4 expandtab

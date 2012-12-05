@@ -1,10 +1,9 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($jpgraph_dir.'/src/jpgraph.php');
 include_once($jpgraph_dir.'/src/jpgraph_bar.php');
 include_once($jpgraph_dir.'/src/jpgraph_line.php');
-include_once($relPath.'connect.inc');
 include_once($relPath.'page_tally.inc');
 include_once('common.inc');
 
@@ -12,8 +11,6 @@ include_once('common.inc');
 // to make use of the jpgraph cache if enabled.
 // Last value controls how long the graph is cached for in minutes.
 $graph = new Graph(640,400,"auto",900);
-
-new dbConnect();
 
 ///////////////////////////////////////////////////
 // For each month (in which at least one person joined),
@@ -107,5 +104,4 @@ add_graph_timestamp($graph);
 // Display the graph
 $graph->Stroke();
 
-
-?>
+// vim: sw=4 ts=4 expandtab

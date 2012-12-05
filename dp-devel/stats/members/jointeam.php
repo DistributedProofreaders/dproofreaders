@@ -1,9 +1,11 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'metarefresh.inc');
 include_once('../includes/team.inc');
+
+require_login();
 
 $otid = get_integer_param( $_GET, 'otid', 0, 0, 3 );
 $tid  = get_integer_param( $_GET, 'tid', null, 0, null );
@@ -56,4 +58,5 @@ if ($redirect_team == 1) {
     $desc = _("Joining the team....");
     metarefresh(0,"../teams/tdetail.php?tid=$tid",$title, $desc);
 }
-?>
+
+// vim: sw=4 ts=4 expandtab

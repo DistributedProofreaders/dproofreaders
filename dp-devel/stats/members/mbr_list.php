@@ -1,15 +1,13 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'privacy.inc');
-include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'forum_interface.inc');
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
-$db_Connection=new dbConnect();
 
 $order = get_enumerated_param(
     $_GET, 'order', 'u_id', array('u_id', 'username', 'date_created') );
@@ -107,4 +105,5 @@ echo "</td></tr>";
 echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><a href='$code_url/accounts/addproofer.php'><font color='".$theme['color_headerbar_font']."'>"._("Create a New Account")."</font></a></b></td></tr>";
 echo "</table><p>";
 theme("", "footer");
-?>
+
+// vim: sw=4 ts=4 expandtab

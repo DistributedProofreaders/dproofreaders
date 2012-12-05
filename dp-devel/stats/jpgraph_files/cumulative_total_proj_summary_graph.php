@@ -1,22 +1,18 @@
 <?php
 $relPath="./../../pinc/";
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-include_once($relPath.'site_vars.php');
 include_once($relPath.'project_states.inc');
 include_once($jpgraph_dir.'/src/jpgraph.php');
 include_once($jpgraph_dir.'/src/jpgraph_line.php');
 include_once($jpgraph_dir.'/src/jpgraph_bar.php');
-include_once($relPath.'connect.inc');
 include_once($code_dir.'/stats/statestats.inc');
-include_once($relPath.'gettext_setup.inc');
 include_once('common.inc');
 
 // Create the graph. We do this before everything else
 // to make use of the jpgraph cache if enabled.
 // Last value controls how long the graph is cached for in minutes.
 $graph = new Graph(640,400,"auto",360);
-
-new dbConnect();
 
 $graph->SetScale("textint");
 $graph->SetMarginColor('white'); //Set background to white
@@ -87,4 +83,5 @@ add_graph_timestamp($graph);
 
 // Display the graph
 $graph->Stroke();
-?>
+
+// vim: sw=4 ts=4 expandtab

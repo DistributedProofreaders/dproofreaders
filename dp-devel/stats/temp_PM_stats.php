@@ -1,8 +1,10 @@
 <?php
 $relPath='../pinc/';
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
+
+require_login();
 
 $title = _("Temporary Stats");
 theme($title,'header');
@@ -24,4 +26,5 @@ dpsql_dump_themed_query("
 ");
 
 theme("","footer");
-?>
+
+// vim: sw=4 ts=4 expandtab

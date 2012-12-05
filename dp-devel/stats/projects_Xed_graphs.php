@@ -1,12 +1,10 @@
 <?php
 $relPath='./../pinc/';
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 
 $which = get_enumerated_param($_GET, 'which', null, $project_status_descriptors);
-
-new dbConnect();
 
 $psd = get_project_status_descriptor($which);
 
@@ -24,4 +22,3 @@ echo "<center><img src=\"jpgraph_files/cumulative_total_proj_graph.php?which=$wh
 theme('','footer');
 
 // vim: sw=4 ts=4 expandtab
-?>

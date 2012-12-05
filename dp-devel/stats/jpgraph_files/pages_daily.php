@@ -1,7 +1,7 @@
 <?php
 $relPath="./../../pinc/";
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-include_once($relPath.'connect.inc');
 include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'page_tally.inc');
 include_once('common.inc');
@@ -15,8 +15,6 @@ $c_or_i     = get_enumerated_param($_GET, 'cori', null, array('cumulative', 'inc
 // This makes use of the jpgraph cache if enabled.
 // Argument to init_pages_graph is the cache timeout in minutes.
 $graph = init_pages_graph(60);
-
-new dbConnect();
 
 $site_tallyboard = new TallyBoard( $tally_name, 'S' );
 
@@ -208,4 +206,3 @@ draw_pages_graph(
 
 
 // vim: sw=4 ts=4 expandtab
-?>

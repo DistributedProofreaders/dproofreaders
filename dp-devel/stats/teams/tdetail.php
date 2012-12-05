@@ -1,12 +1,10 @@
 <?php
 $relPath="./../../pinc/";
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath.'site_vars.php');
 include_once($relPath.'http_headers.inc');
-include_once($relPath.'connect.inc');
 include_once($relPath.'theme.inc');
 include_once('../includes/team.inc');
-$db_Connection=new dbConnect();
 
 
 # tally_name may be empty/unspecified, or a round name.
@@ -26,4 +24,5 @@ showTeamInformation($curTeam, $tally_name);
 
 echo "</center>";
 theme("", "footer");
-?>
+
+// vim: sw=4 ts=4 expandtab

@@ -1,14 +1,12 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
-include_once($relPath.'connect.inc');
 include_once($relPath.'xml.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'forum_interface.inc');
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
-$db_Connection=new dbConnect();
 
 $username = @$_GET['username'];
 
@@ -122,4 +120,4 @@ if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
 echo "
 </memberstats>";
 
-?>
+// vim: sw=4 ts=4 expandtab

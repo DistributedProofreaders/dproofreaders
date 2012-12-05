@@ -1,6 +1,6 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'page_tally.inc');
 include_once('common.inc');
 
@@ -8,8 +8,6 @@ include_once('common.inc');
 // This makes use of the jpgraph cache if enabled.
 // Last argument to init_simple_bar_graph is the cache timeout in minutes.
 $graph = init_simple_bar_graph(640, 400, 900);
-
-new dbConnect();
 
 
 ///////////////////////////////////////////////////
@@ -52,4 +50,4 @@ draw_simple_bar_graph(
     '% of newly Joined Users who Proofread'
 );
 
-?>
+// vim: sw=4 ts=4 expandtab

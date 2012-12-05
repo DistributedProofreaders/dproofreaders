@@ -1,10 +1,11 @@
 <?php
 // DP includes
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'forum_interface.inc'); // topic_create & get_url_to_view_topic
+
+require_login();
 
 // Which team?
 $team_id = get_integer_param( $_GET, 'team', null, 0, null );
@@ -58,4 +59,5 @@ Use this area to have a discussion with your fellow teammates! :-D
 
 $redirect_url = get_url_to_view_topic($topic_id);
 header("Location: $redirect_url");
-?>
+
+// vim: sw=4 ts=4 expandtab

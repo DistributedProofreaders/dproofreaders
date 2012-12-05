@@ -1,10 +1,12 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'js_newpophelp.inc');
+include_once($relPath.'metarefresh.inc');
 include_once('../includes/team.inc');
+
+require_login();
 
 $theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/faq/pophelp/teams/edit_"));
 
@@ -114,4 +116,3 @@ else
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

@@ -1,11 +1,9 @@
 <?php
 $relPath="./../../pinc/";
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-include_once($relPath.'site_vars.php');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'connect.inc');
 include_once($code_dir.'/stats/statestats.inc');
-include_once($relPath.'gettext_setup.inc');
 include_once('common.inc');
 
 $which = get_enumerated_param($_GET, 'which', null, $project_status_descriptors);
@@ -14,8 +12,6 @@ $which = get_enumerated_param($_GET, 'which', null, $project_status_descriptors)
 // This makes use of the jpgraph cache if enabled.
 // Argument to init_projects_graph is the cache timeout in minutes.
 $graph = init_projects_graph(60);
-
-new dbConnect();
 
 // Create "cumulative projects Xed per day" graph for all days 
 // since state stats started being recorded up to yesterday
@@ -48,4 +44,4 @@ draw_projects_graph(
     "$psd->cumulative_title ($timeframe)"
 );
 
-?>
+// vim: sw=4 ts=4 expandtab

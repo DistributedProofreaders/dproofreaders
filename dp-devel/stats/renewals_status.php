@@ -1,8 +1,7 @@
 <?php
 $relPath = '../pinc/';
-include($relPath.'site_vars.php');
+include($relPath.'base.inc');
 include($relPath.'theme.inc');
-new dbConnect();
 
 $title = _("Copyright Renewals");
 $no_stats = 1;
@@ -219,4 +218,3 @@ echo sprintf( _("Proofreading is %1\$s (%2\$s / %3\$s) done."), "$percentage%", 
 echo "</b>\n";
 
 theme('','footer');
-?>

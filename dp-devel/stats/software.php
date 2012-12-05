@@ -1,6 +1,9 @@
 <?php
 $relPath="./../pinc/";
-include_once($relPath.'dp_main.inc'); // Require login to view this potentially sensitive information.
+include_once($relPath.'base.inc');
+
+// Require login to view this potentially sensitive information.
+require_login();
 
 // This include setup is highly unusual but neccesary because of mixing of
 // phpBB2's and DP's database setup
