@@ -21,12 +21,12 @@ $topic_id = $row['topic_id'];
 if(($topic_id == "") || ($topic_id == 0))
 {
 
-        $tname = $row['teamname'];
-        $towner_name = $row['createdby'];
-        $towner_id = $row['owner'];
-        $tinfo = $row['team_info'];
+    $tname = $row['teamname'];
+    $towner_name = $row['createdby'];
+    $towner_id = $row['owner'];
+    $tinfo = $row['team_info'];
 
-        $message = "
+    $message = "
 Team Name: $tname
 Created By: $towner_name
 Info: $tinfo
@@ -36,21 +36,21 @@ Use this area to have a discussion with your fellow teammates! :-D
 ";
 
 
-	// appropriate forum to create thread in
-	$forum_id = $teams_forum_idx;
+    // appropriate forum to create thread in
+    $forum_id = $teams_forum_idx;
 
-        $post_subject = $tname;
+    $post_subject = $tname;
 
-        $topic_id = topic_create(
+    $topic_id = topic_create(
                 $forum_id,
                 $post_subject,
                 $message,
                 $towner_name,
-		TRUE,
+                TRUE,
                 FALSE );
 
-        //Update user_teams with topic_id so it won't be created again
-        $update_team = mysql_query("UPDATE user_teams SET topic_id=$topic_id WHERE id=$team_id");
+    //Update user_teams with topic_id so it won't be created again
+    $update_team = mysql_query("UPDATE user_teams SET topic_id=$topic_id WHERE id=$team_id");
 
 }
 
