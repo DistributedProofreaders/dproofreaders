@@ -114,7 +114,7 @@ if ($c_or_i == 'increments')
     // $days_to_average days after the timestamp is zero to ensure the average
     // is correct.
     if ( $start_timestamp == 0 )
-	    $where_start_timestamp = $start_timestamp + ($days_to_average * 60*60*24);
+        $where_start_timestamp = $start_timestamp + ($days_to_average * 60*60*24);
 
     $sql = "
         SELECT t1.timestamp,

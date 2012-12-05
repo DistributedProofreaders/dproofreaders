@@ -55,7 +55,7 @@ draw_simple_bar_graph(
     $graph,
     $datax,
     $datay,
-	$x_text_tick_interval,
+    $x_text_tick_interval,
     'Pages Completed per Day',
     'Pages'
 );

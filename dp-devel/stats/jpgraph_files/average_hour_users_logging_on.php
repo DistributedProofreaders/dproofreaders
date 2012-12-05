@@ -28,12 +28,12 @@ $result = mysql_query("
 list($datax,$datay) = dpsql_fetch_columns($result);
 
 draw_simple_bar_graph(
-	$graph,
-	$datax,
-	$datay,
-	1,
-	_('Average number of users newly logged in each hour'),
-	_('Fresh Logons')
+    $graph,
+    $datax,
+    $datay,
+    1,
+    _('Average number of users newly logged in each hour'),
+    _('Fresh Logons')
 );
 
 ?>

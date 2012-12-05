@@ -18,16 +18,16 @@ new dbConnect();
 // and the number of those who have proofread at least one page.
 //
 $result = mysql_query("
-	SELECT
-		FROM_UNIXTIME(date_created, '%Y-%m')
-		  AS month,
-		COUNT(*)
-		  AS num_who_joined,
-		SUM($user_ELR_page_tally_column > 0)
-		  AS num_who_proofed
-	FROM users $joined_with_user_ELR_page_tallies
-	GROUP BY month
-	ORDER BY month
+    SELECT
+        FROM_UNIXTIME(date_created, '%Y-%m')
+          AS month,
+        COUNT(*)
+          AS num_who_joined,
+        SUM($user_ELR_page_tally_column > 0)
+          AS num_who_proofed
+    FROM users $joined_with_user_ELR_page_tallies
+    GROUP BY month
+    ORDER BY month
 ");
 
 // If there was a month when nobody joined,
@@ -44,12 +44,12 @@ while ( $row = mysql_fetch_object($result) )
 $x_text_tick_interval = calculate_text_tick_interval( 'monthly', count($datax) );
 
 draw_simple_bar_graph(
-	$graph,
-	$datax,
-	$data1y,
-	$x_text_tick_interval,
-	'Percentage of New Users Who Went on to Proofread By Month',
-	'% of newly Joined Users who Proofread'
+    $graph,
+    $datax,
+    $data1y,
+    $x_text_tick_interval,
+    'Percentage of New Users Who Went on to Proofread By Month',
+    '% of newly Joined Users who Proofread'
 );
 
 ?>

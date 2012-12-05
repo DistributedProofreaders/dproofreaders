@@ -17,48 +17,48 @@ $seconds_per_day = 24 * 60 * 60;
 
 switch ($past)
 {
-	case 'year':
-		$min_timestamp = time() - 366 * $seconds_per_day;
-		$date_format = '%Y-%b-%d %H';
-		break;
+    case 'year':
+        $min_timestamp = time() - 366 * $seconds_per_day;
+        $date_format = '%Y-%b-%d %H';
+        break;
 
-	case 'day':
-		$min_timestamp = time() - $seconds_per_day;
-		$date_format = '%d %H';
-		break;
+    case 'day':
+        $min_timestamp = time() - $seconds_per_day;
+        $date_format = '%d %H';
+        break;
 
-	default:
-		die("bad value for 'past'");
+    default:
+        die("bad value for 'past'");
 }
 
 switch ($preceding)
 {
-	case 'hour':
-		$title = "Number of users newly logged in each hour";
-		$column_name = 'L_hour';
-		$cache_timeout = 58;
-		break;
+    case 'hour':
+        $title = "Number of users newly logged in each hour";
+        $column_name = 'L_hour';
+        $cache_timeout = 58;
+        break;
 
-	case 'day':
-		$title = 'Number of users newly logged in over 24 hours';
-		$column_name = 'L_day';
-		$cache_timeout = 58;
-		break;
+    case 'day':
+        $title = 'Number of users newly logged in over 24 hours';
+        $column_name = 'L_day';
+        $cache_timeout = 58;
+        break;
 
-	case 'week':
-		$title = "Number of users newly logged in over 7 days";
-		$column_name = 'L_week';
-		$cache_timeout = 300;
-		break;
+    case 'week':
+        $title = "Number of users newly logged in over 7 days";
+        $column_name = 'L_week';
+        $cache_timeout = 300;
+        break;
 
-	case 'fourweek':
-		$title = "Number of users newly logged in over 28 days";
-		$column_name = 'L_4wks';
-		$cache_timeout = 900;
-		break;
+    case 'fourweek':
+        $title = "Number of users newly logged in over 28 days";
+        $column_name = 'L_4wks';
+        $cache_timeout = 900;
+        break;
 
-	default:
-		die("bad value for 'preceding'");
+    default:
+        die("bad value for 'preceding'");
 }
 
 
@@ -82,12 +82,12 @@ list($datax,$datay) = dpsql_fetch_columns($result);
 $x_text_tick_interval = calculate_text_tick_interval( 'hourly', count($datay) );
 
 draw_simple_bar_graph(
-	$graph,
-	$datax,
-	$datay,
-	$x_text_tick_interval,
-	$title,
-	_('Fresh Logons')
+    $graph,
+    $datax,
+    $datay,
+    $x_text_tick_interval,
+    $title,
+    _('Fresh Logons')
 );
 
 ?>

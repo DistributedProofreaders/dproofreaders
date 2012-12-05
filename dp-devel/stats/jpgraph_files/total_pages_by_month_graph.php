@@ -19,28 +19,28 @@ new dbConnect();
 //Total pages by month since beginning of stats
 
 $result = mysql_query(
-	select_from_site_past_tallies_and_goals(
-		$tally_name,
-		"SELECT {year_month}, SUM(tally_delta), SUM(goal)",
-		"",
-		"GROUP BY 1",
-		"ORDER BY 1",
-		""
-	)
+    select_from_site_past_tallies_and_goals(
+        $tally_name,
+        "SELECT {year_month}, SUM(tally_delta), SUM(goal)",
+        "",
+        "GROUP BY 1",
+        "ORDER BY 1",
+        ""
+    )
 );
 
 list($datax,$datay1,$datay2) = dpsql_fetch_columns($result);
 
 draw_pages_graph(
-	$graph,
-	$datax,
-	$datay1,
-	$datay2,
-	null,
-	null,
-	'monthly',
-	'increments',
-	'Pages Done Each Month Since the Beginning of Statistics Collection'
+    $graph,
+    $datax,
+    $datay1,
+    $datay2,
+    null,
+    null,
+    'monthly',
+    'increments',
+    'Pages Done Each Month Since the Beginning of Statistics Collection'
 );
 
 ?>

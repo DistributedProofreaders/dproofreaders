@@ -32,36 +32,36 @@ $maxday = get_number_of_days_in_current_month();
 
 //query db and put results into arrays
 $result = mysql_query("
-	SELECT day, SUM(num_projects)
-	FROM project_state_stats
-	WHERE month = '$month' AND year = '$year' AND ($psd->state_selector)
-	GROUP BY day
-	ORDER BY day
+    SELECT day, SUM(num_projects)
+    FROM project_state_stats
+    WHERE month = '$month' AND year = '$year' AND ($psd->state_selector)
+    GROUP BY day
+    ORDER BY day
 ");
 
 list($datax,$y_num_projects) = dpsql_fetch_columns($result);
 
 // get base level, total at beginning of 1st day of month
-	// snapshot is taken just after midnight,
-	// so day = 1 has total at beginning of month
-	// Subtract that base level from each subsequent day's value
+    // snapshot is taken just after midnight,
+    // so day = 1 has total at beginning of month
+    // Subtract that base level from each subsequent day's value
 $datay1 = array_subtract_first_from_each($y_num_projects);
 array_shift( $datay1 );
 
 // Pad out the rest of the month
 for ( $i = count($datay1); $i < $maxday; $i++ )
 {
-	$datax[$i] = $i+1;
-	$datay1[$i] = "";
+    $datax[$i] = $i+1;
+    $datay1[$i] = "";
 }
 
 draw_projects_graph(
-	$graph,
-	$datax,
-	$datay1,
-	'cumulative',
-	$psd->color,
-	"$psd->cumulative_title ($timeframe)"
+    $graph,
+    $datax,
+    $datay1,
+    'cumulative',
+    $psd->color,
+    "$psd->cumulative_title ($timeframe)"
 );
 
 ?>

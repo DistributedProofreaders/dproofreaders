@@ -21,25 +21,25 @@ new dbConnect();
 // and the number who have since proofread at least one page.
 //
 $result = mysql_query("
-	SELECT
-		FROM_UNIXTIME(date_created, '%Y-%m')
-		  AS month,
-		count(*)
-		  AS num_who_joined,
-		SUM($user_ELR_page_tally_column > 0)
-		  AS num_who_proofed
-	FROM users $joined_with_user_ELR_page_tallies 
-	GROUP BY month
-	ORDER BY month
+    SELECT
+        FROM_UNIXTIME(date_created, '%Y-%m')
+          AS month,
+        count(*)
+          AS num_who_joined,
+        SUM($user_ELR_page_tally_column > 0)
+          AS num_who_proofed
+    FROM users $joined_with_user_ELR_page_tallies 
+    GROUP BY month
+    ORDER BY month
 ");
 
 
 while ( $row = mysql_fetch_object($result) )
 {
-        $datax[]  = $row->month;
-        $data1y[] = $row->num_who_joined;
-        $data2y[] = $row->num_who_proofed;
-	$data3y[] = 100.0 * $row->num_who_proofed / $row->num_who_joined;
+    $datax[]  = $row->month;
+    $data1y[] = $row->num_who_joined;
+    $data2y[] = $row->num_who_proofed;
+    $data3y[] = 100.0 * $row->num_who_proofed / $row->num_who_joined;
 }
 
 

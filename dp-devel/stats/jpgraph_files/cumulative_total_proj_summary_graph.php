@@ -29,34 +29,34 @@ $max_num_data = 0;
 
 foreach ($project_status_descriptors as $which)
 {
-	$psd = get_project_status_descriptor($which);
+    $psd = get_project_status_descriptor($which);
 
-	//query db and put results into arrays
-	$result = mysql_query("
-		SELECT date, SUM(num_projects)
-		FROM project_state_stats
-		WHERE $psd->state_selector
-		GROUP BY DATE
-		ORDER BY date ASC
-	");
+    //query db and put results into arrays
+    $result = mysql_query("
+        SELECT date, SUM(num_projects)
+        FROM project_state_stats
+        WHERE $psd->state_selector
+        GROUP BY DATE
+        ORDER BY date ASC
+    ");
 
-	list($datax,$datay) = dpsql_fetch_columns($result);
+    list($datax,$datay) = dpsql_fetch_columns($result);
 
-	if (empty($datay)) {
-		$datay[0] = 0;
-	}
+    if (empty($datay)) {
+        $datay[0] = 0;
+    }
 
-	if (count($datay) > $max_num_data) {
-		$max_num_data = count($datay);
-	}
+    if (count($datay) > $max_num_data) {
+        $max_num_data = count($datay);
+    }
 
-	//Create the line plot
-	$lplot =& new LinePlot($datay);
-	$lplot->SetColor($psd->color);
-	$lplot->SetLegend($psd->cumulative_title);
-	$lplot->SetWeight(1);
-	$lplot->SetFillColor($psd->color);
-	$graph->Add($lplot); 
+    //Create the line plot
+    $lplot =& new LinePlot($datay);
+    $lplot->SetColor($psd->color);
+    $lplot->SetLegend($psd->cumulative_title);
+    $lplot->SetWeight(1);
+    $lplot->SetFillColor($psd->color);
+    $graph->Add($lplot); 
 }
 
 //set X axis

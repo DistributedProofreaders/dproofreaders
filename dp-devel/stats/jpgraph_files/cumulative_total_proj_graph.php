@@ -26,26 +26,26 @@ $timeframe = _('since stats began');
 
 //query db and put results into arrays
 $result = mysql_query("
-	SELECT date, SUM(num_projects)
-	FROM project_state_stats
-	WHERE $psd->state_selector
-	GROUP BY date
-	ORDER BY date ASC
+    SELECT date, SUM(num_projects)
+    FROM project_state_stats
+    WHERE $psd->state_selector
+    GROUP BY date
+    ORDER BY date ASC
 ");
 
 list($datax,$datay1) = dpsql_fetch_columns($result);
 
 if (empty($datay1)) {
-	$datay1[0] = 0;
+    $datay1[0] = 0;
 }
 
 draw_projects_graph(
-	$graph,
-	$datax,
-	$datay1,
-	'cumulative',
-	$psd->color,
-	"$psd->cumulative_title ($timeframe)"
+    $graph,
+    $datax,
+    $datay1,
+    'cumulative',
+    $psd->color,
+    "$psd->cumulative_title ($timeframe)"
 );
 
 ?>
