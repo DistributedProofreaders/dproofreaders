@@ -281,14 +281,11 @@ function insertTags(tagOpen, tagClose, sampleText, replace)
 
 // ----------
 
-function isDigit(num)
+// A string is a footnote label if it's a letter A-Z, or an integer > 0
+function isFootnoteLabel(label)
 {
-    return num.length == 1 && "1234567890".indexOf(num) != -1;
-}
-
-function isLetter(chr)
-{
-    return chr.length == 1 && "abcdefghijklmnopqrstuvwxyz".indexOf(chr.toLowerCase()) != -1;
+    if (label.length == 1 && "abcdefghijklmnopqrstuvwxyz".indexOf(label.toLowerCase()) != -1) return true;
+    return parseInt(label) == label && label > 0;
 }
 
 // Used when wrapping body text in markup or tags.
@@ -312,19 +309,24 @@ function processText(tagOpen, tagClose, bodyText)
         }
     }
     
-    // Handle footnote index substitution
+    // Handle footnote label substitution
     if (tagOpen == '[Footnote #: ') {
         // Split the selected text on the first space in the string.
-        // If the first part is a letter or a number then replace the # with
-        // it, otherwise wrap the selected text in the tags as normally.
-        i = innerText.indexOf(' ');
+        // If the first part is a label use it in the opening tag in
+        // place of '#', otherwise remove the ' #' from the opening tag.
+        label = '';
+        i = bodyText.indexOf(' ');
         if (i != -1) {
-            indexText = bodyText.substr(0, i)
-            if (isLetter(indexText) || parseInt(indexText) == indexText) {
-                tagOpen = tagOpen.replace('#', indexText);
+            first = bodyText.substr(0, i);
+            if (isFootnoteLabel(first)) {
+                label = ' ' + first;
                 bodyText = bodyText.substr(i+1);
         }
         }
+        tagOpen = tagOpen.replace(' #', label);
+
+        // If there's no body text, remove the label entirely.
+        if (bodyText == '') tagOpen = tagOpen.replace(': ', '');
     }
 
     return [tagOpen, tagClose, bodyText];
