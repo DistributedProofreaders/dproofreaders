@@ -13,6 +13,22 @@ include_once($jpgraph_dir.'/src/jpgraph_pie.php');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function get_image_cache_filename()
+// Returns a filename to pass into jpgraph's Graph constructor for caching
+// purposes.
+// jpgraph allows a value of "auto" to be passed which will base the image
+// filename off the PHP_SELF value from Apache. This can't be used with
+// gettext() support because we need to cache a per-language version of the
+// graph. Instead we leverage jpgraph's GenImgName() function (which is
+// ultimately used if "auto" is passed into the constructor) and prepend the
+// user's language.
+{
+    global $intlang; // language set by gettext_setup.inc
+    return "$intlang-" . GenImgName();
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 function get_number_of_days_in_current_month()
 {
     $current = getdate();
@@ -76,7 +92,7 @@ function array_accumulate( $arr )
 
 function init_pages_graph($cache_timeout)
 {
-    return new Graph(640,400,"auto",$cache_timeout);
+    return new Graph(640,400,get_image_cache_filename(),$cache_timeout);
 }
 
 function draw_pages_graph(
@@ -207,7 +223,7 @@ function draw_pages_graph(
 
 function init_projects_graph($cache_timeout)
 {
-    return new Graph(640,400,"auto",$cache_timeout);
+    return new Graph(640,400,get_image_cache_filename(),$cache_timeout);
 }
 
 function draw_projects_graph(
@@ -328,7 +344,7 @@ function draw_projects_graph(
 
 function init_pie_graph($width, $height, $cache_timeout)
 {
-    return new PieGraph($width,$height,"auto",$cache_timeout);
+    return new PieGraph($width,$height,get_image_cache_filename(),$cache_timeout);
 }
 
 function draw_pie_graph(
@@ -399,7 +415,7 @@ function draw_pie_graph(
 
 function init_simple_bar_graph($width, $height, $cache_timeout)
 {
-    return new Graph($width,$height,"auto",$cache_timeout);
+    return new Graph($width,$height,get_image_cache_filename(),$cache_timeout);
 }
 
 function draw_simple_bar_graph(

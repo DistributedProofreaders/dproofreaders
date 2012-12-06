@@ -10,7 +10,7 @@ include_once('common.inc');
 // Create the graph. We do this before everything else
 // to make use of the jpgraph cache if enabled.
 // Last value controls how long the graph is cached for in minutes.
-$graph = new Graph(640,400,"auto",900);
+$graph = new Graph(640,400,get_image_cache_filename(),900);
 
 ///////////////////////////////////////////////////
 // For each month (in which at least one person joined),

@@ -9,7 +9,7 @@ include_once("common.inc");
 // Create the graph. We do this before everything else
 // to make use of the jpgraph cache if enabled.
 // Last value controls how long the graph is cached for in minutes.
-$graph = new Graph(640,400,"auto",1440);
+$graph = new Graph(640,400,get_image_cache_filename(),1440);
 
 ///////////////////////////////////////////////////////////////////
 //Number of users who have done X pages, and how recently logged in

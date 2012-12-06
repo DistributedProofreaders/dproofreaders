@@ -12,7 +12,7 @@ include_once('common.inc');
 // Create the graph. We do this before everything else
 // to make use of the jpgraph cache if enabled.
 // Last value controls how long the graph is cached for in minutes.
-$graph = new Graph(640,400,"auto",360);
+$graph = new Graph(640,400,get_image_cache_filename(),360);
 
 $graph->SetScale("textint");
 $graph->SetMarginColor('white'); //Set background to white
