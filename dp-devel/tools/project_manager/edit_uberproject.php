@@ -30,8 +30,7 @@ require_login();
 // -----------------------------------------------------------------------------
 
 // For each control that can appear in the form, create and
-// initialize a variable if there's a POST parameter by that name,
-// so we don't have to rely on the extract($_POST) in dp_main.inc.
+// initialize a variable if there's a POST parameter by that name.
 $var_names = array(
     'rec',
     'up_projectid',

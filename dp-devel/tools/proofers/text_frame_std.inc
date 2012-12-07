@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'button_defs.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc');

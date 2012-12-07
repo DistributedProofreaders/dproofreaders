@@ -3,7 +3,6 @@
 // of the proofing interface (i.e., everything but the "AEIOU+" panel)
 // to be sent to the user.
 
-include_once($relPath.'dp_main.inc');
 include_once('proof_frame_std.inc');
 include_once('proof_frame_enh.inc');
 

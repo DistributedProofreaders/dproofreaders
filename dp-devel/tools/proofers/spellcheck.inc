@@ -1,7 +1,6 @@
 <?php
 $relPath="./../../pinc/";
 include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'links.inc'); // new_window_link
 include_once($relPath.'misc.inc'); // javascript_safe, attr_safe
