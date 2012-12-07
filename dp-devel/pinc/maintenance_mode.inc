@@ -1,7 +1,5 @@
 <?php
-include_once($relPath.'user_is.inc');
 include_once($relPath.'site_vars.php');
-include_once($relPath.'slim_header.inc');
 
 function abort_if_in_maintenance_mode()
 {
@@ -9,6 +7,17 @@ function abort_if_in_maintenance_mode()
 
     if ($maintenance)
     {
+        /*
+        Including user_is.inc causes a perf impact because it includes
+        page_tally.inc, which includes stages.inc - all of which have a
+        great deal of overhead. That's a whole lot of work to satisfy a
+        rare edge case (that we're in maintenance mode). 
+        Until that's resolved, conditionally include it. This is a band-aid,
+        not a fix!
+        */
+        include_once($relPath.'user_is.inc');
+        include_once($relPath.'slim_header.inc');
+
         if (!user_is_a_sitemanager())
         {
             $title = sprintf(_("%s Maintenance"),$site_name);
