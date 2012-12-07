@@ -24,7 +24,6 @@ slim_header($title, TRUE, FALSE);
 // Get a list of images in the project so we can populate the prev and
 // next <link rel=... href=...> tags in <head> if needed.
 // NB The query results are used later to populate a popup menu too.
-new dbConnect();
 $res = mysql_query( "SELECT image FROM $project ORDER BY image ASC") or die(mysql_error());
 $num_rows = mysql_num_rows($res);
 $prev_image = "";
