@@ -608,10 +608,8 @@ the FAQ file with a snippet of PHP code like:
 
 <?php
 $relPath='../pinc/';
-include($relPath.'site_vars.php');
-include($relPath.'connect.inc');
-include($relPath.'theme.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
+include_once($relPath.'theme.inc');
 $no_stats=1;
 theme('Post-Processing FAQ','header');
 ?>
