@@ -23,10 +23,11 @@
  */
 
 $relPath='../../pinc/';
-// to establish logon
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once('mentorclasses.inc');
+
+require_login();
 
 // put mainline logic in braces for personal comfort only.
 {
@@ -129,4 +130,4 @@ function BeginPages()
     }
 }
 
-?>
+// vim: sw=4 ts=4 expandtab

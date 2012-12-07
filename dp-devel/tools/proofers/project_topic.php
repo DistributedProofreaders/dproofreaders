@@ -1,10 +1,11 @@
 <?php
 // DP includes
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
+
+require_login();
 
 // Which project?
 $project_id = $_GET['project'];
@@ -15,4 +16,5 @@ $topic_id = $project->ensure_topic();
 
 $redirect_url = get_url_to_view_topic($topic_id);
 header("Location: $redirect_url");
-?>
+
+// vim: sw=4 ts=4 expandtab

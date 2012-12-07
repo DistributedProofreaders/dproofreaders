@@ -1,6 +1,6 @@
 <?php
 $relPath = './../../pinc/';
-include_once($relPath."site_vars.php");
+include_once($relPath."base.inc");
 include_once($relPath."slim_header.inc");
 include_once($relPath."misc.inc");
 slim_header(_("Search/Replace"));
@@ -142,3 +142,5 @@ echo _("[hb]e &mdash; 'he' or 'be'") . "<br />\n";
 
 <?php
 slim_footer();
+
+// vim: sw=4 ts=4 expandtab

@@ -9,10 +9,12 @@
 error_reporting(E_ALL);
 
 $relPath='../../pinc/';
-include_once($relPath.'dp_main.inc'); // to establish logon
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'DpTableClass.inc');
+
+require_login();
 
 // ---------------------------------------------------------------
 
@@ -591,4 +593,3 @@ function myjs()
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

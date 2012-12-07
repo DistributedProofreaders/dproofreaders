@@ -1,9 +1,10 @@
 <?php
 $relPath="./../../pinc/";
-include($relPath.'site_vars.php');
+include($relPath.'base.inc');
 include($relPath.'theme.inc');
 include($relPath.'Project.inc');
-include($relPath.'dp_main.inc'); // require user is logged in
+
+require_login();
 
 $projectid = validate_projectID('project', @$_GET['project']);
 
@@ -195,4 +196,3 @@ function show_dl_link( $image_names, $these_are_page_images )
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

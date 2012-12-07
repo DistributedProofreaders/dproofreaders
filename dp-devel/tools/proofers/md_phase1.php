@@ -1,13 +1,14 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
-//include_once($relPath.'project_edit.inc');
+
+require_login();
+
 $show_image_size = '';
 
 $projectid = validate_projectID('projectid', @$_GET['projectid']);
@@ -196,4 +197,3 @@ echo "<br>";
 theme("","footer");
 
 // vim: sw=4 ts=4 expandtab
-?>

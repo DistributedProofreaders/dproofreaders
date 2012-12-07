@@ -1,13 +1,14 @@
 <?php
 $relPath="./../../pinc/";
+include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'LPage.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'abort.inc');
-include_once($relPath.'site_vars.php');
 include_once('PPage.inc');
 include_once('proof_frame.inc');
+
+require_login();
 
 /* $_GET from IN PROGRESS/DONE and from 'Edit' links on Images,Diffs screen
 url_for_pi_do_particular_page()
@@ -118,4 +119,3 @@ function getDebounceInfo()
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

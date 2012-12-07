@@ -1,7 +1,6 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'stages.inc');
@@ -10,6 +9,8 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'misc.inc');
 include_once('PPage.inc');
+
+require_login();
 
 $no_stats=1;
 
@@ -112,4 +113,5 @@ else
     }
 
 }
-?>
+
+// vim: sw=4 ts=4 expandtab

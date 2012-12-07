@@ -1,6 +1,7 @@
 <?php
 $relPath="./../../pinc/";
-include($relPath.'doctype.inc');
+include_once($relPath.'base.inc');
+include_once($relPath.'doctype.inc');
 echo $docType. "\r\n";
 ?>
 <HTML><HEAD><TITLE>Latin-1 (ISO 8859-1) Character Set</TITLE>

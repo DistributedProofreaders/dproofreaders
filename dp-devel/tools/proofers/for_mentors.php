@@ -6,12 +6,14 @@
     ************************************
 */
 $relPath='../../pinc/';
-include_once($relPath.'dp_main.inc');        // to establish logon
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');          // for dpsql_dump_query
 include_once($relPath.'prefs_options.inc');  // for PRIVACY_* constants
 include_once($relPath.'theme.inc');          // for page marginalia
 include_once($relPath.'project_states.inc'); // for PROJ_ declarations
 include_once($relPath.'TallyBoard.inc');     // for TallyBoard
+
+require_login();
 
 // Display page header.
 theme(_("For Mentors"), "header");
@@ -201,4 +203,3 @@ function page_list_sql($mentored_round, $projectid)
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

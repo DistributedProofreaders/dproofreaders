@@ -1,11 +1,12 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once('PPage.inc');
 include_once('proof_frame.inc');
 include_once('text_frame_std.inc');
+
+require_login();
 
 /*
 $_POST:
@@ -281,4 +282,3 @@ function leave_proofing_interface( $title, $body )
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

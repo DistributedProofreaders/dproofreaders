@@ -1,11 +1,12 @@
 <?php
 $relPath="./../../pinc/";
-include($relPath.'site_vars.php');
-include($relPath.'dp_main.inc');
-include($relPath.'Project.inc');
+include_once($relPath.'base.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'project_states.inc');
-include($relPath."doctype.inc");
+include_once($relPath."doctype.inc");
 include_once($relPath.'theme.inc');
+
+require_login();
 
 if (!$site_supports_metadata)
 {
@@ -205,4 +206,3 @@ echo "</td></tr></table>\n";
 echo "</body></html>";
 
 // vim: sw=4 ts=4 expandtab
-?>

@@ -3,16 +3,18 @@
 // including (most importantly) the list of projects available for work.
 
 $relPath='../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'stages.inc');
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'showavailablebooks.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'mentorbanner.inc');
 include_once($relPath.'page_tally.inc');
+
+require_login();
 
 $round_id = array_get( $_GET, 'round_id', NULL );
 if (is_null($round_id))
@@ -160,4 +162,3 @@ show_projects_for_round( $round, $show_filter_block, $allow_special_colors_legen
 theme('', 'footer');
 
 // vim: sw=4 ts=4 expandtab
-?>

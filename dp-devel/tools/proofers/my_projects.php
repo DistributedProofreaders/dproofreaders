@@ -1,12 +1,14 @@
 <?php
 $relPath='../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'js_newwin.inc');
+
+require_login();
 
 $qs_username = '';
 if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
@@ -352,4 +354,3 @@ function show_headings($colspecs, $sort_type)
     echo "</tr>\n";
 }
 // vim: sw=4 ts=4 expandtab
-?>

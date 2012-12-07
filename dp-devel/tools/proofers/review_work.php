@@ -1,11 +1,13 @@
 <?php
 $relPath='../../pinc/';
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'Project.inc'); // does_project_page_table_exist()
+
+require_login();
 
 define("MESSAGE_INFO",0);
 define("MESSAGE_WARNING",1);
@@ -373,4 +375,3 @@ echo "<br>";
 theme('', 'footer');
 
 // vim: sw=4 ts=4 expandtab
-?>

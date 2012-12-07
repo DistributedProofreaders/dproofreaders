@@ -1,9 +1,10 @@
 <?php
 $relPath="./../../pinc/";
+include_once($relPath.'base.inc');
 include_once($relPath.'http_headers.inc');
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
 include_once('PPage.inc');
+
+require_login();
 
 $ppage = get_requested_PPage($_GET);
 
@@ -23,3 +24,5 @@ width="<?php
 
 <?php
 slim_footer();
+
+// vim: sw=4 ts=4 expandtab

@@ -1,7 +1,8 @@
 <?php
 $relPath="./../../pinc/";
-include($relPath.'doctype.inc');
-include($relPath.'pg.inc');
+include_once($relPath.'base.inc');
+include_once($relPath.'doctype.inc');
+include_once($relPath.'pg.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc');
 
@@ -177,3 +178,5 @@ echo _("For these, put '<code>h</code>' before the letter <em>unless</em> the wo
 
 <?php
 slim_footer();
+
+// vim: sw=4 ts=4 expandtab
