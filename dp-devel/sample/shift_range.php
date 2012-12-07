@@ -1,9 +1,7 @@
 <?php
 $relPath = './../pinc/';
-include_once( $relPath.'site_vars.php' );
+include_once( $relPath.'base.inc' );
 include_once( $relPath.'dpsql.inc' );
-include_once( $relPath.'connect.inc' );
-new dbConnect;
 
 function shift_range( $projectid, $n_digits, $lo, $hi, $offset, $dryrun )
 // Shift a range of pages by some fixed offset.

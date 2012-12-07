@@ -8,9 +8,8 @@
 error_reporting(E_ALL);
 
 $relPath='./pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-include_once($relPath.'connect.inc');
-new dbConnect();
 
 echo "<pre>\n";
 
@@ -155,7 +154,6 @@ if (0)
 
 if (0)
 {
-	include_once($relPath.'site_vars.php');
 	include_once($relPath.'misc.inc');
 
 	$allscripts = array_merge(

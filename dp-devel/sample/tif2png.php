@@ -1,4 +1,6 @@
 <?php 
+$relPath = './../pinc/';
+include_once($relPath.'base.inc');
 
 // Change these according to site
 

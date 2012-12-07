@@ -1,6 +1,6 @@
 <?php
 $relPath='../../pinc/';
-include($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 ?>
 
 <table border="0" style="border-collapse: collapse" width="100%" id="table1">

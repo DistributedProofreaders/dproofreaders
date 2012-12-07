@@ -1,4 +1,6 @@
 <?php
+$relPath = './../pinc/';
+include_once($relPath.'base.inc');
 
 require_once 'Userclass.inc';
 require_once 'PHPUnit.php';
