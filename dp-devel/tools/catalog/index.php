@@ -1,9 +1,10 @@
 <?php
 $relPath = '../../pinc/';
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'slim_header.inc');
-include_once($relPath.'site_vars.php');
+
+require_login();
 
 $title = sprintf(_("%s Catalog"), $site_name);
 

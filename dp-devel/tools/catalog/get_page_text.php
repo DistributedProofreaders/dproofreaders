@@ -1,8 +1,10 @@
 <?php
 $relPath="../../pinc/";
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'project_states.inc');
+
+require_login();
 
 $projectid  = validate_projectID('project', $_GET['project']);
 $page_image = validate_page_image_filename('page_image', @$_GET['page_image']);
@@ -27,4 +29,4 @@ else
     echo $row[$column];
 }
 
-?>
+// vim: sw=4 ts=4 expandtab
