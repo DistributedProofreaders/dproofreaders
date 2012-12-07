@@ -25,13 +25,19 @@ function uninstalled_langs()
     return $GLOBALS['uninst_lang_data'];
 }
 
-function lang_code($shortcode) {
-    global $locales;
+function lang_code($language_code) {
+    global $locales, $inst_lang_data;
 
+    // see if there's a preferred variation
+    $shortcode = $language_code;
     if(isset($locales[$shortcode]) ||
        isset($locales[$shortcode=substr($shortcode,0,5)]) ||
        isset($locales[$shortcode=substr($shortcode,0,2)]))
         return $locales[$shortcode];
+
+    // if not, return one of the ones that's installed
+    if(in_array($language_code, $inst_lang_data))
+        return $language_code;
 
     return FALSE;
 }
