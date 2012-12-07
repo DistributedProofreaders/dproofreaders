@@ -14,28 +14,28 @@ theme( _("Image Metadata Collection"), "header");
 
 if (!$site_supports_metadata)
 {
-	echo _("md_available.php: \$site_supports_metadata is false, so exiting.");
-	exit();
+    echo _("md_available.php: \$site_supports_metadata is false, so exiting.");
+    exit();
 }
 
 //Phase 1 table----------------------------------------------------------------------------------
 
 echo "<table border=1>\n";
       // Header row
-		echo "<tr>\n";
-		echo "    <td align='center' colspan='4'><b>" . _("Books Waiting for Phase 1 Review") . "</b></td><tr></tr>\n";
+        echo "<tr>\n";
+        echo "    <td align='center' colspan='4'><b>" . _("Books Waiting for Phase 1 Review") . "</b></td><tr></tr>\n";
       echo "    <td align='center' colspan='4'>" . _("In this phase we determine that the book has all of its pages and annotate what the original page number was in the printed version.") . "</td><tr></tr>\n";
-		echo "    <td align='center' colspan='1'><b>" . _("Title") . "</b></td>\n";
-		echo "    <td align='center' colspan='1'><b>" . _("Author") . "</b></td>\n";
-		echo "    <td align='center' colspan='1'><b>" . _("Total Pages") . "</b></td>\n";
-//		echo "    <td align='center' colspan='1'><b>Remaining Pages</b></td>\n";
-		echo "</tr>\n";
+        echo "    <td align='center' colspan='1'><b>" . _("Title") . "</b></td>\n";
+        echo "    <td align='center' colspan='1'><b>" . _("Author") . "</b></td>\n";
+        echo "    <td align='center' colspan='1'><b>" . _("Total Pages") . "</b></td>\n";
+//        echo "    <td align='center' colspan='1'><b>Remaining Pages</b></td>\n";
+        echo "</tr>\n";
 
       $result = mysql_query("SELECT projectid, nameofwork, authorsname, language, state FROM projects
                 WHERE state = 'project_md_first' AND thumbs = 'yes'");
 
-	$numrows = mysql_num_rows($result);
-	$rownum = 0;
+    $numrows = mysql_num_rows($result);
+    $rownum = 0;
 
       while ($rownum < $numrows) {
            $projectid = mysql_result($result, $rownum, "projectid");
@@ -46,12 +46,12 @@ echo "<table border=1>\n";
 
            $numpages = Project_getNumPages( $projectid );
 
-	if ($rownum % 2 ) {
-			$row_color = $theme['color_mainbody_bg'];
-		} else {
-			$row_color = $theme['color_navbar_bg'];
-		}
-		
+    if ($rownum % 2 ) {
+            $row_color = $theme['color_mainbody_bg'];
+        } else {
+            $row_color = $theme['color_navbar_bg'];
+        }
+        
       echo "<tr bgcolor='$row_color'>";
       echo "<td align='right'><a href = \"md_phase1.php?projectid=$projectid\">$name</a></td>\n";
       echo "<td align='right'>$author</td>\n";
@@ -60,34 +60,34 @@ echo "<table border=1>\n";
 
       $rownum++;
       echo "</tr>";
-	}
+    }
 
 //echo "</table>";
 echo "<br>";
-		echo "<tr></tr>\n";
-		echo "<tr></tr>\n";
-		echo "<tr></tr>\n";
-		echo "<tr></tr>\n";
-		echo "<tr></tr>\n";
-		echo "<tr></tr>\n";
+        echo "<tr></tr>\n";
+        echo "<tr></tr>\n";
+        echo "<tr></tr>\n";
+        echo "<tr></tr>\n";
+        echo "<tr></tr>\n";
+        echo "<tr></tr>\n";
 
 
 //Phase 2 table----------------------------------------------------------------------------------
 //echo "<table border=1>\n";
       // Header row
-		echo "<tr>\n";
-		echo "    <td align='center' colspan='4'><b>" . _("Books Waiting for Phase 2 Review") . "</b></td><tr></tr>\n";
+        echo "<tr>\n";
+        echo "    <td align='center' colspan='4'><b>" . _("Books Waiting for Phase 2 Review") . "</b></td><tr></tr>\n";
             echo "    <td align='center' colspan='4'>" . _("In this phase we go through each page and annotate which pages contain footnotes, chapter headings, etc.") . "</td><tr></tr>\n";
-		echo "    <td align='center' colspan='1'><b>" . _("Title") . "</b></td>\n";
-		echo "    <td align='center' colspan='1'><b>" . _("Author") . "</b></td>\n";
-		echo "    <td align='center' colspan='1'><b>" . _("Total Pages") . "</b></td>\n";
-		echo "    <td align='center' colspan='1'><b>" . _("Remaining Pages") . "</b></td>\n";
-		echo "</tr>\n";
+        echo "    <td align='center' colspan='1'><b>" . _("Title") . "</b></td>\n";
+        echo "    <td align='center' colspan='1'><b>" . _("Author") . "</b></td>\n";
+        echo "    <td align='center' colspan='1'><b>" . _("Total Pages") . "</b></td>\n";
+        echo "    <td align='center' colspan='1'><b>" . _("Remaining Pages") . "</b></td>\n";
+        echo "</tr>\n";
 
       $result = mysql_query("SELECT projectid, nameofwork, authorsname, language, username, state FROM projects
                 WHERE state = 'project_md_second'");
-	$numrows = mysql_num_rows($result);
-	$rownum = 0;
+    $numrows = mysql_num_rows($result);
+    $rownum = 0;
 
       while ($rownum < $numrows) {
            $projectid = mysql_result($result, $rownum, "projectid");
@@ -99,12 +99,12 @@ echo "<br>";
            $numpages = Project_getNumPages( $projectid );
            $availpages = Project_getNumPagesInState( $projectid, 'avail_md_second');
 
-	if ($rownum % 2 ) {
-			$row_color = $theme['color_mainbody_bg'];
-		} else {
-			$row_color = $theme['color_navbar_bg'];
-		}
-		
+    if ($rownum % 2 ) {
+            $row_color = $theme['color_mainbody_bg'];
+        } else {
+            $row_color = $theme['color_navbar_bg'];
+        }
+        
       echo "<tr bgcolor='$row_color'>";
       echo "<td align='right'><a href = \"md_phase2.php?projectid=$projectid\">$name</a></td>\n";
       echo "<td align='right'>$author</td>\n";
@@ -113,7 +113,7 @@ echo "<br>";
 
       $rownum++;
       echo "</tr>";
-	}
+    }
 
 echo "</table>";
 

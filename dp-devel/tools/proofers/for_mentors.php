@@ -13,125 +13,125 @@ include_once($relPath.'theme.inc');          // for page marginalia
 include_once($relPath.'project_states.inc'); // for PROJ_ declarations
 include_once($relPath.'TallyBoard.inc');     // for TallyBoard
 
-    // Display page header.
-    theme(_("For Mentors"), "header");
+// Display page header.
+theme(_("For Mentors"), "header");
 
-    // ---------------------------------------------------------------
+// ---------------------------------------------------------------
 
-    // Decide which mentoring-round we're dealing with.
+// Decide which mentoring-round we're dealing with.
 
-    $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_), true);
-    if ( $round_id != '' )
-    {
-        $mentoring_round = get_Round_for_round_id($round_id);
+$round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_), true);
+if ( $round_id != '' )
+{
+    $mentoring_round = get_Round_for_round_id($round_id);
+}
+else
+{
+    // Consider the page they came from.
+    $referer = @$_SERVER['HTTP_REFERER'];
+
+    // If they're coming to this page from a MENTORS ONLY book in X2, 
+    // referrer should contain &expected_state=X2.proj_avail.
+    foreach ( $Round_for_round_id_ as $round )
+        {
+        if ( strpos($referer, $round->project_available_state) )
+        {
+            $mentoring_round = $round;
+            break;
+        }
     }
-    else
-    {
-        // Consider the page they came from.
-        $referer = @$_SERVER['HTTP_REFERER'];
 
-        // If they're coming to this page from a MENTORS ONLY book in X2, 
-        // referrer should contain &expected_state=X2.proj_avail.
+    if ( !isset($mentoring_round) )
+    {
+        // Just take the first.
         foreach ( $Round_for_round_id_ as $round )
         {
-            if ( strpos($referer, $round->project_available_state) )
+            if ( $round->is_a_mentor_round() )
             {
                 $mentoring_round = $round;
                 break;
             }
         }
-
         if ( !isset($mentoring_round) )
         {
-            // Just take the first.
-            foreach ( $Round_for_round_id_ as $round )
-            {
-                if ( $round->is_a_mentor_round() )
-                {
-                    $mentoring_round = $round;
-                    break;
-                }
-            }
-            if ( !isset($mentoring_round) )
-            {
-                die("There are no mentoring rounds!");
-            }
+            die("There are no mentoring rounds!");
         }
     }
+}
 
-    if ( !$mentoring_round->is_a_mentor_round() )
+if ( !$mentoring_round->is_a_mentor_round() )
+{
+    die("$mentoring_round->id is not a mentoring round!");
+}
+
+// ---------------------------------------------------------------
+
+// Are there other mentoring rounds? If so, provide mentoring links for them.
+$other_mentoring_rounds = array();
+foreach ( $Round_for_round_id_ as $round )
+{
+    if ( $round->is_a_mentor_round() && $round->id != $mentoring_round->id )
     {
-        die("$mentoring_round->id is not a mentoring round!");
+        $other_mentoring_rounds[] = $round;
     }
+}
+if ( count($other_mentoring_rounds) > 0 )
+{
+    echo "<p>(" . _('Show this page for:');
 
-    // ---------------------------------------------------------------
-
-    // Are there other mentoring rounds? If so, provide mentoring links for them.
-    $other_mentoring_rounds = array();
-    foreach ( $Round_for_round_id_ as $round )
+    foreach( $other_mentoring_rounds as $other_round )
     {
-        if ( $round->is_a_mentor_round() && $round->id != $mentoring_round->id )
-        {
-            $other_mentoring_rounds[] = $round;
-        }
+        $url = "$code_url/tools/proofers/for_mentors.php?round_id={$other_round->id}";
+        echo " <a href='$url'>{$other_round->id}</a>";
     }
-    if ( count($other_mentoring_rounds) > 0 )
-    {
-        echo "<p>(" . _('Show this page for:');
+    echo ")</p>";
+}
 
-        foreach( $other_mentoring_rounds as $other_round )
-        {
-            $url = "$code_url/tools/proofers/for_mentors.php?round_id={$other_round->id}";
-            echo " <a href='$url'>{$other_round->id}</a>";
-        }
-        echo ")</p>";
-    }
+// ---------------------------------------------------------------
 
-    // ---------------------------------------------------------------
-
-    if ( !user_can_work_on_beginner_pages_in_round($mentoring_round) )
-    {
-        echo sprintf(
-                _("You do not have access to 'Mentors Only' projects in %s."),
-                $mentoring_round->id
-            );
-        echo "\n";
-        theme("","footer");
-        exit;
-    }
-
-    // ---------------------------------------------------------------
-
-    // For each mentorable project (in this round),
-    // show a summary (one line per mentee)
-    // and then a listing (one line per page).
-
-    echo "<h2>" . sprintf(_("Pages available to Mentors in round %s"), $mentoring_round->id) . "</h2>";
-    echo "<br>" . _("Oldest project listed first.") . "<br>";
-
-    $mentored_round = $mentoring_round->mentee_round;
-    $result = mysql_query(project_sql($mentoring_round));
-    while ($proj =  mysql_fetch_object($result))
-    {
-        // Display project summary info
-        echo "<br>" ;
-        $proj_url = "$code_url/project.php?id=$proj->projectid";
-        // TRANSLATORS: format is <title> by <author>.
-        echo "<b>" . sprintf("%1\$s by %2\$s", 
-            "<a href='$proj_url'>$proj->nameofwork</a>",
-            $proj->authorsname) . "</b>";
-        echo "<br>" ;
-
-        dpsql_dump_query(page_summary_sql($mentored_round, $proj->projectid));
-
-        echo "<br>" ;
-        echo _('Which proofreader did each page...') ;
-
-        dpsql_dump_query(page_list_sql($mentored_round, $proj->projectid));
-    }
-
-    echo "<br><br><br><hr>\n";
+if ( !user_can_work_on_beginner_pages_in_round($mentoring_round) )
+{
+    echo sprintf(
+            _("You do not have access to 'Mentors Only' projects in %s."),
+            $mentoring_round->id
+        );
+    echo "\n";
     theme("","footer");
+    exit;
+}
+
+// ---------------------------------------------------------------
+
+// For each mentorable project (in this round),
+// show a summary (one line per mentee)
+// and then a listing (one line per page).
+
+echo "<h2>" . sprintf(_("Pages available to Mentors in round %s"), $mentoring_round->id) . "</h2>";
+echo "<br>" . _("Oldest project listed first.") . "<br>";
+
+$mentored_round = $mentoring_round->mentee_round;
+$result = mysql_query(project_sql($mentoring_round));
+while ($proj =  mysql_fetch_object($result))
+{
+    // Display project summary info
+    echo "<br>" ;
+    $proj_url = "$code_url/project.php?id=$proj->projectid";
+    // TRANSLATORS: format is <title> by <author>.
+    echo "<b>" . sprintf("%1\$s by %2\$s", 
+        "<a href='$proj_url'>$proj->nameofwork</a>",
+        $proj->authorsname) . "</b>";
+    echo "<br>" ;
+
+    dpsql_dump_query(page_summary_sql($mentored_round, $proj->projectid));
+
+    echo "<br>" ;
+    echo _('Which proofreader did each page...') ;
+
+    dpsql_dump_query(page_list_sql($mentored_round, $proj->projectid));
+}
+
+echo "<br><br><br><hr>\n";
+theme("","footer");
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
