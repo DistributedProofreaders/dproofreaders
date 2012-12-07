@@ -20,11 +20,8 @@ if (isset($_GET['type'])) {
 // If the file does not exist or is stale, let's (re)create it
 if(!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
     $relPath="./../pinc/";
-    include($relPath.'site_vars.php');
-    include($relPath.'pg.inc');
-    include($relPath.'connect.inc');
-    include($relPath.'project_states.inc');
-    $db_Connection=new dbConnect();
+    include_once($relPath.'pg.inc');
+    include_once($relPath.'project_states.inc');
 
     $absolute_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
     $absolute_url .= $_SERVER['HTTP_HOST'];
