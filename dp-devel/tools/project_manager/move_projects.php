@@ -22,45 +22,45 @@ echo "\n\n";
 
 foreach( $projectids as $projectid )
 {
-	echo "\n";
-	echo "$projectid ...\n";
+    echo "\n";
+    echo "$projectid ...\n";
 
-	$result = user_can_edit_project($projectid);
-	if ( $result == PROJECT_DOES_NOT_EXIST )
-	{
-		echo "    " . _("does not exist.") . "\n";
-		continue;
-	}
-	else if ( $result == USER_CANNOT_EDIT_PROJECT )
-	{
-		echo "    " . _("You are not allowed to edit that project.") . "\n";
-		continue;
-	}
+    $result = user_can_edit_project($projectid);
+    if ( $result == PROJECT_DOES_NOT_EXIST )
+    {
+        echo "    " . _("does not exist.") . "\n";
+        continue;
+    }
+    else if ( $result == USER_CANNOT_EDIT_PROJECT )
+    {
+        echo "    " . _("You are not allowed to edit that project.") . "\n";
+        continue;
+    }
 
-	$res = mysql_query("
-		SELECT state, nameofwork
-		FROM projects
-		WHERE projectid='$projectid'
-	") or die(mysql_error());
+    $res = mysql_query("
+        SELECT state, nameofwork
+        FROM projects
+        WHERE projectid='$projectid'
+    ") or die(mysql_error());
 
-	$project = mysql_fetch_assoc( $res );
+    $project = mysql_fetch_assoc( $res );
 
-	echo "    {$project['nameofwork']}\n";
+    echo "    {$project['nameofwork']}\n";
 
-	if ( $project['state'] != $curr_state )
-	{
-		echo "    " . sprintf( _("is no longer in %1\$s. Now in %2\$s."), $curr_state,  $project['state']) . "\n";
-		continue;
-	}
+    if ( $project['state'] != $curr_state )
+    {
+        echo "    " . sprintf( _("is no longer in %1\$s. Now in %2\$s."), $curr_state,  $project['state']) . "\n";
+        continue;
+    }
 
-	$error_msg = project_transition( $projectid, $new_state, $pguser );
-	if ( $error_msg )
-	{
-		echo "    $error_msg\n";
-		continue;
-	}
+    $error_msg = project_transition( $projectid, $new_state, $pguser );
+    if ( $error_msg )
+    {
+        echo "    $error_msg\n";
+        continue;
+    }
 
-	echo "    " . _("successfully moved.") . "\n";
+    echo "    " . _("successfully moved.") . "\n";
 }
 
 echo "</pre>\n";
