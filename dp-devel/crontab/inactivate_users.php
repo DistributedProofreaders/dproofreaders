@@ -1,6 +1,6 @@
 <?php
 $relPath="./../pinc/";
-include_once($relPath.'base.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 
 // check that caller is localhost or bail
