@@ -1,14 +1,11 @@
 <?php
 $relPath='./../pinc/';
-include($relPath.'site_vars.php');
-include($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 
 // check that caller is localhost or bail
 if(!requester_is_localhost())
     die("You are not authorized to perform this request.");
-
-$db_Connection=new dbConnect();
 
 $result = mysql_query("SELECT DISTINCT(postproofer) FROM projects WHERE postproofer is not null");
 while (list($postproofer) = mysql_fetch_row($result)) {

@@ -1,16 +1,13 @@
 <?php
 $relPath="./../pinc/";
-include($relPath.'site_vars.php');
-include($relPath.'connect.inc');
-include($relPath.'project_states.inc');
-include($relPath.'maybe_mail.inc');
+include_once($relPath.'base.inc');
+include_once($relPath.'project_states.inc');
+include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'misc.inc');
 
 // check that caller is localhost or bail
 if(!requester_is_localhost())
     die("You are not authorized to perform this request.");
-
-$db_Connection=new dbConnect();
 
 $old_date = time() - 7776000; // 90 days ago.
 

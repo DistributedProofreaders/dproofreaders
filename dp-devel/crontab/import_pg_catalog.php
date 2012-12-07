@@ -1,14 +1,11 @@
 <?php
 $relPath='../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath.'site_vars.php');
-include_once($relPath.'connect.inc');
 
 // check that caller is localhost or bail
 if(!requester_is_localhost())
     die("You are not authorized to perform this request.");
-
-new dbConnect();
 
 // Download the XML version of the Project Gutenberg catalog,
 // extract desired data from it, and put that into a MySQL table.

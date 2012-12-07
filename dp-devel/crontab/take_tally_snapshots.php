@@ -4,16 +4,13 @@
 // (This assumes that you want to snapshot all of them on the same schedule.)
 
 $relPath='./../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath.'site_vars.php');
 include_once($relPath.'TallyBoard.inc');
-include_once($relPath.'connect.inc');
 
 // check that caller is localhost or bail
 if(!requester_is_localhost())
     die("You are not authorized to perform this request.");
-
-$db_Connection=new dbConnect();
 
 header('Content-type: text/plain');
 

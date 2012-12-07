@@ -11,14 +11,12 @@
 // queues, hence the original name of the script, update_birthday_queues.php.)
 
 $relPath='../pinc/';
-include($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 
 // check that caller is localhost or bail
 if(!requester_is_localhost())
     die("You are not authorized to perform this request.");
-
-new dbConnect();
 
 header('Content-type: text/plain');
 

@@ -1,15 +1,13 @@
 <?php
 $relPath="./../pinc/";
-include($relPath.'misc.inc');
-include($relPath.'connect.inc');
-include($relPath.'project_states.inc');
+include_once($relPath.'base.inc');
+include_once($relPath.'misc.inc');
+include_once($relPath.'project_states.inc');
 include_once($relPath.'archiving.inc');
 
 // check that caller is localhost or bail
 if(!requester_is_localhost())
     die("You are not authorized to perform this request.");
-
-$db_Connection=new dbConnect();
 
 header('Content-type: text/plain');
 
