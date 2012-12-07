@@ -1,8 +1,11 @@
 <?php
 $relPath = '../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once('authors.inc');
 include_once('menu.inc');
+
+require_login();
 
 // argument provided?
 if (isset($_GET['author_id'])) {
@@ -41,4 +44,5 @@ if (user_is_authors_db_manager()) {
 echo_menu();
 
 theme('', 'footer');
-?>
+
+// vim: sw=4 ts=4 expandtab

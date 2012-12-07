@@ -1,8 +1,11 @@
 <?php
 $relPath = '../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once("authors.inc");
 include_once("menu.inc");
+
+require_login();
 
 abort_if_not_authors_db_editor(true);
 
@@ -129,4 +132,5 @@ if (isset($bio_id))
 echo_menu();
 
 theme('', 'footer');
-?>
+
+// vim: sw=4 ts=4 expandtab

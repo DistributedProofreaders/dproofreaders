@@ -13,10 +13,12 @@
 // The last two only differ in whether the sql to insert is run or displayed.
 
 $relPath = '../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'dp_main.inc');
 include_once('authors.inc');
 include_once('menu.inc');
+
+require_login();
 
 abort_if_not_authors_db_manager(true);
 
@@ -238,4 +240,5 @@ theme('', 'footer');
 function table_exists($tableName) {
     return ( mysql_query("DESCRIBE $tableName") != FALSE );
 }
-?>
+
+// vim: sw=4 ts=4 expandtab

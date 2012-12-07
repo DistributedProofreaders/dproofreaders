@@ -1,11 +1,14 @@
 <?php
 $relPath = '../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once('authors.inc');
 include_once($relPath.'SortUtility.inc');
 include_once($relPath.'BrowseUtility.inc');
 include_once('menu.inc');
 include_once('search.inc');
+
+require_login();
 
 theme(_('Authors'), 'header');
 
@@ -101,4 +104,5 @@ $browseUtility->echoCountSelectionList();
 echo_menu();
 
 theme('', 'footer');
-?>
+
+// vim: sw=4 ts=4 expandtab

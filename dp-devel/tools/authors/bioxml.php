@@ -1,10 +1,9 @@
 <?php
 $relPath = '../../pinc/';
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath.'connect.inc');
-$db_Connection=new dbConnect();
-$db_link=$db_Connection->db_lk;
+
+require_login();
 
 // Create xml data for all bios unless either
 //   an author_id is supplied (only that author's bios)
@@ -65,4 +64,5 @@ $xml .= "<![CDATA[$bio]]>";
 $xml .= "</biography>\n";
 return $xml;
 }
-?>
+
+// vim: sw=4 ts=4 expandtab

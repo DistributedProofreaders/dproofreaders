@@ -1,10 +1,9 @@
 <?php
 $relPath = '../../pinc/';
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath.'connect.inc');
-$db_Connection=new dbConnect();
-$db_link=$db_Connection->db_lk;
+
+require_login();
 
 // Create xml data for all authors unless either
 //   an author_id is supplied (only that author)
@@ -68,4 +67,5 @@ function create_birth_or_death_data($bd, $sql_row) {
     $res .= "\" />\n";
     return $res;
 }
-?>
+
+// vim: sw=4 ts=4 expandtab

@@ -1,9 +1,12 @@
 <?php
 // Display the biography specified by bio_id-argument
 $relPath = '../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once('authors.inc');
 include_once('menu.inc');
+
+require_login();
 
 $bio_id  = get_integer_param($_GET, 'bio_id', null, 0, null, true);
 $message = @$_GET['message'];
@@ -71,4 +74,5 @@ if (user_is_PM() || user_is_authors_db_manager()) {
 echo_menu();
 
 theme('', 'footer');
-?>
+
+// vim: sw=4 ts=4 expandtab

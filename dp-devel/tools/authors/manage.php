@@ -1,5 +1,6 @@
 <?php
 $relPath = '../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'SortUtility.inc');
@@ -7,6 +8,8 @@ include_once($relPath.'BrowseUtility.inc');
 include_once('authors.inc');
 include_once('search.inc');
 include_once('menu.inc');
+
+require_login();
 
 $title=_("Manage biographies");
 theme($title, 'header');
@@ -23,7 +26,7 @@ if ($_SERVER['QUERY_STRING'] == '') {
 
 echo_menu();
 
-echo '<h2 align="center">$title</h2>';
+echo "<h2 align='center'>$title</h2>";
 $message = @$_GET['message'];
 if (isset($message))
     echo '<center>' . htmlspecialchars($message) . '</center><br />';
@@ -548,4 +551,4 @@ echo_menu();
 
 theme('', 'footer');
 
-?>
+// vim: sw=4 ts=4 expandtab
