@@ -1,6 +1,5 @@
-<html>
-<head>
 <?php
+// not including base.inc as this has no external dependencies
 $charset="UTF-8";
 
 define("ARRAY_PAD_FRONT", -1);
@@ -14,6 +13,8 @@ $col=intval($_POST['col']); $col=($col>1)?$col:1;
 $bord=($_POST['border']=="n")?FALSE:TRUE;
 $trim=($_POST['trim']=="on")?TRUE:FALSE;
 ?>
+<html>
+<head>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $charset; ?>">
 <title>Table Maker</title>
 </head>
