@@ -1,8 +1,11 @@
 <?php
 $relPath = '../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once("authors.inc");
 include_once("menu.inc");
+
+require_login();
 
 abort_if_not_authors_db_editor(true);
 
@@ -14,14 +17,16 @@ $last_name = @$_POST['last_name'];
 if (isset($last_name)) {
     // get the values from the form
     $other_names = @$_POST['other_names'];
-    $byear       = get_integer_param($_POST, 'byear', null, 0, null);
-    $bmonth      = get_integer_param($_POST, 'bmonth', null, 1, 12);
-    $bday        = get_integer_param($_POST, 'bday', null, 1, 31);
+    if(@$_POST['byear'] == '') $byear = null;
+    else $byear  = get_integer_param($_POST, 'byear', null, 0, null);
+    $bmonth      = get_integer_param($_POST, 'bmonth', null, 0, 12);
+    $bday        = get_integer_param($_POST, 'bday', null, 0, 31);
     $bcomments   = @$_POST['bcomments'];
     $byearRadio  = get_integer_param($_POST, 'byearRadio', null, 0, 1);
-    $dyear       = get_integer_param($_POST, 'dyear', null, 0, null);
-    $dmonth      = get_integer_param($_POST, 'dmonth', null, 1, 12);
-    $dday        = get_integer_param($_POST, 'dday', null, 1, 31);
+    if(@$_POST['dyear'] == '') $dyear = null;
+    else $dyear  = get_integer_param($_POST, 'dyear', null, 0, null);
+    $dmonth      = get_integer_param($_POST, 'dmonth', null, 0, 12);
+    $dday        = get_integer_param($_POST, 'dday', null, 0, 31);
     $dcomments   = @$_POST['dcomments'];
     $dyearRadio  = get_integer_param($_POST, 'dyearRadio', null, 0, 1);
 
@@ -117,7 +122,7 @@ else {
             $byear = '';
         }
         else {
-            $byearRadio = 'entered';
+            $byearRadio = '1';
             $bbc = ($byear < 0);
             $byear = abs($byear);
         }
@@ -126,7 +131,7 @@ else {
             $dyear = '';
         }
         else {
-            $dyearRadio = 'entered';
+            $dyearRadio = '1';
             $dbc = ($dyear < 0);
             $dyear = abs($dyear);
         }
@@ -320,8 +325,8 @@ function echo_date_fields($bd) {
 <?php echo write_days_list($bd, _var($bd, 'day')); ?></td></tr>
 <tr><td><?php echo _('Year'); ?>:</td><td>
 <input type="radio" name="<?php echo $bd; ?>yearRadio" value="0"<?php echo (_var($bd, 'yearRadio')=='0'?' CHECKED':''); ?> /><?php echo _('Unknown'); ?>
-<br/><input type="radio" name="<?php echo $bd; ?>yearRadio" value="entered"<?php echo (_var($bd, 'yearRadio')=='entered'?' CHECKED':''); ?> onClick="this.form.<?php echo $bd; ?>year.focus();" /><?php echo _('As entered'); ?>:
-<input type="text" name="<?php echo $bd; ?>year" size="4" maxlength="4"<?php echo (_var($bd, 'yearRadio')=='entered'?' VALUE="'.abs(_var($bd, 'year')).'"':''); ?> onFocus="this.form.<?php echo $bd; ?>yearRadio[1].checked=true;" />
+<br/><input type="radio" name="<?php echo $bd; ?>yearRadio" value="1"<?php echo (_var($bd, 'yearRadio')=='1'?' CHECKED':''); ?> onClick="this.form.<?php echo $bd; ?>year.focus();" /><?php echo _('As entered'); ?>:
+<input type="text" name="<?php echo $bd; ?>year" size="4" maxlength="4"<?php echo (_var($bd, 'yearRadio')=='1'?' VALUE="'.abs(_var($bd, 'year')).'"':''); ?> onFocus="this.form.<?php echo $bd; ?>yearRadio[1].checked=true;" />
 <input type="checkbox" name="<?php echo $bd; ?>bc" value="yes"<?php echo (_var($bd, 'bc')?' CHECKED':''); ?> /><?php echo _('B. C.'); ?>
 </td></tr><tr><td><?php echo _('Comments (in<br />English, please)'); ?>:</td><td><input type="text" size="20" maxlength="20" name="<?php echo $bd; ?>comments" value="<?php echo htmlspecialchars(_var($bd, 'comments'),ENT_QUOTES); ?>" /> 
 <?php echo _('Handy links:').' '; ?>
@@ -400,4 +405,5 @@ echo '</ul>';
 echo_menu();
 
 theme('', 'footer');
-?>
+
+// vim: sw=4 ts=4 expandtab
