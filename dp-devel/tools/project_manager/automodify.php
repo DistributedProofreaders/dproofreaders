@@ -6,12 +6,10 @@
 //   - Release Projects: If there are not enough projects available to end users, it will release projects waiting to be released
 $relPath="./../../pinc/";
 
-include($relPath.'connect.inc');
-$db_Connection=new dbConnect();
-
+include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
-include($relPath.'projectinfo.inc');
-include($relPath.'project_trans.inc');
+include_once($relPath.'projectinfo.inc');
+include_once($relPath.'project_trans.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'Project.inc'); // project_get_auto_PPer

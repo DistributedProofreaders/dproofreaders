@@ -2,11 +2,12 @@
 // Replace an image file.
 
 $relPath = '../../pinc/';
-include_once($relPath.'site_vars.php'); // projects_dir
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'misc.inc'); // get_upload_err_msg, attr_safe
+
+require_login();
 
 // (This script's functionality overlaps that of handle_bad_page.php.
 // They should perhaps be refactored.)

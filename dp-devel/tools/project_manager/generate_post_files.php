@@ -1,11 +1,12 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once('./post_files.inc');
+
+require_login();
 
 $valid_round_ids = array_keys($Round_for_round_id_);
 array_unshift($valid_round_ids, '[OCR]');

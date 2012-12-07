@@ -1,10 +1,12 @@
 <?php
 $relPath='../../pinc/';
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
-$no_stats = 1;
 
+require_login();
+
+$no_stats = 1;
 $title = _("Details of Special Days/Weeks/Months");
 theme($title, "header");
 

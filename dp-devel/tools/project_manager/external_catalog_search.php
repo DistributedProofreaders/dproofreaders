@@ -4,7 +4,7 @@
 // via Z39.50 protocol (implemented by yaz library).
 
 $relPath='../../pinc/';
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'marc_format.inc');
 

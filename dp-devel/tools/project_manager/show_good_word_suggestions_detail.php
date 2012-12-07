@@ -1,7 +1,6 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
@@ -11,6 +10,8 @@ include_once($relPath.'slim_header.inc');
 include_once($relPath.'Stopwatch.inc');
 include_once('./post_files.inc');
 include_once("./word_freq_table.inc");
+
+require_login();
 
 define("LAYOUT_HORIZ", 1);
 define("LAYOUT_VERT",  2);

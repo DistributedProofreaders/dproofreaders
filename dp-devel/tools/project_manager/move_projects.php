@@ -1,10 +1,9 @@
 <?php
 $relPath='../../pinc/';
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'project_trans.inc');
 include_once('projectmgr.inc');
-new dbConnect();
 
 $curr_state = get_enumerated_param($_GET, 'curr_state', null, $PROJECT_STATES_IN_ORDER);
 $new_state  = get_enumerated_param($_GET, 'new_state', null, $PROJECT_STATES_IN_ORDER);

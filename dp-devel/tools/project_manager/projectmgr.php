@@ -1,8 +1,7 @@
 <?php
 $relPath="./../../pinc/";
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
@@ -18,6 +17,8 @@ include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
 include_once('projectmgr.inc');
+
+require_login();
 
 class Widget
 {

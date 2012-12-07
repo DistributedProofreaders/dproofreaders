@@ -1,11 +1,12 @@
 <?php
 $relPath="./../../pinc/";
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once('page_table.inc');
+
+require_login();
 
 $projectid = validate_projectID('project', @$_GET['project']);
 $show_image_size = get_integer_param($_GET,'show_image_size',0,0,1);

@@ -1,12 +1,13 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'Stopwatch.inc');
 include_once('./post_files.inc');
 include_once("./word_freq_table.inc");
+
+require_login();
 
 $datetime_format = _("%A, %B %e, %Y at %X");
 

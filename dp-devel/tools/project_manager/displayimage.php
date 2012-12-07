@@ -1,13 +1,9 @@
 <?php
 $relPath='../../pinc/';
-include($relPath.'site_vars.php');
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath.'dpsession.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'Project.inc');
-
-$user_is_logged_in = dpsession_resume();
 
 $default_percent = array_get( @$_SESSION["displayimage"], 'percent', 100 );
 

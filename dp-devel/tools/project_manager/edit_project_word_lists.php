@@ -1,7 +1,6 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'links.inc');
 include_once('edit_common.inc');
@@ -10,6 +9,8 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'misc.inc');  // attr_safe()
+
+require_login();
 
 $return = array_get($_REQUEST,"return","$code_url/tools/project_manager/projectmgr.php");
 

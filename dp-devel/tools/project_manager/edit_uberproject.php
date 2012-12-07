@@ -1,8 +1,10 @@
 <?php
 $relPath='../../pinc/';
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once('edit_common.inc');
+
+require_login();
 
 // This script has some bugs due to inconsistencies between the code that writes
 // the form and the code that reads the form submission.

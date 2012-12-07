@@ -1,8 +1,10 @@
 <?php
 $relPath="./../../pinc/";
-include($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
+
+require_login();
 
 $project   = validate_projectID('project', @$_GET['project']);
 $image     = validate_page_image_filename('image', @$_GET['image']);

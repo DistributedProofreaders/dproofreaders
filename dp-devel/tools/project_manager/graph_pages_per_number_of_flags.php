@@ -1,6 +1,7 @@
 <?php
 $relPath="../../pinc/";
-include_once($relPath . 'Project.inc');
+include_once($relPath.'base.inc');
+include_once($relPath.'Project.inc');
 include_once('../../stats/jpgraph_files/common.inc');
 
 $projectid = validate_projectID("projectid", @$_GET["projectid"]);

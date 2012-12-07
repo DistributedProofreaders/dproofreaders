@@ -1,12 +1,13 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once('./post_files.inc');
 include_once('./word_freq_table.inc');
+
+require_login();
 
 set_time_limit(0); // no time limit
 

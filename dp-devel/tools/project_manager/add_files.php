@@ -1,14 +1,15 @@
 <?php
 $relPath="./../../pinc/";
-include($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include($relPath.'metarefresh.inc');
-include($relPath.'dp_main.inc');
+include_once($relPath.'metarefresh.inc');
 include_once($relPath.'user_is.inc');
-include($relPath.'project_edit.inc');
-include($relPath.'DPage.inc');
+include_once($relPath.'project_edit.inc');
+include_once($relPath.'DPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'projectinfo.inc');
+
+require_login();
 
 $projectid    = validate_projectID('project', @$_GET['project']);
 $loading_tpnv = (@$_GET['tpnv'] == '1');
