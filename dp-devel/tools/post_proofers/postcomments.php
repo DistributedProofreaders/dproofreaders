@@ -1,10 +1,11 @@
 <?php
 $relPath="../../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'project_trans.inc');
+
+require_login();
 
 $projectid    = validate_projectID('projectid', @$_POST['projectid']);
 $postcomments = @$_POST['postcomments'];
@@ -25,4 +26,4 @@ $qry =  mysql_query("
 $msg = _("Comments added.");
 metarefresh(1, "$code_url/project.php?id=$projectid", $msg, $msg);
 
-?>
+// vim: sw=4 ts=4 expandtab

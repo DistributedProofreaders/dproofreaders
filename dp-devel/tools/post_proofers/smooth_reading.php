@@ -3,21 +3,11 @@
 // including (most importantly) the list of projects currently available
 
 $relPath='../../pinc/';
-include_once($relPath.'dpsession.inc');
-include_once($relPath.'maintenance_mode.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'page_header.inc');
 include_once($relPath.'showavailablebooks.inc');
-
-// the user_is functions don't work unless this has been executed previously!
-// it's in dp_main.inc, but we also want this page to be accessible to 
-// people who aren't logged in, so we can't include that file,
-// which requires a visitor to log in
-dpsession_resume();
-
-//Check to see if we are in a maintenance mode
-abort_if_in_maintenance_mode();
 
 // ---------------------------------------
 //Page construction varies with whether the user is logged in or out
@@ -82,4 +72,3 @@ show_projects_for_smooth_reading();
 theme('', 'footer');
 
 // vim: sw=4 ts=4 expandtab
-?>

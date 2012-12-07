@@ -1,12 +1,13 @@
 <?php
 $relPath="../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'Project.inc'); //user_can_work_in_stage()
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'misc.inc');  // javascript_safe()
+
+require_login();
 
 $projectid = validate_projectID('project', @$_REQUEST['project']);
 
@@ -516,4 +517,5 @@ echo "<br />
 }
 
 theme('','footer');
-?>
+
+// vim: sw=4 ts=4 expandtab

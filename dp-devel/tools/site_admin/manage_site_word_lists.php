@@ -1,10 +1,12 @@
 <?php
 $relPath="./../../pinc/";
-include($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'links.inc');
+
+require_login();
 
 // check to see if the user is authorized to be here
 if ( !(user_is_a_sitemanager()) )
@@ -273,6 +275,4 @@ function _get_stylesheet() {
     ";
 }
 
-
 // vim: sw=4 ts=4 expandtab
-?>

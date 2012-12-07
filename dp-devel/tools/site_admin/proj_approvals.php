@@ -1,12 +1,10 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
-//include_once($relPath.'project_edit.inc');
-//include_once('projectmgr.inc');
-//include_once('page_table.inc');
+
+require_login();
 
 theme("Copyright Approval", "header");
 
@@ -113,4 +111,3 @@ echo "<br>";
 theme("","footer");
 
 // vim: sw=4 ts=4 expandtab
-?>

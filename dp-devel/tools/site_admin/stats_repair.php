@@ -1,9 +1,9 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'dp_main.inc');
 
+require_login();
 
 if (! user_is_a_sitemanager())
 {
@@ -68,4 +68,4 @@ while ($user_row = mysql_fetch_assoc($users)) {
 
 echo "All done";
 
-?>
+// vim: sw=4 ts=4 expandtab

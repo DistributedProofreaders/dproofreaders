@@ -1,9 +1,11 @@
 <?php
 $relPath="./../../pinc/";
-include($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'site_news.inc');
+
+require_login();
 
 if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )
 {
@@ -328,4 +330,3 @@ function move_news_item ($news_page_id, $id_of_item_to_move, $direction) {
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

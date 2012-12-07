@@ -5,7 +5,7 @@
 // enclosed in %scannoslist = ( );.
 
 $relPath="../../pinc/";
-include($relPath.'site_vars.php');
+include($relPath.'base.inc');
 include($relPath.'theme.inc');
 
 
@@ -64,4 +64,5 @@ header("Content-Disposition: attachment; filename=\"".$lang."_".$flavour.".rc\""
 header("Content-Length: ".strlen($output));
 
 echo $output;
-?>
+
+// vim: sw=4 ts=4 expandtab

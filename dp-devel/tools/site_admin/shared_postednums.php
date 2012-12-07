@@ -1,9 +1,10 @@
 <?php
 $relPath='../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'dpsql.inc');
-include_once($relPath.'connect.inc');
-new dbConnect();
+
+require_login();
 
 echo "<h1>Cases where multiple projects have the same postednum</h1>\n";
 
@@ -78,4 +79,3 @@ function strings_count_up( $strings )
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

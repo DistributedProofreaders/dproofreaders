@@ -1,13 +1,14 @@
 <?php
 $relPath="./../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'new_user_mails.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'username.inc');
 include_once($relPath.'email_address.inc');
+
+require_login();
 
 theme(_('Edit mail-address for non-activated user'), 'header');
 
@@ -130,4 +131,3 @@ else
 theme('', 'footer');
 
 // vim: sw=4 ts=4 expandtab
-?>

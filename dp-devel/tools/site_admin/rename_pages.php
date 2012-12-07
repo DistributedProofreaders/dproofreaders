@@ -1,9 +1,10 @@
 <?php
 $relPath='../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'user_is.inc');
+
+require_login();
 
 if ( !user_is_a_sitemanager() )
 {
@@ -442,4 +443,3 @@ switch ( $submit_button )
 echo "</pre>";
 
 // vim: sw=4 ts=4 expandtab
-?>

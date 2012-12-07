@@ -1,9 +1,10 @@
 <?php
 $relPath="../../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'slim_header.inc');
+
+require_login();
 
 $projectid = $page = $round_id = NULL;
 
