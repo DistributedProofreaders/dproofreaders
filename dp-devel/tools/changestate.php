@@ -1,12 +1,13 @@
 <?php
 $relPath="../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
+
+require_login();
 
 header("Content-Type: text/html; charset=$charset");
 
@@ -142,4 +143,3 @@ function prepare_url( $url_template )
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

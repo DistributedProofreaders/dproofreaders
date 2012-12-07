@@ -1,9 +1,11 @@
 <?php
 $relPath='../pinc/';
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'theme.inc');
+
+require_login();
 
 if (!(user_is_a_sitemanager() || user_is_an_access_request_reviewer())) die("permission denied");
 
@@ -182,4 +184,3 @@ echo '<br>';
 theme('','footer');
 
 // vim: sw=4 ts=4 expandtab
-?>

@@ -1,12 +1,14 @@
 <?php
 $relPath = '../pinc/';
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'access_log.inc');
 include_once($relPath.'username.inc');
+
+require_login();
 
 $subject_username = @$_POST['subject_username'];
 if (check_username($subject_username) != '') die("Invalid parameter subject_username.");
@@ -234,4 +236,3 @@ function notify_user($username,$actions)
     }
 }
 // vim: sw=4 ts=4 expandtab
-?>

@@ -1,11 +1,12 @@
 <?php
 $relPath = '../pinc/';
-include_once($relPath.'dp_main.inc');
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'access_log.inc');
+
+require_login();
 
 
 $stage_id = @$_GET['stage_id'];
@@ -117,4 +118,3 @@ function delete_and_insert( $username, $setting, $value )
     ") or die(mysql_error());
 }
 // vim: sw=4 ts=4 expandtab
-?>

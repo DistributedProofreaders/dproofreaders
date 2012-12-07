@@ -1,9 +1,11 @@
 <?php
 $relPath="./../pinc/";
+include($relPath.'base.inc');
 include($relPath.'metarefresh.inc');
-include($relPath.'dp_main.inc');
 include($relPath.'user_project_info.inc');
 include($relPath.'Project.inc');  // validate_projectID()
+
+require_login();
 
 $projectid = validate_projectID('projectid', @$_POST['projectid']);
 $return_uri = $_POST['return_uri'];
@@ -53,4 +55,3 @@ function _html_ul( $header, $items )
 echo "<a href='$return_uri'>", _("Click here to return"), "</a>";
 
 // vim: sw=4 ts=4 expandtab
-?>

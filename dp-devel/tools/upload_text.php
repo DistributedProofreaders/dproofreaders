@@ -1,13 +1,14 @@
 <?php
 $relPath="../pinc/";
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
+
+require_login();
 
 // use:
 // $code_url/tools/upload_text.php?project=projectid&curr_state=...
@@ -368,4 +369,3 @@ else
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

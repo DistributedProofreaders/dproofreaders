@@ -1,14 +1,14 @@
 <?php
 $relPath="./../pinc/";
-include_once($relPath.'site_vars.php');
-include_once($relPath.'gettext_setup.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
-include_once($relPath.'dp_main.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'showavailablebooks.inc');
+
+require_login();
 
 $pool_id = get_enumerated_param($_GET, 'pool_id', null, array_keys($Pool_for_id_));
 
@@ -72,4 +72,3 @@ echo "<br>";
 theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab
-?>

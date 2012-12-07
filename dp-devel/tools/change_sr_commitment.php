@@ -1,10 +1,11 @@
 <?php
 $relPath="../pinc/";
-include_once($relPath.'dp_main.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'smoothread.inc');
+
+require_login();
 
 /***************************************************************************************
 *
