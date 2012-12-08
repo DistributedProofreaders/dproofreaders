@@ -673,22 +673,26 @@ function do_project_info_table()
     // there's little point showing guests the link to it.
     if ( $user_is_logged_in )
     {
-        if ($topic_id == "")
-        {
-            $blurb = _("Start a discussion about this project");
-        }
-        else
-        {
-            $blurb = _("Discuss this project");
-        }
-        $url = "$code_url/tools/proofers/project_topic.php?project=$projectid";
         if (($state == PROJ_DELETE) && ($topic_id == ""))
         {
             echo_row_a( _("Forum"), _("The project has been deleted, and no discussion exists."));
         }
         else
         {
-            echo_row_a( _("Forum"), "<a href='$url'>$blurb</a>" );
+            if ($topic_id == "")
+            {
+                $blurb = _("Start a discussion about this project");
+                $url = "$code_url/tools/proofers/project_topic.php?project=$projectid";
+                echo_row_a(_("Forum"), "<a href='$url'>$blurb</a>");
+            }
+            else
+            {
+                $details = get_topic_details($topic_id);
+                $url = get_url_to_view_topic($details["topic_id"]);
+                $blurb = _("Discuss this project");
+                $replies = sprintf(_("(%d replies)"), $details['num_replies']);
+                echo_row_a(_("Forum"), "<a href='$url'>$blurb</a> $replies");
+            }
         }
     }
 
