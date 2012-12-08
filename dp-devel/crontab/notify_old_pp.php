@@ -16,7 +16,7 @@ $old_date = time() - 7776000; // 90 days ago.
 
 //get projects that have been checked out longer than old_date
 $result = mysql_query("SELECT nameofwork, checkedoutby, modifieddate, projectid, authorsname,
-				DATE_FORMAT(FROM_UNIXTIME(modifieddate), '%e %M  %Y') as Nicedate
+                           DATE_FORMAT(FROM_UNIXTIME(modifieddate), '%e %M  %Y') as Nicedate
                      FROM projects
                      WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."' AND modifieddate <= $old_date ORDER BY checkedoutby, modifieddate");
 
@@ -24,7 +24,7 @@ $numrows = mysql_num_rows($result);
 $rownum = 0;
 
 $PPinQuestion = "";
-$lastwork = "";	
+$lastwork = "";
 $projectslist = "";
 $displayprojectslist = "";
 $numprojs = 0;
@@ -36,19 +36,19 @@ while ($rownum < $numrows) {
     $authorsname = mysql_result($result, $rownum, "authorsname");
     $checkedoutby = mysql_result($result, $rownum, "checkedoutby");
     $modifieddate = mysql_result($result, $rownum, "modifieddate");
-	$projectid = mysql_result($result, $rownum, "projectid");
-	$nicedate = mysql_result($result, $rownum, "nicedate");
+    $projectid = mysql_result($result, $rownum, "projectid");
+    $nicedate = mysql_result($result, $rownum, "nicedate");
 
     if ($PPinQuestion != $checkedoutby) {
         // have finished the last PPer. Send email to them
-	    if ($rownum > 0) {
+        if ($rownum > 0) {
 
-		    $userresult = mysql_query ("SELECT email FROM users WHERE username = '$PPinQuestion'");
-		    $email = mysql_result($userresult, 0, "email");
+            $userresult = mysql_query ("SELECT email FROM users WHERE username = '$PPinQuestion'");
+            $email = mysql_result($userresult, 0, "email");
 
-		    echo $PPinQuestion . "<br>\n" . $displayprojectslist ."<br><br>\n\n";
+            echo $PPinQuestion . "<br>\n" . $displayprojectslist ."<br><br>\n\n";
 
-		    if ($numprojs == 1) {
+            if ($numprojs == 1) {
                 $message = "Hello $PPinQuestion,\n\nThis is an automated message.\n\n
 Our database indicates that you have had a PP project checked out for more than 90 days:\n\n
 $projectslist\n\n
@@ -57,7 +57,7 @@ If you have completed your work on the book, please log in to $site_url and visi
 If you are waiting on missing images or page scans, please add the details to the Missing Page Wiki at: $forums_url/viewtopic.php?t=7584\n\n
 If you no longer wish to have this text assigned to you please visit the $site_name website Post Processing section and select Return to Available for this book, or forward this email to $general_help_email_addr and state that you would no longer like to have the book in question assigned to you so that we may return it to the available pool for someone else to work on.\n\n
 $site_signoff";
-		    } else {
+            } else {
                 $message = "Hello $PPinQuestion,\n\nThis is an automated message.\n\n
 Our database indicates that you have had $numprojs PP projects checked out for more than 90 days:\n\n
 $projectslist\n\n
@@ -66,31 +66,31 @@ If you have completed your work on any of these books, please log in to $site_ur
 If you are waiting on missing images or page scans, please add the details to the Missing Page Wiki at: $forums_url/viewtopic.php?t=7584\n\n
 If you no longer wish to have some or all of these books assigned to you please visit the $site_name website Post Processing section and select Return to Available for the books in question or forward this email to $general_help_email_addr and state that you would no longer like to have the books in question assigned to you so that we may return them to the available pool for someone else to work on.\n\n
 $site_signoff";
-		    }
+            }
 
             maybe_mail("$email", "$subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
 
-		    $projectslist = "";
-		    $displayprojectslist = "";
-		    $numprojs = 0;
- 	    }
-	    $PPinQuestion = $checkedoutby;
-	}
+            $projectslist = "";
+            $displayprojectslist = "";
+            $numprojs = 0;
+         }
+        $PPinQuestion = $checkedoutby;
+    }
 
-	$numprojs++;
+    $numprojs++;
 
-	$url = $urlbase . $projectid;
+    $url = $urlbase . $projectid;
 
-	$projectslist .= "$nameofwork by $authorsname ($projectid), out since $nicedate\n$url\n\n";
+    $projectslist .= "$nameofwork by $authorsname ($projectid), out since $nicedate\n$url\n\n";
     if ($numprojs == 1) {
-		$subject = "$site_abbreviation: Status update needed for 1 project checked out for PPing over 90 days";
-	} else {
-		$subject = "$site_abbreviation: Status updates needed for $numprojs projects checked out for PPing over 90 days";
-	}
+        $subject = "$site_abbreviation: Status update needed for 1 project checked out for PPing over 90 days";
+    } else {
+        $subject = "$site_abbreviation: Status updates needed for $numprojs projects checked out for PPing over 90 days";
+    }
 
-	$displayprojectslist .= "<a href='$url'>$nameofwork by $authorsname ($projectid)</a>, out since $nicedate\n". "<br>";
+    $displayprojectslist .= "<a href='$url'>$nameofwork by $authorsname ($projectid)</a>, out since $nicedate\n". "<br>";
 
     $rownum++;
 }
 
-?>
+// vim: sw=4 ts=4 expandtab
