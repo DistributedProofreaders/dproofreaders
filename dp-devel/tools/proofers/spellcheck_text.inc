@@ -192,6 +192,7 @@ function html_safe( $str )
 
 function spellcheck_echo_script()
 {
+    global $charset;
     global $code_url;
 ?>
     <script language="JavaScript" type="text/javascript">
