@@ -5,6 +5,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath."doctype.inc");
 include_once($relPath.'theme.inc');
+include_once($relPath.'metarefresh.inc');
 
 require_login();
 

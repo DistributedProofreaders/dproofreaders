@@ -6,6 +6,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
+include_once($relPath.'metarefresh.inc');
 
 require_login();
 

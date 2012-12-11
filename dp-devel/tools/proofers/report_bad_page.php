@@ -8,6 +8,7 @@ include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'misc.inc');
+include_once($relPath.'metarefresh.inc');
 include_once('PPage.inc');
 
 require_login();

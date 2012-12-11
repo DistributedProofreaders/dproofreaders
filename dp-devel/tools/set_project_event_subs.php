@@ -1,7 +1,6 @@
 <?php
 $relPath="./../pinc/";
 include($relPath.'base.inc');
-include($relPath.'metarefresh.inc');
 include($relPath.'user_project_info.inc');
 include($relPath.'Project.inc');  // validate_projectID()
 
