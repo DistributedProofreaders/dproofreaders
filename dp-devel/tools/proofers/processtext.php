@@ -2,7 +2,7 @@
 $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
-include_once($relpath.'metarefresh.inc');
+include_once($relPath.'metarefresh.inc');
 include_once('PPage.inc');
 include_once('proof_frame.inc');
 include_once('text_frame_std.inc');
