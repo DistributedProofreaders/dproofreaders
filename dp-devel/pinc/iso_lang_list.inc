@@ -32,8 +32,8 @@
 //     "Official Aramaic (700-300 BCE); Imperial Aramaic (700-300 BCE)"
 // and why approaches such as the isocodes projects
 //     (http://alioth.debian.org/projects/pkg-isocodes/)
-// which try to create gettext packages to translate english names into
-// foreigh names will not work properly. To properly translate these
+// which try to create gettext packages to translate English names into
+// foreign names will not work properly. To properly translate these
 // language names the sane solution is to use codes instead of names
 // and then have a mapping of language codes to language names in the 
 // desired locale.
