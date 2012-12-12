@@ -10,7 +10,7 @@
 
 include_once($relPath.'lang_data.inc');
 
-// Return a list of installed langauges (as defined in lang_data.inc).
+// Return a list of installed languages (as defined in lang_data.inc).
 function installed_langs()
 {
     return $GLOBALS['inst_lang_data'];
@@ -115,8 +115,8 @@ function eng_name($langcode)
     return $iso_639[substr($langcode,0,2)];
 }
 
-// Given a 2-letter langauge code, return a name for that language both
-// in English and in the native langauge.
+// Given a 2-letter language code, return a name for that language both
+// in English and in the native language.
 function bilingual_name($langcode)
 {
     $a=eng_name($langcode);
@@ -131,9 +131,9 @@ function bilingual_name($langcode)
     }
 }
 
-// Return a direction for a given langauge. Returns either:
-// LTR for left-to-right langauges
-// RTL for right-to-left langauges
+// Return a direction for a given language. Returns either:
+// LTR for left-to-right languages
+// RTL for right-to-left languages
 function lang_direction($langcode=FALSE)
 {
     if($langcode===FALSE)
