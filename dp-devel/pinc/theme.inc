@@ -496,7 +496,12 @@ function html_statsbar($nameofpage) {
 
 function maybe_show_language_selector()
 {
-    global $code_url, $userP, $charset, $intlang;
+    global $code_url, $userP, $charset, $intlang, $user_is_logged_in;
+
+    // if user is logged in, return instead of showing the drop-down
+    if($user_is_logged_in)
+        return;
+
     $instl=installed_langs();
     $uninstl=uninstalled_langs();
     if(!(count($instl)>1||count($uninstl)>0))
@@ -513,7 +518,7 @@ function maybe_show_language_selector()
         <?php
 
         echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n";
-        echo "<input type=submit value='".attr_safe(_("Set language:"))."'>\n";
+        echo _("Set language:") . " ";
         echo "<select name=lang onChange='submitLang(this)'>\n";
         foreach($instl as $v)
             echo "<option value='".$v."'".(($v==$intlang)?" selected":"").">".bilingual_name($v)."</option>\n";
