@@ -238,12 +238,7 @@ function echo_general_tab() {
         'textfield',
         array( '', '' )
     );
-    show_preference(
-        _('Language'), 'u_lang', 'lang',
-        $userP['u_lang'],
-        'dropdown',
-        $u_l
-    );
+    show_blank();
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -342,7 +337,7 @@ function save_general_tab() {
 
     // set users values
     $input_string_fields = array("real_name", "email", "email_updates", "i_theme", "u_intlang");
-    $input_numeric_fields = array("u_align", "u_neigh", "u_lang", "u_privacy");
+    $input_numeric_fields = array("u_align", "u_neigh", "u_privacy");
 
     $update_string = _create_mysql_update_string($_POST, $input_string_fields, $input_numeric_fields);
     $update_string .= ", i_prefs=1";

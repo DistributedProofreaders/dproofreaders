@@ -66,7 +66,6 @@ function dpsession_resume_()
 	// from users
 	@$userP['u_id'         ] = $user_pref_values[$i++];
 	@$userP['u_profile'    ] = $user_pref_values[$i++];
-	@$userP['u_lang'       ] = $user_pref_values[$i++];
 	@$userP['email_updates'] = $user_pref_values[$i++];
 	@$userP['u_plist'      ] = $user_pref_values[$i++];
 	@$userP['u_top10'      ] = $user_pref_values[$i++];
@@ -122,7 +121,7 @@ function dpsession_set_preferences_from_db()
 
 	$users_q = "
 		SELECT
-			u_id, u_profile, u_lang, email_updates,
+			u_id, u_profile, email_updates,
 			u_plist, u_top10, u_neigh, u_align,
 			i_prefs, i_theme, i_pmdefault,
 			id, manager, postprocessor, sitemanager,

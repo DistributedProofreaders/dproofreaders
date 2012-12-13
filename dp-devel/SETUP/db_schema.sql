@@ -993,7 +993,6 @@ CREATE TABLE `users` (
   `postprocessor` tinytext NOT NULL,
   `sitemanager` tinytext NOT NULL,
   `active` tinytext NOT NULL,
-  `u_lang` tinyint(1) default '0',
   `email_updates` tinyint(1) default '1',
   `u_plist` tinyint(1) default '3',
   `u_top10` tinyint(1) NOT NULL default '0',
