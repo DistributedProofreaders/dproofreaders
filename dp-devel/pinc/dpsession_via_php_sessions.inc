@@ -60,7 +60,7 @@ function dpsession_set_preferences_from_db()
 
 	$users_res = mysql_query("
 		SELECT
-			u_id, u_profile, u_lang, email_updates,
+			u_id, u_profile, email_updates,
 			u_plist, u_top10, u_neigh, u_align,
 			i_prefs, i_theme, i_pmdefault,
 			id, manager, postprocessor, sitemanager,
