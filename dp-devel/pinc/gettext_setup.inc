@@ -5,11 +5,10 @@ include_once($relPath.'site_vars.php'); // $charset $dyn_locales_dir $system_loc
 
 /* Explanation of logic:
 
-If $_GET['lang'] is set (a page is linked as f. e. default.php?lang=sr) and
+If $_GET['lang'] is set (a page is requested as eg: default.php?lang=sr) and
 requested language is installed, then use that language and set language cookie
 so that after clicking on links user would remain in the language. This is
-useful both for external linking to a localised version and for users to test
-it, so it has precedence over user preferences.
+useful for external linking to a localised version.
 
 If user is logged in, and has set language in user preferences, use that
 language.
