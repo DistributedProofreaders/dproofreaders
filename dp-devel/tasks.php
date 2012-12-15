@@ -75,6 +75,8 @@ elseif ($request_method == 'POST')
         'add_related_task',
         'add_related_topic',
         'add_metoo',
+        'remove_related_task',
+        'remove_related_topic',
         'close',
         'reopen',
         'search',
@@ -451,6 +453,7 @@ function hideSpan(id) {
 // --></script>
 <style type="text/css">
 table.tasks        { width:98%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size:11px; }
+table.tasks form   { margin: 0; }
 table.tasks td     { font-size:11px; padding:2px!important; vertical-align:top; text-align:left; }
 table.tasks th     { font-weight:bold; text-align:left; padding:5px; vertical-align:top; }
 table.taskslist    { width:98%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size:11px; }
@@ -725,51 +728,16 @@ function handle_action_on_a_specified_task()
         }
     }
     elseif ($action == 'add_related_task') {
-        if (empty($_POST['related_task'])) {
-            ShowNotification("You must supply a related task ID.", true);
-        } else {
-            $related_task_id = get_integer_param($_POST, 'related_task', null, 1, null);
-            $checkTaskExists = mysql_query("SELECT task_id FROM tasks WHERE task_id = $related_task_id");
-            $relatedtasks_array = decode_array($pre_task->related_tasks);
-            if (mysql_num_rows($checkTaskExists) >= 1 && $related_task_id != $task_id && !in_array($related_task_id, $relatedtasks_array)) {
-                array_push($relatedtasks_array, $related_task_id);
-                $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
-                wrapped_mysql_query("
-                    UPDATE tasks
-                    SET related_tasks = '$relatedtasks_array'
-                    WHERE task_id = $task_id
-                ");
-                NotificationMail($task_id,
-                    "This task had a related task added to it by $pguser on $date_str at $time_of_day_str.\n");
-                list_all_open_tasks();
-            }
-            else {
-                ShowNotification("You must supply a valid related task id number.");
-            }
-        }
+        process_related_task($pre_task, 'add', @$_POST['related_task']);
+    }
+    elseif ($action == 'remove_related_task') {
+        process_related_task($pre_task, 'remove', @$_POST['related_task']);
     }
     elseif ($action == 'add_related_topic') {
-        if (empty($_POST['related_posting'])) {
-            ShowNotification("You must supply a related topic ID.", true);
-        } else {
-            $r_posting = get_integer_param($_POST, 'related_posting', null, 1, null);
-            $relatedpostings_array = decode_array($pre_task->related_postings);
-            if (does_topic_exist($r_posting) && !in_array($r_posting, $relatedpostings_array)) {
-                array_push($relatedpostings_array, $r_posting);
-                $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
-                wrapped_mysql_query("
-                    UPDATE tasks
-                    SET related_postings = '$relatedpostings_array'
-                    WHERE task_id = $task_id
-                ");
-                NotificationMail($task_id,
-                    "This task had a related posting added to it by $pguser on $date_str at $time_of_day_str.\n");
-                list_all_open_tasks();
-            }
-            else {
-                ShowNotification("You must supply a valid related topic id number.", true);
-            }
-        }
+        process_related_topic($pre_task, 'add', @$_POST['related_posting']);
+    }
+    elseif ($action == 'remove_related_topic') {
+        process_related_topic($pre_task, 'remove', @$_POST['related_posting']);
     }
     elseif ($action == 'add_metoo') {
         global $os_array, $browser_array;
@@ -812,6 +780,97 @@ function handle_action_on_a_specified_task()
     else {
         die("shouldn't be able to reach here");
     }
+}
+
+// Add or remove a related task to the curent task.
+function process_related_task($pre_task, $action, $related_task_id)
+{
+    global $pguser, $date_str, $time_of_day_str;
+    assert($action == 'add' || $action == 'remove');
+
+    // Validate task_id. It must be an integer >= 1
+    $related_task_id = trim($related_task_id);
+    if (empty($related_task_id) || !is_numeric($related_task_id) || $related_task_id < 1) {
+        ShowNotification("You must supply a related task ID.", true);
+        return;
+    }
+
+    $adding               = ($action == 'add');
+    $pre_task_id          = $pre_task->task_id;
+    $related_task_exists  = mysql_num_rows(mysql_query("SELECT task_id FROM tasks WHERE task_id = $related_task_id")) == 1;
+    $related_tasks        = decode_array($pre_task->related_tasks);
+    $task_already_present = in_array($related_task_id, $related_tasks);
+
+    if (!$related_task_exists || $related_task_id == $pre_task_id || $task_already_present == $adding) {
+        ShowNotification("You must supply a valid related task id number.");
+        return;
+    }
+
+    if ($adding) {
+        array_push($related_tasks, $related_task_id);
+    } else {
+        unset($related_tasks[array_search($related_task_id, $related_tasks)]);
+    }
+
+    $related_tasks = base64_encode(serialize($related_tasks));
+
+    wrapped_mysql_query("
+        UPDATE tasks
+        SET related_tasks = '$related_tasks'
+        WHERE task_id = $pre_task_id
+    ");
+
+    if ($adding) {
+        NotificationMail($pre_task_id, "This task had a related task added to it by $pguser on $date_str at $time_of_day_str.\n");
+    } else {
+        NotificationMail($pre_task_id, "This task had a related task removed from it by $pguser on $date_str at $time_of_day_str.\n");
+    }
+    TaskDetails($pre_task_id);
+}
+
+// Add or remove a related topic (forum thread) to the curent task.
+function process_related_topic($pre_task, $action, $related_topic_id)
+{
+    global $pguser, $date_str, $time_of_day_str;
+    assert($action == 'add' || $action == 'remove');
+
+    // Validate related_topic_id. It must be an integer >= 1
+    $related_topic_id = trim($related_topic_id);
+    if (empty($related_topic_id) || !is_numeric($related_topic_id) || $related_topic_id < 1) {
+        ShowNotification("You must supply a related topic ID.", true);
+        return;
+    }
+
+    $adding                = ($action == 'add');
+    $pre_task_id           = $pre_task->task_id;
+    $related_topics        = decode_array($pre_task->related_postings);
+    $topic_already_present = in_array($related_topic_id, $related_topics);
+
+    if (!does_topic_exist($related_topic_id) || $topic_already_present == $adding) {
+        ShowNotification("You must supply a valid related topic id number.", true);
+        return;
+    }
+
+    if ($adding) {
+        array_push($related_topics, $related_topic_id);
+    } else {
+        unset($related_topics[array_search($related_topic_id, $related_topics)]);
+    }
+
+    $related_topics = base64_encode(serialize($related_topics));
+
+    wrapped_mysql_query("
+        UPDATE tasks
+        SET related_postings = '$related_topics'
+        WHERE task_id = $pre_task_id
+    ");
+
+    if ($adding) {
+        NotificationMail($pre_task_id, "This task had a related posting added to it by $pguser on $date_str at $time_of_day_str.\n");
+    } else {
+        NotificationMail($pre_task_id, "his task had a related posting removed from it by $pguser on $date_str at $time_of_day_str.\n");
+    }
+    TaskDetails($pre_task_id);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -1309,6 +1368,7 @@ function TaskDetails($tid)
             }
             TaskComments($tid);
             RelatedTasks($tid);
+            echo "<br />\n";
             RelatedPostings($tid);
         }
     }
@@ -1503,33 +1563,45 @@ function RelatedTasks($tid)
     global $tasks_url, $tasks_status_array;
     $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $tid");
     $related_tasks = mysql_result($result, 0, "related_tasks");
+    echo "<table class='tasks'>\n";
+    echo "<tr><td width='100%'><b>Related Tasks&nbsp;&nbsp;</b>";
     echo "<form action='$tasks_url' method='post'>";
     echo "<input type='hidden' name='action' value='add_related_task'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
-    echo "<table class='tasks'>\n";
-    echo "<tr><td width='100%'><b>Related Tasks&nbsp;&nbsp;</b>";
     echo "<input type='text' name='related_task' size='30' class='taskinp1'>&nbsp;&nbsp;";
     echo "<input type='submit' value='Add' class='taskinp2'>\n";
     echo " (Add the number of an existing, related task. This is optional.)";
+    echo "</form>";
     $related_tasks = decode_array($related_tasks);
     asort($related_tasks);
     while (list($key, $val) = each($related_tasks)) {
         $result = mysql_query("
             SELECT task_status, task_summary FROM tasks WHERE task_id = $val
         ") or die(mysql_error());
-        if (mysql_num_rows($result) == 0) {
+        $related_task_exists = mysql_num_rows($result) != 0;
+        if (!$related_task_exists) {
             // The task must have been deleted from the table manually.
-            $task_summary = "[not found]";
+            $related_task_summary = "[not found]";
         }
         else {
             // summary is stored in the database as addslashes(htmlspecialchars(...)),
             // so we need to use stripslashes() to display it in HTML.
-            $task_summary = stripslashes(mysql_result($result, 0, "task_summary"));
-            $task_status  = $tasks_status_array[mysql_result($result, 0, "task_status")];
+            $related_task_summary = stripslashes(mysql_result($result, 0, "task_summary"));
+            $related_task_status  = $tasks_status_array[mysql_result($result, 0, "task_status")];
         }
-        echo "<br /><a href='$tasks_url?action=show&task_id=$val'>Task #$val</a> ($task_status) - $task_summary\n";
+        if ($related_task_exists) {
+            echo "<form action='$tasks_url' method='post'>";
+        }
+        echo "<a href='$tasks_url?action=show&task_id=$val'>Task #$val</a> ($related_task_status) - $related_task_summary";
+        if ($related_task_exists) {
+            echo " <input type='hidden' name='action' value='remove_related_task'>";
+            echo "<input type='hidden' name='task_id' value='$tid'>";
+            echo "<input type='hidden' name='related_task' value='$val'>";
+            echo "<input type='submit' value='Remove' class='taskinp2'>";
+            echo "</form>";
+        }
     }
-    echo "</td></tr></table></form>";
+    echo "</td></tr></table>";
 }
 
 function RelatedPostings($tid)
@@ -1537,27 +1609,33 @@ function RelatedPostings($tid)
     global $forums_url, $tasks_url;
     $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = $tid");
     $related_postings = mysql_result($result, 0, "related_postings");
+    echo "<table class='tasks'>\n";
+    echo "<tr><td width='100%'><b>Related Topic ID&nbsp;&nbsp;</b>";
     echo "<form action='$tasks_url' method='post'>";
     echo "<input type='hidden' name='action' value='add_related_topic'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
-    echo "<table class='tasks'>\n";
-    echo "<tr><td width='100%'><b>Related Topic ID&nbsp;&nbsp;</b>";
     echo "<input type='text' name='related_posting' size='30' class='taskinp1'>&nbsp;&nbsp;";
     echo "<input type='submit' value='Add' class='taskinp2'>\n";
     echo " (Optional)";
+    echo "</form>";
     $related_postings = decode_array($related_postings);
     asort($related_postings);
     while (list($key, $val) = each($related_postings)) {
         $row = get_topic_details($val);
         $forum_url = get_url_to_view_forum($row["forum_id"]);
         $topic_url = get_url_to_view_topic($row["topic_id"]);
-        echo "<br />";
+        echo "<form action='$tasks_url' method='post'>";
+        echo "<input type='hidden' name='action' value='remove_related_topic'>";
+        echo "<input type='hidden' name='task_id' value='$tid'>";
+        echo "<input type='hidden' name='related_posting' value='" .$row["topic_id"] . "'>";
         echo "<a href='$forum_url'>" . $row['forum_name'] . "</a>";
         echo "&nbsp;&raquo;&nbsp;";
         echo "<a href='$topic_url'>" . $row['title'] . "</a>";
         echo " (Posted by: " . $row['creator_username'] . " - " . $row['num_replies'] . " replies)\n";
+        echo "<input type='submit' value='Remove' class='taskinp2'>\n";
+        echo "</form>";
     }
-    echo "</td></tr></table></form>";
+    echo "</td></tr></table>";
 }
 
 function property_get_label( $property_id, $for_list_of_tasks )
