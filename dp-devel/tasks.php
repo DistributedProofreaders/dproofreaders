@@ -879,17 +879,12 @@ function TaskHeader($header)
     global $tasks_url;
     global $no_stats;
     $no_stats = 1;
-    theme(htmlspecialchars($header), 'header');
-    echo <<<EOS
-<script language='javascript'><!--
-function showSpan(id) {
-    document.getElementById(id).style.display="";
-}
-function hideSpan(id) {
-    document.getElementById(id).style.display="none";
-}
-// --></script>
-<style type="text/css">
+    $js_data = <<<EOS
+function showSpan(id) { document.getElementById(id).style.display=""; }
+function hideSpan(id) { document.getElementById(id).style.display="none"; }
+EOS;
+
+    $css_data = <<<EOS
 table.tasks        { width:98%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size:11px; }
 table.tasks form   { margin: 0; }
 table.tasks td     { font-size:11px; padding:2px!important; vertical-align:top; text-align:left; }
@@ -910,10 +905,12 @@ small.task         { font-family:Verdana; font-size:10px; }
 center.taskwarn    { color:#FF0000; font-weight:bold; font-size: 12pt; font-family:Verdana; padding:2em; }
 center.taskinfo    { color:#00CC00; font-weight:bold; font-size: 12pt; font-family:Verdana; padding:2em; }
 p                  { font-family:Verdana; font-size:11px; }
-</style>
-<br /><div align='center'><table class='taskplain' width='98%'><tr><td>
 EOS;
 
+    theme(htmlspecialchars($header), 'header',
+        array('js_data' => $js_data, 'css_data' => $css_data));
+
+    echo "<br /><div align='center'><table class='taskplain' width='98%'><tr><td>";
     echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
     echo "<table class='taskplain'>\n";
     echo "<tr><td width='50%'>&nbsp;</td>\n";
@@ -1153,7 +1150,7 @@ function TaskForm($task)
         echo "Submit Edit";
     }
     echo "' class='taskinp2'>\n";
-    echo "</center></td></tr></table><br />\n";
+    echo "</center></td></tr></table></form><br />\n";
 }
 
 function property_echo_select_tr($property_id, $current_value, $options)
@@ -1194,10 +1191,10 @@ function TaskDetails($tid)
             // Task id, summary, and possible Edit/Re-Open Task buttons.
             echo "<table class='tasks'>\n";
             echo "<tr bgcolor='#ecdbb7'>";
-            echo "<td width='90%' valign='center'>";
+            echo "<td width='90%' valign='middle'>";
             echo "Task #$tid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . property_format_value('task_summary', $row, FALSE);
             echo "</td>";
-            echo "<td width='10%' valign='center' style='text-align:right;'>";
+            echo "<td width='10%' valign='middle' style='text-align:right;'>";
             echo "<form action='$tasks_url' method='post'>\n";
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr() || $row['opened_by'] == $requester_u_id) && empty($row['closed_reason'])) {
                 echo "<input type='hidden' name='action' value='show_editing_form'>\n";
@@ -1212,9 +1209,9 @@ function TaskDetails($tid)
             else {
                 echo "&nbsp;\n";
             }
+            echo "</form>";
             echo "</td>";
             echo "</tr>";
-            echo "</form>";
             echo "</table>\n";
 
             echo "<table class='tasks'>\n";
@@ -1474,7 +1471,7 @@ function guess_browser_from_UA()
 function MeToo($tid, $os, $browser)
 {
     global $tasks_url, $browser_array, $os_array;
-    echo "<span id='MeTooMain' style='display: none;'>";
+    echo "<div id='MeTooMain' style='display: none;'>";
     echo "<form action='$tasks_url' method='post'>";
     echo "<input type='hidden' name='action' value='add_metoo'>";
     echo "<input type='hidden' name='task_id' value='$tid'>";
@@ -1492,7 +1489,7 @@ function MeToo($tid, $os, $browser)
     echo "<b>Operating System</b>";
     echo "&nbsp;";
     dropdown_select('metoo_os', array_search(guess_OS_from_UA(), $os_array), $os_array);
-    echo "</select>\n</span></fieldset>\n";
+    echo "</span></fieldset>\n";
     echo "<br />";
     echo "<fieldset class='task'>";
     echo "<legend class='task'>Are you using the same browser?</legend>";
@@ -1511,7 +1508,7 @@ function MeToo($tid, $os, $browser)
     echo "&nbsp;";
     echo "<input type='reset' value='Reset' class='taskinp2' onClick=\"hideSpan('MeTooMain');\">";
     echo "</center>";
-    echo "</td></tr></table></form></span>";
+    echo "</td></tr></table></form></div>";
 }
 
 function ShowNotification($warn, $goback = false, $type = "warn")
