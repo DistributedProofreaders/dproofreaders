@@ -215,11 +215,14 @@ _WIKIHIERO_URL=$base_url/wikihiero
 # Communication/Discussion
 # ------------------------
 
+_BLOG_URL=URL_OF_YOUR_BLOG
+
 _WIKI_URL=$base_url/wiki
 
-# If there's a wiki that you want your users to use, set this variable
-# to its URL, and a link will appear on the navigation bar.
-# If you don't have a wiki, set this to the empty string.
+# If there's a wiki or a blog that you want your users to use, set the
+# above variables to their URLs and links will appear on the navigation
+# bar. If you don't have a blog or wiki, set either of both of them to
+# the empty string, and they won't appear in the navigation bar.
 
 # ----------------------------------------------------------------------
 

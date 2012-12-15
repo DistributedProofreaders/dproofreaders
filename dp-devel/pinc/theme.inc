@@ -216,7 +216,7 @@ function html_navbar()
 // Display the horizontal bar containing links to various important points
 // within the site (and the login form if the user is not logged in).
 {
-    global $theme, $code_url, $site_abbreviation, $pguser, $forums_url, $wiki_url;
+    global $theme, $code_url, $site_abbreviation, $pguser, $forums_url, $blog_url, $wiki_url;
 
     echo "<table class='navbar' width='100%'>";
     echo "<tr>";
@@ -310,11 +310,15 @@ function html_navbar()
             $links[] = array('text' => _("Your language forums"), 'url' => $forums_url."/".lang_forum());
         }
 
+        if ( !empty($blog_url) )
+        {
+            $links[] = array('text' => _("Blog"), 'url' => $blog_url);
+        }
+
         if ( !empty($wiki_url) )
         {
             $links[] = array('text' => _("Wiki"), 'url' => $wiki_url);
         }
-
 
         $links[] = array('text' => _("Stats"), 'url' => "stats/stats_central.php");
         $links[] = array('text' => _("Prefs"), 'url' => "userprefs.php");

@@ -22,6 +22,8 @@ $xmlfeeds_dir = "$dyn_dir/xmlfeeds";
 
 $jpgraph_dir = '<<JPGRAPH_DIR>>';
 
+$blog_url = '<<BLOG_URL>>';
+
 $wiki_url = '<<WIKI_URL>>';
 
 $wikihiero_dir = '<<WIKIHIERO_DIR>>';
