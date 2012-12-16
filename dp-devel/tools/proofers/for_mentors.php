@@ -158,7 +158,7 @@ function project_sql($mentoring_round)
 
 function page_summary_sql($mentored_round, $projectid)
 {
-    global $forums_url,$code_url;
+    global $code_url;
 
     $round_tallyboard = new TallyBoard($mentored_round->id, 'U' );
 

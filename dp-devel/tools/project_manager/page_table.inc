@@ -15,7 +15,7 @@ function echo_page_table(
     $page_selector = NULL ,
     $proofed_in_round = NULL)
 {
-    global $theme, $projects_dir, $code_url, $pguser;
+    global $projects_dir, $code_url, $pguser;
 
     $can_edit = $project->can_be_managed_by_current_user;
 
@@ -495,7 +495,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     $page_res,
     $projectid, $can_see_names_for_this_page)
 {
-    global $userP, $forums_url, $pguser, $code_url;
+    global $pguser, $code_url;
 
     $imagename  = $page_res['image'];
     $page_state = $page_res['state'];

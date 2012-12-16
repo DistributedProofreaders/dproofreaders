@@ -166,7 +166,6 @@ theme('','footer');
 
 function _get_word_list($projectid) {
     global $aspell_temp_dir;
-    global $word_pattern;
 
     $ocr_filename = "$aspell_temp_dir/${projectid}_ocr.txt";
     $latest_filename = "$aspell_temp_dir/${projectid}_latest.txt";

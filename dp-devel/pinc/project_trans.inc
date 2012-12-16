@@ -13,7 +13,6 @@ function project_transition( $projectid, $new_state, $who, $extras = array() )
 // This function produces no output except for debugging messages.
 {
     global $testing;
-    global $site_supports_metadata;
 
     // error_reporting(E_ALL);
 

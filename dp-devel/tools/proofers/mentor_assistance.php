@@ -255,7 +255,7 @@ function show_other_mentoring_rounds()
 
 function get_page_rows( $mentoring_round )
 {
-    global $code_url, $pguser;
+    global $pguser;
     $pages = array();
 
     $mentored_round = $mentoring_round->mentee_round;
@@ -373,7 +373,6 @@ function get_proofers_and_projects( )
 
 function _checkout_button( $username, $projectid )
 {
-    global $code_url;
     $check_out = _("check out");
     $str = "
     <input type='button' value='$check_out' onclick='checkout(\"$username\", \"$projectid\")' />\n";

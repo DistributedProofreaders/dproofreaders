@@ -237,8 +237,6 @@ elseif (isset($_POST['saveUberAndQuit']) || isset($_POST['saveUberAndNewProject'
 
 function saveUberProject()
 {
-    global $pguser;
-
     //Let's check to make sure everything is correct & there are no errors
     if (empty($_POST['up_nameofwork'])) { $errormsg .= "Overall Name of Uber Project is required.<br>"; }
 

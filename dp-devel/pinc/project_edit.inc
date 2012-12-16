@@ -14,7 +14,6 @@ function user_can_edit_project( $projectid )
 // is allowed to edit the specified project
 // (i.e., is either the project's manager or a site manager).
 {
-    global $site_manager_email_addr;
     global $pguser;
 
     $res = mysql_query("SELECT username FROM projects WHERE projectid = '$projectid' LIMIT 1");
@@ -78,11 +77,10 @@ function user_can_add_project_pages( $projectid, $page_type = "normal" )
 }
 
 function abort_if_cant_edit_project( $projectid )
-// Politely abort if the current user ($pguser)
+// Politely abort if the current user
 // is not allowed to edit the specified project
 {
     global $site_manager_email_addr;
-    global $pguser;
 
     $result = user_can_edit_project($projectid);
 

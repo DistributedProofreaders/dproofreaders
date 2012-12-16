@@ -441,7 +441,7 @@ class ImageSource
 
     function approve()
     {
-        global $pguser, $site_url, $site_abbreviation, $site_signoff, $site_name;
+        global $pguser, $site_abbreviation, $site_signoff, $site_name;
         $this->_set_field('is_active',1);
         $this->_set_field('info_page_visibility',1);
 
@@ -536,7 +536,7 @@ class ImageSource
 
     function log_request_for_approval($requestor_username)
     {
-        global $general_help_email_addr,$image_sources_manager_addr,$code_url,$site_url,$site_abbreviation,$site_name,$site_signoff;
+        global $general_help_email_addr,$image_sources_manager_addr,$code_url,$site_abbreviation,$site_name,$site_signoff;
 
         mysql_query("INSERT INTO usersettings
             SET

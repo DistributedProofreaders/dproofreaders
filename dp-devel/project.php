@@ -865,7 +865,7 @@ function echo_row_c( $content )
 
 function recentlyproofed( $wlist )
 {
-    global $project, $pguser, $userP;
+    global $project, $pguser;
 
     $projectid = $project->projectid;
     $state = $project->state;

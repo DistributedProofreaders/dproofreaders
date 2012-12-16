@@ -262,7 +262,7 @@ function show_project_listing(
         // stage object (Round, Pool, or Stage)
 )
 {
-    global $code_url, $userP, $pguser;
+    global $code_url, $pguser;
 
     // Some columns (notably those with numbers in them)
     // have special formatting styles -- specify them here.

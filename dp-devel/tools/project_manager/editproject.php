@@ -624,7 +624,7 @@ class ProjectInfoHolder
 
     function save_to_db()
     {
-        global $projects_dir, $uploads_dir, $pguser;
+        global $projects_dir, $pguser;
 
         $postednum_str = ($this->postednum == "") ? "NULL" : "'$this->postednum'";
 
@@ -890,8 +890,6 @@ class ProjectInfoHolder
 
     function show_form()
     {
-        global $theme;
-
         echo "<form method='post' enctype='multipart/form-data' action='". htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES)."'>";
 
         $this->show_hidden_controls();
@@ -1056,8 +1054,6 @@ class ProjectInfoHolder
 
     function preview()
     {
-        global $pguser;
-
         // insert e.g. templates and biographies
         $comments = parse_project_comments($this->comments);
 

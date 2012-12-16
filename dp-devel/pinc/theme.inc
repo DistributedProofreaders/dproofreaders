@@ -89,7 +89,7 @@ function theme ($nameofpage, $location, $extra_args = array()) {
 }
 
 function html_header($nameofpage, $extra_args = array()) {
-    global $code_url, $theme, $userP, $site_abbreviation;
+    global $code_url, $theme, $site_abbreviation;
     global $charset;
     echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
     echo "<html".lang_html_header().">\n<head>\n";
@@ -500,7 +500,7 @@ function html_statsbar($nameofpage) {
 
 function maybe_show_language_selector()
 {
-    global $code_url, $userP, $charset, $intlang, $user_is_logged_in;
+    global $code_url, $userP, $intlang, $user_is_logged_in;
 
     // if user is logged in, return instead of showing the drop-down
     if($user_is_logged_in)
@@ -545,7 +545,7 @@ function get_activity_links()
 // return a list of round/stage links for the user
 // the returned links are in a format usable by headerbar_text_array
 {
-    global $code_url, $Stage_for_id_, $pguser, $userP;
+    global $Stage_for_id_, $pguser, $userP;
 
     if (is_null($pguser)) return;
     // Should show links to stages that are accessible to people
@@ -910,7 +910,6 @@ function show_key_help_links()
 function show_donation_stuff()
 {
     global $theme, $theme_name, $code_url, $site_name;
-    global $forums_url;
 
     $paypal_business_id = 'DPFoundation@pgdp.net';
     $info_url = $code_url.'/faq/dpf.php';

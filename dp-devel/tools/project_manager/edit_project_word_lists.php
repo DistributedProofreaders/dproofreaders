@@ -219,8 +219,6 @@ class ProjectWordListHolder
 
     function save_to_files()
     {
-        global $projects_dir, $uploads_dir, $pguser;
-
         $good_word_conflict = $bad_word_conflict = false;
         $messages = array();
 
@@ -263,8 +261,6 @@ class ProjectWordListHolder
 
     function show_form()
     {
-        global $theme;
-
         $this->echo_stylesheet();
 
         echo "<form method='post' enctype='multipart/form-data' action='". htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) ."'>";

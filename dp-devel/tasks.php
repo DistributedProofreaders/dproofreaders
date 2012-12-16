@@ -1056,7 +1056,7 @@ function select_and_list_tasks($sql_condition)
 function TaskForm($task)
 {
     global $requester_u_id, $tasks_array, $severity_array, $categories_array, $tasks_status_array;
-    global $os_array, $browser_array, $versions_array, $tasks_close_array, $percent_complete_array;
+    global $os_array, $browser_array, $versions_array, $percent_complete_array;
     global $task_assignees_array;
     global $priority_array, $tasks_url;
 
@@ -1625,7 +1625,7 @@ function RelatedTasks($tid)
 
 function RelatedPostings($tid)
 {
-    global $forums_url, $tasks_url;
+    global $tasks_url;
     $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = $tid");
     $related_postings = mysql_result($result, 0, "related_postings");
     echo "<table class='tasks'>\n";

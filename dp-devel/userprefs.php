@@ -225,7 +225,7 @@ function echo_tabs($tab_names, $selected_tab) {
 
 function echo_general_tab() {
     global $uid, $pguser, $userP, $reset_password_url;
-    global $u_intlang_options, $u_n, $i_stats, $u_l, $i_pm;
+    global $u_intlang_options, $u_n, $i_stats;
 
     $result=mysql_query("SELECT * FROM users WHERE  u_id=$uid AND username='$pguser'");
     $real_name = mysql_result($result,0,"real_name");
@@ -332,7 +332,7 @@ function echo_general_tab() {
 }
 
 function save_general_tab() {
-    global $uid, $userP, $pguser;
+    global $uid, $pguser;
     global $userSettings;
 
     // set users values
@@ -365,8 +365,8 @@ function save_general_tab() {
 /*************** PROOFREADING TAB ***************/
 
 function echo_proofreading_tab() {
-    global $uid, $pguser, $userP;
-    global $i_r, $p_l, $f_f, $f_s;
+    global $userP;
+    global $i_r, $f_f, $f_s;
     global $userSettings;
 
     // see if they already have 10 profiles, etc.
