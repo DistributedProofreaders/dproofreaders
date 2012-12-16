@@ -245,6 +245,7 @@ class LPage
     {
         $res = mysql_query("SELECT language FROM projects WHERE projectid='{$this->projectid}'");
         $lang = proj_lang_code(mysql_result($res,0,"language"),"primary");
+        return $lang;
     }
 
     function get_username_for_round( $round )
