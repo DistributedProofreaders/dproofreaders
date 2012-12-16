@@ -895,7 +895,6 @@ function list_uber_projects( $can_see_all )
 
             $up_projid = $UPinfo['up_projectid'];
             $up_name = $UPinfo['up_nameofwork'];
-            $up_topicid = $UPinfo['up_topic_id'];
 
             // no one will have specific access to a large number of UPs,
             // and SA/PFs only see the list when they request it,

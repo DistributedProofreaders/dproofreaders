@@ -126,7 +126,6 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num,
 
     $query = "SELECT image, $L_user_column_name  FROM $projectid ORDER BY image ASC";
     $res = mysql_query( $query) or die(mysql_error());
-    $num_rows = mysql_num_rows($res);
     $prev_image = "";
     $next_image = "";
     $prev_from_proofer = "";

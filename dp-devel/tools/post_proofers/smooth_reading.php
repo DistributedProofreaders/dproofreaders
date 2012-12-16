@@ -17,15 +17,11 @@ if (isset($GLOBALS['pguser'])) { $logged_in = TRUE;} else { $logged_in = FALSE;}
 if ($logged_in) {
     // we show more columns when user is logged in, so we don't have room for the stats bar
     $no_stats = 1;
-    $tcolspan = 10;
-    $showPPersF = TRUE;
     $header_text = _("Smooth Reading Pool");
     theme( $header_text, 'header');
     page_header( 'SR', $header_text );
     show_news_for_page("SR");
 } else {
-    $showPMsF = FALSE;
-    $tcolspan = 6;
     $header_text = _("Smooth Reading Pool Preview");
     theme( $header_text, 'header');
     page_header( 'SR', $header_text );

@@ -262,12 +262,9 @@ function get_page_rows( $mentoring_round )
     
     $projects = get_mentoring_projects( $mentoring_round );
 
-    $mentoring_round_id     = $mentoring_round->id;
     $mentoring_user_column  = $mentoring_round->user_column_name;
     $mentored_user_column   = $mentored_round->user_column_name;
     $mentored_time_column   = $mentored_round->time_column_name;
-
-    $mentor_user_name       = $mentoring_round->user_column_name;
 
     $round_tallyboard = new TallyBoard($mentored_round->id, 'U' );
     list($join_clause, $count_column) =
@@ -381,10 +378,6 @@ function _checkout_button( $username, $projectid )
     $str = "
     <input type='button' value='$check_out' onclick='checkout(\"$username\", \"$projectid\")' />\n";
     return $str;
-
-    // $url = $code_url."/tools/proofers/formentors.php?
-    // return "<a href=\"{$code_url}/tools/proofers/round.php?round_id=P3\" title='Proofreading Round 3'>Check out</a>";
-    // return "<a href=\"javascript:alert('not yet!');\">Check out</a>";
 }
 
 function _days_ago($unixtime) 
@@ -425,11 +418,6 @@ function _ago($unixtime)
     $minutes_ago    = _minutes_ago($unixtime);
 
     return "$days_ago $days $hours_ago $hrs $minutes_ago $mins";
-}
-
-function table()
-{
-    return $tbl;
 }
 
 function fmt_time( $val )

@@ -162,7 +162,6 @@ function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,
     echo "</tr>\n";
 
     // now start processing the rows
-    $jsOutput = "var cutoffArray_${instance}=new Array();\n";
     $freqCutoff = 100000;
     $printLines = 1;
     echo "<tbody id='${freqCutoff}_${instance}'>\n";
@@ -173,7 +172,6 @@ function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,
         if(in_array($word,array("[[TITLE]]","[[STYLE]]","[[CLASS]]"))) continue;
 
         if($freq < $nextCutoff) {
-            $prevCutoff = $nextCutoff;
             while($freq < $nextCutoff && count($cutoffOptions))
                 $nextCutoff=array_pop($cutoffOptions);
             $freqCutoff=$nextCutoff;
@@ -396,7 +394,7 @@ function enforce_edit_authorization($projectid) {
 function parse_posted_words($_array) {
     $newProjectWords=array();
     foreach($_array as $key => $val) {
-        if(preg_match("/cb_(.*?)_(\d+)/",$key,$matches)) {
+        if(preg_match("/cb_(.*?)_(\d+)/",$key)) {
             $word=decode_word($val);
             array_push($newProjectWords,$word);
         }

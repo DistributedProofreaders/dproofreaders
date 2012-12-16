@@ -147,8 +147,6 @@ CONTROL;
 		}
 
 		$sk = $wgUser->getSkin();
-		$talk = $wgContLang->getNsText( NS_TALK );
-		$contribs = wfMsg( 'contribslink' );
 
 		if ( $this->mNewRev->isCurrent() && $wgUser->isAllowed('rollback') ) {
 			$username = $this->mNewRev->getUserText();

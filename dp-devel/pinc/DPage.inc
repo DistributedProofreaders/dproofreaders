@@ -119,8 +119,6 @@ function project_add_page(
 {
     global $writeBIGtable;
 
-    $image_file_name_e = addslashes( $image_file_name );
-
     $txt_expr = file_content_expr( $txt_file_path );
 
     $round = get_Round_for_round_number(1);

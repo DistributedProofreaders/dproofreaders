@@ -87,7 +87,6 @@ function days_to_now($timestamp)
 function showMbrDpProfile( $curMbr )
 {
     global $site_abbreviation;
-    $now = time();
     // Days since joined:
     $daysInExistenceString = days_to_now($curMbr['date_created']);
     if ($curMbr['t_last_activity'] != 0)

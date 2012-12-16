@@ -94,9 +94,6 @@ function insert_post(
 
     // initialise some variables
     $topic_vote = 0; 
-    $poll_title = '';
-    $poll_options = '';
-    $poll_length = '';
     $mode = 'reply'; 
 
     $bbcode_uid = ($bbcode_on) ? make_bbcode_uid() : ''; 

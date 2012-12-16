@@ -236,7 +236,6 @@ function _get_word_list($projectid,$suggestions) {
     // parse the suggestions complex array
     // it is in the format: $suggestions[$round][$pagenum]=$wordsArray
     foreach( $suggestions as $round => $pageArray ) {
-        $round_suggestions = array();
         foreach( $pageArray as $page => $words) {
             // add the words to the combined array too
             $all_suggestions = array_merge($all_suggestions,$words);

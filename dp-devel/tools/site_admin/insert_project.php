@@ -122,8 +122,6 @@ function review( $projectid_ )
         die( "Error: no projectid data supplied" );
     }
 
-    $page_names_ = array();
-
     foreach ( array( 'from', 'to' ) as $which )
     {
         echo "$which:\n";

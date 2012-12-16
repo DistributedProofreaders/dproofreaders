@@ -513,8 +513,6 @@ class Loader
 
     function _get_action( $base, $toi, $db_exts, $src_exts )
     {
-        $action = null;
-
         // First, consider error conditions.
 
         if ( count($db_exts) > 1 )
