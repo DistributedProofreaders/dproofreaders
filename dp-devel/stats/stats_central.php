@@ -191,7 +191,7 @@ foreach ( $page_tally_names as $tally_name => $tally_title )
     $table->row(
         $tally_name,
         "<a href='pages_proofed_graphs.php?$qs'>" . _("Pages Proofread Graphs") . "</a>",
-        "<a href='misc_stats1.php?$qs'>" . _("Top Proofreading Days and Months, etc") . "</a>",
+        "<a href='misc_stats1.php?$qs'>" . _("Top Proofreading Days and Months, etc.") . "</a>",
         "<a href='proof_stats.php?$qs'>" . _("Top Proofreaders") . "</a>"
     );
 }
