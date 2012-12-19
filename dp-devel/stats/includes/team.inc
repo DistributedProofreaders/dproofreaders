@@ -72,7 +72,8 @@ function showTeamProfile($curTeam) {
     $xml_img_tag = "<img src='$xml_img_url' border='0' width='36' height='14' style='vertical-align: middle;'>";
     $xml_button = "<a href='$xml_doc_url'>$xml_img_tag</a>";
 
-    if ($userP['u_id'] == $curTeam['owner'])
+    // Allow team owner and site administrators to edit the team
+    if (($userP['u_id'] == $curTeam['owner']) || (user_is_a_sitemanager()))
     {
         $op_url = "tedit.php?tid=$team_id";
         $text = _('Edit');

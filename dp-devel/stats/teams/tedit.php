@@ -20,7 +20,8 @@ if (!isset($tid)) {
 $result = select_from_teams("id = $tid");
 $curTeam = mysql_fetch_assoc($result);
 
-if ($userP['u_id'] != $curTeam['owner'])
+// Allow team owner and site administrators to edit the team
+if (($userP['u_id'] != $curTeam['owner']) && (!user_is_a_sitemanager()))
 {
     $title = _("Authorization Failed");
     $desc = _("You are not authorized to edit this team....");
