@@ -138,10 +138,16 @@ function showTeamProfile($curTeam) {
         . "&nbsp;(" . sprintf(_("%s days"), $daysInExistence) . ")"
     );
 
+    $t->row(
+        _("Created by"),
+        $curTeam['createdby']
+    );
+
     $owner_url = "$code_url/stats/members/mdetail.php?id=" . $curTeam['owner'];
+    $owner_name = get_username_for_uid($curTeam['owner']);
     $t->row(
         _("Leader"),
-        "<a href='$owner_url'>" . $curTeam['createdby'] . "</a>"
+        "<a href='$owner_url'>" . $owner_name . "</a>"
     );
 
     $t->row(

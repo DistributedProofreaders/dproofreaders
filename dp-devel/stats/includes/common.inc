@@ -49,5 +49,15 @@ function showChangeInRank( $previous_rank, $current_rank )
     return $snippet;
 }
 
+// Copied from tasks.php - hack, but we lack a good
+// generic function for arbitrary user information.
+
+function get_username_for_uid($u_id)
+{
+    $res = mysql_query("SELECT username FROM users WHERE u_id = $u_id");
+    $username = mysql_result($res, 0, "username");
+    return $username;
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>

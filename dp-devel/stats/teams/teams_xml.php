@@ -40,7 +40,8 @@ $team_id = $curTeam['id'];
     $data = "<teaminfo id='$team_id'>
             <teamname>".xmlencode($curTeam['teamname'])."</teamname>
             <datecreated>".date("m/d/Y", $curTeam['created'])."</datecreated>
-            <leader>".xmlencode($curTeam['createdby'])."</leader>
+            <createdby>".xmlencode($curTeam['createdby'])."</createdby>
+            <leader>".xmlencode(get_username_for_uid($curTeam['owner']))."</leader>
             <description>".xmlencode($curTeam['team_info'])."</description>
             <website>".xmlencode($curTeam['webpage'])."</website>
             <forums>".xmlencode(get_url_to_view_topic($curTeam['topic_id']))."</forums>
