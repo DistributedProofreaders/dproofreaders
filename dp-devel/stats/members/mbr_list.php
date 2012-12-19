@@ -102,7 +102,7 @@ if ($mRows == 20) {
     echo "<b><a href='mbr_list.php?".$uname."order=$order&direction=$direction&mstart=".($mstart+20)."'>"._("Next")."</a></b>";
 }
 echo "</td></tr>";
-echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><a href='$code_url/accounts/addproofer.php'><font color='".$theme['color_headerbar_font']."'>"._("Create a New Account")."</font></a></b></td></tr>";
+echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'>&nbsp;</td></tr>";
 echo "</table><p>";
 theme("", "footer");
 
