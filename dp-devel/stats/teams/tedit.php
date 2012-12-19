@@ -37,6 +37,13 @@ if (isset($_GET['tid']))
     echo "</center>";
     theme("", "footer");
 }
+elseif (isset($_POST['edQuit']))
+{
+    $title = _("Quit Without Saving");
+    $desc = _("Quitting without saving...");
+    metarefresh(4,"tdetail.php?tid=$tid",$title,$desc);
+    exit;
+}
 elseif (isset($_POST['edPreview']))
 {
     $preview = _("Preview");
@@ -101,9 +108,9 @@ elseif (isset($_POST['edMake']))
         {
             uploadImages(0,$tid,"icon");
         }
-    
+
         mysql_query("UPDATE user_teams SET teamname='".addslashes(stripAllString(trim($_POST['teamname'])))."', team_info='".addslashes(stripAllString($_POST['text_data']))."', webpage='".addslashes(stripAllString($_POST['teamwebpage']))."' WHERE id='$tid'");
-    
+
         $title = _("Saving Team Update");
         $desc = _("Updating team....");
         metarefresh(0,"tdetail.php?tid=$tid",$title, $desc);
