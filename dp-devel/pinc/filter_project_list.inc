@@ -169,10 +169,10 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
     // buttons
     echo "<center>";
     echo "<input type='submit' name='reset' value='".
-        attr_safe(_("Reset New Filter"))
+        attr_safe(_("Remove Filter"))
          ."'>";
     echo "<input type='submit' value='".
-        attr_safe(_("Apply New Filter to Projects"))
+        attr_safe(_("Apply Selections"))
          ."'>";
     echo "</center>\n";
 
@@ -222,7 +222,7 @@ function maybe_update_project_filter($username, $filter_type, $data, $state_sql)
         $is_associative=FALSE;
         if($field == "special_code" || $field=="difficulty")
             $is_associative=TRUE;
-        
+
         $filter_segments=array();
         $display_segments=array();
 
