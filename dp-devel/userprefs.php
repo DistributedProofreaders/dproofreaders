@@ -59,7 +59,12 @@ if (isset($_POST["swProfile"]))
     // User clicked "Switch profile"
     // get profile from database
     $c_profile=get_integer_param($_POST, "c_profile", NULL, 0, NULL);
-    mysql_query("UPDATE users SET u_profile='$c_profile' WHERE  u_id=$uid  AND username='$pguser'");
+    mysql_query(sprintf("
+        UPDATE users
+        SET u_profile='$c_profile'
+        WHERE u_id=$uid  AND username='%s'",
+        mysql_real_escape_string($pguser))
+    );
     dpsession_set_preferences_from_db();
     $eURL="$code_url/userprefs.php?tab=$selected_tab&amp;origin=" . urlencode($origin);
     metarefresh(0,$eURL,_('Profile Selection'),_('Loading Selected Profile....'));
@@ -120,7 +125,12 @@ if (array_get($_POST, "insertdb", "") != "") {
     $new_profile_id = mysql_result($result,0,"id");
     echo sprintf(_("Active usersettings profile is now: %s"),$new_profile_name) . "\n<br>\n";
     
-    mysql_query("UPDATE users SET u_profile='$new_profile_id' WHERE u_id='$uid' AND username='$pguser'");
+    mysql_query(sprintf("
+        UPDATE users
+        SET u_profile='$new_profile_id'
+        WHERE u_id='$uid' AND username='%s'",
+        mysql_real_escape_string($pguser))
+    );
     // Reload preferences to reflect changed active profile.
     dpsession_set_preferences_from_db();
 
@@ -227,7 +237,12 @@ function echo_general_tab() {
     global $uid, $pguser, $userP, $reset_password_url;
     global $u_intlang_options, $u_n, $i_stats;
 
-    $result=mysql_query("SELECT * FROM users WHERE  u_id=$uid AND username='$pguser'");
+    $result=mysql_query(sprintf("
+        SELECT *
+        FROM users
+        WHERE u_id=$uid AND username='%s'",
+        mysql_real_escape_string($pguser))
+    );
     $real_name = mysql_result($result,0,"real_name");
     $email = mysql_result($result,0,"email");
 
@@ -342,7 +357,11 @@ function save_general_tab() {
     $update_string = _create_mysql_update_string($_POST, $input_string_fields, $input_numeric_fields);
     $update_string .= ", i_prefs=1";
 
-    $users_query="UPDATE users SET $update_string WHERE u_id=$uid AND username='$pguser'";
+    $users_query=sprintf("
+        UPDATE users
+        SET $update_string
+        WHERE u_id=$uid AND username='%s'",
+        mysql_real_escape_string($pguser));
     mysql_query($users_query);
 
     // Opt-out of credits when Content-Providing (deprecated), Image Preparing, 
@@ -654,7 +673,11 @@ function save_proofreading_tab() {
     // set users values
     if ($create_new_profile)
     {
-        $users_query="UPDATE users SET u_profile=".mysql_insert_id()." WHERE u_id=$uid AND username='$pguser'";
+        $users_query=sprintf("
+            UPDATE users
+            SET u_profile=".mysql_insert_id()."
+            WHERE u_id=$uid AND username='%s'",
+            mysql_real_escape_string($pguser));
         mysql_query($users_query);
         echo mysql_error();
     }
@@ -719,7 +742,11 @@ function save_pm_tab() {
 
     $update_string = _create_mysql_update_string($_POST, $input_string_fields, $input_numeric_fields);
 
-    $users_query="UPDATE users SET $update_string WHERE u_id=$uid AND username='$pguser'";
+    $users_query=sprintf("
+        UPDATE users
+        SET $update_string
+        WHERE u_id=$uid AND username='%s'",
+        mysql_real_escape_string($pguser));
     mysql_query($users_query);
     echo mysql_error();
 

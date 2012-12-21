@@ -47,13 +47,13 @@ else
         . sprintf(_("Show All %s News"), $news_subject) . "</a>";
 }
 
-$result = mysql_query("
+$result = mysql_query(sprintf("
     SELECT * FROM news_items 
-    WHERE news_page_id = '$news_page_id' AND 
+    WHERE news_page_id = '%s' AND 
         status = 'recent'
     ORDER BY id DESC
     $limit_clause
-");
+", mysql_real_escape_string($news_page_id)));
 
 if (mysql_numrows($result)== 0)
 {
