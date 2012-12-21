@@ -68,7 +68,7 @@ if (!is_username_password_valid($userNM, $userPW))
 }
 
 // Look for user in 'users' table.
-$q = "SELECT * FROM users WHERE username='$userNM'";
+$q = sprintf("SELECT * FROM users WHERE username='%s'", mysql_real_escape_string($userNM));
 $u_res = mysql_query($q) or die(mysql_error());
 if (mysql_num_rows($u_res)==0)
 {
