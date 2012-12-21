@@ -3,6 +3,7 @@ $relPath="../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'prefs_options.inc');
 
 require_login();
 
@@ -21,7 +22,7 @@ $expanded_rounds = array_keys($Round_for_round_id_);
 array_unshift($expanded_rounds, 'OCR');
 $round_id = get_enumerated_param($_GET, 'round_id', 'OCR', $expanded_rounds);
 
-if(isset($_GET["submit"])) {
+if(isset($_GET["reset"])) {
     $projectid="";
     $page="";
     $round_id='OCR';
@@ -130,19 +131,46 @@ elseif ($frame=="top") {
     }
     else
     {
-        echo "<select name='page'>";
-        echo "<option value=''></option>";
+        $prev_image = "";
+        $next_image = "";
         $res = mysql_query( "SELECT image FROM $projectid ORDER BY image ASC") or die(mysql_error());
         if($res) {
-            while(list($imagefile) = mysql_fetch_row($res))
+            echo "<select name='page'>\n";
+            echo "<option value=''></option>\n";
+            $num_rows = mysql_num_rows($res);
+            for ($row=0; $row<$num_rows;$row++)
             {
+                $imagefile = mysql_result($res, $row, "image");
                 echo "<option value=\"$imagefile\"";
-                if ($page == $imagefile) echo " selected";
+                if ($page == $imagefile)
+                {
+                    echo " selected";
+                    if ( $row != 0 )           $prev_image = mysql_result($res, $row - 1, "image");
+                    if ( $row != $num_rows-1 ) $next_image = mysql_result($res, $row + 1, "image");
+                }
                 echo ">".$imagefile."</option>\n";
             }
             mysql_free_result($res);
+            echo "</select> \n";
         }
-        echo "</select> &nbsp; &nbsp;\n";
+
+        $prev_label    = attr_safe(_("Previous"));
+        $prev_image_js = javascript_safe($prev_image, $charset);
+        echo "<input type='button' value='$prev_label' onClick=\"this.form.page.value='$prev_image_js'; this.form.submit();\"";
+        if ($prev_image == "") {
+            echo " disabled";
+        }
+        echo ">\n";
+
+        $next_label    = attr_safe(_("Next"));
+        $next_image_js = javascript_safe($next_image, $charset);
+        echo "<input type='button' value='$next_label' onClick=\"this.form.page.value='$next_image_js'; this.form.submit();\"";
+        if ($next_image == "") {
+            echo " disabled";
+        }
+        echo ">";
+
+        echo " &nbsp; &nbsp;\n";
     }
     echo "<select name='round_id'>";
 
@@ -156,10 +184,10 @@ elseif ($frame=="top") {
     if(!$is_valid_project)
         echo " " . _("(optional)");
 
-    echo " &nbsp; &nbsp;<input type='submit' value='"._("View")."'>";
+    echo " &nbsp; &nbsp;<input type='submit' value='" . attr_safe(_("View")) . "'>";
 
     if($is_valid_project)
-        echo " &nbsp; <input type='submit' name='submit' value='"._("Reset")."'>";
+        echo " &nbsp; <input type='submit' name='reset' value='" . attr_safe(_("Reset")) . "'>";
     echo "</form>";
     slim_footer();
 }
