@@ -2,7 +2,6 @@
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'new_user_mails.inc');
-$db_link=$db_Connection->db_lk;
 include_once($relPath.'theme.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc');
@@ -77,12 +76,12 @@ mysql_query("DELETE FROM non_activated_users WHERE id='$ID'");
 $query = sprintf("INSERT INTO users (id, real_name, username, email, manager, date_created, email_updates, u_plist, u_top10, u_neigh, u_intlang) VALUES ('%s', '%s', '%s', '%s', 'no', $date_created, $email_updates, 3, 1, 10, '%s')", mysql_real_escape_string($ID), mysql_real_escape_string($real_name), mysql_real_escape_string($username), mysql_real_escape_string($email), mysql_real_escape_string($u_intlang));
 
 $result = mysql_query ($query) or die(mysql_error());
-$u_id = mysql_insert_id($db_link); // auto-incremented users.u_id
+$u_id = mysql_insert_id($db_Connection->db_lk); // auto-incremented users.u_id
 
 // create profile
 $profileString="INSERT INTO user_profiles SET u_ref=$u_id";
 $makeProfile=mysql_query($profileString);
-$profile_id = mysql_insert_id($db_link); // auto-incremented user_profiles.id
+$profile_id = mysql_insert_id($db_Connection->db_lk); // auto-incremented user_profiles.id
 
 // add ref to profile
 $refString=sprintf("UPDATE users SET u_profile=$profile_id WHERE id='%s' AND username='%s'", mysql_real_escape_string($ID), mysql_real_escape_string($username));
