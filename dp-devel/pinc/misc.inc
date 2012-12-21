@@ -783,7 +783,7 @@ function is_url_for_current_page($url)
     $url_components = parse_url($url);
     
     // first check the path
-    if($url_components['path'] != $_SERVER['SCRIPT_NAME'])
+    if(@$url_components['path'] != $_SERVER['SCRIPT_NAME'])
     {
         return FALSE;
     }
