@@ -334,7 +334,7 @@ function _get_word_context_from_text($page_text,$contextWord) {
         $lineNum++;
     }
 
-    return array($contexts,$lineNum);
+    return array($contexts,$lineNum-1);
 }
 
 function _highlight_word($text,$hlWord) {
