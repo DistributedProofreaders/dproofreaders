@@ -43,7 +43,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
     echo "<li>"._("Occasionally, you may come across a page that has so many mistakes in the optical character recognition (OCR) that you may think it is a bad page that needs to be re-OCRed.  However, this is what you are there for.  You may want to copy it into your local word editing program (eg: Microsoft Word, StarOffice, vi, etc.) and make the changes there & copy them back into the editor.")."<br><br>\n";
     echo "<li>".sprintf(_("Lastly, checking out our common solutions thread may also help you with making sure the report is as correct as possible.  Here's a link to it <a %s>here</a>."), "href='$forums_url/viewtopic.php?t=1659' target='_new'") ."<br><br>\n";
     echo "<li>"._("If you've made sure that nothing is going wrong with your computer and you still think it is a bad page please let us know by filling out the information below.  However, if you are at the least bit hesitant that it may not actually be a bad page please do not mark it so & just hit Cancel on the form above.  Marking pages bad when they really aren't takes time away from the project managers so we want to make sure they don't spend their entire time correcting & adding pages back to the project that aren't bad.");
-    echo "</ul></td></tr></table></div></center></font>";
+    echo "</ul></font></td></tr></table></center>";
     echo "<br><br>\n<center>";
     echo "<form action='report_bad_page.php' method='post'>\n";
     $ppage->echo_hidden_fields();
@@ -74,7 +74,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
     echo "<tr><td bgcolor='#ffffff' colspan='2' align='center'>";
     echo "<B>"._("Note").":</B> "._("If this report causes a project to be marked<br> bad you will be redirected to the Activity Hub.");
     echo "</td></tr>\n";
-    echo "</table></form></center></div>\n";
+    echo "</table></form></center>\n";
     theme("", "footer");
 }
 else

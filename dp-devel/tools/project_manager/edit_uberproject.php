@@ -200,9 +200,8 @@ if ( isset($_REQUEST['action']) &&
     row( _("Default Clearance Information"), 'text_field',          $clearance,       'clearance' );
     row( _("Default Project Comments"),      'proj_comments_field', $comments         );
 
-    echo "<tr><td bgcolor='$bgcol' colspan='2' align='center'><input type='submit' name='saveUberAndQuit' value='"._("Save Uber Project and Quit")."'><input type='submit' name='saveUberAndNewProject' value='"._("Save Uber Project and Create \na New Project from this Uber Project")."'><input type='submit' name='saveUberAndReturn' value='"._("Save Uber Project\n and Refresh")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</form>";
-    echo "</table>";
-
+    echo "<tr><td bgcolor='$bgcol' colspan='2' align='center'><input type='submit' name='saveUberAndQuit' value='"._("Save Uber Project and Quit")."'><input type='submit' name='saveUberAndNewProject' value='"._("Save Uber Project and Create \na New Project from this Uber Project")."'><input type='submit' name='saveUberAndReturn' value='"._("Save Uber Project\n and Refresh")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</table></center>";
+    echo "</form>";
     theme("", "footer");
 }
 

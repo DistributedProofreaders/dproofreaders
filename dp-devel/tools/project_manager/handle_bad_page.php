@@ -93,7 +93,7 @@ if (!isset($_POST['resolution'])) {
     echo "<a href='downloadproofed.php?project=$projectid&image=$image&round_num=$prev_round_num' target='_new'>" . _("View Text") . "</a>";
     echo " | ";
     echo "<a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>" . _("View Image") . "</a>";
-    echo "</td></tr>";
+    echo "</td></tr>\n";
     echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
 
     echo "<strong>"._("Modify").":</strong></td>";
@@ -101,7 +101,7 @@ if (!isset($_POST['resolution'])) {
     echo "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=text'>"._("Text from Previous Round")."</a>";
     echo " | ";
     echo "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=image'>"._("Original Image")."</a>";
-    echo "</td></tr>";
+    echo "</td></tr>\n";
     echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
     
     if ($is_a_bad_page) {
@@ -110,7 +110,7 @@ if (!isset($_POST['resolution'])) {
         echo "<input name='resolution' value='fixed' type='radio'>"._("Fixed")."&nbsp;";
         echo "<input name='resolution' value='invalid' type='radio'>"._("Invalid Report")."&nbsp;";
         echo "<input name='resolution' value='unfixed' checked type='radio'>"._("Not Fixed")."&nbsp;";
-        echo "</td></tr>";
+        echo "</td></tr>\n";
     }
     else
     {
@@ -120,7 +120,7 @@ if (!isset($_POST['resolution'])) {
     
     echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
     echo "<input type='submit' value='" . attr_safe(_("Continue")) . "'>";
-    echo "</td></tr></table></form></div><br><br>";
+    echo "</td></tr></table></div></form><br><br>";
 
     //Determine if modify is set & if so display the form to either modify the image or text
     if (isset($_GET['modify']) && $_GET['modify'] == "text") {
@@ -180,8 +180,6 @@ if (!isset($_POST['resolution'])) {
                     "handle_bad_page.php?projectid=$projectid&image=$image&modify=image") . "</b>";
         }
     }
-
-    echo "</center>";
     theme("", "footer");
 } else {
 

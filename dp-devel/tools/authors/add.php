@@ -172,7 +172,7 @@ function write_days_list($bd, $selected) {
 
 ?>
 
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 /*
 Not validated: That days exists within that month and year.
@@ -381,7 +381,7 @@ echo_date_fields('d');
 <input type="submit" name="SaveAndExit" value="<?php echo _('Save and Exit'); ?>" />
 <input type="submit" name="SaveAndBio" value="<?php echo _('Save and add Biography'); ?>" />
 <input type="submit" name="SaveAndNew" value="<?php echo _('Save and add Another'); ?>" />
-<input type="button" value="<?php echo _('Exit without saving'); ?>" onClick="location='<?php echo $exit_to; ?>';"/></td>
+<input type="button" value="<?php echo _('Exit without saving'); ?>" onClick="location='<?php echo $exit_to; ?>';"/>
 </td></tr>
 </table>
 </center>

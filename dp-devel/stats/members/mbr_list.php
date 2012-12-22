@@ -73,7 +73,7 @@ if (!empty($mRows)) {
             echo "<td width='25%'>".$row['username']."</td>";
             echo "<td width='22%' align='center'>".date("m/d/Y", $row['date_created'])."</td>";
             $contact_url = get_url_to_compose_message_to_user($row['username']);
-            echo "<td width='23%' align='center'><b><a href='mdetail.php?id=".$row['u_id']."'>"._("Statistics")."</a>&nbsp;|&nbsp;<a href='$contact_url'>"._("PM")."</a></b></td>";
+            echo "<td width='23%' align='center'><b><a href='mdetail.php?id=".$row['u_id']."'>"._("Statistics")."</a>&nbsp;|&nbsp;<a href='$contact_url'>"._("PM")."</a></b></td>\n";
 
         } else {
             // Print Anonymous Info
@@ -103,7 +103,7 @@ if ($mRows == 20) {
 }
 echo "</td></tr>";
 echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'>&nbsp;</td></tr>";
-echo "</table><p>";
+echo "</table><p></center>";
 theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab

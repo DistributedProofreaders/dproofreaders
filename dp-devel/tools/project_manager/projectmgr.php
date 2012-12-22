@@ -689,7 +689,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
         // Project Status
 
-        echo "<td valign=center>\n";
+        echo "<td valign='middle'>\n";
         echo_project_state_changer($project);
         echo "</td>\n";
 

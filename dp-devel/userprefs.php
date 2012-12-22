@@ -177,13 +177,13 @@ echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='6' align='cent
 
 echo "<font size=\"+2\" color='".$theme['color_headerbar_font']."'><b>"
     // TRANSLATORS: %s is the user ID
-    . sprintf(_("Preferences Page for %s"), $pguser) . "</font></b>\n";
-echo "<br><font color='".$theme['color_headerbar_font']."'><i>"._("Your preferences are grouped into tabs. Switch between the tabs by clicking on e.g. 'General' or 'Proofreading'.")."</font></i>\n";
-echo "<br><font color='".$theme['color_headerbar_font']."'><i>"._("(click the ? for help on that specific preference)")."</font></i></td></tr>";
+    . sprintf(_("Preferences Page for %s"), $pguser) . "</b></font>\n";
+echo "<br><font color='".$theme['color_headerbar_font']."'><i>"._("Your preferences are grouped into tabs. Switch between the tabs by clicking on e.g. 'General' or 'Proofreading'.")."</i></font>\n";
+echo "<br><font color='".$theme['color_headerbar_font']."'><i>"._("(click the ? for help on that specific preference)")."</i></font></td></tr>";
 
 echo_tabs($tabs, $selected_tab);
 
-echo "<input type='hidden' name='tab' value='$selected_tab' />";
+echo "<input type='hidden' name='tab' value='$selected_tab'>";
 
 // display one of the tabs
 
@@ -195,7 +195,7 @@ else // $selected _tab == 0 OR someone tried to access e.g. the PM-tab without b
     echo_general_tab();
 
 // Keep remembering the URL from which the preferences where entered.
-echo "<input type='hidden' name='origin' value='".htmlspecialchars($origin, ENT_QUOTES)."' />\n";
+echo "<input type='hidden' name='origin' value='".htmlspecialchars($origin, ENT_QUOTES)."'>\n";
 
 echo "<input type='hidden' name='insertdb' value='true'>";
 echo "<input type='hidden' name='user_id' value='$uid'>";
@@ -204,7 +204,7 @@ echo "</table></form>\n";
 echo "<br></center>";
 
 // When the window loads, run all the event handlers that e.g disable preferences.
-echo "\n\n<script language='javascript'><!--\nwindow.onload = function() \{$window_onload_event};\n--></script>\n\n";
+echo "\n\n<script type='text/javascript'><!--\nwindow.onload = function() \{$window_onload_event};\n--></script>\n\n";
 
 theme("", "footer");
 
@@ -860,7 +860,7 @@ function dropdown_select_values_and_labels($field_name, $current_value, $values,
     $function_name = 'event' . ++$event_id;
     $jscode = "var f=document.forms[0];\nvar t=f.$field_name;\n$on_change";
 
-    echo "<script language='javascript'><!--\nfunction $function_name() { $jscode }\n--></script>\n";
+    echo "<script type='text/javascript'><!--\nfunction $function_name() { $jscode }\n--></script>\n";
 
     echo "<select name='$field_name' ID='$field_name' onChange=\"$function_name()\">";
     for ($i=0;$i<count($values);$i++)

@@ -71,7 +71,7 @@ foreach ( $colspecs as $col_order => $col_header )
     {
         $s = "<a href='checkedout.php?state=$state&order=$col_order'>$s</a>";
     }
-    $s = "<th><center>".$s ."</font></th>";
+    $s = "<th><center>".$s ."</center></th>";
     echo "$s\n";
 }
 echo "</tr>\n";

@@ -36,10 +36,10 @@ echo "<td colspan='6'><center><font color='".$theme['color_headerbar_font']."'><
 echo "<tr bgcolor='".$theme['color_navbar_bg']."'>\n";
 echo "<th>"._("Index")."</th>
       <th>"._("Name of Work")."</th>
-      <th><a href =\"to_be_released.php?order=username\">"._("Project Manager")."</th>
+      <th><a href =\"to_be_released.php?order=username\">"._("Project Manager")."</a></th>
       <th><a href =\"to_be_released.php?order=modifieddate\">"._("Date Last Modified")."</a></th>
-      <th>"._("Language")."</b></th>
-      <th>"._("Genre")."</b></th>
+      <th>"._("Language")."</th>
+      <th>"._("Genre")."</th>
       </tr>";
 
 $index = 0;

@@ -468,18 +468,18 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
     if ($ticon == 1) { echo "<input type='hidden' name='ticon' value='".$teamimages['icon']."'>"; }
     echo "\n<table border='1' cellspacing='0' cellpadding='3' style='border: 1px solid #111; border-collapse: collapse' width='95%'>";
     echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td><center><font color='".$theme['color_headerbar_font']."'><b>";
-    if ($tedit != 1) { echo _("Edit Team Information")."</b></font></td></tr>"; } else { echo _("New Proofreading Team")."</b></font></td></tr>"; }
+    if ($tedit != 1) { echo _("Edit Team Information")."</b></font></center></td></tr>"; } else { echo _("New Proofreading Team")."</b></font></td></tr>"; }
     echo "\n<tr><td><table border='0' cellspacing='0' cellpadding='0' width='100%'>";
-    echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Name")."</b>:&nbsp;</td>";
+    echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Name")."</b>:&nbsp;</font></td>";
     echo "<td width='65%' align='left'><input type='text' value='$tname' name='teamname' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamname');\">?</a></b></td></tr>";
-    echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Webpage")."</b>:&nbsp;</td>";
+    echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Webpage")."</b>:&nbsp;</font></td>";
     echo "<td width='65%' align='left'><input type='text' value='$twebpage' name='teamwebpage' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamwebpage');\">?</a></b></td></tr>";
-    echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Avatar")."</b>:&nbsp;</td>";
+    echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Avatar")."</b>:&nbsp;</font></td>";
     echo "<td width='65%' align='left'><input type='file' name='teamavatar' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamavatar');\">?</a></b></td></tr>";
-    echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Icon")."</b>:&nbsp;</td>";
+    echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Icon")."</b>:&nbsp;</font></td>";
     echo "<td width='65%' align='left'><input type='file' name='teamicon' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamicon');\">?</a></b></td></tr>";
     echo "</table></td></tr>";
-    echo "\n<tr bgcolor='".$theme['color_navbar_bg']."'><td><center><font color='".$theme['color_navbar_font']."'><b>"._("Team Description")."</b>&nbsp;";
+    echo "\n<tr bgcolor='".$theme['color_navbar_bg']."'><td><center><font color='".$theme['color_navbar_font']."'><b>"._("Team Description")."</b>&nbsp;</font>";
     echo "<b><a href=\"JavaScript:newHelpWin('teamdesc');\">?</a></b><br><textarea name='text_data' cols='40' rows='6'>$ttext</textarea></center><br></td></tr>";
 
     if ($tedit == 1 && $userP['team_1'] != 0 && $userP['team_2'] != 0 && $userP['team_3'] != 0) {
