@@ -15,7 +15,7 @@ theme($title,'header');
 echo "<br><h2 style='color: $theme[color_headerbar_bg];'>$title</h2><br>\n";
 echo "<p>" . _("You can sign up for notifications in the Event Subscriptions section of the Project Comments page when proofreading.") . "</p>";
 
-echo "<br><br><h3 style='color: $theme[color_headerbar_bg];'>" . _("Most Requested Books Being Proofread") . "</h2><br>\n";
+echo "<br><br><h3 style='color: $theme[color_headerbar_bg];'>" . _("Most Requested Books Being Proofread") . "</h3><br>\n";
 
 create_temporary_project_event_subscription_summary_table();
 
@@ -52,7 +52,7 @@ dpsql_dump_themed_ranked_query("
 ");
 
 echo "<br>\n";
-echo "<br><br><h3 style='color: $theme[color_headerbar_bg];'>" . _("Most Requested Books In Post-Processing") . "</h2><br>\n";
+echo "<br><br><h3 style='color: $theme[color_headerbar_bg];'>" . _("Most Requested Books In Post-Processing") . "</h3><br>\n";
 
 //        $post_url1 = mysql_escape_string("<a href='$code_url/project.php?id=");
 
@@ -71,7 +71,7 @@ dpsql_dump_themed_ranked_query("
 ");
 
 echo "<br>\n";
-echo "<br><br><h3 style='color: $theme[color_headerbar_bg];'>" . _("Most Requested Books Posted to Project Gutenberg") . "</h2><br>\n";
+echo "<br><br><h3 style='color: $theme[color_headerbar_bg];'>" . _("Most Requested Books Posted to Project Gutenberg") . "</h3><br>\n";
 
 $pg_url1 = mysql_escape_string("<a href='http://www.gutenberg.org/ebooks/");
 dpsql_dump_themed_ranked_query("

@@ -88,7 +88,7 @@ if ($pagesproofed >= 10)
     }
 
 
-    echo "<font face=".$theme['font_mainbody']."><b>";
+    echo "<font face='".$theme['font_mainbody']."'><b>";
     echo _("Random Rule");
     echo "</b></font><br>";
 
@@ -101,7 +101,7 @@ if ($pagesproofed >= 10)
     printf(_("See the %1\$s section of the <a href='%2\$s'>Guidelines</a>"),
         "<a href='$round_doc_url#".$rule['anchor']."'>".$rule['subject']."</a>",
         $round_doc_url);
-    echo "</a><br><br>";
+    echo "<br><br>";
 }
 
 thoughts_re_mentor_feedback( $pagesproofed );
