@@ -87,7 +87,7 @@ function dpsql_dump_query_result( $result )
 
 function dpsql_dump_themed_query_result( $result )
 {
-        $theme = $GLOBALS['theme'];
+	$theme = $GLOBALS['theme'];
 
 	$n_cols = mysql_num_fields($result);
 
@@ -99,16 +99,18 @@ function dpsql_dump_themed_query_result( $result )
 		for ($c = 0; $c < $n_cols; $c++ )
 		{
 			print "<td bgcolor='" . $theme['color_headerbar_bg'] . "'>";
-			print "<font color='".$theme['color_headerbar_font']."'>";
+			print "<font color='" . $theme['color_headerbar_font'] . "'>";
 			print mysql_field_name($result, $c);
 			print "</font></td>\n";
 		}
 		print "</tr>\n";
 	}
 
+	$rownum = 0;
+	$listing_bgcolors = array($theme['color_listing_bg_1'], $theme['color_listing_bg_2']);
 	while ( $row = mysql_fetch_row($result) )
 	{
-		print "<tr bgcolor='" . $theme['color_navbar_bg'] . "'>\n";
+		print "<tr bgcolor='" . $listing_bgcolors[$rownum % 2] . "'>\n";
 		for ($c = 0; $c < $n_cols; $c++ )
 		{
 			print "<td>";
@@ -116,6 +118,7 @@ function dpsql_dump_themed_query_result( $result )
 			print "</td>\n";
 		}
 		print "</tr>\n";
+		$rownum++;
 	}
 
 	print "</table>\n";
@@ -202,11 +205,13 @@ function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
 	}
 	print "</tr>\n";
 
+	$rownum = 0;
+	$listing_bgcolors = array($theme['color_listing_bg_1'], $theme['color_listing_bg_2']);
 	while ( $row = mysql_fetch_row($result) )
 	{
-		print "<tr bgcolor='" . $theme['color_navbar_bg'] . "'>\n";
+		print "<tr bgcolor='" . $listing_bgcolors[$rownum % 2] . "'>\n";
 		print "<td>";
-                print $n_curr_row;
+		print $n_curr_row;
 		print "</td>\n";
 
 		for ($c = 0; $c < ($n_cols); $c++ )
@@ -216,7 +221,8 @@ function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
 			print "</td>\n";
 		}
 		print "</tr>\n";
-                $n_curr_row++;
+		$n_curr_row++;
+		$rownum++;
 	}
 
 	print "</table>\n";

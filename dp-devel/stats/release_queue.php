@@ -67,6 +67,9 @@ if (!isset($name))
         echo "</tr>\n";
     }
 
+    $rownum = 0;
+    $listing_bgcolors = array($theme['color_listing_bg_1'], $theme['color_listing_bg_2']);
+
     $q_res = mysql_query("
         SELECT *
         FROM queue_defns
@@ -102,7 +105,7 @@ if (!isset($name))
         }
 
         $ename = urlencode( $qd->name );
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
+        echo "<tr bgcolor='" . $listing_bgcolors[$rownum % 2] . "'>";
         echo "<td>$qd->ordering</td>\n";
         echo "<td>$qd->enabled</td>\n";
         echo "<td><a href='release_queue.php?round_id=$round_id&amp;name=$ename'>$qd->name</a></td>\n";
@@ -114,6 +117,7 @@ if (!isset($name))
             echo "<td>$qd->comment</td>\n";
         }
         echo "</tr>\n";
+        $rownum++;
     }
     echo "</table>\n";
 }

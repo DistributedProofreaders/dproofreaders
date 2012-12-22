@@ -95,6 +95,7 @@ $result = mysql_query("
 ");
 
 $rownum = 0;
+$listing_bgcolors = array($theme['color_listing_bg_1'], $theme['color_listing_bg_2']);
 while ( $project = mysql_fetch_object( $result ) )
 {
     $rownum++;
@@ -114,7 +115,7 @@ while ( $project = mysql_fetch_object( $result ) )
     $holder_t_last_activity_date = "$month $mday, $year";
 
     echo "
-        <tr bgcolor='".$theme['color_navbar_bg']."'>
+        <tr bgcolor='" . $listing_bgcolors[$rownum % 2] . "'>
         <td>$rownum</td>
         <td width='200'>$project->nameofwork</td>
       ";

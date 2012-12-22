@@ -40,6 +40,9 @@ $project_gutenberg['font_mainbody'] = "verdana, helvetica, sans-serif";
 $project_gutenberg['font_navbar'] = "verdana, helvetica, sans-serif";
 $project_gutenberg['font_copyright'] = "verdana, helvetica, sans-serif";
 
+$project_gutenberg['color_listing_bg_1'] = "#e0e8dd";
+$project_gutenberg['color_listing_bg_2'] = "#c8d4c5";
+
 $project_gutenberg['tabs'] = array(
     'background' => '#e0e8dd',
     'background-position' => 'top',

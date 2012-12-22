@@ -40,6 +40,9 @@ $classic_grey['font_mainbody'] = "verdana, helvetica, sans-serif";
 $classic_grey['font_navbar'] = "verdana, helvetica, sans-serif";
 $classic_grey['font_copyright'] = "verdana, helvetica, sans-serif";
 
+$classic_grey['color_listing_bg_1'] = "#cccccc";
+$classic_grey['color_listing_bg_2'] = "#b4b4b4";
+
 $classic_grey['tabs'] = array(
     // These values are used by pinc/tabs.inc to
     // make a list appear as tabs.
