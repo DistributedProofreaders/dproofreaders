@@ -890,7 +890,7 @@ table.tasks form   { margin: 0; }
 table.tasks td     { font-size:11px; padding:2px!important; vertical-align:top; text-align:left; }
 table.tasks th     { font-weight:bold; text-align:left; padding:5px; vertical-align:top; }
 table.taskslist    { width:98%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size:11px; }
-table.taskslist td { padding:5px!important; }
+table.taskslist td { padding:5px!important; white-space: nowrap;}
 table.taskslist th { font-weight:bold; text-align:left; padding:5px; vertical-align:top; padding:5px!important; }
 table.taskplain    { width:98%; border:none; border-collapse:collapse; }
 table.taskplain td { font-size: 11px; padding:2px; vertical-align:top; text-align:left; }
@@ -905,6 +905,7 @@ small.task         { font-family:Verdana; font-size:10px; }
 center.taskwarn    { color:#FF0000; font-weight:bold; font-size: 12pt; font-family:Verdana; padding:2em; }
 center.taskinfo    { color:#00CC00; font-weight:bold; font-size: 12pt; font-family:Verdana; padding:2em; }
 p                  { font-family:Verdana; font-size:11px; }
+.wrap              { white-space: normal!important; }
 EOS;
 
     theme(htmlspecialchars($header), 'header',
@@ -971,7 +972,7 @@ function select_and_list_tasks($sql_condition)
         'task_id'          => " style='text-align: center;'",
         'task_type'        => "",
         'task_severity'    => "",
-        'task_summary'     => " style='width: 50%;'",
+        'task_summary'     => " class='wrap'",
         'task_priority'    => "",
         'date_edited'      => " style='text-align: center;'",
         'task_status'      => "",
