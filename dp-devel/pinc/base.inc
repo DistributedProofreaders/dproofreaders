@@ -15,13 +15,23 @@
 // The order of the include_once()s in this file is important!
 include_once($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
-include_once($relPath.'dpsession.inc');
 
 $db_Connection=new dbConnect();
-if ($db_Connection->error !='')
-    die('Error: Unable to connect to database.');
+if ($db_Connection->error != '')
+{
+    // If we're in maintenance mode, don't die here - we'll more gracefully
+    // error out later in abort_if_in_maintenance_mode()
+    if(!$maintenance)
+        die('Error: Unable to connect to database.');
 
-$user_is_logged_in = dpsession_resume();
+    $db_Connection=False;
+}
+
+include_once($relPath.'dpsession.inc');
+
+// If we don't have a database connection, don't try to resume the session.
+if($db_Connection)
+    $user_is_logged_in = dpsession_resume();
 
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'maintenance_mode.inc');

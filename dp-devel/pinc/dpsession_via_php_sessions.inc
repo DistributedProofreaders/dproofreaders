@@ -2,8 +2,6 @@
 include_once($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
 
-$db_Connection=new dbConnect();
-
 ini_set( 'session.name',            "{$site_abbreviation}_Session" );
 ini_set( 'session.use_cookies',     1 );
 ini_set( 'session.cookie_domain',   '' ); // A sensible value will be used.
