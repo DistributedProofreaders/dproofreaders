@@ -21,7 +21,7 @@ dpsql_dump_themed_query("
         count(distinct username) as '" 
             . mysql_real_escape_string(_("Different PMs")) . "'
     FROM projects
-");
+",  0, DPSQL_NO_RANK, DPSQL_NO_RIGHT_ALIGN_INTS);
 
 echo "<br>\n";
 
@@ -29,7 +29,7 @@ echo "<h3>" . _("Most Prolific Project Managers") . "</h3>\n";
 echo "<h4>" . _("(Number of Projects Created)") . "</h4>\n";
 
 $psd = get_project_status_descriptor('created');
-dpsql_dump_themed_ranked_query("
+dpsql_dump_themed_query("
     SELECT
         username as '" . mysql_real_escape_string(_("PM")) . "',
         count(*) as '" . mysql_real_escape_string(_("Projects Created")) . "'
@@ -37,7 +37,7 @@ dpsql_dump_themed_ranked_query("
     WHERE $psd->state_selector
     GROUP BY username
     ORDER BY 2 DESC
-");
+", 1, DPSQL_SHOW_RANK);
 
 echo "<br>\n";
 
@@ -46,7 +46,7 @@ echo "<h3>" . _("Most Prolific Project Managers") . "</h3>\n";
 echo "<h4>" . _("(Number of Projects Posted to PG)") . "</h4>\n";
 
 $psd = get_project_status_descriptor('posted');
-dpsql_dump_themed_ranked_query("
+dpsql_dump_themed_query("
     SELECT
         username as '" . mysql_real_escape_string(_("PM")) . "',
         count(*) as '" . mysql_real_escape_string(_("Projects Posted to PG")) . "'
@@ -54,7 +54,7 @@ dpsql_dump_themed_ranked_query("
     WHERE $psd->state_selector
     GROUP BY username
     ORDER BY 2 DESC
-");
+", 1, DPSQL_SHOW_RANK);
 
 echo "<br>\n";
 

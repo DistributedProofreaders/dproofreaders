@@ -47,7 +47,7 @@ echo "<h3>" . _("Most Prolific Post-Processors") . "</h3>\n";
 echo "<h4>" . _("(Number of Projects Finished PPing)") . "</h4>\n";
 
 $psd = get_project_status_descriptor('PPd');
-dpsql_dump_themed_ranked_query("
+dpsql_dump_themed_query("
     SELECT
         postproofer as '" . mysql_real_escape_string(_("PPer")) . "',
         count(*) as '" 
@@ -59,7 +59,7 @@ dpsql_dump_themed_ranked_query("
         AND postproofer is not null
     GROUP BY postproofer
     ORDER BY 2 DESC
-");
+", 1, DPSQL_SHOW_RANK);
 
 echo "<br>\n";
 
@@ -67,7 +67,7 @@ echo "<h3>" . _("Most Prolific Post-Processors") . "</h3>\n";
 echo "<h4>" . _("(Number of Projects Posted to PG)") . "</h4>\n";
 
 $psd = get_project_status_descriptor('posted');
-dpsql_dump_themed_ranked_query("
+dpsql_dump_themed_query("
     SELECT
         postproofer as '" . mysql_real_escape_string(_("PPer")) . "',
         count(*) as '" . mysql_real_escape_string(_("Projects Posted to PG")) . "',
@@ -78,7 +78,7 @@ dpsql_dump_themed_ranked_query("
     AND postproofer is not null
     GROUP BY postproofer
     ORDER BY 2 DESC
-");
+", 1, DPSQL_SHOW_RANK);
 
 echo "<br>\n";
 

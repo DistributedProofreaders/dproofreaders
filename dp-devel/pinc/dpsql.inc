@@ -7,34 +7,28 @@ if(isset($userP['i_theme']) && $userP['i_theme'] != '' ) {
 include_once($relPath."templates/$theme_name/theme.tpl");
 $theme = ${$theme_name};
 
+define("DPSQL_NO_RANK",   False);
+define("DPSQL_SHOW_RANK", True);
+
+define("DPSQL_NO_RIGHT_ALIGN_INTS", False);
+define("DPSQL_RIGHT_ALIGN_INTS",    True);
 
 function dpsql_dump_table( $table_name )
 {
 	dpsql_dump_query( "SELECT * FROM $table_name" );
 }
 
-function dpsql_dump_query( $query )
+function dpsql_dump_query($query, $start_at = 0, $show_rank = DPSQL_NO_RANK)
 {
 	$result = dpsql_query( $query );
-	dpsql_dump_query_result( $result );
+	dpsql_dump_query_result($result, $show_rank, $start_at);
 }
 
-function dpsql_dump_themed_query( $query )
+function dpsql_dump_themed_query($query, $start_at = 0, $show_rank = DPSQL_NO_RANK, $ralign_ints = DPSQL_RIGHT_ALIGN_INTS)
 {
+	var_dump($ralign_ints);
 	$result = dpsql_query( $query );
-	dpsql_dump_themed_query_result( $result );
-}
-
-function dpsql_dump_ranked_query( $query )
-{
-	$result = dpsql_query( $query );
-	dpsql_dump_query_result_with_rank( $result, 1);
-}
-
-function dpsql_dump_themed_ranked_query( $query )
-{
-	$result = dpsql_query( $query );
-	dpsql_dump_query_themed_result_with_rank( $result, 1);
+	dpsql_dump_themed_query_result($result, $start_at, $show_rank, $ralign_ints);
 }
 
 function dpsql_query( $query )
@@ -51,92 +45,21 @@ function dpsql_query( $query )
 	return $result;
 }
 
-function dpsql_dump_query_result( $result )
+function dpsql_dump_query_result($result, $start_at, $show_rank)
 {
+
 	$n_cols = mysql_num_fields($result);
+	$n_curr_row = $start_at;
 
 	print "<table border='1'>\n";
 
+	if ($show_rank)
 	{
 		print "<tr>\n";
-		for ($c = 0; $c < $n_cols; $c++ )
-		{
-			print "<th>";
-			print mysql_field_name($result, $c);
-			print "</th>\n";
-		}
-		print "</tr>\n";
+		print "<th>";
+		print _("Rank");
+		print "</th>\n";
 	}
-
-	while ( $row = mysql_fetch_row($result) )
-	{
-		print "<tr>\n";
-		for ($c = 0; $c < $n_cols; $c++ )
-		{
-			$val = $row[$c];
-			if (is_null($val)) { $val = 'NULL'; }
-			print "<td>";
-			print $val;
-			print "</td>\n";
-		}
-		print "</tr>\n";
-	}
-
-	print "</table>\n";
-}
-
-function dpsql_dump_themed_query_result( $result )
-{
-	$theme = $GLOBALS['theme'];
-
-	$n_cols = mysql_num_fields($result);
-
-	print "<table border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse' width='99%'>\n";
-	print "<tr><td>\n";
-	print "<table border='0' cellspacing='0' cellpadding='2' width='100%' align='center'>";
-	{
-		print "<tr>\n";
-		for ($c = 0; $c < $n_cols; $c++ )
-		{
-			print "<td bgcolor='" . $theme['color_headerbar_bg'] . "'>";
-			print "<font color='" . $theme['color_headerbar_font'] . "'>";
-			print mysql_field_name($result, $c);
-			print "</font></td>\n";
-		}
-		print "</tr>\n";
-	}
-
-	$rownum = 0;
-	$listing_bgcolors = array($theme['color_listing_bg_1'], $theme['color_listing_bg_2']);
-	while ( $row = mysql_fetch_row($result) )
-	{
-		print "<tr bgcolor='" . $listing_bgcolors[$rownum % 2] . "'>\n";
-		for ($c = 0; $c < $n_cols; $c++ )
-		{
-			print "<td>";
-			print $row[$c];
-			print "</td>\n";
-		}
-		print "</tr>\n";
-		$rownum++;
-	}
-
-	print "</table>\n";
-	print "</td></tr></table>\n";
-}
-
-function dpsql_dump_query_result_with_rank( $result, $start_at )
-{
-
-	$n_cols = mysql_num_fields($result);
-        $n_curr_row = $start_at;
-
-	print "<table border='1'>\n";
-
-	print "<tr>\n";
-	print "<th>";
-	print _("Rank");
-	print "</th>\n";
 
 	for ($c = 0; $c < ($n_cols); $c++ )
 	{
@@ -149,59 +72,61 @@ function dpsql_dump_query_result_with_rank( $result, $start_at )
 	while ( $row = mysql_fetch_row($result) )
 	{
 		print "<tr>\n";
-		print "<td>";
-                print $n_curr_row;
-		print "</td>\n";
+		if ($show_rank)
+		{
+			print "<td>$n_curr_row</td>\n";
+		}
 
 		for ($c = 0; $c < ($n_cols); $c++ )
 		{
-			print "<td>";
-			print $row[$c];
-			print "</td>\n";
+			$val = is_null($row[$c]) ? 'NULL' : $row[$c];
+			print "<td>$val</td>\n";
 		}
 		print "</tr>\n";
-                $n_curr_row++;
+		$n_curr_row++;
 	}
 
 	print "</table>\n";
 }
 
-function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
+function dpsql_dump_themed_query_result($result, $start_at, $show_rank, $ralign_ints)
 {
-	/* It appears this function is currently only called from a two-line 
-	function called  dpsql_dump_themed_ranked_query earlier in this 
-	include. */
-        $theme = $GLOBALS['theme'];
-
-	$n_cols = mysql_num_fields($result);
-        $n_curr_row = $start_at;
+	$theme = $GLOBALS['theme'];
+	var_dump($ralign_ints);
+	$n_query_cols = mysql_num_fields($result);
+	$n_curr_row = $start_at;
 
 	print "<table border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse;' width='99%'>\n";
 	
 	print "<tr><td>\n";
 	print "<table border='0' cellspacing='0' cellpadding='2' width='100%' align='center' class='stats'>";
 
-	$perc = 100 / ($n_cols + 1);
-	for ($c = 0; $c < ($n_cols + 1); $c++ ) {
+	$n_cols = $show_rank ? $n_query_cols + 1 : $n_query_cols;
+	$perc = 100 / $n_cols;
+	for ($c = 0; $c < $n_cols; $c++ )
+	{
 		print "\n<col width='{$perc}%'>";
 	}
 
 	print "<tr>\n";
-	print "<td bgcolor='" . $theme['color_headerbar_bg'] . "'>\n";
-	print "<font color='".$theme['color_headerbar_font']."'>";
-	print _("Rank");
-	print "</font></td>\n";
+	if ($show_rank)
+	{
+		print "<th bgcolor='" . $theme['color_headerbar_bg'] . "'>\n";
+		print "<font color='".$theme['color_headerbar_font'] . "'>";
+		print _("Rank");
+		print "</font></th>\n";
+	}
 
 	$type = Array();
-	for ($c = 0; $c < ($n_cols); $c++ )
+	for ($c = 0; $c < $n_query_cols; $c++ )
 	{
 		$type[$c] = mysql_field_type($result, $c);
-		$align = ($type[$c] == 'int') ? " align='right'" : '';
-		print "<td bgcolor='" . $theme['color_headerbar_bg'] . "'$align>\n";
+		$align = ($type[$c] == 'int' && $ralign_ints) ? " align='right'" : '';
+		print "<th bgcolor='" . $theme['color_headerbar_bg'] . "'$align>\n";
 		print "<font color='".$theme['color_headerbar_font']."'>";
 		print mysql_field_name($result, $c);
 		$type[$c] = mysql_field_type($result, $c);
-		print "</font></td>\n";
+		print "</font></th>\n";
 	}
 	print "</tr>\n";
 
@@ -210,13 +135,16 @@ function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
 	while ( $row = mysql_fetch_row($result) )
 	{
 		print "<tr bgcolor='" . $listing_bgcolors[$rownum % 2] . "'>\n";
-		print "<td>";
-		print $n_curr_row;
-		print "</td>\n";
-
-		for ($c = 0; $c < ($n_cols); $c++ )
+		if ($show_rank)
 		{
-			print '<td' . (($type[$c] == 'int') ? ' align="right"' : '') . '>';
+			print "<td>";
+			print number_format($n_curr_row);
+			print "</td>\n";
+		}
+
+		for ($c = 0; $c < $n_query_cols; $c++)
+		{
+			print '<td' . (($type[$c] == 'int' && $ralign_ints) ? ' align="right"' : '') . '>';
 			print ($type[$c] == 'int') ? number_format($row[$c]) : $row[$c];
 			print "</td>\n";
 		}
@@ -228,7 +156,6 @@ function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
 	print "</table>\n";
 	print "</td></tr></table>\n";
 }
-
 // -----------------------------------------------------------------------------
 
 function dpsql_fetch_all_keyed( $res )

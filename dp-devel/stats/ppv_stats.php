@@ -18,7 +18,7 @@ echo "<h3>" . _("Post-Processing Verifiers") . "</h3>\n";
 echo "<h4>" . _("(Number of Projects Posted to PG)") . "</h4>\n";
 
 $psd = get_project_status_descriptor('posted');
-dpsql_dump_themed_ranked_query("
+dpsql_dump_themed_query("
     SELECT checkedoutby as '" . mysql_real_escape_string(_("PPVer")) . "', 
         count(*) as '" . mysql_real_escape_string(_("Projects PPVd")) . "'
     FROM  `projects` , usersettings
@@ -26,7 +26,7 @@ dpsql_dump_themed_ranked_query("
         and checkedoutby = usersettings.username 
         and setting = 'PPV.access' and value = 'yes' 
     GROUP  BY 1 
-    ORDER  BY 2  DESC ");
+    ORDER  BY 2  DESC ", 1, DPSQL_SHOW_RANK);
 
 echo "<br>\n";
 

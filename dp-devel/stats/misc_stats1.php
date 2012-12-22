@@ -73,7 +73,7 @@ function show_top_days( $n, $when )
 
     echo "<h3>$sub_title</h3>\n";
 
-    dpsql_dump_themed_ranked_query(
+    dpsql_dump_themed_query(
         select_from_site_past_tallies_and_goals(
             $tally_name,
             "SELECT
@@ -85,7 +85,7 @@ function show_top_days( $n, $when )
             "",
             "ORDER BY 2 DESC",
             "LIMIT $n"
-        )
+        ), 1, DPSQL_SHOW_RANK
     );
 
     echo "<br>\n";
@@ -121,7 +121,7 @@ function show_month_sums( $which )
 
     echo "<h3>$sub_title</h3>\n";
 
-    dpsql_dump_themed_ranked_query(
+    dpsql_dump_themed_query(
         select_from_site_past_tallies_and_goals(
             $tally_name,
             "SELECT
@@ -136,7 +136,7 @@ function show_month_sums( $which )
             "GROUP BY 1",
             "ORDER BY $order",
             $limit
-        )
+        ), DPSQL_SHOW_RANK, 1
     );
 
     echo "<br>\n";
@@ -149,7 +149,7 @@ function show_months_with_most_days_over( $n )
     $sub_title = sprintf( _('Months with most days over %s pages'), number_format($n) );
     echo "<h3>$sub_title</h3>\n";
 
-    dpsql_dump_themed_ranked_query(
+    dpsql_dump_themed_query(
         select_from_site_past_tallies_and_goals(
             $tally_name,
             "SELECT
@@ -161,7 +161,7 @@ function show_months_with_most_days_over( $n )
             "GROUP BY 1",
             "ORDER BY 2 DESC",
             "LIMIT 10"
-        )
+        ), DPSQL_SHOW_RANK, 1
     );
 
     echo "<br>\n";
