@@ -593,7 +593,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $user_can_see_download_links = user_can_work_in_stage($pguser, 'PP');
     $show_options_column = $user_can_see_download_links || user_is_PM();
 
-    echo "<center><table border=1 width='99%' cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
+    echo "<center><table border=1 width='99%' cellpadding=0 cellspacing=0 style='border: 1px solid #111; border-collapse: collapse'>";
 
     function echo_header_cell( $width, $text )
     {
@@ -871,7 +871,7 @@ function list_uber_projects( $can_see_all )
 
         echo "<br><center><h3>"._("Uber Projects to which you have access")."</h3></center><br>";
 
-        echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border-collapse: collapse' bordercolor=#111111>";
+        echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border: 1px solid #111; border-collapse: collapse'>";
 
         echo "<tr>";
         echo_header_cell( 300, _("Overall Name of Uber Project") );

@@ -53,7 +53,7 @@ function show_query_form()
         echo "<form method='post' action='external_catalog_search.php'>\n";
         echo "<input type='hidden' name='action' value='do_search_and_show_hits'>\n";
         echo "<center>";
-        echo "<table cellspacing='0' cellpadding='5' border='1' width='75%' bordercolor='#000000' style='border-collapse: collapse'>";
+        echo "<table cellspacing='0' cellpadding='5' border='1' width='75%' style='border: 1px solid #111; border-collapse: collapse'>";
 
         echo "<tr>";
         echo   "<td bgcolor='".$theme['color_headerbar_bg']."' colspan='2' align='center'>";

@@ -15,7 +15,7 @@ class ThemedTable
 
         $this->rollover_highlight = FALSE;
         $border = 1;
-        $width = null;
+        $width = "";
         $subtitle = null;
         foreach ( $options as $option_name => $option_value )
         {
@@ -28,7 +28,7 @@ class ThemedTable
                     $border = $option_value;
                     break;
                 case 'width':
-                    $width = $option_value;
+                    $width = " width='${option_value}%'";
                     break;
                 case 'subtitle':
                     $subtitle = $option_value;
@@ -39,7 +39,7 @@ class ThemedTable
         }
 
         echo "\n";
-        echo "<table rules='none' border='$border' bordercolor='#111111' cellspacing='0' cellpadding='1' style='border-collapse: collapse' width='$width%'>";
+        echo "<table rules='none' border='${border}' cellspacing='0' cellpadding='1' style='border: ${border}px solid #111; border-collapse: collapse'${width}>";
 
         {
             $possible_subtitle =

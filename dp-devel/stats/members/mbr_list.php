@@ -49,7 +49,7 @@ theme($title, "header");
 echo "<center><br>";
 
 //Display of user teams
-echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='4' style='border-collapse: collapse' width='95%'>";
+echo "<table border='1' cellspacing='0' cellpadding='4' style='border: 1px solid #111; border-collapse: collapse' width='95%'>";
 echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><font color='".$theme['color_headerbar_font']."'>"
     // TRANSLATORS: %s is the site name
     . sprintf(_("%s Members"),$site_name) . "</font></b></td></tr>";

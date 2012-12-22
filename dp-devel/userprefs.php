@@ -171,7 +171,7 @@ echo_stylesheet_for_tabs();
 echo "<br><center>";
 
 echo "<form action='userprefs.php' method='post'>";
-echo "<table width='90%' bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
+echo "<table width='90%' bgcolor='#ffffff' border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse'>";
 
 echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='6' align='center'>";
 

@@ -49,7 +49,7 @@ if (!isset($_POST['resolution'])) {
     echo "<input type='hidden' name='projectid' value='$projectid'>";
     echo "<input type='hidden' name='image' value='$image'>";
     echo "<input type='hidden' name='state' value='$state'>";
-    echo "<br><div align='center'><table bgcolor='".$theme['color_mainbody_bg']."' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>";
+    echo "<br><div align='center'><table bgcolor='".$theme['color_mainbody_bg']."' border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse'>";
     echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2' align='center'>";
     echo "<B><font color='".$theme['color_headerbar_font']."'>$header</font></B></td></tr>";
     

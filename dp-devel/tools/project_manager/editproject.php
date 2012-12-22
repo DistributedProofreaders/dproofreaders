@@ -896,7 +896,7 @@ class ProjectInfoHolder
 
         echo "<br>";
         echo "<center>";
-        echo "<table cellspacing='0' cellpadding='5' border='1' width='90%' bordercolor='#000000' style='border-collapse:collapse'>";
+        echo "<table cellspacing='0' cellpadding='5' border='1' width='90%' style='border: 1px solid #000; border-collapse:collapse'>";
 
         $this->show_visible_controls();
 

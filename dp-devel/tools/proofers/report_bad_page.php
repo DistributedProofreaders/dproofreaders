@@ -35,7 +35,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
     theme($header, "header");
 
     echo "<br><br>\n<center>";
-    echo "<table width='80%' align='center' bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'><tr><td bgcolor='#ffffff' colspan='2' align='left'>";
+    echo "<table width='80%' align='center' bgcolor='#ffffff' border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse'><tr><td bgcolor='#ffffff' colspan='2' align='left'>";
     echo "<font color='#000000'><center><b>"._("Common Fixes for Bad Pages. Try these first!")."</b></center>";
     echo "<ul>";
     echo "<li>"._("First, we need to look at what a bad page really is.  Remember this is proofreading so you may see line breaks after every word.  A column may seem to have text missing but all you may need to do is look further down in the text, sometimes the columns may not wrap properly.  There may actually be a portion of the text missing but not all of it.  In these circumstances as well as similiar ones you would want to proofread the page like normal.  Move the text where it needs to be, type in any missing text, etc...  These would <b>not</b> be bad pages.")."<br><br>\n";
@@ -48,7 +48,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
     echo "<form action='report_bad_page.php' method='post'>\n";
     $ppage->echo_hidden_fields();
     echo "<input type='hidden' name='submitted' value='true'>\n";
-    echo "<table bgcolor='#ffffff' border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>\n";
+    echo "<table bgcolor='#ffffff' border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse'>\n";
     echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
     echo "<B><font color='#ffffff'>"._("Submit a Bad Page Report")."</font></B>";
     echo "\n";

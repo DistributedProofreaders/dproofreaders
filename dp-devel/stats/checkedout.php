@@ -58,7 +58,7 @@ if (isset($inPPV)) {
     );
 }
 
-echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>\n";
+echo "<table border='1' cellspacing='0' cellpadding='2' style='border: 1px solid #111; border-collapse: collapse' width='99%'>\n";
 echo "<tr><td colspan='" .count($colspecs)."' bgcolor='".$theme['color_headerbar_bg']."'><center><font color='".$theme['color_headerbar_font']."'><b>$title</b></font></center></td></tr>";
 
 echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";

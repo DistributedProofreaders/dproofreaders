@@ -128,7 +128,7 @@ foreach ( $templates as $basename => $long_name )
 <!-- This code was made by cgehring -->
 <h3><a name="cgehlayout">Cgehring's</a> <strong>LAYOUT</strong></h3> <a href="#skeletontemp">Back to Skeleton Templates</a><br> 
 <center>
-  <table width="100%" table bgcolor="#FFFFFF" border="1" bordercolor="#111111" cellspacing="0" cellpadding="2">
+  <table width="100%" border="1" style="background: #fff; border: 1px solid #111;" cellspacing="0" cellpadding="2">
     <tr>
       <td bgcolor="#336633" align=center colspan=2>
         <font size="+2" color="#FFFFFF">
@@ -206,7 +206,7 @@ AUTHOR DIED, SO PAY SPECIAL ATTENTION TO THAT.*****
       </td>
     </tr>
   </table>
-  <table width="100%" table bgcolor="#FFFFFF" border="1" bordercolor="#111111" cellspacing="0" cellpadding="2"> 
+  <table width="100%" border="1" style="background: #fff; border: 1px solid #111;" cellspacing="0" cellpadding="2">
     <tr>
       <td bgcolor="#336633" align=center colspan=2>
         <font size="+2" color="#FFFFFF">
@@ -240,8 +240,7 @@ HALF IN THE SECOND COLUMN.*****
 <h3><a name="cgehcode">Cgehring's</a><strong>CODE</strong></h3> <a href="#skeletontemp">Back to Skeleton Templates</a><br> 
   <p align="left">&lt;!-- This code was made by cgehring --&gt;<br>
     &lt;center&gt;<br>
-    &lt;table width=&quot;100%&quot; table bgcolor=&quot;#FFFFFF&quot; border=&quot;1&quot; 
-    bordercolor=&quot;#111111&quot; cellspacing=&quot;0&quot; cellpadding=&quot;2&quot;&gt;<br>
+    &lt;table width=&quot;100%&quot; border=&quot;1&quot; style=&quot;background: #fff; border: 1px solid #111;&quot; cellspacing=&quot;0&quot; cellpadding=&quot;2&quot;&gt;<br>
     &lt;tr&gt;<br>
     &lt;td bgcolor=&quot;#336633&quot; align=center colspan=2&gt;<br>
     &lt;font size=&quot;+2&quot; color=&quot;#FFFFFF&quot;&gt;<br>

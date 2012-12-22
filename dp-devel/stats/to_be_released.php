@@ -28,7 +28,7 @@ $result = mysql_query("SELECT nameofwork, username, modifieddate, language, genr
 $numrows = mysql_numrows($result);
 $rownum = 0;
 
-echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>\n";
+echo "<table border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse' width='99%'>\n";
 
 echo "<tr bgcolor='".$theme['color_headerbar_bg']."'>\n";
 echo "<td colspan='6'><center><font color='".$theme['color_headerbar_font']."'><b>$title</b></font></center></td></tr>\n";

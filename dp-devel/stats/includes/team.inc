@@ -466,7 +466,7 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
     echo "<input type='hidden' name='tsid' value='$tsid'>";
     if ($tavatar == 1) { echo "<input type='hidden' name='tavatar' value='".$teamimages['avatar']."'>"; }
     if ($ticon == 1) { echo "<input type='hidden' name='ticon' value='".$teamimages['icon']."'>"; }
-    echo "\n<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='3' style='border-collapse: collapse' width='95%'>";
+    echo "\n<table border='1' cellspacing='0' cellpadding='3' style='border: 1px solid #111; border-collapse: collapse' width='95%'>";
     echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td><center><font color='".$theme['color_headerbar_font']."'><b>";
     if ($tedit != 1) { echo _("Edit Team Information")."</b></font></td></tr>"; } else { echo _("New Proofreading Team")."</b></font></td></tr>"; }
     echo "\n<tr><td><table border='0' cellspacing='0' cellpadding='0' width='100%'>";

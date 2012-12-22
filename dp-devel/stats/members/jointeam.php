@@ -31,7 +31,7 @@ if ($userP['team_1'] != $tid && $userP['team_2'] != $tid && $userP['team_3'] != 
         $title = _("Three Team Maximum");
         theme($title, "header");
         echo "<br><center>";
-        echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='3' style='border-collapse: collapse' width='95%'>";
+        echo "<table border='1' cellspacing='0' cellpadding='3' style='border: 1px solid  #111; border-collapse: collapse' width='95%'>";
         echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='3'><b><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."'>"._("Three Team Maximum")."</font></center></b></td></tr>";
         echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td colspan='3'><center><font face='".$theme['font_mainbody']."' color='".$theme['color_mainbody_font']."' size='2'>"._("You have already joined three teams.<br>Which team would you like to replace?")."</font></center></td></tr>";
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";

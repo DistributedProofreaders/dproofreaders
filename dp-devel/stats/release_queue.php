@@ -49,7 +49,7 @@ if (!isset($name))
     $title = sprintf( _("Release Queues for Round '%s'"), $round_id);
     theme($title,'header');
     echo "<br><h2>$title</h2>";
-    echo "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='2' style='border-collapse: collapse' width='99%'>\n";
+    echo "<table border='1' cellspacing='0' cellpadding='2' style='border: 1px solid #111; border-collapse: collapse' width='99%'>\n";
     echo "<tr bgcolor='".$theme['color_headerbar_bg']."'>";
     echo "<td colspan='7'><center><font color='".$theme['color_headerbar_font']."'><b>".$title."</b></font></center></td></tr>\n";
     {

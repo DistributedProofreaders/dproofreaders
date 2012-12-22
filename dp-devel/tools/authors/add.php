@@ -357,7 +357,7 @@ echo '<p>' .
      . '</p>';
 
 ?>
-<center><table cellspacing='0' cellpadding='5' border='1' width='90%' bordercolor='#000000' style='border-collapse:collapse'>
+<center><table cellspacing='0' cellpadding='5' border='1' width='90%' style='border: 1px solid #000; border-collapse:collapse'>
 <tr><td bgcolor='<?php echo $theme['color_headerbar_bg']; ?>' colspan='2'><center><b><font color='<?php echo $theme['color_headerbar_font']; ?>'>
 <?php echo (isset($_GET['author_id']))
      ?

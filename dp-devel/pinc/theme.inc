@@ -603,7 +603,7 @@ function show_tally_specific_stats( $tally_name )
     // Put the whole thing in a table, just so we can put a box around it.
     echo "<br>";
     echo "<center>";
-    echo "<table width='96%' border='1' bordercolor='#111111' style='border-collapse: collapse'>";
+    echo "<table width='96%' border='1' style='border: 1px solid #111; border-collapse: collapse'>";
     echo "<tr>";
     echo "<td>";
 

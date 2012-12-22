@@ -91,7 +91,7 @@ function dpsql_dump_themed_query_result( $result )
 
 	$n_cols = mysql_num_fields($result);
 
-	print "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>\n";
+	print "<table border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse' width='99%'>\n";
 	print "<tr><td>\n";
 	print "<table border='0' cellspacing='0' cellpadding='2' width='100%' align='center'>";
 	{
@@ -176,7 +176,7 @@ function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
 	$n_cols = mysql_num_fields($result);
         $n_curr_row = $start_at;
 
-	print "<table border='1' bordercolor='#111111' cellspacing='0' cellpadding='0' style='border-collapse: collapse' width='99%'>\n";
+	print "<table border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse;' width='99%'>\n";
 	
 	print "<tr><td>\n";
 	print "<table border='0' cellspacing='0' cellpadding='2' width='100%' align='center' class='stats'>";
