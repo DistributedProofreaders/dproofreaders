@@ -26,17 +26,13 @@ if (file_exists($zipfile_path))
     exec("zipinfo -1 $zipfile_path", $zipfile_images, $return_code);
     
     // List all the images in the project directory
-    $proj_images = array();
-    if ($h = opendir($project_path))
+    $proj_images = get_filelist($project_path, array('.png', '.jpg'));
+    if ($proj_images === false)
     {
-        while (false !== ($i = readdir($h)))
-        {
-            if (endswith($i, ".png") || endswith($i, ".jpg"))
-                $proj_images[] = $i;
-        }
+        echo "download_images.php: Could not list project images.";
+        exit;
     }
-    closedir($h);
-    
+
     // If either list contains something not in the other, then files have
     // been added, removed or renamed in the project and the cache is stale
     if (count(array_diff($zipfile_images, $proj_images)) != 0)
@@ -73,13 +69,30 @@ if (!is_dir($project_path))
 
 mkdir_recursive( dirname($zipfile_path), 0777 );
 
-exec(
-    "zip -n .png:.jpg -q -j $zipfile_path $project_path/*.png $project_path/*.jpg",
-    $output,
-    $return_code );
-if ($return_code != 0)
+// Get a list of image filenames to feed into /usr/bin/zip on stdin
+$image_files = get_filelist($project_path, array('.png', '.jpg'), /*with_path*/ True);
+if ($image_files === false)
 {
-    echo "download_images.php: the zip command failed.";
+    echo "download_images.php: Could not list project images.";
+    exit;
+}
+
+# zip: Process a .zip archive
+# -0: Don't compress files
+# -q: quiet. Don't emit any output
+# -j: 'junk' paths: Store just the filename in the the zip file, not the entire path
+# -@: Get file list from stdin
+$fh = popen("zip -0 -q -j -@ " . escapeshellcmd($zipfile_path), "w");
+if ($fh !== false)
+{
+    fwrite($fh, implode("\n", $image_files));
+    if (pclose($fh) != 0)
+    {
+        echo "download_images.php: zip command failed";
+        exit;
+    }
+} else {
+    echo "download_images.php: failed to run zip command.";
     exit;
 }
 

@@ -424,6 +424,39 @@ function urlencode_assoc($name_value_mapping)
     return implode('&', $p);
 }
 
+// Return a list of only the files directly inside in the specified directory.
+// On error, returns False.
+//
+// $dirpath: the directory to search in. May be relative to the cwd.
+// $validext: an array of extensions to check filenames against, may inclue the '.'
+// $with_path: If true, the list of returned names has the directory prepended.
+function get_filelist($dirpath, $validext = array(), $with_path = False)
+{
+    $filelist = array();
+    if (false === ($d = opendir($dirpath))) return False;
+    while (false !== ($f = readdir($d)))
+    {
+        // Ignore non-files
+        if (!is_file("$dirpath/$f")) continue;
+
+        // If we're not filering on validexts, all filenames are OK
+        $filename_ok = count($validext) == 0;
+
+        // Otherwise iterate over all the extensions,
+        // stopping if we've matched on any so far.
+        foreach($validext as $ext)
+        {
+            if ($filename_ok) break;
+            $filename_ok = endswith($f, $ext);
+        }
+        if ($filename_ok)
+        {
+            $filelist[] = $with_path ? "$dirpath/$f" : $f;
+        }
+    }
+    closedir($d);
+    return $filelist;
+}
 // -----------------------------------------------------------------------------
 
 // file_get_contents() is predefined in PHP 4.3.0 and on.
