@@ -90,8 +90,19 @@ else
     if (is_null($lpage))
     {
         $round = get_Round_for_project_state($proj_state);
-        $body = $err . "<br> " . sprintf(_("Return to the <a %s>project listing page</a>."),
-            "href='round.php?round_id={$round->id}' target='_top'");
+
+        // If the user can manage the project, they'll most likely want to look at the
+        // project state once the last page has been done. This is especially true of,
+        // for example, missing page projects and the like. Redirect these users to
+        // the project page.
+        $project = new Project($projectid);
+        if ($project->can_be_managed_by_user($pguser)) {
+            $body = $err . "<br> " . sprintf(_("Return to the <a %s>project page</a>."),
+                "href='$code_url/project.php?id=$projectid' target='_top'");
+        } else {
+            $body = $err . "<br> " . sprintf(_("Return to the <a %s>project listing page</a>."),
+                "href='round.php?round_id={$round->id}' target='_top'");
+        }
         $title = _("Unable to get an available page");
         echo "<html><head><title>$title</title></head><body>$body</body></html>";
         exit;
