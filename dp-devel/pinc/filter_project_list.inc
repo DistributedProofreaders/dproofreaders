@@ -188,7 +188,7 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
 
 function maybe_update_project_filter($username, $filter_type, $data, $state_sql)
 // This function processes the posted form and updates the database accordingly.
-// The function handles the case where it was asked to process a $_REQUEST
+// The function handles the case where it was asked to process a $_POST
 // but the form wasn't actually posted.
 // If a form was posted, this function returns TRUE, otherwise it returns FALSE.
 {
@@ -207,7 +207,14 @@ function maybe_update_project_filter($username, $filter_type, $data, $state_sql)
 
     // enumerate the expected data fields including their human-friendly
     // labels to update the filter display
-    $data_fields = array("language" => _("Language"), "genre" => _("Genre"), "username" => _("Project Manager"), "checkedoutby" => _("Post Processor" ), "special_code" => _("Special Days"), "difficulty" => _("Difficulty"));
+    $data_fields = array(
+        "language" => _("Language"),
+        "genre" => _("Genre"),
+        "username" => _("Project Manager"),
+        "checkedoutby" => _("Post Processor" ),
+        "special_code" => _("Special Days"),
+        "difficulty" => _("Difficulty"),
+    );
 
     foreach($data_fields as $field => $label)
     {
@@ -505,4 +512,3 @@ function _load_project_filter_field_values($field, $state_sql)
 }
 
 // vim: sw=4 ts=4 expandtab
-?>
