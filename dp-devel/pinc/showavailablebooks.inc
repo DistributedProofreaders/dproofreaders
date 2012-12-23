@@ -117,7 +117,7 @@ function show_projects_for_stage(
     if ($show_filter_block)
     {
         echo "<hr width='75%'>\n";
-        process_and_display_project_filter_form($pguser, $stage->id, $stage->name, $_REQUEST, $initial_project_selector, $filter_custom_display_fields);
+        process_and_display_project_filter_form($pguser, $stage->id, $stage->name, $_POST, $initial_project_selector, $filter_custom_display_fields);
     }
     $projects_filter = get_project_filter_sql($pguser, $stage->id);
     $filtered_project_selector = "$initial_project_selector $projects_filter";
@@ -192,7 +192,7 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         $available_filtertype_stem = "{$pool->id}_av";
 
         $initial_project_selector = "state = '{$pool->project_available_state}'";
-        process_and_display_project_filter_form($pguser, $available_filtertype_stem, $pool->name, $_REQUEST, $initial_project_selector);
+        process_and_display_project_filter_form($pguser, $available_filtertype_stem, $pool->name, $_POST, $initial_project_selector);
         $projects_filter = get_project_filter_sql($pguser, $available_filtertype_stem);
 
         echo "<a name='$anchor'></a>\n";
