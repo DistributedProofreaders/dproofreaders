@@ -9,7 +9,6 @@ define( 'BROWSER_DEFAULT_STR', _("Browser Default") );
 # and not the array value so changing the order of the array, such as
 # by sorting or addition of a value other than at the end, would
 # impact all users.
-$p_l= array(_("No Rounds"), _("First Round"), _("Second Round"), _("Both Rounds"));
 $u_l= array(_("English"),_("French"),_("German"),_("Spanish"), _("Italian"), _("Portuguese"));
 $i_r= $i_resolutions;
 $f_f= array(BROWSER_DEFAULT_STR, 'Courier', 'Times', 'Arial', 'Lucida', 'monospace', 'DPCustomMono2', 'Lucida Console', 'Monaco');
@@ -19,7 +18,7 @@ $u_n= array('0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20');
 $u_intlang_tmp=installed_langs();
 $u_intlang_options[""]=BROWSER_DEFAULT_STR;
 foreach($u_intlang_tmp as $k=>$v) {
-	$u_intlang_options[$v]=bilingual_name($v);
+    $u_intlang_options[$v]=bilingual_name($v);
 }
 
 $i_pm= array(_("All Projects"), _("Active Projects"), _("Search Page"));
