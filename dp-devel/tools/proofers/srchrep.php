@@ -130,7 +130,7 @@ window.onload = test_and_enable_nonregex;
 </form>
 <p><?php echo _("Warning: Undo is only possible for the most recent replace!"); ?></p>
 <p id='regex_help_title' onclick='toggle_regex_help();'><span id='regex_arrow'>&#9654;</span>
-<?php echo _('Regular expression?'); ?></p>
+<?php echo _('Regular Expression?'); ?></p>
 <p id='regex_help'><?php
 echo _(". &mdash; any character") . "<br />\n";
 echo _("[a-z0-9] &mdash; lowercase letters and numbers") . "<br />\n";

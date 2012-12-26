@@ -355,7 +355,7 @@ $total_invalid_projects = count($messages);
 if($total_invalid_projects) {
     echo "<h2>" . _("Other projects") . "</h2>";
     echo "<table border='1'>";
-    echo "<tr><th>" . _("Project") . "</th><th>" . _("Current state") 
+    echo "<tr><th>" . _("Project") . "</th><th>" . _("Current State") 
         . "</th><th>" . _("Status") ."</th></tr>";
     foreach($messages as $message)
     {
