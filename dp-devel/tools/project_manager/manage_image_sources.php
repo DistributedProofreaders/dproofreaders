@@ -91,7 +91,7 @@ if ($action == 'update_oneshot')
 
         if ( !$new && !isset($_REQUEST['editing']) )
         {
-            $errmsgs .= sprintf(_('An image source with this ID already exists. If you
+            $errmsgs .= sprintf(_('An Image Source with this ID already exists. If you
             wish to edit the details of an existing source, please contact %s.
             Otherwise, choose a different ID for this source.'),$db_requests_email_addr) . "<br />";
         }
@@ -116,7 +116,7 @@ if ($action == 'update_oneshot')
 
 if ($action == 'show_sources')
 {
-    // The more detailed listing of image sources is only available
+    // The more detailed listing of Image Sources is only available
     // to managers.
     if (!$can_edit)
         metarefresh(0,"$code_url/tools/project_manager/show_image_sources.php");
@@ -163,7 +163,7 @@ elseif ($action == 'edit_source')
 
 elseif ($action == 'add_source')
 {
-    $title = $can_edit ? _('Add a new image source') : _('Propose a new image source');
+    $title = $can_edit ? _('Add a new Image Source') : _('Propose a new Image Source');
     theme($title,'header',$theme_args);
     show_is_toolbar();
     $blank = new ImageSource(null);
@@ -276,17 +276,17 @@ class ImageSource
 
         if($this->new_source)
         {
-            $this->_show_edit_row('code_name',_('Image source ID'),false,10);
+            $this->_show_edit_row('code_name',_('Image Source ID'),false,10);
         }
         else
         {
             echo "<input type='hidden' name='editing' value='true' />" .
                 "<input type='hidden' name='code_name' value='" . htmlspecialchars($this->code_name, ENT_QUOTES) ."' />";
-            $this->_show_summary_row(_('Image source ID'),$this->code_name);
+            $this->_show_summary_row(_('Image Source ID'),$this->code_name);
         }
-        $this->_show_edit_row('display_name',_('Display name'),false,30);
-        $this->_show_edit_row('full_name',_('Full name'));
-        $this->_show_edit_row('url',_('Web site'));
+        $this->_show_edit_row('display_name',_('Display Name'),false,30);
+        $this->_show_edit_row('full_name',_('Full Name'));
+        $this->_show_edit_row('url',_('Website'));
         $this->_show_edit_row('credit',_('Credits line'),true);
         $this->_show_edit_permissions_row();
         $this->_show_edit_row('public_comment',_('Comment (public)'),true);
@@ -401,7 +401,7 @@ class ImageSource
         $this->code_name = strtoupper($_POST['code_name']);
         if ($new)
         {
-            // If the user is an image sources manager, then the new source should
+            // If the user is an Image Sources manager, then the new source should
             // default to disabled. If not, the source should default to pending approval.
             $this->is_active = $can_edit ? '0' : '-1';
             // new sources shouldn't be shown on
@@ -458,11 +458,11 @@ class ImageSource
 
         list($username, $email) = mysql_fetch_row($result);
 
-        $subject = sprintf(_('%s: Image source %s has been approved!'),$site_abbreviation,$this->display_name);
+        $subject = sprintf(_('%s: Image Source %s has been approved!'),$site_abbreviation,$this->display_name);
 
         $body = "Hello $username,\n\n" .
             "This is a message from the $site_name website.\n\n".
-            "The image source that you proposed, $this->display_name, has been\n".
+            "The Image Source that you proposed, $this->display_name, has been\n".
             "approved by $pguser. You can select it, and apply it to projects, from\n".
             "your project manager's page.\n\n$site_signoff";
 
@@ -544,13 +544,13 @@ class ImageSource
                 setting = 'is_approval_notify',
                 value = '$this->code_name'") or die(mysql_error());
 
-        $subject = sprintf(_('%s: New image source proposed'),$site_abbreviation)." : ".$this->display_name;
+        $subject = sprintf(_('%s: New Image Source proposed'),$site_abbreviation)." : ".$this->display_name;
 
         $body = "Hello,\n\nYou are receiving this email because\n".
-        "you are listed as an image sources manager at the $site_name\n".
+        "you are listed as an Image Sources manager at the $site_name\n".
         "site. If this is an error, please contact <$general_help_email_addr>.\n\n".
         "$requestor_username has proposed that $this->display_name be added\n".
-        "to the list of image sources. To edit or approve this image source,\n".
+        "to the list of Image Sources. To edit or approve this Image Source,\n".
         "visit\n    $code_url/tools/project_manager/manage_image_sources.php?action=show_sources#$this->code_name".
         "\n\n$site_signoff";
 
