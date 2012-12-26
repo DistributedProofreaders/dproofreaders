@@ -121,7 +121,7 @@ switch( $tbutton )
     case B_SAVE_AND_DO_ANOTHER:
         $ppage->saveAsDone($text_data,$pguser);
         $url = $ppage->url_for_do_another_page();
-        metarefresh(1,$url,_("Save as 'Done' & Proof Next"),_("Page saved."));
+        metarefresh(1,$url,_("Save as 'Done' & Proof Next"),_("Page Saved."));
         break;
 
     case B_SAVE_AND_QUIT:
