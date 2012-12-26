@@ -17,7 +17,7 @@ if (isset($bio_id)) {
 }
 else {
     theme(_('No biography-id specified'), 'header');
-    echo _('An error has occured:') . ' ' . _('No biography-id was specified.') . ' ';
+    echo _('An error occurred.') . ' ' . _('No biography-id was specified.') . ' ';
     echo sprintf(_('You may return to the <a href="%1$s">authors-listing</a>.'), 'listing.php');
     theme('', 'footer');
     exit();
@@ -27,7 +27,7 @@ else {
 $result = mysql_query("SELECT author_id, bio FROM biographies WHERE bio_id=$id;");
 if (!$result || mysql_num_rows($result) == 0) {
     theme(_('Invalid biography-id specified'), 'header');
-    echo _('An error has occured:') . ' ' . _('The specified biography-id was invalid.') . ' ';
+    echo _('An error occurred.') . ' ' . _('The specified biography-id was invalid.') . ' ';
     echo sprintf(_('You may return to the <a href="%1$s">authors-listing</a>.'), 'listing.php');
     theme('', 'footer');
     exit();

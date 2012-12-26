@@ -58,7 +58,7 @@ elseif (isset($_POST['author_id'])) {
         }
         else {
             // failure!
-            theme(_('An error has occured'), 'header');
+            theme(_('An error occurred.'), 'header');
             echo _('It was not possible to save the biography.') . _('The following error-message was received:') . ' ' .
                          mysql_error($result);
             theme('', 'footer');
@@ -67,15 +67,15 @@ elseif (isset($_POST['author_id'])) {
     }
     else {
         // Preview
-        // One thinks it's only to display the values, but we actally need to *remove*
+        // One thinks it's only to display the values, but we actually need to *remove*
         // the slashes that php has inserted for us (to prepare strings for database-insertion)
         $bio = stripslashes($bio);
     }
 }
 else {
     // someone's trying to display this page outside of the workflow.
-    theme(_('An error has occured'), 'header');
-    echo _('Some information is missing and this page can not be displayed. This has most likely occured ' .
+    theme(_('An error occurred.'), 'header');
+    echo _('Some information is missing and this page can not be displayed. This has most likely occurred ' .
                  'because you have entered the URL manually. Please enter this page by following links from other pages.');
     theme('', 'footer');
     exit;
