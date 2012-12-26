@@ -71,7 +71,7 @@ if (!isset($_POST['actionBtn'])) {
     echo " " . sprintf( _("This will be done using the <a href='%s'>managing tool</a>:"), 'manage.php');
     echo '<ul><li>';
     echo _("Select to only view non-enabled authors.");
-    echo "<li>" . _("Authors and biographies are linked the way they were found in the database harvest. This means they are all in a one-to-one relationship. There may be duplicate entries for the same author. There should only be one author entry per author, and it should link to all biographies. This is done manually. Multiple occurances of a biography should be reduced to one.");
+    echo "<li>" . _("Authors and biographies are linked the way they were found in the database harvest. This means they are all in a one-to-one relationship. There may be duplicate entries for the same author. There should only be one author entry per author, and it should link to all biographies. This is done manually. Multiple occurrences of a biography should be reduced to one.");
     echo "<li>" . _("Make frequent and possibly creative use of the searching and listing possibilities to identify duplicate authors.");
     echo "<li>" . _("The authors and biographies are all marked as 'not enabled' in the database. Until you check the 'enabled' box next to it in this listing and submit, the author/bio will not appear to the average user but you will see it here. After that, it will be the other way round. This means you should only check that box when you are certain you won't need to edit that author again or move more biographies to it.");
     echo '</ul></p>';
@@ -146,7 +146,7 @@ else {
             // The dates need some extra parsing.
             // Valid formats:
             // 2002-02-02-2004-04-04    2002-02-02-    20020202-    20020202-20040404    2002-2004 .
-            // Spaces are ok. Question marks may be used to signify 'unknown'
+            // Spaces are OK. Question marks may be used to signify 'unknown'
 
             $fields = array('?', '?', '?', '?', '?', '?'); // extracted data: year, month, day, year, month, day
 
@@ -203,7 +203,7 @@ else {
             else {
                 $store_result = mysql_query($query);
                 if (!$store_result) {
-                    echo '    ' . _("An error occured while saving the author:") . ' ' . mysql_error() . "\n";
+                    echo '    ' . _("An error occurred while saving the author:") . ' ' . mysql_error() . "\n";
                     exit;
                 }
                 $author_id = mysql_insert_id();
@@ -218,7 +218,7 @@ else {
             else {
                 $store_result = mysql_query($query);
                 if (!$store_result) {
-                    echo '    ' . _("An error occured while saving the biography:") . ' ' . mysql_error() . "\n";
+                    echo '    ' . _("An error occurred while saving the biography:") . ' ' . mysql_error() . "\n";
                     exit;
                 }
                 echo '    ' . sprintf( _("The biography was inserted into the database with the id %d."), mysql_insert_id()) . "\n\n";
