@@ -15,12 +15,6 @@ $f_f= array(BROWSER_DEFAULT_STR, 'Courier', 'Times', 'Arial', 'Lucida', 'monospa
 $f_s= array(BROWSER_DEFAULT_STR,'8pt','9pt','10pt','11pt','12pt','13pt','14pt','15pt','16pt','18pt','20pt');
 $u_n= array('0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20');
 
-$u_intlang_tmp=installed_langs();
-$u_intlang_options[""]=BROWSER_DEFAULT_STR;
-foreach($u_intlang_tmp as $k=>$v) {
-    $u_intlang_options[$v]=bilingual_name($v);
-}
-
 $i_pm= array(_("All Projects"), _("Active Projects"), _("Search Page"));
 
 $i_stats = array(_("Public"), _("Anonymous"), _("Private"));

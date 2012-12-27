@@ -5,6 +5,7 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'doctype.inc');
 include_once($relPath.'resolution.inc');
 include_once($relPath.'prefs_options.inc');
+include_once($relPath.'languages.inc'); // bilingual_name()
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'tabs.inc');
@@ -235,7 +236,12 @@ function echo_tabs($tab_names, $selected_tab) {
 
 function echo_general_tab() {
     global $uid, $pguser, $userP, $reset_password_url;
-    global $u_intlang_options, $u_n, $i_stats;
+    global $u_n, $i_stats;
+
+    $u_intlang_options[""]=BROWSER_DEFAULT_STR;
+    foreach(installed_langs() as $k => $v) {
+        $u_intlang_options[$v]=bilingual_name($v);
+    }
 
     $result=mysql_query(sprintf("
         SELECT *
