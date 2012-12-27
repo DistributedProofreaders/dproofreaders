@@ -9,6 +9,22 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
+function prompt_login()
+{
+    global $destination;
+
+    $title = _("Login Required");
+    theme($title, "header");
+
+    if($destination)
+        echo "<p>" . _("The page you requested requires a login. You will be redirected there once you have signed in.") . "</p>";
+
+    echo "<p>" . _("Use the form above to log in.") . "</p>";
+
+    theme("","footer");
+    exit();
+}
+
 function abort_login( $error )
 {
     global $reset_password_url;
@@ -44,9 +60,18 @@ function abort_login( $error )
 
 // -----------------------------------------------------------------------------
 
+$destination = ( isset($_REQUEST['destination']) ? $_REQUEST['destination'] : '' );
+
+// If no username or password were POSTed, the user was likely redirected here
+// from another page that required a login. Don't show them an error message,
+// and instead prompt them to login.
+if(!isset($_POST['userNM']) && !isset($_POST['userPW']))
+{
+    prompt_login();
+}
+
 $userNM = @$_POST['userNM'];
 $userPW = @$_POST['userPW'];
-$destination = ( isset($_REQUEST['destination']) ? $_REQUEST['destination'] : '' );
 
 $err = check_username($userNM);
 if ($err != '')
