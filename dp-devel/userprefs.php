@@ -837,8 +837,9 @@ function _show_credit_name_adhoc()
 // Handles 'credit_name' and 'credit_other'.
 {
     global $userSettings;
-    global $credit_names, $credit_names_labels;
 
+    $credit_names = array('real_name', 'username', 'other');
+    $credit_names_labels = array(_('Real Name'), _('Username'), _('Other:'));
     $credit_name_value = $userSettings->get_value('credit_name', 'real_name');
     $on_change = "f.credit_other.disabled = (t.options[t.selectedIndex].value!='other');";
     dropdown_select_values_and_labels('credit_name', $credit_name_value, $credit_names, $credit_names_labels, $on_change);
