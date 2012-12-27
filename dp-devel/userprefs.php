@@ -236,12 +236,18 @@ function echo_tabs($tab_names, $selected_tab) {
 
 function echo_general_tab() {
     global $uid, $pguser, $userP, $reset_password_url;
-    global $u_n, $i_stats;
+    global $u_n;
 
     $u_intlang_options[""]=BROWSER_DEFAULT_STR;
     foreach(installed_langs() as $k => $v) {
         $u_intlang_options[$v]=bilingual_name($v);
     }
+
+    $i_stats_privacy = array(
+        PRIVACY_PUBLIC    => _("Public"),
+        PRIVACY_ANOBYMOUS => _("Anonymous"),
+        PRIVACY_PRIVATE   => _("Private"),
+    );
 
     $result=mysql_query(sprintf("
         SELECT *
@@ -319,7 +325,7 @@ function echo_general_tab() {
         _('Statistics'), 'u_privacy', 'privacy',
         $userP['u_privacy'],
         'dropdown',
-        $i_stats
+        $i_stats_privacy
     );
     show_preference(
         _('Show Rank Neighbors'), 'u_neigh', 'neighbors',

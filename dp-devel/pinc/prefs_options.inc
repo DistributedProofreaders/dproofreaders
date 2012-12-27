@@ -16,7 +16,6 @@ $u_n= array('0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20');
 
 $i_pm= array(_("All Projects"), _("Active Projects"), _("Search Page"));
 
-$i_stats = array(_("Public"), _("Anonymous"), _("Private"));
 define('PRIVACY_PUBLIC',    0);
 define('PRIVACY_ANONYMOUS', 1);
 define('PRIVACY_PRIVATE',   2);
