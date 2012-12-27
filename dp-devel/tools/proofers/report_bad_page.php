@@ -4,7 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'stages.inc');
-include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'misc.inc');

@@ -2,7 +2,6 @@
 include_once($relPath.'site_vars.php');
 include_once($relPath.'project_states.inc');
 include_once($code_dir.'/stats/statestats.inc');
-include_once($relPath.'gettext_setup.inc');
 
 echo "<center>";
 

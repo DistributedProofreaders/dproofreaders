@@ -1,7 +1,6 @@
 <?php
 include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'filter_project_list.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'special_colors.inc');

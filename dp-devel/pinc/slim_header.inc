@@ -1,6 +1,5 @@
 <?php 
 include_once("site_vars.php");   // $site_abbreviation
-include_once("gettext_setup.inc");
 
 function slim_header($title="",$include_doctype=TRUE,$close_head_open_body=TRUE)
 {
