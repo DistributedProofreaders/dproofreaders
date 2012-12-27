@@ -55,13 +55,13 @@ if ( $code != $project->CBP_OKAY )
 
     slim_header( $project->nameofwork, TRUE, TRUE );
 
-    echo _("Project:") . " \"{$project->nameofwork}\"<br>\n";
-    echo _("State:") . " " . project_states_text($project->state) . "<br>\n";
+    echo _("Project") . ": \"{$project->nameofwork}\"<br>\n";
+    echo _("State")   . ": " . project_states_text($project->state) . "<br>\n";
     echo "<p>$msg</p>\n";
 
     echo "<p>";
     echo sprintf(
-        _('Back to <a href="%s">Activity Hub</a>'),
+        _("Back to <a href='%s'>Activity Hub</a>"),
         "$code_url/activity_hub.php"
     );
     echo "</p>\n";
