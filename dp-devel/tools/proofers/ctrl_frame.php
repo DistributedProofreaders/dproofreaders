@@ -10,13 +10,6 @@ require_login();
 $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_));
 $round = get_Round_for_round_id($round_id);
 
-/*
-include_once($relPath.'resolution.inc');
-$i_r= $i_resolutions;
-$wSize=explode("x",$i_r[$userP['i_res']*1]);
-$menuWidth=$wSize[0]<=800?'99%':'820';
-*/
-
 include_once($relPath.'slim_header.inc');
 slim_header(_("Control Frame"),TRUE,FALSE);
 

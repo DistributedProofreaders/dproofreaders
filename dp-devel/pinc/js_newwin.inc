@@ -18,8 +18,7 @@ function prep_for_links_to_project_pages()
 
     if ( $userP['i_newwin'] == 1 )
     {
-        $i_r = $i_resolutions;
-        $wSize = explode("x",$i_r[$userP['i_res']*1]);
+        $wSize = explode("x",$i_resolutions[$userP['i_res']*1]);
         $window_width  = $wSize[0] - 20;
         $window_height = $wSize[1] - 80;
 

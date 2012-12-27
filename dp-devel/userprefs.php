@@ -391,7 +391,7 @@ function save_general_tab() {
 
 function echo_proofreading_tab() {
     global $userP;
-    global $i_r, $f_f, $f_s;
+    global $i_resolutions, $f_f, $f_s;
     global $userSettings;
 
     // see if they already have 10 profiles, etc.
@@ -444,7 +444,7 @@ function echo_proofreading_tab() {
         _('Screen Resolution'), 'i_res', 'screenres',
         $userP['i_res'],
         'dropdown',
-        $i_r
+        $i_resolutions
     );
     show_preference(
         _('Launch in New Window'), 'i_newwin', 'newwindow',
