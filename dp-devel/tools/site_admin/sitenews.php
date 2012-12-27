@@ -51,7 +51,7 @@ if (isset($news_page_id)) {
         $date_changed = get_news_page_last_modified_date( $news_page_id );
         if ( !is_null($date_changed) ) {
             $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
-            echo "<br>". _("Last modified : ").$last_modified;
+            echo "<br>". _("Last modified:")." ".$last_modified;
         }
         echo "<br><br>";
         echo "\n";
@@ -195,14 +195,14 @@ function show_all_news_items_for_page( $news_page_id )
     $categories = array(
         array(
             'status'   => 'current',
-            'title'    => _('Fixed News Items'),
+            'title'    => _('Sticky News Items'),
             'blurb'    => _("All of these items are shown every time the page is loaded. Most important and recent news items go here, where they are guaranteed to be displayed."),
             'order_by' => 'ordering DESC',
             'actions'  => array(
                 'hide'     => _('Make Random'),
                 'archive'  => _('Archive Item'),
-                'moveup'   => _('Move Higher'),
-                'movedown' => _('Move Lower'),
+                'moveup'   => _('Move Up'),
+                'movedown' => _('Move Down'),
             ),
         ),
 
@@ -212,7 +212,7 @@ function show_all_news_items_for_page( $news_page_id )
             'blurb'    => _("This is the pool of available random news items for this page. Every time the page is loaded, a randomly selected one of these items is displayed."),
             'order_by' => 'ordering DESC',
             'actions'  => array(
-                'display' => _('Make Fixed'),
+                'display' => _('Make Sticky'),
                 'archive' => _('Archive Item'),
             ),
         ),
@@ -247,7 +247,7 @@ function show_all_news_items_for_page( $news_page_id )
         {
             $date_changed = get_news_page_last_modified_date( $news_page_id );
             $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
-            echo "&nbsp;&nbsp; ("._("Last modified: ").$last_modified.")";
+            echo "&nbsp;&nbsp; ("._("Last modified:")." ".$last_modified.")";
         }
         echo "<br><br>";
         echo $category['blurb'];
