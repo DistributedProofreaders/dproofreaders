@@ -704,8 +704,9 @@ function save_proofreading_tab() {
 function echo_pm_tab() {
 
     global $userP;
-    global $i_pm;
     global $userSettings;
+
+    $i_pm= array(_("All Projects"), _("Active Projects"), _("Search Page"));
 
     echo "<tr>\n";
     show_preference(

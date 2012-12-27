@@ -1,7 +1,4 @@
 <?php
-include_once($relPath.'resolution.inc');
-include_once($relPath.'languages.inc');
-
 define( 'BROWSER_DEFAULT_STR', _("Browser Default") );
 
 # Care should be taken when changing the following arrays. The user
@@ -13,8 +10,6 @@ $u_l= array(_("English"),_("French"),_("German"),_("Spanish"), _("Italian"), _("
 $f_f= array(BROWSER_DEFAULT_STR, 'Courier', 'Times', 'Arial', 'Lucida', 'monospace', 'DPCustomMono2', 'Lucida Console', 'Monaco');
 $f_s= array(BROWSER_DEFAULT_STR,'8pt','9pt','10pt','11pt','12pt','13pt','14pt','15pt','16pt','18pt','20pt');
 $u_n= array('0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20');
-
-$i_pm= array(_("All Projects"), _("Active Projects"), _("Search Page"));
 
 define('PRIVACY_PUBLIC',    0);
 define('PRIVACY_ANONYMOUS', 1);
