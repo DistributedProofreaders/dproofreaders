@@ -1,7 +1,6 @@
 <?php
 $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'doctype.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc');

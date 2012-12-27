@@ -1,8 +1,7 @@
 <?php
-include_once($relPath.'doctype.inc');
 include_once($relPath.'site_vars.php');
-include_once($relPath.'gettext_setup.inc');
-include_once($relPath.'misc.inc');
+include_once($relPath."slim_header.inc");
+include_once($relPath.'misc.inc'); // startswith()
 
 function metarefresh($seconds,$url,$title="",$body="")
 // This function will redirect the browser to load a specific page. If
@@ -11,7 +10,7 @@ function metarefresh($seconds,$url,$title="",$body="")
 // If this is a test system ($testing=1 in site_vars.php) the redirect
 // will be delayed by 15 seconds.
 {
-    global $testing, $docType, $charset;
+    global $testing, $charset;
 
     if ($testing)
     {
@@ -50,14 +49,12 @@ function metarefresh($seconds,$url,$title="",$body="")
         exit;
     }
 
-    // If we can't do the redirection using HTTP headers, fall back to using
-    // a <meta> tag.
-    echo $docType."\n";
-    echo "<html".lang_html_header()."><head><title>$title</title>\n";
+    // If we can't do the redirection using HTTP headers (which is the common
+    // case), fall back to using a <meta> tag.
+    slim_header($title, /* $include_doctype */ TRUE, /* $close_head_open_body */ FALSE);
     echo "<meta http-equiv=\"refresh\" content=\"$sec ;URL=$url\">\n";
-    echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\" />\n";
     echo "</head><body>\n";
-    echo $body, "\n";
+    echo "$body\n";
 
     if ($testing)
     {
@@ -66,9 +63,8 @@ function metarefresh($seconds,$url,$title="",$body="")
     	echo "</i>";
     }
 
-    echo "</body></html>";
+    slim_footer();
     exit;
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

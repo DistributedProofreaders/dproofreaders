@@ -2,7 +2,6 @@
 $relPath="./pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'doctype.inc');
 include_once($relPath.'resolution.inc');
 include_once($relPath.'prefs_options.inc');
 include_once($relPath.'languages.inc'); // bilingual_name()
