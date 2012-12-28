@@ -10,14 +10,12 @@ theme("Copyright Approval", "header");
 
 if (!$site_supports_metadata)
 {
-    echo '$site_supports_metadata is false, so exiting.';
-    exit;
+    die('$site_supports_metadata is false, so exiting.');
 }
 
 if (!user_is_a_sitemanager())
 {
-    echo _('You are not authorized to invoke this script.');
-    exit;
+    die('You are not authorized to invoke this script.');
 }
 
 //----------------------------------------------------------------------------------
