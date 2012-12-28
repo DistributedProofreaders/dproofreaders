@@ -1,35 +1,12 @@
 <?php
-include_once($relPath.'site_vars.php');
-include_once($relPath.'connect.inc');
-include_once($relPath.'dpsession.inc');
+/* ATTENTION: 
+ * This include file is deprecated and should not be used in new code.
+ * It will be removed in the next release and is left to support
+ * its use in existing scripts outside of this codebase.
+*/
+include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'maintenance_mode.inc');
 
-//global db vars
-$db_Connection=new dbConnect();
-if ($db_Connection->error !='')
-{
-    die('Error: Unable to connect to database.');
-}
-$db_link=$db_Connection->db_lk;
-
-// Require that the sender be logged in.
-$user_is_logged_in = dpsession_resume();
-if ( !$user_is_logged_in  )
-{
-    // Remember the current REQUEST_URI, so that we can send the user there
-    // after the login process.
-    // (urlencode it because it might contain characters [specifically, &]
-    // that would confuse parsing of the login.php URL.)
-    $request_uri_encoded = urlencode($_SERVER['REQUEST_URI']);
-    $url="$code_url/accounts/login.php?destination=$request_uri_encoded";
-    $body="<A HREF=\"$url\">" . _("Please Sign In") . "</A>";
-    $title = _("Please Sign In");
-    metarefresh(0,$url,$title,$body);
-    exit;
-}
-
-// Check to see if we are in a maintenance mode
-abort_if_in_maintenance_mode();
+require_login();
 
 // vim: sw=4 ts=4 expandtab
