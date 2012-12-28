@@ -1,5 +1,6 @@
 <?php 
 include_once("site_vars.php");   // $site_abbreviation
+include_once("languages.php");   // lang_html_header()
 
 function slim_header($title="",$include_doctype=TRUE,$close_head_open_body=TRUE)
 {
