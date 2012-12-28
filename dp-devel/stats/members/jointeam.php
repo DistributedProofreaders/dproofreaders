@@ -43,6 +43,7 @@ if ($userP['team_1'] != $tid && $userP['team_2'] != $tid && $userP['team_3'] != 
         echo "<td width='34%'><center><b><a href='jointeam.php?tid=$tid&otid=3'>".mysql_result($teamR,0,'teamname')."</a></b></center></td>";
         echo "</tr><tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='3'><center><b><a href='../teams/tdetail.php?tid=$tid'><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>"._("Do Not Join Team")."</font></a></b></center></td></tr></table></center>";
         theme("", "footer");
+        $redirect_team = 0;
     }
 } else {
     $title = _("Unable to Join the Team");
