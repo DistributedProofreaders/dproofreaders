@@ -449,7 +449,7 @@ function _populate_project_filter_data_from_filter($filter)
             // skip any empty values
             if($value=="") continue;
 
-            if(!is_array($data[$field]))
+            if(!is_array(@$data[$field]))
                 $data[$field]=array();
 
             $data[$field][]=$value;
