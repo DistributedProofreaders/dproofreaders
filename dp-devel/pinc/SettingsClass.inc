@@ -244,7 +244,7 @@ class Settings
     //     $settings =& Settings::get_settings($username);
     // to ensure that changes in settings are visible everywhere they should be.
     //
-    function & get_Settings($username)
+    static function & get_Settings($username)
     {
         static $Settings_for_ = array();
         if (array_key_exists($username, $Settings_for_))
