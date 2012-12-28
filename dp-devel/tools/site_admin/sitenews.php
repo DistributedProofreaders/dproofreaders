@@ -9,8 +9,7 @@ require_login();
 
 if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )
 {
-    echo _("You are not authorized to use this form.");
-    exit;
+    die("You are not authorized to use this form.");
 }
 
 $news_page_id = get_enumerated_param($_GET, 'news_page_id', null, array_keys($NEWS_PAGES), true);
