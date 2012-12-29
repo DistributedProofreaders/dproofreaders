@@ -90,7 +90,7 @@ for($i=0;$i<$row;$i++) {
             (($val[$i]==ARRAY_PAD_BACK)?" checked":"").
         "><img src=\"./../../graphics/top.gif\" alt=\"top\"><br />\n".
         "<input type=\"radio\" name=\"val$i\" value=\"m\"".
-            (($val[$i]==ARRAY_PAD_MIDDLE)?" checked":"").
+            (($val[$i]==ARRAY_PAD_BOTH)?" checked":"").
         "><img src=\"./../../graphics/middle.gif\" alt=\"middle\"><br />\n".
         "<input type=\"radio\" name=\"val$i\" value=\"b\"".
             (($val[$i]==ARRAY_PAD_FRONT)?" checked":"").
