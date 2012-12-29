@@ -43,6 +43,11 @@ class DpTable
         $this->_rows_per_page   = $rowsperpage ;
     }
 
+    /* Set the table id attribute */
+    function SetId($id) {
+        $this->_id = $id;
+    }
+
     /**
      * setRows. Argument is resultset-type array (colname => value).
      * 
@@ -119,7 +124,11 @@ class DpTable
     }
 
     function EchoTable($isnumbered = false) {
-        echo "<table cellpadding='3' border='1' class='dptable'>\n";
+        if (!empty($this->_id))
+            $id = " id='$id'";
+        else
+            $id = "";
+        echo "<table cellpadding='3' border='1' class='dptable'$id>\n";
 
         if(! empty($this->_table_caption)) {
             echo "<caption>$this->_table_caption</caption>\n";
