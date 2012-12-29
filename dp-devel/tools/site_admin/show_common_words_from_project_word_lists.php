@@ -57,12 +57,12 @@ if($display_list)
         if(strpos($language," with "))
         {
             list($language1,$language2) = explode(" with ", $language);
-            $used_languages[$language1] += $language_count;
-            $used_languages[$language2] += $language_count;
+            @$used_languages[$language1] += $language_count;
+            @$used_languages[$language2] += $language_count;
         }
         else
         {
-            $used_languages[$language] += $language_count;
+            @$used_languages[$language] += $language_count;
         }
     }
     ksort($used_languages);
