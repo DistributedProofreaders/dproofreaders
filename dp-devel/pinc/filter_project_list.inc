@@ -426,7 +426,7 @@ function _populate_project_filter_data_from_filter($filter)
 
     // split the filter into segments; each segment will contain
     // the ( ... OR ... ) string for one form field
-    $segments = split(" AND ", $filter);
+    $segments = explode(" AND ", $filter);
     foreach($segments as $segment)
     {
         // remove trailing quotes, spaces, or parens
@@ -434,7 +434,7 @@ function _populate_project_filter_data_from_filter($filter)
         $segment = ltrim($segment,"' (");
 
         // split each segment into a set of column='value' pairs
-        $value_pairs = split(" OR ", $segment);
+        $value_pairs = explode(" OR ", $segment);
         foreach($value_pairs as $value_pair)
         {
             // split the column='value' pairs into their two parts
