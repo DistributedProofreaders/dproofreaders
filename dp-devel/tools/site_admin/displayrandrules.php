@@ -19,9 +19,9 @@ for ($i=1;$i<=$num_rules;$i++)
     $query = "SELECT document,anchor,subject,rule FROM rules WHERE id = '$i'";
     $result = mysql_query($query);
     $rule = mysql_fetch_assoc($result);
-    echo "<hr>";
-    echo "<p><b>ID:</b> $i &mdash; $rule[subject] (anchored as \"#$rule[anchor]\" in $rule[document])</p>";
-    echo "<p>$rule[rule]</p>";
+    echo "<hr>\n";
+    echo "<div><b>ID:</b> $i &mdash; $rule[subject] (anchored as \"#$rule[anchor]\" in $rule[document])</div>\n";
+    echo "<div>$rule[rule]</div>\n";
 }
 
 theme("","footer");
