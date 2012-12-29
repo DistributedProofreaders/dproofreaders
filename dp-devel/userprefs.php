@@ -244,7 +244,7 @@ function echo_general_tab() {
 
     $i_stats_privacy = array(
         PRIVACY_PUBLIC    => _("Public"),
-        PRIVACY_ANOBYMOUS => _("Anonymous"),
+        PRIVACY_ANONYMOUS => _("Anonymous"),
         PRIVACY_PRIVATE   => _("Private"),
     );
 
