@@ -53,9 +53,9 @@ function dpsql_dump_query_result($result, $start_at, $show_rank)
 
 	print "<table border='1'>\n";
 
+	print "<tr>\n";
 	if ($show_rank)
 	{
-		print "<tr>\n";
 		print "<th>";
 		print _("Rank");
 		print "</th>\n";
