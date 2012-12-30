@@ -215,7 +215,7 @@ class User
             return $error;
         }
 
-        if (ereg("[^-a-zA-Z0-9@._ ]", $this->userName())) {
+        if (preg_match("/[^-a-zA-Z0-9@._ ]/", $this->userName())) {
             $error = _("Your User Name contains invalid characters.<br>(Valid characters are:")." a-z A-Z 0-9 @ - . _ "._("space").")";
             return $error;
         }
@@ -232,7 +232,7 @@ class User
         }
          */
 
-        if (ereg("  ", $this->userName())) {
+        if (str_contains($this->userName(), "  ")) {
             $error = _("Your User Name contains adjacent space characters, which is not allowed.");
             return $error;
         }
@@ -534,7 +534,7 @@ class User
         // Formerly:
         // $domain_re = "((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)";
 
-        if (!ereg("^$local_part_re@$domain_re$", $this->emailAddress())) {
+        if (!preg_match("/^$local_part_re@$domain_re$/", $this->emailAddress())) {
             $error = _("Your E-mail Address appears to be invalid.");
             return $error;
         }

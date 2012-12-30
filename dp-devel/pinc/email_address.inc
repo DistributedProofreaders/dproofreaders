@@ -69,7 +69,7 @@ function check_email_address( $email_address )
     // Formerly:
     // $domain_re = "((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)";
 
-    if ( !ereg( "^$local_part_re@$domain_re$", $email_address ) )
+    if ( !preg_match( "/^$local_part_re@$domain_re$/i", $email_address ) )
     {
 	$error = _("Your E-mail Address appears to be invalid.");
 	return $error;

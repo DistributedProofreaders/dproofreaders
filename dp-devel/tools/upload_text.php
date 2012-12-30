@@ -237,7 +237,7 @@ else
     }
     
     // this is ridiculous, why not just include the "/" to start with?
-    if (!ereg("/$", $path_to_file))
+    if (!endswith($path_to_file, "/"))
     {
         $path_to_file = $path_to_file."/";
     }

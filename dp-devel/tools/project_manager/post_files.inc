@@ -304,7 +304,8 @@ function join_proofed_text_tei ($project, $pages_res, $include_proofers, $fp)
 
     while( list($text_data,$filename,$proofer_names) = page_info_fetch($pages_res) )
     {
-        $pageno = eregi_replace ("\..*", "", $filename );
+        // Strip everything from the first '.' on from the filename to get the page number.
+        $pageno = preg_replace("/\..*/", "", $filename);
         fputs($fp,"\r\n\r\n<pb n='$pageno'/><anchor id='Pg$pageno'/>\r\n\r\n");
         // SENDING PAGE-TEXT TO USER
         // It's an XML file, so the non-markup angle-brackets and ampersands
@@ -323,16 +324,20 @@ function put_page_text( $page_text, $fp )
 {
     // global \r\n;
 
-    $page_text = eregi_replace( "<i>", "<hi rend='italic'>", $page_text );
-    $page_text = eregi_replace( "</i>", "</hi>", $page_text );
-    $page_text = eregi_replace( "<b>", "<hi rend='bold'>", $page_text );
-    $page_text = eregi_replace( "</b>", "</hi>", $page_text );
-    $page_text = eregi_replace( "<f>", "<hi rend='antiqua'>", $page_text );
-    $page_text = eregi_replace( "</f>", "</hi>", $page_text );
-    $page_text = eregi_replace( "<g>", "<hi rend='gesperrt'>", $page_text );
-    $page_text = eregi_replace( "</g>", "</hi>", $page_text );
-    $page_text = eregi_replace( "<sc>", "<hi rend='smallcaps'>", $page_text );
-    $page_text = eregi_replace( "</sc>", "</hi>", $page_text );
+    $replace = array(
+        "!<i>!i"   => "<hi rend='italic'>",
+        "!<b>!i"   => "<hi rend='bold'>",
+        "!<f>!i"   => "<hi rend='antiqua'>",
+        "!<g>!i"   => "<hi rend='gesperrt'>",
+        "!<sc>!i"  => "<hi rend='smallcaps'>",
+        "!</i>!i"  => "</hi>",
+        "!</b>!i"  => "</hi>",
+        "!</f>!i"  => "</hi>",
+        "!</g>!i"  => "</hi>",
+        "!</sc>!i" => "</hi>",
+    );
+
+    $page_text = preg_replace(array_keys($replace), array_values($replace), $page_text);
 
     // Convert [Illustration...] blocks, and ensure that each
     // constitutes a separate "chunk".

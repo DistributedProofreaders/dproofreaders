@@ -21,7 +21,7 @@ function check_username( $username )
 	return $error;
     }
 
-    if ( ereg( "[^-a-zA-Z0-9@._ ]", $username) )
+    if ( preg_match( "/[^-a-zA-Z0-9@._ ]/", $username) )
     {
 	$error = _("Your User Name contains invalid characters.<br>(Valid characters are:")." a-z A-Z 0-9 @ - . _ "._("space").")";
 	return $error;
@@ -37,7 +37,7 @@ function check_username( $username )
 	return $error;
     }
 
-    if ( ereg( "  ", $username ) )
+    if (str_contains($username, "  "))
     {
 	$error = _("Your User Name contains adjacent space characters, which is not allowed.");
 	return $error;

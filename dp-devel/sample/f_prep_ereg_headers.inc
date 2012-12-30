@@ -2,17 +2,17 @@
 // all functions return true if line has only that content type
 
 function isRoman($line)
-  {return eregi('^m?m?m?(c[md]|d?c{0,3})(x[lc]|l?x{0,3})(i[xv]|v?i{0,3})$',$line);}
+  {return preg_match('/^m?m?m?(c[md]|d?c{0,3})(x[lc]|l?x{0,3})(i[xv]|v?i{0,3})$/i',$line);}
 
 function isRomanBrackets($line)
-  {return eregi('^([] []{0,3})m?m?m?(c[md]|d?c{0,3})(x[lc]|l?x{0,3})(i[xv]|v?i{0,3})([] []{0,3})$',$line);}
+  {return preg_match('/^([] []{0,3})m?m?m?(c[md]|d?c{0,3})(x[lc]|l?x{0,3})(i[xv]|v?i{0,3})([] []{0,3})$/i',$line);}
 
 function isPunct($line)
-  {return ereg('^[:space::punct:]+$',$line);}
+  {return preg_match('/^[[:space:][:punct:]]+$/' ,$line);}
 
 function isNumPunct($line)
-  {return ereg('^[:space::punct::digit:]+$',$line);}
+  {return preg_match('/^[[:space:][:punct:][:digit:]]+$/', $line);}
 
 function isCapNumBrackets($line)
-  {return ereg('^[]A-Z:space::digit:[]+$',$line);}
+  {return preg_match('/^[]A-Z[:space:][:digit:][]+$/', $line);}
 ?>

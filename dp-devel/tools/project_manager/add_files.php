@@ -37,7 +37,7 @@ else
     if (get_magic_quotes_gpc()) 
         $rel_source = stripslashes($rel_source);
     // Prevent sneaky parent-link tricks.
-    if ( ereg( '\.\.', $rel_source ) )
+    if (str_contains($rel_source, ".."))
     {
         echo "Source directory '$rel_source' is not acceptable.";
         echo "<hr>\n";
