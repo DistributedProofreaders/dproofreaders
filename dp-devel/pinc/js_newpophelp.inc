@@ -12,7 +12,7 @@ function get_newHelpWin_javascript($popHelpDir) {
     function newHelpWin(wFile)
         {
         var newFeatures='toolbar=0,status=0,location=0,directories=0,menubar=0,scrollbars=1,resizable=1,width=400,height=300,top=$top,left=$left';
-        window.open('$popHelpDir'+wFile+'.html','popHelp',newFeatures);
+        window.open('$popHelpDir'+wFile,'popHelp',newFeatures);
     }
     ";
 }

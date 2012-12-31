@@ -150,7 +150,7 @@ if (array_get($_POST, "insertdb", "") != "") {
 // header, start of table, form, etc. common to all tabs
 $header = _("Personal Preferences");
 $theme_extra_args["js_data"] =
-    get_newHelpWin_javascript("$code_url/faq/pophelp/prefs/set_") . "
+    get_newHelpWin_javascript("$code_url/pophelp.php?category=prefs&name=set_") . "
 
     // function that can be used to check/uncheck a lot
     // of checkboxes at a time.
@@ -963,7 +963,7 @@ function td_label_long( $colspan, $label )
 function td_pophelp( $pophelp_name )
 {
     echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<b>&nbsp;<a href=\"JavaScript:newHelpWin('$pophelp_name');\">?</a>&nbsp;</b>";
+    echo "<b>&nbsp;<a href=\"javascript:newHelpWin('$pophelp_name');\">?</a>&nbsp;</b>";
     echo "</td>\n";
 }
 

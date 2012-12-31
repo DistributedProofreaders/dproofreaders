@@ -8,7 +8,7 @@ include_once('../includes/team.inc');
 
 require_login();
 
-$theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/faq/pophelp/teams/edit_"));
+$theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/pophelp.php?category=teams&name=edit_"));
 
 // Either the parameter is $_POST['tsid'] when coming from the edit form,
 // or it is $_GET['tid'] when using the link on top of the team summary.
