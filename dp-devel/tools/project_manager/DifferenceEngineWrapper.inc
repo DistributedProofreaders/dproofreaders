@@ -30,11 +30,6 @@ class DifferenceEngineWrapper extends DifferenceEngine {
         parent::__construct();
     }
 
-    function showDiff($L_text, $R_text, $L_label, $R_label) {
-        $this->setText($L_text, $R_text);
-        parent::showDiff($L_label, $R_label);
-    }
-
     function getMultiNotice() {
         return '';
     }
@@ -73,7 +68,7 @@ class OutputPage {
     }
 }
 
-$wgOut = new Outputpage();
+$wgOut = new OutputPage();
 
 class ContLang {
     function segmentForDiff($string) {

@@ -96,7 +96,8 @@ echo "\n<p><a href='$url'>$label</a></p>\n";
 
 $diffEngine = new DifferenceEngineWrapper();
 
-$diffEngine->showDiff($L_text, $R_text, $L_label, $R_label);
+$diffEngine->setText($L_text, $R_text);
+$diffEngine->showDiff($L_label, $R_label);
 
 // don't print out the navigation bit again if there is no difference
 // at the top of the page it's buttons, then project page
