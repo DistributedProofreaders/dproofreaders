@@ -8,7 +8,7 @@ require_login();
 
 if ( !user_is_a_sitemanager() )
 {
-    die("You are not authorized to use this form.");
+    die("You are not authorized to access this page.");
 }
 
 $title=_("Site Administration");
@@ -20,13 +20,14 @@ echo "<p>" . _("This page provides access to site administration utilities.") . 
 
 $pages = array(
     "edit_mail_address_for_non_activated_user.php" => _("Send activation email for new user"),
-    "manage_special_days.php" => _("Manage special days"),
-    "sitenews.php" => _("Manage site news"),
-    "proj_approvals.php" => _("Manage copyright approvals"),
-    "insert_project.php" => _("Insert one project into another"),
+    "manage_special_days.php" => _("Manage Special Days"),
+    "sitenews.php" => _("Manage Site News"),
+// This is a "metadata rounds" file, and unused. Don't provide link.
+//    "proj_approvals.php" => _("Manage copyright clearance approvals"),
+    "copy_pages.php" => _("Copy pages from one project into another"),
     "rename_pages.php" => _("Rename pages"),
     "shared_postednums.php" => _("Detect duplicate postednum"),
-    "displayrandrules.php" => _("Display random rules"),
+    "displayrandrules.php" => _("Display Random Rules"),
     "manage_site_word_lists.php" => _("Manage site word lists"),
     "show_common_words_from_project_word_lists.php" => _("Show common words from project word lists"),
 );
