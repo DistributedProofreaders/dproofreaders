@@ -13,6 +13,15 @@
 // performance.
 //
 // The order of the include_once()s in this file is important!
+
+// Override $relPath to be the absolute path to the directory that
+// contains this file. This allows registered shutdown functions
+// to know where to find files (working directory of the script
+// can change inside the shutdown function based on PHP docs).
+// This also helps things like APC which can bypass stat calls
+// on includes that use absolute paths.
+$relPath=dirname(__FILE__)."/";
+
 include_once($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
 
