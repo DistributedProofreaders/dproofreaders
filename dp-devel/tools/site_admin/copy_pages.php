@@ -18,8 +18,6 @@ if ( !user_is_a_sitemanager() )
 
 $copy_pages_url = "$code_url/tools/site_admin/copy_pages.php";
 
-$no_stats=1;
-
 $extra_args["css_data"] = "
     table.copy { margin-left: 3em;}
     table.copy th { text-align: left;}
@@ -187,7 +185,7 @@ function display_form($projectid_, $from_image_, $page_name_handling,
 }
 
 // Display table row with a fieldset containing a pair of radio buttons, one selected.
-// NB $input_name must be a valid HTML ID (ie no spaces and shouldn't start with a number)
+// NB $input_name must be a valid HTML ID (i.e. no spaces and shouldn't start with a number)
 function do_radio_button_pair($prompt, $input_name, $repeating, $first_is_checked )
 {
     if (!$repeating ||
