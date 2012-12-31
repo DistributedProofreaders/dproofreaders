@@ -18,8 +18,7 @@ $project = new Project($projectid);
 enforce_edit_authorization($projectid);
 
 $title=_("Project WordCheck Statistics");
-$no_stats = 1;
-theme($title,"header");
+output_header($title, NO_STATSBAR);
 echo_word_freq_style();
 echo_stylesheet();
 
@@ -189,8 +188,6 @@ if($total["num_pages"]>0) {
 <p><img src="graph_pages_per_number_of_flags.php?projectid=<?php echo $projectid; ?>" alt="<?php echo _("Graph showing the number of pages with a given number of flagged words"); ?>"></p>
 
 <?php
-
-theme('',"footer");
 
 
 function echo_stylesheet() {

@@ -15,6 +15,9 @@ include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'languages.inc');
 
+define('NO_STATSBAR',   False);
+define('SHOW_STATSBAR', True);
+
 $user_is_logged_in = dpsession_resume();
 
 if(isset($userP['i_theme']) && $userP['i_theme'] != '' ) {
@@ -25,8 +28,25 @@ if(isset($userP['i_theme']) && $userP['i_theme'] != '' ) {
 include_once($relPath."templates/$theme_name/theme.tpl");
 $theme = ${$theme_name};
 
-function theme ($nameofpage, $location, $extra_args = array()) {
-    global $code_url, $theme, $theme_name, $pguser, $no_stats, $userP;
+// Backwards compatibility function. To be removed once all
+// pages transition to output_header()
+function theme($nameofpage, $location, $extra_args = array())
+{
+    global $no_stats;
+    if ($location == "header") {
+        output_header($nameofpage, !isset($no_stats), $extra_args);
+    } else if ($location == "footer") {
+        // No action is necessary here, because output_header()
+        // registers output_footer() to be called automatically
+        // by PHP before the page is finished.
+    }
+}
+
+// Emit the opening markup and theme tags, and register a callback
+// to close the page after the caller finishes output.
+function output_header($nameofpage, $show_statsbar = True, $extra_args = array())
+{
+    global $code_url, $theme, $theme_name, $pguser, $userP;
 
     // Display stats bar on left (1) or right (0)
     $statsbar_align = isset($pguser) ? $userP['u_align'] : 0;
@@ -35,58 +55,65 @@ function theme ($nameofpage, $location, $extra_args = array()) {
     // * Two full width headers at the top,
     // * A table with several columns containing sidebars & main body content
     // * A full width footer at the bottom.
-    // Pages are drawn by calling theme() with $location = "header" followed by
-    // emitting the page content, followed by calling theme() with location = "footer"
 
-    if ($location == "header") {
-        // All our themes begin with the initial markup, logo and navbar, and open a
-        // table for further layout.
-        html_header($nameofpage, $extra_args);
-        html_logobar();
-        echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
-        echo "<tr>\n";
+    // All our themes begin with the initial markup, logo and navbar, and open a
+    // table for further layout.
+    html_header($nameofpage, $extra_args);
+    html_logobar();
+    echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
+    echo "<tr>\n";
 
-        if (!isset($no_stats)) {
-            if ($statsbar_align == 1) {
-                // If we're displaying the stats bar on the left, then emit:
-                // * A 25% width column with the stats bar in it
-                // * A 13px column with the rounded corner
-                // * A 75% width column for the main page content, and return.
-                echo "<td align='left' valign='top' width='25%' style='padding: .5em;' bgcolor='".$theme['color_navbar_bg']."'>\n";
-                html_statsbar($nameofpage);
-                echo "</td>\n";
-                echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'><img border='0' src='$code_url/pinc/templates/".$theme_name."".$theme['image_curve_left']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
-                echo "<td align='left' valign='top' width='75%' style='padding: .5em;' bgcolor='".$theme['color_mainbody_bg']."'>\n";
-            } else {
-                // If the stats bar is on the right then emit:
-                // * A 5px column with the background colour
-                // * A 75% width column for the main page content, and return.
-                echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
-                echo "<td align='left' valign='top' width='75%' style='padding: .5em;' bgcolor='".$theme['color_mainbody_bg']."'>\n";
-            }
-        } else {
-            // If we've displaying no stats bar then emit:
-            // * A 5px column with the background colour
-            // * A 100% width column for the main page content, and return.
-            echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
-            echo "<td align='left' valign='top' width='100%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
-        }
-    } elseif ($location == "footer") {
-        // The main page content has been emited so close the main page content column.
-        echo "</td>\n";
-        if (!isset($no_stats) && $statsbar_align == 0) {
-            // If we're displaying the the stats bar on the right, then emit:
-            // * A 13px column with the rounded corner
+    if ($show_statsbar) {
+        if ($statsbar_align == 1) {
+            // If we're displaying the stats bar on the left, then emit:
             // * A 25% width column with the stats bar in it
-            echo "<td align='right' valign='top' bgcolor='" . $theme['color_mainbody_bg'] . "'><img border='0' src='$code_url/pinc/templates/".$theme_name."".$theme['image_curve_right']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
-            echo "<td align='left' valign='top' width='25%' style='padding: .5em;' bgcolor='" . $theme['color_navbar_bg'] . "'>\n";
+            // * A 13px column with the rounded corner
+            // * A 75% width column for the main page content, and return.
+            echo "<td align='left' valign='top' width='25%' style='padding: .5em;' bgcolor='".$theme['color_navbar_bg']."'>\n";
             html_statsbar($nameofpage);
             echo "</td>\n";
+            echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'><img border='0' src='$code_url/pinc/templates/".$theme_name."".$theme['image_curve_left']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
+            echo "<td align='left' valign='top' width='75%' style='padding: .5em;' bgcolor='".$theme['color_mainbody_bg']."'>\n";
+        } else {
+            // If the stats bar is on the right then emit:
+            // * A 5px column with the background colour
+            // * A 75% width column for the main page content, and return.
+            echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
+            echo "<td align='left' valign='top' width='75%' style='padding: .5em;' bgcolor='".$theme['color_mainbody_bg']."'>\n";
         }
-        // Finally close the table, and emit the footer.
-        echo "</tr></table>\n";
-        html_footer();
+    } else {
+        // If we've displaying no stats bar then emit:
+        // * A 5px column with the background colour
+        // * A 100% width column for the main page content, and return.
+        echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
+        echo "<td align='left' valign='top' width='100%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
     }
+
+    // Call output_footer when the main page content has been emitted so we can
+    // close the table and emit the footer.
+    register_shutdown_function('output_footer', $nameofpage, $show_statsbar);
+}
+
+function output_footer($nameofpage, $show_statsbar = True) {
+    global $code_url, $theme, $theme_name, $pguser, $userP;
+
+    // Display stats bar on left (1) or right (0)
+    $statsbar_align = isset($pguser) ? $userP['u_align'] : 0;
+
+    // The main page content has been emited so close the main page content column.
+    echo "</td>\n";
+    if ($show_statsbar && $statsbar_align == 0) {
+        // If we're displaying the the stats bar on the right, then emit:
+        // * A 13px column with the rounded corner
+        // * A 25% width column with the stats bar in it
+        echo "<td align='right' valign='top' bgcolor='" . $theme['color_mainbody_bg'] . "'><img border='0' src='$code_url/pinc/templates/".$theme_name."".$theme['image_curve_right']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
+        echo "<td align='left' valign='top' width='25%' style='padding: .5em;' bgcolor='" . $theme['color_navbar_bg'] . "'>\n";
+        html_statsbar($nameofpage);
+        echo "</td>\n";
+    }
+    // Finally close the table, and emit the footer.
+    echo "</tr></table>\n";
+    html_footer();
 }
 
 function html_header($nameofpage, $extra_args = array()) {

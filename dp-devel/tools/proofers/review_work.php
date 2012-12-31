@@ -40,8 +40,7 @@ if (!(user_is_a_sitemanager() || user_is_an_access_request_reviewer()))
 // start the page
 $title = _('Reviewing work');
 
-$no_stats = 1;
-theme( $title, 'header' );
+output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>\n";
 
@@ -93,7 +92,6 @@ function _echo_round_select($rounds,$selected) {
 if(empty($username) ||
    empty($work_round_id) ||
    empty($review_round_id)) {
-    theme('', 'footer');
     exit;
 }
 if (empty($sampleLimit))
@@ -108,7 +106,6 @@ if (empty($days))
 // confirm the review_round_id is later than work_round_id
 if(array_search($review_round_id,$rounds)<=array_search($work_round_id,$rounds)) {
     echo "<p class='error'>" . _("Review Round should be a round later than Work Round.") . "</p>";
-    theme('', 'footer');
     exit;
 }
 
@@ -371,7 +368,5 @@ if($total_invalid_projects) {
 }
 
 echo "<br>";
-
-theme('', 'footer');
 
 // vim: sw=4 ts=4 expandtab

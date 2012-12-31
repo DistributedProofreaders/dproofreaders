@@ -14,8 +14,6 @@ $which = get_enumerated_param($_GET, 'which', 'DONE', array('ALL', 'DONE'));
 
 $locuserSettings =& Settings::get_Settings($pguser);
 
-$no_stats = 1;
-
 // ---------------------------------------
 // Page construction varies with whether the user is logged in or out
 if (isset($GLOBALS['pguser'])) { $logged_in = TRUE;} else { $logged_in = FALSE;}
@@ -40,7 +38,7 @@ if (!isset($_GET['name']))
 {
 
     $header_text = _("Image Sources");
-    theme($header_text, "header");
+    output_header($header_text, NO_STATSBAR);
     echo "<h1>{$header_text}</h1>\n";
 
 
@@ -161,7 +159,7 @@ if (!isset($_GET['name']))
         $details    = $imso['internal_comment'];
         $more_info  = $imso['more_info'];
 
-        theme($title, "header");
+        output_header($title, NO_STATSBAR);
 
         echo "<br><h2>$title</h2>\n";
 
@@ -194,7 +192,7 @@ if (!isset($_GET['name']))
     } else {
 
         $title = _("Unknown Image Source Code");
-        theme($title, "header");
+        output_header($title, NO_STATSBAR);
 
         echo "<br><h2>$title</h2>\n";
 
@@ -204,8 +202,6 @@ if (!isset($_GET['name']))
 }
 
 echo "<br>\n";
-
-theme("","footer");
 
 // vim: sw=4 ts=4 expandtab
 ?>

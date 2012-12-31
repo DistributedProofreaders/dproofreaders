@@ -32,11 +32,10 @@ if (($userP['u_id'] != $curTeam['owner']) && (!user_is_a_sitemanager()))
 if (isset($_GET['tid']))
 {
     $edit = _("Edit");
-    theme($edit." ".$curTeam['teamname'], "header", $theme_extra_args);
+    output_header($edit." ".$curTeam['teamname'], SHOW_STATSBAR, $theme_extra_args);
     echo "<center><br>";
     showEdit(unstripAllString($curTeam['teamname'],0),unstripAllString($curTeam['team_info'],1),unstripAllString($curTeam['webpage'],1),0,$tid,0,0);
     echo "</center>";
-    theme("", "footer");
 }
 elseif (isset($_POST['edQuit']))
 {
@@ -48,7 +47,7 @@ elseif (isset($_POST['edQuit']))
 elseif (isset($_POST['edPreview']))
 {
     $preview = _("Preview");
-    theme($preview." ".$_POST['teamname'], "header", $theme_extra_args);
+    output_header($preview." ".$_POST['teamname'], SHOW_STATSBAR, $theme_extra_args);
     $teamimages = uploadImages(1,$tid,"both");
     $curTeam['teamname'] = stripAllString($_POST['teamname']);
     $curTeam['team_info'] = stripAllString($_POST['text_data']);
@@ -67,7 +66,6 @@ elseif (isset($_POST['edPreview']))
     echo "<br>";
     showTeamProfile($curTeam);
     echo "</center><br>";
-    theme("", "footer");
 }
 elseif (isset($_POST['edMake']))
 {
@@ -75,7 +73,7 @@ elseif (isset($_POST['edMake']))
     if (mysql_num_rows($result) > 0)
     {
         $preview = _("Preview");
-        theme($preview, "header", $theme_extra_args);
+        output_header($preview, SHOW_STATSBAR, $theme_extra_args);
         $teamimages = uploadImages(1,$tid,"both");
         if (!empty($_FILES['teamavatar']['tmp_name']))
         {
@@ -89,7 +87,6 @@ elseif (isset($_POST['edMake']))
         echo "<center><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
         showEdit(htmlentities(stripslashes($_POST['teamname'])),stripslashes($_POST['text_data']),stripslashes($_POST['teamwebpage']),0,$tid,$tavatar,$ticon);
         echo "<br></center><br>";
-        theme("", "footer");
     }
     else
     {

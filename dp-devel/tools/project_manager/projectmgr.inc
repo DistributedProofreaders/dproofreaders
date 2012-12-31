@@ -15,8 +15,7 @@ function abort_if_not_manager()
               </p><p>
               ".sprintf(_("Back to <a href='%s'>home page</a>"),"$code_url/default.php")."
               </p>";
-    theme("","footer");
-    exit();
+        exit();
     }
 }
 

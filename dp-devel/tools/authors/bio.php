@@ -16,20 +16,18 @@ if (isset($bio_id)) {
     $id = $bio_id;
 }
 else {
-    theme(_('No biography-id specified'), 'header');
+    output_header(_('No biography-id specified'));
     echo _('An error occurred.') . ' ' . _('No biography-id was specified.') . ' ';
     echo sprintf(_('You may return to the <a href="%1$s">authors-listing</a>.'), 'listing.php');
-    theme('', 'footer');
     exit();
 }
 
 // try to get bio
 $result = mysql_query("SELECT author_id, bio FROM biographies WHERE bio_id=$id;");
 if (!$result || mysql_num_rows($result) == 0) {
-    theme(_('Invalid biography-id specified'), 'header');
+    output_header(_('Invalid biography-id specified'));
     echo _('An error occurred.') . ' ' . _('The specified biography-id was invalid.') . ' ';
     echo sprintf(_('You may return to the <a href="%1$s">authors-listing</a>.'), 'listing.php');
-    theme('', 'footer');
     exit();
 }
 $author_id = mysql_result($result, 0, 'author_id');
@@ -45,7 +43,7 @@ $other_names = mysql_result($result, 0, 'other_names');
 $name = $last_name . ($other_names!=''?", $other_names":'');
 
 // Start outputting
-theme(_('Biography:') . " $name", 'header');
+output_header(_('Biography:') . " $name");
 
 echo_menu();
 
@@ -72,7 +70,5 @@ if (user_is_PM() || user_is_authors_db_manager()) {
 <?php
 
 echo_menu();
-
-theme('', 'footer');
 
 // vim: sw=4 ts=4 expandtab

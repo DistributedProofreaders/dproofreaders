@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
 
-theme( _('Proofreading Tutorial and Interactive Quiz -- Step 2'),'header');
+output_header(_('Proofreading Tutorial and Interactive Quiz -- Step 2'));
 
 echo "<h2>" . _("Part 2") . "</h2>";
 
@@ -24,5 +24,4 @@ echo "<p>" . _("Leave the hyphen at the end of the last line, but mark it with a
 
 echo "<a href='../generic/main.php?type=step2'>" . _("continue") . "</a>";
 
-theme('','footer'); 
 ?>

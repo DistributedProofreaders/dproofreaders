@@ -27,7 +27,7 @@ $name     = @$_GET['name'];
 if (is_null($round_id))
 {
     $title = _("Release Queues");
-    theme($title,'header');
+    output_header($title);
     echo "<br><h2>$title</h2>";
 
     echo _("Each round has its own set of release queues."), "\n";
@@ -38,7 +38,6 @@ if (is_null($round_id))
         echo "<li><a href='release_queue.php?round_id=$round_id'>$round_id</a></li>\n";
     }
     echo "</ul>\n";
-    theme("", "footer");
     return;
 }
 
@@ -47,7 +46,7 @@ $round = get_Round_for_round_id($round_id);
 if (!isset($name))
 {
     $title = sprintf( _("Release Queues for Round '%s'"), $round_id);
-    theme($title,'header');
+    output_header($title);
     echo "<br><h2>$title</h2>";
     echo "<table border='1' cellspacing='0' cellpadding='2' style='border: 1px solid #111; border-collapse: collapse' width='99%'>\n";
     echo "<tr bgcolor='".$theme['color_headerbar_bg']."'>";
@@ -120,11 +119,10 @@ if (!isset($name))
         $rownum++;
     }
     echo "</table>\n";
+    echo "<br>\n";
 }
 else
 {
-    $no_stats=0; // Only suppress stats on this page, since it is very wide.
-
     $qd = mysql_fetch_object( mysql_query("
         SELECT *
         FROM queue_defns
@@ -139,7 +137,8 @@ else
     //// TRANSLATORS: %s is the name of this release queue.
     $title = sprintf(_("\"%s\" Release Queue"), htmlspecialchars($name));
     $title = preg_replace('/(\\\\)/', "", $title); // Unescape apostrophes, etc.
-    theme($title,'header');
+    // Suppress stats since this page is very wide
+    output_header($title, NO_STATSBAR);
     echo "<br><h2>$title</h2>";
 
     if ($user_can_see_queue_settings)
@@ -176,9 +175,7 @@ else
             AND state='{$round->project_waiting_state}'
         ORDER BY modifieddate, nameofwork
     ");
+    echo "<br>\n";
 }
-
-echo "<br>\n";
-theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab

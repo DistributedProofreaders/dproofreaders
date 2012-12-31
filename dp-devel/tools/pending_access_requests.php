@@ -11,7 +11,7 @@ if (!(user_is_a_sitemanager() || user_is_an_access_request_reviewer())) die("per
 
 $title = _('Pending Requests for Access');
 
-theme($title,'header');
+output_header($title);
 
 echo "<h1>$title</h1>\n";
 
@@ -180,7 +180,5 @@ foreach ( $activity_ids as $activity_id )
 }
 
 echo '<br>';
-
-theme('','footer');
 
 // vim: sw=4 ts=4 expandtab

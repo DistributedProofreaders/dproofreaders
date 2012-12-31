@@ -7,8 +7,7 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
-theme(_('Site Progress Snapshot'),'header');
+output_header(_('Site Progress Snapshot'), NO_STATSBAR);
 ?>
 
 <h1>Site Progress Snapshot</h1>
@@ -56,6 +55,4 @@ theme(_('Site Progress Snapshot'),'header');
 
 
 <?php
-theme('','footer');
-
 // vim: sw=4 ts=4 expandtab

@@ -10,10 +10,9 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
-theme('Reglas de Revisi&oacute;n','header',$theme_args);
+output_header('Reglas de Revisi&oacute;n', NO_STATSBAR, $theme_args);
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
@@ -2745,5 +2744,4 @@ href="http://www.pgdp.net/"> al la p&aacute;gina principal de Distributed
 Proofreaders</A><BR><BR><BR>
 
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

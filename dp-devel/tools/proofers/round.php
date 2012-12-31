@@ -30,7 +30,7 @@ if (is_null($round_id))
     exit;
 }
 
-theme( "$round->id: $round->name", 'header' );
+output_header("$round->id: $round->name");
 
 $uao = $round->user_access( $pguser );
 
@@ -158,7 +158,5 @@ $show_filter_block = ($pagesproofed > 20);
 $allow_special_colors_legend = ($pagesproofed >= 10);
 
 show_projects_for_round( $round, $show_filter_block, $allow_special_colors_legend );
-
-theme('', 'footer');
 
 // vim: sw=4 ts=4 expandtab

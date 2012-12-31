@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
 
-theme( _('Proofreading Tutorial and Interactive Quiz -- Step 3'),'header');
+output_header(_('Proofreading Tutorial and Interactive Quiz -- Step 3'));
 
 echo "<h2>" . _("Part 3") . "</h2>";
 
@@ -24,5 +24,4 @@ echo "<p>" . _("In general, there is no space before punctuation characters (exc
 
 echo "<a href='../generic/main.php?type=step3'>" . _("continue") . "</a>";
 
-theme("","footer")
 ?>

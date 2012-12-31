@@ -77,9 +77,8 @@ if ( $can_see_names_for_this_page) {
 $title = sprintf( _('Difference for page %s'), $image );
 $image_url = "$code_url/tools/project_manager/displayimage.php?project=$projectid&amp;imagefile=$image";
 $image_link = sprintf( _('Difference for page %s'), new_window_link($image_url, $image));
-$no_stats = 1;
 $extra_args = array("css_data" => get_DifferenceEngine_stylesheet());
-theme("$title: $project_title", "header", $extra_args);
+output_header("$title: $project_title", NO_STATSBAR, $extra_args);
 
 echo "<h1>$project_title</h1>\n";
 echo "<h2>$image_link</h2>\n";
@@ -107,7 +106,6 @@ if ($L_text != $R_text)
     echo "\n<p><a href='$url'>$label</a></p>\n";
     echo $navigation_text;
 }
-theme("", "footer");
 
 // build up the text for the navigation bit, so we can repeat it
 // again at the bottom of the page

@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
 
-theme( _('Proofreading Tutorial and Interactive Quiz -- Step 4'),'header');
+output_header(_('Proofreading Tutorial and Interactive Quiz -- Step 4'));
 
 echo "<h2>" . _("Part 4") . "</h2>";
 
@@ -24,6 +24,4 @@ echo "<p>" . _("2. at the bottom of the page, where the text for that footnote i
 
 echo "<a href='../generic/main.php?type=step4'>" . _("continue") . "</a>";
 
-
-theme("", "footer");
 ?>

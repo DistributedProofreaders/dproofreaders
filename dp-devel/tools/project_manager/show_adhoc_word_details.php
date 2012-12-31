@@ -56,8 +56,7 @@ $title = _("Ad Hoc Word Details");
 $page_text = _("Insert words, one per line, in the box below and click the Show details button to get frequency and context details for them.");
 $page_text2 = _("The results list below shows how many times each word occurs in the most recent project text.");
 
-$no_stats=1;
-theme($title,'header');
+output_header($title, NO_STATSBAR);
 
 echo_page_header($title,$projectid);
 
@@ -138,8 +137,6 @@ if(count($queryWords)) {
     echo_checkbox_form_submit(_("Add selected words"));
     echo_checkbox_form_end();
 }
-
-theme('','footer');
 
 //---------------------------------------------------------------------------
 // supporting page functions

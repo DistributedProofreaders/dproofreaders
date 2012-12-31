@@ -12,10 +12,9 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
-theme('Directives de Relecture et correction','header',$theme_args);
+output_header('Directives de Relecture et correction', NO_STATSBAR, $theme_args);
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
@@ -2886,5 +2885,4 @@ Plural   {   2d   "  ye, or you,   you,
 </table>
 
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

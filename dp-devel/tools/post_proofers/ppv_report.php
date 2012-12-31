@@ -94,7 +94,7 @@ div.shrinker a {
 	cursor: pointer;}
 ";
 
-theme(_('Post-Processing Verification Reporting'),'header', $theme_args);
+output_header(_('Post-Processing Verification Reporting'), SHOW_STATSBAR, $theme_args);
 
 
 // To make PPVer collaboration easier, allow any PPVer to fill in the summary.
@@ -104,7 +104,6 @@ theme(_('Post-Processing Verification Reporting'),'header', $theme_args);
 if (!user_can_work_in_stage($pguser, 'PPV')) {
 	echo _("You're not recorded as a Post-Processing Verifier.
             If you feel this is an error, please contact a Site Administrator.");
-  theme('','footer');
  	exit();
 }
 
@@ -325,7 +324,6 @@ $message = $promotions.$reportcard.$signoff;
 maybe_mail($to, $subject, $message, "From: $ppver->username <$ppver->email>\r\n");
 echo _("Thank you for PPVing!") . "<br />\n";
 printf(_("Return to <a href='%s'>the Project Page</a>"), "../../project.php?id=$projectid");
-theme('','footer');
 exit();
 }
 
@@ -515,7 +513,5 @@ echo "<br />
 </table>
 </form>";
 }
-
-theme('','footer');
 
 // vim: sw=4 ts=4 expandtab

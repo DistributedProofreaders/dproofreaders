@@ -10,8 +10,7 @@ undo_all_magic_quotes();
 // Note: The text used for font sample images is stored in font_sample.txt
 
 $title = _("Proofreading Font Comparison");
-$no_stats=1;
-theme($title,'header');
+output_header($title, NO_STATSBAR);
 
 // This page allows the user to select a font
 // (for comparison to DPCustomMono2)
@@ -104,8 +103,6 @@ echo "
 
     </table>
 ";
-
-theme("", "footer");
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

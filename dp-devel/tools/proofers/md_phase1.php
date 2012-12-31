@@ -86,7 +86,7 @@ $language = mysql_result($result, 0, "language");
 
 $numpages = Project_getNumPages( $projectid );
 
-theme( _("Image Metadata Phase1"), "header");
+output_header(_("Image Metadata Phase1"));
 
 echo "<center><table border=1>";
 
@@ -194,7 +194,5 @@ echo "<form method ='post'><table border=1>\n";
 
 echo "</form></center>";
 echo "<br>";
-
-theme("","footer");
 
 // vim: sw=4 ts=4 expandtab

@@ -18,7 +18,7 @@ $orderclause = $clausemap[$order];
 // ------------------
 
 $title = _("Books Available for PPV");
-theme($title,'header');
+output_header($title);
 
 echo "<br><h2>$title</h2>\n";
 
@@ -91,6 +91,5 @@ while ( $project = mysql_fetch_object( $result ) )
 }
 
 echo "</table>";
-theme("","footer");
 
 // vim: sw=4 ts=4 expandtab

@@ -550,7 +550,6 @@ echo "</tr>";
 echo "</table>";
 echo "</div>";
 echo "<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />\n";
-theme("", "footer");
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -877,8 +876,6 @@ function dropdown_select($field_name, $current_value, $array)
 function TaskHeader($header)
 {
     global $tasks_url;
-    global $no_stats;
-    $no_stats = 1;
     $js_data = <<<EOS
 function showSpan(id) { document.getElementById(id).style.display=""; }
 function hideSpan(id) { document.getElementById(id).style.display="none"; }
@@ -908,7 +905,7 @@ p                  { font-family:Verdana; font-size:11px; }
 .wrap              { white-space: normal!important; }
 EOS;
 
-    theme(htmlspecialchars($header), 'header',
+    output_header(htmlspecialchars($header), NO_STATSBAR,
         array('js_data' => $js_data, 'css_data' => $css_data));
 
     echo "<br /><div align='center'><table class='taskplain' width='98%'><tr><td>";

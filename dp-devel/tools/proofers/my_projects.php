@@ -42,8 +42,7 @@ else
 
 $sorting = array_get($_GET, 'sort', '');
 
-$no_stats = 1;
-theme( $out_title, 'header' );
+output_header($out_title, NO_STATSBAR);
 
 if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
 {
@@ -301,8 +300,6 @@ if (mysql_num_rows($result) > 0)
     echo "</table>\n";
     echo "<br>\n";
 }
-
-theme( '', 'footer' );
 
 // -----------------
 function get_sort_col_and_dir()

@@ -20,7 +20,7 @@ function validate_userID($param_name, $value)
 // proved that the e-mail is working. It is time to 'activate' the account, i.e.
 // create a record in the users table, create a profile, stats data, etc.
 // and send a welcome mail.
-theme(_('Activate account'), 'header');
+output_header(_('Activate account'));
 $ID = validate_userID('id', @$_GET['id']);
 
 $result = mysql_query("SELECT * FROM non_activated_users WHERE id='$ID'");
@@ -56,7 +56,6 @@ if (mysql_num_rows($result) == 0) {
     }
     echo "</p>\n";
 
-    theme('', 'footer');
     exit;
 }
 
@@ -104,7 +103,5 @@ echo "<form action='login.php' method='post'>
 <input type='hidden' name='userNM' value='".htmlspecialchars($username,ENT_QUOTES)."'>
 <input type='password' name='userPW'>
 <input type='submit' value='".attr_safe(_("Sign In"))."'></form>";
-
-theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab

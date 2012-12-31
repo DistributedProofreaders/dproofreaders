@@ -10,7 +10,7 @@ include_once('search.inc');
 
 require_login();
 
-theme(_('Authors'), 'header');
+output_header(_('Authors'));
 
 echo_menu();
 
@@ -102,7 +102,5 @@ echo '<br />';
 $browseUtility->echoCountSelectionList();
 
 echo_menu();
-
-theme('', 'footer');
 
 // vim: sw=4 ts=4 expandtab

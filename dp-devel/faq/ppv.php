@@ -6,8 +6,7 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
-theme('Post-Processing Verification Guidelines','header');
+output_header('Post-Processing Verification Guidelines', NO_STATSBAR);
 ?>
 
 <!--Updated May 2008 by stacy-->
@@ -432,5 +431,4 @@ fit into one of the above categories.
 </div>
     
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

@@ -12,7 +12,7 @@ if ( !user_is_a_sitemanager() )
 }
 
 $title=_("Site Administration");
-theme($title, "header");
+output_header($title);
 
 echo "<h1>$title</h1>";
 
@@ -35,7 +35,5 @@ echo "<ul>";
 foreach($pages as $page => $label)
     echo "<li><a href='$page'>$label</a></li>";
 echo "</ul>";
-
-theme('','footer');
 
 // vim: sw=4 ts=4 expandtab

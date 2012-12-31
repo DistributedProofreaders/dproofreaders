@@ -6,8 +6,7 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
-theme('Scanning FAQ','header');
+output_header('Scanning FAQ', NO_STATSBAR);
 ?>
 
 <h1>Scanning FAQ</h1>
@@ -201,5 +200,4 @@ Just be aware, in the OCR world, you typically get what you pay for.
 </p>
 
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

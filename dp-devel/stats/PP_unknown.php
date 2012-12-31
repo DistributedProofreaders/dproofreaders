@@ -7,7 +7,7 @@ include_once($relPath.'theme.inc');
 require_login();
 
 $title = _("Post-Processing Mysteries");
-theme($title, "header");
+output_header($title);
 
 $order = get_enumerated_param($_GET, 'order', 'nameofwork', array('nameofwork', 'authorsname', 'username', 'projectid', 'modifieddate'));
 
@@ -52,6 +52,5 @@ while ($rownum < $numrows) {
 }
 
 echo "</table>";
-theme("","footer");
 
 // vim: sw=4 ts=4 expandtab

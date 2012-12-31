@@ -22,27 +22,24 @@ require_login();
 
 abort_if_not_authors_db_manager(true);
 
-theme( _("Harvest existing biographies from project comments"), 'header');
+output_header(_("Harvest existing biographies from project comments"));
 
 // Tables must exist (because this script shouldn't need to care about creating them)
 // and be empty (because if they're not, the harvest is likely done in error)
 
 if (!table_exists('authors') || !table_exists('biographies')) {
     echo _("The tables have not been created! Please create them by having a Site Admin run create_authors_bios_tables.php.");
-    theme('', 'footer');
     exit;
 }
 
 $result = mysql_query('SELECT * FROM authors');
 if (mysql_num_rows($result) > 0) {
     echo _("The table 'authors' is not empty. Please empty it and try again.");
-    theme('', 'footer');
     exit;
 }
 $result = mysql_query('SELECT * FROM biographies');
 if (mysql_num_rows($result) > 0) {
     echo _("The table 'biographies' is not empty. Please empty it and try again.");
-    theme('', 'footer');
     exit;
 }
 
@@ -233,8 +230,6 @@ function ensure_digits($digits_or_question_mark) {
 }
 
 echo_menu();
-
-theme('', 'footer');
 
 // Returns true if the table exists in the current database, false otherwise.
 function table_exists($tableName) {

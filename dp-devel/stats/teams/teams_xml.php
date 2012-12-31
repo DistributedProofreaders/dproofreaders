@@ -10,11 +10,10 @@ include_once('../includes/member.inc');
 
 if (empty($_GET["id"])) {
     include_once($relPath.'theme.inc');
-    theme(_("Error!"), "header");
+    output_header(_("Error!"));
     echo "<br><center>";
     echo sprintf(_("A team id must specified in the following format: %s"), "$code_url/stats/teams/teams_xml.php?id=*****");
     echo "</center>";
-    theme("", "footer");
     exit();
 }
 

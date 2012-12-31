@@ -2,7 +2,7 @@
 $relPath='../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-theme(_('Quiz Wizard'),'header');
+output_header(_('Quiz Wizard'));
 
 function evalchecks()
 {
@@ -270,6 +270,4 @@ Search case sensitive? <input type="radio" name="expectedlinebreaks_case_sensiti
 
 <?php
 $_SESSION['quiz_data']['lastpage'] = 'checks';
-
-theme("", "footer");
 ?>

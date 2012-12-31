@@ -19,7 +19,7 @@ if (isset($news_page_id)) {
     {
         $news_subject = get_news_subject($news_page_id);
         $title = sprintf(_('News Desk for %s'), $news_subject );
-        theme($title, "header");
+        output_header($title);
         echo "<br>";
         echo "<a href='sitenews.php'>"._("Site News Central")."</a><br>";
         echo "<h1 align='center'>$title</h1>";
@@ -27,13 +27,12 @@ if (isset($news_page_id)) {
         handle_any_requested_db_updates( $news_page_id );
         show_item_editor( $news_page_id );
         show_all_news_items_for_page( $news_page_id );
-        theme("", "footer");
     } else {
         echo _("Error").": <b>".$news_page_id."</b> "._("Unknown news_page_id specified, exiting.");
     }
 } else {
 
-    theme(_("Site News Central"), "header");
+    output_header(_("Site News Central"));
 
     echo "<h1>"._("Site News Central")."</h1>";
     echo "<br><br><font size = +1><ul>";
@@ -56,7 +55,6 @@ if (isset($news_page_id)) {
         echo "\n";
     }
     echo "</ul></font>";
-    theme('','footer');
 }
 
 // Everything else is just function declarations.

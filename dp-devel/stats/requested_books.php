@@ -10,7 +10,7 @@ include_once($relPath.'user_project_info.inc');
 require_login();
 
 $title = _("Most Requested Books");
-theme($title,'header');
+output_header($title);
 
 echo "<br><h2 style='color: $theme[color_headerbar_bg];'>$title</h2><br>\n";
 echo "<p>" . _("You can sign up for notifications in the Event Subscriptions section of the Project Comments page when proofreading.") . "</p>";
@@ -87,7 +87,5 @@ dpsql_dump_themed_query("
     ORDER BY 5 DESC 
     LIMIT 50
 ", 1, DPSQL_SHOW_RANK);
-
-theme("","footer");
 
 // vim: sw=4 ts=4 expandtab

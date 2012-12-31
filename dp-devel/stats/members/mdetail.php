@@ -39,7 +39,7 @@ else
 }
 
 $desc = sprintf( _("Details for user %s"), $user_referent );
-theme($desc, "header");
+output_header($desc);
 
 echo "<br><center>";
 
@@ -61,6 +61,5 @@ else
 }
 
 echo "</center>";
-theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab

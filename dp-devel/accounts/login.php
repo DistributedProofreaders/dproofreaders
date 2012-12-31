@@ -14,14 +14,13 @@ function prompt_login()
     global $destination;
 
     $title = _("Login Required");
-    theme($title, "header");
+    output_header($title);
 
     if($destination)
         echo "<p>" . _("The page you requested requires a login. You will be redirected there once you have signed in.") . "</p>";
 
     echo "<p>" . _("Use the form above to log in.") . "</p>";
 
-    theme("","footer");
     exit();
 }
 
@@ -32,7 +31,7 @@ function abort_login( $error )
     global $testing;
 
     $title = _("Login Failed");
-    theme($title, "header");
+    output_header($title);
 
     echo "<br>\n";
     echo "<b>$error</b>\n";
@@ -53,8 +52,6 @@ function abort_login( $error )
     echo "</ol>";
     echo "<p>" . sprintf( _("If all of this fails, contact the <a href='%s'>site manager</a>."), "mailto:$site_manager_email_addr") . "</p>";
     echo "<p>" . sprintf( _("Note: If you have just registered, you will need to wait for the welcome mail to arrive to your mailbox. Once it does, please click the activation link to complete the registration (this is to prevent others from signing you up to the site without your knowledge). If you have waited for an hour or so and have still not received any mail from us (please check any spam filters!), it is likely that you misentered your email-address. Please contact the <a href='%s'>site manager</a> to solve the problem."), "mailto:$site_manager_email_addr") . "</p>";
-
-    theme("", "footer");
     exit();
 }
 

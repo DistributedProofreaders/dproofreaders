@@ -6,7 +6,7 @@ include_once($relPath.'theme.inc');
 
 require_login();
 
-theme("Copyright Approval", "header");
+output_header("Copyright Approval");
 
 if (!$site_supports_metadata)
 {
@@ -106,6 +106,5 @@ echo "<table border=1>\n";
 
 echo "</table>";
 echo "<br>";
-theme("","footer");
 
 // vim: sw=4 ts=4 expandtab

@@ -16,7 +16,7 @@ $this_url = htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES);
 
 if (!file_exists($filename)) {
 
-    theme(_("Download Stealth Scannos"),"header");
+    output_header(_("Download Stealth Scannos"));
     echo "<h1>"._("Download Stealth Scannos")."</h1>
           <p>"._("The following scanno lists are available in .rc format:")."</p>
           <table border='1'>
@@ -36,7 +36,6 @@ if (!file_exists($filename)) {
           </table>
           ";
 
-    theme("","footer");
     exit();
 }
 

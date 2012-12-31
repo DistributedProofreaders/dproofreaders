@@ -166,7 +166,7 @@ $theme_extra_args["js_data"] =
         }
     }";
     
-theme($header, "header", $theme_extra_args);
+output_header($header, SHOW_STATSBAR, $theme_extra_args);
 echo_stylesheet_for_tabs();
 echo "<br><center>";
 
@@ -205,8 +205,6 @@ echo "<br></center>";
 
 // When the window loads, run all the event handlers that e.g disable preferences.
 echo "\n\n<script type='text/javascript'><!--\nwindow.onload = function() \{$window_onload_event};\n--></script>\n\n";
-
-theme("", "footer");
 
 // End main code. Functions below.
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

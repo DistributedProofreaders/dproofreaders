@@ -6,8 +6,7 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
-theme('Proofreading and Formatting Guidelines Revision History','header');
+output_header('Proofreading and Formatting Guidelines Revision History', NO_STATSBAR);
 ?>
 
 <h1 align="center">Proofreading and Formatting Guidelines Revision History</h1>
@@ -526,5 +525,4 @@ theme('Proofreading and Formatting Guidelines Revision History','header');
   </tbody>
 </table>
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

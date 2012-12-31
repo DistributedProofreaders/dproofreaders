@@ -13,7 +13,7 @@ $dev_list='dproofreaders-devel@lists.sourceforge.net';
 $commits_list='dproofreaders-commits@lists.sourceforge.net';
 $sa_list='dp-sa @ pgdp.net';
 
-theme('Development Process Guidelines', 'header');
+output_header('Development Process Guidelines');
 
 echo "
 <h4>Quick links</h4>
@@ -258,5 +258,4 @@ If it doesn't work for you,
 <br>
 
 <?php
-theme('', 'footer');
 // vim: sw=4 ts=4 expandtab

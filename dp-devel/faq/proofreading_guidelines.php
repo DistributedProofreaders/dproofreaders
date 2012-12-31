@@ -8,10 +8,9 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
-theme('Proofreading Guidelines','header',$theme_args);
+output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
@@ -2748,5 +2747,4 @@ If you use one of these, be sure to insert only Latin-1 characters (those listed
 </table>
 
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

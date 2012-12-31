@@ -3,7 +3,7 @@ $relPath='../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-theme(_('Quiz Wizard'),'header');
+output_header(_('Quiz Wizard'));
 
 
 function ssqs($x)
@@ -203,6 +203,4 @@ function make_output()
 
 <?php
 $_SESSION['quiz_data']['lastpage'] = 'output';
-
-theme("", "footer");
 ?>

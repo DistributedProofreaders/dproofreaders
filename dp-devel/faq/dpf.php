@@ -6,7 +6,7 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-theme("The Distributed Proofreaders Foundation","header");
+output_header("The Distributed Proofreaders Foundation");
 ?>
 
 <h1>The Distributed Proofreaders Foundation</h1>
@@ -170,7 +170,6 @@ dpfoundation@pgdp.net
 <div style="height:4em;"><br /></div>
 
 <?php
-theme("","footer");
 
 // ---------------------------------------------------------
 

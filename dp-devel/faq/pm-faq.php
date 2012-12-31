@@ -7,8 +7,7 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
-theme('Project Manager\'s Guide','header');
+output_header('Project Manager\'s Guide', NO_STATSBAR);
 ?>
 
 <h1>Project Manager's Guide</h1>
@@ -241,5 +240,4 @@ window which describes each setting in further detail.
 </p>
 
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

@@ -16,7 +16,7 @@ include_once($relPath.'TallyBoard.inc');     // for TallyBoard
 require_login();
 
 // Display page header.
-theme(_("For Mentors"), "header");
+output_header(_("For Mentors"));
 
 // ---------------------------------------------------------------
 
@@ -98,7 +98,6 @@ if ( !user_can_work_on_beginner_pages_in_round($mentoring_round) )
             $mentoring_round->id
         );
     echo "\n";
-    theme("","footer");
     exit;
 }
 
@@ -133,7 +132,6 @@ while ($proj =  mysql_fetch_object($result))
 }
 
 echo "<br><br><br><hr>\n";
-theme("","footer");
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

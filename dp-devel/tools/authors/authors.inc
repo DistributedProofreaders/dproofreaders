@@ -138,11 +138,10 @@ if ($author_id) {
   function abort_if_not_authors_db_manager($echo_header = false) {
     if (!user_is_authors_db_manager()) {
       if ($echo_header)
-        theme(_('Sorry!'), 'header');
+        output_header(_('Sorry!'));
       echo "<h2 align='center'>" . _('Sorry!') . "</h2>";
       echo _('You do not have permission to access this page.
               If you believe you should, please contact a system administrator.');
-      theme('', 'footer');
       exit();
     }
   }
@@ -150,11 +149,10 @@ if ($author_id) {
   function abort_if_not_authors_db_editor($echo_header = false) {
     if (!user_is_authors_db_editor()) {
       if ($echo_header)
-        theme(_('Sorry!'), 'header');
+        output_header(_('Sorry!'));
       echo "<h2 align='center'>" . _('Sorry!') . "</h2>";
       echo _('You do not have permission to access this page.
               If you believe you should, please contact a system administrator.');
-      theme('', 'footer');
       exit();
     }
   }

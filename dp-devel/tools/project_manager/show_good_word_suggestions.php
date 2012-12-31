@@ -99,8 +99,7 @@ if($format == "file") {
     assert(false);
 }
 
-$no_stats=1;
-theme($title,'header');
+output_header($title, NO_STATSBAR);
 echo_page_header($title,$projectid);
 
 // how many instances (ie: frequency sections) are there?
@@ -147,7 +146,6 @@ echo "</p></form>";
 // on the Good Words List) stop here
 if(count($all_suggestions_w_occurrences)==0) {
     echo "<p>" . _("There are no suggestions in the given time frame that aren't already on the Good Words List.") . "</p>";
-    theme('','footer');
     exit;
 }
 
@@ -219,8 +217,6 @@ foreach($rounds as $round) {
 }
 
 echo_checkbox_form_end();
-
-theme('','footer');
 
 
 //---------------------------------------------------------------------------

@@ -31,7 +31,7 @@ if (!empty($_REQUEST['tname'])) {
 
 $name = _("Team List");
 
-theme($name, "header");
+output_header($name);
 echo "<center><br>";
 
 //Display of user teams
@@ -81,6 +81,5 @@ if ($tRows == 20) {
 echo "</td></tr>\n";
 echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><a href='new_team.php'><font color='".$theme['color_headerbar_font']."'>"._("Create a New Team")."</font></a></b></td></tr>\n";
 echo "</table><p></center>";
-theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab

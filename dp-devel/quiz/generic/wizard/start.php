@@ -3,7 +3,7 @@ $relPath='../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-theme(_('Quiz Wizard'),'header');
+output_header(_('Quiz Wizard'));
 
 $_SESSION['quiz_data']['lastpage'] = 'start';
 
@@ -30,8 +30,3 @@ $_SESSION['quiz_data']['lastpage'] = 'start';
 <p><?php echo _("Done all that? OK, let's start!"); ?></p>
 
 <p><a href="./general.php?start=true"><?php echo _("Continue"); ?></a>
-
-
-<?php
-theme("", "footer");
-?>

@@ -12,7 +12,7 @@ include_once('menu.inc');
 require_login();
 
 $title=_("Manage biographies");
-theme($title, 'header');
+output_header($title);
 
 abort_if_not_authors_db_manager();
 
@@ -20,7 +20,6 @@ if ($_SERVER['QUERY_STRING'] == '') {
     echo "<script language='JavaScript'><!--\nlocation.href='?reload';\n";
     echo "document.open();\ndocument.write('Please <a href=\"?reload\">continue</a>.');\ndocument.close();\n--></script>\n";
     echo '<noscript>Please note that you need to have JavaScript turned on in order to use this page.</noscript>';
-    theme('', 'footer');
     exit();
 }
 
@@ -548,7 +547,5 @@ echo '<br />';
 $browseUtility->echoCountSelectionList();
 
 echo_menu();
-
-theme('', 'footer');
 
 // vim: sw=4 ts=4 expandtab

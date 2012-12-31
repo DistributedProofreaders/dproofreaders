@@ -8,7 +8,7 @@ include_once($relPath.'site_news.inc');
 include_once($relPath.'misc.inc');
 
 $title = _("Statistics Central");
-theme($title,'header');
+output_header($title);
 
 echo "<br><h2>" . _("Statistics Central") . "</h2>";
 
@@ -257,7 +257,5 @@ $table->row(
 );
 
 $table->end();
-
-theme('','footer');
 
 // vim: sw=4 ts=4 expandtab

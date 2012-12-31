@@ -71,8 +71,7 @@ if($format == "file") {
 }
 
 
-$no_stats=1;
-theme($title,'header');
+output_header($title, NO_STATSBAR);
 
 echo_page_header($title,$projectid);
 
@@ -134,8 +133,6 @@ printTableFrequencies($initialFreq,$cutoffOptions,$bad_words_w_freq,$instances--
 
 echo_checkbox_form_submit(_("Add selected words to Good Words List"));
 echo_checkbox_form_end();
-
-theme('','footer');
 
 //---------------------------------------------------------------------------
 // supporting page functions

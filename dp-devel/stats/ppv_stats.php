@@ -8,7 +8,7 @@ include_once($relPath.'theme.inc');
 require_login();
 
 $title = _("Post-Processing Verification Statistics");
-theme($title,'header');
+output_header($title);
 
 echo "<br><br><h2>$title</h2>\n";
 
@@ -33,7 +33,5 @@ echo "<br>\n";
 echo _("Note that the above figures are as accurate as possible within the bounds of the current database structure");
 
 echo "<br>\n";
-
-theme("","footer");
 
 // vim: sw=4 ts=4 expandtab

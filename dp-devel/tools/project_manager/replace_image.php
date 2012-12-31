@@ -28,7 +28,7 @@ $project = new Project($projectid);
 
 $replace_image_str = _('Replace Image');
 
-theme("$replace_image_str: {$project->nameofwork}", 'header');
+output_header("$replace_image_str: {$project->nameofwork}");
 
 echo "<h1>{$project->nameofwork}</h1>\n";
 echo "<h2>$replace_image_str: $image</h2>\n";
@@ -36,7 +36,6 @@ echo "<h2>$replace_image_str: $image</h2>\n";
 if (!$project->can_be_managed_by_current_user)
 {
     echo "<p>", _('You are not authorized to manage this project.'), "</p>\n";
-    theme('', 'footer');
 }
 
 if (!is_file("$projects_dir/$projectid/$image"))
@@ -46,7 +45,6 @@ if (!is_file("$projects_dir/$projectid/$image"))
     // has an image_index that was generated before the deletion.)
 
     echo "<p>", _('There is no such image in the project.'), "</p>\n";
-    theme('', 'footer');
 }
 
 if ( isset($_FILES['replacement_image']) )
@@ -61,7 +59,6 @@ if ( isset($_FILES['replacement_image']) )
             _('Return to Images Index'),
             "</a>",
             "</p>\n";
-        theme('', 'footer');
         exit;
     }
     else
@@ -85,8 +82,6 @@ echo "
     <input type='submit' value='", attr_safe(_("Upload Image")), "'>
     </form>
 ";
-
-theme('', 'footer');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

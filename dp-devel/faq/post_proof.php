@@ -8,12 +8,10 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
-
 $theme_args["css_data"] = "div.note {padding: .75em; background: #f9f9f9; border: 3px #aaa double; width: 90%; margin: 1em 1em 1em 3em;}
 .spaced li {margin-bottom: .5em;}";
 
-theme('Post-Processing FAQ','header',$theme_args);
+output_header('Post-Processing FAQ', 'header', NO_STATSBAR, $theme_args);
 ?>
 
 <h1>Post-Processing FAQ</h1>
@@ -1985,5 +1983,4 @@ Footnote/Fu&szlig;note/Apostille/Ootnotefay/&Upsilon;&pi;&omicron;&sigma;&eta;&m
 </ul>
 
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

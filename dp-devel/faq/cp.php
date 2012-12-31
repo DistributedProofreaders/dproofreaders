@@ -8,8 +8,7 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
-theme("Content Provider's FAQ",'header');
+output_header("Content Provider's FAQ", NO_STATSBAR);
 ?>
   <meta name="Author" content="Stephen Schulze">
   <meta name="author" content="thundergnat">
@@ -730,5 +729,4 @@ use FTP client. Free for-non commercial use.<br>
 <hr style="width: 100%; height: 2px;"><br>
 
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

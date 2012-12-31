@@ -34,7 +34,7 @@ if($x == "g") {
     die("x parameter must be 'g', 's', or 'b'. ('$x')");
 }
 
-theme($title, "header");
+output_header($title);
 ?>
 
 <center>
@@ -89,7 +89,5 @@ $sortlist = array(
 );
 
 list_projects($state, $sortlist[$sort], "list_etexts.php?x=$x&amp;sort=$sort&amp;", $per_page, $offset);
-
-theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab

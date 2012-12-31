@@ -3,7 +3,7 @@ $relPath='../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include ('../quiz_defaults.inc');
-theme(_('Quiz Wizard'),'header');
+output_header(_('Quiz Wizard'));
 
 function evalmessages()
 {
@@ -174,6 +174,4 @@ echo "<p>" . _("Theoretically you can add more hints, but again you have to manu
 
 <?php
 $_SESSION['quiz_data']['lastpage'] = 'messages';
-
-theme("", "footer");
 ?>

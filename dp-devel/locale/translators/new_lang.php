@@ -9,11 +9,10 @@ include_once($relPath.'misc.inc'); // array_get() & get_enumerated_param()
 require_login();
 undo_all_magic_quotes();
 
-theme(_("Translation Center"), "header");
+output_header(_("Translation Center"));
 
 if(!user_is_site_translator()) {
     echo _("You can not add a new language.");
-    theme("","footer");
     exit();
 }
 
@@ -52,7 +51,5 @@ if ($lang != "" && $func == "create_newlang") {
 
     metarefresh(0, "index.php?func=translate&amp;lang=$lang", "", "");
 }
-
-theme('','footer');
 
 // vim: sw=4 ts=4 expandtab

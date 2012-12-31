@@ -8,7 +8,7 @@ include_once($relPath.'projectinfo.inc');
 
 require_login();
 
-theme( _("Image Metadata Collection"), "header");
+output_header(_("Image Metadata Collection"));
 
 if (!$site_supports_metadata)
 {
@@ -117,6 +117,5 @@ echo "</table>";
 
 echo "</center>";
 echo "<br>";
-theme("","footer");
 
 // vim: sw=4 ts=4 expandtab

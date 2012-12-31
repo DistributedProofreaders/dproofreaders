@@ -8,7 +8,6 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
 $theme_args = array("css_data" => "
 table.faqs td {font-family: Tahoma, sans-serif;}
 td.faqheader {background: $theme[color_headerbar_bg];
@@ -17,7 +16,7 @@ td.faqheader {background: $theme[color_headerbar_bg];
               vertical-align: middle;}
 table#faqtable table {align: left;}
 ");
-theme('FAQ Central','header', $theme_args);
+output_header('FAQ Central', NO_STATSBAR, $theme_args);
 ?>
 
 <h1>FAQ Central</h1>
@@ -262,5 +261,4 @@ show_news_for_page("FAQ");
 </table>
 
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

@@ -54,8 +54,8 @@ $detail_level   = get_integer_param($_GET, 'detail_level', 2, $MIN_DETAIL_LEVEL,
 $project = new Project( $projectid );
 
 // TRANSLATORS: this is the project page title.
-// In a tabbed browser, the page-title passed to theme() will appear in
-// the tab, which tends to be small, as soon as you have a few of them.
+// In a tabbed browser, the page-title passed to output_header() will appear
+// in the tab, which tends to be small, as soon as you have a few of them.
 // So, put the distinctive part of the page-title (i.e. the name of the
 // project) first.
 $title_for_theme = sprintf( _('"%s" project page'), $project->nameofwork );
@@ -68,8 +68,7 @@ if ( !$user_is_logged_in )
 {
     // Guests see a reduced version of the project page.
 
-    $no_stats=1;
-    theme($title_for_theme, "header");
+    output_header($title_for_theme, NO_STATSBAR);
 
     echo "<h1>$title</h1>\n";
 
@@ -81,7 +80,6 @@ if ( !$user_is_logged_in )
     do_smooth_reading();
 
     echo "<br>\n";
-    theme('', 'footer');
     return;
 }
 
@@ -116,9 +114,7 @@ else
     // that is usually wanted by the people who usually work with
     // the project in its current state.
 
-    // don't show the stats column
-    $no_stats=1;
-    theme($title_for_theme, "header");
+    output_header($title_for_theme, NO_STATSBAR);
 
     do_pm_header();
 
@@ -158,7 +154,6 @@ else
     }
 
     do_detail_level_switch();
-    theme('', 'footer');
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

@@ -35,8 +35,7 @@ $title = _("Manage Site Word Lists");
 
 $extra_args['css_data'] = _get_stylesheet();
 
-$no_stats = 1;
-theme($title, "header", $extra_args);
+output_header($title, NO_STATSBAR, $extra_args);
 
 echo "<h1>$title</h1>";
 
@@ -117,8 +116,6 @@ if($display_list)
     }
     echo "</table>";
 }
-
-theme($title, "footer");
 
 // Everything else is just function declarations.
 

@@ -11,10 +11,9 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
-theme('Regras de Formata&ccedil;&atilde;o','header',$theme_args);
+output_header('Regras de Formata&ccedil;&atilde;o', NO_STATSBAR, $theme_args);
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
@@ -2565,5 +2564,4 @@ Same strip rolled up in|    |     || Same, 16 wires bound    |    |
 </table>
 
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

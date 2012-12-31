@@ -58,10 +58,9 @@ elseif (isset($_POST['author_id'])) {
         }
         else {
             // failure!
-            theme(_('An error occurred.'), 'header');
+            output_header(_('An error occurred'));
             echo _('It was not possible to save the biography.') . _('The following error-message was received:') . ' ' .
                          mysql_error($result);
-            theme('', 'footer');
         }
         exit;
     }
@@ -74,10 +73,9 @@ elseif (isset($_POST['author_id'])) {
 }
 else {
     // someone's trying to display this page outside of the workflow.
-    theme(_('An error occurred.'), 'header');
+    output_header(_('An error occurred'));
     echo _('Some information is missing and this page can not be displayed. This has most likely occurred ' .
                  'because you have entered the URL manually. Please enter this page by following links from other pages.');
-    theme('', 'footer');
     exit;
 }
 
@@ -88,7 +86,7 @@ if (isset($_POST['bio_id']))
 // produce form (with blank values
 // or those to be edited)
 
-theme(_('Add biography'), 'header');
+output_header(_('Add biography'));
 
 echo_menu();
 ?>
@@ -130,7 +128,5 @@ if (isset($bio_id))
 
 <?php
 echo_menu();
-
-theme('', 'footer');
 
 // vim: sw=4 ts=4 expandtab

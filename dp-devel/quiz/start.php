@@ -10,13 +10,13 @@ color:$theme[color_headerbar_font];}";
 if (!empty($_GET['show_only']) && (array_search($_GET['show_only'],$valid_quiz_ids) !== false))
 {
     $quiz_id = $_GET['show_only'];
-    theme(${$quiz_id}->name,'header',$theme_args);
+    output_header(${$quiz_id}->name, SHOW_STATSBAR, $theme_args);
     echo "<h1>".${$quiz_id}->name."</h1>";
     ${$quiz_id}->show_results_table($pguser);
 }
 else
 {
-  theme(_('Interactive Quizzes'),'header',$theme_args);
+  output_header(_('Interactive Quizzes'), SHOW_STATSBAR, $theme_args);
   echo "<h1>Interactive Quizzes</h1>
         <p>Welcome to $site_abbreviation's interactive quizzes! The following quizzes are available:</p>";
   foreach ($valid_quiz_ids as $quiz_id)
@@ -24,6 +24,4 @@ else
     ${$quiz_id}->show_results_table($pguser);
   }
 }
-
-theme("", "footer");
 ?>

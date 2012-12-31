@@ -11,7 +11,7 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-theme(_("Welcome"), "header");
+output_header(_("Welcome"));
 $etext_limit = 10;
 
 default_page_heading();
@@ -82,7 +82,5 @@ foreach ( array(1,7,30) as $days_back )
 echo "<hr><center>\n";
 echo sprintf(_("Questions or comments? Please contact us at <a href='mailto:%s'>%s</a>."),$general_help_email_addr,$general_help_email_addr);
 echo "</center>&nbsp;<br>\n";
-
-theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab

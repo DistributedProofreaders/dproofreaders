@@ -11,12 +11,11 @@ require_login();
 if (isset($_GET['author_id'])) {
     $id = $_GET['author_id'];
 } else {
-    theme(_('No author-id specified'), 'header');
+    output_header(_('No author-id specified'));
     echo _('There was an error: No author-id was specified.') . ' ';
     echo _('If you believe this to be the result of perfectly legitimate actions taken by you, please ');
     echo '<a href="whatever">' . _('report it to us') . "</a>.\n";
     echo _('You may return to <a href="listing.php">the authors-listing</a>.');
-    theme('', 'footer');
     exit();
 }
 
@@ -27,7 +26,7 @@ $birth = format_date_from_sqlset($result, 0, 'b');
 $decease = format_date_from_sqlset($result, 0, 'd');
 
 // Start outputting
-theme(_('Author') . ': ' . $last_name . ($other_names!=''?", $other_names":''), 'header');
+output_header(_('Author') . ': ' . $last_name . ($other_names!=''?", $other_names":''));
 
 echo_menu();
 
@@ -42,7 +41,5 @@ if (user_is_authors_db_manager()) {
 }
 
 echo_menu();
-
-theme('', 'footer');
 
 // vim: sw=4 ts=4 expandtab

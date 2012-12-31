@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
 
-theme( _('Proofreading Tutorial and Interactive Quiz -- Step 5'),'header');
+output_header(_('Proofreading Tutorial and Interactive Quiz -- Step 5'));
 
 echo "<h2>" . _("Part 5") . "</h2>";
 
@@ -36,5 +36,4 @@ echo "<p>" . _("These are long quotations (typically several lines) included in 
 
 echo "<a href='../generic/main.php?type=step5'>" . _("continue") . "</a>";
 
-theme("","footer")
 ?>

@@ -6,7 +6,7 @@ include_once($relPath.'theme.inc');
 
 require_login();
 
-theme("Random Rule Database Validation", "header");
+output_header("Random Rule Database Validation");
 
 $query = "SELECT count(*) AS numrules FROM rules";
 $result = mysql_query($query);
@@ -23,7 +23,5 @@ for ($i=1;$i<=$num_rules;$i++)
     echo "<div><b>ID:</b> $i &mdash; $rule[subject] (anchored as \"#$rule[anchor]\" in $rule[document])</div>\n";
     echo "<div>$rule[rule]</div>\n";
 }
-
-theme("","footer");
 
 // vim: sw=4 ts=4 expandtab

@@ -137,7 +137,7 @@ if (!isset($action))
 {
     // Present the upload page.
 
-    theme($title, "header");
+    output_header($title);
 
     echo "<h1>$title</h1>";
     echo "<h2>" . sprintf("Project: %s", $project->nameofwork) . "</h2>";
@@ -187,9 +187,6 @@ if (!isset($action))
     echo "</ol>";
 
     echo "</form>\n";
-
-    theme("", "footer");
-
 }
 else
 {

@@ -2,8 +2,6 @@
 include_once($relPath.'site_vars.php');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'theme.inc'); // theme()
-
 
 define('PROJECT_DOES_NOT_EXIST',  1);
 define('USER_CANNOT_EDIT_PROJECT',2);
@@ -93,7 +91,6 @@ function abort_if_cant_edit_project( $projectid )
             ", sprintf(_("If this message is an error, contact the <a href='%s'>site manager</a>"),
                 "mailto:$site_manager_email_addr"), "
             <P><a href=\"projectmgr.php\">"._("Back")."</a>";
-        theme( "", "footer" );
         exit;
     }
     else if ( $result == USER_CANNOT_EDIT_PROJECT )
@@ -105,7 +102,6 @@ function abort_if_cant_edit_project( $projectid )
             ", sprintf(_("If this message is an error, contact the <a href='%s'>site manager</a>"),
                 "mailto:$site_manager_email_addr"), "
             <P><a href=\"projectmgr.php\">"._("Back")."</a>";
-        theme( "", "footer" );
         exit;
     }
     else if ( $result == USER_CAN_EDIT_PROJECT )

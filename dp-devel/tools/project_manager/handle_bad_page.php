@@ -40,7 +40,7 @@ if (!isset($_POST['resolution'])) {
     }
     
     //Display form
-    theme($header, "header");
+    output_header($header);
 
     echo "<br><h3>" . _("Project/Page") . ": ".$b_NameofWork."&mdash;".$image."</h3>";
     echo "<h3>" . _("State") . ": ".$state."</h3>";
@@ -180,7 +180,6 @@ if (!isset($_POST['resolution'])) {
                     "handle_bad_page.php?projectid=$projectid&image=$image&modify=image") . "</b>";
         }
     }
-    theme("", "footer");
 } else {
 
     //Get variables passed from form

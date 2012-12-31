@@ -8,8 +8,7 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
-theme('Beginning Proofreaders\' FAQ','header');
+output_header('Beginning Proofreaders\' FAQ', NO_STATSBAR);
 ?>
 
 <h1>Beginning Proofreaders' <br> Frequently Asked Questions (FAQ)</h1>
@@ -351,5 +350,4 @@ different pages.  This will significantly speed up the proofreading process.
 </table>
 
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

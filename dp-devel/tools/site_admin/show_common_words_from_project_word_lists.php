@@ -25,8 +25,7 @@ $lang_match = array_get($_REQUEST, "lang_match", "primary");
 
 $title = _("Show common words from project word lists");
 
-$no_stats = 1;
-theme($title, "header");
+output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>";
 
@@ -110,8 +109,6 @@ if($display_list)
 
     echo "</table>";
 }
-
-theme($title, "footer");
 
 // Everything else is just function declarations.
 

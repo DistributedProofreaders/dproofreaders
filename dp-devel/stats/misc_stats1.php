@@ -13,7 +13,7 @@ $tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_nam
 // -----------------------------------
 
 $title = sprintf( _("Miscellaneous Statistics for Round %s"), $tally_name );
-theme($title, "header");
+output_header($title);
 
 echo "<br><br><h2>$title</h2><br>\n";
 
@@ -166,7 +166,5 @@ function show_months_with_most_days_over( $n )
 
     echo "<br>\n";
 }
-
-theme("","footer");
 
 // vim: sw=4 ts=4 expandtab

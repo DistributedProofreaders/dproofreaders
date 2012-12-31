@@ -14,7 +14,7 @@ $pool_id = get_enumerated_param($_GET, 'pool_id', null, array_keys($Pool_for_id_
 
 $pool = get_Pool_for_id($pool_id);
 
-theme("$pool->id: $pool->name", "header");
+output_header("$pool->id: $pool->name");
 
 global $pguser;
 $userSettings =& Settings::get_Settings($pguser);
@@ -68,7 +68,5 @@ show_projects_for_pool( $pool, 'available' );
 
 echo "<br>";
 echo "<br>";
-
-theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab

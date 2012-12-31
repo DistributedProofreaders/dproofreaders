@@ -59,8 +59,7 @@ $state = $project->state;
 $title = $project->nameofwork;
 $page_details_str = _('Page Details');
 
-$no_stats = 1;
-theme( "$page_details_str: $title", 'header' );
+output_header( "$page_details_str: $title", NO_STATSBAR);
 
 echo "<h1>$title</h1>\n";
 echo "<h2>$page_details_str</h2>\n";
@@ -114,7 +113,6 @@ if ($project->pages_table_exists)
     echo "</p>";
 }
 echo "<br>";
-theme( '', 'footer' );
 
 // vim: sw=4 ts=4 expandtab
 ?>

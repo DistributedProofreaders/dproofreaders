@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
 
-theme( _('Proofreading Tutorial and Interactive Quiz -- Step 1'),'header');
+output_header(_('Proofreading Tutorial and Interactive Quiz -- Step 1'));
 
 echo "<h1>" . _("Tutorial") . "</h1>";
 
@@ -43,5 +43,4 @@ echo "<p>" . _("Bold text (text printed in a heavier typeface) should be marked 
 
 echo "<a href='../generic/main.php?type=step1'>" . _("continue") . "</a>";
 
-theme("", "footer");
 ?>

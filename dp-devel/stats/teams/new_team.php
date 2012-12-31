@@ -13,7 +13,7 @@ $theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/faq/
 if (isset($_POST['mkPreview']))
 {
     $title = sprintf(_("Preview %s"), $_POST['teamname']);  // *Ouch*, data not validated.
-    theme($title, "header", $theme_extra_args);
+    output_header($title, SHOW_STATSBAR, $theme_extra_args);
     $teamimages = uploadImages(1,"","both");
     $curTeam['teamname'] = stripAllString($_POST['teamname']);
     $curTeam['team_info'] = stripAllString($_POST['text_data']);
@@ -35,7 +35,6 @@ if (isset($_POST['mkPreview']))
     echo "<br>";
     showTeamProfile($curTeam);
     echo "</center><br>";
-    theme("", "footer");
 }
 else if (isset($_POST['mkMake']))
 {
@@ -43,7 +42,7 @@ else if (isset($_POST['mkMake']))
     if (mysql_num_rows($result) > 0)
     {
         $name = _("Create Team");
-        theme($name, "header");
+        output_header($name);
         $teamimages = uploadImages(1,"","both");
         
         if (!empty($_FILES['teamavatar']['tmp_name']))
@@ -58,7 +57,6 @@ else if (isset($_POST['mkMake']))
         echo "<center><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
         showEdit(htmlentities(stripslashes($_POST['teamname'])),stripslashes($_POST['text_data']),stripslashes($_POST['teamwebpage']),1,0,$tavatar,$ticon);
         echo "<br></center><br>";
-        theme("", "footer");
     }
     else
     {
@@ -108,11 +106,10 @@ else if (isset($_POST['mkMake']))
 else
 {
     $name = _("Create a New Team");
-    theme($name, "header", $theme_extra_args);
+    output_header($name, SHOW_STATSBAR, $theme_extra_args);
     echo "<center><br>";
     showEdit("","","",1,0,0,0);
     echo "</center>";
-    theme("", "footer");
 }
 
 // vim: sw=4 ts=4 expandtab

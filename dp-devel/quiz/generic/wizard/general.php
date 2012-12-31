@@ -3,7 +3,7 @@ $relPath='../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-theme(_('Quiz Wizard'),'header');
+output_header(_('Quiz Wizard'));
 
 
 if ($_SESSION['quiz_data']['lastpage'] == 'start')
@@ -67,6 +67,4 @@ if ($_SESSION['quiz_data']['lastpage'] == 'start')
 
 <?php
 $_SESSION['quiz_data']['lastpage'] = 'general';
-
-theme("", "footer");
 ?>

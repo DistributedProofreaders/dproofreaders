@@ -332,8 +332,7 @@ if (user_is_PM() && empty($_GET['show']) && empty($_GET['up_projectid'])) {
     }
 }
 
-$no_stats=1;
-theme(_("Project Search"), "header");
+output_header(_("Project Search"), NO_STATSBAR);
 
 $PROJECT_IS_ACTIVE_sql = "(state NOT IN ('".PROJ_SUBMIT_PG_POSTED."','".PROJ_DELETE."'))";
 
@@ -502,7 +501,6 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     if ( $numrows == 0 )
     {
         echo _("<b>No projects matched the search criteria.</b>");
-        theme("","footer");
         return;
     }
 
@@ -766,7 +764,6 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     // list_uber_projects( TRUE );
 }
 echo "<br>";
-theme("","footer");
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

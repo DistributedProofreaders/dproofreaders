@@ -16,7 +16,7 @@ if (isset($_GET['news_page_id'])) {
     $news_page_id = $_GET['news_page_id'];
     if ( isset($NEWS_PAGES[$news_page_id]) ) {
         $news_subject = get_news_subject($news_page_id);
-        theme(sprintf(_("Recent Site News Items for %s"), $news_subject), "header");
+        output_header(sprintf(_("Recent Site News Items for %s"), $news_subject));
         echo "<br>";
     } else {
        echo _("Error").": <b>".$news_page_id."</b> "._("Unknown news_page_id specified, exiting.");
@@ -66,6 +66,4 @@ else
         echo "<br><a name='".$news_item['id']."'><b>$date_posted</b><br>".$news_item['content']."<br><hr align='center' width='75%'><br>";
     }
 }
-
-theme("", "footer");
 // vim: sw=4 ts=4 expandtab

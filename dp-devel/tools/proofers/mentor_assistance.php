@@ -64,7 +64,7 @@ if( ! user_can_mentor_in_round( $mentoring_round ) )
 $args['css_data']   = mycss() ;
 $args['js_data']    = myjs();
 
-theme( _("Mentoring Assistance"), "header", $args );
+output_header( _("Mentoring Assistance"), SHOW_STATSBAR, $args );
 
 // ---------------------------------------------------------------
 
@@ -162,8 +162,6 @@ foreach( $proofers as $username => $proofer )
 
 echo "
       </form>\n";
-
-theme("","footer");
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

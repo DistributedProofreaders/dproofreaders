@@ -44,8 +44,7 @@ if (!empty($uname)) {
     $uname = "";
 }
 
-$title = _("Member List");
-theme($title, "header");
+output_header(_("Member List"));
 echo "<center><br>";
 
 //Display of user teams
@@ -104,6 +103,5 @@ if ($mRows == 20) {
 echo "</td></tr>";
 echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'>&nbsp;</td></tr>";
 echo "</table><p></center>";
-theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab

@@ -28,7 +28,7 @@ $userSettings =& Settings::get_Settings($pguser);
 
 $_Activity_Hub = attr_safe(_("Activity Hub"));
 
-theme($_Activity_Hub, "header");
+output_header($_Activity_Hub);
 
 echo "<center><img src='$code_url/graphics/Activity_Hub.png' width='350' height='60' border='0' title='$_Activity_Hub' alt='$_Activity_Hub'></center>\n";
 
@@ -151,8 +151,6 @@ if ($pagesproofed <= 20)
 progress_snapshot_table($show_filtered_projects, $show_filtering_links, ($pagesproofed < 300));
 
 activity_descriptions();
-
-theme("", "footer");
 
 // ----------------------------------
 

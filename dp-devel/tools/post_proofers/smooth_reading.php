@@ -15,18 +15,17 @@ if (isset($GLOBALS['pguser'])) { $logged_in = TRUE;} else { $logged_in = FALSE;}
 
 
 if ($logged_in) {
-    // we show more columns when user is logged in, so we don't have room for the stats bar
-    $no_stats = 1;
     $header_text = _("Smooth Reading Pool");
-    theme( $header_text, 'header');
-    page_header( 'SR', $header_text );
-    show_news_for_page("SR");
+    $news = "SR";
 } else {
     $header_text = _("Smooth Reading Pool Preview");
-    theme( $header_text, 'header');
-    page_header( 'SR', $header_text );
-    show_news_for_page("SR_PREV");
+    $news = "SR_PREV";
 }
+
+// we show more columns when user is logged in, so we don't have room for the stats bar
+output_header( $header_text, $logged_in ? NO_STATSBAR : SHOW_STATSBAR);
+page_header( 'SR', $header_text );
+show_news_for_page($news);
 
 echo "<h3>" . _("Smooth Reading") . "</h3>";
 
@@ -64,7 +63,5 @@ if (!$logged_in)
 }
 
 show_projects_for_smooth_reading();
-
-theme('', 'footer');
 
 // vim: sw=4 ts=4 expandtab

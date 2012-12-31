@@ -16,13 +16,11 @@ if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
 if (!$auth) {
 	header( 'WWW-Authenticate: Basic realm="Private"' );
 	header( 'HTTP/1.0 401 Unauthorized' );
-	theme("Authorization Failed", "header");
+	output_header("Authorization Failed");
 	echo "<br><center><h2><b>Authorization Failed!</b></h2></center>";
-	theme("", "footer");
 	exit;
 } else {
-	$no_stats=1;
-	if (!empty($_POST['posted'])) { theme("Update Completed!", "header"); } else { theme("DP Configuration", "header"); }
+	if (!empty($_POST['posted'])) { output_header("Update Completed!", NO_STATSBAR); } else { output_header("DP Configuration", NO_STATSBAR); }
 	if (!empty($_POST['posted'])) {
 		//Update udb_user.php
 		$lines = file($relPath.'udb_user.php');
@@ -138,7 +136,6 @@ if (!$auth) {
 	echo "<input type='hidden' name='posted' value='1'>";
 	echo "<p><center><input type='submit' name='submit' value='Update'>&nbsp;<input type='button' name='quit' value='Quit' onclick='javascript:location.href(\"default.php\")'></center>";
 	echo "<br><br>";
-	theme("", "footer");
 }
 
 function start_section( $label )

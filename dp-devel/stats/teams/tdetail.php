@@ -17,12 +17,11 @@ $curTeam = mysql_fetch_assoc($result);
 
 // TRANSLATORS: %s is a team name
 $title = sprintf(_("%s Statistics"), $curTeam['teamname']);
-theme($title, "header");
+output_header($title);
 echo "<br><center>";
 
 showTeamInformation($curTeam, $tally_name);
 
 echo "</center>";
-theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab

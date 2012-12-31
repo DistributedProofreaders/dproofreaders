@@ -11,7 +11,6 @@ include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 
-$no_stats=1;
 $theme_args['css_data'] = "
 table.listing { border-collapse:collapse; }
 table.listing td { border: 1px solid #999; }
@@ -103,12 +102,11 @@ if ($action == 'update_oneshot')
         }
         else
         {
-            theme('','header');
+            output_header('', NO_STATSBAR);
                 if ($new)
                     $source->log_request_for_approval($pguser);
                 echo _("Your proposal has been successfully recorded. You will be
                     notified by email once it has been approved.");
-            theme('','footer');
         }
 
     }
@@ -121,7 +119,7 @@ if ($action == 'show_sources')
     if (!$can_edit)
         metarefresh(0,"$code_url/tools/project_manager/show_image_sources.php");
 
-    theme(_('List Image Sources'),'header', $theme_args);
+    output_header(_('List Image Sources'), NO_STATSBAR, $theme_args);
 
     show_is_toolbar();
 
@@ -148,27 +146,23 @@ if ($action == 'show_sources')
     }
     echo "</table>";
     echo "<br>";
-
-    theme('','footer');
 }
 
 elseif ($action == 'edit_source')
 {
     $source = new ImageSource($_REQUEST['source']);
-    theme(sprintf(_("Editing %s"),$source->display_name),'header',$theme_args);
+    output_header(sprintf(_("Editing %s"), $source->display_name), NO_STATSBAR, $theme_args);
     show_is_toolbar();
     $source->show_edit_form();
-    theme('','footer');
 }
 
 elseif ($action == 'add_source')
 {
     $title = $can_edit ? _('Add a new Image Source') : _('Propose a new Image Source');
-    theme($title,'header',$theme_args);
+    output_header($title, NO_STATSBAR, $theme_args);
     show_is_toolbar();
     $blank = new ImageSource(null);
     $blank->show_edit_form();
-    theme('','footer');
 }
 
 
@@ -411,10 +405,9 @@ class ImageSource
 
         if ($errmsgs)
         {
-            theme('','header',$theme_args);
+            output_header('', NO_STATSBAR, $theme_args);
             echo "<p style='font-weight: bold; color: red;'>" . $errmsgs . "</p>";
             $this->show_edit_form();
-            theme('','footer');
             die;
         }
 

@@ -133,13 +133,11 @@ if ($password=="proofer") {
             // Page shown when account is successfully created
 
             $header = sprintf(_("User %s Registered Successfully"), $username);
-	        theme($header, "header");
+	        output_header($header);
 
             echo sprintf(
                _("User %s registered successfully. Please check the e-mail being sent to you for further information about activating your account. This extra step is taken so that no-one can register you to the site without your knowledge."),
                $username);
-
-            theme("", "footer");
             exit();
         }
     }
@@ -160,7 +158,7 @@ if ($password=="proofer") {
 // to this file & run the above commands.
 
     $header = _("Create An Account");
-    theme($header, "header");
+    output_header($header);
 
     echo "<h1>" . _("Account Registration") . "</h1>";
     echo sprintf(_("Thank you for your interest in %s. Fill out the form below to create an account."), $site_name);
@@ -226,7 +224,5 @@ if ($password=="proofer") {
     } else {
         include($code_dir.'/faq/privacy.php');
     }
-
-theme("", "footer");
 
 // vim: sw=4 ts=4 expandtab

@@ -8,8 +8,7 @@ include_once('parse_po.inc');
 require_login();
 undo_all_magic_quotes();
 
-$no_stats=1;
-theme(_("Translation Center"), "header");
+output_header(_("Translation Center"), NO_STATSBAR);
 
 if (isset($_GET['func'])) { $func = $_GET['func']; } else { $func = ""; }
 
@@ -125,8 +124,6 @@ $translation=array(
         echo "</form>";
         }
     }
-
-theme('','footer');
 
 function loc_eq($loc) {
         $a = array(

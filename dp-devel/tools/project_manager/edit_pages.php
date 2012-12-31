@@ -18,9 +18,7 @@ if (!is_array($selected_pages))
 foreach($selected_pages as $image => $setting)
     validate_page_image_filename('selected_pages', $image);
 
-
-$no_stats=1;
-theme( _("Edit Pages Confirmation"), "header");
+output_header( _("Edit Pages Confirmation"), NO_STATSBAR);
 echo "<br>\n";
 
 $project = new Project( $projectid );
@@ -34,7 +32,6 @@ if ( count($selected_pages) == 0 )
 {
     echo _("You did not select any pages.") . "<br>\n";
     echo "<br>\n";
-    theme("","footer");
     exit;
 }
 
@@ -93,7 +90,6 @@ else
 }
 
 echo "<br>\n";
-theme("","footer");
 
 // vim: sw=4 ts=4 expandtab
 ?>

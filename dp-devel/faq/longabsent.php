@@ -8,8 +8,7 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
-theme('Welcome Back, Alumni','header');
+output_header('Welcome Back, Alumni', NO_STATSBAR);
 
 $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);
 ?>
@@ -237,5 +236,4 @@ review the <a href="<?php echo $code_url; ?>/faq/wordcheck-faq.php">Wordcheck FA
 </table>
 
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

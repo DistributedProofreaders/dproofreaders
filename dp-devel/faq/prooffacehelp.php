@@ -20,8 +20,7 @@ else
 
 if ( $i_type == 0 )
 {
-    $no_stats=1;
-    theme('Standard Proofreading Interface Help','header');
+    output_header('Standard Proofreading Interface Help', NO_STATSBAR);
     echo "
     <center>
     <h2>Standard Proofreading Interface Help</h2>
@@ -30,8 +29,7 @@ if ( $i_type == 0 )
 }
 else
 {
-    $no_stats=1;
-    theme( 'Enhanced Proofreading Interface Help','header');
+    output_header('Enhanced Proofreading Interface Help', NO_STATSBAR);
     echo "
     <center>
     <h2>Enhanced Proofreading Interface Help</h2>
@@ -860,5 +858,4 @@ and then paste the text from the clipboard (using ctrl-v/cmd-v).
 </p>
 <br>
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

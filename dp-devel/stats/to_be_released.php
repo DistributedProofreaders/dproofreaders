@@ -8,7 +8,7 @@ include_once($relPath.'theme.inc');
 require_login();
 
 $title = _("Books To Be Released");
-theme($title,'header');
+output_header($title);
 
 echo "<br><h2>$title</h2>\n";
 
@@ -64,6 +64,5 @@ while ($rownum < $numrows) {
 }
 
 echo "</table>";
-theme("","footer");
 
 // vim: sw=4 ts=4 expandtab

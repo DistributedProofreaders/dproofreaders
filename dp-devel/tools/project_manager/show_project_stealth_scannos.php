@@ -84,8 +84,7 @@ if($format == "file") {
     exit;
 }
 
-$no_stats=1;
-theme($title,"header");
+output_header($title, NO_STATSBAR);
 echo_page_header($title,$projectid);
 
 // how many instances (ie: frequency sections) are there?
@@ -157,8 +156,6 @@ printTableFrequencies($initialFreq,$cutoffOptions,$percent_changed,$instances--,
 
 echo_checkbox_form_submit(_("Add selected words to Bad Words List"));
 echo_checkbox_form_end();
-
-theme('','footer');
 
 
 //---------------------------------------------------------------------------

@@ -6,8 +6,7 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
-theme('Workflow Diagram','header');
+output_header('Workflow Diagram', NO_STATSBAR);
 ?>
 
 <h1>Distributed Proofreaders General Workflow Diagram</h1>
@@ -16,5 +15,4 @@ theme('Workflow Diagram','header');
 <a href="ProoferFAQ.php">Back</a> to Proofreaders FAQ.</p>
 
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

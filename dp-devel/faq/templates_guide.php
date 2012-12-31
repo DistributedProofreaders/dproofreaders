@@ -6,8 +6,7 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
-theme('Templates available for Project Comments','header');
+output_header('Templates available for Project Comments', NO_STATSBAR);
 ?>
  
 <style TYPE="text/css">
@@ -352,5 +351,4 @@ HALF IN THE SECOND COLUMN.*****
 
 
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

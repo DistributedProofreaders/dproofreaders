@@ -6,9 +6,8 @@ include_once($relPath.'theme.inc');
 
 require_login();
 
-$no_stats = 1;
 $title = _("Details of Special Days/Weeks/Months");
-theme($title, "header");
+output_header($title, NO_STATSBAR);
 
 echo "<br><h2>$title</h2>\n";
 echo _("The Name column shows what the colour looks like with a link on top, the Comment with ordinary text")."<br><br>";
@@ -40,5 +39,4 @@ dpsql_dump_query("
 
 
 echo "<br>\n";
-theme("","footer");
 ?>

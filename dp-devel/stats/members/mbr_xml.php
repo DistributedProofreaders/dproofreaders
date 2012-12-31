@@ -12,22 +12,20 @@ $username = @$_GET['username'];
 
 if (empty($username)) {
     include_once($relPath.'theme.inc');
-    theme(_("Error!"), "header");
+    output_header(_("Error!"));
      echo "<br><center>";
      echo sprintf( _("A username must specified in the following format: %s"), "$code_url/stats/members/mbr_xml.php?username=*****");
      echo "</center>";
-    theme("", "footer");
     exit();
 }
 
 $curMbr = get_forum_user_details($username);
 if (empty($curMbr)) {
         include_once($relPath.'theme.inc');
-    theme(_("Error!"), "header");
+    output_header(_("Error!"));
      echo "<br><center>";
     echo sprintf(_("User '%s' does not exist."), htmlspecialchars($username));
      echo "</center>";
-    theme("", "footer");
     exit();
 }
 

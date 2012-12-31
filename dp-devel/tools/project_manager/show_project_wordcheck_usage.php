@@ -16,8 +16,7 @@ $projectid = validate_projectID('projectid', @$_GET['projectid']);
 enforce_edit_authorization($projectid);
 
 $title=_("WordCheck Project Usage");
-$no_stats = 1;
-theme($title,"header");
+output_header($title, NO_STATSBAR);
 echo_word_freq_style();
 echo_stylesheet();
 
@@ -141,8 +140,6 @@ mysql_free_result($res);
 ?>
 </table>
 <?php
-
-theme('',"footer");
 
 
 function echo_stylesheet() {

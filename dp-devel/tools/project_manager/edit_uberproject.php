@@ -144,7 +144,7 @@ if ( isset($_REQUEST['action']) &&
 
     }
 
-    theme(_("Create an Uber Project"), "header");
+    output_header(_("Create an Uber Project"));
 
     // want the "Create an Uber Project" version of this page to look a little different
     // from the normal "Create a Project" version, so we'll use a theme colour
@@ -202,7 +202,6 @@ if ( isset($_REQUEST['action']) &&
 
     echo "<tr><td bgcolor='$bgcol' colspan='2' align='center'><input type='submit' name='saveUberAndQuit' value='"._("Save Uber Project and Quit")."'><input type='submit' name='saveUberAndNewProject' value='"._("Save Uber Project and Create \na New Project from this Uber Project")."'><input type='submit' name='saveUberAndReturn' value='"._("Save Uber Project\n and Refresh")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</table></center>";
     echo "</form>";
-    theme("", "footer");
 }
 
 // -----------------------------------------------------------------------------
@@ -224,11 +223,10 @@ elseif (isset($_POST['saveUberAndQuit']) || isset($_POST['saveUberAndNewProject'
     }
     else
     {
-        theme(_("Uber Project Error!"), "header");
+        output_header(_("Uber Project Error!"));
         echo "<br><center><h3><font color='#ff0000'>$errorMsg<br><br>";
         echo _("Press browser Back button to return, edit, and try again");
         echo "</font></h3></center>";
-        theme("", "footer");
     }
 }
 

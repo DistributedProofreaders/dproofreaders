@@ -6,8 +6,7 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
-theme('FAQ Central','header');
+output_header('FAQ Central', NO_STATSBAR);
 ?>
 <div id='article'><a name="top"></a>
 <h1 >Site translation</h1 >
@@ -172,10 +171,10 @@ translate the page title:
 </td ><td >
 <b >After:</b >
 </td ></tr ><tr valign=top><td >
-<pre>theme('FAQ Central','header');</pre>
+<pre>output_header('FAQ Central', NO_STATSBAR);</pre>
 
 </td ><td >
-<pre>theme('Централни FAQ','header');</pre>
+<pre>output_header('Централни FAQ', NO_STATSBAR);</pre>
 
 </td ></tr ></table >
 
@@ -287,5 +286,4 @@ them are actually called, and we do plan to solve the technical difficulties onc
 <p>
 </div>
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

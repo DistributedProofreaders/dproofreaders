@@ -27,7 +27,7 @@ else
 
 function show_query_form()
 {
-    theme(_("Create a Project"), "header");
+    output_header(_("Create a Project"));
     if (!function_exists('yaz_connect'))
     {
         echo "<br>";
@@ -110,14 +110,13 @@ function show_query_form()
         echo "</center>";
         echo "</form>\n";
     }
-    theme("", "footer");
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function do_search_and_show_hits()
 {
-    theme("Search Results", "header");
+    output_header("Search Results");
     echo "<br>";
     if (empty($_GET['start'])) { $start = 1; } else { $start = $_GET['start']; }
     if (!empty($_GET['fq']))
@@ -149,7 +148,6 @@ function do_search_and_show_hits()
         echo sprintf(
             _("Please try again. If the problem recurs, please create your project manually by following this <a href='%s'>link</a>."), $url);
         echo "</center>";
-        theme("", "footer");
         exit();
     }
     
@@ -283,7 +281,6 @@ function do_search_and_show_hits()
     echo "</form>";
     echo "</center>";
     yaz_close($id);
-    theme("", "footer");
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

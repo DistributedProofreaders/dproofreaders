@@ -12,8 +12,6 @@ include_once('PPage.inc');
 
 require_login();
 
-$no_stats=1;
-
 if (isset($ppage))
 {
     // This file was include()'d (rather than invoked as a top-level script)
@@ -31,7 +29,7 @@ $imagefile  = $ppage->imagefile();
 if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
 {
     $header = _("Bad Page Report");
-    theme($header, "header");
+    output_header($header, NO_STATSBAR);
 
     echo "<br><br>\n<center>";
     echo "<table width='80%' align='center' bgcolor='#ffffff' border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse'><tr><td bgcolor='#ffffff' colspan='2' align='left'>";
@@ -74,7 +72,6 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
     echo "<B>"._("Note").":</B> "._("If this report causes a project to be marked<br> bad you will be redirected to the Activity Hub.");
     echo "</td></tr>\n";
     echo "</table></form></center>\n";
-    theme("", "footer");
 }
 else
 {
@@ -83,9 +80,8 @@ else
     //See if they filled in a reason.  If not tell them to go back
     if ($reason == 0) {
         include_once($relPath.'theme.inc');
-        theme(_("Incomplete Form!"), "header");
+        output_header(_("Incomplete Form!"), NO_STATSBAR);
         echo "<br><center>"._("You have not completely filled out this form!  Please hit the <a href='javascript:history.back()'>back</a> button on your browser & fill out all fields.")."</center>";
-        theme("","footer");
         exit();
     }
 

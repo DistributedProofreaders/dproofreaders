@@ -610,8 +610,7 @@ the FAQ file with a snippet of PHP code like:
 $relPath='../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-$no_stats=1;
-theme('Post-Processing FAQ','header');
+output_header('Post-Processing FAQ', NO_STATSBAR);
 ?>
 
 
@@ -696,8 +695,8 @@ we can start our FAQs with
 $relPath='../pinc/';
 include($relPath.'base.inc');
 include($relPath.'theme.inc');
-$no_stats=1;
-theme('Post-Processing FAQ','header');
+new dbConnect();
+output_header('Post-Processing FAQ', NO_STATSBAR);
 ?>
 
 and have them show up in the browsers as if all

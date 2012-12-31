@@ -18,7 +18,7 @@ $image_index_str = _('Image Index');
 // so that we can control the http headers
 if (is_null($zip_type))
 {
-theme("$image_index_str: {$project->nameofwork}", 'header');
+output_header("$image_index_str: {$project->nameofwork}");
 
 echo "
     <h1>{$project->nameofwork}</h1>
@@ -96,8 +96,6 @@ else
     echo "</tr>\n";
     echo "</table>\n";
 }
-
-theme("", 'footer');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

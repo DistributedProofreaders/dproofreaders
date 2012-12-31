@@ -8,11 +8,10 @@ include_once('parse_po.inc');
 require_login();
 undo_all_magic_quotes();
 
-theme(_("Translation Center"), "header");
+output_header(_("Translation Center"));
 
 if(!user_is_site_translator()) {
     echo _("You can not access this page.");
-    theme("","footer");
     exit();
 }
 
@@ -129,7 +128,5 @@ if (isset($_POST['lang']) && isset($_POST['rebuild_strings'])) {
     }
     echo "<a href='index.php?func=translate&amp;lang=$lang'>".sprintf(_("Please click here to return to translate the %s language file."), lang_name($lang)).".</a>";
 }
-
-theme('','footer');
 
 // vim: sw=4 ts=4 expandtab

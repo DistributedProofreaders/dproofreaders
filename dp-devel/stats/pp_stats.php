@@ -8,7 +8,7 @@ include_once($relPath.'theme.inc');
 require_login();
 
 $title = _("Post-Processing Statistics");
-theme($title,'header');
+output_header($title);
 
 echo "<br><br><h2>$title</h2><br>\n";
 
@@ -83,7 +83,5 @@ dpsql_dump_themed_query("
 echo "<br>\n";
 
 echo "<br>\n";
-
-theme("","footer");
 
 // vim: sw=4 ts=4 expandtab

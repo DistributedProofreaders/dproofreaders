@@ -10,11 +10,10 @@ include_once($relPath.'email_address.inc');
 
 require_login();
 
-theme(_('Edit mail-address for non-activated user'), 'header');
+output_header(_('Edit mail-address for non-activated user'));
 
 if (!user_is_a_sitemanager()) {
     echo _('You are not authorized to invoke this script.');
-    theme('', 'footer');
     exit;
 }
 
@@ -127,7 +126,5 @@ else if ($action == 'set_email') {
 }
 else
     echo 'Unknown action.';
-
-theme('', 'footer');
 
 // vim: sw=4 ts=4 expandtab

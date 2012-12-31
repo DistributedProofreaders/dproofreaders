@@ -72,8 +72,7 @@ $pwlh->set_from_files(!$good_word_conflict,!$bad_word_conflict);
 
 $page_title = _("Edit Project Word Lists");
 
-$no_stats=1;
-theme($page_title, "header");
+output_header($page_title, NO_STATSBAR);
 echo "<h1>$page_title</h1>\n";
 
 foreach($errors as $error) {
@@ -81,8 +80,6 @@ foreach($errors as $error) {
 }
 
 $pwlh->show_form();
-
-theme("", "footer");
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

@@ -15,7 +15,6 @@ if ( !user_is_a_sitemanager() )
 
 undo_all_magic_quotes();
 
-$no_stats=1;
 $theme_args['css_data'] = "
 table.listing { border-collapse:collapse; width: 80%; margin: auto; }
 table.listing td { border: 1px solid #999; }
@@ -96,7 +95,7 @@ if ($action == 'update_oneshot')
 
 if ($action == 'show_specials')
 {
-    theme(_('Manage Special Days'),'header', $theme_args);
+    output_header(_('Manage Special Days'),'header', NO_STATSBAR, $theme_args);
 
     show_sd_toolbar();
 
@@ -124,26 +123,22 @@ if ($action == 'show_specials')
     }
     echo "</table>";
     echo "<br>";
-
-    theme('','footer');
 }
 
 elseif ($action == 'edit_source')
 {
     $source = new SpecialDay($_POST['source']);
-    theme(sprintf(_("Editing Special Day %s"),$source->display_name),'header',$theme_args);
+    output_header(sprintf(_("Editing Special Day %s"),$source->display_name), NO_STATSBAR, $theme_args);
     show_sd_toolbar();
     $source->show_edit_form();
-    theme('','footer');
 }
 
 elseif ($action == 'add_special')
 {
-    theme(_('Add a new Special Day'),'header',$theme_args);
+    output_header(_('Add a new Special Day'),'header', NO_STATSBAR, $theme_args);
     show_sd_toolbar();
     $blank = new SpecialDay(null);
     $blank->show_edit_form();
-    theme('','footer');
 }
 
 // ----------------------------------------------------------------------------
@@ -320,10 +315,9 @@ class SpecialDay
 
         if ($errmsgs)
         {
-            theme('','header',$theme_args);
+            output_header('', NO_STATSBAR, $theme_args);
             echo "<p style='font-weight: bold; color: red;'>" . $errmsgs . "</p>";
             $this->show_edit_form();
-            theme('','footer');
             die;
         }
 

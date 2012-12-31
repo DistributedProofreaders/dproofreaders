@@ -7,8 +7,7 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
-theme('Proofreading Guidelines -- Copyright Renewal Books','header');
+output_header('Proofreading Guidelines -- Copyright Renewal Books', NO_STATSBAR);
 ?>
 
   <style TYPE="text/css">
@@ -234,5 +233,4 @@ R554718.
 </table>
 
 <?php
-theme('','footer');
 // vim: sw=4 ts=4 expandtab

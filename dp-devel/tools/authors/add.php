@@ -147,7 +147,7 @@ else {
 // produce form (with blank values
 // or those to be edited)
 
-theme(_('Add author'), 'header');
+output_header(_('Add author'));
 
 
 echo_menu();
@@ -403,7 +403,5 @@ echo '<li><a href="http://authorities.loc.gov/" target="_blank">' . _('The Libra
 echo '</ul>';
 
 echo_menu();
-
-theme('', 'footer');
 
 // vim: sw=4 ts=4 expandtab

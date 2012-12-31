@@ -68,8 +68,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
         }
     }
 
-    $no_stats=1;
-    theme($page_title, "header", $theme_args);
+    output_header($page_title, NO_STATSBAR, $theme_args);
     echo "<br><h2 align='center'>$page_title</h2>\n";
 
     if ($errors != '')
@@ -83,8 +82,6 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
     {
         $pih->preview();
     }
-
-    theme("", "footer");
 }
 elseif (isset($_POST['quit']))
 {
@@ -137,22 +134,18 @@ else
             $fatal_error = _("parameter 'action' is invalid") . ": '$requested_action'";
     }
 
-    $no_stats=1;
-    theme($page_title, "header", $theme_args);
+    output_header($page_title, NO_STATSBAR, $theme_args);
     echo "<br><h2 align='center'>$page_title</h2>\n";
 
     if ($fatal_error != '')
     {
         $fatal_error = _('site error') . ': ' . $fatal_error;
         echo "<br><center><font size='+1' color='#ff0000'><b>$fatal_error</b></font></center>";
-        theme('', 'footer');
         exit;
     }
 
     $pih->normalize_spaces();
     $pih->show_form();
-
-    theme("", "footer");
 }
 
 // returns an empty string if the possible user exists,
@@ -687,7 +680,6 @@ class ProjectInfoHolder
             {
                 $fatal_error = _('site error') . ': ' . $fatal_error;
                 echo "<br><center><font size='+1' color='#ff0000'><b>$fatal_error</b></font></center>";
-                theme('', 'footer');
                 exit;
             }
             $changed_fields = get_changed_fields($this, $old_pih);
