@@ -95,7 +95,7 @@ if ($action == 'update_oneshot')
 
 if ($action == 'show_specials')
 {
-    output_header(_('Manage Special Days'),'header', NO_STATSBAR, $theme_args);
+    output_header(_('Manage Special Days'), NO_STATSBAR, $theme_args);
 
     show_sd_toolbar();
 
@@ -135,7 +135,7 @@ elseif ($action == 'edit_source')
 
 elseif ($action == 'add_special')
 {
-    output_header(_('Add a new Special Day'),'header', NO_STATSBAR, $theme_args);
+    output_header(_('Add a new Special Day'), NO_STATSBAR, $theme_args);
     show_sd_toolbar();
     $blank = new SpecialDay(null);
     $blank->show_edit_form();
