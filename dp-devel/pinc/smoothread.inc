@@ -4,7 +4,7 @@ include_once($relPath.'misc.inc');  // attr_safe()
 
 /***************************************************************************************
 *
-* Functions for smoothreading commitment functionality
+* Functions for Smooth Reading commitment functionality
 *
 * At this point the functionality does not require the usage of a class
 * nor make it more convenient. Future extensions might change this assessment.
@@ -69,8 +69,8 @@ function sr_user_is_committed($projectid, $username)
 * Remarks:
 *
 * Currently the record is only inserted with the committed field being set to one.
-* This allows the future extension for a timestamp and the resetting to 0 if revoked in oder
-* to still show users that have once committed but then revoked that commitment.
+* This allows the future extension for a timestamp and the resetting to 0 if revoked in
+* order to still show users that have once committed but then revoked that commitment.
 *
 ****************************************************************************************/
 
@@ -147,7 +147,7 @@ function sr_get_committed_users($projectid)
 
 /***************************************************************************************
 *
-* function sr_number_users_committed: provide nnumber of users with sr-commitment to project
+* function sr_number_users_committed: provide number of users with sr-commitment to project
 *
 * inputs: projectid
 *
@@ -206,7 +206,7 @@ function sr_echo_commitment_form($projectid)
     global $code_url;
 
     $next_url = $_SERVER['REQUEST_URI'];
-    $button_text = _("Commit to SR");
+    $button_text = _("Volunteer to SR");
 
     echo "<form method='post' action='$code_url/tools/change_sr_commitment.php'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
@@ -226,7 +226,7 @@ function sr_echo_commitment_form($projectid)
 *
 * Remarks:
 *
-* This calls a transient page executing the database function for revoking a commitment 
+* This calls a transient page executing the database function for withdrawing a commitment 
 * and provides the current URI for return to current page.
 *
 ****************************************************************************************/
@@ -236,7 +236,7 @@ function sr_echo_withdrawal_form($projectid)
     global $code_url;
 
     $next_url = $_SERVER['REQUEST_URI'];
-    $button_text = _("Withdraw SR commitment");
+    $button_text = _("Withdraw from SR");
 
     echo "<form method='post' action='$code_url/tools/change_sr_commitment.php'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";

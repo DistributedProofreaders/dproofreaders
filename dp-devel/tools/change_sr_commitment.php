@@ -9,7 +9,7 @@ require_login();
 
 /***************************************************************************************
 *
-* transient page to register or revoke a users commitment to smoothread a project.
+* transient page to record or remove a users intent to smoothread a project.
 *
 * inputs: projectid, username, action, next_url (per POST-method)
 *
@@ -29,15 +29,15 @@ $refresh_url = @$_POST['next_url'];
 switch ($action) {
 case "commit":
     sr_commit($projectid, $pguser);
-    $title = _("Commit to SR");
-    $body = sprintf(_("Registered SR-commitment of user %1\$s for project %2\$s."),
+    $title = _("Volunteer to SR");
+    $body = sprintf(_("%1\$s, you have volunteered to smoothread project %2\$s."),
         $pguser, $projectid);
     break;
 
 case "withdraw":
     sr_withdraw_commitment($projectid, $pguser);
-    $title = _("Withdraw SR-commitment");
-    $body = sprintf(_("Withdraw SR-commitment of user %1\$s for project %2\$s."),
+    $title = _("Withdraw from SR");
+    $body = sprintf(_("%1\$s, you have withdrawn from smoothreading project %2\$s."),
         $pguser, $projectid);
     break;
 }

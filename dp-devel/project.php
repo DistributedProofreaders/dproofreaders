@@ -1784,7 +1784,7 @@ function do_smooth_reading()
     if ( $project->smoothread_deadline == 0 )
     {
         echo "<li>";
-        echo _('This project has not been made available for smooth reading.');
+        echo _('This project has not been made available for Smooth Reading.');
         echo "</li>";
 
         if ($current_user_can_manage_SR_for_this_project)
@@ -1811,7 +1811,7 @@ function do_smooth_reading()
             $sr_deadline_str = strftime(
                 $date_format, $project->smoothread_deadline );
             $sr_sentence = sprintf(
-                _('This project has been made available for smooth reading until %s.'),
+                _('This project has been made available for Smooth Reading until %s.'),
                 "<b>$sr_deadline_str</b>"
             );
 
@@ -1823,14 +1823,14 @@ function do_smooth_reading()
             {
                 echo "<li>";
                 echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks=replace'>";
-                echo _("Replace the current file that's available for smooth-reading.");
+                echo _("Replace the currently available Smooth Reading file.");
                 echo "</a>";
                 echo "</li>";
             }
 
             if (!$project->PPer_is_current_user)
             {
-                echo_download_zip( _("Download zipped text for smooth reading"), '_smooth_avail' );
+                echo_download_zip( _("Download zipped text for Smooth Reading"), '_smooth_avail' );
                 
                 // We don't allow guests to upload the results of smooth-reading.
                 global $user_is_logged_in;
@@ -1847,16 +1847,16 @@ function do_smooth_reading()
                     if (!sr_user_is_committed($projectid, $pguser))
                     {
                         echo "<li>";
-                        echo _('If you want, you can indicate your commitment to smoothread this project to the PP by pressing:');
+                        echo _('You can volunteer to smoothread this project for the PPer by pressing:');
                         sr_echo_commitment_form($projectid);
                         echo "</li>\n";
                     }
                     else
                     {
                         echo "<li>";
-                        echo _('You have committed to smoothread this project.');
+                        echo _('You have volunteered to smoothread this project.');
                         echo "<br />";
-                        echo _('If you want to withdraw your commitment, please press:');
+                        echo _('If you wish to withdraw from smoothreading it, please press:');
                         sr_echo_withdrawal_form($projectid);
                         echo "</li>";
                     }
@@ -1864,7 +1864,7 @@ function do_smooth_reading()
                 else
                 {
                     echo "<li>";
-                    echo _('Please note that while unregistered guests are welcome to download texts for smooth reading, only registered volunteers are able to upload annotated texts.');
+                    echo _('Please note that while unregistered guests are welcome to download texts for Smooth Reading, only registered volunteers are able to upload annotated texts.');
                     echo "\n";
                     echo _('A registration link is available at the top of this page.');
                     echo "</li>\n";
@@ -1874,13 +1874,13 @@ function do_smooth_reading()
         else
         {
             echo "<li>";
-            echo _('The deadline for smooth-reading this project has passed.');
+            echo _('The Smooth Reading deadline for this project has passed.');
             echo "</li>";
 
             if ($current_user_can_manage_SR_for_this_project)
             {
                 echo "<li>";
-                echo _("But you can make it available for smooth-reading for a further period.")." ";
+                echo _("But you can make it available for Smooth Reading for an additional period.")." ";
                 echo _('Choose how long you want to make it available for.');
                 $link_start = "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_avail&weeks";
                 echo "<ul>";
@@ -1902,11 +1902,11 @@ function do_smooth_reading()
             echo "<li>";
             if (count($sr_list) == 0)
             {
-                echo _('Nobody has committed to smoothread this project.');
+                echo _('No one has volunteered to smoothread this project.');
             }
             else
             {
-                echo _('The following users have committed to smoothread this project:');
+                echo _('The following users have volunteered to smoothread this project:');
                 echo "<ul>";
                 foreach ($sr_list as $sr_user)
                 {
