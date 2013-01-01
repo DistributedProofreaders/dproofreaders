@@ -42,12 +42,13 @@ function show_projects_for_smooth_reading()
 {
     global $pguser;
 
+    // Necessary JOIN clause for SR with current commitment
+    $optional_join_clause = "INNER JOIN smoothread ON (projects.projectid = smoothread.projectid AND smoothread.user = '$pguser' AND smoothread.committed <> 0)";
+
+    // Selector for checked out projects
     $initial_project_selector = "state = 'proj_post_first_checked_out' AND smoothread_deadline > UNIX_TIMESTAMP()";
 
-    $show_filter_block = TRUE;
     $filter_custom_display_fields = array("checkedoutby" => TRUE);
-
-    $allow_special_colors_legend = TRUE;
 
     $columns = array(
         "nameofwork"   => array( 'Title',  _("Title") ),
@@ -68,14 +69,53 @@ function show_projects_for_smooth_reading()
         unset($columns['checkedoutby']);
         unset($columns['uploaded']);
     }
+    else
+    {
+    // Show the committed project listing if the user is logged in.
+    // This listing should not have the filter or legend display.
 
+    // HACK: show_projects_for_stage() makes poor assumption about displaying legends
+    $title = _('Projects I Plan to Smooth Read');
+    echo "\n<h2 align='center'>$title</h2>";
+
+    $show_filter_block = FALSE;
+    $allow_special_colors_legend = FALSE;
     show_projects_for_stage(
         get_Stage_for_id("SR"),
         $initial_project_selector,
         $show_filter_block,
         $filter_custom_display_fields,
         $allow_special_colors_legend,
-        $columns );
+        $columns,
+        $optional_join_clause );
+    }
+
+    // Do it again for non-committed (projects available for SR) listing.
+    // This listing should have both the filter and legend display.
+    if ( !isset($pguser) )
+    {
+        $initial_project_selector = "state = 'proj_post_first_checked_out' AND smoothread_deadline > UNIX_TIMESTAMP()";
+    }
+    else
+    {
+        $initial_project_selector = "state = 'proj_post_first_checked_out' AND smoothread_deadline > UNIX_TIMESTAMP() AND projectid NOT IN (SELECT projectid FROM smoothread WHERE smoothread.user = '$pguser')";
+    }
+    $optional_join_clause = ""; // Not needed for this display
+
+    // HACK: show_projects_for_stage() makes poor assumption about displaying legends
+    $title = _('Projects Available for Smooth Reading');
+    echo "\n<h2 align='center'>$title</h2>";
+
+    $show_filter_block = TRUE;
+    $allow_special_colors_legend = TRUE;
+    show_projects_for_stage(
+        get_Stage_for_id("SR"),
+        $initial_project_selector,
+        $show_filter_block,
+        $filter_custom_display_fields,
+        $allow_special_colors_legend,
+        $columns,
+        $optional_join_clause );
 }
 
 // -----------------------------------------------------------------------------
@@ -86,7 +126,8 @@ function show_projects_for_stage(
     $show_filter_block,
     $filter_custom_display_fields,
     $allow_special_colors_legend,
-    $columns )
+    $columns,
+    $optional_join_clause )
 // Generate a chunk of HTML consisting of:
 // (1) an optional filter widget,
 // (2) an optional "Special Days" color legend, and
@@ -143,9 +184,12 @@ function show_projects_for_stage(
     $anchor = $stage->id;
     echo "\n<a name='$anchor'></a>";
 
-    $title = _('Projects Currently Available');
-    echo "\n<h3>$title</h3>";
-    echo "\n<p>{$stage->description}</p>";
+    // Suppress this for SR since it doesn't fit well with the activity
+    if ($stage->id <> "SR") {
+        $title = _('Projects Currently Available');
+        echo "\n<h3 align='center'>$title</h3>";
+        echo "\n<p>{$stage->description}</p>";
+    }
 
     show_project_listing(
         $filtered_project_selector,
@@ -154,7 +198,8 @@ function show_projects_for_stage(
         $ext_sort_setting_name,
         $default_ext_sort,
         $anchor,
-        $stage
+        $stage,
+        $optional_join_clause
     );
 }
 
@@ -257,8 +302,11 @@ function show_project_listing(
     $anchor,
         // the anchor on the page to jump to
 
-    $stage
+    $stage,
         // stage object (Round, Pool, or Stage)
+
+    $optional_join_clause=NULL
+        // If needed. Default to NULL, but useful/necessary for SR stage
 )
 {
     global $code_url, $pguser;
@@ -312,6 +360,7 @@ function show_project_listing(
             (unix_timestamp()    - modifieddate    )/(24 * 60 * 60) AS days_avail,
             (smoothread_deadline - unix_timestamp())/(24 * 60 * 60) AS days_left
         FROM projects
+        $optional_join_clause
         WHERE
             $filtered_project_selector
         ORDER BY
