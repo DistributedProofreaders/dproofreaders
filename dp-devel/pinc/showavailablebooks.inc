@@ -75,7 +75,7 @@ function show_projects_for_smooth_reading()
     // This listing should not have the filter or legend display.
 
     // HACK: show_projects_for_stage() makes poor assumption about displaying legends
-    $title = _('Projects I Plan to Smooth Read');
+    $title = _('Projects you have volunteered to Smooth Read');
     echo "\n<h2 align='center'>$title</h2>";
 
     $show_filter_block = FALSE;
