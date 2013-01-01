@@ -7,7 +7,7 @@ include($relPath.'Project.inc');  // validate_projectID()
 require_login();
 
 $projectid = validate_projectID('projectid', @$_POST['projectid']);
-$return_uri = $_POST['return_uri'];
+$return_uri = urldecode($_POST['return_uri']);
 
 $subs = array();
 $unsubs = array();
