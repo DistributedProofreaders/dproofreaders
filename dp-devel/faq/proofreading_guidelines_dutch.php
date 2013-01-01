@@ -2218,8 +2218,7 @@ Wanneer je deze gebruikt, wees zeker om alleen Latin-1 letters in te voegen (deg
       <li>Linux: de naam en locatie varieert en hangt af van je desktop omgeving.</li>
     </ul>
   </li>
-  <li>Een on-line programma, zoals <a
-   href="http://free.pages.at/krauss/computer/xml/daten/edicode.html">Edicode</a>.</li>
+  <li>Een on-line programma.</li>
   <li>Toetscombinaties.<br>
       (Zie de tabellen hieronder voor <a href="#a_chars_win">Windows</a> en <a href="#a_chars_mac">Macintosh</a>.)</li>
   <li>Switch naar een toetsenbordindeling of een plek die "deadkey" accenten ondersteunt.

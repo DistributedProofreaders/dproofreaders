@@ -2444,8 +2444,7 @@ wie sie in den Tabellen weiter unten aufgelistet sind.
           Arbeitsumgebung.</li>
     </ul>
   </li>
-  <li>Mit einem Online-Programm, wie zum Beispiel <a
-      href="http://free.pages.at/krauss/computer/xml/daten/edicode.html">Edicode</a>.</li>
+  <li>Mit einem Online-Programm.</li>
   <li>Tastenk&uuml;rzel<br> (Tabellen f&uuml;r <a href="#a_chars_win">Windows</a>
       und <a href="#a_chars_mac">Macintosh</a> finden Sie weiter unten in diesem Dokument.)</li>
   <li>Durch Umschalten auf ein Tastaturlayout oder eine andere

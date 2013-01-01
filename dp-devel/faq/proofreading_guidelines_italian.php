@@ -2312,8 +2312,7 @@ Se usi uno di questi, assicurati di inserire solo i caratteri del Latin-1
           dell'ambiente del tuo desktop.</li>
     </ul>
   </li>
-  <li>Un programma on-line, come <a
-   href="http://free.pages.at/krauss/computer/xml/daten/edicode.html">Edicode</a>.</li>
+  <li>Un programma on-line.</li>
   <li>Scorciatoie della tastiera.<br>
        (Vedi le tabelle per <a href="#a_chars_win">Windows</a> e <a href="#a_chars_mac">Macintosh</a>
        sotto.)</li>

@@ -733,8 +733,7 @@ varias maneras de hacerlo:
           Para KDE, intente KCharSelect (en el submen&uacute; Utilities del men&uacute; principal).</li>
       </ul>
   </li>
-  <li>El programa en l&iacute;nea como<a
-   href="http://free.pages.at/krauss/computer/xml/daten/edicode.html">Edicode</a>.</li>
+  <li>El programa en l&iacute;nea.</li>
   <li> Teclas personalizadas.<br>
 
        Tablas para <a href="#a_chars_win">Windows</a> y <a href="#a_chars_mac">Macintosh</a>

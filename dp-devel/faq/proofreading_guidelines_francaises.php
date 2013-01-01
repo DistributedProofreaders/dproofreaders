@@ -2337,8 +2337,7 @@ Plural   {   2d   "  ye, or you,   you,
           d&eacute;pend de votre bureau.</li>
     </ul>
   </li>
-  <li>Des programmes en ligne, comme <a
-   href="http://free.pages.at/krauss/computer/xml/daten/edicode.html">Edicode</a>.</li>
+  <li>Des programmes en ligne.</li>
   <li>Raccourcis clavier.<br>
       Voir ci-dessous les tables pour <a href="#a_chars_win">Windows</a> et
       <a href="#a_chars_mac">Macintosh</a>.</li>

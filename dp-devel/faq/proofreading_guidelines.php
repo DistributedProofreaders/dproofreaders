@@ -2145,8 +2145,7 @@ If you use one of these, be sure to insert only Latin-1 characters (those listed
       <li>Linux: The name and location of the character picker will vary depending on your desktop environment.</li>
     </ul>
   </li>
-  <li>An on-line program, such as <a
-   href="http://free.pages.at/krauss/computer/xml/daten/edicode.html">Edicode</a>.</li>
+  <li>An on-line program.</li>
   <li>Keyboard shortcuts.<br>
        (See the tables for <a href="#a_chars_win">Windows</a> and <a href="#a_chars_mac">Macintosh</a> below.)</li>
   <li>Switching to a keyboard layout or locale which supports "deadkey" accents.

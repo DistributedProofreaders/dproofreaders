@@ -2445,8 +2445,7 @@ Se utiliar um destes, certifique-se que insere apenas caracteres Latin-1
           varia consoante o ambiente de trabalho.</li>
     </ul>
   </li>
-  <li>Uma aplica&ccedil;&atilde;o em linha, como o <a
-   href="http://free.pages.at/krauss/computer/xml/daten/edicode.html">Edicode</a>.</li>
+  <li>Uma aplica&ccedil;&atilde;o em linha.</li>
   <li>Os atalhos do teclado.<br>
       (Consulte as tabelas para <a href="#a_chars_win">Windows</a> e <a href="#a_chars_mac">Macintosh</a>
       abaixo.)</li>
