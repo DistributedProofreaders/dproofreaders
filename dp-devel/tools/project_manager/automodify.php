@@ -5,7 +5,6 @@
 //   - Complete Project: If a project has completed round 2, it sends it to post-processing or assign to the project manager
 //   - Release Projects: If there are not enough projects available to end users, it will release projects waiting to be released
 $relPath="./../../pinc/";
-
 include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'projectinfo.inc');
@@ -13,8 +12,17 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'Project.inc'); // project_get_auto_PPer
-
+include_once($relPath.'misc.inc'); // requester_is_localhost()
 include('autorelease.inc');
+
+// The requester needs to be either from localhost (eg: run from crontab)
+// or logged in and either SA or PF.
+if(!requester_is_localhost()) {
+    require_login();
+
+    if ( !user_is_a_sitemanager() && !user_is_proj_facilitator() ) 
+        die('You are not authorized to invoke this script.');
+}
 
 $one_project = validate_projectID('project', @$_GET['project'], true);
 $refresh_url = @$_GET['return_uri'];
@@ -367,4 +375,3 @@ function hold_project_between_rounds( $project )
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

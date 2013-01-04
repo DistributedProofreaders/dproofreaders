@@ -8,6 +8,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'marc_format.inc');
 
+require_login();
+
 $action = @$_REQUEST['action'];
 
 if ( $action == 'show_query_form' )
@@ -347,4 +349,3 @@ function query_format()
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

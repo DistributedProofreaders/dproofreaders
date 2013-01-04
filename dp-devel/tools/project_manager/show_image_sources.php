@@ -10,6 +10,8 @@ include_once($relPath.'dpsql.inc');
 include_once($relPath.'misc.inc'); // array_get()
 include_once($relPath.'pg.inc');
 
+require_login();
+
 $which = get_enumerated_param($_GET, 'which', 'DONE', array('ALL', 'DONE'));
 
 $locuserSettings =& Settings::get_Settings($pguser);
@@ -204,4 +206,3 @@ if (!isset($_GET['name']))
 echo "<br>\n";
 
 // vim: sw=4 ts=4 expandtab
-?>

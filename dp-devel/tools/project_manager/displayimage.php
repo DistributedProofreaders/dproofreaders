@@ -5,6 +5,8 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'Project.inc');
 
+require_login();
+
 $default_percent = array_get( @$_SESSION["displayimage"], 'percent', 100 );
 
 // get variables passed into page

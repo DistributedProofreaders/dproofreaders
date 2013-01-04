@@ -4,6 +4,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once('../../stats/jpgraph_files/common.inc');
 
+require_login();
+
 $projectid = validate_projectID("projectid", @$_GET["projectid"]);
 
 // data for this graph is generated in show_wordcheck_page_stats.php
@@ -22,4 +24,5 @@ draw_simple_bar_graph(
 // consider keeping this data if calling this
 // image multiple times is needed in future code changes
 unset($_SESSION["graph_flags_per_page"][$projectid]);
-?>
+
+// vim: sw=4 ts=4 expandtab

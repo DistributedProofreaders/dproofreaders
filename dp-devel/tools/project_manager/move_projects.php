@@ -5,6 +5,8 @@ include_once($relPath.'project_edit.inc');
 include_once($relPath.'project_trans.inc');
 include_once('projectmgr.inc');
 
+require_login();
+
 $curr_state = get_enumerated_param($_GET, 'curr_state', null, $PROJECT_STATES_IN_ORDER);
 $new_state  = get_enumerated_param($_GET, 'new_state', null, $PROJECT_STATES_IN_ORDER);
 $projectids = explode( ',', $_GET['projects'] );
@@ -66,4 +68,5 @@ echo "</pre>\n";
 
 echo "<hr>\n";
 echo "<p>" . sprintf(_("Back to the <a href='%s'>project manager</a> page."), "projectmgr.php") . "</p>\n";
-?>
+
+// vim: sw=4 ts=4 expandtab

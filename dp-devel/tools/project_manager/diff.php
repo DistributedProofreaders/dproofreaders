@@ -7,6 +7,8 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'links.inc');
 include_once("DifferenceEngineWrapper.inc");
 
+require_login();
+
 $projectid   = validate_projectID('project', @$_GET['project']);
 $image       = validate_page_image_filename('image', @$_GET['image'], true);
 $L_round_num = get_integer_param($_GET, 'L_round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
@@ -248,4 +250,3 @@ function can_navigate_by_proofer($projectid, $L_user)
 }
 
 // vim: sw=4 ts=4 expandtab
-?>
