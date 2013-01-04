@@ -5,6 +5,8 @@ include_once($relPath.'pg.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc');
 
+require_login();
+
 $title = _("Greek to Latin-1 Transliteration");
 slim_header($title,TRUE,FALSE);
 $greek_contents = @$_GET['textbox'];

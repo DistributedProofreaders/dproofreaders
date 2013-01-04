@@ -2,9 +2,10 @@
 $relPath="./../../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
-
 include_once("$wikihiero_dir/wh_language.php");
 include_once("$wikihiero_dir/wikihiero.php");
+
+require_login();
 
 slim_header();
 

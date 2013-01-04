@@ -33,6 +33,8 @@ $lang=short_lang_code();
 include "$wikihiero_dir/wh_language.php";
 include "$wikihiero_dir/wikihiero.php";
 
+require_login();
+
 $wh_img_url="$wikihiero_url/".WH_IMG_DIR;
 
 if(array_key_exists("table", $_GET))
