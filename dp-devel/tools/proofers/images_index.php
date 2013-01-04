@@ -120,7 +120,7 @@ function list_images( $image_names, $these_are_page_images )
     {
         echo "<tr>\n";
         echo "<th>", _('name'), "</th>\n";
-        echo "<th>", _('size (bytes)'), "</th>\n";
+        echo "<th>", _('size'), "</th>\n";
         if ( $show_replace_links )
         {
             echo "<th>", _('replace'), "</th>\n";
@@ -143,8 +143,20 @@ function list_images( $image_names, $these_are_page_images )
             $encoded_url = "$projects_url/$projectid/" . rawurlencode($image_name);
             echo "<td><a href='$encoded_url'><b>$image_name</b></a></td>\n";
 
+            // scale image sizes to reasonable units
             $size = filesize($image_name);
-            echo "<td align='right'>$size</td>\n";
+            $units = "B";
+            if($size > 1024)
+            {
+                $size = $size / 1024;
+                $units = "KB";
+                if($size > 1024)
+                {
+                    $size = $size / 1024;
+                    $units = "MB";
+                }
+            }
+            echo "<td align='right'>" . sprintf("%0.2f", $size) . " $units</td>\n";
         }
 
         if ( $show_replace_links )
