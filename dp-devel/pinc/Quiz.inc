@@ -1,6 +1,7 @@
 <?php
 include_once($relPath."connect.inc");
 include_once($relPath."site_vars.php");
+
 class Quiz
 {
   function Quiz($id,$name,$descrption,$pages, $pass_requirements)
@@ -115,7 +116,6 @@ class Quiz
 
 function record_quiz_attempt($username, $quiz_page, $result)
 {
-  new dbConnect();
   $res = mysql_query("SELECT * FROM `quiz_passes`
   WHERE `username` ='$username' AND `quiz_page` ='$quiz_page'");
   if (mysql_num_rows($res) > 0)

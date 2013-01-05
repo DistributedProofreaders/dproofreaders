@@ -3,7 +3,6 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'connect.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'pg.inc');
-new dbConnect();
 
 function list_projects_tersely( $where_condition, $order_clause, $limit_clause )
 // List the specified projects,

@@ -18,7 +18,6 @@
 
 include_once($relPath.'misc.inc');
 include_once($relPath.'connect.inc');
-new dbConnect();
 
 // A TallyBoard maintains all tally data (past and present)
 // for a particular combination of tally_name and holder_type.

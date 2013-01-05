@@ -695,7 +695,6 @@ we can start our FAQs with
 $relPath='../pinc/';
 include($relPath.'base.inc');
 include($relPath.'theme.inc');
-new dbConnect();
 output_header('Post-Processing FAQ', NO_STATSBAR);
 ?>
 
