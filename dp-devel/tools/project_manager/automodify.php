@@ -15,17 +15,31 @@ include_once($relPath.'Project.inc'); // project_get_auto_PPer
 include_once($relPath.'misc.inc'); // requester_is_localhost()
 include('autorelease.inc');
 
-// The requester needs to be either from localhost (eg: run from crontab)
-// or logged in and either SA or PF.
+$one_project = validate_projectID('project', @$_GET['project'], true);
+$refresh_url = @$_GET['return_uri'];
+
+// The following users are authorized to run this script:
+// 1) localhost (eg: run from crontab) - can operate on all projects
+// 2) SA and PFs - can operates on all projects
+// 3) PMs - can operate only on their own projects
 if(!requester_is_localhost()) {
     require_login();
 
     if ( !user_is_a_sitemanager() && !user_is_proj_facilitator() ) 
-        die('You are not authorized to invoke this script.');
+    {
+        if ($one_project)
+        {
+            $project = new Project($one_project);
+            if(!$project->can_be_managed_by_user($pguser))
+                die('You are not authorized to invoke this script.');
+        }
+        else
+        {
+            die('You are not authorized to invoke this script.');
+        }
+    }
 }
 
-$one_project = validate_projectID('project', @$_GET['project'], true);
-$refresh_url = @$_GET['return_uri'];
 if (!isset($refresh_url)) $refresh_url = 'projectmgr.php';
 
 $trace = FALSE;
