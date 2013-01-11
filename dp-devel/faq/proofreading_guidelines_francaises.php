@@ -14,7 +14,7 @@ undo_all_magic_quotes();
 
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
-output_header('Directives de Relecture et correction', NO_STATSBAR, $theme_args);
+output_header('Directives de Relecture et de Correction', NO_STATSBAR, $theme_args);
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
@@ -34,26 +34,26 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
     If you are updating this document, the above should be kept in mind.
 -->
 
-<h1 align="center"><a name="top">Directives de Relecture et correction</a></h1>
+<h1 align="center"><a name="top">Directives de Relecture et de Correction</a></h1>
 
-<h3 align="center">Version 2.0, 7 juin 2009 (traduction de la 2.0 anglaise du 7 juin 2009)</h3>
+<h3 align="center">Version 2.0, 7 juin 2009 (Traduction de la version 2.0 anglaise du 7 juin 2009)</h3>
 
 
-<p>Directives de Relecture et correction <a href="proofreading_guidelines.php">en anglais</a> /
+<p>Directives de Relecture et de Correction <a href="proofreading_guidelines.php">en Anglais</a> /
       Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a><br>
-    Directives de Relecture et correction <a href="proofreading_guidelines_portuguese.php">en portugais</a> /
+    Directives de Relecture et de Correction <a href="proofreading_guidelines_portuguese.php">en Portugais</a> /
       Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
-    Directives de Relecture et correction <a href="proofreading_guidelines_spanish.php">en espagnol</a> /
-      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en espa&ntilde;ol</a><br>
-    Directives de Relecture et correction <a href="proofreading_guidelines_dutch.php">en n&eacute;erlandais</a> /
+    Directives de Relecture et de Correction <a href="proofreading_guidelines_spanish.php">en Espagnol</a> /
+      Reglas de Revisi&oacute;n <a href="proofreading_guidelines_spanish.php">en Espa&ntilde;ol</a><br>
+    Directives de Relecture et de Correction <a href="proofreading_guidelines_dutch.php">en N&eacute;erlandais</a> /
       Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br>
-    Directives de Relecture et correction <a href="proofreading_guidelines_german.php">en allemand</a> /
+    Directives de Relecture et de Correction <a href="proofreading_guidelines_german.php">en Allemand</a> /
       Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br>
-    Directives de Relecture et correction <a href="proofreading_guidelines_italian.php">en italien</a> /
+    Directives de Relecture et de Correction <a href="proofreading_guidelines_italian.php">en Italien</a> /
       Regole di Correzione <a href="proofreading_guidelines_italian.php">in Italiano</a><br>
 </p>
 
-<p>Allez voir le <a href="../quiz/start.php?show_only=PQ">Tutoriel/Quiz de relecture</a>.
+<p>Voir aussi le <a href="../quiz/start.php?show_only=PQ">Tutoriel/Quiz de Relecture</a>.
 </p>
 
 <table border="0" cellspacing="0" width="100%" summary="Table des mati&egrave;res">
