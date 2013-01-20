@@ -13,6 +13,28 @@ define("DPSQL_SHOW_RANK", True);
 define("DPSQL_NO_RIGHT_ALIGN_INTS", False);
 define("DPSQL_RIGHT_ALIGN_INTS",    True);
 
+/********* Compatibility wrappers for noncvs scripts *********/
+function dpsql_dump_ranked_query( $query )
+{
+    dpsql_dump_query($query, 0, DPSQL_SHOW_RANK);
+}
+
+function dpsql_dump_themed_ranked_query( $query )
+{
+    dpsql_dump_themed_query($query, 0, DPSQL_SHOW_RANK);
+}
+
+function dpsql_dump_query_result_with_rank( $result, $start_at )
+{
+    dpsql_dump_query_result($result, $start_at, DPSQL_SHOW_RANK);
+}
+
+function dpsql_dump_query_themed_result_with_rank( $result, $start_at )
+{
+    dpsql_dump_themed_query_result($result, $start_at, DPSQL_SHOW_RANK);
+}
+/********* Compatibility wrappers for noncvs scripts *********/
+
 function dpsql_dump_table( $table_name )
 {
 	dpsql_dump_query( "SELECT * FROM $table_name" );
@@ -21,7 +43,7 @@ function dpsql_dump_table( $table_name )
 function dpsql_dump_query($query, $start_at = 0, $show_rank = DPSQL_NO_RANK)
 {
 	$result = dpsql_query( $query );
-	dpsql_dump_query_result($result, $show_rank, $start_at);
+	dpsql_dump_query_result($result, $start_at, $show_rank);
 }
 
 function dpsql_dump_themed_query($query, $start_at = 0, $show_rank = DPSQL_NO_RANK, $ralign_ints = DPSQL_RIGHT_ALIGN_INTS)
@@ -45,7 +67,7 @@ function dpsql_query( $query )
 	return $result;
 }
 
-function dpsql_dump_query_result($result, $start_at, $show_rank)
+function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_RANK)
 {
 
 	$n_cols = mysql_num_fields($result);
@@ -89,7 +111,7 @@ function dpsql_dump_query_result($result, $start_at, $show_rank)
 	print "</table>\n";
 }
 
-function dpsql_dump_themed_query_result($result, $start_at, $show_rank, $ralign_ints)
+function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_RANK, $ralign_ints = DPSQL_RIGHT_ALIGN_INTS)
 {
 	$theme = $GLOBALS['theme'];
 	var_dump($ralign_ints);
