@@ -48,7 +48,6 @@ function dpsql_dump_query($query, $start_at = 0, $show_rank = DPSQL_NO_RANK)
 
 function dpsql_dump_themed_query($query, $start_at = 0, $show_rank = DPSQL_NO_RANK, $ralign_ints = DPSQL_RIGHT_ALIGN_INTS)
 {
-	var_dump($ralign_ints);
 	$result = dpsql_query( $query );
 	dpsql_dump_themed_query_result($result, $start_at, $show_rank, $ralign_ints);
 }
@@ -114,7 +113,6 @@ function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_R
 function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_RANK, $ralign_ints = DPSQL_RIGHT_ALIGN_INTS)
 {
 	$theme = $GLOBALS['theme'];
-	var_dump($ralign_ints);
 	$n_query_cols = mysql_num_fields($result);
 	$n_curr_row = $start_at;
 
