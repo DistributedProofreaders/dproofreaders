@@ -136,7 +136,7 @@ function show_month_sums( $which )
             "GROUP BY 1",
             "ORDER BY $order",
             $limit
-        ), DPSQL_SHOW_RANK, 1
+        ), 1, DPSQL_SHOW_RANK
     );
 
     echo "<br>\n";
@@ -161,7 +161,7 @@ function show_months_with_most_days_over( $n )
             "GROUP BY 1",
             "ORDER BY 2 DESC",
             "LIMIT 10"
-        ), DPSQL_SHOW_RANK, 1
+        ), 1, DPSQL_SHOW_RANK
     );
 
     echo "<br>\n";
