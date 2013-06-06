@@ -1,9 +1,6 @@
 <?php
 $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
-include_once($jpgraph_dir.'/src/jpgraph.php');
-include_once($jpgraph_dir.'/src/jpgraph_bar.php');
-include_once($jpgraph_dir.'/src/jpgraph_line.php');
 include_once($relPath.'page_tally.inc');
 include_once('common.inc');
 

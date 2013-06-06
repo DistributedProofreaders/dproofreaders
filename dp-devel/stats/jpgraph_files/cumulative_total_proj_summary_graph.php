@@ -3,11 +3,8 @@ $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'project_states.inc');
-include_once($jpgraph_dir.'/src/jpgraph.php');
-include_once($jpgraph_dir.'/src/jpgraph_line.php');
-include_once($jpgraph_dir.'/src/jpgraph_bar.php');
-include_once($code_dir.'/stats/statestats.inc');
 include_once('common.inc');
+include_once($code_dir.'/stats/statestats.inc');
 
 // Create the graph. We do this before everything else
 // to make use of the jpgraph cache if enabled.
