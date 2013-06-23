@@ -41,7 +41,7 @@ function get_all_current_tallyboards()
     ") or die(mysql_error());
     while ( list($tally_name, $holder_type) = mysql_fetch_row($res) )
     {
-        $tallyboards[] =& new TallyBoard( $tally_name, $holder_type );
+        $tallyboards[] = new TallyBoard( $tally_name, $holder_type );
     }
     return $tallyboards;
 }

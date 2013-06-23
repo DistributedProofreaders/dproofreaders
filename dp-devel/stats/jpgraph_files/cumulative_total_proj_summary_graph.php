@@ -44,7 +44,7 @@ foreach ($project_status_descriptors as $which)
     }
 
     //Create the line plot
-    $lplot =& new LinePlot($datay);
+    $lplot = new LinePlot($datay);
     $lplot->SetColor($psd->color);
     $lplot->SetLegend($psd->cumulative_title);
     $lplot->SetWeight(1);

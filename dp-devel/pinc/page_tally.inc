@@ -174,7 +174,7 @@ function user_get_page_tally_neighborhood( $tally_name, $username, $radius )
             $neighbor_date_joined = $row['date_created'];
         }
 
-        $neighbors[$rel_posn] =&
+        $neighbors[$rel_posn] =
             new PageTally_Neighbor(
                 $tallyboard,
                 $neighbor_is_anonymized,

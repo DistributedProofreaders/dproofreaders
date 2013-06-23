@@ -253,7 +253,7 @@ class Settings
         }
         else
         {
-            $settings =& new Settings($username);
+            $settings = new Settings($username);
             $Settings_for_[$username] =& $settings;
             return $settings;
         }
