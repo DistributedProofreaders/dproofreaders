@@ -329,7 +329,7 @@ function html_navbar()
         echo "<span style='text-align: right; float: right; padding: 2px; white-space: nowrap;'>";
         $links = array();
         $inbox_text = _("Inbox");
-        if($numofPMs[0] > 0) $inbox_text .= " " . sprintf(_("(%s unread)"),$numofPMs[0]);
+        if($numofPMs > 0) $inbox_text .= " " . sprintf(_("(%s unread)"),$numofPMs);
         $links[] = array('text' => $inbox_text, 'url' => get_url_for_inbox());
 
         $links[] = array('text' => _("Forums"), 'url' => $forums_url);
