@@ -509,6 +509,11 @@ function html_statsbar($nameofpage) {
         show_key_help_links();
     }
 
+    // SITE-SPECIFIC
+    // The remaining code in this function (and the whole of the
+    // 'show_donation_stuff' function) is specific to pgdp.net,
+    // and thus probably inappropriate for other sites using this code.
+    // We should factor it out somehow, for ease of customizability.
 
     //Display the donation icon and link to donate.
     //Should be the last thing displayed in the right hand column unless the user is not logged in
