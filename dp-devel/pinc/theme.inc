@@ -937,10 +937,10 @@ function show_key_help_links()
 
 function show_donation_stuff()
 {
-    global $theme, $theme_name, $code_url, $site_name;
+    global $theme, $theme_name, $code_url, $site_name, $wiki_url;
 
     $paypal_business_id = 'DPFoundation@pgdp.net';
-    $info_url = $code_url.'/faq/dpf.php';
+    $info_url = $wiki_url.'/Distributed_Proofreaders_Foundation';
 
     echo "<center>";
     echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'>\n";
