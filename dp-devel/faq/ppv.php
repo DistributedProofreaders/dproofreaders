@@ -154,6 +154,10 @@ Check for the following types of errors, using tools you usually use for PPing:
 <ul>
 <li>HTML&mdash;Not removing unused css</li>
 <li>A Thumbs.db file in the images folder</li>
+<li>HTML does not convert well to e-reader versions
+    (e.g. headings do not reflect structure of book,
+    no cover image supplied)
+</li>
 <!--<li>ZIP file&mdash;A __MACOSX folder in the upload file</li>-->
 </ul>
 
@@ -186,6 +190,61 @@ and a note to that effect added to the transcriber's note.
 errors have been left uncorrected and not noted. If just one or two have been missed,
 and the rest addressed, then those missed would instead be counted as the relevant
 type of error (spellcheck, gutcheck, etc.)
+</p>
+
+<h4>E-reader versions</h4>
+
+<p>
+With the clear expectation from PG and the DPF Board
+that our projects should look good in e-reader versions,
+the PPV community have agreed that PPVers should support PPers
+(and check their work)
+in producing HTML versions that convert successfully
+to epub and Kindle formats.
+</p>
+
+<p>
+The <a href="http://www.pgdp.net/wiki/Easy_Epub">Easy Epub</a> wiki pages
+are intended to help with that process of checking e-reader versions
+and making some simple changes to improve them if necessary.
+In order to support PPers, particularly as they approach DU,
+it would be helpful if PPVers could indicate in the comments
+whether a PPer is using headings correctly,
+and is confident with coverpages
+(i.e able to include a supplied coverpage,
+to create their own or to ask someone else to create it).
+</p>
+
+<p>
+The wiki pages include <a href="http://www.pgdp.net/wiki/Easy_Epub/Viewing">Viewing</a>
+- How to use epubmaker to view your project in e-reader format,
+even if you don't have an e-reader.
+</p>
+
+<p>
+Then there are just four things to check:
+</p>
+<ul>
+<li><a href="http://www.pgdp.net/wiki/Easy_Epub/Headings">Headings</a>
+- How to use headings correctly.
+</li>
+<li><a href="http://www.pgdp.net/wiki/Easy_Epub/Cover">Cover Pages</a>
+- How to include a coverpage, whether one was supplied with the project or not.
+</li>
+<li><a href="http://www.pgdp.net/wiki/Easy_Epub/HRs">Horizontal Rules</a>
+- Horizontal rules do not center automatically in epub versions,
+but a very easy edit fixes this.
+</li>
+<li><a href="http://www.pgdp.net/wiki/Easy_Epub/Dropcaps">Dropcaps</a>
+- A couple of ideas to help with dropcaps if you have them,
+at least until the Best Practices method is accepted by PG.
+</li>
+</ul>
+
+<p>
+These few simple changes will make our books look good on e-readers,
+without having to understand
+all the principles described in the Best Practices document.
 </p>
 
 <h3><a name="rptcard">Submitting a PPV Summary</a></h3>

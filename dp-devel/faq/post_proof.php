@@ -1140,7 +1140,44 @@ Check links&mdash;if you have web space you can use the online
 <a href="http://validator.w3.org/checklink">link checker</a>;
 if not, various tools including Guiguts have inbuilt link checkers.
 </li>
+
+<li>
+With the clear expectation from PG and the DPF Board
+that our projects should look good in e-reader versions,
+the <a href="http://www.pgdp.net/wiki/Easy_Epub">Easy Epub</a> wiki pages
+are intended to help with making some simple changes
+to improve them if necessary - see below for more details.
+</li>
 </ol>
+
+<p>
+The <a href="http://www.pgdp.net/wiki/Easy_Epub">Easy Epub</a> wiki pages
+mentioned above include
+<a href="http://www.pgdp.net/wiki/Easy_Epub/Viewing">Viewing</a>
+(How to use epubmaker to view your project in e-reader format,
+even if you don't have an e-reader)
+and just four things to check:
+</p>
+<ul>
+<li><a href="http://www.pgdp.net/wiki/Easy_Epub/Headings">Headings</a>
+- How to use headings correctly.
+</li>
+<li><a href="http://www.pgdp.net/wiki/Easy_Epub/Cover">Cover Pages</a>
+- How to include a coverpage, whether one was supplied with the project or not.
+</li>
+<li><a href="http://www.pgdp.net/wiki/Easy_Epub/HRs">Horizontal Rules</a>
+- Horizontal rules do not center automatically in epub versions,
+but a very easy edit fixes this.
+</li>
+<li><a href="http://www.pgdp.net/wiki/Easy_Epub/Dropcaps">Dropcaps</a>
+- A couple of ideas to help with dropcaps if you have them, at least until
+the Best Practices method is accepted by PG.
+</li>
+</ul>
+
+<p>These few simple changes will make our books look good on e-readers,
+without having to understand all the principles described in the Best
+Practices document. </p>
 
 <p>
 Note that external links are generally not permitted, except for
