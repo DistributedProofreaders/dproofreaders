@@ -98,15 +98,8 @@ switch ( $submit_button )
         echo "</tr>";
         echo "\n";
 
-        foreach ( $current_image_for_fileid_ as $fileid => $image )
-        {
-            echo "<tr>";
-            echo "<td>$fileid</td>";
-            echo "<td>$image</td>";
-            echo "<td><input type='text' size='8' name='new_fileid_for_[$fileid]'><td>";
-            echo "</tr>";
-            echo "\n";
-        }
+        echo_name_mapping_subform();
+
         echo "</table>";
 
         echo "<hr>";
@@ -331,10 +324,9 @@ switch ( $submit_button )
         echo "<input type='hidden' name='projectid' value='$projectid'>\n";
         echo "<input type='hidden' name='direction' value='$direction_that_works'>\n";
         echo "<input type='submit' name='submit_button' value='Do renamings'>\n";
-        foreach ( $new_fileid_for_ as $old_fileid => $new_fileid )
-        {
-            echo "<input type='hidden' name='new_fileid_for_[$old_fileid]' value='$new_fileid'>\n";
-        }
+
+        echo_name_mapping_hiddens($new_fileid_for_);
+
         echo "</form>";
         break;
 
@@ -447,5 +439,30 @@ switch ( $submit_button )
 }
 
 echo "</pre>";
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function echo_name_mapping_subform()
+{
+    global $current_image_for_fileid_;
+
+    foreach ( $current_image_for_fileid_ as $fileid => $image )
+    {
+        echo "<tr>";
+        echo "<td>$fileid</td>";
+        echo "<td>$image</td>";
+        echo "<td><input type='text' size='8' name='new_fileid_for_[$fileid]'><td>";
+        echo "</tr>";
+        echo "\n";
+    }
+}
+
+function echo_name_mapping_hiddens($new_fileid_for_)
+{
+    foreach ( $new_fileid_for_ as $old_fileid => $new_fileid )
+    {
+        echo "<input type='hidden' name='new_fileid_for_[$old_fileid]' value='$new_fileid'>\n";
+    }
+}
 
 // vim: sw=4 ts=4 expandtab
