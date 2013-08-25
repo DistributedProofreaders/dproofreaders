@@ -437,7 +437,7 @@ echo "</pre>";
 // So, where formerly we would declare the per-page controls with:
 //     name='new_fileid_for_[$fileid]'
 // the workaround is to instead declare them with:
-//     name='new_fileid_for_[$k][$fileid]'
+//     name='nff_[$k][$fileid]'
 // where $k increments infrequently, but often enough to prevent too many
 // entries in any given array within PHP's $_POST.
 //
@@ -460,7 +460,7 @@ function echo_name_mapping_subform()
         echo "<tr>";
         echo "<td>$fileid</td>";
         echo "<td>$image</td>";
-        echo "<td><input type='text' size='8' name='new_fileid_for_[$k][$fileid]'><td>";
+        echo "<td><input type='text' size='8' name='nff_[$k][$fileid]'><td>";
         echo "</tr>";
         echo "\n";
     }
@@ -473,17 +473,17 @@ function echo_name_mapping_hiddens($new_fileid_for_)
     foreach ( $new_fileid_for_ as $old_fileid => $new_fileid )
     {
         $k = floor($i / $WORKAROUND_MAX); $i += 1;
-        echo "<input type='hidden' name='new_fileid_for_[$k][$old_fileid]' value='$new_fileid'>\n";
+        echo "<input type='hidden' name='nff_[$k][$old_fileid]' value='$new_fileid'>\n";
     }
 }
 
 function get_requested_name_mapping()
 {
-    $nff_ = array_get( $_POST, 'new_fileid_for_', NULL );
+    $nff_ = array_get( $_POST, 'nff_', NULL );
 
     if ( empty($nff_) )
     {
-        die( "new_fileid_for_ param is empty" );
+        die( "nff_ param is empty" );
     }
 
     foreach ( $nff_ as $k => $part_new_fileid_for_ )
