@@ -115,7 +115,7 @@ switch ( $submit_button )
 
         if ( $renumber_from_n == 'on' )
         {
-            // Ignore $_POST['new_fileid_for_']
+            // Ignore any name-mapping in $_POST.
 
             $start_str = array_get( $_POST, 'renumbering_start', '001' );
 
@@ -152,15 +152,7 @@ switch ( $submit_button )
         }
         else
         {
-            $new_fileid_for_ = array_get( $_POST, 'new_fileid_for_', NULL );
-
-            foreach ( $new_fileid_for_ as $old_fileid => $new_fileid )
-            {
-                if ( empty($new_fileid) )
-                {
-                    $new_fileid_for_[$old_fileid] = $old_fileid;
-                }
-            }
+            $new_fileid_for_ = get_requested_name_mapping();
         }
 
         echo "You requested:\n";
@@ -333,13 +325,8 @@ switch ( $submit_button )
     case 'Do renamings':
         $for_real = 1;
 
-        $new_fileid_for_ = array_get( $_POST, 'new_fileid_for_', '' );
+        $new_fileid_for_ = get_requested_name_mapping();
         $direction = array_get( $_POST, 'direction', '' );
-
-        if ( empty($new_fileid_for_) )
-        {
-            die( "new_fileid_for_ param is empty" );
-        }
 
         if ( empty($direction) )
         {
@@ -370,10 +357,7 @@ switch ( $submit_button )
         foreach ( $olds as $old_fileid => $old_image )
         {
             $new_fileid = $new_fileid_for_[$old_fileid];
-            if ( empty($new_fileid) )
-            {
-                $new_fileid = $old_fileid;
-            }
+            assert( !empty($new_fileid) );
             $new_image = "$new_fileid.png";
 
             echo "($old_fileid,$old_image) ";
@@ -463,6 +447,27 @@ function echo_name_mapping_hiddens($new_fileid_for_)
     {
         echo "<input type='hidden' name='new_fileid_for_[$old_fileid]' value='$new_fileid'>\n";
     }
+}
+
+function get_requested_name_mapping()
+{
+    $new_fileid_for_ = array_get( $_POST, 'new_fileid_for_', NULL );
+
+    if ( empty($new_fileid_for_) )
+    {
+        die( "new_fileid_for_ param is empty" );
+    }
+
+    // If the user left the field empty, it means don't rename that page.
+    foreach ( $new_fileid_for_ as $old_fileid => $new_fileid )
+    {
+        if ( empty($new_fileid) )
+        {
+            $new_fileid_for_[$old_fileid] = $old_fileid;
+        }
+    }
+
+    return $new_fileid_for_;
 }
 
 // vim: sw=4 ts=4 expandtab
