@@ -11,8 +11,8 @@ if ( !user_is_a_sitemanager() )
     die( "You are not allowed to run this script." );
 }
 
-echo "<pre>";
-echo "<h2>Rename Pages</h2>";
+echo "<pre>\n";
+echo "<h2>Rename Pages</h2>\n";
 
 $projectid = array_get( $_GET, 'projectid', '' );
 
@@ -23,9 +23,9 @@ if ( empty($projectid) )
     {
         echo "<form method='GET'>";
         echo "Please specify a project: ";
-        echo "<input type='text' name='projectid' size='23'> ";
+        echo "<input type='text' name='projectid' size='23'>";
         echo "<input type='submit' value='Go'>";
-        echo "</form>";
+        echo "</form>\n";
         exit;
     }
 }
@@ -72,14 +72,15 @@ switch ( $submit_button )
     case '':
 
         echo "<form method='post'>";
-        echo "<input type='hidden' name='projectid' value='$projectid'>";
+        echo "<input type='hidden' name='projectid' value='$projectid'>\n";
 
         echo "<hr>";
         echo "If you just want to number all pages serially\n";
         echo "(while maintaining their current order), check here,\n";
         echo "and specify a starting name (including any leading zeroes).\n";
         echo "<input type='checkbox' name='renumber_from_n'>Renumber from ";
-        echo "<input type='text' size='4' name='renumbering_start' value='001'>";
+        echo "<input type='text' size='4' name='renumbering_start' value='001'>\n";
+        echo "\n";
 
         echo "<hr>";
         echo "Otherwise, for each page that you wish to rename, type in the new fileid.\n";
@@ -88,13 +89,14 @@ switch ( $submit_button )
         echo "Leave a box blank if you don't want to rename that page.\n";
         echo "\n";
 
-        echo "<table>";
+        echo "<table>\n";
 
         echo "<tr>";
         echo "<th>fileid</th>";
         echo "<th>image</th>";
         echo "<th>new fileid<br>(image base)</th>";
         echo "</tr>";
+        echo "\n";
 
         foreach ( $current_image_for_fileid_ as $fileid => $image )
         {
@@ -103,6 +105,7 @@ switch ( $submit_button )
             echo "<td>$image</td>";
             echo "<td><input type='text' size='8' name='new_fileid_for_[$fileid]'><td>";
             echo "</tr>";
+            echo "\n";
         }
         echo "</table>";
 
@@ -168,13 +171,14 @@ switch ( $submit_button )
         }
 
         echo "You requested:\n";
-        echo "<table>";
+        echo "<table>\n";
 
         echo "<tr>";
         echo "<th colspan='2'>old</th>";
         echo "<th>-></th>";
         echo "<th colspan='2'>new</th>";
         echo "</tr>";
+        echo "\n";
 
         echo "<tr>";
         echo "<th>fileid</th>";
@@ -183,6 +187,7 @@ switch ( $submit_button )
         echo "<th>fileid</th>";
         echo "<th>image</th>";
         echo "</tr>";
+        echo "\n";
 
         foreach ( $current_image_for_fileid_ as $old_fileid => $old_image )
         {
@@ -203,6 +208,7 @@ switch ( $submit_button )
             echo "<td>$new_fileid</td>";
             echo "<td>$new_image</td>";
             echo "</tr>";
+            echo "\n";
         }
         echo "</table>";
 
@@ -295,7 +301,7 @@ switch ( $submit_button )
 
             if ($n_failed_steps == 0)
             {
-                echo "Okay, it looks like $direction will work.\n";
+                echo "Okay, it looks like $direction will work.\n\n";
                 $direction_that_works = $direction;
                 break;
             }
@@ -308,7 +314,7 @@ switch ( $submit_button )
                     echo "\n";
                 }
 
-                echo "So $direction won't work.\n";
+                echo "So $direction won't work.\n\n";
             }
         }
 
@@ -321,13 +327,13 @@ switch ( $submit_button )
 
         echo "<hr>";
         echo "If that's not what you want, hit 'Back' and fix. Otherwise...\n";
-        echo "<form method='post'>";
-        echo "<input type='hidden' name='projectid' value='$projectid'>";
-        echo "<input type='hidden' name='direction' value='$direction_that_works'>";
-        echo "<input type='submit' name='submit_button' value='Do renamings'>";
+        echo "<form method='post'>\n";
+        echo "<input type='hidden' name='projectid' value='$projectid'>\n";
+        echo "<input type='hidden' name='direction' value='$direction_that_works'>\n";
+        echo "<input type='submit' name='submit_button' value='Do renamings'>\n";
         foreach ( $new_fileid_for_ as $old_fileid => $new_fileid )
         {
-            echo "<input type='hidden' name='new_fileid_for_[$old_fileid]' value='$new_fileid'>";
+            echo "<input type='hidden' name='new_fileid_for_[$old_fileid]' value='$new_fileid'>\n";
         }
         echo "</form>";
         break;
