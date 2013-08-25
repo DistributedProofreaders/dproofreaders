@@ -426,16 +426,41 @@ echo "</pre>";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+// As reported in http://www.pgdp.net/c/tasks.php?action=show&task_id=1525
+// this script couldn't handle projects with more than 1000 pages.
+// bfoley tracked it down to: https://bugs.php.net/bug.php?id=55810
+//
+// The restriction appears to be that count($_POST) <= 1001, and likewise
+// for any array that $_POST contains. But there's no restriction on the
+// total number of array-entries that $_POST can recursively contain.
+//
+// So, where formerly we would declare the per-page controls with:
+//     name='new_fileid_for_[$fileid]'
+// the workaround is to instead declare them with:
+//     name='new_fileid_for_[$k][$fileid]'
+// where $k increments infrequently, but often enough to prevent too many
+// entries in any given array within PHP's $_POST.
+//
+// Re $WORKAROUND_MAX:
+// -- It could (apparently) be as high as 1001, but making it smaller means
+//    that the code will be exercised somewhat better.
+// -- It doesn't have to have the same value in the two echo_name_mapping_*
+//    functions, but I don't see a good reason for them to differ.
+// -- get_requested_name_mapping() works regardless of the value that was used.
+
 function echo_name_mapping_subform()
 {
     global $current_image_for_fileid_;
 
+    $WORKAROUND_MAX = 100;
+    $i = 0;
     foreach ( $current_image_for_fileid_ as $fileid => $image )
     {
+        $k = floor($i / $WORKAROUND_MAX); $i += 1;
         echo "<tr>";
         echo "<td>$fileid</td>";
         echo "<td>$image</td>";
-        echo "<td><input type='text' size='8' name='new_fileid_for_[$fileid]'><td>";
+        echo "<td><input type='text' size='8' name='new_fileid_for_[$k][$fileid]'><td>";
         echo "</tr>";
         echo "\n";
     }
@@ -443,19 +468,33 @@ function echo_name_mapping_subform()
 
 function echo_name_mapping_hiddens($new_fileid_for_)
 {
+    $WORKAROUND_MAX = 100;
+    $i = 0;
     foreach ( $new_fileid_for_ as $old_fileid => $new_fileid )
     {
-        echo "<input type='hidden' name='new_fileid_for_[$old_fileid]' value='$new_fileid'>\n";
+        $k = floor($i / $WORKAROUND_MAX); $i += 1;
+        echo "<input type='hidden' name='new_fileid_for_[$k][$old_fileid]' value='$new_fileid'>\n";
     }
 }
 
 function get_requested_name_mapping()
 {
-    $new_fileid_for_ = array_get( $_POST, 'new_fileid_for_', NULL );
+    $nff_ = array_get( $_POST, 'new_fileid_for_', NULL );
 
-    if ( empty($new_fileid_for_) )
+    if ( empty($nff_) )
     {
         die( "new_fileid_for_ param is empty" );
+    }
+
+    foreach ( $nff_ as $k => $part_new_fileid_for_ )
+    {
+        // (Ignore $k, it doesn't convey any useful information.)
+
+        foreach ( $part_new_fileid_for_ as $old_fileid => $new_fileid )
+        {
+            assert( !isset($new_fileid_for_[$old_fileid]) );
+            $new_fileid_for_[$old_fileid] = $new_fileid;
+        }
     }
 
     // If the user left the field empty, it means don't rename that page.
