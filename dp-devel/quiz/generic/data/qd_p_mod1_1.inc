@@ -1,0 +1,51 @@
+<?php
+
+function quizsolved()
+{
+  global $pguser;
+  if (isset($pguser))
+      record_quiz_attempt($pguser,"p_mod1_1","pass");
+}
+
+$browser_title                = _("Moderate Proofreading Quiz");
+$welcome                      = "<h2>" . _("Moderate Proofreading Quiz, page 1") . "</h2>\n" .
+                                    "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
+$ocr_text                     = "warm bath on March 8th (who shall say hereafter\nthat science is unfeeling?), upon which the grateful\nsnail put his head cautiously out of his shell,\nwalked up to the top of the basin, and began to take\na survey of Eritish institutions with his four eyebearing\ntentacles. So strange a recovery from a\nlong torpid condition deserved an exceptional amount\nof scientific recognition. The desert snail at\n\nDesert snail.\n\nonce found himself famous. Nay, he actually sat\nfor his portrait to an eminent zoological artist, Mr.\n\nB3";
+$solutions                    = array("warm bath on March 8^{th} (who shall say hereafter\nthat science is unfeeling!), upon which the grateful\nsnail put his head cautiously out of his shell,\nwalked up to the top of the basin, and began to take\na survey of British institutions with his four eye-*bearing\ntentacles. So strange a recovery from a\nlong torpid condition deserved an exceptional amount\nof scientific recognition. The desert snail at\n\nDesert snail.\n\nonce found himself famous. Nay, he actually sat\nfor his portrait to an eminent zoological artist, Mr.", "warm bath on March 8^{th} (who shall say hereafter\nthat science is unfeeling!), upon which the grateful\nsnail put his head cautiously out of his shell,\nwalked up to the top of the basin, and began to take\na survey of British institutions with his four eye-bearing\ntentacles. So strange a recovery from a\nlong torpid condition deserved an exceptional amount\nof scientific recognition. The desert snail at\n\nDesert snail.\n\nonce found himself famous. Nay, he actually sat\nfor his portrait to an eminent zoological artist, Mr.");
+$criteria                     = array("e-*b");
+$solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .
+                                    "<p>" . _("Congratulations, no errors found!") . "</p>\n" .
+                                    "<h3>" . _("Handy Fact") . "</h3>\n" .
+                                    "<p>" . _("In many books a page footer consisting of a number and/or letter will appear on some pages but not others.  These are <i>printer's marks</i>, used to assist the printer in assembling the sections of the book in order.  They often only appear every 16 pages.  Printer's marks should be deleted like any other page footer.") . "</p>";
+
+
+// error messages
+
+$messages["qmark"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a 'scanno': a question mark (<tt>?</tt>) in the text where there is an exclamation point (<tt>!</tt>) in the image.") . "</p>",
+    "hints" => array(),
+);
+$messages["Eritish"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a 'scanno': an '<tt>E</tt>' in the text where there is a '<tt>B</tt>' in the image.") . "</p>",
+    "hints" => array(),
+);
+
+
+// error checks
+
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("?"), "case_sensitive" => TRUE, "error" => "qmark");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("Eritish"), "case_sensitive" => TRUE, "error" => "Eritish");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("8th"), "case_sensitive" => TRUE, "error" => "P_supnomark");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("^th"), "case_sensitive" => TRUE, "error" => "P_supnobraces");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("a-mount", "eyebearing"), "case_sensitive" => TRUE, "error" => "P_hyphenleft");
+$tests[] = array("type" => "longline", "lengthlimit" => 70, "error" => "P_longline");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("B3"), "case_sensitive" => TRUE, "error" => "P_footer");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<b>", "</b>"), "case_sensitive" => FALSE, "error" => "P_boldmarkup");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("Illustration"), "case_sensitive" => FALSE, "error" => "P_illmarkup");
+$tests[] = array("type" => "wrongtextorder", "firsttext" => "Desert snail", "secondtext" => "famous", "case_sensitive" => TRUE, "error" => "P_captionmove");
+$tests[] = array("type" => "wrongtextorder", "firsttext" => "recognition", "secondtext" => "Desert snail", "case_sensitive" => TRUE, "error" => "P_captionmove");
+$tests[] = array("type" => "expectedtext", "searchtext" =>  array("\n\nDesert snail.\n\n"), "case_sensitive" => TRUE, "error" => "P_captionspace");
+
+// vim: sw=4 ts=4 expandtab

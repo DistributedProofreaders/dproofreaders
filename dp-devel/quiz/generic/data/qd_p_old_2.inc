@@ -1,0 +1,104 @@
+<?php
+include_once('quiz_defaults.inc');
+
+function quizsolved()
+{
+  global $pguser;
+  if (isset($pguser))
+      record_quiz_attempt($pguser,"p_old_2","pass");
+}
+
+$browser_title                = _("Old Texts Proofreading Quiz");
+$welcome                      = "<h2>" . _("Old Texts Proofreading Quiz, page 2") . "</h2>\n" .
+                                    "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
+$ocr_text                     = "150 \  Df Boioling.\n\nmost are fliort, ouer, or wide, and few iuftle\nin to Fortune. On one side you may *ee the\nMimick, twisting his Body into feueral\nPostures, to add to the Swiftness or Slowness\nof his Bowl; On the other Side the Orator,\nvfing his perfwafiue Intreaties to hasten or\nretard the Speed of his Bowl; if it be unre-\nfponfiue, then he cryes Short, O Short, &amp;c,\nwhen tis gone ten yards ouer the Iack. But\nnot to detain youany longer in characterizing\nthis excellent sport, I shall instruft you in some\n' , Rules,";
+$solutions                    = array("most are short, ouer, or wide, and few iustle\nin to Fortune. On one side you may see the\nMimick twisting his Body into seueral\nPostures, to add to the Swiftness or Slowness\nof his Bowl; On the other side the Orator,\nvsing his perswasiue Intreaties to hasten or\nretard the Speed of his Bowl; if it be vnresponsiue,\nthen he cryes Short, O Short, &c,\nwhen tis gone ten yards ouer the Iack. But\nnot to detain you any longer in characterizing\nthis excellent sport, I shall instruct you in some");
+$solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .
+                                    "<p>" . _("Congratulations, no errors found!") . "</p>\n" .
+                                    "<h3>" . _("Handy Fact") . "</h3>\n" .
+                                    "<p>" . _("Spelling and punctuation is often inconsistent in older texts, even from one sentence to the next.  Leave it as the author wrote it, but do leave a note or ask in the project discussion if you feel that there may be a printing error.") . "</p>";
+
+
+// error messages
+
+$messages["periodadded"] = array(
+    "message_text" => "<h2>" . _("Primary Rule") . "</h2>\n" .
+        "<p>" . _("You have added a period that does not appear in the image.  Please keep the punctuation as the author wrote it.") . "</p>",
+    "hints" => array(),
+);
+$messages["ampchange"] = array(
+    "message_text" => "<h2>" . _("Primary Rule") . "</h2>\n" .
+        "<p>" . _("The primary rule of proofreading is <i>\"Don't change what the author wrote!\"</i> Please keep punctuation and symbols such as the ampersand (&amp;) as they appear in the original book.") . "</p>",
+    "hints" => array(),
+);
+$messages["aposadded"] = array(
+    "message_text" => "<h2>" . _("Primary Rule") . "</h2>\n" .
+        "<p>" . _("The primary rule of proofreading is <i>\"Don't change what the author wrote!\"</i> Please do not add apostrophes that do not appear in the image; keep the punctuation as the author wrote it.") . "</p>",
+    "hints" => array(),
+);
+$messages["sliort"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno: '<tt>li</tt>' in the text where there is an '<tt>h</tt>' in the image.") . "</p>",
+    "hints" => array(),
+);
+$messages["longsscanno"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno: an asterisk (<tt>*</tt>) in the text where there is a long s in the image.") . "</p>",
+    "hints" => array(),
+);
+$messages["stray_comma"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno: a comma (<tt>,</tt>) in the text where there is no punctuation in the image.") . "</p>",
+    "hints" => array(),
+);
+$messages["Side"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno: a capital letter in the text where there is a lower case letter in the image.") . "</p>",
+    "hints" => array(),
+);
+$messages["youany"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno in the text: the space between two words is missing.") . "</p>",
+    "hints" => array(),
+);
+$messages["instruft"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno: '<tt>ft</tt>' in the text where there is '<tt>ct</tt>' in the image.") . "</p>",
+    "hints" => array(),
+);
+$messages["flyspeck2"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno: a punctuation mark in the text where there are stray marks in the image.") . "</p>",
+    "hints" => array(),
+);
+
+
+// error checks
+
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("130", "150", "Boioling", "Bowling"), "case_sensitive" => TRUE, "error" => "P_header");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\nmost"), "case_sensitive" => TRUE, "error" => "P_headerline");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("fhort", "uftle", "fide", "fee", "twifting", "feueral", "Poftures", "nefs", "fing", "perfw", "wafi", "haften", "refpo", "ponfi", "fport", "inftru", "fhall", "fome"), "case_sensitive" => TRUE, "error" => "P_longs");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("[s]", "[f]"), "case_sensitive" => TRUE, "error" => "P_longsbracket");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("-\n"), "case_sensitive" => TRUE, "error" => "P_eolhyphen");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("it be\n"), "case_sensitive" => TRUE, "error" => "P_hyphenlower");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("-"), "case_sensitive" => TRUE, "error" => "P_hyphenleft");
+$tests[] = array("type" => "longline", "lengthlimit" => 70, "error" => "P_longline");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("over", "everal", "using", "ive"), "case_sensitive" => TRUE, "error" => "P_uvchange");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("unresponsiue"), "case_sensitive" => TRUE, "error" => "P_italu");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("j"), "case_sensitive" => FALSE, "error" => "P_ijchange");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("&c."), "case_sensitive" => TRUE, "error" => "periodadded");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("etc"), "case_sensitive" => TRUE, "error" => "ampchange");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("'tis"), "case_sensitive" => TRUE, "error" => "aposadded");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("liort"), "case_sensitive" => TRUE, "error" => "sliort");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("*ee"), "case_sensitive" => TRUE, "error" => "longsscanno");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("ick,"), "case_sensitive" => TRUE, "error" => "stray_comma");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("Side"), "case_sensitive" => TRUE, "error" => "Side");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("youany"), "case_sensitive" => TRUE, "error" => "youany");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("truft"), "case_sensitive" => TRUE, "error" => "instruft");
+$tests[] = array("type" => "expectedtext", "searchtext" =>  array("acter"), "case_sensitive" => TRUE, "error" => "P_ctlig");
+$tests[] = array("type" => "expectedtext", "searchtext" =>  array("truct"), "case_sensitive" => TRUE, "error" => "P_ctlig");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("Rules"), "case_sensitive" => TRUE, "error" => "P_catchword");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\n'", "\n,"), "case_sensitive" => TRUE, "error" => "flyspeck2");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<i>", "</i>"), "case_sensitive" => FALSE, "error" => "P_italmarkup");
+
+// vim: sw=4 ts=4 expandtab

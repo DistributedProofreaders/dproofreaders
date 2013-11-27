@@ -9,7 +9,7 @@
 
 include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'SettingsClass.inc');
-include_once($relPath.'quizzes.inc');
+include_once($relPath.'quizzes.inc'); // $MPQ1 $MPQ2 $FQ
 include_once($relPath.'misc.inc'); // startswith
 include_once($relPath.'page_header.inc');
 
@@ -19,8 +19,9 @@ $Stage_for_id_ = array();
 
 $CRITERIA = array(
     'days since reg' => _('days since registration'),
-    'quiz/P'         => sprintf(_("<a href='%s'>proofreading quiz</a> pass"),"$code_url/quiz/start.php?show_only=PQ"),
-    'quiz/F'         => sprintf(_("<a href='%s'>formatting quiz</a> pass"),"$code_url/quiz/start.php?show_only=FQ"),
+    'quiz/MPQ1'      => sprintf(_("<a href='%s'>moderate proofreading quiz 1</a> pass"),"$code_url/quiz/start.php?show_level=MPQL"),
+    'quiz/MPQ2'      => sprintf(_("<a href='%s'>moderate proofreading quiz 2</a> pass"),"$code_url/quiz/start.php?show_level=MPQL"),
+    'quiz/FQ'        => sprintf(_("<a href='%s'>formatting quiz</a> pass"),"$code_url/quiz/start.php?show_only=format"),
 );
 if ( TRUE )
 {
@@ -373,12 +374,17 @@ function get_user_score( $user_obj, $criterion_code )
     {
         $user_score = round( ( time() - $user_obj->date_created ) / 86400, 1 );
     }
-    else if ( $criterion_code == 'quiz/P' )
+    else if ( $criterion_code == 'quiz/MPQ1' )
     {
-        global $PQ;
-        $user_score = $PQ->user_has_passed($user_obj->username) ? 1 : 0;
+        global $MPQ1;
+        $user_score = $MPQ1->user_has_passed($user_obj->username) ? 1 : 0;
     }
-    else if ( $criterion_code == 'quiz/F' )
+    else if ( $criterion_code == 'quiz/MPQ2' )
+    {
+        global $MPQ2;
+        $user_score = $MPQ2->user_has_passed($user_obj->username) ? 1 : 0;
+    }
+    else if ( $criterion_code == 'quiz/FQ' )
     {
         global $FQ;
         $user_score = $FQ->user_has_passed($user_obj->username) ? 1 : 0;

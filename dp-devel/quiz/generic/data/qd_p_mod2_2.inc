@@ -1,0 +1,93 @@
+<?php
+
+function quizsolved()
+{
+  global $pguser;
+  if (isset($pguser))
+      record_quiz_attempt($pguser,"p_mod2_2","pass");
+}
+
+$browser_title                = _("Moderate Proofreading Quiz");
+$welcome                      = "<h2>" . _("Moderate Proofreading Quiz, page 7") . "</h2>\n" .
+                                    "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
+$ocr_text                     = "its terrestrial excursions. Just above\nthe gills, lie climbing perch has\ninvented a wholly original water chamber\ncontaining within it a\nfrilled bony organ, which\nenables it to extract oxygen\n--or O2 to scientists--from\nthe stored-up water\nduring the course of its aerial peregrinations\n. While on shore it picks up\nsmall insects, worms, and grubs; but it\nalso has vegetarian tastes of us own,\nand does not despise fruits and berries";
+$solutions                    = array("its terrestrial excursions. Just above\nthe gills, the climbing perch has\ninvented a wholly original water chamber,\ncontaining within it a\nfrilled bony organ, which\nenables it to extract oxygen--or\nO_{2} to scientists--from\nthe stored-up water\nduring the course of its aërial peregrinations.\nWhile on shore it picks up\nsmall insects, worms, and grubs; but it\nalso has vegetarian tastes of its own,\nand does not despise fruits and berries.");
+$solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .
+                                    "<p>" . _("Congratulations, no errors found!") . "</p>\n" .
+                                    "<h3>" . _("Handy Fact") . "</h3>\n" .
+                                    "<p>" . _("The texts that we proofread sometimes have different spellings than what we use today, including accents in words like <tt>co&ouml;perate</tt> and <tt>pre&euml;minent</tt>. OCR programs often miss the accents, so be sure to check the image carefully when proofreading.") . "</p>";
+
+
+// error messages
+
+$messages["lie"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno: '<tt>li</tt>' in the text where there is '<tt>th</tt>' in the image.") . "</p>",
+    "hints" => array(),
+);
+$messages["us"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno: a '<tt>u</tt>' in the text where there is '<tt>it</tt>' in the image.") . "</p>",
+    "hints" => array(),
+);
+$messages["periodomit"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno in the text: a period (<tt>.</tt>) was omitted by the OCR software.") . "</p>",
+    "hints" => array(),
+);
+$messages["lbpunct"] = array(
+    "message_text" => "<h2>" . _("Punctuation placement") . "</h2>\n" .
+        "<p>" . _("There is a period (<tt>.</tt>) at the start of a line in the text.  Please move it so that it is at the end of the preceding word, without any spaces or line breaks between the word and the period.") . "</p>",
+    "hints" => array(),
+);
+$messages["indent"] = array(
+    "message_text" => "<h2>" . _("Indentation") . "</h2>\n" .
+        "<p>" . _("There is a space at the start of a line.  During proofreading, please leave the text left aligned without any indentation.") . "</p>",
+    "hints" => array(),
+);
+$messages["commaomit"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno in the text: a comma (<tt>,</tt>) was omitted by the OCR software.") . "</p>",
+    "hints" => array(),
+);
+$messages["accente"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno in the text: an accent over an '<tt>e</tt>' was omitted by the OCR software.") . "</p>",
+    "hints" => array(),
+);
+
+
+// error checks
+
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("lie"), "case_sensitive" => TRUE, "error" => "lie");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array(" us"), "case_sensitive" => TRUE, "error" => "us");
+$tests[] = array("type" => "expectedtext", "searchtext" =>  array("ries."), "case_sensitive" => TRUE, "error" => "periodomit");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("--\n"), "case_sensitive" => TRUE, "error" => "P_eoldash");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\n--"), "case_sensitive" => TRUE, "error" => "P_soldash");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\noxyg", "\nscient"), "case_sensitive" => TRUE, "error" => "P_lowerlinedash");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("-\n"), "case_sensitive" => TRUE, "error" => "P_eolhyphen");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\nchamber", "\npereg"), "case_sensitive" => TRUE, "error" => "P_hyphenlower");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("cham-", "oxy-", "gri-"), "case_sensitive" => TRUE, "error" => "P_hyphenleft");
+$tests[] = array("type" => "longline", "lengthlimit" => 53, "error" => "P_longline");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("---"), "case_sensitive" => TRUE, "error" => "P_em_long");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array(" --", "-- "), "case_sensitive" => TRUE, "error" => "P_spacedemdash");
+$tests[] = array("type" => "expectedtext", "searchtext" =>  array("\nfrill"), "case_sensitive" => TRUE, "error" => "P_lbchange");
+$tests[] = array("type" => "expectedtext", "searchtext" =>  array("\nenabl"), "case_sensitive" => TRUE, "error" => "P_lbchange");
+$tests[] = array("type" => "expectedtext", "searchtext" =>  array("\nduring"), "case_sensitive" => TRUE, "error" => "P_lbchange");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\n."), "case_sensitive" => TRUE, "error" => "lbpunct");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array(" ."), "case_sensitive" => TRUE, "error" => "P_commaspace");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\n "), "case_sensitive" => TRUE, "error" => "indent");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("chamber\n"), "case_sensitive" => TRUE, "error" => "commaomit");
+$tests[] = array("type" => "expectedtext", "searchtext" =>  array("_"), "case_sensitive" => TRUE, "error" => "P_subnomark");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("_2"), "case_sensitive" => TRUE, "error" => "P_subnobraces");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("aer"), "case_sensitive" => TRUE, "error" => "accente");
+if(!$utf8_site) {
+    $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("[:e]"), "case_sensitive" => TRUE, "error" => "P_accentbracket");
+}
+else {
+    $tests[] = array("type" => "expectedtext", "searchtext" =>  array("aër"), "case_sensitive" => TRUE, "error" => "P_accentbracket");
+}
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<b>", "</b>"), "case_sensitive" => FALSE, "error" => "P_boldmarkup");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("Illustration"), "case_sensitive" => FALSE, "error" => "P_illmarkup");
+
+// vim: sw=4 ts=4 expandtab

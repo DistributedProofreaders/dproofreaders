@@ -1,0 +1,128 @@
+<?php
+include_once('quiz_defaults.inc');
+
+function quizsolved()
+{
+  global $pguser;
+  if (isset($pguser))
+      record_quiz_attempt($pguser,"p_thorn","pass");
+}
+
+$browser_title                = _("Thorn Proofreading Quiz");
+$welcome                      = "<h2>" . _("Thorn Proofreading Quiz") . "</h2>\n" .
+                                    "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
+$ocr_text                     = "them to beware of green meat, as it weakens\nthe belly:\n\nbeware of saladis, greno metis, &amp; of frutes rawe\nfor bey make many a man liaue a feble mawe.\n]>erfore, of suche fresch lustas set not an hawe,\nFor suche wantoun appetites ai not worth a\n\nstrawe.";
+if(!$utf8_site) {
+    $solutions                = array("them to beware of green meat, as it weakens\nthe belly:\n\nbeware of saladis, grene metis, & of frutes rawe\nfor þey make many a ma[=n] haue a feble mawe.\nÞerfore, of suche fresch lustes set not an hawe,\nFor suche wantoun appetites ar not worth a\nstrawe.");
+}
+else{
+    $solutions                = array("them to beware of green meat, as it weakens\nthe belly:\n\nbeware of saladis, grene metis, & of frutes rawe\nfor þey make many a man̄ haue a feble mawe.\nÞerfore, of suche fresch lustes set not an hawe,\nFor suche wantoun appetites ar not worth a\nstrawe.");
+}
+$solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .
+                                    "<p>" . _("Congratulations, no errors found!") . "</p>";
+$links_out                    = "<a href='../start.php?show_only=proof' target='_top'>" . _("Back to proofreading quiz home") . "</a>";
+
+
+// error messages
+
+$messages["greno"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno: an '<tt>o</tt>' in the text where there is an '<tt>e</tt>' in the image.") . "</p>",
+    "hints" => array(),
+);
+$messages["bey"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno: a '<tt>b</tt>' in the text where there is a '<tt>&thorn;</tt>' in the image.") . "</p>",
+    "hints" => array(),
+);
+$messages["liaue"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno: '<tt>li</tt>' in the text where there is an '<tt>h</tt>' in the image.") . "</p>",
+    "hints" => array(),
+);
+$messages["thornscanno"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno: '<tt>]></tt>' in the text where there is a '<tt>&THORN;</tt>' in the image.") . "</p>",
+    "hints" => array(),
+);
+$messages["lustas"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno: an '<tt>a</tt>' in the text where there is an '<tt>e</tt>' in the image.") . "</p>",
+    "hints" => array(),
+);
+$messages["ai"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno: an '<tt>i</tt>' in the text where there is an '<tt>r</tt>' in the image.") . "</p>",
+    "hints" => array(),
+);
+$messages["macronmissing"] = array(
+    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
+        "<p>" . _("There is still a scanno in the text: a macron (horizontal line) over an '<tt>n</tt>' was omitted by the OCR software.") . "</p>",
+    "hints" => array(),
+);
+if($utf8_site) {
+    $messages["macron"] = array(
+        "message_text" => "<h2>" . _("Macron") . "</h2>\n" .
+            "<p>" . _("Following the proofreading guidelines, please use the appropriate Unicode character for a letter with a macron (straight line) over it.  For instance, proofread an '<tt>a</tt>' with a macron over it as <tt>&#257;</tt>.  If the specific character does not exist in Unicode, then enter the base letter followed by the Unicode \"combining macron\" character in order to put the macron on the letter.") . "</p>",
+        "hints" => array(),
+        "guideline" => "d_chars",
+    );
+    $messages["macron2"] = array(
+        "message_text" => "<h2>" . _("Macron") . "</h2>\n" .
+            "<p>" . _("Since the letter 'n' with a macron (straight line) over it does not exist in Unicode, you should proofread it by first entering the <tt>n</tt> and then the combining macron character.") . "</p>",
+        "hints" => array(),
+        "guideline" => "d_chars",
+    );
+}
+$messages["thorn"] = array(
+    "message_text" => "<h2>" . _("Thorn incorrectly proofread") . "</h2>\n" .
+        "<p>" . _("The capital and lower case thorns (&THORN; and &thorn;) often appear in Old and Middle English texts.  These characters are available in the \"+\" drop-down menu at the bottom of the screen.") . "</p>\n" .
+        "<p>" . sprintf(_("See the <a href='%s' target='_blank'>Thorn</a> wiki page for details."), $thorn_url) . "</p>",
+    "hints" => array(),
+);
+$messages["thorncase"] = array(
+    "message_text" => "<h2>" . _("Capital/Lower Case Thorn") . "</h2>\n" .
+        "<p>" . _("In the books that we proofread generally the capital thorn (<tt>&THORN;</tt>) has a much larger loop.  The lower case thorn (<tt>&thorn;</tt>) has a smaller loop and often sticks down farther below the line.") . "</p>\n" .
+        "<p>" . sprintf(_("See the <a href='%s' target='_blank'>Thorn</a> wiki page for details."), $thorn_url) . "</p>",
+    "hints" => array(),
+);
+$messages["P_poetryblanklines"] = array(
+    "message_text" => "<h2>" . _("Space around poetry") . "</h2>\n" .
+        "<p>" . _("Leave a blank line before and after a block of poetry to separate it from the regular text.") . "</p>",
+    "hints" => array(),
+    "guideline" => "poetry",
+);
+$messages["blankline2"] = array(
+    "message_text" => "<h2>" . _("Blank Lines") . "</h2>\n" .
+        "<p>" . _("The OCR software incorrectly inserted a blank line within the poem.  Please remove it.") . "</p>",
+    "hints" => array(),
+);
+
+
+// error checks
+
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("greno"), "case_sensitive" => TRUE, "error" => "greno");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("bey"), "case_sensitive" => TRUE, "error" => "bey");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("liaue"), "case_sensitive" => TRUE, "error" => "liaue");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("]>"), "case_sensitive" => TRUE, "error" => "thornscanno");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("lustas"), "case_sensitive" => TRUE, "error" => "lustas");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("ai"), "case_sensitive" => TRUE, "error" => "ai");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("man "), "case_sensitive" => TRUE, "error" => "macronmissing");
+if(!$utf8_site) {
+    $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("[n=]", "[=x]", "ñ"), "case_sensitive" => TRUE, "error" => "P_macron");
+    $tests[] = array("type" => "expectedtext", "searchtext" =>  array("ma[=n]"), "case_sensitive" => TRUE, "error" => "P_macron2");
+}
+else {
+    $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("[=n]", "[=x]", "ñ"), "case_sensitive" => TRUE, "error" => "macron");
+    $tests[] = array("type" => "expectedtext", "searchtext" =>  array("man̄"), "case_sensitive" => TRUE, "error" => "macron2");
+}
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("pey", "per", "Der", "ber"), "case_sensitive" => FALSE, "error" => "thorn");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("Þey", "þer"), "case_sensitive" => TRUE, "error" => "thorncase");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("belly:\nbe"), "case_sensitive" => TRUE, "error" => "P_poetryblanklines");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\n\nstrawe"), "case_sensitive" => TRUE, "error" => "blankline2");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("a strawe"), "case_sensitive" => TRUE, "error" => "P_joinline");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("\n "), "case_sensitive" => TRUE, "error" => "P_indent");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("/*", "*/"), "case_sensitive" => TRUE, "error" => "P_poemmarkup");
+$tests[] = array("type" => "forbiddentext", "searchtext" =>  array("<i>", "</i>"), "case_sensitive" => FALSE, "error" => "P_italmarkup");
+
+// vim: sw=4 ts=4 expandtab

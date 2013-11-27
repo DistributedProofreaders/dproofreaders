@@ -6,6 +6,7 @@ include_once($relPath.'prefs_options.inc');
 
 $page_id = get_enumerated_param($_REQUEST, 'type', NULL, $valid_page_ids);
 $quiz_id = get_enumerated_param($_REQUEST, 'quiz_id', NULL, $valid_quiz_ids);
+$utf8_site=!strcasecmp($charset,"UTF-8");
 
 include "./data/qd_${page_id}.inc";
 
@@ -33,17 +34,20 @@ $font_size = $f_s[$font_size_i];
 <meta name="generator" content="HTML Tidy, see www.w3.org">
 <script type='text/javascript'>
 s = "<?php
+if("UTF-8" != strtoupper($charset))
+{
+    $solutions[0] = iconv("UTF-8", $charset, $solutions[0]);
+}
 if ($testing)
 echo str_replace("\n",'\n',addslashes($solutions[0]));?>";
 </script>
 <title></title>
-<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<META http-equiv="Content-Type" content="text/html; charset=<?php echo "$charset";?>">
 </head>
-<body bgcolor='#ffffff'>
-<form action="./returnfeed.php?type=<?php echo $page_id; ?>&quiz_id=<?php echo $quiz_id; ?>" target="right" method="post">
-<textarea rows="12" cols="60" name="output" id='output' wrap="off"
+<body bgcolor='#ffffff' onload='top.initializeStuff(1)'>
+<form action="./returnfeed.php?type=<?php echo $page_id; ?>&quiz_id=<?php echo $quiz_id;?>" target="right" method="post" name="editform" id="editform">
+<textarea rows="12" cols="60" name="text_data" id="text_data" wrap="off" style='width:100%;
 <?php 
-    echo "style='";
     if ( $font_face != '' && $font_face != BROWSER_DEFAULT_STR )
     {
         echo "font-family: $font_face;";
@@ -53,15 +57,14 @@ echo str_replace("\n",'\n',addslashes($solutions[0]));?>";
     {
         echo "font-size: $font_size;";
     }
-    echo "'";
 ?>
->
+'>
 <?php echo $ocr_text; ?>
 </textarea> <p>
-<input type="submit" value="Check">
-<input type="reset" value="Restart"></form>
+<input type="submit" value="<?php echo _("Check"); ?>">
+<input type="reset" value="<?php echo _("Restart"); ?>"></form>
 
-<a href='#' onclick="document.forms[0].elements['output'].value=s" accesskey='`'></a>
+<a href='#' onclick="document.forms[0].elements['text_data'].value=s" accesskey='`'></a>
 
 </body>
 </html>

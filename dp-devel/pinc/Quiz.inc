@@ -1,14 +1,31 @@
 <?php
 include_once($relPath."connect.inc");
 include_once($relPath."site_vars.php");
+include_once($relPath."Stage.inc");
+include_once($relPath."stages.inc");
+
+// for groups of quizzes that go together
+class QuizLevel
+{
+  function QuizLevel($level_id,$level_name,$activity_type,$info,$quizzes)
+  {
+    $this->level_id = $level_id;
+    $this->level_name = $level_name;         // name for the category of quizzes
+    $this->activity_type = $activity_type;   // "proof" or "format"
+    $this->info = $info;                     // description or other info the user should know
+    $this->quizzes = $quizzes;               // the individual quizzes that the level contains
+  }
+}
 
 class Quiz
 {
-  function Quiz($id,$name,$descrption,$pages, $pass_requirements)
+  function Quiz($id,$name,$short_name,$descrption,$thread,$pages, $pass_requirements)
   {
     $this->id = $id;
-    $this->name = $name;
+    $this->name = $name;               // appears in the top of the quiz's table
+    $this->short_name = $short_name;   // appears in the righthand frame during the quiz
     $this->description = $descrption;
+    $this->thread = $thread;           // forum thread for quiz questions & comments, if other than the default
     $this->pages = $pages;
     $this->pass_requirements = $pass_requirements;
     // Currently supported pass_requirements:
@@ -68,16 +85,47 @@ class Quiz
   function show_results_table($username)
   {
     global $code_url;
-    echo "<p>
-          <table border='0' cellpadding='2' style='border:2px solid black;'>
-          <tr><th class='q' colspan='5'>$this->name</th></tr>
-	  <tr><td colspan='5'>$this->description</td></tr>
-    ";
+    global $code_dir;
+    echo "
+        <p><table border='0' cellpadding='2' style='border:2px solid black;'>
+        <tr><th class='q' colspan='5'>$this->name</th></tr>";
+
+    // This assumes that the access minima quiz strings are names
+    // 'quiz/X' where X is some quiz ID (eg 'FQ', 'MPQ2', 'GPQ')
+    $stage_required_for = array();
+    global $Stage_for_id_;
+    foreach($Stage_for_id_ as $stage_id => $stage)
+    {
+      if (array_key_exists("quiz/$this->id", $stage->access_minima))
+          $stage_required_for[] = $stage_id;
+    }
+
+    if ($this->description != "" || count($stage_required_for) > 0)
+    {
+      echo "
+        <tr><td colspan='5' class='info'>";
+      if (count($stage_required_for) > 0)
+      {
+        echo "<p>" . _("Passing this quiz is required for:") . " ";
+        echo implode(", ", $stage_required_for);
+        echo "</p>"; 
+      }
+      echo "$this->description";
+      echo "</td></tr>";
+    }
+
     $pages = $this->pages;
     foreach ($pages as $desc => $page)
     {
-      echo "<tr><td>$desc</td>
-            <td><a href='generic/main.php?type=$page&quiz_id=$this->id'>Attempt this page</a></td>";
+      echo "
+        <tr><td>$desc</td>";
+      echo "<td>";
+      $tutfile = "$code_dir/quiz/tuts/tut_".$page.".php";
+      if (file_exists($tutfile))
+      {
+        echo "<a href='tuts/tut_$page.php'>" . _("Tutorial") . "</a> | ";
+      }
+      echo "<a href='generic/main.php?type=$page&quiz_id=$this->id'>" . _("Quiz") . "</a></td>";
       if (!empty($username))
       {
         $passed = user_has_passed_quiz_page($username, $page);
@@ -85,7 +133,7 @@ class Quiz
         $bgcolor = $passed ? '#ccffcc' : '#ffcccc';
         echo "<td bgcolor='$bgcolor'>$text</td>";
         $date = get_last_attempt_date_for_quiz_page($username, $page);
-        $text = ($date != 0) ? strftime("%d-%b-%y",$date) : "Not attempted";
+        $text = ($date != 0) ? strftime("%d-%b-%y",$date) : _("Not attempted");
         $max = $this->pass_requirements['maximum_age'];
         $date_ok = ((time() - $date) < $max) || empty($max);
         $bgcolor = $date_ok ? '#ccffcc' : '#ffcccc';
@@ -106,9 +154,10 @@ class Quiz
       $total_pass = $this->user_has_passed($username);
       $text = $total_pass ? _("Quiz passed") : _("Quiz not passed");
       $bgcolor = $total_pass ? '#88ff88' : '#ff8888';
-      echo "<tr><td colspan='5'  bgcolor='$bgcolor' style='font-weight: bold;text-align:center;'>$text</td></tr>";
+      echo "
+        <tr><td colspan='5'  bgcolor='$bgcolor' style='font-weight: bold;text-align:center;'>$text</td></tr>";
     }
-    echo "</table></p>";
+    echo "</table></p>\n";
   }
 }
 
@@ -116,6 +165,7 @@ class Quiz
 
 function record_quiz_attempt($username, $quiz_page, $result)
 {
+  new dbConnect();
   $res = mysql_query("SELECT * FROM `quiz_passes`
   WHERE `username` ='$username' AND `quiz_page` ='$quiz_page'");
   if (mysql_num_rows($res) > 0)
@@ -157,6 +207,21 @@ function get_last_attempt_date_for_quiz_page($username, $quiz_page)
   $value = mysql_result($res,0,"date");
 
   return $value;
+}
+
+function get_activity_type_for_quiz ($current_quiz)
+{
+  global $defined_quiz_levels;
+  foreach ($defined_quiz_levels as $level)
+  {
+    global ${$level};
+    if (array_search($current_quiz, ${$level}->quizzes) !== false)
+    {
+      global $activity_type_for_quiz;
+      $activity_type_for_quiz = ${$level}->activity_type;
+      break;
+    }
+  }
 }
 
 ?>

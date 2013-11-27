@@ -6,65 +6,69 @@ include_once($relPath.'theme.inc');
 output_header(_('Quiz Wizard'));
 
 
-if ($_SESSION['quiz_data']['lastpage'] == 'start')
+if ($_SESSION['quiz_data']['lastpage'] == 'output_quiz' || $_SESSION['quiz_data']['lastpage'] == 'start')
 {
   unset($_SESSION['quiz_data']['messages']);
   unset($_SESSION['quiz_data']['tests']);
 }
 
-?>
+echo "<h2>" . _("New Quiz Page") . "</h2>";
 
-<p><?php echo _("Please fill in the following fields. Don't be disturbed if they appear somewhat small. There is no limit for the length of the text you can insert. (At least none that would be relevant.)</p>"); ?>
+echo "<p>" . _("Please fill in the following fields. Don't be disturbed if they appear somewhat small. There is no limit for the length of the text you can insert. (At least none that would be relevant.)") . "</p>\n";
+echo "<hr>\n<form method='post' action='./messages.php'>\n<p>";
+echo _("Title of quiz page (will be displayed in browser title bar):");
+echo " <input type='text' name='browser_title' size='50'></p>\n";
 
-<hr>
-<form method="post" action="./messages.php">
+echo "<hr>\n<p>";
+echo _("Welcome message (will be displayed initially on right hand side):");
+echo " <input type='text' name='welcome' size='50'><br>";
+echo _("HTML allowed. A typical value would be: &lt;h2&gt;Quiz, page 1&lt;/h2&gt; Try to correct the text ...") . "</p>\n";
 
-<p><?php echo _("Title of quiz (will be displayed in browser title bar):"); ?> <input type="text" name="browser_title" size="50"></p>
-<hr>
-<p><?php echo _("Welcome message (will be displayed initially on right hand side):"); ?> <input type="text" name="welcome" size="50"><br>
-<?php echo _("HTML allowed. A typical value would be: &lt;h2&gt;Quiz, part 1&lt;/h2&gt; Try to correct the text ..."); ?></p>
-<hr>
-<p><?php echo _("Initial text the user will have to correct:"); ?><br>
-<textarea name="ocr_text" rows="12" cols="80" wrap="off">
-</textarea></p> 
-<hr>
-<p><?php echo _("Corrected text the user is expected to leave:"); ?><br>
-<textarea name="solution1" rows="12" cols="80" wrap="off">
-</textarea></p> 
+echo "<hr>\n<p>";
+echo _("Initial text the user will have to correct:");
+echo "<br>\n<textarea name='ocr_text' rows='12' cols='80' wrap='off'>\n</textarea></p>\n";
 
-<p><?php echo _("Alternative corrected text the user is expected to leave (optional):"); ?><br>
-<textarea name="solution2" rows="12" cols="80" wrap="off">
-</textarea></p> 
+echo "<hr>\n<p>";
+echo _("Corrected text the user is expected to leave:");
+echo "<br>\n<textarea name='solution1' rows='12' cols='80' wrap='off'>\n</textarea><br>\n";
+echo _("Use this solution if the following is present:");
+echo " <input type='text' name='criterion1' size='20'><br>\n";
+echo _("(Fill in <b>only</b> if you have a second solution below. Use \\n if needed for a line break.)") . "</p>\n";
 
-<p><?php echo _("Yet another alternative corrected text the user is expected to leave (optional):"); ?><br>
-<textarea name="solution3" rows="12" cols="80" wrap="off">
-</textarea></p> 
+echo "<p>";
+echo _("Alternative corrected text the user is expected to leave (optional):");
+echo "<br>\n<textarea name='solution2' rows='12' cols='80' wrap='off'>\n</textarea><br>\n";
+echo _("Use this solution if the following is present:");
+echo " <input type='text' name='criterion2' size='20'><br>\n";
+echo _("(Fill in <b>only</b> if you have a third solution below. Use \\n if needed for a line break.)") . "</p>\n";
 
-<p><?php echo _("And the last alternative corrected text the user is expected to leave (optional):"); ?><br>
-<textarea name="solution4" rows="12" cols="80" wrap="off">
-</textarea><br>
-<?php echo _("Should you <b>really</b> need more than 4 alternatives you can add more manually in the final file which will be the output of this wizard."); ?>
+echo "<p>";
+echo _("Yet another alternative corrected text the user is expected to leave (optional):");
+echo "<br>\n<textarea name='solution3' rows='12' cols='80' wrap='off'>\n</textarea><br>\n";
+echo _("Use this solution if the following is present:");
+echo " <input type='text' name='criterion3' size='20'><br>\n";
+echo _("(Fill in <b>only</b> if you have a fourth solution below. Use \\n if needed for a line break.)") . "</p>\n";
 
-</p> 
-<hr>
-<p><?php echo _("In case of unexpected differences, shall the solution be shown? (Only applies if you have multiple solutions.) When in doubt leave it at 'yes'."); ?><br>
+echo "<p>";
+echo _("And the last alternative corrected text the user is expected to leave (optional):");
+echo "<br>\n<textarea name='solution4' rows='12' cols='80' wrap='off'>\n</textarea><br>\n";
+echo _("Should you <b>really</b> need more than 4 alternatives you can add more manually in the final file which will be the output of this wizard.");
+echo "</p>\n<hr>\n<hr>";
 
-<input type="radio" name="showsolution" value="yes" checked><?php echo _("Yes"); ?><br>
-<input type="radio" name="showsolution" value="no"><?php echo _("No"); ?></p>
-<hr>
-<p><?php echo _("Solved message (will be displayed when no errors are left):"); ?> <input type="text" name="solved_message" size="50"><br>
-<?php echo _("HTML allowed. A typical value would be: &lt;h2&gt;Quiz successfully solved&lt;/h2&gt; Congratulations, no errors found!"); ?></p>
-<hr>
-<p><?php echo _("Links shown after solved message (optional):"); ?> <input type="text" name="links_out" size="50"><br>
-<?php echo _("HTML allowed. A typical value would be: &lt;a href='../generic/main.php?type=step2' target='_top'&gt;Next step of quiz&lt;/a&gt;"); ?></p>
-<hr>
+echo "<p>";
+echo _("Solved message (will be displayed when no errors are left):");
+echo " <input type='text' name='solved_message' size='50'><br>\n";
+echo _("HTML allowed. A typical value would be: &lt;h2&gt;Quiz successfully solved&lt;/h2&gt; Congratulations, no errors found!") . "</p>\n";
 
-<p><input type="submit" value="send"></p>
+echo "<hr>\n<p>";
+echo _("Links shown after solved message (optional):");
+echo " <input type='text' name='links_out' size='50'><br>\n";
+echo _("HTML allowed. A typical value would be: &lt;a href='../generic/main.php?type=step2' target='_top'&gt;Next step of quiz&lt;/a&gt;") . "<br>\n";
+echo _("If you leave this blank there will automatically be links to the next page of the quiz (if one exists) as well as the corresponding tutorial (if one exists) and a link back to the quiz home page.");
+echo "</p>\n<hr>\n";
 
-</form>
+echo "<p><input type='submit' value='" . _("send") . "'></p>\n</form>\n";
 
-
-
-<?php
 $_SESSION['quiz_data']['lastpage'] = 'general';
-?>
+
+// vim: sw=4 ts=4 expandtab
