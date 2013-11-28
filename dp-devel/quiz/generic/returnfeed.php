@@ -3,6 +3,7 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'quizzes.inc');
 include_once('../small_theme.inc');
+include_once($relPath.'misc.inc'); // stripos
 
 global $utf8_site;
 $utf8_site=!strcasecmp($charset,"UTF-8");
@@ -34,14 +35,6 @@ function in_string($needle, $haystack, $sensitive = 0)
     else
         return (false !== stristr($haystack, $needle)) ? true : false;
 } 
-
-if(!function_exists('stripos'))
-{
-    function stripos($haystack,$needle,$offset = 0)
-    {
-        return(strpos(strtolower($haystack),strtolower($needle),$offset));
-    }
-}
 
 function strposgen($haystack,$needle,$cs)
 {

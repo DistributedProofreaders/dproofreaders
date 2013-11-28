@@ -487,6 +487,15 @@ if ( !function_exists('file_put_contents') )
     }
 }
 
+// stripos() is predefined in PHP 5 and on.
+if ( !function_exists('stripos') )
+{
+    function stripos($haystack, $needle, $offset = 0)
+    {
+        return strpos(strtolower($haystack), strtolower($needle), $offset);
+    }
+}
+
 // array_intersect_key() is predefined in PHP 5.1.0RC1
 if ( !function_exists('array_intersect_key') )
 {
