@@ -12,12 +12,6 @@ $page_id = get_enumerated_param($_REQUEST, 'type', NULL, $valid_page_ids);
 include "./data/qd_${page_id}.inc";
 include './quiz_defaults.inc';
 
-$qt_differencehead        = _('Difference with expected text');
-$qt_difference            = _('There is still a difference between your text and the expected one.');
-$qt_blanklines            = _('There are probably too few or too many blank lines before this text:');
-$qt_unknown               = _('Finding the reason for this is beyond the current scope of the analysing software.');
-$qt_frstdiff              = _('This is the first differing line:');
-
 global $quiz_feedbackurl;
 global $quiz_feedbacktext;
 global $current_quiz;
@@ -110,11 +104,6 @@ function finddiff()
     global $criteria;
     global $quiz_feedbacktext;
     global $charset;
-    global $qt_differencehead;
-    global $qt_difference;
-    global $qt_blanklines;
-    global $qt_unknown;
-    global $qt_frstdiff;
   
     // If there's more than one solution, and solution criteria are defined
     // for this quiz, check through the criteria to see if any are found in
@@ -142,16 +131,16 @@ function finddiff()
     {
         return FALSE;
     }
-    echo '<h2>' . $qt_differencehead . '</h2>';
-    echo '<p>' . $qt_difference . ' ';
+    echo '<h2>' . _('Difference with expected text') . '</h2>';
+    echo '<p>' . _('There is still a difference between your text and the expected one.') . ' ';
     if (preg_match('/^\n/',$d) || preg_match('/\n$/',$d))
     {
-        echo $qt_blanklines . '<br>';
+        echo _('There are probably too few or too many blank lines before this text:') . '<br>';
     }
     else
     {
-        echo $qt_unknown . '</p>';
-        echo '<p>' . $qt_frstdiff . '<br>';
+        echo _('Finding the reason for this is beyond the current scope of the analysing software.') . '</p>';
+        echo '<p>' . _('This is the first differing line:') . '<br>';
     }
     echo "<pre>\n";
     // If the site isn't using utf-8 encoding, convert the diff string
