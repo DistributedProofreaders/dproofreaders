@@ -35,13 +35,13 @@ echo "<td /* width='50%' */ align='right' bgcolor='$bgcolor'>\n";
 echo "<a href='$code_url/activity_hub.php' target='_top'><font face='$font_face' size='1' color='$font_color'>" . _("Activity Hub") . "</font></a>";
 echo "<font face='$font_face' size='1' color='$font_color'>&nbsp;<b>&#183;</b>&nbsp;</font>";
 if ($activity_type_for_quiz == "format") {
-  echo "<a href='$code_url/faq/document.php' target='_top'><font face='$font_face' size='1' color='$font_color'>" . _("Formatting Guidelines") . "</font></a>";  
+    echo "<a href='$code_url/faq/document.php' target='_top'><font face='$font_face' size='1' color='$font_color'>" . _("Formatting Guidelines") . "</font></a>";  
 }
 elseif ($activity_type_for_quiz == "proof") {
-  echo "<a href='$code_url/faq/proofreading_guidelines.php' target='_top'><font face='$font_face' size='1' color='$font_color'>" . _("Proofreading Guidelines") . "</font></a>";
+    echo "<a href='$code_url/faq/proofreading_guidelines.php' target='_top'><font face='$font_face' size='1' color='$font_color'>" . _("Proofreading Guidelines") . "</font></a>";
 }
 else {
-  echo "<a href='$code_url/faq/faq_central.php' target='_top'><font face='$font_face' size='1' color='$font_color'>" . _("Help") . "</font></a>";
+    echo "<a href='$code_url/faq/faq_central.php' target='_top'><font face='$font_face' size='1' color='$font_color'>" . _("Help") . "</font></a>";
 }
 echo "</td>";
 echo "</tr>";

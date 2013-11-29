@@ -83,14 +83,14 @@ elseif (!empty($_GET['show_only']) &&
 // otherwise just give links to P and F quizzes separately, so that the page isn't too long
 else
 {
-  output_header(_('Interactive Quizzes and Tutorials'), SHOW_STATSBAR, $theme_args);
-  echo "<h1>" . _("Interactive Quizzes and Tutorials") . "</h1>\n";
-  echo "<p>" . sprintf(_("Welcome to %s's interactive quizzes! The following quizzes are available:"), $site_abbreviation) . "</p>\n<p>";
-  foreach ($quiz_type_intro as $key=>$intro)
-  {
-    echo "<a href='start.php?show_only=$key'>" . $intro['title'] ."</a><br>";
-  }
-  echo "</p>\n";
+    output_header(_('Interactive Quizzes and Tutorials'), SHOW_STATSBAR, $theme_args);
+    echo "<h1>" . _("Interactive Quizzes and Tutorials") . "</h1>\n";
+    echo "<p>" . sprintf(_("Welcome to %s's interactive quizzes! The following quizzes are available:"), $site_abbreviation) . "</p>\n<p>";
+    foreach ($quiz_type_intro as $key=>$intro)
+    {
+        echo "<a href='start.php?show_only=$key'>" . $intro['title'] ."</a><br>";
+    }
+    echo "</p>\n";
 }
 
 // vim: sw=4 ts=4 expandtab

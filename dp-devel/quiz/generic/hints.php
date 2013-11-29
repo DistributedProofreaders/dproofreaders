@@ -24,18 +24,18 @@ echo "<p>";
 // display a link to the next hint.
 if (count($messages[$error]["hints"]) > (1 + $number))
 {
-  if (isset($messages[$error]["hints"][$number]["linktext"]))
-  {
-    echo $messages[$error]["hints"][$number]["linktext"];
-  }
-  else
-  {
-    echo _("Desperate? Can't find it?");
-  }
-  $link_contents = "./hints.php?quiz_id=$current_quiz&type=$page_id&error=$error&number=" . ($number + 1);
-  echo " " . sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents) . "</p>";
+    if (isset($messages[$error]["hints"][$number]["linktext"]))
+    {
+        echo $messages[$error]["hints"][$number]["linktext"];
+    }
+    else
+    {
+        echo _("Desperate? Can't find it?");
+    }
+    $link_contents = "./hints.php?quiz_id=$current_quiz&type=$page_id&error=$error&number=" . ($number + 1);
+    echo " " . sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents) . "</p>";
 }
 
 echo " </div>\n</body>\n</html>\n";
 
- ?>
+// vim: sw=4 ts=4 expandtab

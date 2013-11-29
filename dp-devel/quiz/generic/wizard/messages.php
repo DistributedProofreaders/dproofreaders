@@ -7,67 +7,67 @@ output_header(_('Quiz Wizard'));
 
 function evalmessages()
 {
-  if (isset($_SESSION['quiz_data']['messages'][$_POST['name']]) || $_POST['name'] == '')
-  {
-    return false;
-  }
-  else
-  {
-    $_SESSION['quiz_data']['messages'][$_POST['name']]['message_text'] = $_POST['message_text'];
-    $_SESSION['quiz_data']['messages'][$_POST['name']]['challengetext'] = $_POST['challengetext'];
-    $_SESSION['quiz_data']['messages'][$_POST['name']]['feedbacktext'] = $_POST['feedbacktext'];
-    if ($_POST['hinttext'] != "")
+    if (isset($_SESSION['quiz_data']['messages'][$_POST['name']]) || $_POST['name'] == '')
     {
-      $_SESSION['quiz_data']['messages'][$_POST['name']]['hints'][0]['linktext'] = $_POST['linktext'];
-      $_SESSION['quiz_data']['messages'][$_POST['name']]['hints'][0]['hint_text'] = $_POST['hinttext'];
+        return false;
     }
-    if ($_POST['hinttext2'] != "")
+    else
     {
-      $_SESSION['quiz_data']['messages'][$_POST['name']]['hints'][1]['linktext'] = $_POST['linktext2'];
-      $_SESSION['quiz_data']['messages'][$_POST['name']]['hints'][1]['hint_text'] = $_POST['hinttext2'];
-    }  
-    if ($_POST['P_guideline'] != "")
-    {
-      $_SESSION['quiz_data']['messages'][$_POST['name']]['P_guideline'] = $_POST['P_guideline'];
+        $_SESSION['quiz_data']['messages'][$_POST['name']]['message_text'] = $_POST['message_text'];
+        $_SESSION['quiz_data']['messages'][$_POST['name']]['challengetext'] = $_POST['challengetext'];
+        $_SESSION['quiz_data']['messages'][$_POST['name']]['feedbacktext'] = $_POST['feedbacktext'];
+        if ($_POST['hinttext'] != "")
+        {
+            $_SESSION['quiz_data']['messages'][$_POST['name']]['hints'][0]['linktext'] = $_POST['linktext'];
+            $_SESSION['quiz_data']['messages'][$_POST['name']]['hints'][0]['hint_text'] = $_POST['hinttext'];
+        }
+        if ($_POST['hinttext2'] != "")
+        {
+            $_SESSION['quiz_data']['messages'][$_POST['name']]['hints'][1]['linktext'] = $_POST['linktext2'];
+            $_SESSION['quiz_data']['messages'][$_POST['name']]['hints'][1]['hint_text'] = $_POST['hinttext2'];
+        }  
+        if ($_POST['P_guideline'] != "")
+        {
+            $_SESSION['quiz_data']['messages'][$_POST['name']]['P_guideline'] = $_POST['P_guideline'];
+        }
+        elseif ($_POST['F_guideline'] != "")
+        {
+            $_SESSION['quiz_data']['messages'][$_POST['name']]['F_guideline'] = $_POST['F_guideline'];
+        }
+        return true;
     }
-    elseif ($_POST['F_guideline'] != "")
-    {
-      $_SESSION['quiz_data']['messages'][$_POST['name']]['F_guideline'] = $_POST['F_guideline'];
-    }
-    return true;
-  }
 }
 
 
 function evalstart()
 {
-  $_SESSION['quiz_data']['browser_title'] = $_POST['browser_title'];
-  $_SESSION['quiz_data']['welcome'] = $_POST['welcome'];
-  $_SESSION['quiz_data']['ocr_text'] = $_POST['ocr_text'];
-  unset($_SESSION['quiz_data']['solutions']);
-  $_SESSION['quiz_data']['solutions'][] = $_POST['solution1'];
-  if ($_POST['solution2'] != "")
-    $_SESSION['quiz_data']['solutions'][] = $_POST['solution2'];
-  if ($_POST['solution3'] != "")
-    $_SESSION['quiz_data']['solutions'][] = $_POST['solution3'];
-  if ($_POST['solution4'] != "")
-    $_SESSION['quiz_data']['solutions'][] = $_POST['solution4'];
-  unset($_SESSION['quiz_data']['criteria']);
-  if ($_POST['criterion1'] != "")
-    $_SESSION['quiz_data']['criteria'][] = $_POST['criterion1'];
-  if ($_POST['criterion2'] != "")
-    $_SESSION['quiz_data']['criteria'][] = $_POST['criterion2'];
-  if ($_POST['criterion3'] != "")
-    $_SESSION['quiz_data']['criteria'][] = $_POST['criterion3'];
-  $_SESSION['quiz_data']['solved_message'] = $_POST['solved_message'];
-  $_SESSION['quiz_data']['links_out'] = $_POST['links_out'];
+    $_SESSION['quiz_data']['browser_title'] = $_POST['browser_title'];
+    $_SESSION['quiz_data']['welcome'] = $_POST['welcome'];
+    $_SESSION['quiz_data']['ocr_text'] = $_POST['ocr_text'];
+    unset($_SESSION['quiz_data']['solutions']);
+    $_SESSION['quiz_data']['solutions'][] = $_POST['solution1'];
+    if ($_POST['solution2'] != "")
+        $_SESSION['quiz_data']['solutions'][] = $_POST['solution2'];
+    if ($_POST['solution3'] != "")
+        $_SESSION['quiz_data']['solutions'][] = $_POST['solution3'];
+    if ($_POST['solution4'] != "")
+        $_SESSION['quiz_data']['solutions'][] = $_POST['solution4'];
+    unset($_SESSION['quiz_data']['criteria']);
+    if ($_POST['criterion1'] != "")
+        $_SESSION['quiz_data']['criteria'][] = $_POST['criterion1'];
+    if ($_POST['criterion2'] != "")
+        $_SESSION['quiz_data']['criteria'][] = $_POST['criterion2'];
+    if ($_POST['criterion3'] != "")
+        $_SESSION['quiz_data']['criteria'][] = $_POST['criterion3'];
+    $_SESSION['quiz_data']['solved_message'] = $_POST['solved_message'];
+    $_SESSION['quiz_data']['links_out'] = $_POST['links_out'];
 }
 
 function filltext($x)
 {
-  global $fill;
-  if ($fill)
-    return htmlspecialchars(stripslashes($_POST[$x]),ENT_QUOTES);
+    global $fill;
+    if ($fill)
+        return htmlspecialchars(stripslashes($_POST[$x]),ENT_QUOTES);
 }
 
 
@@ -75,21 +75,21 @@ echo "<h2>" . _("Error Messages") . "</h2>";
 
 if ($_SESSION['quiz_data']['lastpage'] == 'general') 
 {
-  evalstart();
-  echo "<p>" . _("Now you need to fill out this form for each error message you want to define. In the next step you can define <b>when</b> these messages will be given.") . "</p>";
+    evalstart();
+    echo "<p>" . _("Now you need to fill out this form for each error message you want to define. In the next step you can define <b>when</b> these messages will be given.") . "</p>";
 }
 elseif ($_SESSION['quiz_data']['lastpage'] == 'messages')
 {
-  if (!evalmessages())
-  {
-    $fill = TRUE;
-    echo "<p>" . _("The error name is blank or already taken:") . " '" . $_POST['name'] . "' ";
-    echo _("Please choose a different one.") . "</p>\n";
-  }
-  else
-  {
-    $fill = FALSE;
-  }
+    if (!evalmessages())
+    {
+        $fill = TRUE;
+        echo "<p>" . _("The error name is blank or already taken:") . " '" . $_POST['name'] . "' ";
+        echo _("Please choose a different one.") . "</p>\n";
+    }
+    else
+    {
+        $fill = FALSE;
+    }
 }
 
 echo "<p>" . sprintf(_("There are also some <a href='%s' target='_blank'>built-in default messages</a> available.  If you would like to use any of those, you don't need to write your own version for it now; you can select the built-in message at a later step."), "./default_messages.php") . "</p>\n";

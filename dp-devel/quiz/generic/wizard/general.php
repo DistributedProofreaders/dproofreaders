@@ -8,8 +8,8 @@ output_header(_('Quiz Wizard'));
 
 if ($_SESSION['quiz_data']['lastpage'] == 'output_quiz' || $_SESSION['quiz_data']['lastpage'] == 'start')
 {
-  unset($_SESSION['quiz_data']['messages']);
-  unset($_SESSION['quiz_data']['tests']);
+    unset($_SESSION['quiz_data']['messages']);
+    unset($_SESSION['quiz_data']['tests']);
 }
 
 echo "<h2>" . _("New Quiz Page") . "</h2>";
