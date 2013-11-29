@@ -5,8 +5,6 @@ include_once($relPath.'http_headers.inc');
 include_once($relPath.'stages.inc');
 include_once('toolbox.inc');
 
-require_login();
-
 $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_));
 $round = get_Round_for_round_id($round_id);
 
