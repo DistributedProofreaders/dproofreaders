@@ -35,6 +35,16 @@ else
     $font_face = NULL;
     $font_size = NULL;
 }
+    $font_settings = '';
+    if ( $font_face != '' && $font_face != BROWSER_DEFAULT_STR )
+    {
+        $font_settings .= "font-family: $font_face;";
+        $font_settings .= " ";
+    }
+    if ( $font_size != '' && $font_size != BROWSER_DEFAULT_STR )
+    {
+        $font_settings .= "font-size: $font_size;";
+    }
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -57,15 +67,7 @@ echo str_replace("\n",'\n',addslashes($solutions[0]));?>";
 <form action="./returnfeed.php?type=<?php echo $page_id; ?>&quiz_id=<?php echo $quiz_id;?>" target="right" method="post" name="editform" id="editform">
 <textarea rows="12" cols="60" name="text_data" id="text_data" wrap="off" style='width:100%;
 <?php 
-    if ( $font_face != '' && $font_face != BROWSER_DEFAULT_STR )
-    {
-        echo "font-family: $font_face;";
-        echo " ";
-    }
-    if ( $font_size != '' && $font_size != BROWSER_DEFAULT_STR )
-    {
-        echo "font-size: $font_size;";
-    }
+    echo $font_settings;
 ?>
 '>
 <?php echo $ocr_text; ?>
