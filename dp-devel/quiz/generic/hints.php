@@ -36,7 +36,6 @@ if (count($messages[$error]["hints"]) > (1 + $number))
   echo " " . sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents) . "</p>";
 }
 
+echo " </div>\n</body>\n</html>\n";
+
  ?>
- </div>
-</body>
-</html>
