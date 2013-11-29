@@ -29,12 +29,7 @@ if ($user_is_logged_in)
     }
     $font_face = $f_f[$font_face_i];
     $font_size = $f_s[$font_size_i];
-}
-else
-{
-    $font_face = NULL;
-    $font_size = NULL;
-}
+
     $font_settings = '';
     if ( $font_face != '' && $font_face != BROWSER_DEFAULT_STR )
     {
@@ -45,6 +40,11 @@ else
     {
         $font_settings .= "font-size: $font_size;";
     }
+}
+else
+{
+    $font_settings = '';
+}
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
