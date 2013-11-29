@@ -65,11 +65,8 @@ echo str_replace("\n",'\n',addslashes($solutions[0]));?>";
 </head>
 <body bgcolor='#ffffff' onload='top.initializeStuff(1)'>
 <form action="./returnfeed.php?type=<?php echo $page_id; ?>&quiz_id=<?php echo $quiz_id;?>" target="right" method="post" name="editform" id="editform">
-<textarea rows="12" cols="60" name="text_data" id="text_data" wrap="off" style='width:100%;
-<?php 
-    echo $font_settings;
-?>
-'>
+<textarea rows="12" cols="60" name="text_data" id="text_data" wrap="off"
+    style='width:100%; <?php echo $font_settings; ?>'>
 <?php echo $ocr_text; ?>
 </textarea> <p>
 <input type="submit" value="<?php echo _("Check"); ?>">
