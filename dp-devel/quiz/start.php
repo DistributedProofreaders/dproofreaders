@@ -2,9 +2,8 @@
 $relPath='../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'prefs_options.inc');
 include_once($relPath.'quizzes.inc');
-include_once('generic/quiz_defaults.inc');
+
 $theme_args["css_data"] = "th.q {background:$theme[color_headerbar_bg]; color:$theme[color_headerbar_font];}
 td.info {background:$theme[color_navbar_bg]; color:$theme[color_navbar_font];}";
 

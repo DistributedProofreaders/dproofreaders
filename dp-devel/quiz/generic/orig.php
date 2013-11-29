@@ -1,8 +1,8 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'theme.inc');
-include_once($relPath.'prefs_options.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param
+include_once($relPath.'quizzes.inc'); // $valid_page_ids
 
 $page_id = get_enumerated_param($_REQUEST, 'type', NULL, $valid_page_ids);
 

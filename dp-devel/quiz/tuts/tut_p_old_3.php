@@ -2,8 +2,7 @@
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'prefs_options.inc');
-include_once("../generic/quiz_defaults.inc");
+include_once('../generic/quiz_defaults.inc'); // $blackletter_url
 
 output_header(_('Old Texts Proofreading Tutorial -- Page 3'));
 

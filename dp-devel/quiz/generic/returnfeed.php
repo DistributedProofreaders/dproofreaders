@@ -1,17 +1,19 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'quizzes.inc');
-include_once('../small_theme.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param
+include_once($relPath.'quizzes.inc'); // $valid_page_ids $valid_quiz_ids ${$current_quiz}
 include_once($relPath.'misc.inc'); // stripos
+include_once('quiz_defaults.inc'); // $default_* $messages
+
+include_once('../small_theme.inc');
 
 global $utf8_site;
 $utf8_site=!strcasecmp($charset,"UTF-8");
 
 $page_id = get_enumerated_param($_REQUEST, 'type', NULL, $valid_page_ids);
 
-include "./data/qd_${page_id}.inc";
-include './quiz_defaults.inc';
+include "./data/qd_${page_id}.inc"; // many things
 
 global $quiz_feedbackurl;
 global $quiz_feedbacktext;

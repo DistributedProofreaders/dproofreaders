@@ -1,5 +1,5 @@
 <?php
-include_once('quiz_defaults.inc');
+include_once('quiz_defaults.inc'); // $custom_font_url
 
 function quizsolved()
 {

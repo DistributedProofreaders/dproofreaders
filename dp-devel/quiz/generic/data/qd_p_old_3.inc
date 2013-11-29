@@ -1,5 +1,5 @@
 <?php
-include_once('quiz_defaults.inc');
+include_once('quiz_defaults.inc'); // $blackletter_url $old_texts_url
 
 function quizsolved()
 {

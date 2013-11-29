@@ -2,7 +2,7 @@
 $relPath='../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once('../quiz_defaults.inc');
+include_once('../quiz_defaults.inc'); // $messages
 
 output_header(_('Quiz Wizard'));
 

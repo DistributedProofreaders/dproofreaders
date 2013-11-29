@@ -1,5 +1,5 @@
 <?php
-include_once('quiz_defaults.inc');
+include_once('quiz_defaults.inc'); // $ae_oe_ligatures_url
 
 function quizsolved()
 {

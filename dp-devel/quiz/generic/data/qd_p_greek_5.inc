@@ -1,5 +1,5 @@
 <?php
-include_once('quiz_defaults.inc');
+include_once('quiz_defaults.inc'); // $Greek_translit_url
 
 function quizsolved()
 {

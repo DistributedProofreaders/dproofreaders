@@ -1,8 +1,8 @@
 <?php
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'prefs_options.inc');
-include_once($relPath.'quizzes.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param
+include_once($relPath.'quizzes.inc'); // $valid_quiz_ids ${$current_quiz}
 
 // From theme.inc
 html_header('');

@@ -1,14 +1,15 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'theme.inc');
-include_once($relPath.'prefs_options.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param
+include_once($relPath.'quizzes.inc'); // $valid_page_ids $valid_quiz_ids
+include_once($relPath.'prefs_options.inc'); // $f_f $f_s
 
 $page_id = get_enumerated_param($_REQUEST, 'type', NULL, $valid_page_ids);
 $quiz_id = get_enumerated_param($_REQUEST, 'quiz_id', NULL, $valid_quiz_ids);
 $utf8_site=!strcasecmp($charset,"UTF-8");
 
-include "./data/qd_${page_id}.inc";
+include "./data/qd_${page_id}.inc"; // $ocr_text $solutions
 
 // Figure out what font to use
 if ($user_is_logged_in)

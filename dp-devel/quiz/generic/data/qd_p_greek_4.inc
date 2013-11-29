@@ -1,5 +1,4 @@
 <?php
-include_once('quiz_defaults.inc');
 
 function quizsolved()
 {

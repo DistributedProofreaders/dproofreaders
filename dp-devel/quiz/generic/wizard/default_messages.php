@@ -2,7 +2,7 @@
 $relPath='../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once('../quiz_defaults.inc');
+include_once('../quiz_defaults.inc'); // $messages
 
 $theme_args["css_data"] = "h2 {font-size:110%; margin: 0;}
     p.message_id {margin: 0 0 .5em 1em; background-color: #dddddd;}";
