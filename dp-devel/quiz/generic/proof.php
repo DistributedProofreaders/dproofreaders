@@ -11,22 +11,31 @@ $utf8_site=!strcasecmp($charset,"UTF-8");
 include "./data/qd_${page_id}.inc";
 
 // Figure out what font to use
-// Use the font prefs for the user's default interface layout, 
-// since they're more likely to have set those prefs
-global $userP;
-
-if ( $userP['i_layout']==1 )
+if ($user_is_logged_in)
 {
-    $font_face_i = $userP['v_fntf'];
-    $font_size_i = $userP['v_fnts'];    
+    // Use the font prefs for the user's default interface layout, 
+    // since they're more likely to have set those prefs
+    global $userP;
+
+    if ( $userP['i_layout']==1 )
+    {
+        $font_face_i = $userP['v_fntf'];
+        $font_size_i = $userP['v_fnts'];    
+    }
+    else
+    {
+        $font_face_i = $userP['h_fntf'];
+        $font_size_i = $userP['h_fnts'];
+    }
+    $font_face = $f_f[$font_face_i];
+    $font_size = $f_s[$font_size_i];
 }
 else
 {
-    $font_face_i = $userP['h_fntf'];
-    $font_size_i = $userP['h_fnts'];
+    $font_face = NULL;
+    $font_size = NULL;
 }
-$font_face = $f_f[$font_face_i];
-$font_size = $f_s[$font_size_i];
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
