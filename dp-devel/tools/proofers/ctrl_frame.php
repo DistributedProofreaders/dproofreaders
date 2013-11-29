@@ -56,7 +56,7 @@ text-align: center;
 background: #FFF8DC;
 display:inline;
 margin: 0 1px 1px 0;
-<?php if(!stristr($_SERVER['HTTP_USER_AGENT'],"msie"))
+<?php if(!stristr(@$_SERVER['HTTP_USER_AGENT'],"msie"))
      echo "line-height:140%;\n"; ?>
 padding-top: 1px;
 cursor: pointer;
