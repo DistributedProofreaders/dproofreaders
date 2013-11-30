@@ -2,6 +2,7 @@
 // This file creates quiz objects for each quiz with data in CVS
 include_once($relPath."Quiz.inc");
 include_once($relPath."../quiz/generic/quiz_defaults.inc"); // $old_texts_url etc
+include_once($relPath.'misc.inc'); // get_enumerated_param
 
 $defined_quiz_levels = array('BPQL','MPQL','SPQL','FQL');
 
@@ -179,6 +180,8 @@ $OSPQ = new Quiz(
         'maximum_age' => 15778463) // 6 months
 );
 
+// -----------------------------------
+
 // A list of valid quiz ids
 
 $valid_quiz_ids = array();
@@ -188,6 +191,16 @@ foreach($defined_quiz_levels as $level_id) {
     }
 }
 
+function get_quiz_id_param($arr, $key)
+// If $arr[$key] is defined and is a valid quiz id, return it.
+// Otherwise, die with an error message.
+{
+    global $valid_quiz_ids;
+    return get_enumerated_param($arr, $key, NULL, $valid_quiz_ids);
+}
+
+// -----------------------------------
+
 // A list of valid quiz page ids used for constructing filenames
 // used in the quizzes, eg qd_formatting3.inc, qi_step2.png etc
 
@@ -196,6 +209,14 @@ foreach($valid_quiz_ids as $quiz_id) {
     foreach(${$quiz_id}->pages as $page_id) {
         array_push($valid_page_ids, $page_id);
     }
+}
+
+function get_quiz_page_id_param($arr, $key)
+// If $arr[$key] is defined and is a valid quiz page id, return it.
+// Otherwise, die with an error message.
+{
+    global $valid_page_ids;
+    return get_enumerated_param($arr, $key, NULL, $valid_page_ids);
 }
 
 // vim: sw=4 ts=4 expandtab

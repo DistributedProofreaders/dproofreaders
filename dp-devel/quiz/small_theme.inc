@@ -1,13 +1,12 @@
 <?php
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param
-include_once($relPath.'quizzes.inc'); // $valid_quiz_ids ${$current_quiz}
+include_once($relPath.'quizzes.inc'); // get_quiz_id_param ${$current_quiz}
 
 // From theme.inc
 html_header('');
 
-$current_quiz = get_enumerated_param($_REQUEST, 'quiz_id', NULL, $valid_quiz_ids);
+$current_quiz = get_quiz_id_param($_REQUEST, 'quiz_id');
 $quiz_name = ${$current_quiz}->short_name;
 get_activity_type_for_quiz($current_quiz);
 

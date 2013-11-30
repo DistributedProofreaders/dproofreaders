@@ -1,10 +1,9 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param
-include_once($relPath.'quizzes.inc'); // $valid_page_ids
+include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
 
-$page_id = get_enumerated_param($_REQUEST, 'type', NULL, $valid_page_ids);
+$page_id = get_quiz_page_id_param($_REQUEST, 'type');
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">

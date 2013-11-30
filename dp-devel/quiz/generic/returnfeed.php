@@ -1,8 +1,7 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param
-include_once($relPath.'quizzes.inc'); // $valid_page_ids $valid_quiz_ids ${$current_quiz}
+include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param get_quiz_id_param ${$current_quiz}
 include_once($relPath.'misc.inc'); // stripos
 include_once('quiz_defaults.inc'); // $default_* $messages
 
@@ -11,14 +10,14 @@ include_once('../small_theme.inc');
 global $utf8_site;
 $utf8_site=!strcasecmp($charset,"UTF-8");
 
-$page_id = get_enumerated_param($_REQUEST, 'type', NULL, $valid_page_ids);
+$page_id = get_quiz_page_id_param($_REQUEST, 'type');
 
 include "./data/qd_${page_id}.inc"; // many things
 
 global $quiz_feedbackurl;
 global $quiz_feedbacktext;
 global $current_quiz;
-$current_quiz = get_enumerated_param($_REQUEST, 'quiz_id', NULL, $valid_quiz_ids);
+$current_quiz = get_quiz_id_param($_REQUEST, 'quiz_id');
 $quiz_feedbackurl = ${$current_quiz}->thread;
 
 if ($quiz_feedbackurl != "")
