@@ -212,13 +212,13 @@ function get_last_attempt_date_for_quiz_page($username, $quiz_page)
 function get_activity_type_for_quiz ($quiz_id)
 {
     global $defined_quiz_levels;
-    foreach ($defined_quiz_levels as $level)
+    foreach ($defined_quiz_levels as $quiz_level_id)
     {
-        global ${$level};
-        if (array_search($quiz_id, ${$level}->quizzes) !== false)
+        global ${$quiz_level_id};
+        if (array_search($quiz_id, ${$quiz_level_id}->quizzes) !== false)
         {
             global $activity_type_for_quiz;
-            $activity_type_for_quiz = ${$level}->activity_type;
+            $activity_type_for_quiz = ${$quiz_level_id}->activity_type;
             break;
         }
     }
