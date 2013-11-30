@@ -1,7 +1,7 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param get_quiz_id_param ${$current_quiz}
+include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param get_quiz_id_param ${$quiz_id}
 include_once($relPath.'misc.inc'); // stripos
 include_once('quiz_defaults.inc'); // $default_* $messages
 
@@ -13,8 +13,8 @@ $page_id = get_quiz_page_id_param($_REQUEST, 'type');
 
 include "./data/qd_${page_id}.inc"; // many things
 
-$current_quiz = get_quiz_id_param($_REQUEST, 'quiz_id');
-$quiz_feedbackurl = ${$current_quiz}->thread;
+$quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
+$quiz_feedbackurl = ${$quiz_id}->thread;
 
 if ($quiz_feedbackurl != "")
 {
@@ -266,7 +266,7 @@ if ($error_found == "")
         else
         {
             // Figure out what the next quiz page is, if any
-            $quiz_pages = array_values(${$current_quiz}->pages);
+            $quiz_pages = array_values(${$quiz_id}->pages);
             $quiz_keys = array_flip($quiz_pages);
             $current_index = $quiz_keys[$page_id];
             $next_index = $current_index + 1;
@@ -281,10 +281,10 @@ if ($error_found == "")
                 {
                     echo "<a href='../tuts/tut_$next_page.php' target='_top'>" . _("Next step of tutorial") . "</a><br>";
                 }
-                echo "<a href='main.php?type=$next_page&quiz_id=$current_quiz' target='_top'>" . _("Next step of quiz") . "</a><br>";
+                echo "<a href='main.php?type=$next_page&quiz_id=$quiz_id' target='_top'>" . _("Next step of quiz") . "</a><br>";
             }
             // Give a link back to quiz home (P or F as appropriate)
-            get_activity_type_for_quiz($current_quiz);
+            get_activity_type_for_quiz($quiz_id);
             echo "<a href='../start.php?show_only=$activity_type_for_quiz' target='_top'>" . _("Back to quizzes home") . "</a>";
         }
         echo "</p>";
@@ -307,12 +307,12 @@ else
             echo $messages[$error_found]["hints"][0]["linktext"];
         else
             echo $default_hintlink;
-        $link_contents = "./hints.php?type=$page_id&quiz_id=$current_quiz&error=$error_found&number=0";
+        $link_contents = "./hints.php?type=$page_id&quiz_id=$quiz_id&error=$error_found&number=0";
         echo " " . sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents) . "<p>";
     }
     if (isset($messages[$error_found]["guideline"]))
     {
-        get_activity_type_for_quiz($current_quiz);
+        get_activity_type_for_quiz($quiz_id);
         if ($activity_type_for_quiz == "proof")
         {
             $guidelines_url = "proofreading_guidelines.php";

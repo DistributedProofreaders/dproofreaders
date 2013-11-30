@@ -32,7 +32,7 @@ if (count($messages[$error]["hints"]) > (1 + $number))
     {
         echo _("Desperate? Can't find it?");
     }
-    $link_contents = "./hints.php?quiz_id=$current_quiz&type=$page_id&error=$error&number=" . ($number + 1);
+    $link_contents = "./hints.php?quiz_id=$quiz_id&type=$page_id&error=$error&number=" . ($number + 1);
     echo " " . sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents) . "</p>";
 }
 
