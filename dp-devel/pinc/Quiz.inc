@@ -173,11 +173,12 @@ function record_quiz_attempt($username, $quiz_page, $result)
         SELECT * FROM quiz_passes
         WHERE username='$username' AND quiz_page='$quiz_page'
     ");
+    $now = time();
     if (mysql_num_rows($res) > 0)
     {
         // The user has already passed this page; update the timestamp
         mysql_query("
-            UPDATE quiz_passes SET date= '".time()."'
+            UPDATE quiz_passes SET date= '$now'
             WHERE username='$username' AND quiz_page='$quiz_page'
         ");
     }
@@ -185,7 +186,7 @@ function record_quiz_attempt($username, $quiz_page, $result)
     {
         mysql_query("
             INSERT INTO quiz_passes
-            VALUES('$username','".time()."','$quiz_page','$result')
+            VALUES('$username','$now','$quiz_page','$result')
         ");
     }
 }
