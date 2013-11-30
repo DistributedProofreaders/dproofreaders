@@ -31,9 +31,9 @@ if (!empty($_GET['show_level']) && (array_search($_GET['show_level'],$defined_qu
     output_header(${$quiz_level}->level_name, SHOW_STATSBAR, $theme_args);
     echo "<h1>".${$quiz_level}->level_name."</h1>\n";
     echo ${$quiz_level}->info;
-    foreach (${$quiz_level}->quizzes as $quiz)
+    foreach (${$quiz_level}->quizzes as $quiz_id)
     {
-        ${$quiz}->show_results_table($pguser);
+        ${$quiz_id}->show_results_table($pguser);
     }
     if (array_search($quiz_level,$defined_quiz_levels) !== false)
     {
@@ -73,9 +73,9 @@ elseif (!empty($_GET['show_only']) &&
             echo "<h2>".${$quiz_level}->level_name."</h2>\n";
         }
         echo ${$quiz_level}->info;
-        foreach (${$quiz_level}->quizzes as $quiz)
+        foreach (${$quiz_level}->quizzes as $quiz_id)
         {
-            ${$quiz}->show_results_table($pguser);
+            ${$quiz_id}->show_results_table($pguser);
         }
     }
 }
