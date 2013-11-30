@@ -7,16 +7,12 @@ include_once('quiz_defaults.inc'); // $default_* $messages
 
 include_once('../small_theme.inc');
 
-global $utf8_site;
 $utf8_site=!strcasecmp($charset,"UTF-8");
 
 $page_id = get_quiz_page_id_param($_REQUEST, 'type');
 
 include "./data/qd_${page_id}.inc"; // many things
 
-global $quiz_feedbackurl;
-global $quiz_feedbacktext;
-global $current_quiz;
 $current_quiz = get_quiz_id_param($_REQUEST, 'quiz_id');
 $quiz_feedbackurl = ${$current_quiz}->thread;
 

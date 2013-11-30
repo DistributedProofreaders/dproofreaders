@@ -1,7 +1,5 @@
 <?php
 include_once($relPath.'base.inc');
-global $wiki_url;
-global $forums_url;
 
 // General-purpose default messages
 

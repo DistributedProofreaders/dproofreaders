@@ -6,9 +6,6 @@ include_once('../quiz_defaults.inc'); // ?
 
 output_header(_('Quiz Wizard'), NO_STATSBAR);
 
-global $P_guidelines_links;
-global $F_guidelines_links;
-
 function ssqs($x)
 {
     return str_replace('\\\'','\'',$x);
