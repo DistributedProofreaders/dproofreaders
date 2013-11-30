@@ -42,7 +42,10 @@ class Quiz
             $pages_required_results[$page] = "no";
         }
 
-        $result = mysql_query("SELECT * FROM `quiz_passes` WHERE `username` ='$username'");
+        $result = mysql_query("
+            SELECT * FROM `quiz_passes`
+            WHERE `username` ='$username'
+        ");
         while ($attempt = mysql_fetch_object($result))
         {
             if($attempt->result != "pass") continue;
@@ -166,17 +169,24 @@ class Quiz
 function record_quiz_attempt($username, $quiz_page, $result)
 {
     new dbConnect();
-    $res = mysql_query("SELECT * FROM `quiz_passes`
-        WHERE `username` ='$username' AND `quiz_page` ='$quiz_page'");
+    $res = mysql_query("
+        SELECT * FROM `quiz_passes`
+        WHERE `username` ='$username' AND `quiz_page` ='$quiz_page'
+    ");
     if (mysql_num_rows($res) > 0)
     {
         // The user has already passed this page; update the timestamp
-        mysql_query("UPDATE `quiz_passes` SET `date` = '".time()."'
-            WHERE `username` ='$username' AND `quiz_page` ='$quiz_page'");
+        mysql_query("
+            UPDATE `quiz_passes` SET `date` = '".time()."'
+            WHERE `username` ='$username' AND `quiz_page` ='$quiz_page'
+        ");
     }
     else
     {
-        mysql_query("INSERT INTO `quiz_passes` VALUES('$username','".time()."','$quiz_page','$result')");
+        mysql_query("
+            INSERT INTO `quiz_passes`
+            VALUES('$username','".time()."','$quiz_page','$result')
+        ");
     }
 }
 
@@ -184,8 +194,10 @@ function user_has_passed_quiz_page($username, $quiz_page, $pass_requirements = a
 {
     // This function could fairly easily lookup the quizzes to see what $pass_requirements should be,
     // but by calling it without that argument, it's possible to tell the user *why* they haven't passed.
-    $res = mysql_query("SELECT * FROM `quiz_passes`
-        WHERE `username` ='$username' AND `quiz_page` ='$quiz_page'");
+    $res = mysql_query("
+        SELECT * FROM `quiz_passes`
+        WHERE `username` ='$username' AND `quiz_page` ='$quiz_page'
+    ");
     if (mysql_num_rows($res) == 0)
         return false;
     if (isset($pass_requirements['minimum_age']))
@@ -199,8 +211,10 @@ function user_has_passed_quiz_page($username, $quiz_page, $pass_requirements = a
 
 function get_last_attempt_date_for_quiz_page($username, $quiz_page)
 {
-    $res = mysql_query("SELECT date FROM `quiz_passes`
-        WHERE `username` ='$username' AND `quiz_page` ='$quiz_page'");
+    $res = mysql_query("
+        SELECT date FROM `quiz_passes`
+        WHERE `username` ='$username' AND `quiz_page` ='$quiz_page'
+    ");
     if (mysql_num_rows($res) == 0)
         return false;
 
