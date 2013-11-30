@@ -35,11 +35,11 @@ class Quiz
 
     function user_has_passed($username)
     {
-        foreach ($this->pages as $page)
+        foreach ($this->pages as $quiz_page_id)
         {
             // false would be more logical than string "no",
             // but you can't array_search on a boolean.
-            $pages_required_results[$page] = "no";
+            $pages_required_results[$quiz_page_id] = "no";
         }
 
         $result = mysql_query("
@@ -62,12 +62,12 @@ class Quiz
 
         if (isset($this->pass_requirements['maximum_age']))
         {
-            foreach ($pages_required_results as $page => $value)
+            foreach ($pages_required_results as $quiz_page_id => $value)
             {
                 if($value == "no") continue; // The user hasn't passed the quiz anyway.
                 if ((time() - $value) > $this->pass_requirements['maximum_age'])
                 {
-                    $pages_required_results[$page] = "no";
+                    $pages_required_results[$quiz_page_id] = "no";
                 }
             }
         }
@@ -118,24 +118,24 @@ class Quiz
         }
 
         $pages = $this->pages;
-        foreach ($pages as $desc => $page)
+        foreach ($pages as $desc => $quiz_page_id)
         {
             echo "
                 <tr><td>$desc</td>";
             echo "<td>";
-            $tutfile = "$code_dir/quiz/tuts/tut_".$page.".php";
+            $tutfile = "$code_dir/quiz/tuts/tut_$quiz_page_id.php";
             if (file_exists($tutfile))
             {
-                echo "<a href='tuts/tut_$page.php'>" . _("Tutorial") . "</a> | ";
+                echo "<a href='tuts/tut_$quiz_page_id.php'>" . _("Tutorial") . "</a> | ";
             }
-            echo "<a href='generic/main.php?type=$page&quiz_id=$this->id'>" . _("Quiz") . "</a></td>";
+            echo "<a href='generic/main.php?type=$quiz_page_id&quiz_id=$this->id'>" . _("Quiz") . "</a></td>";
             if (!empty($username))
             {
-                $passed = user_has_passed_quiz_page($username, $page);
+                $passed = user_has_passed_quiz_page($username, $quiz_page_id);
                 $text = $passed ? _("Passed") : _("Not passed");
                 $bgcolor = $passed ? '#ccffcc' : '#ffcccc';
                 echo "<td bgcolor='$bgcolor'>$text</td>";
-                $date = get_last_attempt_date_for_quiz_page($username, $page);
+                $date = get_last_attempt_date_for_quiz_page($username, $quiz_page_id);
                 $text = ($date != 0) ? strftime("%d-%b-%y",$date) : _("Not attempted");
                 $max = $this->pass_requirements['maximum_age'];
                 $date_ok = ((time() - $date) < $max) || empty($max);
@@ -166,12 +166,12 @@ class Quiz
 
 # -----------------------------------------------------------------------------
 
-function record_quiz_attempt($username, $quiz_page, $result)
+function record_quiz_attempt($username, $quiz_page_id, $result)
 {
     new dbConnect();
     $res = mysql_query("
         SELECT * FROM quiz_passes
-        WHERE username='$username' AND quiz_page='$quiz_page'
+        WHERE username='$username' AND quiz_page='$quiz_page_id'
     ");
     $now = time();
     if (mysql_num_rows($res) > 0)
@@ -179,25 +179,25 @@ function record_quiz_attempt($username, $quiz_page, $result)
         // The user has already passed this page; update the timestamp
         mysql_query("
             UPDATE quiz_passes SET date= '$now'
-            WHERE username='$username' AND quiz_page='$quiz_page'
+            WHERE username='$username' AND quiz_page='$quiz_page_id'
         ");
     }
     else
     {
         mysql_query("
             INSERT INTO quiz_passes
-            VALUES('$username','$now','$quiz_page','$result')
+            VALUES('$username','$now','$quiz_page_id','$result')
         ");
     }
 }
 
-function user_has_passed_quiz_page($username, $quiz_page, $pass_requirements = array())
+function user_has_passed_quiz_page($username, $quiz_page_id, $pass_requirements = array())
 {
     // This function could fairly easily lookup the quizzes to see what $pass_requirements should be,
     // but by calling it without that argument, it's possible to tell the user *why* they haven't passed.
     $res = mysql_query("
         SELECT * FROM quiz_passes
-        WHERE username='$username' AND quiz_page='$quiz_page'
+        WHERE username='$username' AND quiz_page='$quiz_page_id'
     ");
     if (mysql_num_rows($res) == 0)
         return false;
@@ -210,11 +210,11 @@ function user_has_passed_quiz_page($username, $quiz_page, $pass_requirements = a
     return true;
 }
 
-function get_last_attempt_date_for_quiz_page($username, $quiz_page)
+function get_last_attempt_date_for_quiz_page($username, $quiz_page_id)
 {
     $res = mysql_query("
         SELECT date FROM quiz_passes
-        WHERE username='$username' AND quiz_page='$quiz_page'
+        WHERE username='$username' AND quiz_page='$quiz_page_id'
     ");
     if (mysql_num_rows($res) == 0)
         return false;
