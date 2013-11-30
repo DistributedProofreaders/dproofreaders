@@ -40,9 +40,9 @@ function make_output()
     $out .= " array(\n";
 
     $pages = array();
-    foreach($_SESSION['quiz_data']['pages'] as $page => $details)
+    foreach($_SESSION['quiz_data']['pages'] as $quiz_page_id => $details)
     {
-        $pages[] = '  _("' . ssqs($details) . '") => "' . ssqs($page) . "\"";
+        $pages[] = '  _("' . ssqs($details) . '") => "' . ssqs($quiz_page_id) . "\"";
     }
     $out .= implode(",\n", $pages);
     $out .= "),\n";
