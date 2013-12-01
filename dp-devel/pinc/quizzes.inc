@@ -48,23 +48,6 @@ new QuizLevel(
 // individual quizzes:
 
 new Quiz(
-    "FQ",
-    _("Formatting Quiz"),
-    _("Formatting Quiz"),
-    _("This quiz covers the corrections you should make in the formatting rounds&mdash;<b>not</b> the proofreading rounds. There's no need to do this quiz until you are ready to work in F1, and in fact it may confuse you if you try it earlier."),
-    "", // **fixme** Add the url for the new formatting quiz feedback thread, once it exists
-    array(
-        _('Page one: Italics, bold, and small caps') => 'formatting1',
-        _('Page two: Section headings, hyphens and em-dashes') => 'formatting2',
-        _('Page three: Chapter headings and thought breaks') => 'formatting3',
-        _('Page four: Poetry, blockquotes and lists') => 'formatting4',
-        _('Page five: Illustrations and footnotes') => 'formatting5'),
-    array(
-        'maximum_age' => 15778463) // 6 months
-);
-
-
-new Quiz(
     "BPQ1",
     _("Basic Proofreading Quiz and Tutorial"),
     _("Basic Proofreading Quiz"),
@@ -176,5 +159,23 @@ new Quiz(
     array(
         'maximum_age' => 15778463) // 6 months
 );
+
+
+new Quiz(
+    "FQ",
+    _("Formatting Quiz"),
+    _("Formatting Quiz"),
+    _("This quiz covers the corrections you should make in the formatting rounds&mdash;<b>not</b> the proofreading rounds. There's no need to do this quiz until you are ready to work in F1, and in fact it may confuse you if you try it earlier."),
+    "", // **fixme** Add the url for the new formatting quiz feedback thread, once it exists
+    array(
+        _('Page one: Italics, bold, and small caps') => 'formatting1',
+        _('Page two: Section headings, hyphens and em-dashes') => 'formatting2',
+        _('Page three: Chapter headings and thought breaks') => 'formatting3',
+        _('Page four: Poetry, blockquotes and lists') => 'formatting4',
+        _('Page five: Illustrations and footnotes') => 'formatting5'),
+    array(
+        'maximum_age' => 15778463) // 6 months
+);
+
 
 // vim: sw=4 ts=4 expandtab
