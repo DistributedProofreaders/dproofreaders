@@ -185,8 +185,10 @@ $OSPQ = new Quiz(
 // A list of valid quiz ids
 
 $valid_quiz_ids = array();
-foreach($defined_quiz_levels as $quiz_level_id) {
-    foreach(${$quiz_level_id}->quizzes as $quiz_id) {
+foreach($defined_quiz_levels as $quiz_level_id)
+{
+    foreach(${$quiz_level_id}->quizzes as $quiz_id)
+    {
         array_push($valid_quiz_ids, $quiz_id);
     }
 }
@@ -205,8 +207,10 @@ function get_quiz_id_param($arr, $key)
 // used in the quizzes, eg qd_formatting3.inc, qi_step2.png etc
 
 $valid_page_ids = array();
-foreach($valid_quiz_ids as $quiz_id) {
-    foreach(${$quiz_id}->pages as $page_id) {
+foreach($valid_quiz_ids as $quiz_id)
+{
+    foreach(${$quiz_id}->pages as $page_id)
+    {
         array_push($valid_page_ids, $page_id);
     }
 }

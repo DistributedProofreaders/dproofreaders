@@ -170,7 +170,8 @@ function error_check()
                     break;
                 }
             }
-            if ($found == TRUE) {
+            if ($found == TRUE)
+	    {
                 return $value["error"];
             }
         }
