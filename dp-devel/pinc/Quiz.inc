@@ -14,6 +14,10 @@ class QuizLevel
         $this->activity_type = $activity_type;   // "proof" or "format"
         $this->info = $info;                     // description or other info the user should know
         $this->quizzes = $quizzes;               // the individual quizzes that the level contains
+
+        global $map_quiz_level_id_to_QuizLevel;
+        assert(!isset($map_quiz_level_id_to_QuizLevel[$level_id]));
+        $map_quiz_level_id_to_QuizLevel[$level_id] =& $this;
     }
 }
 
