@@ -35,8 +35,7 @@ if (!empty($_GET['show_level']) && (array_search($_GET['show_level'],$defined_qu
     {
         ${$quiz_id}->show_results_table($pguser);
     }
-    if (array_search($quiz_level_id,$defined_quiz_levels) !== false)
-    {
+
         echo "<p>" . sprintf(_("This page is currently displaying only the %s."), ${$quiz_level_id}->level_name);
         if (${$quiz_level_id}->activity_type == "proof")
         {
@@ -46,7 +45,6 @@ if (!empty($_GET['show_level']) && (array_search($_GET['show_level'],$defined_qu
         {
             echo " <a href='start.php?show_only=format'>" . _("View all formatting quizzes and tutorials.") . "</a></p>";
         }
-    }
 }
 
 // show a whole category of quizzes (proofing or formatting)
