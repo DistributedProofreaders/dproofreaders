@@ -16,6 +16,11 @@ class QuizLevel
         $this->info = $info;                     // description or other info the user should know
         $this->quizzes = $quizzes;               // the individual quizzes that the level contains
 
+        foreach ($quizzes as $quiz)
+        {
+            $quiz->activity_type = $activity_type;
+        }
+
         global $map_quiz_level_id_to_QuizLevel;
         assert(!isset($map_quiz_level_id_to_QuizLevel[$level_id]));
         $map_quiz_level_id_to_QuizLevel[$level_id] =& $this;
@@ -268,17 +273,8 @@ function get_last_attempt_date_for_quiz_page($username, $quiz_page_id)
 
 function get_activity_type_for_quiz ($quiz_id)
 {
-    global $map_quiz_level_id_to_QuizLevel;
-    foreach ($map_quiz_level_id_to_QuizLevel as $quiz_level_id => $quiz_level)
-    {
-        foreach ($quiz_level->quizzes as $quiz)
-        {
-            if ($quiz->id == $quiz_id)
-            {
-                return $quiz_level->activity_type;
-            }
-        }
-    }
+    $quiz = get_Quiz_with_id($quiz_id);
+    return $quiz->activity_type;
 }
 
 // vim: sw=4 ts=4 expandtab
