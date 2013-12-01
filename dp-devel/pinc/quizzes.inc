@@ -2,7 +2,6 @@
 // This file creates quiz objects for each quiz with data in CVS
 include_once($relPath."Quiz.inc");
 include_once($relPath."../quiz/generic/quiz_defaults.inc"); // $old_texts_url etc
-include_once($relPath.'misc.inc'); // get_enumerated_param
 
 
 // quiz levels:
@@ -177,24 +176,5 @@ $OSPQ = new Quiz(
     array(
         'maximum_age' => 15778463) // 6 months
 );
-
-// -----------------------------------
-
-function get_quiz_id_param($arr, $key)
-// If $arr[$key] is defined and is a valid quiz id, return it.
-// Otherwise, die with an error message.
-{
-    global $map_quiz_id_to_Quiz;
-    return get_enumerated_param($arr, $key, NULL, array_keys($map_quiz_id_to_Quiz));
-}
-
-// -----------------------------------
-
-function get_quiz_page_id_param($arr, $key)
-// If $arr[$key] is defined and is a valid quiz page id, return it.
-// Otherwise, die with an error message.
-{
-    return get_enumerated_param($arr, $key, NULL, Quiz::$valid_quiz_page_ids);
-}
 
 // vim: sw=4 ts=4 expandtab

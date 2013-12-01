@@ -3,6 +3,7 @@ include_once($relPath."connect.inc");
 include_once($relPath."site_vars.php");
 include_once($relPath."Stage.inc");
 include_once($relPath."stages.inc");
+include_once($relPath.'misc.inc'); // get_enumerated_param
 
 // for groups of quizzes that go together
 class QuizLevel
@@ -178,6 +179,23 @@ class Quiz
         }
         echo "</table></p>\n";
     }
+}
+
+// -----------------------------------------------------------------------------
+
+function get_quiz_id_param($arr, $key)
+// If $arr[$key] is defined and is a valid quiz id, return it.
+// Otherwise, die with an error message.
+{
+    global $map_quiz_id_to_Quiz;
+    return get_enumerated_param($arr, $key, NULL, array_keys($map_quiz_id_to_Quiz));
+}
+
+function get_quiz_page_id_param($arr, $key)
+// If $arr[$key] is defined and is a valid quiz page id, return it.
+// Otherwise, die with an error message.
+{
+    return get_enumerated_param($arr, $key, NULL, Quiz::$valid_quiz_page_ids);
 }
 
 # -----------------------------------------------------------------------------
