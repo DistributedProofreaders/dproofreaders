@@ -35,6 +35,10 @@ class Quiz
         // Currently supported pass_requirements:
         // ['maximum_age'] => time_in_seconds:
         //     Passes recorded longer than time_in_seconds ago are not valid.
+
+        global $map_quiz_id_to_Quiz;
+        assert(!isset($map_quiz_id_to_Quiz[$id]));
+        $map_quiz_id_to_Quiz[$id] =& $this;
     }
 
     function user_has_passed($username)
