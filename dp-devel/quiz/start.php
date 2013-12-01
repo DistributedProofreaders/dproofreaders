@@ -25,10 +25,10 @@ $quiz_type_intro = array(
 );
 
 // show a level of quizzes
-if (!empty($_GET['show_level']) && (array_search($_GET['show_level'],$defined_quiz_levels) !== false))
+if (!empty($_GET['show_level']) && (isset($map_quiz_level_id_to_QuizLevel[$_GET['show_level']])))
 {
     $quiz_level_id = $_GET['show_level'];
-    $quiz_level = ${$quiz_level_id};
+    $quiz_level = $map_quiz_level_id_to_QuizLevel[$quiz_level_id];
     output_header($quiz_level->level_name, SHOW_STATSBAR, $theme_args);
     echo "<h1>".$quiz_level->level_name."</h1>\n";
     echo $quiz_level->info;
@@ -58,9 +58,8 @@ elseif (!empty($_GET['show_only']) &&
     echo $intro['head'];
 
     $levels_for_current_type = array();
-    foreach ($defined_quiz_levels as $quiz_level_id)
+    foreach ($map_quiz_level_id_to_QuizLevel as $quiz_level_id => $quiz_level)
     {
-        $quiz_level = ${$quiz_level_id};
         if ($quiz_level->activity_type == $_GET['show_only'])
         {
             array_push ($levels_for_current_type, $quiz_level);

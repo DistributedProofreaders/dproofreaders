@@ -4,8 +4,6 @@ include_once($relPath."Quiz.inc");
 include_once($relPath."../quiz/generic/quiz_defaults.inc"); // $old_texts_url etc
 include_once($relPath.'misc.inc'); // get_enumerated_param
 
-$defined_quiz_levels = array('BPQL','MPQL','SPQL','FQL');
-
 
 // quiz levels:
 
@@ -185,9 +183,8 @@ $OSPQ = new Quiz(
 // A list of valid quiz ids
 
 $valid_quiz_ids = array();
-foreach($defined_quiz_levels as $quiz_level_id)
+foreach($map_quiz_level_id_to_QuizLevel as $quiz_level_id => $quiz_level)
 {
-    $quiz_level = ${$quiz_level_id};
     foreach($quiz_level->quizzes as $quiz_id)
     {
         array_push($valid_quiz_ids, $quiz_id);
