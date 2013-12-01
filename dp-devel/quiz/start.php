@@ -34,7 +34,7 @@ if (!empty($_GET['show_level']) && (isset($map_quiz_level_id_to_QuizLevel[$_GET[
     echo $quiz_level->info;
     foreach ($quiz_level->quizzes as $quiz_id)
     {
-        $quiz = ${$quiz_id};
+        $quiz = get_Quiz_with_id($quiz_id);
         $quiz->show_results_table($pguser);
     }
 
@@ -75,7 +75,7 @@ elseif (!empty($_GET['show_only']) &&
         echo $quiz_level->info;
         foreach ($quiz_level->quizzes as $quiz_id)
         {
-            $quiz = ${$quiz_id};
+            $quiz = get_Quiz_with_id($quiz_id);
             $quiz->show_results_table($pguser);
         }
     }

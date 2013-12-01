@@ -1,7 +1,7 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param get_quiz_id_param ${$quiz_id}
+include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param get_quiz_id_param get_Quiz_with_id
 include_once($relPath.'misc.inc'); // stripos
 include_once('quiz_defaults.inc'); // $default_* $messages
 
@@ -14,7 +14,7 @@ $page_id = get_quiz_page_id_param($_REQUEST, 'type');
 include "./data/qd_${page_id}.inc"; // many things
 
 $quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
-$quiz = ${$quiz_id};
+$quiz = get_Quiz_with_id($quiz_id);
 $quiz_feedbackurl = $quiz->thread;
 
 if ($quiz_feedbackurl != "")

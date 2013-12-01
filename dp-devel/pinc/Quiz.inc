@@ -198,7 +198,15 @@ function get_quiz_page_id_param($arr, $key)
     return get_enumerated_param($arr, $key, NULL, Quiz::$valid_quiz_page_ids);
 }
 
-# -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+
+function get_Quiz_with_id($quiz_id)
+{
+    global $map_quiz_id_to_Quiz;
+    return $map_quiz_id_to_Quiz[$quiz_id];
+}
+
+// -----------------------------------------------------------------------------
 
 function record_quiz_attempt($username, $quiz_page_id, $result)
 {

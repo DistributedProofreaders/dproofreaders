@@ -1,13 +1,13 @@
 <?php
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'quizzes.inc'); // get_quiz_id_param ${$quiz_id}
+include_once($relPath.'quizzes.inc'); // get_quiz_id_param get_Quiz_with_id
 
 // From theme.inc
 html_header('');
 
 $quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
-$quiz = ${$quiz_id};
+$quiz = get_Quiz_with_id($quiz_id);
 $quiz_name = $quiz->short_name;
 $activity_type_for_quiz = get_activity_type_for_quiz($quiz_id);
 
