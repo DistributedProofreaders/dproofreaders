@@ -286,8 +286,7 @@ if ($error_found == "")
                 echo "<a href='main.php?type=$next_page&quiz_id=$quiz_id' target='_top'>" . _("Next step of quiz") . "</a><br>";
             }
             // Give a link back to quiz home (P or F as appropriate)
-            $activity_type_for_quiz = get_activity_type_for_quiz($quiz_id);
-            echo "<a href='../start.php?show_only=$activity_type_for_quiz' target='_top'>" . _("Back to quizzes home") . "</a>";
+            echo "<a href='../start.php?show_only={$quiz->activity_type}' target='_top'>" . _("Back to quizzes home") . "</a>";
         }
         echo "</p>";
     }
@@ -314,13 +313,12 @@ else
     }
     if (isset($messages[$error_found]["guideline"]))
     {
-        $activity_type_for_quiz = get_activity_type_for_quiz($quiz_id);
-        if ($activity_type_for_quiz == "proof")
+        if ($quiz->activity_type == "proof")
         {
             $guidelines_url = "proofreading_guidelines.php";
             $guidelines_title = _("Proofreading Guidelines");
         }
-        elseif ($activity_type_for_quiz == "format")
+        elseif ($quiz->activity_type == "format")
         {
             $guidelines_url = "document.php";
             $guidelines_title = _("Formatting Guidelines");

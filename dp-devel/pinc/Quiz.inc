@@ -271,10 +271,4 @@ function get_last_attempt_date_for_quiz_page($username, $quiz_page_id)
     return $value;
 }
 
-function get_activity_type_for_quiz ($quiz_id)
-{
-    $quiz = get_Quiz_with_id($quiz_id);
-    return $quiz->activity_type;
-}
-
 // vim: sw=4 ts=4 expandtab
