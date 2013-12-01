@@ -34,7 +34,8 @@ if (!empty($_GET['show_level']) && (isset($map_quiz_level_id_to_QuizLevel[$_GET[
     echo $quiz_level->info;
     foreach ($quiz_level->quizzes as $quiz_id)
     {
-        ${$quiz_id}->show_results_table($pguser);
+        $quiz = ${$quiz_id};
+        $quiz->show_results_table($pguser);
     }
 
     echo "<p>" . sprintf(_("This page is currently displaying only the %s."), $quiz_level->level_name);
@@ -74,7 +75,8 @@ elseif (!empty($_GET['show_only']) &&
         echo $quiz_level->info;
         foreach ($quiz_level->quizzes as $quiz_id)
         {
-            ${$quiz_id}->show_results_table($pguser);
+            $quiz = ${$quiz_id};
+            $quiz->show_results_table($pguser);
         }
     }
 }

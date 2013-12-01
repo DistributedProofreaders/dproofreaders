@@ -14,7 +14,8 @@ $page_id = get_quiz_page_id_param($_REQUEST, 'type');
 include "./data/qd_${page_id}.inc"; // many things
 
 $quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
-$quiz_feedbackurl = ${$quiz_id}->thread;
+$quiz = ${$quiz_id};
+$quiz_feedbackurl = $quiz->thread;
 
 if ($quiz_feedbackurl != "")
 {
@@ -267,7 +268,7 @@ if ($error_found == "")
         else
         {
             // Figure out what the next quiz page is, if any
-            $quiz_pages = array_values(${$quiz_id}->pages);
+            $quiz_pages = array_values($quiz->pages);
             $quiz_keys = array_flip($quiz_pages);
             $current_index = $quiz_keys[$page_id];
             $next_index = $current_index + 1;

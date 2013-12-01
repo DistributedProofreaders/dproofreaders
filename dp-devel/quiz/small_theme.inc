@@ -7,7 +7,8 @@ include_once($relPath.'quizzes.inc'); // get_quiz_id_param ${$quiz_id}
 html_header('');
 
 $quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
-$quiz_name = ${$quiz_id}->short_name;
+$quiz = ${$quiz_id};
+$quiz_name = $quiz->short_name;
 $activity_type_for_quiz = get_activity_type_for_quiz($quiz_id);
 
 echo "<table cellspacing=0 cellpadding=0 width='100%'>";
