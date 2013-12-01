@@ -230,10 +230,11 @@ function get_activity_type_for_quiz ($quiz_id)
     foreach ($defined_quiz_levels as $quiz_level_id)
     {
         global ${$quiz_level_id};
-        if (array_search($quiz_id, ${$quiz_level_id}->quizzes) !== false)
+        $quiz_level = ${$quiz_level_id};
+        if (array_search($quiz_id, $quiz_level->quizzes) !== false)
         {
             global $activity_type_for_quiz;
-            $activity_type_for_quiz = ${$quiz_level_id}->activity_type;
+            $activity_type_for_quiz = $quiz_level->activity_type;
             break;
         }
     }

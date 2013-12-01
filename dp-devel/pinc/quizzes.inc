@@ -187,7 +187,8 @@ $OSPQ = new Quiz(
 $valid_quiz_ids = array();
 foreach($defined_quiz_levels as $quiz_level_id)
 {
-    foreach(${$quiz_level_id}->quizzes as $quiz_id)
+    $quiz_level = ${$quiz_level_id};
+    foreach($quiz_level->quizzes as $quiz_id)
     {
         array_push($valid_quiz_ids, $quiz_id);
     }

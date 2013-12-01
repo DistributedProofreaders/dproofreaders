@@ -28,20 +28,21 @@ $quiz_type_intro = array(
 if (!empty($_GET['show_level']) && (array_search($_GET['show_level'],$defined_quiz_levels) !== false))
 {
     $quiz_level_id = $_GET['show_level'];
-    output_header(${$quiz_level_id}->level_name, SHOW_STATSBAR, $theme_args);
-    echo "<h1>".${$quiz_level_id}->level_name."</h1>\n";
-    echo ${$quiz_level_id}->info;
-    foreach (${$quiz_level_id}->quizzes as $quiz_id)
+    $quiz_level = ${$quiz_level_id};
+    output_header($quiz_level->level_name, SHOW_STATSBAR, $theme_args);
+    echo "<h1>".$quiz_level->level_name."</h1>\n";
+    echo $quiz_level->info;
+    foreach ($quiz_level->quizzes as $quiz_id)
     {
         ${$quiz_id}->show_results_table($pguser);
     }
 
-    echo "<p>" . sprintf(_("This page is currently displaying only the %s."), ${$quiz_level_id}->level_name);
-    if (${$quiz_level_id}->activity_type == "proof")
+    echo "<p>" . sprintf(_("This page is currently displaying only the %s."), $quiz_level->level_name);
+    if ($quiz_level->activity_type == "proof")
     {
         echo " <a href='start.php?show_only=proof'>" . _("View all proofreading quizzes and tutorials.") . "</a></p>";
     }
-    elseif (${$quiz_level_id}->activity_type == "format")
+    elseif ($quiz_level->activity_type == "format")
     {
         echo " <a href='start.php?show_only=format'>" . _("View all formatting quizzes and tutorials.") . "</a></p>";
     }
@@ -59,19 +60,21 @@ elseif (!empty($_GET['show_only']) &&
     $levels_for_current_type = array();
     foreach ($defined_quiz_levels as $quiz_level_id)
     {
-        if (${$quiz_level_id}->activity_type == $_GET['show_only'])
+        $quiz_level = ${$quiz_level_id};
+        if ($quiz_level->activity_type == $_GET['show_only'])
         {
             array_push ($levels_for_current_type, $quiz_level_id);
         }
     }
     foreach ($levels_for_current_type as $quiz_level_id)
     {
+        $quiz_level = ${$quiz_level_id};
         if (count($levels_for_current_type) > 1)
         {
-            echo "<h2>".${$quiz_level_id}->level_name."</h2>\n";
+            echo "<h2>".$quiz_level->level_name."</h2>\n";
         }
-        echo ${$quiz_level_id}->info;
-        foreach (${$quiz_level_id}->quizzes as $quiz_id)
+        echo $quiz_level->info;
+        foreach ($quiz_level->quizzes as $quiz_id)
         {
             ${$quiz_id}->show_results_table($pguser);
         }
