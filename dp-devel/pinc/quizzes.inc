@@ -47,7 +47,7 @@ new QuizLevel(
 
 // individual quizzes:
 
-$FQ = new Quiz(
+new Quiz(
     "FQ",
     _("Formatting Quiz"),
     _("Formatting Quiz"),
@@ -64,7 +64,7 @@ $FQ = new Quiz(
 );
 
 
-$BPQ1 = new Quiz(
+new Quiz(
     "BPQ1",
     _("Basic Proofreading Quiz and Tutorial"),
     _("Basic Proofreading Quiz"),
@@ -81,7 +81,7 @@ $BPQ1 = new Quiz(
 );
 
 
-$BPQ2 = new Quiz(
+new Quiz(
     "BPQ2",
     _("Basic Proofreading Quiz, Extra Practice"),
     _("Basic Proofreading Quiz"),
@@ -95,7 +95,7 @@ $BPQ2 = new Quiz(
 );
 
 
-$MPQ1 = new Quiz(
+new Quiz(
     "MPQ1",
     _("Moderate Proofreading Quiz and Tutorial, Part 1"),
     _("Moderate Proofreading Quiz"),
@@ -112,7 +112,7 @@ $MPQ1 = new Quiz(
 );
 
 
-$MPQ2 = new Quiz(
+new Quiz(
     "MPQ2",
     _("Moderate Proofreading Quiz and Tutorial, Part 2"),
     _("Moderate Proofreading Quiz"),
@@ -129,7 +129,7 @@ $MPQ2 = new Quiz(
 );
 
 
-$OPQ = new Quiz(
+new Quiz(
     "OPQ",
     _("Old Texts Quiz and Tutorial"),
     _("Old Texts Quiz"),
@@ -144,7 +144,7 @@ $OPQ = new Quiz(
 );
 
 
-$GPQ = new Quiz(
+new Quiz(
     "GPQ",
     _("Greek Transliteration Quiz and Tutorial"),
     _("Greek Transliteration Quiz"),
@@ -162,7 +162,7 @@ $GPQ = new Quiz(
 );
 
 
-$OSPQ = new Quiz(
+new Quiz(
     "OSPQ",
     _("Other Specialized Quizzes and Tutorials"),
     _("Other Specialized Topics"),
