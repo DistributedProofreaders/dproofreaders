@@ -235,9 +235,7 @@ function get_activity_type_for_quiz ($quiz_id)
     {
         if (array_search($quiz_id, $quiz_level->quizzes) !== false)
         {
-            global $activity_type_for_quiz;
-            $activity_type_for_quiz = $quiz_level->activity_type;
-            break;
+            return $quiz_level->activity_type;
         }
     }
 }

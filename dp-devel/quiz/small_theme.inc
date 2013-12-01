@@ -8,7 +8,7 @@ html_header('');
 
 $quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
 $quiz_name = ${$quiz_id}->short_name;
-get_activity_type_for_quiz($quiz_id);
+$activity_type_for_quiz = get_activity_type_for_quiz($quiz_id);
 
 echo "<table cellspacing=0 cellpadding=0 width='100%'>";
 echo "<tr width='100%'>";

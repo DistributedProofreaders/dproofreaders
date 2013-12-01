@@ -8,7 +8,7 @@ $quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
 
 include "./data/qd_${page_id}.inc"; // $browser_title
 
-get_activity_type_for_quiz($quiz_id);
+$activity_type_for_quiz = get_activity_type_for_quiz($quiz_id);
 if ($activity_type_for_quiz == "proof")
 {
     $round_id = 'P1';
