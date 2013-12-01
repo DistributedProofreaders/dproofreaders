@@ -3,8 +3,7 @@
 include_once($relPath."Quiz.inc");
 include_once($relPath."../quiz/generic/quiz_defaults.inc"); // $old_texts_url etc
 
-
-// quiz levels:
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 new QuizLevel(
     "BPQL",
@@ -16,36 +15,6 @@ new QuizLevel(
         "</p>",
     array('BPQ1','BPQ2')
 );
-
-new QuizLevel(
-    "MPQL",
-    _("Moderate Proofreading Quizzes and Tutorials"),
-    "proof",
-    "<p>" . _("This section covers other aspects of the <a href='../faq/proofreading_guidelines.php'>proofreading guidelines</a>, beyond what is in the Basic section. The pages include items that you are likely to see when proofreading Average projects.") . "</p>",
-    array('MPQ1','MPQ2')
-);
-
-new QuizLevel(
-    "SPQL",
-    _("Specialized Proofreading Quizzes and Tutorials"),
-    "proof",
-    "<p>" . _("This section covers topics that are not addressed in the <a href='../faq/proofreading_guidelines.php'>proofreading guidelines</a>. The pages include items that you are likely to see when proofreading HARD (and some Average) projects.") .
-        "</p>\n<p>" .
-        _("If you are not yet familiar with a topic, you can learn about it by using the tutorial mode or following the \"Information\" link for that topic.") .
-        "</p>",
-    array('OPQ','GPQ','OSPQ')
-);
-
-new QuizLevel(
-    "FQL",
-    _("Formatting Quizzes"),
-    "format",
-    "<p>" . _("The formatting quizzes cover topics addressed in the <a href='../faq/document.php'>formatting guidelines</a>.") . "</p>",
-    array('FQ')
-);
-
-
-// individual quizzes:
 
 new Quiz(
     "BPQ1",
@@ -77,6 +46,15 @@ new Quiz(
         'maximum_age' => 15778463) // 6 months
 );
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+new QuizLevel(
+    "MPQL",
+    _("Moderate Proofreading Quizzes and Tutorials"),
+    "proof",
+    "<p>" . _("This section covers other aspects of the <a href='../faq/proofreading_guidelines.php'>proofreading guidelines</a>, beyond what is in the Basic section. The pages include items that you are likely to see when proofreading Average projects.") . "</p>",
+    array('MPQ1','MPQ2')
+);
 
 new Quiz(
     "MPQ1",
@@ -111,6 +89,18 @@ new Quiz(
         'maximum_age' => 15778463) // 6 months
 );
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+new QuizLevel(
+    "SPQL",
+    _("Specialized Proofreading Quizzes and Tutorials"),
+    "proof",
+    "<p>" . _("This section covers topics that are not addressed in the <a href='../faq/proofreading_guidelines.php'>proofreading guidelines</a>. The pages include items that you are likely to see when proofreading HARD (and some Average) projects.") .
+        "</p>\n<p>" .
+        _("If you are not yet familiar with a topic, you can learn about it by using the tutorial mode or following the \"Information\" link for that topic.") .
+        "</p>",
+    array('OPQ','GPQ','OSPQ')
+);
 
 new Quiz(
     "OPQ",
@@ -160,6 +150,15 @@ new Quiz(
         'maximum_age' => 15778463) // 6 months
 );
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+new QuizLevel(
+    "FQL",
+    _("Formatting Quizzes"),
+    "format",
+    "<p>" . _("The formatting quizzes cover topics addressed in the <a href='../faq/document.php'>formatting guidelines</a>.") . "</p>",
+    array('FQ')
+);
 
 new Quiz(
     "FQ",
@@ -177,5 +176,6 @@ new Quiz(
         'maximum_age' => 15778463) // 6 months
 );
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // vim: sw=4 ts=4 expandtab
