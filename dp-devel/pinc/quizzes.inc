@@ -180,23 +180,12 @@ $OSPQ = new Quiz(
 
 // -----------------------------------
 
-// A list of valid quiz ids
-
-$valid_quiz_ids = array();
-foreach($map_quiz_level_id_to_QuizLevel as $quiz_level_id => $quiz_level)
-{
-    foreach($quiz_level->quizzes as $quiz_id)
-    {
-        array_push($valid_quiz_ids, $quiz_id);
-    }
-}
-
 function get_quiz_id_param($arr, $key)
 // If $arr[$key] is defined and is a valid quiz id, return it.
 // Otherwise, die with an error message.
 {
-    global $valid_quiz_ids;
-    return get_enumerated_param($arr, $key, NULL, $valid_quiz_ids);
+    global $map_quiz_id_to_Quiz;
+    return get_enumerated_param($arr, $key, NULL, array_keys($map_quiz_id_to_Quiz));
 }
 
 // -----------------------------------
