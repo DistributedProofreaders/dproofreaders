@@ -23,6 +23,8 @@ class QuizLevel
 
 class Quiz
 {
+    static $valid_quiz_page_ids = array();
+
     function Quiz($id,$name,$short_name,$descrption,$thread,$pages, $pass_requirements)
     {
         $this->id = $id;
@@ -39,6 +41,12 @@ class Quiz
         global $map_quiz_id_to_Quiz;
         assert(!isset($map_quiz_id_to_Quiz[$id]));
         $map_quiz_id_to_Quiz[$id] =& $this;
+
+        foreach ($pages as $quiz_page_id)
+        {
+           assert(!in_array($quiz_page_id, self::$valid_quiz_page_ids));
+           self::$valid_quiz_page_ids[] = $quiz_page_id;
+        }
     }
 
     function user_has_passed($username)
