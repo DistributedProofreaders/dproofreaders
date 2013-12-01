@@ -63,12 +63,11 @@ elseif (!empty($_GET['show_only']) &&
         $quiz_level = ${$quiz_level_id};
         if ($quiz_level->activity_type == $_GET['show_only'])
         {
-            array_push ($levels_for_current_type, $quiz_level_id);
+            array_push ($levels_for_current_type, $quiz_level);
         }
     }
-    foreach ($levels_for_current_type as $quiz_level_id)
+    foreach ($levels_for_current_type as $quiz_level)
     {
-        $quiz_level = ${$quiz_level_id};
         if (count($levels_for_current_type) > 1)
         {
             echo "<h2>".$quiz_level->level_name."</h2>\n";
