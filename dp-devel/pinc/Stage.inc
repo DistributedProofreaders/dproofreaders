@@ -9,7 +9,7 @@
 
 include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'SettingsClass.inc');
-include_once($relPath.'quizzes.inc'); // $MPQ1 $MPQ2 $FQ
+include_once($relPath.'quizzes.inc'); // get_Quiz_with_id
 include_once($relPath.'misc.inc'); // startswith
 include_once($relPath.'page_header.inc');
 
@@ -374,20 +374,11 @@ function get_user_score( $user_obj, $criterion_code )
     {
         $user_score = round( ( time() - $user_obj->date_created ) / 86400, 1 );
     }
-    else if ( $criterion_code == 'quiz/MPQ1' )
+    else if ( startswith( $criterion_code, 'quiz/' ) )
     {
-        global $MPQ1;
-        $user_score = $MPQ1->user_has_passed($user_obj->username) ? 1 : 0;
-    }
-    else if ( $criterion_code == 'quiz/MPQ2' )
-    {
-        global $MPQ2;
-        $user_score = $MPQ2->user_has_passed($user_obj->username) ? 1 : 0;
-    }
-    else if ( $criterion_code == 'quiz/FQ' )
-    {
-        global $FQ;
-        $user_score = $FQ->user_has_passed($user_obj->username) ? 1 : 0;
+        $quiz_id = substr($criterion_code, 5);
+        $quiz = get_Quiz_with_id($quiz_id);
+        $user_score = $quiz->user_has_passed($user_obj->username) ? 1 : 0;
     }
     else
     {
