@@ -271,9 +271,12 @@ function get_activity_type_for_quiz ($quiz_id)
     global $map_quiz_level_id_to_QuizLevel;
     foreach ($map_quiz_level_id_to_QuizLevel as $quiz_level_id => $quiz_level)
     {
-        if (array_search($quiz_id, $quiz_level->quizzes) !== false)
+        foreach ($quiz_level->quizzes as $quiz)
         {
-            return $quiz_level->activity_type;
+            if ($quiz->id == $quiz_id)
+            {
+                return $quiz_level->activity_type;
+            }
         }
     }
 }

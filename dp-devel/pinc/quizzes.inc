@@ -13,8 +13,7 @@ new QuizLevel(
         "</p>\n<p>" .
         _("The \"extra practice\" pages do not cover any additional guidelines beyond the standard five pages; they are included to allow you to try the same skills on a new page.") .
         "</p>",
-    array('BPQ1','BPQ2')
-);
+    array(
 
         new Quiz(
             "BPQ1",
@@ -30,8 +29,7 @@ new QuizLevel(
                 _('<b>Page 5</b>: Poetry, font size changes') => 'p_basic_5'),
             array(
                 'maximum_age' => 15778463) // 6 months
-        );
-
+        ),
 
         new Quiz(
             "BPQ2",
@@ -44,7 +42,10 @@ new QuizLevel(
                 _('<b>Page 7</b>') => 'p_basicx_2'),
             array(
                 'maximum_age' => 15778463) // 6 months
-        );
+        ),
+
+    )
+);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -53,8 +54,7 @@ new QuizLevel(
     _("Moderate Proofreading Quizzes and Tutorials"),
     "proof",
     "<p>" . _("This section covers other aspects of the <a href='../faq/proofreading_guidelines.php'>proofreading guidelines</a>, beyond what is in the Basic section. The pages include items that you are likely to see when proofreading Average projects.") . "</p>",
-    array('MPQ1','MPQ2')
-);
+    array(
 
         new Quiz(
             "MPQ1",
@@ -70,8 +70,7 @@ new QuizLevel(
                 _('<b>Page 5</b>: Footnotes') => 'p_mod1_5'),
             array(
                 'maximum_age' => 15778463) // 6 months
-        );
-
+        ),
 
         new Quiz(
             "MPQ2",
@@ -87,7 +86,10 @@ new QuizLevel(
                 _('<b>Page 10</b>: Plays') => 'p_mod2_5'),
             array(
                 'maximum_age' => 15778463) // 6 months
-        );
+        ),
+
+    )
+);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -99,8 +101,7 @@ new QuizLevel(
         "</p>\n<p>" .
         _("If you are not yet familiar with a topic, you can learn about it by using the tutorial mode or following the \"Information\" link for that topic.") .
         "</p>",
-    array('OPQ','GPQ','OSPQ')
-);
+    array(
 
         new Quiz(
             "OPQ",
@@ -114,8 +115,7 @@ new QuizLevel(
                 _('<b>Page 3</b>: Nasal abbreviations, blackletter') => 'p_old_3',),
             array(
                 'maximum_age' => 15778463) // 6 months
-        );
-
+        ),
 
         new Quiz(
             "GPQ",
@@ -132,8 +132,7 @@ new QuizLevel(
                 _('<b>Page 5</b>: Double letters, variant forms') => 'p_greek_5'),
             array(
                 'maximum_age' => 15778463) // 6 months
-        );
-
+        ),
 
         new Quiz(
             "OSPQ",
@@ -148,7 +147,10 @@ new QuizLevel(
                 sprintf(_('Fraktur (<a href="%s">Information</a>)'),$fraktur_url) => 'p_fraktur',),
             array(
                 'maximum_age' => 15778463) // 6 months
-        );
+        ),
+
+    )
+);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -157,8 +159,7 @@ new QuizLevel(
     _("Formatting Quizzes"),
     "format",
     "<p>" . _("The formatting quizzes cover topics addressed in the <a href='../faq/document.php'>formatting guidelines</a>.") . "</p>",
-    array('FQ')
-);
+    array(
 
         new Quiz(
             "FQ",
@@ -174,7 +175,10 @@ new QuizLevel(
                 _('Page five: Illustrations and footnotes') => 'formatting5'),
             array(
                 'maximum_age' => 15778463) // 6 months
-        );
+        ),
+
+    )
+);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
