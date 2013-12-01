@@ -7,7 +7,7 @@ include_once($relPath.'misc.inc'); // get_enumerated_param
 
 // quiz levels:
 
-$BPQL = new QuizLevel(
+new QuizLevel(
     "BPQL",
     _("Basic Proofreading Quizzes and Tutorials"),
     "proof",
@@ -18,7 +18,7 @@ $BPQL = new QuizLevel(
     array('BPQ1','BPQ2')
 );
 
-$MPQL = new QuizLevel(
+new QuizLevel(
     "MPQL",
     _("Moderate Proofreading Quizzes and Tutorials"),
     "proof",
@@ -26,7 +26,7 @@ $MPQL = new QuizLevel(
     array('MPQ1','MPQ2')
 );
 
-$SPQL = new QuizLevel(
+new QuizLevel(
     "SPQL",
     _("Specialized Proofreading Quizzes and Tutorials"),
     "proof",
@@ -37,7 +37,7 @@ $SPQL = new QuizLevel(
     array('OPQ','GPQ','OSPQ')
 );
 
-$FQL = new QuizLevel(
+new QuizLevel(
     "FQL",
     _("Formatting Quizzes"),
     "format",
