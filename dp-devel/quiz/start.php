@@ -36,15 +36,15 @@ if (!empty($_GET['show_level']) && (array_search($_GET['show_level'],$defined_qu
         ${$quiz_id}->show_results_table($pguser);
     }
 
-        echo "<p>" . sprintf(_("This page is currently displaying only the %s."), ${$quiz_level_id}->level_name);
-        if (${$quiz_level_id}->activity_type == "proof")
-        {
-            echo " <a href='start.php?show_only=proof'>" . _("View all proofreading quizzes and tutorials.") . "</a></p>";
-        }
-        elseif (${$quiz_level_id}->activity_type == "format")
-        {
-            echo " <a href='start.php?show_only=format'>" . _("View all formatting quizzes and tutorials.") . "</a></p>";
-        }
+    echo "<p>" . sprintf(_("This page is currently displaying only the %s."), ${$quiz_level_id}->level_name);
+    if (${$quiz_level_id}->activity_type == "proof")
+    {
+        echo " <a href='start.php?show_only=proof'>" . _("View all proofreading quizzes and tutorials.") . "</a></p>";
+    }
+    elseif (${$quiz_level_id}->activity_type == "format")
+    {
+        echo " <a href='start.php?show_only=format'>" . _("View all formatting quizzes and tutorials.") . "</a></p>";
+    }
 }
 
 // show a whole category of quizzes (proofing or formatting)
