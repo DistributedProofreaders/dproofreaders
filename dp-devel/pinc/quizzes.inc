@@ -3,6 +3,8 @@
 include_once($relPath."Quiz.inc");
 include_once($relPath."../quiz/generic/quiz_defaults.inc"); // $old_texts_url etc
 
+define('SIX_MONTHS_IN_SECONDS', 15778463);
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 new QuizLevel(
@@ -28,7 +30,7 @@ new QuizLevel(
                 _('<b>Page 4</b>: Punctuation, illustrations, footnotes, italics') => 'p_basic_4',
                 _('<b>Page 5</b>: Poetry, font size changes') => 'p_basic_5'),
             array(
-                'maximum_age' => 15778463) // 6 months
+                'maximum_age' => SIX_MONTHS_IN_SECONDS)
         ),
 
         new Quiz(
@@ -41,7 +43,7 @@ new QuizLevel(
                 _('<b>Page 6</b>') => 'p_basicx_1',
                 _('<b>Page 7</b>') => 'p_basicx_2'),
             array(
-                'maximum_age' => 15778463) // 6 months
+                'maximum_age' => SIX_MONTHS_IN_SECONDS)
         ),
 
     )
@@ -69,7 +71,7 @@ new QuizLevel(
                 _('<b>Page 4</b>: OCR problems (1-l-I, 0-O)') => 'p_mod1_4',
                 _('<b>Page 5</b>: Footnotes') => 'p_mod1_5'),
             array(
-                'maximum_age' => 15778463) // 6 months
+                'maximum_age' => SIX_MONTHS_IN_SECONDS)
         ),
 
         new Quiz(
@@ -85,7 +87,7 @@ new QuizLevel(
                 _('<b>Page 9</b>: Quote marks on each line') => 'p_mod2_4',
                 _('<b>Page 10</b>: Plays') => 'p_mod2_5'),
             array(
-                'maximum_age' => 15778463) // 6 months
+                'maximum_age' => SIX_MONTHS_IN_SECONDS)
         ),
 
     )
@@ -114,7 +116,7 @@ new QuizLevel(
                 _('<b>Page 2</b>: Usage of u/v and i/j, ampersands') => 'p_old_2',
                 _('<b>Page 3</b>: Nasal abbreviations, blackletter') => 'p_old_3',),
             array(
-                'maximum_age' => 15778463) // 6 months
+                'maximum_age' => SIX_MONTHS_IN_SECONDS)
         ),
 
         new Quiz(
@@ -131,7 +133,7 @@ new QuizLevel(
                 _('<b>Page 4</b>: Greek punctuation') => 'p_greek_4',
                 _('<b>Page 5</b>: Double letters, variant forms') => 'p_greek_5'),
             array(
-                'maximum_age' => 15778463) // 6 months
+                'maximum_age' => SIX_MONTHS_IN_SECONDS)
         ),
 
         new Quiz(
@@ -146,7 +148,7 @@ new QuizLevel(
                 sprintf(_('Thorn (<a href="%s">Information</a>)'),$thorn_url) => 'p_thorn',
                 sprintf(_('Fraktur (<a href="%s">Information</a>)'),$fraktur_url) => 'p_fraktur',),
             array(
-                'maximum_age' => 15778463) // 6 months
+                'maximum_age' => SIX_MONTHS_IN_SECONDS)
         ),
 
     )
@@ -174,7 +176,7 @@ new QuizLevel(
                 _('Page four: Poetry, blockquotes and lists') => 'formatting4',
                 _('Page five: Illustrations and footnotes') => 'formatting5'),
             array(
-                'maximum_age' => 15778463) // 6 months
+                'maximum_age' => SIX_MONTHS_IN_SECONDS)
         ),
 
     )
