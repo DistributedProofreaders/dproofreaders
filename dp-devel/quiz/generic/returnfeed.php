@@ -268,7 +268,7 @@ if ($error_found == "")
         else
         {
             // Figure out what the next quiz page is, if any
-            $quiz_pages = array_values($quiz->pages);
+            $quiz_pages = array_keys($quiz->pages);
             $quiz_keys = array_flip($quiz_pages);
             $current_index = $quiz_keys[$page_id];
             $next_index = $current_index + 1;

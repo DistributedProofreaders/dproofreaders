@@ -48,7 +48,7 @@ class Quiz
         assert(!isset($map_quiz_id_to_Quiz[$id]));
         $map_quiz_id_to_Quiz[$id] =& $this;
 
-        foreach ($pages as $quiz_page_id)
+        foreach (array_keys($pages) as $quiz_page_id)
         {
            assert(!in_array($quiz_page_id, self::$valid_quiz_page_ids));
            self::$valid_quiz_page_ids[] = $quiz_page_id;
@@ -57,7 +57,7 @@ class Quiz
 
     function user_has_passed($username)
     {
-        foreach ($this->pages as $quiz_page_id)
+        foreach (array_keys($this->pages) as $quiz_page_id)
         {
             // false would be more logical than string "no",
             // but you can't array_search on a boolean.
@@ -140,7 +140,7 @@ class Quiz
         }
 
         $pages = $this->pages;
-        foreach ($pages as $desc => $quiz_page_id)
+        foreach ($pages as $quiz_page_id => $desc)
         {
             echo "
                 <tr><td>$desc</td>";
