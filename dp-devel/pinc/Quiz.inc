@@ -110,9 +110,12 @@ class Quiz
     {
         global $code_url;
         global $code_dir;
+
+        $n_columns = 5;
+
         echo "
             <p><table border='0' cellpadding='2' style='border:2px solid black;'>
-            <tr><th class='q' colspan='5'>$this->name</th></tr>";
+            <tr><th class='q' colspan='$n_columns'>$this->name</th></tr>";
 
         // This assumes that the access minima quiz strings are names
         // 'quiz/X' where X is some quiz ID (eg 'FQ', 'MPQ2', 'GPQ')
@@ -127,7 +130,7 @@ class Quiz
         if ($this->description != "" || count($stage_required_for) > 0)
         {
             echo "
-                <tr><td colspan='5' class='info'>";
+                <tr><td colspan='$n_columns' class='info'>";
             if (count($stage_required_for) > 0)
             {
                 echo "<p>" . _("Passing this quiz is required for:") . " ";
@@ -182,7 +185,7 @@ class Quiz
             $text = $total_pass ? _("Quiz passed") : _("Quiz not passed");
             $bgcolor = $total_pass ? '#88ff88' : '#ff8888';
             echo "
-                <tr><td colspan='5'  bgcolor='$bgcolor' style='font-weight: bold;text-align:center;'>$text</td></tr>";
+                <tr><td colspan='$n_columns'  bgcolor='$bgcolor' style='font-weight: bold;text-align:center;'>$text</td></tr>";
         }
         echo "</table></p>\n";
     }
