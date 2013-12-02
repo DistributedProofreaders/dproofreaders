@@ -28,9 +28,11 @@ new QuizLevel(
                 _('<b>Page 2</b>: Paragraph spacing, end-of-page hyphenation, dashes') => 'p_basic_2',
                 _('<b>Page 3</b>: Chapter headers, ellipses, bold text, small caps') => 'p_basic_3',
                 _('<b>Page 4</b>: Punctuation, illustrations, footnotes, italics') => 'p_basic_4',
-                _('<b>Page 5</b>: Poetry, font size changes') => 'p_basic_5'),
+                _('<b>Page 5</b>: Poetry, font size changes') => 'p_basic_5',
+            ),
             array(
-                'maximum_age' => SIX_MONTHS_IN_SECONDS)
+                'maximum_age' => SIX_MONTHS_IN_SECONDS,
+            )
         ),
 
         new Quiz(
@@ -41,9 +43,11 @@ new QuizLevel(
             "",
             array(
                 _('<b>Page 6</b>') => 'p_basicx_1',
-                _('<b>Page 7</b>') => 'p_basicx_2'),
+                _('<b>Page 7</b>') => 'p_basicx_2',
+            ),
             array(
-                'maximum_age' => SIX_MONTHS_IN_SECONDS)
+                'maximum_age' => SIX_MONTHS_IN_SECONDS,
+            )
         ),
 
     )
@@ -69,9 +73,11 @@ new QuizLevel(
                 _('<b>Page 2</b>: End-of-line hyphenation, contractions, dashes') => 'p_mod1_2',
                 _('<b>Page 3</b>: Accented characters, fractions') => 'p_mod1_3',
                 _('<b>Page 4</b>: OCR problems (1-l-I, 0-O)') => 'p_mod1_4',
-                _('<b>Page 5</b>: Footnotes') => 'p_mod1_5'),
+                _('<b>Page 5</b>: Footnotes') => 'p_mod1_5',
+            ),
             array(
-                'maximum_age' => SIX_MONTHS_IN_SECONDS)
+                'maximum_age' => SIX_MONTHS_IN_SECONDS,
+            )
         ),
 
         new Quiz(
@@ -85,9 +91,11 @@ new QuizLevel(
                 _('<b>Page 7</b>: Subscripts') => 'p_mod2_2',
                 _('<b>Page 8</b>: Non-ASCII characters') => 'p_mod2_3',
                 _('<b>Page 9</b>: Quote marks on each line') => 'p_mod2_4',
-                _('<b>Page 10</b>: Plays') => 'p_mod2_5'),
+                _('<b>Page 10</b>: Plays') => 'p_mod2_5',
+            ),
             array(
-                'maximum_age' => SIX_MONTHS_IN_SECONDS)
+                'maximum_age' => SIX_MONTHS_IN_SECONDS,
+            )
         ),
 
     )
@@ -114,9 +122,11 @@ new QuizLevel(
             array(
                 _('<b>Page 1</b>: Long s, decorative ligatures, catchwords') => 'p_old_1',
                 _('<b>Page 2</b>: Usage of u/v and i/j, ampersands') => 'p_old_2',
-                _('<b>Page 3</b>: Nasal abbreviations, blackletter') => 'p_old_3',),
+                _('<b>Page 3</b>: Nasal abbreviations, blackletter') => 'p_old_3',
+            ),
             array(
-                'maximum_age' => SIX_MONTHS_IN_SECONDS)
+                'maximum_age' => SIX_MONTHS_IN_SECONDS,
+            )
         ),
 
         new Quiz(
@@ -131,9 +141,11 @@ new QuizLevel(
                 _('<b>Page 2</b>: Upsilon transliteration, diacritical marks') => 'p_greek_2',
                 _('<b>Page 3</b>: Gamma transliteration, diacritical marks') => 'p_greek_3',
                 _('<b>Page 4</b>: Greek punctuation') => 'p_greek_4',
-                _('<b>Page 5</b>: Double letters, variant forms') => 'p_greek_5'),
+                _('<b>Page 5</b>: Double letters, variant forms') => 'p_greek_5',
+            ),
             array(
-                'maximum_age' => SIX_MONTHS_IN_SECONDS)
+                'maximum_age' => SIX_MONTHS_IN_SECONDS,
+            )
         ),
 
         new Quiz(
@@ -146,9 +158,11 @@ new QuizLevel(
                 sprintf(_('Ligatures, page 1 (<a href="%s">Information</a>)'),$ae_oe_ligatures_url) => 'p_aeoe_1',
                 sprintf(_('Ligatures, page 2 (<a href="%s">Information</a>)'),$ae_oe_ligatures_url) => 'p_aeoe_2',
                 sprintf(_('Thorn (<a href="%s">Information</a>)'),$thorn_url) => 'p_thorn',
-                sprintf(_('Fraktur (<a href="%s">Information</a>)'),$fraktur_url) => 'p_fraktur',),
+                sprintf(_('Fraktur (<a href="%s">Information</a>)'),$fraktur_url) => 'p_fraktur',
+            ),
             array(
-                'maximum_age' => SIX_MONTHS_IN_SECONDS)
+                'maximum_age' => SIX_MONTHS_IN_SECONDS,
+            )
         ),
 
     )
@@ -174,9 +188,11 @@ new QuizLevel(
                 _('Page two: Section headings, hyphens and em-dashes') => 'formatting2',
                 _('Page three: Chapter headings and thought breaks') => 'formatting3',
                 _('Page four: Poetry, blockquotes and lists') => 'formatting4',
-                _('Page five: Illustrations and footnotes') => 'formatting5'),
+                _('Page five: Illustrations and footnotes') => 'formatting5',
+            ),
             array(
-                'maximum_age' => SIX_MONTHS_IN_SECONDS)
+                'maximum_age' => SIX_MONTHS_IN_SECONDS,
+            )
         ),
 
     )
