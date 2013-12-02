@@ -8,7 +8,7 @@ include_once($relPath.'misc.inc'); // get_enumerated_param
 // for groups of quizzes that go together
 class QuizLevel
 {
-    function QuizLevel($level_id,$level_name,$activity_type,$info,$quizzes)
+    function QuizLevel($level_id, $level_name, $activity_type, $info, $quizzes)
     {
         $this->level_id = $level_id;
         $this->level_name = $level_name;         // name for the category of quizzes
@@ -31,7 +31,7 @@ class Quiz
 {
     static $valid_quiz_page_ids = array();
 
-    function Quiz($id,$name,$short_name,$description,$thread,$pages, $pass_requirements)
+    function Quiz($id, $name, $short_name, $description, $thread, $pages, $pass_requirements)
     {
         $this->id = $id;
         $this->name = $name;               // appears in the top of the quiz's table
@@ -71,7 +71,7 @@ class Quiz
         while ($attempt = mysql_fetch_object($result))
         {
             if($attempt->result != "pass") continue;
-            if(array_key_exists($attempt->quiz_page,$pages_required_results))
+            if(array_key_exists($attempt->quiz_page, $pages_required_results))
             {
                 $pages_required_results[$attempt->quiz_page] = $attempt->date;
             }
@@ -97,7 +97,7 @@ class Quiz
         // At this point, if a user has passed the quiz, the $pages_required_results array should
         // have only pagename => timestamp  rows. If any "no" values remain, the user has not passed
         // all the pages required, or the result of that page is invalid (e.g. too old).
-        if (array_search("no",$pages_required_results) !== false)
+        if (array_search("no", $pages_required_results) !== false)
         {
             return false;
         }
@@ -161,7 +161,7 @@ class Quiz
                 $bgcolor = $passed ? '#ccffcc' : '#ffcccc';
                 echo "<td bgcolor='$bgcolor'>$text</td>";
                 $date = get_last_attempt_date_for_quiz_page($username, $quiz_page_id);
-                $text = ($date != 0) ? strftime("%d-%b-%y",$date) : _("Not attempted");
+                $text = ($date != 0) ? strftime("%d-%b-%y", $date) : _("Not attempted");
                 $max = $this->pass_requirements['maximum_age'];
                 $date_ok = ((time() - $date) < $max) || empty($max);
                 $bgcolor = $date_ok ? '#ccffcc' : '#ffcccc';
@@ -236,7 +236,7 @@ function record_quiz_attempt($username, $quiz_page_id, $result)
     {
         mysql_query("
             INSERT INTO quiz_passes
-            VALUES('$username','$now','$quiz_page_id','$result')
+            VALUES('$username', '$now', '$quiz_page_id', '$result')
         ");
     }
 }
@@ -253,7 +253,7 @@ function user_has_passed_quiz_page($username, $quiz_page_id, $pass_requirements 
         return false;
     if (isset($pass_requirements['minimum_age']))
     {
-        $value = mysql_result($res,0,"date");
+        $value = mysql_result($res, 0, "date");
         if ((time() - $value) > $this->pass_requirements['maximum_age'])
             return false;
     }
@@ -269,7 +269,7 @@ function get_last_attempt_date_for_quiz_page($username, $quiz_page_id)
     if (mysql_num_rows($res) == 0)
         return false;
 
-    $value = mysql_result($res,0,"date");
+    $value = mysql_result($res, 0, "date");
 
     return $value;
 }
