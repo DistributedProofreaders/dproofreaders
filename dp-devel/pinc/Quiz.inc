@@ -31,12 +31,12 @@ class Quiz
 {
     static $valid_quiz_page_ids = array();
 
-    function Quiz($id,$name,$short_name,$descrption,$thread,$pages, $pass_requirements)
+    function Quiz($id,$name,$short_name,$description,$thread,$pages, $pass_requirements)
     {
         $this->id = $id;
         $this->name = $name;               // appears in the top of the quiz's table
         $this->short_name = $short_name;   // appears in the righthand frame during the quiz
-        $this->description = $descrption;
+        $this->description = $description;
         $this->thread = $thread;           // forum thread for quiz questions & comments, if other than the default
         $this->pages = $pages;
         $this->pass_requirements = $pass_requirements;
