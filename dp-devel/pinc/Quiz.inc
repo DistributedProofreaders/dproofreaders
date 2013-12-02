@@ -1,6 +1,5 @@
 <?php
-include_once($relPath."connect.inc");
-include_once($relPath."site_vars.php");
+include_once($relPath."base.inc");
 include_once($relPath."Stage.inc");
 include_once($relPath."stages.inc");
 include_once($relPath.'misc.inc'); // get_enumerated_param
@@ -218,7 +217,6 @@ function get_Quiz_with_id($quiz_id)
 
 function record_quiz_attempt($username, $quiz_page_id, $result)
 {
-    new dbConnect();
     $res = mysql_query("
         SELECT * FROM quiz_passes
         WHERE username='$username' AND quiz_page='$quiz_page_id'
