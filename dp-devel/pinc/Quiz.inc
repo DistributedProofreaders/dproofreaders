@@ -111,7 +111,10 @@ class Quiz
         global $code_url;
         global $code_dir;
 
-        $n_columns = 5;
+        if (!empty($username))
+            $n_columns = 5; // 3 extra columns of user-specific info
+        else
+            $n_columns = 2;
 
         echo "
             <p><table border='0' cellpadding='2' style='border:2px solid black;'>
@@ -172,10 +175,6 @@ class Quiz
                     : "<img src='$code_url/quiz/cross.png' alt='Cross' title='Quiz page not passed' width='22' height='25'  />";
                 $bgcolor = ($passed && $date_ok) ? '#88ff88' : '#ff8888';
                 echo "<td bgcolor='$bgcolor'>$text</td>";
-            }
-            else
-            {
-                echo "<td /><td /><td />";
             }
             echo "</tr>";
         }
