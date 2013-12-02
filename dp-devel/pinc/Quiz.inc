@@ -139,11 +139,14 @@ class Quiz
             echo "</td></tr>";
         }
 
+        $page_number = 0;
         $pages = $this->pages;
         foreach ($pages as $quiz_page_id => $desc)
         {
+            $page_number += 1;
+            $page_label = sprintf(_('Page %d'), $page_number);
             echo "
-                <tr><td>$desc</td>";
+                <tr><td><b>$page_label</b>: $desc</td>";
             echo "<td>";
             $tutfile = "$code_dir/quiz/tuts/tut_$quiz_page_id.php";
             if (file_exists($tutfile))
