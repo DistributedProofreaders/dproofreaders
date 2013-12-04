@@ -6,8 +6,7 @@ include_once($relPath.'quizzes.inc'); // get_quiz_id_param get_Quiz_with_id
 // From theme.inc
 html_header('');
 
-$quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
-$quiz = get_Quiz_with_id($quiz_id);
+// When this file is include()'d, global variable $quiz must be defined.
 $quiz_name = $quiz->short_name;
 
 echo "<table cellspacing=0 cellpadding=0 width='100%'>";

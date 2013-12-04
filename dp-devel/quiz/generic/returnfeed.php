@@ -5,6 +5,8 @@ include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param get_quiz_id_para
 include_once($relPath.'misc.inc'); // stripos
 include_once('quiz_defaults.inc'); // $default_* $messages
 
+$quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
+$quiz = get_Quiz_with_id($quiz_id);
 include_once('../small_theme.inc');
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
@@ -13,8 +15,6 @@ $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'type');
 
 include "./data/qd_${quiz_page_id}.inc"; // many things
 
-$quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
-$quiz = get_Quiz_with_id($quiz_id);
 $quiz_feedbackurl = $quiz->thread;
 
 if ($quiz_feedbackurl != "")

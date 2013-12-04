@@ -3,6 +3,8 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
 
+$quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
+$quiz = get_Quiz_with_id($quiz_id);
 include_once('../small_theme.inc');
 
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'type');
