@@ -9,9 +9,9 @@ include_once('../small_theme.inc');
 
 $utf8_site=!strcasecmp($charset,"UTF-8");
 
-$page_id = get_quiz_page_id_param($_REQUEST, 'type');
+$quiz_page_id = get_quiz_page_id_param($_REQUEST, 'type');
 
-include "./data/qd_${page_id}.inc"; // many things
+include "./data/qd_${quiz_page_id}.inc"; // many things
 
 $quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
 $quiz = get_Quiz_with_id($quiz_id);
@@ -270,7 +270,7 @@ if ($error_found == "")
             // Figure out what the next quiz page is, if any
             $quiz_pages = array_keys($quiz->pages);
             $quiz_keys = array_flip($quiz_pages);
-            $current_index = $quiz_keys[$page_id];
+            $current_index = $quiz_keys[$quiz_page_id];
             $next_index = $current_index + 1;
 
             // If there's a next page, give a link to it, plus its tutorial if one exists
@@ -308,7 +308,7 @@ else
             echo $messages[$error_found]["hints"][0]["linktext"];
         else
             echo $default_hintlink;
-        $link_contents = "./hints.php?type=$page_id&quiz_id=$quiz_id&error=$error_found&number=0";
+        $link_contents = "./hints.php?type=$quiz_page_id&quiz_id=$quiz_id&error=$error_found&number=0";
         echo " " . sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents) . "<p>";
     }
     if (isset($messages[$error_found]["guideline"]))

@@ -4,11 +4,11 @@ include_once($relPath.'base.inc');
 include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param get_quiz_id_param
 include_once($relPath.'prefs_options.inc'); // $f_f $f_s
 
-$page_id = get_quiz_page_id_param($_REQUEST, 'type');
+$quiz_page_id = get_quiz_page_id_param($_REQUEST, 'type');
 $quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
 $utf8_site=!strcasecmp($charset,"UTF-8");
 
-include "./data/qd_${page_id}.inc"; // $ocr_text $solutions
+include "./data/qd_${quiz_page_id}.inc"; // $ocr_text $solutions
 
 // Figure out what font to use
 if ($user_is_logged_in)
@@ -64,7 +64,7 @@ echo str_replace("\n",'\n',addslashes($solutions[0]));?>";
 <META http-equiv="Content-Type" content="text/html; charset=<?php echo "$charset";?>">
 </head>
 <body bgcolor='#ffffff' onload='top.initializeStuff(1)'>
-<form action="./returnfeed.php?type=<?php echo $page_id; ?>&quiz_id=<?php echo $quiz_id;?>" target="right" method="post" name="editform" id="editform">
+<form action="./returnfeed.php?type=<?php echo $quiz_page_id; ?>&quiz_id=<?php echo $quiz_id;?>" target="right" method="post" name="editform" id="editform">
 <textarea rows="12" cols="60" name="text_data" id="text_data" wrap="off"
     style='width:100%; <?php echo $font_settings; ?>'>
 <?php echo $ocr_text; ?>
