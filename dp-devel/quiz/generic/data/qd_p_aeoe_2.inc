@@ -1,5 +1,5 @@
 <?php
-include_once('quiz_defaults.inc'); // $ae_oe_ligatures_url
+include_once('quiz_defaults.inc'); // $ae_oe_ligatures_url $utf8_site
 
 function quizsolved()
 {

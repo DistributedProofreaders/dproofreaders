@@ -14,7 +14,6 @@ $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-r
 
 output_header('Reglas de Revisi&oacute;n', NO_STATSBAR, $theme_args);
 
-$utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
 
 <h1 align="center"><a name="top">Reglas de Revisi&oacute;n</a></h1>

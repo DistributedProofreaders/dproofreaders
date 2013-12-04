@@ -6,7 +6,6 @@ include_once($relPath.'prefs_options.inc'); // $f_f $f_s
 
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'type');
 $quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
-$utf8_site=!strcasecmp($charset,"UTF-8");
 
 include "./data/qd_${quiz_page_id}.inc"; // $ocr_text $solutions
 

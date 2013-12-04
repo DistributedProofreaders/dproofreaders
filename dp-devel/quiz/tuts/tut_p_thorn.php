@@ -5,8 +5,6 @@ include_once($relPath.'theme.inc');
 
 output_header(_('Thorn Proofreading Tutorial'));
 
-$utf8_site=!strcasecmp($charset,"UTF-8");
-
 echo "<h2>" . _("Thorn Proofreading Tutorial") . "</h2>\n";
 
 echo "<p>" . sprintf(_("A <strong>thorn</strong> is a letter that was used in Old and Middle English, and is still used in Icelandic.  It usually represents the \"th\" sound.  In %s projects, it usually looks like:"), $site_abbreviation) . "</p>\n";

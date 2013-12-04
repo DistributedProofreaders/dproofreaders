@@ -5,8 +5,6 @@ include_once($relPath.'theme.inc');
 
 output_header(_('Ligatures Proofreading Tutorial -- Page 1'));
 
-$utf8_site=!strcasecmp($charset,"UTF-8");
-
 echo "<h2>" . _("Ligatures Proofreading Tutorial, Page 1") . "</h2>\n";
 
 echo "<p>" . _("The two ligatures &aelig; and &oelig; can be difficult to distinguish when they are printed italics.  However, the &oelig; (oe) ligature is usually rounder at the top, while the 'a' of &aelig; is more teardrop-shaped.  For example:") . "</p>\n";

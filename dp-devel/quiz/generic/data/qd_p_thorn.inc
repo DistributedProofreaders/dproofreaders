@@ -1,5 +1,5 @@
 <?php
-include_once('quiz_defaults.inc'); // $thorn_url
+include_once('quiz_defaults.inc'); // $thorn_url $utf8_site
 
 function quizsolved()
 {

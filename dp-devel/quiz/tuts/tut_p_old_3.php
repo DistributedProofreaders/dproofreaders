@@ -6,8 +6,6 @@ include_once('../generic/quiz_defaults.inc'); // $blackletter_url
 
 output_header(_('Old Texts Proofreading Tutorial -- Page 3'));
 
-$utf8_site=!strcasecmp($charset,"UTF-8");
-
 echo "<h2>" . _("Old Texts Proofreading Tutorial, Page 3") . "</h2>\n";
 echo "<h3>" . _("Nasal abbreviations") . "</h3>\n";
 echo "<p>" . _("Sometimes an <i>n</i> or <i>m</i> is abbreviated by putting a mark over the preceding letter:") . "</p>\n";

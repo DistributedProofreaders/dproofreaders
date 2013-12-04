@@ -15,7 +15,6 @@ $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-r
 
 output_header('Proeflees-Richtlijnen', NO_STATSBAR, $theme_args);
 
-$utf8_site=!strcasecmp($charset,"UTF-8");
 ?>
 
 <!-- NOTE TO MAINTAINERS AND DEVELOPERS:

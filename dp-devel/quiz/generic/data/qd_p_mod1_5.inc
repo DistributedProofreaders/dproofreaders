@@ -1,4 +1,5 @@
 <?php
+include_once('quiz_defaults.inc'); // $utf8_site
 
 function quizsolved()
 {

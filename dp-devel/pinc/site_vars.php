@@ -109,6 +109,7 @@ $auto_post_to_project_topic = <<AUTO_POST_TO_PROJECT_TOPIC>>;
 $ordinary_users_can_see_queue_settings = <<ORDINARY_USERS_CAN_SEE_QUEUE_SETTINGS>>;
 $external_catalog_locator = '<<EXTERNAL_CATALOG_LOCATOR>>';
 $charset = '<<CHARSET>>';
+$utf8_site = (strcasecmp($charset,"UTF-8") == 0);
 
 $jpgraph_FF='<<JPGRAPH_FONT_FACE>>';
 $jpgraph_FS='<<JPGRAPH_FONT_STYLE>>';

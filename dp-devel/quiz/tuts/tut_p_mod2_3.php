@@ -5,8 +5,6 @@ include_once($relPath.'theme.inc');
 
 output_header(_('Moderate Proofreading Tutorial -- Page 8'));
 
-$utf8_site=!strcasecmp($charset,"UTF-8");
-
 echo "<h2>" . _("Moderate Proofreading Tutorial, Page 8") . "</h2>\n";
 echo "<h3>" . _("Accented/Non-ASCII Characters") . "</h3>\n";
 if(!$utf8_site)

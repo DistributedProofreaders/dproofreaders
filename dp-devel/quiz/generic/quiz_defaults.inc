@@ -49,7 +49,6 @@ $messages["P_commascanno"] = array(
     "hints" => array()
 );
 
-$utf8_site=!strcasecmp($charset,"UTF-8");
 if(!$utf8_site)
 {
     $messages["P_accentbracket"] = array(

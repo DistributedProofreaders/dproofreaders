@@ -1,8 +1,6 @@
 <?php
-include_once($relPath.'site_vars.php'); // $wikihiero_dir
+include_once($relPath.'site_vars.php'); // $wikihiero_dir $utf8_site
 include_once($relPath.'misc.inc'); // attr_safe()
-
-$utf8_site = (strcasecmp($charset,"UTF-8") == 0);
 
 // "PIT" stands for "Proofing Interface Toolbox" (ctrl_frame.php)
 
