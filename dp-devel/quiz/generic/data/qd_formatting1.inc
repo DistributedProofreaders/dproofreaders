@@ -10,7 +10,7 @@ function quizsolved()
 
 $browser_title                = _("Formatting Quiz");
 $intro_title                  = _("Formatting Quiz, page 1");
-$initial_instructions         = _("Try to correct the text.");
+$initial_instructions         = $initial_instructions__F;
 // Note that we don't translate the page text since it, obviously,
 // needs to match the image which is in English.
 $ocr_text                     = "Accordingly, he suggested to the manager of the\nhouse that the front be brightened up at night by\nelectrical signs, one row of lights spelling his name\n\"BURTON\" and another row of lights spelling the\nname \"HOLMES.\"\nThe manager told him it was too much of an \ninnovation for him to authorize and referred him to\nthe owner of the theatre. Mr. Holmes travelled\nseveral hours into the country to consult with the\nowner, who referred him to his agent in the city. The\nagent in turn sent Mr. Holmes to the janitor of the\ntheatre.";

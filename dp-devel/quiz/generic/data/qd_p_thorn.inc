@@ -10,7 +10,7 @@ function quizsolved()
 
 $browser_title                = _("Thorn Proofreading Quiz");
 $intro_title                  = _("Thorn Proofreading Quiz");
-$initial_instructions         = _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.");
+$initial_instructions         = $initial_instructions__P;
 $ocr_text                     = "them to beware of green meat, as it weakens\nthe belly:\n\nbeware of saladis, greno metis, &amp; of frutes rawe\nfor bey make many a man liaue a feble mawe.\n]>erfore, of suche fresch lustas set not an hawe,\nFor suche wantoun appetites ai not worth a\n\nstrawe.";
 if(!$utf8_site) {
     $solutions                = array("them to beware of green meat, as it weakens\nthe belly:\n\nbeware of saladis, grene metis, & of frutes rawe\nfor þey make many a ma[=n] haue a feble mawe.\nÞerfore, of suche fresch lustes set not an hawe,\nFor suche wantoun appetites ar not worth a\nstrawe.");

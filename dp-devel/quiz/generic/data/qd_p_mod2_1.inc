@@ -9,7 +9,7 @@ function quizsolved()
 
 $browser_title                = _("Moderate Proofreading Quiz");
 $intro_title                  = _("Moderate Proofreading Quiz, page 6");
-$initial_instructions         = _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.");
+$initial_instructions         = $initial_instructions__P;
 $ocr_text                     = "faintly defined over-head.   `\n\nThe\ntraveller.\n\nP----was a traveller: anybody could\nsee that he was a traveller, and if he had\nthen been in any part of the globe, there\nwould not have been the least doubt that\nhe was a traveller travelling on his travels.\nHe looked like a traveller, and was\ndressed like a traveller. He had with him:\n\na travelling-cap    a coat\na portable-desk   a compass\na travelling-shirt    a hand organ\n\nThe hand-organ played its part very\npleasantly in the cabin of the \" Balakla-";
 $solutions                    = array("faintly defined over-head.\n\nThe\ntraveller.\n\nP---- was a traveller; anybody could\nsee that he was a traveller, and if he had\nthen been in any part of the globe, there\nwould not have been the least doubt that\nhe was a traveller travelling on his travels.\nHe looked like a traveller, and was\ndressed like a traveller. He had with him:\n\na travelling-cap\na portable-desk\na travelling-shirt\na coat\na compass\na hand-organ\n\nThe hand-organ played its part very\npleasantly in the cabin of the \"Balakla-*");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .

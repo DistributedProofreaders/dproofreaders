@@ -10,7 +10,7 @@ function quizsolved()
 
 $browser_title                = _("Moderate Proofreading Quiz");
 $intro_title                  = _("Moderate Proofreading Quiz, page 8");
-$initial_instructions         = _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.");
+$initial_instructions         = $initial_instructions__P;
 $ocr_text                     = "tween the quercus* and the olivet there exists a\nhatred so inveterate, that transplanted, either of\nthem, to a site previously occupied by the other,\nthey will die.I The quercus too, if planted near\nthe stoechas, will perish. There is a mortal feud\nexisting also between the cabbage and the vine;\n\n* See B. xi. c. 40. t See B. vii. cc. 5, 8, &c.\n\nI As Fee justly remarks, the greater part of these\nso-called sympathies and antipathies must be looked\nupon as so many fables.";
 if(!$utf8_site) { 
     $solutions                = array("*tween the quercus[*] and the olive[*] there exists a\nhatred so inveterate, that transplanted, either of\nthem, to a site previously occupied by the other,\nthey will die.[*] The quercus too, if planted near\nthe st[oe]chas, will perish. There is a mortal feud\nexisting also between the cabbage and the vine;\n\n* See B. xi. c. 40.\n\n* See B. vii. cc. 5, 8, &c.\n\n* As Fée justly remarks, the greater part of these\nso-called sympathies and antipathies must be looked\nupon as so many fables.");

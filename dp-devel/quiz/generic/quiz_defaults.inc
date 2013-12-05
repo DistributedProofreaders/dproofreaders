@@ -21,6 +21,12 @@ $custom_font_url          = "$wiki_url/DPCustomMono2";
 $latex_url                = "$wiki_url/LaTeX_formatting_manual";
 
 
+// Common initial instructions:
+
+$initial_instructions__P     = _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.");
+$initial_instructions__F     = _("Try to correct the text.");
+$initial_instructions__greek = _("Use the Greek Transliterator (link below) to proofread the Greek text.  There is no need to proofread the English text, as it is already correct. When done click 'check'.");
+
 
 //// Default error messages ////
 

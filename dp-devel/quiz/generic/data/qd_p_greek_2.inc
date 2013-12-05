@@ -9,7 +9,7 @@ function quizsolved()
 
 $browser_title                = _("Greek Transliteration Quiz");
 $intro_title                  = _("Greek Transliteration Quiz, page 2");
-$initial_instructions         = _("Use the Greek Transliterator (link below) to proofread the Greek text.  There is no need to proofread the English text, as it is already correct. When done click 'check'.");
+$initial_instructions         = $initial_instructions__greek;
 $ocr_text                     = "quaint epigram of Epigonus upon a frog,\nwho falling into a pipe of wine, cried\nout,\n\noe6 rives bSc)p\nirlvovai ,uavitjv ac6ippova uaiv&oacute;,usvoi.";
 $solutions                    = array("quaint epigram of Epigonus upon a frog,\nwho falling into a pipe of wine, cried\nout,\n\n[Greek: pheu tines hydôr\npinousi maniên sôphrona mainomenoi.]");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .

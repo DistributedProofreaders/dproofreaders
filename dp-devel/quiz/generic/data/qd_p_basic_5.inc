@@ -10,7 +10,7 @@ function quizsolved()
 
 $browser_title                = _("Basic Proofreading Quiz");
 $intro_title                  = _("Basic Proofreading Quiz, part 5");
-$initial_instructions         = _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.");
+$initial_instructions         = $initial_instructions__P;
 $ocr_text                     = "We ask ourselves how Byron's poem\nYou have the Pyrrhic dance as yet,\nWhere is the Pyrrhic phalanx\ngone?\nOf two such lessons, why forget\nThe nobler and the manlier one?\nis related to these well known words:\n\nWhen in the course of human events, it\nbecomes necessary for one people to\ndissolve . . . political hands.\n\nNot at all. we suspect.";
 $solutions                    = array("We ask ourselves how Byron's poem\n\nYou have the Pyrrhic dance as yet,\nWhere is the Pyrrhic phalanx\ngone?\nOf two such lessons, why forget\nThe nobler and the manlier one?\n\nis related to these well known words:\n\nWhen in the Course of human events, it\nbecomes necessary for one people to\ndissolve ... political bands.\n\nNot at all, we suspect.");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .

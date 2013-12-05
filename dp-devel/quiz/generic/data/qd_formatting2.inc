@@ -10,7 +10,7 @@ function quizsolved()
 
 $browser_title                = _("Formatting Quiz");
 $intro_title                  = _("Formatting Quiz, page 2");
-$initial_instructions         = _("Try to correct the text.");
+$initial_instructions         = $initial_instructions__F;
 // Note that we don't translate the page text since it, obviously,
 // needs to match the image which is in English.
 $ocr_text                     = "a box of St. Louis candy for his wife, and spins back\nhome, where he listens to music \"canned\" in New Jersey.\n\nTHE BETTER WAY\nCharles M. Schwab, congratulated in Pittsburgh on a\nlarge wired telegraph order contract that had been re-\nceived from one of the warring nations, said:\n\"Some call it luck, but they are mistaken -- whatever\nsuccess I have is due to hard work and not to luck.";

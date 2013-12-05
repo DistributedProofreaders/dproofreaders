@@ -9,7 +9,7 @@ function quizsolved()
 
 $browser_title                = _("Moderate Proofreading Quiz");
 $intro_title                  = _("Moderate Proofreading Quiz, page 4");
-$initial_instructions         = _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.");
+$initial_instructions         = $initial_instructions__P;
 $ocr_text                     = "And the meteor on the grave,\nAnd the wisp on the morass;6\nWhen the falling stars are shooting,\nAnd the answer'd owls are hooting.\n\n6[Manfred was done into Italian by a translator\n\"who was unable to find in the dictionaries . . .\nany other signification of the 'wisp' of this line\nthan 'a bundle of straw.\"' Byron offered him\n2OO francs if he would destroy the MS. He at\nfirst refused, but finally signed the agree-\nment.--Life, p. 3l6, note.]";
 $solutions                    = array("And the meteor on the grave,\nAnd the wisp on the morass;[6]\nWhen the falling stars are shooting,\nAnd the answer'd owls are hooting,\n\n6 [Manfred was done into Italian by a translator\n\"who was unable to find in the dictionaries ...\nany other signification of the 'wisp' of this line\nthan 'a bundle of straw.'\" Byron offered him\n200 francs if he would destroy the MS. He at\nfirst refused, but finally signed the agreement.--Life,\np. 316, note.]");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .
