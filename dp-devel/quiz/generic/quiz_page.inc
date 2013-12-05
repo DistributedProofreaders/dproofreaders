@@ -70,4 +70,20 @@ function qp_page_image_path()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+// called from proof.php:
+
+function qp_initial_page_text()
+{
+    global $ocr_text;
+    return $ocr_text;
+}
+
+function qp_sample_solution()
+{
+    global $solutions;
+    return $solutions[0];
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 // vim: sw=4 ts=4 expandtab

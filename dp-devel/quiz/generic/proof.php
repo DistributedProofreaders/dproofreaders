@@ -1,12 +1,12 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param get_quiz_id_param
+include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
 include_once($relPath.'prefs_options.inc'); // $f_f $f_s
 
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'type');
 
-include "./data/qd_${quiz_page_id}.inc"; // $ocr_text $solutions
+include "./quiz_page.inc"; // qp_initial_page_text qp_sample_solution
 
 // Figure out what font to use
 if ($user_is_logged_in)
@@ -51,12 +51,13 @@ else
 <meta name="generator" content="HTML Tidy, see www.w3.org">
 <script type='text/javascript'>
 s = "<?php
+$solution = qp_sample_solution();
 if("UTF-8" != strtoupper($charset))
 {
-    $solutions[0] = iconv("UTF-8", $charset, $solutions[0]);
+    $solution = iconv("UTF-8", $charset, $solution);
 }
 if ($testing)
-echo str_replace("\n",'\n',addslashes($solutions[0]));?>";
+echo str_replace("\n",'\n',addslashes($solution));?>";
 </script>
 <title></title>
 <META http-equiv="Content-Type" content="text/html; charset=<?php echo "$charset";?>">
@@ -65,7 +66,7 @@ echo str_replace("\n",'\n',addslashes($solutions[0]));?>";
 <form action="./returnfeed.php?type=<?php echo $quiz_page_id; ?>" target="right" method="post" name="editform" id="editform">
 <textarea rows="12" cols="60" name="text_data" id="text_data" wrap="off"
     style='width:100%; <?php echo $font_settings; ?>'>
-<?php echo $ocr_text; ?>
+<?php echo qp_initial_page_text(); ?>
 </textarea> <p>
 <input type="submit" value="<?php echo _("Check"); ?>">
 <input type="reset" value="<?php echo _("Restart"); ?>"></form>
