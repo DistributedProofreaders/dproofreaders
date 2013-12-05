@@ -3,10 +3,13 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'quizzes.inc'); // get_quiz_id_param get_Quiz_with_id
 
+function output_small_header($quiz)
+{
+    global $theme, $theme_name, $code_url, $site_name, $site_abbreviation;
+
     // From theme.inc
     html_header('');
 
-    // When this file is include()'d, global variable $quiz must be defined.
     $quiz_name = $quiz->short_name;
 
     echo "<table cellspacing=0 cellpadding=0 width='100%'>";
@@ -47,5 +50,6 @@ include_once($relPath.'quizzes.inc'); // get_quiz_id_param get_Quiz_with_id
     echo "</td>";
     echo "</tr>";
     echo "</table>";
+}
 
 // vim: sw=4 ts=4 expandtab
