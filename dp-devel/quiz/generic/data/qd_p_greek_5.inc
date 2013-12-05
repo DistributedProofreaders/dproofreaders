@@ -9,8 +9,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Greek Transliteration Quiz");
-$welcome                      = "<h2>" . _("Greek Transliteration Quiz, page 5") . "</h2>\n" .
-                                    "<p>" . _("Use the Greek Transliterator (link below) to proofread the Greek text.  There is no need to proofread the English text, as it is already correct. When done click 'check'.") . "</p>";
+$intro_title                  = "<h2>" . _("Greek Transliteration Quiz, page 5") . "</h2>\n";
+$initial_instructions         = "<p>" . _("Use the Greek Transliterator (link below) to proofread the Greek text.  There is no need to proofread the English text, as it is already correct. When done click 'check'.") . "</p>";
 $ocr_text                     = "a profound impression on the coolest\nspectator, even in that age, when men\nwere more accustomed to stabbing\nthan in our delicate days of gunshot\nwounds. 'O be (BeAia&aacute;gioc) xarariAayeis\notiioco re arieSn Kai Biaaa eyy6s ri8\nectjx&oacute;ri tiegitiAaxels Siacpnyeiv tayvai--\n(De Bello Gotthico, ii. 8.)";
 $solutions                    = array("a profound impression on the coolest\nspectator, even in that age, when men\nwere more accustomed to stabbing\nthan in our delicate days of gunshot\nwounds. [Greek: Ho de (Belisarios) kataplageis\nopisô te apestê kai Bessa engys pou\nestêkoti periplakeis diaphygein ischysi]--(De\nBello Gotthico, ii. 8.)");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .

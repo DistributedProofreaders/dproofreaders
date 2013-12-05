@@ -8,8 +8,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Old Texts Proofreading Quiz");
-$welcome                      = "<h2>" . _("Old Texts Proofreading Quiz, page 2") . "</h2>\n" .
-                                    "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
+$intro_title                  = "<h2>" . _("Old Texts Proofreading Quiz, page 2") . "</h2>\n";
+$initial_instructions         = "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
 $ocr_text                     = "150 \  Df Boioling.\n\nmost are fliort, ouer, or wide, and few iuftle\nin to Fortune. On one side you may *ee the\nMimick, twisting his Body into feueral\nPostures, to add to the Swiftness or Slowness\nof his Bowl; On the other Side the Orator,\nvfing his perfwafiue Intreaties to hasten or\nretard the Speed of his Bowl; if it be unre-\nfponfiue, then he cryes Short, O Short, &amp;c,\nwhen tis gone ten yards ouer the Iack. But\nnot to detain youany longer in characterizing\nthis excellent sport, I shall instruft you in some\n' , Rules,";
 $solutions                    = array("most are short, ouer, or wide, and few iustle\nin to Fortune. On one side you may see the\nMimick twisting his Body into seueral\nPostures, to add to the Swiftness or Slowness\nof his Bowl; On the other side the Orator,\nvsing his perswasiue Intreaties to hasten or\nretard the Speed of his Bowl; if it be vnresponsiue,\nthen he cryes Short, O Short, &c,\nwhen tis gone ten yards ouer the Iack. But\nnot to detain you any longer in characterizing\nthis excellent sport, I shall instruct you in some");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .

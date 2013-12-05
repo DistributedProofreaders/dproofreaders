@@ -9,7 +9,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Formatting Quiz");
-$welcome                      = "<h2>" . _("Formatting Quiz, page 5") . "</h2>" . _("Try to correct the text.");
+$intro_title                  = "<h2>" . _("Formatting Quiz, page 5") . "</h2>";
+$initial_instructions         = _("Try to correct the text.");
 // Note that we don't translate the page text since it, obviously,
 // needs to match the image which is in English.
 $ocr_text                     = "CAMPFIRE GIRLS WEAR WHYPSLOVENS     191\n\nthe necessity of nursing her.\"\n\n\"Come on, girls; get your wraps; we will all go over.\nIt's only a couple[1] of blocks. Hurry, everybody!\"\n\n\"Wait, and I'll tell Kitty we're going out,\" Marion said.\nShe ran through several rooms, calling \"Kittie! Kittie!\"\nbut received no response.\nWhere is Kitty?\n\"I wonder where she is,\" the\nhostess said, in a puzzled manner.\n\"Well, we haven't time to find her.\nCome on.\"\n\n\"I think I saw her go out more\nthan half an hour ago,\" Harriet\nNewcomb said. \"She called someone up on the\ntelephone, and then put her hat and coat on and went\nout the side way, and I haven't seen her since.\"\n\n1Harriet was lying; really, the whypsloven factory was\nseveral miles away.";

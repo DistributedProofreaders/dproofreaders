@@ -8,8 +8,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Old Texts Proofreading Quiz");
-$welcome                      = "<h2>" . _("Old Texts Proofreading Quiz, page 1") . "</h2>\n" .
-                                    "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
+$intro_title                  = "<h2>" . _("Old Texts Proofreading Quiz, page 1") . "</h2>\n";
+$initial_instructions         = "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
 $ocr_text                     = "three in.number, refled that Shakespeare\nhas introduced three daughters into his\ntragedy of King Lear, which has often\ndrawn tears from the eyes of multitudes.'\n\nIndeed, your affe&amp;ing tale might better\nsuit the intention of an opera: were a fuffi-cient\nnumber of cats put under the tuition\nof proper matters, nobody can tell what an\naflonifhing chorus might be produced. If\nthis proposal shall be embraced, I make no\ncloubt of its being the wonder of all\nEurope,";
 $solutions                    = array("three in number, reflect that Shakespeare\nhas introduced three daughters into his\ntragedy of King Lear, which has often\ndrawn tears from the eyes of multitudes.\n\nIndeed, your affecting tale might better\nsuit the intention of an opera: were a sufficient\nnumber of cats put under the tuition\nof proper masters, nobody can tell what an\nastonishing chorus might be produced. If\nthis proposal shall be embraced, I make no\ndoubt of its being the wonder of all");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .

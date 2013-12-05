@@ -90,9 +90,12 @@ function qp_sample_solution()
 
 function qp_echo_introduction_html()
 {
-    global $welcome, $constant_message;
+    global $intro_title, $initial_instructions, $constant_message;
 
-    echo $welcome;
+    echo $intro_title;
+
+    echo $initial_instructions;
+
     if (@$constant_message != "")
     {
         echo $constant_message;

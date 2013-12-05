@@ -8,8 +8,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Basic Proofreading Quiz");
-$welcome                      = "<h2>" . _("Basic Proofreading Quiz, page 4") . "</h2>\n" .
-                                    "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
+$intro_title                  = "<h2>" . _("Basic Proofreading Quiz, page 4") . "</h2>\n";
+$initial_instructions         = "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
 $ocr_text                     = "work he was printing would be good for\nnothing but waste paper, might\nnot be realised. The work\nappeared about the end of\nDecember 18|8 with 1819 on\nthe title-page. Schopenhauer\nhad meanwhile proceeded in\nSeptember to Italy, where lie\nrevised the final proofs.\n\nHigh art.\n\nSo far as the reception of the work was\nconcerned, Goethe \" had received it with\ngreat joy and began instantly to read it. An\n\nWallace, Life, p. 108.";
 $solutions                    = array("work he was printing would be good for\nnothing but waste paper, might\nnot be realised.[*] The work\nappeared about the end of\nDecember 1818 with 1819 on\nthe title-page. Schopenhauer\nhad meanwhile proceeded in\nSeptember to Italy, where he\nrevised the final proofs.\n\nHigh art.\n\nSo far as the reception of the work was\nconcerned, Goethe \"had received it with\ngreat joy and began instantly to read it. An\n\n* Wallace, Life, p. 108.");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .

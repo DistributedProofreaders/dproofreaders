@@ -9,7 +9,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Formatting Quiz");
-$welcome                      = "<h2>" . _("Formatting Quiz, page 3") . "</h2>" . _("Try to correct the text.");
+$intro_title                  = "<h2>" . _("Formatting Quiz, page 3") . "</h2>";
+$initial_instructions         = _("Try to correct the text.");
 // Note that we don't translate the page text since it, obviously,
 // needs to match the image which is in English.
 $ocr_text                     = "Chapter 8\n\nTHE MERMAIDS' LAGOON\nIn which our heroes discover the perils of ignoring thought breaks.\n\nIF YOU SHUT your eyes and are a lucky one, you may see\n\nat times a shapeless pool of lovely pale colours\nsuspended in the darkness; then if you squeeze your\neyes tighter, the pool begins to take shape, and the\ncolours become so vivid that with another squeeze they\nmust go on fire. But just before they go on fire you see\nthe lagoon.\n\nThe children often spent long summer days on this\nlagoon, swimming or floating most of the time, playing\nthe mermaid games in the water, and so forth. You";

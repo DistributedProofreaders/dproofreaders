@@ -9,7 +9,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Formatting Quiz");
-$welcome                      = "<h2>" . _("Formatting Quiz, page 4") . "</h2>" . _("Try to correct the text");
+$intro_title                  = "<h2>" . _("Formatting Quiz, page 4") . "</h2>";
+$initial_instructions         = _("Try to correct the text");
 // Note that we don't translate the page text since it, obviously,
 // needs to match the image which is in English.
 $ocr_text                     = "When listening to amateur poetry, says Wellington\nBunn:\n\nTo safeguard one's person...one must be equipped with\nall manner of defensive objects.\n\nBunn goes on to list these objects, among them\n\n1. a spoon, and\n2. two sporks.\n\nSo equipped, the reader may undertake to listen to\npoetry such as that of Skelton:\n\nGup, gorbellyd Godfrey, gup, Garnysche, gaudy fole!\nTo turney or to tante with me ye ar to fare to seke:\nFor thes twayne whypslouens calle for a coke stole:\nThow mantycore, ye marmoset, garnyshte lyke a\nGreke.\n\nTruer words ne'er were spoken.";

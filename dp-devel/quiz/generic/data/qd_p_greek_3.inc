@@ -8,8 +8,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Greek Transliteration Quiz");
-$welcome                      = "<h2>" . _("Greek Transliteration Quiz, page 3") . "</h2>\n" .
-                                    "<p>" . _("Use the Greek Transliterator (link below) to proofread the Greek text.  There is no need to proofread the English text, as it is already correct. When done click 'check'.") . "</p>";
+$intro_title                  = "<h2>" . _("Greek Transliteration Quiz, page 3") . "</h2>\n";
+$initial_instructions         = "<p>" . _("Use the Greek Transliterator (link below) to proofread the Greek text.  There is no need to proofread the English text, as it is already correct. When done click 'check'.") . "</p>";
 $ocr_text                     = "the famous knight Sir Guy, the slayer of the\ngreat Dun Cow which had laid waste the\nwhole county of Warwick. But besides slaying\nthe cow, he did many other noble deeds, like\nthe heroes of old:\n\n[Greek: ton '&Ecirc;rhaklea ton Di&ograve;s aneipov\nellonon kai t&ocirc; t&ecirc;s A&ecirc;das niee,\nMin&ocirc; te ohimai nomo0et&ecirc;n ka&igrave;\n'Radamanthnn ton Kn&ocirc;oion";
 $solutions                    = array("the famous knight Sir Guy, the slayer of the\ngreat Dun Cow which had laid waste the\nwhole county of Warwick. But besides slaying\nthe cow, he did many other noble deeds, like\nthe heroes of old:\n\n[Greek: ton Hêraklea tou Dios aneipon\nengonon kai tô tês Lêdas hyiee,\nMinô te oimai ton nomothetên kai\nRhadamanthyn ton Knôsion]");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .

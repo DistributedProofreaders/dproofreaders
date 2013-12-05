@@ -8,8 +8,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Greek Transliteration Quiz");
-$welcome                      = "<h2>" . _("Greek Transliteration Quiz, page 2") . "</h2>\n" .
-                                    "<p>" . _("Use the Greek Transliterator (link below) to proofread the Greek text.  There is no need to proofread the English text, as it is already correct. When done click 'check'.") . "</p>";
+$intro_title                  = "<h2>" . _("Greek Transliteration Quiz, page 2") . "</h2>\n";
+$initial_instructions         = "<p>" . _("Use the Greek Transliterator (link below) to proofread the Greek text.  There is no need to proofread the English text, as it is already correct. When done click 'check'.") . "</p>";
 $ocr_text                     = "quaint epigram of Epigonus upon a frog,\nwho falling into a pipe of wine, cried\nout,\n\noe6 rives bSc)p\nirlvovai ,uavitjv ac6ippova uaiv&oacute;,usvoi.";
 $solutions                    = array("quaint epigram of Epigonus upon a frog,\nwho falling into a pipe of wine, cried\nout,\n\n[Greek: pheu tines hydôr\npinousi maniên sôphrona mainomenoi.]");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .

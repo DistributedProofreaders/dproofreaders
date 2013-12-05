@@ -8,8 +8,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Basic Proofreading Quiz");
-$welcome                      = "<h2>" . _("Basic Proofreading Quiz, page 2") . "</h2>\n" .
-                                    "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
+$intro_title                  = "<h2>" . _("Basic Proofreading Quiz, page 2") . "</h2>\n";
+$initial_instructions         = "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
 $ocr_text                     = "\"I'll do my best, but you can't expect much. I\nguess I can squeeze another cot into eight-seven\nfor the young man. There's -- let's see now\n-- who's in eighty-seven? Well, there's two\nBisons in the double bed, and one in the single,\nand Fat Ed Meyers in the cot and-- \"\n\nEmma McChesney stiffened to acute attention.\n\"Meyers?\" she interrupted. \"Do you mean Ed\nMeyers of the Strauss Sans-silk skirt Company?\"\n\n\"That's so.\"\n\"Did he get in to-day?\"\n\n\"Oh, he just came 15 minutes ago on the Ash-";
 $solutions                    = array("\n\"I'll do my best, but you can't expect much. I\nguess I can squeeze another cot into eight-seven\nfor the young man. There's--let's see now--who's\nin eighty-seven? Well, there's two\nBisons in the double bed, and one in the single,\nand Fat Ed Meyers in the cot and----\"\n\nEmma McChesney stiffened to acute attention.\n\"Meyers?\" she interrupted. \"Do you mean Ed\nMeyers of the Strauss Sans-silk Skirt Company?\"\n\n\"That's so.\"\n\n\"Did he get in to-day?\"\n\n\"Oh, he just came 15 minutes ago on the Ash-*");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .
