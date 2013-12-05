@@ -1,11 +1,11 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param get_quiz_id_param
+include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
 
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'type');
 
-include "./quiz_page.inc";
+include "./quiz_page.inc"; // qp_full_browser_title qp_round_id_for_pi_toolbox
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
