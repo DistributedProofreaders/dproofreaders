@@ -30,6 +30,6 @@ echo "    </tr>\n  </tbody>\n</table>\n";
 echo "<h3>" . _("End-of-page Hyphenation and Dashes") . "</h3>\n";
 echo "<p>" . _("Proofread end-of-page hyphens or em-dashes by leaving the hyphen or em-dash at the end of the last line, and mark it with a <tt>*</tt> after the hyphen or dash.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?type=p_basic_2&quiz_id=BPQ1'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?type=p_basic_2'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

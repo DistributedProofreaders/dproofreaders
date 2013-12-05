@@ -12,6 +12,6 @@ echo "<p>" . _("Some books will have short descriptions of the paragraph along t
 echo "<h3>" . _("Multiple Columns") . "</h3>\n";
 echo "<p>" . _("Proofread ordinary text that has been printed in multiple columns as a single column. Place the text from the left-most column first, the text from the next column below that, and so on. Do not mark where the columns were split, just join them together.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?type=p_mod2_1&quiz_id=MPQ2'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?type=p_mod2_1'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

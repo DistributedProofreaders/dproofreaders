@@ -24,6 +24,6 @@ echo "<p>" . _("You may sometimes find formatting already present in the text. <
 echo "<h3>" . _("Words in Small Capitals") . "</h3>\n";
 echo "<p>" . _("Please proofread only the characters in <span style='font-variant: small-caps'>Small Caps</span> (capital letters which are smaller than the standard capitals). Do not worry about case changes. If the OCR'd text is already ALL-CAPPED, Mixed-Cased, or lower-cased, leave it ALL-CAPPED, Mixed-Cased, or lower-cased.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?type=p_basic_3&quiz_id=BPQ1'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?type=p_basic_3'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

@@ -5,15 +5,14 @@ include_once($relPath.'misc.inc'); // get_enumerated_param
 include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
 include_once('../small_theme.inc'); // output_small_header
 
-$quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
-$quiz = get_Quiz_with_id($quiz_id);
-
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'type');
 
 include "./data/qd_${quiz_page_id}.inc"; // $messages
 
 $error = get_enumerated_param($_REQUEST, 'error', NULL, array_keys($messages));
 $number = get_integer_param($_REQUEST, 'number', NULL, 0, count($messages[$error]["hints"])-1);
+
+$quiz = get_Quiz_containing_page($quiz_page_id);
 
 output_small_header($quiz);
 
@@ -36,7 +35,7 @@ if (count($messages[$error]["hints"]) > (1 + $number))
     {
         echo _("Desperate? Can't find it?");
     }
-    $link_contents = "./hints.php?quiz_id=$quiz_id&type=$quiz_page_id&error=$error&number=" . ($number + 1);
+    $link_contents = "./hints.php?type=$quiz_page_id&error=$error&number=" . ($number + 1);
     echo " " . sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents) . "</p>";
 }
 

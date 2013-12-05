@@ -26,6 +26,6 @@ echo "</ul>\n";
 echo "<h3>" . _("Fractions") . "</h3>\n";
 echo "<p>" . _("Proofread fractions as follows: <tt>&frac14;</tt> becomes <tt>1/4</tt>, and <tt>2&frac12;</tt> becomes <tt>2-1/2</tt>. The hyphen prevents the whole and fractional part from becoming separated when the lines are rewrapped during post-processing.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?type=p_mod1_3&quiz_id=MPQ1'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?type=p_mod1_3'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

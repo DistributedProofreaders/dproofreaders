@@ -16,7 +16,7 @@ $solutions                    = array("a detective, why was he watching? There w
 $welcome                      = "<h2>" . _("Basic Proofreading Quiz, extra practice") . "</h2>\n" .
                                 _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" . _("Congratulations, no errors found!");
-$links_out                    = "<a href='../generic/main.php?type=p_basicx_2&quiz_id=BPQ2' target='_top'>" . _("Take another \"extra practice\" quiz") . "</a><br><a href='../start.php?show_only=proof' target='_top'>" .
+$links_out                    = "<a href='../generic/main.php?type=p_basicx_2' target='_top'>" . _("Take another \"extra practice\" quiz") . "</a><br><a href='../start.php?show_only=proof' target='_top'>" .
                                   _("Back to proofreading quiz home") . "</a>";
 
 

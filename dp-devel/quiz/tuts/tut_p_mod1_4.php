@@ -16,6 +16,6 @@ echo "<li>" . _("Parentheses ( ) and curly braces { }.") . "</li>\n";
 echo "</ul>";
 echo "<p>" . _("Watch out for these. Normally the context of the sentence is sufficient to determine which is the correct character, but be careful&mdash;often your mind will automatically 'correct' these as you are reading.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?type=p_mod1_4&quiz_id=MPQ1'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?type=p_mod1_4'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

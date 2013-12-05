@@ -6,12 +6,11 @@ include_once($relPath.'misc.inc'); // stripos
 include_once('quiz_defaults.inc'); // $default_* $messages
 include_once('../small_theme.inc'); // output_small_header
 
-$quiz_id = get_quiz_id_param($_REQUEST, 'quiz_id');
-$quiz = get_Quiz_with_id($quiz_id);
-
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'type');
 
 include "./data/qd_${quiz_page_id}.inc"; // many things
+
+$quiz = get_Quiz_containing_page($quiz_page_id);
 
 output_small_header($quiz);
 
@@ -283,7 +282,7 @@ if ($error_found == "")
                 {
                     echo "<a href='../tuts/tut_$next_page.php' target='_top'>" . _("Next step of tutorial") . "</a><br>";
                 }
-                echo "<a href='main.php?type=$next_page&quiz_id=$quiz_id' target='_top'>" . _("Next step of quiz") . "</a><br>";
+                echo "<a href='main.php?type=$next_page' target='_top'>" . _("Next step of quiz") . "</a><br>";
             }
             // Give a link back to quiz home (P or F as appropriate)
             echo "<a href='../start.php?show_only={$quiz->activity_type}' target='_top'>" . _("Back to quizzes home") . "</a>";
@@ -308,7 +307,7 @@ else
             echo $messages[$error_found]["hints"][0]["linktext"];
         else
             echo $default_hintlink;
-        $link_contents = "./hints.php?type=$quiz_page_id&quiz_id=$quiz_id&error=$error_found&number=0";
+        $link_contents = "./hints.php?type=$quiz_page_id&error=$error_found&number=0";
         echo " " . sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents) . "<p>";
     }
     if (isset($messages[$error_found]["guideline"]))

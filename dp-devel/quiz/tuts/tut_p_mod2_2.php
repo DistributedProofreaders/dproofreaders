@@ -22,6 +22,6 @@ echo "    </tr>\n";
 echo "  </tbody>\n";
 echo "</table>\n";
 
-echo "<p><a href='../generic/main.php?type=p_mod2_2&quiz_id=MPQ2'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?type=p_mod2_2'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

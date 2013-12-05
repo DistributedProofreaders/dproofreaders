@@ -26,6 +26,6 @@ echo "<li>" . _("If the word begins with a diphthong (two vowels together), the 
 echo "<li>" . _("Besides vowels, the rough breathing mark can also appear over one consonant: &rho; (rho).  If a word begins with rho, it always has rough breathing, with the rho transliterated as \"<tt>rh</tt>\" (note that the \"<tt>h</tt>\" goes <i>after</i> the rho, rather than before as with vowels).") . "</li>\n";
 echo "</ul>";
 
-echo "<p><a href='../generic/main.php?type=p_greek_3&quiz_id=GPQ'>" . _("Continue to quiz") . "</a></p>";
+echo "<p><a href='../generic/main.php?type=p_greek_3'>" . _("Continue to quiz") . "</a></p>";
 
 // vim: sw=4 ts=4 expandtab

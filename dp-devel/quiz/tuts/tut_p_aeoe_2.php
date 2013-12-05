@@ -13,6 +13,6 @@ echo "<tr><td><img src='../generic/images/oelig_ital.png' alt='oe ligature' widt
 echo "<td><img src='../generic/images/aelig_ital_bump.png' alt='ae ligature' width='35' height='28'></td>\n</tr></table>\n";
 
 echo "<p>" . _("If the word is in Latin (or derived from Latin), then there is another way to distinguish these characters: Latin words often end in -&aelig;, but never in -&oelig;.") . "</p>\n";
-echo "<p><a href='../generic/main.php?type=p_aeoe_2&quiz_id=OSPQ'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?type=p_aeoe_2'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

@@ -17,6 +17,6 @@ echo "<p>" . _("For Greek, you should attempt a transliteration. Transliteration
 echo "<p>" . sprintf(_("Press the \"Greek Transliterator\" button near the bottom of the proofreading interface to open the tool. In the tool, click on the Greek characters that match the word or phrase you are transliterating, and the appropriate Latin-1 characters will appear in the text box. When you are done, simply cut and paste this transliterated text into the page you are proofreading. Surround the transliterated text with the Greek markers <tt>[Greek:&nbsp;</tt> and <tt>]</tt>. For example, <span style='font-size:115%%;'>&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</span> would become <tt>[Greek: Biblos]</tt>. (\"Book\"&mdash;so appropriate for %s!)"), $site_abbreviation) . "</p>\n";
 echo "<p>" . sprintf(_("If the transliteration tool does not appear when you click on the button, your computer may be blocking pop-ups. Make sure that your software allows pop-ups from the %s site."), $site_abbreviation) . "</p>\n";
 
-echo "<p><a href='../generic/main.php?type=p_greek_1&quiz_id=GPQ'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?type=p_greek_1'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab
