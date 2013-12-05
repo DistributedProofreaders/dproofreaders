@@ -86,4 +86,19 @@ function qp_sample_solution()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+// called from right.php:
+
+function qp_echo_introduction_html()
+{
+    global $welcome, $constant_message;
+
+    echo $welcome;
+    if (@$constant_message != "")
+    {
+        echo $constant_message;
+    }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 // vim: sw=4 ts=4 expandtab
