@@ -8,8 +8,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Basic Proofreading Quiz");
-$intro_title                  = "<h2>" . _("Basic Proofreading Quiz, page 3") . "</h2>\n";
-$initial_instructions         = "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
+$intro_title                  = _("Basic Proofreading Quiz, page 3");
+$initial_instructions         = _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.");
 $ocr_text                     = "bundles into the house, while Mirabell's mother\nwent on home in her automobile.\n\nCHAPTER II\n\nThe Rabbit's New Home\n\nOh, Mother! What have you?\" cried the\nvoice of a little girl, as the lady entered\nthe house with the bundle.\n\n\"Is it...something good to cat..?\" asked a\nboy's voice.\n\n\"Now, children, you must not ask too many\nquestions.\" said their mother. \"This isn't exactly\nCHRISTMAS, but it will soon be EASTER, and we";
 $solutions                    = array("bundles into the house, while Mirabell's mother\nwent on home in her automobile.\n\nCHAPTER II\n\nThe Rabbit's New Home\n\n\"Oh, Mother! What have you?\" cried the\nvoice of a little girl, as the lady entered\nthe house with the bundle.\n\n\"Is it ... something good to eat...?\" asked a\nboy's voice.\n\n\"Now, children, you must not ask too many\nquestions,\" said their mother. \"This isn't exactly\nCHRISTMAS, but it will soon be EASTER, and we");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .

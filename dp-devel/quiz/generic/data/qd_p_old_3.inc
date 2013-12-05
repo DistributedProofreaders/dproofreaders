@@ -9,8 +9,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Old Texts Proofreading Quiz");
-$intro_title                  = "<h2>" . _("Old Texts Proofreading Quiz, page 3") . "</h2>\n";
-$initial_instructions         = "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines and the \"Project Comments\" for this quiz. When done click 'check'.") . "</p>";
+$intro_title                  = _("Old Texts Proofreading Quiz, page 3");
+$initial_instructions         = _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines and the \"Project Comments\" for this quiz. When done click 'check'.");
 $constant_message             = "\n" .
                                     "<h2>" . _("Project Comments") . "</h2>\n" .
                                     "<p>" . sprintf(_("Proofread the nasal abbreviations, which can look like tildes or macrons, as macrons.  If you have trouble with the blackletter font, see <a href='%s' target='_blank'>Proofing Blackletter</a>."), $blackletter_url) . "</p>";

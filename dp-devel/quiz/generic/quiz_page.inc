@@ -92,9 +92,9 @@ function qp_echo_introduction_html()
 {
     global $intro_title, $initial_instructions, $constant_message;
 
-    echo $intro_title;
+    echo "<h2>" . $intro_title . "</h2>\n";
 
-    echo $initial_instructions;
+    echo "<p>" . $initial_instructions . "</p>";
 
     if (@$constant_message != "")
     {

@@ -13,7 +13,7 @@ function quizsolved()
 $browser_title                = _("Basic Proofreading Quiz");
 $ocr_text                     = "repentant and remorseful agony.\n\nCHAPTER VII.\n\nAt Oakwood\n\nDEAREST mother, this is indeed\nlike some of\nOakwood's happy hours, \" exclaimed\nEmmeline , that same evening, as with\nchildish glee she had placed herself at her\nmother's feet, arid raised her laughing eyes";
 $solutions                    = array("repentant and remorseful agony.\n\nCHAPTER VII.\n\nAt Oakwood\n\n\"DEAREST mother, this is indeed\nlike some of\nOakwood's happy hours,\" exclaimed\nEmmeline, that same evening, as with\nchildish glee she had placed herself at her\nmother's feet, and raised her laughing eyes");
-$intro_title                  = "<h2>" . _("Basic Proofreading Quiz, extra practice") . "</h2>\n";
+$intro_title                  = _("Basic Proofreading Quiz, extra practice");
 $initial_instructions         = _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" . _("Congratulations, no errors found!");
 

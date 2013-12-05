@@ -8,8 +8,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Greek Transliteration Quiz");
-$intro_title                  = "<h2>" . _("Greek Transliteration Quiz, page 4") . "</h2>\n";
-$initial_instructions         = "<p>" . _("Use the Greek Transliterator (link below) to proofread the Greek text.  There is no need to proofread the English text, as it is already correct. When done click 'check'.") . "</p>";
+$intro_title                  = _("Greek Transliteration Quiz, page 4");
+$initial_instructions         = _("Use the Greek Transliterator (link below) to proofread the Greek text.  There is no need to proofread the English text, as it is already correct. When done click 'check'.");
 $ocr_text                     = "how they kicked their crowns away from\nthem. Of all the enemies they had, they\nthemselves were the most fatal:\n\n[Greek: \"&Ocirc; popoi, ohion d&ecirc; nu theous\nBroto&igrave; aitio&ocirc;ntai,\nex &ecirc;me&ocirc;n gap phaoi kak\nemmenai oi de kai antoi\noph&ecirc;ioin ataothali&ecirc;oin nter\nmoron alge eChouin]";
 $solutions                    = array("how they kicked their crowns away from\nthem. Of all the enemies they had, they\nthemselves were the most fatal:\n\n[Greek: Ô popoi, hoion dê ny theous\nbrotoi aitioôntai,\nex hêmeôn gar phasi kak'\nemmenai; hoi de kai autoi\nsphêsin atasthaliêsin hyper\nmoron alge' echousin.]");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .

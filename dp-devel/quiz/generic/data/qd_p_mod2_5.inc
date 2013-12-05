@@ -8,8 +8,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Moderate Proofreading Quiz");
-$intro_title                  = "<h2>" . _("Moderate Proofreading Quiz, page 10") . "</h2>\n";
-$initial_instructions         = "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
+$intro_title                  = _("Moderate Proofreading Quiz, page 10");
+$initial_instructions         = _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.");
 $ocr_text                     = "don't spare him in the slightest!    ,\n\nChrys. (virtuously indignant) Is it enough, if he\nhears mere hard words from me this day than\never Clinia2 heard from Demetrius?2\n\n[EXIT.\n\nNIC. (ruefully) That servant of mine is very\nmuch like a sore eye : if you haven't got one,\nyou don't want one and don't miss it; if you\nhave, you can't keep your hands off it. Why, if\nhe hadn 't happened by good luck to be here to-\n\n^2 Characters in some familiar play.";
 $solutions                    = array("don't spare him in the slightest!\n\nChrys. (virtuously indignant) Is it enough, if he\nhears more hard words from me this day than\never Clinia[2] heard from Demetrius?[2]\n\n[EXIT.\n\nNIC. (ruefully) That servant of mine is very\nmuch like a sore eye: if you haven't got one,\nyou don't want one and don't miss it; if you\nhave, you can't keep your hands off it. Why, if\nhe hadn't happened by good luck to be here to-*\n\n2 Characters in some familiar play.");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .

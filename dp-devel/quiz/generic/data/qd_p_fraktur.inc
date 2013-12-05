@@ -8,8 +8,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Fraktur Proofreading Quiz");
-$intro_title                  = "<h2>" . _("Fraktur Proofreading Quiz") . "</h2>\n";
-$initial_instructions         = "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. There is no need to proofread the English text, as it is already correct. When done click 'check'.") . "</p>";
+$intro_title                  = _("Fraktur Proofreading Quiz");
+$initial_instructions         = _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. There is no need to proofread the English text, as it is already correct. When done click 'check'.");
 $ocr_text                     = "self-condemnation, the Glass and Porcelain\ndupe, the Antiquity and Coin-hunting dupe,\nand especially the Book-collecting dupe.\nDupes of every kind, however, may find their\nreproof in the simple German lines,\n\nWer Rarren offt viel preoigen will,\nBei ihnen nicht wtrd schaffen viel;\nDaun all's rvas man am beften redt,\nTer Narr zum argsten falsch verstebt,";
 $solutions                    = array("self-condemnation, the Glass and Porcelain\ndupe, the Antiquity and Coin-hunting dupe,\nand especially the Book-collecting dupe.\nDupes of every kind, however, may find their\nreproof in the simple German lines,\n\nWer Narren offt viel predigen will,\nBey ihnen nicht wird schaffen viel:\nDann all's was man am besten redt,\nDer Narr zum ärgsten falsch versteht,");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .

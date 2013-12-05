@@ -8,8 +8,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Moderate Proofreading Quiz");
-$intro_title                  = "<h2>" . _("Moderate Proofreading Quiz, page 2") . "</h2>\n";
-$initial_instructions         = "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
+$intro_title                  = _("Moderate Proofreading Quiz, page 2");
+$initial_instructions         = _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.");
 $ocr_text                     = "364   ALICE ORVILLE.\n\n\"When folks can't do as they will, they must do\nas they can, I've heard say.\"\n\nThus we leave our adventurers and return north-\neast to the land from which they are receding. We\ndid n't know what else to do here, reader, for we\nwere quite as tired of the characters as you wore,\nand wanted to get them off our hands in some\nway. * * * A few people think E--e can tell\nstories tolerably well. But she can't, reader! We";
 $solutions                    = array("\n\"When folks can't do as they will, they must do\nas they can, I've heard say.\"\n\nThus we leave our adventurers and return north-*east\nto the land from which they are receding. We\ndidn't know what else to do here, reader, for we\nwere quite as tired of the characters as you were,\nand wanted to get them off our hands in some\nway. * * * A few people think E--e can tell\nstories tolerably well. But she can't, reader! We");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .

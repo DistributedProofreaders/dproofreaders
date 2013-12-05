@@ -9,7 +9,7 @@ function quizsolved()
 }
 
 $browser_title                = _("Formatting Quiz");
-$intro_title                  = "<h2>" . _("Formatting Quiz, page 1") . "</h2>";
+$intro_title                  = _("Formatting Quiz, page 1");
 $initial_instructions         = _("Try to correct the text.");
 // Note that we don't translate the page text since it, obviously,
 // needs to match the image which is in English.

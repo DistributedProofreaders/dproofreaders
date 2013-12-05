@@ -8,8 +8,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Greek Transliteration Quiz");
-$intro_title                  = "<h2>" . _("Greek Transliteration Quiz, page 1") . "</h2>\n";
-$initial_instructions         = "<p>" . _("Use the Greek Transliterator (link below) to proofread the Greek text.  There is no need to proofread the English text, as it is already correct. When done click 'check'.") . "</p>";
+$intro_title                  = _("Greek Transliteration Quiz, page 1");
+$initial_instructions         = _("Use the Greek Transliterator (link below) to proofread the Greek text.  There is no need to proofread the English text, as it is already correct. When done click 'check'.");
 $ocr_text                     = "as panis siccus, dry bread; or, (if\nthe learned reader thinks it will\ntaste better in Greek,) aproc &sect;rjpoe";
 $solutions                    = array("as panis siccus, dry bread; or, (if\nthe learned reader thinks it will\ntaste better in Greek,) [Greek: artos xêros]");
 $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .

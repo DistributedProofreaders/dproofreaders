@@ -9,8 +9,8 @@ function quizsolved()
 }
 
 $browser_title                = _("Moderate Proofreading Quiz");
-$intro_title                  = "<h2>" . _("Moderate Proofreading Quiz, page 5") . "</h2>\n";
-$initial_instructions         = "<p>" . _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.") . "</p>";
+$intro_title                  = _("Moderate Proofreading Quiz, page 5");
+$initial_instructions         = _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines. When done click 'check'.");
 $ocr_text                     = "when she discovered a new suitor, she had\nrecourse to a Rakshasa, who swallowed that\nunhappy suitor wholeb. So Natabhrukuti\nlooked towards the city wall, and she saw\nAja. And at the very first glance, she fell so\nviolently in love with him^c that she could\n\nb This method of disposing of objectionable suit-ors\nis unfortunately not available in Europe.\n\nc Who ever loved that loved not at first sight?\nEvery Oriental would side with Shakspeare in\nthis matter: love, in the East, is not love, unless";
 $solutions                    = array("when she discovered a new suitor, she had\nrecourse to a Rákshasa, who swallowed that\nunhappy suitor whole[b]. So Natabhrúkutí\nlooked towards the city wall, and she saw\nAja. And at the very first glance, she fell so\nviolently in love with him[c] that she could\n\nb This method of disposing of objectionable suitors\nis unfortunately not available in Europe.\n\nc Who ever loved that loved not at first sight?\nEvery Oriental would side with Shakspeare in\nthis matter: love, in the East, is not love, unless");
 if(!$utf8_site) {
