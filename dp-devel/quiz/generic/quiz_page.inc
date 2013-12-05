@@ -59,4 +59,15 @@ function qp_round_id_for_pi_toolbox()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+// called by orig.php:
+
+function qp_page_image_path()
+{
+    global $quiz_page_id;
+    return "./images/qi_$quiz_page_id.png";
+    // relative path works if the top-level script is quiz/generic/*.php
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 // vim: sw=4 ts=4 expandtab
