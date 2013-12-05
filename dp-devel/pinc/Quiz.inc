@@ -29,6 +29,7 @@ class QuizLevel
 class Quiz
 {
     static $valid_quiz_page_ids = array();
+    static $map_quiz_page_id_to_Quiz = array();
 
     function Quiz($id, $name, $short_name, $description, $thread, $pages, $pass_requirements)
     {
@@ -51,6 +52,9 @@ class Quiz
         {
            assert(!in_array($quiz_page_id, self::$valid_quiz_page_ids));
            self::$valid_quiz_page_ids[] = $quiz_page_id;
+
+           assert(!isset(self::$map_quiz_page_id_to_Quiz[$quiz_page_id]));
+           self::$map_quiz_page_id_to_Quiz[$quiz_page_id] =& $this;
         }
     }
 
@@ -213,6 +217,11 @@ function get_Quiz_with_id($quiz_id)
 {
     global $map_quiz_id_to_Quiz;
     return $map_quiz_id_to_Quiz[$quiz_id];
+}
+
+function get_Quiz_containing_page($quiz_page_id)
+{
+    return Quiz::$map_quiz_page_id_to_Quiz[$quiz_page_id];
 }
 
 // -----------------------------------------------------------------------------
