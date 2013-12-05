@@ -5,26 +5,14 @@ include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param get_quiz_id_para
 
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'type');
 
-include "./data/qd_${quiz_page_id}.inc"; // $browser_title
+include "./quiz_page.inc";
 
-$quiz = get_Quiz_containing_page($quiz_page_id);
-if ($quiz->activity_type == "proof")
-{
-    $round_id = 'P1';
-}
-else
-{
-    $round_id = 'F1';
-}
-$round = get_Round_for_round_id($round_id);
-assert( !is_null($round) );
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
 <html>
 <head>
 <title>
-<?php echo "$site_abbreviation";
-    if (isset($browser_title)) { echo ": $browser_title"; } ?>
+<?php echo qp_full_browser_title(); ?>
 </title>
 <META http-equiv="Content-Type" content="text/html; charset=<?php echo "$charset";?>">
 <script language="JavaScript" type="text/javascript" src="../../tools/proofers/dp_proof.js?1.62"></script>
@@ -38,6 +26,6 @@ assert( !is_null($round) );
 </frameset>
 <frame name="right" src="right.php?type=<?php echo $quiz_page_id;?>">
 </frameset>
-<frame name="menuframe" src="../../tools/proofers/ctrl_frame.php?round_id=<?php echo $round->id; ?>" marginwidth="2" marginheight="2" frameborder="0">
+<frame name="menuframe" src="../../tools/proofers/ctrl_frame.php?round_id=<?php echo qp_round_id_for_pi_toolbox(); ?>" marginwidth="2" marginheight="2" frameborder="0">
 </frameset>
 </html>

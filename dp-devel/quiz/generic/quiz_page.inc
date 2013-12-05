@@ -26,6 +26,37 @@ include "./data/qd_$quiz_page_id.inc";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+// called by main.php:
+
+function qp_full_browser_title()
+{
+    global $site_abbreviation; // from site_vars.php
+    global $browser_title; // from the qd file
+
+    if (isset($browser_title))
+        return "$site_abbreviation: $browser_title";
+    else
+        return $site_abbreviation;
+}
+
+function qp_round_id_for_pi_toolbox()
+{
+    global $quiz;
+    if ($quiz->activity_type == 'proof')
+    {
+        return 'P1';
+    }
+    else if ($quiz->activity_type == 'format')
+    {
+        return 'F1';
+    }
+    else
+    {
+        assert(FALSE);
+        return 'P1';
+    }
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // vim: sw=4 ts=4 expandtab
