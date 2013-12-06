@@ -264,8 +264,8 @@ function qp_text_contains_anticipated_error($text, $value)
             // It's an error if the text contains both $firsttext and $secondtext,
             // and the first occurrence of $secondtext is before the first occurrence of $firsttext.
             // (A correct text will, if it contains both $firsttext and $secondtext, contain them in that order.)
-            $p1 = strposgen($text,$value["firsttext"],$value["case_sensitive"]);
-            $p2 = strposgen($text,$value["secondtext"],$value["case_sensitive"]);
+            $p1 = str_posn($text,$value["firsttext"],$value["case_sensitive"]);
+            $p2 = str_posn($text,$value["secondtext"],$value["case_sensitive"]);
             if ($p1 && $p2 && ($p1 > $p2))
             {
                 return $value["error"];
@@ -301,7 +301,7 @@ function in_string($needle, $haystack, $sensitive = 0)
         return (false !== stristr($haystack, $needle)) ? true : false;
 }
 
-function strposgen($haystack,$needle,$cs)
+function str_posn($haystack,$needle,$cs)
 {
     if ($cs)
         return strpos($haystack,$needle);
