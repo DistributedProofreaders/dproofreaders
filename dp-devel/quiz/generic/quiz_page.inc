@@ -116,6 +116,11 @@ function qp_echo_hint_html($message_id, $hint_number)
         die("supplied message-id ($message_id) is not valid");
     }
 
+    if (!isset($messages[$message_id]["hints"]))
+    {
+        die("The specified message ($message_id) does not have any hints.");
+    }
+
     $max_hint_number = count($messages[$message_id]["hints"])-1;
     if ($hint_number > $max_hint_number)
     {

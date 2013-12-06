@@ -301,7 +301,7 @@ else
     //Give the error message and any associated hints
     echo $messages[$error_found]["message_text"];
     echo "\n<p>";
-    if (count($messages[$error_found]["hints"]) > 0)
+    if (count(@$messages[$error_found]["hints"]) > 0)
     {
         if (isset($messages[$error_found]["hints"][0]["linktext"]))
             echo $messages[$error_found]["hints"][0]["linktext"];
