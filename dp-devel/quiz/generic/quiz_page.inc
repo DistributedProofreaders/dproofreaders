@@ -122,17 +122,19 @@ function qp_echo_hint_html($error, $number)
         die("supplied hint-number ($number) is greater than the maximum $max_hint_number");
     }
 
+    $hint = $messages[$error]["hints"][$number];
+
     // Display current hint
-    echo $messages[$error]["hints"][$number]["hint_text"];
+    echo $hint["hint_text"];
     echo "<p>";
 
     // If there are any further hints for this message,
     // display a link to the next hint.
     if ($number < $max_hint_number)
     {
-        if (isset($messages[$error]["hints"][$number]["linktext"]))
+        if (isset($hint["linktext"]))
         {
-            echo $messages[$error]["hints"][$number]["linktext"];
+            echo $hint["linktext"];
         }
         else
         {
