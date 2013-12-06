@@ -24,37 +24,30 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 $messages["lie"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: '<tt>li</tt>' in the text where there is '<tt>th</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["us"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a '<tt>u</tt>' in the text where there is '<tt>it</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["periodomit"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno in the text: a period (<tt>.</tt>) was omitted by the OCR software.") . "</p>",
-    "hints" => array(),
 );
 $messages["lbpunct"] = array(
     "message_text" => "<h2>" . _("Punctuation placement") . "</h2>\n" .
         "<p>" . _("There is a period (<tt>.</tt>) at the start of a line in the text.  Please move it so that it is at the end of the preceding word, without any spaces or line breaks between the word and the period.") . "</p>",
-    "hints" => array(),
 );
 $messages["indent"] = array(
     "message_text" => "<h2>" . _("Indentation") . "</h2>\n" .
         "<p>" . _("There is a space at the start of a line.  During proofreading, please leave the text left aligned without any indentation.") . "</p>",
-    "hints" => array(),
 );
 $messages["commaomit"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno in the text: a comma (<tt>,</tt>) was omitted by the OCR software.") . "</p>",
-    "hints" => array(),
 );
 $messages["accente"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno in the text: an accent over an '<tt>e</tt>' was omitted by the OCR software.") . "</p>",
-    "hints" => array(),
 );
 
 

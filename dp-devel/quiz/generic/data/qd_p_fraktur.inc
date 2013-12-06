@@ -24,72 +24,58 @@ $links_out                    = "<a href='../start.php?show_only=proof' target='
 $messages["fraktext"] = array(
     "message_text" => "<h2>" . _("Fraktur text") . "</h2>\n" .
         "<p>" . sprintf(_("If you have trouble reading the fraktur font, try using <a target='_blank' href='%s'>this fraktur tool</a>."), "http://www.kurald-galain.com/fraktur2ascii.html") . "</p>",
-    "hints" => array(),
 );
 $messages["Rarren"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: an '<tt>R</tt>' in the text where there is an '<tt>N</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["preoigen"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: an '<tt>o</tt>' in the text where there is a '<tt>d</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["Bei"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: an '<tt>i</tt>' in the text where there is a '<tt>y</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["wtrd"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a '<tt>t</tt>' in the text where there is an '<tt>i</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["colonscanno"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a semicolon (<tt>;</tt>) in the text where there is a colon (<tt>:</tt>) in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["Daun"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a '<tt>u</tt>' in the text where there is an '<tt>n</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["rv"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: '<tt>rv</tt>' in the text where there is a '<tt>w</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["Ter"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a '<tt>T</tt>' in the text where there is a '<tt>D</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["accenta"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno in the text: an accent over an '<tt>a</tt>' was omitted by the OCR software.") . "</p>",
-    "hints" => array(),
 );
 $messages["verstebt"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a '<tt>b</tt>' in the text where there is an '<tt>h</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["longs2"] = array(
     "message_text" => "<h2>" . _("Long s") . "</h2>\n" .
         "<p>" . _("There is an 'f' in the text that is actually a 'long s' in the image.  Although the letters look similar, the long s is a different letter: it has a missing or incomplete crossbar, while the f has a full crossbar.  Proofread the long s just like a normal s.") . "</p>",
-    "hints" => array(),
 );
 $messages["longs"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: an '<tt>f</tt>' in the text where there is a long s in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["y_n"] = array(
     "message_text" => "<h2>" . _("Fraktur characters") . "</h2>\n" .
         "<p>" . _("There is a '<tt>y</tt>' in the image that is marked as an '<tt>n</tt>' in the text.") . "</p>",
-    "hints" => array(),
 );
 
 

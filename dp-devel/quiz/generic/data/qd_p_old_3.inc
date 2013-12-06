@@ -33,68 +33,55 @@ $messages["longsbracket"] = array(
     "message_text" => "<h2>" . _("Long s") . "</h2>\n" .
         "<p>" . _("Unless the project comments instruct otherwise, please proofread the long s as plain s without any brackets.") . "</p>\n" .
         "<p>" . sprintf(_("See the <a href='%s#Long_s' target='_blank'>Long s</a> section of the wiki page for details."), $old_texts_url) . "</p>",
-    "hints" => array(),
 );
 $messages["blhyphen"] = array(
     "message_text" => "<h2>" . _("End-of-line Hyphenation") . "</h2>\n" .
         "<p>" . _("In blackletter fonts the hyphen often looks like an equals sign (=).  Treat this like a normal hyphen, rejoining the word as necessary.") . "</p>",
-    "hints" => array(),
 );
 $messages["projcomm"] = array(
     "message_text" => "<h2>" . _("Macron") . "</h2>\n" .
         "<p>" . _("According to the \"project comments\" for this text, you should proofread the nasal abbreviations as macrons.") . "</p>",
-    "hints" => array(),
     "guideline" => "d_chars",
 );
 $messages["flyspeck"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a '<tt>)</tt>' in the text where there is a stray mark in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["coolcnes"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a '<tt>c</tt>' in the text where there is an '<tt>e</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["Cucnye"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: an '<tt>n</tt>' in the text where there is a '<tt>u</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["admitable"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a '<tt>t</tt>' in the text where there is an '<tt>r</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["Hscanno"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: '<tt>lj</tt>' in the text where there is a capital '<tt>H</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["itinges"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: '<tt>it</tt>' in the text where there is a '<tt>w</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["parenscanno"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a curly bracket '<tt>}</tt>' in the text where there is a closing parenthesis '<tt>)</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["njght"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a '<tt>j</tt>' in the text where there is a '<tt>y</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["commascanno"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a subscripted letter in the text where there is a comma (<tt>,</tt>) in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["bltext"] = array(
     "message_text" => "<h2>" . _("Blackletter font") . "</h2>\n" .
         "<p>" . sprintf(_("There seems to be a problem in the blackletter text. If you are having trouble reading it, see <a href='%s' target='_blank'>this page</a> for help."), $blackletter_url) . "</p>",
-    "hints" => array(),
 );
 
 

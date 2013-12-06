@@ -23,41 +23,34 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 $messages["mere"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: an '<tt>e</tt>' in the text where there is an '<tt>o</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["flyspeck"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a comma (<tt>,</tt>) in the text where there is a stray mark in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["bracketremove"] = array(
     "message_text" => "<h2>" . _("Bracket removed") . "</h2>\n" .
         "<p>" . _("Leave the punctuation as the author wrote it, including any brackets around stage directions.") . "</p>",
-    "hints" => array(),
     "guideline" => "play_n",
 );
 $messages["bracketinsert"] = array(
     "message_text" => "<h2>" . _("Bracket inserted") . "</h2>\n" .
         "<p>" . _("Leave the punctuation for stage directions as the author wrote it.  There is no need to insert a closing bracket \"]\" when there is none in the original.") . "</p>",
-    "hints" => array(),
     "guideline" => "play_n",
 );
 $messages["fnsuper"] = array(
     "message_text" => "<h2>" . _("Footnote marker") . "</h2>\n" .
         "<p>" . _("There is no need for superscript markup for footnote markers.  Instead, the marker in the text should be surrounded by square brackets, like this: <tt>[2]</tt>.") . "</p>",
-    "hints" => array(),
     "guideline" => "footnotes",
 );
 $messages["nobrackets"] = array(
     "message_text" => "<h2>" . _("Footnote marker brackets") . "</h2>\n" .
         "<p>" . _("In the text, footnote markers should be in square brackets, like this: <tt>[2]</tt>.") . "</p>",
-    "hints" => array(),
     "guideline" => "footnotes",
 );
 $messages["fnmarkerspace"] = array(
     "message_text" => "<h2>" . _("Footnote marker spacing") . "</h2>\n" .
         "<p>" . _("Put the footnote marker right next to the word (or punctuation mark) being footnoted and leave a space on the other side of it, like this: <br><tt>word[2] word</tt>.") . "</p>",
-    "hints" => array(),
     "guideline" => "footnotes",
 );
 

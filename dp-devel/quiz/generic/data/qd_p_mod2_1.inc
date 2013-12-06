@@ -23,38 +23,31 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 $messages["hyphenomit"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno in the text: a hyphen (<tt>-</tt>) was omitted by the OCR software.") . "</p>",
-    "hints" => array(),
 );
 $messages["quotespace"] = array(
     "message_text" => "<h2>" . _("Punctuation spacing") . "</h2>\n" .
         "<p>" . _("A quotation mark has space on both sides.") . "</p>",
-    "hints" => array(),
     "guideline" => "punctuat",
 );
 $messages["punctscanno"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a colon (<tt>:</tt>) in the text where there is a semicolon (<tt>;</tt>) in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["flyspeck"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: an accent mark (<tt>`</tt>) in the text where there is a speck in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["listspace"] = array(
     "message_text" => "<h2>" . _("Blank lines in list") . "</h2>\n" .
         "<p>" . _("In a list of short items like on this page, you do not need to put a blank line between the items of the list.") . "</p>",
-    "hints" => array(),
 );
 $messages["listspace2"] = array(
     "message_text" => "<h2>" . _("Space around list") . "</h2>\n" .
         "<p>" . _("Leave a blank line before and after the list to separate it from the regular text.") . "</p>",
-    "hints" => array(),
 );
 $messages["longasem"] = array(
     "message_text" => "<h2>" . _("Long dash missing") . "</h2>\n" .
         "<p>" . _("Proofread long dashes using four hyphens (<tt>----</tt>).") . "</p>",
-    "hints" => array(),
     "guideline" => "em_dashes",
 );
 

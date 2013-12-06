@@ -23,18 +23,15 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 $messages["skirt"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a 'scanno': a lower case '<tt>s</tt>' in the text where there is a capital '<tt>S</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["para"] = array(
     "message_text" => "<h2>" . _("Paragraph spacing") . "</h2>\n" .
         "<p>" . _("There is a blank line missing between two paragraphs in the text.") . "</p>",
-    "hints" => array(),
     "guideline" => "para_space",
 );
 $messages["today"] = array(
     "message_text" => "<h2>" . _("Primary Rule") . "</h2>\n" .
         "<p>" . _("The primary rule of proofreading is <i>\"Don't change what the author wrote!\"</i> Please leave the text as the author wrote it, including older spellings like <i>to-day</i>.") . "</p>",
-    "hints" => array(),
 );
 
 

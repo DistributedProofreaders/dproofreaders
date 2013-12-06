@@ -23,27 +23,22 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 $messages["tbings"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a 'scanno': a '<tt>b</tt>' in the text where there is an '<tt>h</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["arid"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a 'scanno': '<tt>ri</tt>' in the text where there is an '<tt>n</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["hut"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a 'scanno': an '<tt>h</tt>' in the text where there is a '<tt>b</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["eolhyphen2"] = array(
     "message_text" => "<h2>" . _("Hyphenation") . "</h2>\n" .
         "<p>" . _("Since the word \"mail-coaches\" also appears in the middle of a line on this page, we know that the author wrote the word with a hyphen.  There is no need to remove the hyphen or add an asterisk when rejoining the word.") . "</p>",
-    "hints" => array(),
 );
 $messages["initials"] = array(
     "message_text" => "<h2>" . _("Spacing of initials") . "</h2>\n" .
         "<p>" . _("Leave a space between initials if there is a space in the image.") . "</p>",
-    "hints" => array(),
 );
 
 

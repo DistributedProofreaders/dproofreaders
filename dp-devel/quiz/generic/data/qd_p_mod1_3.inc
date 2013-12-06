@@ -23,39 +23,32 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 $messages["periodmissing"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a 'scanno' in the text: a period (<tt>.</tt>) was omitted by the OCR software.") . "</p>",
-    "hints" => array(),
 );
 $messages["fracscanno"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a 'scanno': a percent sign (<tt>%</tt>) in the text where there is a fraction in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["ae"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a 'scanno': '<tt>ae</tt>' in the text where there is an '<tt>&aelig;</tt>' ('ae' ligature) in the image.  You can insert the &aelig; character using the \"A\" menu below.") . "</p>",
-    "hints" => array(),
 );
 $messages["fracsymbol"] = array(
     "message_text" => "<h2>" . _("Fraction") . "</h2>\n" .
         "<p>" . _("Write out fractions when proofreading.  For instance, <tt>2&frac12;</tt> becomes <tt>2-1/2</tt>.") . "</p>",
-    "hints" => array(),
     "guideline" => "fract_s",
 );
 $messages["frachyphen"] = array(
     "message_text" => "<h2>" . _("Fraction") . "</h2>\n" .
         "<p>" . _("When proofreading a fraction, use a hyphen to connect it to the whole number.  For instance, <tt>2&frac12;</tt> becomes <tt>2-1/2</tt>.") . "</p>",
-    "hints" => array(),
     "guideline" => "fract_s",
 );
 $messages["eolhyphen2"] = array(
     "message_text" => "<h2>" . _("Hyphenation") . "</h2>\n" .
         "<p>" . _("Since the word \"blacksmith\" also appears in the middle of a line on this page, we know that the author wrote the word without a hyphen.  There is no need to keep the hyphen or add an asterisk when rejoining the word.") . "</p>",
-    "hints" => array(),
 );
 $messages["italmarkup"] = array(
     "message_text" => "<h2>" . _("Italics markup moved") . "</h2>\n" .
         "<p>" . _("Italicized text may occasionally appear with <tt>&lt;i&gt;</tt> inserted at the start and <tt>&lt;/i&gt;</tt> inserted at the end of the italics. Do not change this formatting markup, even if it is incorrect, unless it is so distracting that you find it hard to proofread.  In that case, remove it completely.  The formatters will fix or add markup later in the process.") . "</p>",
-    "hints" => array(),
     "guideline" => "formatting",
 ); 
 

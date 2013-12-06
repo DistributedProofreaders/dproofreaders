@@ -23,22 +23,18 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 $messages["wore"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a 'scanno': an '<tt>o</tt>' in the text where there is an '<tt>e</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["asterspace"] = array(
     "message_text" => "<h2>" . _("Punctuation spacing") . "</h2>\n" .
         "<p>" . _("Leave spaces between asterisks if they appear that way in the original book.") . "</p>",
-    "hints" => array(),
 );
 $messages["asterchanged"] = array(
     "message_text" => "<h2>" . _("Asterisks") . "</h2>\n" .
         "<p>" . _("If the original book uses an asterisk, keep this as the author wrote it.") . "</p>",
-    "hints" => array(),
 );
 $messages["para"] = array(
     "message_text" => "<h2>" . _("Paragraph spacing") . "</h2>\n" .
         "<p>" . _("Leave a single blank line between paragraphs, even if there is an extra gap in the image.") . "</p>",
-    "hints" => array(),
 );
 
 

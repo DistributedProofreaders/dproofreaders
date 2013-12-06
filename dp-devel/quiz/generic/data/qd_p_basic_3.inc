@@ -22,18 +22,15 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 $messages["cat"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a 'scanno': a '<tt>c</tt>' in the text where there is an '<tt>e</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["chapchange"] = array(
     "message_text" => "<h2>" . _("Chapter heading changed") . "</h2>\n" .
         "<p>" . _("Leave the text of the chapter heading as it appears in the image. Do not change ALL CAPS to Title Case or otherwise alter the text.") . "</p>",
-    "hints" => array(),
     "guideline" => "chap_head",
 );
 $messages["ellspaced"] = array(
     "message_text" => "<h2>" . _("Ellipsis Spacing") . "</h2>\n" .
         "<p>" . _("Please do not leave spaces between the dots of an ellipsis.  The dots should be right next to each other, like ... or....") . "</p>",
-    "hints" => array(),
     "guideline" => "period_p",
 );
 

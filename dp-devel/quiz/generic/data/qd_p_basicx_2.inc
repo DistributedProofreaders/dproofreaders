@@ -52,19 +52,16 @@ $messages["arid"] = array(
 $messages["missingquote"] = array(
     "message_text" => "<h2>" . _("Double quote missing") . "</h2>\n" .
         "<p>" . _("Since from the context one can see there should be a double quote at the start of the chapter, and this is only missing for typesetting reasons, we insert one there.") . "</p>",
-    "hints" => array(),
     "guideline" => "chap_head"
 );
 $messages["spacedchap"] = array(
     "message_text" => "<h2>" . _("Chapter heading spaced") . "</h2>\n" .
         "<p>" . _("Leave the formatting of the chapter heading to the formatting rounds, and leave a single blank line before and after each part of the heading.") . "</p>",
-    "hints" => array(),
     "guideline" => "chap_head"
 );
 $messages["numberinheader"] = array(
     "message_text" => "<h2>" . _("Number of blank lines within chapter heading section incorrect") . "</h2>\n" .
         "<p>" . _("There should be 1 blank line between different parts of the chapter heading.") . "</p>",
-    "hints" => array()
 );
 
 

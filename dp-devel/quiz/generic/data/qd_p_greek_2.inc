@@ -23,17 +23,14 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 $messages["p_ir"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: '<tt>ir</tt>' in the text where there is the Greek letter &pi; (pi, transliterated '<tt>p</tt>') in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["m_u"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a '<tt>u</tt>' in the text where there is the Greek letter &mu; (mu, transliterated '<tt>m</tt>') in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["missingperiod"] = array(
     "message_text" => "<h2>" . _("Missing punctuation") . "</h2>\n" .
         "<p>" . _("A period (<tt>.</tt>) in the image is missing in your transliteration.") . "</p>",
-    "hints" => array(),
 );
 
 

@@ -22,62 +22,51 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>"
 $messages["sqbr"] = array(
     "message_text" => "<h2>" . _("Incorrect brackets.") . "</h2>" .
         _("Please use square brackets [] for illustration and footnote markup."),
-    "hints" => array()
 );
 $messages["pageheader"] = array(
     "message_text" => "<h2>" . _("Page header left in") . "</h2>" .
         _("Remove the page header and the page number."),
-    "hints" => array()
 );
 $messages["illusmissing"] = array(
     "message_text" => "<h2>" . _("Illustration markup missing.") . "</h2>" .
         _("It seems you haven't marked the illustration correctly. Put the illustration caption within <tt>[Illustration: ]</tt>"),
-    "hints" => array(),
     "guideline" => "illust"
 );
 $messages["illuswrong"] = array(
     "message_text" => "<h2>" . _("Illustration incorrectly marked.") . "</h2>" .
         _("Check the case of the caption, and make sure there is a blank line before and after the illustration marker."),
-    "hints" => array(),
     "guideline" => "illust"
 );
 $messages["nofn"] = array(
     "message_text" => "<h2>" . _("Footnote markup missing.") . "</h2>" .
         _("It seems you haven't marked the footnote at the bottom correctly. Put the footnote text within <tt>[Footnote _: ]</tt> placing the correct marker where the underscore is."),
-    "hints" => array(),
     "guideline" => "footnotes"
 );
 $messages["wrongfn"] = array(
     "message_text" => "<h2>" . _("Footnote markup wrong.") . "</h2>" .
         _("It seems you haven't marked the footnote at the bottom correctly. Put the footnote text within <tt>[Footnote _: ]</tt> placing the correct marker where the underscore is. Remember to leave a blank line before the footnote."),
-    "hints" => array(),
     "guideline" => "footnotes"
 );
 $messages["wrongblank"] = array(
     "message_text" => "<h2>" . _("Extra blank line.") . "</h2>" .
         _("The page starts in the middle of a paragraph, so there should not be a blank line at the top."),
-    "hints" => array()
 );
 $messages["missingline"] = array(
     "message_text" => "<h2>" . _("Missing blank line") . "</h2>" .
         _("All paragraphs are delimited by blank lines."),
-    "hints" => array()
 );
 $messages["missinglinecheckindents"] = array(
     "message_text" => "<h2>" . _("Missing blank line") . "</h2>" .
         _("All paragraphs should be separated by blank lines. <b>Hint: Look closely at the indent of each line to see whether it is a new paragraph or not.</b>"),
-    "hints" => array()
 );
 $messages["captionmoved"] = array(
     "message_text" => "<h2>" . _("Illustration caption moved") . "</h2>" .
         _("Since the illustration caption started off between paragraphs, there is no need to move it."),
-    "hints" => array(),
     "guideline" => "illust"
 );
 $messages["tbmarkup"] = array(
     "message_text" => "<h2>" . _("Thought break markup present") . "</h2>" .
         _("Ignore the dividing line between the regular text and the footnote; just use a single blank line between them, without any thought break markup."),
-    "hints" => array(),
     "guideline" => "footnotes"
 );
 

@@ -28,49 +28,40 @@ $links_out                    = "<a href='../start.php?show_only=proof' target='
 $messages["greno"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: an '<tt>o</tt>' in the text where there is an '<tt>e</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["bey"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a '<tt>b</tt>' in the text where there is a '<tt>&thorn;</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["liaue"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: '<tt>li</tt>' in the text where there is an '<tt>h</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["thornscanno"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: '<tt>]></tt>' in the text where there is a '<tt>&THORN;</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["lustas"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: an '<tt>a</tt>' in the text where there is an '<tt>e</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["ai"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: an '<tt>i</tt>' in the text where there is an '<tt>r</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["macronmissing"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno in the text: a macron (horizontal line) over an '<tt>n</tt>' was omitted by the OCR software.") . "</p>",
-    "hints" => array(),
 );
 if($utf8_site) {
     $messages["macron"] = array(
         "message_text" => "<h2>" . _("Macron") . "</h2>\n" .
             "<p>" . _("Following the proofreading guidelines, please use the appropriate Unicode character for a letter with a macron (straight line) over it.  For instance, proofread an '<tt>a</tt>' with a macron over it as <tt>&#257;</tt>.  If the specific character does not exist in Unicode, then enter the base letter followed by the Unicode \"combining macron\" character in order to put the macron on the letter.") . "</p>",
-        "hints" => array(),
         "guideline" => "d_chars",
     );
     $messages["macron2"] = array(
         "message_text" => "<h2>" . _("Macron") . "</h2>\n" .
             "<p>" . _("Since the letter 'n' with a macron (straight line) over it does not exist in Unicode, you should proofread it by first entering the <tt>n</tt> and then the combining macron character.") . "</p>",
-        "hints" => array(),
         "guideline" => "d_chars",
     );
 }
@@ -78,24 +69,20 @@ $messages["thorn"] = array(
     "message_text" => "<h2>" . _("Thorn incorrectly proofread") . "</h2>\n" .
         "<p>" . _("The capital and lower case thorns (&THORN; and &thorn;) often appear in Old and Middle English texts.  These characters are available in the \"+\" drop-down menu at the bottom of the screen.") . "</p>\n" .
         "<p>" . sprintf(_("See the <a href='%s' target='_blank'>Thorn</a> wiki page for details."), $thorn_url) . "</p>",
-    "hints" => array(),
 );
 $messages["thorncase"] = array(
     "message_text" => "<h2>" . _("Capital/Lower Case Thorn") . "</h2>\n" .
         "<p>" . _("In the books that we proofread generally the capital thorn (<tt>&THORN;</tt>) has a much larger loop.  The lower case thorn (<tt>&thorn;</tt>) has a smaller loop and often sticks down farther below the line.") . "</p>\n" .
         "<p>" . sprintf(_("See the <a href='%s' target='_blank'>Thorn</a> wiki page for details."), $thorn_url) . "</p>",
-    "hints" => array(),
 );
 $messages["P_poetryblanklines"] = array(
     "message_text" => "<h2>" . _("Space around poetry") . "</h2>\n" .
         "<p>" . _("Leave a blank line before and after a block of poetry to separate it from the regular text.") . "</p>",
-    "hints" => array(),
     "guideline" => "poetry",
 );
 $messages["blankline2"] = array(
     "message_text" => "<h2>" . _("Blank Lines") . "</h2>\n" .
         "<p>" . _("The OCR software incorrectly inserted a blank line within the poem.  Please remove it.") . "</p>",
-    "hints" => array(),
 );
 
 

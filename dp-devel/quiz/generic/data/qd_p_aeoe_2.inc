@@ -28,50 +28,41 @@ $links_out                    = "<a href='../start.php?show_only=proof' target='
 $messages["aescanno"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: '<tt>ce</tt>' in the text where there is an '<tt>ae</tt>' ligature in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["those"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: an '<tt>o</tt>' in the text where there is an '<tt>e</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["ignivcntris"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a '<tt>c</tt>' in the text where there is an '<tt>e</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["Phcenisoma"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: '<tt>ce</tt>' in the text where there is an '<tt>oe</tt>' ligature in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["commascanno"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a period (<tt>.</tt>) in the text where there is a comma (<tt>,</tt>) in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["Pieroglossus"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: an '<tt>i</tt>' in the text where there is a '<tt>t</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["oe_ae"] = array(
     "message_text" => "<h2>" . _("Ligature incorrectly identified") . "</h2>\n" .
         "<p>" . _("There is an &oelig; ('<tt>oe</tt>' ligature) in the image that is marked as an &aelig; ('<tt>ae</tt>' ligature) in the text.  In italics they may look very similar, but the &aelig; often has a little bump sticking up in the middle showing the vertical line of the a.") . "</p>\n" .
         "<p>" . sprintf(_("See the <a href='%s' target='_blank'>ae and oe ligatures</a> wiki page for details."), $ae_oe_ligatures_url) . "</p>",
-    "hints" => array(),
 );
 $messages["ae_oe"] = array(
     "message_text" => "<h2>" . _("Ligature incorrectly identified") . "</h2>\n" .
         "<p>" . _("There is an &aelig; ('<tt>ae</tt>' ligature) in the image that is marked as an &oelig; ('<tt>oe</tt>' ligature) in the text.  In italics they may look very similar, but the &aelig; often has a little bump sticking up in the middle showing the vertical line of the a.") . "</p>\n" .
         "<p>" . sprintf(_("See the <a href='%s' target='_blank'>ae and oe ligatures</a> wiki page for details."), $ae_oe_ligatures_url) . "</p>",
-    "hints" => array(),
 );
 $messages["ae_oe2"] = array(
     "message_text" => "<h2>" . _("Ligature incorrectly identified") . "</h2>\n" .
         "<p>" . _("There is an &aelig; ('<tt>ae</tt>' ligature) in the image that is marked as an &oelig; ('<tt>oe</tt>' ligature) in the text.  In italics they may look very similar, but the &aelig; often has a little bump sticking up in the middle showing the vertical line of the a.  Additionally, in Latin words the '<tt>oe</tt>' ligature never appears at the end of the word.") . "</p>\n" .
         "<p>" . sprintf(_("See the <a href='%s' target='_blank'>ae and oe ligatures</a> wiki page for details."), $ae_oe_ligatures_url) . "</p>",
-    "hints" => array(),
 );
 
 

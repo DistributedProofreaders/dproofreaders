@@ -23,12 +23,10 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 $messages["periodomit"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno in the text: a period (<tt>.</tt>) was omitted by the OCR software.") . "</p>",
-    "hints" => array(),
 );
 $messages["extraquote"] = array(
     "message_text" => "<h2>" . _("Quote marks on each line") . "</h2>\n" .
         "<p>" . _("Proofread these by removing all of the quote marks except for the one at the start of the quotation.") . "</p>",
-    "hints" => array(),
     "guideline" => "quote_ea",
 );
 

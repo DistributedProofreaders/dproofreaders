@@ -23,37 +23,30 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 $messages["flyspeck"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a period (<tt>.</tt>) in the text where there is a stray mark in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["refled"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: a '<tt>d</tt>' in the text where there is '<tt>ct</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["flyspeck2"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: an apostrophe (<tt>'</tt>) in the text where there is a stray mark in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["ctamp"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: an ampersand (<tt>&amp;</tt>) in the text where there is '<tt>ct</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["matters"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: '<tt>tt</tt>' in the text where there is '<tt>st</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["aslonish"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: an '<tt>l</tt>' in the text where there is a '<tt>t</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 $messages["cloubt"] = array(
     "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
         "<p>" . _("There is still a scanno: '<tt>cl</tt>' in the text where there is a '<tt>d</tt>' in the image.") . "</p>",
-    "hints" => array(),
 );
 
 
