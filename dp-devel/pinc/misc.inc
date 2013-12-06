@@ -203,6 +203,69 @@ function get_integer_param( $arr, $key, $default, $min, $max, $allownull = false
     }
 }
 
+function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false)
+// If $arr[$key] is defined and matches $regex, return it.
+// If it's not defined, and $default is non-null, return $default.
+// If it's not defined, and $default is null and $allownull is true, return null.
+// Otherwise, die with an error.
+//
+// NOTE:
+// For security, $regex should almost certainly be anchored at both ends,
+// and should not contain:
+//  -- any complemented character classes (e.g. "[^A-Z]"), or
+//  -- (unescaped) '.' (e.g., in "/foo.+bar/").
+//
+// Example usage:
+//     $word = get_param_matching_regex($_GET, 'word', NULL, '/^\w+$/')
+// Parameter 'word' is required, and its supplied value must consist entirely
+// of alphanumeric characters (including underscore).
+{
+    // sanity checks on args
+    {
+        assert( is_array($arr) );
+        assert(!is_array($key) );
+
+        assert(is_null($default) || is_string($default));
+        assert(is_string($regex));
+        
+        if (!is_null($default))
+        {
+            assert(!$allownull);
+        }
+    }
+
+    if (isset($arr[$key]))
+    {
+        $s = $arr[$key];
+        assert(is_string($s));
+
+        // Trim whitespace from both ends of the string.
+        $s = trim($s);
+
+        if ( preg_match($regex, $s) )
+        {
+            return $s;
+        }
+        else
+        {
+            die(htmlspecialchars("parameter '$key' ('$s') does not match the regex $regex"));
+        }
+    }
+    else
+    {
+        // not set, use default
+        if ( is_null($default) && !$allownull )
+        {
+            // There is no default. The parameter is required.
+            die(htmlspecialchars("parameter '$key' is required"));
+        }
+        else
+        {
+            return $default;
+        }
+    }
+}
+
 // -----------------------------------------------------------------------------
 
 function attr_safe($string)
