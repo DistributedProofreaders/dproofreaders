@@ -226,7 +226,7 @@ function qp_text_contains_anticipated_error($text, $value)
             break;
 
         case "expectedlinebreaks":
-            // It's an error if the portion of the text between $starttext abd $stoptext
+            // It's an error if the portion of the text between $starttext and $stoptext
             // does not contain exactly $number newlines.
             // (A correct text will contain exactly $number newlines in that range.)
             $len = strlen($value["starttext"]);
