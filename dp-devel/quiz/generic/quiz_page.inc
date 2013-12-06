@@ -104,4 +104,45 @@ function qp_echo_introduction_html()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+// called from hints.php:
+
+function qp_echo_hint_html($error, $number)
+{
+    global $quiz_page_id;
+    global $messages;
+
+    if (!isset($messages[$error]))
+    {
+        die("supplied message-id ($error) is not valid");
+    }
+
+    $max_hint_number = count($messages[$error]["hints"])-1;
+    if ($number > $max_hint_number)
+    {
+        die("supplied hint-number ($number) is greater than the maximum $max_hint_number");
+    }
+
+    // Display current hint
+    echo $messages[$error]["hints"][$number]["hint_text"];
+    echo "<p>";
+
+    // If there are any further hints for this message,
+    // display a link to the next hint.
+    if (count($messages[$error]["hints"]) > (1 + $number))
+    {
+        if (isset($messages[$error]["hints"][$number]["linktext"]))
+        {
+            echo $messages[$error]["hints"][$number]["linktext"];
+        }
+        else
+        {
+            echo _("Desperate? Can't find it?");
+        }
+        $link_contents = "./hints.php?type=$quiz_page_id&error=$error&number=" . ($number + 1);
+        echo " " . sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents) . "</p>";
+    }
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 // vim: sw=4 ts=4 expandtab
