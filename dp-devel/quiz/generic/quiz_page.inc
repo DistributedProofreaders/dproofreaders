@@ -126,12 +126,13 @@ function qp_echo_hint_html($error, $number)
 
     // Display current hint
     echo $hint["hint_text"];
-    echo "<p>";
 
     // If there are any further hints for this message,
     // display a link to the next hint.
     if ($number < $max_hint_number)
     {
+        echo "<p>";
+
         if (isset($hint["linktext"]))
         {
             echo $hint["linktext"];
