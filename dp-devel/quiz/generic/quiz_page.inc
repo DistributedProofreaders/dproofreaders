@@ -160,4 +160,142 @@ function qp_echo_hint_html($message_id, $hint_number)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+// called by returnfeed.php:
+
+function qp_text_contains_anticipated_error($text, $value)
+{
+        if ($value["type"]=="forbiddentext") 
+        {
+            /* Return an error if *any* of the searchtext items are found */
+            $found = FALSE;
+            if(!is_array($value["searchtext"]))
+            {
+                $value["searchtext"] = array($value["searchtext"]);
+            }
+            foreach ($value["searchtext"] as $expected)
+            {
+                if (in_string($expected,$text,$value["case_sensitive"]))
+                {
+                    $found = TRUE;
+                    break;
+                }
+            }
+            if ($found == TRUE)
+            {
+                return $value["error"];
+            }
+        }
+        if ($value["type"]=="markupmissing") 
+        {
+            if (!in_string($value["opentext"],$text,$value["case_sensitive"]) && !in_string($value["closetext"],$text,$value["case_sensitive"]))
+            {
+                return $value["error"];
+            }
+        }
+        if ($value["type"]=="markupcorrupt") 
+        {
+            if ((in_string($value["opentext"],$text,$value["case_sensitive"]) && !in_string($value["closetext"],$text,$value["case_sensitive"]))
+                    || (!in_string($value["opentext"],$text,$value["case_sensitive"]) && in_string($value["closetext"],$text,$value["case_sensitive"]))
+                    || ((!$value["case_sensitive"]) && (stripos($text, $value["closetext"]) < stripos($text, $value["opentext"])))
+                    || (($value["case_sensitive"]) && (strpos($text, $value["closetext"]) < strpos($text, $value["opentext"])))    )
+            {
+                return $value["error"];
+            }
+        }
+        if ($value["type"]=="expectedtext") 
+        {
+            $found = FALSE;
+            foreach ($value["searchtext"] as $expected)
+            {
+                if (in_string($expected,$text,$value["case_sensitive"]))
+                    $found = TRUE;
+            }
+            if (!$found)
+            {
+                return $value["error"];
+            }
+        }
+        if ($value["type"]=="expectedlinebreaks") 
+        {
+            $len = strlen($value["starttext"]);
+            if ($value["case_sensitive"])
+            {
+                $part = strstr($text,$value["starttext"]);
+                $part= substr($part, $len, strpos($part,$value["stoptext"]) - $len);
+            }
+            else
+            {
+                $part = stristr($text,$value["starttext"]);
+                $part= substr($part, $len, stripos($part,$value["stoptext"]) - $len);
+            }
+            $num = number_of_occurrences($part, "\n", TRUE);
+            if ($num < $value["number"])
+            {
+                return $value["errorlow"];
+            }
+            if ($num > $value["number"])
+            {
+                return $value["errorhigh"];
+            }
+        }
+        if ($value["type"]=="multioccurrence") 
+        {
+            if (number_of_occurrences($text, $value["searchtext"], $value["case_sensitive"]) > 1)
+            {
+                return $value["error"];
+            }
+        }
+        if ($value["type"]=="wrongtextorder") 
+        {
+            $p1 = strposgen($text,$value["firsttext"],$value["case_sensitive"]);
+            $p2 = strposgen($text,$value["secondtext"],$value["case_sensitive"]);
+            if ($p1 && $p2 && ($p1 > $p2))
+            {
+                return $value["error"];
+            }
+        }
+        if ($value["type"]=="longline") 
+        {
+            $arr = explode("\n", $text);
+            foreach($arr as $line)
+            {
+                if (strlen($line) > $value["lengthlimit"])
+                {
+                    return $value["error"];
+                }
+            }
+        }
+
+    return "";
+}
+
+function in_string($needle, $haystack, $sensitive = 0) 
+{
+    if ($sensitive) 
+        return (false !== strpos($haystack, $needle))    ? true : false;
+    else
+        return (false !== stristr($haystack, $needle)) ? true : false;
+}
+
+function strposgen($haystack,$needle,$cs)
+{
+    if ($cs)
+        return strpos($haystack,$needle);
+    else
+        return stripos($haystack,$needle);
+}
+
+function number_of_occurrences($haystack, $needle, $cs)
+{
+    if (!$cs)
+    {
+        $needle = strtolower($needle);
+        $haystack = strtolower($haystack);
+    }
+
+    return substr_count($haystack, $needle);
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 // vim: sw=4 ts=4 expandtab
