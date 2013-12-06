@@ -167,7 +167,8 @@ function qp_text_contains_anticipated_error($text, $value)
     switch ($value['type'])
     {
         case "forbiddentext":
-            /* Return an error if *any* of the searchtext items are found */
+            // It's an error if the text contains any of the strings in $searchtext.
+            // (A correct text will not contain any of the strings in $searchtext.)
             $found = FALSE;
             if(!is_array($value["searchtext"]))
             {
@@ -188,6 +189,8 @@ function qp_text_contains_anticipated_error($text, $value)
             break;
 
         case "markupmissing":
+            // It's an error if the text does not contain both $opentext and $closetext.
+            // (A correct text will contain $opentext or $closetext [or both, really].)
             if (!in_string($value["opentext"],$text,$value["case_sensitive"]) && !in_string($value["closetext"],$text,$value["case_sensitive"]))
             {
                 return $value["error"];
@@ -195,6 +198,9 @@ function qp_text_contains_anticipated_error($text, $value)
             break;
 
         case "markupcorrupt":
+            // It's an error if the text contains one but not both of $opentext and $closetext,
+            // or if the first occurrence of $closetext is before the first occurrence of $opentext.
+            // (A correct text will contain both $opentext and $closetext, in that order.)
             if ((in_string($value["opentext"],$text,$value["case_sensitive"]) && !in_string($value["closetext"],$text,$value["case_sensitive"]))
                     || (!in_string($value["opentext"],$text,$value["case_sensitive"]) && in_string($value["closetext"],$text,$value["case_sensitive"]))
                     || ((!$value["case_sensitive"]) && (stripos($text, $value["closetext"]) < stripos($text, $value["opentext"])))
@@ -205,6 +211,8 @@ function qp_text_contains_anticipated_error($text, $value)
             break;
 
         case "expectedtext":
+            // It's an error if the text contains none of the strings in $searchtext.
+            // (A correct text will contain at least one of the strings in $searchtext.)
             $found = FALSE;
             foreach ($value["searchtext"] as $expected)
             {
@@ -218,6 +226,9 @@ function qp_text_contains_anticipated_error($text, $value)
             break;
 
         case "expectedlinebreaks":
+            // It's an error if the portion of the text between $starttext abd $stoptext
+            // does not contain exactly $number newlines.
+            // (A correct text will contain exactly $number newlines in that range.)
             $len = strlen($value["starttext"]);
             if ($value["case_sensitive"])
             {
@@ -241,6 +252,8 @@ function qp_text_contains_anticipated_error($text, $value)
             break;
 
         case "multioccurrence":
+            // It's an error if the text contains more than one occurrence of $searchtext.
+            // (A correct text will contain zero or one occurrence of $searchtext.)
             if (number_of_occurrences($text, $value["searchtext"], $value["case_sensitive"]) > 1)
             {
                 return $value["error"];
@@ -248,6 +261,9 @@ function qp_text_contains_anticipated_error($text, $value)
             break;
 
         case "wrongtextorder":
+            // It's an error if the text contains both $firsttext and $secondtext,
+            // and the first occurrence of $secondtext is before the first occurrence of $firsttext.
+            // (A correct text will, if it contains both $firsttext and $secondtext, contain them in that order.)
             $p1 = strposgen($text,$value["firsttext"],$value["case_sensitive"]);
             $p2 = strposgen($text,$value["secondtext"],$value["case_sensitive"]);
             if ($p1 && $p2 && ($p1 > $p2))
@@ -257,6 +273,8 @@ function qp_text_contains_anticipated_error($text, $value)
             break;
 
         case "longline":
+            // It's an error if the text contains a line longer than $lengthlimit.
+            // (A correct text's lines will all be of length $lengthlimit or less.)
             $arr = explode("\n", $text);
             foreach($arr as $line)
             {
@@ -266,6 +284,9 @@ function qp_text_contains_anticipated_error($text, $value)
                 }
             }
             break;
+
+        default:
+            die("test-type '{$value['type']}' not recognized");
 
     }
 
