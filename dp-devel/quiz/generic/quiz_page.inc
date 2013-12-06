@@ -296,9 +296,9 @@ function qp_text_contains_anticipated_error($text, $value)
 function in_string($needle, $haystack, $sensitive = 0) 
 {
     if ($sensitive) 
-        return (false !== strpos($haystack, $needle))    ? true : false;
+        return (false !== strpos($haystack, $needle));
     else
-        return (false !== stristr($haystack, $needle)) ? true : false;
+        return (false !== stristr($haystack, $needle));
 }
 
 function str_posn($haystack,$needle,$cs)
