@@ -9,8 +9,8 @@ $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'type');
 
 include "./data/qd_${quiz_page_id}.inc"; // $messages
 
-$error = get_enumerated_param($_REQUEST, 'error', NULL, array_keys($messages));
-$number = get_integer_param($_REQUEST, 'number', NULL, 0, count($messages[$error]["hints"])-1);
+$error = get_param_matching_regex($_REQUEST, 'error', NULL, '/^\w+$/');
+$number = get_integer_param($_REQUEST, 'number', NULL, 0, NULL);
 
 $quiz = get_Quiz_containing_page($quiz_page_id);
 
@@ -18,6 +18,17 @@ output_small_header($quiz);
 
 // A margin
 echo "<div style='margin: .5em;'>";
+
+if (!isset($messages[$error]))
+{
+    die("supplied message-id ($error) is not valid");
+}
+
+$max_hint_number = count($messages[$error]["hints"])-1;
+if ($number > $max_hint_number)
+{
+    die("supplied hint-number ($number) is greater than the maximum $max_hint_number");
+}
 
 // Display current hint
 echo $messages[$error]["hints"][$number]["hint_text"];
