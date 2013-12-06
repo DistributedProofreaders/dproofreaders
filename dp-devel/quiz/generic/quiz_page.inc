@@ -302,6 +302,13 @@ function in_string($needle, $haystack, $sensitive = 0)
 }
 
 function str_posn($haystack,$needle,$cs)
+// Find the numeric (0-based) position of
+// the first occurrence of $needle in $haystack.
+// The search is case-sensitive or not, depending on
+// whether the value of $cs is true-ish or not (respectively).
+//
+// Returns FALSE if $needle is not found.
+// (Be careful to distinguish FALSE from 0.)
 {
     if ($cs)
         return strpos($haystack,$needle);
