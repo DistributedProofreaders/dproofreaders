@@ -128,7 +128,7 @@ function qp_echo_hint_html($error, $number)
 
     // If there are any further hints for this message,
     // display a link to the next hint.
-    if (count($messages[$error]["hints"]) > (1 + $number))
+    if ($number < $max_hint_number)
     {
         if (isset($messages[$error]["hints"][$number]["linktext"]))
         {
