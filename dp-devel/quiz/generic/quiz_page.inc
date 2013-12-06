@@ -141,8 +141,14 @@ function qp_echo_hint_html($error, $number)
         {
             echo _("Desperate? Can't find it?");
         }
-        $link_contents = "./hints.php?type=$quiz_page_id&error=$error&number=" . ($number + 1);
-        echo " " . sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents) . "</p>";
+        echo " ";
+
+        echo sprintf(
+            _("Get more hints <a href='%s'>here</a>."),
+            "./hints.php?type=$quiz_page_id&error=$error&number=" . ($number + 1)
+        );
+
+        echo "</p>";
     }
 }
 
