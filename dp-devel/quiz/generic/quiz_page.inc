@@ -164,8 +164,9 @@ function qp_echo_hint_html($message_id, $hint_number)
 
 function qp_text_contains_anticipated_error($text, $value)
 {
-        if ($value["type"]=="forbiddentext") 
-        {
+    switch ($value['type'])
+    {
+        case "forbiddentext":
             /* Return an error if *any* of the searchtext items are found */
             $found = FALSE;
             if(!is_array($value["searchtext"]))
@@ -184,16 +185,16 @@ function qp_text_contains_anticipated_error($text, $value)
             {
                 return $value["error"];
             }
-        }
-        if ($value["type"]=="markupmissing") 
-        {
+            break;
+
+        case "markupmissing":
             if (!in_string($value["opentext"],$text,$value["case_sensitive"]) && !in_string($value["closetext"],$text,$value["case_sensitive"]))
             {
                 return $value["error"];
             }
-        }
-        if ($value["type"]=="markupcorrupt") 
-        {
+            break;
+
+        case "markupcorrupt":
             if ((in_string($value["opentext"],$text,$value["case_sensitive"]) && !in_string($value["closetext"],$text,$value["case_sensitive"]))
                     || (!in_string($value["opentext"],$text,$value["case_sensitive"]) && in_string($value["closetext"],$text,$value["case_sensitive"]))
                     || ((!$value["case_sensitive"]) && (stripos($text, $value["closetext"]) < stripos($text, $value["opentext"])))
@@ -201,9 +202,9 @@ function qp_text_contains_anticipated_error($text, $value)
             {
                 return $value["error"];
             }
-        }
-        if ($value["type"]=="expectedtext") 
-        {
+            break;
+
+        case "expectedtext":
             $found = FALSE;
             foreach ($value["searchtext"] as $expected)
             {
@@ -214,9 +215,9 @@ function qp_text_contains_anticipated_error($text, $value)
             {
                 return $value["error"];
             }
-        }
-        if ($value["type"]=="expectedlinebreaks") 
-        {
+            break;
+
+        case "expectedlinebreaks":
             $len = strlen($value["starttext"]);
             if ($value["case_sensitive"])
             {
@@ -237,25 +238,25 @@ function qp_text_contains_anticipated_error($text, $value)
             {
                 return $value["errorhigh"];
             }
-        }
-        if ($value["type"]=="multioccurrence") 
-        {
+            break;
+
+        case "multioccurrence":
             if (number_of_occurrences($text, $value["searchtext"], $value["case_sensitive"]) > 1)
             {
                 return $value["error"];
             }
-        }
-        if ($value["type"]=="wrongtextorder") 
-        {
+            break;
+
+        case "wrongtextorder":
             $p1 = strposgen($text,$value["firsttext"],$value["case_sensitive"]);
             $p2 = strposgen($text,$value["secondtext"],$value["case_sensitive"]);
             if ($p1 && $p2 && ($p1 > $p2))
             {
                 return $value["error"];
             }
-        }
-        if ($value["type"]=="longline") 
-        {
+            break;
+
+        case "longline":
             $arr = explode("\n", $text);
             foreach($arr as $line)
             {
@@ -264,7 +265,9 @@ function qp_text_contains_anticipated_error($text, $value)
                     return $value["error"];
                 }
             }
-        }
+            break;
+
+    }
 
     return "";
 }
