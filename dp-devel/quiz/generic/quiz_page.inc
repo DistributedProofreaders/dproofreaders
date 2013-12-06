@@ -106,30 +106,30 @@ function qp_echo_introduction_html()
 
 // called from hints.php:
 
-function qp_echo_hint_html($error, $number)
+function qp_echo_hint_html($message_id, $hint_number)
 {
     global $quiz_page_id;
     global $messages;
 
-    if (!isset($messages[$error]))
+    if (!isset($messages[$message_id]))
     {
-        die("supplied message-id ($error) is not valid");
+        die("supplied message-id ($message_id) is not valid");
     }
 
-    $max_hint_number = count($messages[$error]["hints"])-1;
-    if ($number > $max_hint_number)
+    $max_hint_number = count($messages[$message_id]["hints"])-1;
+    if ($hint_number > $max_hint_number)
     {
-        die("supplied hint-number ($number) is greater than the maximum $max_hint_number");
+        die("supplied hint-number ($hint_number) is greater than the maximum $max_hint_number");
     }
 
-    $hint = $messages[$error]["hints"][$number];
+    $hint = $messages[$message_id]["hints"][$hint_number];
 
     // Display current hint
     echo $hint["hint_text"];
 
     // If there are any further hints for this message,
     // display a link to the next hint.
-    if ($number < $max_hint_number)
+    if ($hint_number < $max_hint_number)
     {
         echo "<p>";
 
@@ -145,7 +145,7 @@ function qp_echo_hint_html($error, $number)
 
         echo sprintf(
             _("Get more hints <a href='%s'>here</a>."),
-            "./hints.php?type=$quiz_page_id&error=$error&number=" . ($number + 1)
+            "./hints.php?type=$quiz_page_id&error=$message_id&number=" . ($hint_number + 1)
         );
 
         echo "</p>";
