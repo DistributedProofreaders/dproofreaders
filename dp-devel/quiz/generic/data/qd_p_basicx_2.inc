@@ -32,20 +32,20 @@ $messages["arid"] = array(
         "<p>" . _("There is still a 'scanno': '<tt>ri</tt>' in the text where there is an '<tt>n</tt>' in the image.") . "</p>",
     "hints" => array(
         array(
-            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>\n" .
-                "<p>" . _("Read the text again, slowly and carefully. Try not to look at the words, look at the letters individually.") . "</p>"
+            "hint_title" => _("Scanno: hints"),
+            "hint_body" => _("Read the text again, slowly and carefully. Try not to look at the words, look at the letters individually."),
         ),
         array(
-            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>\n" .
-                "<p>" . _("You are looking for an occurance of 'ri' that is wrong. There is only only words with 'ri' in the text. Once you've found it you will immediately know it is wrong.") . "</p>"
+            "hint_title" => _("Scanno: hints"),
+            "hint_body" => _("You are looking for an occurance of 'ri' that is wrong. There is only only words with 'ri' in the text. Once you've found it you will immediately know it is wrong."),
         ),
         array(
-            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>\n" .
-                "<p>" . _("If you can't find any word with 'ri', consider copying the text into an editor and searching for 'ri'. You'll get a result, guaranteed!") . "</p>"
+            "hint_title" => _("Scanno: hints"),
+            "hint_body" => _("If you can't find any word with 'ri', consider copying the text into an editor and searching for 'ri'. You'll get a result, guaranteed!"),
         ),
         array(
-            "hint_text" => "<h2>" . _("Scanno: hints") . "</h2>\n" .
-                "<p>" . _("No, we won't give away the solution, after all this is a quiz!") . "</p>"
+            "hint_title" => _("Scanno: hints"),
+            "hint_body" => _("No, we won't give away the solution, after all this is a quiz!"),
         )
     )
 );

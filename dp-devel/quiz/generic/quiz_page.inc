@@ -130,7 +130,8 @@ function qp_echo_hint_html($message_id, $hint_number)
     $hint = $messages[$message_id]["hints"][$hint_number];
 
     // Display current hint
-    echo $hint["hint_text"];
+    echo "<h2>" . $hint["hint_title"] . "</h2>\n";
+    echo "<p>" . $hint["hint_body"] . "</p>";
 
     // If there are any further hints for this message,
     // display a link to the next hint.
