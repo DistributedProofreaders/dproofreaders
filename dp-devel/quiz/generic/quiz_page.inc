@@ -248,7 +248,8 @@ function qp_text_contains_anticipated_error($text, $value)
         case "wrongtextorder":
             // It's an error if the text contains both $firsttext and $secondtext,
             // and the first occurrence of $secondtext is before the first occurrence of $firsttext.
-            // (A correct text will, if it contains both $firsttext and $secondtext, contain them in that order.)
+            // (A correct text will, if it contains both $firsttext and $secondtext,
+            // contain them in that order.)
             $p1 = str_posn($text,$value["firsttext"],$value["case_sensitive"]);
             $p2 = str_posn($text,$value["secondtext"],$value["case_sensitive"]);
             if ($p1 !== false && $p2 !== false && ($p1 > $p2))
