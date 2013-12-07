@@ -36,13 +36,13 @@ $tests[] = array("type" => "longline", "lengthlimit" => 60, "error" => "P_longli
 
 
 $messages["dashlower"] = array(
-    "message_text" => "<h2>" . _("Em-dash placement") . "</h2>\n" .
-        "<p>" . _("When an em-dash appears at the end of a line, leave it there, and move the first word of the next line <i>up</i> to that line. Put the line break back in after the word that you moved.") . "</p>",
+    "message_title" => _("Em-dash placement"),
+    "message_body" => _("When an em-dash appears at the end of a line, leave it there, and move the first word of the next line <i>up</i> to that line. Put the line break back in after the word that you moved."),
     "guideline" => "eol_hyphen",
 );
 $messages["toomanylb"] = array(
-    "message_text" => "<h2>" . _("Too many linebreaks inserted") . "</h2>\n" .
-        "<p>" . _("Paragraphs should be divided by exactly one blank line.") . "</p>",
+    "message_title" => _("Too many linebreaks inserted"),
+    "message_body" => _("Paragraphs should be divided by exactly one blank line."),
     "guideline" => "para_space",
 );
 

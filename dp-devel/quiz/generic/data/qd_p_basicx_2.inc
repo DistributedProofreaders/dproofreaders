@@ -28,8 +28,8 @@ $tests[] = array("type" => "expectedtext", "searchtext" => array("indeed\n"), "c
 $tests[] = array("type" => "expectedtext", "searchtext" => array("of\n"), "case_sensitive" => true, "error" => "P_lbchange");
 
 $messages["arid"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno': '<tt>ri</tt>' in the text where there is an '<tt>n</tt>' in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno': '<tt>ri</tt>' in the text where there is an '<tt>n</tt>' in the image."),
     "hints" => array(
         array(
             "hint_title" => _("Scanno: hints"),
@@ -50,18 +50,18 @@ $messages["arid"] = array(
     )
 );
 $messages["missingquote"] = array(
-    "message_text" => "<h2>" . _("Double quote missing") . "</h2>\n" .
-        "<p>" . _("Since from the context one can see there should be a double quote at the start of the chapter, and this is only missing for typesetting reasons, we insert one there.") . "</p>",
+    "message_title" => _("Double quote missing"),
+    "message_body" => _("Since from the context one can see there should be a double quote at the start of the chapter, and this is only missing for typesetting reasons, we insert one there."),
     "guideline" => "chap_head"
 );
 $messages["spacedchap"] = array(
-    "message_text" => "<h2>" . _("Chapter heading spaced") . "</h2>\n" .
-        "<p>" . _("Leave the formatting of the chapter heading to the formatting rounds, and leave a single blank line before and after each part of the heading.") . "</p>",
+    "message_title" => _("Chapter heading spaced"),
+    "message_body" => _("Leave the formatting of the chapter heading to the formatting rounds, and leave a single blank line before and after each part of the heading."),
     "guideline" => "chap_head"
 );
 $messages["numberinheader"] = array(
-    "message_text" => "<h2>" . _("Number of blank lines within chapter heading section incorrect") . "</h2>\n" .
-        "<p>" . _("There should be 1 blank line between different parts of the chapter heading.") . "</p>",
+    "message_title" => _("Number of blank lines within chapter heading section incorrect"),
+    "message_body" => _("There should be 1 blank line between different parts of the chapter heading."),
 );
 
 

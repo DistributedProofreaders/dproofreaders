@@ -17,7 +17,12 @@ echo "<p>" . _("(By the way, you should <b>not</b> name any of your custom messa
 foreach ($messages as $key => $message)
 {
     echo "<hr><p class='message_id'>" . _("Message ID:") . " $key</p>\n";
-    echo $message['message_text'];
+    echo "<h2>" . $message['message_title'] . "</h2>\n";
+    echo "<p>" . $message["message_body"] . "</p>\n";
+    if (isset($message['wiki_ref']))
+    {
+        echo "<p>" . $message['wiki_ref'] . "</p>\n";
+    }
 }
 
 // vim: sw=4 ts=4 expandtab

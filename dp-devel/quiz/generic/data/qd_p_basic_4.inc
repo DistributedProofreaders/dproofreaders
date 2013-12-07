@@ -21,26 +21,26 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 // error messages
 
 $messages["datescanno"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno': a '<tt>|</tt>' (vertical bar) in the text where there is a '<tt>1</tt>' (number one) in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno': a '<tt>|</tt>' (vertical bar) in the text where there is a '<tt>1</tt>' (number one) in the image."),
 );
 $messages["lie"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno': '<tt>li</tt>' in the text where there is an '<tt>h</tt>' in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno': '<tt>li</tt>' in the text where there is an '<tt>h</tt>' in the image."),
 );
 $messages["nobrackets"] = array(
-    "message_text" => "<h2>" . _("Footnote marker brackets") . "</h2>\n" .
-        "<p>" . _("In the text, the footnote marker should be in square brackets, like this: <tt>[*]</tt>.") . "</p>",
+    "message_title" => _("Footnote marker brackets"),
+    "message_body" => _("In the text, the footnote marker should be in square brackets, like this: <tt>[*]</tt>."),
     "guideline" => "footnotes",
 );
 $messages["fnmarkerspace"] = array(
-    "message_text" => "<h2>" . _("Footnote marker spacing") . "</h2>\n" .
-        "<p>" . _("Put the footnote marker right next to the word being footnoted (or its punctuation mark), like this: <br><tt>word,[*] word</tt>.") . "</p>",
+    "message_title" => _("Footnote marker spacing"),
+    "message_body" => _("Put the footnote marker right next to the word being footnoted (or its punctuation mark), like this: <br><tt>word,[*] word</tt>."),
     "guideline" => "footnotes",
 );
 $messages["fnmarkerplace"] = array(
-    "message_text" => "<h2>" . _("Footnote marker placement") . "</h2>\n" .
-        "<p>" . _("Put the footnote marker in the same place as in the original book; do not change the order of the footnote marker and nearby punctuation.") . "</p>",
+    "message_title" => _("Footnote marker placement"),
+    "message_body" => _("Put the footnote marker in the same place as in the original book; do not change the order of the footnote marker and nearby punctuation."),
     "guideline" => "footnotes",
 );
 

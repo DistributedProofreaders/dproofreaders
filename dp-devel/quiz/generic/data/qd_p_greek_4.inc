@@ -21,24 +21,24 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 // error messages
 
 $messages["beta_eszett"] = array(
-    "message_text" => "<h2>" . _("Beta proofread as &szlig;") . "</h2>\n" .
-        "<p>" . _("The &szlig; character is not a Greek letter.  Please transliterate &beta; (beta) as '<tt>b</tt>', as shown in the Greek transliteration tool.") . "</p>",
+    "message_title" => _("Beta proofread as &szlig;"),
+    "message_body" => _("The &szlig; character is not a Greek letter.  Please transliterate &beta; (beta) as '<tt>b</tt>', as shown in the Greek transliteration tool."),
 );
 $messages["Brotoi"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno: a capital '<tt>B</tt>' in the text where there is the Greek letter &beta; (beta, transliterated '<tt>b</tt>') in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno: a capital '<tt>B</tt>' in the text where there is the Greek letter &beta; (beta, transliterated '<tt>b</tt>') in the image."),
 );
 $messages["p_t"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno: a '<tt>t</tt>' in the text where there is the Greek letter &pi; (pi, transliterated '<tt>p</tt>') in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno: a '<tt>t</tt>' in the text where there is the Greek letter &pi; (pi, transliterated '<tt>p</tt>') in the image."),
 );
 $messages["missings"] = array(
-    "message_text" => "<h2>" . _("Missing letter") . "</h2>\n" .
-        "<p>" . _("There is an '<tt>s</tt>' (the transliteration of &sigma;, sigma) missing in your transliteration.") . "</p>",
+    "message_title" => _("Missing letter"),
+    "message_body" => _("There is an '<tt>s</tt>' (the transliteration of &sigma;, sigma) missing in your transliteration."),
 );
 $messages["missingperiod"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno in the text: a period (<tt>.</tt>) was omitted by the OCR software.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno in the text: a period (<tt>.</tt>) was omitted by the OCR software."),
 );
 
 

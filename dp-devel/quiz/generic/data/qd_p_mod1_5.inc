@@ -28,44 +28,44 @@ else {
 // error messages
 
 $messages["accenta"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno' in the text: an accent over an '<tt>a</tt>' was omitted by the OCR software.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno' in the text: an accent over an '<tt>a</tt>' was omitted by the OCR software."),
 );
 $messages["accentu"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno' in the text: an accent over a '<tt>u</tt>' was omitted by the OCR software.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno' in the text: an accent over a '<tt>u</tt>' was omitted by the OCR software."),
 );
 $messages["accenti"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno' in the text: an accent over an '<tt>i</tt>' was omitted by the OCR software.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno' in the text: an accent over an '<tt>i</tt>' was omitted by the OCR software."),
 );
 $messages["tbmarkup"] = array(
-    "message_text" => "<h2>" . _("Thought break markup added") . "</h2>\n" .
-        "<p>" . _("Please ignore the horizontal line that divides the main text from the footnotes.") . "</p>",
+    "message_title" => _("Thought break markup added"),
+    "message_body" => _("Please ignore the horizontal line that divides the main text from the footnotes."),
     "guideline" => "footnotes",
 );
 $messages["noteadded"] = array(
-    "message_text" => "<h2>" . _("Note added") . "</h2>\n" .
-        "<p>" . _("The spelling 'Shakspeare' is a common variant; there is no need for a note about it. During normal proofreading it would be fine to add a note if you think the printer may have made an error, but for the purposes of this quiz please remove your note.") . "</p>",
+    "message_title" => _("Note added"),
+    "message_body" => _("The spelling 'Shakspeare' is a common variant; there is no need for a note about it. During normal proofreading it would be fine to add a note if you think the printer may have made an error, but for the purposes of this quiz please remove your note."),
 );
 $messages["fnspace"] = array(
-    "message_text" => "<h2>" . _("Space around footnote") . "</h2>\n" .
-        "<p>" . _("Leave a blank line between the regular text and the footnotes to separate them.") . "</p>",
+    "message_title" => _("Space around footnote"),
+    "message_body" => _("Leave a blank line between the regular text and the footnotes to separate them."),
     "guideline" => "footnotes",
 );
 $messages["fnsuper"] = array(
-    "message_text" => "<h2>" . _("Footnote marker") . "</h2>\n" .
-        "<p>" . _("There is no need for superscript markup for footnote markers.  Instead, the marker in the text should be surrounded by square brackets, like this: <tt>[b]</tt>.") . "</p>",
+    "message_title" => _("Footnote marker"),
+    "message_body" => _("There is no need for superscript markup for footnote markers.  Instead, the marker in the text should be surrounded by square brackets, like this: <tt>[b]</tt>."),
     "guideline" => "footnotes",
 );
 $messages["nobrackets"] = array(
-    "message_text" => "<h2>" . _("Footnote marker brackets") . "</h2>\n" .
-        "<p>" . _("In the text, footnote markers should be in square brackets, like this: <tt>[b]</tt>.") . "</p>",
+    "message_title" => _("Footnote marker brackets"),
+    "message_body" => _("In the text, footnote markers should be in square brackets, like this: <tt>[b]</tt>."),
     "guideline" => "footnotes",
 );
 $messages["fnmarkerspace"] = array(
-    "message_text" => "<h2>" . _("Footnote marker spacing") . "</h2>\n" .
-        "<p>" . _("Put the footnote marker right next to the word (or punctuation mark) being footnoted, like this: <br><tt>word[c] word</tt>.") . "</p>",
+    "message_title" => _("Footnote marker spacing"),
+    "message_body" => _("Put the footnote marker right next to the word (or punctuation mark) being footnoted, like this: <br><tt>word[c] word</tt>."),
     "guideline" => "footnotes",
 );
 

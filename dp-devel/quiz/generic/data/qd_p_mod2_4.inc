@@ -21,12 +21,12 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 // error messages
 
 $messages["periodomit"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno in the text: a period (<tt>.</tt>) was omitted by the OCR software.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno in the text: a period (<tt>.</tt>) was omitted by the OCR software."),
 );
 $messages["extraquote"] = array(
-    "message_text" => "<h2>" . _("Quote marks on each line") . "</h2>\n" .
-        "<p>" . _("Proofread these by removing all of the quote marks except for the one at the start of the quotation.") . "</p>",
+    "message_title" => _("Quote marks on each line"),
+    "message_body" => _("Proofread these by removing all of the quote marks except for the one at the start of the quotation."),
     "guideline" => "quote_ea",
 );
 

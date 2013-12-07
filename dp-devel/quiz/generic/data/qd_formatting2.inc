@@ -20,35 +20,35 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>"
 
 // error messages
 $messages["sectionspacing"] = array(
-    "message_text" => "<h2>" . _("Section heading spacing incorrect") . "</h2>" .
-        _("Leave two blank lines before a section heading, and one after it."),
+    "message_title" => _("Section heading spacing incorrect"),
+    "message_body" => _("Leave two blank lines before a section heading, and one after it."),
     "guideline" => "sect_head"
 );
 $messages["sectionmarkup"] = array(
-    "message_text" => "<h2>" . _("Markup in section heading") . "</h2>" .
-        sprintf(_('Please do not add bold or small caps markup to the heading. (<span style="%1$s">Mixed Case</span> small caps would be marked, but not <span style="%1$s">all small caps</span> on their own line.)'), 'font-variant: small-caps;'),
+    "message_title" => _("Markup in section heading"),
+    "message_body" => sprintf(_('Please do not add bold or small caps markup to the heading. (<span style="%1$s">Mixed Case</span> small caps would be marked, but not <span style="%1$s">all small caps</span> on their own line.)'), 'font-variant: small-caps;'),
     "guideline" => "sect_head"
 );
 $messages["sectionchange"] = array(
-    "message_text" => "<h2>" . _("Section heading changed") . "</h2>" .
-        _("Please leave the text of the section heading the way it was printed; do not change ALL CAPS to Mixed Case."),
+    "message_title" => _("Section heading changed"),
+    "message_body" => _("Please leave the text of the section heading the way it was printed; do not change ALL CAPS to Mixed Case."),
     "guideline" => "sect_head"
 );
 $messages["hyphenrej"] = array(
-    "message_text" => "<h2>" . _("Hyphen not rejoined") . "</h2>" .
-        _("If any hyphens have not been rejoined by the pre-processing software or the proofreaders, bring the hyphenated word up so that it is all on one line."),
+    "message_title" => _("Hyphen not rejoined"),
+    "message_body" => _("If any hyphens have not been rejoined by the pre-processing software or the proofreaders, bring the hyphenated word up so that it is all on one line."),
 );
 $messages["spacedem"] = array(
-    "message_text" => "<h2>" . _("Spaced em-dash in text") . "</h2>" .
-        "<tt>" . _("Remove the spaces surrounding any dashes--like this!") . "</tt>",
+    "message_title" => _("Spaced em-dash in text"),
+    "message_body" => "<tt>" . _("Remove the spaces surrounding any dashes--like this!") . "</tt>",
 );
 $messages["missingline"] = array(
-    "message_text" => "<h2>" . _("Missing blank line") . "</h2>" .
-        _("Paragraphs should be separated by blank lines."),
+    "message_title" => _("Missing blank line"),
+    "message_body" => _("Paragraphs should be separated by blank lines."),
 );
 $messages["longline"] = array(
-    "message_text" => "<h2>" . _("Long line") . "</h2>" . 
-        _("You've probably joined two lines by deleting a line break. If you join words around hyphens or dashes, move only one word up to the end of the previous line."),
+    "message_title" => _("Long line"),
+    "message_body" => _("You've probably joined two lines by deleting a line break. If you join words around hyphens or dashes, move only one word up to the end of the previous line."),
 );
 
 

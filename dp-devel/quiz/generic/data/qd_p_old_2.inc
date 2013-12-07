@@ -21,44 +21,44 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 // error messages
 
 $messages["periodadded"] = array(
-    "message_text" => "<h2>" . _("Primary Rule") . "</h2>\n" .
-        "<p>" . _("You have added a period that does not appear in the image.  Please keep the punctuation as the author wrote it.") . "</p>",
+    "message_title" => _("Primary Rule"),
+    "message_body" => _("You have added a period that does not appear in the image.  Please keep the punctuation as the author wrote it."),
 );
 $messages["ampchange"] = array(
-    "message_text" => "<h2>" . _("Primary Rule") . "</h2>\n" .
-        "<p>" . _("The primary rule of proofreading is <i>\"Don't change what the author wrote!\"</i> Please keep punctuation and symbols such as the ampersand (&amp;) as they appear in the original book.") . "</p>",
+    "message_title" => _("Primary Rule"),
+    "message_body" => _("The primary rule of proofreading is <i>\"Don't change what the author wrote!\"</i> Please keep punctuation and symbols such as the ampersand (&amp;) as they appear in the original book."),
 );
 $messages["aposadded"] = array(
-    "message_text" => "<h2>" . _("Primary Rule") . "</h2>\n" .
-        "<p>" . _("The primary rule of proofreading is <i>\"Don't change what the author wrote!\"</i> Please do not add apostrophes that do not appear in the image; keep the punctuation as the author wrote it.") . "</p>",
+    "message_title" => _("Primary Rule"),
+    "message_body" => _("The primary rule of proofreading is <i>\"Don't change what the author wrote!\"</i> Please do not add apostrophes that do not appear in the image; keep the punctuation as the author wrote it."),
 );
 $messages["sliort"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno: '<tt>li</tt>' in the text where there is an '<tt>h</tt>' in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno: '<tt>li</tt>' in the text where there is an '<tt>h</tt>' in the image."),
 );
 $messages["longsscanno"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno: an asterisk (<tt>*</tt>) in the text where there is a long s in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno: an asterisk (<tt>*</tt>) in the text where there is a long s in the image."),
 );
 $messages["stray_comma"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno: a comma (<tt>,</tt>) in the text where there is no punctuation in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno: a comma (<tt>,</tt>) in the text where there is no punctuation in the image."),
 );
 $messages["Side"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno: a capital letter in the text where there is a lower case letter in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno: a capital letter in the text where there is a lower case letter in the image."),
 );
 $messages["youany"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno in the text: the space between two words is missing.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno in the text: the space between two words is missing."),
 );
 $messages["instruft"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno: '<tt>ft</tt>' in the text where there is '<tt>ct</tt>' in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno: '<tt>ft</tt>' in the text where there is '<tt>ct</tt>' in the image."),
 );
 $messages["flyspeck2"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno: a punctuation mark in the text where there are stray marks in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno: a punctuation mark in the text where there are stray marks in the image."),
 );
 
 

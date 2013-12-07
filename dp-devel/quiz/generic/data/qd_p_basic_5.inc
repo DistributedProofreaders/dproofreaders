@@ -22,16 +22,16 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 // error messages
 
 $messages["hands"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno': an '<tt>h</tt>' in the text where there is a '<tt>b</tt>' in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno': an '<tt>h</tt>' in the text where there is a '<tt>b</tt>' in the image."),
 );
 $messages["capital"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno': a lower case '<tt>c</tt>' in the text where there is a capital '<tt>C</tt>' in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno': a lower case '<tt>c</tt>' in the text where there is a capital '<tt>C</tt>' in the image."),
 );
 $messages["indent"] = array(
-    "message_text" => "<h2>" . _("Indentation") . "</h2>\n" .
-        "<p>" . _("Leave the indentation of text for the formatting rounds.  During proofreading, leave the text left aligned.") . "</p>",
+    "message_title" => _("Indentation"),
+    "message_body" => _("Leave the indentation of text for the formatting rounds.  During proofreading, leave the text left aligned."),
     "guideline" => "formatting",
 );
 

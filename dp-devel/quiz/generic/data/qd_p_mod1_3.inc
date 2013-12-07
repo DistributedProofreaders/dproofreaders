@@ -21,34 +21,34 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 // error messages
 
 $messages["periodmissing"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno' in the text: a period (<tt>.</tt>) was omitted by the OCR software.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno' in the text: a period (<tt>.</tt>) was omitted by the OCR software."),
 );
 $messages["fracscanno"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno': a percent sign (<tt>%</tt>) in the text where there is a fraction in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno': a percent sign (<tt>%</tt>) in the text where there is a fraction in the image."),
 );
 $messages["ae"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno': '<tt>ae</tt>' in the text where there is an '<tt>&aelig;</tt>' ('ae' ligature) in the image.  You can insert the &aelig; character using the \"A\" menu below.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno': '<tt>ae</tt>' in the text where there is an '<tt>&aelig;</tt>' ('ae' ligature) in the image.  You can insert the &aelig; character using the \"A\" menu below."),
 );
 $messages["fracsymbol"] = array(
-    "message_text" => "<h2>" . _("Fraction") . "</h2>\n" .
-        "<p>" . _("Write out fractions when proofreading.  For instance, <tt>2&frac12;</tt> becomes <tt>2-1/2</tt>.") . "</p>",
+    "message_title" => _("Fraction"),
+    "message_body" => _("Write out fractions when proofreading.  For instance, <tt>2&frac12;</tt> becomes <tt>2-1/2</tt>."),
     "guideline" => "fract_s",
 );
 $messages["frachyphen"] = array(
-    "message_text" => "<h2>" . _("Fraction") . "</h2>\n" .
-        "<p>" . _("When proofreading a fraction, use a hyphen to connect it to the whole number.  For instance, <tt>2&frac12;</tt> becomes <tt>2-1/2</tt>.") . "</p>",
+    "message_title" => _("Fraction"),
+    "message_body" => _("When proofreading a fraction, use a hyphen to connect it to the whole number.  For instance, <tt>2&frac12;</tt> becomes <tt>2-1/2</tt>."),
     "guideline" => "fract_s",
 );
 $messages["eolhyphen2"] = array(
-    "message_text" => "<h2>" . _("Hyphenation") . "</h2>\n" .
-        "<p>" . _("Since the word \"blacksmith\" also appears in the middle of a line on this page, we know that the author wrote the word without a hyphen.  There is no need to keep the hyphen or add an asterisk when rejoining the word.") . "</p>",
+    "message_title" => _("Hyphenation"),
+    "message_body" => _("Since the word \"blacksmith\" also appears in the middle of a line on this page, we know that the author wrote the word without a hyphen.  There is no need to keep the hyphen or add an asterisk when rejoining the word."),
 );
 $messages["italmarkup"] = array(
-    "message_text" => "<h2>" . _("Italics markup moved") . "</h2>\n" .
-        "<p>" . _("Italicized text may occasionally appear with <tt>&lt;i&gt;</tt> inserted at the start and <tt>&lt;/i&gt;</tt> inserted at the end of the italics. Do not change this formatting markup, even if it is incorrect, unless it is so distracting that you find it hard to proofread.  In that case, remove it completely.  The formatters will fix or add markup later in the process.") . "</p>",
+    "message_title" => _("Italics markup moved"),
+    "message_body" => _("Italicized text may occasionally appear with <tt>&lt;i&gt;</tt> inserted at the start and <tt>&lt;/i&gt;</tt> inserted at the end of the italics. Do not change this formatting markup, even if it is incorrect, unless it is so distracting that you find it hard to proofread.  In that case, remove it completely.  The formatters will fix or add markup later in the process."),
     "guideline" => "formatting",
 ); 
 

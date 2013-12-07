@@ -21,43 +21,43 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 // error messages
 
 $messages["onescanno"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno': an '<tt>l</tt>' (lower case L) in the text where there is a '<tt>1</tt>' (number one) in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno': an '<tt>l</tt>' (lower case L) in the text where there is a '<tt>1</tt>' (number one) in the image."),
 );
 $messages["zeroscanno"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno': an '<tt>O</tt>' (capital letter o) in the text where there is a '<tt>0</tt>' (zero) in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno': an '<tt>O</tt>' (capital letter o) in the text where there is a '<tt>0</tt>' (zero) in the image."),
 );
 $messages["quotescanno"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno' in the text: adjacent quotation marks were OCR'd incorrectly.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno' in the text: adjacent quotation marks were OCR'd incorrectly."),
 );
 $messages["eolellips"] = array(
-    "message_text" => "<h2>" . _("Ellipsis") . "</h2>\n" .
-        "<p>" . _("An ellipsis can appear at the end of a line; there is no need to bring up a word from the following line.") . "</p>",
+    "message_title" => _("Ellipsis"),
+    "message_body" => _("An ellipsis can appear at the end of a line; there is no need to bring up a word from the following line."),
 );
 $messages["fnsuper"] = array(
-    "message_text" => "<h2>" . _("Footnote marker") . "</h2>\n" .
-        "<p>" . _("There is no need for superscript markup for footnote markers.  Instead, the marker in the text should be surrounded by square brackets, like this: <tt>[6]</tt>.") . "</p>",
+    "message_title" => _("Footnote marker"),
+    "message_body" => _("There is no need for superscript markup for footnote markers.  Instead, the marker in the text should be surrounded by square brackets, like this: <tt>[6]</tt>."),
     "guideline" => "footnotes",
 );
 $messages["nobrackets"] = array(
-    "message_text" => "<h2>" . _("Footnote marker brackets") . "</h2>\n" .
-        "<p>" . _("In the text, the footnote marker should be in square brackets, like this: <tt>[6]</tt>.") . "</p>",
+    "message_title" => _("Footnote marker brackets"),
+    "message_body" => _("In the text, the footnote marker should be in square brackets, like this: <tt>[6]</tt>."),
     "guideline" => "footnotes",
 );
 $messages["fnmarkerspace"] = array(
-    "message_text" => "<h2>" . _("Footnote marker spacing") . "</h2>\n" .
-        "<p>" . _("Put the footnote marker right next to the word (or punctuation mark) being footnoted, like this: <br><tt>word[6] word</tt>.") . "</p>",
+    "message_title" => _("Footnote marker spacing"),
+    "message_body" => _("Put the footnote marker right next to the word (or punctuation mark) being footnoted, like this: <br><tt>word[6] word</tt>."),
     "guideline" => "footnotes",
 );
 $messages["bracket"] = array(
-    "message_text" => "<h2>" . _("Bracket removed") . "</h2>\n" .
-        "<p>" . _("Leave the punctuation as the author wrote it, including any brackets in the footnotes.") . "</p>",
+    "message_title" => _("Bracket removed"),
+    "message_body" => _("Leave the punctuation as the author wrote it, including any brackets in the footnotes."),
 );
 $messages["aposchange"] = array(
-    "message_text" => "<h2>" . _("Primary Rule") . "</h2>\n" .
-        "<p>" . _("The primary rule of proofreading is <i>\"Don't change what the author wrote!\"</i> Please keep the spelling and punctuation as the author wrote it, including any contractions.") . "</p>",
+    "message_title" => _("Primary Rule"),
+    "message_body" => _("The primary rule of proofreading is <i>\"Don't change what the author wrote!\"</i> Please keep the spelling and punctuation as the author wrote it, including any contractions."),
 );
 
 

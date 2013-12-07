@@ -21,24 +21,24 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 // error messages
 
 $messages["L_D"] = array(
-    "message_text" => "<h2>" . _("Commonly confused letters") . "</h2>\n" .
-        "<p>" . _("There is a '<tt>D</tt>' in your transliteration that should be an '<tt>L</tt>'.  The Greek letter &Delta; (capital delta, transliterated '<tt>D</tt>') is a triangle, while &Lambda; (capital lambda, transliterated '<tt>L</tt>') looks like an upside-down V.") . "</p>",
+    "message_title" => _("Commonly confused letters"),
+    "message_body" => _("There is a '<tt>D</tt>' in your transliteration that should be an '<tt>L</tt>'.  The Greek letter &Delta; (capital delta, transliterated '<tt>D</tt>') is a triangle, while &Lambda; (capital lambda, transliterated '<tt>L</tt>') looks like an upside-down V."),
 );
 $messages["g_l"] = array(
-    "message_text" => "<h2>" . _("Commonly confused letters") . "</h2>\n" .
-        "<p>" . _("There is an '<tt>l</tt>' in your transliteration that should be a '<tt>g</tt>' or '<tt>n</tt>'.  The Greek letter lambda (transliterated '<tt>l</tt>') looks like &lambda;, while the Greek letter gamma (transliterated '<tt>g</tt>' or '<tt>n</tt>') looks like &gamma;.") . "</p>",
+    "message_title" => _("Commonly confused letters"),
+    "message_body" => _("There is an '<tt>l</tt>' in your transliteration that should be a '<tt>g</tt>' or '<tt>n</tt>'.  The Greek letter lambda (transliterated '<tt>l</tt>') looks like &lambda;, while the Greek letter gamma (transliterated '<tt>g</tt>' or '<tt>n</tt>') looks like &gamma;."),
 );
 $messages["L_A"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno: an '<tt>A</tt>' in the text where there is the Greek letter &Lambda; (capital lambda, transliterated '<tt>L</tt>') in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno: an '<tt>A</tt>' in the text where there is the Greek letter &Lambda; (capital lambda, transliterated '<tt>L</tt>') in the image."),
 );
 $messages["mo0et"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno: a '<tt>0</tt>' (zero) in the text where there is the Greek letter &theta; (theta, transliterated '<tt>th</tt>') in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno: a '<tt>0</tt>' (zero) in the text where there is the Greek letter &theta; (theta, transliterated '<tt>th</tt>') in the image."),
 );
 $messages["missingword"] = array(
-    "message_text" => "<h2>" . _("Missing word") . "</h2>\n" .
-        "<p>" . _("There is a word missing in your transliteration.") . "</p>",
+    "message_title" => _("Missing word"),
+    "message_body" => _("There is a word missing in your transliteration."),
 );
 
 

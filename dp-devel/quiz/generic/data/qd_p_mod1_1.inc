@@ -22,12 +22,12 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 // error messages
 
 $messages["qmark"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno': a question mark (<tt>?</tt>) in the text where there is an exclamation point (<tt>!</tt>) in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno': a question mark (<tt>?</tt>) in the text where there is an exclamation point (<tt>!</tt>) in the image."),
 );
 $messages["Eritish"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno': an '<tt>E</tt>' in the text where there is a '<tt>B</tt>' in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno': an '<tt>E</tt>' in the text where there is a '<tt>B</tt>' in the image."),
 );
 
 

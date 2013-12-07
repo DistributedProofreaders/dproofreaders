@@ -21,8 +21,8 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 // error messages
 
 $messages["x_z"] = array(
-    "message_text" => "<h2>" . _("Commonly confused letters") . "</h2>\n" .
-        "<p>" . _("There is a '<tt>z</tt>' in your transliteration that should be an '<tt>x</tt>'.  The Greek letter zeta (transliterated '<tt>z</tt>') looks like &zeta;, while the Greek letter xi (transliterated '<tt>x</tt>') looks like &xi;.") . "</p>",
+    "message_title" => _("Commonly confused letters"),
+    "message_body" => _("There is a '<tt>z</tt>' in your transliteration that should be an '<tt>x</tt>'.  The Greek letter zeta (transliterated '<tt>z</tt>') looks like &zeta;, while the Greek letter xi (transliterated '<tt>x</tt>') looks like &xi;."),
 );
 
 

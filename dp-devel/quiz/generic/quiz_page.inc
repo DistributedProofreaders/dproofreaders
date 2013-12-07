@@ -356,8 +356,12 @@ function qp_echo_error_html($message_id)
     $message = $messages[$message_id];
 
     //Give the error message and any associated hints
-    echo $message["message_text"];
-    echo "\n";
+    echo "<h2>" . $message["message_title"] . "</h2>\n";
+    echo "<p>" . $message["message_body"] . "</p>\n";
+    if (isset($message['wiki_ref']))
+    {
+        echo "<p>" . $message['wiki_ref'] . "</p>\n";
+    }
     
     if (count(@$message["hints"]) > 0)
     {

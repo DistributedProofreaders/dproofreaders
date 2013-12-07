@@ -20,84 +20,84 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>"
 
 // error messages
 $messages["missingline"] = array(
-    "message_text" => "<h2>" . _("Missing blank line") . "</h2>" .
-        _("Paragraphs are delimited by blank lines. If a page starts with a new paragraph, place a blank line at the start of the page."),
+    "message_title" => _("Missing blank line"),
+    "message_body" => _("Paragraphs are delimited by blank lines. If a page starts with a new paragraph, place a blank line at the start of the page."),
 );
 $messages["nobc"] = array(
-    "message_text" => "<h2>" . _("Block Quotation") . "</h2>" .
-        _("You have not or incorrectly marked the block quotation in the text. Enclose it with /# ... #/, with each marker on a line of its own."),
+    "message_title" => _("Block Quotation"),
+    "message_body" => _("You have not or incorrectly marked the block quotation in the text. Enclose it with /# ... #/, with each marker on a line of its own."),
     "guideline" => "block_qt"
 );
 $messages["nopoetry"] = array(
-    "message_text" => "<h2>" . _("Poetry markup") . "</h2>" .
-        _("You have not or incorrectly marked the poem in the text. Enclose it with /* ... */, with each marker on a line of its own."),
+    "message_title" => _("Poetry markup"),
+    "message_body" => _("You have not or incorrectly marked the poem in the text. Enclose it with /* ... */, with each marker on a line of its own."),
     "guideline" => "poetry"
 );
 $messages["otherpindent"] = array(
-    "message_text" => "<h2>" . _("Poetry indentation not as expected") . "</h2>" .
-        _("For the indentation of poetry lines, indent using multiples of two spaces."),
+    "message_title" => _("Poetry indentation not as expected"),
+    "message_body" => _("For the indentation of poetry lines, indent using multiples of two spaces."),
     "guideline" => "poetry"
 );
 $messages["baseindent"] = array(
-    "message_text" => "<h2>" . _("Poetry indentation") . "</h2>" .
-        _("It seems you have indented the whole poem. Please try to represent only relative indentation, so that the leftmost lines are not indented."),
+    "message_title" => _("Poetry indentation"),
+    "message_body" => _("It seems you have indented the whole poem. Please try to represent only relative indentation, so that the leftmost lines are not indented."),
     "guideline" => "poetry"
 );
 $messages["plinenotjoined"] = array(
-    "message_text" => "<h2>" . _("Poetry line not joined") . "</h2>" .
-        _("There is one long poetry line, broken up into two lines in the image. Please join it back into one line."),
+    "message_title" => _("Poetry line not joined"),
+    "message_body" => _("There is one long poetry line, broken up into two lines in the image. Please join it back into one line."),
     "guideline" => "poetry"
 );
 $messages["pmspacing"] = array(
-    "message_text" => "<h2>" . _("Poetry markup") . "</h2>" .
-        _("Please leave exactly one empty line before the poetry starting marker /*. Also leave one blank line after the poetry closing marker */."),
+    "message_title" => _("Poetry markup"),
+    "message_body" => _("Please leave exactly one empty line before the poetry starting marker /*. Also leave one blank line after the poetry closing marker */."),
     "guideline" => "outofline"
 );
 $messages["lbchange"] = array(
-    "message_text" => "<h2>" . _("Line breaks changed") . "</h2>" .
-        _("Please leave the line breaks of the block quote as they appear in the image."),
+    "message_title" => _("Line breaks changed"),
+    "message_body" => _("Please leave the line breaks of the block quote as they appear in the image."),
 );
 $messages["bqspacing"] = array(
-    "message_text" => "<h2>" . _("Blockquote markup") . "</h2>" .
-        _("Please leave exactly one empty line before the blockquote starting marker /#. Also leave one blank line after the blockquote closing marker #/. The blockquote marker should be on its own line."),
+    "message_title" => _("Blockquote markup"),
+    "message_body" => _("Please leave exactly one empty line before the blockquote starting marker /#. Also leave one blank line after the blockquote closing marker #/. The blockquote marker should be on its own line."),
     "guideline" => "outofline"
 );
 $messages["bqindent"] = array(
-    "message_text" => "<h2>" . _("Block quote indented") . "</h2>" .
-        _("It seems you have indented the block quote. The /# #/ markup indicates that the text was printed differently; there is no need to add indentation to a block quote."),
+    "message_title" => _("Block quote indented"),
+    "message_body" => _("It seems you have indented the block quote. The /# #/ markup indicates that the text was printed differently; there is no need to add indentation to a block quote."),
     "guideline" => "block_qt"
 );
 $messages["listindent"] = array(
-    "message_text" => "<h2>" . _("List indented") . "</h2>" .
-        _("It seems you have indented the list. Since the whole list is indented the same amount, the /* */ markup alone is sufficient; indentation is not needed."),
+    "message_title" => _("List indented"),
+    "message_body" => _("It seems you have indented the list. Since the whole list is indented the same amount, the /* */ markup alone is sufficient; indentation is not needed."),
 );
 $messages["wrongmarkuplist"] = array(
-    "message_text" => "<h2>" . _("List marked incorrectly") . "</h2>" .
-        _("Mark lists with the markup <tt>/* */</tt> to preserve the line breaks."),
+    "message_title" => _("List marked incorrectly"),
+    "message_body" => _("Mark lists with the markup <tt>/* */</tt> to preserve the line breaks."),
     "guideline" => "lists"
 );
 $messages["wrongmarkuppoem"] = array(
-    "message_text" => "<h2>" . _("Poem marked incorrectly") . "</h2>" .
-        _("Mark poetry with the markup <tt>/* */</tt> to preserve the line breaks."),
+    "message_title" => _("Poem marked incorrectly"),
+    "message_body" => _("Mark poetry with the markup <tt>/* */</tt> to preserve the line breaks."),
     "guideline" => "poetry"
 );
 $messages["wrongmarkupbq"] = array(
-    "message_text" => "<h2>" . _("Block quote marked incorrectly") . "</h2>" .
-        _("Mark block quotes with the markup <tt>/# #/</tt> to allow the text to be rewrapped."),
+    "message_title" => _("Block quote marked incorrectly"),
+    "message_body" => _("Mark block quotes with the markup <tt>/# #/</tt> to allow the text to be rewrapped."),
     "guideline" => "block_qt"
 );
 $messages["nolist"] = array(
-    "message_text" => "<h2>" . _("List not marked") . "</h2>" .
-        _("Mark lists with the markup <tt>/* */</tt>."),
+    "message_title" => _("List not marked"),
+    "message_body" => _("Mark lists with the markup <tt>/* */</tt>."),
     "guideline" => "lists"
 );
 $messages["ellipsis"] = array(
-    "message_text" => "<h2>" . _("Ellipsis spacing incorrect") . "</h2>" .
-        _("Leave a space on each side of an ellipsis."),
+    "message_title" => _("Ellipsis spacing incorrect"),
+    "message_body" => _("Leave a space on each side of an ellipsis."),
 );
 $messages["nopindent"] = array(
-    "message_text" => "<h2>" . _("Poetry line(s) not indented") . "</h2>" .
-        _("The poem in the text has relative indentation (some lines indented more than others). Try to represent that in the formatted text, using multiples of two spaces."),
+    "message_title" => _("Poetry line(s) not indented"),
+    "message_body" => _("The poem in the text has relative indentation (some lines indented more than others). Try to represent that in the formatted text, using multiples of two spaces."),
     "guideline" => "poetry"
 );
 

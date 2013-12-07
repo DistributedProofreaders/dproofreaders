@@ -20,57 +20,57 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>"
 
 // error messages
 $messages["notfour"] = array(
-    "message_text" => "<h2>" . _("Number of blank lines before chapter heading incorrect") . "</h2>" .
-        _("There should be 4 blank lines before the chapter heading."),
+    "message_title" => _("Number of blank lines before chapter heading incorrect"),
+    "message_body" => _("There should be 4 blank lines before the chapter heading."),
     "guideline" => "chap_head"
 );
 $messages["nottwo"] = array(
-    "message_text" => "<h2>" . _("Number of blank lines between chapter heading and text incorrect") . "</h2>" .
-        _("There should be 2 blank lines before the start of the regular paragraph text."),
+    "message_title" => _("Number of blank lines between chapter heading and text incorrect"),
+    "message_body" => _("There should be 2 blank lines before the start of the regular paragraph text."),
     "guideline" => "chap_head"
 );
 $messages["numberinheader"] = array(
-    "message_text" => "<h2>" . _("Number of blank lines within chapter heading incorrect") . "</h2>" .
-        _("There should be 1 blank line between different parts of the chapter heading."),
+    "message_title" => _("Number of blank lines within chapter heading incorrect"),
+    "message_body" => _("There should be 1 blank line between different parts of the chapter heading."),
     "guideline" => "chap_head"
 );
 $messages["extraline"] = array(
-    "message_text" => "<h2>" . _("Extra blank line") . "</h2>" .
-        _("An extra blank line has been accidentally inserted by the proofreaders. Remove this line to match the image."),
+    "message_title" => _("Extra blank line"),
+    "message_body" => _("An extra blank line has been accidentally inserted by the proofreaders. Remove this line to match the image."),
 );
 $messages["extratb"] = array(
-    "message_text" => "<h2>" . _("Extra thought break markup") . "</h2>" .
-        _("There is only one thought break (<tt>&lt;tb&gt;</tt>) on the page.  Separate the chapter heading from the regular text using blank lines, not thought break markup."),
+    "message_title" => _("Extra thought break markup"),
+    "message_body" => _("There is only one thought break (<tt>&lt;tb&gt;</tt>) on the page.  Separate the chapter heading from the regular text using blank lines, not thought break markup."),
     "guideline" => "chap_head"
 );
 $messages["nothoughtbreak"] = array(
-    "message_text" => "<h2>" . _("Missing thought break") . "</h2>" .
-        _("A thought break (<tt>&lt;tb&gt;</tt>) should be placed between the paragraphs that have a break between them."),
+    "message_title" => _("Missing thought break"),
+    "message_body" => _("A thought break (<tt>&lt;tb&gt;</tt>) should be placed between the paragraphs that have a break between them."),
     "guideline" => "extra_s"
 );
 $messages["thoughtbreakspc"] = array(
-    "message_text" => "<h2>" . _("Incorrect thought break spacing") . "</h2>" .
-        _("A thought break (<tt>&lt;tb&gt;</tt>) should have a blank line before and after it."),
+    "message_title" => _("Incorrect thought break spacing"),
+    "message_body" => _("A thought break (<tt>&lt;tb&gt;</tt>) should have a blank line before and after it."),
     "guideline" => "extra_s"
 );
 $messages["nobold"] = array(
-    "message_text" => "<h2>" . _("Bold markup in heading") . "</h2>" .
-        _("Chapter Headers may be printed in a different or larger font that may appear to be bold, but we do not mark them as bold."),
+    "message_title" => _("Bold markup in heading"),
+    "message_body" => _("Chapter Headers may be printed in a different or larger font that may appear to be bold, but we do not mark them as bold."),
     "guideline" => "chap_head"
 );
 $messages["chapheadnotdecapped"] = array(
-    "message_text" => "<h2>" . _("Chapter start not decapitalised") . "</h2>" .
-        _("Change the case of the first words of a chapter to match the rest of the text. Printing the first word(s) of a chapter in all caps or small caps is just a typesetting convention."),
+    "message_title" => _("Chapter start not decapitalised"),
+    "message_body" => _("Change the case of the first words of a chapter to match the rest of the text. Printing the first word(s) of a chapter in all caps or small caps is just a typesetting convention."),
     "guideline" => "chap_head"
 );
 $messages["chapheadsc"] = array(
-    "message_text" => "<h2>" . _("Small caps markup added to chapter start") . "</h2>" .
-        _("Printing the first word(s) of a chapter in all caps or small caps is just a typesetting convention, so instead of inserting small caps markup, simply change the case to match the rest of the text."),
+    "message_title" => _("Small caps markup added to chapter start"),
+    "message_body" => _("Printing the first word(s) of a chapter in all caps or small caps is just a typesetting convention, so instead of inserting small caps markup, simply change the case to match the rest of the text."),
     "guideline" => "chap_head"
 );
 $messages["chapheadoverkill"] = array(
-    "message_text" => "<h2>" . _("Chapter start completely decapitalised") . "</h2>" .
-        _("You've got the right idea, but gone a little too far. Leave the first letter capitalised, as it's at the start of the sentence."),
+    "message_title" => _("Chapter start completely decapitalised"),
+    "message_body" => _("You've got the right idea, but gone a little too far. Leave the first letter capitalised, as it's at the start of the sentence."),
     "guideline" => "chap_head"
 );
 

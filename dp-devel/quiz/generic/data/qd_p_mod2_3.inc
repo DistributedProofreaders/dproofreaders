@@ -28,56 +28,56 @@ else {
 // error messages
 
 $messages["accente"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno in the text: an accent over an '<tt>e</tt>' was omitted by the OCR software.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno in the text: an accent over an '<tt>e</tt>' was omitted by the OCR software."),
 );
 $messages["ampchange"] = array(
-    "message_text" => "<h2>" . _("Primary Rule") . "</h2>\n" .
-        "<p>" . _("The primary rule of proofreading is <i>\"Don't change what the author wrote!\"</i> Please keep punctuation and symbols such as the ampersand (&amp;) as they appear in the original book.") . "</p>",
+    "message_title" => _("Primary Rule"),
+    "message_body" => _("The primary rule of proofreading is <i>\"Don't change what the author wrote!\"</i> Please keep punctuation and symbols such as the ampersand (&amp;) as they appear in the original book."),
 );
 if(!$utf8_site) { 
     $messages["oescanno"] = array(
-        "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-            "<p>" . _("There is still a scanno: '<tt>oe</tt>' in the text where there is an '&oelig;' ('oe' ligature) in the image.  Proofread the 'oe' ligature using brackets: <tt>[oe]</tt>.") . "</p>",
+        "message_title" => _("Scanno"),
+        "message_body" => _("There is still a scanno: '<tt>oe</tt>' in the text where there is an '&oelig;' ('oe' ligature) in the image.  Proofread the 'oe' ligature using brackets: <tt>[oe]</tt>."),
     );
     $messages["oelig"] = array(
-        "message_text" => "<h2>" . _("Ligature") . "</h2>\n" .
-            "<p>" . _("Proofread the 'oe' ligature (&oelig;) using brackets: <tt>[oe]</tt>, not the actual &oelig; character.") . "</p>",
+        "message_title" => _("Ligature"),
+        "message_body" => _("Proofread the 'oe' ligature (&oelig;) using brackets: <tt>[oe]</tt>, not the actual &oelig; character."),
         "guideline" => "a_chars",
     );
 }
 else {
     $messages["oescanno"] = array(
-        "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-            "<p>" . _("There is still a scanno: '<tt>oe</tt>' in the text where there is an '&oelig;' ('oe' ligature) in the image.") . "</p>",
+        "message_title" => _("Scanno"),
+        "message_body" => _("There is still a scanno: '<tt>oe</tt>' in the text where there is an '&oelig;' ('oe' ligature) in the image."),
     );
 }
 $messages["fnscannot"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno: a '<tt>t</tt>' in the text where there is a footnote marker in the image. When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <tt>[*]</tt> in the text, and <tt>*</tt> next to the footnote itself.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno: a '<tt>t</tt>' in the text where there is a footnote marker in the image. When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <tt>[*]</tt> in the text, and <tt>*</tt> next to the footnote itself."),
 );
 $messages["fnscannoI"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a scanno: an '<tt>I</tt>' in the text where there is a footnote marker in the image. When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <tt>[*]</tt> in the text, and <tt>*</tt> next to the footnote itself.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a scanno: an '<tt>I</tt>' in the text where there is a footnote marker in the image. When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <tt>[*]</tt> in the text, and <tt>*</tt> next to the footnote itself."),
 );
 $messages["fnspace"] = array(
-    "message_text" => "<h2>" . _("Space around footnote") . "</h2>\n" .
-        "<p>" . _("Leave a blank line between the regular text and the footnotes to separate them.") . "</p>",
+    "message_title" => _("Space around footnote"),
+    "message_body" => _("Leave a blank line between the regular text and the footnotes to separate them."),
     "guideline" => "footnotes",
 );
 $messages["fnmarkermissing"] = array(
-    "message_text" => "<h2>" . _("Footnote marker") . "</h2>\n" .
-        "<p>" . _("When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <tt>[*]</tt> in the text, and <tt>*</tt> next to the footnote itself.") . "</p>",
+    "message_title" => _("Footnote marker"),
+    "message_body" => _("When footnotes are marked with a series of special characters (*, &dagger;, &Dagger;, &sect;, etc.) we replace them all with <tt>[*]</tt> in the text, and <tt>*</tt> next to the footnote itself."),
     "guideline" => "footnotes",
 );
 $messages["nobrackets"] = array(
-    "message_text" => "<h2>" . _("Footnote marker brackets") . "</h2>\n" .
-        "<p>" . _("In the text, footnote markers should be in square brackets, like this: <tt>[*]</tt>.") . "</p>",
+    "message_title" => _("Footnote marker brackets"),
+    "message_body" => _("In the text, footnote markers should be in square brackets, like this: <tt>[*]</tt>."),
     "guideline" => "footnotes",
 );
 $messages["fnmarkerspace"] = array(
-    "message_text" => "<h2>" . _("Footnote marker spacing") . "</h2>\n" .
-        "<p>" . _("Put the footnote marker right next to the word (or punctuation mark) being footnoted and leave a space on the other side of it, like this: <br><tt>word[*] word</tt>.") . "</p>",
+    "message_title" => _("Footnote marker spacing"),
+    "message_body" => _("Put the footnote marker right next to the word (or punctuation mark) being footnoted and leave a space on the other side of it, like this: <br><tt>word[*] word</tt>."),
     "guideline" => "footnotes",
 );
 

@@ -20,17 +20,17 @@ $solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\
 
 // error messages
 $messages["cat"] = array(
-    "message_text" => "<h2>" . _("Scanno") . "</h2>\n" .
-        "<p>" . _("There is still a 'scanno': a '<tt>c</tt>' in the text where there is an '<tt>e</tt>' in the image.") . "</p>",
+    "message_title" => _("Scanno"),
+    "message_body" => _("There is still a 'scanno': a '<tt>c</tt>' in the text where there is an '<tt>e</tt>' in the image."),
 );
 $messages["chapchange"] = array(
-    "message_text" => "<h2>" . _("Chapter heading changed") . "</h2>\n" .
-        "<p>" . _("Leave the text of the chapter heading as it appears in the image. Do not change ALL CAPS to Title Case or otherwise alter the text.") . "</p>",
+    "message_title" => _("Chapter heading changed"),
+    "message_body" => _("Leave the text of the chapter heading as it appears in the image. Do not change ALL CAPS to Title Case or otherwise alter the text."),
     "guideline" => "chap_head",
 );
 $messages["ellspaced"] = array(
-    "message_text" => "<h2>" . _("Ellipsis Spacing") . "</h2>\n" .
-        "<p>" . _("Please do not leave spaces between the dots of an ellipsis.  The dots should be right next to each other, like ... or....") . "</p>",
+    "message_title" => _("Ellipsis Spacing"),
+    "message_body" => _("Please do not leave spaces between the dots of an ellipsis.  The dots should be right next to each other, like ... or...."),
     "guideline" => "period_p",
 );
 

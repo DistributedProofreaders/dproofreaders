@@ -20,57 +20,58 @@ $solved_message               = "<h2>" . _("Quiz solved!") . "</h2>" . _("Congra
 
 // error messages
 $messages["nosmallcaps"] = array(
-    "message_text" => "<h2>" . sprintf(_("<span style='%s'>Small Caps</span> not marked"), "font-variant: small-caps;") . "</h2>",
+    "message_title" => sprintf(_("<span style='%s'>Small Caps</span> not marked"), "font-variant: small-caps;"),
+    "message_body" => "",
     "guideline" => "small_caps",
 );
 $messages["smcappunct"] = array(
-    "message_text" => "<h2>" . _("Error in small caps markup") . "</h2>" .
-        _("Place the &lt;sc&gt; at the start of small caps and the &lt;/sc&gt; at the end.  As with other markup, only include punctuation if the punctuation is part of an entire phrase or sentence that you are marking."),
+    "message_title" => _("Error in small caps markup"),
+    "message_body" => _("Place the &lt;sc&gt; at the start of small caps and the &lt;/sc&gt; at the end.  As with other markup, only include punctuation if the punctuation is part of an entire phrase or sentence that you are marking."),
     "guideline" => "small_caps",
 );
 $messages["smcapwholeword"] = array(
-    "message_text" => "<h2>" . _("Error in small caps markup") . "</h2>" .
-        sprintf(_("<span style='%s'>Mixed Case</span> small caps should have its case changed so that the 'tall' letters are uppercase, and the 'short' letters are lowercase.  Place the &lt;sc&gt; at the start of small-capped word or phrase and the &lt;/sc&gt; at the end."), "font-variant: small-caps;"),
+    "message_title" => _("Error in small caps markup"),
+    "message_body" => sprintf(_("<span style='%s'>Mixed Case</span> small caps should have its case changed so that the 'tall' letters are uppercase, and the 'short' letters are lowercase.  Place the &lt;sc&gt; at the start of small-capped word or phrase and the &lt;/sc&gt; at the end."), "font-variant: small-caps;"),
     "guideline" => "small_caps",
 );
 $messages["noital"] = array(
-    "message_text" => "<h2>" . _("Italics missed") . "</h2>" . 
-        _("There is one word in italics in the text, please surround it with &lt;i&gt; &lt;/i&gt;."),
+    "message_title" => _("Italics missed"),
+    "message_body" => _("There is one word in italics in the text, please surround it with &lt;i&gt; &lt;/i&gt;."),
     "guideline" => "italics",
 );
 $messages["nobold"] = array(
-    "message_text" => "<h2>" . _("Bold text missed") . "</h2>" . 
-        _("There is one bold word in the text, please surround it with &lt;b&gt; &lt;/b&gt;."),
+    "message_title" => _("Bold text missed"),
+    "message_body" => _("There is one bold word in the text, please surround it with &lt;b&gt; &lt;/b&gt;."),
     "guideline" => "bold",
 );
 $messages["italcorrupt"] = array(
-    "message_text" => "<h2>" . _("Error in italics markup") . "</h2>" . 
-        _("Somehow the italics markup you've done seems to be corrupt. Start the italics with &lt;i&gt; and end it with &lt;/i&gt;."),
+    "message_title" => _("Error in italics markup"),
+    "message_body" => _("Somehow the italics markup you've done seems to be corrupt. Start the italics with &lt;i&gt; and end it with &lt;/i&gt;."),
     "guideline" => "italics",
 );
 $messages["boldcorrupt"] = array(
-    "message_text" => "<h2>" . _("Error in bold markup") . "</h2>" . 
-        _("Somehow the bold markup you've done seems to be corrupt. Start the bold text with &lt;b&gt; and end it with &lt;/b&gt;."),
+    "message_title" => _("Error in bold markup"),
+    "message_body" => _("Somehow the bold markup you've done seems to be corrupt. Start the bold text with &lt;b&gt; and end it with &lt;/b&gt;."),
     "guideline" => "bold",
 );
 $messages["smcapcorrupt"] = array(
-    "message_text" => "<h2>" . _("Error in small caps markup") . "</h2>" .
-        _("Somehow the small caps markup you've done seems to be incorrect. Start the small caps with &lt;sc&gt; and end it with &lt;/sc&gt;."),
+    "message_title" => _("Error in small caps markup"),
+    "message_body" => _("Somehow the small caps markup you've done seems to be incorrect. Start the small caps with &lt;sc&gt; and end it with &lt;/sc&gt;."),
     "guideline" => "small_caps",
 );
 $messages["missingline"] = array(
-    "message_text" => "<h2>" . _("Missing blank line") . "</h2>" .
-        _("Paragraphs are delimited by blank lines. If a page starts with a new paragraph, place a new line at the start of the page."),
+    "message_title" => _("Missing blank line"),
+    "message_body" => _("Paragraphs are delimited by blank lines. If a page starts with a new paragraph, place a new line at the start of the page."),
     "guideline" => "para_space",
 );
 $messages["cappedsmcaps"] = array(
-    "message_text" => "<h2>" . _("Small Caps not correctly decapitalised") . "</h2>" .
-        sprintf( _("<span style='%s'>Mixed Case</span> small caps should have its case changed so that the 'tall' letters are uppercase, and the 'short' letters are lowercase."), "font-variant: small-caps;"),
+    "message_title" => _("Small Caps not correctly decapitalised"),
+    "message_body" => sprintf( _("<span style='%s'>Mixed Case</span> small caps should have its case changed so that the 'tall' letters are uppercase, and the 'short' letters are lowercase."), "font-variant: small-caps;"),
     "guideline" => "small_caps",
 );
 $messages["changedspelling"] = array(
-    "message_text" => "<h2>" . _("Spelling changed") . "</h2>" .
-        _("Do not modernise, or 'correct' the spelling of the author. In any event, 'travelled' is correct British English."),
+    "message_title" => _("Spelling changed"),
+    "message_body" => _("Do not modernise, or 'correct' the spelling of the author. In any event, 'travelled' is correct British English."),
 );
 
 
