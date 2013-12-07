@@ -298,7 +298,7 @@ function in_string($needle, $haystack, $sensitive = 0)
     if ($sensitive) 
         return (false !== strpos($haystack, $needle));
     else
-        return (false !== stristr($haystack, $needle));
+        return (false !== stripos($haystack, $needle));
 }
 
 function str_posn($haystack,$needle,$cs)
