@@ -188,6 +188,32 @@ function qp_text_contains_anticipated_error($text, $value)
             }
             break;
 
+        case "expectedtext":
+            // It's an error if the text contains none of the strings in $searchtext.
+            // (A correct text will contain at least one of the strings in $searchtext.)
+            $found = FALSE;
+            foreach ($value["searchtext"] as $expected)
+            {
+                if (in_string($expected,$text,$value["case_sensitive"]))
+                    $found = TRUE;
+            }
+            if (!$found)
+            {
+                return $value["error"];
+            }
+            break;
+
+        case "multioccurrence":
+            // It's an error if the text contains more than one occurrence of $searchtext.
+            // (A correct text will contain zero or one occurrence of $searchtext.)
+            if (number_of_occurrences($text, $value["searchtext"], $value["case_sensitive"]) > 1)
+            {
+                return $value["error"];
+            }
+            break;
+
+        // -----------------------------------------------------------
+
         case "markupmissing":
             // It's an error if the text does not contain both $opentext and $closetext.
             // (A correct text will contain $opentext or $closetext [or both, really].)
@@ -210,20 +236,19 @@ function qp_text_contains_anticipated_error($text, $value)
             }
             break;
 
-        case "expectedtext":
-            // It's an error if the text contains none of the strings in $searchtext.
-            // (A correct text will contain at least one of the strings in $searchtext.)
-            $found = FALSE;
-            foreach ($value["searchtext"] as $expected)
-            {
-                if (in_string($expected,$text,$value["case_sensitive"]))
-                    $found = TRUE;
-            }
-            if (!$found)
+        case "wrongtextorder":
+            // It's an error if the text contains both $firsttext and $secondtext,
+            // and the first occurrence of $secondtext is before the first occurrence of $firsttext.
+            // (A correct text will, if it contains both $firsttext and $secondtext, contain them in that order.)
+            $p1 = str_posn($text,$value["firsttext"],$value["case_sensitive"]);
+            $p2 = str_posn($text,$value["secondtext"],$value["case_sensitive"]);
+            if ($p1 && $p2 && ($p1 > $p2))
             {
                 return $value["error"];
             }
             break;
+
+        // -----------------------------------------------------------
 
         case "expectedlinebreaks":
             // It's an error if the portion of the text between $starttext and $stoptext
@@ -248,27 +273,6 @@ function qp_text_contains_anticipated_error($text, $value)
             if ($num > $value["number"])
             {
                 return $value["errorhigh"];
-            }
-            break;
-
-        case "multioccurrence":
-            // It's an error if the text contains more than one occurrence of $searchtext.
-            // (A correct text will contain zero or one occurrence of $searchtext.)
-            if (number_of_occurrences($text, $value["searchtext"], $value["case_sensitive"]) > 1)
-            {
-                return $value["error"];
-            }
-            break;
-
-        case "wrongtextorder":
-            // It's an error if the text contains both $firsttext and $secondtext,
-            // and the first occurrence of $secondtext is before the first occurrence of $firsttext.
-            // (A correct text will, if it contains both $firsttext and $secondtext, contain them in that order.)
-            $p1 = str_posn($text,$value["firsttext"],$value["case_sensitive"]);
-            $p2 = str_posn($text,$value["secondtext"],$value["case_sensitive"]);
-            if ($p1 && $p2 && ($p1 > $p2))
-            {
-                return $value["error"];
             }
             break;
 
