@@ -357,7 +357,9 @@ function qp_echo_error_html($message_id)
 
     //Give the error message and any associated hints
     echo $message["message_text"];
-    echo "\n<p>";
+    echo "\n";
+    
+    echo "<p>";
     if (count(@$message["hints"]) > 0)
     {
         if (isset($message["hints"][0]["linktext"]))
@@ -365,8 +367,11 @@ function qp_echo_error_html($message_id)
         else
             echo $default_hintlink;
         $link_contents = "./hints.php?type=$quiz_page_id&error=$message_id&number=0";
-        echo " " . sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents) . "<p>";
+        echo " ";
+        echo sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents);
+        echo "<p>";
     }
+
     if (isset($message["guideline"]))
     {
         if ($quiz->activity_type == "proof")
@@ -383,15 +388,18 @@ function qp_echo_error_html($message_id)
         $query = "SELECT subject FROM rules WHERE document = '$guidelines_url' AND anchor = '$anchor'";
         $result = mysql_query($query);
         $rule = mysql_fetch_assoc($result);
-        echo "<p>" . sprintf(_("See the <a href='../../faq/%1\$s#%2\$s' target='_blank'>%3\$s</a> section of the %4\$s for details."), $guidelines_url, $anchor, $rule['subject'], $guidelines_title) . "</p>";
+        echo "<p>";
+        echo sprintf(_("See the <a href='../../faq/%1\$s#%2\$s' target='_blank'>%3\$s</a> section of the %4\$s for details."), $guidelines_url, $anchor, $rule['subject'], $guidelines_title);
+        echo "</p>";
     }
 
     if (isset($message["challengetext"]))
         echo $message["challengetext"];
     else
         echo $default_challenge;
+    echo "</p>\n";
 
-    echo "</p>\n<p>";
+    echo "<p>";
     if (isset($message["feedbacktext"]))
     {
         echo $message["feedbacktext"];
