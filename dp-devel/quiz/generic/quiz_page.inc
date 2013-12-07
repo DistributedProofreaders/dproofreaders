@@ -217,7 +217,9 @@ function qp_text_contains_anticipated_error($text, $value)
         case "markupmissing":
             // It's an error if the text does not contain both $opentext and $closetext.
             // (A correct text will contain $opentext or $closetext [or both, really].)
-            if (!in_string($value["opentext"],$text,$value["case_sensitive"]) && !in_string($value["closetext"],$text,$value["case_sensitive"]))
+            $opentext_is_present  = in_string($value["opentext"],  $text, $value["case_sensitive"]);
+            $closetext_is_present = in_string($value["closetext"], $text, $value["case_sensitive"]);
+            if (!$opentext_is_present && !$closetext_is_present)
             {
                 return $value["error"];
             }
@@ -227,10 +229,17 @@ function qp_text_contains_anticipated_error($text, $value)
             // It's an error if the text contains one but not both of $opentext and $closetext,
             // or if the first occurrence of $closetext is before the first occurrence of $opentext.
             // (A correct text will contain both $opentext and $closetext, in that order.)
-            if ((in_string($value["opentext"],$text,$value["case_sensitive"]) && !in_string($value["closetext"],$text,$value["case_sensitive"]))
-                    || (!in_string($value["opentext"],$text,$value["case_sensitive"]) && in_string($value["closetext"],$text,$value["case_sensitive"]))
-                    || ((!$value["case_sensitive"]) && (stripos($text, $value["closetext"]) < stripos($text, $value["opentext"])))
-                    || (($value["case_sensitive"]) && (strpos($text, $value["closetext"]) < strpos($text, $value["opentext"])))    )
+            $opentext_posn  = str_posn($text, $value["opentext"],  $value["case_sensitive"]);
+            $closetext_posn = str_posn($text, $value["closetext"], $value["case_sensitive"]);
+            $opentext_is_present  = ($opentext_posn  !== false);
+            $closetext_is_present = ($closetext_posn !== false);
+            if (
+                ($opentext_is_present && !$closetext_is_present)
+                ||
+                (!$opentext_is_present && $closetext_is_present)
+                ||
+                ($closetext_posn < $opentext_posn)
+            )
             {
                 return $value["error"];
             }
