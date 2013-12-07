@@ -340,7 +340,7 @@ function number_of_occurrences($haystack, $needle, $cs)
 
 // =============================================================================
 
-function qp_echo_error_html($error_found)
+function qp_echo_error_html($message_id)
 {
     global $messages, $constant_message; // from the qd file
     global $default_challenge, $default_hintlink; // from quiz_defaults.inc
@@ -353,7 +353,7 @@ function qp_echo_error_html($error_found)
         echo "\n<hr>\n";
     }
 
-    $message = $messages[$error_found];
+    $message = $messages[$message_id];
 
     //Give the error message and any associated hints
     echo $message["message_text"];
@@ -364,7 +364,7 @@ function qp_echo_error_html($error_found)
             echo $message["hints"][0]["linktext"];
         else
             echo $default_hintlink;
-        $link_contents = "./hints.php?type=$quiz_page_id&error=$error_found&number=0";
+        $link_contents = "./hints.php?type=$quiz_page_id&error=$message_id&number=0";
         echo " " . sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents) . "<p>";
     }
     if (isset($message["guideline"]))
