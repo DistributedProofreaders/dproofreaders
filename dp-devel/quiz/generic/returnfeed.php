@@ -178,58 +178,7 @@ if ($error_found == "")
 }
 else
 {
-    //If the quiz has a message to show all the time, put that in first
-    if (@$constant_message != "")
-    {
-        echo $constant_message;
-        echo "\n<hr>\n";
-    }
-    //Give the error message and any associated hints
-    echo $messages[$error_found]["message_text"];
-    echo "\n<p>";
-    if (count(@$messages[$error_found]["hints"]) > 0)
-    {
-        if (isset($messages[$error_found]["hints"][0]["linktext"]))
-            echo $messages[$error_found]["hints"][0]["linktext"];
-        else
-            echo $default_hintlink;
-        $link_contents = "./hints.php?type=$quiz_page_id&error=$error_found&number=0";
-        echo " " . sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents) . "<p>";
-    }
-    if (isset($messages[$error_found]["guideline"]))
-    {
-        if ($quiz->activity_type == "proof")
-        {
-            $guidelines_url = "proofreading_guidelines.php";
-            $guidelines_title = _("Proofreading Guidelines");
-        }
-        elseif ($quiz->activity_type == "format")
-        {
-            $guidelines_url = "document.php";
-            $guidelines_title = _("Formatting Guidelines");
-        }
-        $anchor = $messages[$error_found]["guideline"];
-        $query = "SELECT subject FROM rules WHERE document = '$guidelines_url' AND anchor = '$anchor'";
-        $result = mysql_query($query);
-        $rule = mysql_fetch_assoc($result);
-        echo "<p>" . sprintf(_("See the <a href='../../faq/%1\$s#%2\$s' target='_blank'>%3\$s</a> section of the %4\$s for details."), $guidelines_url, $anchor, $rule['subject'], $guidelines_title) . "</p>";
-    }
-
-    if (isset($messages[$error_found]["challengetext"]))
-        echo $messages[$error_found]["challengetext"];
-    else
-        echo $default_challenge;
-
-    echo "</p>\n<p>";
-    if (isset($messages[$error_found]["feedbacktext"]))
-    {
-        echo $messages[$error_found]["feedbacktext"];
-    }
-    else
-    {
-        echo $quiz_feedbacktext;
-    }
-    echo "</p>";
+    qp_echo_error_html($error_found);
 }
 
 echo "\n</div>\n</body>\n</html>";
