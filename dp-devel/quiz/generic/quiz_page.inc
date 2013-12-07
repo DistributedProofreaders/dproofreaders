@@ -359,26 +359,6 @@ function qp_echo_error_html($message_id)
     echo "<h2>" . $message["message_title"] . "</h2>\n";
     echo "<p>" . $message["message_body"] . "</p>\n";
 
-    // Optionally show a wiki reference.
-    if (isset($message['wiki_ref']))
-    {
-        echo "<p>" . $message['wiki_ref'] . "</p>\n";
-    }
-    
-    // Optionally show a link to a hint.
-    if (count(@$message["hints"]) > 0)
-    {
-        echo "<p>";
-        if (isset($message["hints"][0]["linktext"]))
-            echo $message["hints"][0]["linktext"];
-        else
-            echo $default_hintlink;
-        $link_contents = "./hints.php?type=$quiz_page_id&error=$message_id&number=0";
-        echo " ";
-        echo sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents);
-        echo "</p>\n";
-    }
-
     // Optionally show a link to a guideline.
     if (isset($message["guideline"]))
     {
@@ -398,6 +378,26 @@ function qp_echo_error_html($message_id)
         $rule = mysql_fetch_assoc($result);
         echo "<p>";
         echo sprintf(_("See the <a href='../../faq/%1\$s#%2\$s' target='_blank'>%3\$s</a> section of the %4\$s for details."), $guidelines_url, $anchor, $rule['subject'], $guidelines_title);
+        echo "</p>\n";
+    }
+
+    // Optionally show a wiki reference.
+    if (isset($message['wiki_ref']))
+    {
+        echo "<p>" . $message['wiki_ref'] . "</p>\n";
+    }
+    
+    // Optionally show a link to a hint.
+    if (count(@$message["hints"]) > 0)
+    {
+        echo "<p>";
+        if (isset($message["hints"][0]["linktext"]))
+            echo $message["hints"][0]["linktext"];
+        else
+            echo $default_hintlink;
+        $link_contents = "./hints.php?type=$quiz_page_id&error=$message_id&number=0";
+        echo " ";
+        echo sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents);
         echo "</p>\n";
     }
 
