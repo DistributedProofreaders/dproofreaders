@@ -295,10 +295,7 @@ function qp_text_contains_anticipated_error($text, $value)
 
 function in_string($needle, $haystack, $sensitive = 0) 
 {
-    if ($sensitive) 
-        return (false !== strpos($haystack, $needle));
-    else
-        return (false !== stripos($haystack, $needle));
+    return (str_posn($haystack, $needle, $sensitive) !== false);
 }
 
 function str_posn($haystack,$needle,$cs)
