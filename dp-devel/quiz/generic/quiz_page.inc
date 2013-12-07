@@ -251,7 +251,7 @@ function qp_text_contains_anticipated_error($text, $value)
             // (A correct text will, if it contains both $firsttext and $secondtext, contain them in that order.)
             $p1 = str_posn($text,$value["firsttext"],$value["case_sensitive"]);
             $p2 = str_posn($text,$value["secondtext"],$value["case_sensitive"]);
-            if ($p1 && $p2 && ($p1 > $p2))
+            if ($p1 !== false && $p2 !== false && ($p1 > $p2))
             {
                 return $value["error"];
             }
