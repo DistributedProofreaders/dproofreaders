@@ -355,14 +355,17 @@ function qp_echo_error_html($message_id)
 
     $message = $messages[$message_id];
 
-    //Give the error message and any associated hints
+    // Show the error 'title' and main body.
     echo "<h2>" . $message["message_title"] . "</h2>\n";
     echo "<p>" . $message["message_body"] . "</p>\n";
+
+    // Optionally show a wiki reference.
     if (isset($message['wiki_ref']))
     {
         echo "<p>" . $message['wiki_ref'] . "</p>\n";
     }
     
+    // Optionally show a link to a hint.
     if (count(@$message["hints"]) > 0)
     {
         echo "<p>";
@@ -376,6 +379,7 @@ function qp_echo_error_html($message_id)
         echo "</p>\n";
     }
 
+    // Optionally show a link to a guideline.
     if (isset($message["guideline"]))
     {
         if ($quiz->activity_type == "proof")
@@ -397,6 +401,7 @@ function qp_echo_error_html($message_id)
         echo "</p>\n";
     }
 
+    // Challenge the quiz-taker to fix the error.
     echo "<p>";
     if (isset($message["challengetext"]))
         echo $message["challengetext"];
@@ -404,6 +409,8 @@ function qp_echo_error_html($message_id)
         echo $default_challenge;
     echo "</p>\n";
 
+    // Add a disclaimer re the error-finding algorithm,
+    // and invite feedback somewhere.
     echo "<p>";
     if (isset($message["feedbacktext"]))
     {
