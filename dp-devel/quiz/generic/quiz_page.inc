@@ -352,19 +352,22 @@ function qp_echo_error_html($error_found)
         echo $constant_message;
         echo "\n<hr>\n";
     }
+
+    $message = $messages[$error_found];
+
     //Give the error message and any associated hints
-    echo $messages[$error_found]["message_text"];
+    echo $message["message_text"];
     echo "\n<p>";
-    if (count(@$messages[$error_found]["hints"]) > 0)
+    if (count(@$message["hints"]) > 0)
     {
-        if (isset($messages[$error_found]["hints"][0]["linktext"]))
-            echo $messages[$error_found]["hints"][0]["linktext"];
+        if (isset($message["hints"][0]["linktext"]))
+            echo $message["hints"][0]["linktext"];
         else
             echo $default_hintlink;
         $link_contents = "./hints.php?type=$quiz_page_id&error=$error_found&number=0";
         echo " " . sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents) . "<p>";
     }
-    if (isset($messages[$error_found]["guideline"]))
+    if (isset($message["guideline"]))
     {
         if ($quiz->activity_type == "proof")
         {
@@ -376,22 +379,22 @@ function qp_echo_error_html($error_found)
             $guidelines_url = "document.php";
             $guidelines_title = _("Formatting Guidelines");
         }
-        $anchor = $messages[$error_found]["guideline"];
+        $anchor = $message["guideline"];
         $query = "SELECT subject FROM rules WHERE document = '$guidelines_url' AND anchor = '$anchor'";
         $result = mysql_query($query);
         $rule = mysql_fetch_assoc($result);
         echo "<p>" . sprintf(_("See the <a href='../../faq/%1\$s#%2\$s' target='_blank'>%3\$s</a> section of the %4\$s for details."), $guidelines_url, $anchor, $rule['subject'], $guidelines_title) . "</p>";
     }
 
-    if (isset($messages[$error_found]["challengetext"]))
-        echo $messages[$error_found]["challengetext"];
+    if (isset($message["challengetext"]))
+        echo $message["challengetext"];
     else
         echo $default_challenge;
 
     echo "</p>\n<p>";
-    if (isset($messages[$error_found]["feedbacktext"]))
+    if (isset($message["feedbacktext"]))
     {
-        echo $messages[$error_found]["feedbacktext"];
+        echo $message["feedbacktext"];
     }
     else
     {
