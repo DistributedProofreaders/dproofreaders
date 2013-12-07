@@ -162,21 +162,21 @@ function qp_echo_hint_html($message_id, $hint_number)
 
 // called by returnfeed.php:
 
-function qp_text_contains_anticipated_error($text, $value)
+function qp_text_contains_anticipated_error($text, $test)
 {
-    switch ($value['type'])
+    switch ($test['type'])
     {
         case "forbiddentext":
             // It's an error if the text contains any of the strings in $searchtext.
             // (A correct text will not contain any of the strings in $searchtext.)
             $found = FALSE;
-            if(!is_array($value["searchtext"]))
+            if(!is_array($test["searchtext"]))
             {
-                $value["searchtext"] = array($value["searchtext"]);
+                $test["searchtext"] = array($test["searchtext"]);
             }
-            foreach ($value["searchtext"] as $expected)
+            foreach ($test["searchtext"] as $expected)
             {
-                if (in_string($expected,$text,$value["case_sensitive"]))
+                if (in_string($expected,$text,$test["case_sensitive"]))
                 {
                     $found = TRUE;
                     break;
@@ -184,7 +184,7 @@ function qp_text_contains_anticipated_error($text, $value)
             }
             if ($found == TRUE)
             {
-                return $value["error"];
+                return $test["error"];
             }
             break;
 
@@ -192,23 +192,23 @@ function qp_text_contains_anticipated_error($text, $value)
             // It's an error if the text contains none of the strings in $searchtext.
             // (A correct text will contain at least one of the strings in $searchtext.)
             $found = FALSE;
-            foreach ($value["searchtext"] as $expected)
+            foreach ($test["searchtext"] as $expected)
             {
-                if (in_string($expected,$text,$value["case_sensitive"]))
+                if (in_string($expected,$text,$test["case_sensitive"]))
                     $found = TRUE;
             }
             if (!$found)
             {
-                return $value["error"];
+                return $test["error"];
             }
             break;
 
         case "multioccurrence":
             // It's an error if the text contains more than one occurrence of $searchtext.
             // (A correct text will contain zero or one occurrence of $searchtext.)
-            if (number_of_occurrences($text, $value["searchtext"], $value["case_sensitive"]) > 1)
+            if (number_of_occurrences($text, $test["searchtext"], $test["case_sensitive"]) > 1)
             {
-                return $value["error"];
+                return $test["error"];
             }
             break;
 
@@ -217,11 +217,11 @@ function qp_text_contains_anticipated_error($text, $value)
         case "markupmissing":
             // It's an error if the text does not contain both $opentext and $closetext.
             // (A correct text will contain $opentext or $closetext [or both, really].)
-            $opentext_is_present  = in_string($value["opentext"],  $text, $value["case_sensitive"]);
-            $closetext_is_present = in_string($value["closetext"], $text, $value["case_sensitive"]);
+            $opentext_is_present  = in_string($test["opentext"],  $text, $test["case_sensitive"]);
+            $closetext_is_present = in_string($test["closetext"], $text, $test["case_sensitive"]);
             if (!$opentext_is_present && !$closetext_is_present)
             {
-                return $value["error"];
+                return $test["error"];
             }
             break;
 
@@ -229,8 +229,8 @@ function qp_text_contains_anticipated_error($text, $value)
             // It's an error if the text contains one but not both of $opentext and $closetext,
             // or if the first occurrence of $closetext is before the first occurrence of $opentext.
             // (A correct text will contain both $opentext and $closetext, in that order.)
-            $opentext_posn  = str_posn($text, $value["opentext"],  $value["case_sensitive"]);
-            $closetext_posn = str_posn($text, $value["closetext"], $value["case_sensitive"]);
+            $opentext_posn  = str_posn($text, $test["opentext"],  $test["case_sensitive"]);
+            $closetext_posn = str_posn($text, $test["closetext"], $test["case_sensitive"]);
             $opentext_is_present  = ($opentext_posn  !== false);
             $closetext_is_present = ($closetext_posn !== false);
             if (
@@ -241,7 +241,7 @@ function qp_text_contains_anticipated_error($text, $value)
                 ($closetext_posn < $opentext_posn)
             )
             {
-                return $value["error"];
+                return $test["error"];
             }
             break;
 
@@ -250,11 +250,11 @@ function qp_text_contains_anticipated_error($text, $value)
             // and the first occurrence of $secondtext is before the first occurrence of $firsttext.
             // (A correct text will, if it contains both $firsttext and $secondtext,
             // contain them in that order.)
-            $p1 = str_posn($text,$value["firsttext"],$value["case_sensitive"]);
-            $p2 = str_posn($text,$value["secondtext"],$value["case_sensitive"]);
+            $p1 = str_posn($text,$test["firsttext"],$test["case_sensitive"]);
+            $p2 = str_posn($text,$test["secondtext"],$test["case_sensitive"]);
             if ($p1 !== false && $p2 !== false && ($p1 > $p2))
             {
-                return $value["error"];
+                return $test["error"];
             }
             break;
 
@@ -264,25 +264,25 @@ function qp_text_contains_anticipated_error($text, $value)
             // It's an error if the portion of the text between $starttext and $stoptext
             // does not contain exactly $number newlines.
             // (A correct text will contain exactly $number newlines in that range.)
-            $len = strlen($value["starttext"]);
-            if ($value["case_sensitive"])
+            $len = strlen($test["starttext"]);
+            if ($test["case_sensitive"])
             {
-                $part = strstr($text,$value["starttext"]);
-                $part= substr($part, $len, strpos($part,$value["stoptext"]) - $len);
+                $part = strstr($text,$test["starttext"]);
+                $part= substr($part, $len, strpos($part,$test["stoptext"]) - $len);
             }
             else
             {
-                $part = stristr($text,$value["starttext"]);
-                $part= substr($part, $len, stripos($part,$value["stoptext"]) - $len);
+                $part = stristr($text,$test["starttext"]);
+                $part= substr($part, $len, stripos($part,$test["stoptext"]) - $len);
             }
             $num = number_of_occurrences($part, "\n", TRUE);
-            if ($num < $value["number"])
+            if ($num < $test["number"])
             {
-                return $value["errorlow"];
+                return $test["errorlow"];
             }
-            if ($num > $value["number"])
+            if ($num > $test["number"])
             {
-                return $value["errorhigh"];
+                return $test["errorhigh"];
             }
             break;
 
@@ -292,15 +292,15 @@ function qp_text_contains_anticipated_error($text, $value)
             $arr = explode("\n", $text);
             foreach($arr as $line)
             {
-                if (strlen($line) > $value["lengthlimit"])
+                if (strlen($line) > $test["lengthlimit"])
                 {
-                    return $value["error"];
+                    return $test["error"];
                 }
             }
             break;
 
         default:
-            die("test-type '{$value['type']}' not recognized");
+            die("test-type '{$test['type']}' not recognized");
 
     }
 
