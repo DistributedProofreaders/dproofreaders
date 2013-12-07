@@ -376,8 +376,9 @@ function qp_echo_error_html($message_id)
         $query = "SELECT subject FROM rules WHERE document = '$guidelines_url' AND anchor = '$anchor'";
         $result = mysql_query($query);
         $rule = mysql_fetch_assoc($result);
+        $guidelines_link = "<a href='../../faq/$guidelines_url#$anchor' target='_blank'>{$rule['subject']}</a>";
         echo "<p>";
-        echo sprintf(_("See the <a href='../../faq/%1\$s#%2\$s' target='_blank'>%3\$s</a> section of the %4\$s for details."), $guidelines_url, $anchor, $rule['subject'], $guidelines_title);
+        echo sprintf(_("See the %1\$s section of the %2\$s for details."), $guidelines_link, $guidelines_title);
         echo "</p>\n";
     }
 
