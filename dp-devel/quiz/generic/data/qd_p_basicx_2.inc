@@ -31,7 +31,7 @@ $messages["arid"] = array(
         ),
         array(
             "hint_title" => _("Scanno: hints"),
-            "hint_body" => _("You are looking for an occurance of 'ri' that is wrong. There is only only words with 'ri' in the text. Once you've found it you will immediately know it is wrong."),
+            "hint_body" => _("You are looking for an occurrence of 'ri' that is wrong. There is only one word with 'ri' in the text. Once you've found it you will immediately know it is wrong."),
         ),
         array(
             "hint_title" => _("Scanno: hints"),
