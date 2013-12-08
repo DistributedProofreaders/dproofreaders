@@ -362,6 +362,8 @@ function qp_echo_error_html($message_id)
     // Optionally show a link to a guideline.
     if (isset($message["guideline"]))
     {
+        $anchor = $message["guideline"];
+
         if ($quiz->activity_type == "proof")
         {
             $guidelines_url = "proofreading_guidelines.php";
@@ -372,11 +374,16 @@ function qp_echo_error_html($message_id)
             $guidelines_url = "document.php";
             $guidelines_title = _("Formatting Guidelines");
         }
-        $anchor = $message["guideline"];
-        $query = "SELECT subject FROM rules WHERE document = '$guidelines_url' AND anchor = '$anchor'";
-        $result = mysql_query($query);
+
+        $result = mysql_query("
+            SELECT subject
+            FROM rules
+            WHERE document = '$guidelines_url' AND anchor = '$anchor'
+        ");
         $rule = mysql_fetch_assoc($result);
-        $guidelines_link = "<a href='../../faq/$guidelines_url#$anchor' target='_blank'>{$rule['subject']}</a>";
+        $subject = $rule['subject'];
+        $guidelines_link = "<a href='../../faq/$guidelines_url#$anchor' target='_blank'>$subject</a>";
+
         echo "<p>";
         echo sprintf(_("See the %1\$s section of the %2\$s for details."), $guidelines_link, $guidelines_title);
         echo "</p>\n";
