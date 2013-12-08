@@ -51,6 +51,8 @@ function output_small_header($quiz)
         $guide_url = "$code_url/faq/faq_central.php";
         $guide_text = _("Help");
     }
+    // XXX localization bug:
+    // $guide_url should point to the locale-appropriate version of the guidelines.
     echo "<a href='$guide_url' target='_top'><font face='$font_face' size='1' color='$font_color'>$guide_text</font></a>";
 
     echo "</td>";

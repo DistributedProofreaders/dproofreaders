@@ -377,6 +377,8 @@ function qp_echo_error_html($message_id)
             $see_unnamed_section = _("See <a %s>this</a> section of the Formatting Guidelines for details.");
         }
         $guidelines_url = "../../faq/$guidelines_doc#$anchor";
+        // XXX localization bug:
+        // $guidelines_url should point to the locale-appropriate version of the guidelines.
         $guidelines_attrs = "href='$guidelines_url' target='_blank'";
 
         $result = mysql_query("
