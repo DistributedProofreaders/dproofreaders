@@ -367,12 +367,12 @@ function qp_echo_error_html($message_id)
         if ($quiz->activity_type == "proof")
         {
             $guidelines_doc = "proofreading_guidelines.php";
-            $guidelines_title = _("Proofreading Guidelines");
+            $see_named_section = _("See the %s section of the Proofreading Guidelines for details.");
         }
         elseif ($quiz->activity_type == "format")
         {
             $guidelines_doc = "document.php";
-            $guidelines_title = _("Formatting Guidelines");
+            $see_named_section = _("See the %s section of the Formatting Guidelines for details.");
         }
         $guidelines_url = "../../faq/$guidelines_doc#$anchor";
         $guidelines_attrs = "href='$guidelines_url' target='_blank'";
@@ -387,7 +387,7 @@ function qp_echo_error_html($message_id)
         $guidelines_link = "<a $guidelines_attrs>$subject</a>";
 
         echo "<p>";
-        echo sprintf(_("See the %1\$s section of the %2\$s for details."), $guidelines_link, $guidelines_title);
+        echo sprintf($see_named_section, $guidelines_link);
         echo "</p>\n";
     }
 
