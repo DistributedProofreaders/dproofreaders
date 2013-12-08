@@ -12,7 +12,6 @@ if(!$utf8_site) {
 else{
     $solutions                = array("them to beware of green meat, as it weakens\nthe belly:\n\nbeware of saladis, grene metis, & of frutes rawe\nfor þey make many a man̄ haue a feble mawe.\nÞerfore, of suche fresch lustes set not an hawe,\nFor suche wantoun appetites ar not worth a\nstrawe.");
 }
-$links_out                    = "<a href='../start.php?show_only=proof' target='_top'>" . _("Back to proofreading quiz home") . "</a>";
 
 
 // error messages

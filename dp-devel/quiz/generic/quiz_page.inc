@@ -402,12 +402,7 @@ function qp_echo_solved_html()
     }
 
     echo "<p>";
-    if (isset($links_out))
-    {
-        echo $links_out;
-    }
-    else
-    {
+
         // Figure out what the next quiz page is, if any
         $quiz_pages = array_keys($quiz->pages);
         $quiz_keys = array_flip($quiz_pages);
@@ -428,7 +423,7 @@ function qp_echo_solved_html()
         }
         // Give a link back to quiz home (P or F as appropriate)
         echo "<a href='../start.php?show_only={$quiz->activity_type}' target='_top'>" . _("Back to quizzes home") . "</a>";
-    }
+
     echo "</p>";
 }
 

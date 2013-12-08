@@ -8,7 +8,6 @@ $ocr_text                     = "self-condemnation, the Glass and Porcelain\ndup
 $solutions                    = array("self-condemnation, the Glass and Porcelain\ndupe, the Antiquity and Coin-hunting dupe,\nand especially the Book-collecting dupe.\nDupes of every kind, however, may find their\nreproof in the simple German lines,\n\nWer Narren offt viel predigen will,\nBey ihnen nicht wird schaffen viel:\nDann all's was man am besten redt,\nDer Narr zum ärgsten falsch versteht,");
 $parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
                                     "<p>" . _("The capital letters I and J are identical in fraktur.  Often (but not always) if the letter comes before a consonant it's an I, and before a vowel it's a J.  If you aren't sure, ask in the project discussion for confirmation.") . "</p>";
-$links_out                    = "<a href='../start.php?show_only=proof' target='_top'>" . _("Back to proofreading quiz home") . "</a>";
 
 
 // error messages
