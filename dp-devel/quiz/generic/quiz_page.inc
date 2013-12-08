@@ -368,11 +368,13 @@ function qp_echo_error_html($message_id)
         {
             $guidelines_doc = "proofreading_guidelines.php";
             $see_named_section = _("See the %s section of the Proofreading Guidelines for details.");
+            $see_unnamed_section = _("See <a %s>this</a> section of the Proofreading Guidelines for details.");
         }
         elseif ($quiz->activity_type == "format")
         {
             $guidelines_doc = "document.php";
             $see_named_section = _("See the %s section of the Formatting Guidelines for details.");
+            $see_unnamed_section = _("See <a %s>this</a> section of the Formatting Guidelines for details.");
         }
         $guidelines_url = "../../faq/$guidelines_doc#$anchor";
         $guidelines_attrs = "href='$guidelines_url' target='_blank'";
@@ -382,13 +384,22 @@ function qp_echo_error_html($message_id)
             FROM rules
             WHERE document = '$guidelines_doc' AND anchor = '$anchor'
         ");
-        $rule = mysql_fetch_assoc($result);
-        $subject = $rule['subject'];
-        $guidelines_link = "<a $guidelines_attrs>$subject</a>";
+        if (mysql_num_rows($result) > 0)
+        {
+            $rule = mysql_fetch_assoc($result);
+            $subject = $rule['subject'];
+            $guidelines_link = "<a $guidelines_attrs>$subject</a>";
 
-        echo "<p>";
-        echo sprintf($see_named_section, $guidelines_link);
-        echo "</p>\n";
+            echo "<p>";
+            echo sprintf($see_named_section, $guidelines_link);
+            echo "</p>\n";
+        }
+        else
+        {
+            echo "<p>";
+            echo sprintf($see_unnamed_section, $guidelines_attrs);
+            echo "</p>\n";
+        }
     }
 
     // Optionally show a wiki reference.
