@@ -7,9 +7,7 @@ $intro_title                  = _("Greek Transliteration Quiz, page 5");
 $initial_instructions         = $initial_instructions__greek;
 $ocr_text                     = "a profound impression on the coolest\nspectator, even in that age, when men\nwere more accustomed to stabbing\nthan in our delicate days of gunshot\nwounds. 'O be (BeAia&aacute;gioc) xarariAayeis\notiioco re arieSn Kai Biaaa eyy6s ri8\nectjx&oacute;ri tiegitiAaxels Siacpnyeiv tayvai--\n(De Bello Gotthico, ii. 8.)";
 $solutions                    = array("a profound impression on the coolest\nspectator, even in that age, when men\nwere more accustomed to stabbing\nthan in our delicate days of gunshot\nwounds. [Greek: Ho de (Belisarios) kataplageis\nopisô te apestê kai Bessa engys pou\nestêkoti periplakeis diaphygein ischysi]--(De\nBello Gotthico, ii. 8.)");
-$solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .
-                                    "<p>" . _("Congratulations, no errors found!") . "</p>\n" .
-                                    "<h3>" . _("Handy Tip") . "</h3>\n" .
+$parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
                                     "<p>" . sprintf(_("If you see other Greek characters that don't appear in the Greek transliteration tool, try looking at the wiki <a href='%s' target='_blank'>Transliterating Greek</a> article.  The 'Older and Obscure Items' section shows variant forms of some more letters and has links to ligature charts, which can help you to identify unusual symbols."), $Greek_translit_url) . "</p>";
 
 

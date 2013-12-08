@@ -7,8 +7,7 @@ $intro_title                  = _("Basic Proofreading Quiz, page 1");
 $initial_instructions         = $initial_instructions__P;
 $ocr_text                     = "THE GLORY OF MOTION.      62\n\nbefore I matriculated at Oxford, Mr. Palmer,\nM. P. for Bath, had accomplished two tbings,\nvery hard to do on our little planet: he had in-\nvented mail-coaches, arid he had married the\ndaughter of a duke. He was, therefore, just\ntwice as great a man as Galileo, who certain-\nly invented (or discovered) the satellites of\nJupiter, those very next things extant to mail-\ncoaches in the two capital points of speed and\nkeeping time, hut who did not marry the\ndaughter of a duke.\n\nFf";
 $solutions                    = array("before I matriculated at Oxford, Mr. Palmer,\nM. P. for Bath, had accomplished two things,\nvery hard to do on our little planet: he had invented\nmail-coaches, and he had married the\ndaughter of a duke. He was, therefore, just\ntwice as great a man as Galileo, who certainly\ninvented (or discovered) the satellites of\nJupiter, those very next things extant to mail-coaches\nin the two capital points of speed and\nkeeping time, but who did not marry the\ndaughter of a duke.");
-$solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .
-                                    "<p>" . _("Congratulations, no errors found!") . "</p>\n<h3>" . _("Handy Fact") . "</h3>\n" .
+$parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
                                     "<p>" . _("We remove page headers and footers because later on in the process all the pages will be joined together into one text.  If we left the header or footer on each page it would disrupt the flow of the text.") . "</p>";
 
 

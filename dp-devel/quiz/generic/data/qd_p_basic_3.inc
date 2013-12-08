@@ -6,9 +6,7 @@ $intro_title                  = _("Basic Proofreading Quiz, page 3");
 $initial_instructions         = $initial_instructions__P;
 $ocr_text                     = "bundles into the house, while Mirabell's mother\nwent on home in her automobile.\n\nCHAPTER II\n\nThe Rabbit's New Home\n\nOh, Mother! What have you?\" cried the\nvoice of a little girl, as the lady entered\nthe house with the bundle.\n\n\"Is it...something good to cat..?\" asked a\nboy's voice.\n\n\"Now, children, you must not ask too many\nquestions.\" said their mother. \"This isn't exactly\nCHRISTMAS, but it will soon be EASTER, and we";
 $solutions                    = array("bundles into the house, while Mirabell's mother\nwent on home in her automobile.\n\nCHAPTER II\n\nThe Rabbit's New Home\n\n\"Oh, Mother! What have you?\" cried the\nvoice of a little girl, as the lady entered\nthe house with the bundle.\n\n\"Is it ... something good to eat...?\" asked a\nboy's voice.\n\n\"Now, children, you must not ask too many\nquestions,\" said their mother. \"This isn't exactly\nCHRISTMAS, but it will soon be EASTER, and we");
-$solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .
-                                    "<p>" . _("Congratulations, no errors found!") . "</p>\n" .
-                                    "<h3>" . _("Handy Fact") . "</h3>\n" .
+$parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
                                     "<p>" . _("While proofreading, if you encounter something that isn't covered in the guidelines or that you are not sure how to handle, post your question in the Project Discussion thread (a link to the project-specific thread is in the Project Comments).  The Project Manager or other site volunteers will let you know how to handle it.") . "</p>";
 
 

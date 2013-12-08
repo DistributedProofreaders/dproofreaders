@@ -7,9 +7,7 @@ $intro_title                  = _("Moderate Proofreading Quiz, page 7");
 $initial_instructions         = $initial_instructions__P;
 $ocr_text                     = "its terrestrial excursions. Just above\nthe gills, lie climbing perch has\ninvented a wholly original water chamber\ncontaining within it a\nfrilled bony organ, which\nenables it to extract oxygen\n--or O2 to scientists--from\nthe stored-up water\nduring the course of its aerial peregrinations\n. While on shore it picks up\nsmall insects, worms, and grubs; but it\nalso has vegetarian tastes of us own,\nand does not despise fruits and berries";
 $solutions                    = array("its terrestrial excursions. Just above\nthe gills, the climbing perch has\ninvented a wholly original water chamber,\ncontaining within it a\nfrilled bony organ, which\nenables it to extract oxygen--or\nO_{2} to scientists--from\nthe stored-up water\nduring the course of its aërial peregrinations.\nWhile on shore it picks up\nsmall insects, worms, and grubs; but it\nalso has vegetarian tastes of its own,\nand does not despise fruits and berries.");
-$solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .
-                                    "<p>" . _("Congratulations, no errors found!") . "</p>\n" .
-                                    "<h3>" . _("Handy Fact") . "</h3>\n" .
+$parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
                                     "<p>" . _("The texts that we proofread sometimes have different spellings than what we use today, including accents in words like <tt>co&ouml;perate</tt> and <tt>pre&euml;minent</tt>. OCR programs often miss the accents, so be sure to check the image carefully when proofreading.") . "</p>";
 
 

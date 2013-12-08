@@ -6,9 +6,7 @@ $intro_title                  = _("Moderate Proofreading Quiz, page 9");
 $initial_instructions         = $initial_instructions__P;
 $ocr_text                     = "\"It has been said,\" he began, withdrawing\nhis eyes reluctantly from an unusually large\ninsect upon the ceiling, \"that there are few\n\"situations in life that cannot be honourably\n\"settled--and without loss of time\n\"--either by suicide, a bag of gold,\n\"or by thrusting a despised anta-\n\"gonist over the edge of a precipice upon a\n\"dark night. This inoffensive person, however,\n\nA suitor\nis chosen";
 $solutions                    = array("\n\"It has been said,\" he began, withdrawing\nhis eyes reluctantly from an unusually large\ninsect upon the ceiling, \"that there are few\nsituations in life that cannot be honourably\nsettled--and without loss of time--either\nby suicide, a bag of gold,\nor by thrusting a despised antagonist\nover the edge of a precipice upon a\ndark night. This inoffensive person, however,\n\nA suitor\nis chosen.");
-$solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .
-                                    "<p>" . _("Congratulations, no errors found!") . "</p>\n" .
-                                    "<h3>" . _("Handy Fact") . "</h3>\n" .
+$parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
                                     "<p>" . _("We remove extra quote marks when they appear on every line because the text will be rewrapped in post-processing, changing the line breaks.  If we left the extra quote marks in the text they would end up in the middle of the paragraph.") . "</p>";
 
 

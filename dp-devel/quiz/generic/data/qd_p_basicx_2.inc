@@ -9,7 +9,6 @@ $ocr_text                     = "repentant and remorseful agony.\n\nCHAPTER VII.
 $solutions                    = array("repentant and remorseful agony.\n\nCHAPTER VII.\n\nAt Oakwood\n\n\"DEAREST mother, this is indeed\nlike some of\nOakwood's happy hours,\" exclaimed\nEmmeline, that same evening, as with\nchildish glee she had placed herself at her\nmother's feet, and raised her laughing eyes");
 $intro_title                  = _("Basic Proofreading Quiz, extra practice");
 $initial_instructions         = $initial_instructions__P;
-$solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" . _("Congratulations, no errors found!");
 
 
 $tests[] = array("type" => "forbiddentext", "searchtext" => array("arid"), "case_sensitive" => FALSE, "error" => "arid");

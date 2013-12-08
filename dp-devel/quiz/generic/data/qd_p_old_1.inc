@@ -6,9 +6,7 @@ $intro_title                  = _("Old Texts Proofreading Quiz, page 1");
 $initial_instructions         = $initial_instructions__P;
 $ocr_text                     = "three in.number, refled that Shakespeare\nhas introduced three daughters into his\ntragedy of King Lear, which has often\ndrawn tears from the eyes of multitudes.'\n\nIndeed, your affe&amp;ing tale might better\nsuit the intention of an opera: were a fuffi-cient\nnumber of cats put under the tuition\nof proper matters, nobody can tell what an\naflonifhing chorus might be produced. If\nthis proposal shall be embraced, I make no\ncloubt of its being the wonder of all\nEurope,";
 $solutions                    = array("three in number, reflect that Shakespeare\nhas introduced three daughters into his\ntragedy of King Lear, which has often\ndrawn tears from the eyes of multitudes.\n\nIndeed, your affecting tale might better\nsuit the intention of an opera: were a sufficient\nnumber of cats put under the tuition\nof proper masters, nobody can tell what an\nastonishing chorus might be produced. If\nthis proposal shall be embraced, I make no\ndoubt of its being the wonder of all");
-$solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .
-                                    "<p>" . _("Congratulations, no errors found!") . "</p>\n" .
-                                    "<h3>" . _("Handy Fact") . "</h3>\n" .
+$parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
                                     "<p>" . _("Because OCR programs often use a modern dictionary to help them resolve unclear areas of the image, sometimes they will modernize the spelling.  We keep the text as the author wrote it, so when proofreading it is important to watch out for any modern spellings and return them to the older forms if necessary in order to match the image.") . "</p>";
 
 

@@ -6,9 +6,7 @@ $intro_title                  = _("Basic Proofreading Quiz, page 4");
 $initial_instructions         = $initial_instructions__P;
 $ocr_text                     = "work he was printing would be good for\nnothing but waste paper, might\nnot be realised. The work\nappeared about the end of\nDecember 18|8 with 1819 on\nthe title-page. Schopenhauer\nhad meanwhile proceeded in\nSeptember to Italy, where lie\nrevised the final proofs.\n\nHigh art.\n\nSo far as the reception of the work was\nconcerned, Goethe \" had received it with\ngreat joy and began instantly to read it. An\n\nWallace, Life, p. 108.";
 $solutions                    = array("work he was printing would be good for\nnothing but waste paper, might\nnot be realised.[*] The work\nappeared about the end of\nDecember 1818 with 1819 on\nthe title-page. Schopenhauer\nhad meanwhile proceeded in\nSeptember to Italy, where he\nrevised the final proofs.\n\nHigh art.\n\nSo far as the reception of the work was\nconcerned, Goethe \"had received it with\ngreat joy and began instantly to read it. An\n\n* Wallace, Life, p. 108.");
-$solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .
-                                    "<p>" . _("Congratulations, no errors found!") . "</p>\n" .
-                                    "<h3>" . _("Handy Fact") . "</h3>\n" .
+$parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
                                     "<p>" . _("Sometimes a word or punctuation mark may seem incorrect, but it could turn out to be what the author intended. However, if you believe the printer made an error, proofread it as the image shows and and[**duplicate word] add a note describing yuor[**typo for your?] concern, as shown [**missing word here?] this sentence[**.]") . "</p>";
 
 

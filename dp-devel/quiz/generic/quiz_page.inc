@@ -385,15 +385,23 @@ function qp_echo_solved_html()
 {
     global $pguser;
     global $quiz_page_id, $quiz;
-    global $solved_message, $links_out;
+    global $parting_message, $links_out;
 
     if (isset($pguser))
     {
         record_quiz_attempt($pguser, $quiz_page_id, 'pass');
     }
 
-    echo $solved_message;
-    echo "\n<p>";
+    echo "<h2>" . _("Quiz successfully solved") . "</h2>\n";
+    echo "<p>" . _("Congratulations, no errors found!") . "</p>\n";
+
+    if (isset($parting_message))
+    {
+        echo $parting_message;
+        echo "\n";
+    }
+
+    echo "<p>";
     if (isset($links_out))
     {
         echo $links_out;

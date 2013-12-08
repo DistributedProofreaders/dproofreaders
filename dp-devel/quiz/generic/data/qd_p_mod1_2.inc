@@ -6,9 +6,7 @@ $intro_title                  = _("Moderate Proofreading Quiz, page 2");
 $initial_instructions         = $initial_instructions__P;
 $ocr_text                     = "364   ALICE ORVILLE.\n\n\"When folks can't do as they will, they must do\nas they can, I've heard say.\"\n\nThus we leave our adventurers and return north-\neast to the land from which they are receding. We\ndid n't know what else to do here, reader, for we\nwere quite as tired of the characters as you wore,\nand wanted to get them off our hands in some\nway. * * * A few people think E--e can tell\nstories tolerably well. But she can't, reader! We";
 $solutions                    = array("\n\"When folks can't do as they will, they must do\nas they can, I've heard say.\"\n\nThus we leave our adventurers and return north-*east\nto the land from which they are receding. We\ndidn't know what else to do here, reader, for we\nwere quite as tired of the characters as you were,\nand wanted to get them off our hands in some\nway. * * * A few people think E--e can tell\nstories tolerably well. But she can't, reader! We");
-$solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .
-                                    "<p>" . _("Congratulations, no errors found!") . "</p>\n" .
-                                    "<h3>" . _("Handy Fact") . "</h3>\n" .
+$parting_message              = "<h3>" . _("Handy Fact") . "</h3>\n" .
                                     "<p>" . _("Enlarging the image in the proofreading interface can often help you to identify characters that may seem unclear at first.  You can use the +25% button repeatedly in the standard interface, or simply enter the size you want, such as 200%, in the enhanced interface.") . "</p>";
 
 

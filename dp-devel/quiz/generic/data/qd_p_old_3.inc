@@ -15,9 +15,7 @@ if(!$utf8_site) {
 else {
     $solutions                = array("for coolenes in Summer.\n\nCucuye. An admirable byrde in Hispaniola\n(no bigger then a thōbe) hauing in\nher forehead two burnynge Lampes, and\ntwo vnderneath her winges (which are\ndouble, a greater and a smaller payre) so\nshining in the nyght (wherin onely she\nflyeth) that fiue or sixe of thē tyed together,\ngyue as moch light as a torch. Fur-*");
 }
-$solved_message               = "<h2>" . _("Quiz successfully solved") . "</h2>\n" .
-                                    "<p>" . _("Congratulations, no errors found!") . "</p>\n" .
-                                    "<h3>" . _("Handy Tip") . "</h3>\n" .
+$parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
                                     "<p>" . _("If you come across any unusual symbols or characters when proofreading, please bring it up in the project discussion.  This will alert the project manager and post-processor to the situation, and help to improve consistency among the various proofreaders during the rounds.") . "</p>";
 
 
