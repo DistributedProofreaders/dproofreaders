@@ -19,6 +19,11 @@ $fraktur_url              = "$wiki_url/Common_Fraktur_OCR_errors";
 $blackletter_url          = "$wiki_url/Proofing_blackletter";
 $custom_font_url          = "$wiki_url/DPCustomMono2";
 $latex_url                = "$wiki_url/LaTeX_formatting_manual";
+// XXX localization bug:
+// The preceding URLs point to English-language pages in the wiki.
+// We would generally want to point to a locale-appropriate page, if one exists.
+// E.g. $wiki_url/French/Relecture_des_textes_anciens
+//      $wiki_url/Italian/Correggere_testi_antichi
 
 
 // Common initial instructions:
