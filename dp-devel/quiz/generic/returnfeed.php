@@ -55,7 +55,7 @@ function diff($s1, $s2)
         else
         {
             if ($line1 != "")
-            	return $line1;
+                return $line1;
         }
     }
 }
@@ -127,8 +127,8 @@ function error_check()
     }
     foreach ($tests as $key => $value)
     {
-	$message_id = qp_text_contains_anticipated_error($text, $value);
-	if ($message_id != "") return $message_id;
+        $message_id = qp_text_contains_anticipated_error($text, $value);
+        if ($message_id != "") return $message_id;
     }
 
     return "";
@@ -143,7 +143,7 @@ if ($error_found == "")
     $d = finddiff();
     if (!$d)
     {
-    	qp_echo_solved_html();
+        qp_echo_solved_html();
     }
 }
 else
@@ -152,3 +152,5 @@ else
 }
 
 echo "\n</div>\n</body>\n</html>";
+
+// vim: sw=4 ts=4 expandtab
