@@ -419,15 +419,15 @@ function qp_echo_link_to_hint_if_it_exists($message_id, $hint_number)
     global $quiz_page_id;
     global $messages, $default_hintlink;
 
-    $message = $messages[$message_id];
+    $hint = @$messages[$message_id]["hints"][$hint_number];
 
-    if ($hint_number < count(@$message["hints"]))
+    if (isset($hint))
     {
         echo "<p>";
 
-        if (isset($message["hints"][$hint_number]["linktext"]))
+        if (isset($hint["linktext"]))
         {
-            echo $message["hints"][$hint_number]["linktext"];
+            echo $hint["linktext"];
         }
         else
         {
