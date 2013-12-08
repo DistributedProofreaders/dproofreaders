@@ -427,9 +427,9 @@ function qp_echo_hint_html($message_id, $hint_number)
     {
         echo "<p>";
 
-        if (isset($hint["linktext"]))
+        if (isset($messages[$message_id]["hints"][$hint_number+1]["linktext"]))
         {
-            echo $hint["linktext"];
+            echo $messages[$message_id]["hints"][$hint_number+1]["linktext"];
         }
         else
         {
