@@ -287,8 +287,8 @@ function number_of_occurrences($haystack, $needle, $cs)
 function qp_echo_error_html($message_id)
 {
     global $messages, $constant_message; // from the qd file
-    global $default_challenge, $default_hintlink; // from quiz_defaults.inc
-    global $quiz_page_id, $quiz, $quiz_feedbacktext; // from returnfeed.php
+    global $default_challenge; // from quiz_defaults.inc
+    global $quiz, $quiz_feedbacktext; // from returnfeed.php
 
     //If the quiz has a message to show all the time, put that in first
     if (@$constant_message != "")
@@ -355,18 +355,7 @@ function qp_echo_error_html($message_id)
     }
     
     // Optionally show a link to a hint.
-    if (count(@$message["hints"]) > 0)
-    {
-        echo "<p>";
-        if (isset($message["hints"][0]["linktext"]))
-            echo $message["hints"][0]["linktext"];
-        else
-            echo $default_hintlink;
-        $link_contents = "./hints.php?type=$quiz_page_id&error=$message_id&number=0";
-        echo " ";
-        echo sprintf(_("Get more hints <a href='%s'>here</a>."), $link_contents);
-        echo "</p>\n";
-    }
+    qp_echo_link_to_hint_if_it_exists($message_id, 0);
 
     // Challenge the quiz-taker to fix the error.
     echo "<p>";
@@ -396,7 +385,6 @@ function qp_echo_error_html($message_id)
 
 function qp_echo_hint_html($message_id, $hint_number)
 {
-    global $quiz_page_id;
     global $messages;
 
     if (!isset($messages[$message_id]))
@@ -423,26 +411,36 @@ function qp_echo_hint_html($message_id, $hint_number)
 
     // If there are any further hints for this message,
     // display a link to the next hint.
-    if ($hint_number < $max_hint_number)
+    qp_echo_link_to_hint_if_it_exists($message_id, $hint_number+1);
+}
+
+function qp_echo_link_to_hint_if_it_exists($message_id, $hint_number)
+{
+    global $quiz_page_id;
+    global $messages, $default_hintlink;
+
+    $message = $messages[$message_id];
+
+    if ($hint_number < count(@$message["hints"]))
     {
         echo "<p>";
 
-        if (isset($messages[$message_id]["hints"][$hint_number+1]["linktext"]))
+        if (isset($message["hints"][$hint_number]["linktext"]))
         {
-            echo $messages[$message_id]["hints"][$hint_number+1]["linktext"];
+            echo $message["hints"][$hint_number]["linktext"];
         }
         else
         {
-            echo _("Desperate? Can't find it?");
+            echo $default_hintlink;
         }
         echo " ";
 
         echo sprintf(
             _("Get more hints <a href='%s'>here</a>."),
-            "./hints.php?type=$quiz_page_id&error=$message_id&number=" . ($hint_number + 1)
+            "./hints.php?type=$quiz_page_id&error=$message_id&number=$hint_number"
         );
 
-        echo "</p>";
+        echo "</p>\n";
     }
 }
 
