@@ -375,6 +375,7 @@ function qp_echo_error_html($message_id)
             $guidelines_title = _("Formatting Guidelines");
         }
         $guidelines_url = "../../faq/$guidelines_doc#$anchor";
+        $guidelines_attrs = "href='$guidelines_url' target='_blank'";
 
         $result = mysql_query("
             SELECT subject
@@ -383,7 +384,7 @@ function qp_echo_error_html($message_id)
         ");
         $rule = mysql_fetch_assoc($result);
         $subject = $rule['subject'];
-        $guidelines_link = "<a href='$guidelines_url' target='_blank'>$subject</a>";
+        $guidelines_link = "<a $guidelines_attrs>$subject</a>";
 
         echo "<p>";
         echo sprintf(_("See the %1\$s section of the %2\$s for details."), $guidelines_link, $guidelines_title);
