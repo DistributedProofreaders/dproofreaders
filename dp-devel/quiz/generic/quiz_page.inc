@@ -104,62 +104,6 @@ function qp_echo_introduction_html()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// called from hints.php:
-
-function qp_echo_hint_html($message_id, $hint_number)
-{
-    global $quiz_page_id;
-    global $messages;
-
-    if (!isset($messages[$message_id]))
-    {
-        die("supplied message-id ($message_id) is not valid");
-    }
-
-    if (!isset($messages[$message_id]["hints"]))
-    {
-        die("The specified message ($message_id) does not have any hints.");
-    }
-
-    $max_hint_number = count($messages[$message_id]["hints"])-1;
-    if ($hint_number > $max_hint_number)
-    {
-        die("supplied hint-number ($hint_number) is greater than the maximum $max_hint_number");
-    }
-
-    $hint = $messages[$message_id]["hints"][$hint_number];
-
-    // Display current hint
-    echo "<h2>" . $hint["hint_title"] . "</h2>\n";
-    echo "<p>" . $hint["hint_body"] . "</p>";
-
-    // If there are any further hints for this message,
-    // display a link to the next hint.
-    if ($hint_number < $max_hint_number)
-    {
-        echo "<p>";
-
-        if (isset($hint["linktext"]))
-        {
-            echo $hint["linktext"];
-        }
-        else
-        {
-            echo _("Desperate? Can't find it?");
-        }
-        echo " ";
-
-        echo sprintf(
-            _("Get more hints <a href='%s'>here</a>."),
-            "./hints.php?type=$quiz_page_id&error=$message_id&number=" . ($hint_number + 1)
-        );
-
-        echo "</p>";
-    }
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
 // called by returnfeed.php:
 
 function qp_text_contains_anticipated_error($text, $test)
@@ -444,6 +388,62 @@ function qp_echo_error_html($message_id)
         echo $quiz_feedbacktext;
     }
     echo "</p>\n";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// called from hints.php:
+
+function qp_echo_hint_html($message_id, $hint_number)
+{
+    global $quiz_page_id;
+    global $messages;
+
+    if (!isset($messages[$message_id]))
+    {
+        die("supplied message-id ($message_id) is not valid");
+    }
+
+    if (!isset($messages[$message_id]["hints"]))
+    {
+        die("The specified message ($message_id) does not have any hints.");
+    }
+
+    $max_hint_number = count($messages[$message_id]["hints"])-1;
+    if ($hint_number > $max_hint_number)
+    {
+        die("supplied hint-number ($hint_number) is greater than the maximum $max_hint_number");
+    }
+
+    $hint = $messages[$message_id]["hints"][$hint_number];
+
+    // Display current hint
+    echo "<h2>" . $hint["hint_title"] . "</h2>\n";
+    echo "<p>" . $hint["hint_body"] . "</p>";
+
+    // If there are any further hints for this message,
+    // display a link to the next hint.
+    if ($hint_number < $max_hint_number)
+    {
+        echo "<p>";
+
+        if (isset($hint["linktext"]))
+        {
+            echo $hint["linktext"];
+        }
+        else
+        {
+            echo _("Desperate? Can't find it?");
+        }
+        echo " ";
+
+        echo sprintf(
+            _("Get more hints <a href='%s'>here</a>."),
+            "./hints.php?type=$quiz_page_id&error=$message_id&number=" . ($hint_number + 1)
+        );
+
+        echo "</p>";
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
