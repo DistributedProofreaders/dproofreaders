@@ -1,12 +1,6 @@
 <?php
 include_once($relPath."Quiz.inc");
 
-function quizsolved()
-{
-  global $pguser;
-  if (isset($pguser))
-      record_quiz_attempt($pguser,"p_basicx_2","pass");
-}
 
 
 

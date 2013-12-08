@@ -1,12 +1,6 @@
 <?php
 include_once('quiz_defaults.inc'); // $utf8_site
 
-function quizsolved()
-{
-  global $pguser;
-  if (isset($pguser))
-      record_quiz_attempt($pguser,"p_mod2_3","pass");
-}
 
 $browser_title                = _("Moderate Proofreading Quiz");
 $intro_title                  = _("Moderate Proofreading Quiz, page 8");

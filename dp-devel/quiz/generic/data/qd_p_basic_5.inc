@@ -1,12 +1,6 @@
 <?php
 include_once('quiz_defaults.inc'); // $custom_font_url
 
-function quizsolved()
-{
-  global $pguser;
-  if (isset($pguser))
-      record_quiz_attempt($pguser,"p_basic_5","pass");
-}
 
 $browser_title                = _("Basic Proofreading Quiz");
 $intro_title                  = _("Basic Proofreading Quiz, part 5");

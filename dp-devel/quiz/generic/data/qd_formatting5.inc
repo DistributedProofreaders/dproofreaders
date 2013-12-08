@@ -1,12 +1,6 @@
 <?php
 include_once($relPath."Quiz.inc");
 
-function quizsolved()
-{
-  global $pguser;
-  if (isset($pguser))
-      record_quiz_attempt($pguser,"formatting5","pass");
-}
 
 $browser_title                = _("Formatting Quiz");
 $intro_title                  = _("Formatting Quiz, page 5");

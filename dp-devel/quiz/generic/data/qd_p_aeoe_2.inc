@@ -1,12 +1,6 @@
 <?php
 include_once('quiz_defaults.inc'); // $ae_oe_ligatures_url $utf8_site
 
-function quizsolved()
-{
-  global $pguser;
-  if (isset($pguser))
-      record_quiz_attempt($pguser,"p_aeoe_2","pass");
-}
 
 $browser_title                = _("Ligatures Proofreading Quiz");
 $intro_title                  = _("Ligatures Proofreading Quiz, page 2");

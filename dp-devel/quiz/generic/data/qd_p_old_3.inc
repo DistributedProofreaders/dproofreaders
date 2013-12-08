@@ -1,12 +1,6 @@
 <?php
 include_once('quiz_defaults.inc'); // $blackletter_url $old_texts_url $utf8_site
 
-function quizsolved()
-{
-  global $pguser;
-  if (isset($pguser))
-      record_quiz_attempt($pguser,"p_old_3","pass");
-}
 
 $browser_title                = _("Old Texts Proofreading Quiz");
 $intro_title                  = _("Old Texts Proofreading Quiz, page 3");

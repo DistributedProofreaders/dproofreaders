@@ -1,11 +1,5 @@
 <?php
 
-function quizsolved()
-{
-  global $pguser;
-  if (isset($pguser))
-      record_quiz_attempt($pguser,"p_greek_3","pass");
-}
 
 $browser_title                = _("Greek Transliteration Quiz");
 $intro_title                  = _("Greek Transliteration Quiz, page 3");

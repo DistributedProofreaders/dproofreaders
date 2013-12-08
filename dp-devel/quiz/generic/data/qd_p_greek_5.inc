@@ -1,12 +1,6 @@
 <?php
 include_once('quiz_defaults.inc'); // $Greek_translit_url
 
-function quizsolved()
-{
-  global $pguser;
-  if (isset($pguser))
-      record_quiz_attempt($pguser,"p_greek_5","pass");
-}
 
 $browser_title                = _("Greek Transliteration Quiz");
 $intro_title                  = _("Greek Transliteration Quiz, page 5");

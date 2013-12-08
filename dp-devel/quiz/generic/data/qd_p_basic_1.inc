@@ -1,11 +1,5 @@
 <?php
 
-function quizsolved()
-{
-  global $pguser;
-  if (isset($pguser))
-      record_quiz_attempt($pguser,"p_basic_1","pass");
-}
 
 
 $browser_title                = _("Basic Proofreading Quiz");

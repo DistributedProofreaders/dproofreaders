@@ -1,12 +1,6 @@
 <?php
 include_once('quiz_defaults.inc'); // $thorn_url $utf8_site
 
-function quizsolved()
-{
-  global $pguser;
-  if (isset($pguser))
-      record_quiz_attempt($pguser,"p_thorn","pass");
-}
 
 $browser_title                = _("Thorn Proofreading Quiz");
 $intro_title                  = _("Thorn Proofreading Quiz");

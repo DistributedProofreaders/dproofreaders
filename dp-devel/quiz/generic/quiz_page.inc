@@ -383,10 +383,15 @@ function qp_echo_error_html($message_id)
 
 function qp_echo_solved_html()
 {
+    global $pguser;
     global $quiz_page_id, $quiz;
     global $solved_message, $links_out;
 
-    quizsolved();
+    if (isset($pguser))
+    {
+        record_quiz_attempt($pguser, $quiz_page_id, 'pass');
+    }
+
     echo $solved_message;
     echo "\n<p>";
     if (isset($links_out))
