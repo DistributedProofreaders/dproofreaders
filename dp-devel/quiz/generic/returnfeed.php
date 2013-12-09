@@ -38,7 +38,7 @@ if("UTF-8" != strtoupper($charset))
 echo "\n<div style='margin: .5em;'>";
 
 $error_found = error_check();
-if ($error_found == "")
+if (!$error_found)
 {
     $d = finddiff();
     if (!$d)
@@ -71,11 +71,11 @@ function error_check()
         if ($message_id != "")
         {
             qp_echo_error_html($message_id);
-            return $message_id;
+            return TRUE;
         }
     }
 
-    return "";
+    return FALSE;
 }
 
 function diff($s1, $s2)
