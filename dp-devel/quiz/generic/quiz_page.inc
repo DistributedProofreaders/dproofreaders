@@ -383,14 +383,8 @@ function qp_echo_error_html($message_id)
 
 function qp_echo_solved_html()
 {
-    global $pguser;
     global $quiz_page_id, $quiz;
     global $parting_message, $links_out;
-
-    if (isset($pguser))
-    {
-        record_quiz_attempt($pguser, $quiz_page_id, 'pass');
-    }
 
     echo "<h2>" . _("Quiz successfully solved") . "</h2>\n";
     echo "<p>" . _("Congratulations, no errors found!") . "</p>\n";

@@ -143,6 +143,7 @@ if ($error_found == "")
     $d = finddiff();
     if (!$d)
     {
+        if (isset($pguser)) record_quiz_attempt($pguser, $quiz_page_id, 'pass');
         qp_echo_solved_html();
     }
 }
