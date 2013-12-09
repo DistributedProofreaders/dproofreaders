@@ -37,15 +37,16 @@ if("UTF-8" != strtoupper($charset))
 // A margin
 echo "\n<div style='margin: .5em;'>";
 
-$error_found = handle_anticipated_error();
-if (!$error_found)
-{
-    $d = handle_unanticipated_error();
-    if (!$d)
-    {
-        handle_solved();
-    }
-}
+// This boolean expression is evaluated solely for its side-effects.
+// Each handle_* function returns TRUE iff it detects & handles its particular thing.
+// The first to return TRUE short-circuits the evaluation.
+(
+    handle_anticipated_error()
+    ||
+    handle_unanticipated_error()
+    ||
+    handle_solved()
+);
 
 echo "\n</div>\n</body>\n</html>";
 
