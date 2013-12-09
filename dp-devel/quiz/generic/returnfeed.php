@@ -47,10 +47,6 @@ if ($error_found == "")
         qp_echo_solved_html();
     }
 }
-else
-{
-    qp_echo_error_html($error_found);
-}
 
 echo "\n</div>\n</body>\n</html>";
 
@@ -72,7 +68,11 @@ function error_check()
     foreach ($tests as $key => $value)
     {
         $message_id = qp_text_contains_anticipated_error($text, $value);
-        if ($message_id != "") return $message_id;
+        if ($message_id != "")
+        {
+            qp_echo_error_html($message_id);
+            return $message_id;
+        }
     }
 
     return "";
