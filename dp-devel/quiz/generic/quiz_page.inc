@@ -385,11 +385,17 @@ function qp_choose_solution($text)
 {
     global $solutions, $criteria;
 
-    // If there's more than one solution, and solution criteria are defined
-    // for this quiz, check through the criteria to see if any are found in
-    // the user's text. If so, use the corresponding solution.
-    if (isset($criteria) and count($solutions) > 1)
+    if (count($solutions) > 1)
     {
+        // There's more than one solution.
+
+        // Solution-selection criteria must be defined.
+        assert(isset($criteria));
+        assert(is_array($criteria));
+        assert(count($criteria) == count($solutions) - 1);
+
+        // Check through the criteria to see if any are found in
+        // the user's text. If so, use the corresponding solution.
         foreach ($criteria as $key => $criterion)
         {
             if (in_string($criterion, $text, TRUE))
