@@ -411,14 +411,30 @@ function qp_echo_solved_html()
         $tutfile = "$code_dir/quiz/tuts/tut_$next_quiz_page_id.php";
         if (file_exists($tutfile))
         {
-            echo "<a href='../tuts/tut_$next_quiz_page_id.php' target='_top'>" . _("Next step of tutorial") . "</a><br>";
+            echo qp_exit_link(
+                "../tuts/tut_$next_quiz_page_id.php",
+                _("Next step of tutorial")
+            );
+            echo "<br>";
         }
-        echo "<a href='main.php?type=$next_quiz_page_id' target='_top'>" . _("Next step of quiz") . "</a><br>";
+        echo qp_exit_link(
+            "main.php?type=$next_quiz_page_id",
+            _("Next step of quiz")
+        );
+        echo "<br>";
     }
     // Give a link back to quiz home (P or F as appropriate)
-    echo "<a href='../start.php?show_only={$quiz->activity_type}' target='_top'>" . _("Back to quizzes home") . "</a>";
+    echo qp_exit_link(
+        "../start.php?show_only={$quiz->activity_type}",
+        _("Back to quizzes home")
+    );
 
     echo "</p>";
+}
+
+function qp_exit_link($url, $text)
+{
+    return "<a href='$url' target='_top'>$text</a>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
