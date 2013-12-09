@@ -394,20 +394,16 @@ function qp_choose_solution($text)
         {
             if (in_string($criterion, $text, TRUE))
             {
-                $solution = $solutions[$key];
-                break;
+                return $solutions[$key];
             }
         }
     }
 
-    // If there's no solution selected yet, use the the default,
+    // There's no solution selected yet, so use the the default,
     // ie the last one in the array.
-    if (!isset($solution))
     {
-        $solution = $solutions[count($solutions) - 1];
+        return $solutions[count($solutions) - 1];
     }
-    
-    return $solution;
 }
 
 // =============================================================================
