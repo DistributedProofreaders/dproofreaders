@@ -7,6 +7,7 @@ include_once('quiz_defaults.inc'); // $default_* $messages
 include_once('../small_theme.inc'); // output_small_header
 
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'type');
+$text = stripslashes($_POST['text_data']);
 
 include "./quiz_page.inc"; // qp_*
 
@@ -23,6 +24,14 @@ if ($quiz_feedbackurl != "")
 else
 {
     $quiz_feedbacktext = sprintf ($default_feedbacktext, $default_feedbackurl);
+}
+
+$text = multilinertrim($text);
+
+// If the site isn't using utf-8 encoding, convert the user input to utf-8
+if("UTF-8" != strtoupper($charset))
+{
+    $text = iconv($charset, "UTF-8//IGNORE", $text);
 }
 
 // A margin
@@ -58,13 +67,8 @@ function multilinertrim($x)
 
 function error_check()
 {
-    global $tests, $text, $charset;
-    $text = multilinertrim(stripslashes($_POST['text_data']));
-    // If the site isn't using utf-8 encoding, convert the user input to utf-8
-    if("UTF-8" != strtoupper($charset))
-    {
-        $text = iconv($charset, "UTF-8//IGNORE", $text);
-    }
+    global $tests, $text;
+
     foreach ($tests as $key => $value)
     {
         $message_id = qp_text_contains_anticipated_error($text, $value);
