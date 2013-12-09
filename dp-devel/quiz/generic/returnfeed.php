@@ -37,14 +37,13 @@ if("UTF-8" != strtoupper($charset))
 // A margin
 echo "\n<div style='margin: .5em;'>";
 
-$error_found = error_check();
+$error_found = handle_anticipated_error();
 if (!$error_found)
 {
-    $d = finddiff();
+    $d = handle_unanticipated_error();
     if (!$d)
     {
-        if (isset($pguser)) record_quiz_attempt($pguser, $quiz_page_id, 'pass');
-        qp_echo_solved_html();
+        handle_solved();
     }
 }
 
@@ -61,7 +60,7 @@ function multilinertrim($x)
     return implode("\n",$out);
 }
 
-function error_check()
+function handle_anticipated_error()
 {
     global $tests, $text;
 
@@ -104,7 +103,7 @@ function diff($s1, $s2)
     }
 }
 
-function finddiff()
+function handle_unanticipated_error()
 {
     global $text;
     global $quiz_feedbacktext;
@@ -136,6 +135,17 @@ function finddiff()
     }
     echo htmlspecialchars($d);
     echo "\n</pre></p>\n<p>$quiz_feedbacktext</p>";
+    return TRUE;
+}
+
+function handle_solved()
+{
+    global $pguser;
+    global $quiz_page_id;
+
+    if (isset($pguser)) record_quiz_attempt($pguser, $quiz_page_id, 'pass');
+    qp_echo_solved_html();
+
     return TRUE;
 }
 
