@@ -381,6 +381,37 @@ function qp_echo_error_html($message_id)
 
 // =============================================================================
 
+function qp_choose_solution($text)
+{
+    global $solutions, $criteria;
+
+    // If there's more than one solution, and solution criteria are defined
+    // for this quiz, check through the criteria to see if any are found in
+    // the user's text. If so, use the corresponding solution.
+    if (isset($criteria) and count($solutions) > 1)
+    {
+        foreach ($criteria as $key => $criterion)
+        {
+            if (in_string($criterion, $text, TRUE))
+            {
+                $solution = $solutions[$key];
+                break;
+            }
+        }
+    }
+
+    // If there's no solution selected yet, use the the default,
+    // ie the last one in the array.
+    if (!isset($solution))
+    {
+        $solution = $solutions[count($solutions) - 1];
+    }
+    
+    return $solution;
+}
+
+// =============================================================================
+
 function qp_echo_solved_html()
 {
     global $quiz_page_id, $quiz;

@@ -63,32 +63,11 @@ function diff($s1, $s2)
 function finddiff()
 {
     global $text;
-    global $solutions;
-    global $criteria;
     global $quiz_feedbacktext;
     global $charset;
   
-    // If there's more than one solution, and solution criteria are defined
-    // for this quiz, check through the criteria to see if any are found in
-    // the user's text. If so, use the corresponding solution.
-    if (isset($criteria) and count($solutions) > 1)
-    {
-        foreach ($criteria as $key => $criterion)
-        {
-            if (in_string ($criterion,$text,TRUE) )
-            {
-                $solution = $solutions[$key];
-                break;
-            }
-        }
-    }
+    $solution = qp_choose_solution($text);
 
-    // If there's no solution selected yet, use the the default,
-    // ie the last one in the array.
-    if (!isset($solution))
-    {
-        $solution = $solutions[count($solutions) - 1];
-    }
     $d = diff($text,$solution);
     if ($d == "")
     {
