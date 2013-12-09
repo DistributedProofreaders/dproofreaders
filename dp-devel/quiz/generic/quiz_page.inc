@@ -398,22 +398,22 @@ function qp_echo_solved_html()
     echo "<p>";
 
     // Figure out what the next quiz page is, if any
-    $quiz_pages = array_keys($quiz->pages);
-    $quiz_keys = array_flip($quiz_pages);
-    $current_index = $quiz_keys[$quiz_page_id];
+    $map_index_to_quiz_page_id = array_keys($quiz->pages);
+    $map_quiz_page_id_to_index = array_flip($map_index_to_quiz_page_id);
+    $current_index = $map_quiz_page_id_to_index[$quiz_page_id];
     $next_index = $current_index + 1;
 
     // If there's a next page, give a link to it, plus its tutorial if one exists
-    if (count($quiz_pages) > $next_index)
+    if (count($map_index_to_quiz_page_id) > $next_index)
     {
-        $next_page = $quiz_pages[$next_index];
+        $next_quiz_page_id = $map_index_to_quiz_page_id[$next_index];
         global $code_dir;
-        $tutfile = "$code_dir/quiz/tuts/tut_$next_page.php";
+        $tutfile = "$code_dir/quiz/tuts/tut_$next_quiz_page_id.php";
         if (file_exists($tutfile))
         {
-            echo "<a href='../tuts/tut_$next_page.php' target='_top'>" . _("Next step of tutorial") . "</a><br>";
+            echo "<a href='../tuts/tut_$next_quiz_page_id.php' target='_top'>" . _("Next step of tutorial") . "</a><br>";
         }
-        echo "<a href='main.php?type=$next_page' target='_top'>" . _("Next step of quiz") . "</a><br>";
+        echo "<a href='main.php?type=$next_quiz_page_id' target='_top'>" . _("Next step of quiz") . "</a><br>";
     }
     // Give a link back to quiz home (P or F as appropriate)
     echo "<a href='../start.php?show_only={$quiz->activity_type}' target='_top'>" . _("Back to quizzes home") . "</a>";
