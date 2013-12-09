@@ -65,9 +65,9 @@ function handle_anticipated_error()
 {
     global $tests, $text;
 
-    foreach ($tests as $key => $value)
+    foreach ($tests as $test)
     {
-        $message_id = qp_text_contains_anticipated_error($text, $value);
+        $message_id = qp_text_contains_anticipated_error($text, $test);
         if ($message_id != "")
         {
             qp_echo_error_html($message_id);
