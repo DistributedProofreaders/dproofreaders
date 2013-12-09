@@ -385,7 +385,17 @@ function qp_choose_solution($text)
 {
     global $solutions, $criteria;
 
-    if (count($solutions) > 1)
+    assert(isset($solutions));
+    assert(is_array($solutions));
+    assert(count($solutions) > 0);
+
+    if (count($solutions) == 1)
+    {
+        // There's only one solution, so we don't even have to look at $text.
+        assert(!isset($criteria));
+        return $solutions[0];
+    }
+    else
     {
         // There's more than one solution.
 
@@ -403,11 +413,9 @@ function qp_choose_solution($text)
                 return $solutions[$key];
             }
         }
-    }
 
-    // There's no solution selected yet, so use the the default,
-    // ie the last one in the array.
-    {
+        // None of the criteria was found in the user's text,
+        // so use the default solution, i.e. the last one.
         return $solutions[count($solutions) - 1];
     }
 }
