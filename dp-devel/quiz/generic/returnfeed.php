@@ -25,6 +25,28 @@ else
     $quiz_feedbacktext = sprintf ($default_feedbacktext, $default_feedbackurl);
 }
 
+// A margin
+echo "\n<div style='margin: .5em;'>";
+
+$error_found = error_check();
+if ($error_found == "")
+{
+    $d = finddiff();
+    if (!$d)
+    {
+        if (isset($pguser)) record_quiz_attempt($pguser, $quiz_page_id, 'pass');
+        qp_echo_solved_html();
+    }
+}
+else
+{
+    qp_echo_error_html($error_found);
+}
+
+echo "\n</div>\n</body>\n</html>";
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 function multilinertrim($x)
 {
     $arr = explode("\n",$x);
@@ -32,6 +54,24 @@ function multilinertrim($x)
         $out[] = rtrim($line);
 
     return implode("\n",$out);
+}
+
+function error_check()
+{
+    global $tests, $text, $charset;
+    $text = multilinertrim(stripslashes($_POST['text_data']));
+    // If the site isn't using utf-8 encoding, convert the user input to utf-8
+    if("UTF-8" != strtoupper($charset))
+    {
+        $text = iconv($charset, "UTF-8//IGNORE", $text);
+    }
+    foreach ($tests as $key => $value)
+    {
+        $message_id = qp_text_contains_anticipated_error($text, $value);
+        if ($message_id != "") return $message_id;
+    }
+
+    return "";
 }
 
 function diff($s1, $s2)
@@ -94,43 +134,5 @@ function finddiff()
     echo "\n</pre></p>\n<p>$quiz_feedbacktext</p>";
     return TRUE;
 }
-
-function error_check()
-{
-    global $tests, $text, $charset;
-    $text = multilinertrim(stripslashes($_POST['text_data']));
-    // If the site isn't using utf-8 encoding, convert the user input to utf-8
-    if("UTF-8" != strtoupper($charset))
-    {
-        $text = iconv($charset, "UTF-8//IGNORE", $text);
-    }
-    foreach ($tests as $key => $value)
-    {
-        $message_id = qp_text_contains_anticipated_error($text, $value);
-        if ($message_id != "") return $message_id;
-    }
-
-    return "";
-}
-
-// A margin
-echo "\n<div style='margin: .5em;'>";
-
-$error_found = error_check();
-if ($error_found == "")
-{
-    $d = finddiff();
-    if (!$d)
-    {
-        if (isset($pguser)) record_quiz_attempt($pguser, $quiz_page_id, 'pass');
-        qp_echo_solved_html();
-    }
-}
-else
-{
-    qp_echo_error_html($error_found);
-}
-
-echo "\n</div>\n</body>\n</html>";
 
 // vim: sw=4 ts=4 expandtab
