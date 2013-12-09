@@ -415,13 +415,13 @@ function qp_echo_solved_html()
                 "../tuts/tut_$next_quiz_page_id.php",
                 _("Next step of tutorial")
             );
-            echo "<br>";
+            echo "<br>\n";
         }
         echo qp_exit_link(
             "main.php?type=$next_quiz_page_id",
             _("Next step of quiz")
         );
-        echo "<br>";
+        echo "<br>\n";
     }
     // Give a link back to quiz home (P or F as appropriate)
     echo qp_exit_link(
@@ -429,7 +429,7 @@ function qp_echo_solved_html()
         _("Back to quizzes home")
     );
 
-    echo "</p>";
+    echo "</p>\n";
 }
 
 function qp_exit_link($url, $text)
