@@ -60,17 +60,22 @@ else
 </textarea> <p>
 <input type="submit" value="<?php echo _("Check"); ?>">
 <input type="reset" value="<?php echo _("Restart"); ?>">
-<script type='text/javascript'>
-s = "<?php
+<?php
+    if ($testing)
+    {
+        echo "<script type='text/javascript'>\n";
+        echo 's = "';
         $solution = qp_sample_solution();
         if("UTF-8" != strtoupper($charset))
         {
             $solution = iconv("UTF-8", $charset, $solution);
         }
-        if ($testing)
-            echo str_replace("\n",'\n',addslashes($solution));?>";
-</script>
-<a href='#' onclick="document.forms[0].elements['text_data'].value=s" accesskey='`'></a>
+        echo str_replace("\n",'\n',addslashes($solution));
+        echo "\";\n";
+        echo "</script>\n";
+        echo "<a href='#' onclick=\"document.forms[0].elements['text_data'].value=s\" accesskey='`'></a>\n";
+    }
+?>
 </p>
 </form>
 
