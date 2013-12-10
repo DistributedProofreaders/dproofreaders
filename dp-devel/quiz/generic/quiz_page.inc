@@ -427,7 +427,7 @@ function qp_echo_solved_html()
     global $quiz_page_id, $quiz;
     global $parting_message, $links_out;
 
-    echo "<h2>" . _("Quiz successfully solved") . "</h2>\n";
+    echo "<h2>" . _("You've solved this quiz.") . "</h2>\n";
     echo "<p>" . _("Congratulations, no errors found!") . "</p>\n";
 
     if (isset($parting_message))
