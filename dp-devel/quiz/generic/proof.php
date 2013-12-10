@@ -63,18 +63,17 @@ else
 <?php
     if ($testing)
     {
-        echo "<script type='text/javascript'>\n";
-        echo 's = "';
         $solution = qp_sample_solution();
         if("UTF-8" != strtoupper($charset))
         {
             $solution = iconv("UTF-8", $charset, $solution);
         }
-        echo str_replace("\n",'\n',addslashes($solution));
-        echo "\";\n";
-        echo "</script>\n";
 
-        $onclick = 'document.forms[0].elements["text_data"].value=s';
+        echo "<textarea name='cheat_text' style='display: none;'>\n";
+        echo htmlspecialchars($solution, ENT_NOQUOTES);
+        echo "</textarea>\n";
+
+        $onclick = 'document.forms[0].text_data.value = document.forms[0].cheat_text.value;';
         echo "<input type='button' value='". _("Cheat!") ."' onclick='$onclick'>\n";
         echo "<span style='color: red;'>";
         echo _("(This button is present only during testing.)");
