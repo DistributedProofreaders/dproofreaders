@@ -73,7 +73,12 @@ else
         echo str_replace("\n",'\n',addslashes($solution));
         echo "\";\n";
         echo "</script>\n";
-        echo "<a href='#' onclick=\"document.forms[0].elements['text_data'].value=s\" accesskey='`'></a>\n";
+
+        $onclick = 'document.forms[0].elements["text_data"].value=s';
+        echo "<input type='button' value='". _("Cheat!") ."' onclick='$onclick'>\n";
+        echo "<span style='color: red;'>";
+        echo _("(This button is present only during testing.)");
+        echo "</span>\n";
     }
 ?>
 </p>
