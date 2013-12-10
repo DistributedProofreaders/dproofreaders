@@ -113,6 +113,9 @@ function remove_insignificant_whitespace($x)
         $out[] = rtrim($line);
 
     return implode("\n",$out);
+
+    // This function is similar to _normalize_page_text() in pinc/DPage.inc.
+    // Should we just call that one instead?
 }
 
 function handle_anticipated_error()
