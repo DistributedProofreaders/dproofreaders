@@ -80,7 +80,7 @@ if("UTF-8" != strtoupper($charset))
     $text = iconv($charset, "UTF-8//IGNORE", $text);
 }
 
-$text = multilinertrim($text);
+$text = remove_insignificant_whitespace($text);
 
 // A margin
 echo "\n<div style='margin: .5em;'>";
@@ -100,8 +100,14 @@ echo "\n</div>\n</body>\n</html>";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function multilinertrim($x)
+function remove_insignificant_whitespace($x)
 {
+    // Remove blank lines at the bottom of the text
+    // (and whitespace at the end of the last non-blank line).
+    $x = rtrim($x);
+
+    // Remove whitespace at the end of each line.
+    // (Note that this also converts line-ends from CRLF to just LF.)
     $arr = explode("\n",$x);
     foreach($arr as $line)
         $out[] = rtrim($line);
