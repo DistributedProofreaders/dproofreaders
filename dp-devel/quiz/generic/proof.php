@@ -69,7 +69,7 @@ else
             $solution = iconv("UTF-8", $charset, $solution);
         }
 
-        echo "<textarea name='cheat_text' style='display: none;'>\n";
+        echo "<textarea name='cheat_text' style='display: none;' disabled>\n";
         echo htmlspecialchars($solution, ENT_NOQUOTES);
         echo "</textarea>\n";
 
