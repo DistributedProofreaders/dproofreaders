@@ -26,8 +26,6 @@ else
     $quiz_feedbacktext = sprintf ($default_feedbacktext, $default_feedbackurl);
 }
 
-$text = multilinertrim($text);
-
 // A Note on Character Encodings
 //
 // All solution-texts are encoded in UTF-8.
@@ -81,6 +79,8 @@ if("UTF-8" != strtoupper($charset))
 {
     $text = iconv($charset, "UTF-8//IGNORE", $text);
 }
+
+$text = multilinertrim($text);
 
 // A margin
 echo "\n<div style='margin: .5em;'>";
