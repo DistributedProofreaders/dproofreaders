@@ -49,16 +49,6 @@ else
 <html>
 <head>
 <meta name="generator" content="HTML Tidy, see www.w3.org">
-<script type='text/javascript'>
-s = "<?php
-$solution = qp_sample_solution();
-if("UTF-8" != strtoupper($charset))
-{
-    $solution = iconv("UTF-8", $charset, $solution);
-}
-if ($testing)
-echo str_replace("\n",'\n',addslashes($solution));?>";
-</script>
 <title></title>
 <META http-equiv="Content-Type" content="text/html; charset=<?php echo "$charset";?>">
 </head>
@@ -69,9 +59,20 @@ echo str_replace("\n",'\n',addslashes($solution));?>";
 <?php echo qp_initial_page_text(); ?>
 </textarea> <p>
 <input type="submit" value="<?php echo _("Check"); ?>">
-<input type="reset" value="<?php echo _("Restart"); ?>"></form>
-
+<input type="reset" value="<?php echo _("Restart"); ?>">
+<script type='text/javascript'>
+s = "<?php
+        $solution = qp_sample_solution();
+        if("UTF-8" != strtoupper($charset))
+        {
+            $solution = iconv("UTF-8", $charset, $solution);
+        }
+        if ($testing)
+            echo str_replace("\n",'\n',addslashes($solution));?>";
+</script>
 <a href='#' onclick="document.forms[0].elements['text_data'].value=s" accesskey='`'></a>
+</p>
+</form>
 
 </body>
 </html>
