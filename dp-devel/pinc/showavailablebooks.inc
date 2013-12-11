@@ -68,6 +68,10 @@ function show_projects_for_smooth_reading()
         unset($columns['username']);
         unset($columns['checkedoutby']);
         unset($columns['uploaded']);
+
+        $filter_custom_display_fields['username']     = FALSE;
+        $filter_custom_display_fields['checkedoutby'] = FALSE;
+        $filter_custom_display_fields['uploaded']     = FALSE;
     }
 
     // Show the committed project listing if the user is logged in.
@@ -115,10 +119,18 @@ function show_projects_for_smooth_reading()
     $title = _('Projects Available for Smooth Reading');
     echo "\n<h2 align='center'>$title</h2>";
 
+    // Only show the filters if the user is logged in.
+    // Filters don't work correctly unless there's a $pguser session,
+    // since the filter terms are stored into the user prefs when
+    // modified by a POST request, then read back in by the code
+    // displaying and applying the current filter terms and this
+    // requires a logged in user account.
+    $show_filter_block = isset($pguser);
+
     show_projects_for_stage(
         get_Stage_for_id("SR"),
         $initial_project_selector,
-        /* $show_filter_block */ TRUE,
+        $show_filter_block,
         $filter_custom_display_fields,
         /* $allow_special_colors_legend */ TRUE,
         $columns
