@@ -245,7 +245,7 @@ function spellcheck_echo_script()
         return false;
     }
 
-    // Disable the Unflag button
+    // Disable a bad word's Unflag button
     function disableAW(wordID) {
         var input = document.getElementById("input_" + wordID);
         var a = document.getElementById("a_" + wordID);
@@ -300,6 +300,10 @@ function spellcheck_echo_script()
         // mark the page as having been changed
         document.getElementById("is_changed").value=1;
 
+        // Disable the save as done and proof next button.
+        spsaveandnext = document.getElementById("spsaveandnext");
+        spsaveandnext.title    = "<?php echo javascript_safe(_("Cannot save page from WordCheck. Words have been modified."), $charset); ?>";
+        spsaveandnext.disabled = true;
         return false;
     }
 

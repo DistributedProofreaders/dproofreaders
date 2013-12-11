@@ -232,6 +232,13 @@ if ($userP['i_type']==1) {
             title="<?php echo attr_safe(_("Abandon corrections and return to proofreading this page")); ?>"
             onClick="return confirmExit();"
         >
+        <input
+            type="submit"
+            name="spsaveandnext"
+            id="spsaveandnext"
+            value="<?php echo attr_safe(_("Save as 'Done' & Proof Next Page")); ?>"
+            title="<?php echo attr_safe(_("Save page as done and proofread the next available page")); ?>"
+        >
     </td>
 </tr>
 </table>

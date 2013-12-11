@@ -48,9 +48,10 @@ if (isset($_POST['button9']) || isset($_POST['button9_x'])) {$tbutton=B_REVERT_T
 if (isset($_POST['button10']) || isset($_POST['button10_x'])) {$tbutton=B_RUN_SPELL_CHECK;}
 if (isset($_POST['button11']) || isset($_POST['button11_x'])) {$tbutton=B_RUN_COMMON_ERRORS_CHECK;}
 
-if (isset($_POST['spcorrect'])) {$tbutton=101;} // Make Spelling Corrections
-if (isset($_POST['spexit'])) {$tbutton=102;} // Exit Spelling Corrections
-if (isset($_POST['rerunauxlanguage'])) {$tbutton=103;} // Spellcheck against another language
+if (isset($_POST['spcorrect']))        {$tbutton=101;} // Make Spelling Corrections
+if (isset($_POST['spexit']))           {$tbutton=102;} // Exit Spelling Corrections
+if (isset($_POST['spsaveandnext']))    {$tbutton=103;} // Save and do another from the Spellcheck page
+if (isset($_POST['rerunauxlanguage'])) {$tbutton=104;} // Spellcheck against another language
 
 // set prefs
 if ($userP['i_type']==1)
@@ -203,6 +204,40 @@ switch( $tbutton )
         break;
 
     case 103:
+        // Do Save as 'Done' & Proof Next from the spellchecker interface.
+        // This works by
+        // 1. Quitting the current wordcheck
+        // 2. Saving the current page as done
+        // 3. Redirecting to the next available page
+        include_once('spellcheck_text.inc');
+        $correct_text = spellcheck_quit();
+        $accepted_words = explode(' ',stripslashes($_POST["accepted_words"]));
+        $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
+
+        // 1. Quit the wordcheck interface:
+        // Discard the session state holding current wordcheck corrections
+        // since we don't want to submit them and subsequent page loads will
+        // not need the state.
+        //
+        // NB: Within wordcheck, the markPageChanged() javascript function
+        // disables the Save as 'Done' & Proof Next button if the user makes
+        // any corrections, so we should only get here if the user has no
+        // corrections to submit, so all we're discarding is wordcheck's
+        // unmodified input fields.
+        unset($_SESSION[$wcTempCorrections]);
+
+        save_wordcheck_event(
+            $_POST["projectid"],$ppage->lpage->round->id,$page,$pguser,$accepted_words,array());
+
+        // 2. Save the current page as done
+        $ppage->saveAsDone(addslashes($correct_text),$pguser);
+        leave_spellcheck_mode($ppage);
+
+        // Redirect to the next available page
+        $url = $ppage->url_for_do_another_page();
+        metarefresh(1,$url,_("Save as 'Done' & Proof Next"),_("Page saved."));
+
+    case 104:
         // User wants to run the page through spellcheck for an another language
         // Apply current corrections to text (but don't save the progress)
         // and rerun through the spellcheck
