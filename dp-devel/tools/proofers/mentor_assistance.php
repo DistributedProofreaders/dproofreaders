@@ -377,44 +377,20 @@ function _checkout_button( $username, $projectid )
     return $str;
 }
 
-function _days_ago($unixtime) 
-{
-    $interval = ( time() - $unixtime ) ;
-    $days = (int) ($interval / 24 / 60 / 60) ;
-    return $days == 0 ? "" : $days ;
-}
-
-function _hours_ago($unixtime)
-{
-    $interval = ( time() - $unixtime ) ;
-    $interval %=  (24 * 60 * 60)  ;
-    $hours= (int) ($interval / 60 / 60) ;
-    return $hours;
-}
-
-function _minutes_ago($unixtime)
-{
-    $interval = ( time() - $unixtime ) ;
-    $interval %=  ( 60 * 60 ) ;
-    $minutes= (int) ( $interval / 60 ) ;
-    return $minutes;
-}
-
-function _now($unixtime)
-{
-    return fmt_time( time() );
-}
-
 function _ago($unixtime)
 {
-    $days           = _("days");
-    $hrs            = _("hours");
-    $mins           = _("minutes");
-    $days_ago       = _days_ago($unixtime);
-    $hours_ago      = _hours_ago($unixtime);
-    $minutes_ago    = _minutes_ago($unixtime);
+    // Display a human readable time delta from $unixtime to now
+    $interval  = time() - $unixtime;
+    $days_ago  = (int) ($interval / 24 / 60 / 60);
+    $interval %= 24 * 60 * 60;
+    $hours_ago = (int) ($interval / 60 / 60);
+    $interval %= 60 * 60;
+    $mins_ago  = (int) ($interval / 60);
 
-    return "$days_ago $days $hours_ago $hrs $minutes_ago $mins";
+    return sprintf(
+        _('%1$d days %2$d hours %3$d minutes'),
+        $days_ago, $hours_ago, $mins_ago
+    );
 }
 
 function fmt_time( $val )
