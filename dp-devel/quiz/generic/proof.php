@@ -64,10 +64,7 @@ else
     if ($testing)
     {
         $solution = qp_sample_solution();
-        if("UTF-8" != strtoupper($charset))
-        {
-            $solution = iconv("UTF-8", $charset, $solution);
-        }
+	$solution = qp_convert_from_utf8_if_necessary($solution);
 
         echo "<textarea name='cheat_text' style='display: none;' disabled>\n";
         echo htmlspecialchars($solution, ENT_NOQUOTES);

@@ -483,14 +483,28 @@ function qp_compare_texts($text, $solution)
         echo '<p>' . _('This is the first differing line:') . '<br>';
     }
     echo "<pre>\n";
-    // If the site isn't using utf-8 encoding, convert the diff string
-    if("UTF-8" != strtoupper($charset))
-    {
-        $d = iconv("UTF-8",$charset,$d);
-    }
+    $d = qp_convert_from_utf8_if_necessary($d);
     echo htmlspecialchars($d);
     echo "\n</pre></p>\n<p>$quiz_feedbacktext</p>";
     return TRUE;
+}
+
+function qp_convert_from_utf8_if_necessary($text)
+// $text is encoded in UTF-8.
+// (See the 'Note on Character Encodings' in returnfeed.php.)
+// If the site's encoding is also UTF-8, simply return the $text.
+// Otherwise, convert $text according to $charset and return the result.
+{
+    global $charset;
+
+    if (strtoupper($charset) != 'UTF-8')
+    {
+        return iconv('UTF-8', $charset, $text);
+    }
+    else
+    {
+        return $text;
+    }
 }
 
 // =============================================================================
