@@ -433,32 +433,6 @@ function qp_choose_solution($text)
 
 // =============================================================================
 
-function diff($s1, $s2)
-{
-    $arr1 = explode("\n",$s1);
-    $arr2 = explode("\n",$s2);
-    if (count($arr2) > count($arr1))
-    {
-        $arrdummy = $arr1;
-        $arr1 = $arr2;
-        $arr2 = $arrdummy;
-    }
-
-    foreach($arr1 as $key => $line1)
-    {
-        if (isset($arr2[$key]))
-        {
-            if ($line1 != $arr2[$key])
-                return $line1 . "\n" . $arr2[$key];
-        }
-        else
-        {
-            if ($line1 != "")
-                return $line1;
-        }
-    }
-}
-
 function qp_compare_texts($text, $solution)
 // If the two texts are the same, return FALSE.
 // If they differ, output HTML that describes how they differ, and return TRUE.
@@ -487,6 +461,32 @@ function qp_compare_texts($text, $solution)
     echo htmlspecialchars($d);
     echo "\n</pre></p>\n<p>$quiz_feedbacktext</p>";
     return TRUE;
+}
+
+function diff($s1, $s2)
+{
+    $arr1 = explode("\n",$s1);
+    $arr2 = explode("\n",$s2);
+    if (count($arr2) > count($arr1))
+    {
+        $arrdummy = $arr1;
+        $arr1 = $arr2;
+        $arr2 = $arrdummy;
+    }
+
+    foreach($arr1 as $key => $line1)
+    {
+        if (isset($arr2[$key]))
+        {
+            if ($line1 != $arr2[$key])
+                return $line1 . "\n" . $arr2[$key];
+        }
+        else
+        {
+            if ($line1 != "")
+                return $line1;
+        }
+    }
 }
 
 function qp_convert_from_utf8_if_necessary($text)
