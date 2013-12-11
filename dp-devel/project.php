@@ -191,7 +191,7 @@ function do_pm_header()
     global $project;
     if (!$project->can_be_managed_by_current_user) return;
 
-    echo_manager_header( 'project_detail_page' );
+    echo_manager_header();
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

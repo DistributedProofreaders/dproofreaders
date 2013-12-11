@@ -19,7 +19,7 @@ function abort_if_not_manager()
     }
 }
 
-function echo_manager_header( $which )
+function echo_manager_header()
 {
     global $pguser, $code_url, $external_catalog_locator;
 

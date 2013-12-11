@@ -340,7 +340,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $_GET['show'] == 'search_form' ||
     ($_GET['show'] == '' && $_GET['up_projectid'] == '' )) {
 
-    echo_manager_header('project_search_page');
+    echo_manager_header();
 
     // New proofreaders are having a hard time finding stuff because they
     // end up on the Project Search page instead of the starting round page.
@@ -420,7 +420,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         </center>
     ";
 } else {
-    echo_manager_header('project_listings_page');
+    echo_manager_header();
 
     // Construct and submit the search query.
 
