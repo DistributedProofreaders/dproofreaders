@@ -486,7 +486,7 @@ function qp_compare_texts($text, $solution)
     // If the site isn't using utf-8 encoding, convert the diff string
     if("UTF-8" != strtoupper($charset))
     {
-        $d = iconv("UTF-8","$charset//IGNORE",$d);
+        $d = iconv("UTF-8",$charset,$d);
     }
     echo htmlspecialchars($d);
     echo "\n</pre></p>\n<p>$quiz_feedbacktext</p>";
