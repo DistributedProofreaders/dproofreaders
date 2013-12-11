@@ -82,7 +82,7 @@ if ($userP['i_type']==1)
 // So handle that case before we do any continuity/permission checks.
 if ($tbutton == B_QUIT)
 {
-    leave_proofing_interface( _("Stop Proofreading"), '' );
+    leave_proofing_interface( _("Stop Proofreading") );
     exit;
 }
 
@@ -127,14 +127,13 @@ switch( $tbutton )
 
     case B_SAVE_AND_QUIT:
         $ppage->saveAsDone($text_data,$pguser);
-        leave_proofing_interface(
-            _("Save as 'Done'"), _("Page Saved.") );
+        leave_proofing_interface( _("Save as 'Done'") );
         break;
 
     case B_RETURN_PAGE_TO_ROUND:
         $ppage->returnToRound($pguser);
         leave_proofing_interface(
-            _("Return to Round"), _("Page Returned to Round.") );
+            _("Return to Round") );
         break;
 
     case B_REPORT_BAD_PAGE:
@@ -297,7 +296,7 @@ function leave_spellcheck_mode( $ppage )
     }
 }
 
-function leave_proofing_interface( $title, $body )
+function leave_proofing_interface( $title )
 {
     global $code_url, $projectid, $proj_state;
 
