@@ -441,10 +441,10 @@ function qp_compare_texts($user_text, $soln_text)
 
     if ($user_text == $soln_text) return FALSE;
 
-    echo '<h2>' . _('Difference with expected text') . '</h2>';
+    echo '<h2>' . _('Difference with expected text') . "</h2>\n";
     echo '<p>';
     echo _('There is still a difference between your text and the expected one.');
-    echo ' ';
+    echo "\n";
 
     $d = diff($user_text,$soln_text);
     if ($d == "")
@@ -466,7 +466,7 @@ function qp_compare_texts($user_text, $soln_text)
     echo htmlspecialchars($d);
     echo "\n</pre></p>\n";
     
-    echo "<p>$quiz_feedbacktext</p>";
+    echo "<p>$quiz_feedbacktext</p>\n";
 
     return TRUE;
 }
