@@ -473,21 +473,39 @@ function qp_describe_difference($user_text, $soln_text)
             // We haven't run out of either text yet.
             if ($user_line != $soln_line)
             {
-                $d = $user_line . "\n" . $soln_line;
+                // We've found a difference.
+                echo sprintf(
+                    _('The first point where the two texts differ is on line %d:'),
+                    $i + 1
+                );
+                echo "</p>\n";
 
-                if (preg_match('/^\n/',$d) || preg_match('/\n$/',$d))
-                {
-                    echo _('There are probably too few or too many blank lines before this text:') . '<br>';
-                }
-                else
-                {
-                    echo _('Finding the reason for this is beyond the current scope of the analysing software.') . '</p>';
-                    echo '<p>' . _('This is the first differing line:') . '<br>';
-                }
+                $pieces = array(
+                    'user' => array( _('You submitted:'), $user_line ),
+                    'soln' => array( _('We expected:'),   $soln_line )
+                );
+
+                $max_prefix_len = max(
+                    strlen($pieces['user'][0]),
+                    strlen($pieces['soln'][0])
+                );
+
                 echo "<pre>\n";
-                $d = qp_convert_from_utf8_if_necessary($d);
-                echo htmlspecialchars($d);
-                echo "\n</pre></p>\n";
+                foreach ( $pieces as $line_info )
+                {
+                    list($prefix, $line) = $line_info;
+                    echo str_pad($prefix, $max_prefix_len, ' ', STR_PAD_LEFT);
+                    echo " ";
+                    if ($line == '')
+                        echo "<i>(" . _('a blank line') . ")</i>";
+                    else
+                        echo htmlspecialchars(
+                            qp_convert_from_utf8_if_necessary($line),
+                            ENT_NOQUOTES
+                        );
+                    echo "\n";
+                }
+                echo "</pre>\n";
                 return;
             }
         }
