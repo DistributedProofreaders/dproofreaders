@@ -471,33 +471,33 @@ function qp_compare_texts($user_text, $soln_text)
     return TRUE;
 }
 
-function diff($s1, $s2)
+function diff($user_text, $soln_text)
 {
-    assert($s1 != $s2);
+    assert($user_text != $soln_text);
 
-    $arr1 = explode("\n",$s1);
-    $arr2 = explode("\n",$s2);
+    $user_lines = explode("\n", $user_text);
+    $soln_lines = explode("\n", $soln_text);
 
-    $max_n_lines = max(count($arr1), count($arr2));
+    $max_n_lines = max(count($user_lines), count($soln_lines));
 
     for ($i = 0; $i < $max_n_lines; $i++)
     {
-        $line1 = @$arr1[$i];
-        $line2 = @$arr2[$i];
-        if (isset($line1) && isset($line2))
+        $user_line = @$user_lines[$i];
+        $soln_line = @$soln_lines[$i];
+        if (isset($user_line) && isset($soln_line))
         {
-            if ($line1 != $line2)
-                return $line1 . "\n" . $line2;
+            if ($user_line != $soln_line)
+                return $user_line . "\n" . $soln_line;
         }
-        elseif (isset($line1) && !isset($line2))
+        elseif (isset($user_line) && !isset($soln_line))
         {
-            if ($line1 != "")
-                return $line1;
+            if ($user_line != "")
+                return $user_line;
         }
-        elseif (!isset($line1) && isset($line2))
+        elseif (!isset($user_line) && isset($soln_line))
         {
-            if ($line2 != "")
-                return $line2;
+            if ($soln_line != "")
+                return $soln_line;
         }
         else
         {
