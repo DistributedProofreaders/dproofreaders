@@ -473,6 +473,8 @@ function qp_compare_texts($user_text, $soln_text)
 
 function diff($s1, $s2)
 {
+    assert($s1 != $s2);
+
     $arr1 = explode("\n",$s1);
     $arr2 = explode("\n",$s2);
     if (count($arr2) > count($arr1))
@@ -495,6 +497,8 @@ function diff($s1, $s2)
                 return $line1;
         }
     }
+
+    assert(FALSE);
 }
 
 function qp_convert_from_utf8_if_necessary($text)
