@@ -495,35 +495,19 @@ function qp_describe_difference($user_text, $soln_text)
         {
             // We've run out of lines in the solution-text,
             // but not in the user-text.
-            if ($user_line != "")
-            {
-                $d = $user_line;
-
-                echo _('Finding the reason for this is beyond the current scope of the analysing software.') . '</p>';
-                echo '<p>' . _('This is the first differing line:') . '<br>';
-                echo "<pre>\n";
-                $d = qp_convert_from_utf8_if_necessary($d);
-                echo htmlspecialchars($d);
-                echo "\n</pre></p>\n";
-                return;
-            }
+            echo _("You need to delete one or more lines at the end of your text.");
+            echo "</p>";
+            // (We could say exactly how many lines,
+            // but that would make it too easy.)
+            return;
         }
         elseif (!isset($user_line) && isset($soln_line))
         {
             // We've run out of lines in the user-text,
             // but not in the solution-text.
-            if ($soln_line != "")
-            {
-                $d = $soln_line;
-
-                echo _('Finding the reason for this is beyond the current scope of the analysing software.') . '</p>';
-                echo '<p>' . _('This is the first differing line:') . '<br>';
-                echo "<pre>\n";
-                $d = qp_convert_from_utf8_if_necessary($d);
-                echo htmlspecialchars($d);
-                echo "\n</pre></p>\n";
-                return;
-            }
+            echo _("The text you submitted is correct, as far as it goes, but it is missing one or more lines at the end.");
+            echo "</p>";
+            return;
         }
         else
         {
