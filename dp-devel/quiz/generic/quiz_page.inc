@@ -446,26 +446,8 @@ function qp_compare_texts($user_text, $soln_text)
     echo _('There is still a difference between your text and the expected one.');
     echo "\n";
 
-    $d = diff($user_text,$soln_text);
-    if ($d == "")
-    {
-        assert(FALSE);
-        return FALSE;
-    }
-    if (preg_match('/^\n/',$d) || preg_match('/\n$/',$d))
-    {
-        echo _('There are probably too few or too many blank lines before this text:') . '<br>';
-    }
-    else
-    {
-        echo _('Finding the reason for this is beyond the current scope of the analysing software.') . '</p>';
-        echo '<p>' . _('This is the first differing line:') . '<br>';
-    }
-    echo "<pre>\n";
-    $d = qp_convert_from_utf8_if_necessary($d);
-    echo htmlspecialchars($d);
-    echo "\n</pre></p>\n";
-    
+    diff($user_text,$soln_text);
+
     echo "<p>$quiz_feedbacktext</p>\n";
 
     return TRUE;
@@ -488,21 +470,58 @@ function diff($user_text, $soln_text)
         {
             // We haven't run out of either text yet.
             if ($user_line != $soln_line)
-                return $user_line . "\n" . $soln_line;
+            {
+                $d = $user_line . "\n" . $soln_line;
+
+                if (preg_match('/^\n/',$d) || preg_match('/\n$/',$d))
+                {
+                    echo _('There are probably too few or too many blank lines before this text:') . '<br>';
+                }
+                else
+                {
+                    echo _('Finding the reason for this is beyond the current scope of the analysing software.') . '</p>';
+                    echo '<p>' . _('This is the first differing line:') . '<br>';
+                }
+                echo "<pre>\n";
+                $d = qp_convert_from_utf8_if_necessary($d);
+                echo htmlspecialchars($d);
+                echo "\n</pre></p>\n";
+                return;
+            }
         }
         elseif (isset($user_line) && !isset($soln_line))
         {
             // We've run out of lines in the solution-text,
             // but not in the user-text.
             if ($user_line != "")
-                return $user_line;
+            {
+                $d = $user_line;
+
+                echo _('Finding the reason for this is beyond the current scope of the analysing software.') . '</p>';
+                echo '<p>' . _('This is the first differing line:') . '<br>';
+                echo "<pre>\n";
+                $d = qp_convert_from_utf8_if_necessary($d);
+                echo htmlspecialchars($d);
+                echo "\n</pre></p>\n";
+                return;
+            }
         }
         elseif (!isset($user_line) && isset($soln_line))
         {
             // We've run out of lines in the user-text,
             // but not in the solution-text.
             if ($soln_line != "")
-                return $soln_line;
+            {
+                $d = $soln_line;
+
+                echo _('Finding the reason for this is beyond the current scope of the analysing software.') . '</p>';
+                echo '<p>' . _('This is the first differing line:') . '<br>';
+                echo "<pre>\n";
+                $d = qp_convert_from_utf8_if_necessary($d);
+                echo htmlspecialchars($d);
+                echo "\n</pre></p>\n";
+                return;
+            }
         }
         else
         {
