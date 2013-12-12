@@ -433,14 +433,13 @@ function qp_choose_solution($text)
 
 // =============================================================================
 
-function qp_compare_texts($text, $solution)
+function qp_compare_texts($user_text, $soln_text)
 // If the two texts are the same, return FALSE.
 // If they differ, output HTML that describes how they differ, and return TRUE.
 {
     global $quiz_feedbacktext;
-    global $charset;
 
-    $d = diff($text,$solution);
+    $d = diff($user_text,$soln_text);
     if ($d == "")
     {
         return FALSE;
