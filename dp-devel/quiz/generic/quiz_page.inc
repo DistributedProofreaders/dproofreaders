@@ -441,14 +441,15 @@ function qp_compare_texts($user_text, $soln_text)
 
     if ($user_text == $soln_text) return FALSE;
 
+    echo '<h2>' . _('Difference with expected text') . '</h2>';
+    echo '<p>' . _('There is still a difference between your text and the expected one.') . ' ';
+
     $d = diff($user_text,$soln_text);
     if ($d == "")
     {
         assert(FALSE);
         return FALSE;
     }
-    echo '<h2>' . _('Difference with expected text') . '</h2>';
-    echo '<p>' . _('There is still a difference between your text and the expected one.') . ' ';
     if (preg_match('/^\n/',$d) || preg_match('/\n$/',$d))
     {
         echo _('There are probably too few or too many blank lines before this text:') . '<br>';
