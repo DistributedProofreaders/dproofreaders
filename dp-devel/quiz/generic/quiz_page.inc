@@ -442,7 +442,9 @@ function qp_compare_texts($user_text, $soln_text)
     if ($user_text == $soln_text) return FALSE;
 
     echo '<h2>' . _('Difference with expected text') . '</h2>';
-    echo '<p>' . _('There is still a difference between your text and the expected one.') . ' ';
+    echo '<p>';
+    echo _('There is still a difference between your text and the expected one.');
+    echo ' ';
 
     $d = diff($user_text,$soln_text);
     if ($d == "")
@@ -462,7 +464,10 @@ function qp_compare_texts($user_text, $soln_text)
     echo "<pre>\n";
     $d = qp_convert_from_utf8_if_necessary($d);
     echo htmlspecialchars($d);
-    echo "\n</pre></p>\n<p>$quiz_feedbacktext</p>";
+    echo "\n</pre></p>\n";
+    
+    echo "<p>$quiz_feedbacktext</p>";
+
     return TRUE;
 }
 
