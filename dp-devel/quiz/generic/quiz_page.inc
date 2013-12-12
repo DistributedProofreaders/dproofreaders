@@ -445,15 +445,17 @@ function qp_compare_texts($user_text, $soln_text)
     echo '<p>';
     echo _('There is still a difference between your text and the expected one.');
     echo "\n";
+    // Note that this leaves a 'p' element open,
+    // which qp_describe_difference() must close.
 
-    diff($user_text,$soln_text);
+    qp_describe_difference($user_text, $soln_text);
 
     echo "<p>$quiz_feedbacktext</p>\n";
 
     return TRUE;
 }
 
-function diff($user_text, $soln_text)
+function qp_describe_difference($user_text, $soln_text)
 {
     assert($user_text != $soln_text);
 
