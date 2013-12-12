@@ -439,9 +439,12 @@ function qp_compare_texts($user_text, $soln_text)
 {
     global $quiz_feedbacktext;
 
+    if ($user_text == $soln_text) return FALSE;
+
     $d = diff($user_text,$soln_text);
     if ($d == "")
     {
+        assert(FALSE);
         return FALSE;
     }
     echo '<h2>' . _('Difference with expected text') . '</h2>';
