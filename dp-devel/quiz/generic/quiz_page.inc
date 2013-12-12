@@ -484,12 +484,13 @@ function diff($s1, $s2)
         $arr2 = $arrdummy;
     }
 
-    foreach($arr1 as $key => $line1)
+    foreach($arr1 as $i => $line1)
     {
-        if (isset($arr2[$key]))
+        $line2 = @$arr2[$i];
+        if (isset($line2))
         {
-            if ($line1 != $arr2[$key])
-                return $line1 . "\n" . $arr2[$key];
+            if ($line1 != $line2)
+                return $line1 . "\n" . $line2;
         }
         else
         {
