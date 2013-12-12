@@ -477,25 +477,31 @@ function diff($s1, $s2)
 
     $arr1 = explode("\n",$s1);
     $arr2 = explode("\n",$s2);
-    if (count($arr2) > count($arr1))
-    {
-        $arrdummy = $arr1;
-        $arr1 = $arr2;
-        $arr2 = $arrdummy;
-    }
 
-    foreach($arr1 as $i => $line1)
+    $max_n_lines = max(count($arr1), count($arr2));
+
+    for ($i = 0; $i < $max_n_lines; $i++)
     {
+        $line1 = @$arr1[$i];
         $line2 = @$arr2[$i];
-        if (isset($line2))
+        if (isset($line1) && isset($line2))
         {
             if ($line1 != $line2)
                 return $line1 . "\n" . $line2;
         }
-        else
+        elseif (isset($line1) && !isset($line2))
         {
             if ($line1 != "")
                 return $line1;
+        }
+        elseif (!isset($line1) && isset($line2))
+        {
+            if ($line2 != "")
+                return $line2;
+        }
+        else
+        {
+            assert(FALSE);
         }
     }
 
