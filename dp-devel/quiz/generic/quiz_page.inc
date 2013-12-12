@@ -486,25 +486,34 @@ function diff($user_text, $soln_text)
         $soln_line = @$soln_lines[$i];
         if (isset($user_line) && isset($soln_line))
         {
+            // We haven't run out of either text yet.
             if ($user_line != $soln_line)
                 return $user_line . "\n" . $soln_line;
         }
         elseif (isset($user_line) && !isset($soln_line))
         {
+            // We've run out of lines in the solution-text,
+            // but not in the user-text.
             if ($user_line != "")
                 return $user_line;
         }
         elseif (!isset($user_line) && isset($soln_line))
         {
+            // We've run out of lines in the user-text,
+            // but not in the solution-text.
             if ($soln_line != "")
                 return $soln_line;
         }
         else
         {
+            // We've run out of lines in both texts.
+            // This is logically impossible.
             assert(FALSE);
         }
     }
 
+    // We've gone through all lines of both texts
+    // without finding a difference, which can't happen.
     assert(FALSE);
 }
 
