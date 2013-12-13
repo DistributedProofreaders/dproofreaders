@@ -10,7 +10,7 @@ function metarefresh($seconds,$url,$title="",$body="")
 // If this is a test system ($testing=1 in site_vars.php) the redirect
 // will be delayed by 15 seconds.
 {
-    global $testing, $charset;
+    global $testing;
 
     if ($testing)
     {

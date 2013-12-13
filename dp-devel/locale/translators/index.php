@@ -258,7 +258,7 @@ function main_form()
 
 function edit_form($lang)
 {
-    global $dyn_locales_dir, $iso_639, $translate_url, $may_edit, $charset;
+    global $dyn_locales_dir, $iso_639, $translate_url, $charset;
 
     echo "<p><a href='$translate_url'>"
         . _("Back to the Translation Center") . "</a></p>";

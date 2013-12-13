@@ -236,8 +236,6 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         die( "Error: no projectid data supplied" );
     }
 
-    $page_names_ = array();
-
     foreach ( array( 'from', 'to' ) as $which )
     {
         $res= mysql_query(

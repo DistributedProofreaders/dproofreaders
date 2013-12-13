@@ -76,7 +76,7 @@ function sr_user_is_committed($projectid, $username)
 
 function sr_commit($projectid, $username)
 {
-    $res = mysql_query("
+    mysql_query("
         INSERT INTO smoothread
         SET projectid='$projectid',  user='$username', committed='1'
         ") or die(mysql_error());
@@ -99,7 +99,7 @@ function sr_commit($projectid, $username)
 
 function sr_withdraw_commitment($projectid, $username)
 {
-    $res = mysql_query("
+    mysql_query("
         DELETE FROM smoothread
         WHERE projectid = '$projectid' 
         AND user = '$username'

@@ -58,8 +58,7 @@ Example setting: "taskctr_notice", value "1018"
 
 function ExecSQL($sql)
 {
-    $result = mysql_query($sql);
-    if(mysql_errno())
+    if (!mysql_query($sql))
         echo mysql_error();
 }
 

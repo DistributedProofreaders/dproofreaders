@@ -215,7 +215,6 @@ function move_special_info( $projectid, $comments )
         '(\S+) *(?=<)',
     );
 
-    $found = FALSE;
     foreach ( $subpatterns as $subpattern )
     {
         $pattern = "/^special: *$subpattern/i";
@@ -237,7 +236,7 @@ function move_special_info( $projectid, $comments )
             // echo "special code: ", $special_code, "\n";
 
             $c = strlen($special_comment);
-            $res = mysql_query("
+            mysql_query("
                 UPDATE projects
                 SET
                     special_code = '$special_code',

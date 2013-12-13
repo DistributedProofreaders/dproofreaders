@@ -7,7 +7,7 @@ function upi_ensure_row( $username, $projectid )
 // There may not yet be a row for this ($username,$projectid) pair
 // in the user_project_info table. Ensure that one exists.
 {
-    $res = mysql_query("
+    mysql_query("
         INSERT IGNORE INTO user_project_info
         SET
             username    = '$username',
@@ -254,7 +254,7 @@ function create_temporary_project_event_subscription_summary_table()
 // current number of users that are subscribed to the project's 'posted' event.
 // ("nouste" = "number of users subscribed to event")
 {
-    $res = mysql_query("
+    mysql_query("
         CREATE TEMPORARY TABLE project_event_subscriptions_grouped_by_project
         (
             PRIMARY KEY (projectid)

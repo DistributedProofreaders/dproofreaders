@@ -291,7 +291,7 @@ class SpecialDay
 
     function save_from_post()
     {
-        global $errmsgs,$new,$theme_args;
+        global $errmsgs,$theme_args;
         $std_fields = array('display_name','enable','comment',
                     'color','open_day','open_month','close_day',
                     'close_month','date_changes');
