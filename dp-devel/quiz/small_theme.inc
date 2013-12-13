@@ -27,12 +27,12 @@ function output_small_header($quiz)
 
     echo "<table cellspacing=0 cellpadding=0 width='100%'>";
     echo "<tr>";
-    echo "<td width='20%' align='left' bgcolor='$bgcolor'>\n";
+    echo "<td align='left' bgcolor='$bgcolor'>\n";
     echo "<a href='$code_url/default.php' target='_top'>\n";
     echo "<font face='$font_face' size='1' color='$font_color'>$site_abbreviation</font></a>\n";
     echo "<font face='$font_face' size='1' color='$font_color'> &#187; $quiz_name</font>\n";
     echo "</td>\n";
-    echo "<td /* width='50%' */ align='right' bgcolor='$bgcolor'>\n";
+    echo "<td align='right' bgcolor='$bgcolor'>\n";
     echo "<a href='$code_url/activity_hub.php' target='_top'><font face='$font_face' size='1' color='$font_color'>" . _("Activity Hub") . "</font></a>";
     echo "<font face='$font_face' size='1' color='$font_color'>&nbsp;<b>&#183;</b>&nbsp;</font>";
 
