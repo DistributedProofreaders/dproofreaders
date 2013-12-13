@@ -66,11 +66,6 @@ $messages["thorncase"] = array(
     "message_body" => _("In the books that we proofread generally the capital thorn (<tt>&THORN;</tt>) has a much larger loop.  The lower case thorn (<tt>&thorn;</tt>) has a smaller loop and often sticks down farther below the line."),
     "wiki_ref" => sprintf(_("See the <a href='%s' target='_blank'>Thorn</a> wiki page for details."), $thorn_url),
 );
-$messages["P_poetryblanklines"] = array(
-    "message_title" => _("Space around poetry"),
-    "message_body" => _("Leave a blank line before and after a block of poetry to separate it from the regular text."),
-    "guideline" => "poetry",
-);
 $messages["blankline2"] = array(
     "message_title" => _("Blank Lines"),
     "message_body" => _("The OCR software incorrectly inserted a blank line within the poem.  Please remove it."),
