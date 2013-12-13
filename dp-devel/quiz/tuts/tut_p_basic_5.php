@@ -12,6 +12,6 @@ echo "<p>" . _("Insert a blank line at the start of the poetry or epigram and an
 echo "<h3>" . _("Font size changes") . "</h3>\n";
 echo "<p>" . _("Do not mark changes in font or font size. The formatters will take care of this later in the process.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?type=p_basic_5'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_5'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

@@ -18,6 +18,6 @@ echo " <img src='../generic/images/amp_blackletter.png' width='33' height='45' a
 echo " <img src='../generic/images/amp_blackletter2.png' width='31' height='41' alt='&amp;'></p>\n";
 echo "<p>" . _("As in many books through the 1800s, the phrase <i>et cetera</i> may be abbreviated as <tt>&amp;c.</tt> rather than the modern <tt>etc</tt>.  Leave it as the author wrote it.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?type=p_old_2'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_old_2'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

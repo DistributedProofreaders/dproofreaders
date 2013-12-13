@@ -63,7 +63,7 @@ echo _("HTML allowed. A typical value would be: &lt;h2&gt;Quiz successfully solv
 echo "<hr>\n<p>";
 echo _("Links shown after solved message (optional):");
 echo " <input type='text' name='links_out' size='50'><br>\n";
-echo _("HTML allowed. A typical value would be: &lt;a href='../generic/main.php?type=step2' target='_top'&gt;Next step of quiz&lt;/a&gt;") . "<br>\n";
+echo _("HTML allowed. A typical value would be: &lt;a href='../generic/main.php?quiz_page_id=step2' target='_top'&gt;Next step of quiz&lt;/a&gt;") . "<br>\n";
 echo _("If you leave this blank there will automatically be links to the next page of the quiz (if one exists) as well as the corresponding tutorial (if one exists) and a link back to the quiz home page.");
 echo "</p>\n<hr>\n";
 

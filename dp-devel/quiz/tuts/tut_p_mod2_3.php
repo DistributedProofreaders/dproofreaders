@@ -14,6 +14,6 @@ if(!$utf8_site)
     echo "<p>" . _("The &oelig; character (oe ligature) should be inserted into the proofread text, just like other special characters.") . "</p>\n";
 }
 
-echo "<p><a href='../generic/main.php?type=p_mod2_3'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_mod2_3'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

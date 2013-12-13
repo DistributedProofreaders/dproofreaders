@@ -30,6 +30,6 @@ if(!$utf8_site)
 }
 echo " " . _("You can insert them using the \"+\" drop-down menu at the bottom of the Proofreading Interface.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?type=p_thorn'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_thorn'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

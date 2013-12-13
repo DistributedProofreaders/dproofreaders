@@ -621,7 +621,7 @@ function qp_echo_solved_html()
             echo "<br>\n";
         }
         echo qp_exit_link(
-            "main.php?type=$next_quiz_page_id",
+            "main.php?quiz_page_id=$next_quiz_page_id",
             _("Next step of quiz")
         );
         echo "<br>\n";
@@ -699,7 +699,7 @@ function qp_echo_link_to_hint_if_it_exists($message_id, $hint_number)
 
         echo sprintf(
             _("Get more hints <a href='%s'>here</a>."),
-            "./hints.php?type=$quiz_page_id&error=$message_id&number=$hint_number"
+            "./hints.php?quiz_page_id=$quiz_page_id&error=$message_id&number=$hint_number"
         );
 
         echo "</p>\n";

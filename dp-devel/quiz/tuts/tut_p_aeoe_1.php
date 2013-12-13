@@ -19,6 +19,6 @@ if(!$utf8_site)
     echo "<p>" . sprintf(_("You can insert each of these characters using the drop-down menus in the proofreading interface or using keyboard shortcuts. Tables for <a href='%1\$s' target='_blank'>Windows</a> and <a href='%2\$s' target='_blank'>Macintosh</a> which list these shortcuts are in the Proofreading Guidelines."), "../../faq/proofreading_guidelines.php#a_chars_win", "../../faq/proofreading_guidelines.php#a_chars_mac") . "</p>\n";
 }
 
-echo "<p><a href='../generic/main.php?type=p_aeoe_1'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_aeoe_1'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

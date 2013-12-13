@@ -26,6 +26,6 @@ echo "<p>" . _("The page headers are normally at the top of the image and have a
 echo "<h3>" . _("End-of-line Hyphenation") . "</h3>\n";
 echo "<p>" . _("Where a hyphen appears at the end of a line, join the two halves of the hyphenated word back together. Remove the hyphen when you join it, unless it is really a hyphenated word like well-meaning. Keep the joined word on the top line, and put a line break after it to preserve the line formatting&mdash;this makes it easier for volunteers in later rounds.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?type=p_basic_1'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_basic_1'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

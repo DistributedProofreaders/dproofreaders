@@ -38,6 +38,6 @@ echo "<p>" . sprintf(_("Text like this: %1\$s is in a font known as <i>blacklett
                     "<br>\n<img src='../generic/images/blackletter_sample.png' width='207' height='52' alt='Sample Text'><br>", $blackletter_url) . "</p>\n";
 echo "<p>" . _("The hyphen in blackletter usually looks like a slanted equals sign.  Treat this just like a normal hyphen, and rejoin words that are hyphenated across lines.  You may need to leave hyphens as <tt>-*</tt> more frequently than in other projects, because spelling and hyphenation in older texts is often unpredictable.") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?type=p_old_3'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_old_3'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

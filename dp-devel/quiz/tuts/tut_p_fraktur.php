@@ -15,6 +15,6 @@ echo "<p>" . _("There are two different forms of the lower case letter 's'.  The
 
 echo "<p>" . sprintf(_("If you have difficulty identifying letters in fraktur, there is a <a target='_blank' href='%s'>fraktur tool</a> similar to the Greek Transliterator but using the fraktur alphabet."), "http://www.kurald-galain.com/fraktur2ascii.html") . "</p>\n";
 
-echo "<p><a href='../generic/main.php?type=p_fraktur'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_fraktur'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab

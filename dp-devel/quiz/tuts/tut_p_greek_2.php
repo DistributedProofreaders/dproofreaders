@@ -22,6 +22,6 @@ echo "<li>" . _("If the word begins with a vowel, it should have either a rough 
 echo "<li>" . _("If it's rough breathing, add an \"<tt>h</tt>\" at the beginning of the word in the transliteration.  If it's smooth breathing, ignore it.") . "</li>\n";
 echo "</ul>\n";
 
-echo "<p><a href='../generic/main.php?type=p_greek_2'>" . _("Continue to quiz") . "</a></p>\n";
+echo "<p><a href='../generic/main.php?quiz_page_id=p_greek_2'>" . _("Continue to quiz") . "</a></p>\n";
 
 // vim: sw=4 ts=4 expandtab
