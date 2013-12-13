@@ -1,8 +1,7 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param get_quiz_id_param get_Quiz_with_id
-include_once($relPath.'misc.inc'); // stripos
+include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
 include_once('../small_theme.inc'); // output_small_header
 
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'type');
