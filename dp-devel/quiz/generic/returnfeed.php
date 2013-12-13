@@ -62,7 +62,7 @@ output_small_header($quiz);
 // $charset, we would also have to convert the tests into $charset. So it's
 // probably simpler if we convert the submitted-text into UTF-8.
 //
-if("UTF-8" != strtoupper($charset))
+if (!$utf8_site)
 {
     $text = iconv($charset, "UTF-8//IGNORE", $text);
 }

@@ -570,9 +570,9 @@ function qp_convert_from_utf8_if_necessary($text)
 // If the site's encoding is also UTF-8, simply return the $text.
 // Otherwise, convert $text according to $charset and return the result.
 {
-    global $charset;
+    global $charset, $utf8_site;
 
-    if (strtoupper($charset) != 'UTF-8')
+    if (!$utf8_site)
     {
         return iconv('UTF-8', $charset, $text);
     }
