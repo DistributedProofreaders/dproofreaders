@@ -24,6 +24,32 @@ assert(!is_null($quiz));
 // (Set a bunch of global variables.)
 include "./data/qd_$quiz_page_id.inc";
 
+// -------------------------------------------------------------------
+// All strings whose primary purpose is to be output to the user
+// are assumed to be in the form of HTML content, and so can
+// contain markup and character references.
+// They should NOT be passed through htmlspecialchars().
+//     $browser_title
+//     $ocr_text
+//     $intro_title
+//     $initial_instructions
+//     $constant_message
+//     $messages[*]['message_title']
+//     $messages[*]['message_body']
+//     $messages[*]['wiki_ref']
+//     $messages[*]['challengetext']
+//     $messages[*]['feedbacktext']
+//     $messages[*]['hints'][*]['linktext']
+//     $messages[*]['hints'][*]['hint_title']
+//     $messages[*]['hints'][*]['hint_body']
+//     $parting_message
+//
+// The following strings are assumed to *not* be in the form of HTML content.
+// You should pass them through htmlspecialchars()
+// before using them as the content of an HTML element.
+//     $solutions[*]
+// -------------------------------------------------------------------
+
 $quiz_feedbackurl = $quiz->thread;
 
 if ($quiz_feedbackurl != "")
