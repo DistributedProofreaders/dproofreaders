@@ -30,7 +30,7 @@ include "./data/qd_$quiz_page_id.inc";
 // contain markup and character references.
 // They should NOT be passed through htmlspecialchars().
 //     $browser_title
-//     $ocr_text
+//     $initial_text
 //     $intro_title
 //     $initial_instructions
 //     $constant_message
@@ -107,8 +107,8 @@ function qp_page_image_path()
 
 function qp_initial_page_text()
 {
-    global $ocr_text;
-    return $ocr_text;
+    global $initial_text;
+    return $initial_text;
 }
 
 function qp_sample_solution()

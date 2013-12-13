@@ -4,7 +4,7 @@
 $browser_title                = _("Greek Transliteration Quiz");
 $intro_title                  = _("Greek Transliteration Quiz, page 1");
 $initial_instructions         = $initial_instructions__greek;
-$ocr_text                     = "as panis siccus, dry bread; or, (if\nthe learned reader thinks it will\ntaste better in Greek,) aproc &sect;rjpoe";
+$initial_text                 = "as panis siccus, dry bread; or, (if\nthe learned reader thinks it will\ntaste better in Greek,) aproc &sect;rjpoe";
 $solutions                    = array("as panis siccus, dry bread; or, (if\nthe learned reader thinks it will\ntaste better in Greek,) [Greek: artos xêros]");
 $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
                                     "<p>" . _("If you come across some Greek while proofreading and you don't feel confident in your transliteration, feel free to post in the project discussion and mention the page number.  Other site volunteers can check your transliteration and let you know if you need to make any changes.") . "</p>";

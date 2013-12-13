@@ -4,7 +4,7 @@
 $browser_title                = _("Greek Transliteration Quiz");
 $intro_title                  = _("Greek Transliteration Quiz, page 4");
 $initial_instructions         = $initial_instructions__greek;
-$ocr_text                     = "how they kicked their crowns away from\nthem. Of all the enemies they had, they\nthemselves were the most fatal:\n\n[Greek: \"&Ocirc; popoi, ohion d&ecirc; nu theous\nBroto&igrave; aitio&ocirc;ntai,\nex &ecirc;me&ocirc;n gap phaoi kak\nemmenai oi de kai antoi\noph&ecirc;ioin ataothali&ecirc;oin nter\nmoron alge eChouin]";
+$initial_text                 = "how they kicked their crowns away from\nthem. Of all the enemies they had, they\nthemselves were the most fatal:\n\n[Greek: \"&Ocirc; popoi, ohion d&ecirc; nu theous\nBroto&igrave; aitio&ocirc;ntai,\nex &ecirc;me&ocirc;n gap phaoi kak\nemmenai oi de kai antoi\noph&ecirc;ioin ataothali&ecirc;oin nter\nmoron alge eChouin]";
 $solutions                    = array("how they kicked their crowns away from\nthem. Of all the enemies they had, they\nthemselves were the most fatal:\n\n[Greek: Ô popoi, hoion dê ny theous\nbrotoi aitioôntai,\nex hêmeôn gar phasi kak'\nemmenai; hoi de kai autoi\nsphêsin atasthaliêsin hyper\nmoron alge' echousin.]");
 $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
                                     "<p>" . _("Occasionally a Project Manager asks proofreaders to include accents in their Greek transliterations.  Since this is not part of the normal guidelines, please only do this if the PM or PPer requests it.  If there are no special instructions, then you should ignore all Greek accents except the rough breathing mark.") . "</p>";

@@ -4,7 +4,7 @@
 $browser_title                = _("Greek Transliteration Quiz");
 $intro_title                  = _("Greek Transliteration Quiz, page 2");
 $initial_instructions         = $initial_instructions__greek;
-$ocr_text                     = "quaint epigram of Epigonus upon a frog,\nwho falling into a pipe of wine, cried\nout,\n\noe6 rives bSc)p\nirlvovai ,uavitjv ac6ippova uaiv&oacute;,usvoi.";
+$initial_text                 = "quaint epigram of Epigonus upon a frog,\nwho falling into a pipe of wine, cried\nout,\n\noe6 rives bSc)p\nirlvovai ,uavitjv ac6ippova uaiv&oacute;,usvoi.";
 $solutions                    = array("quaint epigram of Epigonus upon a frog,\nwho falling into a pipe of wine, cried\nout,\n\n[Greek: pheu tines hydôr\npinousi maniên sôphrona mainomenoi.]");
 $parting_message              = "<h3>" . _("Handy Tip") . "</h3>\n" .
                                     "<p>" . _("In focusing your attention on the letters, it's easy not to notice that there are also punctuation marks in the Greek text. Check to be sure that all the punctuation is present in and around your transliterations.") . "</p>";

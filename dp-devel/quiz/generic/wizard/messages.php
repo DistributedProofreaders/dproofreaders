@@ -43,7 +43,7 @@ function evalstart()
 {
     $_SESSION['quiz_data']['browser_title'] = $_POST['browser_title'];
     $_SESSION['quiz_data']['welcome'] = $_POST['welcome'];
-    $_SESSION['quiz_data']['ocr_text'] = $_POST['ocr_text'];
+    $_SESSION['quiz_data']['initial_text'] = $_POST['initial_text'];
     unset($_SESSION['quiz_data']['solutions']);
     $_SESSION['quiz_data']['solutions'][] = $_POST['solution1'];
     if ($_POST['solution2'] != "")

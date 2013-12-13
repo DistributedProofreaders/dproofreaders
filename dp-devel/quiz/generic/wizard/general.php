@@ -26,7 +26,7 @@ echo _("HTML allowed. A typical value would be: &lt;h2&gt;Quiz, page 1&lt;/h2&gt
 
 echo "<hr>\n<p>";
 echo _("Initial text the user will have to correct:");
-echo "<br>\n<textarea name='ocr_text' rows='12' cols='80' wrap='off'>\n</textarea></p>\n";
+echo "<br>\n<textarea name='initial_text' rows='12' cols='80' wrap='off'>\n</textarea></p>\n";
 
 echo "<hr>\n<p>";
 echo _("Corrected text the user is expected to leave:");

@@ -32,7 +32,7 @@ function make_output()
     $out .= "}\n\n";
     $out .= '$browser_title           = "' . ssqs($_SESSION['quiz_data']['browser_title']) . "\";\n";
     $out .= '$welcome                 = "' . ssqs($_SESSION['quiz_data']['welcome']) . "\";\n";
-    $out .= '$ocr_text                = "' . enl(ssqs($_SESSION['quiz_data']['ocr_text'])) . "\";\n";
+    $out .= '$initial_text            = "' . enl(ssqs($_SESSION['quiz_data']['initial_text'])) . "\";\n";
     $out .= '$solutions               = array("';
     $out .= enl(ssqs($_SESSION['quiz_data']['solutions'][0])) . '"';
     if(isset($_SESSION['quiz_data']['solutions'][1]))
