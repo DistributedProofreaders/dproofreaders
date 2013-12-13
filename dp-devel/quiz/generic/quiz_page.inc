@@ -50,16 +50,12 @@ include "./data/qd_$quiz_page_id.inc";
 //     $solutions[*]
 // -------------------------------------------------------------------
 
-$quiz_feedbackurl = $quiz->thread;
-
-if ($quiz_feedbackurl != "")
-{
-    $quiz_feedbacktext = sprintf($default_feedbacktext, $quiz_feedbackurl);
-}
+if ($quiz->thread != "")
+    $quiz_feedbackurl = $quiz->thread;
 else
-{
-    $quiz_feedbacktext = sprintf($default_feedbacktext, $default_feedbackurl);
-}
+    $quiz_feedbackurl = $default_feedbackurl;
+
+$quiz_feedbacktext = sprintf($default_feedbacktext, $quiz_feedbackurl);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
