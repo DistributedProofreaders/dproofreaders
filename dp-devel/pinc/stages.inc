@@ -113,7 +113,7 @@ new Round(
 new Round(
     'P2',
     _('Proofreading Round 2'),
-    array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz/MPQ1' => 1 ),
+    array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz/p_mod1' => 1 ),
     'REQ-AUTO',
     '',
     _("The page-texts have already been proofread, and now need to have the text spellchecked and carefully compared to the image."),
@@ -156,7 +156,7 @@ new Round(
 new Round(
     'P3',
     _('Proofreading Round 3'),
-    array( 'P2' => 150, 'F1' => 50, 'days since reg' => 42, 'quiz/MPQ2' => 1 ),
+    array( 'P2' => 150, 'F1' => 50, 'days since reg' => 42, 'quiz/p_mod2' => 1 ),
     'REQ-HUMAN',
     _("Once you have met the requirements and requested access to P3, an evaluator will check over at least 50 of your recent P2 pages that have been completed in P3. If you proofread them to P3 standards, you'll be granted access."),
     _("The page-texts have already been proofread, but now need to be examined <b>closely</b> for small errors that may have been missed."),
@@ -199,7 +199,7 @@ new Round(
 new Round(
     'F1',
     _('Formatting Round 1'),
-    array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz/FQ' => 1 ),
+    array( 'R*+P1' => 300, 'days since reg' => 21, 'quiz/f_only' => 1 ),
     'REQ-AUTO',
     '',
     _("The page-texts have already been proofread, but now need to be formatted with markup which may be specific to the project."),

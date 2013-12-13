@@ -18,7 +18,7 @@ new QuizLevel(
     array(
 
         new Quiz(
-            "BPQ1",
+            "p_basic",
             _("Basic Proofreading Quiz and Tutorial"),
             _("Basic Proofreading Quiz"),
             "",
@@ -36,7 +36,7 @@ new QuizLevel(
         ),
 
         new Quiz(
-            "BPQ2",
+            "p_basicx",
             _("Basic Proofreading Quiz, Extra Practice"),
             _("Basic Proofreading Quiz"),
             "",
@@ -63,7 +63,7 @@ new QuizLevel(
     array(
 
         new Quiz(
-            "MPQ1",
+            "p_mod1",
             _("Moderate Proofreading Quiz and Tutorial, Part 1"),
             _("Moderate Proofreading Quiz"),
             "",
@@ -81,7 +81,7 @@ new QuizLevel(
         ),
 
         new Quiz(
-            "MPQ2",
+            "p_mod2",
             _("Moderate Proofreading Quiz and Tutorial, Part 2"),
             _("Moderate Proofreading Quiz"),
             "",
@@ -114,7 +114,7 @@ new QuizLevel(
     array(
 
         new Quiz(
-            "OPQ",
+            "p_old",
             _("Old Texts Quiz and Tutorial"),
             _("Old Texts Quiz"),
             "<a href='$old_texts_url'>" . _("Information") . "</a>",
@@ -130,7 +130,7 @@ new QuizLevel(
         ),
 
         new Quiz(
-            "GPQ",
+            "p_greek",
             _("Greek Transliteration Quiz and Tutorial"),
             _("Greek Transliteration Quiz"),
             "<p><a href='$Greek_translit_url'>" . _("Information") . "</a><br>" .
@@ -149,7 +149,7 @@ new QuizLevel(
         ),
 
         new Quiz(
-            "OSPQ",
+            "p_other",
             _("Other Specialized Quizzes and Tutorials"),
             _("Other Specialized Topics"),
             "",
@@ -178,7 +178,7 @@ new QuizLevel(
     array(
 
         new Quiz(
-            "FQ",
+            "f_only",
             _("Formatting Quiz"),
             _("Formatting Quiz"),
             _("This quiz covers the corrections you should make in the formatting rounds&mdash;<b>not</b> the proofreading rounds. There's no need to do this quiz until you are ready to work in F1, and in fact it may confuse you if you try it earlier."),

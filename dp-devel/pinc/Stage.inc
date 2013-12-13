@@ -19,9 +19,9 @@ $Stage_for_id_ = array();
 
 $CRITERIA = array(
     'days since reg' => _('days since registration'),
-    'quiz/MPQ1'      => sprintf(_("<a href='%s'>moderate proofreading quiz 1</a> pass"),"$code_url/quiz/start.php?show_level=MPQL"),
-    'quiz/MPQ2'      => sprintf(_("<a href='%s'>moderate proofreading quiz 2</a> pass"),"$code_url/quiz/start.php?show_level=MPQL"),
-    'quiz/FQ'        => sprintf(_("<a href='%s'>formatting quiz</a> pass"),"$code_url/quiz/start.php?show_only=format"),
+    'quiz/p_mod1'    => sprintf(_("<a href='%s'>moderate proofreading quiz 1</a> pass"),"$code_url/quiz/start.php?show_level=MPQL"),
+    'quiz/p_mod2'    => sprintf(_("<a href='%s'>moderate proofreading quiz 2</a> pass"),"$code_url/quiz/start.php?show_level=MPQL"),
+    'quiz/f_only'    => sprintf(_("<a href='%s'>formatting quiz</a> pass"),"$code_url/quiz/start.php?show_only=format"),
 );
 if ( TRUE )
 {

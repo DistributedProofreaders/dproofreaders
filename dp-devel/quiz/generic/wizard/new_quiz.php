@@ -14,7 +14,7 @@ echo "<h2>" . _("New Quiz") . "</h2>";
 
 echo "<p>" . _("Please fill in the following fields having to do with the whole quiz, not the individual quiz pages.") . "</p>\n";
 echo "<form method='post' action='./quiz_pages.php'>\n<p>";
-echo _("Quiz ID (should be brief, e.g. FQ for formatting quiz):");
+echo _("Quiz ID (should be brief, e.g. p_basic for basic proofreading quiz):");
 echo " <input type='text' name='quiz_id' size='6'></p>\n";
 
 echo "<p>" . _("Quiz name:");

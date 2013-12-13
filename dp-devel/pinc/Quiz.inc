@@ -125,7 +125,7 @@ class Quiz
             <tr><th class='q' colspan='$n_columns'>$this->name</th></tr>";
 
         // This assumes that the access minima quiz strings are names
-        // 'quiz/X' where X is some quiz ID (eg 'FQ', 'MPQ2', 'GPQ')
+        // 'quiz/X' where X is some quiz ID (eg 'f_only', 'p_mod2', 'p_greek')
         $stage_required_for = array();
         global $Stage_for_id_;
         foreach($Stage_for_id_ as $stage_id => $stage)
