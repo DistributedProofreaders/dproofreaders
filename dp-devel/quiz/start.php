@@ -52,11 +52,18 @@ if (
 
 // show a whole category of quizzes (proofing or formatting)
 elseif (
-    ($activity_type = @$_GET['show_only'])
+    ($so = @$_GET['show_only'])
     &&
-    isset($quiz_type_intro[$activity_type])
+    ($so == 'PQ' || $so == 'FQ' || isset($quiz_type_intro[$so]))
 )
 {
+    if ($so == 'PQ')
+        $activity_type = 'proof';
+    elseif ($so == 'FQ')
+        $activity_type = 'format';
+    else
+        $activity_type = $so;
+
     $intro = $quiz_type_intro[$activity_type];
 
     output_header($intro['title'], SHOW_STATSBAR, $theme_args);
