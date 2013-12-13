@@ -8,7 +8,7 @@ define('SIX_MONTHS_IN_SECONDS', 15778463);
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 new QuizLevel(
-    "BPQL",
+    "P_BASIC",
     _("Basic Proofreading Quizzes and Tutorials"),
     "proof",
     "<p>" . _("This section is designed as an overview of the most important and frequently used <a href='../faq/proofreading_guidelines.php'>proofreading guidelines</a>. The pages cover items that you are likely to see when proofreading BEGINNERS ONLY and EASY projects.") .
@@ -56,7 +56,7 @@ new QuizLevel(
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 new QuizLevel(
-    "MPQL",
+    "P_MOD",
     _("Moderate Proofreading Quizzes and Tutorials"),
     "proof",
     "<p>" . _("This section covers other aspects of the <a href='../faq/proofreading_guidelines.php'>proofreading guidelines</a>, beyond what is in the Basic section. The pages include items that you are likely to see when proofreading Average projects.") . "</p>",
@@ -104,7 +104,7 @@ new QuizLevel(
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 new QuizLevel(
-    "SPQL",
+    "P_SPECIAL",
     _("Specialized Proofreading Quizzes and Tutorials"),
     "proof",
     "<p>" . _("This section covers topics that are not addressed in the <a href='../faq/proofreading_guidelines.php'>proofreading guidelines</a>. The pages include items that you are likely to see when proofreading HARD (and some Average) projects.") .
@@ -171,7 +171,7 @@ new QuizLevel(
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 new QuizLevel(
-    "FQL",
+    "F_ONLY",
     _("Formatting Quizzes"),
     "format",
     "<p>" . _("The formatting quizzes cover topics addressed in the <a href='../faq/document.php'>formatting guidelines</a>.") . "</p>",
