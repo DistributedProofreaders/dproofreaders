@@ -50,7 +50,7 @@ if (!empty($_GET['show_level']) && (isset($map_quiz_level_id_to_QuizLevel[$_GET[
 
 // show a whole category of quizzes (proofing or formatting)
 elseif (!empty($_GET['show_only']) &&
-    array_search($_GET['show_only'], array_keys($quiz_type_intro)) !== false)
+    isset($quiz_type_intro[$_GET['show_only']]))
 {
     $intro = $quiz_type_intro[$_GET['show_only']];
 
