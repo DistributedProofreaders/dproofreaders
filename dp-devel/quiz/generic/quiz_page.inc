@@ -394,6 +394,7 @@ function qp_echo_error_html($message_id)
     echo "<p>";
     if (isset($message["challengetext"]))
         echo $message["challengetext"];
+        // XXX: Currently unused. Might be discontinued.
     else
         echo $default_challenge;
     echo "</p>\n";
@@ -404,6 +405,7 @@ function qp_echo_error_html($message_id)
     if (isset($message["feedbacktext"]))
     {
         echo $message["feedbacktext"];
+        // XXX: Currently unused. Might be discontinued.
     }
     else
     {
@@ -585,7 +587,7 @@ function qp_convert_from_utf8_if_necessary($text)
 function qp_echo_solved_html()
 {
     global $quiz_page_id, $quiz;
-    global $parting_message, $links_out;
+    global $parting_message;
 
     echo "<h2>" . _("You've solved this quiz.") . "</h2>\n";
     echo "<p>" . _("Congratulations, no errors found!") . "</p>\n";
@@ -687,6 +689,7 @@ function qp_echo_link_to_hint_if_it_exists($message_id, $hint_number)
         if (isset($hint["linktext"]))
         {
             echo $hint["linktext"];
+            // XXX: Currently unused. Might be discontinued.
         }
         else
         {
