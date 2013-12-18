@@ -182,7 +182,7 @@ new QuizLevel(
             _("Formatting Quiz"),
             _("Formatting Quiz"),
             _("This quiz covers the corrections you should make in the formatting rounds&mdash;<b>not</b> the proofreading rounds. There's no need to do this quiz until you are ready to work in F1, and in fact it may confuse you if you try it earlier."),
-            "", // **fixme** Add the url for the new formatting quiz feedback thread, once it exists
+            "$forums_url/viewtopic.php?t=47863",
             array(
                 'formatting1' => _('Italics, bold, and small caps'),
                 'formatting2' => _('Section headings, hyphens and em-dashes'),
