@@ -10,7 +10,7 @@ $default_feedbacktext     = _("The algorithm for finding errors in this quiz is 
 
 // urls for links
 
-$default_feedbackurl      = "$forums_url/viewtopic.php?t=9165";
+$default_feedbackurl      = "$forums_url/viewtopic.php?t=55121";
 $old_texts_url            = "$wiki_url/Proofing_old_texts";
 $Greek_translit_url       = "$wiki_url/Transliterating_Greek";
 $ae_oe_ligatures_url      = "$wiki_url/Ae_and_oe_ligatures";
