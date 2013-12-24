@@ -421,10 +421,10 @@ function title_case(str)
     for (i = 0; i < str.length; i++)
     {
         // Capitalise the first letter, or anything after a space, newline or period.
-        if (i == 0 || ' \n.'.indexOf(str[i - 1]) != -1) {
-            newStr += str[i].toUpperCase();
+        if (i == 0 || ' \n.'.indexOf(str.charAt(i - 1)) != -1) {
+            newStr += str.charAt(i).toUpperCase();
         } else {
-            newStr += str[i];
+            newStr += str.charAt(i);
         }
     }
 
@@ -442,7 +442,9 @@ function lc_common(str)
                       ':Am:Pm:Bc:Ad' +   // small caps abbreviations
                       ':De:Van:La:Le:';  // LOTE
 
-    for(i = 0; i < words.length; i++)
+    // Start at i=1 to avoid changing the first word (leave it Titlecased).
+    // E.g. if str is "A Winter's Tale", we don't want to lowercase the "A".
+    for(i = 1; i < words.length; i++)
     {
         // If the word appears in the :-delimited list above, it should be lower case
         if (common_lc_words.indexOf(':' + words[i] + ':') != -1)
@@ -450,8 +452,7 @@ function lc_common(str)
             words[i] = words[i].toLowerCase();
         }
     }
-    // Make the first letter uppercase.
-    words[0] = words[0][0].toUpperCase() + words[0].substr(1);
+
     return words.join(' ');
 }
 
