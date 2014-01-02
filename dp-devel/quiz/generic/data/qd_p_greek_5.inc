@@ -66,7 +66,7 @@ $tests[] = array("type" => "forbiddentext", "searchtext" =>  array(" re ", "arap
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("iaf"), "case_sensitive" => TRUE, "error" => "G_ph_f");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("Bissa"), "case_sensitive" => TRUE, "error" => "Bissa");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("--]"), "case_sensitive" => TRUE, "error" => "G_punctplace");
-$tests[] = array("type" => "expectedtext", "searchtext" =>  array("(B"), "case_sensitive" => TRUE, "error" => "missingparen");
+$tests[] = array("type" => "expectedtext", "searchtext" =>  array("(B"), "case_sensitive" => FALSE, "error" => "missingparen");
 $tests[] = array("type" => "expectedtext", "searchtext" =>  array(") "), "case_sensitive" => TRUE, "error" => "missingparen");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("è", "á", "ì", "í", "é", "ó", "ú", "ý", "\\", "/", "^"), "case_sensitive" => TRUE, "error" => "G_extraaccent");
 $tests[] = array("type" => "forbiddentext", "searchtext" =>  array("dhe", "lisha", "gehis", "phisô", "phe", "ahi", "Bhe", "ghus", "ghys", "khoti", "ehis", "ehin"), "case_sensitive" => TRUE, "error" => "G_extrah");
