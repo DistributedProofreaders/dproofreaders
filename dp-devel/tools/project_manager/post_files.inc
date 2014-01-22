@@ -16,6 +16,7 @@ function generate_post_files( $project, $limit_round_id, $which_text, $include_p
     // Generate comments html file.
     $comments_path = "{$pathbase}_comments.html";
     $fp = fopen($comments_path, "w");
+    // if ( $fp === FALSE ) ???
     write_project_comments($project, $fp);
     fclose ($fp);
 
@@ -32,10 +33,12 @@ function generate_post_files( $project, $limit_round_id, $which_text, $include_p
     }
 
     $pages_res = page_info_query($project, $limit_round_id, $which_text);
+    // if ($pages_res === FALSE) ???
 
     // Join all the page texts into a plain text file...
     $plain_path = "{$pathbase}.txt";
     $fp = fopen($plain_path, "w");
+    // if ( $fp === FALSE ) ???
     join_proofed_text($project, $pages_res, $include_proofers, true, $fp);
     fclose ($fp);
     //
@@ -49,6 +52,7 @@ function generate_post_files( $project, $limit_round_id, $which_text, $include_p
     // Join all the page texts into a TEIXLITE file...
     $tei_path = "{$pathbase}_TEI.txt";
     $fp = fopen($tei_path, "w");
+    // if ( $fp === FALSE ) ???
     join_proofed_text_tei($project, $pages_res, $include_proofers, $fp);
     fclose ($fp);
     //
