@@ -78,7 +78,10 @@ function generate_interim_file($project, $limit_round_id, $which_text, $include_
             $filename .= '_latest';
         }
     }
+
     $pages_res = page_info_query($project, $limit_round_id, $which_text);
+    if ($pages_res === FALSE) return;
+
     // join the page texts together
     $filedata = join_proofed_text($project, $pages_res, $include_proofers, false, '');
 
