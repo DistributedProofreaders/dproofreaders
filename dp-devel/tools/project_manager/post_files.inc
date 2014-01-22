@@ -445,6 +445,11 @@ function page_info_query( $projectid, $limit_round_id, $which_text )
     else
     {
         $limit_round = get_Round_for_round_id($limit_round_id);
+        if (is_null($limit_round))
+        {
+            die("'$limit_round_id' is not a valid round-id\n");
+        }
+
         if ( $which_text == 'EQ' )
         {
             // For each page, fetch the text (if any) saved in the selected round.
@@ -506,6 +511,13 @@ function page_info_query( $projectid, $limit_round_id, $which_text )
         FROM $projectid
         ORDER BY image
     ");
+    if ($res === FALSE)
+    {
+        echo "page_info_query(): SQL error:\n";
+        echo mysql_error();
+        return FALSE;
+    }
+
     return $res;
 }
 
