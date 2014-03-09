@@ -37,7 +37,7 @@ function get_all_current_tallyboards()
     $res = mysql_query("
         SELECT DISTINCT tally_name, holder_type
         FROM current_tallies
-        ORDER BY tally_name, holder_type
+        ORDER BY holder_type, tally_name
     ") or die(mysql_error());
     while ( list($tally_name, $holder_type) = mysql_fetch_row($res) )
     {
