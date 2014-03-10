@@ -32,8 +32,7 @@ If you wish to receive no more mailings from us, you need to do nothing else and
 this account will be marked as inactive. If you have forgotten your password,
 visit ($reset_password_url) to have
 it reset. We hope you care to join us, much has changed since you last saw us.\n\n
-$site_signoff",
-"From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+$site_signoff");
         }
 
         $rownum++;

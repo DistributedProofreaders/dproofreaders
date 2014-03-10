@@ -68,7 +68,7 @@ If you no longer wish to have some or all of these books assigned to you please 
 $site_signoff";
             }
 
-            maybe_mail("$email", "$subject","$message", "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+            maybe_mail("$email", "$subject","$message");
 
             $projectslist = "";
             $displayprojectslist = "";

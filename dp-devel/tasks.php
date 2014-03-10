@@ -528,8 +528,7 @@ if (!isset($_REQUEST['task_id'])) {
                 maybe_mail(
                     mysql_result($result, 0, "email"),
                     "DP Task Center: Task #$task_id has been assigned to you",
-                    mysql_result($result, 0, "username") . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n",
-                    "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"
+                    mysql_result($result, 0, "username") . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n"
                 );
             }
             wrapped_mysql_query("
@@ -1553,7 +1552,7 @@ function TaskComments($tid)
 
 function NotificationMail($tid, $message)
 {
-    global $code_url, $tasks_url, $auto_email_addr, $pguser;
+    global $code_url, $tasks_url, $pguser;
     $result = mysql_query("
         SELECT username
         FROM usersettings
@@ -1569,8 +1568,7 @@ function NotificationMail($tid, $message)
               . "You can see task #$tid by visiting $tasks_url?action=show&task_id=$tid" . "\n\n"
               . "--" . "\n"
               . "Distributed Proofreaders" . "\n" . "$code_url" . "\n\n"
-              . "This is an automated message that you had requested, please do not respond directly to this e-mail.",
-                "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+              . "This is an automated message that you had requested, please do not respond directly to this e-mail.");
         }
     }
 }

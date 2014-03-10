@@ -459,7 +459,7 @@ class ImageSource
             "approved by $pguser. You can select it, and apply it to projects, from\n".
             "your project manager's page.\n\n$site_signoff";
 
-        maybe_mail($email,$subject,$body,null);
+        maybe_mail($email,$subject,$body);
     }
 
     function _set_field($field,$value)
@@ -547,7 +547,7 @@ class ImageSource
         "visit\n    $code_url/tools/project_manager/manage_image_sources.php?action=show_sources#$this->code_name".
         "\n\n$site_signoff";
 
-        maybe_mail($image_sources_manager_addr,$subject,$body,null);
+        maybe_mail($image_sources_manager_addr,$subject,$body);
     }
 
 }

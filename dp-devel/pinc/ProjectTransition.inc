@@ -916,7 +916,7 @@ function round_to_PP_avail_collateral( $old_project, $project, $transition, $who
     if ( !empty($old_project->checkedoutby))
     {
         $reserved_PPer = $old_project->checkedoutby;
-        global $auto_email_addr, $site_manager_email_addr, $site_signoff;
+        global $site_manager_email_addr, $site_signoff;
 
         $PPer_email_addr = mysql_result(mysql_query("
             SELECT email FROM users WHERE username = '$reserved_PPer'
@@ -935,8 +935,7 @@ function round_to_PP_avail_collateral( $old_project, $project, $transition, $who
         maybe_mail(
             $PPer_email_addr,
             "$site_abbreviation: Reserved book sent to PP pool",
-            $body_blurb,
-            "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+            $body_blurb);
    }
 
     notify_project_event_subscribers( $project, 'pp_enter' );
@@ -981,7 +980,6 @@ function round_to_PP_out_collateral( $old_project, $project, $transition, $who )
         // -------------
 
         // msg to PPer:
-        global $auto_email_addr;
 
         $PPer_email_addr = mysql_result(mysql_query("
             SELECT email FROM users WHERE username = '$PPer'
@@ -997,8 +995,7 @@ function round_to_PP_out_collateral( $old_project, $project, $transition, $who )
         maybe_mail(
             $PPer_email_addr,
             "$site_abbreviation: Reserved book available for Post-Processing",
-            $body_blurb,
-            "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+            $body_blurb);
     }
 
     notify_project_event_subscribers( $project, 'pp_enter' );

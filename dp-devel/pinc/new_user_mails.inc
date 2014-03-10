@@ -13,7 +13,7 @@ include_once($relPath.'maybe_mail.inc');
 // get a Spanish mail because one of the site admins is Spanish).
 function maybe_activate_mail($email, $real_name, $ID, $username, $u_intlang) {
 
-  global $code_url, $auto_email_addr, $site_name;
+  global $code_url, $site_name;
 
   $activate = "Please activate your account at the $site_name site!";
 
@@ -42,13 +42,12 @@ Thanks,
 
 The %s Team
 
-  ", $real_name, $site_name, $username, "$code_url/accounts/activate.php?id=$ID", $site_name),
-  "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+  ", $real_name, $site_name, $username, "$code_url/accounts/activate.php?id=$ID", $site_name));
 }
 
 function maybe_welcome_mail($email, $real_name, $username) {
 
-  global $code_url, $reset_password_url, $auto_email_addr;
+  global $code_url, $reset_password_url;
   global $site_url, $general_help_email_addr, $site_name, $site_abbreviation, $forums_url, $wiki_url, $ELR_round;
 
   $welcome = "Welcome to the $site_name Site!";
@@ -203,8 +202,7 @@ Thanks,
 
 The $site_name Team
 
-  ",
-  "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+  ");
 }
 
 // vim: sw=4 ts=4 expandtab

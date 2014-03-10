@@ -211,8 +211,7 @@ function notify_user($username,$actions)
                    "Congratulations, you have been granted access to $stage[0] projects!\n" .
                    "You can access this stage by following the link to it at the Activity Hub.\n\n" .
                    "$site_signoff";
-        $add_headers = "";
-        maybe_mail($email_addr,$subject,$message,$add_headers);
+        maybe_mail($email_addr,$subject,$message);
         return "congratulated user.";
     }
     else
@@ -230,8 +229,7 @@ function notify_user($username,$actions)
                 'Access revoked.' ) );
         }
         $message .= "\n\n$site_signoff";
-        $add_headers = "";
-        maybe_mail($email_addr,$subject,$message,$add_headers);
+        maybe_mail($email_addr,$subject,$message);
         return "notified user.";
     }
 }

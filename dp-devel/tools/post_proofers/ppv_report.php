@@ -198,8 +198,6 @@ $ppvbit = sprintf($ppvbita, $ppver->username, $nameofwork, $general_help_email_a
 
 $signoff = "\n\n" . $site_signoff;
 
-$additional_headers = "";
-
 // Wrap any long input from textareas.
 $_POST['reason_returned'] = wordwrap($_POST['reason_returned'], 78, "\n    ");
 $_POST['general_comments'] = wordwrap($_POST['general_comments'], 78, "\n    ");
@@ -308,20 +306,20 @@ if ($_POST['cc_pp'])
    	$to = $pper->email;
    	$subject = "$site_abbreviation PP: $nameofwork";
    	$message = $ppbit.$reportcard.$signoff;
-    maybe_mail($to, $subject, $message, $additional_headers);
+    maybe_mail($to, $subject, $message);
 }
 
 if ($_POST['cc_ppv']) {
    	$to = $ppver->email;
    	$subject = "$site_abbreviation PPV: $nameofwork";
    	$message = $ppvbit.$reportcard.$signoff;
-    maybe_mail($to, $subject, $message, $additional_headers);
+    maybe_mail($to, $subject, $message);
 }
 
 $to = $ppv_reporting_email_addr;
 $subject = "PPV Summary - $pper->username ($_POST[eval])";
 $message = $promotions.$reportcard.$signoff;
-maybe_mail($to, $subject, $message, "From: $ppver->username <$ppver->email>\r\n");
+maybe_mail($to, $subject, $message, array("From: $ppver->username <$ppver->email>"));
 echo _("Thank you for PPVing!") . "<br />\n";
 printf(_("Return to <a href='%s'>the Project Page</a>"), "../../project.php?id=$projectid");
 exit();

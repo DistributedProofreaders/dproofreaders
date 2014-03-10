@@ -1,11 +1,28 @@
 <?php
 include_once($relPath.'site_vars.php');
 
-    function maybe_mail( $to, $subject, $message, $additional_headers )
+    function maybe_mail( $to, $subject, $message, $additional_headers = null )
     // If this is for real, send the message.
     // If we're testing, just report what would have been sent.
     {
-        global $testing;
+        global $testing, $auto_email_addr;
+
+        assert(is_null($additional_headers) || is_array($additional_headers);
+        if (empty($additional_headers))
+        {
+            $additional_headers = array();
+        }
+
+        if (!preg_grep('/^From: /', $additional_headers)
+        {
+            array_unshift($additional_headers, "From: $auto_email_addr");
+            if (!preg_grep('/^Reply-To: /', $additional_headers)
+            {
+                array_unshift($additional_headers, "Reply-To: $auto_email_addr");
+            }
+        }
+
+        $additional_headers = implode($additional_headers, "\r\n") + "\r\n";
 
         if ( $testing )
         {
@@ -30,7 +47,7 @@ function maybe_mail_project_manager( $project, $info, $prefix)
 // $project is either a string containing a projectid,
 // or an associative array containing various attributes of a project.
 {
-	global $code_url, $auto_email_addr, $site_name, $site_signoff;
+	global $code_url, $site_name, $site_signoff;
 
 	if (is_string($project))
 	{
@@ -61,8 +78,7 @@ $site_signoff
 		SELECT email FROM users WHERE username = '$username'
 	"),0);
 
-	maybe_mail($email_addr, "$prefix: \"$nameofwork\"", $body,
-		"From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n");
+	maybe_mail($email_addr, "$prefix: \"$nameofwork\"", $body);
 }
 
 

@@ -135,7 +135,7 @@ function user_is_subscribed_to_project_event( $username, $projectid, $event )
 
 function notify_project_event_subscribers( $project, $event, $extras=array() )
 {
-    global $auto_email_addr, $site_signoff;
+    global $site_signoff;
 
     $event_label = get_label_for_event( $event );
 
@@ -203,8 +203,7 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
         maybe_mail(
             $email,
             $msg_subject,
-            sprintf( _("Hello %s,"), $username ) . "\n" . $msg_body,
-            "From: $auto_email_addr\r\nReply-To: $auto_email_addr\r\n"
+            sprintf( _("Hello %s,"), $username ) . "\n" . $msg_body
         );
     }
 

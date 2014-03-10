@@ -71,7 +71,8 @@ else
                     $pguser,
                     $stage_id
                 );
-                maybe_mail( $email_addr, $title, $body, '' );
+
+                maybe_mail( $email_addr, $title, $body );
 
                 delete_and_insert( $pguser, "$stage_id.access", 'requested' );
 
