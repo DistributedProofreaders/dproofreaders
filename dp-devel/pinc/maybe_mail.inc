@@ -7,16 +7,16 @@ include_once($relPath.'site_vars.php');
     {
         global $testing, $auto_email_addr;
 
-        assert(is_null($additional_headers) || is_array($additional_headers);
+        assert(is_null($additional_headers) || is_array($additional_headers));
         if (empty($additional_headers))
         {
             $additional_headers = array();
         }
 
-        if (!preg_grep('/^From: /', $additional_headers)
+        if (!preg_grep('/^From: /', $additional_headers))
         {
             array_unshift($additional_headers, "From: $auto_email_addr");
-            if (!preg_grep('/^Reply-To: /', $additional_headers)
+            if (!preg_grep('/^Reply-To: /', $additional_headers))
             {
                 array_unshift($additional_headers, "Reply-To: $auto_email_addr");
             }
