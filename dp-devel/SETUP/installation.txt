@@ -228,7 +228,7 @@ assuming it isn't already.
         (You also need to put some files in d??)
 
         These should have permissions drwxrwsr-x and have the owner & group
-        of the user that the DP code runs as (probably 'nobody').
+        of the user that the DP code runs as (probably 'nobody' or 'www-data').
 
 --- Create the 'uploads' user, make it ftp/scp-only, somehow configure it
         so that dirs it creates will be 777 (so that the DP code has write access,
