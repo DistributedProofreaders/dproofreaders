@@ -260,7 +260,8 @@ function echo_general_tab() {
         _('Name'), 'real_name', 'name',
         $real_name,
         'textfield',
-        array( '', '' )
+        array( '20', '' )
+        // About 98% of pgdp.net's users have length(real_name) <= 20
     );
     show_blank();
     echo "</tr>\n";
@@ -270,7 +271,8 @@ function echo_general_tab() {
         _('Email'), 'email', 'email',
         $email,
         'textfield',
-        array( '', '' )
+        array( '26', '' )
+        // About 92% of pgdp.net's users have length(email) <= 26
     );
     show_preference(
         _('Interface Language'), 'u_intlang', 'intlang',
@@ -423,7 +425,8 @@ function echo_proofreading_tab() {
         _('Current Profile'), 'profilename', 'profilename',
         $userP['profilename'],
         'textfield',
-        array( '', '' )
+        array( '20', '' )
+        // About 99.96% of pgdp.net's user_profiles have length(profilename) <= 20
     );
     echo "<td bgcolor='#ffffff' colspan='2' align='center'>";
     // show all profiles
