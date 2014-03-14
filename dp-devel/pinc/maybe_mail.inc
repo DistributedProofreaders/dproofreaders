@@ -22,7 +22,7 @@ include_once($relPath.'site_vars.php');
             }
         }
 
-        $additional_headers = implode($additional_headers, "\r\n") + "\r\n";
+        $additional_headers = implode($additional_headers, "\r\n") . "\r\n";
 
         if ( $testing )
         {
