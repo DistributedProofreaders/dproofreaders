@@ -254,22 +254,17 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             $num_done_pages  = Project_getNumPagesInState($projectid, $round->page_save_state);
             $num_total_pages = Project_getNumPages($projectid);
 
-            if ($num_done_pages == $num_total_pages)
-            {
-                if ($verbose) echo "    All $num_total_pages pages are in '$round->page_save_state'.\n";
-                $state = $round->project_complete_state;
-            }
-            else
+            if ($num_done_pages != $num_total_pages)
             {
                 if ($verbose) echo "    Only $num_done_pages of $num_total_pages pages are in '$round->page_save_state'.\n";
                 continue;
             }
 
-            if ($verbose)
-            {
-                ensure_project_blurb( $project );
-                echo "    Advancing \"$nameofwork\" to $state\n";
-            }
+            if ($verbose) echo "    All $num_total_pages pages are in '$round->page_save_state'.\n";
+
+            $state = $round->project_complete_state;
+            if ($verbose) echo "    Advancing \"$nameofwork\" to $state\n";
+
             $error_msg = project_transition( $projectid, $state, PT_AUTO );
             if ($error_msg)
             {
