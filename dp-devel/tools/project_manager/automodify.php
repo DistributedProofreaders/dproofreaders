@@ -109,7 +109,7 @@ function ensure_project_blurb( $project )
 echo "<pre>\n";
 
 if ($one_project) {
-    $verbose = 0;
+    $verbose = $GLOBALS['testing'];
     $condition = "projectid = '$one_project'";
 
     // log tracetimes
