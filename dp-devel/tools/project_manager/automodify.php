@@ -262,7 +262,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
             else
             {
                 if ($verbose) echo "    Only $num_done_pages of $num_total_pages pages are in '$round->page_save_state'.\n";
-                $state = $round->project_available_state;
+                continue;
             }
 
             if ($verbose)
