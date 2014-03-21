@@ -195,7 +195,7 @@ class ProjectTransition
                 $errors = project_pre_release_check( get_object_vars($project), $to_round );
                 if ($errors)
                 {
-                    $error = _("disallowed because of project problems").":\n<pre>\n$errors</pre>";
+                    $error = _("Transition disallowed because of project problems:")."\n<pre>\n$errors</pre>";
                     // At this point, the corresponding code in changestate.php
                     // would transit the project to the round's bad state.
                     // It's probably sufficient to just leave it in its current state.
