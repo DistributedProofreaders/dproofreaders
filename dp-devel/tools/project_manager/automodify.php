@@ -283,14 +283,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
     {
         $next_round = get_Round_for_round_number( 1 + $round->round_number );
 
-        if ( hold_project_between_rounds( $project ) )
-        {
-            $next_round_state = $next_round->project_unavailable_state;
-        }
-        else
-        {
-            $next_round_state = $next_round->project_waiting_state;
-        }
+        $next_round_state = $next_round->project_waiting_state;
 
         if ($verbose)
         {
@@ -303,14 +296,6 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         {
             echo "$error_msg\n";
             continue;
-        }
-
-        if ( $next_round_state == $next_round->project_unavailable_state )
-        {
-            maybe_mail_project_manager(
-                $project,
-                "This project is being held between rounds $round->round_number and $next_round->round_number.",
-                "$site_abbreviation: Project Held Between Rounds"); 
         }
     }
 
@@ -375,17 +360,6 @@ else
 
 
     echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=$refresh_url\">";
-}
-
-// -----------------------------------------------------------------------------
-
-function hold_project_between_rounds( $project )
-{
-    return FALSE;
-    // return ( $project['nameofwork'] == 'Copyright Renewals 1950' );
-
-    // If holding between rounds becomes popular, we'll obviously
-    // want a more flexible way to answer this question.
 }
 
 // vim: sw=4 ts=4 expandtab
