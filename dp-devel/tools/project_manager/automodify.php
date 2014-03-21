@@ -264,18 +264,18 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
                 if ($verbose) echo "    Only $num_done_pages of $num_total_pages pages are in '$round->page_save_state'.\n";
                 $state = $round->project_available_state;
             }
-        }
 
-        if ($verbose)
-        {
-            ensure_project_blurb( $project );
-            echo "    Advancing \"$nameofwork\" to $state\n";
-        }
-        $error_msg = project_transition( $projectid, $state, PT_AUTO );
-        if ($error_msg)
-        {
-            echo "$error_msg\n";
-            continue;
+            if ($verbose)
+            {
+                ensure_project_blurb( $project );
+                echo "    Advancing \"$nameofwork\" to $state\n";
+            }
+            $error_msg = project_transition( $projectid, $state, PT_AUTO );
+            if ($error_msg)
+            {
+                echo "$error_msg\n";
+                continue;
+            }
         }
     }
 
