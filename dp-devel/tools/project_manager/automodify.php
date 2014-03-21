@@ -316,6 +316,13 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         {
             $new_state = PROJ_POST_FIRST_CHECKED_OUT;
         }
+
+        if ($verbose)
+        {
+            ensure_project_blurb( $project );
+            echo "    Promoting \"$nameofwork\" to $new_state\n";
+        }
+
         $error_msg = project_transition( $projectid, $new_state, PT_AUTO );
         if ( $error_msg )
         {
