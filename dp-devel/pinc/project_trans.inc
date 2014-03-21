@@ -20,10 +20,7 @@ function project_transition( $projectid, $new_state, $who, $extras = array() )
 
     $current_state = $project->state;
 
-    // TRANSLATORS: This is an error message about a project state transition.
-    // The format is: "$projectid: transition from $from_state to $to_state; status: $status
-    $transition_str_format = _('%1$s: transition from %2$s to %3$s; status: %4$s');
-
+    $transition_str = "$projectid: $current_state -> $new_state";
     if ($testing)
     {
         $indent = '    ';
@@ -51,8 +48,8 @@ function project_transition( $projectid, $new_state, $who, $extras = array() )
         // No attendant processing.
         if ($testing)
         {
-            echo $indent . sprintf($transition_str_format, $projectid, $current_state,
-                    $new_state, _("succeeded trivially - states are the same")) . $eol;
+            $sentence = _("Transition succeeded trivially - states are the same.");
+            echo "$indent$transition_str: $sentence$eol";
         }
         return '';
     }
@@ -63,8 +60,8 @@ function project_transition( $projectid, $new_state, $who, $extras = array() )
     if ( is_null($transition) )
     {
         // Requested transition is illegal.
-        $error = sprintf($transition_str_format, $projectid, $current_state,
-                $new_state, _("is illegal"));
+        $sentence = _("Transition is illegal.");
+        $error = "$transition_str: $sentence";
         return $error;
     }
 
@@ -76,16 +73,15 @@ function project_transition( $projectid, $new_state, $who, $extras = array() )
         // success
         if ($testing)
         {
-            echo $indent . sprintf($transition_str_format, $projectid, $current_state,
-                    $new_state, _("succeeded")) . $eol;
+            $sentence = _("Transition succeeded.");
+            echo "$indent$transition_str: $sentence$eol";
         }
     }
     else
     {
         // failure
         // Prepend $transition_str to the error message.
-        $error = sprintf($transition_str_format, $projectid, $current_state,
-                $new_state, $error);
+        $error = "$transition_str: $error";
     }
     return $error;
 }
