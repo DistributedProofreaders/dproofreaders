@@ -144,7 +144,10 @@ $allprojects = mysql_query("
     SELECT projectid, state, username, nameofwork
     FROM projects
     WHERE $condition
+    ORDER BY projectid
 ");
+// The "ORDER BY" clause isn't essential,
+// it's just there to ensure consistency of order when testing.
 
 while ( $project = mysql_fetch_assoc($allprojects) ) {
     $have_echoed_blurb_for_this_project = 0;
