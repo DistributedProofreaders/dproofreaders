@@ -279,42 +279,31 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         }
     }
 
-
-    // Promote Level
-    if ($state == $round->project_complete_state
-        && $round->round_number < MAX_NUM_PAGE_EDITING_ROUNDS)
+    if ($state == $round->project_complete_state)
     {
-        $next_round = get_Round_for_round_number( 1 + $round->round_number );
+        // The project is ready to exit this round.
 
-        $next_round_state = $next_round->project_waiting_state;
-
-        if ($verbose)
+        if ($round->round_number < MAX_NUM_PAGE_EDITING_ROUNDS)
         {
-            ensure_project_blurb( $project );
-            echo "    Promoting \"$nameofwork\" to $next_round_state\n";
+            // It goes to the next round.
+            $next_round = get_Round_for_round_number( 1 + $round->round_number );
+            $new_state = $next_round->project_waiting_state;
         }
-
-        $error_msg = project_transition( $projectid, $next_round_state, PT_AUTO );
-        if ($error_msg)
+        elseif ($round->round_number == MAX_NUM_PAGE_EDITING_ROUNDS)
         {
-            echo "$error_msg\n";
-            continue;
-        }
-    }
-
-    // Completed Level
-    if ($state == $round->project_complete_state
-        && $round->round_number == MAX_NUM_PAGE_EDITING_ROUNDS)
-    {
-        // Prepare a project for post-processing.
-
-        if ( is_null(project_get_auto_PPer($projectid)) )
-        {
-            $new_state = PROJ_POST_FIRST_AVAILABLE;
+            // It goes into post-processing.
+            if ( is_null(project_get_auto_PPer($projectid)) )
+            {
+                $new_state = PROJ_POST_FIRST_AVAILABLE;
+            }
+            else
+            {
+                $new_state = PROJ_POST_FIRST_CHECKED_OUT;
+            }
         }
         else
         {
-            $new_state = PROJ_POST_FIRST_CHECKED_OUT;
+            die("round_number is {$round->round_number}???\n");
         }
 
         if ($verbose)
@@ -324,7 +313,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         }
 
         $error_msg = project_transition( $projectid, $new_state, PT_AUTO );
-        if ( $error_msg )
+        if ($error_msg)
         {
             echo "$error_msg\n";
         }
