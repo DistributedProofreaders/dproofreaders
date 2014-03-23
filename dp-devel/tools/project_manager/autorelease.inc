@@ -186,7 +186,7 @@ function autorelease_for_round( $round )
         // or   we run out of SP ready to release
         // or   subject to the "no doubling up of authors" rule
 
-        $num_projects_released = 0;
+        $num_projects_released_by_this_q = 0;
 
         while ( $project = mysql_fetch_assoc($waiting_res) )
         {
@@ -213,7 +213,7 @@ function autorelease_for_round( $round )
 
             $release_restrictor->update_for_released_project($project);
 
-            $num_projects_released++;
+            $num_projects_released_by_this_q++;
 
             // Update active_page_counts
             // (The release of this project will affect the release-ability
@@ -234,7 +234,7 @@ function autorelease_for_round( $round )
         // by the author or PM restriction;
         // if there are no pages available in the round of this type, we will release a single project as a sort of 
         // "emergency valve" release, even if it means violation of author or PM restrictions
-        if ($num_projects_released == 0) {
+        if ($num_projects_released_by_this_q == 0) {
 
             $extrares = mysql_query("
                 SELECT
@@ -274,7 +274,7 @@ function autorelease_for_round( $round )
 
                 $release_restrictor->update_for_released_project($extra_project);
 
-                $num_projects_released++;
+                $num_projects_released_by_this_q++;
 
                 // Update active_page_counts
                 // (The release of this project will affect the release-ability
@@ -286,7 +286,7 @@ function autorelease_for_round( $round )
 
         }
 
-        echo "    Released <b>$num_projects_released</b> $q_name projects.\n";
+        echo "    Released <b>$num_projects_released_by_this_q</b> $q_name projects.\n";
     }
 
     AP_teardown($round);
