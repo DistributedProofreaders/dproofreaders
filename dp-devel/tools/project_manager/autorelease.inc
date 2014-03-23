@@ -421,8 +421,18 @@ class ReleaseRestrictor
             $this->this_round_authors[$authorsname] = 1;
         }
 
-        // keep track of which PMs have had a book released this execution of the script
+        // increment the count for this project's PM
         $pm = $project['username'];
+        if (array_key_exists($pm, $this->this_round_pms))
+        {
+            $this->this_round_pms[$pm] += 1;
+        }
+        else
+        {
+            $this->this_round_pms[$pm] = 1;
+        }
+
+        // keep track of which PMs have had a book released this execution of the script
         $this->fresh_released_pms[$pm] = 1;
     }
 }
