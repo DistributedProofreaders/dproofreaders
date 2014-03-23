@@ -416,7 +416,7 @@ class ReleaseRestrictor
         // special authors (anon, etc) have to have their counts incremented
         $authorsname = $project['authorsname'];
         if (array_key_exists($authorsname, $this->this_round_authors)) {
-            $this->this_round_authors[$authorsname] = $this->this_round_authors[$authorsname] + 1;
+            $this->this_round_authors[$authorsname] += 1;
         } else {
             $this->this_round_authors[$authorsname] = 1;
         }
