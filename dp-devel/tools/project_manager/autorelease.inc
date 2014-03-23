@@ -119,63 +119,7 @@ function autorelease_for_round( $round )
 
     // Some queue definitions do exist for this round.
 
-    // First, get the set of all authors with works in this round
-    {
-        $this_round_authors = array();
-        $author_res =
-            mysql_query("
-                SELECT authorsname
-                FROM projects
-                WHERE state = '{$round->project_available_state}'
-                ORDER BY authorsname
-            ") or die(mysql_error());
-        while ( $author_row = mysql_fetch_assoc($author_res) )
-        {
-            $author = $author_row['authorsname'];
-            @$this_round_authors[$author]++;
-        }
-        echo "\n";
-        echo "    List of authors in this round:\n";
-        foreach ( $this_round_authors as $author => $one )
-        {
-            echo "        $author\n";
-        }
-    }
-
-    // Next, get the set of all PMs with works in this round
-    {
-        $this_round_pms = array();
-        $pm_res =
-            mysql_query("
-                SELECT username
-                FROM projects
-                WHERE state = '{$round->project_available_state}'
-                ORDER BY username
-            ") or die(mysql_error());
-        while ( $pm_row = mysql_fetch_assoc($pm_res) )
-        {
-            $pm = $pm_row['username'];
-            @$this_round_pms[$pm]++;
-        }
-        echo "\n";
-        echo "    List of pms in this round:\n";
-        foreach ( $this_round_pms as $pm => $one )
-        {
-            echo "        $pm\n";
-        }
-    }
-
-
-
-    // Keep track of which PMs get a book released in this particular execution of the script
-
-    {
-        $fresh_released_pms = array();
-
-    }
-
-
-    // -------------------------------------------------------------------------
+    $release_restrictor = new ReleaseRestrictor($round);
 
     AP_setup($round);
 
@@ -248,47 +192,10 @@ function autorelease_for_round( $round )
         {
             echo "    considering {$project['projectid']} \"{$project['nameofwork']}\"...\n";
 
-            $authorsname = $project['authorsname'];
-            $pm = $project['username'];
-            $is_special = !empty($project['special_code']);
-
-            if ($is_special)
+            if (!$release_restrictor->approves_project($project))
             {
-                echo "        It's special, so it's exempt from release restrictions.\n";
-            }
-            else
-            {
-                // If an author is Anonymous, Unknown, or Various, we should allow 3 books by that 'Author'
-                // Otherwise we only allow one book by the author to be available in this round
-
-                // TODO: Add a flag to some queues that all have identical authors that allows
-                // a queue-defined limit of identical authors - eg some of the periodicals that have short
-                // issues
-
-                if ((($authorsname == 'Anonymous') && (@$this_round_authors[$authorsname] > 3)) ||
-                    (($authorsname == 'Unknown') && (@$this_round_authors[$authorsname] > 3)) ||
-                    (($authorsname == 'Various') && (@$this_round_authors[$authorsname] > 3)) ||
-                    (array_key_exists($authorsname, $this_round_authors) && ($authorsname <> 'Anonymous') && ($authorsname <> 'Unknown') && ($authorsname <> 'Various')))
-                {
-                    echo "        Its author, $authorsname, already has a project(s) in this round.\n";
-                    continue;
-                }
-
-                // If a PM has more than 10 books already in this round, their books should be skipped
-
-                if ((array_key_exists($pm, $this_round_pms)) && ($this_round_pms[$pm] > 10))
-                {
-                    echo "        The PM, $pm, already has $this_round_pms[$pm] projects in this round.\n";
-                    continue;
-                }
-
-                // If a PM has had a book released in this execution of the script, pass over it until next time
-
-                if (array_key_exists($pm, $fresh_released_pms))
-                {
-                    echo "        The PM, $pm, already has had a project released during this execution of the release script.\n";
-                    continue;
-                }
+                // Messages have been echoed.
+                continue;
             }
 
 
@@ -304,17 +211,7 @@ function autorelease_for_round( $round )
             echo "        Project released!\n";
 
 
-            // special authors (anon, etc) have to have their counts incremented
-            if (array_key_exists($authorsname, $this_round_authors)) {
-                $this_round_authors[$authorsname] = $this_round_authors[$authorsname] + 1;
-            } else {
-                $this_round_authors[$authorsname] = 1;
-            }
-
-
-            // keep track of which PMs have had a book released this execution of the script
-            $fresh_released_pms[$pm] = 1;
-
+            $release_restrictor->update_for_released_project($project);
 
             $num_projects_released++;
 
@@ -365,9 +262,6 @@ function autorelease_for_round( $round )
                 echo "    Attempting an emergency valve release: no pages available, queue non-empty\n\n";
                 echo "    considering {$extra_project['projectid']} \"{$extra_project['nameofwork']}\"...\n";
 
-                $authorsname = $extra_project['authorsname'];
-                $pm = $extra_project['username'];
-
                 // release the project for proofreading, and keep track of
                 // its contribution to reducing our total page shortfall
                 if (!attempt_to_release($round, $extra_project, $q_name))
@@ -378,18 +272,7 @@ function autorelease_for_round( $round )
 
                 echo "        Project released!\n";
 
-
-                // special authors (anon, etc) have to have their counts incremented
-                if (array_key_exists($authorsname, $this_round_authors)) {
-                    $this_round_authors[$authorsname] = $this_round_authors[$authorsname] + 1;
-                } else {
-                    $this_round_authors[$authorsname] = 1;
-                }
-
-
-                // keep track of which PMs have had a book released this execution of the script
-                $fresh_released_pms[$pm] = 1;
-
+                $release_restrictor->update_for_released_project($extra_project);
 
                 $num_projects_released++;
 
@@ -411,6 +294,137 @@ function autorelease_for_round( $round )
     echo "\n";
     echo "Finished round {$round->id}\n";
     echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+class ReleaseRestrictor
+// An object of this class is responsible for imposing various queue-independent
+// restrictions on the auto-release of projects into a given round.
+// (E.g., not too many by the same author, not too many with the same PM.)
+{
+    var $this_round_authors;
+    var $this_round_pms;
+    var $fresh_released_pms;
+
+    function ReleaseRestrictor($round)
+    {
+        // ----------------------------------------------------------
+        // First, get the set of all authors with works in this round
+        $this->this_round_authors = array();
+        $author_res =
+            mysql_query("
+                SELECT authorsname
+                FROM projects
+                WHERE state = '{$round->project_available_state}'
+                ORDER BY authorsname
+            ") or die(mysql_error());
+        while ( $author_row = mysql_fetch_assoc($author_res) )
+        {
+            $author = $author_row['authorsname'];
+            @$this->this_round_authors[$author]++;
+        }
+        echo "\n";
+        echo "    List of authors in this round:\n";
+        foreach ( $this->this_round_authors as $author => $one )
+        {
+            echo "        $author\n";
+        }
+
+        // ----------------------------------------------------------
+        // Next, get the set of all PMs with works in this round
+        $this->this_round_pms = array();
+        $pm_res =
+            mysql_query("
+                SELECT username
+                FROM projects
+                WHERE state = '{$round->project_available_state}'
+                ORDER BY username
+            ") or die(mysql_error());
+        while ( $pm_row = mysql_fetch_assoc($pm_res) )
+        {
+            $pm = $pm_row['username'];
+            @$this->this_round_pms[$pm]++;
+        }
+        echo "\n";
+        echo "    List of pms in this round:\n";
+        foreach ( $this->this_round_pms as $pm => $one )
+        {
+            echo "        $pm\n";
+        }
+
+        // ----------------------------------------------------------
+        // Keep track of which PMs get a book released in this particular execution of the script
+        $this->fresh_released_pms = array();
+    }
+
+    // =========================================================================
+
+    function approves_project($project)
+    {
+        $is_special = !empty($project['special_code']);
+        if ($is_special)
+        {
+            echo "        It's special, so it's exempt from release restrictions.\n";
+            return TRUE;
+        }
+
+        // ---------------------------------------------------------------------
+        // If an author is Anonymous, Unknown, or Various, we should allow 3 books by that 'Author'
+        // Otherwise we only allow one book by the author to be available in this round
+
+        // TODO: Add a flag to some queues that all have identical authors that allows
+        // a queue-defined limit of identical authors - eg some of the periodicals that have short
+        // issues
+
+        $authorsname = $project['authorsname'];
+        if ((($authorsname == 'Anonymous') && (@$this->this_round_authors[$authorsname] > 3)) ||
+            (($authorsname == 'Unknown') && (@$this->this_round_authors[$authorsname] > 3)) ||
+            (($authorsname == 'Various') && (@$this->this_round_authors[$authorsname] > 3)) ||
+            (array_key_exists($authorsname, $this->this_round_authors) && ($authorsname <> 'Anonymous') && ($authorsname <> 'Unknown') && ($authorsname <> 'Various')))
+        {
+            echo "        Its author, $authorsname, already has a project(s) in this round.\n";
+            return FALSE;
+        }
+
+        // ---------------------------------------------------------------------
+        // If a PM has more than 10 books already in this round, their books should be skipped
+
+        $pm = $project['username'];
+        if ((array_key_exists($pm, $this->this_round_pms)) && ($this->this_round_pms[$pm] > 10))
+        {
+            echo "        The PM, $pm, already has $this->this_round_pms[$pm] projects in this round.\n";
+            return FALSE;
+        }
+
+        // ---------------------------------------------------------------------
+        // If a PM has had a book released in this execution of the script, pass over it until next time
+
+        if (array_key_exists($pm, $this->fresh_released_pms))
+        {
+            echo "        The PM, $pm, already has had a project released during this execution of the release script.\n";
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+    // =========================================================================
+
+    function update_for_released_project($project)
+    {
+        // special authors (anon, etc) have to have their counts incremented
+        $authorsname = $project['authorsname'];
+        if (array_key_exists($authorsname, $this->this_round_authors)) {
+            $this->this_round_authors[$authorsname] = $this->this_round_authors[$authorsname] + 1;
+        } else {
+            $this->this_round_authors[$authorsname] = 1;
+        }
+
+        // keep track of which PMs have had a book released this execution of the script
+        $pm = $project['username'];
+        $this->fresh_released_pms[$pm] = 1;
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
