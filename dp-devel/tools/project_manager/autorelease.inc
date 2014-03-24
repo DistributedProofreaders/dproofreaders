@@ -228,13 +228,21 @@ function autorelease_for_round( $round )
             }
         }
 
-        // if we weren't allowed to release projects, or the queue was empty, or there'd been an error, 
-        // we would've gone on to the next queue by now; 
-        // so if we're still here and haven't released a project from this queue, all projects have been blocked
-        // by the author or PM restriction;
-        // if there are no pages available in the round of this type, we will release a single project as a sort of 
-        // "emergency valve" release, even if it means violation of author or PM restrictions
         if ($num_projects_released_by_this_q == 0) {
+            // At this point, we know that:
+            // the queue's release_criterion succeeded
+            // (so it wants to release some projects),
+            // and there are projects in this queue
+            // (wanting to be released),
+            // but every one of them must either
+            // have been rejected by the $release_restrictor, or
+            // had something go wrong in attempt_to_release().
+            //
+            // If there are still active pages of this type in the round,
+            // there's no cause to panic.
+            // But if there aren't, we'll try to release a single project
+            // via this queue, as a sort of "emergency valve",
+            // even though this will mean violating the release restrictions.
 
             $extrares = mysql_query("
                 SELECT
