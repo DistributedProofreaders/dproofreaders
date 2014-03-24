@@ -244,18 +244,8 @@ function autorelease_for_round( $round )
             // via this queue, as a sort of "emergency valve",
             // even though this will mean violating the release restrictions.
 
-            $extrares = mysql_query("
-                SELECT
-                    SUM(active_page_counts.pages) as pages
-                FROM projects NATURAL JOIN active_page_counts
-                WHERE $cooked_project_selector
-                ") or die(mysql_error());
-
-            $extraenv = mysql_fetch_assoc($extrares);
-            $extra_page_avail = $extraenv['pages'];
-
-            if ($extra_page_avail == 0) {
-
+            if ( AP_evaluate_criteria( $round, $cooked_project_selector, 'pages == 0') )
+            {
                 // OK to release
 
                 $extra_waiting_res = mysql_query("
