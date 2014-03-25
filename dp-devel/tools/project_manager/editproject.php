@@ -1008,7 +1008,7 @@ class ProjectInfoHolder
         else
         {
             $this->row( _("PPer/PPVer"),                  'just_echo',       $this->checkedoutby);
-            echo "<input type='hidden' name='checkedoutby' value='$this->projectid'>";
+            echo "<input type='hidden' name='checkedoutby' value='$this->checkedoutby'>";
         }
         $this->row( _("Original Image Source"),       'image_source_list',   $this->image_source     );
         $this->row( _("Image Preparer"),              'DP_user_field',       $this->image_preparer,  'image_preparer', sprintf(_("%s user who scanned or harvested the images."),$site_abbreviation));
