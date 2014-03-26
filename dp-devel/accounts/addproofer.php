@@ -161,13 +161,13 @@ if ($password=="proofer") {
     output_header($header);
 
     echo "<h1>" . _("Account Registration") . "</h1>";
-    echo sprintf(_("Thank you for your interest in %s. Fill out the form below to create an account."), $site_name);
+    echo sprintf(_("Thank you for your interest in %s. To create an account, please complete the form below."), $site_name);
 
     echo "<h2>" . _("Registration Hints") . "</h2>";
     echo "<ul>";
-    echo "<li>" . sprintf(_("Please choose your User Name carefully. Your User Name will be visible to other %s users and cannot be changed."), $site_abbreviation) . "</li>";
-    echo "<li>" . sprintf(_("Make sure your E-mail Address is correct. You will be e-mailed a confirmation link which you will need to follow in order for your %s account to be activated."), $site_abbreviation) . "</li>";
-    echo "<li>" . _("If your e-mail provider uses a challenge/response, greylist, or other anti-spam measures, please add our site to the list of permitted senders <i>before</i> submitting this form so that the activation e-mail will reach you.") . "</li>";
+    echo "<li>" . _("Please choose your User Name carefully. It will be visible to other users and cannot be changed. We suggest that you don't use your e-mail address as a User Name since e-mail addresses can change, and you may not want to make that address viewable.") . "</li>";
+    echo "<li>" . sprintf(_("Please ensure that the e-mail address you provide is correct. %s will e-mail a confirmation link for you to follow in order to activate your account."), $site_name) . "</li>";
+    echo "<li>" . _("If your e-mail provider uses a challenge/response, greylist, or other anti-spam measures, please add our site to the list of permitted senders before submitting this form so that the activation e-mail will reach you.") . "</li>";
     echo "</ul>";
 
     if ( $testing )
