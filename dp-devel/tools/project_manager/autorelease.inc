@@ -134,31 +134,27 @@ function autorelease_for_round( $round )
         ORDER BY ordering
     ") or die(mysql_error());
 
-    while ( $qd = mysql_fetch_assoc($q_res) )
+    while ( $qd = mysql_fetch_object($q_res) )
     {
-        $q_name            = $qd['name'];
-        $project_selector  = $qd['project_selector'];
-        $release_criterion = $qd['release_criterion'];
+        $cooked_project_selector = cook_project_selector($qd->project_selector);
 
-        $cooked_project_selector = cook_project_selector($project_selector);
+        // Release available projects of a given type (defined by $qd->project_selector)
+        // as long as the $qd->release_criterion is true for projects of that type.
 
-        // Release available projects of a given type (defined by $project_selector)
-        // as long as the $release_criterion is true for projects of that type.
-
-        // $q_name       human readable string describing this type of project
-        // $project_selector        portion of WHERE clause that defines this type of project
-        // $release_criterion   logical expression involving 'projects' and 'pages':
+        // $qd->name       human readable string describing this type of project
+        // $qd->project_selector        portion of WHERE clause that defines this type of project
+        // $qd->release_criterion   logical expression involving 'projects' and 'pages':
         //                      the number of projects of this type in this round,
         //                      and their total number of unproofed pages.
 
         echo "\n";
-        echo "Considering $q_name projects...\n";
+        echo "Considering {$qd->name} projects...\n";
         echo "\n";
         echo "    For projects matching: $cooked_project_selector\n";
-        echo "    release if: $release_criterion\n";
+        echo "    release if: {$qd->release_criterion}\n";
 
-        // Does the $release_criterion allow us to release any projects?
-        if (! AP_evaluate_criteria( $round, $cooked_project_selector, $release_criterion ) )
+        // Does the $qd->release_criterion allow us to release any projects?
+        if (! AP_evaluate_criteria( $round, $cooked_project_selector, $qd->release_criterion ) )
         {
             echo "    The release criterion fails, so no projects released in this category.\n";
             continue;
@@ -182,7 +178,7 @@ function autorelease_for_round( $round )
         }
 
         // Keep releasing these projects (SP) until:
-        //      the $release_criterion fails
+        //      the $qd->release_criterion fails
         // or   we run out of SP ready to release
         // or   subject to the "no doubling up of authors" rule
 
@@ -202,7 +198,7 @@ function autorelease_for_round( $round )
             // OK to release
             // release the project for proofreading, and keep track of
             // its contribution to reducing our total page shortfall
-            if (!attempt_to_release($round, $project, $q_name))
+            if (!attempt_to_release($round, $project, $qd->name))
             {
                 // Something went wrong. Error messages have been output.
                 continue;
@@ -221,7 +217,7 @@ function autorelease_for_round( $round )
             // in other categories.)
             AP_add_project( $round, $project['projectid'] );
 
-            if (! AP_evaluate_criteria( $round, $cooked_project_selector, $release_criterion ) )
+            if (! AP_evaluate_criteria( $round, $cooked_project_selector, $qd->release_criterion ) )
             {
                 echo "    The release criterion now fails, so no further projects released in this category.\n";
                 break;
@@ -262,7 +258,7 @@ function autorelease_for_round( $round )
 
                 // release the project for proofreading, and keep track of
                 // its contribution to reducing our total page shortfall
-                if (!attempt_to_release($round, $extra_project, $q_name))
+                if (!attempt_to_release($round, $extra_project, $qd->name))
                 {
                     // Something went wrong. Error messages have been output.
                     continue;
@@ -284,7 +280,7 @@ function autorelease_for_round( $round )
 
         }
 
-        echo "    Released <b>$num_projects_released_by_this_q</b> $q_name projects.\n";
+        echo "    Released <b>$num_projects_released_by_this_q</b> {$qd->name} projects.\n";
     }
 
     AP_teardown($round);
