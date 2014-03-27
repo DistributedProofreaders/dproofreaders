@@ -151,7 +151,7 @@ function autorelease_for_round( $round )
         //         that are currently available in the round, and
         //      -- their total number of pages in any state other than 'saved'.
 
-        $cooked_project_selector = cook_project_selector($qd->project_selector);
+        $qd->cooked_project_selector = cook_project_selector($qd->project_selector);
 
         // Release available projects of a given type (defined by $qd->project_selector)
         // as long as the $qd->release_criterion is true for projects of that type.
@@ -159,11 +159,11 @@ function autorelease_for_round( $round )
         echo "\n";
         echo "Considering {$qd->name} projects...\n";
         echo "\n";
-        echo "    For projects matching: $cooked_project_selector\n";
+        echo "    For projects matching: {$qd->cooked_project_selector}\n";
         echo "    release if: {$qd->release_criterion}\n";
 
         // Does the $qd->release_criterion allow us to release any projects?
-        if (! AP_evaluate_criteria( $round, $cooked_project_selector, $qd->release_criterion ) )
+        if (! AP_evaluate_criteria( $round, $qd->cooked_project_selector, $qd->release_criterion ) )
         {
             echo "    The release criterion fails, so no projects released in this category.\n";
             continue;
@@ -175,7 +175,7 @@ function autorelease_for_round( $round )
         $waiting_res = mysql_query("
             SELECT *
             FROM projects
-            WHERE state = '{$round->project_waiting_state}' AND ($cooked_project_selector)
+            WHERE state = '{$round->project_waiting_state}' AND ($qd->cooked_project_selector)
             ORDER BY modifieddate ASC, nameofwork ASC
         ");
 
@@ -226,7 +226,7 @@ function autorelease_for_round( $round )
             // in other categories.)
             AP_add_project( $round, $project['projectid'] );
 
-            if (! AP_evaluate_criteria( $round, $cooked_project_selector, $qd->release_criterion ) )
+            if (! AP_evaluate_criteria( $round, $qd->cooked_project_selector, $qd->release_criterion ) )
             {
                 echo "    The release criterion now fails, so no further projects released in this category.\n";
                 break;
@@ -249,14 +249,14 @@ function autorelease_for_round( $round )
             // via this queue, as a sort of "emergency valve",
             // even though this will mean violating the release restrictions.
 
-            if ( AP_evaluate_criteria( $round, $cooked_project_selector, 'pages == 0') )
+            if ( AP_evaluate_criteria( $round, $qd->cooked_project_selector, 'pages == 0') )
             {
                 // OK to release
 
                 $extra_waiting_res = mysql_query("
                     SELECT *
                     FROM projects
-                    WHERE state = '{$round->project_waiting_state}' AND ($cooked_project_selector)
+                    WHERE state = '{$round->project_waiting_state}' AND ($qd->cooked_project_selector)
                     ORDER BY modifieddate ASC, nameofwork ASC
                 ");
 
