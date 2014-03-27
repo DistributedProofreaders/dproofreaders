@@ -119,7 +119,7 @@ function autorelease_for_round( $round )
 
     // Some queue definitions do exist for this round.
 
-    $release_restrictor = new ReleaseRestrictor($round);
+    $round->release_restrictor = new ReleaseRestrictor($round);
 
     AP_setup($round);
 
@@ -192,7 +192,7 @@ function autorelease_for_round( $round )
         {
             echo "    considering {$project['projectid']} \"{$project['nameofwork']}\"...\n";
 
-            if (!$release_restrictor->approves_project($project))
+            if (!$round->release_restrictor->approves_project($project))
             {
                 // Messages have been echoed.
                 continue;
@@ -211,7 +211,7 @@ function autorelease_for_round( $round )
             echo "        Project released!\n";
 
 
-            $release_restrictor->update_for_released_project($project);
+            $round->release_restrictor->update_for_released_project($project);
 
             $num_projects_released_by_this_q++;
 
@@ -235,7 +235,7 @@ function autorelease_for_round( $round )
             // and there are projects in this queue
             // (wanting to be released),
             // but every one of them must either
-            // have been rejected by the $release_restrictor, or
+            // have been rejected by the release_restrictor, or
             // had something go wrong in attempt_to_release().
             //
             // If there are still active pages of this type in the round,
@@ -270,7 +270,7 @@ function autorelease_for_round( $round )
 
                 echo "        Project released!\n";
 
-                $release_restrictor->update_for_released_project($extra_project);
+                $round->release_restrictor->update_for_released_project($extra_project);
 
                 $num_projects_released_by_this_q++;
 
