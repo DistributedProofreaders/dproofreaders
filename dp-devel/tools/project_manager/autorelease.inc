@@ -432,6 +432,34 @@ class ReleaseRestrictor
 
         // keep track of which PMs have had a book released this execution of the script
         $this->fresh_released_pms[$pm] = 1;
+
+        global $testing;
+        if ($testing)
+        {
+            echo "\n";
+            echo "    ((((\n";
+            echo "    ReleaseRestrictor::update_for_released_project():\n";
+
+            echo "        this_round_authors:\n";
+            foreach ( $this->this_round_authors as $authorsname => $count )
+            {
+                echo sprintf("            %2d %s\n", $count, $authorsname);
+            }
+
+            echo "        this_round_pms:\n";
+            foreach ( $this->this_round_pms as $pm => $count )
+            {
+                echo sprintf("            %2d %s\n", $count, $pm);
+            }
+
+            echo "        fresh_released_pms:\n";
+            foreach ( $this->this_round_pms as $pm => $_ )
+            {
+                echo sprintf("            %s\n", $pm);
+            }
+
+            echo "    ))))\n";
+        }
     }
 }
 
