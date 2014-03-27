@@ -136,16 +136,25 @@ function autorelease_for_round( $round )
 
     while ( $qd = mysql_fetch_object($q_res) )
     {
+        // $qd->name
+        //     A human-readable name for this queue.
+        //
+        // $qd->project_selector
+        //     An SQL condition that defines the kind of project
+        //     that can be released by this queue.
+        //
+        // $qd->release_criterion
+        //     A PHP condition that specifies the circumstances under which
+        //     this queue can release a project.
+        //     It can reference 'projects' and 'pages', which denote (respectively)
+        //      -- the number of projects matching this queue's project_selector
+        //         that are currently available in the round, and
+        //      -- their total number of pages in any state other than 'saved'.
+
         $cooked_project_selector = cook_project_selector($qd->project_selector);
 
         // Release available projects of a given type (defined by $qd->project_selector)
         // as long as the $qd->release_criterion is true for projects of that type.
-
-        // $qd->name       human readable string describing this type of project
-        // $qd->project_selector        portion of WHERE clause that defines this type of project
-        // $qd->release_criterion   logical expression involving 'projects' and 'pages':
-        //                      the number of projects of this type in this round,
-        //                      and their total number of unproofed pages.
 
         echo "\n";
         echo "Considering {$qd->name} projects...\n";
