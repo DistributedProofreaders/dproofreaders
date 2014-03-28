@@ -251,7 +251,7 @@ function autorelease_for_round( $round )
 
             if ( AP_evaluate_criteria( $round, $qd->cooked_project_selector, 'pages == 0') )
             {
-                // OK to release
+                echo "    Attempting an emergency valve release: no pages available, queue non-empty\n\n";
 
                 $extra_waiting_res = mysql_query("
                     SELECT *
@@ -260,33 +260,33 @@ function autorelease_for_round( $round )
                     ORDER BY modifieddate ASC, nameofwork ASC
                 ");
 
-                $extra_project = mysql_fetch_assoc($extra_waiting_res);
-                
-                echo "    Attempting an emergency valve release: no pages available, queue non-empty\n\n";
-                echo "    considering {$extra_project['projectid']} \"{$extra_project['nameofwork']}\"...\n";
-
-                // release the project for proofreading, and keep track of
-                // its contribution to reducing our total page shortfall
-                if (!attempt_to_release($round, $extra_project, $qd->name))
+                while ( $extra_project = mysql_fetch_assoc($extra_waiting_res) )
                 {
-                    // Something went wrong. Error messages have been output.
-                    continue;
+                    echo "    considering {$extra_project['projectid']} \"{$extra_project['nameofwork']}\"...\n";
+
+                    // release the project for proofreading, and keep track of
+                    // its contribution to reducing our total page shortfall
+                    if (!attempt_to_release($round, $extra_project, $qd->name))
+                    {
+                        // Something went wrong. Error messages have been output.
+                        continue;
+                    }
+
+                    echo "        Project released!\n";
+
+                    $round->release_restrictor->update_for_released_project($extra_project);
+
+                    $num_projects_released_by_this_q++;
+
+                    // Update active_page_counts
+                    // (The release of this project will affect the release-ability
+                    // of other projects in this category, and possibly of projects
+                    // in other categories.)
+                    AP_add_project( $round, $extra_project['projectid'] );
+
+                    break;
                 }
-
-                echo "        Project released!\n";
-
-                $round->release_restrictor->update_for_released_project($extra_project);
-
-                $num_projects_released_by_this_q++;
-
-                // Update active_page_counts
-                // (The release of this project will affect the release-ability
-                // of other projects in this category, and possibly of projects
-                // in other categories.)
-                AP_add_project( $round, $extra_project['projectid'] );
-
             }
-
         }
 
         echo "    Released <b>$num_projects_released_by_this_q</b> {$qd->name} projects.\n";
