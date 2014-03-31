@@ -83,31 +83,14 @@ function autorelease_for_round( $round )
         echo "We interpret this as meaning that projects should not\n";
         echo "wait here, but automatically become available.\n";
 
-        // set of candidates for release
-        $waiting_res = mysql_query("
-            SELECT *
-            FROM projects
-            WHERE state = '{$round->project_waiting_state}'
-            ORDER BY modifieddate ASC, nameofwork ASC
-        ");
-
-        $n = mysql_num_rows($waiting_res);
-        echo "\n";
-        echo "There are $n projects waiting for release in this round.\n";
-
-        while ( $project = mysql_fetch_assoc($waiting_res) )
-        {
-            echo "\n";
-            echo "    considering {$project['projectid']} \"{$project['nameofwork']}\"...\n";
-
-            if (!attempt_to_release($round, $project, ''))
-            {
-                // Something went wrong. Error messages have been output.
-                continue;
-            }
-
-            echo "        Project released!\n";
-        }
+        maybe_release_projects(
+            $round,
+            NULL,
+            /* $observe_release_restrictions: */ FALSE,
+                // Mind you, there's no reason it *couldn't* observe release restrictions.
+                // We'd just have to create $round->release_restrictor earlier.
+            /* &release_at_most_one: */ FALSE
+        );
 
         echo "\n";
         echo "Finished round {$round->id}\n";
@@ -171,69 +154,21 @@ function autorelease_for_round( $round )
 
         // We are allowed to release projects!
 
-        // set of candidates for release
-        $waiting_res = mysql_query("
-            SELECT *
-            FROM projects
-            WHERE state = '{$round->project_waiting_state}' AND ($qd->cooked_project_selector)
-            ORDER BY modifieddate ASC, nameofwork ASC
-        ");
+        $n_projects = maybe_release_projects(
+            $round,
+            $qd,
+            /* $observe_release_restrictions: */ TRUE,
+            /* $release_at_most_one: */ FALSE
+        );
 
-        if (mysql_num_rows($waiting_res) == 0)
+        if ($n_projects->waiting == 0)
         {
             echo "    Could have released some projects in this category, but none were waiting!\n";
             // email someone?
             continue;
         }
 
-        // Keep releasing these projects (SP) until:
-        //      the $qd->release_criterion fails
-        // or   we run out of SP ready to release
-        // or   subject to the "no doubling up of authors" rule
-
-        $num_projects_released_by_this_q = 0;
-
-        while ( $project = mysql_fetch_assoc($waiting_res) )
-        {
-            echo "    considering {$project['projectid']} \"{$project['nameofwork']}\"...\n";
-
-            if (!$round->release_restrictor->approves_project($project))
-            {
-                // Messages have been echoed.
-                continue;
-            }
-
-
-            // OK to release
-            // release the project for proofreading, and keep track of
-            // its contribution to reducing our total page shortfall
-            if (!attempt_to_release($round, $project, $qd->name))
-            {
-                // Something went wrong. Error messages have been output.
-                continue;
-            }
-
-            echo "        Project released!\n";
-
-
-            $round->release_restrictor->update_for_released_project($project);
-
-            $num_projects_released_by_this_q++;
-
-            // Update active_page_counts
-            // (The release of this project will affect the release-ability
-            // of other projects in this category, and possibly of projects
-            // in other categories.)
-            AP_add_project( $round, $project['projectid'] );
-
-            if (! AP_evaluate_criteria( $round, $qd->cooked_project_selector, $qd->release_criterion ) )
-            {
-                echo "    The release criterion now fails, so no further projects released in this category.\n";
-                break;
-            }
-        }
-
-        if ($num_projects_released_by_this_q == 0) {
+        if ($n_projects->released == 0) {
             // At this point, we know that:
             // the queue's release_criterion succeeded
             // (so it wants to release some projects),
@@ -253,43 +188,18 @@ function autorelease_for_round( $round )
             {
                 echo "    Attempting an emergency valve release: no pages available, queue non-empty\n\n";
 
-                $extra_waiting_res = mysql_query("
-                    SELECT *
-                    FROM projects
-                    WHERE state = '{$round->project_waiting_state}' AND ($qd->cooked_project_selector)
-                    ORDER BY modifieddate ASC, nameofwork ASC
-                ");
-
-                while ( $extra_project = mysql_fetch_assoc($extra_waiting_res) )
-                {
-                    echo "    considering {$extra_project['projectid']} \"{$extra_project['nameofwork']}\"...\n";
-
-                    // release the project for proofreading, and keep track of
-                    // its contribution to reducing our total page shortfall
-                    if (!attempt_to_release($round, $extra_project, $qd->name))
-                    {
-                        // Something went wrong. Error messages have been output.
-                        continue;
-                    }
-
-                    echo "        Project released!\n";
-
-                    $round->release_restrictor->update_for_released_project($extra_project);
-
-                    $num_projects_released_by_this_q++;
-
-                    // Update active_page_counts
-                    // (The release of this project will affect the release-ability
-                    // of other projects in this category, and possibly of projects
-                    // in other categories.)
-                    AP_add_project( $round, $extra_project['projectid'] );
-
-                    break;
-                }
+                $n_projects = maybe_release_projects(
+                    $round,
+                    $qd,
+                    /* $observe_release_restrictions: */ FALSE,
+                        // It *must* ignore release restrictions
+                        // to have any hope of releasing anything.
+                    /* $release_at_most_one: */ TRUE
+                );
             }
         }
 
-        echo "    Released <b>$num_projects_released_by_this_q</b> {$qd->name} projects.\n";
+        echo "    Released <b>{$n_projects->released}</b> {$qd->name} projects.\n";
     }
 
     AP_teardown($round);
@@ -297,6 +207,106 @@ function autorelease_for_round( $round )
     echo "\n";
     echo "Finished round {$round->id}\n";
     echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function maybe_release_projects(
+    $round,
+    $qd,
+    $observe_release_restrictions,
+    $release_at_most_one
+)
+{
+    $n_projects = new StdClass;
+
+    $and_extra_condition = ($qd ? "AND ($qd->cooked_project_selector)" : "");
+    $q_name = ($qd ? $qd->name : "");
+
+    // set of candidates for release
+    $waiting_res = mysql_query("
+        SELECT *
+        FROM projects
+        WHERE state = '{$round->project_waiting_state}' $and_extra_condition
+        ORDER BY modifieddate ASC, nameofwork ASC
+    ");
+
+    $n_projects->waiting = mysql_num_rows($waiting_res);
+    if (!$qd)
+    {
+        echo "\n";
+        echo "There are {$n_projects->waiting} projects waiting for release in this round.\n";
+    }
+
+    $n_projects->released = 0;
+
+    while ( $project = mysql_fetch_assoc($waiting_res) )
+    {
+        echo "\n";
+        echo "    considering {$project['projectid']} \"{$project['nameofwork']}\"...\n";
+
+        if ($observe_release_restrictions)
+        {
+            assert( isset($round->release_restrictor) );
+
+            if (!$round->release_restrictor->approves_project($project))
+            {
+                // Messages have been echoed.
+                continue;
+            }
+        }
+
+        if (!attempt_to_release($round, $project, $q_name))
+        {
+            // Something went wrong. Error messages have been output.
+            continue;
+        }
+
+        echo "        Project released!\n";
+
+        $n_projects->released++;
+
+        if ( isset($round->release_restrictor) )
+        {
+            $round->release_restrictor->update_for_released_project($project);
+        }
+
+        if ($qd)
+        {
+            // Update active_page_counts
+            // (The release of this project will affect the release-ability
+            // of other projects in this category, and possibly of projects
+            // in other categories.)
+            AP_add_project( $round, $project['projectid'] );
+        }
+
+        if ($release_at_most_one)
+        {
+            break;
+        }
+        else
+        {
+            if ($qd)
+            {
+                // Keep releasing these projects (SP) until:
+                //      the $qd->release_criterion fails
+                // or   we run out of SP ready to release
+                // or   subject to the "no doubling up of authors" rule
+
+                if (! AP_evaluate_criteria( $round, $qd->cooked_project_selector, $qd->release_criterion ) )
+                {
+                    echo "    The release criterion now fails, so no further projects released in this category.\n";
+                    break;
+                }
+            }
+            else
+            {
+                // Keep releasing until we run out of projects.
+            }
+        }
+    }
+
+    return $n_projects;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
