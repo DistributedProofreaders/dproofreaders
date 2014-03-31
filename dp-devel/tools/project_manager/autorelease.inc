@@ -252,6 +252,7 @@ function maybe_release_projects(
             if (!$round->release_restrictor->approves_project($project))
             {
                 // Messages have been echoed.
+                // Go to the next project in the list.
                 continue;
             }
         }
@@ -259,8 +260,11 @@ function maybe_release_projects(
         if (!attempt_to_release($round, $project, $q_name))
         {
             // Something went wrong. Error messages have been output.
+            // Go to the next project in the list.
             continue;
         }
+
+        // ----------------------------------------------------
 
         echo "        Project released!\n";
 
@@ -269,16 +273,26 @@ function maybe_release_projects(
         if ( isset($round->release_restrictor) )
         {
             $round->release_restrictor->update_for_released_project($project);
+
+            // Note that we must update the release_restrictor
+            // whether or not $observe_release_restrictions is set:
+            // even if *this* call to maybe_release_projects()
+            // isn't observing release_restrictions,
+            // some future call (in this round) probably will be.
         }
 
         if ($qd)
         {
             // Update active_page_counts
             // (The release of this project will affect the release-ability
-            // of other projects in this category, and possibly of projects
-            // in other categories.)
+            // of other projects in this queue, and possibly of projects
+            // in other queues.)
             AP_add_project( $round, $project['projectid'] );
         }
+
+        // ----------------------------------------------------
+
+        // Should we try to release any more projects?
 
         if ($release_at_most_one)
         {
@@ -288,10 +302,8 @@ function maybe_release_projects(
         {
             if ($qd)
             {
-                // Keep releasing these projects (SP) until:
-                //      the $qd->release_criterion fails
-                // or   we run out of SP ready to release
-                // or   subject to the "no doubling up of authors" rule
+                // Keep releasing projects until the queue's release_criterion fails,
+                // or we run out of projects.
 
                 if (! AP_evaluate_criteria( $round, $qd->cooked_project_selector, $qd->release_criterion ) )
                 {
