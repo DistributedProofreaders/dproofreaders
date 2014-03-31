@@ -243,12 +243,16 @@ function maybe_release_projects(
         echo "There are {$n_projects->waiting} projects waiting for release in this round.\n";
     }
 
+    $n_projects->considered = 0;
+    $n_projects->blocked = 0;
+    $n_projects->failed = 0;
     $n_projects->released = 0;
 
     while ( $project = mysql_fetch_assoc($waiting_res) )
     {
         echo "\n";
         echo "    considering {$project['projectid']} \"{$project['nameofwork']}\"...\n";
+        $n_projects->considered++;
 
         if ($observe_release_restrictions)
         {
@@ -257,6 +261,7 @@ function maybe_release_projects(
             if (!$round->release_restrictor->approves_project($project))
             {
                 // Messages have been echoed.
+                $n_projects->blocked++;
                 // Go to the next project in the list.
                 continue;
             }
@@ -265,6 +270,7 @@ function maybe_release_projects(
         if (!attempt_to_release($round, $project, $q_name))
         {
             // Something went wrong. Error messages have been output.
+            $n_projects->failed++;
             // Go to the next project in the list.
             continue;
         }
@@ -321,6 +327,17 @@ function maybe_release_projects(
                 // Keep releasing until we run out of projects.
             }
         }
+    }
+
+    if ( $n_projects->waiting > 0 )
+    {
+        echo "\n";
+        echo sprintf("    Of the %d projects that were waiting...\n", $n_projects->waiting);
+        echo sprintf("        %3d projects were blocked by release restrictions\n", $n_projects->blocked);
+        echo sprintf("        %3d projects failed the pre-release check or the state transition\n", $n_projects->failed);
+        echo sprintf("        %3d projects were released\n", $n_projects->released);
+        echo sprintf("        %3d projects were not considered\n", $n_projects->waiting - $n_projects->considered);
+        echo "\n";
     }
 
     return $n_projects;
