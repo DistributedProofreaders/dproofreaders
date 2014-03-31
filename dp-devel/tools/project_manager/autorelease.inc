@@ -229,7 +229,7 @@ function maybe_release_projects(
         FROM projects
         WHERE state = '{$round->project_waiting_state}' $and_extra_condition
         ORDER BY modifieddate ASC, nameofwork ASC
-    ");
+    ") or die(mysql_error());
 
     $n_projects->waiting = mysql_num_rows($waiting_res);
     if (!$qd)
