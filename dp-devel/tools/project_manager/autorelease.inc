@@ -232,9 +232,14 @@ function maybe_release_projects(
     ") or die(mysql_error());
 
     $n_projects->waiting = mysql_num_rows($waiting_res);
-    if (!$qd)
+
+    echo "\n";
+    if ($qd)
     {
-        echo "\n";
+        echo "    There are {$n_projects->waiting} projects waiting for release in this queue.\n";
+    }
+    else
+    {
         echo "There are {$n_projects->waiting} projects waiting for release in this round.\n";
     }
 
