@@ -29,18 +29,23 @@ switch ($timeframe)
     case 'curr_month':
         $start_timestamp = mktime( 0,0,0, $curr_m,   1, $curr_y );
         $end_timestamp   = mktime( 0,0,0, $curr_m+1, 1, $curr_y );
+        $year_month      = strftime('%Y-%m', $start_timestamp);
+        $where_clause    = "WHERE {year_month} = '$year_month'";
         $title_timeframe = strftime( _('%B %Y'), $now_timestamp );
         break;
 
     case 'prev_month':
         $start_timestamp = mktime( 0,0,0, $curr_m-1, 1, $curr_y );
         $end_timestamp   = mktime( 0,0,0, $curr_m,   1, $curr_y );
+        $year_month      = strftime('%Y-%m', $start_timestamp);
+        $where_clause    = "WHERE {year_month} = '$year_month'";
         $title_timeframe = strftime( _('%B %Y'), $start_timestamp );
         break;
 
     case 'all_time':
         $start_timestamp = 0;
         $end_timestamp   = mktime( 0,0,0, $curr_m+1, 1, $curr_y );
+        $where_clause    = '';
         $title_timeframe = _('since stats began');
         break;
 
@@ -68,7 +73,7 @@ $result = dpsql_query(
     select_from_site_past_tallies_and_goals(
         $tally_name,
         "SELECT {date}, tally_delta, goal",
-        "WHERE $start_timestamp < timestamp AND timestamp <= $end_timestamp",
+        $where_clause,
         "",
         "ORDER BY timestamp",
         ""
