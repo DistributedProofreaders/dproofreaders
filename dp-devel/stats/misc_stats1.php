@@ -12,6 +12,12 @@ $tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_nam
 
 // -----------------------------------
 
+$now_timestamp = time();
+$curr_year_month = strftime('%Y-%m', $now_timestamp);
+$curr_year       = strftime('%Y',    $now_timestamp);
+
+// -----------------------------------
+
 $title = sprintf( _("Miscellaneous Statistics for Round %s"), $tally_name );
 output_header($title);
 
@@ -53,7 +59,7 @@ function show_all_time_total()
 
 function show_top_days( $n, $when )
 {
-    global $tally_name;
+    global $tally_name, $curr_year, $curr_year_month;
 
     switch ( $when )
     {
@@ -63,7 +69,7 @@ function show_top_days( $n, $when )
             break;
 
         case 'this_year':
-            $where = 'WHERE {is_curr_year}';
+            $where = "WHERE {year} = '$curr_year'";
             $sub_title = sprintf( _('Top %d Proofreading Days This Year'), $n );
             break;
 
@@ -79,7 +85,7 @@ function show_top_days( $n, $when )
             "SELECT
                 {date} as '" . mysql_real_escape_string(_("Date")) . "',
                 tally_delta as '" . mysql_real_escape_string(_("Pages Proofread")) . "',
-                IF({is_curr_month}, '******',' ') as '" 
+                IF({year_month} = '$curr_year_month', '******',' ') as '" 
                    . mysql_real_escape_string(_("This Month?")) . "'",
             $where,
             "",
@@ -93,7 +99,7 @@ function show_top_days( $n, $when )
 
 function show_month_sums( $which )
 {
-    global $tally_name;
+    global $tally_name, $curr_year_month;
 
     switch ( $which )
     {
@@ -130,7 +136,7 @@ function show_month_sums( $which )
                     . mysql_real_escape_string(_("Pages Proofread")) . "',
                 CAST(SUM(goal) AS SIGNED) as '" 
                     . mysql_real_escape_string(_("Monthly Goal")) . "',
-                IF({is_curr_month}, '******',' ') as '" 
+                IF({year_month} = '$curr_year_month', '******',' ') as '" 
                     . mysql_real_escape_string(_("This Month?")) . "'",
             "",
             "GROUP BY 1",
@@ -144,7 +150,7 @@ function show_month_sums( $which )
 
 function show_months_with_most_days_over( $n )
 {
-    global $tally_name;
+    global $tally_name, $curr_year_month;
 
     $sub_title = sprintf( _('Months with most days over %s pages'), number_format($n) );
     echo "<h3>$sub_title</h3>\n";
@@ -155,7 +161,7 @@ function show_months_with_most_days_over( $n )
             "SELECT
                 {year_month} as '" . mysql_real_escape_string(_("Month")) . "',
                 count(*) as '" . mysql_real_escape_string(_("Number of Days")) . "',
-                IF({is_curr_month}, '******',' ') as '" 
+                IF({year_month} = '$curr_year_month', '******',' ') as '" 
                     . mysql_real_escape_string(_("This Month?")) . "'",
             "WHERE tally_delta >= $n",
             "GROUP BY 1",
