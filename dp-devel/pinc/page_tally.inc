@@ -327,14 +327,9 @@ function select_from_site_past_tallies_and_goals(
     $ym_expr   = "FROM_UNIXTIME(past_tallies.timestamp-1,'%Y-%m')";
     $y_expr    = "FROM_UNIXTIME(past_tallies.timestamp-1,'%Y')";
 
-    $is_curr_month_expr = "$ym_expr = DATE_FORMAT(NOW(),'%Y-%m')";
-    $is_curr_year_expr  = "$y_expr  = YEAR(NOW())";
-
     $s = preg_replace( '/{date}/',          $date_expr,          $s );
     $s = preg_replace( '/{year_month}/',    $ym_expr,            $s );
     $s = preg_replace( '/{year}/',          $y_expr,             $s );
-    $s = preg_replace( '/{is_curr_month}/', $is_curr_month_expr, $s );
-    $s = preg_replace( '/{is_curr_year}/',  $is_curr_year_expr,  $s );
 
     if (0)
     {
