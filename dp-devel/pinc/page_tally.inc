@@ -220,6 +220,20 @@ function should_anonymize( $username, $user_privacy_setting )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+$SECONDS_TO_YESTERDAY = 1;
+//
+// Normally, a snapshot is taken shortly after local midnight, and ascribed
+// (in the past_tallies table) to a timestamp equal to precisely local midnight.
+// Thus, the tally_delta stored with a timestamp of 00:00 (local) today
+// actually represents (pretty much) the net effect of (local) *yesterday*,
+// and so we often want to associate that delta with yesterday's date.
+// Simply converting the timestamp to a local date would result in today,
+// so instead we subtract $SECONDS_TO_YESTERDAY from the timestamp,
+// and convert *that* to a local date, resulting in yesterday.
+
+
+// -----------------------------------------------------------------------------
+
 function get_site_page_tally_summary( $tally_name )
 // Return an object whose attributes are various useful statistics re
 // the site page tally:
@@ -296,6 +310,8 @@ function select_from_site_past_tallies_and_goals(
 // dealing with site-specific rows from the past_tallies table,
 // and corresponding rows from the site_tally_goals table.
 {
+    global $SECONDS_TO_YESTERDAY;
+
     if (empty($where))
     {
         $where_addition = '';
@@ -323,9 +339,9 @@ function select_from_site_past_tallies_and_goals(
         $limit
     ";
 
-    $date_expr = "FROM_UNIXTIME(past_tallies.timestamp-1,'%Y-%m-%d')";
-    $ym_expr   = "FROM_UNIXTIME(past_tallies.timestamp-1,'%Y-%m')";
-    $y_expr    = "FROM_UNIXTIME(past_tallies.timestamp-1,'%Y')";
+    $date_expr = "FROM_UNIXTIME(past_tallies.timestamp - $SECONDS_TO_YESTERDAY, '%Y-%m-%d')";
+    $ym_expr   = "FROM_UNIXTIME(past_tallies.timestamp - $SECONDS_TO_YESTERDAY, '%Y-%m')";
+    $y_expr    = "FROM_UNIXTIME(past_tallies.timestamp - $SECONDS_TO_YESTERDAY, '%Y')";
 
     $s = preg_replace( '/{date}/',          $date_expr,          $s );
     $s = preg_replace( '/{year_month}/',    $ym_expr,            $s );
@@ -348,6 +364,8 @@ function get_pages_per_day_for_past_n_days($tally_name, $holder_type, $holder_id
 // where $days_back is either the string "all" or a positive integer.
 // In the returned array, each key is a date-string of the form "YYYY-MM-DD".
 {
+    global $SECONDS_TO_YESTERDAY;
+
     if ($days_back == "all")
     {
         $min_timestamp = 0;
@@ -363,7 +381,7 @@ function get_pages_per_day_for_past_n_days($tally_name, $holder_type, $holder_id
     $pages_per_day = array();
     foreach ( $deltas as $timestamp => $tally_delta )
     {
-        $date = strftime("%Y-%m-%d", $timestamp-1);
+        $date = strftime("%Y-%m-%d", $timestamp - $SECONDS_TO_YESTERDAY);
         $pages_per_day[$date] = $tally_delta;
     }
 
