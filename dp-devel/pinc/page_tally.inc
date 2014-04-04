@@ -341,5 +341,34 @@ function select_from_site_past_tallies_and_goals(
     return $s;
 }
 
+// -----------------------------------------------------------------------------
+
+function get_pages_per_day_for_past_n_days($tally_name, $holder_type, $holder_id, $days_back)
+// Return an array of the daily deltas in the holder's page tally for the past $days_back days,
+// where $days_back is either the string "all" or a positive integer.
+// In the returned array, each key is a date-string of the form "YYYY-MM-DD".
+{
+    if ($days_back == "all")
+    {
+        $min_timestamp = 0;
+    }
+    else
+    {
+        $min_timestamp = time() - ($days_back * 86400);
+    }
+
+    $tallyboard = new TallyBoard( $tally_name, $holder_type );
+    $deltas = $tallyboard->get_deltas( $holder_id, $min_timestamp );
+
+    $pages_per_day = array();
+    foreach ( $deltas as $timestamp => $tally_delta )
+    {
+        $date = strftime("%Y-%m-%d", $timestamp-1);
+        $pages_per_day[$date] = $tally_delta;
+    }
+
+    return $pages_per_day;
+}
+
 // vim: sw=4 ts=4 expandtab
 ?>

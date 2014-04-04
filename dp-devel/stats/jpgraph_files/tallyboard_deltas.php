@@ -2,7 +2,7 @@
 $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
-include_once($relPath.'TallyBoard.inc');
+include_once($relPath.'page_tally.inc'); // $page_tally_names get_pages_per_day_for_past_n_days
 include_once('common.inc');
 
 $valid_tally_names = array_keys($page_tally_names);
@@ -20,25 +20,10 @@ if (@$_GET['days_back'] == 'all') {
 // Last argument to init_simple_bar_graph is the cache timeout in minutes.
 $graph = init_simple_bar_graph(600, 300, 60);
 
-if ($days_back == "all")
-{
-    $min_timestamp = 0;
-}
-else
-{
-    $min_timestamp = time() - ($days_back * 86400);
-}
+$pages_per_day = get_pages_per_day_for_past_n_days($tally_name, $holder_type, $holder_id, $days_back);
 
-$tallyboard = new TallyBoard( $tally_name, $holder_type );
-$deltas = $tallyboard->get_deltas( $holder_id, $min_timestamp );
-
-$datax = array();
-$datay = array();
-foreach ( $deltas as $timestamp => $tally_delta )
-{
-    $datax[] = date("Y-m-d", ($timestamp-1));
-    $datay[] = $tally_delta;
-}
+$datax = array_keys($pages_per_day);
+$datay = array_values($pages_per_day);
 
 $x_text_tick_interval = calculate_text_tick_interval( 'daily', count($datax) );
 
