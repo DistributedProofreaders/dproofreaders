@@ -51,8 +51,7 @@ show_news_for_page("FAQ");
   proofreading interface.</font></p>
 
   <p><a href="privacy.php"><?php echo "$site_abbreviation"; ?> Privacy Policy</a><br>
-  <font size="-1">The <?php echo "$site_name"; ?> Privacy Policy
-   that you saw when you first registered at this site.</font></p>
+  <font size="-1">The current version of the <?php echo "$site_name"; ?> Privacy Policy.</font></p>
     </td>
   </tr>
  </table>
