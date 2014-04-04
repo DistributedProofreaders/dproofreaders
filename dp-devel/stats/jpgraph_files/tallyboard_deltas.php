@@ -36,7 +36,7 @@ $datax = array();
 $datay = array();
 foreach ( $deltas as $timestamp => $tally_delta )
 {
-    $datax[] = date("n/j/Y", ($timestamp-1));
+    $datax[] = date("Y-m-d", ($timestamp-1));
     $datay[] = $tally_delta;
 }
 
