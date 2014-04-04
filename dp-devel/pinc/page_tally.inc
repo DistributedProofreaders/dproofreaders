@@ -220,7 +220,7 @@ function should_anonymize( $username, $user_privacy_setting )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-$SECONDS_TO_YESTERDAY = 1;
+$SECONDS_TO_YESTERDAY = 1 + 3*60*60;
 //
 // Normally, a snapshot is taken shortly after local midnight, and ascribed
 // (in the past_tallies table) to a timestamp equal to precisely local midnight.
@@ -230,7 +230,24 @@ $SECONDS_TO_YESTERDAY = 1;
 // Simply converting the timestamp to a local date would result in today,
 // so instead we subtract $SECONDS_TO_YESTERDAY from the timestamp,
 // and convert *that* to a local date, resulting in yesterday.
-
+//
+// You'd think that a value of 1 would suffice, since
+// 00:00:00 today minus 1 second is 23:59:59 yesterday.
+// And indeed, we used 1 for many years.
+// But in March 2014, pgdp.net changed its time zone
+// from Pacific (UTC-8:00) to Eastern (UTC-5:00),
+// so all the old snapshots ascribed to midnight (Pacific)
+// now show up as ascribed to 03:00 (Eastern).
+// Therefore, on pgdp.net, it's necessary (in general)
+// to subtract 3 hours and 1 second from a snapshot timestamp
+// to get a timestamp that will convert to the appropriate date.
+//
+// Of course, 1 second is all that's necesary for the *new* snapshots
+// on pgdp.net, and all that's necessary on DP sites that don't change
+// their time zone, but it's important to note that subtracting
+// more than necessary isn't incorrect: yesterday is normally
+// at least 23 hours long, so landing anywhere in that interval
+// will deliver the desired date.
 
 // -----------------------------------------------------------------------------
 
