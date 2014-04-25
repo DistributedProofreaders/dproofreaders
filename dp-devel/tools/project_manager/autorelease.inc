@@ -440,7 +440,7 @@ class ReleaseRestrictor
         $pm = $project['username'];
         if ((array_key_exists($pm, $this->this_round_pms)) && ($this->this_round_pms[$pm] > 10))
         {
-            echo "        The PM, $pm, already has $this->this_round_pms[$pm] projects in this round.\n";
+            echo "        The PM, $pm, already has {$this->this_round_pms[$pm]} projects in this round.\n";
             return FALSE;
         }
 
