@@ -143,6 +143,7 @@ else
     {
         // Stuff that's (usually) only of interest to
         // PMs/PFs/SAs and curious others.
+        do_holds();
         do_history();
         do_images();
         do_extra_files();
@@ -1085,6 +1086,11 @@ function do_waiting_queues()
         }
         echo "</ul>\n";
     }
+
+    if ( project_has_a_hold_in_state($project->projectid, $project->state) )
+    {
+        echo "<p>", _("However, this project is currently being held-in-waiting; it will not be auto-released until the hold is removed."), "</p>\n";
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -1140,6 +1146,69 @@ function do_event_subscriptions()
     echo "<input type='submit' value='", attr_safe(_("Update Event Subscriptions")), "'>\n";
     echo "</form>\n";
 
+    echo "</div>\n";
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function do_holds()
+// Display a project's current holds, and allow authorized users to change them.
+{
+    global $project, $code_url;
+
+    echo "<a name='holds'></a>\n";
+    echo "<h4>", _("Project Holds"), "</h4>\n";
+
+    echo "<div style='margin-left:3em'>\n";
+
+    echo "<p>", _("Each <b>hold</b> is characterized by a project state, and prevents the project from undergoing an automatic state transition from that state:"), "</p>\n";
+    echo "<ul>\n";
+    echo "<li>", _("A hold in a round's <b>Waiting</b> state prevents the project from auto-transitioning to that round's Available state (i.e., prevents it from being auto-released to proofreaders in that round)."), "</li>\n";
+    echo "<li>", _("A hold in a round's <b>Available</b> state prevents the project from advancing to the next round or pool."), "</li>\n";
+    echo "</ul>\n";
+    echo "<p>", _("The project's current holds are shown below with a shaded background."), "</p>";
+
+    $current_hold_states = $project->get_hold_states();
+
+    $url = "$code_url/tools/set_project_holds.php";
+    if ($project->can_be_managed_by_current_user)
+    {
+        echo "<form method='post' action='$url'>\n";
+        echo "<input type='hidden' name='projectid' value='{$project->projectid}'>\n";
+        echo "<input type='hidden' name='return_uri' value='" . urlencode($_SERVER['REQUEST_URI']) . "#holds'>\n";
+    }
+
+    echo "<table style='cellpadding: 3em;'>\n";
+    echo "<tr>\n";
+    echo "<th></th>\n";
+    echo "<th style='padding: 0em 1em'>", _("hold in Waiting"), "</th>\n";
+    echo "<th style='padding: 0em 1em'>", _("hold in Available"), "</th>\n";
+    echo "</tr>\n";
+
+    global $Round_for_round_id_;
+    foreach ( $Round_for_round_id_ as $round )
+    {
+        echo "<tr>\n";
+        echo "<th>", $round->id, "</th>\n";
+        foreach (array('project_waiting_state', 'project_available_state') as $s)
+        {
+            $state = $round->$s;
+            $is_a_current_hold_state = in_array($state, $current_hold_states);
+            $bgcolor = ( $is_a_current_hold_state ? '#CFC' : '#FFF' );
+            $checked = ( $is_a_current_hold_state ? 'checked' : '' );
+            $disabled = ( !$project->can_be_managed_by_current_user ? 'disabled' : '');
+
+            echo "<td style='text-align: center; background-color: $bgcolor;'><input type='checkbox' name='$state' $checked $disabled></td>\n";
+        }
+        echo "</tr>\n";
+    }
+
+    echo "</table>\n";
+    if ($project->can_be_managed_by_current_user)
+    {
+        echo "<input type='submit' value='", attr_safe(_("Update Holds")), "'>\n";
+        echo "</form>\n";
+    }
     echo "</div>\n";
 }
 

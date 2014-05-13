@@ -387,6 +387,37 @@ EOS;
             . "    $code_url/project.php?id=$projectid\n"
             . "\n";
     }
+
+    // -------------------------------------------------------------------------
+
+    function get_hold_states()
+    // Return an array containing the states for which this project has holds.
+    {
+        $hold_states = array();
+        $res = mysql_query("
+            SELECT state
+            FROM project_holds
+            WHERE projectid='{$this->projectid}'
+        ") or die(mysql_error());
+        while( list($state) = mysql_fetch_row($res) )
+        {
+            $hold_states[] = $state;
+        }
+        return $hold_states;
+    }
+
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function project_has_a_hold_in_state($projectid, $state)
+{
+    $res = mysql_query("
+        SELECT *
+        FROM project_holds
+        WHERE projectid='$projectid' and state='$state'
+    ") or die(mysql_error());
+    return (mysql_num_rows($res) > 0);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

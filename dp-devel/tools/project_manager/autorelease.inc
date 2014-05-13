@@ -223,11 +223,16 @@ function maybe_release_projects(
     $and_extra_condition = ($qd ? "AND ($qd->cooked_project_selector)" : "");
     $q_name = ($qd ? $qd->name : "");
 
-    // set of candidates for release
+    // set of candidates for release:
+    // Projects that are in this round's waiting state,
+    // don't have a hold in that state,
+    // and, if $qd is set, satisfy its project selector.
     $waiting_res = mysql_query("
         SELECT *
         FROM projects
+            LEFT OUTER JOIN project_holds USING (projectid, state)
         WHERE state = '{$round->project_waiting_state}' $and_extra_condition
+            AND project_holds.state IS NULL
         ORDER BY modifieddate ASC, nameofwork ASC
     ") or die(mysql_error());
 

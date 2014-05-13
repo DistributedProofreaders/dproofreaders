@@ -262,6 +262,16 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
 
             if ($verbose) echo "    All $num_total_pages pages are in '$round->page_save_state'.\n";
 
+            if ( project_has_a_hold_in_state($projectid, $state) )
+            {
+                if ($verbose)
+                {
+                    echo "    Normally, this project would now advance to {$round->project_complete_state},\n";
+                    echo "    but it has a hold in $state, so it stays where it is.\n";
+                }
+                continue;
+            }
+
             $state = $round->project_complete_state;
             if ($verbose) echo "    Advancing \"$nameofwork\" to $state\n";
 

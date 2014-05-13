@@ -169,8 +169,10 @@ else
             difficulty  as '" . mysql_real_escape_string(_("Difficulty")) . "',
             username    as '" . mysql_real_escape_string(_("Project Manager")) . "',
             FROM_UNIXTIME(modifieddate) as '" 
-                . mysql_real_escape_string(_("Date Last Modified")) . "'
+                . mysql_real_escape_string(_("Date Last Modified")) . "',
+            IF(ISNULL(project_holds.state),'&nbsp;','Y') AS '" . mysql_real_escape_string(_("Hold?")) . "'
         FROM projects
+            LEFT OUTER JOIN project_holds USING (projectid, state)
         WHERE ($cooked_project_selector)
             AND state='{$round->project_waiting_state}'
         ORDER BY modifieddate, nameofwork
