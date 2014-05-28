@@ -33,7 +33,7 @@ enforce_edit_authorization($projectid);
 // $format determins what is presented from this page:
 //    'html' - page is rendered with frequencies included
 // 'update' - update the list
-$format         = get_enumerated_param($_REQUEST, 'update', 'format', array('format', 'html'));
+$format         = get_enumerated_param($_REQUEST, 'format', 'html', array('html', 'update'));
 $wordListTarget = get_enumerated_param($_POST, 'wordlisttarget', 'bad', array('good', 'bad'));
 
 if($format=="update") {
