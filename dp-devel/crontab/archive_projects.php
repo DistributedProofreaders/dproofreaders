@@ -24,7 +24,7 @@ $result = mysql_query("
     SELECT *
     FROM projects
     WHERE
-        modifieddate <= UNIX_TIMESTAMP() - (24 * 60 * 60) * IF( INSTR(nameofwork,'{P3 Qual}'), 28, 7 )
+        modifieddate <= UNIX_TIMESTAMP() - (24 * 60 * 60) * 100
         AND archived = '0'
         AND state = '".PROJ_SUBMIT_PG_POSTED."'
     ORDER BY modifieddate
