@@ -6,6 +6,7 @@ $relPath="./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc'); // surround_and_join
 include_once($relPath.'Project.inc'); // validate_projectID() project_get_hold_states()
+include_once($relPath.'project_events.inc'); // log_project_event
 
 require_login();
 
@@ -103,6 +104,7 @@ foreach( $headers as $w => $header)
                 WHERE projectid='$projectid'
                     AND state in ($states_str)
             ";
+            $event_type = 'remove_holds';
         }
         elseif ($w == 'add')
         {
@@ -116,12 +118,15 @@ foreach( $headers as $w => $header)
                 INSERT INTO project_holds
                 VALUES $values
             ";
+            $event_type = 'add_holds';
         }
 
         if ($sql)
         {
             // echo $sql;
             mysql_query($sql) or die(mysql_error());
+
+            log_project_event( $projectid, $pguser, $event_type, join($states, ' ') );
         }
     }
 }
