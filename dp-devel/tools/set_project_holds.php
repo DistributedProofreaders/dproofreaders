@@ -20,6 +20,10 @@ if (!$project->can_be_managed_by_current_user)
     exit;
 }
 
+// --------------------------------------------------------------------
+// Compute the difference between the requested set of hold-states
+// and the current set. (Put each holdable state into one of 4 groups:)
+
 $delta_ = array(
     'remove' => array(),
     'keep' => array(),
@@ -65,6 +69,9 @@ foreach ( $Round_for_round_id_ as $round )
         $delta_[$w][] = $state;
     }
 }
+
+// -----------------------------------------------
+// Restate the requested changes, and perform them.
 
 $headers = array(
     'remove' => _("Removing holds for the following states:"),
