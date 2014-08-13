@@ -1243,7 +1243,9 @@ function do_history()
         "edit" => _("edit"),
         "smooth-reading" => _("smoothreading"),
         "transition" => _("transition"),
-        "transition(s)" => _("transition(s)")
+        "transition(s)" => _("transition(s)"),
+        "add_holds" => _("add hold(s)"),
+        "remove_holds" => _("remove hold(s)"),
     );
 
     echo "<table border='1'>\n";
@@ -1380,6 +1382,17 @@ function do_history()
                 echo " ", $list_of_changed_fields;
                 echo "</td>\n";
             }
+        }
+        elseif ( $event['event_type'] == 'add_holds' ||  $event['event_type'] == 'remove_holds' )
+        {
+            $state_labels = array();
+            foreach ( explode(' ', $event['details1']) as $state )
+            {
+                $state_labels[] = get_medium_label_for_project_state($state);
+            }
+            echo "<td colspan='3'>";
+            echo join($state_labels, ", ");
+            echo "</td>\n";
         }
         echo "</tr>\n";
     }
