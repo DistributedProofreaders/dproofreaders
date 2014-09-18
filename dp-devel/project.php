@@ -43,7 +43,7 @@ error_reporting(E_ALL);
 
 $MIN_DETAIL_LEVEL = 1;
 $MAX_DETAIL_LEVEL = 4;
-$DEFAULT_DETAIL_LEVEL = 2;
+$DEFAULT_DETAIL_LEVEL = 3;
 
 // Validate all the input
 $projectid      = validate_projectID('id', @$_GET['id']);
@@ -111,7 +111,7 @@ if ($detail_level==1)
 }
 else
 {
-    // Detail level 2 (the default) should show the information
+    // Detail level 2 should show the information
     // that is usually wanted by the people who usually work with
     // the project in its current state.
 
