@@ -212,7 +212,7 @@ claro, av&iacute;senos por favor.
 </p>
 <p>
 Este documento est&aacute; evolucionando en el tiempo. Ay&uacute;denos a mejorar
-escribiendo sus sugerencias en el Foro de Documentaci&oacute;n en <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=18057"> este enlace</a>.
+escribiendo sus sugerencias en el Foro de Documentaci&oacute;n en <a href="<?php echo get_url_to_view_topic(18057); ?>"> este enlace</a>.
 </p>
 <!-- END RR -->
 <p class="backtotop"><a href="#top">Ir arriba</a></p>
@@ -242,7 +242,7 @@ manejarlos (Vea abajo).
 </p>
 <p>En la Project Page (P&aacute;gina del Proyecto), el enlace 'Images, Pages
 Proofread, & Differences' (Im&aacute;genes, P&aacute;ginas Revisadas y Diferencias) le
-permite ver como otros revisores han hecho los cambios. <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=10217"> En este foro</a> se
+permite ver como otros revisores han hecho los cambios. <a href="<?php echo get_url_to_view_topic(10217); ?>"> En este foro</a> se
 habla sobre las diferentes maneras de usar esta informaci&oacute;n.
 </p>
 <!-- END RR -->
@@ -2595,7 +2595,7 @@ tipo es la palabra &laquo;and&raquo; reconocida por el OCR como &laquo;arid&raqu
 ejemplos: &laquo;eve&raquo; por &laquo;eye&raquo;, &laquo;Torn&raquo; por &laquo;Tom&raquo;, &laquo;train&raquo; por &laquo;tram&raquo;, &laquo;hab&iacute;a&raquo;
 por &laquo;habla&raquo;, &laquo;cuidad&raquo; por &laquo;ciudad&raquo;. Es m&aacute;s dif&iacute;cil encontrar este tipo y
 le damos un nombre especial: &laquo;Stealth Scannos&raquo;. Coleccionamos ejemplos
-de &laquo;Stealth Scannos&raquo; en <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=1563">
+de &laquo;Stealth Scannos&raquo; en <a href="<?php echo get_url_to_view_topic(1563); ?>">
 este foro.</a> Los ejemplos de los scannos en espa&ntilde;ol <a href="http://www.pgdp.net/wiki/Scannos_en_espa%C3%B1ol">se encuentran aqu&iacute;</a>.
 </p>
 <p>Encontrar estos errores es m&aacute;s f&aacute;cil si utiliza una fuente

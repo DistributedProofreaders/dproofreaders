@@ -1,4 +1,6 @@
 <?php
+include_once($relPath.'forum_interface.inc');
+
 // This include holds information about DP people in charge of various things,
 // that is used in FAQs. Also information about forums and wiki used in FAQs.
 
@@ -42,24 +44,19 @@ $XHTML_suggestion_URL=make_forum_url("t",$XHTML_suggestion_id,4405);
 
 function make_forum_url($type,$id,$default)
 {
-    global $forums_url;
-
-    if($id) {
-        $FURL=$forums_url;
-    } else {
-        $FURL="http://www.pgdp.net/phpBB2";
+    if(!$id) {
         $id=$default;
     }
 
     switch($type) {
         case "f":
-            return "$FURL/viewforum.php?f=$id";
+            return get_url_to_view_forum($id);
             break;
         case "t":
-            return "$FURL/viewtopic.php?t=$id";
+            return get_url_to_view_topic($id);
             break;
         case "p":
-            return "$FURL/viewtopic.php?p=$id#$id";
+            return get_url_to_view_post($id);
             break;
     }
     
