@@ -42,27 +42,27 @@ $XHTML_suggestion_URL=make_forum_url("t",$XHTML_suggestion_id,4405);
 
 function make_forum_url($type,$id,$default)
 {
-	global $forums_url;
+    global $forums_url;
 
-	if($id) {
-		$FURL=$forums_url;
-	} else {
-		$FURL="http://www.pgdp.net/phpBB2";
-		$id=$default;
-	}
+    if($id) {
+        $FURL=$forums_url;
+    } else {
+        $FURL="http://www.pgdp.net/phpBB2";
+        $id=$default;
+    }
 
-	switch($type) {
-		case "f":
-			return "$FURL/viewforum.php?f=$id";
-			break;
-		case "t":
-			return "$FURL/viewtopic.php?t=$id";
-			break;
-		case "p":
-			return "$FURL/viewtopic.php?p=$id#$id";
-			break;
-	}
-	
-	return "";
+    switch($type) {
+        case "f":
+            return "$FURL/viewforum.php?f=$id";
+            break;
+        case "t":
+            return "$FURL/viewtopic.php?t=$id";
+            break;
+        case "p":
+            return "$FURL/viewtopic.php?p=$id#$id";
+            break;
+    }
+    
+    return "";
 }
 ?>
