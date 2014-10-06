@@ -44,20 +44,29 @@ $XHTML_suggestion_URL=make_forum_url("t",$XHTML_suggestion_id,4405);
 
 function make_forum_url($type,$id,$default)
 {
-    if(!$id) {
-        $id=$default;
+    // If $id is non-zero, return a URL to a local forum/topic/post
+    if($id) {
+        switch($type) {
+           case "f":
+                return get_url_to_view_forum($id);
+            case "t":
+                return get_url_to_view_topic($id);
+            case "p":
+                return get_url_to_view_post($id);
+        }
     }
-
-    switch($type) {
-        case "f":
-            return get_url_to_view_forum($id);
-            break;
-        case "t":
-            return get_url_to_view_topic($id);
-            break;
-        case "p":
-            return get_url_to_view_post($id);
-            break;
+    // otherwise, route them to a forum at pgdp.net
+    else {
+        $FURL = "http://www.pgdp.net/phpBB2";
+        $id = $default;
+        switch($type) {
+            case "f":
+                return "$FURL/viewforum.php?f=$id";
+            case "t":
+                return "$FURL/viewtopic.php?t=$id";
+            case "p":
+                return "$FURL/viewtopic.php?p=$id#$id";
+        }
     }
     
     return "";
