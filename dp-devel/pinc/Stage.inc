@@ -11,7 +11,6 @@ include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'quizzes.inc'); // get_Quiz_with_id
 include_once($relPath.'misc.inc'); // startswith
-include_once($relPath.'page_header.inc');
 
 // $Stage_for_id_ and $CRITERIA are extended as Stages are defined.
 
@@ -303,9 +302,36 @@ class Stage
         return $uao;
     }
 
+
+    function page_header( $title )
+    // Display a page-header, either an image (if available) or a textual title
+    // for this stage.
+    {
+        global $dyn_dir, $dyn_url;
+
+        $header_images_dir = "$dyn_dir/header_images";
+        $header_images_url = "$dyn_url/header_images";
+
+        $img_base = $this->id;
+
+        if ( file_exists("$header_images_dir/$img_base.jpg") )
+        {
+            echo "<br>";
+            echo "<center>";
+            echo "<img src='$header_images_url/$img_base.jpg' title='" 
+                . attr_safe($title) . "' alt='" . attr_safe($title) . "'>";
+            echo "</center>";
+        }
+        else
+        {
+            echo "<h1 align='center'>$title</h1>";
+        }
+        echo "\n";
+    }
+
     function page_top( $uao )
     {
-        page_header( $this->id, "{$this->id}: {$this->name}" );
+        $this->page_header( "{$this->id}: {$this->name}" );
 
         if ( !$uao->can_access )
         {

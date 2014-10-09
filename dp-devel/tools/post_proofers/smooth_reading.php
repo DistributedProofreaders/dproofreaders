@@ -6,7 +6,6 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
-include_once($relPath.'page_header.inc');
 include_once($relPath.'showavailablebooks.inc');
 
 // ---------------------------------------
@@ -24,7 +23,8 @@ if ($logged_in) {
 
 // we show more columns when user is logged in, so we don't have room for the stats bar
 output_header( $header_text, $logged_in ? NO_STATSBAR : SHOW_STATSBAR);
-page_header( 'SR', $header_text );
+$stage = get_Stage_for_id("SR");
+$stage->page_header( $header_text );
 show_news_for_page($news);
 
 echo "<h3>" . _("Smooth Reading") . "</h3>";
