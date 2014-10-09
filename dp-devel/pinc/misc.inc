@@ -362,7 +362,7 @@ function javascript_safe($str, $encoding)
     
         // convert non-7bit ascii characters to \uHHHH notation
         $str = preg_replace('/([^\000-\177])/eu', 
-            'sprintf("\\u%04x", utf8_ord("$1") & 0xffff)', $str);
+            'sprintf("\\u%04x", _utf8_ord("$1") & 0xffff)', $str);
     }
     else
     {
@@ -380,14 +380,14 @@ if (version_compare(PHP_VERSION, '6.0.0') >= 0)
 {
     // PHP v6 is said to have native utf-8 support (untested)
     
-    function utf8_ord($str)
+    function _utf8_ord($str)
     {
         return ord($str);
     }
 } 
 else
 {
-    function utf8_ord($str)
+    function _utf8_ord($str)
     // Implementation of UTF-8 compliant ord() function.
     // Characters higher than U+ffff are not supported.
     {
