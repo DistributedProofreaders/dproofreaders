@@ -167,7 +167,7 @@ if ($password=="proofer") {
     echo "<ul>";
     echo "<li>" . _("Please choose your User Name carefully. It will be visible to other users and cannot be changed. We suggest that you don't use your e-mail address as a User Name since e-mail addresses can change, and you may not want to make that address viewable.") . "</li>";
     echo "<li>" . sprintf(_("Please ensure that the e-mail address you provide is correct. %s will e-mail a confirmation link for you to follow in order to activate your account."), $site_name) . "</li>";
-    echo "<li>" . _("If your e-mail provider uses a challenge/response, greylist, or other anti-spam measures, please add our site to the list of permitted senders before submitting this form so that the activation e-mail will reach you.") . "</li>";
+    echo "<li>" . sprintf(_("<b>Before</b> you submit this form, please add <i>%s</i> to your e-mail contacts list to avoid the activation e-mail being treated as spam."), $general_help_email_addr) . "</li>";
     echo "</ul>";
 
     if ( $testing )
