@@ -522,7 +522,7 @@ function page_info_query( $projectid, $limit_round_id, $which_text )
     {
         echo "page_info_query(): SQL error:\n";
         echo mysql_error();
-        echo "\n":
+        echo "\n";
         return FALSE;
     }
 
