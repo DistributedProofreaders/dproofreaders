@@ -64,8 +64,9 @@ function user_is_taskcenter_mgr()
 function user_can_see_user_access_chart_of($subject_username)
 {
     list($can_grant, $can_revoke) = user_can_modify_access_of($subject_username);
-    return ($can_grant || $can_revoke);
+    return ($can_grant || $can_revoke || user_is_proj_facilitator());
     // If X can modify the access of Y, then X needs to be able to see Y's access chart.
+    // We also allow PFs to see access charts.
 }
 
 function user_can_modify_access_of($subject_username)
@@ -74,10 +75,6 @@ function user_can_modify_access_of($subject_username)
     if ( user_is_a_sitemanager() || user_is_an_access_request_reviewer() )
     {
         $can_grant = TRUE; $can_revoke = TRUE;
-    }
-    elseif ( user_is_proj_facilitator() )
-    {
-        $can_grant = TRUE; $can_revoke = FALSE;
     }
     else
     {
