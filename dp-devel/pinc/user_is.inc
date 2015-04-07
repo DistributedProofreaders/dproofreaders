@@ -61,6 +61,13 @@ function user_is_taskcenter_mgr()
     return user_is_a_sitemanager() || $userSettings->get_boolean("task_center_mgr");
 }
 
+function user_can_see_user_access_chart_of($subject_username)
+{
+    list($can_grant, $can_revoke) = user_can_modify_access_of($subject_username);
+    return ($can_grant || $can_revoke);
+    // If X can modify the access of Y, then X needs to be able to see Y's access chart.
+}
+
 function user_can_modify_access_of($subject_username)
 {
     // Currently, $subject_username is ignored unless $testing is true.

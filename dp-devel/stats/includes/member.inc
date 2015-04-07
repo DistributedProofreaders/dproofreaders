@@ -312,11 +312,10 @@ function showForumProfile($username) {
 
 function showMbrAccess( $curMbr )
 {
-    list($can_grant,$can_revoke) = user_can_modify_access_of($curMbr['username']);
-    if ( !$can_grant ) return;
+    if (!user_can_see_user_access_chart_of($curMbr['username'])) return;
 
     echo "<i>(";
-    echo _('This chart is visible only to those who can grant access.');
+    echo _('This chart is not generally visible.');
     echo ")</i><br>\n";
 
     show_user_access_chart( $curMbr['username'] );
