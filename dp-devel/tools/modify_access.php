@@ -205,12 +205,14 @@ function notify_user($username,$actions)
     {
         // Special case: If the user has been granted access to
         // a single round, send a congratulations! email.
-        $stage = array_keys($actions);
-        $subject = "DP: You have been granted access to $stage[0]!";
+        list($activity_id) = array_keys($actions);
+        $subject = "DP: You have been granted access to $activity_id!";
         $message = "Hello $username,\n\nThis is a message from the $site_name website.\n\n" .
-                   "Congratulations, you have been granted access to $stage[0] projects!\n" .
+                   "Congratulations, you have been granted access to $activity_id projects!\n" .
                    "You can access this stage by following the link to it at the Activity Hub.\n\n" .
                    "$site_signoff";
+        // XXX: Note that this wording works when the activity is a stage (round or pool),
+        // but not otherwise.
         maybe_mail($email_addr,$subject,$message);
         return "congratulated user.";
     }
