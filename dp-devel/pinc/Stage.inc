@@ -776,14 +776,11 @@ function show_user_access_chart( $username )
         }
     }
     
-    echo "<tr><td colspan='14' style='text-align: center;'>" .
-           "<input type='checkbox' name='notify_user' checked />" . _("Notify user of change") .
-         "</td></tr>";
-
     echo "</table>\n";
 
     if ( $allow_grant || $allow_revoke )
     {
+        echo "<input type='checkbox' name='notify_user' checked />" . _("Notify user of change") . "<br>\n";
         echo "<input type='submit' value='". attr_safe(_("Submit Changes")) . "'>\n";
         echo "</form>\n";
     }
