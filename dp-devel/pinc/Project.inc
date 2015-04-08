@@ -158,8 +158,22 @@ class Project
             ($this->can_be_managed_by_user($username)
              || $this->PPer_is_user($username)
              || $this->PPVer_is_user($username) );
-        
     }
+
+    // -------------------------------------------------------------------------
+
+    function clearance_line_can_be_seen_by_current_user()
+    {
+        // The clearance line normally contains the email address of the
+        // person who submitted the clearance request. Since this is
+        // private information, we restrict who can see it.
+
+        return (
+            $this->can_be_managed_by_current_user
+            || $this->PPVer_is_current_user
+        );
+    }
+
     // -------------------------------------------------------------------------
 
     // These should be treated as constants.

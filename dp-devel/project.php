@@ -487,10 +487,7 @@ function do_project_info_table()
 
     echo_row_a( _("Project ID"), $project->projectid );
 
-    // The clearance line normally contains the email address of the
-    // person who submitted the clearance request. Since this is
-    // private information, we restrict who can see it.
-    if ( $project->PPVer_is_current_user || $project->can_be_managed_by_current_user )
+    if ( $project->clearance_line_can_be_seen_by_current_user() )
     {
         echo_row_a( _("Clearance Line"), $project->clearance, TRUE );
     }
