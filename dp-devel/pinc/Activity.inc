@@ -346,7 +346,7 @@ function show_user_access_object( $uao )
 
     if ( count($uao->minima_table) == 0 )
     {
-        echo "<p>" . _("There are no minimum requirements associated with this stage.") . "</p>";
+        echo "<p>" . _("There are no minimum requirements associated with this activity.") . "</p>";
     }
     else
     {
@@ -391,11 +391,11 @@ function show_user_access_object( $uao )
     switch( $uao->request_status )
     {
         case 'sat-unneeded':
-            $request_status_string=_('So you are allowed to work in this stage.');
+            $request_status_string=_('So you are allowed to work in this activity.');
             break;
 
         case 'sat-granted':
-            $request_status_string=_('You have received permission to work in this stage.');
+            $request_status_string=_('You have received permission to work in this activity.');
             break;
 
         case 'sat-requested':
@@ -406,23 +406,23 @@ function show_user_access_object( $uao )
         case 'sat-available':
             $request_status_string=$uao->evaluation_criteria;
             $request_status_string.= " " . sprintf(
-                _('If you would like to work in this stage, <a href="%s">click here</a> to submit a request.'),
+                _('If you would like to work in this activity, <a href="%s">click here</a> to submit a request.'),
                 "$code_url/tools/request_access.php?stage_id={$uao->stage_id}"
             );
             break;
 
         case 'sat-wait':
-            $request_status_string=_('However, you must wait for approval to work in this stage.');
+            $request_status_string=_('However, you must wait for approval to work in this activity.');
             $request_status_string.=" " . $uao->evaluation_criteria;
             // Users in this activity will monitor your work and will let you know once you have qualified for access
             break;
 
         case 'sat-denied':
-            $request_status_string=_('However, you are not currently permitted to apply for access to this stage.');
+            $request_status_string=_('However, you are not currently permitted to apply for access to this activity.');
             break;
 
         case 'unsat-granted':
-            $request_status_string=_("However, you have been granted access to this stage.");
+            $request_status_string=_("However, you have been granted access to this activity.");
             break;
 
         case 'unsat-ungranted':
@@ -436,7 +436,7 @@ function show_user_access_object( $uao )
                 // $request_status_string=_('After you have satisfied the requirements, you will be evaluated for access.');
             }
             // Don't mention possibility of special permission.
-            // $request_status_string.=_("However, you can be granted access to this stage. See XXX for details.");
+            // $request_status_string.=_("However, you can be granted access to this activity. See XXX for details.");
             break;
 
         case 'unsat-denied':
