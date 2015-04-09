@@ -3,7 +3,6 @@ $relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'stages.inc');
-include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'access_log.inc');
 include_once($relPath.'username.inc');
@@ -42,26 +41,10 @@ foreach ( $_POST as $name => $value )
         die( "Error: bad parameter name '$name'" );
     }
 
-    if ( endswith($activity_id, "_mentor") )
+    @$activity = $Activity_for_id_[$activity_id];
+    if ( is_null($activity) )
     {
-        $round_id = preg_replace('/_mentor$/', '', $activity_id);
-        $round = get_Round_for_round_id($round_id);
-        if ( is_null($round) )
-        {
-            die( "Error: no round with id='$round_id'");
-        }
-        if ( !$round->is_a_mentor_round() )
-        {
-            die( "Error: round '$round_id' is not a mentoring round" );
-        }
-    }
-    else
-    {
-        $stage = get_Stage_for_id( $activity_id );
-        if ( is_null($stage) )
-        {
-            die( "Error: no activity named '$activity_id'" );
-        }
+        die( "Error: no activity named '$activity_id'" );
     }
 
     // Okay, it's a meaningful action.
@@ -87,18 +70,7 @@ foreach ( $_POST as $name => $value )
 
     // And it's an action that the current user is permitted to take.
 
-    if ( endswith($activity_id, "_mentor") )
-    {
-        $settings =& Settings::get_Settings($subject_username);
-
-        $uao = new StdClass;
-        $uao->can_access = $settings->get_boolean("$activity_id.access");
-        $uao->request_status = 'place-holder';
-    }
-    else
-    {
-        $uao = $stage->user_access($subject_username);
-    }
+    $uao = $activity->user_access($subject_username);
 
     if ( $action_type == 'grant' )
     {
@@ -123,7 +95,7 @@ foreach ( $_POST as $name => $value )
             die( "Error: you can't revoke access when it's IMMEDIATE" );
         }
 
-        if (isset($stage) && $stage->after_satisfying_minima == 'REQ-AUTO')
+        if ($activity->after_satisfying_minima == 'REQ-AUTO')
         {
             echo "Warning: you can revoke access, but it can just be auto-granted again.<br>\n";
         }

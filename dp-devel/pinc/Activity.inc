@@ -530,9 +530,8 @@ function show_user_access_chart( $username )
         echo "</tr>\n";
     }
 
-    // stage lines
-    global $Stage_for_id_;
-    foreach ( $Stage_for_id_ as $activity )
+    global $Activity_for_id_;
+    foreach ( $Activity_for_id_ as $activity )
     {
         $uao = $activity->user_access($username);
 
@@ -649,74 +648,6 @@ function show_user_access_chart( $username )
         echo "</tr>\n";
     }
 
-    // mentor lines
-    foreach ( $Stage_for_id_ as $stage )
-    {
-        if ( is_a( $stage, 'Round' ) && $stage->is_a_mentor_round() )
-        {
-            $activity_id = $stage->id . "_mentor";
-            // We're assuming there isn't an *activity* whose id ends with "_mentor".
-            // If there is, this construction could lead to problems.
-
-            echo "<tr>";
-            echo "<th>$activity_id</th>";
-            foreach ( $ACCESS_CRITERIA as $criterion_code => $criterion_descr )
-            {
-                echo "<td></td>";
-            }
-
-            echo td_w_bgcolor( _('yes'), TRUE );
-
-            $settings =& Settings::get_Settings($username);
-            $can_access = $settings->get_boolean("$activity_id.access");
-
-            $could_grant = FALSE;
-            $could_revoke = FALSE;
-
-            echo "<td>";
-            if ( $can_access )
-            {
-                echo _('granted');
-                $could_revoke = TRUE;
-            }
-            else
-            {
-                echo _("can't");
-                $could_grant = TRUE;
-            }
-            echo "</td>";
-
-            if ( $allow_revoke )
-            {
-                echo "<td>";
-                echo "</td>";
-            }
-
-            echo td_w_bgcolor( ($can_access?_('yes'):_('no')), $can_access );
-
-            if ( $allow_grant )
-            {
-                echo "<td>";
-                if ( $could_grant )
-                {
-                    echo "<input type='checkbox' name='{$activity_id}|grant'>";
-                }
-                echo "</td>";
-            }
-
-            if ( $allow_revoke )
-            {
-                echo "<td>";
-                if ( $could_revoke )
-                {
-                    echo "<input type='checkbox' name='{$activity_id}|revoke'>";
-                }
-                echo "</td>";
-            }
-            echo "</tr>\n";
-        }
-    }
-    
     echo "</table>\n";
 
     if ( $allow_grant || $allow_revoke )

@@ -15,19 +15,11 @@ output_header($title);
 
 echo "<h1>$title</h1>\n";
 
-foreach ( $Stage_for_id_ as $stage )
+foreach ( $Activity_for_id_ as $activity )
 {
-    if ( $stage->after_satisfying_minima == 'REQ-HUMAN' )
+    if ( $activity->after_satisfying_minima == 'REQ-HUMAN' )
     {
-        $activity_ids[] = $stage->id;
-    }
-}
-
-foreach ( $Round_for_round_id_ as $round )
-{
-    if ( $round->is_a_mentor_round() )
-    {
-        $activity_ids[] = $round->id . "_mentor";
+        $activity_ids[] = $activity->id;
     }
 }
 
