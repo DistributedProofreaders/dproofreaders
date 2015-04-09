@@ -6,9 +6,9 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'quizzes.inc'); // get_Quiz_with_id
 include_once($relPath.'misc.inc'); // startswith
 
-// $CRITERIA is extended as activities are defined.
+// $ACCESS_CRITERIA is extended as activities are defined.
 
-$CRITERIA = array(
+$ACCESS_CRITERIA = array(
     'days since reg' => _('days since registration'),
     'quiz/p_mod1'    => sprintf(_("<a href='%s'>moderate proofreading quiz 1</a> pass"),"$code_url/quiz/start.php?show_level=P_MOD"),
     'quiz/p_mod2'    => sprintf(_("<a href='%s'>moderate proofreading quiz 2</a> pass"),"$code_url/quiz/start.php?show_level=P_MOD"),
@@ -18,7 +18,7 @@ if ( TRUE )
 {
     // kludge
     // TRANSLATORS: %s is a round ID, such as P1 or P1+P2
-    $CRITERIA['R*+P1'] = sprintf( _("'%s' pages completed"), 'R1+R2+P1' );
+    $ACCESS_CRITERIA['R*+P1'] = sprintf( _("'%s' pages completed"), 'R1+R2+P1' );
 }
 
 class Activity
@@ -72,10 +72,10 @@ class Activity
             }
         }
 
-        global $CRITERIA;
+        global $ACCESS_CRITERIA;
         if (is_a($this,'Round'))
         {
-            $CRITERIA[$this->id] =
+            $ACCESS_CRITERIA[$this->id] =
                 sprintf( _("'%s' pages completed"), $this->id );
         }
     }
@@ -144,13 +144,13 @@ class Activity
         $uao->stage_id = $this->id;
         $uao->evaluation_criteria = $this->evaluation_criteria;
         // Considering the minima...
-        global $CRITERIA;
+        global $ACCESS_CRITERIA;
         {
             $uao->minima_table = array();
             $uao->all_minima_satisfied = TRUE;
             foreach ( $this->access_minima as $criterion_code => $minimum )
             {
-                $criterion_str = $CRITERIA[$criterion_code];
+                $criterion_str = $ACCESS_CRITERIA[$criterion_code];
                 $user_score = $user_scores[$criterion_code];
 
                 $satisfied = ( $user_score >= $minimum );
@@ -279,7 +279,7 @@ class Activity
 
 function get_user_scores($username)
 {
-    global $CRITERIA;
+    global $ACCESS_CRITERIA;
 
     assert( !is_null($username) );
 
@@ -297,7 +297,7 @@ function get_user_scores($username)
     $user_obj = mysql_fetch_object($res);
 
     $user_scores = array();
-    foreach ( $CRITERIA as $criterion_code => $criterion_descr )
+    foreach ( $ACCESS_CRITERIA as $criterion_code => $criterion_descr )
     {
         $user_scores[$criterion_code] = get_user_score( $user_obj, $criterion_code );
     }
@@ -455,7 +455,7 @@ function show_user_access_object( $uao )
 
 function show_user_access_chart( $username )
 {
-    global $CRITERIA, $code_url;
+    global $ACCESS_CRITERIA, $code_url;
 
     if ( is_null($username) ) die('show_user_access_chart: $username is null');
 
@@ -471,7 +471,7 @@ function show_user_access_chart( $username )
 
     // top header line
     {
-        $n_criteria = count($CRITERIA);
+        $n_criteria = count($ACCESS_CRITERIA);
         echo "<tr>";
         echo "<th></th>";
         echo "<th colspan='$n_criteria'>" . _("Criteria") . "</th>";
@@ -497,7 +497,7 @@ function show_user_access_chart( $username )
     {
         echo "<tr>";
         echo "<th></th>";
-        foreach ( $CRITERIA as $criterion_code => $criterion_descr )
+        foreach ( $ACCESS_CRITERIA as $criterion_code => $criterion_descr )
         {
             echo "<th>$criterion_code</th>";
         }
@@ -510,7 +510,7 @@ function show_user_access_chart( $username )
 
         echo "<tr>";
         echo "<th>" . _("user score:") . "</th>";
-        foreach ( $CRITERIA as $criterion_code => $criterion_descr )
+        foreach ( $ACCESS_CRITERIA as $criterion_code => $criterion_descr )
         {
             $user_score = $user_scores[$criterion_code];
             echo "<td align='right'>$user_score</td>";
@@ -527,7 +527,7 @@ function show_user_access_chart( $username )
         echo "<tr>";
         echo "<th>$stage->id</th>";
 
-        foreach ( $CRITERIA as $criterion_code => $criterion_descr )
+        foreach ( $ACCESS_CRITERIA as $criterion_code => $criterion_descr )
         {
             $row = @$uao->minima_table[$criterion_code];
             if (is_null($row))
@@ -642,7 +642,7 @@ function show_user_access_chart( $username )
 
             echo "<tr>";
             echo "<th>$activity_id</th>";
-            foreach ( $CRITERIA as $criterion_code => $criterion_descr )
+            foreach ( $ACCESS_CRITERIA as $criterion_code => $criterion_descr )
             {
                 echo "<td></td>";
             }
