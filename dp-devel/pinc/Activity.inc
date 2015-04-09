@@ -433,8 +433,8 @@ function show_user_access_object( $uao )
             break;
 
         case 'unsat-ungranted':
-            $stage = get_Stage_for_id($uao->activity_id);
-            if($stage->after_satisfying_minima == 'REQ-AUTO' || $stage->after_satisfying_minima == 'REQ-HUMAN')
+            $activity = get_Stage_for_id($uao->activity_id);
+            if ($activity->after_satisfying_minima == 'REQ-AUTO' || $activity->after_satisfying_minima == 'REQ-HUMAN')
             {
                 $request_status_string=_('After you have satisfied the requirements, a link will appear here, allowing you to request access.');
             }
@@ -527,12 +527,12 @@ function show_user_access_chart( $username )
 
     // stage lines
     global $Stage_for_id_;
-    foreach ( $Stage_for_id_ as $stage )
+    foreach ( $Stage_for_id_ as $activity )
     {
-        $uao = $stage->user_access($username);
+        $uao = $activity->user_access($username);
 
         echo "<tr>";
-        echo "<th>$stage->id</th>";
+        echo "<th>$activity->id</th>";
 
         // "Criteria" columns
         foreach ( $ACCESS_CRITERIA as $criterion_code => $criterion_descr )
@@ -612,7 +612,7 @@ function show_user_access_chart( $username )
             echo "<td>";
             if ( $could_deny_request )
             {
-                echo "<input type='checkbox' name='{$stage->id}|deny_request_for'>";
+                echo "<input type='checkbox' name='{$activity->id}|deny_request_for'>";
             }
             echo "</td>";
         }
@@ -626,7 +626,7 @@ function show_user_access_chart( $username )
             echo "<td>";
             if ( $could_grant )
             {
-                echo "<input type='checkbox' name='{$stage->id}|grant'>";
+                echo "<input type='checkbox' name='{$activity->id}|grant'>";
             }
             echo "</td>";
         }
@@ -637,7 +637,7 @@ function show_user_access_chart( $username )
             echo "<td>";
             if ( $could_revoke )
             {
-                echo "<input type='checkbox' name='{$stage->id}|revoke'>";
+                echo "<input type='checkbox' name='{$activity->id}|revoke'>";
             }
             echo "</td>";
         }
