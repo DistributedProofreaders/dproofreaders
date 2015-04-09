@@ -674,6 +674,14 @@ new Pool(
 // -----------------------------------------------------------------------------
 
 new Activity(
+    'DU',
+    _('Uploading to Project Gutenberg'),
+    array(),
+    'NOREQ',
+    'OOGA'
+);
+
+new Activity(
     "P2_mentor",
     sprintf( _("Mentoring in round %s"), 'P2' ),
     array(),
