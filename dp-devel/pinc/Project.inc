@@ -167,10 +167,13 @@ class Project
         // The clearance line normally contains the email address of the
         // person who submitted the clearance request. Since this is
         // private information, we restrict who can see it.
+        // Also, the clearance line is necessary to uploading a project to PG,
+        // so we restrict its visibility to prevent unauthorized uploads.
 
         return (
             $this->can_be_managed_by_current_user
             || $this->PPVer_is_current_user
+            || ($this->PPer_is_current_user && user_has_DU_access())
         );
     }
 
