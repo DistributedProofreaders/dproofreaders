@@ -673,5 +673,13 @@ new Pool(
 
 // -----------------------------------------------------------------------------
 
+new Activity(
+    "P2_mentor",
+    sprintf( _("Mentoring in round %s"), 'P2' ),
+    NULL,
+    'NOREQ',
+    ''
+);
+
 // vim: sw=4 ts=4 expandtab
 ?>
