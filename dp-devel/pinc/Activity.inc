@@ -6,7 +6,7 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'quizzes.inc'); // get_Quiz_with_id
 include_once($relPath.'misc.inc'); // startswith
 
-// $CRITERIA is extended as Stages are defined.
+// $CRITERIA is extended as activities are defined.
 
 $CRITERIA = array(
     'days since reg' => _('days since registration'),
@@ -25,19 +25,19 @@ class Activity
 {
     function Activity(
         $id,
-            // A very short mnemonic identifier for the stage.
+            // A very short mnemonic identifier for the activity.
             // (Should probably conform to the rules for a PHP variable name.)
         $name,
-            // A gettext-translated name for the stage.
+            // A gettext-translated name for the activity.
         $access_minima,
             // An array of minimum requirements that a user must satisfy
-            // in order to be allowed to participate in this stage
+            // in order to be allowed to participate in this activity
             // (barring special permission).
             // If empty array, no minima: everyone can participate.
-            // If NULL, users cannot qualify for this stage by satisfying minima.
+            // If NULL, users cannot qualify for this activity by satisfying minima.
         $after_satisfying_minima,
             // After satisfying the above minima, does the user have to do
-            // anything else to work in this stage?
+            // anything else to work in this activity?
             //     'IMMEDIATE'  Nope, they get immediate access.
             //     'REQ-AUTO'   They must ask for access, but it is auto-granted.
             //     'REQ-HUMAN'  They must ask for access, and it must be human-granted.
@@ -83,7 +83,7 @@ class Activity
     function user_access( $username, $n_pages_completed=null )
     // Return an object with the following properties:
     // -- can_access:
-    //         a boolean: TRUE iff the user can access this stage.
+    //         a boolean: TRUE iff the user can access this activity.
     // -- minima_table:
     //         an array of arrays (4-tuples):
     //         ( $criterion_str, $minimum, $user_score, $satisfied )
@@ -112,7 +112,7 @@ class Activity
 
         // -----------------------------------
         // recorded_access is the value recorded in the db for whether the user
-        // can access this stage. It's read from the usersettings table.
+        // can access this activity. It's read from the usersettings table.
         // If there is a relevant usersetting, it can take values 'yes', 'no'
         // or 'denied'.
         // No relevant usersetting has the same effect as 'no'.
@@ -161,7 +161,7 @@ class Activity
 
         if ($recorded_access == 'denied')
         {
-            // they are not allowed to access this stage or to request access
+            // they are not allowed to access this activity or to request access
             $uao->can_access = FALSE;
             if ($uao->all_minima_satisfied)
             {
@@ -414,7 +414,7 @@ function show_user_access_object( $uao )
         case 'sat-wait':
             $request_status_string=_('However, you must wait for approval to work in this stage.');
             $request_status_string.=" " . $uao->evaluation_criteria;
-            // Users in this stage will monitor your work and will let you know once you have qualified for access
+            // Users in this activity will monitor your work and will let you know once you have qualified for access
             break;
 
         case 'sat-denied':
@@ -637,7 +637,7 @@ function show_user_access_chart( $username )
         if ( is_a( $stage, 'Round' ) && $stage->is_a_mentor_round() )
         {
             $activity_id = $stage->id . "_mentor";
-            // We're assuming there isn't a *stage* whose id ends with "_mentor".
+            // We're assuming there isn't an *activity* whose id ends with "_mentor".
             // If there is, this construction could lead to problems.
 
             echo "<tr>";
