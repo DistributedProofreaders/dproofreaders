@@ -6,7 +6,7 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'quizzes.inc'); // get_Quiz_with_id
 include_once($relPath.'misc.inc'); // startswith
 
-// $ACCESS_CRITERIA is extended as activities are defined.
+// $ACCESS_CRITERIA and $Activity_for_id_ are extended as activities are defined.
 
 $ACCESS_CRITERIA = array(
     'days since reg' => _('days since registration'),
@@ -20,6 +20,10 @@ if ( TRUE )
     // TRANSLATORS: %s is a round ID, such as P1 or P1+P2
     $ACCESS_CRITERIA['R*+P1'] = sprintf( _("'%s' pages completed"), 'R1+R2+P1' );
 }
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+$Activity_for_id_ = array();
 
 class Activity
 {
@@ -85,6 +89,9 @@ class Activity
             $ACCESS_CRITERIA[$this->id] =
                 sprintf( _("'%s' pages completed"), $this->id );
         }
+
+        global $Activity_for_id_;
+        $Activity_for_id_[$id] =& $this;
     }
 
     function user_access( $username, $n_pages_completed=null )
@@ -433,7 +440,7 @@ function show_user_access_object( $uao )
             break;
 
         case 'unsat-ungranted':
-            $activity = get_Stage_for_id($uao->activity_id);
+            $activity = $Activity_for_id_[$uao->activity_id];
             if ($activity->after_satisfying_minima == 'REQ-AUTO' || $activity->after_satisfying_minima == 'REQ-HUMAN')
             {
                 $request_status_string=_('After you have satisfied the requirements, a link will appear here, allowing you to request access.');
