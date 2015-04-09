@@ -34,13 +34,11 @@ class Activity
         $name,
             // A gettext-translated name for the activity.
         $access_minima,
-            // An array of minimum requirements that a user must satisfy
+            // A (possibly empty) array of minimum requirements that a user must satisfy
             // in order to be allowed to participate in this activity
             // (barring special permission).
-            // If empty array, no minima: everyone can participate.
-            // If NULL, users cannot qualify for this activity by satisfying minima.
         $after_satisfying_minima,
-            // After satisfying the above minima, does the user have to do
+            // After satisfying the above minima (if any), does the user have to do
             // anything else to work in this activity?
             //     'IMMEDIATE'  Nope, they get immediate access.
             //     'REQ-AUTO'   They must ask for access, but it is auto-granted.
