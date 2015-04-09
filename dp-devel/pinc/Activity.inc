@@ -562,7 +562,6 @@ function show_user_access_chart( $username )
         $could_grant = FALSE;
         $could_revoke = FALSE;
         $could_deny_request = FALSE;
-        global $code_url;
 
         // "request" column
         echo "<td>";
