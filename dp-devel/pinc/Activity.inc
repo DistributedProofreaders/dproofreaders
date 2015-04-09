@@ -148,7 +148,7 @@ class Activity
 
         $uao = new StdClass; // user access object
 
-        $uao->stage_id = $this->id;
+        $uao->activity_id = $this->id;
         $uao->evaluation_criteria = $this->evaluation_criteria;
         // Considering the minima...
         global $ACCESS_CRITERIA;
@@ -414,7 +414,7 @@ function show_user_access_object( $uao )
             $request_status_string=$uao->evaluation_criteria;
             $request_status_string.= " " . sprintf(
                 _('If you would like to work in this activity, <a href="%s">click here</a> to submit a request.'),
-                "$code_url/tools/request_access.php?stage_id={$uao->stage_id}"
+                "$code_url/tools/request_access.php?stage_id={$uao->activity_id}"
             );
             break;
 
@@ -433,7 +433,7 @@ function show_user_access_object( $uao )
             break;
 
         case 'unsat-ungranted':
-            $stage = get_Stage_for_id($uao->stage_id);
+            $stage = get_Stage_for_id($uao->activity_id);
             if($stage->after_satisfying_minima == 'REQ-AUTO' || $stage->after_satisfying_minima == 'REQ-HUMAN')
             {
                 $request_status_string=_('After you have satisfied the requirements, a link will appear here, allowing you to request access.');
