@@ -41,8 +41,11 @@ class Activity
             //     'IMMEDIATE'  Nope, they get immediate access.
             //     'REQ-AUTO'   They must ask for access, but it is auto-granted.
             //     'REQ-HUMAN'  They must ask for access, and it must be human-granted.
+            //     'NOREQ'      They don't request access (or at least, we don't supply
+            //                  a link by which to request access). Instead, they just
+            //                  wait until they are approved.
         $evaluation_criteria
-           // A brief description of what the evaluation criteria are. 
+            // A brief description of what the evaluation criteria are.
     )
     {
         $this->id            = $id;
@@ -72,6 +75,10 @@ class Activity
             }
         }
 
+        // This is kludgey, since Activity shouldn't have to know about Round.
+        // But the alternative is that Round know about $ACCESS_CRITERIA,
+        // which seems worse.
+        // TODO: We should probably have a function for declaring criteria.
         global $ACCESS_CRITERIA;
         if (is_a($this,'Round'))
         {
@@ -527,6 +534,7 @@ function show_user_access_chart( $username )
         echo "<tr>";
         echo "<th>$stage->id</th>";
 
+        // "Criteria" columns
         foreach ( $ACCESS_CRITERIA as $criterion_code => $criterion_descr )
         {
             $row = @$uao->minima_table[$criterion_code];
@@ -541,6 +549,7 @@ function show_user_access_chart( $username )
             }
         }
 
+        // "all sat?" column
         echo td_w_bgcolor(
             ($uao->all_minima_satisfied ? _('yes') : _('no')),
             $uao->all_minima_satisfied );
@@ -550,6 +559,7 @@ function show_user_access_chart( $username )
         $could_deny_request = FALSE;
         global $code_url;
 
+        // "request" column
         echo "<td>";
         switch( $uao->request_status )
         {
@@ -598,6 +608,7 @@ function show_user_access_chart( $username )
 
         if ( $allow_revoke )
         {
+            // "deny request?" column
             echo "<td>";
             if ( $could_deny_request )
             {
@@ -606,10 +617,12 @@ function show_user_access_chart( $username )
             echo "</td>";
         }
 
+        // "can access?" column
         echo td_w_bgcolor( ($uao->can_access?_('yes'):_('no')), $uao->can_access );
 
         if ( $allow_grant )
         {
+            // "grant?" column
             echo "<td>";
             if ( $could_grant )
             {
@@ -620,6 +633,7 @@ function show_user_access_chart( $username )
 
         if ( $allow_revoke )
         {
+            // "revoke?" column
             echo "<td>";
             if ( $could_revoke )
             {
