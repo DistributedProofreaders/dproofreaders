@@ -676,7 +676,7 @@ new Pool(
 new Activity(
     "P2_mentor",
     sprintf( _("Mentoring in round %s"), 'P2' ),
-    NULL,
+    array(),
     'NOREQ',
     ''
 );
