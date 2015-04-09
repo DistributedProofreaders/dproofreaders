@@ -225,6 +225,11 @@ function user_is_image_sources_manager()
     return user_is_a_sitemanager() || $userSettings->get_boolean("image_sources_manager");
 }
 
+function user_has_DU_access()
+{
+    $userSettings =& get_pguser_settings();
+    return $userSettings->get_boolean("DU.access");
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>
