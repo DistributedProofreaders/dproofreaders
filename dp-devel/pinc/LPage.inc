@@ -38,9 +38,25 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
     if ( $project->difficulty == 'beginner' and $round->is_a_mentor_round() )
     {
             // For beginner projects in a mentor round,
-            // we serve up pages in order of the proofreader in the mentee round.
-            // (So that mentors can easily get all the pages by one proofreader.)
-            $order = "{$round->mentee_round->user_column_name} ASC, image ASC";
+            // we serve up pages in a different order,
+            // to facilitate mentoring:
+            // 1) Mentors like to give prompt feedback.
+            // 2) Mentors like to deal with all of one proofreader's pages at a time.
+            //
+            // So primarily, we sort by save-time in the mentee round,
+            // meaning that, over the course of the project,
+            // it's roughly first-come first-served.
+            // But we round off save-time to the day (in the server's timezone),
+            // and use the mentee's username as a secondary sort,
+            // so that if two mentees are 'leapfrogging',
+            // their work (for that day) is served up grouped by user,
+            // rather than ordered strictly by save-time.
+            $order = "
+                FROM_UNIXTIME({$round->mentee_round->time_column_name}, '%Y-%m-%d') ASC,
+                {$round->mentee_round->user_column_name} ASC,
+                image ASC
+            ";
+            // (See Task 1493 and the forum discussion linked from there.)
     }
 
     // The page to be retrieved must be an available page, of course.
