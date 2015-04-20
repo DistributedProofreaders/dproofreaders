@@ -438,6 +438,87 @@ function SearchParams_get_url_query_string()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function create_task_from_form_submission($formsub)
+{
+    global $tasks_array;
+    global $categories_array;
+    global $tasks_status_array;
+    global $task_assignees_array;
+    global $severity_array;
+    global $priority_array;
+    global $os_array;
+    global $browser_array;
+    global $versions_array;
+    global $now_sse;
+    global $requester_u_id;
+
+    if (empty($formsub['task_summary']) || empty($formsub['task_details'])) {
+        return "You must supply a Task Summary and Task Details.";
+    }
+
+    assert (!isset($formsub['task_id']));
+    // Create a new task.
+    $relatedtasks_array = array();
+    $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
+    $relatedpostings_array = array();
+    $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
+    $newt_type     = (int) get_enumerated_param($formsub, 'task_type', null, array_keys($tasks_array));
+    $newt_category = (int) get_enumerated_param($formsub, 'task_category', null, array_keys($categories_array));
+    $newt_status   = (int) get_enumerated_param($formsub, 'task_status', null, array_keys($tasks_status_array));
+    $newt_assignee = (int) get_enumerated_param($formsub, 'task_assignee', null, array_keys($task_assignees_array));
+    $newt_severity = (int) get_enumerated_param($formsub, 'task_severity', null, array_keys($severity_array));
+    $newt_priority = (int) get_enumerated_param($formsub, 'task_priority', null, array_keys($priority_array));
+    $newt_os       = (int) get_enumerated_param($formsub, 'task_os', null, array_keys($os_array));
+    $newt_browser  = (int) get_enumerated_param($formsub, 'task_browser', null, array_keys($browser_array));
+    $newt_version  = (int) get_enumerated_param($formsub, 'task_version', null, array_keys($versions_array));
+
+    $sql_query = "
+        INSERT INTO tasks
+        SET
+            task_id          = '',
+            task_summary     = '" . addslashes(htmlspecialchars($formsub['task_summary'])) . "',
+            task_type        = $newt_type,
+            task_category    = $newt_category,
+            task_status      = $newt_status,
+            task_assignee    = $newt_assignee,
+            task_severity    = $newt_severity,
+            task_priority    = $newt_priority,
+            task_os          = $newt_os,
+            task_browser     = $newt_browser,
+            task_version     = $newt_version,
+            task_details     = '" . addslashes(htmlspecialchars($formsub['task_details'], ENT_QUOTES)) . "',
+            date_opened      = $now_sse,
+            opened_by        = $requester_u_id,
+            date_closed      = '',
+            closed_by        = '',
+            date_edited      = $now_sse,
+            edited_by        = $requester_u_id,
+            percent_complete = 0,
+            related_tasks    = '$relatedtasks_array',
+            related_postings = '$relatedpostings_array'
+    ";
+    wrapped_mysql_query($sql_query);
+    $task_id = mysql_insert_id();
+
+    global $tasks_url, $code_url;
+    $result = mysql_query("SELECT email, username FROM users WHERE u_id = $newt_assignee");
+    if ($newt_assignee != 0) {
+        maybe_mail(
+            mysql_result($result, 0, "email"),
+            "DP Task Center: Task #$task_id has been assigned to you",
+            mysql_result($result, 0, "username") . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n"
+        );
+    }
+
+    global $pguser;
+    wrapped_mysql_query("
+        INSERT INTO usersettings (username, setting, value)
+        VALUES ('$pguser', 'taskctr_notice', $task_id)
+    ");
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 // This is the point at which the script starts to produce output.
 
 if (!isset($_REQUEST['task_id'])) {
@@ -474,67 +555,12 @@ if (!isset($_REQUEST['task_id'])) {
 
         case 'create': {
             // The user is supplying values for the properties of a new task.
-            if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
-                ShowNotification("You must supply a Task Summary and Task Details.", true);
+            $errmsg = create_task_from_form_submission($_POST);
+            if ($errmsg)
+            {
+                ShowNotification($errmsg, true);
                 break;
             }
-
-            assert (!isset($_POST['task_id']));
-            // Create a new task.
-            $relatedtasks_array = array();
-            $relatedtasks_array = base64_encode(serialize($relatedtasks_array));
-            $relatedpostings_array = array();
-            $relatedpostings_array = base64_encode(serialize($relatedpostings_array));
-            $newt_type     = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
-            $newt_category = (int) get_enumerated_param($_POST, 'task_category', null, array_keys($categories_array));
-            $newt_status   = (int) get_enumerated_param($_POST, 'task_status', null, array_keys($tasks_status_array));
-            $newt_assignee = (int) get_enumerated_param($_POST, 'task_assignee', null, array_keys($task_assignees_array));
-            $newt_severity = (int) get_enumerated_param($_POST, 'task_severity', null, array_keys($severity_array));
-            $newt_priority = (int) get_enumerated_param($_POST, 'task_priority', null, array_keys($priority_array));
-            $newt_os       = (int) get_enumerated_param($_POST, 'task_os', null, array_keys($os_array));
-            $newt_browser  = (int) get_enumerated_param($_POST, 'task_browser', null, array_keys($browser_array));
-            $newt_version  = (int) get_enumerated_param($_POST, 'task_version', null, array_keys($versions_array));
-
-            $sql_query = "
-                INSERT INTO tasks
-                SET
-                    task_id          = '',
-                    task_summary     = '" . addslashes(htmlspecialchars($_POST['task_summary'])) . "',
-                    task_type        = $newt_type,
-                    task_category    = $newt_category,
-                    task_status      = $newt_status,
-                    task_assignee    = $newt_assignee,
-                    task_severity    = $newt_severity,
-                    task_priority    = $newt_priority,
-                    task_os          = $newt_os,
-                    task_browser     = $newt_browser,
-                    task_version     = $newt_version,
-                    task_details     = '" . addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES)) . "',
-                    date_opened      = $now_sse,
-                    opened_by        = $requester_u_id,
-                    date_closed      = '',
-                    closed_by        = '',
-                    date_edited      = $now_sse,
-                    edited_by        = $requester_u_id,
-                    percent_complete = 0,
-                    related_tasks    = '$relatedtasks_array',
-                    related_postings = '$relatedpostings_array'
-            ";
-            wrapped_mysql_query($sql_query);
-            $task_id = mysql_insert_id();
-
-            $result = mysql_query("SELECT email, username FROM users WHERE u_id = $newt_assignee");
-            if ($newt_assignee != 0) {
-                maybe_mail(
-                    mysql_result($result, 0, "email"),
-                    "DP Task Center: Task #$task_id has been assigned to you",
-                    mysql_result($result, 0, "username") . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n"
-                );
-            }
-            wrapped_mysql_query("
-                INSERT INTO usersettings (username, setting, value)
-                VALUES ('$pguser', 'taskctr_notice', $task_id)
-            ");
             TaskHeader("All Open Tasks");
             list_all_open_tasks();
             break;
