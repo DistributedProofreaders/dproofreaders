@@ -566,6 +566,12 @@ function handle_action_on_a_specified_task()
     // Fetch the state of the specified task
     // before any requested changes.
     $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
+    if (mysql_num_rows($result) == 0)
+    {
+        TaskHeader("Task #$task_id does not exist");
+        ShowNotification("Task #$task_id was not found!");
+        return;
+    }
     $pre_task = mysql_fetch_object($result);
 
     if ($action == 'show') {
