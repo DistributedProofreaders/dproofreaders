@@ -1087,38 +1087,39 @@ function TaskForm($task)
     if (is_null($task)) {
         // The user wants to create a task.
         // Initialize the form with default values.
-        $task_version     = 1;
-        $task_severity    = 4;
-        $task_priority    = 3;
-        $task_type        = 1;
-        $task_category    = 1;
-        $task_status      = 1;
-        $task_os          = 0;
-        $task_browser     = 0;
-        $task_assignee    = 0;
-        $task_summary     = "";
-        $task_details     = "";
-        $percent_complete = 0;
-        $opened_by        = "";
-        $tid              = "";
+        $task = new stdClass;
+        $task->task_version     = 1;
+        $task->task_severity    = 4;
+        $task->task_priority    = 3;
+        $task->task_type        = 1;
+        $task->task_category    = 1;
+        $task->task_status      = 1;
+        $task->task_os          = 0;
+        $task->task_browser     = 0;
+        $task->task_assignee    = 0;
+        $task->task_summary     = "";
+        $task->task_details     = "";
+        $task->percent_complete = 0;
+        $task->opened_by        = "";
+        $task->task_id          = "";
     }
     else {
         // The user wants to edit an existing task.
         // Initialize the form with the current values of the task's properties.
-        $task_version     = $task->task_version;
-        $task_severity    = $task->task_severity;
-        $task_priority    = $task->task_priority;
-        $task_type        = $task->task_type;
-        $task_category    = $task->task_category;
-        $task_status      = $task->task_status;
-        $task_os          = $task->task_os;
-        $task_browser     = $task->task_browser;
-        $task_assignee    = $task->task_assignee;
-        $task_summary     = $task->task_summary;
-        $task_details     = $task->task_details;
-        $percent_complete = $task->percent_complete;
-        $opened_by        = $task->opened_by;
-        $tid              = $task->task_id;
+        $task->task_version     = $task->task_version;
+        $task->task_severity    = $task->task_severity;
+        $task->task_priority    = $task->task_priority;
+        $task->task_type        = $task->task_type;
+        $task->task_category    = $task->task_category;
+        $task->task_status      = $task->task_status;
+        $task->task_os          = $task->task_os;
+        $task->task_browser     = $task->task_browser;
+        $task->task_assignee    = $task->task_assignee;
+        $task->task_summary     = $task->task_summary;
+        $task->task_details     = $task->task_details;
+        $task->percent_complete = $task->percent_complete;
+        $task->opened_by        = $task->opened_by;
+        $task->task_id          = $task->task_id;
     }
 
     // Non-managers can only set the task status to New.
@@ -1126,15 +1127,15 @@ function TaskForm($task)
         $tasks_status_array = array(1 => "New");
     }
 
-    $task_summary_enc = htmlspecialchars($task_summary);
-    $task_details_enc = htmlspecialchars($task_details);
+    $task_summary_enc = htmlspecialchars($task->task_summary);
+    $task_details_enc = htmlspecialchars($task->task_details);
 
     echo "<form action='$tasks_url' method='post'>";
-    if (empty($tid)) {
+    if (empty($task->task_id)) {
         echo "<input type='hidden' name='action' value='create'>\n";
     } else {
         echo "<input type='hidden' name='action' value='edit'>\n";
-        echo "<input type='hidden' name='task_id' value='$tid'>";
+        echo "<input type='hidden' name='task_id' value='$task->task_id'>";
     }
     echo "<table class='tasks'>\n";
     echo "<tr>";
@@ -1145,21 +1146,21 @@ function TaskForm($task)
     echo "</td>";
     echo "</tr>\n";
     echo "<tr><td width='50%'><table class='taskplain'>\n";
-    property_echo_select_tr('task_type', $task_type, $tasks_array);
-    property_echo_select_tr('task_category', $task_category, $categories_array);
-    property_echo_select_tr('task_status', $task_status, $tasks_status_array);
-    property_echo_select_tr('task_assignee', $task_assignee, $task_assignees_array);
-    property_echo_select_tr('task_os', $task_os, $os_array);
+    property_echo_select_tr('task_type', $task->task_type, $tasks_array);
+    property_echo_select_tr('task_category', $task->task_category, $categories_array);
+    property_echo_select_tr('task_status', $task->task_status, $tasks_status_array);
+    property_echo_select_tr('task_assignee', $task->task_assignee, $task_assignees_array);
+    property_echo_select_tr('task_os', $task->task_os, $os_array);
     echo "</table></td><td width='50%'><table class='taskplain'>\n";
-    property_echo_select_tr('task_browser', $task_browser, $browser_array);
-    property_echo_select_tr('task_severity', $task_severity, $severity_array);
-    property_echo_select_tr('task_priority', $task_priority, $priority_array);
-    property_echo_select_tr('task_version', $task_version, $versions_array);
-    if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && !empty($tid)) {
-        property_echo_select_tr('percent_complete', $percent_complete, $percent_complete_array);
+    property_echo_select_tr('task_browser', $task->task_browser, $browser_array);
+    property_echo_select_tr('task_severity', $task->task_severity, $severity_array);
+    property_echo_select_tr('task_priority', $task->task_priority, $priority_array);
+    property_echo_select_tr('task_version', $task->task_version, $versions_array);
+    if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && !empty($task->task_id)) {
+        property_echo_select_tr('percent_complete', $task->percent_complete, $percent_complete_array);
     }
-    elseif ($opened_by == $requester_u_id && !user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
-        echo "<input type='hidden' name='percent_complete' value='$percent_complete'>";
+    elseif ($task->opened_by == $requester_u_id && !user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
+        echo "<input type='hidden' name='percent_complete' value='$task->percent_complete'>";
     }
     echo "</table></td></tr><tr><td>\n";
     echo "<table class='taskplain'><tr><td width='5%'><b>Details</b>&nbsp;&nbsp;</td>\n";
@@ -1170,7 +1171,7 @@ function TaskForm($task)
     echo "</table>\n";
     echo "</td></tr><tr><td colspan='2'><center>\n";
     echo "<input type='submit' value='";
-    if (empty($tid)) {
+    if (empty($task->task_id)) {
         echo "Add Task";
     }
     else {
