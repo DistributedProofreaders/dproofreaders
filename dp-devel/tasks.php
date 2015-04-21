@@ -551,7 +551,11 @@ if (!isset($_REQUEST['task_id'])) {
         case 'show_creation_form':
             // Open a form to specify the properties of a new task.
             TaskHeader("New Task");
-            TaskForm(NULL);
+
+            // The user wants to create a task.
+            // Initialize the form with default values.
+            $task = make_default_task_object();
+            TaskForm($task);
             break;
 
         case 'search':
@@ -632,6 +636,8 @@ function handle_action_on_a_specified_task()
     }
     elseif ($action == 'show_editing_form') {
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $pre_task->opened_by == $requester_u_id && empty($pre_task->closed_reason)) {
+            // The user wants to edit an existing task.
+            // Initialize the form with the current values of the task's properties.
             TaskForm($pre_task);
         }
         else {
@@ -1103,16 +1109,6 @@ function TaskForm($task)
     global $os_array, $browser_array, $versions_array, $percent_complete_array;
     global $task_assignees_array;
     global $priority_array, $tasks_url;
-
-    if (is_null($task)) {
-        // The user wants to create a task.
-        // Initialize the form with default values.
-        $task = make_default_task_object();
-    }
-    else {
-        // The user wants to edit an existing task.
-        // Initialize the form with the current values of the task's properties.
-    }
 
     // Non-managers can only set the task status to New.
     if (!user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
