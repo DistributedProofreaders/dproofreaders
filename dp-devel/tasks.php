@@ -1114,8 +1114,8 @@ function TaskForm($task)
         $task_os          = $task->task_os;
         $task_browser     = $task->task_browser;
         $task_assignee    = $task->task_assignee;
-        $task_summary     = htmlspecialchars($task->task_summary);
-        $task_details     = htmlspecialchars($task->task_details);
+        $task_summary     = $task->task_summary;
+        $task_details     = $task->task_details;
         $percent_complete = $task->percent_complete;
         $opened_by        = $task->opened_by;
         $tid              = $task->task_id;
@@ -1125,6 +1125,9 @@ function TaskForm($task)
     if (!user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
         $tasks_status_array = array(1 => "New");
     }
+
+    $task_summary_enc = htmlspecialchars($task_summary);
+    $task_details_enc = htmlspecialchars($task_details);
 
     echo "<form action='$tasks_url' method='post'>";
     if (empty($tid)) {
@@ -1138,7 +1141,7 @@ function TaskForm($task)
     echo "<td colspan='2'>";
     echo "<b>" . property_get_label('task_summary', FALSE) . "&nbsp;</b>";
     echo "&nbsp;&nbsp;";
-    echo "<input type='text' name='task_summary' value=\"$task_summary\" size='60' maxlength='80' class='taskinp1'>";
+    echo "<input type='text' name='task_summary' value=\"$task_summary_enc\" size='60' maxlength='80' class='taskinp1'>";
     echo "</td>";
     echo "</tr>\n";
     echo "<tr><td width='50%'><table class='taskplain'>\n";
@@ -1161,7 +1164,7 @@ function TaskForm($task)
     echo "</table></td></tr><tr><td>\n";
     echo "<table class='taskplain'><tr><td width='5%'><b>Details</b>&nbsp;&nbsp;</td>\n";
     echo "<td width='95%'>";
-    echo "<textarea name='task_details' cols='60' rows='5'>$task_details</textarea>";
+    echo "<textarea name='task_details' cols='60' rows='5'>$task_details_enc</textarea>";
     echo "</td>";
     echo "</tr>";
     echo "</table>\n";
