@@ -600,6 +600,11 @@ function handle_action_on_a_specified_task()
     }
 
     $pre_task = mysql_fetch_object($result);
+    // Note that currently task_summary and task_details are stored HTML escaped and slashed
+    // in the database. This needs to be undone to produce the 'raw' string.
+    $pre_task->task_summary = htmlspecialchars_decode(stripslashes($pre_task->task_summary));
+    $pre_task->task_details = htmlspecialchars_decode(stripslashes($pre_task->task_details), ENT_QUOTES);
+
     TaskHeader(title_string_for_task($pre_task));
 
     if ($action == 'show') {
@@ -1109,8 +1114,8 @@ function TaskForm($task)
         $task_os          = $task->task_os;
         $task_browser     = $task->task_browser;
         $task_assignee    = $task->task_assignee;
-        $task_summary     = stripslashes($task->task_summary);
-        $task_details     = stripslashes($task->task_details);
+        $task_summary     = htmlspecialchars($task->task_summary);
+        $task_details     = htmlspecialchars($task->task_details);
         $percent_complete = $task->percent_complete;
         $opened_by        = $task->opened_by;
         $tid              = $task->task_id;
@@ -1824,10 +1829,7 @@ function set_window_title($title)
 // the task and suitable for display in a page title or similar.
 function title_string_for_task($pre_task)
 {
-    // Note that currently tasks summaries are stored HTML escaped and slashed
-    // in the database. This needs to be undone to produce a sensible string.
-    $summary =  htmlspecialchars_decode(stripslashes($pre_task->task_summary));
-    return sprintf("Task #%d: %s", $pre_task->task_id, $summary);
+    return sprintf("Task #%d: %s", $pre_task->task_id, $pre_task->task_summary);
 }
 
 // vim: sw=4 ts=4 expandtab
