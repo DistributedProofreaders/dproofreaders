@@ -598,14 +598,14 @@ function handle_action_on_a_specified_task()
         ShowNotification("Task #$task_id was not found!");
         return;
     }
+
     $pre_task = mysql_fetch_object($result);
+    TaskHeader(title_string_for_task($pre_task));
 
     if ($action == 'show') {
-        TaskHeader(title_string_for_task($pre_task));
         TaskDetails($task_id);
     }
     elseif ($action == 'show_editing_form') {
-        TaskHeader(title_string_for_task($pre_task));
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr() || $pre_task->opened_by == $requester_u_id && empty($pre_task->closed_reason)) {
             TaskForm($pre_task);
         }
@@ -615,7 +615,6 @@ function handle_action_on_a_specified_task()
         }
     }
     elseif ($action == 'reopen') {
-        TaskHeader(title_string_for_task($pre_task));
         NotificationMail($task_id,
             "This task was reopened by $pguser on $date_str at $time_of_day_str.\n");
         wrapped_mysql_query("
@@ -634,12 +633,11 @@ function handle_action_on_a_specified_task()
     elseif ($action == 'edit') {
         // The user is supplying values for the properties of a pre-existing task.
         if (empty($_POST['task_summary']) || empty($_POST['task_details'])) {
-            TaskHeader(title_string_for_task($pre_task));
             ShowNotification("You must supply a Task Summary and Task Details.", true);
         }
         else {
             // Update a pre-existing task.
-            TaskHeader("All Open Tasks");
+            set_window_title("All Open Tasks");
             NotificationMail($task_id,
                 "There has been an edit made to this task by $pguser on $date_str at $time_of_day_str.\n");
 
@@ -692,7 +690,7 @@ function handle_action_on_a_specified_task()
         global $tasks_close_array;
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
             $tc_reason = (int) get_enumerated_param($_POST, 'closed_reason', null, array_keys($tasks_close_array));
-            TaskHeader("All Open Tasks");
+            set_window_title("All Open Tasks");
             NotificationMail($task_id,
                 "This task was closed by $pguser on $date_str at $time_of_day_str.\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
             wrapped_mysql_query("
@@ -710,12 +708,10 @@ function handle_action_on_a_specified_task()
             list_all_open_tasks();
         }
         else {
-            TaskHeader(title_string_for_task($pre_task));
             ShowNotification("The user $pguser does not have permission to close tasks.");
         }
     }
     elseif ($action == 'add_comment') {
-        TaskHeader(title_string_for_task($pre_task));
         if (!empty($_POST['task_comment'])) {
             NotificationMail($task_id,
                 "There has been a comment added to this task by $pguser on $date_str at $time_of_day_str.\n");
@@ -768,7 +764,6 @@ function handle_action_on_a_specified_task()
         mysql_free_result($meTooCheck);
 
         // No need to display a different error message if the user was refreshing
-        TaskHeader(title_string_for_task($pre_task));
         ShowNotification("Thank you for your report!  It has been recorded below.", false, "info");
         TaskDetails($task_id);
     }
@@ -777,7 +772,6 @@ function handle_action_on_a_specified_task()
             INSERT INTO usersettings (username, setting, value)
             VALUES ('$pguser', 'taskctr_notice', $task_id)
         ");
-    TaskHeader(title_string_for_task($pre_task));
         TaskDetails($task_id);
     }
     elseif ($action == 'unnotify_me') {
@@ -785,11 +779,9 @@ function handle_action_on_a_specified_task()
             DELETE FROM usersettings
             WHERE username = '$pguser' and setting = 'taskctr_notice' and value = $task_id
         ");
-        TaskHeader(title_string_for_task($pre_task));
         TaskDetails($task_id);
     }
     else {
-        TaskHeader("Task Center");
         die("shouldn't be able to reach here");
     }
 }
@@ -799,8 +791,6 @@ function process_related_task($pre_task, $action, $related_task_id)
 {
     global $pguser, $date_str, $time_of_day_str;
     assert($action == 'add' || $action == 'remove');
-
-    TaskHeader(title_string_for_task($pre_task));
 
     // Validate task_id. It must be an integer >= 1
     $related_task_id = trim($related_task_id);
@@ -847,8 +837,6 @@ function process_related_topic($pre_task, $action, $related_topic_id)
 {
     global $pguser, $date_str, $time_of_day_str;
     assert($action == 'add' || $action == 'remove');
-
-    TaskHeader(title_string_for_task($pre_task));
 
     // Validate related_topic_id. It must be an integer >= 1
     $related_topic_id = trim($related_topic_id);
@@ -1822,6 +1810,12 @@ function stripslashes_if_magic($s)
         return stripslashes($s);
     else
         return $s;
+}
+
+function set_window_title($title)
+{
+    $title_esc = addslashes($title);
+    echo "<script>top.document.title = '$title_esc';</script>\n";
 }
 
 // Given a task row from the DB, produce an unescaped string representing
