@@ -438,6 +438,26 @@ function SearchParams_get_url_query_string()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function make_default_task_object()
+{
+    $task = new stdClass;
+    $task->task_version     = 1;
+    $task->task_severity    = 4;
+    $task->task_priority    = 3;
+    $task->task_type        = 1;
+    $task->task_category    = 1;
+    $task->task_status      = 1;
+    $task->task_os          = 0;
+    $task->task_browser     = 0;
+    $task->task_assignee    = 0;
+    $task->task_summary     = "";
+    $task->task_details     = "";
+    $task->percent_complete = 0;
+    $task->opened_by        = "";
+    $task->task_id          = "";
+    return $task;
+}
+
 function create_task_from_form_submission($formsub)
 {
     global $tasks_array;
@@ -1087,39 +1107,11 @@ function TaskForm($task)
     if (is_null($task)) {
         // The user wants to create a task.
         // Initialize the form with default values.
-        $task = new stdClass;
-        $task->task_version     = 1;
-        $task->task_severity    = 4;
-        $task->task_priority    = 3;
-        $task->task_type        = 1;
-        $task->task_category    = 1;
-        $task->task_status      = 1;
-        $task->task_os          = 0;
-        $task->task_browser     = 0;
-        $task->task_assignee    = 0;
-        $task->task_summary     = "";
-        $task->task_details     = "";
-        $task->percent_complete = 0;
-        $task->opened_by        = "";
-        $task->task_id          = "";
+        $task = make_default_task_object();
     }
     else {
         // The user wants to edit an existing task.
         // Initialize the form with the current values of the task's properties.
-        $task->task_version     = $task->task_version;
-        $task->task_severity    = $task->task_severity;
-        $task->task_priority    = $task->task_priority;
-        $task->task_type        = $task->task_type;
-        $task->task_category    = $task->task_category;
-        $task->task_status      = $task->task_status;
-        $task->task_os          = $task->task_os;
-        $task->task_browser     = $task->task_browser;
-        $task->task_assignee    = $task->task_assignee;
-        $task->task_summary     = $task->task_summary;
-        $task->task_details     = $task->task_details;
-        $task->percent_complete = $task->percent_complete;
-        $task->opened_by        = $task->opened_by;
-        $task->task_id          = $task->task_id;
     }
 
     // Non-managers can only set the task status to New.
