@@ -637,7 +637,6 @@ function handle_action_on_a_specified_task()
         }
         else {
             // Update a pre-existing task.
-            set_window_title("All Open Tasks");
             NotificationMail($task_id,
                 "There has been an edit made to this task by $pguser on $date_str at $time_of_day_str.\n");
 
@@ -683,6 +682,8 @@ function handle_action_on_a_specified_task()
                 WHERE task_id = $task_id
             ";
             wrapped_mysql_query($sql_query);
+
+            set_window_title("All Open Tasks");
             list_all_open_tasks();
         }
     }
@@ -690,7 +691,6 @@ function handle_action_on_a_specified_task()
         global $tasks_close_array;
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
             $tc_reason = (int) get_enumerated_param($_POST, 'closed_reason', null, array_keys($tasks_close_array));
-            set_window_title("All Open Tasks");
             NotificationMail($task_id,
                 "This task was closed by $pguser on $date_str at $time_of_day_str.\n\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".\n");
             wrapped_mysql_query("
@@ -705,6 +705,8 @@ function handle_action_on_a_specified_task()
                     edited_by = $requester_u_id
                 WHERE task_id = $task_id
             ");
+
+            set_window_title("All Open Tasks");
             list_all_open_tasks();
         }
         else {
