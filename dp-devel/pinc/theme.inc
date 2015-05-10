@@ -430,6 +430,11 @@ function html_statsbar($nameofpage) {
     global $Round_for_round_id_;
     maybe_show_language_selector();
 
+    // SITE-SPECIFIC
+    //Display the donation icon and link to donate.
+    show_donation_stuff();
+    echo "<hr>";
+
     // Show statistics that are pertinent to the particular request.
     // (i.e., to the main content of the page).
 
@@ -510,16 +515,6 @@ function html_statsbar($nameofpage) {
     }
 
     // SITE-SPECIFIC
-    // The remaining code in this function (and the whole of the
-    // 'show_donation_stuff' function) is specific to pgdp.net,
-    // and thus probably inappropriate for other sites using this code.
-    // We should factor it out somehow, for ease of customizability.
-
-    //Display the donation icon and link to donate.
-    //Should be the last thing displayed in the right hand column unless the user is not logged in
-    echo "<hr>";
-    show_donation_stuff();
-
     //Display the "About DP" section if user is not logged in
     if (!isset($pguser))
     {
@@ -945,7 +940,7 @@ function show_donation_stuff()
     global $theme, $theme_name, $code_url, $site_name, $wiki_url;
 
     $paypal_business_id = 'DPFoundation@pgdp.net';
-    $info_url = $wiki_url.'/Distributed_Proofreaders_Foundation';
+    $info_url = $wiki_url.'/Distributed_Proofreaders_Foundation#Donations';
 
     echo "<center>";
     echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'>\n";
@@ -960,7 +955,7 @@ function show_donation_stuff()
     echo "<center>";
     echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
     echo sprintf(
-        _("Donate to the <a href='%s'>Distributed Proofreaders Foundation</a>"),
+        _("Please help support <b>DP</b>! Donate by <b><i>PayPal</i></b> or <b><i>check</i></b> to the <a href='%s'>Distributed Proofreaders Foundation</a>"),
         $info_url
     );
     echo "</font>";
