@@ -1,6 +1,6 @@
 <?php
 
-function check_username( $username )
+function check_username( $username, $registering=FALSE )
 // Check whether $username is a reasonable/acceptable User Name (ID).
 // If it is, return an empty string.
 // If not, return a string detailing the problem.
@@ -21,8 +21,18 @@ function check_username( $username )
         return $error;
     }
 
-    $bad_char_regex = "/[^-a-zA-Z0-9@._ ]/";
-    $valid_username_chars_statement = _("(Valid characters are: a-z A-Z 0-9 @ - . _ space)");
+    // For new registrations, we disallow underscore (because it confuses the wiki software).
+    // Elsewhere, we still have to allow underscore in usernames, for pre-existing users.
+    if ($registering)
+    {
+        $bad_char_regex = "/[^-a-zA-Z0-9@. ]/";
+        $valid_username_chars_statement = _("(Valid characters are: a-z A-Z 0-9 @ - . space)");
+    }
+    else
+    {
+        $bad_char_regex = "/[^-a-zA-Z0-9@._ ]/";
+        $valid_username_chars_statement = _("(Valid characters are: a-z A-Z 0-9 @ - . _ space)");
+    }
     if ( preg_match( $bad_char_regex, $username) )
     {
         $error = _("Your User Name contains invalid characters.")

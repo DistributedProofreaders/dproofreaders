@@ -30,7 +30,7 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
 
     // Do some validity-checks on inputted username, password, e-mail and real name
 
-    $err = check_username( $username );
+    $err = check_username( $username, TRUE );
     if ( $err != '' )
     {
         return $err;
