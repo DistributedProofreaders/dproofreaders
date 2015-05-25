@@ -77,8 +77,8 @@ table.filter td select {
 /* Registration table */
 
 table.register {
-    width: 80%;
-    border-collapse: collapse;
+    width: auto;
+    border-collapse: separate;
     border: 1px solid black;
 }
 
@@ -86,6 +86,7 @@ table.register td.label {
     background-color: #e0e8dd;
     text-align: right;
     font-weight: bold;
+    padding: 0px 3px;
 }
 
 table.register td.field {
