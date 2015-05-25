@@ -193,7 +193,7 @@ if ($password=="proofer") {
     echo "  <td class='field'><input type='text' maxlength='70' name='real_name' size='20' value='". htmlspecialchars($real_name, ENT_QUOTES) ."'></td>";
     echo "</tr>\n<tr>";
     echo "  <td class='label'>" . _("User Name") . ":</td>";
-    echo "  <td class='field'><input type='text' maxlength='70' name='userNM' size='20' value='" . htmlspecialchars($username, ENT_QUOTES) . "'></td>";
+    echo "  <td class='field'><input type='text' maxlength='70' name='userNM' size='20' value='" . htmlspecialchars($username, ENT_QUOTES) . "'><br><small>$valid_username_chars_statement_for_reg_form</small></td>";
     echo "</tr>\n<tr>";
     echo "  <td class='label'>" . _("Password") . ":</td>";
     echo "  <td class='field'><input type='password' maxlength='70' name='userPW' size='20'></td>";
