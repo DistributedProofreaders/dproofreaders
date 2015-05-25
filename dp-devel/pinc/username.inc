@@ -21,9 +21,13 @@ function check_username( $username )
         return $error;
     }
 
-    if ( preg_match( "/[^-a-zA-Z0-9@._ ]/", $username) )
+    $bad_char_regex = "/[^-a-zA-Z0-9@._ ]/";
+    $valid_username_chars_statement = _("(Valid characters are: a-z A-Z 0-9 @ - . _ space)");
+    if ( preg_match( $bad_char_regex, $username) )
     {
-        $error = _("Your User Name contains invalid characters.<br>(Valid characters are:")." a-z A-Z 0-9 @ - . _ "._("space").")";
+        $error = _("Your User Name contains invalid characters.")
+            . "<br>"
+            . $valid_username_chars_statement;
         return $error;
     }
 
