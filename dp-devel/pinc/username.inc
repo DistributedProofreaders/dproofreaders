@@ -11,20 +11,20 @@ function check_username( $username )
 
     if ( $username == '' )
     {
-	$error = _("You did not supply a User Name (ID).");
-	return $error;
+        $error = _("You did not supply a User Name (ID).");
+        return $error;
     }
 
     if ( strlen($username) > $username_max_len )
     {
-	$error = sprintf(_("Your User Name is too long.<br>(The maximum is %s characters.)"), $username_max_len);
-	return $error;
+        $error = sprintf(_("Your User Name is too long.<br>(The maximum is %s characters.)"), $username_max_len);
+        return $error;
     }
 
     if ( preg_match( "/[^-a-zA-Z0-9@._ ]/", $username) )
     {
-	$error = _("Your User Name contains invalid characters.<br>(Valid characters are:")." a-z A-Z 0-9 @ - . _ "._("space").")";
-	return $error;
+        $error = _("Your User Name contains invalid characters.<br>(Valid characters are:")." a-z A-Z 0-9 @ - . _ "._("space").")";
+        return $error;
     }
 
     // In order to prevent one class of impersonations,
@@ -33,17 +33,17 @@ function check_username( $username )
 
     if ( trim($username) != $username )
     {
-	$error = _("Your User Name has leading or trailing whitespace, which is not allowed.");
-	return $error;
+        $error = _("Your User Name has leading or trailing whitespace, which is not allowed.");
+        return $error;
     }
 
     if (str_contains($username, "  "))
     {
-	$error = _("Your User Name contains adjacent space characters, which is not allowed.");
-	return $error;
+        $error = _("Your User Name contains adjacent space characters, which is not allowed.");
+        return $error;
     }
 
     return '';
 }
 
-?>
+// vim: sw=4 ts=4 expandtab
