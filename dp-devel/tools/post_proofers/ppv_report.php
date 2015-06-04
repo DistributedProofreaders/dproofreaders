@@ -3,72 +3,19 @@ $relPath="../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'maybe_mail.inc');
-include_once($relPath.'Project.inc'); //user_can_work_in_stage()
-include_once($relPath.'projectinfo.inc');
+include_once($relPath.'Project.inc'); // validate_projectID()
+include_once($relPath.'Stage.inc'); //user_can_work_in_stage()
+include_once($relPath.'project_states.inc'); // get_project_status_descriptor()
 include_once($relPath.'misc.inc');  // javascript_safe()
+
+header_remove("Expires");
+header_remove("Cache-Control");
 
 require_login();
 
 $projectid = validate_projectID('project', @$_REQUEST['project']);
 
 $theme_args['js_data'] = "
-function set_html(sw)
-{
-document.ppvform.html_desc.disabled = sw;
-document.ppvform.html_markup.disabled = sw;
-document.ppvform.html_css.disabled = sw;
-document.ppvform.html_links.disabled = sw;
-document.ppvform.html_image_size.disabled = sw;
-document.ppvform.html_image_links.disabled = sw;
-document.ppvform.html_header.disabled = sw;
-return true;
-}
-
-function confirmExit() 
-{
-    // see if any of the complexity checkboxes have been checked
-    checkboxes = new Array('tables',
-        'poetry',
-        'index',
-        'footnotes',
-        'sidenotes',
-        'blockquotes',
-        'illustrations',
-        'multilang');
-
-    for (i = 0; i < checkboxes.length; i++)
-    {
-        if (document.getElementById(checkboxes[i]).checked)
-            return true;
-    }
-
-    // see if any of the complexity texts have been filled in
-    texts = new Array('unusual_formatting',
-        'e_spellcheck_num',
-        'e_comma_num',
-        'e_gutcheck_num',
-        'e_jeebies_num',
-        'e_hyph_num',
-        'e_html_num',
-        'e_other_num',
-        'other_error_type');
-
-    for (i = 0; i < texts.length; i++)
-    {
-        if (document.getElementById(texts[i]).value != '')
-            return true;
-    }
-
-
-    // If none of the complexity checkboxes or texts have been altered,
-    // ask for confirmation before submitting.
-    return confirm('" 
-        . javascript_safe(
-            _("Are you sure you want to submit without complexity details filled in?"),
-            $charset)
-        . "');
-}
-
 function grow_textarea(textarea_id)
 {
     textarea = document.getElementById(textarea_id);
@@ -82,17 +29,32 @@ function shrink_textarea(textarea_id)
     {
         textarea.rows = textarea.rows-2;
     }
-}\n";
+}";
 
 $theme_args['css_data'] = "
+.single {
+    margin:0;
+    padding:0;
+    text-indent:-3em;
+    margin-left:3em;
+}    
+.single2 {
+    margin:0;
+    padding:0;
+    text-indent:-1.25em;
+    margin-left:1.25em;
+}    
 div.shrinker {float: right;}
 div.shrinker a {
     font-size:200%; 
-	font-weight: 900;
-	text-decoration: none!important;
-	color: #888;
-	cursor: pointer;}
-";
+    font-weight: 900;
+    text-decoration: none!important;
+    color: #888;
+    cursor: pointer;
+}
+input[type='text'], textarea {
+     background-color: #E2F2E1;
+}";
 
 output_header(_('Post-Processing Verification Reporting'), SHOW_STATSBAR, $theme_args);
 
@@ -102,14 +64,13 @@ output_header(_('Post-Processing Verification Reporting'), SHOW_STATSBAR, $theme
 // All summaries are sent to the PPVers' list, signed by the person filling
 // out the summary, so a mischievous PPVer couldn't get away with anything, anyway.
 if (!user_can_work_in_stage($pguser, 'PPV')) {
-	echo _("You're not recorded as a Post-Processing Verifier.
+    echo _("You're not recorded as a Post-Processing Verifier.
             If you feel this is an error, please contact a Site Administrator.");
- 	exit();
+    exit();
 }
 
-$project = mysql_fetch_object(mysql_query("SELECT * FROM projects WHERE projectid = '$projectid'"));
-$ppver = mysql_fetch_object(mysql_query("SELECT * FROM users WHERE username = '$pguser'"));
-$pper = mysql_fetch_object(mysql_query("SELECT * FROM users WHERE username = '$project->postproofer'"));
+$project = mysql_fetch_object(mysql_query("SELECT nameofwork, authorsname, language, difficulty, n_pages, postproofer
+                                           FROM projects WHERE projectid = '$projectid'"));
 
 $nameofwork = $project->nameofwork;
 $authorsname = $project->authorsname;
@@ -121,7 +82,7 @@ $subdate = date('jS \o\f F, Y');
 // number of books post-processed by this PPer (including this one).
 $psd = get_project_status_descriptor('PPd');
 $result = mysql_query("
-    SELECT COUNT(*) AS num_post_processed 
+    SELECT COUNT(*) AS num_post_processed
     FROM projects
     WHERE $psd->state_selector
       AND postproofer = '$project->postproofer'
@@ -168,348 +129,612 @@ if (mysql_num_rows($result) != 0)
 }
 mysql_free_result($result);
 
+if (isset($_GET['confirm'])) {
+    function number_of_errors_allowed($size_per) {
+        $project_size = $_POST["kb_size"];
+        if ($project_size <= $size_per)
+            return 1;
 
-if (@$_GET['send']) {
+        return floor($project_size / $size_per);
+    }
 
-// The Spanish PPer shouldn't get a French email because that's the PPVer's
-// language, so temporarily change the current locale.
-setlocale(LC_ALL,$pper->u_intlang);
-$ppbita = _("Hello %1\$s,
+    $project_size = $_POST["kb_size"];
+    if ((isset($_POST["some_poetry"]) && isset($_POST["sig_poetry"])) || (isset($_POST["some_block"]) && isset($_POST["sig_block"]))
+            || (isset($_POST["some_foot"]) && isset($_POST["sig_foot"])) || (isset($_POST["some_side"]) && isset($_POST["sig_side"]))
+            || (isset($_POST["some_ads"]) && isset($_POST["sig_ads"])) || (isset($_POST["some_tables"]) && isset($_POST["sig_tables"]))
+            || (isset($_POST["some_index"]) && isset($_POST["sig_index"])) || (isset($_POST["some_drama"]) && isset($_POST["sig_drama"]))) {
+        echo _("You selected both \"Some\" and \"Significant Amount\" for an item.
+            Please go back, fix this, and resubmit the form.");
+        exit();
+    } else if (strpos($project_size, ',') !== false) {
+        echo _("The file size should not contain commas.");
+        exit();
+    } else if ($project_size == "" || $project_size == 0) {
+        echo _("Please enter a file size that is greater than 0.");
+        exit();
+    } else if ($project_size > 3000) {
+        echo _("You put in a file size greater than 3000 KB.
+            Please make sure that you have the file size in kilobytes, not bytes.");
+        exit();
+    } else if (isset($_POST["some_illos"]) && !isset($_POST["num_illos"])) {
+        echo _("You selected there were illustrations but didn't specify how many.
+            Please go back and specify how many illustrations there were");
+        exit();
+    } else if (isset($_POST["some_illos"]) && (!is_numeric($_POST["num_illos"]) || $_POST["num_illos"] == 0)) {
+        echo _("Please input a non-0 number for how many illustrations were in the book.");
+        exit();
+    } else if (!empty($_POST["num_illos"]) && !isset($_POST["some_illos"])) {
+        echo sprintf(_("You put that there were %s illustrations but didn't check the box for illustrations.
+            Please go back and select the checkbox for 'Illustrations (other than minor decorations or logos)'."), $_POST["num_illos"]);
+        exit();
+    }
 
-This is a message that your Post-Processing Verifier, %2\$s,
-requested you receive from the %4\$s site.
+    // Wrap any long input from textareas.
+    $_POST['reason_returned'] = wordwrap($_POST['reason_returned'], 78, "\n    ");
+    $_POST['general_comments'] = wordwrap($_POST['general_comments'], 78, "\n    ");
 
-Thank you for your Post-Processing work on \"%3\$s\".
-A copy of the PPV Summary submitted by %2\$s is below.
-If you have any questions about it, please contact him or her.");
-$ppbit = sprintf($ppbita , $pper->username, $ppver->username, $project->nameofwork,$site_name);
+    $project_significant_counter = 0;
+    $project_average_counter = 0;
+    $level_1_errors = 0;
+    $level_2_errors = 0;
+    $pp_evaluation = "";
+    $pping_complexity = "\n\n  PPing Complexity:\n
+        Text File Size: $project_size KB";
+    $mapped_array = array("sig_poetry" => "Significant Amount of Poetry", "some_poetry" => "Some Poetry",
+        "sig_block" => "Significant Amount of Blockquotes", "some_block" => "Some Blockquotes",
+        "sig_foot" => "Significant Amount of Footnotes", "some_foot" => "Some Footnotes",
+        "sig_side" => "Significant Amount of Sidenotes", "some_side" => "Some Sidenotes",
+        "sig_ads" => "Significant Amount of Ads", "some_ads" => "Some Ads",
+        "sig_tables" => "Significant Amount of Tables", "some_tables" => "Some Tables",
+        "sig_drama" => "Significant Amount of Drama", "some_drama" => "Some Drama",
+        "sig_index" => "Significant Size of Index", "some_index" => "Small Index",
+        "sig_illos" => "Illustrations requiring advanced preparation and/or difficult placement",
+        "sig_multilang" => "Multiple Languages", "sig_englifh" => "Englifh",
+        "sig_music" => "Musical Notation and Files", "sig_math" => "Extensive mathematical/chemical notation");
 
-setlocale(LC_ALL,$ppver->u_intlang);
-$ppvbita = _("Hello %1\$s,
+    foreach($_POST as $key => $value) {
+        if (substr($key, 0, 4) === "sig_" && isset($mapped_array[$key])) {
+            $project_significant_counter++;
+            $pping_complexity .= "\n    " . $mapped_array[$key];
+        } else if (substr($key, 0, 5) === "some_" && isset($mapped_array[$key])) {
+            $project_average_counter++;
+            $pping_complexity .= "\n    " . $mapped_array[$key];
+        } else if ($key === "some_illos") {
+            if ($_POST["num_illos"] >= 40) {
+                $project_significant_counter++;
+            } else if ($_POST["num_illos"] > 5) {
+                $project_average_counter++;
+            }
+            $pping_complexity .= "\n    " . $_POST["num_illos"] . " Illustrations (other than minor decorations or logos)";
+        } else if (substr($key, 0, 3) === "e1_" && !empty($value)) {
+            if (!is_numeric($value)) {
+                echo _("Please input a number for all Level 1 error fields.
+                    Not all fields must be completed, but all data input in the error fields must be numeric.");
+                exit();
+            }
+            $level_1_errors += $value;
+        } else if (substr($key, 0, 3) === "e2_" && !empty($value)) {
+            if (!is_numeric($value)) {
+                echo _("Please input a number for all Level 2 error fields.
+                    Not all fields must be completed, but all data input in the error fields must be numeric.");
+                exit();
+            }
+            $level_2_errors += $value;
+        }
+    }
 
-This is a message that you requested you receive from the %4\$s
-site.
+    if ($project_significant_counter >= 4) {
+        $pp_difficulty_level = "Difficult";
+    } else if ($project_significant_counter > 0 || $project_average_counter >= 3) {
+        $pp_difficulty_level = "Average";
+    } else {
+        $pp_difficulty_level = "Easy";
+    }
 
-Thank you for your Post-Processing Verification work on \"%2\$s\".
-A copy of the summary you submitted is below. If you see an important error,
-please email %3\$s.");
+    if ($level_2_errors == 0) {
+        if ($pp_difficulty_level == "Easy") {
+            if (number_of_errors_allowed(300) >= $level_1_errors) {
+                $pp_evaluation = "Excellent";
+            } else if (number_of_errors_allowed(150) >= $level_1_errors) {
+                $pp_evaluation = "Very Good";
+            }
+        } else if ($pp_difficulty_level == "Average") {
+            if (number_of_errors_allowed(200) >= $level_1_errors) {
+                $pp_evaluation = "Excellent";
+            } else if (number_of_errors_allowed(100) >= $level_1_errors) {
+                $pp_evaluation = "Very Good";
+            }
+        } else if ($pp_difficulty_level == "Difficult") {
+            if (number_of_errors_allowed(100) >= $level_1_errors) {
+                $pp_evaluation = "Excellent";
+            } else if (number_of_errors_allowed(50) >= $level_1_errors) {
+                $pp_evaluation = "Very Good";
+            }
+        }
+    } if ($level_2_errors <= 5 && empty($pp_evaluation)) {
+        if ($pp_difficulty_level == "Easy") {
+            if ((number_of_errors_allowed(150) * 6) >= $level_1_errors) {
+                $pp_evaluation = "Good";
+            }
+        } else if ($pp_difficulty_level == "Average") {
+            if ((number_of_errors_allowed(100) * 6) >= $level_1_errors) {
+                $pp_evaluation = "Good";
+            }
+        } else if ($pp_difficulty_level == "Difficult") {
+            if ((number_of_errors_allowed(50) * 6) >= $level_1_errors) {
+                $pp_evaluation = "Good";
+            }
+        }
+    } if (empty($pp_evaluation)) {
+        $pp_evaluation = "Fair";
+    }
 
-$ppvbit = sprintf($ppvbita, $ppver->username, $nameofwork, $general_help_email_addr, $site_name);
+    $reportcard = "\n\n
+    PPV Summary for $project->postproofer
 
-$signoff = "\n\n" . $site_signoff;
-
-// Wrap any long input from textareas.
-$_POST['reason_returned'] = wordwrap($_POST['reason_returned'], 78, "\n    ");
-$_POST['general_comments'] = wordwrap($_POST['general_comments'], 78, "\n    ");
-$_POST['html_desc'] = wordwrap($_POST['html_desc'], 78, "\n    ");
-$_POST['unusual_formatting'] = wordwrap($_POST['unusual_formatting'], 78, "\n    ");
-$_POST['promotions'] = wordwrap($_POST['promotions'], 78, "\n    ");
-$_POST['other_error_type'] = wordwrap($_POST['other_error_type'], 78, "\n    ");
-
-if(!empty($_POST['promotions']))
-     $promotions =  "*    *    *\nPromotions comments:\n  $_POST[promotions]\n*    *    *\n";
-else
-     $promotions = "";
-
-$reportcard = "
-\n\nPPV Summary for $pper->username
-
-  Number of books post-processed by $pper->username (including this one): $number_post_processed
-
-
-Project Information
-
-  projectID: $projectid
-  Title: $nameofwork
-  Author: $authorsname
-  Language: $language
-  Proofreading Difficulty: $difficulty_level
-  Number of pages: $pages
-  Post-processed by: $pper->username
-  Verified by: $ppver->username
-  Verified on: $subdate";
-  
-if (!empty($_POST['pp_date']))
-    $reportcard .= "\n  Submitted by PP on: $_POST[pp_date]";
-
-$reportcard .= "\n\nGeneral Post-Processing Information
-
-  PPing Difficulty: $_POST[difficulty_level_pp]
-  Overall evaluation of PPer's work: $_POST[eval]";
-
-if(!empty($_POST['general_comments']))
-    $reportcard .= "\n  General comments:  \n    $_POST[general_comments]";
-if(!empty($_POST['reason_returned']))
-    $reportcard .=  "\n\n  Reason project was returned to PPer (if any): \n    $_POST[reason_returned]";
-
-if (@$_POST['html_sub'] == "yes") {
-  $reportcard .= "\n\n\nHTML Version: submitted.\n\n  Issues with HTML version (if any):";
-  if($_POST['html_markup'])      $reportcard .= "\n    Markup";
-  if($_POST['html_css'])         $reportcard .= "\n    CSS";
-  if($_POST['html_links'])       $reportcard .= "\n    Internal links";
-  if($_POST['html_image_links']) $reportcard .= "\n    Links to images";
-  if($_POST['html_image_size'])  $reportcard .= "\n    Image size/quality";
-  if($_POST['html_header'])      $reportcard .= "\n    Header";
-  if($_POST['html_desc'])        $reportcard .= "\n\n  General comments on HTML:\n    $_POST[html_desc]";
-}
-else {
-    $reportcard .= "\n\nNo HTML version submitted\n";
-}
-
-if (@$_POST['tables'] || @$_POST['poetry'] || @$_POST['footnotes'] || 
-    @$_POST['sidenotes'] || @$_POST['index'] || @$_POST['blockquotes'] ||
-    @$_POST['multilang'] || @$_POST['illustrations'] || @$_POST['unusual_formatting'])
-{
-    $reportcard .= "\n\nComplexity Details\n";
-    $reportcard .= "  Present in the text:";
-
-    if(@$_POST['tables'])        $reportcard .= "\n    Tables";
-    if(@$_POST['poetry'])        $reportcard .= "\n    Poetry";
-    if(@$_POST['footnotes'])     $reportcard .= "\n    Footnotes";
-    if(@$_POST['sidenotes'])     $reportcard .= "\n    Sidenotes";
-    if(@$_POST['index'])         $reportcard .= "\n    Index";
-    if(@$_POST['blockquotes'])   $reportcard .= "\n    Blockquotes";
-    if(@$_POST['multilang'])     $reportcard .= "\n    Multiple languages";
-    if(@$_POST['illustrations']) $reportcard .= "\n    $_POST[illus_num] Illustrations";
-
-    if(!empty($_POST['unusual_formatting']))
-        $reportcard .= "\n\n  Unusual formatting:\n    $_POST[unusual_formatting]";
-}
-
-if ($_POST['e_spellcheck_num'] || $_POST['e_hyph_num'] || $_POST['e_gutcheck_num'] ||
-    $_POST['e_other_num'] || $_POST['e_comma_num'] || $_POST['e_html_num'] || 
-    $_POST['other_error_type'])
-{
-    $reportcard .= "\n\nApproximate error numbers:";
-    if($_POST['e_spellcheck_num']) $reportcard .= "\n  Spellcheck/Scannos: $_POST[e_spellcheck_num]";
-    if($_POST['e_comma_num'])      $reportcard .= "\n  Comma/Period: $_POST[e_comma_num]";
-    if($_POST['e_gutcheck_num'])   $reportcard .= "\n  Gutcheck: $_POST[e_gutcheck_num]";
-    if($_POST['e_jeebies_num'])    $reportcard .= "\n  Jeebies: $_POST[e_jeebies_num]";
-    if($_POST['e_hyph_num'])       $reportcard .= "\n  Hyphens/Em dashes: $_POST[e_hyph_num]";
-    if($_POST['e_html_num'])       $reportcard .= "\n  HTML: $_POST[e_html_num]";
-    if($_POST['e_other_num'])      $reportcard .= "\n  Other errors: $_POST[e_other_num]";
-
-    if($_POST['other_error_type'])
-        $reportcard .= "\n  Other errors (details):\n    $_POST[other_error_type]";
-}
-
-
-if (get_magic_quotes_gpc())
-{
-    $reportcard = stripslashes($reportcard);
-    $promotions = stripslashes($promotions);
-}
-
-
-if ($_POST['cc_pp'])
-{
-   	$to = $pper->email;
-   	$subject = "$site_abbreviation PP: $nameofwork";
-   	$message = $ppbit.$reportcard.$signoff;
-    maybe_mail($to, $subject, $message);
-}
-
-if ($_POST['cc_ppv']) {
-   	$to = $ppver->email;
-   	$subject = "$site_abbreviation PPV: $nameofwork";
-   	$message = $ppvbit.$reportcard.$signoff;
-    maybe_mail($to, $subject, $message);
-}
-
-$to = $ppv_reporting_email_addr;
-$subject = "PPV Summary - $pper->username ($_POST[eval])";
-$message = $promotions.$reportcard.$signoff;
-maybe_mail($to, $subject, $message, array("From: $ppver->username <$ppver->email>"));
-echo _("Thank you for PPVing!") . "<br />\n";
-printf(_("Return to <a href='%s'>the Project Page</a>"), "../../project.php?id=$projectid");
-exit();
-}
+        Number of books post-processed by $project->postproofer (including this one): $number_post_processed
 
 
-else {
+    Project Information
 
-function textarea_size_control($id, $br = true)
-{
-    return ($br?'<br />':'') . "<div class='shrinker'>".
-	    "<a onclick='grow_textarea(\"$id\")'>+</a>&nbsp;".
-		"<a onclick='shrink_textarea(\"$id\")'>&minus;</a></div>";
-}
+        projectID: $projectid
+        Title: $nameofwork
+        Author: $authorsname
+        Language: $language
+        Proofreading Difficulty: $difficulty_level
+        Number of pages: $pages
+        Post-processed by: $project->postproofer
+        Verified by: $pguser
+        Verified on: $subdate
+        Submitted by PP on: $pp_date
 
-echo "<br />
+    General Post-Processing Information
 
-      <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&send=1'
-			 name='ppvform' method='post'>
-      <table border='1' id='report_card' style='width: 95%';>
+        PPing Difficulty: $pp_difficulty_level
+        Overall evaluation of PPer's work: $pp_evaluation";
 
-      <tr><td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>
-      "._("Project Information")."</td></tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Project ID")."</b></td>
-        <td><input type='hidden' name='projectid' value='$projectid'>$projectid</td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Name of Work")."</b></td>
-        <td>$nameofwork</td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Author's Name")."</b></td>
-        <td>$authorsname</td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Language")."</b></td>
-        <td>$language</td></tr>\n
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Difficulty")."</b></td>
-        <td>$difficulty_level</td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Pages")."</b></td>
-        <td>$pages</td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Post-Processed by")."</b></td>
-        <td>$pper->username<br>
-        " . sprintf(_("Number of books post-processed by %1\$s (including this one): %2\$d"),
-            $pper->username, $number_post_processed) . "</td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Submitted by PP on")."</b></td>
-        <td><input type='text' size='20' name='pp_date' id='pp_date' value='$pp_date'></td>
-      </tr>
+    $reportcard .= $pping_complexity;
 
+    $reportcard .= "\n\n  Level 1 Errors:";
+    $reportcard .= "\n\n    All Versions:";
+    if (!$_POST['e1_spellcheck_num'] && !$_POST['e1_gutcheck_num'] && !$_POST['e1_jeebies_num'] && !$_POST['e1_para_num']
+            && !$_POST['e1_hyph_num'] && !$_POST['e1_chap_num'] && !$_POST['e1_format_num'] && !$_POST['e1_xhtml_genother_num']) {
+        $reportcard .= "\n      None";
+    } else {
+        if ($_POST['e1_spellcheck_num'])     $reportcard .= "\n      $_POST[e1_spellcheck_num] Spellcheck/Scanno errors";
+        if ($_POST['e1_gutcheck_num'])       $reportcard .= "\n      $_POST[e1_gutcheck_num] Gutcheck-type errors, e.g. punctuation, hyphen/emdash, missing/extra space, line length, illegal characters, etc.";    
+        if ($_POST['e1_jeebies_num'])        $reportcard .= "\n      $_POST[e1_jeebies_num] Jeebies errors (English only)";  
+        if ($_POST['e1_para_num'])           $reportcard .= "\n      $_POST[e1_para_num] Paragraph breaks missing or incorrectly added";
+        if ($_POST['e1_hyph_num'])           $reportcard .= "\n      $_POST[e1_hyph_num] A few occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)";
+        if ($_POST['e1_chap_num'])           $reportcard .= "\n      $_POST[e1_chap_num] Chapter and other headings inconsistently spaced, aligned, capitalized or punctuated";
+        if ($_POST['e1_format_num'])         $reportcard .= "\n      $_POST[e1_format_num] Formatting inconsistencies (e.g., in margins, blank lines, etc.)";
+        if ($_POST['e1_xhtml_genother_num']) $reportcard .= "\n      $_POST[e1_xhtml_genother_num] Other minor errors (such as a minor rewrap error, misplaced entry in the TN, or minor inconsistency between the text and HTML versions) (Please explain in the Comments Field)";
+    }
+    $reportcard .= "\n\n    HTML Version Only:";
+    if (!$_POST['e1_unused_num'] && !$_POST['e1_imagesize_num'] && !$_POST['e1_blemish_num'] && !$_POST['e1_distort_num']
+            && !$_POST['e1_alt_num'] && !$_POST['e1_px_num'] && !$_POST['e1_title_num'] && !$_POST['e1_pre_num'] && !$_POST['e1_body_num']
+            && !$_POST['e1_css_num'] && !$_POST['e1_xhtml_num'] && !$_POST['e1_chapter_num'] && !$_POST['e1_xhtml_genhtml_num']
+            && !$_POST['e1_tabl_num']) {
+        $reportcard .= "\n      None";
+    }
+    if ($_POST['e1_unused_num'])         $reportcard .= "\n      $_POST[e1_unused_num] Unused files in images folder (Thumbs.db is not counted toward rating)";
+    if ($_POST['e1_imagesize_num'])      $reportcard .= "\n      $_POST[e1_imagesize_num] Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed the limits described here, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception).";
+    if ($_POST['e1_blemish_num'])        $reportcard .= "\n      $_POST[e1_blemish_num] Images with major blemishes, uncorrected rotation/distortion or without appropriate cropping";
+    if ($_POST['e1_distort_num'])        $reportcard .= "\n      $_POST[e1_distort_num] Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi";
+    if ($_POST['e1_alt_num'])            $reportcard .= "\n      $_POST[e1_alt_num] Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist";
+    if ($_POST['e1_px_num'])             $reportcard .= "\n      $_POST[e1_px_num] Use of px sizing units for items other than images";
+    if ($_POST['e1_title_num'])          $reportcard .= "\n      $_POST[e1_title_num] &lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;The Project Gutenberg eBook of Alice's Adventures in Wonderland, by Lewis Carroll&lt;title&gt; or &lt;title&gt;Alice's Adventures in Wonderland, by Lewis Carroll&mdash;A Project Gutenberg eBook&lt;title&gt;)";
+    if ($_POST['e1_pre_num'])            $reportcard .= "\n      $_POST[e1_pre_num] Use of &lt;pre&gt; tags instead of their CSS equivalents";
+    if ($_POST['e1_body_num'])           $reportcard .= "\n      $_POST[e1_body_num] Failure to place &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;/head&gt;&lt;/body&gt;, and &lt;/html&gt; tags each on their own line and correctly use them";
+    if ($_POST['e1_tabl_num'])           $reportcard .= "\n      $_POST[e1_tabl_num] Use of tables for things that are not tables";
+    if ($_POST['e1_css_num'])            $reportcard .= "\n      $_POST[e1_css_num] Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element)";
+    if ($_POST['e1_xhtml_num'])          $reportcard .= "\n      $_POST[e1_xhtml_num] Used HTML version other than XHTML 1.0 Strict or 1.1";
+    if ($_POST['e1_chapter_num'])        $reportcard .= "\n      $_POST[e1_chapter_num] Failure to add &lt;div class=\"chapter\"&gt; at chapter breaks to enable proper page breaks for ereaders";
+    if ($_POST['e1_xhtml_genhtml_num'])  $reportcard .= "\n      $_POST[e1_xhtml_genhtml_num] Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field)";
 
-      <tr>
-        <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>
-          "._("General Information")."
-        </td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Estimated Difficulty to PP")."</b></td>
-        <td>
-            <label for='difficulty_level_pp_easy'>
-			    <input type='radio' name='difficulty_level_pp' id='difficulty_level_pp_easy' value='Easy'>"._("Easy")."&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <label for='difficulty_level_pp_average'>
-                <input type='radio' name='difficulty_level_pp' id='difficulty_level_pp_average' value='Average'>"._("Average")."&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <label for='difficulty_level_pp_difficult'>
-                <input type='radio' name='difficulty_level_pp' id='difficulty_level_pp_difficult' value='Difficult'>"._("Difficult")."</label>
-        </td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Overall evaluation of PPer's work on this project")."</b></td>
-        <td>
-            <label for='eval_excellent'>
-			    <input type='radio' name='eval' id='eval_excellent' value='Excellent'>"._("Excellent")."&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <label for='eval_verygood'>
-			    <input type='radio' name='eval' id='eval_verygood' value='Very Good'>"._("Very Good")."&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <label for='eval_good'>
-			    <input type='radio' name='eval' id='eval_good' value='Good'>"._("Good")."&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <label for='eval_fair'>
-			    <input type='radio' name='eval' id='eval_fair' value='Fair'>"._("Fair")."&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <label for='eval_poor'>
-			    <input type='radio' name='eval' id='eval_poor' value='Poor'>"._("Poor")."</label>
-        </td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'>
-          <b>"._("If you had to return the project to the PPer for revisions, what was the reason?")."</b>
-        </td>
-        <td><textarea rows='4' cols='67' name='reason_returned' id='reason_returned' wrap='physical'></textarea>".textarea_size_control('reason_returned')."</td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>" . 
-        _("General comments on this project or your experience with working with this PPer.")
-        . "</b></td>
-        <td><textarea rows='4' cols='67' name='general_comments' id='general_comments'  wrap='physical'></textarea>".textarea_size_control('general_comments')."</td>
-      </tr>
+    $reportcard .= "\n\n  Level 2 Errors:";
+    $reportcard .= "\n\n    All Versions:";
+    if (!$_POST['e2_markup_num'] && !$_POST['e2_poetry_num'] && !$_POST['e2_foot_num'] && !$_POST['e2_printers_num']
+            && !$_POST['e2_missing_num'] && !$_POST['e2_rewrap_num'] && !$_POST['e2_hyphen_num'] && !$_POST['e2_gen_num']) {
+        $reportcard .= "\n      None";
+    } else {
+        if ($_POST['e2_markup_num'])     $reportcard .= "\n      $_POST[e2_markup_num] Markup not handled (e.g., blockquotes, poetry indentation, or widespread failure to mark italics)";
+        if ($_POST['e2_poetry_num'])     $reportcard .= "\n      $_POST[e2_poetry_num] Poetry indentation does not match original";    
+        if ($_POST['e2_foot_num'])       $reportcard .= "\n      $_POST[e2_foot_num] Footnotes/footnote markers missing or incorrectly placed";  
+        if ($_POST['e2_printers_num'])   $reportcard .= "\n      $_POST[e2_printers_num] Printers' errors not addressed";
+        if ($_POST['e2_missing_num'])    $reportcard .= "\n      $_POST[e2_missing_num] Missing page(s) or substantial sections of missing text";
+        if ($_POST['e2_rewrap_num'])     $reportcard .= "\n      $_POST[e2_rewrap_num] Substantial rewrapping errors, e.g., poetry has been rewrapped or text version generally not rewrapped to required length (not exceeding 75 characters or falling below 55 characters) except where unavoidable, e.g., some tables though the aim should be 72 characters";
+        if ($_POST['e2_hyphen_num'])     $reportcard .= "\n      $_POST[e2_hyphen_num] Widespread/general occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)";
+        if ($_POST['e2_gen_num'])        $reportcard .= "\n      $_POST[e2_gen_num] Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field)";
+    }
+    $reportcard .= "\n\n    HTML Version Only:";
+    if (!$_POST['e2_tidy_num'] && !$_POST['e2_csscheck_num'] && !$_POST['e2_links_num'] && !$_POST['e2_file_num']
+            && !$_POST['e2_cover_num'] && !$_POST['e2_epub_num'] && !$_POST['e2_heading_num']) {
+        $reportcard .= "\n      None";
+    } else {
+        if ($_POST['e2_tidy_num'])       $reportcard .= "\n      $_POST[e2_tidy_num] The W3C Markup Validation Service generates errors or warning messages (Please enter number of errors)";
+        if ($_POST['e2_csscheck_num'])   $reportcard .= "\n      $_POST[e2_csscheck_num] The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element (Please enter number of errors)";
+        if ($_POST['e2_links_num'])      $reportcard .= "\n      $_POST[e2_links_num] Non-working links within HTML or to images. (Either broken or link to wrong place/file)";
+        if ($_POST['e2_file_num'])       $reportcard .= "\n      $_POST[e2_file_num] File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc.";
+        if ($_POST['e2_cover_num'])      $reportcard .= "\n      $_POST[e2_cover_num] Cover image has not been included and/or has not been coded for e-reader use. (For example, the cover should be 600x800px or at least 500px wide and no more than 800px high and should be called cover.jpg. Also, if the cover is newly created, it must meet current DP guidelines.)";
+        if ($_POST['e2_epub_num'])       $reportcard .= "\n      $_POST[e2_epub_num] Project not presentable/useable when put through epubmaker";
+        if ($_POST['e2_heading_num'])    $reportcard .= "\n      $_POST[e2_heading_num] Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)";
+    }
 
-      <tr>
-      <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>
-         "._("HTML Version")."
-         </td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("HTML submitted")."</b></td>
-        <td>
-            <label for='html_sub_yes'>
-                <input type='radio' name='html_sub' id='html_sub_yes' value='yes' onclick='set_html(false)'>"._("Yes")."&nbsp;&nbsp;&nbsp;</label>
-            <label for='html_sub_no'>
-			    <input type='radio' name='html_sub' id='html_sub_no' value='no' onclick='set_html(true)'>"._("No")."</label>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Issues with the HTML version")."</b></td>
-        <td>
-          <input type='checkbox' name='html_markup' id='html_markup' disabled><label for='html_markup'>"._("Markup")."</label><br />\n
-          <input type='checkbox' name='html_css' id='html_css' disabled><label for='html_css'>"._("CSS")."</label><br />\n
-          <input type='checkbox' name='html_links' id='html_links' disabled><label for='html_links'>"._("Internal links")."</label><br />\n
-          <input type='checkbox' name='html_image_links' id='html_image_links' disabled><label for='html_image_links'>"._("Links to images")."</label><br />\n
-          <input type='checkbox' name='html_image_size' id='html_image_size' disabled><label for='html_image_size'>"._("Image quality/size")."</label><br />\n
-          <input type='checkbox' name='html_header' id='html_header' disabled><label for='html_header'>"._("Header")."</label><br />\n
-        </td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("General comments on HTML version")."</b></td>
-        <td><textarea rows='4' cols='67' name='html_desc' id='html_desc' wrap='physical' disabled></textarea>".textarea_size_control('html_desc')."</td>
-      </tr>
-      <tr>
-        <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>
-          "._("Complexity Details (Recommended)")."
-        </td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Present in the text")."</b></td>
-        <td>
-          <input type='checkbox' name='tables' id='tables'><label for='tables'>"._("Tables")."</label><br />\n
-          <input type='checkbox' name='poetry' id='poetry'><label for='poetry'>"._("Poetry")."</label><br />\n
-          <input type='checkbox' name='index' id='index'><label for='index'>"._("Index")."</label><br />\n
-          <input type='checkbox' name='footnotes' id='footnotes'><label for='footnotes'>"._("Footnotes")."</label><br />\n
-          <input type='checkbox' name='sidenotes' id='sidenotes'><label for='sidenotes'>"._("Sidenotes")."</label><br />\n
-          <input type='checkbox' name='blockquotes' id='blockquotes'><label for='blockquotes'>"._("Blockquotes")."</label><br />\n
-          <input type='checkbox' name='illustrations' id='illustrations'><label for='illustrations'>"._("Illustrations: ")."</label><label for='illus_num'>"._("(Number of)")."</label>
-            <input type='text' size='3' name='illus_num' id='illus_num'><br />\n
-          <input type='checkbox' name='multilang' id='multilang'><label for='multilang'>"._("Multiple Languages")."</label><br />\n
-        </td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Any other unusual formatting")."</b></td>
-        <td><textarea rows='3' cols='67' name='unusual_formatting' id='unusual_formatting' wrap='physical'></textarea>".textarea_size_control('unusual_formatting')."</td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Approximate number of errors")."</b></td><td>
-          <input type='text' size='3' name='e_spellcheck_num' id='e_spellcheck_num'> "._("Spellcheck/Scannos")."<br />
-          <input type='text' size='3' name='e_comma_num' id='e_comma_num'> "._("Comma/Period Error")."<br />
-          <input type='text' size='3' name='e_gutcheck_num' id='e_gutcheck_num'> "._("Gutcheck")."<br />
-          <input type='text' size='3' name='e_jeebies_num' id='e_jeebies_num'> "._("Jeebies")."<br />
-          <input type='text' size='3' name='e_hyph_num' id='e_hyph_num'> "._("Hyphens/Em dashes")."<br />
-          <input type='text' size='3' name='e_html_num' id='e_html_num'> HTML<br />
-          <input type='text' size='3' name='e_other_num' id='e_other_num'> "._("Other: (specify below)")."<br />
-					  <textarea rows='3' cols='67' name='other_error_type' id='other_error_type' wrap='physical'></textarea>".textarea_size_control('other_error_type')."
-        </td>
-      </tr>
-      <tr>
-        <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>"._("Promotions")."</td>
-      </tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'>
-          "._("<b>Comments regarding the promotion of the PPer</b> <small>(This section will not be sent to the PPer,
-               even if you request they be sent a copy of the report card)</small>")."<b>:</b>
-        </td>
-        <td><textarea rows='4' cols='67' name='promotions' id='promotions' wrap='physical'></textarea>".textarea_size_control('promotions')."</td>
-      </tr>
+    $reportcard .= "\n\n  Strongly Recommended (These don't count as errors but should be corrected):";
+    if (!isset($_POST['s_multi']) && !isset($_POST['s_empty']) && !isset($_POST['s_list']) && !isset($_POST['s_text'])
+            && !isset($_POST['s_code']) && !isset($_POST['s_tables']) && !isset($_POST['s_th']) && !isset($_POST['s_thumbs'])
+            && !isset($_POST["s_ereader"])) {
+        $reportcard .= "\n    None";
+    } else {
+        if (isset($_POST['s_multi']))     $reportcard .= "\n    Enclose entire multi-part headings within the related heading tag";
+        if (isset($_POST['s_empty']))     $reportcard .= "\n    Avoid using empty tags (with &amp;nbsp; entities) or &lt;br /&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though";
+        if (isset($_POST['s_list']))      $reportcard .= "\n    List Tags should be used for lists (e.g., a normal index)";
+        if (isset($_POST['s_text']))      $reportcard .= "\n    Include all text as text, not just as images";
+        if (isset($_POST['s_code']))      $reportcard .= "\n    Keep your code line lengths reasonable";
+        if (isset($_POST['s_tables']))    $reportcard .= "\n    Tables should display left, right, and center justification and top and bottom align appropriately";
+        if (isset($_POST['s_th']))        $reportcard .= "\n    Tables contain &lt;th&gt; elements for headings";
+        if (isset($_POST['s_thumbs']))    $reportcard .= "\n    Remove thumbs.db file from the images folder";
+        if (isset($_POST['s_ereader']))   $reportcard .= "\n    E-reader version, although without major flaws, should also look as good as possible";
+    }
+    $reportcard .= "\n\n  Mildly Recommended (These don't count as errors):";
+    if (!isset($_POST['m_semantic']) && !isset($_POST['m_space']) && !isset($_POST['m_unusedcss'])) {
+        $reportcard .= "\n    None";
+    } else {
+        if (isset($_POST['m_semantic']))  $reportcard .= "\n    Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them";
+        if (isset($_POST['m_space']))     $reportcard .= "\n    Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)";
+        if (isset($_POST['m_unusedcss'])) $reportcard .= "\n    Ensure that there are no unused elements in the CSS (other than the base HTML headings)";
+    }
 
-      <tr><td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>
-        "._("Copies")."
-      </td></tr>
-      <tr>
-        <td bgcolor='#CCCCCC' style='width: 40%;'><b>"._("Send to")."</b></td>
-        <td><input type='checkbox' name='cc_ppv' id='cc_ppv' /><label for='cc_ppv'>"._("Me")."</label><br />
-            <input type='checkbox' name='cc_pp' checked id='cc_pp' /><label for='cc_pp'>$pper->username</label><br />
-            <input type='checkbox' name='foo' checked disabled />"._("PPV Summary (mailing list)")."
-        </td>
-      </tr>
-          <tr><td colspan='2' style='text-align: center'>
-          <input type='submit' value='".attr_safe(_("Send"))."' 
-              onClick='return confirmExit();'></td></tr>
-</table>
-</form>";
+    if(!empty($_POST['general_comments']))
+        $reportcard .= "\n\n  General comments:  \n    $_POST[general_comments]";
+    if(!empty($_POST['reason_returned']))
+        $reportcard .=  "\n\n  Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain): \n    $_POST[reason_returned]";
+    $reportcard .= "\n\n" . $site_signoff;
+
+    if (get_magic_quotes_gpc())
+        $reportcard = stripslashes($reportcard);
+
+    echo _("Please check the information below to make sure everything is correct.
+        To return to the form, simply use your browser's back button.") . "<br />\n";
+    echo "<pre>" . $reportcard . "</pre>";
+    echo "<form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&send=1' name='ppvform' method='post'>
+                <input type='hidden' name='reportcard' value='" . htmlspecialchars($reportcard, ENT_QUOTES) . "'/>
+                <input type='hidden' name='pp_evaluation' value='" . htmlspecialchars($pp_evaluation, ENT_QUOTES) . "'/>";
+    if (isset($_POST['cc_pp']))
+        echo "<input type='hidden' name='cc_pp'/>";
+    if (isset($_POST['cc_ppv']))
+        echo "<input type='hidden' name='cc_ppv'/>";
+    echo "<input type='submit' value='".attr_safe(_("Send"))."'></form>";
+} else if (isset($_GET['send'])) {
+    $pper = mysql_fetch_object(mysql_query("SELECT email, u_intlang FROM users WHERE username = '$project->postproofer'"));
+    $ppver = mysql_fetch_object(mysql_query("SELECT email, u_intlang FROM users WHERE username = '$pguser'"));
+    if (get_magic_quotes_gpc())
+        $reportcard = stripslashes($_POST["reportcard"]);
+
+    // The Spanish PPer shouldn't get a French email because that's the PPVer's
+    // language, so temporarily change the current locale.
+    setlocale(LC_ALL,$pper->u_intlang);
+    $ppbita = _("Hello %1\$s,
+
+    This is a message that your Post-Processing Verifier, %2\$s,
+    requested you receive from the %4\$s site.
+
+    Thank you for your Post-Processing work on \"%3\$s\".
+    A copy of the PPV Summary is below. If you have any questions about it, please contact your PPVer.");
+    $ppbit = sprintf($ppbita, $project->postproofer, $pguser, $nameofwork, $site_name);
+
+    setlocale(LC_ALL,$ppver->u_intlang);
+    $ppvbita = _("Hello %1\$s,
+
+    This is a message that you requested you receive from the %4\$s
+    site.
+
+    Thank you for your Post-Processing Verification work on \"%2\$s\".
+    A copy of the summary you submitted is below. If you see an important error,
+    please email %3\$s.");
+
+    $ppvbit = sprintf($ppvbita, $pguser, $nameofwork, $general_help_email_addr, $site_name);
+    if (isset($_POST['cc_pp'])) {
+        $to = $pper->email;
+        $subject = "$site_abbreviation PP: $nameofwork";
+        $message = $ppbit . $reportcard;
+        maybe_mail($to, $subject, $message);
+    }
+
+    if (isset($_POST['cc_ppv'])) {
+        $to = $ppver->email;
+        $subject = "$site_abbreviation PPV: $nameofwork";
+        $message = $ppvbit . $reportcard;
+        maybe_mail($to, $subject, $message);
+    }
+
+    $to = $ppv_reporting_email_addr;
+    $subject = "PPV Summary - $project->postproofer ($_POST[pp_evaluation])";
+    $message = $reportcard;
+    maybe_mail($to, $subject, $message, array("From: $pguser <$ppver->email>"));
+    printf(_("Return to <a href='%s'>the Project Page</a>"), "../../project.php?id=$projectid");
+    exit();
+} else {
+    function textarea_size_control($id)
+    {
+        return "<br /><div class='shrinker'><a onclick='grow_textarea(\"$id\")'>+</a>&nbsp;<a onclick='shrink_textarea(\"$id\")'>&minus;</a></div>";
+    }
+
+    echo "<br />
+          <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&confirm=1' name='ppvform' method='post'>
+          <table border='1' id='report_card' style='width: 95%'>
+
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>"._("Project Information")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Project ID")."</b></td>
+                    <td><input type='hidden' name='projectid' value='$projectid'>$projectid</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Name of Work")."</b></td>
+                    <td>$nameofwork</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Author's Name")."</b></td>
+                    <td>$authorsname</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Language")."</b></td>
+                    <td>$language</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Difficulty")."</b></td>
+                    <td>$difficulty_level</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Pages")."</b></td>
+                    <td>$pages</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Post-Processed by")."</b></td>
+                    <td>$project->postproofer<br>
+                    " . sprintf(_("Number of books post-processed by %1\$s (including this one): %2\$d"),
+                            $project->postproofer, $number_post_processed) . "</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Submitted by PP on")."</b></td>
+                    <td>$pp_date</td>
+                </tr>
+
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>"._("General Information")."</td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("Difficulty Details")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>File Information</b></td>
+                        <td><p class='single'><input type='text' size='5' name='kb_size' id='kb_size'>&nbsp;&nbsp;"._("Text File Size in kb (Please do not insert commas. For example, you should input 1450 instead of 1,450 and, if you use commas as decimal marks, 1450.5 instead of 1450,5)")."</p>
+                    </td>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Present in the text")."</b></td>
+                    <td>
+                        <input type='checkbox' name='some_poetry' id='some_poetry'><label for='some_poetry'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_poetry' id='sig_poetry'><label for='sig_poetry'>"._("Significant Amount")."</label> &mdash; "._("Poetry (other than straight poetry)")."<br />
+                        <input type='checkbox' name='some_block' id='some_block'><label for='some_block'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_block' id='sig_block'><label for='sig_block'>"._("Significant Amount")."</label> &mdash; "._("Blockquotes")."<br />
+                        <input type='checkbox' name='some_foot' id='some_foot'><label for='some_foot'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_foot' id='sig_foot'><label for='sig_foot'>"._("Significant Amount")."</label> &mdash;  "._("Footnotes")."<br />
+                        <input type='checkbox' name='some_side' id='some_side'><label for='some_side'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_side' id='sig_side'><label for='sig_side'>"._("Significant Amount")."</label> &mdash; "._("Sidenotes")."<br />
+                        <input type='checkbox' name='some_ads' id='some_ads'><label for='some_ads'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_ads' id='sig_ads'><label for='sig_ads'>"._("Significant Amount")."</label> &mdash; "._("Advertisements")."<br />
+                        <input type='checkbox' name='some_tables' id='some_tables'><label for='some_tables'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_tables' id='sig_tables'><label for='sig_tables'>"._("Significant Amount")."</label> &mdash; "._("Tables")."<br />
+                        <input type='checkbox' name='some_drama' id='some_drama'><label for='some_drama'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_drama' id='sig_drama'><label for='sig_drama'>"._("Significant Amount")."</label> &mdash; "._("Drama")."<br />
+                        <input type='checkbox' name='some_index' id='some_index'><label for='some_index'>"._("Small")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_index' id='sig_index'><label for='sig_index'>"._("Significant Size")."</label> &mdash; "._("Index")."<br />
+                        <input type='checkbox' name='some_illos' id='some_illos'><label for='some_illos'>"._("Illustrations (other than minor decorations or logos):")." </label><label for='num_illos'>"._("(Number of)")."</label>
+                            <input type='text' size='3' name='num_illos' id='num_illos'><br />
+                        <input type='checkbox' name='sig_illos' id='sig_illos'><label for='sig_illos'>"._("Illustrations requiring advanced preparation and/or difficult placement")."</label><br />
+                        <input type='checkbox' name='sig_multilang' id='sig_multilang'><label for='sig_multilang'>"._("Multiple Languages")." <a href='#languages'>*</a></label><br />
+                        <input type='checkbox' name='sig_englifh' id='sig_englifh'><label for='sig_englifh'>"._("Englifh")."</label><br />
+                        <input type='checkbox' name='sig_music' id='sig_music'><label for='sig_music'>"._("Musical Notation and Files")."</label><br />
+                        <input type='checkbox' name='sig_math' id='sig_math'><label for='sig_math'>"._("Extensive mathematical/chemical notation")."</label><br />
+                    </td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'></td>
+                    <td>
+                        <a id='languages'>*</a><b> "._("How to define multiple languages:")."</b><br />
+                        <ul>
+                            <li>"._("If the book is English on one page and Latin on the facing page, it counts as multiple languages.")."</li>
+                            <li>"._("If the author is travelling and repeatedly reports conversations in the foreign language of the country, it counts as multiple languages.")."</li>
+                            <li>"._("If extensive (several long paragraphs or more) quotations in a language other than the base language are present, it counts as multiple languages.")."</li>
+                            <li>"._("If the Frenchman in the novel says \"Zut!\" a lot, it does NOT count as multiple languages.")."</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("ERRORS")."</td>
+                </tr>
+                <tr>
+                    <td colspan='2'><div style='margin-left:5%;margin-right:5%;'>
+                        <p>"._("Errors such as failure to grasp the italics guidelines are counted as one error, not one error each time italics are wrongly handled. Errors such as he/be errors are each counted as individual errors (i.e., 3 \"he\" instead of \"be\" count as 3 errors).")."</p>
+                        <p>"._("If the PPer is asked to resubmit a corrected file, then any errors not corrected or new errors introduced are added to the total number of errors for rating purposes.")."</p></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("LEVEL 1 (Minor Errors)")."</td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("All Versions")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
+                    <td>
+                        <p class='single'><input type='text' size='3' name='e1_spellcheck_num' id='e1_spellcheck_num'>&nbsp;&nbsp;"._("Spellcheck/Scanno errors")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_gutcheck_num' id='e1_gutcheck_num'>&nbsp;&nbsp;"._("Gutcheck-type errors, e.g. punctuation, hyphen/emdash, missing/extra space, line length, illegal characters, etc.")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_jeebies_num' id='e1_jeebies_num'>&nbsp;&nbsp;"._("Jeebies errors (English only)")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_para_num' id='e1_para_num'>&nbsp;&nbsp;"._("Paragraph breaks missing or incorrectly added")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_hyph_num' id='e1_hyph_num'>&nbsp;&nbsp;"._("A few occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_chap_num' id='e1_chap_num'>&nbsp;&nbsp;"._("Chapter and other headings inconsistently spaced, aligned, capitalized or punctuated")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_format_num' id='e1_format_num'>&nbsp;&nbsp;"._("Formatting inconsistencies (e.g., in margins, blank lines, etc.)")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_xhtml_genother_num' id='e1_xhtml_genother_num'>&nbsp;&nbsp;"._("Other minor errors (such as a minor rewrap error, misplaced entry in the TN, or minor inconsistency between the text and HTML versions) (Please explain in the Comments Field)")."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("HTML Version Only")."</td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("Images")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
+                    <td>
+                        <p class='single'><input type='text' size='3' name='e1_unused_num' id='e1_unused_num'>&nbsp;&nbsp;"._("Unused files in images folder (Thumbs.db is not counted toward rating)")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_imagesize_num' id='e1_imagesize_num'>&nbsp;&nbsp;"._("Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed the limits described <a href='http://www.pgdp.net/wiki/Guide_to_Image_Processing#Image_Display_Dimensions:_Considerations'>here</a>, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception).")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_blemish_num' id='e1_blemish_num'>&nbsp;&nbsp;"._("Images with major blemishes, uncorrected rotation/distortion or without appropriate cropping")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_distort_num' id='e1_distort_num'>&nbsp;&nbsp;"._("Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_alt_num' id='e1_alt_num'>&nbsp;&nbsp;"._("Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist")."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("HTML Code")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
+                    <td>
+                        <p class='single'><input type='text' size='3' name='e1_px_num' id='e1_px_num'>&nbsp;&nbsp;"._("Use of px sizing units for items other than images")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_title_num' id='e1_title_num'>&nbsp;&nbsp;"._("&lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;The Project Gutenberg eBook of Alice's Adventures in Wonderland, by Lewis Carroll&lt;/title&gt; or &lt;title&gt;Alice's Adventures in Wonderland, by Lewis Carroll&mdash;A Project Gutenberg eBook&lt;/title&gt;)")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_pre_num' id='e1_pre_num'>&nbsp;&nbsp;"._("Use of &lt;pre&gt; tags instead of their CSS equivalents")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_body_num' id='e1_body_num'>&nbsp;&nbsp;"._("Failure to place &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;/head&gt;&lt;/body&gt;, and &lt;/html&gt; tags each on their own line and correctly use them")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_tabl_num' id='e1_tabl_num'>&nbsp;&nbsp;"._("Use of tables for things that are not tables")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_css_num' id='e1_css_num'>&nbsp;&nbsp;"._("Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element)")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_xhtml_num' id='e1_xhtml_num'>&nbsp;&nbsp;"._("Used HTML version other than XHTML 1.0 Strict or 1.1")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_chapter_num' id='e1_chapter_num'>&nbsp;&nbsp;"._("Failure to add &lt;div class=\"chapter\"&gt; at chapter breaks to enable proper page breaks for ereaders")."</p>
+                        <p class='single'><input type='text' size='3' name='e1_xhtml_genhtml_num' id='e1_xhtml_genhtml_num'>&nbsp;&nbsp;"._("Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field)")."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("LEVEL 2 (Major Errors)")."</td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("All Versions")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
+                    <td>
+                        <p class='single'><input type='text' size='3' name='e2_markup_num' id='e2_markup_num'>&nbsp;&nbsp;"._("Markup not handled (e.g. blockquotes, poetry indentation, or widespread failure to mark italics)")."</p>
+                        <p class='single'><input type='text' size='3' name='e2_poetry_num' id='e2_poetry_num'>&nbsp;&nbsp;"._("Poetry indentation does not match original")."</p>
+                        <p class='single'><input type='text' size='3' name='e2_foot_num' id='e2_foot_num'>&nbsp;&nbsp;"._("Footnotes/footnote markers missing or incorrectly placed")."</p>
+                        <p class='single'><input type='text' size='3' name='e2_printers_num' id='e2_printers_num'>&nbsp;&nbsp;"._("Printers' errors not addressed")." <a href='#print'>**</a></p>
+                        <p class='single'><input type='text' size='3' name='e2_missing_num' id='e2_missing_num'>&nbsp;&nbsp;"._("Missing page(s) or substantial sections of missing text")."</p>
+                        <p class='single'><input type='text' size='3' name='e2_rewrap_num' id='e2_rewrap_num'>&nbsp;&nbsp;"._("Substantial rewrapping errors, e.g., poetry has been rewrapped or text version generally not rewrapped to required length (not exceeding 75 characters or falling below 55 characters) except where unavoidable, e.g., some tables though the aim should be 72 characters")."</p>
+                        <p class='single'><input type='text' size='3' name='e2_hyphen_num' id='e2_hyphen_num'>&nbsp;&nbsp;"._("Widespread/general occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)")."</p>
+                        <p class='single'><input type='text' size='3' name='e2_gen_num' id='e2_gen_num'>&nbsp;&nbsp;"._("Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field)")."</p>          </td>
+                    </td>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'></td>
+                    <td>
+                        <p><a id='print'>**</a><b> "._("Printers' Errors and Transcriber's Note")."</b>:
+                        <p>"._("Obvious printers' errors should be addressed in one, or a combination, of the following ways:")."</p>
+                        <ul>
+                            <li>"._("Correct silently and state in the Transcriber's Note that all such errors have been corrected silently.")."</li>
+                            <li>"._("Correct all such errors and note them in Transcriber's Note")."</li>
+                            <li>"._("Leave uncorrected and state in the Transcriber's Note that at all such errors were left uncorrected.")."</li>
+                        </ul>
+                        <p>"._("\"Not addressing printers' errors\" means that all, or a large percentage, of printers' errors have been left uncorrected and not noted. If just one or two have been missed, and the rest addressed, then those missed would instead be counted as the relevant type of error (spellcheck, gutcheck, etc.). Anything that could make a reader think an error has been made in the transcription should be mentioned in the Transcriber's Note.")."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("HTML Version Only")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
+                    <td>
+                        <p class='single'><input type='text' size='3' name='e2_tidy_num' id='e2_tidy_num'>&nbsp;&nbsp;"._("The W3C Markup Validation Service generates errors or warning messages (Please enter number of errors)")."</p>
+                        <p class='single'><input type='text' size='3' name='e2_csscheck_num' id='e2_csscheck_num'>&nbsp;&nbsp;"._("The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element (Please enter number of errors)")."</p>
+                        <p class='single'><input type='text' size='3' name='e2_links_num' id='e2_links_num'>&nbsp;&nbsp;"._("Non-working links within HTML or to images. (Either broken or link to wrong place/file)")."</p>
+                        <p class='single'><input type='text' size='3' name='e2_file_num' id='e2_file_num'>&nbsp;&nbsp;"._("File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc.")."</p>
+                        <p class='single'><input type='text' size='3' name='e2_cover_num' id='e2_cover_num'>&nbsp;&nbsp;"._("Cover image has not been included and/or has not been coded for e-reader use. (For example, the cover should be 600x800px or at least 500px wide and no more than 800px high and should be called cover.jpg. Also, if the cover is newly created, it must meet <a href='http://www.pgdp.net/wiki/PP_guide_to_cover_pages#DP_policy'>current DP guidelines</a>.)")."</p>
+                        <p class='single'><input type='text' size='3' name='e2_epub_num' id='e2_epub_num'>&nbsp;&nbsp;"._("Project not presentable/useable when put through epubmaker")." <a href='#ereader'>***</a></p>
+                        <p class='single'><input type='text' size='3' name='e2_heading_num' id='e2_heading_num'>&nbsp;&nbsp;"._("Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)")."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'></td>
+                    <td>
+                        <p><a id='ereader'><b>*** "._("Checking E-reader Versions")."</b></a></p>
+                        <p>"._("It doesn't take long to look through the pages of the epub and mobi versions using the <a href='http://www.pgdp.net/wiki/Easy_Epub/Viewing#I_don.27t_have_an_e-reader.21'>suggested emulators</a>. Here are some problem areas to look for:")."</p>
+                        <p><b>"._("Front and End of Book")."</b></p>
+                        <ul>
+                            <li>"._("TOC")."</li>
+                            <li>"._("Title page layout")."</li>
+                        </ul>
+                        <p><b>"._("Body of Book")."</b></p>
+                        <ul>
+                            <li>"._("Horizontal rules")."</li>
+                            <li>"._("Obscured sections within the book such that text covers other text or blank areas occur where text should be")."</li>
+                            <li>"._("Poetry")."</li>
+                            <li>"._("Dropcaps")."</li>
+                            <li>"._("If hovers were used in the HTML, all important \"hovered\" information should be present and readable in a non-hovered way within the e-reader version. Also Transcriber's Notes referring to hovers should be hidden in the e-reader version.")."</li>
+                            <li>"._("Headings")."</li>
+                            <li>"._("Blockquotes")."</li>
+                            <li>"._("Page numbers (if present)")."</li>
+                            <li>"._("Sidenotes")."</li>
+                            <li>"._("Margins")."</li>
+                            <li>"._("Tables")."</li>
+                            <li>"._("Illustrations")."</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("STRONGLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, but the PPer should be counselled to correct any problems)")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Occurrence")."</b></td>
+                    <td>
+                        <p class='single2'><input type='checkbox' name='s_multi' id='s_multi'><label for='s_multi'>"._("Enclose entire multi-part headings within the related heading tag")."</label></p>
+                        <p class='single2'><input type='checkbox' name='s_empty' id='s_empty'><label for='s_empty'>"._("Avoid using empty tags (with &amp;nbsp; entities) or &lt;br /&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though")."</label></p>
+                        <p class='single2'><input type='checkbox' name='s_list' id='s_list'><label for='s_list'>"._("List Tags should be used for lists (e.g., a normal index)")."</label></p>
+                        <p class='single2'><input type='checkbox' name='s_text' id='s_text'><label for='s_text'>"._("Include all text as text, not just as images")."</label></p>
+                        <p class='single2'><input type='checkbox' name='s_code' id='s_code'><label for='s_code'>"._("Keep your code line lengths reasonable")."</label></p>
+                        <p class='single2'><input type='checkbox' name='s_tables' id='s_tables'><label for='s_tables'>"._("Tables should display left, right, and center justification and top and bottom align appropriately")."</label></p>
+                        <p class='single2'><input type='checkbox' name='s_th' id='s_th'><label for='s_th'>"._("Tables contain &lt;th&gt; elements for headings")."</label></p>
+                        <p class='single2'><input type='checkbox' name='s_thumbs' id='s_thumbs'><label for='s_thumbs'>"._("Remove thumbs.db file from the images folder")."</label></p>
+                        <p class='single2'><input type='checkbox' name='s_ereader' id='s_ereader'><label for='s_ereader'>"._("E-reader version, although without major flaws, should also look as good as possible")."</label></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("MILDLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, and any corrections are solely at the discretion of the PPVer and PPer)")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Occurrence")."</b></td>
+                    <td>
+                        <p class='single2'><input type='checkbox' name='m_semantic' id='m_semantic'><label for='m_semantic'>"._("Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them")."</label></p>
+                        <p class='single2'><input type='checkbox' name='m_space' id='m_space'><label for='m_space'>"._("Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)")."</label></p>
+                        <p class='single2'><input type='checkbox' name='m_unusedcss' id='m_unusedcss'><label for='m_unusedcss'>"._("Ensure that there are no unused elements in the CSS (other than the base HTML headings)")."</label></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("COMMENTS")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'>
+                        <b>"._("Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)")."</b>
+                    </td>
+                    <td><textarea rows='4' cols='67' name='reason_returned' id='reason_returned' wrap='hard'></textarea>".textarea_size_control('reason_returned')."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>" . _("General comments on this project or your experience working with this PPer."). "</b></td>
+                    <td><textarea rows='4' cols='67' name='general_comments' id='general_comments' wrap='hard'></textarea>".textarea_size_control('general_comments')."</td>
+                </tr>
+
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>"._("Copies")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Send to")."</b></td>
+                    <td><input type='checkbox' name='cc_ppv' id='cc_ppv' /><label for='cc_ppv'>"._("Me")."</label><br />
+                            <input type='checkbox' name='cc_pp' checked id='cc_pp' /><label for='cc_pp'>$project->postproofer</label><br />
+                            <input type='checkbox' name='foo' checked disabled />"._("PPV Summary (mailing list)")."
+                    </td>
+                </tr>
+                <tr><td colspan='2' style='text-align: center'>
+                    <input type='submit' value='".attr_safe(_("Submit"))."'></td></tr>
+        </table>
+    </form>";
 }
 
 // vim: sw=4 ts=4 expandtab
