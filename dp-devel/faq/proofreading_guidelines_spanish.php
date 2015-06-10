@@ -1,7 +1,5 @@
 <?php
-// Translated by user 'cbgrf' at pgdp.net, 2006-08-26
-
-$relPath='../../c/pinc/';
+$relPath='../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
@@ -12,133 +10,154 @@ undo_all_magic_quotes();
 
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
-output_header('Reglas de Revisi&oacute;n', NO_STATSBAR, $theme_args);
+output_header('Proofreading Guidelines', NO_STATSBAR, $theme_args);
 
 ?>
 
+<!-- NOTE TO MAINTAINERS AND DEVELOPERS:
+
+     There are now HTML comments interspersed in this document that are/will be
+     used by a script that automagically slices out the Random Rule text for the
+     database. It does this by copying:
+       1) All text from one h_3 to the next h_3
+        -OR-
+       2) All text from h_3 to the END_RR comment line.
+
+    This allows us to have "extra" information in the Guidelines, but leave it out
+    in the Random Rule for purposes of clarity/brevity.
+
+    If you are updating this document, the above should be kept in mind.
+-->
+
 <h1 align="center"><a name="top">Reglas de Revisi&oacute;n</a></h1>
 
-<h3 align="center">Version 1.9.c, generated January 1, 2006
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="dochist.php"><font size="-1">(Revision History)</font></a></h3>
+<h3 align="center">
+    Versi&oacute;n 2.0, revisada el 7 de junio de 2009.
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="dochist.php"><font size="-1">(Revision History)</font></a>
+    <br>
+    (Traducci&oacute;n actualizada el 1&ordm; de junio de 2015)
+</h3>
 
-<h4>Reglas de Revisi&oacute;n <a href="proofreading_guidelines.php">en ingl&eacute;s</a> /
-      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a><br>
+<p>
+Reglas de Revisi&oacute;n <a href="proofreading_guidelines.php">en ingl&eacute;s</a> /
+      Proofreading Guidelines <a href="proofreading_guidelines.php">in English</a><br />
     Reglas de Revisi&oacute;n <a href="proofreading_guidelines_francaises.php">en franc&eacute;s</a> /
-      Directives de Relecture et correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br>
+      Directives de Relecture et correction <a href="proofreading_guidelines_francaises.php">en fran&ccedil;ais</a><br />
     Reglas de Revisi&oacute;n <a href="proofreading_guidelines_portuguese.php">en portugu&eacute;s</a> /
-      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br>
+      Regras de Revis&atilde;o <a href="proofreading_guidelines_portuguese.php">em Portugu&ecirc;s</a><br />
     Reglas de Revisi&oacute;n <a href="proofreading_guidelines_dutch.php">en holand&eacute;s</a> /
-      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br>
+      Proeflees-Richtlijnen <a href="proofreading_guidelines_dutch.php">in het Nederlands</a><br />
     Reglas de Revisi&oacute;n <a href="proofreading_guidelines_german.php">en alem&aacute;n</a> /
-      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br>
-</h4>
+      Korrekturlese-Richtlinien <a href="proofreading_guidelines_german.php">auf Deutsch</a><br />
+    Reglas de Revisi&oacute;n <a href="proofreading_guidelines_italian.php">en italiano</a> /
+      Regole di Correzione <a href="proofreading_guidelines_italian.php">in Italiano</a><br>
+</p>
 
-<h4>V&eacute;alos <a href="../quiz/start.php">Proofreading Quiz and Tutorial</a></h4>
+<p>Vea los <a href="../quiz/start.php?show_only=PQ">Tests y tutoriales de revisi&oacute;n</a>! (en ingl&eacute;s)
+</p>
 
-<table border="0" cellspacing="0" width="100%" summary="Proofreading Guidelines">
+<table border="0" cellspacing="0" width="100%" summary="Table of Contents">
   <tbody>
-
   <tr>
     <td width="1" bgcolor="silver">&nbsp;</td>
-    <td bgcolor="silver" align="center"><font size="+2"><b>Tabla de Contenidos</b></font></td>
+    <td bgcolor="silver" align="center"><h2 style="margin-bottom: 0; margin-top: 0;">Tabla de contenidos</h2></td>
   </tr>
   <tr>
     <td width="1" bgcolor="silver">&nbsp;</td>
     <td bgcolor="white" align="left">
-    <ul>
-
-      <li><a href="#prime">Regla principal</a></li>
-      <li><a href="#about">Acerca de este documento</a></li>
-      <li><a href="#comments">Comentarios del proyecto</a></li>
-      <li><a href="#forums">Foro/Discusi&oacute;n sobre este proyecto</a></li>
-      <li><a href="#prev_pg">Corrigiendo errores en anteriores  p&aacute;ginas </a></li>
-    </ul>
-
-    </td>
-  </tr>
-  <tr>
-    <td width="1" bgcolor="silver">&nbsp;</td>
-    <td bgcolor="silver" align="left">
       <ul>
-        <li><font size="+1">C&oacute;mo revisar...</font></li>
+        <li><a href="#prime">Regla principal</a></li>
+        <li><a href="#summary">Resumen de las Reglas de Revisi&oacute;n</a></li>
+        <li><a href="#about">Acerca de este documento</a></li>
+        <li><a href="#comments">Comentarios del Proyecto</a></li>
+        <li><a href="#forums">Discusi&oacute;n del Proyecto</a></li>
+        <li><a href="#prev_pg">C&oacute;mo corregir errores en p&aacute;ginas anteriores</a></li>
       </ul>
-
     </td>
   </tr>
   <tr>
     <td width="1" bgcolor="silver">&nbsp;</td>
+    <td bgcolor="silver" align="left">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="1" bgcolor="silver">&nbsp;</td>
     <td bgcolor="white" align="left">
-      <ul style="margin-left: 3em;">
-        <li><a href="#double_q">Comillas dobles</a></li>
-        <li><a href="#single_q">Comillas simples</a></li>
-        <li><a href="#quote_ea">Comillas en cada l&iacute;nea</a></li>
-        <li><a href="#period_s">Punto final de las frases</a></li>
-        <li><a href="#punctuat">Puntuaci&oacute;n</a></li>
-        <li><a href="#extra_sp">Varios espacios en blanco entre palabras</a></li>
-        <li><a href="#trail_s">Espacios en blanco al final de la l&iacute;nea</a></li>
-        <li><a href="#drop_caps">Letras may&uacute;sculas ornamentadas al inicio del p&aacute;rrafo, frase o secci&oacute;n</a></li>
-        <li><a href="#em_dashes">Guiones, el signo menos "-" y rayas</a></li>
-        <li><a href="#eol_hyphen">Gui&oacute;n al final de la l&iacute;nea</a></li>
-        <li><a href="#eop_hyphen">Gui&oacute;n al final de la p&aacute;gina</a></li>
-        <li><a href="#period_p">Puntos suspensivos "..."</a></li>
-        <li><a href="#contract">Contracciones</a></li>
-        <li><a href="#fract_s">Fracciones</a></li>
-        <li><a href="#a_chars">Caracteres acentuados</a></li>
-        <li><a href="#d_chars">Signos diacr&iacute;ticos</a></li>
-        <li><a href="#f_chars">Caracteres no-Latinos</a></li>
-        <li><a href="#supers">Super&iacute;ndice</a></li>
-        <li><a href="#subscr">Sub&iacute;ndice</a></li>
-        <li><a href="#font_sz">Cambio de tama&ntilde;o de fuente</a></li>
-        <li><a href="#italics">Textos en cursiva y negrita</a></li>
-        <li><a href="#small_caps">Palabras en may&uacute;sculas peque&ntilde;as-versalitas</a></li>
-        <li><a href="#line_br">Saltos de l&iacute;nea</a></li>
-        <li><a href="#chap_head">T&iacute;tulos de cap&iacute;tulo</a></li>
-        <li><a href="#para_space">P&aacute;rrafos</a></li>
-        <li><a href="#page_hf">Encabezado y pie de p&aacute;gina</a></li>
-        <li><a href="#illust">Ilustraciones - Im&aacute;genes</a></li>
-        <li><a href="#footnotes">Notas al pie de p&aacute;gina</a></li>
-        <li><a href="#para_side">Notas al margen</a></li>
-        <li><a href="#mult_col">M&uacute;ltiples Columnas</a></li>
-        <li><a href="#tables">Tablas</a></li>
-        <li><a href="#poetry">Poes&iacute;a</a></li>
-        <li><a href="#line_no">N&uacute;meros de l&iacute;nea</a></li>
-        <li><a href="#blank_pg">P&aacute;gina en blanco</a></li>
-        <li><a href="#title_pg">Portada&mdash;Contraportada</a></li>
-        <li><a href="#toc">La tabla de contenidos</a></li>
-        <li><a href="#bk_index">&Iacute;ndices</a></li>
-        <li><a href="#play_n">Obras de teatro&mdash;Nombres de actores&mdash;Directrices esc&eacute;nicas</a></li>
+      <ul>
+        <li style="margin-top:.25em;"><font size="+1">Revisando caracteres:</font>
+        <ul>
+          <li><a href="#double_q">Comillas dobles</a></li>
+          <li><a href="#single_q">Comillas simples</a></li>
+          <li><a href="#quote_ea">Comillas en cada l&iacute;nea</a></li>
+          <li><a href="#period_s">Punto final de las oraciones</a></li>
+          <li><a href="#punctuat">Puntuaci&oacute;n</a></li>
+          <li><a href="#extra_sp">Varios espacios en blanco entre palabras</a></li>
+          <li><a href="#trail_s">Espacio en blanco al final de la l&iacute;nea</a></li>
+          <li><a href="#em_dashes">Guiones, el signo menos "-" y rayas</a></li>
+          <li><a href="#eol_hyphen">Gui&oacute;n al final de la l&iacute;nea</a></li>
+          <li><a href="#eop_hyphen">Gui&oacute;n al final de la p&aacute;gina</a></li>
+          <li><a href="#period_p">Puntos suspensivos &quot;...&quot;</a></li>
+          <li><a href="#contract">Contracciones</a></li>
+          <li><a href="#fract_s">Fracciones</a></li>
+          <li><a href="#a_chars">Caracteres acentuados y caracteres no ASCII</a></li>
+          <li><a href="#d_chars">Signos diacr&iacute;ticos</a></li>
+          <li><a href="#f_chars">Caracteres no latinos</a></li>
+          <li><a href="#supers">Super&iacute;ndices</a></li>
+          <li><a href="#subscr">Sub&iacute;ndices</a></li>
+          <li><a href="#drop_caps">Letras may&uacute;sculas ornamentadas al comiendo del p&aacute;rrafo, frase o secci&oacute;n</a></li>
+          <li><a href="#small_caps">Versalitas</a></li>
+        </ul></li>
+        <li style="margin-top:.25em;"><font size="+1">Revisando p&aacute;rrafos:</font>
+        <ul>
+          <li><a href="#line_br">Saltos de l&iacute;nea</a></li>
+          <li><a href="#chap_head">T&iacute;tulos de cap&iacute;tulo</a></li>
+          <li><a href="#para_space">Espaciado y sangr&iacute;a de p&aacute;rrafos</a></li>
+          <li><a href="#page_hf">Encabezados y pies de p&aacute;gina</a></li>
+          <li><a href="#illust">Ilustraciones</a></li>
+          <li><a href="#footnotes">Notas al pie de p&aacute;gina y notas al final</a></li>
+          <li><a href="#para_side">Notas al margen</a></li>
+          <li><a href="#mult_col">M&uacute;ltiples columnas</a></li>
+          <li><a href="#tables">Tablas</a></li>
+          <li><a href="#poetry">Poes&iacute;a o epigramas</a></li>
+          <li><a href="#line_no">N&uacute;meros de l&iacute;nea</a></li>
+          <li><a href="#next_word">Palabra suelta al final de la p&aacute;gina</a></li>
+        </ul></li>
+        <li style="margin-top:.25em;"><font size="+1">Revisando p&aacute;ginas:</font>
+        <ul>
+          <li><a href="#blank_pg">P&aacute;gina en blanco</a></li>
+          <li><a href="#title_pg">Portada y contraportada</a></li>
+          <li><a href="#toc">Tabla de contenidos</a></li>
+          <li><a href="#bk_index">&Iacute;ndices</a></li>
+          <li><a href="#play_n">Obras de teatro: nombre de actores y directrices esc&eacute;nicas</a></li>
+        </ul></li>
         <li><a href="#anything">Cualquier otra cosa que necesite tratamiento especial o no sepa como tratar</a></li>
         <li><a href="#prev_notes">Notas y comentarios de revisores anteriores</a></li>
       </ul>
     </td>
   </tr>
-   <tr>
-
+  <tr>
     <td width="1" bgcolor="silver">&nbsp;</td>
-    <td bgcolor="silver" align="left">
-    <ul>
-      <li><font size="+1">Problemas comunes</font></li>
-    </ul>
-    </td>
+    <td bgcolor="silver" align="left">&nbsp;</td>
   </tr>
   <tr>
-
     <td width="1" bgcolor="silver">&nbsp;</td>
     <td bgcolor="white" align="left">
-      <ul style="margin-left: 3em;">
-        <li><a href="#OCR_1lI">Problemas de OCR: 1-l-I</a></li>
-        <li><a href="#OCR_0O">Problemas de OCR: 0-O</a></li>
-        <li><a href="#OCR_scanno">Problemas de OCR: Scannos</a></li>
-        <li><a href="#hand_notes">Notas escritas a mano</a></li>
-
-        <li><a href="#bad_image">Im&aacute;genes de baja calidad</a></li>
-        <li><a href="#bad_text">Imagen que no corresponde al texto</a></li>
-        <li><a href="#round1">Errores de revisores anteriores</a></li>
-        <li><a href="#p_errors">Errores de impresi&oacute;n / Ortograf&iacute;a</a></li>
-        <li><a href="#f_errors">Errores de datos o hechos en el texto</a></li>
-        <li><a href="#uncertain">Inseguridades</a></li>
-
+      <ul>
+        <li style="margin-top:.25em;"><font size="+1">Problemas comunes:</font>
+        <ul>
+          <li><a href="#formatting">Formato</a></li>
+          <li><a href="#common_OCR">Errores comunes del OCR</a></li>
+          <li><a href="#OCR_scanno">Problemas de OCR: Scannos</a></li>
+          <li><a href="#OCR_raised_o">Problemas del OCR: &iquest;es eso &deg; &ordm; realmente un s&iacute;mbolo de grados?</a></li>
+          <li><a href="#hand_notes">Notas manuscritas</a></li>
+          <li><a href="#bad_image">Im&aacute;genes de mala calidad</a></li>
+          <li><a href="#bad_text">Imagen que no corresponde al texto</a></li>
+          <li><a href="#round1">Errores de revisores anteriores</a></li>
+          <li><a href="#p_errors">Errores de impresi&oacute;n o de ortograf&iacute;a</a></li>
+          <li><a href="#f_errors">Errores f&aacute;cticos en el texto</a></li>
+          <li><a href="#insert_char">Insertando caracteres especiales</a></li>
+        </ul></li>
+        <li><a href="#index">&Iacute;ndice alf&aacute;b&eacute;tico de las Reglas de Revisi&oacute;n</a></li>
       </ul>
     </td>
   </tr>
@@ -149,1119 +168,534 @@ output_header('Reglas de Revisi&oacute;n', NO_STATSBAR, $theme_args);
  </tbody>
 </table>
 
+<div style="margin-right:6%; margin-left:0.5%;">
+
 <h3><a name="prime">Regla principal</a></h3>
-<p><em>&iexcl;No cambie lo que escribi&oacute; el autor!</em>
+<p><em>"&iexcl;No cambie lo que escribi&oacute; el autor!"</em>
 </p>
-<p>El libro electr&oacute;nico, que ver&aacute; el lector, posiblemente dentro de muchos
-a&ntilde;os, debe decirle lo que quer&iacute;a decir el autor. Si el autor escribi&oacute;
-una palabra de una manera extra&ntilde;a, la dejamos como est&aacute;. Si el autor
-escribi&oacute; de una forma racista, tambi&eacute;n se dejan las palabras como est&aacute;n.
-Si el autor usaba cursiva, negrita o pon&iacute;a una nota al pie cada tres
-palabras, debemos usar cursiva, negrita y dejar las notas donde est&aacute;n.
-Somos revisores, <b>no</b> editores. (Vea <a href="#p_errors">Errores de impresi&oacute;n /
-ortograf&iacute;a</a>. para entender c&oacute;mo manejar errores de impresi&oacute;n)
+<p>El libro electr&oacute;nico final que ver&aacute; el lector, posiblemente dentro de muchos a&ntilde;os, debe expresar con exactitud lo que el autor quiso decir. Si el autor escrib&iacute;a palabras con ortograf&iacute;a extra&ntilde;a, las dejamos tal cual. Si el autor hac&iacute;a declaraciones indignantemente racistas o sesgadas, las dejamos tal cual. Si el autor usaba comas, super&iacute;ndices o notas al pie cada tres palabras, debemos conservar las comas, los super&iacute;ndices y las notas donde est&aacute;n. Somos revisores, <b>no</b> editores. Si el texto no es igual a la imagen, debe cambiar el texto para que lo sea. (Vea <a href="#p_errors">Errores de impresi&oacute;n/ortograf&iacute;a</a> para saber c&oacute;mo tratar errores de impresi&oacute;n.)
 </p>
-<p>Cambiamos solamente peque&ntilde;os detalles de ortograf&iacute;a que no afecten el
-sentido de lo escrito por el autor. Por ejemplo, unimos palabras que
-fueron partidas al final de la l&iacute;nea. (Vea <a href="#eol_hyphen">Guiones al final de la
-l&iacute;nea.</a>)
+
+<p>Cambiamos solamente peque&ntilde;os detalles relativos a convenciones tipogr&aacute;ficas que no afectan el sentido de lo escrito por el autor. Por ejemplo, unimos palabras que fueron divididas al final de la l&iacute;nea (vea <a href="#eol_hyphen">Guiones al final de la l&iacute;nea</a>). 
+   Cambios de este tipo nos ayudan a crear una versi&oacute;n del libro <em>coherente</em>.
+   Las reglas de revisi&oacute;n que seguimos est&aacute;n dise&ntilde;adas para ayudarnos a alcanzar este resultado. Teniendo esto en cuenta, por favor lea cuidadosamente el resto de las Reglas de Revisi&oacute;n. Estas reglas sirven <i>solamente</i> para los revisores. Como revisor, su objetivo es que el texto concuerde con la imagen. M&aacute;s adelante los formateadores se encargar&aacute;n de aplicar formato a la p&aacute;gina.
 </p>
-<p>Cambios de este tipo nos ayudan a crear una versi&oacute;n del libro bien
-formateado de una manera consistente. Las reglas de revisi&oacute;n que sigamos
-est&aacute;n dise&ntilde;adas para ayudarnos a lograr ese resultado. Por favor, lea
-cuidadosamente el resto de las Reglas de revisi&oacute;n, teniendo esto en
-cuenta. Existe otro grupo de Reglas de formato aparte. Estas reglas de
-revisi&oacute;n son designadas s&oacute;lo para la revisi&oacute;n. Un segundo equipo de
-voluntarios trabajar&aacute; formateando el texto.
-</p>
-<p>
-Para ayudar al pr&oacute;ximo revisor y las personas que hacen el formato y el pos-proceso conservamos
-<a href="#line_br">las quiebras de las l&iacute;neas</a>. Esto hace m&aacute;s f&aacute;cil comparar el
-texto con la imagen original.
+<p>Para ayudar al pr&oacute;ximo revisor, y a los encargados del formato y del posproceso, conservamos los <a href="#line_br">saltos de l&iacute;nea</a>. As&iacute; resulta m&aacute;s f&aacute;cil comparar el texto con la imagen original.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
-<table width="100%" border="0" cellspacing="0" summary="Summary Guidelines">
-  <tbody>
-    <tr>
-      <td bgcolor="silver">&nbsp;</td>
-    </tr>
-  </tbody>
 
-</table>
+<h3><a name="summary">Resumen de las Reglas de Revisi&oacute;n</a></h3>
+<p>El <a href="proofing_summary.pdf">Resumen de las Reglas de Revisi&oacute;n</a> (en ingl&eacute;s) es un documento PDF corto (dos p&aacute;ginas), f&aacute;cil de imprimir, que sintetiza los principales punto de estas Reglas y brinda ejemplos para saber c&oacute;mo corregir las p&aacute;ginas. Se recomienda a los revisores principiantes imprimir este documento y mantenerlo a mano mientras realizan su labor.
+</p>
+<p>Puede que usted necesite descargar e instalar un programa para abrir archivos PDF. Es posible obtener uno gratuito en la p&aacute;gina de Adobe&reg;, <a href="http://www.adobe.com/products/acrobat/readstep2.html">aqu&iacute;</a>.
+</p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="about">Acerca de este documento</a></h3>
-<p>
-La finalidad de este documento es de explicar las reglas que utilizamos
-para mantener la coherencia al revisar un libro compartido por muchos
-revisores, de los que cada uno trabaja en p&aacute;ginas diferentes. Esto
-asegura que todos estemos revisando <em>de la misma manera</em> y hace m&aacute;s
-f&aacute;cil el trabajo del formateador y el del pos-procesador que junta todas
-las p&aacute;ginas en un e-book (libro electr&oacute;nico) completo.
+<p>La finalidad de este documento es explicar las reglas de revisi&oacute;n que utilizamos para mantener la coherencia cuando estamos revisando un mismo libro que ha sido distribuido entre muchos colaboradores que trabajan en p&aacute;ginas diferentes. Esto asegura que todos estemos realizando la revisi&oacute;n de <em>la misma manera</em>; lo cual a su vez hace m&aacute;s f&aacute;cil el trabajo de los formateadores y de los posprocesadores. El posprocesador re&uacute;ne todas las p&aacute;ginas para formar un libro electr&oacute;nico completo.
 </p>
-<p>
-<i>Este documento de ninguna manera pretende ser modelo para la edici&oacute;n de libros.</i><br>
+<p><i>Este documento de ninguna manera pretende ser modelo para la edici&oacute;n de libros</i>.
 </p>
-<p>
-Hemos incluido en este documento todos los detalles que los nuevos
-revisores han ido preguntado en sus comienzos. Si hay cosas que faltan,
-o cree que algo se debe hacer de otra manera, o si algo no est&aacute; bien
-claro, av&iacute;senos por favor.
+<p>Hemos incluido en estas Reglas de Revisi&oacute;n todos los puntos que han generado dudas en los nuevos revisores. Existen, adem&aacute;s, unas <a href="document.php">Reglas de Formato</a> (en ingl&eacute;s) distintas, utilizadas por el grupo de voluntarios que trabaja en las rondas de formato. Si usted encuentra un tema que no se encuentra mencionado en estas reglas, es posible que el problema vaya a ser abordado en las rondas de formato. Si usted no est&aacute; seguro, por favor pregunte en la <a href="#forums">Discusi&oacute;n del Proyecto</a>.
 </p>
-<p>
-Este documento est&aacute; evolucionando en el tiempo. Ay&uacute;denos a mejorar
-escribiendo sus sugerencias en el Foro de Documentaci&oacute;n en <a href="<?php echo get_url_to_view_topic(18057); ?>"> este enlace</a>.
+<p>Si encuentra alg&uacute;n tema que no haya sido tratado, considera que un punto debe ser abordado de manera diferente o que la explicaci&oacute;n es demasiado vaga, por favor h&aacute;ganoslo saber. 
+<?php if($site_url == "http://www.pgdp.net" || $site_url == "http://www.pgdp.org") { ?>
+Si se encuentra con un t&eacute;rmino que no conoce en estas reglas, puede revisar la <a href="http://www.pgdp.net/wiki/DP_Jargon">gu&iacute;a de jerga en la Wiki</a>. 
+<?php } ?>
+Este documento se encuentra en permanente elaboraci&oacute;n. Ay&uacute;denos a mejorarlo publicando sugerencias para cambios en <a href="<?php echo $Guideline_discussion_URL; ?>">este hilo</a> del Foro de Documentaci&oacute;n.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="comments">Comentarios del proyecto</a></h3>
-
-<p>En la p&aacute;gina de interfaz (Project Page) con la que empieza la revisi&oacute;n,
-hay una parte que se llama &laquo;Project Comments&raquo; (comentarios del proyecto)
-la que contiene a la informaci&oacute;n espec&iacute;fica del proyecto (libro).
-<b>&iexcl;L&eacute;alos antes de empezar a revisar p&aacute;ginas!</b> Si el gerente del
-proyecto (Project Manager) quiere que en el libro concreto se haga algo
-diferente de la manera que est&aacute; descrita en estas Reglas de Revisi&oacute;n,
-eso ser&aacute; aclarado all&iacute;. Las instrucciones en los Project Comments
-''anulan'' las de las Reglas de Revisi&oacute;n, por lo tanto s&iacute;galas. Tambi&eacute;n
-puede haber instrucciones en los Project Comments que se refieran al
-formato, y no se utilizan durante la primera fase de revisi&oacute;n. En estos
-comentarios es donde el Project Manager le puede dar todo tipo de
-informaci&oacute;n o curiosidades sobre el autor y el proyecto.
+<h3><a name="comments">Comentarios del Proyecto</a></h3>
+<p>Cuando elige un proyecto para trabajar, se abre la P&aacute;gina del Proyecto. All&iacute; usted encontrar&aacute; una secci&oacute;n llamada "Comentarios del Proyecto" (Project Comments) que contiene informaci&oacute;n espec&iacute;fica sobre el proyecto. <b>&iexcl;Debe leer los Comentarios del Proyecto antes de comenzar a revisar p&aacute;ginas!</b> Si el Gestor de Proyecto (Project Manager) desea que en este libro en concreto algo sea realizado de manera diferente a lo que establecen estas Reglas, esa informaci&oacute;n estar&aacute; all&iacute;. Las instrucciones en los Comentarios del Proyecto <em>est&aacute;n por encima</em> de estas Reglas de Revisi&oacute;n, por lo tanto, s&iacute;galas. En los Comentarios del Proyecto tambi&eacute;n puede haber instrucciones relativas al formato. Ignore estas instrucciones en la fase de revisi&oacute;n. Adem&aacute;s, en estos comentarios es donde ocasionalmente el gestor del proyecto agrega datos interesantes y curiosos sobre el libro o el autor.
 </p>
 <p>
-<em>Por favor, lea tambi&eacute;n el foro del proyecto (Project Thread Forum)</em>: All&iacute;
-es donde el Project Manager puede aclarar las reglas de revisi&oacute;n
-espec&iacute;ficas al proyecto y los revisores suelen usarlo para avisar a
-otros revisores sobre problemas que se repiten dentro del mismo y c&oacute;mo
-manejarlos (Vea abajo).
+<em>Por favor, lea tambi&eacute;n la Discusi&oacute;n del Proyecto</em>. All&iacute; es donde el Gestor del Proyecto (Project Manager) puede aclarar las reglas de revisi&oacute;n espec&iacute;ficas para este proyecto. Adem&aacute;s, los revisores suelen utilizar el foro para alertar a otros revisores sobre problemas recurrentes en el libro y compartir informaci&oacute;n sobre c&oacute;mo tratarlos. (Ver m&aacute;s abajo.)
 </p>
-<p>En la Project Page (P&aacute;gina del Proyecto), el enlace 'Images, Pages
-Proofread, & Differences' (Im&aacute;genes, P&aacute;ginas Revisadas y Diferencias) le
-permite ver como otros revisores han hecho los cambios. <a href="<?php echo get_url_to_view_topic(10217); ?>"> En este foro</a> se
-habla sobre las diferentes maneras de usar esta informaci&oacute;n.
+<p>
+En la P&aacute;gina del Proyecto (Project Page), el enlace "Images, Pages Proofread, &amp; Differences" (Im&aacute;genes, p&aacute;ginas revisadas y diferencias) le permite ver c&oacute;mo otros revisores han corregido el texto. En <a href="<?php echo $Using_project_details_URL; ?>">esta discusi&oacute;n del foro</a> (en ingl&eacute;s) se habla sobre las diferentes maneras de utilizar esta informaci&oacute;n.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="forums">Foro/Discusi&oacute;n sobre este proyecto</a></h3>
-<p>En la p&aacute;gina de interfaz (Project Page), donde empieza la revisi&oacute;n de
-las p&aacute;ginas, en la l&iacute;nea &laquo;Forum&raquo; (Foro), hay un enlace titulado &laquo;Discuss
-this Project&raquo; (Discutir este proyecto) si ya se ha iniciado la
-discusi&oacute;n, o &laquo;Start a discussion on this Project&raquo; (Empezar la discusi&oacute;n
-sobre este proyecto) si todav&iacute;a no ha empezado. Haciendo clic en ese
-enlace ir&aacute; a un foro dedicado al proyecto en concreto. Ese es el lugar
-para hacer preguntas sobre el libro, avisar al gerente del proyecto
-(Project Manager) sobre problemas, etc. Se sugiere utilizar este foro
-para comunicarse con el gerente del proyecto y otros revisores que
-trabajan en el mismo.
+<h3><a name="forums">Discusi&oacute;n del Proyecto</a></h3>
+<p>
+En la P&aacute;gina del Proyecto, en la l&iacute;nea "Forum" (Foro), hay un enlace llamado "Discuss this Project" (Discutir este proyecto), si la discusi&oacute;n ya ha sido comenzada; o "Start a discussion on this Project" (Comenzar una discusi&oacute;n sobre este proyecto), si todav&iacute;a no se ha empezado. Al hacer clic en ese enlace, usted ser&aacute; llevado al hilo del foro dedicado a este proyecto en espec&iacute;fico. Ese es el lugar indicado para hacer preguntas sobre este libro, informar al Gestor del Proyecto (Project Manager) sobre problemas, etc. La Discusi&oacute;n del Proyecto en el foro es la mejor manera de comunicarse con el Gestor del Proyecto y los otros voluntarios que est&aacute;n trabajando en el libro.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="prev_pg">Corrigiendo errores en anteriores p&aacute;ginas</a></h3>
-<p>Cuando selecciona un proyecto para revisar, se carga la P&aacute;gina del
-Proyecto (Project Page). Esta p&aacute;gina contiene enlaces a p&aacute;ginas del
-proyecto que Ud. ha revisado &uacute;ltimamente. Si a&uacute;n no ha revisado ninguna
-p&aacute;gina, no se muestra ning&uacute;n enlace.
+<h3><a name="prev_pg">C&oacute;mo corregir errores en p&aacute;ginas anterioers</a></h3>
+<p>La <a href="#comments">P&aacute;gina del Proyecto</a> contiene enlaces a las p&aacute;ginas de ese libro que usted ha revisado recientemente. (Si a&uacute;n no ha revisado ninguna p&aacute;gina, no se mostrar&aacute; ning&uacute;n enlace.)
 </p>
-
-<p>Las p&aacute;ginas que aparecen debajo de &laquo;DONE&raquo; (terminado) o &laquo;IN PROGRESS&raquo;
-(en progreso) est&aacute;n todav&iacute;a disponibles para que Ud. las corrija o
-termine su revisi&oacute;n. S&oacute;lo haga clic en el enlace de la p&aacute;gina. Si
-descubre que se ha equivocado en alguna p&aacute;gina, o ha marcado algo
-incorrectamente, puede hacer clic en cualquiera de ellas para reabrirla
-y corregir el error.
+<p>Las p&aacute;ginas que aparecen debajo de "DONE" (terminado) o "IN PROGRESS" (en progreso) est&aacute;n todav&iacute;a disponibles para que usted las corrija o complete la revisi&oacute;n. Solo debe hacer clic en el enlace de la p&aacute;gina. De este modo, si usted descubre que ha cometido un error en alguna p&aacute;gina, puede enmendar la equivocaci&oacute;n haciendo clic en estos enlaces para volver a acceder a la p&aacute;gina en cuesti&oacute;n.
 </p>
-<p>Puede tambi&eacute;n utilizar los enlaces &laquo;Images, Pages Proofread, &
-Differences&raquo; (Im&aacute;genes, P&aacute;ginas ya Revisadas y Diferencias) &oacute; &laquo;Just My
-Pages&raquo; (S&oacute;lo mis P&aacute;ginas) en la P&aacute;gina del Proyecto. Estas p&aacute;ginas le
-mostrar&aacute;n el enlace &laquo;Edit&raquo; al lado de todas aquellas en las que Ud. ha
-trabajado en la presente ronda y que todav&iacute;a pueden ser corregidas.
+<p>Tambi&eacute;n puede utilizar los enlaces "Images, Pages Proofread, &amp; Differences" (Im&aacute;genes, p&aacute;ginas revisadas y diferencias) &oacute; "Just My Pages" (Solo mis p&aacute;ginas) en la <a href="#comments">P&aacute;gina del Proyecto</a>. All&iacute; ver&aacute; el enlace "Edit" (editar) al lado de todas las p&aacute;ginas en las que usted ha trabajado en la presente ronda, las cuales todav&iacute;a pueden ser corregidas.
 </p>
-<p>Para m&aacute;s informaci&oacute;n, vea la
-<a href="prooffacehelp.php?i_type=0">Standard
-Proofreading Interface Help</a> &oacute;
-<a href="prooffacehelp.php?i_type=1"> Enhanced
-Proofreading Interface Help</a> dependiendo de la interfaz que utilice.
+<p>Para obtener m&aacute;s informaci&oacute;n, visite la <a href="prooffacehelp.php?i_type=0">Ayuda de la Interfaz de Revisi&oacute;n Est&aacute;ndar</a> (en ingl&eacute;s) o la <a href="prooffacehelp.php?i_type=1">Ayuda para la Interfaz de Revisi&oacute;n Mejorada</a> (en ingl&eacute;s), dependiendo de la interfaz que usted utilice.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Title Page">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Character-level proofreading">
   <tbody>
     <tr>
-      <td bgcolor="silver"><font size="+2">C&oacute;mo revisar...</font></td>
+      <td bgcolor="silver"><h2 style="margin-bottom: 0; margin-top: 0;">Revisando caracteres:</h2></td>
     </tr>
   </tbody>
 </table>
 
 
 <h3><a name="double_q">Comillas dobles</a></h3>
-<p>Revise las comillas dobles as&iacute;: ". No las cambie a comillas simples.
-D&eacute;jelas como las escribi&oacute; el autor.
+<p>
+Revise las &ldquo;comillas dobles&rdquo; como comillas dobles rectas ASCII <tt>"</tt>. No cambie las comillas dobles a comillas simples. D&eacute;jelas como las escribi&oacute; el autor. Vea la secci&oacute;n <a href="#chap_head">T&iacute;tulos de cap&iacute;tulos</a> si se encuentra con una comilla doble que falta al comienzo de un cap&iacute;tulo.
 </p>
-<p>Para otros idiomas que no sea el ingl&eacute;s, utilice las comillas
-caracter&iacute;sticas para el idioma en concreto, si est&aacute;n disponibles en la
-lista de caracteres de Latin-1. Guillemets franceses (<tt>&laquo;estas&raquo;</tt>) est&aacute;n
-disponibles en los men&uacute;s desplegables de la p&aacute;gina de interfaz de
-revisores porque forman una parte de Latin-1. Las comillas alemanas
-(&bdquo;estas&rdquo;) no est&aacute;n disponibles all&iacute; porque no forman parte de Latin-1.
-Puede que el Project Manager le informe en los <a href="#comments">Comentarios del
-proyecto</a> de la pauta a seguir en un proyecto
-en concreto.
+<p>Para comillas diferentes de <tt>"</tt>, use las mismas comillas que aparecen en la imagen si est&aacute;n disponibles. Las comillas francesas, guillemets, <tt>&laquo;como estas&raquo;</tt>, est&aacute;n disponibles en el men&uacute; desplegable de la interfaz de revisi&oacute;n, dado que son parte del conjunto de caracteres Latin-1. Recuerde eliminar los espacios entre las comillas y el texto entre comillas; si el espacio es necesario por alguna raz&oacute;n, se a&ntilde;adir&aacute; en el posproceso. Esta regla se aplica tambi&eacute;n en los idiomas que utilizan comillas guillemets invertidas, <tt>&raquo;as&iacute;&laquo;</tt>.
 </p>
+<p>
+Las comillas de <tt>&bdquo;este tipo&ldquo;</tt>, utilizadas en algunos textos en alem&aacute;n o en otros idiomas, 
+<?php if(!$utf8_site) { ?>
+no est&aacute;n disponibles en el men&uacute; desplegable, dado que no forman parte del conjunto de caracteres Latin-1. Las convertimos en guillemets invertidas&nbsp; <tt>&raquo;as&iacute;&laquo;</tt>&nbsp; (o&nbsp; <tt>&laquo;as&iacute;&raquo;</tt>&nbsp; para los idiomas que usan las comillas&nbsp; <tt>&ldquo;as&iacute;&bdquo;</tt>&nbsp;), pero debe asegurarse de revisar los <a href="#comments">Comentarios del Proyecto</a> en caso de que el Gestor del Proyecto haya dado otras instrucciones.
+<?php } else { ?>
+est&aacute;n tambi&eacute;n disponibles en el men&uacute; desplegable; por razones de simplicidad, usted deber&iacute;a siempre usar&nbsp; <tt>&bdquo;</tt>&nbsp; y&nbsp; <tt>&ldquo;</tt>&nbsp;, independientemente del tipo de comillas que se utilicen en el texto original, siempre que las comillas usadas en el mismo sean claramente inferiores y superiores. Si es necesario, las comillas ser&aacute;n cambiadas a las que se utilizan en el libro original durante el posprocesamiento. 
+<?php } ?>
+</p>
+<p>El Gestor del Proyecto (Project Manager) puede pedir en los <a href="#comments">Comentarios del Proyecto</a> que las comillas sean tratadas de manera diferente para un libro en particular. Por favor, no aplique esas instrucciones en otros proyectos.
+</p>
+
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="single_q">Comillas simples</a></h3>
-<p>Rev&iacute;selas como ASCII normal (as&iacute;: <tt>'</tt> ), comilla simple (ap&oacute;strofe). No
-cambie las comillas simples a dobles. D&eacute;jelas como el autor las
-escribi&oacute;.
+<p>
+Rev&iacute;selas como comillas simples ASCII o ap&oacute;strofos, as&iacute;: <tt>'</tt>. No cambie las comillas simples a dobles. D&eacute;jelas como el autor las escribi&oacute;.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="quote_ea">Comillas en cada l&iacute;nea</a></h3>
-
-<p>Los p&aacute;rrafos que tienen las comillas al principio de cada l&iacute;nea se
-corrigen dejando <b>solamente</b> las del principio del p&aacute;rrafo.
+<p>
+Los p&aacute;rrafos que tienen comillas al comienzo de cada l&iacute;nea se corrigen dejando <b>solamente</b> las de la primera l&iacute;nea, donde comienza el p&aacute;rrafo. Si la cita se prolonga a lo largo de varios p&aacute;rrafos, en cada uno se deben conservar las comillas de la primera l&iacute;nea.
 </p>
-<p>Si la cita se prolonga a lo largo de varios p&aacute;rrafos, cada uno de ellos
-debe retener solamente las comillas de la primera l&iacute;nea del mismo.
+<p>Sin embargo, cuando se trata de poes&iacute;a conservamos todas las comillas que aparecen en la imagen, dado que los saltos de l&iacute;nea no ser&aacute;n modificados.
 </p>
-<p>A veces no hay comillas que cierran la cita hasta el final de la misma,
-que puede estar en otra p&aacute;gina. D&eacute;jelo como est&aacute;&mdash;no ponga comillas que
-no se ven en la imagen.
+<p>A veces no hay comillas de cierre hasta el final de la cita, que puede estar en una p&aacute;gina diferente. Debe conservar el texto tal como aparece en la imagen; no a&ntilde;ada comillas de cierre.
+</p>
+<p>Hay algunas excepciones para ciertos idiomas. En franc&eacute;s, por ejemplo, el di&aacute;logo encerrado entre comillas utiliza una combinaci&oacute;n de diferentes tipos de puntuaci&oacute;n para indicar las distintas personas que intervienen en la conversaci&oacute;n. Si usted no est&aacute; familiarizado con un idioma en particular, revise los <a href="#comments">Comentarios del Proyecto</a> o deje un mensaje para el Gestor del Proyecto en la Discusi&oacute;n del Proyecto para saber c&oacute;mo proceder.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<table width="100%" border="1" cellpadding="4" cellspacing="0" align="center" summary="Example of quote marks on each line">
+  <tbody>
+    <tr>
+      <th valign="top" align="left" bgcolor="cornsilk">Imagen original:</th>
+    </tr>
+    <tr>
+      <td valign="top">
+        Clearly he wasn't an academic with a preface like this<br>
+        one. &ldquo;I do not give the name of the play, act or scene,<br>
+        &ldquo;in head or foot lines, in my numerous quotations from<br>
+        &ldquo;Shakspere, designedly leaving the reader to trace and<br>
+        &ldquo;find for himself a liberal education by studying the<br>
+        &ldquo;wisdom of the Divine Bard.<br>
+        <br>
+        &ldquo;There are many things in this volume that the ordinary<br>
+        &ldquo;mind will not understand, yet I only contract with the<br>
+        &ldquo;present and future generations to give rare and rich<br>
+        &ldquo;food for thought, and cannot undertake to furnish the<br>
+        &ldquo;reader brains with each book!&rdquo;
+      </td>
+    </tr>
+    <tr>
+      <th valign="top" align="left" bgcolor="cornsilk">Texto revisado correctamente:</th>
+    </tr>
+    <tr valign="top">
+      <td>
+        <tt>
+        Clearly he wasn't an academic with a preface like this<br>
+        one. "I do not give the name of the play, act or scene,<br>
+        in head or foot lines, in my numerous quotations from<br>
+        Shakspere, designedly leaving the reader to trace and<br>
+        find for himself a liberal education by studying the<br>
+        wisdom of the Divine Bard.<br>
+        <br>
+        "There are many things in this volume that the ordinary<br>
+        mind will not understand, yet I only contract with the<br>
+        present and future generations to give rare and rich<br>
+        food for thought, and cannot undertake to furnish the<br>
+        reader brains with each book!"
+        </tt>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="period_s">Punto final de las frases</a></h3>
-<p>Deje s&oacute;lo un espacio despu&eacute;s del punto final de la frase.
+<h3><a name="period_s">Punto final de las oraciones</a></h3>
+<p>Deje solo un espacio despu&eacute;s del punto final de las frases.
 </p>
-<p>Si en el texto escaneado aparecen varios espacios despu&eacute;s del punto
-final, no es necesario quitar los espacios sobrantes&mdash;eso se hace
-autom&aacute;ticamente durante el pos-proceso. Vea las <a href="#para_side">Notas al margen</a> para un ejemplo.
+<p>Si en el texto escaneado aparecen varios espacios despu&eacute;s del punto final, no es necesario quitar los espacios sobrantes. Esto se hace autom&aacute;ticamente durante el posprocesamiento.
+</p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="punctuat">Puntuaci&oacute;n</a></h3>
-<p>En general, no deber&iacute;a de haber espacios en blanco ante los caracteres
-de puntuaci&oacute;n excepto ante las comillas que abren la frase. Si hay un
-espacio en blanco dejado por el OCR, qu&iacute;telo. Esto se refiere incluso a
-los idiomas como el franc&eacute;s, los que normalmente dejan un espacio en
-blanco ante los caracteres de puntuaci&oacute;n.
+<p>Espacios antes de la puntuaci&oacute;n aparecen a veces porque las imprentas en los siglos XVIII y XIX utilizaban a menudo espacios parciales antes de signos de puntuaci&oacute;n tales como el punto y coma o los dos puntos.
 </p>
-<p>Este espacio en blanco a veces aparece en los libros impresos durante los siglos XVIII y XIX ya que en esa &eacute;poca era frecuente dejar medio espacio entre la palabra y los dos puntos o el punto y coma.
+<p>En general, deber&iacute;a haber un espacio despu&eacute;s de un signo de puntuaci&oacute;n y ning&uacute;n espacio antes. Si el OCR no ha dejado un espacio despu&eacute;s de un signo de puntuaci&oacute;n, usted debe a&ntilde;adirlo; si el OCR ha dejado un espacio antes del signo de puntuaci&oacute;n, usted debe eliminarlo. Esto se aplica tambi&eacute;n a idiomas tales como el franc&eacute;s, en el cual normalmente se dejan espacios antes de los signos de puntuaci&oacute;n. Sin embargo, los signos de puntuaci&oacute;n que normalmente aparecen de a pares, tales como "comillas", (par&eacute;ntesis), [corchetes] y {llaves}, tienen normalmente un espacio antes del signo de apertura, el cual debe ser conservado.
 </p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1"  cellpadding="4" cellspacing="0" summary="Punctuation">
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Punctuation example">
   <tbody>
-
-    <tr><th align="left" bgcolor="cornsilk">Texto escaneado:</th></tr>
+    <tr><th align="left" bgcolor="cornsilk">Imagen original:</th></tr>
     <tr>
       <td valign="top">and so it goes&nbsp;; ever and ever.</td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto correctamente revisado:</th></tr>
     <tr>
       <td valign="top"><tt>and so it goes; ever and ever.</tt></td>
-
     </tr>
   </tbody>
 </table>
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="extra_sp">Varios espacios en blanco entre palabras</a></h3>
-<p>Las tabulaciones o varios espacios en blanco entre palabras aparecen a
-menudo en los resultados de OCR. No se moleste en eliminarlos&mdash;eso se
-har&aacute; autom&aacute;ticamente en el pos-proceso.
-</p>
-<p>En cambio, <b>s&iacute;</b> es necesario eliminar estos espacios entre las palabras y
-signos de puntuaci&oacute;n (comillas, puntos, punto y coma, etc.).
+<p>Varios espacios en blanco entre palabras aparecen a menudo en los resultados de OCR. No se moleste en eliminarlos&---;eso se har&aacute; autom&aacute;ticamente en el posprocesamiento. Por el contrario, <b>s&iacute;</b> es necesario eliminar espacios en blanco que aparecen entre las palabras y los signos de puntuaci&oacute;n (comillas, puntos, punto y coma, etc.).
 </p>
 <p>
-Por ejemplo: <b>A horse&nbsp;;&nbsp;&nbsp;&nbsp;my kingdom for a horse.</b> el espacio entre
-la palabra 'horse' y el punto y coma hay que eliminar. Pero, los dos
-espacios despu&eacute;s del punto y coma se pueden dejar&mdash;no es necesario
-eliminar uno de ellos.
+Por ejemplo, en <tt>"Un caballo&nbsp;;&nbsp;&nbsp;mi reino por un caballo."</tt> el espacio entre la palabra "caballo" y el punto y coma debe ser eliminado. Pero no es necesario eliminar el espacio extra que aparece despu&eacute;s del punto y coma.
+</p>
+<p>Adem&aacute;s, si usted encuentra alg&uacute;n car&aacute;cter de tabulaci&oacute;n en el texto, debe eliminarlo.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="trail_s">Espacios en blanco al final de la l&iacute;nea</a></h3>
-<p>No pierda tiempo en insertar espacios en blanco al final de las l&iacute;neas
-del texto. Es algo que se hace autom&aacute;ticamente m&aacute;s adelante en el
-pos-proceso. Tampoco pierda tiempo en eliminar los que sobran al final
-de las l&iacute;neas.
+<p>No pierda tiempo en insertar espacios en blanco al final de las l&iacute;neas del texto. Estos espacios ser&aacute;n automaticamente eliminados cuando usted guarde la p&aacute;gina como "DONE" (completada). Durante el posprocesamiento del libro, cada final de l&iacute;nea ser&aacute; convertido en un solo espacio.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
-
-
-<h3><a name="drop_caps">Letras may&uacute;sculas ornamentadas al inicio del p&aacute;rrafo, frase o secci&oacute;n</a></h3>
-<p>Revise este tipo de letra ornamentada al inicio de un p&aacute;rrafo, frase o
-secci&oacute;n como letras normales.
-</p>
-<!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="em_dashes">Guiones, el signo menos "-" y rayas</a></h3>
-<p> Generalmente hay cuatro tipos de guiones que se encuentran en los libros:
+<p>Generalmente en los libros hay cuatro tipo de guiones:
+</p>
   <ol compact>
-    <li><i>Guiones de separaci&oacute;n</i>.
-Se utilizan para juntar dos palabras, o a veces <b>juntan</b> prefijos y sufijos a las palabras.
-    <br>
-D&eacute;jelos como simple gui&oacute;n, sin ning&uacute;n espacio por delante o detr&aacute;s.<br>F&iacute;jese en la excepci&oacute;n del segundo caso.
+    <li><i>Guiones de separaci&oacute;n</i>. Se utilizan para <b>unir</b> dos palabras, o a veces re&uacute;nen prefijos y sufijos a las palabras.
+    <br>D&eacute;jelos como un gui&oacute;n simple, sin ning&uacute;n espacio antes o despu&eacute;s.
+        Tenga en cuenta que existe una excepci&oacute;n a esta regla en el punto N&deg; 2 de esta lista.
     </li>
-    <li><i>El signo menos "-"</i> (En-dash).
-Estos pueden ser un poco m&aacute;s largos y se utilizan para indicar una <b>escala/rango</b> de n&uacute;meros o el signo <b>matem&aacute;tico</b>.
-    <br>
-Rev&iacute;salos como gui&oacute;n simple.  Los espacios (antes o despu&eacute;s) tienen que coincidir
-con el texto original; normalmente no hay espacios para escalas de n&uacute;meros, y s&iacute;
-antes del menos... a veces tambi&eacute;n detr&aacute;s de &eacute;l.
-   </li>
-
-    <li><i>Gui&oacute;n largo</i> (Em-dash, long dash).
- Estos separan las palabras&mdash;a veces para enfatizar algo, as&iacute;&mdash;o cuando el que habla vacila antes de completar la frase&mdash;!
-
-Rev&iacute;selos como dos guiones (--) si son de tama&ntilde;o normal, o cuatro
-guiones (----) si el gui&oacute;n es m&aacute;s largo de lo normal. No deje ning&uacute;n
-espacio en blanco antes ni tampoco despu&eacute;s, aunque parezca que en el
-texto original haya espacios.
+    <li><i>El gui&oacute;n medio (gui&oacute;n "ene" o de medio cuadrat&iacute;n)</i>. Estos guiones pueden ser un poco m&aacute;s largos y se utilizan para indicar un <b>rango</b> de n&uacute;meros o el signo matem&aacute;tico <b>menos</b>.
+    <br>Rev&iacute;selos como un gui&oacute;n simple. Los espacios (antes o despu&eacute;s) tienen que coincidir con el texto original; normalmente no hay espacios para rangos de n&uacute;meros, y s&iacute; antes (y a veces tambi&eacute;n despu&eacute;s) del signo menos.
     </li>
-    <li><i>Palabras o nombres omitidos a prop&oacute;sito</i>.
-    <br>
-Rev&iacute;selos como cuatro guiones (----). Si reemplazan una palabra, deje un espacio en blanco antes y despu&eacute;s de los guiones, como si se tratara de una palabra de verdad. Si es s&oacute;lo parte de una palabra la que est&aacute; sustituida, no deje espacio--j&uacute;ntelos con el resto de la palabra.<br>
-Si la parte omitida de la palabra aparece de tama&ntilde;o de un gui&oacute;n largo, rev&iacute;selo como tal: dos guiones.    </li>
-
+    <li><i>Guiones largos (gui&oacute;n "eme" o de uno o m&aacute;s cuadratines)</i>. Estos guiones <b>separan</b> las palabras&mdash;a veces para enfatizar algo, as&iacute;&---;o cuando el que habla vacila antes de completar la frase&mdash;&mdash;!
+    <br>Rev&iacute;selos como dos guiones (--) si el gui&oacute;n ocupa el espacio de 2 o 3 caracteres, o cuatro guiones (----) si el gui&oacute;n ocupa el espacio de 4 o 5 caracteres. No deje ning&uacute;n espacio en blanco antes ni despu&eacute;s, aunque parezca que en el texto original hay espacios.
+    </li>
+    <li><i>Palabras o nombres omitidos o censurados a prop&oacute;sito.</i>.
+    <br>Si est&aacute;n representadas con un gui&oacute;n en la imagen, revise estas palabras como dos guiones o cuatro guiones tal como se describe en el punto N&deg; 3. Cuando los guiones representan una palabra completa, deje un espacio antes y despu&eacute;s de los guiones, como si se tratase de la verdadera palabra. Si solo se trata de parte de una palabra, no deje espacios entre los guiones y la parte realmente escrita de la palabra.
+    </li>
   </ol>
-<p>
-Note: Si un gui&oacute;n largo (em-dash) aparece al principio o al final de la
-l&iacute;nea del texto de OCR, j&uacute;ntelo con la otra l&iacute;nea de texto para que no
-haya espacios alrededor de el. Solamente si el autor utiliz&oacute; un gui&oacute;n
-largo (em-dash) al comienzo o al final del p&aacute;rrafo, l&iacute;nea de poes&iacute;a o
-di&aacute;logo se debe dejar como est&aacute;. Vea los ejemplos que siguen.
+<p>Vea tambi&eacute;n las reglas para los guiones cortos y largos <a href="#eol_hyphen">al final de la l&iacute;nea</a> y <a href="#eop_hyphen">al final de la p&aacute;gina</a>.
 </p>
 <!-- END RR -->
 
-<p><b>Ejemplos</b>&mdash;Guiones, signo menos "-" y rayas:
+<p><b>Ejemplos</b>&mdash;Guiones, signo menos y rayas:
 </p>
 
-<table width="100%" align="center" border="1"  cellpadding="4" cellspacing="0" summary="Hyphens and Dashes">
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Hyphens and Dashes examples">
   <tbody>
     <tr>
-      <th valign="top" bgcolor="cornsilk">Imagen Original:</th>
-
-      <th valign="top" bgcolor="cornsilk">Texto Revisado Correctamente:</th>
-      <th valign="top" bgcolor="cornsilk">Tipo</th>
+      <th valign="top" bgcolor="cornsilk">Imagen original:</th>
+      <th valign="top" bgcolor="cornsilk">Texto revisado correctamente:</th>
+      <th valign="top" bgcolor="cornsilk">Tipo:</th>
     </tr>
     <tr>
       <td valign="top">semi-detached</td>
       <td valign="top"><tt>semi-detached</tt></td>
-      <td> Gui&oacute;n</td>
-
+      <td>Gui&oacute;n de separaci&oacute;n</td>
     </tr>
     <tr>
       <td valign="top">three- and four-part harmony</td>
       <td valign="top"><tt>three- and four-part harmony</tt></td>
-      <td> Gui&oacute;n</td>
+      <td>Gui&oacute;n de separaci&oacute;n</td>
     </tr>
     <tr>
-
       <td valign="top">discoveries which the Crus-<br>
         aders made and brought home with</td>
       <td valign="top"><tt>discoveries which the Crusaders<br>
         made and brought home with</tt></td>
-      <td> Gui&oacute;n</td>
+      <td>Gui&oacute;n de separaci&oacute;n</td>
     </tr>
-
     <tr>
       <td valign="top">factors which mold char-<br>
         acter&mdash;environment, training and heritage,</td>
       <td valign="top"><tt>factors which mold character--environment,<br>
         training and heritage,</tt></td>
-      <td> Gui&oacute;n largo</td>
-
+      <td>Gui&oacute;n de separaci&oacute;n &amp; gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">See pages 21&ndash;25</td>
       <td valign="top"><tt>See pages 21-25</tt></td>
-      <td>Signo menos</td>
+      <td>Gui&oacute;n medio</td>
     </tr>
     <tr>
-
-      <td valign="top">&ndash;14&deg; below zero</td>
-      <td valign="top"><tt>-14&deg; below zero</tt></td>
-      <td>Signo menos</td>
+      <td valign="top">It was &ndash;14&deg;C outside.</td>
+      <td valign="top"><tt>It was -14&deg;C outside.</tt></td>
+      <td>Gui&oacute;n medio</td>
     </tr>
     <tr>
-
       <td valign="top">X &ndash; Y = Z</td>
       <td valign="top"><tt>X - Y = Z</tt></td>
-      <td>Signo menos</td>
+      <td>Gui&oacute;n medio</td>
     </tr>
     <tr>
       <td valign="top">2&ndash;1/2</td>
-
       <td valign="top"><tt>2-1/2</tt></td>
-      <td>Signo menos</td>
+      <td>Gui&oacute;n medio</td>
     </tr>
     <tr>
-      <td valign="top">I am hurt;&mdash;A plague<br> on both your houses!&mdash;I am dead.</td>
-
-      <td valign="top"><tt>I am hurt;--A plague<br> on both your houses!--I am dead.</tt></td>
+      <td valign="top">&mdash;A plague on both<br> your houses!&mdash;I am dead.</td>
+      <td valign="top"><tt>--A plague on both<br> your houses!--I am dead.</tt></td>
       <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">sensations&mdash;sweet, bitter, salt, and sour<br>
         &mdash;if even all of these are simple tastes. What</td>
-
       <td valign="top"><tt>sensations--sweet, bitter, salt, and sour--if<br>
         even all of these are simple tastes. What</tt></td>
       <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">senses&mdash;touch, smell, hearing, and sight&mdash;<br>
-
         with which we are here concerned,</td>
       <td valign="top"><tt>senses--touch, smell, hearing, and sight--with<br>
         which we are here concerned,</tt></td>
       <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
-      <td valign="top">It is the east, and Juliet is the sun!&mdash;</td>
-
-      <td valign="top"><tt>It is the east, and Juliet is the sun!--</tt></td>
+      <td valign="top">It is the east, and Juliet is the sun&mdash;!</td>
+      <td valign="top"><tt>It is the east, and Juliet is the sun--!</tt></td>
       <td>Gui&oacute;n largo</td>
     </tr>
- <tr>
-      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to
+    <tr>
+      <td valign="top"><img src="dashes.png" width="300" height="28" alt=""></td>
+      <td valign="top"><tt>how a--a--cannon-ball goes----"</tt></td>
+      <td>Guiones largos, gui&oacute;n de separaci&oacute;n,<br> &amp; gui&oacute;n largo</td>
+    </tr>
+    <tr>
+      <td valign="top">"Three hundred&mdash;&mdash;" "years," she was going to<br>
         say, but the left-hand cat interrupted her.</td>
-      <td valign="top"><tt>"Three hundred----" "years," she was going to
+      <td valign="top"><tt>"Three hundred----" "years," she was going to<br>
         say, but the left-hand cat interrupted her.</tt></td>
-
-      <td>Raya</td>
+      <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">As the witness Mr. &mdash;&mdash; testified,</td>
       <td valign="top"><tt>As the witness Mr. ---- testified,</tt></td>
-      <td>Raya</td>
-
+      <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">As the witness Mr. S&mdash;&mdash; testified,</td>
       <td valign="top"><tt>As the witness Mr. S---- testified,</tt></td>
-      <td>Raya</td>
+      <td>Gui&oacute;n largo</td>
     </tr>
-
     <tr>
       <td valign="top">the famous detective of &mdash;&mdash;B Baker St.</td>
       <td valign="top"><tt>the famous detective of ----B Baker St.</tt></td>
-      <td>Raya</td>
+      <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">&ldquo;You &mdash;&mdash; Yankee&rdquo;, she yelled.</td>
-
       <td valign="top"><tt>"You ---- Yankee", she yelled.</tt></td>
-      <td>Raya</td>
+      <td>Gui&oacute;n largo</td>
     </tr>
     <tr>
       <td valign="top">&ldquo;I am not a d&mdash;d Yankee&rdquo;, he replied.</td>
       <td valign="top"><tt>"I am not a d--d Yankee", he replied.</tt></td>
-
-      <td>Gui&oacute;n largo</td></tr>
+      <td>Gui&oacute;n largo</td>
+    </tr>
   </tbody>
 </table>
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="eol_hyphen">Gui&oacute;n al final de la l&iacute;nea</a></h3>
-<p>
-Cuando hay un gui&oacute;n que corta la palabra al final de la l&iacute;nea, junte las
-dos partes de la palabra. Si la palabra normalmente lleva gui&oacute;n (como
-pos-proceso o well-meaning), junte sus dos partes dejando el gui&oacute;n donde
-est&aacute;. Si el gui&oacute;n se puso solamente para partir una palabra que no cabe
-entera en la l&iacute;nea (y no se trata de una palabra que normalmente lleva
-gui&oacute;n), junte las dos partes de la palabra y quite el gui&oacute;n. Coloque la
-palabra rejuntada al final de la l&iacute;nea superior, y corte la l&iacute;nea
-despu&eacute;s de ella para mantener el formato de l&iacute;nea. Esto facilitar&aacute; el
-trabajo de voluntarios que sigan la revisi&oacute;n en siguientes rondas. Vea
-<a href="#em_dashes">Guiones, el signo menos "-" y rayas</a> para ver los ejemplos en cada caso (nar-row
-se convierte en narrow, pero low-lying no pierde su gui&oacute;n). Si a la
-palabra le sigue la puntuaci&oacute;n, suba esta tambi&eacute;n al final de la l&iacute;nea
-superior, junto a la palabra rejuntada.
-</p><p>Palabras como &laquo;to-day" y
-"to-morrow" que hoy d&iacute;a no llevan gui&oacute;n aparecen con &eacute;l en muchos libros
-antiquos que estamos revisando. Deje estas palabras con gui&oacute;n como el
-autor las escribi&oacute;. Si no est&aacute; seguro si el autor escribi&oacute; la palabra
-con gui&oacute;n o sin &eacute;l, dejelo como est&aacute;, ponga un asterisco * a
-continuac&iacute;&oacute;n, y rejunte la palabra. As&iacute;: to-*day. El asterisco llamar&aacute;
-atenci&oacute;n del pos-procesador, el que tiene acceso a todas las p&aacute;ginas, y
-puede decidir sobre la pauta que sigui&oacute; el autor en la obra.
+<p>Cuando hay un gui&oacute;n que corta la palabra al final de la l&iacute;nea, junte las dos partes de la palabra. Si la palabra normalmente lleva gui&oacute;n (como te&oacute;rico-pr&aacute;ctico), junte sus dos partes dejando el gui&oacute;n donde est&aacute;. Si el gui&oacute;n se puso solamente para partir una palabra que no cabe entera en la l&iacute;nea (y no se trata de una palabra que normalmente lleva gui&oacute;n), junte las dos partes de la palabra y quite el gui&oacute;n. Coloque la palabra unida al final de la l&iacute;nea superior, y corte la l&iacute;nea despu&eacute;s de ella para mantener el salto de l&iacute;nea. Esto facilitar&aacute; el trabajo de los voluntarios que contin&uacute;en la revisi&oacute;n en las siguientes rondas. Si la palabra tiene un signo de puntuaci&oacute;n despu&eacute;s, el signo de puntuaci&oacute;n debe subirse, junto con la palabra, a la l&iacute;nea superior.
+</p>
+<p>Palabras como "to-day" y "to-morrow", que en la actualidad no llevan gui&oacute;n, aparecen con gui&oacute;n en muchos libros antiguos. Deje estas palabras con gui&oacute;n como el autor las escribi&oacute;. Si no est&aacute; seguro si el autor escribi&oacute; la palabra con gui&oacute;n o sin &eacute;l, conserve el gui&oacute;n con un asterisco  <tt>*</tt> tras &eacute;l, y una la palabra, as&iacute;: <tt>to-*day</tt>. El asterisco llamar&aacute; la atenci&oacute;n del posprocesador, quien tiene acceso a todas las p&aacute;ginas y puede decidir sobre la pauta que sigui&oacute; el autor en la obra.
+</p>
+<p>De igual manera, si un gui&oacute;n largo (o gui&oacute;n "eme") aparece al principio o al final de una l&iacute;nea en el texto resultado del OCR, debe unirlo con la l&iacute;nea anterior de modo tal que no haya espacios o saltos de l&iacute;nea alrededor del gui&oacute;n. Sin embargo, si el autor utiliz&oacute; un gui&oacute;n largo para comenzar o terminar un p&aacute;rrafo o un verso en una poes&iacute;a, debe dejar el gui&oacute;n tal cual est&aacute;, sin unirlo con otra l&iacute;nea. Consulte <a href="#em_dashes">Guiones, el signo menos "-" y rayas</a> para ver ejemplos.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="eop_hyphen">Gui&oacute;n al final de la p&aacute;gina</a></h3>
-<p>
-Cuando hay un gui&oacute;n que corta la palabra al final de la p&aacute;gina, deje el
-gui&oacute;n y ponga un asterisco <tt>*</tt> a continuaci&oacute;n.<br>
-Por ejemplo:<br>
-   &nbsp;<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;something Pat had already become accus-<br>
-   se convierte en:<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;<tt>something Pat had already become accus-*</tt>
+<p>Cuando encuentre un gui&oacute;n corto o largo al final de una p&aacute;gina, deje el gui&oacute;n donde est&aacute; y agregue un asterisco <tt>*</tt> despu&eacute;s del mismo. Por ejemplo:
 </p>
-<p>
-En la p&aacute;gina que empieza con la segunda parte de la palabra de la p&aacute;gina
-anterior, o con un gui&oacute;n, ponga un asterisco <tt>*</tt> al principio de todo.
-
-La continuaci&oacute;n del ejemplo de arriba:<br>
-
-   &nbsp;<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;tomed to from having to do his own family<br>
-   se convierte en:<br>
-   &nbsp; &nbsp; &nbsp; &nbsp;<tt>*tomed to from having to do his own family</tt>
-
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="End-of-page Hyphenation example">
+  <tbody>
+    <tr><th align="left" bgcolor="cornsilk">Imagen original:</th></tr>
+    <tr>
+      <td valign="top">something Pat had already become accus-</td>
+    </tr>
+    <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
+    <tr>
+      <td valign="top"><tt>something Pat had already become accus-*</tt></td>
+    </tr>
+  </tbody>
+</table>
+<p>En p&aacute;ginas que comienzan con parte de una palabra, cortada en la p&aacute;gina anterior, o con un gui&oacute;n largo, coloque un asterisco <tt>*</tt> antes de la palabra cortada o el gui&oacute;n. Continuando con el ejemplo de arriba:
 </p>
-<p>Estos indiquen al pos-procesor que las dos partes deben juntarse.</p>
-<!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
-
-
-<h3><a name="period_p">Puntos suspensivos "..."</a></h3>
-<p>Las reglas son diferentes para ingl&eacute;s y otros idiomas (LOTE).
-</p>
-<p><b>Ingl&eacute;s</b>:
- Deje un espacio antes y despu&eacute;s de los puntos suspensivos. La excepci&oacute;n es cuando los puntos suspensivos se encuentren al final de la frase donde no habr&aacute; espacio en blanco antes, sino cuatro puntos y un espacio despu&eacute;s.... Lo mismo ocurre con cualquier otro signo de puntuaci&oacute;n: los puntos suspensivos siguen al signo que los precede sin ning&uacute;n espacio entre ellos.
-</p>
-<p>For example:<br>
-
-   <tt>
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;That I know ... is true.
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is the end....
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo?...
-   </tt>
-</p>
-<p>A veces encontrar&aacute;n el signo de puntuaci&oacute;n al final; como en el ejemplo:
-<br>
-   <tt>
-   <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wherefore art thou Romeo...?
-   </tt>
-</p>
-<p>Elimine si sobran puntos o a&ntilde;ada los que sean necesarios para conseguir el formato correcto.
-</p>
-
-<p><b>LOTE:</b> (Languages Other Than English--otros idiomas que no sean ingl&eacute;s.)
-Use la regla principal: &laquo;siga lo m&aacute;s exactamente posible el estilo de la p&aacute;gina
-impresa&raquo;. Inserte espacio en blanco si es necesario antes o entre los puntos
-suspensivos, y use el mismo n&uacute;mero de puntos que aparece en la imagen de
-la p&aacute;gina impresa. A veces la imagen no se ve bien.
-En ese caso, deje una nota para llamar atenci&oacute;n del pos-procesador as&iacute;: <tt>[**unclear]</tt>.
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Start-of-page Hyphenation example">
+  <tbody>
+    <tr><th align="left" bgcolor="cornsilk">Imagen original:</th></tr>
+    <tr>
+      <td valign="top">tomed to from having to do his own family</td>
+    </tr>
+    <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
+    <tr>
+      <td valign="top"><tt>*tomed to from having to do his own family</tt></td>
+    </tr>
+  </tbody>
+</table>
+<p>Estos asteriscos le indicar&aacute;n al posprocesador que la palabra debe ser unida cuando las p&aacute;ginas sean combinadas para producir el libro electr&oacute;nico final. Por favor no re&uacute;na los fragmentos entre una p&aacute;gina y otra en las rondas de revisi&oacute;n.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
+
+
+<h3><a name="period_p">Puntos suspensivos &quot;...&quot;</a></h3>
+<p>Las reglas son diferentes para ingl&eacute;s y otros idiomas (LOTE, <i>Languages Other Than English</i>: idiomas distintos del ingl&eacute;s).
+</p>
+<p><b>INGL&Eacute;S</b>: los puntos suspensivos deber&iacute;an tener tres puntos. En relaci&oacute;n a los espacios, si los puntos suspensivos se encuentran en la mitad de una oraci&oacute;n, debe tratar los puntos suspensivos como si fueran una palabra (es decir, debe dejar un espacio antes y uno despu&eacute;s de los tres puntos). Si se encuentran al final de una oraci&oacute;n, debe tratar los puntos suspensivos como puntuaci&oacute;n final, sin espacios antes.
+</p>
+<p>Tenga en cuenta que tambi&eacute;n habr&aacute; un signo de puntuaci&oacute;n final para la oraci&oacute;n. Si se trata de un punto, habr&aacute; cuatro puntos en total. Elimine cualquier punto que exista; o a&ntilde;ada los que sean necesarios para llegar a los tres o cuatro puntos requeridos. Una buena pista para saber si uno se encuentra al final de una oraci&oacute;n es el uso de may&uacute;sculas al comienzo de la siguiente palabra, o la existencia de puntuaci&oacute;n que marque el final (como por ejemplo un signo de pregunta o de exclamaci&oacute;n).
+</p>
+<p><b>IDIOMAS DISTINTOS DEL INGL&Eacute;S (LOTE)</b>: Use la regla principal: "siga lo m&aacute;s exactamente posible el estilo de la p&aacute;gina impresa". Inserte espacios en blanco si es necesario antes o entre los puntos suspensivos, y use el mismo n&uacute;mero de puntos que aparece en la imagen de la p&aacute;gina impresa. A veces la imagen no se ve bien. En ese caso, deje una nota para llamar atenci&oacute;n del posprocesador, as&iacute;: <tt>[**unclear]</tt> o <tt>[**poco claro]</tt>. (Nota: los posprocesadores deber&aacute;n remplazar estos espacios regulares por espacios que no ocasionen quiebres de l&iacute;nea.)
+</p>
+<!-- END RR -->
+<p>Ejemplos para el idioma ingl&eacute;s:
+</p>
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Ellipses examples">
+  <tbody>
+    <tr>
+      <th valign="top" bgcolor="cornsilk">Imagen original:</th>
+      <th valign="top" bgcolor="cornsilk">Texto revisado correctamente:</th>
+    </tr>
+    <tr>
+      <td valign="top">That I know .&nbsp;.&nbsp;. is true.</td>
+      <td valign="top"><tt>That I know ... is true.</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">This is the end....</td>
+      <td valign="top"><tt>This is the end....</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">The moving finger writes; and.&nbsp;.&nbsp;. The poet<br> surely had a pen though!</td>
+      <td valign="top"><tt>The moving finger writes; and.... The poet<br> surely had a pen though! </tt></td>
+    </tr>
+    <tr>
+      <td valign="top">Wherefore art thou Romeo.&nbsp;.&nbsp;.&nbsp;?</td>
+      <td valign="top"><tt>Wherefore art thou Romeo...?</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;I went to the store,&nbsp;.&nbsp;.&nbsp;.&rdquo; said Harry.</td>
+      <td valign="top"><tt>"I went to the store, ..." said Harry.</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;... And I did too!&rdquo; said Sally.</td>
+      <td valign="top"><tt>"... And I did too!" said Sally.</tt></td>
+    </tr>
+    <tr>
+      <td valign="top">&ldquo;Really?&nbsp;&nbsp;.&nbsp;.&nbsp;. Oh, Harry!&rdquo;</td>
+      <td valign="top"><tt>"Really?... Oh, Harry!"</tt></td>
+    </tr>
+  </tbody>
+</table>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="contract">Contracciones</a></h3>
-<p>Elimine espacio en blanco de las contracciones. Por ejemplo:
-<tt>would&nbsp;n't</tt>
-se revisa como <tt>wouldn't</tt>. <br>
+<p>
+En ingl&eacute;s, elimine el espacio en blanco de las contracciones. Por ejemplo: <tt>would&nbsp;n't</tt> se revisa como <tt>wouldn't</tt> y <tt>'t&nbsp;is</tt> como <tt>'tis</tt>.
 </p>
-<p>El espacio en blanco es com&uacute;n en los libros de las &eacute;pocas anteriores y
-se dejaba para indicar que originalmente se trata de dos palabras
-separadas, 'would' y 'not.' A veces lo deja el OCR sin raz&oacute;n aparente.
-En todo caso elimine este espacio en blanco.
+<p>El espacio en blanco es com&uacute;n en los libros del siglo XIX y se dejaba para indicar que, en principio, se trata de dos palabras diferentes: 'would' y 'not.' A veces lo deja el OCR sin raz&oacute;n aparente. Siempre elimine el espacio en blanco.
 </p>
-<p>Algunos gerentes de proyecto (Project Managers) le dir&aacute;n en los
-<a href="#comments">Comentarios del proyecto</a> que no elimine
-estos espacios en blanco de las contracciones, especialmente si se trata
-de los textos que contienen argot, dialectos o son textos en idiomas
-distintos al ingl&eacute;s.
+<p>Algunos Gestores de Proyecto (Project Managers) pueden pedir en los <a href="#comments">Comentarios del Proyecto</a> que estos espacios no sean eliminados, especialmente si se trata de textos que contienen argot, dialectos o poes&iacute;a.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="fract_s">Fracciones</a></h3>
-<p>Revise fracciones as&iacute;:<tt>2&frac12;</tt> se convierte en <tt>2-1/2</tt>.
-El gui&oacute;n evita que se separen el n&uacute;mero y las fracciones cuando las l&iacute;neas se formateen en el pos-proceso.
+<p>Revise las fracciones as&iacute;: <tt>&frac14;</tt> se convierte en <tt>1/4</tt>; <tt>2&frac12;</tt> se convierte en <tt>2-1/2</tt>. El gui&oacute;n evita que se separen el n&uacute;mero y la fracci&oacute;n cuando las l&iacute;neas se reordenen durante el el posproceso. A menos que sea especificamente solicitado en los <a href="#comments">Comentarios del Proyecto</a> (Project Comments), por favor no utilice los s&iacute;mbolos fraccionales (&frac14;, 2&frac12;, etc.).
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="a_chars">Caracteres acentuados</a></h3>
-
-<p>Por favor, utilice los caracteres de Latin-1 donde sea posible. Vea<a href="#d_chars">
-Signos diacr&iacute;ticos</a> donde se explica como revisar
-caracteres no-Latin-1.
+<h3><a name="a_chars">Caracteres acentuados y caracteres no ASCII</a></h3>
+<?php if(!$utf8_site) { ?>
+<p>Por favor revise este tipo de caracteres usando los s&iacute;mbolos apropiados o los caracteres acentuados, cuando sea posible, tal como aparecen en la imagen, incluyendo el uso o la omisi&oacute;n de acentos. Solamente podemos usar caracteres Latin-1 durante el proceso de revisi&oacute;n; si usted no esta seguro si un car&aacute;cter pertenece al conjunto Latin-1, puede revisar las tablas que se encuentran m&aacute;s abajo. 
+<?php } else { ?>
+<p>Por favor revise este tipo de caracteres utilizando los caracteres UTF-8 apropiados. Para los caracteres que no son parte de Unicode, vea las instrucciones del Gestor del Proyecto en los <a href="#comments">Comentarios del Proyecto</a>. 
+<?php } ?>
+Si estos caracteres no se encuentran en su teclado, vea la secci&oacute;n <a href="#insert_char">Insertando Caracteres Especiales</a> para obtener informaci&oacute;n sobre c&oacute;mo colocar estos caracteres mientras revisa una p&aacute;gina.
 </p>
-<p>Si utiliza un teclado que no tiene los caracteres acentuados, existen
-varias maneras de hacerlo:
-</p>
-<ul compact>
-  <li> Los men&uacute;s desplegables de la p&aacute;gina de interfaz de revisi&oacute;n.</li>
-  <li> Applets incluidos en su sistema de operaci&oacute;n.
-      <ul compact>
-      <li>Windows: &laquo;Character Map&raquo;<br> Ruta de acceso:<br>
-          Haga clic en Start, Run; charmap o<br>
-          Haga clic en Start, Accessories, System Tools, Character Map.</li>
-      <li>Macintosh: Key Caps o &laquo;Keyboard Viewer&raquo;<br>
-          Para OS 9 y anteriores, est&aacute; en Apple Menu,<br>
-          Para OS X hasta 10.2, est&aacute; en Applications, Utilities folder<br>
-          Para OS X 10.3 y siguientes, est&aacute; en Input Menu como &laquo;Keyboard Viewer.&raquo;</li>
 
-      <li>Linux: Varias maneras, depende del escritorio.<br>
-          Para KDE, intente KCharSelect (en el submen&uacute; Utilities del men&uacute; principal).</li>
-      </ul>
-  </li>
-  <li>El programa en l&iacute;nea.</li>
-  <li> Teclas personalizadas.<br>
-
-       Tablas para <a href="#a_chars_win">Windows</a> y <a href="#a_chars_mac">Macintosh</a>
-donde se muestra los atajos del teclado.</li>
-  <li> Cambiar la configuraci&oacute;n del teclado para que soporte caracteres acentuados ("deadkeys").
-       <ul compact>
-       <li>Windows: Panel de Control (Teclado, Input Locales)</li>
-       <li>Macintosh: Input Menu (en la Barra del Men&uacute;)</li>
-       <li>Linux: Modifique el teclado en su configuraci&oacute;n X.</li>
-      </ul>
-  </li>
-</ul>
-<p>El Proyecto Gutenberg aceptar&aacute; como m&iacute;nimo, versiones de textos 7-bit
-ASCII, aunque acepta tambi&eacute;n otras versiones de codificaci&oacute;n, que
-conservan m&aacute;s informaci&oacute;n del texto original. Proyecto Gutemberg-Europa
-utiliza UTF-8 como principal codificador, aunque est&aacute;n bienvenidas otras
-formas de codificaci&oacute;n. En este momento Distributed Proofreaders utiliza
-Latin-1 o ISO 8859-1 y -15. pero en el futuro se incluir&aacute; Unicode.
-Distributed Proofreaders Europe ya utiliza Unicode.
+<?php if(!$utf8_site) { ?>
+<p>El car&aacute;cter &oelig; (ligatura oe) no es parte del conjunto Latin-1, por lo tanto lo marcamos con corchetes, como por ejemplo: <tt>man[oe]uvre</tt> o <tt>[OE]dipus</tt> para la &OElig; en may&uacute;sculas. Tenga en cuenta que el car&aacute;cter &aelig; (la ligatura ae, como en <tt>encyclop&aelig;dia</tt>) s&iacute; es parte del conjunto Latin-1. Por lo tanto, ese car&aacute;cter deber&iacute;a ser insertado directamente.
 </p>
+<p>Para otros caracteres que no se encuentran en Latin-1 vea <a href="#d_chars">Signos diacr&iacute;ticos</a>, para saber c&oacute;mo revisar acentos u otras marcas arriba o debajo de las letras latinas. Para caracteres que no est&aacute;n mencionados en estas reglas, vea las instrucciones del Gestor del Proyecto (Project Manager) en los  <a href="#comments">Comentarios del Proyecto</a>.
+</p>
+<?php } ?>
 <!-- END RR -->
-<a name="a_chars_win"></a>
-<p><b>Para Windows</b>:
-</p>
-<ul compact>
-  <li>Puede utilizar el &ldquo;Character Map&rdquo; (Start, Run, charmap) para elegir una letra; y despu&eacute;s copiar y pegar.
-  </li>
-
-  <li>Men&uacute;s desplegables de la interfaz &laquo;Enhanced&raquo; de revisi&oacute;n.
-  </li>
-  <li>O puede obtener los caracteres si oprime &laquo;Alt&raquo; + N&uacute;mero correspondiente del car&aacute;cter que necesita.
-      <br>
-Este modo resulta el m&aacute;s r&aacute;pido una vez haya aprendido los c&oacute;digos correspondientes.<br>
-(Estas instrucciones son para el teclado US-ingl&eacute;s. Puede que no funcionen con otros teclados.)
-      <br>Oprima la tecla &ldquo;Alt&rdquo; y, sin soltarla, teclee las cuatro cifras en
-el <i>teclado num&eacute;rico</i> y entonces suelte la tecla &ldquo;Alt&rdquo; (l&iacute;nea de teclado num&eacute;rico sobre las letras no funcionar&aacute; para este fin).
-      <br>Debe teclear las cuatro cifras, incluyendo el 0 (cero) al principio.
-Como se puede dar cuenta, la letra may&uacute;scula tiene el c&oacute;digo de la min&uacute;scula
-reducido en 32.
-Igualmente existen configuraciones con las que no se puedan utilizar estos c&oacute;digos.
-      <br>En la siguiente tabla se ven los c&oacute;digos utilizados ahora.
-          (<a href="charwin.pdf">Tabla en ingl&eacute;s que puede imprimir)</a>
-      <br>No debe utilizar otros caracteres aunque el gerente del proyecto lo diga
-en los comentarios del proyecto<a href="#comments">Comentarios del proyecto</a>.
-  </li>
-</ul>
-
-<br>
-<table align="center" border="6" rules="all" summary="Atajos para Windows">
-  <tbody>
-  <tr>
-      <th bgcolor="cornsilk" colspan=14>Atajos de Windows de los s&iacute;mbolos de Latin-1</th>
-  </tr>
-
-  <tr bgcolor="cornsilk">
-      <th colspan=2>` grave</th>
-      <th colspan=2>&acute; agudo (aigu)</th>
-      <th colspan=2>^ circunflejo</th>
-      <th colspan=2>~ tilde</th>
-      <th colspan=2>&uml; di&eacute;resis</th>
-
-      <th colspan=2>&deg; aro</th>
-      <th colspan=2>&AElig; ligadura</th>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Peque&ntilde;a a grave"         >&agrave; </td><td>Alt-0224</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a a agudo"         >&aacute; </td><td>Alt-0225</td>
-
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a a circunflejo"    >&acirc;  </td><td>Alt-0226</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a a tilde"         >&atilde; </td><td>Alt-0227</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a a di&eacute;resis"        >&auml;   </td><td>Alt-0228</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a a aro"          >&aring;  </td><td>Alt-0229</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a ae ligadura"     >&aelig;  </td><td>Alt-0230</td>
-
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="A may&uacute;scula grave"       >&Agrave; </td><td>Alt-0192</td>
-      <td align="center" bgcolor="mistyrose" title="A may&uacute;scula agudo"       >&Aacute; </td><td>Alt-0193</td>
-      <td align="center" bgcolor="mistyrose" title="A may&uacute;scula circunflejo"  >&Acirc;  </td><td>Alt-0194</td>
-      <td align="center" bgcolor="mistyrose" title="A may&uacute;scula tilde"       >&Atilde; </td><td>Alt-0195</td>
-
-      <td align="center" bgcolor="mistyrose" title="A may&uacute;scula di&eacute;resis"      >&Auml;   </td><td>Alt-0196</td>
-      <td align="center" bgcolor="mistyrose" title="A may&uacute;scula aro"        >&Aring;  </td><td>Alt-0197</td>
-      <td align="center" bgcolor="mistyrose" title="AE may&uacute;scula ligadura"   >&AElig;  </td><td>Alt-0198</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Peque&ntilde;a e grave"         >&egrave; </td><td>Alt-0232</td>
-
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a e agudo"         >&eacute; </td><td>Alt-0233</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a e circunflejo"    >&ecirc;  </td><td>Alt-0234</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a e di&eacute;resis"        >&euml;   </td><td>Alt-0235</td>
-      <td> </td><td> </td>
-
-      <td> </td><td> </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="E may&uacute;scula grave"       >&Egrave; </td><td>Alt-0200</td>
-      <td align="center" bgcolor="mistyrose" title="E may&uacute;scula agudo"       >&Eacute; </td><td>Alt-0201</td>
-      <td align="center" bgcolor="mistyrose" title="E may&uacute;scula circunflejo"  >&Ecirc;  </td><td>Alt-0202</td>
-
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="E may&uacute;scula di&eacute;resis"      >&Euml;   </td><td>Alt-0203</td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-  </tr>
-
-  <tr><td align="center" bgcolor="mistyrose" title="Peque&ntilde;a i grave"         >&igrave; </td><td>Alt-0236</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a i agudo"         >&iacute; </td><td>Alt-0237</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a i circunflejo"    >&icirc;  </td><td>Alt-0238</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a i di&eacute;resis"        >&iuml;   </td><td>Alt-0239</td>
-
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="I may&uacute;scula grave"       >&Igrave; </td><td>Alt-0204</td>
-      <td align="center" bgcolor="mistyrose" title="I may&uacute;scula agudo"       >&Iacute; </td><td>Alt-0205</td>
-
-      <td align="center" bgcolor="mistyrose" title="I may&uacute;scula circunflejo"  >&Icirc;  </td><td>Alt-0206</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="I may&uacute;scula di&eacute;resis"      >&Iuml;   </td><td>Alt-0207</td>
-      <th colspan=2 bgcolor="cornsilk">/ barra</th>
-      <th colspan=2 bgcolor="cornsilk">&OElig; ligadura</th>
-
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Peque&ntilde;a o grave"         >&ograve; </td><td>Alt-0242</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a o agudo"         >&oacute; </td><td>Alt-0243</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a o circunflejo"    >&ocirc;  </td><td>Alt-0244</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a o tilde"         >&otilde; </td><td>Alt-0245</td>
-
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a o di&eacute;resis"        >&ouml;   </td><td>Alt-0246</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a o barra"         >&oslash; </td><td>Alt-0248</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a oe ligadura"     >&oelig;  </td><td>Use [oe]</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="O may&uacute;scula grave"       >&Ograve; </td><td>Alt-0210</td>
-
-      <td align="center" bgcolor="mistyrose" title="O may&uacute;scula agudo"       >&Oacute; </td><td>Alt-0211</td>
-      <td align="center" bgcolor="mistyrose" title="O may&uacute;scula circunflejo"  >&Ocirc;  </td><td>Alt-0212</td>
-      <td align="center" bgcolor="mistyrose" title="O may&uacute;scula tilde"       >&Otilde; </td><td>Alt-0213</td>
-      <td align="center" bgcolor="mistyrose" title="O may&uacute;scula di&eacute;resis"      >&Ouml;   </td><td>Alt-0214</td>
-      <td align="center" bgcolor="mistyrose" title="O may&uacute;scula barra"       >&Oslash; </td><td>Alt-0216</td>
-
-      <td align="center" bgcolor="mistyrose" title="O may&uacute;sculaE ligadura"   >&OElig;  </td><td>Use [OE]</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Peque&ntilde;a u grave"         >&ugrave; </td><td>Alt-0249</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a u agudo"         >&uacute; </td><td>Alt-0250</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a u circunflejo"    >&ucirc;  </td><td>Alt-0251</td>
-
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a u di&eacute;resis"        >&uuml;   </td><td>Alt-0252</td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-  </tr>
-
-  <tr><td align="center" bgcolor="mistyrose" title="U may&uacute;scula grave"       >&Ugrave; </td><td>Alt-0217</td>
-      <td align="center" bgcolor="mistyrose" title="U may&uacute;scula agudo"       >&Uacute; </td><td>Alt-0218</td>
-      <td align="center" bgcolor="mistyrose" title="U may&uacute;scula circunflejo"  >&Ucirc;  </td><td>Alt-0219</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="U may&uacute;scula di&eacute;resis"      >&Uuml;   </td><td>Alt-0220</td>
-
-      <th colspan=2 bgcolor="cornsilk">dinero     </th>
-      <th colspan=2 bgcolor="cornsilk">matem&aacute;tica  </th>
-  </tr>
-  <tr><td> </td><td> </td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a n tilde"         >&ntilde; </td><td>Alt-0241</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a y di&eacute;resis"        >&yuml;   </td><td>Alt-0255</td>
-      <td align="center" bgcolor="mistyrose" title="Cents"                 >&cent;   </td><td>Alt-0162</td>
-      <td align="center" bgcolor="mistyrose" title="plus/minus"            >&plusmn; </td><td>Alt-0177</td>
-  </tr>
-
-  <tr><td> </td><td> </td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="N may&uacute;scula tilde"       >&Ntilde; </td><td>Alt-0209</td>
-      <td align="center" bgcolor="mistyrose" title="Y may&uacute;scula di&eacute;resis"      >&Yuml;   </td><td>Alt-0159</td>
-
-      <td align="center" bgcolor="mistyrose" title="Pounds"                >&pound;  </td><td>Alt-0163</td>
-      <td align="center" bgcolor="mistyrose" title="Multiplication"        >&times;  </td><td>Alt-0215</td>
-  </tr>
-  <tr><th colspan=2 bgcolor="cornsilk">cedilla </th>
-      <th colspan=2 bgcolor="cornsilk">Island&eacute;s    </th>
-      <th colspan=2 bgcolor="cornsilk">marcas        </th>
-
-      <th colspan=2 bgcolor="cornsilk">acentos      </th>
-      <th colspan=2 bgcolor="cornsilk">puntuaci&oacute;n  </th>
-      <td align="center" bgcolor="mistyrose" title="Yen"                   >&yen;    </td><td>Alt-0165</td>
-      <td align="center" bgcolor="mistyrose" title="Division"              >&divide; </td><td>Alt-0247</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Peque&ntilde;a c cedilla"       >&ccedil; </td><td>Alt-0231</td>
-
-      <td align="center" bgcolor="mistyrose" title="May&uacute;scula Thorn"         >&THORN;  </td><td>Alt-0222</td>
-      <td align="center" bgcolor="mistyrose" title="Copyright"             >&copy;   </td><td>Alt-0169</td>
-      <td align="center" bgcolor="mistyrose" title="acento agudo"          >&acute;  </td><td>Alt-0180</td>
-      <td align="center" bgcolor="mistyrose" title="Inverted Question Mark">&iquest; </td><td>Alt-0191</td>
-      <td align="center" bgcolor="mistyrose" title="Dollars"               >&#036;   </td><td>Alt-0036</td>
-
-      <td align="center" bgcolor="mistyrose" title="Logical Not"           >&not;    </td><td>Alt-0172</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="May&uacute;scula C cedilla"     >&Ccedil; </td><td>Alt-0199</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a thorn"           >&thorn;  </td><td>Alt-0254</td>
-      <td align="center" bgcolor="mistyrose" title="Registration Mark"     >&reg;    </td><td>Alt-0174</td>
-
-      <td align="center" bgcolor="mistyrose" title="di&eacute;resis accent"         >&uml;    </td><td>Alt-0168</td>
-      <td align="center" bgcolor="mistyrose" title="Inverted Exclamation"  >&iexcl;  </td><td>Alt-0161</td>
-      <td align="center" bgcolor="mistyrose" title="General Currency"      >&curren; </td><td>Alt-0164</td>
-      <td align="center" bgcolor="mistyrose" title="Degrees"               >&deg;    </td><td>Alt-0176</td>
-  </tr>
-
-  <tr><th colspan=2 bgcolor="cornsilk">super&iacute;ndices        </th>
-      <td align="center" bgcolor="mistyrose" title="Eth may&uacute;scula"           >&ETH;    </td><td>Alt-0208</td>
-      <td align="center" bgcolor="mistyrose" title="Trademark"             >&trade;  </td><td>Alt-0153</td>
-      <td align="center" bgcolor="mistyrose" title="macron accent"         >&macr;   </td><td>Alt-0175</td>
-      <td align="center" bgcolor="mistyrose" title="guillemot left"        >&laquo;  </td><td>Alt-0171</td>
-
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Micro"                 >&micro;  </td><td>Alt-0181</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="super&iacute;ndice 1"         >&sup1;   </td><td>Alt-0185</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a eth"             >&eth;    </td><td>Alt-0240</td>
-
-      <td align="center" bgcolor="mistyrose" title="Paragraph (pilcrow)"   >&para;   </td><td>Alt-0182</td>
-      <td align="center" bgcolor="mistyrose" title="cedilla"               >&cedil;  </td><td>Alt-0184</td>
-      <td align="center" bgcolor="mistyrose" title="guillemot right"       >&raquo;  </td><td>Alt-0187</td>
-      <th colspan=2 bgcolor="cornsilk">ordinals  </th>
-      <td align="center" bgcolor="mistyrose" title="1/4 Fraction"          >&frac14; <sup><small>1</small></sup></td><td>Alt-0188</td>
-
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="super&iacute;ndice 2"         >&sup2;   </td><td>Alt-0178</td>
-      <th colspan=2 bgcolor="cornsilk">sz ligadura        </th>
-      <td align="center" bgcolor="mistyrose" title="Section"               >&sect;   </td><td>Alt-0167</td>
-      <td> </td><td> </td>
-
-      <td align="center" bgcolor="mistyrose" title="Middle dot"            >&middot; </td><td>Alt-0183</td>
-      <td align="center" bgcolor="mistyrose" title="Masculine Ordinal"     >&ordm;   </td><td>Alt-0186</td>
-      <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; <sup><small>1</small></sup></td><td>Alt-0189</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="super&iacute;ndice 3"         >&sup3;   </td><td>Alt-0179</td>
-
-      <td align="center" bgcolor="mistyrose" title="sz ligadura"           >&szlig;  </td><td>Alt-0223</td>
-      <td align="center" bgcolor="mistyrose" title="Broken Vertical bar"   >&brvbar; </td><td>Alt-0166</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="asterisk"              >&#042;   </td><td>Alt-0042</td>
-      <td align="center" bgcolor="mistyrose" title="Feminine Ordinal"      >&ordf;   </td><td>Alt-0170</td>
-
-      <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; <sup><small>1</small></sup></td><td>Alt-0190</td>
-  </tr>
-  </tbody>
-</table>
-<p>
-Note: en la mayor&iacute;a de los casos las dos letras individuales (o y e) han reemplazado las ligaduras. (&OElig; se vuelve en Oedipus.) Eche un vistazo a los Comentarios del proyecto para ver si el gerente de proyecto quiere utilizar la ligadura; si no, utilice las dos letras.<br>
-<sup><small>1</small></sup>Note: Si no est&aacute; escrito especialmente en los
-Comentarios del proyecto, no utilice los atajos (&laquo;Alt&raquo; y n&uacute;mero) s&iacute;mbolos para
-fracciones. En vez de eso haga los fracciones como dice las reglas de revisi&oacute;n
-en cuanto a los fracciones (&frac12;, &frac14;, etc.).<a href="#fract_s">Fracciones</a><br>
-
-
-<p> <b>Para Apple Macintosh</b>:
-</p>
-<ul compact>
-  <li>Puede utilizar el programa &laquo;Key Caps&raquo; como referencia.<br>
-En OS 9 y anteriores, est&aacute; en el men&uacute; de Apple; OS X hasta 10.2 est&aacute; en &laquo;Applications, Utilities.&raquo;<br>
-Se visualiza imagen del teclado y si oprime &laquo;shift, opt, command&raquo; o combinaci&oacute;n de esas teclas, le muestra c&oacute;mo crear cada car&aacute;cter. Utilice esta referencia para ver c&oacute;mo teclear el car&aacute;cter deseado, o puede copiar desde aqu&iacute; y pegar al texto de la interfaz de revisi&oacute;n.
-</li>
-
-  <li>En OS X 10.3 y siguientes, la misma funci&oacute;n est&aacute; ahora en una paleta disponible en el men&uacute; &laquo;Input&raquo; (el men&uacute; junto a &laquo;locale's flag icon&raquo; en la barra del men&uacute;).  Se llama &laquo;Show Keyboard Viewer.&raquo; Si no est&aacute; en su men&uacute; de &laquo;Input&raquo; o no tiene ese men&uacute; puede activarlo abriendo &laquo;System Preferences,&raquo; el &laquo;International panel&raquo; y elegir &laquo;Input Menu.&raquo;  El &laquo;Show input menu in menu bar&raquo; debe estar marcado.  En la vista del &laquo;spreadsheet&raquo; marque la casilla de &laquo;Keyboard Viewer&raquo; en adici&oacute;n a cualquier &laquo;locales&raquo; que utilice.
-En OS X 10.3 y siguientes, la misma funci&oacute;n est&aacute; ahora en una paleta disponible en el men&uacute; &laquo;Input&raquo; (el men&uacute; junto a &laquo;locale's flag icon&raquo; en la barra del men&uacute;).  Se llama &laquo;Show Keyboard Viewer.&raquo; Si no est&aacute; en su men&uacute; de &laquo;Input&raquo; o no tiene ese men&uacute; puede activarlo abriendo &laquo;System Preferences,&raquo; el &laquo;International panel&raquo; y elegir &laquo;Input Menu.&raquo;  El &laquo;Show input menu in menu bar&raquo; debe estar marcado.  En la vista del &laquo;spreadsheet&raquo; marque la casilla de &laquo;Keyboard Viewer&raquo; en adici&oacute;n a cualquier &laquo;locales&raquo; que utilice.<br>
-  </li>
-  <li>
-Si trabaja con la interfaz mejorada &laquo;enhanced&raquo;, haga clic en &ldquo;more&rdquo; y se abrir&aacute; un men&uacute; desplegable mostrando las letras que se puedan copiar y pegar.
-</li>
-<li>O se pueden teclear los atajos de Apple Opt de los caracteres deseados.
-
-      <br>Una vez acostumbrado a los c&oacute;digos es la manera m&aacute;s r&aacute;pida que copiar y pegar.
-      <br>Oprima la tecla &laquo;Opt&raquo; y el acento; despu&eacute;s teclee la letra que quiere acentuar (para algunos c&oacute;digos, basta con oprimir &laquo;Opt&raquo; y la letra).
-      <br>Estas instrucciones son para el teclado US-ingl&eacute;s. Puede que no funcionen con otros teclados.
-      <br>La tabla siguiente muestra los c&oacute;digos que utilizamos.
-          (<a href="charapp.pdf">Una versi&oacute;n en ingl&eacute;s para imprimir.)</a>
-
-      <br>Note: Por favor no utilice otros caracteres &laquo;especiales&raquo; aunque el gerente del proyecto lo diga en los Comentarios del proyecto. <a href="#comments">Comentarios del proyecto</a>.
-  </li>
-</ul>
-
-<br>
-<a name="a_chars_mac"></a>
-<table align="center" border="6" rules="all" summary="Mac shortcuts">
-  <tbody>
-  <tr bgcolor="cornsilk"  >
-      <th colspan=14>Atajos para los s&iacute;mbolos de Latin-1 para Apple Mac</th>
-
-  </tr>
-  <tr bgcolor="cornsilk"  >
-      <th colspan=2>` grave</th>
-      <th colspan=2>&acute; agudo (aigu)</th>
-      <th colspan=2>^ circunflejo</th>
-      <th colspan=2>~ tilde</th>
-      <th colspan=2>&uml; di&eacute;resis</th>
-
-      <th colspan=2>&deg; aro</th>
-      <th colspan=2>&AElig; ligadura</th>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Peque&ntilde;a a grave"         >&agrave; </td><td>Opt-`, a</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a a agudo"         >&aacute; </td><td>Opt-e, a</td>
-
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a a circunflejo"    >&acirc;  </td><td>Opt-i, a</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a a tilde"         >&atilde; </td><td>Opt-n, a</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a a di&eacute;resis"        >&auml;   </td><td>Opt-u, a</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a a aro"          >&aring;  </td><td>Opt-a   </td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a ae ligadura"     >&aelig;  </td><td>Opt-'   </td>
-
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="A may&uacute;scula grave"       >&Agrave; </td><td>Opt-~, A</td>
-      <td align="center" bgcolor="mistyrose" title="A may&uacute;scula agudo"       >&Aacute; </td><td>Opt-e, A</td>
-      <td align="center" bgcolor="mistyrose" title="A may&uacute;scula circunflejo"  >&Acirc;  </td><td>Opt-i, A</td>
-      <td align="center" bgcolor="mistyrose" title="A may&uacute;scula tilde"       >&Atilde; </td><td>Opt-n, A</td>
-
-      <td align="center" bgcolor="mistyrose" title="A may&uacute;scula di&eacute;resis"      >&Auml;   </td><td>Opt-u, A</td>
-      <td align="center" bgcolor="mistyrose" title="A may&uacute;scula aro"        >&Aring;  </td><td>Opt-A   </td>
-      <td align="center" bgcolor="mistyrose" title="A may&uacute;sculaE ligadura"   >&AElig;  </td><td>Opt-"   </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Peque&ntilde;a e grave"         >&egrave; </td><td>Opt-~, e</td>
-
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a e agudo"         >&eacute; </td><td>Opt-e, e</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a e circunflejo"    >&ecirc;  </td><td>Opt-i, e</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a e di&eacute;resis"        >&euml;   </td><td>Opt-u, e</td>
-      <td> </td><td> </td>
-
-      <td> </td><td> </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="E may&uacute;scula grave"       >&Egrave; </td><td>Opt-~, E</td>
-      <td align="center" bgcolor="mistyrose" title="E may&uacute;scula agudo"       >&Eacute; </td><td>Opt-e, E</td>
-      <td align="center" bgcolor="mistyrose" title="E may&uacute;scula circunflejo"  >&Ecirc;  </td><td>Opt-i, E</td>
-
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="E may&uacute;scula di&eacute;resis"      >&Euml;   </td><td>Opt-u, E</td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-  </tr>
-
-  <tr><td align="center" bgcolor="mistyrose" title="Peque&ntilde;a i grave"         >&igrave; </td><td>Opt-~, i</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a i agudo"         >&iacute; </td><td>Opt-e, i</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a i circunflejo"    >&icirc;  </td><td>Opt-i, i</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a i di&eacute;resis"        >&iuml;   </td><td>Opt-u, i</td>
-
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="I may&uacute;scula grave"       >&Igrave; </td><td>Opt-~, I</td>
-      <td align="center" bgcolor="mistyrose" title="I may&uacute;scula agudo"       >&Iacute; </td><td>Opt-e, I</td>
-
-      <td align="center" bgcolor="mistyrose" title="I may&uacute;scula circunflejo"  >&Icirc;  </td><td>Opt-i, I</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="I may&uacute;scula di&eacute;resis"      >&Iuml;   </td><td>Opt-u, I</td>
-      <th colspan=2 bgcolor="cornsilk">/ barra</th>
-      <th colspan=2 bgcolor="cornsilk">&OElig; ligadura</th>
-
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Peque&ntilde;a o grave"         >&ograve; </td><td>Opt-~, o</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a o agudo"         >&oacute; </td><td>Opt-e, o</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a o circunflejo"    >&ocirc;  </td><td>Opt-i, o</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a o tilde"         >&otilde; </td><td>Opt-n, o</td>
-
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a o di&eacute;resis"        >&ouml;   </td><td>Opt-u, o</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a o barra"         >&oslash; </td><td>Opt-o   </td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a oe ligadura"     >&oelig;  </td><td>Use [oe]</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="O may&uacute;scula grave"       >&Ograve; </td><td>Opt-~, O</td>
-
-      <td align="center" bgcolor="mistyrose" title="O may&uacute;scula agudo"       >&Oacute; </td><td>Opt-e, O</td>
-      <td align="center" bgcolor="mistyrose" title="I may&uacute;scula circunflejo"  >&Ocirc;  </td><td>Opt-i, O</td>
-      <td align="center" bgcolor="mistyrose" title="O may&uacute;scula tilde"       >&Otilde; </td><td>Opt-n, O</td>
-      <td align="center" bgcolor="mistyrose" title="O may&uacute;scula di&eacute;resis"      >&Ouml;   </td><td>Opt-u, O</td>
-      <td align="center" bgcolor="mistyrose" title="O may&uacute;scula barra"       >&Oslash; </td><td>Opt-O   </td>
-
-      <td align="center" bgcolor="mistyrose" title="O may&uacute;sculaE ligadura"   >&OElig;  </td><td>Use [OE]</td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Peque&ntilde;a u grave"         >&ugrave; </td><td>Opt-~, u</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a u agudo"         >&uacute; </td><td>Opt-e, u</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a u circunflejo"    >&ucirc;  </td><td>Opt-i, u</td>
-
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a u di&eacute;resis"        >&uuml;   </td><td>Opt-u, u</td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-  </tr>
-
-  <tr><td align="center" bgcolor="mistyrose" title="U may&uacute;scula grave"       >&Ugrave; </td><td>Opt-~, U</td>
-      <td align="center" bgcolor="mistyrose" title="U may&uacute;scula agudo"       >&Uacute; </td><td>Opt-e, U</td>
-      <td align="center" bgcolor="mistyrose" title="U may&uacute;scula circunflejo"  >&Ucirc;  </td><td>Opt-i, U</td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="U may&uacute;scula di&eacute;resis"      >&Uuml;   </td><td>Opt-u, U</td>
-
-      <th colspan=2 bgcolor="cornsilk">dinero     </th>
-      <th colspan=2 bgcolor="cornsilk">matem&aacute;tica  </th>
-  </tr>
-  <tr><td> </td><td> </td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a n tilde"         >&ntilde; </td><td>Opt-n, n</td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a y di&eacute;resis"        >&yuml;   </td><td>Opt-u, y</td>
-      <td align="center" bgcolor="mistyrose" title="Cents"                 >&cent;   </td><td>Opt-4   </td>
-      <td align="center" bgcolor="mistyrose" title="plus/minus"            >&plusmn; </td><td>Opt-+   </td>
-  </tr>
-
-  <tr><td> </td><td> </td>
-      <td> </td><td> </td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="N may&uacute;scula tilde"       >&Ntilde; </td><td>Opt-n, N</td>
-      <td align="center" bgcolor="mistyrose" title="Capital Y di&eacute;resis"      >&Yuml;   </td><td>Opt-u, Y</td>
-
-      <td align="center" bgcolor="mistyrose" title="Pounds"                >&pound;  </td><td>Opt-3   </td>
-      <td align="center" bgcolor="mistyrose" title="Multiplication"        >&times;  </td><td>(none)&nbsp;&dagger;</td>
-  </tr>
-  <tr><th colspan=2 bgcolor="cornsilk">cedilla </th>
-      <th colspan=2 bgcolor="cornsilk">Island&eacute;s    </th>
-      <th colspan=2 bgcolor="cornsilk">marcas        </th>
-
-      <th colspan=2 bgcolor="cornsilk">acentos      </th>
-      <th colspan=2 bgcolor="cornsilk">puntuaci&oacute;n  </th>
-      <td align="center" bgcolor="mistyrose" title="Yen"                   >&yen;    </td><td>Opt-y   </td>
-      <td align="center" bgcolor="mistyrose" title="Division"              >&divide; </td><td>Opt-/   </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Peque&ntilde;a c cedilla"       >&ccedil; </td><td>Opt-c   </td>
-
-      <td align="center" bgcolor="mistyrose" title="Capital Thorn"         >&THORN;  </td><td>(none)&nbsp;&Dagger;</td>
-      <td align="center" bgcolor="mistyrose" title="Copyright"             >&copy;   </td><td>Opt-g   </td>
-      <td align="center" bgcolor="mistyrose" title="acento agudo"          >&acute;  </td><td>Opt-E   </td>
-      <td align="center" bgcolor="mistyrose" title="Inverted Question Mark">&iquest; </td><td>Opt-?   </td>
-      <td align="center" bgcolor="mistyrose" title="Dollars"               >&#036;   </td><td>Shift-4</td>
-
-      <td align="center" bgcolor="mistyrose" title="Logical Not"           >&not;    </td><td>Opt-l   </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="Capital C cedilla"     >&Ccedil; </td><td>Opt-C   </td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a thorn"           >&thorn;  </td><td>Shift-Opt-6</td>
-      <td align="center" bgcolor="mistyrose" title="Registration Mark"     >&reg;    </td><td>Opt-r   </td>
-
-      <td align="center" bgcolor="mistyrose" title="di&eacute;resis"         >&uml;    </td><td>Opt-U   </td>
-      <td align="center" bgcolor="mistyrose" title="Inverted Exclamation"  >&iexcl;  </td><td>Opt-1   </td>
-      <td align="center" bgcolor="mistyrose" title="General Currency"      >&curren; </td><td>Shift-Opt-2</td>
-      <td align="center" bgcolor="mistyrose" title="Degrees"               >&deg;    </td><td>Opt-*   </td>
-  </tr>
-
-  <tr><th colspan=2 bgcolor="cornsilk">super&iacute;ndices        </th>
-      <td align="center" bgcolor="mistyrose" title="E may&uacute;sculath"           >&ETH;    </td><td>(none)&nbsp;&Dagger;  </td>
-      <td align="center" bgcolor="mistyrose" title="Trademark"             >&trade;  </td><td>Opt-2   </td>
-      <td align="center" bgcolor="mistyrose" title="macron accent"         >&macr;   </td><td>Shift-Opt-,</td>
-      <td align="center" bgcolor="mistyrose" title="guillemot left"        >&laquo;  </td><td>Opt-\   </td>
-
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="Micro"                 >&micro;  </td><td>Opt-m   </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="super&iacute;ndice 1"         >&sup1;   </td><td>(none)&nbsp;&Dagger;  </td>
-      <td align="center" bgcolor="mistyrose" title="Peque&ntilde;a eth"             >&eth;    </td><td>(none)&nbsp;&Dagger;  </td>
-
-      <td align="center" bgcolor="mistyrose" title="Paragraph (pilcrow)"   >&para;   </td><td>Opt-7   </td>
-      <td align="center" bgcolor="mistyrose" title="cedilla"               >&cedil;  </td><td>Opt-Z   </td>
-      <td align="center" bgcolor="mistyrose" title="guillemot right"       >&raquo;  </td><td>Shift-Opt-\</td>
-      <th colspan=2 bgcolor="cornsilk">ordinals  </th>
-      <td align="center" bgcolor="mistyrose" title="1/4 Fraction"          >&frac14; </td><td>(none)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
-
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="super&iacute;ndice 2"         >&sup2;   </td><td>(none)&nbsp;&Dagger;  </td>
-      <th colspan=2 bgcolor="cornsilk">sz ligadura        </th>
-      <td align="center" bgcolor="mistyrose" title="Section"               >&sect;   </td><td>Opt-6   </td>
-      <td> </td><td> </td>
-
-      <td align="center" bgcolor="mistyrose" title="Middle dot"            >&middot; </td><td>Opt-8  </td>
-      <td align="center" bgcolor="mistyrose" title="Masculine Ordinal"     >&ordm;   </td><td>Opt-0   </td>
-      <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; </td><td>(none)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
-  </tr>
-  <tr><td align="center" bgcolor="mistyrose" title="super&iacute;ndice 3"         >&sup3;   </td><td>(none)&nbsp;&Dagger;  </td>
-
-      <td align="center" bgcolor="mistyrose" title="sz ligadura"           >&szlig;  </td><td>Opt-s   </td>
-      <td align="center" bgcolor="mistyrose" title="Broken Vertical bar"   >&brvbar; </td><td>(none)&nbsp;&Dagger;  </td>
-      <td> </td><td> </td>
-      <td align="center" bgcolor="mistyrose" title="asterisk"              >&#042;   </td><td>(none)&nbsp;&Dagger;  </td>
-
-      <td align="center" bgcolor="mistyrose" title="Feminine Ordinal"      >&ordf;   </td><td>Opt-9   </td>
-      <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; </td><td>(none)&nbsp;&Dagger;<sup><small>1</small></sup>  </td>
-  </tr>
-  </tbody>
-</table>
-<p>&Dagger;&nbsp;Note: No hay equivalente; utilice los men&uacute;s desplegables.
-</p>
-
-<p><sup><small>1</small></sup>Note: Si no est&aacute; escrito especialmente en los Comentarios del proyecto, no utilice los atajos ("Alt" y n&uacute;mero) s&iacute;mbolos para fracciones. En vez de eso haga los fracciones como dice las reglas de revisi&oacute;n en cuanto a los fracciones (&frac12;, &frac14;, etc.):
-<a href="#fract_s">Fracciones</a>. (1/2, 1/4, 3/4, etc.)
-</p>
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="d_chars">Signos diacr&iacute;ticos</a></h3>
-<p>
-En algunos proyectos se encontrar&aacute;n signos especiales ubicados encima o
-debajo del car&aacute;cter lat&iacute;n normal (A-Z).  Estos signos se llaman
-<i>diacr&iacute;ticos</i>. Indican la variaci&oacute;n del valor fon&eacute;tico de la letra.
-Cuando revisamos podemos indicarlos dentro del sistema ASCII normal utilizando
-unos c&oacute;digos especiales.  Por ejemplo, &#259; se indica como <tt>[)a]</tt>... el acento en
-forma de u encima del car&aacute;cter. Para un acento en forma de u debajo del car&aacute;cter
-se indica as&iacute;: <tt>[a)]</tt>
-<p>No olvide incluir los par&eacute;ntesis as&iacute;: (<tt>[&nbsp;]</tt>) para que el pos-procesador
-sepa a qu&eacute;
-letra se refiere el signo.</p><p>
-El pos-procesador eventualmente reemplazar&aacute; estos signos con s&iacute;mbolos
-que funcionen en el texto que est&aacute; procesando, como 7-bit, ASCII, 8-bit,
- Unicode, html, etc.</p>
-
-<p>
-F&iacute;jese que hay algunos signos diacr&iacute;ticos (la mayor&iacute;a vocales) que ya se
-encuentran entre los caracteres Latin-1 que utilizamos normalmente.
-<b>En este caso, utilice el car&aacute;cter Latin-1 disponible en el men&uacute; de la interfaz
-del proyecto</b> (vea <a href="#a_chars">aqu&iacute;</a>).
+<p>En algunos proyectos encontrar&aacute; signos especiales ubicados encima o debajo del car&aacute;cter latino normal (A-Z). Estos signos se llaman <i>diacr&iacute;ticos</i> y se&ntilde;alan la variaci&oacute;n del valor fon&eacute;tico de la letra.
+<?php if($utf8_site) { ?>
+</p>
+<p>Si tal car&aacute;cter no existe en Unicode, deber&iacute;a ser ingresado utilizando <i>marcas diacr&iacute;ticas combinadas</i>. Estos son s&iacute;mbolos de Unicode que no pueden aparecer por s&iacute; solos, sino que aparecen arriba (o debajo) de la letra despu&eacute;s de la cual se colocan. Pueden ser ingresados colocando primero la letra base y, despu&eacute;s, la marca diacr&iacute;tica combinada, usando <i>applets</i> o programas mencionados en <a href="#insert_char">Insertando caracteres especiales</a>. 
+</p>
+<p>En algunos sistemas, las marcas di&aacute;criticas pueden aparecer desplazadas del lugar donde deber&iacute;an estar. Por ejemplo, movidas a la derecha. Deben utilizarse igualmente, dado que las personas que utilicen otros sistemas podr&aacute;n verlas correctamente. Si, por alguna raz&oacute;n, usted no puede ver o ingresar marcas diacr&iacute;ticas combinadas de manera apropiada, deje una [**nota] junto a la letra en cuesti&oacute;n. Tenga en cuenta que tambi&eacute;n existen <i>caracteres modificadores de espaciado</i>. Estos no deben utilizarse.
+</p>
+<?php } else { ?>
+ Cuando los revisamos, podemos indicarlos dentro del sistema ASCII normal utilizando c&oacute;digos espec&iacute;ficos. Por ejemplo, un breve sobre la a, <span style="font-size:110%;">&#259;</span>, se indica como <tt>[)a]</tt>. Un breve debajo del car&aacute;cter, se indica as&iacute;: <tt>[a)]</tt>. En el caso improbable que un diacr&iacute;tico se extienda sobre dos caracteres, incluya ambos dentro de los corchetes.
+</p>
+<p>El posprocesador finalmente reemplazar&aacute; estos signos con los s&iacute;mbolos apropiados para el texto que est&aacute; procesando, como 7-bit ASCII, 8-bit, Unicode, html, etc.
+</p>
+<p>Tenga en cuenta que cuando algunos de estos signos diacr&iacute;ticos aparecen sobre algunas letras (principalmente vocales), los caracteres acentuados forman parte del conjunto Latin-1. <b>En este caso, utilice el car&aacute;cter Latin-1 (ver <a href="#a_chars">aqu&iacute;</a>) disponible en el men&uacute; desplegable de la interfaz de revisi&oacute;n.</b>
 </p>
 <!-- END RR -->
 
-<p>En la siguiente tabla se ven los c&oacute;digos utilizados ahora:<br>
-El &laquo;x" representa cualquier car&aacute;cter con signo diacr&iacute;tico.<br>
-(Cuando revise utilice el car&aacute;cter del texto que est&aacute; revisando, y no la &laquo;x" mostrada en la tabla.)
+<p>En la siguiente tabla se ven los c&oacute;digos que utilizamos para revisar caracteres con signos diacr&iacute;ticos. La "x" representa cualquier letra con signo diacr&iacute;tico. (Cuando revise utilice el car&aacute;cter del texto que est&aacute; revisando, y no la <tt>x</tt> mostrada en la tabla.)
 </p>
 
 <!--
   diacritical mark           above  below
 macron (straight line)       [=x]   [x=]
-2 dots (diaresis or umlaut)  [:x]   [x:]
+2 dots (dieresis or umlaut)  [:x]   [x:]
 1 dot                        [.x]   [x.]
-grave accent                 ['x]   [x'] or [/x] [x/]
-acute (aigu) accent          [`x]   [x`] or [\x] [x\]
+grave accent                 ['x]   [x']
+acute (aigu) accent          [`x]   [x`]
 circumflex                   [^x]   [x^]
 caron (v-shaped symbol)      [vx]   [xv]
 breve (u-shaped symbol)      [)x]   [x)]
@@ -1269,943 +703,714 @@ tilde                        [~x]   [x~]
 cedilla                      [,x]   [x,]
 -->
 
-<table align="center" border="6" rules="all" summary="Diacriticals">
+<table align="center" border="6" rules="all" style="margin-top:1em;" summary="Diacriticals">
   <tbody>
-  <tr bgcolor="cornsilk">
-      <th colspan=4>S&iacute;mbolos de Revisi&oacute;n para Signos Diacr&iacute;ticos</th>
-
-  </tr>
-  <tr bgcolor="cornsilk">
+    <tr bgcolor="cornsilk">
+      <th colspan=4>S&iacute;mbolos de revisi&oacute;n para signos diacr&iacute;ticos</th>
+    </tr>
+    <tr bgcolor="cornsilk">
       <th>signo diacr&iacute;tico</th>
       <th>ejemplo</th>
-      <th>encima</th>
-      <th>debajo</th>
-   </tr>
-  <tr><td>macron (l&iacute;nea recta)</td>
-
-      <td align="center">&macr;</td>
+      <th style="padding-left:4; padding-right:4;">encima</th>
+      <th style="padding-left:4; padding-right:4;">debajo</th>
+    </tr>
+    <tr><td>macr&oacute;n (l&iacute;nea recta)</td>
+      <td align="center"><span style="font-size:150%;">&macr;</span></td>
       <td align="center"><tt>[=x]</tt></td>
       <td align="center"><tt>[x=]</tt></td>
-      </tr>
-  <tr><td>2 puntos (di&eacute;resis/umlaut)</td>
-      <td align="center">&uml;</td>
+    </tr>
+    <tr><td>2 puntos (di&eacute;resis/umlaut)</td>
+      <td align="center"><span style="font-size:150%;">&uml;</span></td>
       <td align="center"><tt>[:x]</tt></td>
-
       <td align="center"><tt>[x:]</tt></td>
-      </tr>
-  <tr><td>1 punto</td>
-      <td align="center">&middot;</td>
+    </tr>
+    <tr><td>1 punto</td>
+      <td align="center"><span style="font-size:150%;">&middot;</span></td>
       <td align="center"><tt>[.x]</tt></td>
       <td align="center"><tt>[x.]</tt></td>
-      </tr>
-
-  <tr><td>acento grave</td>
-      <td align="center">`</td>
-      <td align="center"><tt>[`x]</tt> or <tt>[\x]</tt></td>
-      <td align="center"><tt>[x`]</tt> or <tt>[x\]</tt></td>
-
-      </tr>
-  <tr><td>acento agudo (aigu)</td>
-      <td align="center">&acute;</td>
-      <td align="center"><tt>['x]</tt> or <tt>[/x]</tt></td>
-      <td align="center"><tt>[x']</tt> or <tt>[x/]</tt></td>
-
-      </tr>
-  <tr><td>acento circunflejo</td>
-      <td align="center">&circ;</td>
+    </tr>
+    <tr><td>acento grave</td>
+      <td align="center"><span style="font-size:150%;">`</span></td>
+      <td align="center"><tt>[`x]</tt></td>
+      <td align="center"><tt>[x`]</tt></td>
+    </tr>
+    <tr><td>acento agudo (aigu)</td>
+      <td align="center"><span style="font-size:150%;">&acute;</span></td>
+      <td align="center"><tt>['x]</tt></td>
+      <td align="center"><tt>[x']</tt></td>
+    </tr>
+    <tr><td>acento circunflejo</td>
+      <td align="center"><span style="font-size:150%;">&circ;</span></td>
       <td align="center"><tt>[^x]</tt></td>
       <td align="center"><tt>[x^]</tt></td>
-      </tr>
-  <tr><td>caron (s&iacute;mbolo en forma de v)</td>
-
-      <td align="center"><font size="-2">&or;</font></td>
+    </tr>
+    <tr><td>caron (s&iacute;mbolo en forma de v)</td>
+      <td align="center"><font size="-1">&or;</font></td>
       <td align="center"><tt>[vx]</tt></td>
       <td align="center"><tt>[xv]</tt></td>
-      </tr>
-  <tr><td>breve (s&iacute;mbolo en forma de u)</td>
-      <td align="center"><font size="-2">&cup;</font></td>
+    </tr>
+    <tr><td>breve (s&iacute;mbolo en forma de u)</td>
+      <td align="center"><font size="-1">&cup;</font></td>
       <td align="center"><tt>[)x]</tt></td>
-
       <td align="center"><tt>[x)]</tt></td>
-      </tr>
-  <tr><td>tilde</td>
-      <td align="center">&tilde;</td>
+    </tr>
+    <tr><td>tilde</td>
+      <td align="center"><span style="font-size:150%;">&tilde;</span></td>
       <td align="center"><tt>[~x]</tt></td>
       <td align="center"><tt>[x~]</tt></td>
-      </tr>
-
-  <tr><td>cedilla</td>
-      <td align="center">&cedil;</td>
+    </tr>
+    <tr><td>cedilla</td>
+      <td align="center"><span style="font-size:150%;">&cedil;</span></td>
       <td align="center"><tt>[,x]</tt></td>
       <td align="center"><tt>[x,]</tt></td>
-      </tr>
+    </tr>
   </tbody>
 </table>
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<?php } ?>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="f_chars">Caracteres no-Latinos</a></h3>
-<p>
-En algunos proyectos hay textos en caracteres no-latinos, es decir otros caracteres aparte de los &laquo;Latinos A-Z."  Por ejemplo: griego, cir&iacute;lico, hebreo o &aacute;rabe.
-</p><p>
-Para el griego debe hacer una transliteraci&oacute;n: es decir, convertir cada car&aacute;cter
-del alfabeto griego en la letra equivalente de ASCII (letras latinas).  En la
-interfaz de revisi&oacute;n hay una herramienta que hace esta tarea m&aacute;s f&aacute;cil.
+<h3><a name="f_chars">Caracteres no latinos</a></h3>
+<p>Algunos proyectos incluyen fragmentos en caracteres no-latinos, es decir, otros caracteres diferentes del alfabeto A-Z. Por ejemplo, griego, cir&iacute;lico, hebreo o &aacute;rabe.
 </p>
-<p>
-Oprima el bot&oacute;n &laquo;Greek" (griego en ingl&eacute;s) (lo encontrar&aacute; al fondo de la interfaz de revisi&oacute;n) para
-abrir la herramienta.  Haga clic en el car&aacute;cter griego que necesita y el car&aacute;cter
-apropiado de ASCII aparecer&aacute; en la ventana de texto de la herramienta. Terminado
-con todo el texto en griego, copie la transliteraci&oacute;n y pegue la en la p&aacute;gina que
-est&aacute; revisando. Sit&uacute;e estos caracteres entre par&eacute;ntesis y el signo que indica
-griego; as&iacute;... [Greek: texto transliterado].  Por ejemplo:
-<b>&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</b> ser&aacute; revisado como
-<tt>[Greek: Biblos]</tt>. (Que quiere decir Libro--&iexcl;apropiado para DP!)
+<?php if(strcasecmp($charset,"UTF-8")) { ?>
+<p>Para el griego, debe intentar una transliteraci&oacute;n: es decir, convertir cada car&aacute;cter del alfabeto griego en la letra equivalente del grupo Latin-1 (letras latinas). En la interfaz de revisi&oacute;n hay una herramienta que facilita esta tarea.
 </p>
-<p>
-Si no est&aacute; seguro de su transliteraci&oacute;n, ponga una se&ntilde;al (as&iacute; <tt>*</tt>) para llamar la
-atenci&oacute;n a la persona que hace la siguiente ronda de revisi&oacute;n.
+<p>Oprima el bot&oacute;n "Greek Transliteration" (lo encontrar&aacute; al final de la interfaz de revisi&oacute;n) para abrir la herramienta. Haga clic en el car&aacute;cter griego que necesita y el car&aacute;cter Latin-1 apropiado aparecer&aacute; en la caja de texto de la herramienta. Una vez que haya completado la frase u oraci&oacute;n en griego, copie la transliteraci&oacute;n y p&eacute;guela en la p&aacute;gina que est&aacute; revisando. Sit&uacute;e estos caracteres entre corchetes con el t&eacute;rmino "Greek:" al comienzo, as&iacute;: <tt>[Greek: texto transliterado]</tt>. Por ejemplo: <span style="font-size:115%;">&Beta;&iota;&beta;&lambda;&omicron;&sigmaf;</span> ser&aacute; revisado como <tt>[Greek: Biblos]</tt>. (Que quiere decir "libro"--&iexcl;apropiado para <?php echo "$site_abbreviation"; ?>!)
 </p>
-<p>
-Para otros idiomas que no se puedan transliterar f&aacute;cilmente (como
-cir&iacute;lico, hebreo o &aacute;rabe) deje el texto como aparece codificado por el
-OCR y sit&uacute;e estos caracteres/palabras/frases entre par&eacute;ntesis y el signo
-que indica el idioma si se sabe...as&iacute;: <tt>[Cyrillic:&nbsp;**]</tt>,
-<tt>[Hebrew:&nbsp;**]</tt>,
-<tt>[Arabic:&nbsp;**]</tt>.
-Incluya los <tt>**</tt> para llamar la atenci&oacute;n del pos-procesador.
+<p>Si no est&aacute; seguro de su transliteraci&oacute;n, coloque dos asteriscos <tt>**</tt> para llamar la atenci&oacute;n del revisor de la siguiente ronda o del posprocesador.
+</p>
+<p>Para otros idiomas que no se pueden transliterar f&aacute;cilmente (como cir&iacute;lico, hebreo o &aacute;rabe) reemplaze los caracteres latinos o la basura producida por el OCR con la marca apropiada: <tt>[Cyrillic:&nbsp;**]</tt>, <tt>[Hebrew:&nbsp;**]</tt>, <tt>[Arabic:&nbsp;**]</tt>. Incluya los <tt>**</tt> para llamar la atenci&oacute;n del posprocesador.
 </p>
 <!-- END RR -->
-
+<p>M&aacute;s informaci&oacute;n:</p>
 <ul compact>
-  <li>Griego: <a href="http://www.gutenberg.org/howto/greek/"> Greek HOWTO</a> (de Proyecto Gutenberg) o vea la herramienta en la interfaz de revisi&oacute;n del proyecto.
+  <li>Griego: vea la p&aacute;gina <a href="<?php echo $PG_greek_howto_url; ?>">Greek HOWTO</a> de Proyecto Gutenberg (en ingl&eacute;s), vea la p&aacute;gina de la wiki <a href="<?php echo $greek_wiki_url; ?>">Transliterando Griego</a> (en ingl&eacute;s) o vea la herramienta en la interfaz de revisi&oacute;n del proyecto.
   </li>
-<li>Cir&iacute;lico: Aunque existe un sistema de transliteraci&oacute;n de cir&iacute;lico, le
-sugerimos que intente una transliteraci&oacute;n solamente si domina el idioma.
-Si no, m&aacute;rquelo tan solo de la manera indicada arriba. Puede que
-encuentre &uacute;til <a href="http://learningrussian.com/transliteration.htm"> esta
-tabla de transliteraci&oacute;n.</a>
+  <li>Cir&iacute;lico: aunque existe un sistema de transliteraci&oacute;n de cir&iacute;lico, le sugerimos que intente una transliteraci&oacute;n solamente si domina el idioma. Si no, m&aacute;rquelo tan solo de la manera indicada arriba.
   </li>
-  <li>
-Hebreo y &aacute;rabe: No lo intente a menos que domine el idioma. Hay muchas
-dificultades para transliterar estos idiomas. Ni <a href="http://www.pgdp.net">
-Distributed Proofreaders</a> ni <a href="http://www.gutenberg.org/"> Project
-Gutenberg</a> han elegido un m&eacute;todo estandardizado.</li>
+  <li>Hebreo y &aacute;rabe: no lo intente a menos que domine el idioma. Hay muchas dificultades para transliterar estos idiomas. Ni Distributed Proofreaders ni <a href="<?php echo $PG_home_url; ?>">Project Gutenberg</a> han elegido un m&eacute;todo estandarizado.
+  </li>
 </ul>
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<?php } else { ?>
+<p>Estos caracteres deber&iacute;an ingresarse en el texto de igual modo que los caracteres Latin-1. (<b>&iexcl;Sin transliterarlos!</b>)
+</p>
+<p>Si un documento est&aacute; escrito en su totalidad en un alfabeto no latino, es mejor instalar un <i>driver</i> para el teclado que soporte el idioma. Consulte el manual de su sistema operativo para saber c&oacute;mo conseguir esto.
+</p>
+<p>Si el alfabeto de caracteres especiales solo aparece ocasionalmente, puede utilizar un programa diferente para ingresar las palabras. Vea <a href="#insert_char">Insertando caracteres especiales</a> para conocer algunos programas.
+</p>
+<p>Si no est&aacute; seguro sobre un car&aacute;cter o un acento, m&aacute;rquelo con una [**nota] para llamar la atenci&oacute;n del revisor de la siguiente ronda o del posprocesador. 
+</p>
+<p>Para alfabetos que no pueden ser ingresados tan sencillamente, como por ejemplo &aacute;rabe, identif&iacute;quelos con la marca apropiada: <tt>[Arabic:&nbsp;**]</tt>. Incluya los asteriscos <tt>**</tt> para que el posprocesador pueda tratar el tema m&aacute;s tarde. 
+</p>
+<?php } ?>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="supers">Super&iacute;ndice</a></h3>
-<p>En los libros antiguos eran frecuentes las contracciones que se
-imprim&iacute;an en forma de super&iacute;ndices.
-<br>
-Por ejemplo:
-<br>Gen<sup>rl</sup> Washington defeated L<sup>d</sup>  Cornwall's army.
-Aparecen en muchos libros en castellano y franc&eacute;s: S<sup>r</sup> , S<sup>ra</sup>, M<sup>lle</sup>, etc.
-<br>
-Revise estas contracciones insertando un acento circunflejo (car&aacute;cter ^) para identificar que
-lo que sigue es texto en super&iacute;ndice.
-<br>
-As&iacute;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp; <tt>Gen^rl Washington defeated L^d Cornwall's army.
-Y: S^r,S^ra, M^lle, etc.</tt>
+<h3><a name="supers">Super&iacute;ndices</a></h3>
+<p>En los libros antiguos frecuentemente se abreviaban las palabras con contracciones que eran impresas como super&iacute;ndices. Revise este tipo de palabras insertando un acento circunflejo (car&aacute;cter <tt>^</tt>) antes del car&aacute;cter que aparece como super&iacute;ndice. Si m&aacute;s de una letra aparece como super&iacute;ndice, rodee el texto con llaves <tt>{ }</tt>. Por ejemplo:
+</p>
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Superscripts example">
+  <tbody>
+    <tr><th align="left" bgcolor="cornsilk">Imagen original:</th></tr>
+    <tr>
+      <td valign="top">Gen<sup>rl</sup> Washington defeated L<sup>d</sup> Cornwall's army.</td>
+    </tr>
+    <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
+    <tr>
+      <td valign="top"><tt>Gen^{rl} Washington defeated L^d Cornwall's army.</tt></td>
+    </tr>
+  </tbody>
+</table>
+<p>Si el super&iacute;ndice representa la marca de una nota al pie, vea la secci&oacute;n de <a href="#footnotes">Notas al pie</a>.
+</p>
+<p>El Gestor del Proyecto (Project Manager) puede especificar en los <a href="#comments">Comentarios del Proyecto</a> que el texto en super&iacute;ndice sea marcado de manera diferente.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="subscr">Sub&iacute;ndice</a></h3>
-<p>El texto en sub&iacute;ndice se encuentra en obras cient&iacute;ficas pero no es com&uacute;n en otro
-tipo de obras. Revise el texto subscrito insertando un gui&oacute;n bajo (car&aacute;cter <tt>_</tt>), as&iacute;:
-<br>
-   <br>Por ejemplo:
-   <br>&nbsp; &nbsp; &nbsp; &nbsp; H<sub>2</sub>O.
-   <br>se revisa de esta manera:
-   <br>&nbsp; &nbsp; &nbsp; &nbsp; <tt>H_2O.<br></tt>
+<h3><a name="subscr">Sub&iacute;ndices</a></h3>
+<p>El texto en sub&iacute;ndice se encuentra en obras cient&iacute;ficas pero no es com&uacute;n en otro tipo de libros. Revise el texto subscrito insertando un gui&oacute;n bajo (car&aacute;cter <tt>_</tt>) y rodeando el texto en sub&iacute;ndice con llaves <tt>{</tt> <tt>}</tt>, as&iacute;:
+</p>
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Subscripts example">
+  <tbody>
+    <tr><th align="left" bgcolor="cornsilk">Imagen original:</th></tr>
+    <tr>
+      <td valign="top">H<sub>2</sub>O.</td>
+    </tr>
+    <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
+    <tr>
+      <td valign="top"><tt>H_{2}O.</tt></td>
+    </tr>
+  </tbody>
+</table>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
+
+<h3><a name="drop_caps">Letras may&uacute;sculas ornamentadas al inicio del p&aacute;rrafo, frase o secci&oacute;n</a></h3>
+<p>Revise este tipo de letra ornamentada al inicio de un p&aacute;rrafo, frase o secci&oacute;n como una letra normal. Vea adem&aacute;s la secci&oacute;n de <a href="#chap_head">T&iacute;tulos de cap&iacute;tulos</a>.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="font_sz">Cambio de tama&ntilde;o de fuente</a></h3>
-<p>No indique cambios del tama&ntilde;o de fuente. Las personas que dan el formato al texto (los formateadores) lo har&aacute;n m&aacute;s adelante.
+<h3><a name="small_caps">Versalitas</a></h3>
+<p>Por favor revise solamente que la palabra sea correcta cuando se trata de palabras impresas en <span style="font-variant: small-caps">Versalitas</span>. No se preocupe por cambiar de may&uacute;sculas a min&uacute;sculas o viceversa. Si la palabra aparece toda en may&uacute;sculas, toda en min&uacute;scula o con may&uacute;scula solo al principio, d&eacute;jela como est&aacute;. Las versalitas pueden ocasionalmente aparecer con etiquetas <tt>&lt;sc&gt;</tt> y <tt>&lt;/sc&gt;</tt> alrededor; vea las <a href="#formatting">Reglas de Formato</a> en ese caso.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="italics">Textos en cursiva y negrita</a></h3>
-<p><i>Textos en cursiva</i> a veces aparecen entre <tt>&lt;i&gt;</tt>y<tt>&lt;/i&gt;</tt>. <b>Texto en negrita</b> a
-veces aparece entre <tt>&lt;b&gt;</tt>y<tt>&lt;/b&gt;</tt>. No elimine esta informaci&oacute;n de formato, a menos
-que <b>no</b> aparezca en la imagen. No agregue este formato en esta
-ronda, las personas que dan formato al texto (los formateadores) lo har&aacute;n
-m&aacute;s adelante.
-</p>
-<!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
-
-
-<h3><a name="small_caps">Palabras en may&uacute;sculas peque&ntilde;as-versalitas</a></h3>
-<p>
-Las palabras impresas en letras may&uacute;sculas peque&ntilde;as-versalitas-(<span style=
-"font-variant:small-caps">Versalitas</span>)
-con letras may&uacute;sculas y may&uacute;sculas peque&ntilde;as-versalitas mezcladas, pueden
-aparecer entre estos s&iacute;mbolos: <tt>&lt;sc&gt;</tt> y <tt>&lt;/sc&gt;</tt>.  Por favor,
-no elimine esta informaci&oacute;n
-de formato, a menos que est&eacute; alrededor de algo que no existe en la imagen.  Tampoco
-la ponga donde no est&eacute; puesta ya.  Las personas que dan formato (los formateadores)
-lo har&aacute;n mas adelante en el proceso.  Revise s&oacute;lo los caracteres mismos, y no se
-preocupe por los cambios de fuente. Si todas las letras son MAY&Uacute;SCULAS, min&uacute;sculas
-o Mezcladas, d&eacute;jelas como est&aacute;n.
-</p>
-<!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Paragraph-level proofreading">
+  <tbody>
+    <tr>
+      <td bgcolor="silver"><h2 style="margin-bottom: 0; margin-top: 0;">Revisando p&aacute;rrafos:</h2></td>
+    </tr>
+  </tbody>
+</table>
 
 
 <h3><a name="line_br">Saltos de l&iacute;nea</a></h3>
-
-<p>Conservamos los saltos de l&iacute;nea. <b>Deje todos los saltos de l&iacute;nea donde
-est&aacute;n</b> para que m&aacute;s adelante otros voluntarios puedan comparar f&aacute;cilmente
-las l&iacute;neas del texto con las de la imagen.
+<p>Conservamos los saltos de l&iacute;nea. <b>Deje todos los saltos de l&iacute;nea donde est&aacute;n</b> para que m&aacute;s adelante otros voluntarios puedan comparar f&aacute;cilmente las l&iacute;neas del texto con las de la imagen. Sea especialmente cuidadoso cuando vuelva a unir <a href="#eol_hyphen">palabras cortadas por guiones</a> o mueva palabras alrededor de <a href="#em_dashes">guiones largos</a>. Si el revisor anterior modific&oacute; los saltos de l&iacute;nea, por favor vuelva a colocarlos de manera tal que coincidan con la imagen.
 </p>
 <!-- END RR -->
 <!-- We should have an example right here for this. -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="chap_head">T&iacute;tulos de cap&iacute;tulo</a></h3>
-
-<p>Revise los t&iacute;tulos de cap&iacute;tulo como aparecen en el texto.
+<p>Los t&iacute;tulos de los cap&iacute;tulos deben quedar como aparecen en la imagen.
 </p>
-<p>
-Un t&iacute;tulo de cap&iacute;tulo puede empezar un poco m&aacute;s abajo que el <a href="#page_hf">encabezado
-de la p&aacute;gina</a>, y el n&uacute;mero de p&aacute;gina no est&aacute; en la misma l&iacute;nea. T&iacute;tulos
-de cap&iacute;tulo a veces se imprimen en may&uacute;sculas. Si es as&iacute;, deje todas las
-may&uacute;sculas tal y como est&aacute;n.
+<p>Un t&iacute;tulo de cap&iacute;tulo suele empezar un poco m&aacute;s abajo que el encabezado de la p&aacute;gina, y el n&uacute;mero de p&aacute;gina no suele estar en la misma l&iacute;nea. A menudo, los t&iacute;tulos de cap&iacute;tulo aparecen impresos en may&uacute;sculas. Si es as&iacute;, cons&eacute;rvelos en may&uacute;scula.
 </p>
-<p>
-Preste atenci&oacute;n al primer p&aacute;rrafo del cap&iacute;tulo. Puede que el impresor no
-haya incluido (o el programa de OCR no haya reconocido) las comillas con
-las que empieza el primer p&aacute;rrafo. Si el autor empieza este p&aacute;rrafo con
-di&aacute;logo, introduzca las comillas omitidas.
+<p>Preste atenci&oacute;n al primer p&aacute;rrafo del cap&iacute;tulo. Puede que el impresor no haya incluido (o el programa de OCR no haya reconocido) las comillas con las que empieza el primer p&aacute;rrafo. Si el autor empieza este p&aacute;rrafo con di&aacute;logo entrecomillado, introduzca las comillas omitidas.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="para_space">P&aacute;rrafos</a></h3>
-<p>
-Ponga una l&iacute;nea en blanco entre los p&aacute;rrafos. No sangre los p&aacute;rrafos; si el p&aacute;rrafo est&aacute; ya sangrado no pierda tiempo en quitar los espacios&mdash;eso se hace autom&aacute;ticamente en el pos-proceso.
+<h3><a name="para_space">Espaciado y sangr&iacute;a de p&aacute;rrafos</a></h3>
+<p>Coloque una l&iacute;nea en blanco entre los p&aacute;rrafos, incluso a los que aparecen al comienzo de la p&aacute;gina. No agregue sangr&iacute;a a los p&aacute;rrafos; si el p&aacute;rrafo ya aparece con sangr&iacute;a, no pierda tiempo quitando los espacios, eso se hace autom&aacute;ticamente en el posprocesamiento.
 </p>
 <p>Vea <a href="#para_side">Notas al margen</a> para un ejemplo.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="page_hf">Encabezado y pie de p&aacute;gina</a></h3>
-<p>
-Elimine del texto todos los encabezados y pies de p&aacute;gina, pero <em>no</em>
-elimine las <a href="#footnotes">Notas al pie de p&aacute;gina</a>.
+<h3><a name="page_hf">Encabezados y pies de p&aacute;gina</a></h3>
+<p>Elimine del texto todos los encabezados y pies de p&aacute;gina, pero <em>no</em> elimine las <a href="#footnotes">notas al pie</a> de p&aacute;gina.
 </p>
-<p>
-Los encabezados normalmente aparecen al principio de la p&aacute;gina, con el
-n&uacute;mero de la p&aacute;gina al lado. Pueden ser iguales para todas las p&aacute;ginas
-del libro, (t&iacute;tulo del libro y el nombre del autor); pueden ser iguales
-para todas las p&aacute;ginas de un cap&iacute;tulo (normalmente el t&iacute;tulo o n&uacute;mero
-del cap&iacute;tulo): o pueden ser diferentes en cada p&aacute;gina (una descripci&oacute;n
-de lo que trata el cap&iacute;tulo). Elim&iacute;nelos a todos, sin importar la clase
-que sean, incluyendo el n&uacute;mero de p&aacute;gina.
+<p>Los encabezados normalmente aparecen al principio de la p&aacute;gina, con el n&uacute;mero de la p&aacute;gina a su lado. Pueden ser iguales para todas las p&aacute;ginas del libro (t&iacute;tulo del libro y el nombre del autor); pueden ser iguales para todas las p&aacute;ginas de un cap&iacute;tulo (normalmente el t&iacute;tulo o n&uacute;mero del cap&iacute;tulo); o pueden ser diferentes en cada p&aacute;gina (una descripci&oacute;n de lo que trata el cap&iacute;tulo). Elim&iacute;nelos todos, sin importar de qu&eacute; clase sean, incluyendo el n&uacute;mero de p&aacute;gina.
+</p>
+<p>Los pies de p&aacute;gina aparecen al final de la imagen y pueden contener el n&uacute;mero de la p&aacute;gina u otras anotaciones extra&ntilde;as que no son parte de lo que el autor escribi&oacute;.
 </p>
 <!-- END RR -->
 
-<p>
-Los <a href="#chap_head">T&iacute;tulos de cap&iacute;tulo</a> empiezan un poco m&aacute;s
-abajo en la p&aacute;gina y el n&uacute;mero de la p&aacute;gina no est&aacute; en la misma l&iacute;nea.
-Vea la secci&oacute;n siguiente para ejemplos.
+<p>Los <a href="#chap_head">t&iacute;tulos de cap&iacute;tulo</a> empiezan un poco m&aacute;s abajo en la p&aacute;gina y el n&uacute;mero de la p&aacute;gina no est&aacute; en la misma l&iacute;nea. Vea el siguiente ejemplo.
 </p>
-<br>
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Page Headers and Footers">
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Page Headers and Footers">
   <tbody>
-    <tr><th align="left" bgcolor="cornsilk">Imagen del Ejemplo:</th></tr>
-
+    <tr><th align="left" bgcolor="cornsilk">Imagen original:</th></tr>
     <tr align="left">
-      <td width="100%" valign="top">
-      <img src="foot.png" alt="" width="500" height="850"><br>
-      </td>
-    </tr>
-    <tr><th align="left" bgcolor="cornsilk">Texto Revisado Correctamente:</th></tr>
-    <tr>
-      <td width="100%" valign="top">
-
-    <tt>In the United States?[*] In a railroad? In a mining company?<br>
-    In a bank? In a church? In a college?<br>
-    <br>
-    Write a list of all the corporations that you know or have<br>
-    ever heard of, grouping them under the heads public and private.<br>
-    <br>
-
-    How could a pastor collect his salary if the church should<br>
-    refuse to pay it?<br>
-    <br>
-    Could a bank buy a piece of ground &laquo;on speculation?" To<br>
-    build its banking-house on? Could a county lend money if it<br>
-    had a surplus? State the general powers of a corporation.<br>
-
-    Some of the special powers of a bank. Of a city.<br>
-    <br>
-    A portion of a man's farm is taken for a highway, and he is<br>
-    paid damages; to whom does said land belong? The road intersects<br>
-    the farm, and crossing the road is a brook containing<br>
-    trout, which have been put there and cared for by the farmer;<br>
-
-    may a boy sit on the public bridge and catch trout from that<br>
-    brook? If the road should be abandoned or lifted, to whom<br>
-    would the use of the land go?<br>
-    <br>
-    <br>
-    CHAPTER XXXV.<br>
-    <br>
-
-    Commercial Paper.<br>
-    <br>
-    Kinds and Uses.--If a man wishes to buy some commodity<br>
-    from another but has not the money to pay for<br>
-    it, he may secure what he wants by giving his written<br>
-    promise to pay at some future time. This written<br>
-
-    promise, or note, the seller prefers to an oral promise<br>
-    for several reasons, only two of which need be mentioned<br>
-    here: first, because it is prima facie evidence of<br>
-    the debt; and, second, because it may be more easily<br>
-    transferred or handed over to some one else.<br>
-    <br>
-
-    If J. M. Johnson, of Saint Paul, owes C. M. Jones,<br>
-    of Chicago, a hundred dollars, and Nelson Blake, of<br>
-    Chicago, owes J. M. Johnson a hundred dollars, it is<br>
-    plain that the risk, expense, time and trouble of sending<br>
-    the money to and from Chicago may be avoided,<br>
-    <br>
-
-    * The United States: "Its charter, the constitution. * * * Its flag the<br>
-    symbol of its power; its seal, of its authority."--Dole.
-    </tt>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
-
-
-<h3><a name="illust">Ilustraciones - Im&aacute;genes</a></h3>
-<p>
-Revise cualquier texto que acompa&ntilde;e la ilustraci&oacute;n, preservando los
-quiebros de l&iacute;nea. Si la nota que acompa&ntilde;a la ilustraci&oacute;n o imagen se
-encuentra en medio de un p&aacute;rrafo, sep&aacute;rela del resto del texto del
-p&aacute;rrafo con una l&iacute;nea en blanco antes, y otra despu&eacute;s de esta nota. Si
-<b>no existe</b> tal nota, el formato de la ilustraci&oacute;n se deja para los
-formateadores.
-</p>
-<p>
-La mayor&iacute;a de las p&aacute;ginas que contienen solamente la ilustraci&oacute;n ya
-est&aacute;n marcadas con <tt>[Blank Page]</tt>. Deje esta marca tal y como est&aacute;.
-</p>
-<!-- END RR -->
-
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Illustration">
-  <tbody>
-    <tr>
-      <th align="left" bgcolor="cornsilk">
-      Una ilustraci&oacute;n / imagen de ejemplo:
-      </th>
-
-    </tr>
-    <tr align="left">
-      <td width="100%" valign="top"> <img src="illust.png" alt=""
-          width="500" height="525"> <br>
-      </td>
-    </tr>
-    <tr>
-      <th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th>
-
-   </tr>
-    <tr>
-    <td width="100%" valign="top">
-      <p><tt>Martha told him that he had always been her ideal and<br>
-      that she worshipped him.<br>
-      <br>
-
-      Frontispiece<br>
-      Her Weight in Gold
-      </tt></p>
-    </td>
-    </tr>
-  </tbody>
-</table>
-
-<br>
-
-<table width="100%" align="center" border="1"  cellpadding="4"
- cellspacing="0" summary="Illustration in Middle of Paragraph">
-  <tbody>
-   <tr>
-     <th align="left" bgcolor="cornsilk">Una ilustraci&oacute;n / imagen de ejemplo: (Una ilustraci&oacute;n en el medio del p&aacute;rrafo)</th>
-   </tr>
-   <tr align="left">
-     <td width="100%" valign="top"> <img src="illust2.png" alt=""
-         width="500" height="514"> <br>
-     </td>
-
-   </tr>
-   <tr>
-     <th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th>
-   </tr>
-    <tr valign="top">
-     <td>
-     <p><tt>
-     such study are due to Italians. Several of these instruments<br>
-
-     have already been described in this journal, and on the present<br>
-     </tt></p>
-     <p><tt>FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
-     SEISMIC MOVEMENTS.</tt></p>
-     <p><tt>
-      occasion we shall make known a few others that will<br>
-     serve to give an idea of the methods employed.<br>
-
-     </tt></p>
-     <p><tt>
-     For the observation of the vertical and horizontal motions<br>
-     of the ground, different apparatus are required. The</tt>
-     </p>
-    </td>
-    </tr>
-
-  </tbody>
-</table>
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
-
-
-<h3><a name="footnotes">Notas al pie de p&aacute;gina</a></h3>
-<p><b>Las notas al pie se ubican fuera de la l&iacute;nea de texto</b>;
-Es decir, la nota se deja al fondo de la p&aacute;gina, y en el texto se coloca
-un marcador al lado de la palabra a la que se refiere la nota al pie de
-p&aacute;gina.
-</p>
-<p>
-La letra, el n&uacute;mero o cualquier otro car&aacute;cter que indica una nota al
-pie, debe ponerse entre par&eacute;ntesis cuadrados ([ y ]) justo al lado de la
-palabra<tt>[1]</tt> a la que se refiere la nota o, al lado de su puntuaci&oacute;n,<tt>[2]</tt>
-como se ve en esta frase.
-</p>
-<p>
-Cuando las notas est&aacute;n indicadas con caracteres especiales (*,
-&dagger;, &Dagger;, &sect;, etc.), reempl&aacute;celos todos con [*] en el texto, y
-ponga un asterisco * al
-principio de la nota al pie.
-</p>
-<p>
-Revise el texto de la nota al pie compar&aacute;ndolo con el texto original
-preservando los cambios / quiebros de l&iacute;nea. Deje el texto de la nota al
-fondo de la p&aacute;gina. Est&eacute; seguro de utilizar la misma marca para la nota
-al pie, que la que utiliza junto a la palabra a la que esta se refiere
-(sea *, 1, 2 etc.).
-</p>
-<p>
-Ponga cada nota al pie en una nueva l&iacute;nea. Ponga una l&iacute;nea en blanco al
-final de cada nota al pie de p&aacute;gina (si hay m&aacute;s que una).
-</p>
-<!-- END RR -->
-
-<p>Vea un ejemplo aqu&iacute;: <a href="#page_hf">Encabezado y pie de p&aacute;gina</a>
-para un ejemplo.
-
-</p>
-<p>
-Si hay una referencia a una nota al pie en el texto pero ninguna nota
-aparece al fondo de la p&aacute;gina, deje la referencia donde est&aacute; y no se
-preocupe: es una situaci&oacute;n com&uacute;n en los libros t&eacute;cnicos/cient&iacute;ficos
-donde se juntan todas las notas al final del cap&iacute;tulo. Vea &laquo;Notas al
-final&raquo; abajo.
-</p>
-
-<table width="100%" border="1"  cellpadding="4" cellspacing="0" align="center" summary="Footnote Examples">
-  <tbody>
-    <tr>
-      <th valign="top" align="left" bgcolor="cornsilk">Texto original:</th>
-    </tr>
-    <tr>
-      <td valign="top">
-
-    The principal persons involved in this argument were Caesar<sup>1</sup>, former military<br>
-    leader and Imperator, and the orator Cicero<sup>2</sup>. Both were of the aristocratic<br>
-    (Patrician) class, and were quite wealthy.<br>
-    <hr align="left" width="50%" noshade size="2">
-    <font size=-1><sup>1</sup> Gaius Julius Caesar.</font><br>
-
-    <font size=-1><sup>2</sup> Marcus Tullius Cicero.</font>
-      </td>
-    </tr>
-    <tr>
-      <th valign="top" align="left" bgcolor="cornsilk">Texto revisado correctamente:</th>
-    </tr>
-
-      <tr valign="top">
-      <td>
-    <tt>The principal persons involved in this argument were Caesar[1], former military</tt><br>
-    <tt>leader and Imperator, and the orator Cicero[2]. Both were of the aristocratic</tt><br>
-    <tt>(Patrician) class, and were quite wealthy.</tt><br>
-    <br>
-    <tt>1 Gaius Julius Caesar.</tt><br>
-
-    <br>
-    <tt>2 Marcus Tullius Cicero.</tt>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<p>
-En algunos libros las notas al pie est&aacute;n separadas del texto principal
-por una l&iacute;nea horizontal. Omita esa l&iacute;nea, y deje tan solo una l&iacute;nea en
-blanco entre el texto principal y las notas al pie. (Vea ejemplo de
-arriba)
-</p>
-<p><b>Notas al final</b>
-son notas al pie que de vez en cada p&aacute;gina se colocan todas juntas al
-final del cap&iacute;tulo, o al final del libro. Se revisan de la misma manera
-que las notas al pie. Si encuentra una referencia a alguna nota en el
-texto, retenga el n&uacute;mero o la letra. Si revisa las p&aacute;ginas finales del
-libro donde se encuentran todas las notas, ponga una l&iacute;nea en blanco al
-final de cada una de ellas, para que est&eacute; claro donde empieza y termina
-cada nota.
-</p>
-<!-- Need an example of Endnotes, maybe? Good idea!-->
-
-<p><b>Notas al pie en <a href="#poetry">Poes&iacute;a</a></b>
-se tratan de la misma manera que otras notas al pie.<br> <br>
-
-<b>Notas al pie en <a href="#tables">Tablas</a></b>
-se deben quedar en el lugar en el que est&aacute;n en el texto original.
-</p>
-
-<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Footnotes">
-  <tbody>
-    <tr><th align="left" bgcolor="cornsilk">Poes&iacute;a original con una nota al pie:</th></tr>
-    <tr>
-      <td valign="top">
-    Mary had a little lamb<sup>1</sup><br>
-    &nbsp;&nbsp;&nbsp;Whose fleece was white as snow<br>
-
-    And everywhere that Mary went<br>
-    &nbsp;&nbsp;&nbsp;The lamb was sure to go!<br>
-    <hr align="left" width="50%" noshade size=2>
-    <font size=-2><sup>1</sup> This lamb was obviously of the Hampshire breed,<br>
-    well known for the pure whiteness of their wool.</font>
-
-      </td>
-    </tr>
-    <tr><th align="left" bgcolor="cornsilk">Poes&iacute;a revisada correctamente:</th></tr>
-    <tr>
-      <td valign="top">
-    <tt>
-    Mary had a little lamb[1]<br>
-
-    Whose fleece was white as snow<br>
-    And everywhere that Mary went<br>
-    The lamb was sure to go!<br>
-    <br>
-    1 This lamb was obviously of the Hampshire breed,<br>
-    well known for the pure whiteness of their wool.<br>
-
-    </tt>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
-
-
-<h3><a name="para_side">Notas al margen</a></h3>
-<p>
-En algunos libros existen breves descripciones del p&aacute;rrafo al margen del
-texto. Revise el texto de la &laquo;nota al margen&raquo; compar&aacute;ndolo con el texto
-original, preservando los cambios de l&iacute;nea. Deje una l&iacute;nea en blanco
-antes y despu&eacute;s de la &laquo;nota al margen&raquo; para que esta se pueda distinguir
-del resto del texto. Es posible que el programa de OCR haya colocado el
-texto de la nota en cualquier parte de la p&aacute;gina, hasta entremezclado
-con el resto del texto de la p&aacute;gina. Separe el texto de la nota del
-resto del texto, coloc&aacute;ndolo todo junto. No se preocupe de lugar en la
-p&aacute;gina conde coloca el texto de la nota. Los formateadores lo pondr&aacute;n en
-el lugar apropiado.</p>
-<!-- END RR -->
-
-  <table width="100%" align="center" border="1" cellpadding="4"
-       cellspacing="0" summary="Sidenotes"> <col width="128*">
-
-  <tbody>
-    <tr valign="top">
-      <th align="left" bgcolor="cornsilk">Imagen del ejemplo:</th>
-    </tr>
-    <tr valign="top">
-      <td width="100%" align="left"><img src="side.png" alt=""
-          width="550" height="800"><br>
-      </td>
-    </tr>
-
-    <tr valign="top">
-      <th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th>
-    </tr>
-    <tr valign="top">
-      <td width="100%">
-    <p><tt>
-    Burning<br>
-
-    discs<br>
-    thrown into<br>
-    the air.<br>
-    <br>
-    that such as looked at the fire holding a bit of larkspur<br>
-    before their face would be troubled by no malady of the<br>
-
-    eyes throughout the year.[1] Further, it was customary at<br>
-    W&uuml;rzburg, in the sixteenth century, for the bishop's followers<br>
-    to throw burning discs of wood into the air from a mountain<br>
-    which overhangs the town. The discs were discharged by<br>
-    means of flexible rods, and in their flight through the darkness<br>
-    presented the appearance of fiery dragons.[2]<br>
-
-    <br>
-    The Midsummer<br>
-    fires in<br>
-    Swabia.<br>
-    <br>
-
-    In the valley of the Lech, which divides Upper Bavaria<br>
-
-    from Swabia, the midsummer customs and beliefs are, or<br>
-    used to be, very similar. Bonfires are kindled on the<br>
-    mountains on Midsummer Day; and besides the bonfire<br>
-    a tall beam, thickly wrapt in straw and surmounted by a<br>
-    cross-piece, is burned in many places. Round this cross as<br>
-    it burns the lads dance with loud shouts; and when the<br>
-
-    flames have subsided, the young people leap over the fire in<br>
-    pairs, a young man and a young woman together. If they<br>
-    escape unsmirched, the man will not suffer from fever, and<br>
-    the girl will not become a mother within the year. Further,<br>
-    it is believed that the flax will grow that year as high as<br>
-    they leap over the fire; and that if a charred billet be taken<br>
-
-    from the fire and stuck in a flax-field it will promote the<br>
-    growth of the flax.[3] Similarly in Swabia, lads and lasses,<br>
-    hand in hand, leap over the midsummer bonfire, praying<br>
-    that the hemp may grow three ells high, and they set fire<br>
-    to wheels of straw and send them rolling down the hill.<br>
-    Among the places where burning wheels were thus bowled<br>
-
-    down hill at Midsummer were the Hohenstaufen mountains<br>
-    in Wurtemberg and the Frauenberg near Gerhausen.[4]<br>
-    At Deffingen, in Swabia, as the people sprang over the mid-*<br>
-    <br>
-    Omens<br>
-    drawn from<br>
-
-    the leaps<br>
-    over the<br>
-    fires.<br>
-    <br>
-    Burning<br>
-    wheels<br>
-
-    rolled<br>
-    down hill.<br>
-    <br>
-    1 Op. cit. iv. 1. p. 242. We have<br>
-    seen (p. 163) that in the sixteenth<br>
-    century these customs and beliefs were<br>
-
-    common in Germany. It is also a<br>
-    German superstition that a house which<br>
-    contains a brand from the midsummer<br>
-    bonfire will not be struck by lightning<br>
-    (J. W. Wolf, Beitr&auml;ge zur deutschen<br>
-    Mythologie, i. p. 217, &sect; 185).<br>
-
-    <br>
-    2 J. Boemus, Mores, leges et ritus<br>
-    omnium gentium (Lyons, 1541), p.<br>
-    226.<br>
-    <br>
-    3 Karl Freiherr von Leoprechting,<br>
-    Aus dem Lechrain (Munich, 1855),<br>
-
-    pp. 181 sqq.; W. Mannhardt, Der<br>
-    Baumkultus, p. 510.<br>
-    <br>
-    4 A. Birlinger, Volksth&uuml;mliches aus<br>
-    Schwaben (Freiburg im Breisgau, 1861-1862),<br>
-    ii. pp. 96 sqq., &sect; 128, pp. 103<br>
-
-    sq., &sect; 129; id., Aus Schwaben (Wiesbaden,<br>
-    1874), ii. 116-120; E. Meier,<br>
-    Deutsche Sagen, Sitten und Gebr&auml;uche<br>
-    aus Schwaben (Stuttgart, 1852), pp.<br>
-    423 sqq.; W. Mannhardt, Der Baumkultus,<br>
-    p. 510.<br>
-
-    </tt></p>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
-
-
-<h3><a name="mult_col">M&uacute;ltiples Columnas</a></h3>
-<p>Revise el texto que est&aacute; editado en dos columnas como una sola.
-</p>
-<p>
-El texto de m&uacute;ltiples columnas tambi&eacute;n se revisa como si fuera de una
-sola columna. Empiece con la primera de la izquierda, siga con la que
-est&aacute; a su derecha, y as&iacute; hasta la &uacute;ltima columna de la derecha. No es
-necesario indicar d&oacute;nde acaba una y empieza la siguiente columna.
-Simplemente j&uacute;ntelo todo en una sola columna.
-</p>
-<p>Vea tambi&eacute;n <a href="#bk_index">&Iacute;ndices</a> y <a href="#tables">Tablas</a> secciones de las reglas de
-revisi&oacute;n.
-</p>
-<!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
-
-
-<h3><a name="tables">Tablas</a></h3>
-<p>La tarea del revisor es estar seguro que toda la informaci&oacute;n en la tabla
-est&eacute; correctamente revisada. Los detalles de formato de tablas ser&aacute;n
-tratados m&aacute;s adelante. Deje suficiente espacio entre los datos de
-diversas columnas para que est&eacute; claro donde empieza y donde acaba cada
-dato. Retenga los cambios / quiebros de l&iacute;nea.
-</p>
-
-<p><b>Notas al pie</b>
-en las tablas deben quedarse donde est&aacute;n en el original. Vea <a href="#footnotes">Notas al
-pie de p&aacute;gina</a> para m&aacute;s detalles.
-</p>
-<!-- END RR -->
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Table Example 1">
-  <tbody>
-    <tr><th align="left" bgcolor="cornsilk">Imagen del ejemplo:</th></tr>
-    <tr align="left">
-      <td width="100%" valign="top"> <img src="table1.png" alt="" width="500" height="142"><br>
-
+      <td width="100%" valign="top"><img src="foot.png" alt="" width="500" height="860"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre>
-Deg. C.  Millimeters of Mercury. Gasolene.
-Pure Benzene.
+        <tt>In the United States?[*] In a railroad? In a mining company?<br>
+        In a bank? In a church? In a college?<br>
+        <br>
+        Write a list of all the corporations that you know or have<br>
+        ever heard of, grouping them under the heads public and private.<br>
+        <br>
+        How could a pastor collect his salary if the church should<br>
+        refuse to pay it?<br>
+        <br>
+        Could a bank buy a piece of ground "on speculation?" To<br>
+        build its banking-house on? Could a county lend money if it<br>
+        had a surplus? State the general powers of a corporation.<br>
+        Some of the special powers of a bank. Of a city.<br>
+        <br>
+        A portion of a man's farm is taken for a highway, and he is<br>
+        paid damages; to whom does said land belong? The road intersects<br>
+        the farm, and crossing the road is a brook containing<br>
+        trout, which have been put there and cared for by the farmer;<br>
+        may a boy sit on the public bridge and catch trout from that<br>
+        brook? If the road should be abandoned or lifted, to whom<br>
+        would the use of the land go?<br>
+        <br>
+        CHAPTER XXXV.<br>
+        <br>
+        Commercial Paper.<br>
+        <br>
+        Kinds and Uses.--If a man wishes to buy some commodity<br>
+        from another but has not the money to pay for<br>
+        it, he may secure what he wants by giving his written<br>
+        promise to pay at some future time. This written<br>
+        promise, or note, the seller prefers to an oral promise<br>
+        for several reasons, only two of which need be mentioned<br>
+        here: first, because it is prima facie evidence of<br>
+        the debt; and, second, because it may be more easily<br>
+        transferred or handed over to some one else.<br>
+        <br>
+        If J. M. Johnson, of Saint Paul, owes C. M. Jones,<br>
+        of Chicago, a hundred dollars, and Nelson Blake, of<br>
+        Chicago, owes J. M. Johnson a hundred dollars, it is<br>
+        plain that the risk, expense, time and trouble of sending<br>
+        the money to and from Chicago may be avoided,<br>
+        <br>
+        * The United States: "Its charter, the constitution. * * * Its flag the<br>
+        symbol of its power; its seal, of its authority."--Dole.
+        </tt>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
--10&deg;  13.4  43.5
- 0&deg;  26.6  81.0
-+10&deg;  46.6  132.0
-20&deg;  76.3  203.0
-40&deg;  182.0  301.8
 
-</pre>
+<h3><a name="illust">Ilustraciones</a></h3>
+<p>Revise cualquier texto que acompa&ntilde;e la ilustraci&oacute;n, preservando los saltos de l&iacute;nea. Si la nota que acompa&ntilde;a la ilustraci&oacute;n o imagen se encuentra en medio de un p&aacute;rrafo, sep&aacute;rela del resto del texto del p&aacute;rrafo con una l&iacute;nea en blanco antes y otra despu&eacute;s. Todo el texto que forma parte de la leyenda de la imagen debe ser incluido, como por ejemplo "Ver p&aacute;gina 66" o un t&iacute;tulo que se encuentre dentro de la ilustraci&oacute;n.
+</p>
+<p>
+La mayor&iacute;a de las p&aacute;ginas que contienen solamente una ilustraci&oacute;n sin ning&uacute;n texto asociado aparecen marcadas como <tt>[Blank Page]</tt> (p&aacute;gina en blanco). Deje esta marca tal y como est&aacute;.
+</p>
+<!-- END RR -->
+
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Illustration example">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Imagen original:</th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top"> <img src="illust.png" alt="" width="500" height="525"> <br>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th>
+    </tr>
+    <tr>
+      <td width="100%" valign="top">
+        <p><tt>Martha told him that he had always been her ideal and<br>
+        that she worshipped him.<br>
+        <br>
+        Frontispiece<br>
+        Her Weight in Gold
+        </tt></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Illustration in Middle of Paragraph">
+  <tbody>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Imagen original (ilustraci&oacute;n en el medio de un p&aacute;rrafo):</th>
+    </tr>
+    <tr align="left">
+      <td width="100%" valign="top"> <img src="illust2.png" alt="" width="500" height="514"> <br>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th>
+    </tr>
+    <tr valign="top">
+      <td>
+        <p><tt>
+        such study are due to Italians. Several of these instruments<br>
+        have already been described in this journal, and on the present<br>
+        </tt></p>
+        <p><tt>FIG. 1.--APPARATUS FOR THE STUDY OF HORIZONTAL<br>
+        SEISMIC MOVEMENTS.</tt></p>
+        <p><tt>
+        occasion we shall make known a few others that will<br>
+        serve to give an idea of the methods employed.<br>
+        </tt></p>
+        <p><tt>
+        For the observation of the vertical and horizontal motions<br>
+        of the ground, different apparatus are required. The</tt>
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
+
+
+<h3><a name="footnotes">Notas al pie de p&aacute;gina y notas al final</a></h3>
+<p>Revise las notas al pie dejando el texto de la nota al final de la p&aacute;gina y colocando una etiqueta en el lugar en que la nota est&aacute; referenciada en el texto.
+</p>
+<p>
+En el texto principal, el car&aacute;cter que marca la ubicaci&oacute;n de la nota al pie debe ser rodeado con corchetes <tt>[ ]</tt> y colocado junto a la palabra en la que est&aacute; la referencia<tt>[1]</tt> o a la puntuaci&oacute;n que la acompa&ntilde;a,<tt>[2]</tt> tal como se muestra en la imagen y en los dos ejemplos de esta oraci&oacute;n. Las referencias de las notas al pie pueden ser n&uacute;meros, letras o s&iacute;mbolos. Cuando las notas al pie est&aacute;n indicadas con s&iacute;mbolos *, &dagger;, &Dagger;, &sect;, etc.), los remplazamos con <tt>[*]</tt> en el texto y <tt>*</tt> al comienzo de la nota al pie.
+</p>
+<p>Al final de la p&aacute;gina, revise el texto de la nota al pie compar&aacute;ndolo con el texto original y preservando los saltos de l&iacute;nea. Utilice el mismo tipo de marca para la referencia a la nota al pie en el texto principal y la nota al pie misma. Use solamente el car&aacute;cter del s&iacute;mbolo para la referencia, sin corchetes ni ninguna otra marca.
+</p>
+<p>Ponga cada nota al pie en una nueva l&iacute;nea por orden de aparici&oacute;n, con una l&iacute;nea en blanco antes de cada una.
+</p>
+<!-- END RR -->
+<p>No incluya ning&uacute;n car&aacute;cter ajeno para separar las notas al pie de texto principal. Solamente deje una l&iacute;nea en blanco.
+</p>
+<p>
+Las <b>notas al final</b> son similares a las notas al pie pero han sido colocadas al final del cap&iacute;tulo o al final del libro. Se revisan de la misma manera que las notas al pie. Cuando encuentre una referencia a una nota al final en el texto, solamente col&oacute;quela entre <tt>[ ]</tt>. Si usted est&aacute; revisando una de las p&aacute;ginas donde se encuentran las notas al final, coloque una l&iacute;nea en blanco antes de cada nota de manera tal que sea claro cuando cada una comienza y finaliza.
+</p>
+<!-- Need an example of Endnotes, maybe? Good idea!-->
+
+<p>
+Las notas al pie que forman parte de una <a href="#tables">tabla</a> deben ser conservadas en el lugar preciso en el que se encuentran en la imagen original.
+</p>
+
+<table width="100%" border="1" cellpadding="4" cellspacing="0" align="center" summary="Footnote Example">
+  <tbody>
+    <tr>
+      <th valign="top" align="left" bgcolor="cornsilk">Imagen original:</th>
+    </tr>
+    <tr>
+      <td valign="top">
+        The principal persons involved in this argument were Caesar*, former military<br>
+        leader and Imperator, and the orator Cicero&dagger;. Both were of the aristocratic<br>
+        (Patrician) class, and were quite wealthy.<br>
+        <hr align="left" width="25%" noshade size="2">
+        <font size=-1>* Gaius Julius Caesar.</font><br>
+        <font size=-1>&dagger; Marcus Tullius Cicero.</font>
+      </td>
+    </tr>
+    <tr>
+      <th valign="top" align="left" bgcolor="cornsilk">Texto revisado correctamente:</th>
+    </tr>
+    <tr valign="top">
+      <td>
+        <tt>The principal persons involved in this argument were Caesar[*], former military</tt><br>
+        <tt>leader and Imperator, and the orator Cicero[*]. Both were of the aristocratic</tt><br>
+        <tt>(Patrician) class, and were quite wealthy.</tt><br>
+        <br>
+        <tt>* Gaius Julius Caesar.</tt><br>
+        <br>
+        <tt>* Marcus Tullius Cicero.</tt>
       </td>
     </tr>
   </tbody>
 </table>
 <br>
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Table Example 2">
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Footnote Example">
   <tbody>
-    <tr><th align="left" bgcolor="cornsilk">Imagen de ejemplo:</th></tr>
-    <tr align="left">
+    <tr><th align="left" bgcolor="cornsilk">Imagen original de poes&iacute;a con notas al pie:</th></tr>
+    <tr>
+      <td valign="top">
+        Mary had a little lamb<sup>1</sup><br>
+        &nbsp;&nbsp;&nbsp;Whose fleece was white as snow<br>
+        And everywhere that Mary went<br>
+        &nbsp;&nbsp;&nbsp;The lamb was sure to go!<br>
+        <hr align="left" width="10%" noshade size=2>
+        <font size=-2><sup>1</sup> This lamb was obviously of the Hampshire breed,<br>
+        well known for the pure whiteness of their wool.</font>
+      </td>
+    </tr>
+    <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
+    <tr>
+      <td valign="top">
+        <tt>
+        Mary had a little lamb[1]<br>
+        Whose fleece was white as snow<br>
+        And everywhere that Mary went<br>
+        The lamb was sure to go!<br>
+        <br>
+        1 This lamb was obviously of the Hampshire breed,<br>
+        well known for the pure whiteness of their wool.<br>
+        </tt>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
+
+<h3><a name="para_side">Notas al margen</a></h3>
+<p>
+En algunos libros existen breves descripciones del p&aacute;rrafo al margen del texto. Revise el texto de la nota al margen compar&aacute;ndolo con el texto original, preservando los saltos de l&iacute;nea (y tratando los <a href="#eol_hyphen">gu&iacute;ones al final de la l&iacute;nea</a> de manera habitual). Deje una l&iacute;nea en blanco antes y despu&eacute;s de la nota al margen para que esta se pueda distinguir del resto del texto. Es posible que el programa de OCR haya colocado el texto de la nota en cualquier parte de la p&aacute;gina, e incluso puede haberlo mezclado con el resto del texto de la p&aacute;gina. Separe el texto de la nota del resto del texto, reuniendo el texto completo de la nota al margen, pero no se preocupe del lugar donde se encuentra la nota al margen en la p&aacute;gina.
+</p>
+<!-- END RR -->
+
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Sidenotes example">
+  <tbody>
+    <tr valign="top">
+      <th align="left" bgcolor="cornsilk">Imagen original:</th>
+    </tr>
+    <tr valign="top">
+      <td width="100%" align="left"><img src="side.png" alt="" width="550" height="800"><br>
+      </td>
+    </tr>
+    <tr valign="top">
+      <th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th>
+    </tr>
+    <tr valign="top">
+      <td width="100%">
+        <p><tt>
+        Burning<br>
+        discs<br>
+        thrown into<br>
+        the air.<br>
+        <br>
+        that such as looked at the fire holding a bit of larkspur<br>
+        before their face would be troubled by no malady of the<br>
+        eyes throughout the year.[1] Further, it was customary at<br>
+        W&uuml;rzburg, in the sixteenth century, for the bishop's followers<br>
+        to throw burning discs of wood into the air from a mountain<br>
+        which overhangs the town. The discs were discharged by<br>
+        means of flexible rods, and in their flight through the darkness<br>
+        presented the appearance of fiery dragons.[2]<br>
+        <br>
+        The Midsummer<br>
+        fires in<br>
+        Swabia.<br>
+        <br>
+        In the valley of the Lech, which divides Upper Bavaria<br>
+        from Swabia, the midsummer customs and beliefs are, or<br>
+        used to be, very similar. Bonfires are kindled on the<br>
+        mountains on Midsummer Day; and besides the bonfire<br>
+        a tall beam, thickly wrapt in straw and surmounted by a<br>
+        cross-piece, is burned in many places. Round this cross as<br>
+        it burns the lads dance with loud shouts; and when the<br>
+        flames have subsided, the young people leap over the fire in<br>
+        pairs, a young man and a young woman together. If they<br>
+        escape unsmirched, the man will not suffer from fever, and<br>
+        the girl will not become a mother within the year. Further,<br>
+        it is believed that the flax will grow that year as high as<br>
+        they leap over the fire; and that if a charred billet be taken<br>
+        from the fire and stuck in a flax-field it will promote the<br>
+        growth of the flax.[3] Similarly in Swabia, lads and lasses,<br>
+        hand in hand, leap over the midsummer bonfire, praying<br>
+        that the hemp may grow three ells high, and they set fire<br>
+        to wheels of straw and send them rolling down the hill.<br>
+        Among the places where burning wheels were thus bowled<br>
+        down hill at Midsummer were the Hohenstaufen mountains<br>
+        in Wurtemberg and the Frauenberg near Gerhausen.[4]<br>
+        At Deffingen, in Swabia, as the people sprang over the mid-*<br>
+        <br>
+        Omens<br>
+        drawn from<br>
+        the leaps<br>
+        over the<br>
+        fires.<br>
+        <br>
+        Burning<br>
+        wheels<br>
+        rolled<br>
+        down hill.<br>
+        <br>
+        1 Op. cit. iv. 1. p. 242. We have<br>
+        seen (p. 163) that in the sixteenth<br>
+        century these customs and beliefs were<br>
+        common in Germany. It is also a<br>
+        German superstition that a house which<br>
+        contains a brand from the midsummer<br>
+        bonfire will not be struck by lightning<br>
+        (J. W. Wolf, Beitr&auml;ge zur deutschen<br>
+        Mythologie, i. p. 217, &sect; 185).<br>
+        <br>
+        2 J. Boemus, Mores, leges et ritus<br>
+        omnium gentium (Lyons, 1541), p.<br>
+        226.<br>
+        <br>
+        3 Karl Freiherr von Leoprechting,<br>
+        Aus dem Lechrain (Munich, 1855),<br>
+        pp. 181 sqq.; W. Mannhardt, Der<br>
+        Baumkultus, p. 510.<br>
+        <br>
+        4 A. Birlinger, Volksth&uuml;mliches aus<br>
+        Schwaben (Freiburg im Breisgau, 1861-1862),<br>
+        ii. pp. 96 sqq., &sect; 128, pp. 103<br>
+        sq., &sect; 129; id., Aus Schwaben (Wiesbaden,<br>
+        1874), ii. 116-120; E. Meier,<br>
+        Deutsche Sagen, Sitten und Gebr&auml;uche<br>
+        aus Schwaben (Stuttgart, 1852), pp.<br>
+        423 sqq.; W. Mannhardt, Der Baumkultus,<br>
+        p. 510.<br>
+        </tt></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
+
+
+<h3><a name="mult_col">M&uacute;ltiples Columnas</a></h3>
+<p>Cuando se encuentra con texto normal que ha sido impreso en dos columnas, coloque el texto de la columna izquierda primero y el texto de la comuna derecha debajo. No es necesario que marque donde fueron separadas las columnas. Vea el fragmento final en los ejemplos para <a href="#para_side">notas al margen</a> para ver c&oacute;mo se revisan textos en m&uacute;ltiples columnas.
+</p>
+<p>Revise adem&aacute;s las secciones de <a href="#bk_index">&Iacute;ndice</a> y <a href="#tables">Tablas</a> de estas Reglas de Revisi&oacute;n.
+</p>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
+
+
+<h3><a name="tables">Tablas</a></h3>
+<p>La tarea del revisor es asegurar que toda la informaci&oacute;n en la tabla est&eacute; correctamente escrita. Separe los distintos &iacute;tems de la tabla como sea necesario, pero no se preocupe de alinearlos con precisi&oacute;n. Mantenga los saltos del l&iacute;nea (y trate los <a href="#eol_hyphen">guiones al final de la l&iacute;nea</a> de manera habitual). Ignore los puntos u otros s&iacute;mbolos que puedan haberse usado para dar formato a la tabla.
+</p>
+<p>
+Las <b>notas al pie</b> que aparecen dentro de una tabla deben conservarse en el lugar preciso en el que se encuentran. Vea la secci&oacute;n <a href="#footnotes">Notas al pie</a> para m&aacute;s detalles.
+</p>
+<!-- END RR -->
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Table Example">
+  <tbody>
+    <tr><th align="left" bgcolor="cornsilk">Imagen original:</th></tr>
+    <tr align="left">
       <td width="100%" valign="top"> <img src="table2.png" alt="" width="500" height="304"><br>
       </td>
     </tr>
     <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
     <tr>
       <td width="100%" valign="top">
-<pre>
-TABLE II.
+<pre><tt>TABLE II.
 
-Flat strips compared   Copper   Copper
-with round wire 30 cm.  Iron. Parallel wires 30 cm. in  Iron.
-in length.             length.
+Flat strips compared    Copper.                            Copper.
+with round wire 30 cm.       Iron.  Parallel wires 30 cm. in     Iron.
+in length.                                 length.
 
-Wire 1 mm. diameter   20  100  Wire 1 mm. diameter   20 100
+Wire 1 mm. diameter   20  100  Wire 1 mm. diameter   20  100
 
-        STRIPS.      SINGLE WIRE.
+        STRIPS.                 SINGLE WIRE.
 0.25 mm. thick, 2 mm.
-  wide  15  35  0.25 mm. diameter   16   48
-Same, 5 mm. wide       13  20  Two similar wires    12  30
- "   10  "    "   11   15  Four    "    "     9   18
- "   20  "    "    10  14  Eight  "    "   8   10
- "   40  "    "    9   13  Sixteen "    "     7    6
-Same strip rolled up in  Same 16 wires bound
-  the form of a wire  17   15    close together   18    12
-
-</pre>
+  wide           ...... 15  35      0.25 mm. diameter ....  16   48
+Same, 5 mm. wide  ....     13  20  Two similar wires  ...... 12  30
+ "   10  "    "           11   15    Four    "    "     9   18
+ "   20    "    "         10  14      Eight  "    "     8   10
+ "   40  "    "          9   13     Sixteen "    "     7    6
+Same strip rolled up in           Same, 16 wires bound
+  the form of wire  .. 17   15    close together .....  18    12
+</tt></pre>
       </td>
     </tr>
   </tbody>
 </table>
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<br>
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Table Example">
+  <tbody>
+    <tr><th align="left" bgcolor="cornsilk">Imagen original:</th></tr>
+    <tr align="left">
+      <td width="100%" valign="top"> <img src="table3.png" alt="" width="480" height="231"><br>
+      </td>
+    </tr>
+    <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
+    <tr>
+      <td width="100%" valign="top">
+<pre><tt>Agents.   Objects.
+        {     1st person, I,       me,
+            {  2d   "    thou,   thee,
+Singular  {      "  mas.  {  he,   him,
+           {  3d  "  fem.  {  she,   her,
+         {            it,        it.
+
+       {  1st person, we,         us,
+Plural   {   2d   "  ye, or you,   you,
+        {  3d  "   they,         them,
+                  who,       whom.
+</tt></pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="poetry">Poes&iacute;a</a></h3>
+<h3><a name="poetry">Poes&iacute;a o epigramas</a></h3>
 <p>
-Introduzca una l&iacute;nea en blanco al comienzo de la poes&iacute;a o epigrama y
-otra al final, para que los formateadores puedan ver claramente donde
-empieza y donde se acaba el formato especial.
+Introduzca una l&iacute;nea en blanco al comienzo de la poes&iacute;a o epigrama y otra al final, para que los formateadores puedan ver claramente d&oacute;nde empieza y d&oacute;nde termina el formato especial. Todo el texto debe ser alineado a la izquierda y los saltos de l&iacute;nea deben mantenerse. Coloque una l&iacute;nea en blanco entre las estrofas, si existe una en la imagen.
 </p>
 <p>
-Justifique todas las l&iacute;neas a la izquierda y mantenga los cambios /
-quiebras de l&iacute;nea. No intente sangrar la poes&iacute;a. Los formateadores lo
-har&aacute;n. Introduzca una l&iacute;nea en blanco entre las estrofas.
-</p>
-
-<p><b>Notas al pie</b>
-en poes&iacute;a deben tratarse de la misma manera que cualquier nota al pie en
-el texto com&uacute;n. Vea <a href="#footnotes">Notas al pie de p&aacute;gina</a>
-para m&aacute;s detalles.
-</p>
-<p><b>La numeraci&oacute;n de las l&iacute;neas</b>
-en poes&iacute;a debe conservarse. Separe los n&uacute;meros del texto con algunos
-espacios. Vea las instrucciones para los <a href="#line_no">N&uacute;meros de l&iacute;nea</a>.
+Los <a href="#line_no">n&uacute;meros de l&iacute;nea</a> en poes&iacute;a deben ser conservados y revisados.
 </p>
 <p>
-Compruebe en los <a href="#comments">Comentarios del proyecto</a> que est&aacute; revisando, si existen indicaciones especiales.
+Revise los <a href="#comments">Comentarios del Proyecto</a> en caso de que exista alguna instrucci&oacute;n especial.
 </p>
 <!-- END RR -->
 
-<br>
-<!-- Need an example that shows overly long lines of poetry, rather than relative indentation -->
-
-<table width="100%" align="center" border="1"  cellpadding="4"
-      cellspacing="0" summary="Poetry Example">
- <tbody>
-   <tr><th align="left" bgcolor="cornsilk">Imagen del ejemplo:</th></tr>
-   <tr align="left">
-     <th width="100%" valign="top"> <img src="poetry.png" alt=""
-         width="500" height="508"> <br>
-
-     </th>
-   </tr>
-   <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
-   <tr>
-     <td width="100%" valign="top">
-
-
-<tt>
-to the scenery of his own country:<br></tt>
-
-<p><tt>
-Oh, to be in England<br>
-Now that April's there,<br>
-And whoever wakes in England<br>
-Sees, some morning, unaware,<br>
-That the lowest boughs and the brushwood sheaf<br>
-Round the elm-tree hole are in tiny leaf,<br>
-While the chaffinch sings on the orchard bough<br>
-In England--now!</tt>
-
-</p><p><tt>
-And after April, when May follows,<br>
-And the whitethroat builds, and all the swallows!<br>
-Hark! where my blossomed pear-tree in the hedge<br>
-Leans to the field and scatters on the clover<br>
-Blossoms and dewdrops--at the bent spray's edge--<br>
-That's the wise thrush; he sings each song twice over,<br>
-Lest you should think he never could recapture<br>
-The first fine careless rapture!<br>
-
-And though the fields look rough with hoary dew,<br>
-All will be gay, when noontide wakes anew<br>
-The buttercups, the little children's dower;<br>
---Far brighter than this gaudy melon-flower!<br>
-</tt>
-</p><p><tt>
-So it runs; but it is only a momentary memory;<br>
-and he knew, when he had done it, and to his</tt>
-</p>
-
-     </td>
-   </tr>
- </tbody>
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Poetry Example">
+  <tbody>
+    <tr><th align="left" bgcolor="cornsilk">Imagen original:</th></tr>
+    <tr align="left">
+      <td width="100%" valign="top"> <img src="poetry2.png" alt="" width="480" height="385"> <br>
+      </td>
+    </tr>
+    <tr><th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th></tr>
+    <tr>
+      <td width="100%" valign="top">
+        <tt>THE CHAMBERED NAUTILUS<br>
+        <br>
+        This is the ship of pearl which, poets<br>
+        feign,<br>
+        Sails the unshadowed main,--<br>
+        The venturous bark that flings<br>
+        On the sweet summer wind its purpled<br>
+        wings<br>
+        In gulfs enchanted, where the Siren sings<br>
+        And coral reefs lie bare,<br>
+        Where the cold sea maids rise to sun<br>
+        their streaming hair.<br>
+        <br>
+        Its webs of living gauze no more unfurl;<br>
+        Wrecked is the ship of pearl!</tt>
+      </td>
+    </tr>
+  </tbody>
 </table>
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="line_no">N&uacute;meros de l&iacute;nea</a></h3>
-
-<p>Si las l&iacute;neas tienen n&uacute;meros, cons&eacute;rvelos. Col&oacute;quelos al menos seis
-espacios a la derecha del resto del texto, aun cuando originalmente se
-encuentran a la izquierda de la poes&iacute;a/texto original.
-</p>
-<p>N&uacute;meros de l&iacute;nea se encuentran al margen de cada l&iacute;nea, o a veces cada
-cinco o diez l&iacute;neas. Son comunes en libros de poes&iacute;a. Como el libro
-electr&oacute;nico (e-book) no tiene p&aacute;ginas, los n&uacute;meros de los versos sirven
-para orientar al lector.
+<p>Los n&uacute;meros de l&iacute;nea son comunes en libros de poes&iacute;a y, usualmente, aparecen cerca del margen cada cinco o diez l&iacute;neas. Conserve los n&uacute;meros de l&iacute;nea, utilizando algunos espacios para separarlos del texto principal de la l&iacute;nea de manera tal que los formateadores puedan encontrarlos. Dado que las l&iacute;neas de la poes&iacute;a se mantendr&aacute;n tan cual en el libro electr&oacute;nico final, los n&uacute;meros de l&iacute;nea puede ser &uacute;tiles para los lectores.
 </p>
 <!-- END RR -->
 <!-- We need an example image and text for this. -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
+
+
+<h3><a name="next_word">Palabra suelta al final de la p&aacute;gina</a></h3>
+<p>Esta palabra debe ser eliminada, incluso si se trata de la segunda mitad de una palabra cortada con un gui&oacute;n.
+</p>
+<p>En algunos libros antiguos, la palabra suelta al final de la p&aacute;gina (usualmente impresa cerca del margen derecho) indica la primera palabra de la p&aacute;gina siguiente del libro. Esto se utilizaba para que el impresor tuviese cuidado de imprimir la contracara correcta, para ayudar a los ayudantes del impresor a armar las p&aacute;ginas antes de la encuadernaci&oacute;n y para ayudar al lector a no saltarse una p&aacute;gina al leer.
+</p>
+<!-- END RR -->
+<!-- We need an example here! -->
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Page-level proofreading">
+  <tbody>
+    <tr>
+      <td bgcolor="silver"><h2 style="margin-bottom: 0; margin-top: 0;">Revisando p&aacute;ginas:</h2></td>
+    </tr>
+  </tbody>
+</table>
 
 
 <h3><a name="blank_pg">P&aacute;gina en blanco</a></h3>
-
 <p>
-La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilustraci&oacute;n y sin
-texto, ya est&aacute;n marcadas con <tt>[Blank Page]</tt>. D&eacute;jelas como est&aacute;n. Si la
-p&aacute;gina est&aacute; en blanco y no est&aacute; marcada con [Blank Page] no es necesario
-a&ntilde;adir esta marca.
+La mayor&iacute;a de las p&aacute;ginas en blanco, o p&aacute;ginas con una ilustraci&oacute;n y sin texto, ya est&aacute;n marcadas con <tt>[Blank Page]</tt>. D&eacute;jelas como est&aacute;n. Si la p&aacute;gina est&aacute; en blanco y no est&aacute; marcada con <tt>[Blank Page]</tt> no es necesario a&ntilde;adir esta marca.
 </p>
-<p>
-Si el texto est&aacute; donde normalmente tiene que estar pero la imagen de la
-p&aacute;gina del libro original est&aacute; en blanco, o; si la imagen est&aacute; pero no
-aparece el texto, siga las instrucciones para <a href="#bad_image">Im&aacute;genes de baja
-calidad</a> o <a href="#bad_text">Imagen
-que no corresponde al texto</a>, correlativamente.
+<p>Si el texto est&aacute; donde normalmente tiene que estar pero la imagen de la p&aacute;gina del libro original est&aacute; en blanco, o si la imagen est&aacute; pero no aparece el texto, siga las instrucciones para <a href="#bad_image">Im&aacute;genes de baja calidad</a> o <a href="#bad_text">Imagen que no corresponde al texto</a>, respectivamente.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="title_pg">Portada&mdash;Contraportada</a></h3>
-<p>
-Revise todo el texto como se ve en la imagen de la p&aacute;gina, sean las
-letras may&uacute;sculas o min&uacute;sculas, etc., los a&ntilde;os de la publicaci&oacute;n, o
-derechos del autor.
+<h3><a name="title_pg">Portada y contraportada</a></h3>
+<p>Revise todo el texto como se ve en la imagen de la p&aacute;gina, sean las letras may&uacute;sculas o min&uacute;sculas, etc., incluyendo el a&ntilde;o de publicaci&oacute;n y los derechos del autor.
 </p>
-<p>
-En los libros antiguos frecuentemente la primera letra es grande y
-ornamentada&mdash;rev&iacute;sela como una letra normal.
+<p>En los libros antiguos frecuentemente la primera letra es grande y ornamentada, rev&iacute;sela como una letra normal.
 </p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Title Page Example">
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Title Page Example">
   <tbody>
     <tr>
-      <th align="left" bgcolor="cornsilk">
-      Imagen del ejemplo:
-      </th>
+      <th align="left" bgcolor="cornsilk">Imagen original:</th>
     </tr>
     <tr align="left">
-
-      <td width="100%" valign="top"><img src="title.png" width="500"
-          height="520" alt="title page image"><br>
+      <td width="100%" valign="top"><img src="title.png" width="500" height="520" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2213,230 +1418,179 @@ ornamentada&mdash;rev&iacute;sela como una letra normal.
     </tr>
     <tr>
       <td width="100%" valign="top">
-
-      <p><tt>GREEN FANCY</tt>
-      </p>
-      <p><tt>BY</tt></p>
-      <p><tt>GEORGE BARR McCUTCHEON</tt></p>
-      <p><tt>AUTHOR OF &laquo;GRAUSTARK," &laquo;THE HOLLOW OF HER HAND,"<br>
-         &laquo;THE PRINCE OF GRAUSTARK," ETC.</tt></p>
-
-      <p><tt>WITH FRONTISPIECE BY<br>
-         C. ALLAN GILBERT</tt></p>
-      <p><tt>NEW YORK<br>
-         DODD, MEAD AND COMPANY.</tt></p>
-      <p><tt>1917</tt></p>
+        <p><tt>GREEN FANCY</tt>
+        </p>
+        <p><tt>BY</tt></p>
+        <p><tt>GEORGE BARR McCUTCHEON</tt></p>
+        <p><tt>AUTHOR OF "GRAUSTARK," "THE HOLLOW OF HER HAND,"<br>
+        "THE PRINCE OF GRAUSTARK," ETC.</tt></p>
+        <p><tt>WITH FRONTISPIECE BY<br>
+        C. ALLAN GILBERT</tt></p>
+        <p><tt>NEW YORK<br>
+        DODD, MEAD AND COMPANY<br>
+        1917</tt></p>
       </td>
-
     </tr>
   </tbody>
 </table>
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="toc">La tabla de contenidos</a></h3>
-<p>
-Revise la tabla de contenidos exactamente como est&aacute; en el libro, ya sean
-las letras may&uacute;sculas o min&uacute;sculas, etc. Conserve los n&uacute;meros de las
-p&aacute;ginas.
+<h3><a name="toc">Tabla de contenidos</a></h3>
+<p>Revise la tabla de contenidos exactamente como est&aacute; en el libro, respetando las may&uacute;sculas y min&uacute;sculas. Si se encuentra con <span style="font-variant: small-caps">Versalitas</a>, revise la secci&oacute;n de <a href="#small_caps">Versalitas</a>. Conserve los n&uacute;meros de p&aacute;gina.
 </p>
-<p>
-Haga caso omiso de los puntos o asteriscos utilizados para alinear los
-n&uacute;meros de las p&aacute;ginas. Estos ser&aacute;n eliminados m&aacute;s adelante en el
-proceso.
+<p>Haga caso omiso de los puntos o asteriscos utilizados para alinear los n&uacute;meros de las p&aacute;ginas. Estos ser&aacute;n eliminados m&aacute;s adelante, durante las rondas de formato.
 </p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="TOC">
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Table of Contents example">
   <tbody>
-
     <tr>
-      <th align="left" bgcolor="cornsilk">
-      Imagen del ejemplo:
-      </th>
+      <th align="left" bgcolor="cornsilk">Imagen original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top">
-      <p><img src="tablec.png" alt="" width="500" height="650"></p>
+      <td width="100%" valign="top"><img src="tablec.png" alt="" width="500" height="650">
       </td>
-
     </tr>
     <tr>
       <th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th>
     </tr>
     <tr>
       <td width="100%" valign="top">
-      <p><tt>CONTENTS</tt></p>
-
-      <p><tt><br>
-          CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<br>
-          <br>
-
-          I. THE FIRST WAYFARER AND THE SECOND WAYFARER<br>
-          MEET AND PART ON THE HIGHWAY&nbsp;&nbsp;.....&nbsp;1<br>
-          <br>
-          II.  THE FIRST WAYFARER LAYS HIS PACK ASIDE AND<br>
-          FALLS IN WITH FRIENDS&nbsp;&nbsp;....&nbsp;...&nbsp;15<br>
-
-          <br>
-          III. MR. RUSHCROFT DISSOLVES, MR. JONES INTERVENES,<br>
-          AND TWO MEN RIDE AWAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35<br>
-          <br>
-          IV. AN EXTRAORDINARY CHAMBERMAID, A MIDNIGHT<br>
-          TRAGEDY, AND A MAN WHO SAID &laquo;THANK YOU"&nbsp;&nbsp;&nbsp;50<br>
-
-          <br>
-          V. THE FARM-BOY TELLS A GHASTLY STORY, AND AN<br>
-          IRISHMAN ENTERS&nbsp;&nbsp;..&nbsp;&nbsp;..&nbsp;67<br>
-          <br>
-          VI. CHARITY BEGINS FAR FROM HOME, AND A STROLL IN<br>
-          THE WILDWOOD FOLLOWS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
-
-          <br>
-          VII. SPUN-GOLD HAIR, BLUE EYES, AND VARIOUS ENCOUNTERS&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;103<br>
-          <br>
-          VIII. A NOTE, SOME FANCIES, AND AN EXPEDITION IN<br>
-          QUEST OF FACTS&nbsp;&nbsp;..&nbsp;,,&nbsp;120<br>
-
-          <br>
-          IX. THE FIRST WAYFARER, THE SECOND WAYFARER, AND<br>
-          THE SPIRIT OF CHIVALRY ASCENDANT&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;134<br>
-          <br>
-          X. THE PRISONER OF GREEN FANCY, AND THE LAMENT OF<br>
-          PETER THE CHAUFFEUR&nbsp;...&nbsp;&nbsp;&nbsp;....148<br>
-
-          <br>
-          XI. MR. SPROUSE ABANDONS LITERATURE AT AN EARLY<br>
-          HOUR IN THE MORNING&nbsp;..&nbsp;&nbsp;...&nbsp;&nbsp;,&nbsp;167<br>
-          <br>
-          XII. THE FIRST WAYFARER ACCEPTS AN INVITATION, AND<br>
-
-          MR. DILLINGFORD BELABORS A PROXY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
-          <br>
-          XIII. THE SECOND WAYFARER RECEIVES TWO VISITORS AT<br>
-          MIDNIGHT &nbsp;,,,..&nbsp;&nbsp;....&nbsp;199<br>
-          <br>
-
-          XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
-          OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221<br>
-      </tt></p>
+        <p><tt>CONTENTS</tt></p>
+        <p><tt>
+        CHAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PAGE<br>
+        <br>
+        I. THE FIRST WAYFARER AND THE SECOND WAYFARER<br>
+        MEET AND PART ON THE HIGHWAY&nbsp;&nbsp;.....&nbsp;1<br>
+        <br>
+        II.  THE FIRST WAYFARER LAYS HIS PACK ASIDE AND<br>
+        FALLS IN WITH FRIENDS&nbsp;&nbsp;....&nbsp;...&nbsp;15<br>
+        <br>
+        III. MR. RUSHCROFT DISSOLVES, MR. JONES INTERVENES,<br>
+        AND TWO MEN RIDE AWAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33<br>
+        <br>
+        IV. AN EXTRAORDINARY CHAMBERMAID, A MIDNIGHT<br>
+        TRAGEDY, AND A MAN WHO SAID "THANK YOU"&nbsp;&nbsp;&nbsp;50<br>
+        <br>
+        V. THE FARM-BOY TELLS A GHASTLY STORY, AND AN<br>
+        IRISHMAN ENTERS&nbsp;&nbsp;..&nbsp;&nbsp;..&nbsp;67<br>
+        <br>
+        VI. CHARITY BEGINS FAR FROM HOME, AND A STROLL IN<br>
+        THE WILDWOOD FOLLOWS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85<br>
+        <br>
+        VII. SPUN-GOLD HAIR, BLUE EYES, AND VARIOUS ENCOUNTERS&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;103<br>
+        <br>
+        VIII. A NOTE, SOME FANCIES, AND AN EXPEDITION IN<br>
+        QUEST OF FACTS&nbsp;&nbsp;..&nbsp;,,&nbsp;120<br>
+        <br>
+        IX. THE FIRST WAYFARER, THE SECOND WAYFARER, AND<br>
+        THE SPIRIT OF CHIVALRY ASCENDANT&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;134<br>
+        <br>
+        X. THE PRISONER OF GREEN FANCY, AND THE LAMENT OF<br>
+        PETER THE CHAUFFEUR&nbsp;...&nbsp;&nbsp;&nbsp;....148<br>
+        <br>
+        XI. MR. SPROUSE ABANDONS LITERATURE AT AN EARLY<br>
+        HOUR IN THE MORNING&nbsp;..&nbsp;&nbsp;...&nbsp;&nbsp;,&nbsp;167<br>
+        <br>
+        XII. THE FIRST WAYFARER ACCEPTS AN INVITATION, AND<br>
+        MR. DILLINGFORD BELABORS A PROXY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;183<br>
+        <br>
+        XIII. THE SECOND WAYFARER RECEIVES TWO VISITORS AT<br>
+        MIDNIGHT &nbsp;,,,..&nbsp;&nbsp;....&nbsp;199<br>
+        <br>
+        XIV. A FLIGHT, A STONE-CUTTER'S SHED, AND A VOICE<br>
+        OUTSIDE&nbsp;&nbsp;&nbsp;,,,..&nbsp;&nbsp;....,&nbsp;221</tt></p>
       </td>
     </tr>
   </tbody>
-
 </table>
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="bk_index">&Iacute;ndices</a></h3>
-<p>
-Retenga los n&uacute;meros de las p&aacute;ginas en las p&aacute;ginas del &iacute;ndice. No es
-necesario alinear los n&uacute;meros como est&aacute;n en la imagen. S&oacute;lo est&eacute; seguro
-que los n&uacute;meros y la puntuaci&oacute;n sean correctos.</p>
-<p>Al &iacute;ndice se le dar&aacute; formato m&aacute;s adelante en el proceso. La tarea del revisor est&aacute; en
-asegurarse que todo el texto y todos los n&uacute;meros sean correctos.
+<p>No es necesario alinear los n&uacute;meros de p&aacute;gina en el &iacute;ndice para imitar la imagen; solo aseg&uacute;rese de que los n&uacute;meros y la puntuaci&oacute;n sean id&eacute;nticos a los de la imagen y conserve los saltos de l&iacute;nea.
+</p>
+<p>El formato espec&iacute;fico del &iacute;ndice se realizar&aacute; despu&eacute;s durante las rondas de formato. El trabajo del revisor es solamente asegurarse de que el texto y los n&uacute;meros sean correctos.
+</p>
+<p>Revise tambi&eacute;n la secci&oacute;n <a href="#mult_col">Columnas m&uacute;ltiples</a>.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="play_n">Obras de teatro&mdash;Nombres de actores&mdash;Directrices esc&eacute;nicas</a></h3>
-
-<p>Para todas las obras de teatro:</p>
-<ul compact>
- <li>Trate cada cambio de personaje como un p&aacute;rrafo nuevo, con una l&iacute;nea en blanco entre los di&aacute;logos.</li>
-<li>
-Revise las directrices esc&eacute;nicas como est&aacute;n en el texto.<br>
-Si se encuentran en una l&iacute;nea nueva, p&oacute;ngalas en una l&iacute;nea nueva; si est&aacute;n al final de un di&aacute;logo, d&eacute;jelas as&iacute;.
-<br>A menudo las directrices esc&eacute;nicas comienzan con un par&eacute;ntesis que no se cierra. D&eacute;jelo as&iacute;; no cierre el par&eacute;ntesis.</li>
- <li>
-A veces, especialmente si la obra de teatro tiene un metro fijo, una
-palabra puede estar cortada debido al tama&ntilde;o de la p&aacute;gina y la segunda
-parte de la palabra est&aacute; justo encima o debajo del principio de la
-misma despu&eacute;s de un par&eacute;ntesis: (. Por favor, una la palabra y col&oacute;quela en la l&iacute;nea que le
-corresponde.
-<br>
-   Vea el <a href="#play4">ejemplo abajo</a>.</li>
-</ul>
-<p>
-Por favor, lea los <a href="#comments">Comentarios del proyecto</a>
-para ver si el gerente del proyecto ha dado instrucciones
-especificas al proyecto.
+<h3><a name="play_n">Obras de teatro: nombres de personajes y directrices esc&eacute;nicas</a></h3>
+<p>En los di&aacute;logos, trate cada cambio de personaje como un nuevo p&aacute;rrafo, con una l&iacute;nea en blanco previa al mismo. De igual manera, si el nombre del personaje est&aacute; en su propia l&iacute;nea, tr&aacute;telo como un p&aacute;rrafo diferente.
+</p>
+<p>Las directrices esc&eacute;nicas se mantienen tal como est&aacute;n en la imagen original. Si se encuentran en una l&iacute;nea nueva, col&oacute;quelas en una l&iacute;nea nueva; si se encuentran al final de una l&iacute;nea de di&aacute;logo, cons&eacute;rvelas ah&iacute;. Las directrices esc&eacute;nicas a menudo comienzan con un corchete [ de apertura y omiten el corchete de cierre. Esta convenci&oacute;n se conserva: no agregue el corchete de cierre.
+</p>
+<p>A veces, especialmente si se trata de drama en verso, una palabra puede aparecer cortada y con gui&oacute;n debido a la limitaci&oacute;n que plantea el tama&ntilde;o de la p&aacute;gina, o bien aparecer encima o debajo de la l&iacute;nea despu&eacute;s de un par&eacute;ntesis (. Esta palabra debe unirse de acuerdo a las normas respecto a <a href="#eol_hyphen">guiones al final de la l&iacute;nea</a>. Vea el <a href="#play4">ejemplo</a>.
+</p>
+<p>Por favor, lea los <a href="#comments">Comentarios del Proyecto</a> para verificar si el Gestor del Proyecto (Project Manager) ha dado instrucciones espec&iacute;ficas respecto al tratamiento de este tema.
 </p>
 <!-- END RR -->
 
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Play Example 1">
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Play Example 1">
   <tbody>
     <tr>
-
-      <th align="left" bgcolor="cornsilk">Imagen del ejemplo:</th>
+      <th align="left" bgcolor="cornsilk">Imagen original:</th>
     </tr>
     <tr align="left">
-      <td width="100%" valign="top"><img src="play1.png" width="500"
-          height="430" alt="title page image"><br>
+      <td width="100%" valign="top"><img src="play1.png" width="500" height="430" alt=""><br>
       </td>
     </tr>
     <tr>
       <th align="left" bgcolor="cornsilk">Texto revisado correctamente:</th>
-
     </tr>
     <tr>
       <td width="100%" valign="top">
-<p><tt>
-Has not his name for nought, he will be trode upon:<br>
-What says my Printer now?
-</tt></p><p><tt>
-Clow. Here's your last Proof, Sir.<br>
-You shall have perfect Books now in a twinkling.
-</tt></p><p><tt>
-Lap. These marks are ugly.
-
-</tt></p><p><tt>
-Clow. He says, Sir, they're proper:<br>
-Blows should have marks, or else they are nothing worth.
-</tt></p><p><tt>
-Lap. But why a Peel-crow here?
-</tt></p><p><tt>
-Clow. I told 'em so Sir:<br>
-A scare-crow had been better.
-</tt></p><p><tt>
-Lap. How slave? look you, Sir,<br>
-Did not I say, this Whirrit, and this Bob,<br>
-Should be both Pica Roman.
-</tt></p><p><tt>
-
-Clow. So said I, Sir, both Picked Romans,<br>
-And he has made 'em Welch Bills,<br>
-Indeed I know not what to make on 'em.
-</tt></p><p><tt>
-Lap. Hay-day; a Souse, Italica?
-</tt></p><p><tt>
-Clow. Yes, that may hold, Sir,<br>
-Souse is a bona roba, so is Flops too.</tt></p>
+        <p><tt>
+        Has not his name for nought, he will be trode upon:<br>
+        What says my Printer now?
+        </tt></p><p><tt>
+        Clow. Here's your last Proof, Sir.<br>
+        You shall have perfect Books now in a twinkling.
+        </tt></p><p><tt>
+        Lap. These marks are ugly.
+        </tt></p><p><tt>
+        Clow. He says, Sir, they're proper:<br>
+        Blows should have marks, or else they are nothing worth.
+        </tt></p><p><tt>
+        La. But why a Peel-crow here?
+        </tt></p><p><tt>
+        Clow. I told 'em so Sir:<br>
+        A scare-crow had been better.
+        </tt></p><p><tt>
+        Lap. How slave? look you, Sir,<br>
+        Did not I say, this Whirrit, and this Bob,<br>
+        Should be both Pica Roman.
+        </tt></p><p><tt>
+        Clow. So said I, Sir, both Picked Romans,<br>
+        And he has made 'em Welch Bills,<br>
+        Indeed I know not what to make on 'em.
+        </tt></p><p><tt>
+        Lap. Hay-day; a Souse, Italica?
+        </tt></p><p><tt>
+        Clow. Yes, that may hold, Sir,<br>
+        Souse is a bona roba, so is Flops too.</tt></p>
       </td>
     </tr>
-
   </tbody>
 </table>
 <br>
 <a name="play4"><!-- Example --></a>
-<table width="100%" align="center" border="1" cellpadding="4"
- cellspacing="0" summary="Play Example 4">
+<table width="100%" align="center" border="1" cellpadding="4" cellspacing="0" summary="Play Example 4">
   <tbody>
     <tr>
-      <th align="left" bgcolor="cornsilk">Imagen del ejemplo:</th>
+      <th align="left" bgcolor="cornsilk">Imagen original:</th>
     </tr>
     <tr align="left">
-
-      <td width="100%" valign="top"><img src="play4.png" width="502"
-          height="98" alt="Plays image"><br>
+      <td width="100%" valign="top"><img src="play4.png" width="502" height="98" alt=""><br>
       </td>
     </tr>
     <tr>
@@ -2444,302 +1598,743 @@ Souse is a bona roba, so is Flops too.</tt></p>
     </tr>
     <tr>
       <td width="100%" valign="top">
-
-<p><tt>
-Am. Sure you are fasting;<br>
-Or not slept well to night; some dream (Ismena?)<br>
-<br>
-Ism. My dreams are like my thoughts, honest and innocent,<br>
-Yours are unhappy; who are these that coast us?<br>
-You told me the walk was private.<br>
-</tt></p>
+        <p><tt>
+        Am. Sure you are fasting;<br>
+        Or not slept well to night; some dream (Ismena?)<br>
+        <br>
+        Ism. My dreams are like my thoughts, honest and innocent,<br>
+        Yours are unhappy; who are these that coast us?<br>
+        You told me the walk was private.<br>
+        </tt></p>
       </td>
-
     </tr>
   </tbody>
 </table>
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="anything">Cualquier otra cosa que necesite tratamiento especial o no sepa como tratar</a></h3>
-<p>
-Si encuentra, mientras est&aacute; revisando, algo que no est&aacute; explicado en
-esta gu&iacute;a de revisi&oacute;n o cree que necesite un tratamiento especial o no
-est&aacute; seguro c&oacute;mo tratarlo, entre al <a href="#comments">Foro/Discusi&oacute;n sobre este
-proyecto</a>=Project Discussion, (un enlace en los
-<a href="#comments">Comentarios del proyecto</a>=Project
-Comments), y mande un mensaje, anotando el n&uacute;mero de la p&aacute;gina en la cual
-est&aacute; (n&ordm; de png). Ponga tambi&eacute;n una nota en el texto que est&aacute; revisando,
-explicando el problema. Su nota avisar&aacute; al pr&oacute;ximo revisor, al
-formateador y el pos-procesor cual es la duda o el problema.
+<p>Si se encuentra con algo que no est&aacute; explicado en estas reglas de revisi&oacute;n o que usted cree que puede necesitar un tratamiento especial o no est&aacute; seguro de c&oacute;mo revisarlo, publique su pregunta en la <a href="#forums">Discusi&oacute;n del Proyecto</a> (Project Discussion), dando cuenta del n&uacute;mero de png (p&aacute;gina).
 </p>
-<p>
-
-Empiece su nota con un par&eacute;ntesis cuadrado y dos asteriscos
-<tt>[**</tt> as&iacute;, y
-term&iacute;nela con otro par&eacute;ntesis cuadrado <tt>]</tt>. Esto la separar&aacute; claramente del
-resto del texto del autor y llamar&aacute; la atenci&oacute;n del pos-procesor para
-tratar esta parte del texto de la manera apropiada. Si el revisor
-anterior ha dejado una nota, Ud. puede a&ntilde;adir otra diciendo que est&aacute; de
-acuerdo o desacuerdo. Aunque sepa la respuesta, de ninguna manera debe
-eliminar ning&uacute;n comentario dejado por otros revisores. Si ha encontrado
-un enlace o una fuente que clarifica el problema, por favor c&iacute;telo para
-que el pos-procesor pueda referirse a ello.
-</p>
-<p>
-Si est&aacute; revisando en las rondas m&aacute;s avanzadas, y encuentra una nota de
-un revisor anterior y sabe la respuesta a su pregunta, por favor t&oacute;mese
-un momento para enviarle un mensaje privado haciendo clic en su nombre
-en la interfaz, explic&aacute;ndole c&oacute;mo tratar la situaci&oacute;n en el futuro. Por
-favor, como ya est&aacute; advertido, no elimine su nota.
+<p>Usted deber&iacute;a agregar tambi&eacute;n una nota en el texto para explicar el problema o la pregunta al siguiente revisor, al formateador o al posprocesador. Comience su nota con corchete y dos asteriscos <tt>[**</tt> y coloque un corchete de cierre al final <tt>]</tt>. De esta manera, quedar&aacute; claramente separada del texto del autor y llamar&aacute; la atenci&oacute;n del posprocesador para que revise cuidadosamente esta parte del texto. Usted puede identificar tambi&eacute;n en qu&eacute; ronda se coloc&oacute; la nota de manera tal que los voluntarios que trabajen despu&eacute;s de usted en esa p&aacute;gina sepan qui&eacute;n dejo la nota. Todos los comentarios de los revisores que trabajaron en la p&aacute;gina antes de usted <b>deben</b> ser conservados. Vea la secci&oacute;n siguiente para m&aacute;s detalles.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="prev_notes">Notas y comentarios de revisores anteriores</a></h3>
-<p>
-Es <b>imprescindible</b> que cualquier nota o comentario dejado por un revisor
-anterior se deje tal i como est&aacute;. Puede a&ntilde;adir un acuerdo o desacuerdo a
-la nota existente. Pero aun que sepa la respuesta, de ninguna manera
-elimine la nota o comentario. Si ha encontrado una fuente que clarifica
-el problema, por favor, c&iacute;telo para que el pos-procesor pueda
-consultarlo.
+<p>Es <b>imprescindible</b> que cualquier nota o comentario dejado por un revisor anterior se deje tal y como est&aacute;. Puede a&ntilde;adir un acuerdo o desacuerdo a la nota existente, pero, aunque sepa la respuesta, de ninguna manera elimine la nota o comentario. Si ha encontrado una fuente que clarifica el problema, por favor c&iacute;telo para que el posprocesador pueda consultarlo.
 </p>
-<p>
-Si est&aacute; dando formato al texto en una ronda avanzada y encuentra una
-nota de un voluntario de una ronda anterior y sabe la respuesta, por
-favor, t&oacute;mese un momento para enviarle un mensaje privado explicando
-c&oacute;mo tratar la situaci&oacute;n en el futuro. Por favor, como ya est&aacute; dicho, no
-elimine la nota original.
+<p>Si encuentra una nota de un voluntario de una ronda anterior y sabe la respuesta, por favor, t&oacute;mese un momento para enviarle un mensaje privado explicando c&oacute;mo tratar la situaci&oacute;n en el futuro. Por favor, como ya se ha dicho, no elimine la nota original.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<table width="100%" border="0" cellspacing="0" summary="Common Problems">
+<table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Common Problems">
   <tbody>
-
     <tr>
-      <td bgcolor="silver">&nbsp;</td>
+      <td bgcolor="silver"><h2 style="margin-bottom: 0; margin-top: 0;">Problemas comunes:</h2></td>
     </tr>
   </tbody>
 </table>
 
-<h2>Problemas comunes</h2>
 
-
-<h3><a name="OCR_1lI">Problemas de OCR: 1-l-I</a></h3>
-<p>
-Frecuentemente el OCR no puede distinguir entre el n&uacute;mero 1 (uno), la
-letra min&uacute;scula l (ele) y la letra may&uacute;scula I (i). Es especialmente el
-caso con los libros antiguos cuyas p&aacute;ginas est&aacute;n en malas condiciones.
+<h3><a name="formatting">Formato</a></h3>
+<p>Ocasionalmente usted se puede encontrar con atributos de formato presentes en el texto. <b>No agregue nada ni corrija esta informaci&oacute;n de formato</b>; los formateadores cumplir&aacute;n con esa tarea m&aacute;s adelante en el proceso. Sin embargo, si las marcas de formato interfieren con la correcci&oacute;n del texto, usted puede removerlas. El bot&oacute;n <s>&lt;x&gt;</s> de la interfaz de revisi&oacute;n eliminar&aacute; etiquetas tales como &lt;i&gt; y &lt;b&gt; en el texto seleccionado. Algunos ejemplos de tareas que se realizan en la ronda de formato incluyen:
 </p>
-
-<p>
-Est&eacute; atento a estos errores. Lea el contexto de la frase para averiguar
-cual es la letra apropiada. &iexcl;Tenga cuidado!, porque su mente corregir&aacute;
-autom&aacute;ticamente estos errores mientras lee.
-</p>
-<p>Encontrar estos errores es m&aacute;s f&aacute;cil si utiliza una fuente
-mono-espaciada como por ejemplo DPCustomMono o Courier que se puede
-descargar haciendo clic en este
-enlace: <a href="font_sample.php">DPCustomMono</a> o Courier.
+<ul>
+  <li>&lt;i&gt;cursiva&lt;/i&gt;, &lt;b&gt;negrita&lt;/b&gt;, &lt;sc&gt;Versalitas&lt;/sc&gt;</li>
+  <li>Texto espaciado</li>
+  <li>Cambios del tama&ntilde;o de la fuente</li>
+  <li>Espaciado de los t&iacute;tulos de cap&iacute;tulo y secci&oacute;n</li>
+  <liEspacios extras, asteriscos o l&iacute;neas entre los parr&aacute;fos</li>
+  <li>Notas al pie que se extienden por m&aacute;s de una p&aacute;gina</li>
+  <li>Notas al pie marcadas con s&iacute;mbolos</li>
+  <li>Ilustraciones</li>
+  <li>Posicionamiento de las notas al margen</li>
+  <li>Disposici&oacute;n de la informaci&oacute;n en las tablas</li>
+  <li>Sangr&iacute;a (en poes&iacute;a o en otro tipo de texto)</li>
+  <li>Reuni&oacute;n de l&iacute;neas largas en poes&iacute;as y en &iacute;ndices</li>
+</ul>
+<p>Si el revisor anterior insert&oacute; formato, por favor t&oacute;mese un momento y escr&iacute;bale un mensaje privado, haciendo clic en su nombre en la interfaz de revisi&oacute;n, explic&aacute;ndole c&oacute;mo abordar esta situaci&oacute;n en el futuro. <b>Recuerde que el formato se hace en las rondas de formato.</b>
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="OCR_0O">Problemas de OCR: 0-O</a></h3>
-<p>
-Frecuentemente el OCR no puede distinguir entre el n&uacute;mero 0 (cero) y la
-letra may&uacute;scula O (o). Es especialmente el caso con los libros antiguos
-cuyas p&aacute;ginas est&aacute;n en malas condiciones.
+<h3><a name="common_OCR">Errores comunes del OCR</a></h3>
+<p>El programa de Reconocimiento &Oacute;ptico de Caracteres (OCR) com&uacute;nmente tiene problemas distinguiendo entre caracteres similares. Algunos ejemplos de esto son:
 </p>
-<p>
-Est&eacute; atento a estos errores. Lea el contexto de la frase para averiguar
-cual es la letra apropiada. &iexcl;Tenga cuidado!, porque su mente corregir&aacute;
-autom&aacute;ticamente estos errores mientras lee.
+<ul>
+  <li>El d&iacute;gito "1" (uno), la letra min&uacute;scula "l" (ele) y la letra may&uacute;scula "I". Tenga en cuenta que en algunas fuentes el n&uacute;mero uno puede parecerse a una letra <small>I</small> peque&ntilde;a.</li>
+  <li>El d&iacute;gito "0" (cero) y la letra may&uacute;scula "O".</li>
+  <li>Los guiones cortos y largos. Rev&iacute;selos con mucho cuidado. El OCR a menudo coloca solo un gui&oacute;n para los guiones largos y deber&iacute;an ser dos. Revise la secci&oacute;n de estas reglas para <a href="#eol_hyphen">palabras con guiones</a> y <a href="#em_dashes">guiones largos</a> para informaci&oacute;n m&aacute;s detallada.
+  </li>
+  <li>Los par&eacute;ntesis ( ) y las llaves { }.</li>
+</ul>
+<p>Tenga cuidado con todos estos caracteres. Normalmente el contexto de la oraci&oacute;n es suficiente para determinar cu&aacute;l es el car&aacute;cter correcto, pero sea minucioso: a menudo su cerebro autom&aacute;ticamente "corrige" estos problemas mientras usted lee.
 </p>
-<p>
-Encontrar estos errores es m&aacute;s f&aacute;cil si utiliza una fuente
-mono-espaciada como por ejemplo DPCustomMono o Courier que se puede
-descargar haciendo clic en este
-enlace: <a href="font_sample.php">DPCustomMono</a> o Courier.
+<p>Para notar estos errores m&aacute;s f&aacute;cilmente se recomienda utilizar una fuente mono-espacio tal como  <a href="font_sample.php">DPCustomMono</a> o Courier.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="OCR_scanno">Problemas de OCR: Scannos</a></h3>
-<p>
-Otro problema del OCR es el reconocimiento equivocado de los caracteres.
-Llamamos a estos errores &laquo;scannos&raquo; (como &laquo;typos&raquo; en ingl&eacute;s-errata /
-errores tipogr&aacute;ficos). Este reconocimiento equivocado puede crear
-errores en el texto:</p>
+<p>Otro problema del OCR es el reconocimiento err&oacute;neo de caracteres. Llamamos a estos errores "scannos" (como "typos" en ingl&eacute;s, es decir, errores tipogr&aacute;ficos). Esto puede terminar creando una palabra que:</p>
 <ul compact>
-   <li>
-Una palabra que parece correcta a la primera vista pero en verdad est&aacute;
-mal deletreada, se puede detectar utilizando el corrector autom&aacute;tico de
-ortograf&iacute;a.
-   </li>
-   <li>
-Una palabra cambiada por otra no menos valida pero no igual a la palabra
-del texto original.
-   </li>
+   <li>parece correcta a primera vista pero en verdad est&aacute; mal escrita.  <br>
+       Esto usualmente se puede detectar utilizando el corrector ortogr&aacute;fico <a href="wordcheck-faq.php">WordCheck</a> en la interfaz de revisi&oacute;n.</li>
+   <li>ha sido cambiada por otra palabra igualmente v&aacute;lida o existente, pero no es la palabra exacta que aparece en la imagen. <br>
+       Este error es muy sutil porque solamente puede ser identificado por una persona que lea el texto.</li>
 </ul>
-<p>
-Estos errores son sutiles porque no se pueden detectar de otra manera a
-no ser leyendo el texto. Posiblemente el ejemplo m&aacute;s com&uacute;n del segundo
-tipo es la palabra &laquo;and&raquo; reconocida por el OCR como &laquo;arid&raquo;. Otros
-ejemplos: &laquo;eve&raquo; por &laquo;eye&raquo;, &laquo;Torn&raquo; por &laquo;Tom&raquo;, &laquo;train&raquo; por &laquo;tram&raquo;, &laquo;hab&iacute;a&raquo;
-por &laquo;habla&raquo;, &laquo;cuidad&raquo; por &laquo;ciudad&raquo;. Es m&aacute;s dif&iacute;cil encontrar este tipo y
-le damos un nombre especial: &laquo;Stealth Scannos&raquo;. Coleccionamos ejemplos
-de &laquo;Stealth Scannos&raquo; en <a href="<?php echo get_url_to_view_topic(1563); ?>">
-este foro.</a> Los ejemplos de los scannos en espa&ntilde;ol <a href="http://www.pgdp.net/wiki/Scannos_en_espa%C3%B1ol">se encuentran aqu&iacute;</a>.
+<p>Posiblemente, el ejemplo m&aacute;s com&uacute;n de este segundo tipo de errores es "and" siendo interpretado por el OCR como "arid". Otros ejemplos son "eve" en vez de "eye", "Torn" en vez de "Tom", "train" en vez de "tram". Este tipo de errores son dif&iacute;ciles de detectar y les damos un nombre especial: "Stealth Scannos" (errores sigilosos). Recolectamos ejemplos de Stealth Scannos en <a href="<?php echo $Stealth_Scannos_URL; ?>">este hilo del foro</a>.
 </p>
-<p>Encontrar estos errores es m&aacute;s f&aacute;cil si utiliza una fuente
-mono-espaciada como por ejemplo DPCustomMono o Courier que se puede
-descargar haciendo clic en este
-enlace: <a href="font_sample.php">DPCustomMono</a> o Courier.
+<p>Los ejemplos de los scannos en espa&ntilde;ol se encuentran <a href="http://www.pgdp.net/wiki/Scannos_en_espa%C3%B1ol">aqu&iacute;</a>.</p>
+<p>Encontrar estos errores es m&aacute;s f&aacute;cil si utiliza una fuente monoespacio como <a href="font_sample.php">DPCustomMono</a> o Courier. Para ayudar el proceso de revisi&oacute;n, el uso de <a href="wordcheck-faq.php">WordCheck</a> es recomendado en <?php echo $ELR_round->id; ?> y es obligatorio en las dem&aacute;s rondas de revisi&oacute;n.
 </p>
 <!-- END RR -->
 <!-- More to be added.... -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="hand_notes">Notas escritas a mano</a></h3>
-<p>
-No incluya notas escritas a mano que encuentre en el libro (a no ser que
-se trate de texto original que alguien haya reforzado a mano para que se
-vea mejor). No incluya notas escritas al margen por lectores del libro,
-etc.
+<h3><a name="OCR_raised_o">Problemas del OCR: &iquest;es eso &deg; &ordm; realmente un s&iacute;mbolo de grados?</a></h3>
+<p>Existen tres s&iacute;mbolos diferentes que puede ser muy similares en la imagen y que el programa de OCR intepreta de la misma manera (y a menudo de forma incorrecta):
+</p>
+<ul>
+  <li>El s&iacute;mbolo de grados <tt style="font-size:150%;">&deg;</tt>: este s&iacute;mbolo solo debe ser usado para indicar grados (de temperatura, en un &aacute;ngulo, etc.).
+  </li>
+  <li>La o super&iacute;ndice: todas las otras instancias de una "o" elevada deben ser revisadas como <tt>^o</tt>, de acuerdo a las reglas de revisi&oacute;n para <a href="#supers">super&iacute;ndices</a>.</li>
+  <li>El ordinal masculino <tt style="font-size:150%;">&ordm;</tt>: revise este s&iacute;mbolo como una "o" super&iacute;ndice al menos que el car&aacute;cter especial sea requerido en los <a href="#comments">Comentarios del Proyecto</a>. Puede ser utilizado en idiomas tales como espa&ntilde;ol y portugu&eacute;s y es el equivalente del -th en ingl&eacute;s (4th, 5th, etc.). Siempre se ubica despu&eacute;s de un n&uacute;mero y tiene un equivalente femenino en la "a" super&iacute;ndice (<tt>&ordf;</tt>).</li>
+</ul>
+<!-- END RR -->
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
+
+
+<h3><a name="hand_notes">Notas manuscritas</a></h3>
+<p>No incluya notas escritas a mano que encuentre en el libro (a no ser que se trate de texto original que alguien haya reforzado a mano para que se vea mejor). No incluya notas escritas al margen por lectores del libro, etc.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="bad_image">Im&aacute;genes de baja calidad</a></h3>
-<p>
-Si una imagen es de baja calidad (no se descarga, est&aacute; cortada,
-ilegible), por favor env&iacute;e un mensaje al foro del proyecto. No haga clic
-en &laquo;Return Page to Round&raquo; (devolver la p&aacute;gina a la ronda). Si lo hace la
-p&aacute;gina se enviar&aacute; al pr&oacute;ximo revisor. En vez de eso, haga clic en
-&laquo;Report Bad Page&raquo; (informar sobre la baja calidad de la imagen). La
-p&aacute;gina se env&iacute;a a la cuarentena.
+<h3><a name="bad_image">Im&aacute;genes de mala calidad</a></h3>
+<p>Si una imagen es de mala calidad (no se descarga, est&aacute; cortada, ilegible, etc.), por favor publique un mensaje en el <a href="#forums">foro del proyecto</a> y haga clic en el bot&oacute;n "Report Bad Page" (Informar p&aacute;gina defectuosa), para que la p&aacute;gina entre en "cuarentena", y no en "Return page to round" (Devolver la p&aacute;gina a la ronda"). Si solamente una parte de la imagen es de mala calidad, deje una nota como se explic&oacute; <a href="#anything">m&aacute;s arriba</a> y publique un comentario en la Discusi&oacute;n del Proyecto sin reportar toda la p&aacute;gina como defectuosa. El bot&oacute;n "Bad Page" solamente est&aacute; disponible durante la primera ronda de revisi&oacute;n, por lo tanto es importante que estos problemas se resuelvan al comienzo del trabajo en el proyecto.
 </p>
-<p>
-Observe que los archivos de algunas im&aacute;genes de las paginas son bastante
-grandes, y puede ser normal que su navegador tenga problemas para
-descargarlas, especialmente si tiene varios programas o ventanas
-abiertos, o utiliza un ordenador viejo. Antes de reportar imagen de baja
-calidad, intente hacer clic en &laquo;Image&raquo; (al lado de &laquo;View: Project
-Comments&raquo; al fondo de la interfaz) y la p&aacute;gina se abrir&aacute; en una ventana
-nueva. Si la imagen es de buena calidad, el problema ser&aacute; de su
-ordenador o navegador y no de la imagen.
-</p>
-<p>
-Es com&uacute;n que la imagen sea de buena calidad pero el OCR no ha le&iacute;do la
-primera o primeras l&iacute;neas del texto. Por favor, teclee el texto que
-falta. Si faltan casi todas las l&iacute;neas, puede teclearlas todas (si est&aacute;
-de acuerdo con eso) o, hacer clic en &laquo;Return Page to Round&raquo;, y la p&aacute;gina
-ser&aacute; devuelta a la misma ronda para que lo haga otra persona. Si
-encuentra varias p&aacute;ginas as&iacute;, env&iacute;e un mensaje al foro (<a href="#forums">foros</a>) del proyecto y al
-gerente del proyecto.
+<p>Tenga en cuenta que los archivos de algunas im&aacute;genes de las paginas son bastante grandes, y puede ser normal que su navegador tenga problemas para descargarlas, especialmente si tiene varios programas o ventanas abiertos, o utiliza un ordenador/computador antiguo. Antes de reportar una imagen como de mala calidad, intente arcercar la imagen, cerrar algunas de sus ventanas y programas o publicar un comentario en la Discusi&oacute;n del Proyecto para ver si alguien m&aacute;s tiene el mismo problema.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="bad_text">Imagen que no corresponde al texto</a></h3>
-
-<p>Si la imagen no corresponde en absoluto al texto, mande un mensaje al
-foro del proyecto (<a href="#forums">foros</a>). No haga clic en &laquo;Return Page to Round&raquo; (devuelve la
-p&aacute;gina a la ronda). Si lo hace la p&aacute;gina va al pr&oacute;ximo revisor. En vez
-de eso, haga clic en &laquo;Report Bad Page&raquo; (informar sobre la baja calidad
-de la p&aacute;gina). La p&aacute;gina se pone en cuarentena.<hr>
+<p>Si la imagen no corresponde en absoluto al texto, por favor deje un comentario en la <a href="#forums">Discusi&oacute;n del Proyecto</a> en el foro y haga clic en el bot&oacute;n "Report Bad Page" (Informar p&aacute;gina defectuosa) para que esta p&aacute;gina entre en "cuarentena"; no devuelva la p&aacute;gina a la ronda. El bot&oacute;n "Bad page" solo se encuentra disponible en la primera ronda de revisi&oacute;n, por tanto es importante que este tipo de problemas sean resueltos al principio del trabajo.
+</p>
+<p>Sucede bastante a menudo que el texto resultado del OCR sea en su mayor parte correcto, pero que falte la primera o las dos primeras l&iacute;neas de texto. Por favor, digite la o las l&iacute;neas que falten. Si la mayor&iacute;a del texto falta, usted tiene la opci&oacute;n de escribir todo el texto (si as&iacute; lo desea) o hacer clic en "Return Page to Round" (Devolver p&aacute;gina a la ronda) y la p&aacute;gina ser&aacute; corregida por otro revisor. Si hay varias p&aacute;ginas en esta condici&oacute;n, usted puede publicar un comentario en la <a href="#forums">Discusi&oacute;n del Proyecto</a> para informar al Gestor del Proyecto.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
 <h3><a name="round1">Errores de revisores anteriores</a></h3>
-<p>
-Si un revisor anterior ha hecho, o se le escaparon muchos errores, por
-favor t&oacute;mese un momento para enviarle un mensaje privado haciendo clic
-en su nombre en la interfaz de revisi&oacute;n explicando c&oacute;mo tratar esta
-situaci&oacute;n en el futuro.
+<p>Si un revisor anterior ha cometido muchos errores o ha pasado por alto muchos problemas del OCR, por favor t&oacute;mese un momento para proveerle feedback, haciendo clic en su nombre en la interfaz de revisi&oacute;n y envi&aacute;ndole un mensaje privado, explic&aacute;ndole c&oacute;mo abordar esa situaci&oacute;n en el futuro.
 </p>
-<p>
-Por favor, &iexcl;<em>sea amable</em>! Todo el mundo aqu&iacute; es voluntario y (se supone)
-est&aacute; intentando hacer lo mejor que puede. El objetivo de su mensaje debe
-ser de informarle sobre la manera correcta de revisar y no de
-criticarle. Muestre el punto concreto de su trabajo, y se&ntilde;ale lo que
-hizo y lo que ten&iacute;a que haber hecho.
+<p>Por favor, <em>&iexcl;sea amable!</em> Todo el mundo aqu&iacute; es voluntario y est&aacute; intentando hacer lo mejor que puede. El objetivo de su mensaje debe ser informarle sobre la manera correcta de revisar y no criticarlo. Provea un ejemplo concreto de su trabajo, mostr&aacute;ndole lo que hizo y lo que deber&iacute;a haber hecho.
 </p>
-<p>
-Si el revisor anterior hizo un trabajo magn&iacute;fico, tambi&eacute;n puede enviarle
-un mensaje dici&eacute;ndoselo&mdash;especialmente si se trata de una p&aacute;gina
-dif&iacute;cil.<hr>
+<p>Si el revisor anterior hizo un trabajo magn&iacute;fico, tambi&eacute;n puede enviarle un mensaje de felicitaciones, especialmente si se trata de una p&aacute;gina particularmente dif&iacute;cil.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="p_errors">Errores de impresi&oacute;n / Ortograf&iacute;a</a></h3>
-<p>
-Corrija todos los errores del OCR (scannos, etc.) pero no corrija lo que
-le parecen errores del impresor o de la ortograf&iacute;a (errores que tambi&eacute;n
-se encuentran en la imagen del texto original). Muchos de los textos
-antiguos tienen una manera diferente de deletrear y acentuar de la
-actual, y nosotros mantenemos este estilo antiguo, incluyendo la
-acentuaci&oacute;n.
+<h3><a name="p_errors">Errores de impresi&oacute;n o de ortograf&iacute;a</a></h3>
+<p>Corrija todos los errores del OCR (scannos) pero no corrija lo que le pueden parecen errores de impresi&oacute;n o de ortograf&iacute;a que aparecen en la imagen original. La ortograf&iacute;a de los textos antiguos puede diferir de la que usamos actualmente y nosotros conservamos esas caracter&iacute;sticas, incluyendo los caracteres acentuados.
 </p>
-<p>
-Si no est&aacute; seguro ponga una nota en el texto as&iacute;:
-  txet <tt>[**typo for text?]</tt>
-y pregunte en el Foro del proyecto. Si cambia algo, incluya una nota que describa lo que ha cambiado, as&iacute;:
-  <tt>[**Transcriber's Note: typo fixed, changed from "txet" to "text"]</tt>
-Incluya los dos asteriscos <tt>**</tt> para llamar atenci&oacute;n del pos-procesor.
+<p>Coloque una nota en el texto junto al error de impressi&oacute;n<tt>[**error por "impresi&oacute;n"?]</tt>. Si no est&aacute; seguro de que sea efectivamente un error, por favor pregunte en la <a href="#forums">Discusi&oacute;n del Proyecto</a>. Si usted realiza un cambio, incluya una nota para describirlo<tt>[**error "impressi&oacute;n" arreglado]</tt>. Incluya los dos asteriscos <tt>**</tt> para que el posprocesador pueda encontrar la nota.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="f_errors">Errores de datos o hechos en el texto</a></h3>
-
-<p>
-Normalmente no corregimos errores de datos o hechos en los libros.
-Muchos de los libros que revisamos contienen datos o declaraciones que
-actualmente no son aceptables. D&eacute;jelos como los escribi&oacute; el autor del
-libro.
-</p>
-<p>
-
-Una excepci&oacute;n posible ser&iacute;a en algunos libros cient&iacute;ficos o t&eacute;cnicos,
-donde una ecuaci&oacute;n o formula puede estar escrita incorrectamente,
-(especialmente si aparece sin error en otras paginas del libro). Avise
-al gerente del proyecto sobre este hecho, envi&aacute;ndole un mensaje privado
-o un mensaje al foro del proyecto (<a href="#forums">Forum</a>). Tambi&eacute;n ponga en el texto una nota
-tipo: <tt>[**es distinto de la en P&aacute;g. 123]</tt>.
+<h3><a name="f_errors">Errores f&aacute;cticos en el texto</a></h3>
+<p>No corregimos errores de datos o hechos en los libros. Muchos de los libros que revisamos contienen datos o declaraciones que actualmente no son aceptables. D&eacute;jelos como los escribi&oacute; el autor del libro. Vea la secci&oacute;n <a href="#p_errors">Errores de impresi&oacute;n o de ortograf&iacute;a</a> para saber c&oacute;mo dejar una nota si piensa que el texto impreso no es lo que autor quiso decir.
 </p>
 <!-- END RR -->
-<p class="backtotop"><a href="#top">Ir arriba</a></p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
 
 
-<h3><a name="uncertain">Inseguridades</a></h3>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [...Est&aacute; por escribir...]
+<h3><a name="insert_char">Insertando caracteres especiales</a></h3>
+<p>Existen varias maneras de insertar caracteres especiales, si no puede encontrarlos en su teclado:
 </p>
+<ul compact>
+  <li>Los men&uacute;s desplegables en la interfaz de revisi&oacute;n.</li>
+  <li>Aplicaciones incluidas en su sistema operativo: 
+<?php if(!$utf8_site) { ?>
+Si usted utiliza una de ellas, as&eacute;gurese de insertar solamente caracteres que pertenecen al conjunto Latin-1 (que aparecen en el listado m&aacute;s abajo). 
+<?php } ?>
+    <ul compact>
+      <li>Windows: Mapa de caracteres<br> Ruta de acceso:<br>
+          Haga clic en "Inicio", "Ejecutar", escriba "charmap"; o<br>
+          Haga clic en "Inicio", "Accessorios", "Herramientas del sistema", "Mapa de catacteres".</li>
+      <li>Macintosh: Key Caps o "Keyboard Viewer"<br>
+          Para OS 9 y anteriores, est&aacute; en Apple Menu,<br>
+          Para OS X hasta 10.2, est&aacute; en Applications, Utilities folder<br>
+          Para OS X 10.3 y siguientes, est&aacute; en Input Menu como "Keyboard Viewer".</li>
+      <li>Linux: Varias maneras, dependiendo del escritorio.</li>
+    </ul>
+  </li>
+  <li>Un programa en l&iacute;nea.</li>
+  <li>Atajos del teclado.<br>
+       (Vea las tablas para <a href="#a_chars_win">Windows</a> y <a href="#a_chars_mac">Macintosh</a> m&aacute;s abajo.)</li>
+  <li>Cambiar la configuraci&oacute;n del teclado para que soporte caracteres acentuados:
+    <ul compact>
+      <li>Windows: Panel de Control (Teclado, Input Locales).</li>
+      <li>Macintosh: Input Menu (en la Barra del Men&uacute;).</li>
+      <li>Linux: Modifique el teclado en su configuraci&oacute;n X.</li>
+    </ul>
+  </li>
+</ul>
+<!-- END RR -->
 
-<H2 align=center>Fin de las reglas</H2>
+<a name="a_chars_win"></a>
+<p><b>Para Windows</b>:
+</p>
+<ul compact>
+  <li>Puede utilizar el Mapa de caracteres (Inicio/Ejectutar/charmap) para elegir una letra, y despu&eacute;s copiar y pegar.
+  </li>
+  <li>Men&uacute;s desplegables de la interfaz de revisi&oacute;n.
+  </li>
+  <li>O puede obtener los caracteres oprimiendo la tecla Alt y el c&oacute;digo n&uacute;merico espec&iacute;fico del caracter que necesita. Este modo es m&aacute;s r&aacute;pido una vez ha aprendido los c&oacute;digos correspondientes. 
+      <br>Oprima la tecla Alt y, sin soltarla, digite las cuatro cifras en el <i>teclado num&eacute;rico</i> (la l&iacute;nea de n&uacute;meros sobre las letras no funcionar&aacute;) y luego suelte la tecla Alt. 
+      <br>Debe teclear las cuatro cifras, incluyendo el 0 (cero) al principio. Como se puede dar cuenta, la letra may&uacute;scula es igual al c&oacute;digo de la correspondiente letra min&uacute;scula menos 32. 
+      <br>Estas instrucciones son para la configuraci&oacute;n US-English del teclado. Puede que no funcionen para otras configuraciones. 
+      <br>(<a href="charwin.pdf">Versi&oacute;n para imprimir de la tabla.</a>)
+  </li>
+</ul>
 
-<TABLE cellSpacing=0 width="100%" border=0>
- <TBODY>
- <TR>
-   <TD bgColor=silver><BR></TD></TR></TBODY></TABLE>
-Volver <A
-href="http://www.pgdp.net/"> al la p&aacute;gina principal de Distributed
-Proofreaders</A><BR><BR><BR>
+<br>
+<table align="center" border="6" rules="all" summary="Windows shortcuts">
+  <tbody>
+  <tr>
+      <th bgcolor="cornsilk" colspan=14>Atajos de Windows para los s&iacute;mbolos Latin-1</th>
+  </tr>
+  <tr bgcolor="cornsilk">
+      <th colspan=2>` grave</th>
+      <th colspan=2>&acute; agudo (aigu)</th>
+      <th colspan=2>^ circunflejo</th>
+      <th colspan=2>~ tilde</th>
+      <th colspan=2>&uml; di&eacute;resis</th>
+      <th colspan=2>&deg; aro</th>
+      <th colspan=2>ligadura &AElig;</th>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Small a grave"         >&agrave; </td><td>Alt-0224</td>
+      <td align="center" bgcolor="mistyrose" title="Small a acute"         >&aacute; </td><td>Alt-0225</td>
+      <td align="center" bgcolor="mistyrose" title="Small a circumflex"    >&acirc;  </td><td>Alt-0226</td>
+      <td align="center" bgcolor="mistyrose" title="Small a tilde"         >&atilde; </td><td>Alt-0227</td>
+      <td align="center" bgcolor="mistyrose" title="Small a umlaut"        >&auml;   </td><td>Alt-0228</td>
+      <td align="center" bgcolor="mistyrose" title="Small a ring"          >&aring;  </td><td>Alt-0229</td>
+      <td align="center" bgcolor="mistyrose" title="Small ae ligature"     >&aelig;  </td><td>Alt-0230</td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital A grave"       >&Agrave; </td><td>Alt-0192</td>
+      <td align="center" bgcolor="mistyrose" title="Capital A acute"       >&Aacute; </td><td>Alt-0193</td>
+      <td align="center" bgcolor="mistyrose" title="Capital A circumflex"  >&Acirc;  </td><td>Alt-0194</td>
+      <td align="center" bgcolor="mistyrose" title="Capital A tilde"       >&Atilde; </td><td>Alt-0195</td>
+      <td align="center" bgcolor="mistyrose" title="Capital A umlaut"      >&Auml;   </td><td>Alt-0196</td>
+      <td align="center" bgcolor="mistyrose" title="Capital A ring"        >&Aring;  </td><td>Alt-0197</td>
+      <td align="center" bgcolor="mistyrose" title="Capital AE ligature"   >&AElig;  </td><td>Alt-0198</td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Small e grave"         >&egrave; </td><td>Alt-0232</td>
+      <td align="center" bgcolor="mistyrose" title="Small e acute"         >&eacute; </td><td>Alt-0233</td>
+      <td align="center" bgcolor="mistyrose" title="Small e circumflex"    >&ecirc;  </td><td>Alt-0234</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Small e umlaut"        >&euml;   </td><td>Alt-0235</td>
+      <td> </td><td> </td>
+      <td> </td><td> </td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital E grave"       >&Egrave; </td><td>Alt-0200</td>
+      <td align="center" bgcolor="mistyrose" title="Capital E acute"       >&Eacute; </td><td>Alt-0201</td>
+      <td align="center" bgcolor="mistyrose" title="Capital E circumflex"  >&Ecirc;  </td><td>Alt-0202</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Capital E umlaut"      >&Euml;   </td><td>Alt-0203</td>
+      <td> </td><td> </td>
+      <td> </td><td> </td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Small i grave"         >&igrave; </td><td>Alt-0236</td>
+      <td align="center" bgcolor="mistyrose" title="Small i acute"         >&iacute; </td><td>Alt-0237</td>
+      <td align="center" bgcolor="mistyrose" title="Small i circumflex"    >&icirc;  </td><td>Alt-0238</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Small i umlaut"        >&iuml;   </td><td>Alt-0239</td>
+      <td> </td><td> </td>
+      <td> </td><td> </td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital I grave"       >&Igrave; </td><td>Alt-0204</td>
+      <td align="center" bgcolor="mistyrose" title="Capital I acute"       >&Iacute; </td><td>Alt-0205</td>
+      <td align="center" bgcolor="mistyrose" title="Capital I circumflex"  >&Icirc;  </td><td>Alt-0206</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Capital I umlaut"      >&Iuml;   </td><td>Alt-0207</td>
+      <th colspan=2 bgcolor="cornsilk">/ barra</th>
+      <td></td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Small o grave"         >&ograve; </td><td>Alt-0242</td>
+      <td align="center" bgcolor="mistyrose" title="Small o acute"         >&oacute; </td><td>Alt-0243</td>
+      <td align="center" bgcolor="mistyrose" title="Small o circumflex"    >&ocirc;  </td><td>Alt-0244</td>
+      <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Alt-0245</td>
+      <td align="center" bgcolor="mistyrose" title="Small o umlaut"        >&ouml;   </td><td>Alt-0246</td>
+      <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Alt-0248</td>
+      <td></td><td></td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Alt-0210</td>
+      <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Alt-0211</td>
+      <td align="center" bgcolor="mistyrose" title="Capital O circumflex"  >&Ocirc;  </td><td>Alt-0212</td>
+      <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Alt-0213</td>
+      <td align="center" bgcolor="mistyrose" title="Capital O umlaut"      >&Ouml;   </td><td>Alt-0214</td>
+      <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Alt-0216</td>
+      <td></td><td></td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Alt-0249</td>
+      <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Alt-0250</td>
+      <td align="center" bgcolor="mistyrose" title="Small u circumflex"    >&ucirc;  </td><td>Alt-0251</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Small u umlaut"        >&uuml;   </td><td>Alt-0252</td>
+      <td> </td><td> </td>
+      <td> </td><td> </td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital U grave"       >&Ugrave; </td><td>Alt-0217</td>
+      <td align="center" bgcolor="mistyrose" title="Capital U acute"       >&Uacute; </td><td>Alt-0218</td>
+      <td align="center" bgcolor="mistyrose" title="Capital U circumflex"  >&Ucirc;  </td><td>Alt-0219</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Capital U umlaut"      >&Uuml;   </td><td>Alt-0220</td>
+      <th colspan=2 bgcolor="cornsilk">moneda     </th>
+      <th colspan=2 bgcolor="cornsilk">matem&aacute;ticas  </th>
+  </tr>
+  <tr><td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Small y acute"         >&yacute; </td><td>Alt-0253</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Small n tilde"         >&ntilde; </td><td>Alt-0241</td>
+      <td align="center" bgcolor="mistyrose" title="Small y umlaut"        >&yuml;   </td><td>Alt-0255</td>
+      <td align="center" bgcolor="mistyrose" title="Cents"                 >&cent;   </td><td>Alt-0162</td>
+      <td align="center" bgcolor="mistyrose" title="plus/minus"            >&plusmn; </td><td>Alt-0177</td>
+  </tr>
+  <tr><td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Capital Y acute"       >&Yacute; </td><td>Alt-0221</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Capital N tilde"       >&Ntilde; </td><td>Alt-0209</td>
+      <td></td><td></td>
+      <td align="center" bgcolor="mistyrose" title="Pounds"                >&pound;  </td><td>Alt-0163</td>
+      <td align="center" bgcolor="mistyrose" title="Multiplication"        >&times;  </td><td>Alt-0215</td>
+  </tr>
+  <tr><th colspan=2 bgcolor="cornsilk">cedilla </th>
+      <th colspan=2 bgcolor="cornsilk">island&eacute;s    </th>
+      <th colspan=2 bgcolor="cornsilk">marcas        </th>
+      <th colspan=2 bgcolor="cornsilk">acentos      </th>
+      <th colspan=2 bgcolor="cornsilk">puntuaci&oacute;n  </th>
+      <td align="center" bgcolor="mistyrose" title="Yen"                   >&yen;    </td><td>Alt-0165</td>
+      <td align="center" bgcolor="mistyrose" title="Division"              >&divide; </td><td>Alt-0247</td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Small c cedilla"       >&ccedil; </td><td>Alt-0231</td>
+      <td align="center" bgcolor="mistyrose" title="Capital Thorn"         >&THORN;  </td><td>Alt-0222</td>
+      <td align="center" bgcolor="mistyrose" title="Copyright"             >&copy;   </td><td>Alt-0169</td>
+      <td align="center" bgcolor="mistyrose" title="acute accent"          >&acute;  </td><td>Alt-0180</td>
+      <td align="center" bgcolor="mistyrose" title="Inverted Question Mark">&iquest; </td><td>Alt-0191</td>
+      <td align="center" bgcolor="mistyrose" title="General Currency"      >&curren; </td><td>Alt-0164</td>
+      <td align="center" bgcolor="mistyrose" title="Logical Not"           >&not;    </td><td>Alt-0172</td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital C cedilla"     >&Ccedil; </td><td>Alt-0199</td>
+      <td align="center" bgcolor="mistyrose" title="Small thorn"           >&thorn;  </td><td>Alt-0254</td>
+      <td align="center" bgcolor="mistyrose" title="Registration Mark"     >&reg;    </td><td>Alt-0174</td>
+      <td align="center" bgcolor="mistyrose" title="umlaut accent"         >&uml;    </td><td>Alt-0168</td>
+      <td align="center" bgcolor="mistyrose" title="Inverted Exclamation"  >&iexcl;  </td><td>Alt-0161</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Degrees"               >&deg;    </td><td>Alt-0176</td>
+  </tr>
+  <tr><th colspan=2 bgcolor="cornsilk">super&iacute;ndices        </th>
+      <td align="center" bgcolor="mistyrose" title="Capital Eth"           >&ETH;    </td><td>Alt-0208</td>
+      <td align="center" bgcolor="mistyrose" title="Paragraph (pilcrow)"   >&para;   </td><td>Alt-0182</td>
+      <td align="center" bgcolor="mistyrose" title="macron accent"         >&macr;   </td><td>Alt-0175</td>
+      <td align="center" bgcolor="mistyrose" title="guillemet left"        >&laquo;  </td><td>Alt-0171</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Micro"                 >&micro;  </td><td>Alt-0181</td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="superscript 1"         >&sup1;   </td><td>Alt-0185&nbsp;*</td>
+      <td align="center" bgcolor="mistyrose" title="Small eth"             >&eth;    </td><td>Alt-0240</td>
+      <td align="center" bgcolor="mistyrose" title="Section"               >&sect;   </td><td>Alt-0167</td>
+      <td align="center" bgcolor="mistyrose" title="cedilla"               >&cedil;  </td><td>Alt-0184</td>
+      <td align="center" bgcolor="mistyrose" title="guillemet right"       >&raquo;  </td><td>Alt-0187</td>
+      <th colspan=2 bgcolor="cornsilk">ordinales  </th>
+      <td align="center" bgcolor="mistyrose" title="1/4 Fraction"          >&frac14; </td><td>Alt-0188&nbsp;&dagger;</td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="superscript 2"         >&sup2;   </td><td>Alt-0178&nbsp;*</td>
+      <th colspan=2 bgcolor="cornsilk">ligadura sz       </th>
+      <td align="center" bgcolor="mistyrose" title="Broken Vertical bar"   >&brvbar; </td><td>Alt-0166</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Middle dot"            >&middot; </td><td>Alt-0183</td>
+      <td align="center" bgcolor="mistyrose" title="Masculine Ordinal"     >&ordm;   </td><td>Alt-0186&nbsp;*</td>
+      <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; </td><td>Alt-0189&nbsp;&dagger;</td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="superscript 3"         >&sup3;   </td><td>Alt-0179&nbsp;*</td>
+      <td align="center" bgcolor="mistyrose" title="sz ligature"           >&szlig;  </td><td>Alt-0223</td>
+      <td> </td><td> </td>
+      <td> </td><td> </td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Feminine Ordinal"      >&ordf;   </td><td>Alt-0170&nbsp;*</td>
+      <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; </td><td>Alt-0190&nbsp;&dagger;</td>
+  </tr>
+  </tbody>
+</table>
+<p>* A menos que esto sea requerido espec&iacute;ficamente en los <a href="#comments">Comentarios del Proyecto</a>, por favor no use los s&iacute;mbolos ordinales o de super&iacute;ndice, sino que siga las instrucciones para <a href="#supers">Super&iacute;ndices</a> contenidas en estas reglas (x^2, f^o, etc.).
+</p>
+<p>&dagger; A menos que esto sea requerido espec&iacute;ficamente en los <a href="#comments">Comentarios del Proyecto</a>, por favor no use los s&iacute;mbolos para fracciones, sino que siga las instrucciones para <a href="#fract_s">Fracciones</a> contenidas en estas reglas de revisi&oacute;n (1/2, 1/4, 3/4, etc.).
+</p>
+<p><b>Para Apple Macintosh</b>:
+</p>
+<ul compact>
+  <li>Puede utilizar el programa "Key Caps" como referencia.<br>
+      En OS 9 y versiones anteriores, est&aacute; en el Men&uacute; de Apple; OS X hasta 10.2 est&aacute; en "Applications", carpeta de "Utilities".<br>
+Se visualizar&aacute; una imagen del teclado y si oprime "shift", "opt", "command" o combinaci&oacute;n de esas teclas, le muestra c&oacute;mo crear cada car&aacute;cter. Utilice esta referencia para ver c&oacute;mo teclear el car&aacute;cter deseado, o puede copiar desde aqu&iacute; y pegar en el texto en la interfaz de revisi&oacute;n.</li>
+  <li>En OS X 10.3 y versiones siguientes, la misma funci&oacute;n est&aacute; ahora en una paleta disponible en el men&uacute; &laquo;Input&raquo; (el men&uacute; junto a "locale's flag icon" en la barra del men&uacute;). Se llama "Show Keyboard Viewer". Si no est&aacute; en su men&uacute; "Input" o no tiene ese men&uacute; puede activarlo abriendo "System Preferences", el panel "International" y elegir "Input Menu". Aseg&uacute;rese "Show input menu in menu bar" est&eacute; marcado. En la vista "spreadsheet", marque la casilla de "Keyboard Viewer" en adici&oacute;n a cualquier "Input" local que utilice.
+  </li>
+  <li>Los men&uacute;s desplegables en la interfaz de revisi&oacute;n. 
+  </li>
+  <li>O se pueden teclear los atajos de Apple Opt listados m&aacute;s abajo para los caracteres deseados. 
+      <br>Una vez que se acostumbre a los c&oacute;digos, esta manera resulta m&aacute;s r&aacute;pida que copiar y pegar. 
+      <br>Oprima la tecla "Opt" y el acento; despu&eacute;s teclee la letra que quiere acentuar (para algunos c&oacute;digos, basta con oprimir "Opt" y la letra). 
+      <br>Estas instrucciones son para la configuraci&oacute;n US-English del teclado. Puede que no funcionen con otras configuraci&oacute;n. 
+      <br>(<a href="charapp.pdf">Versi&oacute;n para imprimir de esta tabla.</a>)
+  </li>
+</ul>
+
+<br>
+<a name="a_chars_mac"></a>
+<table align="center" border="6" rules="all" summary="Mac shortcuts">
+  <tbody>
+  <tr bgcolor="cornsilk">
+      <th colspan=14>Atajos para los s&iacute;mbolos de Latin-1 para Apple Mac</th>
+  </tr>
+  <tr bgcolor="cornsilk">
+      <th colspan=2>` grave</th>
+      <th colspan=2>&acute; agudo (aigu)</th>
+      <th colspan=2>^ circunflejo</th>
+      <th colspan=2>~ tilde</th>
+      <th colspan=2>&uml; di&eacute;resis</th>
+      <th colspan=2>&deg; aro</th>
+      <th colspan=2>ligadura &AElig;</th>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Small a grave"         >&agrave; </td><td>Opt-`, a</td>
+      <td align="center" bgcolor="mistyrose" title="Small a acute"         >&aacute; </td><td>Opt-e, a</td>
+      <td align="center" bgcolor="mistyrose" title="Small a circumflex"    >&acirc;  </td><td>Opt-i, a</td>
+      <td align="center" bgcolor="mistyrose" title="Small a tilde"         >&atilde; </td><td>Opt-n, a</td>
+      <td align="center" bgcolor="mistyrose" title="Small a umlaut"        >&auml;   </td><td>Opt-u, a</td>
+      <td align="center" bgcolor="mistyrose" title="Small a ring"          >&aring;  </td><td>Opt-a   </td>
+      <td align="center" bgcolor="mistyrose" title="Small ae ligature"     >&aelig;  </td><td>Opt-'   </td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital A grave"       >&Agrave; </td><td>Opt-`, A</td>
+      <td align="center" bgcolor="mistyrose" title="Capital A acute"       >&Aacute; </td><td>Opt-e, A</td>
+      <td align="center" bgcolor="mistyrose" title="Capital A circumflex"  >&Acirc;  </td><td>Opt-i, A</td>
+      <td align="center" bgcolor="mistyrose" title="Capital A tilde"       >&Atilde; </td><td>Opt-n, A</td>
+      <td align="center" bgcolor="mistyrose" title="Capital A umlaut"      >&Auml;   </td><td>Opt-u, A</td>
+      <td align="center" bgcolor="mistyrose" title="Capital A ring"        >&Aring;  </td><td>Opt-A   </td>
+      <td align="center" bgcolor="mistyrose" title="Capital AE ligature"   >&AElig;  </td><td>Opt-"   </td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Small e grave"         >&egrave; </td><td>Opt-`, e</td>
+      <td align="center" bgcolor="mistyrose" title="Small e acute"         >&eacute; </td><td>Opt-e, e</td>
+      <td align="center" bgcolor="mistyrose" title="Small e circumflex"    >&ecirc;  </td><td>Opt-i, e</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Small e umlaut"        >&euml;   </td><td>Opt-u, e</td>
+      <td> </td><td> </td>
+      <td> </td><td> </td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital E grave"       >&Egrave; </td><td>Opt-`, E</td>
+      <td align="center" bgcolor="mistyrose" title="Capital E acute"       >&Eacute; </td><td>Opt-e, E</td>
+      <td align="center" bgcolor="mistyrose" title="Capital E circumflex"  >&Ecirc;  </td><td>Opt-i, E</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Capital E umlaut"      >&Euml;   </td><td>Opt-u, E</td>
+      <td> </td><td> </td>
+      <td> </td><td> </td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Small i grave"         >&igrave; </td><td>Opt-`, i</td>
+      <td align="center" bgcolor="mistyrose" title="Small i acute"         >&iacute; </td><td>Opt-e, i</td>
+      <td align="center" bgcolor="mistyrose" title="Small i circumflex"    >&icirc;  </td><td>Opt-i, i</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Small i umlaut"        >&iuml;   </td><td>Opt-u, i</td>
+      <td> </td><td> </td>
+      <td> </td><td> </td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital I grave"       >&Igrave; </td><td>Opt-`, I</td>
+      <td align="center" bgcolor="mistyrose" title="Capital I acute"       >&Iacute; </td><td>Opt-e, I</td>
+      <td align="center" bgcolor="mistyrose" title="Capital I circumflex"  >&Icirc;  </td><td>Opt-i, I</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Capital I umlaut"      >&Iuml;   </td><td>Opt-u, I</td>
+      <th colspan=2 bgcolor="cornsilk">/ barra</th>
+      <td></td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Small o grave"         >&ograve; </td><td>Opt-`, o</td>
+      <td align="center" bgcolor="mistyrose" title="Small o acute"         >&oacute; </td><td>Opt-e, o</td>
+      <td align="center" bgcolor="mistyrose" title="Small o circumflex"    >&ocirc;  </td><td>Opt-i, o</td>
+      <td align="center" bgcolor="mistyrose" title="Small o tilde"         >&otilde; </td><td>Opt-n, o</td>
+      <td align="center" bgcolor="mistyrose" title="Small o umlaut"        >&ouml;   </td><td>Opt-u, o</td>
+      <td align="center" bgcolor="mistyrose" title="Small o slash"         >&oslash; </td><td>Opt-o   </td>
+      <td></td><td></td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital O grave"       >&Ograve; </td><td>Opt-`, O</td>
+      <td align="center" bgcolor="mistyrose" title="Capital O acute"       >&Oacute; </td><td>Opt-e, O</td>
+      <td align="center" bgcolor="mistyrose" title="Capital I circumflex"  >&Ocirc;  </td><td>Opt-i, O</td>
+      <td align="center" bgcolor="mistyrose" title="Capital O tilde"       >&Otilde; </td><td>Opt-n, O</td>
+      <td align="center" bgcolor="mistyrose" title="Capital O umlaut"      >&Ouml;   </td><td>Opt-u, O</td>
+      <td align="center" bgcolor="mistyrose" title="Capital O slash"       >&Oslash; </td><td>Opt-O   </td>
+      <td></td><td></td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Small u grave"         >&ugrave; </td><td>Opt-`, u</td>
+      <td align="center" bgcolor="mistyrose" title="Small u acute"         >&uacute; </td><td>Opt-e, u</td>
+      <td align="center" bgcolor="mistyrose" title="Small u circumflex"    >&ucirc;  </td><td>Opt-i, u</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Small u umlaut"        >&uuml;   </td><td>Opt-u, u</td>
+      <td> </td><td> </td>
+      <td> </td><td> </td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital U grave"       >&Ugrave; </td><td>Opt-`, U</td>
+      <td align="center" bgcolor="mistyrose" title="Capital U acute"       >&Uacute; </td><td>Opt-e, U</td>
+      <td align="center" bgcolor="mistyrose" title="Capital U circumflex"  >&Ucirc;  </td><td>Opt-i, U</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Capital U umlaut"      >&Uuml;   </td><td>Opt-u, U</td>
+      <th colspan=2 bgcolor="cornsilk">moneda     </th>
+      <th colspan=2 bgcolor="cornsilk">matem&aacute;ticas  </th>
+  </tr>
+  <tr><td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Small y acute"         >&yacute; </td><td>Opt-e, y</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Small n tilde"         >&ntilde; </td><td>Opt-n, n</td>
+      <td align="center" bgcolor="mistyrose" title="Small y umlaut"        >&yuml;   </td><td>Opt-u, y</td>
+      <td align="center" bgcolor="mistyrose" title="Cents"                 >&cent;   </td><td>Opt-4   </td>
+      <td align="center" bgcolor="mistyrose" title="plus/minus"            >&plusmn; </td><td>Shift-Opt-=</td>
+  </tr>
+  <tr><td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Capital Y acute"       >&Yacute; </td><td>Opt-e, Y</td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Capital N tilde"       >&Ntilde; </td><td>Opt-n, N</td>
+      <td></td><td></td>
+      <td align="center" bgcolor="mistyrose" title="Pounds"                >&pound;  </td><td>Opt-3   </td>
+      <td align="center" bgcolor="mistyrose" title="Multiplication"        >&times;  </td><td>(none)&nbsp;&Dagger;</td>
+  </tr>
+  <tr><th colspan=2 bgcolor="cornsilk">cedilla </th>
+      <th colspan=2 bgcolor="cornsilk">island&eacute;s    </th>
+      <th colspan=2 bgcolor="cornsilk">marcas        </th>
+      <th colspan=2 bgcolor="cornsilk">acentos      </th>
+      <th colspan=2 bgcolor="cornsilk">puntuaci&oacute;n  </th>
+      <td align="center" bgcolor="mistyrose" title="Yen"                   >&yen;    </td><td>Opt-y   </td>
+      <td align="center" bgcolor="mistyrose" title="Division"              >&divide; </td><td>Opt-/   </td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Small c cedilla"       >&ccedil; </td><td>Opt-c   </td>
+      <td align="center" bgcolor="mistyrose" title="Capital Thorn"         >&THORN;  </td><td>(none)&nbsp;&Dagger;</td>
+      <td align="center" bgcolor="mistyrose" title="Copyright"             >&copy;   </td><td>Opt-g   </td>
+      <td align="center" bgcolor="mistyrose" title="acute accent"          >&acute;  </td><td>Opt-E   </td>
+      <td align="center" bgcolor="mistyrose" title="Inverted Question Mark">&iquest; </td><td>Opt-?   </td>
+      <td align="center" bgcolor="mistyrose" title="General Currency"      >&curren; </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="Logical Not"           >&not;    </td><td>Opt-l   </td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="Capital C cedilla"     >&Ccedil; </td><td>Opt-C   </td>
+      <td align="center" bgcolor="mistyrose" title="Small thorn"           >&thorn;  </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="Registration Mark"     >&reg;    </td><td>Opt-r   </td>
+      <td align="center" bgcolor="mistyrose" title="umlaut accent"         >&uml;    </td><td>Opt-U   </td>
+      <td align="center" bgcolor="mistyrose" title="Inverted Exclamation"  >&iexcl;  </td><td>Opt-1   </td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Degrees"               >&deg;    </td><td>Shift-Opt-8   </td>
+  </tr>
+  <tr><th colspan=2 bgcolor="cornsilk">super&iacute;ndices        </th>
+      <td align="center" bgcolor="mistyrose" title="Capital Eth"           >&ETH;    </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="Paragraph (pilcrow)"   >&para;   </td><td>Opt-7   </td>
+      <td align="center" bgcolor="mistyrose" title="macron accent"         >&macr;   </td><td>Shift-Opt-,</td>
+      <td align="center" bgcolor="mistyrose" title="guillemet left"        >&laquo;  </td><td>Opt-\   </td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Micro"                 >&micro;  </td><td>Opt-m   </td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="superscript 1"         >&sup1;   </td><td>(none)&nbsp;*&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="Small eth"             >&eth;    </td><td>(none)&nbsp;&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="Section"               >&sect;   </td><td>Opt-6   </td>
+      <td align="center" bgcolor="mistyrose" title="cedilla"               >&cedil;  </td><td>Opt-Z   </td>
+      <td align="center" bgcolor="mistyrose" title="guillemet right"       >&raquo;  </td><td>Shift-Opt-\</td>
+      <th colspan=2 bgcolor="cornsilk">ordinales  </th>
+      <td align="center" bgcolor="mistyrose" title="1/4 Fraction"          >&frac14; </td><td>(none)&nbsp;&dagger;&Dagger;</td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="superscript 2"         >&sup2;   </td><td>(none)&nbsp;*&Dagger;  </td>
+      <th colspan=2 bgcolor="cornsilk">ligadura sz        </th>
+      <td align="center" bgcolor="mistyrose" title="Broken Vertical bar"   >&brvbar; </td><td>(none)&nbsp;&Dagger;  </td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Middle dot"            >&middot; </td><td>Shift-Opt-9  </td>
+      <td align="center" bgcolor="mistyrose" title="Masculine Ordinal"     >&ordm;   </td><td>Opt-0&nbsp;*</td>
+      <td align="center" bgcolor="mistyrose" title="1/2 Fraction"          >&frac12; </td><td>(none)&nbsp;&dagger;&Dagger;</td>
+  </tr>
+  <tr><td align="center" bgcolor="mistyrose" title="superscript 3"         >&sup3;   </td><td>(none)&nbsp;*&Dagger;  </td>
+      <td align="center" bgcolor="mistyrose" title="sz ligature"           >&szlig;  </td><td>Opt-s   </td>
+      <td> </td><td> </td>
+      <td> </td><td> </td>
+      <td> </td><td> </td>
+      <td align="center" bgcolor="mistyrose" title="Feminine Ordinal"      >&ordf;   </td><td>Opt-9&nbsp;*</td>
+      <td align="center" bgcolor="mistyrose" title="3/4 Fraction"          >&frac34; </td><td>(none)&nbsp;&dagger;&Dagger;</td>
+  </tr>
+  </tbody>
+</table>
+<p>* A menos que esto sea requerido espec&iacute;ficamente en los <a href="#comments">Comentarios del Proyecto</a>, por favor no use los s&iacute;mbolos ordinales o de super&iacute;ndice, sino que siga las instrucciones para <a href="#supers">Super&iacute;ndices</a> contenidas en estas reglas (x^2, f^o, etc.).
+</p>
+<p>&dagger; A menos que esto sea requerido espec&iacute;ficamente en los <a href="#comments">Comentarios del Proyecto</a>, por favor no use los s&iacute;mbolos para fracciones, sino que siga las instrucciones para <a href="#fract_s">Fracciones</a> contenidas en estas reglas de revisi&oacute;n (1/2, 1/4, 3/4, etc.).
+</p>
+<p>&Dagger;&nbsp;Nota: no hay atajo equivalente, utilice los men&uacute;s desplegables.
+</p>
+<p class="backtotop"><a href="#top">Volver al comienzo</a></p>
+
+</div>
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="6" summary="Alphabetical Index">
+  <tbody>
+    <tr>
+      <td bgcolor="silver"><h2 style="margin-bottom: 0; margin-top: 0;"><a name="index">&Iacute;ndice alfab&eacute;tico de las Reglas de Revisi&oacute;n</a></h2></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+
+<table border="0" width="100%" summary="Alphabetical Index">
+  <tr>
+    <td width="50%" valign="top">
+      <ul>
+        <li><a href="#a_chars">Acentos, Caracteres con</a></li>
+        <li><a href="#about">Acerca de este documento</a></li>
+        <li><a href="#insert_char">Atajos del teclado para caracteres Latin-1</a></li>
+        <li><a href="#blank_pg">Blanco, P&aacute;gina en</a></li>
+        <li><a href="#drop_caps">Capital, Letra</a></li>
+        <li><a href="#chap_head">Cap&iacute;tulo, T&iacute;tulos de</a></li>
+        <li><a href="#a_chars">Caracteres acentuados y caracteres no ASCII</a></li>
+        <li><a href="#insert_char">Caracteres Latin-1, Insertando</a></li>
+        <li><a href="#a_chars">Caracteres no ASCII</a></li>
+        <li><a href="#f_chars">Caracteres no Latin-1</a></li>
+        <li><a href="#next_word"><i>Catchwords</i></a></li>
+        <li><a href="#mult_col">Columnas, M&uacute;ltiples</a></li>
+        <li><a href="#prev_notes">Comentarios de revisores anteriores</a></li>
+        <li><a href="#comments">Comentarios del Proyecto</a></li>
+        <li><a href="#double_q">Comillas dobles</a></li>
+        <li><a href="#chap_head">Comillas dobles que faltan al comienzo de un cap&iacute;tulo</a></li>
+        <li><a href="#quote_ea">Comillas en cada l&iacute;nea</a></li>
+        <li><a href="#single_q">Comillas simples</a></li>
+        <li><a href="#contract">Contracciones</a></li>
+        <li><a href="#title_pg">Contraportada</a></li>
+        <li><a href="#anything">Cualquier otra cosa que necesite tratamiento especial o no sepa como tratar</a></li>
+        <li><a href="#formatting">Cursivas</a></li>
+        <li><a href="#d_chars">Diacr&iacute;ticos, Caracteres</a></li>
+        <li><a href="#play_n">Directrices esc&eacute;nicas (obras de teatro)</a></li>
+        <li><a href="#forums">Discusi&oacute;n del Proyecto</a></li>
+        <li><a href="#chap_head">Encabezados de cap&iacute;tulo</a></li>
+        <li><a href="#page_hf">Encabezados de p&aacute;gina</a></li>
+        <li><a href="#page_hf">Encabezados y pies de p&aacute;gina</a></li>
+        <li><a href="#poetry">Epigramas</a></li>
+        <li><a href="#p_errors">Errores de impresi&oacute;n</a></li>
+        <li><a href="#p_errors">Errores de impresi&oacute;n o de ortograf&iacute;a</a></li>
+        <li><a href="#round1">Errores del revisor anterior</a></li>
+        <li><a href="#f_errors">Errores f&aacute;cticos</a></li>
+        <li><a href="#prev_pg">Errores, c&oacute;mo arreglarlos en p&aacute;ginas anteriores</a></li>
+        <li><a href="#trail_s">Espacio al final de la l&iacute;nea</a></li>
+        <li><a href="#extra_sp">Espacios extras</a></li>
+        <li><a href="#extra_sp">Espacios extras entre palabras</a></li>
+        <li><a href="#eol_hyphen">Final de la l&iacute;nea, Guiones al</a></li>
+        <li><a href="#eop_hyphen">Final de la p&aacute;gina, Guiones al</a></li>
+        <li><a href="#formatting">Formato</a></li>
+        <li><a href="#formatting">Formato preexistente</a></li>
+        <li><a href="#forums">Foro</a></li>
+        <li><a href="#fract_s">Fracciones</a></li>
+        <li><a href="#OCR_raised_o">Grado, s&iacute;mbolo de</a></li>
+        <li><a href="#f_chars">Griego, Texto en</a></li>
+        <li><a href="#summary">Gu&iacute;a corta de revisi&oacute;n</a></li>
+        <li><a href="#em_dashes">Guiones</a></li>
+        <li><a href="#eol_hyphen">Guiones al final de la l&iacute;nea</a></li>
+        <li><a href="#eop_hyphen">Guiones al final de la p&aacute;gina</a></li>
+        <li><a href="#em_dashes">Guiones largos o "eme"</a></li>
+        <li><a href="#f_chars">Hebreo, Texto en</a></li>
+        <li><a href="#illust">Ilustraciones</a></li>
+        <li><a href="#bad_image">Imagen de mala calidad</a></li>
+        <li><a href="#bad_text">Imagen que no corresponde al texto</a></li>
+        <li><a href="#bk_index">&Iacute;ndices</a></li>
+        <li><a href="#insert_char">Insertando caracteres especiales</a></li>
+        <li><a href="#period_p"><i>Languages Other Than English</i> (LOTE), Puntos suspensivos en</a></li>
+        <li><a href="#drop_caps">Letra ilustrada u ornamentada</a></li>
+      </ul>
+    </td>
+    <td width="50%" valign="top">
+      <ul>
+        <li><a href="#a_chars">Ligaduras</a></li>
+        <li><a href="#a_chars">Ligaduras ae</a></li>
+        <li><a href="#a_chars">Ligadura oe</a></li>
+        <li><a href="#hand_notes">Manuscritas, Notas</a></li>
+        <li><a href="#em_dashes">Menos, Signo</a></li>
+        <li><a href="#insert_char">Men&uacute;s despleglables</a></li>
+        <li><a href="#formatting">Negritas, Texto en</a></li>
+        <li><a href="#play_n">Nombres de personajes (obras de teatro)</a></li>
+        <li><a href="#footnotes">Notas al final</a></li>
+        <li><a href="#para_side">Notas al margen</a></li>
+        <li><a href="#footnotes">Notas al pie</a></li>
+        <li><a href="#prev_notes">Notas de los correctores anteriores</a></li>
+        <li><a href="#hand_notes">Notas manuscritas</a></li>
+        <li><a href="#line_no">N&uacute;meros de L&iacute;nea</a></li>
+        <li><a href="#play_n">Obras de teatro</a></li>
+        <li><a href="#play_n">Obras de teatro: nombres de personajes y directrices esc&eacute;nicas</a></li>
+        <li><a href="#common_OCR">OCR, Problemas comunes del</a></li>
+        <li><a href="#OCR_raised_o">Ordinal, S&iacute;mbolo</a></li>
+        <li><a href="#p_errors">Ortograf&iacute;a, Errores de</a></li>
+        <li><a href="#anything">Otras cosas de las que usted no est&aacute; seguro</a></li>
+        <li><a href="#blank_pg">P&aacute;gina en blanco</a></li>
+        <li><a href="#prev_pg">P&aacute;ginas anteriores, C&oacute;mo arreglar errores en</a></li>
+        <li><a href="#next_word">Palabra suelta al final de la p&aacute;gina</a></li>
+        <li><a href="#small_caps"><span style="font-variant: small-caps">Palabras en Versalitas</span></a></li>
+        <li><a href="#para_space">P&aacute;rrafos, Espaciado de</a></li>
+        <li><a href="#illust">Pie de foto en ilustraciones</a></li>
+        <li><a href="#page_hf">Pies de p&aacute;gina</a></li>
+        <li><a href="#poetry">Poes&iacute;a</a></li>
+        <li><a href="#title_pg">Portada</a></li>
+        <li><a href="#title_pg">Portada y contraportada</a></li>
+        <li><a href="#common_OCR">Problemas comunes de OCR</a></li>
+        <li><a href="#OCR_raised_o">Problemas del OCR: &iquest;es eso &deg; &ordm; realmente un s&iacute;mbolo de grados?</a></li>
+        <li><a href="#OCR_scanno">Problemas del OCR: Scannos</a></li>
+        <li><a href="#period_s">Punto final de las oraciones</a></li>
+        <li><a href="#period_p">Puntos suspensivos</a></li>
+        <li><a href="#punctuat">Puntuaci&oacute;n, Espaciado de la</a></li>
+        <li><a href="#prime">Regla principal</a></li>
+        <li><a href="#summary">Resumen de las Reglas de Revisi&oacute;n</a></li>
+        <li><a href="#prev_notes">Revisores anteriores, Comentarios o notas de</a></li>
+        <li><a href="#round1">Revisores anteriores, Errores de</a></li>
+        <li><a href="#line_br">Saltos de l&iacute;nea</a></li>
+        <li><a href="#para_space">Sangr&iacute;a de p&aacute;rrafos</a></li>
+        <li><a href="#para_space">Sangr&iacute;a y espaciado de p&aacute;rrafos</a></li>
+        <li><a href="#OCR_scanno">Scannos</a></li>
+        <li><a href="#d_chars">Signos diacr&iacute;ticos</a></li>
+        <li><a href="#subscr">Sub&iacute;ndices</a></li>
+        <li><a href="#supers">Super&iacute;ndices</a></li>
+        <li><a href="#period_p">Suspensivos, Puntos</a></li>
+        <li><a href="#toc">Tabla de contenidos</a></li>
+        <li><a href="#tables">Tablas</a></li>
+        <li><a href="#extra_sp">Tabulacioness</a></li>
+        <li><a href="#bad_text">Texto, Imagen que no corresponde al</a></li>
+        <li><a href="#chap_head">T&iacute;tulos de cap&iacute;tulos</a></li>
+        <li><a href="#small_caps"><span style="font-variant: small-caps">Versalitas</span></a></li>
+        <li><a href="#OCR_scanno">WordCheck</a></li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<br>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="silver" summary="Links">
+  <tr>
+    <td width="10">&nbsp;</td>
+    <td width="100%" align="center"><font face="verdana, helvetica, sans-serif" size="1">
+      Return to:
+      <a href=".."><?php echo "$site_name"; ?> home page</a>,
+      &nbsp;&nbsp;&nbsp;
+      <a href="faq_central.php"><?php echo "$site_abbreviation"; ?> FAQ Central page</a>,
+      &nbsp;&nbsp;&nbsp;
+      <a href="<?php echo $PG_home_url; ?>">Project Gutenberg home page</a>.
+      </font>
+    </td>
+  </tr>
+</table>
 
 <?php
 // vim: sw=4 ts=4 expandtab
