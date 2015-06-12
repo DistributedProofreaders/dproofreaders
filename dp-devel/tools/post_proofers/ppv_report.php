@@ -398,7 +398,7 @@ if (isset($_GET['confirm'])) {
     echo _("Please check the information below to make sure everything is correct.
         To return to the form, simply use your browser's back button.") . "<br />\n";
     echo "<pre>" . $reportcard . "</pre>";
-    echo "<form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&send=1' name='ppvform' method='post'>
+    echo "<form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;send=1' name='ppvform' method='post'>
                 <input type='hidden' name='reportcard' value='" . htmlspecialchars($reportcard, ENT_QUOTES) . "'/>
                 <input type='hidden' name='pp_evaluation' value='" . htmlspecialchars($pp_evaluation, ENT_QUOTES) . "'/>";
     if (isset($_POST['cc_pp']))
@@ -462,7 +462,7 @@ if (isset($_GET['confirm'])) {
     }
 
     echo "<br />
-          <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&confirm=1' name='ppvform' method='post'>
+          <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;confirm=1' name='ppvform' method='post'>
           <table border='1' id='report_card' style='width: 95%'>
 
                 <tr>
@@ -513,6 +513,7 @@ if (isset($_GET['confirm'])) {
                     <td style='background-color: #CCCCCC; width: 40%;'><b>File Information</b></td>
                         <td><p class='single'><input type='text' size='5' name='kb_size' id='kb_size'>&nbsp;&nbsp;"._("Text File Size in kb (Please do not insert commas. For example, you should input 1450 instead of 1,450 and, if you use commas as decimal marks, 1450.5 instead of 1450,5)")."</p>
                     </td>
+                </tr>
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Present in the text")."</b></td>
                     <td>
@@ -622,8 +623,9 @@ if (isset($_GET['confirm'])) {
                         <p class='single'><input type='text' size='3' name='e2_missing_num' id='e2_missing_num'>&nbsp;&nbsp;"._("Missing page(s) or substantial sections of missing text")."</p>
                         <p class='single'><input type='text' size='3' name='e2_rewrap_num' id='e2_rewrap_num'>&nbsp;&nbsp;"._("Substantial rewrapping errors, e.g., poetry has been rewrapped or text version generally not rewrapped to required length (not exceeding 75 characters or falling below 55 characters) except where unavoidable, e.g., some tables though the aim should be 72 characters")."</p>
                         <p class='single'><input type='text' size='3' name='e2_hyphen_num' id='e2_hyphen_num'>&nbsp;&nbsp;"._("Widespread/general occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)")."</p>
-                        <p class='single'><input type='text' size='3' name='e2_gen_num' id='e2_gen_num'>&nbsp;&nbsp;"._("Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field)")."</p>          </td>
+                        <p class='single'><input type='text' size='3' name='e2_gen_num' id='e2_gen_num'>&nbsp;&nbsp;"._("Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field)")."</p>
                     </td>
+                </tr>
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'></td>
                     <td>
