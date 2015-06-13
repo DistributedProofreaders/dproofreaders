@@ -519,16 +519,16 @@ if (isset($_GET['confirm'])) {
                     <td>
                         <input type='checkbox' name='some_poetry' id='some_poetry'><label for='some_poetry'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_poetry' id='sig_poetry'><label for='sig_poetry'>"._("Significant Amount")."</label> &mdash; "._("Poetry (other than straight poetry)")."<br />
                         <input type='checkbox' name='some_block' id='some_block'><label for='some_block'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_block' id='sig_block'><label for='sig_block'>"._("Significant Amount")."</label> &mdash; "._("Blockquotes")."<br />
-                        <input type='checkbox' name='some_foot' id='some_foot'><label for='some_foot'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_foot' id='sig_foot'><label for='sig_foot'>"._("Significant Amount")."</label> &mdash;  "._("Footnotes")."<br />
+                        <input type='checkbox' name='some_foot' id='some_foot'><label for='some_foot'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_foot' id='sig_foot'><label for='sig_foot'>"._("Significant Amount")."</label> &mdash; "._("Footnotes")."<br />
                         <input type='checkbox' name='some_side' id='some_side'><label for='some_side'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_side' id='sig_side'><label for='sig_side'>"._("Significant Amount")."</label> &mdash; "._("Sidenotes")."<br />
                         <input type='checkbox' name='some_ads' id='some_ads'><label for='some_ads'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_ads' id='sig_ads'><label for='sig_ads'>"._("Significant Amount")."</label> &mdash; "._("Advertisements")."<br />
                         <input type='checkbox' name='some_tables' id='some_tables'><label for='some_tables'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_tables' id='sig_tables'><label for='sig_tables'>"._("Significant Amount")."</label> &mdash; "._("Tables")."<br />
                         <input type='checkbox' name='some_drama' id='some_drama'><label for='some_drama'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_drama' id='sig_drama'><label for='sig_drama'>"._("Significant Amount")."</label> &mdash; "._("Drama")."<br />
                         <input type='checkbox' name='some_index' id='some_index'><label for='some_index'>"._("Small")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_index' id='sig_index'><label for='sig_index'>"._("Significant Size")."</label> &mdash; "._("Index")."<br />
-                        <input type='checkbox' name='some_illos' id='some_illos'><label for='some_illos'>"._("Illustrations (other than minor decorations or logos):")." </label><label for='num_illos'>"._("(Number of)")."</label>
+                        <input type='checkbox' name='some_illos' id='some_illos'><label for='some_illos'>"._("Illustrations (other than minor decorations or logos):")."</label> <label for='num_illos'>"._("(Number of)")."</label>
                             <input type='text' size='3' name='num_illos' id='num_illos'><br />
                         <input type='checkbox' name='sig_illos' id='sig_illos'><label for='sig_illos'>"._("Illustrations requiring advanced preparation and/or difficult placement")."</label><br />
-                        <input type='checkbox' name='sig_multilang' id='sig_multilang'><label for='sig_multilang'>"._("Multiple Languages")." <a href='#languages'>*</a></label><br />
+                        <input type='checkbox' name='sig_multilang' id='sig_multilang'><label for='sig_multilang'>"._("Multiple Languages")."</label> <a href='#languages'>*</a><br />
                         <input type='checkbox' name='sig_englifh' id='sig_englifh'><label for='sig_englifh'>"._("Englifh")."</label><br />
                         <input type='checkbox' name='sig_music' id='sig_music'><label for='sig_music'>"._("Musical Notation and Files")."</label><br />
                         <input type='checkbox' name='sig_math' id='sig_math'><label for='sig_math'>"._("Extensive mathematical/chemical notation")."</label><br />
@@ -728,9 +728,9 @@ if (isset($_GET['confirm'])) {
                 </tr>
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Send to")."</b></td>
-                    <td><input type='checkbox' name='cc_ppv' id='cc_ppv' /><label for='cc_ppv'>"._("Me")."</label><br />
-                            <input type='checkbox' name='cc_pp' checked id='cc_pp' /><label for='cc_pp'>$project->postproofer</label><br />
-                            <input type='checkbox' name='foo' checked disabled />"._("PPV Summary (mailing list)")."
+                    <td><input type='checkbox' name='cc_ppv' id='cc_ppv'><label for='cc_ppv'>"._("Me")."</label><br />
+                            <input type='checkbox' name='cc_pp' checked id='cc_pp'><label for='cc_pp'>$project->postproofer</label><br />
+                            <input type='checkbox' name='foo' checked disabled>"._("PPV Summary (mailing list)")."
                     </td>
                 </tr>
                 <tr><td colspan='2' style='text-align: center'>
