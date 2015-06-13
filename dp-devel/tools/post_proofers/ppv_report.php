@@ -729,7 +729,7 @@ if (isset($_GET['confirm'])) {
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Send to")."</b></td>
                     <td>"._checkbox('cc_ppv', _("Me")) ."<br />
-                            <input type='checkbox' name='cc_pp' checked id='cc_pp'><label for='cc_pp'>$project->postproofer</label><br />
+                            ". _checkbox('cc_pp', $project->postproofer, TRUE) ."<br />
                             <input type='checkbox' name='foo' checked disabled>"._("PPV Summary (mailing list)")."
                     </td>
                 </tr>
@@ -739,9 +739,10 @@ if (isset($_GET['confirm'])) {
     </form>";
 }
 
-function _checkbox($id, $label)
+function _checkbox($id, $label, $checked=FALSE)
 {
-    return "<input type='checkbox' name='$id' id='$id'><label for='$id'>$label</label>";
+    $checked_attr = ($checked ? ' checked': '');
+    return "<input type='checkbox' name='$id' id='$id'$checked_attr><label for='$id'>$label</label>";
 }
 
 // vim: sw=4 ts=4 expandtab
