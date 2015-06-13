@@ -517,21 +517,21 @@ if (isset($_GET['confirm'])) {
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Present in the text")."</b></td>
                     <td>
-                        <input type='checkbox' name='some_poetry' id='some_poetry'><label for='some_poetry'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_poetry' id='sig_poetry'><label for='sig_poetry'>"._("Significant Amount")."</label> &mdash; "._("Poetry (other than straight poetry)")."<br />
-                        <input type='checkbox' name='some_block' id='some_block'><label for='some_block'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_block' id='sig_block'><label for='sig_block'>"._("Significant Amount")."</label> &mdash; "._("Blockquotes")."<br />
-                        <input type='checkbox' name='some_foot' id='some_foot'><label for='some_foot'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_foot' id='sig_foot'><label for='sig_foot'>"._("Significant Amount")."</label> &mdash; "._("Footnotes")."<br />
-                        <input type='checkbox' name='some_side' id='some_side'><label for='some_side'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_side' id='sig_side'><label for='sig_side'>"._("Significant Amount")."</label> &mdash; "._("Sidenotes")."<br />
-                        <input type='checkbox' name='some_ads' id='some_ads'><label for='some_ads'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_ads' id='sig_ads'><label for='sig_ads'>"._("Significant Amount")."</label> &mdash; "._("Advertisements")."<br />
-                        <input type='checkbox' name='some_tables' id='some_tables'><label for='some_tables'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_tables' id='sig_tables'><label for='sig_tables'>"._("Significant Amount")."</label> &mdash; "._("Tables")."<br />
-                        <input type='checkbox' name='some_drama' id='some_drama'><label for='some_drama'>"._("Some")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_drama' id='sig_drama'><label for='sig_drama'>"._("Significant Amount")."</label> &mdash; "._("Drama")."<br />
-                        <input type='checkbox' name='some_index' id='some_index'><label for='some_index'>"._("Small")."</label>&nbsp;&nbsp;<input type='checkbox' name='sig_index' id='sig_index'><label for='sig_index'>"._("Significant Size")."</label> &mdash; "._("Index")."<br />
-                        <input type='checkbox' name='some_illos' id='some_illos'><label for='some_illos'>"._("Illustrations (other than minor decorations or logos):")."</label> <label for='num_illos'>"._("(Number of)")."</label>
+                        "._checkbox('some_poetry',   _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_poetry', _("Significant Amount")) ." &mdash; "._("Poetry (other than straight poetry)")."<br />
+                        "._checkbox('some_block',    _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_block',  _("Significant Amount")) ." &mdash; "._("Blockquotes")."<br />
+                        "._checkbox('some_foot',     _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_foot',   _("Significant Amount")) ." &mdash; "._("Footnotes")."<br />
+                        "._checkbox('some_side',     _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_side',   _("Significant Amount")) ." &mdash; "._("Sidenotes")."<br />
+                        "._checkbox('some_ads',      _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_ads',    _("Significant Amount")) ." &mdash; "._("Advertisements")."<br />
+                        "._checkbox('some_tables',   _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_tables', _("Significant Amount")) ." &mdash; "._("Tables")."<br />
+                        "._checkbox('some_drama',    _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_drama',  _("Significant Amount")) ." &mdash; "._("Drama")."<br />
+                        "._checkbox('some_index',    _("Small")) ."&nbsp;&nbsp;"._checkbox('sig_index',  _("Significant Size"))   ." &mdash; "._("Index")."<br />
+                        "._checkbox('some_illos',    _("Illustrations (other than minor decorations or logos):")) ." <label for='num_illos'>"._("(Number of)")."</label>
                             <input type='text' size='3' name='num_illos' id='num_illos'><br />
-                        <input type='checkbox' name='sig_illos' id='sig_illos'><label for='sig_illos'>"._("Illustrations requiring advanced preparation and/or difficult placement")."</label><br />
-                        <input type='checkbox' name='sig_multilang' id='sig_multilang'><label for='sig_multilang'>"._("Multiple Languages")."</label> <a href='#languages'>*</a><br />
-                        <input type='checkbox' name='sig_englifh' id='sig_englifh'><label for='sig_englifh'>"._("Englifh")."</label><br />
-                        <input type='checkbox' name='sig_music' id='sig_music'><label for='sig_music'>"._("Musical Notation and Files")."</label><br />
-                        <input type='checkbox' name='sig_math' id='sig_math'><label for='sig_math'>"._("Extensive mathematical/chemical notation")."</label><br />
+                        "._checkbox('sig_illos',     _("Illustrations requiring advanced preparation and/or difficult placement")) ."<br />
+                        "._checkbox('sig_multilang', _("Multiple Languages")) ." <a href='#languages'>*</a><br />
+                        "._checkbox('sig_englifh',   _("Englifh")) ."<br />
+                        "._checkbox('sig_music',     _("Musical Notation and Files")) ."<br />
+                        "._checkbox('sig_math',      _("Extensive mathematical/chemical notation")) ."<br />
                     </td>
                 </tr>
                 <tr>
@@ -687,15 +687,15 @@ if (isset($_GET['confirm'])) {
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Occurrence")."</b></td>
                     <td>
-                        <p class='single2'><input type='checkbox' name='s_multi' id='s_multi'><label for='s_multi'>"._("Enclose entire multi-part headings within the related heading tag")."</label></p>
-                        <p class='single2'><input type='checkbox' name='s_empty' id='s_empty'><label for='s_empty'>"._("Avoid using empty tags (with &amp;nbsp; entities) or &lt;br /&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though")."</label></p>
-                        <p class='single2'><input type='checkbox' name='s_list' id='s_list'><label for='s_list'>"._("List Tags should be used for lists (e.g., a normal index)")."</label></p>
-                        <p class='single2'><input type='checkbox' name='s_text' id='s_text'><label for='s_text'>"._("Include all text as text, not just as images")."</label></p>
-                        <p class='single2'><input type='checkbox' name='s_code' id='s_code'><label for='s_code'>"._("Keep your code line lengths reasonable")."</label></p>
-                        <p class='single2'><input type='checkbox' name='s_tables' id='s_tables'><label for='s_tables'>"._("Tables should display left, right, and center justification and top and bottom align appropriately")."</label></p>
-                        <p class='single2'><input type='checkbox' name='s_th' id='s_th'><label for='s_th'>"._("Tables contain &lt;th&gt; elements for headings")."</label></p>
-                        <p class='single2'><input type='checkbox' name='s_thumbs' id='s_thumbs'><label for='s_thumbs'>"._("Remove thumbs.db file from the images folder")."</label></p>
-                        <p class='single2'><input type='checkbox' name='s_ereader' id='s_ereader'><label for='s_ereader'>"._("E-reader version, although without major flaws, should also look as good as possible")."</label></p>
+                        <p class='single2'>"._checkbox('s_multi', _("Enclose entire multi-part headings within the related heading tag")) ."</p>
+                        <p class='single2'>"._checkbox('s_empty', _("Avoid using empty tags (with &amp;nbsp; entities) or &lt;br /&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though")) ."</p>
+                        <p class='single2'>"._checkbox('s_list', _("List Tags should be used for lists (e.g., a normal index)")) ."</p>
+                        <p class='single2'>"._checkbox('s_text', _("Include all text as text, not just as images")) ."</p>
+                        <p class='single2'>"._checkbox('s_code', _("Keep your code line lengths reasonable")) ."</p>
+                        <p class='single2'>"._checkbox('s_tables', _("Tables should display left, right, and center justification and top and bottom align appropriately")) ."</p>
+                        <p class='single2'>"._checkbox('s_th', _("Tables contain &lt;th&gt; elements for headings")) ."</p>
+                        <p class='single2'>"._checkbox('s_thumbs', _("Remove thumbs.db file from the images folder")) ."</p>
+                        <p class='single2'>"._checkbox('s_ereader', _("E-reader version, although without major flaws, should also look as good as possible")) ."</p>
                     </td>
                 </tr>
                 <tr>
@@ -704,9 +704,9 @@ if (isset($_GET['confirm'])) {
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Occurrence")."</b></td>
                     <td>
-                        <p class='single2'><input type='checkbox' name='m_semantic' id='m_semantic'><label for='m_semantic'>"._("Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them")."</label></p>
-                        <p class='single2'><input type='checkbox' name='m_space' id='m_space'><label for='m_space'>"._("Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)")."</label></p>
-                        <p class='single2'><input type='checkbox' name='m_unusedcss' id='m_unusedcss'><label for='m_unusedcss'>"._("Ensure that there are no unused elements in the CSS (other than the base HTML headings)")."</label></p>
+                        <p class='single2'>"._checkbox('m_semantic', _("Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them")) ."</p>
+                        <p class='single2'>"._checkbox('m_space', _("Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)")) ."</p>
+                        <p class='single2'>"._checkbox('m_unusedcss', _("Ensure that there are no unused elements in the CSS (other than the base HTML headings)")) ."</p>
                     </td>
                 </tr>
                 <tr>
@@ -728,7 +728,7 @@ if (isset($_GET['confirm'])) {
                 </tr>
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Send to")."</b></td>
-                    <td><input type='checkbox' name='cc_ppv' id='cc_ppv'><label for='cc_ppv'>"._("Me")."</label><br />
+                    <td>"._checkbox('cc_ppv', _("Me")) ."<br />
                             <input type='checkbox' name='cc_pp' checked id='cc_pp'><label for='cc_pp'>$project->postproofer</label><br />
                             <input type='checkbox' name='foo' checked disabled>"._("PPV Summary (mailing list)")."
                     </td>
@@ -737,6 +737,11 @@ if (isset($_GET['confirm'])) {
                     <input type='submit' value='".attr_safe(_("Submit"))."'></td></tr>
         </table>
     </form>";
+}
+
+function _checkbox($id, $label)
+{
+    return "<input type='checkbox' name='$id' id='$id'><label for='$id'>$label</label>";
 }
 
 // vim: sw=4 ts=4 expandtab
