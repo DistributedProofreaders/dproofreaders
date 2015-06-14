@@ -367,10 +367,10 @@ if (isset($_GET['confirm'])) {
         'm_unusedcss' => "Ensure that there are no unused elements in the CSS (other than the base HTML headings)",
     ));
 
-    if(!empty($_POST['general_comments']))
-        $reportcard .= "\n\n  General comments:  \n    $_POST[general_comments]";
-    if(!empty($_POST['reason_returned']))
-        $reportcard .=  "\n\n  Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain): \n    $_POST[reason_returned]";
+    $reportcard .= report_comments(array(
+        'general_comments' => "General comments",
+        'reason_returned'  => "Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)",
+    ));
     $reportcard .= "\n\n" . $site_signoff;
 
     if (get_magic_quotes_gpc())
@@ -739,6 +739,17 @@ function report_recommendations($recommendations)
         if (isset($_POST[$id])) $result .= "\n    $label";
     }
     if ($result == "") $result = "\n    None";
+    return $result;
+}
+
+function report_comments($comments)
+{
+    $result = "";
+    foreach ($comments as $id => $label)
+    {
+        if (!empty($_POST[$id]))
+            $result .= "\n\n  $label:\n    {$_POST[$id]}";
+    }
     return $result;
 }
 
