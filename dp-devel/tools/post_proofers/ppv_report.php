@@ -525,8 +525,8 @@ if (isset($_GET['confirm'])) {
                         "._checkbox('some_tables',   _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_tables', _("Significant Amount")) ." &mdash; "._("Tables")."<br />
                         "._checkbox('some_drama',    _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_drama',  _("Significant Amount")) ." &mdash; "._("Drama")."<br />
                         "._checkbox('some_index',    _("Small")) ."&nbsp;&nbsp;"._checkbox('sig_index',  _("Significant Size"))   ." &mdash; "._("Index")."<br />
-                        "._checkbox('some_illos',    _("Illustrations (other than minor decorations or logos):")) ." <label for='num_illos'>"._("(Number of)")."</label>
-                            <input type='text' size='3' name='num_illos' id='num_illos'><br />
+                        "._checkbox('some_illos',    _("Illustrations (other than minor decorations or logos):")) ." "
+                            ._textbox('num_illos', _("(Number of)"), array('use_a_label_element'=>TRUE, 'put_label_on_left'=>TRUE)) ."<br />
                         "._checkbox('sig_illos',     _("Illustrations requiring advanced preparation and/or difficult placement")) ."<br />
                         "._checkbox('sig_multilang', _("Multiple Languages")) ." <a href='#languages'>*</a><br />
                         "._checkbox('sig_englifh',   _("Englifh")) ."<br />
@@ -748,7 +748,31 @@ function _checkbox($id, $label, $checked=FALSE)
 function _textbox($id, $label, $options=array())
 {
     $size = array_get($options, 'size', 3);
-    return "<input type='text' size='$size' name='$id' id='$id'>&nbsp;&nbsp;$label";
+    $use_a_label_element = array_get($options, 'use_a_label_element', FALSE);
+    $put_label_on_left = array_get($options, 'put_label_on_left', FALSE);
+
+    $input_element = "<input type='text' size='$size' name='$id' id='$id'>";
+
+    if ($use_a_label_element)
+    {
+        $label_thing = "<label for='$id'>$label</label>";
+        $connector = " ";
+    }
+    else
+    {
+        $label_thing = $label;
+        $connector = "&nbsp;&nbsp;";
+    }
+
+    if ($put_label_on_left)
+    {
+        $result = $label_thing . $connector . $input_element;
+    }
+    else
+    {
+        $result = $input_element . $connector . $label_thing;
+    }
+    return $result;
 }
 
 // vim: sw=4 ts=4 expandtab
