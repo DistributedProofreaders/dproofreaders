@@ -297,69 +297,56 @@ if (isset($_GET['confirm'])) {
 
     $reportcard .= "\n\n  Level 1 Errors:";
     $reportcard .= "\n\n    All Versions:";
-    if (!$_POST['e1_spellcheck_num'] && !$_POST['e1_gutcheck_num'] && !$_POST['e1_jeebies_num'] && !$_POST['e1_para_num']
-            && !$_POST['e1_hyph_num'] && !$_POST['e1_chap_num'] && !$_POST['e1_format_num'] && !$_POST['e1_xhtml_genother_num']) {
-        $reportcard .= "\n      None";
-    } else {
-        if ($_POST['e1_spellcheck_num'])     $reportcard .= "\n      $_POST[e1_spellcheck_num] Spellcheck/Scanno errors";
-        if ($_POST['e1_gutcheck_num'])       $reportcard .= "\n      $_POST[e1_gutcheck_num] Gutcheck-type errors, e.g. punctuation, hyphen/emdash, missing/extra space, line length, illegal characters, etc.";    
-        if ($_POST['e1_jeebies_num'])        $reportcard .= "\n      $_POST[e1_jeebies_num] Jeebies errors (English only)";  
-        if ($_POST['e1_para_num'])           $reportcard .= "\n      $_POST[e1_para_num] Paragraph breaks missing or incorrectly added";
-        if ($_POST['e1_hyph_num'])           $reportcard .= "\n      $_POST[e1_hyph_num] A few occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)";
-        if ($_POST['e1_chap_num'])           $reportcard .= "\n      $_POST[e1_chap_num] Chapter and other headings inconsistently spaced, aligned, capitalized or punctuated";
-        if ($_POST['e1_format_num'])         $reportcard .= "\n      $_POST[e1_format_num] Formatting inconsistencies (e.g., in margins, blank lines, etc.)";
-        if ($_POST['e1_xhtml_genother_num']) $reportcard .= "\n      $_POST[e1_xhtml_genother_num] Other minor errors (such as a minor rewrap error, misplaced entry in the TN, or minor inconsistency between the text and HTML versions) (Please explain in the Comments Field)";
-    }
+    $reportcard .= report_error_counts(array(
+        'e1_spellcheck_num'     => "Spellcheck/Scanno errors",
+        'e1_gutcheck_num'       => "Gutcheck-type errors, e.g. punctuation, hyphen/emdash, missing/extra space, line length, illegal characters, etc.",    
+        'e1_jeebies_num'        => "Jeebies errors (English only)",  
+        'e1_para_num'           => "Paragraph breaks missing or incorrectly added",
+        'e1_hyph_num'           => "A few occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)",
+        'e1_chap_num'           => "Chapter and other headings inconsistently spaced, aligned, capitalized or punctuated",
+        'e1_format_num'         => "Formatting inconsistencies (e.g., in margins, blank lines, etc.)",
+        'e1_xhtml_genother_num' => "Other minor errors (such as a minor rewrap error, misplaced entry in the TN, or minor inconsistency between the text and HTML versions) (Please explain in the Comments Field)",
+    ));
     $reportcard .= "\n\n    HTML Version Only:";
-    if (!$_POST['e1_unused_num'] && !$_POST['e1_imagesize_num'] && !$_POST['e1_blemish_num'] && !$_POST['e1_distort_num']
-            && !$_POST['e1_alt_num'] && !$_POST['e1_px_num'] && !$_POST['e1_title_num'] && !$_POST['e1_pre_num'] && !$_POST['e1_body_num']
-            && !$_POST['e1_css_num'] && !$_POST['e1_xhtml_num'] && !$_POST['e1_chapter_num'] && !$_POST['e1_xhtml_genhtml_num']
-            && !$_POST['e1_tabl_num']) {
-        $reportcard .= "\n      None";
-    }
-    if ($_POST['e1_unused_num'])         $reportcard .= "\n      $_POST[e1_unused_num] Unused files in images folder (Thumbs.db is not counted toward rating)";
-    if ($_POST['e1_imagesize_num'])      $reportcard .= "\n      $_POST[e1_imagesize_num] Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed the limits described here, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception).";
-    if ($_POST['e1_blemish_num'])        $reportcard .= "\n      $_POST[e1_blemish_num] Images with major blemishes, uncorrected rotation/distortion or without appropriate cropping";
-    if ($_POST['e1_distort_num'])        $reportcard .= "\n      $_POST[e1_distort_num] Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi";
-    if ($_POST['e1_alt_num'])            $reportcard .= "\n      $_POST[e1_alt_num] Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist";
-    if ($_POST['e1_px_num'])             $reportcard .= "\n      $_POST[e1_px_num] Use of px sizing units for items other than images";
-    if ($_POST['e1_title_num'])          $reportcard .= "\n      $_POST[e1_title_num] &lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;The Project Gutenberg eBook of Alice's Adventures in Wonderland, by Lewis Carroll&lt;title&gt; or &lt;title&gt;Alice's Adventures in Wonderland, by Lewis Carroll&mdash;A Project Gutenberg eBook&lt;title&gt;)";
-    if ($_POST['e1_pre_num'])            $reportcard .= "\n      $_POST[e1_pre_num] Use of &lt;pre&gt; tags instead of their CSS equivalents";
-    if ($_POST['e1_body_num'])           $reportcard .= "\n      $_POST[e1_body_num] Failure to place &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;/head&gt;&lt;/body&gt;, and &lt;/html&gt; tags each on their own line and correctly use them";
-    if ($_POST['e1_tabl_num'])           $reportcard .= "\n      $_POST[e1_tabl_num] Use of tables for things that are not tables";
-    if ($_POST['e1_css_num'])            $reportcard .= "\n      $_POST[e1_css_num] Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element)";
-    if ($_POST['e1_xhtml_num'])          $reportcard .= "\n      $_POST[e1_xhtml_num] Used HTML version other than XHTML 1.0 Strict or 1.1";
-    if ($_POST['e1_chapter_num'])        $reportcard .= "\n      $_POST[e1_chapter_num] Failure to add &lt;div class=\"chapter\"&gt; at chapter breaks to enable proper page breaks for ereaders";
-    if ($_POST['e1_xhtml_genhtml_num'])  $reportcard .= "\n      $_POST[e1_xhtml_genhtml_num] Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field)";
+    $reportcard .= report_error_counts(array(
+        'e1_unused_num'         => "Unused files in images folder (Thumbs.db is not counted toward rating)",
+        'e1_imagesize_num'      => "Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed the limits described here, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception).",
+        'e1_blemish_num'        => "Images with major blemishes, uncorrected rotation/distortion or without appropriate cropping",
+        'e1_distort_num'        => "Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi",
+        'e1_alt_num'            => "Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist",
+        'e1_px_num'             => "Use of px sizing units for items other than images",
+        'e1_title_num'          => "&lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;The Project Gutenberg eBook of Alice's Adventures in Wonderland, by Lewis Carroll&lt;title&gt; or &lt;title&gt;Alice's Adventures in Wonderland, by Lewis Carroll&mdash;A Project Gutenberg eBook&lt;title&gt;)",
+        'e1_pre_num'            => "Use of &lt;pre&gt; tags instead of their CSS equivalents",
+        'e1_body_num'           => "Failure to place &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;/head&gt;&lt;/body&gt;, and &lt;/html&gt; tags each on their own line and correctly use them",
+        'e1_tabl_num'           => "Use of tables for things that are not tables",
+        'e1_css_num'            => "Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element)",
+        'e1_xhtml_num'          => "Used HTML version other than XHTML 1.0 Strict or 1.1",
+        'e1_chapter_num'        => "Failure to add &lt;div class=\"chapter\"&gt; at chapter breaks to enable proper page breaks for ereaders",
+        'e1_xhtml_genhtml_num'  => "Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field)",
+    ));
 
     $reportcard .= "\n\n  Level 2 Errors:";
     $reportcard .= "\n\n    All Versions:";
-    if (!$_POST['e2_markup_num'] && !$_POST['e2_poetry_num'] && !$_POST['e2_foot_num'] && !$_POST['e2_printers_num']
-            && !$_POST['e2_missing_num'] && !$_POST['e2_rewrap_num'] && !$_POST['e2_hyphen_num'] && !$_POST['e2_gen_num']) {
-        $reportcard .= "\n      None";
-    } else {
-        if ($_POST['e2_markup_num'])     $reportcard .= "\n      $_POST[e2_markup_num] Markup not handled (e.g., blockquotes, poetry indentation, or widespread failure to mark italics)";
-        if ($_POST['e2_poetry_num'])     $reportcard .= "\n      $_POST[e2_poetry_num] Poetry indentation does not match original";    
-        if ($_POST['e2_foot_num'])       $reportcard .= "\n      $_POST[e2_foot_num] Footnotes/footnote markers missing or incorrectly placed";  
-        if ($_POST['e2_printers_num'])   $reportcard .= "\n      $_POST[e2_printers_num] Printers' errors not addressed";
-        if ($_POST['e2_missing_num'])    $reportcard .= "\n      $_POST[e2_missing_num] Missing page(s) or substantial sections of missing text";
-        if ($_POST['e2_rewrap_num'])     $reportcard .= "\n      $_POST[e2_rewrap_num] Substantial rewrapping errors, e.g., poetry has been rewrapped or text version generally not rewrapped to required length (not exceeding 75 characters or falling below 55 characters) except where unavoidable, e.g., some tables though the aim should be 72 characters";
-        if ($_POST['e2_hyphen_num'])     $reportcard .= "\n      $_POST[e2_hyphen_num] Widespread/general occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)";
-        if ($_POST['e2_gen_num'])        $reportcard .= "\n      $_POST[e2_gen_num] Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field)";
-    }
+    $reportcard .= report_error_counts(array(
+        'e2_markup_num'     => "Markup not handled (e.g., blockquotes, poetry indentation, or widespread failure to mark italics)",
+        'e2_poetry_num'     => "Poetry indentation does not match original",    
+        'e2_foot_num'       => "Footnotes/footnote markers missing or incorrectly placed",  
+        'e2_printers_num'   => "Printers' errors not addressed",
+        'e2_missing_num'    => "Missing page(s) or substantial sections of missing text",
+        'e2_rewrap_num'     => "Substantial rewrapping errors, e.g., poetry has been rewrapped or text version generally not rewrapped to required length (not exceeding 75 characters or falling below 55 characters) except where unavoidable, e.g., some tables though the aim should be 72 characters",
+        'e2_hyphen_num'     => "Widespread/general occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)",
+        'e2_gen_num'        => "Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field)",
+    ));
     $reportcard .= "\n\n    HTML Version Only:";
-    if (!$_POST['e2_tidy_num'] && !$_POST['e2_csscheck_num'] && !$_POST['e2_links_num'] && !$_POST['e2_file_num']
-            && !$_POST['e2_cover_num'] && !$_POST['e2_epub_num'] && !$_POST['e2_heading_num']) {
-        $reportcard .= "\n      None";
-    } else {
-        if ($_POST['e2_tidy_num'])       $reportcard .= "\n      $_POST[e2_tidy_num] The W3C Markup Validation Service generates errors or warning messages (Please enter number of errors)";
-        if ($_POST['e2_csscheck_num'])   $reportcard .= "\n      $_POST[e2_csscheck_num] The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element (Please enter number of errors)";
-        if ($_POST['e2_links_num'])      $reportcard .= "\n      $_POST[e2_links_num] Non-working links within HTML or to images. (Either broken or link to wrong place/file)";
-        if ($_POST['e2_file_num'])       $reportcard .= "\n      $_POST[e2_file_num] File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc.";
-        if ($_POST['e2_cover_num'])      $reportcard .= "\n      $_POST[e2_cover_num] Cover image has not been included and/or has not been coded for e-reader use. (For example, the cover should be 600x800px or at least 500px wide and no more than 800px high and should be called cover.jpg. Also, if the cover is newly created, it must meet current DP guidelines.)";
-        if ($_POST['e2_epub_num'])       $reportcard .= "\n      $_POST[e2_epub_num] Project not presentable/useable when put through epubmaker";
-        if ($_POST['e2_heading_num'])    $reportcard .= "\n      $_POST[e2_heading_num] Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)";
-    }
+    $reportcard .= report_error_counts(array(
+        'e2_tidy_num'       => "The W3C Markup Validation Service generates errors or warning messages (Please enter number of errors)",
+        'e2_csscheck_num'   => "The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element (Please enter number of errors)",
+        'e2_links_num'      => "Non-working links within HTML or to images. (Either broken or link to wrong place/file)",
+        'e2_file_num'       => "File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc.",
+        'e2_cover_num'      => "Cover image has not been included and/or has not been coded for e-reader use. (For example, the cover should be 600x800px or at least 500px wide and no more than 800px high and should be called cover.jpg. Also, if the cover is newly created, it must meet current DP guidelines.)",
+        'e2_epub_num'       => "Project not presentable/useable when put through epubmaker",
+        'e2_heading_num'    => "Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)",
+    ));
 
     $reportcard .= "\n\n  Strongly Recommended (These don't count as errors but should be corrected):";
     if (!isset($_POST['s_multi']) && !isset($_POST['s_empty']) && !isset($_POST['s_list']) && !isset($_POST['s_text'])
@@ -737,6 +724,17 @@ if (isset($_GET['confirm'])) {
                     <input type='submit' value='".attr_safe(_("Submit"))."'></td></tr>
         </table>
     </form>";
+}
+
+function report_error_counts($errors)
+{
+    $result = "";
+    foreach ( $errors as $id => $label )
+    {
+        if ($_POST[$id]) $result .= "\n      {$_POST[$id]} $label";
+    }
+    if ($result == "") $result = "\n      None";
+    return $result;
 }
 
 function _checkbox($id, $label, $checked=FALSE)
