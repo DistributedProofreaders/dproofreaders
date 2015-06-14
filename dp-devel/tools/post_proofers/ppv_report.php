@@ -349,29 +349,23 @@ if (isset($_GET['confirm'])) {
     ));
 
     $reportcard .= "\n\n  Strongly Recommended (These don't count as errors but should be corrected):";
-    if (!isset($_POST['s_multi']) && !isset($_POST['s_empty']) && !isset($_POST['s_list']) && !isset($_POST['s_text'])
-            && !isset($_POST['s_code']) && !isset($_POST['s_tables']) && !isset($_POST['s_th']) && !isset($_POST['s_thumbs'])
-            && !isset($_POST["s_ereader"])) {
-        $reportcard .= "\n    None";
-    } else {
-        if (isset($_POST['s_multi']))     $reportcard .= "\n    Enclose entire multi-part headings within the related heading tag";
-        if (isset($_POST['s_empty']))     $reportcard .= "\n    Avoid using empty tags (with &amp;nbsp; entities) or &lt;br /&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though";
-        if (isset($_POST['s_list']))      $reportcard .= "\n    List Tags should be used for lists (e.g., a normal index)";
-        if (isset($_POST['s_text']))      $reportcard .= "\n    Include all text as text, not just as images";
-        if (isset($_POST['s_code']))      $reportcard .= "\n    Keep your code line lengths reasonable";
-        if (isset($_POST['s_tables']))    $reportcard .= "\n    Tables should display left, right, and center justification and top and bottom align appropriately";
-        if (isset($_POST['s_th']))        $reportcard .= "\n    Tables contain &lt;th&gt; elements for headings";
-        if (isset($_POST['s_thumbs']))    $reportcard .= "\n    Remove thumbs.db file from the images folder";
-        if (isset($_POST['s_ereader']))   $reportcard .= "\n    E-reader version, although without major flaws, should also look as good as possible";
-    }
+    $reportcard .= report_recommendations(array(
+        's_multi'     => "Enclose entire multi-part headings within the related heading tag",
+        's_empty'     => "Avoid using empty tags (with &amp;nbsp; entities) or &lt;br /&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though",
+        's_list'      => "List Tags should be used for lists (e.g., a normal index)",
+        's_text'      => "Include all text as text, not just as images",
+        's_code'      => "Keep your code line lengths reasonable",
+        's_tables'    => "Tables should display left, right, and center justification and top and bottom align appropriately",
+        's_th'        => "Tables contain &lt;th&gt; elements for headings",
+        's_thumbs'    => "Remove thumbs.db file from the images folder",
+        's_ereader'   => "E-reader version, although without major flaws, should also look as good as possible",
+    ));
     $reportcard .= "\n\n  Mildly Recommended (These don't count as errors):";
-    if (!isset($_POST['m_semantic']) && !isset($_POST['m_space']) && !isset($_POST['m_unusedcss'])) {
-        $reportcard .= "\n    None";
-    } else {
-        if (isset($_POST['m_semantic']))  $reportcard .= "\n    Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them";
-        if (isset($_POST['m_space']))     $reportcard .= "\n    Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)";
-        if (isset($_POST['m_unusedcss'])) $reportcard .= "\n    Ensure that there are no unused elements in the CSS (other than the base HTML headings)";
-    }
+    $reportcard .= report_recommendations(array(
+        'm_semantic'  => "Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them",
+        'm_space'     => "Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)",
+        'm_unusedcss' => "Ensure that there are no unused elements in the CSS (other than the base HTML headings)",
+    ));
 
     if(!empty($_POST['general_comments']))
         $reportcard .= "\n\n  General comments:  \n    $_POST[general_comments]";
@@ -734,6 +728,17 @@ function report_error_counts($errors)
         if ($_POST[$id]) $result .= "\n      {$_POST[$id]} $label";
     }
     if ($result == "") $result = "\n      None";
+    return $result;
+}
+
+function report_recommendations($recommendations)
+{
+    $result = "";
+    foreach ( $recommendations as $id => $label )
+    {
+        if (isset($_POST[$id])) $result .= "\n    $label";
+    }
+    if ($result == "") $result = "\n    None";
     return $result;
 }
 
