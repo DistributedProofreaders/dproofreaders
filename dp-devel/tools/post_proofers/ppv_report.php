@@ -6,7 +6,7 @@ include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'Project.inc'); // validate_projectID()
 include_once($relPath.'Stage.inc'); //user_can_work_in_stage()
 include_once($relPath.'project_states.inc'); // get_project_status_descriptor()
-include_once($relPath.'misc.inc');  // javascript_safe()
+include_once($relPath.'misc.inc');  // javascript_safe() array_get
 
 header_remove("Expires");
 header_remove("Cache-Control");
@@ -511,7 +511,7 @@ if (isset($_GET['confirm'])) {
                 </tr>
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>File Information</b></td>
-                        <td><p class='single'><input type='text' size='5' name='kb_size' id='kb_size'>&nbsp;&nbsp;"._("Text File Size in kb (Please do not insert commas. For example, you should input 1450 instead of 1,450 and, if you use commas as decimal marks, 1450.5 instead of 1450,5)")."</p>
+                        <td><p class='single'>"._textbox('kb_size', _("Text File Size in kb (Please do not insert commas. For example, you should input 1450 instead of 1,450 and, if you use commas as decimal marks, 1450.5 instead of 1450,5)"), array('size'=>5)) ."</p>
                     </td>
                 </tr>
                 <tr>
@@ -745,10 +745,10 @@ function _checkbox($id, $label, $checked=FALSE)
     return "<input type='checkbox' name='$id' id='$id'$checked_attr><label for='$id'>$label</label>";
 }
 
-function _textbox($id, $label)
+function _textbox($id, $label, $options=array())
 {
-    return "<input type='text' size='3' name='$id' id='$id'>&nbsp;&nbsp;$label";
-
+    $size = array_get($options, 'size', 3);
+    return "<input type='text' size='$size' name='$id' id='$id'>&nbsp;&nbsp;$label";
 }
 
 // vim: sw=4 ts=4 expandtab
