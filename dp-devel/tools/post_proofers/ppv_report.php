@@ -15,6 +15,19 @@ require_login();
 
 $projectid = validate_projectID('project', @$_REQUEST['project']);
 
+define('SHOW_BLANK_ENTRY_FORM',        'SHOW_BLANK_ENTRY_FORM');
+define('HANDLE_ENTRY_FORM_SUBMISSION', 'HANDLE_ENTRY_FORM_SUBMISSION');
+define('SEND_OUT_REPORTCARD',          'SEND_OUT_REPORTCARD');
+
+if (isset($_GET['confirm']))
+    $action = HANDLE_ENTRY_FORM_SUBMISSION;
+else if (isset($_GET['send']))
+    $action = SEND_OUT_REPORTCARD;
+else
+    $action = SHOW_BLANK_ENTRY_FORM;
+
+// -------------------------------------
+
 $theme_args['js_data'] = "
 function grow_textarea(textarea_id)
 {
@@ -129,7 +142,8 @@ if (mysql_num_rows($result) != 0)
 }
 mysql_free_result($result);
 
-if (isset($_GET['confirm'])) {
+if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
+{
     function number_of_errors_allowed($size_per) {
         $project_size = $_POST["kb_size"];
         if ($project_size <= $size_per)
@@ -387,7 +401,9 @@ if (isset($_GET['confirm'])) {
     if (isset($_POST['cc_ppv']))
         echo "<input type='hidden' name='cc_ppv'/>";
     echo "<input type='submit' value='".attr_safe(_("Send"))."'></form>";
-} else if (isset($_GET['send'])) {
+}
+else if ($action == SEND_OUT_REPORTCARD)
+{
     $pper = mysql_fetch_object(mysql_query("SELECT email, u_intlang FROM users WHERE username = '$project->postproofer'"));
     $ppver = mysql_fetch_object(mysql_query("SELECT email, u_intlang FROM users WHERE username = '$pguser'"));
     if (get_magic_quotes_gpc())
@@ -436,7 +452,9 @@ if (isset($_GET['confirm'])) {
     maybe_mail($to, $subject, $message, array("From: $pguser <$ppver->email>"));
     printf(_("Return to <a href='%s'>the Project Page</a>"), "../../project.php?id=$projectid");
     exit();
-} else {
+}
+else if ($action == SHOW_BLANK_ENTRY_FORM)
+{
     function textarea_size_control($id)
     {
         return "<br /><div class='shrinker'><a onclick='grow_textarea(\"$id\")'>+</a>&nbsp;<a onclick='shrink_textarea(\"$id\")'>&minus;</a></div>";
@@ -718,6 +736,10 @@ if (isset($_GET['confirm'])) {
                     <input type='submit' value='".attr_safe(_("Submit"))."'></td></tr>
         </table>
     </form>";
+}
+else
+{
+    assert(FALSE);
 }
 
 function report_error_counts($errors)
