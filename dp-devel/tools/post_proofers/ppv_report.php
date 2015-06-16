@@ -144,6 +144,43 @@ mysql_free_result($result);
 
 if ($action == SHOW_BLANK_ENTRY_FORM)
 {
+
+    function _checkbox($id, $label, $checked=FALSE)
+    {
+        $checked_attr = ($checked ? ' checked': '');
+        return "<input type='checkbox' name='$id' id='$id'$checked_attr><label for='$id'>$label</label>";
+    }
+
+    function _textbox($id, $label, $options=array())
+    {
+        $size = array_get($options, 'size', 3);
+        $use_a_label_element = array_get($options, 'use_a_label_element', FALSE);
+        $put_label_on_left = array_get($options, 'put_label_on_left', FALSE);
+
+        $input_element = "<input type='text' size='$size' name='$id' id='$id'>";
+
+        if ($use_a_label_element)
+        {
+            $label_thing = "<label for='$id'>$label</label>";
+            $connector = " ";
+        }
+        else
+        {
+            $label_thing = $label;
+            $connector = "&nbsp;&nbsp;";
+        }
+
+        if ($put_label_on_left)
+        {
+            $result = $label_thing . $connector . $input_element;
+        }
+        else
+        {
+            $result = $input_element . $connector . $label_thing;
+        }
+        return $result;
+    }
+
     function textarea_size_control($id)
     {
         return "<br /><div class='shrinker'><a onclick='grow_textarea(\"$id\")'>+</a>&nbsp;<a onclick='shrink_textarea(\"$id\")'>&minus;</a></div>";
@@ -771,42 +808,6 @@ function report_comments($comments)
     {
         if (!empty($_POST[$id]))
             $result .= "\n\n  $label:\n    {$_POST[$id]}";
-    }
-    return $result;
-}
-
-function _checkbox($id, $label, $checked=FALSE)
-{
-    $checked_attr = ($checked ? ' checked': '');
-    return "<input type='checkbox' name='$id' id='$id'$checked_attr><label for='$id'>$label</label>";
-}
-
-function _textbox($id, $label, $options=array())
-{
-    $size = array_get($options, 'size', 3);
-    $use_a_label_element = array_get($options, 'use_a_label_element', FALSE);
-    $put_label_on_left = array_get($options, 'put_label_on_left', FALSE);
-
-    $input_element = "<input type='text' size='$size' name='$id' id='$id'>";
-
-    if ($use_a_label_element)
-    {
-        $label_thing = "<label for='$id'>$label</label>";
-        $connector = " ";
-    }
-    else
-    {
-        $label_thing = $label;
-        $connector = "&nbsp;&nbsp;";
-    }
-
-    if ($put_label_on_left)
-    {
-        $result = $label_thing . $connector . $input_element;
-    }
-    else
-    {
-        $result = $input_element . $connector . $label_thing;
     }
     return $result;
 }
