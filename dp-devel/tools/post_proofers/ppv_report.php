@@ -142,7 +142,291 @@ if (mysql_num_rows($result) != 0)
 }
 mysql_free_result($result);
 
-if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
+if ($action == SHOW_BLANK_ENTRY_FORM)
+{
+    function textarea_size_control($id)
+    {
+        return "<br /><div class='shrinker'><a onclick='grow_textarea(\"$id\")'>+</a>&nbsp;<a onclick='shrink_textarea(\"$id\")'>&minus;</a></div>";
+    }
+
+    echo "<br />
+          <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;confirm=1' name='ppvform' method='post'>
+          <table border='1' id='report_card' style='width: 95%'>
+
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>"._("Project Information")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Project ID")."</b></td>
+                    <td><input type='hidden' name='projectid' value='$projectid'>$projectid</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Name of Work")."</b></td>
+                    <td>$nameofwork</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Author's Name")."</b></td>
+                    <td>$authorsname</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Language")."</b></td>
+                    <td>$language</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Difficulty")."</b></td>
+                    <td>$difficulty_level</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Pages")."</b></td>
+                    <td>$pages</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Post-Processed by")."</b></td>
+                    <td>$project->postproofer<br>
+                    " . sprintf(_("Number of books post-processed by %1\$s (including this one): %2\$d"),
+                            $project->postproofer, $number_post_processed) . "</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Submitted by PP on")."</b></td>
+                    <td>$pp_date</td>
+                </tr>
+
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>"._("General Information")."</td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("Difficulty Details")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>File Information</b></td>
+                        <td><p class='single'>"._textbox('kb_size', _("Text File Size in kb (Please do not insert commas. For example, you should input 1450 instead of 1,450 and, if you use commas as decimal marks, 1450.5 instead of 1450,5)"), array('size'=>5)) ."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Present in the text")."</b></td>
+                    <td>
+                        "._checkbox('some_poetry',   _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_poetry', _("Significant Amount")) ." &mdash; "._("Poetry (other than straight poetry)")."<br />
+                        "._checkbox('some_block',    _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_block',  _("Significant Amount")) ." &mdash; "._("Blockquotes")."<br />
+                        "._checkbox('some_foot',     _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_foot',   _("Significant Amount")) ." &mdash; "._("Footnotes")."<br />
+                        "._checkbox('some_side',     _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_side',   _("Significant Amount")) ." &mdash; "._("Sidenotes")."<br />
+                        "._checkbox('some_ads',      _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_ads',    _("Significant Amount")) ." &mdash; "._("Advertisements")."<br />
+                        "._checkbox('some_tables',   _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_tables', _("Significant Amount")) ." &mdash; "._("Tables")."<br />
+                        "._checkbox('some_drama',    _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_drama',  _("Significant Amount")) ." &mdash; "._("Drama")."<br />
+                        "._checkbox('some_index',    _("Small")) ."&nbsp;&nbsp;"._checkbox('sig_index',  _("Significant Size"))   ." &mdash; "._("Index")."<br />
+                        "._checkbox('some_illos',    _("Illustrations (other than minor decorations or logos):")) ." "
+                            ._textbox('num_illos', _("(Number of)"), array('use_a_label_element'=>TRUE, 'put_label_on_left'=>TRUE)) ."<br />
+                        "._checkbox('sig_illos',     _("Illustrations requiring advanced preparation and/or difficult placement")) ."<br />
+                        "._checkbox('sig_multilang', _("Multiple Languages")) ." <a href='#languages'>*</a><br />
+                        "._checkbox('sig_englifh',   _("Englifh")) ."<br />
+                        "._checkbox('sig_music',     _("Musical Notation and Files")) ."<br />
+                        "._checkbox('sig_math',      _("Extensive mathematical/chemical notation")) ."<br />
+                    </td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'></td>
+                    <td>
+                        <a id='languages'>*</a><b> "._("How to define multiple languages:")."</b><br />
+                        <ul>
+                            <li>"._("If the book is English on one page and Latin on the facing page, it counts as multiple languages.")."</li>
+                            <li>"._("If the author is travelling and repeatedly reports conversations in the foreign language of the country, it counts as multiple languages.")."</li>
+                            <li>"._("If extensive (several long paragraphs or more) quotations in a language other than the base language are present, it counts as multiple languages.")."</li>
+                            <li>"._("If the Frenchman in the novel says \"Zut!\" a lot, it does NOT count as multiple languages.")."</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("ERRORS")."</td>
+                </tr>
+                <tr>
+                    <td colspan='2'><div style='margin-left:5%;margin-right:5%;'>
+                        <p>"._("Errors such as failure to grasp the italics guidelines are counted as one error, not one error each time italics are wrongly handled. Errors such as he/be errors are each counted as individual errors (i.e., 3 \"he\" instead of \"be\" count as 3 errors).")."</p>
+                        <p>"._("If the PPer is asked to resubmit a corrected file, then any errors not corrected or new errors introduced are added to the total number of errors for rating purposes.")."</p></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("LEVEL 1 (Minor Errors)")."</td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("All Versions")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
+                    <td>
+                        <p class='single'>"._textbox('e1_spellcheck_num',     _("Spellcheck/Scanno errors")) ."</p>
+                        <p class='single'>"._textbox('e1_gutcheck_num',       _("Gutcheck-type errors, e.g. punctuation, hyphen/emdash, missing/extra space, line length, illegal characters, etc.")) ."</p>
+                        <p class='single'>"._textbox('e1_jeebies_num',        _("Jeebies errors (English only)")) ."</p>
+                        <p class='single'>"._textbox('e1_para_num',           _("Paragraph breaks missing or incorrectly added")) ."</p>
+                        <p class='single'>"._textbox('e1_hyph_num',           _("A few occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)")) ."</p>
+                        <p class='single'>"._textbox('e1_chap_num',           _("Chapter and other headings inconsistently spaced, aligned, capitalized or punctuated")) ."</p>
+                        <p class='single'>"._textbox('e1_format_num',         _("Formatting inconsistencies (e.g., in margins, blank lines, etc.)")) ."</p>
+                        <p class='single'>"._textbox('e1_xhtml_genother_num', _("Other minor errors (such as a minor rewrap error, misplaced entry in the TN, or minor inconsistency between the text and HTML versions) (Please explain in the Comments Field)")) ."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("HTML Version Only")."</td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("Images")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
+                    <td>
+                        <p class='single'>"._textbox('e1_unused_num',    _("Unused files in images folder (Thumbs.db is not counted toward rating)")) ."</p>
+                        <p class='single'>"._textbox('e1_imagesize_num', _("Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed the limits described <a href='http://www.pgdp.net/wiki/Guide_to_Image_Processing#Image_Display_Dimensions:_Considerations'>here</a>, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception).")) ."</p>
+                        <p class='single'>"._textbox('e1_blemish_num',   _("Images with major blemishes, uncorrected rotation/distortion or without appropriate cropping")) ."</p>
+                        <p class='single'>"._textbox('e1_distort_num',   _("Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi")) ."</p>
+                        <p class='single'>"._textbox('e1_alt_num',       _("Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist")) ."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("HTML Code")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
+                    <td>
+                        <p class='single'>"._textbox('e1_px_num',            _("Use of px sizing units for items other than images")) ."</p>
+                        <p class='single'>"._textbox('e1_title_num',         _("&lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;The Project Gutenberg eBook of Alice's Adventures in Wonderland, by Lewis Carroll&lt;/title&gt; or &lt;title&gt;Alice's Adventures in Wonderland, by Lewis Carroll&mdash;A Project Gutenberg eBook&lt;/title&gt;)")) ."</p>
+                        <p class='single'>"._textbox('e1_pre_num',           _("Use of &lt;pre&gt; tags instead of their CSS equivalents")) ."</p>
+                        <p class='single'>"._textbox('e1_body_num',          _("Failure to place &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;/head&gt;&lt;/body&gt;, and &lt;/html&gt; tags each on their own line and correctly use them")) ."</p>
+                        <p class='single'>"._textbox('e1_tabl_num',          _("Use of tables for things that are not tables")) ."</p>
+                        <p class='single'>"._textbox('e1_css_num',           _("Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element)")) ."</p>
+                        <p class='single'>"._textbox('e1_xhtml_num',         _("Used HTML version other than XHTML 1.0 Strict or 1.1")) ."</p>
+                        <p class='single'>"._textbox('e1_chapter_num',       _("Failure to add &lt;div class=\"chapter\"&gt; at chapter breaks to enable proper page breaks for ereaders")) ."</p>
+                        <p class='single'>"._textbox('e1_xhtml_genhtml_num', _("Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field)")) ."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("LEVEL 2 (Major Errors)")."</td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("All Versions")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
+                    <td>
+                        <p class='single'>"._textbox('e2_markup_num',   _("Markup not handled (e.g. blockquotes, poetry indentation, or widespread failure to mark italics)")) ."</p>
+                        <p class='single'>"._textbox('e2_poetry_num',   _("Poetry indentation does not match original")) ."</p>
+                        <p class='single'>"._textbox('e2_foot_num',     _("Footnotes/footnote markers missing or incorrectly placed")) ."</p>
+                        <p class='single'>"._textbox('e2_printers_num', _("Printers' errors not addressed")) ." <a href='#print'>**</a></p>
+                        <p class='single'>"._textbox('e2_missing_num',  _("Missing page(s) or substantial sections of missing text")) ."</p>
+                        <p class='single'>"._textbox('e2_rewrap_num',   _("Substantial rewrapping errors, e.g., poetry has been rewrapped or text version generally not rewrapped to required length (not exceeding 75 characters or falling below 55 characters) except where unavoidable, e.g., some tables though the aim should be 72 characters")) ."</p>
+                        <p class='single'>"._textbox('e2_hyphen_num',   _("Widespread/general occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)")) ."</p>
+                        <p class='single'>"._textbox('e2_gen_num',      _("Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field)")) ."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'></td>
+                    <td>
+                        <p><a id='print'>**</a><b> "._("Printers' Errors and Transcriber's Note")."</b>:
+                        <p>"._("Obvious printers' errors should be addressed in one, or a combination, of the following ways:")."</p>
+                        <ul>
+                            <li>"._("Correct silently and state in the Transcriber's Note that all such errors have been corrected silently.")."</li>
+                            <li>"._("Correct all such errors and note them in Transcriber's Note")."</li>
+                            <li>"._("Leave uncorrected and state in the Transcriber's Note that at all such errors were left uncorrected.")."</li>
+                        </ul>
+                        <p>"._("\"Not addressing printers' errors\" means that all, or a large percentage, of printers' errors have been left uncorrected and not noted. If just one or two have been missed, and the rest addressed, then those missed would instead be counted as the relevant type of error (spellcheck, gutcheck, etc.). Anything that could make a reader think an error has been made in the transcription should be mentioned in the Transcriber's Note.")."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("HTML Version Only")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
+                    <td>
+                        <p class='single'>"._textbox('e2_tidy_num',     _("The W3C Markup Validation Service generates errors or warning messages (Please enter number of errors)")) ."</p>
+                        <p class='single'>"._textbox('e2_csscheck_num', _("The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element (Please enter number of errors)")) ."</p>
+                        <p class='single'>"._textbox('e2_links_num',    _("Non-working links within HTML or to images. (Either broken or link to wrong place/file)")) ."</p>
+                        <p class='single'>"._textbox('e2_file_num',     _("File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc.")) ."</p>
+                        <p class='single'>"._textbox('e2_cover_num',    _("Cover image has not been included and/or has not been coded for e-reader use. (For example, the cover should be 600x800px or at least 500px wide and no more than 800px high and should be called cover.jpg. Also, if the cover is newly created, it must meet <a href='http://www.pgdp.net/wiki/PP_guide_to_cover_pages#DP_policy'>current DP guidelines</a>.)")) ."</p>
+                        <p class='single'>"._textbox('e2_epub_num',     _("Project not presentable/useable when put through epubmaker")) ." <a href='#ereader'>***</a></p>
+                        <p class='single'>"._textbox('e2_heading_num',  _("Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)")) ."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'></td>
+                    <td>
+                        <p><a id='ereader'><b>*** "._("Checking E-reader Versions")."</b></a></p>
+                        <p>"._("It doesn't take long to look through the pages of the epub and mobi versions using the <a href='http://www.pgdp.net/wiki/Easy_Epub/Viewing#I_don.27t_have_an_e-reader.21'>suggested emulators</a>. Here are some problem areas to look for:")."</p>
+                        <p><b>"._("Front and End of Book")."</b></p>
+                        <ul>
+                            <li>"._("TOC")."</li>
+                            <li>"._("Title page layout")."</li>
+                        </ul>
+                        <p><b>"._("Body of Book")."</b></p>
+                        <ul>
+                            <li>"._("Horizontal rules")."</li>
+                            <li>"._("Obscured sections within the book such that text covers other text or blank areas occur where text should be")."</li>
+                            <li>"._("Poetry")."</li>
+                            <li>"._("Dropcaps")."</li>
+                            <li>"._("If hovers were used in the HTML, all important \"hovered\" information should be present and readable in a non-hovered way within the e-reader version. Also Transcriber's Notes referring to hovers should be hidden in the e-reader version.")."</li>
+                            <li>"._("Headings")."</li>
+                            <li>"._("Blockquotes")."</li>
+                            <li>"._("Page numbers (if present)")."</li>
+                            <li>"._("Sidenotes")."</li>
+                            <li>"._("Margins")."</li>
+                            <li>"._("Tables")."</li>
+                            <li>"._("Illustrations")."</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("STRONGLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, but the PPer should be counselled to correct any problems)")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Occurrence")."</b></td>
+                    <td>
+                        <p class='single2'>"._checkbox('s_multi', _("Enclose entire multi-part headings within the related heading tag")) ."</p>
+                        <p class='single2'>"._checkbox('s_empty', _("Avoid using empty tags (with &amp;nbsp; entities) or &lt;br /&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though")) ."</p>
+                        <p class='single2'>"._checkbox('s_list', _("List Tags should be used for lists (e.g., a normal index)")) ."</p>
+                        <p class='single2'>"._checkbox('s_text', _("Include all text as text, not just as images")) ."</p>
+                        <p class='single2'>"._checkbox('s_code', _("Keep your code line lengths reasonable")) ."</p>
+                        <p class='single2'>"._checkbox('s_tables', _("Tables should display left, right, and center justification and top and bottom align appropriately")) ."</p>
+                        <p class='single2'>"._checkbox('s_th', _("Tables contain &lt;th&gt; elements for headings")) ."</p>
+                        <p class='single2'>"._checkbox('s_thumbs', _("Remove thumbs.db file from the images folder")) ."</p>
+                        <p class='single2'>"._checkbox('s_ereader', _("E-reader version, although without major flaws, should also look as good as possible")) ."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("MILDLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, and any corrections are solely at the discretion of the PPVer and PPer)")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Occurrence")."</b></td>
+                    <td>
+                        <p class='single2'>"._checkbox('m_semantic', _("Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them")) ."</p>
+                        <p class='single2'>"._checkbox('m_space', _("Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)")) ."</p>
+                        <p class='single2'>"._checkbox('m_unusedcss', _("Ensure that there are no unused elements in the CSS (other than the base HTML headings)")) ."</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("COMMENTS")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'>
+                        <b>"._("Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)")."</b>
+                    </td>
+                    <td><textarea rows='4' cols='67' name='reason_returned' id='reason_returned' wrap='hard'></textarea>".textarea_size_control('reason_returned')."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>" . _("General comments on this project or your experience working with this PPer."). "</b></td>
+                    <td><textarea rows='4' cols='67' name='general_comments' id='general_comments' wrap='hard'></textarea>".textarea_size_control('general_comments')."</td>
+                </tr>
+
+                <tr>
+                    <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>"._("Copies")."</td>
+                </tr>
+                <tr>
+                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Send to")."</b></td>
+                    <td>"._checkbox('cc_ppv', _("Me")) ."<br />
+                            ". _checkbox('cc_pp', $project->postproofer, TRUE) ."<br />
+                            <input type='checkbox' name='foo' checked disabled>"._("PPV Summary (mailing list)")."
+                    </td>
+                </tr>
+                <tr><td colspan='2' style='text-align: center'>
+                    <input type='submit' value='".attr_safe(_("Submit"))."'></td></tr>
+        </table>
+    </form>";
+}
+else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
 {
     function number_of_errors_allowed($size_per) {
         $project_size = $_POST["kb_size"];
@@ -452,290 +736,6 @@ else if ($action == SEND_OUT_REPORTCARD)
     maybe_mail($to, $subject, $message, array("From: $pguser <$ppver->email>"));
     printf(_("Return to <a href='%s'>the Project Page</a>"), "../../project.php?id=$projectid");
     exit();
-}
-else if ($action == SHOW_BLANK_ENTRY_FORM)
-{
-    function textarea_size_control($id)
-    {
-        return "<br /><div class='shrinker'><a onclick='grow_textarea(\"$id\")'>+</a>&nbsp;<a onclick='shrink_textarea(\"$id\")'>&minus;</a></div>";
-    }
-
-    echo "<br />
-          <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;confirm=1' name='ppvform' method='post'>
-          <table border='1' id='report_card' style='width: 95%'>
-
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>"._("Project Information")."</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Project ID")."</b></td>
-                    <td><input type='hidden' name='projectid' value='$projectid'>$projectid</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Name of Work")."</b></td>
-                    <td>$nameofwork</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Author's Name")."</b></td>
-                    <td>$authorsname</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Language")."</b></td>
-                    <td>$language</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Difficulty")."</b></td>
-                    <td>$difficulty_level</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Pages")."</b></td>
-                    <td>$pages</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Post-Processed by")."</b></td>
-                    <td>$project->postproofer<br>
-                    " . sprintf(_("Number of books post-processed by %1\$s (including this one): %2\$d"),
-                            $project->postproofer, $number_post_processed) . "</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Submitted by PP on")."</b></td>
-                    <td>$pp_date</td>
-                </tr>
-
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>"._("General Information")."</td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("Difficulty Details")."</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>File Information</b></td>
-                        <td><p class='single'>"._textbox('kb_size', _("Text File Size in kb (Please do not insert commas. For example, you should input 1450 instead of 1,450 and, if you use commas as decimal marks, 1450.5 instead of 1450,5)"), array('size'=>5)) ."</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Present in the text")."</b></td>
-                    <td>
-                        "._checkbox('some_poetry',   _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_poetry', _("Significant Amount")) ." &mdash; "._("Poetry (other than straight poetry)")."<br />
-                        "._checkbox('some_block',    _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_block',  _("Significant Amount")) ." &mdash; "._("Blockquotes")."<br />
-                        "._checkbox('some_foot',     _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_foot',   _("Significant Amount")) ." &mdash; "._("Footnotes")."<br />
-                        "._checkbox('some_side',     _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_side',   _("Significant Amount")) ." &mdash; "._("Sidenotes")."<br />
-                        "._checkbox('some_ads',      _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_ads',    _("Significant Amount")) ." &mdash; "._("Advertisements")."<br />
-                        "._checkbox('some_tables',   _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_tables', _("Significant Amount")) ." &mdash; "._("Tables")."<br />
-                        "._checkbox('some_drama',    _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_drama',  _("Significant Amount")) ." &mdash; "._("Drama")."<br />
-                        "._checkbox('some_index',    _("Small")) ."&nbsp;&nbsp;"._checkbox('sig_index',  _("Significant Size"))   ." &mdash; "._("Index")."<br />
-                        "._checkbox('some_illos',    _("Illustrations (other than minor decorations or logos):")) ." "
-                            ._textbox('num_illos', _("(Number of)"), array('use_a_label_element'=>TRUE, 'put_label_on_left'=>TRUE)) ."<br />
-                        "._checkbox('sig_illos',     _("Illustrations requiring advanced preparation and/or difficult placement")) ."<br />
-                        "._checkbox('sig_multilang', _("Multiple Languages")) ." <a href='#languages'>*</a><br />
-                        "._checkbox('sig_englifh',   _("Englifh")) ."<br />
-                        "._checkbox('sig_music',     _("Musical Notation and Files")) ."<br />
-                        "._checkbox('sig_math',      _("Extensive mathematical/chemical notation")) ."<br />
-                    </td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'></td>
-                    <td>
-                        <a id='languages'>*</a><b> "._("How to define multiple languages:")."</b><br />
-                        <ul>
-                            <li>"._("If the book is English on one page and Latin on the facing page, it counts as multiple languages.")."</li>
-                            <li>"._("If the author is travelling and repeatedly reports conversations in the foreign language of the country, it counts as multiple languages.")."</li>
-                            <li>"._("If extensive (several long paragraphs or more) quotations in a language other than the base language are present, it counts as multiple languages.")."</li>
-                            <li>"._("If the Frenchman in the novel says \"Zut!\" a lot, it does NOT count as multiple languages.")."</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("ERRORS")."</td>
-                </tr>
-                <tr>
-                    <td colspan='2'><div style='margin-left:5%;margin-right:5%;'>
-                        <p>"._("Errors such as failure to grasp the italics guidelines are counted as one error, not one error each time italics are wrongly handled. Errors such as he/be errors are each counted as individual errors (i.e., 3 \"he\" instead of \"be\" count as 3 errors).")."</p>
-                        <p>"._("If the PPer is asked to resubmit a corrected file, then any errors not corrected or new errors introduced are added to the total number of errors for rating purposes.")."</p></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("LEVEL 1 (Minor Errors)")."</td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("All Versions")."</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
-                    <td>
-                        <p class='single'>"._textbox('e1_spellcheck_num',     _("Spellcheck/Scanno errors")) ."</p>
-                        <p class='single'>"._textbox('e1_gutcheck_num',       _("Gutcheck-type errors, e.g. punctuation, hyphen/emdash, missing/extra space, line length, illegal characters, etc.")) ."</p>
-                        <p class='single'>"._textbox('e1_jeebies_num',        _("Jeebies errors (English only)")) ."</p>
-                        <p class='single'>"._textbox('e1_para_num',           _("Paragraph breaks missing or incorrectly added")) ."</p>
-                        <p class='single'>"._textbox('e1_hyph_num',           _("A few occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)")) ."</p>
-                        <p class='single'>"._textbox('e1_chap_num',           _("Chapter and other headings inconsistently spaced, aligned, capitalized or punctuated")) ."</p>
-                        <p class='single'>"._textbox('e1_format_num',         _("Formatting inconsistencies (e.g., in margins, blank lines, etc.)")) ."</p>
-                        <p class='single'>"._textbox('e1_xhtml_genother_num', _("Other minor errors (such as a minor rewrap error, misplaced entry in the TN, or minor inconsistency between the text and HTML versions) (Please explain in the Comments Field)")) ."</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("HTML Version Only")."</td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("Images")."</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
-                    <td>
-                        <p class='single'>"._textbox('e1_unused_num',    _("Unused files in images folder (Thumbs.db is not counted toward rating)")) ."</p>
-                        <p class='single'>"._textbox('e1_imagesize_num', _("Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed the limits described <a href='http://www.pgdp.net/wiki/Guide_to_Image_Processing#Image_Display_Dimensions:_Considerations'>here</a>, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception).")) ."</p>
-                        <p class='single'>"._textbox('e1_blemish_num',   _("Images with major blemishes, uncorrected rotation/distortion or without appropriate cropping")) ."</p>
-                        <p class='single'>"._textbox('e1_distort_num',   _("Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi")) ."</p>
-                        <p class='single'>"._textbox('e1_alt_num',       _("Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist")) ."</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("HTML Code")."</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
-                    <td>
-                        <p class='single'>"._textbox('e1_px_num',            _("Use of px sizing units for items other than images")) ."</p>
-                        <p class='single'>"._textbox('e1_title_num',         _("&lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;The Project Gutenberg eBook of Alice's Adventures in Wonderland, by Lewis Carroll&lt;/title&gt; or &lt;title&gt;Alice's Adventures in Wonderland, by Lewis Carroll&mdash;A Project Gutenberg eBook&lt;/title&gt;)")) ."</p>
-                        <p class='single'>"._textbox('e1_pre_num',           _("Use of &lt;pre&gt; tags instead of their CSS equivalents")) ."</p>
-                        <p class='single'>"._textbox('e1_body_num',          _("Failure to place &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;/head&gt;&lt;/body&gt;, and &lt;/html&gt; tags each on their own line and correctly use them")) ."</p>
-                        <p class='single'>"._textbox('e1_tabl_num',          _("Use of tables for things that are not tables")) ."</p>
-                        <p class='single'>"._textbox('e1_css_num',           _("Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element)")) ."</p>
-                        <p class='single'>"._textbox('e1_xhtml_num',         _("Used HTML version other than XHTML 1.0 Strict or 1.1")) ."</p>
-                        <p class='single'>"._textbox('e1_chapter_num',       _("Failure to add &lt;div class=\"chapter\"&gt; at chapter breaks to enable proper page breaks for ereaders")) ."</p>
-                        <p class='single'>"._textbox('e1_xhtml_genhtml_num', _("Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field)")) ."</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("LEVEL 2 (Major Errors)")."</td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("All Versions")."</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
-                    <td>
-                        <p class='single'>"._textbox('e2_markup_num',   _("Markup not handled (e.g. blockquotes, poetry indentation, or widespread failure to mark italics)")) ."</p>
-                        <p class='single'>"._textbox('e2_poetry_num',   _("Poetry indentation does not match original")) ."</p>
-                        <p class='single'>"._textbox('e2_foot_num',     _("Footnotes/footnote markers missing or incorrectly placed")) ."</p>
-                        <p class='single'>"._textbox('e2_printers_num', _("Printers' errors not addressed")) ." <a href='#print'>**</a></p>
-                        <p class='single'>"._textbox('e2_missing_num',  _("Missing page(s) or substantial sections of missing text")) ."</p>
-                        <p class='single'>"._textbox('e2_rewrap_num',   _("Substantial rewrapping errors, e.g., poetry has been rewrapped or text version generally not rewrapped to required length (not exceeding 75 characters or falling below 55 characters) except where unavoidable, e.g., some tables though the aim should be 72 characters")) ."</p>
-                        <p class='single'>"._textbox('e2_hyphen_num',   _("Widespread/general occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)")) ."</p>
-                        <p class='single'>"._textbox('e2_gen_num',      _("Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field)")) ."</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'></td>
-                    <td>
-                        <p><a id='print'>**</a><b> "._("Printers' Errors and Transcriber's Note")."</b>:
-                        <p>"._("Obvious printers' errors should be addressed in one, or a combination, of the following ways:")."</p>
-                        <ul>
-                            <li>"._("Correct silently and state in the Transcriber's Note that all such errors have been corrected silently.")."</li>
-                            <li>"._("Correct all such errors and note them in Transcriber's Note")."</li>
-                            <li>"._("Leave uncorrected and state in the Transcriber's Note that at all such errors were left uncorrected.")."</li>
-                        </ul>
-                        <p>"._("\"Not addressing printers' errors\" means that all, or a large percentage, of printers' errors have been left uncorrected and not noted. If just one or two have been missed, and the rest addressed, then those missed would instead be counted as the relevant type of error (spellcheck, gutcheck, etc.). Anything that could make a reader think an error has been made in the transcription should be mentioned in the Transcriber's Note.")."</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("HTML Version Only")."</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
-                    <td>
-                        <p class='single'>"._textbox('e2_tidy_num',     _("The W3C Markup Validation Service generates errors or warning messages (Please enter number of errors)")) ."</p>
-                        <p class='single'>"._textbox('e2_csscheck_num', _("The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element (Please enter number of errors)")) ."</p>
-                        <p class='single'>"._textbox('e2_links_num',    _("Non-working links within HTML or to images. (Either broken or link to wrong place/file)")) ."</p>
-                        <p class='single'>"._textbox('e2_file_num',     _("File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc.")) ."</p>
-                        <p class='single'>"._textbox('e2_cover_num',    _("Cover image has not been included and/or has not been coded for e-reader use. (For example, the cover should be 600x800px or at least 500px wide and no more than 800px high and should be called cover.jpg. Also, if the cover is newly created, it must meet <a href='http://www.pgdp.net/wiki/PP_guide_to_cover_pages#DP_policy'>current DP guidelines</a>.)")) ."</p>
-                        <p class='single'>"._textbox('e2_epub_num',     _("Project not presentable/useable when put through epubmaker")) ." <a href='#ereader'>***</a></p>
-                        <p class='single'>"._textbox('e2_heading_num',  _("Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)")) ."</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'></td>
-                    <td>
-                        <p><a id='ereader'><b>*** "._("Checking E-reader Versions")."</b></a></p>
-                        <p>"._("It doesn't take long to look through the pages of the epub and mobi versions using the <a href='http://www.pgdp.net/wiki/Easy_Epub/Viewing#I_don.27t_have_an_e-reader.21'>suggested emulators</a>. Here are some problem areas to look for:")."</p>
-                        <p><b>"._("Front and End of Book")."</b></p>
-                        <ul>
-                            <li>"._("TOC")."</li>
-                            <li>"._("Title page layout")."</li>
-                        </ul>
-                        <p><b>"._("Body of Book")."</b></p>
-                        <ul>
-                            <li>"._("Horizontal rules")."</li>
-                            <li>"._("Obscured sections within the book such that text covers other text or blank areas occur where text should be")."</li>
-                            <li>"._("Poetry")."</li>
-                            <li>"._("Dropcaps")."</li>
-                            <li>"._("If hovers were used in the HTML, all important \"hovered\" information should be present and readable in a non-hovered way within the e-reader version. Also Transcriber's Notes referring to hovers should be hidden in the e-reader version.")."</li>
-                            <li>"._("Headings")."</li>
-                            <li>"._("Blockquotes")."</li>
-                            <li>"._("Page numbers (if present)")."</li>
-                            <li>"._("Sidenotes")."</li>
-                            <li>"._("Margins")."</li>
-                            <li>"._("Tables")."</li>
-                            <li>"._("Illustrations")."</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("STRONGLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, but the PPer should be counselled to correct any problems)")."</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Occurrence")."</b></td>
-                    <td>
-                        <p class='single2'>"._checkbox('s_multi', _("Enclose entire multi-part headings within the related heading tag")) ."</p>
-                        <p class='single2'>"._checkbox('s_empty', _("Avoid using empty tags (with &amp;nbsp; entities) or &lt;br /&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though")) ."</p>
-                        <p class='single2'>"._checkbox('s_list', _("List Tags should be used for lists (e.g., a normal index)")) ."</p>
-                        <p class='single2'>"._checkbox('s_text', _("Include all text as text, not just as images")) ."</p>
-                        <p class='single2'>"._checkbox('s_code', _("Keep your code line lengths reasonable")) ."</p>
-                        <p class='single2'>"._checkbox('s_tables', _("Tables should display left, right, and center justification and top and bottom align appropriately")) ."</p>
-                        <p class='single2'>"._checkbox('s_th', _("Tables contain &lt;th&gt; elements for headings")) ."</p>
-                        <p class='single2'>"._checkbox('s_thumbs', _("Remove thumbs.db file from the images folder")) ."</p>
-                        <p class='single2'>"._checkbox('s_ereader', _("E-reader version, although without major flaws, should also look as good as possible")) ."</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("MILDLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, and any corrections are solely at the discretion of the PPVer and PPer)")."</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Occurrence")."</b></td>
-                    <td>
-                        <p class='single2'>"._checkbox('m_semantic', _("Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them")) ."</p>
-                        <p class='single2'>"._checkbox('m_space', _("Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)")) ."</p>
-                        <p class='single2'>"._checkbox('m_unusedcss', _("Ensure that there are no unused elements in the CSS (other than the base HTML headings)")) ."</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("COMMENTS")."</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'>
-                        <b>"._("Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)")."</b>
-                    </td>
-                    <td><textarea rows='4' cols='67' name='reason_returned' id='reason_returned' wrap='hard'></textarea>".textarea_size_control('reason_returned')."</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>" . _("General comments on this project or your experience working with this PPer."). "</b></td>
-                    <td><textarea rows='4' cols='67' name='general_comments' id='general_comments' wrap='hard'></textarea>".textarea_size_control('general_comments')."</td>
-                </tr>
-
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>"._("Copies")."</td>
-                </tr>
-                <tr>
-                    <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Send to")."</b></td>
-                    <td>"._checkbox('cc_ppv', _("Me")) ."<br />
-                            ". _checkbox('cc_pp', $project->postproofer, TRUE) ."<br />
-                            <input type='checkbox' name='foo' checked disabled>"._("PPV Summary (mailing list)")."
-                    </td>
-                </tr>
-                <tr><td colspan='2' style='text-align: center'>
-                    <input type='submit' value='".attr_safe(_("Submit"))."'></td></tr>
-        </table>
-    </form>";
 }
 else
 {
