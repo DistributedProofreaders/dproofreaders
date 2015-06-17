@@ -144,6 +144,17 @@ mysql_free_result($result);
 
 if ($action == SHOW_BLANK_ENTRY_FORM)
 {
+    $i4 = "                ";
+    $i5 = $i4 . "    ";
+
+    function tr_w_one_cell_centered($bgcolor, $content)
+    {
+        global $i4, $i5;
+        return ""
+            . "\n$i4<tr>"
+            . "\n$i5<td colspan='2' style='text-align: center; font-weight: bold; background: $bgcolor;'>$content</td>"
+            . "\n$i4</tr>";
+    }
 
     function _checkbox($id, $label, $checked=FALSE)
     {
@@ -189,10 +200,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
     echo "<br />
           <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;confirm=1' name='ppvform' method='post'>
           <table border='1' id='report_card' style='width: 95%'>
-
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>"._("Project Information")."</td>
-                </tr>
+"
+        . tr_w_one_cell_centered($theme['color_logobar_bg'], _("Project Information")) ."
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Project ID")."</b></td>
                     <td><input type='hidden' name='projectid' value='$projectid'>$projectid</td>
@@ -227,13 +236,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Submitted by PP on")."</b></td>
                     <td>$pp_date</td>
                 </tr>
-
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>"._("General Information")."</td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("Difficulty Details")."</td>
-                </tr>
+"
+        . tr_w_one_cell_centered($theme['color_logobar_bg'], _("General Information"))
+        . tr_w_one_cell_centered("#e0e8dd", _("Difficulty Details")) ."
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>File Information</b></td>
                         <td><p class='single'>"._textbox('kb_size', _("Text File Size in kb (Please do not insert commas. For example, you should input 1450 instead of 1,450 and, if you use commas as decimal marks, 1450.5 instead of 1450,5)"), array('size'=>5)) ."</p>
@@ -270,22 +275,16 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
                             <li>"._("If the Frenchman in the novel says \"Zut!\" a lot, it does NOT count as multiple languages.")."</li>
                         </ul>
                     </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("ERRORS")."</td>
-                </tr>
+                </tr>"
+        . tr_w_one_cell_centered("#99ff99", _("ERRORS")) ."
                 <tr>
                     <td colspan='2'><div style='margin-left:5%;margin-right:5%;'>
                         <p>"._("Errors such as failure to grasp the italics guidelines are counted as one error, not one error each time italics are wrongly handled. Errors such as he/be errors are each counted as individual errors (i.e., 3 \"he\" instead of \"be\" count as 3 errors).")."</p>
                         <p>"._("If the PPer is asked to resubmit a corrected file, then any errors not corrected or new errors introduced are added to the total number of errors for rating purposes.")."</p></div>
                     </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("LEVEL 1 (Minor Errors)")."</td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("All Versions")."</td>
-                </tr>
+                </tr>"
+        . tr_w_one_cell_centered("#99ff99", _("LEVEL 1 (Minor Errors)"))
+        . tr_w_one_cell_centered("#e0e8dd", _("All Versions")) ."
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
                     <td>
@@ -298,13 +297,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
                         <p class='single'>"._textbox('e1_format_num',         _("Formatting inconsistencies (e.g., in margins, blank lines, etc.)")) ."</p>
                         <p class='single'>"._textbox('e1_xhtml_genother_num', _("Other minor errors (such as a minor rewrap error, misplaced entry in the TN, or minor inconsistency between the text and HTML versions) (Please explain in the Comments Field)")) ."</p>
                     </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("HTML Version Only")."</td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("Images")."</td>
-                </tr>
+                </tr>"
+        . tr_w_one_cell_centered("#e0e8dd", _("HTML Version Only"))
+        . tr_w_one_cell_centered("#e0e8dd", _("Images")) ."
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
                     <td>
@@ -314,10 +309,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
                         <p class='single'>"._textbox('e1_distort_num',   _("Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi")) ."</p>
                         <p class='single'>"._textbox('e1_alt_num',       _("Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist")) ."</p>
                     </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("HTML Code")."</td>
-                </tr>
+                </tr>"
+        . tr_w_one_cell_centered("#e0e8dd", _("HTML Code")) ."
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
                     <td>
@@ -331,13 +324,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
                         <p class='single'>"._textbox('e1_chapter_num',       _("Failure to add &lt;div class=\"chapter\"&gt; at chapter breaks to enable proper page breaks for ereaders")) ."</p>
                         <p class='single'>"._textbox('e1_xhtml_genhtml_num', _("Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field)")) ."</p>
                     </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("LEVEL 2 (Major Errors)")."</td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("All Versions")."</td>
-                </tr>
+                </tr>"
+        . tr_w_one_cell_centered("#99ff99", _("LEVEL 2 (Major Errors)"))
+        . tr_w_one_cell_centered("#e0e8dd", _("All Versions")) ."
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
                     <td>
@@ -363,10 +352,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
                         </ul>
                         <p>"._("\"Not addressing printers' errors\" means that all, or a large percentage, of printers' errors have been left uncorrected and not noted. If just one or two have been missed, and the rest addressed, then those missed would instead be counted as the relevant type of error (spellcheck, gutcheck, etc.). Anything that could make a reader think an error has been made in the transcription should be mentioned in the Transcriber's Note.")."</p>
                     </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #e0e8dd;'>"._("HTML Version Only")."</td>
-                </tr>
+                </tr>"
+        . tr_w_one_cell_centered("#e0e8dd", _("HTML Version Only")) ."
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Approximate number of errors <br>(Please enter only numbers)")."</b></td>
                     <td>
@@ -405,10 +392,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
                             <li>"._("Illustrations")."</li>
                         </ul>
                     </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("STRONGLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, but the PPer should be counselled to correct any problems)")."</td>
-                </tr>
+                </tr>"
+        . tr_w_one_cell_centered("#99ff99", _("STRONGLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, but the PPer should be counselled to correct any problems)")) ."
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Occurrence")."</b></td>
                     <td>
@@ -422,10 +407,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
                         <p class='single2'>"._checkbox('s_thumbs', _("Remove thumbs.db file from the images folder")) ."</p>
                         <p class='single2'>"._checkbox('s_ereader', _("E-reader version, although without major flaws, should also look as good as possible")) ."</p>
                     </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("MILDLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, and any corrections are solely at the discretion of the PPVer and PPer)")."</td>
-                </tr>
+                </tr>"
+        . tr_w_one_cell_centered("#99ff99", _("MILDLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, and any corrections are solely at the discretion of the PPVer and PPer)")) ."
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Occurrence")."</b></td>
                     <td>
@@ -433,10 +416,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
                         <p class='single2'>"._checkbox('m_space', _("Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)")) ."</p>
                         <p class='single2'>"._checkbox('m_unusedcss', _("Ensure that there are no unused elements in the CSS (other than the base HTML headings)")) ."</p>
                     </td>
-                </tr>
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: #99ff99;'>"._("COMMENTS")."</td>
-                </tr>
+                </tr>"
+        . tr_w_one_cell_centered("#99ff99", _("COMMENTS")) ."
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'>
                         <b>"._("Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)")."</b>
@@ -447,19 +428,16 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
                     <td style='background-color: #CCCCCC; width: 40%;'><b>" . _("General comments on this project or your experience working with this PPer."). "</b></td>
                     <td><textarea rows='4' cols='67' name='general_comments' id='general_comments' wrap='hard'></textarea>".textarea_size_control('general_comments')."</td>
                 </tr>
-
-                <tr>
-                    <td colspan='2' style='text-align: center; font-weight: bold; background: $theme[color_logobar_bg];'>"._("Copies")."</td>
-                </tr>
+"
+        . tr_w_one_cell_centered($theme['color_logobar_bg'], _("Copies")) ."
                 <tr>
                     <td style='background-color: #CCCCCC; width: 40%;'><b>"._("Send to")."</b></td>
                     <td>"._checkbox('cc_ppv', _("Me")) ."<br />
                             ". _checkbox('cc_pp', $project->postproofer, TRUE) ."<br />
                             <input type='checkbox' name='foo' checked disabled>"._("PPV Summary (mailing list)")."
                     </td>
-                </tr>
-                <tr><td colspan='2' style='text-align: center'>
-                    <input type='submit' value='".attr_safe(_("Submit"))."'></td></tr>
+                </tr>"
+        . tr_w_one_cell_centered("#ffffff", "<input type='submit' value='".attr_safe(_("Submit"))."'>") ."
         </table>
     </form>";
 }
