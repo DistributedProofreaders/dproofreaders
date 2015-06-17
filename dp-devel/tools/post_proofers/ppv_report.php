@@ -288,21 +288,20 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
         . tr_w_two_cells(
             _("Present in the text"),
             "
-                        "._checkbox('some_poetry',   _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_poetry', _("Significant Amount")) ." &mdash; "._("Poetry (other than straight poetry)")."<br />
-                        "._checkbox('some_block',    _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_block',  _("Significant Amount")) ." &mdash; "._("Blockquotes")."<br />
-                        "._checkbox('some_foot',     _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_foot',   _("Significant Amount")) ." &mdash; "._("Footnotes")."<br />
-                        "._checkbox('some_side',     _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_side',   _("Significant Amount")) ." &mdash; "._("Sidenotes")."<br />
-                        "._checkbox('some_ads',      _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_ads',    _("Significant Amount")) ." &mdash; "._("Advertisements")."<br />
-                        "._checkbox('some_tables',   _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_tables', _("Significant Amount")) ." &mdash; "._("Tables")."<br />
-                        "._checkbox('some_drama',    _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_drama',  _("Significant Amount")) ." &mdash; "._("Drama")."<br />
-                        "._checkbox('some_index',    _("Small")) ."&nbsp;&nbsp;"._checkbox('sig_index',  _("Significant Size"))   ." &mdash; "._("Index")."<br />
-                        "._checkbox('some_illos',    _("Illustrations (other than minor decorations or logos):")) ." "
-                            ._textbox('num_illos', _("(Number of)"), array('use_a_label_element'=>TRUE, 'put_label_on_left'=>TRUE)) ."<br />
-                        "._checkbox('sig_illos',     _("Illustrations requiring advanced preparation and/or difficult placement")) ."<br />
-                        "._checkbox('sig_multilang', _("Multiple Languages")) ." <a href='#languages'>*</a><br />
-                        "._checkbox('sig_englifh',   _("Englifh")) ."<br />
-                        "._checkbox('sig_music',     _("Musical Notation and Files")) ."<br />
-                        "._checkbox('sig_math',      _("Extensive mathematical/chemical notation")) ."<br />"
+                        <p class='single2'>"._checkbox('some_poetry',   _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_poetry', _("Significant Amount")) ." &mdash; "._("Poetry (other than straight poetry)")."</p>
+                        <p class='single2'>"._checkbox('some_block',    _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_block',  _("Significant Amount")) ." &mdash; "._("Blockquotes")."</p>
+                        <p class='single2'>"._checkbox('some_foot',     _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_foot',   _("Significant Amount")) ." &mdash; "._("Footnotes")."</p>
+                        <p class='single2'>"._checkbox('some_side',     _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_side',   _("Significant Amount")) ." &mdash; "._("Sidenotes")."</p>
+                        <p class='single2'>"._checkbox('some_ads',      _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_ads',    _("Significant Amount")) ." &mdash; "._("Advertisements")."</p>
+                        <p class='single2'>"._checkbox('some_tables',   _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_tables', _("Significant Amount")) ." &mdash; "._("Tables")."</p>
+                        <p class='single2'>"._checkbox('some_drama',    _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_drama',  _("Significant Amount")) ." &mdash; "._("Drama")."</p>
+                        <p class='single2'>"._checkbox('some_index',    _("Small")) ."&nbsp;&nbsp;"._checkbox('sig_index',  _("Significant Size"))   ." &mdash; "._("Index")."</p>
+                        <p class='single2'>"._checkbox('some_illos',    _("Illustrations (other than minor decorations or logos):")) ." " ._textbox('num_illos', _("(Number of)"), array('use_a_label_element'=>TRUE, 'put_label_on_left'=>TRUE)) ."</p>
+                        <p class='single2'>"._checkbox('sig_illos',     _("Illustrations requiring advanced preparation and/or difficult placement")) ."</p>
+                        <p class='single2'>"._checkbox('sig_multilang', _("Multiple Languages")) ." <a href='#languages'>*</a>" ."</p>
+                        <p class='single2'>"._checkbox('sig_englifh',   _("Englifh")) ."</p>
+                        <p class='single2'>"._checkbox('sig_music',     _("Musical Notation and Files")) ."</p>
+                        <p class='single2'>"._checkbox('sig_math',      _("Extensive mathematical/chemical notation")) ."</p>"
         )
         . tr_w_two_cells(
             "",
@@ -460,9 +459,10 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
         . tr_w_one_cell_centered($theme['color_logobar_bg'], _("Copies"))
         . tr_w_two_cells(
             _("Send to"),
-            _checkbox('cc_ppv', _("Me")) ."<br />
-                            ". _checkbox('cc_pp', $project->postproofer, TRUE) ."<br />
-                            <input type='checkbox' name='foo' checked disabled>"._("PPV Summary (mailing list)")
+            "
+                        <p class='single2'>"._checkbox('cc_ppv', _("Me")) ."</p>
+                        <p class='single2'>"._checkbox('cc_pp', $project->postproofer, TRUE) ."</p>
+                        <p class='single2'><input type='checkbox' name='foo' checked disabled>"._("PPV Summary (mailing list)") ."</p>"
         )
         . tr_w_one_cell_centered("#ffffff", "<input type='submit' value='".attr_safe(_("Submit"))."'>") ."
         </table>
