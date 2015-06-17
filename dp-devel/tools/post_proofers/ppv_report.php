@@ -180,6 +180,16 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
             . "\n$i4</tr>";
     }
 
+    function check_box($id, $label, $checked=FALSE)
+    {
+        global $i6;
+        return ""
+            . "\n$i6"
+            . "<p class='single2'>"
+            . _checkbox($id, $label, $checked)
+            . "</p>";
+    }
+
     function _checkbox($id, $label, $checked=FALSE)
     {
         $checked_attr = ($checked ? ' checked': '');
@@ -296,12 +306,12 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
                         <p class='single2'>"._checkbox('some_tables',   _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_tables', _("Significant Amount")) ." &mdash; "._("Tables")."</p>
                         <p class='single2'>"._checkbox('some_drama',    _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_drama',  _("Significant Amount")) ." &mdash; "._("Drama")."</p>
                         <p class='single2'>"._checkbox('some_index',    _("Small")) ."&nbsp;&nbsp;"._checkbox('sig_index',  _("Significant Size"))   ." &mdash; "._("Index")."</p>
-                        <p class='single2'>"._checkbox('some_illos',    _("Illustrations (other than minor decorations or logos):")) ." " ._textbox('num_illos', _("(Number of)"), array('use_a_label_element'=>TRUE, 'put_label_on_left'=>TRUE)) ."</p>
-                        <p class='single2'>"._checkbox('sig_illos',     _("Illustrations requiring advanced preparation and/or difficult placement")) ."</p>
-                        <p class='single2'>"._checkbox('sig_multilang', _("Multiple Languages")) ." <a href='#languages'>*</a>" ."</p>
-                        <p class='single2'>"._checkbox('sig_englifh',   _("Englifh")) ."</p>
-                        <p class='single2'>"._checkbox('sig_music',     _("Musical Notation and Files")) ."</p>
-                        <p class='single2'>"._checkbox('sig_math',      _("Extensive mathematical/chemical notation")) ."</p>"
+                        <p class='single2'>"._checkbox('some_illos',    _("Illustrations (other than minor decorations or logos):")) ." " ._textbox('num_illos', _("(Number of)"), array('use_a_label_element'=>TRUE, 'put_label_on_left'=>TRUE)) ."</p>"
+                . check_box('sig_illos',     _("Illustrations requiring advanced preparation and/or difficult placement"))
+                . check_box('sig_multilang', _("Multiple Languages") . " <a href='#languages'>*</a>")
+                . check_box('sig_englifh',   _("Englifh"))
+                . check_box('sig_music',     _("Musical Notation and Files"))
+                . check_box('sig_math',      _("Extensive mathematical/chemical notation"))
         )
         . tr_w_two_cells(
             "",
@@ -428,24 +438,24 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
         . tr_w_one_cell_centered("#99ff99", _("STRONGLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, but the PPer should be counselled to correct any problems)"))
         . tr_w_two_cells(
             _("Occurrence"),
-            "
-                        <p class='single2'>"._checkbox('s_multi', _("Enclose entire multi-part headings within the related heading tag")) ."</p>
-                        <p class='single2'>"._checkbox('s_empty', _("Avoid using empty tags (with &amp;nbsp; entities) or &lt;br /&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though")) ."</p>
-                        <p class='single2'>"._checkbox('s_list', _("List Tags should be used for lists (e.g., a normal index)")) ."</p>
-                        <p class='single2'>"._checkbox('s_text', _("Include all text as text, not just as images")) ."</p>
-                        <p class='single2'>"._checkbox('s_code', _("Keep your code line lengths reasonable")) ."</p>
-                        <p class='single2'>"._checkbox('s_tables', _("Tables should display left, right, and center justification and top and bottom align appropriately")) ."</p>
-                        <p class='single2'>"._checkbox('s_th', _("Tables contain &lt;th&gt; elements for headings")) ."</p>
-                        <p class='single2'>"._checkbox('s_thumbs', _("Remove thumbs.db file from the images folder")) ."</p>
-                        <p class='single2'>"._checkbox('s_ereader', _("E-reader version, although without major flaws, should also look as good as possible")) ."</p>"
+            ""
+                . check_box('s_multi',   _("Enclose entire multi-part headings within the related heading tag"))
+                . check_box('s_empty',   _("Avoid using empty tags (with &amp;nbsp; entities) or &lt;br /&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though"))
+                . check_box('s_list',    _("List Tags should be used for lists (e.g., a normal index)"))
+                . check_box('s_text',    _("Include all text as text, not just as images"))
+                . check_box('s_code',    _("Keep your code line lengths reasonable"))
+                . check_box('s_tables',  _("Tables should display left, right, and center justification and top and bottom align appropriately"))
+                . check_box('s_th',      _("Tables contain &lt;th&gt; elements for headings"))
+                . check_box('s_thumbs',  _("Remove thumbs.db file from the images folder"))
+                . check_box('s_ereader', _("E-reader version, although without major flaws, should also look as good as possible"))
         )
         . tr_w_one_cell_centered("#99ff99", _("MILDLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, and any corrections are solely at the discretion of the PPVer and PPer)"))
         . tr_w_two_cells(
             _("Occurrence"),
-            "
-                        <p class='single2'>"._checkbox('m_semantic', _("Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them")) ."</p>
-                        <p class='single2'>"._checkbox('m_space', _("Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)")) ."</p>
-                        <p class='single2'>"._checkbox('m_unusedcss', _("Ensure that there are no unused elements in the CSS (other than the base HTML headings)")) ."</p>"
+            ""
+                . check_box('m_semantic',  _("Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them"))
+                . check_box('m_space',     _("Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)"))
+                . check_box('m_unusedcss', _("Ensure that there are no unused elements in the CSS (other than the base HTML headings)"))
         )
         . tr_w_one_cell_centered("#99ff99", _("COMMENTS"))
         . tr_w_two_cells(
@@ -459,9 +469,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
         . tr_w_one_cell_centered($theme['color_logobar_bg'], _("Copies"))
         . tr_w_two_cells(
             _("Send to"),
-            "
-                        <p class='single2'>"._checkbox('cc_ppv', _("Me")) ."</p>
-                        <p class='single2'>"._checkbox('cc_pp', $project->postproofer, TRUE) ."</p>
+            ""
+                . check_box('cc_ppv', _("Me"))
+                . check_box('cc_pp', $project->postproofer, TRUE) ."
                         <p class='single2'><input type='checkbox' name='foo' checked disabled>"._("PPV Summary (mailing list)") ."</p>"
         )
         . tr_w_one_cell_centered("#ffffff", "<input type='submit' value='".attr_safe(_("Submit"))."'>") ."
