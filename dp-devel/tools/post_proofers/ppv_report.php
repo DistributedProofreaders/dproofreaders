@@ -196,6 +196,18 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
             . "</p>";
     }
 
+    function some_num_combo($some_id, $some_label, $num_id)
+    {
+        global $i6;
+        return ""
+            . "\n$i6"
+            . "<p class='single2'>"
+            . _checkbox($some_id, $some_label)
+            . ": "
+            . _textbox($num_id, _("(Number of)"), array('use_a_label_element'=>TRUE, 'put_label_on_left'=>TRUE))
+            . "</p>";
+    }
+
     function check_box($id, $label, $checked=FALSE)
     {
         global $i6;
@@ -321,8 +333,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
                 . some_sig_combo('some_ads',      _("Some"),  'sig_ads',    _("Significant Amount"), _("Advertisements"))
                 . some_sig_combo('some_tables',   _("Some"),  'sig_tables', _("Significant Amount"), _("Tables"))
                 . some_sig_combo('some_drama',    _("Some"),  'sig_drama',  _("Significant Amount"), _("Drama"))
-                . some_sig_combo('some_index',    _("Small"), 'sig_index',  _("Significant Size"),   _("Index")) ."
-                        <p class='single2'>"._checkbox('some_illos',    _("Illustrations (other than minor decorations or logos):")) ." " ._textbox('num_illos', _("(Number of)"), array('use_a_label_element'=>TRUE, 'put_label_on_left'=>TRUE)) ."</p>"
+                . some_sig_combo('some_index',    _("Small"), 'sig_index',  _("Significant Size"),   _("Index"))
+                . some_num_combo('some_illos', _("Illustrations (other than minor decorations or logos)"), 'num_illos')
                 . check_box('sig_illos',     _("Illustrations requiring advanced preparation and/or difficult placement"))
                 . check_box('sig_multilang', _("Multiple Languages") . " <a href='#languages'>*</a>")
                 . check_box('sig_englifh',   _("Englifh"))
