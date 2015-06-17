@@ -180,6 +180,22 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
             . "\n$i4</tr>";
     }
 
+    // ------------------------
+
+    function some_sig_combo($some_id, $some_label, $sig_id, $sig_label, $final_label)
+    {
+        global $i6;
+        return ""
+            . "\n$i6"
+            . "<p class='single2'>"
+            . _checkbox($some_id, $some_label)
+            . "&nbsp;&nbsp;"
+            . _checkbox($sig_id, $sig_label)
+            . " &mdash; "
+            . $final_label
+            . "</p>";
+    }
+
     function check_box($id, $label, $checked=FALSE)
     {
         global $i6;
@@ -297,15 +313,15 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
         )
         . tr_w_two_cells(
             _("Present in the text"),
-            "
-                        <p class='single2'>"._checkbox('some_poetry',   _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_poetry', _("Significant Amount")) ." &mdash; "._("Poetry (other than straight poetry)")."</p>
-                        <p class='single2'>"._checkbox('some_block',    _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_block',  _("Significant Amount")) ." &mdash; "._("Blockquotes")."</p>
-                        <p class='single2'>"._checkbox('some_foot',     _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_foot',   _("Significant Amount")) ." &mdash; "._("Footnotes")."</p>
-                        <p class='single2'>"._checkbox('some_side',     _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_side',   _("Significant Amount")) ." &mdash; "._("Sidenotes")."</p>
-                        <p class='single2'>"._checkbox('some_ads',      _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_ads',    _("Significant Amount")) ." &mdash; "._("Advertisements")."</p>
-                        <p class='single2'>"._checkbox('some_tables',   _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_tables', _("Significant Amount")) ." &mdash; "._("Tables")."</p>
-                        <p class='single2'>"._checkbox('some_drama',    _("Some"))  ."&nbsp;&nbsp;"._checkbox('sig_drama',  _("Significant Amount")) ." &mdash; "._("Drama")."</p>
-                        <p class='single2'>"._checkbox('some_index',    _("Small")) ."&nbsp;&nbsp;"._checkbox('sig_index',  _("Significant Size"))   ." &mdash; "._("Index")."</p>
+            ""
+                . some_sig_combo('some_poetry',   _("Some"),  'sig_poetry', _("Significant Amount"), _("Poetry (other than straight poetry)"))
+                . some_sig_combo('some_block',    _("Some"),  'sig_block',  _("Significant Amount"), _("Blockquotes"))
+                . some_sig_combo('some_foot',     _("Some"),  'sig_foot',   _("Significant Amount"), _("Footnotes"))
+                . some_sig_combo('some_side',     _("Some"),  'sig_side',   _("Significant Amount"), _("Sidenotes"))
+                . some_sig_combo('some_ads',      _("Some"),  'sig_ads',    _("Significant Amount"), _("Advertisements"))
+                . some_sig_combo('some_tables',   _("Some"),  'sig_tables', _("Significant Amount"), _("Tables"))
+                . some_sig_combo('some_drama',    _("Some"),  'sig_drama',  _("Significant Amount"), _("Drama"))
+                . some_sig_combo('some_index',    _("Small"), 'sig_index',  _("Significant Size"),   _("Index")) ."
                         <p class='single2'>"._checkbox('some_illos',    _("Illustrations (other than minor decorations or logos):")) ." " ._textbox('num_illos', _("(Number of)"), array('use_a_label_element'=>TRUE, 'put_label_on_left'=>TRUE)) ."</p>"
                 . check_box('sig_illos',     _("Illustrations requiring advanced preparation and/or difficult placement"))
                 . check_box('sig_multilang', _("Multiple Languages") . " <a href='#languages'>*</a>")
