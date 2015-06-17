@@ -146,6 +146,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
 {
     $i4 = "                ";
     $i5 = $i4 . "    ";
+    $i6 = $i5 . "    ";
 
     function tr_w_one_cell_centered($bgcolor, $content)
     {
@@ -183,6 +184,16 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
     {
         $checked_attr = ($checked ? ' checked': '');
         return "<input type='checkbox' name='$id' id='$id'$checked_attr><label for='$id'>$label</label>";
+    }
+
+    function number_box($id, $label, $options=array())
+    {
+        global $i6;
+        return ""
+            . "\n$i6"
+            . "<p class='single'>"
+            . _textbox($id, $label, $options)
+            . "</p>";
     }
 
     function _textbox($id, $label, $options=array())
@@ -272,7 +283,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
         . tr_w_one_cell_centered("#e0e8dd", _("Difficulty Details"))
         . tr_w_two_cells(
             "File Information",
-            "<p class='single'>"._textbox('kb_size', _("Text File Size in kb (Please do not insert commas. For example, you should input 1450 instead of 1,450 and, if you use commas as decimal marks, 1450.5 instead of 1450,5)"), array('size'=>5)) ."</p>"
+            number_box('kb_size', _("Text File Size in kb (Please do not insert commas. For example, you should input 1450 instead of 1,450 and, if you use commas as decimal marks, 1450.5 instead of 1450,5)"), array('size'=>5))
         )
         . tr_w_two_cells(
             _("Present in the text"),
@@ -316,54 +327,54 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
         . tr_w_one_cell_centered("#e0e8dd", _("All Versions"))
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
-            "
-                        <p class='single'>"._textbox('e1_spellcheck_num',     _("Spellcheck/Scanno errors")) ."</p>
-                        <p class='single'>"._textbox('e1_gutcheck_num',       _("Gutcheck-type errors, e.g. punctuation, hyphen/emdash, missing/extra space, line length, illegal characters, etc.")) ."</p>
-                        <p class='single'>"._textbox('e1_jeebies_num',        _("Jeebies errors (English only)")) ."</p>
-                        <p class='single'>"._textbox('e1_para_num',           _("Paragraph breaks missing or incorrectly added")) ."</p>
-                        <p class='single'>"._textbox('e1_hyph_num',           _("A few occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)")) ."</p>
-                        <p class='single'>"._textbox('e1_chap_num',           _("Chapter and other headings inconsistently spaced, aligned, capitalized or punctuated")) ."</p>
-                        <p class='single'>"._textbox('e1_format_num',         _("Formatting inconsistencies (e.g., in margins, blank lines, etc.)")) ."</p>
-                        <p class='single'>"._textbox('e1_xhtml_genother_num', _("Other minor errors (such as a minor rewrap error, misplaced entry in the TN, or minor inconsistency between the text and HTML versions) (Please explain in the Comments Field)")) ."</p>"
+            ""
+                . number_box('e1_spellcheck_num',     _("Spellcheck/Scanno errors"))
+                . number_box('e1_gutcheck_num',       _("Gutcheck-type errors, e.g. punctuation, hyphen/emdash, missing/extra space, line length, illegal characters, etc."))
+                . number_box('e1_jeebies_num',        _("Jeebies errors (English only)"))
+                . number_box('e1_para_num',           _("Paragraph breaks missing or incorrectly added"))
+                . number_box('e1_hyph_num',           _("A few occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)"))
+                . number_box('e1_chap_num',           _("Chapter and other headings inconsistently spaced, aligned, capitalized or punctuated"))
+                . number_box('e1_format_num',         _("Formatting inconsistencies (e.g., in margins, blank lines, etc.)"))
+                . number_box('e1_xhtml_genother_num', _("Other minor errors (such as a minor rewrap error, misplaced entry in the TN, or minor inconsistency between the text and HTML versions) (Please explain in the Comments Field)"))
         )
         . tr_w_one_cell_centered("#e0e8dd", _("HTML Version Only"))
         . tr_w_one_cell_centered("#e0e8dd", _("Images"))
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
-            "
-                        <p class='single'>"._textbox('e1_unused_num',    _("Unused files in images folder (Thumbs.db is not counted toward rating)")) ."</p>
-                        <p class='single'>"._textbox('e1_imagesize_num', _("Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed the limits described <a href='http://www.pgdp.net/wiki/Guide_to_Image_Processing#Image_Display_Dimensions:_Considerations'>here</a>, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception).")) ."</p>
-                        <p class='single'>"._textbox('e1_blemish_num',   _("Images with major blemishes, uncorrected rotation/distortion or without appropriate cropping")) ."</p>
-                        <p class='single'>"._textbox('e1_distort_num',   _("Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi")) ."</p>
-                        <p class='single'>"._textbox('e1_alt_num',       _("Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist")) ."</p>"
+            ""
+                . number_box('e1_unused_num',    _("Unused files in images folder (Thumbs.db is not counted toward rating)"))
+                . number_box('e1_imagesize_num', _("Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed the limits described <a href='http://www.pgdp.net/wiki/Guide_to_Image_Processing#Image_Display_Dimensions:_Considerations'>here</a>, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception)."))
+                . number_box('e1_blemish_num',   _("Images with major blemishes, uncorrected rotation/distortion or without appropriate cropping"))
+                . number_box('e1_distort_num',   _("Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi"))
+                . number_box('e1_alt_num',       _("Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist"))
         )
         . tr_w_one_cell_centered("#e0e8dd", _("HTML Code"))
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
-            "
-                        <p class='single'>"._textbox('e1_px_num',            _("Use of px sizing units for items other than images")) ."</p>
-                        <p class='single'>"._textbox('e1_title_num',         _("&lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;The Project Gutenberg eBook of Alice's Adventures in Wonderland, by Lewis Carroll&lt;/title&gt; or &lt;title&gt;Alice's Adventures in Wonderland, by Lewis Carroll&mdash;A Project Gutenberg eBook&lt;/title&gt;)")) ."</p>
-                        <p class='single'>"._textbox('e1_pre_num',           _("Use of &lt;pre&gt; tags instead of their CSS equivalents")) ."</p>
-                        <p class='single'>"._textbox('e1_body_num',          _("Failure to place &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;/head&gt;&lt;/body&gt;, and &lt;/html&gt; tags each on their own line and correctly use them")) ."</p>
-                        <p class='single'>"._textbox('e1_tabl_num',          _("Use of tables for things that are not tables")) ."</p>
-                        <p class='single'>"._textbox('e1_css_num',           _("Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element)")) ."</p>
-                        <p class='single'>"._textbox('e1_xhtml_num',         _("Used HTML version other than XHTML 1.0 Strict or 1.1")) ."</p>
-                        <p class='single'>"._textbox('e1_chapter_num',       _("Failure to add &lt;div class=\"chapter\"&gt; at chapter breaks to enable proper page breaks for ereaders")) ."</p>
-                        <p class='single'>"._textbox('e1_xhtml_genhtml_num', _("Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field)")) ."</p>"
+            ""
+                . number_box('e1_px_num',            _("Use of px sizing units for items other than images"))
+                . number_box('e1_title_num',         _("&lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;The Project Gutenberg eBook of Alice's Adventures in Wonderland, by Lewis Carroll&lt;/title&gt; or &lt;title&gt;Alice's Adventures in Wonderland, by Lewis Carroll&mdash;A Project Gutenberg eBook&lt;/title&gt;)"))
+                . number_box('e1_pre_num',           _("Use of &lt;pre&gt; tags instead of their CSS equivalents"))
+                . number_box('e1_body_num',          _("Failure to place &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;/head&gt;&lt;/body&gt;, and &lt;/html&gt; tags each on their own line and correctly use them"))
+                . number_box('e1_tabl_num',          _("Use of tables for things that are not tables"))
+                . number_box('e1_css_num',           _("Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element)"))
+                . number_box('e1_xhtml_num',         _("Used HTML version other than XHTML 1.0 Strict or 1.1"))
+                . number_box('e1_chapter_num',       _("Failure to add &lt;div class=\"chapter\"&gt; at chapter breaks to enable proper page breaks for ereaders"))
+                . number_box('e1_xhtml_genhtml_num', _("Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field)"))
         )
         . tr_w_one_cell_centered("#99ff99", _("LEVEL 2 (Major Errors)"))
         . tr_w_one_cell_centered("#e0e8dd", _("All Versions"))
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
-            "
-                        <p class='single'>"._textbox('e2_markup_num',   _("Markup not handled (e.g. blockquotes, poetry indentation, or widespread failure to mark italics)")) ."</p>
-                        <p class='single'>"._textbox('e2_poetry_num',   _("Poetry indentation does not match original")) ."</p>
-                        <p class='single'>"._textbox('e2_foot_num',     _("Footnotes/footnote markers missing or incorrectly placed")) ."</p>
-                        <p class='single'>"._textbox('e2_printers_num', _("Printers' errors not addressed")) ." <a href='#print'>**</a></p>
-                        <p class='single'>"._textbox('e2_missing_num',  _("Missing page(s) or substantial sections of missing text")) ."</p>
-                        <p class='single'>"._textbox('e2_rewrap_num',   _("Substantial rewrapping errors, e.g., poetry has been rewrapped or text version generally not rewrapped to required length (not exceeding 75 characters or falling below 55 characters) except where unavoidable, e.g., some tables though the aim should be 72 characters")) ."</p>
-                        <p class='single'>"._textbox('e2_hyphen_num',   _("Widespread/general occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)")) ."</p>
-                        <p class='single'>"._textbox('e2_gen_num',      _("Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field)")) ."</p>"
+            ""
+                . number_box('e2_markup_num',   _("Markup not handled (e.g. blockquotes, poetry indentation, or widespread failure to mark italics)"))
+                . number_box('e2_poetry_num',   _("Poetry indentation does not match original"))
+                . number_box('e2_foot_num',     _("Footnotes/footnote markers missing or incorrectly placed"))
+                . number_box('e2_printers_num', _("Printers' errors not addressed") . " <a href='#print'>**</a>")
+                . number_box('e2_missing_num',  _("Missing page(s) or substantial sections of missing text"))
+                . number_box('e2_rewrap_num',   _("Substantial rewrapping errors, e.g., poetry has been rewrapped or text version generally not rewrapped to required length (not exceeding 75 characters or falling below 55 characters) except where unavoidable, e.g., some tables though the aim should be 72 characters"))
+                . number_box('e2_hyphen_num',   _("Widespread/general occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)"))
+                . number_box('e2_gen_num',      _("Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field)"))
         )
         . tr_w_two_cells(
             "",
@@ -380,14 +391,14 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
         . tr_w_one_cell_centered("#e0e8dd", _("HTML Version Only"))
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
-            "
-                        <p class='single'>"._textbox('e2_tidy_num',     _("The W3C Markup Validation Service generates errors or warning messages (Please enter number of errors)")) ."</p>
-                        <p class='single'>"._textbox('e2_csscheck_num', _("The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element (Please enter number of errors)")) ."</p>
-                        <p class='single'>"._textbox('e2_links_num',    _("Non-working links within HTML or to images. (Either broken or link to wrong place/file)")) ."</p>
-                        <p class='single'>"._textbox('e2_file_num',     _("File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc.")) ."</p>
-                        <p class='single'>"._textbox('e2_cover_num',    _("Cover image has not been included and/or has not been coded for e-reader use. (For example, the cover should be 600x800px or at least 500px wide and no more than 800px high and should be called cover.jpg. Also, if the cover is newly created, it must meet <a href='http://www.pgdp.net/wiki/PP_guide_to_cover_pages#DP_policy'>current DP guidelines</a>.)")) ."</p>
-                        <p class='single'>"._textbox('e2_epub_num',     _("Project not presentable/useable when put through epubmaker")) ." <a href='#ereader'>***</a></p>
-                        <p class='single'>"._textbox('e2_heading_num',  _("Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)")) ."</p>"
+            ""
+                . number_box('e2_tidy_num',     _("The W3C Markup Validation Service generates errors or warning messages (Please enter number of errors)"))
+                . number_box('e2_csscheck_num', _("The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element (Please enter number of errors)"))
+                . number_box('e2_links_num',    _("Non-working links within HTML or to images. (Either broken or link to wrong place/file)"))
+                . number_box('e2_file_num',     _("File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc."))
+                . number_box('e2_cover_num',    _("Cover image has not been included and/or has not been coded for e-reader use. (For example, the cover should be 600x800px or at least 500px wide and no more than 800px high and should be called cover.jpg. Also, if the cover is newly created, it must meet <a href='http://www.pgdp.net/wiki/PP_guide_to_cover_pages#DP_policy'>current DP guidelines</a>.)"))
+                . number_box('e2_epub_num',     _("Project not presentable/useable when put through epubmaker") . " <a href='#ereader'>***</a>")
+                . number_box('e2_heading_num',  _("Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)"))
         )
         . tr_w_two_cells(
             "",
