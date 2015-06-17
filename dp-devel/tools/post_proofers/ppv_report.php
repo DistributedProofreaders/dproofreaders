@@ -268,13 +268,15 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
     {
         return ""
             . "<textarea rows='4' cols='67' name='$id' id='$id' wrap='hard'></textarea>"
-            . textarea_size_control($id);
+            . "<br />"
+            . "<div class='shrinker'>"
+            . "<a onclick='grow_textarea(\"$id\")'>+</a>"
+            . "&nbsp;"
+            . "<a onclick='shrink_textarea(\"$id\")'>&minus;</a>"
+            . "</div>";
     }
 
-    function textarea_size_control($id)
-    {
-        return "<br /><div class='shrinker'><a onclick='grow_textarea(\"$id\")'>+</a>&nbsp;<a onclick='shrink_textarea(\"$id\")'>&minus;</a></div>";
-    }
+    // ---------------------------------
 
     echo "<br />
           <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;confirm=1' name='ppvform' method='post'>
