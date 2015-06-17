@@ -215,6 +215,13 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
         return $result;
     }
 
+    function comment_box($id)
+    {
+        return ""
+            . "<textarea rows='4' cols='67' name='$id' id='$id' wrap='hard'></textarea>"
+            . textarea_size_control($id);
+    }
+
     function textarea_size_control($id)
     {
         return "<br /><div class='shrinker'><a onclick='grow_textarea(\"$id\")'>+</a>&nbsp;<a onclick='shrink_textarea(\"$id\")'>&minus;</a></div>";
@@ -433,11 +440,11 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
         . tr_w_one_cell_centered("#99ff99", _("COMMENTS"))
         . tr_w_two_cells(
             _("Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)"),
-            "<textarea rows='4' cols='67' name='reason_returned' id='reason_returned' wrap='hard'></textarea>".textarea_size_control('reason_returned')
+            comment_box('reason_returned')
         )
         . tr_w_two_cells(
             _("General comments on this project or your experience working with this PPer."),
-            "<textarea rows='4' cols='67' name='general_comments' id='general_comments' wrap='hard'></textarea>".textarea_size_control('general_comments')
+            comment_box('general_comments')
         )
         . tr_w_one_cell_centered($theme['color_logobar_bg'], _("Copies"))
         . tr_w_two_cells(
