@@ -156,6 +156,17 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
             . "\n$i4</tr>";
     }
 
+    function tr_w_one_cell($content)
+    {
+        global $i4, $i5;
+        return ""
+            . "\n$i4<tr>"
+            . "\n$i5<td colspan='2'>"
+            . $content
+            . "\n$i5</td>"
+            . "\n$i4</tr>";
+    }
+
     function tr_w_two_cells($left_content, $right_content)
     {
         global $i4, $i5;
@@ -286,13 +297,14 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
                     <li>"._("If the Frenchman in the novel says \"Zut!\" a lot, it does NOT count as multiple languages.")."</li>
                 </ul>"
         )
-        . tr_w_one_cell_centered("#99ff99", _("ERRORS")) ."
-                <tr>
-                    <td colspan='2'><div style='margin-left:5%;margin-right:5%;'>
-                        <p>"._("Errors such as failure to grasp the italics guidelines are counted as one error, not one error each time italics are wrongly handled. Errors such as he/be errors are each counted as individual errors (i.e., 3 \"he\" instead of \"be\" count as 3 errors).")."</p>
-                        <p>"._("If the PPer is asked to resubmit a corrected file, then any errors not corrected or new errors introduced are added to the total number of errors for rating purposes.")."</p></div>
-                    </td>
-                </tr>"
+        . tr_w_one_cell_centered("#99ff99", _("ERRORS"))
+        . tr_w_one_cell(
+            "
+                <div style='margin-left:5%;margin-right:5%;'>
+                    <p>"._("Errors such as failure to grasp the italics guidelines are counted as one error, not one error each time italics are wrongly handled. Errors such as he/be errors are each counted as individual errors (i.e., 3 \"he\" instead of \"be\" count as 3 errors).")."</p>
+                    <p>"._("If the PPer is asked to resubmit a corrected file, then any errors not corrected or new errors introduced are added to the total number of errors for rating purposes.")."</p>
+                </div>"
+        )
         . tr_w_one_cell_centered("#99ff99", _("LEVEL 1 (Minor Errors)"))
         . tr_w_one_cell_centered("#e0e8dd", _("All Versions"))
         . tr_w_two_cells(
