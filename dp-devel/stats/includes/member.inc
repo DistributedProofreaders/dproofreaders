@@ -24,7 +24,6 @@ function showMbrInformation( $curMbr, $tally_name )
     else
     {
         showMbrPageStats($curMbr, $tally_name);
-        showMbrTeams($curMbr, $tally_name);
         showMbrNeighbors($curMbr, $tally_name);
         $now = time();
         if (($now - $curMbr['date_created']) > 86400)
@@ -51,7 +50,7 @@ function showMbrProfile($curMbr) {
     echo "<table width='99%'>";
     echo "\n";
     echo "<tr>";
-    echo "<td align='center' valign='top'>";
+    echo "<td align='center' valign='top' rowspan='2'>";
 
     showForumProfile($curMbr['username']);
 
@@ -60,6 +59,10 @@ function showMbrProfile($curMbr) {
     echo "<td align='center' valign='top'>";
 
     showMbrDpProfile($curMbr);
+
+    echo "</td></tr><tr><td>";
+
+    showMbrTeams($curMbr,'');
 
     echo "</td></tr></table><p>";
 }
@@ -96,7 +99,7 @@ function showMbrDpProfile( $curMbr )
         2,
         // TRANSLATORS: %s is the site abbreviation
         sprintf(_("%s Profile"),$site_abbreviation),
-        array( 'width'=>100 )
+        array( 'width'=>99 )
     );
     $t->set_column_widths( 30, 70 );
 
