@@ -13,7 +13,6 @@ include_once($relPath.'SettingsClass.inc');
 
 function showMbrInformation( $curMbr, $tally_name )
 {
-    showXmlButton($curMbr['username']);
     showMbrProfile($curMbr);
 
     showMbrTallySelector( $curMbr['u_id'], $tally_name );
@@ -43,8 +42,7 @@ function showXmlButton( $username )
     $xml_img_url = "$code_url/graphics/xml.gif";
     $xml_img_tag = "<img src='$xml_img_url' border='0' width='36' height='14' style='vertical-align:middle'>";
     $xml_button = "<a href='$xml_doc_url'>$xml_img_tag</a>";
-    echo "\n";
-    echo $xml_button;
+    return $xml_button;
 }
 
 function showMbrProfile($curMbr) {
@@ -73,7 +71,7 @@ function days_to_now($timestamp)
     // Ensure that all calls to this function have the same base time.
     static $now = NULL;
     if (is_null($now)) $now = time();
-    
+
     $days = floor(($now - $timestamp)/86400);
     if ($days == 0)
         return _("Today!");
@@ -116,6 +114,10 @@ function showMbrDpProfile( $curMbr )
         _('Roles'),
         showMbrRoles($curMbr)
     );
+    $t->row(
+        _("Stats Feed"),
+        showXmlButton($curMbr['username'])
+        );
 
     $t->end();
 }
@@ -227,7 +229,7 @@ function showForumProfile($username) {
     );
 
     $avatar = get_url_for_user_avatar($username);
-    
+
     if ($avatar == NULL)
     {
         $rhs = _("(none)");
@@ -299,7 +301,7 @@ function showForumProfile($username) {
         list( $condition, $label, $icon_filename, $url, $target ) = $contact;
 
         if (!$condition) continue;
-        
+
         $icon_path = "$forums_url/templates/subSilver/images/lang_english/$icon_filename";
         $img_tag = "<img src='$icon_path' alt='" . attr_safe($label) ."' border='0'>";
         $target_str = ( empty($target) ? '' : " target='$target'" );
