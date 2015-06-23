@@ -164,6 +164,11 @@ function showMbrRoles($curMbr)
         $roles[] = array( 'pp', _("Post-Processor"), 25 );
     }
 
+    if ($settings->get_boolean('DU.access'))
+    {
+        $roles[] = array( 'du', _("Direct Uploader"), 25 );
+    }
+
     if ($settings->get_boolean('PPV.access'))
     {
         $roles[] = array( 'ppv', _("Post-Processing Verifier"), 25 );
