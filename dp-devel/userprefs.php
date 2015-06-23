@@ -12,7 +12,7 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'misc.inc'); // startswith(...), attr_safe()
 include_once($relPath.'js_newpophelp.inc');
 include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
-include_once($relPath.'forum_interface.inc'); // used to check forum/DP email mismatch
+include_once($relPath.'forum_interface.inc'); // get_forum_user_details(), get_url_to_edit_profile()
 
 require_login();
 undo_all_magic_quotes();
