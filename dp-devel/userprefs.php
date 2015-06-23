@@ -12,6 +12,7 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'misc.inc'); // startswith(...), attr_safe()
 include_once($relPath.'js_newpophelp.inc');
 include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+include_once($relPath.'forum_interface.inc'); // used to check forum/DP email mismatch
 
 require_login();
 undo_all_magic_quotes();
@@ -266,12 +267,21 @@ function echo_general_tab() {
     show_blank();
     echo "</tr>\n";
 
+    // Check for DP/forum email mismatch, warn user if not the same
+    $bb_user_info = get_forum_user_details($pguser);
+    $email_warning = '';
+    if ( $bb_user_info["email"] != $email) {
+        $edit_url = get_url_to_edit_profile();
+        $email_warning = "<p><b>".sprintf(_("WARNING: The email in your <a href='%s'>forum profile</a> is different."),$edit_url)."</b><br>";
+        $email_warning .= _("Please update if necessary to ensure you receive messages as intended.")."</p>\n";
+    }
+
     echo "<tr>\n";
     show_preference(
         _('Email'), 'email', 'email',
         $email,
         'textfield',
-        array( '26', '' )
+        array( '26', $email_warning )
         // About 92% of pgdp.net's users have length(email) <= 26
     );
     show_preference(
