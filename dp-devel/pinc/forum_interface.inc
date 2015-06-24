@@ -54,7 +54,7 @@ function get_forum_user_details($username)
 // Returns an associative array with the following keys:
 //     id        - forum user id
 //     username  - forum username
-//     lastvisit - timestamp the user last visisted
+//     lastvisit - timestamp the user last visited
 //     from      - location
 //     occ       - occupation
 //     interests - interests
@@ -67,9 +67,10 @@ function get_forum_user_details($username)
 //     yim       - Yahoo address
 //     msnm      - MS Messenger address
 //     jabber    - Jabber address
+//     rank      - forum rank (index)
 // If the user isn't found, the function returns NULL.
 {
-    $interested_columns = array("id","username","lastvisit","from","occ","interests","viewemail","email","avatar","icq","website","aim","yim","msnm","jabber");
+    $interested_columns = array("id","username","lastvisit","from","occ","interests","viewemail","email","avatar","icq","website","aim","yim","msnm","jabber","rank");
 
     $return_data = array();
 
@@ -179,6 +180,25 @@ function get_forum_user_id($username)
     $uidCache[$username] = $id;
 
     return $id;
+}
+
+function get_forum_rank_title($rank)
+// Given a forum rank number, return the text title of that rank.
+{
+    $query = sprintf("
+        SELECT rank_title
+        FROM phpbb_ranks
+        WHERE rank_id = %d
+        ",$rank);
+    $res = mysql_query($query) or die(mysql_error());
+
+    if (mysql_num_rows($res) == 0)
+        return NULL;
+
+    list($rank_title) = mysql_fetch_row($res);
+    mysql_free_result($res);
+
+    return $rank_title;
 }
 
 function get_forum_email_address($username)
