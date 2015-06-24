@@ -246,6 +246,15 @@ function showForumProfile($username) {
         $rhs
     );
 
+    if ($bb_user["rank"] != 0)
+    {
+        $bb_title = get_forum_rank_title($bb_user["rank"]);
+        $t->row(
+               '',
+               $bb_title
+        );
+    }
+
     if (!empty($bb_user["from"]) || !empty($bb_user["occ"]) || !empty($bb_user["interests"]) || !empty($bb_user["website"])) { $t->hr( 90 ); }
     if (!empty($bb_user["from"]))      { $t->row( _("Location"),   $bb_user["from"] ); }
     if (!empty($bb_user["occ"]))       { $t->row( _("Occupation"), $bb_user["occ"] ); }
