@@ -213,6 +213,11 @@ function showForumProfile($username) {
 
     $bb_user = get_forum_user_details($username);
 
+    $view_url = get_url_to_view_profile($bb_user["id"]);
+    $text = _('View');
+    $colored_text = "<font color='".$theme['color_headerbar_font']."' size='2'>$text</font>";
+    $viewlink = "&nbsp;[<a href='$view_url'>$colored_text</a>]";
+
     if (isset($GLOBALS['pguser']) && $bb_user["username"] == $GLOBALS['pguser'])
     {
         $edit_url = get_url_to_edit_profile();
@@ -227,7 +232,7 @@ function showForumProfile($username) {
 
     $t = new ThemedTable(
         2,
-        _("Forum Profile") . $editlink,
+        _("Forum Profile") . $viewlink . $editlink,
         array( 'width'=>100 )
     );
 
@@ -255,7 +260,13 @@ function showForumProfile($username) {
         );
     }
 
-    if (!empty($bb_user["from"]) || !empty($bb_user["occ"]) || !empty($bb_user["interests"]) || !empty($bb_user["website"])) { $t->hr( 90 ); }
+    $t->hr( 90 );
+
+    $t->row(
+        _("Posts"),
+        $bb_user["posts"]
+    );
+
     if (!empty($bb_user["from"]))      { $t->row( _("Location"),   $bb_user["from"] ); }
     if (!empty($bb_user["occ"]))       { $t->row( _("Occupation"), $bb_user["occ"] ); }
     if (!empty($bb_user["interests"])) { $t->row( _("Interests"),  $bb_user["interests"] ); }
