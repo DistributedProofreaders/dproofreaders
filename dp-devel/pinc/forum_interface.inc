@@ -68,9 +68,10 @@ function get_forum_user_details($username)
 //     msnm      - MS Messenger address
 //     jabber    - Jabber address
 //     rank      - forum rank (index)
+//     posts     - number of forum posts
 // If the user isn't found, the function returns NULL.
 {
-    $interested_columns = array("id","username","lastvisit","from","occ","interests","viewemail","email","avatar","icq","website","aim","yim","msnm","jabber","rank");
+    $interested_columns = array("id","username","lastvisit","from","occ","interests","viewemail","email","avatar","icq","website","aim","yim","msnm","jabber","rank","posts");
 
     $return_data = array();
 
@@ -264,6 +265,14 @@ function get_url_to_edit_profile()
     global $forums_url;
 
     return "$forums_url/profile.php?mode=editprofile";
+}
+
+function get_url_to_view_profile($user_id)
+// Return a URL that can be used to view a given user's profile.
+{
+    global $forums_url;
+
+    return "$forums_url/profile.php?mode=viewprofile&u=$user_id";
 }
 
 function get_url_for_inbox()
