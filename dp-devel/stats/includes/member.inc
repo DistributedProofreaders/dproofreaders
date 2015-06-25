@@ -60,7 +60,9 @@ function showMbrProfile($curMbr) {
 
     showMbrDpProfile($curMbr);
 
-    echo "</td></tr><tr><td>";
+    echo "</td></tr>";
+    
+    echo "<tr><td align='center' valign='top'>";
 
     showMbrTeams($curMbr);
 
