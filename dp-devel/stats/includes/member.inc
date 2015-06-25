@@ -62,7 +62,7 @@ function showMbrProfile($curMbr) {
 
     echo "</td></tr><tr><td>";
 
-    showMbrTeams($curMbr,'');
+    showMbrTeams($curMbr);
 
     echo "</td></tr></table><p>";
 }
@@ -534,30 +534,24 @@ function showMbrNeighbors($curMbr, $tally_name) {
     $t->end();
 }
 
-function showMbrTeams($curMbr, $tally_name) {
+function showMbrTeams($curMbr) {
 
     if (empty($curMbr['team_1']) && empty($curMbr['team_2']) && empty($curMbr['team_3'])) { return; }
 
     $t = new ThemedTable(
-        3,
+        2,
         _("Teams"),
         array( 'width'=>99, 'rollover_highlight'=>TRUE )
     );
-    $t->set_column_widths( 40, 30, 30 );
+    $t->set_column_widths( 50, 50 );
     $t->column_headers(
         _("Team Name"),
-        _("Pages Completed"),
         _("Active Members")
     );
 
-    $teams_tallyboard = new TallyBoard( $tally_name, 'T' );
-
-    list($joined_with_team_tallies,$team_tally_column) =
-        $teams_tallyboard->get_sql_joinery_for_current_tallies('id');
-
     $result = mysql_query("
-        SELECT user_teams.*, $team_tally_column AS page_count
-        FROM user_teams $joined_with_team_tallies
+        SELECT *
+        FROM user_teams
         WHERE id IN ({$curMbr['team_1']}, {$curMbr['team_2']}, {$curMbr['team_3']})
     ") or die(mysql_error());
 
@@ -565,7 +559,6 @@ function showMbrTeams($curMbr, $tally_name) {
         $url = $GLOBALS['code_url']."/stats/teams/tdetail.php?tid=".$row['id'];
         $t->row(
             "<a href='$url'>".$row['teamname']."</a>",
-            sprintf(_("%s pages"), number_format($row['page_count'])),
             sprintf(_("%s members"), number_format($row['active_members']))
         );
     }
