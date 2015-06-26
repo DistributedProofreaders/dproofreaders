@@ -144,7 +144,7 @@ if (mysql_num_rows($result) != 0)
 }
 mysql_free_result($result);
 
-if ($action == SHOW_BLANK_ENTRY_FORM)
+if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
 {
     $i4 = "                ";
     $i5 = $i4 . "    ";
@@ -210,18 +210,24 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
             . "</p>";
     }
 
-    function check_box($id, $label, $checked=FALSE)
+    function check_box($id, $label, $checked_in_blank_form=FALSE)
     {
         global $i6;
         return ""
             . "\n$i6"
             . "<p class='single2'>"
-            . _checkbox($id, $label, $checked)
+            . _checkbox($id, $label, $checked_in_blank_form)
             . "</p>";
     }
 
-    function _checkbox($id, $label, $checked=FALSE)
+    function _checkbox($id, $label, $checked_in_blank_form=FALSE)
     {
+        global $action;
+        if ($action == SHOW_BLANK_ENTRY_FORM)
+            $checked = $checked_in_blank_form;
+        else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
+            $checked = isset($_POST[$id]);
+
         $checked_attr = ($checked ? ' checked': '');
         return "<input type='checkbox' name='$id' id='$id'$checked_attr><label for='$id'>$label</label>";
     }
@@ -238,11 +244,22 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
 
     function _textbox($id, $label, $options=array())
     {
+        global $action;
+        if ($action == SHOW_BLANK_ENTRY_FORM)
+            $value = '';
+        else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
+            $value = $_POST[$id];
+
+        if ($value == '')
+            $value_attr = "";
+        else
+            $value_attr = sprintf(" value='%s'", attr_safe($value));
+
         $size = array_get($options, 'size', 3);
         $use_a_label_element = array_get($options, 'use_a_label_element', FALSE);
         $put_label_on_left = array_get($options, 'put_label_on_left', FALSE);
 
-        $input_element = "<input type='text' size='$size' name='$id' id='$id'>";
+        $input_element = "<input type='text' size='$size' name='$id' id='$id'$value_attr>";
 
         if ($use_a_label_element)
         {
@@ -268,8 +285,16 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
 
     function comment_box($id)
     {
+        global $action;
+        if ($action == SHOW_BLANK_ENTRY_FORM)
+            $text = '';
+        else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
+            $text = $_POST[$id];
+
+        $esc_text = htmlspecialchars($text, ENT_NOQUOTES);
+
         return ""
-            . "<textarea rows='4' cols='67' name='$id' id='$id' wrap='hard'></textarea>"
+            . "<textarea rows='4' cols='67' name='$id' id='$id' wrap='hard'>$esc_text</textarea>"
             . "<br />"
             . "<div class='shrinker'>"
             . "<a onclick='grow_textarea(\"$id\")'>+</a>"
@@ -509,7 +534,10 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
         . tr_w_one_cell_centered("#ffffff", "<input type='submit' value='".attr_safe(_("Submit"))."'>") ."
         </table>
     </form>";
+}
 
+if ($action == SHOW_BLANK_ENTRY_FORM)
+{
     echo $entry_form;
 }
 else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
@@ -534,7 +562,7 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             || (isset($_POST["some_index"]) && isset($_POST["sig_index"])) || (isset($_POST["some_drama"]) && isset($_POST["sig_drama"]))) {
         report_form_problem(
             _("You selected both \"Some\" and \"Significant Amount\" for an item.
-            Please go back, fix this, and resubmit the form.")
+            Please fix this, and resubmit the form.")
         );
     }
     
@@ -556,7 +584,7 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
     if (isset($_POST["some_illos"]) && !isset($_POST["num_illos"])) {
         report_form_problem(
             _("You selected there were illustrations but didn't specify how many.
-            Please go back and specify how many illustrations there were")
+            Please specify how many illustrations there were")
         );
     } else if (isset($_POST["some_illos"]) && (!is_numeric($_POST["num_illos"]) || $_POST["num_illos"] == 0)) {
         report_form_problem(
@@ -565,7 +593,7 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
     } else if (!empty($_POST["num_illos"]) && !isset($_POST["some_illos"])) {
         report_form_problem(
             sprintf(_("You put that there were %s illustrations but didn't check the box for illustrations.
-            Please go back and select the checkbox for 'Illustrations (other than minor decorations or logos)'."), $_POST["num_illos"])
+            Please select the checkbox for 'Illustrations (other than minor decorations or logos)'."), $_POST["num_illos"])
         );
     }
 
@@ -587,7 +615,13 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         }
     }
 
-    if ($n_form_problems > 0) exit();
+    if ($n_form_problems > 0)
+    {
+        // Problems have already been reported above.
+        // Show the form as the user filled it in.
+        echo $entry_form;
+        exit();
+    }
 
     // ---------------------------------
 
