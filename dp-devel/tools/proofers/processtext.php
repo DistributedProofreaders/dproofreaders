@@ -232,15 +232,15 @@ switch( $tbutton )
         $ppage->saveAsDone(addslashes($correct_text),$pguser);
 
         // Redirect to the next available page
-        // Note: we can't use metarefresh() here since we're in a frame. If we do,
-        // we'll load the next frameset into this frame, which isn't what we want.
-        // Instead, we'll do what leave_proofing_interface() does to get us out.
         $url = $ppage->url_for_do_another_page();
+        // Note: Using Wordcheck in the standard interface changes the default
+        // target for links from 'proofframe' to 'textframe' which is why we
+        // have to do these gymnastics instead of using metarefresh().
         $title = _("Save as 'Done' & Proof Next");
         $body = _("Page saved.");
         slim_header( $title );
         echo "<script language='JavaScript'><!--\n";
-        echo "setTimeout(\"top.location.href='$url';\", 1000);\n";
+        echo "setTimeout(\"top.proofframe.location.href='$url';\", 1000);\n";
         echo "// --></script>\n";
         echo $body;
         slim_footer();
@@ -312,10 +312,7 @@ function leave_proofing_interface( $title )
 
     slim_header( $title );
 
-    $url = "$code_url/project.php?id=$projectid&amp;expected_state=$proj_state";
-
-//    $text = _("Please click here to return to Project Page.");
-//    echo "<a href='$url' target='_top'>$text</a>";
+    $url = "$code_url/project.php?id=$projectid&expected_state=$proj_state";
 
     $text =  _("You will be returned to the <a href='%s' target='_top'>Project Page</a> in one second.");
     echo sprintf($text, $url);
