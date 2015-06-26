@@ -230,11 +230,21 @@ switch( $tbutton )
 
         // 2. Save the current page as done
         $ppage->saveAsDone(addslashes($correct_text),$pguser);
-        leave_spellcheck_mode($ppage);
 
         // Redirect to the next available page
+        // Note: we can't use metarefresh() here since we're in a frame. If we do,
+        // we'll load the next frameset into this frame, which isn't what we want.
+        // Instead, we'll do what leave_proofing_interface() does to get us out.
         $url = $ppage->url_for_do_another_page();
-        metarefresh(1,$url,_("Save as 'Done' & Proof Next"),_("Page saved."));
+        $title = _("Save as 'Done' & Proof Next");
+        $body = _("Page saved.");
+        slim_header( $title );
+        echo "<script language='JavaScript'><!--\n";
+        echo "setTimeout(\"top.location.href='$url';\", 1000);\n";
+        echo "// --></script>\n";
+        echo $body;
+        slim_footer();
+        break;
 
     case 104:
         // User wants to run the page through spellcheck for an another language
