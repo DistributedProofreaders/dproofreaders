@@ -278,7 +278,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
 
     // ---------------------------------
 
-    echo "<br />
+    $entry_form = "<br />
           <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;confirm=1' name='ppvform' method='post'>
           <table border='1' id='report_card' style='width: 95%'>
 "
@@ -507,6 +507,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
         . tr_w_one_cell_centered("#ffffff", "<input type='submit' value='".attr_safe(_("Submit"))."'>") ."
         </table>
     </form>";
+
+    echo $entry_form;
 }
 else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
 {
