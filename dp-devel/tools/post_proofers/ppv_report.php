@@ -6,12 +6,14 @@ include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'Project.inc'); // validate_projectID()
 include_once($relPath.'Stage.inc'); //user_can_work_in_stage()
 include_once($relPath.'project_states.inc'); // get_project_status_descriptor()
-include_once($relPath.'misc.inc');  // javascript_safe() array_get() startswith()
+include_once($relPath.'misc.inc');  // undo_all_magic_quotes() array_get() startswith()
 
 header_remove("Expires");
 header_remove("Cache-Control");
 
 require_login();
+
+undo_all_magic_quotes();
 
 $projectid = validate_projectID('project', @$_REQUEST['project']);
 
@@ -791,9 +793,6 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
     ));
     $reportcard .= "\n\n" . $site_signoff;
 
-    if (get_magic_quotes_gpc())
-        $reportcard = stripslashes($reportcard);
-
     echo _("Please check the information below to make sure everything is correct.
         To return to the form, simply use your browser's back button.") . "<br />\n";
     echo "<pre>" . $reportcard . "</pre>";
@@ -810,8 +809,8 @@ else if ($action == SEND_OUT_REPORTCARD)
 {
     $pper = mysql_fetch_object(mysql_query("SELECT email, u_intlang FROM users WHERE username = '$project->postproofer'"));
     $ppver = mysql_fetch_object(mysql_query("SELECT email, u_intlang FROM users WHERE username = '$pguser'"));
-    if (get_magic_quotes_gpc())
-        $reportcard = stripslashes($_POST["reportcard"]);
+
+    $reportcard = $_POST["reportcard"];
 
     // The Spanish PPer shouldn't get a French email because that's the PPVer's
     // language, so temporarily change the current locale.
