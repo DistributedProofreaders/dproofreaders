@@ -511,6 +511,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
 else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
 {
 
+    // ---------------------------------
+    // Validate the form input.
+
     $project_size = $_POST["kb_size"];
     if ((isset($_POST["some_poetry"]) && isset($_POST["sig_poetry"])) || (isset($_POST["some_block"]) && isset($_POST["sig_block"]))
             || (isset($_POST["some_foot"]) && isset($_POST["sig_foot"])) || (isset($_POST["some_side"]) && isset($_POST["sig_side"]))
@@ -541,6 +544,24 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             Please go back and select the checkbox for 'Illustrations (other than minor decorations or logos)'."), $_POST["num_illos"]);
         exit();
     }
+
+    foreach($_POST as $key => $value) {
+        if (startswith($key, "e1_") && !empty($value)) {
+            if (!is_numeric($value)) {
+                echo _("Please input a number for all Level 1 error fields.
+                    Not all fields must be completed, but all data input in the error fields must be numeric.");
+                exit();
+            }
+        } else if (startswith($key, "e2_") && !empty($value)) {
+            if (!is_numeric($value)) {
+                echo _("Please input a number for all Level 2 error fields.
+                    Not all fields must be completed, but all data input in the error fields must be numeric.");
+                exit();
+            }
+        }
+    }
+
+    // ---------------------------------
 
     // Wrap any long input from textareas.
     $_POST['reason_returned'] = wordwrap($_POST['reason_returned'], 78, "\n    ");
@@ -580,18 +601,8 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             }
             $pping_complexity .= "\n    " . $_POST["num_illos"] . " Illustrations (other than minor decorations or logos)";
         } else if (startswith($key, "e1_") && !empty($value)) {
-            if (!is_numeric($value)) {
-                echo _("Please input a number for all Level 1 error fields.
-                    Not all fields must be completed, but all data input in the error fields must be numeric.");
-                exit();
-            }
             $level_1_errors += $value;
         } else if (startswith($key, "e2_") && !empty($value)) {
-            if (!is_numeric($value)) {
-                echo _("Please input a number for all Level 2 error fields.
-                    Not all fields must be completed, but all data input in the error fields must be numeric.");
-                exit();
-            }
             $level_2_errors += $value;
         }
     }
