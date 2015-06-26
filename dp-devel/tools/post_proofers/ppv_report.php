@@ -514,49 +514,64 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
     // ---------------------------------
     // Validate the form input.
 
+    function report_form_problem($message)
+    {
+        echo $message;
+        exit();
+    }
+
     $project_size = $_POST["kb_size"];
     if ((isset($_POST["some_poetry"]) && isset($_POST["sig_poetry"])) || (isset($_POST["some_block"]) && isset($_POST["sig_block"]))
             || (isset($_POST["some_foot"]) && isset($_POST["sig_foot"])) || (isset($_POST["some_side"]) && isset($_POST["sig_side"]))
             || (isset($_POST["some_ads"]) && isset($_POST["sig_ads"])) || (isset($_POST["some_tables"]) && isset($_POST["sig_tables"]))
             || (isset($_POST["some_index"]) && isset($_POST["sig_index"])) || (isset($_POST["some_drama"]) && isset($_POST["sig_drama"]))) {
-        echo _("You selected both \"Some\" and \"Significant Amount\" for an item.
-            Please go back, fix this, and resubmit the form.");
-        exit();
+        report_form_problem(
+            _("You selected both \"Some\" and \"Significant Amount\" for an item.
+            Please go back, fix this, and resubmit the form.")
+        );
     } else if (strpos($project_size, ',') !== false) {
-        echo _("The file size should not contain commas.");
-        exit();
+        report_form_problem(
+            _("The file size should not contain commas.")
+        );
     } else if ($project_size == "" || $project_size == 0) {
-        echo _("Please enter a file size that is greater than 0.");
-        exit();
+        report_form_problem(
+            _("Please enter a file size that is greater than 0.")
+        );
     } else if ($project_size > 3000) {
-        echo _("You put in a file size greater than 3000 KB.
-            Please make sure that you have the file size in kilobytes, not bytes.");
-        exit();
+        report_form_problem(
+            _("You put in a file size greater than 3000 KB.
+            Please make sure that you have the file size in kilobytes, not bytes.")
+        );
     } else if (isset($_POST["some_illos"]) && !isset($_POST["num_illos"])) {
-        echo _("You selected there were illustrations but didn't specify how many.
-            Please go back and specify how many illustrations there were");
-        exit();
+        report_form_problem(
+            _("You selected there were illustrations but didn't specify how many.
+            Please go back and specify how many illustrations there were")
+        );
     } else if (isset($_POST["some_illos"]) && (!is_numeric($_POST["num_illos"]) || $_POST["num_illos"] == 0)) {
-        echo _("Please input a non-0 number for how many illustrations were in the book.");
-        exit();
+        report_form_problem(
+            _("Please input a non-0 number for how many illustrations were in the book.")
+        );
     } else if (!empty($_POST["num_illos"]) && !isset($_POST["some_illos"])) {
-        echo sprintf(_("You put that there were %s illustrations but didn't check the box for illustrations.
-            Please go back and select the checkbox for 'Illustrations (other than minor decorations or logos)'."), $_POST["num_illos"]);
-        exit();
+        report_form_problem(
+            sprintf(_("You put that there were %s illustrations but didn't check the box for illustrations.
+            Please go back and select the checkbox for 'Illustrations (other than minor decorations or logos)'."), $_POST["num_illos"])
+        );
     }
 
     foreach($_POST as $key => $value) {
         if (startswith($key, "e1_") && !empty($value)) {
             if (!is_numeric($value)) {
-                echo _("Please input a number for all Level 1 error fields.
-                    Not all fields must be completed, but all data input in the error fields must be numeric.");
-                exit();
+                report_form_problem(
+                    _("Please input a number for all Level 1 error fields.
+                    Not all fields must be completed, but all data input in the error fields must be numeric.")
+                );
             }
         } else if (startswith($key, "e2_") && !empty($value)) {
             if (!is_numeric($value)) {
-                echo _("Please input a number for all Level 2 error fields.
-                    Not all fields must be completed, but all data input in the error fields must be numeric.");
-                exit();
+                report_form_problem(
+                    _("Please input a number for all Level 2 error fields.
+                    Not all fields must be completed, but all data input in the error fields must be numeric.")
+                );
             }
         }
     }
