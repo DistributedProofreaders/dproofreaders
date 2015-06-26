@@ -510,13 +510,6 @@ if ($action == SHOW_BLANK_ENTRY_FORM)
 }
 else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
 {
-    function number_of_errors_allowed($size_per) {
-        $project_size = $_POST["kb_size"];
-        if ($project_size <= $size_per)
-            return 1;
-
-        return floor($project_size / $size_per);
-    }
 
     $project_size = $_POST["kb_size"];
     if ((isset($_POST["some_poetry"]) && isset($_POST["sig_poetry"])) || (isset($_POST["some_block"]) && isset($_POST["sig_block"]))
@@ -609,6 +602,14 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         $pp_difficulty_level = "Average";
     } else {
         $pp_difficulty_level = "Easy";
+    }
+
+    function number_of_errors_allowed($size_per) {
+        $project_size = $_POST["kb_size"];
+        if ($project_size <= $size_per)
+            return 1;
+
+        return floor($project_size / $size_per);
     }
 
     if ($level_2_errors == 0) {
