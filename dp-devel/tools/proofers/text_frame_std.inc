@@ -47,7 +47,7 @@ function echo_text_frame_std( $ppage )
 
         echo "&nbsp;";
 
-        $comments_url = $ppage->url_for_project_comments();
+        $comments_url = str_replace('&', '&amp;', $ppage->url_for_project_comments());
         echo _("View:")." <a href=\"$comments_url\" title=\"". attr_safe(_("View Project Comments in New Window"))."\" target=\"viewcomments\">"._("Project Comments")."</a> ";
 
         $image_url = $ppage->url_for_image();

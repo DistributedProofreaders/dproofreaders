@@ -89,7 +89,7 @@ echo "\n";
 ?>
 <a href="#" onclick="top.showNW()"><?php echo_img(SHOW_ALL_TEXT,'a'); ?></a>
 <a
-href="<?php echo $ppage->url_for_project_comments(); ?>" TARGET="viewcomments"><?php echo_img(PROJECT_COMMENTS,'a'); ?></a>
+href="<?php echo str_replace('&', '&amp;', $ppage->url_for_project_comments()); ?>" TARGET="viewcomments"><?php echo_img(PROJECT_COMMENTS,'a'); ?></a>
 <?php
 
 echo_button(SPELL_CHECK,'a');

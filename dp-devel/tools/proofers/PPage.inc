@@ -19,7 +19,7 @@ function url_for_pi_do_whichever_page( $projectid, $proj_state )
     return "$code_url/tools/proofers/proof.php"
         . "?"
         . "projectid=$projectid"
-        . "&amp;"
+        . "&"
         . "proj_state=$proj_state"
     ;
 }
@@ -30,11 +30,11 @@ function url_for_pi_do_particular_page( $projectid, $proj_state, $imagefile, $pa
     return "$code_url/tools/proofers/proof.php"
         . "?"
         . "projectid=$projectid"
-        . "&amp;"
+        . "&"
         . "imagefile=$imagefile"
-        . "&amp;"
+        . "&"
         . "proj_state=$proj_state"
-        . "&amp;"
+        . "&"
         . "page_state=$page_state"
     ;
 }
@@ -87,7 +87,7 @@ class PPage
         return "$code_url/tools/proofers/proof_frame.php"
             . "?"
             . "projectid={$this->lpage->projectid}"
-            . "&amp;"
+            . "&"
             . "proj_state={$this->proj_state}";
     }
 
@@ -97,9 +97,9 @@ class PPage
         return "$code_url/project.php"
             . "?"
             . "id={$this->lpage->projectid}"
-            . "&amp;"
+            . "&"
             . "expected_state={$this->proj_state}"
-            . "&amp;"
+            . "&"
             . "detail_level=1";
     }
 
