@@ -6,7 +6,7 @@ include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'Project.inc'); // validate_projectID()
 include_once($relPath.'Stage.inc'); //user_can_work_in_stage()
 include_once($relPath.'project_states.inc'); // get_project_status_descriptor()
-include_once($relPath.'misc.inc');  // javascript_safe() array_get
+include_once($relPath.'misc.inc');  // javascript_safe() array_get() startswith()
 
 header_remove("Expires");
 header_remove("Cache-Control");
@@ -573,10 +573,10 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         "sig_music" => "Musical Notation and Files", "sig_math" => "Extensive mathematical/chemical notation");
 
     foreach($_POST as $key => $value) {
-        if (substr($key, 0, 4) === "sig_" && isset($mapped_array[$key])) {
+        if (startswith($key, "sig_") && isset($mapped_array[$key])) {
             $project_significant_counter++;
             $pping_complexity .= "\n    " . $mapped_array[$key];
-        } else if (substr($key, 0, 5) === "some_" && isset($mapped_array[$key])) {
+        } else if (startswith($key, "some_") && isset($mapped_array[$key])) {
             $project_average_counter++;
             $pping_complexity .= "\n    " . $mapped_array[$key];
         } else if ($key === "some_illos") {
@@ -586,14 +586,14 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
                 $project_average_counter++;
             }
             $pping_complexity .= "\n    " . $_POST["num_illos"] . " Illustrations (other than minor decorations or logos)";
-        } else if (substr($key, 0, 3) === "e1_" && !empty($value)) {
+        } else if (startswith($key, "e1_") && !empty($value)) {
             if (!is_numeric($value)) {
                 echo _("Please input a number for all Level 1 error fields.
                     Not all fields must be completed, but all data input in the error fields must be numeric.");
                 exit();
             }
             $level_1_errors += $value;
-        } else if (substr($key, 0, 3) === "e2_" && !empty($value)) {
+        } else if (startswith($key, "e2_") && !empty($value)) {
             if (!is_numeric($value)) {
                 echo _("Please input a number for all Level 2 error fields.
                     Not all fields must be completed, but all data input in the error fields must be numeric.");
