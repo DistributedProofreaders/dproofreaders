@@ -514,10 +514,13 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
     // ---------------------------------
     // Validate the form input.
 
+    $n_form_problems = 0;
+
     function report_form_problem($message)
     {
+        global $n_form_problems;
         echo "\n<p class='form_problem'>$message</p>";
-        exit();
+        $n_form_problems += 1;
     }
 
     $project_size = $_POST["kb_size"];
@@ -529,7 +532,9 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             _("You selected both \"Some\" and \"Significant Amount\" for an item.
             Please go back, fix this, and resubmit the form.")
         );
-    } else if (strpos($project_size, ',') !== false) {
+    }
+    
+    if (strpos($project_size, ',') !== false) {
         report_form_problem(
             _("The file size should not contain commas.")
         );
@@ -542,7 +547,9 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             _("You put in a file size greater than 3000 KB.
             Please make sure that you have the file size in kilobytes, not bytes.")
         );
-    } else if (isset($_POST["some_illos"]) && !isset($_POST["num_illos"])) {
+    }
+    
+    if (isset($_POST["some_illos"]) && !isset($_POST["num_illos"])) {
         report_form_problem(
             _("You selected there were illustrations but didn't specify how many.
             Please go back and specify how many illustrations there were")
@@ -575,6 +582,8 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             }
         }
     }
+
+    if ($n_form_problems > 0) exit();
 
     // ---------------------------------
 
