@@ -52,6 +52,12 @@ function metarefresh($seconds,$url,$title="",$body="")
     // If we can't do the redirection using HTTP headers (which is the common
     // case), fall back to using a <meta> tag.
     slim_header($title, /* $include_doctype */ TRUE, /* $close_head_open_body */ FALSE);
+
+    // See if ambersands are present and if not escaped, escape them
+    if(strpos($url, '&') !== FALSE && strpos($url, '&amp;') === FALSE) {
+        $url = str_replace('&', '&amp;', $url);
+    }
+
     echo "<meta http-equiv=\"refresh\" content=\"$sec ;URL=$url\">\n";
     echo "</head><body>\n";
     echo "$body\n";
