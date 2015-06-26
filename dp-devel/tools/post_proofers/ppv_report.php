@@ -516,7 +516,7 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
 
     function report_form_problem($message)
     {
-        echo $message;
+        echo "\n<p class='form_problem'>$message</p>";
         exit();
     }
 
