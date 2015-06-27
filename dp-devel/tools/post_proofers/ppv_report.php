@@ -69,7 +69,17 @@ div.shrinker a {
 }
 input[type='text'], textarea {
      background-color: #E2F2E1;
-}";
+}
+
+p.form_problem {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+p.form_problem:before {
+    content: '\\002193 '; /* down-arrow */
+}
+";
 
 output_header(_('Post-Processing Verification Reporting'), SHOW_STATSBAR, $theme_args);
 
@@ -184,34 +194,37 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
 
     // ------------------------
 
-    if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
-    {
-        $n_form_problems = 0;
+    $n_form_problems = 0;
 
-        function report_form_problem($message)
+    function maybe_report_form_problem($message)
+    {
+        if ($message == "")
         {
-            global $n_form_problems;
-            echo "\n<p class='form_problem'>$message</p>";
+            return "";
+        }
+        else
+        {
+            global $n_form_problems, $i6;
             $n_form_problems += 1;
+            return "\n$i6<p class='form_problem'>$message</p>";
         }
     }
 
     function some_sig_combo($some_id, $some_label, $sig_id, $sig_label, $final_label)
     {
         global $action;
+        $problem = "";
         if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         {
             if (isset($_POST[$some_id]) && isset($_POST[$sig_id]))
             {
-                report_form_problem(
-                    _("You selected both \"Some\" and \"Significant Amount\" for an item.
-                        Please fix this, and resubmit the form.")
-                );
+                $problem = _("You selected both \"Some\" and \"Significant Amount\".");
             }
         }
 
         global $i6;
         return ""
+            . maybe_report_form_problem($problem)
             . "\n$i6"
             . "<p class='single2'>"
             . _checkbox($some_id, $some_label)
@@ -225,27 +238,21 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
     function some_num_combo($some_id, $some_label, $num_id)
     {
         global $action;
+        $problem = "";
         if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         {
             if (isset($_POST[$some_id]) && !isset($_POST[$num_id])) {
-                report_form_problem(
-                    _("You selected there were illustrations but didn't specify how many.
-                        Please specify how many illustrations there were")
-                );
+                $problem = _("You didn't specify how many.");
             } else if (isset($_POST[$some_id]) && (!is_numeric($_POST[$num_id]) || $_POST[$num_id] == 0)) {
-                report_form_problem(
-                    _("Please input a non-0 number for how many illustrations were in the book.")
-                );
+                $problem = _("You must enter a non-0 number.");
             } else if (!empty($_POST[$num_id]) && !isset($_POST[$some_id])) {
-                report_form_problem(
-                    sprintf(_("You put that there were %s illustrations but didn't check the box for illustrations.
-                        Please select the checkbox for 'Illustrations (other than minor decorations or logos)'."), $_POST[$num_id])
-                );
+                $problem = _("You gave a number but didn't check the box.");
             }
         }
 
         global $i6;
         return ""
+            . maybe_report_form_problem($problem)
             . "\n$i6"
             . "<p class='single2'>"
             . _checkbox($some_id, $some_label)
@@ -279,6 +286,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
     function number_box($id, $label, $options=array())
     {
         global $action;
+        $problem = "";
         if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         {
             $arg = $_POST[$id];
@@ -286,43 +294,23 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             if ($id == 'kb_size')
             {
                 if ($arg == "" || $arg == 0)
-                    report_form_problem(
-                        _("Please enter a file size that is greater than 0.")
-                    );
+                    $problem = _("You must enter a file size that is greater than 0.");
                 else if (strpos($arg, ',') !== false)
-                    report_form_problem(
-                        _("The file size should not contain commas.")
-                    );
+                    $problem = _("The file size should not contain commas.");
                 else if ($arg > 3000)
-                    report_form_problem(
-                        _("You put in a file size greater than 3000 KB.
-                            Please make sure that you have the file size in kilobytes, not bytes.")
-                    );
-            }
-            else if (startswith($id, "e1_"))
-            {
-                if (!empty($arg) && !is_numeric($arg))
-                    report_form_problem(
-                        _("Please input a number for all Level 1 error fields.
-                            Not all fields must be completed, but all data input in the error fields must be numeric.")
-                    );
-            }
-            else if (startswith($id, "e2_"))
-            {
-                if (!empty($arg) && !is_numeric($arg))
-                    report_form_problem(
-                        _("Please input a number for all Level 2 error fields.
-                            Not all fields must be completed, but all data input in the error fields must be numeric.")
-                    );
+                    $problem = _("You put in a file size greater than 3000 KB.
+                        Please make sure that you have the file size in kilobytes, not bytes.");
             }
             else
             {
-                assert(0);
+                if (!empty($arg) && !is_numeric($arg))
+                    $problem = _("You must enter a number (or leave the field blank).");
             }
         }
 
         global $i6;
         return ""
+            . maybe_report_form_problem($problem)
             . "\n$i6"
             . "<p class='single'>"
             . _textbox($id, $label, $options)
@@ -631,8 +619,17 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
 {
     if ($n_form_problems > 0)
     {
-        // Problems have already been reported above.
-        // Show the form as the user filled it in.
+        if ($n_form_problems == 1)
+            $message =
+                _("There was a problem with a form input, as detailed below. Please fix it and re-submit.");
+        else
+            $message = sprintf(
+                _("There were problems with %d form inputs, as detailed below. Please fix them and re-submit."),
+                $n_form_problems);
+        echo "\n<p class='form_problem'>$message</p>\n";
+
+        // Show the form as the user filled it in,
+        // with embedded problem-reports.
         echo $entry_form;
         exit();
     }
