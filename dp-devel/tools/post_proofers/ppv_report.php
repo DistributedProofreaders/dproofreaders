@@ -243,7 +243,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         {
             if (isset($_POST[$some_id]) && !isset($_POST[$num_id])) {
                 $problem = _("You didn't specify how many.");
-            } else if (isset($_POST[$some_id]) && (!is_numeric($_POST[$num_id]) || $_POST[$num_id] == 0)) {
+            } else if (isset($_POST[$some_id]) && (!is_decimal_digits($_POST[$num_id]) || $_POST[$num_id] == 0)) {
                 $problem = _("You must enter a non-0 number.");
             } else if (!empty($_POST[$num_id]) && !isset($_POST[$some_id])) {
                 $problem = _("You gave a number but didn't check the box.");
@@ -303,7 +303,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             }
             else
             {
-                if (!empty($arg) && !is_numeric($arg))
+                if (!empty($arg) && !is_decimal_digits($arg))
                     $problem = _("You must enter a number (or leave the field blank).");
             }
         }
@@ -376,6 +376,12 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             . "&nbsp;"
             . "<a onclick='shrink_textarea(\"$id\")'>&minus;</a>"
             . "</div>";
+    }
+
+    function is_decimal_digits($s)
+    {
+        assert(is_string($s));
+        return ctype_digit($s) && strlen($s) > 0; // the strlen check is necessary before PHP 5.1.0.
     }
 
     // ---------------------------------
