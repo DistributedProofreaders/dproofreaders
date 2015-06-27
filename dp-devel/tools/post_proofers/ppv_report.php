@@ -88,6 +88,24 @@ if (!user_can_work_in_stage($pguser, 'PPV')) {
 
 // -------------------------------------
 
+// When this script is invoked without a 'project' arg,
+// just show a form that elicits a project ID
+// and re-invokes this script with it.
+
+if (!isset($_REQUEST['project']))
+{
+    $prompt = _("Please enter a project ID:");
+    echo "
+        <form method='get'>
+        $prompt <input type='text' name='project'>
+        <input type='submit'>
+        </form>
+    ";
+    exit();
+}
+
+// -------------------------------------
+
 define('SHOW_BLANK_ENTRY_FORM',        'SHOW_BLANK_ENTRY_FORM');
 define('HANDLE_ENTRY_FORM_SUBMISSION', 'HANDLE_ENTRY_FORM_SUBMISSION');
 define('SEND_OUT_REPORTCARD',          'SEND_OUT_REPORTCARD');
