@@ -81,8 +81,13 @@ p.form_problem:before {
 }
 ";
 
-output_header(_('Post-Processing Verification Reporting'), SHOW_STATSBAR, $theme_args);
+$page_title = _('Post-Processing Verification Reporting');
 
+output_header($page_title, SHOW_STATSBAR, $theme_args);
+
+echo "\n<h1>$page_title</h1>\n";
+
+// -------------------------------------
 
 // To make PPVer collaboration easier, allow any PPVer to fill in the summary.
 // (The link is still only shown to the PPVer with the project checked-out.)
