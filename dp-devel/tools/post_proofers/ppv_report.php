@@ -241,12 +241,21 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         $problem = "";
         if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         {
-            if (isset($_POST[$some_id]) && !isset($_POST[$num_id])) {
-                $problem = _("You didn't specify how many.");
-            } else if (isset($_POST[$some_id]) && (!is_decimal_digits($_POST[$num_id]) || $_POST[$num_id] == 0)) {
-                $problem = _("You must enter a non-0 number.");
-            } else if (!empty($_POST[$num_id]) && !isset($_POST[$some_id])) {
-                $problem = _("You gave a number but didn't check the box.");
+            if (isset($_POST[$some_id]))
+            {
+                // checked the 'Some' box
+                if (!isset($_POST[$num_id]))
+                    $problem = _("You didn't specify how many.");
+                else if (!is_decimal_digits($_POST[$num_id]))
+                    $problem = _("You must enter a valid number.");
+                else if ($_POST[$num_id] == 0)
+                    $problem = _("You must enter a number greater than 0.");
+            }
+            else
+            {
+                // didn't check the 'Some' box
+                if (!empty($_POST[$num_id]))
+                    $problem = _("You gave a number but didn't check the box.");
             }
         }
 
@@ -293,10 +302,14 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
 
             if ($id == 'kb_size')
             {
-                if ($arg == "" || $arg == 0)
-                    $problem = _("You must enter a file size that is greater than 0.");
+                if ($arg == "")
+                    $problem = _("You must enter a file size.");
                 else if (strpos($arg, ',') !== false)
                     $problem = _("The file size should not contain commas.");
+                else if (!preg_match('/^\d+(\.\d+)?$/', $arg))
+                    $problem = _("You must enter a valid number.");
+                else if ($arg == 0)
+                    $problem = _("You must enter a file size that is greater than 0.");
                 else if ($arg > 3000)
                     $problem = _("You put in a file size greater than 3000 KB.
                         Please make sure that you have the file size in kilobytes, not bytes.");
