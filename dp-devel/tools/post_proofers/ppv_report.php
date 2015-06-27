@@ -15,19 +15,6 @@ require_login();
 
 undo_all_magic_quotes();
 
-$projectid = validate_projectID('project', @$_REQUEST['project']);
-
-define('SHOW_BLANK_ENTRY_FORM',        'SHOW_BLANK_ENTRY_FORM');
-define('HANDLE_ENTRY_FORM_SUBMISSION', 'HANDLE_ENTRY_FORM_SUBMISSION');
-define('SEND_OUT_REPORTCARD',          'SEND_OUT_REPORTCARD');
-
-if (isset($_GET['confirm']))
-    $action = HANDLE_ENTRY_FORM_SUBMISSION;
-else if (isset($_GET['send']))
-    $action = SEND_OUT_REPORTCARD;
-else
-    $action = SHOW_BLANK_ENTRY_FORM;
-
 // -------------------------------------
 
 $theme_args['js_data'] = "
@@ -98,6 +85,21 @@ if (!user_can_work_in_stage($pguser, 'PPV')) {
             If you feel this is an error, please contact a Site Administrator.");
     exit();
 }
+
+// -------------------------------------
+
+define('SHOW_BLANK_ENTRY_FORM',        'SHOW_BLANK_ENTRY_FORM');
+define('HANDLE_ENTRY_FORM_SUBMISSION', 'HANDLE_ENTRY_FORM_SUBMISSION');
+define('SEND_OUT_REPORTCARD',          'SEND_OUT_REPORTCARD');
+
+if (isset($_GET['confirm']))
+    $action = HANDLE_ENTRY_FORM_SUBMISSION;
+else if (isset($_GET['send']))
+    $action = SEND_OUT_REPORTCARD;
+else
+    $action = SHOW_BLANK_ENTRY_FORM;
+
+$projectid = validate_projectID('project', @$_REQUEST['project']);
 
 $project = mysql_fetch_object(mysql_query("SELECT nameofwork, authorsname, language, difficulty, n_pages, postproofer
                                            FROM projects WHERE projectid = '$projectid'"));
