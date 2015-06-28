@@ -625,6 +625,8 @@ new Pool(
         _("In this pool, experienced volunteers verify texts that have already been Post-Processed, and mentor new Post-Processors."),
         sprintf( _("<b>Before working in this pool</b>, please make sure you read the <a href='%s'>Post-Processing Verification Guidelines</a>."),
             "$code_url/faq/ppv.php"),
+        sprintf( _("The PPV reporting form is <a href='%s'>here</a>."),
+            "$code_url/tools/post_proofers/ppv_report.php"),
         "</p>",
 
         "<p>",
