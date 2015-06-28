@@ -520,6 +520,12 @@ function create_task_from_form_submission($formsub)
     wrapped_mysql_query($sql_query);
     $task_id = mysql_insert_id();
 
+    global $pguser, $date_str, $time_of_day_str;
+    NotificationMail($task_id,
+        "This task was created by $pguser on $date_str at $time_of_day_str.\n");
+    // Nobody could have subscribed to this particular task yet,
+    // so the msg will only go to those with taskctr_notice = 'all'.
+
     global $tasks_url, $code_url;
     $result = mysql_query("SELECT email, username FROM users WHERE u_id = $newt_assignee");
     if ($newt_assignee != 0) {
