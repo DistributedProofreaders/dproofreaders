@@ -1,12 +1,41 @@
+#!/bin/bash
 
 # parse the CLDR database (http://cldr.unicode.org/)
 # and extract language names for some languages, as a php include file
 # (pinc/loc_lang_names.inc).
 
-cdlr_common=./CLDR-common/main
+echoerr() {
+    echo "$@" 1>&2
+}
+
+if [ "$1x" == "x" ]; then
+    echoerr "First argument should be URL to most CLDR core.zip file"
+    echoerr "eg: $0 http://unicode.org/Public/cldr/26/core.zip > loc_lang_names.inc"
+    echoerr "See http://cldr.unicode.org/index/downloads"
+    exit 1
+fi
+
+TEMP=/tmp/CLDR
+mkdir -p $TEMP
+echoerr "Downloading $1 to $TEMP/core.zip..."
+wget -qq $1 -O $TEMP/core.zip
+if [ $? -ne 0 ]; then
+    echoerr "Error while downloading, bailing"
+    exit 1
+fi
+
+echoerr "Unzip'ing $TEMP/core.zip to $TEMP..."
+unzip -q $TEMP/core.zip -d $TEMP
+if [ $? -ne 0 ]; then
+    echoerr "Error unzip'ing, bailing"
+    exit 1
+fi
+
+cldr_common=$TEMP/common/main
 
 # edit the line below to generate data for more languages
 LANGS="en de fr it nl pt es"
+echoerr "Creating language names for $LANGS"
 
 cat <<'EOT'
 <?php
@@ -27,7 +56,7 @@ EOT
 
 for i in $LANGS
 do
-    xml=$cdlr_common/$i.xml
+    xml=$cldr_common/$i.xml
 
     sed '
         /<identity>/,/<\/identity>/ {
@@ -69,3 +98,4 @@ cat <<EOT
 ?>
 EOT
 
+rm -rf $TEMP
