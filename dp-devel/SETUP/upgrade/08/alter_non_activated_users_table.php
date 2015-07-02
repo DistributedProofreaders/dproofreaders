@@ -12,7 +12,7 @@ echo "Increasing the column length of user_password...\n";
 $sql = "
     ALTER TABLE non_activated_users
         CHANGE COLUMN user_password
-            user_password varchar(128);
+            user_password varchar(128) not null default '';
 ";
 
 echo "$sql\n";
