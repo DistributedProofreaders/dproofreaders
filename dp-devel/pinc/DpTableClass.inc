@@ -125,7 +125,7 @@ class DpTable
 
     function EchoTable($isnumbered = false) {
         if (!empty($this->_id))
-            $id = " id='$id'";
+            $id = " id='$this->_id'";
         else
             $id = "";
         echo "<table cellpadding='3' border='1' class='dptable'$id>\n";
