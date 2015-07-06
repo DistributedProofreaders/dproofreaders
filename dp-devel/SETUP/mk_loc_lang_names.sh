@@ -2,14 +2,20 @@
 
 # parse the CLDR database (http://cldr.unicode.org/)
 # and extract language names for some languages, as a php include file
-# (pinc/loc_lang_names.inc).
+# (eg: pinc/loc_lang_names.inc).
+
+# Note: pinc/loc_lang_names.inc does not yet exist and is not used.
+#       This creation script is being retained in case it is useful
+#       in the future. At that time it probably makes sense to include
+#       running this as part of the installation process, instead of
+#       checking in the generated file to source control.
 
 echoerr() {
     echo "$@" 1>&2
 }
 
 if [ "$1x" == "x" ]; then
-    echoerr "First argument should be URL to most CLDR core.zip file"
+    echoerr "First argument should be URL to most recent CLDR core.zip file"
     echoerr "eg: $0 http://unicode.org/Public/cldr/26/core.zip > loc_lang_names.inc"
     echoerr "See http://cldr.unicode.org/index/downloads"
     exit 1
