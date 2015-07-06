@@ -5,13 +5,11 @@
 
 ************************************
 */
-
-error_reporting(E_ALL);
-
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'Project.inc'); // validate_projectID()
 include_once($relPath.'DpTableClass.inc');
 
 require_login();
@@ -19,30 +17,22 @@ require_login();
 // ---------------------------------------------------------------
 
 // get the args
-$urlself    = $_SERVER['PHP_SELF'];
-$round_id   = @$_GET['round_id'] ;
-$action     = @$_GET['action'] ;
-$username   = @$_POST['username'] ;
-$projectid  = @$_POST['projectid'] ; 
-
-// if checking out a user/project
-if(! empty( $projectid ) && ! empty( $username ) ) {
-
-}
+$round_id  = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_), True);
+$projectid = validate_projectID('projectid', @$_POST['projectid'], True);
 
 // Gather the valid mentoring rounds
 
 $mentoring_rounds = get_mentoring_rounds();
 
 if( count( $mentoring_rounds ) == 0 ) {
-    die( $_( "There are no mentoring rounds." ) );
+    die( _( "There are no mentoring rounds." ) );
 }
 
 // ---------------------------------------------------------------
 
 // Establish the mentoring round, and validate the user
 
-$mentoring_round = get_mentoring_round();
+$mentoring_round = get_mentoring_round($round_id);
 
 if( ! user_can_mentor_in_round( $mentoring_round ) )
 {
@@ -93,8 +83,7 @@ $tbl->AddColumn(_("State"), "page_state");
 
 
 echo "
-      <form id='coform' method='post' action='" . htmlspecialchars($urlself, ENT_QUOTES) . "'>
-      <input type='hidden' id='username' value='$username' />
+      <form id='coform' method='post'>
       <input type='hidden' id='projectid' value='$projectid' />\n";
 $strmsg = sprintf( _("%s Mentor pages"), $mentoring_round->id );
 echo "<h2>$strmsg</h2>";
@@ -115,13 +104,12 @@ foreach( $proofers as $username => $proofer )
     $yourcount      = $proofer['your_count'];
     $uid            = $proofer['uid'];
 
-    $privmsg = _("Send private message");
+    $privmsg = _("PM");
+    $send_pm_url = get_url_to_compose_message_to_user($username);
 
     echo "\n<hr>\n";
     $proofer_link = "<a href=\"{$code_url}/stats/members/mdetail.php?id={$uid}\" target=\"_blank\">$username</a>
-    <a href=\"{$forums_url}/privmsg.php?mode=post&amp;u={$uid}\" target='_blank'>"
-    ."<img src=\"{$forums_url}/templates/subSilver/images/lang_english/icon_pm.gif\"
-    alt='{$privmsg}' title='{$privmsg}' border='0' /></a>\n";
+    [ <a href='$send_pm_url' target='_blank'>$privmsg</a> ]\n";
 
     $pgs_to_mentor  = _("Pages to mentor");
     $being_mentored = _("being mentored");
@@ -199,10 +187,9 @@ function get_mentoring_rounds()
     return $_rounds;
 }
 
-function get_mentoring_round()
+function get_mentoring_round($round_id)
 {
     global $mentoring_rounds;
-    $round_id = @$_GET['round_id'];
 
     if ( $round_id != '' )
     {
