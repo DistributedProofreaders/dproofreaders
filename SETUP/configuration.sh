@@ -8,7 +8,7 @@
 # that refers to 'example.org', and any value that's a password.
 
 # This file (or rather, your edited copy of it) is sourced by the scripts
-# 'update_from_cvs' and 'configure'.  Those are Bourne Shell scripts,
+# 'update_from_sf' and 'configure'.  Those are Bourne Shell scripts,
 # so you can use any syntax that /bin/sh allows.  However, in typical
 # usage, you would merely assign literal values to shell variables.
 
@@ -26,8 +26,8 @@
 
 # ----------------------------------------------------------------------
 
-# $TAG is the CVS-tag used to extract files from the repository.
-TAG=HEAD
+# $TAG is the git branch or tag to extract files from the repository.
+TAG=master
 
 # $GROUP is the name of the group that will group-own the files.
 GROUP=$USER

@@ -1,0 +1,83 @@
+#!/bin/sh
+
+# usage: get_git_clone <TAG> <GROUP> <root_dir>
+#
+# Get a clone of the DP code from SourceForge:
+# 1) Create $root_dir
+# 2) Clone the git repo
+# 3) Check out the $TAG code (be it a tag or a branch)
+# 4) Set up the group ownership to $GROUP
+# 5) Update file permissions
+
+TAG=$1
+GROUP=$2
+root_dir=$3
+
+if [ "x$TAG" == "x" ]; then
+    echo 'No tag specified, so existing'
+    echo 'usage: $0 tag group root_dir'
+    exit 1
+fi
+
+if [ "x$GROUP" == "x" ]; then
+    echo 'No group specified, so exiting'
+    echo 'usage: $0 tag group root_dir'
+    exit 1
+fi
+
+if [ "x$root_dir" == "x" ]; then
+    echo 'No root_dir specified, so exiting'
+    echo 'usage: $0 tag group root_dir'
+    exit 1
+fi
+
+# ------------------------------------------------------------------------------
+# Remove any $root_dir
+
+if [ -d $root_dir ]; then
+    # It's probably left over from a previous invocation of this
+    # script that failed for some reason.
+    rm -rf $root_dir
+    status=$?
+    if [ $status != 0 ]; then
+        echo "'rm $root_dir' returned status $status, so exiting"
+        exit 1
+    fi
+fi
+
+# ------------------------------------------------------------------------------
+# Extract the latest source from the git repository.
+
+sf_userid=`cat ~/.sourceforge_id 2>/dev/null`
+if [ "$sf_userid" != "" ]; then
+    echo "~/.sourceforge_id says you are $sf_userid at SourceForge"
+    echo "(If this is incorrect, please abort and edit the file.)"
+    echo "Getting read-write git clone via SSH"
+    clone_location=ssh://$sf_userid@git.code.sf.net/p/dproofreaders/git
+else
+    echo "Getting read-only git clone"
+    clone_location=git://git.code.sf.net/p/dproofreaders/git
+fi
+
+git clone $clone_location $root_dir
+
+# ------------------------------------------------------------------------------
+# Check out $TAG
+
+cd $root_dir
+git checkout $TAG
+
+# ------------------------------------------------------------------------------
+# Change group ownership
+
+chgrp -R $GROUP $root_dir
+
+# Make everything user+group-writeable, so that anyone in the group
+# can delete it (which they need to do to install a new one).
+
+chmod -R ug+w $root_dir
+
+# Remove all 'other' permissions on the SETUP directory,
+# to prevent it being served over the web.
+
+chmod -R o= $root_dir/SETUP

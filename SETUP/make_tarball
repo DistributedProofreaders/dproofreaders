@@ -26,8 +26,8 @@ fi
 rm -rf $tmpdir/c
 
 echo
-echo "get_cvs_snapshot ..."
-$script_dir/get_cvs_snapshot $tag $group $tmpdir/c
+echo "get_git_clone..."
+$script_dir/get_git_clone $tag $group $tmpdir/c
 
 echo
 echo "Creating tarball..."

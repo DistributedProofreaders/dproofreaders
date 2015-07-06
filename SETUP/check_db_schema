@@ -63,7 +63,7 @@ echo "
 " > $testing_dir/config.sh
 
 echo "Getting a test copy of the '$curr_tag' code..."
-$setup_dir/update_from_cvs $testing_dir/config.sh
+$setup_dir/update_from_sf $testing_dir/config.sh
 
 echo ""
 cd $testing_code_dir/SETUP

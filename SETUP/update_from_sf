@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ $# != 1 ]; then
-    echo 'usage: update_from_cvs <path-to-site-config-file>'
+    echo 'usage: update_from_sf <path-to-site-config-file>'
     exit 1
 fi
 
@@ -15,7 +15,7 @@ script_dir=`dirname $this_script_file`
 # Overview of this script:
 # ------------------------
 #
-# The CVS snapshot of dp-devel will be installed at
+# The code snapshot will be installed at
 #     $_CODE_DIR.new
 # (i.e., that directory will contain pinc, tools, etc.)
 #
@@ -33,7 +33,7 @@ script_dir=`dirname $this_script_file`
 # working on at home).
 #
 # In order to make the resulting site functional, this script
-# makes a few tweaks to the CVS snapshot, replacing certain
+# makes a few tweaks to the snapshot, replacing certain
 # patterns in certain files with site-specific strings.
 
 # ------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ script_dir=`dirname $this_script_file`
 # To update the dproofreaders.sourceforge.net test site every hour,
 # we invoke this script from a crontab on a SourceForge shell-server,
 # using the following line:
-#   00 * * * * /home/groups/d/dp/dproofreaders/bin/update_from_cvs
+#   00 * * * * /home/groups/d/dp/dproofreaders/bin/update_from_sf
 
 # ------------------------------------------------------------------------------
 
@@ -89,10 +89,10 @@ echo
 
 
 # ------------------------------------------------------------------------------
-# Get snapshot of code from CVS repository on SourceForge.
+# Get snapshot of code from SourceForge.
 
-$script_dir/get_cvs_snapshot $TAG $GROUP $_CODE_DIR.new
-check "get_cvs_snapshot"
+$script_dir/get_git_clone $TAG $GROUP $_CODE_DIR.new
+check "get_git_clone"
 
 # ------------------------------------------------------------------------------
 # Install site-specific info.
