@@ -80,4 +80,4 @@ chmod -R ug+w $root_dir
 # Remove all 'other' permissions on the SETUP directory,
 # to prevent it being served over the web.
 
-chmod -R o= $root_dir/SETUP
+chmod -R o= `find $root_dir -name SETUP -type d`
