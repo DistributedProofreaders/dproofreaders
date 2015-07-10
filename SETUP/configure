@@ -7,12 +7,12 @@ fi
 site_config_file=$1
 code_dir=$2
 
-# Go to each text file under $code_dir and change occurrences of
+# For each file in $code_dir with a .template suffix, change occurrences of
 #     <<SOME_VARIABLE_NAME>>
 # to the value of the corresponding variable as defined in the
 # $site_config_file.
 
-# First, get the values of the variables in #site_config_file
+# First, get the values of the variables in $site_config_file
 # by sourcing it.
 
 . $site_config_file
@@ -47,30 +47,27 @@ check()
 
 echo ""
 echo "Making site-specific modifications..."
-find $code_dir -type f \( -name '*.png' -o -name '*.gif' -o -name '*.jpg' -o -name '*.ico' -o -name '*.pdf' -o -print \) |
+find $code_dir -type f -name '*.template' |
 while read p; do
     dir=`dirname $p`
-    base=`basename $p`
+    template=`basename $p`
+    dest=`echo $template | sed 's/.template//'`
+
+    echo "    configuring $dir/$dest"
 
     # Do this first, so that the new file will have the same
     # permissions and ownership as the original.
-    cp -p $dir/$base $dir/new.$base
+    cp -p $dir/$template $dir/$dest
 
-    < $dir/$base sed -e "$sed_script" > $dir/new.$base
-    check "writing $dir/new.$base"
+    < $dir/$template sed -e "$sed_script" > $dir/$dest
+    check "writing $dir/$dest"
 
-    if diff -q $dir/$base $dir/new.$base > /dev/null; then
+    if diff -q $dir/$template $dir/$dest > /dev/null; then
         # no differences found
-               rm $dir/new.$base
-        check "rm $dir/new.$base"
-    else
-        # some difference found (or else an error, hm)
-        echo "    tweaking $dir/$base"
+        echo "    Warning: $dir/$template marked as a template, but no"
+        echo "    template variables were found. Removing new file." 
 
-               mv $dir/$base $dir/bak.$base
-        check "mv $dir/$base $dir/bak.$base"
-
-               mv $dir/new.$base $dir/$base
-        check "mv $dir/new.$base $dir/$base"
+               rm $dir/$dest
+        check "rm $dir/$dest"
     fi
 done
