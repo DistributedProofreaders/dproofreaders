@@ -13,19 +13,19 @@ TAG=$1
 GROUP=$2
 root_dir=$3
 
-if [ "x$TAG" == "x" ]; then
-    echo 'No tag specified, so existing'
+if [ "x$TAG" = "x" ]; then
+    echo 'No tag specified, so exiting'
     echo 'usage: $0 tag group root_dir'
     exit 1
 fi
 
-if [ "x$GROUP" == "x" ]; then
+if [ "x$GROUP" = "x" ]; then
     echo 'No group specified, so exiting'
     echo 'usage: $0 tag group root_dir'
     exit 1
 fi
 
-if [ "x$root_dir" == "x" ]; then
+if [ "x$root_dir" = "x" ]; then
     echo 'No root_dir specified, so exiting'
     echo 'usage: $0 tag group root_dir'
     exit 1
