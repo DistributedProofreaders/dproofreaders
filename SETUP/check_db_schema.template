@@ -33,7 +33,7 @@ echo ""
 echo "Creating a config file for a test install..."
 echo "
     TAG=$curr_tag
-    GROUP=$USER
+    GROUP=users
     SHIFT_TO_LIVE=yes
 
     _CODE_DIR=$testing_code_dir
@@ -66,13 +66,22 @@ echo "Getting a test copy of the '$curr_tag' code..."
 $setup_dir/update_from_sf $testing_dir/config.sh
 
 echo ""
-cd $testing_code_dir/SETUP
+echo "Getting db_schema.sql from the '$prev_tag' release..."
+cd $testing_code_dir
+# check out $prev_tag and stash off db_schema.sql
+git checkout -q $prev_tag
+cp `find $testing_code_dir -name db_schema.sql` /tmp/db_schema.sql
+# check out $curr_tag and replace db_schema.sql with stashed copy
+git checkout -q $curr_tag
+testing_code_setup_dir=`find $testing_code_dir -name SETUP -type d`
+mv /tmp/db_schema.sql $testing_code_setup_dir/db_schema.sql
 
 echo ""
-echo "Getting db_schema.sql from the '$prev_tag' release..."
-cvs_server=dproofreaders.cvs.sourceforge.net
-cvs_account=:pserver:anonymous@$cvs_server
-cvs -d$cvs_account:/cvsroot/dproofreaders get -p -r $prev_tag dp-devel/SETUP/db_schema.sql > ./db_schema.sql
+echo "Applying configuration..."
+$testing_code_setup_dir/configure $testing_dir/config.sh $testing_code_dir
+
+echo ""
+cd $testing_code_setup_dir
 
 echo ""
 echo "Creating and/or cleaning out the test database..."
@@ -91,7 +100,7 @@ $php_cli_exec ./install_db.php
 
 echo ""
 echo "Applying all upgrade scripts..."
-cd $testing_code_dir/SETUP/upgrade/$upgrade_number
+cd $testing_code_setup_dir/upgrade/$upgrade_number
 for f in *.php; do
     echo ""
     echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
@@ -101,7 +110,7 @@ for f in *.php; do
 done
 echo ""
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-cd $testing_code_dir/SETUP
+cd $testing_code_setup_dir
 
 echo ""
 echo "Dumping the schema of the resulting database..."
