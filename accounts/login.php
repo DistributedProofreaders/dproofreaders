@@ -84,7 +84,7 @@ if ($userPW == '')
 }
 
 // Confirm a valid username and password
-if (!is_username_password_valid($userNM, $userPW))
+if (!login_forum_user($userNM, $userPW))
 {
    abort_login(_("Username or password is incorrect."));
 }
@@ -121,18 +121,6 @@ $userNM = $u_row['username'];
 
 // Start the DP session.
 dpsession_begin( $userNM );
-
-// Log into phpBB2
-if (is_dir($forums_dir))
-{
-    $user_id = get_forum_user_id($userNM);
-    define('IN_PHPBB', true);
-    $phpbb_root_path = $forums_dir."/";
-    include($phpbb_root_path.'extension.inc');
-    include($phpbb_root_path.'common.php');
-    include($phpbb_root_path.'config.php');
-    session_begin($user_id, $user_ip, PAGE_INDEX, false, 1);
-}
 
 // It's possible that a user might be redirected back to this page after
 // a successful login in this scenario:

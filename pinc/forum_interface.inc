@@ -1,6 +1,12 @@
 <?php
 // forum_interface.inc
 
+// Note:
+// phpBB2 uses a lot of global variables that it sets when its files
+// are included. To put phpBB2 code in a function, we must give the
+// function access to the globals that the includes set.
+
+
 include_once($relPath."languages.inc"); // phpbb_lang()
 
 // This file provides functions to interface with the forum software (phpBB
@@ -14,7 +20,7 @@ function is_username_password_valid($username, $password)
 //     TRUE  - is valid (user exists with specified password)
 //     FALSE - invalid (username/password pair were not found)
 {
-    $digested_password = MD5($password);
+    $digested_password = forum_password_hash($password);
 
     $query = sprintf("
         SELECT *
@@ -30,12 +36,22 @@ function is_username_password_valid($username, $password)
     return $valid;
 }
 
+function forum_password_hash($password)
+// Implement or call the hashing function used by the forum to hash
+// the password stored in the database. This is required because we
+// store the hashed password in the non_activated_users table and use
+// it directly when creating the account post-activation.
+{
+    return md5($password);
+}
+
+
 function create_forum_user($username, $password, $email, $password_is_digested=FALSE)
 // Creates a forum user with the specified username, password, and email.
 // The DP registration process already digests the password, hence the
 // need for $password_is_digested.
 {
-    $digested_password = ($password_is_digested ? $password : md5($password) );
+    $digested_password = ($password_is_digested ? $password : forum_password_hash($password) );
 
     // Code primarily lifted from bb_register.php
     $sql = "SELECT max(user_id) FROM phpbb_users";
@@ -47,6 +63,74 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
     $currtime = time();
     $sql = sprintf("INSERT INTO phpbb_users SET user_id=$max_user_id, username='%s', user_regdate=$currtime, user_timezone=-8.00, user_lang='%s', user_email='%s', user_password='%s', user_viewemail=0", mysql_real_escape_string($username), (phpbb_lang()?phpbb_lang():"english"), mysql_real_escape_string($email), mysql_real_escape_string($digested_password));
     mysql_query($sql) or die(mysql_error());
+}
+
+function login_forum_user($username, $password)
+// Log in the user to the forums.
+// Returns:
+//     TRUE  - user sucessfully logged in
+//     FALSE - login failed
+{
+    global $forums_dir;
+
+    if(!is_dir($forums_dir))
+        return;
+
+    if(!is_username_password_valid($username, $password))
+        return FALSE;
+
+    $user_id = get_forum_user_id($username);
+
+    // phpBB2 uses a lot of global variables that it sets when its files
+    // are included. To put these in a function, we have to give the function
+    // access to the globals that these includes set.
+
+    // these globals are pulled from:
+    // phpBB2/includes/sessions.php:session_end()
+    global $db, $board_config;
+    global $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID;
+
+    define('IN_PHPBB', true);
+
+    $phpbb_root_path = $forums_dir."/";
+    include($phpbb_root_path.'extension.inc');
+    include($phpbb_root_path.'common.php');
+    include($phpbb_root_path.'config.php');
+
+    session_begin($user_id, $user_ip, PAGE_INDEX, false, 1);
+
+    define('IN_PHPBB', false);
+
+    return TRUE;
+}
+
+function logout_forum_user()
+// Log out the currently-authenticated user from the forum.
+{
+    global $forums_dir;
+    global $pguser;
+
+    if(!is_dir($forums_dir))
+        return;
+
+    $user_id = get_forum_user_id($pguser);
+
+    // these globals are pulled from
+    // phpBB2/includes/sessions.php:session_end()
+    global $db, $lang, $board_config, $userdata;
+    global $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID;
+
+    define('IN_PHPBB', true);
+
+    $phpbb_root_path = $forums_dir."/";
+    include($phpbb_root_path.'extension.inc');
+    include($phpbb_root_path.'common.php');
+    include($phpbb_root_path.'config.php');
+
+    $session_id = $_COOKIE['phpbb2mysql_sid'];
+    session_end($session_id, $user_id);
+
+    define('IN_PHPBB', false);
 }
 
 function get_forum_user_details($username)

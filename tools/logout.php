@@ -7,18 +7,7 @@ include_once($relPath.'forum_interface.inc');
 
 if($user_is_logged_in)
 {
-    // Log out of phpBB2
-    if (is_dir($forums_dir))
-    {
-        $user_id = get_forum_user_id($pguser);
-        define('IN_PHPBB', true);
-        $phpbb_root_path = $forums_dir."/";
-        include($phpbb_root_path.'extension.inc');
-        include($phpbb_root_path.'common.php');
-        include($phpbb_root_path.'config.php');
-        $session_id = $_COOKIE['phpbb2mysql_sid'];
-        session_end($session_id, $user_id);
-    }
+    logout_forum_user();
 
     dpsession_end();
 }

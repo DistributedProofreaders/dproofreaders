@@ -107,7 +107,7 @@ if ($password=="proofer") {
         // 16 random bytes turn into a 32-character hex string prefixed with 'userID'
         $ID = "userID" . bin2hex(openssl_random_pseudo_bytes(16));
 
-        $digested_password = md5($userpass);
+        $digested_password = forum_password_hash($userpass);
 
         $query = sprintf("INSERT INTO non_activated_users (id, real_name, username, email, date_created, email_updates, u_intlang, user_password) VALUES ('%s', '%s', '%s', '%s', $todaysdate, '%s', '%s', '%s')", mysql_real_escape_string($ID), mysql_real_escape_string($real_name), mysql_real_escape_string($username), mysql_real_escape_string($email), mysql_real_escape_string($email_updates), mysql_real_escape_string($intlang), mysql_real_escape_string($digested_password));
 
