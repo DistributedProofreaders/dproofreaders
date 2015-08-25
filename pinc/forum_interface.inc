@@ -1,15 +1,12 @@
 <?php
 // forum_interface.inc
 
-// Note:
-// phpBB2 uses a lot of global variables that it sets when its files
-// are included. To put phpBB2 code in a function, we must give the
-// function access to the globals that the includes set.
-
-// This file provides functions to interface with the forum software (phpBB
-// in this case). Ideally if the forum software changes due to version
-// upgrades or using an entirely different forum software, this is one of the
+// This file provides functions to interface with the forum software.
+// Ideally if the forum software changes due to version upgrades or
+// using an entirely different forum software, this is one of the
 // few files that would require changes.
+//
+// Currently only phpBB version 2 is supported.
 
 function phpbb_lang($langcode=FALSE) {
     global $relPath;
