@@ -6,6 +6,7 @@ require_once 'site_vars.php';
 require_once 'prefs_options.inc'; // PRIVACY_*
 require_once 'dpsession.inc';
 require_once "Profileclass.inc";
+include_once("forum_interface.inc");
 
 /**
  * User Class.
@@ -1108,7 +1109,7 @@ class User
         if (empty($this->users_phpbb['user_avatar'])) {
             $avatar = $GLOBALS['code_url']."/graphics/default_avatar.gif";
         } else {
-            $avatar = $GLOBALS['forums_url']."/images/avatars/".$this->users_phpbb['user_avatar'];
+            $avatar = get_url_for_user_avatar($this->username);
         }
         return $avatar;
     }

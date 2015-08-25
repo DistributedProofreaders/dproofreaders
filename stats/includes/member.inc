@@ -211,7 +211,7 @@ function showMbrRoles($curMbr)
 }
 
 function showForumProfile($username) {
-    global $forums_url, $theme, $site_abbreviation;
+    global $theme, $site_abbreviation;
 
     $bb_user = get_forum_user_details($username);
 
@@ -280,42 +280,42 @@ function showForumProfile($username) {
         array(
             !empty($bb_user["viewemail"]),
             _("E-mail"),
-            "icon_email.gif",
+            $bb_user["email"],
             "mailto:" . $bb_user["email"],
             ''
         ),
         array(
             TRUE,
             _("Private Message"),
-            "icon_pm.gif",
+            $username,
             get_url_to_compose_message_to_user($username),
             ''
         ),
         array(
             !empty($bb_user["aim"]),
             "AIM",
-            "icon_aim.gif",
+            $bb_user["aim"],
             "aim:goim?screenname=".$bb_user["aim"]."&message=Hello!+Are+you+there?++I+am+IMing+you+from+$site_abbreviation",
             ''
         ),
         array(
             !empty($bb_user["msnm"]),
             "MSN",
-            "icon_msnm.gif",
+            $bb_user["msnm"],
             "javascript:alert(\"" . $bb_user["msnm"] . "\")",
             ''
         ),
         array(
             !empty($bb_user["yim"]),
             _("Yahoo Message"),
-            "icon_yim.gif",
+            $bb_user["yim"],
             "http://edit.yahoo.com/config/send_webmesg?.target=" . $bb_user["yim"] . "&.src=pg",
             "_new"
         ),
         array(
             !empty($bb_user["icq"]),
             "ICQ",
-            "icon_icq.gif",
+            $bb_user["icq"],
             "http://wwp.icq.com/scripts/search.dll?to=" . $bb_user["icq"],
             "_new"
         ),
@@ -323,17 +323,15 @@ function showForumProfile($username) {
 
     foreach ( $contact_data as $contact )
     {
-        list( $condition, $label, $icon_filename, $url, $target ) = $contact;
+        list( $condition, $label, $value, $url, $target ) = $contact;
 
         if (!$condition) continue;
 
-        $icon_path = "$forums_url/templates/subSilver/images/lang_english/$icon_filename";
-        $img_tag = "<img src='$icon_path' alt='" . attr_safe($label) ."' border='0'>";
         $target_str = ( empty($target) ? '' : " target='$target'" );
 
         $t->row(
             $label,
-            "<a href='$url'$target_str>$img_tag</a>"
+            "<a href='$url'$target_str>$value</a>"
         );
     }
 
