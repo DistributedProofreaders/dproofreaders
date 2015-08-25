@@ -730,100 +730,8 @@ function topic_create(
     $poster_is_real,
     $make_poster_watch_topic
 )
+// A proxy for phpbb[2|3]_create_topic() in external phpbb[2|3].inc
 {
-    # TODO: deal with $poster_is_real and $make_poster_watch_topic
-    # phpbb3
-    $user_id = get_forum_user_id($poster_name);
-
-    global $forums_dir;
-    global $phpbb_root_path, $phpEx;
-    $phpbb_root_path = $forums_dir."/";
-    $phpEx = "php";
-
-    // these globals are pulled from
-    // globals pulled from include/functions_posting.php:submit_post()
-    global $db, $template, $config, $auth, $phpEx, $phpbb_root_path, $cache;
-    global $SID, $_SID, $user;
-
-    define('IN_PHPBB', true);
-    define('ROOT_PATH', $forums_dir);
-
-    include($phpbb_root_path . 'common.' . $phpEx);
-    include($phpbb_root_path . 'includes/functions_posting.' . $phpEx);
-
-    # see: https://wiki.phpbb.com/Function.submit_post
-    $subject = utf8_normalize_nfc($post_subject);
-    $text    = utf8_normalize_nfc($post_text);
-
-    $poll = $uid = $bitfield = $options = '';
-    generate_text_for_storage($subject, $uid, $bitfield, $options, false, false, false);
-    generate_text_for_storage($text, $uid, $bitfield, $options, true, true, true);
-
-    $data = array( 
-        // General Posting Settings
-        'forum_id'      => $forum_id,// The forum ID in which the post will be placed. (int)
-        'topic_id'      => 0,        // Post a new topic or in an existing one? Set to 0 to create a new one, if not, specify your topic ID here instead.
-        'icon_id'       => false,    // The Icon ID in which the post will be displayed with on the viewforum, set to false for icon_id. (int)
-    
-        // Defining Post Options
-        'enable_bbcode' => true,    // Enable BBcode in this post. (bool)
-        'enable_smilies'=> false,   // Enabe smilies in this post. (bool)
-        'enable_urls'   => true,    // Enable self-parsing URL links in this post. (bool)
-        'enable_sig'    => true,    // Enable the signature of the poster to be displayed in the post. (bool)
-    
-        // Message Body
-        'message'       => $text,      // Your text you wish to have submitted. It should pass through generate_text_for_storage() before this. (string)
-        'message_md5'   => md5($text), // The md5 hash of your message
-    
-        // Values from generate_text_for_storage()
-        'bbcode_bitfield' => $bitfield, // Value created from the generate_text_for_storage() function.
-        'bbcode_uid'      => $uid,      // Value created from the generate_text_for_storage() function.
-    
-        // Other Options
-        'post_edit_locked' => 0,        // Disallow post editing? 1 = Yes, 0 = No
-        'topic_title'      => $subject, // Subject/Title of the topic. (string)
-    
-        // Email Notification Settings
-        'notify_set'    => false,    // (bool)
-        'notify'        => false,    // (bool)
-        'post_time'     => 0,        // Set a specific time, use 0 to let submit_post() take care of getting the proper time (int)
-        'forum_name'    => '',       // For identifying the name of the forum in a notification email. (string)
-    
-        // Indexing
-        'enable_indexing'=> true,    // Allow indexing the post? (bool)
-    
-        // 3.0.6
-        'force_approved_state'=> true, // Allow the post to be submitted without going into unapproved queue
-    
-        // 3.1-dev, overwrites force_approve_state
-        'force_visibility'=> true, // Allow the post to be submitted without going into unapproved queue, or make it be deleted
-    );
-
-    # Stash $user and $auth so we can masquerade as $poster_name
-    # see: https://phpbbmodders.net/articles/3.0/create_post/
-    $backup_user = $user;
-    $backup_auth = $auth;
-    $sql = 'SELECT * FROM ' . USERS_TABLE . ' WHERE user_id = ' . $user_id;
-    $result = $db->sql_query($sql);
-    $row = $db->sql_fetchrow($result);
-    $db->sql_freeresult($result);
-    $user->session_begin();
-    $user->data = array_merge($user->data, $row);
-    $user->ip = '127.0.0.1';
-    $auth->acl($user->data);
-
-    submit_post('post', $subject, '', POST_NORMAL, $poll, $data);
-
-    # restore the original user
-    $user = $backup_user;
-    $auth = $backup_auth;
-
-    define('IN_PHPBB', false);
-
-    return $data['topic_id'];
-
-    # phpbb2
-    // A proxy for phpbb[2|3]_create_topic() in external phpbb[2|3].inc
     $args = func_get_args();
     $topic_id = call_phpbb_function( 'create_topic', $args );
 
@@ -856,9 +764,6 @@ function call_phpbb_function( $func_name, $args )
 // It's risky to combine DP and phpBB code in the same PHP context,
 // so we run the phpBB code in a separate process.
 {
-    # XXX / TODO - implement this
-    return;
-
     // echo "call_phpbb_function( $func_name, ", print_r($args,TRUE), ")<br>\n";
 
     global $forums_dir;
