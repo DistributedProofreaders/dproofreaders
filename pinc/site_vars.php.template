@@ -31,8 +31,11 @@ $wikihiero_url = '<<WIKIHIERO_URL>>';
 
 $archive_projects_dir = '<<ARCHIVE_PROJECTS_DIR>>';
 
+define('PHPBB_VERSION', '<<PHPBB_VERSION>>');
+define('PHPBB_TABLE_PREFIX', '<<PHPBB_TABLE_PREFIX>>');
 $forums_dir = '<<FORUMS_DIR>>';
 $forums_url = '<<FORUMS_URL>>';
+
 $reset_password_url        = "$forums_url/profile.php?mode=sendpassword";
 
 

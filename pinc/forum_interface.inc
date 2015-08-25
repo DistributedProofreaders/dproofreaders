@@ -8,8 +8,6 @@
 //
 // Currently only phpBB version 2 is supported.
 
-define("PHPBB_TABLE_PREFIX", "phpbb");
-
 function phpbb_lang($langcode=FALSE)
 // Return the language string phpbb uses for $langcode for languages
 // installed in the forum interface. Fall back to English if $langcode
