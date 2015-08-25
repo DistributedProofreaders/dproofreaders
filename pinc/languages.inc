@@ -204,15 +204,6 @@ function lang_forum($langcode=FALSE)
         return false;
 }
 
-function phpbb_lang($langcode=FALSE) {
-    global $phpbblangs;
-
-    if($langcode===FALSE)
-        $langcode=$GLOBALS['locale'];
-
-    return @$phpbblangs[$langcode];
-}
-
 function lang_html_header($langcode=FALSE)
 {
     $string=" lang='" . short_lang_code($langcode) . "'";

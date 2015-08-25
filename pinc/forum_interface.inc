@@ -6,13 +6,20 @@
 // are included. To put phpBB2 code in a function, we must give the
 // function access to the globals that the includes set.
 
-
-include_once($relPath."languages.inc"); // phpbb_lang()
-
 // This file provides functions to interface with the forum software (phpBB
 // in this case). Ideally if the forum software changes due to version
 // upgrades or using an entirely different forum software, this is one of the
 // few files that would require changes.
+
+function phpbb_lang($langcode=FALSE) {
+    global $relPath;
+    include($relPath."lang_data.inc"); // $phpbb2langs
+
+    if($langcode===FALSE)
+        $langcode=@$GLOBALS['locale'];
+
+    return @$phpbb2langs[$langcode];
+}
 
 function is_username_password_valid($username, $password)
 // Check to see if the given username/password pair is valid.
