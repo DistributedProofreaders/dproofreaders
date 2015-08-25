@@ -8,6 +8,8 @@
 //
 // Currently only phpBB version 2 is supported.
 
+define("PHPBB_TABLE_PREFIX", "phpbb");
+
 function phpbb_lang($langcode=FALSE)
 // Return the language string phpbb uses for $langcode for languages
 // installed in the forum interface. Fall back to English if $langcode
@@ -31,11 +33,13 @@ function is_username_password_valid($username, $password)
 //     TRUE  - is valid (user exists with specified password)
 //     FALSE - invalid (username/password pair were not found)
 {
+    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+
     $digested_password = forum_password_hash($password);
 
     $query = sprintf("
         SELECT *
-        FROM phpbb_users
+        FROM {$phpbb_table_prefix}_users
         WHERE username='%s' AND user_password='%s'
         ", mysql_real_escape_string($username), mysql_real_escape_string($digested_password));
     $res = mysql_query($query) or die(mysql_error());
@@ -62,17 +66,19 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
 // The DP registration process already digests the password, hence the
 // need for $password_is_digested.
 {
+    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+
     $digested_password = ($password_is_digested ? $password : forum_password_hash($password) );
 
     // Code primarily lifted from bb_register.php
-    $sql = "SELECT max(user_id) FROM phpbb_users";
+    $sql = "SELECT max(user_id) FROM {$phpbb_table_prefix}_users";
     $res = mysql_query($sql) or die(mysql_error());
     list($max_user_id) = mysql_fetch_array($res);
     mysql_free_result($res);
 
     $max_user_id += 1; 
     $currtime = time();
-    $sql = sprintf("INSERT INTO phpbb_users SET user_id=$max_user_id, username='%s', user_regdate=$currtime, user_timezone=-8.00, user_lang='%s', user_email='%s', user_password='%s', user_viewemail=0", mysql_real_escape_string($username), phpbb_lang(), mysql_real_escape_string($email), mysql_real_escape_string($digested_password));
+    $sql = sprintf("INSERT INTO {$phpbb_table_prefix}_users SET user_id=$max_user_id, username='%s', user_regdate=$currtime, user_timezone=-8.00, user_lang='%s', user_email='%s', user_password='%s', user_viewemail=0", mysql_real_escape_string($username), phpbb_lang(), mysql_real_escape_string($email), mysql_real_escape_string($digested_password));
     mysql_query($sql) or die(mysql_error());
 }
 
@@ -166,13 +172,15 @@ function get_forum_user_details($username)
 //     posts     - number of forum posts
 // If the user isn't found, the function returns NULL.
 {
+    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+
     $interested_columns = array("id","username","lastvisit","from","occ","interests","viewemail","email","avatar","icq","website","aim","yim","msnm","jabber","rank","posts");
 
     $return_data = array();
 
     $query = sprintf("
         SELECT *
-        FROM phpbb_users
+        FROM {$phpbb_table_prefix}_users
         WHERE username='%s'
         ", mysql_real_escape_string($username));
     $res = mysql_query($query) or die(mysql_error());
@@ -216,6 +224,8 @@ function set_forum_user_details($username,$details)
 //     jabber    - Jabber address
 // Returns TRUE if the update succeeded or FALSE otherwise.
 {
+    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+
     $interested_columns = array("from","occ","interests","email","icq","website","aim","yim","msnm","jabber");
 
     $set_data = array();
@@ -238,7 +248,7 @@ function set_forum_user_details($username,$details)
     }
 
     $query = sprintf("
-        UPDATE phpbb_users
+        UPDATE {$phpbb_table_prefix}_users
         SET %s
         WHERE username='%s'
         ", 
@@ -252,6 +262,8 @@ function set_forum_user_details($username,$details)
 function get_forum_user_id($username)
 // Given a forum username, return the forum user ID.
 {
+    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+
     // Use a local in-memory cache so we don't pummel the database
     // for pages that end up calling this for the same small set 
     // of users over and over. Cache is local to this function.
@@ -261,7 +273,7 @@ function get_forum_user_id($username)
 
     $query = sprintf("
         SELECT user_id
-        FROM phpbb_users
+        FROM {$phpbb_table_prefix}_users
         WHERE username = '%s' 
         ", mysql_real_escape_string($username));
     $res = mysql_query($query) or die(mysql_error());
@@ -281,9 +293,11 @@ function get_forum_user_id($username)
 function get_forum_rank_title($rank)
 // Given a forum rank number, return the text title of that rank.
 {
+    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+
     $query = sprintf("
         SELECT rank_title
-        FROM phpbb_ranks
+        FROM {$phpbb_table_prefix}_ranks
         WHERE rank_id = %d
         ",$rank);
     $res = mysql_query($query) or die(mysql_error());
@@ -381,6 +395,8 @@ function get_url_for_inbox()
 function get_number_of_unread_messages($username)
 // Given a forum username, return the number of unread messages.
 {
+    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+
     $forum_userid = get_forum_user_id($username);
 
     if($forum_userid == NULL)
@@ -388,7 +404,7 @@ function get_number_of_unread_messages($username)
 
     $query = "
         SELECT COUNT(*)
-        FROM phpbb_privmsgs
+        FROM {$phpbb_table_prefix}_privmsgs
         WHERE privmsgs_to_userid = $forum_userid and (privmsgs_type = 1 or privmsgs_type = 5)
         ";
     $res = mysql_query($query) or die(mysql_error());
@@ -405,9 +421,11 @@ function does_topic_exist($topic_id)
 //     FALSE - doesn't exist
 //     TRUE  - does exist
 {
+    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+
     $query = "
         SELECT 1
-        FROM phpbb_topics
+        FROM {$phpbb_table_prefix}_topics
         WHERE topic_id = $topic_id;
         ";
     $res = mysql_query($query) or die(mysql_error());
@@ -424,13 +442,15 @@ function get_last_post_time_in_topic($topic_id)
 // in UNIX time format (seconds since UNIX epoch).
 // If no topic is found, function returns NULL.
 {
+    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+
     // Validate that $topic_id is an integer and if not, return NULL
     if(!is_numeric($topic_id))
         return NULL;
 
     $query = "
         SELECT MAX(post_time)
-        FROM phpbb_posts
+        FROM {$phpbb_table_prefix}_posts
         WHERE topic_id = $topic_id
         ";
     $res = mysql_query($query) or die(mysql_error());
@@ -453,17 +473,23 @@ function get_topic_details($topic_id)
 //     forum_id         - the id of the forum the topic is in
 //     creator_username - the username of the topic creator
 {
+    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+
+    $phpbb_topics = "${phpbb_table_prefix}_topics";
+    $phpbb_forums = "${phpbb_table_prefix}_forums";
+    $phpbb_users = "${phpbb_table_prefix}_users";
+
     $query = "
-        SELECT phpbb_topics.topic_id AS topic_id,
-            phpbb_topics.topic_title AS title,
-            phpbb_topics.topic_replies AS num_replies,
-            phpbb_forums.forum_name AS forum_name,
-            phpbb_forums.forum_id AS forum_id,
-            phpbb_users.username AS creator_username
-        FROM phpbb_topics
-        INNER JOIN phpbb_forums ON phpbb_topics.forum_id = phpbb_forums.forum_id
-        INNER JOIN phpbb_users ON phpbb_topics.topic_poster = phpbb_users.user_id
-        WHERE phpbb_topics.topic_id = $topic_id
+        SELECT $phpbb_topics.topic_id AS topic_id,
+            $phpbb_topics.topic_title AS title,
+            $phpbb_topics.topic_replies AS num_replies,
+            $phpbb_forums.forum_name AS forum_name,
+            $phpbb_forums.forum_id AS forum_id,
+            $phpbb_users.username AS creator_username
+        FROM $phpbb_topics
+        INNER JOIN $phpbb_forums ON $phpbb_topics.forum_id = $phpbb_forums.forum_id
+        INNER JOIN $phpbb_users ON $phpbb_topics.topic_poster = $phpbb_users.user_id
+        WHERE $phpbb_topics.topic_id = $topic_id
         ";
     $res = mysql_query($query) or die(mysql_error());
 
@@ -578,11 +604,13 @@ function my_escapeshellarg( $arg )
 
 function topic_change_forum( $topic_id, $to_forum_id )
 {
+    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+
     assert( $topic_id != '' );
 
     $result = mysql_query("
         SELECT forum_id
-        FROM phpbb_topics
+        FROM {$phpbb_table_prefix}_topics
         WHERE topic_id=$topic_id
     ");
 
@@ -596,14 +624,14 @@ function topic_change_forum( $topic_id, $to_forum_id )
     {
         // move posts to new forum
         mysql_query("
-            UPDATE phpbb_posts
+            UPDATE {$phpbb_table_prefix}_posts
             SET forum_id = $to_forum_id
             WHERE topic_id = $topic_id
         ");
 
         // move topic to new forum
         mysql_query("
-            UPDATE phpbb_topics
+            UPDATE {$phpbb_table_prefix}_topics
             SET forum_id = $to_forum_id
             WHERE topic_id = $topic_id
         ");
@@ -617,10 +645,12 @@ function topic_change_forum( $topic_id, $to_forum_id )
 
 function forum_resynch( $forum_id )
 {
+    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+
     // Count the number of topics in the forum
     $res1 = mysql_query("
         SELECT COUNT(*)
-        FROM phpbb_topics
+        FROM {$phpbb_table_prefix}_topics
         WHERE forum_id = $forum_id
     ");
     list($forum_topics) = mysql_fetch_row($res1);
@@ -630,7 +660,7 @@ function forum_resynch( $forum_id )
     // which might have changed when we moved the topic(s).
     $res2 = mysql_query("
         SELECT COUNT(*), MAX(post_id)
-        FROM phpbb_posts
+        FROM {$phpbb_table_prefix}_posts
         WHERE forum_id = $forum_id
     ");
     list($forum_posts, $last_post) = mysql_fetch_row($res2);
@@ -643,7 +673,7 @@ function forum_resynch( $forum_id )
     // adjust total posts and topics and last post for forum
 
     $update_count = mysql_query("
-        UPDATE phpbb_forums
+        UPDATE {$phpbb_table_prefix}_forums
         SET
             forum_posts  = $forum_posts,
             forum_topics = $forum_topics,
