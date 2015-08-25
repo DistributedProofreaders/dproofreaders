@@ -229,6 +229,9 @@ _WIKI_URL=$base_url/wiki
 # Certain parts of the DP code assume that you have phpBB (or something
 # pretty similar) installed.
 
+_PHPBB_VERSION=2
+_PHPBB_TABLE_PREFIX=phpbb
+
 _FORUMS_DIR=$base_dir/phpBB2
 _FORUMS_URL=$base_url/phpBB2
 
