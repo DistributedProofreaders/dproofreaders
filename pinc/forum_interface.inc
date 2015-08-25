@@ -8,14 +8,21 @@
 //
 // Currently only phpBB version 2 is supported.
 
-function phpbb_lang($langcode=FALSE) {
-    global $relPath;
-    include($relPath."lang_data.inc"); // $phpbb2langs
-
+function phpbb_lang($langcode=FALSE)
+// Return the language string phpbb uses for $langcode for languages
+// installed in the forum interface. Fall back to English if $langcode
+// is not installed on the system.
+{
     if($langcode===FALSE)
         $langcode=@$GLOBALS['locale'];
 
-    return @$phpbb2langs[$langcode];
+    global $relPath;
+    include($relPath."lang_data.inc"); // $phpbb2langs
+
+    if(@$phpbb2langs[$langcode])
+        return $phpbb2langs[$langcode];
+    else
+        return "english";
 }
 
 function is_username_password_valid($username, $password)
@@ -65,7 +72,7 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
 
     $max_user_id += 1; 
     $currtime = time();
-    $sql = sprintf("INSERT INTO phpbb_users SET user_id=$max_user_id, username='%s', user_regdate=$currtime, user_timezone=-8.00, user_lang='%s', user_email='%s', user_password='%s', user_viewemail=0", mysql_real_escape_string($username), (phpbb_lang()?phpbb_lang():"english"), mysql_real_escape_string($email), mysql_real_escape_string($digested_password));
+    $sql = sprintf("INSERT INTO phpbb_users SET user_id=$max_user_id, username='%s', user_regdate=$currtime, user_timezone=-8.00, user_lang='%s', user_email='%s', user_password='%s', user_viewemail=0", mysql_real_escape_string($username), phpbb_lang(), mysql_real_escape_string($email), mysql_real_escape_string($digested_password));
     mysql_query($sql) or die(mysql_error());
 }
 
