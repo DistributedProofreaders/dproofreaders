@@ -6,9 +6,12 @@
 // using an entirely different forum software, this is one of the
 // few files that would require changes.
 //
-// Currently only phpBB version 2 is supported.
+// Currently only phpBB versions 2 and 3 are supported.
+
+assert("PHPBB_VERSION == 2 || PHPBB_VERSION == 3 /* Only phpBB versions 2 and 3 are supported */");
 
 function phpbb_lang($langcode=FALSE)
+// XXX - done: 2 & 3
 // Return the language string phpbb uses for $langcode for languages
 // installed in the forum interface. Fall back to English if $langcode
 // is not installed on the system.
@@ -16,21 +19,43 @@ function phpbb_lang($langcode=FALSE)
     if($langcode===FALSE)
         $langcode=@$GLOBALS['locale'];
 
-    global $relPath;
-    include($relPath."lang_data.inc"); // $phpbb2langs
+    if(PHPBB_VERSION == 2) {
+        global $relPath;
+        include($relPath."lang_data.inc"); // $phpbb2langs
 
-    if(@$phpbb2langs[$langcode])
-        return $phpbb2langs[$langcode];
-    else
-        return "english";
+        if(@$phpbb2langs[$langcode])
+            return $phpbb2langs[$langcode];
+        else
+            return "english";
+    }
+
+    if(PHPBB_VERSION == 3) {
+        $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+        $query = sprintf("
+            SELECT *
+            FROM ${phpbb_table_prefix}_lang
+            WHERE lang_iso='%s'
+            ", mysql_real_escape_string($langcode));
+        $res = mysql_query($query) or die(mysql_error());
+
+        if (mysql_num_rows($res) == 1)
+            return $langcode;
+        else
+            return "en";
+    }
 }
 
 function is_username_password_valid($username, $password)
+// XXX - done: 2 & 3 (only used for 2)
+// NOTE: This function is only used for phpBB2 and can be removed
+//       when support for that version is removed.
 // Check to see if the given username/password pair is valid.
 // Returns:
 //     TRUE  - is valid (user exists with specified password)
 //     FALSE - invalid (username/password pair were not found)
 {
+    assert(PHPBB_VERSION == 2);
+
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
     $digested_password = forum_password_hash($password);
@@ -50,37 +75,117 @@ function is_username_password_valid($username, $password)
 }
 
 function forum_password_hash($password)
+// XXX - done: 2 & 3
 // Implement or call the hashing function used by the forum to hash
 // the password stored in the database. This is required because we
 // store the hashed password in the non_activated_users table and use
 // it directly when creating the account post-activation.
 {
-    return md5($password);
+    if(PHPBB_VERSION == 2) {
+        return md5($password);
+    }
+
+    if(PHPBB_VERSION == 3) {
+        // We *really* shouldn't be mixing phpBB code with DP code, but
+        // there's no way around this since phpBB3 hashing code is...
+        // involved.
+        global $forums_dir;
+        global $phpbb_root_path, $phpEx;
+        $phpbb_root_path = $forums_dir."/";
+        $phpEx = "php";
+
+        // globals pulled from include/functions.php:set_config()
+        // which is called from unique_id() which is called from phpbb_hash()
+        global $db, $cache, $config;
+        define('IN_PHPBB', true);
+        define('ROOT_PATH', $forums_dir);
+
+        include($phpbb_root_path . 'common.' . $phpEx);
+
+        $hashed_password = phpbb_hash($password);
+
+        define('IN_PHPBB', false);
+        return $hashed_password;
+    }
 }
 
-
 function create_forum_user($username, $password, $email, $password_is_digested=FALSE)
+// XXX - done: 2; 3 needs validation
 // Creates a forum user with the specified username, password, and email.
 // The DP registration process already digests the password, hence the
 // need for $password_is_digested.
 {
+    global $forums_dir;
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
-    $digested_password = ($password_is_digested ? $password : forum_password_hash($password) );
+    if(PHPBB_VERSION == 2) {
+        $digested_password = ($password_is_digested ? $password : forum_password_hash($password) );
 
-    // Code primarily lifted from bb_register.php
-    $sql = "SELECT max(user_id) FROM {$phpbb_table_prefix}_users";
-    $res = mysql_query($sql) or die(mysql_error());
-    list($max_user_id) = mysql_fetch_array($res);
-    mysql_free_result($res);
+        // Code primarily lifted from bb_register.php
+        $sql = "SELECT max(user_id) FROM {$phpbb_table_prefix}_users";
+        $res = mysql_query($sql) or die(mysql_error());
+        list($max_user_id) = mysql_fetch_array($res);
+        mysql_free_result($res);
 
-    $max_user_id += 1; 
-    $currtime = time();
-    $sql = sprintf("INSERT INTO {$phpbb_table_prefix}_users SET user_id=$max_user_id, username='%s', user_regdate=$currtime, user_timezone=-8.00, user_lang='%s', user_email='%s', user_password='%s', user_viewemail=0", mysql_real_escape_string($username), phpbb_lang(), mysql_real_escape_string($email), mysql_real_escape_string($digested_password));
-    mysql_query($sql) or die(mysql_error());
+        $max_user_id += 1; 
+        $currtime = time();
+        $sql = sprintf("INSERT INTO {$phpbb_table_prefix}_users SET user_id=$max_user_id, username='%s', user_regdate=$currtime, user_timezone=-8.00, user_lang='%s', user_email='%s', user_password='%s', user_viewemail=0", mysql_real_escape_string($username), phpbb_lang(), mysql_real_escape_string($email), mysql_real_escape_string($digested_password));
+        mysql_query($sql) or die(mysql_error());
+    }
+
+    if(PHPBB_VERSION == 3) {
+        # see https://wiki.phpbb.com/Add_users
+        global $phpbb_root_path, $phpEx;
+        $phpbb_root_path = $forums_dir."/";
+        $phpEx = "php";
+
+        // globals pulled from include/functions_user.php:user_add()
+        global $db, $user, $auth, $config;
+        global $cache;
+        define('IN_PHPBB', true);
+        define('ROOT_PATH', $forums_dir);
+
+        include($phpbb_root_path . 'common.' . $phpEx);
+        include($phpbb_root_path . 'includes/functions_user.' . $phpEx);
+
+        // get the group_id for the REGISTERED user group
+        $sql = "SELECT group_id
+                FROM {$phpbb_table_prefix}_groups
+                WHERE group_name = 'REGISTERED'
+        ";
+        $result = $db->sql_query($sql);
+        $group_id = (int) $db->sql_fetchfield('group_id');
+        $db->sql_freeresult($result);
+
+        $user_row = array(
+            "username" => $username,
+            "user_password" => $password,
+            "user_email" => $email,
+            "group_id" => $group_id,
+            "user_type" => USER_NORMAL,
+            "user_timezone" => -8.00,
+            "user_lang" => phpbb_lang(),
+            "user_regdate" => time(),
+            "user_allow_viewemail" => 0,
+        );
+
+        $user_id = user_add($user_row);
+        define('IN_PHPBB', false);
+
+        # if $password_is_digested we have to update the password in the DB directly
+        if($password_is_digested) {
+            $sql = sprintf("
+                UPDATE {$phpbb_table_prefix}_users
+                SET user_password='%s'
+                WHERE user_id=%d",
+                mysql_real_escape_string($password), $user_id);
+            mysql_query($sql) or die(mysql_error());
+        }
+    }
 }
 
 function login_forum_user($username, $password)
+// XXX - done: 2 & 3
 // Log in the user to the forums.
 // Returns:
 //     TRUE  - user sucessfully logged in
@@ -91,35 +196,68 @@ function login_forum_user($username, $password)
     if(!is_dir($forums_dir))
         return;
 
-    if(!is_username_password_valid($username, $password))
-        return FALSE;
+    if(PHPBB_VERSION == 2) {
+        if(!is_username_password_valid($username, $password))
+            return FALSE;
 
-    $user_id = get_forum_user_id($username);
+        $user_id = get_forum_user_id($username);
 
-    // phpBB2 uses a lot of global variables that it sets when its files
-    // are included. To put these in a function, we have to give the function
-    // access to the globals that these includes set.
+        // phpBB2 uses a lot of global variables that it sets when its files
+        // are included. To put these in a function, we have to give the function
+        // access to the globals that these includes set.
 
-    // these globals are pulled from:
-    // phpBB2/includes/sessions.php:session_end()
-    global $db, $board_config;
-    global $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID;
+        // these globals are pulled from:
+        // phpBB2/includes/sessions.php:session_end()
+        global $db, $board_config;
+        global $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID;
 
-    define('IN_PHPBB', true);
+        define('IN_PHPBB', true);
 
-    $phpbb_root_path = $forums_dir."/";
-    include($phpbb_root_path.'extension.inc');
-    include($phpbb_root_path.'common.php');
-    include($phpbb_root_path.'config.php');
+        $phpbb_root_path = $forums_dir."/";
+        include($phpbb_root_path.'extension.inc');
+        include($phpbb_root_path.'common.php');
+        include($phpbb_root_path.'config.php');
 
-    session_begin($user_id, $user_ip, PAGE_INDEX, false, 1);
+        session_begin($user_id, $user_ip, PAGE_INDEX, false, 1);
 
-    define('IN_PHPBB', false);
+        define('IN_PHPBB', false);
 
-    return TRUE;
+        return TRUE;
+    }
+
+    if(PHPBB_VERSION == 3) {
+        global $phpbb_root_path, $phpEx;
+        $phpbb_root_path = $forums_dir."/";
+        $phpEx = "php";
+
+        // these globals are pulled from
+        // phpBB2/includes/sessions.php:setup()
+        global $db, $template, $config, $auth, $phpEx, $phpbb_root_path, $cache;
+        global $SID, $_SID, $user;
+
+        define('IN_PHPBB', true);
+        define('ROOT_PATH', $forums_dir);
+
+        include($phpbb_root_path . 'common.' . $phpEx);
+
+        $user->session_begin();
+        $auth->acl($user->data);
+
+        // Upon initial login, if the password is in the phpBB2 format
+        // it will be converted to the new format. It does this by using
+        // $_REQUEST['password'], so we need to populate that here.
+        $_REQUEST['password'] = $password;
+
+        $results = $auth->login($username, $password, $remember, 1, 0);
+
+        define('IN_PHPBB', false);
+
+        return ($results["status"] == LOGIN_SUCCESS);
+    }
 }
 
 function logout_forum_user()
+// XXX - done: 2 & 3
 // Log out the currently-authenticated user from the forum.
 {
     global $forums_dir;
@@ -128,27 +266,51 @@ function logout_forum_user()
     if(!is_dir($forums_dir))
         return;
 
-    $user_id = get_forum_user_id($pguser);
+    if(PHPBB_VERSION == 2) {
+        $user_id = get_forum_user_id($pguser);
 
-    // these globals are pulled from
-    // phpBB2/includes/sessions.php:session_end()
-    global $db, $lang, $board_config, $userdata;
-    global $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID;
+        // these globals are pulled from
+        // phpBB2/includes/sessions.php:session_end()
+        global $db, $lang, $board_config, $userdata;
+        global $HTTP_COOKIE_VARS, $HTTP_GET_VARS, $SID;
 
-    define('IN_PHPBB', true);
+        define('IN_PHPBB', true);
 
-    $phpbb_root_path = $forums_dir."/";
-    include($phpbb_root_path.'extension.inc');
-    include($phpbb_root_path.'common.php');
-    include($phpbb_root_path.'config.php');
+        $phpbb_root_path = $forums_dir."/";
+        include($phpbb_root_path.'extension.inc');
+        include($phpbb_root_path.'common.php');
+        include($phpbb_root_path.'config.php');
 
-    $session_id = $_COOKIE['phpbb2mysql_sid'];
-    session_end($session_id, $user_id);
+        $session_id = $_COOKIE['phpbb2mysql_sid'];
+        session_end($session_id, $user_id);
 
-    define('IN_PHPBB', false);
+        define('IN_PHPBB', false);
+    }
+
+    if(PHPBB_VERSION == 3) {
+        global $phpbb_root_path, $phpEx;
+        $phpbb_root_path = $forums_dir."/";
+        $phpEx = "php";
+
+        // these globals are pulled from
+        // phpBB2/includes/sessions.php:session_create()
+        global $SID, $_SID, $db, $config, $cache;
+        global $user;
+
+        define('IN_PHPBB', true);
+        define('ROOT_PATH', $forums_dir);
+
+        include($phpbb_root_path . 'common.' . $phpEx);
+
+        $user->session_kill();
+        $user->session_begin();
+
+        define('IN_PHPBB', false);
+    }
 }
 
 function get_forum_user_details($username)
+// XXX - done: 2 & 3 (no changes)
 // Given a username, return details about the user.
 // Returns an associative array with the following keys:
 //     id        - forum user id
@@ -208,6 +370,7 @@ function get_forum_user_details($username)
 }
 
 function set_forum_user_details($username,$details)
+// XXX - done: 2 & 3 (no changes)
 // Updates a users's details
 // $details is an associative array with one or more of the following keys:
 //     from      - location
@@ -258,6 +421,7 @@ function set_forum_user_details($username,$details)
 }
 
 function get_forum_user_id($username)
+// XXX - done: 2 & 3 (no changes)
 // Given a forum username, return the forum user ID.
 {
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
@@ -289,6 +453,7 @@ function get_forum_user_id($username)
 }
 
 function get_forum_rank_title($rank)
+// XXX - done: 2 & 3 (no changes)
 // Given a forum rank number, return the text title of that rank.
 {
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
@@ -310,6 +475,7 @@ function get_forum_rank_title($rank)
 }
 
 function get_forum_email_address($username)
+// XXX - done: 2 & 3 (no changes)
 // Given a forum username, return the email address.
 {
     $user_details = get_forum_user_details($username);
@@ -318,6 +484,7 @@ function get_forum_email_address($username)
 }
 
 function get_url_to_compose_message_to_user($username)
+// XXX - done: 2 & 3
 // Given a forum username, return a URL that can be used to
 // access a form to send the user a message.
 {
@@ -325,10 +492,17 @@ function get_url_to_compose_message_to_user($username)
 
     $userid = get_forum_user_id($username);
 
-    return "$forums_url/privmsg.php?mode=post&u=$userid";
+    if(PHPBB_VERSION == 2) {
+        return "$forums_url/privmsg.php?mode=post&u=$userid";
+    }
+
+    if(PHPBB_VERSION == 3) {
+        return "$forums_url/ucp.php?i=pm&mode=compose&u=$userid";
+    }
 }
 
 function get_url_to_view_forum($forum_id)
+// XXX - done: 2 & 3 (no change)
 // Given a forum id, return a URL that can be used to view the forum.
 {
     global $forums_url;
@@ -337,6 +511,7 @@ function get_url_to_view_forum($forum_id)
 }
 
 function get_url_to_view_topic($topic_id)
+// XXX - done: 2 & 3 (no change)
 // Given a topic id, return a URL that can be used to view the topic.
 {
     global $forums_url;
@@ -345,6 +520,7 @@ function get_url_to_view_topic($topic_id)
 }
 
 function get_url_to_view_post($post_id)
+// XXX - done: 2 & 3 (no change)
 // Given a post id, return a URL that can be used to view the post.
 {
     global $forums_url;
@@ -353,6 +529,7 @@ function get_url_to_view_post($post_id)
 }
 
 function get_url_for_user_avatar($username)
+// XXX - done: 2; validate 3
 // Given a forum username, return a URL that can be used to load the user's
 // avatar. If no avatar is defined, this function returns NULL.
 {
@@ -363,15 +540,28 @@ function get_url_for_user_avatar($username)
     if(empty($user_details["avatar"]))
         return NULL;
 
-    return "$forums_url/images/avatars/" . $user_details["avatar"];
+    if(PHPBB_VERSION == 2) {
+        return "$forums_url/images/avatars/" . $user_details["avatar"];
+    }
+
+    if(PHPBB_VERSION == 3) {
+        return "$forums_url/download/file.php?avatar=" . $user_details["avatar"];
+    }
 }
 
 function get_url_to_edit_profile()
+// XXX - done: 2; validate 3
 // Return a URL that can be used to edit the current user's profile.
 {
     global $forums_url;
 
-    return "$forums_url/profile.php?mode=editprofile";
+    if(PHPBB_VERSION == 2) {
+        return "$forums_url/profile.php?mode=editprofile";
+    }
+
+    if(PHPBB_VERSION == 3) {
+        return "$forums_url/ucp.php?i=173";
+    }
 }
 
 function get_url_to_view_profile($user_id)
@@ -387,10 +577,17 @@ function get_url_for_inbox()
 {
     global $forums_url;
     
-    return "$forums_url/privmsg.php?folder=inbox";
+    if(PHPBB_VERSION == 2) {
+        return "$forums_url/privmsg.php?folder=inbox";
+    }
+
+    if(PHPBB_VERSION == 3) {
+        return "$forums_url/ucp.php?i=pm&folder=inbox";
+    }
 }
 
 function get_number_of_unread_messages($username)
+// XXX - done: 2; validate 3
 // Given a forum username, return the number of unread messages.
 {
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
@@ -400,11 +597,24 @@ function get_number_of_unread_messages($username)
     if($forum_userid == NULL)
         return NULL;
 
-    $query = "
-        SELECT COUNT(*)
-        FROM {$phpbb_table_prefix}_privmsgs
-        WHERE privmsgs_to_userid = $forum_userid and (privmsgs_type = 1 or privmsgs_type = 5)
-        ";
+    if(PHPBB_VERSION == 2) {
+        $query = "
+            SELECT COUNT(*)
+            FROM {$phpbb_table_prefix}_privmsgs
+            WHERE privmsgs_to_userid = $forum_userid and (privmsgs_type = 1 or privmsgs_type = 5)
+            ";
+    }
+
+    if(PHPBB_VERSION == 3) {
+        # from: includes/functions_privmsgs.php:get_folder($user_id)
+        $query = "
+            SELECT SUM(pm_unread)
+            FROM ${phpbb_table_prefix}_privmsgs_to
+            WHERE user_id = $forum_userid
+                  -- AND folder_id = 0 -- PRIVMSGS_INBOX
+            ";
+    }
+
     $res = mysql_query($query) or die(mysql_error());
 
     list($num_messages) = mysql_fetch_row($res);
@@ -414,6 +624,7 @@ function get_number_of_unread_messages($username)
 }
 
 function does_topic_exist($topic_id)
+// XXX - done: 2 & 3 (no change)
 // Confirm a specific topic ID exists.
 // Returns:
 //     FALSE - doesn't exist
@@ -436,6 +647,7 @@ function does_topic_exist($topic_id)
 }
 
 function get_last_post_time_in_topic($topic_id)
+// XXX - done: 2; validate 3
 // Given a forum topic, return the time of the last post
 // in UNIX time format (seconds since UNIX epoch).
 // If no topic is found, function returns NULL.
@@ -463,6 +675,7 @@ function get_last_post_time_in_topic($topic_id)
 }
 
 function get_topic_details($topic_id)
+// XXX - done: 2; validate 3
 // Returns the following details about a topic as an associative array.
 //     topic_id         - the ID of the topic (for completeness)
 //     title            - the title of the topic
@@ -517,10 +730,102 @@ function topic_create(
     $poster_is_real,
     $make_poster_watch_topic
 )
-// A proxy for phpbb2_create_topic() in phpbb2.inc
 {
+    # TODO: deal with $poster_is_real and $make_poster_watch_topic
+    # phpbb3
+    $user_id = get_forum_user_id($poster_name);
+
+    global $forums_dir;
+    global $phpbb_root_path, $phpEx;
+    $phpbb_root_path = $forums_dir."/";
+    $phpEx = "php";
+
+    // these globals are pulled from
+    // globals pulled from include/functions_posting.php:submit_post()
+    global $db, $template, $config, $auth, $phpEx, $phpbb_root_path, $cache;
+    global $SID, $_SID, $user;
+
+    define('IN_PHPBB', true);
+    define('ROOT_PATH', $forums_dir);
+
+    include($phpbb_root_path . 'common.' . $phpEx);
+    include($phpbb_root_path . 'includes/functions_posting.' . $phpEx);
+
+    # see: https://wiki.phpbb.com/Function.submit_post
+    $subject = utf8_normalize_nfc($post_subject);
+    $text    = utf8_normalize_nfc($post_text);
+
+    $poll = $uid = $bitfield = $options = '';
+    generate_text_for_storage($subject, $uid, $bitfield, $options, false, false, false);
+    generate_text_for_storage($text, $uid, $bitfield, $options, true, true, true);
+
+    $data = array( 
+        // General Posting Settings
+        'forum_id'      => $forum_id,// The forum ID in which the post will be placed. (int)
+        'topic_id'      => 0,        // Post a new topic or in an existing one? Set to 0 to create a new one, if not, specify your topic ID here instead.
+        'icon_id'       => false,    // The Icon ID in which the post will be displayed with on the viewforum, set to false for icon_id. (int)
+    
+        // Defining Post Options
+        'enable_bbcode' => true,    // Enable BBcode in this post. (bool)
+        'enable_smilies'=> false,   // Enabe smilies in this post. (bool)
+        'enable_urls'   => true,    // Enable self-parsing URL links in this post. (bool)
+        'enable_sig'    => true,    // Enable the signature of the poster to be displayed in the post. (bool)
+    
+        // Message Body
+        'message'       => $text,      // Your text you wish to have submitted. It should pass through generate_text_for_storage() before this. (string)
+        'message_md5'   => md5($text), // The md5 hash of your message
+    
+        // Values from generate_text_for_storage()
+        'bbcode_bitfield' => $bitfield, // Value created from the generate_text_for_storage() function.
+        'bbcode_uid'      => $uid,      // Value created from the generate_text_for_storage() function.
+    
+        // Other Options
+        'post_edit_locked' => 0,        // Disallow post editing? 1 = Yes, 0 = No
+        'topic_title'      => $subject, // Subject/Title of the topic. (string)
+    
+        // Email Notification Settings
+        'notify_set'    => false,    // (bool)
+        'notify'        => false,    // (bool)
+        'post_time'     => 0,        // Set a specific time, use 0 to let submit_post() take care of getting the proper time (int)
+        'forum_name'    => '',       // For identifying the name of the forum in a notification email. (string)
+    
+        // Indexing
+        'enable_indexing'=> true,    // Allow indexing the post? (bool)
+    
+        // 3.0.6
+        'force_approved_state'=> true, // Allow the post to be submitted without going into unapproved queue
+    
+        // 3.1-dev, overwrites force_approve_state
+        'force_visibility'=> true, // Allow the post to be submitted without going into unapproved queue, or make it be deleted
+    );
+
+    # Stash $user and $auth so we can masquerade as $poster_name
+    # see: https://phpbbmodders.net/articles/3.0/create_post/
+    $backup_user = $user;
+    $backup_auth = $auth;
+    $sql = 'SELECT * FROM ' . USERS_TABLE . ' WHERE user_id = ' . $user_id;
+    $result = $db->sql_query($sql);
+    $row = $db->sql_fetchrow($result);
+    $db->sql_freeresult($result);
+    $user->session_begin();
+    $user->data = array_merge($user->data, $row);
+    $user->ip = '127.0.0.1';
+    $auth->acl($user->data);
+
+    submit_post('post', $subject, '', POST_NORMAL, $poll, $data);
+
+    # restore the original user
+    $user = $backup_user;
+    $auth = $backup_auth;
+
+    define('IN_PHPBB', false);
+
+    return $data['topic_id'];
+
+    # phpbb2
+    // A proxy for phpbb[2|3]_create_topic() in external phpbb[2|3].inc
     $args = func_get_args();
-    $topic_id = call_phpbb2_function( 'create_topic', $args );
+    $topic_id = call_phpbb_function( 'create_topic', $args );
 
     if ( !preg_match('/^\d+$/', $topic_id) )
     {
@@ -539,19 +844,22 @@ function topic_add_post(
     $poster_name,
     $poster_is_real
 )
-// A proxy for phpbb2_add_post() in phpbb2.inc
+// A proxy for phpbb[2|3]_add_post() in external phpbb[2|3].inc
 {
     $args = func_get_args();
-    call_phpbb2_function( 'add_post', $args );
+    call_phpbb_function( 'add_post', $args );
 }
 
 // -----------------------------------------------------------------------------
 
-function call_phpbb2_function( $func_name, $args )
+function call_phpbb_function( $func_name, $args )
 // It's risky to combine DP and phpBB code in the same PHP context,
 // so we run the phpBB code in a separate process.
 {
-    // echo "call_phpbb2_function( $func_name, ", print_r($args,TRUE), ")<br>\n";
+    # XXX / TODO - implement this
+    return;
+
+    // echo "call_phpbb_function( $func_name, ", print_r($args,TRUE), ")<br>\n";
 
     global $forums_dir;
     if (!is_dir($forums_dir))
@@ -565,7 +873,13 @@ function call_phpbb2_function( $func_name, $args )
     // (cd into the pinc directory, so the script doesn't
     // have to guess where it's being invoked from.)
     global $code_dir, $php_cli_executable;
-    $command = "cd $code_dir/pinc && $php_cli_executable -f phpbb2.inc $func_name $escaped_args_str";
+    if(PHPBB_VERSION == 2) {
+        $phpbb_include_file = "phpbb2.inc";
+    }
+    if(PHPBB_VERSION == 3) {
+        $phpbb_include_file = "phpbb3.inc";
+    }
+    $command = "cd $code_dir/pinc && $php_cli_executable -f $phpbb_include_file $func_name $escaped_args_str";
     // echo "command: $command<br>\n";
 
     $output = array();
