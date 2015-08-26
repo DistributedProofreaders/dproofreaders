@@ -233,7 +233,7 @@ function echo_tabs($tab_names, $selected_tab) {
 /*************** GENERAL TAB ***************/
 
 function echo_general_tab() {
-    global $uid, $pguser, $userP, $reset_password_url;
+    global $uid, $pguser, $userP;
     global $u_n;
 
     $u_intlang_options[""]=BROWSER_DEFAULT_STR;
@@ -318,7 +318,7 @@ function echo_general_tab() {
     show_link_as_if_preference(
         _('Password'),
         'password',
-        $reset_password_url,
+        get_reset_password_url(),
         _("Reset Password")
     );
     show_preference(

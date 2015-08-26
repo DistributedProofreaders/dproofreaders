@@ -309,6 +309,20 @@ function logout_forum_user()
     }
 }
 
+function get_reset_password_url()
+// XXX - done: 2 & 3
+{
+    global $forums_url;
+
+    if(PHPBB_VERSION == 2) {
+        return "$forums_url/profile.php?mode=sendpassword";
+    }
+
+    if(PHPBB_VERSION == 3) {
+        return "$forums_url/ucp.php?mode=sendpassword";
+    }
+}
+
 function get_forum_user_details($username)
 // XXX - done: 2 & 3 (no changes)
 // Given a username, return details about the user.

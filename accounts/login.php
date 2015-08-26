@@ -26,7 +26,6 @@ function prompt_login()
 
 function abort_login( $error )
 {
-    global $reset_password_url;
     global $site_manager_email_addr;
     global $testing;
 
@@ -43,7 +42,7 @@ function abort_login( $error )
     	echo "<li>" . _("Register! (Note that this is a test site, and has a separate database from the production site, so you need to register separately.)") . "</li>\n";
     }
     echo "<li>" . _("Type your username in the exact same way as when you registered.") . "</li>\n";
-    echo "<li>" . sprintf( _("<a href='%s'>Reset</a> your password."), $reset_password_url) . "</li>\n";
+    echo "<li>" . sprintf( _("<a href='%s'>Reset</a> your password."), get_reset_password_url()) . "</li>\n";
     echo "<li>" . _("Enable Javascript.") . "</li>\n";
     echo "<li>" . sprintf(_("Accept cookies (at least from us at %s)."), $_SERVER["HTTP_HOST"]) . "</li>\n";
     echo "<li>" . sprintf(_("Allow popup windows (at least from us at %s)."), $_SERVER["HTTP_HOST"]) . "</li>\n";

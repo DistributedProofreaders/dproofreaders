@@ -47,10 +47,12 @@ The %s Team
 
 function maybe_welcome_mail($email, $real_name, $username) {
 
-  global $code_url, $reset_password_url;
+  global $code_url;
   global $site_url, $general_help_email_addr, $site_name, $site_abbreviation, $forums_url, $wiki_url, $ELR_round;
 
   $welcome = "Welcome to the $site_name Site!";
+
+  $reset_password_url = get_reset_password_url();
 
   maybe_mail($email, $welcome, "
 

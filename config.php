@@ -49,7 +49,6 @@ if (!$auth) {
 			elseif (substr($lines[$i], 1, 12) == "dyn_url") { fputs($v_site_file, "\$dyn_url = '".$_POST['dyn_url']."';\n"); }
 			elseif (substr($lines[$i], 1, 10) == "forums_dir") { fputs($v_site_file, "\$forums_dir = '".$_POST['forums_dir']."';\n"); }
 			elseif (substr($lines[$i], 1, 10) == "forums_url") { fputs($v_site_file, "\$forums_url = '".$_POST['forums_url']."';\n"); }
-			elseif (substr($lines[$i], 1, 18) == "reset_password_url") { fputs($v_site_file, "\$reset_password_url = \"".$_POST['reset_password_url']."\";\n"); }
 			elseif (substr($lines[$i], 1, 17) == "general_forum_url") { fputs($v_site_file, "\$general_forum_url = \"".$_POST['general_forum_url']."\";\n"); }
 			elseif (substr($lines[$i], 1, 18) == "projects_forum_url") { fputs($v_site_file, "\$projects_forum_url = \"".$_POST['projects_forum_url']."\";\n"); }
 			elseif (substr($lines[$i], 1, 25) == "post_processing_forum_url") { fputs($v_site_file, "\$post_processing_forum_url = \"".$_POST['post_processing_forum_url']."\";\n"); }
@@ -100,7 +99,6 @@ if (!$auth) {
 	start_section( 'Forums Configuration' );
 	tr_text_1( 'Forums Directory',          'forums_dir',                $forums_dir );
 	tr_text_1( 'Forums URL',                'forums_url',                $forums_url );
-	tr_text_1( 'Reset Password URL',        'reset_password_url',        $reset_password_url );
 	tr_text_1( 'General Forum URL',         'general_forum_url',         $general_forum_url );
 	tr_text_1( 'Projects Forum URL',        'projects_forum_url',        $projects_forum_url );
 	tr_text_1( 'Post Processing Forum URL', 'post_processing_forum_url', $post_processing_forum_url );

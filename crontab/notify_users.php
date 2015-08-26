@@ -3,12 +3,15 @@ $relPath="./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'misc.inc');
+include_once($relPath.'forum_interface.inc');
 
 // check that caller is localhost or bail
 if(!requester_is_localhost())
     die("You are not authorized to perform this request.");
 
     $old_date = time() - 13176000; // 30 days less than 1/2 a year.
+
+    $reset_password_url = get_reset_password_url();
 
     $result = mysql_query ("SELECT * FROM `users` WHERE t_last_activity < $old_date AND active ='yes'");
     $numrows = mysql_num_rows($result);

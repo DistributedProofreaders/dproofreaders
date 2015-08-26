@@ -36,8 +36,6 @@ define('PHPBB_TABLE_PREFIX', '<<PHPBB_TABLE_PREFIX>>');
 $forums_dir = '<<FORUMS_DIR>>';
 $forums_url = '<<FORUMS_URL>>';
 
-$reset_password_url        = "$forums_url/profile.php?mode=sendpassword";
-
 
 $general_forum_idx                = '<<FORUMS_GENERAL_IDX>>';
 $beginners_site_forum_idx         = '<<FORUMS_BEGIN_SITE_IDX>>';
