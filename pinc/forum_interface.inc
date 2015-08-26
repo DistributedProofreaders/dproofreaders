@@ -11,7 +11,6 @@
 assert("PHPBB_VERSION == 2 || PHPBB_VERSION == 3 /* Only phpBB versions 2 and 3 are supported */");
 
 function phpbb_lang($langcode=FALSE)
-// XXX - done: 2 & 3
 // Return the language string phpbb uses for $langcode for languages
 // installed in the forum interface. Fall back to English if $langcode
 // is not installed on the system.
@@ -46,7 +45,6 @@ function phpbb_lang($langcode=FALSE)
 }
 
 function is_username_password_valid($username, $password)
-// XXX - done: 2 & 3 (only used for 2)
 // NOTE: This function is only used for phpBB2 and can be removed
 //       when support for that version is removed.
 // Check to see if the given username/password pair is valid.
@@ -75,7 +73,6 @@ function is_username_password_valid($username, $password)
 }
 
 function forum_password_hash($password)
-// XXX - done: 2 & 3
 // Implement or call the hashing function used by the forum to hash
 // the password stored in the database. This is required because we
 // store the hashed password in the non_activated_users table and use
@@ -110,7 +107,6 @@ function forum_password_hash($password)
 }
 
 function create_forum_user($username, $password, $email, $password_is_digested=FALSE)
-// XXX - done: 2; 3 needs validation
 // Creates a forum user with the specified username, password, and email.
 // The DP registration process already digests the password, hence the
 // need for $password_is_digested.
@@ -185,7 +181,6 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
 }
 
 function login_forum_user($username, $password)
-// XXX - done: 2 & 3
 // Log in the user to the forums.
 // Returns:
 //     TRUE  - user sucessfully logged in
@@ -257,7 +252,6 @@ function login_forum_user($username, $password)
 }
 
 function logout_forum_user()
-// XXX - done: 2 & 3
 // Log out the currently-authenticated user from the forum.
 {
     global $forums_dir;
@@ -310,7 +304,6 @@ function logout_forum_user()
 }
 
 function get_reset_password_url()
-// XXX - done: 2 & 3
 {
     global $forums_url;
 
@@ -324,7 +317,6 @@ function get_reset_password_url()
 }
 
 function get_forum_user_details($username)
-// XXX - done: 2 & 3 (no changes)
 // Given a username, return details about the user.
 // Returns an associative array with the following keys:
 //     id        - forum user id
@@ -384,7 +376,6 @@ function get_forum_user_details($username)
 }
 
 function set_forum_user_details($username,$details)
-// XXX - done: 2 & 3 (no changes)
 // Updates a users's details
 // $details is an associative array with one or more of the following keys:
 //     from      - location
@@ -435,7 +426,6 @@ function set_forum_user_details($username,$details)
 }
 
 function get_forum_user_id($username)
-// XXX - done: 2 & 3 (no changes)
 // Given a forum username, return the forum user ID.
 {
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
@@ -467,7 +457,6 @@ function get_forum_user_id($username)
 }
 
 function get_forum_rank_title($rank)
-// XXX - done: 2 & 3 (no changes)
 // Given a forum rank number, return the text title of that rank.
 {
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
@@ -489,7 +478,6 @@ function get_forum_rank_title($rank)
 }
 
 function get_forum_email_address($username)
-// XXX - done: 2 & 3 (no changes)
 // Given a forum username, return the email address.
 {
     $user_details = get_forum_user_details($username);
@@ -498,7 +486,6 @@ function get_forum_email_address($username)
 }
 
 function get_url_to_compose_message_to_user($username)
-// XXX - done: 2 & 3
 // Given a forum username, return a URL that can be used to
 // access a form to send the user a message.
 {
@@ -516,7 +503,6 @@ function get_url_to_compose_message_to_user($username)
 }
 
 function get_url_to_view_forum($forum_id)
-// XXX - done: 2 & 3 (no change)
 // Given a forum id, return a URL that can be used to view the forum.
 {
     global $forums_url;
@@ -525,7 +511,6 @@ function get_url_to_view_forum($forum_id)
 }
 
 function get_url_to_view_topic($topic_id)
-// XXX - done: 2 & 3 (no change)
 // Given a topic id, return a URL that can be used to view the topic.
 {
     global $forums_url;
@@ -534,7 +519,6 @@ function get_url_to_view_topic($topic_id)
 }
 
 function get_url_to_view_post($post_id)
-// XXX - done: 2 & 3 (no change)
 // Given a post id, return a URL that can be used to view the post.
 {
     global $forums_url;
@@ -543,7 +527,6 @@ function get_url_to_view_post($post_id)
 }
 
 function get_url_for_user_avatar($username)
-// XXX - done: 2; validate 3
 // Given a forum username, return a URL that can be used to load the user's
 // avatar. If no avatar is defined, this function returns NULL.
 {
@@ -564,7 +547,6 @@ function get_url_for_user_avatar($username)
 }
 
 function get_url_to_edit_profile()
-// XXX - done: 2; validate 3
 // Return a URL that can be used to edit the current user's profile.
 {
     global $forums_url;
@@ -601,7 +583,6 @@ function get_url_for_inbox()
 }
 
 function get_number_of_unread_messages($username)
-// XXX - done: 2; validate 3
 // Given a forum username, return the number of unread messages.
 {
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
@@ -625,7 +606,6 @@ function get_number_of_unread_messages($username)
             SELECT SUM(pm_unread)
             FROM ${phpbb_table_prefix}_privmsgs_to
             WHERE user_id = $forum_userid
-                  -- AND folder_id = 0 -- PRIVMSGS_INBOX
             ";
     }
 
@@ -638,7 +618,6 @@ function get_number_of_unread_messages($username)
 }
 
 function does_topic_exist($topic_id)
-// XXX - done: 2 & 3 (no change)
 // Confirm a specific topic ID exists.
 // Returns:
 //     FALSE - doesn't exist
@@ -661,7 +640,6 @@ function does_topic_exist($topic_id)
 }
 
 function get_last_post_time_in_topic($topic_id)
-// XXX - done: 2; validate 3
 // Given a forum topic, return the time of the last post
 // in UNIX time format (seconds since UNIX epoch).
 // If no topic is found, function returns NULL.
@@ -689,7 +667,6 @@ function get_last_post_time_in_topic($topic_id)
 }
 
 function get_topic_details($topic_id)
-// XXX - done: 2; validate 3
 // Returns the following details about a topic as an associative array.
 //     topic_id         - the ID of the topic (for completeness)
 //     title            - the title of the topic
