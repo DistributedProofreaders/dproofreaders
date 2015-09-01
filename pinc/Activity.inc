@@ -438,6 +438,7 @@ function show_user_access_object( $uao )
             break;
 
         case 'unsat-ungranted':
+            global $Activity_for_id_;
             $activity = $Activity_for_id_[$uao->activity_id];
             if ($activity->after_satisfying_minima == 'REQ-AUTO' || $activity->after_satisfying_minima == 'REQ-HUMAN')
             {
