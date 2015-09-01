@@ -44,7 +44,7 @@ if (isset($_GET['lang']) && lang_code($_GET['lang'])) {
 }
 
 // Fall back to English
-if (!$intlang) {
+if (!@$intlang) {
     $intlang = "en_EN";
 }
 
