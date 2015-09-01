@@ -59,6 +59,7 @@
 == Changes from R200609 to R???? ==
 (Scripts supporting this upgrade are in SETUP/upgrade/08)
 
+    * MAJOR: phpBB 3.0 is supported in addition to 2.x.
     * MAJOR: Replace spellcheck with WordCheck; lots of functionality (mainly cpeel, some jmdyck)
 
     * numerous places: use new config variables SITE_NAME, SITE_ABBREVIATION, SITE_SIGNOFF (mike_cie)
