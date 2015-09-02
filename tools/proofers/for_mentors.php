@@ -188,16 +188,29 @@ function page_summary_sql($mentored_round, $projectid)
 
 function page_list_sql($mentored_round, $projectid)
 {
+    // copied from pinc/LPage.inc:
+    $order = "
+        (
+            SELECT MIN({$mentored_round->time_column_name})
+            FROM $projectid
+            WHERE {$mentored_round->user_column_name}
+              = p.{$mentored_round->user_column_name}
+        ),
+        {$mentored_round->user_column_name},
+        image
+    ";
+
     return "
         SELECT
             p.fileid AS '" . mysql_real_escape_string(_("Page")) . "',
+            FROM_UNIXTIME(p.{$mentored_round->time_column_name}) AS '" . mysql_real_escape_string(_("Saved")) . "',
             CASE WHEN u.u_privacy=".PRIVACY_ANONYMOUS." THEN '" .
                 mysql_real_escape_string(_("Anonymous")) . "'
             ELSE p.{$mentored_round->user_column_name}
             END AS '" . mysql_real_escape_string(_("Proofreader")) . "'
         FROM $projectid AS p
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
-        ORDER BY fileid " ;
+        ORDER BY $order" ;
 }
 
 // vim: sw=4 ts=4 expandtab
