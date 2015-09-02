@@ -43,20 +43,28 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
             // 1) Mentors like to give prompt feedback.
             // 2) Mentors like to deal with all of one proofreader's pages at a time.
             //
-            // So primarily, we sort by save-time in the mentee round,
-            // meaning that, over the course of the project,
-            // it's roughly first-come first-served.
-            // But we round off save-time to the day (in the server's timezone),
-            // and use the mentee's username as a secondary sort,
-            // so that if two mentees are 'leapfrogging',
-            // their work (for that day) is served up grouped by user,
-            // rather than ordered strictly by save-time.
+            // We look at the save-times recorded in the mentee round for pages
+            // in this project, and for each mentee, ascertain their earliest
+            // such save-time, and then order the mentees according to that time.
+            // (So the mentee with the "longest-waiting" page comes first.
+            // In the unlikely event that two mentees have exactly the same
+            // earliest-save-time (down to the second), we break the tie by
+            // taking the users in alphabetical order by username.)
+            //
+            // Taking the mentees in the above order, we serve each one's pages
+            // in 'book order' (i.e., ordered by 'image' field).
+            // (
             $order = "
-                FROM_UNIXTIME({$round->mentee_round->time_column_name}, '%Y-%m-%d') ASC,
-                {$round->mentee_round->user_column_name} ASC,
-                image ASC
+                (
+                    SELECT MIN({$round->mentee_round->time_column_name})
+                    FROM $projectid
+                    WHERE {$round->mentee_round->user_column_name}
+                      = p.{$round->mentee_round->user_column_name}
+                ),
+                {$round->mentee_round->user_column_name},
+                image
             ";
-            // (See Task 1493 and the forum discussion linked from there.)
+            // (See x and following.)
     }
 
     // The page to be retrieved must be an available page, of course.
@@ -122,12 +130,13 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
     // (It appears that a simultaneous query from someone else would return the same page.)
     $dbQuery = "
         SELECT image, state
-        FROM $projectid
+        FROM $projectid AS p
         WHERE $restrictions
         ORDER BY $order
         LIMIT 1
     ";
     $result = mysql_query($dbQuery);
+    if ($result === FALSE) die(mysql_error());
     $numrows = mysql_num_rows($result);
     if ($numrows == 0)
     {
