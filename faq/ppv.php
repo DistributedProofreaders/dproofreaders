@@ -108,7 +108,7 @@ caption and to include empty &quot;alt&quot; tags if captions exist.</li>
 
 <h4>HTML Code</h4>
 <ul>
-<li>Use of px sizing units for items other than images</li>
+<li>Use of px sizing units for items other than images and borders</li>
 <li>&lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;The Project
 Gutenberg eBook of Alice's Adventures in Wonderland, by Lewis
 Carroll&lt;/title&gt; or &lt;title&gt;Alice's Adventures in
@@ -121,7 +121,7 @@ and &lt;/html&gt; tags each on its own line and correctly use them. (This is req
 <li>Used CSS other than CSS 2.1 or below (except for the dropcap
 &quot;transparent&quot; element)</li>
 <li>Used HTML version other than XHTML 1.0 Strict or 1.1</li>
-<li>Failure to use&lt;div class=&quot;chapter&quot;&gt; added at chapter breaks
+<li>Failure to use &lt;div class=&quot;chapter&quot;&gt; or &lt;div class= &quot;section&quot;&gt; at chapter breaks
 to enable proper page breaks for e-readers</li>
 <li>Minor HTML errors in code that do not generate an HTML validation alert
 (such as misspelling a language code)</li>
@@ -331,7 +331,7 @@ covered under &quot;Easy Project&quot;</li>
 preparation and/or difficult placement</li>
 <li>40 or more illustrations</li>
 <li><a href="#mult">multiple languages</a></li>
-<li>Englifh</li>
+<li>Engli&#383;h</li>
 <li>musical notation and files</li>
 <li>extensive mathematical or chemical notation</li>
 </ul>
