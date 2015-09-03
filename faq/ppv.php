@@ -11,10 +11,11 @@ output_header('Post-Processing Verification Guidelines', NO_STATSBAR);
 
 <!--Updated May 2008 by stacy-->
 <!--Updated April 2015 by lhamilton-->
-
+<!--Text Start Here-->
 <div style="margin-left: 5%; margin-right: 5%;">
 
 <h1>Post-Processing Verification Guidelines</h1>
+<center>Updated: 30 August 2015</center>
 
 <h2>Contents</h2>
 
@@ -471,6 +472,6 @@ In this situation, a PPVer can also access the form by entering the Project ID i
 There is also a link to this blank form on the PPV page.</p>
 
 </div>
-    
+<!--Text End Here--> 
 <?php
 // vim: sw=4 ts=4 expandtab
