@@ -277,7 +277,7 @@ rating of PPer's work:</p>
 
 <h3>Determining whether a project is Easy, Average, or Difficult</h3>
 
-<p><b><font color="darkred">The PPV Summary Form will calculate whether a project is Easy, Average, or Difficult
+<p><b><font color="maroon">The PPV Summary Form will calculate whether a project is Easy, Average, or Difficult
 based on the information you provide.</font></b></p>
 
 <h4>Easy Project</h4>
@@ -343,13 +343,13 @@ count as multiple languages.</li>
 </ul>
 
 <h3>Determining Allowable Errors for Various Ratings</h3>
-<p><b><font color="darkred">The PPV Summary Form will calculate the rating based on the difficulty
+<p><b><font color="maroon">The PPV Summary Form will calculate the rating based on the difficulty
 of the project, file size, and the number and type of errors you record.</font></b>
 If you like, you can also print
 a copy of the form and jot down notes on it before
 entering the information into the online form.</p>
 
-<p>File size referred to below is based <b><font color="darkred">on the plain
+<p>File size referred to below is based <b><font color="maroon">on the plain
 text version</font></b>. It is easy to check the size of the text file in
 kilobytes by looking at the files using your file manager. We use
 only the text &ndash; not the HTML &ndash; file for this
