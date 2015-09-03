@@ -122,7 +122,12 @@ and &lt;/html&gt; tags each on its own line and correctly use them. (This is req
 &quot;transparent&quot; element)</li>
 <li>Used HTML version other than XHTML 1.0 Strict or 1.1</li>
 <li>Failure to use &lt;div class=&quot;chapter&quot;&gt; or &lt;div class= &quot;section&quot;&gt; at chapter breaks
-to enable proper page breaks for e-readers</li>
+to enable proper page breaks for e-readers
+(Please see
+<a href="http://www.pgdp.net/wiki/Easy_Epub/Headings#Formatting_Chapter_Headings_to_Avoid_unwanted_page_breaks_mid-chapter">Easy Epub</a>
+for more details).
+It is also acceptable to use &lt;div class=&quot;chapter&quot;&gt; &lt;/div&gt;
+or &lt;div class=&quot;section&quot;&gt; &lt;/div&gt;</li>
 <li>Minor HTML errors in code that do not generate an HTML validation alert
 (such as misspelling a language code)</li>
 </ul>
@@ -179,7 +184,9 @@ recommendations)</h3>
 for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still
 acceptable though</li>
-<li>List Tags should be used for lists (e.g. a normal Index)</li>
+<li>List Tags should be used for lists (e.g. a normal Index).
+For further information please read
+<a href="http://www.w3.org/wiki/HTML_lists">W3's List Use section</a></li>
 <li>Include all text as text, not just as images</li>
 <li>Keep your code line lengths reasonable</li>
 <li>Tables display left, right, and center justification and top and bottom
@@ -205,8 +212,11 @@ HTML headings)</li>
 following ways:</p>
 
 <ul>
-<li>Correct silently and state in the Transcriber's Note that all such errors have been corrected
-silently.</li>
+<li>Correct silently (in other words, change things without flagging each 
+change within the text) and state in the Transcriber's Note that all such 
+errors have been corrected silently. If there are changes made this way, 
+there should be at least one Transcriber's Note to say that this has been 
+done in the text (Level 1 Error).</li>
 <li>Correct all such errors and note them in Transcriber's Note</li>
 <li>Leave uncorrected and state in the Transcriber's Note that at all such
 errors were left uncorrected.</li>
