@@ -487,6 +487,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . some_num_combo('some_illos', _("Illustrations (other than minor decorations or logos)"), 'num_illos')
                 . check_box('sig_illos',     _("Illustrations requiring advanced preparation and/or difficult placement"))
                 . check_box('sig_multilang', _("Multiple Languages") . " <a href='$ppv_guidelines_url#mult'>*</a>")
+                . check_box('sig_spell',     _("Extensive Spellcheck/Gutcheck"))
                 . check_box('sig_englifh',   _("Engli&#383;h"))
                 . check_box('sig_music',     _("Musical Notation and Files"))
                 . check_box('sig_math',      _("Extensive mathematical/chemical notation"))
@@ -648,7 +649,7 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         "sig_drama" => "Significant Amount of Drama", "some_drama" => "Some Drama",
         "sig_index" => "Significant Size of Index", "some_index" => "Small Index",
         "sig_illos" => "Illustrations requiring advanced preparation and/or difficult placement",
-        "sig_multilang" => "Multiple Languages", "sig_englifh" => "Englifh",
+        "sig_multilang" => "Multiple Languages", "sig_spell" => "Extensive Spellcheck/Gutcheck", "sig_englifh" => "Englifh",
         "sig_music" => "Musical Notation and Files", "sig_math" => "Extensive mathematical/chemical notation");
 
     foreach($_POST as $key => $value) {

@@ -341,6 +341,7 @@ covered under &quot;Easy Project&quot;</li>
 preparation and/or difficult placement</li>
 <li>20 or more illustrations</li>
 <li><a href="#mult">multiple languages</a></li>
+<li>Extensive Spellcheck/Gutcheck</li>
 <li>Engli&#383;h</li>
 <li>musical notation and files</li>
 <li>extensive mathematical or chemical notation</li>
