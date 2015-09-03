@@ -24,7 +24,8 @@ output_header('Post-Processing Verification Guidelines', NO_STATSBAR);
 <a href="#checks">C) Specific Checks to Make</a><br>
 <a href="#printers">D) Printers' Errors and Transcriber's Note</a><br>
 <a href="#reader">E) Checking E-reader versions</a><br>
-<a href="#rptcard">F) Submitting a PPV Summary</a>
+<a href="#rptcard">F) Submitting a PPV Summary</a><br>
+<a href="#late">G) Late PPV Summaries</a>
 </p>
 
 <h2><a name="gen"></a>A) General Procedures</h2>
@@ -441,6 +442,14 @@ file size &lt; 50kb)</td>
 project does not qualify as Excellent, Very Good, or Good, it is
 Fair.</p>
 
+<a name="late"></a><h2>Late PPV Summaries</h2>
+
+<p>Occasionally a project is marked as posted
+and the link to the PPV form disappears from the Project Page
+before the PPVer can complete the form.
+In this situation, a PPVer can also access the form by entering the Project ID into a
+<a href="<?php echo $code_url; ?>/tools/post_proofers/ppv_report.php">blank PPV Report</a>.
+There is also a link to this blank form on the PPV page.</p>
 
 </div>
     
