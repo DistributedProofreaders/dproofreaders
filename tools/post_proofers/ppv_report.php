@@ -424,6 +424,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
 
     // ---------------------------------
 
+    $ppv_guidelines_url = "$code_url/faq/ppv.php";
+
     $entry_form = "<br />
           <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;confirm=1' name='ppvform' method='post'>
           <table border='1' id='report_card' style='width: 95%'>
@@ -484,30 +486,12 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . some_sig_combo('some_index',    _("Small"), 'sig_index',  _("Significant Size"),   _("Index"))
                 . some_num_combo('some_illos', _("Illustrations (other than minor decorations or logos)"), 'num_illos')
                 . check_box('sig_illos',     _("Illustrations requiring advanced preparation and/or difficult placement"))
-                . check_box('sig_multilang', _("Multiple Languages") . " <a href='#languages'>*</a>")
+                . check_box('sig_multilang', _("Multiple Languages") . " <a href='$ppv_guidelines_url#mult'>*</a>")
                 . check_box('sig_englifh',   _("Englifh"))
                 . check_box('sig_music',     _("Musical Notation and Files"))
                 . check_box('sig_math',      _("Extensive mathematical/chemical notation"))
         )
-        . tr_w_two_cells(
-            "",
-            "
-                <a id='languages'>*</a><b> "._("How to define multiple languages:")."</b><br />
-                <ul>
-                    <li>"._("If the book is English on one page and Latin on the facing page, it counts as multiple languages.")."</li>
-                    <li>"._("If the author is travelling and repeatedly reports conversations in the foreign language of the country, it counts as multiple languages.")."</li>
-                    <li>"._("If extensive (several long paragraphs or more) quotations in a language other than the base language are present, it counts as multiple languages.")."</li>
-                    <li>"._("If the Frenchman in the novel says \"Zut!\" a lot, it does NOT count as multiple languages.")."</li>
-                </ul>"
-        )
-        . tr_w_one_cell_centered("#99ff99", _("ERRORS"))
-        . tr_w_one_cell(
-            "
-                <div style='margin-left:5%;margin-right:5%;'>
-                    <p>"._("Errors such as failure to grasp the italics guidelines are counted as one error, not one error each time italics are wrongly handled. Errors such as he/be errors are each counted as individual errors (i.e., 3 \"he\" instead of \"be\" count as 3 errors).")."</p>
-                    <p>"._("If the PPer is asked to resubmit a corrected file, then any errors not corrected or new errors introduced are added to the total number of errors for rating purposes.")."</p>
-                </div>"
-        )
+        . tr_w_one_cell_centered("#99ff99", _("ERRORS") . " <a href='$ppv_guidelines_url#errors'>**</a>")
         . tr_w_one_cell_centered("#99ff99", _("LEVEL 1 (Minor Errors)"))
         . tr_w_one_cell_centered("#e0e8dd", _("All Versions"))
         . tr_w_two_cells(
@@ -555,23 +539,11 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . number_box('e2_markup_num',   _("Markup not handled (e.g. blockquotes, poetry indentation, or widespread failure to mark italics)"))
                 . number_box('e2_poetry_num',   _("Poetry indentation does not match original"))
                 . number_box('e2_foot_num',     _("Footnotes/footnote markers missing or incorrectly placed"))
-                . number_box('e2_printers_num', _("Printers' errors not addressed") . " <a href='#print'>**</a>")
+                . number_box('e2_printers_num', _("Printers' errors not addressed") . " <a href='$ppv_guidelines_url#printers'>***</a>")
                 . number_box('e2_missing_num',  _("Missing page(s) or substantial sections of missing text"))
                 . number_box('e2_rewrap_num',   _("Substantial rewrapping errors, e.g., poetry has been rewrapped or text version generally not rewrapped to required length (not exceeding 75 characters or falling below 55 characters) except where unavoidable, e.g., some tables though the aim should be 72 characters"))
                 . number_box('e2_hyphen_num',   _("Widespread/general occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)"))
                 . number_box('e2_gen_num',      _("Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field)"))
-        )
-        . tr_w_two_cells(
-            "",
-            "
-                <p><a id='print'>**</a><b> "._("Printers' Errors and Transcriber's Note")."</b>:
-                <p>"._("Obvious printers' errors should be addressed in one, or a combination, of the following ways:")."</p>
-                <ul>
-                    <li>"._("Correct silently and state in the Transcriber's Note that all such errors have been corrected silently.")."</li>
-                    <li>"._("Correct all such errors and note them in Transcriber's Note")."</li>
-                    <li>"._("Leave uncorrected and state in the Transcriber's Note that at all such errors were left uncorrected.")."</li>
-                </ul>
-                <p>"._("\"Not addressing printers' errors\" means that all, or a large percentage, of printers' errors have been left uncorrected and not noted. If just one or two have been missed, and the rest addressed, then those missed would instead be counted as the relevant type of error (spellcheck, gutcheck, etc.). Anything that could make a reader think an error has been made in the transcription should be mentioned in the Transcriber's Note.")."</p>"
         )
         . tr_w_one_cell_centered("#e0e8dd", _("HTML Version Only"))
         . tr_w_two_cells(
@@ -582,34 +554,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . number_box('e2_links_num',    _("Non-working links within HTML or to images. (Either broken or link to wrong place/file)"))
                 . number_box('e2_file_num',     _("File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc."))
                 . number_box('e2_cover_num',    _("Cover image has not been included and/or has not been coded for e-reader use. (For example, the cover should be 600x800px or at least 500px wide and no more than 800px high and should be called cover.jpg. Also, if the cover is newly created, it must meet <a href='http://www.pgdp.net/wiki/PP_guide_to_cover_pages#DP_policy'>current DP guidelines</a>.)"))
-                . number_box('e2_epub_num',     _("Project not presentable/useable when put through epubmaker") . " <a href='#ereader'>***</a>")
+                . number_box('e2_epub_num',     _("Project not presentable/useable when put through epubmaker") . " <a href='$ppv_guidelines_url#reader'>****</a>")
                 . number_box('e2_heading_num',  _("Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)"))
-        )
-        . tr_w_two_cells(
-            "",
-            "
-                <p><a id='ereader'><b>*** "._("Checking E-reader Versions")."</b></a></p>
-                <p>"._("It doesn't take long to look through the pages of the epub and mobi versions using the <a href='http://www.pgdp.net/wiki/Easy_Epub/Viewing#I_don.27t_have_an_e-reader.21'>suggested emulators</a>. Here are some problem areas to look for:")."</p>
-                <p><b>"._("Front and End of Book")."</b></p>
-                <ul>
-                    <li>"._("TOC")."</li>
-                    <li>"._("Title page layout")."</li>
-                </ul>
-                <p><b>"._("Body of Book")."</b></p>
-                <ul>
-                    <li>"._("Horizontal rules")."</li>
-                    <li>"._("Obscured sections within the book such that text covers other text or blank areas occur where text should be")."</li>
-                    <li>"._("Poetry")."</li>
-                    <li>"._("Dropcaps")."</li>
-                    <li>"._("If hovers were used in the HTML, all important \"hovered\" information should be present and readable in a non-hovered way within the e-reader version. Also Transcriber's Notes referring to hovers should be hidden in the e-reader version.")."</li>
-                    <li>"._("Headings")."</li>
-                    <li>"._("Blockquotes")."</li>
-                    <li>"._("Page numbers (if present)")."</li>
-                    <li>"._("Sidenotes")."</li>
-                    <li>"._("Margins")."</li>
-                    <li>"._("Tables")."</li>
-                    <li>"._("Illustrations")."</li>
-                </ul>"
         )
         . tr_w_one_cell_centered("#99ff99", _("STRONGLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, but the PPer should be counselled to correct any problems)"))
         . tr_w_two_cells(
