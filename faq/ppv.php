@@ -63,6 +63,14 @@ notify the PPVer that the revised files are now available.</li>
 <h2><a name="checks"></a>C) Specific Checks to Make</h2>
 <p>Please check for the following types of errors, using tools you usually use
 for PPing: </p>
+<h3><a name="errors"></a>Errors</h3>
+<p>Errors such as failure to grasp the italics guidelines are counted as 
+one error, not one error each time italics are wrongly handled. Errors such 
+as he/be errors are each counted as individual errors (i.e., 3 "he" instead 
+of "be" count as 3 errors).</p>
+<p>If the PPer is asked to resubmit a corrected file, then any errors not 
+corrected or new errors introduced are added to the total number of errors 
+for rating purposes.</p>
 
 <h3>Level 1 (minor errors) - All Versions</h3>
 <ul>
