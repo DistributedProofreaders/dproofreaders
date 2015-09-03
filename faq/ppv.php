@@ -339,7 +339,7 @@ covered under &quot;Easy Project&quot;</li>
 <li>drama</li>
 <li>illustrations requiring advanced
 preparation and/or difficult placement</li>
-<li>40 or more illustrations</li>
+<li>20 or more illustrations</li>
 <li><a href="#mult">multiple languages</a></li>
 <li>Engli&#383;h</li>
 <li>musical notation and files</li>

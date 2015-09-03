@@ -659,7 +659,7 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             $project_average_counter++;
             $pping_complexity .= "\n    " . $mapped_array[$key];
         } else if ($key === "some_illos") {
-            if ($_POST["num_illos"] >= 40) {
+            if ($_POST["num_illos"] >= 20) {
                 $project_significant_counter++;
             } else if ($_POST["num_illos"] > 5) {
                 $project_average_counter++;
