@@ -1,11 +1,6 @@
 <?php
 // Miscellaneous little (non-DP-specific) functions
 
-function define_if_necc( $name, $value )
-{
-    if ( !defined($name) ) define($name, $value);
-}
-
 function array_get( $arr, $key, $default )
 // Return $arr[$key], or if it's not defined, $default.
 {
@@ -472,19 +467,6 @@ function surround_and_join( $strings, $L, $R, $joiner )
         $parts[] = $L . $string . $R;
     }
     return implode($joiner,$parts);
-}
-
-function urlencode_assoc($name_value_mapping)
-// Encode $name_value_mapping according to the content type
-// "application/x-www-form-urlencoded".
-// See http://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.1
-{
-    $p = array();
-    foreach ( $name_value_mapping as $name => $value )
-    {
-        $p[] = urlencode($name) . '=' . urlencode($value);
-    }
-    return implode('&', $p);
 }
 
 // Return a list of only the files directly inside in the specified directory.
