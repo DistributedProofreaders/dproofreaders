@@ -940,11 +940,14 @@ function report_comments($id, $label)
     $comments = $_POST[$id];
     if (empty($comments)) return "";
 
-    $comments = wordwrap($comments, 78, "\n    ");
+    $base_indent = "  ";
+    $text_indent = "    ";
+
+    $comments = wordwrap($comments, 78, "\n$text_indent");
 
     return "\n"
-        . "\n  $label:"
-        . "\n    $comments"
+        . "\n$base_indent$label:"
+        . "\n$text_indent$comments"
     ;
 }
 
