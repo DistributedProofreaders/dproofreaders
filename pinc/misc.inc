@@ -522,92 +522,6 @@ function get_filelist($dirpath, $validext = array(), $with_path = False)
 }
 // -----------------------------------------------------------------------------
 
-// file_get_contents() is predefined in PHP 4.3.0 and on.
-if ( !function_exists('file_get_contents') )
-{
-    function file_get_contents( $filepath )
-    {
-        $array = file($filepath);
-        return ( $array === FALSE ? FALSE : implode('', $array) );
-    }
-} 
-
-// file_put_contents() is predefined in PHP 5 and on.
-if ( !function_exists('file_put_contents') )
-{
-    function file_put_contents( $filepath, $contents )
-    {
-        if(is_array($contents))
-            $contents = implode('',$contents);
-
-        $wasWritten = FALSE;
-        $fh = fopen($filepath,"w");
-        if($fh) {
-           $wasWritten = fwrite($fh,$contents);
-           fclose($fh);
-        }
-        return $wasWritten;
-    }
-}
-
-// stripos() is predefined in PHP 5 and on.
-if ( !function_exists('stripos') )
-{
-    function stripos($haystack, $needle, $offset = 0)
-    {
-        return strpos(strtolower($haystack), strtolower($needle), $offset);
-    }
-}
-
-// array_intersect_key() is predefined in PHP 5.1.0RC1
-if ( !function_exists('array_intersect_key') )
-{
-    // This is only the two-arg version.
-    function array_intersect_key( $array1, $array2 )
-    {
-        $result = array();
-        foreach ( $array1 as $k => $v )
-        {
-            if ( array_key_exists($k,$array2) )
-            {
-                $result[$k] = $v;
-            }
-        }
-        return $result;
-    }
-}
-
-// str_split() is predefined in PHP 5 and on.
-if ( !function_exists('str_split') )
-{
-    function str_split( $string )
-    {
-        return preg_split("//",$string, -1, PREG_SPLIT_NO_EMPTY);
-    }
-}
-
-// openssl_random_pseudo_bytes() is defined in PHP 5.2 and later
-if ( !function_exists('openssl_random_pseudo_bytes') )
-{
-    // based on:
-    // http://us.php.net/manual/en/function.openssl-random-pseudo-bytes.php#93078
-    function openssl_random_pseudo_bytes($length)
-    {
-        $length_n = (int) $length; // shell injection is no fun
-        $handle = popen("RANDFILE=/tmp/php-openssl.rnd /usr/bin/openssl rand $length_n", "r");
-        $data = stream_get_contents($handle);
-        pclose($handle);
-
-        // if no data, the call to openssl failed, fall back to /dev/urandom
-        if(!$data) {
-            $handle = fopen("/dev/urandom","r");
-            $data = fread($handle, $length);
-            fclose($handle);
-        }
-        return $data;
-    }
-}   
-
 function mkdir_recursive( $dir, $mode )
 // Like mkdir, but recursively creates any parent directories too.
 // (PHP 5's mkdir has this capability built-in.)
@@ -631,16 +545,6 @@ function mkdir_recursive( $dir, $mode )
 }
 
 // -----------------------------------------------------------------------------
-
-// The following became PHP constants in PHP 4.3.0. 
-define_if_necc( 'UPLOAD_ERR_OK',         0 );
-define_if_necc( 'UPLOAD_ERR_INI_SIZE',   1 );
-define_if_necc( 'UPLOAD_ERR_FORM_SIZE',  2 );
-define_if_necc( 'UPLOAD_ERR_PARTIAL',    3 );
-define_if_necc( 'UPLOAD_ERR_NO_FILE',    4 );
-define_if_necc( 'UPLOAD_ERR_NO_TMP_DIR', 6 );
-define_if_necc( 'UPLOAD_ERR_CANT_WRITE', 7 );
-define_if_necc( 'UPLOAD_ERR_EXTENSION',  8 );
 
 function get_upload_err_msg($upload_error_code)
 // Return an error message appropriate to $upload_error_code.
