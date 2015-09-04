@@ -67,4 +67,21 @@ if ( function_exists('bindtextdomain') )
     textdomain($gettext_domain);
 }
 
-?>
+// If the gettext extension is compiled into PHP, then the function named '_'
+// (an alias for 'gettext') will be defined.
+// If it's not defined (e.g., on dproofreaders.sourceforge.net),
+// define it to simply return its argument.
+if (! function_exists('_') )
+{
+    function _($str) { return $str; }
+}
+
+if (! function_exists('ngettext') )
+{
+    function ngettext($singular, $plural, $number)
+    {
+        return ($number == 1) ? $singular : $plural;
+    }
+}
+
+// vim: sw=4 ts=4 expandtab
