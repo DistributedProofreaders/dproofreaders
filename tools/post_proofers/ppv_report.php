@@ -756,79 +756,79 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
     $reportcard .= "\n\n  Level 1 Errors:";
     $reportcard .= "\n\n    All Versions:";
     $reportcard .= report_error_counts(array(
-        'e1_spellcheck_num'     => "Spellcheck/Scanno errors",
-        'e1_gutcheck_num'       => "Gutcheck-type errors, e.g. punctuation, hyphen/emdash, missing/extra space, line length, illegal characters, etc.",    
-        'e1_jeebies_num'        => "Jeebies errors (English only)",  
-        'e1_para_num'           => "Paragraph breaks missing or incorrectly added",
-        'e1_hyph_num'           => "A few occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)",
-        'e1_chap_num'           => "Chapter and other headings inconsistently spaced, aligned, capitalized or punctuated",
-        'e1_format_num'         => "Formatting inconsistencies (e.g., in margins, blank lines, etc.)",
-        'e1_xhtml_genother_num' => "Other minor errors (such as a minor rewrap error, misplaced entry in the TN, or minor inconsistency between the text and HTML versions) (Please explain in the Comments Field)",
-    ));
+            'e1_spellcheck_num'     => "Spellcheck/Scanno errors",
+            'e1_gutcheck_num'       => "Gutcheck-type errors, e.g. punctuation, hyphen/emdash, missing/extra space, line length, illegal characters, etc.",    
+            'e1_jeebies_num'        => "Jeebies errors (English only)",  
+            'e1_para_num'           => "Paragraph breaks missing or incorrectly added",
+            'e1_hyph_num'           => "A few occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)",
+            'e1_chap_num'           => "Chapter and other headings inconsistently spaced, aligned, capitalized or punctuated",
+            'e1_format_num'         => "Formatting inconsistencies (e.g., in margins, blank lines, etc.)",
+            'e1_xhtml_genother_num' => "Other minor errors (such as a minor rewrap error, misplaced entry in the TN, or minor inconsistency between the text and HTML versions) (Please explain in the Comments Field)",
+        ));
     $reportcard .= "\n\n    HTML Version Only:";
     $reportcard .= report_error_counts(array(
-        'e1_unused_num'         => "Unused files in images folder (Thumbs.db is not counted toward rating)",
-        'e1_imagesize_num'      => "Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed the limits described here, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception).",
-        'e1_blemish_num'        => "Images with major blemishes, uncorrected rotation/distortion or without appropriate cropping",
-        'e1_distort_num'        => "Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi",
-        'e1_alt_num'            => "Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist",
-        'e1_px_num'             => "Use of px sizing units for items other than images",
-        'e1_title_num'          => "&lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;The Project Gutenberg eBook of Alice's Adventures in Wonderland, by Lewis Carroll&lt;title&gt; or &lt;title&gt;Alice's Adventures in Wonderland, by Lewis Carroll&mdash;A Project Gutenberg eBook&lt;title&gt;)",
-        'e1_pre_num'            => "Use of &lt;pre&gt; tags instead of their CSS equivalents",
-        'e1_body_num'           => "Failure to place &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;/head&gt;&lt;/body&gt;, and &lt;/html&gt; tags each on their own line and correctly use them",
-        'e1_tabl_num'           => "Use of tables for things that are not tables",
-        'e1_css_num'            => "Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element)",
-        'e1_xhtml_num'          => "Used HTML version other than XHTML 1.0 Strict or 1.1",
-        'e1_chapter_num'        => "Failure to add &lt;div class=\"chapter\"&gt; at chapter breaks to enable proper page breaks for ereaders",
-        'e1_xhtml_genhtml_num'  => "Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field)",
-    ));
+            'e1_unused_num'         => "Unused files in images folder (Thumbs.db is not counted toward rating)",
+            'e1_imagesize_num'      => "Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed the limits described here, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception).",
+            'e1_blemish_num'        => "Images with major blemishes, uncorrected rotation/distortion or without appropriate cropping",
+            'e1_distort_num'        => "Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi",
+            'e1_alt_num'            => "Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist",
+            'e1_px_num'             => "Use of px sizing units for items other than images",
+            'e1_title_num'          => "&lt;title&gt; missing or incorrectly worded (Should be &lt;title&gt;The Project Gutenberg eBook of Alice's Adventures in Wonderland, by Lewis Carroll&lt;title&gt; or &lt;title&gt;Alice's Adventures in Wonderland, by Lewis Carroll&mdash;A Project Gutenberg eBook&lt;title&gt;)",
+            'e1_pre_num'            => "Use of &lt;pre&gt; tags instead of their CSS equivalents",
+            'e1_body_num'           => "Failure to place &lt;html&gt;, &lt;body&gt;, &lt;head&gt;, &lt;/head&gt;&lt;/body&gt;, and &lt;/html&gt; tags each on their own line and correctly use them",
+            'e1_tabl_num'           => "Use of tables for things that are not tables",
+            'e1_css_num'            => "Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element)",
+            'e1_xhtml_num'          => "Used HTML version other than XHTML 1.0 Strict or 1.1",
+            'e1_chapter_num'        => "Failure to add &lt;div class=\"chapter\"&gt; at chapter breaks to enable proper page breaks for ereaders",
+            'e1_xhtml_genhtml_num'  => "Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field)",
+        ));
 
     $reportcard .= "\n\n  Level 2 Errors:";
     $reportcard .= "\n\n    All Versions:";
     $reportcard .= report_error_counts(array(
-        'e2_markup_num'     => "Markup not handled (e.g., blockquotes, poetry indentation, or widespread failure to mark italics)",
-        'e2_poetry_num'     => "Poetry indentation does not match original",    
-        'e2_foot_num'       => "Footnotes/footnote markers missing or incorrectly placed",  
-        'e2_printers_num'   => "Printers' errors not addressed",
-        'e2_missing_num'    => "Missing page(s) or substantial sections of missing text",
-        'e2_rewrap_num'     => "Substantial rewrapping errors, e.g., poetry has been rewrapped or text version generally not rewrapped to required length (not exceeding 75 characters or falling below 55 characters) except where unavoidable, e.g., some tables though the aim should be 72 characters",
-        'e2_hyphen_num'     => "Widespread/general occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)",
-        'e2_gen_num'        => "Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field)",
-    ));
+            'e2_markup_num'     => "Markup not handled (e.g., blockquotes, poetry indentation, or widespread failure to mark italics)",
+            'e2_poetry_num'     => "Poetry indentation does not match original",    
+            'e2_foot_num'       => "Footnotes/footnote markers missing or incorrectly placed",  
+            'e2_printers_num'   => "Printers' errors not addressed",
+            'e2_missing_num'    => "Missing page(s) or substantial sections of missing text",
+            'e2_rewrap_num'     => "Substantial rewrapping errors, e.g., poetry has been rewrapped or text version generally not rewrapped to required length (not exceeding 75 characters or falling below 55 characters) except where unavoidable, e.g., some tables though the aim should be 72 characters",
+            'e2_hyphen_num'     => "Widespread/general occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)",
+            'e2_gen_num'        => "Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field)",
+        ));
     $reportcard .= "\n\n    HTML Version Only:";
     $reportcard .= report_error_counts(array(
-        'e2_tidy_num'       => "The W3C Markup Validation Service generates errors or warning messages (Please enter number of errors)",
-        'e2_csscheck_num'   => "The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element (Please enter number of errors)",
-        'e2_links_num'      => "Non-working links within HTML or to images. (Either broken or link to wrong place/file)",
-        'e2_file_num'       => "File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc.",
-        'e2_cover_num'      => "Cover image has not been included and/or has not been coded for e-reader use. (For example, the cover should be 600x800px or at least 500px wide and no more than 800px high and should be called cover.jpg. Also, if the cover is newly created, it must meet current DP guidelines.)",
-        'e2_epub_num'       => "Project not presentable/useable when put through epubmaker",
-        'e2_heading_num'    => "Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)",
-    ));
+            'e2_tidy_num'       => "The W3C Markup Validation Service generates errors or warning messages (Please enter number of errors)",
+            'e2_csscheck_num'   => "The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element (Please enter number of errors)",
+            'e2_links_num'      => "Non-working links within HTML or to images. (Either broken or link to wrong place/file)",
+            'e2_file_num'       => "File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc.",
+            'e2_cover_num'      => "Cover image has not been included and/or has not been coded for e-reader use. (For example, the cover should be 600x800px or at least 500px wide and no more than 800px high and should be called cover.jpg. Also, if the cover is newly created, it must meet current DP guidelines.)",
+            'e2_epub_num'       => "Project not presentable/useable when put through epubmaker",
+            'e2_heading_num'    => "Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)",
+        ));
 
     $reportcard .= "\n\n  Strongly Recommended (These don't count as errors but should be corrected):";
     $reportcard .= report_recommendations(array(
-        's_multi'     => "Enclose entire multi-part headings within the related heading tag",
-        's_empty'     => "Avoid using empty tags (with &amp;nbsp; entities) or &lt;br /&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though",
-        's_list'      => "List Tags should be used for lists (e.g., a normal index)",
-        's_text'      => "Include all text as text, not just as images",
-        's_code'      => "Keep your code line lengths reasonable",
-        's_tables'    => "Tables should display left, right, and center justification and top and bottom align appropriately",
-        's_th'        => "Tables contain &lt;th&gt; elements for headings",
-        's_thumbs'    => "Remove thumbs.db file from the images folder",
-        's_ereader'   => "E-reader version, although without major flaws, should also look as good as possible",
-    ));
+            's_multi'     => "Enclose entire multi-part headings within the related heading tag",
+            's_empty'     => "Avoid using empty tags (with &amp;nbsp; entities) or &lt;br /&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though",
+            's_list'      => "List Tags should be used for lists (e.g., a normal index)",
+            's_text'      => "Include all text as text, not just as images",
+            's_code'      => "Keep your code line lengths reasonable",
+            's_tables'    => "Tables should display left, right, and center justification and top and bottom align appropriately",
+            's_th'        => "Tables contain &lt;th&gt; elements for headings",
+            's_thumbs'    => "Remove thumbs.db file from the images folder",
+            's_ereader'   => "E-reader version, although without major flaws, should also look as good as possible",
+        ));
     $reportcard .= "\n\n  Mildly Recommended (These don't count as errors):";
     $reportcard .= report_recommendations(array(
-        'm_semantic'  => "Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them",
-        'm_space'     => "Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)",
-        'm_unusedcss' => "Ensure that there are no unused elements in the CSS (other than the base HTML headings)",
-    ));
+            'm_semantic'  => "Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them",
+            'm_space'     => "Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)",
+            'm_unusedcss' => "Ensure that there are no unused elements in the CSS (other than the base HTML headings)",
+        ));
 
     $reportcard .= report_comments(array(
-        'general_comments' => "General comments",
-        'reason_returned'  => "Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)",
-    ));
+            'general_comments' => "General comments",
+            'reason_returned'  => "Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)",
+        ));
     $reportcard .= "\n\n" . $site_signoff;
 
     echo _("Please check the information below to make sure everything is correct.
