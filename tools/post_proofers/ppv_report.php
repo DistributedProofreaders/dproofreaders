@@ -837,10 +837,14 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             'm_unusedcss' => "Ensure that there are no unused elements in the CSS (other than the base HTML headings)",
         ))
 
-        . report_comments(array(
-            'general_comments' => "General comments",
-            'reason_returned'  => "Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)",
-        ))
+        . report_comments(
+            'general_comments',
+            "General comments"
+        )
+        . report_comments(
+            'reason_returned',
+            "Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)"
+        )
 
         . "\n"
         . "\n" . $site_signoff;
@@ -935,14 +939,11 @@ function report_recommendations($recommendations)
     return $result;
 }
 
-function report_comments($comments)
+function report_comments($id, $label)
 {
     $result = "";
-    foreach ($comments as $id => $label)
-    {
-        if (!empty($_POST[$id]))
-            $result .= "\n\n  $label:\n    {$_POST[$id]}";
-    }
+    if (!empty($_POST[$id]))
+        $result .= "\n\n  $label:\n    {$_POST[$id]}";
     return $result;
 }
 
