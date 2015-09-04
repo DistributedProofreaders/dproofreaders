@@ -47,7 +47,7 @@ $db_Connection=new dbConnect();
 if ($db_Connection->error != '')
 {
     // If we're in maintenance mode, don't die here - we'll more gracefully
-    // error out later in abort_if_in_maintenance_mode()
+    // error out later
     if(!$maintenance)
         die('Error: Unable to connect to database.');
 
@@ -61,10 +61,33 @@ if($db_Connection)
     $user_is_logged_in = dpsession_resume();
 
 include_once($relPath.'gettext_setup.inc');
-include_once($relPath.'maintenance_mode.inc');
 
-// Check to see if we are in a maintenance mode
-abort_if_in_maintenance_mode();
+if ($maintenance)
+{
+    /*
+    Including user_is.inc causes a perf impact because it includes
+    page_tally.inc, which includes stages.inc - all of which have a
+    great deal of overhead. That's a whole lot of work to satisfy a
+    rare edge case (that we're in maintenance mode). 
+    Until that's resolved, conditionally include it.
+    */
+    include_once($relPath.'user_is.inc');
+    include_once($relPath.'slim_header.inc');
+
+    if (!user_is_a_sitemanager())
+    {
+        $title = sprintf(_("%s Maintenance"),$site_name);
+        $message = _("We are currently performing maintenance on the server.  Please be patient, we should have the site back up and running shortly.");
+        if($maintenance_message)
+            $message .= "<br>$maintenance_message";
+        slim_header($title);
+        echo "<center><h2>";
+        if (isset($pguser))
+            echo "$pguser ";
+        echo "$message</h2></center>";
+        exit();
+    }
+}
 
 //----------------------------------------------------------------------------
 
