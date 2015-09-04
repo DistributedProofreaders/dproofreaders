@@ -941,10 +941,13 @@ function report_recommendations($recommendations)
 
 function report_comments($id, $label)
 {
-    $result = "";
-    if (!empty($_POST[$id]))
-        $result .= "\n\n  $label:\n    {$_POST[$id]}";
-    return $result;
+    $comments = $_POST[$id];
+    if (empty($comments)) return "";
+
+    return "\n"
+        . "\n  $label:"
+        . "\n    $comments"
+    ;
 }
 
 // vim: sw=4 ts=4 expandtab
