@@ -15,6 +15,11 @@
 //
 // The order of the include_once()s in this file is important!
 
+// Make sure magic_quotes_gpc is turned on, we rely heavily on it.
+if (get_magic_quotes_gpc() == 0) {
+    die("Error: magic_quotes_gpc is not turned on in PHP configuration.");
+}
+
 // Override $relPath to be the absolute path to the directory that
 // contains this file. This allows registered shutdown functions
 // to know where to find files (working directory of the script
