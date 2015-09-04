@@ -67,7 +67,10 @@ if (!is_dir($project_path))
     exit;
 }
 
-mkdir_recursive( dirname($zipfile_path), 0777 );
+if(!is_dir(dirname($zipfile_path)))
+{
+    mkdir( dirname($zipfile_path), 0777, TRUE /* recursive */ );
+}
 
 // Get a list of image filenames to feed into /usr/bin/zip on stdin
 $image_files = get_filelist($project_path, array('.png', '.jpg'), /*with_path*/ True);

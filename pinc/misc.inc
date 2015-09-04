@@ -522,30 +522,6 @@ function get_filelist($dirpath, $validext = array(), $with_path = False)
 }
 // -----------------------------------------------------------------------------
 
-function mkdir_recursive( $dir, $mode )
-// Like mkdir, but recursively creates any parent directories too.
-// (PHP 5's mkdir has this capability built-in.)
-{
-    if ( file_exists($dir) )
-    {
-        if ( is_dir($dir) )
-        {
-            // Great!
-        }
-        else
-        {
-            die( "$dir exists, but isn't a directory." );
-        }
-    }
-    else
-    {
-        mkdir_recursive( dirname($dir), $mode );
-        mkdir( $dir, $mode ) or die( "Unable to create $dir" );
-    }
-}
-
-// -----------------------------------------------------------------------------
-
 function get_upload_err_msg($upload_error_code)
 // Return an error message appropriate to $upload_error_code.
 // (The wording is taken from "Handling File Uploads: Error Messages Explained"

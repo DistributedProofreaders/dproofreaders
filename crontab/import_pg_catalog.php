@@ -98,7 +98,10 @@ if ($start_from_scratch)
         die( "Unable to decompress $local_compressed_file to $local_tar_file" );
     }
 
-    mkdir_recursive( $local_catalog_dir, 0777 );
+    if(!is_dir($local_catalog_dir))
+    {
+        mkdir( $local_catalog_dir, 0777, TRUE /* recursive */ );
+    }
 
     trace("Extracting files from $local_tar_file to $local_catalog_dir...");
     system("tar --extract --file=$local_tar_file --strip-components=3 --directory=$local_catalog_dir --overwrite", $ret);
