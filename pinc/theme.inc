@@ -6,7 +6,6 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'pg.inc');
-include_once($relPath.'dpsession.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'page_tally.inc');
@@ -18,8 +17,6 @@ include_once($relPath.'misc.inc'); // endswith
 
 define('NO_STATSBAR',   False);
 define('SHOW_STATSBAR', True);
-
-$user_is_logged_in = dpsession_resume();
 
 if(isset($userP['i_theme']) && $userP['i_theme'] != '' ) {
     $theme_name = $userP['i_theme'];
