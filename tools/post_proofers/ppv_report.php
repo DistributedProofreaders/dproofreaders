@@ -505,7 +505,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . number_box('e1_hyph_num',           _("A few occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)"))
                 . number_box('e1_chap_num',           _("Chapter and other headings inconsistently spaced, aligned, capitalized or punctuated"))
                 . number_box('e1_format_num',         _("Formatting inconsistencies (e.g., in margins, blank lines, etc.)"))
-                . number_box('e1_xhtml_genother_num', _("Other minor errors (such as a minor rewrap error, misplaced entry in the TN, or minor inconsistency between the text and HTML versions) (Please explain in the Comments Field)"))
+                . number_box('e1_xhtml_genother_num', _("Other minor errors (such as a minor rewrap error, misplaced entry in the TN, or minor inconsistency between the text and HTML versions) (Please explain in the Comments Field below)"))
+                . "\n"
+                . comment_box('level1_general_comments')
         )
         . tr_w_one_cell_centered("#e0e8dd", _("HTML Version Only"))
         . tr_w_one_cell_centered("#e0e8dd", _("Images"))
@@ -530,7 +532,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . number_box('e1_css_num',           _("Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element)"))
                 . number_box('e1_xhtml_num',         _("Used HTML version other than XHTML 1.0 Strict or 1.1"))
                 . number_box('e1_chapter_num',       _("Failure to add &lt;div class=\"chapter\"&gt; or &lt;div class=\"section\"&gt; at chapter breaks to enable proper page breaks for e-readers"))
-                . number_box('e1_xhtml_genhtml_num', _("Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field)"))
+                . number_box('e1_xhtml_genhtml_num', _("Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field below)"))
+                . "\n"
+                . comment_box('level1_html_comments')
         )
         . tr_w_one_cell_centered("#99ff99", _("LEVEL 2 (Major Errors)"))
         . tr_w_one_cell_centered("#e0e8dd", _("All Versions"))
@@ -544,7 +548,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . number_box('e2_missing_num',  _("Missing page(s) or substantial sections of missing text"))
                 . number_box('e2_rewrap_num',   _("Substantial rewrapping errors, e.g., poetry has been rewrapped or text version generally not rewrapped to required length (not exceeding 75 characters or falling below 55 characters) except where unavoidable, e.g., some tables though the aim should be 72 characters"))
                 . number_box('e2_hyphen_num',   _("Widespread/general occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)"))
-                . number_box('e2_gen_num',      _("Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field)"))
+                . number_box('e2_gen_num',      _("Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field below)"))
+                . "\n"
+                . comment_box('level2_general_comments')
         )
         . tr_w_one_cell_centered("#e0e8dd", _("HTML Version Only"))
         . tr_w_two_cells(
@@ -580,7 +586,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . check_box('m_space',     _("Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)"))
                 . check_box('m_unusedcss', _("Ensure that there are no unused elements in the CSS (other than the base HTML headings)"))
         )
-        . tr_w_one_cell_centered("#99ff99", _("COMMENTS"))
+        . tr_w_one_cell_centered("#99ff99", _("GENERAL COMMENTS"))
         . tr_w_two_cells(
             _("Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)"),
             comment_box('reason_returned')
@@ -765,8 +771,13 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             'e1_hyph_num'           => "A few occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)",
             'e1_chap_num'           => "Chapter and other headings inconsistently spaced, aligned, capitalized or punctuated",
             'e1_format_num'         => "Formatting inconsistencies (e.g., in margins, blank lines, etc.)",
-            'e1_xhtml_genother_num' => "Other minor errors (such as a minor rewrap error, misplaced entry in the TN, or minor inconsistency between the text and HTML versions) (Please explain in the Comments Field)",
+            'e1_xhtml_genother_num' => "Other minor errors (such as a minor rewrap error, misplaced entry in the TN, or minor inconsistency between the text and HTML versions) (Please explain in the Comments Field below)",
         ))
+        . report_comments(
+            "      ",
+            'level1_general_comments',
+            ""
+        )
         . "\n"
         . "\n    HTML Version Only:"
         . report_error_counts(array(
@@ -783,8 +794,13 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             'e1_css_num'            => "Used CSS other than CSS 2.1 or below (except for the dropcap \"transparent\" element)",
             'e1_xhtml_num'          => "Used HTML version other than XHTML 1.0 Strict or 1.1",
             'e1_chapter_num'        => "Failure to add &lt;div class=\"chapter\"&gt; at chapter breaks to enable proper page breaks for ereaders",
-            'e1_xhtml_genhtml_num'  => "Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field)",
+            'e1_xhtml_genhtml_num'  => "Minor HTML errors in code that do not generate an HTML validation alert such as misspelling a language code (Please explain in the Comments Field below)",
         ))
+        . report_comments(
+            "      ",
+            'level1_html_comments',
+            ""
+        )
 
         . "\n"
         . "\nLevel 2 Errors:"
@@ -798,8 +814,13 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             'e2_missing_num'    => "Missing page(s) or substantial sections of missing text",
             'e2_rewrap_num'     => "Substantial rewrapping errors, e.g., poetry has been rewrapped or text version generally not rewrapped to required length (not exceeding 75 characters or falling below 55 characters) except where unavoidable, e.g., some tables though the aim should be 72 characters",
             'e2_hyphen_num'     => "Widespread/general occurrences of hyphenated/non-hyphenated, spelling and punctuation variants and other inconsistencies not addressed (may be addressed by note in the TN)",
-            'e2_gen_num'        => "Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field)",
+            'e2_gen_num'        => "Other major errors that could seriously impact the readability of the book or that represent major inconsistencies between the text and the HTML versions (Please explain in the Comments Field below)",
         ))
+        . report_comments(
+            "      ",
+            'level2_general_comments',
+            ""
+        )
         . "\n"
         . "\n    HTML Version Only:"
         . report_error_counts(array(
@@ -951,7 +972,7 @@ function report_comments($base_indent, $id, $label)
     // and the ones (if any) that were in $comments already.
 
     return "\n"
-        . "\n$base_indent$label:"
+        . ( empty($label) ? "" : "\n$base_indent$label:" )
         . "\n$text_indent$comments"
     ;
 }
