@@ -629,10 +629,6 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
 
     $project_size = $_POST["kb_size"];
 
-    // Wrap any long input from textareas.
-    $_POST['reason_returned'] = wordwrap($_POST['reason_returned'], 78, "\n    ");
-    $_POST['general_comments'] = wordwrap($_POST['general_comments'], 78, "\n    ");
-
     $project_significant_counter = 0;
     $project_average_counter = 0;
     $level_1_errors = 0;
@@ -943,6 +939,8 @@ function report_comments($id, $label)
 {
     $comments = $_POST[$id];
     if (empty($comments)) return "";
+
+    $comments = wordwrap($comments, 78, "\n    ");
 
     return "\n"
         . "\n  $label:"
