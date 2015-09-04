@@ -1,6 +1,5 @@
 <?php 
-include_once("site_vars.php");   // $site_abbreviation
-include_once("languages.inc");   // lang_html_header()
+include_once($relPath."languages.inc");   // lang_html_header()
 
 // Output valid HTML for a non-themed page. The optional $extra_args variable
 // is an associative array to control what exactly is output. By default an
