@@ -943,7 +943,11 @@ function report_comments($id, $label)
     $base_indent = "  ";
     $text_indent = "    ";
 
-    $comments = wordwrap($comments, 78, "\n$text_indent");
+    $comments = wordwrap($comments, 78 - strlen($text_indent));
+    $comments = str_replace("\n", "\n$text_indent", $comments);
+    // This indents all the lines,
+    // both the ones (if any) that were introduced by wordwrap,
+    // and the ones (if any) that were in $comments already.
 
     return "\n"
         . "\n$base_indent$label:"
