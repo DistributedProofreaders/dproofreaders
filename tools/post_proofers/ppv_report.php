@@ -856,13 +856,13 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
 
         . report_comments(
             '',
-            'general_comments',
-            "General comments"
+            'reason_returned',
+            "Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)"
         )
         . report_comments(
             '',
-            'reason_returned',
-            "Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)"
+            'general_comments',
+            "General comments"
         )
 
         . "\n"
