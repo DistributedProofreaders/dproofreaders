@@ -834,10 +834,12 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         ))
 
         . report_comments(
+            '',
             'general_comments',
             "General comments"
         )
         . report_comments(
+            '',
             'reason_returned',
             "Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)"
         )
@@ -935,13 +937,12 @@ function report_recommendations($recommendations)
     return $result;
 }
 
-function report_comments($id, $label)
+function report_comments($base_indent, $id, $label)
 {
     $comments = $_POST[$id];
     if (empty($comments)) return "";
 
-    $base_indent = "";
-    $text_indent = "    ";
+    $text_indent = $base_indent . "    ";
 
     $comments = wordwrap($comments, 78 - strlen($text_indent));
     $comments = str_replace("\n", "\n$text_indent", $comments);
