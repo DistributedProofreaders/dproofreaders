@@ -635,9 +635,9 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
     $level_2_errors = 0;
     $pp_evaluation = "";
     $pping_complexity = "\n"
-        . "\n  PPing Complexity:"
+        . "\nPPing Complexity:"
         . "\n"
-        . "\n        Text File Size: $project_size KB";
+        . "\n    Text File Size: $project_size KB";
     $mapped_array = array("sig_poetry" => "Significant Amount of Poetry", "some_poetry" => "Some Poetry",
         "sig_block" => "Significant Amount of Blockquotes", "some_block" => "Some Blockquotes",
         "sig_foot" => "Significant Amount of Footnotes", "some_foot" => "Some Footnotes",
@@ -728,33 +728,33 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
     $reportcard = ""
         . "\n"
         . "\n"
-        . "\n    PPV Summary for $project->postproofer"
+        . "\nPPV Summary for $project->postproofer"
         . "\n"
-        . "\n        Number of books post-processed by $project->postproofer (including this one): $number_post_processed"
+        . "\n    Number of books post-processed by $project->postproofer (including this one): $number_post_processed"
         . "\n"
         . "\n"
-        . "\n    Project Information"
+        . "\nProject Information"
         . "\n"
-        . "\n        projectID: $projectid"
-        . "\n        Title: $nameofwork"
-        . "\n        Author: $authorsname"
-        . "\n        Language: $language"
-        . "\n        Proofreading Difficulty: $difficulty_level"
-        . "\n        Number of pages: $pages"
-        . "\n        Post-processed by: $project->postproofer"
-        . "\n        Verified by: $pguser"
-        . "\n        Verified on: $subdate"
-        . "\n        Submitted by PP on: $pp_date"
+        . "\n    projectID: $projectid"
+        . "\n    Title: $nameofwork"
+        . "\n    Author: $authorsname"
+        . "\n    Language: $language"
+        . "\n    Proofreading Difficulty: $difficulty_level"
+        . "\n    Number of pages: $pages"
+        . "\n    Post-processed by: $project->postproofer"
+        . "\n    Verified by: $pguser"
+        . "\n    Verified on: $subdate"
+        . "\n    Submitted by PP on: $pp_date"
         . "\n"
-        . "\n    General Post-Processing Information"
+        . "\nGeneral Post-Processing Information"
         . "\n"
-        . "\n        PPing Difficulty: $pp_difficulty_level"
-        . "\n        Overall evaluation of PPer's work: $pp_evaluation"
+        . "\n    PPing Difficulty: $pp_difficulty_level"
+        . "\n    Overall evaluation of PPer's work: $pp_evaluation"
 
         . $pping_complexity
 
         . "\n"
-        . "\n  Level 1 Errors:"
+        . "\nLevel 1 Errors:"
         . "\n"
         . "\n    All Versions:"
         . report_error_counts(array(
@@ -787,7 +787,7 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         ))
 
         . "\n"
-        . "\n  Level 2 Errors:"
+        . "\nLevel 2 Errors:"
         . "\n"
         . "\n    All Versions:"
         . report_error_counts(array(
@@ -813,7 +813,7 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         ))
 
         . "\n"
-        . "\n  Strongly Recommended (These don't count as errors but should be corrected):"
+        . "\nStrongly Recommended (These don't count as errors but should be corrected):"
         . report_recommendations(array(
             's_multi'     => "Enclose entire multi-part headings within the related heading tag",
             's_empty'     => "Avoid using empty tags (with &amp;nbsp; entities) or &lt;br /&gt; elements for vertical spacing. e.g. &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt; (or with nbsps) -- &lt;td&gt;&amp;nbsp;&lt;/td&gt; is still acceptable though",
@@ -826,7 +826,7 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             's_ereader'   => "E-reader version, although without major flaws, should also look as good as possible",
         ))
         . "\n"
-        . "\n  Mildly Recommended (These don't count as errors):"
+        . "\nMildly Recommended (These don't count as errors):"
         . report_recommendations(array(
             'm_semantic'  => "Distinguish between purely decorative italics/bold/gesperrt and semantic uses of them",
             'm_space'     => "Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)",
@@ -940,7 +940,7 @@ function report_comments($id, $label)
     $comments = $_POST[$id];
     if (empty($comments)) return "";
 
-    $base_indent = "  ";
+    $base_indent = "";
     $text_indent = "    ";
 
     $comments = wordwrap($comments, 78 - strlen($text_indent));
