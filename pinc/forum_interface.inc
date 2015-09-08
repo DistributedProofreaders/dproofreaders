@@ -189,17 +189,22 @@ function login_forum_user($username, $password)
     global $forums_dir;
 
     if(!is_dir($forums_dir))
-        return;
+        return FALSE;
+
+    // phpbb code sets variables (e.g. $db) upon include assuming they are
+    // global and accesses them in functions via e.g. global $db. However,
+    // when we include phpbb files within this dp function, those variables
+    // will now be set at function-scope, and so global $db will no longer
+    // access the intended variable. So we have to insert global
+    // declarations for the phpbb3 variables, so that when the
+    // variable-assignment occurs at function-scope, it affects the global
+    // variable.
 
     if(PHPBB_VERSION == 2) {
         if(!is_username_password_valid($username, $password))
             return FALSE;
 
         $user_id = get_forum_user_id($username);
-
-        // phpBB2 uses a lot of global variables that it sets when its files
-        // are included. To put these in a function, we have to give the function
-        // access to the globals that these includes set.
 
         // these globals are pulled from:
         // phpBB2/includes/sessions.php:session_end()
@@ -259,6 +264,9 @@ function logout_forum_user()
 
     if(!is_dir($forums_dir))
         return;
+
+    // See login_forum_user() for about the need for the global
+    // declarations below.
 
     if(PHPBB_VERSION == 2) {
         $user_id = get_forum_user_id($pguser);
@@ -556,7 +564,7 @@ function get_url_to_edit_profile()
     }
 
     if(PHPBB_VERSION == 3) {
-        return "$forums_url/ucp.php?i=173";
+        return "$forums_url/ucp.php";
     }
 }
 

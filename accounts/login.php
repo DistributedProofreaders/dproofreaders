@@ -82,10 +82,10 @@ if ($userPW == '')
     abort_login($error);
 }
 
-// Confirm a valid username and password
+// Attempt to log into forum
 if (!login_forum_user($userNM, $userPW))
 {
-   abort_login(_("Username or password is incorrect."));
+   abort_login(_("Unable to authenticate. The username/password may be incorrect or your account may be locked."));
 }
 
 // Look for user in 'users' table.
