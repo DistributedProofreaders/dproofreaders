@@ -83,26 +83,11 @@ function forum_password_hash($password)
     }
 
     if(PHPBB_VERSION == 3) {
-        // We *really* shouldn't be mixing phpBB code with DP code, but
-        // there's no way around this since phpBB3 hashing code is...
-        // involved.
-        global $forums_dir;
-        global $phpbb_root_path, $phpEx;
-        $phpbb_root_path = $forums_dir."/";
-        $phpEx = "php";
-
-        // globals pulled from include/functions.php:set_config()
-        // which is called from unique_id() which is called from phpbb_hash()
-        global $db, $cache, $config;
-        define('IN_PHPBB', true);
-        define('ROOT_PATH', $forums_dir);
-
-        include($phpbb_root_path . 'common.' . $phpEx);
-
-        $hashed_password = phpbb_hash($password);
-
-        define('IN_PHPBB', false);
-        return $hashed_password;
+        // phpBB3 hashing function is involved, so we'll call it directly
+        // instead of duplicating it here, but we don't want to pollute
+        // the DP codespace so we'll do it via phpbb3.inc.
+        $args = func_get_args();
+        return call_phpbb_function( 'hash_password', $args );
     }
 }
 
@@ -110,6 +95,9 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
 // Creates a forum user with the specified username, password, and email.
 // The DP registration process already digests the password, hence the
 // need for $password_is_digested.
+// Returns:
+//     TRUE  - user successfully created
+//     FALSE - user creation failed
 {
     global $forums_dir;
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
@@ -127,46 +115,23 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
         $currtime = time();
         $sql = sprintf("INSERT INTO {$phpbb_table_prefix}_users SET user_id=$max_user_id, username='%s', user_regdate=$currtime, user_timezone=-8.00, user_lang='%s', user_email='%s', user_password='%s', user_viewemail=0", mysql_real_escape_string($username), phpbb_lang(), mysql_real_escape_string($email), mysql_real_escape_string($digested_password));
         mysql_query($sql) or die(mysql_error());
+
+        return TRUE;
     }
 
     if(PHPBB_VERSION == 3) {
-        # see https://wiki.phpbb.com/Add_users
-        global $phpbb_root_path, $phpEx;
-        $phpbb_root_path = $forums_dir."/";
-        $phpEx = "php";
-
-        // globals pulled from include/functions_user.php:user_add()
-        global $db, $user, $auth, $config;
-        global $cache;
-        define('IN_PHPBB', true);
-        define('ROOT_PATH', $forums_dir);
-
-        include($phpbb_root_path . 'common.' . $phpEx);
-        include($phpbb_root_path . 'includes/functions_user.' . $phpEx);
-
-        // get the group_id for the REGISTERED user group
-        $sql = "SELECT group_id
-                FROM {$phpbb_table_prefix}_groups
-                WHERE group_name = 'REGISTERED'
-        ";
-        $result = $db->sql_query($sql);
-        $group_id = (int) $db->sql_fetchfield('group_id');
-        $db->sql_freeresult($result);
-
-        $user_row = array(
-            "username" => $username,
-            "user_password" => $password,
-            "user_email" => $email,
-            "group_id" => $group_id,
-            "user_type" => USER_NORMAL,
-            "user_timezone" => -8.00,
-            "user_lang" => phpbb_lang(),
-            "user_regdate" => time(),
-            "user_allow_viewemail" => 0,
+        // Use the phpBB3 API to create the user, but do so via phpbb3.inc
+        // as to not mix the DP and phpBB3 codespace.
+        $args = array(
+            0 => $username,
+            1 => $password,
+            2 => $email,
+            3 => phpbb_lang()
         );
+        $user_id = call_phpbb_function( 'create_user', $args );
 
-        $user_id = user_add($user_row);
-        define('IN_PHPBB', false);
+        if($user_id === FALSE)
+            return FALSE;
 
         # if $password_is_digested we have to update the password in the DB directly
         if($password_is_digested) {
@@ -177,6 +142,8 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
                 mysql_real_escape_string($password), $user_id);
             mysql_query($sql) or die(mysql_error());
         }
+
+        return TRUE;
     }
 }
 

@@ -34,8 +34,51 @@ $phpbb_root_path = $forums_dir.'/';
 $phpEx = 'php';
 include_once($phpbb_root_path . 'common.'.$phpEx);
 include_once($phpbb_root_path . 'includes/functions_posting.'.$phpEx);
+include_once($phpbb_root_path . 'includes/functions_user.' . $phpEx);
 
 // -----------------------------------------------------------------------------
+
+function phpbb3_hash_password(
+    $password
+)
+{
+    return phpbb_hash($password);
+}
+
+function phpbb3_create_user(
+    $username,
+    $password,
+    $email,
+    $lang
+)
+{
+    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+
+    // get the group_id for the REGISTERED user group
+    global $db;
+    $sql = "SELECT group_id
+            FROM {$phpbb_table_prefix}_groups
+            WHERE group_name = 'REGISTERED'
+    ";
+    $result = $db->sql_query($sql);
+    $group_id = (int) $db->sql_fetchfield('group_id');
+    $db->sql_freeresult($result);
+
+    $user_row = array(
+        "username" => $username,
+        "user_password" => $password,
+        "user_email" => $email,
+        "group_id" => $group_id,
+        "user_type" => USER_NORMAL,
+        "user_timezone" => -8.00,
+        "user_lang" => $lang,
+        "user_regdate" => time(),
+        "user_allow_viewemail" => 0,
+    );
+
+    $user_id = user_add($user_row);
+    return $user_id;
+}
 
 function phpbb3_create_topic(
     $forum_id,
