@@ -68,6 +68,27 @@ $email_updates = $user['email_updates'];
 $u_intlang = $user['u_intlang'];
 $passwd = $user['user_password'];
 
+// Verify we can create the user's forum account, and bail if we can't.
+$create_user_status = create_forum_user($username, $passwd, $email, TRUE);
+
+if($create_user_status !== TRUE) {
+    echo "<p>\n";
+    echo _("Account creation failed due to inability to register with forum.");
+    echo "\n";
+    echo "<!-- Forum error: $create_user_status -->";
+    echo "\n";
+    $mailto_url = "mailto:$general_help_email_addr";
+    echo sprintf(
+        _("For assistance, please contact <a href='%s'>%s</a>."),
+        $mailto_url, $general_help_email_addr );
+    echo "\n";
+    echo sprintf(
+        _("Please include the account activation code %s in your email for assistance."),
+        $ID);
+    echo "</p>\n";
+    exit;
+}
+
 // Delete record in non_activated_users.
 mysql_query("DELETE FROM non_activated_users WHERE id='$ID'");
 
@@ -85,8 +106,6 @@ $profile_id = mysql_insert_id($db_Connection->db_lk); // auto-incremented user_p
 // add ref to profile
 $refString=sprintf("UPDATE users SET u_profile=$profile_id WHERE id='%s' AND username='%s'", mysql_real_escape_string($ID), mysql_real_escape_string($username));
 $makeRef=mysql_query($refString);
-
-create_forum_user($username, $passwd, $email, TRUE);
 
 // Send them an introduction e-mail
 maybe_welcome_mail($email, $real_name, $username);

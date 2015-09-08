@@ -97,7 +97,9 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
 // need for $password_is_digested.
 // Returns:
 //     TRUE  - user successfully created
-//     FALSE - user creation failed
+//     !TRUE (error string) - user creation failed
+// Note: Use a strict comparison operator (=== or !==) against TRUE
+// to evaluate the pass/fail status of this function.
 {
     global $forums_dir;
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
@@ -130,8 +132,10 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
         );
         $user_id = call_phpbb_function( 'create_user', $args );
 
-        if($user_id === FALSE)
-            return FALSE;
+        // create_user() should return a numeric $user_id, if it doesn't
+        // it likely returned a phpBB3 error string. Lets return that instead.
+        if(!is_numeric($user_id))
+            return $user_id;
 
         # if $password_is_digested we have to update the password in the DB directly
         if($password_is_digested) {
