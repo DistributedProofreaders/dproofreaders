@@ -72,6 +72,10 @@ $passwd = $user['user_password'];
 $create_user_status = create_forum_user($username, $passwd, $email, TRUE);
 
 if($create_user_status !== TRUE) {
+    // Failure here should be rare (which is good given that this is not a
+    // great user experience). The most common instance where this could
+    // come up is for the 'Anonymous' user. Better validation is needed in
+    // addproofer.php to detect duplicate account names during registration.
     echo "<p>\n";
     echo _("Account creation failed due to inability to register with forum.");
     echo "\n";

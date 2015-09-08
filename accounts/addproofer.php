@@ -65,6 +65,12 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
         return _("That user name already exists, please try another.");
     }
 
+    // TODO: The above check only validates against users in the DP database.
+    // It's possible that there are usernames already registered with the
+    // underlying forum software (like 'Anonymous') or are disallowed in the
+    // forum software which, if used, will cause account creation to fail in
+    // activate.php.
+
     return '';
 }
 
