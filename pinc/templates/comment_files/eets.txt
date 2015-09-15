@@ -23,4 +23,4 @@ The eth (/) and thorn (/) are found in the drop-down boxes.<br>
 
 <p><b>The Uberproject</b></p>
 
-<p><a href="http://www.eets.org.uk/">The Early English Text Society</a> is an organization dedicated to printing early English manuscripts, usually but not always Old or Middle English. It was the first organization to print many important manuscripts, including the <i>Pearl</i>, and there are over a hundred volumes printed by them now in the public domain in the United States. We have an <a href="http://www.pgdp.net/phpBB2/viewtopic.php?t=9095">Uberproject thread</a>.</p>
+<p><a href="http://www.eets.org.uk/">The Early English Text Society</a> is an organization dedicated to printing early English manuscripts, usually but not always Old or Middle English. It was the first organization to print many important manuscripts, including the <i>Pearl</i>, and there are over a hundred volumes printed by them now in the public domain in the United States. We have an <a href="http://www.pgdp.net/phpBB3/viewtopic.php?t=9095">Uberproject thread</a>.</p>

@@ -80,7 +80,7 @@ _SITE_NAME=PICK_A_NAME
 _SITE_ABBREVIATION=PICK_AN_ABBREVIATION
 
 # Something like 'Thank you!\nThe Management' would be good. It will be
-# used in the footer of emails from the site. (Does not affect phpBB2
+# used in the footer of emails from the site. (Does not affect phpBB
 # emails; use the Administration Panel to change that.)
 _SITE_SIGNOFF="Thank you!\n$_SITE_NAME"
 

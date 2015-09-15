@@ -27,5 +27,5 @@ to a glitch in page numbering of that volume. Please proofread and format
 the asterisk as printed, with no extra markup.</p>
 
 <p>For more information about BAE projects, see
-<a href = "http://www.pgdp.net/phpBB2/viewtopic.php?p=50987&start=2">the Uber-Project
+<a href = "http://www.pgdp.net/phpBB3/viewtopic.php?p=50987&start=2">the Uber-Project
 thread</a>.</p>

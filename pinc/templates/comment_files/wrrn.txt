@@ -76,8 +76,8 @@ transcribing these forms is to get the information out of them; layout is not th
 important (except in some cases where the form might contain tabular data).</p>
 
 <p>There is an example in the Warren Commission UberProject thread on how forms can
-be transcribed: <a href="http://www.pgdp.net/phpBB2/viewtopic.php?p=62370#62370"
-target="forum">http://www.pgdp.net/phpBB2/viewtopic.php?p=62370#62370</a></p>
+be transcribed: <a href="http://www.pgdp.net/phpBB3/viewtopic.php?p=62370#p62370"
+target="forum">http://www.pgdp.net/phpBB3/viewtopic.php?p=62370#p62370</a></p>
 
 <h3 id="grayscale"><a name="grayscale"></a>Grayscale Images</h3>
 

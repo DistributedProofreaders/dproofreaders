@@ -7,7 +7,7 @@ If you're installing/upgrading from source control, it's trickier.
 
 In case of problems, please post to the "DP Site Code" forum at the primary
 DP site:
-    http://www.pgdp.net/phpBB2/viewforum.php?f=32
+    http://www.pgdp.net/phpBB3/viewforum.php?f=32
 
 =======================================================================
 Installing from scratch
@@ -42,7 +42,7 @@ assuming it isn't already.
         We believe that they'll work on any version from 4.0.14 up.
         (For various reasons, we're thinking of increasing the minimum required
         version to at least 4.1. Let us know what you think of this at
-        <http://www.pgdp.net/phpBB2/viewtopic.php?t=25529>.)
+        <http://www.pgdp.net/phpBB3/viewtopic.php?t=25529>.)
 
         In the examples in this document, we will assume that the MySQL server
         is on "localhost", i.e. the same host on which you are running these

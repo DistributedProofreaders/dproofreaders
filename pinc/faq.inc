@@ -57,7 +57,7 @@ function make_forum_url($type,$id,$default)
     }
     // otherwise, route them to a forum at pgdp.net
     else {
-        $FURL = "http://www.pgdp.net/phpBB2";
+        $FURL = "http://www.pgdp.net/phpBB3";
         $id = $default;
         switch($type) {
             case "f":
