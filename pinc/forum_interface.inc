@@ -267,7 +267,7 @@ function logout_forum_user()
 
         // these globals are pulled from
         // phpBB2/includes/sessions.php:session_create()
-        global $SID, $_SID, $db, $config, $cache;
+        global $SID, $_SID, $db, $config, $cache, $auth;
         global $user;
 
         define('IN_PHPBB', true);
@@ -544,7 +544,13 @@ function get_url_to_view_profile($user_id)
 {
     global $forums_url;
 
-    return "$forums_url/profile.php?mode=viewprofile&u=$user_id";
+    if(PHPBB_VERSION == 2) {
+        return "$forums_url/profile.php?mode=viewprofile&u=$user_id";
+    }
+
+    if(PHPBB_VERSION == 3) {
+        return "$forums_url/memberlist.php?mode=viewprofile&u=$user_id";
+    }
 }
 
 function get_url_for_inbox()
