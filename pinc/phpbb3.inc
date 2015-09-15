@@ -25,7 +25,7 @@ if ( $this_is_top_level_cli_invocation )
 {
     // We assume it was invoked from the pinc/ directory.
     $relPath = './';
-    include_once($relPath.'site_vars.php'); // $forums_dir
+    include_once($relPath.'site_vars.php'); // $forums_dir, $charset
 }
 
 // PHPBB includes (from the standard installation)
@@ -160,6 +160,8 @@ function _insert_post(
 // -- we override $user_ip;
 // -- we disable smilies
 {
+    global $charset;
+
     # see: https://phpbbmodders.net/articles/3.0/create_post/
     global $db, $user, $auth;
 
@@ -202,6 +204,9 @@ function _insert_post(
         $poster_id = -1;
         $attach_sig = false;
     }
+
+    $post_subject = utf8_recode($post_subject, $charset);
+    $post_text    = utf8_recode($post_text, $charset);
 
     # see: https://wiki.phpbb.com/Function.submit_post
     $subject = utf8_normalize_nfc($post_subject);
