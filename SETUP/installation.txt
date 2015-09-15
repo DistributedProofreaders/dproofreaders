@@ -350,6 +350,9 @@ newer release of the DP code.
 
 --- At this point, your DP site should be functional again.
 
+--- (optional) If your prior version was running phpBB2, consider upgrading to
+    phpBB3. See phpbb3-conversion.txt for steps on how to do this.
+
 --- Install the modified dp.cron.
 
 =======================================================================
