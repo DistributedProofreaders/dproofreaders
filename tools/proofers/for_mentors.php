@@ -179,7 +179,6 @@ function page_summary_sql($mentored_round, $projectid)
                 mysql_real_escape_string(_("Joined")) . "'
         FROM $projectid  AS p
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
-            INNER JOIN phpbb_users AS bbu ON u.username = bbu.username
             $joined_with_user_page_tallies
         GROUP BY p.{$mentored_round->user_column_name}" ;
 }
