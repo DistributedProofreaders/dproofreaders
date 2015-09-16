@@ -62,7 +62,7 @@ function ibe_echo_styles()
         top:<?php echo $textTop; ?>;
         width:<?php echo $textWidth; ?>%;
         height:<?php echo $textHeight; ?>%;
-        clip:rect(0px, 100%, 100%, 0px);
+        /* clip:rect(0px, 100%, 100%, 0px); -- broken in MS Edge */
         background-color:#CDCDC1;
         text-align:center;
         z-index:6;
@@ -91,7 +91,7 @@ function ibe_echo_styles()
         left:<?php echo $minor_width; ?>;
         width:<?php echo $major_width; ?>;
         height:<?php echo $major_height; ?>;
-        clip:rect(0px, 100%, 100%, 0px);
+        /* clip:rect(0px, 100%, 100%, 0px); -- broken in MS Edge */
         z-index:2;
         text-align:center;
         overflow:auto;
