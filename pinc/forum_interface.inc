@@ -219,7 +219,8 @@ function login_forum_user($username, $password)
         // $_REQUEST['password'], so we need to populate that here.
         $_REQUEST['password'] = $password;
 
-        $results = $auth->login($username, $password, $remember, 1, 0);
+        $persist_login = TRUE;
+        $results = $auth->login($username, $password, $persist_login);
 
         define('IN_PHPBB', false);
 
