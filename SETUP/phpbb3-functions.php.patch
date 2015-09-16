@@ -1,0 +1,12 @@
+--- functions.php.orig	2015-05-03 10:22:28.000000000 -0400
++++ functions.php	2015-09-01 00:23:28.413686185 -0400
+@@ -4637,7 +4637,8 @@
+ 	// The following assigns all _common_ variables that may be used at any point in a template.
+ 	$template->assign_vars(array(
+ 		'SITENAME'						=> $config['sitename'],
+-		'SITE_DESCRIPTION'				=> $config['site_desc'],
++		// Allow HTML in SITE_DESCRIPTION
++		'SITE_DESCRIPTION'				=> htmlspecialchars_decode($config['site_desc'], ENT_QUOTES),
+ 		'PAGE_TITLE'					=> $page_title,
+ 		'SCRIPT_NAME'					=> str_replace('.' . $phpEx, '', $user->page['page_name']),
+ 		'LAST_VISIT_DATE'				=> sprintf($user->lang['YOU_LAST_VISIT'], $s_last_visit),

@@ -219,7 +219,15 @@ function login_forum_user($username, $password)
         // $_REQUEST['password'], so we need to populate that here.
         $_REQUEST['password'] = $password;
 
-        $results = $auth->login($username, $password, $remember, 1, 0);
+        // phpBB3's login code does pre-processing on the username and
+        // password before passing them into $auth->login(). To ensure
+        // that passwords accepted by phpBB3 work when passed in here,
+        // we have to do similar pre-processing.
+        set_var($username, $username, 'string', true);
+        set_var($password, $password, 'string', true);
+
+        $persist_login = TRUE;
+        $results = $auth->login($username, $password, $persist_login);
 
         define('IN_PHPBB', false);
 
@@ -267,7 +275,7 @@ function logout_forum_user()
 
         // these globals are pulled from
         // phpBB2/includes/sessions.php:session_create()
-        global $SID, $_SID, $db, $config, $cache;
+        global $SID, $_SID, $db, $config, $cache, $auth;
         global $user;
 
         define('IN_PHPBB', true);
@@ -544,7 +552,13 @@ function get_url_to_view_profile($user_id)
 {
     global $forums_url;
 
-    return "$forums_url/profile.php?mode=viewprofile&u=$user_id";
+    if(PHPBB_VERSION == 2) {
+        return "$forums_url/profile.php?mode=viewprofile&u=$user_id";
+    }
+
+    if(PHPBB_VERSION == 3) {
+        return "$forums_url/memberlist.php?mode=viewprofile&u=$user_id";
+    }
 }
 
 function get_url_for_inbox()

@@ -7,7 +7,7 @@ If you're installing/upgrading from source control, it's trickier.
 
 In case of problems, please post to the "DP Site Code" forum at the primary
 DP site:
-    http://www.pgdp.net/phpBB2/viewforum.php?f=32
+    http://www.pgdp.net/phpBB3/viewforum.php?f=32
 
 =======================================================================
 Installing from scratch
@@ -346,6 +346,9 @@ newer release of the DP code.
     Each script will print 'Done!' if it completes without fatal errors.
 
 --- At this point, your DP site should be functional again.
+
+--- (optional) If your prior version was running phpBB2, consider upgrading to
+    phpBB3. See phpbb3-conversion.txt for steps on how to do this.
 
 --- Install the modified dp.cron.
 

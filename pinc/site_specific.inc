@@ -21,7 +21,7 @@ function default_page_heading()
         echo "<p>";
         printf(_("To leave feedback or report bugs regarding this TEST site,
             please go to <a href='%s'>this forum topic</a> on the real site."),
-            "$real_site_url/phpBB2/viewtopic.php?t=12226");
+            "$real_site_url/phpBB3/viewtopic.php?t=12226");
         echo "</p>";
         echo "</center>";
         echo "</div>";

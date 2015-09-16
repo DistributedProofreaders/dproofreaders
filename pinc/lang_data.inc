@@ -27,7 +27,7 @@ $lang_dir_data=array(
 // The URI under $forums_url for a specific language's forum. This will
 // be included in the menu bar for users of that language. See theme.inc.
 // i.e.: if the forum URL for the French team is:
-//     http://www.pgdp.net/phpBB2/viewtopic.php?t=4321
+//     http://www.pgdp.net/phpBB3/viewtopic.php?t=4321
 // the array entry would be:
 //     "fr" => "viewtopic.php?t=4321",
 $lang_forum_data=array(
