@@ -53,7 +53,8 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
             //
             // Taking the mentees in the above order, we serve each one's pages
             // in 'book order' (i.e., ordered by 'image' field).
-            // (
+            //
+            // (See http://www.pgdp.net/phpBB3/viewtopic.php?p=1027908#p1027908 and following.)
             $order = "
                 (
                     SELECT MIN({$round->mentee_round->time_column_name})
@@ -64,7 +65,11 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
                 {$round->mentee_round->user_column_name},
                 image
             ";
-            // (See x and following.)
+            // Note that this uses a subquery (in an ORDER clause),
+            // which I believe requires at least MySQL 4.1, whereas
+            // SETUP/installation.txt currently says that our queries
+            // will work "on any version [of MySQL] from 4.0.14 up".
+            // But it's hard to believe that'll be a problem for anyone.
     }
 
     // The page to be retrieved must be an available page, of course.
