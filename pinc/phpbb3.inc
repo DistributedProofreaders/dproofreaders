@@ -38,10 +38,15 @@ include_once($phpbb_root_path . 'includes/functions_user.' . $phpEx);
 
 // -----------------------------------------------------------------------------
 
-function phpbb3_hash_password(
+function phpbb3_encode_and_hash_password(
     $password
 )
 {
+    // phpBB3 code does pre-processing on the password as it comes in from
+    // the web browser. We need to do the same pre-processing before
+    // hashing the password if we want ours to match theirs.
+    set_var($password, $password, 'string', true);
+
     return phpbb_hash($password);
 }
 

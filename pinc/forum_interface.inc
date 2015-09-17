@@ -87,7 +87,7 @@ function forum_password_hash($password)
         // instead of duplicating it here, but we don't want to pollute
         // the DP codespace so we'll do it via phpbb3.inc.
         $args = func_get_args();
-        return call_phpbb_function( 'hash_password', $args );
+        return call_phpbb_function( 'encode_and_hash_password', $args );
     }
 }
 
