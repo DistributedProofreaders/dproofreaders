@@ -391,6 +391,9 @@ function can_user_get_pages_in_project( $username, $project, $round )
         // *->P1 projects are exempted, because they were already reserved
         // for inexperienced users on their first pass through P1.
         !str_contains($project->nameofwork, '->P1}')
+
+        // The 15th anniversary projects are exempted.
+        and ($project->special_code != '15thDPAnniversary')
     )
     {
         $n_days_before_make_generally_available = 7;
