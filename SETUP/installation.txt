@@ -10,6 +10,51 @@ DP site:
     http://www.pgdp.net/phpBB3/viewforum.php?f=32
 
 =======================================================================
+Middleware version requirements
+-------------------------------
+
+The following lists supported versions for the three primary middleware
+components.
+
+PHP
+    We know that the code runs on version 4.4.2, 5.0.4, and 5.3.2.
+    It likely runs on versions in-between although not below 4.2.0.
+    It will NOT run on version 5.4 or later due to the dependency on
+    magic quotes (see below).
+
+MySQL
+    We know that our queries work on 5.0.22, and 5.1.73.
+    We believe that they'll work on any version from 4.1 up.
+
+phpBB
+    phpBB 2.x and 3.0 are both supported. Version 3.0 is recommended.
+    phpBB 3.1 may also work, but it has not yet been tested.
+
+
+Middleware deprecation warning
+------------------------------
+
+The next release of DP code will set higher middleware version requirements
+than this release. The following are expected to be the new minimum
+middleware versions supported. It is recommended that you upgrade to these
+versions in order to use future DP versions.
+
+PHP
+    PHP version 5.3.2 is the minimum version supported, although any
+    5.3.x version should work. PHP version 5.4 and later will NOT
+    work due to code dependencies on magic quotes which may not get
+    resolved before the next release.
+
+MySQL
+    MySQL version 5.1.x and later is required.
+
+The middleware components above match the following major distribution
+releases:
+* Ubuntu 10.04, Lucid
+* Ubuntu 12.04, Precise
+* RHEL / CentOS 6.x family
+
+=======================================================================
 Installing from scratch
 -----------------------
 
@@ -20,11 +65,6 @@ When we say to install and/or configure some third-party software, that's
 assuming it isn't already.
 
 --- Install PHP.
-        Version: We know that the code runs on version 4.4.2, 5.0.4,
-        and 5.3.2. It likely runs on versions in-between although not
-        below 4.2.0. It will NOT run on version 5.4 or later due to the
-        dependency on magic quotes (see below).
-
         Enable GD (for jpgraph) if you want dynamically-generated graphs.
         Enable YAZ if you want to be able to do external catalog searches when
             creating projects.
@@ -38,9 +78,6 @@ assuming it isn't already.
                 if _USE_PHP_SESSIONS=TRUE in your DP config file.
 
 --- Install MySQL.
-        Version: We know that our queries work on 5.0.22, and 5.1.73.
-        We believe that they'll work on any version from 4.1 up.
-
         In the examples in this document, we will assume that the MySQL server
         is on "localhost", i.e. the same host on which you are running these
         commands, and the same host that runs the webserver.
@@ -50,7 +87,6 @@ assuming it isn't already.
         Follow the installation instructions included with phpMyAdmin.
 
 --- Install and configure phpBB.
-        phpBB 2.x and 3.0 are both supported. phpBB 3.1 has not been tested.
         phpBB is most easily installed in your document root as phpbb/
         The phpBB tables need to be installed in the same database as the DP
         tables, or be in a separate database in the same MySQL instance as the
