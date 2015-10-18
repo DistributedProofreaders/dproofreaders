@@ -59,6 +59,10 @@ assuming it isn't already.
         tables, or be in a separate database in the same MySQL instance as the
         DP tables with the same authentication information.
 
+        See the "Post installation / conversion steps" section in
+        phpbb3-conversion.txt for recommended phpBB3 configuration settings
+        and further steps to ensure good integration with the DP code.
+
 --- Install gettext and xgettext.
         If you want to localize the site messages.
 
