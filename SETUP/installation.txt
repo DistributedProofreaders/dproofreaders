@@ -69,6 +69,8 @@ assuming it isn't already.
         Enable YAZ if you want to be able to do external catalog searches when
             creating projects.
         Enable the CLI for running cron jobs and future upgrade scripts.
+        (optional) Install an opcode cache, like APC, to improve site
+            performance. Allocate 128MB to the cache if possible.
 
         php.ini:
             magic_quotes_gpc = On
@@ -76,6 +78,12 @@ assuming it isn't already.
             session.gc_probability = 1 (or something other than zero)
                 Needed to trigger garbage collection in 'sessions' table
                 if _USE_PHP_SESSIONS=TRUE in your DP config file.
+
+            register_globals
+            register_long_arrays
+                The DP codes does not rely on these features and they can
+                be turned off if no other code on the server uses them.
+                Note that phpBB2 requires register_long_arrays to be On.
 
 --- Install MySQL.
         In the examples in this document, we will assume that the MySQL server
