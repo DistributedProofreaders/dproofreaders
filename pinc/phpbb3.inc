@@ -259,17 +259,26 @@ function _insert_post(
         'force_visibility'=> true, // Allow the post to be submitted without going into unapproved queue, or make it be deleted
     );
 
-    // submit_post will automatically watch a topic based on the user's
-    // preferences if notify_set is NOT set. If we want to force the topic
-    // to be watched, we have to set both notify and notify_set to true
+    // notify_set and notify control if the topic will be watched or not.
+    // How notify_set is used seems unintuitive, but this is the logic
+    // based on the submit_post() code.
     if($watch_topic === NULL)
     {
+        // don't change the watch status
         $data['notify_set'] = false;
+        $data['notify'] = false;
+    }
+    elseif($watch_topic)
+    {
+        // watch the topic
+        $data['notify_set'] = false;
+        $data['notify'] = true;
     }
     else
     {
+        // stop watching the topic
         $data['notify_set'] = true;
-        $data['notify'] = $watch_topic;
+        $data['notify'] = false;
     }
 
     if($topic_id)

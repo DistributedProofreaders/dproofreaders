@@ -108,8 +108,11 @@ is back online. At PGDP, this process took an hour.
 10. (optional) If you are using MediaWiki, install the module to allow users
     to log into the wiki with their phpBB credentials. See
     https://github.com/Digitalroot/MediaWiki_PHPBB_Auth/tree/v3.0.3
-11. Enable the phpBB3 board.
-12. Disable maintenance mode in the DP code.
+11. DP code does lookups on the phpbb_users.username column but the column
+    doesn't come with an index. To enable fast lookups, add the following index:
+       ALTER TABLE $FORUMS_DB_NAME.phpbb_users ADD INDEX username (username);
+12. Enable the phpBB3 board.
+13. Disable maintenance mode in the DP code.
 
 
 =======================================================================
