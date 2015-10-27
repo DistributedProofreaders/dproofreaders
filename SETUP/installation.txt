@@ -165,8 +165,6 @@ assuming it isn't already.
             mysql -h localhost -u root -p
 
     --- Create the database.
-            CREATE DATABASE dp_db;
-        If you have MySQL 4.1.1 or higher:
             CREATE DATABASE dp_db CHARACTER SET UTF8;
         Note that you can have UTF-8 enabled on the site even if you have older
         MySQL version which doesn't support it.
@@ -176,7 +174,7 @@ assuming it isn't already.
             GRANT ALL  ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
 
     --- Similarly for the archive database (if you want one):
-            CREATE DATABASE dp_archive;
+            CREATE DATABASE dp_archive CHARACTER SET UTF8;
             GRANT ALL  ON dp_archive.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
    
     --- Exit from the MySQL client.
