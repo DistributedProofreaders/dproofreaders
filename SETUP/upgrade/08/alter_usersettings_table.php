@@ -52,18 +52,6 @@ $sql = "
 
 echo "$sql\n";
 
-// ------------------------------------------------------------
-
-mysql_query($sql) or die( mysql_error() );
-
-echo "Dropping unused u_lang column...\n";
-$sql = "
-    ALTER TABLE usersettings
-        DROP COLUMN u_lang;
-";
-
-echo "$sql\n";
-
 mysql_query($sql) or die( mysql_error() );
 
 // ------------------------------------------------------------
