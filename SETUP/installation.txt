@@ -30,6 +30,15 @@ phpBB
     phpBB 2.x and 3.0 are both supported. Version 3.0 is recommended.
     phpBB 3.1 may also work, but it has not yet been tested.
 
+jpgraph
+    Version 1.27.1 supports PHP 4 and also works with PHP 5. This is the
+    recommended version.
+    jpgraph version 3.5.0b1 will work after applying the included
+    jpgraph-3.5.0b1.patch but some graph legends and other details may
+    not look ideal.
+
+    http://jpgraph.net/download/
+
 
 Middleware deprecation warning
 ------------------------------
@@ -110,6 +119,8 @@ assuming it isn't already.
 --- Install jpgraph.
         The statistics code depends on jpgraph for graph generation.
         Follow the installation instructions included with jpgraph.
+        If using version 3.5.0b1, apply jpgraph-3.5.0b1.patch.
+
         The simplest place to install jpgraph is in your document root.
         You will need the location of the jpgraph installation to put into the
         site-configuration for the DP code.
