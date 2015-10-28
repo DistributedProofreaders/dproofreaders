@@ -30,6 +30,8 @@ phpBB
     phpBB 2.x and 3.0 are both supported. Version 3.0 is recommended.
     phpBB 3.1 may also work, but it has not yet been tested.
 
+    https://www.phpbb.com/downloads/
+
 jpgraph
     Version 1.27.1 supports PHP 4 and also works with PHP 5. This is the
     recommended version.
