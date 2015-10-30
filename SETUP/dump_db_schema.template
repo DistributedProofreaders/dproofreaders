@@ -32,6 +32,7 @@ get_table_names()
             --skip-column-names --batch --execute='show tables' |
         grep -v \
             -e '^projectID' \
+            -e '^phpbb_' \
             -e active_users \
             -e begin_users \
             -e end_users \
@@ -79,6 +80,11 @@ get_table_names()
             -e user_filters_temp \
             -e project_event_subscriptions_grouped_by_project \
         |
+        # Tables with phpbb_ prefix are managed / installed by phpBB.
+        #     and we shouldn't be dumping them.
+        grep -v \
+            -e '^phpbb_' \
+        |
 
         sort -u
     else
@@ -105,10 +111,11 @@ if true; then
 #\
 # Creation:\
 # Last update:
+        s/AUTO_INCREMENT=\([0-9]*\) //
         s/ ENGINE=/ TYPE=/
         /^) TYPE=/ a\
 # --------------------------------------------------------
-        '
+        ' |
         # Why change "ENGINE" to "TYPE"?
         #
         # "TYPE" was the original keyword.
@@ -120,5 +127,9 @@ if true; then
         # generates "ENGINE", but we want the result (in the
         # form of db_schema.sql) to work on platforms that don't
         # recognize "ENGINE", only "TYPE". Thus the substitution.
+
+    # Skip MySQL command sequences as they may be version-specific
+    # (and generate a lot of noise in the diffs).
+    grep -v '/*!'
 fi
 # vim: sw=4 ts=4 expandtab ai
