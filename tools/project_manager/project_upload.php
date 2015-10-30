@@ -332,7 +332,7 @@ if ($action == 'showdir') {
     $zip_test_result = array();
     $zip_retval=0;
     exec("/usr/bin/file -b -i $temporary_path", $zip_test_result, $zip_retval);
-    if ($zip_test_result[0] == 'application/x-zip' or $zip_test_result[0] == 'application/zip; charset=binary'){
+    if ($zip_test_result[0] == 'application/x-zip') {
         showMessage('info', _("OK: Valid zip file."));
     } else {
         fatalError( _("File is not a valid zip file: removing it.") );
