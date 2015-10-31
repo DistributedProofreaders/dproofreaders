@@ -1117,24 +1117,16 @@ function showForm($action, $cdrp, $form_content, $submit_label)
 
 function showCaveats() {
     echo "<style type='text/css'>\nli { line-height:100%!important; font-size:90%; }\n</style>\n";
-    echo "<p><b>Current Conditions:</b></p>\n";
+    echo "<p><b>" . _("Current file and directory management features:") . "</b></p>\n";
     echo "<ul>\n";
-    echo "<li>You <b>can</b> upload files into your user folder. <i>Files are tested for validity and AV scanned.</i></li>\n";
-    echo "<li>You <b>can</b> download files from your user folder.</li>\n";
-    echo "<li>You <b>can</b> delete files in your user folder.</li>\n";
-    echo "<li>You <b>can</b> delete folders in your user folder.</li>\n";
-    echo "<li>You <b>can</b> transfer files to other dpscans users.</li>\n";
-//    This is probably not an issue, as Commons users can just give the file to whoever needs it
-//    echo "<li>PM/PF/SA <b>can not</b> access the non-PM/PF/SA 'Commons' upload area.(1)</li>\n";
-    echo "<li>You <b>can</b> browse into subfolders.</li>\n";
-    echo "<li>You <b>can</b> create subfolders.</li>\n";
-    echo "<li>You <b>can</b> rename files and folders.</li>\n";
-    echo "<li>No, there is still not an upload progress bar.</li>\n";
-    echo "</ul><hr><ul>\n";
-    echo "<li><i>The list items above are statements of feature status, not permissions</i>.</li>\n";
-    echo "<li>A number after a statement is a tentative implementation priority.</li>\n";
-    echo "<li>A statement after a number is probably a line from a BASIC program.</li>\n";
-    echo "<li>Anything else you don't see probably isn't there either.</li>\n";
+    echo "<li>" . _("Upload files into your user folder. <i>Files are tested for validity and AV scanned.</i>") . "</li>\n";
+    echo "<li>" . _("Download files from your user folder.") . "</li>\n";
+    echo "<li>" . _("Delete files in your user folder.") . "</li>\n";
+    echo "<li>" . _("Delete folders in your user folder.") . "</li>\n";
+    echo "<li>" . _("Transfer files to other dpscans users.") . "</li>\n";
+    echo "<li>" . _("Browse into subfolders.") . "</li>\n";
+    echo "<li>" . _("Create subfolders.") . "</li>\n";
+    echo "<li>" . _("Rename files and folders.") . "</li>\n";
     echo "</ul>\n";
 }
 
