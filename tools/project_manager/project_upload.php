@@ -106,59 +106,7 @@ if (!is_dir($home_path)) {
 // Current Directory
 // -----------------
 
-// Here, we ascertain the current directory, validate it, and set various
-// variables.
-
-// The value of script-paramater 'cdrp' (Current Directory Relative Path)
-// is carried by the variable $curr_relpath, but we don't set the latter
-// until the former validates.
-
-// Default to home dir if the invocation didn't set cdrp.
-$cdrp = array_get($_REQUEST, 'cdrp', $home_dirname);
-
-// Validate it.
-// (Yeah, do this even if we just set it to $home_dirname, as a sanity check.)
-// Note that, normally, users won't see any of these messages.
-// They would probably have to be tweaking URLs to see them.
-// Thus, they don't have to be that polite or informative.
-
-// Tests:
-// $cdrp = '..';
-// $cdrp = '../../etc/passwd';
-// $cdrp = 'a///b';
-// $cdrp = '//c//d//';
-// $cdrp = '/././e/f/';
-// $cdrp = 'e/f';
-
-$cdrp_sanitized = canonicalize_path($cdrp);
-if ($cdrp_sanitized === False) fatalError( _("Invalid cdrp"));
-
-// XXX
-// Do we reject any cdrp that isn't in normalized form?
-if (TRUE) {
-    if ($cdrp_sanitized != $cdrp) {
-        fatalError( _("cdrp was not in normalized form") );
-    }
-}
-
-// Only SAs are allowed access other home folders.
-if (!user_may_access_all_upload_dirs()) {
-    if (!startswith("$cdrp_sanitized/", "$home_dirname/")) {
-        fatalError( _("You are restricted to your home folder and its descendants") );
-    }
-}
-
-// Finally, does the specified directory actually exist?
-if (!is_dir("$uploads_dir/$cdrp_sanitized")) {
-    // (It's possible a user could get this without URL-tweaking,
-    // if they deleted a directory but still had an old directory listing
-    // in another browser window.)
-    fatalError( sprintf(_("'%s' does not exist, or is not a folder"), hce($cdrp_sanitized)) );
-}
-
-// Yay, cdrp has passed all the tests!
-
-$curr_relpath = $cdrp_sanitized;
+$curr_relpath = get_current_dir_relative_path($home_dirname);
 
 $curr_abspath = "$uploads_dir/$curr_relpath";
 // The absolute path of the current directory.
@@ -766,6 +714,37 @@ function canonicalize_path($relpath)
     return join('/', $canonical_path);
 }
 
+function get_current_dir_relative_path($home_dirname)
+// Ascertain the current directory, validate it, and return the relative path
+{
+    global $uploads_dir;
+    $abs_uploads_dir = realpath($uploads_dir);
+
+    // Default to home dir if the invocation didn't set cdrp.
+    $cdrp = array_get($_REQUEST, 'cdrp', $home_dirname);
+
+    $abspath = realpath("$abs_uploads_dir/$cdrp");
+    if($abspath === FALSE) {
+        // (It's possible a user could get this without URL-tweaking,
+        // if they deleted a directory but still had an old directory listing
+        // in another browser window.)
+        fatalError( sprintf(_("'%s' does not exist, or is not a folder"), hce($cdrp)) );
+    }
+
+    // Reject any cdrp that isn't in normalized form
+    if ($cdrp != "" && $abspath != "$abs_uploads_dir/$cdrp") {
+        fatalError( _("cdrp was not in normalized form") );
+    }
+
+    // Only SAs are allowed access to other home folders.
+    if (!user_may_access_all_upload_dirs()) {
+        if (!startswith("$abspath/", "$abs_uploads_dir/$home_dirname/")) {
+            fatalError( _("You are restricted to your home folder and its descendants") );
+        }
+    }
+
+    return preg_replace("#^$abs_uploads_dir/*#", "", $abspath);
+}
 
 function dpscans_access_mode($username) {
     $userSettings =& Settings::get_settings($username);
