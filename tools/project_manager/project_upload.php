@@ -724,17 +724,24 @@ function get_current_dir_relative_path($home_dirname)
     // Default to home dir if the invocation didn't set cdrp.
     $cdrp = array_get($_REQUEST, 'cdrp', $home_dirname);
 
+    // To prevent leaking information about the local filesystem, all error
+    // messages about if a file/directory exists or not need to be the same.
+    // If we gave one message if the file exists and another if it wasn't
+    // in a normalized form, we allow them a programatic way of determining
+    // information about what files/directories exist on the system.
+    $error_message = sprintf(_("'%s' does not exist, or is not a folder"), hce($cdrp));
+
     $abspath = realpath("$abs_uploads_dir/$cdrp");
     if($abspath === FALSE) {
         // (It's possible a user could get this without URL-tweaking,
         // if they deleted a directory but still had an old directory listing
         // in another browser window.)
-        fatalError( sprintf(_("'%s' does not exist, or is not a folder"), hce($cdrp)) );
+        fatalError( $error_message );
     }
 
     // Reject any cdrp that isn't in normalized form
     if ($cdrp != "" && $abspath != "$abs_uploads_dir/$cdrp") {
-        fatalError( _("cdrp was not in normalized form") );
+        fatalError( $error_message );
     }
 
     // Only SAs are allowed access to other home folders.
