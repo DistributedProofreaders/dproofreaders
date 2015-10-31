@@ -66,12 +66,12 @@ if ($access_mode == 'common' ) {
 }
 
 if (is_null($home_dirname)) {
-    $page_title = sprintf(_("Manage your %s folder"), hce($uploads_account));
+    $page_title = _("Manage your uploads folder");
     theme($page_title, "header");
     echo "<h1>$page_title</h1>\n";
     echo "<p>" . _("Your user permissions do not allow access to this script.") . "</p>";
-    echo "<p>" . sprintf(_("If you are a Content Provider, please email db-req with the subject '%s access request' and request access to the 'common' %s area in the body of your message."), hce($uploads_account), hce($uploads_account)) . "</p>";
-    echo "<p>" . sprintf(_("If you are a Missing Pages Provider, please email db-req with the subject '%s access request' and request 'self' access to %s."), hce($uploads_account), hce($uploads_account)). "</p>";
+    echo "<p>" . sprintf(_("If you are a Content Provider, please email %s with the subject 'project upload access request' and request access to the 'common' project uploads area in the body of your message."), "<a href='mailto:$db_requests_email_addr'>$db_requests_email_addr</a>") . "</p>";
+    echo "<p>" . sprintf(_("If you are a Missing Pages Provider, please email %s with the subject 'project uploads access request' and request 'self' access in the body of your message."), "<a href='mailto:$db_requests_email_addr'>$db_requests_email_addr</a>") . "</p>";
     exit;
 }
 
@@ -110,9 +110,15 @@ $curr_relpath = get_current_dir_relative_path($home_dirname);
 $curr_abspath = "$uploads_dir/$curr_relpath";
 // The absolute path of the current directory.
 
-$curr_displaypath = "~$uploads_account/$curr_relpath";
-// A "nice" representation of the absolute path,
-// one that doesn't reveal details of the upper reaches of the filesystem.
+// $uploads_account is not required and may not be defined if they have not
+// set up FTP uploads. If it's blank, lets use a different string instead.
+// The point is to provide a "nice" representation of the absolute path
+// that doesn't reveal details of the upper reaches of the filesystem.
+if($uploads_account) {
+    $curr_displaypath = "~$uploads_account/$curr_relpath";
+} else {
+    $curr_displaypath = "~uploads/$curr_relpath";
+}
 
 // For convenience, here are a couple of encoded forms:
 $hae_curr_relpath = hae($curr_relpath);
@@ -165,7 +171,7 @@ switch ($action) {
 function do_showdir()
 {
     global $curr_relpath, $hce_curr_displaypath;
-    global $uploads_account, $pguser, $home_dir_created, $autoprefix_message;
+    global $pguser, $home_dir_created, $autoprefix_message;
 
     $page_title =  sprintf( _("Manage folder %s"), $hce_curr_displaypath );
     theme($page_title, "header");
@@ -179,7 +185,7 @@ function do_showdir()
         showMessage('info', sprintf(_("Home folder created for user %s."), hce($pguser)));
     }
 
-    echo "<p>" . sprintf(_("This page allows you to manage content in this %s folder.<br>Additional file management features are gradually being added. See Current Conditions, below."), hce($uploads_account)) . "</p>\n";
+    echo "<p>" . _("This page allows you to manage content in this uploads folder.") . "</p>\n";
 
     if (dpscans_access_mode($pguser) == 'common') {
         showMessage('info', _("Because you are not a PM, your files are located in a common, shared area.<br><u>Please take care to avoid affecting other users' files.</u>"));
