@@ -124,6 +124,13 @@ _UPLOADS_HOST=www.example.org
 _UPLOADS_ACCOUNT=dpscans
 _UPLOADS_PASSWORD=PICK_A_PASSWORD
 
+# The project_upload.php script will scan uploaded files for viruses
+# if an antivirus scanner, like clamscan, is installed. Any scanner
+# will work as long as it accepts the following syntax
+#   av_executable -- filename
+# and returns 0 on pass and non-zero on failure.
+_ANTIVIRUS_EXECUTABLE=
+
 # ----------------------------------------------------------------------
 
 _PROJECTS_DIR=$base_dir/projects

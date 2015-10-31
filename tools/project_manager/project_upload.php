@@ -248,7 +248,7 @@ function do_showupload()
 
 function do_upload()
 {
-    global $curr_abspath, $hce_curr_displaypath, $testing;
+    global $curr_abspath, $hce_curr_displaypath, $antivirus_executable;
     global $pguser, $despecialed_username;
 
     set_time_limit(14400);
@@ -308,29 +308,32 @@ function do_upload()
     // XXX /usr/bin/file only looks at the first few bytes of the file.
     // Maybe we should check the whole file's integrity with 'unzip -t'.
 
-    // Anti-virus check: perform 'clamscan <FILENAME>' and expect return value = 0
-    $av_test_result = array();
-    $av_retval=0;
+    // if an antivirus scanner is installed and configured, scan the file
+    if($antivirus_executable) {
+        // perform '$antivirus_executable -- <FILENAME>' and expect return
+        // value = 0. we use -- to not parse any further arguments starting
+        // with -/-- as options
+        $av_test_result = array();
+        $av_retval=0;
 
-    // /usr/bin/clamscan
-    // --: don't parse any further arguments starting with -/-- as options
-    $cmd = "/usr/bin/clamscan -- " . escapeshellcmd($temporary_path);
-    exec($cmd, $av_test_result, $av_retval);
-    if ($av_retval == 0) {
-        showMessage('info', _("OK: AV pass."));
-    } else if ($av_retval == 1) {
-        showMessage('error', _("AV FAIL: The scan reported an infection. The upload has been discarded."));
-        showMessage('error', $av_test_result[0]);
-        showMessage('info', _("You should perform a complete virus scan on your computer as soon as possible."));
+        $cmd = "$antivirus_executable -- " . escapeshellcmd($temporary_path);
+        exec($cmd, $av_test_result, $av_retval);
+        if ($av_retval == 0) {
+            showMessage('info', _("OK: AV pass."));
+        } else if ($av_retval == 1) {
+            showMessage('error', _("AV FAIL: The scan reported an infection. The upload has been discarded."));
+            showMessage('error', $av_test_result[0]);
+            showMessage('info', _("You should perform a complete virus scan on your computer as soon as possible."));
 
-        // Log the infected upload so that we can track user/frequency
-        $reporting_string = "DPSCANS: Infected upload: " . $av_test_result[0];
-        error_log($reporting_string);
+            // Log the infected upload so that we can track user/frequency
+            $reporting_string = "DPSCANS: Infected upload: " . $av_test_result[0];
+            error_log($reporting_string);
 
-        showReturnLink();
-        exit();
-    } else {
-        fatalError( _("Undefined AV error message for return value: ").$av_retval );
+            showReturnLink();
+            exit();
+        } else {
+            fatalError( _("Undefined AV error message for return value: ").$av_retval );
+        }
     }
 
     // The file passes all tests!

@@ -75,6 +75,7 @@ $uploads_dir = '<<UPLOADS_DIR>>';
 $uploads_host = '<<UPLOADS_HOST>>';
 $uploads_account = '<<UPLOADS_ACCOUNT>>';
 $uploads_password = '<<UPLOADS_PASSWORD>>';
+$antivirus_executable = '<<ANTIVIRUS_EXECUTABLE>>';
 
 // -----------------------------------------------------------------------------
 
