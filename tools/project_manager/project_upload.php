@@ -76,44 +76,6 @@ if (is_null($home_dirname)) {
     exit;
 }
 
-// Access predicates
-function user_may_access_all_upload_dirs()
-{
-    return user_is_a_sitemanager();
-}
-
-// Is this a subdirectory of the user's home dir?
-function is_subdir_of_home($dir)
-{
-    global $home_dirname;
-    // Does the path start with the home dir?
-    // If not, it can't be this user's subdirectory
-    if (strpos($dir, "$home_dirname/") !== 0) return False;
-
-    // If there's anything left in the path after stripping
-    // off the home dir prefix, it's a user subdirectory.
-    $rel = substr($dir, strlen("$home_dirname/"));
-    return strlen($rel) !== 0;
-}
-
-// May the user move files to the specified relative directory?
-function is_valid_move_destination($dir)
-{
-    global $commons_rel_dir, $users_rel_dir;
-
-    // Users may move files to the commons directory
-    if ($dir == $commons_rel_dir) return True;
-
-    // Users may not move files anywhere else except the Users dir.
-    if (strpos($dir, "$users_rel_dir/") !== 0) return False;
-    $rel = substr($dir, strlen("$users_rel_dir/"));
-
-    // Users may only move files to a user's home directory root
-    // and not a subdirectory of it.
-    return strpos($rel, "/") === False;
-}
-
-
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 $home_path = "$uploads_dir/$home_dirname";
@@ -167,21 +129,6 @@ $cdrp = array_get($_REQUEST, 'cdrp', $home_dirname);
 // $cdrp = '//c//d//';
 // $cdrp = '/././e/f/';
 // $cdrp = 'e/f';
-
-// Canonicalise input paths by splitting into components,
-// removing empty components, rejecting parent traversal,
-// and re-joining them. Returns False is path contains
-// invalid components.
-function canonicalize_path($relpath)
-{
-    $canonical_path = array();
-        foreach(explode('/', $relpath) as $c) {
-        if ($c == '..') return False;
-        if ($c == '' || $c == '.') continue;
-        $canonical_path[] = $c;
-    }
-    return join('/', $canonical_path);
-}
 
 $cdrp_sanitized = canonicalize_path($cdrp);
 if ($cdrp_sanitized === False) fatalError( _("Invalid cdrp"));
@@ -767,6 +714,58 @@ function do_delete()
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function user_may_access_all_upload_dirs()
+{
+    return user_is_a_sitemanager();
+}
+
+// Is this a subdirectory of the user's home dir?
+function is_subdir_of_home($dir)
+{
+    global $home_dirname;
+    // Does the path start with the home dir?
+    // If not, it can't be this user's subdirectory
+    if (strpos($dir, "$home_dirname/") !== 0) return False;
+
+    // If there's anything left in the path after stripping
+    // off the home dir prefix, it's a user subdirectory.
+    $rel = substr($dir, strlen("$home_dirname/"));
+    return strlen($rel) !== 0;
+}
+
+// May the user move files to the specified relative directory?
+function is_valid_move_destination($dir)
+{
+    global $commons_rel_dir, $users_rel_dir;
+
+    // Users may move files to the commons directory
+    if ($dir == $commons_rel_dir) return True;
+
+    // Users may not move files anywhere else except the Users dir.
+    if (strpos($dir, "$users_rel_dir/") !== 0) return False;
+    $rel = substr($dir, strlen("$users_rel_dir/"));
+
+    // Users may only move files to a user's home directory root
+    // and not a subdirectory of it.
+    return strpos($rel, "/") === False;
+}
+
+// Canonicalise input paths by splitting into components,
+// removing empty components, rejecting parent traversal,
+// and re-joining them. Returns False is path contains
+// invalid components.
+function canonicalize_path($relpath)
+{
+    $canonical_path = array();
+        foreach(explode('/', $relpath) as $c) {
+        if ($c == '..') return False;
+        if ($c == '' || $c == '.') continue;
+        $canonical_path[] = $c;
+    }
+    return join('/', $canonical_path);
+}
+
 
 function dpscans_access_mode($username) {
     $userSettings =& Settings::get_settings($username);
