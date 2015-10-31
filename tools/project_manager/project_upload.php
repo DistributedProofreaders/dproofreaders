@@ -72,7 +72,6 @@ if (is_null($home_dirname)) {
     echo "<p>" . _("Your user permissions do not allow access to this script.") . "</p>";
     echo "<p>" . sprintf(_("If you are a Content Provider, please email db-req with the subject '%s access request' and request access to the 'common' %s area in the body of your message."), hce($uploads_account), hce($uploads_account)) . "</p>";
     echo "<p>" . sprintf(_("If you are a Missing Pages Provider, please email db-req with the subject '%s access request' and request 'self' access to %s."), hce($uploads_account), hce($uploads_account)). "</p>";
-    theme("", "footer");
     exit;
 }
 
@@ -206,8 +205,6 @@ function do_showdir()
 
     // Display Caveats about use on this "main" page only
     showCaveats();
-
-    theme("", "footer");
 }
 
 function do_showupload()
@@ -241,7 +238,6 @@ function do_showupload()
 //    showContent();
 
     showReturnLink();
-    theme("", "footer");
 }
 
 function do_upload()
@@ -376,7 +372,6 @@ function do_showmkdir()
     );
 
     showReturnLink();
-    theme("", "footer");
 }
 
 function do_mkdir()
@@ -432,7 +427,6 @@ function do_showrename()
     );
 
     showReturnLink();
-    theme("", "footer");
 }
 
 function do_rename()
@@ -528,7 +522,6 @@ function do_showmove()
 
 
     showReturnLink();
-    theme("", "footer");
 }
 
 function do_move()
@@ -634,7 +627,6 @@ function do_showdelete()
     );
 
     showReturnLink();
-    theme("", "footer");
 }
 
 function do_delete()
@@ -1003,12 +995,6 @@ function fatalError($message) {
         showReturnLink();
     } else {
         showHomeLink();
-    }
-
-    if (isset($GLOBALS['page_title'])) {
-        // This is a page that calls theme(),
-        // so generate the footer before exiting.
-        theme('', 'footer');
     }
 
     exit();
