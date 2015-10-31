@@ -689,7 +689,7 @@ function dpscans_access_mode($username) {
 function showContent() {
     global $curr_relpath, $hae_curr_relpath, $curr_abspath, $hce_curr_displaypath;
 
-    $item_names = getDirectoryItemsSorted();
+    $item_names = getDirectoryItemsSorted($curr_abspath);
 
     if ($item_names === FALSE) return; // XXX fatalError(_("Unable to open folder")) ?
 
@@ -775,35 +775,27 @@ function showContent() {
     echo "</table>\n";
 }
 
-function getDirectoryItemsSorted()
+function getDirectoryItemsSorted($curr_abspath)
 {
-    global $curr_abspath;
-
     $handle = @opendir($curr_abspath);
     if ($handle === FALSE) return FALSE;
 
-    $item_names  = array();
     $items_files = array();
     $items_dirs  = array();
     while ( ($item_name = readdir($handle)) !== FALSE ) {
         if ($item_name == "." || $item_name == "..") continue;
 
-	$curr_entry = $curr_abspath."/".$item_name;
-	if (is_dir($curr_entry))
-	{
+	$curr_entry = "$curr_abspath/$item_name";
+	if (is_dir($curr_entry)) {
 	    $items_dirs[] = $item_name;
-	}
-	else if (is_file($curr_entry))
-	{
+	} elseif (is_file($curr_entry)) {
 	    $items_files[] = $item_name;
 	}
     }
     closedir($handle);
     sort($items_dirs);
     sort($items_files);
-    $item_names = array_merge( $items_dirs, $items_files );
-
-    return $item_names;
+    return array_merge( $items_dirs, $items_files );
 }
 
 function getActionsBlock( $item_name, $valid_actions )
