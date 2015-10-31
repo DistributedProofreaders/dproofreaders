@@ -4,8 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'misc.inc'); // get_upload_err_msg()
-
+include_once($relPath.'misc.inc'); // get_upload_err_msg(), undo_all_magic_quotes()
 
 # Directory structure under uploads dir
 $trash_dir       = "$uploads_dir/TRASH";
@@ -16,12 +15,7 @@ $commons_dir     = "$uploads_dir/$commons_rel_dir";
 $users_rel_dir   = "Users";
 $users_dir       = "$uploads_dir/Users";
 
-if ( get_magic_quotes_gpc() )
-{
-    $_GET     = array_map('stripslashes', $_GET);
-    $_POST    = array_map('stripslashes', $_POST);
-    $_REQUEST = array_map('stripslashes', $_REQUEST);
-}
+undo_all_magic_quotes();
 
 // The model we want users to have while interacting with this script is that,
 // at any given time, they are "in" a particular directory (folder) within
