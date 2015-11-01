@@ -84,7 +84,7 @@ $home_path = "$uploads_dir/$home_dirname";
 // Create the user's home directory if it doesn't yet exist.
 if (!is_dir($home_path)) {
     if (!mkdir($home_path)) {
-       showMessage('error', _("Could not create home folder!"));
+       show_message('error', _("Could not create home folder!"));
        exit();
     }
     if ($testing)
@@ -135,7 +135,7 @@ $action = @$_REQUEST['action'];
 if (is_null($action)) {
     // Two possibilities:
 
-    // <input type='image' name='action_is_$action'> kludge in getActionsBlock
+    // <input type='image' name='action_is_$action'> kludge in get_actions_block
     // Browser sends {name}.x={pixel} and {name}.y={pixel}.
     // PHP translates the dots into underscores.
     foreach ($_REQUEST as $n => $v) {
@@ -166,7 +166,7 @@ switch ($action) {
     case 'delete':     do_delete();     break;
     default:
         // no matching $action in input
-        fatalError(sprintf(_("Invalid action: '%s'"), hce($action)));
+        fatal_error(sprintf(_("Invalid action: '%s'"), hce($action)));
         break;
 }
 
@@ -184,24 +184,24 @@ function do_showdir()
     // are sent, which is why a flag for this exists above.
 
     if ( $home_dir_created ) {
-        showMessage('info', sprintf(_("Home folder created for user %s."), hce($pguser)));
+        show_message('info', sprintf(_("Home folder created for user %s."), hce($pguser)));
     }
 
     echo "<p>" . _("This page allows you to manage content in this uploads folder.") . "</p>\n";
 
     if (dpscans_access_mode($pguser) == 'common') {
-        showMessage('info', _("Because you are not a PM, your files are located in a common, shared area.<br><u>Please take care to avoid affecting other users' files.</u>"));
-        showMessage('info', $autoprefix_message);
+        show_message('info', _("Because you are not a PM, your files are located in a common, shared area.<br><u>Please take care to avoid affecting other users' files.</u>"));
+        show_message('info', $autoprefix_message);
     }
 
-    showForm(
+    show_form(
         'showupload',
         $curr_relpath,
         _("Click the button to upload a file to this folder:"),
         _("Upload a File")
     );
 
-    showForm(
+    show_form(
         'showmkdir',
         $curr_relpath,
         _("Click the button to create a new subfolder:"),
@@ -209,10 +209,10 @@ function do_showdir()
     );
 
     // Display the directory listing
-    showContent();
+    show_content();
 
     // Display Caveats about use on this "main" page only
-    showCaveats();
+    show_caveats();
 }
 
 function do_showupload()
@@ -229,13 +229,13 @@ function do_showupload()
 
     $form_content = "";
     if (dpscans_access_mode($pguser) == 'common') {
-        $form_content .= getMessage('info', $autoprefix_message);
+        $form_content .= get_message('info', $autoprefix_message);
     }
     $form_content .= "<p style='margin-top: 0em;'>$standard_blurb</p>\n";
     $form_content .= _("File to upload:") . "&nbsp;";
     $form_content .= "<input type='file' name='the_file' size='25' maxsize='50'>";
 
-    showForm(
+    show_form(
         'upload',
         $curr_relpath,
         $form_content,
@@ -243,9 +243,9 @@ function do_showupload()
     );
 
     // Display the users directory listing
-//    showContent();
+//    show_content();
 
-    showReturnLink();
+    show_return_link();
 }
 
 function do_upload()
@@ -263,21 +263,21 @@ function do_upload()
     // to send a request that doesn't contain a file at all (in which case
     // $file_info would be null.  Check both possibilities.
     if (is_null($file_info) || $file_info['name'] == '') {
-        fatalError( _("You must select a file to upload.") );
+        fatal_error( _("You must select a file to upload.") );
     }
 
     // $file_info has 'name' 'type' 'size' 'tmp_name' 'error'
 
     if ($file_info['error'] != UPLOAD_ERR_OK) {
-        fatalError( get_upload_err_msg($file_info['error']) );
+        fatal_error( get_upload_err_msg($file_info['error']) );
     }
 
     if ($file_info['size'] == 0) {
-        fatalError( _("File is empty.") );
+        fatal_error( _("File is empty.") );
     }
 
     if (!is_valid_filename($file_info['name'], "zip")) {
-        fatalError( _("Invalid filename.") );
+        fatal_error( _("Invalid filename.") );
         // (Alternatively, we could construct a name that *was* okay,
         // and use that instead.)
     }
@@ -303,9 +303,9 @@ function do_upload()
     list($file_type) = explode(';', $zip_test_result[0], 2);
     if ($file_type == 'application/x-zip' ||
         $file_type == 'application/zip') {
-        showMessage('info', _("OK: Valid zip file."));
+        show_message('info', _("OK: Valid zip file."));
     } else {
-        fatalError( _("File is not a valid zip file: removing it.") );
+        fatal_error( _("File is not a valid zip file: removing it.") );
     }
     // XXX /usr/bin/file only looks at the first few bytes of the file.
     // Maybe we should check the whole file's integrity with 'unzip -t'.
@@ -321,20 +321,20 @@ function do_upload()
         $cmd = "$antivirus_executable -- " . escapeshellcmd($temporary_path);
         exec($cmd, $av_test_result, $av_retval);
         if ($av_retval == 0) {
-            showMessage('info', _("OK: AV pass."));
+            show_message('info', _("OK: AV pass."));
         } else if ($av_retval == 1) {
-            showMessage('error', _("AV FAIL: The scan reported an infection. The upload has been discarded."));
-            showMessage('error', $av_test_result[0]);
-            showMessage('info', _("You should perform a complete virus scan on your computer as soon as possible."));
+            show_message('error', _("AV FAIL: The scan reported an infection. The upload has been discarded."));
+            show_message('error', $av_test_result[0]);
+            show_message('info', _("You should perform a complete virus scan on your computer as soon as possible."));
 
             // Log the infected upload so that we can track user/frequency
             $reporting_string = "DPSCANS: Infected upload: " . $av_test_result[0];
             error_log($reporting_string);
 
-            showReturnLink();
+            show_return_link();
             exit();
         } else {
-            fatalError( _("Undefined AV error message for return value: ").$av_retval );
+            fatal_error( _("Undefined AV error message for return value: ").$av_retval );
         }
     }
 
@@ -353,7 +353,7 @@ function do_upload()
     // this will silently overwrite it.
     // That might or might not be the user's intent.
     if (! @move_uploaded_file($temporary_path, $target_path) ) {
-        fatalError( _("Webserver failed to copy uploaded file from temporary location to upload folder.") );
+        fatal_error( _("Webserver failed to copy uploaded file from temporary location to upload folder.") );
     }
 
     echo "<p>" . sprintf(_("File %s successfully uploaded to folder %s."), hce($target_name), $hce_curr_displaypath), "</p>\n";
@@ -363,7 +363,7 @@ function do_upload()
     $reporting_string = "DPSCANS: File uploaded to " . $target_path;
     error_log($reporting_string);
 
-    showReturnLink();
+    show_return_link();
 }
 
 function do_showmkdir()
@@ -375,14 +375,14 @@ function do_showmkdir()
     echo "<h1>$page_title</h1>\n";
 
     $form_content = _("Name of subfolder to create:") ."&nbsp;<input type='text' name='new_dir_name' size='25' maxsize='50'>";
-    showForm(
+    show_form(
         'mkdir',
         $curr_relpath,
         $form_content,
         _("Create")
     );
 
-    showReturnLink();
+    show_return_link();
 }
 
 function do_mkdir()
@@ -392,24 +392,24 @@ function do_mkdir()
     $new_dir_name = @$_POST['new_dir_name'];
 
     if (!is_valid_filename($new_dir_name)) {
-        fatalError( _("Invalid folder name.") );
+        fatal_error( _("Invalid folder name.") );
     }
 
     // XXX For 'common' users, are new subfolders auto-prefixed with their username?
 
     $new_dir_abspath = "$curr_abspath/$new_dir_name";
     if ( file_exists($new_dir_abspath) ) {
-        fatalError( sprintf(_("%s already exists"), hce($new_dir_name)) );
+        fatal_error( sprintf(_("%s already exists"), hce($new_dir_name)) );
         // hce isn't needed when is_valid_filename()is so bland,
         // but the pattern could change.
     }
 
     if (!mkdir($new_dir_abspath)) {
-        fatalError( sprintf(_("Unable to create folder")) );
+        fatal_error( sprintf(_("Unable to create folder")) );
     }
 
-    showMessage('info', sprintf(_("Created folder %s"), hce($new_dir_name)));
-    showReturnLink();
+    show_message('info', sprintf(_("Created folder %s"), hce($new_dir_name)));
+    show_return_link();
 }
 
 function do_showrename()
@@ -421,7 +421,7 @@ function do_showrename()
     echo "<h1>$page_title</h1>\n";
 
     $item_name = @$_POST['item_name'];
-    confirmIsLocal('FD', $item_name, TRUE);
+    confirm_is_local('FD', $item_name, TRUE);
 
     $form_content = "<input type='hidden' name='item_name' value='" . hae($item_name) . "'>\n";
     $form_content .= sprintf(
@@ -430,14 +430,14 @@ function do_showrename()
         "<input type='text' name='new_item_name' size='25'>"
     );
 
-    showForm(
+    show_form(
         'rename',
         $curr_relpath,
         $form_content,
         _("Rename")
     );
 
-    showReturnLink();
+    show_return_link();
 }
 
 function do_rename()
@@ -445,18 +445,18 @@ function do_rename()
     global $curr_abspath;
 
     $item_name = @$_POST['item_name'];
-    confirmIsLocal('FD', $item_name);
+    confirm_is_local('FD', $item_name);
 
     $item_path = "$curr_abspath/$item_name";
 
     $new_item_name = @$_POST['new_item_name'];
 
     if (!is_valid_filename($new_item_name)) {
-        fatalError( _("Invalid new item name.") );
+        fatal_error( _("Invalid new item name.") );
     }
 
     if ($new_item_name == $item_name) {
-        fatalError( _("Attempt to rename an item as itself.") );
+        fatal_error( _("Attempt to rename an item as itself.") );
     }
 
     if (is_file($item_path)) {
@@ -464,22 +464,22 @@ function do_rename()
         $item_ext = pathinfo($item_name, PATHINFO_EXTENSION);
         $new_item_ext = pathinfo($new_item_name, PATHINFO_EXTENSION);
         if ( strcasecmp($item_ext, $new_item_ext) != 0 ) {
-            fatalError( _("Attempt to change the filename extension.") );
+            fatal_error( _("Attempt to change the filename extension.") );
         }
     }
 
     $new_item_path = "$curr_abspath/$new_item_name";
 
     if (file_exists($new_item_path)) {
-        fatalError(sprintf(_("%s already exists"), hce($new_item_name)));
+        fatal_error(sprintf(_("%s already exists"), hce($new_item_name)));
     }
 
     if (!@rename($item_path, $new_item_path)) {
-        fatalError( sprintf(_("Unable to rename item %s as %s."), hce($item_name), hce($new_item_name)) );
+        fatal_error( sprintf(_("Unable to rename item %s as %s."), hce($item_name), hce($new_item_name)) );
     }
 
-    showMessage('info', sprintf(_("Item %s has been renamed as %s."), hce($item_name), hce($new_item_name)));
-    showReturnLink();
+    show_message('info', sprintf(_("Item %s has been renamed as %s."), hce($item_name), hce($new_item_name)));
+    show_return_link();
 }
 
 function do_showmove()
@@ -505,7 +505,7 @@ function do_showmove()
     array_unshift($valid_target_dirs, $commons_dir);
 
     $item_name = @$_POST['item_name'];
-    confirmIsLocalFile($item_name);
+    confirm_is_local_file($item_name);
 
     $form_content  = "<p>"._("Select the folder of the user who should receive this file:")."&nbsp;";
     $form_content .= "<select name='target_dir'>\n";
@@ -524,7 +524,7 @@ function do_showmove()
     ) . "</b>";
 
     echo "<p><b>"._("Warning:")."</b> "._("Moving a file to another user cannot be undone.")."</p>";
-    showForm(
+    show_form(
         'move',
         $curr_relpath,
         $form_content,
@@ -532,7 +532,7 @@ function do_showmove()
     );
 
 
-    showReturnLink();
+    show_return_link();
 }
 
 function do_move()
@@ -540,38 +540,38 @@ function do_move()
     global $uploads_dir, $curr_abspath, $curr_relpath;
 
     $item_name = @$_POST['item_name'];
-    confirmIsLocalFile($item_name);
+    confirm_is_local_file($item_name);
 
     $src_path = "$curr_abspath/$item_name";
 
     $dst_dir_relpath = canonicalize_path(trim(@$_POST['target_dir'], '/'));
 
     if ($dst_dir_relpath === False || !is_valid_move_destination($dst_dir_relpath)) {
-        fatalError( _("Invalid target folder") );
+        fatal_error( _("Invalid target folder") );
     }
 
     if ( $dst_dir_relpath == $curr_relpath ) {
-        fatalError( _("The source and destination folders are the same.") );
+        fatal_error( _("The source and destination folders are the same.") );
     }
 
     $dst_dir = "$uploads_dir/$dst_dir_relpath";
     if (!is_dir($dst_dir)) {
-        fatalError( sprintf(_("%s does not exist, or is not a folder"), hce($dst_dir_relpath)) );
+        fatal_error( sprintf(_("%s does not exist, or is not a folder"), hce($dst_dir_relpath)) );
     }
 
     $dst_path = "$dst_dir/$item_name";
 
     // Test for collision in destination
     if (file_exists($dst_path)) {
-        fatalError( _("File already exists in destination folder.") );
+        fatal_error( _("File already exists in destination folder.") );
     }
 
     if (!@rename($src_path, $dst_path)) {
-        fatalError( sprintf(_("Unable to move file %s to destination folder: %s."), hce($item_name), hce($dst_dir_relpath)) );
+        fatal_error( sprintf(_("Unable to move file %s to destination folder: %s."), hce($item_name), hce($dst_dir_relpath)) );
     }
 
-    showMessage('info', sprintf(_("File %s has been moved to folder %s"), hce($item_name), hce($dst_dir_relpath)));
-    showReturnLink();
+    show_message('info', sprintf(_("File %s has been moved to folder %s"), hce($item_name), hce($dst_dir_relpath)));
+    show_return_link();
 }
 
 function do_download()
@@ -579,7 +579,7 @@ function do_download()
     global $curr_abspath;
 
     $item_name = @$_POST['item_name'];
-    confirmIsLocalFile($item_name);
+    confirm_is_local_file($item_name);
 
     $src_path = "$curr_abspath/$item_name";
 
@@ -597,7 +597,7 @@ function do_download()
         // Switch back to HTML in order to show the error message (and return-link).
         header("Content-type: text/html");
         header("Content-disposition: inline");
-        fatalError( _("Unable to send file") );
+        fatal_error( _("Unable to send file") );
     }
 }
 
@@ -610,7 +610,7 @@ function do_showdelete()
     echo "<h1>$page_title</h1>\n";
 
     $item_name = @$_POST['item_name'];
-    confirmIsLocal('FD', $item_name);
+    confirm_is_local('FD', $item_name);
 
     $item_path = "$curr_abspath/$item_name";
 
@@ -621,7 +621,7 @@ function do_showdelete()
         $question_template = _("Are you sure you want to delete the folder&nbsp;%s&nbsp;?");
     } else {
         // Shouldn't happen
-        fatalError( _("Unable to determine status of delete request.") );
+        fatal_error( _("Unable to determine status of delete request.") );
     }
 
     $form_content  = "<p style='margin-top: 0em;'><b>"._("Warning:")."</b> ";
@@ -630,14 +630,14 @@ function do_showdelete()
     $form_content .= "<b>" . sprintf( $question_template,
         "<input type='text' name='del_file' size='25' maxsize='50' value='" . hae($item_name) . "' READONLY>" ) . "</b>";
 
-    showForm(
+    show_form(
         'delete',
         $curr_relpath,
         $form_content,
         _("Delete")
     );
 
-    showReturnLink();
+    show_return_link();
 }
 
 function do_delete()
@@ -645,7 +645,7 @@ function do_delete()
     global $curr_abspath, $trash_dir;
 
     $item_name = @$_POST['del_file'];
-    confirmIsLocal('FD', $item_name);
+    confirm_is_local('FD', $item_name);
 
     $src_path = "$curr_abspath/$item_name";
 
@@ -657,11 +657,11 @@ function do_delete()
     // For safety, we move the item into TRASH and let the
     // existing cron job remove it instead of using unlink()
     if (!@rename($src_path, $dst_path)) {
-        fatalError( sprintf(_("Unable to move %s to TRASH folder."), hce($item_name)) );
+        fatal_error( sprintf(_("Unable to move %s to TRASH folder."), hce($item_name)) );
     }
 
-    showMessage('info', sprintf(_("%s has been moved to the TRASH folder for deletion."), hce($item_name)));
-    showReturnLink();
+    show_message('info', sprintf(_("%s has been moved to the TRASH folder for deletion."), hce($item_name)));
+    show_return_link();
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -738,36 +738,38 @@ function get_current_dir_relative_path($home_dirname)
         // (It's possible a user could get this without URL-tweaking,
         // if they deleted a directory but still had an old directory listing
         // in another browser window.)
-        fatalError( $error_message );
+        fatal_error( $error_message );
     }
 
     // Reject any cdrp that isn't in normalized form
     if ($cdrp != "" && $abspath != "$abs_uploads_dir/$cdrp") {
-        fatalError( $error_message );
+        fatal_error( $error_message );
     }
 
     // Only SAs are allowed access to other home folders.
     if (!user_may_access_all_upload_dirs()) {
         if (!startswith("$abspath/", "$abs_uploads_dir/$home_dirname/")) {
-            fatalError( _("You are restricted to your home folder and its descendants") );
+            fatal_error( _("You are restricted to your home folder and its descendants") );
         }
     }
 
     return preg_replace("#^$abs_uploads_dir/*#", "", $abspath);
 }
 
-function dpscans_access_mode($username) {
+function dpscans_access_mode($username)
+{
     $userSettings =& Settings::get_settings($username);
         return $userSettings->get_value("dpscans");
 }
 
 // Function for displaying directory contents
-function showContent() {
+function show_content()
+{
     global $curr_relpath, $hae_curr_relpath, $curr_abspath, $hce_curr_displaypath;
 
-    $item_names = getDirectoryItemsSorted($curr_abspath);
+    $item_names = get_directory_items_sorted($curr_abspath);
 
-    if ($item_names === FALSE) return; // XXX fatalError(_("Unable to open folder")) ?
+    if ($item_names === FALSE) return; // XXX fatal_error(_("Unable to open folder")) ?
 
     // Style for directory listing table
     echo "
@@ -821,19 +823,19 @@ function showContent() {
         if (is_file($item_path))
         {
             $actions_blurb =
-                getActionsBlock( $item_name, array('showdelete', 'download', 'showrename', 'showmove') );
+                get_actions_block( $item_name, array('showdelete', 'download', 'showrename', 'showmove') );
 
             echo "
             <tr>
                 <th class='actions'>$actions_blurb</th>
                 <td><img src='wfb_images/wfb_file.gif'>&nbsp;$hce_item_name</td>
                 <td align='left'><span style='font-family: monospace!important;'>".date ('d-M-Y H:i:s', filemtime($item_path))."</span></td>
-                <td align='right'><span style='font-family: monospace!important;'>".humanizeBytes(filesize($item_path))."</span></td>
+                <td align='right'><span style='font-family: monospace!important;'>".humanize_bytes(filesize($item_path))."</span></td>
             </tr>
             ";
         } elseif (is_dir($item_path)) {
             $actions_blurb =
-                getActionsBlock( $item_name, array('showdelete', 'showrename') );
+                get_actions_block( $item_name, array('showdelete', 'showrename') );
             // If we're in the root directory, subdir paths must be 'foo', not '/foo' to be canonical
             if ($curr_relpath == "") {
                 $url = "?cdrp=" . urlencode($item_name);
@@ -852,7 +854,7 @@ function showContent() {
     echo "</table>\n";
 }
 
-function getDirectoryItemsSorted($curr_abspath)
+function get_directory_items_sorted($curr_abspath)
 {
     $handle = @opendir($curr_abspath);
     if ($handle === FALSE) return FALSE;
@@ -875,7 +877,7 @@ function getDirectoryItemsSorted($curr_abspath)
     return array_merge( $items_dirs, $items_files );
 }
 
-function getActionsBlock( $item_name, $valid_actions )
+function get_actions_block( $item_name, $valid_actions )
 {
     global $hae_curr_relpath;
     $hae_item_name = hae($item_name);
@@ -947,7 +949,7 @@ function getActionsBlock( $item_name, $valid_actions )
 }
 
 // Represent $n bytes as a  $m kB-- $m PB string
-function humanizeBytes($n)
+function humanize_bytes($n)
 {
     $fmt   = "%d B";
     $units = array("PB", "TB", "GB", "MB", "kB");
@@ -958,15 +960,15 @@ function humanizeBytes($n)
     return sprintf($fmt, $n);
 }
 
-function confirmIsLocalFile($filename)
+function confirm_is_local_file($filename)
 // If $filename is a valid filename parameter,
 // and names a file in the current directory, return.
 // Otherwise, print an error message and exit.
 {
-    confirmIsLocal('F', $filename);
+    confirm_is_local('F', $filename);
 }
 
-function confirmIsLocal($type, $item_name)
+function confirm_is_local($type, $item_name)
 {
     global $curr_abspath, $hce_curr_displaypath;
 
@@ -974,11 +976,11 @@ function confirmIsLocal($type, $item_name)
 
     // NB this catches $item_name == NULL too
     if ( $item_name == '' ) {
-        fatalError( _("Item name must not be empty.") );
+        fatal_error( _("Item name must not be empty.") );
     }
 
     if ( strpos($item_name, '/') !== FALSE ) {
-        fatalError( _("Item name must not contain a slash character") );
+        fatal_error( _("Item name must not contain a slash character") );
     }
 
     $src_path = "$curr_abspath/$item_name";
@@ -986,7 +988,7 @@ function confirmIsLocal($type, $item_name)
     // Note that 'file_exists', despite the name, doesn't require
     // that its arg identify a file (as opposed to a directory).
     if (!file_exists($src_path)) {
-        fatalError( sprintf(_("folder %s does not have an item named %s"), $hce_curr_displaypath, hce($item_name)) );
+        fatal_error( sprintf(_("folder %s does not have an item named %s"), $hce_curr_displaypath, hce($item_name)) );
     }
 
     if ($type == 'FD') return;
@@ -1002,24 +1004,26 @@ function confirmIsLocal($type, $item_name)
     }
 
     if (!$exists) {
-        fatalError( sprintf($msg, hce($item_name)) );
+        fatal_error( sprintf($msg, hce($item_name)) );
     }
 }
 
-function fatalError($message) {
-    showMessage('error', $message);
+function fatal_error($message)
+{
+    show_message('error', $message);
 
     if (isset($GLOBALS['curr_relpath'])) {
-        showReturnLink();
+        show_return_link();
     } else {
-        showHomeLink();
+        show_home_link();
     }
 
     exit();
 }
 
 // return or echo a formatted informational or error message
-function getMessage($type, $message) {
+function get_message($type, $message)
+{
     if ($type == 'error') {
         $prefix = _("ERROR:");
         $style = "color: red;";
@@ -1031,19 +1035,22 @@ function getMessage($type, $message) {
     return "<div style='$style'><b>$prefix</b> $message</div>\n";
 }
 
-function showMessage($type, $message) {
-    echo getMessage($type, $message);
+function show_message($type, $message)
+{
+    echo get_message($type, $message);
 }
 
 // Display a return link (to the 'showdir' view)
-function showReturnLink() {
+function show_return_link()
+{
     global $curr_relpath, $hce_curr_displaypath;
     $url = "?cdrp=" . urlencode($curr_relpath);
     $text = sprintf(_("Return to folder %s"), $hce_curr_displaypath);
     echo "<p><a href='$url'>$text</a></p>\n";
 }
 
-function showHomeLink() {
+function show_home_link()
+{
     $text = sprintf(_("Return to your home folder"));
     echo "<p><a href='?action=showdir'>$text</a></p>\n";
 }
@@ -1084,7 +1091,7 @@ function searchdir( $dir_path, $maxdepth = -1, $mode = "FULL", $d = 0 )
 
 
 // ===================================================================================
-function showForm($action, $cdrp, $form_content, $submit_label)
+function show_form($action, $cdrp, $form_content, $submit_label)
 {
     // Display a div with a form containing action and cdrp hidden inputs; some content,
     // which can be abritrary HTML/other inputs; and finally a labeled submit button
@@ -1097,7 +1104,8 @@ function showForm($action, $cdrp, $form_content, $submit_label)
     echo "</div>\n";
 }
 
-function showCaveats() {
+function show_caveats()
+{
     echo "<style type='text/css'>\nli { line-height:100%!important; font-size:90%; }\n</style>\n";
     echo "<p><b>" . _("Current file and directory management features:") . "</b></p>\n";
     echo "<ul>\n";
