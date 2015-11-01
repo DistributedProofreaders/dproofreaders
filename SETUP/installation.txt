@@ -105,16 +105,6 @@ assuming it isn't already.
         While not required, it makes administering the database much easier.
         Follow the installation instructions included with phpMyAdmin.
 
---- Install and configure phpBB.
-        phpBB is most easily installed in your document root as phpbb/
-        The phpBB tables need to be installed in the same database as the DP
-        tables, or be in a separate database in the same MySQL instance as the
-        DP tables with the same authentication information.
-
-        See the "Post installation / conversion steps" section in
-        phpbb3-conversion.txt for recommended phpBB3 configuration settings
-        and further steps to ensure good integration with the DP code.
-
 --- Install gettext and xgettext.
         If you want to localize the site messages.
 
@@ -204,6 +194,16 @@ assuming it isn't already.
    
     --- Exit from the MySQL client.
             quit;
+
+--- Install and configure phpBB.
+        phpBB is most easily installed in your document root as phpbb/
+        The phpBB tables need to be installed in the same database as the DP
+        tables, or be in a separate database in the same MySQL instance as the
+        DP tables with the same authentication information.
+
+        See the "Post installation / conversion steps" section in
+        phpbb3-conversion.txt for recommended phpBB3 configuration settings
+        and further steps to ensure good integration with the DP code.
 
 --- Create phpBB categories and forums.
 
