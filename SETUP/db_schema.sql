@@ -36,7 +36,7 @@ CREATE TABLE `authors` (
   `dday` tinyint(4) NOT NULL default '0',
   `dcomments` varchar(20) NOT NULL default '',
   `enabled` tinytext NOT NULL,
-  `last_modified` timestamp NOT NULL,
+  `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`author_id`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
@@ -69,7 +69,7 @@ CREATE TABLE `biographies` (
   `bio_id` int(11) NOT NULL auto_increment,
   `author_id` int(11) NOT NULL default '0',
   `bio` text NOT NULL,
-  `last_modified` timestamp NOT NULL,
+  `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`bio_id`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Contains biographies (see authors)';
 # --------------------------------------------------------
@@ -193,7 +193,7 @@ CREATE TABLE `non_activated_users` (
   `date_created` int(20) NOT NULL default '0',
   `email_updates` varchar(4) NOT NULL default '',
   `u_intlang` varchar(25) default '',
-  `user_password` varchar(32) NOT NULL default '',
+  `user_password` varchar(128) NOT NULL default '',
   PRIMARY KEY  (`username`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Each row represents a not-yet-activated user, user_password ';
 # --------------------------------------------------------
@@ -273,6 +273,20 @@ CREATE TABLE `project_events` (
   PRIMARY KEY  (`event_id`),
   KEY `project` (`projectid`),
   KEY `timestamp` (`timestamp`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
+# Table structure for table `project_holds`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `project_holds` (
+  `projectid` varchar(22) NOT NULL,
+  `state` varchar(50) NOT NULL,
+  PRIMARY KEY (`projectid`,`state`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -384,9 +398,9 @@ CREATE TABLE `projects` (
   `up_projectid` int(10) default '0',
   `deletion_reason` tinytext NOT NULL,
   PRIMARY KEY  (`projectid`),
-  KEY `state` (`state`),
   KEY `special_code` (`special_code`),
-  KEY `projectid_archived_state` (`projectid`,`archived`,`state`)
+  KEY `projectid_archived_state` (`projectid`,`archived`,`state`),
+  KEY `state_moddate` (`state`,`modifieddate`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -485,7 +499,6 @@ CREATE TABLE `smoothread` (
   `user` varchar(25) NOT NULL default '',
   `committed` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`projectid`,`user`),
-  KEY `project` (`projectid`),
   KEY `user` (`user`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Each row represents an association between a user and a proj';
 # --------------------------------------------------------
