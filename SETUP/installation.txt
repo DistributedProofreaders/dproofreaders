@@ -325,8 +325,6 @@ assuming it isn't already.
 --- Create the tables of the DP database.
         cd c/SETUP
         php -f install_db.php
-        Since you have already installed phpBB, you may get warnings/errors about
-        duplicate tables.
 
 --- At this point, your DP site should be functional.
         Try visiting it via your browser.
