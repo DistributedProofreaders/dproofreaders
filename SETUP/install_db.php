@@ -23,8 +23,11 @@ while ($lines = array_shift($db_schema)) {
 // Remove all line breaks
 $sql_create_tables = str_replace("\r\n","",$sql_create_tables);
 
-$is_older_mysql=1; // kludge
-if ($is_older_mysql)
+// Some older versions of MySQL (sometime before 5.0) don't recognize
+// the 'DEFAULT CHARSET' syntax. If you set $strip_default_charset to
+// TRUE, we'll strip it out when creating the tables.
+$strip_default_charset = FALSE;
+if ($strip_default_charset)
 {
     $sql_create_tables = str_replace("DEFAULT CHARSET=latin1", "", $sql_create_tables);
 }
