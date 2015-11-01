@@ -15,6 +15,8 @@ $commons_dir     = "$uploads_dir/$commons_rel_dir";
 $users_rel_dir   = "Users";
 $users_dir       = "$uploads_dir/Users";
 
+require_login();
+
 undo_all_magic_quotes();
 
 // The model we want users to have while interacting with this script is that,
