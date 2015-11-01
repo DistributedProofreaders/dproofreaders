@@ -1,6 +1,7 @@
 <?php
 $relPath='../pinc/';
-include_once($relPath.'base.inc');
+include_once($relPath.'connect.inc');
+new dbConnect();
 
 mysql_query("CREATE DATABASE IF NOT EXISTS $db_name") or die(mysql_error());
 mysql_query("USE $db_name") or die(mysql_error());
