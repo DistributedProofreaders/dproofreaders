@@ -7,12 +7,12 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'misc.inc'); // get_upload_err_msg(), undo_all_magic_quotes()
 
 # Directory structure under uploads dir
-$trash_dir       = "$uploads_dir/TRASH";
+$trash_dir       = "$uploads_dir/$uploads_subdir_trash";
 
-$commons_rel_dir = "Commons";
+$commons_rel_dir = $uploads_subdir_commons;
 $commons_dir     = "$uploads_dir/$commons_rel_dir";
 
-$users_rel_dir   = "Users";
+$users_rel_dir   = $uploads_subdir_users;
 $users_dir       = "$uploads_dir/Users";
 
 require_login();
