@@ -107,11 +107,11 @@ _SITE_URL=$_CODE_URL
 # Previously at pgdp.net, Project Managers were given access to a shared
 # ftp-only "uploads" account. Each PM created a personal directory (named
 # according to their DP login id) within the shared account's home
-# directory. This has since been replaced with the project_upload.php
+# directory. This has since been replaced with the remote_file_manager.php
 # script.
 
 # The location where project information (text and images) are written
-# to by project_upload.php and read from for loading into projects.
+# to by remote_file_manager.php and read from for loading into projects.
 # The web server must have read/write permissions on this directory.
 # If using FTP, this should be the root directory for the
 # _UPLOADS_ACCOUNT user.
@@ -124,7 +124,7 @@ _UPLOADS_HOST=www.example.org
 _UPLOADS_ACCOUNT=dpscans
 _UPLOADS_PASSWORD=PICK_A_PASSWORD
 
-# The project_upload.php script will scan uploaded files for viruses
+# remote_file_manager.php will scan uploaded files for viruses
 # if an antivirus scanner, like clamscan, is installed. Any scanner
 # will work as long as it accepts the following syntax
 #   av_executable -- filename

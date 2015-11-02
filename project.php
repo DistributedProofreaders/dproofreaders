@@ -1008,7 +1008,7 @@ function do_early_uploads()
     if ($add_reminder)
     {
         echo "<p>";
-        echo sprintf(_("To upload your files to %s, use the <a href='tools/project_manager/project_upload.php'>project upload script</a>."), "~$uploads_account");
+        echo sprintf(_("To upload your files to %s, use the <a href='tools/project_manager/remote_file_manager.php'>remote file manager</a>."), "~$uploads_account");
 
         // if the site has $uploads_host set, show the FTP details
         if($uploads_host) {

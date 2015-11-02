@@ -233,11 +233,11 @@ assuming it isn't already.
 --- Create the directory for project file uploads
         In order to populate projects with images and initial text, the images
         and text must reside on the server. This can be done by users via the
-        web with the built-in project_upload.php script, or via FTP/scp, or
+        web with the built-in remote_file_manager.php, or via FTP/scp, or
         both. In either case, a directory outside the web space, but writeable
         by the web server, is required.
 
-        If using project_upload.php, you can create this directory wherever
+        If using remote_file_manager.php, you can create this directory wherever
         it makes sense to do so, although for security reasons it is strongly
         recommended that it be outside of your web space. Ensure the directory
         permissions and/or ownership allow the web server full access to the
