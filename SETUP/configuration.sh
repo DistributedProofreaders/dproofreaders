@@ -408,3 +408,23 @@ _JPGRAPH_FONT_STYLE=9002
 # $_JPGRAPH_DIR/src/jpgraph.php (specifically, the FF_ and FS_ defines).
 
 # ----------------------------------------------------------------------
+
+# Automatically determine an installed program to dump the contents of
+# a URL. The program is then used in SETUP/dp.cron
+# Attempt to find: wget, curl, lynx
+program_test=`which wget`
+if [ $? -eq 0 ]; then
+    _URL_DUMP_PROGRAM="$program_test --quiet -O-"
+else
+    program_test=`which curl`
+    if [ $? -eq 0 ]; then
+        _URL_DUMP_PROGRAM="$program_test --silent"
+    else
+        program_test=`which lynx`
+        if [ $? -eq 0 ]; then
+            _URL_DUMP_PROGRAM="$program_test -source"
+        else
+            _URL_DUMP_PROGRAM="echo No program configured to dump URLs, requested:"
+        fi
+    fi
+fi
