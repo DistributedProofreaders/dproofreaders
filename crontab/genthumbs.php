@@ -22,8 +22,6 @@ $result = mysql_query("SELECT projectid, state FROM projects WHERE state = 'proj
 $projectid = mysql_result($result, 0, "projectid");
 $state = mysql_result($result, 0, "state");
 
-echo "projectid is $projectid<br>";
-
 //make thumbs directory
 $dest_project_dir = "$projects_dir/$projectid/thumbs";
 if (!file_exists($dest_project_dir)) { 
@@ -40,7 +38,6 @@ while ($rownum < $numrows) {
 
     //while ($row = mysql_fetch_row($result)) {
     $imagename = mysql_result($result, $rownum, "image");
-    echo "imagenaem is $imagename";
 
     //setup our source and destination images
     $image = "$projects_dir/$projectid/$imagename"; // name/location of original image.

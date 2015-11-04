@@ -16,6 +16,4 @@ while (list($postproofer) = mysql_fetch_row($result)) {
     }
 }
 
-echo "<br><center>Update of Post Processors Complete!</center>";
-
 // vim: sw=4 ts=4 expandtab

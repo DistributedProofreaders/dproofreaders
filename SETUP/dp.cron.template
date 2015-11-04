@@ -3,7 +3,7 @@
    25,40       0 * * * now=`date +\%Y-\%m-\%d_\%H:\%M:\%S`; <<URL_DUMP_PROGRAM>> http://127.0.0.1/c/tools/project_manager/automodify.php > <<DYN_DIR>>/stats/automodify_logs/$now.txt
 
 # hourly:
-03 * * * * <<URL_DUMP_PROGRAM>> http://127.0.0.1/c/crontab/update_user_counts.php > /dev/null
+03 * * * * <<URL_DUMP_PROGRAM>> http://127.0.0.1/c/crontab/update_user_counts.php
 # 05 * * * * <<URL_DUMP_PROGRAM>> http://127.0.0.1/c/crontab/log_project_states.php
 # 06 * * * * <<URL_DUMP_PROGRAM>> http://127.0.0.1/c/crontab/update_user_counts.php
 
@@ -12,7 +12,7 @@
 01  0 * * * <<URL_DUMP_PROGRAM>> http://127.0.0.1/c/crontab/log_project_states.php
 10  0 * * * <<URL_DUMP_PROGRAM>> http://127.0.0.1/c/crontab/archive_projects.php
 15  0 * * * /home/dpadmin/mysql_backup.pl
-50  0 * * * <<URL_DUMP_PROGRAM>> http://127.0.0.1/c/crontab/clean_tmp.php > /dev/null
+50  0 * * * <<URL_DUMP_PROGRAM>> http://127.0.0.1/c/crontab/clean_tmp.php
 50  0 * * * <<URL_DUMP_PROGRAM>> http://127.0.0.1/c/crontab/clean_uploads_trash.php
 55  0 * * * <<URL_DUMP_PROGRAM>> http://127.0.0.1/c/crontab/extend_site_tally_goals.php
 00  4 * * * <<URL_DUMP_PROGRAM>> http://127.0.0.1/c/crontab/onoff_special_event_queues.php

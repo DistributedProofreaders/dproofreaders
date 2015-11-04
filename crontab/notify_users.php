@@ -22,7 +22,6 @@ if(!requester_is_localhost())
         $real_name = mysql_result($result, $rownum, "real_name");
         $email = mysql_result($result, $rownum, "email");
         $email_updates = mysql_result($result, $rownum, "email_updates");
-        echo "$username, $email\n<br>";
         if ($email_updates) {
             maybe_mail("$email", "$site_name: Inactive Account $username",
                  "Hello $real_name,\n\n".
@@ -41,6 +40,9 @@ $site_signoff");
         $rownum++;
     }
 
+if($numrows)
+{
     echo "notify_users.php attempted to email $numrows users with a 5 month inactivity warning";
+}
 
 ?>

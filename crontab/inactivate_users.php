@@ -14,7 +14,10 @@ $old_date = time() - 15768000; // 6 months ago.
 $result = mysql_query ("UPDATE `users` SET active = 'no' WHERE t_last_activity < $old_date AND active ='yes'");
 $numrows = mysql_affected_rows();
 
-echo "inactivate_users.php set $numrows users who have not been active for 6 months as inactive";
+if($numrows)
+{
+    echo "inactivate_users.php set $numrows users who have not been active for 6 months as inactive";
+}
 
 // vim: sw=4 ts=4 expandtab
 ?>
