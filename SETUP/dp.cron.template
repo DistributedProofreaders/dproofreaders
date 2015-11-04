@@ -12,7 +12,6 @@
 01  0 * * * <<URL_DUMP_PROGRAM>> <<CODE_URL>>/crontab/log_project_states.php
 05  0 * * * <<URL_DUMP_PROGRAM>> <<CODE_URL>>/crontab/update_user_birthdays.php
 10  0 * * * <<URL_DUMP_PROGRAM>> <<CODE_URL>>/crontab/archive_projects.php
-15  0 * * * /home/dpadmin/mysql_backup.pl
 50  0 * * * <<URL_DUMP_PROGRAM>> <<CODE_URL>>/crontab/clean_tmp.php
 50  0 * * * <<URL_DUMP_PROGRAM>> <<CODE_URL>>/crontab/clean_uploads_trash.php
 55  0 * * * <<URL_DUMP_PROGRAM>> <<CODE_URL>>/crontab/extend_site_tally_goals.php
