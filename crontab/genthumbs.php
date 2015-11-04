@@ -76,5 +76,3 @@ while ($rownum < $numrows) {
 }
 //update projects table to indicate thumbs have been gen'ed
 $result = mysql_query("UPDATE projects SET thumbs = 'yes' WHERE projectid = '$projectid'");
-
-?>

@@ -65,4 +65,3 @@ foreach ( get_all_current_tallyboards() as $tallyboard )
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

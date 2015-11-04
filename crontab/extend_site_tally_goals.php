@@ -59,4 +59,3 @@ dpsql_query("
 ") or die("Aborting");
 
 // vim: sw=4 ts=4 expandtab
-?>

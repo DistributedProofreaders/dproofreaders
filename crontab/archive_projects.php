@@ -40,4 +40,3 @@ while ( $project = mysql_fetch_object($result) )
 echo "archive_projects.php executed.";
 
 // vim: sw=4 ts=4 expandtab
-?>
