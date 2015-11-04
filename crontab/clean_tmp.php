@@ -7,5 +7,13 @@ include_once($relPath.'misc.inc');
 if(!requester_is_localhost())
     die("You are not authorized to perform this request.");
 
-exec('/usr/sbin/tmpwatch -fav 3 /tmp/sp_check/');
-?>
+// remove temporary spellcheck files older than 1 day
+unset($output);
+exec("/usr/bin/find '$aspell_temp_dir' -type f -mtime +1 -delete", $output, $return);
+if($return != 0) {
+    echo "An error occurred while cleaning up files.\n";
+    echo "Return value: $return\n";
+    echo "Command output:\n";
+    foreach($output as $line)
+        echo "    $line\n";
+}
