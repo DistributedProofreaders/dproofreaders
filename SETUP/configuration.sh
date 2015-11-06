@@ -335,8 +335,17 @@ _DYN_URL=$base_url/d
 # ----------------------------------------------------------------------
 
 _JPGRAPH_DIR=$base_dir/jpgraph
-# The DP code can make efficient use of the jpgraph cache.
+# The location of the jpgraph installation.
+# The DP code can make efficient use of the jpgraph cache if configured.
 # See jpgraph documentation on how to enable the cache.
+
+_JPGRAPH_FONT_FACE=2        # FF_FONT1
+_JPGRAPH_FONT_STYLE=9002    # FS_BOLD
+# Font face and style values for jpgraph graphs. For possible values, see
+# $_JPGRAPH_DIR/src/jpgraph_ttf.inc.php (the FF_ and FS_ defines). If you
+# have TrueType fonts installed and jpgraph configured to access them,
+# changing these to one of those fonts and FS_NORMAL will give much better
+# looking graphs.
 
 
 _DB_SERVER=localhost
@@ -405,11 +414,6 @@ _XGETTEXT_EXECUTABLE=/usr/bin/xgettext
 
 _GETTEXT_LOCALES_DIR=/usr/share/locale
 # The system's locale directory.  Usually /usr/share/locale
-
-_JPGRAPH_FONT_FACE=2
-_JPGRAPH_FONT_STYLE=9002
-# Font face and style values for JpGraph graphs. For possible values, see
-# $_JPGRAPH_DIR/src/jpgraph.php (specifically, the FF_ and FS_ defines).
 
 # ----------------------------------------------------------------------
 
