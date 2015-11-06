@@ -16,7 +16,7 @@ if ($maintenance)
 
 function abort_if_in_maintenance_mode()
 {
-    global $maintenance, $pguser, $site_name;
+    global $maintenance, $maintenance_message, $pguser, $site_name;
 
     if ($maintenance)
     {
@@ -24,6 +24,8 @@ function abort_if_in_maintenance_mode()
         {
             $title = sprintf(_("%s Maintenance"),$site_name);
             $message = _("We are currently performing maintenance on the server.  Please be patient, we should have the site back up and running shortly.");
+            if($maintenance_message)
+                $message .= "<br>$maintenance_message";
             slim_header($title);
             echo "<center><h2>";
             if (isset($pguser))

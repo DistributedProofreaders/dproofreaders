@@ -367,11 +367,15 @@ _TESTING=TRUE
 #     copy of the message that would have been sent. See pinc/maybe_mail.inc.
 # (2) metarefresh delays by 15 seconds.
 
-_MAINTENANCE=0
-# So far, setting this to TRUE prevents the front page from loading
-# (displaying a 'back soon' message) for anyone but admins;
-# but bookmarks to interior pages are still live for everyone.
-# (So maybe not that useful.)
+_MAINTENANCE=FALSE
+# Setting this to TRUE prevents pages from loading for anyone but already-
+# authenticated site admins and shows a "site down for maintenance" message.
+
+_MAINTENANCE_MESSAGE=
+# If set, this *additional* message will be displayed to the user when the
+# site is in maintenance mode. It can contain HTML (such as links to a blog
+# or some other site giving status on the maintenance) but must not contain
+# single quotes (').
 
 _METADATA=FALSE
 # This is a flag to allow the still-developing metadata functionality
