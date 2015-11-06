@@ -267,8 +267,8 @@ assuming it isn't already.
                 -- DP Site Code
 
 --- Unpack the DP code.
-        Somewhere within your server's document hierarchy (possibly, though not
-        necessarily, in the document root) unpack the DP code.
+        Somewhere within your web server's document hierarchy (possibly,
+        though not necessarily, in the document root) unpack the DP code.
         This expands into a directory named 'c'.
 
 --- Create other directories.
@@ -313,18 +313,26 @@ assuming it isn't already.
         for more details.
 
 --- Configure the DP code (with site-specific settings).
-        Make an editable copy of c/SETUP/configuration.sh,
-        and put it outside your webserver's document hierarchy.
-        (Or move out the whole SETUP directory, at the end of this step.)
-        Modify your copy of configuration.sh as appropriate.
-        (Any further help you need should be in the file itself rather than here.)
-        Run c/SETUP/configure path-to-modified-configuration.sh path-to-code-dir
+        Make an editable copy of c/SETUP/configuration.sh, and put it outside
+        your webserver's document hierarchy.
+
+        Modify your copy of configuration.sh as appropriate. Details about each
+        parameter are included in configuration.sh.
+
+        Run:
+            c/SETUP/configure path-to-modified-configuration.sh path-to-code-dir
         The configure script will use your modified configuration.sh to update
         the DP code with your site-specific settings.
 
 --- Create the tables of the DP database.
         cd c/SETUP
         php -f install_db.php
+
+--- Move SETUP directory outside your webserver's document hierarchy.
+        The c/SETUP/ directory is only needed for site configuration. As a
+        security measure, move it out of your webserver's document hierarchy.
+        Don't delete it as you may want to use its contents again to
+        reconfigure the site.
 
 --- At this point, your DP site should be functional.
         Try visiting it via your browser.
