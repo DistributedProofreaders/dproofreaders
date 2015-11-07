@@ -1,11 +1,19 @@
-# Make an editable copy of this file, put it *outside* your
+# DP site configuration script
+# ======================================================================
+
+# This script is used to configure the DP site code.
+# Make an editable copy of this file, put it *outside* your web
 # server's doc root, and edit that file to configure your DP system.
-# ----------------------------------------------------------------------
 
 # Set this file's variables to values that are appropriate for your
 # system. In some cases, the setting that already appears here may
 # be satisfactory. However, you will definitely need to change any value
 # that refers to 'example.org', and any value that's a password.
+
+# SECURITY WARNING:
+# Because this file will contain various passwords, you should be
+# careful not to allow it to be seen by unprivileged users. In
+# particular, don't put it (or leave it) under your server's doc root.
 
 # This file (or rather, your edited copy of it) is sourced by the scripts
 # 'update_from_sf' and 'configure'.  Those are Bourne Shell scripts,
@@ -18,50 +26,121 @@
 # value.) This is unlikely to be a problem outside the "Identifying
 # the Site" section.
 
-# Security:
-#
-# Because this file will contain various passwords, you should be
-# careful not to allow it to be seen by unprivileged users. In
-# particular, don't put it (or leave it) under your server's doc root.
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-# ----------------------------------------------------------------------
+# Database access
+# ---------------
 
-# $TAG is the git branch or tag to extract files from the repository.
-TAG=master
+# These parameters specify database connection and configuration settings.
+# See SETUP/installation.txt for instructions on how to create the database
+# and user.
 
-# $GROUP is the name of the group that will group-own the files.
-GROUP=$USER
+_DB_SERVER=localhost
+_DB_USER=PICK_A_USER_NAME
+_DB_PASSWORD=PICK_A_HARD_PASSWORD
+_DB_NAME=PICK_A_DB_NAME
+_ARCHIVE_DB_NAME=PICK_ANOTHER_DB_NAME
 
-# $SHIFT_TO_LIVE should be 'yes', 'no', or 'prompt'.
-# If it's 'yes', or it's 'prompt' and the user answers 'y',
-# then $_CODE_DIR.new will be moved to $_CODE_DIR.
-# If that directory already exists, it will first be renamed as
-#     $_CODE_DIR.bak
-# and if *that* directory already exists, it will be REMOVED.
-SHIFT_TO_LIVE=prompt
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-# ----------------------------------------------------------------------
+# File and URL locatios
+# -----------------------------
+
+# We don't require a particular arrangement of directories configured in
+# this file, but we've found it convenient to make most of them siblings
+# (children of a base directory), so the following code is slanted in that
+# direction: if you choose to use this layout, then you only need to set
+# $base_dir and $base_url, and most of the _DIR/_URL variables
+# will be set accordingly.
+base_dir=/home/$USER/public_html
+base_url=http://www.example.org/~$USER
 
 # For a variable whose name ends in _DIR, the value should be an absolute path
 # to a directory in the local file system.
 # For a variable whose name ends in _URL, the value should be an absolute URL.
 # For a DIR/URL pair, the URL should resolve to the DIR.
-#
-# We don't require a particular arrangement of these directories, but
-# we've found it convenient to make most of them siblings (children of
-# a base directory), so the following code is slanted in that direction:
-# if you choose to use this layout, then you only need to set
-# $base_dir and $base_url, and most of the _DIR/_URL variables
-# will be set accordingly.
-#
-base_dir=/home/$USER/public_html
-base_url=http://www.example.org/~$USER
+
+# ----------------------------------------------------------------------
+
+# Code location and URL access
+# ----------------------------
 
 _CODE_DIR=$base_dir/c
 _CODE_URL=$base_url/c
 # The location where the code was installed.
-# (It corresponds to 'dp-devel' in the CVS repository,
+# (It corresponds to the root directory in the git repository
 # and should contain directories such as 'pinc' and 'tools'.)
+
+_DYN_DIR=$base_dir/d
+_DYN_URL=$base_url/d
+# This directory houses two classes of DP-related files that must be
+# readable and writeable by the web server.
+#
+# Optional user-supplied files:
+# (They don't have to exist, but the code will use them if they do.)
+#
+# --- $_DYN_DIR/stage_icons/$stage_id.jpg
+#         A small image to use as an icon for a given stage.
+#         (Currently only used on the activity hub.)
+#         $stage can be the id of any stage (i.e., round or pool).
+#         
+# --- $_DYN_DIR/header_images/$stage_id.jpg
+#         An image to show at the top of a given site-page.
+#
+# --- $_DYN_DIR/news_header_images/$page.jpg
+#         An image to show at the top of the "news" section of a given
+#         site-page. $page can be FRONT, HUB, FAQ, STATS, or a stage-id.
+#
+#
+# Files created by the code:
+#
+# --- $_DYN_DIR/download_tmp/*_images.zip
+#         Image zips, temporarily available for download.
+#
+# --- $_DYN_DIR/locale/
+#         For the purposes pf 'gettext', this directory is bound to the
+#         'messages' domain.
+#
+# --- $_DYN_DIR/pg/catalog.rdf
+#         The current PG catalog, obtained from the PG site.
+#
+# --- $_DYN_DIR/stats/automodify_logs/*.txt
+#         Logs of runs of automodify.php
+#
+# --- $_DYN_DIR/stats/faq_data.inc
+#         Generated PHP code that defines the $faq_data array.
+#
+# --- $_DYN_DIR/teams/avatar/*
+# --- $_DYN_DIR/teams/icon/*
+#         Avatar and icon images for teams.
+#
+# --- $_DYN_DIR/xmlfeeds/*.xml
+#         News feeds for the site.
+
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# phpBB forum configuration
+# -------------------------
+
+# The DP code requires phpBB for authentication. phpBB versions 2.x and 3.0
+# are currently supported.
+
+_PHPBB_VERSION=2
+# Valid values: 2 (for phpBB 2.x) and 3 (for phpBB 3.0.x)
+
+_PHPBB_TABLE_PREFIX=phpbb
+# Upon installation, phpBB tables are prefixed with a specific string.
+# The DP code needs to know what this prefix is in order to access the
+# tables directly.
+#
+# If you have installed the phpBB tables in their own database, include
+# the database name and the prefix here. For example, if the phpBB
+# were using the 'phpbb3db' database and a prefix of 'phpbb', set this
+# value to phpbb3db.phpbb
+
+_FORUMS_DIR=$base_dir/phpBB2
+_FORUMS_URL=$base_url/phpBB2
+# Locations of the phpBB code via filesystem path and URL.
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -146,6 +225,12 @@ _PROJECTS_URL=$base_url/projects
 #
 # The project directory also holds other files relating to the project.
 
+_ARCHIVE_PROJECTS_DIR=$base_dir/archive
+
+# After projects are completed, they are eventually archived to a separate
+# database and project directory. This specifies where the project files
+# are archived to. See also: _ARCHIVE_DB_NAME
+
 # ----------------------------------------------------------------------
 
 _EXTERNAL_CATALOG_LOCATOR='z3950.loc.gov:7090/Voyager'
@@ -163,7 +248,7 @@ _EXTERNAL_CATALOG_LOCATOR='z3950.loc.gov:7090/Voyager'
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # Proofreading Projects
-# -----------------
+# ---------------------
 
 _PRECEDING_PROOFER_RESTRICTION=not_immediately_preceding
 
@@ -230,25 +315,23 @@ _WIKIHIERO_URL=$base_url/wikihiero
 # Communication/Discussion
 # ------------------------
 
-_BLOG_URL=URL_OF_YOUR_BLOG
+_NO_REPLY_EMAIL_ADDR=no-reply@example.org
+# Email address to use on outgoing emails when no response is expected.
 
+_GENERAL_HELP_EMAIL_ADDR=dphelp@example.org
+_DB_REQUESTS_EMAIL_ADDR=db-requests@example.org
+_PPV_REPORTING_EMAIL_ADDR=ppv-reports@example.org
+_PROMOTION_REQUESTS_EMAIL_ADDR=dp-promote@example.org
+_IMAGE_SOURCES_EMAIL_ADDR=ism@example.org
+# These addresses are used in various places for users to request help
+# These can be set to any working email address.
+
+_BLOG_URL=
 _WIKI_URL=$base_url/wiki
-
 # If there's a wiki or a blog that you want your users to use, set the
 # above variables to their URLs and links will appear on the navigation
-# bar. If you don't have a blog or wiki, set either of both of them to
+# bar. If you don't have a blog or wiki, set either or both of them to
 # the empty string, and they won't appear in the navigation bar.
-
-# ----------------------------------------------------------------------
-
-# Certain parts of the DP code assume that you have phpBB (or something
-# pretty similar) installed.
-
-_PHPBB_VERSION=2
-_PHPBB_TABLE_PREFIX=phpbb
-
-_FORUMS_DIR=$base_dir/phpBB2
-_FORUMS_URL=$base_url/phpBB2
 
 _FORUMS_TEAMS_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
 # Each team gets an automatically-created discussion topic in this forum
@@ -278,62 +361,6 @@ _AUTO_POST_TO_PROJECT_TOPIC=FALSE
 # Miscellaneous
 # -------------
 
-_PHP_CLI_EXECUTABLE=/usr/local/bin/php
-# The location of the command-line version of PHP.
-# We use this in SETUP/dp.cron for some cron jobs,
-# and in pinc/forum_interface.inc to invoke some phpBB functions
-# without including the phpBB namespace into ours.
-
-# ----------------------------------------------------------------------
-
-_DYN_DIR=$base_dir/d
-_DYN_URL=$base_url/d
-
-# This directory houses two classes of DP-related files...
-#
-# Optional user-supplied files:
-# (They don't have to exist, but the code will use them if they do.)
-#
-# --- $_DYN_DIR/stage_icons/$stage_id.jpg
-#         A small image to use as an icon for a given stage.
-#         (Currently only used on the activity hub.)
-#         $stage can be the id of any stage (i.e., round or pool).
-#         
-# --- $_DYN_DIR/header_images/$stage_id.jpg
-#         An image to show at the top of a given site-page.
-#
-# --- $_DYN_DIR/news_header_images/$page.jpg
-#         An image to show at the top of the "news" section of a given
-#         site-page. $page can be FRONT, HUB, FAQ, STATS, or a stage-id.
-#
-#
-# Files created by the code:
-#
-# --- $_DYN_DIR/download_tmp/*_images.zip
-#         Image zips, temporarily available for download.
-#
-# --- $_DYN_DIR/locale/
-#         For the purposes pf 'gettext', this directory is bound to the
-#         'messages' domain.
-#
-# --- $_DYN_DIR/pg/catalog.rdf
-#         The current PG catalog, obtained from the PG site.
-#
-# --- $_DYN_DIR/stats/automodify_logs/*.txt
-#         Logs of runs of automodify.php
-#
-# --- $_DYN_DIR/stats/faq_data.inc
-#         Generated PHP code that defines the $faq_data array.
-#
-# --- $_DYN_DIR/teams/avatar/*
-# --- $_DYN_DIR/teams/icon/*
-#         Avatar and icon images for teams.
-#
-# --- $_DYN_DIR/xmlfeeds/*.xml
-#         News feeds for the site.
-
-# ----------------------------------------------------------------------
-
 _JPGRAPH_DIR=$base_dir/jpgraph
 # The location of the jpgraph installation.
 # The DP code can make efficient use of the jpgraph cache if configured.
@@ -347,22 +374,6 @@ _JPGRAPH_FONT_STYLE=9002    # FS_BOLD
 # changing these to one of those fonts and FS_NORMAL will give much better
 # looking graphs.
 
-
-_DB_SERVER=localhost
-_DB_USER=PICK_A_USER_NAME
-_DB_PASSWORD=PICK_A_HARD_PASSWORD
-_DB_NAME=PICK_A_DB_NAME
-_ARCHIVE_DB_NAME=PICK_ANOTHER_DB_NAME
-
-_ARCHIVE_PROJECTS_DIR=$base_dir/archive
-
-_NO_REPLY_EMAIL_ADDR=no-reply@example.org
-_GENERAL_HELP_EMAIL_ADDR=dphelp@example.org
-_DB_REQUESTS_EMAIL_ADDR=db-requests@example.org
-_PPV_REPORTING_EMAIL_ADDR=ppv-reports@example.org
-_PROMOTION_REQUESTS_EMAIL_ADDR=dp-promote@example.org
-_IMAGE_SOURCES_EMAIL_ADDR=ism@example.org
-
 _USE_PHP_SESSIONS=TRUE
 # If set to TRUE, PHP sessions are used to track user preferences, etc;
 # if FALSE, the original DP cookie system is used.
@@ -370,7 +381,7 @@ _USE_PHP_SESSIONS=TRUE
 _COOKIE_ENCRYPTION_KEY=A_LONG_STRING_OF_GIBBERISH
 # You only need to define this if $_USE_PHP_SESSIONS is FALSE.
 
-_TESTING=TRUE
+_TESTING=FALSE
 # So far, the effects of setting this to TRUE are:
 # (1) It prevents email messages from being sent. Instead, the site shows a
 #     copy of the message that would have been sent. See pinc/maybe_mail.inc.
@@ -401,38 +412,98 @@ _ORDINARY_USERS_CAN_SEE_QUEUE_SETTINGS=TRUE
 # earlier.)
 
 _CHARSET='ISO-8859-1'
-# The charset used by the site, which is applied to all
-# relevant pages on the site
+# The charset used by the site, which is applied to all relevant pages on the
+# site. Note that changing this to UTF-8 will *not* automatically make the
+# site UTF-8 compatible. Changing this may have wide-reaching implications.
 
 _WRITEBIGTABLE=TRUE
 _READBIGTABLE=FALSE
 # For staged transition to all-in-one project_pages table.
 
-
-_XGETTEXT_EXECUTABLE=/usr/bin/xgettext
-# The location of xgettext executable.
-
 _GETTEXT_LOCALES_DIR=/usr/share/locale
 # The system's locale directory.  Usually /usr/share/locale
 
-# ----------------------------------------------------------------------
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-# Automatically determine an installed program to dump the contents of
-# a URL. The program is then used in SETUP/dp.cron
-# Attempt to find: wget, curl, lynx
-program_test=`which wget`
-if [ $? -eq 0 ]; then
-    _URL_DUMP_PROGRAM="$program_test --quiet -O-"
-else
-    program_test=`which curl`
+# Development and Deployment parameters
+# -------------------------------------
+
+# These settings specify how code is pulled from source control and
+# deployed on this server. If you are installing a released package
+# and not pulling from source control, you can ignore this section.
+
+# $TAG is the git branch or tag to extract files from the repository.
+TAG=master
+
+# $GROUP is the name of the group that will group-own the files.
+GROUP=$USER
+
+# $SHIFT_TO_LIVE should be 'yes', 'no', or 'prompt'.
+# If it's 'yes', or it's 'prompt' and the user answers 'y',
+# then $_CODE_DIR.new will be moved to $_CODE_DIR.
+# If that directory already exists, it will first be renamed as
+#     $_CODE_DIR.bak
+# and if *that* directory already exists, it will be REMOVED.
+SHIFT_TO_LIVE=prompt
+
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# Automatic executable detection
+# ------------------------------
+
+# The system relies on several standard executables. This section attempts
+# to automatically determine where they are and configure them. If the
+# system is unable to determine one when one is required, it will output
+# and error message and die with instructions on how to fix it.
+
+# The location of the command-line version of PHP.
+# We use this in pinc/forum_interface.inc to invoke some phpBB functions
+# without including the phpBB namespace into ours.
+_PHP_CLI_EXECUTABLE=
+if [ ! -x "$_PHP_CLI_EXECUTABLE" ]; then
+    program_test=`which php`
     if [ $? -eq 0 ]; then
-        _URL_DUMP_PROGRAM="$program_test --silent"
+        _PHP_CLI_EXECUTABLE=$program_test
     else
-        program_test=`which lynx`
+        echo "ERROR: Unable to find command-line version of PHP."
+        echo "       Edit the configuration file and set _PHP_CLI_EXECUTABLE."
+        exit 1
+    fi
+fi
+
+# The location of xgettext executable.
+_XGETTEXT_EXECUTABLE=
+if [ ! -x "$_XGETTEXT_EXECUTABLE" ]; then
+    program_test=`which xgettext`
+    if [ $? -eq 0 ]; then
+        _XGETTEXT_EXECUTABLE=$program_test
+    else
+        echo "WARNING: Unable to find xgettext, site translation functionality"
+        echo "         may be limited."
+    fi
+fi
+
+# Automatically determine an installed program (with parameters) to dump
+# the contents of a URL. The program is then used in SETUP/dp.cron.
+_URL_DUMP_PROGRAM=
+if [ "$_URL_DUMP_PROGRAM" == "" ]; then
+    # No program explicitly specified, attempt to find: wget, curl, lynx
+    program_test=`which wget`
+    if [ $? -eq 0 ]; then
+        _URL_DUMP_PROGRAM="$program_test --quiet -O-"
+    else
+        program_test=`which curl`
         if [ $? -eq 0 ]; then
-            _URL_DUMP_PROGRAM="$program_test -source"
+            _URL_DUMP_PROGRAM="$program_test --silent"
         else
-            _URL_DUMP_PROGRAM="echo No program configured to dump URLs, requested:"
+            program_test=`which lynx`
+            if [ $? -eq 0 ]; then
+                _URL_DUMP_PROGRAM="$program_test -source"
+            else
+                echo "ERROR: No program found to dump URLs."
+                echo "       Edit the configuration file and set _URL_DUMP_PROGRAM."
+                exit 1
+            fi
         fi
     fi
 fi
