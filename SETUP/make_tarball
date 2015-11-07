@@ -31,11 +31,11 @@ $script_dir/get_git_clone $tag $group $tmpdir/c
 
 echo
 echo "Creating tarball..."
-tar --create --gzip --file=$creation_base.tgz --directory=$tmpdir c
+tar --create --gzip --file=$creation_base.tgz --directory=$tmpdir --exclude=c/.git\* c
 
 echo
 echo "Creating zip..."
-(cd $tmpdir && zip -q -r - c ) > $creation_base.zip
+(cd $tmpdir && zip -q -r --exclude=c/.git\* - c ) > $creation_base.zip
 
 echo
 echo "Removing snapshot..."
