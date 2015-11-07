@@ -9,7 +9,7 @@
 
 # This file (or rather, your edited copy of it) is sourced by the scripts
 # 'update_from_sf' and 'configure'.  Those are Bourne Shell scripts,
-# so you can use any syntax that /bin/sh allows.  However, in typical
+# so you can use any syntax that /bin/bash allows.  However, in typical
 # usage, you would merely assign literal values to shell variables.
 
 # Bug/limitation: if a variables value contains an apostrophe, the
