@@ -384,11 +384,20 @@ newer release of the DP code.
     This creates a new 'c' hierarchy.
 
 --- Configure the new DP code (with site-specific settings).
-    (Follow the instructions given above in the 'Installing from scratch'
+    Follow the instructions given above in the 'Installing from scratch'
     section. Note that the modified configuration.sh that you used to
     configure your old code is probably not sufficient to configure the
     new code; however, it does have lots of settings that you should carry
-    forward to the new config file.)
+    forward to the new config file.
+
+    You can use import_old_configuration.php to import values from your old
+    configuration file into the new one included with with this distribution.
+    Use it like:
+        c/SETUP/import_old_configuration.php \
+            old_config_file.sh c/SETUP/configuration.sh > new_config_file.sh
+    The script will notify you of parameters in the old configuration file
+    that are no longer used in the new one, as well as new parameters in
+    configuration.sh that you will want to take a closer look at.
 
 --- Upgrade your database schema and data.
     This involves running lots of PHP scripts from the command-line.
