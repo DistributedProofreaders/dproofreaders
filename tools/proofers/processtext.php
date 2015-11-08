@@ -56,10 +56,13 @@ if (isset($_POST['rerunauxlanguage'])) {$tbutton=104;} // Spellcheck against ano
 // set prefs
 if ($userP['i_type']==1)
 {
-    $fntFace = $_POST['fntFace'];
-    $fntSize = $_POST['fntSize'];
-    $zmSize  = $_POST['zmSize'];
-
+    if(isset($_POST['fntFace']))
+        $fntFace = $_POST['fntFace'];
+    if(isset($_POST['fntSize']))
+        $fntSize = $_POST['fntSize'];
+    if(isset($_POST['zmSize']))
+        $zmSize  = $_POST['zmSize'];
+    
     $isChg=0;
     if ($userP['i_layout']==1)
     {
@@ -157,6 +160,7 @@ switch( $tbutton )
         // here we unset it before beginning, just in case
         unset($_SESSION[$wcTempCorrections]);
 
+        $is_changed = 0;
         include('spellcheck.inc');
         break;
 
@@ -262,6 +266,7 @@ switch( $tbutton )
             $corrections = array_merge($_SESSION[$wcTempCorrections], $corrections);
         $_SESSION[$wcTempCorrections] = $corrections;
 
+        $is_changed = $_POST['is_changed'];
         include('spellcheck.inc');
         break;
 

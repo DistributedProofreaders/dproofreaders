@@ -109,7 +109,7 @@ if ($userP['i_type']==1) {
     $revert_text = str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$revert_text);
 
     echo "<input type='hidden' name='revert_text' value='" . html_safe($revert_text) . "'>\n";
-    echo "<input type='hidden' id='is_changed' name='is_changed' value='0'>\n";
+    echo "<input type='hidden' id='is_changed' name='is_changed' value='$is_changed'>\n";
     echo "<input type='hidden' id='accepted_words' name=\"accepted_words\" value='" 
         . html_safe(implode(' ',$accepted_words)) . "'>\n";
     echo "<input type='hidden' id='is_header_visible' name=\"is_header_visible\" value='$is_header_visible'>\n";
@@ -238,6 +238,10 @@ if ($userP['i_type']==1) {
             id="spsaveandnext"
             value="<?php echo attr_safe(_("Save as 'Done' & Proof Next Page")); ?>"
             title="<?php echo attr_safe(_("Save page as done and proofread the next available page")); ?>"
+<?php
+    if($is_changed)
+        echo "            disabled\n";
+?>
         >
     </td>
 </tr>
