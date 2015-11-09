@@ -159,6 +159,7 @@ function draw_pages_graph(
     $graph->yaxis->title->Set(_('Pages'));
     $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
     $graph->yaxis->SetTitleMargin(45);
+    $graph->yaxis->scale->SetAutoMin(0);
 
     // Create the plot for actual pages
     // Note we can't draw line graphs with only one point
@@ -190,7 +191,9 @@ function draw_pages_graph(
         $pages_plot->SetLegend(_("Actual"));
 
         $graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
-        $graph->legend->Pos(0.05,0.5,"right" ,"top");
+        $graph->legend->SetPos(0.15, 0.65, "left", "bottom");
+        $graph->legend->SetColumns(1);
+        $graph->legend->SetShadow();
     }
 
     if (!is_null($y_page_goal))
@@ -404,6 +407,8 @@ function draw_pie_graph(
 
     $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
     $graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->legend->SetColumns(1);
+    $graph->legend->SetShadow();
 
     add_graph_timestamp($graph);
 

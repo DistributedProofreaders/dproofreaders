@@ -72,9 +72,11 @@ $graph->title->Set(_("Total Projects Created, Proofread, Post-Processed and Post
 $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
-$graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
 
-$graph->legend->Pos(0.15,0.1,"left" ,"top"); //Align the legend
+$graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
+$graph->legend->SetPos(0.1, 0.1, "left", "top"); //Align the legend
+$graph->legend->SetColumns(1);
+$graph->legend->SetShadow();
 
 add_graph_timestamp($graph);
 

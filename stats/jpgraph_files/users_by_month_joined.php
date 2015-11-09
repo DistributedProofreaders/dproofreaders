@@ -94,7 +94,8 @@ $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->yaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 $graph->xaxis->title->SetFont($jpgraph_FF,$jpgraph_FS);
 
-$graph->legend->Pos(0.15,0.1,"left" ,"top"); //Align the legend
+$graph->legend->SetPos(0.15,0.1,"left" ,"top"); //Align the legend
+$graph->legend->SetColumns(1);
 
 add_graph_timestamp($graph);
 
