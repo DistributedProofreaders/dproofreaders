@@ -190,7 +190,7 @@ function draw_pages_graph(
         // Add a legend for the 'actual' plot.
         $pages_plot->SetLegend(_("Actual"));
 
-        $graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
+        $graph->legend->SetFont($jpgraph_FF, $jpgraph_FS, 9);
         $graph->legend->SetPos(0.15, 0.65, "left", "bottom");
         $graph->legend->SetColumns(1);
         $graph->legend->SetShadow();
