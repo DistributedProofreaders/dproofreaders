@@ -78,11 +78,11 @@ function _update_user_activity_time( $update_login_time_too )
 {
     global $pguser;
 
-	$settings = "t_last_activity=UNIX_TIMESTAMP()";
-	if ( $update_login_time_too )
-	{
-		$settings = "$settings, last_login=UNIX_TIMESTAMP()";
-	}
+    $settings = "t_last_activity=UNIX_TIMESTAMP()";
+    if ( $update_login_time_too )
+    {
+        $settings = "$settings, last_login=UNIX_TIMESTAMP()";
+    }
 
     mysql_query("
         UPDATE users
