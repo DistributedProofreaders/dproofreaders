@@ -484,14 +484,14 @@ function do_rename()
 
 function do_showmove()
 {
-    global $uploads_dir, $commons_dir, $users_dir, $curr_abspath, $curr_relpath;
+    global $uploads_dir, $commons_dir, $users_dir, $curr_abspath, $curr_relpath, $home_path;
 
     // NOTE: 'move' is a special case of 'rename' and could be coded as such
     // However, since we only want to allow the user to move a file to a valid
     // user directory, we should probably generate a <SELECT><OPTION>... control
     // from the names of directories in /home/dpscans/
 
-    $page_title =  _("Move a file to another user's folder");
+    $page_title =  _("Move a file to another folder");
     theme($page_title, "header");
     echo "<h1>$page_title</h1>\n";
 
@@ -499,15 +499,24 @@ function do_showmove()
     // This is used to identify the "target user"
     // (Which really means that user's directory).
     $valid_target_dirs = searchdir($users_dir, 1, "DIRS");
-    // Remove first element (which is $uploads_dir itself)
+    // Remove first element (which is $users_dir itself)
     unset($valid_target_dirs[0]);
+
+    // Get all subdirectories in the user's home directory
+    $user_subdirs = searchdir($home_path, 2, "DIRS");
+    // Remove first element (which is $home_path itself)
+    unset($user_subdirs[0]);
+    $valid_target_dirs = array_merge($valid_target_dirs, $user_subdirs);
+    natcasesort($valid_target_dirs);
+
     // Allow users to tranfer files to Commons too
-    array_unshift($valid_target_dirs, $commons_dir);
+    if(!in_array($commons_dir, $valid_target_dirs))
+        array_unshift($valid_target_dirs, $commons_dir);
 
     $item_name = @$_POST['item_name'];
     confirm_is_local_file($item_name);
 
-    $form_content  = "<p>"._("Select the folder of the user who should receive this file:")."&nbsp;";
+    $form_content  = "<p>"._("Select the folder that should receive this file:")."&nbsp;";
     $form_content .= "<select name='target_dir'>\n";
 
     foreach($valid_target_dirs as $full_dir) {
@@ -688,10 +697,13 @@ function is_subdir_of_home($dir)
 // May the user move files to the specified relative directory?
 function is_valid_move_destination($dir)
 {
-    global $commons_rel_dir, $users_rel_dir;
+    global $commons_rel_dir, $users_rel_dir, $home_dirname;
 
     // Users may move files to the commons directory
     if ($dir == $commons_rel_dir) return True;
+
+    // Users may move to subdirectories in their own directory
+    if (strpos($dir, "$home_dirname/") === 0) return True;
 
     // Users may not move files anywhere else except the Users dir.
     if (strpos($dir, "$users_rel_dir/") !== 0) return False;
