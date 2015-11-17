@@ -846,7 +846,9 @@ function show_content()
             echo "
             <tr>
                 <th class='actions'>$actions_blurb</th>
-                <td colspan='3'><img src='wfb_images/wfb_directory.gif'>&nbsp;<a href='$url'>$hce_item_name&#47;</a></td>
+                <td><img src='wfb_images/wfb_directory.gif'>&nbsp;<a href='$url'>$hce_item_name&#47;</a></td>
+                <td align='left'><span style='font-family: monospace!important;'>".date ('d-M-Y H:i:s', filemtime($item_path))."</span></td>
+                <td></td>
             </tr>
             ";
         }
