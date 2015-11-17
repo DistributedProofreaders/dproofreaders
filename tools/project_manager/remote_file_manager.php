@@ -1108,10 +1108,17 @@ function show_form($action, $cdrp, $form_content, $submit_label)
 
 function show_caveats()
 {
-    echo "<style type='text/css'>\nli { line-height:100%!important; font-size:90%; }\n</style>\n";
+    $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
+    $max_post_size = humanize_bytes(return_bytes(ini_get("post_max_size")));
+
     echo "<p><b>" . _("Current file and directory management features:") . "</b></p>\n";
     echo "<ul>\n";
-    echo "<li>" . _("Upload files into your user folder. <i>Files are tested for validity and AV scanned.</i>") . "</li>\n";
+    echo "<li>" . _("Upload files into your user folder.") . "\n";
+    echo "<ul>\n";
+    echo   "<li>" . sprintf(_("Maximum file size is %s. Files larger than %s will fail silently."), $max_upload_size, $max_post_size) . "</li>\n";
+    echo   "<li>" . _("Files are tested for validity and scanned for viruses.") . "</li>\n";
+    echo "</ul>";
+    echo "</li>\n";
     echo "<li>" . _("Download files from your user folder.") . "</li>\n";
     echo "<li>" . _("Delete files in your user folder.") . "</li>\n";
     echo "<li>" . _("Delete folders in your user folder.") . "</li>\n";
@@ -1159,6 +1166,18 @@ function is_valid_filename($filename, $restrict_extension=False)
 
     // The filename is valid if the regexp matches exactly once.
     return preg_match($regexp, $filename) == 1;
+}
+
+function return_bytes($size_str)
+// from http://php.net/manual/en/function.ini-get.php
+{
+    switch (substr($size_str, -1))
+    {
+        case 'M': case 'm': return (int)$size_str * 1048576;
+        case 'K': case 'k': return (int)$size_str * 1024;
+        case 'G': case 'g': return (int)$size_str * 1073741824;
+        default: return $size_str;
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
