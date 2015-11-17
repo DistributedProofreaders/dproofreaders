@@ -993,7 +993,7 @@ function do_early_uploads()
         echo "<input type='hidden' name='project' value='$projectid'>\n";
             echo _("Add/Replace text and images from directory or zip file:");
             echo "<br>\n";
-            $initial_rel_source = "$user_dir/";
+            $initial_rel_source = "Users/$user_dir/";
             echo "~$uploads_account/ <input type='text' name='rel_source' size='50' value='$initial_rel_source'>";
         echo "<br>\n";
         echo "<p>\n";
