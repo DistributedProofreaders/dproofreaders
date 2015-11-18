@@ -75,6 +75,14 @@ If you're upgrading from a previous version, see the upgrade section.
 When we say to install and/or configure some third-party software, that's
 assuming it isn't already.
 
+--- Install a web server.
+        Any web server that supports PHP should work, although all testing has
+        been done using Apache 2. All known deployments, including pgdp.net,
+        are using Apache 2 as well.
+
+        See apache2.conf.example for an example Apache config file, including
+        examples on enabling page compression and caching.
+
 --- Install PHP.
         Enable GD (for jpgraph) if you want dynamically-generated graphs.
         Enable YAZ if you want to be able to do external catalog searches when
