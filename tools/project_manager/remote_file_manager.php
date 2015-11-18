@@ -221,7 +221,7 @@ function do_showupload()
     global $pguser, $autoprefix_message;
 
     $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.).<br> The file should have the .zip extension, NOT .Zip, .ZIP, etc.<br>The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen.");
-    $submit_blurb = _("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
+    $submit_blurb = sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), _("Upload"));
 
     $page_title =  sprintf( _("Upload a file to folder %s"), $hce_curr_displaypath );
     theme($page_title, "header");
@@ -232,8 +232,9 @@ function do_showupload()
         $form_content .= get_message('info', $autoprefix_message);
     }
     $form_content .= "<p style='margin-top: 0em;'>$standard_blurb</p>\n";
+    $form_content .= "<p>$submit_blurb</p>\n";
     $form_content .= _("File to upload:") . "&nbsp;";
-    $form_content .= "<input type='file' name='the_file' size='25' maxsize='50'>";
+    $form_content .= "<input type='file' name='the_file' size='50' maxsize='50'>";
 
     show_form(
         'upload',
@@ -241,9 +242,6 @@ function do_showupload()
         $form_content,
         _("Upload")
     );
-
-    // Display the users directory listing
-//    show_content();
 
     show_return_link();
 }
@@ -277,19 +275,21 @@ function do_upload()
         fatal_error( get_upload_err_msg($file_info['error']) );
     }
 
+    show_message('info', _("File uploaded successfully."));
+
     if ($file_info['size'] == 0) {
         fatal_error( _("File is empty.") );
     }
 
     if (!is_valid_filename($file_info['name'], "zip")) {
-        fatal_error( _("Invalid filename.") );
+        fatal_error( sprintf(_("Invalid filename: %s."), $file_info['name']) );
         // (Alternatively, we could construct a name that *was* okay,
         // and use that instead.)
     }
 
     // Okay so far, now let's run some tests on the content of the file.
 
-    echo "<p>"._("Examining the uploaded file")."</p>\n";
+    echo "<p>"._("Examining the uploaded file...")."</p>\n";
     flush();
 
     $temporary_path = $file_info['tmp_name'];
@@ -318,7 +318,7 @@ function do_upload()
 
     // if an antivirus scanner is installed and configured, scan the file
     if($antivirus_executable) {
-        echo "<p>"._("Running a virus scan on the file")."</p>\n";
+        echo "<p>"._("Running a virus scan on the file, please wait...")."</p>\n";
         flush();
 
         // perform '$antivirus_executable -- <FILENAME>' and expect return
@@ -383,7 +383,7 @@ function do_showmkdir()
     theme($page_title, "header");
     echo "<h1>$page_title</h1>\n";
 
-    $form_content = _("Name of subfolder to create:") ."&nbsp;<input type='text' name='new_dir_name' size='25' maxsize='50'>";
+    $form_content = _("Name of subfolder to create:") ."&nbsp;<input type='text' name='new_dir_name' size='50' maxsize='50'>";
     show_form(
         'mkdir',
         $curr_relpath,
@@ -401,7 +401,7 @@ function do_mkdir()
     $new_dir_name = @$_POST['new_dir_name'];
 
     if (!is_valid_filename($new_dir_name)) {
-        fatal_error( _("Invalid folder name.") );
+        fatal_error( sprintf(_("Invalid folder name: %s."), $new_dir_name ));
     }
 
     // XXX For 'common' users, are new subfolders auto-prefixed with their username?
@@ -434,9 +434,9 @@ function do_showrename()
 
     $form_content = "<input type='hidden' name='item_name' value='" . hae($item_name) . "'>\n";
     $form_content .= sprintf(
-        _("Rename %s as %s"),
+        _("Rename <b>%s</b> as %s"),
         hce($item_name),
-        "<input type='text' name='new_item_name' size='25'>"
+        "<input type='text' name='new_item_name' size='50' value='" . hae($item_name) . "'>"
     );
 
     show_form(
@@ -461,7 +461,7 @@ function do_rename()
     $new_item_name = @$_POST['new_item_name'];
 
     if (!is_valid_filename($new_item_name)) {
-        fatal_error( _("Invalid new item name.") );
+        fatal_error( sprintf(_("Invalid new item name: %s."), $new_item_name) );
     }
 
     if ($new_item_name == $item_name) {
@@ -525,7 +525,8 @@ function do_showmove()
     $item_name = @$_POST['item_name'];
     confirm_is_local_file($item_name);
 
-    $form_content  = "<p>"._("Select the folder that should receive this file:")."&nbsp;";
+    $form_content  = _("<b>Warning:</b> Moving a file to another user cannot be undone.")."</p>";
+    $form_content .= "<p>"._("Select the folder that should receive this file:")."&nbsp;";
     $form_content .= "<select name='target_dir'>\n";
 
     foreach($valid_target_dirs as $full_dir) {
@@ -538,10 +539,9 @@ function do_showmove()
     $form_content .= "</select>\n";
     $form_content .= "<p><b>" . sprintf(
         _("Are you sure you want to move&nbsp;%s&nbsp;?"),
-        "<input type='text' name='item_name' size='25' maxsize='50' value='" . hae($item_name) . "' READONLY>"
+        "<input type='text' name='item_name' size='50' maxsize='50' value='" . hae($item_name) . "' READONLY>"
     ) . "</b>";
 
-    echo "<p><b>"._("Warning:")."</b> "._("Moving a file to another user cannot be undone.")."</p>";
     show_form(
         'move',
         $curr_relpath,
@@ -642,11 +642,11 @@ function do_showdelete()
         fatal_error( _("Unable to determine status of delete request.") );
     }
 
-    $form_content  = "<p style='margin-top: 0em;'><b>"._("Warning:")."</b> ";
-    $form_content .= _("Deletion is permanent and cannot be undone.")."<br> ";
-    $form_content .= _("This script does not check that folders are empty. ");
-    $form_content .= "<b>" . sprintf( $question_template,
-        "<input type='text' name='del_file' size='25' maxsize='50' value='" . hae($item_name) . "' READONLY>" ) . "</b>";
+    $form_content  = "<p style='margin-top: 0em;'>";
+    $form_content .= _("<b>Warning:</b> Deletion is permanent and cannot be undone.") . " ";
+    $form_content .= _("This script does not check that folders are empty.</p>");
+    $form_content .= "<p><b>" . sprintf( $question_template,
+        "<input type='text' name='del_file' size='50' maxsize='50' value='" . hae($item_name) . "' READONLY>" ) . "</b></p>";
 
     show_form(
         'delete',
