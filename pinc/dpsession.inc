@@ -78,16 +78,27 @@ function _update_user_activity_time( $update_login_time_too )
 {
     global $pguser;
 
-	$settings = "t_last_activity=UNIX_TIMESTAMP()";
-	if ( $update_login_time_too )
-	{
-		$settings = "$settings, last_login=UNIX_TIMESTAMP()";
-	}
+    $settings = "t_last_activity=UNIX_TIMESTAMP()";
+
+    // To avoid thrashing the users table by updating t_last_activity for
+    // every single page load, only update t_last_activity if it hasn't
+    // been updated in the last 5 minutes. This should result in reduced
+    // DB load while still giving the resolution on a user's activity
+    // that we want.
+    $additional_where = "AND t_last_activity <= UNIX_TIMESTAMP() - 60 * 5";
+
+    if ( $update_login_time_too )
+    {
+        $settings = "$settings, last_login=UNIX_TIMESTAMP()";
+
+        // If we're updating the login time, always run the query
+        $additional_where = "";
+    }
 
     mysql_query("
         UPDATE users
         SET $settings
-        WHERE username='$pguser'
+        WHERE username='$pguser' $additional_where
     ") or die(mysql_error());
 }
 

@@ -808,11 +808,33 @@ function show_birthdays()
 {
     global $theme, $site_abbreviation;
 
-    $result = mysql_query("
-        SELECT username,value
-        FROM usersettings
-        WHERE setting ='birthday_today'
-        ORDER BY CAST(value AS UNSIGNED) DESC");
+    $seconds_in_month = 30 * 24 * 60 * 60;
+
+    // Only show birthdays for members who have been active in the past
+    // $months_since_last_activity months.
+    $months_since_last_activity = 6;
+
+    // To ensure this query is fast, we base the times off of midnight today
+    // instead of time(). This ensures that the SQL we send is identical for
+    // every call of this function in a day. This allows the query to be
+    // efficiently cached in the MySQL query cache. We also take care not to
+    // use any functions that would prevent this query from being cached. See
+    // http://dev.mysql.com/doc/refman/5.1/en/query-cache-operation.html
+    $timestamp_at_midnight = mktime(0, 0, 0);
+    $oldest_activity = $timestamp_at_midnight -
+            ($months_since_last_activity * $seconds_in_month);
+
+    $sql = sprintf("
+        SELECT username, date_created
+        FROM users
+        WHERE
+            FROM_UNIXTIME(date_created, '%%m-%%d') = '%s'
+            AND t_last_activity > %s
+            AND date_created < %s
+        ORDER BY date_created DESC
+    ", strftime("%m-%d"), $oldest_activity, $timestamp_at_midnight);
+
+    $result = mysql_query($sql);
 
     if (mysql_num_rows($result) == 0)
         return;
@@ -822,8 +844,12 @@ function show_birthdays()
     echo "<div style='text-align: center; font-family: $theme[font_navbar];
         color: $theme[color_navbar_font];'>";
 
-    while ( list($username,$years) = mysql_fetch_row($result) )
+    $today = getdate(time());
+    while ( list($username, $date_created) = mysql_fetch_row($result) )
     {
+        $user_date = getdate($date_created);
+        $years = $today['year'] - $user_date['year'];
+
         echo "<font size='2'>$username ($years)</font><br />";
     }
 
