@@ -255,6 +255,11 @@ function do_upload()
 
     set_time_limit(14400);
 
+    // Disable gzip compression so we can flush the buffer after each step
+    // in the process to give the user some progress details. Not that this
+    // doesn't necessarily work for all browsers.
+    apache_setenv('no-gzip', '1');
+
     $file_info = @$_FILES['the_file'];
 
     // If a user hits the "Upload" button without first selecting a file,
@@ -285,6 +290,7 @@ function do_upload()
     // Okay so far, now let's run some tests on the content of the file.
 
     echo "<p>"._("Examining the uploaded file")."</p>\n";
+    flush();
 
     $temporary_path = $file_info['tmp_name'];
     // Assuming that TMPDIR or upload_tmp_dir is set sensibly,
@@ -312,6 +318,9 @@ function do_upload()
 
     // if an antivirus scanner is installed and configured, scan the file
     if($antivirus_executable) {
+        echo "<p>"._("Running a virus scan on the file")."</p>\n";
+        flush();
+
         // perform '$antivirus_executable -- <FILENAME>' and expect return
         // value = 0. we use -- to not parse any further arguments starting
         // with -/-- as options
@@ -1052,6 +1061,7 @@ function get_message($type, $message)
 function show_message($type, $message)
 {
     echo get_message($type, $message);
+    flush();
 }
 
 // Display a return link (to the 'showdir' view)
