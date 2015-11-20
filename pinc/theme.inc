@@ -831,7 +831,7 @@ function show_birthdays()
             FROM_UNIXTIME(date_created, '%%m-%%d') = '%s'
             AND t_last_activity > %s
             AND date_created < %s
-        ORDER BY date_created DESC
+        ORDER BY date_created ASC
     ", strftime("%m-%d"), $oldest_activity, $timestamp_at_midnight);
 
     $result = mysql_query($sql);
