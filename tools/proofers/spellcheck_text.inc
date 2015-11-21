@@ -16,6 +16,7 @@ include_once($relPath.'misc.inc');  // attr_safe(), javascript_safe()
 //     -- an array of messages (errors/warnings)
 //     -- an array of names of languages used.
 //
+
 function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $accepted_words ) {
 
     global $puncCharacters;
@@ -45,12 +46,13 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
 
     // ok, at this point we have a finalized list of bad words.
     // start preparing the page
-
+    $font_size_style = get_user_font_size();
     // define the styles used for the interface (highlight for the punctuation, AW button, etc)
     $returnString.="<style type='text/css'>" .
+                   " pre { $font_size_style } " .
                    "  .hl { background-color: yellow; color: black; }" .
                    "  img.aw { border: 0; margin-left: 5px; }" .
-                   "  .dpmono { font-family: DPCustomMono2,monospace; }" .
+                   "  .dpmono { font-family: DPCustomMono2,monospace; $font_size_style }" .
                    "  span.aw { background-color: white; color: black; }" .
                    "</style>";
     $returnString.="<pre>\n";
@@ -141,8 +143,8 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                     $onChange = " onBlur=\"disableAW('$wordID');\"";
                     $onChange.= " onKeyup=\"disableAW('$wordID');\"";
                 } else {
-                    $onChange = " onBlur=\"markPageChanged();\"";
-                    $onChange.= " onKeyup=\"markPageChanged();\"";
+                    $onChange = " onBlur=\"evaluateWordChange('$wordID');\"";
+                    $onChange.= " onKeyup=\"evaluateWordChange('$wordID');\"";
                 }
 
                 // create the edit box
@@ -170,6 +172,22 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
     $returnString.="<input id='sptotal' type='hidden' name='sptotal' value='$numBadWords'>";
 
     return array($returnString,$languages,$messages);
+}
+
+function get_user_font_size()  // logic copied from PPage.inc
+{
+    global $userP, $f_s;
+
+    if ( $userP['i_layout']==1 )   // "vertical"
+        $font_size_i = $userP['v_fnts'];
+    else   // "horizontal"
+        $font_size_i = $userP['h_fnts'];
+
+    $font_size = $f_s[$font_size_i];
+    if ( $font_size != '' && $font_size != BROWSER_DEFAULT_STR )
+        return ("font-size: $font_size;");
+    else
+        return "";
 }
 
 // adds HTML code to punctuation to highlight it
@@ -244,14 +262,23 @@ function spellcheck_echo_script()
 
         return false;
     }
+    
+    function isWordChanged(wordID) {
+        var input = document.getElementById("input_" + wordID);
+        return !(input && (input.value == input.defaultValue));
+    }
+
+    function evaluateWordChange(wordID) {
+        if (isWordChanged(wordID))
+            markPageChanged();
+    }
 
     // Disable a bad word's Unflag button
     function disableAW(wordID) {
-        var input = document.getElementById("input_" + wordID);
         var a = document.getElementById("a_" + wordID);
 
         // If the value of the input field hasn't changed, don't disable
-        if(input && input.value == input.defaultValue) {
+        if (!isWordChanged(wordID)) {
            // if the current and original values are the same
            // and the button has been disabled, re-enable it
            if(a && !a.href) { enableAW(wordID); }
