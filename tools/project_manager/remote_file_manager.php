@@ -47,13 +47,13 @@ global $pguser;
 $despecialed_username = str_replace( ' ', '_', $pguser );
 
 // Check user's access to the uploads area.
-// The user's dpscans setting takes priority:
+// The user's remote_file_manager access setting takes priority:
 // * 'common' means the user gets access to the Commons directory,
 // * 'self' means they get their own home directory
 // * 'disabled' means they have no upload access.
 // Otherwise, the default policy is that PMs, PFs & SAs
 // get their own home dir, and other users have no upload access.
-$access_mode = dpscans_access_mode($pguser);
+$access_mode = get_access_mode($pguser);
 if ($access_mode == 'common' ) {
     $home_dirname = $commons_rel_dir;
     $autoprefix_message = "<b>"._("Uploaded files will automatically be prefixed with your username and an underscore.")."</b>";
@@ -189,7 +189,7 @@ function do_showdir()
 
     echo "<p>" . _("This page allows you to manage content in this uploads folder.") . "</p>\n";
 
-    if (dpscans_access_mode($pguser) == 'common') {
+    if (get_access_mode($pguser) == 'common') {
         show_message('info', _("Because you are not a PM, your files are located in a common, shared area.<br><u>Please take care to avoid affecting other users' files.</u>"));
         show_message('info', $autoprefix_message);
     }
@@ -228,7 +228,7 @@ function do_showupload()
     echo "<h1>$page_title</h1>\n";
 
     $form_content = "";
-    if (dpscans_access_mode($pguser) == 'common') {
+    if (get_access_mode($pguser) == 'common') {
         $form_content .= get_message('info', $autoprefix_message);
     }
     $form_content .= "<p style='margin-top: 0em;'>$standard_blurb</p>\n";
@@ -349,7 +349,7 @@ function do_upload()
 
     // The file passes all tests!
 
-    if (dpscans_access_mode($pguser) === 'common') {
+    if (get_access_mode($pguser) === 'common') {
         $file_prefix = $despecialed_username . "_";
     } else {
         $file_prefix = "";
@@ -777,10 +777,10 @@ function get_current_dir_relative_path($home_dirname)
     return preg_replace("#^$abs_uploads_dir/*#", "", $abspath);
 }
 
-function dpscans_access_mode($username)
+function get_access_mode($username)
 {
     $userSettings =& Settings::get_settings($username);
-        return $userSettings->get_value("dpscans");
+        return $userSettings->get_value("remote_file_manager");
 }
 
 // Function for displaying directory contents
@@ -1144,7 +1144,7 @@ function show_caveats()
     echo "<li>" . _("Download files from your user folder.") . "</li>\n";
     echo "<li>" . _("Delete files in your user folder.") . "</li>\n";
     echo "<li>" . _("Delete folders in your user folder.") . "</li>\n";
-    echo "<li>" . _("Transfer files to other dpscans users.") . "</li>\n";
+    echo "<li>" . _("Transfer files to other users.") . "</li>\n";
     echo "<li>" . _("Browse into subfolders.") . "</li>\n";
     echo "<li>" . _("Create subfolders.") . "</li>\n";
     echo "<li>" . _("Rename files and folders.") . "</li>\n";
