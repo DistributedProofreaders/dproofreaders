@@ -39,7 +39,7 @@ if ($func == "download" || $func == "view")
     }
     else
     {
-        $locale = get_lang($_REQUEST, 'locale');
+        $locale = validate_locale($_REQUEST['locale']);
         $filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
     }
 
@@ -94,7 +94,7 @@ else if ($func == "newtranslation")
 // Second new language page: create the new language files and redirect to the edit page
 else if ($func == "newtranslation2")
 {
-    $locale = get_lang($_REQUEST, 'locale', /*check_dir_exists*/ False);
+    $locale = validate_locale($_REQUEST['locale'], /*check_dir_exists*/ False);
 
     if (!file_exists("$dyn_locales_dir/$locale"))
     {
@@ -119,7 +119,7 @@ else if ($func == "newtranslation2")
 // Perform language delete and redirect to Translation Center
 else if ($func == "delete")
 {
-    $locale = get_lang($_REQUEST, 'locale');
+    $locale = validate_locale($_REQUEST['locale']);
     assert(is_dir("$dyn_locales_dir/$locale"));
     exec("rm -r $dyn_locales_dir/$locale");
 
@@ -155,7 +155,7 @@ else if ($func == "xgettext")
 // Perform the upload and compilation of a translation file
 else if ($func == "upload")
 {
-    $locale = get_lang($_REQUEST, 'locale');
+    $locale = validate_locale($_REQUEST['locale']);
     do_upload($locale);
     echo "<p><a href='$translate_url?func=edit&amp;locale=$locale'>"
         . sprintf(_("Back to Edit Language %s"), $locale) . "</a></p>";
@@ -163,7 +163,7 @@ else if ($func == "upload")
 // Perform the merging of a translation file with a template
 else if ($func == "merge")
 {
-    $locale = get_lang($_REQUEST, 'locale');
+    $locale = validate_locale($_REQUEST['locale']);
     $fuzzy = @$_REQUEST['fuzzy'];
     do_merge($locale, $fuzzy);
     echo "<p><a href='$translate_url?func=edit&amp;locale=$locale'>"
@@ -171,7 +171,7 @@ else if ($func == "merge")
 }
 else if ($func == "edit")
 {
-    $locale = get_lang($_REQUEST, 'locale');
+    $locale = validate_locale($_REQUEST['locale']);
     edit_form($locale);
 }
 
@@ -417,18 +417,18 @@ function do_merge($locale, $fuzzy)
         echo "<p>" . _("Could not rename the final file.") . "</p>";
 }
 
-function get_lang($arr, $key, $check_dir_exists = True)
+function validate_locale($locale, $check_dir_exists = True)
 {
-    global $dyn_locales_dir, $iso_639;
-    $value = @$arr[$key];
-    
-    if (!is_string($value) ||
-        !array_key_exists($value, $iso_639) ||
-        ($check_dir_exists && !is_dir("$dyn_locales_dir/$value")))
+    global $dyn_locales_dir;
+
+    if (!is_string($locale) ||
+        !in_array($locale, get_installed_system_locales()) ||
+        ($check_dir_exists && !is_dir("$dyn_locales_dir/$locale")))
     {
-        die (htmlspecialchars("parameter '$key' ('$value') is not valid"));
+        die (sprintf(_("locale %s is not valid"), $locale));
     }
-    return $value;
+
+    return $locale;
 }
 
 function get_existing_langs()
