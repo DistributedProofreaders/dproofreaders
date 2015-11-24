@@ -172,7 +172,7 @@ switch ($action) {
 
 function do_showdir()
 {
-    global $curr_relpath, $hce_curr_displaypath;
+    global $curr_relpath, $hce_curr_displaypath, $home_dirname;
     global $pguser, $home_dir_created, $autoprefix_message;
 
     $page_title =  sprintf( _("Manage folder %s"), $hce_curr_displaypath );
@@ -210,6 +210,10 @@ function do_showdir()
 
     // Display the directory listing
     show_content();
+
+    // if not in their home directory, add a link to jump them there
+    if($curr_relpath != $home_dirname)
+        show_home_link();
 
     // Display Caveats about use on this "main" page only
     show_caveats();
@@ -396,7 +400,7 @@ function do_showmkdir()
 
 function do_mkdir()
 {
-    global $curr_abspath;
+    global $curr_abspath, $curr_relpath;
 
     $new_dir_name = @$_POST['new_dir_name'];
 
@@ -418,6 +422,8 @@ function do_mkdir()
     }
 
     show_message('info', sprintf(_("Created folder %s"), hce($new_dir_name)));
+
+    show_return_link("$curr_relpath/$new_dir_name");
     show_return_link();
 }
 
@@ -1065,11 +1071,14 @@ function show_message($type, $message)
 }
 
 // Display a return link (to the 'showdir' view)
-function show_return_link()
+function show_return_link($relpath=NULL)
 {
-    global $curr_relpath, $hce_curr_displaypath;
-    $url = "?cdrp=" . urlencode($curr_relpath);
-    $text = sprintf(_("Return to folder %s"), $hce_curr_displaypath);
+    global $curr_relpath;
+    if($relpath === NULL)
+        $relpath = $curr_relpath;
+
+    $url = "?cdrp=" . urlencode($relpath);
+    $text = sprintf(_("Go to folder %s"), hae($relpath));
     echo "<p><a href='$url'>$text</a></p>\n";
 }
 
