@@ -18,7 +18,7 @@ $may_edit = user_is_site_translator();
 
 if ($may_edit)
     $allowed_functions = array(
-        'xgettext', 'edit', 'merge', 'upload', 'download', 'view', 'newlang', 'newlang2');
+        'xgettext', 'edit', 'merge', 'upload', 'download', 'view', 'newtranslation', 'newtranslation2');
 else
     $allowed_functions = array('download', 'view');
 
@@ -33,14 +33,14 @@ if ($func == "download" || $func == "view")
 {
     // View or download temporary files. No theme needed.
 
-    if (@$_REQUEST['lang'] == "template")
+    if (@$_REQUEST['locale'] == "template")
     {
         $filename = "$dyn_locales_dir/messages.pot";
     }
     else
     {
-        $lang = get_lang($_REQUEST, 'lang');
-        $filename = "$dyn_locales_dir/$lang/LC_MESSAGES/messages.po";
+        $locale = get_lang($_REQUEST, 'locale');
+        $filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
     }
 
     if (file_exists($filename))
@@ -50,7 +50,7 @@ if ($func == "download" || $func == "view")
 
         if ($func == "download") {
             $output_fname =
-                ($lang == 'template') ? "messages.pot" : "${lang}_messages.po";
+                ($locale == 'template') ? "messages.pot" : "${locale}_messages.po";
             header("Content-Disposition: attachment; filename=\"$output_fname\"");
             header("Content-Length: ".filesize($filename));
         }
@@ -76,7 +76,7 @@ if (empty($func))
     main_form();
 }
 // First new language page: display a list of languages to create
-else if ($func == "newlang")
+else if ($func == "newtranslation")
 {
     $existing_langs = get_existing_langs();
 
@@ -86,27 +86,27 @@ else if ($func == "newlang")
     echo "<table style='border: 0;'><ul>\n";
     foreach ($iso_639 as $short_lang => $full_lang) {
         if (!in_array($short_lang, $existing_langs)) {
-            echo "<tr><td width='50%' align='left'><li>$full_lang</li></td><td width='50%' align='left'>[ <a href='$translate_url?func=newlang2&amp;lang=$short_lang'>" . _("Create Translation File") . "</a> ]</td></tr>\n";
+            echo "<tr><td width='50%' align='left'><li>$full_lang</li></td><td width='50%' align='left'>[ <a href='$translate_url?func=newtranslation2&amp;locale=$short_lang'>" . _("Create Translation File") . "</a> ]</td></tr>\n";
         }
     }
     echo "</ul></table>";
 }
 // Second new language page: create the new language files and redirect to the edit page
-else if ($func == "newlang2")
+else if ($func == "newtranslation2")
 {
-    $lang = get_lang($_REQUEST, 'lang', /*check_dir_exists*/ False);
+    $locale = get_lang($_REQUEST, 'locale', /*check_dir_exists*/ False);
 
-    if (!file_exists("$dyn_locales_dir/$lang"))
+    if (!file_exists("$dyn_locales_dir/$locale"))
     {
-        mkdir("$dyn_locales_dir/$lang", 0755);
-        mkdir("$dyn_locales_dir/$lang/LC_MESSAGES/", 0755);
+        mkdir("$dyn_locales_dir/$locale", 0755);
+        mkdir("$dyn_locales_dir/$locale/LC_MESSAGES/", 0755);
 
         if (file_exists("$dyn_locales_dir/messages.pot"))
         {
-            copy("$dyn_locales_dir/messages.pot", "$dyn_locales_dir/$lang/LC_MESSAGES/messages.po");
+            copy("$dyn_locales_dir/messages.pot", "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po");
         }
 
-        metarefresh(0, "$translate_url?func=edit&amp;lang=$lang", "", "");
+        metarefresh(0, "$translate_url?func=edit&amp;locale=$locale", "", "");
     }
     else
     {
@@ -119,11 +119,11 @@ else if ($func == "newlang2")
 // Perform language delete and redirect to Translation Center
 else if ($func == "delete")
 {
-    $lang = get_lang($_REQUEST, 'lang');
-    assert(is_dir("$dyn_locales_dir/$lang"));
-    exec("rm -r $dyn_locales_dir/$lang");
+    $locale = get_lang($_REQUEST, 'locale');
+    assert(is_dir("$dyn_locales_dir/$locale"));
+    exec("rm -r $dyn_locales_dir/$locale");
 
-    echo "<p>" . sprintf(_("Language %s deleted."), $lang) . "</p>";
+    echo "<p>" . sprintf(_("Language %s deleted."), $locale) . "</p>";
 
     echo "<p><a href='$translate_url'>"
         . _("Back to the Translation Center") . "</a></p>";
@@ -155,24 +155,24 @@ else if ($func == "xgettext")
 // Perform the upload and compilation of a translation file
 else if ($func == "upload")
 {
-    $lang = get_lang($_REQUEST, 'lang');
-    do_upload($lang);
-    echo "<p><a href='$translate_url?func=edit&amp;lang=$lang'>"
-        . sprintf(_("Back to Edit Language %s"), $lang) . "</a></p>";
+    $locale = get_lang($_REQUEST, 'locale');
+    do_upload($locale);
+    echo "<p><a href='$translate_url?func=edit&amp;locale=$locale'>"
+        . sprintf(_("Back to Edit Language %s"), $locale) . "</a></p>";
 }
 // Perform the merging of a translation file with a template
 else if ($func == "merge")
 {
-    $lang = get_lang($_REQUEST, 'lang');
+    $locale = get_lang($_REQUEST, 'locale');
     $fuzzy = @$_REQUEST['fuzzy'];
-    do_merge($lang, $fuzzy);
-    echo "<p><a href='$translate_url?func=edit&amp;lang=$lang'>"
-        . sprintf(_("Back to Edit Language %s"), $lang) . "</a></p>";
+    do_merge($locale, $fuzzy);
+    echo "<p><a href='$translate_url?func=edit&amp;locale=$locale'>"
+        . sprintf(_("Back to Edit Language %s"), $locale) . "</a></p>";
 }
 else if ($func == "edit")
 {
-    $lang = get_lang($_REQUEST, 'lang');
-    edit_form($lang);
+    $locale = get_lang($_REQUEST, 'locale');
+    edit_form($locale);
 }
 
 
@@ -189,7 +189,7 @@ function main_form()
     echo "<p>" . _("The following languages are translated or in the process of being translated.");
 
     if ($may_edit)
-        echo "<br> " . sprintf(_("If the language you would like to provide translations for does not appear below, you can <a href='%s'>create a new translation</a>."), "$translate_url?func=newlang");
+        echo "<br> " . sprintf(_("If the language you would like to provide translations for does not appear below, you can <a href='%s'>create a new translation</a>."), "$translate_url?func=newtranslation");
 
     echo "</p>\n";
 
@@ -198,8 +198,8 @@ function main_form()
     if (file_exists($pot_filename))
     {
         echo "<p>" . _("POT template file:") . " ";
-        echo "<a href='$translate_url?func=view&amp;lang=template'>" . _("view")
-           . "</a> | <a href='$translate_url?func=download&amp;lang=template'>"
+        echo "<a href='$translate_url?func=view&amp;locale=template'>" . _("view")
+           . "</a> | <a href='$translate_url?func=download&amp;locale=template'>"
            . _("download") . "</a> ";
         echo " (" . _("Last modified:") . " "
                 . date ("F d Y H:i:s", filemtime($pot_filename)) . ")</p>";
@@ -232,8 +232,8 @@ function main_form()
         if (file_exists($po_filename))
         {
             echo "<tr><td>$file</td><td>" . $iso_639[$file] . "</td><td>"
-                . "<a href='$translate_url?func=view&amp;lang=$file'>"
-                . _("view") . "</a> | <a href='$translate_url?func=download&amp;lang=$file'>"
+                . "<a href='$translate_url?func=view&amp;locale=$file'>"
+                . _("view") . "</a> | <a href='$translate_url?func=download&amp;locale=$file'>"
                 . _("download") . "</a> (" . _("Last modified:") . " "
                 . date ("F d Y H:i:s", filemtime($po_filename)) . ")</td>";
         }
@@ -244,7 +244,7 @@ function main_form()
         }
 
         if ($may_edit)
-            echo "<td><a href='$translate_url?func=edit&amp;lang=$file'>"
+            echo "<td><a href='$translate_url?func=edit&amp;locale=$file'>"
                 . _("Edit this language") . "</td>";
         echo "</tr>\n";
     }
@@ -252,24 +252,24 @@ function main_form()
 }
 
 
-function edit_form($lang)
+function edit_form($locale)
 {
     global $dyn_locales_dir, $iso_639, $translate_url, $charset;
 
     echo "<p><a href='$translate_url'>"
         . _("Back to the Translation Center") . "</a></p>";
 
-    echo "<h1>" . sprintf(_("Editing Language %s"), $lang) . "</h1>\n";
+    echo "<h1>" . sprintf(_("Editing Language %s"), $locale) . "</h1>\n";
 
-    echo "<p><b>" . _("Language code:") . "</b> $lang</p>\n";
-    echo "<p><b>" . _("Language name:") . "</b> " . $iso_639[$lang] . "</p>\n";
+    echo "<p><b>" . _("Language code:") . "</b> $locale</p>\n";
+    echo "<p><b>" . _("Language name:") . "</b> " . $iso_639[$locale] . "</p>\n";
 
-    $po_filename = "$dyn_locales_dir/$lang/LC_MESSAGES/messages.po";
+    $po_filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
     if (file_exists($po_filename))
     {
         echo "<p><b>" . _("PO file:") . "</b> ";
-        echo "<a href='$translate_url?func=view&amp;lang=$lang'>"
-            . _("view") . "</a> | <a href='$translate_url?func=download&amp;lang=$lang'>"
+        echo "<a href='$translate_url?func=view&amp;locale=$locale'>"
+            . _("view") . "</a> | <a href='$translate_url?func=download&amp;locale=$locale'>"
             . _("download") . "</a> (" . _("Last modified:") . " "
             . date ("F d Y H:i:s", filemtime($po_filename)) . ")</p>";
 
@@ -280,7 +280,7 @@ function edit_form($lang)
         }
 
         echo "<form action='$translate_url?func=merge' method='POST'>";
-        echo "<input type='hidden' name='lang' value='$lang'>";
+        echo "<input type='hidden' name='locale' value='$locale'>";
         echo "<input type='submit' value='"
             . attr_safe(_("Merge current PO file with the current template")) . "'> ";
         echo _("Run <code>msgmerge</code> to update the current PO file against the current template.") . "<br>\n";
@@ -294,7 +294,7 @@ function edit_form($lang)
     }
 
     echo "<form action='$translate_url?func=upload' method='POST' enctype='multipart/form-data'>\n";
-    echo "<input type='hidden' name='lang' value='$lang'>";
+    echo "<input type='hidden' name='locale' value='$locale'>";
     echo _("Select a PO file to upload:") . " ";
     echo "<input type='hidden' name='MAX_FILE_SIZE' value='5000000'>";
     echo "<input type='file' name='userfile'><br>\n";
@@ -307,7 +307,7 @@ function edit_form($lang)
     {
         echo "<br><br>";
         echo "<form action='$translate_url?func=delete' method='POST'>";
-        echo "<input type='hidden' name='lang' value='$lang'>";
+        echo "<input type='hidden' name='locale' value='$locale'>";
         $confirm = javascript_safe(
             _("Are you sure you want to delete this language and its translation file?"),
             $charset);
@@ -318,11 +318,11 @@ function edit_form($lang)
     }
 }
 
-function do_upload($lang)
+function do_upload($locale)
 {
     global $dyn_locales_dir;
 
-    if(chdir("$dyn_locales_dir/$lang/LC_MESSAGES/") == FALSE)
+    if(chdir("$dyn_locales_dir/$locale/LC_MESSAGES/") == FALSE)
         die ("Unable to change to messages directory.");
 
     if (file_exists("messages.po"))
@@ -377,7 +377,7 @@ function do_upload($lang)
     }
 }
 
-function do_merge($lang, $fuzzy)
+function do_merge($locale, $fuzzy)
 {
     global $dyn_locales_dir;
 
@@ -386,7 +386,7 @@ function do_merge($lang, $fuzzy)
     else
         $fuzzy_option = "-N";
 
-    if(chdir("$dyn_locales_dir/$lang/LC_MESSAGES/") == FALSE)
+    if(chdir("$dyn_locales_dir/$locale/LC_MESSAGES/") == FALSE)
         die ("Unable to change to messages directory.");
 
     // Try to back up the existing translation
