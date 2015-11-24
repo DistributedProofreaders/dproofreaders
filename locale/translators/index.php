@@ -63,7 +63,6 @@ if ($func == "download" || $func == "view")
         $no_stats=1;
         theme(_("Translation Center"), "header");
         echo "<p>" . _("The requested file does not exist.") . "</p>";
-        theme("","footer");
     }
     exit();
 }
@@ -175,9 +174,6 @@ else if ($func == "edit")
     $lang = get_lang($_REQUEST, 'lang');
     edit_form($lang);
 }
-
-theme('','footer');
-
 
 
 function main_form()
