@@ -49,7 +49,7 @@ function short_lang_code($langcode=FALSE)
     if($langcode===FALSE)
         $langcode=$GLOBALS['locale'];
 
-    return $langcode ? substr($langcode,0,2) : "en";
+    return substr($langcode, 0, 2);
 }
 
 // Returns ISO 639 code(s) for language(s) of a project.
