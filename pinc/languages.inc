@@ -188,6 +188,18 @@ function get_languages_with_dictionaries() {
     return $returnArray;
 }
 
+// Return all installed system locales
+function get_installed_system_locales()
+{
+    static $system_locales = array();
+    if($system_locales)
+        return $system_locales;
+
+    exec("locale -a", $system_locales);
+
+    return $system_locales;
+}
+
 // This function returns forum of a particular language. If there is no such
 // forum, it might return a team thread or whatever is appropriate (or nothing,
 // of course).
