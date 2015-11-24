@@ -32,7 +32,7 @@ function lang_code($language_code) {
 function short_lang_code($langcode=FALSE)
 {
     if($langcode===FALSE)
-        $langcode=$GLOBALS['locale'];
+        $langcode = get_desired_language();
 
     return substr($langcode, 0, 2);
 }
@@ -122,7 +122,7 @@ function bilingual_name($langcode)
 function lang_direction($langcode=FALSE)
 {
     if($langcode===FALSE)
-        $langcode=$GLOBALS['locale'];
+        $langcode = get_desired_language();
 
     switch(substr($langcode,0,2)) {
         case "ar":
@@ -142,7 +142,7 @@ function lang_dir($langcode=FALSE)
     global $lang_dir_data;
 
     if($langcode===FALSE)
-        $langcode=$GLOBALS['locale'];
+        $langcode = get_desired_language();
 
     $a=substr($langcode,0,2);
 
@@ -360,7 +360,7 @@ function lang_forum($langcode=FALSE)
     global $lang_forum_data;
 
     if($langcode===FALSE)
-        $langcode=$GLOBALS['locale'];
+        $langcode = get_desired_language();
 
     if (isset($lang_forum_data[$langcode]))
         return $lang_forum_data[$langcode];

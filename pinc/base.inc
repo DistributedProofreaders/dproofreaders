@@ -41,6 +41,17 @@ if(!$testing)
     set_exception_handler('production_exception_handler');
 }
 
+if(!headers_sent())
+{
+    header("Content-Type: text/html; charset=$charset");
+
+    // Tell proxies to vary the caching based on the Accept-Language header
+    // to ensure others behind the proxy don't inadvertantly get a language
+    // they aren't expecting.
+    header("Vary: Accept-Language");
+}
+
+include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'connect.inc');
 
 $db_Connection=new dbConnect();
@@ -60,7 +71,7 @@ include_once($relPath.'dpsession.inc');
 if($db_Connection)
     $user_is_logged_in = dpsession_resume();
 
-include_once($relPath.'gettext_setup.inc');
+configure_gettext($charset, get_desired_language(), $dyn_locales_dir, $system_locales_dir);
 
 if ($maintenance)
 {

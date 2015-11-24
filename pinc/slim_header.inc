@@ -13,8 +13,10 @@ include_once($relPath."languages.inc");   // lang_html_header()
 //     'body_attributes' => body tag attributes to output
 function slim_header($title="", $extra_args=array())
 {
-    global $charset, $intlang;
+    global $charset;
     global $site_abbreviation;
+
+    $intlang = get_desired_language();
 
     if(isset($extra_args['frameset']))
     {

@@ -116,7 +116,8 @@ function output_footer($nameofpage, $show_statsbar = True) {
 
 function html_header($nameofpage, $extra_args = array()) {
     global $code_url, $theme, $site_abbreviation;
-    global $charset, $intlang;
+    global $charset;
+    $intlang = get_desired_language();
     echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
     echo "<html ".lang_html_header($intlang).">\n<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\">\n";
@@ -543,7 +544,7 @@ function html_statsbar($nameofpage) {
 
 function maybe_show_language_selector()
 {
-    global $code_url, $userP, $intlang, $user_is_logged_in;
+    global $code_url, $userP, $user_is_logged_in;
 
     // if user is logged in, return instead of showing the drop-down
     if($user_is_logged_in)
@@ -561,6 +562,7 @@ function maybe_show_language_selector()
     // --></script>
     <?php
 
+    $intlang = get_desired_language();
     echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n";
     echo _("Set language") . ": ";
     echo "<select name=lang onChange='submitLang(this)'>\n";
