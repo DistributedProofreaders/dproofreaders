@@ -99,22 +99,37 @@ _SITE_URL=$_CODE_URL
 # Uploading and Creating Projects
 # -------------------------------
 
-# At pgdp.net, Project Managers are given access to a shared ftp-only
-# "uploads" account. Each PM creates a personal directory (named
+# To load images and text into projects, these files must reside on the
+# web server. There are two common ways to accomplish this:
+#   1) Via the built-in project upload script (recommended)
+#   2) Via an FTP server that you configure and manage separately
+#
+# Previously at pgdp.net, Project Managers were given access to a shared
+# ftp-only "uploads" account. Each PM created a personal directory (named
 # according to their DP login id) within the shared account's home
-# directory.
+# directory. This has since been replaced with the remote_file_manager.php
+# script.
 
+# The location where project information (text and images) are written
+# to by remote_file_manager.php and read from for loading into projects.
+# The web server must have read/write permissions on this directory.
+# If using FTP, this should be the root directory for the
+# _UPLOADS_ACCOUNT user.
 _UPLOADS_DIR=/home/dpscans
+
+# If using FTP, set the following parameters to have them echoed to
+# users as reminders. If _UPLOADS_HOST is blank, these will not be
+# displayed to users.
 _UPLOADS_HOST=www.example.org
 _UPLOADS_ACCOUNT=dpscans
 _UPLOADS_PASSWORD=PICK_A_PASSWORD
 
-# The _DIR variable is important because it tells the code where to load
-# project information (text and images) from. The others are just echoed
-# as reminders to the user. If you'd rather not have that information
-# echoed on-screen, or if you want to use some other mechanism to get
-# project data into $_UPLOADS_DIR, you can leave the other 3 variables
-# with empty or bogus values.
+# remote_file_manager.php will scan uploaded files for viruses
+# if an antivirus scanner, like clamscan, is installed. Any scanner
+# will work as long as it accepts the following syntax
+#   av_executable -- filename
+# and returns 0 on pass and non-zero on failure.
+_ANTIVIRUS_EXECUTABLE=
 
 # ----------------------------------------------------------------------
 
