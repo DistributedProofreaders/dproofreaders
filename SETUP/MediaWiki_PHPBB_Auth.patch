@@ -1,0 +1,24 @@
+--- Auth_phpbb.php.orig	2015-08-31 16:52:24.000000000 +0000
++++ Auth_phpbb.php	2015-11-16 19:08:45.000000000 +0000
+@@ -493,7 +493,8 @@
+             $username = $this->utf8($username); // Convert to UTF8
+ 
+     		// Check Database for username. We will return the correct casing of the name.
+-    		$fstrMySQLQuery = sprintf("SELECT `username_clean`
++    		$fstrMySQLQuery = sprintf("SELECT `username_clean`,
++    		                   `username`
+     		                   FROM `%s`
+     		                   WHERE `username_clean` = '%s'
+                                LIMIT 1",
+@@ -506,7 +507,10 @@
+ 
+             while($faryMySQLResult = mysql_fetch_assoc($fresMySQLResult))
+             {
+-                return ucfirst($faryMySQLResult['username_clean']);
++                // Use the username column to preserve original phpBB
++                // capitalization, but still uppercase the first letter
++		// per wiki rules.
++                return ucfirst($faryMySQLResult['username']);
+             }
+ 
+             // At this point the username is invalid and should return just as it was passed.
