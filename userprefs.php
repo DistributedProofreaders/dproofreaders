@@ -236,10 +236,10 @@ function echo_general_tab() {
     global $uid, $pguser, $userP;
     global $u_n;
 
+    $options = get_locale_translation_selection_options();
+
     $u_intlang_options[""]=BROWSER_DEFAULT_STR;
-    foreach(get_installed_locale_translations("enabled") as $v) {
-        $u_intlang_options[$v]=bilingual_name(short_lang_code($v));
-    }
+    $u_intlang_options = array_merge($u_intlang_options, $options);
 
     $i_stats_privacy = array(
         PRIVACY_PUBLIC    => _("Public"),

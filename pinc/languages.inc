@@ -263,6 +263,26 @@ function set_locale_translation_enabled($locale, $enable)
         unlink($enabled_file);
 }
 
+function get_locale_translation_selection_options()
+// Return an associative array for all translations a user can select
+// with keys being the locale and the value being the name of the
+// language and the locale.
+{
+    $translations = get_installed_locale_translations("enabled");
+
+    // push English (en_EN) onto the list since that's the native version
+    // of all the strings
+    array_unshift($translations, "en_EN");
+
+    // build a list of option names so we can sort them for display
+    $options = array();
+    foreach($translations as $locale)
+        $options[$locale] = bilingual_name(short_lang_code($locale)) . " - $locale";
+    asort($options);
+
+    return $options;
+}
+
 // This function returns forum of a particular language. If there is no such
 // forum, it might return a team thread or whatever is appropriate (or nothing,
 // of course).

@@ -534,19 +534,9 @@ function maybe_show_language_selector()
     if($user_is_logged_in)
         return;
 
-    $translations = get_installed_locale_translations("enabled");
-    if(!count($translations))
+    $options = get_locale_translation_selection_options();
+    if(count($options) <= 1)
         return;
-
-    // push English (en_EN) onto the list since that's the native version
-    // of all the strings
-    array_unshift($translations, "en_US");
-
-    // build a list of option names so we can sort them for display
-    $options = array();
-    foreach($translations as $locale)
-        $options[$locale] = bilingual_name(short_lang_code($locale)) . " - $locale";
-    asort($options);
 
     ?>
     <script language="JavaScript" type="text/javascript"><!--
