@@ -22,6 +22,7 @@ else
 if (user_is_a_sitemanager())
 {
     $allowed_functions[] = 'delete';
+    $allowed_functions[] = 'changeenable';
 }
 
 $func = get_enumerated_param($_GET, 'func', null, $allowed_functions, true);
@@ -133,7 +134,25 @@ else if ($func == "delete")
     assert(is_dir("$dyn_locales_dir/$locale"));
     exec("rm -r $dyn_locales_dir/$locale");
 
-    echo "<p>" . sprintf(_("Language %s deleted."), $locale) . "</p>";
+    echo "<p>" . sprintf(_("Locale %s deleted."), $locale) . "</p>";
+
+    echo "<p><a href='$translate_url'>"
+        . _("Back to the Translation Center") . "</a></p>";
+}
+// Update locale state and redirect to the manage page
+else if ($func == "changeenable")
+{
+    $locale = validate_locale($_REQUEST['locale']);
+
+    $enable = isset($_REQUEST['enable_locale']);
+    set_locale_translation_enabled($locale, $enable);
+
+    if($enable)
+        $enable_string = _("enabled");
+    else
+        $enable_string = _("disabled");
+
+    echo "<p>" . sprintf(_('Locale %1$s has been: %2$s.'), $locale, $enable_string) . "</p>";
 
     echo "<p><a href='$translate_url'>"
         . _("Back to the Translation Center") . "</a></p>";
@@ -232,6 +251,7 @@ function main_form()
     echo "<tr>";
     echo "<th>" . _("Language") . "</th>";
     echo "<th>" . _("Locale") . "</th>";
+    echo "<th>" . _("Status") . "</th>";
     echo "<th>" . _("PO file last modified") . "</th>";
     echo "<th>" . _("Actions") . "</th>";
     echo "<th></th>";
@@ -243,9 +263,14 @@ function main_form()
     {
         $language_name = eng_name(short_lang_code($locale));
         $po_filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
+        $translation_enabled = is_locale_translation_enabled($locale);
         echo "<tr>";
         echo "<td>$language_name</td>";
         echo "<td>$locale</td>";
+        if($translation_enabled)
+            echo "<td>" . _("enabled") . "</td>";
+        else
+            echo "<td>" . _("disabled") . "</td>";
         echo "<td>";
         if (file_exists($po_filename))
             echo date ("F d Y H:i:s", filemtime($po_filename));
@@ -274,13 +299,24 @@ function manage_form($locale)
 {
     global $dyn_locales_dir, $translate_url, $charset;
 
+    $system_locales = get_installed_system_locales();
+    $translation_enabled = is_locale_translation_enabled($locale);
+
     echo "<p><a href='$translate_url'>"
         . _("Back to the Translation Center") . "</a></p>";
 
     echo "<h1>" . sprintf(_("Managing locale %s"), $locale) . "</h1>\n";
 
     echo "<p><b>" . _("Locale:") . "</b> $locale</p>\n";
+    if(!in_array($locale, $system_locales))
+        echo "<p><b>" . sprintf(_("Warning: While a locale translation exists for %s, a system locale does not. Without a system locale installed, gettext will not use this translation."), $locale) . "</b></p>";
     echo "<p><b>" . _("Language name:") . "</b> " . eng_name($locale) . "</p>\n";
+    echo "<p><b>" . _("Translation status:") . "</b> ";
+    if($translation_enabled)
+        echo _("enabled");
+    else
+        echo _("disabled");
+    echo "</p>\n";
 
     $po_filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
     if (file_exists($po_filename))
@@ -323,6 +359,18 @@ function manage_form($locale)
 
     if (user_is_a_sitemanager())
     {
+        echo "<br><br>";
+        echo "<form action='$translate_url?func=changeenable' method='POST'>";
+        echo "<input type='hidden' name='locale' value='$locale'>";
+        if($translation_enabled)
+            $checkbox_state = "checked";
+        else
+            $checkbox_state = "";
+        echo "<input type='checkbox' name='enable_locale' value='1' $checkbox_state> ";
+        echo _("Enable locale translation") . " ";
+        echo "<input type='submit' value='" . attr_safe(_("Save")) . "'> ";
+        echo "</form>\n";
+
         echo "<br><br>";
         echo "<form action='$translate_url?func=delete' method='POST'>";
         echo "<input type='hidden' name='locale' value='$locale'>";

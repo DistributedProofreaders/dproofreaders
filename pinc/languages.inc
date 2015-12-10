@@ -233,6 +233,36 @@ function get_installed_locale_translations($state="all")
     return $translation_cache[$state];
 }
 
+function is_locale_translation_enabled($locale)
+{
+    global $dyn_locales_dir;
+
+    $translation_base = "$dyn_locales_dir/$locale";
+    $enabled_file = "$translation_base/enabled";
+
+    if(!is_dir($translation_base))
+        return NULL;
+
+    return is_file($enabled_file);
+}
+
+function set_locale_translation_enabled($locale, $enable)
+{
+    global $dyn_locales_dir;
+
+    $translation_base = "$dyn_locales_dir/$locale";
+    $enabled_file = "$translation_base/enabled";
+
+    if(!is_dir($translation_base))
+        die(sprintf(_("Locale translation %s not installed"), $locale));
+
+    if($enable && !is_file($enabled_file))
+        touch($enabled_file);
+
+    if(!$enable && is_file($enabled_file))
+        unlink($enabled_file);
+}
+
 // This function returns forum of a particular language. If there is no such
 // forum, it might return a team thread or whatever is appropriate (or nothing,
 // of course).
