@@ -534,43 +534,36 @@ function maybe_show_language_selector()
     if($user_is_logged_in)
         return;
 
-    $instl=get_installed_locale_translations("enabled");
-    $uninstl=get_installed_locale_translations("disabled");
-    if(!(count($instl)>1||count($uninstl)>0))
+    $translations = get_installed_locale_translations("enabled");
+    if(!count($translations))
         return;
 
-    if (empty($userP) || (!(empty($userP)) && !($userP['u_intlang'])))
-    {
-        ?>
-        <script language="JavaScript" type="text/javascript"><!--
-            function submitLang(i) {
-                top.document.langform.submit();
-            }
-        // --></script>
-        <?php
+    // push English (en_EN) onto the list since that's the native version
+    // of all the strings
+    array_unshift($translations, "en_US");
 
-        echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n";
-        echo _("Set language:") . " ";
-        echo "<select name=lang onChange='submitLang(this)'>\n";
-        foreach($instl as $v)
-        {
-            $option = bilingual_name(short_lang_code($v)) . " - $v";
-            echo "<option value='$v'".(($v==$intlang)?" selected":"").">$option</option>\n";
+    // build a list of option names so we can sort them for display
+    $options = array();
+    foreach($translations as $locale)
+        $options[$locale] = bilingual_name(short_lang_code($locale)) . " - $locale";
+    asort($options);
+
+    ?>
+    <script language="JavaScript" type="text/javascript"><!--
+        function submitLang(i) {
+            top.document.langform.submit();
         }
-        if(count($uninstl)>0) {
-            echo "<option value='en_EN' disabled>-------------------</option>\n";
-            echo "<option value='en_EN' disabled>" . _("(To be translated:)") . "</option>\n";
-            foreach($uninstl as $v)
-            {
-                $option = bilingual_name(short_lang_code($v)) . " - $v";
-                echo "<option value='en_EN' disabled>$option</option>\n";
-            }
-        }
-        echo "</select><input type=hidden name=returnto value='".$_SERVER['REQUEST_URI']."'>\n</form>\n";
-        if(count($uninstl)>0)
-            echo sprintf( _("Languages below the line are planned to be added to the site, but currently are not; visit <a href='%s'>this page</a> if you can help us with translating the site into one of them."), "$code_url/faq/translate.php");
-        echo "<hr>\n";
-    }
+    // --></script>
+    <?php
+
+    echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n";
+    echo _("Set language:") . " ";
+    echo "<select name=lang onChange='submitLang(this)'>\n";
+    echo "<option value=''>" . _("Browser default") . "</option>";
+    foreach($options as $locale => $label)
+        echo "<option value='$locale'".(($locale==$intlang)?" selected":"").">$label</option>\n";
+    echo "</select><input type=hidden name=returnto value='".$_SERVER['REQUEST_URI']."'>\n</form>\n";
+    echo "<hr>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
