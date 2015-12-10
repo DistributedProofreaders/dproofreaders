@@ -10,23 +10,8 @@
 
 include_once($relPath.'lang_data.inc');
 
-// Return a list of installed languages (as defined in lang_data.inc).
-function installed_langs()
-{
-    return $GLOBALS['inst_lang_data'];
-}
-
-// This function returns array of all languages that are not installed on the
-// site, but whose installation is planned.
-// See maybe_show_language_selector() in theme.inc for details on how this is
-// used.
-function uninstalled_langs()
-{
-    return $GLOBALS['uninst_lang_data'];
-}
-
 function lang_code($language_code) {
-    global $locales, $inst_lang_data;
+    global $locales;
 
     // see if there's a preferred variation
     $shortcode = $language_code;
@@ -36,7 +21,7 @@ function lang_code($language_code) {
         return $locales[$shortcode];
 
     // if not, return one of the ones that's installed
-    if(in_array($language_code, $inst_lang_data))
+    if(in_array($language_code, get_installed_locale_translations("enabled")))
         return $language_code;
 
     return FALSE;
@@ -198,6 +183,54 @@ function get_installed_system_locales()
     exec("locale -a", $system_locales);
 
     return $system_locales;
+}
+
+// Get a list of all locale translations.
+// $state can be one of:
+//   "all" - all installed locale translations
+//   "enabled" - locale translation is enabled
+//   "disabled" - locale translation is disabled
+function get_installed_locale_translations($state="all")
+{
+    global $dyn_locales_dir, $relPath;
+
+    static $translation_cache = NULL;
+
+    if($translation_cache !== NULL)
+        return $translation_cache[$state];
+
+    $translation_cache = array(
+        "all" => array(),
+        "enabled" => array(),
+        "disabled" => array(),
+    );
+
+    include($relPath.'iso_639_list.inc');
+
+    // replace with "$files = scandir($dyn_locales_dir) for PHP >= 5.3
+    $dh = opendir($dyn_locales_dir);
+    while(false !== ($filename = readdir($dh))) {
+        $files[] = $filename;
+    }
+    sort($files);
+
+    foreach($files as $file)
+    {
+        if(!is_dir("$dyn_locales_dir/$file"))
+            continue;
+
+        if(!array_key_exists(substr($file, 0, 2), $iso_639))
+            continue;
+
+        $translation_cache["all"][] = $file;
+
+        if(is_file("$dyn_locales_dir/$file/enabled"))
+            $translation_cache["enabled"][] = $file;
+        else
+            $translation_cache["disabled"][] = $file;
+    }
+
+    return $translation_cache[$state];
 }
 
 // This function returns forum of a particular language. If there is no such

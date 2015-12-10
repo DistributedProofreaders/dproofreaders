@@ -237,8 +237,8 @@ function echo_general_tab() {
     global $u_n;
 
     $u_intlang_options[""]=BROWSER_DEFAULT_STR;
-    foreach(installed_langs() as $k => $v) {
-        $u_intlang_options[$v]=bilingual_name($v);
+    foreach(get_installed_locale_translations("enabled") as $v) {
+        $u_intlang_options[$v]=bilingual_name(short_lang_code($v));
     }
 
     $i_stats_privacy = array(

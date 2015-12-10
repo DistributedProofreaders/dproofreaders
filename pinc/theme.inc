@@ -534,8 +534,8 @@ function maybe_show_language_selector()
     if($user_is_logged_in)
         return;
 
-    $instl=installed_langs();
-    $uninstl=uninstalled_langs();
+    $instl=get_installed_locale_translations("enabled");
+    $uninstl=get_installed_locale_translations("disabled");
     if(!(count($instl)>1||count($uninstl)>0))
         return;
 
@@ -553,12 +553,18 @@ function maybe_show_language_selector()
         echo _("Set language:") . " ";
         echo "<select name=lang onChange='submitLang(this)'>\n";
         foreach($instl as $v)
-            echo "<option value='".$v."'".(($v==$intlang)?" selected":"").">".bilingual_name($v)."</option>\n";
+        {
+            $option = bilingual_name(short_lang_code($v)) . " - $v";
+            echo "<option value='$v'".(($v==$intlang)?" selected":"").">$option</option>\n";
+        }
         if(count($uninstl)>0) {
             echo "<option value='en_EN' disabled>-------------------</option>\n";
             echo "<option value='en_EN' disabled>" . _("(To be translated:)") . "</option>\n";
             foreach($uninstl as $v)
-                echo "<option value='"."en_EN"."' disabled>".bilingual_name($v)."</option>\n";
+            {
+                $option = bilingual_name(short_lang_code($v)) . " - $v";
+                echo "<option value='en_EN' disabled>$option</option>\n";
+            }
         }
         echo "</select><input type=hidden name=returnto value='".$_SERVER['REQUEST_URI']."'>\n</form>\n";
         if(count($uninstl)>0)
