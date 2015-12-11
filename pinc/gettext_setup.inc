@@ -31,16 +31,10 @@ if (isset($_GET['lang']) && lang_code($_GET['lang'])) {
            isset($_COOKIE['language']) && $_COOKIE['language']) {
     $intlang=$_COOKIE['language'];
 } else if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-    $langs=explode(",",$_SERVER['HTTP_ACCEPT_LANGUAGE']);
-    $intlang = "";
-    foreach($langs as $i) {
-        $i = explode(";",$i);
-        $i = trim($i[0]);
-        if(lang_code($i)) {
-            $intlang=lang_code($i);
-            break;
-        }
-    }
+    $test_locale = \
+        get_locale_matching_browser_accept_language($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+    if($test_locale)
+        $intlang = $test_locale;
 }
 
 // Fall back to English
@@ -50,7 +44,15 @@ if (!@$intlang) {
 
 $locale = setlocale(LC_ALL, $intlang);
 
-if(!headers_sent()) header("Content-Type: text/html; charset=$charset");
+if(!headers_sent())
+{
+    header("Content-Type: text/html; charset=$charset");
+
+    // Tell proxies to vary the caching based on the Accept-Language header
+    // to ensure others behind the proxy don't inadvertantly get a language
+    // they aren't expecting.
+    header("Vary: Accept-Language");
+}
 
 // Specify location of translation tables and choose domain
 $gettext_domain = 'messages';

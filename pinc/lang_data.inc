@@ -25,16 +25,6 @@ $lang_forum_data=array(
 $phpbb2langs=array(
 );
 
-// Array mapping language short language codes to locales when guessing
-// a user's language based solely on their browser. For instance,
-// if you want to use Canadian English as a default over US English,
-// use: "en" => "en_CA".
-// Note that this is only used when guessing based on browser. Users can
-// override this by setting their preferences.
-$locales=array(
-    "en"=>"en_US",
-);
-
 // Language names in the language's native form. This overrides the ones
 // set in pinc/iso_639_loc_list.inc. Consult that file for array syntax
 // and coding restrictions.

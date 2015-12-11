@@ -283,6 +283,71 @@ function get_locale_translation_selection_options()
     return $options;
 }
 
+function get_locale_matching_browser_accept_language($http_accept)
+// This code is largely inspired by the excellent write-up here:
+// https://www.dyeager.org/2008/10/getting-browser-default-language-php.html
+// accordingly:
+#########################################################
+# Copyright © 2008 Darrin Yeager                        #
+# https://www.dyeager.org/                              #
+# Licensed under BSD license.                           #
+#   https://www.dyeager.org/downloads/license-bsd.txt   #
+#########################################################
+// On success it returns an installed locale. On failure it returns NULL.
+{
+    // split the languages into their respective parts
+    $browser_accepts = explode(",", $http_accept);
+
+    // pull out q-values
+    $browser_langs = array();
+    foreach($browser_accepts as $language)
+    {
+        if(preg_match("/(.*);q=([0-1]{0,1}.\d{0,4})/i", $language, $matches))
+            $browser_langs[$matches[1]] = (float)$matches[2];
+        else
+            $browser_langs[$language] = 1.0;
+    }
+
+
+    // loop through each requested language sorted by highest q-value
+    // and see if we have a locale that matches it
+    arsort($browser_langs);
+    foreach($browser_langs as $browser_lang_code => $qvalue)
+    {
+        $test_locale = massage_browser_lang_code_to_locale($browser_lang_code);
+        if(is_locale_translation_enabled($test_locale))
+            return $test_locale;
+    }
+
+    return NULL;
+}
+
+function massage_browser_lang_code_to_locale($browser_lang_code)
+// Given a browser's accept-language string, return a locale string
+// that most closely matches it.
+{
+    // system locales are always in the format xx_YY, but browsers can
+    // send accepts in many different formats (eg: en, en-us, en-US)
+    // so attempt to massage $browser_lang_code into a locale
+
+    if(strlen($browser_lang_code) == 5)
+    {
+        $lang_code = strtolower(substr($browser_lang_code, 0, 2));
+        $region_code = strtoupper(substr($browser_lang_code, 3, 2));
+        return "{$lang_code}_{$region_code}";
+    }
+
+    if(strlen($browser_lang_code) == 2)
+    {
+        $lang_code = strtolower($browser_lang_code);
+        $region_code = strtoupper($browser_lang_code);
+        return "{$lang_code}_{$region_code}";
+    }
+
+    // give up
+    return $browser_lang_code;
+}
+
 // This function returns forum of a particular language. If there is no such
 // forum, it might return a team thread or whatever is appropriate (or nothing,
 // of course).
