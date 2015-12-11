@@ -15,12 +15,14 @@ $may_manage = user_is_site_translator();
 
 if ($may_manage)
     $allowed_functions = array(
-        'xgettext', 'manage', 'merge', 'upload', 'download', 'view', 'newtranslation', 'newtranslation2');
+        'xgettext', 'manage', 'merge', 'upload', 'download', 'view');
 else
     $allowed_functions = array('download', 'view');
 
 if (user_is_a_sitemanager())
 {
+    $allowed_functions[] = 'newtranslation';
+    $allowed_functions[] = 'newtranslation2';
     $allowed_functions[] = 'delete';
     $allowed_functions[] = 'changeenable';
 }
@@ -209,7 +211,7 @@ function main_form()
 {
     // display the list of languages with links to the downloadable PO files
 
-    global $dyn_locales_dir, $translate_url, $may_manage;
+    global $dyn_locales_dir, $translate_url, $may_manage, $allowed_functions;
 
     echo "<h1>"._("Translation Center")."</h1>";
     if (!$may_manage)
@@ -217,7 +219,7 @@ function main_form()
 
     echo "<p>" . _("The following languages are translated or in the process of being translated.");
 
-    if ($may_manage)
+    if (in_array("newtranslation", $allowed_functions))
         echo "<br> " . sprintf(_("If the language you would like to provide translations for does not appear below, you can <a href='%s'>create a new translation</a>."), "$translate_url?func=newtranslation");
 
     echo "</p>\n";
