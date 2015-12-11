@@ -203,6 +203,9 @@ show_news_for_page("FAQ");
   <tr>
     <td>
 
+  <p><a href="translate.php">Translation FAQ</a><br>
+  <font size="-1">Information on how site translations work, including how to install and edit them.</font></p>
+
   <p><a href="<?php echo $code_url; ?>/tasks.php">Task Center</a><br>
   <font size="-1">Here you will find a list of feature requests and bugs. 
   You may add tasks after searching to see that the issue isn't already there.</font></p>

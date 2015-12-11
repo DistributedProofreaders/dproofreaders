@@ -214,6 +214,8 @@ function main_form()
     global $dyn_locales_dir, $translate_url, $may_manage, $allowed_functions;
 
     echo "<h1>"._("Translation Center")."</h1>";
+    echo "<p>" . _("See the <a href='../../faq/translate.php'>Translation FAQ</a> for more information on how to use this interface to manage translations.") . "</p>";
+
     if (!$may_manage)
         echo "<p><em>" . _("You are not a registered translator. You will be able to view the translation interface, but you cannot save a translation or add a new language.") . "</em></p>\n";
 
