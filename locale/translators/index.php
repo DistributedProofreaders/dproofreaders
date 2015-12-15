@@ -364,6 +364,7 @@ function manage_form($locale)
     if (user_is_a_sitemanager())
     {
         echo "<br><br>";
+        echo "<h2>" . _("Site administrator functions") . "</h2>";
         echo "<form action='$translate_url?func=changeenable' method='POST'>";
         echo "<input type='hidden' name='locale' value='$locale'>";
         if($translation_enabled)

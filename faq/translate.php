@@ -30,6 +30,9 @@ output_header('Site translation', NO_STATSBAR);
 
 
 <?php if(user_is_a_sitemanager()) { ?>
+
+<hr>
+
 <h2>System Administrators</h2>
 
 <h3>Prerequisites</h3>
@@ -73,7 +76,18 @@ locale -a
 
 <p>To install the translations, copy them to <tt><?php echo $dyn_locales_dir; ?></tt> and ensure the web server has full read/write permissions on the files and directories. The reason they are located elsewhere is because the site allows designated users to update the translations and to persist outside of the site code path for easier upgrades.</p>
 
-<p>After the translations are installed, go to the <a href='../locale/translators/index.php'>Translation Center</a> to enable the ones you want.</p>
+<p>After the translations are installed you can manage them in the <a href='../locale/translators/index.php'>Translation Center</a>.</p>
+
+<p>To review translations for missing strings and enable the translation:
+<ol>
+    <li>Genearting a new template</li>
+    <li>For each language, access the 'manage' link and:<ol>
+        <li>Merge the current PO file with the current template</li>
+        <li>Download the PO file</li>
+        <li>Use a PO editor to view the untranslated strings</li>
+        <li>If you are satisfied with the thoroughness of the translation, you can enable it</li>
+    </ol></li>
+</ol>
 
 <h3>Enabling translators</h3>
 <p>Site translators have the ability to download the a translation, update it, and upload it back to the site. Note that translators have these abilities for all translations, not just a specific one. They cannot enable or disable a translation, create a translation for a new locale, or delete a translation.</p>
@@ -88,6 +102,8 @@ INSERT INTO usersettings SET username='&lt;username&gt;', setting='site_translat
 <?php } // user_is_a_sitemanager(); ?>
 
 <?php if(user_is_site_translator()) { ?>
+
+<hr>
 
 <h2>Translators</h2>
 <p><b>Note:</b> Because of the current ISO-8859-1 (ie: Latin-1) restriction in the DP code, translations are only supported for languages that use that character set.</p>
@@ -121,19 +137,21 @@ INSERT INTO usersettings SET username='&lt;username&gt;', setting='site_translat
 
 <h3>Translation tips</h3>
 <h4>HTML and spaces</h4>
-<p>Pay attention that you <strong>must not</strong> translate HTML tags and entities (except those entities which are parts of words in the text).</p>
+<p>Pay attention that you <strong>must not</strong> translate HTML tags, attributes, and entities (except those entities which are parts of words in the text). For example: if the string is "No&amp;nbsp;space" translate "No" and "space" but leave &amp;nbsp; as-is. If an entity such as an accented character is used as part of a word, translate the entire word as if the entity was the accented character.</p>
 
 <p>Although there should not be any, if there are spaces at the beginning or the end of a line, keep them.</p>
 
 
 <h4>strftime and sprintf</h4>
-<p>Some strings are not displayed as-is, but are passed to PHP's <a href='http://www.php.net/manual/en/function.strftime.php' class='external' title="http://www.php.net/manual/en/function.strftime.php">strftime</a> function. These strings are recognisable by containing or consisting in entirety of % signs, each followed by a letter (%A, %B... we shall call such percent-letter combinations <em>tags</em>). The tags are replaced with already translated time-related terms (day names, month names...)&mdash;you don't need to translate them yourself! For example, %B expands to month name (f.e. August), and %Y expands to full year (f.e. 2004).</p>
+<p>Some strings are not displayed as-is, but are passed to PHP's <a href='http://www.php.net/manual/en/function.strftime.php'>strftime</a> or<a href='http://www.php.net/manual/en/function.sprintf.php'>sprintf</a> functions.</p>
+
+<p>Strings passed to strftime contain, or consist entirely of "tags" prefixed by %, followed by a letter (%A, %B, etc.). When viewed on the website by the end-user, these tags are replace with already translated time-related terms (day names, month names, etc.)&mdash;you don't need to translate them yourself! For example, %B expands to month name (e.g. August), and %Y expands to display the full year (e.g. 2004).</p>
 
 <p>It might be neccesary to reorganise the tags so that they form a date which is more natural for your language. As for above examples, "%A, %B %e, %Y" becomes "Friday, August 13 2004" while "%A, %e. %B %Y." becomes "Friday, 13. August 2004." when used for English. For a full list of all tags and a more detailed explanation, you can see <a href='http://www.php.net/manual/en/function.strftime.php' class='external' title="http://www.php.net/manual/en/function.strftime.php">strftime</a> in PHP's manual.</p>
 
-<p>Note that some other strings also have tags, but are not passed to strftime, but to <a href='http://www.php.net/manual/en/function.sprintf.php' class='external' title="http://www.php.net/manual/en/function.sprintf.php">sprintf</a> function instead. You will see that the strings and tags are not date-related. An example could be "&lt;a href=%s&gt;your preferences page&lt;/a&gt;". You should just leave the tags as they are.</p>
+<p>Note that some non-date-related strings are also tagged. These are passed to the <a href='http://www.php.net/manual/en/function.sprintf.php' class='external' title="http://www.php.net/manual/en/function.sprintf.php">sprintf</a> function instead of strftime. For example: "&lt;a href=%s&gt;your preferences page&lt;/a&gt;". You should just leave the tags as they are -- any strings associated with the %s that need to be translated will be translated elsewhere.</p>
 
-<p>If the need arises to use the % sign in either strftime or sprintf strings, you should type in %% instead. The additional % acts as an escape.</p>
+<p>If you need to insert a % sign in either strftime or sprintf strings for a translation, use two in a row (%%).</p>
 
 <?php } // user_is_site_translator() ?>
 
