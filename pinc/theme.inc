@@ -251,8 +251,13 @@ function html_navbar()
 
     //Code to display login form if not logged in
     if (!isset($pguser)) {
+        $links = array();
+        $links[] = array('text' => $site_abbreviation, 'url' => "default.php");
+        if ( !empty($blog_url) )
+            $links[] = array('text' => _("Blog"), 'url' => $blog_url);
+        $links[] = array('text' => _("Forums"), 'url' => $forums_url);
         echo "<td>";
-        echo headerbar_text_array(array(array('text' => $site_abbreviation, 'url' => "default.php")));
+        echo headerbar_text_array($links);
         echo "</td>\n";
 
         echo "<td align='right'>";
