@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'new_user_mails.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc');
 
 undo_all_magic_quotes();
@@ -16,25 +17,46 @@ function validate_userID($param_name, $value)
     die("Parameter $param_name is not a valid userID.");
 }
 
+$ID = validate_userID('id', @$_GET['id']);
+
+$result = mysql_query("SELECT * FROM non_activated_users WHERE id='$ID'");
+if (mysql_num_rows($result) == 1) {
+    $user = mysql_fetch_assoc($result);
+} else {
+    $user = NULL;
+
+    // If the user is already activated, and the activated user is the
+    // one that is logged in, redirect them to the Activity Hub. This can
+    // happen if they use the login form in the navbar and are redirected
+    // back here.
+
+    $res2 = mysql_query("
+        SELECT id, username FROM users WHERE id='$ID'
+    ") or die(mysql_error());
+
+    if ( mysql_num_rows($res2) > 0 ) {
+        $existing_user = mysql_fetch_assoc($res2);
+        if($pguser == $existing_user["username"])
+        {
+            metarefresh(0, "$code_url/activity_hub.php");
+        }
+    } else {
+        $existing_user = NULL;
+    }
+}
+
 // A newly registered user has clicked the link in the welcoming e-mail and has thus
 // proved that the e-mail is working. It is time to 'activate' the account, i.e.
 // create a record in the users table, create a profile, stats data, etc.
 // and send a welcome mail.
 output_header(_('Activate account'));
-$ID = validate_userID('id', @$_GET['id']);
-
-$result = mysql_query("SELECT * FROM non_activated_users WHERE id='$ID'");
-
-if (mysql_num_rows($result) == 0) {
+if (!$user) {
     echo "<p>\n";
     echo sprintf(
         _("There is no account with the id '%s' waiting to be activated."), $ID
     );
 
-    $res2 = mysql_query("
-        SELECT id FROM users WHERE id='$ID'
-    ") or die(mysql_error());
-    if ( mysql_num_rows($res2) > 0 ) {
+    if($existing_user) {
         echo "\n";
         echo _("It appears that the account has already been activated.");
         echo "\n";
@@ -42,8 +64,10 @@ if (mysql_num_rows($result) == 0) {
         echo "\n";
         echo _("There should be an introductory email message on its way to you.");
         echo "\n";
-        echo _("Please enter your username and password in the fields above to login to your account.");
-        echo "\n";
+        if(!$pguser) {
+            echo _("Please enter your username and password in the fields above to login to your account.");
+            echo "\n";
+        }
     }
     else
     {
@@ -59,7 +83,6 @@ if (mysql_num_rows($result) == 0) {
     exit;
 }
 
-$user = mysql_fetch_assoc($result);
 $real_name = $user['real_name'];
 $username = $user['username'];
 $email = $user['email'];
@@ -81,6 +104,7 @@ if($create_user_status !== TRUE) {
     echo "\n";
     echo "<!-- Forum error: $create_user_status -->";
     echo "\n";
+    error_log("Error activating $ID: $create_user_status");
     $mailto_url = "mailto:$general_help_email_addr";
     echo sprintf(
         _("For assistance, please contact <a href='%s'>%s</a>."),
