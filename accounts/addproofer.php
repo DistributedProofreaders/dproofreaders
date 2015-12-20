@@ -8,6 +8,20 @@ include_once($relPath.'new_user_mails.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc');
 
+// If configured, load site-specific bot-prevention and validation funcs
+if($site_registration_protection_code)
+{
+    include_once($site_registration_protection_code);
+    $form_data_inserters = get_registration_form_inserters();
+    $form_validators = get_registration_form_validators();
+    $form_validators[] = "_validate_fields";
+}
+else
+{
+    $form_data_inserters = array();
+    $form_validators = array("_validate_fields");
+}
+
 undo_all_magic_quotes();
 
 function _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates)
@@ -102,9 +116,15 @@ if ($password=="proofer") {
         $email      = $local_part . "@localhost";
         $email2     = $email;
     }
-    
-    $error = _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates);
 
+    // Run all form validators against the data
+    foreach($form_validators as $func)
+    {
+        $error = $func($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates);
+        if(!empty($error))
+            break;
+    }
+    
     // if all fields validated, create the registration
     if(empty($error))
     {
@@ -192,6 +212,8 @@ if ($password=="proofer") {
 
     echo "<center>";
     echo "<form method='post' action='addproofer.php'>\n";
+    foreach($form_data_inserters as $func)
+        $func();
     echo "<input type='hidden' name='password' value='proofer'>\n";
     echo "<table class='register'>";
     echo "<tr>";

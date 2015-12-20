@@ -96,6 +96,25 @@ _SITE_URL=$_CODE_URL
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+# User registration
+# -----------------
+
+# User registration is done in two steps:
+#   1) User fills out registration form; code sends activation email
+#   2) User clicks activation URL; code adds account via forum software
+#
+# To help prevent bot registrations, you can create site-specific
+# code for use in step 1 (such as blocking specific IPs or domains from
+# registering, implementing CAPTCHs, etc).
+#
+# To do so, copy SETUP/site_registration_protection.php.example somewhere
+# accessible to the web server, remove .example extension, implement the
+# features you want, and update _SITE_REGISTRATION_PROTECTION_CODE to point
+# to the absolute path of the file.
+_SITE_REGISTRATION_PROTECTION_CODE=
+
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 # Uploading and Creating Projects
 # -------------------------------
 
