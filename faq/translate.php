@@ -80,7 +80,7 @@ locale -a
 
 <p>To review translations for missing strings and enable the translation:
 <ol>
-    <li>Genearting a new template</li>
+    <li>Generating a new template</li>
     <li>For each language, access the 'manage' link and:<ol>
         <li>Merge the current PO file with the current template</li>
         <li>Download the PO file</li>
@@ -89,8 +89,11 @@ locale -a
     </ol></li>
 </ol>
 
+<h3>Regenerating the template</h3>
+<p>The PO template (POT) file contains all translatable strings in the site code. If the code is changed, regenerate the template via the <a href='../locale/translators/index.php'>Translation Center</a>. This ensures that new or modified strings are available to translators for translation.</p>
+
 <h3>Enabling translators</h3>
-<p>Site translators have the ability to download the a translation, update it, and upload it back to the site. Note that translators have these abilities for all translations, not just a specific one. They cannot enable or disable a translation, create a translation for a new locale, or delete a translation.</p>
+<p>Site translators have the ability to download the a translation, update it, and upload it back to the site. Note that translators have these abilities for all translations, not just a specific one. They cannot enable or disable a translation, create a translation for a new locale, delete a translation, or regenerate the template file.</p>
 
 <p>To specify a user as a site translator, create an entry in the usersettings table for them:</p>
 <blockquote>
@@ -120,7 +123,7 @@ INSERT INTO usersettings SET username='&lt;username&gt;', setting='site_translat
 
 <p>The initial page shows all installed locale translations, if they are enabled or disabled, the last time the PO file was modified, and a list of actions you can take on the files. Only enabled locale translations can be used by site users.</p>
 
-<p>The page shows the current PO template file (POT) which contains all the strings in the installed DP code. You have the ability to regenerate this file using the appropriate button. It is rare that you will need to regenerate the template file.</p>
+<p>The page shows the current PO template file (POT) which contains all the strings in the installed DP code. A site administrator can regenerate the template using this page.</p>
 
 <p>The 'view' link will show you the selected PO file in your browser window. The 'download' link will download the PO file to your local computer. The 'manage' button will display another page allowing you to do further actions on the PO file.</p>
 

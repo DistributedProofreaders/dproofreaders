@@ -15,12 +15,13 @@ $may_manage = user_is_site_translator();
 
 if ($may_manage)
     $allowed_functions = array(
-        'xgettext', 'manage', 'merge', 'upload', 'download', 'view');
+        'manage', 'merge', 'upload', 'download', 'view');
 else
     $allowed_functions = array('download', 'view');
 
 if (user_is_a_sitemanager())
 {
+    $allowed_functions[] = 'xgettext';
     $allowed_functions[] = 'newtranslation';
     $allowed_functions[] = 'newtranslation2';
     $allowed_functions[] = 'delete';
@@ -242,7 +243,7 @@ function main_form()
         echo "<p>" . _("No POT template file has been generated.") . "</p>";
     }
 
-    if ($may_manage)
+    if (in_array("xgettext", $allowed_functions))
     {
         echo "<form action='$translate_url?func=xgettext' method='POST'>";
         echo "<input type='submit' value='" . attr_safe(_("Regenerate template file")) . "'> ";
