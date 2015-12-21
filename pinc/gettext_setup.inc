@@ -61,7 +61,7 @@ if ( function_exists('bindtextdomain') )
     bindtextdomain($gettext_domain, $dyn_locales_dir);
     bindtextdomain("iso_639", $system_locales_dir);
     if(function_exists("bind_textdomain_codeset")) {
-        bind_textdomain_codeset ($gettext_domain, $charset);
+        bind_textdomain_codeset ($gettext_domain, "$charset//TRANSLIT");
         bind_textdomain_codeset ("iso_639", $charset);
     }
     textdomain($gettext_domain);
