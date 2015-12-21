@@ -110,21 +110,38 @@ else if ($func == "newtranslation2")
 {
     $locale = validate_locale($_REQUEST['locale'], /*check_dir_exists*/ False);
 
-    if (!file_exists("$dyn_locales_dir/$locale"))
+    if (file_exists("$dyn_locales_dir/$locale"))
     {
-        mkdir("$dyn_locales_dir/$locale", 0755);
-        mkdir("$dyn_locales_dir/$locale/LC_MESSAGES/", 0755);
+        echo "<p>" . sprintf(_("Translation directory for %s already exists."), $locale) ."</p>";
 
-        if (file_exists("$dyn_locales_dir/messages.pot"))
-        {
-            copy("$dyn_locales_dir/messages.pot", "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po");
-        }
+        echo "<p><a href='$translate_url'>"
+            . _("Back to the Translation Center") . "</a></p>";
+    }
 
+    if (!file_exists("$dyn_locales_dir/messages.pot"))
+    {
+        echo "<p>" . _("No POT available to initialize translation.") ."</p>";
+
+        echo "<p><a href='$translate_url'>"
+            . _("Back to the Translation Center") . "</a></p>";
+    }
+
+    mkdir("$dyn_locales_dir/$locale", 0755);
+    mkdir("$dyn_locales_dir/$locale/LC_MESSAGES/", 0755);
+
+     exec("msginit --no-translator " .
+          "--input='$dyn_locales_dir/messages.pot' " .
+          "--output-file='$dyn_locales_dir/$locale/LC_MESSAGES/messages.po' " .
+          "--locale=$locale",
+          $exec_out, $ret_val);
+    if($ret_val == 0)
+    {
         metarefresh(0, "$translate_url?func=manage&amp;locale=$locale", "", "");
     }
     else
     {
-        echo "<p>" . _("Invalid parameter.") ."</p>";
+        echo "<p>" . _("An error occurred during translation initialization.") ."</p>";
+        echo "<pre>$exec_out</pre>";
 
         echo "<p><a href='$translate_url'>"
             . _("Back to the Translation Center") . "</a></p>";
@@ -214,45 +231,27 @@ function main_form()
 
     global $dyn_locales_dir, $translate_url, $may_manage, $allowed_functions;
 
+    $pot_filename = "$dyn_locales_dir/messages.pot";
+
     echo "<h1>"._("Translation Center")."</h1>";
     echo "<p>" . _("See the <a href='../../faq/translate.php'>Translation FAQ</a> for more information on how to use this interface to manage translations.") . "</p>";
 
     if (!$may_manage)
         echo "<p><em>" . _("You are not a registered translator. You will be able to view the translation interface, but you cannot save a translation or add a new language.") . "</em></p>\n";
 
-    echo "<p>" . _("The following languages are translated or in the process of being translated.");
+    echo "<h2>" . _("Translations") . "</h2>";
+    echo "<p>" . _("The following languages are translated or in the process of being translated.") . "</p>";
 
     if (in_array("newtranslation", $allowed_functions))
-        echo "<br> " . sprintf(_("If the language you would like to provide translations for does not appear below, you can <a href='%s'>create a new translation</a>."), "$translate_url?func=newtranslation");
-
-    echo "</p>\n";
-
-    // PO template file
-    $pot_filename = "$dyn_locales_dir/messages.pot";
-    if (file_exists($pot_filename))
     {
-        echo "<p>" . _("POT template file:") . " ";
-        echo "<a href='$translate_url?func=view&amp;locale=template'>" . _("view")
-           . "</a> | <a href='$translate_url?func=download&amp;locale=template'>"
-           . _("download") . "</a> ";
-        echo " (" . _("Last modified:") . " "
-                . date ("F d Y H:i:s", filemtime($pot_filename)) . ")";
-        list($total_strings, $translated_strings) = \
-            count_translated_strings($pot_filename);
-        echo "  - " . sprintf(_("%d strings total"), $total_strings);
-        echo "</p>";
-    }
-    else
-    {
-        echo "<p>" . _("No POT template file has been generated.") . "</p>";
-    }
-
-    if (in_array("xgettext", $allowed_functions))
-    {
-        echo "<form action='$translate_url?func=xgettext' method='POST'>";
-        echo "<input type='submit' value='" . attr_safe(_("Regenerate template file")) . "'> ";
-        echo _("Run <code>xgettext</code> to generate a fresh template file.");
-        echo "</form>\n";
+        if(is_file($pot_filename))
+        {
+            echo "<p> " . sprintf(_("<a href='%s'>Create a new translation.</a>"), "$translate_url?func=newtranslation") . "</p>";
+        }
+        else
+        {
+            echo "<p>" . _("To create a new translation, first generate a new POT file.") . "</p>";
+        }
     }
 
     // PO files for currently existing languages
@@ -310,6 +309,34 @@ function main_form()
         echo "</tr>\n";
     }
     echo "</table>\n";
+
+
+    echo "<h2>" . _("PO Template") . "</h2>";
+    if (file_exists($pot_filename))
+    {
+        echo "<p>" . _("POT template file:") . " ";
+        echo "<a href='$translate_url?func=view&amp;locale=template'>" . _("view")
+           . "</a> | <a href='$translate_url?func=download&amp;locale=template'>"
+           . _("download") . "</a> ";
+        echo " (" . _("Last modified:") . " "
+                . date ("F d Y H:i:s", filemtime($pot_filename)) . ")";
+        list($total_strings, $translated_strings) = \
+            count_translated_strings($pot_filename);
+        echo "  - " . sprintf(_("%d strings total"), $total_strings);
+        echo "</p>";
+    }
+    else
+    {
+        echo "<p>" . _("No POT template file has been generated.") . "</p>";
+    }
+
+    if (in_array("xgettext", $allowed_functions))
+    {
+        echo "<form action='$translate_url?func=xgettext' method='POST'>";
+        echo "<input type='submit' value='" . attr_safe(_("Regenerate template file")) . "'> ";
+        echo _("Run <code>xgettext</code> to generate a fresh template file.");
+        echo "</form>\n";
+    }
 }
 
 
