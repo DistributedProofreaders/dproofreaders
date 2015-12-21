@@ -2,7 +2,7 @@
 
 
 $browser_title                = _("Moderate Proofreading Quiz");
-$intro_title                  = _("Moderate Proofreading Quiz, page 10");
+$intro_title                  = sprintf(_("Moderate Proofreading Quiz, page %d"), 10);
 $initial_instructions         = $initial_instructions__P;
 $initial_text                 = "don't spare him in the slightest!    ,\n\nChrys. (virtuously indignant) Is it enough, if he\nhears mere hard words from me this day than\never Clinia2 heard from Demetrius?2\n\n[EXIT.\n\nNIC. (ruefully) That servant of mine is very\nmuch like a sore eye : if you haven't got one,\nyou don't want one and don't miss it; if you\nhave, you can't keep your hands off it. Why, if\nhe hadn 't happened by good luck to be here to-\n\n^2 Characters in some familiar play.";
 $solutions                    = array("don't spare him in the slightest!\n\nChrys. (virtuously indignant) Is it enough, if he\nhears more hard words from me this day than\never Clinia[2] heard from Demetrius?[2]\n\n[EXIT.\n\nNIC. (ruefully) That servant of mine is very\nmuch like a sore eye: if you haven't got one,\nyou don't want one and don't miss it; if you\nhave, you can't keep your hands off it. Why, if\nhe hadn't happened by good luck to be here to-*\n\n2 Characters in some familiar play.");

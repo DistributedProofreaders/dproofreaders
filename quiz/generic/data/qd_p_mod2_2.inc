@@ -3,7 +3,7 @@ include_once('quiz_defaults.inc'); // $utf8_site
 
 
 $browser_title                = _("Moderate Proofreading Quiz");
-$intro_title                  = _("Moderate Proofreading Quiz, page 7");
+$intro_title                  = sprintf(_("Moderate Proofreading Quiz, page %d"), 7);
 $initial_instructions         = $initial_instructions__P;
 $initial_text                 = "its terrestrial excursions. Just above\nthe gills, lie climbing perch has\ninvented a wholly original water chamber\ncontaining within it a\nfrilled bony organ, which\nenables it to extract oxygen\n--or O2 to scientists--from\nthe stored-up water\nduring the course of its aerial peregrinations\n. While on shore it picks up\nsmall insects, worms, and grubs; but it\nalso has vegetarian tastes of us own,\nand does not despise fruits and berries";
 $solutions                    = array("its terrestrial excursions. Just above\nthe gills, the climbing perch has\ninvented a wholly original water chamber,\ncontaining within it a\nfrilled bony organ, which\nenables it to extract oxygen--or\nO_{2} to scientists--from\nthe stored-up water\nduring the course of its aërial peregrinations.\nWhile on shore it picks up\nsmall insects, worms, and grubs; but it\nalso has vegetarian tastes of its own,\nand does not despise fruits and berries.");

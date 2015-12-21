@@ -3,7 +3,7 @@
 
 
 $browser_title                = _("Basic Proofreading Quiz");
-$intro_title                  = _("Basic Proofreading Quiz, page 1");
+$intro_title                  = sprintf(_("Basic Proofreading Quiz, page %d"), 1);
 $initial_instructions         = $initial_instructions__P;
 $initial_text                 = "THE GLORY OF MOTION.      62\n\nbefore I matriculated at Oxford, Mr. Palmer,\nM. P. for Bath, had accomplished two tbings,\nvery hard to do on our little planet: he had in-\nvented mail-coaches, arid he had married the\ndaughter of a duke. He was, therefore, just\ntwice as great a man as Galileo, who certain-\nly invented (or discovered) the satellites of\nJupiter, those very next things extant to mail-\ncoaches in the two capital points of speed and\nkeeping time, hut who did not marry the\ndaughter of a duke.\n\nFf";
 $solutions                    = array("before I matriculated at Oxford, Mr. Palmer,\nM. P. for Bath, had accomplished two things,\nvery hard to do on our little planet: he had invented\nmail-coaches, and he had married the\ndaughter of a duke. He was, therefore, just\ntwice as great a man as Galileo, who certainly\ninvented (or discovered) the satellites of\nJupiter, those very next things extant to mail-coaches\nin the two capital points of speed and\nkeeping time, but who did not marry the\ndaughter of a duke.");

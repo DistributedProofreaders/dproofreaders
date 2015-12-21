@@ -2,7 +2,7 @@
 
 
 $browser_title                = _("Old Texts Proofreading Quiz");
-$intro_title                  = _("Old Texts Proofreading Quiz, page 2");
+$intro_title                  = sprintf(_("Old Texts Proofreading Quiz, page %d"), 2);
 $initial_instructions         = $initial_instructions__P;
 $initial_text                 = "150 \  Df Boioling.\n\nmost are fliort, ouer, or wide, and few iuftle\nin to Fortune. On one side you may *ee the\nMimick, twisting his Body into feueral\nPostures, to add to the Swiftness or Slowness\nof his Bowl; On the other Side the Orator,\nvfing his perfwafiue Intreaties to hasten or\nretard the Speed of his Bowl; if it be unre-\nfponfiue, then he cryes Short, O Short, &amp;c,\nwhen tis gone ten yards ouer the Iack. But\nnot to detain youany longer in characterizing\nthis excellent sport, I shall instruft you in some\n' , Rules,";
 $solutions                    = array("most are short, ouer, or wide, and few iustle\nin to Fortune. On one side you may see the\nMimick twisting his Body into seueral\nPostures, to add to the Swiftness or Slowness\nof his Bowl; On the other side the Orator,\nvsing his perswasiue Intreaties to hasten or\nretard the Speed of his Bowl; if it be vnresponsiue,\nthen he cryes Short, O Short, &c,\nwhen tis gone ten yards ouer the Iack. But\nnot to detain you any longer in characterizing\nthis excellent sport, I shall instruct you in some");

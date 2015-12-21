@@ -60,7 +60,7 @@ if (isset($_POST['saveAndProject']) || isset($_POST['saveAndPM']) || isset($_POS
         $return="$code_url/tools/project_manager/projectmgr.php";
 
     // do the redirect
-    metarefresh(0, $return, _("Quit without Saving"), "");
+    metarefresh(0, $return, _("Quit Without Saving"), "");
     exit;
 } elseif(isset($_POST['reload'])) {
     // fall through

@@ -52,10 +52,10 @@ else if ($action == 'list_all') {
         echo "<table border='1'>\n";
         {
             echo "<tr>\n";
-            echo "<th><a href='?action=list_all&order_by=username'>", _("username"), "</a></th>\n";
-            echo "<th><a href='?action=list_all&order_by=real_name'>", _("real name"), "</a></th>\n";
-            echo "<th><a href='?action=list_all&order_by=email'>", _("email address"), "</a></th>\n";
-            echo "<th><a href='?action=list_all&order_by=date_created+DESC'>", _("date registered"), "</a></th>\n";
+            echo "<th><a href='?action=list_all&order_by=username'>", _("Username"), "</a></th>\n";
+            echo "<th><a href='?action=list_all&order_by=real_name'>", _("Real Name"), "</a></th>\n";
+            echo "<th><a href='?action=list_all&order_by=email'>", _("Email"), "</a></th>\n";
+            echo "<th><a href='?action=list_all&order_by=date_created+DESC'>", _("Date registered"), "</a></th>\n";
             echo "</tr>\n";
         }
         while ($row = mysql_fetch_assoc($result)) {

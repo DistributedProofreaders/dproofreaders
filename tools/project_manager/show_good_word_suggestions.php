@@ -21,9 +21,9 @@ $freqCutoff = get_integer_param($_REQUEST, 'freqCutoff', 5, 0, null);
 enforce_edit_authorization($projectid);
 
 if($timeCutoff==0)
-    $time_cutoff_text = _("<b>All proofreader suggestions</b> are included in the results below.");
+    $time_cutoff_text = _("<b>All proofreader suggestions</b> are included in the results.");
 else
-    $time_cutoff_text = sprintf(_("Only proofreader suggestions made <b>after %s</b> are included in the results below."),strftime($datetime_format,$timeCutoff));
+    $time_cutoff_text = sprintf(_("Only proofreader suggestions made <b>after %s</b> are included in the results."),strftime($datetime_format,$timeCutoff));
 
 
 // $format determines what is presented from this page:

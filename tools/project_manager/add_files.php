@@ -715,7 +715,7 @@ class Loader
                 echo "<th rowspan='2'>", _("base"), "</th>";
                 echo "<th colspan='3'>", _("text"), "</th>";
                 echo "<th colspan='3'>", _("image"), "</th>";
-                echo "<th rowspan='2'>", _("error msgs"), "</th>";
+                echo "<th rowspan='2'>", _("errors"), "</th>";
                 echo "</tr>";
             }
             {

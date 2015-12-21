@@ -552,6 +552,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     }
     else
     {
+        // TRANSLATORS: This is an strftime-formatted string
         $R_time_str = strftime(_("%Y %b %e %H:%M"), $R_time);
     }
     echo "<td>$R_time_str</td>\n";

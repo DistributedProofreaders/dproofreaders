@@ -2,7 +2,7 @@
 
 
 $browser_title                = _("Greek Transliteration Quiz");
-$intro_title                  = _("Greek Transliteration Quiz, page 4");
+$intro_title                  = sprintf(_("Greek Transliteration Quiz, page %d"), 4);
 $initial_instructions         = $initial_instructions__greek;
 $initial_text                 = "how they kicked their crowns away from\nthem. Of all the enemies they had, they\nthemselves were the most fatal:\n\n[Greek: \"&Ocirc; popoi, ohion d&ecirc; nu theous\nBroto&igrave; aitio&ocirc;ntai,\nex &ecirc;me&ocirc;n gap phaoi kak\nemmenai oi de kai antoi\noph&ecirc;ioin ataothali&ecirc;oin nter\nmoron alge eChouin]";
 $solutions                    = array("how they kicked their crowns away from\nthem. Of all the enemies they had, they\nthemselves were the most fatal:\n\n[Greek: Ô popoi, hoion dê ny theous\nbrotoi aitioôntai,\nex hêmeôn gar phasi kak'\nemmenai; hoi de kai autoi\nsphêsin atasthaliêsin hyper\nmoron alge' echousin.]");

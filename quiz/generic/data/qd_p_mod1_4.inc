@@ -2,7 +2,7 @@
 
 
 $browser_title                = _("Moderate Proofreading Quiz");
-$intro_title                  = _("Moderate Proofreading Quiz, page 4");
+$intro_title                  = sprintf(_("Moderate Proofreading Quiz, page %d"), 4);
 $initial_instructions         = $initial_instructions__P;
 $initial_text                 = "And the meteor on the grave,\nAnd the wisp on the morass;6\nWhen the falling stars are shooting,\nAnd the answer'd owls are hooting.\n\n6[Manfred was done into Italian by a translator\n\"who was unable to find in the dictionaries . . .\nany other signification of the 'wisp' of this line\nthan 'a bundle of straw.\"' Byron offered him\n2OO francs if he would destroy the MS. He at\nfirst refused, but finally signed the agree-\nment.--Life, p. 3l6, note.]";
 $solutions                    = array("And the meteor on the grave,\nAnd the wisp on the morass;[6]\nWhen the falling stars are shooting,\nAnd the answer'd owls are hooting,\n\n6 [Manfred was done into Italian by a translator\n\"who was unable to find in the dictionaries ...\nany other signification of the 'wisp' of this line\nthan 'a bundle of straw.'\" Byron offered him\n200 francs if he would destroy the MS. He at\nfirst refused, but finally signed the agreement.--Life,\np. 316, note.]");

@@ -6,7 +6,7 @@ include_once($relPath.'theme.inc');
 output_header(_('Basic Proofreading Tutorial -- Step 4'));
 
 echo "<h2>" . _("Basic Proofreading Tutorial, Step 4") . "</h2>\n";
-echo "<h3>" . _("Punctuation Spacing") . "</h3>\n";
+echo "<h3>" . _("Punctuation spacing") . "</h3>\n";
 echo "<p>" . _("In general, a punctuation mark should have a space after it but no space before it. If the OCR'd text has no space after a punctuation mark, add one; if there is a space before punctuation, remove it. However, punctuation marks that normally appear in pairs, such as \"quotation marks\", (parentheses), [brackets], and {braces} normally have a space before the opening mark, which should be retained.") . "</p>\n";
 
 echo "<h3>" . _("Illustrations") . "</h3>\n";

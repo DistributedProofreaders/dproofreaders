@@ -117,7 +117,7 @@ elseif ($frame=="top") {
 
     echo "<form method='get' action='view_page_text_image.php' target='_top'>\n";
     if(!$is_valid_project) {
-        echo _("ProjectID:") . "&nbsp;";
+        echo _("Project ID:") . "&nbsp;";
         echo "<input type='text' maxlength='25' name='projectid' size='25' value='" . htmlspecialchars($projectid,ENT_QUOTES) . "'> \n";
         echo "<input type='submit' value='"._("Select Project")."'> &nbsp; &nbsp;";
     } else {

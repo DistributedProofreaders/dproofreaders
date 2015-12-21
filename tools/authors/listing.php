@@ -63,7 +63,7 @@ echo '<table align="center" border="1"><tr>';
 // links to allow (asc/desc) sorting
 
 echo "<th><a href='listing.php?$query".$sortUtility->getQueryStringForSortableValue($sort_author_id).
-     "'>" . _("Id") . "</a></th>\n";
+     "'>" . _("ID") . "</a></th>\n";
 echo "<th><a href='listing.php?$query".$sortUtility->getQueryStringForSortableValue($sort_last_name).
      "'>" . _("Last name") . "</a></th>\n";
 echo "<th><a href='listing.php?$query".$sortUtility->getQueryStringForSortableValue($sort_other_names).

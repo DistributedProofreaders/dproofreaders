@@ -2,7 +2,7 @@
 
 
 $browser_title                = _("Moderate Proofreading Quiz");
-$intro_title                  = _("Moderate Proofreading Quiz, page 1");
+$intro_title                  = sprintf(_("Moderate Proofreading Quiz, page %d"), 1);
 $initial_instructions         = $initial_instructions__P;
 $initial_text                 = "warm bath on March 8th (who shall say hereafter\nthat science is unfeeling?), upon which the grateful\nsnail put his head cautiously out of his shell,\nwalked up to the top of the basin, and began to take\na survey of Eritish institutions with his four eyebearing\ntentacles. So strange a recovery from a\nlong torpid condition deserved an exceptional amount\nof scientific recognition. The desert snail at\n\nDesert snail.\n\nonce found himself famous. Nay, he actually sat\nfor his portrait to an eminent zoological artist, Mr.\n\nB3";
 $solutions                    = array(

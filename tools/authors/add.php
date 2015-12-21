@@ -361,9 +361,9 @@ echo '<p>' .
 <tr><td bgcolor='<?php echo $theme['color_headerbar_bg']; ?>' colspan='2'><center><b><font color='<?php echo $theme['color_headerbar_font']; ?>'>
 <?php echo (isset($_GET['author_id']))
      ?
-         _('Edit Author')
+         _('Edit author')
      :
-         _('Add Author'); ?></font></b></center></td></tr>
+         _('Add author'); ?></font></b></center></td></tr>
 <tr><th bgcolor='#CCCCCC'><?php echo _('Last name'); ?></th><td><input type="text" size="40" name="last_name" VALUE="<?php echo htmlspecialchars($last_name,ENT_QUOTES); ?>"/></td></tr>
 <tr><th bgcolor='#CCCCCC'><?php echo _('Other name(s)'); ?></th><td><input type="text" size="40" name="other_names" VALUE="<?php echo htmlspecialchars($other_names,ENT_QUOTES); ?>"/></td></tr>
 <tr><th bgcolor='#CCCCCC'><?php echo _('Born'); ?></th><td>

@@ -272,7 +272,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
         $projectid = $projectid_[$which];
 
-        echo "<tr><th>" . _("ProjectID:") . "</th><td>" . $projectid . "</td></tr>\n";
+        echo "<tr><th>" . _("Project ID:") . "</th><td>" . $projectid . "</td></tr>\n";
 
         $res = mysql_query(sprintf("
             SELECT nameofwork

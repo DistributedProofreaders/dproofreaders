@@ -3,7 +3,7 @@ include_once($relPath."Quiz.inc");
 
 
 $browser_title                = _("Formatting Quiz");
-$intro_title                  = _("Formatting Quiz, page 3");
+$intro_title                  = sprintf(_("Formatting Quiz, page %d"), 3);;
 $initial_instructions         = $initial_instructions__F;
 // Note that we don't translate the page text since it, obviously,
 // needs to match the image which is in English.

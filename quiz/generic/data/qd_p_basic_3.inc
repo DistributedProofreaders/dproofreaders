@@ -2,7 +2,7 @@
 
 
 $browser_title                = _("Basic Proofreading Quiz");
-$intro_title                  = _("Basic Proofreading Quiz, page 3");
+$intro_title                  = sprintf(_("Basic Proofreading Quiz, page %d"), 3);
 $initial_instructions         = $initial_instructions__P;
 $initial_text                 = "bundles into the house, while Mirabell's mother\nwent on home in her automobile.\n\nCHAPTER II\n\nThe Rabbit's New Home\n\nOh, Mother! What have you?\" cried the\nvoice of a little girl, as the lady entered\nthe house with the bundle.\n\n\"Is it...something good to cat..?\" asked a\nboy's voice.\n\n\"Now, children, you must not ask too many\nquestions.\" said their mother. \"This isn't exactly\nCHRISTMAS, but it will soon be EASTER, and we";
 $solutions                    = array("bundles into the house, while Mirabell's mother\nwent on home in her automobile.\n\nCHAPTER II\n\nThe Rabbit's New Home\n\n\"Oh, Mother! What have you?\" cried the\nvoice of a little girl, as the lady entered\nthe house with the bundle.\n\n\"Is it ... something good to eat...?\" asked a\nboy's voice.\n\n\"Now, children, you must not ask too many\nquestions,\" said their mother. \"This isn't exactly\nCHRISTMAS, but it will soon be EASTER, and we");

@@ -224,7 +224,9 @@ function do_showupload()
     global $curr_relpath, $hce_curr_displaypath;
     global $pguser, $autoprefix_message;
 
-    $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.).<br> The file should have the .zip extension, NOT .Zip, .ZIP, etc.<br>The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen.");
+    // the first part of this blurb is used in upload_text.php
+    $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.");
+    $standard_blurb .= "<br>" . _("The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen.");
     $submit_blurb = sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), _("Upload"));
 
     $page_title =  sprintf( _("Upload a file to folder %s"), $hce_curr_displaypath );

@@ -91,7 +91,7 @@ elseif (isset($_POST['quit']))
         $return="$code_url/tools/project_manager/projectmgr.php";
 
     // do the redirect
-    metarefresh(0, $return, _("Quit without Saving"), "");
+    metarefresh(0, $return, _("Quit Without Saving"), "");
 }
 else
 {

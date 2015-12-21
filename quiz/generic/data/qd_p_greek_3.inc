@@ -2,7 +2,7 @@
 
 
 $browser_title                = _("Greek Transliteration Quiz");
-$intro_title                  = _("Greek Transliteration Quiz, page 3");
+$intro_title                  = sprintf(_("Greek Transliteration Quiz, page %d"), 3);
 $initial_instructions         = $initial_instructions__greek;
 $initial_text                 = "the famous knight Sir Guy, the slayer of the\ngreat Dun Cow which had laid waste the\nwhole county of Warwick. But besides slaying\nthe cow, he did many other noble deeds, like\nthe heroes of old:\n\n[Greek: ton '&Ecirc;rhaklea ton Di&ograve;s aneipov\nellonon kai t&ocirc; t&ecirc;s A&ecirc;das niee,\nMin&ocirc; te ohimai nomo0et&ecirc;n ka&igrave;\n'Radamanthnn ton Kn&ocirc;oion";
 $solutions                    = array("the famous knight Sir Guy, the slayer of the\ngreat Dun Cow which had laid waste the\nwhole county of Warwick. But besides slaying\nthe cow, he did many other noble deeds, like\nthe heroes of old:\n\n[Greek: ton Hêraklea tou Dios aneipon\nengonon kai tô tês Lêdas hyiee,\nMinô te oimai ton nomothetên kai\nRhadamanthyn ton Knôsion]");
