@@ -236,7 +236,11 @@ function main_form()
            . "</a> | <a href='$translate_url?func=download&amp;locale=template'>"
            . _("download") . "</a> ";
         echo " (" . _("Last modified:") . " "
-                . date ("F d Y H:i:s", filemtime($pot_filename)) . ")</p>";
+                . date ("F d Y H:i:s", filemtime($pot_filename)) . ")";
+        list($total_strings, $translated_strings) = \
+            count_translated_strings($pot_filename);
+        echo "  - " . sprintf(_("%d strings total"), $total_strings);
+        echo "</p>";
     }
     else
     {
@@ -252,12 +256,13 @@ function main_form()
     }
 
     // PO files for currently existing languages
-    echo "<table style='border: 0;'>\n";
+    echo "<table class='translation'>\n";
     echo "<tr>";
     echo "<th>" . _("Language") . "</th>";
     echo "<th>" . _("Locale") . "</th>";
     echo "<th>" . _("Status") . "</th>";
     echo "<th>" . _("PO file last modified") . "</th>";
+    echo "<th>" . _("Translation progress") . "</th>";
     echo "<th>" . _("Actions") . "</th>";
     echo "<th></th>";
     echo "</tr>\n";
@@ -269,6 +274,8 @@ function main_form()
         $language_name = eng_name(short_lang_code($locale));
         $po_filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
         $translation_enabled = is_locale_translation_enabled($locale);
+        list($total_strings, $translated_strings) = \
+            count_translated_strings($po_filename);
         echo "<tr>";
         echo "<td>$language_name</td>";
         echo "<td>$locale</td>";
@@ -279,6 +286,12 @@ function main_form()
         echo "<td>";
         if (file_exists($po_filename))
             echo date ("F d Y H:i:s", filemtime($po_filename));
+        echo "</td>";
+        echo "<td style='text-align: right'>";
+        // TRANSLATORS: This shows the number of strings translated with a percentage
+        echo sprintf(_('%1$s of %2$s translated (%3$d%%)'),
+            $translated_strings, $total_strings,
+            $translated_strings/$total_strings*100);
         echo "</td>";
         echo "<td>";
         $actions = array();
@@ -326,11 +339,20 @@ function manage_form($locale)
     $po_filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
     if (file_exists($po_filename))
     {
+        list($total_strings, $translated_strings) = \
+            count_translated_strings($po_filename);
+
         echo "<p><b>" . _("PO file:") . "</b> ";
         echo "<a href='$translate_url?func=view&amp;locale=$locale'>"
             . _("view") . "</a> | <a href='$translate_url?func=download&amp;locale=$locale'>"
             . _("download") . "</a> (" . _("Last modified:") . " "
-            . date ("F d Y H:i:s", filemtime($po_filename)) . ")</p>";
+            . date ("F d Y H:i:s", filemtime($po_filename)) . ")";
+
+        echo " - ";
+        echo sprintf(_('%1$s of %2$s translated (%3$d%%)'),
+            $translated_strings, $total_strings,
+            $translated_strings/$total_strings*100);
+        echo "</p>";
 
         $pot_filename = "$dyn_locales_dir/messages.pot";
         if (file_exists($pot_filename) && filemtime($pot_filename) > filemtime($po_filename))
@@ -501,6 +523,63 @@ function validate_locale($locale, $check_dir_exists = True)
         die (sprintf(_("locale %s is not valid"), $locale));
     }
     return $locale;
+}
+
+function count_translated_strings($po_filename)
+// Given a PO file, count the total number of strings and the number of
+// translated strings.
+// Returns: array($count, $translated);
+{
+    $fh = fopen($po_filename, "rt");
+    if(!$fh)
+        return array(0, 0);
+
+    $block = "";
+    // The first record is always metadata and flags as translated
+    // so our count starts at -1
+    $count = -1;
+    $translated = -1;
+    while (($line = fgets($fh, 4096)) !== false) {
+        // skip all comment lines
+        if(strpos($line, '#') === 0)
+            continue;
+
+        $line = trim($line);
+        if($line)
+        {
+            $block .= "$line\n";
+        }
+        elseif($block)
+        {
+            $count++;
+            if(is_block_translated($block))
+                $translated++;
+            $block = "";
+        }
+    }
+    if($block)
+    {
+        $count++;
+        if(is_block_translated($block))
+            $translated++;
+    }
+    fclose($fh);
+
+    return array($count, $translated);
+}
+
+function is_block_translated($block)
+// Given a msgid/msgstr block from a PO file, determine if the block
+// is translated. This is slightly complicated because of multiline
+// strings, hence the gymnastics.
+{
+    list($msgid, $msgstr) = @explode("msgstr", $block);
+    $msgstr = "msgstr$msgstr";
+    if(strpos($msgstr, 'msgstr ""') === 0 &&
+        substr_count($msgstr, "\n") == 1)
+        return false;
+
+    return true;
 }
 
 // vim: sw=4 ts=4 expandtab
