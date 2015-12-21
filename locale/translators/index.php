@@ -46,8 +46,12 @@ if ($func == "download" || $func == "view")
 
     if (file_exists($filename))
     {
-        // TODO, in what charset are these files?
-        header("Content-type: text/plain; charset=$charset");
+        // Set the header content-type based on the values specified in the
+        // file if set. If it isn't set, we don't know what the encoding
+        // is with any sort of confidence.
+        $po_content_type = get_po_content_type($filename);
+        if($po_content_type && strpos($po_content_type, "=CHARSET") === FALSE)
+            header($po_content_type);
 
         if ($func == "download") {
             $output_fname =
@@ -607,6 +611,26 @@ function is_block_translated($block)
         return false;
 
     return true;
+}
+
+function get_po_content_type($po_filename)
+// Get the full Content-Type from the comment block at the beginning of a PO
+// file (without any trailing newline) or NULL on error.
+{
+    $fh = fopen($po_filename, "rt");
+    if(!$fh)
+        return NULL;
+
+    $content_type = NULL;
+    while (($line = fgets($fh, 4096)) !== false) {
+        if(stripos($line, "Content-type")) {
+            $content_type = str_replace(array('\n', '\r', '"'), "", $line);
+            break;
+        }
+    }
+    fclose($fh);
+
+    return $content_type;
 }
 
 // vim: sw=4 ts=4 expandtab
