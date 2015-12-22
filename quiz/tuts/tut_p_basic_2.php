@@ -3,9 +3,9 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-output_header(_('Basic Proofreading Tutorial -- Step 2'));
+output_header(_('Basic Proofreading Tutorial'));
 
-echo "<h2>" . _("Basic Proofreading Tutorial, Step 2") . "</h2>\n";
+echo "<h2>" . sprintf(_("Basic Proofreading Tutorial, Step %d"), 2) . "</h2>\n";
 echo "<h3>" . _("Paragraph Spacing/Indenting") . "</h3>\n";
 echo "<p>" . _("Put a blank line before the start of a paragraph, even if it starts at the top of a page. You should not indent the start of the paragraph, but if it is already indented don't bother removing those spaces&mdash;that can be done automatically during post-processing.") . "</p>\n";
 

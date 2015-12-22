@@ -4,9 +4,9 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once('../generic/quiz_defaults.inc'); // $blackletter_url
 
-output_header(_('Old Texts Proofreading Tutorial -- Page 3'));
+output_header(_('Old Texts Proofreading Tutorial'));
 
-echo "<h2>" . _("Old Texts Proofreading Tutorial, Page 3") . "</h2>\n";
+echo "<h2>" . sprintf(_("Old Texts Proofreading Tutorial, Page %d"), 3) . "</h2>\n";
 echo "<h3>" . _("Nasal abbreviations") . "</h3>\n";
 echo "<p>" . _("Sometimes an <i>n</i> or <i>m</i> is abbreviated by putting a mark over the preceding letter:") . "</p>\n";
 

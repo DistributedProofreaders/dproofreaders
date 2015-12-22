@@ -3,9 +3,9 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-output_header(_('Moderate Proofreading Tutorial -- Page 7'));
+output_header(_('Moderate Proofreading Tutorial'));
 
-echo "<h2>" . _("Moderate Proofreading Tutorial, Page 7") . "</h2>\n";
+echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial, Page %d"), 7) . "</h2>\n";
 echo "<h3>" . _("Subscripts") . "</h3>\n";
 echo "<p>" . _("Subscripted text is often found in scientific works, but is not common in other material. Proofread subscripted text by inserting an underline character <tt>_</tt> and surrounding the text with curly braces <tt>{</tt> and <tt>}</tt>. For example:") . "</p>\n";
 

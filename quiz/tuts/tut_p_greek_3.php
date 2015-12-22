@@ -3,9 +3,9 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-output_header(_('Greek Transliteration Tutorial -- Page 3'));
+output_header(_('Greek Transliteration Tutorial'));
 
-echo "<h2>" . _("Greek Transliteration Tutorial, Page 3") . "</h2>\n";
+echo "<h2>" . sprintf(_("Greek Transliteration Tutorial, Page %d"), 3) . "</h2>\n";
 
 echo "<h3>" . _("Letters with Multiple Transliterations") . "</h3>\n";
 echo "<p>" . _("The letter &gamma; (gamma) is usually transliterated as g, but n is used instead when it occurs before certain letters:") . "</p>\n";

@@ -114,7 +114,7 @@ foreach( $proofers as $username => $proofer )
     $pgs_to_mentor  = _("Pages to mentor");
     $being_mentored = _("being mentored");
     $by_you         = _("by you");
-    $pages_total    = _("pages total");
+    $pages_total    = _("Pages Total");
 
     echo "<h3>{$proofer_link} - {$pgs_to_mentor}: $pagecount 
           {$being_mentored}: $mentoringcount  {$by_you}

@@ -458,7 +458,7 @@ function showMbrPageStats( $curMbr, $tally_name )
     );
     $t->row(
         _("Total Pages"),
-        number_format($vitals->current_tally) . " " . _("pages")
+        number_format($vitals->current_tally)
     );
     $t->row(
         _("Overall Rank"),

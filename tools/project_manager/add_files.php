@@ -644,7 +644,7 @@ class Loader
         global $code_url, $projectid;
         echo "<h2>";
         echo sprintf(
-            _('Loading files from %s into project %s'),
+            _('Loading files from %1$s into project %2$s'),
             $this->source_project_dir,
             $this->projectid
         );
@@ -712,20 +712,20 @@ class Loader
             echo "<table border='1'>\n";
             {
                 echo "<tr>";
-                echo "<th rowspan='2'>", _("base"), "</th>";
-                echo "<th colspan='3'>", _("text"), "</th>";
-                echo "<th colspan='3'>", _("image"), "</th>";
-                echo "<th rowspan='2'>", _("errors"), "</th>";
+                echo "<th rowspan='2'>", _("Base"), "</th>";
+                echo "<th colspan='3'>", _("Text"), "</th>";
+                echo "<th colspan='3'>", _("Image"), "</th>";
+                echo "<th rowspan='2'>", _("Errors"), "</th>";
                 echo "</tr>";
             }
             {
                 echo "<tr>";
-                echo "<th>", _("pre-existing"), "</th>";
-                echo "<th>", _("new"), "</th>";
-                echo "<th>", _("action"), "</th>";
-                echo "<th>", _("pre-existing"), "</th>";
-                echo "<th>", _("new"), "</th>";
-                echo "<th>", _("action"), "</th>";
+                echo "<th>", _("Pre-existing"), "</th>";
+                echo "<th>", _("New"), "</th>";
+                echo "<th>", _("Action"), "</th>";
+                echo "<th>", _("Pre-existing"), "</th>";
+                echo "<th>", _("New"), "</th>";
+                echo "<th>", _("Action"), "</th>";
                 echo "</tr>";
             }
             foreach ( $this->page_file_table as $base => $row )
@@ -760,10 +760,10 @@ class Loader
                     );
                     $action_labels = array(
                         ''        => '',
-                        'add'     => _('add'),
-                        'replace' => _('replace'),
-                        'same'    => _('same'),
-                        'error'   => _('error'),
+                        'add'     => _('Add'),
+                        'replace' => _('Replace'),
+                        'same'    => _('Same'),
+                        'error'   => _('Error'),
                     );
                     $action_bgcolor = $bgcolors[$action];
                     echo "<td align='center' bgcolor='$action_bgcolor'>";

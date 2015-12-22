@@ -24,7 +24,7 @@ $pages = array(
     "sitenews.php" => _("Manage Site News"),
 // This is a "metadata rounds" file, and unused. Don't provide link.
 //    "proj_approvals.php" => _("Manage copyright clearance approvals"),
-    "copy_pages.php" => _("Copy pages from one project into another"),
+    "copy_pages.php" => _("Copy Pages from One Project to Another"),
     "rename_pages.php" => _("Rename pages"),
     "shared_postednums.php" => _("Detect duplicate postednum"),
     "displayrandrules.php" => _("Display Random Rules"),

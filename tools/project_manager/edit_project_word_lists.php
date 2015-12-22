@@ -99,7 +99,7 @@ class ProjectWordListHolder
         }
         else if ( $ucep_result == USER_CANNOT_EDIT_PROJECT )
         {
-            return array(_("you are not allowed to edit this project").": '$projectid'");
+            return array(_("You are not authorized to manage this project.").": '$projectid'");
         }
         else if ( $ucep_result == USER_CAN_EDIT_PROJECT )
         {
@@ -113,7 +113,7 @@ class ProjectWordListHolder
         $res = mysql_query("SELECT nameofwork, username, authorsname, language, checkedoutby, state FROM projects WHERE projectid = '$projectid'");
         if (mysql_num_rows($res) == 0)
         {
-            return array(_("parameter 'projectid' is invalid") . ": '$projectid'");
+            return array(sprintf(_("parameter '%s' is invalid"), 'projectid') . ": '$projectid'");
         }
 
         $ar = mysql_fetch_array($res);
@@ -190,7 +190,7 @@ class ProjectWordListHolder
             }
             else if ( $ucep_result == USER_CANNOT_EDIT_PROJECT )
             {
-                return array(_("you are not allowed to edit this project").": '$this->projectid'");
+                return array(_("You are not authorized to manage this project.").": '$this->projectid'");
             }
             else if ( $ucep_result == USER_CAN_EDIT_PROJECT )
             {

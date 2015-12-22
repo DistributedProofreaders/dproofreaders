@@ -3,9 +3,9 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-output_header(_('Moderate Proofreading Tutorial -- Page 2'));
+output_header(_('Moderate Proofreading Tutorial'));
 
-echo "<h2>" . _("Moderate Proofreading Tutorial, Page 2") . "</h2>\n";
+echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial, Page %d"), 2) . "</h2>\n";
 echo "<h3>" . _("End-of-line Hyphenation") . "</h3>\n";
 echo "<p>" . _("Words like to-day and to-morrow that we don't commonly hyphenate now were often hyphenated in the old books we are working on. Leave them hyphenated the way the author did. If you're not sure if the author hyphenated it or not, leave the hyphen, put an <tt>*</tt> after it, and join the word together like this: <tt>to-*day</tt>. The asterisk will bring it to the attention of the post-processor, who has access to all the pages and can determine how the author typically wrote this word.") . "</p>\n";
 

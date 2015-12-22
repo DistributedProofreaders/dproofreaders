@@ -232,7 +232,8 @@ function do_expected_state()
     {
         echo "<font color='red'>";
         echo sprintf(
-            _("Warning! The project is no longer in '%s'. It is now in '%s'."),
+            _('Warning: Project "%1$s" is no longer in state "%2$s"; it is now in state "%3$s".'),
+            $project->nameofwork,
             project_states_text($expected_state),
             project_states_text($project->state)
         );
@@ -2121,11 +2122,12 @@ function do_page_summary()
         $num_pages = Project_getNumPagesInState($projectid,$page_state);
         if ( $num_pages != 0 )
         {
+            // TRANSLATORS: %s is a page state, this is a label in a table for the number of pages in this state
             echo "<tr><td align='right'>$num_pages</td><td>".sprintf(_("in %s"),$page_state)."</td></tr>\n";
         }
     }
     echo "<tr><td colspan='2'><hr></td></tr>\n";
-    echo "<tr><td align='right'>$total_num_pages</td><td align='center'>"._("pages total")."</td></tr>\n";
+    echo "<tr><td align='right'>$total_num_pages</td><td align='center'>"._("Pages Total")."</td></tr>\n";
     echo "</table>\n";
     echo "</center>";
 }

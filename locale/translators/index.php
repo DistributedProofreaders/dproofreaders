@@ -172,9 +172,9 @@ else if ($func == "changeenable")
     set_locale_translation_enabled($locale, $enable);
 
     if($enable)
-        $enable_string = _("enabled");
+        $enable_string = _("Enabled");
     else
-        $enable_string = _("disabled");
+        $enable_string = _("Disabled");
 
     echo "<p>" . sprintf(_('Locale %1$s has been: %2$s.'), $locale, $enable_string) . "</p>";
 
@@ -283,9 +283,9 @@ function main_form()
         echo "<td>$language_name</td>";
         echo "<td>$locale</td>";
         if($translation_enabled)
-            echo "<td>" . _("enabled") . "</td>";
+            echo "<td>" . _("Enabled") . "</td>";
         else
-            echo "<td>" . _("disabled") . "</td>";
+            echo "<td>" . _("Disabled") . "</td>";
         echo "<td>";
         if (file_exists($po_filename))
             echo date ("F d Y H:i:s", filemtime($po_filename));
@@ -299,11 +299,11 @@ function main_form()
         echo "<td>";
         $actions = array();
         if ($may_manage)
-            $actions[] = "<a href='$translate_url?func=manage&amp;locale=$locale'>" . _("manage") . "</a>";
+            $actions[] = "<a href='$translate_url?func=manage&amp;locale=$locale'>" . _("Manage") . "</a>";
         if (file_exists($po_filename))
         {
-            $actions[] = "<a href='$translate_url?func=view&amp;locale=$locale'>" . _("view") . "</a>";
-            $actions[] = "<a href='$translate_url?func=download&amp;locale=$locale'>" . _("download") . "</a>";
+            $actions[] = "<a href='$translate_url?func=view&amp;locale=$locale'>" . _("View") . "</a>";
+            $actions[] = "<a href='$translate_url?func=download&amp;locale=$locale'>" . _("Download") . "</a>";
         }
         echo implode(" | ", $actions);
         echo "</td>";
@@ -319,9 +319,9 @@ function main_form()
     if (file_exists($pot_filename))
     {
         echo "<p>" . _("POT template file:") . " ";
-        echo "<a href='$translate_url?func=view&amp;locale=template'>" . _("view")
+        echo "<a href='$translate_url?func=view&amp;locale=template'>" . _("View")
            . "</a> | <a href='$translate_url?func=download&amp;locale=template'>"
-           . _("download") . "</a> ";
+           . _("Download") . "</a> ";
         echo " (" . _("Last modified:") . " "
                 . date ("F d Y H:i:s", filemtime($pot_filename)) . ")";
         list($total_strings, $translated_strings) = \
@@ -362,9 +362,9 @@ function manage_form($locale)
     echo "<p><b>" . _("Language name:") . "</b> " . eng_name($locale) . "</p>\n";
     echo "<p><b>" . _("Translation status:") . "</b> ";
     if($translation_enabled)
-        echo _("enabled");
+        echo _("Enabled");
     else
-        echo _("disabled");
+        echo _("Disabled");
     echo "</p>\n";
 
     $po_filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
@@ -375,8 +375,8 @@ function manage_form($locale)
 
         echo "<p><b>" . _("PO file:") . "</b> ";
         echo "<a href='$translate_url?func=view&amp;locale=$locale'>"
-            . _("view") . "</a> | <a href='$translate_url?func=download&amp;locale=$locale'>"
-            . _("download") . "</a> (" . _("Last modified:") . " "
+            . _("View") . "</a> | <a href='$translate_url?func=download&amp;locale=$locale'>"
+            . _("Download") . "</a> (" . _("Last modified:") . " "
             . date ("F d Y H:i:s", filemtime($po_filename)) . ")";
 
         echo " - ";

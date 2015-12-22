@@ -111,12 +111,12 @@ window.onload = test_and_enable_nonregex;
 <form>
 <table id="tbl">
 <tr><td align="right">
-<?php echo _("Search:"); ?>
+<?php echo _("Search"); ?>:
 </td><td>
 <input type="text" name="search" id='search' />
 </td></tr>
 <tr><td align="right">
-<?php echo _("Replace:"); ?>
+<?php echo _("Replace"); ?>:
 </td><td>
 <input type="text" name="replace" id='replace' />
 </td></tr>

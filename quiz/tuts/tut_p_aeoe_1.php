@@ -3,9 +3,9 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-output_header(_('Ligatures Proofreading Tutorial -- Page 1'));
+output_header(_('Ligatures Proofreading Tutorial'));
 
-echo "<h2>" . _("Ligatures Proofreading Tutorial, Page 1") . "</h2>\n";
+echo "<h2>" . sprintf(_("Ligatures Proofreading Tutorial, Page %d"), 1) . "</h2>\n";
 
 echo "<p>" . _("The two ligatures &aelig; and &oelig; can be difficult to distinguish when they are printed italics.  However, the &oelig; (oe) ligature is usually rounder at the top, while the 'a' of &aelig; is more teardrop-shaped.  For example:") . "</p>\n";
 echo "<table border='1' cellspacing='0' cellpadding='5'>\n<tr><th>&oelig;</th><th>&aelig;</th></tr>\n";

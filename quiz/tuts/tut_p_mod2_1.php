@@ -3,9 +3,9 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-output_header(_('Moderate Proofreading Tutorial -- Page 6'));
+output_header(_('Moderate Proofreading Tutorial'));
 
-echo "<h2>" . _("Moderate Proofreading Tutorial, Page 6") . "</h2>\n";
+echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial, Page %d"), 6) . "</h2>\n";
 echo "<h3>" . _("Paragraph Side-Descriptions (Sidenotes)") . "</h3>\n";
 echo "<p>" . _("Some books will have short descriptions of the paragraph along the side of the text. These are called sidenotes. Proofread the sidenote text as it is printed, preserving the line breaks (while handling end-of-line hyphenation and dashes normally). Leave a blank line before and after the sidenote so that it can be distinguished from the text around it. The OCR may place the sidenotes anywhere on the page, and may even intermingle the sidenote text with the rest of the text. Separate them so that the sidenote text is all together, but don't worry about the position of the sidenotes on the page.") . "</p>\n";
 

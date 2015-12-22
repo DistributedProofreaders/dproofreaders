@@ -3,9 +3,9 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-output_header(_('Greek Transliteration Tutorial -- Page 4'));
+output_header(_('Greek Transliteration Tutorial'));
 
-echo "<h2>" . _("Greek Transliteration Tutorial, Page 4") . "</h2>\n";
+echo "<h2>" . sprintf(_("Greek Transliteration Tutorial, Page %d"), 4) . "</h2>\n";
 
 echo "<h3>" . _("Punctuation") . "</h3>\n";
 echo "<p>" . _("The apostrophes at the ends of some words are, in fact, apostrophes, and serve the same purpose that they do in English: The author is leavin' some letters off the ends o' words. Please include apostrophes in your transliteration.") . "</p>\n";

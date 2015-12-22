@@ -54,7 +54,7 @@ else if ($action == 'list_all') {
             echo "<tr>\n";
             echo "<th><a href='?action=list_all&order_by=username'>", _("Username"), "</a></th>\n";
             echo "<th><a href='?action=list_all&order_by=real_name'>", _("Real Name"), "</a></th>\n";
-            echo "<th><a href='?action=list_all&order_by=email'>", _("Email"), "</a></th>\n";
+            echo "<th><a href='?action=list_all&order_by=email'>", _("E-mail"), "</a></th>\n";
             echo "<th><a href='?action=list_all&order_by=date_created+DESC'>", _("Date registered"), "</a></th>\n";
             echo "</tr>\n";
         }
@@ -94,9 +94,9 @@ else if ($action == 'get_user') {
         <form method='get'>
         <input type='hidden' name='action' value='set_email' />
         <input type='hidden' name='username' value='<?php echo htmlspecialchars($username, ENT_QUOTES); ?>' />
-        <?php echo _("Username:"); ?> <?php echo htmlspecialchars($username); ?>
+        <?php echo _("Username"); ?>: <?php echo htmlspecialchars($username); ?>
         <br />
-        <?php echo _("E-mail:"); ?> <input type='text' name='email' value='<?php echo htmlspecialchars($email, ENT_QUOTES); ?>' />
+        <?php echo _("E-mail"); ?>: <input type='text' name='email' value='<?php echo htmlspecialchars($email, ENT_QUOTES); ?>' />
         <br />
         <input type='submit' value='<?php echo attr_safe(_("Update address and resend activation mail")); ?>' />
         </form>

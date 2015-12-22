@@ -488,6 +488,7 @@ function show_user_access_chart( $username )
         echo "<tr>";
         echo "<th></th>";
         echo "<th colspan='$n_criteria'>" . _("Criteria") . "</th>";
+        // TRANSLATORS: abbreviation for "all satisfied?"
         echo "<th rowspan='3'>" . _("all sat?") . "</th>";
         echo "<th rowspan='3'>" . _("request") . "</th>";
         if ( $allow_revoke )
@@ -556,7 +557,7 @@ function show_user_access_chart( $username )
 
         // "all sat?" column
         echo td_w_bgcolor(
-            ($uao->all_minima_satisfied ? _('yes') : _('no')),
+            ($uao->all_minima_satisfied ? _('Yes') : _('No')),
             $uao->all_minima_satisfied );
 
         $could_grant = FALSE;
@@ -622,7 +623,7 @@ function show_user_access_chart( $username )
         }
 
         // "can access?" column
-        echo td_w_bgcolor( ($uao->can_access?_('yes'):_('no')), $uao->can_access );
+        echo td_w_bgcolor( ($uao->can_access?_('Yes'):_('No')), $uao->can_access );
 
         if ( $allow_grant )
         {

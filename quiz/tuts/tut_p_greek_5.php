@@ -3,9 +3,9 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-output_header(_('Greek Transliteration Tutorial -- Page 5'));
+output_header(_('Greek Transliteration Tutorial'));
 
-echo "<h2>" . _("Greek Transliteration Tutorial, Page 5") . "</h2>\n";
+echo "<h2>" . sprintf(_("Greek Transliteration Tutorial, Page %d"), 5) . "</h2>\n";
 
 echo "<h3>" . _("Two Double Letters") . "</h3>\n";
 echo "<p>" . _("This form of sigma: &sigmaf; normally only occurs at the end of a word. If you meet one in the middle of a word, it's almost always a letter called \"stigma\" and the top bit of it usually extends further to the right. It gets transliterated as <tt>st</tt>.") . "</p>\n";

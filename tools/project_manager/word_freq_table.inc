@@ -385,7 +385,9 @@ function enforce_edit_authorization($projectid) {
 
     $ucep_result = user_can_edit_project($projectid);
     if($ucep_result != USER_CAN_EDIT_PROJECT) {
-        $message = _("You are not authorized to edit this project. Redirecting you to the project page in 5 seconds.");
+        $message = _("You are not authorized to manage this project.");
+        $message .= " ";
+        $message .= sprintf(_("Redirecting you to the project page in %d seconds."), 5);
         metarefresh(5, "$code_url/project.php?id=$projectid", _("Redirect to Project"), $message);
         exit;
     }
@@ -415,9 +417,9 @@ function build_checkbox_array($array,$instance=0) {
 
 function echo_checkbox_selects($wordCount,$instance=0) {
     echo "<p>";
-    echo "<a href='#' onClick='return checkAll(\"$instance\",$wordCount,true);'>" . _("Select All") . "</a>";
+    echo "<a href='#' onClick='return checkAll(\"$instance\",$wordCount,true);'>" . _("Select all") . "</a>";
     echo " | ";
-    echo "<a href='#' onClick='return checkAll(\"$instance\",$wordCount,false);'>" . _("Unselect All") . "</a>";
+    echo "<a href='#' onClick='return checkAll(\"$instance\",$wordCount,false);'>" . _("Unselect all") . "</a>";
     echo "</p>";
 }
 

@@ -607,9 +607,11 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     echo "<tr>";
     echo_header_cell( 175, _("Title") );
     echo_header_cell( 100, _("Author") );
+    // TRANSLATOR: Abbreviation for difficulty
     echo_header_cell( 25, _("Diff.") );
     echo_header_cell( 50, _("Avail. Pages") );
     echo_header_cell( 50, _("Total Pages") );
+    // TRANSLATOR: Abbreviation for Project Manager
     echo_header_cell(  75, _("PM") );
     echo_header_cell(  75, _("Checked Out By") );
     echo_header_cell( 180, _("Project Status") );
@@ -697,7 +699,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             echo "<td align=center>";
             if ( user_is_a_sitemanager() || user_is_proj_facilitator() || $project->username == $pguser )
             {
-                echo _("Edit:");
+                echo _("Edit") . ":";
                 echo " ";
                 echo "<a href=\"editproject.php?action=edit&project=$projectid\">" . _("Info") . "</a>";
                 echo " | ";
