@@ -271,7 +271,7 @@ $widgets = array(
     )),
     new Widget( array(
         'id'         => 'checkedoutby',
-        'label'      => _('Checked out by'),
+        'label'      => _('Checked Out By'),
         'type'       => 'text',
         'q_part'     => 'WHERE',
         'q_contrib'  => array('checkedoutby', 'LIKE'),
@@ -607,11 +607,11 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     echo "<tr>";
     echo_header_cell( 175, _("Title") );
     echo_header_cell( 100, _("Author") );
-    // TRANSLATOR: Abbreviation for difficulty
+    // TRANSLATORS: Abbreviation for difficulty
     echo_header_cell( 25, _("Diff.") );
     echo_header_cell( 50, _("Avail. Pages") );
     echo_header_cell( 50, _("Total Pages") );
-    // TRANSLATOR: Abbreviation for Project Manager
+    // TRANSLATORS: Abbreviation for Project Manager
     echo_header_cell(  75, _("PM") );
     echo_header_cell(  75, _("Checked Out By") );
     echo_header_cell( 180, _("Project Status") );

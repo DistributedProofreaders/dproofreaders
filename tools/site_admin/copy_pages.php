@@ -390,7 +390,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
             $n_pages_to_copy = 1 + $hi_i - $lo_i;
 
             echo "<p>";
-            echo sprintf( _("Pages to copy: %s &ndash; %s"),$lo, $hi );
+            echo sprintf( _('Pages to copy: %1$s &ndash; %2$s'),$lo, $hi );
             echo " " . sprintf(_("(%d pages)"), $n_pages_to_copy);
             echo "</p>\n";
         }
@@ -630,7 +630,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         $c_src_path = "{$projectid_['from']}/$c_src_image";
         $c_dst_path = "{$projectid_['to']}/$c_dst_image";
 
-        echo "\n" . htmlspecialchars(sprintf( _("Copying %s to %s..."), $c_src_path, $c_dst_path)) . " ";
+        echo "\n" . htmlspecialchars(sprintf( _('Copying %1$s to %2$s...'), $c_src_path, $c_dst_path)) . " ";
 
         if ($for_real)
         {

@@ -534,9 +534,9 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     echo "<td>";
     if ($page_state != $round->page_avail_state) {
         if($page_res[$round->textdiff_column_name]) {
-            echo _("no diff");
+            echo _("No diff");
         } else {
-            echo "<a href='$code_url/tools/project_manager/diff.php?project=$projectid&image=$imagename&L_round_num=$diff_round_num&R_round_num=$round_num'>"._("diff")."</a>";
+            echo "<a href='$code_url/tools/project_manager/diff.php?project=$projectid&image=$imagename&L_round_num=$diff_round_num&R_round_num=$round_num'>"._("Diff")."</a>";
         }
     }
     echo "</td>\n";

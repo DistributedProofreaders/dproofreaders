@@ -44,7 +44,7 @@ if (isset($inPPV)) {
         'bogus'                  => _('#'),
         'nameofwork'             => _('Name of Work'),
         'postproofer'            => _('PPer'),
-        'checkedoutby'           => _('Checked Out To'),
+        'checkedoutby'           => _('Checked Out By'),
         'modifieddate'           => _('Date Last Modified'),
         'holder_t_last_activity' => _('User Last on Site')
    );
@@ -52,7 +52,7 @@ if (isset($inPPV)) {
     $colspecs = array(
         'bogus'                  => _('#'),
         'nameofwork'             => _('Name of Work'),
-        'checkedoutby'           => _('Checked Out To'),
+        'checkedoutby'           => _('Checked Out By'),
         'modifieddate'           => _('Date Last Modified'),
         'holder_t_last_activity' => _('User Last on Site')
     );

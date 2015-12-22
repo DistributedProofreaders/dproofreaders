@@ -808,7 +808,7 @@ function do_project_info_table()
             $b = _('The instructions below are particular to this project, and <b>take precedence over those guidelines</b>.');
 
             $time_str = strftime($datetime_format, $project->t_last_change_comments );
-            $c = "(" . _("last modified:") . " " . $time_str . ")";
+            $c = "(" . _("Last modified") . ": " . $time_str . ")";
 
             $comments_blurb = "$a<br>$b<br>$c";
         }

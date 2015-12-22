@@ -318,11 +318,12 @@ function main_form()
     echo "<h2>" . _("PO Template") . "</h2>";
     if (file_exists($pot_filename))
     {
-        echo "<p>" . _("POT template file:") . " ";
+        echo "<p>" . _("POT template file") . ": ";
         echo "<a href='$translate_url?func=view&amp;locale=template'>" . _("View")
            . "</a> | <a href='$translate_url?func=download&amp;locale=template'>"
            . _("Download") . "</a> ";
-        echo " (" . _("Last modified:") . " "
+        echo " (" . _("Last modified") . ": "
+                // TRANSLATORS: This is a date-formatted string
                 . date ("F d Y H:i:s", filemtime($pot_filename)) . ")";
         list($total_strings, $translated_strings) = \
             count_translated_strings($pot_filename);
@@ -356,11 +357,11 @@ function manage_form($locale)
 
     echo "<h1>" . sprintf(_("Managing locale %s"), $locale) . "</h1>\n";
 
-    echo "<p><b>" . _("Locale:") . "</b> $locale</p>\n";
+    echo "<p><b>" . _("Locale") . ":</b> $locale</p>\n";
     if(!in_array($locale, $system_locales))
         echo "<p><b>" . sprintf(_("Warning: While a locale translation exists for %s, a system locale does not. Without a system locale installed, gettext will not use this translation."), $locale) . "</b></p>";
-    echo "<p><b>" . _("Language name:") . "</b> " . eng_name($locale) . "</p>\n";
-    echo "<p><b>" . _("Translation status:") . "</b> ";
+    echo "<p><b>" . _("Language") . ":</b> " . eng_name($locale) . "</p>\n";
+    echo "<p><b>" . _("Translation status") . ":</b> ";
     if($translation_enabled)
         echo _("Enabled");
     else
@@ -373,10 +374,11 @@ function manage_form($locale)
         list($total_strings, $translated_strings) = \
             count_translated_strings($po_filename);
 
-        echo "<p><b>" . _("PO file:") . "</b> ";
+        echo "<p><b>" . _("PO file") . ":</b> ";
         echo "<a href='$translate_url?func=view&amp;locale=$locale'>"
             . _("View") . "</a> | <a href='$translate_url?func=download&amp;locale=$locale'>"
-            . _("Download") . "</a> (" . _("Last modified:") . " "
+            . _("Download") . "</a> (" . _("Last modified") . ": "
+            // TRANSLATORS: this is a date-formatted string
             . date ("F d Y H:i:s", filemtime($po_filename)) . ")";
 
         echo " - ";

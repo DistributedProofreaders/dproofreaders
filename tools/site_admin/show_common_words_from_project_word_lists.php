@@ -188,7 +188,7 @@ function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
 
             // show the results
             echo "<pre>";
-            echo sprintf(_("Language: %s"), $language) . "<br>";
+            echo _("Language") . ": $language<br>";
             echo sprintf(_("Language match type: %s"), $lang_match) . "<br>";
             echo sprintf(_("Word list type: %s"), $list_type) . "<br>";
             echo sprintf(_("Cutoff percentage: %d%%"), $cutoff) . "<br>";

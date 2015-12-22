@@ -50,7 +50,7 @@ if($display_list)
     echo "<input type='hidden' name='action' value='create'>";
     echo "<table>";
     echo "<tr>";
-    echo "<td>" . _("Language:") . "</td>";
+    echo "<td>" . _("Language") . ":</td>";
     echo "<td><select name='language'>";
     foreach($lang_list as $langArray)
     {
@@ -62,7 +62,7 @@ if($display_list)
     echo "</tr>";
 
     echo "<tr>";
-    echo "<td>" . _("Word list type:") . "</td>";
+    echo "<td>" . _("Word list type") . ":</td>";
     echo "<td><select name='list_type'>";
     echo "<option value='good'>" . _("Good") . "</option>";
     echo "<option value='bad'>" . _("Bad") . "</option>";

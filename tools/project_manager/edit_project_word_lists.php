@@ -70,7 +70,7 @@ $pwlh->set_from_db();
 
 $pwlh->set_from_files(!$good_word_conflict,!$bad_word_conflict);
 
-$page_title = _("Edit Project Word Lists");
+$page_title = _("Edit project word lists");
 
 output_header($page_title, NO_STATSBAR);
 echo "<h1>$page_title</h1>\n";
