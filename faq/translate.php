@@ -170,7 +170,12 @@ Server MPM:     Prefork
 
 <p>Note that some non-date-related strings are also tagged. These are passed to the <a href='http://www.php.net/manual/en/function.sprintf.php' class='external' title="http://www.php.net/manual/en/function.sprintf.php">sprintf</a> function instead of strftime. For example: "&lt;a href=%s&gt;your preferences page&lt;/a&gt;". You should just leave the tags as they are -- any strings associated with the %s that need to be translated will be translated elsewhere.</p>
 
-<p>If you need to insert a % sign in either strftime or sprintf strings for a translation, use two in a row (%%).</p>
+<p>Some sprintf-formatted strings have more than one substitution variable. For example: "&lt;a href='%1$s'&gt;%2$s&lt;/a&gt;". Treat the %1$s and similar strings as placeholders and keep them intact. If necessary, you can change the order of the placeholders in the stringto better suit the destination language.</p>
+
+<p>If you need to insert a % sign in either strftime or sprintf strings for a translation, use two in a row (%%). If the string is not a strftime or sprintf string (ie: it doesn't have any formatting characters or placeholders already) a single % should be used as needed.</p>
+
+<h4>Quotes</h4>
+<p>If the original string has quotes (eg: ' or ") in HTML attributes, use the same quotes in the translated string. If the quotes are part of a paragraph, you are welcome to use the language's quote characters in their place.</p>
 
 <?php } // user_is_site_translator() ?>
 
