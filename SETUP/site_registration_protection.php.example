@@ -1,0 +1,57 @@
+<?php
+// You can use this file to create site-specific rules to validate
+// new user registrations. This is most useful for making rules to prevent
+// bots from signing up.
+//
+// To activate the code in this file, remove the .example portion of
+// the filename, update _SITE_REGISTRATION_PROTECTION in your
+// configuration.sh file, and reconfigure your site.
+
+
+function get_registration_form_inserters()
+// Return a list of function names to call when building the form
+// If none are desired, it should return an empty array.
+// See insert_form_timestamp() for an example of an inserter.
+{
+    return array(
+        "insert_form_timestamp",
+    );
+}
+
+function get_registration_form_validators()
+// Return an array of function names to call when validating the submitted form
+// If none are desired, it should return an empty array.
+// See minimum_form_fill_time() for an example validator.
+{
+    return array(
+        "minimum_form_fill_time",
+    );
+}
+
+
+function insert_form_timestamp()
+// An example of a form inserter
+// Form inserters are called without arguments
+// Inserters are expected to echo form values.
+{
+    echo "<input type='hidden' name='timestamp' value='" . time() . "'>\n";
+}
+
+function minimum_form_fill_time($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates)
+// An example of a form validator
+// All validators are called with the above function definition
+// Validator functions should return an error string upon error,
+// and nothing on success.
+{
+    $MIN_FORM_FILL_TIME = 2;
+
+    $timestamp = $_POST["timestamp"];
+    if(time() - $timestamp < $MIN_FORM_FILL_TIME)
+    {
+        // It's not a good idea to be too specific in your error message
+        // to prevent bot makers from understanding what you're checking for
+        return _("There was an error processing your request. Please try again in a few seconds.");
+    }
+}
+
+// vim: sw=4 ts=4 expandtab

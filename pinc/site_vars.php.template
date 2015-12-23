@@ -69,6 +69,9 @@ $site_url = '<<SITE_URL>>';
 
 $preceding_proofer_restriction = '<<PRECEDING_PROOFER_RESTRICTION>>';
 $public_page_details = <<PUBLIC_PAGE_DETAILS>>;
+
+$site_registration_protection_code = '<<SITE_REGISTRATION_PROTECTION_CODE>>';
+
 // -----------------------------------------------------------------------------
 
 $uploads_dir = '<<UPLOADS_DIR>>';
