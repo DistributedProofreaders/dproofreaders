@@ -928,7 +928,8 @@ function _show_radio_group( $field_name, $current_value, $options )
 function _show_textfield( $field_name, $current_value, $extras )
 {
     list($size, $rest) = $extras;
-    echo "<input type='text' name='$field_name' value='$current_value' size='$size'>$rest";
+    $current_value_esc = attr_safe($current_value, ENT_QUOTES);
+    echo "<input type='text' name='$field_name' value='$current_value_esc' size='$size'>$rest";
 }
 
 // ---------------------------------------------------------
