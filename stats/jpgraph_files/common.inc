@@ -629,5 +629,87 @@ function dpgraph_error($error, $width = 300, $height =150)
     $graph->Stroke();
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function get_round_backlog_stats($interested_phases)
+{
+    // Pull the stats data out of the database
+    $stats = array();
+    foreach($interested_phases as $phase)
+    {
+        $where_state = _get_project_state_selector($phase, array("available","waiting"));
+        $sql = "SELECT SUM(n_pages) as num_pages
+                FROM projects
+                WHERE $where_state";
+        $res = mysql_query($sql);
+        while( $result = mysql_fetch_assoc($res) )
+        {
+            $stats[$phase]=$result["num_pages"];
+        }
+        mysql_free_result($res);
+    }
+
+    // Pop off any trailing phases that have no pages.
+    // This prevents new sites from showing rounds
+    // that haven't started yet.
+    $reverse_phases = array_reverse($interested_phases);
+    foreach($reverse_phases as $phase)
+    {
+        if($stats[$phase] > 0)
+            break;
+        array_pop($stats);
+    }
+
+    return $stats;
+}
+
+function _get_project_state_selector( $which, $desired_states = NULL )
+// This function returns an SQL selector that can be used in a WHERE clause.
+// $which is a word denoting a round ID or a phase (NEW, PP, GB)
+{
+    global $project_state_phase_;
+
+    if(NULL == $desired_states)
+    {
+        $desired_states = array("unavailable","waiting","bad","available","complete");
+    }
+    elseif(!is_array($desired_states))
+    {
+        $desired_states = array($desired_states);
+    }
+
+    $sql = "";
+
+    // see if it's a round
+    $round = get_Round_for_round_id($which);
+    if($round != NULL)
+    {
+        $states = array();
+        foreach($desired_states as $desired_state)
+        {
+            $state_variable_name = "project_{$desired_state}_state";
+            $states[]=$round->$state_variable_name;
+        }
+        $sql = "state IN ('" . implode("','", $states) . "')";
+        return $sql;
+    }
+
+    // it may be a pool or stage so look at the stage's phase
+    $states = array();
+    foreach($project_state_phase_ as $state => $phase)
+    {
+        if($phase == $which)
+        {
+            array_push($states,$state);
+        }
+    }
+    if(count($states))
+    {
+        $sql = "state IN ('" . implode("','",$states) . "')";
+        return $sql;
+    }
+
+    die("bad value for 'which': '$which'");
+}
+
 // vim: sw=4 ts=4 expandtab
-?>
