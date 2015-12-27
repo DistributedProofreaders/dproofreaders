@@ -60,7 +60,7 @@ if ( @$_REQUEST['confirmed'] == 'yes' )
     foreach ( $selected_pages as $image => $setting )
     {
         // Ignore $setting, it's always 'on'.
-        echo _("image="), "$image:<br>\n";
+        echo _("Image"), "=$image:<br>\n";
         $err = $page_func( $projectid, $image );
         echo ( $err ? $err : _("success") );
         echo "<br>\n";

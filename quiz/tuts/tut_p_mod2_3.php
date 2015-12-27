@@ -3,9 +3,9 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-output_header(_('Moderate Proofreading Tutorial -- Page 8'));
+output_header(_('Moderate Proofreading Tutorial'));
 
-echo "<h2>" . _("Moderate Proofreading Tutorial, Page 8") . "</h2>\n";
+echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial, Page %d"), 8) . "</h2>\n";
 echo "<h3>" . _("Accented/Non-ASCII Characters") . "</h3>\n";
 if(!$utf8_site)
 {

@@ -23,7 +23,7 @@ output_header("$image_index_str: {$project->nameofwork}");
 echo "
     <h1>{$project->nameofwork}</h1>
     <p>$projectid</p>
-    <p><a href='$code_url/project.php?id=$projectid'>", _('Return to project page'), "</a></p>
+    <p><a href='$code_url/project.php?id=$projectid'>", _('Return to Project Page'), "</a></p>
     <h2>$image_index_str</h2>
     <p>" . _('Below are the individual images for this project.') . "</p>
 ";
@@ -119,11 +119,11 @@ function list_images( $image_names, $these_are_page_images )
 
     {
         echo "<tr>\n";
-        echo "<th>", _('name'), "</th>\n";
-        echo "<th>", _('size'), "</th>\n";
+        echo "<th>", _('Name'), "</th>\n";
+        echo "<th>", _('Size'), "</th>\n";
         if ( $show_replace_links )
         {
-            echo "<th>", _('replace'), "</th>\n";
+            echo "<th>", _('Replace'), "</th>\n";
         }
         echo "</tr>\n";
     }
@@ -170,7 +170,7 @@ function list_images( $image_names, $these_are_page_images )
             {
                 $replace_url = "$code_url/tools/project_manager/replace_image.php?projectid=$projectid&amp;image=$image_name";
             }
-            echo "<td><a href='$replace_url'>", _('replace'), "</a></td>\n";
+            echo "<td><a href='$replace_url'>", _('Replace'), "</a></td>\n";
         }
 
         echo "</tr>\n";

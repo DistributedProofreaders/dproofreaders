@@ -3,14 +3,14 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-output_header(_('Basic Proofreading Tutorial -- Step 1'));
+output_header(_('Basic Proofreading Tutorial'));
 
 echo "<h1>" . _("Proofreading Tutorial") . "</h1>\n";
 echo "<h2>" . _("Intro") . "</h2>\n";
 echo "<p>" . _("In this tutorial you will be presented extracts from the Proofreading Guidelines. After each part you will be led to a quiz page, where you can try out the newly learned rules.") . "</p>\n";
 echo "<p>" . _("Don't be alarmed by the number of changes you'll have to apply in the quizzes. On normal easy texts the rate of things to correct is usually much lower than that.") . "</p>\n";
 
-echo "<h2>" . _("Basic Proofreading Tutorial, Step 1") . "</h2>\n";
+echo "<h2>" . sprintf(_("Basic Proofreading Tutorial, Step %d"), 1) . "</h2>\n";
 echo "<h3>" . _("Project Comments") . "</h3>\n";
 echo "<p>" . _("When you select a project for proofreading, the Project Page is loaded. On this page there is a section called \"Project Comments\" containing information specific to that project (book). <b>Read these before you start proofreading pages!</b> If the Project Manager wants you to do something in this book differently from the way specified in these Guidelines, that will be noted here. Instructions in the Project Comments <em>override</em> the rules in these Guidelines, so follow them. There may also be instructions in the project comments that apply to the formatting phase, which do not apply during proofreading.") . "</p>\n";
 

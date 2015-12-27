@@ -2,7 +2,7 @@
 
 
 $browser_title                = _("Greek Transliteration Quiz");
-$intro_title                  = _("Greek Transliteration Quiz, page 2");
+$intro_title                  = sprintf(_("Greek Transliteration Quiz, page %d"), 2);
 $initial_instructions         = $initial_instructions__greek;
 $initial_text                 = "quaint epigram of Epigonus upon a frog,\nwho falling into a pipe of wine, cried\nout,\n\noe6 rives bSc)p\nirlvovai ,uavitjv ac6ippova uaiv&oacute;,usvoi.";
 $solutions                    = array("quaint epigram of Epigonus upon a frog,\nwho falling into a pipe of wine, cried\nout,\n\n[Greek: pheu tines hydôr\npinousi maniên sôphrona mainomenoi.]");

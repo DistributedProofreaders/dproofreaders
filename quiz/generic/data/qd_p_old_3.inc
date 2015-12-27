@@ -3,7 +3,7 @@ include_once('quiz_defaults.inc'); // $blackletter_url $old_texts_url $utf8_site
 
 
 $browser_title                = _("Old Texts Proofreading Quiz");
-$intro_title                  = _("Old Texts Proofreading Quiz, page 3");
+$intro_title                  = sprintf(_("Old Texts Proofreading Quiz, page %d"), 3);
 $initial_instructions         = _("Try to correct the text on the bottom left, so it matches the text in the image above following the Proofreading Guidelines and the \"Project Comments\" for this quiz. When done click 'check'.");
 $constant_message             = "\n" .
                                     "<h2>" . _("Project Comments") . "</h2>\n" .

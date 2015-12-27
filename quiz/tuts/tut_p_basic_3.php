@@ -3,9 +3,9 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-output_header(_('Basic Proofreading Tutorial -- Step 3'));
+output_header(_('Basic Proofreading Tutorial'));
 
-echo "<h2>" . _("Basic Proofreading Tutorial, Step 3") . "</h2>\n";
+echo "<h2>" . sprintf(_("Basic Proofreading Tutorial, Step %d"), 3) . "</h2>\n";
 echo "<h3>" . _("Chapter Headings") . "</h3>\n";
 echo "<p>" . _("Proofread chapter headings as they appear in the image.") . "</p>\n";
 echo "<p>" . _("A chapter heading may start a bit farther down the page than the page header and won't have a page number on the same line. Chapter Headings are often printed all caps; if so, keep them as all caps.") . "</p>\n";

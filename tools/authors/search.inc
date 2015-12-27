@@ -51,7 +51,7 @@ function prepare_search() {
 
   $sql_what_to_list = '';
   if (isset($_REQUEST['last_name'])) {
-    $human_what_to_list = _('Search results');
+    $human_what_to_list = _('Search Results');
     $sql_what_to_list = '';
     $query = '';
     foreach (array('last_name', 'other_names') as $key) {

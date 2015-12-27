@@ -53,15 +53,15 @@ if (!isset($name))
     echo "<td colspan='7'><center><font color='".$theme['color_headerbar_font']."'><b>".$title."</b></font></center></td></tr>\n";
     {
         echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
-        echo "<th>", _("ordering"), "</th>\n";
-        echo "<th>", _("enabled"), "</th>\n";
-        echo "<th>", _("name"), "</th>\n";
-        echo "<th>", _("current<br>length"), "</th>\n";
+        echo "<th>", _("Ordering"), "</th>\n";
+        echo "<th>", _("Enabled"), "</th>\n";
+        echo "<th>", _("Name"), "</th>\n";
+        echo "<th>", _("Current<br>length"), "</th>\n";
         if ($user_can_see_queue_settings)
         {
             echo "<th>", _("project_selector"), "</th>\n";
             echo "<th>", _("release_criterion"), "</th>\n";
-            echo "<th>", _("comment"), "</th>\n";
+            echo "<th>", _("Comment"), "</th>\n";
         }
         echo "</tr>\n";
     }

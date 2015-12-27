@@ -34,7 +34,7 @@ foreach( $projectids as $projectid )
     }
     else if ( $result == USER_CANNOT_EDIT_PROJECT )
     {
-        echo "    " . _("You are not allowed to edit that project.") . "\n";
+        echo "    " . _("You are not authorize to manage this project.") . "\n";
         continue;
     }
 
@@ -46,22 +46,23 @@ foreach( $projectids as $projectid )
 
     $project = mysql_fetch_assoc( $res );
 
-    echo "    {$project['nameofwork']}\n";
-
     if ( $project['state'] != $curr_state )
     {
-        echo "    " . sprintf( _("is no longer in %1\$s. Now in %2\$s."), $curr_state,  $project['state']) . "\n";
+        // TRANSLATORS: %1$s is a project name, %2$s and %3$s are project states
+        echo "    " . sprintf( _('%1$s is no longer in %2$s. Now in %3$s.'), $project['nameofwork'], $curr_state,  $project['state']) . "\n";
         continue;
     }
 
     $error_msg = project_transition( $projectid, $new_state, $pguser );
     if ( $error_msg )
     {
+        echo "    {$project['nameofwork']}\n";
         echo "    $error_msg\n";
         continue;
     }
 
-    echo "    " . _("successfully moved.") . "\n";
+    // TRANSLATORS: %s is a project name
+    echo "    " . sprintf(_("%s successfully moved."), $project['nameofwork']) . "\n";
 }
 
 echo "</pre>\n";

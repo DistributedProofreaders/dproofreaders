@@ -91,7 +91,7 @@ elseif (isset($_POST['quit']))
         $return="$code_url/tools/project_manager/projectmgr.php";
 
     // do the redirect
-    metarefresh(0, $return, _("Quit without Saving"), "");
+    metarefresh(0, $return, _("Quit Without Saving"), "");
 }
 else
 {
@@ -131,7 +131,7 @@ else
     
         default:
             $page_title = 'editproject.php';
-            $fatal_error = _("parameter 'action' is invalid") . ": '$requested_action'";
+            $fatal_error = sprintf(_("parameter '%s' is invalid"), 'action') . ": '$requested_action'";
     }
 
     output_header($page_title, NO_STATSBAR, $theme_args);
@@ -203,25 +203,25 @@ class ProjectInfoHolder
 
         if (!isset($_POST['rec']))
         {
-            return _("parameter 'rec' is unset");
+            return sprintf(_("parameter '%s' is unset"), 'rec');
         }
 
         $r1 = $_POST['rec'];
         if ( $r1 == '' )
         {
-            return _("parameter 'rec' is empty");
+            return sprintf(_("parameter '%s' is empty"), 'rec');
         }
 
         $r2 = base64_decode($r1);
         if ( $r2 === FALSE )
         {
-            return _("parameter 'rec' cannot be decoded");
+            return sprintf(_("parameter '%s' cannot be decoded"), 'rec');
         }
 
         $r3 = unserialize($r2);
         if ( $r3 === FALSE )
         {
-            return _("parameter 'rec' cannot be unserialized");
+            return sprintf(_("parameter '%s' cannot be unserialized"), 'rec');
         }
 
         $this->nameofwork  = marc_title($r3);
@@ -254,19 +254,19 @@ class ProjectInfoHolder
         global $pguser;
         if (!isset($_GET['up_projectid']))
         {
-            return _("parameter 'up_projectid' is unset");
+            return sprintf(_("parameter '%s' is unset"), 'up_projectid');
         }
 
         $up_projectid = $_GET['up_projectid'];
         if ( $up_projectid == '' )
         {
-            return _("parameter 'up_projectid' is empty");
+            return sprintf(_("parameter '%s' is empty"), 'up_projectid');
         }
 
         $result = mysql_query("SELECT * FROM uber_projects WHERE up_projectid = $up_projectid");
         if (mysql_num_rows($result) == 0)
         {
-            return _("parameter 'up_projectid' is invalid") . ": '$up_projectid'";
+            return sprintf(_("parameter '%s' is invalid"), 'up_projectid') . ": '$up_projectid'";
         }
 
         // TODO: check that user has permission to create a project from this UP
@@ -304,7 +304,7 @@ class ProjectInfoHolder
     {
         if (!isset($_GET['project']) && $projectid == '')
         {
-            return _("parameter 'project' is unset");
+            return sprintf(_("parameter '%s' is unset"), 'project');
         }
 
         if ( $projectid == '' )
@@ -313,7 +313,7 @@ class ProjectInfoHolder
         }
         if ( $projectid == '' )
         {
-            return _("parameter 'project' is empty");
+            return sprintf(_("parameter '%s' is empty"), 'project');
         }
         validate_projectID('project', $projectid);
 
@@ -326,7 +326,7 @@ class ProjectInfoHolder
         }
         else if ( $ucep_result == USER_CANNOT_EDIT_PROJECT )
         {
-            return _("you are not allowed to edit this project").": '$projectid'";
+            return _("You are not authorized to manage this project.").": '$projectid'";
         }
         else if ( $ucep_result == USER_CAN_EDIT_PROJECT )
         {
@@ -340,7 +340,7 @@ class ProjectInfoHolder
         $res = mysql_query("SELECT * FROM projects WHERE projectid = '$projectid'");
         if (mysql_num_rows($res) == 0)
         {
-            return _("parameter 'project' is invalid") . ": '$projectid'";
+            return sprintf(_("parameter '%s' is invalid"), 'project') . ": '$projectid'";
         }
 
         $ar = mysql_fetch_array($res);
@@ -405,7 +405,7 @@ class ProjectInfoHolder
             }
             else if ( $ucep_result == USER_CANNOT_EDIT_PROJECT )
             {
-                return _("you are not allowed to edit this project").": '$this->projectid'";
+                return _("You are not authorized to manage this project.").": '$this->projectid'";
             }
             else if ( $ucep_result == USER_CAN_EDIT_PROJECT )
             {

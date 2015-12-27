@@ -29,8 +29,11 @@ undo_all_magic_quotes();
 // If the requestor is not logged in, we refer to them as a "guest".
 
 // for strftime:
+// TRANSLATORS: This is a strftime-formatted string for the date with year and time
 $datetime_format = _("%A, %B %e, %Y at %X");
+// TRANSLATORS: This is a strftime-formatted string for the date and time
 $date_format     = _("%A, %B %e, %Y");
+// TRANSLATORS: This is a strftime-formatted string for the time
 $time_format     = _("%X");
 
 error_reporting(E_ALL);
@@ -229,7 +232,8 @@ function do_expected_state()
     {
         echo "<font color='red'>";
         echo sprintf(
-            _("Warning! The project is no longer in '%s'. It is now in '%s'."),
+            _('Warning: Project "%1$s" is no longer in state "%2$s"; it is now in state "%3$s".'),
+            $project->nameofwork,
             project_states_text($expected_state),
             project_states_text($project->state)
         );
@@ -804,7 +808,7 @@ function do_project_info_table()
             $b = _('The instructions below are particular to this project, and <b>take precedence over those guidelines</b>.');
 
             $time_str = strftime($datetime_format, $project->t_last_change_comments );
-            $c = "(" . _("last modified:") . " " . $time_str . ")";
+            $c = "(" . _("Last modified") . ": " . $time_str . ")";
 
             $comments_blurb = "$a<br>$b<br>$c";
         }
@@ -909,6 +913,7 @@ function recentlyproofed( $wlist )
         if (($rownum % 5) ==0) {echo "</tr><tr>";}
         echo "<TD ALIGN=\"center\">";
         echo "<A HREF=\"$eURL\">";
+        // TRANSLATORS: This is an strftime-formatted string
         echo strftime(_("%b %d"), $timestamp).": ".$imagefile."</a></td>\r\n";
         $rownum++;
     }
@@ -1086,7 +1091,7 @@ function do_waiting_queues()
         }
         if ( $n_queues == 0 )
         {
-            echo "<li>" . _("(none!)") . "</li>\n";
+            echo "<li>" . _("(none)") . "</li>\n";
         }
         echo "</ul>\n";
     }
@@ -1343,7 +1348,7 @@ function do_history()
                     // Maybe move this array to Project.inc
                     $label_for_project_field_ = array(
                         'deletion_reason'  => _("Reason for Deletion"),
-                        'nameofwork'       => _("Name of work"),
+                        'nameofwork'       => _("Name of Work"),
                         'authorsname'      => _("Author's Name"),
                         'projectmanager'   => _("Project Manager"),
                         'language'         => _("Language"),
@@ -2117,11 +2122,12 @@ function do_page_summary()
         $num_pages = Project_getNumPagesInState($projectid,$page_state);
         if ( $num_pages != 0 )
         {
+            // TRANSLATORS: %s is a page state, this is a label in a table for the number of pages in this state
             echo "<tr><td align='right'>$num_pages</td><td>".sprintf(_("in %s"),$page_state)."</td></tr>\n";
         }
     }
     echo "<tr><td colspan='2'><hr></td></tr>\n";
-    echo "<tr><td align='right'>$total_num_pages</td><td align='center'>"._("pages total")."</td></tr>\n";
+    echo "<tr><td align='right'>$total_num_pages</td><td align='center'>"._("Pages Total")."</td></tr>\n";
     echo "</table>\n";
     echo "</center>";
 }

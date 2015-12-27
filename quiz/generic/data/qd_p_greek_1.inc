@@ -2,7 +2,7 @@
 
 
 $browser_title                = _("Greek Transliteration Quiz");
-$intro_title                  = _("Greek Transliteration Quiz, page 1");
+$intro_title                  = sprintf(_("Greek Transliteration Quiz, page %d"), 1);
 $initial_instructions         = $initial_instructions__greek;
 $initial_text                 = "as panis siccus, dry bread; or, (if\nthe learned reader thinks it will\ntaste better in Greek,) aproc &sect;rjpoe";
 $solutions                    = array("as panis siccus, dry bread; or, (if\nthe learned reader thinks it will\ntaste better in Greek,) [Greek: artos xêros]");

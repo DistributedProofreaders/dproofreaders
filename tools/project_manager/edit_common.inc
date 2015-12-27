@@ -153,7 +153,7 @@ function special_list($special)
     echo "<select name='special_code'>";
 
     // add special case values first
-    echo "<option value=''>", _("NONE"), "</option>";
+    echo "<option value=''>", _("None"), "</option>";
     echo "\n";
 
     echo "<option value='Birthday'";

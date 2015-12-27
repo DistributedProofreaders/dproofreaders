@@ -232,13 +232,15 @@ class Project
             return array(
                 $this->CBP_USER_NOT_QUALIFIED_FOR_ROUND,
                 sprintf(
-                    _('You have not yet been cleared to work on projects in %s (%s).'),
+                    // TRANSLATORS: %1$s is the round name, %2$s is the round ID (eg: P1)
+                    _('You have not yet been cleared to work on projects in %1$s (%2$s).'),
                     $round->name,
                     $round->id
                 )
                 . "<br>"
                 . sprintf(
-                    _("Please visit <a href='%s'>the %s home</a> to find out what happens in this round and how you can qualify to work in it."),
+                    // TRANSLATORS: %2$s is the round ID (eg: P1)
+                    _('Please visit <a href="%1$s">the %2$s home</a> to find out what happens in this round and how you can qualify to work in it.'),
                     "$code_url/tools/proofers/round.php?round_id=$round->id",
                     $round->id
                 )

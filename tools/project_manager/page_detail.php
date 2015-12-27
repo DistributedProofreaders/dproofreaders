@@ -57,7 +57,7 @@ if ( isset($_GET['select_by_round']) )
 
 $state = $project->state;
 $title = $project->nameofwork;
-$page_details_str = _('Page Details');
+$page_details_str = _('Page Detail');
 
 output_header( "$page_details_str: $title", NO_STATSBAR);
 

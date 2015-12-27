@@ -21,7 +21,7 @@ if (!$site_supports_metadata)
 echo "<table border=1>\n";
       // Header row
         echo "<tr>\n";
-        echo "    <td align='center' colspan='4'><b>" . _("Books Waiting for Phase 1 Review") . "</b></td><tr></tr>\n";
+        echo "    <td align='center' colspan='4'><b>" . sprintf(_("Books Waiting for Phase %d Review"), 1) . "</b></td><tr></tr>\n";
       echo "    <td align='center' colspan='4'>" . _("In this phase we determine that the book has all of its pages and annotate what the original page number was in the printed version.") . "</td><tr></tr>\n";
         echo "    <td align='center' colspan='1'><b>" . _("Title") . "</b></td>\n";
         echo "    <td align='center' colspan='1'><b>" . _("Author") . "</b></td>\n";
@@ -74,7 +74,7 @@ echo "<br>";
 //echo "<table border=1>\n";
       // Header row
         echo "<tr>\n";
-        echo "    <td align='center' colspan='4'><b>" . _("Books Waiting for Phase 2 Review") . "</b></td><tr></tr>\n";
+        echo "    <td align='center' colspan='4'><b>" . sprintf(_("Books Waiting for Phase %d Review"), 2) . "</b></td><tr></tr>\n";
             echo "    <td align='center' colspan='4'>" . _("In this phase we go through each page and annotate which pages contain footnotes, chapter headings, etc.") . "</td><tr></tr>\n";
         echo "    <td align='center' colspan='1'><b>" . _("Title") . "</b></td>\n";
         echo "    <td align='center' colspan='1'><b>" . _("Author") . "</b></td>\n";

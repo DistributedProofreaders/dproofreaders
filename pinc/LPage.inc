@@ -190,7 +190,7 @@ function get_indicated_LPage(
     if ($page_state != $current_page_state)
     {
         $err = sprintf(
-            _("Page %s has changed state from '%s' to '%s', so your request is invalid."),
+            _('Page %1$s has changed state from %2$s to %3$s, so your request is invalid.'),
             $imagefile, $page_state, $current_page_state );
         abort($err);
     }

@@ -60,7 +60,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true')
     echo "</select>";
     echo "\n";
     echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
-    echo "<strong>"._("What to Do").":</strong>";
+    echo "<strong>"._("What to do").":</strong>";
     echo "<td bgcolor='#ffffff' align='center'>";
     echo "<input name='redirect_action' value='proof' type='radio'>"._("Continue Proofreading")."<input name='redirect_action' value='quit' checked type='radio'>"._("Stop Proofreading");
     echo "\n";

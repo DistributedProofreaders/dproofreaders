@@ -48,8 +48,9 @@ if (isset($news_page_id)) {
 
         $date_changed = get_news_page_last_modified_date( $news_page_id );
         if ( !is_null($date_changed) ) {
+            // TRANSLATORS: this is a strftime-formatted string
             $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
-            echo "<br>". _("Last modified:")." ".$last_modified;
+            echo "<br>". _("Last modified").": ".$last_modified;
         }
         echo "<br><br>";
         echo "\n";

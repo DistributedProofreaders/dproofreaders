@@ -111,12 +111,12 @@ window.onload = test_and_enable_nonregex;
 <form>
 <table id="tbl">
 <tr><td align="right">
-<?php echo _("Search:"); ?>
+<?php echo _("Search"); ?>:
 </td><td>
 <input type="text" name="search" id='search' />
 </td></tr>
 <tr><td align="right">
-<?php echo _("Replace:"); ?>
+<?php echo _("Replace"); ?>:
 </td><td>
 <input type="text" name="replace" id='replace' />
 </td></tr>
@@ -135,12 +135,18 @@ window.onload = test_and_enable_nonregex;
 <p id='regex_help_title' onclick='toggle_regex_help();'><span id='regex_arrow'>&#9654;</span>
 <?php echo _('Regular Expression?'); ?></p>
 <p id='regex_help'><?php
-echo _(". &mdash; any character") . "<br />\n";
-echo _("[a-z0-9] &mdash; lowercase letters and numbers") . "<br />\n";
-echo _("a{4} &mdash; four lowercase As") . "<br />\n";
-echo _("[Aa]{6} &mdash; six As of either case") . "<br />\n";
-echo _("A{2,8} &mdash; between 2 and 8 capital As") . "<br />\n";
-echo _("[hb]e &mdash; 'he' or 'be'") . "<br />\n";
+// TRANSLATORS: Description of the . character in a regualar expression
+echo ". &mdash; " . _("any character") . "<br />\n";
+// TRANSLATORS: Description of the [a-z0-9] class in a regular expression
+echo "[a-z0-9] &mdash; " . _("lowercase letters and numbers") . "<br />\n";
+// TRANSLATORS: Description of a{4} in a regular expression for an example
+echo "a{4} &mdash; " . _("four lowercase As") . "<br />\n";
+// TRANSLATORS: Description of [Aa]{6} in a regular expression for an example
+echo "[Aa]{6} &mdash; " . _("six As of either case") . "<br />\n";
+// TRANSLATORS: Description of A{2,8} in a regular expression for an example
+echo "A{2,8} &mdash; " . _("between 2 and 8 capital As") . "<br />\n";
+// TRANSLATORS: Description of [hb]e in a regular expression for an example
+echo "[hb]e &mdash; " . _("'he' or 'be'") . "<br />\n";
 ?></p>
 
 <?php

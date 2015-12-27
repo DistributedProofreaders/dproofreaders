@@ -268,7 +268,7 @@ function get_bad_words_via_external_checker( $input_words_w_freq, $projectid, $i
         }
         else
         {
-            $messages[] = sprintf(_("Warning: unknown language name '%s'"),$language);
+            $messages[] = sprintf(_("Warning: unknown language '%s'"),$language);
         }
     }
 

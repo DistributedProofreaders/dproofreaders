@@ -224,7 +224,9 @@ function do_showupload()
     global $curr_relpath, $hce_curr_displaypath;
     global $pguser, $autoprefix_message;
 
-    $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.).<br> The file should have the .zip extension, NOT .Zip, .ZIP, etc.<br>The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen.");
+    // the first part of this blurb is used in upload_text.php
+    $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.");
+    $standard_blurb .= "<br>" . _("The rest of the file's name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen.");
     $submit_blurb = sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), _("Upload"));
 
     $page_title =  sprintf( _("Upload a file to folder %s"), $hce_curr_displaypath );
@@ -369,7 +371,7 @@ function do_upload()
         fatal_error( _("Webserver failed to copy uploaded file from temporary location to upload folder.") );
     }
 
-    echo "<p>" . sprintf(_("File %s successfully uploaded to folder %s."), hce($target_name), $hce_curr_displaypath), "</p>\n";
+    echo "<p>" . sprintf(_('File %1$s successfully uploaded to folder %2$s.'), hce($target_name), $hce_curr_displaypath), "</p>\n";
 
     // Log the file upload
     // In part so that we can possibly clean up with some automation later
@@ -440,7 +442,7 @@ function do_showrename()
 
     $form_content = "<input type='hidden' name='item_name' value='" . hae($item_name) . "'>\n";
     $form_content .= sprintf(
-        _("Rename <b>%s</b> as %s"),
+        _('Rename <b>%1$s</b> as %2$s'),
         hce($item_name),
         "<input type='text' name='new_item_name' size='50' value='" . hae($item_name) . "'>"
     );
@@ -490,10 +492,10 @@ function do_rename()
     }
 
     if (!@rename($item_path, $new_item_path)) {
-        fatal_error( sprintf(_("Unable to rename item %s as %s."), hce($item_name), hce($new_item_name)) );
+        fatal_error( sprintf(_('Unable to rename item %1$s as %2$s.'), hce($item_name), hce($new_item_name)) );
     }
 
-    show_message('info', sprintf(_("Item %s has been renamed as %s."), hce($item_name), hce($new_item_name)));
+    show_message('info', sprintf(_('Item %1$s has been renamed as %2$s.'), hce($item_name), hce($new_item_name)));
     show_return_link();
 }
 
@@ -544,7 +546,7 @@ function do_showmove()
     }
     $form_content .= "</select>\n";
     $form_content .= "<p><b>" . sprintf(
-        _("Are you sure you want to move&nbsp;%s&nbsp;?"),
+        _("Are you sure you want to move %s?"),
         "<input type='text' name='item_name' size='50' maxsize='50' value='" . hae($item_name) . "' READONLY>"
     ) . "</b>";
 
@@ -591,10 +593,10 @@ function do_move()
     }
 
     if (!@rename($src_path, $dst_path)) {
-        fatal_error( sprintf(_("Unable to move file %s to destination folder: %s."), hce($item_name), hce($dst_dir_relpath)) );
+        fatal_error( sprintf(_('Unable to move file %1$s to destination folder: %2$s.'), hce($item_name), hce($dst_dir_relpath)) );
     }
 
-    show_message('info', sprintf(_("File %s has been moved to folder %s"), hce($item_name), hce($dst_dir_relpath)));
+    show_message('info', sprintf(_('File %1$s has been moved to folder %2$s'), hce($item_name), hce($dst_dir_relpath)));
     show_return_link();
 }
 
@@ -640,9 +642,9 @@ function do_showdelete()
 
     // Set up the appropriate descriptor string for the requested delete
     if (is_file($item_path)) {
-        $question_template = _("Are you sure you want to delete the file&nbsp;%s&nbsp;?");
+        $question_template = _("Are you sure you want to delete the file %s?");
     } else if (is_dir($item_path)) {
-        $question_template = _("Are you sure you want to delete the folder&nbsp;%s&nbsp;?");
+        $question_template = _("Are you sure you want to delete the folder %s?");
     } else {
         // Shouldn't happen
         fatal_error( _("Unable to determine status of delete request.") );
@@ -1017,7 +1019,7 @@ function confirm_is_local($type, $item_name)
     // Note that 'file_exists', despite the name, doesn't require
     // that its arg identify a file (as opposed to a directory).
     if (!file_exists($src_path)) {
-        fatal_error( sprintf(_("folder %s does not have an item named %s"), $hce_curr_displaypath, hce($item_name)) );
+        fatal_error( sprintf(_('folder %1$s does not have an item named %2$s'), $hce_curr_displaypath, hce($item_name)) );
     }
 
     if ($type == 'FD') return;
@@ -1146,7 +1148,7 @@ function show_caveats()
     echo "<ul>\n";
     echo "<li>" . _("Upload files into your user folder.") . "\n";
     echo "<ul>\n";
-    echo   "<li>" . sprintf(_("Maximum file size is %s. Files larger than %s will fail silently."), $max_upload_size, $max_post_size) . "</li>\n";
+    echo   "<li>" . sprintf(_('Maximum file size is %1$s. Files larger than %2$s will fail silently.'), $max_upload_size, $max_post_size) . "</li>\n";
     echo   "<li>" . _("Files are tested for validity and scanned for viruses.") . "</li>\n";
     echo "</ul>";
     echo "</li>\n";

@@ -155,8 +155,8 @@ new QuizLevel(
             "",
             "",
             array(
-                'p_aeoe_1'  => sprintf(_('Ligatures, page 1 (<a href="%s">Information</a>)'),$ae_oe_ligatures_url),
-                'p_aeoe_2'  => sprintf(_('Ligatures, page 2 (<a href="%s">Information</a>)'),$ae_oe_ligatures_url),
+                'p_aeoe_1'  => sprintf(_('Ligatures, page %1$d (<a href="%2$s">Information</a>)'), 1, $ae_oe_ligatures_url),
+                'p_aeoe_2'  => sprintf(_('Ligatures, page %1$d (<a href="%2$s">Information</a>)'), 2, $ae_oe_ligatures_url),
                 'p_thorn'   => sprintf(_('Thorn (<a href="%s">Information</a>)'),$thorn_url),
                 'p_fraktur' => sprintf(_('Fraktur (<a href="%s">Information</a>)'),$fraktur_url),
             ),

@@ -2,7 +2,7 @@
 
 
 $browser_title                = _("Old Texts Proofreading Quiz");
-$intro_title                  = _("Old Texts Proofreading Quiz, page 1");
+$intro_title                  = sprintf(_("Old Texts Proofreading Quiz, page %d"), 1);
 $initial_instructions         = $initial_instructions__P;
 $initial_text                 = "three in.number, refled that Shakespeare\nhas introduced three daughters into his\ntragedy of King Lear, which has often\ndrawn tears from the eyes of multitudes.'\n\nIndeed, your affe&amp;ing tale might better\nsuit the intention of an opera: were a fuffi-cient\nnumber of cats put under the tuition\nof proper matters, nobody can tell what an\naflonifhing chorus might be produced. If\nthis proposal shall be embraced, I make no\ncloubt of its being the wonder of all\nEurope,";
 $solutions                    = array("three in number, reflect that Shakespeare\nhas introduced three daughters into his\ntragedy of King Lear, which has often\ndrawn tears from the eyes of multitudes.\n\nIndeed, your affecting tale might better\nsuit the intention of an opera: were a sufficient\nnumber of cats put under the tuition\nof proper masters, nobody can tell what an\nastonishing chorus might be produced. If\nthis proposal shall be embraced, I make no\ndoubt of its being the wonder of all");

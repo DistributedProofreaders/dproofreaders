@@ -3,9 +3,9 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-output_header(_('Moderate Proofreading Tutorial -- Page 4'));
+output_header(_('Moderate Proofreading Tutorial'));
 
-echo "<h2>" . _("Moderate Proofreading Tutorial, Page 4") . "</h2>\n";
+echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial, Page %d"), 4) . "</h2>\n";
 echo "<h3>" . _("Common OCR Problems") . "</h3>\n";
 echo "<p>" . _("OCR commonly has trouble distinguishing between the similar characters.  Some examples are:") . "</p>\n";
 echo "<ul>";

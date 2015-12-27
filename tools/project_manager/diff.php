@@ -25,8 +25,8 @@ if (!$project->pages_table_exists)
     // if the page table doesn't exist, a "diff" link shouldn't be shown.
     // But a user might have a bookmarked or otherwise saved a 'diff' URL.
     echo "<p>", _("Page details are not available for this project."), "</p>\n";
-    echo "<p>", sprintf(_("projectid: %s"), $projectid), "</p>\n";
-    echo "<p>", sprintf(_("Title: %s"), $project_title), "</p>\n";
+    echo "<p>", _("Project ID"), ": $projectid</p>\n";
+    echo "<p>", _("Title"), ":$project_title</p>\n";
     exit;
 }
 
@@ -123,7 +123,7 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num,
     $navigation_text .= "\n<input type='hidden' name='image' value='$image'>";
     $navigation_text .= "\n<input type='hidden' name='L_round_num' value='$L_round_num'>";
     $navigation_text .= "\n<input type='hidden' name='R_round_num' value='$R_round_num'>";
-    $navigation_text .= "\n" . _("Jump to:") . " <select name='jumpto' onChange='$jump_to_js'>\n";
+    $navigation_text .= "\n" . _("Jump to") . ": <select name='jumpto' onChange='$jump_to_js'>\n";
 
     $query = "SELECT image, $L_user_column_name  FROM $projectid ORDER BY image ASC";
     $res = mysql_query( $query) or die(mysql_error());

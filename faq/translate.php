@@ -2,288 +2,183 @@
 $relPath='../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'user_is.inc');
 include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-output_header('FAQ Central', NO_STATSBAR);
+output_header('Site translation', NO_STATSBAR);
 ?>
 <div id='article'><a name="top"></a>
-<h1 >Site translation</h1 >
-
-<p>
-This page contains information on how to translate DP site. For information on translation status of various languages, see <a href='http://dp.rastko.net/stats/software.php' class='external' title="http://dp.rastko.net/stats/software.php">Software information</a>.
-
-<p>
-If you wish to translate our site to your language, or improve upon the existing translation, please visit the <a href='http:../phpBB2/viewtopic.php?t=107' class='external' title="http:../phpBB2/viewtopic.php?t=107">Site translation thread</a> first to make sure that noone is already doing that. You may also report problems with existing translation there.
-
-<p>
-There are several things that could be translated.
-
-<p><table border="0" id="toc"><tr><td align="center">
-<b>Table of contents</b> <script type='text/javascript'>showTocToggle("show","hide")</script></td></tr><tr id='tocinside'><td>
-<div style="margin-bottom:0px;">
-<A CLASS="internal" HREF="#Site">1 Site</A><BR>
-</div>
-<div style="margin-left:2em;">
-<A CLASS="internal" HREF="#Translation_Center">1.1 Translation Center</A><BR>
-<div style="margin-left:2em;">
-<A CLASS="internal" HREF="#Languages">1.1.1 Languages</A><BR>
-<A CLASS="internal" HREF="#Parts">1.1.2 Parts</A><BR>
-<A CLASS="internal" HREF="#Strings">1.1.3 Strings</A><BR>
-<A CLASS="internal" HREF="#Special_strings">1.1.4 Special strings</A><BR>
-<A CLASS="internal" HREF="#Strftime_and_sprintf">1.1.5 Strftime and sprintf</A><BR>
-</div>
-</div>
-<div style="margin-bottom:0px;">
-<A CLASS="internal" HREF="#FAQs">2 FAQs</A><BR>
-</div>
-<div style="margin-bottom:0px;">
-<A CLASS="internal" HREF="#Forums">3 Forums</A><BR>
-</div>
-<div style="margin-bottom:0px;">
-<A CLASS="internal" HREF="#Misc">4 Misc</A><BR>
-</div>
-<div style="margin-left:2em;">
-<A CLASS="internal" HREF="#Linking">4.1 Linking</A><BR>
-<A CLASS="internal" HREF="#Unsupported_languages">4.2 Unsupported languages</A><BR>
-</div>
-</td></tr></table><P>
-<h2><a name="Site">Site</a></h2>
-
-Site interface could be translated with the help of an on-line translation interface&mdash;the Translation Center.
-
-<h3><a name="Translation_Center">Translation Center</a></h3>
-
-Translation Center is located at <a href='http://dp.rastko.net/locale/translators' class='external' title="http://dp.rastko.net/locale/translators">dp.rastko.net/locale/translators</a>. Each user can wade through it and see how it works, but only an appointed translator can really save the translation. If you want to translate the site, you need to ask for translator status. After you get it, read the instructions for use of the interface.
-
-<h4><a name="Languages">Languages</a></h4>
-
-Upon entering it, you will see a list of languages. If your language is not in the list, you can add it by clicking on the link above. Note however, that even though you can work on the translation, the language will not be automatically added to the site, but will have to be added by site admins. It is not technically possible to add to the site all languages which could be translated! (For a partial list see <a href="#Misc" class='internal' title ="">misc</a> below.) You should therefore announce your wish to add a new language in the Site translation thread.
-
-<p>
-Clicking on "Translate" beside a language will take you to a page dedicated to that language. You will now see a list of site parts which could be translated.
-
-<p>
-
-<h4><a name="Parts">Parts</a></h4>
-
-Clicking on "Location" aside one of them will lead you to that part so that you will see what are you actually translating. This will not always work, especially for pages ending in <code >.inc</code >; just try to recognise the strings. If you want to translate something specific but don't know in which part of the site it is actually located, ask in the thread!
-
-<p>
-There are priorities. First things that should be translated are those that all visitors of the site see (<code >default.php</code >, <code >pinc/theme.inc</code >, <code >pinc/showstartexts.inc</code >...). Then, those that all logged in users see (<code >tools/proofers/proof_per.php</code >, <code >userprefs.php</code >, <code >pinc/button_defs.inc</code >...). If no Project Managers who don't know English are expected, PM interface could even be left untranslated. Even the translation interface is translatable, though from obvious reasons it is not neccesary to translate it.
-
-<p>
-If a string is changed in the site code, its translation is no longer usable (alas, even if the change would not reflect on translations). At the bottom of the interface, there is "Rebuild String List" button. Clicking on it will insert into the translation interface any changed and new strings from the site code. Changes which would require its use will usually be announced on the Site translation thread. Rest assured that your existing translations would never be lost, the old string and its translation will still be visible, and if the new string is same or similar to old one, you can just copy and paste it.
-
-<h4><a name="Strings">Strings</a></h4>
-
-Clicking on "Translate" at the right will (finally!) let you to actually translate something. If you wish, clicking next to "All" will give you access to entire site at once but we don't recommend this as the page might be several hundreds of kilobytes long! Regardless of which you choose, you don't need to translate entire page of strings at once, of course&mdash;do as much as you wish. Again, there is need to coordinate; if two persons are translating same part of the site at the same time, they might cancel each other's work! And while backup of each translation is kept, and the work will not be lost, this will just make a headache for everyone, so please unless you're just fixing a typo, announce your wish to translate in the thread and wait a bit to see if someone was already translating.
-
-<p>
-The translation interface is pretty straightforward. There is a list of strings, each followed with a text box. Type your translation of a string in its text box, and move onto the next string. When you have translated all the strings, or gotten bored, click on the "Save and Compile" button at the bottom to save your strings and that's it!
-
-<p>
-In the past, your strings would have been visible immediately after the translation. Unfortunately, this had to be turned off as it caused some problems on the site. The translations will be compiled periodically; if you have made a significant translation, <a href='http://dp.rastko.net/phpBB2/privmsg.php?mode=post&u=3' class='external' title="http://dp.rastko.net/phpBB2/privmsg.php?mode=post&amp;u=3">ask</a> the admin to compile it or announce it in the thread.
-
-<p>
-Distributed Proofreaders Europe for a while used a different translation system, which resulted in somewhat incompatible translations. Partly because of this, and partly because some strings have changed between the two versions of the software (for example, "proofer" changed to "proofreader"), existing translations are not usable in entirety. In particular, of 173 messages in <code >messages.inc</code >, 80 are salvaged, and a few dozen more could be reinserted manually. You can download the .inc file for your language <a href='http://dp.rastko.net/downloads/old_translations' class='external' title="http://dp.rastko.net/downloads/old translations">here</a> if you want to reuse old messages.
-
-<p>
-
-<h4><a name="Special_strings">Special strings</a></h4>
-
-Pay attention that you <strong>must not</strong> translate HTML tags and entities (except those entities which are parts of words in the text); 
-that any spaces at the beginning or the end of a line <strong>must</strong> still be present; and that
-any eventual quotes <strong>must</strong> be escaped, as in the original text. Examples:
-
-<p>
-
-<table border=1><tr ><td >
-<b >String:</b >
-</td ><td >
-<b >Translation:</b >
-</td ><td >
-<i >Note</i >
-</td ></tr ><tr valign=top><td >
-<em><strong>Project&lt;BR&gt;Manager</strong></em>
-</td ><td >
-<code >Управник&lt;BR&gt;пројекта</code >
-</td ><td >
-<code >&lt;BR&gt;</code > is not translated.
-</td ></tr ><tr valign=top><td >
-<em><strong>Name&amp;nbsp;of&amp;nbsp;Work</strong></em>
-</td ><td >
-<code >Име&amp;nbsp;дела</code >
-</td ><td >
-<code >&amp;nbsp;</code > is not translated.
-</td ></tr ><tr valign=top><td >
-<em><strong>Encyclop&amp;aelig;dia&nbsp;Britannica</strong></em>
-</td ><td >
-<code >Енциклопедија&nbsp;Британика</code >
-</td ><td >
-<code >&amp;aelig;</code > is part of a word&mdash;translated.
-</td ></tr ><tr valign=top><td >
-<img src="../locale/translators/space.gif"><em><strong>active users out of</strong></em><img src="../locale/translators/space.gif">
-</td ><td >
-<code >&nbsp;активних корисника од&nbsp;</code >
-</td ><td >
-Spaces at the beginning and the end are preserved.
-</td ></tr ><tr valign=top><td >
-<em><strong>\"Show Projects From\"</strong></em>
-</td ><td >
-<code >\"Приказ пројеката од\"</code >
-</td ><td >
-Note the <code >\</code > before the <code >"</code >. Other possibilities are <code >\r</code >, <code >\n</code >, <code >\\</code >
-</td ></tr ><tr valign=top><td >
-<em><strong>%A, %B %e, %Y</strong></em>
-</td ><td >
-<code >%A, %e. %B %Y.</code >
-</td ><td >
-See <a href="#Strftime_and_sprintf" class='internal' title ="">strftime and sprintf</a> below.
-</td ></tr ></table >
-
-<h4><a name="Strftime_and_sprintf">Strftime and sprintf</a></h4>
-
-Some strings are not displayed as-is, but are passed to PHP's <a href='http://www.php.net/manual/en/function.strftime.php' class='external' title="http://www.php.net/manual/en/function.strftime.php">strftime</a> function. These strings are recognisable by containing or consisting in entirety of % signs, each followed by a letter (%A, %B... we shall call such percent-letter combinations <em>tags</em>). The tags are replaced with already translated time-related terms (day names, month names...)&mdash;you don't need to translate them yourself! For example, %B expands to month name (f.e. August), and %Y expands to full year (f.e. 2004).
-
-<p>
-It might be neccesary to reorganise the tags so that they form a date which is more natural for your language. As for above examples, "%A, %B %e, %Y" becomes "Friday, August 13 2004" while "%A, %e. %B %Y." becomes "Friday, 13. August 2004." when used for English. For a full list of all tags and a more detailed explanation, you can see <a href='http://www.php.net/manual/en/function.strftime.php' class='external' title="http://www.php.net/manual/en/function.strftime.php">strftime</a> in PHP's manual.
-
-<p>
-Note that some other strings also have tags, but are not passed to strftime, but to <a href='http://www.php.net/manual/en/function.sprintf.php' class='external' title="http://www.php.net/manual/en/function.sprintf.php">sprintf</a> function instead. You will see that the strings and tags are not date-related. An example could be "&lt;a href=%s&gt;your preferences page&lt;/a&gt;". You should just leave the tags as they are.
-
-<p>
-If the need arises to use the % sign in either strftime or sprintf strings, you should type in %% instead. The additional % acts as an escape.
-
-<p>
+<h1>Site translation</h1>
 
-<h2><a name="FAQs">FAQs</a></h2>
-
-It is possible to translate various FAQs of the site. The files are <a href='http://www.php.net/manual/en/introduction.php' class='external' title="http://www.php.net/manual/en/introduction.php">PHP</a> files; you could translate them as if they are ordinary HTML files. <strong>Do not</strong> use "Save As" when viewing a FAQ and translate saved file; such translations will not be directly usable. Download a file from <a href='http://dp.rastko.net/faq/download.php' class='external' title="http://dp.rastko.net/faq/download.php">here</a> and translate it.
-
-<p>
-For translating FAQs, it is perhaps best to use a HTML editor (that knows of PHP) or a text editor with HTML syntax highlighting. If you use a text editor, you have to save the files using UTF-8 encoding and pay attention not to translate HTML tags and entities, just as above. But you should also
-translate the page title:
-
-<table border=1><tr ><td >
-<b >Before:</b >
-</td ><td >
-<b >After:</b >
-</td ></tr ><tr valign=top><td >
-<pre>output_header('FAQ Central', NO_STATSBAR);</pre>
-
-</td ><td >
-<pre>output_header('Централни FAQ', NO_STATSBAR);</pre>
-
-</td ></tr ></table >
-
-You should also change path for images and the <code >relPath</code > variable to one more
-level below:
-
-<table border=1><tr ><td >
-<b >Before:</b >
-</td ><td >
-<pre>&lt;img src=&quot;tablec.png&quot; alt=&quot;&quot; width=&quot;591&quot; height=&quot;780&quot;&gt;</pre>
-
-</td ><td >
-<pre>$relPath='../pinc/';</pre>
-
-</td ></tr ><tr ><td >
-<b >After:</b >
-</td ><td >
-<pre>&lt;img src=&quot;../tablec.png&quot; alt=&quot;&quot; width=&quot;591&quot; height=&quot;780&quot;&gt;</pre>
-
-</td ><td >
-<pre>$relPath='../../pinc/';</pre>
-
-</td ></tr ></table >
-
-<p>
-Note that these are original files of Project Gutenberg Distributed Proofreaders. On Distributed Proofreaders Europe, some policies will different, in particular those about ASCII; for example, on Distributed Proofreaders Europe, Greek is not transliterated. But for now, just translate these files literally, as they will still be usable as documentation in your language for the original PGDP site.
-
-<p>
-Again, there are priorities, and you don't need to translate everything. At the very least you should translate FAQ Central (<code >faq_central.php</code >) and the Privacy Statement (<code >privacy.php</code >), then the Beginning Proofreader's FAQ (<code >ProoferFAQ.php</code >), Proofreading Guidelines (<code >document.php</code >) and Proofreading Interface Help (<code >prooffacehelp.php</code >), and after that whatever you like the most.
-
-<p>
-After translating, send translated files to <a href='mailto:dp-admin@rastko.net' class='external' title="mailto:dp-admin@rastko.net">the admin</a> so that they can be included in the site. If you can't translate all of the files that you want to translate at once, you can send the files separately; but please, translate and send as much as possible at one time. If you notice some errors afterwards, please don't update your local files, but download them from the site again and update those. This is because some changes might have to be made to your files and so would have to be made again otherwise.
-
-<p>
-
-<h2><a name="Forums">Forums</a></h2>
-
-If your community is active enough, it can have a forum on its own, or even a full forum hierarchy. For a forum, just <a href='http://dp.rastko.net/phpBB2/privmsg.php?mode=post&u=3' class='external' title="http://dp.rastko.net/phpBB2/privmsg.php?mode=post&amp;u=3">ask</a> the admin. For full hierarchy, you have to translate all the forums' names and PM them to the admin.
-
-<p>
-Translation of the forum interface to your language should be installed when the language itself is installed, if not before. If it isn't, remind the admin to do it.
-
-<h2><a name="Misc">Misc</a></h2>
-
-After you translate something, you migh also tell us how is "welcome" written in your
-language :)
-
-<h3><a name="Linking">Linking</a></h3>
-
-When you are linking to the site, you can link directly to its version in a particular language, and it will appear in that language irrespective of the user's browser settings. This should be used especially when writing about the site in a foreign language.
-
-<p>
-Currently the following URLs are available:
-
-<p>
-
-<ul><li> Danish: <a href="http://dp.rastko.net/da" class='external' title="http://dp.rastko.net/da">http://dp.rastko.net/da</a>
-</li><li> Dutch: <a href="http://dp.rastko.net/nl" class='external' title="http://dp.rastko.net/nl">http://dp.rastko.net/nl</a>
-</li><li> German: <a href="http://dp.rastko.net/de" class='external' title="http://dp.rastko.net/de">http://dp.rastko.net/de</a>
-</li><li> English: <a href="http://dp.rastko.net" class='external' title="http://dp.rastko.net">http://dp.rastko.net</a>
-</li><li> Finnish: <a href="http://dp.rastko.net/fi" class='external' title="http://dp.rastko.net/fi">http://dp.rastko.net/fi</a>
-</li><li> French: <a href="http://dp.rastko.net/fr" class='external' title="http://dp.rastko.net/fr">http://dp.rastko.net/fr</a>
-</li><li> Italian: <a href="http://dp.rastko.net/it" class='external' title="http://dp.rastko.net/it">http://dp.rastko.net/it</a>
-</li><li> Norwegian: <a href="http://dp.rastko.net/no" class='external' title="http://dp.rastko.net/no">http://dp.rastko.net/no</a>
-</li><li> Polish: <a href="http://dp.rastko.net/pl" class='external' title="http://dp.rastko.net/pl">http://dp.rastko.net/pl</a>
-</li><li> Portuguese: <a href="http://dp.rastko.net/pt" class='external' title="http://dp.rastko.net/pt">http://dp.rastko.net/pt</a>
-</li><li> Serbian: <a href="http://dp.rastko.net/sr" class='external' title="http://dp.rastko.net/sr">http://dp.rastko.net/sr</a>
-</li><li> Spanish: <a href="http://dp.rastko.net/es" class='external' title="http://dp.rastko.net/es">http://dp.rastko.net/es</a>
-</li><li> Swedish: <a href="http://dp.rastko.net/sv" class='external' title="http://dp.rastko.net/sv">http://dp.rastko.net/sv</a>
-</li><li> Urdu: <a href="http://dp.rastko.net/ur" class='external' title="http://dp.rastko.net/ur">http://dp.rastko.net/ur</a>
-</li></ul>
-
-<p>
-For more information, see <a href='http://dp.rastko.net/phpBB2/viewtopic.php?t=783' class='external' title="http://dp.rastko.net/phpBB2/viewtopic.php?t=783">Linking to the DP Europe site</a> forum topic.
-
-<h3><a name="Unsupported_languages">Unsupported languages</a></h3>
-
-For technical reasons, we are currently unable to add interface translation (though we can
-add the documentation) for the following languages and dialects:
-
-<p>
-
-<ul><li>(Armenian)
-</li><li>Brezhoneg (Breton)
-</li><li>Cymraeg (Welsh)
-</li><li>Čakavski (Tchakavian)
-</li><li>Esperanto
-</li><li>(Georgian)
-</li><li>Ghàidhlig (Scottish Gaelic)
-</li><li>Kajkavski (Kajkavian)
-</li><li>Ladino
-</li><li>Latina (Latin)
-</li><li>Retoroman
-</li><li>Романи (Romany)
-</li><li>Sámigiella (Sami)
-</li><li>Словио (Slovio)
-</li><li>Serbščina, Horna (Upper Wendish)
-</li><li>Serbščina, Delna (Lower Wendish)
-</li><li>Старославянски (Old Slavic)
-</li><li>(Tzintzarian)
-</li><li>Yiddish
-</li></ul>
-
-<p>
-You can make plans for translating them,
-<a href='http://dp.rastko.net/phpBB2/viewtopic.php?t=107' class='external' title="http://dp.rastko.net/phpBB2/viewtopic.php?t=107">contact us</a> about it, tell us how some of
-them are actually called, and we do plan to solve the technical difficulties once.
-
-<p>
+
+<h2>Using translations</h2>
+<p>The DP code allows the interface to be translated into different languages (ie: locales). The site attempts to determine which language to use based on your browser's settings. If a translation is installed and enabled for the determined language, it will use it. If you wish to override it, you can do so:</p>
+<ul>
+    <li>For guests, see the 'Set language' form in the right column.</li>
+    <li>For registered users, see the 'Interface Language' setting in your <a href='../userprefs.php'>user preferences</a>.</li>
+</ul>
+
+<h2>Becoming a translator</h2>
+<p>If you want to translate the user interface into a new language, or want to refine an existing translation, contact a <a href='mailto:<?php echo $site_manager_email_addr; ?>'>site administrator</a> for full access to the <a href='../locale/translators/index.php'>Translation Center</a>.</p>
+
+<h2>Languages vs locales</h2>
+<p>Many people think of translations as done from one language into another, such as from English into Spanish. But this is an oversimplification: which English -- US? Canadian? British? -- and which Spanish -- Spain? Mexico? Instead, they are done from one localization, such as US English, into another, such as Mexican Spanish. Computers term these localizations locales and they have unique identifiers. For example, US English is en_US and Mexican Spanish is es_MX.</p>
+
+<p>Prior versions of the DP code included this lack of distinction between language and localization. This version uses locales when referring to specific interface language translations in the code. The user interface still uses "language" however.</p>
+
+
+<?php if(user_is_a_sitemanager()) { ?>
+
+<!--
+This section is only shown to admins for two reasons
+1) To reduce confusion by volunteers who don't need to see it.
+2) To prevent non-admins from seeing the value of $dyn_locales_dir
+-->
+
+<hr>
+
+<h2>System Administrators</h2>
+
+<h3>Prerequisites</h3>
+<p>The DP code uses GNU gettext to support site translations, so ensure it is installed and PHP is configured to use it.</p>
+
+<p>The PHP gettext library sets the locales per process, not per thread. This means that if your Apache installation is using a threaded MPM, the wrong language might be displayed to the user as threads race calling setlocale() -- see the warning in the <a href='http://php.net/manual/en/function.setlocale.php'>PHP docs for setlocale()</a>. For this reason you should ensure your Apache MPM is set to prefork and not worker or event. You can see what MPM Apache is using via:</p>
+<blockquote>
+<pre>
+# Ubuntu:
+# apache2 -V | grep MPM
+Server MPM:     Prefork
+
+# CentOS/Redhat
+# httpd -V | grep MPM
+Server MPM:     Prefork
+</pre>
+</blockquote>
+
+<h3>System preparation</h3>
+<p>In order for a translation to be used, the underlying operating system must be aware of the locale first. You can view all system locales with:</p>
+<blockquote>
+<tt>locale -a</tt>
+</blockquote>
+
+<p>If a locale isn't listed there, gettext can't use a DP site translation for that locale. Consult your system documentation on how to install system locales. CentOS/Redhat distros install many locales by default whereas for Ubuntu you need to install additional language packages, see the <a href='https://help.ubuntu.com/community/Locale'>Ubuntu locale documentation</a>.
+
+<p>Note that locales can come in various different character sets, eg:</p>
+<ul>
+    <li>en_US  (actually ISO-8859-1, ie: Latin-1)</li>
+    <li>en_US.utf8</li>
+</ul>
+
+<p>The DP localization code requires the ISO-8859-1 character set be installed, even if the underlying PO files are in UTF-8. CentOS/Redhat systems install locales with both ISO-8859-1 and UTF-8 character sets by default. Ubuntu systems often don't have the ISO-8859-1 character sets, but you can generate them with <tt>locale-gen</tt>, eg: <tt>locale-gen es_MX</tt>.
+
+<p>After you install new locales, you <b>must restart your web server</b> for the locales to be usable by the DP code!</p>
+
+<h3>Installing translations</h3>
+<p>The DP code comes with a set of translations provided by the community at pgdp.net. These are in the <tt>SETUP/locale</tt> directory. The translations may not be complete if strings were added or changed in the code since the translation was done. Strings that haven't been translated will display in English.</p>
+
+<p>To install the translations, copy them to <tt><?php echo $dyn_locales_dir; ?></tt> and ensure the web server has full read/write permissions on the files and directories. The reason they are located elsewhere is because the site allows designated users to update the translations and to persist outside of the site code path for easier upgrades.</p>
+
+<p>After the translations are installed you can manage them in the <a href='../locale/translators/index.php'>Translation Center</a>.</p>
+
+<p>To review translations for missing strings and enable the translation:
+<ol>
+    <li>Generating a new template</li>
+    <li>For each language, access the 'manage' link and:<ol>
+        <li>Merge the current PO file with the current template</li>
+        <li>Download the PO file</li>
+        <li>Use a PO editor to view the untranslated strings</li>
+        <li>If you are satisfied with the thoroughness of the translation, you can enable it</li>
+    </ol></li>
+</ol>
+
+<h3>Regenerating the template</h3>
+<p>The PO template (POT) file contains all translatable strings in the site code. If the code is changed, regenerate the template via the <a href='../locale/translators/index.php'>Translation Center</a>. This ensures that new or modified strings are available to translators for translation.</p>
+
+<h3>Enabling translators</h3>
+<p>Site translators have the ability to download the a translation, update it, and upload it back to the site. Note that translators have these abilities for all translations, not just a specific one. They cannot enable or disable a translation, create a translation for a new locale, delete a translation, or regenerate the template file.</p>
+
+<p>To specify a user as a site translator, create an entry in the usersettings table for them:</p>
+<blockquote>
+<tt>INSERT INTO usersettings SET username='&lt;username&gt;', setting='site_translator', value='yes';</tt>
+</blockquote>
+
+<?php } // user_is_a_sitemanager(); ?>
+
+<?php if(user_is_site_translator()) { ?>
+
+<hr>
+
+<h2>Translators</h2>
+
+<h3>Character sets</h3>
+<p>PO files, also known as message files, can be saved and uploaded in various different encodings, including ISO-8859-1 (ie: Latin-1) and UTF-8. The encoding must match the "Content-Type" heading at the top of the file to ensure proper localization of the page to the user. PO editors will do this for you automatically. Mismatched encodings and Content-Type headings will result in message corruption in the file, therefore it is imperative that you use a PO editor and not just a text editor!</p>
+
+<p>The DP code currently only supports the ISO-8859-1 (ie: Latin-1) character set. Messages in PO files using different character sets, such as UTF-8, will be converted automatically before being shown to the user. Any characters that do not have an exact representation in ISO-8859-1 will be transliterated to the closest possible character. If you wish to represent characters in a message string that do not have ISO-8859-1 equivalents, use <a href='http://www.w3.org/TR/html4/sgml/entities.html'>HTML entities</a> in the string instead.</p>
+
+<h3>PO Editors</h3>
+<p>To work with DP code translations, you must use a PO editor. This is a tool that allows working with PO files, also known as message files, and ensures that the file is in the correct format and character set. Here are links to some common editors:</p>
+<ul>
+    <li><a href='https://poedit.net'>Poedit</a> - supports Windows, Mac, and Linux.</li>
+    <li><a href='https://localise.biz/free/poeditor'>Loco online poeditor</a> - a fully browser-based PO file editor</li>
+</ul>
+
+<h3>Translator coordination</h3>
+<p>PO files contain the entire translation for a locale. When a new PO file is uploaded, its contents replace the prior contents in their entirity, not just any untranslated strings. If multiple translators are working on a single locale, they should coordinate their efforts to work in series, not parallel. </p>
+
+<h3>Using the Translation Center</h3>
+<p>Translations are managed in the <a href='../locale/translators/index.php'>Translation Center</a>.</p>
+
+<p>The initial page shows all installed locale translations, if they are enabled or disabled, the last time the PO file was modified, the progress of the translation, and a list of actions you can take on the files. Only enabled locale translations can be used by site users.</p>
+
+<p>The 'view' link will show you the selected PO file in your browser window. The 'download' link will download the PO file to your local computer. The 'manage' button will display another page allowing you to do further actions on the PO file.</p>
+
+<p>The page shows the current PO template file (POT) which contains all the strings in the installed DP code. A site administrator can regenerate the template using this page.</p>
+
+<h3>Translation workflow</h3>
+<p>The basic steps for editing a translation are:
+<ol>
+    <li>Select the 'manage' link for the locale translation you want to manage.</li>
+    <li>(optional) Merge the current PO file with the most current template. (see below)</li>
+    <li>Using the 'download' link to download the PO file you want to update.</li>
+    <li>Update the PO file using a PO editor to change translations for existing strings or translate new strings that have not been translated.</li>
+    <li>Upload the new PO file to the system using the form at the bottom of the page. If the locale translation is enabled, the changes should be immediate.</li>
+    <li>(optional) If the locale translation is disabled and is ready for release, contact an admin to have them enable it.</li>
+</ol>
+
+<h3>Merging the current PO file with the current template</h3>
+<p>The PO template (POT) file contains all the strings in the code that need translating. When the site code is updated, new strings might be added or existing strings changed such that some strings in the PO no longer match those in the POT file.</p>
+
+<p>The 'manage' page will notify you if the POT file has been regenerated since the PO file was uploaded, possibly indicating that there are new or changed strings that need to be translated. Merging the PO file with the current template will update the PO file on the system to contain all the strings in POT file, retaining those in the current PO file that match.</p>
+
+<p>During the merge, the system matches strings in the POT file with those in the PO file that have been translated. If no exact string is found and fuzzy matching is enabled, strings that are determined to be "close" are matched and the translation is flagged as "fuzzy". Fuzzy translations should be checked in the PO editor (editors will indicate if a translation is flagged as fuzzy), reviewed or updated, and then unflagged as fuzzy. <i>Using fuzzy matching can take a very long time to complete the merge.</i> See also the <a href='http://www.gnu.org/software/gettext/manual/gettext.html#Fuzzy-Entries'>gettext manual for fuzzy entries</a>.</p>
+
+<h3>Translation tips</h3>
+<h4>HTML and spaces</h4>
+<p>Pay attention that you <strong>must not</strong> translate HTML tags, attributes, and entities (except those entities which are parts of words in the text). For example: if the string is "No&amp;nbsp;space" translate "No" and "space" but leave &amp;nbsp; as-is. If an entity is needed for an accented character in a word that is not available in ISO-8859-1, use the entity as a substitute for that letter or letter combination in the translated word, but do not attempt to translate the entity itself.</p>
+
+<p>Although there should not be any, if there are spaces at the beginning or the end of a line, keep them.</p>
+
+
+<h4>strftime and sprintf</h4>
+<p>Some strings are not displayed as-is, but are passed to PHP's <a href='http://www.php.net/manual/en/function.strftime.php'>strftime</a> or <a href='http://www.php.net/manual/en/function.sprintf.php'>sprintf</a> functions.</p>
+
+<p>Strings passed to strftime contain, or consist entirely of "tags" prefixed by %, followed by a letter (%A, %B, etc.). When viewed on the website by the end-user, these tags are replace with already translated time-related terms (day names, month names, etc.)&mdash;you don't need to translate them yourself! For example, %B expands to month name (e.g. August), and %Y expands to display the full year (e.g. 2004).</p>
+
+<p>It might be neccesary to reorganise the tags so that they form a date which is more natural for your language. For examples, "%A, %B %e, %Y" becomes "Friday, August 13 2004" while "%A, %e. %B %Y." becomes "Friday, 13. August 2004.". For a full list of all tags and a more detailed explanation, you can see <a href='http://www.php.net/manual/en/function.strftime.php' class='external' title="http://www.php.net/manual/en/function.strftime.php">strftime</a> in PHP's manual.</p>
+
+<p>Note that some non-date-related strings are also tagged. These are passed to the <a href='http://www.php.net/manual/en/function.sprintf.php' class='external' title="http://www.php.net/manual/en/function.sprintf.php">sprintf</a> function instead of strftime. For example: "&lt;a href=%s&gt;your preferences page&lt;/a&gt;". You should just leave the tags as they are -- any strings associated with the %s that need to be translated will be translated elsewhere.</p>
+
+<p>Some sprintf-formatted strings have more than one substitution variable. For example: "&lt;a href='%1$s'&gt;%2$s&lt;/a&gt;". Treat the %1$s and similar strings as placeholders and keep them intact. If necessary, you can change the order of the placeholders in the stringto better suit the destination language.</p>
+
+<p>If you need to insert a % sign in either strftime or sprintf strings for a translation, use two in a row (%%). If the string is not a strftime or sprintf string (ie: it doesn't have any formatting characters or placeholders already) a single % should be used as needed.</p>
+
+<h4>Quotes</h4>
+<p>If the original string has quotes (eg: ' or ") in HTML attributes, use the same quotes in the translated string. If the quotes are part of a paragraph, you are welcome to use the language's quote characters in their place.</p>
+
+<?php } // user_is_site_translator() ?>
+
 </div>
 <?php
 // vim: sw=4 ts=4 expandtab

@@ -60,7 +60,7 @@ if (isset($_POST['saveAndProject']) || isset($_POST['saveAndPM']) || isset($_POS
         $return="$code_url/tools/project_manager/projectmgr.php";
 
     // do the redirect
-    metarefresh(0, $return, _("Quit without Saving"), "");
+    metarefresh(0, $return, _("Quit Without Saving"), "");
     exit;
 } elseif(isset($_POST['reload'])) {
     // fall through
@@ -70,7 +70,7 @@ $pwlh->set_from_db();
 
 $pwlh->set_from_files(!$good_word_conflict,!$bad_word_conflict);
 
-$page_title = _("Edit Project Word Lists");
+$page_title = _("Edit project word lists");
 
 output_header($page_title, NO_STATSBAR);
 echo "<h1>$page_title</h1>\n";
@@ -99,7 +99,7 @@ class ProjectWordListHolder
         }
         else if ( $ucep_result == USER_CANNOT_EDIT_PROJECT )
         {
-            return array(_("you are not allowed to edit this project").": '$projectid'");
+            return array(_("You are not authorized to manage this project.").": '$projectid'");
         }
         else if ( $ucep_result == USER_CAN_EDIT_PROJECT )
         {
@@ -113,7 +113,7 @@ class ProjectWordListHolder
         $res = mysql_query("SELECT nameofwork, username, authorsname, language, checkedoutby, state FROM projects WHERE projectid = '$projectid'");
         if (mysql_num_rows($res) == 0)
         {
-            return array(_("parameter 'projectid' is invalid") . ": '$projectid'");
+            return array(sprintf(_("parameter '%s' is invalid"), 'projectid') . ": '$projectid'");
         }
 
         $ar = mysql_fetch_array($res);
@@ -190,7 +190,7 @@ class ProjectWordListHolder
             }
             else if ( $ucep_result == USER_CANNOT_EDIT_PROJECT )
             {
-                return array(_("you are not allowed to edit this project").": '$this->projectid'");
+                return array(_("You are not authorized to manage this project.").": '$this->projectid'");
             }
             else if ( $ucep_result == USER_CAN_EDIT_PROJECT )
             {

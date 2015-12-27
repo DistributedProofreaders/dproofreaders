@@ -26,7 +26,7 @@ if ($expected_state != $project->state)
 
     echo "<p>";
     echo sprintf(
-        _('Warning: The project "%s" is no longer in state "%s"; it is now in state "%s".'),
+         ('Warning: Project "%1$s" is no longer in state "%2$s"; it is now in state "%3$s".'),
         $project->nameofwork,
         $expected_state_text,
         project_states_text($project->state)

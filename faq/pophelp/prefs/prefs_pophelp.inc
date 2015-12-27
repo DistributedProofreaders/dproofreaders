@@ -36,7 +36,7 @@ _("<p>Choose a side of the page for the Statistics Bar to appear on.</p>")
 
 'set_updates' =>
     array (
-    'title' => _("Email Updates"),
+    'title' => _("E-mail Updates"),
     'content' =>
 _("<p>(Future Use) We may send out messages to all active users,
 such as a location change or major changes to the site.</p>")
@@ -61,8 +61,8 @@ _("<p>This setting specifies how your credits will appear when a project is comp
 
 'set_email' =>
     array (
-    'title' => _("Email"),
-    'content' => _("<p>Your current email address.</p>")
+    'title' => _("E-mail"),
+    'content' => _("<p>Your current e-mail address.</p>")
     ),
 
 'set_intlang' =>

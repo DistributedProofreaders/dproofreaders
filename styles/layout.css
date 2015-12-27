@@ -145,6 +145,13 @@ table.stats td, table.stats th {
 }
 
 /* ------------------------------------------------------------------------ */
+/* Translation table */
+
+table.translation td, table.translation th {
+    padding-right: 1em;
+}
+
+/* ------------------------------------------------------------------------ */
 /* Available Project Listings */
 
 table.availprojectlisting {

@@ -108,8 +108,10 @@ if ($author_id) {
     if ($y > 150)
       $year = $y;
     else if ($y > 0)
+      // TRANSLATORS: Abbreviation for 'anno Domini' (years > 0)
       $year = $y . ' ' . _('A. D.');
     else if ($y < 0)
+      // TRANSLATORS: Abbreviation for 'before Christ' (years < 0)
       $year = -$y . ' ' . _('B. C.');
     else
       // Year unknown = Everything unknown

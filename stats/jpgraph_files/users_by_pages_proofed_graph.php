@@ -106,17 +106,17 @@ $bplotAll->SetLegend(_("All Registered Users"));
 
 $bplot90 = new BarPlot($datay90);
 $bplot90 ->SetFillColor ("mediumseagreen");
-$bplot90->SetLegend(_("Logged on in last 90 days"));
+$bplot90->SetLegend(sprintf(_("Logged on in last %d days"), 90));
 
 
 $bplot28 = new BarPlot($datay28);
 $bplot28 ->SetFillColor ("lime");
-$bplot28->SetLegend(_("Logged on in last 28 days"));
+$bplot28->SetLegend(sprintf(_("Logged on in last %d days"), 28));
 
 
 $bplot7 = new BarPlot($datay7);
 $bplot7 ->SetFillColor ("yellow");
-$bplot7->SetLegend(_("Logged on in last 7 days"));
+$bplot7->SetLegend(sprintf(_("Logged on in last %d days"), 7));
 
 
 // Create the grouped bar plot

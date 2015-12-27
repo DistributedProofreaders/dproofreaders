@@ -20,6 +20,7 @@ $action  = @$_REQUEST['action'];
 
 $project = new Project($projectid);
 
+// this blurb matches one in remote_file_manager.php
 $standard_blurb = _("<b>Note:</b> Please make sure the file you upload is Zipped (not Gzip, TAR, etc.). The file should have the .zip extension, NOT .Zip, .ZIP, etc.");
 $submit_blurb = _("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file.");
 $big_upload_blurb = sprintf(_("<b>Note about big uploads:</b> 
@@ -114,10 +115,7 @@ else if (!isset($stage))
     slim_header(_("Upload failed"));
     
     echo "<p>" . _("The upload failed.") . "</p>\n";
-    echo "<p>" . sprintf(_("<b>Note about big uploads:</b> If you were trying
-        to upload a very big zip file (e.g. 10 Mb), upload a small 
-        placeholder zip file instead and email %s for assistance."), 
-        $db_requests_email_addr) . "</p>\n";
+    echo "<p>$big_upload_blurb</p>";
     
     echo "<p>" . sprintf(_("Please go <a href='%s'>back</a> and try uploading 
         the original again or uploading a smaller placeholder instead."), 
@@ -180,8 +178,10 @@ if (!isset($action))
     }
 
     echo "<li>";
-    echo sprintf(_('<input type="submit" value="%1$s"> or return to the <a href="%2$s">%3$s</a>.'),
-            attr_safe($submit_button), $back_url, $back_blurb);
+    // TRANSLATORS: %1$s is replaced with a form <input> containing separately translated text like 'Upload file'
+    echo sprintf(_('%1$s or return to the <a href="%2$s">%3$s</a>.'),
+        sprintf('<input type="submit" value="%s">', attr_safe($submit_button)),
+        $back_url, $back_blurb);
     echo "<p>" . sprintf($submit_blurb,$submit_button) . "</p>";
     echo "</li>\n";
     echo "</ol>";

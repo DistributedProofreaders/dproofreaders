@@ -161,6 +161,7 @@ class SpecialDay
             {
                 foreach ($source_fields as $field => $value)
                     $this->$field = $value;
+                $this->new_source = false;
             }
             else
             {
@@ -208,21 +209,21 @@ class SpecialDay
         echo "</tr>";
 
         echo "<tr class='$row_class'>";
-        echo "<td class='right'>" . _("Info URL:") . "</td><td colspan='6'>" . make_link($this->info_url, $this->info_url) . "</td>";
+        echo "<td class='right'>" . _("Info URL") . ":</td><td colspan='6'>" . make_link($this->info_url, $this->info_url) . "</td>";
         echo "</tr>";
         echo "<tr class='$row_class'>";
-        echo "<td class='right'>" . _("Image URL:") . "</td><td colspan='6'>" . make_link($this->image_url, $this->image_url) . "</td>";
+        echo "<td class='right'>" . _("Image URL") . ":</td><td colspan='6'>" . make_link($this->image_url, $this->image_url) . "</td>";
         echo "</tr>";
 
         if($this->date_changes)
         {
             echo "<tr class='$row_class'>";
-            echo "<td class='right'>" . _("Date Changes:") . "</td><td colspan='6'>" . htmlspecialchars($this->date_changes) . "</td>";
+            echo "<td class='right'>" . _("Date Changes") . ":</td><td colspan='6'>" . htmlspecialchars($this->date_changes) . "</td>";
             echo "</tr>";
         }
 
         echo "<tr class='$row_class'>";
-        echo "<td class='right'>" . _("Comments:") . "</td><td colspan='6'>" . htmlspecialchars($this->comment) . "</td>";
+        echo "<td class='right'>" . _("Comments") . ":</td><td colspan='6'>" . htmlspecialchars($this->comment) . "</td>";
         echo "</tr>";
 
     }
@@ -248,7 +249,7 @@ class SpecialDay
                 "<input type='hidden' name='spec_code' value='" . htmlspecialchars($this->spec_code, ENT_QUOTES) ."' />";
             $this->_show_summary_row(_('Special Day ID'),$this->spec_code);
         }
-        $this->_show_edit_row('display_name',_('Display name'),false,80);
+        $this->_show_edit_row('display_name',_('Display Name'),false,80);
         $this->_show_edit_row('enable',_('Enable'),false,1);
         $this->_show_edit_row('comment',_('Comment'),true);
         $this->_show_edit_row('color',_('Color'),false,8);

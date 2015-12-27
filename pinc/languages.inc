@@ -10,23 +10,8 @@
 
 include_once($relPath.'lang_data.inc');
 
-// Return a list of installed languages (as defined in lang_data.inc).
-function installed_langs()
-{
-    return $GLOBALS['inst_lang_data'];
-}
-
-// This function returns array of all languages that are not installed on the
-// site, but whose installation is planned.
-// See maybe_show_language_selector() in theme.inc for details on how this is
-// used.
-function uninstalled_langs()
-{
-    return $GLOBALS['uninst_lang_data'];
-}
-
 function lang_code($language_code) {
-    global $locales, $inst_lang_data;
+    global $locales;
 
     // see if there's a preferred variation
     $shortcode = $language_code;
@@ -36,7 +21,7 @@ function lang_code($language_code) {
         return $locales[$shortcode];
 
     // if not, return one of the ones that's installed
-    if(in_array($language_code, $inst_lang_data))
+    if(in_array($language_code, get_installed_locale_translations("enabled")))
         return $language_code;
 
     return FALSE;
@@ -49,7 +34,7 @@ function short_lang_code($langcode=FALSE)
     if($langcode===FALSE)
         $langcode=$GLOBALS['locale'];
 
-    return $langcode ? substr($langcode,0,2) : "en";
+    return substr($langcode, 0, 2);
 }
 
 // Returns ISO 639 code(s) for language(s) of a project.
@@ -186,6 +171,181 @@ function get_languages_with_dictionaries() {
     }
 
     return $returnArray;
+}
+
+// Return all installed system locales
+function get_installed_system_locales()
+{
+    static $system_locales = array();
+    if($system_locales)
+        return $system_locales;
+
+    exec("locale -a", $system_locales);
+
+    return $system_locales;
+}
+
+// Get a list of all locale translations.
+// $state can be one of:
+//   "all" - all installed locale translations
+//   "enabled" - locale translation is enabled
+//   "disabled" - locale translation is disabled
+function get_installed_locale_translations($state="all")
+{
+    global $dyn_locales_dir, $relPath;
+
+    static $translation_cache = NULL;
+
+    if($translation_cache !== NULL)
+        return $translation_cache[$state];
+
+    $translation_cache = array(
+        "all" => array(),
+        "enabled" => array(),
+        "disabled" => array(),
+    );
+
+    include($relPath.'iso_639_list.inc');
+
+    // replace with "$files = scandir($dyn_locales_dir) for PHP >= 5.3
+    $dh = opendir($dyn_locales_dir);
+    while(false !== ($filename = readdir($dh))) {
+        $files[] = $filename;
+    }
+    sort($files);
+
+    foreach($files as $file)
+    {
+        if(!is_dir("$dyn_locales_dir/$file"))
+            continue;
+
+        if(!array_key_exists(substr($file, 0, 2), $iso_639))
+            continue;
+
+        $translation_cache["all"][] = $file;
+
+        if(is_file("$dyn_locales_dir/$file/enabled"))
+            $translation_cache["enabled"][] = $file;
+        else
+            $translation_cache["disabled"][] = $file;
+    }
+
+    return $translation_cache[$state];
+}
+
+function is_locale_translation_enabled($locale)
+{
+    global $dyn_locales_dir;
+
+    $translation_base = "$dyn_locales_dir/$locale";
+    $enabled_file = "$translation_base/enabled";
+
+    if(!is_dir($translation_base))
+        return NULL;
+
+    return is_file($enabled_file);
+}
+
+function set_locale_translation_enabled($locale, $enable)
+{
+    global $dyn_locales_dir;
+
+    $translation_base = "$dyn_locales_dir/$locale";
+    $enabled_file = "$translation_base/enabled";
+
+    if(!is_dir($translation_base))
+        die(sprintf(_("Locale translation %s not installed"), $locale));
+
+    if($enable && !is_file($enabled_file))
+        touch($enabled_file);
+
+    if(!$enable && is_file($enabled_file))
+        unlink($enabled_file);
+}
+
+function get_locale_translation_selection_options()
+// Return an associative array for all translations a user can select
+// with keys being the locale and the value being the name of the
+// language and the locale.
+{
+    $translations = get_installed_locale_translations("enabled");
+
+    // push English (en_EN) onto the list since that's the native version
+    // of all the strings
+    array_unshift($translations, "en_EN");
+
+    // build a list of option names so we can sort them for display
+    $options = array();
+    foreach($translations as $locale)
+        $options[$locale] = bilingual_name(short_lang_code($locale)) . " - $locale";
+    asort($options);
+
+    return $options;
+}
+
+function get_locale_matching_browser_accept_language($http_accept)
+// This code is largely inspired by the excellent write-up here:
+// https://www.dyeager.org/2008/10/getting-browser-default-language-php.html
+// accordingly:
+#########################################################
+# Copyright © 2008 Darrin Yeager                        #
+# https://www.dyeager.org/                              #
+# Licensed under BSD license.                           #
+#   https://www.dyeager.org/downloads/license-bsd.txt   #
+#########################################################
+// On success it returns an installed locale. On failure it returns NULL.
+{
+    // split the languages into their respective parts
+    $browser_accepts = explode(",", $http_accept);
+
+    // pull out q-values
+    $browser_langs = array();
+    foreach($browser_accepts as $language)
+    {
+        if(preg_match("/(.*);q=([0-1]{0,1}.\d{0,4})/i", $language, $matches))
+            $browser_langs[$matches[1]] = (float)$matches[2];
+        else
+            $browser_langs[$language] = 1.0;
+    }
+
+
+    // loop through each requested language sorted by highest q-value
+    // and see if we have a locale that matches it
+    arsort($browser_langs);
+    foreach($browser_langs as $browser_lang_code => $qvalue)
+    {
+        $test_locale = massage_browser_lang_code_to_locale($browser_lang_code);
+        if(is_locale_translation_enabled($test_locale))
+            return $test_locale;
+    }
+
+    return NULL;
+}
+
+function massage_browser_lang_code_to_locale($browser_lang_code)
+// Given a browser's accept-language string, return a locale string
+// that most closely matches it.
+{
+    // system locales are always in the format xx_YY, but browsers can
+    // send accepts in many different formats (eg: en, en-us, en-US)
+    // so attempt to massage $browser_lang_code into a locale
+
+    if(strlen($browser_lang_code) == 5)
+    {
+        $lang_code = strtolower(substr($browser_lang_code, 0, 2));
+        $region_code = strtoupper(substr($browser_lang_code, 3, 2));
+        return "{$lang_code}_{$region_code}";
+    }
+
+    if(strlen($browser_lang_code) == 2)
+    {
+        $lang_code = strtolower($browser_lang_code);
+        $region_code = strtoupper($browser_lang_code);
+        return "{$lang_code}_{$region_code}";
+    }
+
+    // give up
+    return $browser_lang_code;
 }
 
 // This function returns forum of a particular language. If there is no such

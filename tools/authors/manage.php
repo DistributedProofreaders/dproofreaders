@@ -406,19 +406,19 @@ $view = get_enumerated_param($_REQUEST, 'view', 'enabled', array('enabled', 'dis
 
 $links_and_buttons = _('View:') . ' ';
 if ($view != 'disabled' && $view != 'all')
-$links_and_buttons .= _('enabled');
+$links_and_buttons .= _('Enabled');
 else
-$links_and_buttons .= "<a href='?$query_without_view$sortby&view=enabled#results'>" . _('enabled') . '</a>';
+$links_and_buttons .= "<a href='?$query_without_view$sortby&view=enabled#results'>" . _('Enabled') . '</a>';
 $links_and_buttons .= " | ";
 if ($view == 'disabled')
-$links_and_buttons .= _('disabled');
+$links_and_buttons .= _('Disabled');
 else
-$links_and_buttons .= "<a href='?$query_without_view$sortby&view=disabled#results'>" . _('disabled') . '</a>';
+$links_and_buttons .= "<a href='?$query_without_view$sortby&view=disabled#results'>" . _('Disabled') . '</a>';
 $links_and_buttons .= " | ";
 if ($view == 'all')
-$links_and_buttons .= _('all');
+$links_and_buttons .= _('All');
 else
-$links_and_buttons .= "<a href='?$query_without_view$sortby&view=all#results'>" . _('all') . '</a>';
+$links_and_buttons .= "<a href='?$query_without_view$sortby&view=all#results'>" . _('All') . '</a>';
 
 $links_and_buttons .= ' &nbsp; &nbsp; &nbsp; &nbsp; <input type="submit" value="Process">';
 
@@ -435,7 +435,7 @@ echo $links_and_buttons;
 // links to allow sorting (asc/desc)
 
 echo "<th rowspan='2'>Enabled</th><th rowspan='2'>Delete</th><th rowspan='2'>"._('Move to here');
-echo "<br />[<input type='radio' name='move_to_author' value='0' onClick='moveToHere(this, 0);'>"._('reset')."]</th>\n";
+echo "<br />[<input type='radio' name='move_to_author' value='0' onClick='moveToHere(this, 0);'>"._('Reset')."]</th>\n";
 echo "<th rowspan='2'><a href='manage.php?$query".$sortUtility->getQueryStringForSortableValue($sort_author_id).
      "'>Id</a></th>\n";
 echo "<th rowspan='2'><a href='manage.php?$query".$sortUtility->getQueryStringForSortableValue($sort_last_name).

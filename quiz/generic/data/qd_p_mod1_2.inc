@@ -2,7 +2,7 @@
 
 
 $browser_title                = _("Moderate Proofreading Quiz");
-$intro_title                  = _("Moderate Proofreading Quiz, page 2");
+$intro_title                  = sprintf(_("Moderate Proofreading Quiz, page %d"), 2);
 $initial_instructions         = $initial_instructions__P;
 $initial_text                 = "364   ALICE ORVILLE.\n\n\"When folks can't do as they will, they must do\nas they can, I've heard say.\"\n\nThus we leave our adventurers and return north-\neast to the land from which they are receding. We\ndid n't know what else to do here, reader, for we\nwere quite as tired of the characters as you wore,\nand wanted to get them off our hands in some\nway. * * * A few people think E--e can tell\nstories tolerably well. But she can't, reader! We";
 $solutions                    = array("\n\"When folks can't do as they will, they must do\nas they can, I've heard say.\"\n\nThus we leave our adventurers and return north-*east\nto the land from which they are receding. We\ndidn't know what else to do here, reader, for we\nwere quite as tired of the characters as you were,\nand wanted to get them off our hands in some\nway. * * * A few people think E--e can tell\nstories tolerably well. But she can't, reader! We");

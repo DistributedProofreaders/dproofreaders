@@ -72,7 +72,7 @@ switch ($action)
                         $transfer_notifications, $add_deletion_reason, 
                         $merge_wordcheck_files);
         echo "\n<input type='hidden' name='action' value='docopy'>";
-        echo "\n<input type='submit' name='submit_button' value='" . attr_safe(_("Do it!")) ."'>";
+        echo "\n<input type='submit' name='submit_button' value='" . attr_safe(_("Do it")) ."'>";
         echo "\n</form>";
         echo "<div style='height: 4em;'>&nbsp;</div>"; // Spacer
         break;
@@ -134,14 +134,14 @@ function display_form($projectid_, $from_image_, $page_name_handling,
     {
         $val = "value='" . attr_safe($projectid_['from']) . "'";
     }
-    echo "<tr><th>" . _("Source project:") . "</th>\n";
+    echo "<tr><th>" . _("Source Project:") . "</th>\n";
     echo "<td><input type='text' name='projectid_[from]' size='28' $val> (projectid)</td></tr>\n";
     $val = '';
     if ($repeating && $repeat_project == 'TO')
     {
         $val = "value='" . attr_safe($projectid_['to']) . "'";
     }
-    echo "<tr><th>" . _("Destination project:") . "</th>\n";
+    echo "<tr><th>" . _("Destination Project:") . "</th>\n";
     echo "<td><input type='text' name='projectid_[to]' size='28' $val> (projectid)</td></tr>\n";
 
     // If we are repeating, we want the same buttons to be checked
@@ -272,7 +272,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
         $projectid = $projectid_[$which];
 
-        echo "<tr><th>" . _("ProjectID:") . "</th><td>" . $projectid . "</td></tr>\n";
+        echo "<tr><th>" . _("Project ID") . ":</th><td>" . $projectid . "</td></tr>\n";
 
         $res = mysql_query(sprintf("
             SELECT nameofwork
@@ -293,7 +293,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
         list($title) = mysql_fetch_row($res);
 
-        echo "<tr><th>" . _("Title:") . "</th><td>" . $title . "</td></tr>\n";
+        echo "<tr><th>" . _("Title") . ":</th><td>" . $title . "</td></tr>\n";
 
         // ----------------------
 
@@ -306,7 +306,8 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
         $n_pages = mysql_num_rows($res);
 
-        echo "<tr><th>" . _("No. of pages:") . "</th><td>" . $n_pages . "</td></tr>\n";
+        // TRANSLATORS: abbreviated form of "number of pages"
+        echo "<tr><th>" . _("No. of pages") . ":</th><td>" . $n_pages . "</td></tr>\n";
 
         if ( $which == 'from' && $n_pages == 0 )
         {
@@ -328,12 +329,13 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
         $n_columns = count($column_names_[$which]);
         echo "<tr><th>";
-        echo "No. of columns:" . "</th><td>" . $n_columns . "</td></tr>\n";
+        // TRANSLATORS: abbreviated form of "number of columns"
+        echo _("No. of columns") . ":</th><td>" . $n_columns . "</td></tr>\n";
 
         $extra_columns_[$which] = array_diff( $column_names_[$which], $clashing_columns );
         if ( count($extra_columns_[$which]) > 0 )
         {
-            echo "<tr><th>" . _("Extra columns:");
+            echo "<tr><th>" . _("Extra columns") . ":</th>";
             echo "<td><code>" . htmlspecialchars(implode( " ", $extra_columns_[$which])) . "</code></td></tr>\n";
 
             echo "<tr><td></td><td>";
@@ -388,7 +390,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
             $n_pages_to_copy = 1 + $hi_i - $lo_i;
 
             echo "<p>";
-            echo sprintf( _("Pages to copy: %s &ndash; %s"),$lo, $hi );
+            echo sprintf( _('Pages to copy: %1$s &ndash; %2$s'),$lo, $hi );
             echo " " . sprintf(_("(%d pages)"), $n_pages_to_copy);
             echo "</p>\n";
         }
@@ -628,7 +630,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         $c_src_path = "{$projectid_['from']}/$c_src_image";
         $c_dst_path = "{$projectid_['to']}/$c_dst_image";
 
-        echo "\n" . htmlspecialchars(sprintf( _("Copying %s to %s..."), $c_src_path, $c_dst_path)) . " ";
+        echo "\n" . htmlspecialchars(sprintf( _('Copying %1$s to %2$s...'), $c_src_path, $c_dst_path)) . " ";
 
         if ($for_real)
         {

@@ -2,7 +2,7 @@
 
 
 $browser_title                = _("Moderate Proofreading Quiz");
-$intro_title                  = _("Moderate Proofreading Quiz, page 9");
+$intro_title                  = sprintf(_("Moderate Proofreading Quiz, page %d"), 9);
 $initial_instructions         = $initial_instructions__P;
 $initial_text                 = "\"It has been said,\" he began, withdrawing\nhis eyes reluctantly from an unusually large\ninsect upon the ceiling, \"that there are few\n\"situations in life that cannot be honourably\n\"settled--and without loss of time\n\"--either by suicide, a bag of gold,\n\"or by thrusting a despised anta-\n\"gonist over the edge of a precipice upon a\n\"dark night. This inoffensive person, however,\n\nA suitor\nis chosen";
 $solutions                    = array("\n\"It has been said,\" he began, withdrawing\nhis eyes reluctantly from an unusually large\ninsect upon the ceiling, \"that there are few\nsituations in life that cannot be honourably\nsettled--and without loss of time--either\nby suicide, a bag of gold,\nor by thrusting a despised antagonist\nover the edge of a precipice upon a\ndark night. This inoffensive person, however,\n\nA suitor\nis chosen.");

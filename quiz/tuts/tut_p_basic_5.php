@@ -3,9 +3,9 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-output_header(_('Basic Proofreading Tutorial -- Step 5'));
+output_header(_('Basic Proofreading Tutorial'));
 
-echo "<h2>" . _("Basic Proofreading Tutorial, Step 5") . "</h2>\n";
+echo "<h2>" . sprintf(_("Basic Proofreading Tutorial, Step %d"), 5) . "</h2>\n";
 echo "<h3>" . _("Poetry/Epigrams") . "</h3>\n";
 echo "<p>" . _("Insert a blank line at the start of the poetry or epigram and another blank line at the end, so that the formatters can clearly see the beginning and end. Leave each line left justified and maintain the line breaks. Insert a blank line between stanzas, when there is one in the image.") . "</p>\n";
 

@@ -3,7 +3,7 @@ include_once('quiz_defaults.inc'); // $ae_oe_ligatures_url $utf8_site
 
 
 $browser_title                = _("Ligatures Proofreading Quiz");
-$intro_title                  = _("Ligatures Proofreading Quiz, page 2");
+$intro_title                  = sprintf(_("Ligatures Proofreading Quiz, page %d"), 2);
 $initial_instructions         = $initial_instructions__P;
 $initial_text                 = "apple. The lofty Terebinthacece, with their\nwalnut-like fruit, are inhabited by swarms of\nsquirrels, as well as birds remarkable for their\ngay-colored plumage. Among the most common\nin those districts are the red-bellied tanagra\n(Tanagra ignivcntris, Orb.) and the fire-colored\npyranga (Phcenisoma bivittata, Tsch.). Individual\nbirds belonging to the Penelope family (P.\nrufiventris and adspersa. Tsch.) and the green\npepper-eater (Pieroglossus cceruleo-cinctus,\nTsch.) are found in the lower forests.";
 if(!$utf8_site) {

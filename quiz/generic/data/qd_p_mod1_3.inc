@@ -2,7 +2,7 @@
 
 
 $browser_title                = _("Moderate Proofreading Quiz");
-$intro_title                  = _("Moderate Proofreading Quiz, page 3");
+$intro_title                  = sprintf(_("Moderate Proofreading Quiz, page %d"), 3);
 $initial_instructions         = $initial_instructions__P;
 $initial_text                 = "pedagogue, of Birmingham manufacture, &lt;i&gt;viz,\nDr&lt;/i&gt;. Parr, had amassed a considerable quantity of\ngold plate. But growing every day more afraid\nof being murdered, which he knew that he could\nnot stand, he transferred the whole to the black-\nsmith; conceiving, no doubt, that the murder of\na blacksmith would fall more lightly on the\nsalus reipublicae, than that of a pedagogue. But I\nhave heard this greatly disputed ; and it seems\nnow generally agreed, that one good horse-shoe\nis worth about 2% Spital sermons.";
 $criteria                     = array("<i>");

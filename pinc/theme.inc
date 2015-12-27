@@ -283,8 +283,9 @@ function html_navbar()
         $login_form .= "<input type='hidden' name='destination' value='" . htmlspecialchars($destination,ENT_QUOTES) . "'>";
 
         // login link text
-        $login_form .= "<span class='text'>" . _("ID:") . "</span> <input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
-        $login_form .= "<span class='text'>" . _("Password:") . "</span> <input type='password' name='userPW' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
+        // TRANSLATORS: ID is an abbreviation for username in the navbar
+        $login_form .= "<span class='text'>" . _("ID") . ":</span> <input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
+        $login_form .= "<span class='text'>" . _("Password") . ":</span> <input type='password' name='userPW' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
         $login_form .= "<input type='submit' value='" . _("Sign In") ."' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>";
         $login_form .= "</form>";
 
@@ -313,7 +314,7 @@ function html_navbar()
         // use white-space: nowrap; to keep the rounds within []s together
         $activities_string = "<span style='white-space: nowrap;'>[ ";
         if(get_pages_proofed_maybe_simulated($pguser) < 100)
-            $activities_string .= "<span class='text'>" . _("Activities:") . " </span>";
+            $activities_string .= "<span class='text'>" . _("Activities") . ": </span>";
 
         $activities_string .= headerbar_text_array(get_activity_links());
         $activities_string .= " ]</span>";
@@ -467,7 +468,7 @@ function html_statsbar($nameofpage) {
         if (strpos($_SERVER['PHP_SELF'],'default.php') !== false) {
             // Show project listings to anyone, signed in or not, front page only
             // Show the 7 most recently completed, tersely
-            echo "<center><b><u>" . _("Recently Completed Titles:") . "</u></b></center>\n";
+            echo "<center><b><u>" . _("Recently Completed Titles") . ":</u></b></center>\n";
             $state = SQL_CONDITION_GOLD;
             list_projects_tersely( $state, "ORDER BY modifieddate DESC", "LIMIT 7" );
 
@@ -477,7 +478,7 @@ function html_statsbar($nameofpage) {
             echo _("More Completed Titles...") . "</a></p>";
 
             // Show 3 (random) of the 10 most recently arrived (most recent P1)
-            echo "<center><b><u>" . _("Recently Begun:") . "</u></b></center>\n";
+            echo "<center><b><u>" . _("Recently Begun") . ":</u></b></center>\n";
             $state = SQL_CONDITION_BRONZE;
             $limit_phrase = "LIMIT 3 OFFSET " . rand(0, 7);
             list_projects_tersely( $state, "ORDER BY modifieddate DESC", $limit_phrase );
@@ -539,37 +540,26 @@ function maybe_show_language_selector()
     if($user_is_logged_in)
         return;
 
-    $instl=installed_langs();
-    $uninstl=uninstalled_langs();
-    if(!(count($instl)>1||count($uninstl)>0))
+    $options = get_locale_translation_selection_options();
+    if(count($options) <= 1)
         return;
 
-    if (empty($userP) || (!(empty($userP)) && !($userP['u_intlang'])))
-    {
-        ?>
-        <script language="JavaScript" type="text/javascript"><!--
-            function submitLang(i) {
-                top.document.langform.submit();
-            }
-        // --></script>
-        <?php
-
-        echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n";
-        echo _("Set language:") . " ";
-        echo "<select name=lang onChange='submitLang(this)'>\n";
-        foreach($instl as $v)
-            echo "<option value='".$v."'".(($v==$intlang)?" selected":"").">".bilingual_name($v)."</option>\n";
-        if(count($uninstl)>0) {
-            echo "<option value='en_EN' disabled>-------------------</option>\n";
-            echo "<option value='en_EN' disabled>" . _("(To be translated:)") . "</option>\n";
-            foreach($uninstl as $v)
-                echo "<option value='"."en_EN"."' disabled>".bilingual_name($v)."</option>\n";
+    ?>
+    <script language="JavaScript" type="text/javascript"><!--
+        function submitLang(i) {
+            top.document.langform.submit();
         }
-        echo "</select><input type=hidden name=returnto value='".$_SERVER['REQUEST_URI']."'>\n</form>\n";
-        if(count($uninstl)>0)
-            echo sprintf( _("Languages below the line are planned to be added to the site, but currently are not; visit <a href='%s'>this page</a> if you can help us with translating the site into one of them."), "$code_url/faq/translate.php");
-        echo "<hr>\n";
-    }
+    // --></script>
+    <?php
+
+    echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n";
+    echo _("Set language") . ": ";
+    echo "<select name=lang onChange='submitLang(this)'>\n";
+    echo "<option value=''>" . _("Browser default") . "</option>";
+    foreach($options as $locale => $label)
+        echo "<option value='$locale'".(($locale==$intlang)?" selected":"").">$label</option>\n";
+    echo "</select><input type=hidden name=returnto value='".$_SERVER['REQUEST_URI']."'>\n</form>\n";
+    echo "<hr>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -641,21 +631,21 @@ function show_tally_specific_stats( $tally_name )
     global $page_tally_names;
     echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
     echo "<b>" . $page_tally_names[$tally_name] . "</b><br><br>\n";
-    echo _("Server Time:") . " " . strftime("%R") . "<br><br>\n";
-    echo "<b>" . _("Site Statistics:") . "</b></font></center>\n";
+    echo _("Server Time") . ": " . strftime("%R") . "<br><br>\n";
+    echo "<b>" . _("Site Statistics") . ":</b></font></center>\n";
     echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
 
     show_tally_vs_goal(
-        _("Today's Goal:"),  $site_stats->curr_day_goal,
-        _("Today's Total:"), $site_stats->curr_day_actual );
+        _("Today's Goal") . ":",  $site_stats->curr_day_goal,
+        _("Today's Total") . ":", $site_stats->curr_day_actual );
 
     show_tally_vs_goal(
-        _("Yesterday's Goal:"),  $site_stats->prev_day_goal,
-        _("Yesterday's Total:"), $site_stats->prev_day_actual );
+        _("Yesterday's Goal") . ":",  $site_stats->prev_day_goal,
+        _("Yesterday's Total") . ":", $site_stats->prev_day_actual );
 
     show_tally_vs_goal(
-        strftime(_("%B's Goal:")),  $site_stats->curr_month_goal,
-        strftime(_("%B's Total:")), $site_stats->curr_month_actual );
+        strftime(_("%B's Goal") . ":"),  $site_stats->curr_month_goal,
+        strftime(_("%B's Total") . ":"), $site_stats->curr_month_actual );
 
     // Number of users
     $res = mysql_query("SELECT COUNT(*) FROM users" );
@@ -715,17 +705,17 @@ function show_tally_specific_stats( $tally_name )
         $yesterday_page_delta = $snapshot_info['tally_delta'];
         $today_page_delta = $usern->get_current_page_tally() - $snapshot_info['tally_value'];
 
-        echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>" . _("Personal Statistics:") . "</b></font></center>\n";
+        echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>" . _("Personal Statistics") . ":</b></font></center>\n";
         echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-        echo "&nbsp;" . _("Pages Yesterday: ");
+        echo "&nbsp;" . _("Pages Yesterday") . ": ";
         echo number_format($yesterday_page_delta)."<br>\n";
-        echo "&nbsp;" . _("Pages Today: ");
+        echo "&nbsp;" . _("Pages Today") . ": ";
         echo number_format($today_page_delta)."<br>\n";
-        echo "&nbsp;" . _("Pages Total: ");
+        echo "&nbsp;" . _("Pages Total") . ": ";
         echo number_format($usern->get_current_page_tally())."<br>\n";
-        echo "&nbsp;" . _("Current Position: ");
+        echo "&nbsp;" . _("Current Position") . ": ";
         echo number_format($usern->get_current_page_tally_rank())."<br>\n";
-        echo "&nbsp;" . _("Current Rank: ");
+        echo "&nbsp;" . _("Current Rank") . ": ";
         echo "$rankname<br></font>\n";
         echo "<center><font size='2'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."&tally_name=".$tally_name."'>" . $tally_name . " " .  _("Details...") . "</a></font></center>\n";
         echo "<" . "!-- " . $userP['u_id'] . " -->";
@@ -735,7 +725,7 @@ function show_tally_specific_stats( $tally_name )
         if ($userP['u_neigh']) {
             echo "<br><hr width='75%' align='center'><br>\n";
             echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>";
-            echo _("Your Neighborhood:");
+            echo _("Your Neighborhood") . ": ";
             echo "</b></font></center>\n";
             echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
 
@@ -781,7 +771,7 @@ function show_user_teams()
 
     echo "<center>";
     echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-    echo "<b>" .  _("Your Teams:") . "</b>";
+    echo "<b>" .  _("Your Teams") . ":</b>";
     echo "</font>";
     echo "</center>";
     echo "\n";
@@ -844,7 +834,7 @@ function show_birthdays()
     if (mysql_num_rows($result) == 0)
         return;
 
-    echo "<center><b>" . sprintf(_("Today's %s Birthdays:"),$site_abbreviation) . "</b></center>\n";
+    echo "<center><b>" . sprintf(_("Today's %s Birthdays"),$site_abbreviation) . ":</b></center>\n";
 
     echo "<div style='text-align: center; font-family: $theme[font_navbar];
         color: $theme[color_navbar_font];'>";
@@ -872,7 +862,7 @@ function show_completed_projects($terse = FALSE)
         echo "\n<br>\n";
         $num_months = 1;
     } else {
-        echo "<center><b>" . _("Completed Projects:") . "</b></center>\n";
+        echo "<center><b>" . _("Completed Projects") . ":</b></center>\n";
         echo "<table border=0 cellspacing=0 cellpadding=0 width='100%'>\n";
         $num_months = 12;
     }
@@ -932,7 +922,7 @@ function show_key_help_links()
 
     echo "<center>";
     echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-    echo "<b>"._("Key Help Documents:")."</b>";
+    echo "<b>"._("Key Help Documents").":</b>";
     echo "</font>";
     echo "</center>\n";
 

@@ -3,9 +3,9 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-output_header(_('Ligatures Proofreading Tutorial -- Page 2'));
+output_header(_('Ligatures Proofreading Tutorial'));
 
-echo "<h2>" . _("Ligatures Proofreading Tutorial, Page 2") . "</h2>\n";
+echo "<h2>" . sprintf(_("Ligatures Proofreading Tutorial, Page %d"), 2) . "</h2>\n";
 
 echo "<p>" . _("In other fonts, the &aelig; may have a little bump sticking up in the middle showing the vertical line of the a:") . "</p>\n";
 echo "<table border='1' cellspacing='0' cellpadding='5'>\n<tr><th>&oelig;</th><th>&aelig;</th></tr>\n";

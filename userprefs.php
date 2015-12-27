@@ -236,10 +236,10 @@ function echo_general_tab() {
     global $uid, $pguser, $userP;
     global $u_n;
 
+    $options = get_locale_translation_selection_options();
+
     $u_intlang_options[""]=BROWSER_DEFAULT_STR;
-    foreach(installed_langs() as $k => $v) {
-        $u_intlang_options[$v]=bilingual_name($v);
-    }
+    $u_intlang_options = array_merge($u_intlang_options, $options);
 
     $i_stats_privacy = array(
         PRIVACY_PUBLIC    => _("Public"),
@@ -272,13 +272,13 @@ function echo_general_tab() {
     $email_warning = '';
     if ( $bb_user_info["email"] != $email) {
         $edit_url = get_url_to_edit_profile();
-        $email_warning = "<p><b>".sprintf(_("WARNING: The email in your <a href='%s'>forum profile</a> is different."),$edit_url)."</b><br>";
+        $email_warning = "<p><b>".sprintf(_("Warning: The email in your <a href='%s'>forum profile</a> is different."),$edit_url)."</b><br>";
         $email_warning .= _("Please update if necessary to ensure you receive messages as intended.")."</p>\n";
     }
 
     echo "<tr>\n";
     show_preference(
-        _('Email'), 'email', 'email',
+        _('E-mail'), 'email', 'email',
         $email,
         'textfield',
         array( '26', $email_warning )
@@ -294,7 +294,7 @@ function echo_general_tab() {
 
     echo "<tr>\n";
     show_preference(
-        _('Email Updates'), 'email_updates', 'updates',
+        _('E-mail Updates'), 'email_updates', 'updates',
         $userP['email_updates'],
         'radio_group',
         array( 1 => _("Yes"), 0 => _("No") )
@@ -850,7 +850,7 @@ function _show_credit_name_adhoc()
     global $userSettings;
 
     $credit_names = array('real_name', 'username', 'other');
-    $credit_names_labels = array(_('Real Name'), _('Username'), _('Other:'));
+    $credit_names_labels = array(_('Real Name'), _('Username'), _('Other') . ":");
     $credit_name_value = $userSettings->get_value('credit_name', 'real_name');
     $on_change = "f.credit_other.disabled = (t.options[t.selectedIndex].value!='other');";
     dropdown_select_values_and_labels('credit_name', $credit_name_value, $credit_names, $credit_names_labels, $on_change);
