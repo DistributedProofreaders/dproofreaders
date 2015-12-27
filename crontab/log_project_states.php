@@ -11,21 +11,16 @@ if(!requester_is_localhost())
 header('Content-type: text/plain');
 
 $EOL = "\n";
-$testing_this_script=$_GET['mytesting'];
+$testing_this_script=@$_GET['mytesting'];
 
 
 // See if this has been run once today or not
 $res = mysql_query( 'SELECT MAX(date) FROM project_state_stats WHERE num_projects != 0' )
     or die(mysql_error());
 $X_date = mysql_result($res,0); // If table is empty, this returns NULL.
-echo $X_date, $EOL;
 if ($X_date == date('Y-m-d')) {
-    echo "Already run once for today.", $EOL;
-    if (! $testing_this_script)
-    {
-        echo "switching to testing mode", $EOL;
-        $testing_this_script = TRUE;
-    }
+    echo "Already run once for today ($X_date), exiting.", $EOL;
+    exit;
 }
 
 
@@ -63,7 +58,6 @@ while (list ($state, $num_projects, $num_pages) = mysql_fetch_row ($result)) {
 // states, but you never know.)
 // Insert a row into project_state_stats for each of those entries.
 
-echo "INSERT INTO project_state_stats SET year=$yr, month=$mth, day=$dy, date='$dte', ...", $EOL;
 foreach ( array_keys($num_projects_in_state_) as $state )
 {
     $num_projects = $num_projects_in_state_[$state];
@@ -71,7 +65,6 @@ foreach ( array_keys($num_projects_in_state_) as $state )
 
     $nprojs = sprintf( "%5d", $num_projects );
     $npages = sprintf( "%7d", $num_pages );
-    echo "    num_projects=$nprojs, num_pages=$npages, state='$state'", $EOL;
 
     $insert_query = "
         INSERT INTO project_state_stats
@@ -79,11 +72,14 @@ foreach ( array_keys($num_projects_in_state_) as $state )
             num_projects=$num_projects, num_pages=$num_pages
     ";
 
-    if (! $testing_this_script)
+    if ($testing_this_script)
+    {
+        echo $insert_query, $EOL;
+    }
+    else
     {
         mysql_query($insert_query) or die(mysql_error());
     }
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

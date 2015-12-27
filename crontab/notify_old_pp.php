@@ -26,7 +26,6 @@ $rownum = 0;
 $PPinQuestion = "";
 $lastwork = "";
 $projectslist = "";
-$displayprojectslist = "";
 $numprojs = 0;
 $urlbase = "$code_url/project.php?expected_state=proj_post_first_checked_out&id=";
 
@@ -46,7 +45,7 @@ while ($rownum < $numrows) {
             $userresult = mysql_query ("SELECT email FROM users WHERE username = '$PPinQuestion'");
             $email = mysql_result($userresult, 0, "email");
 
-            echo $PPinQuestion . "<br>\n" . $displayprojectslist ."<br><br>\n\n";
+            echo $PPinQuestion . "\n" . $projectslist ."\n\n";
 
             if ($numprojs == 1) {
                 $message = "Hello $PPinQuestion,\n\nThis is an automated message.\n\n
@@ -71,7 +70,6 @@ $site_signoff";
             maybe_mail("$email", "$subject","$message");
 
             $projectslist = "";
-            $displayprojectslist = "";
             $numprojs = 0;
          }
         $PPinQuestion = $checkedoutby;
@@ -87,8 +85,6 @@ $site_signoff";
     } else {
         $subject = "$site_abbreviation: Status updates needed for $numprojs projects checked out for PPing over 90 days";
     }
-
-    $displayprojectslist .= "<a href='$url'>$nameofwork by $authorsname ($projectid)</a>, out since $nicedate\n". "<br>";
 
     $rownum++;
 }

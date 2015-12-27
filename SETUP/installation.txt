@@ -10,6 +10,62 @@ DP site:
     http://www.pgdp.net/phpBB3/viewforum.php?f=32
 
 =======================================================================
+Middleware version requirements
+-------------------------------
+
+The following lists supported versions for the three primary middleware
+components.
+
+PHP
+    We know that the code runs on version 4.4.2, 5.0.4, and 5.3.2.
+    It likely runs on versions in-between although not below 4.2.0.
+    It will NOT run on version 5.4 or later due to the dependency on
+    magic quotes (see below).
+
+MySQL
+    We know that our queries work on 5.0.22, and 5.1.73.
+    We believe that they'll work on any version from 4.1 up.
+
+phpBB
+    phpBB 2.x and 3.0 are both supported. Version 3.0 is recommended.
+    phpBB 3.1 may also work, but it has not yet been tested.
+
+    https://www.phpbb.com/downloads/
+
+jpgraph
+    Version 1.27.1 supports PHP 4 and also works with PHP 5. This is the
+    recommended version.
+    jpgraph version 3.5.0b1 will work after applying the included
+    jpgraph-3.5.0b1.patch but some graph legends and other details may
+    not look ideal.
+
+    http://jpgraph.net/download/
+
+
+Middleware deprecation warning
+------------------------------
+
+The next release of DP code will set higher middleware version requirements
+than this release. The following are expected to be the new minimum
+middleware versions supported. It is recommended that you upgrade to these
+versions in order to use future DP versions.
+
+PHP
+    PHP version 5.3.2 is the minimum version supported, although any
+    5.3.x version should work. PHP version 5.4 and later will NOT
+    work due to code dependencies on magic quotes which may not get
+    resolved before the next release.
+
+MySQL
+    MySQL version 5.1.x and later is required.
+
+The middleware components above match the following major distribution
+releases:
+* Ubuntu 10.04, Lucid
+* Ubuntu 12.04, Precise
+* RHEL / CentOS 6.x family
+
+=======================================================================
 Installing from scratch
 -----------------------
 
@@ -19,16 +75,21 @@ If you're upgrading from a previous version, see the upgrade section.
 When we say to install and/or configure some third-party software, that's
 assuming it isn't already.
 
---- Install PHP.
-        Version: We know that the code runs on version 4.4.2, 5.0.4,
-        and 5.3.2. It likely runs on versions in-between although not
-        below 4.2.0. It will NOT run on version 5.4 or later due to the
-        dependency on magic quotes (see below).
+--- Install a web server.
+        Any web server that supports PHP should work, although all testing has
+        been done using Apache 2. All known deployments, including pgdp.net,
+        are using Apache 2 as well.
 
+        See apache2.conf.example for an example Apache config file, including
+        examples on enabling page compression and caching.
+
+--- Install PHP.
         Enable GD (for jpgraph) if you want dynamically-generated graphs.
         Enable YAZ if you want to be able to do external catalog searches when
             creating projects.
         Enable the CLI for running cron jobs and future upgrade scripts.
+        (optional) Install an opcode cache, like APC, to improve site
+            performance. Allocate 128MB to the cache if possible.
 
         php.ini:
             magic_quotes_gpc = On
@@ -37,10 +98,13 @@ assuming it isn't already.
                 Needed to trigger garbage collection in 'sessions' table
                 if _USE_PHP_SESSIONS=TRUE in your DP config file.
 
---- Install MySQL.
-        Version: We know that our queries work on 5.0.22, and 5.1.73.
-        We believe that they'll work on any version from 4.1 up.
+            register_globals
+            register_long_arrays
+                The DP codes does not rely on these features and they can
+                be turned off if no other code on the server uses them.
+                Note that phpBB2 requires register_long_arrays to be On.
 
+--- Install MySQL.
         In the examples in this document, we will assume that the MySQL server
         is on "localhost", i.e. the same host on which you are running these
         commands, and the same host that runs the webserver.
@@ -49,23 +113,14 @@ assuming it isn't already.
         While not required, it makes administering the database much easier.
         Follow the installation instructions included with phpMyAdmin.
 
---- Install and configure phpBB.
-        phpBB 2.x and 3.0 are both supported. phpBB 3.1 has not been tested.
-        phpBB is most easily installed in your document root as phpbb/
-        The phpBB tables need to be installed in the same database as the DP
-        tables, or be in a separate database in the same MySQL instance as the
-        DP tables with the same authentication information.
-
-        See the "Post installation / conversion steps" section in
-        phpbb3-conversion.txt for recommended phpBB3 configuration settings
-        and further steps to ensure good integration with the DP code.
-
 --- Install gettext and xgettext.
         If you want to localize the site messages.
 
 --- Install jpgraph.
         The statistics code depends on jpgraph for graph generation.
         Follow the installation instructions included with jpgraph.
+        If using version 3.5.0b1, apply jpgraph-3.5.0b1.patch.
+
         The simplest place to install jpgraph is in your document root.
         You will need the location of the jpgraph installation to put into the
         site-configuration for the DP code.
@@ -148,6 +203,16 @@ assuming it isn't already.
     --- Exit from the MySQL client.
             quit;
 
+--- Install and configure phpBB.
+        phpBB is most easily installed in your document root as phpbb/
+        The phpBB tables need to be installed in the same database as the DP
+        tables, or be in a separate database in the same MySQL instance as the
+        DP tables with the same authentication information.
+
+        See the "Post installation / conversion steps" section in
+        phpbb3-conversion.txt for recommended phpBB3 configuration settings
+        and further steps to ensure good integration with the DP code.
+
 --- Create phpBB categories and forums.
 
         When the site is operational, each team and each project will get an
@@ -210,8 +275,8 @@ assuming it isn't already.
                 -- DP Site Code
 
 --- Unpack the DP code.
-        Somewhere within your server's document hierarchy (possibly, though not
-        necessarily, in the document root) unpack the DP code.
+        Somewhere within your web server's document hierarchy (possibly,
+        though not necessarily, in the document root) unpack the DP code.
         This expands into a directory named 'c'.
 
 --- Create other directories.
@@ -256,20 +321,26 @@ assuming it isn't already.
         for more details.
 
 --- Configure the DP code (with site-specific settings).
-        Make an editable copy of c/SETUP/configuration.sh,
-        and put it outside your webserver's document hierarchy.
-        (Or move out the whole SETUP directory, at the end of this step.)
-        Modify your copy of configuration.sh as appropriate.
-        (Any further help you need should be in the file itself rather than here.)
-        Run c/SETUP/configure path-to-modified-configuration.sh path-to-code-dir
+        Make an editable copy of c/SETUP/configuration.sh, and put it outside
+        your webserver's document hierarchy.
+
+        Modify your copy of configuration.sh as appropriate. Details about each
+        parameter are included in configuration.sh.
+
+        Run:
+            c/SETUP/configure path-to-modified-configuration.sh path-to-code-dir
         The configure script will use your modified configuration.sh to update
         the DP code with your site-specific settings.
 
 --- Create the tables of the DP database.
         cd c/SETUP
         php -f install_db.php
-        Since you have already installed phpBB, you may get warnings/errors about
-        duplicate tables.
+
+--- Move SETUP directory outside your webserver's document hierarchy.
+        The c/SETUP/ directory is only needed for site configuration. As a
+        security measure, move it out of your webserver's document hierarchy.
+        Don't delete it as you may want to use its contents again to
+        reconfigure the site.
 
 --- At this point, your DP site should be functional.
         Try visiting it via your browser.
@@ -321,11 +392,20 @@ newer release of the DP code.
     This creates a new 'c' hierarchy.
 
 --- Configure the new DP code (with site-specific settings).
-    (Follow the instructions given above in the 'Installing from scratch'
+    Follow the instructions given above in the 'Installing from scratch'
     section. Note that the modified configuration.sh that you used to
     configure your old code is probably not sufficient to configure the
     new code; however, it does have lots of settings that you should carry
-    forward to the new config file.)
+    forward to the new config file.
+
+    You can use import_old_configuration.php to import values from your old
+    configuration file into the new one included with with this distribution.
+    Use it like:
+        c/SETUP/import_old_configuration.php \
+            old_config_file.sh c/SETUP/configuration.sh > new_config_file.sh
+    The script will notify you of parameters in the old configuration file
+    that are no longer used in the new one, as well as new parameters in
+    configuration.sh that you will want to take a closer look at.
 
 --- Upgrade your database schema and data.
     This involves running lots of PHP scripts from the command-line.

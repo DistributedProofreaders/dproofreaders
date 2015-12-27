@@ -1,0 +1,117 @@
+# Example Apache 2 configuration file
+#
+# You should review this file, and likely make changes, before using it.
+# In particular, ensure the directories and paths referenced here match
+# those set in your configuration.sh.
+
+# DP code uses 'default.php' as an alternative index file
+DirectoryIndex index.php default.php index.html default.html
+
+########################################################################
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+
+    DocumentRoot /var/www
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    LogLevel warn
+
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+########################################################################
+# Page compression and caching
+
+# NOTE: These require mod_header to be installed and enabled in order
+#       to work.
+<IfModule mod_header.c>
+
+    # Enable gzip compression
+    <Location />
+        # Insert filter
+        SetOutputFilter DEFLATE
+
+        # Netscape 4.x has some problems...
+        BrowserMatch ^Mozilla/4 gzip-only-text/html
+        # Netscape 4.06-4.08 have some more problems
+        BrowserMatch ^Mozilla/4\.0[678] no-gzip
+        # MSIE masquerades as Netscape, but it is fine
+        BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+        # Don't compress images or zip files
+        SetEnvIfNoCase Request_URI \
+        \.(?:gif|jpe?g|png|zip)$ no-gzip dont-vary
+
+        # Make sure proxies don't deliver the wrong content
+        Header append Vary User-Agent env=!dont-vary
+    </Location>
+
+    #-------------------------------------------------------------------
+    # Caching control
+    #
+    # For /c we can include a blanket statement on images since
+    # they are coming from source control and updated infrequently.
+    # Similarly for phpBB images.
+    <LocationMatch "/(c|phpBB2|phpBB3)/">
+        # Enable expirations
+        ExpiresActive On
+
+        # Expire png/jpg/gif images after one month
+        ExpiresByType image/png  "access plus 1 month"
+        ExpiresByType image/gif  "access plus 1 month"
+        ExpiresByType image/jpg  "access plus 1 month"
+        ExpiresByType image/jpeg "access plus 1 month"
+
+        # Expire static css/js after one week
+        ExpiresByType text/css "access plus 1 week"
+        ExpiresByType application/x-javascript "access plus 1 week"
+
+        # Don't Vary image content at all.
+        # This allows caching proxies to cache the images once and serve
+        # it to all browsers. Note we can't include css/js content in case
+        # some browsers request compressed content and some don't.
+        # The mod_deflate plugin will automatically set a Vary header
+        # against Accept-Encoding, we just need to not override it.
+        # Caching proxies will still cache css/js content but will cache
+        # two or more copies and serve them accordingly.
+        SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|ico)$ dont-vary
+        Header unset Vary env=dont-vary
+
+        # Explicitly set the Cache-Control to public for *all* cacheable content
+        SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|ico|css|js)$ cache-public
+        Header append Cache-Control "public" env=cache-public
+    </LocationMatch>
+
+    # For /projects we want to cache for a very small amount of time.
+    # This ensures page replacements are caught, but back-to-back
+    # accesses are cached by the browser.
+    <LocationMatch "/projects/">
+        # Enable expirations
+        ExpiresActive On
+
+        # Expire png/jpg/gif images after 10 minutes
+        ExpiresByType image/png  "access plus 10 minutes"
+        ExpiresByType image/gif  "access plus 10 minutes"
+        ExpiresByType image/jpg  "access plus 10 minutes"
+        ExpiresByType image/jpeg "access plus 10 minutes"
+
+        # Don't Vary image content at all.
+        # This allows caching proxies to cache the images once and serve
+        # it to all browsers. Note we can't include css/js content in case
+        # some browsers request compressed content and some don't.
+        # The mod_deflate plugin will automatically set a Vary header
+        # against Accept-Encoding, we just need to not override it.
+        # Caching proxies will still cache css/js content but will cache
+        # two or more copies and serve them accordingly.
+        SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|ico)$ dont-vary
+        Header unset Vary env=dont-vary
+
+        # Explicitly set the Cache-Control to public for *all* cacheable content
+        SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|ico|css|js)$ cache-public
+        Header append Cache-Control "public" env=cache-public
+    </LocationMatch>
+</IfModule>

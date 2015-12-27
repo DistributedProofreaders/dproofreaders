@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Compare the db-schema of the current installation
 # to the db-schema you get by taking an installation of the previous release

@@ -96,6 +96,20 @@ echo "$sql\n";
 
 mysql_query($sql) or die( mysql_error() );
 
+// ---------------------------------------------------
+
+echo "Dropping obsolete columns: txtlink_obsolete, ziplink_obsolete, htmllink_obsolete...\n";
+$sql = "
+    ALTER TABLE `projects`
+        DROP COLUMN txtlink_obsolete,
+        DROP COLUMN ziplink_obsolete,
+        DROP COLUMN htmllink_obsolete;
+";
+
+echo "$sql\n";
+
+mysql_query($sql) or die( mysql_error() );
+
 echo "\nDone!\n";
 
 

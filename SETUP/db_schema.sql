@@ -36,7 +36,7 @@ CREATE TABLE `authors` (
   `dday` tinyint(4) NOT NULL default '0',
   `dcomments` varchar(20) NOT NULL default '',
   `enabled` tinytext NOT NULL,
-  `last_modified` timestamp NOT NULL,
+  `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`author_id`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
@@ -69,7 +69,7 @@ CREATE TABLE `biographies` (
   `bio_id` int(11) NOT NULL auto_increment,
   `author_id` int(11) NOT NULL default '0',
   `bio` text NOT NULL,
-  `last_modified` timestamp NOT NULL,
+  `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`bio_id`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Contains biographies (see authors)';
 # --------------------------------------------------------
@@ -193,7 +193,7 @@ CREATE TABLE `non_activated_users` (
   `date_created` int(20) NOT NULL default '0',
   `email_updates` varchar(4) NOT NULL default '',
   `u_intlang` varchar(25) default '',
-  `user_password` varchar(32) NOT NULL default '',
+  `user_password` varchar(128) NOT NULL default '',
   PRIMARY KEY  (`username`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Each row represents a not-yet-activated user, user_password ';
 # --------------------------------------------------------
@@ -255,220 +255,6 @@ CREATE TABLE `pg_books` (
 # --------------------------------------------------------
 
 #
-# Table structure for table `phpbb_forums`
-#
-# Creation:
-# Last update:
-#
-
-CREATE TABLE `phpbb_forums` (
-  `forum_id` smallint(5) unsigned NOT NULL default '0',
-  `cat_id` mediumint(8) unsigned NOT NULL default '0',
-  `forum_name` varchar(150) default NULL,
-  `forum_desc` text,
-  `forum_status` tinyint(4) NOT NULL default '0',
-  `forum_order` mediumint(8) unsigned NOT NULL default '1',
-  `forum_posts` mediumint(8) unsigned NOT NULL default '0',
-  `forum_topics` mediumint(8) unsigned NOT NULL default '0',
-  `forum_last_post_id` mediumint(8) unsigned NOT NULL default '0',
-  `prune_next` int(11) default NULL,
-  `prune_enable` tinyint(1) NOT NULL default '0',
-  `auth_view` tinyint(2) NOT NULL default '0',
-  `auth_read` tinyint(2) NOT NULL default '0',
-  `auth_post` tinyint(2) NOT NULL default '0',
-  `auth_reply` tinyint(2) NOT NULL default '0',
-  `auth_edit` tinyint(2) NOT NULL default '0',
-  `auth_delete` tinyint(2) NOT NULL default '0',
-  `auth_sticky` tinyint(2) NOT NULL default '0',
-  `auth_announce` tinyint(2) NOT NULL default '0',
-  `auth_vote` tinyint(2) NOT NULL default '0',
-  `auth_pollcreate` tinyint(2) NOT NULL default '0',
-  `auth_attachments` tinyint(2) NOT NULL default '0',
-  PRIMARY KEY  (`forum_id`),
-  KEY `forums_order` (`forum_order`),
-  KEY `cat_id` (`cat_id`),
-  KEY `forum_last_post_id` (`forum_last_post_id`)
-) TYPE=MyISAM DEFAULT CHARSET=latin1;
-# --------------------------------------------------------
-
-#
-# Table structure for table `phpbb_posts`
-#
-# Creation:
-# Last update:
-#
-
-CREATE TABLE `phpbb_posts` (
-  `post_id` mediumint(8) unsigned NOT NULL auto_increment,
-  `topic_id` mediumint(8) unsigned NOT NULL default '0',
-  `forum_id` smallint(5) unsigned NOT NULL default '0',
-  `poster_id` mediumint(8) NOT NULL default '0',
-  `post_time` int(11) NOT NULL default '0',
-  `poster_ip` varchar(8) NOT NULL default '',
-  `post_username` varchar(25) default NULL,
-  `enable_bbcode` tinyint(1) NOT NULL default '1',
-  `enable_html` tinyint(1) NOT NULL default '0',
-  `enable_smilies` tinyint(1) NOT NULL default '1',
-  `enable_sig` tinyint(1) NOT NULL default '1',
-  `post_edit_time` int(11) default NULL,
-  `post_edit_count` smallint(5) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`post_id`),
-  KEY `forum_id` (`forum_id`),
-  KEY `topic_id` (`topic_id`),
-  KEY `poster_id` (`poster_id`),
-  KEY `post_time` (`post_time`)
-) TYPE=MyISAM DEFAULT CHARSET=latin1;
-# --------------------------------------------------------
-
-#
-# Table structure for table `phpbb_posts_text`
-#
-# Creation:
-# Last update:
-#
-
-CREATE TABLE `phpbb_posts_text` (
-  `post_id` mediumint(8) unsigned NOT NULL default '0',
-  `bbcode_uid` varchar(10) NOT NULL default '',
-  `post_subject` varchar(60) default NULL,
-  `post_text` text,
-  PRIMARY KEY  (`post_id`)
-) TYPE=MyISAM DEFAULT CHARSET=latin1;
-# --------------------------------------------------------
-
-#
-# Table structure for table `phpbb_privmsgs`
-#
-# Creation:
-# Last update:
-#
-
-CREATE TABLE `phpbb_privmsgs` (
-  `privmsgs_id` mediumint(8) unsigned NOT NULL auto_increment,
-  `privmsgs_type` tinyint(4) NOT NULL default '0',
-  `privmsgs_subject` varchar(255) NOT NULL default '0',
-  `privmsgs_from_userid` mediumint(8) NOT NULL default '0',
-  `privmsgs_to_userid` mediumint(8) NOT NULL default '0',
-  `privmsgs_date` int(11) NOT NULL default '0',
-  `privmsgs_ip` varchar(8) NOT NULL default '',
-  `privmsgs_enable_bbcode` tinyint(1) NOT NULL default '1',
-  `privmsgs_enable_html` tinyint(1) NOT NULL default '0',
-  `privmsgs_enable_smilies` tinyint(1) NOT NULL default '1',
-  `privmsgs_attach_sig` tinyint(1) NOT NULL default '1',
-  PRIMARY KEY  (`privmsgs_id`),
-  KEY `privmsgs_from_userid` (`privmsgs_from_userid`),
-  KEY `privmsgs_to_userid` (`privmsgs_to_userid`)
-) TYPE=MyISAM DEFAULT CHARSET=latin1;
-# --------------------------------------------------------
-
-#
-# Table structure for table `phpbb_topics`
-#
-# Creation:
-# Last update:
-#
-
-CREATE TABLE `phpbb_topics` (
-  `topic_id` mediumint(8) unsigned NOT NULL auto_increment,
-  `forum_id` smallint(8) unsigned NOT NULL default '0',
-  `topic_title` char(60) NOT NULL default '',
-  `topic_poster` mediumint(8) NOT NULL default '0',
-  `topic_time` int(11) NOT NULL default '0',
-  `topic_views` mediumint(8) unsigned NOT NULL default '0',
-  `topic_replies` mediumint(8) unsigned NOT NULL default '0',
-  `topic_status` tinyint(3) NOT NULL default '0',
-  `topic_vote` tinyint(1) NOT NULL default '0',
-  `topic_type` tinyint(3) NOT NULL default '0',
-  `topic_first_post_id` mediumint(8) unsigned NOT NULL default '0',
-  `topic_last_post_id` mediumint(8) unsigned NOT NULL default '0',
-  `topic_moved_id` mediumint(8) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`topic_id`),
-  KEY `forum_id` (`forum_id`),
-  KEY `topic_moved_id` (`topic_moved_id`),
-  KEY `topic_status` (`topic_status`),
-  KEY `topic_type` (`topic_type`)
-) TYPE=MyISAM DEFAULT CHARSET=latin1;
-# --------------------------------------------------------
-
-#
-# Table structure for table `phpbb_topics_watch`
-#
-# Creation:
-# Last update:
-#
-
-CREATE TABLE `phpbb_topics_watch` (
-  `topic_id` mediumint(8) unsigned NOT NULL default '0',
-  `user_id` mediumint(8) NOT NULL default '0',
-  `notify_status` tinyint(1) NOT NULL default '0',
-  KEY `topic_id` (`topic_id`),
-  KEY `user_id` (`user_id`),
-  KEY `notify_status` (`notify_status`)
-) TYPE=MyISAM DEFAULT CHARSET=latin1;
-# --------------------------------------------------------
-
-#
-# Table structure for table `phpbb_users`
-#
-# Creation:
-# Last update:
-#
-
-CREATE TABLE `phpbb_users` (
-  `user_id` mediumint(8) NOT NULL default '0',
-  `user_active` tinyint(1) default '1',
-  `username` varchar(25) NOT NULL default '',
-  `user_password` varchar(32) NOT NULL default '',
-  `user_session_time` int(11) NOT NULL default '0',
-  `user_session_page` smallint(5) NOT NULL default '0',
-  `user_lastvisit` int(11) NOT NULL default '0',
-  `user_regdate` int(11) NOT NULL default '0',
-  `user_level` tinyint(4) default '0',
-  `user_posts` mediumint(8) unsigned NOT NULL default '0',
-  `user_timezone` decimal(4,2) NOT NULL default '0.00',
-  `user_style` tinyint(4) default NULL,
-  `user_lang` varchar(255) default NULL,
-  `user_dateformat` varchar(14) NOT NULL default 'd M Y H:i',
-  `user_new_privmsg` smallint(5) unsigned NOT NULL default '0',
-  `user_unread_privmsg` smallint(5) unsigned NOT NULL default '0',
-  `user_last_privmsg` int(11) NOT NULL default '0',
-  `user_emailtime` int(11) default NULL,
-  `user_viewemail` tinyint(1) default NULL,
-  `user_attachsig` tinyint(1) default NULL,
-  `user_allowhtml` tinyint(1) default '1',
-  `user_allowbbcode` tinyint(1) default '1',
-  `user_allowsmile` tinyint(1) default '1',
-  `user_allowavatar` tinyint(1) NOT NULL default '1',
-  `user_allow_pm` tinyint(1) NOT NULL default '1',
-  `user_allow_viewonline` tinyint(1) NOT NULL default '1',
-  `user_notify` tinyint(1) NOT NULL default '1',
-  `user_notify_pm` tinyint(1) NOT NULL default '1',
-  `user_popup_pm` tinyint(1) NOT NULL default '0',
-  `user_rank` int(11) default '0',
-  `user_avatar` varchar(100) default NULL,
-  `user_avatar_type` tinyint(4) NOT NULL default '0',
-  `user_email` varchar(255) default NULL,
-  `user_icq` varchar(15) default NULL,
-  `user_website` varchar(100) default NULL,
-  `user_from` varchar(100) default NULL,
-  `user_sig` text,
-  `user_sig_bbcode_uid` varchar(10) default NULL,
-  `user_aim` varchar(255) default NULL,
-  `user_yim` varchar(255) default NULL,
-  `user_msnm` varchar(255) default NULL,
-  `user_occ` varchar(100) default NULL,
-  `user_interests` varchar(255) default NULL,
-  `user_actkey` varchar(32) default NULL,
-  `user_newpasswd` varchar(32) default NULL,
-  `user_jabber` varchar(255) default NULL,
-  `user_unread_topics` text,
-  PRIMARY KEY  (`user_id`),
-  KEY `user_session_time` (`user_session_time`),
-  KEY `username` (`username`)
-) TYPE=MyISAM DEFAULT CHARSET=latin1;
-# --------------------------------------------------------
-
-#
 # Table structure for table `project_events`
 #
 # Creation:
@@ -487,6 +273,20 @@ CREATE TABLE `project_events` (
   PRIMARY KEY  (`event_id`),
   KEY `project` (`projectid`),
   KEY `timestamp` (`timestamp`)
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
+# --------------------------------------------------------
+
+#
+# Table structure for table `project_holds`
+#
+# Creation:
+# Last update:
+#
+
+CREATE TABLE `project_holds` (
+  `projectid` varchar(22) NOT NULL,
+  `state` varchar(50) NOT NULL,
+  PRIMARY KEY (`projectid`,`state`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -598,9 +398,9 @@ CREATE TABLE `projects` (
   `up_projectid` int(10) default '0',
   `deletion_reason` tinytext NOT NULL,
   PRIMARY KEY  (`projectid`),
-  KEY `state` (`state`),
   KEY `special_code` (`special_code`),
-  KEY `projectid_archived_state` (`projectid`,`archived`,`state`)
+  KEY `projectid_archived_state` (`projectid`,`archived`,`state`),
+  KEY `state_moddate` (`state`,`modifieddate`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
@@ -699,7 +499,6 @@ CREATE TABLE `smoothread` (
   `user` varchar(25) NOT NULL default '',
   `committed` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`projectid`,`user`),
-  KEY `project` (`projectid`),
   KEY `user` (`user`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Each row represents an association between a user and a proj';
 # --------------------------------------------------------
