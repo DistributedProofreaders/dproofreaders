@@ -7,15 +7,20 @@ include_once($relPath.'DPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'project_edit.inc');
 include_once('page_table.inc');  // page_state_is_a_bad_state()
 
 require_login();
 
-if (!isset($_POST['resolution'])) {
-    //Get variables to use for form
-    $projectid = validate_projectID('projectid', @$_REQUEST['projectid']);
-    $image     = validate_page_image_filename('image', @$_REQUEST['image']);
+$projectid = validate_projectID('projectid', @$_REQUEST['projectid']);
+$image     = validate_page_image_filename('image', @$_REQUEST['image']);
 
+if(user_can_edit_project($projectid) != USER_CAN_EDIT_PROJECT)
+{
+    die("You are not authorized to manage this project.");
+}
+
+if (!isset($_POST['resolution'])) {
     //Find out information about the bad page report
     $result = mysql_query("SELECT * FROM $projectid WHERE image='$image'");
     $page = mysql_fetch_assoc($result);
@@ -181,10 +186,7 @@ if (!isset($_POST['resolution'])) {
         }
     }
 } else {
-
     //Get variables passed from form
-    $projectid = validate_projectID('projectid', @$_POST['projectid']);
-    $image = validate_page_image_filename('image', @$_POST['image']);
     $state = get_enumerated_param($_POST, 'state', null, $PAGE_STATES_IN_ORDER);
     $resolution = $_POST['resolution'];
 
@@ -199,4 +201,3 @@ if (!isset($_POST['resolution'])) {
 }
 
 // vim: sw=4 ts=4 expandtab
-?>
