@@ -196,16 +196,17 @@ class Settings
         }
         else
         {
+            $value_esc = mysql_real_escape_string($value);
             if (array_key_exists($settingCode, $this->settings_array)) {
                 $sql = "UPDATE usersettings
-                        SET value = '$value'
+                        SET value = '$value_esc'
                         WHERE username = '$this->username'
                         AND setting = '$settingCode'" ;
             }
             else {
                 $sql = "INSERT INTO usersettings
                         (username, setting, value)
-                        VALUES ('$this->username', '$settingCode', '$value')" ;
+                        VALUES ('$this->username', '$settingCode', '$value_esc')" ;
             }
             ExecSQL($sql);
             $this->settings_array[$settingCode] = $value;
