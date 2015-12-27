@@ -277,8 +277,6 @@ function main_form()
         $language_name = eng_name(short_lang_code($locale));
         $po_filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
         $translation_enabled = is_locale_translation_enabled($locale);
-        list($total_strings, $translated_strings) = \
-            count_translated_strings($po_filename);
         echo "<tr>";
         echo "<td>$language_name</td>";
         echo "<td>$locale</td>";
@@ -286,16 +284,28 @@ function main_form()
             echo "<td>" . _("Enabled") . "</td>";
         else
             echo "<td>" . _("Disabled") . "</td>";
-        echo "<td>";
         if (file_exists($po_filename))
+        {
+            echo "<td>";
             echo date ("F d Y H:i:s", filemtime($po_filename));
-        echo "</td>";
-        echo "<td style='text-align: right'>";
-        // TRANSLATORS: This shows the number of strings translated with a percentage
-        echo sprintf(_('%1$s of %2$s translated (%3$d%%)'),
-            $translated_strings, $total_strings,
-            $translated_strings/$total_strings*100);
-        echo "</td>";
+            echo "</td>";
+            echo "<td style='text-align: right'>";
+            // TRANSLATORS: This shows the number of strings translated with a percentage
+            list($total_strings, $translated_strings) = \
+                count_translated_strings($po_filename);
+            if($total_strings)
+                $percent_translated = $translated_strings/$total_strings*100;
+            else
+                $percent_translated = 0;
+            echo sprintf(_('%1$s of %2$s translated (%3$d%%)'),
+                $translated_strings, $total_strings, $percent_translated);
+            echo "</td>";
+        }
+        else
+        {
+            echo "<td></td>";
+            echo "<td></td>";
+        }
         echo "<td>";
         $actions = array();
         if ($may_manage)
@@ -568,10 +578,8 @@ function count_translated_strings($po_filename)
         return array(0, 0);
 
     $block = "";
-    // The first record is always metadata and flags as translated
-    // so our count starts at -1
-    $count = -1;
-    $translated = -1;
+    $count = 0;
+    $translated = 0;
     while (($line = fgets($fh, 4096)) !== false) {
         // skip all comment lines
         if(strpos($line, '#') === 0)
@@ -597,6 +605,14 @@ function count_translated_strings($po_filename)
             $translated++;
     }
     fclose($fh);
+
+    // The first record is always metadata and flags as translated
+    // so our count starts at -1 if there was anything in the file.
+    if($count > 0)
+    {
+        $count = $count - 1;
+        $translated = $translated - 1;
+    }
 
     return array($count, $translated);
 }
