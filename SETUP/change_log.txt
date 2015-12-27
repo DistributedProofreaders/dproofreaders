@@ -56,7 +56,7 @@
     * Record last time of project info change (jmdyck)
     * Comments from site_vars.php moved to configuration.sh, and additional comments added (jmdyck)
 
-== Changes from R200609 to R???? ==
+== Changes from R200609 to R201601 ==
 (Scripts supporting this upgrade are in SETUP/upgrade/08)
 
     * MAJOR: phpBB 3.0 is supported in addition to 2.x (cpeel)
