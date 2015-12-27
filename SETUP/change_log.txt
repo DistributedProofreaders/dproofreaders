@@ -62,6 +62,8 @@
     * MAJOR: phpBB 3.0 is supported in addition to 2.x (cpeel)
     * MAJOR: Replace spellcheck with WordCheck; lots of functionality (mainly cpeel, some jmdyck)
     * MAJOR: remote_file_manager.php replaces FTP for uploading project images/texts (bfoley, Donovan, jmdyck, cpeel)
+    * MAJOR: Redesigned translation center; see faq/translate.php (lvl, cpeel)
+    * MAJOR: Ability for site-specific protection against bot registrations; see site_registration_protection.php.example (cpeel)
 
     * numerous places: use new config variables SITE_NAME, SITE_ABBREVIATION, SITE_SIGNOFF (mike_cie)
     * review_work.php: Allow members at large to review their own work. (mike_cie)
@@ -121,6 +123,10 @@
     * stats/jpgraph_files: Updated to make efficient use of jpgraph cache (cpeel)
     * post_files.inc: Updated TEI XML output at PP stage (rwst)
     * proofreading interface: Prevent image from scaling down too far (weinsteinj)
+    * base.inc: New include file for all .php pages to use; enforces maintenance mode and enables proper gettext() initialization (cpeel)
+    * dp_main.inc: Deprecated by base.inc and require_login() (cpeel)
+    * theme.inc: Refactor how headings and footers are output (cpeel, bfoley)
+    * various places: _() wrappers around strings to allow translation (lvl, cpeel)
     * various places: Miscellaneous improvements (jmdyck, lmpryor, cpeel, donovang, mike_cie, rfarinha)
 
 # vim: sw=4 ts=4 expandtab
