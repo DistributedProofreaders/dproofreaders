@@ -1,6 +1,7 @@
 <?php
 // This file sets up the vital infrastructure for the site, including:
 // * including site_vars.php to set global variables
+// * creating uncaught exception handler
 // * connecting to the database
 // * (re)establishing the session
 // * setting up gettext
@@ -23,6 +24,18 @@
 $relPath=dirname(__FILE__)."/";
 
 include_once($relPath.'site_vars.php');
+
+// If we're not testing, whitewash any uncaught exceptions
+if(!$testing)
+{
+    function production_exception_handler($exception)
+    {
+        echo "<br>\n";
+        echo $exception->getMessage();
+    }
+    set_exception_handler('production_exception_handler');
+}
+
 include_once($relPath.'connect.inc');
 
 $db_Connection=new dbConnect();
