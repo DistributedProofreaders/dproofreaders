@@ -118,9 +118,9 @@ function output_footer($nameofpage, $show_statsbar = True) {
 
 function html_header($nameofpage, $extra_args = array()) {
     global $code_url, $theme, $site_abbreviation;
-    global $charset;
+    global $charset, $intlang;
     echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
-    echo "<html".lang_html_header().">\n<head>\n";
+    echo "<html ".lang_html_header($intlang).">\n<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\">\n";
     echo "<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
     echo "<title>$site_abbreviation";

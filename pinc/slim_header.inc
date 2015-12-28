@@ -4,13 +4,13 @@ include_once("languages.inc");   // lang_html_header()
 
 function slim_header($title="",$include_doctype=TRUE,$close_head_open_body=TRUE)
 {
-    global $charset;
+    global $charset, $intlang;
     global $site_abbreviation;
 
     if($include_doctype)
         echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
 
-    echo "<html " . lang_html_header() . ">\n";
+    echo "<html " . lang_html_header($intlang) . ">\n";
     echo "<head>\n";
     echo "<title>$site_abbreviation";
     if (isset($title)) 

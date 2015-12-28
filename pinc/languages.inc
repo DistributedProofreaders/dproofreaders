@@ -366,7 +366,10 @@ function lang_forum($langcode=FALSE)
 
 function lang_html_header($langcode=FALSE)
 {
-    $string=" lang='" . short_lang_code($langcode) . "'";
+    if(!$langcode)
+        return '';
+
+    $string="lang='" . short_lang_code($langcode) . "'";
     if(lang_direction($langcode) == "RTL")
         $string.=" dir='RTL'";
     return $string;
