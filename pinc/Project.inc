@@ -554,14 +554,7 @@ function get_formatted_postcomments( $projectid )
     $res = mysql_query("SELECT postcomments FROM projects WHERE projectid='$projectid'");
     $postcomments = mysql_result($res, 0, 'postcomments');
 
-    return htmlspecialcharswithnewlines($postcomments);
-}
-
-function htmlspecialcharswithnewlines($string)
-{
-    $string = htmlspecialchars($string);
-    $string = str_replace("\n", "<br />", $string);
-    return $string;
+    return nl2br(htmlspecialchars($postcomments));
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
