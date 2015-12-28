@@ -133,6 +133,7 @@ function draw_pages_graph(
     $x_text_tick_interval = calculate_text_tick_interval( $x_frequency, $n_datapoints );
 
     $graph->SetScale("textint");
+    $graph->graph_theme = null;
 
     // Set background to white
     $graph->SetMarginColor('white');
@@ -268,6 +269,7 @@ function draw_projects_graph(
     $x_text_tick_interval = calculate_text_tick_interval( 'daily', $n_datapoints );
 
     $graph->SetScale("textint");
+    $graph->graph_theme = null;
 
     // Set background to white
     $graph->SetMarginColor('white');

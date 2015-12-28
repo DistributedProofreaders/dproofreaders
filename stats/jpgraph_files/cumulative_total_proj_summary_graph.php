@@ -12,6 +12,7 @@ include_once($code_dir.'/stats/statestats.inc');
 $graph = new Graph(640,400,get_image_cache_filename(),360);
 
 $graph->SetScale("textint");
+$graph->graph_theme = null;
 $graph->SetMarginColor('white'); //Set background to white
 $graph->SetShadow(); //Add a drop shadow
 $graph->img->SetMargin(30,70,20,100); //Adjust the margin a bit to make more room for titles left, right , top, bottom

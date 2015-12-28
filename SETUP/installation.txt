@@ -31,10 +31,9 @@ phpBB
     https://www.phpbb.com/downloads/
 
 jpgraph
-    Version 1.27.1 supports PHP 5. This is the recommended version.
     jpgraph version 3.5.0b1 will work after applying the included
-    jpgraph-3.5.0b1.patch but some graph legends and other details may
-    not look ideal.
+    jpgraph-3.5.0b1.patch. This is the recommended version.
+    Version 1.27.1 should also work.
 
     http://jpgraph.net/download/
 

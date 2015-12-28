@@ -76,6 +76,7 @@ while ($row = mysql_fetch_object($result))
 
 
 $graph->SetScale("textint");
+$graph->graph_theme = null;
 
 //set X axis
 $graph->xaxis->SetTickLabels($datax);
