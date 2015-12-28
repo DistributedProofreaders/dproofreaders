@@ -27,6 +27,4 @@ echo "<tr><td>$content</td></tr>\n";
 echo "<tr><td align='center' bgcolor='#cccccc'><b><a href='javascript:window.close();'>" . _("Close Window") . "</a></b></td></tr>\n";
 echo "</table></div>\n";
 
-slim_footer();
-
 // vim: sw=4 ts=4 expandtab

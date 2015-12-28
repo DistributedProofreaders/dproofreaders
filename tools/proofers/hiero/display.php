@@ -100,5 +100,3 @@ echo preg_replace(
     }
     return "";
   }
-
-slim_footer();

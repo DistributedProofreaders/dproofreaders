@@ -95,9 +95,8 @@ echo "<img src='$projects_url/$projectid/$imagefile' width='$width' border='1'>"
 <center>
 <?php
 prevnext_buttons();
-// vim: sw=4 ts=4 expandtab
 ?>
 </center>
 </form>
 <?php
-slim_footer();
+// vim: sw=4 ts=4 expandtab

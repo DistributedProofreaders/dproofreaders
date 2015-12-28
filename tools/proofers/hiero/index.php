@@ -17,4 +17,3 @@ slim_header("",FALSE,FALSE);
 <noframes>
 <?php echo _("Your browser currently does not display frames!"); ?>
 </noframes>
-</html>

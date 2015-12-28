@@ -128,9 +128,7 @@ echo "</a>]\n"; ?>
 </tr>
 </table>
 </form>
-
 </body>
-</html>
 <?php
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

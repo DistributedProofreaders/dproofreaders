@@ -21,8 +21,7 @@ width="<?php
     $iWidth=round((1000*$iWidth)/100);
   echo $iWidth;
 ?>"></div></center>
+</body>
 
 <?php
-slim_footer();
-
 // vim: sw=4 ts=4 expandtab

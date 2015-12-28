@@ -74,7 +74,6 @@ function echo_proof_frame_enh( $ppage )
                 </form>
             </div>
         </body>
-    </html>
     <?php
 }
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -127,4 +126,3 @@ STYLES;
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

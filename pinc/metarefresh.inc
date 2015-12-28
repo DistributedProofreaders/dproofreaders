@@ -71,7 +71,7 @@ function metarefresh($seconds,$url,$title="",$body="")
     	echo "</i>";
     }
 
-    slim_footer();
+    echo "</body>";
     exit;
 }
 

@@ -195,8 +195,8 @@ if ($userP['i_type']==1) {
 </table>
 </form>
 </div>
+</body>
 <?php
-slim_footer();
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

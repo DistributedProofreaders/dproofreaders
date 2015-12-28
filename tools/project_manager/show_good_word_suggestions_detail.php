@@ -64,7 +64,6 @@ if($frame=="master") {
 <noframes>
 <?php echo _("Your browser currently does not display frames!"); ?>
 </noframes>
-</html>
 <?php
     exit;
 }
@@ -137,14 +136,12 @@ if($frame=="left") {
 
     }
 
-    slim_footer();
     exit;
 }
 
 if($frame=="right") {
     slim_header(_("Image Frame"));
     echo "<p>" . _("Select one of the page links to view the page image (scan).") . "</p>";
-    slim_footer();
     exit;
 }
 

@@ -103,6 +103,4 @@ printf(
 );
 echo "</p>\n";
 
-slim_footer();
-
 // vim: sw=4 ts=4 expandtab

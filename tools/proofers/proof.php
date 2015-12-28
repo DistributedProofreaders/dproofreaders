@@ -41,9 +41,7 @@ if ($expected_state != $project->state)
     );
     echo "</p>\n";
 
-    slim_footer();
-
-    return;
+    exit;
 }
 
 // Check that the project is in a proofable state
@@ -65,9 +63,7 @@ if ( $code != $project->CBP_OKAY )
     );
     echo "</p>\n";
 
-    slim_footer();
-
-    return;
+    exit;
 }
 
 //load the master frameset
@@ -102,4 +98,3 @@ $frameGet="?" . $_SERVER['QUERY_STRING'];
 <noframes>
 <?php echo _("Your browser currently does not display frames!"); ?>
 </noframes>
-</html>

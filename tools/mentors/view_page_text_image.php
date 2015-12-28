@@ -93,9 +93,7 @@ if ($frame=="master") {
 <noframes>
 <?php echo _("Your browser currently does not display frames!"); ?>
 </noframes>
-</html>
 <?php
-    // note: can't use slim_footer() because framesets don't have a </body> tag
 }
 
 
@@ -188,7 +186,7 @@ elseif ($frame=="top") {
     if($project)
         echo " &nbsp; <input type='submit' name='reset' value='" . attr_safe(_("Reset")) . "'>";
     echo "</form>";
-    slim_footer();
+    exit();
 }
 
 //If we're loading the image frame, load the image and a little form to control the size
@@ -209,7 +207,7 @@ elseif ($frame=="image") {
 <?php
         echo "<img src='$projects_url/$projectid/$page' width='$width' border='1'>";
     }
-    slim_footer();
+    exit();
 }
 
 //If it's the text frame, we show the saved text in a textarea 
@@ -276,7 +274,7 @@ elseif ($frame=="text") {
         echo htmlspecialchars( $data, ENT_NOQUOTES );
         echo "</textarea>";
     }
-    slim_footer();
+    exit();
 }
 
 // vim: sw=4 ts=4 expandtab

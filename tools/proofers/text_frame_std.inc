@@ -57,8 +57,7 @@ function echo_text_frame_std( $ppage )
 
     </form>
     </center>
+    </body>
     <?php
-    slim_footer();
 }
 // vim: sw=4 ts=4 expandtab
-?>

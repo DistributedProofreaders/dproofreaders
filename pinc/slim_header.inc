@@ -25,12 +25,25 @@ function slim_header($title="",$include_doctype=TRUE,$close_head_open_body=TRUE)
         echo "</head>\n";
         echo "<body onLoad=\"self.focus()\">\n";
     }
+
+    // Call slim_footer when the main page content has been emitted so we can
+    // close the page
+    register_shutdown_function('slim_footer', $close_head_open_body);
 }
 
-function slim_footer()
+function slim_footer($close_body=TRUE)
 {
-    echo "\n</body>\n";
+    // Despite not needing to, some pages may still be calling slim_footer
+    // so check to see if we've already output the footer.
+    static $was_output = false;
+    if($was_output)
+        return;
+
+    if($close_body)
+        echo "\n</body>\n";
     echo "</html>\n";
+
+    $was_output = true;
 }
 
 // vim: sw=4 ts=4 expandtab
