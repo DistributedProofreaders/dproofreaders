@@ -247,10 +247,6 @@ if ($password=="proofer") {
     echo "</tr></table></form>";
     echo "</center>";
 
-    if(file_exists($code_dir.'/faq/'.lang_dir().'privacy.php')) {
-        include($code_dir.'/faq/'.lang_dir().'privacy.php');
-    } else {
-        include($code_dir.'/faq/privacy.php');
-    }
+    include($relPath.'/../faq/privacy.php');
 
 // vim: sw=4 ts=4 expandtab
