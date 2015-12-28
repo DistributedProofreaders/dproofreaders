@@ -28,8 +28,7 @@ if (!isset($_POST['resolution'])) {
     $b_User = $page['b_user'];
     $b_Code = $page['b_code'];
 
-    $result = mysql_query("SELECT nameofwork FROM projects WHERE projectid='$projectid'");
-    $b_NameofWork = mysql_result($result,0,"nameofwork");
+    $project = new Project($projectid);
     
     $round = get_Round_for_page_state($state);
 
@@ -47,7 +46,7 @@ if (!isset($_POST['resolution'])) {
     //Display form
     output_header($header);
 
-    echo "<br><h3>" . _("Project/Page") . ": ".$b_NameofWork."&mdash;".$image."</h3>";
+    echo "<br><h3>" . _("Project/Page") . ": ".$project->nameofwork."&mdash;".$image."</h3>";
     echo "<h3>" . _("State") . ": ".$state."</h3>";
 
     echo "<form action='handle_bad_page.php' method='post'>";

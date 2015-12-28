@@ -448,12 +448,9 @@ function project_get_auto_PPer( $projectid )
 // automatically checked out for PPing when it reaches the PP stage,
 // or NULL if the project will merely go into the available-for-PP state.
 {
-    $res = mysql_query("
-        SELECT checkedoutby, username
-        FROM projects
-        WHERE projectid = '$projectid'
-    ");
-    list($checkedoutby, $username) = mysql_fetch_row($res);
+    $project = new Project($projectid);
+    $checkedoutby = $project->checkedoutby;
+    $username = $project->username;
     $possible_PPer = '';
     if ( $checkedoutby != '' )
     {
@@ -553,10 +550,9 @@ function get_formatted_postcomments( $projectid )
 // They will be HTML-encoded and with line breaks
 // converted to <br/> .
 {
-    $res = mysql_query("SELECT postcomments FROM projects WHERE projectid='$projectid'");
-    $postcomments = mysql_result($res, 0, 'postcomments');
+    $project = new Project($projectid);
 
-    return nl2br(htmlspecialchars($postcomments));
+    return nl2br(htmlspecialchars($project->postcomments));
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

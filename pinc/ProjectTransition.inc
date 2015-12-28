@@ -307,9 +307,8 @@ class ProjectTransition
         {
             // we want the project event to record who it's been
             // checked out to
-            $checkedoutby = mysql_result(mysql_query("
-               SELECT checkedoutby FROM projects WHERE projectid = '$projectid'
-            "), 0);
+            $project = new Project($projectid);
+            $checkedoutby = $project->checkedoutby;
         }
         // log the project event
         $err = log_project_event(

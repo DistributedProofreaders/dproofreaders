@@ -1,5 +1,6 @@
 <?php
 include_once($relPath.'project_states.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
 
 function project_continuity_check($projectid,$orig_state,$no_more_pages)
@@ -32,18 +33,18 @@ function project_continuity_check($projectid,$orig_state,$no_more_pages)
 
 function project_continuity_test($projectid, $orig_state, $no_more_pages)
 {
-    $sql = "SELECT state FROM projects WHERE projectid='$projectid' LIMIT 1";
-    $result = mysql_query($sql);
-    if ($result === FALSE) die(mysql_error());
-
-    if (mysql_num_rows($result) == 0)
+    try
+    {
+        $project = new Project($projectid);
+    }
+    catch(NonexistentProjectException $exception)
     {
         return sprintf(
             _("There is no project with projectid='%s'."),
                    $projectid );
     }
 
-    $curr_state = mysql_result($result, 0);
+    $curr_state = $project->state;
     if ($curr_state != $orig_state)
     {
         $orig_state_text = project_states_text($orig_state);

@@ -110,23 +110,15 @@ class ProjectWordListHolder
             return array(_("unexpected return value from user_can_edit_project") . ": '$ucep_result'");
         }
 
-        $res = mysql_query("SELECT nameofwork, username, authorsname, language, checkedoutby, state FROM projects WHERE projectid = '$projectid'");
-        if (mysql_num_rows($res) == 0)
-        {
-            return array(sprintf(_("parameter '%s' is invalid"), 'projectid') . ": '$projectid'");
-        }
-
-        $ar = mysql_fetch_array($res);
-
+        $project = new Project($projectid);
         $this->projectid        = $projectid;
-        $this->nameofwork       = $ar['nameofwork'];
-        $this->projectmanager   = $ar['username'];
-        $this->authorsname      = $ar['authorsname'];
-        $this->language         = $ar['language'];
-        $this->checkedoutby     = $ar['checkedoutby'];
-        $this->state            = $ar['state'];
-
-        mysql_free_result($res);
+        // These fields are accessed via $this->$field in show_visible_controls()
+        $this->nameofwork       = $project->nameofwork;
+        $this->projectmanager   = $project->username;
+        $this->authorsname      = $project->authorsname;
+        $this->language         = $project->language;
+        $this->checkedoutby     = $project->checkedoutby;
+        $this->state            = $project->state;
 
         return array();
     }

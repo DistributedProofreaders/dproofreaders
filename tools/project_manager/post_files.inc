@@ -3,6 +3,7 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'comment_inclusions.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'wordcheck_engine.inc');
 
 function generate_post_files( $projectid, $limit_round_id, $which_text, $include_proofers, $base_extra )
@@ -129,9 +130,9 @@ function write_project_comments($projectid, $fp)
     $header = "<HTML><BODY>";
     fputs($fp,$header);
 
-    $myresult = mysql_query("SELECT comments FROM projects WHERE projectid = '$projectid'");
-    $comments = mysql_result($myresult, 0, "comments");
-    $comments = parse_project_comments($comments); // insert e.g. templates and biographies
+    $project = new Project($projectid);
+    // insert e.g. templates and biographies
+    $comments = parse_project_comments($project->comments);
     fputs($fp,$comments);
 
     $footer = "</BODY></HTML>";
@@ -230,14 +231,7 @@ function join_proofed_text_tei ($projectid, $pages_res, $include_proofers, $fp)
 
     global $code_url, $projects_url, $charset;
    
-    $result = mysql_query("SELECT nameofwork, authorsname, language, postednum FROM projects WHERE projectid = '$projectid'");
-    //echo mysql_errno().": ".mysql_error()."<BR>";
-    $row = mysql_fetch_row($result);
-
-    $nameofwork  = $row[0];
-    $authorsname = $row[1];
-    $language    = $row[2];
-    $postednum   = $row[3];
+    $project = new Project($projectid);
 
     fputs($fp,"<?xml version=\"1.0\" encoding=\"$charset\" ?>\r\n");
     fputs($fp,"<!DOCTYPE TEI.2 SYSTEM \"http://www.gutenberg.org/tei/marcello/0.4/dtd/pgtei.dtd\">");
@@ -249,8 +243,8 @@ function join_proofed_text_tei ($projectid, $pages_res, $include_proofers, $fp)
     fputs($fp,"    <teiHeader>\r\n");
     fputs($fp,"        <fileDesc>\r\n");
     fputs($fp,"            <titleStmt>\r\n");
-    fputs($fp,"                <title>$nameofwork</title>\r\n");
-    fputs($fp,"                <author>$authorsname</author>\r\n");
+    fputs($fp,"                <title>{$project->nameofwork}</title>\r\n");
+    fputs($fp,"                <author>{$project->authorsname}</author>\r\n");
     fputs($fp,"            </titleStmt>\r\n");
     fputs($fp,"            <publicationStmt>\r\n");
     fputs($fp,"                <publisher>Project Gutenberg</publisher>\r\n");

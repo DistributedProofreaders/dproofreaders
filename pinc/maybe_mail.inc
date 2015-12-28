@@ -1,5 +1,6 @@
 <?php
 include_once($relPath.'site_vars.php');
+include_once($relPath.'Project.inc');
 
 function maybe_mail( $to, $subject, $message, $additional_headers = null )
 // If this is for real, send the message.
@@ -49,16 +50,10 @@ function maybe_mail_project_manager( $project, $info, $prefix)
 {
     global $code_url, $site_name, $site_signoff;
 
-    if (is_string($project))
-    {
-        $project = mysql_fetch_assoc(mysql_query("
-            SELECT projectid, nameofwork, username FROM projects WHERE projectid='$project'
-        "));
-    }
-
-    $projectid  = $project['projectid'];
-    $nameofwork = $project['nameofwork'];
-    $username   = $project['username'];
+    $project = new Project($project);
+    $projectid = $project->projectid;
+    $nameofwork = $project->nameofwork;
+    $username = $project->username;
 
     $body =
 _("Hello")." $username,\n".

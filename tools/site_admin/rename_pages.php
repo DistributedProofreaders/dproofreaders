@@ -1,6 +1,7 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'user_is.inc');
 
@@ -30,22 +31,8 @@ if ( empty($projectid) )
     }
 }
 
-$res = mysql_query("
-    SELECT nameofwork
-    FROM projects
-    WHERE projectid='$projectid'
-") or die(mysql_error());
-
-if ( mysql_numrows($res) == 0 )
-{
-    die( "No project matches projectid='$projectid'." );
-}
-else if ( mysql_numrows($res) > 1 )
-{
-    die( "More than 1 project matched projectid='$projectid'. Can't happen!" );
-}
-
-list($title) = mysql_fetch_row( $res );
+$project = new Project($projectid);
+$title = $project->nameofwork;
 
 echo "projectid: $projectid\n";
 echo "title    : $title\n";

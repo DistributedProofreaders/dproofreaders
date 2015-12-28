@@ -337,46 +337,47 @@ class ProjectInfoHolder
             return _("unexpected return value from user_can_edit_project") . ": '$ucep_result'";
         }
 
-        $res = mysql_query("SELECT * FROM projects WHERE projectid = '$projectid'");
-        if (mysql_num_rows($res) == 0)
+        try
+        {
+            $project = new Project($projectid);
+        }
+        catch(NonexistentProjectException $exception)
         {
             return sprintf(_("parameter '%s' is invalid"), 'project') . ": '$projectid'";
         }
 
-        $ar = mysql_fetch_array($res);
-
-        $this->nameofwork       = $ar['nameofwork'];
-        $this->projectmanager   = $ar['username'];
-        $this->authorsname      = $ar['authorsname'];
-        $this->checkedoutby     = $ar['checkedoutby'];
-        $this->language         = $ar['language'];
-        $this->scannercredit    = $ar['scannercredit'];
-        $this->comments         = $ar['comments'];
-        $this->clearance        = $ar['clearance'];
-        $this->genre            = $ar['genre'];
-        $this->difficulty_level = $ar['difficulty'];
-        $this->special_code     = $ar['special_code'];
-        $this->image_source     = $ar['image_source'];
-        $this->image_preparer   = $ar['image_preparer'];
-        $this->text_preparer    = $ar['text_preparer'];
-        $this->extra_credits    = $ar['extra_credits'];
+        $this->nameofwork       = $project->nameofwork;
+        $this->projectmanager   = $project->username;
+        $this->authorsname      = $project->authorsname;
+        $this->checkedoutby     = $project->checkedoutby;
+        $this->language         = $project->language;
+        $this->scannercredit    = $project->scannercredit;
+        $this->comments         = $project->comments;
+        $this->clearance        = $project->clearance;
+        $this->genre            = $project->genre;
+        $this->difficulty_level = $project->difficulty;
+        $this->special_code     = $project->special_code;
+        $this->image_source     = $project->image_source;
+        $this->image_preparer   = $project->image_preparer;
+        $this->text_preparer    = $project->text_preparer;
+        $this->extra_credits    = $project->extra_credits;
         if ($edit_existing) 
         {
-            $this->projectid        = $ar['projectid'];
-            $this->deletion_reason  = $ar['deletion_reason'];
+            $this->projectid        = $project->projectid;
+            $this->deletion_reason  = $project->deletion_reason;
             $this->posted           = @$_GET['posted'];        
-            $this->postednum        = $ar['postednum'];
-            $this->state            = $ar['state'];
+            $this->postednum        = $project->postednum;
+            $this->state            = $project->state;
         }
         else
         {
             // we're cloning, so leave projectid unset
             $this->postednum        = '';
             $this->deletion_reason  = '';
-            $this->clone_projectid = $ar['projectid'];
+            $this->clone_projectid = $project->projectid;
             $this->state            = '';
         }
-        $this->up_projectid     = $ar['up_projectid'];
+        $this->up_projectid     = $project->up_projectid;
     }
 
     // -------------------------------------------------------------------------
