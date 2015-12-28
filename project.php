@@ -13,7 +13,6 @@ include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'pg.inc');          // get_pg_catalog_link...
 include_once($relPath.'theme.inc');
 include_once($relPath.'../tools/project_manager/projectmgr.inc'); // echo_manager_header
-include_once($relPath.'postcomments.inc'); // get_formatted_postcomments(...)
 include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_*
 include_once($relPath.'smoothread.inc');           // functions for smoothreading
 include_once($relPath.'release_queue.inc'); // cook_project_selector
