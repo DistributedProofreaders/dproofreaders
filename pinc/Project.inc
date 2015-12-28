@@ -5,6 +5,8 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'forum_interface.inc'); // topic_create
 include_once($relPath.'SettingsClass.inc');
 
+class NonexistentProjectException extends Exception { }
+
 class Project
 {
     function Project( $arg )
@@ -19,7 +21,7 @@ class Project
             ") or die(mysql_error());
             if (mysql_num_rows($res) == 0)
             {
-                die("no project with projectid='$arg'");
+                throw new NonexistentProjectException("no project with projectid='$arg'");
             }
             $row = mysql_fetch_assoc($res);
         }
