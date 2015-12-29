@@ -16,7 +16,7 @@ while($r=mysql_fetch_assoc($res)) {
     array_push($x,(
         $r['intlang']?
             dgettext("iso_639",eng_name($r['intlang'])):
-            _("Browser Default")
+            _("Browser default")
         )." (%d)"
     );
     array_push($y,$r['num']);

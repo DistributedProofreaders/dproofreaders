@@ -176,15 +176,15 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
 
 function get_user_font_size()  // logic copied from PPage.inc
 {
-    global $userP, $f_s;
+    global $userP, $proofreading_font_sizes;
 
     if ( $userP['i_layout']==1 )   // "vertical"
         $font_size_i = $userP['v_fnts'];
     else   // "horizontal"
         $font_size_i = $userP['h_fnts'];
 
-    $font_size = $f_s[$font_size_i];
-    if ( $font_size != '' && $font_size != BROWSER_DEFAULT_STR )
+    $font_size = $proofreading_font_sizes[$font_size_i];
+    if ( $font_size != '' )
         return ("font-size: $font_size;");
     else
         return "";

@@ -15,7 +15,7 @@ include "./quiz_page.inc"; // qp_full_browser_title qp_round_id_for_pi_toolbox
 <?php echo qp_full_browser_title(); ?>
 </title>
 <META http-equiv="Content-Type" content="text/html; charset=<?php echo "$charset";?>">
-<script language="JavaScript" type="text/javascript" src="../../tools/proofers/dp_proof.js?1.73"></script>
+<script language="JavaScript" type="text/javascript" src="../../tools/proofers/dp_proof.js?2015122901"></script>
 <script language="JavaScript" type="text/javascript" src="../../tools/proofers/dp_scroll.js?1.18"></script>
 </head>
 <frameset rows="*,73">

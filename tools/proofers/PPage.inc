@@ -3,7 +3,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'Project.inc');         // $PROJECT_STATES_IN_ORDER
 include_once($relPath.'RoundDescriptor.inc'); // $PAGE_STATES_IN_ORDER
 include_once($relPath.'page_tally.inc');
-include_once($relPath.'prefs_options.inc'); // $f_f, $f_s
+include_once($relPath.'prefs_options.inc'); // $proofreading_font_*
 include_once($relPath.'LPage.inc');
 include_once($relPath.'abort.inc');
 include_once($relPath.'links.inc'); // private_message_link()
@@ -184,7 +184,7 @@ class PPage
 
     function echo_proofing_textarea()
     {
-        global $userP, $f_f, $f_s;
+        global $userP, $proofreading_font_faces, $proofreading_font_sizes;
 
         $page_text = $this->lpage->get_text();
 
@@ -217,15 +217,15 @@ class PPage
             dir='".lang_direction($lang)."'
         ";
 
-        $font_face = $f_f[$font_face_i];
-        $font_size = $f_s[$font_size_i];
         echo "style='";
-        if ( $font_face != '' && $font_face != BROWSER_DEFAULT_STR )
+        $font_face = $proofreading_font_faces[$font_face_i];
+        $font_size = $proofreading_font_sizes[$font_size_i];
+        if ( $font_face != '' )
         {
             echo "font-family: $font_face;";
             echo " ";
         }
-        if ( $font_size != '' && $font_size != BROWSER_DEFAULT_STR )
+        if ( $font_size != '' )
         {
             echo "font-size: $font_size;";
         }

@@ -243,8 +243,8 @@ elseif ($frame=="text") {
             $font_size_i = $userP['h_fnts'];
             $line_wrap   = $userP['h_twrap'];
         }
-        $font_face = $f_f[$font_face_i];
-        $font_size = $f_s[$font_size_i];
+        $font_face = $proofreading_font_faces[$font_face_i];
+        $font_size = $proofreading_font_sizes[$font_size_i];
 
         // Since this page doesn't have a vertical layout version, 
         // we'll use their horizontal prefs for textarea size
@@ -257,12 +257,12 @@ elseif ($frame=="text") {
             cols='$n_cols'
             rows='$n_rows'
             style='";
-        if ( $font_face != '' && $font_face != BROWSER_DEFAULT_STR )
+        if ( $font_face != '' )
         {
             echo "font-family: $font_face;";
             echo " ";
         }
-        if ( $font_size != '' && $font_size != BROWSER_DEFAULT_STR )
+        if ( $font_size != '' )
         {
             echo "font-size: $font_size;";
         }

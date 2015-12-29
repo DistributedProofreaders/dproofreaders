@@ -2,7 +2,7 @@
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
-include_once($relPath.'prefs_options.inc'); // $f_f $f_s
+include_once($relPath.'prefs_options.inc'); // $proofreading_font_*
 
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'quiz_page_id');
 
@@ -25,16 +25,16 @@ if ($user_is_logged_in)
         $font_face_i = $userP['h_fntf'];
         $font_size_i = $userP['h_fnts'];
     }
-    $font_face = $f_f[$font_face_i];
-    $font_size = $f_s[$font_size_i];
+    $font_face = $proofreading_font_faces[$font_face_i];
+    $font_size = $proofreading_font_sizes[$font_size_i];
 
     $font_settings = '';
-    if ( $font_face != '' && $font_face != BROWSER_DEFAULT_STR )
+    if ( $font_face != '' )
     {
         $font_settings .= "font-family: $font_face;";
         $font_settings .= " ";
     }
-    if ( $font_size != '' && $font_size != BROWSER_DEFAULT_STR )
+    if ( $font_size != '' )
     {
         $font_settings .= "font-size: $font_size;";
     }

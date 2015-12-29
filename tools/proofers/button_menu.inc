@@ -7,7 +7,8 @@ include_once('PPage.inc');
 
 function echo_button_menu( $ppage )
 {
-  global $pguser, $userP, $f_f, $f_s;
+    global $pguser, $userP;
+    global $proofreading_font_faces, $proofreading_font_sizes;
 ?>
 <script language="javascript">
 function refuseNonNumeric(event) {
@@ -32,27 +33,35 @@ HREF="#" accesskey="'" onfocus="scrollImage('up')" onclick="scrollImage('up')"><
 HREF="#" accesskey="/" onfocus="scrollImage('down')" onclick="scrollImage('down')"></A><select
 name="fntFace" ID="fntFace"  class="dropsmall" title="<?php 
     echo attr_safe(_("Change Font Face"));
-?>" onChange="top.changeFontFamily(this.options[this.selectedIndex].text)"><?php
-  $ff=$userP['i_layout']==1? $userP['v_fntf']:$userP['h_fntf'];
-  $ff_len = count($f_f);
-  for ($i=0;$i<$ff_len;$i++)
-    {$optP="<option \r\n value=\"$i\"";
-  if ($i==$ff)
-    {$optP.=" selected";}
-  $optP.=">$f_f[$i]</option>";
-  echo $optP;}
+?>" onChange="top.changeFontFamily(this.options[this.selectedIndex].value, this.options[this.selectedIndex].text)"><?php
+    $current_font_i = $userP['i_layout']==1 ? $userP['v_fntf'] : $userP['h_fntf'];
+    foreach($proofreading_font_faces as $index => $font)
+    {
+        if($font == '')
+            $font = BROWSER_DEFAULT_STR;
+
+        $optP = "<option \r\n value=\"$index\"";
+        if($index == $current_font_i)
+            $optP .= " selected";
+        $optP .= ">" . $font . "</option>";
+        echo $optP;
+    }
 ?></select><select
 name="fntSize" ID="fntSize"  class="dropsmall" title="<?php 
     echo attr_safe(_("Change Font Size"));
-?>" onChange="top.changeFontSize(this.options[this.selectedIndex].text)"><?php
-  $fs=$userP['i_layout']==1? $userP['v_fnts']:$userP['h_fnts'];
-  $fs_len = count($f_s);
-  for ($i=0;$i<$fs_len;$i++)
-    {$optP="<option \r\n value=\"$i\"";
-  if ($i==$fs)
-    {$optP.=" selected";}
-  $optP.=">$f_s[$i]</option>";
-  echo $optP;}
+?>" onChange="top.changeFontSize(this.options[this.selectedIndex].value, this.options[this.selectedIndex].text)"><?php
+    $current_size_i = $userP['i_layout']==1 ? $userP['v_fnts'] : $userP['h_fnts'];
+    foreach($proofreading_font_sizes as $index => $size)
+    {
+        if($size == '')
+            $size = BROWSER_DEFAULT_STR;
+
+        $optP = "<option \r\n value=\"$index\"";
+        if($index == $current_size_i)
+            $optP .= " selected";
+        $optP .= ">$size</option>";
+        echo $optP;
+    }
 ?></select>
 <input
 type="text" value="<?php

@@ -78,20 +78,22 @@ function fixText()
     //}
 }
 
-function changeFontFamily(font_family)
+function changeFontFamily(font_family_index, font_family)
 {
     setText();
-    if (font_family == 'Browser Default') {
+    // if the index is 0, we're to use the browser default
+    if (font_family_index == 0) {
         font_family = null;
     }
     docRef.editform.text_data.style.fontFamily = font_family;
     fixText();
 }
 
-function changeFontSize(font_size)
+function changeFontSize(font_size_index, font_size)
 {
     setText();
-    if (font_size == 'Browser Default') {
+    // if the index is 0, we're to use the browser default
+    if (font_size_index == 0) {
         font_size = null;
     }
     docRef.editform.text_data.style.fontSize = font_size;

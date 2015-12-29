@@ -406,7 +406,8 @@ function save_general_tab() {
 
 function echo_proofreading_tab() {
     global $userP;
-    global $i_resolutions, $f_f, $f_s;
+    global $i_resolutions;
+    global $proofreading_font_faces, $proofreading_font_sizes;
     global $userSettings;
 
     // see if they already have 10 profiles, etc.
@@ -513,32 +514,34 @@ function echo_proofreading_tab() {
     echo "</tr>\n";
 
     echo "<tr>\n";
+    $proofreading_font_faces[0] = BROWSER_DEFAULT_STR;
     show_preference(
         _('Font Face'), 'v_fntf', 'v_fontface',
         $userP['v_fntf'],
         'dropdown',
-        $f_f
+        $proofreading_font_faces
     );
     show_preference(
         _('Font Face'), 'h_fntf', 'h_fontface',
         $userP['h_fntf'],
         'dropdown',
-        $f_f
+        $proofreading_font_faces
     );
     echo "</tr>\n";
 
     echo "<tr>\n";
+    $proofreading_font_sizes[0] = BROWSER_DEFAULT_STR;
     show_preference(
         _('Font Size'), 'v_fnts', 'v_fontsize',
         $userP['v_fnts'],
         'dropdown',
-        $f_s
+        $proofreading_font_sizes
     );
     show_preference(
         _('Font Size'), 'h_fnts', 'h_fontsize',
         $userP['h_fnts'],
         'dropdown',
-        $f_s
+        $proofreading_font_sizes
     );
     echo "</tr>\n";
 
