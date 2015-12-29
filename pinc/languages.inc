@@ -83,7 +83,7 @@ function lang_name($langcode)
     if(isset($lang_name_data[$langcode]))
         return $lang_name_data[$langcode];
 
-    return $iso_639_loc[substr($langcode,0,2)];
+    return @$iso_639_loc[substr($langcode,0,2)];
 }
 
 // Given a 2-letter language code, return the language name in English.
@@ -97,7 +97,7 @@ function eng_name($langcode)
     if(isset($eng_name_data[$langcode]))
         return $eng_name_data[$langcode];
 
-    return $iso_639[substr($langcode,0,2)];
+    return @$iso_639[substr($langcode,0,2)];
 }
 
 // Given a 2-letter language code, return a name for that language both
