@@ -8,11 +8,13 @@ function metarefresh($seconds,$url,$title="",$body="")
 // possible it will use HTTP header redirection (via Location:). If that
 // isn't possible, it will use a browser redirect (via a <meta> tag).
 // If this is a test system ($testing=1 in site_vars.php) the redirect
-// will be delayed by 15 seconds.
+// will be delayed by 15 seconds if content has already been sent to the
+// client (determined if headers have been sent or if the output buffer
+// has contents in it).
 {
     global $testing;
 
-    if ($testing)
+    if ($testing && (headers_sent() || ob_get_length()))
     {
         $sec = $seconds + 15;
         // That may not be long enough to read everything,
