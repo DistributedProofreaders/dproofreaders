@@ -55,6 +55,9 @@ function showChangeInRank( $previous_rank, $current_rank )
 function get_username_for_uid($u_id)
 {
     $res = mysql_query("SELECT username FROM users WHERE u_id = $u_id");
+    if(!$res || mysql_num_rows($res) == 0)
+        return "";
+
     $username = mysql_result($res, 0, "username");
     return $username;
 }
