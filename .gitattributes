@@ -18,5 +18,9 @@
 *.jpg binary
 *.gif binary
 *.odf binary
+*.odt binary
 *.pdf binary
 *.ttf binary
+*.psd binary
+*.mo binary
+*.sit binary
