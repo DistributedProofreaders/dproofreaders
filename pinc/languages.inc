@@ -209,9 +209,13 @@ function get_installed_locale_translations($state="all")
 
     // replace with "$files = scandir($dyn_locales_dir) for PHP >= 5.3
     $dh = opendir($dyn_locales_dir);
+    if(!$dh)
+        return $translation_cache[$state];
+
     while(false !== ($filename = readdir($dh))) {
         $files[] = $filename;
     }
+    closedir($dh);
     sort($files);
 
     foreach($files as $file)
