@@ -1,6 +1,11 @@
 <?php
 define( 'BROWSER_DEFAULT_STR', _("Browser default") );
 
+# $proofreading_font_faces and $proofreading_font_sizes are used to
+# set the font family and size in the proofing interface. These strings
+# are both shown to the user *and* passed in the HTML to the browser
+# and thus must be valid values for font-family and font-size respectively.
+
 # Care should be taken when changing the following arrays. The user
 # preferences (stored in user_profiles) stores the array index
 # and not the array value.
@@ -24,18 +29,21 @@ $proofreading_font_faces = array(
 );
 
 $proofreading_font_sizes = array (
-    0 => '', // browser default
-    1 => '8pt',
-    2 => '9pt',
-    3 => '10pt',
-    4 => '11pt',
-    5 => '12pt',
-    6 => '13pt',
-    7 => '14pt',
-    8 => '15pt',
-    9 => '16pt',
-    10 => '18pt',
-    11 => '20pt',
+     0 => '', // browser default
+     1 => '11px',
+     2 => '12px',
+     3 => '13px',
+    12 => '14px',
+     4 => '15px',
+     5 => '16px',
+     6 => '17px',
+    13 => '18px',
+     7 => '19px',
+    14 => '20px',
+     8 => '21px',
+     9 => '22px',
+    10 => '24px',
+    11 => '26px',
 );
 
 // $u_n = show rank neighbors
