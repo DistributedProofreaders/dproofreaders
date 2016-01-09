@@ -960,26 +960,19 @@ function show_donation_stuff()
 {
     global $theme, $theme_name, $code_url, $site_name, $wiki_url;
 
-    $paypal_business_id = 'DPFoundation@pgdp.net';
-    $info_url = $wiki_url.'/Distributed_Proofreaders_Foundation#Donations';
-
-    echo "<center>";
-    echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'>\n";
-    echo "<input type='hidden' name='cmd' value='_xclick'>\n";
-    echo "<input type='hidden' name='business' value='$paypal_business_id'>\n";
-    echo "<input type='hidden' name='item_name' value='donation'>\n";
-    echo "<input type='image' src='$code_url/pinc/templates/".$theme_name.$theme['image_donate']."' name='submit' alt='"
-        . attr_safe(sprintf(_("Donate to %s"), $site_name)) . "'>\n";
-    echo "</form>";
-    echo "</center>\n";
+    $pgdp_wiki_url = "http://www.pgdp.net/wiki";
+    $DPF_home_url  = "$pgdp_wiki_url/Distributed_Proofreaders_Foundation";
+    $DPF_donor_url = "$pgdp_wiki_url/DPFoundation:Information_for_Donors";
 
     echo "<center>";
     echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
     echo sprintf(
-        _("Please help support <b>DP</b>! Donate by <b><i>PayPal</i></b> or <b><i>check</i></b> to the <a href='%s'>Distributed Proofreaders Foundation</a>"),
-        $info_url
+        _("Thank you for supporting <b>DP</b>! You can also support the site by making a donation to the non-profit <a href='%s'>Distributed Proofreaders Foundation</a>."),
+        $DPF_home_url
     );
-    echo "</font>";
+    echo "</font>\n";
+    echo "<br>\n";
+    echo "<a href='$DPF_donor_url'><img src='$code_url/graphics/donate.png' alt='". attr_safe(_("Donate")) ."' border='0'></a>";
     echo "</center>\n";
 }
 
