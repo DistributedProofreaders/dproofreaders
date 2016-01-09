@@ -14,6 +14,7 @@ include_once($relPath.'list_projects.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'languages.inc');
+include_once($relPath.'misc.inc'); // endswith
 
 define('NO_STATSBAR',   False);
 define('SHOW_STATSBAR', True);
@@ -437,9 +438,20 @@ function html_statsbar($nameofpage) {
     maybe_show_language_selector();
 
     // SITE-SPECIFIC
-    //Display the donation icon and link to donate.
-    show_donation_stuff();
-    echo "<hr>";
+    // Display the donation icon and link to donate.
+    //
+    // It was decided that, at pgdp.net, we would show the donation block
+    // only on the front page and the Activity Hub.
+    // It's somewhat kludgey to effect that here -- a better design
+    // would express that in the respective calls to output_header() -- 
+    // but this approach has a much lower impact (code diff),
+    // and its drawbacks probably won't bite us.
+    if (endswith($_SERVER['SCRIPT_NAME'], "/default.php") || 
+        endswith($_SERVER['SCRIPT_NAME'], "/activity_hub.php"))
+    {
+        show_donation_stuff();
+        echo "<hr>";
+    }
 
     // Show statistics that are pertinent to the particular request.
     // (i.e., to the main content of the page).
