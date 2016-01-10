@@ -11,7 +11,15 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-output_header(_("Welcome"));
+$theme_args['css_data'] = "
+    h2 {
+        color: {$theme['color_headerbar_bg']};
+        font-family: {$theme['font_mainbody']};
+        font-size: large;
+    }
+";
+
+output_header(_("Welcome"), True, $theme_args);
 $etext_limit = 10;
 
 default_page_heading();
@@ -21,13 +29,12 @@ show_news_for_page("FRONT");
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 echo "\n"
-    . "<p>"
-    . "<font face=\"{$theme['font_mainbody']}\" color=\"{$theme['color_headerbar_bg']}\" size=\"+1\"><b>"
+    . "<h2>"
     . _("Site Concept")
-    . "</b></font><br>"
+    . "</h2>"
     . "\n";
 
-echo ""
+echo "<p>"
     . _("Distributed Proofreaders provides a web-based method to ease the conversion of Public Domain books into e-books. By dividing the workload into individual pages, many volunteers can work on a book at the same time, which significantly speeds up the creation process.")
     . "</p>"
     . "\n";
@@ -45,10 +52,9 @@ echo "<p>"
 // -----------------------------------------------------------------------------
 
 echo "\n"
-    . "<p>"
-    . "<font face=\"{$theme['font_mainbody']}\" color=\"{$theme['color_headerbar_bg']}\" size=\"+1\"><b>"
+    . "<h2>"
     . _("How You Can Help")
-    . "</b></font><br>"
+    . "</h2>"
     . "\n";
 
 echo ""
@@ -98,9 +104,9 @@ echo "<p>"
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 echo "\n"
-    . "<font face=\"{$theme['font_mainbody']}\" color=\"{$theme['color_headerbar_bg']}\" size=\"+1\"><b>"
+    . "<h2>"
     . _("Current Progress")
-    . "</b></font><br>"
+    . "</h2>"
     . "\n"
     . "\n";
 
