@@ -55,12 +55,13 @@ echo ""
     . "<ul>\n"
     .   "<li>\n"
     .     sprintf(
-            _("<a href='accounts/addproofer.php'>Register</a> with the site as a volunteer."))
+            _("<a href='%s'>Register</a> with the site as a volunteer."),
+            "accounts/addproofer.php")
     .   "</li>\n"
     .   "<li>\n"
     .     sprintf(
-            _("Read the introductory email you receive and the <a href='%s/faq/ProoferFAQ.php'>Beginning Proofreader's FAQ</a>."),
-            $code_url)
+            _("Read the introductory email you receive and the <a href='%s'>Beginning Proofreader's FAQ</a>."),
+            "$code_url/faq/ProoferFAQ.php")
     .   "</li>\n"
     .   "<li>\n"
     .     sprintf(
@@ -71,7 +72,8 @@ echo ""
 
 echo "<p>\n"
     . sprintf(
-        _("Unregistered guests are invited to participate in <a href='tools/post_proofers/smooth_reading.php'>Smooth Reading</a>."))
+        _("Unregistered guests are invited to participate in <a href='%s'>Smooth Reading</a>."),
+        "tools/post_proofers/smooth_reading.php")
     . "</p>"
     . "\n"
     . "\n";
@@ -138,8 +140,8 @@ foreach ( array(1,7,30) as $days_back )
 
 echo "<hr><center>\n";
 echo sprintf(
-    _("Questions or comments? Please contact us at <a href='mailto:%s'>%s</a>."),
-    $general_help_email_addr,
+    _("Questions or comments? Please contact us at <a href='%s'>%s</a>."),
+    "mailto:$general_help_email_addr",
     $general_help_email_addr);
 echo "</center>&nbsp;<br>\n";
 
