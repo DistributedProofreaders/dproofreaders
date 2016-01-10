@@ -18,33 +18,90 @@ default_page_heading();
 
 show_news_for_page("FRONT");
 
-?>
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-<p><font face="<?php echo $theme['font_mainbody']; ?>" color="<?php echo $theme['color_headerbar_bg']; ?>" size="+1"><b><?php echo _("Site Concept"); ?></b></font><br>
-<?php echo _("Distributed Proofreaders provides a web-based method to ease the conversion of Public Domain books into e-books. By dividing the workload into individual pages, many volunteers can work on a book at the same time, which significantly speeds up the creation process."); ?></p>
-<p><?php echo _("During proofreading, volunteers are presented with a scanned page image and the corresponding OCR text on a single web page. This allows the text to be easily compared to the image, proofread, and sent back to the site. A second volunteer is then presented with the first volunteer's work and the same page image, verifies and corrects the work as necessary, and submits it back to the site. The book then similarly progresses through two formatting rounds using the same web interface."); ?></p>
-<p><?php echo _("Once all the pages have completed these steps, a post-processor carefully assembles them into an e-book, optionally makes it available to interested parties for 'smooth reading', and submits it to the Project Gutenberg archive."); ?></p>
+echo "\n"
+    . "<p>"
+    . "<font face=\"{$theme['font_mainbody']}\" color=\"{$theme['color_headerbar_bg']}\" size=\"+1\"><b>"
+    . _("Site Concept")
+    . "</b></font><br>"
+    . "\n";
 
-<p><font face="<?php echo $theme['font_mainbody']; ?>" color="<?php echo $theme['color_headerbar_bg']; ?>" size="+1"><b><?php echo _("How You Can Help"); ?></b></font><br>
-<ul>
-<li>
-<?php echo sprintf(_("<a href='accounts/addproofer.php'>Register</a> with the site as a volunteer.")); ?></li>
-<li>
-<?php echo sprintf(_("Read the introductory email you receive and the <a href='%s/faq/ProoferFAQ.php'>Beginning Proofreader's FAQ</a>."),$code_url); ?></li>
-<li>
-<?php echo sprintf(_("Confirm your registration, sign in, choose a project, and try proofreading a page or two!")); ?></li>
-</ul>
-<p>
-<?php echo sprintf(_("Unregistered guests are invited to participate in <a href='tools/post_proofers/smooth_reading.php'>Smooth Reading</a>.")); ?>
-</p>
+echo ""
+    . _("Distributed Proofreaders provides a web-based method to ease the conversion of Public Domain books into e-books. By dividing the workload into individual pages, many volunteers can work on a book at the same time, which significantly speeds up the creation process.")
+    . "</p>"
+    . "\n";
 
-<p><?php echo _("Remember that there is no commitment expected on this site beyond the understanding that you do your best.");?></p>
-<p><?php echo _("Proofread as often or as seldom as you like, and as many or as few pages as you like.  We encourage people to do 'a page a day', but it's entirely up to you! We hope you will join us in our mission of 'preserving the literary history of the world in a freely available form for everyone to use'."); ?></p>
-<p><?php echo sprintf(_("There are many other ways to contribute to the site, including managing projects, providing content, or even helping develop improvements to the site! Join other members of our community in the <a href='%s'>Forums</a> to discuss these and many other topics."),$forums_url); ?></p>
+echo "<p>"
+    . _("During proofreading, volunteers are presented with a scanned page image and the corresponding OCR text on a single web page. This allows the text to be easily compared to the image, proofread, and sent back to the site. A second volunteer is then presented with the first volunteer's work and the same page image, verifies and corrects the work as necessary, and submits it back to the site. The book then similarly progresses through two formatting rounds using the same web interface.")
+    . "</p>"
+    . "\n";
 
-<font face="<?php echo $theme['font_mainbody']; ?>" color="<?php echo $theme['color_headerbar_bg']; ?>" size="+1"><b><?php echo _("Current Progress"); ?></b></font><br>
+echo "<p>"
+    . _("Once all the pages have completed these steps, a post-processor carefully assembles them into an e-book, optionally makes it available to interested parties for 'smooth reading', and submits it to the Project Gutenberg archive.")
+    . "</p>"
+    . "\n";
 
-<?php
+// -----------------------------------------------------------------------------
+
+echo "\n"
+    . "<p>"
+    . "<font face=\"{$theme['font_mainbody']}\" color=\"{$theme['color_headerbar_bg']}\" size=\"+1\"><b>"
+    . _("How You Can Help")
+    . "</b></font><br>"
+    . "\n";
+
+echo ""
+    . "<ul>\n"
+    .   "<li>\n"
+    .     sprintf(
+            _("<a href='accounts/addproofer.php'>Register</a> with the site as a volunteer."))
+    .   "</li>\n"
+    .   "<li>\n"
+    .     sprintf(
+            _("Read the introductory email you receive and the <a href='%s/faq/ProoferFAQ.php'>Beginning Proofreader's FAQ</a>."),
+            $code_url)
+    .   "</li>\n"
+    .   "<li>\n"
+    .     sprintf(
+            _("Confirm your registration, sign in, choose a project, and try proofreading a page or two!"))
+    .   "</li>\n"
+    . "</ul>"
+    . "\n";
+
+echo "<p>\n"
+    . sprintf(
+        _("Unregistered guests are invited to participate in <a href='tools/post_proofers/smooth_reading.php'>Smooth Reading</a>."))
+    . "</p>"
+    . "\n"
+    . "\n";
+
+echo "<p>"
+    . _("Remember that there is no commitment expected on this site beyond the understanding that you do your best.")
+    . "</p>"
+    . "\n";
+
+echo "<p>"
+    . _("Proofread as often or as seldom as you like, and as many or as few pages as you like.  We encourage people to do 'a page a day', but it's entirely up to you! We hope you will join us in our mission of 'preserving the literary history of the world in a freely available form for everyone to use'.")
+    . "</p>"
+    . "\n";
+
+echo "<p>"
+    . sprintf(
+        _("There are many other ways to contribute to the site, including managing projects, providing content, or even helping develop improvements to the site! Join other members of our community in the <a href='%s'>Forums</a> to discuss these and many other topics."),
+        $forums_url)
+    . "</p>"
+    . "\n";
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+echo "\n"
+    . "<font face=\"{$theme['font_mainbody']}\" color=\"{$theme['color_headerbar_bg']}\" size=\"+1\"><b>"
+    . _("Current Progress")
+    . "</b></font><br>"
+    . "\n"
+    . "\n";
+
 echo "<table><tr><td valign='top'>";
 
 //Gold E-texts
@@ -80,7 +137,10 @@ foreach ( array(1,7,30) as $days_back )
 }
 
 echo "<hr><center>\n";
-echo sprintf(_("Questions or comments? Please contact us at <a href='mailto:%s'>%s</a>."),$general_help_email_addr,$general_help_email_addr);
+echo sprintf(
+    _("Questions or comments? Please contact us at <a href='mailto:%s'>%s</a>."),
+    $general_help_email_addr,
+    $general_help_email_addr);
 echo "</center>&nbsp;<br>\n";
 
 // vim: sw=4 ts=4 expandtab
