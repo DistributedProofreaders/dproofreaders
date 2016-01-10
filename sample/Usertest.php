@@ -159,14 +159,14 @@ class UserTest extends PHPUnit_TestCase
         $validName2 = new User($validUserName);
         $validName3 = new User("The Skunk_Lives");
 
-        $this->assertTrue((!empty($invalidName1->validUserName()))
-                       && (!empty($invalidName2->validUserName()))
-                       && (!empty($invalidName3->validUserName()))
-                       && (!empty($invalidName4->validUserName()))
-                       && (!empty($invalidName5->validUserName()))
-                       && (empty($validName1->validUserName()))
-                       && (empty($validName2->validUserName()))
-                       && (empty($validName3->validUserName())));
+        $this->assertTrue(($invalidName1->_isValidUserName())
+                       && (!$invalidName2->_isValidUserName())
+                       && (!$invalidName3->_isValidUserName())
+                       && (!$invalidName4->_isValidUserName())
+                       && (!$invalidName5->_isValidUserName())
+                       && ($validName1->_isValidUserName())
+                       && ($validName2->_isValidUserName())
+                       && ($validName3->_isValidUserName())
                        && ($validName1->userName() == "me@home.net")
                        && ($validName2->userName() == $validUserName)
                        && ($validName3->userName() == "The Skunk_Lives"));
@@ -991,8 +991,8 @@ class UserTest extends PHPUnit_TestCase
         $validDate = $this->validUser->bestDayEver();
         $validCount = $this->validUser->bestDayEverCount();
 
-        $this->assertTrue(($newDate == date() && ($newCount == 0)
-                       && ($validDate == date() && ($validCount == 100));
+        $this->assertTrue($newDate == date() && ($newCount == 0)
+                       && ($validDate == date() && ($validCount == 100)));
     }
 
     /**
