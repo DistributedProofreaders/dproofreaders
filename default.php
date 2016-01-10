@@ -61,43 +61,48 @@ echo ""
     . "<ul>\n"
     .   "<li>\n"
     .     sprintf(
-            _("<a href='%s'>Register</a> with the site as a volunteer."),
+            _("<a href='%s'>Register</a> with the site as a volunteer, and/or"),
             "accounts/addproofer.php")
     .   "</li>\n"
     .   "<li>\n"
     .     sprintf(
-            _("Read the introductory email you receive and the <a href='%s'>Beginning Proofreader's FAQ</a>."),
-            "$code_url/faq/ProoferFAQ.php")
-    .   "</li>\n"
-    .   "<li>\n"
-    .     sprintf(
-            _("Confirm your registration, sign in, choose a project, and try proofreading a page or two!"))
+            _("<a href='%s'>Donate</a> to the Distributed Proofreaders Foundation."),
+            "$wiki_url/DPFoundation:Information_for_Donors")
     .   "</li>\n"
     . "</ul>"
     . "\n";
 
-echo "<p>\n"
-    . sprintf(
-        _("Unregistered guests are invited to participate in <a href='%s'>Smooth Reading</a>."),
-        "tools/post_proofers/smooth_reading.php")
-    . "</p>"
-    . "\n"
-    . "\n";
-
 echo "<p>"
-    . _("Remember that there is no commitment expected on this site beyond the understanding that you do your best.")
+    . _('Registered volunteers may contribute to Distributed Proofreaders in several ways including proofreading, "smooth reading" pre-released e-books to check for errors, managing projects, providing content, or even helping develop improvements to the site. Volunteers may also join other members of our community in our forums to discuss these and many other topics.')
     . "</p>"
     . "\n";
 
-echo "<p>"
-    . _("Proofread as often or as seldom as you like, and as many or as few pages as you like.  We encourage people to do 'a page a day', but it's entirely up to you! We hope you will join us in our mission of 'preserving the literary history of the world in a freely available form for everyone to use'.")
-    . "</p>"
+echo "\n"
+    . "<h2>"
+    . _("Volunteering at Distributed Proofreaders")
+    . "</h2>"
     . "\n";
 
 echo "<p>"
     . sprintf(
-        _("There are many other ways to contribute to the site, including managing projects, providing content, or even helping develop improvements to the site! Join other members of our community in the <a href='%s'>Forums</a> to discuss these and many other topics."),
-        $forums_url)
+        _("It's easy to volunteer at Distributed Proofreaders. Simply <a href='%s'>register as a volunteer</a>. Once you've confirmed your registration by e-mail, you'll receive an introductory e-mail with basic instructions on how to log in and use the site. Then, you're ready to sign in and start learning to proofread or visit the smooth reading page to pick an e-book to read! Wherever you go, you'll find lots of information to help you get started. Please try our <a href='%s'>Walkthrough</a> for a preview of the steps involved when proofreading on this site."),
+        "$code_url/accounts/addproofer.php",
+        "$dyn_url/walkthrough/00_Main.htm")
+    . "</p>"
+    . "\n";
+
+echo "<p>"
+    . _("There is no commitment expected on this site beyond the understanding that you do your best. Spend as much or as little time as you like. We encourage you to proofread at least a page a day and/or smooth read a book as often as your time allows, but it's entirely up to you.")
+    . "</p>"
+    . "\n";
+
+echo "<p>"
+    . _('We hope you will join us in our mission of "preserving the literary history of the world in a freely available form for everyone to use."')
+    . "</p>"
+    . "\n";
+
+echo "<p>"
+    . _("Distributed Proofreaders regrets that we that we are unable to verify court-ordered community service because our system cannot adequately record time spent participating.")
     . "</p>"
     . "\n";
 
