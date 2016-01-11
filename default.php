@@ -67,7 +67,7 @@ echo ""
     .   "<li>\n"
     .     sprintf(
             _("<a href='%s'>Donate</a> to the Distributed Proofreaders Foundation."),
-            "$wiki_url/DPFoundation:Information_for_Donors")
+            "http://www.pgdp.net/wiki/DPFoundation:Information_for_Donors")
     .   "</li>\n"
     . "</ul>"
     . "\n";
