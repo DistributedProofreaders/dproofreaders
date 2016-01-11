@@ -984,7 +984,13 @@ function show_donation_stuff()
     );
     echo "</font>\n";
     echo "<br>\n";
-    echo "<a href='$DPF_donor_url'><img src='$code_url/graphics/donate.png' alt='". attr_safe(_("Donate")) ."' border='0'></a>";
+
+    echo "<a href='$DPF_donor_url'>";
+    echo "<button type='button' style='margin-top: 0.25em; border-color: darkblue; border-radius: 6px; background-color: white; color: darkblue; font-size: 1em; font-weight: bold; font-style: italic;'>";
+    echo _("Donate");
+    echo "</button>";
+    echo "</a>";
+
     echo "</center>\n";
 }
 
