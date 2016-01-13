@@ -15,7 +15,7 @@ class Project
         {
             // $arg is the projectid.
             $res = mysql_query("
-                SELECT *, UNIX_TIMESTAMP() AS t_retrieved
+                SELECT *
                 FROM projects
                 WHERE projectid = '$arg'
             ") or die(mysql_error());
@@ -24,6 +24,7 @@ class Project
                 throw new NonexistentProjectException("no project with projectid='$arg'");
             }
             $row = mysql_fetch_assoc($res);
+            $row['t_retrieved'] = time();
         }
         elseif ( is_array($arg) )
         {
