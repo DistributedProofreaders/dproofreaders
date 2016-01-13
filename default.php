@@ -61,8 +61,10 @@ echo ""
     . "<ul>\n"
     .   "<li>\n"
     .     sprintf(
-            _("<a href='%s'>Register</a> with the site as a volunteer, and/or"),
+            _("<a href='%s'>Register</a> with the site as a volunteer"),
             "accounts/addproofer.php")
+    .     "<br>"
+    .     _("and/or")
     .   "</li>\n"
     .   "<li>\n"
     .     sprintf(
