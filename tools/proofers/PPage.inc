@@ -279,11 +279,6 @@ class PPage
         $this->lpage->saveAsDone( $page_text, $user );
     }
 
-    function can_be_marked_bad_by( $user )
-    {
-        return $this->lpage->can_be_marked_bad_by( $user );
-    }
-
     function can_be_reverted_to_last_save()
     {
         return $this->lpage->can_be_reverted_to_last_save();

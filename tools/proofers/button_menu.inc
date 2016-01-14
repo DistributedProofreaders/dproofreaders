@@ -7,7 +7,7 @@ include_once('PPage.inc');
 
 function echo_button_menu( $ppage )
 {
-    global $pguser, $userP;
+    global $userP;
     global $proofreading_font_faces, $proofreading_font_sizes;
 ?>
 <script language="javascript">
@@ -113,11 +113,8 @@ echo "\n";
 echo_button(RETURN_PAGE,'a');
 echo "\n";
 
-if ($ppage->can_be_marked_bad_by($pguser))
-{
-    echo_button(REPORT_BAD_PAGE,'a');
-    echo "\n";
-}
+echo_button(REPORT_BAD_PAGE,'a');
+echo "\n";
 
 echo_button(SAVE_AS_IN_PROGRESS,'a');
 echo "\n";

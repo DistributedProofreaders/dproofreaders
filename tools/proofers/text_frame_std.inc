@@ -5,8 +5,6 @@ include_once($relPath.'misc.inc');
 
 function echo_text_frame_std( $ppage )
 {
-    global $pguser;
-
     slim_header( _("Text Frame"),TRUE,FALSE);
     ?>
     </head>
@@ -31,11 +29,7 @@ function echo_text_frame_std( $ppage )
         echo_button(CHANGE_LAYOUT,'s');
         echo_button(SHOW_ALL_TEXT,'s');
         echo_button(RETURN_PAGE,'s');
-
-        if ( $ppage->can_be_marked_bad_by($pguser) )
-        {
-            echo_button(REPORT_BAD_PAGE,'s');
-        }
+        echo_button(REPORT_BAD_PAGE,'s');
 
         echo "<br>\n";
 
