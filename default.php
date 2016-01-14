@@ -87,9 +87,17 @@ echo "\n"
 
 echo "<p>"
     . sprintf(
-        _("It's easy to volunteer at Distributed Proofreaders. Simply <a href='%s'>register as a volunteer</a>. Once you've confirmed your registration by e-mail, you'll receive an introductory e-mail with basic instructions on how to log in and use the site. Then, you're ready to sign in and start learning to proofread or visit the smooth reading page to pick an e-book to read! Wherever you go, you'll find lots of information to help you get started. Please try our <a href='%s'>Walkthrough</a> for a preview of the steps involved when proofreading on this site."),
-        "$code_url/accounts/addproofer.php",
-        "$dyn_url/walkthrough/00_Main.htm")
+        _("It's easy to volunteer at Distributed Proofreaders. Simply <a href='%s'>register as a volunteer</a>. Once you've confirmed your registration by e-mail, you'll receive an introductory e-mail with basic instructions on how to log in and use the site. Then, you're ready to sign in and start learning to proofread or visit the smooth reading page to pick an e-book to read! Wherever you go, you'll find lots of information to help you get started."),
+        "$code_url/accounts/addproofer.php")
+    .
+        (
+            is_file("$dyn_dir/walkthrough/00_Main.htm")
+            ?   " " .
+                sprintf(
+                    _("Please try our <a href='%s'>Walkthrough</a> for a preview of the steps involved when proofreading on this site."),
+                    "$dyn_url/walkthrough/00_Main.htm")
+            : ""
+        )
     . "</p>"
     . "\n";
 
