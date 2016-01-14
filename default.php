@@ -28,6 +28,10 @@ show_news_for_page("FRONT");
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+// SITE-SPECIFIC
+// Sites outside the PGDP arena will probably want to change
+// some or all of the wording in the following sections.
+
 echo "\n"
     . "<h2>"
     . _("Site Concept")
