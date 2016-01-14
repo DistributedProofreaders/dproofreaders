@@ -62,7 +62,7 @@ echo ""
     .   "<li>\n"
     .     sprintf(
             _("<a href='%s'>Register</a> with the site as a volunteer"),
-            "accounts/addproofer.php")
+            "$code_url/accounts/addproofer.php")
     .     "<br>"
     .     _("and/or")
     .   "</li>\n"
