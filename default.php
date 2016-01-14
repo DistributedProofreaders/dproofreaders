@@ -11,40 +11,124 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-output_header(_("Welcome"));
+$theme_args['css_data'] = "
+    h2 {
+        color: {$theme['color_headerbar_bg']};
+        font-family: {$theme['font_mainbody']};
+        font-size: large;
+    }
+";
+
+output_header(_("Welcome"), True, $theme_args);
 $etext_limit = 10;
 
 default_page_heading();
 
 show_news_for_page("FRONT");
 
-?>
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-<p><font face="<?php echo $theme['font_mainbody']; ?>" color="<?php echo $theme['color_headerbar_bg']; ?>" size="+1"><b><?php echo _("Site Concept"); ?></b></font><br>
-<?php echo _("Distributed Proofreaders provides a web-based method to ease the conversion of Public Domain books into e-books. By dividing the workload into individual pages, many volunteers can work on a book at the same time, which significantly speeds up the creation process."); ?></p>
-<p><?php echo _("During proofreading, volunteers are presented with a scanned page image and the corresponding OCR text on a single web page. This allows the text to be easily compared to the image, proofread, and sent back to the site. A second volunteer is then presented with the first volunteer's work and the same page image, verifies and corrects the work as necessary, and submits it back to the site. The book then similarly progresses through two formatting rounds using the same web interface."); ?></p>
-<p><?php echo _("Once all the pages have completed these steps, a post-processor carefully assembles them into an e-book, optionally makes it available to interested parties for 'smooth reading', and submits it to the Project Gutenberg archive."); ?></p>
+// SITE-SPECIFIC
+// Sites outside the PGDP arena will probably want to change
+// some or all of the wording in the following sections.
 
-<p><font face="<?php echo $theme['font_mainbody']; ?>" color="<?php echo $theme['color_headerbar_bg']; ?>" size="+1"><b><?php echo _("How You Can Help"); ?></b></font><br>
-<ul>
-<li>
-<?php echo sprintf(_("<a href='accounts/addproofer.php'>Register</a> with the site as a volunteer.")); ?></li>
-<li>
-<?php echo sprintf(_("Read the introductory email you receive and the <a href='%s/faq/ProoferFAQ.php'>Beginning Proofreader's FAQ</a>."),$code_url); ?></li>
-<li>
-<?php echo sprintf(_("Confirm your registration, sign in, choose a project, and try proofreading a page or two!")); ?></li>
-</ul>
-<p>
-<?php echo sprintf(_("Unregistered guests are invited to participate in <a href='tools/post_proofers/smooth_reading.php'>Smooth Reading</a>.")); ?>
-</p>
+echo "\n"
+    . "<h2>"
+    . _("Site Concept")
+    . "</h2>"
+    . "\n";
 
-<p><?php echo _("Remember that there is no commitment expected on this site beyond the understanding that you do your best.");?></p>
-<p><?php echo _("Proofread as often or as seldom as you like, and as many or as few pages as you like.  We encourage people to do 'a page a day', but it's entirely up to you! We hope you will join us in our mission of 'preserving the literary history of the world in a freely available form for everyone to use'."); ?></p>
-<p><?php echo sprintf(_("There are many other ways to contribute to the site, including managing projects, providing content, or even helping develop improvements to the site! Join other members of our community in the <a href='%s'>Forums</a> to discuss these and many other topics."),$forums_url); ?></p>
+echo "<p>"
+    . _("Distributed Proofreaders provides a web-based method to ease the conversion of Public Domain books into e-books. By dividing the workload into individual pages, many volunteers can work on a book at the same time, which significantly speeds up the creation process.")
+    . "</p>"
+    . "\n";
 
-<font face="<?php echo $theme['font_mainbody']; ?>" color="<?php echo $theme['color_headerbar_bg']; ?>" size="+1"><b><?php echo _("Current Progress"); ?></b></font><br>
+echo "<p>"
+    . _("During proofreading, volunteers are presented with a scanned page image and the corresponding OCR text on a single web page. This allows the text to be easily compared to the image, proofread, and sent back to the site. A second volunteer is then presented with the first volunteer's work and the same page image, verifies and corrects the work as necessary, and submits it back to the site. The book then similarly progresses through two formatting rounds using the same web interface.")
+    . "</p>"
+    . "\n";
 
-<?php
+echo "<p>"
+    . _("Once all the pages have completed these steps, a post-processor carefully assembles them into an e-book, optionally makes it available to interested parties for 'smooth reading', and submits it to the Project Gutenberg archive.")
+    . "</p>"
+    . "\n";
+
+// -----------------------------------------------------------------------------
+
+echo "\n"
+    . "<h2>"
+    . _("How You Can Help")
+    . "</h2>"
+    . "\n";
+
+echo ""
+    . "<ul>\n"
+    .   "<li>\n"
+    .     sprintf(
+            _("<a href='%s'>Register</a> with the site as a volunteer"),
+            "$code_url/accounts/addproofer.php")
+    .     "<br>"
+    .     _("and/or")
+    .   "</li>\n"
+    .   "<li>\n"
+    .     sprintf(
+            _("<a href='%s'>Donate</a> to the Distributed Proofreaders Foundation."),
+            "http://www.pgdp.net/wiki/DPFoundation:Information_for_Donors")
+    .   "</li>\n"
+    . "</ul>"
+    . "\n";
+
+echo "<p>"
+    . _('Registered volunteers may contribute to Distributed Proofreaders in several ways including proofreading, "smooth reading" pre-released e-books to check for errors, managing projects, providing content, or even helping develop improvements to the site. Volunteers may also join other members of our community in our forums to discuss these and many other topics.')
+    . "</p>"
+    . "\n";
+
+echo "\n"
+    . "<h2>"
+    . _("Volunteering at Distributed Proofreaders")
+    . "</h2>"
+    . "\n";
+
+echo "<p>"
+    . sprintf(
+        _("It's easy to volunteer at Distributed Proofreaders. Simply <a href='%s'>register as a volunteer</a>. Once you've confirmed your registration by e-mail, you'll receive an introductory e-mail with basic instructions on how to log in and use the site. Then, you're ready to sign in and start learning to proofread or visit the smooth reading page to pick an e-book to read! Wherever you go, you'll find lots of information to help you get started."),
+        "$code_url/accounts/addproofer.php")
+    .
+        (
+            is_file("$dyn_dir/walkthrough/00_Main.htm")
+            ?   " " .
+                sprintf(
+                    _("Please try our <a href='%s'>Walkthrough</a> for a preview of the steps involved when proofreading on this site."),
+                    "$dyn_url/walkthrough/00_Main.htm")
+            : ""
+        )
+    . "</p>"
+    . "\n";
+
+echo "<p>"
+    . _("There is no commitment expected on this site beyond the understanding that you do your best. Spend as much or as little time as you like. We encourage you to proofread at least a page a day and/or smooth read a book as often as your time allows, but it's entirely up to you.")
+    . "</p>"
+    . "\n";
+
+echo "<p>"
+    . _('We hope you will join us in our mission of "preserving the literary history of the world in a freely available form for everyone to use."')
+    . "</p>"
+    . "\n";
+
+echo "<p>"
+    . _("Distributed Proofreaders regrets that we that we are unable to verify court-ordered community service because our system cannot adequately record time spent participating.")
+    . "</p>"
+    . "\n";
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+echo "\n"
+    . "<h2>"
+    . _("Current Progress")
+    . "</h2>"
+    . "\n"
+    . "\n";
+
 echo "<table><tr><td valign='top'>";
 
 //Gold E-texts
@@ -80,7 +164,10 @@ foreach ( array(1,7,30) as $days_back )
 }
 
 echo "<hr><center>\n";
-echo sprintf(_("Questions or comments? Please contact us at <a href='mailto:%s'>%s</a>."),$general_help_email_addr,$general_help_email_addr);
+echo sprintf(
+    _("Questions or comments? Please contact us at <a href='%s'>%s</a>."),
+    "mailto:$general_help_email_addr",
+    $general_help_email_addr);
 echo "</center>&nbsp;<br>\n";
 
 // vim: sw=4 ts=4 expandtab

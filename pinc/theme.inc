@@ -14,6 +14,7 @@ include_once($relPath.'list_projects.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'languages.inc');
+include_once($relPath.'misc.inc'); // endswith
 
 define('NO_STATSBAR',   False);
 define('SHOW_STATSBAR', True);
@@ -437,9 +438,20 @@ function html_statsbar($nameofpage) {
     maybe_show_language_selector();
 
     // SITE-SPECIFIC
-    //Display the donation icon and link to donate.
-    show_donation_stuff();
-    echo "<hr>";
+    // Display the donation icon and link to donate.
+    //
+    // It was decided that, at pgdp.net, we would show the donation block
+    // only on the front page and the Activity Hub.
+    // It's somewhat kludgey to effect that here -- a better design
+    // would express that in the respective calls to output_header() -- 
+    // but this approach has a much lower impact (code diff),
+    // and its drawbacks probably won't bite us.
+    if (endswith($_SERVER['SCRIPT_NAME'], "/default.php") || 
+        endswith($_SERVER['SCRIPT_NAME'], "/activity_hub.php"))
+    {
+        show_donation_stuff();
+        echo "<hr>";
+    }
 
     // Show statistics that are pertinent to the particular request.
     // (i.e., to the main content of the page).
@@ -960,26 +972,25 @@ function show_donation_stuff()
 {
     global $theme, $theme_name, $code_url, $site_name, $wiki_url;
 
-    $paypal_business_id = 'DPFoundation@pgdp.net';
-    $info_url = $wiki_url.'/Distributed_Proofreaders_Foundation#Donations';
-
-    echo "<center>";
-    echo "<form action='https://www.paypal.com/cgi-bin/webscr' method='post'>\n";
-    echo "<input type='hidden' name='cmd' value='_xclick'>\n";
-    echo "<input type='hidden' name='business' value='$paypal_business_id'>\n";
-    echo "<input type='hidden' name='item_name' value='donation'>\n";
-    echo "<input type='image' src='$code_url/pinc/templates/".$theme_name.$theme['image_donate']."' name='submit' alt='"
-        . attr_safe(sprintf(_("Donate to %s"), $site_name)) . "'>\n";
-    echo "</form>";
-    echo "</center>\n";
+    $pgdp_wiki_url = "http://www.pgdp.net/wiki";
+    $DPF_home_url  = "$pgdp_wiki_url/Distributed_Proofreaders_Foundation";
+    $DPF_donor_url = "$pgdp_wiki_url/DPFoundation:Information_for_Donors";
 
     echo "<center>";
     echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
     echo sprintf(
-        _("Please help support <b>DP</b>! Donate by <b><i>PayPal</i></b> or <b><i>check</i></b> to the <a href='%s'>Distributed Proofreaders Foundation</a>"),
-        $info_url
+        _("Thank you for supporting <b>DP</b>! You can also support the site by making a donation to the non-profit <a href='%s'>Distributed Proofreaders Foundation</a>."),
+        $DPF_home_url
     );
-    echo "</font>";
+    echo "</font>\n";
+    echo "<br>\n";
+
+    echo "<a href='$DPF_donor_url'>";
+    echo "<button type='button' style='margin-top: 0.25em; border-color: darkblue; border-radius: 6px; background-color: white; color: darkblue; font-size: 1em; font-weight: bold; font-style: italic;'>";
+    echo _("Donate");
+    echo "</button>";
+    echo "</a>";
+
     echo "</center>\n";
 }
 
