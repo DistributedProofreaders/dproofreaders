@@ -5,19 +5,19 @@ include_once($relPath.'comment_inclusions.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'wordcheck_engine.inc');
 
-function generate_post_files( $project, $limit_round_id, $which_text, $include_proofers, $base_extra )
+function generate_post_files( $projectid, $limit_round_id, $which_text, $include_proofers, $base_extra )
 // Generate the files needed for post-processing.
 {
     global $projects_dir;
 
-    $projectpath = "$projects_dir/$project";
-    $pathbase = "$projectpath/$project$base_extra";
+    $projectpath = "$projects_dir/$projectid";
+    $pathbase = "$projectpath/$projectid$base_extra";
 
     // Generate comments html file.
     $comments_path = "{$pathbase}_comments.html";
     $fp = fopen($comments_path, "w");
     // if ( $fp === FALSE ) ???
-    write_project_comments($project, $fp);
+    write_project_comments($projectid, $fp);
     fclose ($fp);
 
     $other_files = $comments_path;
@@ -25,21 +25,21 @@ function generate_post_files( $project, $limit_round_id, $which_text, $include_p
     // Word files
     foreach ( array('good', 'bad') as $code )
     {
-        $f = get_project_word_file($project, $code);
+        $f = get_project_word_file($projectid, $code);
         if ( $f->size > 0 )
         {
             $other_files .= ' ' . $f->abs_path;
         }
     }
 
-    $pages_res = page_info_query($project, $limit_round_id, $which_text);
+    $pages_res = page_info_query($projectid, $limit_round_id, $which_text);
     // if ($pages_res === FALSE) ???
 
     // Join all the page texts into a plain text file...
     $plain_path = "{$pathbase}.txt";
     $fp = fopen($plain_path, "w");
     // if ( $fp === FALSE ) ???
-    join_proofed_text($project, $pages_res, $include_proofers, true, $fp);
+    join_proofed_text($projectid, $pages_res, $include_proofers, true, $fp);
     fclose ($fp);
     //
     // and make a zip of that file (plus comments).
@@ -53,7 +53,7 @@ function generate_post_files( $project, $limit_round_id, $which_text, $include_p
     $tei_path = "{$pathbase}_TEI.txt";
     $fp = fopen($tei_path, "w");
     // if ( $fp === FALSE ) ???
-    join_proofed_text_tei($project, $pages_res, $include_proofers, $fp);
+    join_proofed_text_tei($projectid, $pages_res, $include_proofers, $fp);
     fclose ($fp);
     //
     // and make a zip of that file (plus comments).
@@ -64,9 +64,9 @@ function generate_post_files( $project, $limit_round_id, $which_text, $include_p
 
 // -----------------------------------------------------------------------------
 // generate a zip file on the fly and download it
-function generate_interim_file($project, $limit_round_id, $which_text, $include_proofers)
+function generate_interim_file($projectid, $limit_round_id, $which_text, $include_proofers)
 {
-    $filename = $project;
+    $filename = $projectid;
     if ('[OCR]' == $limit_round_id) 
     {
         $filename .= '_OCR';
@@ -83,11 +83,11 @@ function generate_interim_file($project, $limit_round_id, $which_text, $include_
         }
     }
 
-    $pages_res = page_info_query($project, $limit_round_id, $which_text);
+    $pages_res = page_info_query($projectid, $limit_round_id, $which_text);
     if ($pages_res === FALSE) return;
 
     // join the page texts together
-    $filedata = join_proofed_text($project, $pages_res, $include_proofers, false, '');
+    $filedata = join_proofed_text($projectid, $pages_res, $include_proofers, false, '');
 
     // zip it all up
 
@@ -124,12 +124,12 @@ function clean_up_temp($dirname, $textfile_path)
 
 // -----------------------------------------------------------------------------
 
-function write_project_comments($project, $fp)
+function write_project_comments($projectid, $fp)
 {
     $header = "<HTML><BODY>";
     fputs($fp,$header);
 
-    $myresult = mysql_query("SELECT comments FROM projects WHERE projectid = '$project'");
+    $myresult = mysql_query("SELECT comments FROM projects WHERE projectid = '$projectid'");
     $comments = mysql_result($myresult, 0, "comments");
     $comments = parse_project_comments($comments); // insert e.g. templates and biographies
     fputs($fp,$comments);
@@ -165,7 +165,7 @@ function join_page_texts( $pages_res )
 
 // -----------------------------------------------------------------------------
 
-function join_proofed_text ($project, $pages_res, $include_proofers, $save_files, $fp)
+function join_proofed_text ($projectid, $pages_res, $include_proofers, $save_files, $fp)
 {
     // Join the round 2 page-texts of the given project,
     // and write the result to file-object $fp.
@@ -223,14 +223,14 @@ $linefeed = chr(10);
 // Tough luck for Mac or Unix users.
 
 
-function join_proofed_text_tei ($project, $pages_res, $include_proofers, $fp)
+function join_proofed_text_tei ($projectid, $pages_res, $include_proofers, $fp)
 {
     // Join the round 2 page-texts of the given project,
     // and write the result to file-object $fp.
 
     global $code_url, $projects_url, $charset;
    
-    $result = mysql_query("SELECT nameofwork, authorsname, language, postednum FROM projects WHERE projectid = '$project'");
+    $result = mysql_query("SELECT nameofwork, authorsname, language, postednum FROM projects WHERE projectid = '$projectid'");
     //echo mysql_errno().": ".mysql_error()."<BR>";
     $row = mysql_fetch_row($result);
 
@@ -287,7 +287,7 @@ function join_proofed_text_tei ($project, $pages_res, $include_proofers, $fp)
     fputs($fp,"                and the <name>Online Distributed Proofreading Team</name> at\r\n");
     fputs($fp,"                &lt;$code_url&gt;.\r\n");
     fputs($fp,"                Page-images available at\r\n");
-    fputs($fp,"                &lt;$projects_url/$project/&gt;</resp>\r\n");
+    fputs($fp,"                &lt;$projects_url/$projectid/&gt;</resp>\r\n");
     fputs($fp,"            </respStmt>\r\n");
     fputs($fp,"            <item>Project Gutenberg TEI edition 1</item>\r\n");
     fputs($fp,"          </change>\r\n");
