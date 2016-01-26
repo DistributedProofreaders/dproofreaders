@@ -87,7 +87,7 @@ else
 
     //Update the page the user was working on to reflect a bad page.
     //This may cause the whole project to be marked bad.
-    $ppage->markAsBad( $pguser, $reason );
+    $project_is_bad = $ppage->markAsBad( $pguser, $reason );
 
     // Redirect the user to either continue proofreading if project is still open
     // or present a link back to the activity hub
