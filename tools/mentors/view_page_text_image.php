@@ -1,17 +1,17 @@
 <?php
 $relPath="../../pinc/";
 include_once($relPath.'base.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'prefs_options.inc');
 
 require_login();
 
-$projectid = $page = $round_id = NULL;
+$project = $projectid = $page = $round_id = NULL;
 
 //See if the user input looks valid
 $error_messages = array();
-$is_valid_project = false;
 $is_valid_page = false;
 
 $projectid = stripslashes(trim(array_get($_GET,"projectid","")));
@@ -39,16 +39,15 @@ if($projectid=="") {
 
 // See if the projectID exists in the projects table
 if(!count($error_messages)) {
-    $res = mysql_query(sprintf("SELECT 1 FROM projects WHERE projectid = '%s'",
-        mysql_real_escape_string($projectid))) or die(mysql_error());
-
-    if (mysql_num_rows($res) == 0)
+    try
+    {
+        $project = new Project($projectid);
+    }
+    catch(NonexistentProjectException $exception)
+    {
         $error_messages[] = sprintf(_("no project with projectID '%s'"),
             htmlspecialchars($projectid,ENT_QUOTES));
-    else
-        $is_valid_project = true;
-
-    mysql_free_result($res);
+    }
 }
 
 // See if the requested page (if any) exists in the project table
@@ -116,7 +115,7 @@ elseif ($frame=="top") {
     }
 
     echo "<form method='get' action='view_page_text_image.php' target='_top'>\n";
-    if(!$is_valid_project) {
+    if(!$project) {
         echo _("Project ID") . ":&nbsp;";
         echo "<input type='text' maxlength='25' name='projectid' size='25' value='" . htmlspecialchars($projectid,ENT_QUOTES) . "'> \n";
         echo "<input type='submit' value='"._("Select Project")."'> &nbsp; &nbsp;";
@@ -125,7 +124,7 @@ elseif ($frame=="top") {
     }
 
     echo _("Page") . ":&nbsp;";
-    if(!$is_valid_project)
+    if(!$project)
     {
         echo "<input type='text' name='page' size='8'> " . _("(optional)") . " &nbsp; &nbsp;\n";
     }
@@ -181,12 +180,12 @@ elseif ($frame=="top") {
     }
     echo "</select>";
 
-    if(!$is_valid_project)
+    if(!$project)
         echo " " . _("(optional)");
 
     echo " &nbsp; &nbsp;<input type='submit' value='" . attr_safe(_("View")) . "'>";
 
-    if($is_valid_project)
+    if($project)
         echo " &nbsp; <input type='submit' name='reset' value='" . attr_safe(_("Reset")) . "'>";
     echo "</form>";
     slim_footer();

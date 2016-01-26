@@ -5,6 +5,7 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'js_newwin.inc');
 
@@ -149,9 +150,10 @@ while ( $row = mysql_fetch_object($res) )
         {
             // get the dope from the project it was merged into
             $projectid = $matches[0];
-            $dres = mysql_query("SELECT archived, state, nameofwork FROM projects WHERE projectid = '$projectid'");
-            list($archived, $state, $nameofwork) = mysql_fetch_row($dres);
-            if ($archived == '1')
+            $project = new Project($projectid);
+            $state = $project->state;
+            $nameofwork = $project->nameofwork;
+            if ($project->archived == '1')
             {
                 // The project it was merged into has been archived.
                 // So skip it.

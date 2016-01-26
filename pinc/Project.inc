@@ -5,6 +5,8 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'forum_interface.inc'); // topic_create
 include_once($relPath.'SettingsClass.inc');
 
+class NonexistentProjectException extends Exception { }
+
 class Project
 {
     function Project( $arg )
@@ -13,15 +15,16 @@ class Project
         {
             // $arg is the projectid.
             $res = mysql_query("
-                SELECT *, UNIX_TIMESTAMP() AS t_retrieved
+                SELECT *
                 FROM projects
                 WHERE projectid = '$arg'
             ") or die(mysql_error());
             if (mysql_num_rows($res) == 0)
             {
-                die("no project with projectid='$arg'");
+                throw new NonexistentProjectException("no project with projectid='$arg'");
             }
             $row = mysql_fetch_assoc($res);
+            $row['t_retrieved'] = time();
         }
         elseif ( is_array($arg) )
         {
@@ -446,12 +449,9 @@ function project_get_auto_PPer( $projectid )
 // automatically checked out for PPing when it reaches the PP stage,
 // or NULL if the project will merely go into the available-for-PP state.
 {
-    $res = mysql_query("
-        SELECT checkedoutby, username
-        FROM projects
-        WHERE projectid = '$projectid'
-    ");
-    list($checkedoutby, $username) = mysql_fetch_row($res);
+    $project = new Project($projectid);
+    $checkedoutby = $project->checkedoutby;
+    $username = $project->username;
     $possible_PPer = '';
     if ( $checkedoutby != '' )
     {
@@ -542,6 +542,18 @@ function get_credit_name( $login_name )
         }
     }
     return $name;
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function get_formatted_postcomments( $projectid )
+// Return the PP-ers' comments for a certain project
+// They will be HTML-encoded and with line breaks
+// converted to <br/> .
+{
+    $project = new Project($projectid);
+
+    return nl2br(htmlspecialchars($project->postcomments));
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

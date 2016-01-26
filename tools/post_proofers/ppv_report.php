@@ -119,8 +119,7 @@ else
 
 $projectid = validate_projectID('project', @$_REQUEST['project']);
 
-$project = mysql_fetch_object(mysql_query("SELECT nameofwork, authorsname, language, difficulty, n_pages, postproofer
-                                           FROM projects WHERE projectid = '$projectid'"));
+$project = new Project($projectid);
 
 $nameofwork = $project->nameofwork;
 $authorsname = $project->authorsname;

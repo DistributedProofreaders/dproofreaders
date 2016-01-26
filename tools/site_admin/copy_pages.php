@@ -274,26 +274,9 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
         echo "<tr><th>" . _("Project ID") . ":</th><td>" . $projectid . "</td></tr>\n";
 
-        $res = mysql_query(sprintf("
-            SELECT nameofwork
-            FROM projects
-            WHERE projectid='%s'",
-            mysql_real_escape_string($projectid)
-        )) or die(mysql_error());
+        $project = new Project($projectid);
 
-        $n_projects = mysql_num_rows($res);
-        if ( $n_projects == 0 )
-        {
-            die( "projects table has no match for projectid='$projectid'" );
-        }
-        else if ( $n_projects > 1 )
-        {
-            die( "projects table has $n_projects matches for projectid='$projectid'. (Can't happen)" );
-        }
-
-        list($title) = mysql_fetch_row($res);
-
-        echo "<tr><th>" . _("Title") . ":</th><td>" . $title . "</td></tr>\n";
+        echo "<tr><th>" . _("Title") . ":</th><td>" . $project->nameofwork. "</td></tr>\n";
 
         // ----------------------
 

@@ -3,6 +3,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'DPage.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'page_tally.inc');
 
 // -----------------------------------------------------------------------------
@@ -37,8 +38,8 @@ function page_clear( $projectid, $image )
 {
     // echo "page_clear( $projectid, $image )<br>\n";
 
-    $sql = mysql_query("SELECT state FROM projects WHERE projectid = '$projectid'");
-    $projstate = mysql_result($sql, 0, "state");
+    $project = new Project($projectid);
+    $projstate = $project->state;
 
     $round = get_Round_for_project_state($projstate);
 

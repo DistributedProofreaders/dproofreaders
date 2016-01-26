@@ -1,5 +1,6 @@
 <?php
 include_once($relPath.'site_vars.php');
+include_once($relPath.'Project.inc');
 include_once($relPath.'languages.inc');
 include_once($relPath.'iso_lang_list.inc'); // langcode3_for_langname
 include_once($relPath.'misc.inc'); // str_contains
@@ -809,12 +810,15 @@ function save_word_list( $path, $words )
 function get_project_languages($projectid) {
     $returnArray = array();
 
-    $res = mysql_query("SELECT language FROM projects WHERE projectid='$projectid'");
-
-    if($res === FALSE || mysql_num_rows($res) == 0) return $returnArray;
-
-    $project_language_property = mysql_result($res,0);
-    $languages = preg_split('/ with /', $project_language_property );
+    try
+    {
+        $project = new Project($projectid);
+    }
+    catch(NonexistentProjectException $exception)
+    {
+        return $returnArray;
+    }
+    $languages = preg_split('/ with /', $project->language);
 
     foreach( $languages as $language ) {
         $langcode = proj_lang_code( $language, "primary" );

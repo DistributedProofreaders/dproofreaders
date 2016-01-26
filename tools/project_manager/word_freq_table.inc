@@ -1,5 +1,6 @@
 <?php
 include_once($relPath.'links.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'metarefresh.inc');
 
@@ -253,9 +254,8 @@ function echo_page_header($title,$projectid) {
 }
 
 function get_project_name($projectid) {
-    $res = mysql_query("SELECT nameofwork FROM projects WHERE projectid = '$projectid'");
-    $ar = mysql_fetch_array($res);
-    return $ar['nameofwork'];
+    $project = new Project($projectid);
+    return $project->nameofwork;
 }
 
 function echo_page_instruction_text($wordListType,$format) {

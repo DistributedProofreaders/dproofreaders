@@ -7,6 +7,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'DPage.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'project_continuity.inc');
 include_once($relPath.'abort.inc');
@@ -257,8 +258,8 @@ class LPage
 
     function get_language()
     {
-        $res = mysql_query("SELECT language FROM projects WHERE projectid='{$this->projectid}'");
-        $lang = proj_lang_code(mysql_result($res,0,"language"),"primary");
+        $project = new Project($this->projectid);
+        $lang = proj_lang_code($project->language,"primary");
         return $lang;
     }
 

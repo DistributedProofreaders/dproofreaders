@@ -10,7 +10,7 @@ require_login();
 $default_percent = array_get( @$_SESSION["displayimage"], 'percent', 100 );
 
 // get variables passed into page
-$project        = validate_projectID('project', @$_GET['project']);
+$projectid      = validate_projectID('project', @$_GET['project']);
 $imagefile      = validate_page_image_filename('imagefile', @$_GET['imagefile'], true);
 $percent        = get_integer_param($_GET, 'percent', $default_percent, 1, 999);
 $showreturnlink = get_integer_param($_GET, 'showreturnlink', 1, 0, 1);
@@ -26,7 +26,7 @@ slim_header($title, TRUE, FALSE);
 // Get a list of images in the project so we can populate the prev and
 // next <link rel=... href=...> tags in <head> if needed.
 // NB The query results are used later to populate a popup menu too.
-$res = mysql_query( "SELECT image FROM $project ORDER BY image ASC") or die(mysql_error());
+$res = mysql_query( "SELECT image FROM $projectid ORDER BY image ASC") or die(mysql_error());
 $num_rows = mysql_num_rows($res);
 $prev_image = "";
 $next_image = "";
@@ -39,14 +39,14 @@ for ($row=0; $row<$num_rows;$row++)
     }
 }
 if ($prev_image != "" && $preload == "prev")
-    echo "    <link rel=\"prefetch prev\" href=\"$projects_url/$project/$prev_image\">\n";
+    echo "    <link rel=\"prefetch prev\" href=\"$projects_url/$projectid/$prev_image\">\n";
 if ($next_image != "" && $preload == "next")
-    echo "    <link rel=\"prefetch next\" href=\"$projects_url/$project/$next_image\">\n";
+    echo "    <link rel=\"prefetch next\" href=\"$projects_url/$projectid/$next_image\">\n";
 echo "</head>\n\n<body onLoad=\"self.focus()\">\n";
 ?>
 
 <form method="get" action="displayimage.php">
-<input type="hidden" name="project" value="<?php echo $project; ?>">
+<input type="hidden" name="project" value="<?php echo $projectid; ?>">
 <input type="hidden" name="imagefile" value="<?php echo $imagefile; ?>">
 <input type="hidden" name="showreturnlink" value="<?php echo $showreturnlink; ?>">
 <input type="hidden" name="preload" value="<?php echo $preload; ?>">
@@ -82,17 +82,15 @@ function prevnext_buttons()
 
 prevnext_buttons();
 if($showreturnlink) {
-    $myresult = mysql_query("SELECT nameofwork FROM projects WHERE projectid = '$project'");
-    $row = mysql_fetch_assoc($myresult);
-    $title = $row['nameofwork'];
+    $project = new Project($projectid);
 
-    $label = sprintf(_("Return to Project Page for %s"),$title);
+    $label = sprintf(_("Return to Project Page for %s"), $project->nameofwork);
 
     echo "<br>\n";
-    echo "<a href='$code_url/project.php?id=$project'>$label</a>";
+    echo "<a href='$code_url/project.php?id=$projectid'>$label</a>";
 }
 echo "<br>\n";
-echo "<img src='$projects_url/$project/$imagefile' width='$width' border='1'>";
+echo "<img src='$projects_url/$projectid/$imagefile' width='$width' border='1'>";
 ?>
 <center>
 <?php

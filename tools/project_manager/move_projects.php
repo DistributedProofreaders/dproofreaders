@@ -3,6 +3,7 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'project_trans.inc');
+include_once($relPath.'Project.inc');
 include_once('projectmgr.inc');
 
 require_login();
@@ -26,43 +27,40 @@ foreach( $projectids as $projectid )
     echo "\n";
     echo "$projectid ...\n";
 
-    $result = user_can_edit_project($projectid);
-    if ( $result == PROJECT_DOES_NOT_EXIST )
+    try
+    {
+        $project = new Project($projectid);
+    }
+    catch(NonexistentProjectException $exception)
     {
         echo "    " . _("does not exist.") . "\n";
         continue;
     }
-    else if ( $result == USER_CANNOT_EDIT_PROJECT )
+
+    $result = user_can_edit_project($projectid);
+    if ( $result == USER_CANNOT_EDIT_PROJECT )
     {
         echo "    " . _("You are not authorize to manage this project.") . "\n";
         continue;
     }
 
-    $res = mysql_query("
-        SELECT state, nameofwork
-        FROM projects
-        WHERE projectid='$projectid'
-    ") or die(mysql_error());
-
-    $project = mysql_fetch_assoc( $res );
-
-    if ( $project['state'] != $curr_state )
+    if ( $project->state != $curr_state )
     {
         // TRANSLATORS: %1$s is a project name, %2$s and %3$s are project states
-        echo "    " . sprintf( _('%1$s is no longer in %2$s. Now in %3$s.'), $project['nameofwork'], $curr_state,  $project['state']) . "\n";
+        echo "    " . sprintf( _('%1$s is no longer in %2$s. Now in %3$s.'), $project->nameofwork, $curr_state, $project->state) . "\n";
         continue;
     }
 
     $error_msg = project_transition( $projectid, $new_state, $pguser );
     if ( $error_msg )
     {
-        echo "    {$project['nameofwork']}\n";
+        echo "    {$project->nameofwork}\n";
         echo "    $error_msg\n";
         continue;
     }
 
     // TRANSLATORS: %s is a project name
-    echo "    " . sprintf(_("%s successfully moved."), $project['nameofwork']) . "\n";
+    echo "    " . sprintf(_("%s successfully moved."), $project->nameofwork) . "\n";
 }
 
 echo "</pre>\n";
