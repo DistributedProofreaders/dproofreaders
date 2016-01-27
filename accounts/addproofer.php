@@ -2,7 +2,7 @@
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
-include_once($relPath.'username.inc');
+include_once($relPath.'User.inc');
 include_once($relPath.'email_address.inc');
 include_once($relPath.'new_user_mails.inc');
 include_once($relPath.'theme.inc');

@@ -18,7 +18,7 @@ includes needed to provide authentication.
 
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'username.inc');
+include_once($relPath.'User.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
