@@ -28,8 +28,11 @@ header {
 
 #navbar {
     background-color: @navbar-background;
-    color: @navbar-text;
+    .sans-serif;
     .unicolor-link(@navbar-text);
+    span.text, span.currentpage {
+        color: @navbar-text;
+    }
 }
 
 #page-container {
@@ -53,13 +56,18 @@ header {
 footer {
     background-color: @footer-background;
     color: @footer-text;
+    .sans-serif;
     .unicolor-link(@footer-text);
 }
 
 h2 {
     color: @h2-color;
+    .sans-serif;
 }
 
+.sans-serif {
+    font-family: @sans-serif-font;
+}
 
 /* vim: sw=4 ts=4 expandtab
 */

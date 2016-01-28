@@ -27,11 +27,15 @@ header {
 }
 #navbar {
   background-color: #336633;
-  color: #ffffff;
+  font-family: Verdana, Helvetica, sans-serif;
 }
 #navbar a:link,
 #navbar a:visited,
 #navbar a:active {
+  color: #ffffff;
+}
+#navbar span.text,
+#navbar span.currentpage {
   color: #ffffff;
 }
 #page-container {
@@ -51,6 +55,7 @@ header {
 footer {
   background-color: #336633;
   color: #ffffff;
+  font-family: Verdana, Helvetica, sans-serif;
 }
 footer a:link,
 footer a:visited,
@@ -58,7 +63,11 @@ footer a:active {
   color: #ffffff;
 }
 h2 {
-  color: #999999;
+  color: #336633;
+  font-family: Verdana, Helvetica, sans-serif;
+}
+.sans-serif {
+  font-family: Verdana, Helvetica, sans-serif;
 }
 /* vim: sw=4 ts=4 expandtab
 */

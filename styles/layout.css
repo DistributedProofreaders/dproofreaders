@@ -7,6 +7,18 @@ img {
   border: 0;
 }
 /* ------------------------------------------------------------------------ */
+/* HTML5 hacks */
+header,
+section,
+footer,
+aside,
+nav,
+main,
+article,
+figure {
+  display: block;
+}
+/* ------------------------------------------------------------------------ */
 /* Header */
 header {
   width: 100%;
@@ -40,7 +52,6 @@ nav {
 }
 #navbar {
   height: 1.66666667em;
-  font-family: Verdana, Helvetica, sans-serif;
   margin: 0;
   border: 0;
   padding: 3px;
@@ -65,7 +76,6 @@ footer {
   width: 100%;
   height: 2em;
   font-size: x-small;
-  font-family: Verdana, Helvetica, sans-serif;
   text-align: center;
   vertical-align: middle;
 }
@@ -107,7 +117,6 @@ footer small {
 /* ------------------------------------------------------------------------ */
 /* Section headers */
 h2 {
-  font-family: Verdana, Helvetica, sans-serif;
   font-size: large;
 }
 /* ------------------------------------------------------------------------ */

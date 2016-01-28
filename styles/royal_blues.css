@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------------ */
-/* Theme coloring for Classic Grey */
+/* Theme coloring for Royal Blues */
 /* ------------------------------------------------------------------------ */
 /* Import directive */
 body {
@@ -7,39 +7,39 @@ body {
   color: #000000;
 }
 body a:link {
-  color: #0000ff;
+  color: #330099;
 }
 body a:visited {
-  color: #0000ff;
+  color: #330099;
 }
 body a:active {
-  color: #0000ff;
+  color: #330099;
 }
 header {
-  background-color: #ffffff;
+  background-color: #99ccff;
   color: #000000;
 }
 #logo a {
-  background-image: url("http://www.pgdp.net/c/pinc/templates/classic_grey/graphics/logo.gif");
+  background-image: url("http://www.pgdp.net/c/pinc/templates/royal_blues/graphics/logo.gif");
   height: 68px;
   width: 360px;
   display: block;
 }
 #navbar {
-  background-color: #999999;
-  font-family: Verdana, Helvetica, sans-serif;
+  background-color: #000099;
+  font-family: Verdana, Arial, sans-serif;
 }
 #navbar a:link,
 #navbar a:visited,
 #navbar a:active {
-  color: #000000;
+  color: #ffffff;
 }
 #navbar span.text,
 #navbar span.currentpage {
-  color: #000000;
+  color: #ffffff;
 }
 #page-container {
-  background-color: #cccccc;
+  background-color: #99ccff;
 }
 #content-container {
   background-color: #ffffff;
@@ -49,25 +49,25 @@ header {
   background-color: #ffffff;
 }
 #sidebar {
-  background-color: #cccccc;
+  background-color: #99ccff;
   color: #000000;
 }
 footer {
-  background-color: #cccccc;
-  color: #000000;
-  font-family: Verdana, Helvetica, sans-serif;
+  background-color: #000099;
+  color: #ffffff;
+  font-family: Verdana, Arial, sans-serif;
 }
 footer a:link,
 footer a:visited,
 footer a:active {
-  color: #000000;
+  color: #ffffff;
 }
 h2 {
-  color: #999999;
-  font-family: Verdana, Helvetica, sans-serif;
+  color: #000099;
+  font-family: Verdana, Arial, sans-serif;
 }
 .sans-serif {
-  font-family: Verdana, Helvetica, sans-serif;
+  font-family: Verdana, Arial, sans-serif;
 }
 /* vim: sw=4 ts=4 expandtab
 */
