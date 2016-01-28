@@ -1,0 +1,65 @@
+@import (reference) "global.less";
+
+body {
+    background-color: @page-background;
+    color: @page-text;
+    a:link {
+        color: @link-color;
+    }
+    a:visited {
+        color: @visited-color;
+    }
+    a:active {
+        color: @active-color;
+    }
+}
+
+header {
+    background-color: @header-background;
+    color: @header-text;
+}
+
+#logo a {
+    background-image: url("http://www.pgdp.net/c/pinc/templates/@{theme-name}/graphics/logo.gif");
+    height: 68px;
+    width: 360px;
+    display: block;
+}
+
+#navbar {
+    background-color: @navbar-background;
+    color: @navbar-text;
+    .unicolor-link(@navbar-text);
+}
+
+#page-container {
+    background-color: @sidebar-background;
+}
+
+#content-container {
+    background-color: @page-background;
+    color: @page-text;
+}
+
+#rounded-corner {
+    background-color: @page-background;
+}
+
+#sidebar {
+    background-color: @sidebar-background;
+    color: @sidebar-text;
+}
+
+footer {
+    background-color: @footer-background;
+    color: @footer-text;
+    .unicolor-link(@footer-text);
+}
+
+h2 {
+    color: @h2-color;
+}
+
+
+/* vim: sw=4 ts=4 expandtab
+*/

@@ -1,0 +1,66 @@
+/* ------------------------------------------------------------------------ */
+/* Theme coloring for Classic Grey */
+/* ------------------------------------------------------------------------ */
+/* Import directive */
+body {
+  background-color: #ffffff;
+  color: #000000;
+}
+body a:link {
+  color: #0000ff;
+}
+body a:visited {
+  color: #0000ff;
+}
+body a:active {
+  color: #0000ff;
+}
+header {
+  background-color: #ffffff;
+  color: #000000;
+}
+#logo a {
+  background-image: url("http://www.pgdp.net/c/pinc/templates/classic_grey/graphics/logo.gif");
+  height: 68px;
+  width: 360px;
+  display: block;
+}
+#navbar {
+  background-color: #999999;
+  color: #000000;
+}
+#navbar a:link,
+#navbar a:visited,
+#navbar a:active {
+  color: #000000;
+}
+#page-container {
+  background-color: #cccccc;
+}
+#content-container {
+  background-color: #ffffff;
+  color: #000000;
+}
+#rounded-corner {
+  background-color: #ffffff;
+}
+#sidebar {
+  background-color: #cccccc;
+  color: #000000;
+}
+footer {
+  background-color: #cccccc;
+  color: #000000;
+}
+footer a:link,
+footer a:visited,
+footer a:active {
+  color: #000000;
+}
+h2 {
+  color: #999999;
+}
+/* vim: sw=4 ts=4 expandtab
+*/
+/* vim: sw=4 ts=4 expandtab
+*/

@@ -1,0 +1,65 @@
+/* ------------------------------------------------------------------------ */
+/* Mix-ins */
+.left-align {
+  text-align: left;
+}
+.center-align {
+  text-align: center;
+}
+.right-align {
+  text-align: right;
+}
+.top-align {
+  vertical-align: top;
+}
+.middle-align {
+  vertical-align: middle;
+}
+.bottom-align {
+  vertical-align: bottom;
+}
+.bold {
+  font-weight: bold;
+}
+.italic {
+  font-style: italic;
+}
+.underlined {
+  text-decoration: underline;
+}
+.large {
+  font-size: large;
+}
+.small {
+  font-size: small;
+}
+.really-small {
+  font-size: x-small;
+}
+.sans-serif {
+  font-family: Verdana, Helvetica, sans-serif;
+}
+.full-width {
+  width: 100%;
+}
+.no-border {
+  border: 0;
+}
+.no-margin {
+  margin: 0;
+}
+.no-padding {
+  padding: 0;
+}
+.no-cellspacing {
+  border-spacing: 0;
+}
+.no-cellpadding {
+  border-collapse: collapse;
+}
+.no-cellpadding td,
+.no-cellpadding th {
+  padding: 0;
+}
+/* vim: sw=4 ts=4 expandtab
+*/

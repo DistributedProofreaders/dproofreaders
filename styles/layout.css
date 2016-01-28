@@ -1,186 +1,281 @@
 /* ------------------------------------------------------------------------ */
+/* Global */
+body {
+  margin: 0;
+}
+img {
+  border: 0;
+}
+/* ------------------------------------------------------------------------ */
+/* Header */
+header {
+  width: 100%;
+  height: 5em;
+  padding: 0;
+  border: 0;
+}
+header #logo,
+header #titles-preserved {
+  width: 50%;
+  height: 5em;
+  position: absolute;
+  top: 0px;
+}
+header #logo {
+  left: 0;
+  padding: 0.375em;
+}
+header #titles-preserved {
+  right: 0;
+  text-align: center;
+  vertical-align: middle;
+}
+header #titles-preserved p {
+  margin: 1.25em;
+}
+/* ------------------------------------------------------------------------ */
+/* Navbar */
+nav {
+  width: 100%;
+}
+#navbar {
+  height: 1.66666667em;
+  font-family: Verdana, Helvetica, sans-serif;
+  margin: 0;
+  border: 0;
+  padding: 3px;
+  font-size: 0.75em;
+}
+#navbar span.currentpage {
+  font-weight: bold;
+}
+#navbar #navbar-left {
+  float: left;
+  padding: 2px;
+}
+#navbar #navbar-right {
+  text-align: right;
+  float: right;
+  padding: 2px;
+  white-space: nowrap;
+}
+/* ------------------------------------------------------------------------ */
+/* Footer */
+footer {
+  width: 100%;
+  height: 2em;
+  font-size: x-small;
+  font-family: Verdana, Helvetica, sans-serif;
+  text-align: center;
+  vertical-align: middle;
+}
+footer p {
+  margin: 0px;
+  padding: 0.3em;
+}
+footer small {
+  font-size: x-small;
+}
+/* ------------------------------------------------------------------------ */
+/* Layout */
+#page-container {
+  border: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  display: table;
+}
+#page-container td,
+#page-container th {
+  padding: 0;
+}
+#page-inner-container {
+  display: table-row;
+}
+#content-container {
+  text-align: left;
+  vertical-align: top;
+  width: 74%;
+  padding: 0.5% 0.5% 0.5% 1%;
+  display: table-cell;
+}
+#rounded-corner {
+  width: 1%;
+  border-top-right-radius: 20px;
+  display: table-cell;
+}
+/* ------------------------------------------------------------------------ */
+/* Section headers */
+h2 {
+  font-family: Verdana, Helvetica, sans-serif;
+  font-size: large;
+}
+/* ------------------------------------------------------------------------ */
+/* Sidebar */
+#sidebar {
+  text-align: left;
+  vertical-align: top;
+  width: 25%;
+  padding: 0.5%;
+  display: table-cell;
+}
+/* ------------------------------------------------------------------------ */
+/* Existing styling */
+/* ------------------------------------------------------------------------ */
 /* News items */
 div.news {
-    padding-top: 2em;
-    clear: both;
+  padding-top: 2em;
+  clear: both;
 }
 div.newsheader {
-    border-bottom: thin solid gray;
-    clear: both;
+  border-bottom: thin solid gray;
+  clear: both;
 }
 div.newsitem {
-    background: url('../graphics/box_shadow.png') no-repeat !important;
-    padding: 1.2em 0.5em 0.5em 1.2em;
-    margin-left: 1em;
-    margin-top: 0.5em;
-    clear: left;
+  background: url('../graphics/box_shadow.png') no-repeat !important;
+  padding: 1.2em 0.5em 0.5em 1.2em;
+  margin-left: 1em;
+  margin-top: 0.5em;
+  clear: left;
 }
 div.newsitem p {
-    margin: 0 0.5em 0.5em 0;
+  margin: 0 0.5em 0.5em 0;
 }
-
 /* ------------------------------------------------------------------------ */
 /* Attention-getting structures */
-
 div.callout {
-    margin-right: 2em;
-    margin-left: 2em;
-    padding: 1em;
-    background-color: #EEE;
-    border: solid thin black;
+  margin-right: 2em;
+  margin-left: 2em;
+  padding: 1em;
+  background-color: #EEE;
+  border: solid thin black;
 }
-
 div.callout p {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
-
 div.calloutheader {
-    font-weight: bold;
+  font-weight: bold;
 }
-
 /* ------------------------------------------------------------------------ */
 /* Special Days Legend table */
-
 table.special_legend {
-    margin: 0em 0em .5em 0em;
+  margin: 0em 0em .5em 0em;
 }
 table.special_legend div {
-    border-style: none none solid none;
-    border-color:  black;
-    border-width: 0px 0px 1px 0px;
-    width: 100%;
-    padding: 0px 0px 2px 1px;
+  border-style: none none solid none;
+  border-color: black;
+  border-width: 0px 0px 1px 0px;
+  width: 100%;
+  padding: 0px 0px 2px 1px;
 }
-
 /* ------------------------------------------------------------------------ */
 /* Round and Pool filter table */
 table.filter {
-    border: 1px solid gray;
+  border: 1px solid gray;
 }
-table.filter caption  {
-    font-size: 120%;
-    margin: 0;
-    padding: 0;
+table.filter caption {
+  font-size: 120%;
+  margin: 0;
+  padding: 0;
 }
 table.filter td {
-    padding: .25em 0.25em 0em .25em;
-    text-align: center;
-    vertical-align: top;
-    white-space: nowrap;
+  padding: .25em 0.25em 0em .25em;
+  text-align: center;
+  vertical-align: top;
+  white-space: nowrap;
 }
 table.filter td select {
-    margin: .1em auto;
-    width: 100%;
+  margin: .1em auto;
+  width: 100%;
 }
-
 /* ------------------------------------------------------------------------ */
 /* Registration table */
-
 table.register {
-    width: auto;
-    border-collapse: separate;
-    border: 1px solid black;
+  width: auto;
+  border-collapse: separate;
+  border: 1px solid black;
 }
-
 table.register td.label {
-    background-color: #e0e8dd;
-    text-align: right;
-    font-weight: bold;
-    padding: 0px 3px;
+  background-color: #e0e8dd;
+  text-align: right;
+  font-weight: bold;
+  padding: 0px 3px;
 }
-
 table.register td.field {
-    text-align: left;
+  text-align: left;
 }
-
 /* ------------------------------------------------------------------------ */
 /* Site Progress Snapshot table on Activity Hub */
-
 table.snapshottable {
-    margin: 0;
-    padding: 0;
-    border-collapse: collapse;
-    empty-cells: hide;
-    width: 100%;
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+  empty-cells: hide;
+  width: 100%;
 }
-
 table.snapshottable td,
 table.snapshottable th {
-    border: 1px solid black;
-    padding: 2px;
-    margin: 0;
-    text-align: center;
+  border: 1px solid black;
+  padding: 2px;
+  margin: 0;
+  text-align: center;
 }
-
 table.snapshottable img {
-    border: none;
-    padding: 0;
-    margin: 0;
+  border: none;
+  padding: 0;
+  margin: 0;
 }
-
 table.snapshottable th {
-    background-color: #e0e8dd;
-    font-weight: normal;
+  background-color: #e0e8dd;
+  font-weight: normal;
 }
-
 table.snapshottable td.nocell {
-    border: none;
+  border: none;
 }
-
 /* ------------------------------------------------------------------------ */
 /* Progress bar */
-
 div.progressbar {
-    border: 1px solid black;
-    font-size: 0.5em;
-    float: left;
+  border: 1px solid black;
+  font-size: 0.5em;
+  float: left;
 }
-
 /* ------------------------------------------------------------------------ */
 /* Statistics table */
-
-table.stats td, table.stats th {
-    /* so that right aligned and left aligned columns don't clash */
-    padding-right: 2em;
+table.stats {
+  /* so that right aligned and left aligned columns don't clash */
 }
-
+table.stats td,
+table.stats th {
+  padding-right: 2em;
+}
 /* ------------------------------------------------------------------------ */
 /* Translation table */
-
-table.translation td, table.translation th {
-    padding-right: 1em;
+table.translation td,
+table.translation th {
+  padding-right: 1em;
 }
-
 /* ------------------------------------------------------------------------ */
 /* Available Project Listings */
-
 table.availprojectlisting {
-    width: 100%;
-    border: 1px solid black;
-    border-collapse: collapse;
+  width: 100%;
+  border: 1px solid black;
+  border-collapse: collapse;
 }
-
 table.availprojectlisting tr th {
-    font-weight: bold;
-    text-align: left;
-    border-bottom: 1px solid black;
+  font-weight: bold;
+  text-align: left;
+  border-bottom: 1px solid black;
 }
-
-table.availprojectlisting tr td {
-    border-bottom: 1px solid #888;
-}
-
 table.availprojectlisting tr th img {
-    border: 0;
+  border: 0;
 }
-
+table.availprojectlisting tr td {
+  border-bottom: 1px solid #888;
+}
 table.availprojectlisting tr td,
-table.availprojectlisting tr th
- {
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+table.availprojectlisting tr th {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
-
-
 /* vim: sw=4 ts=4 expandtab
 */

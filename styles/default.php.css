@@ -1,0 +1,87 @@
+/* ------------------------------------------------------------------------ */
+/* Sidebar */
+#completed-titles h3,
+#recent-titles h3 {
+  text-align: center;
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: 100%;
+}
+#completed-titles ul,
+#recent-titles ul {
+  padding: 0;
+}
+#completed-titles li,
+#recent-titles li {
+  list-style-type: none;
+  padding-bottom: 1em;
+}
+#completed-titles .book-title,
+#recent-titles .book-title {
+  color: #444444;
+  font-weight: bold;
+}
+#completed-titles .title-listing,
+#recent-titles .title-listing {
+  font-family: Verdana, Helvetica, sans-serif;
+  font-size: x-small;
+}
+#completed-titles .more-link,
+#recent-titles .more-link {
+  text-align: center;
+}
+#completed-projects {
+  text-align: center;
+}
+#completed-projects h3 {
+  font-weight: bold;
+  font-size: 100%;
+}
+#completed-projects table {
+  border: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  font-size: small;
+  font-family: Verdana, Helvetica, sans-serif;
+}
+#completed-projects table td,
+#completed-projects table th {
+  padding: 0;
+}
+#completed-projects table .month {
+  width: 60%;
+  text-align: right;
+}
+#completed-projects table .count {
+  width: 40%;
+  text-align: left;
+}
+#completed-projects .more-link {
+  text-align: center;
+  font-size: small;
+}
+#teams-nav {
+  font-size: small;
+  text-align: center;
+}
+#teams-nav h3 {
+  font-family: Verdana, Helvetica, sans-serif;
+  font-weight: bold;
+}
+#key-help-documents {
+  font-size: small;
+  font-family: Verdana, Helvetica, sans-serif;
+}
+#key-help-documents h3 {
+  text-align: center;
+  font-weight: bold;
+}
+#key-help-documents ul {
+  padding: 0;
+}
+#key-help-documents li {
+  list-style-type: none;
+}
+/* vim: sw=4 ts=4 expandtab
+*/
