@@ -109,13 +109,24 @@ footer small,
   text-align: left;
   vertical-align: top;
   width: 74%;
-  padding: 0.5% 0.5% 0.5% 1%;
+  padding: 0.5em;
   display: table-cell;
+}
+#content-container.left-sidebar {
+  padding-right: 1em;
+}
+#content-container.right-sidebar {
+  padding-left: 1em;
 }
 #rounded-corner {
   width: 1%;
-  border-top-right-radius: 20px;
   display: table-cell;
+}
+#rounded-corner.left-sidebar {
+  border-top-left-radius: 20px;
+}
+#rounded-corner.right-sidebar {
+  border-top-right-radius: 20px;
 }
 /* ------------------------------------------------------------------------ */
 /* Section headers */
@@ -128,7 +139,7 @@ h2 {
   text-align: left;
   vertical-align: top;
   width: 25%;
-  padding: 0.5%;
+  padding: 0.5em;
   display: table-cell;
 }
 /* ------------------------------------------------------------------------ */

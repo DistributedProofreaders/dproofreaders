@@ -106,14 +106,25 @@ footer, #footer {
     .left-align;
     .top-align;
     width: 74%;
-    padding: 0.5% 0.5% 0.5% 1%;
+    padding: 0.5em;
     display: table-cell;
+    &.left-sidebar {
+        padding-right: 1em;
+    }
+    &.right-sidebar {
+        padding-left: 1em;
+    }
 }
 
 #rounded-corner {
     width: 1%;
-    border-top-right-radius: 20px;
     display: table-cell;
+    &.left-sidebar {
+        border-top-left-radius: 20px;
+    }
+    &.right-sidebar {
+        border-top-right-radius: 20px;
+    }
 }
 
 /* ------------------------------------------------------------------------ */
@@ -128,7 +139,7 @@ h2 {
     .left-align;
     .top-align;
     width: 25%;
-    padding: 0.5%;
+    padding: 0.5em;
     display: table-cell;
 }
 
