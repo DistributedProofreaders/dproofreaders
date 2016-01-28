@@ -129,7 +129,7 @@ function html_header($nameofpage, $extra_args = array()) {
     echo "</title>\n";
     // Global theme CSS
     echo "\n<link type='text/css' rel='Stylesheet' href='";
-    echo "$code_url/pinc/templates/" . $theme['template_unix_name'] . "/main.css'>\n";
+    echo "$code_url/styles/" . $theme['template_unix_name'] . ".css'>\n";
 
     // Global layout CSS
     echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/layout.css'>";
@@ -138,28 +138,7 @@ function html_header($nameofpage, $extra_args = array()) {
     // this first navbar blob needs to be moved to a universal stylesheet but
     // that'll also require adjustements for the $theme replacements
     echo "<style type='text/css'>\n";
-    echo "
-        table.navbar {
-            margin: 0;
-            border: 0;
-            width: 100%;
-            background-color: ".$theme['color_headerbar_bg'].";
-        }
-        table.navbar td {
-            font-family: ".$theme['font_headerbar'].";
-            font-size: 0.75em;
-        }
-        table.navbar a,
-        table.navbar a:link,
-        table.navbar a:visited,
-        table.navbar span.text {
-            color: " .$theme['color_headerbar_font'].";
-        }
-        table.navbar span.currentpage {
-            color: " .$theme['color_headerbar_font'].";
-            font-weight: bold;
-        }
-    ";
+
     // Any additional style definitions requested by the caller
     if (isset($extra_args['css_data']))
     {
@@ -176,10 +155,7 @@ function html_header($nameofpage, $extra_args = array()) {
     }
 
     echo "</head>\n\n";
-    echo "<body bgcolor='" . $theme['body_bgcolor'] . "' text='" . $theme['body_text'];
-    echo "' link='" . $theme['body_link'] . "' vlink='" . $theme['body_vlink'];
-    echo "' alink='" . $theme['body_alink'];
-    echo "' style='margin: 0;'>\n\n";
+    echo "<body>\n\n";
 }
 
 function html_logobar() {
@@ -1004,27 +980,20 @@ function html_footer() {
     $totaltime = ($endtime - $starttime);
 
     //Bottom Copyright Text
-    echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%' bgcolor='".$theme['color_copyright_bg']."'>\n";
-    echo "<tr>";
-    echo "<td width='10'>&nbsp;</td>";
-    echo "<td width='100%'>";
-    echo "<center>";
+    echo "\n<div id='footer'>\n";
+    echo "<p>\n"
+    echo "<small>\n";
 
-    echo "<font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>";
     echo _("Copyright")." ". $site_name;
     echo " ("._("Page Build Time").": ".substr($totaltime, 0, 5).") ";
-    echo "</font>";
 
     echo "<a href='$code_url/tasks.php'>";
-    echo "<font color='".$theme['color_copyright_font']."' face='".$theme['font_copyright']."' size='1'>";
     echo _("Report a Bug");
-    echo "</font>";
     echo "</a>";
 
-    echo "</center>";
-    echo "</td>";
-    echo "</tr>\n";
-    echo "</table>\n";
+    echo "</small>\n";
+    echo "</p>\n";
+    echo "</div>\n";
 
     //The End
     echo "\n</body>\n";

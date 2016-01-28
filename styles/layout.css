@@ -72,18 +72,21 @@ nav {
 }
 /* ------------------------------------------------------------------------ */
 /* Footer */
-footer {
+footer,
+#footer {
   width: 100%;
   height: 2em;
   font-size: x-small;
   text-align: center;
   vertical-align: middle;
 }
-footer p {
+footer p,
+#footer p {
   margin: 0px;
   padding: 0.3em;
 }
-footer small {
+footer small,
+#footer small {
   font-size: x-small;
 }
 /* ------------------------------------------------------------------------ */

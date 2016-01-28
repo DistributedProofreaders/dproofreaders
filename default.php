@@ -12,11 +12,14 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 undo_all_magic_quotes();
 
 $theme_args['css_data'] = "
-    h2 {
-        color: {$theme['color_headerbar_bg']};
-        font-family: {$theme['font_mainbody']};
-        font-size: large;
-    }
+.progress-count {
+    font-size: large;
+}
+
+.active-user-count {
+    font-style: italic;
+    font-weight: bold;
+}
 ";
 
 output_header(_("Welcome"), True, $theme_args);

@@ -15,7 +15,8 @@ body a:visited {
 body a:active {
   color: #330099;
 }
-header {
+header,
+#header {
   background-color: #99ccff;
   color: #000000;
 }
@@ -52,14 +53,18 @@ header {
   background-color: #99ccff;
   color: #000000;
 }
-footer {
+footer,
+#footer {
   background-color: #000099;
   color: #ffffff;
   font-family: Verdana, Arial, sans-serif;
 }
 footer a:link,
+#footer a:link,
 footer a:visited,
-footer a:active {
+#footer a:visited,
+footer a:active,
+#footer a:active {
   color: #ffffff;
 }
 h2 {
