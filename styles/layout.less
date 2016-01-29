@@ -19,7 +19,7 @@ header, section, footer, aside, nav, main, article, figure {
 
 /* ------------------------------------------------------------------------ */
 /* Header */
-header {
+header, #header {
     .full-width;
     height: 5em;
     padding: 0;
@@ -46,7 +46,7 @@ header {
 
 /* ------------------------------------------------------------------------ */
 /* Navbar */
-nav {
+nav, #navbar-outer {
     .full-width;
 }
 
@@ -63,11 +63,16 @@ nav {
         float: left;
         padding: 2px;
     }
-    #navbar-right {
+    #navbar-right, #navbar-login {
         .right-align;
         float: right;
-        padding: 2px;
         white-space: nowrap;
+    }
+    #navbar-right {
+        padding: 2px;
+    }
+    #navbar-login {
+        padding: 0px 2px;
     }
 }
 
@@ -105,42 +110,15 @@ footer, #footer {
 #content-container {
     .left-align;
     .top-align;
-    width: 74%;
+    width: 100%;
     padding: 0.5em;
     display: table-cell;
-    &.left-sidebar {
-        padding-right: 1em;
-    }
-    &.right-sidebar {
-        padding-left: 1em;
-    }
-}
-
-#rounded-corner {
-    width: 1%;
-    display: table-cell;
-    &.left-sidebar {
-        border-top-left-radius: 20px;
-    }
-    &.right-sidebar {
-        border-top-right-radius: 20px;
-    }
 }
 
 /* ------------------------------------------------------------------------ */
 /* Section headers */
 h2 {
     .large;
-}
-
-/* ------------------------------------------------------------------------ */
-/* Sidebar */
-#sidebar {
-    .left-align;
-    .top-align;
-    width: 25%;
-    padding: 0.5em;
-    display: table-cell;
 }
 
 /* ------------------------------------------------------------------------ */

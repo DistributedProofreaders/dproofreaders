@@ -20,34 +20,41 @@ figure {
 }
 /* ------------------------------------------------------------------------ */
 /* Header */
-header {
+header,
+#header {
   width: 100%;
   height: 5em;
   padding: 0;
   border: 0;
 }
 header #logo,
-header #titles-preserved {
+#header #logo,
+header #titles-preserved,
+#header #titles-preserved {
   width: 50%;
   height: 5em;
   position: absolute;
   top: 0px;
 }
-header #logo {
+header #logo,
+#header #logo {
   left: 0;
   padding: 0.375em;
 }
-header #titles-preserved {
+header #titles-preserved,
+#header #titles-preserved {
   right: 0;
   text-align: center;
   vertical-align: middle;
 }
-header #titles-preserved p {
+header #titles-preserved p,
+#header #titles-preserved p {
   margin: 1.25em;
 }
 /* ------------------------------------------------------------------------ */
 /* Navbar */
-nav {
+nav,
+#navbar-outer {
   width: 100%;
 }
 #navbar {
@@ -64,11 +71,17 @@ nav {
   float: left;
   padding: 2px;
 }
-#navbar #navbar-right {
+#navbar #navbar-right,
+#navbar #navbar-login {
   text-align: right;
   float: right;
-  padding: 2px;
   white-space: nowrap;
+}
+#navbar #navbar-right {
+  padding: 2px;
+}
+#navbar #navbar-login {
+  padding: 0px 2px;
 }
 /* ------------------------------------------------------------------------ */
 /* Footer */
@@ -108,39 +121,14 @@ footer small,
 #content-container {
   text-align: left;
   vertical-align: top;
-  width: 74%;
+  width: 100%;
   padding: 0.5em;
   display: table-cell;
-}
-#content-container.left-sidebar {
-  padding-right: 1em;
-}
-#content-container.right-sidebar {
-  padding-left: 1em;
-}
-#rounded-corner {
-  width: 1%;
-  display: table-cell;
-}
-#rounded-corner.left-sidebar {
-  border-top-left-radius: 20px;
-}
-#rounded-corner.right-sidebar {
-  border-top-right-radius: 20px;
 }
 /* ------------------------------------------------------------------------ */
 /* Section headers */
 h2 {
   font-size: large;
-}
-/* ------------------------------------------------------------------------ */
-/* Sidebar */
-#sidebar {
-  text-align: left;
-  vertical-align: top;
-  width: 25%;
-  padding: 0.5em;
-  display: table-cell;
 }
 /* ------------------------------------------------------------------------ */
 /* Existing styling */

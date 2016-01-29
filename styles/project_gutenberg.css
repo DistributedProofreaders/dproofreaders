@@ -49,7 +49,8 @@ header,
 #rounded-corner {
   background-color: #ffffff;
 }
-#sidebar {
+#sidebar,
+#statsbar {
   background-color: #e0e8dd;
   color: #000000;
 }
@@ -69,6 +70,19 @@ footer a:active,
 }
 h2 {
   color: #336633;
+  font-family: Verdana, Helvetica, sans-serif;
+}
+#completed-titles .title-listing,
+#recent-titles .title-listing {
+  font-family: Verdana, Helvetica, sans-serif;
+}
+#completed-projects table {
+  font-family: Verdana, Helvetica, sans-serif;
+}
+#teams-nav h3 {
+  font-family: Verdana, Helvetica, sans-serif;
+}
+#key-help-documents {
   font-family: Verdana, Helvetica, sans-serif;
 }
 .sans-serif {

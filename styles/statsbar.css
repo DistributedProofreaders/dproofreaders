@@ -1,5 +1,34 @@
 /* ------------------------------------------------------------------------ */
-/* Sidebar */
+/* Statsbar */
+#statsbar {
+  text-align: left;
+  vertical-align: top;
+  width: 25%;
+  padding: 0.5em;
+  display: table-cell;
+}
+#content-container.left-statsbar,
+#content-container.right-statsbar {
+  width: 74%;
+}
+#content-container.left-statsbar {
+  padding-right: 1em;
+}
+#content-container.right-statsbar {
+  padding-left: 1em;
+}
+#rounded-corner {
+  width: 1%;
+  display: table-cell;
+}
+#rounded-corner.left-statsbar {
+  border-top-left-radius: 20px;
+}
+#rounded-corner.right-statsbar {
+  border-top-right-radius: 20px;
+}
+/* ------------------------------------------------------------------------ */
+/* Statsbar components */
 #completed-titles h3,
 #recent-titles h3 {
   text-align: center;
@@ -23,7 +52,6 @@
 }
 #completed-titles .title-listing,
 #recent-titles .title-listing {
-  font-family: Verdana, Helvetica, sans-serif;
   font-size: x-small;
 }
 #completed-titles .more-link,
@@ -43,7 +71,6 @@
   border-spacing: 0;
   width: 100%;
   font-size: small;
-  font-family: Verdana, Helvetica, sans-serif;
 }
 #completed-projects table td,
 #completed-projects table th {
@@ -57,7 +84,7 @@
   width: 40%;
   text-align: left;
 }
-#completed-projects .more-link {
+#stats-central-link {
   text-align: center;
   font-size: small;
 }
@@ -66,12 +93,10 @@
   text-align: center;
 }
 #teams-nav h3 {
-  font-family: Verdana, Helvetica, sans-serif;
   font-weight: bold;
 }
 #key-help-documents {
   font-size: small;
-  font-family: Verdana, Helvetica, sans-serif;
 }
 #key-help-documents h3 {
   text-align: center;
@@ -82,6 +107,9 @@
 }
 #key-help-documents li {
   list-style-type: none;
+}
+#about-dp {
+  font-size: small;
 }
 /* vim: sw=4 ts=4 expandtab
 */

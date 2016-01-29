@@ -1,7 +1,41 @@
 @import (reference) "global.less";
 
 /* ------------------------------------------------------------------------ */
-/* Sidebar */
+/* Statsbar */
+
+#statsbar {
+    .left-align;
+    .top-align;
+    width: 25%;
+    padding: 0.5em;
+    display: table-cell;
+}
+
+#content-container {
+    &.left-statsbar, &.right-statsbar {
+        width: 74%;
+    }
+    &.left-statsbar {
+        padding-right: 1em;
+    }
+    &.right-statsbar {
+        padding-left: 1em;
+    }
+}
+
+#rounded-corner {
+    width: 1%;
+    display: table-cell;
+    &.left-statsbar {
+        border-top-left-radius: 20px;
+    }
+    &.right-statsbar {
+        border-top-right-radius: 20px;
+    }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Statsbar components */
 
 #completed-titles, #recent-titles {
     h3 {
@@ -22,7 +56,6 @@
         .bold;
     }
     .title-listing {
-        .sans-serif;
         .really-small;
     }
     .more-link {
@@ -42,7 +75,6 @@
         .no-cellspacing;
         .full-width;
         .small;
-        .sans-serif;
         .month {
             width: 60%;
             .right-align;
@@ -52,24 +84,23 @@
             .left-align;
         }
     }
-    .more-link {
-        .center-align;
-        .small;
-    }
+}
+
+#stats-central-link {
+    .center-align;
+    .small;
 }
 
 #teams-nav {
     .small;
     .center-align;
     h3 {
-        .sans-serif;
         .bold;
     }
 }
 
 #key-help-documents {
     .small;
-    .sans-serif;
     h3 {
         .center-align;
         .bold;
@@ -80,6 +111,10 @@
     li {
         list-style-type: none;
     }
+}
+
+#about-dp {
+    .small;
 }
 
 /* vim: sw=4 ts=4 expandtab
