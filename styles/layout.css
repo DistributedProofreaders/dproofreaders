@@ -26,15 +26,13 @@ header,
   height: 5em;
   padding: 0;
   border: 0;
+  display: table;
 }
 header #logo,
 #header #logo,
 header #titles-preserved,
 #header #titles-preserved {
-  width: 50%;
-  height: 5em;
-  position: absolute;
-  top: 0px;
+  display: table-cell;
 }
 header #logo,
 #header #logo {
@@ -46,10 +44,9 @@ header #titles-preserved,
   right: 0;
   text-align: center;
   vertical-align: middle;
-}
-header #titles-preserved p,
-#header #titles-preserved p {
-  margin: 1.25em;
+  /*p {
+            margin: 1.25em;
+        }*/
 }
 /* ------------------------------------------------------------------------ */
 /* Navbar */

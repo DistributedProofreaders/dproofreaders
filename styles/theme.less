@@ -26,12 +26,16 @@ header, #header {
     display: block;
 }
 
-#navbar {
+nav, #navbar-outer, #navbar, #navbar-left, #navbar-right, #navbar-login {
     background-color: @navbar-background;
     .sans-serif;
     .unicolor-link(@navbar-text);
-    span.text, span.currentpage {
+    label, span.text, span.currentpage {
         color: @navbar-text;
+    }
+    input {
+        .sans-serif;
+        font-size: 11px;
     }
 }
 

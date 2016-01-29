@@ -26,18 +26,63 @@ header,
   width: 360px;
   display: block;
 }
-#navbar {
+nav,
+#navbar-outer,
+#navbar,
+#navbar-left,
+#navbar-right,
+#navbar-login {
   background-color: #000099;
   font-family: Verdana, Arial, sans-serif;
 }
+nav a:link,
+#navbar-outer a:link,
 #navbar a:link,
+#navbar-left a:link,
+#navbar-right a:link,
+#navbar-login a:link,
+nav a:visited,
+#navbar-outer a:visited,
 #navbar a:visited,
-#navbar a:active {
+#navbar-left a:visited,
+#navbar-right a:visited,
+#navbar-login a:visited,
+nav a:active,
+#navbar-outer a:active,
+#navbar a:active,
+#navbar-left a:active,
+#navbar-right a:active,
+#navbar-login a:active {
   color: #ffffff;
 }
+nav label,
+#navbar-outer label,
+#navbar label,
+#navbar-left label,
+#navbar-right label,
+#navbar-login label,
+nav span.text,
+#navbar-outer span.text,
 #navbar span.text,
-#navbar span.currentpage {
+#navbar-left span.text,
+#navbar-right span.text,
+#navbar-login span.text,
+nav span.currentpage,
+#navbar-outer span.currentpage,
+#navbar span.currentpage,
+#navbar-left span.currentpage,
+#navbar-right span.currentpage,
+#navbar-login span.currentpage {
   color: #ffffff;
+}
+nav input,
+#navbar-outer input,
+#navbar input,
+#navbar-left input,
+#navbar-right input,
+#navbar-login input {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 11px;
 }
 #page-container {
   background-color: #99ccff;

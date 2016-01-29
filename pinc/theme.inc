@@ -239,7 +239,7 @@ function html_navbar()
 
         echo "<div id='navbar-login'>";
 
-        $login_form = "<form style='margin: 0; display: inline;' action='$code_url/accounts/login.php' method='post'>\n";
+        $login_form = "<form style='margin: 0; display: inline;' action='$code_url/accounts/login.php' method='post'><div style='display: inline;'>\n";
 
         // We pass a hidden 'destination' parameter to login.php to indicate
         // where the user should be sent (preferably, where they want to go)
@@ -261,10 +261,10 @@ function html_navbar()
 
         // login link text
         // TRANSLATORS: ID is an abbreviation for username in the navbar
-        $login_form .= "<span class='text'>" . _("ID") . ":</span> <input type='text' name='userNM' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
-        $login_form .= "<span class='text'>" . _("Password") . ":</span> <input type='password' name='userPW' size='10' maxlength='50' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>&nbsp;";
-        $login_form .= "<input type='submit' value='" . _("Sign In") ."' style='font-family: ".$theme['font_headerbar']."; font-size: 11px;'>";
-        $login_form .= "</form>";
+        $login_form .= "<label for='loginform-userNM'>" . _("ID") . ":</label> <input type='text' id='loginform-userNM' name='userNM' size='10' maxlength='50'>&nbsp;";
+        $login_form .= "<label for='loginform-userPW'>" . _("Password") . ":</label> <input type='password' id='loginform-userPW' name='userPW' size='10' maxlength='50'>&nbsp;";
+        $login_form .= "<input type='submit' value='" . _("Sign In") ."'>";
+        $login_form .= "</div></form>";
 
         $links=array();
         $links[] = array('text' => $login_form);
@@ -536,20 +536,20 @@ function maybe_show_language_selector()
         return;
 
     ?>
-    <script language="JavaScript" type="text/javascript"><!--
+    <script type="text/javascript"><!--
         function submitLang(i) {
-            top.document.langform.submit();
+            top.document.forms.langform.submit();
         }
     // --></script>
     <?php
 
-    echo "<form id='langform' action='$code_url/tools/setlangcookie.php' method=POST>\n";
-    echo _("Set language") . ": ";
-    echo "<select name=lang onChange='submitLang(this)'>\n";
+    echo "<form id='langform' action='$code_url/tools/setlangcookie.php' method='POST'><div>\n";
+    echo "<label for='langform-lang'>" . _("Set language") . ": </label>";
+    echo "<select id='langform-lang' name='lang' onChange='submitLang(this)'>\n";
     echo "<option value=''>" . _("Browser default") . "</option>";
     foreach($options as $locale => $label)
         echo "<option value='$locale'".(($locale==$intlang)?" selected":"").">$label</option>\n";
-    echo "</select><input type=hidden name=returnto value='".$_SERVER['REQUEST_URI']."'>\n</form>\n";
+    echo "</select><input type='hidden' name='returnto' value='".$_SERVER['REQUEST_URI']."'>\n</div></form>\n";
     echo "<hr>\n";
 }
 
