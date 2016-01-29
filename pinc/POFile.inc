@@ -45,42 +45,15 @@ class POFile
     // Returns: array($count, $translated);
     private function count_translated_strings()
     {
-        $fh = fopen($this->po_filename, "rt");
-        if(!$fh)
-        {
-            $this->num_messages = 0;
-            $this->num_messages_translated = 0;
-            return;
-        }
-
-        $block = "";
+        $iterator = new POFileIterator($this->po_filename);
         $count = 0;
         $translated = 0;
-        while (($line = fgets($fh, 4096)) !== false) {
-            // skip all comment lines
-            if(strpos($line, '#') === 0)
-                continue;
-
-            $line = trim($line);
-            if($line)
-            {
-                $block .= "$line\n";
-            }
-            elseif($block)
-            {
-                $count++;
-                if($this->is_block_translated($block))
-                    $translated++;
-                $block = "";
-            }
-        }
-        if($block)
+        foreach($iterator as $block)
         {
             $count++;
             if($this->is_block_translated($block))
                 $translated++;
         }
-        fclose($fh);
 
         // The first record is always metadata and flags as translated
         // so our count starts at -1 if there was anything in the file.
@@ -126,6 +99,89 @@ class POFile
         fclose($fh);
 
         return $content_type;
+    }
+}
+
+
+class POFileIterator implements Iterator
+{
+    private $po_filename;
+    private $file_handle = NULL;
+    private $current_block = NULL;
+    private $block_count = -1;
+
+    public function __construct($po_filename)
+    {
+        $this->po_filename = $po_filename;
+    }
+
+    function rewind()
+    {
+        if($this->file_handle)
+        {
+            fseek($this->file_handle, 0);
+        }
+        else
+        {
+            $this->file_handle = fopen($this->po_filename, "rt");
+        }
+
+        $this->next();
+    }
+
+    function current()
+    {
+        return $this->current_block;
+    }
+
+    function key()
+    {
+        return $this->block_count;
+    }
+
+    function next()
+    {
+        if(!$this->file_handle)
+            return;
+
+        $block = "";
+        while (($line = fgets($this->file_handle, 4096)) !== false) {
+            // skip all comment lines
+            if(strpos($line, '#') === 0)
+                continue;
+
+            $line = trim($line);
+            if($line)
+            {
+                $block .= "$line\n";
+            }
+            elseif($block)
+            {
+                $this->current_block = $block;
+                $this->block_count++;
+                return;
+            }
+        }
+        if($block)
+        {
+            $this->current_block = $block;
+            $this->block_count++;
+            return;
+        }
+        $this->current_block = NULL;
+        fclose($this->file_handle);
+        $this->file_handle = NULL;
+    }
+
+    function valid()
+    {
+        return ($this->current_block != NULL);
+    }
+
+    function __destruct()
+    {
+        if($this->file_handle)
+            fclose($this->file_handle);
     }
 }
 
