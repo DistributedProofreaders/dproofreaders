@@ -50,6 +50,12 @@ class POFile
         $translated = 0;
         foreach($iterator as $block)
         {
+            // if the block is a saved (but not used) fuzzy translation,
+            // skip it
+            if(startswith($block, "#, fuzzy") or
+                startswith($block, "#~ "))
+                continue;
+
             $count++;
             if($this->is_block_translated($block))
                 $translated++;
@@ -111,6 +117,44 @@ class POFile
 
         if($return_value != 0)
             throw new Exception(implode("\n", $exec_out));
+
+        $this->remove_translated_strings();
+    }
+
+    public function remove_translated_strings()
+    {
+        $tempname = "$this->po_filename.tmp";
+
+        $fh = fopen($tempname, "w");
+        $iterator = new POFileIterator($this->po_filename);
+        foreach($iterator as $key => $block)
+        {
+            // output the first block without modification
+            if($key == 0)
+            {
+                fwrite($fh, "$block\n\n");
+                continue;
+            }
+
+            // if the block is a saved (but not used) fuzzy translation,
+            // output it without modification
+            if(startswith($block, "#, fuzzy") or
+                startswith($block, "#~ "))
+            {
+                fwrite($fh, "$block\n\n");
+                continue;
+            }
+
+            list($msgid, $msgstr) = @explode("msgstr", $block);
+            fwrite($fh, "{$msgid}msgstr \"\"\n\n");
+        }
+        fclose($fh);
+
+        if(!rename($tempname, $this->po_filename))
+        {
+            unlink($tempname);
+            throw new Exception("Unable to update existing PO file");
+        }
     }
 
     public function merge_from_template($template, $fuzzy=FALSE)
@@ -183,10 +227,6 @@ class POFileIterator implements Iterator
 
         $block = "";
         while (($line = fgets($this->file_handle, 4096)) !== false) {
-            // skip all comment lines
-            if(strpos($line, '#') === 0)
-                continue;
-
             $line = trim($line);
             if($line)
             {
