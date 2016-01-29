@@ -74,11 +74,11 @@ function output_header($nameofpage, $show_statsbar = True, $extra_args = array()
             html_statsbar($nameofpage);
             echo "</div>\n";
             echo "<div id='rounded-corner' class='left-statsbar'></div>\n";
-            echo "<div id='content-container'>\n";
+            echo "<div id='content-container' class='left-statsbar'>\n";
         } else {
             // If the stats bar is on the right then emit:
             // * A 74% width column for the main page content, and return.
-            echo "<div id='content-container'>\n";
+            echo "<div id='content-container' class='right-statsbar'>\n";
         }
     } else {
         // If we've displaying no stats bar then emit:
@@ -128,7 +128,8 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) 
     echo "$code_url/styles/" . $theme['template_unix_name'] . ".css'>\n";
 
     // Global layout CSS
-    echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/layout.css'>";
+    echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/layout.css'>\n";
+    echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/global.css'>\n";
 
     // Statsbar CSS
     if ($show_statsbar) {
@@ -207,7 +208,6 @@ function html_logobar() {
             _('%s titles preserved for the world!'),
             number_format($numproj));
         echo "</b></span>\n";
-        echo "<br>\n";
         show_completed_projects(TRUE);
     }
 
@@ -237,7 +237,7 @@ function html_navbar()
         echo headerbar_text_array($links);
         echo "</span>\n";
 
-        echo "<span id='navbar-login'>";
+        echo "<div id='navbar-login'>";
 
         $login_form = "<form style='margin: 0; display: inline;' action='$code_url/accounts/login.php' method='post'>\n";
 
@@ -271,7 +271,7 @@ function html_navbar()
         $links[] = array('text' => _('Register'), 'url' => "accounts/addproofer.php");
         $links[] = array('text' => _('Help'), 'url' => "faq/".lang_dir()."faq_central.php");
         echo headerbar_text_array($links);
-        echo "</span>\n";
+        echo "</div>\n";
     } else {
         //Code to display if the user is logged in
 
@@ -484,7 +484,9 @@ function html_statsbar($nameofpage) {
         // Only show completed projects list to signed in users, to
         // keep front page uncluttered for visitors.
         if (isset($pguser)) {
+            echo "<div id='completed-projects'>";
             show_completed_projects();
+            echo "</div>\n";
         }
     }
     else
@@ -541,7 +543,7 @@ function maybe_show_language_selector()
     // --></script>
     <?php
 
-    echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n";
+    echo "<form id='langform' action='$code_url/tools/setlangcookie.php' method=POST>\n";
     echo _("Set language") . ": ";
     echo "<select name=lang onChange='submitLang(this)'>\n";
     echo "<option value=''>" . _("Browser default") . "</option>";
@@ -905,9 +907,9 @@ function show_key_help_links()
 {
     global $theme, $code_url, $forums_url;
 
-    echo "<div id='key-help-documents'>'";
+    echo "<div id='key-help-documents'>";
     echo "<h3>"._("Key Help Documents").":</h3>";
-    echo "<ul>\n"
+    echo "<ul>\n";
 
     echo "<li>";
     echo "<a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a>";
@@ -945,7 +947,7 @@ function show_donation_stuff()
     $DPF_donor_url = "$pgdp_wiki_url/DPFoundation:Information_for_Donors";
 
     echo "<div class='center-align'>";
-    echo "<p class='small sans-serif no-margin'";
+    echo "<p class='small sans-serif no-margin'>";
     echo sprintf(
         _("Thank you for supporting <b>DP</b>! You can also support the site by making a donation to the non-profit <a href='%s'>Distributed Proofreaders Foundation</a>."),
         $DPF_home_url
@@ -973,7 +975,7 @@ function html_footer() {
 
     //Bottom Copyright Text
     echo "\n<div id='footer'>\n";
-    echo "<p>\n"
+    echo "<p>\n";
     echo "<small>\n";
 
     echo _("Copyright")." ". $site_name;
