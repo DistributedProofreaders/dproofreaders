@@ -135,19 +135,18 @@ else if ($func == "newtranslation2")
     mkdir("$dyn_locales_dir/$locale", 0755);
     mkdir("$dyn_locales_dir/$locale/LC_MESSAGES/", 0755);
 
-     exec("msginit --no-translator " .
-          "--input='$dyn_locales_dir/messages.pot' " .
-          "--output-file='$dyn_locales_dir/$locale/LC_MESSAGES/messages.po' " .
-          "--locale=$locale",
-          $exec_out, $ret_val);
-    if($ret_val == 0)
+    $po_filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
+    $po_file = new POFile($po_filename);
+    try
     {
+        $po_file->create_from_template("$dyn_locales_dir/messages.pot", $locale);
+
         metarefresh(0, "$translate_url?func=manage&amp;locale=$locale", "", "");
     }
-    else
+    catch(Exception $exception)
     {
         echo "<p>" . _("An error occurred during translation initialization.") ."</p>";
-        echo "<pre>$exec_out</pre>";
+        echo "<pre>" . $exception->getMessage() . "</pre>";
 
         echo "<p><a href='$translate_url'>"
             . _("Back to the Translation Center") . "</a></p>";
@@ -498,13 +497,18 @@ function do_upload($locale)
         return;
     }
 
-    // Compile the translation, and show warnings if it fails
-    exec("msgfmt messages.po -o messages.mo 2>&1", $exec_out, $ret_var);
-    if ($ret_var)
+    $po_file = new POFile("$dyn_locales_dir/$locale/LC_MESSAGES/messages.po");
+    try
+    {
+        $po_file->compile();
+
+        echo "<p>" . _("File successfully uploaded and compiled.") . "</p>";
+    }
+    catch(Exception $exception)
     {
         echo "<p>" . _("Uploaded file contains the following errors:") . "</p>\n";
         echo "<pre>";
-        foreach($exec_out as $v)
+        foreach(explode("\n", $exception->getMessage()) as $v)
             echo htmlspecialchars($v)."\n";
         echo "</pre><br>";
 
@@ -514,20 +518,11 @@ function do_upload($locale)
             @copy($save, "messages.po");
         }
     }
-    else
-    {
-        echo "<p>" . _("File successfully uploaded and compiled.") . "</p>";
-    }
 }
 
 function do_merge($locale, $fuzzy)
 {
     global $dyn_locales_dir;
-
-    if ($fuzzy == 'on')
-        $fuzzy_option = "";
-    else
-        $fuzzy_option = "-N";
 
     if(chdir("$dyn_locales_dir/$locale/LC_MESSAGES/") == FALSE)
         die ("Unable to change to messages directory.");
@@ -542,22 +537,24 @@ function do_merge($locale, $fuzzy)
         return;
     }
 
-    // Try to perform the merge, show warnings if it fails
-    exec("msgmerge $fuzzy_option -D . -D $dyn_locales_dir $save messages.pot -o temp.po 2>&1", $exec_out, $ret_var);
-    if ($ret_var)
+    $po_filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
+    $pot_filename = "$dyn_locales_dir/messages.pot";
+    $po_file = new POFile($po_filename);
+    try
+    {
+        $po_file->merge_from_template($pot_filename, $fuzzy == 'on');
+
+        echo "<p>" . _("File successfully updated. You may now download it.") . "</p>";
+    }
+    catch(Exception $exception)
     {
         echo "<p>" . _("<code>msgmerge</code> reports the following errors:") . "</p>\n";
         echo "<pre>";
-        foreach($exec_out as $v)
+        foreach(explode("\n", $exception->getMessage()) as $v)
             echo htmlspecialchars($v)."\n";
         echo "</pre><br>";
         return;
     }
-    
-    if (@rename("temp.po", "messages.po"))
-        echo "<p>" . _("File successfully updated. You may now download it.") . "</p>";
-    else
-        echo "<p>" . _("Could not rename the final file.") . "</p>";
 }
 
 function validate_locale($locale, $check_dir_exists = True)
