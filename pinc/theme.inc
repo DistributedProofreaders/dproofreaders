@@ -59,35 +59,31 @@ function output_header($nameofpage, $show_statsbar = True, $extra_args = array()
 
     // All our themes begin with the initial markup, logo and navbar, and open a
     // table for further layout.
-    html_header($nameofpage, $extra_args);
+    html_header($nameofpage, $extra_args, $show_statsbar);
     html_logobar();
-    echo "\n<table border='0' cellpadding='0' cellspacing='0' width='100%'>\n";
-    echo "<tr>\n";
+    echo "\n<div id='page-container'>\n";
+    echo "<div id='page-body-container'>\n";
 
     if ($show_statsbar) {
         if ($statsbar_align == 1) {
             // If we're displaying the stats bar on the left, then emit:
             // * A 25% width column with the stats bar in it
-            // * A 13px column with the rounded corner
-            // * A 75% width column for the main page content, and return.
-            echo "<td align='left' valign='top' width='25%' style='padding: .5em;' bgcolor='".$theme['color_navbar_bg']."'>\n";
+            // * A 1% column with the rounded corner
+            // * A 74% width column for the main page content, and return.
+            echo "<div id='statsbar'>\n";
             html_statsbar($nameofpage);
-            echo "</td>\n";
-            echo "<td align='right' valign='top' bgcolor='".$theme['color_mainbody_bg']."'><img border='0' src='$code_url/pinc/templates/".$theme_name."".$theme['image_curve_left']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
-            echo "<td align='left' valign='top' width='75%' style='padding: .5em;' bgcolor='".$theme['color_mainbody_bg']."'>\n";
+            echo "</div>\n";
+            echo "<div id='rounded-corner' class='left-statsbar'></div>\n";
+            echo "<div id='content-container'>\n";
         } else {
             // If the stats bar is on the right then emit:
-            // * A 5px column with the background colour
-            // * A 75% width column for the main page content, and return.
-            echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
-            echo "<td align='left' valign='top' width='75%' style='padding: .5em;' bgcolor='".$theme['color_mainbody_bg']."'>\n";
+            // * A 74% width column for the main page content, and return.
+            echo "<div id='content-container'>\n";
         }
     } else {
         // If we've displaying no stats bar then emit:
-        // * A 5px column with the background colour
         // * A 100% width column for the main page content, and return.
-        echo "<td align='left' valign='top' width='5' bgcolor='".$theme['color_mainbody_bg']."'>&nbsp;</td>\n";
-        echo "<td align='left' valign='top' width='100%' bgcolor='".$theme['color_mainbody_bg']."'>\n";
+        echo "<div id='content-container'>\n";
     }
 
     // Call output_footer when the main page content has been emitted so we can
@@ -102,22 +98,22 @@ function output_footer($nameofpage, $show_statsbar = True) {
     $statsbar_align = isset($pguser) ? $userP['u_align'] : 0;
 
     // The main page content has been emited so close the main page content column.
-    echo "</td>\n";
+    echo "</div>\n";
     if ($show_statsbar && $statsbar_align == 0) {
         // If we're displaying the the stats bar on the right, then emit:
         // * A 13px column with the rounded corner
         // * A 25% width column with the stats bar in it
-        echo "<td align='right' valign='top' bgcolor='" . $theme['color_mainbody_bg'] . "'><img border='0' src='$code_url/pinc/templates/".$theme_name."".$theme['image_curve_right']."' width='13' height='12' alt='Provides a round curve for a navigation bar'></td>\n";
-        echo "<td align='left' valign='top' width='25%' style='padding: .5em;' bgcolor='" . $theme['color_navbar_bg'] . "'>\n";
+        echo "<div id='rounded-corner' class='right-statsbar'></div>\n";
+        echo "<div id='statsbar'>\n";
         html_statsbar($nameofpage);
-        echo "</td>\n";
+        echo "</div>\n";
     }
     // Finally close the table, and emit the footer.
-    echo "</tr></table>\n";
+    echo "</div></div>\n";
     html_footer();
 }
 
-function html_header($nameofpage, $extra_args = array()) {
+function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) {
     global $code_url, $theme, $site_abbreviation;
     global $charset, $intlang;
     echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
@@ -133,6 +129,12 @@ function html_header($nameofpage, $extra_args = array()) {
 
     // Global layout CSS
     echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/layout.css'>";
+
+    // Statsbar CSS
+    if ($show_statsbar) {
+        echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/statsbar.css'>";
+    }
+
 
     // Per-page CSS
     // this first navbar blob needs to be moved to a universal stylesheet but
@@ -161,13 +163,12 @@ function html_header($nameofpage, $extra_args = array()) {
 function html_logobar() {
     global $code_url, $theme, $theme_name, $site_name;
     global $maintenance;
-    echo "\n<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
-    echo "<tr>\n";
-    echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>\n";
-    echo "<a href='$code_url'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='$site_name' border='0'></a>\n";
-    echo "</td>\n";
+    echo "\n<div id='header'>\n";
+    echo "<div id='logo'>\n";
+    echo "<a href='$code_url'></a>\n";
+    echo "</div>\n";
 
-    echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] .  "' align='center' valign='middle'>\n";
+    echo "<div id='titles-preserved'><p>\n";
 
     if ($maintenance) {
         echo _("MAINTENANCE MODE");
@@ -184,12 +185,11 @@ function html_logobar() {
             WHERE $psd->state_selector
         ");
         $numproj = mysql_result($result,0);
-        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='4'><b>";
+        echo "<span class='sans-serif'><b>";
         echo sprintf(
             _('%s projects completed!'),
             number_format($numproj));
-        echo "</b></font>\n";
-        echo "<br>";
+        echo "</b></span>\n";
     }
 
     if (1) {
@@ -202,17 +202,17 @@ function html_logobar() {
             WHERE $psd->state_selector
         ");
         $numproj = mysql_result($result,0);
-        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>";
+        echo "<span class='sans-serif'><b>";
         echo sprintf(
             _('%s titles preserved for the world!'),
             number_format($numproj));
-        echo "</b></font>\n";
+        echo "</b></span>\n";
+        echo "<br>\n";
         show_completed_projects(TRUE);
     }
 
-    echo "</td>\n";
-    echo "</tr>\n";
-    echo "</table>\n";
+    echo "</p></div>\n";
+    echo "</div>\n";
 
     html_navbar();
 }
@@ -223,8 +223,8 @@ function html_navbar()
 {
     global $theme, $code_url, $site_abbreviation, $pguser, $forums_url, $blog_url, $wiki_url;
 
-    echo "<table class='navbar' width='100%'>";
-    echo "<tr>";
+    echo "<div id='navbar-outer'>";
+    echo "<div id='navbar'>";
 
     //Code to display login form if not logged in
     if (!isset($pguser)) {
@@ -233,11 +233,11 @@ function html_navbar()
         if ( !empty($blog_url) )
             $links[] = array('text' => _("Blog"), 'url' => $blog_url);
         $links[] = array('text' => _("Forums"), 'url' => $forums_url);
-        echo "<td>";
+        echo "<span id='navbar-left'>";
         echo headerbar_text_array($links);
-        echo "</td>\n";
+        echo "</span>\n";
 
-        echo "<td align='right'>";
+        echo "<span id='navbar-login'>";
 
         $login_form = "<form style='margin: 0; display: inline;' action='$code_url/accounts/login.php' method='post'>\n";
 
@@ -271,16 +271,15 @@ function html_navbar()
         $links[] = array('text' => _('Register'), 'url' => "accounts/addproofer.php");
         $links[] = array('text' => _('Help'), 'url' => "faq/".lang_dir()."faq_central.php");
         echo headerbar_text_array($links);
-        echo "</td>\n";
+        echo "</span>\n";
     } else {
         //Code to display if the user is logged in
 
         // Fetch some values from the database for use in links later
         $numofPMs = get_number_of_unread_messages($pguser);
 
-        echo "<td>";
         // left side
-        echo "<span style='float: left; padding: 2px;'>";
+        echo "<span id='navbar-left'>";
         echo headerbar_text_array(array(array('text' => $site_abbreviation, 'url' => "default.php")));
 
         echo " | ";
@@ -309,7 +308,7 @@ function html_navbar()
         // white-space: nowrap is required to have the right side shift
         // under the left side if the window isn't large enough to have both
         // on the same line.
-        echo "<span style='text-align: right; float: right; padding: 2px; white-space: nowrap;'>";
+        echo "<span id='navbar-right'>";
         $links = array();
         $inbox_text = _("Inbox");
         if($numofPMs > 0) $inbox_text .= " " . sprintf(_("(%s unread)"),$numofPMs);
@@ -338,11 +337,10 @@ function html_navbar()
 
         echo headerbar_text_array($links);
         echo "</span>";
-        echo "</td>\n";
     }
 
-    echo "</tr>\n";
-    echo "</table>\n";
+    echo "</div>\n";
+    echo "</div>\n";
 }
 
 function headerbar_text_array($entries)
@@ -436,7 +434,7 @@ function html_statsbar($nameofpage) {
     global $page_tally_names;
     $valid_tally_names = array_keys($page_tally_names);
     $tally_name = get_enumerated_param($_REQUEST, 'tally_name', null, $valid_tally_names, true);
-    
+
     // If tally_name is unspecfied, try to see if round_id is set.
     if (!isset($tally_name)) {
         $rounds = array_keys($Round_for_round_id_);
@@ -456,25 +454,31 @@ function html_statsbar($nameofpage) {
         if (strpos($_SERVER['PHP_SELF'],'default.php') !== false) {
             // Show project listings to anyone, signed in or not, front page only
             // Show the 7 most recently completed, tersely
-            echo "<center><b><u>" . _("Recently Completed Titles") . ":</u></b></center>\n";
+            echo "<div id='completed-titles'>\n";
+            echo "<h3>" . _("Recently Completed Titles") . ":</h3>\n";
             $state = SQL_CONDITION_GOLD;
             list_projects_tersely( $state, "ORDER BY modifieddate DESC", "LIMIT 7" );
 
             // Show "More..." link
-            echo "<p style='text-align: center;'>";
+            echo "<p class='more-link'>";
             echo "<a href='list_etexts.php?x=g&amp;sort=5'>";
             echo _("More Completed Titles...") . "</a></p>";
 
+            echo "</div>";
+
             // Show 3 (random) of the 10 most recently arrived (most recent P1)
-            echo "<center><b><u>" . _("Recently Begun") . ":</u></b></center>\n";
+            echo "<div id='recent-titles'>";
+            echo "<h3>" . _("Recently Begun") . ":</h3>\n";
             $state = SQL_CONDITION_BRONZE;
             $limit_phrase = "LIMIT 3 OFFSET " . rand(0, 7);
             list_projects_tersely( $state, "ORDER BY modifieddate DESC", $limit_phrase );
 
             // Show "More..." link
-            echo "<p style='text-align: center;'>";
+            echo "<p class='more-link'>";
             echo "<a href='list_etexts.php?x=b&amp;sort=5'>";
             echo _("More Recently Begun Titles...") . "</a></p>";
+
+            echo "</div>";
         }
 
         // Only show completed projects list to signed in users, to
@@ -488,23 +492,20 @@ function html_statsbar($nameofpage) {
         show_tally_specific_stats( $tally_name );
     }
 
-    echo "<br>";
-    echo "<center>";
-    echo "<font size='2'>";
+    echo "<p id='stats-central-link'>";
     echo "<a href='$code_url/stats/stats_central.php'>";
     echo _("More Statistics...");
     echo "</a>";
-    echo "</font>";
-    echo "</center>\n";
+    echo "</p>";
 
     if (isset($pguser))
     {
         // requestor is a logged-in user.
 
-        echo "<br><hr width='75%' align='center'><br>\n";
+        echo "<hr style='width: 75%;' class='center-align'>\n";
         show_user_teams();
 
-        echo "<br><hr width='75%' align='center'><br>\n";
+        echo "<br><hr style='width: 75%;' class='center-align'>\n";
         show_key_help_links();
     }
 
@@ -512,9 +513,9 @@ function html_statsbar($nameofpage) {
     //Display the "About DP" section if user is not logged in
     if (!isset($pguser))
     {
-        echo "<hr><p><font size='2'>";
+        echo "<hr><p id='about-dp'>";
         echo sprintf(_("Distributed Proofreaders was founded in 2000 by Charles Franks to support the digitization of Public Domain books. Originally conceived to assist <a href='%s'>Project Gutenberg</a> (PG), Distributed Proofreaders (DP) is now the main source of PG e-books. In 2002, Distributed Proofreaders became an official PG site. In May 2006, Distributed Proofreaders became a separate legal entity and continues to maintain a strong relationship with PG."), $PG_home_url);
-        echo "</font></p>";
+        echo "</p>";
     }
 }
 
@@ -648,7 +649,7 @@ function show_tally_specific_stats( $tally_name )
             number_format($num_positive_users), $tally_name ),
         "<br>\n";
 
-    echo "</font><br><hr width='75%' align='center'><br>\n";
+    echo "</font><br><hr style='width: 75%;' class='center-align'><br>\n";
     // ---------------------------------------------------------------------
 
     if (isset($pguser))
@@ -711,7 +712,7 @@ function show_tally_specific_stats( $tally_name )
         // -------------------------------------------------------------
         //Show the Neighbor table if the user has requested so
         if ($userP['u_neigh']) {
-            echo "<br><hr width='75%' align='center'><br>\n";
+            echo "<br><hr style='width: 75%;' class='center-align'><br>\n";
             echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>";
             echo _("Your Neighborhood") . ": ";
             echo "</b></font></center>\n";
@@ -836,7 +837,7 @@ function show_birthdays()
         echo "<font size='2'>$username ($years)</font><br />";
     }
 
-    echo "</div><br><hr width='75%' align='center'>\n";
+    echo "</div><br><hr style='width: 75%;' class='center-align'>\n";
 }
 
 
@@ -850,8 +851,8 @@ function show_completed_projects($terse = FALSE)
         echo "\n<br>\n";
         $num_months = 1;
     } else {
-        echo "<center><b>" . _("Completed Projects") . ":</b></center>\n";
-        echo "<table border=0 cellspacing=0 cellpadding=0 width='100%'>\n";
+        echo "<h3>" . _("Completed Projects") . ":</h3>\n";
+        echo "<table>\n";
         $num_months = 12;
     }
     $thismonth = date("n");
@@ -880,15 +881,11 @@ function show_completed_projects($terse = FALSE)
             echo sprintf(_('%1$d in %2$s'),$totalprojects,$displaydate) . "&nbsp;&mdash;&nbsp;";
         } else {
             echo "<tr>";
-            echo   "<td width='60%' align='right'>";
-            echo     "<font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>";
-            echo       "&nbsp;$displaydate&nbsp;&mdash;";
-            echo     "</font>";
+            echo   "<td class='month'>";
+            echo     "&nbsp;$displaydate&nbsp;&mdash;";
             echo   "</td>";
-            echo   "<td width='40%' align='left'>";
-            echo     "<font face='".$theme['font_navbar']."' color='".$theme['color_navbar_font']."' size='2'>";
-            echo       "&nbsp;$totalprojects&nbsp;";
-            echo     "</font>";
+            echo   "<td class='count'>";
+            echo     "&nbsp;$totalprojects&nbsp;";
             echo   "</td>";
             echo "</tr>";
             echo "\n";
@@ -896,7 +893,7 @@ function show_completed_projects($terse = FALSE)
     }
     if ($terse)
     {
-        echo "<a href='$code_url/list_etexts.php?x=g&amp;sort=5'>" . _("More...") . "</a>\n";
+        echo "<p class='more-link'><a href='$code_url/list_etexts.php?x=g&amp;sort=5'>" . _("More...") . "</a></p>\n";
     } else {
         echo "</table>\n";
     }
@@ -908,38 +905,33 @@ function show_key_help_links()
 {
     global $theme, $code_url, $forums_url;
 
-    echo "<center>";
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-    echo "<b>"._("Key Help Documents").":</b>";
-    echo "</font>";
-    echo "</center>\n";
+    echo "<div id='key-help-documents'>'";
+    echo "<h3>"._("Key Help Documents").":</h3>";
+    echo "<ul>\n"
 
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+    echo "<li>";
     echo "<a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a>";
-    echo "</font>";
-    echo "<br>\n";
+    echo "</li>\n";
 
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+    echo "<li>";
     echo "<a href='$code_url/faq/".lang_dir()."proofreading_guidelines.php'>"._("Proofreading Guidelines")."</a>";
     echo " (<a href='$code_url/faq/".lang_dir()."proofing_summary.pdf'>"._("PDF Summary")."</a>)";
-    echo "</font>";
-    echo "<br>\n";
+    echo "</li>\n";
 
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+    echo "<li>";
     echo "<a href='$code_url/faq/".lang_dir()."document.php'>"._("Formatting Guidelines")."</a>";
     echo " (<a href='$code_url/faq/".lang_dir()."formatting_summary.pdf'>"._("PDF Summary")."</a>)";
-    echo "</font>";
-    echo "<br>\n";
+    echo "</li>\n";
 
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+    echo "<li>";
     echo "<a href='$forums_url/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a>";
-    echo "</font>";
-    echo "<br>\n";
+    echo "</li>\n";
 
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+    echo "<li>";
     echo "<a href='$code_url/tasks.php'>"._("Support Request")."</a>";
-    echo "</font>";
-    echo "<br>\n";
+    echo "</li>\n";
+
+    echo "</ul>\n</div>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -952,13 +944,13 @@ function show_donation_stuff()
     $DPF_home_url  = "$pgdp_wiki_url/Distributed_Proofreaders_Foundation";
     $DPF_donor_url = "$pgdp_wiki_url/DPFoundation:Information_for_Donors";
 
-    echo "<center>";
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+    echo "<div class='center-align'>";
+    echo "<p class='small sans-serif no-margin'";
     echo sprintf(
         _("Thank you for supporting <b>DP</b>! You can also support the site by making a donation to the non-profit <a href='%s'>Distributed Proofreaders Foundation</a>."),
         $DPF_home_url
     );
-    echo "</font>\n";
+    echo "</p>\n";
     echo "<br>\n";
 
     echo "<a href='$DPF_donor_url'>";
@@ -967,7 +959,7 @@ function show_donation_stuff()
     echo "</button>";
     echo "</a>";
 
-    echo "</center>\n";
+    echo "</div>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
