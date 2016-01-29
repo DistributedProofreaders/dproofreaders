@@ -8,6 +8,28 @@
 //
 // Currently only phpBB versions 2 and 3 are supported.
 
+/*
+Important notes about using phpBB code within DP
+------------------------------------------------
+The forum interface code goes through great lengths to keep the DP code
+and the phpBB code separate, that is to not include phpBB code directly
+in the DP code.
+
+For example, to create a topic, we invoke call_phpbb_function(), which
+spawns a separate PHP-CLI process to run either phpbb2.inc or phpbb3.inc,
+which executes phpBB code to create the topic. The reason for all of this
+effort is to reduce namespace and variable collisions between DP and phpBB.
+
+However, when we run phpBB code in separate process, it does not have access
+to the server (e.g., $_SESSION and $_COOKIE and setcookie). Therefore, there
+are two places where we can't use the PHP-CLI approach: login and logout.
+Both of these activities interact with browser cookies and in the case of
+login, uses the requester's IP address. In these two instances we are forced
+to pull in phpBB code directly into the running DP process. Callers of
+login_forum_user() and logout_forum_user() should make every effort to reduce
+the amount of DP code included in those pages.
+*/
+
 assert("PHPBB_VERSION == 2 || PHPBB_VERSION == 3 /* Only phpBB versions 2 and 3 are supported */");
 
 function phpbb_lang($langcode=FALSE)
