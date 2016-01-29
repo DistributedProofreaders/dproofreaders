@@ -893,7 +893,7 @@ function show_completed_projects($terse = FALSE)
     }
     if ($terse)
     {
-        echo "<p class='more-link'><a href='$code_url/list_etexts.php?x=g&amp;sort=5'>" . _("More...") . "</a></p>\n";
+        echo "<a href='$code_url/list_etexts.php?x=g&amp;sort=5'>" . _("More...") . "</a>\n";
     } else {
         echo "</table>\n";
     }
