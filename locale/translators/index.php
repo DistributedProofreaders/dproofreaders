@@ -5,6 +5,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'POFile.inc');
 
 require_login();
 undo_all_magic_quotes();
@@ -44,12 +45,13 @@ if ($func == "download" || $func == "view")
         $filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
     }
 
-    if (file_exists($filename))
+    $po_file = new POFile($filename);
+    if ($po_file->exists)
     {
         // Set the header content-type based on the values specified in the
         // file if set. If it isn't set, we don't know what the encoding
         // is with any sort of confidence.
-        $po_content_type = get_po_content_type($filename);
+        $po_content_type = $po_file->content_type;
         if($po_content_type && strpos($po_content_type, "=CHARSET") === FALSE)
             header($po_content_type);
 
@@ -284,15 +286,16 @@ function main_form()
             echo "<td>" . _("Enabled") . "</td>";
         else
             echo "<td>" . _("Disabled") . "</td>";
-        if (file_exists($po_filename))
+        $po_file = new POFile($po_filename);
+        if ($po_file->exists)
         {
             echo "<td>";
-            echo date ("F d Y H:i:s", filemtime($po_filename));
+            echo date ("F d Y H:i:s", $po_file->last_modified);
             echo "</td>";
             echo "<td style='text-align: right'>";
             // TRANSLATORS: This shows the number of strings translated with a percentage
-            list($total_strings, $translated_strings) = \
-                count_translated_strings($po_filename);
+            $total_strings = $po_file->messages_count;
+            $translated_strings = $po_file->messages_translated_count;
             if($total_strings)
                 $percent_translated = $translated_strings/$total_strings*100;
             else
@@ -310,7 +313,7 @@ function main_form()
         $actions = array();
         if ($may_manage)
             $actions[] = "<a href='$translate_url?func=manage&amp;locale=$locale'>" . _("Manage") . "</a>";
-        if (file_exists($po_filename))
+        if ($po_file->exists)
         {
             $actions[] = "<a href='$translate_url?func=view&amp;locale=$locale'>" . _("View") . "</a>";
             $actions[] = "<a href='$translate_url?func=download&amp;locale=$locale'>" . _("Download") . "</a>";
@@ -326,7 +329,8 @@ function main_form()
 
 
     echo "<h2>" . _("PO Template") . "</h2>";
-    if (file_exists($pot_filename))
+    $pot_file = new POFile($pot_filename);
+    if ($pot_file->exists)
     {
         echo "<p>" . _("POT template file") . ": ";
         echo "<a href='$translate_url?func=view&amp;locale=template'>" . _("View")
@@ -334,9 +338,9 @@ function main_form()
            . _("Download") . "</a> ";
         echo " (" . _("Last modified") . ": "
                 // TRANSLATORS: This is a date-formatted string
-                . date ("F d Y H:i:s", filemtime($pot_filename)) . ")";
-        list($total_strings, $translated_strings) = \
-            count_translated_strings($pot_filename);
+                . date ("F d Y H:i:s", $pot_file->last_modified) . ")";
+        $total_strings = $pot_file->messages_count;
+        $translated_strings = $pot_file->messages_translated_count;
         echo "  - " . sprintf(_("%d strings total"), $total_strings);
         echo "</p>";
     }
@@ -379,17 +383,18 @@ function manage_form($locale)
     echo "</p>\n";
 
     $po_filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
-    if (file_exists($po_filename))
+    $po_file = new POFile($po_filename);
+    if ($po_file->exists)
     {
-        list($total_strings, $translated_strings) = \
-            count_translated_strings($po_filename);
+        $total_strings = $po_file->messages_count;
+        $translated_strings = $po_file->messages_translated_count;
 
         echo "<p><b>" . _("PO file") . ":</b> ";
         echo "<a href='$translate_url?func=view&amp;locale=$locale'>"
             . _("View") . "</a> | <a href='$translate_url?func=download&amp;locale=$locale'>"
             . _("Download") . "</a> (" . _("Last modified") . ": "
             // TRANSLATORS: this is a date-formatted string
-            . date ("F d Y H:i:s", filemtime($po_filename)) . ")";
+            . date ("F d Y H:i:s", $po_file->last_modified) . ")";
 
         echo " - ";
         echo sprintf(_('%1$s of %2$s translated (%3$d%%)'),
@@ -398,7 +403,8 @@ function manage_form($locale)
         echo "</p>";
 
         $pot_filename = "$dyn_locales_dir/messages.pot";
-        if (file_exists($pot_filename) && filemtime($pot_filename) > filemtime($po_filename))
+        $pot_file = new POFile($pot_filename);
+        if($pot_file->exists && $pot_file->last_modified > $po_file->last_modified)
         {
             echo "<p>" . _("The current template is more recent than the PO file. You should merge the PO file with the current template.") . "</p>";
         }
@@ -566,89 +572,6 @@ function validate_locale($locale, $check_dir_exists = True)
         die (sprintf(_("locale %s is not valid"), $locale));
     }
     return $locale;
-}
-
-function count_translated_strings($po_filename)
-// Given a PO file, count the total number of strings and the number of
-// translated strings.
-// Returns: array($count, $translated);
-{
-    $fh = fopen($po_filename, "rt");
-    if(!$fh)
-        return array(0, 0);
-
-    $block = "";
-    $count = 0;
-    $translated = 0;
-    while (($line = fgets($fh, 4096)) !== false) {
-        // skip all comment lines
-        if(strpos($line, '#') === 0)
-            continue;
-
-        $line = trim($line);
-        if($line)
-        {
-            $block .= "$line\n";
-        }
-        elseif($block)
-        {
-            $count++;
-            if(is_block_translated($block))
-                $translated++;
-            $block = "";
-        }
-    }
-    if($block)
-    {
-        $count++;
-        if(is_block_translated($block))
-            $translated++;
-    }
-    fclose($fh);
-
-    // The first record is always metadata and flags as translated
-    // so our count starts at -1 if there was anything in the file.
-    if($count > 0)
-    {
-        $count = $count - 1;
-        $translated = $translated - 1;
-    }
-
-    return array($count, $translated);
-}
-
-function is_block_translated($block)
-// Given a msgid/msgstr block from a PO file, determine if the block
-// is translated. This is slightly complicated because of multiline
-// strings, hence the gymnastics.
-{
-    list($msgid, $msgstr) = @explode("msgstr", $block);
-    $msgstr = "msgstr$msgstr";
-    if(strpos($msgstr, 'msgstr ""') === 0 &&
-        substr_count($msgstr, "\n") == 1)
-        return false;
-
-    return true;
-}
-
-function get_po_content_type($po_filename)
-// Get the full Content-Type from the comment block at the beginning of a PO
-// file (without any trailing newline) or NULL on error.
-{
-    $fh = fopen($po_filename, "rt");
-    if(!$fh)
-        return NULL;
-
-    $content_type = NULL;
-    while (($line = fgets($fh, 4096)) !== false) {
-        if(stripos($line, "Content-type")) {
-            $content_type = str_replace(array('\n', '\r', '"'), "", $line);
-            break;
-        }
-    }
-    fclose($fh);
-
-    return $content_type;
 }
 
 // vim: sw=4 ts=4 expandtab
