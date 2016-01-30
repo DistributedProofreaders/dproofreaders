@@ -25,19 +25,19 @@ function showstartexts($etext_limit,$type) {
     $total = mysql_num_rows(mysql_query("SELECT projectid FROM projects WHERE $state"));
 
     // Display star graphic
-    echo "<img src='$code_url/graphics/{$type}_star.jpg' border='0' height='38' width='40' alt='$type star'>\n";
+    echo "<img src='$code_url/graphics/{$type}_star.jpg' height='38' width='40' alt='$type star'>\n";
 
     // Display count and category as a link
-    echo "<font size='4'>";
+    echo "<span class='progress-count'>";
     echo "<a href='list_etexts.php?x=".substr($type,0,1)."&amp;sort=5'>";
-    echo sprintf($category, number_format($total)) . "</a>.</font><br>\n";
+    echo sprintf($category, number_format($total)) . "</a>.</span><br>\n";
 
     // Display feed buttons
     echo "
         <a href='$code_url/feeds/backend.php?content=$content'>
-        <img src='$code_url/graphics/xml.gif' border='0' width='36' height='14' alt='[XML]'></a>
+        <img src='$code_url/graphics/xml.gif' width='36' height='14' alt='[XML]'></a>
         <a href='$code_url/feeds/backend.php?content=$content&amp;type=rss'>
-        <img src='$code_url/graphics/rss.gif' border='0' width='36' height='14' alt='[RSS]'></a>
+        <img src='$code_url/graphics/rss.gif' width='36' height='14' alt='[RSS]'></a>
 	\n";
 
     // Display description text

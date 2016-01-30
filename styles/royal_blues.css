@@ -124,7 +124,8 @@ h2 {
 #completed-projects table {
   font-family: Verdana, Arial, sans-serif;
 }
-#teams-nav h3 {
+#teams-nav h3,
+#teams-nav li {
   font-family: Verdana, Arial, sans-serif;
 }
 #key-help-documents {

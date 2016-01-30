@@ -223,7 +223,7 @@ function html_navbar()
 {
     global $theme, $code_url, $site_abbreviation, $pguser, $forums_url, $blog_url, $wiki_url;
 
-    echo "<div id='navbar-outer'>";
+    echo "<div id='navbar-outer' style='display: table;'>";
     echo "<div id='navbar'>";
 
     //Code to display login form if not logged in
@@ -233,11 +233,11 @@ function html_navbar()
         if ( !empty($blog_url) )
             $links[] = array('text' => _("Blog"), 'url' => $blog_url);
         $links[] = array('text' => _("Forums"), 'url' => $forums_url);
-        echo "<span id='navbar-left'>";
+        echo "<span id='navbar-left' style='display: table-cell;'>";
         echo headerbar_text_array($links);
         echo "</span>\n";
 
-        echo "<div id='navbar-login'>";
+        echo "<div id='navbar-login' style='display: table-cell;'>";
 
         $login_form = "<form style='margin: 0; display: inline;' action='$code_url/accounts/login.php' method='post'><div style='display: inline;'>\n";
 
@@ -279,7 +279,7 @@ function html_navbar()
         $numofPMs = get_number_of_unread_messages($pguser);
 
         // left side
-        echo "<span id='navbar-left'>";
+        echo "<span id='navbar-left' style='display: table-cell;'>";
         echo headerbar_text_array(array(array('text' => $site_abbreviation, 'url' => "default.php")));
 
         echo " | ";
@@ -308,7 +308,7 @@ function html_navbar()
         // white-space: nowrap is required to have the right side shift
         // under the left side if the window isn't large enough to have both
         // on the same line.
-        echo "<span id='navbar-right'>";
+        echo "<span id='navbar-right' style='display: table-cell;'>";
         $links = array();
         $inbox_text = _("Inbox");
         if($numofPMs > 0) $inbox_text .= " " . sprintf(_("(%s unread)"),$numofPMs);
@@ -377,14 +377,17 @@ function headerbar_text_array($entries)
             // set the title if specified
             $title_attr= '';
             if(!empty($title))
-                $title_attr= "title='" . attr_safe($title) . "'";
+                $title_attr= " title='" . attr_safe($title) . "'";
 
             // if we're on the current page, create a span
             if(is_url_for_current_page($url))
-                $entry_string = "<span class='currentpage' $title_attr>$text</span>";
+                $entry_string = "<span class='currentpage'$title_attr>$text</span>";
             // if we're not, create a link 
             else
-                $entry_string = "<a href='$url' $title_attr>$text</a>";
+            {
+                $url = htmlspecialchars($url);
+                $entry_string = "<a href='$url'$title_attr>$text</a>";
+            }
         }
         elseif(!empty($title))
         {
@@ -484,7 +487,7 @@ function html_statsbar($nameofpage) {
         // Only show completed projects list to signed in users, to
         // keep front page uncluttered for visitors.
         if (isset($pguser)) {
-            echo "<div id='completed-projects'>";
+            echo "<div id='completed-projects'>\n";
             show_completed_projects();
             echo "</div>\n";
         }
@@ -760,12 +763,9 @@ function show_user_teams()
 {
     global $theme, $code_url, $userP;
 
-    echo "<center>";
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-    echo "<b>" .  _("Your Teams") . ":</b>";
-    echo "</font>";
-    echo "</center>";
-    echo "\n";
+    echo "<div id='teams-nav'>\n";
+    echo "<h3>" .  _("Your Teams") . ":</h3>\n";
+    echo "<ul>\n";
     $teamRes=mysql_query("
         SELECT teamname, id
         FROM user_teams
@@ -773,18 +773,17 @@ function show_user_teams()
     ");
     while($row = mysql_fetch_assoc($teamRes))
     {
-        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+        echo "<li>";
         echo "&nbsp;";
         echo "<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a>";
-        echo "</font>";
-        echo "<br>";
+        echo "</li>";
         echo "\n";
     }
-        echo "<center>";
-    echo "<font size='2'>";
+    echo "</ul>\n";
+    echo "<p class='more-link'>";
     echo "<a href='$code_url/stats/teams/tlist.php'>"._("View all teams...")."</a>";
-    echo "</font>";
-    echo "</center>";
+    echo "</p>\n";
+    echo "</div>\n";
     echo "\n";
 }
 

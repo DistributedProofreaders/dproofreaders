@@ -16,13 +16,13 @@ function list_projects_tersely( $where_condition, $order_clause, $limit_clause )
         $limit_clause
     ");
 
-    echo "<br>\n";
+    echo "<ul>\n";
 
     while (list($title,$author,$language,$postednum) = mysql_fetch_row($result))
     {
-        echo "<font face='Verdana' size='1'>";
+        echo "<li><span class='title-listing'>";
 
-        echo "<font color='#444444'><b>", '"', $title, '"', "</b></font>";
+        echo "<span class='book-title'>", '"', $title, '"', "</span>";
         echo "&mdash;$author ($language)";
         if ( !is_null($postednum) )
         {
@@ -30,10 +30,12 @@ function list_projects_tersely( $where_condition, $order_clause, $limit_clause )
         }
         echo "<br>\n";
 
-        echo "</font>";
-        echo "<br>";
+        echo "</span>";
+        echo "</li>";
         echo "\n";
     }
+
+    echo "</ul>\n";
 }
 
 function list_projects( $where_condition, $order_clause, $url_base, $per_page = 20, $offset = 0)

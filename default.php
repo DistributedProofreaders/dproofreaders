@@ -132,20 +132,20 @@ echo "\n"
     . "\n"
     . "\n";
 
-echo "<table><tr><td valign='top'>";
+echo "<table><tr><td class='top-align'>";
 
 //Gold E-texts
-showstartexts($etext_limit,'gold'); echo "</td><td valign='top'>";
+showstartexts($etext_limit,'gold'); echo "</td><td class='top-align'>";
 
 //Silver E-texts
-showstartexts($etext_limit,'silver'); echo "</td><td valign='top'>";
+showstartexts($etext_limit,'silver'); echo "</td><td class='top-align'>";
 
 //Bronze E-texts
 showstartexts($etext_limit,'bronze'); echo "</td></tr></table>";
 
-echo "<hr><center>\n";
+echo "<hr><p class='center-align'>\n";
 echo _("Our community of proofreaders, project managers, developers, etc. is composed entirely of volunteers.");
-echo "</center>\n";
+echo "<br>\n";
 
 // Show the number of users that have been active over various recent timescales.
 foreach ( array(1,7,30) as $days_back )
@@ -163,14 +163,15 @@ foreach ( array(1,7,30) as $days_back )
         : _('%s active users in the past %d days.')
     );
     $msg = sprintf( $template, number_format($num_users), $days_back );
-    echo "<center><i><b>$msg</b></i></center>\n";
+    echo "<span class='active-user-count'>$msg</span><br>\n";
 }
 
-echo "<hr><center>\n";
+echo "</p>\n";
+echo "<hr><p class='center-align'>\n";
 echo sprintf(
     _("Questions or comments? Please contact us at <a href='%s'>%s</a>."),
     "mailto:$general_help_email_addr",
     $general_help_email_addr);
-echo "</center>&nbsp;<br>\n";
+echo "</p>\n";
 
 // vim: sw=4 ts=4 expandtab
