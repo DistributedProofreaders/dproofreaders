@@ -343,13 +343,8 @@ class Project
         if ( !empty($this->topic_id) ) return $this->topic_id;
 
         // Find out PM's preference about being signed up for notifications of replies to this topic.
-        $res = mysql_query("
-            SELECT value
-            FROM usersettings
-            WHERE username = '{$this->username}' AND setting = 'auto_proj_thread'
-        ") or die(mysql_error());
-        $signup_pref = @mysql_result($res,0); // @ because the result set may be empty
-        $sign_PM_up = ($signup_pref == 'yes');
+        $userSettings =& Settings::get_Settings($this->username);
+        $sign_PM_up = $userSettings->get_boolean("auto_proj_thread");
 
         // determine appropriate forum to create thread in
         $forum_id = get_forum_id_for_project_state($this->state);

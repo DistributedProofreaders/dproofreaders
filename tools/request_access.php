@@ -5,6 +5,7 @@ include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'access_log.inc');
+include_once($relPath.'SettingsClass.inc');
 
 require_login();
 
@@ -60,7 +61,9 @@ else
         case 'sat-available':
             if ( $stage->after_satisfying_minima == 'REQ-AUTO' )
             {
-                delete_and_insert( $pguser, "$stage_id.access", 'yes' );
+                $userSettings =& Settings::get_Settings($pguser);
+                $userSettings->set_true("$stage_id.access");
+
                 log_access_change( $pguser, 'AUTO-GRANTED', $stage_id, 'grant' );
                 echo _('Access has been granted!');
             }
@@ -74,7 +77,8 @@ else
 
                 maybe_mail( $email_addr, $title, $body );
 
-                delete_and_insert( $pguser, "$stage_id.access", 'requested' );
+                $userSettings =& Settings::get_Settings($pguser);
+                $userSettings->set_value("$stage_id.access", "requested");
 
                 log_access_change( $pguser, 'n/a', $stage_id, 'request' );
 
@@ -101,21 +105,4 @@ echo "</p>\n";
 
 slim_footer();
 
-// -----------------------------------------------------------------------------
-
-function delete_and_insert( $username, $setting, $value )
-{
-    mysql_query("
-        DELETE FROM usersettings
-        WHERE username='$username' AND setting='$setting'
-    ") or die(mysql_error());
-
-    mysql_query("
-        INSERT INTO usersettings
-        SET
-            username='$username',
-            setting='$setting',
-            value='$value'
-    ") or die(mysql_error());
-}
 // vim: sw=4 ts=4 expandtab

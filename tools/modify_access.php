@@ -6,6 +6,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'access_log.inc');
 include_once($relPath.'username.inc');
+include_once($relPath.'SettingsClass.inc');
 
 require_login();
 
@@ -140,7 +141,10 @@ foreach ( $actions as $activity_id => $action_type )
     echo "<br>\n";
     echo "$action_type $activity_id ...<br>\n";
     $yesno = ( $action_type == 'grant' ? 'yes' : 'no' );
-    delete_and_insert( $subject_username, "$activity_id.access", $yesno );
+
+    $userSettings =& Settings::get_Settings($subject_username);
+    $userSettings->set_value("$activity_id.access", $yesno);
+
     log_access_change( $subject_username, $pguser, $activity_id, $action_type );
 }
 
@@ -151,22 +155,6 @@ if ($notify_user)
 echo "Hit 'Back' to return to user's detail page. (And you may need to reload.)<br>\n";
 
 // -----------------------------------------------------------------------------
-
-function delete_and_insert( $username, $setting, $value )
-{
-    mysql_query("
-        DELETE FROM usersettings
-        WHERE username='$username' AND setting='$setting'
-    ") or die(mysql_error());
-
-    mysql_query("
-        INSERT INTO usersettings
-        SET
-            username='$username',
-            setting='$setting',
-            value='$value'
-    ") or die(mysql_error());
-}
 
 function notify_user($username,$actions)
 {

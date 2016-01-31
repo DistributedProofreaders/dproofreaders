@@ -128,26 +128,8 @@ class Activity
         // If there is a relevant usersetting, it can take values 'yes', 'no'
         // or 'denied'.
         // No relevant usersetting has the same effect as 'no'.
-        {
-            $res = mysql_query("
-                SELECT value
-                FROM usersettings
-                WHERE username='$username' AND setting='{$this->id}.access'
-            ") or die(mysql_error());
-            if ( mysql_num_rows($res) == 0 )
-            {
-                $recorded_access = 'no';
-            }
-            elseif ( mysql_num_rows($res) == 1 )
-            {
-                $recorded_access = mysql_result($res,0);
-            }
-            else
-            {
-                // Not sure what to do.
-                $recorded_access = mysql_result($res,0);
-            }
-        }
+        $userSettings =& Settings::get_Settings($username);
+        $recorded_access = $userSettings->get_value("{$this->id}.access", "no");
 
         // -----------------------------------
 
