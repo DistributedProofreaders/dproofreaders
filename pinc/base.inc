@@ -80,7 +80,7 @@ function require_login()
     // (urlencode it because it might contain characters [specifically, &]
     // that would confuse parsing of the login.php URL.)
     $request_uri_encoded = urlencode($_SERVER['REQUEST_URI']);
-    $url="$code_url/accounts/login.php?destination=$request_uri_encoded";
+    $url="$code_url/accounts/require_login.php?destination=$request_uri_encoded";
     $body="<A HREF=\"$url\">" . _("Please Sign In") . "</A>";
     $title = _("Please Sign In");
 
