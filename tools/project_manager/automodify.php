@@ -13,7 +13,7 @@ include_once($relPath.'DPage.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'Project.inc'); // project_get_auto_PPer
 include_once($relPath.'misc.inc'); // requester_is_localhost()
-include('autorelease.inc');
+include_once('autorelease.inc');
 
 $one_project = validate_projectID('project', @$_GET['project'], true);
 $refresh_url = @$_GET['return_uri'];

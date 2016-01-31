@@ -1,8 +1,8 @@
 <?php
 $relPath="./../../pinc/";
-include($relPath.'base.inc');
-include($relPath.'theme.inc');
-include($relPath.'Project.inc');
+include_once($relPath.'base.inc');
+include_once($relPath.'theme.inc');
+include_once($relPath.'Project.inc');
 
 require_login();
 

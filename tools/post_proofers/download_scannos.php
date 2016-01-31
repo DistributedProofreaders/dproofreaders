@@ -5,8 +5,8 @@
 // enclosed in %scannoslist = ( );.
 
 $relPath="../../pinc/";
-include($relPath.'base.inc');
-include($relPath.'theme.inc');
+include_once($relPath.'base.inc');
+include_once($relPath.'theme.inc');
 
 
 $lang     = get_enumerated_param($_GET, 'language', null, array('eng', 'es', 'fr', 'ger'));

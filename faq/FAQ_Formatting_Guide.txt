@@ -693,8 +693,8 @@ we can start our FAQs with
 
 <?php
 $relPath='../pinc/';
-include($relPath.'base.inc');
-include($relPath.'theme.inc');
+include_once($relPath.'base.inc');
+include_once($relPath.'theme.inc');
 output_header('Post-Processing FAQ', NO_STATSBAR);
 ?>
 

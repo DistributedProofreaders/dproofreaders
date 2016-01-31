@@ -1,8 +1,8 @@
 <?php
 $relPath="./../pinc/";
-include($relPath.'base.inc');
-include($relPath.'user_project_info.inc');
-include($relPath.'Project.inc');  // validate_projectID()
+include_once($relPath.'base.inc');
+include_once($relPath.'user_project_info.inc');
+include_once($relPath.'Project.inc');  // validate_projectID()
 
 require_login();
 
