@@ -116,7 +116,7 @@ function output_footer($nameofpage, $show_statsbar = True) {
 function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) {
     global $code_url, $theme, $site_abbreviation;
     global $charset, $intlang;
-    echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
+    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
     echo "<html ".lang_html_header($intlang).">\n<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\">\n";
     echo "<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
