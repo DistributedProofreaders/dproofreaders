@@ -358,7 +358,7 @@ function html_navbar()
         $links[] = array('text' => _("Stats"), 'url' => "stats/stats_central.php");
         $links[] = array('text' => _("Prefs"), 'url' => "userprefs.php");
         $links[] = array('text' => _("Help"), 'url' => "faq/".lang_dir()."faq_central.php");
-        $links[] = array('text' => sprintf(_("Log Out (%s)"),$pguser), 'url' => "tools/logout.php");
+        $links[] = array('text' => sprintf(_("Log Out (%s)"),$pguser), 'url' => "accounts/logout.php");
 
         echo headerbar_text_array($links);
         echo "</span>";
