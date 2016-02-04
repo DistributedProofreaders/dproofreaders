@@ -17,14 +17,12 @@ The following lists supported versions for the three primary middleware
 components.
 
 PHP
-    We know that the code runs on version 4.4.2, 5.0.4, and 5.3.2.
-    It likely runs on versions in-between although not below 4.2.0.
-    It will NOT run on version 5.4 or later due to the dependency on
-    magic quotes (see below).
+    PHP version 5.3.2 is the minimum version supported, although any
+    5.3.x version should work. PHP version 5.4 and later will NOT
+    work due to code dependencies on magic quotes.
 
 MySQL
-    We know that our queries work on 5.0.22, and 5.1.73.
-    We believe that they'll work on any version from 4.1 up.
+    MySQL version 5.1.x and later is required.
 
 phpBB
     phpBB 2.x and 3.0 are both supported. Version 3.0 is recommended.
@@ -33,34 +31,14 @@ phpBB
     https://www.phpbb.com/downloads/
 
 jpgraph
-    Version 1.27.1 supports PHP 4 and also works with PHP 5. This is the
-    recommended version.
     jpgraph version 3.5.0b1 will work after applying the included
-    jpgraph-3.5.0b1.patch but some graph legends and other details may
-    not look ideal.
+    jpgraph-3.5.0b1.patch. This is the recommended version.
+    Version 1.27.1 should also work.
 
     http://jpgraph.net/download/
 
 
-Middleware deprecation warning
-------------------------------
-
-The next release of DP code will set higher middleware version requirements
-than this release. The following are expected to be the new minimum
-middleware versions supported. It is recommended that you upgrade to these
-versions in order to use future DP versions.
-
-PHP
-    PHP version 5.3.2 is the minimum version supported, although any
-    5.3.x version should work. PHP version 5.4 and later will NOT
-    work due to code dependencies on magic quotes which may not get
-    resolved before the next release.
-
-MySQL
-    MySQL version 5.1.x and later is required.
-
-The middleware components above match the following major distribution
-releases:
+These middleware components match the following major distribution releases:
 * Ubuntu 10.04, Lucid
 * Ubuntu 12.04, Precise
 * RHEL / CentOS 6.x family
@@ -186,8 +164,6 @@ assuming it isn't already.
             mysql -h localhost -u root -p
 
     --- Create the database.
-            CREATE DATABASE dp_db;
-        If you have MySQL 4.1.1 or higher:
             CREATE DATABASE dp_db CHARACTER SET UTF8;
         Note that you can have UTF-8 enabled on the site even if you have older
         MySQL version which doesn't support it.
@@ -197,7 +173,7 @@ assuming it isn't already.
             GRANT ALL  ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
 
     --- Similarly for the archive database (if you want one):
-            CREATE DATABASE dp_archive;
+            CREATE DATABASE dp_archive CHARACTER SET UTF8;
             GRANT ALL  ON dp_archive.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
    
     --- Exit from the MySQL client.

@@ -1,11 +1,6 @@
 <?php
 // Miscellaneous little (non-DP-specific) functions
 
-function define_if_necc( $name, $value )
-{
-    if ( !defined($name) ) define($name, $value);
-}
-
 function array_get( $arr, $key, $default )
 // Return $arr[$key], or if it's not defined, $default.
 {
@@ -474,19 +469,6 @@ function surround_and_join( $strings, $L, $R, $joiner )
     return implode($joiner,$parts);
 }
 
-function urlencode_assoc($name_value_mapping)
-// Encode $name_value_mapping according to the content type
-// "application/x-www-form-urlencoded".
-// See http://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.1
-{
-    $p = array();
-    foreach ( $name_value_mapping as $name => $value )
-    {
-        $p[] = urlencode($name) . '=' . urlencode($value);
-    }
-    return implode('&', $p);
-}
-
 // Return a list of only the files directly inside in the specified directory.
 // On error, returns False.
 //
@@ -522,126 +504,6 @@ function get_filelist($dirpath, $validext = array(), $with_path = False)
 }
 // -----------------------------------------------------------------------------
 
-// file_get_contents() is predefined in PHP 4.3.0 and on.
-if ( !function_exists('file_get_contents') )
-{
-    function file_get_contents( $filepath )
-    {
-        $array = file($filepath);
-        return ( $array === FALSE ? FALSE : implode('', $array) );
-    }
-} 
-
-// file_put_contents() is predefined in PHP 5 and on.
-if ( !function_exists('file_put_contents') )
-{
-    function file_put_contents( $filepath, $contents )
-    {
-        if(is_array($contents))
-            $contents = implode('',$contents);
-
-        $wasWritten = FALSE;
-        $fh = fopen($filepath,"w");
-        if($fh) {
-           $wasWritten = fwrite($fh,$contents);
-           fclose($fh);
-        }
-        return $wasWritten;
-    }
-}
-
-// stripos() is predefined in PHP 5 and on.
-if ( !function_exists('stripos') )
-{
-    function stripos($haystack, $needle, $offset = 0)
-    {
-        return strpos(strtolower($haystack), strtolower($needle), $offset);
-    }
-}
-
-// array_intersect_key() is predefined in PHP 5.1.0RC1
-if ( !function_exists('array_intersect_key') )
-{
-    // This is only the two-arg version.
-    function array_intersect_key( $array1, $array2 )
-    {
-        $result = array();
-        foreach ( $array1 as $k => $v )
-        {
-            if ( array_key_exists($k,$array2) )
-            {
-                $result[$k] = $v;
-            }
-        }
-        return $result;
-    }
-}
-
-// str_split() is predefined in PHP 5 and on.
-if ( !function_exists('str_split') )
-{
-    function str_split( $string )
-    {
-        return preg_split("//",$string, -1, PREG_SPLIT_NO_EMPTY);
-    }
-}
-
-// openssl_random_pseudo_bytes() is defined in PHP 5.2 and later
-if ( !function_exists('openssl_random_pseudo_bytes') )
-{
-    // based on:
-    // http://us.php.net/manual/en/function.openssl-random-pseudo-bytes.php#93078
-    function openssl_random_pseudo_bytes($length)
-    {
-        $length_n = (int) $length; // shell injection is no fun
-        $handle = popen("RANDFILE=/tmp/php-openssl.rnd /usr/bin/openssl rand $length_n", "r");
-        $data = stream_get_contents($handle);
-        pclose($handle);
-
-        // if no data, the call to openssl failed, fall back to /dev/urandom
-        if(!$data) {
-            $handle = fopen("/dev/urandom","r");
-            $data = fread($handle, $length);
-            fclose($handle);
-        }
-        return $data;
-    }
-}   
-
-function mkdir_recursive( $dir, $mode )
-// Like mkdir, but recursively creates any parent directories too.
-// (PHP 5's mkdir has this capability built-in.)
-{
-    if ( file_exists($dir) )
-    {
-        if ( is_dir($dir) )
-        {
-            // Great!
-        }
-        else
-        {
-            die( "$dir exists, but isn't a directory." );
-        }
-    }
-    else
-    {
-        mkdir_recursive( dirname($dir), $mode );
-        mkdir( $dir, $mode ) or die( "Unable to create $dir" );
-    }
-}
-
-// -----------------------------------------------------------------------------
-
-// The following became PHP constants in PHP 4.3.0. 
-define_if_necc( 'UPLOAD_ERR_OK',         0 );
-define_if_necc( 'UPLOAD_ERR_INI_SIZE',   1 );
-define_if_necc( 'UPLOAD_ERR_FORM_SIZE',  2 );
-define_if_necc( 'UPLOAD_ERR_PARTIAL',    3 );
-define_if_necc( 'UPLOAD_ERR_NO_FILE',    4 );
-define_if_necc( 'UPLOAD_ERR_NO_TMP_DIR', 6 );
-define_if_necc( 'UPLOAD_ERR_CANT_WRITE', 7 );
-define_if_necc( 'UPLOAD_ERR_EXTENSION',  8 );
-
 function get_upload_err_msg($upload_error_code)
 // Return an error message appropriate to $upload_error_code.
 // (The wording is taken from "Handling File Uploads: Error Messages Explained"
@@ -668,42 +530,6 @@ function get_upload_err_msg($upload_error_code)
         default:
             return _('Unknown upload error code');
     }
-}
-
-// -----------------------------------------------------------------------------
-
-function all_possible_concatenations()
-// Each arg is an array of strings (or else is a string,
-// which is treated as if it were an array of length 1).
-// Return an array containing the "concatenation cross product" of the args:
-// the set of all strings obtained by picking one string from each arg and
-// concatenating them in the given (args) order.
-{
-    $args = func_get_args();
-    return all_possible_concats_r( $args );
-}
-
-function all_possible_concats_r( $args )
-{
-    if ( count($args) == 0 ) return array('');
-
-    $arg0 = array_shift( $args );
-    $rest_concats = all_possible_concats_r( $args );
-
-    if ( is_string($arg0) )
-    {
-        $arg0 = array( $arg0 );
-    }
-
-    $result = array();
-    foreach ( $arg0 as $str0 )
-    {
-        foreach ( $rest_concats as $rest )
-        {
-            $result[] = $str0 . $rest;
-        }
-    }
-    return $result;
 }
 
 // -----------------------------------------------------------------------------
