@@ -3,6 +3,9 @@ $relPath='../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once('../quiz_defaults.inc'); // $default_*
+
+undo_all_magic_quotes();
+
 output_header(_('Quiz Wizard'));
 
 function evalmessages()
@@ -67,7 +70,7 @@ function filltext($x)
 {
     global $fill;
     if ($fill)
-        return htmlspecialchars(stripslashes($_POST[$x]),ENT_QUOTES);
+        return htmlspecialchars($_POST[$x], ENT_QUOTES);
 }
 
 
