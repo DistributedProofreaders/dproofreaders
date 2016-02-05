@@ -56,20 +56,14 @@ Example setting: "taskctr_notice", value "1018"
 */
         
 
-function ExecSQL($sql)
-{
-    if (!mysql_query($sql))
-        echo mysql_error();
-}
-
 class Settings
 {
     // assoc. array containing all user setting name/value pairs.
-    var $settings_array = array();
+    private $settings_array = array();
     // username of subject user.
-    var $username;
+    private $username = NULL;
 
-    function Settings($name)
+    public function __construct($name)
     {
         if($name == '')
         {
@@ -121,7 +115,7 @@ class Settings
     }
 
     // check if this is an updateable setting in this context.
-    function _isSettable($settingCode)
+    private function _isSettable($settingCode)
     {
         switch($settingCode)
         {
@@ -143,18 +137,18 @@ class Settings
     // -------------------------------------------------------------------------
 
     // Setting to True
-    function set_true($settingCode)
+    public function set_true($settingCode)
     {
         $this->set_boolean($settingCode,TRUE);
     }
 
     // Setting to False
-    function set_false($settingCode)
+    public function set_false($settingCode)
     {
         $this->set_boolean($settingCode,FALSE);
     }
 
-    function set_boolean($settingCode, $boolval)
+    public function set_boolean($settingCode, $boolval)
     // A wrapper around set_value() for boolean values.
     {
         $this->set_value($settingCode, ($boolval ? 'yes' : NULL) );
@@ -162,7 +156,7 @@ class Settings
 
     // Return True iff the setting exists and its value is 'yes'.
     // Otherwise, return False.
-    function get_boolean($settingCode)
+    public function get_boolean($settingCode)
     {
         return ( $this->get_value($settingCode) === 'yes' );
     }
@@ -171,7 +165,7 @@ class Settings
 
     // If $value is NULL, remove the setting.
     // Otherwise, set Value to $value.
-    function set_value($settingCode, $value)
+    public function set_value($settingCode, $value)
     {
         if($this->username == '')
         {
@@ -183,7 +177,7 @@ class Settings
 
         if(!$this->_isSettable($settingCode))
         {
-            die("Error: cannot set '$settingCode'");
+            throw new InvalidArgumentException("Error: cannot set '$settingCode'");
         }
 
         if(is_null($value))
@@ -191,7 +185,7 @@ class Settings
             $sql = "DELETE FROM usersettings 
                     WHERE username = '$this->username'
                     AND setting = '$settingCode'" ;
-            ExecSQL($sql);
+            $this->ExecSQL($sql);
             unset($this->settings_array[$settingCode]);
         }
         else
@@ -208,7 +202,7 @@ class Settings
                         (username, setting, value)
                         VALUES ('$this->username', '$settingCode', '$value_esc')" ;
             }
-            ExecSQL($sql);
+            $this->ExecSQL($sql);
             $this->settings_array[$settingCode] = $value;
         }
     }
@@ -216,15 +210,21 @@ class Settings
     // If no record exists, return $default.
     // Otherwise return what's in the Value column.
     // Note: if setting is really boolean, this will NOT return True, but 'yes' (a string).
-    function get_value($settingCode, $default = Null)
+    public function get_value($settingCode, $default = Null)
     {
         if (!array_key_exists($settingCode, $this->settings_array)) return $default;
         return $this->settings_array[$settingCode];
     }
 
+    private function ExecSQL($sql)
+    {
+        if (!mysql_query($sql))
+            throw new RuntimeException(mysql_error());
+    }
+
     // -------------------------------------------------------------------------
 
-    function settings_count()
+    public function settings_count()
     {
         return count($this->settings_array);
     }
@@ -261,4 +261,3 @@ class Settings
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

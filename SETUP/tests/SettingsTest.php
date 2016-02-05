@@ -87,10 +87,11 @@ class SettingsTest extends PHPUnit_Framework_TestCase
             $settings->get_value($this->PREFIX . "single_value"), "single2");
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
     public function testSetUnsettableValue()
     {
-        $this->markTestIncomplete("SettingsClass dies() here instead of throwing an exception we can catch.");
-
         $settings = new Settings($this->TEST_USERNAME);
         $settings->set_true("sitemanager");
     }
