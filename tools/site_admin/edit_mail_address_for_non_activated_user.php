@@ -8,6 +8,8 @@ include_once($relPath.'misc.inc');
 include_once($relPath.'username.inc');
 include_once($relPath.'email_address.inc');
 
+undo_all_magic_quotes();
+
 require_login();
 
 output_header(_('Edit mail-address for non-activated user'));
@@ -72,21 +74,20 @@ else if ($action == 'list_all') {
 else if ($action == 'get_user') {
     $username = @$_GET['username'];
     if (check_username($username) != '') die("Invalid parameter username.");
-    $result = mysql_query("
+    $result = mysql_query(sprintf("
         SELECT email
         FROM non_activated_users
-        WHERE username='$username'
-    ");
+        WHERE username='%s'
+    ", mysql_real_escape_string($username)));
 
     if (mysql_num_rows($result) == 0) {
         printf(_("No user '%s' was was found in the list of non-validated users."),
-            htmlspecialchars(stripslashes($username)));
+            htmlspecialchars($username));
         echo "<p>", 
             sprintf(_("Note that you can also <a href='%s'>list all user accounts awaiting activation</a>"), "?action=list_all"), 
             "</p>";
     }
     else {
-        $username = stripslashes($username);
         $email = mysql_result($result, 0, 'email');
         echo _("Enter the correct email-address below. When you submit the form, the activation mail will be resent.");
         ?>
@@ -109,19 +110,19 @@ else if ($action == 'set_email') {
     if (check_username($username) != '') die("Invalid parameter username.");
     if (check_email_address($email) != '') die("Invalid parameter email.");
     
-    mysql_query("
+    mysql_query(sprintf("
         UPDATE non_activated_users
-        SET email='$email'
-        WHERE username='$username'
-    ");
-    $result = mysql_query("
+        SET email='%s'
+        WHERE username='%s'
+    ", mysql_real_escape_string($email), mysql_real_escape_string($username)));
+    $result = mysql_query(sprintf("
         SELECT id, real_name, u_intlang
         FROM non_activated_users
-        WHERE username='$username'
-    ");
+        WHERE username='%s'
+    ", mysql_real_escape_string($username)));
     $row = mysql_fetch_assoc($result);
 
-    maybe_activate_mail($email, $row['real_name'], $row['id'], stripslashes($username), $row['u_intlang']);
+    maybe_activate_mail($email, $row['real_name'], $row['id'], $username, $row['u_intlang']);
 
 }
 else
