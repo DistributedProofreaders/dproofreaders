@@ -321,6 +321,33 @@ class Settings
             return $settings;
         }
     }
+
+    // Return a list of usernames that have a specific setting
+    // specified (and optionally with a specific value).
+    static function get_users_with_setting($setting, $value=NULL)
+    {
+        $usernames = array();
+        $sql = sprintf("
+            SELECT username, value
+            FROM usersettings
+            WHERE setting = '%s'
+        ", mysql_real_escape_string($setting));
+
+        if($value)
+        {
+            $sql .= sprintf(" AND value='%s'",
+                mysql_real_escape_string($value));
+        }
+
+        $result = mysql_query($sql);
+        while ($row = mysql_fetch_assoc($result))
+        {
+            $usernames[] = $row['username'];
+        }
+        mysql_free_result($result);
+
+        return $usernames;
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
