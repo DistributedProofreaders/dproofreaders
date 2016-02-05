@@ -10,8 +10,7 @@ function default_page_heading()
 
     if ($testing)
     {
-        echo "<div style='color: red'>";
-        echo "<center>";
+        echo "<div class='center-align' style='color: red'>";
         echo "<p>";
         echo "<b>" . _("THIS IS A TEST SITE!!!") . "</b>";
         echo "</p>";
@@ -23,7 +22,6 @@ function default_page_heading()
             please go to <a href='%s'>this forum topic</a> on the real site."),
             "$real_site_url/phpBB3/viewtopic.php?t=12226");
         echo "</p>";
-        echo "</center>";
         echo "</div>";
     }
 
