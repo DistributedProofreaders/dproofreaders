@@ -180,8 +180,7 @@ function mysql_session_write($sid, $value)
 	// $value is a string (constructed by PHP's built-in session
 	// code) that might contain apostrophes (or backslashes?),
 	// which will screw up the SQL queries unless we escape them.
-	$value = addslashes($value);
-	// addslashes will also escape double-quotes, but that's okay.
+	$value = mysql_real_escape_string($value);
 
 	if ( $SessionExists == 0 )
 	{
