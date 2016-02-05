@@ -42,7 +42,7 @@ while ($row = mysql_fetch_array($result)) {
     echo "OLD VALUE: {$row['postcomments']}\nNEW VALUE: $new_value\n";
 
   if ($new_value != $row['postcomments']) {
-    $new_value = addslashes($new_value);
+    $new_value = mysql_real_escape_string($new_value);
     $query = "UPDATE projects SET postcomments='$new_value' WHERE projectid='{$row['projectid']}'";
 
     if ($act)
