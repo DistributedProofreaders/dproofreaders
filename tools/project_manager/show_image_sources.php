@@ -10,6 +10,8 @@ include_once($relPath.'dpsql.inc');
 include_once($relPath.'misc.inc'); // array_get()
 include_once($relPath.'pg.inc');
 
+undo_all_magic_quotes();
+
 require_login();
 
 $which = get_enumerated_param($_GET, 'which', 'DONE', array('ALL', 'DONE'));
@@ -99,7 +101,7 @@ if (!isset($_GET['name']))
 
     $imso_code = $_GET['name'];
 
-    $imso = mysql_fetch_assoc( mysql_query("
+    $imso = mysql_fetch_assoc( mysql_query( sprintf("
         SELECT
             full_name,
             display_name,
@@ -108,8 +110,8 @@ if (!isset($_GET['name']))
             info_page_visibility,
             concat('<a href=\"',url,'\">',url,'</a>') as 'more_info'
         FROM image_sources
-        WHERE code_name = '$imso_code'
-    "));
+        WHERE code_name = '%s'
+    ", mysql_real_escape_string($imso_code))));
 
     $visibility = $imso['info_page_visibility'];
 
@@ -187,7 +189,7 @@ if (!isset($_GET['name']))
                 language as '".mysql_real_escape_string(_('Language'))."',
                 IF(postednum, concat('<a href=\"{$PG_home_url}ebooks/',postednum,'\">',postednum,'</a>'),'".mysql_real_escape_string(_('In Progress'))."') as '".mysql_real_escape_string(_('PG Number<br>and Link'))."'
             FROM projects
-            WHERE image_source = '".$imso_code."' ".$where_cls."
+            WHERE image_source = '".mysql_real_escape_string($imso_code)."' ".$where_cls."
             ORDER BY nameofwork
         ");
 
