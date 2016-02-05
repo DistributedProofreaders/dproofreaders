@@ -95,4 +95,51 @@ class SettingsTest extends PHPUnit_Framework_TestCase
         $settings = new Settings($this->TEST_USERNAME);
         $settings->set_true("sitemanager");
     }
+
+    public function testAddMultivaluedSetting()
+    {
+        $settings = new Settings($this->TEST_USERNAME);
+        $settings->add_value($this->PREFIX . "multi_value", "value1");
+        $settings->add_value($this->PREFIX . "multi_value", "value2");
+
+        $values = $settings->get_values($this->PREFIX . "multi_value");
+        $this->assertEquals(2, count($values));
+        $this->assertContains("value1", $values);
+        $this->assertContains("value2", $values);
+    }
+
+    public function testRemoveMultivaluedSetting()
+    {
+        $settings = new Settings($this->TEST_USERNAME);
+        $settings->add_value($this->PREFIX . "multi_value", "value1");
+        $settings->add_value($this->PREFIX . "multi_value", "value2");
+        $settings->remove_value($this->PREFIX . "multi_value", "value1");
+
+        $values = $settings->get_values($this->PREFIX . "multi_value");
+        $this->assertEquals(1, count($values));
+        $this->assertContains("value2", $values);
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testGetMultivaluedSettingAsSingle()
+    {
+        $settings = new Settings($this->TEST_USERNAME);
+        $settings->add_value($this->PREFIX . "multi_value", "value1");
+        $settings->add_value($this->PREFIX . "multi_value", "value2");
+
+        $settings->get_value($this->PREFIX . "multi_value");
+    }
+
+    public function testSetMultivaluedSettingAsSingle()
+    {
+        $settings = new Settings($this->TEST_USERNAME);
+        $settings->add_value($this->PREFIX . "multi_value", "value1");
+        $settings->add_value($this->PREFIX . "multi_value", "value2");
+
+        $settings->set_value($this->PREFIX . "multi_value", "value3");
+        $this->assertEquals(
+            $settings->get_value($this->PREFIX . "multi_value"), "value3");
+    }
 }

@@ -58,8 +58,11 @@ Example setting: "taskctr_notice", value "1018"
 
 class Settings
 {
-    // assoc. array containing all user setting name/value pairs.
+    // Multi-dimensional array containing all user settings. Each setting
+    // may have one or more value associated with it. Format is:
+    //     $settings_array[$setting] = array($value1, ...);
     private $settings_array = array();
+
     // username of subject user.
     private $username = NULL;
 
@@ -99,17 +102,17 @@ class Settings
             {
                 $isUserVals = true;
                 if ($row['sitemanager'] == 'yes')
-                    $this->settings_array['sitemanager'] = 'yes';
+                    $this->_load_value('sitemanager', 'yes');
                 if ($row['manager'] == 'yes')
-                    $this->settings_array['manager'] = 'yes';
+                    $this->_load_value('manager', 'yes');
                 if ($row['postprocessor'] == 'yes')
-                    $this->settings_array['postprocessor'] = 'yes';
+                    $this->_load_value('postprocessor', 'yes');
             }
             // now continue to add values from usersettings table.
             // This could be null values if the outer join matched nothing
             // so check there is something in the "setting" column.
             if($row['setting'])
-                $this->settings_array[$row['setting']] = $row['value'];
+                $this->_load_value($row['setting'], $row['value']);
         }
         mysql_free_result($result);
     }
@@ -178,11 +181,21 @@ class Settings
                 (username, setting, value)
                 VALUES ('$this->username', '$settingCode', '$value_esc')" ;
         $this->ExecSQL($sql);
-        $this->settings_array[$settingCode] = $value;
     }
 
+    private function _delete_setting_value($settingCode, $value)
+    {
+        $value_esc = mysql_real_escape_string($value);
+        $sql = "DELETE FROM usersettings
+                WHERE username = '$this->username'
+                    AND setting = '$settingCode'
+                    AND value = '$value_esc'";
+        $this->ExecSQL($sql);
+    }
+
+    // Set a setting to a specific value. If this is a multi-valued setting
+    // this will become a single-valued setting.
     // If $value is NULL, remove the setting.
-    // Otherwise, set Value to $value.
     public function set_value($settingCode, $value)
     {
         if($this->username == '')
@@ -203,7 +216,7 @@ class Settings
 
         if(!is_null($value))
         {
-            $this->_insert_setting_value($settingCode, $value);
+            $this->add_value($settingCode, $value);
         }
     }
 
@@ -212,7 +225,57 @@ class Settings
     // Note: if setting is really boolean, this will NOT return True, but 'yes' (a string).
     public function get_value($settingCode, $default = Null)
     {
-        if (!array_key_exists($settingCode, $this->settings_array)) return $default;
+        $values = $this->get_values($settingCode);
+
+        if(count($values) == 0)
+            return $default;
+
+        if(count($values) > 1)
+            throw new RuntimeException(
+                "Multiple values exist for $settingCode");
+
+        return $values[0];
+    }
+
+    // Load a setting value into the $settings_array data structure
+    private function _load_value($setting, $value)
+    {
+        if(isset($this->settings_array[$setting]))
+        {
+            $this->settings_array[$setting][] = $value;
+        }
+        else
+        {
+            $this->settings_array[$setting] = array($value);
+        }
+    }
+
+    // Add a value to the setting without changing it, even if it already
+    // exists. This allows a setting to have multiple values.
+    public function add_value($settingCode, $value)
+    {
+        $this->_load_value($settingCode, $value);
+        $this->_insert_setting_value($settingCode, $value);
+    }
+
+    // Remove a setting:value pair
+    public function remove_value($settingCode, $value)
+    {
+        if(in_array($value, $this->settings_array[$settingCode]))
+        {
+            $this->settings_array[$settingCode] = array_diff(
+                $this->settings_array[$settingCode], array($value));
+
+            $this->_delete_setting_value($settingCode, $value);
+        }
+    }
+
+    // Returns an array of values for the setting
+    public function get_values($settingCode)
+    {
+        if (!array_key_exists($settingCode, $this->settings_array))
+            return array();
+
         return $this->settings_array[$settingCode];
     }
 
