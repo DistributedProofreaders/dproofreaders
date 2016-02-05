@@ -5,6 +5,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'SortUtility.inc');
 include_once($relPath.'BrowseUtility.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 include_once('authors.inc');
 include_once('search.inc');
 include_once('menu.inc');

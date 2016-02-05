@@ -7,6 +7,7 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), endswith()
 
 require_login();
 

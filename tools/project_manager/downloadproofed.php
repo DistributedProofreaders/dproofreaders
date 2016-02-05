@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'misc.inc'); // get_integer_param()
 
 require_login();
 

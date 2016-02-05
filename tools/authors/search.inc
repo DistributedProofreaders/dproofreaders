@@ -1,4 +1,5 @@
 <?php
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 // Functions to search authors, display search fields.
 

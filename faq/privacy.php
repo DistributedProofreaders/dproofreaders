@@ -10,7 +10,6 @@ if(!isset($relPath))
     $relPath="./../pinc/";
     include_once($relPath.'base.inc');
     include_once($relPath.'slim_header.inc');
-    include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
     undo_all_magic_quotes();
 

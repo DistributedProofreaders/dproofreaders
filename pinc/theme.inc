@@ -1,7 +1,6 @@
 <?php
 $mtime = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
-include_once($relPath.'misc.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
@@ -14,7 +13,7 @@ include_once($relPath.'list_projects.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'languages.inc');
-include_once($relPath.'misc.inc'); // endswith
+include_once($relPath.'misc.inc'); // endswith(), get_enumerated_param()
 
 define('NO_STATSBAR',   False);
 define('SHOW_STATSBAR', True);

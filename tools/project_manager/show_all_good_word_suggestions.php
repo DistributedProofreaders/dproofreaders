@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'Stopwatch.inc');
+include_once($relPath.'misc.inc'); // array_get(), get_integer_param(), surround_and_join()
 include_once('./post_files.inc');
 include_once("./word_freq_table.inc");
 

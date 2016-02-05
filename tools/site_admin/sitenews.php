@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'site_news.inc');
+include_once($relPath.'misc.inc'); // get_integer_param(), get_enumerated_param()
 
 require_login();
 

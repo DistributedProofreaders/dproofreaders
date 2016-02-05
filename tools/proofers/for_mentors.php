@@ -12,6 +12,7 @@ include_once($relPath.'prefs_options.inc');  // for PRIVACY_* constants
 include_once($relPath.'theme.inc');          // for page marginalia
 include_once($relPath.'project_states.inc'); // for PROJ_ declarations
 include_once($relPath.'TallyBoard.inc');     // for TallyBoard
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 

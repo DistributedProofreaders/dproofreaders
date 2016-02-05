@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'Project.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 include_once('projectmgr.inc');
 
 require_login();

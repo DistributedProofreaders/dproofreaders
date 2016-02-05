@@ -7,6 +7,7 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'links.inc'); // private_message_link()
+include_once($relPath.'misc.inc'); // get_enumerated_param(), str_contains(), echo_html_comment()
 
 require_login();
 

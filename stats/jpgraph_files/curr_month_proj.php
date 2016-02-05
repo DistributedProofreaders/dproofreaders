@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 include_once($code_dir.'/stats/statestats.inc');
 include_once('common.inc');
 

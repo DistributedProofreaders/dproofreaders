@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'misc.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'stages.inc');

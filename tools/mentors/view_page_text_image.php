@@ -5,6 +5,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'prefs_options.inc');
+include_once($relPath.'misc.inc'); // array_get(), get_enumerated_param(), attr_safe(), javascript_safe()
 
 require_login();
 

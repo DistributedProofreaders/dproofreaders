@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 

@@ -6,6 +6,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param(), get_integer_param(), attr_safe()
 include_once($relPath.'../stats/includes/common.inc');
 
 $team_avatars_dir = "$dyn_dir/teams/avatar";

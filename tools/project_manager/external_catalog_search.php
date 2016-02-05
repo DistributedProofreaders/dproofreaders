@@ -7,6 +7,7 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'marc_format.inc');
+include_once($relPath.'misc.inc'); // attr_safe()
 
 require_login();
 

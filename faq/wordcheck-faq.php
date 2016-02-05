@@ -4,7 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 

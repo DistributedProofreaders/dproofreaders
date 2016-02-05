@@ -1,4 +1,5 @@
 <?php
+include_once($relPath.'misc.inc'); // str_contains()
 
 $valid_username_chars_statement_for_reg_form  = _("(Valid characters are: a-z A-Z 0-9 @ - . space)");
 $valid_username_chars_statement_for_elsewhere = _("(Valid characters are: a-z A-Z 0-9 @ - . _ space)");

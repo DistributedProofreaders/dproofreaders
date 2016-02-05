@@ -8,6 +8,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'project_edit.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param(), attr_safe()
 include_once('page_table.inc');  // page_state_is_a_bad_state()
 
 require_login();
