@@ -163,6 +163,24 @@ class Settings
 
     // -------------------------------------------------------------------------
 
+    private function _clear_setting($settingCode)
+    {
+        $sql = "DELETE FROM usersettings 
+                WHERE username = '$this->username'
+                AND setting = '$settingCode'" ;
+        $this->ExecSQL($sql);
+    }
+
+    private function _insert_setting_value($settingCode, $value)
+    {
+        $value_esc = mysql_real_escape_string($value);
+        $sql = "INSERT INTO usersettings
+                (username, setting, value)
+                VALUES ('$this->username', '$settingCode', '$value_esc')" ;
+        $this->ExecSQL($sql);
+        $this->settings_array[$settingCode] = $value;
+    }
+
     // If $value is NULL, remove the setting.
     // Otherwise, set Value to $value.
     public function set_value($settingCode, $value)
@@ -180,30 +198,12 @@ class Settings
             throw new InvalidArgumentException("Error: cannot set '$settingCode'");
         }
 
-        if(is_null($value))
+        $this->_clear_setting($settingCode);
+        unset($this->settings_array[$settingCode]);
+
+        if(!is_null($value))
         {
-            $sql = "DELETE FROM usersettings 
-                    WHERE username = '$this->username'
-                    AND setting = '$settingCode'" ;
-            $this->ExecSQL($sql);
-            unset($this->settings_array[$settingCode]);
-        }
-        else
-        {
-            $value_esc = mysql_real_escape_string($value);
-            if (array_key_exists($settingCode, $this->settings_array)) {
-                $sql = "UPDATE usersettings
-                        SET value = '$value_esc'
-                        WHERE username = '$this->username'
-                        AND setting = '$settingCode'" ;
-            }
-            else {
-                $sql = "INSERT INTO usersettings
-                        (username, setting, value)
-                        VALUES ('$this->username', '$settingCode', '$value_esc')" ;
-            }
-            $this->ExecSQL($sql);
-            $this->settings_array[$settingCode] = $value;
+            $this->_insert_setting_value($settingCode, $value);
         }
     }
 
