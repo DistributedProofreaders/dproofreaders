@@ -270,7 +270,12 @@ function _get_projects_for_pm($pm) {
     $stateString = surround_and_join( $states, "'", "'", ',' );
     $where = "state IN ($stateString)";
     $collator = "FIELD(state,$stateString)";
-    $query = "SELECT projectid, state, nameofwork FROM projects WHERE username='$pm' AND $where ORDER BY $collator, nameofwork";
+    $query = sprintf("
+        SELECT projectid, state, nameofwork
+        FROM projects
+        WHERE username='%s' AND $where
+        ORDER BY $collator, nameofwork
+    ", mysql_real_escape_string($pm));
 
     $res = mysql_query($query);
     while($ar = mysql_fetch_array($res)) {

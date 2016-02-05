@@ -12,6 +12,8 @@ include_once($relPath.'misc.inc');  // attr_safe()
 
 require_login();
 
+undo_all_magic_quotes();
+
 $return = array_get($_REQUEST,"return","$code_url/tools/project_manager/projectmgr.php");
 
 if ( !user_is_PM() )
@@ -163,14 +165,6 @@ class ProjectWordListHolder
 
     function set_from_post()
     {
-        if ( get_magic_quotes_gpc() )
-        {
-            // Values in $_POST come with backslashes added.
-            // We want the fields of $this to be unescaped strings,
-            // so we strip the slashes.
-            $_POST = array_map('stripslashes', $_POST);
-        }
-
         if ( isset($_POST['projectid']) )
         {
             $this->projectid = validate_projectID('projectid', @$_POST['projectid']);

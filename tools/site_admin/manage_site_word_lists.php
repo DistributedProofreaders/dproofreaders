@@ -9,20 +9,13 @@ include_once($relPath.'misc.inc'); // array_get()
 
 require_login();
 
+undo_all_magic_quotes();
+
 // check to see if the user is authorized to be here
 if ( !(user_is_a_sitemanager()) )
 {
     die("You are not authorized to use this form.");
 }
-
-if ( get_magic_quotes_gpc() )
-{
-    // Values in $_POST come with backslashes added.
-    // We want the fields of $_POST to be unescaped strings,
-    // so we strip the slashes.
-    $_POST = array_map('stripslashes', $_POST);
-}
-
 
 // fetch any data sent our way. word_string will only
 // come in via a POST but the others may come in

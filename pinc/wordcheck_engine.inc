@@ -512,8 +512,8 @@ function save_wordcheck_event($projectid,$round,$page,$proofer,$suggestions,$cor
     $correction_list = implode("\n",$correction_list);
 
     // escape single quotes
-    $suggestion_list = addslashes($suggestion_list);
-    $correction_list = addslashes($correction_list);
+    $suggestion_list = mysql_real_escape_string($suggestion_list);
+    $correction_list = mysql_real_escape_string($correction_list);
 
     $time = time();
 

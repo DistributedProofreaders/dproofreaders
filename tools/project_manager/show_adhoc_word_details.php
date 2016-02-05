@@ -10,6 +10,8 @@ include_once('./word_freq_table.inc');
 
 require_login();
 
+undo_all_magic_quotes();
+
 set_time_limit(0); // no time limit
 
 $projectid  = validate_projectID('projectid', @$_REQUEST['projectid']);
@@ -17,7 +19,6 @@ $freqCutoff = get_integer_param($_REQUEST, 'freqCutoff', 5, 0, null);
 
 $queryWordText = array_get($_POST, "queryWordText", "");
 // do some cleanup on the input string
-$queryWordText = stripslashes($queryWordText);
 $queryWordText = str_replace("\r","",$queryWordText);
 $queryWords = explode("\n",$queryWordText);
 // do some cleanup on the resulting words
