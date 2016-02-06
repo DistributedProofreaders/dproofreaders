@@ -23,14 +23,33 @@ include_once($relPath.'SettingsClass.inc');
 require_login();
 undo_all_magic_quotes();
 
+$theme_args['css_data'] = "
+table.snapshottable th.activity-icon-header {
+    border: none;
+    background-color: #ffffff;
+    width: 35%;
+}
+table.snapshottable td.stage-icon {
+    border-right: 0;
+}
+table.snapshottable td.stage-name {
+    text-align: left;
+    border-left: 0;
+    border-right: 0;
+}
+table.snapshottable td.stage-access {
+    border-left: 0;
+}
+";
+
 // Load user settings
 $userSettings =& Settings::get_Settings($pguser);
 
 $_Activity_Hub = attr_safe(_("Activity Hub"));
 
-output_header($_Activity_Hub);
+output_header($_Activity_Hub, True, $theme_args);
 
-echo "<center><img src='$code_url/graphics/Activity_Hub.png' width='350' height='60' border='0' title='$_Activity_Hub' alt='$_Activity_Hub'></center>\n";
+echo "<h1 class='center-align'><img src='$code_url/graphics/Activity_Hub.png' width='350' height='60' title='$_Activity_Hub' alt='$_Activity_Hub'></h1>\n";
 
 echo "<p>\n";
 echo sprintf(_('Welcome to the %1$s Activity Hub. From this page you can view the phases of %1$s production.'),$site_abbreviation);
@@ -169,8 +188,7 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     global $Stage_for_id_;
 
     // start the table
-    echo "<a name='progress_snapshot'></a>";
-    echo "<h2>" . _("Site Progress Snapshot") . "</h2>";
+    echo "<h2 id='progress_snapshot'>" . _("Site Progress Snapshot") . "</h2>";
 
     echo "<p>" . sprintf(_("The following table provides an overview of what has been happening in the various stages of e-book production since midnight server-time. Current server-time is %s."),strftime("%H:%M")) . "</p>";
 
@@ -188,9 +206,9 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     // everything else.
 
     // Round headers
-    echo "<tr>";
+    echo "<thead>\n<tr>";
     $img_alt = attr_safe(_("Proofreading/Formatting Activities"));
-    echo "<td rowspan='2' colspan='3' style='border: none;'><img src='graphics/icon_proofer.png' alt='$img_alt' title='$img_alt'></td>";
+    echo "<th rowspan='2' colspan='3' class='activity-icon-header'><img src='graphics/icon_proofer.png' alt='$img_alt' title='$img_alt'></th>";
     echo "<th colspan='4'>" .  _("Projects") . " - ";
     if($show_filtered_projects)
     {
@@ -209,30 +227,33 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     echo "</tr>\n";
 
     echo "<tr>";
-    echo "<th>" . _("Total") . "</th>";
-    echo "<th>" . _("Waiting") . "</th>";
-    echo "<th>" . _("Available") . "</th>";
-    echo "<th>" . _("Completed<br>Today") . "</th>";
-    echo "<th>" . _("Goal") . "</th>";
-    echo "<th>" . _("Completed") . "</th>";
-    echo "<th>" . _("Status") . "</th>";
-    echo "</tr>\n";
+    echo "<th style='width: 5%;'>" . _("Total") . "</th>";
+    echo "<th style='width: 10%;'>" . _("Waiting") . "</th>";
+    echo "<th style='width: 10%;'>" . _("Available") . "</th>";
+    echo "<th style='width: 10%;'>" . _("Completed<br>Today") . "</th>";
+    echo "<th style='width: 5%;'>" . _("Goal") . "</th>";
+    echo "<th style='width: 10%;'>" . _("Completed") . "</th>";
+    echo "<th style='width: 15%;'>" . _("Status") . "</th>";
+    echo "</tr>\n</thead>\n<tbody>\n";
 
     // Round rows
     foreach ( $Stage_for_id_ as $stage )
     {
         if( !is_a( $stage, 'Round' ) )
             continue;
-    
+
         $desired_states = array($stage->project_waiting_state, $stage->project_available_state, $stage->project_complete_state);
 
         summarize_stage($stage, $desired_states, $show_filtered_projects, $stage->id);
     }
 
+    echo "</tbody>\n</table>\n";
+
     // Pool and Stage headers
-    echo "<tr>";
+    echo "<table class='snapshottable'>\n";
+    echo "<thead>\n<tr>";
     $img_alt = attr_safe(_("Post-Processing Activities"));
-    echo "<td rowspan='2' colspan='3' style='border: none;'><img src='graphics/icon_pp.png' alt='$img_alt' title='$img_alt'></td>";
+    echo "<th rowspan='2' colspan='3' class='activity-icon-header'><img src='graphics/icon_pp.png' alt='$img_alt' title='$img_alt'></th>";
     echo "<th colspan='3'>" . _("Projects") . " - ";
     if($show_filtered_projects)
     {
@@ -247,15 +268,15 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
             echo " | <a href='?show_filtered=1#progress_snapshot'>" . _("Filtered") . "</a>";
     }
     echo "</th>";
-    echo "<td colspan='4' class='nocell'></td>";
+    echo "<td class='nocell'></td>";
     echo "</tr>\n";
 
     echo "<tr>";
-    echo "<th>" . _("Total") . "</th>";
-    echo "<th>" . _("Available") . "</th>";
-    echo "<th>" . _("In Progress") . "</th>";
-    echo "<td colspan='4' class='nocell'></td>";
-    echo "</tr>\n";
+    echo "<th style='width: 5%;'>" . _("Total") . "</th>";
+    echo "<th style='width: 10%;'>" . _("Available") . "</th>";
+    echo "<th style='width: 10%;'>" . _("In Progress") . "</th>";
+    echo "<td class='nocell' style='width: 40%;'></td>";
+    echo "</tr>\n</thead>\n<tbody>\n";
 
     // Pool rows
     foreach ( $Stage_for_id_ as $stage )
@@ -278,13 +299,14 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
 
         summarize_stage($stage, $desired_states);
     }
+    echo "</tbody>\n<tfoot>\n";
     echo "<tr>";
-    echo "<td class='nocell' style='text-align: right;' colspan='10'>";
-    echo "<a href='faq/site_progress_snapshot_legend.php' target='SPSLegend'>" . _("Information about this table") . "</a>";
+    echo "<td class='nocell' style='text-align: right;' colspan='7'>";
+    echo "<a href='faq/site_progress_snapshot_legend.php' target='_blank'>" . _("Information about this table") . "</a>";
     echo "</td>";
     echo "</tr>";
 
-    echo "</table>";
+    echo "</tfoot>\n</table>\n";
     echo "</div>";
 }
 
@@ -407,15 +429,15 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
         $span_rows = "";
 
     // Every row gets a label, name, and access information.
-    echo "<td style='border-right: 0;' $span_rows>$stage_id_bit</td>";
-    echo "<td style='text-align: left; border-left: 0; border-right: 0;' $span_rows><a href='{$stage->relative_url}' title='$description'>{$stage->name}</a></td>";
+    echo "<td class='stage-icon' $span_rows>$stage_id_bit</td>";
+    echo "<td class='stage-name' $span_rows><a href='{$stage->relative_url}' title='$description'>{$stage->name}</a></td>";
 
     // Output the access status icon. If the user does not yet have access
     // make the image a link to the access requirements.
-    echo "<td style='border-left: 0;' $span_rows>";
+    echo "<td class='stage-access' $span_rows>";
     if($access_link)
         echo "<a href='$access_link'>";
-    echo "<img src='$access_icon' alt='" . attr_safe($access_text) 
+    echo "<img src='$access_icon' alt='" . attr_safe($access_text)
         . "' title='" . attr_safe($access_text) . "'>";
     if($access_link)
         echo "</a>";
@@ -454,9 +476,9 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
         // tweak is to ensure that if we show the filter that the filter
         // cell has a border all the way around it.
         if($show_filtered_projects)
-            echo "<td colspan='4' class='nocell' style='border-bottom: 1px solid black;'></td>";
+            echo "<td class='nocell' style='border-bottom: 1px solid black;'></td>";
         else
-            echo "<td colspan='4' class='nocell'></td>";
+            echo "<td class='nocell'></td>";
     }
 
     echo "</tr>\n";
@@ -505,7 +527,7 @@ function activity_descriptions()
     {
         $stage_icon_url = get_dyn_image_url_for_file("stage_icons/{$stage->id}");
         if ( !is_null($stage_icon_url) )
-            $stage_id_bit = "<img style='vertical-align: middle;' src='$stage_icon_url' alt='($stage->id)' title='$stage->id'>";
+            $stage_id_bit = "<img class='middle-align' src='$stage_icon_url' alt='($stage->id)' title='$stage->id'>";
         else
             $stage_id_bit = "($stage->id)";
 
