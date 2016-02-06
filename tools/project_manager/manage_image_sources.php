@@ -74,7 +74,7 @@ if ($action == 'update_oneshot')
 
         $errmsgs = '';
 
-        $new_code_name = rtrim(ltrim($_REQUEST[code_name]));
+        $new_code_name = rtrim(ltrim($_REQUEST["code_name"]));
 
         if (strlen($new_code_name) < 1) 
             $errmsgs .= _("A value for Image Source ID is required. Please enter one.") . " ";
@@ -384,6 +384,7 @@ class ImageSource
         global $errmsgs,$can_edit,$new,$theme_args;
         $std_fields = array('display_name','full_name','credit',
                     'ok_keep_images','ok_show_images','info_page_visibility','public_comment','internal_comment');
+        $std_fields_sql = '';
         foreach ($std_fields as $field)
         {
             $this->$field = $_POST[$field];
