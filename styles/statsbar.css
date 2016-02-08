@@ -108,10 +108,8 @@
 #teams-nav h3 {
   font-weight: bold;
   text-align: center;
-  margin: 0;
 }
 #teams-nav ul {
-  margin: 0;
   padding: 0;
 }
 #teams-nav li {
@@ -120,7 +118,6 @@
 }
 #teams-nav .more-link {
   text-align: center;
-  margin: 0;
 }
 #key-help-documents {
   font-size: small;

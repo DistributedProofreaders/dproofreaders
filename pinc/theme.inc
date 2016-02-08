@@ -448,11 +448,9 @@ function html_statsbar($nameofpage) {
     {
         if (strpos($_SERVER['PHP_SELF'],'activity_hub.php') !== false)
         {
-            echo "<br />\n";
             show_birthdays();
 
         }
-        echo "<br>\n";
 
         if (strpos($_SERVER['PHP_SELF'],'default.php') !== false) {
             // Show project listings to anyone, signed in or not, front page only
@@ -510,7 +508,7 @@ function html_statsbar($nameofpage) {
         echo "<hr style='width: 75%;' class='center-align'>\n";
         show_user_teams();
 
-        echo "<br><hr style='width: 75%;' class='center-align'>\n";
+        echo "<hr style='width: 75%;' class='center-align'>\n";
         show_key_help_links();
     }
 
