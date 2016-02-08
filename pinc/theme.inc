@@ -824,10 +824,10 @@ function show_birthdays()
     if (mysql_num_rows($result) == 0)
         return;
 
-    echo "<center><b>" . sprintf(_("Today's %s Birthdays"),$site_abbreviation) . ":</b></center>\n";
+    echo "<div id='birthdays'>\n";
+    echo "<h3>" . sprintf(_("Today's %s Birthdays"),$site_abbreviation) . ":</h3>\n";
 
-    echo "<div style='text-align: center; font-family: $theme[font_navbar];
-        color: $theme[color_navbar_font];'>";
+    echo "<ul>";
 
     $today = getdate(time());
     while ( list($username, $date_created) = mysql_fetch_row($result) )
@@ -835,10 +835,10 @@ function show_birthdays()
         $user_date = getdate($date_created);
         $years = $today['year'] - $user_date['year'];
 
-        echo "<font size='2'>$username ($years)</font><br />";
+        echo "<li>$username ($years)</li>";
     }
 
-    echo "</div><br><hr style='width: 75%;' class='center-align'>\n";
+    echo "</ul></div><hr style='width: 75%;' class='center-align'>\n";
 }
 
 
