@@ -1,6 +1,17 @@
 @import (reference) "global.less";
 
 /* ------------------------------------------------------------------------ */
+/* Mix-ins */
+.plain-list {
+    ul {
+        .no-padding;
+    }
+    li {
+        list-style-type: none;
+    }
+}
+
+/* ------------------------------------------------------------------------ */
 /* Statsbar */
 
 #statsbar {
@@ -9,6 +20,18 @@
     width: 25%;
     padding: 0.5em;
     display: table-cell;
+    h3 {
+        .center-align;
+        font-size: 100%;
+    }
+    .more-link {
+        .center-align;
+        padding: 0;
+    }
+    .divider {
+        .center-align;
+        width: 75%;
+    }
 }
 
 #content-container {
@@ -39,16 +62,10 @@
 
 #completed-titles, #recent-titles {
     h3 {
-        .center-align;
         .underlined;
-        .bold;
-        font-size: 100%;
     }
-    ul {
-        .no-padding;
-    }
+    .plain-list;
     li {
-        list-style-type: none;
         padding-bottom: 1em;
     }
     .book-title {
@@ -58,17 +75,10 @@
     .title-listing {
         .really-small;
     }
-    .more-link {
-        .center-align;
-    }
 }
 
 #completed-projects {
     .center-align;
-    h3 {
-        .bold;
-        font-size: 100%;
-    }
     table {
         .no-border;
         .no-cellpadding;
@@ -88,15 +98,8 @@
 
 #birthdays {
     .center-align;
-    h3 {
-        .bold;
-        font-size: 100%;
-    }
-    ul {
-        .no-padding;
-    }
+    .plain-list;
     li {
-        list-style-type: none;
         .small;
     }
 }
@@ -108,34 +111,36 @@
 
 #teams-nav {
     .small;
-    h3 {
-        .bold;
-        .center-align;
-    }
-    ul {
-        .no-padding;
-    }
+    .plain-list;
     li {
-        list-style-type: none;
         padding-left: 1em;
     }
-    .more-link {
+}
+
+#tally-stats {
+    .small;
+    border: 1px solid #111111;
+    margin-top: 1em;
+    h4 {
         .center-align;
+        margin: 1em 0;
+    }
+    p {
+        padding-left: 0.5em;
+    }
+    #server-time {
+        .center-align;
+        padding: 0;
+    }
+    .this-user {
+        .bold;
+        .italic;
     }
 }
 
 #key-help-documents {
     .small;
-    h3 {
-        .center-align;
-        .bold;
-    }
-    ul {
-        .no-padding;
-    }
-    li {
-        list-style-type: none;
-    }
+    .plain-list;
 }
 
 #about-dp {

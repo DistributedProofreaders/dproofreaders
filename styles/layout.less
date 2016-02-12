@@ -16,7 +16,7 @@ tt {
 
 /* ------------------------------------------------------------------------ */
 /* HTML5 hacks */
-header, section, footer, aside, nav, main, article, figure {
+section, footer, aside, main, article, figure {
     display: block;
 }
 
@@ -29,10 +29,6 @@ header, #header {
     border: 0;
     display: table;
     #logo, #titles-preserved {
-        //height: 5em;
-        //width: 50%;
-        //position: absolute;
-        //top: 0px;
         display: table-cell;
     }
     #logo {
@@ -43,9 +39,6 @@ header, #header {
         right: 0;
         .center-align;
         .middle-align;
-        /*p {
-            margin: 1.25em;
-        }*/
     }
 }
 
@@ -53,6 +46,7 @@ header, #header {
 /* Navbar */
 nav, #navbar-outer {
     .full-width;
+    display: table;
 }
 
 #navbar {
@@ -67,17 +61,26 @@ nav, #navbar-outer {
     #navbar-left {
         float: left;
         padding: 2px;
+        display: table-cell;
     }
     #navbar-right, #navbar-login {
         .right-align;
         float: right;
         white-space: nowrap;
+        display: table-cell;
     }
     #navbar-right {
         padding: 2px;
     }
     #navbar-login {
         padding: 0px 2px;
+    }
+    form {
+        margin: 0;
+        display: inline;
+        div {
+            display: inline;
+        }
     }
 }
 

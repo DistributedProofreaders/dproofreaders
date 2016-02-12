@@ -11,11 +11,9 @@ tt {
 }
 /* ------------------------------------------------------------------------ */
 /* HTML5 hacks */
-header,
 section,
 footer,
 aside,
-nav,
 main,
 article,
 figure {
@@ -47,15 +45,13 @@ header #titles-preserved,
   right: 0;
   text-align: center;
   vertical-align: middle;
-  /*p {
-            margin: 1.25em;
-        }*/
 }
 /* ------------------------------------------------------------------------ */
 /* Navbar */
 nav,
 #navbar-outer {
   width: 100%;
+  display: table;
 }
 #navbar {
   height: 1.66666667em;
@@ -70,18 +66,27 @@ nav,
 #navbar #navbar-left {
   float: left;
   padding: 2px;
+  display: table-cell;
 }
 #navbar #navbar-right,
 #navbar #navbar-login {
   text-align: right;
   float: right;
   white-space: nowrap;
+  display: table-cell;
 }
 #navbar #navbar-right {
   padding: 2px;
 }
 #navbar #navbar-login {
   padding: 0px 2px;
+}
+#navbar form {
+  margin: 0;
+  display: inline;
+}
+#navbar form div {
+  display: inline;
 }
 /* ------------------------------------------------------------------------ */
 /* Footer */

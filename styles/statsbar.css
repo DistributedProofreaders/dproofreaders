@@ -1,4 +1,12 @@
 /* ------------------------------------------------------------------------ */
+/* Mix-ins */
+.plain-list ul {
+  padding: 0;
+}
+.plain-list li {
+  list-style-type: none;
+}
+/* ------------------------------------------------------------------------ */
 /* Statsbar */
 #statsbar {
   text-align: left;
@@ -6,6 +14,18 @@
   width: 25%;
   padding: 0.5em;
   display: table-cell;
+}
+#statsbar h3 {
+  text-align: center;
+  font-size: 100%;
+}
+#statsbar .more-link {
+  text-align: center;
+  padding: 0;
+}
+#statsbar .divider {
+  text-align: center;
+  width: 75%;
 }
 #content-container.left-statsbar,
 #content-container.right-statsbar {
@@ -31,10 +51,7 @@
 /* Statsbar components */
 #completed-titles h3,
 #recent-titles h3 {
-  text-align: center;
   text-decoration: underline;
-  font-weight: bold;
-  font-size: 100%;
 }
 #completed-titles ul,
 #recent-titles ul {
@@ -43,6 +60,9 @@
 #completed-titles li,
 #recent-titles li {
   list-style-type: none;
+}
+#completed-titles li,
+#recent-titles li {
   padding-bottom: 1em;
 }
 #completed-titles .book-title,
@@ -54,16 +74,8 @@
 #recent-titles .title-listing {
   font-size: x-small;
 }
-#completed-titles .more-link,
-#recent-titles .more-link {
-  text-align: center;
-}
 #completed-projects {
   text-align: center;
-}
-#completed-projects h3 {
-  font-weight: bold;
-  font-size: 100%;
 }
 #completed-projects table {
   border: 0;
@@ -87,15 +99,13 @@
 #birthdays {
   text-align: center;
 }
-#birthdays h3 {
-  font-weight: bold;
-  font-size: 100%;
-}
 #birthdays ul {
   padding: 0;
 }
 #birthdays li {
   list-style-type: none;
+}
+#birthdays li {
   font-size: small;
 }
 #stats-central-link {
@@ -105,26 +115,37 @@
 #teams-nav {
   font-size: small;
 }
-#teams-nav h3 {
-  font-weight: bold;
-  text-align: center;
-}
 #teams-nav ul {
   padding: 0;
 }
 #teams-nav li {
   list-style-type: none;
+}
+#teams-nav li {
   padding-left: 1em;
 }
-#teams-nav .more-link {
+#tally-stats {
+  font-size: small;
+  border: 1px solid #111111;
+  margin-top: 1em;
+}
+#tally-stats h4 {
   text-align: center;
+  margin: 1em 0;
+}
+#tally-stats p {
+  padding-left: 0.5em;
+}
+#tally-stats #server-time {
+  text-align: center;
+  padding: 0;
+}
+#tally-stats .this-user {
+  font-weight: bold;
+  font-style: italic;
 }
 #key-help-documents {
   font-size: small;
-}
-#key-help-documents h3 {
-  text-align: center;
-  font-weight: bold;
 }
 #key-help-documents ul {
   padding: 0;

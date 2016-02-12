@@ -223,7 +223,7 @@ function html_navbar()
 {
     global $theme, $code_url, $site_abbreviation, $pguser, $forums_url, $blog_url, $wiki_url;
 
-    echo "<div id='navbar-outer' style='display: table;'>";
+    echo "<div id='navbar-outer'>";
     echo "<div id='navbar'>";
 
     //Code to display login form if not logged in
@@ -233,13 +233,13 @@ function html_navbar()
         if ( !empty($blog_url) )
             $links[] = array('text' => _("Blog"), 'url' => $blog_url);
         $links[] = array('text' => _("Forums"), 'url' => $forums_url);
-        echo "<span id='navbar-left' style='display: table-cell;'>";
+        echo "<span id='navbar-left'>";
         echo headerbar_text_array($links);
         echo "</span>\n";
 
-        echo "<div id='navbar-login' style='display: table-cell;'>";
+        echo "<div id='navbar-login'>";
 
-        $login_form = "<form style='margin: 0; display: inline;' action='$code_url/accounts/login.php' method='post'><div style='display: inline;'>\n";
+        $login_form = "<form action='$code_url/accounts/login.php' method='post'><div>\n";
 
         // We pass a hidden 'destination' parameter to login.php to indicate
         // where the user should be sent (preferably, where they want to go)
@@ -279,7 +279,7 @@ function html_navbar()
         $numofPMs = get_number_of_unread_messages($pguser);
 
         // left side
-        echo "<span id='navbar-left' style='display: table-cell;'>";
+        echo "<span id='navbar-left'>";
         echo headerbar_text_array(array(array('text' => $site_abbreviation, 'url' => "default.php")));
 
         echo " | ";
@@ -308,7 +308,7 @@ function html_navbar()
         // white-space: nowrap is required to have the right side shift
         // under the left side if the window isn't large enough to have both
         // on the same line.
-        echo "<span id='navbar-right' style='display: table-cell;'>";
+        echo "<span id='navbar-right'>";
         $links = array();
         $inbox_text = _("Inbox");
         if($numofPMs > 0) $inbox_text .= " " . sprintf(_("(%s unread)"),$numofPMs);
@@ -505,10 +505,10 @@ function html_statsbar($nameofpage) {
     {
         // requestor is a logged-in user.
 
-        echo "<hr style='width: 75%;' class='center-align'>\n";
+        echo "<hr class='divider'>\n";
         show_user_teams();
 
-        echo "<hr style='width: 75%;' class='center-align'>\n";
+        echo "<hr class='divider'>\n";
         show_key_help_links();
     }
 
@@ -610,16 +610,16 @@ function show_tally_specific_stats( $tally_name )
     global $code_url, $theme, $userP, $pguser;
 
     // Put the whole thing in a div, just so we can put a box around it.
-    echo "<div id='tally-stats' class='small sans-serif' style='border: 1px solid #111; margin-top: 1em;'>\n";
+    echo "<div id='tally-stats'>\n";
 
     // Show the site statistics
 
     $site_stats = get_site_page_tally_summary($tally_name);
 
     global $page_tally_names;
-    echo "<h3 class='center-align'>" . $page_tally_names[$tally_name] . "</h3>\n";
-    echo "<p class='center-align'>" . _("Server Time") . ": " . strftime("%R") . "</p>\n";
-    echo "<h4 class='center-align' style='margin: 1em 0;'>" . _("Site Statistics") . ":</h4>\n";
+    echo "<h3>" . $page_tally_names[$tally_name] . "</h3>\n";
+    echo "<p id='server-time'>" . _("Server Time") . ": " . strftime("%R") . "</p>\n";
+    echo "<h4>" . _("Site Statistics") . ":</h4>\n";
 
     show_tally_vs_goal(
         _("Today's Goal") . ":",  $site_stats->curr_day_goal,
@@ -634,7 +634,7 @@ function show_tally_specific_stats( $tally_name )
         strftime(_("%B's Total") . ":"), $site_stats->curr_month_actual );
 
     // Number of users
-    echo "<p style='padding-left: 0.5em;'>\n";
+    echo "<p>\n";
     $res = mysql_query("SELECT COUNT(*) FROM users" );
     list($num_users) = mysql_fetch_row($res);
     echo sprintf( _('%s users'), number_format($num_users) ), "<br>\n";
@@ -647,7 +647,7 @@ function show_tally_specific_stats( $tally_name )
             number_format($num_positive_users), $tally_name ),
         "\n";
 
-    echo "</p><hr style='width: 75%;' class='center-align'>\n";
+    echo "</p><hr class='divider'>\n";
     // ---------------------------------------------------------------------
 
     if (isset($pguser))
@@ -692,8 +692,8 @@ function show_tally_specific_stats( $tally_name )
         $yesterday_page_delta = $snapshot_info['tally_delta'];
         $today_page_delta = $usern->get_current_page_tally() - $snapshot_info['tally_value'];
 
-        echo "<h4 class='center-align' style='margin: 1em 0;'>" . _("Personal Statistics") . ":</h4>\n";
-        echo "<p style='padding-left: 0.5em;'>\n";
+        echo "<h4>" . _("Personal Statistics") . ":</h4>\n";
+        echo "<p>\n";
         echo _("Pages Yesterday") . ": ";
         echo number_format($yesterday_page_delta)."<br>\n";
         echo _("Pages Today") . ": ";
@@ -704,19 +704,19 @@ function show_tally_specific_stats( $tally_name )
         echo number_format($usern->get_current_page_tally_rank())."<br>\n";
         echo _("Current Rank") . ": ";
         echo "$rankname</p>\n";
-        echo "<p class='more-link center-align'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."&tally_name=".$tally_name."'>" . $tally_name . " " .  _("Details...") . "</a></p>\n";
+        echo "<p class='more-link'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."&tally_name=".$tally_name."'>" . $tally_name . " " .  _("Details...") . "</a></p>\n";
         echo "<" . "!-- " . $userP['u_id'] . " -->";
 
         // -------------------------------------------------------------
         //Show the Neighbor table if the user has requested so
         if ($userP['u_neigh']) {
-            echo "<hr style='width: 75%;' class='center-align'>\n";
-            echo "<h4 class='center-align' style='margin: 1em 0;'>" . _("Your Neighborhood") . ": </h4>\n";
-            echo "<p style='padding-left: 0.5em'>\n";
+            echo "<hr class='divider'>\n";
+            echo "<h4>" . _("Your Neighborhood") . ": </h4>\n";
+            echo "<p>\n";
 
             foreach ( $neighbors as $rel_posn => $neighbor )
             {
-                if ($rel_posn==0) echo "<span class='this-user' style='font-weight: bold; font-style: italic;'>";
+                if ($rel_posn==0) echo "<span class='this-user'>";
                 echo $neighbor->get_current_page_tally_rank(), ".) ";
                 echo ( $neighbor->is_anonymized() ? _('Anonymous') : $neighbor->get_username() ), " - ";
                 echo number_format($neighbor->get_current_page_tally());
@@ -733,7 +733,7 @@ function show_tally_specific_stats( $tally_name )
 
 function show_tally_vs_goal($label_for_goal, $goal, $label_for_actual, $actual)
 {
-    echo "<p style='padding-left: 0.5em;'>\n";
+    echo "<p>\n";
     echo "$label_for_goal ", number_format($goal);
     echo "<br>\n";
 
@@ -826,7 +826,7 @@ function show_birthdays()
         echo "<li>$username ($years)</li>";
     }
 
-    echo "</ul></div><hr style='width: 75%;' class='center-align'>\n";
+    echo "</ul></div><hr class='divider'>\n";
 }
 
 
