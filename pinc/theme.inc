@@ -609,23 +609,17 @@ function show_tally_specific_stats( $tally_name )
 {
     global $code_url, $theme, $userP, $pguser;
 
-    // Put the whole thing in a table, just so we can put a box around it.
-    echo "<br>";
-    echo "<center>";
-    echo "<table width='96%' border='1' style='border: 1px solid #111; border-collapse: collapse'>";
-    echo "<tr>";
-    echo "<td>";
+    // Put the whole thing in a div, just so we can put a box around it.
+    echo "<div id='tally-stats' class='small sans-serif' style='border: 1px solid #111; margin-top: 1em;'>\n";
 
     // Show the site statistics
 
     $site_stats = get_site_page_tally_summary($tally_name);
 
     global $page_tally_names;
-    echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
-    echo "<b>" . $page_tally_names[$tally_name] . "</b><br><br>\n";
-    echo _("Server Time") . ": " . strftime("%R") . "<br><br>\n";
-    echo "<b>" . _("Site Statistics") . ":</b></font></center>\n";
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
+    echo "<h3 class='center-align'>" . $page_tally_names[$tally_name] . "</h3>\n";
+    echo "<p class='center-align'>" . _("Server Time") . ": " . strftime("%R") . "</p>\n";
+    echo "<h4 class='center-align' style='margin: 1em 0;'>" . _("Site Statistics") . ":</h4>\n";
 
     show_tally_vs_goal(
         _("Today's Goal") . ":",  $site_stats->curr_day_goal,
@@ -640,19 +634,20 @@ function show_tally_specific_stats( $tally_name )
         strftime(_("%B's Total") . ":"), $site_stats->curr_month_actual );
 
     // Number of users
+    echo "<p style='padding-left: 0.5em;'>\n";
     $res = mysql_query("SELECT COUNT(*) FROM users" );
     list($num_users) = mysql_fetch_row($res);
-    echo '&nbsp;', sprintf( _('%s users'), number_format($num_users) ), "<br>\n";
+    echo sprintf( _('%s users'), number_format($num_users) ), "<br>\n";
 
     $tallyboard = new TallyBoard( $tally_name, 'U' );
     $num_positive_users = $tallyboard->get_num_holders_with_positive_tally();
-    echo '&nbsp;',
+    echo 
         sprintf(
             _('%s users with at least one %s page'),
             number_format($num_positive_users), $tally_name ),
-        "<br>\n";
+        "\n";
 
-    echo "</font><br><hr style='width: 75%;' class='center-align'><br>\n";
+    echo "</p><hr style='width: 75%;' class='center-align'>\n";
     // ---------------------------------------------------------------------
 
     if (isset($pguser))
@@ -697,62 +692,58 @@ function show_tally_specific_stats( $tally_name )
         $yesterday_page_delta = $snapshot_info['tally_delta'];
         $today_page_delta = $usern->get_current_page_tally() - $snapshot_info['tally_value'];
 
-        echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>" . _("Personal Statistics") . ":</b></font></center>\n";
-        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-        echo "&nbsp;" . _("Pages Yesterday") . ": ";
+        echo "<h4 class='center-align' style='margin: 1em 0;'>" . _("Personal Statistics") . ":</h4>\n";
+        echo "<p style='padding-left: 0.5em;'>\n";
+        echo _("Pages Yesterday") . ": ";
         echo number_format($yesterday_page_delta)."<br>\n";
-        echo "&nbsp;" . _("Pages Today") . ": ";
+        echo _("Pages Today") . ": ";
         echo number_format($today_page_delta)."<br>\n";
-        echo "&nbsp;" . _("Pages Total") . ": ";
+        echo _("Pages Total") . ": ";
         echo number_format($usern->get_current_page_tally())."<br>\n";
-        echo "&nbsp;" . _("Current Position") . ": ";
+        echo _("Current Position") . ": ";
         echo number_format($usern->get_current_page_tally_rank())."<br>\n";
-        echo "&nbsp;" . _("Current Rank") . ": ";
-        echo "$rankname<br></font>\n";
-        echo "<center><font size='2'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."&tally_name=".$tally_name."'>" . $tally_name . " " .  _("Details...") . "</a></font></center>\n";
+        echo _("Current Rank") . ": ";
+        echo "$rankname</p>\n";
+        echo "<p class='more-link center-align'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."&tally_name=".$tally_name."'>" . $tally_name . " " .  _("Details...") . "</a></p>\n";
         echo "<" . "!-- " . $userP['u_id'] . " -->";
 
         // -------------------------------------------------------------
         //Show the Neighbor table if the user has requested so
         if ($userP['u_neigh']) {
-            echo "<br><hr style='width: 75%;' class='center-align'><br>\n";
-            echo "<center><font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'><b>";
-            echo _("Your Neighborhood") . ": ";
-            echo "</b></font></center>\n";
-            echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>\n";
+            echo "<hr style='width: 75%;' class='center-align'>\n";
+            echo "<h4 class='center-align' style='margin: 1em 0;'>" . _("Your Neighborhood") . ": </h4>\n";
+            echo "<p style='padding-left: 0.5em'>\n";
 
             foreach ( $neighbors as $rel_posn => $neighbor )
             {
-                echo "&nbsp;";
-                if ($rel_posn==0) echo "<b><i>";
+                if ($rel_posn==0) echo "<span class='this-user' style='font-weight: bold; font-style: italic;'>";
                 echo $neighbor->get_current_page_tally_rank(), ".) ";
                 echo ( $neighbor->is_anonymized() ? _('Anonymous') : $neighbor->get_username() ), " - ";
                 echo number_format($neighbor->get_current_page_tally());
-                if ($rel_posn==0) echo "</i></b>";
+                if ($rel_posn==0) echo "</span>";
                 echo "<br>\n";
             }
+
+            echo "</p>\n";
         }
     }
 
-    echo "<br>";
-    echo "</td></tr></table>";
-    echo "</center>";
+    echo "</div>";
 }
 
 function show_tally_vs_goal($label_for_goal, $goal, $label_for_actual, $actual)
 {
-    echo "&nbsp;$label_for_goal ", number_format($goal);
+    echo "<p style='padding-left: 0.5em;'>\n";
+    echo "$label_for_goal ", number_format($goal);
     echo "<br>\n";
 
-    echo "&nbsp;$label_for_actual ", number_format($actual);
+    echo "$label_for_actual ", number_format($actual);
     if ($goal)
     {
         // Show $actual as a percentage of $goal.
         echo " (", number_format(($actual/$goal)*100, 2), "%)";
     }
-    echo "<br><br>\n";
-
-    echo "\n";
+    echo "</p>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -772,7 +763,6 @@ function show_user_teams()
     while($row = mysql_fetch_assoc($teamRes))
     {
         echo "<li>";
-        echo "&nbsp;";
         echo "<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a>";
         echo "</li>";
         echo "\n";
