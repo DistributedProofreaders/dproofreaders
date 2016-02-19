@@ -5,8 +5,8 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'access_log.inc');
-include_once($relPath.'username.inc');
 include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'User.inc');
 
 require_login();
 

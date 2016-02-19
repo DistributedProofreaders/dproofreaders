@@ -7,6 +7,7 @@
 $relPath='../../../pinc/';
 include_once($relPath.'archiving.inc');
 include_once($relPath.'connect.inc');
+include_once($relPath.'udb_user.php');
 new dbConnect();
 
 error_reporting(E_ALL);

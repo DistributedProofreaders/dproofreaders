@@ -1,6 +1,7 @@
 <?php
 $relPath='../pinc/';
 include_once($relPath.'connect.inc');
+include_once($relPath.'udb_user.php');
 new dbConnect();
 
 mysql_query("CREATE DATABASE IF NOT EXISTS $db_name") or die(mysql_error());

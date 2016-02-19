@@ -784,4 +784,10 @@ function stripslashes_arr_inplace(&$value, $key = NULL)
     // no need to return $value as it was passed by reference
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// Useful exceptions
+
+class NotImplementedException extends BadMethodCallException {}
+
 // vim: sw=4 ts=4 expandtab
