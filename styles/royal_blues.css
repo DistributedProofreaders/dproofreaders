@@ -117,6 +117,8 @@ h2 {
   color: #000099;
   font-family: Verdana, Arial, sans-serif;
 }
+/* ------------------------------------------------------------------------ */
+/* Sans-serif styling */
 #completed-titles .title-listing,
 #recent-titles .title-listing {
   font-family: Verdana, Arial, sans-serif;
