@@ -7,7 +7,10 @@
 $relPath='../../../pinc/';
 include_once($relPath.'archiving.inc');
 include_once($relPath.'connect.inc');
-include_once($relPath.'udb_user.php');
+// connect.inc include()s udb_user.php but only in a local scope, so we
+// need to include it again to place $archive_db_name in this scope.
+include($relPath.'udb_user.php'); // $archive_db_name
+
 new dbConnect();
 
 error_reporting(E_ALL);

@@ -1,7 +1,10 @@
 <?php
 $relPath='../pinc/';
 include_once($relPath.'connect.inc');
-include_once($relPath.'udb_user.php');
+// connect.inc include()s udb_user.php but only in a local scope, so we
+// need to include it again to place $db_name in this scope.
+include($relPath.'udb_user.php'); // $db_name
+
 new dbConnect();
 
 mysql_query("CREATE DATABASE IF NOT EXISTS $db_name") or die(mysql_error());

@@ -5,7 +5,7 @@ class dbConnect
     var $error='';
 
     function dbConnect() {
-        include_once('udb_user.php');
+        include('udb_user.php');
 
         // Ignore warnings from mysql_connect() so we can handle them
         // gracefully elsewhere.

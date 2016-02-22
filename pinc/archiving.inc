@@ -1,10 +1,12 @@
 <?php
 include_once($relPath.'site_vars.php'); // $projects_dir $archive_projects_dir
-include_once($relPath.'udb_user.php'); // $archive_db_name
 include_once($relPath.'project_events.inc'); // log_project_event
 include_once($relPath.'project_states.inc'); // PROJ_SUBMIT_PG_POSTED PROJ_DELETE
 include_once($relPath.'Stopwatch.inc');
 include_once($relPath.'Project.inc'); // does_project_page_table_exist()
+// connect.inc include()s udb_user.php but only in a local scope, so we
+// need to include it again to place $archive_db_name in this scope.
+include($relPath.'udb_user.php'); // $archive_db_name
 
 
 function archive_project( $project, $dry_run )
