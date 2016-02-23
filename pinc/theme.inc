@@ -125,7 +125,7 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) 
     echo "</title>\n";
     // Global theme CSS
     echo "\n<link type='text/css' rel='Stylesheet' href='";
-    echo "$code_url/styles/" . $theme['template_unix_name'] . ".css'>\n";
+    echo "$code_url/styles/themes/" . $theme['template_unix_name'] . ".css'>\n";
 
     // Global layout CSS
     echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/layout.css'>\n";

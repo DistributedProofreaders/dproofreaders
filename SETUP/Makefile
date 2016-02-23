@@ -4,14 +4,13 @@ SELF_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 STYLE_DIR := $(SELF_DIR)../styles
 
 LESSC := lessc
-THEME_CSS := $(STYLE_DIR)/classic_grey.css $(STYLE_DIR)/project_gutenberg.css \
-	$(STYLE_DIR)/royal_blues.css
+THEME_CSS := $(STYLE_DIR)/themes/*.css
 
 all: less lint
 
-less: $(STYLE_DIR)/*.css
+less: $(STYLE_DIR)/*.css $(THEME_CSS)
 
-$(THEME_CSS): $(STYLE_DIR)/theme.less
+$(THEME_CSS): $(STYLE_DIR)/themes/theme.less
 
 %.css: %.less $(STYLE_DIR)/global.less
 	$(LESSC) $< $@
