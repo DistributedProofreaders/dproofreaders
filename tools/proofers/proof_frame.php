@@ -34,7 +34,7 @@ else
 {
     // The user clicked "Start Proofreading" or "Save as 'Done' & Proofread Next Page".
 
-    $projectid  = validate_projectID('project', @$_REQUEST['project']);
+    $projectid  = validate_projectID('project', @$_REQUEST['projectid']);
     $proj_state = $_REQUEST['proj_state'];
 
     // Consider the page (if any) that this user most recently "opened" in
