@@ -315,7 +315,7 @@ class ProjectInfoHolder
         {
             return sprintf(_("parameter '%s' is empty"), 'project');
         }
-        validate_projectID('project', $projectid);
+        $projectid = validate_projectID('project', $projectid);
 
         $ucep_result = user_can_edit_project($projectid);
         // we only let people clone projects that they can edit, so this
@@ -396,8 +396,8 @@ class ProjectInfoHolder
 
         if ( isset($_POST['projectid']) )
         {
-            validate_projectID('projectid', @$_POST['projectid']);
-            $this->projectid = $_POST['projectid'];
+            $projectid = validate_projectID('projectid', @$_POST['projectid']);
+            $this->projectid = $projectid;
 
             $ucep_result = user_can_edit_project($this->projectid);
             if ( $ucep_result == PROJECT_DOES_NOT_EXIST )
@@ -420,8 +420,8 @@ class ProjectInfoHolder
         else if ( isset($_POST['clone_projectid']) )
         {
             // we're creating a clone
-            validate_projectID('clone_projectid', @$_POST['clone_projectid']);
-            $this->clone_projectid = $_POST['clone_projectid'];
+            $clone_projectid = validate_projectID('clone_projectid', @$_POST['clone_projectid']);
+            $this->clone_projectid = $clone_projectid;
         }
 
         $this->nameofwork = @$_POST['nameofwork'];

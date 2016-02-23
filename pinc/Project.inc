@@ -568,12 +568,17 @@ function does_project_page_table_exist($projectid)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// Checks if $value has the form of a valid project ID.
+// Checks if $value has the form of a valid project ID, either in its
+// long form (projectID####) or just the project number (####).
 // If it does, it returns it, otherwise dies with a warning.
 function validate_projectID($param_name, $value, $allownull = false)
 {
-    if (!isset($value) && $allownull) return null;
-    if (1 == preg_match('/^projectID[0-9a-f]{13}$/', $value)) return $value;
+    if (!isset($value) && $allownull)
+        return null;
+    if (1 == preg_match('/^projectID[0-9a-f]{13}$/', $value))
+        return $value;
+    if (1 == preg_match('/^[0-9a-f]{13}$/', $value))
+        return "projectID$value";
     die(sprintf(
         _("The value of parameter '%1\$s' ('%2\$s') is not a valid projectID."),
         htmlspecialchars($param_name),
