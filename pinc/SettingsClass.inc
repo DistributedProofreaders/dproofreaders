@@ -322,7 +322,7 @@ class Settings
         }
     }
 
-    // Return a list of usernames that have a specific setting
+    // Return a list of unique usernames that have a specific setting
     // specified (and optionally with a specific value).
     static function get_users_with_setting($setting, $value=NULL)
     {
@@ -346,7 +346,7 @@ class Settings
         }
         mysql_free_result($result);
 
-        return $usernames;
+        return array_unique($usernames);
     }
 }
 

@@ -158,12 +158,13 @@ class SettingsTest extends PHPUnit_Framework_TestCase
             $this->PREFIX . "specific_setting");
         $this->assertEquals(1, count($usernames));
 
-        // Add a second setting with a different value and confirm there are
-        // now two
+        // Add a second setting with a different value and confirm there is
+        // still only one user with this setting, despite having multiple
+        // values.
         $settings->add_value($this->PREFIX . "specific_setting", "value2");
         $usernames = Settings::get_users_with_setting(
             $this->PREFIX . "specific_setting");
-        $this->assertEquals(2, count($usernames));
+        $this->assertEquals(1, count($usernames));
 
         // Get a list querying for a specific setting and value
         $usernames = Settings::get_users_with_setting(
