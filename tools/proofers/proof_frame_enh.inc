@@ -27,47 +27,7 @@ function echo_proof_frame_enh( $ppage )
         </script>
         <style type="text/css">
             <!--
-            body {
-                font-family: verdana, arial, helvetica, sans-serif;
-                font-size: 12px;
-                color:#000000;
-                background-color:#CDCDC1;
-                text-align:center;
-                overflow:hidden;
-            }
-            <?php echo ibe_get_styles(); ?>
-            #tbtext {
-                border:1px solid #000000;
-                text-align:center;
-                overflow:auto;
-            }
-            #tdtop {
-                border:1px solid #000000;
-                background-color:#CDC0B0;
-                padding:2px;
-            }
-            #tdtext {
-                border:1px solid #000000;
-                background-color:#CDCDC1;
-                padding:2px;
-            }
-            #tdbottom {
-                border:1px solid #000000;
-                background-color:#EEDFCC;
-                padding:2px;
-            }
-            #text_data {
-                padding:2px;
-                background-color:#FFF8DC;
-                color:#000000;
-            }
-            .dropsmall {
-                font-size: 75%;
-                background-color:#FFF8DC;
-            }
-            .boxnormal {
-                background-color:#FFF8DC;
-            }
+            <?php echo get_page_styles(); ?>
             -->
         </style>
         </head>
@@ -116,6 +76,54 @@ function echo_proof_frame_enh( $ppage )
         </body>
     </html>
     <?php
+}
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function get_page_styles()
+{
+    return <<<STYLES
+        body {
+            margin-top: 0;
+            font-family: verdana, arial, helvetica, sans-serif;
+            font-size: 12px;
+            color:#000000;
+            background-color:#CDCDC1;
+            text-align:center;
+            overflow:hidden;
+        }
+        #tbtext {
+            border:1px solid #000000;
+            text-align:center;
+            overflow:auto;
+        }
+        #tdtop {
+            border:1px solid #000000;
+            background-color:#CDC0B0;
+            padding:2px;
+        }
+        #tdtext {
+            border:1px solid #000000;
+            background-color:#CDCDC1;
+            padding:2px;
+        }
+        #tdbottom {
+            border:1px solid #000000;
+            background-color:#EEDFCC;
+            padding:2px;
+        }
+        #text_data {
+            padding:2px;
+            background-color:#FFF8DC;
+            color:#000000;
+        }
+        .dropsmall {
+            font-size: 75%;
+            background-color:#FFF8DC;
+        }
+        .boxnormal {
+            background-color:#FFF8DC;
+        }
+STYLES;
 }
 
 // vim: sw=4 ts=4 expandtab
