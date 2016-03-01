@@ -23,7 +23,7 @@ which are arranged by absolute positioning into a rectangular grid:
 
 // -----------------------------------------------------------------------------
 
-function ibe_echo_styles()
+function ibe_get_styles()
 // $block_width_pc and $block_height_pc
 // give the dimensions of the whole image block
 // as percentages of its container box
@@ -55,13 +55,13 @@ function ibe_echo_styles()
 
     // (This assumes that 25px is about 3% of either dimension of the proofframe;
     // i.e., that the proofframe is roughly 800 x 800px.)
-?>
+    return <<<STYLES
     #controlframe {
         position:absolute;
-        left:<?php echo $textLeft; ?>;
-        top:<?php echo $textTop; ?>;
-        width:<?php echo $textWidth; ?>%;
-        height:<?php echo $textHeight; ?>%;
+        left:$textLeft;
+        top:$textTop;
+        width:$textWidth%;
+        height:$textHeight%;
         /* clip:rect(0px, 100%, 100%, 0px); -- broken in MS Edge */
         background-color:#CDCDC1;
         text-align:center;
@@ -71,26 +71,26 @@ function ibe_echo_styles()
 
     #imagehorz {
         position:absolute;
-        left:<?php echo $minor_width; ?>;
+        left:$minor_width;
         top:0px;
-        width:<?php echo $major_width; ?>;
-        height:<?php echo $minor_height; ?>;
+        width:$major_width;
+        height:$minor_height;
         z-index:3;
     }
     #imagevert {
         position:absolute;
         left:0px;
-        top:<?php echo $minor_height; ?>;
-        width:<?php echo $minor_width; ?>;
-        height:<?php echo $major_height; ?>;
+        top:$minor_height;
+        width:$minor_width;
+        height:$major_height;
         z-index:4;
     }
     #imageframe {
         position:absolute;
-        top:<?php echo $minor_height; ?>;
-        left:<?php echo $minor_width; ?>;
-        width:<?php echo $major_width; ?>;
-        height:<?php echo $major_height; ?>;
+        top:$minor_height;
+        left:$minor_width;
+        width:$major_width;
+        height:$major_height;
         /* clip:rect(0px, 100%, 100%, 0px); -- broken in MS Edge */
         z-index:2;
         text-align:center;
@@ -103,7 +103,7 @@ function ibe_echo_styles()
         z-index:1;
         background-color:#EEDFCC;
     }
-<?php
+STYLES;
 }
 
 // -----------------------------------------------------------------------------

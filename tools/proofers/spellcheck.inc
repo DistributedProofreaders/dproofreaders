@@ -75,7 +75,7 @@ body {
   }
 <?php
 if($userP['i_type']==1)
-    ibe_echo_styles();
+    echo ibe_get_styles();
 ?>
 #tbtext {
   border:1px solid #000000;

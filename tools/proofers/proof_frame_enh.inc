@@ -35,7 +35,7 @@ function echo_proof_frame_enh( $ppage )
                 text-align:center;
                 overflow:hidden;
             }
-            <?php ibe_echo_styles(); ?>
+            <?php echo ibe_get_styles(); ?>
             #tbtext {
                 border:1px solid #000000;
                 text-align:center;
