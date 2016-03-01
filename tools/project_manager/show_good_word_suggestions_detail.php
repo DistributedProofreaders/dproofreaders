@@ -52,11 +52,10 @@ $_SESSION["show_good_word_suggestions_detail"]["layout"] = $layout;
 $frame = get_enumerated_param($_GET, 'frame', 'master', array('master', 'left', 'right'));
 
 if($frame=="master") {
-    slim_header(_("Suggestion Detail"),TRUE,FALSE);
+    slim_header_frameset(_("Suggestion Detail"));
     if($layout == LAYOUT_HORIZ) $frameSpec='rows="30%,70%"';
     else $frameSpec='cols="30%,70%"';
 ?>
-</head>
 <frameset <?php echo $frameSpec; ?>>
 <frame name="worddetailframe" src="show_good_word_suggestions_detail.php?projectid=<?php echo $projectid; ?>&amp;word=<?php echo $encWord; ?>&amp;timeCutoff=<?php echo $timeCutoff; ?>&amp;frame=left">
 <frame name="imageframe" src="show_good_word_suggestions_detail.php?projectid=<?php echo $projectid; ?>&amp;word=<?php echo $encWord; ?>&amp;timeCutoff=<?php echo $timeCutoff; ?>&amp;frame=right">

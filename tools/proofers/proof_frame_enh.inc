@@ -11,31 +11,13 @@ function echo_proof_frame_enh( $ppage )
 {
     global $userP;
 
-    slim_header( _("Proofreading Page"),TRUE,FALSE);
+    $header_args = array(
+        "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1);}',
+        "css_data" => ibe_get_styles() . get_page_styles(),
+        "body_attributes" => 'onload="ldAll()"',
+    );
 
-    echo '<script language="JavaScript" type="text/javascript">' . "\n";
-    echo "<!--\n";
-    echo ibe_get_js();
-    echo "// -->\n";
-    echo '</script>';
-    ?>
-        <script language="JavaScript" type="text/javascript">
-            <!--
-            function ldAll()
-            {top.initializeStuff(1);}
-            // -->
-        </script>
-        <style type="text/css">
-            <!--
-            <?php echo get_page_styles(); ?>
-            -->
-        </style>
-        </head>
-        <body
-            text="#000000"
-            topmargin="0"
-            onload="ldAll()">
-            <?php
+    slim_header(_("Proofreading Page"), $header_args);
 
                 if ($userP['i_layout']==1)
                     {$iWidth=$userP['v_zoom'];}
@@ -73,7 +55,6 @@ function echo_proof_frame_enh( $ppage )
                     </table>
                 </form>
             </div>
-        </body>
     <?php
 }
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

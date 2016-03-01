@@ -15,26 +15,19 @@ $revert_text=isset($_POST['revert_text']) ? stripslashes($_POST['revert_text']) 
 
 $is_header_visible = array_get($_SESSION,"is_header_visible",1);
 
-slim_header(_("WordCheck"),TRUE,FALSE);
+$header_args = array(
+    "js_data" => spellcheck_get_js() . get_page_js($userP['i_type']==1 ? 2 : 3),
+    "css_data" => get_page_styles(),
+    "body_attributes" => 'onload="ldAll()"',
+);
 
-echo '<script language="JavaScript" type="text/javascript">' . "\n";
-echo "<!--\n";
 if($userP['i_type']==1)
-    echo ibe_get_js();
-echo spellcheck_get_js();
-echo get_page_js($userP['i_type']==1 ? 2 : 3);
-echo "// -->\n";
-echo '</script>';
+{
+    $header_args["js_data"] .= ibe_get_js();
+    $header_args["css_data"] .= ibe_get_styles();
+}
 
-echo '<style type="text/css">' . "\n";
-echo "<!--\n";
-if($userP['i_type']==1)
-    echo ibe_get_styles();
-echo get_page_styles();
-echo "-->\n";
-echo "</style>";
-
-echo '</head><body onload="ldAll()">';
+slim_header(_("WordCheck"), $header_args);
 
 // print basic image html
 if ($userP['i_type']==1) {
@@ -195,7 +188,6 @@ if ($userP['i_type']==1) {
 </table>
 </form>
 </div>
-</body>
 <?php
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

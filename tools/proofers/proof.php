@@ -67,15 +67,10 @@ if ( $code != $project->CBP_OKAY )
 }
 
 //load the master frameset
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-<?php
 
 // Add name of round before nameofwork
 $round = get_Round_for_project_state($project->state);
 $nameofwork = "[" . $round->id . "] " . $project->nameofwork;
-slim_header($nameofwork." - "._("Proofreading Interface"),FALSE,FALSE);
-$frameGet="?" . $_SERVER['QUERY_STRING'];
 
 // Re src="dp_foo.js?YYMMDD##" in the following <script> tags:
 // When a JS script file changes, the browser should note this and update its
@@ -87,10 +82,16 @@ $frameGet="?" . $_SERVER['QUERY_STRING'];
 // The browser sees that the src URL no longer matches that of its cached
 // script, and so fetches the new version. (Of course, the JS script doesn't
 // do anything with the query string, but the browser doesn't know that.)
+$header_args = array(
+    "js_files" => array(
+        "dp_proof.js?2015122901",
+        "dp_scroll.js?1.18",
+    )
+);
+slim_header_frameset($nameofwork." - "._("Proofreading Interface"), $header_args);
+
+$frameGet="?" . $_SERVER['QUERY_STRING'];
 ?>
-<script language="JavaScript" type="text/javascript" src="dp_proof.js?2015122901"></script>
-<script language="JavaScript" type="text/javascript" src="dp_scroll.js?1.18"></script>
-</head>
 <frameset rows="*,73">
 <frame name="proofframe" src="<?php echo "$code_url/tools/proofers/proof_frame.php{$frameGet}";?>" marginwidth="2" marginheight="2" frameborder="0">
 <frame name="menuframe" src="ctrl_frame.php?round_id=<?php echo $round->id; ?>" marginwidth="2" marginheight="2" frameborder="0">

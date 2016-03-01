@@ -38,11 +38,10 @@ $wordInstances =  get_integer_param($_GET, 'wordInstances', 20, 0, null);
 $frame = get_enumerated_param($_GET, 'frame', 'master', array('master', 'left', 'right'));
 
 if($frame=="master") {
-    slim_header(_("Word Context"),TRUE,FALSE);
+    slim_header_frameset(_("Word Context"));
     if($layout == LAYOUT_HORIZ) $frameSpec='rows="30%,70%"';
     else $frameSpec='cols="30%,70%"';
 ?>
-</head>
 <frameset <?php echo $frameSpec; ?>>
 <frame name="worddetailframe" src="show_word_context.php?projectid=<?php echo $projectid; ?>&amp;word=<?php echo $encWord; ?>&amp;wordInstances=<?php echo $wordInstances; ?>&amp;frame=left">
 <frame name="imageframe" src="show_word_context.php?projectid=<?php echo $projectid; ?>&amp;word=<?php echo $encWord; ?>&amp;wordInstances=<?php echo $wordInstances; ?>&amp;frame=right">

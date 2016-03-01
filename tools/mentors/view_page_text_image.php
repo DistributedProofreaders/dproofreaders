@@ -77,14 +77,13 @@ if(!count($error_messages)) {
 $frame = get_enumerated_param($_GET,"frame","master",array("master","top","image","text"));
 
 if ($frame=="master") {
-    slim_header(_("Image and text for page"),TRUE,FALSE);
+    slim_header_frameset(_("Image and text for page"));
 
     $projectid=htmlspecialchars($projectid,ENT_QUOTES);
     $page=htmlspecialchars($page,ENT_QUOTES);
     $round_id=htmlspecialchars($round_id,ENT_QUOTES);
 
 ?>
-</head>
 <frameset rows="15%,50%,35%">
 <frame name="topframe" src="view_page_text_image.php?projectid=<?php echo $projectid;?>&amp;page=<?php echo $page;?>&amp;round_id=<?php echo $round_id;?>&amp;frame=top">
 <frame name="imageframe" src="view_page_text_image.php?projectid=<?php echo $projectid;?>&amp;page=<?php echo $page;?>&amp;round_id=<?php echo $round_id;?>&amp;frame=image">

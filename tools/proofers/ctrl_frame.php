@@ -2,23 +2,20 @@
 $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'http_headers.inc');
+include_once($relPath.'slim_header.inc');
 include_once($relPath.'stages.inc');
 include_once('toolbox.inc');
 
 $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_));
 $round = get_Round_for_round_id($round_id);
 
-include_once($relPath.'slim_header.inc');
-slim_header(_("Control Frame"),TRUE,FALSE);
+$header_args = array(
+    "css_data" => get_page_styles(),
+    "body_attributes" => 'onLoad="top.cRef = top.markRef = document.markform;"',
+);
+slim_header(_("Control Frame"), $header_args);
 
 ?>
-<style type="text/css">
-<!--
-<?php echo get_page_styles(), ?>
--->
-</style>
-</head>
-<body onLoad="top.cRef = top.markRef = document.markform;">
 <a
 	href="#"
 	accesskey="="
@@ -128,7 +125,6 @@ echo "</a>]\n"; ?>
 </tr>
 </table>
 </form>
-</body>
 <?php
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

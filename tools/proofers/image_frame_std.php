@@ -2,16 +2,17 @@
 $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'http_headers.inc');
+include_once($relPath.'slim_header.inc');
 include_once('PPage.inc');
 
 require_login();
 
 $ppage = get_requested_PPage($_GET);
 
-include_once($relPath.'slim_header.inc');
-slim_header("Image Frame",TRUE,FALSE);
+$page_css = "body { background-color: #CDC0B0; }";
+slim_header("Image Frame", array('css_data' => $page_css));
 ?>
-</head><body bgcolor="#CDC0B0"><center><div align="center" id="imagedisplay"><img
+<center><div align="center" id="imagedisplay"><img
 name="scanimage" id="scanimage" title="" alt=""
 src="<?php echo $ppage->url_for_image(); ?>"
 width="<?php
@@ -21,7 +22,6 @@ width="<?php
     $iWidth=round((1000*$iWidth)/100);
   echo $iWidth;
 ?>"></div></center>
-</body>
 
 <?php
 // vim: sw=4 ts=4 expandtab

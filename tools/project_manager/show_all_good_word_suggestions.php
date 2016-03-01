@@ -54,13 +54,12 @@ if($frame=="update") {
 }
 
 if($frame=="master") {
-    slim_header(_("Manage Suggestions"),TRUE,FALSE);
+    slim_header_frameset(_("Manage Suggestions"));
     $frameSpec='cols="40%,60%"';
     if(@$_REQUEST["timecutoff"])
         $timeCutoffSpec="timeCutoff=$timeCutoff&amp;";
     else $timeCutoffSpec="";
 ?>
-</head>
 <frameset <?php echo $frameSpec; ?>>
 <frame src="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES); ?>?pm=<?php echo htmlspecialchars($pm, ENT_QUOTES); ?>&amp;freqCutoff=<?php echo $freqCutoff; ?>&amp;<?php echo $timeCutoffSpec; ?>frame=left">
 <frame name="detailframe" src="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES); ?>?frame=right">
