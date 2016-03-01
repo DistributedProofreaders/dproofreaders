@@ -13,7 +13,11 @@ function echo_proof_frame_enh( $ppage )
 
     slim_header( _("Proofreading Page"),TRUE,FALSE);
 
-    ibe_echo_script();
+    echo '<script language="JavaScript" type="text/javascript">' . "\n";
+    echo "<!--\n";
+    echo ibe_get_js();
+    echo "// -->\n";
+    echo '</script>';
     ?>
         <script language="JavaScript" type="text/javascript">
             <!--

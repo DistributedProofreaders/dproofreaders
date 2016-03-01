@@ -18,9 +18,19 @@ $is_header_visible = array_get($_SESSION,"is_header_visible",1);
 slim_header(_("WordCheck"),TRUE,FALSE);
 
 if($userP['i_type']==1)
-    ibe_echo_script();
+{
+    echo '<script language="JavaScript" type="text/javascript">' . "\n";
+    echo "<!--\n";
+    echo ibe_get_js();
+    echo "// -->\n";
+    echo '</script>';
+}
 
-spellcheck_echo_script();
+echo '<script language="JavaScript" type="text/javascript">' . "\n";
+echo "<!--\n";
+echo spellcheck_get_js();
+echo "// -->\n";
+echo '</script>';
 ?>
 <script language="JavaScript" type="text/javascript">
 <!--
