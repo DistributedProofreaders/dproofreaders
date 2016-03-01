@@ -101,7 +101,7 @@ if ($frame=="master") {
 
 // if we're in the top frame, load the form and any error messages
 elseif ($frame=="top") {
-    slim_header($page,TRUE,TRUE);
+    slim_header($page);
 
     if (!count($error_messages)) {
         $myresult = mysql_query(sprintf("SELECT nameofwork FROM projects WHERE projectid = '%s'", mysql_real_escape_string($projectid)));
@@ -193,7 +193,7 @@ elseif ($frame=="top") {
 
 //If we're loading the image frame, load the image and a little form to control the size
 elseif ($frame=="image") {
-    slim_header(_("Image Frame"),TRUE,TRUE);
+    slim_header(_("Image Frame"));
     if(!count($error_messages)) {
         $percent = get_integer_param($_GET, 'percent', 100, 1, 999);
         $width = 10*$percent;
@@ -215,7 +215,7 @@ elseif ($frame=="image") {
 //If it's the text frame, we show the saved text in a textarea 
 //with some of the user's preferences from the proofreading interface
 elseif ($frame=="text") {
-    slim_header(_("Text Frame"),TRUE,TRUE);
+    slim_header(_("Text Frame"));
     if (!count($error_messages)) {
         if ($round_id == "OCR") {
             $text_column_name = 'master_text';

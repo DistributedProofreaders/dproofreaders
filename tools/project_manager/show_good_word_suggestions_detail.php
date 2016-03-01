@@ -88,7 +88,7 @@ if($frame=="left") {
         }
     }
 
-    slim_header(_("Suggestion Detail"),TRUE,TRUE);
+    slim_header(_("Suggestion Detail"));
 
     $project_name = get_project_name($projectid);
     echo "<h2>", 
@@ -142,7 +142,7 @@ if($frame=="left") {
 }
 
 if($frame=="right") {
-    slim_header(_("Image Frame"),TRUE,TRUE);
+    slim_header(_("Image Frame"));
     echo "<p>" . _("Select one of the page links to view the page image (scan).") . "</p>";
     slim_footer();
     exit;

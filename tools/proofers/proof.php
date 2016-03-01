@@ -21,7 +21,7 @@ $expected_state_text = project_states_text($expected_state);
 if (empty($expected_state_text)) die( "parameter 'proj_state' has bad value: '$expected_state'" );
 if ($expected_state != $project->state)
 {
-    slim_header( $project->nameofwork, TRUE, TRUE );
+    slim_header( $project->nameofwork );
 
     echo "<p>";
     echo sprintf(
@@ -52,7 +52,7 @@ if ( $code != $project->CBP_OKAY )
 {
     // I think this can only happen via URL-tweaking.
 
-    slim_header( $project->nameofwork, TRUE, TRUE );
+    slim_header( $project->nameofwork );
 
     echo _("Project") . ": \"{$project->nameofwork}\"<br>\n";
     echo _("State")   . ": " . project_states_text($project->state) . "<br>\n";

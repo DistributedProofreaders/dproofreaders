@@ -80,7 +80,7 @@ if($frame=="left") {
 
     $submitLabel = _("Add selected words to Good Words List");
 
-    slim_header(_("Manage Suggestions"),TRUE,TRUE);
+    slim_header(_("Manage Suggestions"));
 
     // how many instances (ie: frequency sections) are there?
     $instances=count( $projects ) + 1;
