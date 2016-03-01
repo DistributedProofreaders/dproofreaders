@@ -19,7 +19,7 @@ $name     = get_enumerated_param($_GET, 'name',     null, array_keys($pophelp[$c
 $title   = $pophelp[$category][$name]['title'];
 $content = $pophelp[$category][$name]['content'];
 
-slim_header($title, true, false);
+slim_header($title);
 echo "<div align='center'>\n";
 echo "<table border='1' width='360' cellpadding='6'>\n";
 echo "<tr><td align='center' bgcolor='#cccccc'><b>$title</b></td></tr>\n";
