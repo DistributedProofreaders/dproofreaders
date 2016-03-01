@@ -17,30 +17,22 @@ $is_header_visible = array_get($_SESSION,"is_header_visible",1);
 
 slim_header(_("WordCheck"),TRUE,FALSE);
 
-if($userP['i_type']==1)
-{
-    echo '<script language="JavaScript" type="text/javascript">' . "\n";
-    echo "<!--\n";
-    echo ibe_get_js();
-    echo "// -->\n";
-    echo '</script>';
-}
-
 echo '<script language="JavaScript" type="text/javascript">' . "\n";
 echo "<!--\n";
+if($userP['i_type']==1)
+{
+    echo ibe_get_js();
+}
+
 echo spellcheck_get_js();
-echo "// -->\n";
-echo '</script>';
-?>
-<script language="JavaScript" type="text/javascript">
-<!--
-function ldAll()
-{top.initializeStuff(<?php
-  if ($userP['i_type']==1)
-    {echo "2";}
-  else
-    {echo "3";}
-?>);}
+
+$show_wc_header_label = javascript_safe(_("Show WordCheck Header"), $charset);
+$hide_wc_header_label = javascript_safe(_("Hide WordCheck Header"), $charset);
+$interface_type_init_value = $userP['i_type']==1 ? 2 : 3;
+echo <<<PAGE_JS
+function ldAll() {
+    top.initializeStuff($interface_type_init_value);
+}
 
 function toggleWCHeader() {
     var header=document.getElementById('wc_header');
@@ -50,18 +42,20 @@ function toggleWCHeader() {
     if(header) {
         if(header.style.display=='') {
             header.style.display='none';
-            headerLink.innerHTML='<?php echo javascript_safe(_("Show WordCheck Header"), $charset); ?>';
+            headerLink.innerHTML='$show_wc_header_label';
             headerStateSave.value=0;
         } else{
             header.style.display='';
-            headerLink.innerHTML='<?php echo javascript_safe(_("Hide WordCheck Header"), $charset); ?>';
+            headerLink.innerHTML='$hide_wc_header_label';
             headerStateSave.value=1;
         }
     }
     return false;
 }
-// -->
-</script>
+PAGE_JS;
+echo "// -->\n";
+echo '</script>';
+?>
 <style type="text/css">
 <!--
 body {
