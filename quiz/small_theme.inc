@@ -58,6 +58,16 @@ function output_small_header($quiz)
     echo "</td>";
     echo "</tr>";
     echo "</table>";
+
+    // Call output_small_footer when the main page content has been emitted so
+    // we can emit the footer
+    register_shutdown_function('output_small_footer');
+}
+
+function output_small_footer()
+{
+    echo "</body>\n";
+    echo "</html>\n";
 }
 
 // vim: sw=4 ts=4 expandtab
