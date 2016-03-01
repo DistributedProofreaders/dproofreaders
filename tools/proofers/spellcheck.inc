@@ -20,39 +20,9 @@ slim_header(_("WordCheck"),TRUE,FALSE);
 echo '<script language="JavaScript" type="text/javascript">' . "\n";
 echo "<!--\n";
 if($userP['i_type']==1)
-{
     echo ibe_get_js();
-}
-
 echo spellcheck_get_js();
-
-$show_wc_header_label = javascript_safe(_("Show WordCheck Header"), $charset);
-$hide_wc_header_label = javascript_safe(_("Hide WordCheck Header"), $charset);
-$interface_type_init_value = $userP['i_type']==1 ? 2 : 3;
-echo <<<PAGE_JS
-function ldAll() {
-    top.initializeStuff($interface_type_init_value);
-}
-
-function toggleWCHeader() {
-    var header=document.getElementById('wc_header');
-    var headerLink=document.getElementById('wc_header_link');
-    var headerStateSave=document.getElementById('is_header_visible');
-
-    if(header) {
-        if(header.style.display=='') {
-            header.style.display='none';
-            headerLink.innerHTML='$show_wc_header_label';
-            headerStateSave.value=0;
-        } else{
-            header.style.display='';
-            headerLink.innerHTML='$hide_wc_header_label';
-            headerStateSave.value=1;
-        }
-    }
-    return false;
-}
-PAGE_JS;
+echo get_page_js($userP['i_type']==1 ? 2 : 3);
 echo "// -->\n";
 echo '</script>';
 ?>
@@ -254,5 +224,40 @@ if ($userP['i_type']==1) {
 </div>
 <?php
 slim_footer();
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function get_page_js($interface_type_init_value)
+{
+    global $charset;
+
+    $show_wc_header_label = javascript_safe(_("Show WordCheck Header"), $charset);
+    $hide_wc_header_label = javascript_safe(_("Hide WordCheck Header"), $charset);
+
+    return <<<PAGE_JS
+        function ldAll() {
+            top.initializeStuff($interface_type_init_value);
+        }
+
+        function toggleWCHeader() {
+            var header=document.getElementById('wc_header');
+            var headerLink=document.getElementById('wc_header_link');
+            var headerStateSave=document.getElementById('is_header_visible');
+
+            if(header) {
+                if(header.style.display=='') {
+                    header.style.display='none';
+                    headerLink.innerHTML='$show_wc_header_label';
+                    headerStateSave.value=0;
+                } else{
+                    header.style.display='';
+                    headerLink.innerHTML='$hide_wc_header_label';
+                    headerStateSave.value=1;
+                }
+            }
+            return false;
+        }
+PAGE_JS;
+}
 
 // vim: sw=4 ts=4 expandtab
