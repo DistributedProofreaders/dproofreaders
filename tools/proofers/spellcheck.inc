@@ -25,44 +25,17 @@ echo spellcheck_get_js();
 echo get_page_js($userP['i_type']==1 ? 2 : 3);
 echo "// -->\n";
 echo '</script>';
-?>
-<style type="text/css">
-<!--
-body {
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 12px;
-  color:#000000;
-  background-color:#CDCDC1;
-  text-align:center;
-  overflow:auto;
-  margin-top: 0;
-  }
-<?php
+
+echo '<style type="text/css">' . "\n";
+echo "<!--\n";
 if($userP['i_type']==1)
     echo ibe_get_styles();
-?>
-#tbtext {
-  border:1px solid #000000;
-  text-align:left;
-  } 
-#tdtop {
-  font-size:12px;
-  border:1px solid #000000;
-  background-color:#CDC0B0;
-  text-align:left;
-  padding:2px;
-  }
-#tdtext {
-  border:1px solid #000000;
-  background-color:#FFF8DC;
-  padding:2px;
-  }
--->
-</style>
-</head><body 
-  onload="ldAll()">
+echo get_page_styles();
+echo "-->\n";
+echo "</style>";
 
-<?php
+echo '</head><body onload="ldAll()">';
+
 // print basic image html
 if ($userP['i_type']==1) {
     if ($userP['i_layout']==1)
@@ -258,6 +231,37 @@ function get_page_js($interface_type_init_value)
             return false;
         }
 PAGE_JS;
+}
+
+function get_page_styles()
+{
+    return <<<PAGE_STYLES
+        body {
+            font-family: verdana, arial, helvetica, sans-serif;
+            font-size: 12px;
+            color:#000000;
+            background-color:#CDCDC1;
+            text-align:center;
+            overflow:auto;
+            margin-top: 0;
+            }
+        #tbtext {
+            border:1px solid #000000;
+            text-align:left;
+            }
+        #tdtop {
+            font-size:12px;
+            border:1px solid #000000;
+            background-color:#CDC0B0;
+            text-align:left;
+            padding:2px;
+            }
+        #tdtext {
+            border:1px solid #000000;
+            background-color:#FFF8DC;
+            padding:2px;
+            }
+PAGE_STYLES;
 }
 
 // vim: sw=4 ts=4 expandtab
