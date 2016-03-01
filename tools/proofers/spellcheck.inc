@@ -17,7 +17,7 @@ $is_header_visible = array_get($_SESSION,"is_header_visible",1);
 
 $header_args = array(
     "js_data" => spellcheck_get_js() . get_page_js($userP['i_type']==1 ? 2 : 3),
-    "css_data" => get_page_styles(),
+    "css_data" => get_spellcheck_page_styles(),
     "body_attributes" => 'onload="ldAll()"',
 );
 
@@ -225,7 +225,7 @@ function get_page_js($interface_type_init_value)
 PAGE_JS;
 }
 
-function get_page_styles()
+function get_spellcheck_page_styles()
 {
     return <<<PAGE_STYLES
         body {

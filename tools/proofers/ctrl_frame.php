@@ -10,7 +10,7 @@ $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_
 $round = get_Round_for_round_id($round_id);
 
 $header_args = array(
-    "css_data" => get_page_styles(),
+    "css_data" => get_ctrl_page_styles(),
     "body_attributes" => 'onLoad="top.cRef = top.markRef = document.markform;"',
 );
 slim_header(_("Control Frame"), $header_args);
@@ -128,7 +128,7 @@ echo "</a>]\n"; ?>
 <?php
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function get_page_styles()
+function get_ctrl_page_styles()
 {
     $line_height = "";
     if(!stristr(@$_SERVER['HTTP_USER_AGENT'], "msie"))

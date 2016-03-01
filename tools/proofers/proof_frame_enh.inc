@@ -13,7 +13,7 @@ function echo_proof_frame_enh( $ppage )
 
     $header_args = array(
         "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1);}',
-        "css_data" => ibe_get_styles() . get_page_styles(),
+        "css_data" => ibe_get_styles() . get_proof_frame_styles(),
         "body_attributes" => 'onload="ldAll()"',
     );
 
@@ -59,7 +59,7 @@ function echo_proof_frame_enh( $ppage )
 }
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function get_page_styles()
+function get_proof_frame_styles()
 {
     return <<<STYLES
         body {
