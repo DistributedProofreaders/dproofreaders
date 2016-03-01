@@ -150,7 +150,7 @@ $md_groups = array(
 );
 
 
-echo "<html><head><title>Image Frame</title></head><body bgcolor=#e0e8dd>";
+output_header(_("Image Frame"));
 
 //Start the outside table
 echo "<table cols ='2' border = '1'>";
@@ -202,7 +202,5 @@ echo "</table></form>";
 
 // End the right cell, the single row, and the outside table.
 echo "</td></tr></table>\n";
-
-echo "</body></html>";
 
 // vim: sw=4 ts=4 expandtab
