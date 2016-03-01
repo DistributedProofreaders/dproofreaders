@@ -1,6 +1,9 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
+include_once($relPath.'slim_header.inc');
+
+slim_header(_("Feeds SDK"));
 ?>
 
 <table border="0" style="border-collapse: collapse" width="100%" id="table1">
@@ -447,4 +450,3 @@ false) { <br>document.write(&quot;Library Reference: &lt;a href='&quot;);<br>doc
 </table>
 </blockquote>
 </blockquote>
-</body></html>
