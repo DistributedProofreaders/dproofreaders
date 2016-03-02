@@ -4,6 +4,7 @@ include_once($relPath.'genres.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link, new_help_window_link
+include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
 
 function encodeFormValue($value)
 {
@@ -95,8 +96,6 @@ function genre_list($genre)
 function difficulty_list($difficulty_level)
 {
     global $pguser;
-    $result = mysql_query("SELECT * FROM users WHERE username = '$pguser'");
-    if (mysql_result($result,0,"sitemanager") == "yes") $sa = 1; else $sa = 0;
 
     $difficulty_list = array(
         'beginner' => _("Beginner"), 
@@ -106,7 +105,7 @@ function difficulty_list($difficulty_level)
     );
 
     // only show the beginner level to the BEGIN PM or SiteAdmins
-    if (($pguser != "BEGIN") && (!$sa))
+    if (($pguser != "BEGIN") && (!user_is_a_sitemanager()))
         unset($difficulty_list['beginner']);
         
     foreach ($difficulty_list as $name => $label)
