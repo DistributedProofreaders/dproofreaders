@@ -148,24 +148,6 @@ else
     $pih->show_form();
 }
 
-// returns an empty string if the possible user exists,
-// otherwise an error message
-function check_user_exists($possible_user, $description)
-{
-    $result = '';
-    $res = mysql_query("
-                SELECT u_id
-                FROM users
-                WHERE username = BINARY '".addslashes($possible_user)."'
-            ");
-    if (mysql_num_rows($res) == 0)
-    {
-        $result = sprintf(_("%s must be an existing user - check case and spelling of username."),
-            $description) . "<br>";
-    }
-    return $result;
-}
-
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 class ProjectInfoHolder
