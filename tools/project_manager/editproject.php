@@ -855,17 +855,11 @@ class ProjectInfoHolder
             save_project_bad_words($this->projectid, $bad_words);
         }
 
-// TODO not scannercredit below!
-
         // Create/update the Dublin Core file for the project.
-        create_dc_xml_oai(
-            $this->projectid,
-            $this->scannercredit,
-            $this->genre,
-            $this->language,
-            $this->authorsname,
-            $this->nameofwork,
-            $updated_marc_array );
+        // When we get here, the project's database entry has been fully
+        // updated, so we can pass in just the projectid and allow the
+        // function to pull the relevant fields from the database.
+        create_dc_xml_oai($this->projectid, $updated_marc_array);
 
         // If the project has been posted to PG, make the appropriate transition.
         if ($this->posted)

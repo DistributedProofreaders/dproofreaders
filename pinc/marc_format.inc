@@ -1,6 +1,8 @@
 <?php
 error_reporting(0);
+include_once($relPath.'Project.inc');
 include_once($relPath.'iso_lang_list.inc');
+
 $literary_form_array = array("a" => "Art", "b" => "Biography", 3 => "Comedy", "c" => "Comic Strip", 4 => "Cooking", "d" => "Drama", "e" => "Essay", 1 => "Fiction", "g" => "Geography", 5 => "Historical", 6 => "History", 7 => "Humor", 'Humor', "i" => "Letter", "l" => "Linguistics", 8 => "Math", 9 => "Medicine", "m" => "Mixed Form", "v" => 'Music', 0 => "Non Fiction", "f" => "Novel", "y" => "Periodical", "p" => "Poetry", "r" => "Romance", "z" => "Science", "h" => "Satire", "j" => "Short Story", "s" => "Speech", "u" => "Unknown", "|" => "Unknown");
 
 function marc_key_search($rec, $tag, $subfield) {
@@ -136,37 +138,29 @@ function convert_short_lang($marc_language) {
     return $lang_name;
 }
 
-function create_dc_xml_oai($projectid, $scannercredit, $genre, $language, $author, $title, $rec) {
+function create_dc_xml_oai($projectid, $rec) {
     $filename = $GLOBALS['projects_dir']."/$projectid/dc.xml";
 
     if (!file_exists($filename)) {
         touch($filename);
     }
 
-    // This code should perhaps be replaced by a call to
-    // Project::_create_credit_line.
-    $result = mysql_query("SELECT real_name FROM users WHERE username = '".$GLOBALS['pguser']."'");
-    $createdby = "Produced by ".mysql_result($result, 0, "real_name").", ";
-    if (!empty($scannercredit) && $scannercredit != $GLOBALS['pguser']) {
-        $result = mysql_query("SELECT real_name FROM users WHERE username = '$scannercredit'");
-        $createdby .= mysql_result($result, 0, "real_name").", ";
-    }
-    $createdby .= "and the Online Distributed Proofreading Team at {$GLOBALS['site_url']}";
+    $project = new Project($projectid);
 
     $xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"{$GLOBALS['charset']}\" ?".">
     <dc xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://purl.org/dc/elements/1.1/ http://www.openarchives.org/OAI/dc.xsd\">
-      <title>$title</title>
-      <creator>$author</creator>
+      <title>$project->nameofwork</title>
+      <creator>$project->authorsname</creator>
       <subject>".marc_subject($rec)."</subject>
       <description>".marc_description($rec)."</description>
       <publisher>{$GLOBALS['site_name']}</publisher>
-      <contributor>$createdby</contributor>
+      <contributor>$project->credits_line</contributor>
       <date>".marc_date($rec)."</date>
-      <type>$genre</type>
+      <type>$project->genre</type>
       <format>XML</format>
       <identifier>{$GLOBALS['code_url']}/project.php?id=$projectid</identifier>
       <source>LCCN: ".marc_lccn($rec)."</source>
-      <language>$language</language>
+      <language>$project->language</language>
       <rights>{$GLOBALS['code_url']}/agreement.php</rights>
     </dc>";
 
