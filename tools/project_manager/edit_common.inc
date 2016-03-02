@@ -5,6 +5,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link, new_help_window_link
 include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
+include_once($relPath.'User.inc');
 
 function encodeFormValue($value)
 {
@@ -330,13 +331,12 @@ function description_field( $description, $field_name )
 // otherwise an error message
 function check_user_exists($possible_user, $description)
 {
-    $result = '';
-    $res = mysql_query("
-                SELECT u_id
-                FROM users
-                WHERE username = BINARY '".addslashes($possible_user)."'
-            ");
-    if (mysql_num_rows($res) == 0)
+    try
+    {
+        $user = new User($possible_user);
+        $result = '';
+    }
+    catch(NonexistentUserException $exception)
     {
         $result = sprintf(_("%s must be an existing user - check case and spelling of username."),
             $description) . "<br>";

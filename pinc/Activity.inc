@@ -5,6 +5,7 @@ include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'quizzes.inc'); // get_Quiz_with_id
 include_once($relPath.'misc.inc'); // startswith
+include_once($relPath.'User.inc');
 
 // $ACCESS_CRITERIA and $Activity_for_id_ are extended as activities are defined.
 
@@ -277,18 +278,7 @@ function get_user_scores($username)
 
     assert( !is_null($username) );
 
-    $res = mysql_query("
-        SELECT *
-        FROM users
-        WHERE username='$username'
-    ") or die(mysql_error());
-
-    if ( mysql_num_rows($res) == 0 )
-    {
-        die( "User '$username' does not exist." );
-    }
-
-    $user_obj = mysql_fetch_object($res);
+    $user_obj = new User($username);
 
     $user_scores = array();
     foreach ( $ACCESS_CRITERIA as $criterion_code => $criterion_descr )

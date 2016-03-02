@@ -7,6 +7,7 @@ include_once($relPath.'email_address.inc');
 include_once($relPath.'new_user_mails.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc');
+include_once($relPath.'User.inc');
 
 // If configured, load site-specific bot-prevention and validation funcs
 if($site_registration_protection_code)
@@ -68,15 +69,14 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
     }
 
     // Make sure that the username is not taken by a non-registered user.
-    $query = sprintf("
-        SELECT username
-        FROM users
-        WHERE username='%s'
-        ", mysql_real_escape_string($username));
-    $result = mysql_query ($query);
-    if (mysql_num_rows($result) > 0)
+    try
     {
+        $user_test = new User($username);
         return _("That user name already exists, please try another.");
+    }
+    catch(Exception $exception)
+    {
+        // user doesn't exist already
     }
 
     // TODO: The above check only validates against users in the DP database.

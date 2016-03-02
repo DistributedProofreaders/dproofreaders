@@ -7,6 +7,7 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'User.inc');
 include_once($relPath.'links.inc'); // private_message_link()
 
 require_login();
@@ -306,13 +307,8 @@ while ($row = mysql_fetch_assoc($result)) {
 }
 $taskcenter_managers = Settings::get_users_with_setting('task_center_mgr', 'yes');
 foreach($taskcenter_managers as $taskcenter_manager) {
-    $u_idQuery = mysql_query("
-            SELECT u_id
-            FROM users
-            WHERE username = '$taskcenter_manager'
-        ");
-    $u_id = mysql_result($u_idQuery, 0, "u_id");
-    $task_assignees_array[$u_id] = $taskcenter_manager;
+    $user = new User($taskcenter_manager);
+    $task_assignees_array[$u_id] = $user->u_id;
 }
 natcasesort($task_assignees_array);
 $task_assignees_array = array(0 => 'Unassigned') + $task_assignees_array;
@@ -489,6 +485,9 @@ function create_task_from_form_submission($formsub)
     $newt_browser  = (int) get_enumerated_param($formsub, 'task_browser', null, array_keys($browser_array));
     $newt_version  = (int) get_enumerated_param($formsub, 'task_version', null, array_keys($versions_array));
 
+    $task_assignee_user = new User();
+    $task_assignee_user->load('u_id', $newt_assignee);
+
     $sql_query = "
         INSERT INTO tasks
         SET
@@ -524,14 +523,11 @@ function create_task_from_form_submission($formsub)
     // so the msg will only go to those with taskctr_notice = 'all'.
 
     global $tasks_url, $code_url;
-    $result = mysql_query("SELECT email, username FROM users WHERE u_id = $newt_assignee");
-    if ($newt_assignee != 0) {
-        maybe_mail(
-            mysql_result($result, 0, "email"),
-            "DP Task Center: Task #$task_id has been assigned to you",
-            mysql_result($result, 0, "username") . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n"
-        );
-    }
+    maybe_mail(
+        $task_assignee_user->email,
+        "DP Task Center: Task #$task_id has been assigned to you",
+        $task_assignee_user->username . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n"
+    );
 
     global $pguser;
     $userSettings =& Settings::get_Settings($pguser);
@@ -1574,9 +1570,8 @@ function NotificationMail($tid, $message)
     $users_to_notify = array_merge($notify_setting_all, $notify_setting_this);
     foreach($users_to_notify as $username) {
         if ($username != $pguser) {
-            $temp = mysql_query("SELECT email FROM users WHERE username = '$username'");
-            $email = mysql_result($temp, 0, "email");
-            maybe_mail($email, "DP Task Center: Task #$tid has been updated",
+            $user = new User($username);
+            maybe_mail($user->email, "DP Task Center: Task #$tid has been updated",
                 "You have requested notification of updates to task #$tid. "
               . "$message" . "\n"
               . "You can see task #$tid by visiting $tasks_url?action=show&task_id=$tid" . "\n\n"
@@ -1784,9 +1779,9 @@ function private_message_link_for_uid($u_id)
 
 function get_username_for_uid($u_id)
 {
-    $res = mysql_query("SELECT username FROM users WHERE u_id = $u_id");
-    $username = mysql_result($res, 0, "username");
-    return $username;
+    $user = new User();
+    $user->load("u_id", $u_id);
+    return $user->username;
 }
 
 function wrapped_mysql_query($sql_query)

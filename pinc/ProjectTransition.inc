@@ -9,6 +9,7 @@ include_once($relPath.'../tools/project_manager/post_files.inc');
 include_once($relPath.'project_events.inc');
 include_once($relPath.'site_vars.php'); // $auto_post_to_project_topic
 include_once($relPath.'user_project_info.inc');
+include_once($relPath.'User.inc');
 
 define('PT_AUTO', '[AUTO]');
 
@@ -917,9 +918,8 @@ function round_to_PP_avail_collateral( $old_project, $project, $transition, $who
         $reserved_PPer = $old_project->checkedoutby;
         global $site_manager_email_addr, $site_signoff;
 
-        $PPer_email_addr = mysql_result(mysql_query("
-            SELECT email FROM users WHERE username = '$reserved_PPer'
-        "),0);
+        $PPer = new User($reserved_PPer);
+        $PPer_email_addr = $PPer->email;
         $body_blurb =
              "Hello $reserved_PPer,\n\n".
              $project->email_introduction().
@@ -980,9 +980,8 @@ function round_to_PP_out_collateral( $old_project, $project, $transition, $who )
 
         // msg to PPer:
 
-        $PPer_email_addr = mysql_result(mysql_query("
-            SELECT email FROM users WHERE username = '$PPer'
-        "),0);
+        $PPer = new User($PPer);
+        $PPer_email_addr = $PPer->email;
         $body_blurb =
             "Hello $PPer,\n\n".
             $project->email_introduction().

@@ -8,6 +8,7 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'User.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
@@ -445,13 +446,7 @@ class ImageSource
 
         foreach($notify_users as $username)
         {
-            $result = mysql_query(sprintf("
-                SELECT email
-                FROM users
-                WHERE username = '%s'
-            ", mysql_real_escape_string($username)));
-
-            list($email) = mysql_fetch_row($result);
+            $user = new User($username);
 
             $userSettings =& Settings::get_Settings($username);
             $userSettings->remove_value('is_approval_notify', $this->code_name);
@@ -464,7 +459,7 @@ class ImageSource
                 "approved by $pguser. You can select it, and apply it to projects, from\n".
                 "your project manager's page.\n\n$site_signoff";
 
-            maybe_mail($email,$subject,$body);
+            maybe_mail($user->email,$subject,$body);
         }
     }
 
