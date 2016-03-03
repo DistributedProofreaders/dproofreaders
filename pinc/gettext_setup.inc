@@ -22,6 +22,12 @@ function get_desired_language()
 {
     global $pguser, $userP;
 
+    // This function maybe called multiple times within a page load.
+    // Only do the calculations to determine the desired language once.
+    static $intlang = NULL;
+    if($intlang)
+        return $intlang;
+
     if (isset($_GET['lang']) && lang_code($_GET['lang'])) {
         $intlang = lang_code($_GET['lang']);
         setcookie("language",$intlang,time()+31536000,"/");
