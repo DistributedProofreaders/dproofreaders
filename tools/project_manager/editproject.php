@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'marc_format.inc');
+include_once($relPath.'MARCRecord.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'DPage.inc');
