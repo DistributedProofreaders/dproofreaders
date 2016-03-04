@@ -423,6 +423,44 @@ EOS;
         return $hold_states;
     }
 
+    // -------------------------------------------------------------------------
+
+    // Given a MARCRecord, write a dc XML document for this project
+    function create_dc_xml_oai($marc_record)
+    {
+        global $charset, $site_name, $code_url, $projects_dir;
+
+        $filename = "$projects_dir/$this->projectid/dc.xml";
+
+        if (!file_exists($filename)) {
+            touch($filename);
+        }
+        $xmlpage = <<<XML
+<?xml version="1.0" encoding="$charset" ?>
+    <dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://purl.org/dc/elements/1.1/ http://www.openarchives.org/OAI/dc.xsd">
+      <title>$this->nameofwork</title>
+      <creator>$this->authorsname</creator>
+      <subject>$marc_record->subject</subject>
+      <description>$marc_record->description</description>
+      <publisher>$site_name</publisher>
+      <contributor>$this->credits_line</contributor>
+      <date>$marc_record->date</date>
+      <type>$this->genre</type>
+      <format>XML</format>
+      <identifier>$code_url/project.php?id=$this->projectid</identifier>
+      <source>LCCN: $marc_record->lccn</source>
+      <language>$this->language</language>
+      <rights>$code_url/agreement.php</rights>
+    </dc>
+XML;
+
+        // The URL used in <rights> was originally a pgdp.net address which didn't exist.
+        // Now it's a page under $code_url that might exist someday.
+
+        $fp = fopen($filename, "w");
+        fwrite($fp, $xmlpage);
+        fclose($fp);
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

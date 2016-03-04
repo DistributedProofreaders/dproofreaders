@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'Project.inc');
 include_once($relPath.'iso_lang_list.inc');
 
 class MARCRecord
@@ -300,41 +299,6 @@ function convert_short_lang($marc_language) {
     return $lang_name;
 }
 
-// Given a projectID and a MARCRecord, return a dc XML document
-function create_dc_xml_oai($projectid, $marc_record)
-{
-    $filename = $GLOBALS['projects_dir']."/$projectid/dc.xml";
-
-    if (!file_exists($filename)) {
-        touch($filename);
-    }
-
-    $project = new Project($projectid);
-
-    $xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"{$GLOBALS['charset']}\" ?".">
-    <dc xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://purl.org/dc/elements/1.1/ http://www.openarchives.org/OAI/dc.xsd\">
-      <title>$project->nameofwork</title>
-      <creator>$project->authorsname</creator>
-      <subject>".$marc_record->subject."</subject>
-      <description>".$marc_record->description."</description>
-      <publisher>{$GLOBALS['site_name']}</publisher>
-      <contributor>$project->credits_line</contributor>
-      <date>".$marc_record->date."</date>
-      <type>$project->genre</type>
-      <format>XML</format>
-      <identifier>{$GLOBALS['code_url']}/project.php?id=$projectid</identifier>
-      <source>LCCN: ".$marc_record->lccn."</source>
-      <language>$project->language</language>
-      <rights>{$GLOBALS['code_url']}/agreement.php</rights>
-    </dc>";
-
-    // The URL used in <rights> was originally a pgdp.net address which didn't exist.
-    // Now it's a page under $code_url that might exist someday.
-
-    $fp = fopen($filename, "w");
-    fwrite($fp, $xmlpage);
-    fclose($fp);
-}
 
 function update_marc_record_from_post($marc_record) {
     //Update the Name of Work

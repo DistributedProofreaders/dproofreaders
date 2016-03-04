@@ -848,9 +848,10 @@ class ProjectInfoHolder
 
         // Create/update the Dublin Core file for the project.
         // When we get here, the project's database entry has been fully
-        // updated, so we can pass in just the projectid and allow the
-        // function to pull the relevant fields from the database.
-        create_dc_xml_oai($this->projectid, $updated_marc_record);
+        // updated, so we can create a Project object and allow it
+        // to pull the relevant fields from the database.
+        $project = new Project($this->projectid);
+        $project->create_dc_xml_oai($updated_marc_record);
 
         // If the project has been posted to PG, make the appropriate transition.
         if ($this->posted)
