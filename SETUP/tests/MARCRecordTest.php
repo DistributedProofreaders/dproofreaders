@@ -105,24 +105,6 @@ class MARCRecordTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Street and Smith, [c1883', $marc_record->publisher);
     }
 
-    public function testUpdateMarc()
-    {
-        $marc_record = $this->_load_record();
-
-        $_POST = array(
-            'nameofwork' => 'Title',
-            'authorsname' => 'Author',
-            'pri_language' => 'English',
-            'genre' => 'Science',
-        );
-        $new_record = update_marc_record_from_post($marc_record);
-
-        $this->assertEquals('Title', $new_record->title);
-        $this->assertEquals('Author', $new_record->author);
-        $this->assertEquals('English', $new_record->language);
-        $this->assertEquals('Science', $new_record->literary_form);
-    }
-
     public function testArrayToString()
     {
         $marc_record = $this->_load_record();

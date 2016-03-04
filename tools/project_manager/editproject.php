@@ -746,7 +746,7 @@ class ProjectInfoHolder
             // Update the MARC array with any info we've received.
             $marc_record = new MARCRecord();
             $marc_record->load_yaz_array($current_marc_array);
-            $updated_marc_record = update_marc_record_from_post($marc_record);
+            $updated_marc_record = $this->update_marc_record_from_post($marc_record);
             $updated_marc_array = $updated_marc_record->get_yaz_array();
             $updated_marc_str = (string)$updated_marc_record;
 
@@ -795,7 +795,7 @@ class ProjectInfoHolder
             $original_marc_str = (string)$marc_record;
 
             // Update the MARC array with any info we've received.
-            $updated_marc_record = update_marc_record_from_post($original_marc_array);
+            $updated_marc_record = $this->update_marc_record_from_post($original_marc_array);
             $updated_marc_array = $update_marc_record->get_yaz_array();
             $updated_marc_str = (string)$updated_marc_array;
 
@@ -1075,6 +1075,27 @@ class ProjectInfoHolder
         $this->authorsname = preg_replace('/\s+/', ' ', trim($this->authorsname));
         $this->clearance = preg_replace('/\s+/', ' ', trim($this->clearance));
         $this->extra_credits = preg_replace('/\s+/', ' ', trim($this->extra_credits));
+    }
+
+    function update_marc_record_from_post($marc_record) {
+        //Update the Name of Work
+        if (!empty($_POST['nameofwork'])) {
+            $marc_record->title = $_POST['nameofwork'];
+        }
+
+        //Update the Authors Name
+        if (!empty($_POST['authorsname'])) {
+            $marc_record->author = $_POST['authorsname'];
+        }
+
+        //Update the Primary Language
+        $curr_lang = langcode3_for_langname( $_POST['pri_language'] );
+        $marc_record->language = $curr_lang;
+
+        //Update the Genre
+        $marc_record->literary_form = $_POST['genre'];
+
+        return $marc_record;
     }
 }
 

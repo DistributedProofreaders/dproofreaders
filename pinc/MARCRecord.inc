@@ -298,25 +298,3 @@ function convert_short_lang($marc_language) {
     if ( is_null($lang_name) ) $lang_name = $marc_language;
     return $lang_name;
 }
-
-
-function update_marc_record_from_post($marc_record) {
-    //Update the Name of Work
-    if (!empty($_POST['nameofwork'])) {
-        $marc_record->title = $_POST['nameofwork'];
-    }
-
-    //Update the Authors Name
-    if (!empty($_POST['authorsname'])) {
-        $marc_record->author = $_POST['authorsname'];
-    }
-
-    //Update the Primary Language
-    $curr_lang = langcode3_for_langname( $_POST['pri_language'] );
-    $marc_record->language = $curr_lang;
-
-    //Update the Genre
-    $marc_record->literary_form = $_POST['genre'];
-
-    return $marc_record;
-}
