@@ -206,11 +206,14 @@ class ProjectInfoHolder
             return sprintf(_("parameter '%s' cannot be unserialized"), 'rec');
         }
 
-        $this->nameofwork  = marc_title($r3);
-        $this->authorsname = marc_author($r3);
+        $marc_record = new MARCRecord();
+        $marc_record->load_yaz_array($r3);
+
+        $this->nameofwork  = $marc_record->title;
+        $this->authorsname = $marc_record->author;
         $this->projectmanager = $pguser;
-        $this->language    = marc_language($r3);
-        $this->genre       = marc_literary_form($r3);
+        $this->language    = $marc_record->language;
+        $this->genre       = $marc_record->literary_form;
 
         $this->checkedoutby     = '';
         $this->scannercredit    = '';
@@ -741,8 +744,11 @@ class ProjectInfoHolder
             $current_marc_array = unserialize(base64_decode($current_marc_array_encd));
 
             // Update the MARC array with any info we've received.
-            $updated_marc_array = update_marc_array($current_marc_array);
-            $updated_marc_str = convert_marc_array_to_str($updated_marc_array);
+            $marc_record = new MARCRecord();
+            $marc_record->load_yaz_array($current_marc_array);
+            $updated_marc_record = update_marc_record_from_post($marc_record);
+            $updated_marc_array = $updated_marc_record->get_yaz_array();
+            $updated_marc_str = (string)$updated_marc_record;
 
             mysql_query("
                 UPDATE marc_records
@@ -784,11 +790,14 @@ class ProjectInfoHolder
             chmod("$projects_dir/$this->projectid", 0777);
 
             $original_marc_array = unserialize(base64_decode($this->original_marc_array_encd));
-            $original_marc_str = convert_marc_array_to_str($original_marc_array);
+            $marc_record = new MARCRecord();
+            $marc_record->load_yaz_array($original_marc_array);
+            $original_marc_str = (string)$marc_record;
 
             // Update the MARC array with any info we've received.
-            $updated_marc_array = update_marc_array($original_marc_array);
-            $updated_marc_str = convert_marc_array_to_str($updated_marc_array);
+            $updated_marc_record = update_marc_record_from_post($original_marc_array);
+            $updated_marc_array = $update_marc_record->get_yaz_array();
+            $updated_marc_str = (string)$updated_marc_array;
 
             mysql_query("
                 INSERT INTO marc_records
@@ -841,7 +850,7 @@ class ProjectInfoHolder
         // When we get here, the project's database entry has been fully
         // updated, so we can pass in just the projectid and allow the
         // function to pull the relevant fields from the database.
-        create_dc_xml_oai($this->projectid, $updated_marc_array);
+        create_dc_xml_oai($this->projectid, $updated_marc_record);
 
         // If the project has been posted to PG, make the appropriate transition.
         if ($this->posted)
@@ -1100,7 +1109,7 @@ function get_changed_fields($new_pih, $old_pih)
     $changed_fields = array();
     foreach ( $all_keys as $key )
     {
-        if ($new_pih_as_array[$key] != $old_pih_as_array[$key])
+        if (@$new_pih_as_array[$key] != @$old_pih_as_array[$key])
         { 
             // echo "<p>'$key' changed from '{$old_pih_as_array[$key]}' to '{$new_pih_as_array[$key]}'</p>\n";
             $changed_fields[] = $key;

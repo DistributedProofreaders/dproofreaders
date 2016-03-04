@@ -1,7 +1,8 @@
 <?php
-$relPath='../../pinc/';
-include_once($relPath.'MARCRecord.inc');
 
+/**
+ * @backupGlobals disabled
+ */
 class MARCRecordTest extends PHPUnit_Framework_TestCase
 {
     private $YAZ_ARRAY = NULL;
@@ -16,80 +17,97 @@ class MARCRecordTest extends PHPUnit_Framework_TestCase
             file_get_contents("./data/yaz_array_str.b64"));
     }
 
+    private function _load_record()
+    {
+        $marc_record = new MARCRecord();
+        $marc_record->load_yaz_array($this->YAZ_ARRAY);
+        return $marc_record;
+    }
+
+    public function testEmptyConstructor()
+    {
+        $marc_record = new MARCRecord();
+    }
+
+    public function testLoadYazArray()
+    {
+        $marc_record = $this->_load_record();
+    }
+
     public function testGetTitle()
     {
-        $title = marc_title($this->YAZ_ARRAY);
+        $marc_record = $this->_load_record();
         $this->assertEquals(
             'The Backwoods Boy; or, The Boyhood and Manhood of Abraham Lincoln.',
-            $title
+            $marc_record->title
         );
     }
 
     public function testGetAuthor()
     {
-        $author = marc_author($this->YAZ_ARRAY);
-        $this->assertEquals('Alger Jr., Horatio', $author);
+        $marc_record = $this->_load_record();
+        $this->assertEquals($marc_record->author, 'Alger Jr., Horatio');
     }
 
     public function testGetLCCN()
     {
-        $lccn = marc_lccn($this->YAZ_ARRAY);
-        $this->assertEquals('55055815', $lccn);
+        $marc_record = $this->_load_record();
+        $this->assertEquals($marc_record->lccn, '55055815');
     }
 
     public function testGetISBN()
     {
-        $isbn = marc_isbn($this->YAZ_ARRAY);
-        $this->assertEquals('', $isbn);
+        $marc_record = $this->_load_record();
+        $this->assertEquals($marc_record->isbn, '');
     }
 
     public function testGetPages()
     {
-        $pages = marc_pages($this->YAZ_ARRAY);
-        $this->assertEquals('307 p.', $pages);
+        $marc_record = $this->_load_record();
+        $this->assertEquals('307 p.', $marc_record->pages);
     }
 
     public function testGetDate()
     {
-        $date = marc_date($this->YAZ_ARRAY);
-        $this->assertEquals('[c1883', $date);
+        $marc_record = $this->_load_record();
+        $this->assertEquals('[c1883', $marc_record->date);
     }
 
     public function testGetLanguage()
     {
-        $language = marc_language($this->YAZ_ARRAY);
+        $marc_record = $this->_load_record();
         // 'ng ' doesn't seem like a language, but that's what the current
         // code returns, so we'll consider that valid for the moment
-        $this->assertEquals('ng ', $language);
+        $this->assertEquals('ng ', $marc_record->language);
     }
 
     public function testGetLiteraryForm()
     {
-        $literary_form = marc_literary_form($this->YAZ_ARRAY);
-        $this->assertEquals('Biography', $literary_form);
+        $marc_record = $this->_load_record();
+        $this->assertEquals('Biography', $marc_record->literary_form);
     }
 
     public function testGetSubject()
     {
-        $subject = marc_subject($this->YAZ_ARRAY);
-        $this->assertEquals('', $subject);
+        $marc_record = $this->_load_record();
+        $this->assertEquals('', $marc_record->subject);
     }
 
     public function testGetDescription()
     {
-        $description = marc_description($this->YAZ_ARRAY);
-        $this->assertEquals('', $description);
+        $marc_record = $this->_load_record();
+        $this->assertEquals('', $marc_record->description);
     }
 
     public function testGetPublisher()
     {
-        $publisher = marc_publisher($this->YAZ_ARRAY);
-        $this->assertEquals('Street and Smith, [c1883', $publisher);
+        $marc_record = $this->_load_record();
+        $this->assertEquals('Street and Smith, [c1883', $marc_record->publisher);
     }
 
     public function testUpdateMarc()
     {
-        $marc_array = $this->YAZ_ARRAY;
+        $marc_record = $this->_load_record();
 
         $_POST = array(
             'nameofwork' => 'Title',
@@ -97,19 +115,19 @@ class MARCRecordTest extends PHPUnit_Framework_TestCase
             'pri_language' => 'English',
             'genre' => 'Science',
         );
-        $new_marc_array = update_marc_array($marc_array);
+        $new_record = update_marc_record_from_post($marc_record);
 
-        $this->assertEquals('Title', marc_title($new_marc_array));
-        $this->assertEquals('Author', marc_author($new_marc_array));
-        $this->assertEquals('English', marc_language($new_marc_array));
-        $this->assertEquals('Science', marc_literary_form($new_marc_array));
+        $this->assertEquals('Title', $new_record->title);
+        $this->assertEquals('Author', $new_record->author);
+        $this->assertEquals('English', $new_record->language);
+        $this->assertEquals('Science', $new_record->literary_form);
     }
 
     public function testArrayToString()
     {
-        $marc_array = $this->YAZ_ARRAY;
+        $marc_record = $this->_load_record();
 
-        $marc_string = convert_marc_array_to_str($marc_array);
+        $marc_string = (string)$marc_record;
         $this->assertEquals($this->YAZ_ARRAY_STR, $marc_string);
     }
 }
