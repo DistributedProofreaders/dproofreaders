@@ -331,12 +331,9 @@ function description_field( $description, $field_name )
 // otherwise an error message
 function check_user_exists($possible_user, $description)
 {
-    try
-    {
-        $user = new User($possible_user);
-        $result = '';
-    }
-    catch(NonexistentUserException $exception)
+    $result = '';
+
+    if(!User::is_valid_user($possible_user))
     {
         $result = sprintf(_("%s must be an existing user - check case and spelling of username."),
             $description) . "<br>";

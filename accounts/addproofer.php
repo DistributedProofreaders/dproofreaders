@@ -69,14 +69,9 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
     }
 
     // Make sure that the username is not taken by a non-registered user.
-    try
+    if(User::is_valid_user($username))
     {
-        $user_test = new User($username);
         return _("That user name already exists, please try another.");
-    }
-    catch(Exception $exception)
-    {
-        // user doesn't exist already
     }
 
     // TODO: The above check only validates against users in the DP database.

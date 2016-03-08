@@ -102,6 +102,29 @@ class User
         throw new NotImplementedException();
     }
 
+    // Static function to determine if the specified username is associated
+    // with a valid user without the overhead of creating an object.
+    public static function is_valid_user($username)
+    {
+        $sql = sprintf("
+            SELECT username
+            FROM users
+            WHERE username='%s'
+        ", mysql_real_escape_string($username));
+        $result = mysql_query($sql);
+        if(mysql_num_rows($result) == 0)
+        {
+            $is_valid = FALSE;
+        }
+        else
+        {
+            $is_valid = TRUE;
+        }
+
+        mysql_free_result($result);
+        return $is_valid;
+    }
+
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

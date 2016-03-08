@@ -25,6 +25,18 @@ class UserTest extends PHPUnit_Framework_TestCase
         $user = new User($this->EXISTENT_USERNAME);
     }
 
+    public function testValidateValidUser()
+    {
+        $is_valid = User::is_valid_user($this->EXISTENT_USERNAME);
+        $this->assertTrue($is_valid);
+    }
+
+    public function testValidateInvalidUser()
+    {
+        $is_valid = User::is_valid_user($this->NONEXISTENT_USERNAME);
+        $this->assertFalse($is_valid);
+    }
+
     public function testLoadExisting()
     {
         $user = new User();
