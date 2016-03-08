@@ -7,6 +7,8 @@ include_once("$wikihiero_dir/wikihiero.php");
 
 require_login();
 
+undo_all_magic_quotes();
+
 slim_header();
 
 $tables=array(
@@ -46,7 +48,7 @@ $syntax=array("-",":","*","!");
 <table>
 <tr><td rowspan="2">
 <textarea name="hierobox" rows="4" cols="30">
-<?php $hierobox=stripslashes(@$_POST['hierobox']); echo htmlspecialchars($hierobox); ?>
+<?php $hierobox=@$_POST['hierobox']; echo htmlspecialchars($hierobox); ?>
 </textarea>
 </td><td colspan="2">
 <select onChange="window.parent.hierotable.location='table.php?table='+this.value;">

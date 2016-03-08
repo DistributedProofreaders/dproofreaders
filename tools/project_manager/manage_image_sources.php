@@ -11,6 +11,8 @@ include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 
+undo_all_magic_quotes();
+
 $theme_args['css_data'] = "
 table.listing { border-collapse:collapse; }
 table.listing td { border: 1px solid #999; }
@@ -79,9 +81,11 @@ if ($action == 'update_oneshot')
         if (strlen($new_code_name) < 1) 
             $errmsgs .= _("A value for Image Source ID is required. Please enter one.") . " ";
 
-        $result = mysql_query("SELECT COUNT(*)
+        $result = mysql_query(sprintf("
+            SELECT COUNT(*)
             FROM image_sources
-            WHERE code_name = '$new_code_name'");
+            WHERE code_name = '%s'
+        ", mysql_real_escape_string($new_code_name)));
 
         $new = (mysql_result($result,0) == 0);
 
@@ -175,15 +179,19 @@ class ImageSource
     {
         if( !is_null($code_name) )
         {
-            $result = mysql_query("SELECT *
+            $result = mysql_query(sprintf("
+                SELECT *
                 FROM image_sources
-                WHERE code_name = '$code_name'");
+                WHERE code_name = '%s'
+            ", mysql_real_escape_string($code_name)));
             $source_fields = mysql_fetch_assoc($result);
 
             foreach ($source_fields as $field => $value)
             {
                 $this->$field = $value;
             }
+
+            $this->new_source = false;
         }
         else
         {
@@ -387,7 +395,10 @@ class ImageSource
         foreach ($std_fields as $field)
         {
             $this->$field = $_POST[$field];
-            $std_fields_sql .= "$field = '{$this->$field}',\n";
+            $std_fields_sql .= sprintf(
+                "$field = '%s',\n",
+                mysql_real_escape_string($this->$field)
+            );
         }
 
         // If the url has no scheme, prepend http://
@@ -411,13 +422,15 @@ class ImageSource
             die;
         }
 
-        mysql_query("REPLACE INTO image_sources
+        mysql_query(sprintf("
+            REPLACE INTO image_sources
             SET
-                code_name = '$this->code_name',
+                code_name = '%s',
                 $std_fields_sql
                 url = '$this->url',
                 is_active = '$this->is_active'
-        ") or die("Couldn't add/edit source: ".mysql_error());
+        ", mysql_real_escape_string($this->code_name))
+        ) or die("Couldn't add/edit source: ".mysql_error());
 
     }
 
@@ -464,9 +477,12 @@ class ImageSource
 
     function _set_field($field,$value)
     {
-        mysql_query("UPDATE image_sources
-            SET $field = '$value'
-            WHERE code_name = '$this->code_name'");
+        mysql_query(sprintf("
+            UPDATE image_sources
+            SET $field = '%s'
+            WHERE code_name = '%s'
+        ", mysql_real_escape_string($value),
+            mysql_real_escape_string($this->code_name)));
         $this->$field = $value;
     }
 
