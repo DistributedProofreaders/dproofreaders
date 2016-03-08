@@ -11,6 +11,8 @@ include_once($relPath.'misc.inc'); // get_enumerated_param(), str_contains(), ec
 
 require_login();
 
+undo_all_magic_quotes();
+
 $tasks_url = $code_url . "/" . basename(__FILE__);
 
 $requester_u_id = $userP['u_id'];
@@ -345,7 +347,7 @@ function SearchParams_echo_controls()
     global $SearchParams_choices;
 
     if (isset($_REQUEST['search_text']) && !empty($_REQUEST['search_text'])) {
-        $st = stripslashes_if_magic($_REQUEST['search_text']);
+        $st = $_REQUEST['search_text'];
         $search_text = htmlspecialchars($st, ENT_QUOTES);
     }
     else $search_text = "";
@@ -369,25 +371,17 @@ function SearchParams_get_sql_condition($request_params)
 
     if ($testing) echo_html_comment("\$request_params['search_text'] = {$request_params['search_text']}");
 
-    // we're converting $searchtext using addslashes(htmlspecialchars(...))
-    // because that's how the text summary and text details happen to be
-    // stored in the database.
+    $search_text_summary = $request_params['search_text'];
+    $search_text_details = $request_params['search_text'];
 
-    // TODO: The 'right' way would be to change how the data is stored in
-    // the database using mysql_real_escape_string(), have an upgrade
-    // script in c/SETUP/upgrade/08 that would fix any existing data
-    // before the updated code was deployed, and then use
-    // mysql_real_escape_string() when doing the query.
-
-    $search_text_summary = addslashes(htmlspecialchars($request_params['search_text']));
-    $search_text_details = addslashes(htmlspecialchars($request_params['search_text'], ENT_QUOTES));
-
-    $condition = "
+    $condition = sprintf("
             (
-                POSITION('$search_text_summary' IN task_summary)
+                POSITION('%s' IN task_summary)
                 OR
-                POSITION('$search_text_details' IN task_details)
-            )";
+                POSITION('%s' IN task_details)
+            )
+    ", mysql_real_escape_string($search_text_summary),
+        mysql_real_escape_string($search_text_details));
 
     // ------
 
@@ -423,7 +417,7 @@ function SearchParams_get_url_query_string()
     global $SearchParams_choices;
 
     if (isset($_REQUEST['search_text'])) {
-        $t = "action=search&search_text=" . urlencode(stripslashes_if_magic($_REQUEST['search_text']));
+        $t = "action=search&search_text=" . urlencode($_REQUEST['search_text']);
         foreach ($SearchParams_choices as $param_name => $choices)
         {
             $value = get_enumerated_param($_REQUEST, $param_name, '999', array_keys($choices));
@@ -497,7 +491,7 @@ function create_task_from_form_submission($formsub)
         INSERT INTO tasks
         SET
             task_id          = '',
-            task_summary     = '" . addslashes(htmlspecialchars($formsub['task_summary'])) . "',
+            task_summary     = '" . mysql_real_escape_string($formsub['task_summary']) . "',
             task_type        = $newt_type,
             task_category    = $newt_category,
             task_status      = $newt_status,
@@ -507,7 +501,7 @@ function create_task_from_form_submission($formsub)
             task_os          = $newt_os,
             task_browser     = $newt_browser,
             task_version     = $newt_version,
-            task_details     = '" . addslashes(htmlspecialchars($formsub['task_details'], ENT_QUOTES)) . "',
+            task_details     = '" . mysql_real_escape_string($formsub['task_details']) . "',
             date_opened      = $now_sse,
             opened_by        = $requester_u_id,
             date_closed      = '',
@@ -570,7 +564,7 @@ if (!isset($_REQUEST['task_id'])) {
             // (or followed a bookmark of such a link).
             $header = "Task Search";
             if (!empty($_POST['search_text'])) {
-                $header .= ": " . stripslashes_if_magic($_POST['search_text']);
+                $header .= ": " . $_POST['search_text'];
             }
             TaskHeader($header);
 
@@ -631,10 +625,6 @@ function handle_action_on_a_specified_task()
     }
 
     $pre_task = mysql_fetch_object($result);
-    // Note that currently task_summary and task_details are stored HTML escaped and slashed
-    // in the database. This needs to be undone to produce the 'raw' string.
-    $pre_task->task_summary = htmlspecialchars_decode(stripslashes($pre_task->task_summary));
-    $pre_task->task_details = htmlspecialchars_decode(stripslashes($pre_task->task_details), ENT_QUOTES);
 
     TaskHeader(title_string_for_task($pre_task));
 
@@ -703,7 +693,7 @@ function handle_action_on_a_specified_task()
             $sql_query = "
                 UPDATE tasks
                 SET
-                    task_summary     = '" . addslashes(htmlspecialchars($_POST['task_summary'])) . "',
+                    task_summary     = '" . mysql_real_escape_string($_POST['task_summary']) . "',
                     task_type        = $edit_type,
                     task_category    = $edit_category,
                     task_status      = $edit_status,
@@ -713,7 +703,7 @@ function handle_action_on_a_specified_task()
                     task_os          = $edit_os,
                     task_browser     = $edit_browser,
                     task_version     = $edit_version,
-                    task_details     = '" . addslashes(htmlspecialchars($_POST['task_details'], ENT_QUOTES)) . "',
+                    task_details     = '" . mysql_real_escape_string($_POST['task_details']) . "',
                     date_edited      = $now_sse,
                     edited_by        = $requester_u_id,
                     percent_complete = $edit_percent
@@ -757,7 +747,7 @@ function handle_action_on_a_specified_task()
                 "There has been a comment added to this task by $pguser on $date_str at $time_of_day_str.\n");
             wrapped_mysql_query("
                 INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
-                VALUES ($task_id, $requester_u_id, $now_sse, '" . addslashes(htmlspecialchars($_POST['task_comment'], ENT_QUOTES)) . "')
+                VALUES ($task_id, $requester_u_id, $now_sse, '" . mysql_real_escape_string($_POST['task_comment']) . "')
             ");
             wrapped_mysql_query("
                 UPDATE tasks
@@ -1560,7 +1550,7 @@ function TaskComments($tid)
         while ($row = mysql_fetch_assoc($result)) {
             $comment_username_link = private_message_link_for_uid($row['u_id']);
             echo "<b>Comment by $comment_username_link - " . date("l, d M Y, g:ia", $row['comment_date']) . "</b><br />";
-            echo "<br />" . nl2br(stripslashes($row['comment'])) . "<br /><br /><hr width='80%' align='center'>";
+            echo "<br />" . nl2br(htmlspecialchars($row['comment'])) . "<br /><br /><hr width='80%' align='center'>";
         }
         echo "</td></tr></table>";
     }
@@ -1625,9 +1615,7 @@ function RelatedTasks($tid)
             $related_task_summary = "[not found]";
         }
         else {
-            // summary is stored in the database as addslashes(htmlspecialchars(...)),
-            // so we need to use stripslashes() to display it in HTML.
-            $related_task_summary = stripslashes(mysql_result($result, 0, "task_summary"));
+            $related_task_summary = htmlspecialchars(mysql_result($result, 0, "task_summary"));
             $related_task_status  = $tasks_status_array[mysql_result($result, 0, "task_status")];
         }
         if ($related_task_exists) {
@@ -1751,10 +1739,10 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
 
         // The raw value is some text typed in by a user:
         case 'task_summary':
-            $fv = stripslashes($raw_value); break; // maybe wrap in <a>
+            $fv = htmlspecialchars($raw_value); break; // maybe wrap in <a>
 
         case 'task_details':
-            return nl2br(stripslashes($raw_value));
+            return nl2br(htmlspecialchars($raw_value));
 
         // The raw value is an integer denoting state of progress:
         case 'percent_complete':
@@ -1808,14 +1796,6 @@ function wrapped_mysql_query($sql_query)
     $res = mysql_query($sql_query);
     if ($res === FALSE) die(mysql_error());
     return $res;
-}
-
-function stripslashes_if_magic($s)
-{
-    if (get_magic_quotes_gpc())
-        return stripslashes($s);
-    else
-        return $s;
 }
 
 function set_window_title($title)
