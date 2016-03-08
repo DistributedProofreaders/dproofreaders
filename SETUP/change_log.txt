@@ -129,4 +129,7 @@
     * various places: _() wrappers around strings to allow translation (lvl, cpeel)
     * various places: Miscellaneous improvements (jmdyck, lmpryor, cpeel, donovang, mike_cie, rfarinha)
 
+== Changes from R201601 to R?????? ==
+(Scripts supporting this upgrade are in SETUP/upgrade/09)
+
 # vim: sw=4 ts=4 expandtab
