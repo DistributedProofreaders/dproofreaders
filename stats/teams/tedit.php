@@ -9,6 +9,8 @@ include_once('../includes/team.inc');
 
 require_login();
 
+undo_all_magic_quotes();
+
 $theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/pophelp.php?category=teams&name=edit_"));
 
 // Either the parameter is $_POST['tsid'] when coming from the edit form,
@@ -63,14 +65,20 @@ elseif (isset($_POST['edPreview']))
         $ticon = 1;
     }
     echo "<center><br>";
-    showEdit(htmlentities(stripslashes($_POST['teamname'])),stripslashes($_POST['text_data']),stripslashes($_POST['teamwebpage']),0,$tid,$tavatar,$ticon);
+    showEdit(htmlentities($_POST['teamname']), $_POST['text_data'], $_POST['teamwebpage'], 0, $tid, $tavatar, $ticon);
     echo "<br>";
     showTeamProfile($curTeam);
     echo "</center><br>";
 }
 elseif (isset($_POST['edMake']))
 {
-    $result = mysql_query("SELECT id FROM user_teams WHERE id != ".$tid." AND teamname = '".addslashes(stripAllString(trim($_POST['teamname'])))."'");
+    $result = mysql_query(sprintf("
+        SELECT id
+        FROM user_teams
+        WHERE id != %s
+            AND teamname = '%s'
+    ", $tid,
+        mysql_real_escape_string(stripAllString(trim($_POST['teamname'])))));
     if (mysql_num_rows($result) > 0)
     {
         $preview = _("Preview");
@@ -86,7 +94,7 @@ elseif (isset($_POST['edMake']))
             $ticon = 1;
         }
         echo "<center><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
-        showEdit(htmlentities(stripslashes($_POST['teamname'])),stripslashes($_POST['text_data']),stripslashes($_POST['teamwebpage']),0,$tid,$tavatar,$ticon);
+        showEdit(htmlentities($_POST['teamname']), $_POST['text_data'], $_POST['teamwebpage'], 0, $tid, $tavatar, $ticon);
         echo "<br></center><br>";
     }
     else
@@ -108,7 +116,17 @@ elseif (isset($_POST['edMake']))
             uploadImages(0,$tid,"icon");
         }
 
-        mysql_query("UPDATE user_teams SET teamname='".addslashes(stripAllString(trim($_POST['teamname'])))."', team_info='".addslashes(stripAllString($_POST['text_data']))."', webpage='".addslashes(stripAllString($_POST['teamwebpage']))."' WHERE id='$tid'");
+        mysql_query(sprintf("
+            UPDATE user_teams
+            SET
+                teamname='%s',
+                team_info='%s',
+                webpage='%s'
+            WHERE id='%s'
+        ", mysql_real_escape_string(stripAllString(trim($_POST['teamname']))),
+            mysql_real_escape_string(stripAllString($_POST['text_data'])),
+            mysql_real_escape_string(stripAllString($_POST['teamwebpage'])),
+            $tid));
 
         $title = _("Saving Team Update");
         $desc = _("Updating team....");

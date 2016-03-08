@@ -128,7 +128,7 @@ function showTeamProfile($curTeam) {
 
     $t = new ThemedTable(
         2,
-        stripslashes($curTeam['teamname']) . "&nbsp;$xml_button$editlink$joinquitlink",
+        $curTeam['teamname'] . "&nbsp;$xml_button$editlink$joinquitlink",
         array( 'width' => 100 )
     );
     $t->set_column_widths( 25, 75 );
@@ -153,7 +153,7 @@ function showTeamProfile($curTeam) {
 
     $t->row(
         _("Description"),
-        stripslashes($curTeam['team_info'])
+        $curTeam['team_info']
     );
 
     $webpage = $curTeam['webpage'];
@@ -444,13 +444,13 @@ function showTeamHistory($curTeam, $tally_name) {
 function stripAllString($ttext) {
     return str_replace(array('[b]','[B]','[/b]','[/B]','[i]','[I]','[/i]','[/I]','[p]','[P]','[/p]','[/P]','[lb]','[LB]'),
     array('<b>','<b>','</b>','</b>','<i>','<i>','</i>','</i>','<p>','<p>','</p>','</p>','<br>','<br>'),
-    htmlentities(strip_tags(stripslashes($ttext))));
+    htmlentities(strip_tags($ttext)));
 }
 
 function unstripAllString($ttext,$sType) {
     $ttext=str_replace(array('<b>','</b>','<i>','</i>','<p>','</p>','<br>'),
     array('[b]','[/b]','[i]','[/i]','[p]','[/p]','[lb]'),
-    stripslashes($ttext));
+    $ttext);
     if ($sType==1) {
         $htmlchars = array_flip(get_html_translation_table(HTML_ENTITIES));
         $ttext=strtr($ttext, $htmlchars);

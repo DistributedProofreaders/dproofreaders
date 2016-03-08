@@ -8,6 +8,8 @@ include_once('../includes/team.inc');
 
 require_login();
 
+undo_all_magic_quotes();
+
 $theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/faq/pophelp/teams/edit_"));
 
 if (isset($_POST['mkPreview']))
@@ -31,14 +33,18 @@ if (isset($_POST['mkPreview']))
         $ticon = 1;
     }
     echo "<center><br>";
-    showEdit(htmlentities(stripslashes($_POST['teamname'])),stripslashes($_POST['text_data']),stripslashes($_POST['teamwebpage']),1,0,$tavatar,$ticon);
+    showEdit(htmlentities($_POST['teamname']), $_POST['text_data'], $_POST['teamwebpage'], 1, 0, $tavatar, $ticon);
     echo "<br>";
     showTeamProfile($curTeam);
     echo "</center><br>";
 }
 else if (isset($_POST['mkMake']))
 {
-    $result = mysql_query("SELECT id FROM user_teams WHERE teamname = '".addslashes(stripAllString(trim($_POST['teamname'])))."'");
+    $result = mysql_query(sprintf("
+        SELECT id
+        FROM user_teams
+        WHERE teamname = '%s'
+    ", mysql_real_escape_string(stripAllString(trim($_POST['teamname'])))));
     if (mysql_num_rows($result) > 0)
     {
         $name = _("Create Team");
@@ -55,12 +61,19 @@ else if (isset($_POST['mkMake']))
             $ticon = 1;
         }
         echo "<center><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
-        showEdit(htmlentities(stripslashes($_POST['teamname'])),stripslashes($_POST['text_data']),stripslashes($_POST['teamwebpage']),1,0,$tavatar,$ticon);
+        showEdit(htmlentities($_POST['teamname']), $_POST['text_data'], $_POST['teamwebpage'], 1, 0, $tavatar, $ticon);
         echo "<br></center><br>";
     }
     else
     {
-        mysql_query("INSERT INTO user_teams (teamname,team_info,webpage,createdby,owner,created) VALUES('".addslashes(stripAllString(trim($_POST['teamname'])))."','".addslashes(stripAllString($_POST['text_data']))."','".addslashes(stripAllString($_POST['teamwebpage']))."','$pguser','{$userP['u_id']}','".time()."')");
+        mysql_query(sprintf("
+            INSERT INTO user_teams
+                (teamname, team_info, webpage, createdby, owner, created)
+            VALUES('%s', '%s', '%s', '%s', %s, %s)
+        ", mysql_real_escape_string(stripAllString(trim($_POST['teamname']))),
+            mysql_real_escape_string(stripAllString($_POST['text_data'])),
+            mysql_real_escape_string(stripAllString($_POST['teamwebpage'])),
+            $pguser, $userP['u_id'], time()));
         $tid = mysql_insert_id($db_Connection->db_lk);
         if (!empty($_POST['tavatar']))
         {
