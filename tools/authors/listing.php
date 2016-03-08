@@ -10,6 +10,8 @@ include_once('search.inc');
 
 require_login();
 
+undo_all_magic_quotes();
+
 output_header(_('Authors'));
 
 echo_menu();

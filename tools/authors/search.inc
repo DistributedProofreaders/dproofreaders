@@ -109,8 +109,8 @@ function prepare_search() {
 
 // prepare a string for use with LIKE
 function sql_like_encode($str) {
-    // add slashes -- note: does not encode % and _ !
-    $str = addslashes($str);
+    // escape quotes -- note: does not encode % and _ !
+    $str = mysql_real_escape_string($str);
     // % to \%
     // _ to \_
     $str = preg_replace('/%|_/', '\\\$1', $str);

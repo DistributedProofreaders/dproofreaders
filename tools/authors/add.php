@@ -10,6 +10,8 @@ require_login();
 
 abort_if_not_authors_db_editor(true);
 
+undo_all_magic_quotes();
+
 // two default values (B. C.)
 $bbc = $dbc = FALSE;
 
@@ -54,18 +56,35 @@ if (isset($last_name)) {
         if (isset($_POST['author_id'])) {
             // edit existing author
             $author_id = $_POST['author_id'];
-            $result = mysql_query("UPDATE authors " .
-                                  "SET last_name='$last_name', other_names='$other_names', " .
-                                  "byear=$byear, bmonth=$bmonth, bday=$bday, bcomments='$bcomments', " .
-                                  "dyear=$dyear, dmonth=$dmonth, dday=$dday, dcomments='$dcomments' " .
-                                  "WHERE author_id = $author_id;");
+            $result = mysql_query(sprintf("
+                UPDATE authors
+                SET last_name='%s', other_names='%s',
+                    byear=$byear, bmonth=$bmonth, bday=$bday, bcomments='%s',
+                    dyear=$dyear, dmonth=$dmonth, dday=$dday, dcomments='$%s'
+                WHERE author_id = $author_id
+            ", mysql_real_escape_string($last_name),
+                mysql_real_escape_string($other_names),
+                mysql_real_escape_string($bcomments),
+                mysql_real_escape_string($dcomments)
+            ));
             $msg = _('The author was successfully updated in the database!');
         }
         else {
             // add new author to database
-            $result = mysql_query("INSERT INTO authors ".
-                                  "(last_name, other_names, byear, bmonth, bday, bcomments, dyear, dmonth, dday, dcomments, enabled) " .
-                                  "VALUES('$last_name', '$other_names', $byear, $bmonth, $bday, '$bcomments', $dyear, $dmonth, $dday, '$dcomments', 'yes');");
+            $result = mysql_query(sprintf("
+                INSERT INTO authors
+                    (last_name, other_names,
+                        byear, bmonth, bday, bcomments,
+                        dyear, dmonth, dday, dcomments, enabled)
+                VALUES
+                    ('%s', '%s',
+                        $byear, $bmonth, $bday, '%s',
+                        $dyear, $dmonth, $dday, '%s', 'yes')
+            ", mysql_real_escape_string($last_name),
+                mysql_real_escape_string($other_names),
+                mysql_real_escape_string($bcomments),
+                mysql_real_escape_string($dcomments)
+            ));
             $msg = _('The author was successfully entered into the database!');
             $author_id = mysql_insert_id();
         }
@@ -95,9 +114,6 @@ if (isset($last_name)) {
     }
     else {
         // Preview
-        // This means we have to strip the slashes that php added for us
-        foreach (array('last_name', 'other_names', 'bcomments', 'dcomments') as $var)
-            $$var = stripslashes($$var);
     }
 }
 else {
