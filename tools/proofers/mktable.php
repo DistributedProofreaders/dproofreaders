@@ -100,7 +100,7 @@ for($i=0;$i<$row;$i++) {
     $a[$i]=array();
     for($j=0;$j<$col;$j++) {
         $name="a{$i}_{$j}";
-        $a[$i][$j]=explode("\n",str_replace("\r\n","\n",$_POST[$name]=stripslashes($_POST[$name])));
+        $a[$i][$j]=explode("\n", str_replace("\r\n", "\n", $_POST[$name]));
         foreach($a[$i][$j] as $k=>$v) {
             if($trim)
                 $a[$i][$j][$k]=$v=trim($v);
