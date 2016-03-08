@@ -83,7 +83,7 @@ echo "\n<div style='margin: .5em;'>";
     handle_solved()
 );
 
-echo "\n</div>\n</body>\n</html>";
+echo "\n</div>\n";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

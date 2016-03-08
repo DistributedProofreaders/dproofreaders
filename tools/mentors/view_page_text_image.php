@@ -77,14 +77,13 @@ if(!count($error_messages)) {
 $frame = get_enumerated_param($_GET,"frame","master",array("master","top","image","text"));
 
 if ($frame=="master") {
-    slim_header(_("Image and text for page"),TRUE,FALSE);
+    slim_header_frameset(_("Image and text for page"));
 
     $projectid=htmlspecialchars($projectid,ENT_QUOTES);
     $page=htmlspecialchars($page,ENT_QUOTES);
     $round_id=htmlspecialchars($round_id,ENT_QUOTES);
 
 ?>
-</head>
 <frameset rows="15%,50%,35%">
 <frame name="topframe" src="view_page_text_image.php?projectid=<?php echo $projectid;?>&amp;page=<?php echo $page;?>&amp;round_id=<?php echo $round_id;?>&amp;frame=top">
 <frame name="imageframe" src="view_page_text_image.php?projectid=<?php echo $projectid;?>&amp;page=<?php echo $page;?>&amp;round_id=<?php echo $round_id;?>&amp;frame=image">
@@ -93,15 +92,13 @@ if ($frame=="master") {
 <noframes>
 <?php echo _("Your browser currently does not display frames!"); ?>
 </noframes>
-</html>
 <?php
-    // note: can't use slim_footer() because framesets don't have a </body> tag
 }
 
 
 // if we're in the top frame, load the form and any error messages
 elseif ($frame=="top") {
-    slim_header($page,TRUE,TRUE);
+    slim_header($page);
 
     if (!count($error_messages)) {
         $myresult = mysql_query(sprintf("SELECT nameofwork FROM projects WHERE projectid = '%s'", mysql_real_escape_string($projectid)));
@@ -188,12 +185,12 @@ elseif ($frame=="top") {
     if($project)
         echo " &nbsp; <input type='submit' name='reset' value='" . attr_safe(_("Reset")) . "'>";
     echo "</form>";
-    slim_footer();
+    exit();
 }
 
 //If we're loading the image frame, load the image and a little form to control the size
 elseif ($frame=="image") {
-    slim_header(_("Image Frame"),TRUE,TRUE);
+    slim_header(_("Image Frame"));
     if(!count($error_messages)) {
         $percent = get_integer_param($_GET, 'percent', 100, 1, 999);
         $width = 10*$percent;
@@ -209,13 +206,13 @@ elseif ($frame=="image") {
 <?php
         echo "<img src='$projects_url/$projectid/$page' width='$width' border='1'>";
     }
-    slim_footer();
+    exit();
 }
 
 //If it's the text frame, we show the saved text in a textarea 
 //with some of the user's preferences from the proofreading interface
 elseif ($frame=="text") {
-    slim_header(_("Text Frame"),TRUE,TRUE);
+    slim_header(_("Text Frame"));
     if (!count($error_messages)) {
         if ($round_id == "OCR") {
             $text_column_name = 'master_text';
@@ -276,7 +273,7 @@ elseif ($frame=="text") {
         echo htmlspecialchars( $data, ENT_NOQUOTES );
         echo "</textarea>";
     }
-    slim_footer();
+    exit();
 }
 
 // vim: sw=4 ts=4 expandtab

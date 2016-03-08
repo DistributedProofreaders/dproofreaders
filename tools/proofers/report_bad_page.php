@@ -8,6 +8,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'projectinfo.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'slim_header.inc');
 include_once('PPage.inc');
 
 require_login();
@@ -100,11 +101,10 @@ else
         $frame1 = "../../activity_hub.php";
         $title = _("Stop Proofreading");
         
-        // I have commented this line out since it did have no effect.
-        // $body = _("Exiting proofreading interface");
         $body = sprintf(_("Return to the <a %s>Activity Hub</a>."),
                                        "href='$frame1' target='_top'");
-        echo "<html><head><title>$title</title></head><body>$body</body></html>";
+        slim_header($title);
+        echo $body;
         exit;
     }
 

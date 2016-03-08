@@ -31,7 +31,6 @@ function abort_if_in_maintenance_mode()
             if (isset($pguser))
                 echo "$pguser ";
             echo "$message</h2></center>";
-            slim_footer();
             exit();
         }
     }

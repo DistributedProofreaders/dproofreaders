@@ -7,40 +7,29 @@ include_once($relPath.'misc.inc');
 
 require_login();
 
-$title = _("Greek to Latin-1 Transliteration");
-slim_header($title,TRUE,FALSE);
 $greek_contents = @$_GET['textbox'];
 if (get_magic_quotes_gpc())
     $greek_contents = stripslashes($greek_contents);
+
+$title = _("Greek to Latin-1 Transliteration");
+$header_args = array(
+    "css_data" => "p.info { font-size: 12px; }",
+    "js_data" => "
+        function clearBox() {
+            document.greek.textbox.value = '';
+            document.greek.textbox.focus();
+        }
+
+        function addChar(myChar) {
+            document.greek.textbox.value += myChar;
+            document.greek.textbox.focus();
+            // Following line is Opera focus+highlight workaround
+            document.greek.textbox.value += '';
+        }
+    ",
+);
+slim_header($title, $header_args);
 ?>
-<!-- Graphics and html/javascript for Greek text conversion
-     by D Garcia 12/24/02 for Distributed Proofreaders
-     -->
-
-<script language="JavaScript">
-<!--
-function clearBox() {
-	document.greek.textbox.value = '';
-	document.greek.textbox.focus();
-}
-
-function addChar(myChar) {
-	document.greek.textbox.value += myChar;
-	document.greek.textbox.focus();
-	// Following line is Opera focus+highlight workaround
-	document.greek.textbox.value += '';
-}
-//-->
-</script>
-<style type="text/css">
-p.info {
-	font-size: 12px;
-	}
-</style>
-</head>
-
-<body>
-
 <table border="0" cellspacing="0" cellpadding="0" width="600">
 
 <tr>
@@ -176,8 +165,5 @@ echo _("For these, put '<code>h</code>' before the letter <em>unless</em> the wo
 
 <area shape="default" nohref>
 </map>
-
 <?php
-slim_footer();
-
 // vim: sw=4 ts=4 expandtab

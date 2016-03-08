@@ -36,21 +36,14 @@ function echo_proof_frame_std( $ppage )
 
     // -------------------------------------
 
+    slim_header_frameset($ppage->projectid());
     echo "
-        <!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Frameset//EN'
-        'http://www.w3.org/TR/html4/frameset.dtd'>
-    ";
-    slim_header($ppage->projectid(),FALSE,FALSE);
-    echo "
-        </HEAD>
         <FRAMESET $rows_or_cols>
         <FRAME NAME='imageframe' SRC='image_frame_std.php?$params' $margins>
         <FRAME NAME='textframe' SRC='text_frame_std.php?$params' $margins $text_scrolling>
         </FRAMESET>
         <NOFRAMES>"._("Your browser is not frames capable!")."</NOFRAMES>
-        </HTML>
     ";
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

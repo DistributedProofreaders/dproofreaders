@@ -20,6 +20,6 @@ echo "<div style='margin: .5em;'>";
 
 qp_echo_hint_html($error, $number);
 
-echo " </div>\n</body>\n</html>\n";
+echo " </div>\n";
 
 // vim: sw=4 ts=4 expandtab

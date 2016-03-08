@@ -121,7 +121,6 @@ else if (!isset($stage))
         the original again or uploading a smaller placeholder instead."), 
         "javascript:history.back()") . "</p>";
     
-    slim_footer();
     exit;
 }
 

@@ -15,80 +15,20 @@ $revert_text=isset($_POST['revert_text']) ? stripslashes($_POST['revert_text']) 
 
 $is_header_visible = array_get($_SESSION,"is_header_visible",1);
 
-slim_header(_("WordCheck"),TRUE,FALSE);
+$header_args = array(
+    "js_data" => spellcheck_get_js() . get_page_js($userP['i_type']==1 ? 2 : 3),
+    "css_data" => get_spellcheck_page_styles(),
+    "body_attributes" => 'onload="ldAll()"',
+);
 
 if($userP['i_type']==1)
-    ibe_echo_script();
-
-spellcheck_echo_script();
-?>
-<script language="JavaScript" type="text/javascript">
-<!--
-function ldAll()
-{top.initializeStuff(<?php
-  if ($userP['i_type']==1)
-    {echo "2";}
-  else
-    {echo "3";}
-?>);}
-
-function toggleWCHeader() {
-    var header=document.getElementById('wc_header');
-    var headerLink=document.getElementById('wc_header_link');
-    var headerStateSave=document.getElementById('is_header_visible');
-
-    if(header) {
-        if(header.style.display=='') {
-            header.style.display='none';
-            headerLink.innerHTML='<?php echo javascript_safe(_("Show WordCheck Header"), $charset); ?>';
-            headerStateSave.value=0;
-        } else{
-            header.style.display='';
-            headerLink.innerHTML='<?php echo javascript_safe(_("Hide WordCheck Header"), $charset); ?>';
-            headerStateSave.value=1;
-        }
-    }
-    return false;
+{
+    $header_args["js_data"] .= ibe_get_js();
+    $header_args["css_data"] .= ibe_get_styles();
 }
-// -->
-</script>
-<style type="text/css">
-<!--
-body {
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 12px;
-  color:#000000;
-  background-color:#CDCDC1;
-  text-align:center;
-  overflow:auto;
-  margin-top: 0;
-  }
-<?php
-if($userP['i_type']==1)
-    ibe_echo_styles();
-?>
-#tbtext {
-  border:1px solid #000000;
-  text-align:left;
-  } 
-#tdtop {
-  font-size:12px;
-  border:1px solid #000000;
-  background-color:#CDC0B0;
-  text-align:left;
-  padding:2px;
-  }
-#tdtext {
-  border:1px solid #000000;
-  background-color:#FFF8DC;
-  padding:2px;
-  }
--->
-</style>
-</head><body 
-  onload="ldAll()">
 
-<?php
+slim_header(_("WordCheck"), $header_args);
+
 // print basic image html
 if ($userP['i_type']==1) {
     if ($userP['i_layout']==1)
@@ -249,6 +189,71 @@ if ($userP['i_type']==1) {
 </form>
 </div>
 <?php
-slim_footer();
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+function get_page_js($interface_type_init_value)
+{
+    global $charset;
+
+    $show_wc_header_label = javascript_safe(_("Show WordCheck Header"), $charset);
+    $hide_wc_header_label = javascript_safe(_("Hide WordCheck Header"), $charset);
+
+    return <<<PAGE_JS
+        function ldAll() {
+            top.initializeStuff($interface_type_init_value);
+        }
+
+        function toggleWCHeader() {
+            var header=document.getElementById('wc_header');
+            var headerLink=document.getElementById('wc_header_link');
+            var headerStateSave=document.getElementById('is_header_visible');
+
+            if(header) {
+                if(header.style.display=='') {
+                    header.style.display='none';
+                    headerLink.innerHTML='$show_wc_header_label';
+                    headerStateSave.value=0;
+                } else{
+                    header.style.display='';
+                    headerLink.innerHTML='$hide_wc_header_label';
+                    headerStateSave.value=1;
+                }
+            }
+            return false;
+        }
+PAGE_JS;
+}
+
+function get_spellcheck_page_styles()
+{
+    return <<<PAGE_STYLES
+        body {
+            font-family: verdana, arial, helvetica, sans-serif;
+            font-size: 12px;
+            color:#000000;
+            background-color:#CDCDC1;
+            text-align:center;
+            overflow:auto;
+            margin-top: 0;
+            }
+        #tbtext {
+            border:1px solid #000000;
+            text-align:left;
+            }
+        #tdtop {
+            font-size:12px;
+            border:1px solid #000000;
+            background-color:#CDC0B0;
+            text-align:left;
+            padding:2px;
+            }
+        #tdtext {
+            border:1px solid #000000;
+            background-color:#FFF8DC;
+            padding:2px;
+            }
+PAGE_STYLES;
+}
 
 // vim: sw=4 ts=4 expandtab

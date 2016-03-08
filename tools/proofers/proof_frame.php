@@ -5,6 +5,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'LPage.inc');
 include_once($relPath.'abort.inc');
 include_once($relPath.'Project.inc'); // validate_projectID
+include_once($relPath.'slim_header.inc');
 include_once('PPage.inc');
 include_once('proof_frame.inc');
 
@@ -105,7 +106,8 @@ else
                 "href='round.php?round_id={$round->id}' target='_top'");
         }
         $title = _("Unable to get an available page");
-        echo "<html><head><title>$title</title></head><body>$body</body></html>";
+        slim_header($title);
+        echo $body;
         exit;
     }
 

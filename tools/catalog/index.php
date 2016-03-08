@@ -44,6 +44,4 @@ foreach ( $PROJECT_STATES_IN_ORDER as $proj_state )
     }
 }
 
-slim_footer();
-
 // vim: sw=4 ts=4 expandtab

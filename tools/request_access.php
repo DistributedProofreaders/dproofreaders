@@ -16,7 +16,7 @@ if (empty($stage_id)) die( "parameter 'stage_id' is empty" );
 $stage = get_Stage_for_id( $stage_id );
 
 $title = sprintf( _('Requesting access to "%s"'), $stage->name );
-slim_header( $title, TRUE, TRUE );
+slim_header( $title );
 
 echo "<h2>$title</h2>\n";
 
@@ -102,7 +102,5 @@ printf(
     "$code_url/activity_hub.php"
 );
 echo "</p>\n";
-
-slim_footer();
 
 // vim: sw=4 ts=4 expandtab

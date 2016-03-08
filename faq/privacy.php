@@ -6,7 +6,6 @@
 // is set or not.
 if(!isset($relPath))
 {
-    $file_is_included = FALSE;
     $relPath="./../pinc/";
     include_once($relPath.'base.inc');
     include_once($relPath.'slim_header.inc');
@@ -15,10 +14,6 @@ if(!isset($relPath))
     undo_all_magic_quotes();
 
     slim_header(_("Privacy Statement"));
-}
-else
-{
-    $file_is_included = TRUE;
 }
 
 
@@ -95,13 +90,6 @@ output_section(
         _('It does not share volunteer information other than as indicated above.'),
     )
 );
-
-// If file wasn't include()d, we need to close the body and html tags
-// that were opened by slim_header();
-if(!$file_is_included)
-{
-    slim_footer();
-}
 
 //---------------------------------------------------------------------------
 
