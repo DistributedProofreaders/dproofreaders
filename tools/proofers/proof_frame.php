@@ -9,6 +9,8 @@ include_once('proof_frame.inc');
 
 require_login();
 
+undo_all_magic_quotes();
+
 /* $_GET from IN PROGRESS/DONE and from 'Edit' links on Images,Diffs screen
 url_for_pi_do_particular_page()
 $projectid, $proj_state, $imagefile, $page_state

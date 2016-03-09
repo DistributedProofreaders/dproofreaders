@@ -129,13 +129,8 @@ function dump_request_info()
             echo "    $param_name = ";
             if ( is_string($param_value) )
             {
-                $unslashed_param_value =
-                    get_magic_quotes_gpc()
-                    ? stripslashes($param_value)
-                    : $param_value;
-
                 $htmlescaped_param_value =
-                    htmlspecialchars($unslashed_param_value,ENT_NOQUOTES);
+                    htmlspecialchars($param_value, ENT_NOQUOTES);
 
                 if ( strpos($param_value, "\n") )
                 {

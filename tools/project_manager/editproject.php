@@ -18,6 +18,8 @@ include_once($relPath.'js_newpophelp.inc');
 
 require_login();
 
+undo_all_magic_quotes();
+
 $theme_args['js_data'] = get_newHelpWin_javascript("$code_url/faq/pophelp/project_manager/");
 
 $return = array_get($_REQUEST,"return","$code_url/tools/project_manager/projectmgr.php");
@@ -384,14 +386,6 @@ class ProjectInfoHolder
 
     function set_from_post()
     {
-        if ( get_magic_quotes_gpc() )
-        {
-            // Values in $_POST come with backslashes added.
-            // We want the fields of $this to be unescaped strings,
-            // so we strip the slashes.
-            $_POST = array_map('stripslashes', $_POST);
-        }
-
         $errors = '';
 
         if ( isset($_POST['projectid']) )
@@ -622,29 +616,29 @@ class ProjectInfoHolder
 
         $postednum_str = ($this->postednum == "") ? "NULL" : "'$this->postednum'";
 
-        // Call addslashes() on any members of $this that might contain 
-        // single-quotes/apostrophes (because they are unescaped, and
+        // Call mysql_real_escape_string() on any members of $this that might
+        // contain single-quotes/apostrophes (because they are unescaped, and
         // would otherwise break the query).
 
         $common_project_settings = "
             t_last_edit    = UNIX_TIMESTAMP(),
             up_projectid   = '{$this->up_projectid}',
-            nameofwork     = '".addslashes($this->nameofwork)."',
-            authorsname    = '".addslashes($this->authorsname)."',
+            nameofwork     = '".mysql_real_escape_string($this->nameofwork)."',
+            authorsname    = '".mysql_real_escape_string($this->authorsname)."',
             language       = '{$this->language}',
             genre          = '{$this->genre}',
             difficulty     = '{$this->difficulty_level}',
             special_code   = '{$this->special_code}',
-            clearance      = '".addslashes($this->clearance)."',
-            comments       = '".addslashes($this->comments)."',
+            clearance      = '".mysql_real_escape_string($this->clearance)."',
+            comments       = '".mysql_real_escape_string($this->comments)."',
             image_source   = '{$this->image_source}',
-            scannercredit  = '".addslashes($this->scannercredit)."',
+            scannercredit  = '".mysql_real_escape_string($this->scannercredit)."',
             checkedoutby   = '{$this->checkedoutby}',
             postednum      = $postednum_str,
             image_preparer = '{$this->image_preparer}',
             text_preparer  = '{$this->text_preparer}',
-            extra_credits  = '".addslashes($this->extra_credits)."',
-            deletion_reason= '".addslashes($this->deletion_reason)."'
+            extra_credits  = '".mysql_real_escape_string($this->extra_credits)."',
+            deletion_reason= '".mysql_real_escape_string($this->deletion_reason)."'
         ";
         $pm_setter = '';
         if ( user_is_a_sitemanager() )

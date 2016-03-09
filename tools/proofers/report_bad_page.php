@@ -12,6 +12,8 @@ include_once('PPage.inc');
 
 require_login();
 
+undo_all_magic_quotes();
+
 if (isset($ppage))
 {
     // This file was include()'d (rather than invoked as a top-level script)

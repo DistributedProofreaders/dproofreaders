@@ -341,22 +341,14 @@ function spellcheck_echo_script()
 
 // --------------------------------------------
 
-// Because we have PHP configured with magic_quotes_gpc on,
-// anything we pull out of $_POST will automatically have
-// each single-quote, double-quote, and backslash
-// preceeded by an extra backslash.
-// We don't want these extra backslashes here,
-// so we apply stripslashes to anything (textual) we get from $_POST.
-
-
 function spellcheck_quit()
 {
-    $orig_text = stripslashes($_POST['revert_text']);
+    $orig_text = $_POST['revert_text'];
     return str_replace( "[lf]", "\r\n", $orig_text );
 }
 
 function spellcheck_apply_corrections() {
-    $orig_text = stripslashes($_POST['text_data']);
+    $orig_text = $_POST['text_data'];
 
     $corrections = array();
 
@@ -409,7 +401,7 @@ function spellcheck_apply_corrections() {
                     explode('|',$_POST['posit'.$i]);
 
                 // get the modified word, strip off any trailing spaces
-                $correct_word = rtrim(stripslashes($_POST['sp'.$i]));
+                $correct_word = rtrim($_POST['sp'.$i]);
 
                 // pull the original word
                 $orig_word = substr($text_array[$orig_line_i],$orig_word_offset,$orig_word_length);

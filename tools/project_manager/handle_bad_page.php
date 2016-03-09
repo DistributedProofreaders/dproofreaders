@@ -13,6 +13,8 @@ include_once('page_table.inc');  // page_state_is_a_bad_state()
 
 require_login();
 
+undo_all_magic_quotes();
+
 $projectid = validate_projectID('projectid', @$_REQUEST['projectid']);
 $image     = validate_page_image_filename('image', @$_REQUEST['image']);
 

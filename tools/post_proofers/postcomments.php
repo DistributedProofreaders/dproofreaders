@@ -7,6 +7,8 @@ include_once($relPath.'project_trans.inc');
 
 require_login();
 
+undo_all_magic_quotes();
+
 $projectid    = validate_projectID('projectid', @$_POST['projectid']);
 $postcomments = @$_POST['postcomments'];
 
@@ -18,10 +20,11 @@ if (! $project->PPer_is_current_user || $project->state != PROJ_POST_FIRST_CHECK
   exit;
 }
 
-$qry =  mysql_query("
-    UPDATE projects SET postcomments = '$postcomments'
+$qry =  mysql_query(sprintf("
+    UPDATE projects
+    SET postcomments = '%s'
     WHERE projectid = '$projectid'
-");
+", mysql_real_escape_string($postcomments)));
 
 $msg = _("Comments added.");
 metarefresh(1, "$code_url/project.php?id=$projectid", $msg, $msg);

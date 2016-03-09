@@ -7,6 +7,8 @@ include_once('text_frame_std.inc');
 
 require_login();
 
+undo_all_magic_quotes();
+
 // This script is invoked only for the standard interface now.
 assert($userP['i_type'] == 0);
 

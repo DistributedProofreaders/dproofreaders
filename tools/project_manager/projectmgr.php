@@ -20,6 +20,8 @@ include_once('projectmgr.inc');
 
 require_login();
 
+undo_all_magic_quotes();
+
 class Widget
 {
     function Widget( $properties )
@@ -113,6 +115,8 @@ class Widget
                         if ( in_array( '', $values ) ) return NULL;
                     }
 
+                    $values = array_map("mysql_real_escape_string", $values);
+
                     if ( $comparator == '=' )
                     {
                         $values_list = surround_and_join( $values, "'", "'", "," );
@@ -126,6 +130,7 @@ class Widget
                 }
                 else
                 {
+                    $value = mysql_real_escape_string($value);
                     if ( $comparator == '=' )
                     {
                         $contribution = "$column_name = '$value'";

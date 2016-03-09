@@ -6,6 +6,8 @@ include_once('PPage.inc');
 
 require_login();
 
+undo_all_magic_quotes();
+
 $ppage = get_requested_PPage($_GET);
 
 include_once($relPath.'slim_header.inc');

@@ -11,6 +11,8 @@ include_once($relPath.'misc.inc'); // attr_safe(), endswith()
 
 require_login();
 
+undo_all_magic_quotes();
+
 // use:
 // $code_url/tools/upload_text.php?project=projectid&curr_state=...
 
@@ -311,14 +313,16 @@ else
     // but still needs some changes recorded in project table
     // the comments get recorded even if it's just a replacement
     if ($stage == 'smooth_avail') {
-        $qstring = "
-                          UPDATE projects SET ";
+        $smoothread_deadline = '';
         if ($weeks != "replace") {
-            $qstring .= "smoothread_deadline = $deadline, ";
+            $smoothread_deadline = "smoothread_deadline = $deadline, ";
         }
-        $qstring .= "postcomments = CONCAT(postcomments,'$postcomments')
-                          WHERE projectid = '$projectid'
-                      ";
+        $qstring = sprintf("
+            UPDATE projects
+            SET $smoothread_deadline
+                postcomments = CONCAT(postcomments, '%s')
+            WHERE projectid = '$projectid'
+        ", mysql_real_escape_string($postcomments));
         $qry =  mysql_query($qstring);
 
         if ( $weeks == "replace" )

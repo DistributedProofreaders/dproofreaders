@@ -11,6 +11,8 @@ include_once($relPath.'wordcheck_engine.inc');
 
 require_login();
 
+undo_all_magic_quotes();
+
 if ( !user_is_a_sitemanager() )
 {
     die( "You are not authorized to invoke this script." );
