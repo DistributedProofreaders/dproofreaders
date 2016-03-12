@@ -20,12 +20,14 @@ header,
   background-color: #99ccff;
   color: #000000;
 }
+/* Logo */
 #logo a {
   background-image: url("http://www.pgdp.net/c/pinc/templates/royal_blues/graphics/logo.gif");
   height: 68px;
   width: 360px;
   display: block;
 }
+/* Navbar */
 nav,
 #navbar-outer,
 #navbar,
@@ -84,6 +86,7 @@ nav input,
   font-family: Verdana, Arial, sans-serif;
   font-size: 11px;
 }
+/* Layout */
 #page-container {
   background-color: #99ccff;
 }
@@ -113,6 +116,7 @@ footer a:active,
 #footer a:active {
   color: #ffffff;
 }
+/* Header */
 h2 {
   color: #000099;
   font-family: Verdana, Arial, sans-serif;

@@ -20,12 +20,14 @@ header,
   background-color: #ffffff;
   color: #000000;
 }
+/* Logo */
 #logo a {
   background-image: url("http://www.pgdp.net/c/pinc/templates/classic_grey/graphics/logo.gif");
   height: 68px;
   width: 360px;
   display: block;
 }
+/* Navbar */
 nav,
 #navbar-outer,
 #navbar,
@@ -84,6 +86,7 @@ nav input,
   font-family: Verdana, Helvetica, sans-serif;
   font-size: 11px;
 }
+/* Layout */
 #page-container {
   background-color: #cccccc;
 }
@@ -113,6 +116,7 @@ footer a:active,
 #footer a:active {
   color: #000000;
 }
+/* Header */
 h2 {
   color: #999999;
   font-family: Verdana, Helvetica, sans-serif;

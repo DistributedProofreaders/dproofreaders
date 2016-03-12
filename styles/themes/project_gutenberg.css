@@ -20,12 +20,14 @@ header,
   background-color: #e0e8dd;
   color: #000000;
 }
+/* Logo */
 #logo a {
   background-image: url("http://www.pgdp.net/c/pinc/templates/project_gutenberg/graphics/logo.gif");
   height: 68px;
   width: 360px;
   display: block;
 }
+/* Navbar */
 nav,
 #navbar-outer,
 #navbar,
@@ -84,6 +86,7 @@ nav input,
   font-family: Verdana, Helvetica, sans-serif;
   font-size: 11px;
 }
+/* Layout */
 #page-container {
   background-color: #e0e8dd;
 }
@@ -113,6 +116,7 @@ footer a:active,
 #footer a:active {
   color: #ffffff;
 }
+/* Header */
 h2 {
   color: #336633;
   font-family: Verdana, Helvetica, sans-serif;
