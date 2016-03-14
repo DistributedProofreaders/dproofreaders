@@ -20,6 +20,7 @@ echo "<p>" . _("This page provides access to site administration utilities.") . 
 
 $pages = array(
     "edit_mail_address_for_non_activated_user.php" => _("Send activation email for new user"),
+    "manage_site_access_privileges.php" => _("Manage Site Access Privileges"),
     "manage_special_days.php" => _("Manage Special Days"),
     "sitenews.php" => _("Manage Site News"),
 // This is a "metadata rounds" file, and unused. Don't provide link.
