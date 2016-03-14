@@ -25,6 +25,8 @@ $relPath=dirname(__FILE__)."/";
 
 include_once($relPath.'site_vars.php');
 
+undo_all_magic_quotes();
+
 // If we're not testing, whitewash any uncaught exceptions
 if(!$testing)
 {
@@ -109,7 +111,9 @@ function undo_all_magic_quotes()
 //               sprintf("... WHERE x = '%s'", mysql_real_escape_string($x))
 //    );
 {
-    if (get_magic_quotes_gpc())
+    static $already_undone = FALSE;
+
+    if (!$already_undone && get_magic_quotes_gpc())
     {
         stripslashes_arr_inplace($_GET);
         stripslashes_arr_inplace($_POST);
@@ -118,6 +122,8 @@ function undo_all_magic_quotes()
         // Also the deprecated $HTTP_* vars, but we don't use them.
         // In PHP 4, $_ENV too, but we don't use it.
     }
+
+    $already_undone = TRUE;
 }
 
 function stripslashes_arr_inplace(&$value, $key = NULL)
