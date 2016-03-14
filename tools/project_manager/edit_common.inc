@@ -4,6 +4,8 @@ include_once($relPath.'genres.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link, new_help_window_link
+include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
+include_once($relPath.'User.inc');
 
 function encodeFormValue($value)
 {
@@ -95,8 +97,6 @@ function genre_list($genre)
 function difficulty_list($difficulty_level)
 {
     global $pguser;
-    $result = mysql_query("SELECT * FROM users WHERE username = '$pguser'");
-    if (mysql_result($result,0,"sitemanager") == "yes") $sa = 1; else $sa = 0;
 
     $difficulty_list = array(
         'beginner' => _("Beginner"), 
@@ -106,7 +106,7 @@ function difficulty_list($difficulty_level)
     );
 
     // only show the beginner level to the BEGIN PM or SiteAdmins
-    if (($pguser != "BEGIN") && (!$sa))
+    if (($pguser != "BEGIN") && (!user_is_a_sitemanager()))
         unset($difficulty_list['beginner']);
         
     foreach ($difficulty_list as $name => $label)
@@ -327,6 +327,18 @@ function description_field( $description, $field_name )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// vim: sw=4 ts=4 expandtab
+// returns an empty string if the possible user exists,
+// otherwise an error message
+function check_user_exists($possible_user, $description)
+{
+    $result = '';
 
-?>
+    if(!User::is_valid_user($possible_user))
+    {
+        $result = sprintf(_("%s must be an existing user - check case and spelling of username."),
+            $description) . "<br>";
+    }
+    return $result;
+}
+
+// vim: sw=4 ts=4 expandtab

@@ -5,6 +5,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'Project.inc'); // validate_projectID()
 include_once($relPath.'Stage.inc'); //user_can_work_in_stage()
+include_once($relPath.'User.inc');
 include_once($relPath.'project_states.inc'); // get_project_status_descriptor()
 include_once($relPath.'misc.inc');  // undo_all_magic_quotes() array_get() startswith()
 
@@ -881,8 +882,8 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
 }
 else if ($action == SEND_OUT_REPORTCARD)
 {
-    $pper = mysql_fetch_object(mysql_query("SELECT email, u_intlang FROM users WHERE username = '$project->postproofer'"));
-    $ppver = mysql_fetch_object(mysql_query("SELECT email, u_intlang FROM users WHERE username = '$pguser'"));
+    $pper = new User($project->postproofer);
+    $ppver = new User($pguser);
 
     $reportcard = $_POST["reportcard"];
 
