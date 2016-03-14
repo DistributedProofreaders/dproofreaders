@@ -5,10 +5,9 @@ include_once($relPath.'misc.inc');
 
 function echo_text_frame_std( $ppage )
 {
-    slim_header( _("Text Frame"),TRUE,FALSE);
+    $header_args = array("body_attributes" => 'onload="top.initializeStuff(0)"');
+    slim_header(_("Text Frame"), $header_args);
     ?>
-    </head>
-    <body onload="top.initializeStuff(0)">
     <center>
     <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe">
         <?php
@@ -58,7 +57,5 @@ function echo_text_frame_std( $ppage )
     </form>
     </center>
     <?php
-    slim_footer();
 }
 // vim: sw=4 ts=4 expandtab
-?>

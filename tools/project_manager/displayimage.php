@@ -20,9 +20,6 @@ $width = 10 * $percent;
 
 $_SESSION["displayimage"]["percent"]=$percent;
 
-$title = sprintf(_("Display Image: %s"),$imagefile);
-slim_header($title, TRUE, FALSE);
-
 // Get a list of images in the project so we can populate the prev and
 // next <link rel=... href=...> tags in <head> if needed.
 // NB The query results are used later to populate a popup menu too.
@@ -38,11 +35,14 @@ for ($row=0; $row<$num_rows;$row++)
         if ( $row != $num_rows-1 ) $next_image = mysql_result($res, $row+1, "image");
     }
 }
+$link_tags = "";
 if ($prev_image != "" && $preload == "prev")
-    echo "    <link rel=\"prefetch prev\" href=\"$projects_url/$projectid/$prev_image\">\n";
+    $link_tags .= "<link rel=\"prefetch prev\" href=\"$projects_url/$projectid/$prev_image\">\n";
 if ($next_image != "" && $preload == "next")
-    echo "    <link rel=\"prefetch next\" href=\"$projects_url/$projectid/$next_image\">\n";
-echo "</head>\n\n<body onLoad=\"self.focus()\">\n";
+    $link_tags .= "<link rel=\"prefetch next\" href=\"$projects_url/$projectid/$next_image\">\n";
+
+$title = sprintf(_("Display Image: %s"),$imagefile);
+slim_header($title, array("head_data" => $link_tags));
 ?>
 
 <form method="get" action="displayimage.php">
@@ -95,9 +95,8 @@ echo "<img src='$projects_url/$projectid/$imagefile' width='$width' border='1'>"
 <center>
 <?php
 prevnext_buttons();
-// vim: sw=4 ts=4 expandtab
 ?>
 </center>
 </form>
 <?php
-slim_footer();
+// vim: sw=4 ts=4 expandtab

@@ -55,13 +55,12 @@ if($frame=="update") {
 }
 
 if($frame=="master") {
-    slim_header(_("Manage Suggestions"),TRUE,FALSE);
+    slim_header_frameset(_("Manage Suggestions"));
     $frameSpec='cols="40%,60%"';
     if(@$_REQUEST["timecutoff"])
         $timeCutoffSpec="timeCutoff=$timeCutoff&amp;";
     else $timeCutoffSpec="";
 ?>
-</head>
 <frameset <?php echo $frameSpec; ?>>
 <frame src="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES); ?>?pm=<?php echo htmlspecialchars($pm, ENT_QUOTES); ?>&amp;freqCutoff=<?php echo $freqCutoff; ?>&amp;<?php echo $timeCutoffSpec; ?>frame=left">
 <frame name="detailframe" src="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES); ?>?frame=right">
@@ -69,7 +68,6 @@ if($frame=="master") {
 <noframes>
 <?php echo _("Your browser currently does not display frames!"); ?>
 </noframes>
-</html>
 <?php
     exit;
 }
@@ -81,7 +79,7 @@ if($frame=="left") {
 
     $submitLabel = _("Add selected words to Good Words List");
 
-    slim_header(_("Manage Suggestions"),TRUE,TRUE);
+    slim_header(_("Manage Suggestions"));
 
     // how many instances (ie: frequency sections) are there?
     $instances=count( $projects ) + 1;

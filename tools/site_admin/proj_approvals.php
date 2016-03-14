@@ -1,6 +1,7 @@
 <?php
 $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
+include_once($relPath.'Project.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 
@@ -20,7 +21,7 @@ if (!user_is_a_sitemanager())
 
 //----------------------------------------------------------------------------------
 
-$projectid = @$_GET['projectid'];
+$projectid = validate_projectID('projectid', @$_GET['projectid'], true);
 if (isset($projectid))
 {
     //update project approval status

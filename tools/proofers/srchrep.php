@@ -150,6 +150,4 @@ echo "[hb]e &mdash; " . _("'he' or 'be'") . "<br />\n";
 ?></p>
 
 <?php
-slim_footer();
-
 // vim: sw=4 ts=4 expandtab

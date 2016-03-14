@@ -736,4 +736,10 @@ function is_url_for_current_page($url)
     return TRUE;
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// Useful exceptions
+
+class NotImplementedException extends BadMethodCallException {}
+
 // vim: sw=4 ts=4 expandtab

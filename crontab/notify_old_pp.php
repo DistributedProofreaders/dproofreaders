@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'misc.inc');
+include_once($relPath.'User.inc');
 
 // check that caller is localhost or bail
 if(!requester_is_localhost())
@@ -42,8 +43,8 @@ while ($rownum < $numrows) {
         // have finished the last PPer. Send email to them
         if ($rownum > 0) {
 
-            $userresult = mysql_query ("SELECT email FROM users WHERE username = '$PPinQuestion'");
-            $email = mysql_result($userresult, 0, "email");
+            $user = new User($PPinQuestion);
+            $email = $user->email;
 
             echo $PPinQuestion . "\n" . $projectslist ."\n\n";
 

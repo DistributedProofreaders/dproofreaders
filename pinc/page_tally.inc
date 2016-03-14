@@ -14,6 +14,7 @@
 include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'privacy.inc');
+include_once($relPath.'User.inc');
 
 // -----------------------------------------------------------------------------
 
@@ -52,16 +53,11 @@ function page_tallies_add( $tally_name, $username, $amount )
 // and to the page tally of each team that the user currently belongs to.
 {
     // get the user's u_id, and the teams that he/she belongs to
-    $result = mysql_query("
-        SELECT u_id, team_1, team_2, team_3
-        FROM users
-        WHERE username = '$username'
-    ");
-    list($u_id, $team_1, $team_2, $team_3) = mysql_fetch_row($result);
+    $user = new User($username);
 
     // update page tally for user
     $user_tallyboard = new TallyBoard( $tally_name, 'U' );
-    $user_tallyboard->add_to_tally( $u_id, $amount );
+    $user_tallyboard->add_to_tally( $user->u_id, $amount );
 
     // update page tally for site
     $site_tallyboard = new TallyBoard( $tally_name, 'S' );
@@ -70,7 +66,8 @@ function page_tallies_add( $tally_name, $username, $amount )
     // update page tally for each team
     $team_tallyboard = new TallyBoard( $tally_name, 'T' );
     // (The 'array_unique' shouldn't be necessary, but just in case.)
-    foreach (array_unique(array($team_1, $team_2, $team_3)) as $team_id)
+    $teams = array_unique(array($user->team_1, $user->team_2, $user->team_3));
+    foreach ($teams as $team_id)
     {
         if ( $team_id != 0 )
         {
@@ -129,28 +126,12 @@ function user_get_page_tally_neighborhood( $tally_name, $username, $radius )
 //    For a given key, the corresponding value is a PageTally_Neighbor object
 //    supplying various information about the page-tally neighbor.
 {
-    $result = mysql_query("
-        SELECT u_id
-        FROM users
-        WHERE username='$username'
-    ");
-    if ( mysql_num_rows($result) == 0 )
-    {
-        // The target user does not appear in the 'users' table.
-        // This shouldn't ever happen.
-        die( "User '$username' does not appear in the 'users' table." );
-    }
-    else if ( mysql_num_rows($result) > 1 )
-    {
-        // This shouldn't ever happen either.
-        die( "username='$username' matched more than one row in 'users' table." );
-    }
-    list($u_id) = mysql_fetch_row($result);
+    $user = new User($username);
 
     $tallyboard = new TallyBoard( $tally_name, 'U' );
     $nb =
         $tallyboard->get_neighborhood(
-            $u_id, $radius,
+            $user->u_id, $radius,
             'users',
             'u_id',
             'username, u_privacy, date_created, u_id',

@@ -12,24 +12,24 @@ include_once($relPath.'forum_interface.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), get_integer_param()
 
-function showMbrInformation( $curMbr, $tally_name )
+function showMbrInformation( $user, $tally_name )
 {
-    showMbrProfile($curMbr);
+    showMbrProfile($user);
 
-    showMbrTallySelector( $curMbr['u_id'], $tally_name );
+    showMbrTallySelector( $user->u_id, $tally_name );
 
     if ( is_null($tally_name) )
     {
-        showMbrAccess($curMbr);
+        showMbrAccess($user);
     }
     else
     {
-        showMbrPageStats($curMbr, $tally_name);
-        showMbrNeighbors($curMbr, $tally_name);
+        showMbrPageStats($user, $tally_name);
+        showMbrNeighbors($user, $tally_name);
         $now = time();
-        if (($now - $curMbr['date_created']) > 86400)
+        if (($now - $user->date_created) > 86400)
         {
-            showMbrHistory($curMbr, $tally_name);
+            showMbrHistory($user, $tally_name);
         }
     }
 }
@@ -45,7 +45,7 @@ function showXmlButton( $username )
     return $xml_button;
 }
 
-function showMbrProfile($curMbr) {
+function showMbrProfile($user) {
 
     echo "\n";
     echo "<table width='99%'>";
@@ -53,19 +53,19 @@ function showMbrProfile($curMbr) {
     echo "<tr>";
     echo "<td align='center' valign='top' rowspan='2'>";
 
-    showForumProfile($curMbr['username']);
+    showForumProfile($user->username);
 
     echo "</td>";
 
     echo "<td align='center' valign='top'>";
 
-    showMbrDpProfile($curMbr);
+    showMbrDpProfile($user);
 
     echo "</td></tr>";
     
     echo "<tr><td align='center' valign='top'>";
 
-    showMbrTeams($curMbr);
+    showMbrTeams($user);
 
     echo "</td></tr></table><p>";
 }
@@ -88,14 +88,14 @@ function days_to_now($timestamp)
             number_format($days)); 
 }
 
-function showMbrDpProfile( $curMbr )
+function showMbrDpProfile( $user)
 {
     global $site_abbreviation;
     // Days since joined:
-    $daysInExistenceString = days_to_now($curMbr['date_created']);
-    if ($curMbr['t_last_activity'] != 0)
+    $daysInExistenceString = days_to_now($user->date_created);
+    if ($user->t_last_activity != 0)
     {
-        $daysSinceLastSeen = days_to_now($curMbr['t_last_activity']);
+        $daysSinceLastSeen = days_to_now($user->t_last_activity);
     }
 
     $t = new ThemedTable(
@@ -108,32 +108,32 @@ function showMbrDpProfile( $curMbr )
 
     $t->row(
         _("Date Joined"),
-        date("m/d/Y", $curMbr['date_created']) . "&nbsp;($daysInExistenceString)"
+        date("m/d/Y", $user->date_created) . "&nbsp;($daysInExistenceString)"
     );
     $t->row(
         _("Last Seen"),
-        ($curMbr['t_last_activity'] == 0)
+        ($user->t_last_activity == 0)
         ? _("Never")
-        : date("m/d/Y", $curMbr['t_last_activity']) . "&nbsp;($daysSinceLastSeen)"
+        : date("m/d/Y", $user->t_last_activity) . "&nbsp;($daysSinceLastSeen)"
     );
     $t->row(
         _('Roles'),
-        showMbrRoles($curMbr)
+        showMbrRoles($user)
     );
     $t->row(
         _("Stats Feed"),
-        showXmlButton($curMbr['username'])
+        showXmlButton($user->username)
         );
 
     $t->end();
 }
 
-function showMbrRoles($curMbr)
+function showMbrRoles($user)
 {
     global $users_ELR_page_tallyboard;
-    $current_P_page_tally = $users_ELR_page_tallyboard->get_current_tally( $curMbr['u_id'] );
+    $current_P_page_tally = $users_ELR_page_tallyboard->get_current_tally( $user->u_id );
 
-    $settings =& Settings::get_Settings($curMbr['username']);
+    $settings =& Settings::get_Settings($user->username);
 
     $roles = array();
 
@@ -148,7 +148,7 @@ function showMbrRoles($curMbr)
 
     // Formatter
 
-    if ($curMbr['manager'] == "yes")
+    if ($user->manager == "yes")
     {
         $roles[] = array( 'pm', _("Project Manager"), 50 );
     }
@@ -187,7 +187,7 @@ function showMbrRoles($curMbr)
         $roles[] = array( 'pf', _("Project Facilitator"), 25 );
     }
 
-    if ($curMbr['sitemanager'] == "yes")
+    if ($user->sitemanager == "yes")
     {
         $roles[] = array( 'sa', _("Site Administrator"), 25 );
     }
@@ -341,15 +341,15 @@ function showForumProfile($username) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function showMbrAccess( $curMbr )
+function showMbrAccess( $user )
 {
-    if (!user_can_see_user_access_chart_of($curMbr['username'])) return;
+    if (!user_can_see_user_access_chart_of($user->username)) return;
 
     echo "<i>(";
     echo _('This chart is not generally visible.');
     echo ")</i><br>\n";
 
-    show_user_access_chart( $curMbr['username'] );
+    show_user_access_chart( $user->username );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -396,11 +396,11 @@ function showMbrTallySelector( $u_id, $tally_name )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function showMbrPageStats( $curMbr, $tally_name )
+function showMbrPageStats( $user, $tally_name )
 {
     $users_tallyboard = new TallyBoard( $tally_name, 'U' );
 
-    $vitals = $users_tallyboard->get_vitals( $curMbr['u_id'] );
+    $vitals = $users_tallyboard->get_vitals( $user->u_id );
 
     $now = time();
 
@@ -413,17 +413,17 @@ function showMbrPageStats( $curMbr, $tally_name )
 
     if ($tally_name == "R*")
     {
-        $firstWorkInRound = $curMbr['date_created'];
+        $firstWorkInRound = $user->date_created;
         $daysInRoundInteger = floor(($site_R_apocalypse - $firstWorkInRound)/86400);
     }
     elseif ($tally_name == "P1")
     {
-        $firstWorkInRound = ($curMbr['date_created'] > $site_P_genesis) ? $curMbr['date_created'] : $site_P_genesis;
+        $firstWorkInRound = ($user->date_created > $site_P_genesis) ? $user->date_created : $site_P_genesis;
         $daysInRoundInteger = floor(($now - $firstWorkInRound)/86400);
     }
     else
     {
-        $firstWorkInRound = get_first_granted_date($curMbr['username'],$tally_name);
+        $firstWorkInRound = get_first_granted_date($user->username,$tally_name);
         $daysInRoundInteger = floor(($now - $firstWorkInRound)/86400);
     }
 
@@ -484,7 +484,7 @@ function showMbrPageStats( $curMbr, $tally_name )
     $t->end();
 }
 
-function showMbrNeighbors($curMbr, $tally_name) {
+function showMbrNeighbors($user, $tally_name) {
     global $site_abbreviation;
     $now = time();
 
@@ -503,7 +503,7 @@ function showMbrNeighbors($curMbr, $tally_name) {
 
     $neighbors =
         user_get_page_tally_neighborhood(
-            $tally_name, $curMbr['username'], 4 );
+            $tally_name, $user->username, 4 );
     foreach ( $neighbors as $rel_posn => $neighbor )
     {
         $rank = $neighbor->get_current_page_tally_rank();
@@ -535,9 +535,9 @@ function showMbrNeighbors($curMbr, $tally_name) {
     $t->end();
 }
 
-function showMbrTeams($curMbr) {
+function showMbrTeams($user) {
 
-    if (empty($curMbr['team_1']) && empty($curMbr['team_2']) && empty($curMbr['team_3'])) { return; }
+    if (empty($user->team_1) && empty($user->team_2) && empty($user->team_3)) { return; }
 
     $t = new ThemedTable(
         2,
@@ -553,7 +553,7 @@ function showMbrTeams($curMbr) {
     $result = mysql_query("
         SELECT *
         FROM user_teams
-        WHERE id IN ({$curMbr['team_1']}, {$curMbr['team_2']}, {$curMbr['team_3']})
+        WHERE id IN ({$user->team_1}, {$user->team_2}, {$user->team_3})
     ") or die(mysql_error());
 
     while ($row = mysql_fetch_assoc($result)) {
@@ -567,7 +567,7 @@ function showMbrTeams($curMbr) {
     $t->end();
 }
 
-function showMbrHistory($curMbr, $tally_name) {
+function showMbrHistory($user, $tally_name) {
 
     if (@$_GET['range'] == 'all') {
         $range = 'all';
@@ -576,7 +576,7 @@ function showMbrHistory($curMbr, $tally_name) {
     }
 
     $choices = array();
-    $u_id = $curMbr['u_id'];
+    $u_id = $user->u_id;
     foreach( array( 7, 14, 30, 60, 365, 'all' ) as $d )
     {
         $text =

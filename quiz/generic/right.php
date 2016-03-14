@@ -13,6 +13,3 @@ $quiz = get_Quiz_containing_page($quiz_page_id);
 output_small_header($quiz);
 
 qp_echo_introduction_html();
-?>
-</body>
-</html>

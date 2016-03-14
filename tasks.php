@@ -6,6 +6,8 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'User.inc');
 include_once($relPath.'links.inc'); // private_message_link()
 include_once($relPath.'misc.inc'); // get_enumerated_param(), str_contains(), echo_html_comment()
 
@@ -306,19 +308,10 @@ $result = mysql_query("
 while ($row = mysql_fetch_assoc($result)) {
     $task_assignees_array[$row['u_id']] = $row['username'];
 }
-$result = mysql_query("
-        SELECT username
-        FROM usersettings
-        WHERE setting = 'task_center_mgr' AND value = 'yes'
-    ");
-while ($row = mysql_fetch_assoc($result)) {
-    $u_idQuery = mysql_query("
-            SELECT u_id
-            FROM users
-            WHERE username = '{$row['username']}'
-        ");
-    $u_id = mysql_result($u_idQuery, 0, "u_id");
-    $task_assignees_array[$u_id] = $row['username'];
+$taskcenter_managers = Settings::get_users_with_setting('task_center_mgr', 'yes');
+foreach($taskcenter_managers as $taskcenter_manager) {
+    $user = new User($taskcenter_manager);
+    $task_assignees_array[$u_id] = $user->u_id;
 }
 natcasesort($task_assignees_array);
 $task_assignees_array = array(0 => 'Unassigned') + $task_assignees_array;
@@ -487,6 +480,9 @@ function create_task_from_form_submission($formsub)
     $newt_browser  = (int) get_enumerated_param($formsub, 'task_browser', null, array_keys($browser_array));
     $newt_version  = (int) get_enumerated_param($formsub, 'task_version', null, array_keys($versions_array));
 
+    $task_assignee_user = new User();
+    $task_assignee_user->load('u_id', $newt_assignee);
+
     $sql_query = "
         INSERT INTO tasks
         SET
@@ -522,20 +518,15 @@ function create_task_from_form_submission($formsub)
     // so the msg will only go to those with taskctr_notice = 'all'.
 
     global $tasks_url, $code_url;
-    $result = mysql_query("SELECT email, username FROM users WHERE u_id = $newt_assignee");
-    if ($newt_assignee != 0) {
-        maybe_mail(
-            mysql_result($result, 0, "email"),
-            "DP Task Center: Task #$task_id has been assigned to you",
-            mysql_result($result, 0, "username") . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n"
-        );
-    }
+    maybe_mail(
+        $task_assignee_user->email,
+        "DP Task Center: Task #$task_id has been assigned to you",
+        $task_assignee_user->username . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n"
+    );
 
     global $pguser;
-    wrapped_mysql_query("
-        INSERT INTO usersettings (username, setting, value)
-        VALUES ('$pguser', 'taskctr_notice', $task_id)
-    ");
+    $userSettings =& Settings::get_Settings($pguser);
+    $userSettings->add_value('taskctr_notice', $task_id);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -798,17 +789,13 @@ function handle_action_on_a_specified_task()
         TaskDetails($task_id);
     }
     elseif ($action == 'notify_me') {
-        wrapped_mysql_query("
-            INSERT INTO usersettings (username, setting, value)
-            VALUES ('$pguser', 'taskctr_notice', $task_id)
-        ");
+        $userSettings =& Settings::get_Settings($pguser);
+        $userSettings->add_value('taskctr_notice', $task_id);
         TaskDetails($task_id);
     }
     elseif ($action == 'unnotify_me') {
-        wrapped_mysql_query("
-            DELETE FROM usersettings
-            WHERE username = '$pguser' and setting = 'taskctr_notice' and value = $task_id
-        ");
+        $userSettings =& Settings::get_Settings($pguser);
+        $userSettings->remove_value('taskctr_notice', $task_id);
         TaskDetails($task_id);
     }
     else {
@@ -1187,15 +1174,15 @@ function TaskDetails($tid)
     $res = mysql_query("SELECT * FROM tasks WHERE task_id = $tid LIMIT 1");
     if (mysql_num_rows($res) >= 1) {
         while ($row = mysql_fetch_assoc($res)) {
-            $result = mysql_query("
-                SELECT *
-                FROM usersettings
-                WHERE setting = 'taskctr_notice' and (value = $tid or value = 'all') and username = '$pguser'
-            ");
-            if (mysql_num_rows($result) >= 1) {
+            $userSettings =& Settings::get_Settings($pguser);
+            $notification_settings = $userSettings->get_values('taskctr_notice');
+            if(in_array($tid, $notification_settings) ||
+                in_array('all', $notification_settings))
+            {
                 $already_notified = 1;
             }
-            else {
+            else
+            {
                 $already_notified = 0;
             }
             $opened_by_link = property_format_value('opened_by', $row, FALSE);
@@ -1569,16 +1556,13 @@ function TaskComments($tid)
 function NotificationMail($tid, $message)
 {
     global $code_url, $tasks_url, $pguser;
-    $result = mysql_query("
-        SELECT username
-        FROM usersettings
-        WHERE setting = 'taskctr_notice' and (value = $tid or value = 'all')
-    ");
-    while ($row = mysql_fetch_assoc($result)) {
-        if ($row['username'] != $pguser) {
-            $temp = mysql_query("SELECT email FROM users WHERE username = '" . $row['username'] . "'");
-            $email = mysql_result($temp, 0, "email");
-            maybe_mail($email, "DP Task Center: Task #$tid has been updated",
+    $notify_setting_all = Settings::get_users_with_setting('taskctr_notice', 'all');
+    $notify_setting_this = Settings::get_users_with_setting('taskctr_notice', $tid);
+    $users_to_notify = array_merge($notify_setting_all, $notify_setting_this);
+    foreach($users_to_notify as $username) {
+        if ($username != $pguser) {
+            $user = new User($username);
+            maybe_mail($user->email, "DP Task Center: Task #$tid has been updated",
                 "You have requested notification of updates to task #$tid. "
               . "$message" . "\n"
               . "You can see task #$tid by visiting $tasks_url?action=show&task_id=$tid" . "\n\n"
@@ -1784,9 +1768,9 @@ function private_message_link_for_uid($u_id)
 
 function get_username_for_uid($u_id)
 {
-    $res = mysql_query("SELECT username FROM users WHERE u_id = $u_id");
-    $username = mysql_result($res, 0, "username");
-    return $username;
+    $user = new User();
+    $user->load("u_id", $u_id);
+    return $user->username;
 }
 
 function wrapped_mysql_query($sql_query)

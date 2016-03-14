@@ -708,11 +708,10 @@ function show_tally_specific_stats( $tally_name )
         }
 
         // Get userid for personal stats link
-        $result = mysql_query("SELECT u_id FROM users WHERE username='$pguser' LIMIT 1");
-        $u_id = mysql_result($result, 0, "u_id"); // could use $usern->get_u_id() ??
+        $user = new User($pguser);
 
         // get yesterday's and today's page count
-        $snapshot_info = $tallyboard->get_info_from_latest_snapshot($u_id);
+        $snapshot_info = $tallyboard->get_info_from_latest_snapshot($user->u_id);
         $yesterday_page_delta = $snapshot_info['tally_delta'];
         $today_page_delta = $usern->get_current_page_tally() - $snapshot_info['tally_value'];
 
@@ -728,7 +727,7 @@ function show_tally_specific_stats( $tally_name )
         echo number_format($usern->get_current_page_tally_rank())."<br>\n";
         echo "&nbsp;" . _("Current Rank") . ": ";
         echo "$rankname<br></font>\n";
-        echo "<center><font size='2'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."&tally_name=".$tally_name."'>" . $tally_name . " " .  _("Details...") . "</a></font></center>\n";
+        echo "<center><font size='2'><a href='$code_url/stats/members/mdetail.php?id=".$user->u_id."&tally_name=".$tally_name."'>" . $tally_name . " " .  _("Details...") . "</a></font></center>\n";
         echo "<" . "!-- " . $userP['u_id'] . " -->";
 
         // -------------------------------------------------------------

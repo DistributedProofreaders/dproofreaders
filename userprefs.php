@@ -13,6 +13,7 @@ include_once($relPath.'misc.inc'); // startswith(...), attr_safe()
 include_once($relPath.'js_newpophelp.inc');
 include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 include_once($relPath.'forum_interface.inc'); // get_forum_user_details(), get_url_to_edit_profile()
+include_once($relPath.'User.inc');
 
 require_login();
 undo_all_magic_quotes();
@@ -247,19 +248,12 @@ function echo_general_tab() {
         PRIVACY_PRIVATE   => _("Private"),
     );
 
-    $result=mysql_query(sprintf("
-        SELECT *
-        FROM users
-        WHERE u_id=$uid AND username='%s'",
-        mysql_real_escape_string($pguser))
-    );
-    $real_name = mysql_result($result,0,"real_name");
-    $email = mysql_result($result,0,"email");
+    $user = new User($pguser);
 
     echo "<tr>\n";
     show_preference(
         _('Name'), 'real_name', 'name',
-        $real_name,
+        $user->real_name,
         'textfield',
         array( '20', '' )
         // About 98% of pgdp.net's users have length(real_name) <= 20
@@ -270,7 +264,7 @@ function echo_general_tab() {
     // Check for DP/forum email mismatch, warn user if not the same
     $bb_user_info = get_forum_user_details($pguser);
     $email_warning = '';
-    if ( $bb_user_info["email"] != $email) {
+    if ( $bb_user_info["email"] != $user->email) {
         $edit_url = get_url_to_edit_profile();
         $email_warning = "<p><b>".sprintf(_("Warning: The email in your <a href='%s'>forum profile</a> is different."),$edit_url)."</b><br>";
         $email_warning .= _("Please update if necessary to ensure you receive messages as intended.")."</p>\n";
@@ -279,7 +273,7 @@ function echo_general_tab() {
     echo "<tr>\n";
     show_preference(
         _('E-mail'), 'email', 'email',
-        $email,
+        $user->email,
         'textfield',
         array( '26', $email_warning )
         // About 92% of pgdp.net's users have length(email) <= 26

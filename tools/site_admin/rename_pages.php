@@ -2,6 +2,7 @@
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
+include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'user_is.inc');
 
@@ -12,23 +13,21 @@ if ( !user_is_a_sitemanager() )
     die( "You are not allowed to run this script." );
 }
 
+slim_header(_("Rename Pages"));
+
+echo "<h2>" . _("Rename Pages") . "</h2>";
 echo "<pre>\n";
-echo "<h2>Rename Pages</h2>\n";
 
-$projectid = array_get( $_GET, 'projectid', '' );
+$projectid = validate_projectID('projectid', @$_REQUEST['projectid'], true);
 
-if ( empty($projectid) )
+if ( !$projectid )
 {
-    $projectid = array_get( $_POST, 'projectid', '' );
-    if ( empty($projectid) )
-    {
-        echo "<form method='GET'>";
-        echo "Please specify a project: ";
-        echo "<input type='text' name='projectid' size='23'>";
-        echo "<input type='submit' value='Go'>";
-        echo "</form>\n";
-        exit;
-    }
+    echo "<form method='GET'>";
+    echo "Please specify a project: ";
+    echo "<input type='text' name='projectid' size='23'>";
+    echo "<input type='submit' value='Go'>";
+    echo "</form>\n";
+    exit;
 }
 
 $project = new Project($projectid);

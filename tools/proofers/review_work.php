@@ -6,6 +6,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'Project.inc'); // does_project_page_table_exist()
+include_once($relPath.'User.inc');
 
 require_login();
 
@@ -36,6 +37,10 @@ if (!(user_is_a_sitemanager() || user_is_an_access_request_reviewer()))
     $username = $pguser;
 }
 
+if($username && !User::is_valid_user($username))
+{
+    die("Invalid username");
+}
 
 // start the page
 $title = _('Reviewing work');

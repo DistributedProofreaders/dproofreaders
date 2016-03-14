@@ -36,7 +36,7 @@ echo "<hr>\n";
 $projectid_  = array_get( $_POST, 'projectid_',  NULL );
 if (is_array($projectid_))
     foreach($projectid_ as $which => $projectid)
-        validate_projectID("projectid_[$which]", $projectid);
+        $projectid_[$which] = validate_projectID("projectid_[$which]", $projectid);
 $from_image_ = array_get( $_POST, 'from_image_', NULL );
 if (is_array($from_image_))
     foreach($from_image_ as $which => $filename)

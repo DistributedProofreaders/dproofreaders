@@ -1,6 +1,7 @@
 <?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'Project.inc');
+include_once($relPath.'User.inc');
 
 function maybe_mail( $to, $subject, $message, $additional_headers = null )
 // If this is for real, send the message.
@@ -69,11 +70,9 @@ $info
 $site_signoff
 ";
 
-    $email_addr = mysql_result(mysql_query("
-        SELECT email FROM users WHERE username = '$username'
-    "),0);
+    $user = new User($username);
 
-    maybe_mail($email_addr, "$prefix: \"$nameofwork\"", $body);
+    maybe_mail($user->email, "$prefix: \"$nameofwork\"", $body);
 }
 
 // vim: sw=4 ts=4 expandtab

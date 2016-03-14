@@ -15,9 +15,9 @@ undo_all_magic_quotes();
 
 $curr_state = get_enumerated_param($_GET, 'curr_state', null, $PROJECT_STATES_IN_ORDER);
 $new_state  = get_enumerated_param($_GET, 'new_state', null, $PROJECT_STATES_IN_ORDER);
-$projectids = explode( ',', $_GET['projects'] );
-foreach($projectids as $projectid) {
-    validate_projectID('projects', $projectid);
+$projectids = array();
+foreach(explode( ',', @$_GET['projects'] ) as $projectid) {
+    $projectids[] = validate_projectID('projects', $projectid);
 }
 
 echo "<pre>\n";

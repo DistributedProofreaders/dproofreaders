@@ -8,7 +8,7 @@ include_once($relPath.'forum_interface.inc');
 require_login();
 
 // Which project?
-$project_id = $_GET['project'];
+$project_id = validate_projectID('project', @$_GET['project']);
 
 $project = new Project($project_id);
 

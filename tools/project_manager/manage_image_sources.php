@@ -7,6 +7,8 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'User.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
@@ -76,7 +78,7 @@ if ($action == 'update_oneshot')
 
         $errmsgs = '';
 
-        $new_code_name = rtrim(ltrim($_REQUEST[code_name]));
+        $new_code_name = rtrim(ltrim($_REQUEST["code_name"]));
 
         if (strlen($new_code_name) < 1) 
             $errmsgs .= _("A value for Image Source ID is required. Please enter one.") . " ";
@@ -392,6 +394,7 @@ class ImageSource
         global $errmsgs,$can_edit,$new,$theme_args;
         $std_fields = array('display_name','full_name','credit',
                     'ok_keep_images','ok_show_images','info_page_visibility','public_comment','internal_comment');
+        $std_fields_sql = '';
         foreach ($std_fields as $field)
         {
             $this->$field = $_POST[$field];
@@ -451,28 +454,26 @@ class ImageSource
         $this->_set_field('is_active',1);
         $this->_set_field('info_page_visibility',1);
 
-        $result = mysql_query("SELECT users.username,users.email
-            FROM usersettings,users
-            WHERE usersettings.setting = 'is_approval_notify'
-            AND usersettings.value = '$this->code_name'
-            AND usersettings.username = users.username");
+        $notify_users = Settings::get_users_with_setting(
+            'is_approval_notify', $this->code_name);
 
-        mysql_query("DELETE
-            FROM usersettings
-            WHERE setting = 'is_approval_notify'
-            AND usersettings.value = '$this->code_name'") or die(mysql_error());
+        foreach($notify_users as $username)
+        {
+            $user = new User($username);
 
-        list($username, $email) = mysql_fetch_row($result);
+            $userSettings =& Settings::get_Settings($username);
+            $userSettings->remove_value('is_approval_notify', $this->code_name);
 
-        $subject = sprintf(_('%s: Image Source %s has been approved!'),$site_abbreviation,$this->display_name);
+            $subject = sprintf(_('%s: Image Source %s has been approved!'),$site_abbreviation,$this->display_name);
 
-        $body = "Hello $username,\n\n" .
-            "This is a message from the $site_name website.\n\n".
-            "The Image Source that you proposed, $this->display_name, has been\n".
-            "approved by $pguser. You can select it, and apply it to projects, from\n".
-            "your project manager's page.\n\n$site_signoff";
+            $body = "Hello $username,\n\n" .
+                "This is a message from the $site_name website.\n\n".
+                "The Image Source that you proposed, $this->display_name, has been\n".
+                "approved by $pguser. You can select it, and apply it to projects, from\n".
+                "your project manager's page.\n\n$site_signoff";
 
-        maybe_mail($email,$subject,$body);
+            maybe_mail($user->email,$subject,$body);
+        }
     }
 
     function _set_field($field,$value)
@@ -547,11 +548,8 @@ class ImageSource
     {
         global $general_help_email_addr,$image_sources_manager_addr,$code_url,$site_abbreviation,$site_name,$site_signoff;
 
-        mysql_query("INSERT INTO usersettings
-            SET
-                username = '$requestor_username',
-                setting = 'is_approval_notify',
-                value = '$this->code_name'") or die(mysql_error());
+        $userSettings =& Settings::get_Settings($requestor_username);
+        $userSettings->add_value('is_approval_notify', $this->code_name);
 
         $subject = sprintf(_('%s: New Image Source proposed'),$site_abbreviation)." : ".$this->display_name;
 

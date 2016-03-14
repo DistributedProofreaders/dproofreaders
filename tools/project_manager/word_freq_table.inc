@@ -314,9 +314,6 @@ function echo_page_footer($page_gen_time=null) {
         $time_generate_string=sprintf(_("Time to generate this data: %.2f seconds"),$page_gen_time);
         echo "<p>$time_generate_string</p>";
     }
-
-    echo "</body>\n";
-    echo "</html>\n";
 }
 
 function _get_word_context_from_text($page_text,$contextWord) {

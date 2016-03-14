@@ -1,12 +1,11 @@
 <?php
-include_once($relPath.'udb_user.php');
 
 class dbConnect
 {
     var $error='';
 
     function dbConnect() {
-        global $db_server, $db_user, $db_password, $db_name;
+        include('udb_user.php');
 
         // Ignore warnings from mysql_connect() so we can handle them
         // gracefully elsewhere.

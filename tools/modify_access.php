@@ -5,8 +5,8 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'access_log.inc');
-include_once($relPath.'username.inc');
 include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'User.inc');
 
 require_login();
 
@@ -159,8 +159,7 @@ echo "Hit 'Back' to return to user's detail page. (And you may need to reload.)<
 function notify_user($username,$actions)
 {
     global $site_name, $site_signoff;
-    $result = mysql_query("SELECT email FROM users WHERE username ='$username'");
-    $email_addr = mysql_result($result,0,"email");
+    $user = new User($username);
     if ((count($actions) == 1) && (array_search('grant',$actions) !== false))
     {
         // Special case: If the user has been granted access to
@@ -173,7 +172,7 @@ function notify_user($username,$actions)
                    "$site_signoff";
         // XXX: Note that this wording works when the activity is a stage (round or pool),
         // but not otherwise.
-        maybe_mail($email_addr,$subject,$message);
+        maybe_mail($user->email,$subject,$message);
         return "congratulated user.";
     }
     else
@@ -191,7 +190,7 @@ function notify_user($username,$actions)
                 'Access revoked.' ) );
         }
         $message .= "\n\n$site_signoff";
-        maybe_mail($email_addr,$subject,$message);
+        maybe_mail($user->email,$subject,$message);
         return "notified user.";
     }
 }

@@ -2,6 +2,7 @@
 $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'http_headers.inc');
+include_once($relPath.'slim_header.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param()
 include_once('toolbox.inc');
@@ -9,64 +10,13 @@ include_once('toolbox.inc');
 $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_));
 $round = get_Round_for_round_id($round_id);
 
-include_once($relPath.'slim_header.inc');
-slim_header(_("Control Frame"),TRUE,FALSE);
+$header_args = array(
+    "css_data" => get_ctrl_page_styles(),
+    "body_attributes" => 'onLoad="top.cRef = top.markRef = document.markform;"',
+);
+slim_header(_("Control Frame"), $header_args);
 
 ?>
-<style type="text/css">
-<!--
-table { margin: 0; padding: 0; }
-body {
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 12px;
-  color:#000000;
-  background-color:#CDC0B0;
-  padding:0px;
-  text-align:center;
-  }
-A:link {
-  color:#000000;
-  text-decoration : none;
-  }
-A:visited {
-  color:#000000;
-  text-decoration : none;
-  }
-A:hover {
-  color:#003300;
-  text-decoration : none;
-  }
-A:active {
-  color:#000033;
-  text-decoration : none;
-  }
-.dropnormal {
-  background-color:#FFF8DC;
-  }
-.dropchars {
-  background-color:#EEDFCC;
-  font-size: 1.2em;
-/*
-  #CDCDC1;
-  #EEDFCC;
-*/
-  }
-.proofbutton {
-border:1px solid black;
-text-align: center;
-background: #FFF8DC;
-display:inline;
-margin: 0 1px 1px 0;
-<?php if(!stristr(@$_SERVER['HTTP_USER_AGENT'],"msie"))
-     echo "line-height:140%;\n"; ?>
-padding-top: 1px;
-cursor: pointer;
-}
-
--->
-</style>
-</head>
-<body onLoad="top.cRef = top.markRef = document.markform;">
 <a
 	href="#"
 	accesskey="="
@@ -176,6 +126,57 @@ echo "</a>]\n"; ?>
 </tr>
 </table>
 </form>
+<?php
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-</body>
-</html>
+function get_ctrl_page_styles()
+{
+    $line_height = "";
+    if(!stristr(@$_SERVER['HTTP_USER_AGENT'], "msie"))
+        $line_height = "line-height:140%;";
+
+    return <<<STYLES
+        table { margin: 0; padding: 0; }
+        body {
+            font-family: verdana, arial, helvetica, sans-serif;
+            font-size: 12px;
+            color:#000000;
+            background-color:#CDC0B0;
+            padding:0px;
+            text-align:center;
+            }
+        A:link {
+            color:#000000;
+            text-decoration : none;
+            }
+        A:visited {
+            color:#000000;
+            text-decoration : none;
+            }
+        A:hover {
+            color:#003300;
+            text-decoration : none;
+            }
+        A:active {
+            color:#000033;
+            text-decoration : none;
+            }
+        .dropnormal {
+            background-color:#FFF8DC;
+            }
+        .dropchars {
+            background-color:#EEDFCC;
+            font-size: 1.2em;
+            }
+        .proofbutton {
+            border:1px solid black;
+            text-align: center;
+            background: #FFF8DC;
+            display:inline;
+            margin: 0 1px 1px 0;
+            $line_height
+            padding-top: 1px;
+            cursor: pointer;
+        }
+STYLES;
+}
