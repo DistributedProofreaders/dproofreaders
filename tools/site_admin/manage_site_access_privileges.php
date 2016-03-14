@@ -15,14 +15,27 @@ if ( !user_is_a_sitemanager() )
 
 // --------------------------------------
 
-$boolean_user_settings = array(
-    'proj_facilitator'        => _("Grants project facilitator privileges"),
+// These settings are set in the users table, not in the usersettings
+// table, although the Settings class provides a view into them.
+$user_table_settings = array(
+// Creating site managers can be done here too, although given how
+// infrequently that will happen, it's probably best to leave it commented
+// out to prevent accidental usage when they're really just trying to
+// create a PM.
+//    'sitemanager'             => _("Grants site administrator privileges"),
+    'manager'                 => _("Grants project management (PM) privileges"),
+);
+
+$boolean_user_settings = array_merge($user_table_settings, array(
+    'proj_facilitator'        => _("Grants project facilitator (PF) privileges"),
     'access_request_reviewer' => _("Creates level evaluators; gives access to special reviewer-only scripts; <b>must</b> be combined with PF access"),
     'image_sources_manager'   => _("Grants ability to create new image source listings and manage existing records"),
     'site_news_editor'        => _("Grants ability to create and edit news on any of the site pages"),
     'task_center_mgr'         => _("Grants administrative access to the Task Center; typically granted to developers so they can manage their own tasks"),
     'authors_db_manager'      => _("Grants ability to manage author records"),
-);
+    'send_to_post'            => _("Send user's projects to the PP pool"),
+    'disable_project_loads'   => _("Revoke user's ability to load projects"),
+));
 
 $value_user_settings = array(
     'remote_file_manager' => array(
@@ -33,6 +46,10 @@ $value_user_settings = array(
     ),
 );
 
+$freeform_user_settings = array(
+    'pp_limit_value' => _("Post-processing projects limit, -1 means unlimited"),
+);
+
 $username = array_get($_POST, 'username', array_get($_GET, 'username', NULL));
 $action = get_enumerated_param($_POST, 'action', NULL, array('update'), TRUE);
 
@@ -40,7 +57,7 @@ $title = _("Manage Site Access Privileges");
 output_header($title);
 
 echo "<h1>$title</h1>\n";
-echo "<p>" . _("This page allows you to toggle boolean settings in user_settings to grant or revoke various site access permissions. Round accesses are managed from the user's statistics page.") . "</p>";
+echo "<p>" . _("This page allows you to grant or revoke various site access permissions for a user and adjust some limits. Round accesses are managed from the user's statistics page.") . "</p>";
 
 show_username_form($username);
 
@@ -87,7 +104,7 @@ function show_username_form($username)
 
 function show_toggles_form($username, $user_settings)
 {
-    global $boolean_user_settings, $value_user_settings;
+    global $boolean_user_settings, $value_user_settings, $freeform_user_settings;
 
     echo "<form method='POST'>\n";
     echo "<input type='hidden' name='username' value='$username'>\n";
@@ -95,8 +112,8 @@ function show_toggles_form($username, $user_settings)
     echo "<table>\n";
     {
         echo "<tr>\n";
-        echo "<th>" . _("Set?") . "</th>\n";
-        echo "<th>" . _("Access") . "</th>\n";
+        echo "<th>" . _("Enable") . "</th>\n";
+        echo "<th>" . _("Setting") . "</th>\n";
         echo "<th>" . _("Description") . "</th>\n";
         echo "</tr>\n";
     }
@@ -131,6 +148,19 @@ function show_toggles_form($username, $user_settings)
         echo "</td>";
         echo "</tr>\n";
     }
+
+    foreach ( $freeform_user_settings as $setting_name => $setting_description )
+    {
+        $user_current_value = $user_settings->get_value($setting_name);
+        echo "<tr>";
+        echo "<td></td>";
+        echo "<td>$setting_name</td>\n";
+        echo "<td>$setting_description<br>\n";
+        echo "<input type='text' name='$setting_name' value='$user_current_value'>";
+        echo "</td>";
+        echo "</tr>";
+    }
+
     echo "</table>\n";
     echo "<p><input type='submit' name='submit' value='" . attr_safe(_("Update")) . "'></p>\n";
     echo "</form>\n";
@@ -140,7 +170,8 @@ function show_toggles_form($username, $user_settings)
 
 function update_settings($username, $user_settings)
 {
-    global $boolean_user_settings, $value_user_settings;
+    global $boolean_user_settings, $value_user_settings, $user_table_settings,
+           $freeform_user_settings;
 
     $disposition = array(
         'turn on'  => array(),
@@ -184,7 +215,8 @@ function update_settings($username, $user_settings)
         $disposition[$which][] = $setting_name;
     }
 
-    foreach ( $value_user_settings as $setting_name => $options )
+    foreach ( array_merge($value_user_settings, $freeform_user_settings) as
+        $setting_name => $options )
     {
         if (isset($_POST[$setting_name]))
         {
@@ -236,12 +268,26 @@ function update_settings($username, $user_settings)
 
     foreach ( $disposition['turn on'] as $setting_name )
     {
-        $user_settings->set_true($setting_name);
+        if(isset($user_table_settings[$setting_name]))
+        {
+            update_user_table($username, $setting_name, 'yes');
+        }
+        else
+        {
+            $user_settings->set_true($setting_name);
+        }
     }
 
     foreach ( $disposition['turn off'] as $setting_name )
     {
-        $user_settings->set_value($setting_name, NULL);
+        if(isset($user_table_settings[$setting_name]))
+        {
+            update_user_table($username, $setting_name, 'no');
+        }
+        else
+        {
+            $user_settings->set_value($setting_name, NULL);
+        }
     }
 
     foreach ( $disposition['set'] as $setting_name => $value )
@@ -253,6 +299,17 @@ function update_settings($username, $user_settings)
     }
 
     echo "<p>" . _("Done.") . "</p>";
+}
+
+function update_user_table($username, $field, $value)
+{
+    $sql = sprintf("
+        UPDATE users
+        SET $field = '%s'
+        WHERE username = '%s'
+    ", mysql_real_escape_string($value),
+        mysql_real_escape_string($username));
+    mysql_query($sql) or die(mysql_error());
 }
 
 // vim: sw=4 ts=4 expandtab
