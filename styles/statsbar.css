@@ -23,10 +23,6 @@
   text-align: center;
   padding: 0;
 }
-#statsbar .divider {
-  text-align: center;
-  width: 75%;
-}
 #content-container.left-statsbar,
 #content-container.right-statsbar {
   width: 74%;

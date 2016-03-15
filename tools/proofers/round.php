@@ -28,7 +28,7 @@ $round->page_top( $uao );
 // show user how to access this round
 if ( !$uao->can_access )
 {
-    echo "<hr width='75%'>\n";
+    echo "<hr class='divider'>\n";
     show_user_access_object( $uao );
 }
 
@@ -46,14 +46,14 @@ show_news_for_page($round_id);
 
 if ($pagesproofed <= 100 && $ELR_round->id == $round_id)
 {
-    echo "<hr width='75%'>\n";
+    echo "<hr class='divider'>\n";
 
     if ($pagesproofed > 80)
     {
-        echo "<i><font size=-1>";
+        echo "<p class='small italic'>";
         printf(_("After you proofread a few more pages, the following introductory Simple Proofreading Rules will be removed from this page. However, they are permanently available <a href='%s'>here</a> if you wish to refer to them later. (You can bookmark that link if you like.)"),
             "$code_url/faq/simple_proof_rules.php");
-        echo "</font></i><br><br>";
+        echo "</p>";
     }
 
     include($relPath.'simple_proof_text.inc');
@@ -64,33 +64,33 @@ $round_doc_url = "$code_url/faq/$round->document";
 
 if ($pagesproofed >= 10)
 {
-    echo "<hr width='75%'>\n";
+    echo "<hr class='divider'>\n";
 
     if ($pagesproofed < 40)
     {
-        echo "<font size=-1 face=" . $theme['font_mainbody'] . "><i>";
+        echo "<p class='sans-serif small italic'>";
         printf(_("Now that you have proofread 10 pages you can see the Random Rule. Every time this page is refreshed, a random rule is selected from the <a href='%s'>Guidelines</a> and displayed in this section"),
             $round_doc_url);
         echo "<br>";
         echo _("(This explanatory line will eventually vanish.)");
-        echo "</i></font><br><br>";
+        echo "</p>";
     }
 
-
-    echo "<font face='".$theme['font_mainbody']."'><b>";
+    echo "<div id='random-rule'>";
+    echo "<h4 class='sans-serif'>";
     echo _("Random Rule");
-    echo "</b></font><br>";
+    echo "</h4>";
 
 
     $result = dpsql_query("SELECT anchor,subject,rule FROM rules WHERE document = '$round->document' ORDER BY RAND(NOW()) LIMIT 1");
     $rule = mysql_fetch_assoc($result);
     echo "<i>".$rule['subject']."</i><br>";
-    echo "".$rule['rule']."<br>";
+    echo "<p>".$rule['rule']."</p>";
     // TRANSLATORS: %1$s is the linked name of a random Guideline section.
     printf(_("See the %1\$s section of the <a href='%2\$s'>Guidelines</a>"),
         "<a href='$round_doc_url#".$rule['anchor']."'>".$rule['subject']."</a>",
         $round_doc_url);
-    echo "<br><br>";
+    echo "<br><br></div>";
 }
 
 thoughts_re_mentor_feedback( $pagesproofed );
@@ -105,18 +105,18 @@ if ($pagesproofed <= 20)
 {
     if ($uao->can_access)
     {
-        echo "<hr width='75%'>\n";
+        echo "<hr class='divider'>\n";
 
-        echo "<font face='" . $theme['font_mainbody'] ."'><b>";
+        echo "<p class='bold sans-serif'>";
         echo _("Click on the title of a book in the list below to start proofreading.");
-        echo "</b></font><br><br>\n";
+        echo "</p>\n";
     }
 }
 else
 {
     // Link to queues.
-    echo "<hr width='75%'>\n";
-    echo "<h4 align='center'>", _('Release Queues'), "</h4>";
+    echo "<hr class='divider'>\n";
+    echo "<h4 class='center-align'>", _('Release Queues'), "</h4>";
     $res = dpsql_query("
         SELECT COUNT(*)
         FROM queue_defns
