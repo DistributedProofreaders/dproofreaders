@@ -4,7 +4,6 @@
 
 include_once($relPath.'misc.inc');
 include_once($relPath.'site_vars.php');
-include_once($relPath.'theme.inc');
 include_once($jpgraph_dir.'/src/jpgraph.php');
 include_once($jpgraph_dir.'/src/jpgraph_line.php');
 include_once($jpgraph_dir.'/src/jpgraph_bar.php');
@@ -606,11 +605,11 @@ function add_graph_timestamp(&$graph)
 
 function dpgraph_error($error, $width = 300, $height =150)
 {
-    global $jpgraph_FF, $jpgraph_FS, $theme;
+    global $jpgraph_FF, $jpgraph_FS;
     $graph = new CanvasGraph ($width,$height,'auto');
     $graph->SetMargin(12,22,12,22);
     $graph->SetShadow();
-    $graph->SetMarginColor("$theme[color_headerbar_bg]");
+    $graph->SetMarginColor("red");
 
     // Stroke the plot-area and margin first to avoid overwriting the text.
     $graph->InitFrame();
@@ -624,7 +623,7 @@ function dpgraph_error($error, $width = 300, $height =150)
     $text->ParagraphAlign( 'center');
 
     // fill, border, shadow
-    $text->SetBox( "white", "$theme[color_headerbar_bg]","gray");
+    $text->SetBox("white", "red", "gray");
 
     $text->Stroke( $graph->img);
 
