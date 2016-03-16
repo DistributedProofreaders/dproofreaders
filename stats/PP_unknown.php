@@ -11,9 +11,7 @@ output_header($title);
 
 $order = get_enumerated_param($_GET, 'order', 'nameofwork', array('nameofwork', 'authorsname', 'username', 'projectid', 'modifieddate'));
 
-echo "<br><br><h2>$title</h2><br>\n";
-
-echo "<br>\n";
+echo "<h1>$title</h1>\n";
 
 echo sprintf( _("We don't know for sure who PPd these books; if you do know, or if you did, please send an email: <a ref='%1\$s'>%2\$s</a> quoting the other information in the row, including the project ID. Thanks!"), "mailto:$general_help_email_addr", "$general_help_email_addr");
 

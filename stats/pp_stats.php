@@ -10,15 +10,14 @@ require_login();
 $title = _("Post-Processing Statistics");
 output_header($title);
 
-echo "<br><br><h2>$title</h2><br>\n";
+echo "<h1>$title</h1>\n";
 
+echo "<p>";
 echo "<a href='projects_Xed_graphs.php?which=PPd'>" . _("Projects PPd Graphs") . "</a><br>";
-
 echo "<a href='PP_unknown.php'>" . _("Books with Mystery PPers") . "</a>";
+echo "</p>";
 
-echo "<br>\n";
-
-echo "<h3>" . _("Total Projects Post-Processed Since Statistics were Kept") . "</h3>\n";
+echo "<h2>" . _("Total Projects Post-Processed Since Statistics were Kept") . "</h2>\n";
 
 $psd = get_project_status_descriptor('PPd');
 dpsql_dump_themed_query("
@@ -30,9 +29,8 @@ dpsql_dump_themed_query("
 ");
 
 echo "<br>\n";
-echo "<br>\n";
 
-echo "<h3>" . _("Number of Distinct Post-Processors") . "</h3>\n";
+echo "<h2>" . _("Number of Distinct Post-Processors") . "</h2>\n";
 
 dpsql_dump_themed_query("
     SELECT
@@ -43,8 +41,8 @@ dpsql_dump_themed_query("
 
 echo "<br>\n";
 
-echo "<h3>" . _("Most Prolific Post-Processors") . "</h3>\n";
-echo "<h4>" . _("(Number of Projects Finished PPing)") . "</h4>\n";
+echo "<h2>" . _("Most Prolific Post-Processors") . "</h2>\n";
+echo "<h3>" . _("Number of Projects Finished PPing") . "</h3>\n";
 
 $psd = get_project_status_descriptor('PPd');
 dpsql_dump_themed_query("
@@ -63,8 +61,7 @@ dpsql_dump_themed_query("
 
 echo "<br>\n";
 
-echo "<h3>" . _("Most Prolific Post-Processors") . "</h3>\n";
-echo "<h4>" . _("(Number of Projects Posted to PG)") . "</h4>\n";
+echo "<h3>" . _("Number of Projects Posted to PG") . "</h3>\n";
 
 $psd = get_project_status_descriptor('posted');
 dpsql_dump_themed_query("
@@ -79,8 +76,6 @@ dpsql_dump_themed_query("
     GROUP BY postproofer
     ORDER BY 2 DESC
 ", 1, DPSQL_SHOW_RANK);
-
-echo "<br>\n";
 
 echo "<br>\n";
 

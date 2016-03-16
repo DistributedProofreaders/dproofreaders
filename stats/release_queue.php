@@ -28,7 +28,7 @@ if (is_null($round_id))
 {
     $title = _("Release Queues");
     output_header($title);
-    echo "<br><h2>$title</h2>";
+    echo "<h1>$title</h1>\n";
 
     echo _("Each round has its own set of release queues."), "\n";
     echo _("Please select the round that you're interested in:"), "\n";
@@ -47,7 +47,7 @@ if (!isset($name))
 {
     $title = sprintf( _("Release Queues for Round '%s'"), $round_id);
     output_header($title);
-    echo "<br><h2>$title</h2>";
+    echo "<h1>$title</h1>\n";
     echo "<table border='1' cellspacing='0' cellpadding='2' style='border: 1px solid #111; border-collapse: collapse' width='99%'>\n";
     echo "<tr bgcolor='".$theme['color_headerbar_bg']."'>";
     echo "<td colspan='7'><center><font color='".$theme['color_headerbar_font']."'><b>".$title."</b></font></center></td></tr>\n";
@@ -139,20 +139,21 @@ else
     $title = preg_replace('/(\\\\)/', "", $title); // Unescape apostrophes, etc.
     // Suppress stats since this page is very wide
     output_header($title, NO_STATSBAR);
-    echo "<br><h2>$title</h2>";
-
-    if ($user_can_see_queue_settings)
-    {
-        echo "<h4>", _("project_selector"), ": $qd->project_selector</h4>\n\n";
-        if ( $cooked_project_selector != $qd->project_selector )
-        {
-            echo "($cooked_project_selector)\n\n";
-        }
-        echo "<h4>$comment</h4>\n";
-    }
+    echo "<h1>$title</h1>";
 
     // Add Back to to Release Queues link
     echo "<p><a href='".$code_url."/stats/release_queue.php?round_id=$round_id'>"._("Back to Release Queues")."</a></p>\n";
+
+    if ($user_can_see_queue_settings)
+    {
+        echo "<p><b>" . _("Selector") . ":</b> $qd->project_selector</p>\n";
+        if ( $cooked_project_selector != $qd->project_selector )
+        {
+            echo "<p><b>" . _("Filled-in") . ":</b> $cooked_project_selector</p>\n";
+        }
+        echo "<p><b>" . _("Comment") . ":</b> $comment</p>\n";
+    }
+
 
     $comments_url1 = mysql_escape_string("<a href='$code_url/project.php?id=");
     $comments_url2 = mysql_escape_string("'>");

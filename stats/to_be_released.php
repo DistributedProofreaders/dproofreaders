@@ -10,7 +10,7 @@ require_login();
 $title = _("Books To Be Released");
 output_header($title);
 
-echo "<br><h2>$title</h2>\n";
+echo "<h1>$title</h1>\n";
 
 $order = get_enumerated_param(
         $_GET, 'order', 'default', array('default', 'username', 'modifieddate') );

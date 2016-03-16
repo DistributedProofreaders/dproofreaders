@@ -10,7 +10,7 @@ include_once($relPath.'misc.inc');
 $title = _("Statistics Central");
 output_header($title);
 
-echo "<br><h2>" . _("Statistics Central") . "</h2>";
+echo "<h1>" . _("Statistics Central") . "</h1>\n";
 
 show_news_for_page("STATS");
 

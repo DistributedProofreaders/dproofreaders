@@ -16,10 +16,7 @@ $title = sprintf( _('Top 100 Proofreaders for Round %s'), $tally_name );
 
 output_header($title);
 
-echo "<br><h2>$title</h2>\n";
-
-echo "<br>\n";
-echo "<br>\n";
+echo "<h1>$title</h1>\n";
 
 $sql_anonymous = mysql_real_escape_string(_("Anonymous"));
 
@@ -37,7 +34,7 @@ else
 
 $subtitle = sprintf( _('Users with the Highest Number of Pages Saved-as-Done in Round %s'), $tally_name );
 
-echo "<h3>$subtitle</h3>\n";
+echo "<h2>$subtitle</h2>\n";
 
 $users_tallyboard = new TallyBoard( $tally_name, 'U' );
 
@@ -57,7 +54,6 @@ dpsql_dump_themed_query("
     LIMIT 100
 ", 1, DPSQL_SHOW_RANK);
 
-echo "<br>\n";
 echo "<br>\n";
 
 // vim: sw=4 ts=4 expandtab

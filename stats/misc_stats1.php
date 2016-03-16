@@ -21,7 +21,7 @@ $curr_year       = strftime('%Y',    $now_timestamp);
 $title = sprintf( _("Miscellaneous Statistics for Round %s"), $tally_name );
 output_header($title);
 
-echo "<br><br><h2>$title</h2><br>\n";
+echo "<h1>$title</h1>\n";
 
 show_all_time_total();
 
@@ -46,7 +46,7 @@ function show_all_time_total()
     global $tally_name;
 
     $sub_title = _("Total Pages Proofread Since Statistics Were Kept");
-    echo "<h3>$sub_title</h3>\n";
+    echo "<h2>$sub_title</h2>\n";
 
 
     $site_tallyboard = new TallyBoard( $tally_name, 'S' );
@@ -77,7 +77,7 @@ function show_top_days( $n, $when )
             die( "bad value for 'when': '$when'" );
     }
 
-    echo "<h3>$sub_title</h3>\n";
+    echo "<h2>$sub_title</h2>\n";
 
     dpsql_dump_themed_query(
         select_from_site_past_tallies_and_goals(
@@ -125,7 +125,7 @@ function show_month_sums( $which )
             die( "bad value for 'which': '$which'" );
     }
 
-    echo "<h3>$sub_title</h3>\n";
+    echo "<h2>$sub_title</h2>\n";
 
     dpsql_dump_themed_query(
         select_from_site_past_tallies_and_goals(
@@ -153,7 +153,7 @@ function show_months_with_most_days_over( $n )
     global $tally_name, $curr_year_month;
 
     $sub_title = sprintf( _('Months with most days over %s pages'), number_format($n) );
-    echo "<h3>$sub_title</h3>\n";
+    echo "<h2>$sub_title</h2>\n";
 
     dpsql_dump_themed_query(
         select_from_site_past_tallies_and_goals(

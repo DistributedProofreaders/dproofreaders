@@ -10,11 +10,9 @@ require_login();
 $title = _("Project Manager Statistics");
 output_header($title);
 
-echo "<br><h2>$title</h2>\n";
+echo "<h1>$title</h1>\n";
 
-echo "<br>\n";
-
-echo "<h3>" . _("Number of Distinct Project Managers") . "</h3>\n";
+echo "<h2>" . _("Number of Distinct Project Managers") . "</h2>\n";
 
 dpsql_dump_themed_query("
     SELECT
@@ -25,8 +23,8 @@ dpsql_dump_themed_query("
 
 echo "<br>\n";
 
-echo "<h3>" . _("Most Prolific Project Managers") . "</h3>\n";
-echo "<h4>" . _("(Number of Projects Created)") . "</h4>\n";
+echo "<h2>" . _("Most Prolific Project Managers") . "</h2>\n";
+echo "<h3>" . _("Number of Projects Created") . "</h3>\n";
 
 $psd = get_project_status_descriptor('created');
 dpsql_dump_themed_query("
@@ -41,9 +39,7 @@ dpsql_dump_themed_query("
 
 echo "<br>\n";
 
-
-echo "<h3>" . _("Most Prolific Project Managers") . "</h3>\n";
-echo "<h4>" . _("(Number of Projects Posted to PG)") . "</h4>\n";
+echo "<h3>" . _("Number of Projects Posted to PG") . "</h3>\n";
 
 $psd = get_project_status_descriptor('posted');
 dpsql_dump_themed_query("
@@ -55,8 +51,6 @@ dpsql_dump_themed_query("
     GROUP BY username
     ORDER BY 2 DESC
 ", 1, DPSQL_SHOW_RANK);
-
-echo "<br>\n";
 
 echo "<br>\n";
 

@@ -20,7 +20,7 @@ $orderclause = $clausemap[$order];
 $title = _("Books Available for PPV");
 output_header($title);
 
-echo "<br><h2>$title</h2>\n";
+echo "<h1>$title</h1>\n";
 
 // ------------------
 

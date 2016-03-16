@@ -10,13 +10,11 @@ $psd = get_project_status_descriptor($which);
 
 output_header($psd->graphs_title);
 
-echo "<center><h1><i>$psd->graphs_title</i></h1></center>";
+echo "<h1>$psd->graphs_title</h1>";
 
-echo "<br><br>";
-
-echo "<center><img src=\"jpgraph_files/curr_month_proj.php?which=$which\"></center><br>";
-echo "<center><img src=\"jpgraph_files/cumulative_month_proj.php?which=$which\"></center><br>";
-echo "<center><img src=\"jpgraph_files/total_proj_graph.php?which=$which\"></center><br>";
-echo "<center><img src=\"jpgraph_files/cumulative_total_proj_graph.php?which=$which\"></center><br>";
+echo "<img src=\"jpgraph_files/curr_month_proj.php?which=$which\"><br>";
+echo "<img src=\"jpgraph_files/cumulative_month_proj.php?which=$which\"><br>";
+echo "<img src=\"jpgraph_files/total_proj_graph.php?which=$which\"><br>";
+echo "<img src=\"jpgraph_files/cumulative_total_proj_graph.php?which=$which\"><br>";
 
 // vim: sw=4 ts=4 expandtab

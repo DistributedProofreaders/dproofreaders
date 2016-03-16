@@ -10,12 +10,10 @@ require_login();
 $title = _("Post-Processing Verification Statistics");
 output_header($title);
 
-echo "<br><br><h2>$title</h2>\n";
+echo "<h1>$title</h1>\n";
 
-echo "<br>\n";
-
-echo "<h3>" . _("Post-Processing Verifiers") . "</h3>\n";
-echo "<h4>" . _("(Number of Projects Posted to PG)") . "</h4>\n";
+echo "<h2>" . _("Post-Processing Verifiers") . "</h2>\n";
+echo "<h3>" . _("Number of Projects Posted to PG") . "</h3>\n";
 
 $psd = get_project_status_descriptor('posted');
 dpsql_dump_themed_query("

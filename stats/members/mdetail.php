@@ -41,9 +41,9 @@ else
 $desc = sprintf( _("Details for user %s"), $user_referent );
 output_header($desc);
 
-echo "<br><center>";
-
 echo "<h1>$desc</h1>";
+
+echo "<center>";
 
 if ( $can_reveal )
 {
