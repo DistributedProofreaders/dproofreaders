@@ -47,7 +47,7 @@ function theme($nameofpage, $location, $extra_args = array())
 // to close the page after the caller finishes output.
 function output_header($nameofpage, $show_statsbar = True, $extra_args = array())
 {
-    global $code_url, $theme, $theme_name, $pguser, $userP;
+    global $code_url, $pguser, $userP;
 
     // Display stats bar on left (1) or right (0)
     $statsbar_align = isset($pguser) ? $userP['u_align'] : 0;
@@ -92,7 +92,7 @@ function output_header($nameofpage, $show_statsbar = True, $extra_args = array()
 }
 
 function output_footer($nameofpage, $show_statsbar = True) {
-    global $code_url, $theme, $theme_name, $pguser, $userP;
+    global $code_url, $pguser, $userP;
 
     // Display stats bar on left (1) or right (0)
     $statsbar_align = isset($pguser) ? $userP['u_align'] : 0;
@@ -162,7 +162,7 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) 
 }
 
 function html_logobar() {
-    global $code_url, $theme, $theme_name, $site_name;
+    global $code_url, $site_name;
     global $maintenance;
     echo "\n<div id='header'>\n";
     echo "<div id='logo'>\n";
@@ -221,7 +221,7 @@ function html_navbar()
 // Display the horizontal bar containing links to various important points
 // within the site (and the login form if the user is not logged in).
 {
-    global $theme, $code_url, $site_abbreviation, $pguser, $forums_url, $blog_url, $wiki_url;
+    global $code_url, $site_abbreviation, $pguser, $forums_url, $blog_url, $wiki_url;
 
     echo "<div id='navbar-outer'>";
     echo "<div id='navbar'>";
@@ -607,7 +607,7 @@ function get_activity_links()
 
 function show_tally_specific_stats( $tally_name )
 {
-    global $code_url, $theme, $userP, $pguser;
+    global $code_url, $userP, $pguser;
 
     // Put the whole thing in a div, just so we can put a box around it.
     echo "<div id='tally-stats'>\n";
@@ -750,7 +750,7 @@ function show_tally_vs_goal($label_for_goal, $goal, $label_for_actual, $actual)
 
 function show_user_teams()
 {
-    global $theme, $code_url, $userP;
+    global $code_url, $userP;
 
     echo "<div id='teams-nav'>\n";
     echo "<h3>" .  _("Your Teams") . ":</h3>\n";
@@ -779,7 +779,7 @@ function show_user_teams()
 
 function show_birthdays()
 {
-    global $theme, $site_abbreviation;
+    global $site_abbreviation;
 
     $seconds_in_month = 30 * 24 * 60 * 60;
 
@@ -834,7 +834,7 @@ function show_birthdays()
 
 function show_completed_projects($terse = FALSE)
 {
-    global $theme, $code_url;
+    global $code_url;
 
     if ($terse) {
         echo "\n<br>\n";
@@ -892,7 +892,7 @@ function show_completed_projects($terse = FALSE)
 
 function show_key_help_links()
 {
-    global $theme, $code_url, $forums_url;
+    global $code_url, $forums_url;
 
     echo "<div id='key-help-documents'>";
     echo "<h3>"._("Key Help Documents").":</h3>";
@@ -927,7 +927,7 @@ function show_key_help_links()
 
 function show_donation_stuff()
 {
-    global $theme, $theme_name, $code_url, $site_name, $wiki_url;
+    global $code_url, $site_name, $wiki_url;
 
     $pgdp_wiki_url = "http://www.pgdp.net/wiki";
     $DPF_home_url  = "$pgdp_wiki_url/Distributed_Proofreaders_Foundation";
@@ -954,7 +954,7 @@ function show_donation_stuff()
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function html_footer() {
-    global $code_url, $theme, $site_name, $starttime;
+    global $code_url, $site_name, $starttime;
 
     $mtime = explode(" ",microtime());
     $endtime = $mtime[1] + $mtime[0];
