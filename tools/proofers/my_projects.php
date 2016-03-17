@@ -32,13 +32,14 @@ else
 if ( $username == $pguser )
 {
     $out_title = _("My Projects");
-    $heading_proof = sprintf( _("%s, here's a list of the projects you've helped format and/or proof"), $username );
-    $heading_reserved = sprintf( _("%s, these projects are reserved for you to post-process"), $username );
+    $proof_text = sprintf( _("%s, here's a list of the projects you've helped format and/or proof"), $username );
+    $reserved_text = sprintf( _("%s, these projects are reserved for you to post-process"), $username );
 }
 else
 {
-    $out_title = $heading_proof = sprintf( _("Projects that '%s' has worked on"), $username );
-    $heading_reserved = sprintf( _("These projects are reserved for '%s' to post-process"), $username );
+    $out_title = sprintf(_("%s's Projects"), $username);
+    $proof_text = sprintf( _("Projects that '%s' has worked on"), $username );
+    $reserved_text = sprintf( _("These projects are reserved for '%s' to post-process"), $username );
 }
 
 $sorting = array_get($_GET, 'sort', '');
@@ -56,7 +57,9 @@ if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
 
 prep_for_links_to_project_pages();
 
-echo "<a name='proof' id='proof'></a><h2>$heading_proof</h2>";
+$proof_heading = _("Proofreading &amp; Formatting Projects");
+echo "<a name='proof' id='proof'></a><h2>$proof_heading</h2>";
+echo "<p>$proof_text</p>";
 
 // ---------------
 
@@ -272,7 +275,9 @@ $result = dpsql_query($query);
 
 if (mysql_num_rows($result) > 0)
 {
-    echo "<a name='reserved' id='reserved'></a><h2>$heading_reserved</h2>\n";
+    $reserved_heading = _("Projects Reserved for Post-Processing");
+    echo "<a name='reserved' id='reserved'></a><h2>$reserved_heading</h2>\n";
+    echo "<p>$reserved_text</p>";
 
     echo sprintf("(%d projects)", mysql_num_rows($result) );
 
