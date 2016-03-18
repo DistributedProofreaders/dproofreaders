@@ -70,14 +70,12 @@ class Stage extends Activity
         if ( file_exists("$header_images_dir/$img_base.jpg") )
         {
             echo "<br>";
-            echo "<center>";
             echo "<img src='$header_images_url/$img_base.jpg' title='" 
                 . attr_safe($title) . "' alt='" . attr_safe($title) . "'>";
-            echo "</center>";
         }
         else
         {
-            echo "<h1 align='center'>$title</h1>";
+            echo "<h1>$title</h1>";
         }
         echo "\n";
     }
@@ -88,7 +86,7 @@ class Stage extends Activity
 
         if ( !$uao->can_access )
         {
-            echo "<p align='center'>";
+            echo "<p>";
             echo sprintf( _("Welcome to %s!"), $this->id ), "\n";
             echo _("Feel free to explore this stage."), "\n";
             echo _("You can find out what happens here, and follow the progress of projects from earlier rounds."), "\n";
@@ -97,7 +95,7 @@ class Stage extends Activity
             echo "\n";
         }
 
-        echo "<p align='center'>";
+        echo "<p>";
         echo "<b>";
         echo _('What happens in this stage');
         echo ":</b><br>";

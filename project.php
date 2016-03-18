@@ -1042,9 +1042,9 @@ function do_waiting_queues()
     // Okay, so the project is in some round's waiting state.
     // What queues is it in, if any?
 
-    echo "<h4>";
+    echo "<h2>";
     echo _("Queues");
-    echo "</h4>\n";
+    echo "</h2>\n";
 
     $res = mysql_query("
         SELECT name, project_selector
@@ -1110,7 +1110,7 @@ function do_event_subscriptions()
     $projectid = $project->projectid;
 
     echo "<a name='event_subscriptions'></a>\n";
-    echo "<h4>", _("Event Subscriptions"), "</h4>\n";
+    echo "<h2>", _("Event Subscriptions"), "</h2>\n";
 
     echo "<div style='margin-left:3em'>\n";
 
@@ -1165,7 +1165,7 @@ function do_holds()
     global $project, $code_url;
 
     echo "<a name='holds'></a>\n";
-    echo "<h4>", _("Project Holds"), "</h4>\n";
+    echo "<h2>", _("Project Holds"), "</h2>\n";
 
     echo "<div style='margin-left:3em'>\n";
 
@@ -1226,7 +1226,7 @@ function do_history()
 {
     global $project;
 
-    echo "<h4>", _("Project History"), "</h4>\n";
+    echo "<h2>", _("Project History"), "</h2>\n";
 
     $res = mysql_query("
         SELECT timestamp, who, event_type, details1, details2, details3
@@ -1493,7 +1493,7 @@ function do_images()
         : _("View Images Online")
     );
 
-    echo "<h4>", _('Images'), "</h4>";
+    echo "<h2>", _('Images'), "</h2>";
     echo "<ul>";
     echo "<li><a href='$link_url'>$link_text</a></li>\n";
     echo "</ul>\n";
@@ -1514,7 +1514,7 @@ function do_extra_files()
 
     if ( !$project->dir_exists ) return;
 
-    echo "<h4>", _('Extra Files in Project Directory'), "</h4>";
+    echo "<h2>", _('Extra Files in Project Directory'), "</h2>";
 
     $saved_dir = getcwd();
 
@@ -1595,9 +1595,9 @@ function do_post_downloads()
 
     if ( user_can_work_in_stage($pguser, 'PP') )
     {
-        echo "<h4>";
+        echo "<h2>";
         echo _("Post Downloads");
-        echo "</h4>\n";
+        echo "</h2>\n";
         
         echo "<ul>";
 
@@ -1632,9 +1632,9 @@ function do_post_downloads()
     }
     else
     {
-        echo "<h4>";
+        echo "<h2>";
         echo _("Concatenated Text Files");
-        echo "</h4>\n";
+        echo "</h2>\n";
 
         echo "<ul>";
     }
@@ -1834,7 +1834,7 @@ function do_postcomments()
     if ($project->PPer_is_current_user)
     {
 
-      echo "<h4>" . _("Post-Processor's Comments") . "</h4>";
+      echo "<h2>" . _("Post-Processor's Comments") . "</h2>";
 
       echo_postcomments_instructions();
 
@@ -1868,7 +1868,7 @@ function do_smooth_reading()
     // -- see SR-commitments, and
     // -- read SR'ed texts
 
-    echo "<h4>", _('Smooth Reading'), "</h4>";
+    echo "<h2>", _('Smooth Reading'), "</h2>";
     echo "<ul>";
 
     if ( $project->smoothread_deadline == 0 )
@@ -2041,9 +2041,9 @@ function do_change_state()
     $valid_transitions = get_valid_transitions( $project, $pguser );
     if (count($valid_transitions) == 0 ) return;
 
-    echo "<h4>";
+    echo "<h2>";
     echo _("Change Project State");
-    echo "</h4>\n";
+    echo "</h2>\n";
 
     if ( $project->state == PROJ_NEW )
     {

@@ -69,7 +69,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
     }
 
     output_header($page_title, NO_STATSBAR, $theme_args);
-    echo "<br><h2 align='center'>$page_title</h2>\n";
+    echo "<h1>$page_title</h1>\n";
 
     if ($errors != '')
     {
@@ -135,7 +135,7 @@ else
     }
 
     output_header($page_title, NO_STATSBAR, $theme_args);
-    echo "<br><h2 align='center'>$page_title</h2>\n";
+    echo "<h1>$page_title</h1>\n";
 
     if ($fatal_error != '')
     {
@@ -887,8 +887,6 @@ class ProjectInfoHolder
 
         $this->show_hidden_controls();
 
-        echo "<br>";
-        echo "<center>";
         echo "<table cellspacing='0' cellpadding='5' border='1' width='90%' style='border: 1px solid #000; border-collapse:collapse'>";
 
         $this->show_visible_controls();
@@ -903,7 +901,6 @@ class ProjectInfoHolder
         echo "</tr>\n";
 
         echo "</table>";
-        echo "</center>";
         echo "</form>";
         echo "\n";
     }
@@ -1055,9 +1052,9 @@ class ProjectInfoHolder
 
         $now = strftime(_("%A, %B %e, %Y at %X"));
 
-        echo "<br><table width='90%' border=1>";
-        echo "<tr><td align='middle' bgcolor='#cccccc'><h3>", _("Preview<br>Project"), "</h3></td>";
-        echo "<td bgcolor='#cccccc'><b>", _("This is a preview of your project and roughly how it will look to the proofreaders."), "</b></td></tr>\n";
+        echo "<h2>", _("Preview Project"), "</h2>";
+        echo "<p>", _("This is a preview of your project and roughly how it will look to the proofreaders."), "</p>\n";
+        echo "<table width='90%' border=1>";
         echo "<tr><td align='middle' bgcolor='#cccccc'><b>", _("Title"), "</b></td><td>$this->nameofwork</td></tr>\n";
         echo "<tr><td align='middle' bgcolor='#cccccc'><b>", _("Author"), "</b></td><td>$this->authorsname</td></tr>\n";
         if (user_is_a_sitemanager())
@@ -1076,7 +1073,7 @@ class ProjectInfoHolder
         echo $comments;
         echo "</td></tr>\n";
 
-        echo "</table><br><br>";
+        echo "</table><br>";
     }
     
     // -------------------------------------------------------------------------

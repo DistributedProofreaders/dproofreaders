@@ -49,7 +49,7 @@ $_Activity_Hub = attr_safe(_("Activity Hub"));
 
 output_header($_Activity_Hub, True, $theme_args);
 
-echo "<h1 class='center-align'><img src='$code_url/graphics/Activity_Hub.png' width='350' height='60' title='$_Activity_Hub' alt='$_Activity_Hub'></h1>\n";
+echo "<h1><img src='$code_url/graphics/Activity_Hub.png' width='350' height='60' title='$_Activity_Hub' alt='$_Activity_Hub'></h1>\n";
 
 echo "<p>\n";
 echo sprintf(_('Welcome to the %1$s Activity Hub. From this page you can view the phases of %1$s production.'),$site_abbreviation);

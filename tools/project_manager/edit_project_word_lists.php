@@ -256,7 +256,6 @@ class ProjectWordListHolder
 
         $this->show_hidden_controls();
 
-        echo "<center>";
         echo "<table class='wordlisttable'>";
 
         $this->show_visible_controls();
@@ -279,7 +278,6 @@ class ProjectWordListHolder
     echo "</tr>";
 
         echo "</table>";
-        echo "</center>";
         echo "</form>";
         echo "\n";
     }

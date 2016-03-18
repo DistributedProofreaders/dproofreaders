@@ -80,7 +80,7 @@ function show_projects_for_smooth_reading()
     if ( isset($pguser) )
     {
         $title = _('Projects you have volunteered to Smooth Read');
-        echo "\n<h2 align='center'>$title</h2>";
+        echo "\n<h2>$title</h2>";
 
         $stage = get_Stage_for_id("SR");
         $ext_sort_param_name = "order{$stage->id}";
@@ -117,7 +117,7 @@ function show_projects_for_smooth_reading()
     }
 
     $title = _('Projects Available for Smooth Reading');
-    echo "\n<h2 align='center'>$title</h2>";
+    echo "\n<h2>$title</h2>";
 
     // Only show the filters if the user is logged in.
     // Filters don't work correctly unless there's a $pguser session,
@@ -204,7 +204,7 @@ function show_projects_for_stage(
     echo "\n<a name='$anchor'></a>";
 
     $title = _('Projects Currently Available');
-    echo "\n<h3 align='center'>$title</h3>";
+    echo "\n<h2>$title</h2>";
     echo "\n<p>{$stage->description}</p>";
 
     show_project_listing(
@@ -231,7 +231,7 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
     {
         $header = _('Books I Have Checked Out');
 
-        echo "<h2 align='center'>$header</h2>";
+        echo "<h2>$header</h2>";
 
         $initial_project_selector = "state = '{$pool->project_checkedout_state}'";
 
@@ -247,7 +247,7 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
     {
         $header = _('Books Available for Checkout');
 
-        echo "<h2 align='center'>$header</h2>";
+        echo "<h2>$header</h2>";
 
         $available_filtertype_stem = "{$pool->id}_av";
 
@@ -256,7 +256,7 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         $projects_filter = get_project_filter_sql($pguser, $available_filtertype_stem);
 
         echo "<a name='$anchor'></a>\n";
-        echo "<center><b>$header</b></center>";
+        echo "<b>$header</b>";
     }
     else
     {

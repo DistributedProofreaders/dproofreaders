@@ -103,7 +103,7 @@ function show_news_for_page( $news_page_id )
         }
         else
         {
-            echo "<h3>$header_title</h3>";
+            echo "<h2>$header_title</h2>";
         }
 
         echo "<small>";
