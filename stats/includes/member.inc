@@ -100,8 +100,7 @@ function showMbrDpProfile( $curMbr )
     $t = new ThemedTable(
         2,
         // TRANSLATORS: %s is the site abbreviation
-        sprintf(_("%s Profile"),$site_abbreviation),
-        array( 'width'=>99 )
+        sprintf(_("%s Profile"),$site_abbreviation)
     );
     $t->set_column_widths( 30, 70 );
 
@@ -211,21 +210,19 @@ function showMbrRoles($curMbr)
 }
 
 function showForumProfile($username) {
-    global $theme, $site_abbreviation;
+    global $site_abbreviation;
 
     $bb_user = get_forum_user_details($username);
 
     $view_url = get_url_to_view_profile($bb_user["id"]);
     $text = _('View');
-    $colored_text = "<font color='".$theme['color_headerbar_font']."' size='2'>$text</font>";
-    $viewlink = "&nbsp;[<a href='$view_url'>$colored_text</a>]";
+    $viewlink = "&nbsp;[<a href='$view_url'>$text</a>]";
 
     if (isset($GLOBALS['pguser']) && $bb_user["username"] == $GLOBALS['pguser'])
     {
         $edit_url = get_url_to_edit_profile();
         $text = _('Edit');
-        $colored_text = "<font color='".$theme['color_headerbar_font']."' size='2'>$text</font>";
-        $editlink = "&nbsp;[<a href='$edit_url'>$colored_text</a>]";
+        $editlink = "&nbsp;[<a href='$edit_url'>$text</a>]";
     }
     else
     {
@@ -234,8 +231,7 @@ function showForumProfile($username) {
 
     $t = new ThemedTable(
         2,
-        _("Forum Profile") . $viewlink . $editlink,
-        array( 'width'=>100 )
+        _("Forum Profile") . $viewlink . $editlink
     );
 
     $avatar = get_url_for_user_avatar($username);
@@ -439,8 +435,7 @@ function showMbrPageStats( $curMbr, $tally_name )
 
     $t = new ThemedTable(
         2,
-        _("Page Statistics"),
-        array( 'width'=>100 )
+        _("Page Statistics")
     );
 
     if ($firstWorkInRound != 0)
@@ -490,7 +485,7 @@ function showMbrNeighbors($curMbr, $tally_name) {
     $t = new ThemedTable(
         4,
         _("Neighbors"),
-        array( 'width'=>99, 'rollover_highlight'=>TRUE )
+        array('striped' => TRUE)
     );
     $t->set_column_widths( 15, 28, 28, 29 );
     $t->column_headers(
@@ -541,7 +536,7 @@ function showMbrTeams($curMbr) {
     $t = new ThemedTable(
         2,
         _("Teams"),
-        array( 'width'=>99, 'rollover_highlight'=>TRUE )
+        array('striped' => TRUE)
     );
     $t->set_column_widths( 50, 50 );
     $t->column_headers(
@@ -590,8 +585,7 @@ function showMbrHistory($curMbr, $tally_name) {
 
     $t = new ThemedTable(
         1,
-        _("History"),
-        array( 'width'=>99 )
+        _("History")
     );
     $t->row( "<center><br><p><font size='2'>$choices_str</font><p><img src='$image_url' width='600' height='300'></center><br>" );
     $t->end();

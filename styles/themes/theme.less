@@ -74,6 +74,39 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ------------------------------------------------------------------------ */
+/* Themed tables */
+table.themed {
+    tr {
+        th {
+            background-color: @navbar-background;
+            color: @navbar-text;
+/*            .sans-serif; */
+            .bold;
+            a:link, a:visited {
+                color: @navbar-text;
+            }
+        }
+        td {
+            background-color: @header-background;
+            color: @header-text;
+        }
+    }
+}
+
+table.striped {
+    tr:nth-child(even) {
+        td {
+            background-color: @sidebar-background;
+        }
+    }
+    tr:nth-child(odd) {
+        td {
+            background-color: @page-background;
+        }
+    }
+}
+
+/* ------------------------------------------------------------------------ */
 /* Sans-serif styling */
 
 #completed-titles, #recent-titles {

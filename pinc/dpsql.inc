@@ -1,12 +1,4 @@
 <?php
-if(isset($userP['i_theme']) && $userP['i_theme'] != '' ) {
-                $theme_name = $userP['i_theme'];
-        } else {
-                $theme_name = "project_gutenberg";
-}
-include_once($relPath."templates/$theme_name/theme.tpl");
-$theme = ${$theme_name};
-
 define("DPSQL_NO_RANK",   False);
 define("DPSQL_SHOW_RANK", True);
 
@@ -112,15 +104,11 @@ function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_R
 
 function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_RANK, $ralign_ints = DPSQL_RIGHT_ALIGN_INTS)
 {
-	$theme = $GLOBALS['theme'];
 	$n_query_cols = mysql_num_fields($result);
 	$n_curr_row = $start_at;
 
-	print "<table border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse;' width='99%'>\n";
+	print "<table class='themed striped stats'>\n";
 	
-	print "<tr><td>\n";
-	print "<table border='0' cellspacing='0' cellpadding='2' width='100%' align='center' class='stats'>";
-
 	$n_cols = $show_rank ? $n_query_cols + 1 : $n_query_cols;
 	$perc = 100 / $n_cols;
 	for ($c = 0; $c < $n_cols; $c++ )
@@ -131,10 +119,9 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
 	print "<tr>\n";
 	if ($show_rank)
 	{
-		print "<th bgcolor='" . $theme['color_headerbar_bg'] . "'>\n";
-		print "<font color='".$theme['color_headerbar_font'] . "'>";
+		print "<th>";
 		print _("Rank");
-		print "</font></th>\n";
+		print "</th>\n";
 	}
 
 	$type = Array();
@@ -142,19 +129,16 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
 	{
 		$type[$c] = mysql_field_type($result, $c);
 		$align = ($type[$c] == 'int' && $ralign_ints) ? " align='right'" : '';
-		print "<th bgcolor='" . $theme['color_headerbar_bg'] . "'$align>\n";
-		print "<font color='".$theme['color_headerbar_font']."'>";
+		print "<th$align>\n";
 		print mysql_field_name($result, $c);
 		$type[$c] = mysql_field_type($result, $c);
-		print "</font></th>\n";
+		print "</th>\n";
 	}
 	print "</tr>\n";
 
-	$rownum = 0;
-	$listing_bgcolors = array($theme['color_listing_bg_1'], $theme['color_listing_bg_2']);
 	while ( $row = mysql_fetch_row($result) )
 	{
-		print "<tr bgcolor='" . $listing_bgcolors[$rownum % 2] . "'>\n";
+		print "<tr>";
 		if ($show_rank)
 		{
 			print "<td>";
@@ -170,11 +154,9 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
 		}
 		print "</tr>\n";
 		$n_curr_row++;
-		$rownum++;
 	}
 
 	print "</table>\n";
-	print "</td></tr></table>\n";
 }
 // -----------------------------------------------------------------------------
 

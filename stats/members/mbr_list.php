@@ -44,27 +44,24 @@ if (!empty($uname)) {
     $uname = "";
 }
 
+$title = _("Member List");
 output_header(_("Member List"));
-echo "<center><br>";
+echo "<h1>$title</h1>\n";
 
 //Display of user teams
-echo "<table border='1' cellspacing='0' cellpadding='4' style='border: 1px solid #111; border-collapse: collapse' width='95%'>";
-echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><font color='".$theme['color_headerbar_font']."'>"
-    // TRANSLATORS: %s is the site name
-    . sprintf(_("%s Members"),$site_name) . "</font></b></td></tr>";
-echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
+echo "<table class='themed striped'>";
+echo "<tr>";
     if ($order == "u_id" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-        echo "<td width='5%' align='center'><b><a href='mbr_list.php?".$uname."mstart=$mstart&order=u_id&direction=$newdirection'>"._("ID")."</a></b></td>";
+        echo "<th width='5%' align='center'><a href='mbr_list.php?".$uname."mstart=$mstart&order=u_id&direction=$newdirection'>"._("ID")."</a></th>";
     if ($order == "username" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-        echo "<td width='23%' align='center'><b><a href='mbr_list.php?".$uname."mstart=$mstart&order=username&direction=$newdirection'>"._("Username")."</a></b></td>";
+        echo "<th width='23%' align='center'><a href='mbr_list.php?".$uname."mstart=$mstart&order=username&direction=$newdirection'>"._("Username")."</a></th>";
     if ($order == "date_created" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-        echo "<td width='23%' align='center'><b><a href='mbr_list.php?".$uname."mstart=$mstart&order=date_created&direction=$newdirection'>".sprintf(_("Date Joined %s"),$site_abbreviation)."</a></b></td>";
-    echo "<td width='23%' align='center'><b>"._("Options")."</b></td>";
+        echo "<th width='23%' align='center'><a href='mbr_list.php?".$uname."mstart=$mstart&order=date_created&direction=$newdirection'>".sprintf(_("Date Joined %s"),$site_abbreviation)."</a></th>";
+    echo "<th width='23%' align='center'><b>"._("Options")."</th>";
 echo "</tr>";
 if (!empty($mRows)) {
-    $i = 0;
     while ($row = mysql_fetch_assoc($mResult)) {
-            if (($i % 2) == 0) { echo "<tr bgcolor='".$theme['color_mainbody_bg']."'>"; } else { echo "<tr bgcolor='".$theme['color_navbar_bg']."'>"; }
+        echo "<tr>";
 
         if ( can_reveal_details_about($row['username'], $row['u_privacy']) ) {
 
@@ -86,13 +83,12 @@ if (!empty($mRows)) {
 
 
         echo "</tr>";
-        $i++;
     }
 } else {
-    echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td colspan='6' align='center'><b>"._("No more members available.")."</b></td></tr>";
+    echo "<tr><td colspan='6' align='center'><b>"._("No more members available.")."</b></td></tr>";
 }
 
-echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td colspan='3' align='left'>";
+echo "<tr><td colspan='3' align='left'>";
 if (!empty($mstart)) {
     echo "<b><a href='mbr_list.php?".$uname."order=$order&direction=$direction&mstart=".($mstart-20)."'>"._("Previous")."</a></b>";
 }
@@ -101,7 +97,6 @@ if ($mRows == 20) {
     echo "<b><a href='mbr_list.php?".$uname."order=$order&direction=$direction&mstart=".($mstart+20)."'>"._("Next")."</a></b>";
 }
 echo "</td></tr>";
-echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'>&nbsp;</td></tr>";
 echo "</table><p></center>";
 
 // vim: sw=4 ts=4 expandtab

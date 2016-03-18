@@ -111,14 +111,8 @@ footer small,
 /* Content layout */
 #page-container {
   border: 0;
-  border-collapse: collapse;
-  border-spacing: 0;
   width: 100%;
   display: table;
-}
-#page-container td,
-#page-container th {
-  padding: 0;
 }
 #page-inner-container {
   display: table-row;
@@ -292,6 +286,21 @@ table.availprojectlisting tr td,
 table.availprojectlisting tr th {
   padding-left: 0.5em;
   padding-right: 0.5em;
+}
+/* ------------------------------------------------------------------------ */
+/* Themed tables */
+table.themed {
+  width: 100%;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+table.themed tr th,
+table.themed tr td {
+  padding: 0.1em;
+}
+table.striped tr th,
+table.striped tr td {
+  padding: 0.2em;
 }
 /* vim: sw=4 ts=4 expandtab
 */
