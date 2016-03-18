@@ -117,7 +117,12 @@ footer a:active,
   color: #ffffff;
 }
 /* Header */
-h2 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: #000099;
   font-family: Verdana, Arial, sans-serif;
 }
