@@ -1,5 +1,5 @@
 <?php
-include_once($relPath.'misc.inc'); // array_get
+include_once($relPath.'misc.inc'); // array_get, html_safe()
 include_once($relPath.'site_vars.php');
 
 /*
@@ -487,7 +487,7 @@ function get_project_status_descriptor( $which )
             break;
 
         default:
-            die(htmlspecialchars("bad value for 'which': '$which'"));
+            die(html_safe("bad value for 'which': '$which'"));
     }
 
     return $obj;

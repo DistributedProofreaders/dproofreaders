@@ -2,6 +2,7 @@
 $relPath='../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 
 output_header(_('Quiz Wizard'));
 
@@ -48,7 +49,7 @@ function make_output()
     $out .= "),\n";
 
     $out .= " array(\n  'maximum_age' => 15778463) // 6 months\n);\n";
-    return htmlspecialchars($out);
+    return html_safe($out);
 }
 
 echo "<h2>" . _("Completed Quiz Code") . "</h2>";

@@ -8,6 +8,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'project_edit.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once('page_table.inc');  // page_state_is_a_bad_state()
 
 require_login();
@@ -141,7 +142,7 @@ if (!isset($_POST['resolution'])) {
         // newline after <textarea> needed to prevent the text box from eating the first blank line
         echo "<textarea name='prev_text' cols=70 rows=10>\n";
         // SENDING PAGE-TEXT TO USER
-        echo htmlspecialchars($prev_text,ENT_NOQUOTES);
+        echo html_safe($prev_text);
         echo "</textarea><br><br>";
         echo "<input type='submit' value='" 
             . attr_safe(_("Update Text From Previous Round")) . "'></form>";

@@ -7,6 +7,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'LPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'Stopwatch.inc');
 include_once('./post_files.inc');
 include_once("./word_freq_table.inc");
@@ -121,7 +122,7 @@ if($frame=="left") {
         echo "<b>" . _("Proofreader") . "</b>: " . private_message_link($proofer) . "<br>";
         echo "<b>" . _("Page") . "</b>: <a href='displayimage.php?project=$projectid&amp;imagefile=$page&amp;showreturnlink=0' target='imageframe'>$page</a><br>";
         foreach($context_strings as $lineNum => $context_string) {
-            $context_string=_highlight_word(htmlspecialchars($context_string),$word);
+            $context_string=_highlight_word(html_safe($context_string),$word);
             echo "<b>" . _("Line") . "</b>: ", 
                 // TRANSLATORS: %1$d is the approximate line number, and 
                 // %2$d is the total number of lines when displaying the 

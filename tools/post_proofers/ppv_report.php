@@ -404,7 +404,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             $text = $_POST[$id];
 
-        $esc_text = htmlspecialchars($text, ENT_NOQUOTES);
+        $esc_text = html_safe($text);
 
         return ""
             . "<textarea rows='4' cols='67' name='$id' id='$id' wrap='hard'>$esc_text</textarea>"

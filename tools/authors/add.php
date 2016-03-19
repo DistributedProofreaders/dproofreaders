@@ -2,6 +2,7 @@
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once("authors.inc");
 include_once("menu.inc");
 
@@ -295,7 +296,7 @@ eval("document.addform."+bd+"comments.value=comments;");
 <?php
 $message = @$_GET['message'];
 if (isset($message))
-    echo '<center>' . htmlspecialchars($message) . '</center><br />';
+    echo '<center>' . html_safe($message) . '</center><br />';
 elseif (isset($_POST['Preview'])) {
     echo_author($last_name, $other_names,
                 format_date($byear, $bmonth, $bday, $bcomments),

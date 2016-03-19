@@ -1,4 +1,5 @@
 <?php
+include_once($relPath."misc.inc"); // attr_safe(), html_safe()
 
 // Functions to search authors, display search fields.
 
@@ -55,7 +56,7 @@ function prepare_search() {
     $sql_what_to_list = '';
     $query = '';
     foreach (array('last_name', 'other_names') as $key) {
-      $$key = htmlspecialchars($_REQUEST[$key]);
+      $$key = html_safe($_REQUEST[$key]);
       if ($$key != '')
         $sql_what_to_list .= " AND $key LIKE '" . sql_like_encode($_REQUEST[$key]) . "'";
       $query .= "&$key=$_REQUEST[$key]";

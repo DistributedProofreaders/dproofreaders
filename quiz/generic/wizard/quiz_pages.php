@@ -2,6 +2,7 @@
 $relPath='../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 
 output_header(_('Quiz Wizard'));
 
@@ -31,7 +32,7 @@ function filltext($x)
 {
     global $fill;
     if ($fill)
-        return htmlspecialchars(stripslashes($_POST[$x]),ENT_QUOTES);
+        return html_safe(stripslashes($_POST[$x]));
 }
 
 echo "<h2>" . _("Add Quiz Pages") . "</h2>";
@@ -46,7 +47,7 @@ else
     if (!evalpages())
     {
         $fill = TRUE;
-        echo "<p>" . _("This page ID is already taken:") . " '" . htmlspecialchars($_POST['page_id']) . "' ";
+        echo "<p>" . _("This page ID is already taken:") . " '" . html_safe($_POST['page_id']) . "' ";
         echo _("Please choose a different one.") . "</p>\n";
     }
     else

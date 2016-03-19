@@ -2,6 +2,7 @@
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
 include_once($relPath.'prefs_options.inc'); // $proofreading_font_*
 
@@ -66,7 +67,7 @@ slim_header("", $header_args);
 	$solution = qp_convert_from_utf8_if_necessary($solution);
 
         echo "<textarea name='cheat_text' style='display: none;' disabled>\n";
-        echo htmlspecialchars($solution, ENT_NOQUOTES);
+        echo html_safe($solution);
         echo "</textarea>\n";
 
         $onclick = 'document.forms[0].text_data.value = document.forms[0].cheat_text.value;';

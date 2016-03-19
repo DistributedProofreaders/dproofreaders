@@ -5,6 +5,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'prefs_options.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 
 require_login();
 
@@ -34,7 +35,7 @@ if($projectid=="") {
     $error_messages[] = _("select a project");
 } elseif (!preg_match('/^projectID[0-9a-f]{13}$/', $projectid ) ) {
     $error_messages[] = sprintf(_("projectID '%s' does not appear to be valid"),
-        htmlspecialchars($projectid,ENT_QUOTES));
+        html_safe($projectid));
 }
 
 // See if the projectID exists in the projects table
@@ -46,7 +47,7 @@ if(!count($error_messages)) {
     catch(NonexistentProjectException $exception)
     {
         $error_messages[] = sprintf(_("no project with projectID '%s'"),
-            htmlspecialchars($projectid,ENT_QUOTES));
+            html_safe($projectid));
     }
 }
 
@@ -56,8 +57,8 @@ if(!count($error_messages)) {
         $res2 = mysql_query(sprintf("SELECT 1 FROM $projectid WHERE image = '%s'", mysql_real_escape_string($page))) or die(mysql_error());
         if (mysql_num_rows($res2) == 0) {
             $error_messages[] = sprintf(_("no page '%1\$s' in project with projectID '%2\$s'"),
-                htmlspecialchars($page,ENT_QUOTES),
-                htmlspecialchars($projectid,ENT_QUOTES));
+                html_safe($page),
+                html_safe($projectid));
         } else {
             $is_valid_page = true;
         }
@@ -270,7 +271,7 @@ elseif ($frame=="text") {
         }
 
         echo ">\n";
-        echo htmlspecialchars( $data, ENT_NOQUOTES );
+        echo html_safe($data);
         echo "</textarea>";
     }
     exit();

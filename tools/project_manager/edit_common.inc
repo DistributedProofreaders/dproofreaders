@@ -5,18 +5,12 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link, new_help_window_link
 include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'User.inc');
-
-function encodeFormValue($value)
-{
-  return htmlspecialchars($value,ENT_QUOTES);
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function just_echo( $field_value )
 {
-    echo encodeFormValue($field_value);
+    echo html_safe($field_value);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -275,7 +269,7 @@ function image_source_list($image_source)
 
 function proj_comments_field($comments)
 {
-    $enc_comments = encodeFormValue($comments);
+    $enc_comments = html_safe($comments);
 
     echo "<center>";
     echo "<textarea name='comments' cols='74' rows='16' style='width: 100%'>$enc_comments</textarea>";
@@ -305,7 +299,7 @@ function word_lists($value,$fieldname,$projectid) {
 
 function extra_credits_field($extra_credits)
 {
-    $enc_credits = encodeFormValue($extra_credits);
+    $enc_credits = html_safe($extra_credits);
 
     echo "<center>";
     echo "<textarea name='extra_credits' cols='74' rows='4' style='width: 100%'>$enc_credits</textarea>";
@@ -318,7 +312,7 @@ function extra_credits_field($extra_credits)
 
 function description_field( $description, $field_name )
 {
-    $enc_description = encodeFormValue($description);
+    $enc_description = html_safe($description);
 
     echo "<center>";
     echo "<textarea name='$field_name' cols='74' rows='6'>$enc_description</textarea>";

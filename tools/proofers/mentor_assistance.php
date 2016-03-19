@@ -9,6 +9,7 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'Project.inc'); // validate_projectID()
 include_once($relPath.'DpTableClass.inc');
 
@@ -386,11 +387,6 @@ function fmt_time( $val )
     return date('m-d h:i a', $val );
 }
 
-function toHTML( $s )
-{
-    return htmlspecialchars( $s ) ;
-}
-
 function _proofer_project_filter( $row )
 {
     global $filter_proofer, $filter_project;
@@ -403,7 +399,7 @@ function _project_link( $projectid, $title )
 {
     global $code_url;
     return "<a href=\"$code_url/project.php"
-            . "?id={$projectid}\" target='_blank'>".toHTML( $title )."</a>\n";
+            . "?id={$projectid}\" target='_blank'>".html_safe( $title )."</a>\n";
 }
 
 function _sql_rows( $sql )

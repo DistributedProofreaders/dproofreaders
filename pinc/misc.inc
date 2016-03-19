@@ -82,12 +82,12 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         {
             if (!is_numeric($s))
             {
-                die(htmlspecialchars("parameter '$key' ('$s') is not numeric"));
+                die(html_safe("parameter '$key' ('$s') is not numeric"));
             }
             $s = 0 + $s;
             if (!is_int($s))
             {
-                die(htmlspecialchars("parameter '$key' ('$s') is not an integer"));
+                die(html_safe("parameter '$key' ('$s') is not an integer"));
             }
         }
 
@@ -97,7 +97,7 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         }
         else
         {
-            die(htmlspecialchars("parameter '$key' ('$s') is not valid"));
+            die(html_safe("parameter '$key' ('$s') is not valid"));
         }
     }
     else
@@ -106,7 +106,7 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         if ( is_null($default) && !$allownull )
         {
             // There is no default. The parameter is required.
-            die(htmlspecialchars("parameter '$key' is required"));
+            die(html_safe("parameter '$key' is required"));
         }
         else
         {
@@ -168,19 +168,19 @@ function get_integer_param( $arr, $key, $default, $min, $max, $allownull = false
             $i = intval($s);
             if ( !is_null($min) && $i < $min )
             {
-                die(htmlspecialchars("parameter '$key' ($s) is less than the minimum $min"));
+                die(html_safe("parameter '$key' ($s) is less than the minimum $min"));
             }
 
             if ( !is_null($max) && $i > $max )
             {
-                die(htmlspecialchars("parameter '$key' ($s) is greater than the maximum $max"));
+                die(html_safe("parameter '$key' ($s) is greater than the maximum $max"));
             }
 
             return $i;
         }
         else
         {
-            die(htmlspecialchars("parameter '$key' ('$s') is not an integer"));
+            die(html_safe("parameter '$key' ('$s') is not an integer"));
         }
     }
     else
@@ -189,7 +189,7 @@ function get_integer_param( $arr, $key, $default, $min, $max, $allownull = false
         if ( is_null($default) && !$allownull )
         {
             // There is no default. The parameter is required.
-            die(htmlspecialchars("parameter '$key' is required"));
+            die(html_safe("parameter '$key' is required"));
         }
         else
         {
@@ -243,7 +243,7 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false
         }
         else
         {
-            die(htmlspecialchars("parameter '$key' ('$s') does not match the regex $regex"));
+            die(html_safe("parameter '$key' ('$s') does not match the regex $regex"));
         }
     }
     else
@@ -252,13 +252,34 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false
         if ( is_null($default) && !$allownull )
         {
             // There is no default. The parameter is required.
-            die(htmlspecialchars("parameter '$key' is required"));
+            die(html_safe("parameter '$key' is required"));
         }
         else
         {
             return $default;
         }
     }
+}
+
+// -----------------------------------------------------------------------------
+
+// Return a copy of a string correctly encoded for inclusion in an HTML
+// document. This is essentially a wrapper around htmlspecialchars() but it
+// is aware of the global character set. Using this wrapper means we don't
+// have to rely on the global $charset variable being accessible everywhere
+// we need to call htmlspecialchars().
+//
+// If the $charset global isn't defined, use whatever the PHP default_charset
+// is. Note that using default_charset is the default behavior for
+// htmlspecialchars in PHP >= 5.6, whereas 5.4 and 5.5 use UTF-8.
+function html_safe($string)
+{
+    $charset = @$GLOBALS['charset'];
+    if(!@$charset)
+    {
+        $charset = ini_get("default_charset");
+    }
+    return htmlspecialchars($string, ENT_QUOTES, $charset);
 }
 
 // -----------------------------------------------------------------------------

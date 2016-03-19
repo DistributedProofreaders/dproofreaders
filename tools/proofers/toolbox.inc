@@ -1,6 +1,6 @@
 <?php
 include_once($relPath.'site_vars.php'); // $wikihiero_dir $utf8_site
-include_once($relPath.'misc.inc'); // attr_safe()
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 
 // "PIT" stands for "Proofing Interface Toolbox" (ctrl_frame.php)
 
@@ -175,7 +175,7 @@ $all_pit_tool_links = array();
 
 function define_pit_tool_link( $id, $label, $title, $onclick )
 {
-    $label   = htmlspecialchars($label, ENT_NOQUOTES);
+    $label   = html_safe($label);
     $title   = attr_safe($title);
     $onclick = attr_safe($onclick);
 

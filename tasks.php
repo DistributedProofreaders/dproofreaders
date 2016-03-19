@@ -6,6 +6,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'links.inc'); // private_message_link()
@@ -950,7 +951,7 @@ p                  { font-family:Verdana; font-size:11px; }
 .wrap              { white-space: normal!important; }
 EOS;
 
-    output_header(htmlspecialchars($header), NO_STATSBAR,
+    output_header(html_safe($header), NO_STATSBAR,
         array('js_data' => $js_data, 'css_data' => $css_data));
 
     echo "<br /><div align='center'><table class='taskplain' width='98%'><tr><td>";
@@ -1109,7 +1110,7 @@ function TaskForm($task)
     }
 
     $task_summary_enc = attr_safe($task->task_summary);
-    $task_details_enc = htmlspecialchars($task->task_details);
+    $task_details_enc = html_safe($task->task_details);
 
     echo "<form action='$tasks_url' method='post'>";
     if (empty($task->task_id)) {

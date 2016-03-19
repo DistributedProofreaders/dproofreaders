@@ -194,7 +194,7 @@ else if ($func == "xgettext")
             . _("This is the <code>xgettext</code> output:") . "<br><br>";
         echo "<pre>";
         foreach($exec_out as $v)
-            echo htmlspecialchars($v)."\n";
+            echo html_safe($v)."\n";
         echo "</pre><br>";
     }
     else
@@ -499,7 +499,7 @@ function do_upload($locale)
         echo "<p>" . _("Uploaded file contains the following errors:") . "</p>\n";
         echo "<pre>";
         foreach($exec_out as $v)
-            echo htmlspecialchars($v)."\n";
+            echo html_safe($v)."\n";
         echo "</pre><br>";
 
         if (file_exists("messages.po"))
@@ -543,7 +543,7 @@ function do_merge($locale, $fuzzy)
         echo "<p>" . _("<code>msgmerge</code> reports the following errors:") . "</p>\n";
         echo "<pre>";
         foreach($exec_out as $v)
-            echo htmlspecialchars($v)."\n";
+            echo html_safe($v)."\n";
         echo "</pre><br>";
         return;
     }

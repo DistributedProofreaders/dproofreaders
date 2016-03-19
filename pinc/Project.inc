@@ -2,6 +2,7 @@
 include_once($relPath.'connect.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'forum_interface.inc'); // topic_create
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
@@ -544,7 +545,7 @@ function get_formatted_postcomments( $projectid )
 {
     $project = new Project($projectid);
 
-    return nl2br(htmlspecialchars($project->postcomments));
+    return nl2br(html_safe($project->postcomments));
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -581,8 +582,8 @@ function validate_projectID($param_name, $value, $allownull = false)
         return "projectID$value";
     die(sprintf(
         _("The value of parameter '%1\$s' ('%2\$s') is not a valid projectID."),
-        htmlspecialchars($param_name),
-        htmlspecialchars($value)
+        html_safe($param_name),
+        html_safe($value)
     ));
 }
 
@@ -595,8 +596,8 @@ function validate_page_image_filename($param_name, $value, $allownull = false)
     if (1 == preg_match('/^[a-zA-Z0-9_.-]{5,16}$/', $value)) return $value;
     die(sprintf(
         _("The value of parameter '%1\$s' ('%2\$s') is not a valid page image filename."),
-        htmlspecialchars($param_name),
-        htmlspecialchars($value)
+        html_safe($param_name),
+        html_safe($value)
     ));
 }
 

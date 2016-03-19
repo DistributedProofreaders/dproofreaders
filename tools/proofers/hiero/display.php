@@ -2,6 +2,7 @@
 $relPath="./../../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once("$wikihiero_dir/wh_language.php");
 include_once("$wikihiero_dir/wikihiero.php");
 
@@ -46,7 +47,7 @@ $syntax=array("-",":","*","!");
 <table>
 <tr><td rowspan="2">
 <textarea name="hierobox" rows="4" cols="30">
-<?php $hierobox=stripslashes(@$_POST['hierobox']); echo htmlspecialchars($hierobox); ?>
+<?php $hierobox=stripslashes(@$_POST['hierobox']); echo html_safe($hierobox); ?>
 </textarea>
 </td><td colspan="2">
 <select onChange="window.parent.hierotable.location='table.php?table='+this.value;">

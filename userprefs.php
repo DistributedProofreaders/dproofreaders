@@ -9,7 +9,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'tabs.inc');
 include_once($relPath.'SettingsClass.inc');
-include_once($relPath.'misc.inc'); // startswith(...), attr_safe()
+include_once($relPath.'misc.inc'); // startswith(...), attr_safe(), html_safe()
 include_once($relPath.'js_newpophelp.inc');
 include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 include_once($relPath.'forum_interface.inc'); // get_forum_user_details(), get_url_to_edit_profile()
@@ -888,7 +888,7 @@ function dropdown_select_values_and_labels($field_name, $current_value, $values,
     {
         echo "<option value='$values[$i]'";
         if ($current_value == $values[$i]) { echo " SELECTED"; }
-        echo ">".htmlspecialchars($labels[$i])."</option>";
+        echo ">".html_safe($labels[$i])."</option>";
     }
     echo "</select>";
 
