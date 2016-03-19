@@ -380,6 +380,16 @@ function javascript_safe($str, $encoding)
     return $str;
 }
 
+// -----------------------------------------------------------------------------
+
+// Safely encode a string for use in an XML document.
+function xmlencode($string)
+{
+    global $charset;
+    return htmlspecialchars($string, ENT_COMPAT, $charset);
+}
+
+// -----------------------------------------------------------------------------
 
 if (version_compare(PHP_VERSION, '6.0.0') >= 0)
 {

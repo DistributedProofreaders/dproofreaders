@@ -1,8 +1,7 @@
 <?php
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc');
-include_once($relPath.'xml.inc');
+include_once($relPath.'misc.inc'); // xmlencode()
 
 undo_all_magic_quotes();
 
