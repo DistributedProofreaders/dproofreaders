@@ -79,9 +79,9 @@ $frame = get_enumerated_param($_GET,"frame","master",array("master","top","image
 if ($frame=="master") {
     slim_header_frameset(_("Image and text for page"));
 
-    $projectid=htmlspecialchars($projectid,ENT_QUOTES);
-    $page=htmlspecialchars($page,ENT_QUOTES);
-    $round_id=htmlspecialchars($round_id,ENT_QUOTES);
+    $projectid = urlencode($projectid);
+    $page = urlencode($page);
+    $round_id = urlencode($round_id);
 
 ?>
 <frameset rows="15%,50%,35%">
