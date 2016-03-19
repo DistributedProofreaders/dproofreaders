@@ -114,10 +114,10 @@ elseif ($frame=="top") {
     echo "<form method='get' action='view_page_text_image.php' target='_top'>\n";
     if(!$project) {
         echo _("Project ID") . ":&nbsp;";
-        echo "<input type='text' maxlength='25' name='projectid' size='25' value='" . htmlspecialchars($projectid,ENT_QUOTES) . "'> \n";
+        echo "<input type='text' maxlength='25' name='projectid' size='25' value='" . attr_safe($projectid) . "'> \n";
         echo "<input type='submit' value='"._("Select Project")."'> &nbsp; &nbsp;";
     } else {
-        echo "<input type='hidden' name='projectid' value='" . htmlspecialchars($projectid,ENT_QUOTES) . "'>";
+        echo "<input type='hidden' name='projectid' value='" . attr_safe($projectid) . "'>";
     }
 
     echo _("Page") . ":&nbsp;";

@@ -218,7 +218,7 @@ function _handle_action($action, $list_type, $language, $word_string)
             echo "<input type='hidden' name='action' value='saveconfirmed'>";
             echo "<input type='hidden' name='list_type' value='$list_type'>";
             echo "<input type='hidden' name='language' value='$language'>";
-            echo "<input type='hidden' name='word_string' value='" . htmlspecialchars($word_string,ENT_QUOTES) . "'>";
+            echo "<input type='hidden' name='word_string' value='" . attr_safe($word_string) . "'>";
             echo "<input type='submit' value='" . _("Yes") . "'>";
             echo "</form>";
             echo "<form action='manage_site_word_lists.php' method='post'>";

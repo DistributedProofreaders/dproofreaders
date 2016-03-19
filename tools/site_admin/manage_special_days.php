@@ -246,7 +246,7 @@ class SpecialDay
         else
         {
             echo "<input type='hidden' name='editing' value='true' />" .
-                "<input type='hidden' name='spec_code' value='" . htmlspecialchars($this->spec_code, ENT_QUOTES) ."' />";
+                "<input type='hidden' name='spec_code' value='" . attr_safe($this->spec_code) ."' />";
             $this->_show_summary_row(_('Special Day ID'),$this->spec_code);
         }
         $this->_show_edit_row('display_name',_('Display Name'),false,80);

@@ -67,7 +67,7 @@ switch ($action)
                   $transfer_notifications, $add_deletion_reason, 
                   $merge_wordcheck_files, TRUE );
 
-        echo "<form method='post' action='" . htmlspecialchars($copy_pages_url, ENT_QUOTES). "'>\n";
+        echo "<form method='post' action='" . attr_safe($copy_pages_url). "'>\n";
         display_hiddens($projectid_, $from_image_, $page_name_handling, 
                         $transfer_notifications, $add_deletion_reason, 
                         $merge_wordcheck_files);
@@ -85,7 +85,7 @@ switch ($action)
         echo "<hr>\n";
         $url = "$code_url/tools/project_manager/page_detail.php?project={$projectid_['to']}&amp;show_image_size=0";
         echo sprintf(_("<p><a href='%s'>Go to destination project's detail page</a></p>\n"), $url);
-        echo "<form method='post' action='" . htmlspecialchars($copy_pages_url, ENT_QUOTES). "'>\n";
+        echo "<form method='post' action='" . attr_safe($copy_pages_url). "'>\n";
         echo "<fieldset>\n";
         echo "<legend>" . _("Copy more pages...") . "</legend>";
         echo "<input type='radio' name='repeat_project' id='rp-1' value='FROM'>";
@@ -117,7 +117,7 @@ function display_form($projectid_, $from_image_, $page_name_handling,
                       $merge_wordcheck_files, $repeat_project, $repeating)
 {
     global $copy_pages_url;
-    echo "<form method='post' action='" . htmlspecialchars($copy_pages_url, ENT_QUOTES). "'>\n";
+    echo "<form method='post' action='" . attr_safe($copy_pages_url). "'>\n";
     echo "<table class='copy'>\n";
 
     // always leave the page numbers blank

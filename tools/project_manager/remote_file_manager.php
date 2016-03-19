@@ -123,7 +123,7 @@ if($uploads_account) {
 }
 
 // For convenience, here are a couple of encoded forms:
-$hae_curr_relpath = hae($curr_relpath);
+$hae_curr_relpath = attr_safe($curr_relpath);
 $hce_curr_displaypath = hce($curr_displaypath);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -440,11 +440,11 @@ function do_showrename()
     $item_name = @$_POST['item_name'];
     confirm_is_local('FD', $item_name, TRUE);
 
-    $form_content = "<input type='hidden' name='item_name' value='" . hae($item_name) . "'>\n";
+    $form_content = "<input type='hidden' name='item_name' value='" . attr_safe($item_name) . "'>\n";
     $form_content .= sprintf(
         _('Rename <b>%1$s</b> as %2$s'),
-        hce($item_name),
-        "<input type='text' name='new_item_name' size='50' value='" . hae($item_name) . "'>"
+        html_safe($item_name),
+        "<input type='text' name='new_item_name' size='50' value='" . attr_safe($item_name) . "'>"
     );
 
     show_form(
@@ -542,12 +542,12 @@ function do_showmove()
         if ($full_dir == "$curr_abspath/") continue;
         $dir = rtrim(substr($full_dir, strlen("$uploads_dir/")), '/');
 
-        $form_content .= "<option value='" . hae($dir) . "'>" . hce($dir) . "</option>\n";
+        $form_content .= "<option value='" . attr_safe($dir) . "'>" . html_safe($dir) . "</option>\n";
     }
     $form_content .= "</select>\n";
     $form_content .= "<p><b>" . sprintf(
         _("Are you sure you want to move %s?"),
-        "<input type='text' name='item_name' size='50' maxsize='50' value='" . hae($item_name) . "' READONLY>"
+        "<input type='text' name='item_name' size='50' maxsize='50' value='" . attr_safe($item_name) . "' READONLY>"
     ) . "</b>";
 
     show_form(
@@ -654,7 +654,7 @@ function do_showdelete()
     $form_content .= _("<b>Warning:</b> Deletion is permanent and cannot be undone.") . " ";
     $form_content .= _("This script does not check that folders are empty.</p>");
     $form_content .= "<p><b>" . sprintf( $question_template,
-        "<input type='text' name='del_file' size='50' maxsize='50' value='" . hae($item_name) . "' READONLY>" ) . "</b></p>";
+        "<input type='text' name='del_file' size='50' maxsize='50' value='" . attr_safe($item_name) . "' READONLY>" ) . "</b></p>";
 
     show_form(
         'delete',
@@ -911,7 +911,7 @@ function get_directory_items_sorted($curr_abspath)
 function get_actions_block( $item_name, $valid_actions )
 {
     global $hae_curr_relpath;
-    $hae_item_name = hae($item_name);
+    $hae_item_name = attr_safe($item_name);
 
     $form = "
         <form style='display:inline;' action='?' method='POST' enctype='multipart/form-data'>
@@ -1080,7 +1080,7 @@ function show_return_link($relpath=NULL)
         $relpath = $curr_relpath;
 
     $url = "?cdrp=" . urlencode($relpath);
-    $text = sprintf(_("Go to folder %s"), hae($relpath));
+    $text = sprintf(_("Go to folder %s"), attr_safe($relpath));
     echo "<p><a href='$url'>$text</a></p>\n";
 }
 
@@ -1132,8 +1132,8 @@ function show_form($action, $cdrp, $form_content, $submit_label)
     // which can be abritrary HTML/other inputs; and finally a labeled submit button
     echo "<div style='border: 1px solid grey; margin-left: .5em; padding: .25em;'>\n";
     echo "<form style='margin: 0em;' action='?' method='POST' enctype='multipart/form-data'>\n";
-    echo "<input type='hidden' name='action' value='" . hae($action) . "'>\n";
-    echo "<input type='hidden' name='cdrp' value='" . hae($cdrp) . "'>\n";
+    echo "<input type='hidden' name='action' value='" . attr_safe($action) . "'>\n";
+    echo "<input type='hidden' name='cdrp' value='" . attr_safe($cdrp) . "'>\n";
     echo "$form_content&nbsp;<input type='submit' value='$submit_label'>\n";
     echo "</form>\n";
     echo "</div>\n";
@@ -1170,15 +1170,6 @@ function hce($string)
 // i.e., Encode $string for inclusion in/as the content of an HTML element.
 {
     return htmlspecialchars($string, ENT_NOQUOTES);
-}
-
-function hae($string)
-// "hae" stands for "HTML Attribute Encode"
-// i.e., Encode $string for inclusion in/as the value of an HTML attribute.
-// This is like attr_safe(), but it *does* convert '&' to '&amp;'.
-{
-    return str_replace( 
-        array("&", "'", "\""), array("&amp;", "&#39;", "&quot;"), $string);
 }
 
 function is_valid_filename($filename, $restrict_extension=False)

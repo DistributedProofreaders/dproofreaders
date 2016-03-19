@@ -23,7 +23,7 @@ function just_echo( $field_value )
 
 function text_field( $field_value, $field_name )
 {
-    $enc_field_value = encodeFormValue($field_value);
+    $enc_field_value = attr_safe($field_value);
     echo "<input type='text' size='67' name='$field_name' value='$enc_field_value'>";
 }
 
@@ -31,7 +31,7 @@ function text_field( $field_value, $field_name )
 
 function DP_user_field( $field_value, $field_name )
 {
-    $enc_field_value = encodeFormValue($field_value);
+    $enc_field_value = attr_safe($field_value);
     echo "<input type='text' size='25' name='$field_name' value='$enc_field_value'>";
 }
 
@@ -58,7 +58,7 @@ function language_list($language)
     echo "\n";
     for ($i=0;$i<count($array_list);$i++)
     {
-        echo "<option value='".encodeFormValue($array_list[$i]['lang_name'])."'";
+        echo "<option value='".attr_safe($array_list[$i]['lang_name'])."'";
         if ($pri_language == $array_list[$i]['lang_name']) { echo " SELECTED"; }
         echo ">".$array_list[$i]['lang_name']."</option>";
         echo "\n";
@@ -68,7 +68,7 @@ function language_list($language)
     echo "\n";
     for ($i=0;$i<count($array_list);$i++)
     {
-        echo "<option value='".encodeFormValue($array_list[$i]['lang_name'])."'";
+        echo "<option value='".attr_safe($array_list[$i]['lang_name'])."'";
         if ($sec_language == $array_list[$i]['lang_name']) { echo " SELECTED"; }
         echo ">".$array_list[$i]['lang_name']."</option>";
         echo "\n";
@@ -84,7 +84,7 @@ function genre_list($genre)
     echo "<select name='genre'>";
     foreach($GENRES as $k=>$v)
     {
-        echo "<option value='".encodeFormValue($k)."'";
+        echo "<option value='".attr_safe($k)."'";
         if ($genre == $k) { echo " SELECTED"; }
         echo ">$v</option>";
         echo "\n";
@@ -111,7 +111,7 @@ function difficulty_list($difficulty_level)
         
     foreach ($difficulty_list as $name => $label)
     {
-        echo "<input type='radio' name='difficulty_level' value='".encodeFormValue($name)."'";
+        echo "<input type='radio' name='difficulty_level' value='".attr_safe($name)."'";
         if (strtolower($difficulty_level) == $name)
         {
             echo " CHECKED";
@@ -180,7 +180,7 @@ function special_list($special)
     // add the rest of the special days (the "ordinary" special days ;) )
     foreach($specials_array as $k=>$v)
     {
-        echo "<option value='".encodeFormValue($k)."'";
+        echo "<option value='".attr_safe($k)."'";
         if ($special == $k) { echo " SELECTED"; }
         echo ">$v</option>";
         echo "\n";
@@ -259,7 +259,7 @@ function image_source_list($image_source)
     // add the pre-defined image_sources
     foreach($imso_array as $k=>$v)
     {
-        echo "<option value='".encodeFormValue($k)."'";
+        echo "<option value='".attr_safe($k)."'";
         if ($image_source == $k) { echo " SELECTED"; }
         echo ">$v</option>";
         echo "\n";

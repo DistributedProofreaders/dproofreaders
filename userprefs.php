@@ -197,7 +197,7 @@ else // $selected _tab == 0 OR someone tried to access e.g. the PM-tab without b
     echo_general_tab();
 
 // Keep remembering the URL from which the preferences where entered.
-echo "<input type='hidden' name='origin' value='".htmlspecialchars($origin, ENT_QUOTES)."'>\n";
+echo "<input type='hidden' name='origin' value='".attr_safe($origin)."'>\n";
 
 echo "<input type='hidden' name='insertdb' value='true'>";
 echo "<input type='hidden' name='user_id' value='$uid'>";
@@ -853,7 +853,7 @@ function _show_credit_name_adhoc()
     dropdown_select_values_and_labels('credit_name', $credit_name_value, $credit_names, $credit_names_labels, $on_change);
     echo " ";
 
-    $credit_other_value = htmlspecialchars( $userSettings->get_value('credit_other', ''), ENT_QUOTES );
+    $credit_other_value = attr_safe($userSettings->get_value('credit_other', ''));
     echo "<input type='text' name='credit_other' value='$credit_other_value' />\n";
 }
 
@@ -925,7 +925,7 @@ function _show_radio_group( $field_name, $current_value, $options )
 function _show_textfield( $field_name, $current_value, $extras )
 {
     list($size, $rest) = $extras;
-    $current_value_esc = attr_safe($current_value, ENT_QUOTES);
+    $current_value_esc = attr_safe($current_value);
     echo "<input type='text' name='$field_name' value='$current_value_esc' size='$size'>$rest";
 }
 

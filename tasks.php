@@ -338,7 +338,7 @@ function SearchParams_echo_controls()
 
     if (isset($_REQUEST['search_text']) && !empty($_REQUEST['search_text'])) {
         $st = stripslashes_if_magic($_REQUEST['search_text']);
-        $search_text = htmlspecialchars($st, ENT_QUOTES);
+        $search_text = attr_safe($st);
     }
     else $search_text = "";
 
@@ -1108,7 +1108,7 @@ function TaskForm($task)
         $tasks_status_array = array(1 => "New");
     }
 
-    $task_summary_enc = htmlspecialchars($task->task_summary);
+    $task_summary_enc = attr_safe($task->task_summary);
     $task_details_enc = htmlspecialchars($task->task_details);
 
     echo "<form action='$tasks_url' method='post'>";

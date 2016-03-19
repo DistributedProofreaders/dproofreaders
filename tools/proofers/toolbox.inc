@@ -176,8 +176,8 @@ $all_pit_tool_links = array();
 function define_pit_tool_link( $id, $label, $title, $onclick )
 {
     $label   = htmlspecialchars($label, ENT_NOQUOTES);
-    $title   = htmlspecialchars($title);
-    $onclick = htmlspecialchars($onclick);
+    $title   = attr_safe($title);
+    $onclick = attr_safe($onclick);
 
     global $all_pit_tool_links;
     $all_pit_tool_links[$id] =

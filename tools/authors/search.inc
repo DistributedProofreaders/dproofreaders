@@ -153,12 +153,12 @@ function echo_search_form() {
       <td align="right"><input type="button" onClick="var f=this.form;f.last_name.value='';f.other_names.value='';" value="<?php echo _('Reset'); ?>"></td></tr>
   </table></td></table>
   <?php
-  echo "  <center><a href='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) . "'>" . _('List all') . "</a></center>\n";
+  echo "  <center><a href='" . attr_safe($_SERVER['PHP_SELF']) . "'>" . _('List all') . "</a></center>\n";
 
   if (isset($view))
-    echo "  <input type='hidden' name='view' value='" . htmlspecialchars($view, ENT_QUOTES) . "' />\n";
+    echo "  <input type='hidden' name='view' value='" . attr_safe($view) . "' />\n";
   if (isset($orderby))
-    echo "  <input type='hidden' name='orderby' value='" . htmlspecialchars($orderby, ENT_QUOTES) . "' />\n";
+    echo "  <input type='hidden' name='orderby' value='" . attr_safe($orderby) . "' />\n";
   if (isset($desc))
     echo "  <input type='hidden' name='desc' value='' />\n";
   echo '</form>';

@@ -13,7 +13,7 @@ include_once($relPath.'list_projects.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'languages.inc');
-include_once($relPath.'misc.inc'); // endswith
+include_once($relPath.'misc.inc'); // endswith(), attr_safe()
 
 define('NO_STATSBAR',   False);
 define('SHOW_STATSBAR', True);
@@ -279,7 +279,7 @@ function html_navbar()
         //
         $destination = array_get($_REQUEST, "destination", $_SERVER["REQUEST_URI"]);
 
-        $login_form .= "<input type='hidden' name='destination' value='" . htmlspecialchars($destination,ENT_QUOTES) . "'>";
+        $login_form .= "<input type='hidden' name='destination' value='" . attr_safe($destination) . "'>";
 
         // login link text
         // TRANSLATORS: ID is an abbreviation for username in the navbar

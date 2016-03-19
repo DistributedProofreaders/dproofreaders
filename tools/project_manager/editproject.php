@@ -859,7 +859,7 @@ class ProjectInfoHolder
 
     function show_form()
     {
-        echo "<form method='post' enctype='multipart/form-data' action='". htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES)."'>";
+        echo "<form method='post' enctype='multipart/form-data' action='". attr_safe($_SERVER['PHP_SELF'])."'>";
 
         $this->show_hidden_controls();
 
