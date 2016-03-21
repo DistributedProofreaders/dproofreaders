@@ -1,75 +1,128 @@
 <?php
-// This file allows us (PGDP) to use DifferenceEngine.php from WikiMedia
-// without any* content modification, which should make it easier
+// This file allows us (PGDP) to use DairikiDiff.php from WikiMedia
+// without any content modification, which should make it easier
 // to upgrade when WikiMedia publishes a new version of the file.
 //
-// When upgrading the version of DifferenceEngine.php, ensure that the
+// When upgrading the version of DairikiDiff.php, ensure that the
 // stylesheet doesn't also need to be upgraded.
 //
-// See mediawiki_diff/README.md for which MediaWiki version these map to.
-include_once($relPath."mediawiki_diff/DifferenceEngine.php");
+// We are pulling content out of the MediaWiki DifferenceEngine class
+// and including it here instead of inheriting from it because starting
+// in MediaWiki 1.20 the DifferenceEngine class begins being inherited
+// from other classes. By version 1.21 the class is so intertwined with
+// dependencies that it became unwieldy. We don't need most of what
+// the DifferenceEngine class does, so we pull the relevant bits out
+// here. This means that when updating the diff code from MediaWiki one
+// needs to look at the contents of several DifferenceEngine methods
+// and see if they need updating in the DifferenceEngineWrapper class.
+//
+// See mediawiki_diff/README.md for which MediaWiki version this maps to.
 include_once($relPath."mediawiki_diff/DairikiDiff.php");
 
-// non-object global variables
-$wgExternalDiffEngine = FALSE;
+class DifferenceEngineWrapper {
+    private $oldText;
+    private $newText;
 
-// DifferenceEngine derives from ContextSource
-class ContextSource {
-    function getTitle() {
-        return new MWTitle();
-    }
-}
-
-// wrapper function for the primary DifferenceEngine interface
-class DifferenceEngineWrapper extends DifferenceEngine {
-    function __construct() {
-        parent::__construct();
+    public function setText($oldText, $newText) {
+        $this->oldText = $oldText;
+        $this->newText = $newText;
     }
 
-    function showDiff($left_label, $right_label, $notice='') {
-        echo $this->getDiff($left_label, $right_label, $notice);
+    public function showDiff($oldTitle, $newTitle) {
+        $otext = $this->oldText;
+        $ntext = $this->newText;
+
+        // from DifferenceEngine::getDiffBody()
+        $difftext = $this->generateTextDiffBody($otext, $ntext);
+        $difftext = $this->localiseLineNumbers($difftext);
+
+        // from DifferenceEngine::getDiff()
+        echo $this->addHeader($difftext, $oldTitle, $newTitle);
     }
 
-    function getMultiNotice() {
-        return '';
+    private function generateTextDiffBody($otext, $ntext) {
+        // lifted from DifferenceEngine::generateTextDiffBody()
+        global $wgContLang;
+
+        wfProfileIn( __METHOD__ );
+
+        $otext = str_replace( "\r\n", "\n", $otext );
+        $ntext = str_replace( "\r\n", "\n", $ntext );
+
+        // ripped out the $wgExternalDiffEngine code
+
+        # Native PHP diff
+        $ota = explode( "\n", $wgContLang->segmentForDiff( $otext ) );
+        $nta = explode( "\n", $wgContLang->segmentForDiff( $ntext ) );
+        $diffs = new Diff( $ota, $nta );
+        $formatter = new TableDiffFormatter();
+        $difftext = $wgContLang->unsegmentForDiff( $formatter->format( $diffs ) ) .
+
+        wfProfileOut( __METHOD__ );
+        return $difftext;
     }
 
-    function localiseLineNumbersCb($line_numbers) {
+    private function addHeader($diff, $otitle, $ntitle, $multi='', $notice='') {
+        // lifted from DifferenceEngine::addHeader()
+        $tableClass = 'diff';
+        $header = "<table class='$tableClass'>";
+
+        if ( !$diff && !$otitle ) {
+            $header .= "
+            <tr style='vertical-align: top;'>
+            <td class='diff-ntitle'>{$ntitle}</td>
+            </tr>";
+            $multiColspan = 1;
+        } else {
+            if ( $diff ) { // Safari/Chrome show broken output if cols not used
+                $header .= "
+                <col class='diff-marker' />
+                <col class='diff-content' />
+                <col class='diff-marker' />
+                <col class='diff-content' />";
+                $colspan = 2;
+                $multiColspan = 4;
+            } else {
+                $colspan = 1;
+                $multiColspan = 2;
+            }
+            $header .= "
+            <tr style='vertical-align: top;'>
+            <td colspan='$colspan' class='diff-otitle'>{$otitle}</td>
+            <td colspan='$colspan' class='diff-ntitle'>{$ntitle}</td>
+            </tr>";
+        }
+
+        if ( $multi != '' ) {
+            $header .= "<tr><td colspan='{$multiColspan}' style='text-align: center;' class='diff-multi'>{$multi}</td></tr>";
+        }
+        if ( $notice != '' ) {
+            $header .= "<tr><td colspan='{$multiColspan}' style='text-align: center;'>{$notice}</td></tr>";
+        }
+
+        return $header . $diff . "</table>";
+    }
+
+    private function localiseLineNumbers( $text ) {
+        // lifted from DifferenceEngine::localiseLineNumbers()
+        return preg_replace_callback( '/<!--LINE (\d+)-->/',
+        array( &$this, 'localiseLineNumbersCb' ), $text );
+    }
+
+    private function localiseLineNumbersCb($line_numbers) {
+        // DP-specific function
         return sprintf(_("Line %d"), $line_numbers[1]);
     }
 }
 
 // stub functions
-function wfRunHooks($event, $args = array()) {
-    return TRUE;
-}
-
-function wfDebug($string) {
-}
-
 function wfProfileIn($string) {
 }
 
 function wfProfileOut($string) {
 }
 
-function wfIncrStats($string) {
-}
-
 // stub classes and global instances
-class MWLang {
-    function alignStart() {
-        return 'left';
-    }
-}
-
-class MWTitle {
-    function getPageLanguage() {
-        $lang = new MWLang();
-        return $lang;
-    }
-}
-
 class ContLang {
     function segmentForDiff($string) {
         return $string;
