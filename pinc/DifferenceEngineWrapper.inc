@@ -17,6 +17,8 @@
 // and see if they need updating in the DifferenceEngineWrapper class.
 //
 // See mediawiki_diff/README.md for which MediaWiki version this maps to.
+include_once($relPath."mediawiki_diff/DiffFormatter.php");
+include_once($relPath."mediawiki_diff/TableDiffFormatter.php");
 include_once($relPath."mediawiki_diff/DairikiDiff.php");
 
 class DifferenceEngineWrapper {
@@ -57,8 +59,7 @@ class DifferenceEngineWrapper {
         $diffs = new Diff( $ota, $nta );
         $formatter = new TableDiffFormatter();
         $difftext = $wgContLang->unsegmentForDiff( $formatter->format( $diffs ) ) .
-
-        wfProfileOut( __METHOD__ );
+            wfProfileOut( __METHOD__ );
         return $difftext;
     }
 
