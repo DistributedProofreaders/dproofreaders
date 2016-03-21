@@ -79,7 +79,10 @@ if ( $can_see_names_for_this_page) {
 $title = sprintf( _('Difference for page %s'), $image );
 $image_url = "$code_url/tools/project_manager/displayimage.php?project=$projectid&amp;imagefile=$image";
 $image_link = sprintf( _('Difference for page %s'), new_window_link($image_url, $image));
-$extra_args = array("css_data" => get_DifferenceEngine_stylesheet());
+$extra_args = array(
+    "css_files" => get_DifferenceEngine_css_files(),
+    "css_data"  => get_DifferenceEngine_css_data(),
+);
 output_header("$title: $project_title", NO_STATSBAR, $extra_args);
 
 echo "<h1>$project_title</h1>\n";

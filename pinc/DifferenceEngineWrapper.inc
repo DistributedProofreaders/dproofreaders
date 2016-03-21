@@ -5,18 +5,10 @@
 //
 // When upgrading the version of DifferenceEngine.php, ensure that the
 // stylesheet doesn't also need to be upgraded.
-
-// * This file was originally designed to work with DifferenceEngine.php
-// rev 33518 but that version requires PHP 5 and we rolled back to
-// rev 15532 as the current codebase should work on PHP 4.
-// When minimum level of PHP is brought back to 5 for the PGDP codebase,
-// rev 33518, and possibly later, can be used. Until then
-// DifferenceEngine.inc has to be updated and the include("Revisin.inc")
-// commented out.
-
-// DifferenceEngine lifted from WikiMedia:
-//   mediawiki/trunk/phase3/includes/DifferenceEngine.php rev 15532
+//
+// See mediawiki_diff/README.md for which MediaWiki version these map to.
 include_once($relPath."mediawiki_diff/DifferenceEngine.php");
+include_once($relPath."mediawiki_diff/DairikiDiff.php");
 
 // non-object global variables
 $wgExternalDiffEngine = FALSE;
@@ -24,7 +16,12 @@ $wgExternalDiffEngine = FALSE;
 // wrapper function for the primary DifferenceEngine interface
 class DifferenceEngineWrapper extends DifferenceEngine {
     function __construct() {
-        parent::__construct();
+        $title = new MWTitle();
+        parent::__construct($title);
+    }
+
+    function showDiff($left_label, $right_label, $notice='') {
+        echo $this->getDiff($left_label, $right_label, $notice);
     }
 
     function getMultiNotice() {
@@ -37,6 +34,10 @@ class DifferenceEngineWrapper extends DifferenceEngine {
 }
 
 // stub functions
+function wfRunHooks($event, $args = array()) {
+    return TRUE;
+}
+
 function wfDebug($string) {
 }
 
@@ -50,22 +51,18 @@ function wfIncrStats($string) {
 }
 
 // stub classes and global instances
-class OutputPage {
-    function addHTML($text) {
-        echo $text;
-    }
-
-    function addWikiMsg($text) {
-    }
-
-    function addStyle($text) {
-    }
-
-    function addScript($text) {
+class MWLang {
+    function alignStart() {
+        return 'left';
     }
 }
 
-$wgOut = new OutputPage();
+class MWTitle {
+    function getPageLanguage() {
+        $lang = new MWLang();
+        return $lang;
+    }
+}
 
 class ContLang {
     function segmentForDiff($string) {
@@ -84,91 +81,31 @@ $wgContLang = new ContLang;
 // the requirements
 if(!class_exists("Xml")) {
     class Xml {
-        function tags( $tagName, $className, $contents ) {
+        static function tags( $tagName, $className, $contents ) {
             return "<$tagName>$contents</$tagName>";
         }
     }
 }
 
-// stylesheet lifted from WikiMedia:
-//   mediawiki/trunk/phase3/skins/common/diff.css rev 33518
-// and customized for PGDP
-function get_DifferenceEngine_stylesheet() {
-    return "
-table.diff, td.diff-otitle, td.diff-ntitle {
-    background-color: white;
+// Return URL to main CSS file
+function get_DifferenceEngine_css_files() {
+    global $code_url;
+    return array("$code_url/pinc/mediawiki_diff/mediawiki.action.history.diff.css");
 }
+
+// Override default css for DP customizations
+function get_DifferenceEngine_css_data() {
+    return "
 td.diff-otitle,
 td.diff-ntitle {
-    text-align: center;
-    /* added for PGDP */
     font-weight: bold;
 }
-td.diff-marker {
-    text-align: right;
-}
-.rtl td.diff-marker {
-    text-align: left;
-}
-td.diff-lineno {
-    font-weight: bold;
-}
-td.diff-addedline {
-    background: #cfc;
-}
-td.diff-deletedline {
-    background: #ffa;
-}
-td.diff-context {
-    background: #eee;
-}
-/* added for PGDP */
 td.diff-marker,
 td.diff-addedline,
 td.diff-deletedline,
 td.diff-context {
     font-family: DPCustomMono2, monospace;
     font-size: smaller;
-}
-.diffchange {
-    color: red;
-    font-weight: bold;
-    text-decoration: none;
-    white-space: pre-wrap;
-    white-space: -moz-pre-wrap;
-}
-.diffchange-inline {
-    border: 1px dotted red;
-}
-table.diff {
-    border: none;
-    border-spacing: 4px;
-}
-table.diff td {
-    padding: 0;
-}
-table.diff col.diff-marker {
-}
-table.diff col.diff-content {
-}
-table.diff td div {
-    /* Force-wrap very long lines such as URLs or page-widening char strings.
-       CSS 3 draft..., but Gecko doesn't support it yet:
-       https://bugzilla.mozilla.org/show_bug.cgi?id=99457 */
-    word-wrap: break-word;
-    
-    /* As fallback, scrollbars will be added for very wide cells
-       instead of text overflowing or widening */
-    overflow: auto;
-    
-    /* The above rule breaks on very old versions of Mozilla due
-       to a bug which collapses the table cells to a single line.
-       
-       In Mozilla 1.1 and below with JavaScript enabled, the rule
-       will be overridden with this by diff.js; wide cell contents
-       then spill horizontally without widening the rest of the
-       table: */
-    /* overflow: visible; */
 }
 ";
 }
