@@ -63,6 +63,8 @@ class DifferenceEngineWrapper {
 
     private function addHeader($diff, $otitle, $ntitle, $multi='', $notice='') {
         // lifted from DifferenceEngine::addHeader()
+        // but without any of the $userLang bits
+
         $tableClass = 'diff';
         $header = "<table class='$tableClass'>";
 

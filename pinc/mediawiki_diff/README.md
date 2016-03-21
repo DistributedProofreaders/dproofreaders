@@ -1,5 +1,5 @@
-Files in this directory are lifted from MediaWiki 1.25.5 (977aee)
-and support PHP 5.
+Files in this directory are lifted from MediaWiki 1.26.2 (f46552)
+and support PHP 5.3 through 5.6.
 
 They are sourced from the following directories in the mediawiki git repo:
     mediawiki/includes/diff
