@@ -13,11 +13,17 @@ include_once($relPath."mediawiki_diff/DairikiDiff.php");
 // non-object global variables
 $wgExternalDiffEngine = FALSE;
 
+// DifferenceEngine derives from ContextSource
+class ContextSource {
+    function getTitle() {
+        return new MWTitle();
+    }
+}
+
 // wrapper function for the primary DifferenceEngine interface
 class DifferenceEngineWrapper extends DifferenceEngine {
     function __construct() {
-        $title = new MWTitle();
-        parent::__construct($title);
+        parent::__construct();
     }
 
     function showDiff($left_label, $right_label, $notice='') {
