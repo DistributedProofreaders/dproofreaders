@@ -106,8 +106,11 @@ class DifferenceEngineWrapper {
 
     private function localiseLineNumbers( $text ) {
         // lifted from DifferenceEngine::localiseLineNumbers()
-        return preg_replace_callback( '/<!--LINE (\d+)-->/',
-        array( &$this, 'localiseLineNumbersCb' ), $text );
+        return preg_replace_callback(
+            '/<!--LINE (\d+)-->/',
+            array( &$this, 'localiseLineNumbersCb' ),
+            $text
+        );
     }
 
     private function localiseLineNumbersCb($line_numbers) {
