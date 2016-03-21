@@ -5,9 +5,6 @@
 //
 // When upgrading the version of DifferenceEngine.php, ensure that the
 // stylesheet doesn't also need to be upgraded.
-//
-// Note that the WikiMedia version of the file has a .php extension
-// whereas the PGDP version has an .inc extension.
 
 // * This file was originally designed to work with DifferenceEngine.php
 // rev 33518 but that version requires PHP 5 and we rolled back to
@@ -19,7 +16,7 @@
 
 // DifferenceEngine lifted from WikiMedia:
 //   mediawiki/trunk/phase3/includes/DifferenceEngine.php rev 15532
-include_once("DifferenceEngine.inc");
+include_once($relPath."mediawiki_diff/DifferenceEngine.php");
 
 // non-object global variables
 $wgExternalDiffEngine = FALSE;
