@@ -1,4 +1,4 @@
-Files in this directory are lifted from MediaWiki 1.24.6 (7255e7)
+Files in this directory are lifted from MediaWiki 1.25.5 (977aee)
 and support PHP 5.
 
 They are sourced from the following directories in the mediawiki git repo:

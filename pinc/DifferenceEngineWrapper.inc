@@ -46,8 +46,6 @@ class DifferenceEngineWrapper {
         // lifted from DifferenceEngine::generateTextDiffBody()
         global $wgContLang;
 
-        wfProfileIn( __METHOD__ );
-
         $otext = str_replace( "\r\n", "\n", $otext );
         $ntext = str_replace( "\r\n", "\n", $ntext );
 
@@ -58,8 +56,8 @@ class DifferenceEngineWrapper {
         $nta = explode( "\n", $wgContLang->segmentForDiff( $ntext ) );
         $diffs = new Diff( $ota, $nta );
         $formatter = new TableDiffFormatter();
-        $difftext = $wgContLang->unsegmentForDiff( $formatter->format( $diffs ) ) .
-            wfProfileOut( __METHOD__ );
+        $difftext = $wgContLang->unsegmentForDiff( $formatter->format( $diffs ) );
+
         return $difftext;
     }
 
@@ -117,13 +115,6 @@ class DifferenceEngineWrapper {
         // DP-specific function
         return sprintf(_("Line %d"), $line_numbers[1]);
     }
-}
-
-// stub functions
-function wfProfileIn($string) {
-}
-
-function wfProfileOut($string) {
 }
 
 // stub classes and global instances
