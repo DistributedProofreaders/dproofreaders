@@ -472,14 +472,12 @@ XML;
     public function init_marc_record($marc_record)
     {
         $original_marc_array = $marc_record->get_yaz_array();
-        $original_marc_str = (string)$marc_record;
 
         mysql_query("
             INSERT INTO marc_records
             SET
                 projectid      = '$this->projectid',
-                original_array = '".base64_encode(serialize($original_marc_array))."',
-                original_marc  = '".base64_encode(serialize($original_marc_str))."'
+                original_array = '".base64_encode(serialize($original_marc_array))."'
         ");
     }
 
@@ -487,13 +485,11 @@ XML;
     public function save_marc_record($marc_record)
     {
         $updated_marc_array = $marc_record->get_yaz_array();
-        $updated_marc_str = (string)$marc_record;
 
         mysql_query("
             UPDATE marc_records
             SET
-                updated_array = '".base64_encode(serialize($updated_marc_array))."',
-                updated_marc  = '".base64_encode(serialize($updated_marc_str))."'
+                updated_array = '".base64_encode(serialize($updated_marc_array))."'
             WHERE projectid = '$this->projectid'
         ");
     }
