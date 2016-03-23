@@ -746,8 +746,8 @@ class ProjectInfoHolder
             // Update the MARC array with any info we've received.
             $marc_record = new MARCRecord();
             $marc_record->load_yaz_array($current_marc_array);
-            $updated_marc_record = $this->update_marc_record_from_post($marc_record);
-            $updated_marc_array = $updated_marc_record->get_yaz_array();
+            $this->update_marc_record_from_post($marc_record);
+            $updated_marc_array = $marc_record->get_yaz_array();
             $updated_marc_str = (string)$updated_marc_record;
 
             mysql_query("
@@ -795,7 +795,8 @@ class ProjectInfoHolder
             $original_marc_str = (string)$marc_record;
 
             // Update the MARC array with any info we've received.
-            $updated_marc_record = $this->update_marc_record_from_post($original_marc_array);
+            $updated_marc_record = $marc_record;
+            $this->update_marc_record_from_post($updated_marc_record);
             $updated_marc_array = $update_marc_record->get_yaz_array();
             $updated_marc_str = (string)$updated_marc_array;
 
@@ -1077,7 +1078,8 @@ class ProjectInfoHolder
         $this->extra_credits = preg_replace('/\s+/', ' ', trim($this->extra_credits));
     }
 
-    function update_marc_record_from_post($marc_record) {
+    // Updates the *passed in* MARCRecord from $_POST
+    function update_marc_record_from_post(&$marc_record) {
         //Update the Name of Work
         if (!empty($_POST['nameofwork'])) {
             $marc_record->title = $_POST['nameofwork'];
@@ -1094,8 +1096,6 @@ class ProjectInfoHolder
 
         //Update the Genre
         $marc_record->literary_form = $_POST['genre'];
-
-        return $marc_record;
     }
 }
 
