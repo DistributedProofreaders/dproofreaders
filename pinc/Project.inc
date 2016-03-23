@@ -5,6 +5,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'forum_interface.inc'); // topic_create
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
+include_once($relPath.'MARCRecord.inc');
 
 class NonexistentProjectException extends Exception { }
 
@@ -460,6 +461,62 @@ XML;
         $fp = fopen($filename, "w");
         fwrite($fp, $xmlpage);
         fclose($fp);
+    }
+
+    // MARC records for a project are saved in marc_records, one per projectid.
+    // The original_* columns hold the values returned from the YAZ search
+    // upon project creation. The updated_* columns hold updated YAZ records
+    // based on edits to the project record.
+
+    // Populate the original_* columns for this project's MARC record
+    public function init_marc_record($marc_record)
+    {
+        $original_marc_array = $marc_record->get_yaz_array();
+        $original_marc_str = (string)$marc_record;
+
+        mysql_query("
+            INSERT INTO marc_records
+            SET
+                projectid      = '$this->projectid',
+                original_array = '".base64_encode(serialize($original_marc_array))."',
+                original_marc  = '".base64_encode(serialize($original_marc_str))."'
+        ");
+    }
+
+    // Update the updated_* columns for this project's MARC record
+    public function save_marc_record($marc_record)
+    {
+        $updated_marc_array = $marc_record->get_yaz_array();
+        $updated_marc_str = (string)$marc_record;
+
+        mysql_query("
+            UPDATE marc_records
+            SET
+                updated_array = '".base64_encode(serialize($updated_marc_array))."',
+                updated_marc  = '".base64_encode(serialize($updated_marc_str))."'
+            WHERE projectid = '$this->projectid'
+        ");
+    }
+
+    // Load the updated MARC record for this project
+    public function load_marc_record()
+    {
+        $result = mysql_query("
+            SELECT updated_array
+            FROM marc_records
+            WHERE projectid = '$this->projectid'
+        ");
+
+        if(!$result)
+            return NULL;
+
+        $updated_array = mysql_result($result, 0);
+        mysql_free_result($result);
+
+        $updated_record = new MARCRecord();
+        $updated_record->load_yaz_array(unserialize(base64_decode($updated_array)));
+
+        return $updated_record;
     }
 }
 

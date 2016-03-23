@@ -735,28 +735,11 @@ class ProjectInfoHolder
                 if ( !empty($e) ) die($e);
             }
 
-            $result = mysql_query("
-                SELECT updated_array
-                FROM marc_records
-                WHERE projectid = '{$this->projectid}'
-            ");
-            $current_marc_array_encd = mysql_result($result,0,"updated_array");
-            $current_marc_array = unserialize(base64_decode($current_marc_array_encd));
-
-            // Update the MARC array with any info we've received.
-            $marc_record = new MARCRecord();
-            $marc_record->load_yaz_array($current_marc_array);
+            // Update the MARC record with any info we've received.
+            $project = new Project($this->projectid);
+            $marc_record = $project->load_marc_record();
             $this->update_marc_record_from_post($marc_record);
-            $updated_marc_array = $marc_record->get_yaz_array();
-            $updated_marc_str = (string)$updated_marc_record;
-
-            mysql_query("
-                UPDATE marc_records
-                SET
-                    updated_array = '".base64_encode(serialize($updated_marc_array))."',
-                    updated_marc  = '".base64_encode(serialize($updated_marc_str))."'
-                WHERE projectid = '$this->projectid'
-            ");
+            $project->save_marc_record($marc_record);
         }
         else
         {
@@ -789,26 +772,19 @@ class ProjectInfoHolder
             mkdir("$projects_dir/$this->projectid", 0777) or die("System error: unable to mkdir '$projects_dir/$this->projectid'");
             chmod("$projects_dir/$this->projectid", 0777);
 
-            $original_marc_array = unserialize(base64_decode($this->original_marc_array_encd));
+
+            // Do MARC record manipulations
+            $project = new Project($this->projectid);
+
+            // Save original MARC record
             $marc_record = new MARCRecord();
-            $marc_record->load_yaz_array($original_marc_array);
-            $original_marc_str = (string)$marc_record;
+            $marc_record->load_yaz_array(
+                unserialize(base64_decode($this->original_marc_array_encd)));
+            $project->init_marc_record($marc_record);
 
-            // Update the MARC array with any info we've received.
-            $updated_marc_record = $marc_record;
-            $this->update_marc_record_from_post($updated_marc_record);
-            $updated_marc_array = $update_marc_record->get_yaz_array();
-            $updated_marc_str = (string)$updated_marc_array;
-
-            mysql_query("
-                INSERT INTO marc_records
-                SET
-                    projectid      = '$this->projectid',
-                    original_array = '".base64_encode(serialize($original_marc_array))."',
-                    original_marc  = '".base64_encode(serialize($original_marc_str))."',
-                    updated_array  = '".base64_encode(serialize($updated_marc_array))."',
-                    updated_marc   = '".base64_encode(serialize($updated_marc_str))."'
-            ");
+            // Update the MARC record with data from POST
+            $this->update_marc_record_from_post($marc_record);
+            $project->save_marc_record($marc_record);
 
             // Create the project's 'good word list' and 'bad word list'.
 
@@ -852,7 +828,7 @@ class ProjectInfoHolder
         // updated, so we can create a Project object and allow it
         // to pull the relevant fields from the database.
         $project = new Project($this->projectid);
-        $project->create_dc_xml_oai($updated_marc_record);
+        $project->create_dc_xml_oai($marc_record);
 
         // If the project has been posted to PG, make the appropriate transition.
         if ($this->posted)
