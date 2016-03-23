@@ -99,7 +99,7 @@ else
 
     if (in_array($requested_action, array('createnew', 'clone', 'createnewfromuber', 'create_from_marc_record')))
     {
-        check_user_can_load_projects();
+        check_user_can_load_projects(true); // exit if they can't
     }
 
     switch ($requested_action)
