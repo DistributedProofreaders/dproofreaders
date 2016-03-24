@@ -287,9 +287,9 @@ class PPage
         $this->lpage->saveAsInProgress( $page_text, $user );
     }
 
-    function saveAsDone( $page_text, $user )
+    function attemptSaveAsDone( $page_text, $user )
     {
-        $this->lpage->saveAsDone( $page_text, $user );
+        return $this->lpage->attemptSaveAsDone( $page_text, $user );
     }
 
     function can_be_reverted_to_last_save()

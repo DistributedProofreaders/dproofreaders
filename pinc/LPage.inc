@@ -11,6 +11,7 @@ include_once($relPath.'page_tally.inc');
 include_once($relPath.'project_continuity.inc');
 include_once($relPath.'abort.inc');
 include_once($relPath.'maybe_mail.inc');
+include_once($relPath.'DailyPageLimit.inc'); // dpls_check_user_count, dpls_adjust_user_count
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -286,13 +287,26 @@ class LPage
         $this->reverting_to_orig = 0;
     }
 
-    function saveAsDone($text_data,$pguser)
+    function attemptSaveAsDone($text_data,$pguser)
+    // Return an array containing two values:
+    // a boolean indicating whether the page was saved,
+    // and a (possibly empty) array of DPLs for which the user has reached the limit.
     {
+        $project = new Project($this->projectid);
+        $dpls_reached = dpls_check_user_count($project, $pguser);
+        if ($dpls_reached)
+            // The user has already reached their limit of this kind of page.
+            return array(FALSE, $dpls_reached);
+
         $this->page_state =
             Page_saveAsDone( $this->projectid, $this->imagefile, $this->round, $pguser, $text_data );
 
         // add to user page count
         page_tallies_add( $this->round->id, $pguser, +1 );
+        dpls_adjust_user_count($project, $pguser, +1);
+
+        $dpls_reached = dpls_check_user_count($project, $pguser);
+        return array(TRUE, $dpls_reached);
     }
 
     function returnToRound($pguser)
@@ -369,6 +383,7 @@ the project will automatically be made unavailable.";
             // (Plugs a former page-count cheat.)
 
             page_tallies_add( $this->round->id, $pguser, -1 );
+            dpls_adjust_user_count(new Project($this->projectid), $pguser, -1);
         }
         else
         {

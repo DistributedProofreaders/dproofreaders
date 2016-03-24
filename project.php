@@ -22,6 +22,7 @@ include_once($relPath.'project_edit.inc'); // check_user_can_load_projects
 include_once($relPath.'forum_interface.inc'); // get_last_post_time_in_topic & get_url_*()
 include_once($relPath.'misc.inc'); // html_safe(), get_enumerated_param(), get_integer_param(), array_get(), humanize_bytes()
 include_once($relPath.'faq.inc');
+include_once($relPath.'DailyPageLimit.inc'); // dpls_get_applicable
 
 // If the requestor is not logged in, we refer to them as a "guest".
 
@@ -232,6 +233,42 @@ function decide_blurbs()
     if ( $blurb )
         return array( $blurb, $blurb );
 
+    // Check whether the user is blocked by a daily page limit.
+    // Arguably, you'd expect this to be determined in can_user_get_pages_in_project(),
+    // but we also want to produce a warning (when the project is covered by a DPL)
+    // even when the user *isn't* blocked, which you can't really expect of that function.
+    //
+    $blocked_by_limit_message = "";
+    $page_limit_warning = "";
+    foreach (dpls_get_applicable($project) as $dpl)
+    {
+        $user_count = $dpl->get_current_count_for_user($pguser);
+        if ($user_count >= $dpl->daily_limit)
+        {
+            $msg = sprintf(
+                _("This project contributes to the '%s' limit of %d page-saves per day, and you have already reached that limit today."),
+                $dpl->name,
+                $dpl->daily_limit
+            );
+            if ($blocked_by_limit_message) $blocked_by_limit_message .= "<br>\n";
+            $blocked_by_limit_message .= $msg;
+        }
+        else
+        {
+            $msg = sprintf(
+                _("Warning: This project contributes to the '%s' limit of %d page-saves per day. Since server midnight, your current count is <b>%d</b>."),
+                $dpl->name,
+                $dpl->daily_limit,
+                $user_count
+            );
+            $page_limit_warning .= "<br>\n$msg\n";
+        }
+    }
+    if ($blocked_by_limit_message)
+    {
+        return array($blocked_by_limit_message, $blocked_by_limit_message);
+    }
+
     {
         // If there's any proofreading to be done, this is the link to use.
         $url = url_for_pi_do_whichever_page( $projectid, $state, TRUE );
@@ -255,6 +292,7 @@ function decide_blurbs()
 
         $bottom_blurb =
             $comments_last_modified_blurb
+            . $page_limit_warning
             . "<br>"
             . $proofreading_link;
 
@@ -303,6 +341,7 @@ function decide_blurbs()
                     $please_scroll_down
                     . "<br>"
                     . $comments_last_modified_blurb
+                    . $page_limit_warning
                     . "<br>"
                     . $proofreading_link;
             }
