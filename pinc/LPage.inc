@@ -286,13 +286,35 @@ class LPage
         $this->reverting_to_orig = 0;
     }
 
-    function saveAsDone($text_data,$pguser)
+    function attemptSaveAsDone($text_data,$pguser)
+    // Return an array containing two values:
+    // a boolean indicating whether the page was saved,
+    // and a boolean indicating whether user has reached the round's daily page limit.
+    //
+    // (Note that (FALSE, FALSE) is currently impossible:
+    // if this function says that the page was not saved,
+    // it can only be because the user already reached the DPL.)
     {
+        if ($this->round->has_a_daily_page_limit())
+        {
+            $pre_save_dpl_count = $this->round->get_dpl_count_for_user($pguser);
+            if ($pre_save_dpl_count >= $this->round->daily_page_limit)
+                // The user has already reached their limit of this kind of page.
+                return array(FALSE, TRUE);
+        }
+
         $this->page_state =
             Page_saveAsDone( $this->projectid, $this->imagefile, $this->round, $pguser, $text_data );
 
         // add to user page count
         page_tallies_add( $this->round->id, $pguser, +1 );
+
+        $dpl_has_now_been_reached = (
+            $this->round->has_a_daily_page_limit()
+            &&
+            ($pre_save_dpl_count + 1 >= $this->round->daily_page_limit)
+        );
+        return array(TRUE, $dpl_has_now_been_reached);
     }
 
     function returnToRound($pguser)

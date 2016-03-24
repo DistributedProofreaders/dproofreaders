@@ -53,6 +53,10 @@ class Round extends Stage
             // See pinc/ProofreadingToolbox.inc for which tools are avaialble
             // and their names.
 
+        $daily_page_limit,
+            // This is either NULL (indicating no daily page limit for this round)
+            // or a non-negative (though likely positive) integer.
+
         $other_rounds_with_visible_usernames,
             // An array of round_ids.
             // If user X worked on a page in this round, they can see the
@@ -87,6 +91,7 @@ class Round extends Stage
         $this->round_number       = $n_rounds;
 
         $this->pi_tools = $pi_tools;
+        $this->daily_page_limit = $daily_page_limit;
         $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
         $this->honorifics = $honorifics;
         krsort($this->honorifics);
@@ -174,6 +179,36 @@ class Round extends Stage
 
     function is_a_mentee_round() { return !is_null($this->mentor_round); }
     function is_a_mentor_round() { return !is_null($this->mentee_round); }
+
+    // -----------
+
+    function has_a_daily_page_limit()
+    {
+        return !is_null($this->daily_page_limit);
+    }
+
+    // XXX This probably doesn't belong here, but I'm not sure where it does.
+    function get_dpl_count_for_user($username)
+    // The current "dpl count" for a user (in a given round)
+    // is the delta in their page-tally for that round
+    // since the last snapshot.
+    // (i.e., the net number of save-as-dones in that round today.)
+    {
+        $round_tallyboard = new TallyBoard($this->id, 'U');
+
+        $user = new User($username);
+        $u_id = $user->u_id;
+
+        $current_tally = $round_tallyboard->get_current_tally($u_id);
+        $snapshot_info = $round_tallyboard->get_info_from_latest_snapshot($u_id);
+        $latest_snapshot_tally = $snapshot_info['tally_value'];
+        $tally_delta_since_snapshot = $current_tally - $latest_snapshot_tally;
+        // (Alternatively, could extract it from the result of 'get_vitals')
+
+        return $tally_delta_since_snapshot;
+    }
+
+    // -----------
 
     function get_honorific_for_page_tally( $page_tally )
     {

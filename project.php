@@ -248,6 +248,43 @@ function decide_blurbs()
     if ( $blurb )
         return array( $blurb, $blurb );
 
+    // Check whether the user is blocked by a daily page limit.
+    // Arguably, you'd expect this to be determined in can_user_get_pages_in_project(),
+    // but we also want to produce a warning (when the project is covered by a DPL)
+    // even when the user *isn't* blocked, which you can't really expect of that function.
+    //
+    $blocked_by_limit_message = "";
+    $page_limit_warning = "";
+    if ($round->has_a_daily_page_limit())
+    {
+        $user_dpl_count = $round->get_dpl_count_for_user($pguser);
+        if ($user_dpl_count >= $round->daily_page_limit)
+        {
+            // User has reached this round's DPL.
+            $blocked_by_limit_message = sprintf(
+                _("This project contributes to the '%s' limit of %d page-saves per day, and you have already reached that limit today."),
+                $round->id,
+                $round->daily_page_limit
+            );
+        }
+        else
+        {
+            // User hasn't reached this round's DPL,
+            // but they should be warned that there *is* a DPL for this round?
+            $msg = sprintf(
+                _("Warning: This project contributes to the '%s' limit of %d page-saves per day. Since server midnight, your current count is <b>%d</b>."),
+                $round->id,
+                $round->daily_page_limit,
+                $user_dpl_count
+            );
+            $page_limit_warning = "<br>\n$msg\n";
+        }
+    }
+    if ($blocked_by_limit_message)
+    {
+        return array($blocked_by_limit_message, $blocked_by_limit_message);
+    }
+
     {
         // If there's any proofreading to be done, this is the link to use.
         $url = url_for_pi_do_whichever_page( $projectid, $state, TRUE );
@@ -271,6 +308,7 @@ function decide_blurbs()
 
         $bottom_blurb =
             $comments_last_modified_blurb
+            . $page_limit_warning
             . "<br>"
             . $proofreading_link;
 
@@ -319,6 +357,7 @@ function decide_blurbs()
                     $please_scroll_down
                     . "<br>"
                     . $comments_last_modified_blurb
+                    . $page_limit_warning
                     . "<br>"
                     . $proofreading_link;
             }
