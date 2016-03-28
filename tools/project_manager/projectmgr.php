@@ -108,6 +108,10 @@ class Widget
                     {
                         $values = $value;
 
+                        // If $value isn't an array, someone is mucking with
+                        // the URL -- return instead of erroring out below.
+                        if( !is_array($values) ) return NULL;
+
                         // If the user picks the 'any' option as well as some others,
                         // it's as if they'd just picked the 'any' option.
                         if ( in_array( '', $values ) ) return NULL;
