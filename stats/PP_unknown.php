@@ -27,15 +27,16 @@ $result = mysql_query("SELECT nameofwork, authorsname, username,
 $numrows = mysql_numrows($result);
 $rownum = 0;
 
-echo "<table cols = \"6\" border =\"1\">";
-echo "<td><b>Number</b></td>
-      <td><b><a href =\"PP_unknown.php?order=nameofwork\">" . _("Title") . "</b></td>
-      <td><b><a href =\"PP_unknown.php?order=authorsname\">" . _("Author") . "</b></td>
-      <td><b><a href =\"PP_unknown.php?order=username\">" . _("Project Manager") . "</b></td>
-      <td><b><a href =\"PP_unknown.php?order=projectid\">" . _("Project ID") . "</b></td>
-      <td><b><a href =\"PP_unknown.php?order=modifieddate\">" . _("Date Last Modified") . "</a></b></td><tr>";
+echo "<table class='themed'>";
+echo "<tr>";
+echo "<th>" . _("Number") . "</th>";
+echo "<th><a href='?order=nameofwork'>" . _("Title") . "</a></th>";
+echo "<th><a href='?order=authorsname'>" . _("Author") . "</a></th>";
+echo "<th><a href='?order=username'>" . _("Project Manager") . "</a></th>";
+echo "<th><a href='?order=projectid'>" . _("Project ID") . "</a></th>";
+echo "<th><a href='?order=modifieddate'>" . _("Date Last Modified") . "</a></th>";
+echo "</tr>";
 
-$index = 0;
 while ($rownum < $numrows) {
     $nameofwork = mysql_result($result, $rownum, "nameofwork");
     $author = mysql_result($result, $rownum, "authorsname");
@@ -45,8 +46,14 @@ while ($rownum < $numrows) {
 
     $rownum++;
 
-    echo "<td>$rownum</td>
-          <td width=\"200\">$nameofwork</td><td>$author</td><td>$username</td><td>$projectID</td><td>$modifieddate</td><tr>";
+    echo "<tr>";
+    echo "<td>$rownum</td>";
+    echo "<td>$nameofwork</td>";
+    echo "<td style='white-space: nowrap;'>$author</td>";
+    echo "<td style='white-space: nowrap;'>$username</td>";
+    echo "<td>$projectID</td>";
+    echo "<td style='white-space: nowrap;'>$modifieddate</td>";
+    echo "</tr>";
 }
 
 echo "</table>";
