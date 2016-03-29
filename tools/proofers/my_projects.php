@@ -58,7 +58,7 @@ if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
 prep_for_links_to_project_pages();
 
 $proof_heading = _("Proofreading &amp; Formatting Projects");
-echo "<a name='proof' id='proof'></a><h2>$proof_heading</h2>";
+echo "<h2 id='proof'>$proof_heading</h2>";
 echo "<p>$proof_text</p>";
 
 // ---------------
@@ -276,7 +276,7 @@ $result = dpsql_query($query);
 if (mysql_num_rows($result) > 0)
 {
     $reserved_heading = _("Projects Reserved for Post-Processing");
-    echo "<a name='reserved' id='reserved'></a><h2>$reserved_heading</h2>\n";
+    echo "<h2 id='reserved'>$reserved_heading</h2>\n";
     echo "<p>$reserved_text</p>";
 
     echo sprintf("(%d projects)", mysql_num_rows($result) );
