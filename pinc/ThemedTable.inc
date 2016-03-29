@@ -49,11 +49,9 @@ class ThemedTable
             echo "<tr>";
                 $maybe_colspan="";
                 if ($this->n_cols > 1) { $maybe_colspan = "colspan='$this->n_cols'"; }
-            echo   "<th $maybe_colspan>";
-            echo     "<center>";
-            echo           $title;
-            echo         $possible_subtitle;
-            echo     "</center>";
+            echo   "<th style='text-align: center;' $maybe_colspan>";
+            echo     $title;
+            echo     $possible_subtitle;
             echo   "</th>";
             echo "</tr>";
         }
@@ -109,11 +107,11 @@ class ThemedTable
             if ( isset($this->column_widths) )
             {
                 $width = $this->column_widths[$c];
-                $width_attr = "width='$width%'";
+                $width_style = "width: $width%;";
             }
             else
             {
-                $width_attr = '';
+                $width_style = '';
             }
 
             if ( isset($this->column_alignments) )
@@ -121,16 +119,16 @@ class ThemedTable
                 $alignment = $this->column_alignments[$c];
                 if (empty($alignment))
                 {
-                    $align_attr = '';
+                    $align_style = '';
                 }
                 else
                 {
-                    $align_attr = "align='$alignment'";
+                    $align_style = "text-align: $alignment;";
                 }
             }
             else
             {
-                $align_attr = '';
+                $align_style = '';
             }
 
             $cell_content = $cell_texts[$c];
@@ -140,7 +138,13 @@ class ThemedTable
                 $cell_content = "<b><u><i>$cell_content</i></u></b>";
             }
 
-            echo "<td $width_attr $align_attr>$cell_content</td>";
+            $style = '';
+            if ($width_style or $align_style)
+            {
+                $style = "style='$width_style $align_style'";
+            }
+
+            echo "<td $style>$cell_content</td>";
         }
 
         echo "</tr>\n";
@@ -151,7 +155,7 @@ class ThemedTable
         echo "\n";
         echo "<tr>";
         echo   "<td colspan='$this->n_cols'>";
-        echo     "<hr width='$width%'>";
+        echo     "<hr style='width: $width%;'>";
         echo   "</td>";
         echo "</tr>";
     }

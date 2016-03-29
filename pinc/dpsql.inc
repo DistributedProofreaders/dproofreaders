@@ -64,7 +64,7 @@ function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_R
 	$n_cols = mysql_num_fields($result);
 	$n_curr_row = $start_at;
 
-	print "<table border='1'>\n";
+	print "<table style='border-width: 1px;'>\n";
 
 	print "<tr>\n";
 	if ($show_rank)
@@ -113,7 +113,7 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
 	$perc = 100 / $n_cols;
 	for ($c = 0; $c < $n_cols; $c++ )
 	{
-		print "\n<col width='{$perc}%'>";
+		print "\n<col style='width: {$perc}%;'>";
 	}
 
 	print "<tr>\n";
@@ -128,7 +128,7 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
 	for ($c = 0; $c < $n_query_cols; $c++ )
 	{
 		$type[$c] = mysql_field_type($result, $c);
-		$align = ($type[$c] == 'int' && $ralign_ints) ? " align='right'" : '';
+		$align = ($type[$c] == 'int' && $ralign_ints) ? " style='text-align: right;'" : '';
 		print "<th$align>\n";
 		print mysql_field_name($result, $c);
 		$type[$c] = mysql_field_type($result, $c);
@@ -148,7 +148,7 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
 
 		for ($c = 0; $c < $n_query_cols; $c++)
 		{
-			print '<td' . (($type[$c] == 'int' && $ralign_ints) ? ' align="right"' : '') . '>';
+			print '<td' . (($type[$c] == 'int' && $ralign_ints) ? " style='text-align: right;'" : '') . '>';
 			print ($type[$c] == 'int') ? number_format($row[$c]) : $row[$c];
 			print "</td>\n";
 		}
