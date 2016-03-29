@@ -114,17 +114,17 @@ while ( $project = mysql_fetch_object( $result ) )
     echo "
         <tr>
         <td>$rownum</td>
-        <td width='200'>$project->nameofwork</td>
+        <td>$project->nameofwork</td>
       ";
      
       if (isset($inPPV)) { 
 
-            echo "    <td>$project->postproofer</td>";
+            echo "    <td style='white-space: nowrap;'>$project->postproofer</td>";
       }
       echo "       
-        <td>$project->checkedoutby</td>
-        <td>$datestamp</td>
-        <td>$holder_t_last_activity_date</td>
+        <td style='white-space: nowrap;'>$project->checkedoutby</td>
+        <td style='white-space: nowrap;'>$datestamp</td>
+        <td style='white-space: nowrap;'>$holder_t_last_activity_date</td>
         </tr>
     ";
 }

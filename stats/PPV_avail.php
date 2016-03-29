@@ -79,10 +79,10 @@ while ( $project = mysql_fetch_object( $result ) )
     echo "
         <tr>
         <td>$rownum</td>
-        <td width='200'>$project->nameofwork</td>
-        <td>$project->username</td>
-        <td>$project->postproofer</td>
-        <td>$datestamp</td>
+        <td>$project->nameofwork</td>
+        <td style='white-space: nowrap;'>$project->username</td>
+        <td style='white-space: nowrap;'>$project->postproofer</td>
+        <td style='white-space: nowrap;'>$datestamp</td>
         </tr>
     ";
 }

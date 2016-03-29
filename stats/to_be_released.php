@@ -55,9 +55,13 @@ while ($rownum < $numrows) {
     $rownum++;
 
     echo "<tr>";
-    echo "<td>$rownum</td>
-          <td width=\"200\">$nameofwork</td><td>$username</td><td>$datestamp</td><td>$language</td><td>$genre</td>
-          </tr>\n";
+    echo "<td>$rownum</td>";
+    echo "<td>$nameofwork</td>";
+    echo "<td style='white-space: nowrap;'>$username</td>";
+    echo "<td style='white-space: nowrap;'>$datestamp</td>";
+    echo "<td>$language</td>";
+    echo "<td>$genre</td>";
+    echo "</tr>\n";
 }
 
 echo "</table>";
