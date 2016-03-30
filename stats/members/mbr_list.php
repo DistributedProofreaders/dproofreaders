@@ -51,33 +51,34 @@ echo "<h1>$title</h1>\n";
 //Display of user teams
 echo "<table class='themed striped'>";
 echo "<tr>";
-    if ($order == "u_id" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-        echo "<th width='5%' align='center'><a href='mbr_list.php?".$uname."mstart=$mstart&order=u_id&direction=$newdirection'>"._("ID")."</a></th>";
-    if ($order == "username" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-        echo "<th width='23%' align='center'><a href='mbr_list.php?".$uname."mstart=$mstart&order=username&direction=$newdirection'>"._("Username")."</a></th>";
-    if ($order == "date_created" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-        echo "<th width='23%' align='center'><a href='mbr_list.php?".$uname."mstart=$mstart&order=date_created&direction=$newdirection'>".sprintf(_("Date Joined %s"),$site_abbreviation)."</a></th>";
-    echo "<th width='23%' align='center'>"._("Options")."</th>";
+if ($order == "u_id" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
+echo "<th style='width: 5%; text-align: center;'><a href='mbr_list.php?".$uname."mstart=$mstart&amp;order=u_id&amp;direction=$newdirection'>"._("ID")."</a></th>";
+if ($order == "username" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
+echo "<th style='text-align: center;'><a href='mbr_list.php?".$uname."mstart=$mstart&amp;order=username&amp;direction=$newdirection'>"._("Username")."</a></th>";
+if ($order == "date_created" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
+echo "<th style='text-align: center;'><a href='mbr_list.php?".$uname."mstart=$mstart&amp;order=date_created&amp;direction=$newdirection'>".sprintf(_("Date Joined %s"),$site_abbreviation)."</a></th>";
+echo "<th style='text-align: center;'>"._("Options")."</th>";
 echo "</tr>";
+
 if (!empty($mRows)) {
     while ($row = mysql_fetch_assoc($mResult)) {
         echo "<tr>";
 
         if ( can_reveal_details_about($row['username'], $row['u_privacy']) ) {
 
-            echo "<td width='5%' align='center'><b>".$row['u_id']."</b></td>";
-            echo "<td width='25%'>".$row['username']."</td>";
-            echo "<td width='22%' align='center'>".date("m/d/Y", $row['date_created'])."</td>";
-            $contact_url = get_url_to_compose_message_to_user($row['username']);
-            echo "<td width='23%' align='center'><b><a href='mdetail.php?id=".$row['u_id']."'>"._("Statistics")."</a>&nbsp;|&nbsp;<a href='$contact_url'>"._("PM")."</a></b></td>\n";
+            echo "<td style='text-align: center;'><b>".$row['u_id']."</b></td>";
+            echo "<td>".$row['username']."</td>";
+            echo "<td style='text-align: center;'>".date("m/d/Y", $row['date_created'])."</td>";
+            $contact_url = attr_safe(get_url_to_compose_message_to_user($row['username']));
+            echo "<td style='text-align: center'><b><a href='mdetail.php?id=".$row['u_id']."'>"._("Statistics")."</a>&nbsp;|&nbsp;<a href='$contact_url'>"._("PM")."</a></b></td>\n";
 
         } else {
             // Print Anonymous Info
 
-            echo "<td width='5%' align='center'><b>---</b></td>";
-            echo "<td width='25%'>" . _("Anonymous") . "</td>";
-            echo "<td width='22%' align='center'>---</td>";
-            echo "<td width='23%' align='center'>" . _("None") . "</td>";
+            echo "<td style='text-align: center;'><b>---</b></td>";
+            echo "<td>" . _("Anonymous") . "</td>";
+            echo "<td style='text-align: center;'>---</td>";
+            echo "<td style='text-align='center;'>" . _("None") . "</td>";
 
         }
 
@@ -85,18 +86,18 @@ if (!empty($mRows)) {
         echo "</tr>";
     }
 } else {
-    echo "<tr><td colspan='4' align='center'><b>"._("No more members available.")."</b></td></tr>";
+    echo "<tr><td colspan='4' style='text-align: center;'><b>"._("No more members available.")."</b></td></tr>";
 }
 
-echo "<tr><td colspan='2' align='left'>";
+echo "<tr><td colspan='2'>";
 if (!empty($mstart)) {
-    echo "<b><a href='mbr_list.php?".$uname."order=$order&direction=$direction&mstart=".($mstart-20)."'>"._("Previous")."</a></b>";
+    echo "<b><a href='mbr_list.php?".$uname."order=$order&amp;direction=$direction&amp;mstart=".($mstart-20)."'>"._("Previous")."</a></b>";
 }
-echo "&nbsp;</td><td colspan='2' align='right'>&nbsp;";
+echo "&nbsp;</td><td colspan='2' style='text-align: right;'>&nbsp;";
 if ($mRows == 20) {
-    echo "<b><a href='mbr_list.php?".$uname."order=$order&direction=$direction&mstart=".($mstart+20)."'>"._("Next")."</a></b>";
+    echo "<b><a href='mbr_list.php?".$uname."order=$order&amp;direction=$direction&amp;mstart=".($mstart+20)."'>"._("Next")."</a></b>";
 }
 echo "</td></tr>";
-echo "</table><p></center>";
+echo "</table>";
 
 // vim: sw=4 ts=4 expandtab
