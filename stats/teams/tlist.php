@@ -62,19 +62,19 @@ if (!empty($tRows)) {
         echo "</tr>\n";
     }
 } else {
-    echo "<tr><td colspan='6' align='center'><b>"._("No more teams available.")."</b></td></tr>\n";
+    echo "<tr><td colspan='5' align='center'><b>"._("No more teams available.")."</b></td></tr>\n";
 }
 
 echo "<tr><td colspan='3' align='left'>";
 if (!empty($tstart)) {
     echo "<b><a href='tlist.php?".$tname."order=$order&direction=$direction&tstart=".($tstart-20)."'>"._("Previous")."</a></b>";
 }
-echo "&nbsp;</td><td colspan='3' align='right'>&nbsp;";
+echo "&nbsp;</td><td colspan='2' align='right'>&nbsp;";
 if ($tRows == 20) {
     echo "<b><a href='tlist.php?".$tname."order=$order&direction=$direction&tstart=".($tstart+20)."'>"._("Next")."</a></b>";
 }
 echo "</td></tr>\n";
-echo "<tr><th colspan='6' align='center'><b><a href='new_team.php'>"._("Create a New Team")."</a></b></th></tr>\n";
+echo "<tr><th colspan='5' align='center'><b><a href='new_team.php'>"._("Create a New Team")."</a></b></th></tr>\n";
 echo "</table>";
 
 // vim: sw=4 ts=4 expandtab

@@ -57,7 +57,7 @@ echo "<tr>";
         echo "<th width='23%' align='center'><a href='mbr_list.php?".$uname."mstart=$mstart&order=username&direction=$newdirection'>"._("Username")."</a></th>";
     if ($order == "date_created" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
         echo "<th width='23%' align='center'><a href='mbr_list.php?".$uname."mstart=$mstart&order=date_created&direction=$newdirection'>".sprintf(_("Date Joined %s"),$site_abbreviation)."</a></th>";
-    echo "<th width='23%' align='center'><b>"._("Options")."</th>";
+    echo "<th width='23%' align='center'>"._("Options")."</th>";
 echo "</tr>";
 if (!empty($mRows)) {
     while ($row = mysql_fetch_assoc($mResult)) {
@@ -85,14 +85,14 @@ if (!empty($mRows)) {
         echo "</tr>";
     }
 } else {
-    echo "<tr><td colspan='6' align='center'><b>"._("No more members available.")."</b></td></tr>";
+    echo "<tr><td colspan='4' align='center'><b>"._("No more members available.")."</b></td></tr>";
 }
 
-echo "<tr><td colspan='3' align='left'>";
+echo "<tr><td colspan='2' align='left'>";
 if (!empty($mstart)) {
     echo "<b><a href='mbr_list.php?".$uname."order=$order&direction=$direction&mstart=".($mstart-20)."'>"._("Previous")."</a></b>";
 }
-echo "&nbsp;</td><td colspan='3' align='right'>&nbsp;";
+echo "&nbsp;</td><td colspan='2' align='right'>&nbsp;";
 if ($mRows == 20) {
     echo "<b><a href='mbr_list.php?".$uname."order=$order&direction=$direction&mstart=".($mstart+20)."'>"._("Next")."</a></b>";
 }
