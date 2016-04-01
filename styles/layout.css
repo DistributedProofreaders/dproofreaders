@@ -120,7 +120,7 @@ footer small,
 #page-container th {
   padding: 0;
 }
-#page-inner-container {
+#page-body-container {
   display: table-row;
 }
 #content-container {
