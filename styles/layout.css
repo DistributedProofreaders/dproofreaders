@@ -114,7 +114,7 @@ footer small,
   width: 100%;
   display: table;
 }
-#page-inner-container {
+#page-body-container {
   display: table-row;
 }
 #content-container {
