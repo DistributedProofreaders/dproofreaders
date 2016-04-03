@@ -58,10 +58,9 @@ if (isset($inPPV)) {
     );
 }
 
-echo "<table border='1' cellspacing='0' cellpadding='2' style='border: 1px solid #111; border-collapse: collapse' width='99%'>\n";
-echo "<tr><td colspan='" .count($colspecs)."' bgcolor='".$theme['color_headerbar_bg']."'><center><font color='".$theme['color_headerbar_font']."'><b>$title</b></font></center></td></tr>";
+echo "<table class='themed striped'>\n";
 
-echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
+echo "<tr>";
 foreach ( $colspecs as $col_order => $col_header )
 {
     $s = $col_header;
@@ -71,8 +70,7 @@ foreach ( $colspecs as $col_order => $col_header )
     {
         $s = "<a href='checkedout.php?state=$state&order=$col_order'>$s</a>";
     }
-    $s = "<th><center>".$s ."</center></th>";
-    echo "$s\n";
+    echo "<th>$s</th>";
 }
 echo "</tr>\n";
 
@@ -95,7 +93,6 @@ $result = mysql_query("
 ");
 
 $rownum = 0;
-$listing_bgcolors = array($theme['color_listing_bg_1'], $theme['color_listing_bg_2']);
 while ( $project = mysql_fetch_object( $result ) )
 {
     $rownum++;
@@ -115,19 +112,19 @@ while ( $project = mysql_fetch_object( $result ) )
     $holder_t_last_activity_date = "$month $mday, $year";
 
     echo "
-        <tr bgcolor='" . $listing_bgcolors[$rownum % 2] . "'>
+        <tr>
         <td>$rownum</td>
-        <td width='200'>$project->nameofwork</td>
+        <td>$project->nameofwork</td>
       ";
      
       if (isset($inPPV)) { 
 
-            echo "    <td>$project->postproofer</td>";
+            echo "    <td style='white-space: nowrap;'>$project->postproofer</td>";
       }
       echo "       
-        <td>$project->checkedoutby</td>
-        <td>$datestamp</td>
-        <td>$holder_t_last_activity_date</td>
+        <td style='white-space: nowrap;'>$project->checkedoutby</td>
+        <td style='white-space: nowrap;'>$datestamp</td>
+        <td style='white-space: nowrap;'>$holder_t_last_activity_date</td>
         </tr>
     ";
 }

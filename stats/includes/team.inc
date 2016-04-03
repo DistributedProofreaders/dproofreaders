@@ -61,7 +61,7 @@ function showTeamInformation($curTeam, $tally_name)
 // -----------------------------------------------------------------------------
 
 function showTeamProfile($curTeam) {
-    global $theme, $userP;
+    global $userP;
     global $team_avatars_url;
     global $code_url;
 
@@ -69,7 +69,7 @@ function showTeamProfile($curTeam) {
 
     $xml_doc_url = "$code_url/stats/teams/teams_xml.php?id=$team_id";
     $xml_img_url = "$code_url/graphics/xml.gif";
-    $xml_img_tag = "<img src='$xml_img_url' border='0' width='36' height='14' style='vertical-align: middle;'>";
+    $xml_img_tag = "<img src='$xml_img_url' style='border: 0; width: 36px; height: 14px; vertical-align: middle;' alt='XML'>";
     $xml_button = "<a href='$xml_doc_url'>$xml_img_tag</a>";
 
     // Allow team owner and site administrators to edit the team
@@ -77,8 +77,7 @@ function showTeamProfile($curTeam) {
     {
         $op_url = "tedit.php?tid=$team_id";
         $text = _('Edit');
-        $colored_text = "<font color='".$theme['color_headerbar_font']."' size='2'>$text</font>";
-        $editlink = "&nbsp;[<a href='$op_url'>$colored_text</a>]";
+        $editlink = "&nbsp;[<a href='$op_url'>$text</a>]";
     }
     else
     {
@@ -104,8 +103,7 @@ function showTeamProfile($curTeam) {
             $text = _('Quit');
         }
         $op_url = "../members/$op.php?tid=$team_id";
-        $colored_text = "<font color='".$theme['color_headerbar_font']."' size='2'>$text</font>";
-        $joinquitlink = "&nbsp;[<a href='$op_url'>$colored_text</a>]";
+        $joinquitlink = "&nbsp;[<a href='$op_url'>$text</a>]";
     }
 
     $last_post_date = get_last_post_time_in_topic($curTeam['topic_id']);
@@ -118,17 +116,16 @@ function showTeamProfile($curTeam) {
 
     if(empty($curTeam['avatar'])) { $curTeam['avatar'] = "avatar_default.png"; }
 
-    echo "\n<table cellspacing='0' cellpadding='0' width='95%'>";
-    echo "\n<tr>";
-    echo "<td align='center' width='30%' bgcolor='" . $theme['color_mainbody_bg']."'>";
-    echo "<img border='0' src='$team_avatars_url/";
+    echo "<table style='width: 100%;'>";
+    echo "<tr>";
+    echo "<td style='width: 30%; text-align: center;'>";
+    echo "<img style='border: 0;' src='$team_avatars_url/";
     echo $curTeam['avatar'] . "' alt='".strip_tags($curTeam['teamname'])."'></td>";
-    echo "<td width='70%'>";
+    echo "<td style='width: 70%'>";
 
     $t = new ThemedTable(
         2,
-        stripslashes($curTeam['teamname']) . "&nbsp;$xml_button$editlink$joinquitlink",
-        array( 'width' => 100 )
+        stripslashes($curTeam['teamname']) . "&nbsp;$xml_button$editlink$joinquitlink"
     );
     $t->set_column_widths( 25, 75 );
 
@@ -186,7 +183,7 @@ function showTeamProfile($curTeam) {
 
     $t->end();
 
-    echo "</td></tr></table><p>";
+    echo "</td></tr></table>";
 }
 
 function team_get_member_count_rank( $team_id )
@@ -227,24 +224,20 @@ function showTeamTallySelector( $curTeam, $tally_name )
         $choices .= $text;
     }
     echo "\n";
-    echo "<center>";
-    echo "<p>";
+    echo "<p style='text-align: center;'>";
     echo _("Display team stats for different rounds:") . ' ' . $choices;
     echo "</p>";
-    echo "</center>";
 
     echo "\n";
-    echo "<hr width='95%'>";
+    echo "<hr style='width: 95%;'>";
 
     if ( is_null($tally_name) ) return;
 
     $tally_title = $page_tally_names[$tally_name];
     echo "\n";
-    echo "<center>";
-    echo "<p>";
+    echo "<p style='text-align: center;'>";
     echo $tally_title;
     echo "</p>";
-    echo "</center>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -260,10 +253,7 @@ function showTeamStats($curTeam, $tally_name) {
     $t = new ThemedTable(
         2,
         _("Team Statistics"),
-        array(
-            'width' => 95,
-            'rollover_highlight' => TRUE
-        )
+        array('striped' => TRUE)
     );
     $t->set_column_widths( 60, 40 );
 
@@ -282,7 +272,7 @@ function showTeamStats($curTeam, $tally_name) {
     $t->row(
         _("Most Pages Done per Day"),
         "<b>" . number_format($vitals->best_delta) . "</b>"
-            . "&nbsp;<i>($bestDayTime)</i></b>"
+            . "&nbsp;<i>($bestDayTime)</i>"
     );
 
     $t->end();
@@ -307,9 +297,8 @@ function showTeamMbrs($curTeam, $tally_name) {
         3,
         _("Team Member Details"),
         array(
-            'width' => 95,
-            'subtitle' => $subtitle,
-            'rollover_highlight' => TRUE
+            'striped' => TRUE,
+            'subtitle' => $subtitle
         )
     );
     $t->set_column_widths( 35, 35, 30 );
@@ -350,7 +339,7 @@ function showTeamMbrs($curTeam, $tally_name) {
             // And provide a link to sort by this column in its default direction.
             $dir = $cd_default_dir;
         }
-        $url = "tdetail.php?tid=".$curTeam['id']."&tally_name=$tally_name&order=$cd_order&direction=$dir";
+        $url = "tdetail.php?tid=".$curTeam['id']."&amp;tally_name=$tally_name&amp;order=$cd_order&amp;direction=$dir";
 
         $header_content_[] = "<a href='$url'>$cd_header_text</a>$dir_indicator";
     }
@@ -419,22 +408,20 @@ function showTeamHistory($curTeam, $tally_name) {
             ($d == 'all')
             ? _('Lifetime')
             : sprintf( _('Last %d Days'), $d );
-        $choices[] = "<a href='tdetail.php?tid=".$curTeam['id']."&tally_name=$tally_name&range=$d'>$text</a>";
+        $choices[] = "<a href='tdetail.php?tid=".$curTeam['id']."&amp;tally_name=$tally_name&amp;range=$d'>$text</a>";
     }
     $choices_str = join( $choices, ' | ' );
 
-    $image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=$tally_name&holder_type=T&holder_id=".$curTeam['id']."&days_back=$range";
+    $image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=$tally_name&amp;holder_type=T&amp;holder_id=".$curTeam['id']."&amp;days_back=$range";
 
     $t = new ThemedTable(
         1,
-        _("Team Statistics History"),
-        array( 'width' => 95 )
+        _("Team Statistics History")
     );
 
     $t->row(
-        "<center><br><p>"
-        . "<font size='2'>$choices_str</font>"
-        . "<p><img src='$image_url' width='600' height='300'></center><br>"
+        "<p style='text-align: center;'>$choices_str</p>" .
+        "<p style='text-align: center;'><img src='$image_url' style='width: 600px; height: 300px;'></p>"
     );
 
     $t->end();
@@ -458,7 +445,7 @@ function unstripAllString($ttext,$sType) {
 }
 
 function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
-    global $theme, $teamimages, $userP;
+    global $teamimages, $userP;
 
     echo "<form enctype='multipart/form-data' id='mkTeam' name='mkTeam' action='";
     if ($tedit == 1) { echo "new_team.php"; } else { echo "tedit.php"; }
@@ -466,47 +453,74 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
     echo "<input type='hidden' name='tsid' value='$tsid'>";
     if ($tavatar == 1) { echo "<input type='hidden' name='tavatar' value='".$teamimages['avatar']."'>"; }
     if ($ticon == 1) { echo "<input type='hidden' name='ticon' value='".$teamimages['icon']."'>"; }
-    echo "\n<table border='1' cellspacing='0' cellpadding='3' style='border: 1px solid #111; border-collapse: collapse' width='95%'>";
-    echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td><center><font color='".$theme['color_headerbar_font']."'><b>";
-    if ($tedit != 1) { echo _("Edit Team Information")."</b></font></center></td></tr>"; } else { echo _("New Proofreading Team")."</b></font></td></tr>"; }
-    echo "\n<tr><td><table border='0' cellspacing='0' cellpadding='0' width='100%'>";
-    echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Name")."</b>:&nbsp;</font></td>";
-    echo "<td width='65%' align='left'><input type='text' value='$tname' name='teamname' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamname');\">?</a></b></td></tr>";
-    echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Webpage")."</b>:&nbsp;</font></td>";
-    echo "<td width='65%' align='left'><input type='text' value='$twebpage' name='teamwebpage' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamwebpage');\">?</a></b></td></tr>";
-    echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Avatar")."</b>:&nbsp;</font></td>";
-    echo "<td width='65%' align='left'><input type='file' name='teamavatar' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamavatar');\">?</a></b></td></tr>";
-    echo "\n<tr><td width='35%' align='right'><font color='".$theme['color_mainbody_font']."'><b>"._("Team Icon")."</b>:&nbsp;</font></td>";
-    echo "<td width='65%' align='left'><input type='file' name='teamicon' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamicon');\">?</a></b></td></tr>";
-    echo "</table></td></tr>";
-    echo "\n<tr bgcolor='".$theme['color_navbar_bg']."'><td><center><font color='".$theme['color_navbar_font']."'><b>"._("Team Description")."</b>&nbsp;</font>";
-    echo "<b><a href=\"JavaScript:newHelpWin('teamdesc');\">?</a></b><br><textarea name='text_data' cols='40' rows='6'>$ttext</textarea></center><br></td></tr>";
+    echo "\n<table class='themed'>";
+    echo "<tr><th colspan='2'>";
+    if ($tedit != 1)
+    {
+        echo _("Edit Team Information");
+    }
+    else
+    {
+        echo _("New Proofreading Team");
+    }
+    echo "</th></tr>";
 
+    echo "<tr>";
+    echo "<td style='text-align: right;'><b>"._("Team Name")."</b>:</td>";
+    echo "<td><input type='text' value='$tname' name='teamname' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamname');\">?</a></b></td>";
+    echo "</tr>";
+
+    echo "<tr>";
+    echo "<td style='text-align: right;'><b>"._("Team Webpage")."</b>:</td>";
+    echo "<td><input type='text' value='$twebpage' name='teamwebpage' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamwebpage');\">?</a></b></td>";
+    echo "</tr>";
+
+    echo "<tr>";
+    echo "<td style='text-align: right;'><b>"._("Team Avatar")."</b>:</td>";
+    echo "<td><input type='file' name='teamavatar' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamavatar');\">?</a></b></td>";
+    echo "</tr>";
+
+    echo "<tr>";
+    echo "<td style='text-align: right;'><b>"._("Team Icon")."</b>:</td>";
+    echo "<td><input type='file' name='teamicon' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamicon');\">?</a></b></td>";
+    echo "</tr>";
+
+    echo "<tr>";
+    echo "<td style='text-align: right; vertical-align: top;'><b>"._("Team Description")."</b></td>";
+    echo "<td style='vertical-align: top;'><textarea name='text_data' cols='40' rows='6'>$ttext</textarea>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamdesc');\">?</a></b></td>";
+    echo "</tr>";
+
+    echo "<tr>";
+    echo "<td style='text-align: center;' colspan='2'>";
     if ($tedit == 1 && $userP['team_1'] != 0 && $userP['team_2'] != 0 && $userP['team_3'] != 0) {
-        echo "\n<tr bgcolor='".$theme['color_mainbody_bg']."'><td><center>"._("You must join the team to create it, which team space would you like to use?")."<br>";
+        echo "<tr><td style='text-align: center;' colspan='2'>"._("You must join the team to create it, which team space would you like to use?")."<br>";
         echo "<select name='tteams' title='".attr_safe(_("Team List"))."'>";
         $teamQuery = mysql_query("SELECT teamname, id FROM user_teams WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})");
         while ($row = mysql_fetch_assoc($teamQuery)) {
             echo "<option value='".$row['id']."'>".unstripAllString(strip_tags($row['teamname']),1)."</option>";
         }
-        echo "</select></center></td></tr>";
+        echo "</select>";
     } else {
         echo "<input type='hidden' name='teamall' value='1'>";
     }
+    echo "</td>";
+    echo "</tr>";
 
     if($tedit == 1) {
-        echo "\n<tr bgcolor='".$theme['color_headerbar_bg']."'><td><center>";
+        echo "\n<tr><th style='text-align: center;' colspan='2'>";
         echo "<input type='submit' name='mkPreview' value='".attr_safe(_("Preview Team Display"))."'>&nbsp;&nbsp;&nbsp;";
         echo "<input type='submit' name='mkMake' value='".attr_safe(_("Make Team"))."'>&nbsp;&nbsp;&nbsp;";
         echo "<input type='submit' name='Quit' value='".attr_safe(_("Quit"))."'>";
-        echo "</center></td></tr></table></form>";
+        echo "</th></tr>";
     } else {
-        echo "\n<tr bgcolor='".$theme['color_headerbar_bg']."'><td><center>";
+        echo "\n<tr><th style='text-align: center;' colspan='2'>";
         echo "<input type='submit' name='edPreview' value='".attr_safe(_("Preview Changes"))."'>&nbsp;&nbsp;&nbsp;";
         echo "<input type='submit' name='edMake' value='".attr_safe(_("Save Changes"))."'>&nbsp;&nbsp;&nbsp;";
         echo "<input type='submit' name='edQuit' value='".attr_safe(_("Quit"))."'>";
-        echo "</center></td></tr></table></form>";
+        echo "</th></tr>";
     }
+    echo "</table>";
+    echo "</form>";
 }
 
 
@@ -515,7 +529,7 @@ function uploadImages($preview,$tid,$type) {
     if (!empty($_FILES['teamavatar']['tmp_name']) && ($type == "both" || $type == "avatar")) {
         if (strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".png" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".jpg" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".gif") {
             if ($_FILES['teamavatar']['size'] > 2097152) {
-                echo "<center><br><b><font color='#ff0000'>"._("The avatar uploaded is too large.  Please limit the file size to 2MB or less.")."</font></b></center>";
+                echo "<p class='error'>"._("The avatar uploaded is too large.  Please limit the file size to 2MB or less.")."</p>";
                 return;
             }
             $avatarID = uniqid("avatar_").substr($_FILES['teamavatar']['name'], -4);
@@ -526,7 +540,7 @@ function uploadImages($preview,$tid,$type) {
             }
             $teamimages['avatar'] = $avatarID;
         } else {
-            echo "<center><br><b><font color='#ff0000'>"._("The avatar uploaded must be either a JPEG, GIF, or PNG file.")."</font></b></center>";
+            echo "<p class='error'>"._("The avatar uploaded must be either a JPEG, GIF, or PNG file.")."</p>";
             return;
         }
     }
@@ -534,7 +548,7 @@ function uploadImages($preview,$tid,$type) {
     if (!empty($_FILES['teamicon']['tmp_name']) && ($type =="both" || $type == "icon")) {
         if (strtolower(substr($_FILES['teamicon']['name'], -4)) == ".png" || strtolower(substr($_FILES['teamicon']['name'], -4)) == ".jpg" || strtolower(substr($_FILES['teamicon']['name'], -4)) == ".gif") {
             if ($_FILES['teamicon']['size'] > 1048576) {
-                echo "<center><br><b><font color='#ff0000'>"._("The icon uploaded is too large. Please limit the file size to 1MB or less.")."</font></b></center>";
+                echo "<p class='error'>"._("The icon uploaded is too large. Please limit the file size to 1MB or less.")."</p>";
                 return;
             }
             $iconID = uniqid("icon_").substr($_FILES['teamicon']['name'], -4);
@@ -545,7 +559,7 @@ function uploadImages($preview,$tid,$type) {
             }
             $teamimages['icon'] = $iconID;
         } else {
-            echo "<center><br><b><font color='#ff0000'>"._("The icon uploaded must be either a JPEG, GIF, or PNG file.")."</font></b></center>";
+            echo "<p class='error'>"._("The icon uploaded must be either a JPEG, GIF, or PNG file.")."</p>";
             return;
         }
     }

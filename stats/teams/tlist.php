@@ -32,27 +32,23 @@ if (!empty($_REQUEST['tname'])) {
 $name = _("Team List");
 
 output_header($name);
-echo "<center><br>";
+echo "<h1>$name</h1>\n";
 
 //Display of user teams
-echo "<table border='1' cellspacing='0' cellpadding='4' style='border: 1px solid #111; border-collapse: collapse' width='95%'>\n";
-echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><font color='".$theme['color_headerbar_font']."'>";
-echo _("User Teams");
-echo "</font></b></td></tr>\n";
-echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
-    echo "<td align='center'><b>"._("Icon")."</b></td>";
+echo "<table class='themed striped'>\n";
+echo "<tr>";
+    echo "<th>"._("Icon")."</th>";
     if ($order == "id" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-        echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=id&direction=$newdirection'>"._("ID")."</a></b></td>";
+        echo "<th><a href='tlist.php?".$tname."tstart=$tstart&order=id&direction=$newdirection'>"._("ID")."</a></th>";
     if ($order == "teamname" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
-        echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=teamname&direction=$newdirection'>"._("Team Name")."</a></b></td>";
+        echo "<th><a href='tlist.php?".$tname."tstart=$tstart&order=teamname&direction=$newdirection'>"._("Team Name")."</a></th>";
     if ($order == "member_count" && $direction == "desc") { $newdirection = "asc"; } else { $newdirection = "desc"; }
-        echo "<td align='center'><b><a href='tlist.php?".$tname."tstart=$tstart&order=member_count&direction=$newdirection'>"._("Total Members")."</a></b></td>";
-    echo "<td align='center'><b>"._("Options")."</b></td>";
+        echo "<th><a href='tlist.php?".$tname."tstart=$tstart&order=member_count&direction=$newdirection'>"._("Total Members")."</a></th>";
+    echo "<th>"._("Options")."</th>";
 echo "</tr>\n";
 if (!empty($tRows)) {
-    $i = 0;
     while ($row = mysql_fetch_assoc($tResult)) {
-            if (($i % 2) == 0) { echo "<tr bgcolor='".$theme['color_mainbody_bg']."'>"; } else { echo "<tr bgcolor='".$theme['color_navbar_bg']."'>"; }
+        echo "<tr>";
         echo "<td align='center'><a href='tdetail.php?tid=".$row['id']."'><img src='$team_icons_url/".$row['icon']."' width='25' height='25' alt='".attr_safe($row['teamname'])."' border='0'></a></td>";
         echo "<td align='center'><b>".$row['id']."</b></td>";
         echo "<td>".$row['teamname']."</td>";
@@ -64,22 +60,21 @@ if (!empty($tRows)) {
             echo "<a href='../members/quitteam.php?tid=".$row['id']."'>"._("Quit")."</a></b></td>";
         }
         echo "</tr>\n";
-        $i++;
     }
 } else {
-    echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td colspan='6' align='center'><b>"._("No more teams available.")."</b></td></tr>\n";
+    echo "<tr><td colspan='5' align='center'><b>"._("No more teams available.")."</b></td></tr>\n";
 }
 
-echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td colspan='3' align='left'>";
+echo "<tr><td colspan='3' align='left'>";
 if (!empty($tstart)) {
     echo "<b><a href='tlist.php?".$tname."order=$order&direction=$direction&tstart=".($tstart-20)."'>"._("Previous")."</a></b>";
 }
-echo "&nbsp;</td><td colspan='3' align='right'>&nbsp;";
+echo "&nbsp;</td><td colspan='2' align='right'>&nbsp;";
 if ($tRows == 20) {
     echo "<b><a href='tlist.php?".$tname."order=$order&direction=$direction&tstart=".($tstart+20)."'>"._("Next")."</a></b>";
 }
 echo "</td></tr>\n";
-echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='6' align='center'><b><a href='new_team.php'><font color='".$theme['color_headerbar_font']."'>"._("Create a New Team")."</font></a></b></td></tr>\n";
-echo "</table><p></center>";
+echo "<tr><th colspan='5' align='center'><b><a href='new_team.php'>"._("Create a New Team")."</a></b></th></tr>\n";
+echo "</table>";
 
 // vim: sw=4 ts=4 expandtab

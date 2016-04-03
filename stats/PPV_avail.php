@@ -34,10 +34,8 @@ $colspecs = array(
     'modifieddate' => _('Date Last Modified'),
 );
 
-echo "<table border='1' cellspacing='0' cellpadding='2' style='border: 1px solid #111; border-collapse: collapse' width='99%'>\n";
-echo "<tr><td colspan='5' bgcolor='".$theme['color_headerbar_bg']."'><center><font color='".$theme['color_headerbar_font']."'><b>$title</b></font></center></td></tr>";
-
-echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
+echo "<table class='themed striped'>\n";
+echo "<tr>";
 foreach ( $colspecs as $col_order => $col_header )
 {
     $s = $col_header;
@@ -47,8 +45,7 @@ foreach ( $colspecs as $col_order => $col_header )
     {
         $s = "<a href='PPV_avail.php?order=$col_order'>$s</a>";
     }
-    $s = "<th><center>".$s."</center></th>";
-    echo "$s\n";
+    echo "<th>$s</th>";
 }
 echo "</tr>\n";
 
@@ -80,12 +77,12 @@ while ( $project = mysql_fetch_object( $result ) )
     $datestamp = "$month $mday, $year";
 
     echo "
-        <tr bgcolor='".$theme['color_navbar_bg']."'>
+        <tr>
         <td>$rownum</td>
-        <td width='200'>$project->nameofwork</td>
-        <td>$project->username</td>
-        <td>$project->postproofer</td>
-        <td>$datestamp</td>
+        <td>$project->nameofwork</td>
+        <td style='white-space: nowrap;'>$project->username</td>
+        <td style='white-space: nowrap;'>$project->postproofer</td>
+        <td style='white-space: nowrap;'>$datestamp</td>
         </tr>
     ";
 }

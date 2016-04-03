@@ -28,12 +28,9 @@ $result = mysql_query("SELECT nameofwork, username, modifieddate, language, genr
 $numrows = mysql_numrows($result);
 $rownum = 0;
 
-echo "<table border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse' width='99%'>\n";
+echo "<table class='themed striped'>\n";
 
-echo "<tr bgcolor='".$theme['color_headerbar_bg']."'>\n";
-echo "<td colspan='6'><center><font color='".$theme['color_headerbar_font']."'><b>$title</b></font></center></td></tr>\n";
-
-echo "<tr bgcolor='".$theme['color_navbar_bg']."'>\n";
+echo "<tr>\n";
 echo "<th>"._("Index")."</th>
       <th>"._("Name of Work")."</th>
       <th><a href =\"to_be_released.php?order=username\">"._("Project Manager")."</a></th>
@@ -57,10 +54,14 @@ while ($rownum < $numrows) {
     $datestamp = "$month $mday,$year";
     $rownum++;
 
-    echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
-    echo "<td>$rownum</td>
-          <td width=\"200\">$nameofwork</td><td>$username</td><td>$datestamp</td><td>$language</td><td>$genre</td>
-          </tr>\n";
+    echo "<tr>";
+    echo "<td>$rownum</td>";
+    echo "<td>$nameofwork</td>";
+    echo "<td style='white-space: nowrap;'>$username</td>";
+    echo "<td style='white-space: nowrap;'>$datestamp</td>";
+    echo "<td>$language</td>";
+    echo "<td>$genre</td>";
+    echo "</tr>\n";
 }
 
 echo "</table>";

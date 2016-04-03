@@ -127,6 +127,28 @@ h6 {
   font-family: Verdana, Helvetica, sans-serif;
 }
 /* ------------------------------------------------------------------------ */
+/* Themed tables */
+table.themed tr th {
+  background-color: #336633;
+  color: #ffffff;
+  /*            .sans-serif; */
+  font-weight: bold;
+}
+table.themed tr th a:link,
+table.themed tr th a:visited {
+  color: #ffffff;
+}
+table.themed tr td {
+  background-color: #e0e8dd;
+  color: #000000;
+}
+table.striped tr:nth-child(even) td {
+  background-color: #e0e8dd;
+}
+table.striped tr:nth-child(odd) td {
+  background-color: #ffffff;
+}
+/* ------------------------------------------------------------------------ */
 /* Sans-serif styling */
 #completed-titles .title-listing,
 #recent-titles .title-listing {

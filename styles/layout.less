@@ -105,8 +105,6 @@ footer, #footer {
 /* Content layout */
 #page-container {
     .no-border;
-    .no-cellpadding;
-    .no-cellspacing;
     .full-width;
     display: table;
 }
@@ -303,6 +301,27 @@ table.availprojectlisting {
         td, th {
             padding-left: 0.5em;
             padding-right: 0.5em;
+        }
+    }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Themed tables */
+table.themed {
+    width: 100%;
+    border: 1px solid black;
+    border-collapse: collapse;
+    tr {
+        th, td {
+            padding: 0.1em;
+        }
+    }
+}
+
+table.striped {
+    tr {
+        th, td {
+            padding: 0.2em;
         }
     }
 }

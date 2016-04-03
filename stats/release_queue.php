@@ -48,11 +48,9 @@ if (!isset($name))
     $title = sprintf( _("Release Queues for Round '%s'"), $round_id);
     output_header($title);
     echo "<h1>$title</h1>\n";
-    echo "<table border='1' cellspacing='0' cellpadding='2' style='border: 1px solid #111; border-collapse: collapse' width='99%'>\n";
-    echo "<tr bgcolor='".$theme['color_headerbar_bg']."'>";
-    echo "<td colspan='7'><center><font color='".$theme['color_headerbar_font']."'><b>".$title."</b></font></center></td></tr>\n";
+    echo "<table class='themed striped'>\n";
     {
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
+        echo "<tr>";
         echo "<th>", _("Ordering"), "</th>\n";
         echo "<th>", _("Enabled"), "</th>\n";
         echo "<th>", _("Name"), "</th>\n";
@@ -65,9 +63,6 @@ if (!isset($name))
         }
         echo "</tr>\n";
     }
-
-    $rownum = 0;
-    $listing_bgcolors = array($theme['color_listing_bg_1'], $theme['color_listing_bg_2']);
 
     $q_res = mysql_query("
         SELECT *
@@ -104,7 +99,7 @@ if (!isset($name))
         }
 
         $ename = urlencode( $qd->name );
-        echo "<tr bgcolor='" . $listing_bgcolors[$rownum % 2] . "'>";
+        echo "<tr>";
         echo "<td>$qd->ordering</td>\n";
         echo "<td>$qd->enabled</td>\n";
         echo "<td><a href='release_queue.php?round_id=$round_id&amp;name=$ename'>$qd->name</a></td>\n";
@@ -116,7 +111,6 @@ if (!isset($name))
             echo "<td>$qd->comment</td>\n";
         }
         echo "</tr>\n";
-        $rownum++;
     }
     echo "</table>\n";
     echo "<br>\n";

@@ -30,18 +30,18 @@ if ($userP['team_1'] != $tid && $userP['team_2'] != $tid && $userP['team_3'] != 
         include_once($relPath.'theme.inc');
         $title = _("Three Team Maximum");
         output_header($title);
-        echo "<br><center>";
-        echo "<table border='1' cellspacing='0' cellpadding='3' style='border: 1px solid  #111; border-collapse: collapse' width='95%'>";
-        echo "<tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='3'><b><center><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."'>"._("Three Team Maximum")."</font></center></b></td></tr>";
-        echo "<tr bgcolor='".$theme['color_mainbody_bg']."'><td colspan='3'><center><font face='".$theme['font_mainbody']."' color='".$theme['color_mainbody_font']."' size='2'>"._("You have already joined three teams.<br>Which team would you like to replace?")."</font></center></td></tr>";
-        echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
+        echo "<h1>$title</h1>\n";
+        echo "<p>" . _("You have already joined three teams.<br>Which team would you like to replace?") . "</p>";
+        echo "<ul>";
         $teamR=mysql_query("SELECT teamname FROM user_teams WHERE id='".$userP['team_1']."'");
-        echo "<td width='33%'><center><b><a href='jointeam.php?tid=$tid&otid=1'>".mysql_result($teamR,0,'teamname')."</a></b></center></td>";
+        echo "<li><a href='jointeam.php?tid=$tid&otid=1'>".mysql_result($teamR,0,'teamname')."</a></li>";
         $teamR=mysql_query("SELECT teamname FROM user_teams WHERE id='".$userP['team_2']."'");
-        echo "<td width='33%'><center><b><a href='jointeam.php?tid=$tid&otid=2'>".mysql_result($teamR,0,'teamname')."</a></b></center></td>";
+        echo "<li><a href='jointeam.php?tid=$tid&otid=2'>".mysql_result($teamR,0,'teamname')."</a></li>";
         $teamR=mysql_query("SELECT teamname FROM user_teams WHERE id='".$userP['team_3']."'");
-        echo "<td width='34%'><center><b><a href='jointeam.php?tid=$tid&otid=3'>".mysql_result($teamR,0,'teamname')."</a></b></center></td>";
-        echo "</tr><tr bgcolor='".$theme['color_headerbar_bg']."'><td colspan='3'><center><b><a href='../teams/tdetail.php?tid=$tid'><font face='".$theme['font_headerbar']."' color='".$theme['color_headerbar_font']."' size='2'>"._("Do Not Join Team")."</font></a></b></center></td></tr></table></center>";
+        echo "<li><a href='jointeam.php?tid=$tid&otid=3'>".mysql_result($teamR,0,'teamname')."</a></li>";
+        echo "</ul>";
+
+        echo "<p><a href='../teams/tdetail.php?tid=$tid'>" . _("Do Not Join Team"). "</a></p>";
         $redirect_team = 0;
     }
 } else {

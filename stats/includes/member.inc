@@ -39,7 +39,7 @@ function showXmlButton( $username )
 
     $xml_doc_url = "$code_url/stats/members/mbr_xml.php?username=$username";
     $xml_img_url = "$code_url/graphics/xml.gif";
-    $xml_img_tag = "<img src='$xml_img_url' border='0' width='36' height='14' style='vertical-align:middle'>";
+    $xml_img_tag = "<img src='$xml_img_url' style='border: 0; width: 36px; height: 14px; vertical-align: middle' alt='XML'>";
     $xml_button = "<a href='$xml_doc_url'>$xml_img_tag</a>";
     return $xml_button;
 }
@@ -47,26 +47,26 @@ function showXmlButton( $username )
 function showMbrProfile($curMbr) {
 
     echo "\n";
-    echo "<table width='99%'>";
+    echo "<table style='width: 100%;'>";
     echo "\n";
     echo "<tr>";
-    echo "<td align='center' valign='top' rowspan='2'>";
+    echo "<td style='vertical-align: top;' rowspan='2'>";
 
     showForumProfile($curMbr['username']);
 
     echo "</td>";
 
-    echo "<td align='center' valign='top'>";
+    echo "<td style='vertical-align: top;'>";
 
     showMbrDpProfile($curMbr);
 
     echo "</td></tr>";
     
-    echo "<tr><td align='center' valign='top'>";
+    echo "<td style='vertical-align: top;'>";
 
     showMbrTeams($curMbr);
 
-    echo "</td></tr></table><p>";
+    echo "</td></tr></table>";
 }
 
 function days_to_now($timestamp)
@@ -100,8 +100,7 @@ function showMbrDpProfile( $curMbr )
     $t = new ThemedTable(
         2,
         // TRANSLATORS: %s is the site abbreviation
-        sprintf(_("%s Profile"),$site_abbreviation),
-        array( 'width'=>99 )
+        sprintf(_("%s Profile"),$site_abbreviation)
     );
     $t->set_column_widths( 30, 70 );
 
@@ -200,9 +199,7 @@ function showMbrRoles($curMbr)
         $mbrStatus .= "<img
             src='$icon_url'
             alt='" . attr_safe($label) . "' title='" . attr_safe($label) . "'
-            width='$icon_width' height='25'
-            style='vertical-align: middle'
-            border='0'
+            style='width: {$icon_width}px; height: 25px; border: 0; vertical-align: middle;'
         >&nbsp;";
     }
     $mbrStatus .= "&nbsp;";
@@ -211,21 +208,19 @@ function showMbrRoles($curMbr)
 }
 
 function showForumProfile($username) {
-    global $theme, $site_abbreviation;
+    global $site_abbreviation;
 
     $bb_user = get_forum_user_details($username);
 
-    $view_url = get_url_to_view_profile($bb_user["id"]);
+    $view_url = attr_safe(get_url_to_view_profile($bb_user["id"]));
     $text = _('View');
-    $colored_text = "<font color='".$theme['color_headerbar_font']."' size='2'>$text</font>";
-    $viewlink = "&nbsp;[<a href='$view_url'>$colored_text</a>]";
+    $viewlink = "&nbsp;[<a href='$view_url'>$text</a>]";
 
     if (isset($GLOBALS['pguser']) && $bb_user["username"] == $GLOBALS['pguser'])
     {
         $edit_url = get_url_to_edit_profile();
         $text = _('Edit');
-        $colored_text = "<font color='".$theme['color_headerbar_font']."' size='2'>$text</font>";
-        $editlink = "&nbsp;[<a href='$edit_url'>$colored_text</a>]";
+        $editlink = "&nbsp;[<a href='$edit_url'>$text</a>]";
     }
     else
     {
@@ -234,8 +229,7 @@ function showForumProfile($username) {
 
     $t = new ThemedTable(
         2,
-        _("Forum Profile") . $viewlink . $editlink,
-        array( 'width'=>100 )
+        _("Forum Profile") . $viewlink . $editlink
     );
 
     $avatar = get_url_for_user_avatar($username);
@@ -246,7 +240,7 @@ function showForumProfile($username) {
     }
     else
     {
-        $rhs = "<img border='0' src='$avatar' alt='avatar'>";
+        $rhs = "<img style='border: 0;' src='$avatar' alt='avatar'>";
     }
     $t->row(
         _("Avatar"),
@@ -288,14 +282,14 @@ function showForumProfile($username) {
             TRUE,
             _("Private Message"),
             $username,
-            get_url_to_compose_message_to_user($username),
+            attr_safe(get_url_to_compose_message_to_user($username)),
             ''
         ),
         array(
             !empty($bb_user["aim"]),
             "AIM",
             $bb_user["aim"],
-            "aim:goim?screenname=".$bb_user["aim"]."&message=Hello!+Are+you+there?++I+am+IMing+you+from+$site_abbreviation",
+            "aim:goim?screenname=".$bb_user["aim"]."&amp;message=Hello!+Are+you+there?++I+am+IMing+you+from+$site_abbreviation",
             ''
         ),
         array(
@@ -309,7 +303,7 @@ function showForumProfile($username) {
             !empty($bb_user["yim"]),
             _("Yahoo Message"),
             $bb_user["yim"],
-            "http://edit.yahoo.com/config/send_webmesg?.target=" . $bb_user["yim"] . "&.src=pg",
+            "http://edit.yahoo.com/config/send_webmesg?.target=" . $bb_user["yim"] . "&amp;.src=pg",
             "_new"
         ),
         array(
@@ -373,24 +367,20 @@ function showMbrTallySelector( $u_id, $tally_name )
         $choices .= $text;
     }
     echo "\n";
-    echo "<center>";
-    echo "<p>";
+    echo "<p style='text-align: center;'>";
     echo _("Display user stats for different rounds:") . ' ' . $choices;
     echo "</p>";
-    echo "</center>";
 
     echo "\n";
-    echo "<hr width='95%'>";
+    echo "<hr style='width: 95%;'>";
 
     if ( is_null($tally_name) ) return;
 
     $tally_title = $page_tally_names[$tally_name];
     echo "\n";
-    echo "<center>";
-    echo "<p>";
+    echo "<p style='text-align: center;'>";
     echo $tally_title;
     echo "</p>";
-    echo "</center>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -439,8 +429,7 @@ function showMbrPageStats( $curMbr, $tally_name )
 
     $t = new ThemedTable(
         2,
-        _("Page Statistics"),
-        array( 'width'=>100 )
+        _("Page Statistics")
     );
 
     if ($firstWorkInRound != 0)
@@ -490,7 +479,7 @@ function showMbrNeighbors($curMbr, $tally_name) {
     $t = new ThemedTable(
         4,
         _("Neighbors"),
-        array( 'width'=>99, 'rollover_highlight'=>TRUE )
+        array('striped' => TRUE)
     );
     $t->set_column_widths( 15, 28, 28, 29 );
     $t->column_headers(
@@ -514,7 +503,7 @@ function showMbrNeighbors($curMbr, $tally_name) {
             $username = $neighbor->get_username();
             $date_created = $neighbor->get_date_joined();
 
-            $username_html = "<a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id&tally_name=$tally_name'>$username</a>";
+            $username_html = "<a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id&amp;tally_name=$tally_name'>$username</a>";
             $day_html = date("m/d/Y", $date_created)." <i>("
                 . sprintf(_("%s days"), number_format(floor(($now - $date_created)/86400)))
                 . ")</i>";
@@ -541,7 +530,7 @@ function showMbrTeams($curMbr) {
     $t = new ThemedTable(
         2,
         _("Teams"),
-        array( 'width'=>99, 'rollover_highlight'=>TRUE )
+        array('striped' => TRUE)
     );
     $t->set_column_widths( 50, 50 );
     $t->column_headers(
@@ -582,18 +571,20 @@ function showMbrHistory($curMbr, $tally_name) {
             ($d == 'all')
             ? _('Lifetime')
             : sprintf( _('Last %d Days'), $d );
-        $choices[] = "<a href='mdetail.php?id=$u_id&tally_name=$tally_name&range=$d'>$text</a>";
+        $choices[] = "<a href='mdetail.php?id=$u_id&amp;tally_name=$tally_name&amp;range=$d'>$text</a>";
     }
     $choices_str = join( $choices, ' | ' );
 
-    $image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=$tally_name&holder_type=U&holder_id=$u_id&days_back=$range";
+    $image_url = $GLOBALS['code_url']."/stats/jpgraph_files/tallyboard_deltas.php?tally_name=$tally_name&amp;holder_type=U&amp;holder_id=$u_id&amp;days_back=$range";
 
     $t = new ThemedTable(
         1,
-        _("History"),
-        array( 'width'=>99 )
+        _("History")
     );
-    $t->row( "<center><br><p><font size='2'>$choices_str</font><p><img src='$image_url' width='600' height='300'></center><br>" );
+    $t->row(
+        "<p style='text-align: center;'>$choices_str</p>" .
+        "<p style='text-align: center;'><img src='$image_url' style='width: 600px; height: 300px;'></p>"
+    );
     $t->end();
 }
 

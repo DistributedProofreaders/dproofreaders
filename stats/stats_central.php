@@ -50,7 +50,8 @@ show_news_for_page("STATS");
 echo "<center>";
 $table = new ThemedTable(
     3,
-    _('General Site Statistics')
+    _('General Site Statistics'),
+    array( 'width' => 'auto' )
 );
 
 $table->set_column_alignments( 'left', 'right', 'left' );
@@ -155,8 +156,7 @@ echo "</center>";
 
 $table = new ThemedTable(
     2,
-    _("Miscellaneous Statistics"),
-    array( 'width' => 99 )
+    _("Miscellaneous Statistics")
 );
 
 $table->row(
@@ -181,8 +181,7 @@ $table->end();
 
 $table = new ThemedTable(
     4,
-    _("Pages in Rounds"),
-    array( 'width' => 99 )
+    _("Pages in Rounds")
 );
 
 foreach ( $page_tally_names as $tally_name => $tally_title )
@@ -203,8 +202,7 @@ $table->end();
 
 $table = new ThemedTable(
     3,
-    _("Projects by Status"),
-    array( 'width' => 99 )
+    _("Projects by Status")
 );
 
 $table->column_headers(
@@ -241,8 +239,7 @@ $table->end();
 
 $table = new ThemedTable(
     1, 
-    _("Total Projects Created, Proofread, Post-Processed and Posted"),
-    array( 'width' => 99 )
+    _("Total Projects Created, Proofread, Post-Processed and Posted")
 );
 
 $table->row(

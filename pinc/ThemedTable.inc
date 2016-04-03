@@ -1,11 +1,9 @@
 <?php
 
 // A "themed table" is an HTML table that uses various settings
-// from the current $theme for some of its presentational aspects.
+// from the current theme for some of its presentational aspects.
 
 // ThemedTable is a class for handling the formulaic parts of a themed table.
-
-include_once($relPath.'theme.inc');
 
 class ThemedTable
 {
@@ -13,7 +11,7 @@ class ThemedTable
     {
         $this->n_cols = $n_cols;
 
-        $this->rollover_highlight = FALSE;
+        $class = "themed";
         $border = 1;
         $width = "";
         $subtitle = null;
@@ -21,14 +19,14 @@ class ThemedTable
         {
             switch ( $option_name )
             {
-                case 'rollover_highlight':
-                    $this->rollover_highlight = $option_value;
+                case 'striped':
+                    $class .= ' striped';
                     break;
                 case 'border':
                     $border = $option_value;
                     break;
                 case 'width':
-                    $width = " width='${option_value}%'";
+                    $width = " width: $option_value;";
                     break;
                 case 'subtitle':
                     $subtitle = $option_value;
@@ -39,33 +37,22 @@ class ThemedTable
         }
 
         echo "\n";
-        echo "<table rules='none' border='${border}' cellspacing='0' cellpadding='1' style='border: ${border}px solid #111; border-collapse: collapse'${width}>";
+        echo "<table class='$class' style='border-width: ${border}px; ${width}'>";
 
         {
             $possible_subtitle =
                 is_null($subtitle)
                 ? ''
-                : "<br><font size='1'>$subtitle</font>";
-
-            global $theme;
-            $bgcolor    = $theme['color_headerbar_bg'];
-            $font_face  = $theme['font_headerbar'];
-            $font_color = $theme['color_headerbar_font'];
+                : "<br>$subtitle";
 
             echo "\n";
             echo "<tr>";
                 $maybe_colspan="";
                 if ($this->n_cols > 1) { $maybe_colspan = "colspan='$this->n_cols'"; }
-            echo   "<td $maybe_colspan bgcolor='$bgcolor'>";
-            echo     "<center>";
-            echo       "<font face='$font_face' color='$font_color' size='2'>";
-            echo         "<b>";
-            echo           $title;
-            echo         "</b>";
-            echo         $possible_subtitle;
-            echo       "</font>";
-            echo     "</center>";
-            echo   "</td>";
+            echo   "<th style='text-align: center;' $maybe_colspan>";
+            echo     $title;
+            echo     $possible_subtitle;
+            echo   "</th>";
             echo "</tr>";
         }
     }
@@ -113,39 +100,18 @@ class ThemedTable
         // There should be an arg (cell content) for each column.
         assert( count($cell_texts) == $this->n_cols );
 
-        global $theme;
-        $bgcolor         = $theme['color_navbar_bg'];
-        $highlight_color = $theme['color_mainbody_bg'];
-        $font_face       = $theme['font_navbar'];
-        $font_color      = $theme['color_navbar_font'];
-
-        echo "\n";
-        // (We don't put the rollover highlight on a header row,
-        // though there's no particular reason we couldn't.)
-        if ($this->rollover_highlight && !$is_header)
-        {
-            echo "<tr"
-                . " bgcolor='$bgcolor'"
-                . " onmouseover='javascript:style.background=\"$highlight_color\"'"
-                .  " onmouseout='javascript:style.background=\"$bgcolor\"'"
-                . ">";
-            ;
-        }
-        else
-        {
-            echo "<tr bgcolor='$bgcolor'>";
-        }
+        echo "<tr>";
 
         for ( $c = 0; $c < $this->n_cols; $c++ )
         {
             if ( isset($this->column_widths) )
             {
                 $width = $this->column_widths[$c];
-                $width_attr = "width='$width%'";
+                $width_style = "width: $width%;";
             }
             else
             {
-                $width_attr = '';
+                $width_style = '';
             }
 
             if ( isset($this->column_alignments) )
@@ -153,16 +119,16 @@ class ThemedTable
                 $alignment = $this->column_alignments[$c];
                 if (empty($alignment))
                 {
-                    $align_attr = '';
+                    $align_style = '';
                 }
                 else
                 {
-                    $align_attr = "align='$alignment'";
+                    $align_style = "text-align: $alignment;";
                 }
             }
             else
             {
-                $align_attr = '';
+                $align_style = '';
             }
 
             $cell_content = $cell_texts[$c];
@@ -170,24 +136,26 @@ class ThemedTable
             if ($is_header)
             {
                 $cell_content = "<b><u><i>$cell_content</i></u></b>";
-                $cell_content = "<font face='$font_face' color='$font_color' size='2'>$cell_content</font>";
             }
 
-            echo "<td $width_attr $align_attr>$cell_content</td>";
+            $style = '';
+            if ($width_style or $align_style)
+            {
+                $style = "style='$width_style $align_style'";
+            }
+
+            echo "<td $style>$cell_content</td>";
         }
 
-        echo "</tr>";
+        echo "</tr>\n";
     }
 
     function hr( $width )
     {
-        global $theme;
-        $bgcolor = $theme['color_navbar_bg'];
-
         echo "\n";
-        echo "<tr bgcolor='$bgcolor'>";
+        echo "<tr>";
         echo   "<td colspan='$this->n_cols'>";
-        echo     "<hr width='$width%'>";
+        echo     "<hr style='width: $width%;'>";
         echo   "</td>";
         echo "</tr>";
     }
