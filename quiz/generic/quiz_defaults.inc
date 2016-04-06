@@ -5,7 +5,7 @@ include_once($relPath.'base.inc');
 
 $default_hintlink         = _("Desperate? Can't find it?");
 $default_challenge        = _("Try to correct that or press 'restart'.");
-$default_feedbacktext     = _("The algorithm for finding errors in this quiz is a quite simple one. If you feel the message doesn't make any sense, please post a feedback message in <a href='%s' target='_blank'>this forum topic</a>.");
+$default_feedbacktext     = _("The algorithm for finding errors in this quiz is a quite simple one. If you feel the message doesn't make any sense, please visit <a href='%s' target='_blank'>this forum topic</a> and click on the \"post reply\" button to post a feedback message.");
 
 
 // urls for links
