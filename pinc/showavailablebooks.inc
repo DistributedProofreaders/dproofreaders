@@ -175,7 +175,7 @@ function show_projects_for_stage(
 
     if ($show_filter_block)
     {
-        echo "<hr width='75%'>\n";
+        echo "<hr class='divider'>\n";
         process_and_display_project_filter_form($pguser, $stage->id, $stage->name, $_POST, $initial_project_selector, $filter_custom_display_fields);
     }
     $projects_filter = get_project_filter_sql($pguser, $stage->id);
@@ -191,7 +191,7 @@ function show_projects_for_stage(
         $userSettings =& Settings::get_Settings($pguser);
         if (!isset($pguser) OR !$userSettings->get_boolean('hide_special_colors'))
         {
-            echo "<hr width='75%'>\n";
+            echo "<hr class='divider'>\n";
             echo_special_legend($initial_project_selector);
         }
     }
@@ -201,10 +201,8 @@ function show_projects_for_stage(
     $default_ext_sort = 'DaysA';
 
     $anchor = $stage->id;
-    echo "\n<a name='$anchor'></a>";
-
     $title = _('Projects Currently Available');
-    echo "\n<h2>$title</h2>";
+    echo "\n<h2 id='$anchor'>$title</h2>";
     echo "\n<p>{$stage->description}</p>";
 
     show_project_listing(
@@ -231,7 +229,7 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
     {
         $header = _('Books I Have Checked Out');
 
-        echo "<h2>$header</h2>";
+        echo "<h2 id='$anchor'>$header</h2>";
 
         $initial_project_selector = "state = '{$pool->project_checkedout_state}'";
 
@@ -240,14 +238,12 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         $initial_project_selector .= " AND checkedoutby = '$pguser'";
 
         $projects_filter = "";
-
-        echo "<a name='$anchor'></a>\n";
     }
     elseif ( $checkedout_or_available == 'available' )
     {
         $header = _('Books Available for Checkout');
 
-        echo "<h2>$header</h2>";
+        echo "<h2 id='$anchor'>$header</h2>";
 
         $available_filtertype_stem = "{$pool->id}_av";
 
@@ -255,7 +251,6 @@ function show_projects_for_pool( $pool, $checkedout_or_available )
         process_and_display_project_filter_form($pguser, $available_filtertype_stem, $pool->name, $_POST, $initial_project_selector);
         $projects_filter = get_project_filter_sql($pguser, $available_filtertype_stem);
 
-        echo "<a name='$anchor'></a>\n";
         echo "<b>$header</b>";
     }
     else
@@ -392,7 +387,7 @@ function show_project_listing(
 
     // Start the table.
     echo "\n<table class='availprojectlisting'>";
-    echo "<tr align=center bgcolor='{$stage->listing_bgcolors[1]}'>";
+    echo "<tr class='center-align' style='background-color: {$stage->listing_bgcolors[1]};'>";
 
     // Print out the header row with links.
     foreach($columns as $col_id => $col_info)
@@ -436,7 +431,7 @@ function show_project_listing(
                 // Add a visual indicator that this is the sorted-by column,
                 // and show which way the column has been sorted.
                 $img_url = "$code_url/graphics/sort_{$curr_sql_sort_dir}.png";
-                echo "&nbsp;<img src='$img_url'>";
+                echo "&nbsp;<img src='$img_url' alt='{$curr_sql_sort_dir}'>";
             }
         }
 
@@ -481,7 +476,7 @@ function show_project_listing(
             }
         }
 
-        echo "<tr bgcolor='$bgcolor'>";
+        echo "<tr style='background-color: $bgcolor;'>";
 
         foreach($columns as $col_id => $col_info)
         {
@@ -537,6 +532,7 @@ function show_project_listing(
                     $contact_url = get_url_to_compose_message_to_user($user_name);
                 }
 
+                $contact_url = htmlspecialchars($contact_url);
                 $cell = "<a href='$contact_url'>$user_name</a>";
             }
             elseif($col_id == "uploaded")
