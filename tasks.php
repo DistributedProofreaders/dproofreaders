@@ -308,7 +308,7 @@ while ($row = mysql_fetch_assoc($result)) {
 $taskcenter_managers = Settings::get_users_with_setting('task_center_mgr', 'yes');
 foreach($taskcenter_managers as $taskcenter_manager) {
     $user = new User($taskcenter_manager);
-    $task_assignees_array[$u_id] = $user->u_id;
+    $task_assignees_array[$user->u_id] = $taskcenter_manager;
 }
 natcasesort($task_assignees_array);
 $task_assignees_array = array(0 => 'Unassigned') + $task_assignees_array;
