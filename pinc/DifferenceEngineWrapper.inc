@@ -17,6 +17,7 @@
 // and see if they need updating in the DifferenceEngineWrapper class.
 //
 // See mediawiki_diff/README.md for which MediaWiki version this maps to.
+include_once($relPath."misc.inc"); // html_safe() in following includes
 include_once($relPath."mediawiki_diff/DiffFormatter.php");
 include_once($relPath."mediawiki_diff/TableDiffFormatter.php");
 include_once($relPath."mediawiki_diff/DairikiDiff.php");

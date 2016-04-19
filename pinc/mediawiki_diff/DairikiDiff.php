@@ -901,12 +901,12 @@ class HWLDFWordAccumulator {
 		if ( $this->group !== '' ) {
 			if ( $this->tag == 'ins' ) {
 				$this->line .= "<ins{$this->insClass}>" .
-					htmlspecialchars( $this->group ) . '</ins>';
+					html_safe( $this->group ) . '</ins>';
 			} elseif ( $this->tag == 'del' ) {
 				$this->line .= "<del{$this->delClass}>" .
-					htmlspecialchars( $this->group ) . '</del>';
+					html_safe( $this->group ) . '</del>';
 			} else {
-				$this->line .= htmlspecialchars( $this->group );
+				$this->line .= html_safe( $this->group );
 			}
 		}
 		$this->group = '';

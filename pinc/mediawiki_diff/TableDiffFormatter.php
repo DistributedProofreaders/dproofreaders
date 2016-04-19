@@ -153,7 +153,7 @@ class TableDiffFormatter extends DiffFormatter {
 		foreach ( $lines as $line ) {
 			echo '<tr>' . $this->emptyLine() .
 				$this->addedLine( '<ins class="diffchange">' .
-					htmlspecialchars( $line ) . '</ins>' ) . "</tr>\n";
+					html_safe( $line ) . '</ins>' ) . "</tr>\n";
 		}
 	}
 
@@ -165,7 +165,7 @@ class TableDiffFormatter extends DiffFormatter {
 	protected function deleted( $lines ) {
 		foreach ( $lines as $line ) {
 			echo '<tr>' . $this->deletedLine( '<del class="diffchange">' .
-					htmlspecialchars( $line ) . '</del>' ) .
+					html_safe( $line ) . '</del>' ) .
 				$this->emptyLine() . "</tr>\n";
 		}
 	}
@@ -178,8 +178,8 @@ class TableDiffFormatter extends DiffFormatter {
 	protected function context( $lines ) {
 		foreach ( $lines as $line ) {
 			echo '<tr>' .
-				$this->contextLine( htmlspecialchars( $line ) ) .
-				$this->contextLine( htmlspecialchars( $line ) ) . "</tr>\n";
+				$this->contextLine( html_safe( $line ) ) .
+				$this->contextLine( html_safe( $line ) ) . "</tr>\n";
 		}
 	}
 
