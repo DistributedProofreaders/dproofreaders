@@ -328,7 +328,7 @@ class Settings
     {
         $usernames = array();
         $sql = sprintf("
-            SELECT username, value
+            SELECT DISTINCT username
             FROM usersettings
             WHERE setting = '%s'
         ", mysql_real_escape_string($setting));
@@ -346,7 +346,7 @@ class Settings
         }
         mysql_free_result($result);
 
-        return array_unique($usernames);
+        return $usernames;
     }
 }
 

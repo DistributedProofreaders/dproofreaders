@@ -133,6 +133,12 @@ function html_header($nameofpage, $extra_args = array()) {
     echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/layout.css'>";
 
     // Per-page CSS
+    if (isset($extra_args['css_files']))
+    {
+        foreach($extra_args['css_files'] as $css_file)
+            echo "<link type='text/css' rel='Stylesheet' href='$css_file'>";
+    }
+
     // this first navbar blob needs to be moved to a universal stylesheet but
     // that'll also require adjustements for the $theme replacements
     echo "<style type='text/css'>\n";

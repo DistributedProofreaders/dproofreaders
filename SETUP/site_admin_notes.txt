@@ -58,34 +58,11 @@ Notes on the SQL commands shown here:
     you might actually type
         username='joe'
 
+
 Granting/revoking privileges:
 -----------------------------
-    
-Granting 'Project Manager' status:
-    update users set manager='yes' where username='USERNAME';
-Revoking it:
-    update users set manager='no' where username='USERNAME';
-
-Granting 'Project Facilitator' status:
-    insert into usersettings
-    set username='USERNAME', setting='proj_facilitator', value='yes';
-Revoking it:
-    delete from usersettings
-    where username='USERNAME' AND setting='proj_facilitator';
-
-Granting 'Task Center Manager' status:
-    insert into usersettings
-    set username='USERNAME', setting='task_center_mgr', value='yes';
-Revoking it:
-    delete from usersettings
-    where username='USERNAME' AND setting='task_center_mgr';
-
-Granting 'Site News Editor' status:
-    insert into usersettings
-    set username='USERNAME', setting='site_news_editor', value='yes';
-Revoking it:
-    delete from usersettings
-    where username='USERNAME' AND setting='site_news_editor';
+See tools/site_admin/manage_site_access_privileges.php for a web interface
+to grant/revoke privileges.
 
 
 Setting daily goals for the rounds:
