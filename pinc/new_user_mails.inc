@@ -17,16 +17,16 @@ function maybe_activate_mail($email, $real_name, $ID, $username, $u_intlang)
 
     $activate = "Please activate your account at the $site_name site!";
 
-    maybe_mail($email, $activate, sprintf("
+    $body = <<<EOMAIL
 
-Hello %s,
+Hello $real_name
 
 This is an automated response to a request for a new account at
-%s with the user name: %s
+$site_name with the user name: $username
 
 To complete your registration, please visit this URL:
 
-%s
+$code_url/accounts/activate.php?id=$ID
 
 We require this confirmation step to prevent someone from registering
 an account in your name without your knowledge. If you do not follow
@@ -40,9 +40,11 @@ and their answers.
 
 Thanks,
 
-The %s Team
+The $site_name Team
 
-", $real_name, $site_name, $username, "$code_url/accounts/activate.php?id=$ID", $site_name));
+EOMAIL;
+
+    maybe_mail($email, $activate, $body);
 }
 
 function maybe_welcome_mail($email, $real_name, $username)
@@ -55,7 +57,9 @@ function maybe_welcome_mail($email, $real_name, $username)
 
     $reset_password_url = get_reset_password_url();
 
-    maybe_mail($email, $welcome, "
+    $maybe_browse_wiki = $wiki_url ? "\nbrowse the site wiki:\n  $wiki_url" : "";
+
+    $body = <<<EOMAIL
 
 $real_name, thank you for registering with $site_name at
   $site_url
@@ -99,20 +103,15 @@ Basic site/proofreading questions (Beginners' FAQ):
   $code_url/faq/ProoferFAQ.php
 Main proofreading reference (Proofreading Guidelines):
   $code_url/faq/proofreading_guidelines.php
-Shorter, printable version (The \"Handy Guide\"):
+Shorter, printable version (The "Handy Guide"):
   $code_url/faq/proofing_summary.pdf
 
 Most volunteers participate at $site_abbreviation by proofreading. However, there are
 many other ways to contribute, including Smooth Reading and Post Processing.
 For more detailed information on these and other phases of ebook production
 at $site_abbreviation, please visit the main help page (FAQ Central) at:
-  $code_url/faq/faq_central.php" .
-(
-    $wiki_url
-    ? "\nbrowse the site wiki:\n  $wiki_url"
-    : ""
-) .
-"
+  $code_url/faq/faq_central.php
+$maybe_browse_wiki
 or email:
   $general_help_email_addr
 
@@ -120,26 +119,26 @@ or email:
 Once you understand more about the work being done, the best thing to
 do is get started! Each project (book) on the site goes through multiple
 rounds of proofreading. When you first start, you will only be working
-on the books in the first round (\"{$ELR_round->id}\"). Other rounds will become
+on the books in the first round ("{$ELR_round->id}"). Other rounds will become
 available as you gain experience and time on site.
 
 Here's a step-by-step process for proofreading:
 
 - When you log in you are taken to the Activity Hub.
 
-- Scroll down and follow the \"{$ELR_round->name}\" link, or
-  click the \"{$ELR_round->id}\" link on the navigation bar. 
+- Scroll down and follow the "{$ELR_round->name}" link, or
+  click the "{$ELR_round->id}" link on the navigation bar. 
 
 - Scroll down to see a listing of available books. When you see one
   that interests you, click on the title to open its Project Page.
 
 - The Project Page shows basic information on a project as well as
-  \"Project Comments\" from the Project Manager. Please read these
+  "Project Comments" from the Project Manager. Please read these
   carefully. Any special instructions there take precedence over the
   general guidelines and may direct you to mark up additional items,
   but apply _only_ to that specific project.
 
-- Click the \"Start Proofreading\" link near the bottom of the page.
+- Click the "Start Proofreading" link near the bottom of the page.
 
 - You are now proofreading! Compare the text in the text box to what
   is in the image, making corrections for differences between the two.
@@ -147,8 +146,8 @@ Here's a step-by-step process for proofreading:
 - If you need to refer to the Project Comments again, you can pull them
   up by clicking on the link below the text box.
 
-- Once you are finished with the page, click on either \"Save as 'Done'\"
-  or \"Save as 'Done' & Proofread Next Page\"
+- Once you are finished with the page, click on either "Save as 'Done'"
+  or "Save as 'Done' & Proofread Next Page"
 
 You have now proofread your first page! Congratulations!
 
@@ -166,7 +165,7 @@ Q: What should I work on next?
 A: After BEGINNERS ONLY material, you might try projects marked EASY,
    but again, don't be afraid to try anything that interests you. If
    you find yourself uncomfortable with working on a particular page,
-   you can always press the \"Return Page to Round\" button and let
+   you can always press the "Return Page to Round" button and let
    someone else tackle it.
 
 Q: How do I know if I'm doing OK?
@@ -178,7 +177,7 @@ A: If you work on a BEGINNERS ONLY project, you _will_ receive personal
 
 Q: I'm not sure how to use the interface.
 
-A: Proofreading interface help is available by clicking the \"?\" button
+A: Proofreading interface help is available by clicking the "?" button
    near the lower right corner.
 
 Q: I'm not sure how something should be marked.
@@ -186,9 +185,9 @@ Q: I'm not sure how something should be marked.
 A: For general questions, please refer to the Proofreading Guidelines.
 
    For questions about a specific page/project, post in the project's
-   forum thread by following the link labeled \"Discuss this project\" on
+   forum thread by following the link labeled "Discuss this project" on
    the Project Page. Each project has its own discussion thread; you can
-   post a question or message via the \"Reply\" button. Even if you don't
+   post a question or message via the "Reply" button. Even if you don't
    have a specific question, it's worth reading through the discussion
    to see what other volunteers have observed or encountered.
 
@@ -205,7 +204,9 @@ Thanks,
 
 The $site_name Team
 
-");
+EOMAIL;
+
+    maybe_mail($email, $welcome, $body);
 }
 
 // vim: sw=4 ts=4 expandtab
