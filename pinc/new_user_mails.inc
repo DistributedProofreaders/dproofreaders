@@ -11,13 +11,13 @@ include_once($relPath.'maybe_mail.inc');
 // This is because this function may be called by a site admin to send
 // a mail to a completely different user (e.g. a Polish user shouldn't
 // get a Spanish mail because one of the site admins is Spanish).
-function maybe_activate_mail($email, $real_name, $ID, $username, $u_intlang) {
+function maybe_activate_mail($email, $real_name, $ID, $username, $u_intlang)
+{
+    global $code_url, $site_name;
 
-  global $code_url, $site_name;
+    $activate = "Please activate your account at the $site_name site!";
 
-  $activate = "Please activate your account at the $site_name site!";
-
-  maybe_mail($email, $activate, sprintf("
+    maybe_mail($email, $activate, sprintf("
 
 Hello %s,
 
@@ -42,19 +42,20 @@ Thanks,
 
 The %s Team
 
-  ", $real_name, $site_name, $username, "$code_url/accounts/activate.php?id=$ID", $site_name));
+", $real_name, $site_name, $username, "$code_url/accounts/activate.php?id=$ID", $site_name));
 }
 
-function maybe_welcome_mail($email, $real_name, $username) {
+function maybe_welcome_mail($email, $real_name, $username)
+{
+    global $code_url, $site_url, $forums_url, $wiki_url;
+    global $site_name, $site_abbreviation, $ELR_round;
+    global $general_help_email_addr;
 
-  global $code_url;
-  global $site_url, $general_help_email_addr, $site_name, $site_abbreviation, $forums_url, $wiki_url, $ELR_round;
+    $welcome = "Welcome to the $site_name Site!";
 
-  $welcome = "Welcome to the $site_name Site!";
+    $reset_password_url = get_reset_password_url();
 
-  $reset_password_url = get_reset_password_url();
-
-  maybe_mail($email, $welcome, "
+    maybe_mail($email, $welcome, "
 
 $real_name, thank you for registering with $site_name at
   $site_url
@@ -204,8 +205,7 @@ Thanks,
 
 The $site_name Team
 
-  ");
+");
 }
 
 // vim: sw=4 ts=4 expandtab
-?>
