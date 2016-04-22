@@ -241,6 +241,12 @@ function is_locale_translation_enabled($locale)
 {
     global $dyn_locales_dir;
 
+    // Locale 'en_EN' is always enabled because that's the default
+    // language of all the internal strings. We have to check for
+    // it because there is no translation file for it.
+    if($locale == 'en_EN')
+        return TRUE;
+
     $translation_base = "$dyn_locales_dir/$locale";
     $enabled_file = "$translation_base/enabled";
 
