@@ -6,6 +6,18 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'misc.inc'); // get_upload_err_msg(), undo_all_magic_quotes()
 
+// Detect if the file uploaded was larger than post_max_size and show
+// an error instead of failing silently. We do this here because if the
+// POST failed, $_REQUEST and $_POST are empty and we have no data to even
+// route them through the do_upload() function at all.
+// http://andrewcurioso.com/blog/archive/2010/detecting-file-size-overflow-in-php.html
+if($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
+    empty($_FILES) && $_SERVER['CONTENT_LENGTH'] > 0)
+{
+    $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
+    fatal_error( sprintf(_("Uploaded file is too large. Maximum file size is %s."), $max_upload_size));
+}
+
 # Directory structure under uploads dir
 $trash_dir       = "$uploads_dir/$uploads_subdir_trash";
 
@@ -1142,13 +1154,12 @@ function show_form($action, $cdrp, $form_content, $submit_label)
 function show_caveats()
 {
     $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
-    $max_post_size = humanize_bytes(return_bytes(ini_get("post_max_size")));
 
     echo "<p><b>" . _("Current file and directory management features:") . "</b></p>\n";
     echo "<ul>\n";
     echo "<li>" . _("Upload files into your user folder.") . "\n";
     echo "<ul>\n";
-    echo   "<li>" . sprintf(_('Maximum file size is %1$s. Files larger than %2$s will fail silently.'), $max_upload_size, $max_post_size) . "</li>\n";
+    echo   "<li>" . sprintf(_('Maximum file size is %s.'), $max_upload_size) . "</li>\n";
     echo   "<li>" . _("Files are tested for validity and scanned for viruses.") . "</li>\n";
     echo "</ul>";
     echo "</li>\n";
