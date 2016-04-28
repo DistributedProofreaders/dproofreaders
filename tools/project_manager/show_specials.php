@@ -21,7 +21,7 @@ dpsql_dump_query("
         SELECT
                       concat('<span style=\"background-color: #',
                       color,
-                      '\"><a href=\"show_specials.php?null=',now(),'\" title=\"',display_name,'\">',
+                      '\"><a href=\"projectmgr.php?show=search&special_day[]=',spec_code,'&n_results_per_page=100\" title=\"',display_name,'\">',
                 display_name,
                       '</a></span>') as '" . mysql_real_escape_string(_("Name")) . "',
                       concat('<span style=\"background-color: #',
