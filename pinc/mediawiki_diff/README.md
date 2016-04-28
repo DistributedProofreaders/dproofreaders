@@ -8,8 +8,14 @@ They are sourced from the following directories in the mediawiki git repo:
     mediawiki/resources/src/mediawiki.action
         mediawiki.action.history.diff.css
 
-The only modification made was to TableDiffFormatter::deletedLine() in
-TableDiffFormatter.php to change the UTF-8 endash to the ASCII hyphen-minus.
+The following modifications were made to the files because the DP code does
+not support UTF-8:
+* DairikiDiff.php:
+  * Instances of htmlspecialchars() changed to html_safe().
+* TableDiffFormatter.php:
+  * TableDiffFormatter::deletedLine() changed the UTF-8 endash to the
+    ASCII hyphen-minus.
+  * Instances of htmlspecialchars() changed to html_safe().
 
 To use them, see ../DifferenceEngineWrapper.inc
 
@@ -22,11 +28,13 @@ To update the files from MediaWiki:
   `git checkout <tag_name>`
 4. Copy updated files from locations mentioned above to
    dproofreaders/pinc/mediawiki_diff
-5. Update TableDiffFormatter.php::deletedLine() to change the endash to
-   the ASCII hyphen-minus (unless the code has already been fully converted
-   to UTF-8).
-5. Compare the methods in DifferenceEngineWrapper and DifferenceEngine to
+5. Unless the code has been fully converted to UTF-8:
+   1. Update TableDiffFormatter.php::deletedLine() to change the endash to
+      the ASCII hyphen-minus.
+   2. Change all instances of htmlspecialchars() to html_safe().
+6. Compare the methods in DifferenceEngineWrapper and DifferenceEngine to
    see if any of those in the latter were changed, and then reflect those
    changes in the methods in the former.
-6. Update README.md (this file) with the new version information
-7. Commit the changes
+7. Update README.md (this file) with the new version information and
+   changes made.
+8. Commit the changes

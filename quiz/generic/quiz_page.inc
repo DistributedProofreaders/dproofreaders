@@ -12,6 +12,7 @@
 // (3) Call functions that it declares.
 
 include_once($relPath.'base.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'Quiz.inc');
 include_once('./quiz_defaults.inc');
 
@@ -28,7 +29,7 @@ include "./data/qd_$quiz_page_id.inc";
 // All strings whose primary purpose is to be output to the user
 // are assumed to be in the form of HTML content, and so can
 // contain markup and character references.
-// They should NOT be passed through htmlspecialchars().
+// They should NOT be passed through html_safe().
 //     $browser_title
 //     $initial_text
 //     $intro_title
@@ -45,7 +46,7 @@ include "./data/qd_$quiz_page_id.inc";
 //     $parting_message
 //
 // The following strings are assumed to *not* be in the form of HTML content.
-// You should pass them through htmlspecialchars()
+// You should pass them through html_safe()
 // before using them as the content of an HTML element.
 //     $solutions[*]
 // -------------------------------------------------------------------
@@ -523,9 +524,8 @@ function qp_describe_difference($user_text, $soln_text)
                     if ($line == '')
                         echo "<i>(" . _('a blank line') . ")</i>";
                     else
-                        echo htmlspecialchars(
-                            qp_convert_from_utf8_if_necessary($line),
-                            ENT_NOQUOTES
+                        echo html_safe(
+                            qp_convert_from_utf8_if_necessary($line)
                         );
                     echo "\n";
                 }

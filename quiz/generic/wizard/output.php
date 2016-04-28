@@ -2,6 +2,7 @@
 $relPath='../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once('../quiz_defaults.inc'); // ?
 
 output_header(_('Quiz Wizard'), NO_STATSBAR);
@@ -214,7 +215,7 @@ function make_output()
     }
 
     $out .= "?>";
-    return htmlspecialchars($out);
+    return html_safe($out);
 }
 
 echo "<h2>" . _("Done!") . "</h2>\n";

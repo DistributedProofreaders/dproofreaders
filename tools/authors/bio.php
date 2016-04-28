@@ -3,6 +3,7 @@
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once('authors.inc');
 include_once('menu.inc');
 
@@ -50,9 +51,9 @@ echo_menu();
 echo '<h1 align="center">' . _('Biography') . '</h1>';
 
 if (isset($message))
-    echo '<center>' . htmlspecialchars($message) . '</center><br />';
+    echo '<center>' . html_safe($message) . '</center><br />';
 ?>
-<h2 align="center"><?php echo htmlspecialchars($name); ?> 
+<h2 align="center"><?php echo html_safe($name); ?> 
 <a href='<?php echo $code_url; ?>/tools/authors/bioxml.php?bio_id=<?php echo $id; ?>'><img src='<?php echo $code_url; ?>/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>
 </h2>
 <?php
@@ -64,7 +65,7 @@ if (user_is_PM() || user_is_authors_db_manager()) {
 <br /><br />
 <table align="center" border="1">
 <tr><td>
-<?php echo htmlspecialchars($bio); ?>
+<?php echo html_safe($bio); ?>
 </td></tr>
 </table>
 <?php

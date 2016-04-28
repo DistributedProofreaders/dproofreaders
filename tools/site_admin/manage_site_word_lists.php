@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'links.inc');
 
@@ -218,7 +219,7 @@ function _handle_action($action, $list_type, $language, $word_string)
             echo "<input type='hidden' name='action' value='saveconfirmed'>";
             echo "<input type='hidden' name='list_type' value='$list_type'>";
             echo "<input type='hidden' name='language' value='$language'>";
-            echo "<input type='hidden' name='word_string' value='" . htmlspecialchars($word_string,ENT_QUOTES) . "'>";
+            echo "<input type='hidden' name='word_string' value='" . attr_safe($word_string) . "'>";
             echo "<input type='submit' value='" . _("Yes") . "'>";
             echo "</form>";
             echo "<form action='manage_site_word_lists.php' method='post'>";
@@ -256,7 +257,7 @@ function _echo_input_form($list_type, $langcode3, $language) {
     echo "<input type='hidden' name='action' value='save'>";
     echo "<input type='hidden' name='list_type' value='$list_type'>";
     echo "<input type='hidden' name='language' value='$language'>";
-    echo "<textarea name='word_string' cols='30' rows='30'>" . htmlspecialchars($word_string) . "</textarea><br>";
+    echo "<textarea name='word_string' cols='30' rows='30'>" . html_safe($word_string) . "</textarea><br>";
     echo "<input type='submit' value='" . _("Save") . "'>";
     echo "</form>";
     echo "<form action='manage_site_word_lists.php' method='post'>";

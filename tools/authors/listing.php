@@ -2,6 +2,7 @@
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once('authors.inc');
 include_once($relPath.'SortUtility.inc');
 include_once($relPath.'BrowseUtility.inc');
@@ -21,7 +22,7 @@ echo_menu();
 
 $message  = @$_GET['message'];
 if (isset($message))
-    echo '<center>' . htmlspecialchars($message) . '</center><br />';
+    echo '<center>' . html_safe($message) . '</center><br />';
 
 $sortUtility = new SortUtility('authors_listing');
 
@@ -84,8 +85,8 @@ $i = 0;
 while ($i++ < $count && $row = @mysql_fetch_array($result)) {
     $id = $row['author_id'];
     echo "<tr><td>$id</td><td><a href=\"author.php?author_id=$id\">" .
-         htmlspecialchars($row['last_name']) . "</a></td><td>" .
-         htmlspecialchars($row['other_names']) . "</td><td>" .
+         html_safe($row['last_name']) . "</a></td><td>" .
+         html_safe($row['other_names']) . "</td><td>" .
          format_date_from_array($row, 'b') . '</td><td>' .
          format_date_from_array($row, 'd') . '</td>' .
          ($can_edit?("<td><a href='add.php?author_id=$id'>" .

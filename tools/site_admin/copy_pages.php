@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'DPage.inc'); // project_recalculate_page_counts
 include_once($relPath.'Project.inc');
 include_once($relPath.'user_project_info.inc');
@@ -67,7 +68,7 @@ switch ($action)
                   $transfer_notifications, $add_deletion_reason, 
                   $merge_wordcheck_files, TRUE );
 
-        echo "<form method='post' action='" . htmlspecialchars($copy_pages_url, ENT_QUOTES). "'>\n";
+        echo "<form method='post' action='" . attr_safe($copy_pages_url). "'>\n";
         display_hiddens($projectid_, $from_image_, $page_name_handling, 
                         $transfer_notifications, $add_deletion_reason, 
                         $merge_wordcheck_files);
@@ -85,7 +86,7 @@ switch ($action)
         echo "<hr>\n";
         $url = "$code_url/tools/project_manager/page_detail.php?project={$projectid_['to']}&amp;show_image_size=0";
         echo sprintf(_("<p><a href='%s'>Go to destination project's detail page</a></p>\n"), $url);
-        echo "<form method='post' action='" . htmlspecialchars($copy_pages_url, ENT_QUOTES). "'>\n";
+        echo "<form method='post' action='" . attr_safe($copy_pages_url). "'>\n";
         echo "<fieldset>\n";
         echo "<legend>" . _("Copy more pages...") . "</legend>";
         echo "<input type='radio' name='repeat_project' id='rp-1' value='FROM'>";
@@ -108,7 +109,7 @@ switch ($action)
         break;
 
     default:
-        echo sprintf(_("Unexpected value for action: '%s'"), htmlspecialchars($action));
+        echo sprintf(_("Unexpected value for action: '%s'"), html_safe($action));
         break;
 }
 
@@ -117,7 +118,7 @@ function display_form($projectid_, $from_image_, $page_name_handling,
                       $merge_wordcheck_files, $repeat_project, $repeating)
 {
     global $copy_pages_url;
-    echo "<form method='post' action='" . htmlspecialchars($copy_pages_url, ENT_QUOTES). "'>\n";
+    echo "<form method='post' action='" . attr_safe($copy_pages_url). "'>\n";
     echo "<table class='copy'>\n";
 
     // always leave the page numbers blank
@@ -319,7 +320,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         if ( count($extra_columns_[$which]) > 0 )
         {
             echo "<tr><th>" . _("Extra columns") . ":</th>";
-            echo "<td><code>" . htmlspecialchars(implode( " ", $extra_columns_[$which])) . "</code></td></tr>\n";
+            echo "<td><code>" . html_safe(implode( " ", $extra_columns_[$which])) . "</code></td></tr>\n";
 
             echo "<tr><td></td><td>";
             if ( $which == 'from' )
@@ -459,7 +460,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         echo "<pre>\n";
         foreach ( $clashing_image_values as $clashing_image_value )
         {
-            echo htmlspecialchars("    $clashing_image_value\n");
+            echo html_safe("    $clashing_image_value\n");
         }
         echo "</pre>\n";
         die( _("Aborting due to page name collisions!") );
@@ -474,7 +475,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         echo "<pre>\n";
         foreach ( $clashing_fileid_values as $clashing_fileid_value )
         {
-            echo htmlspecialchars("    $clashing_fileid_value\n");
+            echo html_safe("    $clashing_fileid_value\n");
         }
         echo "</pre>\n";
         die( _("Aborting due to page name collisions!") );
@@ -497,7 +498,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
     echo "<ul>";
     echo "<li>" . _("Page Name Handling:");
-    echo "&nbsp;<code>" . htmlspecialchars($page_name_handling) . "</code>";
+    echo "&nbsp;<code>" . html_safe($page_name_handling) . "</code>";
     echo "</li>\n";
 
     echo "<li>";
@@ -515,7 +516,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
     if ($add_deletion_reason) 
     {
         echo _("The following deletion reason will be added to the source project:");
-        echo "&nbsp;&nbsp;<code>" . sprintf(_("'merged into %s'"), htmlspecialchars($projectid_['to'])) . "</code>";
+        echo "&nbsp;&nbsp;<code>" . sprintf(_("'merged into %s'"), html_safe($projectid_['to'])) . "</code>";
     }
     else
     {
@@ -550,10 +551,10 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
     // cd to projects dir to simplify filesystem moves
     global $projects_dir;
     echo "<p>" . _("Changing into projects directory:");
-    echo " (<code>cd " . htmlspecialchars($projects_dir) . "</code>)" . "</p>\n";
+    echo " (<code>cd " . html_safe($projects_dir) . "</code>)" . "</p>\n";
     if ( ! chdir( $projects_dir ) )
     {
-        die( "Unable to 'cd " . htmlspecialchars($projects_dir) . "'");
+        die( "Unable to 'cd " . html_safe($projects_dir) . "'");
     }
 
     $items_array = array();
@@ -579,7 +580,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         $c_dst_fileid = $c_dst_fileid_[$j];
 
         echo "\n";
-        echo htmlspecialchars("    $c_src_image ...\n");
+        echo html_safe("    $c_src_image ...\n");
 
         $items_list = str_replace(
             array(      'image',       'fileid' ),
@@ -598,7 +599,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
             mysql_real_escape_string($c_src_image)
         );
         // FIXME These are very long and should perhaps be suppressed, wrapped or made smaller.
-        echo htmlspecialchars($query) . "\n";
+        echo html_safe($query) . "\n";
         if ($for_real)
         {
             mysql_query($query) or die(mysql_error());
@@ -613,7 +614,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
         $c_src_path = "{$projectid_['from']}/$c_src_image";
         $c_dst_path = "{$projectid_['to']}/$c_dst_image";
 
-        echo "\n" . htmlspecialchars(sprintf( _('Copying %1$s to %2$s...'), $c_src_path, $c_dst_path)) . " ";
+        echo "\n" . html_safe(sprintf( _('Copying %1$s to %2$s...'), $c_src_path, $c_dst_path)) . " ";
 
         if ($for_real)
         {
@@ -664,7 +665,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
               mysql_real_escape_string($projectid_['to']),
               mysql_real_escape_string($projectid_['from'])
         );
-        echo "<code>" . htmlspecialchars($query) . "</code>";
+        echo "<code>" . html_safe($query) . "</code>";
         if ($for_real)
         {
             mysql_query($query) or die(mysql_error());

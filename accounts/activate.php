@@ -148,7 +148,7 @@ printf(_("Please check the e-mail being sent to you for further information abou
 echo "<center>";
 echo "<br><font size=+1>"._("Enter your password below to sign in and start proofreading!!");
 echo "<form action='login.php' method='post'>
-<input type='hidden' name='userNM' value='".htmlspecialchars($username,ENT_QUOTES)."'>
+<input type='hidden' name='userNM' value='".attr_safe($username)."'>
 <input type='password' name='userPW'>
 <input type='submit' value='".attr_safe(_("Sign In"))."'></form>";
 

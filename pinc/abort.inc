@@ -1,5 +1,6 @@
 <?php
 include_once($relPath.'site_vars.php');
+include_once($relPath.'misc.inc'); // html_safe()
 
 function abort( $error_message )
 {
@@ -101,7 +102,7 @@ function dump_request_info()
     $now = time(); $date = date('Y-m-d H:i:s',$now);
     echo "time: $now ($date)\n";
     echo "username: {$GLOBALS['pguser']}\n";
-    echo "requested path: " . htmlspecialchars($_SERVER['PHP_SELF']) . "\n";
+    echo "requested path: " . html_safe($_SERVER['PHP_SELF']) . "\n";
 
     // If this error occurred when they hit one of the submit buttons
     // in the proofreading interface, echoing the request parameters will
@@ -135,7 +136,7 @@ function dump_request_info()
                     : $param_value;
 
                 $htmlescaped_param_value =
-                    htmlspecialchars($unslashed_param_value,ENT_NOQUOTES);
+                    html_safe($unslashed_param_value);
 
                 if ( strpos($param_value, "\n") )
                 {

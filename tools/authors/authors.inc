@@ -1,4 +1,5 @@
 <?php
+include_once($relPath."misc.inc"); // html_safe()
 
   $months = array( _('Unknown'),
                    _('January'), _('February'), _('March'),
@@ -13,7 +14,7 @@
     $name = $last_name . ($other_names!='' ? ", $other_names" : '');
 ?>
 
-<h2 align="center"><?php echo htmlspecialchars($name); ?>
+<h2 align="center"><?php echo html_safe($name); ?>
 <?php
 if ($author_id) {
   echo " <a href='{$GLOBALS['code_url']}/tools/authors/authorxml.php?author_id=$author_id'><img src='{$GLOBALS['code_url']}/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>\n";

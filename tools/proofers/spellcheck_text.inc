@@ -33,7 +33,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
 
     // save the original text in a hidden form field
     // this is used when applying spelling corrections
-    $returnString.="<input type='hidden' name='text_data' value='" . html_safe($orig_text) . "'>\n";
+    $returnString.="<input type='hidden' name='text_data' value='" . attr_safe($orig_text) . "'>\n";
 
     // prepare the text for checking, in this case change all EOLs to spaces
     $orig_text = str_replace('[lf]',' ',$orig_text);
@@ -127,7 +127,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                 @$wordCount[$word]++;
                 $wordID="{$jsSanitizedWord}_{$wordCount[$word]}";
                 $numBadWords++;
-                $wordSafe = html_safe($word);
+                $wordSafe = attr_safe($word);
 
                 // set the size of the edit box
                 // note: in some browsers the edit box is not wide enough
@@ -198,14 +198,6 @@ function _wrapPunc($word) {
 // adds HTML code to an accepted word to highlight it
 function _wrapAW($word) {
     return "<span class='aw'>$word</span>";
-}
-
-
-function html_safe( $str )
-// Return a copy of $str which has been rendered safe to send as
-// element-content or attribute-content in an HTML document.
-{
-        return htmlspecialchars($str,ENT_QUOTES);    
 }
 
 function spellcheck_get_js()

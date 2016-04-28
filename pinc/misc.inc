@@ -82,12 +82,12 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         {
             if (!is_numeric($s))
             {
-                die(htmlspecialchars("parameter '$key' ('$s') is not numeric"));
+                die(html_safe("parameter '$key' ('$s') is not numeric"));
             }
             $s = 0 + $s;
             if (!is_int($s))
             {
-                die(htmlspecialchars("parameter '$key' ('$s') is not an integer"));
+                die(html_safe("parameter '$key' ('$s') is not an integer"));
             }
         }
 
@@ -97,7 +97,7 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         }
         else
         {
-            die(htmlspecialchars("parameter '$key' ('$s') is not valid"));
+            die(html_safe("parameter '$key' ('$s') is not valid"));
         }
     }
     else
@@ -106,7 +106,7 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         if ( is_null($default) && !$allownull )
         {
             // There is no default. The parameter is required.
-            die(htmlspecialchars("parameter '$key' is required"));
+            die(html_safe("parameter '$key' is required"));
         }
         else
         {
@@ -168,19 +168,19 @@ function get_integer_param( $arr, $key, $default, $min, $max, $allownull = false
             $i = intval($s);
             if ( !is_null($min) && $i < $min )
             {
-                die(htmlspecialchars("parameter '$key' ($s) is less than the minimum $min"));
+                die(html_safe("parameter '$key' ($s) is less than the minimum $min"));
             }
 
             if ( !is_null($max) && $i > $max )
             {
-                die(htmlspecialchars("parameter '$key' ($s) is greater than the maximum $max"));
+                die(html_safe("parameter '$key' ($s) is greater than the maximum $max"));
             }
 
             return $i;
         }
         else
         {
-            die(htmlspecialchars("parameter '$key' ('$s') is not an integer"));
+            die(html_safe("parameter '$key' ('$s') is not an integer"));
         }
     }
     else
@@ -189,7 +189,7 @@ function get_integer_param( $arr, $key, $default, $min, $max, $allownull = false
         if ( is_null($default) && !$allownull )
         {
             // There is no default. The parameter is required.
-            die(htmlspecialchars("parameter '$key' is required"));
+            die(html_safe("parameter '$key' is required"));
         }
         else
         {
@@ -243,7 +243,7 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false
         }
         else
         {
-            die(htmlspecialchars("parameter '$key' ('$s') does not match the regex $regex"));
+            die(html_safe("parameter '$key' ('$s') does not match the regex $regex"));
         }
     }
     else
@@ -252,7 +252,7 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false
         if ( is_null($default) && !$allownull )
         {
             // There is no default. The parameter is required.
-            die(htmlspecialchars("parameter '$key' is required"));
+            die(html_safe("parameter '$key' is required"));
         }
         else
         {
@@ -263,12 +263,31 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false
 
 // -----------------------------------------------------------------------------
 
+// Return a copy of a string correctly encoded for inclusion in an HTML
+// document. This is essentially a wrapper around htmlspecialchars() but it
+// is aware of the global character set. Using this wrapper means we don't
+// have to rely on the global $charset variable being accessible everywhere
+// we need to call htmlspecialchars().
+//
+// If the $charset global isn't defined, use whatever the PHP default_charset
+// is. Note that using default_charset is the default behavior for
+// htmlspecialchars in PHP >= 5.6, whereas 5.4 and 5.5 use UTF-8.
+function html_safe($string)
+{
+    $charset = @$GLOBALS['charset'];
+    if(!@$charset)
+    {
+        $charset = ini_get("default_charset");
+    }
+    return htmlspecialchars($string, ENT_QUOTES, $charset);
+}
+
+// -----------------------------------------------------------------------------
+
 function attr_safe($string)
-//  Return a copy of $str that has been rendered safe to send as
+//  Return a copy of $string that has been rendered safe to send as
 //  (part of) the value of an attribute in an HTML or XML document.
 //
-//  Specifically, this function replaces any double-quote or
-//  single-quote/apostrophe with an equivalent character reference.
 //  The result is then safe for inclusion in attribute values,
 //  whether they are delimited by single- or double-quotes. E.g.:
 //      $result = attr_safe("Don't!");
@@ -276,17 +295,7 @@ function attr_safe($string)
 //      echo "<e attr=\"$result\"/>";
 //      echo '<e attr="' . $result . '"/>';
 //
-//  (Note that in HTML, the delimiting quotes around an attribute value
-//  can sometimes be omitted. This function is *not* guaranteed to make
-//  $str safe for use in/as such an undelimited attribute value.)
-//
-//  This function does not replace angle brackets (< >) with character
-//  references, because angle brackets are not treated specially within
-//  attribute values.
-//
-//  This function also does not replace ampersands (&), even though they
-//  *are* treated specially within attribute values (as the start of
-//  character and entity references). The reason for this omission is
+//  It does not encode valid HTML entities. The reason for this is
 //  that one of the intended usage scenarios for this function is to
 //  handle the results of gettext-translation, and we want to allow
 //  translators to use character references in their translations.
@@ -305,8 +314,9 @@ function attr_safe($string)
 //  not:
 //      Nom de l&#39;&amp;oelig;uvre
 {
-    return str_replace( 
-        array("'", "\""), array("&#39;", "&quot;"), $string);
+    global $charset;
+    return htmlspecialchars($string, ENT_QUOTES, $charset,
+                            FALSE /* $double_encode */);
 }
 
 // -----------------------------------------------------------------------------
@@ -370,6 +380,16 @@ function javascript_safe($str, $encoding)
     return $str;
 }
 
+// -----------------------------------------------------------------------------
+
+// Safely encode a string for use in an XML document.
+function xmlencode($string)
+{
+    global $charset;
+    return htmlspecialchars($string, ENT_COMPAT, $charset);
+}
+
+// -----------------------------------------------------------------------------
 
 if (version_compare(PHP_VERSION, '6.0.0') >= 0)
 {
