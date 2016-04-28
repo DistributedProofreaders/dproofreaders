@@ -1,0 +1,36 @@
+#id_tp_outer {position:absolute; left:0; right:0; margin:0; text-align:left; top:0; bottom:40px; overflow:auto;}
+#text_preview {position:absolute; padding:0.2em; white-space: pre;}
+.invis {display: none;}
+#id_controls {position: absolute; bottom: 0; border-left: 1px solid black; border-right: 1px solid black; padding-left:2px; padding-right:2px; background-color:#f1d1b4}
+#id_markmenu {width: 150px; text-align:left; float: left}
+#color_selector {text-align:left;}
+.box1 {border:1px solid black; margin:10px; padding:10px;}
+.box2 {margin:20px;}
+.clearfix {overflow: auto; }
+.tb {display: block; margin-top: 0.5em; margin-bottom: 0.5em; margin-left: 15%; margin-right: 15%; border-style: inset; border-width: 1px;}
+.i {font-style: italic;}
+.b {font-weight: bold;}
+.g {letter-spacing: 0.25em; margin-right: -0.2em;}
+.sc {font-variant: small-caps;}
+.tt {text-transform: lowercase;}
+.f {font-style: normal;}
+.sub {vertical-align: sub; font-size: smaller;}
+.sup {vertical-align: super; font-size: smaller;}
+.head2 {font-size: 1.5em; margin-top: 0.83em; margin-bottom: 0.83em; font-weight: bold; text-align: center;}
+.head3 {font-size: 1.17em; margin-top: 0.5em; margin-bottom: 0.5em; font-weight: bold; text-align: center;}
+.head4 {margin-top: 0.8em; margin-bottom: 0.8em; font-weight: bold; text-align: center;}
+.para {text-indent: 1em; margin-bottom: 0.4em;}
+.bq {margin-top: 0.5em; margin-bottom: 0.5em; margin-left: 1em; margin-right: 1em;}
+.nw {margin-top: 0.5em; margin-bottom: 0.5em; margin-left: 1em; margin-right: 1em; white-space: pre;}
+.mid_para {margin-bottom: 0.4em;}
+.err span {
+    font: 1em Arial; display:none; padding:4px;
+    margin-top:1.2em; margin-left:0;
+    border-radius:4px;
+    box-shadow: 5px 5px 8px #C0C0C0;
+}
+.err:hover span{
+    display:inline; position:absolute; z-index:10; color:#111;
+    border:1px solid #DCA; background:#fffAF0;
+}
+.ilb { display: inline-block; border:1px solid #404040; margin: 1px; padding: 1px 2px 1px 2px; border-radius:2px; background-color:#ffe1c4}

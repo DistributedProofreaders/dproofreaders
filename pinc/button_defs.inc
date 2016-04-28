@@ -20,6 +20,7 @@ define('REFRESH_IMAGE',               'N');
 define('REVERT_TO_LAST_SAVE_DISABLED','O');
 define('SHOW_ALL_TEXT',               'P');
 define('CONVERT_UTF8',                'R');
+define('PREVIEW',                     'S');
 
 function echo_button( $button_id, $which_interface )
 {
@@ -208,6 +209,15 @@ function echo_button( $button_id, $which_interface )
                 'src'       => "gfx/bt9.png",
             );
             break;
+        case PREVIEW:
+            $attrs = array(
+                'name'      => "button14",
+                $label      => attr_safe(_("Preview")),
+                'title'     => attr_safe(_("Preview")),
+                'onclick'   => "PrevControl.show(); return false;",
+                'src'       => "gfx/bt17.png",
+            );
+            break;
     }
     if ($which_interface == 's')
     {
@@ -266,6 +276,13 @@ function echo_img( $id )
                 'src'       => "gfx/bt9.png",
                 'alt'       => attr_safe(_("Show All Text")),
                 'title'     => attr_safe(_("Show All Text")),
+            );
+            break;
+        case PREVIEW:
+            $attrs = array(
+                'src'       => "gfx/bt17.png",
+                'alt'       => attr_safe(_("Preview")),
+                'title'     => attr_safe(_("Preview")),
             );
             break;
     }

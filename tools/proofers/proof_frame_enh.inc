@@ -12,9 +12,14 @@ function echo_proof_frame_enh( $ppage )
     global $userP;
 
     $header_args = array(
-        "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1);}',
+        "js_files" => array(
+            "preview.js?16060201",
+            "prev_control.js?16060101",
+        ),
+        "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1); PrevControl = initPrev();}',
         "css_data" => ibe_get_styles() . get_proof_frame_styles(),
-        "body_attributes" => 'onload="ldAll()"',
+        "head_data" => '<link rel="stylesheet" type="text/css" href="preview.css?a=16060101">',
+        "body_attributes" => 'onload="ldAll()"  onresize="PrevControl.adjustHeight()"',
     );
 
     slim_header(_("Proofreading Page"), $header_args);
@@ -28,6 +33,8 @@ function echo_proof_frame_enh( $ppage )
 
             ?>
             <div id="controlframe" align="center">
+<?php include 'preview.php'; ?>
+              <div id = 'proofdiv'>
                 <form
                     name="editform" id="editform"
                     method="POST"
@@ -54,6 +61,7 @@ function echo_proof_frame_enh( $ppage )
                         </tr>
                     </table>
                 </form>
+              </div>
             </div>
     <?php
 }
@@ -106,4 +114,4 @@ function get_proof_frame_styles()
 STYLES;
 }
 
-// vim: sw=4 ts=4 expandtab
+// vim: sw=4 ts=4 expandta
