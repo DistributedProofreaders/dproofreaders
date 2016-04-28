@@ -320,8 +320,8 @@ class ProjectWordListHolder
 
 
     function show_visible_controls() {
-        $goodWordData = encodeFormValue($this->good_words);
-        $badWordData = encodeFormValue($this->bad_words);
+        $goodWordData = html_safe($this->good_words);
+        $badWordData = html_safe($this->bad_words);
 
         $fields=array(
             "projectid" => _("Project ID"),
