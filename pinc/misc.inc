@@ -269,17 +269,20 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false
 // have to rely on the global $charset variable being accessible everywhere
 // we need to call htmlspecialchars().
 //
+// By default this escapes all quotes with ENT_QUOTES. This can be changed
+// with the $flags argument which is passed directly into htmlspecailchars().
+//
 // If the $charset global isn't defined, use whatever the PHP default_charset
 // is. Note that using default_charset is the default behavior for
 // htmlspecialchars in PHP >= 5.6, whereas 5.4 and 5.5 use UTF-8.
-function html_safe($string)
+function html_safe($string, $flags=ENT_QUOTES)
 {
     $charset = @$GLOBALS['charset'];
     if(!@$charset)
     {
         $charset = ini_get("default_charset");
     }
-    return htmlspecialchars($string, ENT_QUOTES, $charset);
+    return htmlspecialchars($string, $flags, $charset);
 }
 
 // -----------------------------------------------------------------------------

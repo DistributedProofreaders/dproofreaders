@@ -90,7 +90,7 @@ if($frame=="left") {
         echo "<p>";
         echo "<b>" . _("Page") . "</b>: <a href='displayimage.php?project=$projectid&amp;imagefile=$page&amp;showreturnlink=0' target='imageframe'>$page</a><br>";
         foreach($context_strings as $lineNum => $context_string) {
-            $context_string=_highlight_word(html_safe($context_string),$word);
+            $context_string=_highlight_word(html_safe($context_string, ENT_NOQUOTES),$word);
             echo "<b>", _("Line"), "</b>: ", 
                 // TRANSLATORS: %1$d is the approximate line number, %2$d is the total number of lines
                 sprintf(_('~%1$d of %2$d'), $lineNum, $totalLines),
