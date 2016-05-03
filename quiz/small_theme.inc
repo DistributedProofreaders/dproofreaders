@@ -15,7 +15,7 @@ function output_small_header($quiz)
     echo "<table cellspacing=0 cellpadding=0 width='100%'>";
     echo "<tr width='100%'>";
     echo "<td width='100%' bgcolor='".$theme['color_logobar_bg']."'>\n";
-    echo "<a href='$code_url' target='_top'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='".$site_name."' border='0'></a>\n";
+    echo "<a href='$code_url' target='_top'><img src='$code_url/graphics/dp-logo-360x68px.png' width='360' height='68' alt='".$site_name."' border='0'></a>\n";
     echo "</td>";
     echo "</tr>";
     echo "</table>";
