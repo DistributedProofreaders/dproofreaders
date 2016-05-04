@@ -5,7 +5,6 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'pg.inc');
-include_once($relPath.'dpsession.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'page_tally.inc');
@@ -13,12 +12,10 @@ include_once($relPath.'list_projects.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'languages.inc');
-include_once($relPath.'misc.inc'); // endswith(), get_enumerated_param()
+include_once($relPath.'misc.inc'); // endswith(), get_enumerated_param(), attr_safe()
 
 define('NO_STATSBAR',   False);
 define('SHOW_STATSBAR', True);
-
-$user_is_logged_in = dpsession_resume();
 
 if(isset($userP['i_theme']) && $userP['i_theme'] != '' ) {
     $theme_name = $userP['i_theme'];
@@ -118,7 +115,8 @@ function output_footer($nameofpage, $show_statsbar = True) {
 
 function html_header($nameofpage, $extra_args = array()) {
     global $code_url, $theme, $site_abbreviation;
-    global $charset, $intlang;
+    global $charset;
+    $intlang = get_desired_language();
     echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
     echo "<html ".lang_html_header($intlang).">\n<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\">\n";
@@ -134,6 +132,12 @@ function html_header($nameofpage, $extra_args = array()) {
     echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/layout.css'>";
 
     // Per-page CSS
+    if (isset($extra_args['css_files']))
+    {
+        foreach($extra_args['css_files'] as $css_file)
+            echo "<link type='text/css' rel='Stylesheet' href='$css_file'>";
+    }
+
     // this first navbar blob needs to be moved to a universal stylesheet but
     // that'll also require adjustements for the $theme replacements
     echo "<style type='text/css'>\n";
@@ -187,7 +191,7 @@ function html_logobar() {
     echo "\n<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
     echo "<tr>\n";
     echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>\n";
-    echo "<a href='$code_url'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='$site_name' border='0'></a>\n";
+    echo "<a href='$code_url'><img src='$code_url/graphics/dp-logo-360x68px.png' width='360' height='68' alt='$site_name' border='0'></a>\n";
     echo "</td>\n";
 
     echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] .  "' align='center' valign='middle'>\n";
@@ -280,7 +284,7 @@ function html_navbar()
         //
         $destination = array_get($_REQUEST, "destination", $_SERVER["REQUEST_URI"]);
 
-        $login_form .= "<input type='hidden' name='destination' value='" . htmlspecialchars($destination,ENT_QUOTES) . "'>";
+        $login_form .= "<input type='hidden' name='destination' value='" . attr_safe($destination) . "'>";
 
         // login link text
         // TRANSLATORS: ID is an abbreviation for username in the navbar
@@ -545,7 +549,7 @@ function html_statsbar($nameofpage) {
 
 function maybe_show_language_selector()
 {
-    global $code_url, $userP, $intlang, $user_is_logged_in;
+    global $code_url, $userP, $user_is_logged_in;
 
     // if user is logged in, return instead of showing the drop-down
     if($user_is_logged_in)
@@ -563,6 +567,7 @@ function maybe_show_language_selector()
     // --></script>
     <?php
 
+    $intlang = get_desired_language();
     echo "<form name=langform action='$code_url/tools/setlangcookie.php' method=POST>\n";
     echo _("Set language") . ": ";
     echo "<select name=lang onChange='submitLang(this)'>\n";

@@ -3,7 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'slim_header.inc');
-include_once($relPath.'misc.inc');
+include_once($relPath.'misc.inc'); // attr_safe()
 
 require_login();
 
@@ -53,9 +53,9 @@ else
 
 <tr>
 <td valign="top">
-<form name="greek" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES); ?>">
+<form name="greek" action="<?php echo attr_safe($_SERVER['PHP_SELF']); ?>">
 <input type="text" name="textbox" length="65" size="65"
-<?php echo "value=\"" . htmlspecialchars($greek_contents, ENT_QUOTES) . "\""; ?>
+<?php echo "value=\"" . attr_safe($greek_contents) . "\""; ?>
 >
 </td>
 <td align="right" valign="top">

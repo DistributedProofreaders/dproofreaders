@@ -101,7 +101,7 @@ else
 
     if (in_array($requested_action, array('createnew', 'clone', 'createnewfromuber', 'create_from_marc_record')))
     {
-        check_user_can_load_projects();
+        check_user_can_load_projects(true); // exit if they can't
     }
 
     switch ($requested_action)
@@ -853,7 +853,7 @@ class ProjectInfoHolder
 
     function show_form()
     {
-        echo "<form method='post' enctype='multipart/form-data' action='". htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES)."'>";
+        echo "<form method='post' enctype='multipart/form-data' action='". attr_safe($_SERVER['PHP_SELF'])."'>";
 
         $this->show_hidden_controls();
 

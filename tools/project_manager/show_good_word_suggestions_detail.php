@@ -7,6 +7,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'LPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'Stopwatch.inc');
 include_once($relPath.'misc.inc'); // get_integer_param(), get_enumerated_param()
 include_once('./post_files.inc');
@@ -105,7 +106,7 @@ if($frame=="left") {
          _("Show full context set for this word") . "</a>";
 
     echo " | ";
-    echo "<a target='_PARENT' href='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) . "?projectid=$projectid&amp;word=$encWord&amp;timeCutoff=$timeCutoff&amp;";
+    echo "<a target='_PARENT' href='" . attr_safe($_SERVER['PHP_SELF']) . "?projectid=$projectid&amp;word=$encWord&amp;timeCutoff=$timeCutoff&amp;";
     if($layout == LAYOUT_HORIZ)
         echo "layout=" . LAYOUT_VERT . "'>" . _("Change to vertical layout");
     else
@@ -124,7 +125,7 @@ if($frame=="left") {
         echo "<b>" . _("Proofreader") . "</b>: " . private_message_link($proofer) . "<br>";
         echo "<b>" . _("Page") . "</b>: <a href='displayimage.php?project=$projectid&amp;imagefile=$page&amp;showreturnlink=0' target='imageframe'>$page</a><br>";
         foreach($context_strings as $lineNum => $context_string) {
-            $context_string=_highlight_word(htmlspecialchars($context_string),$word);
+            $context_string=_highlight_word(html_safe($context_string, ENT_NOQUOTES), $word);
             echo "<b>" . _("Line") . "</b>: ", 
                 // TRANSLATORS: %1$d is the approximate line number, and 
                 // %2$d is the total number of lines when displaying the 

@@ -15,6 +15,7 @@
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once('authors.inc');
 include_once('menu.inc');
 
@@ -202,7 +203,7 @@ else {
                 mysql_real_escape_string($other_names));
             if ($simulating) {
                 echo "<font color='red'>    " . _("The following query would have been run:") . "\n      " .
-                     str_replace("\n", "\n      ", htmlspecialchars($query)) . "</font>\n";
+                     str_replace("\n", "\n      ", html_safe($query)) . "</font>\n";
                 $author_id='#new author id#';
             }
             else {
@@ -221,7 +222,7 @@ else {
             ", $author_id, mysql_real_escape_string($bio));
             if ($simulating)
                 echo "<font color='blue'>    " . _("The following query would have been run:") . "\n      " .
-                     str_replace("\n", "\n      ", htmlspecialchars($query)) . "</font>\n";
+                     str_replace("\n", "\n      ", html_safe($query)) . "</font>\n";
             else {
                 $store_result = mysql_query($query);
                 if (!$store_result) {

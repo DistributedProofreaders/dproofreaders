@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'site_news.inc');
 include_once($relPath.'misc.inc'); // get_integer_param(), get_enumerated_param()
 
@@ -178,7 +179,7 @@ function show_item_editor( $news_page_id )
 
     echo "<form action='sitenews.php?news_page_id=$news_page_id&action=$action_to_request' method='post'>";
     echo "<center>";
-    echo "<textarea name='content' cols='80' rows='8'>" . htmlspecialchars($initial_content, ENT_QUOTES) . "</textarea>";
+    echo "<textarea name='content' cols='80' rows='8'>" . html_safe($initial_content) . "</textarea>";
     echo "<br>\n";
     echo "<input type='submit' value='$submit_button_label' name='submit'>";
     echo "</center>";

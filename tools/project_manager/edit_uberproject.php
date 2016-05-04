@@ -2,6 +2,7 @@
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'metarefresh.inc');
 include_once('edit_common.inc');
 
@@ -159,7 +160,7 @@ if ( isset($_REQUEST['action']) &&
 
     $bgcol = $theme['color_navbar_bg'];
 
-    echo "<form method='post' enctype='multipart/form-data' action='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) . "'>";
+    echo "<form method='post' enctype='multipart/form-data' action='" . attr_safe($_SERVER['PHP_SELF']) . "'>";
     if (!empty($rec)) { echo "<input type='hidden' name='rec' value='".base64_encode(serialize($rec))."'>"; }
     if (isset($up_projectid)) { echo "<input type='hidden' name='up_projectid' value='$up_projectid'>"; }
     if (isset($errorMsg)) { echo "<br><center><font size='+1' color='#ff0000'><b>$errorMsg</b></font></center>"; }

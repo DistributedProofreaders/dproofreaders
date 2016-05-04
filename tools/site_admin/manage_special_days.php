@@ -3,7 +3,7 @@ $relPath='./../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes(), attr_safe(), html_safe()
 include_once($relPath.'user_is.inc');
 
 require_login();
@@ -177,7 +177,7 @@ class SpecialDay
     function show_listing_row($count)
     {
         global $page_url;
-        $sid = htmlspecialchars($this->spec_code, ENT_QUOTES);
+        $sid = html_safe($this->spec_code);
 
         if($count%2 == 1)
             $row_class = "o";
@@ -191,14 +191,14 @@ class SpecialDay
             $listing_rows++;
 
         echo "<tr class='$row_class'>";
-        echo "<td rowspan='$listing_rows' valign='top'>" . htmlspecialchars($this->spec_code) . "</td>";
-        echo "<td style='background-color: #". $this->color . ";'><a name='$sid'></a>" . htmlspecialchars($this->display_name) . "</td>";
-        echo "<td>" . htmlspecialchars($this->color) . "</td>";
+        echo "<td rowspan='$listing_rows' valign='top'>" . html_safe($this->spec_code) . "</td>";
+        echo "<td style='background-color: #". $this->color . ";'><a name='$sid'></a>" . html_safe($this->display_name) . "</td>";
+        echo "<td>" . html_safe($this->color) . "</td>";
         echo $this->_get_status_cell($this->enable,' pb');
-        echo "<td class='right'>" . htmlspecialchars($this->open_month) . "</td>";
-        echo "<td class='right'>" . htmlspecialchars($this->open_day) . "</td>";
-        echo "<td class='right'>" . htmlspecialchars($this->close_month) . "</td>";
-        echo "<td class='right'>" . htmlspecialchars($this->close_day) . "</td>";
+        echo "<td class='right'>" . html_safe($this->open_month) . "</td>";
+        echo "<td class='right'>" . html_safe($this->open_day) . "</td>";
+        echo "<td class='right'>" . html_safe($this->close_month) . "</td>";
+        echo "<td class='right'>" . html_safe($this->close_day) . "</td>";
         echo "<td class='center' rowspan='$listing_rows'>\n";
         echo "<form method='post' action='$page_url#$sid'>\n";
         echo "  <input type='hidden' name='action' value='update_oneshot'>\n";
@@ -218,12 +218,12 @@ class SpecialDay
         if($this->date_changes)
         {
             echo "<tr class='$row_class'>";
-            echo "<td class='right'>" . _("Date Changes") . ":</td><td colspan='6'>" . htmlspecialchars($this->date_changes) . "</td>";
+            echo "<td class='right'>" . _("Date Changes") . ":</td><td colspan='6'>" . html_safe($this->date_changes) . "</td>";
             echo "</tr>";
         }
 
         echo "<tr class='$row_class'>";
-        echo "<td class='right'>" . _("Comments") . ":</td><td colspan='6'>" . htmlspecialchars($this->comment) . "</td>";
+        echo "<td class='right'>" . _("Comments") . ":</td><td colspan='6'>" . html_safe($this->comment) . "</td>";
         echo "</tr>";
 
     }
@@ -246,7 +246,7 @@ class SpecialDay
         else
         {
             echo "<input type='hidden' name='editing' value='true' />" .
-                "<input type='hidden' name='spec_code' value='" . htmlspecialchars($this->spec_code, ENT_QUOTES) ."' />";
+                "<input type='hidden' name='spec_code' value='" . attr_safe($this->spec_code) ."' />";
             $this->_show_summary_row(_('Special Day ID'),$this->spec_code);
         }
         $this->_show_edit_row('display_name',_('Display Name'),false,80);
@@ -273,7 +273,7 @@ class SpecialDay
             ? (empty($_POST[$field]) ? '' : $_POST[$field])
             : $this->$field;
 
-        $value = htmlspecialchars($value,ENT_QUOTES);
+        $value = html_safe($value);
 
         if ($textarea)
         {
@@ -350,7 +350,7 @@ class SpecialDay
     {
         echo "  <tr>" .
             "<td class='pa'>$label</td>" .
-            "<td class='pb'>" . ($htmlspecialchars ? htmlspecialchars($value) : $value ) . "</td>" .
+            "<td class='pb'>" . ($htmlspecialchars ? html_safe($value) : $value ) . "</td>" .
             "</tr>\n";
     }
 
@@ -381,7 +381,7 @@ class SpecialDay
 function make_link($url,$label)
 {
     $start = substr($url,0,3);
-    $label = htmlspecialchars($label);
+    $label = html_safe($label);
     if ($start == 'htt')
     {
         return "<a href='$url'>$label</a>";

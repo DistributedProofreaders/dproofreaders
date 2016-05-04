@@ -7,6 +7,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param()
@@ -204,7 +205,7 @@ class ImageSource
     function show_listing_row($count)
     {
         global $page_url;
-        $sid = htmlspecialchars($this->code_name, ENT_QUOTES);
+        $sid = html_safe($this->code_name);
 
         if($count%2 == "1")
             $row_class = "o";
@@ -220,8 +221,8 @@ class ImageSource
             $listing_rows++;
 
         echo "<tr class='$row_class'>";
-        echo "<td rowspan='$listing_rows'>" . htmlspecialchars($this->code_name) . "</td>";
-        echo "<td><a name='$sid' id='$sid'></a>" . htmlspecialchars($this->display_name) . "</td>";
+        echo "<td rowspan='$listing_rows'>" . html_safe($this->code_name) . "</td>";
+        echo "<td><a name='$sid' id='$sid'></a>" . html_safe($this->display_name) . "</td>";
         echo "<td>" . make_link($this->url, $this->full_name) . "</td>";
         echo $this->_get_status_cell($this->is_active,' pb');
         echo "<td class='center'>" . $this->_may_maynot_unknown($this->ok_keep_images) . "</td>";
@@ -237,20 +238,20 @@ class ImageSource
         echo "</tr>";
 
         echo "<tr class='$row_class'>";
-        echo "<td colspan='6'>" . sprintf(_("<b>Credits Line:</b> %s"), htmlspecialchars($this->credit)) . "</td>";
+        echo "<td colspan='6'>" . sprintf(_("<b>Credits Line:</b> %s"), html_safe($this->credit)) . "</td>";
         echo "</tr>";
 
         if($this->public_comment)
         {
             echo "<tr class='$row_class'>";
-            echo "<td colspan='6'>" . sprintf(_("<b>Comment (public):</b> %s"), htmlspecialchars($this->public_comment)) . "</td>";
+            echo "<td colspan='6'>" . sprintf(_("<b>Comment (public):</b> %s"), html_safe($this->public_comment)) . "</td>";
             echo "</tr>";
         }
 
         if($this->internal_comment)
         {
             echo "<tr class='$row_class'>";
-            echo "<td colspan='6'>" . sprintf(_("<b>Notes (internal):</b> %s"), htmlspecialchars($this->internal_comment)) . "</td>";
+            echo "<td colspan='6'>" . sprintf(_("<b>Notes (internal):</b> %s"), html_safe($this->internal_comment)) . "</td>";
             echo "</tr>";
         }
     }
@@ -285,7 +286,7 @@ class ImageSource
         else
         {
             echo "<input type='hidden' name='editing' value='true' />" .
-                "<input type='hidden' name='code_name' value='" . htmlspecialchars($this->code_name, ENT_QUOTES) ."' />";
+                "<input type='hidden' name='code_name' value='" . attr_safe($this->code_name) ."' />";
             $this->_show_summary_row(_('Image Source ID'),$this->code_name);
         }
         $this->_show_edit_row('display_name',_('Display Name'),false,30);
@@ -303,12 +304,11 @@ class ImageSource
 
     function _show_edit_row($field, $label, $textarea = false, $maxlength = null)
     {
-
         $value = $this->new_source
             ? (empty($_REQUEST[$field]) ? '' : $_REQUEST[$field])
             : $this->$field;
 
-        $value = htmlspecialchars($value,ENT_QUOTES);
+        $value = html_safe($value);
 
         if ($textarea)
         {
@@ -492,7 +492,7 @@ class ImageSource
     {
         echo "  <tr>" .
             "<td class='pa'>$label</td>" .
-            "<td class='pb'>" . ($htmlspecialchars ? htmlspecialchars($value) : $value ) . "</td>" .
+            "<td class='pb'>" . ($htmlspecialchars ? html_safe($value) : $value ) . "</td>" .
             "</tr>\n";
     }
 

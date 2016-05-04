@@ -15,6 +15,11 @@
 //
 // The order of the include_once()s in this file is important!
 
+// Make sure magic_quotes_gpc is turned on, we rely heavily on it.
+if (get_magic_quotes_gpc() == 0) {
+    die("Error: magic_quotes_gpc is not turned on in PHP configuration.");
+}
+
 // Override $relPath to be the absolute path to the directory that
 // contains this file. This allows registered shutdown functions
 // to know where to find files (working directory of the script
@@ -38,13 +43,24 @@ if(!$testing)
     set_exception_handler('production_exception_handler');
 }
 
+if(!headers_sent())
+{
+    header("Content-Type: text/html; charset=$charset");
+
+    // Tell proxies to vary the caching based on the Accept-Language header
+    // to ensure others behind the proxy don't inadvertantly get a language
+    // they aren't expecting.
+    header("Vary: Accept-Language");
+}
+
+include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'connect.inc');
 
 $db_Connection=new dbConnect();
 if ($db_Connection->error != '')
 {
     // If we're in maintenance mode, don't die here - we'll more gracefully
-    // error out later in abort_if_in_maintenance_mode()
+    // error out later
     if(!$maintenance)
         die('Error: Unable to connect to database.');
 
@@ -57,11 +73,34 @@ include_once($relPath.'dpsession.inc');
 if($db_Connection)
     $user_is_logged_in = dpsession_resume();
 
-include_once($relPath.'gettext_setup.inc');
-include_once($relPath.'maintenance_mode.inc');
+configure_gettext($charset, get_desired_language(), $dyn_locales_dir, $system_locales_dir);
 
-// Check to see if we are in a maintenance mode
-abort_if_in_maintenance_mode();
+if ($maintenance)
+{
+    /*
+    Including user_is.inc causes a perf impact because it includes
+    page_tally.inc, which includes stages.inc - all of which have a
+    great deal of overhead. That's a whole lot of work to satisfy a
+    rare edge case (that we're in maintenance mode). 
+    Until that's resolved, conditionally include it.
+    */
+    include_once($relPath.'user_is.inc');
+    include_once($relPath.'slim_header.inc');
+
+    if (!user_is_a_sitemanager())
+    {
+        $title = sprintf(_("%s Maintenance"),$site_name);
+        $message = _("We are currently performing maintenance on the server.  Please be patient, we should have the site back up and running shortly.");
+        if($maintenance_message)
+            $message .= "<br>$maintenance_message";
+        slim_header($title);
+        echo "<center><h2>";
+        if (isset($pguser))
+            echo "$pguser ";
+        echo "$message</h2></center>";
+        exit();
+    }
+}
 
 //----------------------------------------------------------------------------
 

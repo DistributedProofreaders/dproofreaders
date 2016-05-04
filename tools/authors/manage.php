@@ -2,6 +2,7 @@
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'user_is.inc');
 include_once($relPath.'SortUtility.inc');
 include_once($relPath.'BrowseUtility.inc');
@@ -31,7 +32,7 @@ echo_menu();
 echo "<h2 align='center'>$title</h2>";
 $message = @$_GET['message'];
 if (isset($message))
-    echo '<center>' . htmlspecialchars($message) . '</center><br />';
+    echo '<center>' . html_safe($message) . '</center><br />';
 
 if (isset($_POST) && count($_POST)>0) {
 

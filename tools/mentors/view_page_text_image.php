@@ -5,7 +5,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'prefs_options.inc');
-include_once($relPath.'misc.inc'); // array_get(), get_enumerated_param(), attr_safe(), javascript_safe()
+include_once($relPath.'misc.inc'); // array_get(), get_enumerated_param(), attr_safe(), javascript_safe(), html_safe()
 
 require_login();
 
@@ -15,9 +15,9 @@ $project = $projectid = $page = $round_id = NULL;
 $error_messages = array();
 $is_valid_page = false;
 
-$projectid = stripslashes(trim(array_get($_GET,"projectid","")));
+$projectid = trim(array_get($_GET,"projectid",""));
 
-$page = stripslashes(trim(array_get($_GET,"page","")));
+$page = trim(array_get($_GET,"page",""));
 
 $expanded_rounds = array_keys($Round_for_round_id_);
 array_unshift($expanded_rounds, 'OCR');
@@ -35,7 +35,7 @@ if($projectid=="") {
     $error_messages[] = _("select a project");
 } elseif (!preg_match('/^projectID[0-9a-f]{13}$/', $projectid ) ) {
     $error_messages[] = sprintf(_("projectID '%s' does not appear to be valid"),
-        htmlspecialchars($projectid,ENT_QUOTES));
+        html_safe($projectid));
 }
 
 // See if the projectID exists in the projects table
@@ -47,7 +47,7 @@ if(!count($error_messages)) {
     catch(NonexistentProjectException $exception)
     {
         $error_messages[] = sprintf(_("no project with projectID '%s'"),
-            htmlspecialchars($projectid,ENT_QUOTES));
+            html_safe($projectid));
     }
 }
 
@@ -57,8 +57,8 @@ if(!count($error_messages)) {
         $res2 = mysql_query(sprintf("SELECT 1 FROM $projectid WHERE image = '%s'", mysql_real_escape_string($page))) or die(mysql_error());
         if (mysql_num_rows($res2) == 0) {
             $error_messages[] = sprintf(_("no page '%1\$s' in project with projectID '%2\$s'"),
-                htmlspecialchars($page,ENT_QUOTES),
-                htmlspecialchars($projectid,ENT_QUOTES));
+                html_safe($page),
+                html_safe($projectid));
         } else {
             $is_valid_page = true;
         }
@@ -80,9 +80,9 @@ $frame = get_enumerated_param($_GET,"frame","master",array("master","top","image
 if ($frame=="master") {
     slim_header_frameset(_("Image and text for page"));
 
-    $projectid=htmlspecialchars($projectid,ENT_QUOTES);
-    $page=htmlspecialchars($page,ENT_QUOTES);
-    $round_id=htmlspecialchars($round_id,ENT_QUOTES);
+    $projectid = urlencode($projectid);
+    $page = urlencode($page);
+    $round_id = urlencode($round_id);
 
 ?>
 <frameset rows="15%,50%,35%">
@@ -115,10 +115,10 @@ elseif ($frame=="top") {
     echo "<form method='get' action='view_page_text_image.php' target='_top'>\n";
     if(!$project) {
         echo _("Project ID") . ":&nbsp;";
-        echo "<input type='text' maxlength='25' name='projectid' size='25' value='" . htmlspecialchars($projectid,ENT_QUOTES) . "'> \n";
+        echo "<input type='text' maxlength='25' name='projectid' size='25' value='" . attr_safe($projectid) . "'> \n";
         echo "<input type='submit' value='"._("Select Project")."'> &nbsp; &nbsp;";
     } else {
-        echo "<input type='hidden' name='projectid' value='" . htmlspecialchars($projectid,ENT_QUOTES) . "'>";
+        echo "<input type='hidden' name='projectid' value='" . attr_safe($projectid) . "'>";
     }
 
     echo _("Page") . ":&nbsp;";
@@ -271,7 +271,7 @@ elseif ($frame=="text") {
         }
 
         echo ">\n";
-        echo htmlspecialchars( $data, ENT_NOQUOTES );
+        echo html_safe($data);
         echo "</textarea>";
     }
     exit();

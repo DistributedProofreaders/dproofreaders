@@ -966,13 +966,13 @@ function round_to_PP_out_collateral( $old_project, $project, $transition, $who )
     {
         // No, PPer != PM, send each a message.
 
-        $PPer = $project->checkedoutby;
+        $PPer_username = $project->checkedoutby;
 
         // msg to PM:
         $body_blurb =
             "This project has completed all rounds\n".
             "and has been checked out to the PPer who had it reserved,\n".
-            "$PPer. You will be notified once it has completed post-processing.";
+            "$PPer_username. You will be notified once it has completed post-processing.";
         maybe_mail_project_manager(
             get_object_vars($project), $body_blurb, "$site_abbreviation: Post-Processing Started");
 
@@ -980,10 +980,10 @@ function round_to_PP_out_collateral( $old_project, $project, $transition, $who )
 
         // msg to PPer:
 
-        $PPer = new User($PPer);
+        $PPer = new User($PPer_username);
         $PPer_email_addr = $PPer->email;
         $body_blurb =
-            "Hello $PPer,\n\n".
+            "Hello $PPer_username,\n\n".
             $project->email_introduction().
             "This project, which is reserved for you to Post-Process,\n".
             "is now ready for you to work on, and should shortly appear in your list\n".

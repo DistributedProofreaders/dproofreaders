@@ -35,18 +35,6 @@ function dpsession_resume_()
 
 	// ---------------
 
-	// I think this is old transitional code for the prefs cookie
-	$old_cookie_name = $pguser.'_prefs';
-	if (isset($_COOKIE[$old_cookie_name]))
-	{
-		local_send_cookie($old_cookie_name, "");
-		dpsession_set_preferences_from_db();
-		echo _("Cookie reset by site update.  Please refresh current page.");
-		exit;
-	}
-
-	// ---------------
-
 	// Refresh the user's cookies
 	user_cookie_send();
 

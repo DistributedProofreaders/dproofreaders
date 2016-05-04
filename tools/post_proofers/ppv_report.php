@@ -7,7 +7,7 @@ include_once($relPath.'Project.inc'); // validate_projectID()
 include_once($relPath.'Stage.inc'); //user_can_work_in_stage()
 include_once($relPath.'User.inc');
 include_once($relPath.'project_states.inc'); // get_project_status_descriptor()
-include_once($relPath.'misc.inc');  // undo_all_magic_quotes() array_get() startswith()
+include_once($relPath.'misc.inc');  // undo_all_magic_quotes() array_get() startswith() attr_safe()
 
 header_remove("Expires");
 header_remove("Cache-Control");
@@ -404,7 +404,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
             $text = $_POST[$id];
 
-        $esc_text = htmlspecialchars($text, ENT_NOQUOTES);
+        $esc_text = html_safe($text);
 
         return ""
             . "<textarea rows='4' cols='67' name='$id' id='$id' wrap='hard'>$esc_text</textarea>"
@@ -872,8 +872,8 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         To return to the form, simply use your browser's back button.") . "<br />\n";
     echo "<pre>" . $reportcard . "</pre>";
     echo "<form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;send=1' name='ppvform' method='post'>
-                <input type='hidden' name='reportcard' value='" . htmlspecialchars($reportcard, ENT_QUOTES) . "'/>
-                <input type='hidden' name='pp_evaluation' value='" . htmlspecialchars($pp_evaluation, ENT_QUOTES) . "'/>";
+                <input type='hidden' name='reportcard' value='" . attr_safe($reportcard) . "'/>
+                <input type='hidden' name='pp_evaluation' value='" . attr_safe($pp_evaluation) . "'/>";
     if (isset($_POST['cc_pp']))
         echo "<input type='hidden' name='cc_pp'/>";
     if (isset($_POST['cc_ppv']))

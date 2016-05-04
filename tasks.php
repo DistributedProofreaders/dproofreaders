@@ -6,6 +6,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'links.inc'); // private_message_link()
@@ -311,7 +312,7 @@ while ($row = mysql_fetch_assoc($result)) {
 $taskcenter_managers = Settings::get_users_with_setting('task_center_mgr', 'yes');
 foreach($taskcenter_managers as $taskcenter_manager) {
     $user = new User($taskcenter_manager);
-    $task_assignees_array[$u_id] = $user->u_id;
+    $task_assignees_array[$user->u_id] = $taskcenter_manager;
 }
 natcasesort($task_assignees_array);
 $task_assignees_array = array(0 => 'Unassigned') + $task_assignees_array;
@@ -341,7 +342,7 @@ function SearchParams_echo_controls()
 
     if (isset($_REQUEST['search_text']) && !empty($_REQUEST['search_text'])) {
         $st = $_REQUEST['search_text'];
-        $search_text = htmlspecialchars($st, ENT_QUOTES);
+        $search_text = attr_safe($st);
     }
     else $search_text = "";
 
@@ -480,8 +481,12 @@ function create_task_from_form_submission($formsub)
     $newt_browser  = (int) get_enumerated_param($formsub, 'task_browser', null, array_keys($browser_array));
     $newt_version  = (int) get_enumerated_param($formsub, 'task_version', null, array_keys($versions_array));
 
-    $task_assignee_user = new User();
-    $task_assignee_user->load('u_id', $newt_assignee);
+    // Validate the assignee, skipping the case where it is 0 (Unassigned).
+    if($newt_assignee != 0)
+    {
+        $task_assignee_user = new User();
+        $task_assignee_user->load('u_id', $newt_assignee);
+    }
 
     $sql_query = "
         INSERT INTO tasks
@@ -517,14 +522,19 @@ function create_task_from_form_submission($formsub)
     // Nobody could have subscribed to this particular task yet,
     // so the msg will only go to those with taskctr_notice = 'all'.
 
-    global $tasks_url, $code_url;
-    maybe_mail(
-        $task_assignee_user->email,
-        "DP Task Center: Task #$task_id has been assigned to you",
-        $task_assignee_user->username . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n"
-    );
+    // If $newt_assignee is 0, there is no user assigned so no notification
+    // to send out.
+    if($newt_assignee != 0)
+    {
+        global $tasks_url, $code_url;
+        maybe_mail(
+            $task_assignee_user->email,
+            "DP Task Center: Task #$task_id has been assigned to you",
+            $task_assignee_user->username . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'.\n\n--\nDistributed Proofreaders\n$code_url\n\nThis is an automated message that you had requested please do not respond directly to this e-mail.\r\n"
+        );
+    }
 
-    global $pguser;
+    // Subscribe the current user to this task for notification
     $userSettings =& Settings::get_Settings($pguser);
     $userSettings->add_value('taskctr_notice', $task_id);
 }
@@ -941,7 +951,7 @@ p                  { font-family:Verdana; font-size:11px; }
 .wrap              { white-space: normal!important; }
 EOS;
 
-    output_header(htmlspecialchars($header), NO_STATSBAR,
+    output_header(html_safe($header), NO_STATSBAR,
         array('js_data' => $js_data, 'css_data' => $css_data));
 
     echo "<br /><div align='center'><table class='taskplain' width='98%'><tr><td>";
@@ -1099,8 +1109,8 @@ function TaskForm($task)
         $tasks_status_array = array(1 => "New");
     }
 
-    $task_summary_enc = htmlspecialchars($task->task_summary);
-    $task_details_enc = htmlspecialchars($task->task_details);
+    $task_summary_enc = attr_safe($task->task_summary);
+    $task_details_enc = html_safe($task->task_details);
 
     echo "<form action='$tasks_url' method='post'>";
     if (empty($task->task_id)) {

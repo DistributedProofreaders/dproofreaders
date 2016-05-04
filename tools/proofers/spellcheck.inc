@@ -47,10 +47,10 @@ if ($userP['i_type']==1) {
     // change all EOL characters to [lf]
     $revert_text = str_replace(array("\r","\n\n","\n"),array("\n","[lf]","[lf]"),$revert_text);
 
-    echo "<input type='hidden' name='revert_text' value='" . html_safe($revert_text) . "'>\n";
+    echo "<input type='hidden' name='revert_text' value='" . attr_safe($revert_text) . "'>\n";
     echo "<input type='hidden' id='is_changed' name='is_changed' value='$is_changed'>\n";
     echo "<input type='hidden' id='accepted_words' name=\"accepted_words\" value='" 
-        . html_safe(implode(' ',$accepted_words)) . "'>\n";
+        . attr_safe(implode(' ',$accepted_words)) . "'>\n";
     echo "<input type='hidden' id='is_header_visible' name=\"is_header_visible\" value='$is_header_visible'>\n";
 
     // run the text through the spellcheck - returns the form contents and a list of languages the page was checked against
@@ -109,7 +109,7 @@ if ($userP['i_type']==1) {
     foreach($dict_list as $langcode => $language) {
         // skip the languages that we just used.
         if(in_array($language,$languages)) continue;
-        echo "<option value='" .  htmlspecialchars($language,ENT_QUOTES) . "'";
+        echo "<option value='" .  attr_safe($language) . "'";
         if(strcmp($language,$aux_language)==0) echo " selected";
         echo ">$language</option>\n";
     }

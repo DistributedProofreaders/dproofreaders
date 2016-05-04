@@ -1,8 +1,7 @@
 <?php
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc');
-include_once($relPath.'xml.inc');
+include_once($relPath.'misc.inc'); // xmlencode()
 
 undo_all_magic_quotes();
 
@@ -11,6 +10,7 @@ $refreshDelay = 30 * 60; // Time in seconds for how often the feeds get refreshe
 $refreshAge = time()-$refreshDelay; // How long ago $refreshDelay was in UNIX time
 
 // Determine if we should display a 0.91 compliant RSS feed or our own feed
+$intlang = get_desired_language();
 if (isset($_GET['type'])) {
     $xmlfile = "$xmlfeeds_dir/${content}_rss.$intlang.xml";
 } else {

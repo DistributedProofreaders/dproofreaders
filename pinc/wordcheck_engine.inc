@@ -747,7 +747,7 @@ function load_word_list( $path )
     array_walk($words, 'rtrim_walk');
 
     // remove the last "empty" word caused by the last newline
-    if($words[count($words)-1]=="")
+    if(count($words) && $words[count($words)-1]=="")
         array_pop($words);
 
     return $words;

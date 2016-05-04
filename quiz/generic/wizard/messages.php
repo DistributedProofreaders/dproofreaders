@@ -2,6 +2,7 @@
 $relPath='../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once('../quiz_defaults.inc'); // $default_*
 
 undo_all_magic_quotes();
@@ -70,7 +71,7 @@ function filltext($x)
 {
     global $fill;
     if ($fill)
-        return htmlspecialchars($_POST[$x], ENT_QUOTES);
+        return html_safe($_POST[$x]);
 }
 
 

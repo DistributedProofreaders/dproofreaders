@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'new_user_mails.inc');
-include_once($relPath.'misc.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'User.inc');
 include_once($relPath.'email_address.inc');
 
@@ -82,7 +82,7 @@ else if ($action == 'get_user') {
 
     if (mysql_num_rows($result) == 0) {
         printf(_("No user '%s' was was found in the list of non-validated users."),
-            htmlspecialchars($username));
+            html_safe($username));
         echo "<p>", 
             sprintf(_("Note that you can also <a href='%s'>list all user accounts awaiting activation</a>"), "?action=list_all"), 
             "</p>";
@@ -94,10 +94,10 @@ else if ($action == 'get_user') {
         <br />
         <form method='get'>
         <input type='hidden' name='action' value='set_email' />
-        <input type='hidden' name='username' value='<?php echo htmlspecialchars($username, ENT_QUOTES); ?>' />
-        <?php echo _("Username"); ?>: <?php echo htmlspecialchars($username); ?>
+        <input type='hidden' name='username' value='<?php echo attr_safe($username); ?>' />
+        <?php echo _("Username"); ?>: <?php echo html_safe($username); ?>
         <br />
-        <?php echo _("E-mail"); ?>: <input type='text' name='email' value='<?php echo htmlspecialchars($email, ENT_QUOTES); ?>' />
+        <?php echo _("E-mail"); ?>: <input type='text' name='email' value='<?php echo attr_safe($email); ?>' />
         <br />
         <input type='submit' value='<?php echo attr_safe(_("Update address and resend activation mail")); ?>' />
         </form>

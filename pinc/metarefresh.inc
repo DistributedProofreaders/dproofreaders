@@ -47,7 +47,7 @@ function metarefresh($seconds,$url,$title="",$body="")
             $absolute_url = $url;
         }
 
-        header("Location: $absolute_url\n\n");
+        header("Location: $absolute_url");
         exit;
     }
 

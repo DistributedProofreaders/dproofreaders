@@ -7,13 +7,13 @@
 $relPath="../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param()
+include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
 
 
 $lang     = get_enumerated_param($_GET, 'language', null, array('eng', 'es', 'fr', 'ger'));
 $flavour  = get_enumerated_param($_GET, 'type', null, array('common', 'suspect', 'rare'));
 $filename = "$code_dir/faq/stealth_scannos_".$lang."_".$flavour.".txt";
-$this_url = htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES);
+$this_url = html_safe($_SERVER['PHP_SELF']);
 
 if (!file_exists($filename)) {
 
