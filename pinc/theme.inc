@@ -192,7 +192,7 @@ function html_logobar() {
     echo "\n<table width='100%' cellSpacing=0 cellPadding=0 border=0>\n";
     echo "<tr>\n";
     echo "<td width='50%' bgcolor='".$theme['color_logobar_bg']."'>\n";
-    echo "<a href='$code_url'><img src='$code_url/pinc/templates/".$theme_name."".$theme['image_logo']."' width='360' height='68' alt='$site_name' border='0'></a>\n";
+    echo "<a href='$code_url'><img src='$code_url/graphics/dp-logo-360x68px.png' width='360' height='68' alt='$site_name' border='0'></a>\n";
     echo "</td>\n";
 
     echo "<td width='50%' bgcolor='" . $theme['color_logobar_bg'] .  "' align='center' valign='middle'>\n";

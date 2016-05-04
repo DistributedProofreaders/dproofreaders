@@ -17,7 +17,6 @@ $classic_grey['body_link'] = "#0000ff";
 $classic_grey['body_vlink'] = "#0000ff";
 $classic_grey['body_alink'] = "#0000ff";
 
-$classic_grey['image_logo'] = "/graphics/logo.gif";
 $classic_grey['image_curve_right'] = "/graphics/r_curve.gif";
 $classic_grey['image_curve_left'] = "/graphics/l_curve.gif";
 $classic_grey['image_gold_star'] = "/graphics/gold_star.gif";
