@@ -1547,7 +1547,7 @@ function TaskComments($tid)
         while ($row = mysql_fetch_assoc($result)) {
             $comment_username_link = private_message_link_for_uid($row['u_id']);
             echo "<b>Comment by $comment_username_link - " . date("l, d M Y, g:ia", $row['comment_date']) . "</b><br />";
-            echo "<br />" . nl2br(htmlspecialchars($row['comment'])) . "<br /><br /><hr width='80%' align='center'>";
+            echo "<br />" . nl2br(html_safe($row['comment'])) . "<br /><br /><hr width='80%' align='center'>";
         }
         echo "</td></tr></table>";
     }
@@ -1609,7 +1609,7 @@ function RelatedTasks($tid)
             $related_task_summary = "[not found]";
         }
         else {
-            $related_task_summary = htmlspecialchars(mysql_result($result, 0, "task_summary"));
+            $related_task_summary = html_safe(mysql_result($result, 0, "task_summary"));
             $related_task_status  = $tasks_status_array[mysql_result($result, 0, "task_status")];
         }
         if ($related_task_exists) {
@@ -1733,10 +1733,10 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
 
         // The raw value is some text typed in by a user:
         case 'task_summary':
-            $fv = htmlspecialchars($raw_value); break; // maybe wrap in <a>
+            $fv = html_safe($raw_value); break; // maybe wrap in <a>
 
         case 'task_details':
-            return nl2br(htmlspecialchars($raw_value));
+            return nl2br(html_safe($raw_value));
 
         // The raw value is an integer denoting state of progress:
         case 'percent_complete':
