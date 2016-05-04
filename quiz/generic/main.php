@@ -1,23 +1,22 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
+include_once($relPath.'slim_header.inc');
 include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
 
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'quiz_page_id');
 
 include "./quiz_page.inc"; // qp_full_browser_title qp_round_id_for_pi_toolbox
 
+$header_args = array(
+    'js_files' => array(
+        "../../tools/proofers/dp_proof.js?2015122901",
+        "../../tools/proofers/dp_scroll.js?1.18",
+    ),
+);
+
+slim_header_frameset(qp_full_browser_title(), $header_args);
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
-<html>
-<head>
-<title>
-<?php echo qp_full_browser_title(); ?>
-</title>
-<META http-equiv="Content-Type" content="text/html; charset=<?php echo "$charset";?>">
-<script language="JavaScript" type="text/javascript" src="../../tools/proofers/dp_proof.js?2015122901"></script>
-<script language="JavaScript" type="text/javascript" src="../../tools/proofers/dp_scroll.js?1.18"></script>
-</head>
 <frameset rows="*,73">
 <frameset cols="60%,*">
 <frameset name="left" rows="40%,*">
@@ -28,4 +27,3 @@ include "./quiz_page.inc"; // qp_full_browser_title qp_round_id_for_pi_toolbox
 </frameset>
 <frame name="menuframe" src="../../tools/proofers/ctrl_frame.php?round_id=<?php echo qp_round_id_for_pi_toolbox(); ?>" marginwidth="2" marginheight="2" frameborder="0">
 </frameset>
-</html>

@@ -2,6 +2,7 @@
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'metarefresh.inc');
 include_once('edit_common.inc');
 
@@ -152,7 +153,7 @@ if ( isset($_REQUEST['action']) &&
 
     $bgcol = $theme['color_navbar_bg'];
 
-    echo "<form method='post' enctype='multipart/form-data' action='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) . "'>";
+    echo "<form method='post' enctype='multipart/form-data' action='" . attr_safe($_SERVER['PHP_SELF']) . "'>";
     if (!empty($rec)) { echo "<input type='hidden' name='rec' value='".base64_encode(serialize($rec))."'>"; }
     if (isset($up_projectid)) { echo "<input type='hidden' name='up_projectid' value='$up_projectid'>"; }
     if (isset($errorMsg)) { echo "<br><center><font size='+1' color='#ff0000'><b>$errorMsg</b></font></center>"; }
@@ -240,11 +241,7 @@ function saveUberProject()
     if (!empty($_POST['checkedoutby']))
     {
         $checkedoutby = $_POST['checkedoutby'];
-        $result = mysql_query("SELECT u_id FROM users WHERE username = BINARY '$checkedoutby'");
-        if (mysql_num_rows($result) == 0)
-        {
-            $errormsg .= "Default Post Processor must be an existing user - check case and spelling of username.<br>";
-        }
+        $errormsg .= check_user_exists($checkedoutby, 'PPer/PPVer');
     }
 
 /*
@@ -296,21 +293,13 @@ function saveUberProject()
     if (!empty($_POST['image_preparer']))
     {
         $image_preparer = $_POST['image_preparer'];
-        $result = mysql_query("SELECT u_id FROM users WHERE username = BINARY '$image_preparer'");
-        if (mysql_num_rows($result) == 0)
-        {
-            $errormsg .= "Default Image Preparer must be an existing user - check case and spelling of username.<br>";
-        }
+        $errormsg .= check_user_exists($image_preparer, 'Image Preparer');
     }
 
     if (!empty($_POST['text_preparer']))
     {
         $text_preparer = $_POST['text_preparer'];
-        $result = mysql_query("SELECT u_id FROM users WHERE username = BINARY '$text_preparer'");
-        if (mysql_num_rows($result) == 0)
-        {
-            $errormsg .= "Default Text Preparer must be an existing user - check case and spelling of username.<br>";
-        }
+        $errormsg .= check_user_exists($text_preparer, 'Text Preparer') ;
     }
 
 

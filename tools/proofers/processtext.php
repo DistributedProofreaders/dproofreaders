@@ -247,7 +247,6 @@ switch( $tbutton )
         echo "setTimeout(\"top.proofframe.location.href='$url';\", 1000);\n";
         echo "// --></script>\n";
         echo $body;
-        slim_footer();
         break;
 
     case 104:
@@ -324,8 +323,6 @@ function leave_proofing_interface( $title )
     echo "<script language='JavaScript'><!--\n";
     echo "setTimeout(\"top.location.href='$url';\", 1000);\n";
     echo "// --></script>\n";
-
-    slim_footer();
 }
 
 // vim: sw=4 ts=4 expandtab

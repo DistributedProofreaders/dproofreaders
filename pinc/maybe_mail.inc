@@ -1,6 +1,8 @@
 <?php
 include_once($relPath.'site_vars.php');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'Project.inc');
+include_once($relPath.'User.inc');
 
 function maybe_mail( $to, $subject, $message, $additional_headers = null )
 // If this is for real, send the message.
@@ -30,11 +32,11 @@ function maybe_mail( $to, $subject, $message, $additional_headers = null )
         echo "\n<hr>\n";
         echo "\$testing is $testing. If it were FALSE, the following mail would have been sent:\n";
         echo "<pre>\n";
-        echo htmlspecialchars("To: $to\n", ENT_NOQUOTES);
-        echo htmlspecialchars("Subject: $subject\n", ENT_NOQUOTES);
-        echo htmlspecialchars("$additional_headers", ENT_NOQUOTES);
+        echo html_safe("To: $to\n");
+        echo html_safe("Subject: $subject\n");
+        echo html_safe("$additional_headers");
         echo "\n";
-        echo htmlspecialchars("$message\n", ENT_NOQUOTES);
+        echo html_safe("$message\n");
         echo "</pre>\n";
         echo "<hr>\n";
     }
@@ -69,11 +71,9 @@ $info
 $site_signoff
 ";
 
-    $email_addr = mysql_result(mysql_query("
-        SELECT email FROM users WHERE username = '$username'
-    "),0);
+    $user = new User($username);
 
-    maybe_mail($email_addr, "$prefix: \"$nameofwork\"", $body);
+    maybe_mail($user->email, "$prefix: \"$nameofwork\"", $body);
 }
 
 // vim: sw=4 ts=4 expandtab

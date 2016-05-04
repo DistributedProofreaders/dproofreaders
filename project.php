@@ -21,7 +21,7 @@ include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link
 include_once($relPath.'project_edit.inc'); // check_user_can_load_projects
 include_once($relPath.'forum_interface.inc'); // get_last_post_time_in_topic & get_url_*()
-include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+include_once($relPath.'misc.inc'); // undo_all_magic_quotes(), html_safe()
 
 undo_all_magic_quotes();
 
@@ -829,7 +829,7 @@ function do_project_info_table()
 
 function echo_row_a( $left, $right, $escape_right=FALSE )
 {
-    if ($escape_right) $right = htmlspecialchars( $right, ENT_NOQUOTES );
+    if ($escape_right) $right = html_safe($right);
     echo "<tr>";
     echo "<td bgcolor='CCCCCC' align='center'><b>$left</b></td>";
     echo "<td colspan='4'>$right</td>";
@@ -1084,7 +1084,7 @@ function do_waiting_queues()
                 $n_queues += 1;
                 $enc_q_name = urlencode($q_name);
                 $url = "$code_url/stats/release_queue.php?round_id={$round->id}&name=$enc_q_name";
-                $enc_url = htmlspecialchars( $url, ENT_QUOTES );
+                $enc_url = html_safe($url);
                 echo "<li><a href='$enc_url'>$q_name</a></li>\n";
             }
         }
@@ -1840,7 +1840,7 @@ function do_postcomments()
 
       echo "<form name='pp_update' method='post' action='$code_url/tools/post_proofers/postcomments.php'>\n";
       echo "<textarea name='postcomments' cols='60' rows='6'>\n";
-      echo htmlspecialchars($project->postcomments);
+      echo html_safe($project->postcomments);
       echo "</textarea>\n";
       echo "<input type='hidden' name='projectid' value='$projectid' />\n";
       echo "<br /><input type='submit' value='" . attr_safe(_('Update comment and project status')) . "'/>";

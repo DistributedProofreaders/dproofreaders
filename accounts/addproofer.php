@@ -2,11 +2,12 @@
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
-include_once($relPath.'username.inc');
+include_once($relPath.'User.inc');
 include_once($relPath.'email_address.inc');
 include_once($relPath.'new_user_mails.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc');
+include_once($relPath.'misc.inc'); // attr_safe()
+include_once($relPath.'User.inc');
 
 // If configured, load site-specific bot-prevention and validation funcs
 if($site_registration_protection_code)
@@ -68,13 +69,7 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
     }
 
     // Make sure that the username is not taken by a non-registered user.
-    $query = sprintf("
-        SELECT username
-        FROM users
-        WHERE username='%s'
-        ", mysql_real_escape_string($username));
-    $result = mysql_query ($query);
-    if (mysql_num_rows($result) > 0)
+    if(User::is_valid_user($username))
     {
         return _("That user name already exists, please try another.");
     }
@@ -135,6 +130,7 @@ if ($password=="proofer") {
 
         $digested_password = forum_password_hash($userpass);
 
+        $intlang = get_desired_language();
         $query = sprintf("INSERT INTO non_activated_users (id, real_name, username, email, date_created, email_updates, u_intlang, user_password) VALUES ('%s', '%s', '%s', '%s', $todaysdate, '%s', '%s', '%s')", mysql_real_escape_string($ID), mysql_real_escape_string($real_name), mysql_real_escape_string($username), mysql_real_escape_string($email), mysql_real_escape_string($email_updates), mysql_real_escape_string($intlang), mysql_real_escape_string($digested_password));
 
         $result = mysql_query ($query);
@@ -218,10 +214,10 @@ if ($password=="proofer") {
     echo "<table class='register'>";
     echo "<tr>";
     echo "  <td class='label'>" . _("Real Name") . ":</td>";
-    echo "  <td class='field'><input type='text' maxlength='70' name='real_name' size='20' value='". htmlspecialchars($real_name, ENT_QUOTES) ."'></td>";
+    echo "  <td class='field'><input type='text' maxlength='70' name='real_name' size='20' value='". attr_safe($real_name) ."'></td>";
     echo "</tr>\n<tr>";
     echo "  <td class='label'>" . _("User Name") . ":</td>";
-    echo "  <td class='field'><input type='text' maxlength='70' name='userNM' size='20' value='" . htmlspecialchars($username, ENT_QUOTES) . "'><br><small>$valid_username_chars_statement_for_reg_form</small></td>";
+    echo "  <td class='field'><input type='text' maxlength='70' name='userNM' size='20' value='" . attr_safe($username) . "'><br><small>$valid_username_chars_statement_for_reg_form</small></td>";
     echo "</tr>\n<tr>";
     echo "  <td class='label'>" . _("Password") . ":</td>";
     echo "  <td class='field'><input type='password' maxlength='70' name='userPW' size='20'></td>";
@@ -231,10 +227,10 @@ if ($password=="proofer") {
     echo "</tr>\n<tr>";
     if (!$testing) {
         echo "  <td class='label'>" . _("E-mail Address") . ":</td>";
-        echo "  <td class='field'><input type='text' maxlength='70' name='email' size='20' value='". htmlspecialchars($email, ENT_QUOTES) . "'></td>";
+        echo "  <td class='field'><input type='text' maxlength='70' name='email' size='20' value='". attr_safe($email) . "'></td>";
         echo "</tr>\n<tr>";
         echo "  <td class='label'>" . _("Confirm E-mail Address") . ":</td>";
-        echo "  <td class='field'><input type='text' maxlength='70' name='email2' size='20' value='" . htmlspecialchars($email2, ENT_QUOTES) . "'></td>";
+        echo "  <td class='field'><input type='text' maxlength='70' name='email2' size='20' value='" . attr_safe($email2) . "'></td>";
         echo "</tr>\n<tr>";
     }
     echo "  <td class='label'><b>" . _("E-mail Updates") . ":</td>";

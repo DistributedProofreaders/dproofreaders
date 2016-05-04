@@ -3,6 +3,7 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 
 require_login();
 
@@ -37,13 +38,11 @@ foreach ( $PROJECT_STATES_IN_ORDER as $proj_state )
             // TRANSLATORS: format is: name_of_work by author (in language)
             echo sprintf(_("<a href='%1\$s'>%2\$s</a> by %3\$s (in %4\$s)"),
                 "$code_url/project.php?id=$projectid",
-                htmlspecialchars($nameofwork),
-                htmlspecialchars($authorsname),
-                htmlspecialchars($language)) . "<br>\n";
+                html_safe($nameofwork),
+                html_safe($authorsname),
+                html_safe($language)) . "<br>\n";
         }
     }
 }
-
-slim_footer();
 
 // vim: sw=4 ts=4 expandtab

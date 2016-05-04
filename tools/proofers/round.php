@@ -16,19 +16,8 @@ include_once($relPath.'page_tally.inc');
 
 require_login();
 
-$round_id = array_get( $_GET, 'round_id', NULL );
-if (is_null($round_id))
-{
-    echo "round.php invoked without round_id parameter.";
-    exit;
-}
-
+$round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_));
 $round = get_Round_for_round_id($round_id);
-if (is_null($round_id))
-{
-    echo "round.php invoked with invalid round_id='$round_id'.";
-    exit;
-}
 
 output_header("$round->id: $round->name");
 

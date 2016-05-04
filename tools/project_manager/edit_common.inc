@@ -4,24 +4,20 @@ include_once($relPath.'genres.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link, new_help_window_link
-
-function encodeFormValue($value)
-{
-  return htmlspecialchars($value,ENT_QUOTES);
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
+include_once($relPath.'User.inc');
 
 function just_echo( $field_value )
 {
-    echo encodeFormValue($field_value);
+    echo html_safe($field_value);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function text_field( $field_value, $field_name )
 {
-    $enc_field_value = encodeFormValue($field_value);
+    $enc_field_value = attr_safe($field_value);
     echo "<input type='text' size='67' name='$field_name' value='$enc_field_value'>";
 }
 
@@ -29,7 +25,7 @@ function text_field( $field_value, $field_name )
 
 function DP_user_field( $field_value, $field_name )
 {
-    $enc_field_value = encodeFormValue($field_value);
+    $enc_field_value = attr_safe($field_value);
     echo "<input type='text' size='25' name='$field_name' value='$enc_field_value'>";
 }
 
@@ -56,7 +52,7 @@ function language_list($language)
     echo "\n";
     for ($i=0;$i<count($array_list);$i++)
     {
-        echo "<option value='".encodeFormValue($array_list[$i]['lang_name'])."'";
+        echo "<option value='".attr_safe($array_list[$i]['lang_name'])."'";
         if ($pri_language == $array_list[$i]['lang_name']) { echo " SELECTED"; }
         echo ">".$array_list[$i]['lang_name']."</option>";
         echo "\n";
@@ -66,7 +62,7 @@ function language_list($language)
     echo "\n";
     for ($i=0;$i<count($array_list);$i++)
     {
-        echo "<option value='".encodeFormValue($array_list[$i]['lang_name'])."'";
+        echo "<option value='".attr_safe($array_list[$i]['lang_name'])."'";
         if ($sec_language == $array_list[$i]['lang_name']) { echo " SELECTED"; }
         echo ">".$array_list[$i]['lang_name']."</option>";
         echo "\n";
@@ -82,7 +78,7 @@ function genre_list($genre)
     echo "<select name='genre'>";
     foreach($GENRES as $k=>$v)
     {
-        echo "<option value='".encodeFormValue($k)."'";
+        echo "<option value='".attr_safe($k)."'";
         if ($genre == $k) { echo " SELECTED"; }
         echo ">$v</option>";
         echo "\n";
@@ -95,8 +91,6 @@ function genre_list($genre)
 function difficulty_list($difficulty_level)
 {
     global $pguser;
-    $result = mysql_query("SELECT * FROM users WHERE username = '$pguser'");
-    if (mysql_result($result,0,"sitemanager") == "yes") $sa = 1; else $sa = 0;
 
     $difficulty_list = array(
         'beginner' => _("Beginner"), 
@@ -106,12 +100,12 @@ function difficulty_list($difficulty_level)
     );
 
     // only show the beginner level to the BEGIN PM or SiteAdmins
-    if (($pguser != "BEGIN") && (!$sa))
+    if (($pguser != "BEGIN") && (!user_is_a_sitemanager()))
         unset($difficulty_list['beginner']);
         
     foreach ($difficulty_list as $name => $label)
     {
-        echo "<input type='radio' name='difficulty_level' value='".encodeFormValue($name)."'";
+        echo "<input type='radio' name='difficulty_level' value='".attr_safe($name)."'";
         if (strtolower($difficulty_level) == $name)
         {
             echo " CHECKED";
@@ -180,7 +174,7 @@ function special_list($special)
     // add the rest of the special days (the "ordinary" special days ;) )
     foreach($specials_array as $k=>$v)
     {
-        echo "<option value='".encodeFormValue($k)."'";
+        echo "<option value='".attr_safe($k)."'";
         if ($special == $k) { echo " SELECTED"; }
         echo ">$v</option>";
         echo "\n";
@@ -259,7 +253,7 @@ function image_source_list($image_source)
     // add the pre-defined image_sources
     foreach($imso_array as $k=>$v)
     {
-        echo "<option value='".encodeFormValue($k)."'";
+        echo "<option value='".attr_safe($k)."'";
         if ($image_source == $k) { echo " SELECTED"; }
         echo ">$v</option>";
         echo "\n";
@@ -275,7 +269,7 @@ function image_source_list($image_source)
 
 function proj_comments_field($comments)
 {
-    $enc_comments = encodeFormValue($comments);
+    $enc_comments = html_safe($comments);
 
     echo "<center>";
     echo "<textarea name='comments' cols='74' rows='16' style='width: 100%'>$enc_comments</textarea>";
@@ -305,7 +299,7 @@ function word_lists($value,$fieldname,$projectid) {
 
 function extra_credits_field($extra_credits)
 {
-    $enc_credits = encodeFormValue($extra_credits);
+    $enc_credits = html_safe($extra_credits);
 
     echo "<center>";
     echo "<textarea name='extra_credits' cols='74' rows='4' style='width: 100%'>$enc_credits</textarea>";
@@ -318,7 +312,7 @@ function extra_credits_field($extra_credits)
 
 function description_field( $description, $field_name )
 {
-    $enc_description = encodeFormValue($description);
+    $enc_description = html_safe($description);
 
     echo "<center>";
     echo "<textarea name='$field_name' cols='74' rows='6'>$enc_description</textarea>";
@@ -327,6 +321,18 @@ function description_field( $description, $field_name )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// vim: sw=4 ts=4 expandtab
+// returns an empty string if the possible user exists,
+// otherwise an error message
+function check_user_exists($possible_user, $description)
+{
+    $result = '';
 
-?>
+    if(!User::is_valid_user($possible_user))
+    {
+        $result = sprintf(_("%s must be an existing user - check case and spelling of username."),
+            $description) . "<br>";
+    }
+    return $result;
+}
+
+// vim: sw=4 ts=4 expandtab

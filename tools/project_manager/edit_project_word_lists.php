@@ -252,7 +252,7 @@ class ProjectWordListHolder
     {
         $this->echo_stylesheet();
 
-        echo "<form method='post' enctype='multipart/form-data' action='". htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) ."'>";
+        echo "<form method='post' enctype='multipart/form-data' action='". attr_safe($_SERVER['PHP_SELF']) ."'>";
 
         $this->show_hidden_controls();
 
@@ -318,8 +318,8 @@ class ProjectWordListHolder
 
 
     function show_visible_controls() {
-        $goodWordData = encodeFormValue($this->good_words);
-        $badWordData = encodeFormValue($this->bad_words);
+        $goodWordData = html_safe($this->good_words);
+        $badWordData = html_safe($this->bad_words);
 
         $fields=array(
             "projectid" => _("Project ID"),

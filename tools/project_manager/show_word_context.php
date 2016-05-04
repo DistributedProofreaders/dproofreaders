@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'LPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
@@ -38,11 +39,10 @@ $wordInstances =  get_integer_param($_GET, 'wordInstances', 20, 0, null);
 $frame = get_enumerated_param($_GET, 'frame', 'master', array('master', 'left', 'right'));
 
 if($frame=="master") {
-    slim_header(_("Word Context"),TRUE,FALSE);
+    slim_header_frameset(_("Word Context"));
     if($layout == LAYOUT_HORIZ) $frameSpec='rows="30%,70%"';
     else $frameSpec='cols="30%,70%"';
 ?>
-</head>
 <frameset <?php echo $frameSpec; ?>>
 <frame name="worddetailframe" src="show_word_context.php?projectid=<?php echo $projectid; ?>&amp;word=<?php echo $encWord; ?>&amp;wordInstances=<?php echo $wordInstances; ?>&amp;frame=left">
 <frame name="imageframe" src="show_word_context.php?projectid=<?php echo $projectid; ?>&amp;word=<?php echo $encWord; ?>&amp;wordInstances=<?php echo $wordInstances; ?>&amp;frame=right">
@@ -50,7 +50,6 @@ if($frame=="master") {
 <noframes>
 <?php echo _("Your browser currently does not display frames!"); ?>
 </noframes>
-</html>
 <?php
     exit;
 }
@@ -59,7 +58,7 @@ if($frame=="master") {
 // now load data in the left frame
 if($frame=="left") {
 
-    slim_header(_("Suggestion Detail"),TRUE,TRUE);
+    slim_header(_("Suggestion Detail"));
 
     $project_name = get_project_name($projectid);
     // TRANSLATORS: %1$s is a word, %2$s is the project name.
@@ -69,7 +68,7 @@ if($frame=="left") {
 
     echo "<p>";
 
-    echo "<a target='_PARENT' href='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) . "?projectid=$projectid&amp;word=$encWord&amp;wordInstances=$wordInstances&amp;";
+    echo "<a target='_PARENT' href='" . attr_safe($_SERVER['PHP_SELF']) . "?projectid=$projectid&amp;word=$encWord&amp;wordInstances=$wordInstances&amp;";
     if($layout == LAYOUT_HORIZ)
         echo "layout=" . LAYOUT_VERT . "'>" . _("Change to vertical layout");
     else
@@ -91,7 +90,7 @@ if($frame=="left") {
         echo "<p>";
         echo "<b>" . _("Page") . "</b>: <a href='displayimage.php?project=$projectid&amp;imagefile=$page&amp;showreturnlink=0' target='imageframe'>$page</a><br>";
         foreach($context_strings as $lineNum => $context_string) {
-            $context_string=_highlight_word(htmlspecialchars($context_string),$word);
+            $context_string=_highlight_word(html_safe($context_string, ENT_NOQUOTES),$word);
             echo "<b>", _("Line"), "</b>: ", 
                 // TRANSLATORS: %1$d is the approximate line number, %2$d is the total number of lines
                 sprintf(_('~%1$d of %2$d'), $lineNum, $totalLines),
@@ -110,14 +109,12 @@ if($frame=="left") {
     if($foundInstances>=$wordInstances)
         echo "<p>" . _("More instances were found, stopping after a small sample.") . "</p>";
 
-    slim_footer();
     exit;
 }
 
 if($frame=="right") {
-    slim_header(_("Image Frame"),TRUE,TRUE);
+    slim_header(_("Image Frame"));
     echo "<p>" . _("Select one of the page links to view the page image (scan).") . "</p>";
-    slim_footer();
     exit;
 }
 

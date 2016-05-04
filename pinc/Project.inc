@@ -2,8 +2,10 @@
 include_once($relPath.'connect.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'project_states.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'forum_interface.inc'); // topic_create
 include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'User.inc');
 
 class NonexistentProjectException extends Exception { }
 
@@ -285,12 +287,11 @@ class Project
             {
                 // $name ($project->scannercredit) could be
                 // a username or just a typed-in string
-                $res = mysql_query("
-                    SELECT username
-                    FROM users
-                    WHERE username='$name'
-                ");
-                if (!$res)
+                try
+                {
+                    $user = new User($name);
+                }
+                catch(NonexistentUserException $exception)
                 {
                     // $name is not a username.
                     // So use it as the credit.
@@ -522,16 +523,12 @@ function get_credit_name( $login_name )
     }
     else // default: real_name
     {
-        $res = mysql_query("
-            SELECT real_name
-            FROM users
-            WHERE username='$login_name'
-        ");
-        if (mysql_num_rows($res) > 0)
+        try
         {
-            $name = mysql_result($res, 0);
+            $user = new User($login_name);
+            $name = $user->real_name;
         }
-        else
+        catch(NonexistentUserException $exception)
         {
             $name = $login_name;
         }
@@ -548,7 +545,7 @@ function get_formatted_postcomments( $projectid )
 {
     $project = new Project($projectid);
 
-    return nl2br(htmlspecialchars($project->postcomments));
+    return nl2br(html_safe($project->postcomments));
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -572,16 +569,21 @@ function does_project_page_table_exist($projectid)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// Checks if $value has the form of a valid project ID.
+// Checks if $value has the form of a valid project ID, either in its
+// long form (projectID####) or just the project number (####).
 // If it does, it returns it, otherwise dies with a warning.
 function validate_projectID($param_name, $value, $allownull = false)
 {
-    if (!isset($value) && $allownull) return null;
-    if (1 == preg_match('/^projectID[0-9a-f]{13}$/', $value)) return $value;
+    if (!isset($value) && $allownull)
+        return null;
+    if (1 == preg_match('/^projectID[0-9a-f]{13}$/', $value))
+        return $value;
+    if (1 == preg_match('/^[0-9a-f]{13}$/', $value))
+        return "projectID$value";
     die(sprintf(
         _("The value of parameter '%1\$s' ('%2\$s') is not a valid projectID."),
-        htmlspecialchars($param_name),
-        htmlspecialchars($value)
+        html_safe($param_name),
+        html_safe($value)
     ));
 }
 
@@ -594,8 +596,8 @@ function validate_page_image_filename($param_name, $value, $allownull = false)
     if (1 == preg_match('/^[a-zA-Z0-9_.-]{5,16}$/', $value)) return $value;
     die(sprintf(
         _("The value of parameter '%1\$s' ('%2\$s') is not a valid page image filename."),
-        htmlspecialchars($param_name),
-        htmlspecialchars($value)
+        html_safe($param_name),
+        html_safe($value)
     ));
 }
 

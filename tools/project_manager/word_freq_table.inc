@@ -3,6 +3,7 @@ include_once($relPath.'links.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'misc.inc'); // attr_safe()
 
 // get_cutoff_string
 // Arguments:
@@ -314,9 +315,6 @@ function echo_page_footer($page_gen_time=null) {
         $time_generate_string=sprintf(_("Time to generate this data: %.2f seconds"),$page_gen_time);
         echo "<p>$time_generate_string</p>";
     }
-
-    echo "</body>\n";
-    echo "</html>\n";
 }
 
 function _get_word_context_from_text($page_text,$contextWord) {
@@ -424,7 +422,7 @@ function echo_checkbox_selects($wordCount,$instance=0) {
 }
 
 function echo_checkbox_form_start($checkbox_form) {
-    echo "<form action='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) . "' method='post'>";
+    echo "<form action='" . attr_safe($_SERVER['PHP_SELF']) . "' method='post'>";
     echo "<input type='hidden' name='format' value='update'>";
     foreach($checkbox_form as $name => $value) {
         echo "<input type='hidden' name='$name' value='$value'>";

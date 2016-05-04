@@ -1,6 +1,8 @@
 <?php
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
+include_once($relPath.'slim_header.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
 include_once($relPath.'prefs_options.inc'); // $proofreading_font_*
 
@@ -44,15 +46,13 @@ else
     $font_settings = '';
 }
 
+$header_args = array(
+    'css_data' => 'body { background-color: #ffffff; }',
+    'body_attributes' => "onload='top.initializeStuff(1)'",
+);
+
+slim_header("", $header_args);
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<meta name="generator" content="HTML Tidy, see www.w3.org">
-<title></title>
-<META http-equiv="Content-Type" content="text/html; charset=<?php echo "$charset";?>">
-</head>
-<body bgcolor='#ffffff' onload='top.initializeStuff(1)'>
 <form action="./returnfeed.php?quiz_page_id=<?php echo $quiz_page_id; ?>" target="right" method="post" name="editform" id="editform">
 <textarea rows="12" cols="60" name="text_data" id="text_data" wrap="off"
     style='width:100%; <?php echo $font_settings; ?>'>
@@ -67,7 +67,7 @@ else
 	$solution = qp_convert_from_utf8_if_necessary($solution);
 
         echo "<textarea name='cheat_text' style='display: none;' disabled>\n";
-        echo htmlspecialchars($solution, ENT_NOQUOTES);
+        echo html_safe($solution);
         echo "</textarea>\n";
 
         $onclick = 'document.forms[0].text_data.value = document.forms[0].cheat_text.value;';
@@ -79,6 +79,3 @@ else
 ?>
 </p>
 </form>
-
-</body>
-</html>

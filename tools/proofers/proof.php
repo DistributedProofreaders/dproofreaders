@@ -9,10 +9,9 @@ require_login();
 // (User clicked on "Start Proofreading" link or
 // one of the links in "Done" or "In Progress" trays.)
 
-$projectid      = @$_GET['projectid'];
+$projectid      = validate_projectID('projectid', @$_GET['projectid']);
 $expected_state = @$_GET['proj_state'];
 
-if (empty($projectid))      die( "parameter 'projectid' is empty" );
 if (empty($expected_state)) die( "parameter 'proj_state' is empty" );
 
 $project = new Project($projectid);
@@ -22,7 +21,7 @@ $expected_state_text = project_states_text($expected_state);
 if (empty($expected_state_text)) die( "parameter 'proj_state' has bad value: '$expected_state'" );
 if ($expected_state != $project->state)
 {
-    slim_header( $project->nameofwork, TRUE, TRUE );
+    slim_header( $project->nameofwork );
 
     echo "<p>";
     echo sprintf(
@@ -42,9 +41,7 @@ if ($expected_state != $project->state)
     );
     echo "</p>\n";
 
-    slim_footer();
-
-    return;
+    exit;
 }
 
 // Check that the project is in a proofable state
@@ -53,7 +50,7 @@ if ( $code != $project->CBP_OKAY )
 {
     // I think this can only happen via URL-tweaking.
 
-    slim_header( $project->nameofwork, TRUE, TRUE );
+    slim_header( $project->nameofwork );
 
     echo _("Project") . ": \"{$project->nameofwork}\"<br>\n";
     echo _("State")   . ": " . project_states_text($project->state) . "<br>\n";
@@ -66,21 +63,14 @@ if ( $code != $project->CBP_OKAY )
     );
     echo "</p>\n";
 
-    slim_footer();
-
-    return;
+    exit;
 }
 
 //load the master frameset
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-<?php
 
 // Add name of round before nameofwork
 $round = get_Round_for_project_state($project->state);
 $nameofwork = "[" . $round->id . "] " . $project->nameofwork;
-slim_header($nameofwork." - "._("Proofreading Interface"),FALSE,FALSE);
-$frameGet="?" . $_SERVER['QUERY_STRING'];
 
 // Re src="dp_foo.js?YYMMDD##" in the following <script> tags:
 // When a JS script file changes, the browser should note this and update its
@@ -92,10 +82,16 @@ $frameGet="?" . $_SERVER['QUERY_STRING'];
 // The browser sees that the src URL no longer matches that of its cached
 // script, and so fetches the new version. (Of course, the JS script doesn't
 // do anything with the query string, but the browser doesn't know that.)
+$header_args = array(
+    "js_files" => array(
+        "dp_proof.js?2015122901",
+        "dp_scroll.js?1.18",
+    )
+);
+slim_header_frameset($nameofwork." - "._("Proofreading Interface"), $header_args);
+
+$frameGet="?" . $_SERVER['QUERY_STRING'];
 ?>
-<script language="JavaScript" type="text/javascript" src="dp_proof.js?2015122901"></script>
-<script language="JavaScript" type="text/javascript" src="dp_scroll.js?1.18"></script>
-</head>
 <frameset rows="*,73">
 <frame name="proofframe" src="<?php echo "$code_url/tools/proofers/proof_frame.php{$frameGet}";?>" marginwidth="2" marginheight="2" frameborder="0">
 <frame name="menuframe" src="ctrl_frame.php?round_id=<?php echo $round->id; ?>" marginwidth="2" marginheight="2" frameborder="0">
@@ -103,4 +99,3 @@ $frameGet="?" . $_SERVER['QUERY_STRING'];
 <noframes>
 <?php echo _("Your browser currently does not display frames!"); ?>
 </noframes>
-</html>

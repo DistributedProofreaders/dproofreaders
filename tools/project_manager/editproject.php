@@ -99,7 +99,7 @@ else
 
     if (in_array($requested_action, array('createnew', 'clone', 'createnewfromuber', 'create_from_marc_record')))
     {
-        check_user_can_load_projects();
+        check_user_can_load_projects(true); // exit if they can't
     }
 
     switch ($requested_action)
@@ -146,24 +146,6 @@ else
 
     $pih->normalize_spaces();
     $pih->show_form();
-}
-
-// returns an empty string if the possible user exists,
-// otherwise an error message
-function check_user_exists($possible_user, $description)
-{
-    $result = '';
-    $res = mysql_query("
-                SELECT u_id
-                FROM users
-                WHERE username = BINARY '".addslashes($possible_user)."'
-            ");
-    if (mysql_num_rows($res) == 0)
-    {
-        $result = sprintf(_("%s must be an existing user - check case and spelling of username."),
-            $description) . "<br>";
-    }
-    return $result;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -315,7 +297,7 @@ class ProjectInfoHolder
         {
             return sprintf(_("parameter '%s' is empty"), 'project');
         }
-        validate_projectID('project', $projectid);
+        $projectid = validate_projectID('project', $projectid);
 
         $ucep_result = user_can_edit_project($projectid);
         // we only let people clone projects that they can edit, so this
@@ -396,8 +378,8 @@ class ProjectInfoHolder
 
         if ( isset($_POST['projectid']) )
         {
-            validate_projectID('projectid', @$_POST['projectid']);
-            $this->projectid = $_POST['projectid'];
+            $projectid = validate_projectID('projectid', @$_POST['projectid']);
+            $this->projectid = $projectid;
 
             $ucep_result = user_can_edit_project($this->projectid);
             if ( $ucep_result == PROJECT_DOES_NOT_EXIST )
@@ -420,8 +402,8 @@ class ProjectInfoHolder
         else if ( isset($_POST['clone_projectid']) )
         {
             // we're creating a clone
-            validate_projectID('clone_projectid', @$_POST['clone_projectid']);
-            $this->clone_projectid = $_POST['clone_projectid'];
+            $clone_projectid = validate_projectID('clone_projectid', @$_POST['clone_projectid']);
+            $this->clone_projectid = $clone_projectid;
         }
 
         $this->nameofwork = @$_POST['nameofwork'];
@@ -855,17 +837,11 @@ class ProjectInfoHolder
             save_project_bad_words($this->projectid, $bad_words);
         }
 
-// TODO not scannercredit below!
-
         // Create/update the Dublin Core file for the project.
-        create_dc_xml_oai(
-            $this->projectid,
-            $this->scannercredit,
-            $this->genre,
-            $this->language,
-            $this->authorsname,
-            $this->nameofwork,
-            $updated_marc_array );
+        // When we get here, the project's database entry has been fully
+        // updated, so we can pass in just the projectid and allow the
+        // function to pull the relevant fields from the database.
+        create_dc_xml_oai($this->projectid, $updated_marc_array);
 
         // If the project has been posted to PG, make the appropriate transition.
         if ($this->posted)
@@ -883,7 +859,7 @@ class ProjectInfoHolder
 
     function show_form()
     {
-        echo "<form method='post' enctype='multipart/form-data' action='". htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES)."'>";
+        echo "<form method='post' enctype='multipart/form-data' action='". attr_safe($_SERVER['PHP_SELF'])."'>";
 
         $this->show_hidden_controls();
 

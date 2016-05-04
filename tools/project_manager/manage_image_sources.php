@@ -7,6 +7,9 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
+include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'User.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
@@ -74,7 +77,7 @@ if ($action == 'update_oneshot')
 
         $errmsgs = '';
 
-        $new_code_name = rtrim(ltrim($_REQUEST[code_name]));
+        $new_code_name = rtrim(ltrim($_REQUEST["code_name"]));
 
         if (strlen($new_code_name) < 1) 
             $errmsgs .= _("A value for Image Source ID is required. Please enter one.") . " ";
@@ -194,7 +197,7 @@ class ImageSource
     function show_listing_row($count)
     {
         global $page_url;
-        $sid = htmlspecialchars($this->code_name, ENT_QUOTES);
+        $sid = html_safe($this->code_name);
 
         if($count%2 == "1")
             $row_class = "o";
@@ -210,8 +213,8 @@ class ImageSource
             $listing_rows++;
 
         echo "<tr class='$row_class'>";
-        echo "<td rowspan='$listing_rows'>" . htmlspecialchars($this->code_name) . "</td>";
-        echo "<td><a name='$sid' id='$sid'></a>" . htmlspecialchars($this->display_name) . "</td>";
+        echo "<td rowspan='$listing_rows'>" . html_safe($this->code_name) . "</td>";
+        echo "<td><a name='$sid' id='$sid'></a>" . html_safe($this->display_name) . "</td>";
         echo "<td>" . make_link($this->url, $this->full_name) . "</td>";
         echo $this->_get_status_cell($this->is_active,' pb');
         echo "<td class='center'>" . $this->_may_maynot_unknown($this->ok_keep_images) . "</td>";
@@ -227,20 +230,20 @@ class ImageSource
         echo "</tr>";
 
         echo "<tr class='$row_class'>";
-        echo "<td colspan='6'>" . sprintf(_("<b>Credits Line:</b> %s"), htmlspecialchars($this->credit)) . "</td>";
+        echo "<td colspan='6'>" . sprintf(_("<b>Credits Line:</b> %s"), html_safe($this->credit)) . "</td>";
         echo "</tr>";
 
         if($this->public_comment)
         {
             echo "<tr class='$row_class'>";
-            echo "<td colspan='6'>" . sprintf(_("<b>Comment (public):</b> %s"), htmlspecialchars($this->public_comment)) . "</td>";
+            echo "<td colspan='6'>" . sprintf(_("<b>Comment (public):</b> %s"), html_safe($this->public_comment)) . "</td>";
             echo "</tr>";
         }
 
         if($this->internal_comment)
         {
             echo "<tr class='$row_class'>";
-            echo "<td colspan='6'>" . sprintf(_("<b>Notes (internal):</b> %s"), htmlspecialchars($this->internal_comment)) . "</td>";
+            echo "<td colspan='6'>" . sprintf(_("<b>Notes (internal):</b> %s"), html_safe($this->internal_comment)) . "</td>";
             echo "</tr>";
         }
     }
@@ -275,7 +278,7 @@ class ImageSource
         else
         {
             echo "<input type='hidden' name='editing' value='true' />" .
-                "<input type='hidden' name='code_name' value='" . htmlspecialchars($this->code_name, ENT_QUOTES) ."' />";
+                "<input type='hidden' name='code_name' value='" . attr_safe($this->code_name) ."' />";
             $this->_show_summary_row(_('Image Source ID'),$this->code_name);
         }
         $this->_show_edit_row('display_name',_('Display Name'),false,30);
@@ -293,12 +296,11 @@ class ImageSource
 
     function _show_edit_row($field, $label, $textarea = false, $maxlength = null)
     {
-
         $value = $this->new_source
             ? (empty($_REQUEST[$field]) ? '' : $_REQUEST[$field])
             : $this->$field;
 
-        $value = htmlspecialchars($value,ENT_QUOTES);
+        $value = html_safe($value);
 
         if ($textarea)
         {
@@ -384,6 +386,7 @@ class ImageSource
         global $errmsgs,$can_edit,$new,$theme_args;
         $std_fields = array('display_name','full_name','credit',
                     'ok_keep_images','ok_show_images','info_page_visibility','public_comment','internal_comment');
+        $std_fields_sql = '';
         foreach ($std_fields as $field)
         {
             $this->$field = $_POST[$field];
@@ -438,28 +441,26 @@ class ImageSource
         $this->_set_field('is_active',1);
         $this->_set_field('info_page_visibility',1);
 
-        $result = mysql_query("SELECT users.username,users.email
-            FROM usersettings,users
-            WHERE usersettings.setting = 'is_approval_notify'
-            AND usersettings.value = '$this->code_name'
-            AND usersettings.username = users.username");
+        $notify_users = Settings::get_users_with_setting(
+            'is_approval_notify', $this->code_name);
 
-        mysql_query("DELETE
-            FROM usersettings
-            WHERE setting = 'is_approval_notify'
-            AND usersettings.value = '$this->code_name'") or die(mysql_error());
+        foreach($notify_users as $username)
+        {
+            $user = new User($username);
 
-        list($username, $email) = mysql_fetch_row($result);
+            $userSettings =& Settings::get_Settings($username);
+            $userSettings->remove_value('is_approval_notify', $this->code_name);
 
-        $subject = sprintf(_('%s: Image Source %s has been approved!'),$site_abbreviation,$this->display_name);
+            $subject = sprintf(_('%s: Image Source %s has been approved!'),$site_abbreviation,$this->display_name);
 
-        $body = "Hello $username,\n\n" .
-            "This is a message from the $site_name website.\n\n".
-            "The Image Source that you proposed, $this->display_name, has been\n".
-            "approved by $pguser. You can select it, and apply it to projects, from\n".
-            "your project manager's page.\n\n$site_signoff";
+            $body = "Hello $username,\n\n" .
+                "This is a message from the $site_name website.\n\n".
+                "The Image Source that you proposed, $this->display_name, has been\n".
+                "approved by $pguser. You can select it, and apply it to projects, from\n".
+                "your project manager's page.\n\n$site_signoff";
 
-        maybe_mail($email,$subject,$body);
+            maybe_mail($user->email,$subject,$body);
+        }
     }
 
     function _set_field($field,$value)
@@ -475,7 +476,7 @@ class ImageSource
     {
         echo "  <tr>" .
             "<td class='pa'>$label</td>" .
-            "<td class='pb'>" . ($htmlspecialchars ? htmlspecialchars($value) : $value ) . "</td>" .
+            "<td class='pb'>" . ($htmlspecialchars ? html_safe($value) : $value ) . "</td>" .
             "</tr>\n";
     }
 
@@ -531,11 +532,8 @@ class ImageSource
     {
         global $general_help_email_addr,$image_sources_manager_addr,$code_url,$site_abbreviation,$site_name,$site_signoff;
 
-        mysql_query("INSERT INTO usersettings
-            SET
-                username = '$requestor_username',
-                setting = 'is_approval_notify',
-                value = '$this->code_name'") or die(mysql_error());
+        $userSettings =& Settings::get_Settings($requestor_username);
+        $userSettings->add_value('is_approval_notify', $this->code_name);
 
         $subject = sprintf(_('%s: New Image Source proposed'),$site_abbreviation)." : ".$this->display_name;
 

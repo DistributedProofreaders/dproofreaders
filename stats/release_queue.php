@@ -2,7 +2,7 @@
 $relPath='../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-include_once($relPath.'misc.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'user_is.inc');
@@ -123,13 +123,13 @@ else
         WHERE round_id='$round_id' AND name='$name'
     "));
     if (!$qd) {
-        die(htmlspecialchars("No such release queue '$name' in $round_id."));
+        die(html_safe("No such release queue '$name' in $round_id."));
     }
     $cooked_project_selector = cook_project_selector($qd->project_selector);
     $comment = $qd->comment;
 
     //// TRANSLATORS: %s is the name of this release queue.
-    $title = sprintf(_("\"%s\" Release Queue"), htmlspecialchars($name));
+    $title = sprintf(_("\"%s\" Release Queue"), html_safe($name));
     $title = preg_replace('/(\\\\)/', "", $title); // Unescape apostrophes, etc.
     // Suppress stats since this page is very wide
     output_header($title, NO_STATSBAR);

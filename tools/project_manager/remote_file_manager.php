@@ -4,7 +4,19 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'misc.inc'); // get_upload_err_msg(), undo_all_magic_quotes()
+include_once($relPath.'misc.inc'); // get_upload_err_msg(), undo_all_magic_quotes(), attr_safe(), html_safe()
+
+// Detect if the file uploaded was larger than post_max_size and show
+// an error instead of failing silently. We do this here because if the
+// POST failed, $_REQUEST and $_POST are empty and we have no data to even
+// route them through the do_upload() function at all.
+// http://andrewcurioso.com/blog/archive/2010/detecting-file-size-overflow-in-php.html
+if($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
+    empty($_FILES) && $_SERVER['CONTENT_LENGTH'] > 0)
+{
+    $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
+    fatal_error( sprintf(_("Uploaded file is too large. Maximum file size is %s."), $max_upload_size));
+}
 
 # Directory structure under uploads dir
 $trash_dir       = "$uploads_dir/$uploads_subdir_trash";
@@ -123,8 +135,8 @@ if($uploads_account) {
 }
 
 // For convenience, here are a couple of encoded forms:
-$hae_curr_relpath = hae($curr_relpath);
-$hce_curr_displaypath = hce($curr_displaypath);
+$hae_curr_relpath = attr_safe($curr_relpath);
+$hce_curr_displaypath = html_safe($curr_displaypath);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -166,7 +178,7 @@ switch ($action) {
     case 'delete':     do_delete();     break;
     default:
         // no matching $action in input
-        fatal_error(sprintf(_("Invalid action: '%s'"), hce($action)));
+        fatal_error(sprintf(_("Invalid action: '%s'"), html_safe($action)));
         break;
 }
 
@@ -184,7 +196,7 @@ function do_showdir()
     // are sent, which is why a flag for this exists above.
 
     if ( $home_dir_created ) {
-        show_message('info', sprintf(_("Home folder created for user %s."), hce($pguser)));
+        show_message('info', sprintf(_("Home folder created for user %s."), html_safe($pguser)));
     }
 
     echo "<p>" . _("This page allows you to manage content in this uploads folder.") . "</p>\n";
@@ -371,7 +383,7 @@ function do_upload()
         fatal_error( _("Webserver failed to copy uploaded file from temporary location to upload folder.") );
     }
 
-    echo "<p>" . sprintf(_('File %1$s successfully uploaded to folder %2$s.'), hce($target_name), $hce_curr_displaypath), "</p>\n";
+    echo "<p>" . sprintf(_('File %1$s successfully uploaded to folder %2$s.'), html_safe($target_name), $hce_curr_displaypath), "</p>\n";
 
     // Log the file upload
     // In part so that we can possibly clean up with some automation later
@@ -414,7 +426,7 @@ function do_mkdir()
 
     $new_dir_abspath = "$curr_abspath/$new_dir_name";
     if ( file_exists($new_dir_abspath) ) {
-        fatal_error( sprintf(_("%s already exists"), hce($new_dir_name)) );
+        fatal_error( sprintf(_("%s already exists"), html_safe($new_dir_name)) );
         // hce isn't needed when is_valid_filename()is so bland,
         // but the pattern could change.
     }
@@ -423,7 +435,7 @@ function do_mkdir()
         fatal_error( sprintf(_("Unable to create folder")) );
     }
 
-    show_message('info', sprintf(_("Created folder %s"), hce($new_dir_name)));
+    show_message('info', sprintf(_("Created folder %s"), html_safe($new_dir_name)));
 
     show_return_link("$curr_relpath/$new_dir_name");
     show_return_link();
@@ -440,11 +452,11 @@ function do_showrename()
     $item_name = @$_POST['item_name'];
     confirm_is_local('FD', $item_name, TRUE);
 
-    $form_content = "<input type='hidden' name='item_name' value='" . hae($item_name) . "'>\n";
+    $form_content = "<input type='hidden' name='item_name' value='" . attr_safe($item_name) . "'>\n";
     $form_content .= sprintf(
         _('Rename <b>%1$s</b> as %2$s'),
-        hce($item_name),
-        "<input type='text' name='new_item_name' size='50' value='" . hae($item_name) . "'>"
+        html_safe($item_name),
+        "<input type='text' name='new_item_name' size='50' value='" . attr_safe($item_name) . "'>"
     );
 
     show_form(
@@ -488,14 +500,14 @@ function do_rename()
     $new_item_path = "$curr_abspath/$new_item_name";
 
     if (file_exists($new_item_path)) {
-        fatal_error(sprintf(_("%s already exists"), hce($new_item_name)));
+        fatal_error(sprintf(_("%s already exists"), html_safe($new_item_name)));
     }
 
     if (!@rename($item_path, $new_item_path)) {
-        fatal_error( sprintf(_('Unable to rename item %1$s as %2$s.'), hce($item_name), hce($new_item_name)) );
+        fatal_error( sprintf(_('Unable to rename item %1$s as %2$s.'), html_safe($item_name), html_safe($new_item_name)) );
     }
 
-    show_message('info', sprintf(_('Item %1$s has been renamed as %2$s.'), hce($item_name), hce($new_item_name)));
+    show_message('info', sprintf(_('Item %1$s has been renamed as %2$s.'), html_safe($item_name), html_safe($new_item_name)));
     show_return_link();
 }
 
@@ -542,12 +554,12 @@ function do_showmove()
         if ($full_dir == "$curr_abspath/") continue;
         $dir = rtrim(substr($full_dir, strlen("$uploads_dir/")), '/');
 
-        $form_content .= "<option value='" . hae($dir) . "'>" . hce($dir) . "</option>\n";
+        $form_content .= "<option value='" . attr_safe($dir) . "'>" . html_safe($dir) . "</option>\n";
     }
     $form_content .= "</select>\n";
     $form_content .= "<p><b>" . sprintf(
         _("Are you sure you want to move %s?"),
-        "<input type='text' name='item_name' size='50' maxsize='50' value='" . hae($item_name) . "' READONLY>"
+        "<input type='text' name='item_name' size='50' maxsize='50' value='" . attr_safe($item_name) . "' READONLY>"
     ) . "</b>";
 
     show_form(
@@ -582,7 +594,7 @@ function do_move()
 
     $dst_dir = "$uploads_dir/$dst_dir_relpath";
     if (!is_dir($dst_dir)) {
-        fatal_error( sprintf(_("%s does not exist, or is not a folder"), hce($dst_dir_relpath)) );
+        fatal_error( sprintf(_("%s does not exist, or is not a folder"), html_safe($dst_dir_relpath)) );
     }
 
     $dst_path = "$dst_dir/$item_name";
@@ -593,10 +605,10 @@ function do_move()
     }
 
     if (!@rename($src_path, $dst_path)) {
-        fatal_error( sprintf(_('Unable to move file %1$s to destination folder: %2$s.'), hce($item_name), hce($dst_dir_relpath)) );
+        fatal_error( sprintf(_('Unable to move file %1$s to destination folder: %2$s.'), html_safe($item_name), html_safe($dst_dir_relpath)) );
     }
 
-    show_message('info', sprintf(_('File %1$s has been moved to folder %2$s'), hce($item_name), hce($dst_dir_relpath)));
+    show_message('info', sprintf(_('File %1$s has been moved to folder %2$s'), html_safe($item_name), html_safe($dst_dir_relpath)));
     show_return_link();
 }
 
@@ -654,7 +666,7 @@ function do_showdelete()
     $form_content .= _("<b>Warning:</b> Deletion is permanent and cannot be undone.") . " ";
     $form_content .= _("This script does not check that folders are empty.</p>");
     $form_content .= "<p><b>" . sprintf( $question_template,
-        "<input type='text' name='del_file' size='50' maxsize='50' value='" . hae($item_name) . "' READONLY>" ) . "</b></p>";
+        "<input type='text' name='del_file' size='50' maxsize='50' value='" . attr_safe($item_name) . "' READONLY>" ) . "</b></p>";
 
     show_form(
         'delete',
@@ -683,10 +695,10 @@ function do_delete()
     // For safety, we move the item into TRASH and let the
     // existing cron job remove it instead of using unlink()
     if (!@rename($src_path, $dst_path)) {
-        fatal_error( sprintf(_("Unable to move %s to TRASH folder."), hce($item_name)) );
+        fatal_error( sprintf(_("Unable to move %s to TRASH folder."), html_safe($item_name)) );
     }
 
-    show_message('info', sprintf(_("%s has been moved to the TRASH folder for deletion."), hce($item_name)));
+    show_message('info', sprintf(_("%s has been moved to the TRASH folder for deletion."), html_safe($item_name)));
     show_return_link();
 }
 
@@ -760,7 +772,7 @@ function get_current_dir_relative_path($home_dirname)
     // If we gave one message if the file exists and another if it wasn't
     // in a normalized form, we allow them a programatic way of determining
     // information about what files/directories exist on the system.
-    $error_message = sprintf(_("'%s' does not exist, or is not a folder"), hce($cdrp));
+    $error_message = sprintf(_("'%s' does not exist, or is not a folder"), html_safe($cdrp));
 
     $abspath = realpath("$abs_uploads_dir/$cdrp");
     if($abspath === FALSE) {
@@ -845,7 +857,7 @@ function show_content()
 
     foreach ( $item_names as $item_name )
     {
-        $hce_item_name = hce($item_name);
+        $hce_item_name = html_safe($item_name);
 
         $item_path = "$curr_abspath/$item_name";
 
@@ -911,7 +923,7 @@ function get_directory_items_sorted($curr_abspath)
 function get_actions_block( $item_name, $valid_actions )
 {
     global $hae_curr_relpath;
-    $hae_item_name = hae($item_name);
+    $hae_item_name = attr_safe($item_name);
 
     $form = "
         <form style='display:inline;' action='?' method='POST' enctype='multipart/form-data'>
@@ -1019,7 +1031,7 @@ function confirm_is_local($type, $item_name)
     // Note that 'file_exists', despite the name, doesn't require
     // that its arg identify a file (as opposed to a directory).
     if (!file_exists($src_path)) {
-        fatal_error( sprintf(_('folder %1$s does not have an item named %2$s'), $hce_curr_displaypath, hce($item_name)) );
+        fatal_error( sprintf(_('folder %1$s does not have an item named %2$s'), $hce_curr_displaypath, html_safe($item_name)) );
     }
 
     if ($type == 'FD') return;
@@ -1035,7 +1047,7 @@ function confirm_is_local($type, $item_name)
     }
 
     if (!$exists) {
-        fatal_error( sprintf($msg, hce($item_name)) );
+        fatal_error( sprintf($msg, html_safe($item_name)) );
     }
 }
 
@@ -1080,7 +1092,7 @@ function show_return_link($relpath=NULL)
         $relpath = $curr_relpath;
 
     $url = "?cdrp=" . urlencode($relpath);
-    $text = sprintf(_("Go to folder %s"), hae($relpath));
+    $text = sprintf(_("Go to folder %s"), attr_safe($relpath));
     echo "<p><a href='$url'>$text</a></p>\n";
 }
 
@@ -1132,8 +1144,8 @@ function show_form($action, $cdrp, $form_content, $submit_label)
     // which can be abritrary HTML/other inputs; and finally a labeled submit button
     echo "<div style='border: 1px solid grey; margin-left: .5em; padding: .25em;'>\n";
     echo "<form style='margin: 0em;' action='?' method='POST' enctype='multipart/form-data'>\n";
-    echo "<input type='hidden' name='action' value='" . hae($action) . "'>\n";
-    echo "<input type='hidden' name='cdrp' value='" . hae($cdrp) . "'>\n";
+    echo "<input type='hidden' name='action' value='" . attr_safe($action) . "'>\n";
+    echo "<input type='hidden' name='cdrp' value='" . attr_safe($cdrp) . "'>\n";
     echo "$form_content&nbsp;<input type='submit' value='$submit_label'>\n";
     echo "</form>\n";
     echo "</div>\n";
@@ -1142,13 +1154,12 @@ function show_form($action, $cdrp, $form_content, $submit_label)
 function show_caveats()
 {
     $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
-    $max_post_size = humanize_bytes(return_bytes(ini_get("post_max_size")));
 
     echo "<p><b>" . _("Current file and directory management features:") . "</b></p>\n";
     echo "<ul>\n";
     echo "<li>" . _("Upload files into your user folder.") . "\n";
     echo "<ul>\n";
-    echo   "<li>" . sprintf(_('Maximum file size is %1$s. Files larger than %2$s will fail silently.'), $max_upload_size, $max_post_size) . "</li>\n";
+    echo   "<li>" . sprintf(_('Maximum file size is %s.'), $max_upload_size) . "</li>\n";
     echo   "<li>" . _("Files are tested for validity and scanned for viruses.") . "</li>\n";
     echo "</ul>";
     echo "</li>\n";
@@ -1164,22 +1175,6 @@ function show_caveats()
 
 
 // Move these to misc.inc?
-
-function hce($string)
-// "hce" stands for "HTML Content Encode"
-// i.e., Encode $string for inclusion in/as the content of an HTML element.
-{
-    return htmlspecialchars($string, ENT_NOQUOTES);
-}
-
-function hae($string)
-// "hae" stands for "HTML Attribute Encode"
-// i.e., Encode $string for inclusion in/as the value of an HTML attribute.
-// This is like attr_safe(), but it *does* convert '&' to '&amp;'.
-{
-    return str_replace( 
-        array("&", "'", "\""), array("&amp;", "&#39;", "&quot;"), $string);
-}
 
 function is_valid_filename($filename, $restrict_extension=False)
 {

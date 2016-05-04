@@ -113,7 +113,7 @@ for($i=0;$i<$row;$i++) {
             $tll[$i]=$t;
 ?>
 <td><textarea name="<?php echo $name; ?>" wrap="off">
-<?php echo htmlspecialchars($_POST[$name]); ?>
+<?php echo htmlspecialchars($_POST[$name], ENT_NOQUOTES, $charset); ?>
 </textarea></td>
 <?php
     }
@@ -136,9 +136,9 @@ for($i=0;$i<$row;$i++) {
     for($k=0;$k<$tll[$i];$k++) {
         if($bord) echo "|";
         for($j=0;$j<$col-1;$j++) {
-            echo htmlspecialchars(mb_str_pad($a[$i][$j][$k],$lng[$j]," ",$al[$j]))."|";
+            echo htmlspecialchars(mb_str_pad($a[$i][$j][$k],$lng[$j]," ",$al[$j]), ENT_QUOTES, $charset)."|";
         }
-        echo htmlspecialchars(mb_str_pad($a[$i][$col-1][$k],$lng[$col-1]," ",$al[$col-1]));
+        echo htmlspecialchars(mb_str_pad($a[$i][$col-1][$k],$lng[$col-1]," ",$al[$col-1]), ENT_QUOTES, $charset);
         if($bord) echo "|";
         echo "\n";
     }

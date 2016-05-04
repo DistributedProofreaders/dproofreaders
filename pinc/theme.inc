@@ -6,7 +6,6 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'pg.inc');
-include_once($relPath.'dpsession.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'page_tally.inc');
@@ -14,12 +13,10 @@ include_once($relPath.'list_projects.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'languages.inc');
-include_once($relPath.'misc.inc'); // endswith
+include_once($relPath.'misc.inc'); // endswith(), attr_safe()
 
 define('NO_STATSBAR',   False);
 define('SHOW_STATSBAR', True);
-
-$user_is_logged_in = dpsession_resume();
 
 if(isset($userP['i_theme']) && $userP['i_theme'] != '' ) {
     $theme_name = $userP['i_theme'];
@@ -115,7 +112,8 @@ function output_footer($nameofpage, $show_statsbar = True) {
 
 function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) {
     global $code_url, $theme, $site_abbreviation;
-    global $charset, $intlang;
+    global $charset;
+    $intlang = get_desired_language();
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
     echo "<html ".lang_html_header($intlang).">\n<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\">\n";
@@ -138,6 +136,12 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) 
 
 
     // Per-page CSS
+    if (isset($extra_args['css_files']))
+    {
+        foreach($extra_args['css_files'] as $css_file)
+            echo "<link type='text/css' rel='Stylesheet' href='$css_file'>";
+    }
+
     // this first navbar blob needs to be moved to a universal stylesheet but
     // that'll also require adjustements for the $theme replacements
     echo "<style type='text/css'>\n";
@@ -257,7 +261,7 @@ function html_navbar()
         //
         $destination = array_get($_REQUEST, "destination", $_SERVER["REQUEST_URI"]);
 
-        $login_form .= "<input type='hidden' name='destination' value='" . htmlspecialchars($destination,ENT_QUOTES) . "'>";
+        $login_form .= "<input type='hidden' name='destination' value='" . attr_safe($destination) . "'>";
 
         // login link text
         // TRANSLATORS: ID is an abbreviation for username in the navbar
@@ -526,7 +530,7 @@ function html_statsbar($nameofpage) {
 
 function maybe_show_language_selector()
 {
-    global $code_url, $userP, $intlang, $user_is_logged_in;
+    global $code_url, $userP, $user_is_logged_in;
 
     // if user is logged in, return instead of showing the drop-down
     if($user_is_logged_in)
@@ -544,6 +548,7 @@ function maybe_show_language_selector()
     // --></script>
     <?php
 
+    $intlang = get_desired_language();
     echo "<form id='langform' action='$code_url/tools/setlangcookie.php' method='POST'><div>\n";
     echo "<label for='langform-lang'>" . _("Set language") . ": </label>";
     echo "<select id='langform-lang' name='lang' onChange='submitLang(this)'>\n";
@@ -684,11 +689,10 @@ function show_tally_specific_stats( $tally_name )
         }
 
         // Get userid for personal stats link
-        $result = mysql_query("SELECT u_id FROM users WHERE username='$pguser' LIMIT 1");
-        $u_id = mysql_result($result, 0, "u_id"); // could use $usern->get_u_id() ??
+        $user = new User($pguser);
 
         // get yesterday's and today's page count
-        $snapshot_info = $tallyboard->get_info_from_latest_snapshot($u_id);
+        $snapshot_info = $tallyboard->get_info_from_latest_snapshot($user->u_id);
         $yesterday_page_delta = $snapshot_info['tally_delta'];
         $today_page_delta = $usern->get_current_page_tally() - $snapshot_info['tally_value'];
 
@@ -704,7 +708,7 @@ function show_tally_specific_stats( $tally_name )
         echo number_format($usern->get_current_page_tally_rank())."<br>\n";
         echo _("Current Rank") . ": ";
         echo "$rankname</p>\n";
-        echo "<p class='more-link'><a href='$code_url/stats/members/mdetail.php?id=".$u_id."&tally_name=".$tally_name."'>" . $tally_name . " " .  _("Details...") . "</a></p>\n";
+        echo "<p class='more-link'><a href='$code_url/stats/members/mdetail.php?id=".$user->u_id."&tally_name=".$tally_name."'>" . $tally_name . " " .  _("Details...") . "</a></p>\n";
         echo "<" . "!-- " . $userP['u_id'] . " -->";
 
         // -------------------------------------------------------------

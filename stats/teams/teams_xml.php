@@ -2,7 +2,7 @@
 $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'prefs_options.inc');
-include_once($relPath.'xml.inc');
+include_once($relPath.'misc.inc'); // xmlencode()
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'forum_interface.inc'); // get_url_to_view_topic
 include_once('../includes/team.inc');
@@ -33,67 +33,67 @@ $team_id = $curTeam['id'];
 
 //Team info portion of $data
 
-    $result = mysql_query("SELECT COUNT(id) AS totalTeams FROM user_teams");
-    $totalTeams = mysql_result($result, 0, "totalTeams");
+$result = mysql_query("SELECT COUNT(id) AS totalTeams FROM user_teams");
+$totalTeams = mysql_result($result, 0, "totalTeams");
 
-    $data = "<teaminfo id='$team_id'>
-            <teamname>".xmlencode($curTeam['teamname'])."</teamname>
-            <datecreated>".date("m/d/Y", $curTeam['created'])."</datecreated>
-            <createdby>".xmlencode($curTeam['createdby'])."</createdby>
-            <leader>".xmlencode(get_username_for_uid($curTeam['owner']))."</leader>
-            <description>".xmlencode($curTeam['team_info'])."</description>
-            <website>".xmlencode($curTeam['webpage'])."</website>
-            <forums>".xmlencode(get_url_to_view_topic($curTeam['topic_id']))."</forums>
-            <totalmembers>".$curTeam['member_count']."</totalmembers>
-            <currentmembers>".$curTeam['active_members']."</currentmembers>
-            <retiredmembers>".($curTeam['member_count'] - $curTeam['active_members'])."</retiredmembers>";
+$data = "<teaminfo id='$team_id'>
+        <teamname>".xmlencode($curTeam['teamname'])."</teamname>
+        <datecreated>".date("m/d/Y", $curTeam['created'])."</datecreated>
+        <createdby>".xmlencode($curTeam['createdby'])."</createdby>
+        <leader>".xmlencode(get_username_for_uid($curTeam['owner']))."</leader>
+        <description>".xmlencode($curTeam['team_info'])."</description>
+        <website>".xmlencode($curTeam['webpage'])."</website>
+        <forums>".xmlencode(get_url_to_view_topic($curTeam['topic_id']))."</forums>
+        <totalmembers>".$curTeam['member_count']."</totalmembers>
+        <currentmembers>".$curTeam['active_members']."</currentmembers>
+        <retiredmembers>".($curTeam['member_count'] - $curTeam['active_members'])."</retiredmembers>";
 
-    foreach ( $page_tally_names as $tally_name => $tally_title )
-    {
-        $teams_tallyboard = new TallyBoard( $tally_name, 'T' );
+foreach ( $page_tally_names as $tally_name => $tally_title )
+{
+    $teams_tallyboard = new TallyBoard( $tally_name, 'T' );
 
-        $pageCount = $teams_tallyboard->get_current_tally( $team_id );
-        $pageCountRank = $teams_tallyboard->get_rank( $team_id );
+    $pageCount = $teams_tallyboard->get_current_tally( $team_id );
+    $pageCountRank = $teams_tallyboard->get_rank( $team_id );
 
-        $avg_pages_per_day = get_daily_average( $curTeam['created'], $pageCount );
+    $avg_pages_per_day = get_daily_average( $curTeam['created'], $pageCount );
 
-        list($bestDayCount, $bestDayTimestamp) =
-            $teams_tallyboard->get_info_re_largest_delta( $team_id );
-        $bestDayTime = date("M. jS, Y", ($bestDayTimestamp-1));
-
-        $data .= "
-            <roundinfo id='$tally_name'>
-                <totalpages>$pageCount</totalpages>
-                <rank>".$pageCountRank."/".$totalTeams."</rank>
-                <avgpagesday>".number_format($avg_pages_per_day,1)."</avgpagesday>
-                <mostpagesday>".$bestDayCount." (".$bestDayTime.")</mostpagesday>
-            </roundinfo>";
-    }
+    list($bestDayCount, $bestDayTimestamp) =
+        $teams_tallyboard->get_info_re_largest_delta( $team_id );
+    $bestDayTime = date("M. jS, Y", ($bestDayTimestamp-1));
 
     $data .= "
-        </teaminfo>
-    ";
+        <roundinfo id='$tally_name'>
+            <totalpages>$pageCount</totalpages>
+            <rank>".$pageCountRank."/".$totalTeams."</rank>
+            <avgpagesday>".number_format($avg_pages_per_day,1)."</avgpagesday>
+            <mostpagesday>".$bestDayCount." (".$bestDayTime.")</mostpagesday>
+        </roundinfo>";
+}
+
+$data .= "
+    </teaminfo>
+";
 
 //Team members portion of $data
-    $data .= "<teammembers>";
-    $mbrQuery = mysql_query("
-        SELECT username, date_created, u_id, u_privacy
-        FROM users
-        WHERE $team_id IN (team_1, team_2, team_3)
-        ORDER BY username ASC
-    ");
-    while ($curMbr = mysql_fetch_assoc($mbrQuery))
+$data .= "<teammembers>";
+$mbrQuery = mysql_query("
+    SELECT username, date_created, u_id, u_privacy
+    FROM users
+    WHERE $team_id IN (team_1, team_2, team_3)
+    ORDER BY username ASC
+");
+while ($curMbr = mysql_fetch_assoc($mbrQuery))
+{
+    if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
     {
-        if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
-        {
-            $data .= "<member id=\"".$curMbr['u_id']."\">
-                <username>".xmlencode($curMbr['username'])."</username>
-                <datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
-            </member>
-            ";
-        }
+        $data .= "<member id=\"".$curMbr['u_id']."\">
+            <username>".xmlencode($curMbr['username'])."</username>
+            <datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
+        </member>
+        ";
     }
-    $data .= "</teammembers>";
+}
+$data .= "</teammembers>";
 
 
 $xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">

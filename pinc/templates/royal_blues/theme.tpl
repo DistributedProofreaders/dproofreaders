@@ -17,7 +17,6 @@ $royal_blues['body_link'] = "#330099";
 $royal_blues['body_vlink'] = "#330099";
 $royal_blues['body_alink'] = "#330099";
 
-$royal_blues['image_logo'] = "/graphics/logo.gif";
 $royal_blues['image_curve_right'] = "/graphics/r_curve.gif";
 $royal_blues['image_curve_left'] = "/graphics/l_curve.gif";
 $royal_blues['image_gold_star'] = "/graphics/gold_star.gif";

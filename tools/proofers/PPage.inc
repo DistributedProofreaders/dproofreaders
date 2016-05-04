@@ -6,6 +6,7 @@ include_once($relPath.'page_tally.inc');
 include_once($relPath.'prefs_options.inc'); // $proofreading_font_*
 include_once($relPath.'LPage.inc');
 include_once($relPath.'abort.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'links.inc'); // private_message_link()
 include_once($relPath.'forum_interface.inc'); // get_forum_user_id()
 
@@ -240,7 +241,7 @@ class PPage
 
         // SENDING PAGE-TEXT TO USER
         // We're sending it in an HTML document, so encode special characters.
-        echo htmlspecialchars( $page_text, ENT_NOQUOTES );
+        echo html_safe($page_text);
 
         echo "</textarea>";
     }

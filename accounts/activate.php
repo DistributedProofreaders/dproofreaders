@@ -6,6 +6,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc');
+include_once($relPath.'User.inc');
 
 undo_all_magic_quotes();
 
@@ -29,18 +30,18 @@ if (mysql_num_rows($result) == 1) {
     // one that is logged in, redirect them to the Activity Hub. This can
     // happen if they use the login form in the navbar and are redirected
     // back here.
-
-    $res2 = mysql_query("
-        SELECT id, username FROM users WHERE id='$ID'
-    ") or die(mysql_error());
-
-    if ( mysql_num_rows($res2) > 0 ) {
-        $existing_user = mysql_fetch_assoc($res2);
-        if($pguser == $existing_user["username"])
+    try
+    {
+        $user_test = new User();
+        $user_test->load("id", $ID);
+        $existing_user = $user_test->username;
+        if($pguser == $existing_user)
         {
             metarefresh(0, "$code_url/activity_hub.php");
         }
-    } else {
+    }
+    catch(Exception $exception)
+    {
         $existing_user = NULL;
     }
 }
@@ -147,7 +148,7 @@ printf(_("Please check the e-mail being sent to you for further information abou
 echo "<center>";
 echo "<br><font size=+1>"._("Enter your password below to sign in and start proofreading!!");
 echo "<form action='login.php' method='post'>
-<input type='hidden' name='userNM' value='".htmlspecialchars($username,ENT_QUOTES)."'>
+<input type='hidden' name='userNM' value='".attr_safe($username)."'>
 <input type='password' name='userPW'>
 <input type='submit' value='".attr_safe(_("Sign In"))."'></form>";
 

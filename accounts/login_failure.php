@@ -26,7 +26,7 @@ if($user_is_logged_in)
 // login.php loads this page with an error_code parameter to indicate what
 // went wrong. Here we change this into a user-visible string.
 $login_failures = array(
-    'invalid_username' => _("The username supplied is invalid."),
+    'no_username'      => _("You did not supply a username."),
     'no_password'      => _("You did not supply a password."),
     'auth_failure'     => _("Unable to authenticate. The username/password may be incorrect or your account may be locked."),
     'reg_mismatch'     => sprintf(_("You are registered with the forum software, but not with %s."), $site_abbreviation),

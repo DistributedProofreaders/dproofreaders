@@ -119,7 +119,7 @@ echo "<p>"
     . "\n";
 
 echo "<p>"
-    . _("Distributed Proofreaders regrets that we that we are unable to verify court-ordered community service because our system cannot adequately record time spent participating.")
+    . _("Distributed Proofreaders regrets that we are unable to verify court-ordered community service because our system cannot adequately record time spent participating.")
     . "</p>"
     . "\n";
 

@@ -9,6 +9,7 @@ include_once($relPath.'../tools/project_manager/post_files.inc');
 include_once($relPath.'project_events.inc');
 include_once($relPath.'site_vars.php'); // $auto_post_to_project_topic
 include_once($relPath.'user_project_info.inc');
+include_once($relPath.'User.inc');
 
 define('PT_AUTO', '[AUTO]');
 
@@ -917,9 +918,8 @@ function round_to_PP_avail_collateral( $old_project, $project, $transition, $who
         $reserved_PPer = $old_project->checkedoutby;
         global $site_manager_email_addr, $site_signoff;
 
-        $PPer_email_addr = mysql_result(mysql_query("
-            SELECT email FROM users WHERE username = '$reserved_PPer'
-        "),0);
+        $PPer = new User($reserved_PPer);
+        $PPer_email_addr = $PPer->email;
         $body_blurb =
              "Hello $reserved_PPer,\n\n".
              $project->email_introduction().
@@ -966,13 +966,13 @@ function round_to_PP_out_collateral( $old_project, $project, $transition, $who )
     {
         // No, PPer != PM, send each a message.
 
-        $PPer = $project->checkedoutby;
+        $PPer_username = $project->checkedoutby;
 
         // msg to PM:
         $body_blurb =
             "This project has completed all rounds\n".
             "and has been checked out to the PPer who had it reserved,\n".
-            "$PPer. You will be notified once it has completed post-processing.";
+            "$PPer_username. You will be notified once it has completed post-processing.";
         maybe_mail_project_manager(
             get_object_vars($project), $body_blurb, "$site_abbreviation: Post-Processing Started");
 
@@ -980,11 +980,10 @@ function round_to_PP_out_collateral( $old_project, $project, $transition, $who )
 
         // msg to PPer:
 
-        $PPer_email_addr = mysql_result(mysql_query("
-            SELECT email FROM users WHERE username = '$PPer'
-        "),0);
+        $PPer = new User($PPer_username);
+        $PPer_email_addr = $PPer->email;
         $body_blurb =
-            "Hello $PPer,\n\n".
+            "Hello $PPer_username,\n\n".
             $project->email_introduction().
             "This project, which is reserved for you to Post-Process,\n".
             "is now ready for you to work on, and should shortly appear in your list\n".

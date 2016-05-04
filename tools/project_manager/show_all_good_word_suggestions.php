@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'Stopwatch.inc');
 include_once('./post_files.inc');
 include_once("./word_freq_table.inc");
@@ -54,21 +55,19 @@ if($frame=="update") {
 }
 
 if($frame=="master") {
-    slim_header(_("Manage Suggestions"),TRUE,FALSE);
+    slim_header_frameset(_("Manage Suggestions"));
     $frameSpec='cols="40%,60%"';
     if(@$_REQUEST["timecutoff"])
         $timeCutoffSpec="timeCutoff=$timeCutoff&amp;";
     else $timeCutoffSpec="";
 ?>
-</head>
 <frameset <?php echo $frameSpec; ?>>
-<frame src="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES); ?>?pm=<?php echo htmlspecialchars($pm, ENT_QUOTES); ?>&amp;freqCutoff=<?php echo $freqCutoff; ?>&amp;<?php echo $timeCutoffSpec; ?>frame=left">
-<frame name="detailframe" src="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES); ?>?frame=right">
+<frame src="<?php echo attr_safe($_SERVER['PHP_SELF']); ?>?pm=<?php echo urlencode($pm); ?>&amp;freqCutoff=<?php echo $freqCutoff; ?>&amp;<?php echo $timeCutoffSpec; ?>frame=left">
+<frame name="detailframe" src="<?php echo attr_safe($_SERVER['PHP_SELF']); ?>?frame=right">
 </frameset>
 <noframes>
 <?php echo _("Your browser currently does not display frames!"); ?>
 </noframes>
-</html>
 <?php
     exit;
 }
@@ -80,7 +79,7 @@ if($frame=="left") {
 
     $submitLabel = _("Add selected words to Good Words List");
 
-    slim_header(_("Manage Suggestions"),TRUE,TRUE);
+    slim_header(_("Manage Suggestions"));
 
     // how many instances (ie: frequency sections) are there?
     $instances=count( $projects ) + 1;
@@ -98,11 +97,11 @@ if($frame=="left") {
 
     echo "<p><a href='$code_url/tools/project_manager/projectmgr.php' target='_TOP'>" . _("Return to the PM page") . "</a></p>";
 
-    echo "<form action='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) . "' method='get'>";
+    echo "<form action='" . attr_safe($_SERVER['PHP_SELF']) . "' method='get'>";
     echo "<input type='hidden' name='frame' value='left'>";
     echo "<p>";
     if ( user_is_a_sitemanager() || user_is_proj_facilitator() ) {
-        echo _("View projects for user:") . " <input type='text' name='pm' value='" . htmlspecialchars($pm, ENT_QUOTES) . "' size='10'><br>";
+        echo _("View projects for user:") . " <input type='text' name='pm' value='" . attr_safe($pm) . "' size='10'><br>";
     }
 
 echo _("Show:") . " ";
@@ -138,9 +137,9 @@ echo "<br>";
 
     $t_before = $watch->read();
 
-    echo "<form action='" . htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES) . "' method='post'>";
+    echo "<form action='" . attr_safe($_SERVER['PHP_SELF']) . "' method='post'>";
     echo "<input type='hidden' name='frame' value='update'>";
-    echo "<input type='hidden' name='pm' value='" . htmlspecialchars($pm, ENT_QUOTES) . "'>";
+    echo "<input type='hidden' name='pm' value='" . attr_safe($pm) . "'>";
     echo "<input type='hidden' name='timeCutoff' value='$timeCutoff'>";
 
     $projectsNeedingAttention=0;

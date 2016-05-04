@@ -1,4 +1,4 @@
-.PHONY: all less lint
+.PHONY: all less lint tests
 
 SELF_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 
@@ -26,3 +26,8 @@ $(THEME_CSS): $(STYLE_DIR)/themes/theme.less
 
 %.css: %.less $(STYLE_DIR)/global.less
 	$(LESSC) $< $@
+
+#----------------------------------------------------------------------------
+# Unit tests
+tests:
+	cd $(SELF_DIR)/tests && phpunit --bootstrap phpunit_bootstrap.php .

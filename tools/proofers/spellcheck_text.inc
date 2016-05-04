@@ -33,7 +33,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
 
     // save the original text in a hidden form field
     // this is used when applying spelling corrections
-    $returnString.="<input type='hidden' name='text_data' value='" . html_safe($orig_text) . "'>\n";
+    $returnString.="<input type='hidden' name='text_data' value='" . attr_safe($orig_text) . "'>\n";
 
     // prepare the text for checking, in this case change all EOLs to spaces
     $orig_text = str_replace('[lf]',' ',$orig_text);
@@ -127,7 +127,7 @@ function spellcheck_text( $orig_text, $projectid, $imagefile, $aux_language, $ac
                 @$wordCount[$word]++;
                 $wordID="{$jsSanitizedWord}_{$wordCount[$word]}";
                 $numBadWords++;
-                $wordSafe = html_safe($word);
+                $wordSafe = attr_safe($word);
 
                 // set the size of the edit box
                 // note: in some browsers the edit box is not wide enough
@@ -200,21 +200,20 @@ function _wrapAW($word) {
     return "<span class='aw'>$word</span>";
 }
 
-
-function html_safe( $str )
-// Return a copy of $str which has been rendered safe to send as
-// element-content or attribute-content in an HTML document.
-{
-        return htmlspecialchars($str,ENT_QUOTES);    
-}
-
-function spellcheck_echo_script()
+function spellcheck_get_js()
 {
     global $charset;
-    global $code_url;
-?>
-    <script language="JavaScript" type="text/javascript">
-    <!--
+
+    $disable_aw_label = \
+        javascript_safe(_("Word has been edited; unable to Suggest"), $charset);
+    $enable_aw_label = \
+        javascript_safe(_("Unflag All & Suggest Word"), $charset);
+    $confirm_exit_string = \
+        javascript_safe(_("Changes have been made. OK to quit without saving?"), $charset);
+    $page_changed_error = \
+        javascript_safe(_("Cannot save page from WordCheck. Words have been modified."), $charset);;
+
+    return <<<SPELLCHECK_JS
     // function to accept specified words in the spellcheck
     // it works by finding (span) elements with IDs in the format
     // word_# and when found sets the content of the span
@@ -288,8 +287,8 @@ function spellcheck_echo_script()
         // If we're here, we should be disabling the button
         var button = document.getElementById("button_" + wordID);
         if(button && a && a.href) {
-            button.src = "<?php echo $code_url; ?>/graphics/Book-Plus-Small-Disabled.gif";
-            button.title = "<?php echo javascript_safe(_("Word has been edited; unable to Suggest"), $charset); ?>";
+            button.src = "../../graphics/Book-Plus-Small-Disabled.gif";
+            button.title = "$disable_aw_label";
             a.removeAttribute('href');
         }
 
@@ -303,8 +302,8 @@ function spellcheck_echo_script()
         var button = document.getElementById("button_" + wordID);
         var a = document.getElementById("a_" + wordID);
         if(button && a) {
-            button.src = "<?php echo $code_url; ?>/graphics/Book-Plus-Small.gif";
-            button.title = "<?php echo javascript_safe(_("Unflag All & Suggest Word"), $charset); ?>";
+            button.src = "../../graphics/Book-Plus-Small.gif";
+            button.title = "$enable_aw_label";
             a.href="#";
         }
         return false;
@@ -315,7 +314,7 @@ function spellcheck_echo_script()
         // see if changes have been made
         var changesMade = document.getElementById("is_changed").value;
         if(changesMade==1) {
-            return confirm("<?php echo javascript_safe(_("Changes have been made. OK to quit without saving?"), $charset); ?>");
+            return confirm("$confirm_exit_string");
         }
 
         // return true (ie: confirm exit) if no changes were made
@@ -329,14 +328,11 @@ function spellcheck_echo_script()
 
         // Disable the save as done and proof next button.
         spsaveandnext = document.getElementById("spsaveandnext");
-        spsaveandnext.title    = "<?php echo javascript_safe(_("Cannot save page from WordCheck. Words have been modified."), $charset); ?>";
+        spsaveandnext.title    = "$page_changed_error";
         spsaveandnext.disabled = true;
         return false;
     }
-
-    // -->
-    </script>
-<?php
+SPELLCHECK_JS;
 }
 
 // --------------------------------------------

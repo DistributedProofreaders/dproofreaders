@@ -56,20 +56,17 @@ Example setting: "taskctr_notice", value "1018"
 */
         
 
-function ExecSQL($sql)
-{
-    if (!mysql_query($sql))
-        echo mysql_error();
-}
-
 class Settings
 {
-    // assoc. array containing all user setting name/value pairs.
-    var $settings_array = array();
-    // username of subject user.
-    var $username;
+    // Multi-dimensional array containing all user settings. Each setting
+    // may have one or more value associated with it. Format is:
+    //     $settings_array[$setting] = array($value1, ...);
+    private $settings_array = array();
 
-    function Settings($name)
+    // username of subject user.
+    private $username = NULL;
+
+    public function __construct($name)
     {
         if($name == '')
         {
@@ -105,23 +102,23 @@ class Settings
             {
                 $isUserVals = true;
                 if ($row['sitemanager'] == 'yes')
-                    $this->settings_array['sitemanager'] = 'yes';
+                    $this->_load_value('sitemanager', 'yes');
                 if ($row['manager'] == 'yes')
-                    $this->settings_array['manager'] = 'yes';
+                    $this->_load_value('manager', 'yes');
                 if ($row['postprocessor'] == 'yes')
-                    $this->settings_array['postprocessor'] = 'yes';
+                    $this->_load_value('postprocessor', 'yes');
             }
             // now continue to add values from usersettings table.
             // This could be null values if the outer join matched nothing
             // so check there is something in the "setting" column.
             if($row['setting'])
-                $this->settings_array[$row['setting']] = $row['value'];
+                $this->_load_value($row['setting'], $row['value']);
         }
         mysql_free_result($result);
     }
 
     // check if this is an updateable setting in this context.
-    function _isSettable($settingCode)
+    private function _isSettable($settingCode)
     {
         switch($settingCode)
         {
@@ -143,18 +140,18 @@ class Settings
     // -------------------------------------------------------------------------
 
     // Setting to True
-    function set_true($settingCode)
+    public function set_true($settingCode)
     {
         $this->set_boolean($settingCode,TRUE);
     }
 
     // Setting to False
-    function set_false($settingCode)
+    public function set_false($settingCode)
     {
         $this->set_boolean($settingCode,FALSE);
     }
 
-    function set_boolean($settingCode, $boolval)
+    public function set_boolean($settingCode, $boolval)
     // A wrapper around set_value() for boolean values.
     {
         $this->set_value($settingCode, ($boolval ? 'yes' : NULL) );
@@ -162,16 +159,44 @@ class Settings
 
     // Return True iff the setting exists and its value is 'yes'.
     // Otherwise, return False.
-    function get_boolean($settingCode)
+    public function get_boolean($settingCode)
     {
         return ( $this->get_value($settingCode) === 'yes' );
     }
 
     // -------------------------------------------------------------------------
 
+    private function _clear_setting($settingCode)
+    {
+        $sql = "DELETE FROM usersettings 
+                WHERE username = '$this->username'
+                AND setting = '$settingCode'" ;
+        $this->ExecSQL($sql);
+    }
+
+    private function _insert_setting_value($settingCode, $value)
+    {
+        $value_esc = mysql_real_escape_string($value);
+        $sql = "INSERT INTO usersettings
+                (username, setting, value)
+                VALUES ('$this->username', '$settingCode', '$value_esc')" ;
+        $this->ExecSQL($sql);
+    }
+
+    private function _delete_setting_value($settingCode, $value)
+    {
+        $value_esc = mysql_real_escape_string($value);
+        $sql = "DELETE FROM usersettings
+                WHERE username = '$this->username'
+                    AND setting = '$settingCode'
+                    AND value = '$value_esc'";
+        $this->ExecSQL($sql);
+    }
+
+    // Set a setting to a specific value. If this is a multi-valued setting
+    // this will become a single-valued setting.
     // If $value is NULL, remove the setting.
-    // Otherwise, set Value to $value.
-    function set_value($settingCode, $value)
+    public function set_value($settingCode, $value)
     {
         if($this->username == '')
         {
@@ -183,48 +208,86 @@ class Settings
 
         if(!$this->_isSettable($settingCode))
         {
-            die("Error: cannot set '$settingCode'");
+            throw new InvalidArgumentException("Error: cannot set '$settingCode'");
         }
 
-        if(is_null($value))
+        $this->_clear_setting($settingCode);
+        unset($this->settings_array[$settingCode]);
+
+        if(!is_null($value))
         {
-            $sql = "DELETE FROM usersettings 
-                    WHERE username = '$this->username'
-                    AND setting = '$settingCode'" ;
-            ExecSQL($sql);
-            unset($this->settings_array[$settingCode]);
-        }
-        else
-        {
-            $value_esc = mysql_real_escape_string($value);
-            if (array_key_exists($settingCode, $this->settings_array)) {
-                $sql = "UPDATE usersettings
-                        SET value = '$value_esc'
-                        WHERE username = '$this->username'
-                        AND setting = '$settingCode'" ;
-            }
-            else {
-                $sql = "INSERT INTO usersettings
-                        (username, setting, value)
-                        VALUES ('$this->username', '$settingCode', '$value_esc')" ;
-            }
-            ExecSQL($sql);
-            $this->settings_array[$settingCode] = $value;
+            $this->add_value($settingCode, $value);
         }
     }
 
     // If no record exists, return $default.
     // Otherwise return what's in the Value column.
     // Note: if setting is really boolean, this will NOT return True, but 'yes' (a string).
-    function get_value($settingCode, $default = Null)
+    public function get_value($settingCode, $default = Null)
     {
-        if (!array_key_exists($settingCode, $this->settings_array)) return $default;
+        $values = $this->get_values($settingCode);
+
+        if(count($values) == 0)
+            return $default;
+
+        if(count($values) > 1)
+            throw new RuntimeException(
+                "Multiple values exist for $settingCode");
+
+        return $values[0];
+    }
+
+    // Load a setting value into the $settings_array data structure
+    private function _load_value($setting, $value)
+    {
+        if(isset($this->settings_array[$setting]))
+        {
+            $this->settings_array[$setting][] = $value;
+        }
+        else
+        {
+            $this->settings_array[$setting] = array($value);
+        }
+    }
+
+    // Add a value to the setting without changing it, even if it already
+    // exists. This allows a setting to have multiple values.
+    public function add_value($settingCode, $value)
+    {
+        $this->_load_value($settingCode, $value);
+        $this->_insert_setting_value($settingCode, $value);
+    }
+
+    // Remove a setting:value pair
+    public function remove_value($settingCode, $value)
+    {
+        if(in_array($value, $this->settings_array[$settingCode]))
+        {
+            $this->settings_array[$settingCode] = array_diff(
+                $this->settings_array[$settingCode], array($value));
+
+            $this->_delete_setting_value($settingCode, $value);
+        }
+    }
+
+    // Returns an array of values for the setting
+    public function get_values($settingCode)
+    {
+        if (!array_key_exists($settingCode, $this->settings_array))
+            return array();
+
         return $this->settings_array[$settingCode];
+    }
+
+    private function ExecSQL($sql)
+    {
+        if (!mysql_query($sql))
+            throw new RuntimeException(mysql_error());
     }
 
     // -------------------------------------------------------------------------
 
-    function settings_count()
+    public function settings_count()
     {
         return count($this->settings_array);
     }
@@ -258,7 +321,33 @@ class Settings
             return $settings;
         }
     }
+
+    // Return a list of unique usernames that have a specific setting
+    // specified (and optionally with a specific value).
+    static function get_users_with_setting($setting, $value=NULL)
+    {
+        $usernames = array();
+        $sql = sprintf("
+            SELECT DISTINCT username
+            FROM usersettings
+            WHERE setting = '%s'
+        ", mysql_real_escape_string($setting));
+
+        if($value)
+        {
+            $sql .= sprintf(" AND value='%s'",
+                mysql_real_escape_string($value));
+        }
+
+        $result = mysql_query($sql);
+        while ($row = mysql_fetch_assoc($result))
+        {
+            $usernames[] = $row['username'];
+        }
+        mysql_free_result($result);
+
+        return $usernames;
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

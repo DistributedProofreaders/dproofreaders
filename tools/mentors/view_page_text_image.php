@@ -5,6 +5,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'prefs_options.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 
 require_login();
 
@@ -34,7 +35,7 @@ if($projectid=="") {
     $error_messages[] = _("select a project");
 } elseif (!preg_match('/^projectID[0-9a-f]{13}$/', $projectid ) ) {
     $error_messages[] = sprintf(_("projectID '%s' does not appear to be valid"),
-        htmlspecialchars($projectid,ENT_QUOTES));
+        html_safe($projectid));
 }
 
 // See if the projectID exists in the projects table
@@ -46,7 +47,7 @@ if(!count($error_messages)) {
     catch(NonexistentProjectException $exception)
     {
         $error_messages[] = sprintf(_("no project with projectID '%s'"),
-            htmlspecialchars($projectid,ENT_QUOTES));
+            html_safe($projectid));
     }
 }
 
@@ -56,8 +57,8 @@ if(!count($error_messages)) {
         $res2 = mysql_query(sprintf("SELECT 1 FROM $projectid WHERE image = '%s'", mysql_real_escape_string($page))) or die(mysql_error());
         if (mysql_num_rows($res2) == 0) {
             $error_messages[] = sprintf(_("no page '%1\$s' in project with projectID '%2\$s'"),
-                htmlspecialchars($page,ENT_QUOTES),
-                htmlspecialchars($projectid,ENT_QUOTES));
+                html_safe($page),
+                html_safe($projectid));
         } else {
             $is_valid_page = true;
         }
@@ -77,14 +78,13 @@ if(!count($error_messages)) {
 $frame = get_enumerated_param($_GET,"frame","master",array("master","top","image","text"));
 
 if ($frame=="master") {
-    slim_header(_("Image and text for page"),TRUE,FALSE);
+    slim_header_frameset(_("Image and text for page"));
 
-    $projectid=htmlspecialchars($projectid,ENT_QUOTES);
-    $page=htmlspecialchars($page,ENT_QUOTES);
-    $round_id=htmlspecialchars($round_id,ENT_QUOTES);
+    $projectid = urlencode($projectid);
+    $page = urlencode($page);
+    $round_id = urlencode($round_id);
 
 ?>
-</head>
 <frameset rows="15%,50%,35%">
 <frame name="topframe" src="view_page_text_image.php?projectid=<?php echo $projectid;?>&amp;page=<?php echo $page;?>&amp;round_id=<?php echo $round_id;?>&amp;frame=top">
 <frame name="imageframe" src="view_page_text_image.php?projectid=<?php echo $projectid;?>&amp;page=<?php echo $page;?>&amp;round_id=<?php echo $round_id;?>&amp;frame=image">
@@ -93,15 +93,13 @@ if ($frame=="master") {
 <noframes>
 <?php echo _("Your browser currently does not display frames!"); ?>
 </noframes>
-</html>
 <?php
-    // note: can't use slim_footer() because framesets don't have a </body> tag
 }
 
 
 // if we're in the top frame, load the form and any error messages
 elseif ($frame=="top") {
-    slim_header($page,TRUE,TRUE);
+    slim_header($page);
 
     if (!count($error_messages)) {
         $myresult = mysql_query(sprintf("SELECT nameofwork FROM projects WHERE projectid = '%s'", mysql_real_escape_string($projectid)));
@@ -117,10 +115,10 @@ elseif ($frame=="top") {
     echo "<form method='get' action='view_page_text_image.php' target='_top'>\n";
     if(!$project) {
         echo _("Project ID") . ":&nbsp;";
-        echo "<input type='text' maxlength='25' name='projectid' size='25' value='" . htmlspecialchars($projectid,ENT_QUOTES) . "'> \n";
+        echo "<input type='text' maxlength='25' name='projectid' size='25' value='" . attr_safe($projectid) . "'> \n";
         echo "<input type='submit' value='"._("Select Project")."'> &nbsp; &nbsp;";
     } else {
-        echo "<input type='hidden' name='projectid' value='" . htmlspecialchars($projectid,ENT_QUOTES) . "'>";
+        echo "<input type='hidden' name='projectid' value='" . attr_safe($projectid) . "'>";
     }
 
     echo _("Page") . ":&nbsp;";
@@ -188,12 +186,12 @@ elseif ($frame=="top") {
     if($project)
         echo " &nbsp; <input type='submit' name='reset' value='" . attr_safe(_("Reset")) . "'>";
     echo "</form>";
-    slim_footer();
+    exit();
 }
 
 //If we're loading the image frame, load the image and a little form to control the size
 elseif ($frame=="image") {
-    slim_header(_("Image Frame"),TRUE,TRUE);
+    slim_header(_("Image Frame"));
     if(!count($error_messages)) {
         $percent = get_integer_param($_GET, 'percent', 100, 1, 999);
         $width = 10*$percent;
@@ -209,13 +207,13 @@ elseif ($frame=="image") {
 <?php
         echo "<img src='$projects_url/$projectid/$page' width='$width' border='1'>";
     }
-    slim_footer();
+    exit();
 }
 
 //If it's the text frame, we show the saved text in a textarea 
 //with some of the user's preferences from the proofreading interface
 elseif ($frame=="text") {
-    slim_header(_("Text Frame"),TRUE,TRUE);
+    slim_header(_("Text Frame"));
     if (!count($error_messages)) {
         if ($round_id == "OCR") {
             $text_column_name = 'master_text';
@@ -273,10 +271,10 @@ elseif ($frame=="text") {
         }
 
         echo ">\n";
-        echo htmlspecialchars( $data, ENT_NOQUOTES );
+        echo html_safe($data);
         echo "</textarea>";
     }
-    slim_footer();
+    exit();
 }
 
 // vim: sw=4 ts=4 expandtab

@@ -2,6 +2,7 @@
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // html_safe()
 include_once("authors.inc");
 include_once("menu.inc");
 
@@ -94,13 +95,13 @@ echo_menu();
 <h1 align="center">Add Biography</h1>
 <?php
 if (isset($msg))
-    echo htmlspecialchars($msg);
+    echo html_safe($msg);
 
 $message = @$_GET['message'];
 if (isset($message))
-    echo '<center>' . htmlspecialchars($message) . '</center><br />';
+    echo '<center>' . html_safe($message) . '</center><br />';
 elseif (isset($_POST['Preview'])) {
-    echo '<table align="center" border="1"><td>' . htmlspecialchars($bio) . '</td></table>';
+    echo '<table align="center" border="1"><td>' . html_safe($bio) . '</td></table>';
     echo '<br/>';
 }
 ?>
@@ -113,7 +114,7 @@ if (isset($bio_id))
 <table align="center" border="1">
 <tr><th><?php echo _('Biography') . ' (' . _('HTML') . ')'; ?></th></tr>
 <tr><td><textarea cols="70" rows="20" name="bio">
-<?php echo htmlspecialchars($bio); ?></textarea></td></tr>
+<?php echo html_safe($bio); ?></textarea></td></tr>
 <tr><td>
 <table><tr>
 <td><input type="submit" name="Preview" value="<?php echo _('Preview'); ?>" /></td>

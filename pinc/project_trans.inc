@@ -1,6 +1,5 @@
 <?php
 include_once($relPath.'site_vars.php');
-include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
 

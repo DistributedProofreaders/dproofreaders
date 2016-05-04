@@ -8,6 +8,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'Stage.inc');
 include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'Pool.inc');
+include_once($relPath.'User.inc');
 include_once($relPath.'misc.inc'); // str_contains startswith
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -424,13 +425,8 @@ function can_user_get_pages_in_project( $username, $project, $round )
             {
                 // Is this user an inexperienced user?
 
-                $res = mysql_query("
-                    SELECT date_created
-                    FROM users
-                    WHERE username='$username'
-                ") or die(mysql_error());
-                list($t_joined) = mysql_fetch_row($res);
-                $days_on_site = ($t_now - $t_joined) / 86400;
+                $user = new User($username);
+                $days_on_site = ($t_now - $user->date_created) / 86400;
                 // echo "days_on_site = $days_on_site<br>\n";
 
                 $P1_page_tally = user_get_ELR_page_tally($username);

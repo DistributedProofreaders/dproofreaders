@@ -6,27 +6,21 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
+include_once($relPath.'User.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'js_newwin.inc');
 
 require_login();
 
-$qs_username = '';
+$username = $pguser;
 if ( user_is_a_sitemanager() || user_is_proj_facilitator() )
 {
     $username = array_get( $_GET, 'username', $pguser );
-    if ( preg_match( "/[^-a-zA-Z0-9@._ ]/", $username) )
-    {
-        die("Incorrect parameter.");
-    }
-    if ( $username != $pguser )
-    {
-        $qs_username = "username=" . urlencode($username) . '&amp;';
-    }
 }
-else
+
+if(!User::is_valid_user($username))
 {
-    $username = $pguser;
+    die("Incorrect parameter.");
 }
 
 if ( $username == $pguser )
@@ -139,7 +133,7 @@ $res = dpsql_query("
 
 echo "<table border='1'>";
 
-show_headings($colspecs, 'proof');
+show_headings($colspecs, 'proof', $username);
 
 $n_rows_displayed = 0;
 while ( $row = mysql_fetch_object($res) )
@@ -283,7 +277,7 @@ if (mysql_num_rows($result) > 0)
 
     echo "<table border='1'>";
 
-    show_headings($colspecs, 'reserved');
+    show_headings($colspecs, 'reserved', $username);
 
     while ( $row = mysql_fetch_object($result) )
     {
@@ -329,9 +323,9 @@ function get_sort_col_and_dir()
     return array($order_col,$order_dir);
 }
 
-function show_headings($colspecs, $sort_type)
+function show_headings($colspecs, $sort_type, $username)
 {
-    global $qs_username, $order_dir, $order_col;
+    global $order_dir, $order_col, $pguser;
     echo "<tr>\n";
     foreach ( $colspecs as $col_id => $colspec )
     {
@@ -350,6 +344,9 @@ function show_headings($colspecs, $sort_type)
             $link_dir = 'A';
         }
         echo "<th>";
+        $qs_username = "";
+        if($username != $pguser)
+            $qs_username = "username=" . urlencode($username) . '&amp;';
         echo "<a href='?{$qs_username}order_col=$col_id&amp;order_dir=$link_dir&amp;sort=$sort_type#$sort_type'>";
         echo $colspec['label'];
         echo "</a>";

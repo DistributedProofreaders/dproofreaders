@@ -13,7 +13,7 @@ require_login();
 // use:
 // $code_url/tools/upload_text.php?project=projectid&curr_state=...
 
-$projectid = $_REQUEST['project'];
+$projectid = validate_projectID('project', @$_REQUEST['project']);
 $stage   = $_REQUEST['stage'];
 $weeks   = @$_REQUEST['weeks'];
 $action  = @$_REQUEST['action'];
@@ -121,7 +121,6 @@ else if (!isset($stage))
         the original again or uploading a smaller placeholder instead."), 
         "javascript:history.back()") . "</p>";
     
-    slim_footer();
     exit;
 }
 

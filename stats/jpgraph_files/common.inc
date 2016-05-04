@@ -22,8 +22,7 @@ function get_image_cache_filename()
 // ultimately used if "auto" is passed into the constructor) and prepend the
 // user's language.
 {
-    global $intlang; // language set by gettext_setup.inc
-    return "$intlang-" . GenImgName();
+    return get_desired_language() . "-" . GenImgName();
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
