@@ -20,13 +20,6 @@ header,
   background-color: #ffffff;
   color: #000000;
 }
-/* Logo */
-#logo a {
-  background-image: url("http://www.pgdp.net/c/graphics/dp-logo-360x68px.png");
-  height: 68px;
-  width: 360px;
-  display: block;
-}
 /* Navbar */
 nav,
 #navbar-outer,

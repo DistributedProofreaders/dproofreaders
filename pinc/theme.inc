@@ -170,7 +170,7 @@ function html_logobar() {
     global $maintenance;
     echo "\n<div id='header'>\n";
     echo "<div id='logo'>\n";
-    echo "<a href='$code_url'></a>\n";
+    echo "<a href='$code_url'><img src='$code_url/graphics/dp-logo-360x68px.png' width='360' height='68' alt='$site_name' border='0'></a>\n";
     echo "</div>\n";
 
     echo "<div id='titles-preserved'><p>\n";
