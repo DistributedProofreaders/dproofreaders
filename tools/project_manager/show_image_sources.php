@@ -10,8 +10,6 @@ include_once($relPath.'dpsql.inc');
 include_once($relPath.'misc.inc'); // array_get()
 include_once($relPath.'pg.inc');
 
-undo_all_magic_quotes();
-
 require_login();
 
 $which = get_enumerated_param($_GET, 'which', 'DONE', array('ALL', 'DONE'));

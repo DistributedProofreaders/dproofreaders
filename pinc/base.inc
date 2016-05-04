@@ -131,11 +131,6 @@ function require_login()
 function undo_all_magic_quotes()
 // Detect if magic_quotes_gpc is enabled, and if so strip the slashes from
 // all magic-quoted variables to return them to their pre-escaped form.
-// Initially we'll use this as a transition function to get us off
-// magic_quotes_gpc. To do so we'll change each file one at a time to use
-// this function. After all files are using it, we'll move it to a global
-// include file and remove it from all individual files and recommend that
-// users disable magic_quotes_gpc from PHP altogether.
 //
 // NOTE: Using this function requires you to do appropriate escaping when
 // outputting variables in SQL and HTML. ie:

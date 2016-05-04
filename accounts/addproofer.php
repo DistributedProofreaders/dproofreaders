@@ -23,8 +23,6 @@ else
     $form_validators = array("_validate_fields");
 }
 
-undo_all_magic_quotes();
-
 function _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates)
 // Validate the user input fields
 // Returns an empty string upon success and an error message upon failure

@@ -21,7 +21,6 @@ include_once($relPath.'filter_project_list.inc');
 include_once($relPath.'SettingsClass.inc');
 
 require_login();
-undo_all_magic_quotes();
 
 // Load user settings
 $userSettings =& Settings::get_Settings($pguser);

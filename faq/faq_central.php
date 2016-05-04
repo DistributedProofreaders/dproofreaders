@@ -5,8 +5,6 @@ include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
 
-undo_all_magic_quotes();
-
 $theme_args = array("css_data" => "
 table.faqs td {font-family: Tahoma, sans-serif;}
 td.faqheader {background: $theme[color_headerbar_bg];

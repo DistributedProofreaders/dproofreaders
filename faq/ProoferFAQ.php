@@ -5,8 +5,6 @@ include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
 
-undo_all_magic_quotes();
-
 output_header('Beginning Proofreaders\' FAQ', NO_STATSBAR);
 ?>
 

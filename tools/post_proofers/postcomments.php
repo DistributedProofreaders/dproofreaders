@@ -7,8 +7,6 @@ include_once($relPath.'project_trans.inc');
 
 require_login();
 
-undo_all_magic_quotes();
-
 $projectid    = validate_projectID('projectid', @$_POST['projectid']);
 $postcomments = @$_POST['postcomments'];
 

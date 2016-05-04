@@ -11,8 +11,6 @@ $pophelp = array(
     'teams' => $teams_pophelp,
 );
 
-undo_all_magic_quotes();
-
 $category = get_enumerated_param($_GET, 'category', null, array_keys($pophelp));
 $name     = get_enumerated_param($_GET, 'name',     null, array_keys($pophelp[$category]));
 

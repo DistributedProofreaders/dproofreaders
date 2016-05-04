@@ -11,12 +11,11 @@ include_once($relPath.'tabs.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'misc.inc'); // startswith(...), attr_safe(), html_safe()
 include_once($relPath.'js_newpophelp.inc');
-include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+include_once($relPath.'misc.inc'); // get_integer_param()
 include_once($relPath.'forum_interface.inc'); // get_forum_user_details(), get_url_to_edit_profile()
 include_once($relPath.'User.inc');
 
 require_login();
-undo_all_magic_quotes();
 
 // The url the user viewed immediately before coming to the preferences.
 // Not all browsers provide this, though.

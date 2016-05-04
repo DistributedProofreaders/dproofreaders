@@ -14,8 +14,6 @@ include_once("./word_freq_table.inc");
 
 require_login();
 
-undo_all_magic_quotes();
-
 define("LAYOUT_HORIZ", 1);
 define("LAYOUT_VERT",  2);
 

@@ -8,7 +8,6 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'POFile.inc');
 
 require_login();
-undo_all_magic_quotes();
 
 $translate_url = "$code_url/locale/translators/index.php";
 

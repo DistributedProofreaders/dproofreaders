@@ -20,8 +20,6 @@ include_once('projectmgr.inc');
 
 require_login();
 
-undo_all_magic_quotes();
-
 class Widget
 {
     function Widget( $properties )

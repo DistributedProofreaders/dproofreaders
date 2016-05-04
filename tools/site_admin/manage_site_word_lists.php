@@ -10,8 +10,6 @@ include_once($relPath.'misc.inc'); // array_get()
 
 require_login();
 
-undo_all_magic_quotes();
-
 // check to see if the user is authorized to be here
 if ( !(user_is_a_sitemanager()) )
 {

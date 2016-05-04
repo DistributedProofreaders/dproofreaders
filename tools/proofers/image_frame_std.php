@@ -7,8 +7,6 @@ include_once('PPage.inc');
 
 require_login();
 
-undo_all_magic_quotes();
-
 $ppage = get_requested_PPage($_GET);
 
 $page_css = "body { background-color: #CDC0B0; }";

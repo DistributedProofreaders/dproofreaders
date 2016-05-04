@@ -10,8 +10,6 @@ include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 
-undo_all_magic_quotes();
-
 header("Content-Type: text/html; charset=$charset");
 
 // Get Passed parameters to code

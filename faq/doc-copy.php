@@ -4,8 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
 
-undo_all_magic_quotes();
-
 output_header('Proofreading Guidelines -- Copyright Renewal Books', NO_STATSBAR);
 ?>
 

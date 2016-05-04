@@ -12,8 +12,6 @@ include_once($relPath.'misc.inc');  // attr_safe()
 
 require_login();
 
-undo_all_magic_quotes();
-
 $return = array_get($_REQUEST,"return","$code_url/tools/project_manager/projectmgr.php");
 
 if ( !user_is_PM() )

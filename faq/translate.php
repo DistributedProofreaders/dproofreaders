@@ -4,8 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 
-undo_all_magic_quotes();
-
 output_header('Site translation', NO_STATSBAR);
 ?>
 <div id='article'><a name="top"></a>

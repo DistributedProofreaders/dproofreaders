@@ -8,8 +8,6 @@ include_once('page_table.inc');
 
 require_login();
 
-undo_all_magic_quotes();
-
 $projectid = validate_projectID('project', @$_GET['project']);
 $show_image_size = get_integer_param($_GET,'show_image_size',0,0,1);
 

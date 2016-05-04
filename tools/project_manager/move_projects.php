@@ -11,8 +11,6 @@ require_login();
 
 abort_if_not_manager();
 
-undo_all_magic_quotes();
-
 $curr_state = get_enumerated_param($_GET, 'curr_state', null, $PROJECT_STATES_IN_ORDER);
 $new_state  = get_enumerated_param($_GET, 'new_state', null, $PROJECT_STATES_IN_ORDER);
 $projectids = array();

@@ -5,8 +5,6 @@ include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
 
-undo_all_magic_quotes();
-
 $theme_args["css_data"] = "div.note {padding: .75em; background: #f9f9f9; border: 3px #aaa double; width: 90%; margin: 1em 1em 1em 3em;}
 .spaced li {margin-bottom: .5em;}";
 

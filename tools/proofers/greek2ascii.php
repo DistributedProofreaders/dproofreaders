@@ -7,8 +7,6 @@ include_once($relPath.'misc.inc'); // attr_safe()
 
 require_login();
 
-undo_all_magic_quotes();
-
 $greek_contents = @$_GET['textbox'];
 
 $title = _("Greek to Latin-1 Transliteration");

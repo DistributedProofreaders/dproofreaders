@@ -8,8 +8,6 @@ include_once("$wikihiero_dir/wikihiero.php");
 
 require_login();
 
-undo_all_magic_quotes();
-
 slim_header();
 
 $tables=array(

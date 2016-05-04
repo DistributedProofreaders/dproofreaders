@@ -10,8 +10,6 @@ require_login();
 
 abort_if_not_authors_db_editor(true);
 
-undo_all_magic_quotes();
-
 // load posted values or defaults
 if (isset($_GET['author_id'])) {
     // init creation of new bio

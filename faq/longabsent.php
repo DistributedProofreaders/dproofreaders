@@ -5,8 +5,6 @@ include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
 
-undo_all_magic_quotes();
-
 output_header('Welcome Back, Alumni', NO_STATSBAR);
 
 $Workflow_Change_Announcement_URL = make_forum_url('t',0,15170);

@@ -8,8 +8,6 @@ include_once($relPath.'showstartexts.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'site_news.inc');
 
-undo_all_magic_quotes();
-
 $theme_args['css_data'] = "
     h2 {
         color: {$theme['color_headerbar_bg']};

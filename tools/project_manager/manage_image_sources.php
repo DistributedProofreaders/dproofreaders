@@ -14,8 +14,6 @@ include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 
-undo_all_magic_quotes();
-
 $theme_args['css_data'] = "
 table.listing { border-collapse:collapse; }
 table.listing td { border: 1px solid #999; }

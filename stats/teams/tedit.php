@@ -9,8 +9,6 @@ include_once('../includes/team.inc');
 
 require_login();
 
-undo_all_magic_quotes();
-
 $theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/pophelp.php?category=teams&name=edit_"));
 
 // Either the parameter is $_POST['tsid'] when coming from the edit form,

@@ -11,8 +11,6 @@ include_once('./word_freq_table.inc');
 
 require_login();
 
-undo_all_magic_quotes();
-
 set_time_limit(0); // no time limit
 
 $projectid  = validate_projectID('projectid', @$_REQUEST['projectid']);

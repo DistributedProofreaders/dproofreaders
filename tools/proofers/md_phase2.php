@@ -8,8 +8,6 @@ include_once($relPath.'metarefresh.inc');
 
 require_login();
 
-undo_all_magic_quotes();
-
 if (!$site_supports_metadata)
 {
     echo 'md_phase2.php: $site_supports_metadata is false, so exiting.';

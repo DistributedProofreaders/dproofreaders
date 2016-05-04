@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'misc.inc'); // get_upload_err_msg(), undo_all_magic_quotes(), attr_safe(), html_safe(), startswith()
+include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), html_safe(), startswith()
 
 // Detect if the file uploaded was larger than post_max_size and show
 // an error instead of failing silently. We do this here because if the
@@ -28,8 +28,6 @@ $users_rel_dir   = $uploads_subdir_users;
 $users_dir       = "$uploads_dir/Users";
 
 require_login();
-
-undo_all_magic_quotes();
 
 // The model we want users to have while interacting with this script is that,
 // at any given time, they are "in" a particular directory (folder) within

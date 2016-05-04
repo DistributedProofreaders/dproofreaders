@@ -18,8 +18,6 @@ include_once($relPath.'js_newpophelp.inc');
 
 require_login();
 
-undo_all_magic_quotes();
-
 $theme_args['js_data'] = get_newHelpWin_javascript("$code_url/faq/pophelp/project_manager/");
 
 $return = array_get($_REQUEST,"return","$code_url/tools/project_manager/projectmgr.php");

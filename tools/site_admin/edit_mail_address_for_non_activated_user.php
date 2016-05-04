@@ -8,8 +8,6 @@ include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'User.inc');
 include_once($relPath.'email_address.inc');
 
-undo_all_magic_quotes();
-
 require_login();
 
 output_header(_('Edit mail-address for non-activated user'));

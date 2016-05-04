@@ -10,8 +10,6 @@ include_once($relPath.'projectinfo.inc');
 
 require_login();
 
-undo_all_magic_quotes();
-
 $projectid    = validate_projectID('project', @$_GET['project']);
 $loading_tpnv = (@$_GET['tpnv'] == '1');
 

@@ -3,8 +3,6 @@ $relPath="./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc'); // xmlencode()
 
-undo_all_magic_quotes();
-
 $content = get_enumerated_param($_GET, 'content', 'posted', array('posted', 'postprocessing', 'proofing', 'news')); // Which feed the user wants
 $refreshDelay = 30 * 60; // Time in seconds for how often the feeds get refreshed
 $refreshAge = time()-$refreshDelay; // How long ago $refreshDelay was in UNIX time

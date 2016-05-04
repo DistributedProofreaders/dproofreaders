@@ -10,8 +10,6 @@ if(!isset($relPath))
     include_once($relPath.'base.inc');
     include_once($relPath.'slim_header.inc');
 
-    undo_all_magic_quotes();
-
     slim_header(_("Privacy Statement"));
 }
 

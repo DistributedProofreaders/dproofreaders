@@ -14,8 +14,6 @@ include_once($relPath.'misc.inc'); // get_enumerated_param(), str_contains(), ec
 
 require_login();
 
-undo_all_magic_quotes();
-
 $tasks_url = $code_url . "/" . basename(__FILE__);
 
 $requester_u_id = $userP['u_id'];

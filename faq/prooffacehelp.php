@@ -4,8 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'faq.inc');
 
-undo_all_magic_quotes();
-
 if ( isset($_GET['i_type']) )
 {
     $i_type = $_GET['i_type'];

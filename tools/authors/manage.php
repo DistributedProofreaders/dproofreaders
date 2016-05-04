@@ -13,8 +13,6 @@ include_once('menu.inc');
 
 require_login();
 
-undo_all_magic_quotes();
-
 $title=_("Manage biographies");
 output_header($title);
 

@@ -11,8 +11,6 @@ include_once($relPath.'misc.inc'); // attr_safe(), endswith()
 
 require_login();
 
-undo_all_magic_quotes();
-
 // use:
 // $code_url/tools/upload_text.php?project=projectid&curr_state=...
 

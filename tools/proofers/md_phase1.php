@@ -10,8 +10,6 @@ include_once($relPath.'metarefresh.inc');
 
 require_login();
 
-undo_all_magic_quotes();
-
 $show_image_size = '';
 
 $projectid = validate_projectID('projectid', @$_GET['projectid']);

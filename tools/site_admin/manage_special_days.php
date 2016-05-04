@@ -3,7 +3,7 @@ $relPath='./../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // undo_all_magic_quotes(), attr_safe(), html_safe()
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'user_is.inc');
 
 require_login();
@@ -12,8 +12,6 @@ if ( !user_is_a_sitemanager() )
 {
     die("You are not allowed to run this script.");
 }
-
-undo_all_magic_quotes();
 
 $theme_args['css_data'] = "
 table.listing { border-collapse:collapse; width: 80%; margin: auto; }

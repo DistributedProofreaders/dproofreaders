@@ -20,11 +20,8 @@ $relPath="./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'forum_interface.inc');
-include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 // We must *not* include User.inc here, as phpBB also defines a User class
 // and including pinc/User.inc here would cause a conflict.
-
-undo_all_magic_quotes();
 
 $destination = ( isset($_REQUEST['destination']) ? $_REQUEST['destination'] : '' );
 

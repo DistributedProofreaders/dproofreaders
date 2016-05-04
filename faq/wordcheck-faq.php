@@ -5,8 +5,6 @@ include_once($relPath.'faq.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'theme.inc');
 
-undo_all_magic_quotes();
-
 output_header('WordCheck FAQ', NO_STATSBAR);
 ?>
 <style type="text/css">

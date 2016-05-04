@@ -7,8 +7,6 @@ include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'site_news.inc');
 include_once($relPath.'misc.inc'); // get_integer_param(), get_enumerated_param()
 
-undo_all_magic_quotes();
-
 require_login();
 
 if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )

@@ -23,8 +23,6 @@ require_login();
 
 abort_if_not_authors_db_manager(true);
 
-undo_all_magic_quotes();
-
 output_header(_("Harvest existing biographies from project comments"));
 
 // Tables must exist (because this script shouldn't need to care about creating them)

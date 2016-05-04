@@ -10,8 +10,6 @@ include_once('text_frame_std.inc');
 
 require_login();
 
-undo_all_magic_quotes();
-
 /*
 $_POST:
     $projectid, $proj_state,

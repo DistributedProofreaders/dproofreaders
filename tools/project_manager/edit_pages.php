@@ -10,8 +10,6 @@ include_once('page_operations.inc');
 
 require_login();
 
-undo_all_magic_quotes();
-
 $projectid      = validate_projectID('projectid', @$_REQUEST['projectid']);
 $operation      = get_enumerated_param($_REQUEST, 'operation', null, array('clear', 'delete'));
 $selected_pages = @$_REQUEST['selected_pages'];

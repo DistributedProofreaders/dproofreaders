@@ -8,8 +8,6 @@ include_once('../includes/team.inc');
 
 require_login();
 
-undo_all_magic_quotes();
-
 $theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/faq/pophelp/teams/edit_"));
 
 if (isset($_POST['mkPreview']))
