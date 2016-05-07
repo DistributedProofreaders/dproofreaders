@@ -221,7 +221,7 @@ function _get_word_list($projectid) {
     // from the original datastream to conserve memory
     $lineIndex = 0;
     $totalLines = count($wdiff_output);
-    while($lineIndex <= $totalLines) {
+    while($lineIndex < $totalLines) {
         // pull the next segment
         $segment = "";
         while($lineIndex <= $totalLines) {
