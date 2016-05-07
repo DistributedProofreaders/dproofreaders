@@ -377,7 +377,9 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
             if ($states_list) $states_list .= ',';
             $states_list .= "'$desired_state'";
             $n_projects_in_state_by_filter_[$desired_state] = 0;
-            if($desired_state == $stage->project_complete_state)
+            // (Use '@' to suppress "Undefined property" notice:
+            // not every stage has a 'project_complete_state'.)
+            if($desired_state == @$stage->project_complete_state)
                 $n_projects_in_state_by_filter_[$desired_state] = _("N/A");
         }
 

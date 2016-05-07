@@ -302,7 +302,7 @@ function _get_word_list($projectid) {
 
     foreach($possible_scannos as $word) {
         $count=$possible_scannos_w_count[$word];
-        $totalInstances=$possible_scannos_w_freq[$word]+$count;
+        $totalInstances=@$possible_scannos_w_freq[$word]+$count;
         $percent_changed[$word]=sprintf("%0.2f",$count/$totalInstances*100);
         if($percent_changed[$word]>=100 && $totalInstances==1) {
             unset($percent_changed[$word]);

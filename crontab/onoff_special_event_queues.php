@@ -20,7 +20,7 @@ if(!requester_is_localhost())
 
 header('Content-type: text/plain');
 
-$testing_this_script=$_GET['testing'];
+$testing_this_script=@$_GET['testing'];
 
 /*
 We want the queue for a special day to be open

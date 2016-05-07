@@ -144,7 +144,7 @@ function getInitialCutoff($idealCutoff,$cutoffOptions,$wordCount=null) {
 // Outputs the word frequency table
 function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,$auxData=null,$checkbox=null) {
     // check that auxData is an array of arrays
-    if(is_array($auxData) && !is_array($auxData[0]))
+    if(is_array($auxData) && !is_array(@$auxData[0]))
         $auxData=array($auxData);
 
     echo '<table class="freq">';
