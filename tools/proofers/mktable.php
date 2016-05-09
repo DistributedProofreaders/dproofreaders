@@ -56,17 +56,19 @@ for($j=0;$j<$col;$j++) {
             $al[$j]=STR_PAD_RIGHT;
             break;
     }
-    echo "<td align=\"center\">\n".
-        "<input type=\"radio\" name=\"al$j\" value=\"l\"".
-            (($al[$j]==STR_PAD_RIGHT)?" checked":"").
-        "><img src=\"./../../graphics/left.gif\" alt=\"left\">\n".
-        "<input type=\"radio\" name=\"al$j\" value=\"c\"".
-            (($al[$j]==STR_PAD_BOTH)?" checked":"").
-        "><img src=\"./../../graphics/center.gif\" alt=\"center\">\n".
-        "<input type=\"radio\" name=\"al$j\" value=\"r\"".
-            (($al[$j]==STR_PAD_LEFT)?" checked":"").
-        "><img src=\"./../../graphics/right.gif\" alt=\"right\">\n".
-    "</td>\n";
+    $right_align_checked = ($al[$j]==STR_PAD_RIGHT) ? " checked": "";
+    $both_align_checked  = ($al[$j]==STR_PAD_BOTH ) ? " checked": "";
+    $left_align_checked  = ($al[$j]==STR_PAD_LEFT ) ? " checked": "";
+    echo <<<HORIZ_ALIGN
+<td align="center">
+    <input type="radio" name="al$j" value="l" $right_align_checked>
+        <img src="./../../graphics/left.gif" alt="left">
+    <input type="radio" name="al$j" value="c" $both_align_checked>
+        <img src="./../../graphics/center.gif" alt="center">
+    <input type="radio" name="al$j" value="r" $left_align_checked>
+        <img src="./../../graphics/right.gif" alt="right">
+</td>
+HORIZ_ALIGN;
 }
 
 echo "</tr>";
@@ -85,17 +87,19 @@ for($i=0;$i<$row;$i++) {
             $val[$i]=ARRAY_PAD_BACK;
             break;
     }
-    echo "<tr>\n<td valign=\"middle\">\n".
-        "<input type=\"radio\" name=\"val$i\" value=\"t\"".
-            (($val[$i]==ARRAY_PAD_BACK)?" checked":"").
-        "><img src=\"./../../graphics/top.gif\" alt=\"top\"><br />\n".
-        "<input type=\"radio\" name=\"val$i\" value=\"m\"".
-            (($val[$i]==ARRAY_PAD_BOTH)?" checked":"").
-        "><img src=\"./../../graphics/middle.gif\" alt=\"middle\"><br />\n".
-        "<input type=\"radio\" name=\"val$i\" value=\"b\"".
-            (($val[$i]==ARRAY_PAD_FRONT)?" checked":"").
-        "><img src=\"./../../graphics/bottom.gif\" alt=\"bottom\"><br />\n".
-        "</td>\n";
+    $back_align_checked  = ($val[$i]==ARRAY_PAD_BACK ) ? " checked": "";
+    $both_align_checked  = ($val[$i]==ARRAY_PAD_BOTH ) ? " checked": "";
+    $front_align_checked = ($val[$i]==ARRAY_PAD_FRONT) ? " checked": "";
+    echo <<<VERT_ALIGN
+<td valign="middle">
+    <input type="radio" name="val$i" value="t" $back_align_checked>
+        <img src="./../../graphics/top.gif" alt="top"><br />
+    <input type="radio" name="val$i" value="m" $both_align_checked>
+        <img src="./../../graphics/middle.gif" alt="middle"><br />
+    <input type="radio" name="val$i" value="b" $front_align_checked>
+        <img src="./../../graphics/bottom.gif" alt="bottom"><br />
+</td>
+VERT_ALIGN;
 
     $a[$i]=array();
     for($j=0;$j<$col;$j++) {
