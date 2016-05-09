@@ -10,19 +10,21 @@ $order = get_enumerated_param(
         $_GET, 'order', 'id', array('id', 'teamname', 'member_count') );
 $direction = get_enumerated_param(
         $_GET, 'direction', 'asc', array('asc', 'desc') );
+$tname = array_get($_REQUEST, 'tname', null);
+$texact = array_get($_REQUEST, 'texact', null);
 
 $tstart = get_integer_param( $_GET, 'tstart', 0, 0, null );
 
-if (!empty($_REQUEST['tname'])) {
-    if ($_REQUEST['texact'] == 'yes')
-        $where_body = "teamname='{$_REQUEST['tname']}'";
+if ($tname) {
+    if ($texact)
+        $where_body = "teamname='$tname'";
     else
-        $where_body = "teamname LIKE '%{$_REQUEST['tname']}%'";
+        $where_body = "teamname LIKE '%$tname%'";
 
     $tResult = select_from_teams($where_body, "ORDER BY $order $direction LIMIT $tstart,20");
     $tRows = mysql_num_rows($tResult);
     if ($tRows == 1) { metarefresh(0,"tdetail.php?tid=".mysql_result($tResult,0,"id")."",'',''); exit; }
-    $tname = "tname=".$_REQUEST['uname']."&";
+    $tname = "tname=" . urlencode($tname) . "&";
 } else {
     $tResult=select_from_teams("", "ORDER BY $order $direction LIMIT $tstart,20");
     $tRows=mysql_num_rows($tResult);

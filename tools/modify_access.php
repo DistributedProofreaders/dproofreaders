@@ -10,13 +10,13 @@ include_once($relPath.'User.inc');
 
 require_login();
 
-$subject_username = @$_POST['subject_username'];
+$subject_username = array_get($_POST, 'subject_username', null);
+$notify_user = array_get($_POST, 'notify_user', null);
+
 if (check_username($subject_username) != '') die("Invalid parameter subject_username.");
 
 list($can_grant,$can_revoke) = user_can_modify_access_of($subject_username);
 if ( !$can_grant && !$can_revoke ) die( "Error: you are not permitted to modify the access of user '$subject_username'." );
-
-if ($_POST['notify_user'] == 'on') $notify_user = true;
 
 echo "subject_username='$subject_username'<br>\n";
 
