@@ -98,6 +98,8 @@ VERT_ALIGN;
     for($j=0;$j<$col;$j++) {
         $name="table_contents[$i][$j]";
         $a[$i][$j]=explode("\n",str_replace("\r\n","\n",$table_contents[$i][$j]));
+        if($trim)
+            $a[$i][$j]=array_values(array_filter($a[$i][$j],"str_not_empty"));
         foreach($a[$i][$j] as $k=>$v) {
             if($trim)
                 $a[$i][$j][$k]=$v=trim($v);
@@ -105,8 +107,6 @@ VERT_ALIGN;
             if(!isset($lng[$j]) || $t>$lng[$j])
                 $lng[$j]=$t;
         }
-        if($trim)
-            $a[$i][$j]=array_filter($a[$i][$j],"str_not_empty");
         $t=count($a[$i][$j]);
         if(!isset($tll[$i]) || $t>$tll[$i])
             $tll[$i]=$t;
