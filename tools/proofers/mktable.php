@@ -132,40 +132,48 @@ VERT_ALIGN;
 </form>
 <form>
 <textarea rows="20" cols="80" wrap="off">
-<?php
-if($bord) hline();
-
-for($i=0;$i<$row;$i++) {
-    for($j=0;$j<$col;$j++) {
-        $a[$i][$j]=array_pad_internal($a[$i][$j],$tll[$i],$val[$i]);
-    }
-    for($k=0;$k<$tll[$i];$k++) {
-        if($bord) echo "|";
-        for($j=0;$j<$col-1;$j++) {
-            echo htmlspecialchars(mb_str_pad($a[$i][$j][$k],$lng[$j]," ",$al[$j]), ENT_QUOTES, $charset)."|";
-        }
-        echo htmlspecialchars(mb_str_pad($a[$i][$col-1][$k],$lng[$col-1]," ",$al[$col-1]), ENT_QUOTES, $charset);
-        if($bord) echo "|";
-        echo "\n";
-    }
-
-    if($bord||$i<($row-1))
-        hline();
-}
-?>
+<?php generate_ascii_table($row, $col, $a, $al, $tll, $val, $lng, $bord); ?>
 </textarea>
 </form>
+</body>
+</html>
 <?php
-function hline()
-{
-global $col,$lng,$bord;
 
-if($bord) echo "+";
-for($j=0;$j<$col-1;$j++)
-    echo mb_str_pad("",$lng[$j],"-")."+";
-echo mb_str_pad("",$lng[$col-1],"-");
-if($bord) echo "+";
-echo "\n";
+#----------------------------------------------------------------------------
+
+function generate_ascii_table($row, $col, $a, $al, $tll, $val, $lng, $bord)
+{
+    global $charset;
+
+    if($bord) hline($col, $lng, $bord);
+
+    for($i=0;$i<$row;$i++) {
+        for($j=0;$j<$col;$j++) {
+            $a[$i][$j]=array_pad_internal($a[$i][$j],$tll[$i],$val[$i]);
+        }
+        for($k=0;$k<$tll[$i];$k++) {
+            if($bord) echo "|";
+            for($j=0;$j<$col-1;$j++) {
+                echo htmlspecialchars(mb_str_pad($a[$i][$j][$k],$lng[$j]," ",$al[$j]), ENT_QUOTES, $charset)."|";
+            }
+            echo htmlspecialchars(mb_str_pad($a[$i][$col-1][$k],$lng[$col-1]," ",$al[$col-1]), ENT_QUOTES, $charset);
+            if($bord) echo "|";
+            echo "\n";
+        }
+
+        if($bord||$i<($row-1))
+            hline($col, $lng, $bord);
+    }
+}
+
+function hline($col, $lng, $bord)
+{
+    if($bord) echo "+";
+    for($j=0;$j<$col-1;$j++)
+        echo mb_str_pad("",$lng[$j],"-")."+";
+    echo mb_str_pad("",$lng[$col-1],"-");
+    if($bord) echo "+";
+    echo "\n";
 }
 
 function str_not_empty($str)
@@ -217,6 +225,3 @@ function array_pad_internal($input,$pad_size,$pad_type)
     else 
         return array_pad($input,$pad_type*$pad_size,"");
 }
-?>
-</body>
-</html>
