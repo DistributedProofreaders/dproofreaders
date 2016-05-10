@@ -3,6 +3,8 @@
 $relPath="../../pinc";
 include_once($relPath."/misc.inc");
 
+undo_all_magic_quotes();
+
 $charset="UTF-8";
 
 define("ARRAY_PAD_FRONT", -1);
@@ -18,6 +20,7 @@ $trim = (array_get($_POST, 'trim', 'off') == 'on');
 $clear = array_get($_POST, 'clear', 0);
 $vert_align = array_get($_POST, 'vert_align', array());
 $horiz_align = array_get($_POST, 'horiz_align', array());
+$table_contents = array_get($_POST, 'table_contents', array());
 ?>
 <html>
 <head>
@@ -44,7 +47,7 @@ if($clear) {
         $vert_align[$i]=ARRAY_PAD_BACK;
         for($j=0;$j<$col;$j++) {
             $horiz_align[$j]=STR_PAD_RIGHT;
-            $_POST["a{$i}_{$j}"]="";
+            $table_contents[$i][$j]="";
         }
     }
 }
@@ -91,8 +94,8 @@ VERT_ALIGN;
 
     $a[$i]=array();
     for($j=0;$j<$col;$j++) {
-        $name="a{$i}_{$j}";
-        $a[$i][$j]=explode("\n",str_replace("\r\n","\n",$_POST[$name]=stripslashes($_POST[$name])));
+        $name="table_contents[$i][$j]";
+        $a[$i][$j]=explode("\n",str_replace("\r\n","\n",$table_contents[$i][$j]));
         foreach($a[$i][$j] as $k=>$v) {
             if($trim)
                 $a[$i][$j][$k]=$v=trim($v);
@@ -107,7 +110,7 @@ VERT_ALIGN;
             $tll[$i]=$t;
 ?>
 <td><textarea name="<?php echo $name; ?>" wrap="off">
-<?php echo htmlspecialchars($_POST[$name], ENT_NOQUOTES, $charset); ?>
+<?php echo htmlspecialchars($table_contents[$i][$j], ENT_NOQUOTES, $charset); ?>
 </textarea></td>
 <?php
     }
