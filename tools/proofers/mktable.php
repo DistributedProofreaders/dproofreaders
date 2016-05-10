@@ -146,10 +146,11 @@ function generate_ascii_table($row, $col, $a, $al, $tll, $val, $lng, $bord)
         }
         for($k=0;$k<$tll[$i];$k++) {
             if($bord) echo "|";
-            for($j=0;$j<$col-1;$j++) {
-                echo htmlspecialchars(mb_str_pad($a[$i][$j][$k],$lng[$j]," ",$al[$j]), ENT_QUOTES, $charset)."|";
+            for($j=0;$j<$col;$j++) {
+                echo htmlspecialchars(mb_str_pad($a[$i][$j][$k],$lng[$j]," ",$al[$j]), ENT_QUOTES, $charset);
+                if($j<$col-1)
+                    echo "|";
             }
-            echo htmlspecialchars(mb_str_pad($a[$i][$col-1][$k],$lng[$col-1]," ",$al[$col-1]), ENT_QUOTES, $charset);
             if($bord) echo "|";
             echo "\n";
         }
