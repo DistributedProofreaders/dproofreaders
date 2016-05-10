@@ -16,6 +16,8 @@ $col = array_get($_POST, 'col', 1);
 $bord = array_get($_POST, 'border', 1);
 $trim = (array_get($_POST, 'trim', 'off') == 'on');
 $clear = array_get($_POST, 'clear', 0);
+$vert_align = array_get($_POST, 'vert_align', array());
+$horiz_align = array_get($_POST, 'horiz_align', array());
 ?>
 <html>
 <head>
@@ -39,37 +41,28 @@ $clear = array_get($_POST, 'clear', 0);
 
 if($clear) {
     for($i=0;$i<$row;$i++) {
-        $_POST["val$i"]="t";
+        $vert_align[$i]=ARRAY_PAD_BACK;
         for($j=0;$j<$col;$j++) {
-            $_POST["al$j"]="l";
+            $horiz_align[$j]=STR_PAD_RIGHT;
             $_POST["a{$i}_{$j}"]="";
         }
     }
 }
 
-$al=array();
 for($j=0;$j<$col;$j++) {
-    switch($t=$_POST["al$j"]) {
-        case "r":
-            $al[$j]=STR_PAD_LEFT;
-            break;
-        case "c":
-            $al[$j]=STR_PAD_BOTH;
-            break;
-        default:
-            $al[$j]=STR_PAD_RIGHT;
-            break;
-    }
-    $right_align_checked = ($al[$j]==STR_PAD_RIGHT) ? " checked": "";
-    $both_align_checked  = ($al[$j]==STR_PAD_BOTH ) ? " checked": "";
-    $left_align_checked  = ($al[$j]==STR_PAD_LEFT ) ? " checked": "";
+    $right_align_checked = ($horiz_align[$j]==STR_PAD_RIGHT) ? " checked": "";
+    $both_align_checked  = ($horiz_align[$j]==STR_PAD_BOTH ) ? " checked": "";
+    $left_align_checked  = ($horiz_align[$j]==STR_PAD_LEFT ) ? " checked": "";
+    $pad_right = STR_PAD_RIGHT;
+    $pad_both  = STR_PAD_BOTH;
+    $pad_left  = STR_PAD_LEFT;
     echo <<<HORIZ_ALIGN
 <td align="center">
-    <input type="radio" name="al$j" value="l" $right_align_checked>
+    <input type="radio" name="horiz_align[$j]" value="$pad_right" $right_align_checked>
         <img src="./../../graphics/left.gif" alt="left">
-    <input type="radio" name="al$j" value="c" $both_align_checked>
+    <input type="radio" name="horiz_align[$j]" value="$pad_both" $both_align_checked>
         <img src="./../../graphics/center.gif" alt="center">
-    <input type="radio" name="al$j" value="r" $left_align_checked>
+    <input type="radio" name="horiz_align[$j]" value="$pad_left" $left_align_checked>
         <img src="./../../graphics/right.gif" alt="right">
 </td>
 HORIZ_ALIGN;
@@ -77,30 +70,21 @@ HORIZ_ALIGN;
 
 echo "</tr>";
 
-$a=array(); $lng=array(); $tll=array(); $val=array();
-//$row=5; $col=5;
+$a=array(); $lng=array(); $tll=array();
 for($i=0;$i<$row;$i++) {
-    switch($t=$_POST["val$i"]) {
-        case "b":
-            $val[$i]=ARRAY_PAD_FRONT;
-            break;
-        case "m":
-            $val[$i]=ARRAY_PAD_BOTH;
-            break;
-        default:
-            $val[$i]=ARRAY_PAD_BACK;
-            break;
-    }
-    $back_align_checked  = ($val[$i]==ARRAY_PAD_BACK ) ? " checked": "";
-    $both_align_checked  = ($val[$i]==ARRAY_PAD_BOTH ) ? " checked": "";
-    $front_align_checked = ($val[$i]==ARRAY_PAD_FRONT) ? " checked": "";
+    $back_align_checked  = ($vert_align[$i]==ARRAY_PAD_BACK ) ? " checked": "";
+    $both_align_checked  = ($vert_align[$i]==ARRAY_PAD_BOTH ) ? " checked": "";
+    $front_align_checked = ($vert_align[$i]==ARRAY_PAD_FRONT) ? " checked": "";
+    $pad_back  = ARRAY_PAD_BACK;
+    $pad_both  = ARRAY_PAD_BOTH;
+    $pad_front = ARRAY_PAD_FRONT;
     echo <<<VERT_ALIGN
 <td valign="middle">
-    <input type="radio" name="val$i" value="t" $back_align_checked>
+    <input type="radio" name="vert_align[$i]" value="$pad_back" $back_align_checked>
         <img src="./../../graphics/top.gif" alt="top"><br />
-    <input type="radio" name="val$i" value="m" $both_align_checked>
+    <input type="radio" name="vert_align[$i]" value="$pad_both" $both_align_checked>
         <img src="./../../graphics/middle.gif" alt="middle"><br />
-    <input type="radio" name="val$i" value="b" $front_align_checked>
+    <input type="radio" name="vert_align[$i]" value="$pad_front" $front_align_checked>
         <img src="./../../graphics/bottom.gif" alt="bottom"><br />
 </td>
 VERT_ALIGN;
@@ -136,7 +120,7 @@ VERT_ALIGN;
 </form>
 <form>
 <textarea rows="20" cols="80" wrap="off">
-<?php generate_ascii_table($row, $col, $a, $al, $tll, $val, $lng, $bord); ?>
+<?php generate_ascii_table($row, $col, $a, $horiz_align, $tll, $vert_align, $lng, $bord); ?>
 </textarea>
 </form>
 </body>
