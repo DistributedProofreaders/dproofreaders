@@ -43,14 +43,16 @@ $table_contents = array_get($_POST, 'table_contents', array());
 <?php
 
 if($clear) {
-    for($i=0;$i<$row;$i++) {
-        $vert_align[$i]=ARRAY_PAD_BACK;
-        for($j=0;$j<$col;$j++) {
-            $horiz_align[$j]=STR_PAD_RIGHT;
-            $table_contents[$i][$j]="";
-        }
-    }
+    $table_contents = array();
+    $vert_align = array();
+    $horiz_align = array();
 }
+
+// We always need to pad the following fields to ensure
+// they are big enough if the table has been resized or cleared.
+$table_contents = table_pad($table_contents, $row, $col, "");
+$vert_align = array_pad($vert_align, $row, ARRAY_PAD_BACK);
+$horiz_align = array_pad($horiz_align, $col, STR_PAD_RIGHT);
 
 for($j=0;$j<$col;$j++) {
     $right_align_checked = ($horiz_align[$j]==STR_PAD_RIGHT) ? " checked": "";
@@ -215,4 +217,18 @@ function array_pad_internal($input,$pad_size,$pad_type)
         );
     else 
         return array_pad($input,$pad_type*$pad_size,"");
+}
+
+function table_pad($table, $rows, $columns, $value="")
+{
+    for($i = 0; $i < $rows; $i ++) {
+        if(!isset($table[$i]))
+            $table[$i] = array();
+        for($j = 0; $j < $columns; $j++) {
+            if(!isset($table[$i][$j]))
+                $table[$i][$j] = $value;
+        }
+    }
+
+    return $table;
 }
