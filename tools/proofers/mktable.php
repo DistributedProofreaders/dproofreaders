@@ -108,12 +108,14 @@ VERT_ALIGN;
         foreach($a[$i][$j] as $k=>$v) {
             if($trim)
                 $a[$i][$j][$k]=$v=trim($v);
-            if(($t=mb_strlen($v))>$lng[$j])
+            $t=mb_strlen($v);
+            if(!isset($lng[$j]) || $t>$lng[$j])
                 $lng[$j]=$t;
         }
         if($trim)
             $a[$i][$j]=array_filter($a[$i][$j],"str_not_empty");
-        if(($t=count($a[$i][$j]))>$tll[$i])
+        $t=count($a[$i][$j]);
+        if(!isset($tll[$i]) || $t>$tll[$i])
             $tll[$i]=$t;
 ?>
 <td><textarea name="<?php echo $name; ?>" wrap="off">
