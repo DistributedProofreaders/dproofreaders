@@ -1,5 +1,8 @@
 <?php
 // not including base.inc as this has no external dependencies
+$relPath="../../pinc";
+include_once($relPath."/misc.inc");
+
 $charset="UTF-8";
 
 define("ARRAY_PAD_FRONT", -1);
@@ -8,10 +11,11 @@ define("ARRAY_PAD_BOTH",   0);
 
 mb_internal_encoding($charset);
 
-$row=intval($_POST['row']); $row=($row>1)?$row:1;
-$col=intval($_POST['col']); $col=($col>1)?$col:1;
-$bord=($_POST['border']=="n")?FALSE:TRUE;
-$trim=($_POST['trim']=="on")?TRUE:FALSE;
+$row = array_get($_POST, 'row', 1);
+$col = array_get($_POST, 'col', 1);
+$bord = array_get($_POST, 'border', 1);
+$trim = (array_get($_POST, 'trim', 'off') == 'on');
+$clear = array_get($_POST, 'clear', 0);
 ?>
 <html>
 <head>
@@ -24,8 +28,8 @@ $trim=($_POST['trim']=="on")?TRUE:FALSE;
 <input type="text" name="row" value="<?php echo $row; ?>" size="2"> rows and
 <input type="text" name="col" value="<?php echo $col; ?>" size="2"> columns table
 <select name="border">
-<option value="y"<?php echo $bord?" selected":""; ?>>with</option>
-<option value="n"<?php echo $bord?"":" selected"; ?>>without</option>
+<option value="1"<?php echo $bord?" selected":""; ?>>with</option>
+<option value="0"<?php echo $bord?"":" selected"; ?>>without</option>
 </select> border;
 <input type="checkbox" name="trim"<?php echo $trim?" checked":""; ?>> trim spaces.<br/>
 <table>
@@ -33,7 +37,7 @@ $trim=($_POST['trim']=="on")?TRUE:FALSE;
 <td>&nbsp;</td>
 <?php
 
-if(isset($_POST['clear'])) {
+if($clear) {
     for($i=0;$i<$row;$i++) {
         $_POST["val$i"]="t";
         for($j=0;$j<$col;$j++) {
