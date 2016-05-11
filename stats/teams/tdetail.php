@@ -15,6 +15,9 @@ $req_team_id  = get_integer_param( $_GET, 'tid', null, 0, null );
 $result = select_from_teams("id = {$req_team_id}");
 $curTeam = mysql_fetch_assoc($result);
 
+if(!$curTeam)
+    die(sprintf("%d is an invalid team ID", $req_team_id));
+
 // TRANSLATORS: %s is a team name
 $title = sprintf(_("%s Statistics"), $curTeam['teamname']);
 output_header($title);
