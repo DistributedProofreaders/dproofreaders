@@ -35,6 +35,7 @@ $vert_align = array_pad($vert_align, $row, ARRAY_PAD_BACK);
 $horiz_align = array_pad($horiz_align, $col, STR_PAD_RIGHT);
 
 ?>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $charset; ?>">
@@ -49,12 +50,13 @@ $horiz_align = array_pad($horiz_align, $col, STR_PAD_RIGHT);
 <option value="1"<?php echo $bord?" selected":""; ?>>with</option>
 <option value="0"<?php echo $bord?"":" selected"; ?>>without</option>
 </select> border;
-<input type="checkbox" name="trim"<?php echo $trim?" checked":""; ?>> trim spaces.<br/>
+<input type="checkbox" name="trim"<?php echo $trim?" checked":""; ?>> trim spaces.<br>
 <table>
-<tr>
-<td>&nbsp;</td>
 <?php
 
+// Output horizontal alignment header row
+echo "<tr>";
+echo "<td>&nbsp;</td>";
 for($j=0;$j<$col;$j++) {
     $right_align_checked = ($horiz_align[$j]==STR_PAD_RIGHT) ? " checked": "";
     $both_align_checked  = ($horiz_align[$j]==STR_PAD_BOTH ) ? " checked": "";
@@ -63,7 +65,7 @@ for($j=0;$j<$col;$j++) {
     $pad_both  = STR_PAD_BOTH;
     $pad_left  = STR_PAD_LEFT;
     echo <<<HORIZ_ALIGN
-<td align="center">
+<td style='text-align: center;'>
     <input type="radio" name="horiz_align[$j]" value="$pad_right" $right_align_checked>
         <img src="./../../graphics/left.gif" alt="left">
     <input type="radio" name="horiz_align[$j]" value="$pad_both" $both_align_checked>
@@ -73,11 +75,14 @@ for($j=0;$j<$col;$j++) {
 </td>
 HORIZ_ALIGN;
 }
-
 echo "</tr>";
 
+// Output additional rows
 $a=array(); $lng=array(); $tll=array();
 for($i=0;$i<$row;$i++) {
+    echo "<tr>";
+
+    // First column is the vertical alignment
     $back_align_checked  = ($vert_align[$i]==ARRAY_PAD_BACK ) ? " checked": "";
     $both_align_checked  = ($vert_align[$i]==ARRAY_PAD_BOTH ) ? " checked": "";
     $front_align_checked = ($vert_align[$i]==ARRAY_PAD_FRONT) ? " checked": "";
@@ -85,13 +90,13 @@ for($i=0;$i<$row;$i++) {
     $pad_both  = ARRAY_PAD_BOTH;
     $pad_front = ARRAY_PAD_FRONT;
     echo <<<VERT_ALIGN
-<td valign="middle">
+<td style='vertical-align: middle;'>
     <input type="radio" name="vert_align[$i]" value="$pad_back" $back_align_checked>
-        <img src="./../../graphics/top.gif" alt="top"><br />
+        <img src="./../../graphics/top.gif" alt="top"><br>
     <input type="radio" name="vert_align[$i]" value="$pad_both" $both_align_checked>
-        <img src="./../../graphics/middle.gif" alt="middle"><br />
+        <img src="./../../graphics/middle.gif" alt="middle"><br>
     <input type="radio" name="vert_align[$i]" value="$pad_front" $front_align_checked>
-        <img src="./../../graphics/bottom.gif" alt="bottom"><br />
+        <img src="./../../graphics/bottom.gif" alt="bottom"><br>
 </td>
 VERT_ALIGN;
 
@@ -111,11 +116,12 @@ VERT_ALIGN;
         $t=count($a[$i][$j]);
         if(!isset($tll[$i]) || $t>$tll[$i])
             $tll[$i]=$t;
-?>
-<td><textarea name="<?php echo $name; ?>" wrap="off">
-<?php echo htmlspecialchars($table_contents[$i][$j], ENT_NOQUOTES, $charset); ?>
-</textarea></td>
-<?php
+
+        $cell_contents = htmlspecialchars($table_contents[$i][$j], ENT_NOQUOTES, $charset);
+        echo "<td>";
+        echo "<textarea style='height: 6em; width: 15em; white-space: pre;' ",
+                "name='$name'>$cell_contents</textarea>";
+        echo "</td>";
     }
     echo "</tr>";
 }
@@ -125,7 +131,8 @@ VERT_ALIGN;
 <input type="submit" name="clear" value="Clear">
 </form>
 <form>
-<textarea rows="20" cols="80" wrap="off">
+<br>
+<textarea style='white-space: pre; overflow-x: scroll; font-family: monospace;' rows="20" cols="80">
 <?php generate_ascii_table($row, $col, $a, $horiz_align, $tll, $vert_align, $lng, $bord); ?>
 </textarea>
 </form>
