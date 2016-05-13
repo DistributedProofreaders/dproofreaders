@@ -21,6 +21,19 @@ $clear = array_get($_POST, 'clear', 0);
 $vert_align = array_get($_POST, 'vert_align', array());
 $horiz_align = array_get($_POST, 'horiz_align', array());
 $table_contents = array_get($_POST, 'table_contents', array());
+
+if($clear) {
+    $table_contents = array();
+    $vert_align = array();
+    $horiz_align = array();
+}
+
+// We always need to pad the following fields to ensure
+// they are big enough if the table has been resized or cleared.
+$table_contents = table_pad($table_contents, $row, $col, "");
+$vert_align = array_pad($vert_align, $row, ARRAY_PAD_BACK);
+$horiz_align = array_pad($horiz_align, $col, STR_PAD_RIGHT);
+
 ?>
 <html>
 <head>
@@ -41,18 +54,6 @@ $table_contents = array_get($_POST, 'table_contents', array());
 <tr>
 <td>&nbsp;</td>
 <?php
-
-if($clear) {
-    $table_contents = array();
-    $vert_align = array();
-    $horiz_align = array();
-}
-
-// We always need to pad the following fields to ensure
-// they are big enough if the table has been resized or cleared.
-$table_contents = table_pad($table_contents, $row, $col, "");
-$vert_align = array_pad($vert_align, $row, ARRAY_PAD_BACK);
-$horiz_align = array_pad($horiz_align, $col, STR_PAD_RIGHT);
 
 for($j=0;$j<$col;$j++) {
     $right_align_checked = ($horiz_align[$j]==STR_PAD_RIGHT) ? " checked": "";
