@@ -109,9 +109,11 @@ foreach($page_stats as $page => $data) {
 $_SESSION["graph_flags_per_page"][$projectid]["graph_x"]=$graph_x;
 $_SESSION["graph_flags_per_page"][$projectid]["graph_y"]=$graph_y;
 
-// calculate the mode
+// calculate the mode by reverse sorting the array, resetting
+// the internal pointer, and using the first element
 arsort($mode);
-$total["flagged_mode"]=array_shift(array_keys($mode));
+reset($mode);
+$total["flagged_mode"]=key($mode);
 $total["flagged_mode_num"]=$mode[$total["flagged_mode"]];
 
 // initialize for empty projects
