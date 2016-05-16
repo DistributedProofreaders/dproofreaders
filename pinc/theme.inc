@@ -1120,15 +1120,31 @@ function get_dyn_image_url_for_file($filename)
 {
     global $dyn_dir, $dyn_url;
 
-    $image_extensions = array("png","jpg","gif");
+    $image_extensions = array("", ".png",".jpg",".gif");
 
     foreach($image_extensions as $extension)
     {
-        if ( file_exists("$dyn_dir/$filename.$extension") )
-            return "$dyn_url/$filename.$extension";
+        $test_path = "$dyn_dir/code_images/$filename$extension";
+        $test_url  = "$dyn_url/code_images/$filename$extension";
+        if ( file_exists($test_path) )
+            return $test_url;
     }
 
     return NULL;
+}
+
+// Given an image, see if we have a version that is in the current
+// user's locale. If so, return the <img> tag with $text as alt text.
+// If not, return $text.
+function get_translated_graphic_or_text($directory, $image, $text)
+{
+    $locale = get_desired_language();
+    $dyn_url = get_dyn_image_url_for_file("$directory/$locale/$image");
+
+    if($dyn_url)
+        return sprintf("<img src='$dyn_url' alt='%s'>", attr_safe($text));
+    else
+        return $text;
 }
 
 // vim: sw=4 ts=4 expandtab
