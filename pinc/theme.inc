@@ -1111,5 +1111,24 @@ function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_col
     return array($progress_bar_width, $progress_bar_color, $percent_complete);
 }
 
+// -----------------------------------------------------------------------------
+
+function get_dyn_image_url_for_file($filename)
+// Given file name relative to $dyn_dir, find a matching image by testing
+// for all web image extensions and return the full URL in $dyn_url.
+// If no image is found for the file name, the function returns NULL.
+{
+    global $dyn_dir, $dyn_url;
+
+    $image_extensions = array("png","jpg","gif");
+
+    foreach($image_extensions as $extension)
+    {
+        if ( file_exists("$dyn_dir/$filename.$extension") )
+            return "$dyn_url/$filename.$extension";
+    }
+
+    return NULL;
+}
+
 // vim: sw=4 ts=4 expandtab
-?>
