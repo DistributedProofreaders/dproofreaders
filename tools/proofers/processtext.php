@@ -32,7 +32,6 @@ define('B_RETURN_PAGE_TO_ROUND',    7);
 define('B_REVERT_TO_ORIGINAL',      8);
 define('B_REVERT_TO_LAST_TEMPSAVE', 9);
 define('B_RUN_SPELL_CHECK',         10);
-define('B_RUN_COMMON_ERRORS_CHECK', 11);
 
 
 // set tbutton
@@ -46,7 +45,6 @@ if (isset($_POST['button7']) || isset($_POST['button7_x'])) {$tbutton=B_RETURN_P
 if (isset($_POST['button8']) || isset($_POST['button8_x'])) {$tbutton=B_REVERT_TO_ORIGINAL;}
 if (isset($_POST['button9']) || isset($_POST['button9_x'])) {$tbutton=B_REVERT_TO_LAST_TEMPSAVE;}
 if (isset($_POST['button10']) || isset($_POST['button10_x'])) {$tbutton=B_RUN_SPELL_CHECK;}
-if (isset($_POST['button11']) || isset($_POST['button11_x'])) {$tbutton=B_RUN_COMMON_ERRORS_CHECK;}
 
 if (isset($_POST['spcorrect']))        {$tbutton=101;} // Make Spelling Corrections
 if (isset($_POST['spexit']))           {$tbutton=102;} // Exit Spelling Corrections
@@ -141,10 +139,6 @@ switch( $tbutton )
 
     case B_REPORT_BAD_PAGE:
         include('report_bad_page.php');
-        break;
-
-    case B_RUN_COMMON_ERRORS_CHECK:
-        //  include('errcheck.inc');
         break;
 
     case B_RUN_SPELL_CHECK:

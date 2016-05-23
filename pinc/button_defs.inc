@@ -8,7 +8,6 @@ define('REPORT_BAD_PAGE',             'C');
 define('RETURN_PAGE',                 'D');
 define('REVERT_TO_LAST_SAVE',         'E');
 define('REVERT_TO_ORIGINAL',          'F');
-define('RUN_COMMON_ERRORS_CHECK',     'G');
 define('SAVE_AS_DONE_AND_PROOF_NEXT', 'H');
 define('SAVE_AS_DONE_AND_QUIT',       'I');
 define('SAVE_AS_IN_PROGRESS',         'J');
@@ -123,16 +122,6 @@ function echo_button( $button_id, $which_interface )
                     . javascript_safe(_("Are you sure you want to revert to the original text for this round?"), $charset)
                     . "'));",
                 'src'       => "gfx/bt8.png",
-            );
-            break;
-
-        case RUN_COMMON_ERRORS_CHECK:
-            $attrs = array(
-                'name'      => "button11",
-                $label      => attr_safe(_("Run Common Errors Check")),
-                'title'     => attr_safe(_("Run Common Errors Check")),
-                'onclick'   => "alert('currently disabled');return(false);",
-                'src'       => "gfx/bt17.png",
             );
             break;
 

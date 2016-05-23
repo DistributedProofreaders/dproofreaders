@@ -102,11 +102,6 @@ href="<?php echo str_replace('&', '&amp;', $ppage->url_for_project_comments()); 
 <?php
 
 echo_button(SPELL_CHECK,'a');
-/*
-temp disabled
-echo "\n";
-echo_button(RUN_COMMON_ERRORS_CHECK,'a');
-*/
 echo "\n";
 echo_button(CHANGE_LAYOUT,'a');
 echo "\n";
