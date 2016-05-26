@@ -17,9 +17,9 @@ $_POST:
     $button1_x, $button2_x, $button3_x, $button4_x, ...
 */
 
-$projectid  = $_POST['projectid'];
+$projectid  = validate_projectID('projectid', @$_POST['projectid']);
 $proj_state = $_POST['proj_state'];
-$imagefile  = $_POST['imagefile'];
+$imagefile  = validate_page_image_filename('imagefile', @$_POST['imagefile']);
 $text_data  = array_get($_POST, 'text_data', '');
 
 define('B_TEMPSAVE',                1);
