@@ -26,11 +26,11 @@ undo_all_magic_quotes();
 // Load user settings
 $userSettings =& Settings::get_Settings($pguser);
 
-$_Activity_Hub = attr_safe(_("Activity Hub"));
+$title = _("Activity Hub");
 
-output_header($_Activity_Hub);
+output_header($title);
 
-echo "<center><img src='$code_url/graphics/Activity_Hub.png' width='350' height='60' border='0' title='$_Activity_Hub' alt='$_Activity_Hub'></center>\n";
+echo "<h1><center>" . get_translated_graphic_or_text("page_header", "HUB", $title) . "</center></h1>";
 
 echo "<p>\n";
 echo sprintf(_('Welcome to the %1$s Activity Hub. From this page you can view the phases of %1$s production.'),$site_abbreviation);
