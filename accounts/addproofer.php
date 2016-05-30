@@ -15,7 +15,9 @@ if($site_registration_protection_code)
     include_once($site_registration_protection_code);
     $form_data_inserters = get_registration_form_inserters();
     $form_validators = get_registration_form_validators();
-    $form_validators[] = "_validate_fields";
+
+    # prepend the field validator so it runs first
+    array_unshift($form_validators, "_validate_fields");
 }
 else
 {
