@@ -45,10 +45,6 @@
 }
 /* ------------------------------------------------------------------------ */
 /* Statsbar components */
-#completed-titles h3,
-#recent-titles h3 {
-  text-decoration: underline;
-}
 #completed-titles ul,
 #recent-titles ul {
   padding: 0;
