@@ -76,7 +76,7 @@ function echo_manager_header()
         // TRANSLATORS: PM = project manager
         echo _("PM links"), ": ";
         $enc_pguser = urlencode($pguser);
-        echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form&project_manager=$enc_pguser'><b>"._("Search Your Projects")."</b></a>"; 
+        echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=search_form&amp;project_manager=$enc_pguser'><b>"._("Search Your Projects")."</b></a>"; 
         echo "\n|\n";
         echo "<a href='$code_url/tools/project_manager/projectmgr.php?show=user_active'>"._("Show Your Active Projects")."</a>";
         echo "\n|\n";

@@ -536,7 +536,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             $new_blurb  = get_medium_label_for_project_state($new_state);
             $projectids_str = implode( ',', $projectids );
 
-            echo "<a href='move_projects.php?curr_state=$curr_state&new_state=$new_state&projects=$projectids_str'>";
+            echo "<a href='move_projects.php?curr_state=$curr_state&amp;new_state=$new_state&amp;projects=$projectids_str'>";
             // TRANSLATORS: both values are project states
             printf(_("Move all %1\$s projects on this page to %2\$s"),
                 "<b>$curr_blurb</b>", "<b>$new_blurb</b>");
@@ -574,7 +574,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         {
             $t = _('Previous');
             $prev_offset = max(0, $results_offset - $n_results_per_page );
-            $url = $url_base . "results_offset=$prev_offset";
+            $url = attr_safe($url_base . "results_offset=$prev_offset");
             echo "<a href='$url'>$t</a> | ";
         }
 
@@ -591,7 +591,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         {
             $t = _('Next');
             $next_offset = $results_offset + $n_results_per_page;
-            $url = $url_base . "results_offset=$next_offset";
+            $url = attr_safe($url_base . "results_offset=$next_offset");
             echo " | <a href='$url'>$t</a>";
         }
     }
@@ -601,26 +601,23 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $user_can_see_download_links = user_can_work_in_stage($pguser, 'PP');
     $show_options_column = $user_can_see_download_links || user_is_PM();
 
-    echo "<center><table border=1 width='99%' cellpadding=0 cellspacing=0 style='border: 1px solid #111; border-collapse: collapse'>";
+    echo "<table class='themed striped'>";
 
-    function echo_header_cell( $width, $text )
+    function echo_header_cell( $width, $text, $class='' )
     {
-        global $theme;
-        echo "<td width='$width' align='center' bgcolor='{$theme['color_headerbar_bg']}'>";
-        echo "<font color='{$theme['color_headerbar_font']}'>";
-        echo "<b>$text</b>";
-        echo "</font>";
-        echo "</td>";
-        echo "\n";
+        if($class)
+            $class = "class='$class'";
+        echo "<th $class>$text</th>\n";
     }
 
     echo "<tr>";
     echo_header_cell( 175, _("Title") );
     echo_header_cell( 100, _("Author") );
     // TRANSLATORS: Abbreviation for difficulty
-    echo_header_cell( 25, _("Diff.") );
-    echo_header_cell( 50, _("Avail. Pages") );
-    echo_header_cell( 50, _("Total Pages") );
+    echo_header_cell( 25, _("Diff."), 'center-align' );
+    echo_header_cell( 50, _("Avail. Pages"), 'center-align' );
+    echo_header_cell( 50, _("Total Pages"), 'center-align' );
+    // TRANSLATORS: Abbreviation for Project Manager
     echo_header_cell(  75, pgettext("project manager", "PM") );
     echo_header_cell(  75, _("Checked Out By") );
     echo_header_cell( 180, _("Project Status") );
@@ -641,76 +638,76 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         $project = new Project($project_assoc);
         $projectid = $project->projectid;
 
-        if ($tr_num % 2 ) {
-            $bgcolor = $theme['color_mainbody_bg'];
-        } else {
-            $bgcolor = $theme['color_navbar_bg'];
-        }
+        $bgcolor = '';
 
         // Special colours for special books of various types
         if ($show_special_colors)
         {
             $special_color = get_special_color_for_project($project_assoc);
             if (!is_null($special_color)) {
-                $bgcolor = "'$special_color'";
+                $bgcolor = $special_color;
             }
         }
 
-        echo "<tr bgcolor=$bgcolor>\n";
+        $cell_style = '';
+        if($bgcolor)
+            $cell_style = "style='background-color: $bgcolor;'";
+
+        echo "<tr>";
 
         // Title
-        echo "<td><a href='$code_url/project.php?id=$projectid&amp;detail_level=3'>{$project->nameofwork}</a></td>\n";
+        echo "<td $cell_style><a href='$code_url/project.php?id=$projectid&amp;detail_level=3'>" . html_safe($project->nameofwork) . "</a></td>\n";
 
         // Author
-        echo "<td>{$project->authorsname}</td>\n";
+        echo "<td $cell_style>" . html_safe($project->authorsname) . "</td>\n";
 
         // Difficulty
         $diff = strtoupper(substr($project->difficulty,0,1));
-        echo "<td align=\"center\">$diff</td>\n";
+        echo "<td $cell_style class='center-align'>$diff</td>\n";
 
 
         // Avail. Pages
-        echo "<td align=\"center\">{$project->n_available_pages}</td>\n";
+        echo "<td $cell_style class='center-align'>{$project->n_available_pages}</td>\n";
 
         // Total Pages
-        echo "<td align=\"center\">{$project->n_pages}</td>\n";
+        echo "<td $cell_style class='center-align'>{$project->n_pages}</td>\n";
 
 
         // PM
-        echo "<td align=\"center\">";
+        echo "<td $cell_style>";
         if ( $project->username != '' )
         {
-            $contact_url = get_url_to_compose_message_to_user($project->username);
+            $contact_url = attr_safe(get_url_to_compose_message_to_user($project->username));
             print "<a href='$contact_url'>{$project->username}</a>";
         }
         echo "</td>\n";
 
         // Checked Out By
-        echo "<td align=\"center\">";
+        echo "<td $cell_style>";
         if ($project->checkedoutby != "") {
             // Maybe we should get this info via a
             // left outer join in the big select query.
             // (Actually, I tried it in a few cases and the left outer join was always slower.)
-            $contact_url = get_url_to_compose_message_to_user($project->checkedoutby);
+            $contact_url = attr_safe(get_url_to_compose_message_to_user($project->checkedoutby));
             print "<a href='$contact_url'>{$project->checkedoutby}</a>";
         }
         echo "</td>\n";
 
         // Project Status
 
-        echo "<td valign='middle'>\n";
+        echo "<td $cell_style>";
         echo_project_state_changer($project);
         echo "</td>\n";
 
         // Options
         if ( $show_options_column )
         {
-            echo "<td align=center>";
+            echo "<td $cell_style>";
             if ( user_is_a_sitemanager() || user_is_proj_facilitator() || $project->username == $pguser )
             {
                 echo _("Edit") . ":";
                 echo " ";
-                echo "<a href=\"editproject.php?action=edit&project=$projectid\">" . _("Info") . "</a>";
+                echo "<a href=\"editproject.php?action=edit&amp;project=$projectid\">" . _("Info") . "</a>";
                 echo " | ";
                 echo "<a href=\"edit_project_word_lists.php?projectid=$projectid\">" . _("Word&nbsp;Lists") . "</a>";
 
@@ -725,7 +722,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
                 {
                     $tooltip = attr_safe(_('"Suggestions from proofreaders" list has changed; click here to view'));
                     echo " <a href='$code_url/tools/project_manager/show_good_word_suggestions.php?projectid=$projectid' target='_blank'>";
-                    echo "<img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0'>";
+                    echo "<img src='$code_url/graphics/exclamation.gif' title='$tooltip' border='0' alt='!'>";
                     echo "</a>";
                 }
 
@@ -753,8 +750,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         $tr_num++;
     }
 
-    echo "<tr><td colspan=9 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
-    echo "\n";
+    echo "</table>";
 
     results_navigator();
 
@@ -786,7 +782,7 @@ function echo_project_state_changer($project)
 
     if ( count($transitions) > 0 )
     {
-        $here = $_SERVER['REQUEST_URI'];
+        $here = attr_safe($_SERVER['REQUEST_URI']);
         echo "
             <form
                 name='$project->projectid'
@@ -847,7 +843,7 @@ function echo_project_state_option($project_state,$selected)
 
 function list_uber_projects( $can_see_all )
 {
-    global $pguser, $theme, $PROJECT_IS_ACTIVE_sql;
+    global $pguser, $PROJECT_IS_ACTIVE_sql;
 
     // site managers and project facilitators can see all uber projects
 
@@ -877,9 +873,9 @@ function list_uber_projects( $can_see_all )
 
         $tr_num = 0;
 
-        echo "<br><center><h3>"._("Uber Projects to which you have access")."</h3></center><br>";
+        echo "<h3>"._("Uber Projects to which you have access")."</h3>";
 
-        echo "<center><table border=1 width=630 cellpadding=0 cellspacing=0 style='border: 1px solid #111; border-collapse: collapse'>";
+        echo "<table class='themed striped'>";
 
         echo "<tr>";
         echo_header_cell( 300, _("Overall Name of Uber Project") );
@@ -891,13 +887,6 @@ function list_uber_projects( $can_see_all )
         echo_header_cell( 30,  _("Forum Thread") );
         echo_header_cell( 30,  _("Options") );
         echo "</tr>";
-
-
-        if (!$can_see_all) {
-            $limit_to_user = " ";
-        } else {
-            $limit_to_user = " ";
-        }
 
         while ($UPinfo = mysql_fetch_assoc($UPs)) {
 
@@ -943,50 +932,44 @@ function list_uber_projects( $can_see_all )
             "));
             $num_PM = $num_PM_res['num'];
 
-            if ($tr_num % 2 ) {
-                $bgcolor = $theme['color_mainbody_bg'];
-            } else {
-                $bgcolor = $theme['color_navbar_bg'];
-            }
-
-            echo "<tr bgcolor=$bgcolor>\n";
+            echo "<tr>\n";
 
             // Name
             echo "<td>$up_name</td>\n";
 
             // Number of THIS USER'S active related projects  (NB SA/PFs are users too!)
-            echo "<td align=\"center\"><a href='projectmgr.php?up_projectid=$up_projid'>$num_active_proj</a></td>\n";
+            echo "<td class='center-align'><a href='projectmgr.php?up_projectid=$up_projid'>$num_active_proj</a></td>\n";
 
             // Number of all of THIS USER'S related projects
-            echo "<td align=\"center\"><a href='projectmgr.php?show=user_all&up_projectid=$up_projid'>$num_proj</a></td>\n";
+            echo "<td class='center-align'><a href='projectmgr.php?show=user_all&amp;up_projectid=$up_projid'>$num_proj</a></td>\n";
 
             // Number of ALL active related projects
             // For SA/PFs this is a link to them, others just see the total
             if ($can_see_all) {
-                $link_top = "<a href='projectmgr.php?show=site_active&up_projectid=".$up_projid."'>";
+                $link_top = "<a href='projectmgr.php?show=site_active&amp;up_projectid=".$up_projid."'>";
                 $link_tail = "</a>";
             } else {
                 $link_top = "";
                 $link_tail = "";
             }
-            echo "<td align=\"center\">".$link_top.$num_all_active_proj.$link_tail."</td>\n";
+            echo "<td class='center-align'>".$link_top.$num_all_active_proj.$link_tail."</td>\n";
 
             // Number of ALL related projects
             // For SA/PFs this is a link to them, others just see the total
             if ($can_see_all) {
-                $link_top = "<a href='projectmgr.php?show=allfor&up_projectid=".$up_projid."'>";
+                $link_top = "<a href='projectmgr.php?show=allfor&amp;up_projectid=".$up_projid."'>";
                 $link_tail = "</a>";
             } else {
                 $link_top = "";
                 $link_tail = "";
             }
-            echo "<td align=\"center\">".$link_top.$num_all_proj.$link_tail."</td>\n";
+            echo "<td class='center-align'>".$link_top.$num_all_proj.$link_tail."</td>\n";
 
             // Number of project managers
             // could in a fancy future show SA/PFs a drop down list of PMs with
             // projects related to this UP, and let selection show the list
             // filtered by PM...
-            echo "<td align=\"center\">$num_PM</td>\n";
+            echo "<td class='center-align'>$num_PM</td>\n";
 
             // link to Forum thread
             echo "<td>Click here</td>\n";
@@ -997,9 +980,9 @@ function list_uber_projects( $can_see_all )
 
             $tr_num++;
         }
-
-        echo "<tr><td colspan=9 bgcolor='".$theme['color_headerbar_bg']."'>&nbsp;</td></tr></table></center>";
     }
+
+    echo "</table>";
 }
 
 // vim: sw=4 ts=4 expandtab
