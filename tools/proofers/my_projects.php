@@ -274,8 +274,6 @@ if($num_projects > 0)
     echo "<h2 id='reserved'>$reserved_heading</h2>\n";
     echo "<p>$reserved_text</p>";
 
-    echo sprintf("(%d projects)", $num_projects );
-
     echo "<table class='themed striped' style='width: auto;'>";
 
     show_headings($colspecs, 'reserved', $username);
@@ -300,6 +298,8 @@ if($num_projects > 0)
     }
 
     echo "</table>\n";
+
+    echo sprintf("(%d projects)", $num_projects);
     echo "<br>\n";
 }
 
