@@ -116,7 +116,14 @@ if($frame=="left") {
         list($time,$round,$page,$proofer,$words)=$suggestion;
         // get a context string
         list($context_strings,$totalLines)=_get_word_context_on_page($projectid,$page,$round,$word);
-        if(!count($context_strings)) continue;
+
+        # If the word was suggested on a page, but then changed before
+        # being saved, let the PM know about it.
+        if(!count($context_strings))
+        {
+            echo "<p>" . sprintf(_('The word was suggested in round %1$s for page %2$s, but no longer exists in the saved text for that round.'), $round, $page) . "</p>";
+            continue;
+        }
 
         echo "<p><b>" . _("Date") . "</b>: " . strftime($datetime_format,$time) . "<br>";
         echo "<b>" . _("Round") . "</b>: $round &nbsp; | &nbsp; ";

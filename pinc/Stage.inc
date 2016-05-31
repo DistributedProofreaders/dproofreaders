@@ -60,26 +60,9 @@ class Stage extends Activity
     // Display a page-header, either an image (if available) or a textual title
     // for this stage.
     {
-        global $dyn_dir, $dyn_url;
-
-        $header_images_dir = "$dyn_dir/header_images";
-        $header_images_url = "$dyn_url/header_images";
-
-        $img_base = $this->id;
-
-        if ( file_exists("$header_images_dir/$img_base.jpg") )
-        {
-            echo "<br>";
-            echo "<center>";
-            echo "<img src='$header_images_url/$img_base.jpg' title='" 
-                . attr_safe($title) . "' alt='" . attr_safe($title) . "'>";
-            echo "</center>";
-        }
-        else
-        {
-            echo "<h1 align='center'>$title</h1>";
-        }
-        echo "\n";
+        $header_string = get_translated_graphic_or_text(
+            "page_header", $this->id, $title);
+        echo "<h1 align='center'>$header_string</h1>\n";
     }
 
     function page_top( $uao )

@@ -7,16 +7,21 @@ include_once($relPath.'maybe_mail.inc');
 include_once($relPath.'access_log.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
+include_once($relPath.'slim_header.inc');
 
 require_login();
 
-$subject_username = @$_POST['subject_username'];
-if (check_username($subject_username) != '') die("Invalid parameter subject_username.");
+$subject_username = array_get($_POST, 'subject_username', null);
+$notify_user = array_get($_POST, 'notify_user', null);
+
+if (check_username($subject_username) != '')
+    die("Invalid parameter subject_username.");
 
 list($can_grant,$can_revoke) = user_can_modify_access_of($subject_username);
-if ( !$can_grant && !$can_revoke ) die( "Error: you are not permitted to modify the access of user '$subject_username'." );
+if ( !$can_grant && !$can_revoke )
+    die( "Error: you are not permitted to modify the access of user '$subject_username'." );
 
-if ($_POST['notify_user'] == 'on') $notify_user = true;
+slim_header(_("Modify Access"));
 
 echo "subject_username='$subject_username'<br>\n";
 
