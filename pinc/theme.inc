@@ -473,7 +473,7 @@ function html_statsbar($nameofpage) {
             // Show project listings to anyone, signed in or not, front page only
             // Show the 7 most recently completed, tersely
             echo "<div id='completed-titles'>\n";
-            echo "<h3>" . _("Recently Completed Titles") . ":</h3>\n";
+            echo "<h3>" . _("Recently Completed Titles") . "</h3>\n";
             $state = SQL_CONDITION_GOLD;
             list_projects_tersely( $state, "ORDER BY modifieddate DESC", "LIMIT 7" );
 
@@ -486,7 +486,7 @@ function html_statsbar($nameofpage) {
 
             // Show 3 (random) of the 10 most recently arrived (most recent P1)
             echo "<div id='recent-titles'>";
-            echo "<h3>" . _("Recently Begun") . ":</h3>\n";
+            echo "<h3>" . _("Recently Begun") . "</h3>\n";
             $state = SQL_CONDITION_BRONZE;
             $limit_phrase = "LIMIT 3 OFFSET " . rand(0, 7);
             list_projects_tersely( $state, "ORDER BY modifieddate DESC", $limit_phrase );
@@ -643,7 +643,7 @@ function show_tally_specific_stats( $tally_name )
     global $page_tally_names;
     echo "<h3>" . $page_tally_names[$tally_name] . "</h3>\n";
     echo "<p id='server-time'>" . _("Server Time") . ": " . strftime("%R") . "</p>\n";
-    echo "<h4>" . _("Site Statistics") . ":</h4>\n";
+    echo "<h4>" . _("Site Statistics") . "</h4>\n";
 
     show_tally_vs_goal(
         _("Today's Goal") . ":",  $site_stats->curr_day_goal,
@@ -715,7 +715,7 @@ function show_tally_specific_stats( $tally_name )
         $yesterday_page_delta = $snapshot_info['tally_delta'];
         $today_page_delta = $usern->get_current_page_tally() - $snapshot_info['tally_value'];
 
-        echo "<h4>" . _("Personal Statistics") . ":</h4>\n";
+        echo "<h4>" . _("Personal Statistics") . "</h4>\n";
         echo "<p>\n";
         echo _("Pages Yesterday") . ": ";
         echo number_format($yesterday_page_delta)."<br>\n";
@@ -734,7 +734,7 @@ function show_tally_specific_stats( $tally_name )
         //Show the Neighbor table if the user has requested so
         if ($userP['u_neigh']) {
             echo "<hr class='divider'>\n";
-            echo "<h4>" . _("Your Neighborhood") . ": </h4>\n";
+            echo "<h4>" . _("Your Neighborhood") . "</h4>\n";
             echo "<p>\n";
 
             foreach ( $neighbors as $rel_posn => $neighbor )
@@ -776,7 +776,7 @@ function show_user_teams()
     global $code_url, $userP;
 
     echo "<div id='teams-nav'>\n";
-    echo "<h3>" .  _("Your Teams") . ":</h3>\n";
+    echo "<h3>" .  _("Your Teams") . "</h3>\n";
     echo "<ul>\n";
     $teamRes=mysql_query("
         SELECT teamname, id
@@ -836,7 +836,7 @@ function show_birthdays()
         return;
 
     echo "<div id='birthdays'>\n";
-    echo "<h3>" . sprintf(_("Today's %s Birthdays"),$site_abbreviation) . ":</h3>\n";
+    echo "<h3>" . sprintf(_("Today's %s Birthdays"),$site_abbreviation) . "</h3>\n";
 
     echo "<ul>";
 
@@ -863,7 +863,7 @@ function show_completed_projects($terse = FALSE)
         echo "\n<br>\n";
         $num_months = 1;
     } else {
-        echo "<h3>" . _("Completed Projects") . ":</h3>\n";
+        echo "<h3>" . _("Completed Projects") . "</h3>\n";
         echo "<table>\n";
         $num_months = 12;
     }
@@ -920,7 +920,7 @@ function show_key_help_links()
     global $code_url, $forums_url;
 
     echo "<div id='key-help-documents'>";
-    echo "<h3>"._("Key Help Documents").":</h3>";
+    echo "<h3>"._("Key Help Documents")."</h3>";
     echo "<ul>\n";
 
     $items = array(
