@@ -131,7 +131,7 @@ $res = dpsql_query("
     ORDER BY $sql_order
 ") or die('Aborting');
 
-echo "<table border='1'>";
+echo "<table class='themed striped' style='width: auto;'>";
 
 show_headings($colspecs, 'proof', $username);
 
@@ -276,7 +276,7 @@ if($num_projects > 0)
 
     echo sprintf("(%d projects)", $num_projects );
 
-    echo "<table border='1'>";
+    echo "<table class='themed striped' style='width: auto;'>";
 
     show_headings($colspecs, 'reserved', $username);
 
