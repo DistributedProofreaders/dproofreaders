@@ -32,6 +32,9 @@ class Widget
 
     function get_html_control()
     {
+        # make all widgets 100% width
+        $size_attr = "style='width: 100%;'";
+
         // If you don't specify a size for a <select> control,
         // browsers vary widely in what they use for a default.
         // (e.g., Firefox 1.0 uses 20, IE 5.5 and Opera 8 use 4, Opera 9 uses 1.)
@@ -40,9 +43,9 @@ class Widget
         {
             $co = count($this->options);
             $this->size = ( $co <= 6 ? $co : 4 );
+            $size_attr .= " size='{$this->size}'";
         }
 
-        $size_attr = ( isset($this->size) ? "size='{$this->size}'" : '' );
         if ( $this->type == 'text' )
         {
             if ( isset($_GET[$this->id]) )
@@ -225,7 +228,6 @@ $widgets = array(
         'id'         => 'projectid',
         'label'      => _('Project ID'),
         'type'       => 'text',
-        'size'       => 45, // big enough to show two projectids without scrolling.
         'can_be_multiple' => TRUE,
         'separator'  => '[\s,;]+',
         'q_part'     => 'WHERE',
@@ -317,7 +319,7 @@ $widgets = array(
     )),
     new Widget( array(
         'id'           => 'n_results_per_page',
-        'label'        => _('Number of results per page'),
+        'label'        => _('Results per page'),
         'type'         => 'select',
         'options'      => array( 30 => 30, 100 => 100, 300 => 300 ),
         'can_be_multiple' => FALSE,
@@ -370,17 +372,25 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         echo "</div>";
     }
 
+    echo "<h1>", _("Search for Projects"), "</h1>";
+    echo "<p>" . _("Search for projects matching the following criteria:")."</p>";
     echo "
-        <center>
-        <h1>", _("Search for Projects"), "</h1>
-        "._("Search for projects matching the following criteria:")."<br>
-        <form method=get action='projectmgr.php'>
+        <form method='GET' action='projectmgr.php'>
         <input type='hidden' name='show' value='search'>
-        <table>
     ";
+
+    # split the widgets across two columns using tables within divs
+    $div_table_header = "
+        <div style='width: 49%; float: left;'>
+        <table style='width: 90%;'>
+    ";
+    echo $div_table_header;
 
     foreach ( $widgets as $widget )
     {
+        if( $widget->id == 'genre')
+            echo "</table></div>$div_table_header";
+
         if ( @$widget->can_be_multiple )
         {
             if ( $widget->type == 'text' )
@@ -399,32 +409,28 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
         }
         echo "
             <tr>
-                <td align='right'>{$widget->label}$help</td>
+                <th class='right-align top-align'>{$widget->label}$help</th>
                 <td>".$widget->get_html_control()."</td>
             </tr>
         ";
     }
 
     echo "
-        <tr>
-            <td></td>
-            <td>
-                <table width='100%'>
-                <tr>
-                    <td align='left'><input type='submit' value='", attr_safe(_("Search")), "'></td>
-                    <td align='right'><input type='reset' value='", attr_safe(_("Clear form")), "'></td>
-                </tr>
-                </table>
-            </td>
-        </tr>
         </table>
+        </div>
+        <div class='center-align' style='clear: both;'>
+        <input type='submit' value='", attr_safe(_("Search")), "'>
+        <input type='reset' value='", attr_safe(_("Clear form")), "'>
+        </div>
         </form>
+    ";
+    echo "<p>
         "._("For terms that you type in, matching is case-insensitive and unanchored; so, for instance, 'jim' matches both 'Jimmy Olsen' and 'piggyjimjams'. This doesn't apply to PG etext numbers, for which you should type in the complete number.")."
         <br><br>
         "._('"(list ok)": You can search by multiple ProjectIDs or PG etext numbers at once: enter the list of ProjectIDs or PG etext numbers, separated by commas, semicolons, or spaces.')."
         <br><br>
         "._('"(multi-select)": If desired, you should be able to select multiple values for Language, Difficulty, Special Day, or State (e.g., by holding down Ctrl).')."
-        </center>
+    </p>
     ";
 } else {
     echo_manager_header();
