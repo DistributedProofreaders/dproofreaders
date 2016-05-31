@@ -45,11 +45,11 @@ table.snapshottable td.stage-access {
 // Load user settings
 $userSettings =& Settings::get_Settings($pguser);
 
-$_Activity_Hub = attr_safe(_("Activity Hub"));
+$title = _("Activity Hub");
 
-output_header($_Activity_Hub, True, $theme_args);
+output_header($title);
 
-echo "<h1><img src='$code_url/graphics/Activity_Hub.png' width='350' height='60' title='$_Activity_Hub' alt='$_Activity_Hub'></h1>\n";
+echo "<h1>" . get_translated_graphic_or_text("page_header", "HUB", $title) . "</h1>";
 
 echo "<p>\n";
 echo sprintf(_('Welcome to the %1$s Activity Hub. From this page you can view the phases of %1$s production.'),$site_abbreviation);
@@ -399,7 +399,9 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
             if ($states_list) $states_list .= ',';
             $states_list .= "'$desired_state'";
             $n_projects_in_state_by_filter_[$desired_state] = 0;
-            if($desired_state == $stage->project_complete_state)
+            // (Use '@' to suppress "Undefined property" notice:
+            // not every stage has a 'project_complete_state'.)
+            if($desired_state == @$stage->project_complete_state)
                 $n_projects_in_state_by_filter_[$desired_state] = _("N/A");
         }
 

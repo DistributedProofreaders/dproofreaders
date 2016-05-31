@@ -77,17 +77,25 @@ _DYN_URL=$base_url/d
 # readable and writeable by the web server.
 #
 # Optional user-supplied files:
-# (They don't have to exist, but the code will use them if they do.)
+#     $_DYN_DIR/code_images/ stores files used by the DP code. They are
+#     optional and if not present will fall back to using text instead.
+#     Some images are assumed to have text in them and need to have
+#     different images for each language the site is translated into.
+#     These are indicated with <locale> below. Note the default locale
+#     of the code is en_EN.
 #
-# --- $_DYN_DIR/stage_icons/$stage_id.jpg
+#     The images can be of type png, jpg, or gif and are selected in that
+#     order using those extensions.
+#
+# --- $_DYN_DIR/code_images/stage_icons/$stage_id.jpg
 #         A small image to use as an icon for a given stage.
 #         (Currently only used on the activity hub.)
 #         $stage can be the id of any stage (i.e., round or pool).
 #         
-# --- $_DYN_DIR/header_images/$stage_id.jpg
+# --- $_DYN_DIR/code_images/page_header/<locale>/$stage_id.jpg
 #         An image to show at the top of a given site-page.
 #
-# --- $_DYN_DIR/news_header_images/$page.jpg
+# --- $_DYN_DIR/code_images/news_header/<locale>/$page.jpg
 #         An image to show at the top of the "news" section of a given
 #         site-page. $page can be FRONT, HUB, FAQ, STATS, or a stage-id.
 #

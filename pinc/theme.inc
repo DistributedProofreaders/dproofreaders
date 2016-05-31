@@ -117,7 +117,11 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) 
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
     echo "<html ".lang_html_header($intlang).">\n<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\">\n";
-    echo "<link rel='shortcut icon' href='$code_url/favicon.ico'>\n";
+    # standard favicon.ico
+    echo "<link rel='shortcut icon' href='$code_url/graphics/dp-mark-32px.ico'>\n";
+    # iOS and Android icons
+    echo "<link rel='apple-touch-icon' href='$code_url/graphics/dp-mark-180px-white.png'>\n";
+    echo "<link rel='icon' href='$code_url/graphics/dp-mark-180px-white.png'>\n";
     echo "<title>$site_abbreviation";
     if (isset($nameofpage)) { echo ": $nameofpage"; }
     echo "</title>\n";
@@ -1061,5 +1065,40 @@ function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_col
     return array($progress_bar_width, $progress_bar_color, $percent_complete);
 }
 
+// -----------------------------------------------------------------------------
+
+function get_dyn_image_url_for_file($filename)
+// Given file name relative to $dyn_dir, find a matching image by testing
+// for all web image extensions and return the full URL in $dyn_url.
+// If no image is found for the file name, the function returns NULL.
+{
+    global $dyn_dir, $dyn_url;
+
+    $image_extensions = array("", ".png",".jpg",".gif");
+
+    foreach($image_extensions as $extension)
+    {
+        $test_path = "$dyn_dir/code_images/$filename$extension";
+        $test_url  = "$dyn_url/code_images/$filename$extension";
+        if ( file_exists($test_path) )
+            return $test_url;
+    }
+
+    return NULL;
+}
+
+// Given an image, see if we have a version that is in the current
+// user's locale. If so, return the <img> tag with $text as alt text.
+// If not, return $text.
+function get_translated_graphic_or_text($directory, $image, $text)
+{
+    $locale = get_desired_language();
+    $dyn_url = get_dyn_image_url_for_file("$directory/$locale/$image");
+
+    if($dyn_url)
+        return sprintf("<img src='$dyn_url' alt='%s'>", attr_safe($text));
+    else
+        return $text;
+}
+
 // vim: sw=4 ts=4 expandtab
-?>
