@@ -77,9 +77,9 @@ if ($pagesproofed >= 10)
     }
 
     echo "<div id='random-rule'>";
-    echo "<h4 class='sans-serif'>";
+    echo "<p class='bold sans-serif'>";
     echo _("Random Rule");
-    echo "</h4>";
+    echo "</p>";
 
 
     $result = dpsql_query("SELECT anchor,subject,rule FROM rules WHERE document = '$round->document' ORDER BY RAND(NOW()) LIMIT 1");
@@ -116,7 +116,7 @@ else
 {
     // Link to queues.
     echo "<hr class='divider'>\n";
-    echo "<h4 class='center-align'>", _('Release Queues'), "</h4>";
+    echo "<p class='bold center-align sans-serif'>", _('Release Queues'), "</p>";
     $res = dpsql_query("
         SELECT COUNT(*)
         FROM queue_defns
