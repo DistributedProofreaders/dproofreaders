@@ -532,7 +532,7 @@ function show_project_listing(
                     $contact_url = get_url_to_compose_message_to_user($user_name);
                 }
 
-                $contact_url = html_safe($contact_url);
+                $contact_url = attr_safe($contact_url);
                 $cell = "<a href='$contact_url'>$user_name</a>";
             }
             elseif($col_id == "uploaded")
