@@ -136,7 +136,7 @@ if (!$resolution) {
 
 function show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a_bad_page, $b_user, $b_code)
 {
-    global $theme, $PAGE_BADNESS_REASONS;
+    global $code_url, $PAGE_BADNESS_REASONS;
 
     if($is_a_bad_page)
     {
@@ -159,39 +159,28 @@ function show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a
         echo "</p>";
     }
 
-
-    echo "<form action='handle_bad_page.php' method='post'>";
-    echo "<input type='hidden' name='projectid' value='$projectid'>";
-    echo "<input type='hidden' name='image' value='$image'>";
-    echo "<input type='hidden' name='state' value='$state'>";
-    echo "<br><div align='center'><table bgcolor='".$theme['color_mainbody_bg']."' border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse'>";
-
-    echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
-    echo "<strong>"._("Modify").":</strong></td>";
-    echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=text'>"._("Text from Previous Round")."</a>";
-    echo " | ";
-    echo "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=image'>"._("Original Image")."</a>";
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
-
-    if ($is_a_bad_page) {
-        echo "<strong>"._("What to do").":&nbsp;&nbsp;</strong></td>";
-        echo "<td bgcolor='#ffffff' align='center'>";
-        echo "<input name='resolution' value='fixed' type='radio'>"._("Fixed")."&nbsp;";
-        echo "<input name='resolution' value='invalid' type='radio'>"._("Invalid Report")."&nbsp;";
-        echo "<input name='resolution' value='unfixed' checked type='radio'>"._("Not Fixed")."&nbsp;";
-        echo "</td></tr>\n";
+    echo "<p>" . _("From here you can") . ":</p>";
+    echo "<ul>";
+    echo "<li><a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=text'>"._("Update page text from previous round")."</a></li>";
+    echo "<li><a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=image'>"._("Update page image")."</a></li>";
+    if ($is_a_bad_page)
+    {
+        echo "<li>" . _("Mark page as") . ":";
+        echo "<form action='handle_bad_page.php' method='post'>";
+        echo "<input type='hidden' name='projectid' value='$projectid'>";
+        echo "<input type='hidden' name='image' value='$image'>";
+        echo "<input type='hidden' name='state' value='$state'>";
+        echo "<input name='resolution' value='fixed' type='radio'> "._("Fixed")."<br>";
+        echo "<input name='resolution' value='invalid' type='radio'> "._("Invalid Report")."<br>";
+        echo "<input name='resolution' value='unfixed' checked type='radio'> "._("Not Fixed")."<br>";
+        echo "<input type='submit' value='" . attr_safe(_("Submit")) . "'>";
+        echo "</li>";
     }
     else
     {
-        echo "<input name='resolution' value='something' type='hidden'>";
-        // Doesn't really matter what the value is.
+        echo "<li><a href='$code_url/project.php?id=$projectid&detail_level=4'>" . ("Return to project page") . "</a></li>";
     }
-
-    echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
-    echo "<input type='submit' value='" . attr_safe(_("Continue")) . "'>";
-    echo "</td></tr></table></div></form><br><br>";
+    echo "</ul>";
 }
 
 function show_text_update_form($projectid, $image, $prev_text, $prevtext_column)
