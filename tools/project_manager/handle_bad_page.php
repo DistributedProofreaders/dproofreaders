@@ -130,23 +130,7 @@ if (!isset($_POST['resolution'])) {
     //Determine if modify is set & if so display the form to either modify the image or text
     if (isset($_GET['modify']) && $_GET['modify'] == "text") {
         $prev_text = $page[$prevtext_column];
-
-        echo "<form action='handle_bad_page.php' method='post'>";
-        echo "<input type='hidden' name='modify' value='text'>";
-        echo "<input type='hidden' name='projectid' value='$projectid'>";
-        echo "<input type='hidden' name='image' value='$image'>";
-        echo "<input type='hidden' name='prevtext_column' value='$prevtext_column'>";
-        // TRANSLATORS: %s is the image name.
-        echo sprintf(_("The textarea below contains the text from the previous round for %s."), $image) . "<br>";
-        echo _("You may use it as-is, or insert other replacement text for this page:") . "<br>";
-        // newline after <textarea> needed to prevent the text box from eating the first blank line
-        echo "<textarea name='prev_text' cols=70 rows=10>\n";
-        // SENDING PAGE-TEXT TO USER
-        echo html_safe($prev_text);
-        echo "</textarea><br><br>";
-        echo "<input type='submit' value='" 
-            . attr_safe(_("Update Text From Previous Round")) . "'></form>";
-
+        show_text_update_form($projectid, $image, $prev_text, $prevtext_column);
     } elseif (isset($_POST['modify']) && $_POST['modify'] == "text") {
         $prev_text = $_POST['prev_text'];
         $prevtext_column = $_POST['prevtext_column'];
@@ -154,36 +138,9 @@ if (!isset($_POST['resolution'])) {
         echo "<b>"._("Update of Text from Previous Round Complete!")."</b>";
 
     } elseif (isset($_GET['modify']) && $_GET['modify'] == "image") {
-        echo "<form enctype='multipart/form-data' action='handle_bad_page.php' method='post'>";
-        echo "<input type='hidden' name='modify' value='image'>";
-        echo "<input type='hidden' name='projectid' value='$projectid'>";
-        echo "<input type='hidden' name='image' value='$image'>";
-        // TRANSLATORS: %s is the image name.
-        echo sprintf(_("Select an image to upload and replace %s with:"), $image) . "<br>";
-        echo "<input type='file' name='image_upload' size=30><br><br>";
-        echo "<input type='submit' value='" . attr_safe(_("Update Original Image")) . "'></form>";
+        show_image_update_form($projectid, $image);
     } elseif (isset($_POST['modify']) && $_POST['modify'] == "image") {
-
-        $org_image_ext = substr($image, -4);
-        $org_image_basename = basename($image, $org_image_ext);
-        $tmp_image_ext = substr($_FILES['image_upload']['name'], -4);
-
-        if ( $tmp_image_ext == ".png" || $tmp_image_ext == ".jpg" ) {
-            if ( $tmp_image_ext == $org_image_ext ) {
-                copy($_FILES['image_upload']['tmp_name'],"$projects_dir/$projectid/$image") or die("Could not upload new image!");
-                echo "<b>" . sprintf(_("Update of Original Image %s Complete!"), $image) . "</b>";
-            } else {
-                echo "<b>"._("Image NOT updated.<br>");
-                echo sprintf(_("The uploaded file type (%1\$s) does not match the original file type (%2\$s)."),
-                    $tmp_image_ext, $org_image_ext) . "<br>";
-                echo sprintf(_("Click <a href='%s'>here</a> to return."),
-                    "handle_bad_page.php?projectid=$projectid&image=$image&modify=image") . "</b>";
-            }
-        } else {
-            echo "<b>"._("The uploaded file must be a PNG or JPG file!") . " "
-                . sprintf(_("Click <a href='%s'>here</a> to return."), 
-                    "handle_bad_page.php?projectid=$projectid&image=$image&modify=image") . "</b>";
-        }
+        update_image($projectid, $image);
     }
 } else {
     //Get variables passed from form
@@ -198,6 +155,65 @@ if (!isset($_POST['resolution'])) {
 
     //Redirect the user back to the project detail page.
     header("Location: $code_url/project.php?id=$projectid&detail_level=4");
+}
+
+#----------------------------------------------------------------------------
+
+function show_text_update_form($projectid, $image, $prev_text, $prevtext_column)
+{
+    echo "<form action='handle_bad_page.php' method='post'>";
+    echo "<input type='hidden' name='modify' value='text'>";
+    echo "<input type='hidden' name='projectid' value='$projectid'>";
+    echo "<input type='hidden' name='image' value='$image'>";
+    echo "<input type='hidden' name='prevtext_column' value='$prevtext_column'>";
+    // TRANSLATORS: %s is the image name.
+    echo sprintf(_("The textarea below contains the text from the previous round for %s."), $image) . "<br>";
+    echo _("You may use it as-is, or insert other replacement text for this page:") . "<br>";
+    // newline after <textarea> needed to prevent the text box from eating the first blank line
+    echo "<textarea name='prev_text' cols=70 rows=10>\n";
+    // SENDING PAGE-TEXT TO USER
+    echo html_safe($prev_text);
+    echo "</textarea><br><br>";
+    echo "<input type='submit' value='"
+        . attr_safe(_("Update Text From Previous Round")) . "'></form>";
+}
+
+function show_image_update_form($projectid, $image)
+{
+    echo "<form enctype='multipart/form-data' action='handle_bad_page.php' method='post'>";
+    echo "<input type='hidden' name='modify' value='image'>";
+    echo "<input type='hidden' name='projectid' value='$projectid'>";
+    echo "<input type='hidden' name='image' value='$image'>";
+    // TRANSLATORS: %s is the image name.
+    echo sprintf(_("Select an image to upload and replace %s with:"), $image) . "<br>";
+    echo "<input type='file' name='image_upload' size=30><br><br>";
+    echo "<input type='submit' value='" . attr_safe(_("Update Original Image")) . "'></form>";
+}
+
+function update_image($projectid, $image)
+{
+    global $projects_dir;
+
+    $org_image_ext = substr($image, -4);
+    $org_image_basename = basename($image, $org_image_ext);
+    $tmp_image_ext = substr($_FILES['image_upload']['name'], -4);
+
+    if ( $tmp_image_ext == ".png" || $tmp_image_ext == ".jpg" ) {
+        if ( $tmp_image_ext == $org_image_ext ) {
+            copy($_FILES['image_upload']['tmp_name'],"$projects_dir/$projectid/$image") or die("Could not upload new image!");
+            echo "<b>" . sprintf(_("Update of Original Image %s Complete!"), $image) . "</b>";
+        } else {
+            echo "<b>"._("Image NOT updated.<br>");
+            echo sprintf(_("The uploaded file type (%1\$s) does not match the original file type (%2\$s)."),
+                $tmp_image_ext, $org_image_ext) . "<br>";
+            echo sprintf(_("Click <a href='%s'>here</a> to return."),
+                "handle_bad_page.php?projectid=$projectid&image=$image&modify=image") . "</b>";
+        }
+    } else {
+        echo "<b>"._("The uploaded file must be a PNG or JPG file!") . " "
+            . sprintf(_("Click <a href='%s'>here</a> to return."),
+                "handle_bad_page.php?projectid=$projectid&image=$image&modify=image") . "</b>";
+    }
 }
 
 // vim: sw=4 ts=4 expandtab
