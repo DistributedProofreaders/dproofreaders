@@ -79,12 +79,6 @@ if (!$resolution) {
         echo "</p>";
     }
 
-    echo "<form action='handle_bad_page.php' method='post'>";
-    echo "<input type='hidden' name='projectid' value='$projectid'>";
-    echo "<input type='hidden' name='image' value='$image'>";
-    echo "<input type='hidden' name='state' value='$state'>";
-    echo "<br><div align='center'><table bgcolor='".$theme['color_mainbody_bg']."' border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse'>";
-    
     // It's a bit messy to have this here,
     // since it reiterates stuff that appears in other files,
     // but this page is kind of messy to begin with.
@@ -103,40 +97,7 @@ if (!$resolution) {
         $prevtext_column = 'master_text';
     }
 
-    echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
-    echo "<strong>"._("Originals").":</strong></td>";
-    echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<a href='downloadproofed.php?project=$projectid&image=$image&round_num=$prev_round_num' target='_new'>" . _("View Text") . "</a>";
-    echo " | ";
-    echo "<a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>" . _("View Image") . "</a>";
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
-
-    echo "<strong>"._("Modify").":</strong></td>";
-    echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=text'>"._("Text from Previous Round")."</a>";
-    echo " | ";
-    echo "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=image'>"._("Original Image")."</a>";
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
-    
-    if ($is_a_bad_page) {
-        echo "<strong>"._("What to do").":&nbsp;&nbsp;</strong></td>";
-        echo "<td bgcolor='#ffffff' align='center'>";
-        echo "<input name='resolution' value='fixed' type='radio'>"._("Fixed")."&nbsp;";
-        echo "<input name='resolution' value='invalid' type='radio'>"._("Invalid Report")."&nbsp;";
-        echo "<input name='resolution' value='unfixed' checked type='radio'>"._("Not Fixed")."&nbsp;";
-        echo "</td></tr>\n";
-    }
-    else
-    {
-        echo "<input name='resolution' value='something' type='hidden'>";
-        // Doesn't really matter what the value is.
-    }
-    
-    echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
-    echo "<input type='submit' value='" . attr_safe(_("Continue")) . "'>";
-    echo "</td></tr></table></div></form><br><br>";
+    show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a_bad_page);
 
     //Determine if modify is set & if so display the form to either modify the image or text
     if($modify == "text")
@@ -178,6 +139,52 @@ if (!$resolution) {
 }
 
 #----------------------------------------------------------------------------
+
+function show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a_bad_page)
+{
+    global $theme;
+
+    echo "<form action='handle_bad_page.php' method='post'>";
+    echo "<input type='hidden' name='projectid' value='$projectid'>";
+    echo "<input type='hidden' name='image' value='$image'>";
+    echo "<input type='hidden' name='state' value='$state'>";
+    echo "<br><div align='center'><table bgcolor='".$theme['color_mainbody_bg']."' border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse'>";
+
+    echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
+    echo "<strong>"._("Originals").":</strong></td>";
+    echo "<td bgcolor='#ffffff' align='center'>";
+    echo "<a href='downloadproofed.php?project=$projectid&image=$image&round_num=$prev_round_num' target='_new'>" . _("View Text") . "</a>";
+    echo " | ";
+    echo "<a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>" . _("View Image") . "</a>";
+    echo "</td></tr>\n";
+    echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
+
+    echo "<strong>"._("Modify").":</strong></td>";
+    echo "<td bgcolor='#ffffff' align='center'>";
+    echo "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=text'>"._("Text from Previous Round")."</a>";
+    echo " | ";
+    echo "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=image'>"._("Original Image")."</a>";
+    echo "</td></tr>\n";
+    echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
+
+    if ($is_a_bad_page) {
+        echo "<strong>"._("What to do").":&nbsp;&nbsp;</strong></td>";
+        echo "<td bgcolor='#ffffff' align='center'>";
+        echo "<input name='resolution' value='fixed' type='radio'>"._("Fixed")."&nbsp;";
+        echo "<input name='resolution' value='invalid' type='radio'>"._("Invalid Report")."&nbsp;";
+        echo "<input name='resolution' value='unfixed' checked type='radio'>"._("Not Fixed")."&nbsp;";
+        echo "</td></tr>\n";
+    }
+    else
+    {
+        echo "<input name='resolution' value='something' type='hidden'>";
+        // Doesn't really matter what the value is.
+    }
+
+    echo "<tr><td bgcolor='$theme[color_headerbar_bg]' colspan='2' align='center'>";
+    echo "<input type='submit' value='" . attr_safe(_("Continue")) . "'>";
+    echo "</td></tr></table></div></form><br><br>";
+}
 
 function show_text_update_form($projectid, $image, $prev_text, $prevtext_column)
 {
