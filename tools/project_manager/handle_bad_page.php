@@ -78,6 +78,7 @@ if (!$resolution) {
 
     echo "<p>";
     echo "<b>" . _("Project") . ":</b> {$project->nameofwork}<br>";
+    echo "<b>" . _("Project ID") . ":</b> {$project->projectid}<br>";
     echo "<b>" . _("Page") . ":</b> $image<br>";
     echo "<b>" . _("State") . ":</b> $state<br>";
     echo "<b>" . _("Originals") . "</b>: ";
