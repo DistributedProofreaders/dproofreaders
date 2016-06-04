@@ -16,6 +16,7 @@ require_login();
 $projectid = validate_projectID('projectid', @$_REQUEST['projectid']);
 $image     = validate_page_image_filename('image', @$_REQUEST['image']);
 $modify    = array_get($_REQUEST, 'modify', '');
+$cancel    = array_get($_POST, 'cancel', '');
 $prev_text = array_get($_POST, 'prev_text', NULL);
 $prevtext_column = array_get($_POST, 'prevtext_column', NULL);
 $resolution = array_get($_POST, 'resolution', NULL);
@@ -24,6 +25,10 @@ if(user_can_edit_project($projectid) != USER_CAN_EDIT_PROJECT)
 {
     die("You are not authorized to manage this project.");
 }
+
+// If the user hit a cancel button, return them to the starting form
+if($cancel)
+    $modify = '';
 
 if (!$resolution) {
     //Find out information about the bad page report
@@ -101,8 +106,7 @@ if (!$resolution) {
         echo "</p>";
     }
 
-    show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a_bad_page);
-
+    $show_resolution_form = TRUE;
     //Determine if modify is set & if so display the form to either modify the image or text
     if($modify == "text")
     {
@@ -110,11 +114,12 @@ if (!$resolution) {
         {
             $prev_text = $page[$prevtext_column];
             show_text_update_form($projectid, $image, $prev_text, $prevtext_column);
+            $show_resolution_form = FALSE;
         }
         else
         {
             Page_modifyText( $projectid, $image, $prev_text, $prevtext_column, $pguser );
-            echo "<b>"._("Update of Text from Previous Round Complete!")."</b>";
+            echo "<p><b>"._("Update of Text from Previous Round Complete!")."</b></p>";
         }
     }
     elseif($modify == "image")
@@ -122,12 +127,17 @@ if (!$resolution) {
         if(!count($_FILES))
         {
             show_image_update_form($projectid, $image);
+            $show_resolution_form = FALSE;
         }
         else
         {
             update_image($projectid, $image);
         }
     }
+
+    if($show_resolution_form)
+        show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a_bad_page);
+
 } else {
     //Get variables passed from form
     $state = get_enumerated_param($_POST, 'state', null, $PAGE_STATES_IN_ORDER);
@@ -147,6 +157,9 @@ if (!$resolution) {
 function show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a_bad_page)
 {
     global $theme;
+
+    if($is_a_bad_page)
+        echo "<h2>" . _("Resolve bad page") . "</h2>";
 
     echo "<form action='handle_bad_page.php' method='post'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>";
@@ -184,6 +197,8 @@ function show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a
 
 function show_text_update_form($projectid, $image, $prev_text, $prevtext_column)
 {
+    echo "<h2>" . _("Update page text") . "</h2>";
+
     echo "<form action='handle_bad_page.php' method='post'>";
     echo "<input type='hidden' name='modify' value='text'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>";
@@ -198,11 +213,15 @@ function show_text_update_form($projectid, $image, $prev_text, $prevtext_column)
     echo html_safe($prev_text);
     echo "</textarea><br><br>";
     echo "<input type='submit' value='"
-        . attr_safe(_("Update Text From Previous Round")) . "'></form>";
+        . attr_safe(_("Update Text From Previous Round")) . "'> ";
+    echo "<button type='submit' name='cancel' value='cancel'>" . _("Cancel") . "</button>";
+    echo "</form>";
 }
 
 function show_image_update_form($projectid, $image)
 {
+    echo "<h2>" . _("Update page image") . "</h2>";
+
     echo "<form enctype='multipart/form-data' action='handle_bad_page.php' method='post'>";
     echo "<input type='hidden' name='modify' value='image'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>";
@@ -210,7 +229,9 @@ function show_image_update_form($projectid, $image)
     // TRANSLATORS: %s is the image name.
     echo sprintf(_("Select an image to upload and replace %s with:"), $image) . "<br>";
     echo "<input type='file' name='image_upload' size=30><br><br>";
-    echo "<input type='submit' value='" . attr_safe(_("Update Original Image")) . "'></form>";
+    echo "<input type='submit' value='" . attr_safe(_("Update Original Image")) . "'> ";
+    echo "<button type='submit' name='cancel' value='cancel'>" . _("Cancel") . "</button>";
+    echo "</form>";
 }
 
 function update_image($projectid, $image)
@@ -224,18 +245,20 @@ function update_image($projectid, $image)
     if ( $tmp_image_ext == ".png" || $tmp_image_ext == ".jpg" ) {
         if ( $tmp_image_ext == $org_image_ext ) {
             copy($_FILES['image_upload']['tmp_name'],"$projects_dir/$projectid/$image") or die("Could not upload new image!");
-            echo "<b>" . sprintf(_("Update of Original Image %s Complete!"), $image) . "</b>";
+            echo "<p><b>" . sprintf(_("Update of Original Image %s Complete!"), $image) . "</b></p>";
         } else {
-            echo "<b>"._("Image NOT updated.<br>");
+            echo "<p class='error'>"._("Image NOT updated.<br>");
             echo sprintf(_("The uploaded file type (%1\$s) does not match the original file type (%2\$s)."),
-                $tmp_image_ext, $org_image_ext) . "<br>";
-            echo sprintf(_("Click <a href='%s'>here</a> to return."),
-                "handle_bad_page.php?projectid=$projectid&image=$image&modify=image") . "</b>";
+                $tmp_image_ext, $org_image_ext) . "</p>";
+            echo "<p>" . sprintf(_("Click <a href='%s'>here</a> to return."),
+                "handle_bad_page.php?projectid=$projectid&image=$image&modify=image") . "</p>";
+            exit;
         }
     } else {
-        echo "<b>"._("The uploaded file must be a PNG or JPG file!") . " "
-            . sprintf(_("Click <a href='%s'>here</a> to return."),
-                "handle_bad_page.php?projectid=$projectid&image=$image&modify=image") . "</b>";
+        echo "<p class='error'>"._("The uploaded file must be a PNG or JPG file!") . "</p>";
+        echo "<p>". sprintf(_("Click <a href='%s'>here</a> to return."),
+                "handle_bad_page.php?projectid=$projectid&image=$image&modify=image") . "</p>";
+        exit;
     }
 }
 
