@@ -86,26 +86,6 @@ if (!$resolution) {
     echo "<a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>" . _("View Image") . "</a>";
     echo "</p>";
 
-    if($is_a_bad_page)
-    {
-        echo "<p>" . _("This page has been marked bad by the following user.") . "</p>";
-
-        echo "<p>";
-        if (!empty($b_User))
-        {
-            $contact_url = get_url_to_compose_message_to_user($b_User);
-            $contact_url = attr_safe($contact_url);
-            echo "<b>" . _("User") . ":</b> $b_User ".
-                "(<a href='$contact_url'>" . _("Private Message") . "</a>)<br>";
-        }
-
-        if (!empty($b_Code))
-        {
-            echo "<b>" . _("Reason") . ":</b> {$PAGE_BADNESS_REASONS[$b_Code]}</br>";
-        }
-        echo "</p>";
-    }
-
     $show_resolution_form = TRUE;
     //Determine if modify is set & if so display the form to either modify the image or text
     if($modify == "text")
@@ -136,7 +116,7 @@ if (!$resolution) {
     }
 
     if($show_resolution_form)
-        show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a_bad_page);
+        show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a_bad_page, $b_User, $b_Code);
 
 } else {
     //Get variables passed from form
@@ -154,12 +134,31 @@ if (!$resolution) {
 
 #----------------------------------------------------------------------------
 
-function show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a_bad_page)
+function show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a_bad_page, $b_user, $b_code)
 {
-    global $theme;
+    global $theme, $PAGE_BADNESS_REASONS;
 
     if($is_a_bad_page)
+    {
         echo "<h2>" . _("Resolve bad page") . "</h2>";
+        echo "<p>" . _("This page has been marked bad by the following user.") . "</p>";
+
+        echo "<p>";
+        if (!empty($b_user))
+        {
+            $contact_url = get_url_to_compose_message_to_user($b_user);
+            $contact_url = attr_safe($contact_url);
+            echo "<b>" . _("User") . ":</b> $b_user ".
+                "(<a href='$contact_url'>" . _("Private Message") . "</a>)<br>";
+        }
+
+        if (!empty($b_code))
+        {
+            echo "<b>" . _("Reason") . ":</b> {$PAGE_BADNESS_REASONS[$b_code]}</br>";
+        }
+        echo "</p>";
+    }
+
 
     echo "<form action='handle_bad_page.php' method='post'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>";
