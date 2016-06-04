@@ -14,7 +14,7 @@ function echo_proof_frame_enh( $ppage )
     $header_args = array(
         "js_files" => array(
             "preview.js?16060201",
-            "prev_control.js?16060101",
+            "prev_control.js?16060403",
         ),
         "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1); PrevControl = initPrev();}',
         "css_data" => ibe_get_styles() . get_proof_frame_styles(),
@@ -114,4 +114,4 @@ function get_proof_frame_styles()
 STYLES;
 }
 
-// vim: sw=4 ts=4 expandta
+// vim: sw=4 ts=4 expandtab

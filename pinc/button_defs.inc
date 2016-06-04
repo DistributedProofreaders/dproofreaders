@@ -8,6 +8,7 @@ define('REPORT_BAD_PAGE',             'C');
 define('RETURN_PAGE',                 'D');
 define('REVERT_TO_LAST_SAVE',         'E');
 define('REVERT_TO_ORIGINAL',          'F');
+define('RUN_COMMON_ERRORS_CHECK',     'G');
 define('SAVE_AS_DONE_AND_PROOF_NEXT', 'H');
 define('SAVE_AS_DONE_AND_QUIT',       'I');
 define('SAVE_AS_IN_PROGRESS',         'J');
@@ -126,6 +127,16 @@ function echo_button( $button_id, $which_interface )
             );
             break;
 
+        case RUN_COMMON_ERRORS_CHECK:
+            $attrs = array(
+                'name'      => "button11",
+                $label      => attr_safe(_("Run Common Errors Check")),
+                'title'     => attr_safe(_("Run Common Errors Check")),
+                'onclick'   => "alert('currently disabled');return(false);",
+                'src'       => "gfx/bt17.png",
+            );
+            break;
+
         case SAVE_AS_DONE_AND_PROOF_NEXT:
             $attrs = array(
                 'accesskey' => "8",
@@ -215,7 +226,7 @@ function echo_button( $button_id, $which_interface )
                 $label      => attr_safe(_("Preview")),
                 'title'     => attr_safe(_("Preview")),
                 'onclick'   => "PrevControl.show(); return false;",
-                'src'       => "gfx/bt17.png",
+                'src'       => "gfx/bt20.png",
             );
             break;
     }
@@ -280,7 +291,7 @@ function echo_img( $id )
             break;
         case PREVIEW:
             $attrs = array(
-                'src'       => "gfx/bt17.png",
+                'src'       => "gfx/bt20.png",
                 'alt'       => attr_safe(_("Preview")),
                 'title'     => attr_safe(_("Preview")),
             );

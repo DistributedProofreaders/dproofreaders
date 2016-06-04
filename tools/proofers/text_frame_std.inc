@@ -8,7 +8,7 @@ function echo_text_frame_std( $ppage )
     $header_args = array(
         "js_files" => array(
             "preview.js?16060201",
-            "prev_control.js?16060101",
+            "prev_control.js?16060403",
         ),
         "js_data" => 'function ldAll() {top.initializeStuff(0); PrevControl = initPrev();}',
         "head_data" => '<link rel="stylesheet" type="text/css" href="preview.css?a=16060101">',

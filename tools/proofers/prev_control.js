@@ -189,7 +189,7 @@ function initPrev() {
             proofFrameSet.setAttribute("rows", "*,1");
             proofDiv.style.display = "none";
             prevDiv.style.display = "block";
-            font_size = parseFloat(txtarea.style.fontSize);
+            font_size = parseFloat(window.getComputedStyle(txtarea, null).fontSize);
             this.reSizeText(1.0);
             write1();
             adjHeight();
