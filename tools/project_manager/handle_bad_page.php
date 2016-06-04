@@ -37,6 +37,24 @@ if (!$resolution) {
     
     $round = get_Round_for_page_state($state);
 
+    // It's a bit messy to have this here,
+    // since it reiterates stuff that appears in other files,
+    // but this page is kind of messy to begin with.
+    // It'll get cleaned up eventually.
+    for ( $prev_round_num = $round->round_number-1; $prev_round_num > 0; $prev_round_num-- )
+    {
+        $r = get_Round_for_round_number($prev_round_num);
+        if ( $page[$r->user_column_name] != '' )
+        {
+            $prevtext_column = $r->text_column_name;
+            break;
+        }
+    }
+    if ( $prev_round_num == 0 )
+    {
+        $prevtext_column = 'master_text';
+    }
+
     // Is it a bad page report, or are we merely fixing an ordinary page
     $is_a_bad_page = page_state_is_a_bad_state($state);
     if ($is_a_bad_page)
@@ -57,6 +75,10 @@ if (!$resolution) {
     echo "<b>" . _("Project") . ":</b> {$project->nameofwork}<br>";
     echo "<b>" . _("Page") . ":</b> $image<br>";
     echo "<b>" . _("State") . ":</b> $state<br>";
+    echo "<b>" . _("Originals") . "</b>: ";
+    echo "<a href='downloadproofed.php?project=$projectid&image=$image&round_num=$prev_round_num' target='_new'>" . _("View Text") . "</a>";
+    echo " | ";
+    echo "<a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>" . _("View Image") . "</a>";
     echo "</p>";
 
     if($is_a_bad_page)
@@ -77,24 +99,6 @@ if (!$resolution) {
             echo "<b>" . _("Reason") . ":</b> {$PAGE_BADNESS_REASONS[$b_Code]}</br>";
         }
         echo "</p>";
-    }
-
-    // It's a bit messy to have this here,
-    // since it reiterates stuff that appears in other files,
-    // but this page is kind of messy to begin with.
-    // It'll get cleaned up eventually.
-    for ( $prev_round_num = $round->round_number-1; $prev_round_num > 0; $prev_round_num-- )
-    {
-        $r = get_Round_for_round_number($prev_round_num);
-        if ( $page[$r->user_column_name] != '' )
-        {
-            $prevtext_column = $r->text_column_name;
-            break;
-        }
-    }
-    if ( $prev_round_num == 0 )
-    {
-        $prevtext_column = 'master_text';
     }
 
     show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a_bad_page);
@@ -151,14 +155,6 @@ function show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a
     echo "<br><div align='center'><table bgcolor='".$theme['color_mainbody_bg']."' border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse'>";
 
     echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
-    echo "<strong>"._("Originals").":</strong></td>";
-    echo "<td bgcolor='#ffffff' align='center'>";
-    echo "<a href='downloadproofed.php?project=$projectid&image=$image&round_num=$prev_round_num' target='_new'>" . _("View Text") . "</a>";
-    echo " | ";
-    echo "<a href='displayimage.php?project=$projectid&imagefile=$image' target='_new'>" . _("View Image") . "</a>";
-    echo "</td></tr>\n";
-    echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
-
     echo "<strong>"._("Modify").":</strong></td>";
     echo "<td bgcolor='#ffffff' align='center'>";
     echo "<a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=text'>"._("Text from Previous Round")."</a>";
