@@ -230,9 +230,13 @@ class Settings
         if(count($values) == 0)
             return $default;
 
-        if(count($values) > 1)
-            throw new RuntimeException(
-                "Multiple values exist for $settingCode");
+        // Ideally we'd throw an exception if we detect that the number of
+        // values is more than 1 -- indeed we did this for a while. The
+        // problem is that in rare cases two processes can race clearing and
+        // setting values. Instead, we resort back to what we did prior to
+        // supporting multiple values, which is to just return one of them.
+        // The next time this setting is set with set_value(), it should be
+        // reduced back down to 1.
 
         return $values[0];
     }
