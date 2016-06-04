@@ -51,33 +51,40 @@ if (!$resolution) {
     //Display form
     output_header($header);
 
-    echo "<br><h3>" . _("Project/Page") . ": ".$project->nameofwork."&mdash;".$image."</h3>";
-    echo "<h3>" . _("State") . ": ".$state."</h3>";
+    echo "<h1>$header</h1>";
+
+    echo "<p>";
+    echo "<b>" . _("Project") . ":</b> {$project->nameofwork}<br>";
+    echo "<b>" . _("Page") . ":</b> $image<br>";
+    echo "<b>" . _("State") . ":</b> $state<br>";
+    echo "</p>";
+
+    if($is_a_bad_page)
+    {
+        echo "<p>" . _("This page has been marked bad by the following user.") . "</p>";
+
+        echo "<p>";
+        if (!empty($b_User))
+        {
+            $contact_url = get_url_to_compose_message_to_user($b_User);
+            $contact_url = attr_safe($contact_url);
+            echo "<b>" . _("User") . ":</b> $b_User ".
+                "(<a href='$contact_url'>" . _("Private Message") . "</a>)<br>";
+        }
+
+        if (!empty($b_Code))
+        {
+            echo "<b>" . _("Reason") . ":</b> {$PAGE_BADNESS_REASONS[$b_Code]}</br>";
+        }
+        echo "</p>";
+    }
 
     echo "<form action='handle_bad_page.php' method='post'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>";
     echo "<input type='hidden' name='image' value='$image'>";
     echo "<input type='hidden' name='state' value='$state'>";
     echo "<br><div align='center'><table bgcolor='".$theme['color_mainbody_bg']."' border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse'>";
-    echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2' align='center'>";
-    echo "<B><font color='".$theme['color_headerbar_font']."'>$header</font></B></td></tr>";
     
-    if (!empty($b_User)) {
-        $contact_url = get_url_to_compose_message_to_user($b_User);
-
-        echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
-        echo "<strong>" . _("Username") . ":</strong></td>";
-        echo "<td bgcolor='#ffffff' align='center'>";
-        echo "$b_User (<a href='$contact_url'>" . _("Private Message") . "</a>)</td></tr>";
-    }
-    
-    if (!empty($b_Code)) {
-        echo "<tr><td bgcolor='$theme[color_logobar_bg]' align='left'>";
-        echo "<strong>" . _("Reason") . ":</strong></td>";
-        echo "<td bgcolor='#ffffff' align='center'>";
-        echo $PAGE_BADNESS_REASONS[$b_Code]."</td></tr>";
-    }
-
     // It's a bit messy to have this here,
     // since it reiterates stuff that appears in other files,
     // but this page is kind of messy to begin with.
