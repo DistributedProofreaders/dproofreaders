@@ -15,13 +15,17 @@ require_login();
 
 $projectid = validate_projectID('projectid', @$_REQUEST['projectid']);
 $image     = validate_page_image_filename('image', @$_REQUEST['image']);
+$modify    = array_get($_REQUEST, 'modify', '');
+$prev_text = array_get($_POST, 'prev_text', NULL);
+$prevtext_column = array_get($_POST, 'prevtext_column', NULL);
+$resolution = array_get($_POST, 'resolution', NULL);
 
 if(user_can_edit_project($projectid) != USER_CAN_EDIT_PROJECT)
 {
     die("You are not authorized to manage this project.");
 }
 
-if (!isset($_POST['resolution'])) {
+if (!$resolution) {
     //Find out information about the bad page report
     $result = mysql_query("SELECT * FROM $projectid WHERE image='$image'");
     $page = mysql_fetch_assoc($result);
@@ -128,24 +132,33 @@ if (!isset($_POST['resolution'])) {
     echo "</td></tr></table></div></form><br><br>";
 
     //Determine if modify is set & if so display the form to either modify the image or text
-    if (isset($_GET['modify']) && $_GET['modify'] == "text") {
-        $prev_text = $page[$prevtext_column];
-        show_text_update_form($projectid, $image, $prev_text, $prevtext_column);
-    } elseif (isset($_POST['modify']) && $_POST['modify'] == "text") {
-        $prev_text = $_POST['prev_text'];
-        $prevtext_column = $_POST['prevtext_column'];
-        Page_modifyText( $projectid, $image, $prev_text, $prevtext_column, $pguser );
-        echo "<b>"._("Update of Text from Previous Round Complete!")."</b>";
-
-    } elseif (isset($_GET['modify']) && $_GET['modify'] == "image") {
-        show_image_update_form($projectid, $image);
-    } elseif (isset($_POST['modify']) && $_POST['modify'] == "image") {
-        update_image($projectid, $image);
+    if($modify == "text")
+    {
+        if($prev_text == NULL)
+        {
+            $prev_text = $page[$prevtext_column];
+            show_text_update_form($projectid, $image, $prev_text, $prevtext_column);
+        }
+        else
+        {
+            Page_modifyText( $projectid, $image, $prev_text, $prevtext_column, $pguser );
+            echo "<b>"._("Update of Text from Previous Round Complete!")."</b>";
+        }
+    }
+    elseif($modify == "image")
+    {
+        if(!count($_FILES))
+        {
+            show_image_update_form($projectid, $image);
+        }
+        else
+        {
+            update_image($projectid, $image);
+        }
     }
 } else {
     //Get variables passed from form
     $state = get_enumerated_param($_POST, 'state', null, $PAGE_STATES_IN_ORDER);
-    $resolution = $_POST['resolution'];
 
     //If the PM fixed the problem or stated the report was invalid update the database to reflect
     if (($resolution == "fixed") || ($resolution == "invalid")) {
