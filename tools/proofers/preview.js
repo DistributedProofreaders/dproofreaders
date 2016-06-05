@@ -284,30 +284,19 @@ var doPrev = function (txt, vtype, styler) {
         }
     }
 
-    var sc1 = "<sc>";
-    var sc2 = "<\/sc>";
-    var sc_re = new RegExp(sc1 + "([^]+?)" + sc2, 'g'); // a string of small capitals
-
-    function trans_sc(match, p1) {
-        if (-1 === p1.search(/[a-z]|[ß-ö]|[ø-ÿ]/)) {    // found no lower-case -- need to extend this for utf8
-            return sc1 + '<span class="tt">' + p1 + endSp + sc2;
-        } else {
-            return match;
-        }
-    }
-
 // check for no upper case between sc tags
     function checkSC() {
         var result;
         var start;
+        var re = /<sc>([^]+?)<\/sc>/g;
         while (true) {
-            result = sc_re.exec(txt);
+            result = re.exec(txt);
             if (null === result) {
                 return;
             }
             if (-1 === result[1].search(/[A-Z]|[À-Ö]|[Ø-Þ]/)) {  //no upper case found - need to extend this for utf8
                 start = result.index + 4;
-                reportIssue(start, result[1].length, msg.scNoCap, 0);
+                reportIssue(start, result[1].length, msg.scNoCap, 1);
             }
         }
     }
@@ -323,6 +312,17 @@ var doPrev = function (txt, vtype, styler) {
     function showStyle() {
         var etcstr;
         var repstr2 = "<\/span>";
+        var sc1 = "&lt;sc&gt;";
+        var sc2 = "&lt;\/sc&gt;";
+        var sc_re = new RegExp(sc1 + "([^]+?)" + sc2, 'g'); // a string of small capitals
+
+        function trans_sc(match, p1) {
+            if (-1 === p1.search(/[a-z]|[ß-ö]|[ø-ÿ]/)) {    // found no lower-case -- need to extend this for utf8
+                return sc1 + '<span class="tt">' + p1 + endSp + sc2;
+            } else {
+                return match;
+            }
+        }
 
         function spanStyle(match, p1) {
             var str = '<span class="' + p1 + '"' + makeColourStyle(p1) + '>';

@@ -7,7 +7,7 @@ function echo_text_frame_std( $ppage )
 {
     $header_args = array(
         "js_files" => array(
-            "preview.js?16060201",
+            "preview.js?16060402",
             "prev_control.js?16060403",
         ),
         "js_data" => 'function ldAll() {top.initializeStuff(0); PrevControl = initPrev();}',

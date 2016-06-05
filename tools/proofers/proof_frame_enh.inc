@@ -13,7 +13,7 @@ function echo_proof_frame_enh( $ppage )
 
     $header_args = array(
         "js_files" => array(
-            "preview.js?16060201",
+            "preview.js?16060402",
             "prev_control.js?16060403",
         ),
         "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1); PrevControl = initPrev();}',
