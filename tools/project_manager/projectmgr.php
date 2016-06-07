@@ -47,11 +47,11 @@ class Widget
         {
             if ( isset($_GET[$this->id]) )
             {
-                $value_attr = "value='{$_GET[$this->id]}'";
+                $value_attr = "value='" . attr_safe($_GET[$this->id]) . "'";
             }
             else if ( isset($this->initial_value) )
             {
-                $value_attr = "value='{$this->initial_value}'";
+                $value_attr = "value='" . attr_safe($this->initial_value) . "'";
             }
             else
             {
@@ -76,7 +76,7 @@ class Widget
                     ? 'selected'
                     : ''
                 );
-                $r .= "<option value='$option_value' $selected_attr>$option_label</option>\n";
+                $r .= "<option value='" . attr_safe($option_value) . "' $selected_attr>" . html_safe($option_label) . "</option>\n";
             }
             $r .= "</select>\n";
             return $r;
