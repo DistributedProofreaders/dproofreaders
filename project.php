@@ -466,11 +466,12 @@ function do_project_info_table()
         }
         else
         {
-            $spec_res = mysql_fetch_assoc(mysql_query("
+            $sql = sprintf("
                 SELECT display_name
                 FROM special_days
-                WHERE spec_code = '$spec_code'
-            "));
+                WHERE spec_code = '%s'
+            ", mysql_real_escape_string($spec_code));
+            $spec_res = mysql_fetch_assoc(mysql_query($sql));
             if ($spec_res)
             {
                 $spec_display = $spec_res['display_name'];
