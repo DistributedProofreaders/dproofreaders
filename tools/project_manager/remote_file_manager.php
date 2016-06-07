@@ -19,13 +19,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
 }
 
 # Directory structure under uploads dir
-$trash_dir       = "$uploads_dir/$uploads_subdir_trash";
+$trash_rel_dir   = $uploads_subdir_trash;
+$trash_dir       = "$uploads_dir/$trash_rel_dir";
 
 $commons_rel_dir = $uploads_subdir_commons;
 $commons_dir     = "$uploads_dir/$commons_rel_dir";
 
 $users_rel_dir   = $uploads_subdir_users;
-$users_dir       = "$uploads_dir/Users";
+$users_dir       = "$uploads_dir/$users_rel_dir";
 
 require_login();
 
@@ -95,7 +96,9 @@ $home_path = "$uploads_dir/$home_dirname";
 
 // Create the user's home directory if it doesn't yet exist.
 if (!is_dir($home_path)) {
-    if (!mkdir($home_path)) {
+    // attempt to create $home_path recursively, so that if
+    // $users_rel_dir doesn't exist, we create that too
+    if (!mkdir($home_path, 0777, TRUE)) {
        show_message('error', _("Could not create home folder!"));
        exit();
     }
@@ -112,6 +115,13 @@ if (!is_dir($home_path)) {
     $home_dir_created = TRUE;
 } else {
     $home_dir_created = FALSE;
+}
+
+// Ensure that the Commons folder exists
+if (!is_dir($commons_dir)) {
+    if(!mkdir($commons_dir)) {
+        show_message('error', sprintf( _("Could not create %s folder. Please contact the site administrator."), $commons_rel_dir));
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -680,14 +690,21 @@ function do_showdelete()
 
 function do_delete()
 {
-    global $curr_abspath, $trash_dir;
+    global $curr_abspath, $trash_dir, $trash_rel_dir;
 
     $item_name = @$_POST['del_file'];
     confirm_is_local('FD', $item_name);
 
     $src_path = "$curr_abspath/$item_name";
 
-    // XXX Create $trash_path if it doesn't exist yet?
+    // If the trash directory doesn't exist, try to create it.
+    if(!is_dir($trash_dir))
+    {
+        if(!mkdir($trash_dir))
+        {
+            fatal_error( sprintf(_('Unable to create %s folder. Please contact the site administrator.'), html_safe($trash_rel_dir)) );
+        }
+    }
 
     // Use time() to avoid destination collisions
     $dst_path = $trash_dir."/".time()."_".$item_name;
@@ -695,10 +712,10 @@ function do_delete()
     // For safety, we move the item into TRASH and let the
     // existing cron job remove it instead of using unlink()
     if (!@rename($src_path, $dst_path)) {
-        fatal_error( sprintf(_("Unable to move %s to TRASH folder."), html_safe($item_name)) );
+        fatal_error( sprintf(_('Unable to move %1$s to %2$s folder.'), html_safe($item_name), html_safe($trash_rel_dir)) );
     }
 
-    show_message('info', sprintf(_("%s has been moved to the TRASH folder for deletion."), html_safe($item_name)));
+    show_message('info', sprintf(_('%1$s has been moved to the %2$s folder for deletion.'), html_safe($item_name), html_safe($trash_rel_dir)));
     show_return_link();
 }
 
