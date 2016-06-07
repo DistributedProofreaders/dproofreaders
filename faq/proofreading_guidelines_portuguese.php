@@ -11,7 +11,6 @@ include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
 
-$no_stats=1;
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
 output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);

@@ -82,7 +82,7 @@ if ($access_mode == 'common' ) {
 
 if (is_null($home_dirname)) {
     $page_title = _("Manage your uploads folder");
-    theme($page_title, "header");
+    output_header($page_title);
     echo "<h1>$page_title</h1>\n";
     echo "<p>" . _("Your user permissions do not allow access to this script.") . "</p>";
     echo "<p>" . sprintf(_("If you are a Content Provider, please email %s with the subject 'project upload access request' and request access to the 'common' project uploads area in the body of your message."), "<a href='mailto:$db_requests_email_addr'>$db_requests_email_addr</a>") . "</p>";
@@ -198,7 +198,7 @@ function do_showdir()
     global $pguser, $home_dir_created, $autoprefix_message;
 
     $page_title =  sprintf( _("Manage folder %s"), $hce_curr_displaypath );
-    theme($page_title, "header");
+    output_header($page_title);
     echo "<h1>$page_title</h1>\n";
 
     // If we created a directory for the user, assume this is their first visit
@@ -252,7 +252,7 @@ function do_showupload()
     $submit_blurb = sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), _("Upload"));
 
     $page_title =  sprintf( _("Upload a file to folder %s"), $hce_curr_displaypath );
-    theme($page_title, "header");
+    output_header($page_title);
     echo "<h1>$page_title</h1>\n";
 
     $form_content = "";
@@ -408,7 +408,7 @@ function do_showmkdir()
     global $curr_relpath, $hce_curr_displaypath;
 
     $page_title =  sprintf( _("Create a subfolder in folder %s"), $hce_curr_displaypath );
-    theme($page_title, "header");
+    output_header($page_title);
     echo "<h1>$page_title</h1>\n";
 
     $form_content = _("Name of subfolder to create:") ."&nbsp;<input type='text' name='new_dir_name' size='50' maxsize='50'>";
@@ -456,7 +456,7 @@ function do_showrename()
     global $curr_relpath;
 
     $page_title =  _("Rename an item");
-    theme($page_title, "header");
+    output_header($page_title);
     echo "<h1>$page_title</h1>\n";
 
     $item_name = @$_POST['item_name'];
@@ -531,7 +531,7 @@ function do_showmove()
     // from the names of directories in /home/dpscans/
 
     $page_title =  _("Move a file to another folder");
-    theme($page_title, "header");
+    output_header($page_title);
     echo "<h1>$page_title</h1>\n";
 
     // Get an array of all directory names in the Users directory
@@ -654,7 +654,7 @@ function do_showdelete()
     global $curr_abspath, $curr_relpath, $hce_curr_displaypath;
 
     $page_title = sprintf(_("Delete an item from folder %s"), $hce_curr_displaypath);
-    theme($page_title, "header");
+    output_header($page_title);
     echo "<h1>$page_title</h1>\n";
 
     $item_name = @$_POST['item_name'];
