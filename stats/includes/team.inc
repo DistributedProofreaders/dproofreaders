@@ -6,6 +6,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'misc.inc'); // get_filelist()
 include_once($relPath.'../stats/includes/common.inc');
 
 $team_avatars_dir = "$dyn_dir/teams/avatar";
@@ -554,25 +555,36 @@ function uploadImages($preview,$tid,$type) {
     return $teamimages;
 }
 
-function deleteImages() {
+function deleteImages()
+{
     global $team_avatars_dir, $team_icons_dir;
     $oneHourAgo = time() - 600;
-    //Delete unused avatars
+
+    $files_to_always_keep = array(
+        "avatar_default.png",
+        "avatar_default2.png",
+        "dp_avatar.png",
+        "icon_default.png",
+        "icon_default2.png",
+        "dp_icon.png",
+    );
+
+    // Delete unused avatars
     $result = mysql_query("SELECT id,avatar FROM user_teams");
     while ($row = mysql_fetch_assoc($result)) {
         $id = $row['id'];
         $activeAvatars[$id] = $row['avatar'];
     }
 
-    $dir = opendir( $team_avatars_dir );
-    while (false !== ($file = readdir($dir))) {
-        if ($file != "." && $file != ".." && $file != "CVS" && $file != "avatar_default.png" && $file != "avatar_default2.png" && $file != "dp_avatar.png") {
-            if (!in_array ($file, $activeAvatars)) {
-                if (filemtime("$team_avatars_dir/$file") <= $oneHourAgo) { unlink("$team_avatars_dir/$file"); }
-            }
+    $avatars = get_filelist($team_avatars_dir);
+    $unused_avatars = array_diff($avatars, $activeAvatars, $files_to_always_keep);
+    foreach($unused_avatars as $file)
+    {
+        if (filemtime("$team_avatars_dir/$file") <= $oneHourAgo)
+        {
+            unlink("$team_avatars_dir/$file");
         }
     }
-    closedir($dir);
 
     //Delete unused icons
     $result = mysql_query("SELECT id,icon FROM user_teams");
@@ -581,15 +593,14 @@ function deleteImages() {
         $activeIcons[$id] = $row['icon'];
     }
 
-    $dir = opendir($team_icons_dir);
-    while (false !== ($file = readdir($dir))) {
-        if ($file != "." && $file != ".." && $file != "CVS" && $file != "icon_default.png" && $file != "icon_default2.png" && file != "dp_icon.png") {
-            if (!in_array ($file, $activeIcons)) {
-                if (filemtime("$team_icons_dir/$file") <= $oneHourAgo) { unlink("$team_icons_dir/$file"); }
-            }
+    $icons = get_filelist($team_icons_dir);
+    $unused_icons = array_diff($icons, $activeIcons, $files_to_always_keep);
+    foreach($unused_icons as $file)
+    {
+        if (filemtime("$team_icons_dir/$file") <= $oneHourAgo)
+        {
+            unlink("$team_icons_dir/$file");
         }
     }
-    closedir($dir);
 }
 // vim: sw=4 ts=4 expandtab
-?>
