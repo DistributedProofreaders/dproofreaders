@@ -15,25 +15,21 @@ if (isset($_POST['mkPreview']))
     $title = sprintf(_("Preview %s"), $_POST['teamname']);  // *Ouch*, data not validated.
     output_header($title, SHOW_STATSBAR, $theme_extra_args);
     $teamimages = uploadImages(1,"","both");
+    $curTeam['id'] = 0;
+    $curTeam['topic_id'] = 0;
     $curTeam['teamname'] = stripAllString($_POST['teamname']);
     $curTeam['team_info'] = stripAllString($_POST['text_data']);
     $curTeam['webpage'] = stripAllString($_POST['teamwebpage']);
     $curTeam['createdby'] = $pguser;
+    $curTeam['owner'] = $userP['u_id'];
     $curTeam['created'] = time();
-    $curTeam['page_count'] = 0;
-    if (!empty($_FILES['teamavatar']['tmp_name']))
-    {
-        $curTeam['avatar'] = $teamimages['avatar'];
-        $tavatar = 1;
-    }
-    if (!empty($_FILES['teamicon']['tmp_name']))
-    {
-        $ticon = 1;
-    }
+    $curTeam['member_count'] = 0;
+    $curTeam['active_members'] = 0;
+    $curTeam['avatar'] = $teamimages['avatar'];
     echo "<center><br>";
-    showEdit(htmlentities(stripslashes($_POST['teamname'])),stripslashes($_POST['text_data']),stripslashes($_POST['teamwebpage']),1,0,$tavatar,$ticon);
+    showEdit(stripslashes($_POST['teamname']),stripslashes($_POST['text_data']),stripslashes($_POST['teamwebpage']),1,0);
     echo "<br>";
-    showTeamProfile($curTeam);
+    showTeamProfile($curTeam, TRUE /* $preview */);
     echo "</center><br>";
 }
 else if (isset($_POST['mkMake']))
@@ -44,18 +40,9 @@ else if (isset($_POST['mkMake']))
         $name = _("Create Team");
         output_header($name);
         $teamimages = uploadImages(1,"","both");
-        
-        if (!empty($_FILES['teamavatar']['tmp_name']))
-        {
-            $curTeam['avatar'] = $teamimages['avatar'];
-            $tavatar = 1;
-        }
-        if (!empty($_FILES['teamicon']['tmp_name']))
-        {
-            $ticon = 1;
-        }
+        $curTeam['avatar'] = $teamimages['avatar'];
         echo "<center><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
-        showEdit(htmlentities(stripslashes($_POST['teamname'])),stripslashes($_POST['text_data']),stripslashes($_POST['teamwebpage']),1,0,$tavatar,$ticon);
+        showEdit(stripslashes($_POST['teamname']),stripslashes($_POST['text_data']),stripslashes($_POST['teamwebpage']),1,0);
         echo "<br></center><br>";
     }
     else
@@ -108,7 +95,7 @@ else
     $name = _("Create a New Team");
     output_header($name, SHOW_STATSBAR, $theme_extra_args);
     echo "<center><br>";
-    showEdit("","","",1,0,0,0);
+    showEdit("","","",1,0);
     echo "</center>";
 }
 
