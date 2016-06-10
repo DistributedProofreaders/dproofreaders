@@ -121,7 +121,7 @@ function initPrev() {
     initView();
 
     function testDraw() {
-        preview = doPrev(previewDemo, 'T', tempStyle, testDiv);
+        preview = doPrev(previewDemo, 'T', tempStyle, previewMessages);
         testDiv.innerHTML = preview.txtout;
     }
 
