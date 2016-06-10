@@ -2,13 +2,15 @@
 include_once($relPath.'button_defs.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc');
+include_once('preview.inc');
 
 function echo_text_frame_std( $ppage )
 {
     $header_args = array(
         "js_files" => array(
-            "preview.js?16060402",
-            "prev_control.js?16060403",
+            "preview.js?16060801",
+            "prev_control.js?16061003",
+            "preview_strings.php",
         ),
         "js_data" => 'function ldAll() {top.initializeStuff(0); PrevControl = initPrev();}',
         "head_data" => '<link rel="stylesheet" type="text/css" href="preview.css?a=16060101">',
@@ -18,7 +20,7 @@ function echo_text_frame_std( $ppage )
     ?>
     <center>
     <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe">
-<?php include 'preview.php'; ?>
+    <?php output_preview_div(); ?>
     <div id = 'proofdiv'>
         <?php
 

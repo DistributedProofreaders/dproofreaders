@@ -1,5 +1,5 @@
 /*global
-    top, style1, doPrev
+    previewMessages, previewDemo, top, style1, doPrev, window
 */
 var PrevControl;
 function initPrev() {
@@ -30,7 +30,6 @@ function initPrev() {
     var selTag;
     var func = "NT";    // always start with this
 
-    var testText = "Plain text <i>Italic</i> <b>Bold</b> <g>Gesperrt</g> <sc>Small caps</sc> <f>Font change</f> ^{superscript}";
     var tempStyle = {};
     var style1 = {
         t: {bg: "#fffcf4", fg: "#000000"},
@@ -51,7 +50,7 @@ function initPrev() {
     var preview;
 
     function write1() {
-        preview = doPrev(txtarea.value, func, style1, prevWin);
+        preview = doPrev(txtarea.value, func, style1, previewMessages);
         prevWin.style.whiteSpace = (preview.ok && (func === "RW")) ? "normal" : "pre";
         prevWin.innerHTML = preview.txtout;
         issBox.value = preview.issues;
@@ -122,7 +121,7 @@ function initPrev() {
     initView();
 
     function testDraw() {
-        preview = doPrev(testText, 'T', tempStyle, testDiv);
+        preview = doPrev(previewDemo, 'T', tempStyle, testDiv);
         testDiv.innerHTML = preview.txtout;
     }
 
@@ -164,7 +163,7 @@ function initPrev() {
     }
 
     return {
-        adjustMargin: function(el) {
+        adjustMargin: function (el) {
             var hov = el.firstElementChild;
             var hovBox = hov.getBoundingClientRect();
             var conBox = outerPrev.getBoundingClientRect();

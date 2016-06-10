@@ -5,6 +5,7 @@ include_once($relPath.'slim_header.inc');
 include_once('PPage.inc');
 include_once('image_block_enh.inc');
 include_once('button_menu.inc');
+include_once('preview.inc');
 
 
 function echo_proof_frame_enh( $ppage )
@@ -13,8 +14,10 @@ function echo_proof_frame_enh( $ppage )
 
     $header_args = array(
         "js_files" => array(
-            "preview.js?16060402",
-            "prev_control.js?16060403",
+            "preview.js?16060801",
+            "prev_control.js?16061003",
+            "preview_strings.php",
+
         ),
         "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1); PrevControl = initPrev();}',
         "css_data" => ibe_get_styles() . get_proof_frame_styles(),
@@ -33,7 +36,7 @@ function echo_proof_frame_enh( $ppage )
 
             ?>
             <div id="controlframe" align="center">
-<?php include 'preview.php'; ?>
+            <?php output_preview_div(); ?>
               <div id = 'proofdiv'>
                 <form
                     name="editform" id="editform"

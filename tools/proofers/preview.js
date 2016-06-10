@@ -1,33 +1,5 @@
-var doPrev = function (txt, vtype, styler) {
+var doPrev = function (txt, vtype, styler, msg) {
     "use strict";
-    var msg = {
-        noStartTag: "No start tag for this end tag",
-        noEndTag: "No end tag for this start tag",
-        noEndTagInPara: "No corresponding end tag in paragraph",
-        misMatchTag: "End tag does not match start tag",
-        nestedTag: "Tag nested within same tag",
-        unRecTag: "Unrecognized tag",
-        tabChar: "Tab should not be used",
-        BLine1: "This should have a blank line before",
-        BLine2: "This should have a blank line after",
-        NWinNW: "No-wrap inside no-wrap",
-        BQinNW: "Block quote inside no-wrap",
-        aloneTag: "This tag should be alone on its line",
-        OolPrev: "Out-of-line start tag should not be preceded by normal text",
-        OolNext: "Out-of-line end tag should not be followed by normal text",
-        blankLines: "Only 1, 2 or 4 blank lines should be used",
-        spaceAfterStart: "Space or punctuation just inside start tag",
-        nlAfterStart: "Newline after start tag",
-        nlBeforeEnd: "Newline before end tag",
-        spaceBeforeEnd: "Space before end tag",
-        noBold: "Heading should not be entirely bold",
-        scNoCap: "Small caps should not be all lower case",
-        charBeforeStart: "Character or punctuation before inline start tag",
-        charAfterEnd: "Character after inline end tag",
-        puncBEnd: ",; or : before end tag",
-        noCloseBrack: "No matching closing bracket",
-        footnoteId: "Missing footnote identifier"
-    };
     var endSp = "</span>";
     var issCount = [0, 0];   // poss, iss
     var issArray = [];
