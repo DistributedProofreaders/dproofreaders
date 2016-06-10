@@ -62,13 +62,17 @@ elseif (isset($_POST['edPreview']))
 elseif (isset($_POST['edMake']))
 {
     $result = mysql_query("SELECT id FROM user_teams WHERE id != ".$tid." AND teamname = '".addslashes(stripAllString(trim($_POST['teamname'])))."'");
-    if (mysql_num_rows($result) > 0)
+    if (mysql_num_rows($result) > 0 || trim($_POST['teamname']) == '')
     {
         $preview = _("Preview");
         output_header($preview, SHOW_STATSBAR, $theme_extra_args);
         $teamimages = uploadImages(1,$tid,"both");
         $curTeam['avatar'] = $teamimages['avatar'];
-        echo "<center><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
+        if(trim($_POST['teamname']) == "")
+            echo "<center><br>" . _("The team name must not be empty.") . "<br>";
+        else
+            echo "<center><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
+
         showEdit(stripslashes($_POST['teamname']),stripslashes($_POST['text_data']),stripslashes($_POST['teamwebpage']),0,$tid);
         echo "<br></center><br>";
     }
