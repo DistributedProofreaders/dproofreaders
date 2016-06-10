@@ -8,7 +8,7 @@ include_once('../includes/team.inc');
 
 require_login();
 
-$theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/faq/pophelp/teams/edit_"));
+$theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/pophelp.php?category=teams&name=edit_"));
 
 if (isset($_POST['mkPreview']))
 {
