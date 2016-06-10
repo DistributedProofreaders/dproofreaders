@@ -512,7 +512,7 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
         echo "\n<tr bgcolor='".$theme['color_headerbar_bg']."'><td><center>";
         echo "<input type='submit' name='mkPreview' value='".attr_safe(_("Preview Team Display"))."'>&nbsp;&nbsp;&nbsp;";
         echo "<input type='submit' name='mkMake' value='".attr_safe(_("Make Team"))."'>&nbsp;&nbsp;&nbsp;";
-        echo "<input type='submit' name='Quit' value='".attr_safe(_("Quit"))."'>";
+        echo "<input type='submit' name='mkQuit' value='".attr_safe(_("Quit"))."'>";
         echo "</center></td></tr></table></form>";
     } else {
         echo "\n<tr bgcolor='".$theme['color_headerbar_bg']."'><td><center>";

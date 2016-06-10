@@ -94,6 +94,13 @@ else if (isset($_POST['mkMake']))
         metarefresh(0,"../members/jointeam.php?tid=$tid&otid=$otid",$title, $desc);
     }
 }
+elseif (isset($_POST['mkQuit']))
+{
+    $title = _("Quit Without Saving");
+    $desc = _("Quitting without saving...");
+    metarefresh(4,"$code_url/activity_hub.php",$title,$desc);
+    exit;
+}
 else
 {
     $name = _("Create a New Team");
