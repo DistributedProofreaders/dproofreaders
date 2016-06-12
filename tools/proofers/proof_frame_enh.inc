@@ -10,9 +10,10 @@ include_once('preview.inc');
 
 function echo_proof_frame_enh( $ppage )
 {
-    global $userP;
+    global $code_url, $userP;
 
     $header_args = array(
+        "css_files" => array("$code_url/styles/preview.css?a=16061101"),
         "js_files" => array(
             "preview.js?16060801",
             "prev_control.js?16061003",
@@ -21,7 +22,6 @@ function echo_proof_frame_enh( $ppage )
         ),
         "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1); PrevControl = initPrev();}',
         "css_data" => ibe_get_styles() . get_proof_frame_styles(),
-        "head_data" => '<link rel="stylesheet" type="text/css" href="preview.css?a=16060101">',
         "body_attributes" => 'onload="ldAll()"  onresize="PrevControl.adjustHeight()"',
     );
 

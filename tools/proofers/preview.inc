@@ -78,7 +78,7 @@ function output_preview_div()
     $background = html_safe(_("Background"));
 
     echo <<<END
-<div id = 'prevdiv' class='invis'>
+<div id = 'prevdiv' class='no_display'>
   <div id = "id_controls">
     <input type='button' onclick="PrevControl.hide()" value = "$quit">
     <span class='ilb'><label>$color_markup<input type="checkbox" id="id_colon" onchange="PrevControl.enableCol(this.checked)" ></label></span>
@@ -106,7 +106,7 @@ function output_preview_div()
   </div>
 </div>
 
-<div id="id_config_panel" class='invis'>
+<div id="id_config_panel" class='no_display'>
   <div id='color_test'>
   </div>
   <div class="clearfix box1">

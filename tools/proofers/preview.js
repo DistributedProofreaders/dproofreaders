@@ -330,7 +330,7 @@ var doPrev = function (txt, vtype, styler, msg) {
     function reWrap() {
         var nBL = 0;    // blank lines
         var ix = 0;     // index
-        var subTitle = false;
+        var subHeading = false;
         var txtLine = [];
         var lines;
         var inNoWrap = false;
@@ -376,7 +376,7 @@ var doPrev = function (txt, vtype, styler, msg) {
                 txt += '<div class="nw">';
                 nBL = 0;    // so no para tag
                 newPage = false;
-                subTitle = false;
+                subHeading = false;
                 inNoWrap = true;
                 return;
             }
@@ -387,20 +387,20 @@ var doPrev = function (txt, vtype, styler, msg) {
             }
 // ordinary text
             switch (nBL) {
-            case 4: // title
+            case 4: // heading
                 txt += '<div class="head2">' + str1 + '\n';
-                subTitle = true;    // next thing
+                subHeading = true;    // next thing
                 break;
             case 2:
-                if (!subTitle) { // section heading
+                if (!subHeading) { // section heading
                     txt += '<div class="head4">' + str1 + '\n';
-                } else {    // para from title or subtitle
+                } else {    // para from heading or subheading
                     txt += '<div class="para">' + str1 + '\n';
                 }
-                subTitle = false;
+                subHeading = false;
                 break;
             case 1:
-                if (subTitle) {
+                if (subHeading) {
                     txt += '<div class="head3">';
                 } else {
                     txt += '<div class="para">';
