@@ -294,6 +294,7 @@ class SpecialDay
         $std_fields = array('display_name','enable','comment',
                     'color','open_day','open_month','close_day',
                     'close_month','date_changes');
+        $std_fields_sql = '';
         foreach ($std_fields as $field)
         {
             $this->$field = $_POST[$field];

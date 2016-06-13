@@ -66,15 +66,13 @@ if ($func == "download" || $func == "view")
     }
     else
     {
-        $no_stats=1;
-        theme(_("Translation Center"), "header");
+        output_header(_("Translation Center"), false);
         echo "<p>" . _("The requested file does not exist.") . "</p>";
     }
     exit();
 }
 
-$no_stats=1;
-theme(_("Translation Center"), "header");
+output_header(_("Translation Center"), false);
 
 // Main Translation Center page
 if (empty($func))

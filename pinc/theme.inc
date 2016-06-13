@@ -120,11 +120,14 @@ function html_header($nameofpage, $extra_args = array()) {
     echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
     echo "<html ".lang_html_header($intlang).">\n<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\">\n";
-    # standard favicon.ico
-    echo "<link rel='shortcut icon' href='$code_url/graphics/dp-mark-32px.ico'>\n";
+
     # iOS and Android icons
     echo "<link rel='apple-touch-icon' href='$code_url/graphics/dp-mark-180px-white.png'>\n";
     echo "<link rel='icon' href='$code_url/graphics/dp-mark-180px-white.png'>\n";
+    # standard favicon.ico -- this has to be after the rel='icon' above due to
+    # a FF bug: https://bugzilla.mozilla.org/show_bug.cgi?id=751712
+    echo "<link rel='shortcut icon' href='$code_url/graphics/dp-mark-32px.ico'>\n";
+
     echo "<title>$site_abbreviation";
     if (isset($nameofpage)) { echo ": $nameofpage"; }
     echo "</title>\n";

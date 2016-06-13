@@ -19,13 +19,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
 }
 
 # Directory structure under uploads dir
-$trash_dir       = "$uploads_dir/$uploads_subdir_trash";
+$trash_rel_dir   = $uploads_subdir_trash;
+$trash_dir       = "$uploads_dir/$trash_rel_dir";
 
 $commons_rel_dir = $uploads_subdir_commons;
 $commons_dir     = "$uploads_dir/$commons_rel_dir";
 
 $users_rel_dir   = $uploads_subdir_users;
-$users_dir       = "$uploads_dir/Users";
+$users_dir       = "$uploads_dir/$users_rel_dir";
 
 require_login();
 
@@ -79,7 +80,7 @@ if ($access_mode == 'common' ) {
 
 if (is_null($home_dirname)) {
     $page_title = _("Manage your uploads folder");
-    theme($page_title, "header");
+    output_header($page_title);
     echo "<h1>$page_title</h1>\n";
     echo "<p>" . _("Your user permissions do not allow access to this script.") . "</p>";
     echo "<p>" . sprintf(_("If you are a Content Provider, please email %s with the subject 'project upload access request' and request access to the 'common' project uploads area in the body of your message."), "<a href='mailto:$db_requests_email_addr'>$db_requests_email_addr</a>") . "</p>";
@@ -93,7 +94,9 @@ $home_path = "$uploads_dir/$home_dirname";
 
 // Create the user's home directory if it doesn't yet exist.
 if (!is_dir($home_path)) {
-    if (!mkdir($home_path)) {
+    // attempt to create $home_path recursively, so that if
+    // $users_rel_dir doesn't exist, we create that too
+    if (!mkdir($home_path, 0777, TRUE)) {
        show_message('error', _("Could not create home folder!"));
        exit();
     }
@@ -110,6 +113,13 @@ if (!is_dir($home_path)) {
     $home_dir_created = TRUE;
 } else {
     $home_dir_created = FALSE;
+}
+
+// Ensure that the Commons folder exists
+if (!is_dir($commons_dir)) {
+    if(!mkdir($commons_dir)) {
+        show_message('error', sprintf( _("Could not create %s folder. Please contact the site administrator."), $commons_rel_dir));
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -186,7 +196,7 @@ function do_showdir()
     global $pguser, $home_dir_created, $autoprefix_message;
 
     $page_title =  sprintf( _("Manage folder %s"), $hce_curr_displaypath );
-    theme($page_title, "header");
+    output_header($page_title);
     echo "<h1>$page_title</h1>\n";
 
     // If we created a directory for the user, assume this is their first visit
@@ -240,7 +250,7 @@ function do_showupload()
     $submit_blurb = sprintf(_("After you click the '%s' button, the browser will appear to be slow getting to the next page. This is because it is uploading the file."), _("Upload"));
 
     $page_title =  sprintf( _("Upload a file to folder %s"), $hce_curr_displaypath );
-    theme($page_title, "header");
+    output_header($page_title);
     echo "<h1>$page_title</h1>\n";
 
     $form_content = "";
@@ -396,7 +406,7 @@ function do_showmkdir()
     global $curr_relpath, $hce_curr_displaypath;
 
     $page_title =  sprintf( _("Create a subfolder in folder %s"), $hce_curr_displaypath );
-    theme($page_title, "header");
+    output_header($page_title);
     echo "<h1>$page_title</h1>\n";
 
     $form_content = _("Name of subfolder to create:") ."&nbsp;<input type='text' name='new_dir_name' size='50' maxsize='50'>";
@@ -444,7 +454,7 @@ function do_showrename()
     global $curr_relpath;
 
     $page_title =  _("Rename an item");
-    theme($page_title, "header");
+    output_header($page_title);
     echo "<h1>$page_title</h1>\n";
 
     $item_name = @$_POST['item_name'];
@@ -519,7 +529,7 @@ function do_showmove()
     // from the names of directories in /home/dpscans/
 
     $page_title =  _("Move a file to another folder");
-    theme($page_title, "header");
+    output_header($page_title);
     echo "<h1>$page_title</h1>\n";
 
     // Get an array of all directory names in the Users directory
@@ -642,7 +652,7 @@ function do_showdelete()
     global $curr_abspath, $curr_relpath, $hce_curr_displaypath;
 
     $page_title = sprintf(_("Delete an item from folder %s"), $hce_curr_displaypath);
-    theme($page_title, "header");
+    output_header($page_title);
     echo "<h1>$page_title</h1>\n";
 
     $item_name = @$_POST['item_name'];
@@ -678,14 +688,21 @@ function do_showdelete()
 
 function do_delete()
 {
-    global $curr_abspath, $trash_dir;
+    global $curr_abspath, $trash_dir, $trash_rel_dir;
 
     $item_name = @$_POST['del_file'];
     confirm_is_local('FD', $item_name);
 
     $src_path = "$curr_abspath/$item_name";
 
-    // XXX Create $trash_path if it doesn't exist yet?
+    // If the trash directory doesn't exist, try to create it.
+    if(!is_dir($trash_dir))
+    {
+        if(!mkdir($trash_dir))
+        {
+            fatal_error( sprintf(_('Unable to create %s folder. Please contact the site administrator.'), html_safe($trash_rel_dir)) );
+        }
+    }
 
     // Use time() to avoid destination collisions
     $dst_path = $trash_dir."/".time()."_".$item_name;
@@ -693,10 +710,10 @@ function do_delete()
     // For safety, we move the item into TRASH and let the
     // existing cron job remove it instead of using unlink()
     if (!@rename($src_path, $dst_path)) {
-        fatal_error( sprintf(_("Unable to move %s to TRASH folder."), html_safe($item_name)) );
+        fatal_error( sprintf(_('Unable to move %1$s to %2$s folder.'), html_safe($item_name), html_safe($trash_rel_dir)) );
     }
 
-    show_message('info', sprintf(_("%s has been moved to the TRASH folder for deletion."), html_safe($item_name)));
+    show_message('info', sprintf(_('%1$s has been moved to the %2$s folder for deletion.'), html_safe($item_name), html_safe($trash_rel_dir)));
     show_return_link();
 }
 

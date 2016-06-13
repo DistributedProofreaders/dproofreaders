@@ -8,7 +8,6 @@ include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
 
-$no_stats=1;
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
 output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);

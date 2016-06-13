@@ -6,6 +6,7 @@ include_once($relPath."/misc.inc");
 undo_all_magic_quotes();
 
 $charset="UTF-8";
+header("Content-Type: text/html; charset=$charset");
 
 define("ARRAY_PAD_FRONT", -1);
 define("ARRAY_PAD_BACK",   1);

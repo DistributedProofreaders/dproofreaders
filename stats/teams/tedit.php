@@ -35,7 +35,7 @@ if (isset($_GET['tid']))
     $edit = _("Edit");
     output_header($edit." ".$curTeam['teamname'], SHOW_STATSBAR, $theme_extra_args);
     echo "<center><br>";
-    showEdit(unstripAllString($curTeam['teamname'],0),unstripAllString($curTeam['team_info'],1),unstripAllString($curTeam['webpage'],1),0,$tid,0,0);
+    showEdit(unstripAllString($curTeam['teamname'],0),unstripAllString($curTeam['team_info'],1),unstripAllString($curTeam['webpage'],1),0,$tid);
     echo "</center>";
 }
 elseif (isset($_POST['edQuit']))
@@ -53,19 +53,11 @@ elseif (isset($_POST['edPreview']))
     $curTeam['teamname'] = stripAllString($_POST['teamname']);
     $curTeam['team_info'] = stripAllString($_POST['text_data']);
     $curTeam['webpage'] = stripAllString($_POST['teamwebpage']);
-    if (!empty($_FILES['teamavatar']['tmp_name']))
-    {
-        $curTeam['avatar'] = $teamimages['avatar'];
-        $tavatar = 1;
-    }
-    if (!empty($_FILES['teamicon']['tmp_name']))
-    {
-        $ticon = 1;
-    }
+    $curTeam['avatar'] = $teamimages['avatar'];
     echo "<center><br>";
-    showEdit(htmlentities($_POST['teamname']), $_POST['text_data'], $_POST['teamwebpage'], 0, $tid, $tavatar, $ticon);
+    showEdit($_POST['teamname'], $_POST['text_data'], $_POST['teamwebpage'], 0, $tid);
     echo "<br>";
-    showTeamProfile($curTeam);
+    showTeamProfile($curTeam, TRUE /*$preview*/);
     echo "</center><br>";
 }
 elseif (isset($_POST['edMake']))
@@ -77,22 +69,18 @@ elseif (isset($_POST['edMake']))
             AND teamname = '%s'
     ", $tid,
         mysql_real_escape_string(stripAllString(trim($_POST['teamname'])))));
-    if (mysql_num_rows($result) > 0)
+    if (mysql_num_rows($result) > 0 || trim($_POST['teamname']) == '')
     {
         $preview = _("Preview");
         output_header($preview, SHOW_STATSBAR, $theme_extra_args);
         $teamimages = uploadImages(1,$tid,"both");
-        if (!empty($_FILES['teamavatar']['tmp_name']))
-        {
-            $curTeam['avatar'] = $teamimages['avatar'];
-            $tavatar = 1;
-        }
-        if (!empty($_FILES['teamicon']['tmp_name']))
-        {
-            $ticon = 1;
-        }
-        echo "<center><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
-        showEdit(htmlentities($_POST['teamname']), $_POST['text_data'], $_POST['teamwebpage'], 0, $tid, $tavatar, $ticon);
+        $curTeam['avatar'] = $teamimages['avatar'];
+        if(trim($_POST['teamname']) == "")
+            echo "<center><br>" . _("The team name must not be empty.") . "<br>";
+        else
+            echo "<center><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
+
+        showEdit($_POST['teamname'], $_POST['text_data'], $_POST['teamwebpage'], 0, $tid);
         echo "<br></center><br>";
     }
     else
