@@ -9,14 +9,14 @@ function echo_text_frame_std( $ppage )
     global $code_url;
     
     $header_args = array(
-        "css_files" => array("$code_url/styles/preview.css?a=16061101"),
+        "css_files" => array("$code_url/styles/preview.css?a=16061301"),
         "js_files" => array(
-            "preview.js?16060801",
-            "prev_control.js?16061003",
+            "preview.js?16061401",
+            "previewControl.js?16061401",
             "preview_strings.php",
         ),
-        "js_data" => 'function ldAll() {top.initializeStuff(0); PrevControl = initPrev();}',
-        "body_attributes" => 'onload="ldAll()"  onresize="PrevControl.adjustHeight()"',
+        "js_data" => 'function ldAll() {top.initializeStuff(0); previewControl = initPrev();}',
+        "body_attributes" => 'onload="ldAll()"  onresize="previewControl.adjustHeight()"',
         );
     slim_header(_("Text Frame"), $header_args);
     ?>

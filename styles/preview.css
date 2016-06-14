@@ -48,7 +48,7 @@
     padding: 10px;
 }
 .box2 {
-    margin: 20px;
+    margin: 20px 10px 20px 10px;
 }
 .clearfix {
     overflow: auto;

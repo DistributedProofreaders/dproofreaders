@@ -29,8 +29,8 @@ function output_preview_strings()
         "nestedTag" => html_safe(_("Tag nested within same tag")),
         "unRecTag" => html_safe(_("Unrecognized tag")),
         "tabChar" => html_safe(_("Tab should not be used")),
-        "BLine1" => html_safe(_("This should have a blank line before")),
-        "BLine2" => html_safe(_("This should have a blank line after")),
+        "blankBefore" => html_safe(_("This should have a blank line before")),
+        "blankAfter" => html_safe(_("This should have a blank line after")),
         "NWinNW" => html_safe(_("No-wrap inside no-wrap")),
         "BQinNW" => html_safe(_("Block quote inside no-wrap")),
         "aloneTag" => html_safe(_("This tag should be alone on its line")),
@@ -73,32 +73,33 @@ function output_preview_div()
     $issues = html_safe(_("Issues"));
     $poss_iss = html_safe(_("Poss. Issues"));
     $default = html_safe(_("Default"));
+    $other_tags = html_safe(_("Other tags"));
     $ss = shared_strings();
     $text = html_safe(_("Text"));
     $background = html_safe(_("Background"));
 
     echo <<<END
-<div id = 'prevdiv' class='no_display'>
-  <div id = "id_controls">
-    <input type='button' onclick="PrevControl.hide()" value = "$quit">
-    <span class='ilb'><label>$color_markup<input type="checkbox" id="id_colon" onchange="PrevControl.enableCol(this.checked)" ></label></span>
+<div id='prevdiv' class='no_display'>
+  <div id="id_controls">
+    <input type='button' onclick="previewControl.hide()" value="$quit">
+    <span class='ilb'><label>$color_markup<input type="checkbox" id="id_color_on" onchange="previewControl.enableColor(this.checked)" ></label></span>
     <span class='ilb'>$image
       <input type="button" value="-" onclick="top.reSizeRelative(0.91);">
       <input type="button" value="+" onclick="top.reSizeRelative(1.10);">
     </span>
     <span class='ilb'>$text
-      <input type="button" value="-" onclick="PrevControl.reSizeText(0.91);">
-      <input type="button" value="+" onclick="PrevControl.reSizeText(1.1);">
+      <input type="button" value="-" onclick="previewControl.reSizeText(0.91);">
+      <input type="button" value="+" onclick="previewControl.reSizeText(1.1);">
     </span>
-    <span class='ilb'>$font <select id="id_font_sel" onchange="PrevControl.selFont(this.value)"></select></span>
+    <span class='ilb'>$font <select id="id_font_sel" onchange="previewControl.selectFont(this.value)"></select></span>
     <span class='ilb'>
-      <label><input type="radio" name="viewSel" value="T" onclick="PrevControl.write('T')" id="id_tags">$tags</label>
-      <label><input type="radio" name="viewSel" value="NT" onclick="PrevControl.write('NT')" checked>$no_tags</label>
-      <label><input type="radio" name="viewSel" value="RW" onclick="PrevControl.write('RW')">$re_wrap</label>
+      <label><input type="radio" name="viewSel" value="T" onclick="previewControl.write('T')" id="id_tags">$tags</label>
+      <label><input type="radio" name="viewSel" value="NT" onclick="previewControl.write('NT')" checked>$no_tags</label>
+      <label><input type="radio" name="viewSel" value="RW" onclick="previewControl.write('RW')">$re_wrap</label>
     </span>
     <span class='ilb'>$issues <input type="text" id="id_iss" size="1" readonly></span>
     <span class='ilb'>$poss_iss <input type="text" id="id_poss_iss" size="1" readonly></span>
-    <input type='button' onclick="PrevControl.configure()" value = "$configure">
+    <input type='button' onclick="previewControl.configure()" value="$configure">
   </div>
   <div id="id_tp_outer">
     <div id="text_preview">
@@ -111,30 +112,30 @@ function output_preview_div()
   </div>
   <div class="clearfix box1">
     <div id="id_markmenu">
-        <input type="radio" name="mSel" id="id_tradio" onclick="PrevControl.setColors('t')"> $default<br>
-        <input type="radio" name="mSel" onclick="PrevControl.setColors('i')"> $ss[italic]<br>
-        <input type="radio" name="mSel" onclick="PrevControl.setColors('b')"> $ss[bold]<br>
-        <input type="radio" name="mSel" onclick="PrevControl.setColors('g')"> $ss[gesperrt]<br>
-        <input type="radio" name="mSel" onclick="PrevControl.setColors('sc')"> $ss[small_caps]<br>
-        <input type="radio" name="mSel" onclick="PrevControl.setColors('f')"> $ss[font_change]<br>
-        <input type="radio" name="mSel" onclick="PrevControl.setColors('etc')"> Other tags<br>
-        <input type="radio" name="mSel" onclick="PrevControl.setColors('err')"> $issues<br>
-        <input type="radio" name="mSel" onclick="PrevControl.setColors('hlt')"> $poss_iss<br>
+        <input type="radio" name="mSel" id="id_tradio" onclick="previewControl.setColors('t')"> $default<br>
+        <input type="radio" name="mSel" onclick="previewControl.setColors('i')"> $ss[italic]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setColors('b')"> $ss[bold]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setColors('g')"> $ss[gesperrt]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setColors('sc')"> $ss[small_caps]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setColors('f')"> $ss[font_change]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setColors('etc')"> $other_tags<br>
+        <input type="radio" name="mSel" onclick="previewControl.setColors('err')"> $issues<br>
+        <input type="radio" name="mSel" onclick="previewControl.setColors('hlt')"> $poss_iss<br>
     </div>
     <div id="color_selector">
-        <input type="color" id="id_forecol" onchange="PrevControl.setFCol()"> $text
-        <span id="id_span_frbox"><input type="checkbox" id="id_frbox" onchange="PrevControl.setFCol()" checked> $default</span><br>
-        <input type="color" id="id_backcol" onchange="PrevControl.setBCol()"> $background
-        <span id="id_span_bkbox"><input type="checkbox" id="id_bkbox" onchange="PrevControl.setBCol()" checked> $default</span><br>
+        <input type="color" id="id_forecol" onchange="previewControl.setForegroundColor()"> $text
+        <span id="span_foreground"><input type="checkbox" id="foreground_checkbox" onchange="previewControl.setForegroundColor()" checked> $default</span><br>
+        <input type="color" id="id_backcol" onchange="previewControl.setBackgroundColor()"> $background
+        <span id="span_background"><input type="checkbox" id="background_checkbox" onchange="previewControl.setBackgroundColor()" checked> $default</span><br>
     </div>
   </div>
   <div class="box2">
-    <span class="ilb"><input type='text' id='id_font_name'><input type='button' onclick="PrevControl.addFont()" value = "$add_font"></span>
-    <span class="ilb"><select id="id_fsel1"></select><input type='button' onclick="PrevControl.remFont()" value = "$remove_font"></span>
+    <span class="ilb"><input type='text' id='id_font_name'><input type='button' onclick="previewControl.addFont()" value="$add_font"></span>
+    <span class="ilb"><select id="id_remove_sel"></select><input type='button' onclick="previewControl.removeFont()" value="$remove_font"></span>
    </div>
   <div class="box2">
-    <input type='button' onclick="PrevControl.OKConfig()" value = "$ok">
-    <input type='button' onclick="PrevControl.cancelConfig()" value = "$cancel">
+    <input type='button' onclick="previewControl.OKConfig()" value="$ok">
+    <input type='button' onclick="previewControl.cancelConfig()" value="$cancel">
   </div>
 </div>
 

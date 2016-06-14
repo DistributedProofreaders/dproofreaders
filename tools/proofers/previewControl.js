@@ -1,7 +1,7 @@
 /*global
-    previewMessages, previewDemo, top, style1, doPrev, window
+    previewMessages, previewDemo, top, style1, makePreview, window
 */
-var PrevControl;
+var previewControl;
 function initPrev() {
     "use strict";
     var outerPrev = document.getElementById("id_tp_outer");
@@ -12,20 +12,20 @@ function initPrev() {
     var tagon = document.getElementById("id_tags");
     var proofDiv = document.getElementById("proofdiv");
     var testDiv = document.getElementById("color_test");
-    var bkBox = document.getElementById("id_bkbox");
-    var spanBkBox = document.getElementById("id_span_bkbox");
-    var frBox = document.getElementById("id_frbox");
-    var spanFrBox = document.getElementById("id_span_frbox");
+    var backgroundCheckbox = document.getElementById("background_checkbox");
+    var spanBackground = document.getElementById("span_background");
+    var foregroundCheckbox = document.getElementById("foreground_checkbox");
+    var spanForeground = document.getElementById("span_foreground");
     var foreColor = document.getElementById("id_forecol");
     var backColor = document.getElementById("id_backcol");
     var configPan = document.getElementById("id_config_panel");
     var tRadio = document.getElementById("id_tradio");
-    var encolBox = document.getElementById("id_colon");
+    var enableColorCheckbox = document.getElementById("id_color_on");
     var issBox = document.getElementById("id_iss");
     var possIssBox = document.getElementById("id_poss_iss");
     var fontSelector = document.getElementById("id_font_sel");
     var fontName = document.getElementById("id_font_name");
-    var fontSel1 = document.getElementById("id_fsel1");
+    var removeFontSelector = document.getElementById("id_remove_sel");
     var proofFrameSet = top.document.getElementById("proof_frames");
     var selTag;
     var func = "NT";    // always start with this
@@ -50,7 +50,7 @@ function initPrev() {
     var preview;
 
     function write1() {
-        preview = doPrev(txtarea.value, func, style1, previewMessages);
+        preview = makePreview(txtarea.value, func, style1, previewMessages);
         prevWin.style.whiteSpace = (preview.ok && (func === "RW")) ? "normal" : "pre";
         prevWin.innerHTML = preview.txtout;
         issBox.value = preview.issues;
@@ -61,7 +61,7 @@ function initPrev() {
         }
     }
 
-    function setWinCol(win) {
+    function setColors(win) {
         win.style.backgroundColor = style1.t.bg;
         win.style.color = style1.t.fg;
     }
@@ -113,39 +113,39 @@ function initPrev() {
     function initView() {
         initSel(fontSelector, style1.fontList, style1.defFont);
         prevWin.style.fontFamily = style1.defFont;
-        encolBox.checked = style1.color;
-        setWinCol(outerPrev);
+        enableColorCheckbox.checked = style1.color;
+        setColors(outerPrev);
     }
 
     initStyle();
     initView();
 
     function testDraw() {
-        preview = doPrev(previewDemo, 'T', tempStyle, previewMessages);
+        preview = makePreview(previewDemo, 'T', tempStyle, previewMessages);
         testDiv.innerHTML = preview.txtout;
     }
 
     function initPicker() { // initialise the color pickers
-        var bcol = tempStyle[selTag].bg;
-        var fcol = tempStyle[selTag].fg;
-        var bkDef, frDef;
+        var backgroundColor = tempStyle[selTag].bg;
+        var foregroundColor = tempStyle[selTag].fg;
+        var useDefaultBackground, useDefaultForeground;
         if (selTag === "t") {
-            spanBkBox.style.visibility = "hidden";
-            bkDef = false;
-            spanFrBox.style.visibility = "hidden";
-            frDef = false;
+            spanBackground.style.visibility = "hidden";
+            useDefaultBackground = false;
+            spanForeground.style.visibility = "hidden";
+            useDefaultForeground = false;
         } else {
-            spanBkBox.style.visibility = "visible";
-            bkDef = ('' === bcol);
-            spanFrBox.style.visibility = "visible";
-            frDef = ('' === fcol);
+            spanBackground.style.visibility = "visible";
+            useDefaultBackground = ('' === backgroundColor);
+            spanForeground.style.visibility = "visible";
+            useDefaultForeground = ('' === foregroundColor);
         }
-        frBox.checked = frDef;
-        foreColor.disabled = frDef;
-        foreColor.value = frDef ? tempStyle.t.fg : fcol;
-        bkBox.checked = bkDef;
-        backColor.disabled = bkDef;
-        backColor.value = bkDef ? tempStyle.t.bg : bcol; // make it look correct
+        foregroundCheckbox.checked = useDefaultForeground;
+        foreColor.disabled = useDefaultForeground;
+        foreColor.value = useDefaultForeground ? tempStyle.t.fg : foregroundColor;
+        backgroundCheckbox.checked = useDefaultBackground;
+        backColor.disabled = useDefaultBackground;
+        backColor.value = useDefaultBackground ? tempStyle.t.bg : backgroundColor; // make it look correct
     }
 
     function adjHeight() {
@@ -166,14 +166,14 @@ function initPrev() {
         adjustMargin: function (el) {
             var hov = el.firstElementChild;
             var hovBox = hov.getBoundingClientRect();
-            var conBox = outerPrev.getBoundingClientRect();
-            if (hovBox.right >= conBox.right) {
+            var container = outerPrev.getBoundingClientRect();
+            if (hovBox.right >= container.right) {
                 hov.style.marginLeft = -hovBox.width + "px";
             }
-            if (hovBox.left <= conBox.left) {
+            if (hovBox.left <= container.left) {
                 hov.style.marginLeft = "0";
             }
-            if (hovBox.bottom + 17 >= conBox.bottom) { // 17 allows for scrollbar
+            if (hovBox.bottom + 17 >= container.bottom) { // 17 allows for scrollbar
                 hov.style.marginTop = "-2em";
             }
         },
@@ -208,9 +208,9 @@ function initPrev() {
         configure: function () {
             prevDiv.style.display = "none";
             configPan.style.display = "block";
-            setWinCol(testDiv);     // initialising so same as style1
+            setColors(testDiv);     // initialising so same as style1
             tempStyle = deepCopy(tempStyle, style1, false);
-            initSel(fontSel1, tempStyle.fontList);
+            initSel(removeFontSelector, tempStyle.fontList);
             testDiv.style.fontFamily = tempStyle.defFont;
             testDraw();
             selTag = "t";   // always start with t selected
@@ -218,7 +218,7 @@ function initPrev() {
             initPicker();
         },
 
-        enableCol: function (en) {
+        enableColor: function (en) {
             style1.color = en;
             saveStyle();
             write1();
@@ -241,31 +241,31 @@ function initPrev() {
             hideConfig();
         },
 
-        setFCol: function () {  // foreground colour changed
-            var frDef = frBox.checked;
-            var colval = frDef ? "" : foreColor.value;
-            if (frDef) {
+        setForegroundColor: function () {
+            var useDefaultForeground = foregroundCheckbox.checked;
+            var colorValue = useDefaultForeground ? "" : foreColor.value;
+            if (useDefaultForeground) {
                 foreColor.value = tempStyle.t.fg;
             }
-            foreColor.disabled = frDef;
-            tempStyle[selTag].fg = colval;
+            foreColor.disabled = useDefaultForeground;
+            tempStyle[selTag].fg = colorValue;
             if ("t" === selTag) {
-                testDiv.style.color = colval;
+                testDiv.style.color = colorValue;
             } else {
                 testDraw();
             }
         },
 
-        setBCol: function () {  // background colour or transparency changed
-            var bkDef = bkBox.checked;
-            var colval = bkDef ? "" : backColor.value;
-            if (bkDef) {
+        setBackgroundColor: function () {  // background colour or transparency changed
+            var useDefaultBackground = backgroundCheckbox.checked;
+            var colorValue = useDefaultBackground ? "" : backColor.value;
+            if (useDefaultBackground) {
                 backColor.value = tempStyle.t.bg;
             }
-            backColor.disabled = bkDef;
-            tempStyle[selTag].bg = colval;
+            backColor.disabled = useDefaultBackground;
+            tempStyle[selTag].bg = colorValue;
             if ("t" === selTag) {
-                testDiv.style.backgroundColor = colval;
+                testDiv.style.backgroundColor = colorValue;
             } else {
                 testDraw();
             }
@@ -275,7 +275,7 @@ function initPrev() {
             adjHeight();
         },
 
-        selFont: function (font) {
+        selectFont: function (font) {
             prevWin.style.fontFamily = font;
             style1.defFont = font;
             saveStyle();
@@ -284,18 +284,18 @@ function initPrev() {
         addFont: function () {
             if (fontName.value !== "") {
                 tempStyle.fontList.push(fontName.value);
-                initSel(fontSel1, tempStyle.fontList);
+                initSel(removeFontSelector, tempStyle.fontList);
                 testDiv.style.fontFamily = fontName.value;
                 testDraw();
             }
         },
 
-        remFont: function () {
-            tempStyle.fontList.splice(fontSel1.selectedIndex, 1);
-            if (fontSel1.value === tempStyle.defFont) {
+        removeFont: function () {
+            tempStyle.fontList.splice(removeFontSelector.selectedIndex, 1);
+            if (removeFontSelector.value === tempStyle.defFont) {
                 tempStyle.defFont = tempStyle.fontList[0];
             }
-            fontSel1.remove(fontSel1.selectedIndex);
+            removeFontSelector.remove(removeFontSelector.selectedIndex);
         }
     };
 }

@@ -1,6 +1,6 @@
-var doPrev = function (txt, vtype, styler, msg) {
+var makePreview = function (txt, vtype, styler, msg) {
     "use strict";
-    var endSp = "</span>";
+    var endSpan = "</span>";
     var issCount = [0, 0];   // poss, iss
     var issArray = [];
 
@@ -10,19 +10,19 @@ var doPrev = function (txt, vtype, styler, msg) {
     }
 
     function makeColourStyle(s) {
-        var stype = styler[s];
+        var style = styler[s];
         var have_style = false;
         var str = "";
         if (!styler.color && (s !== "err") && (s !== "hlt")) {   // style issues always
             return str;
         }
-        if (stype.fg !== "") {
+        if (style.fg !== "") {
             have_style = true;
-            str = 'color:' + stype.fg + ';';
+            str = 'color:' + style.fg + ';';
         }
-        if (stype.bg !== "") {
+        if (style.bg !== "") {
             have_style = true;
-            str += ('background-color:' + stype.bg + ';');
+            str += ('background-color:' + style.bg + ';');
         }
         if (have_style) {
             str = ' style="' + str + '"';
@@ -31,16 +31,16 @@ var doPrev = function (txt, vtype, styler, msg) {
     }
 
     function makeErrStr(st1) {
-        return '<span class="err" onmouseenter="PrevControl.adjustMargin(this)"' + makeColourStyle(st1) + '><span>';
+        return '<span class="err" onmouseenter="previewControl.adjustMargin(this)"' + makeColourStyle(st1) + '><span>';
     }
 
-    var errstr = makeErrStr("err");
-    var hltstr = makeErrStr("hlt");
+//    var errstr = makeErrStr("err");
+//    var hltstr = makeErrStr("hlt");
 
     function addMarkUp() {
-        var s1 = 100000;    // to check if 2 issues in same place, large so 1st works
+        var start0 = 100000;    // start of previous issue to check if 2 issues in same place, large so 1st works
         var end;
-        var mstr;
+        var errorString;
         var tArray = txt.split("");     // string as array
 
         function htmlEncode(s, i) {
@@ -55,15 +55,15 @@ var doPrev = function (txt, vtype, styler, msg) {
 
         function markIss(iss) {
             if (iss.type === 0) {
-                mstr = hltstr;
+                errorString = makeErrStr("hlt");
             } else {
-                mstr = errstr;
+                errorString = makeErrStr("err");
             }
             end = iss.start + iss.len;
-            if ((iss.start !== s1) && (end <= s1)) {  // don't mark 2 in one place
-                s1 = iss.start;
-                tArray.splice(end, 0, endSp);
-                tArray.splice(s1, 0, mstr + iss.msg + endSp);
+            if ((iss.start !== start0) && (end <= start0)) {  // don't mark 2 in one place
+                start0 = iss.start;
+                tArray.splice(end, 0, endSpan);
+                tArray.splice(start0, 0, errorString + iss.msg + endSpan);
             }
         }
 
@@ -90,7 +90,7 @@ var doPrev = function (txt, vtype, styler, msg) {
     function parseOol() {
         var tagStack = [];  // holds start tag /* or /# and index
         var start;
-        var tagStr;
+        var tagString;
         var stackTop;
         var result;
         var oolre = /\/\*|\/#|\*\/|#\//g;   // any out-of-line tag
@@ -105,26 +105,26 @@ var doPrev = function (txt, vtype, styler, msg) {
                 return;
             }
             start = result.index;
-            tagStr = result[0];
+            tagString = result[0];
 
             chkAlone(start, 2);
-            if ((tagStr.charAt(0) === "/") && (/[^#\n\]]/.test(txt.charAt(start - 2)))) { // previous already tested to be nl, # or ] ok
+            if ((tagString.charAt(0) === "/") && (/[^#\n\]]/.test(txt.charAt(start - 2)))) { // previous already tested to be nl, # or ] ok
                 reportIssue(start, 2, msg.OolPrev, 1);
             }
-            if ((tagStr.charAt(1) === "/") && (/[^#\n\]]/.test(txt.charAt(start + 3)))) {
+            if ((tagString.charAt(1) === "/") && (/[^#\n\]]/.test(txt.charAt(start + 3)))) {
                 reportIssue(start, 2, msg.OolNext, 1);
             }
 
             if (tagStack.length === 0) {
-                if ('/' === tagStr.charAt(0)) {     // start tag
-                    tagStack.push({tag: tagStr, start: start});
+                if ('/' === tagString.charAt(0)) {     // start tag
+                    tagStack.push({tag: tagString, start: start});
                 } else {
                     reportIssue(start, 2, msg.noStartTag, 1);
                 }
             } else {    // there are tags in the stack
                 stackTop = tagStack[tagStack.length - 1];
                 if (stackTop.tag.charAt(1) === "*") {  // open NW;
-                    switch (tagStr) {
+                    switch (tagString) {
                     case "*/":  // close NW ok
                         tagStack.pop();
                         break;
@@ -135,15 +135,15 @@ var doPrev = function (txt, vtype, styler, msg) {
                         break;
                     case "/*": // open NW
                         reportIssue(start, 2, msg.NWinNW, 1);
-                        tagStack.push({tag: tagStr, start: start});
+                        tagStack.push({tag: tagString, start: start});
                         break;
                     default:    // open BQ
                         reportIssue(start, 2, msg.BQinNW, 1);
-                        tagStack.push({tag: tagStr, start: start});
+                        tagStack.push({tag: tagString, start: start});
                         break;
                     }
                 } else {    // top of stack is /#
-                    switch (tagStr) {
+                    switch (tagString) {
                     case "#/": // close BQ
                         tagStack.pop();
                         break;
@@ -153,7 +153,7 @@ var doPrev = function (txt, vtype, styler, msg) {
                         reportIssue(stackTop.start, 2, msg.misMatchTag, 1);
                         break;
                     default:    // open either
-                        tagStack.push({tag: tagStr, start: start});
+                        tagStack.push({tag: tagString, start: start});
                         break;
                     }
                 }
@@ -165,15 +165,17 @@ var doPrev = function (txt, vtype, styler, msg) {
 // if end tag, check it matches stack top, pop else error
 // if none found, if stack empty finished else error
     function parseInLine() {
-        var tagStr;
+        var tagString;
         var end = 0;
-        var len;
+        var tagLen;
         var start = 0;
         var tagStack = [];
         var result;
         var stackTop;
 
-        function stackFind(ntag) {  // ie does not support array.find
+// find index in stack of ntag, return -1 if none found
+// internet explorer does not support array.find so use this function
+        function stackFind(ntag) {
             var tagData;
             var i = tagStack.length - 1;
             while (i >= 0) {
@@ -193,21 +195,21 @@ var doPrev = function (txt, vtype, styler, msg) {
             if (null === result) {
                 while (tagStack.length !== 0) {
                     stackTop = tagStack.pop();
-                    reportIssue(stackTop.start, stackTop.len, msg.noEndTag, 1);
+                    reportIssue(stackTop.start, stackTop.tagLen, msg.noEndTag, 1);
                 }
                 return;
             }
             if (result[0] === "\n\n") {
                 while (tagStack.length !== 0) {
                     stackTop = tagStack.pop();
-                    reportIssue(stackTop.start, stackTop.len, msg.noEndTagInPara, 1);
+                    reportIssue(stackTop.start, stackTop.tagLen, msg.noEndTagInPara, 1);
                 }
                 continue;
             }
             start = result.index;
-            len = result[0].length;
-            end = start + len;
-            tagStr = result[2];
+            tagLen = result[0].length;
+            end = start + tagLen;
+            tagString = result[2];
             if (result[1] === '/') {    // end tag
                 if (/[,;:]/.test(txt.charAt(start - 1)) && (txt.length !== end)) { // , ; or : before end tag except at eot
                     reportIssue(start - 1, 1, msg.puncBEnd, 0);
@@ -216,34 +218,34 @@ var doPrev = function (txt, vtype, styler, msg) {
                     reportIssue(start - 1, 1, msg.spaceBeforeEnd, 0);
                 }
                 if (txt.charAt(start - 1) === "\n") {
-                    reportIssue(start, len, msg.nlBeforeEnd, 1);
+                    reportIssue(start, tagLen, msg.nlBeforeEnd, 1);
                 }
                 if (/\w/.test(txt.charAt(end))) { // char after end tag
                     reportIssue(end, 1, msg.charAfterEnd, 0);
                 }
                 if (tagStack.length === 0) {    // missing start tag
-                    reportIssue(start, len, msg.noStartTag, 1);
+                    reportIssue(start, tagLen, msg.noStartTag, 1);
                 } else {
                     stackTop = tagStack.pop();
-                    if (stackTop.tag !== tagStr) {
-                        reportIssue(start, len, msg.misMatchTag, 1);   // mark last first
-                        reportIssue(stackTop.start, stackTop.len, msg.misMatchTag, 1);
+                    if (stackTop.tag !== tagString) {
+                        reportIssue(start, tagLen, msg.misMatchTag, 1);   // mark last first
+                        reportIssue(stackTop.start, stackTop.tagLen, msg.misMatchTag, 1);
                     }
                 }
             } else {    // startTag
-                if (stackFind(tagStr) >= 0) {   // check if any already in stack
-                    reportIssue(start, len, msg.nestedTag, 1);
+                if (stackFind(tagString) >= 0) {   // check if any already in stack
+                    reportIssue(start, tagLen, msg.nestedTag, 1);
                 }
                 if (/[,.;:!\? ]/.test(txt.charAt(end))) {
                     reportIssue(end, 1, msg.spaceAfterStart, 0);
                 }
                 if (txt.charAt(end) === "\n") {
-                    reportIssue(start, len, msg.nlAfterStart, 1);
+                    reportIssue(start, tagLen, msg.nlAfterStart, 1);
                 }
                 if (/\w|[,.;:]/.test(txt.charAt(start - 1))) { // non-space before start tag
                     reportIssue(start - 1, 1, msg.charBeforeStart, 0);
                 }
-                tagStack.push({tag: tagStr, start: start, len: len});
+                tagStack.push({tag: tagString, start: start, tagLen: tagLen});
             }
         }
     }
@@ -283,14 +285,14 @@ var doPrev = function (txt, vtype, styler, msg) {
 
     function showStyle() {
         var etcstr;
-        var repstr2 = "<\/span>";
+        var repstr2 = endSpan;
         var sc1 = "&lt;sc&gt;";
         var sc2 = "&lt;\/sc&gt;";
         var sc_re = new RegExp(sc1 + "([^]+?)" + sc2, 'g'); // a string of small capitals
 
-        function trans_sc(match, p1) {
+        function transformSC(match, p1) {
             if (-1 === p1.search(/[a-z]|[ß-ö]|[ø-ÿ]/)) {    // found no lower-case -- need to extend this for utf8
-                return sc1 + '<span class="tt">' + p1 + endSp + sc2;
+                return sc1 + '<span class="tt">' + p1 + endSpan + sc2;
             } else {
                 return match;
             }
@@ -307,16 +309,16 @@ var doPrev = function (txt, vtype, styler, msg) {
         if (vtype === "T") {
             repstr2 = "$&" + repstr2;
         }
-        txt = txt.replace(sc_re, trans_sc); // if sc is all upper-case transform to lower
+        txt = txt.replace(sc_re, transformSC); // if sc is all upper-case transform to lower
         txt = txt.replace(/&lt;(i|b|g|f|sc)&gt;/g, spanStyle)
             .replace(/&lt;\/(i|b|g|f|sc)&gt;/g, repstr2);
 
 // out of line tags
         etcstr = makeColourStyle('etc');
         if (vtype === "T") {
-            etcstr += '>$&<\/span>';
+            etcstr += '>$&</span>';
         } else {
-            etcstr += '>$1<\/span>';
+            etcstr += '>$1</span>';
         }
         if ((vtype !== "RW") && styler.color) {    // not re-wrap and colouring
             txt = txt.replace(/(\/\*|\*\/|\/#|#\/|&lt;tb&gt;)/g, '<span' + etcstr);
@@ -328,74 +330,74 @@ var doPrev = function (txt, vtype, styler, msg) {
     }
 
     function reWrap() {
-        var nBL = 0;    // blank lines
-        var ix = 0;     // index
+        var blankLines = 0;
+        var index = 0;     // index
         var subHeading = false;
-        var txtLine = [];
+        var txtLines = [];
         var lines;
         var inNoWrap = false;
         var newPage = true;
 
-        txtLine = txt.split('\n');
+        txtLines = txt.split('\n');
         txt = "";
-        lines = txtLine.length;
+        lines = txtLines.length;
 
-        function procLine() {
-            var str1 = txtLine[ix];
-            if (/^\[\*\*[^\]]*\]$/.test(str1)) {    // whole line is comment, do nothing
+        function processLine() {
+            var textLine = txtLines[index];
+            if (/^\[\*\*[^\]]*\]$/.test(textLine)) {    // whole line is comment, do nothing
                 return;
             }
-            str1 = str1.replace(/\[\*\*[^\]]*\]/g, ''); // remove embedded comments
-            if (str1 === "") {
+            textLine = textLine.replace(/\[\*\*[^\]]*\]/g, ''); // remove embedded comments
+            if (textLine === "") {
                 if (inNoWrap) {
                     txt += "\n";
                     return;
                 }
-                if ((nBL === 0) && (!newPage)) {
+                if ((blankLines === 0) && (!newPage)) {
                     txt += "</div>";
                 }
                 newPage = false;
-                nBL += 1;
+                blankLines += 1;
                 return;
             }
-            if (str1 === "&lt;tb&gt;") {    // thought break
+            if (textLine === "&lt;tb&gt;") {    // thought break
                 txt += '<div class="tb">';  // end div put in by next bl
-                nBL = 0;    // so the following one makes it 1, giving a paragraph
+                blankLines = 0;    // so the following one makes it 1, giving a paragraph
                 newPage = false; // so end div gets put in
                 return;
             }
-            if (str1 === "/#") {
+            if (textLine === "/#") {
                 txt += '<div class="bq">\n';
                 return;
             }
-            if (str1 === "#/") {
+            if (textLine === "#/") {
                 txt += "</div>"; // to end the bq
                 return;
             }
-            if (str1 === "/*") {
+            if (textLine === "/*") {
                 txt += '<div class="nw">';
-                nBL = 0;    // so no para tag
+                blankLines = 0;    // so no para tag
                 newPage = false;
                 subHeading = false;
                 inNoWrap = true;
                 return;
             }
-            if (str1 === "*/") {
+            if (textLine === "*/") {
                 inNoWrap = false;   // end nw div will be put in as end para
-                nBL = 0;    // start over with count
+                blankLines = 0;    // start over with count
                 return;
             }
 // ordinary text
-            switch (nBL) {
+            switch (blankLines) {
             case 4: // heading
-                txt += '<div class="head2">' + str1 + '\n';
+                txt += '<div class="head2">' + textLine + '\n';
                 subHeading = true;    // next thing
                 break;
             case 2:
                 if (!subHeading) { // section heading
-                    txt += '<div class="head4">' + str1 + '\n';
+                    txt += '<div class="head4">' + textLine + '\n';
                 } else {    // para from heading or subheading
-                    txt += '<div class="para">' + str1 + '\n';
+                    txt += '<div class="para">' + textLine + '\n';
                 }
                 subHeading = false;
                 break;
@@ -405,32 +407,32 @@ var doPrev = function (txt, vtype, styler, msg) {
                 } else {
                     txt += '<div class="para">';
                 }
-                txt += (str1 + "\n");
+                txt += (textLine + "\n");
                 break;
             case 0:     // in middle of para or
                 if (newPage && !inNoWrap) {  // at page start
                     txt += '<div class="mid_para">';  // no indent
                 }
                 newPage = false;
-                txt += (str1 + "\n");
+                txt += (textLine + "\n");
                 break;
             default:
                 break;
             }
-            nBL = 0;
+            blankLines = 0;
         }
 
-        while (ix < lines) {
-            procLine();
-            ix += 1;
+        while (index < lines) {
+            processLine();
+            index += 1;
         }
-        if (0 === nBL) {   // after end
+        if (0 === blankLines) {   // after end
             txt += "</div>";
         }
     }
 
 // blank line checks
-    function checkBL() {
+    function checkBlankNumber() {
         var result;
         var end;
         var re = /^\n{3}.|.\n{4}.|^\n{5,}.|.\n{6,}./g;
@@ -478,31 +480,31 @@ var doPrev = function (txt, vtype, styler, msg) {
         }
     }
 
-// find next unmatched ]
-    function findClose(ix) {
+// find index of next unmatched ] return 0 if none found
+    function findClose(index) {
         var result;
-        var n = 0;
-        var re = /\[|\]/g;
-        re.lastIndex = ix;
+        var nestLevel = 0;
+        var re = /\[|\]/g;  // [ or ]
+        re.lastIndex = index;
         while (true) {
             result = re.exec(txt);
             if (null === result) {
                 return 0;
             }
             if ("[" === result[0]) {
-                n += 1;
+                nestLevel += 1;
             } else { // must be ]
-                if (0 === n) {
+                if (0 === nestLevel) {
                     return result.index;
                 }
-                n -= 1;
+                nestLevel -= 1;
             }
         }
     }
 
-// check newlines before and after
-    function nlChk() {
-        var result, start, len, end, s1;
+// check blank lines before and after footnote etc.
+    function checkBlankLines() {
+        var result, start, len, end, end1;
         var re = /\*?\[(Footnote|Sidenote|Illustration)/g;
         while (true) {
             result = re.exec(txt);
@@ -514,22 +516,22 @@ var doPrev = function (txt, vtype, styler, msg) {
             end = start + len;
 
             if ((/./.test(txt.charAt(start - 1))) || (/./.test(txt.charAt(start - 2)))) {
-                reportIssue(start, len, msg.BLine1, 0);
+                reportIssue(start, len, msg.blankBefore, 0);
             }
 
-            s1 = findClose(end);
-            if (0 === s1) {
+            end1 = findClose(end);
+            if (0 === end1) { // no ] found
                 reportIssue(start, len, msg.noCloseBrack, 0);
             } else {
 
-                end = s1 + 1;
+                end = end1 + 1;
                 len = 1;
                 if (txt.charAt(end) === "*") { // allow * after
                     end += 1;
                     len += 1;
                 }
                 if ((/./.test(txt.charAt(end))) || (/./.test(txt.charAt(end + 1)))) {
-                    reportIssue(s1, len, msg.BLine2, 0);
+                    reportIssue(end1, len, msg.blankAfter, 0);
                 }
             }
         }
@@ -539,10 +541,10 @@ var doPrev = function (txt, vtype, styler, msg) {
             len = result[0].length;
             chkAlone(start, len);
             if (/./.test(txt.charAt(start - 2))) {
-                reportIssue(start, len, msg.BLine1, 1);
+                reportIssue(start, len, msg.blankBefore, 1);
             }
             if (/./.test(txt.charAt(start + len + 1))) {
-                reportIssue(start, len, msg.BLine2, 1);
+                reportIssue(start, len, msg.blankAfter, 1);
             }
         }
     }
@@ -560,10 +562,10 @@ var doPrev = function (txt, vtype, styler, msg) {
         }
         parseOol();
         checkFootnoteId();
-        checkBL();
+        checkBlankNumber();
         unRecog();
         checkTab();
-        nlChk();
+        checkBlankLines();
         return (issCount[1] === 0);
     }
 

@@ -13,16 +13,16 @@ function echo_proof_frame_enh( $ppage )
     global $code_url, $userP;
 
     $header_args = array(
-        "css_files" => array("$code_url/styles/preview.css?a=16061101"),
+        "css_files" => array("$code_url/styles/preview.css?a=16061301"),
         "js_files" => array(
-            "preview.js?16060801",
-            "prev_control.js?16061003",
+            "preview.js?16061401",
+            "previewControl.js?16061401",
             "preview_strings.php",
 
         ),
-        "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1); PrevControl = initPrev();}',
+        "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1); previewControl = initPrev();}',
         "css_data" => ibe_get_styles() . get_proof_frame_styles(),
-        "body_attributes" => 'onload="ldAll()"  onresize="PrevControl.adjustHeight()"',
+        "body_attributes" => 'onload="ldAll()"  onresize="previewControl.adjustHeight()"',
     );
 
     slim_header(_("Proofreading Page"), $header_args);
