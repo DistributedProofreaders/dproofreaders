@@ -212,10 +212,10 @@ var makePreview = function (txt, vtype, styler, msg) {
             tagString = result[2];
             if (result[1] === '/') {    // end tag
                 if (/[,;:]/.test(txt.charAt(start - 1)) && (txt.length !== end)) { // , ; or : before end tag except at eot
-                    reportIssue(start - 1, 1, msg.puncBEnd, 0);
+                    reportIssue(start - 1, 1, msg.puncBEnd, 1);
                 }
                 if (txt.charAt(start - 1) === " ") {
-                    reportIssue(start - 1, 1, msg.spaceBeforeEnd, 0);
+                    reportIssue(start - 1, 1, msg.spaceBeforeEnd, 1);
                 }
                 if (txt.charAt(start - 1) === "\n") {
                     reportIssue(start, tagLen, msg.nlBeforeEnd, 1);
@@ -228,7 +228,7 @@ var makePreview = function (txt, vtype, styler, msg) {
                 } else {
                     stackTop = tagStack.pop();
                     if (stackTop.tag !== tagString) {
-                        reportIssue(start, tagLen, msg.misMatchTag, 1);   // mark last first
+                        reportIssue(start, tagLen, msg.misMatchTag, 1);
                         reportIssue(stackTop.start, stackTop.tagLen, msg.misMatchTag, 1);
                     }
                 }
@@ -237,7 +237,7 @@ var makePreview = function (txt, vtype, styler, msg) {
                     reportIssue(start, tagLen, msg.nestedTag, 1);
                 }
                 if (/[,.;:!\? ]/.test(txt.charAt(end))) {
-                    reportIssue(end, 1, msg.spaceAfterStart, 0);
+                    reportIssue(end, 1, msg.spaceAfterStart, 1);
                 }
                 if (txt.charAt(end) === "\n") {
                     reportIssue(start, tagLen, msg.nlAfterStart, 1);
@@ -279,7 +279,7 @@ var makePreview = function (txt, vtype, styler, msg) {
         var re = /\t/g;
         var result;
         while (result = re.exec(txt)) {
-            reportIssue(result.index, 1, msg.tabChar, 0);
+            reportIssue(result.index, 1, msg.tabChar, 1);
         }
     }
 
@@ -516,7 +516,7 @@ var makePreview = function (txt, vtype, styler, msg) {
             end = start + len;
 
             if ((/./.test(txt.charAt(start - 1))) || (/./.test(txt.charAt(start - 2)))) {
-                reportIssue(start, len, msg.blankBefore, 0);
+                reportIssue(start, len, msg.blankBefore, 1);
             }
 
             end1 = findClose(end);
@@ -531,7 +531,7 @@ var makePreview = function (txt, vtype, styler, msg) {
                     len += 1;
                 }
                 if ((/./.test(txt.charAt(end))) || (/./.test(txt.charAt(end + 1)))) {
-                    reportIssue(end1, len, msg.blankAfter, 0);
+                    reportIssue(end1, len, msg.blankAfter, 1);
                 }
             }
         }
