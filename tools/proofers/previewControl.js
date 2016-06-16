@@ -76,6 +76,7 @@ function initPrev() {
         if (!optionList) {
             return;
         }
+        optionList.sort();  // this will change the original array
         for (i = 0; i < optionList.length; i += 1) {
             opt = document.createElement("option");
             opt.text = opt.value = optionList[i];

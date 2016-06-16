@@ -34,9 +34,6 @@ var makePreview = function (txt, vtype, styler, msg) {
         return '<span class="err" onmouseenter="previewControl.adjustMargin(this)"' + makeColourStyle(st1) + '><span>';
     }
 
-//    var errstr = makeErrStr("err");
-//    var hltstr = makeErrStr("hlt");
-
     function addMarkUp() {
         var start0 = 100000;    // start of previous issue to check if 2 issues in same place, large so 1st works
         var end;
