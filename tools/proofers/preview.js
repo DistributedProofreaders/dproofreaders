@@ -390,10 +390,12 @@ var makePreview = function (txt, vtype, styler, msg) {
                 txt += '<div class="head2">' + textLine + '\n';
                 subHeading = true;    // next thing
                 break;
-            case 2:
-                if (!subHeading) { // section heading
+// 2 blank lines can introduce a paragraph after heading or subheading, or a section heading or a section without a heading
+// if the following line is blank assume its a section heading, else a paragraph
+                case 2:
+                if (txtLines[index + 1] == "") {
                     txt += '<div class="head4">' + textLine + '\n';
-                } else {    // para from heading or subheading
+                } else {
                     txt += '<div class="para">' + textLine + '\n';
                 }
                 subHeading = false;
