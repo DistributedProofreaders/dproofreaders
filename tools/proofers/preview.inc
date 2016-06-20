@@ -15,11 +15,14 @@ function shared_strings()
     
 function output_preview_strings()
 {
+    global $charset;
+
     $plain = html_safe(_("Plain text"));
     $superscript = html_safe(_("superscript"));
     $ss = shared_strings();
 
     $demo_string = "$plain <i>$ss[italic]</i> <b>$ss[bold]</b> <g>$ss[gesperrt]</g> <sc>$ss[small_caps]</sc> <f>$ss[font_change]</f> ^{" . "$superscript}";
+    $ie_warn = javascript_safe("This function is not available for Internet Explorer versions less than 9", $charset);
     
     $msg = array(
         "noStartTag" => html_safe(_("No start tag for this end tag")),
@@ -51,7 +54,7 @@ function output_preview_strings()
     );
 
     $preview_msg = json_encode($msg);
-    echo "var previewMessages = JSON.parse('$preview_msg'); var previewDemo = '$demo_string';";
+    echo "var previewMessages = JSON.parse('$preview_msg'); var previewDemo = '$demo_string'; var ieWarn = '$ie_warn'";
 }
 
 function output_preview_div()

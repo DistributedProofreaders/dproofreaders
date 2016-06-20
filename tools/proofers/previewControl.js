@@ -1,5 +1,5 @@
 /*global
-    previewMessages, previewDemo, top, style1, makePreview, window
+    previewMessages, previewDemo, top, style1, makePreview, window, ieWarn
 */
 var previewControl;
 function initPrev() {
@@ -185,6 +185,11 @@ function initPrev() {
         },
 
         show: function () {
+            var msie = document.documentMode;
+            if (msie < 9) {
+                alert(ieWarn);
+                return;
+            }
             old_rows = proofFrameSet.getAttribute("rows");
             proofFrameSet.setAttribute("rows", "*,1");
             proofDiv.style.display = "none";

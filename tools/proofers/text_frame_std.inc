@@ -12,7 +12,7 @@ function echo_text_frame_std( $ppage )
         "css_files" => array("$code_url/styles/preview.css?a=16061301"),
         "js_files" => array(
             "preview.js?16061901",
-            "previewControl.js?16061601",
+            "previewControl.js?16062001",
             "preview_strings.php",
         ),
         "js_data" => 'function ldAll() {top.initializeStuff(0); previewControl = initPrev();}',

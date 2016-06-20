@@ -16,7 +16,7 @@ function echo_proof_frame_enh( $ppage )
         "css_files" => array("$code_url/styles/preview.css?a=16061301"),
         "js_files" => array(
             "preview.js?16061901",
-            "previewControl.js?16061601",
+            "previewControl.js?16062001",
             "preview_strings.php",
 
         ),
