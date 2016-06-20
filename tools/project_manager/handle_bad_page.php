@@ -130,7 +130,7 @@ if (!$resolution) {
     }
 
     //Redirect the user back to the project detail page.
-    header("Location: $code_url/project.php?id=$projectid&detail_level=4");
+    header("Location: $code_url/tools/project_manager/page_detail.php?project=$projectid");
 }
 
 #----------------------------------------------------------------------------
@@ -179,7 +179,7 @@ function show_resolution_form($projectid, $image, $state, $prev_round_num, $is_a
     }
     else
     {
-        echo "<li><a href='$code_url/project.php?id=$projectid&detail_level=4'>" . ("Return to project page") . "</a></li>";
+        echo "<li><a href='$code_url/tools/project_manager/page_detail.php?project=$projectid'>" . ("Return to page detail") . "</a></li>";
     }
     echo "</ul>";
 }
