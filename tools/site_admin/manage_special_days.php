@@ -105,8 +105,8 @@ if ($action == 'show_specials')
         FROM special_days
         ORDER BY open_month, open_day");
 
-    echo "<br />\n\n";
-    echo "<table class='listing' summary='$table_summary'>\n";
+    echo "<br>\n\n";
+    echo "<table class='listing' summary='" . attr_safe($table_summary) . "'>\n";
     $count=0;
     $current_month=-1;
     while ( list($source_name) = mysql_fetch_row($result) )
@@ -125,7 +125,7 @@ elseif ($action == 'edit_source')
     $headertext = sprintf(_("Editing Special Day: %s"),$source->display_name);
     output_header($headertext, NO_STATSBAR, $theme_args);
     show_sd_toolbar();
-    echo "<h2 class='source'>" . $headertext . "</h2>\n";
+    echo "<h1 class='source'>" . $headertext . "</h1>\n";
     $source->show_edit_form();
 }
 
@@ -207,9 +207,9 @@ class SpecialDay
         echo "\n\n<tr class='$row_class'>";
         echo "<td rowspan='$listing_rows' valign='middle' align='center'>";
         echo $sid . "\n";
-        echo "<form method='post' action='$page_url#" . $usid . "'>\n";
+        echo "<form method='post' action='$page_url#$usid '>\n";
         echo "  <input type='hidden' name='action' value='update_oneshot'>\n";
-        echo "  <input type='hidden' name='source' value='" . $sid . "'>\n";
+        echo "  <input type='hidden' name='source' value='$sid'>\n";
                 $this->show_buttons();
         echo "</form>\n";
         echo "</td>\n";
@@ -465,4 +465,3 @@ function output_table_headers()
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

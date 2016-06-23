@@ -18,7 +18,7 @@ table.listing h2 { margin: 1em auto auto auto; text-align: left; }";
 
 output_header($title, NO_STATSBAR, $theme_args);
 
-echo "<br><h2>$title</h2>\n";
+echo "<br><h1>$title</h1>\n";
 echo _("The Name column shows what the colour looks like with a link on top, the Comment with ordinary text.")."<br><br>";
 
 if (user_is_PM()) {
@@ -27,7 +27,7 @@ if (user_is_PM()) {
 
 $result = mysql_query("SELECT * FROM special_days ORDER BY open_month, open_day");
 
-echo "<br />\n";
+echo "<br>\n";
 echo "<table class='listing'>";
 
 $current_month = -1;
@@ -56,18 +56,21 @@ while ( $row = mysql_fetch_assoc($result) )
     echo "<tr>";
     echo "<td style='background-color: #" . $row['color'] . ";'>";
     echo "<a href=\"projectmgr.php?show=search&special_day[]=";
-    echo html_safe($row['spec_code']) ."&n_results_per_page=100\" title=\"";
-    echo html_safe($row['display_name']) ."\">\n";
-    echo html_safe($row['display_name']) . "</a></td>\n";
+    echo attr_safe($row['spec_code']) ."&n_results_per_page=100\" title=\"";
+    echo attr_safe($row['display_name']) ."\">\n";
+    echo html_safe($row['display_name']) . "</a>";
+    echo "</td>\n";
     echo "<td style='background-color: #" . $row['color'] . ";'>";
     echo "<div title=\"" . html_safe($row['comment']) ."\">";
     echo html_safe($row['comment']) . "</div></td>\n";
     echo "<td class='center'>";
     if ($current_month != 0 )
-        echo html_safe($row['open_day']) . "</td>\n";
+        echo html_safe($row['open_day']);
     else
-        echo "N/A"; // Translators: N/A = "Not applicable"
-    echo "<td><a href='" . $row['info_url'] . "'>";
+        echo _("N/A"); // Translators: N/A = "Not applicable"
+    echo "</td>\n";
+    echo "<td>";
+    echo "<a href='" . $row['info_url'] . "'>";
     echo html_safe($row['info_url']) . "</a></td>\n";
     echo "</tr>\n";
 }
@@ -87,4 +90,3 @@ function output_column_headers()
 }
 
 // vim: sw=4 ts=4 expandtab
-?>
