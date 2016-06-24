@@ -96,9 +96,9 @@ function output_preview_div()
     </span>
     <span class='ilb'>$font <select id="id_font_sel" onchange="previewControl.selectFont(this.value)"></select></span>
     <span class='ilb'>
-      <label><input type="radio" name="viewSel" value="T" onclick="previewControl.write('T')" id="id_tags">$tags</label>
-      <label><input type="radio" name="viewSel" value="NT" onclick="previewControl.write('NT')" checked>$no_tags</label>
-      <label><input type="radio" name="viewSel" value="RW" onclick="previewControl.write('RW')">$re_wrap</label>
+      <label><input type="radio" name="viewSel" onclick="previewControl.write('show_tags')" id="id_tags">$tags</label>
+      <label><input type="radio" name="viewSel" onclick="previewControl.write('no_tags')" checked>$no_tags</label>
+      <label><input type="radio" name="viewSel" onclick="previewControl.write('re_wrap')">$re_wrap</label>
     </span>
     <span class='ilb'>$issues <input type="text" id="id_iss" size="1" readonly></span>
     <span class='ilb'>$poss_iss <input type="text" id="id_poss_iss" size="1" readonly></span>
@@ -115,7 +115,7 @@ function output_preview_div()
   </div>
   <div class="clearfix box1">
     <div id="id_markmenu">
-        <input type="radio" name="mSel" id="id_tradio" onclick="previewControl.setColors('t')"> $default<br>
+        <input type="radio" name="mSel" id="id_default_radio" onclick="previewControl.setColors('t')"> $default<br>
         <input type="radio" name="mSel" onclick="previewControl.setColors('i')"> $ss[italic]<br>
         <input type="radio" name="mSel" onclick="previewControl.setColors('b')"> $ss[bold]<br>
         <input type="radio" name="mSel" onclick="previewControl.setColors('g')"> $ss[gesperrt]<br>
