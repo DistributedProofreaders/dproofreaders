@@ -1,9 +1,7 @@
 <?php
-// not including base.inc as this has no external dependencies
-$relPath="../../pinc";
-include_once($relPath."/misc.inc");
-
-undo_all_magic_quotes();
+$relPath="../../pinc/";
+include_once($relPath."base.inc");
+include_once($relPath."misc.inc");
 
 $charset="UTF-8";
 header("Content-Type: text/html; charset=$charset");
