@@ -116,7 +116,7 @@ if (!isset($_GET['name']))
         }
         echo "</td>\n";
 
-        echo "<th class='tl'>" . _("Full Name:") . "</th>\n";
+        echo "<th class='tl'>" . _("Full Name") . ":</th>\n";
 
         $source_fullname = $row['full_name'];
         // Since we apparently allow an empty full_name, check for that
@@ -130,10 +130,7 @@ if (!isset($_GET['name']))
                 . "'>*</span>" . $row['display_name'];
         }
 
-        // The second test in the following line is 'magic'
-        // Due to a bug in manage_image_sources.php, a value of 'http://'
-        // used to be stored in the url column if no URL was entered.
-        if ( (!is_null($row['url'])) && ($row['url'] != 'http://') )
+        if (!is_null($row['url']))
             $link_name = "<br><a class='sourcelink' href='{$row['url']}'>{$row['url']}</a>";
         else
             $link_name = "";
@@ -151,8 +148,8 @@ if (!isset($_GET['name']))
         if ($projects_inprogress > 0)
         {
             $p_link = "<a href='show_image_sources.php?name="
-            . $row['code_name']
-            . "&which=INPROG'>$projects_inprogress</a>";
+                . $row['code_name']
+                . "&which=INPROG'>$projects_inprogress</a>";
         }
         echo $p_link;
         echo " / "; // This is a divider slash between counts
@@ -160,8 +157,8 @@ if (!isset($_GET['name']))
         if ($row['projects_completed'] > 0)
         {
             $c_link = "<a href='show_image_sources.php?name="
-            . $row['code_name']
-            . "&which=DONE'>{$row['projects_completed']}</a>";
+                . $row['code_name']
+                . "&which=DONE'>{$row['projects_completed']}</a>";
         }
         echo $c_link;
         echo "<br><br>";
@@ -169,8 +166,8 @@ if (!isset($_GET['name']))
         if ($row['projects_total'] > 0)
         {
             $t_link = "<a href='show_image_sources.php?name="
-            . $row['code_name']
-            . "&which=ALL'>{$row['projects_total']}</a>";
+                . $row['code_name']
+                . "&which=ALL'>{$row['projects_total']}</a>";
         }
         // TRANSLATORS: %s is a number
         echo sprintf(_("%s in total"),$t_link);
@@ -178,7 +175,7 @@ if (!isset($_GET['name']))
         echo "</tr>\n";
 
         echo "<tr>\n";
-        echo "<th class='tl'>" . _("Image Policies:") . "</th>\n";
+        echo "<th class='tl'>" . _("Image Policies") . ":</th>\n";
         echo "<td>";
         switch ($row['ok_show_images'])
         {
@@ -223,7 +220,7 @@ if (!isset($_GET['name']))
         echo "</tr>\n";
 
         echo "<tr>\n";
-        echo "<th class='tl'>" . _("Description:") . "</th>\n";
+        echo "<th class='tl'>" . _("Description") . ":</th>\n";
         echo "<td>{$row['public_comment']}</td>";
         echo "</tr>\n";
 
@@ -238,7 +235,7 @@ if (!isset($_GET['name']))
         // For now, we'll simply suppress the internal_comment.
 
         echo "<tr>\n";
-        echo "<th class='tl'>" . _("Notes:") . "</th>\n";
+        echo "<th class='tl'>" . _("Notes") . ":</th>\n";
         echo "<td>";
         if ($logged_in)
             echo $row['internal_comment'];
@@ -333,7 +330,7 @@ if (!isset($_GET['name']))
         echo $links_list;
         echo "</p>";
 
-        echo  "<p><a href='show_image_sources.php'>"
+        echo "<p><a href='show_image_sources.php'>"
             . _("Back to the full listing of all Image Sources")
             . "</a></p>";
 
@@ -341,13 +338,13 @@ if (!isset($_GET['name']))
         echo "<tr>";
         echo "<td colspan='5' class='headerbg'>";
         echo "<h2>{$imso['full_name']}</h2>";
-        echo "<p><b>" . _("URL:") . "</b> $info_url</p>\n\n";
+        echo "<p><b>" . _("URL") . ":</b> $info_url</p>\n\n";
 
-        echo "<p><b>" . _("Description:") . "</b> $description</p>\n";
+        echo "<p><b>" . _("Description") . ":</b> $description</p>\n";
 
         if ($logged_in)
         {
-            echo "<p><b>" . _("Internal Notes:") . "</b> $internal_notes</p>\n";
+            echo "<p><b>" . _("Internal Notes") . ":</b> $internal_notes</p>\n";
         }
         echo "</td></tr>\n";
 
