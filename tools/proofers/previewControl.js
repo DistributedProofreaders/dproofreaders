@@ -1,15 +1,25 @@
 /*global previewDemo, top, previewStyles, makePreview, window, alert, ieWarn */
 /*
-This file controls the user interface functions. Initially nothing is displayed because "prevdiv" has diplay:none; which means it is not displayed and the page is laid out as if it was not there.
-When the preview button is pressed the function "show" changes its display style to "block" and changes the display style of the normal view (proofDiv) to "none". This is reversed when "Quit" is pressed.
+This file controls the user interface functions. Initially nothing is displayed
+because "prevdiv" has diplay:none; which means it is not displayed and the page
+is laid out as if it was not there.
+When the preview button is pressed the function "show" changes its display style
+to "block" and changes the display style of the normal view (proofDiv) to "none"
+This is reversed when "Quit" is pressed.
 The configuration screen is handled in the same way.
-previewDemo, ieWarn are loaded by the function output_preview_strings() defined in preview.inc, called in preview_strings.php
+The strings previewDemo and ieWarn are loaded by the function
+output_preview_strings() defined in preview.inc, called in preview_strings.php
 */
 var previewControl;
-// this is called (in proof_frame_enh.inc or text_frame_std.inc) when the preview button is pressed, the returned functions are then members of previewControl
+
+// this is called (in proof_frame_enh.inc or text_frame_std.inc) when the
+// preview button is pressed, the returned functions are then members
+// of previewControl
 function initPrev() {
     "use strict";
-    var outerPrev = document.getElementById("id_tp_outer"); // this is a wrapper round text_preview which enables the padding on the right to appear correctly
+    // this is a wrapper round text_preview which enables the padding
+    // on the right to appear correctly
+    var outerPrev = document.getElementById("id_tp_outer");
     var prevWin = document.getElementById("text_preview");
     var txtarea = document.getElementById("text_data");
     var prevDiv = document.getElementById("prevdiv");
@@ -37,9 +47,12 @@ function initPrev() {
 
     var tempStyle = {}; // used during configure
 
-// these are the default values. If the user changes anything the new styles are saved in local storage and reloaded next time.
+    // these are the default values. If the user changes anything the new
+    // styles are saved in local storage and reloaded next time.
     var previewStyles = {
-// the foreground and background colours for plain text, italic, bold, gesperrt, smallcaps, font change, other tags, highlighting issues and possible issues
+    // the foreground and background colours for plain text, italic, bold,
+    // gesperrt, smallcaps, font change, other tags, highlighting issues
+    // and possible issues
         t: {bg: "#fffcf4", fg: "#000000"},
         i: {bg: "", fg: "#0000ff"},
         b: {bg: "", fg: "#c55a1b"},
@@ -53,31 +66,36 @@ function initPrev() {
         fontList: ["serif", "sans-serif", "monospace", "DPCustomMono2"],
         defFont: "serif"
     };
-    var old_rows; // stores the size of the bottom frame so it can be restored on exit
+    // stores the size of the bottom frame so it can be restored on exit
+    var old_rows;
     var font_size;
     var preview;
 
     function writePreviewText() {
-        preview = makePreview(txtarea.value, viewMode, previewStyles); // in preview.js
+        // makePreview is defined in preview.js
+        preview = makePreview(txtarea.value, viewMode, previewStyles);
         prevWin.style.whiteSpace = (preview.ok && (viewMode === "re_wrap")) ? "normal" : "pre";
         prevWin.innerHTML = preview.txtout;
         issBox.value = preview.issues;
         possIssBox.value = preview.possIss;
-        if (!preview.ok) {  // if there are any issues the tags will be shown so make the radio buttons agree
+        // if there are any issues the tags will be shown
+        // so make the radio buttons agree
+        if (!preview.ok) {
             tagon.checked = true;
             viewMode = "show_tags";
         }
     }
 
-    function setColors(win) { // sets background and plain text colours
+    function setViewColors(win) { // sets background and plain text colours
         win.style.backgroundColor = previewStyles.t.bg;
         win.style.color = previewStyles.t.fg;
     }
 
-    function initSel(selector, optionList, def) { // sets up the font selector
+    // set up a font selector
+    function initSelector(selector, optionList, def) {
         var i;
         var opt;
-// remove all incase revisiting, last first
+        // remove all incase revisiting, last first
         for (i = selector.length - 1; i >= 0; i -= 1) {
             selector.remove(i);
         }
@@ -95,8 +113,10 @@ function initPrev() {
         }
     }
 
-// this makes a copy of the style data
-// js assignment of objects just makes a reference to the old object so we need to copy each primitive value and construct new objects or arrays if necessary
+    // this makes a copy of the style data
+    // js assignment of objects just makes a reference to the old object
+    // so we need to copy each primitive value and construct new objects
+    // or arrays if necessary
     function deepCopy(dest, source) {
         var i;
         if (source && typeof source === 'object') {
@@ -112,7 +132,8 @@ function initPrev() {
         return dest;
     }
 
-// if during development a new element is added to styles, this will retain its default value but copy the rest from stored data
+    // if during development a new element is added to styles, this will
+    // retain its default value but copy the rest from stored data
     function initStyle() {
         var style0;
         if (localStorage.getItem('preview_data')) {
@@ -122,16 +143,16 @@ function initPrev() {
     }
 
     function initView() {
-        initSel(fontSelector, previewStyles.fontList, previewStyles.defFont);
+        initSelector(fontSelector, previewStyles.fontList, previewStyles.defFont);
         prevWin.style.fontFamily = previewStyles.defFont;
         enableColorCheckbox.checked = previewStyles.color;
-        setColors(outerPrev);
+        setViewColors(outerPrev);
     }
 
     initStyle();
     initView();
 
-// functions for setting up the configuration screen
+    // functions for setting up the configuration screen
     function testDraw() {
         preview = makePreview(previewDemo, 'T', tempStyle);
         testDiv.innerHTML = preview.txtout;
@@ -157,11 +178,12 @@ function initPrev() {
         foreColor.value = useDefaultForeground ? tempStyle.t.fg : foregroundColor;
         backgroundCheckbox.checked = useDefaultBackground;
         backColor.disabled = useDefaultBackground;
-        backColor.value = useDefaultBackground ? tempStyle.t.bg : backgroundColor; // make it look correct
+        backColor.value = useDefaultBackground ? tempStyle.t.bg : backgroundColor;
     }
 
-// The control buttons etc. in "controlDiv" will "wrap" according to the window width so the div height will vary.
-// this function adjusts the bottom of the preview text area to fit.
+    // The control buttons etc. in "controlDiv" will "wrap" according to the
+    // window width so the div height will vary.
+    // this function adjusts the bottom of the preview text area to fit.
     function adjHeight() {
         outerPrev.style.bottom = window.getComputedStyle(controlDiv, null).height;
     }
@@ -177,7 +199,9 @@ function initPrev() {
     }
 
     return {
-// this is used inside the "hover" markup to move the hover box (by adjusting its margin) so it does not disappear off the edge of the screen
+        // this is used inside the "hover" markup to move the hover box
+        // (by adjusting its margin) so it does not disappear
+        // off the edge of the screen
         adjustMargin: function (el) {
             var hov = el.firstElementChild;
             var hovBox = hov.getBoundingClientRect();
@@ -205,7 +229,8 @@ function initPrev() {
                 return;
             }
             old_rows = proofFrameSet.getAttribute("rows");
-            proofFrameSet.setAttribute("rows", "*,1");  // make the bottom frame very small
+            // make the bottom frame very small since it is not useful
+            proofFrameSet.setAttribute("rows", "*,1");
             proofDiv.style.display = "none";
             prevDiv.style.display = "block";
             font_size = parseFloat(window.getComputedStyle(txtarea, null).fontSize);
@@ -215,12 +240,14 @@ function initPrev() {
         },
 
         hide: function () {
-            proofFrameSet.setAttribute("rows", old_rows);   // restore the bottom frame
+            // restore the bottom frame
+            proofFrameSet.setAttribute("rows", old_rows);
             proofDiv.style.display = "block";
             prevDiv.style.display = "none";
         },
 
-        write: function (f) { // called when "Tags", "no Tags" or rewrap radio buttons are depressed
+        // called when "Tags", "no Tags" or rewrap radio buttons are depressed
+        write: function (f) {
             viewMode = f;
             writePreviewText();
         },
@@ -228,10 +255,11 @@ function initPrev() {
         configure: function () {    // show the configuration screen
             prevDiv.style.display = "none";
             configPan.style.display = "block";
-            setColors(testDiv);     // initialising so same as previewStyles
-// make a copy of the styles so that if we cancel we can go back to how it was before.
+            setViewColors(testDiv);  // uses previewStyles
+            // make a copy of the styles so that if we cancel we can go back
+            // to how it was before.
             tempStyle = deepCopy(tempStyle, previewStyles);
-            initSel(removeFontSelector, tempStyle.fontList);
+            initSelector(removeFontSelector, tempStyle.fontList);
             testDiv.style.fontFamily = tempStyle.defFont;
             testDraw();
             selTag = "t";   // always start with t (plain text) selected
@@ -245,7 +273,7 @@ function initPrev() {
             writePreviewText();
         },
 
-        setColors: function (val) { // when i b ... radio checked
+        setTagColors: function (val) { // when i b ... radio checked
             selTag = val;
             initPicker();
         },
@@ -277,7 +305,8 @@ function initPrev() {
             }
         },
 
-        setBackgroundColor: function () {  // background colour or transparency changed
+        // called when background colour or transparency changed
+        setBackgroundColor: function () {
             var useDefaultBackground = backgroundCheckbox.checked;
             var colorValue = useDefaultBackground ? "" : backColor.value;
             if (useDefaultBackground) {
@@ -305,7 +334,7 @@ function initPrev() {
         addFont: function () {
             if (fontName.value !== "") {
                 tempStyle.fontList.push(fontName.value);
-                initSel(removeFontSelector, tempStyle.fontList);
+                initSelector(removeFontSelector, tempStyle.fontList);
                 testDiv.style.fontFamily = fontName.value;
                 testDraw();
             }

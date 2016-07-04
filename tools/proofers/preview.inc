@@ -22,7 +22,7 @@ function output_preview_strings()
     $ss = shared_strings();
 
     $demo_string = "$plain <i>$ss[italic]</i> <b>$ss[bold]</b> <g>$ss[gesperrt]</g> <sc>$ss[small_caps]</sc> <f>$ss[font_change]</f> ^{" . "$superscript}";
-    $ie_warn = javascript_safe("This function is not available for Internet Explorer versions less than 9", $charset);
+    $ie_warn = javascript_safe(_("This function is not available for Internet Explorer versions less than 9"), $charset);
     
     $msg = array(
         "noStartTag" => html_safe(_("No start tag for this end tag")),
@@ -115,15 +115,15 @@ function output_preview_div()
   </div>
   <div class="clearfix box1">
     <div id="id_markmenu">
-        <input type="radio" name="mSel" id="id_default_radio" onclick="previewControl.setColors('t')"> $default<br>
-        <input type="radio" name="mSel" onclick="previewControl.setColors('i')"> $ss[italic]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setColors('b')"> $ss[bold]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setColors('g')"> $ss[gesperrt]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setColors('sc')"> $ss[small_caps]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setColors('f')"> $ss[font_change]<br>
-        <input type="radio" name="mSel" onclick="previewControl.setColors('etc')"> $other_tags<br>
-        <input type="radio" name="mSel" onclick="previewControl.setColors('err')"> $issues<br>
-        <input type="radio" name="mSel" onclick="previewControl.setColors('hlt')"> $poss_iss<br>
+        <input type="radio" name="mSel" id="id_default_radio" onclick="previewControl.setTagColors('t')"> $default<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('i')"> $ss[italic]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('b')"> $ss[bold]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('g')"> $ss[gesperrt]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('sc')"> $ss[small_caps]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('f')"> $ss[font_change]<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('etc')"> $other_tags<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('err')"> $issues<br>
+        <input type="radio" name="mSel" onclick="previewControl.setTagColors('hlt')"> $poss_iss<br>
     </div>
     <div id="color_selector">
         <input type="color" id="id_forecol" onchange="previewControl.setForegroundColor()"> $text

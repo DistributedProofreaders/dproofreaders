@@ -1,14 +1,17 @@
 /*global previewMessages */
-/* This function checks the text for formatting issues and adds the markup for colouring and issue highlighting.
+/*
+This function checks the text for formatting issues and adds the markup
+for colouring and issue highlighting.
 It can be used alone with a simple html interface for testing.
-The external references are previewMessages which is loaded by the function output_preview_strings() defined in preview.inc, called in preview_strings.php
+The external references are previewMessages which is loaded by the function
+output_preview_strings() defined in preview.inc, called in preview_strings.php
 and previewControl.adjustMargin() defined in previewControl.js
 */
 var makePreview = function (txt, viewMode, styler) {
     "use strict";
     var endSpan = "</span>"; // a constant string
-    var issueCount = [0, 0]; // poss, iss
-    var issArray = []; // stores issues while checking for markup-insertion later
+    var issueCount = [0, 0]; // possible issues, issues
+    var issArray = []; // stores issues for markup-insertion later
 
     function reportIssue(start, len, msg, type) {
         issueCount[type] += 1;
@@ -19,7 +22,8 @@ var makePreview = function (txt, viewMode, styler) {
         var style = styler[s];
         var have_style = false;
         var str = "";
-        if (!styler.color && (s !== "err") && (s !== "hlt")) {   // style issues always
+        // style issues always even if coloring turned off
+        if (!styler.color && (s !== "err") && (s !== "hlt")) {
             return str;
         }
         if (style.fg !== "") {
@@ -41,10 +45,13 @@ var makePreview = function (txt, viewMode, styler) {
     }
 
     function addMarkUp() {
-        var start0 = 100000;    // start of previous issue to check if 2 issues in same place, large so 1st works
+        // start0 is start of previous issue to check if 2 issues overlap
+        // initially a large number so it works 1st time
+        var start0 = 100000;
         var end;
         var errorString;
-        var tArray = txt.split("");     // split up the string to an array of characters
+        // split up the string into an array of characters
+        var tArray = txt.split("");
 
         function htmlEncode(s, i) {
             if (s === "&") {
@@ -63,13 +70,15 @@ var makePreview = function (txt, viewMode, styler) {
                 errorString = makeErrStr("err");
             }
             end = iss.start + iss.len;
-            if ((iss.start !== start0) && (end <= start0)) {  // don't mark 2 in one place
+            // don't mark 2 issues in one place
+            if ((iss.start !== start0) && (end <= start0)) {
                 start0 = iss.start;
                 tArray.splice(end, 0, endSpan);
                 tArray.splice(start0, 0, errorString + iss.msg + endSpan);
             }
         }
-// since inserting the markups moves all later parts of the array up we must start from the last one
+        // since inserting the markups moves all later parts of the array up
+        // we must start from the last one
         issArray.sort(function (a, b) {
             return b.start - a.start;   // last first
         });
@@ -79,20 +88,22 @@ var makePreview = function (txt, viewMode, styler) {
         txt = tArray.join("");  // join it back into a string
     }
 
-// cases for tag on stack top:
-// none: /* or /# -> push, else error
-// /*: */ pop, #/ -> mismatch, /# -> BQ not allowed inside NW, /* -> NW inside NW
-// /#: /# or /* -> push, #/ -> pop, */ mismatch
-
-    function chkAlone(start, len) { // check that no other characters are on the same line
-        if (/./.test(txt.charAt(start + len)) || (/./.test(txt.charAt(start - 1)))) { // character before or after tag
+    // check that no other characters are on the same line
+    function chkAlone(start, len) {
+        if (/./.test(txt.charAt(start + len)) || (/./.test(txt.charAt(start - 1)))) {
             reportIssue(start, len, previewMessages.aloneTag, 1);
         }
     }
 
 // the parsers for inline and out-of-line tags work with a stack:
-// for correct nesting opening tags are pushed onto the stack and popped off when a corresponding closing tag is found
-// parse the out-of-line tags
+// for correct nesting opening tags are pushed onto the stack and popped off
+// when a corresponding closing tag is found
+
+    // parse the out-of-line tags
+    // cases for tag on stack top:
+    // none: /* or /# -> push, else error
+    // /*: */ pop, #/ -> mismatch, /# -> BQ not allowed inside NW, /* -> NW inside NW
+    // /#: /# or /* -> push, #/ -> pop, */ mismatch
     function parseOol() {
         var tagStack = [];  // holds start tag /* or /# and index
         var start;
@@ -104,7 +115,8 @@ var makePreview = function (txt, viewMode, styler) {
         while (true) {
             result = oolre.exec(txt);  // find next tag
             if (null === result) { // no tag found
-                while (tagStack.length !== 0) { // if there are any tags on the stack mark them as errors
+                // if there are any tags on the stack mark them as errors
+                while (tagStack.length !== 0) {
                     stackTop = tagStack.pop();
                     reportIssue(stackTop.start, 2, previewMessages.noEndTag, 1);
                 }
@@ -114,11 +126,13 @@ var makePreview = function (txt, viewMode, styler) {
             tagString = result[0];
 
             chkAlone(start, 2);
-// for an opening tag check previous line is blank (or another opening block quote tag or ])
+            // for an opening tag check previous line is blank
+            // or another opening block quote tag or ]
             if ((tagString.charAt(0) === "/") && (/[^#\n\]]/.test(txt.charAt(start - 2)))) {
                 reportIssue(start, 2, previewMessages.OolPrev, 1);
             }
-// for a closing tag check following line is blank or a closing block quote or ]
+            // for a closing tag check following line is blank
+            // or a closing block quote or ]
             if ((tagString.charAt(1) === "/") && (/[^#\n\]]/.test(txt.charAt(start + 3)))) {
                 reportIssue(start, 2, previewMessages.OolNext, 1);
             }
@@ -138,7 +152,7 @@ var makePreview = function (txt, viewMode, styler) {
                         break;
                     case "#/": // close BQ
                         tagStack.pop();
-                        reportIssue(start, 2, previewMessages.misMatchTag, 1);   // mark last first
+                        reportIssue(start, 2, previewMessages.misMatchTag, 1);
                         reportIssue(stackTop.start, 2, previewMessages.misMatchTag, 1);
                         break;
                     case "/*": // open NW
@@ -157,7 +171,7 @@ var makePreview = function (txt, viewMode, styler) {
                         break;
                     case "*/":  // close NW
                         tagStack.pop();
-                        reportIssue(start, 2, previewMessages.misMatchTag, 1);   // mark last first
+                        reportIssue(start, 2, previewMessages.misMatchTag, 1);
                         reportIssue(stackTop.start, 2, previewMessages.misMatchTag, 1);
                         break;
                     default:    // open either
@@ -169,9 +183,9 @@ var makePreview = function (txt, viewMode, styler) {
         }
     }
 
-// if start tag, check if any same already in stack, push onto stack
-// if end tag, check it matches stack top, pop else error
-// if none found, if stack empty finished else error
+    // if find a start tag, check if any same already in stack, push onto stack
+    // if end tag, check it matches stack top, pop else error
+    // if none found, if stack empty finished else error
     function parseInLine() {
         var tagString;
         var end = 0;
@@ -181,8 +195,8 @@ var makePreview = function (txt, viewMode, styler) {
         var result;
         var stackTop;
 
-// find index in stack of ntag, return -1 if none found
-// internet explorer does not support array.find so use this function
+        // find index in stack of ntag, return -1 if none found
+        // internet explorer does not support array.find so use this function
         function stackFind(ntag) {
             var tagData;
             var i = tagStack.length - 1;
@@ -196,7 +210,8 @@ var makePreview = function (txt, viewMode, styler) {
             return i;
         }
 
-        var re = /<(\/?)([ibfg]|sc)>|\n\n/g;  // match valid inline tags or blank line
+        // regex to match valid inline tags or a blank line
+        var re = /<(\/?)([ibfg]|sc)>|\n\n/g;
 
         while (true) {
             result = re.exec(txt);
@@ -219,7 +234,8 @@ var makePreview = function (txt, viewMode, styler) {
             end = start + tagLen;
             tagString = result[2];
             if (result[1] === '/') {    // end tag
-                if (/[,;:]/.test(txt.charAt(start - 1)) && (txt.length !== end)) { // , ; or : before end tag except at eot
+                // cjeck for , ; or : before end tag except at end of text
+                if (/[,;:]/.test(txt.charAt(start - 1)) && (txt.length !== end)) {
                     reportIssue(start - 1, 1, previewMessages.puncBEnd, 1);
                 }
                 if (txt.charAt(start - 1) === " ") {
@@ -241,7 +257,7 @@ var makePreview = function (txt, viewMode, styler) {
                     }
                 }
             } else {    // startTag
-                if (stackFind(tagString) >= 0) {   // check if any already in stack
+                if (stackFind(tagString) >= 0) { // check if any already in stack
                     reportIssue(start, tagLen, previewMessages.nestedTag, 1);
                 }
                 if (/[,.;:!\? ]/.test(txt.charAt(end))) {
@@ -258,16 +274,20 @@ var makePreview = function (txt, viewMode, styler) {
         }
     }
 
-// check for an unrecognised tag
+    // check for an unrecognised tag
     function unRecog() {
         var re = /<(?!(?:\/?(?:[ibfg]|sc)|tb)>)/g;
         var result;
-        while (result = re.exec(txt)) {
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
             reportIssue(result.index, 1, previewMessages.unRecTag, 0);
         }
     }
 
-// check for no upper case between small caps tags
+    // check for no upper case between small caps tags
     function checkSC() {
         var result;
         var start;
@@ -277,24 +297,28 @@ var makePreview = function (txt, viewMode, styler) {
             if (null === result) {
                 return;
             }
-            if (-1 === result[1].search(/[A-Z]|[À-Ö]|[Ø-Þ]/)) {  //no upper case found - need to extend this for utf8
+            if (result[1] === result[1].toLowerCase()) {  //no upper case found
                 start = result.index + 4;
                 reportIssue(start, result[1].length, previewMessages.scNoCap, 1);
             }
         }
     }
 
-// find tab characters
+    // find tab characters
     function checkTab() {
         var re = /\t/g;
         var result;
-        while (result = re.exec(txt)) {
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
             reportIssue(result.index, 1, previewMessages.tabChar, 1);
         }
     }
 
-// add style and optional colouring for marked-up text
-// this works on text which has already had < and > encoded as &lt; &gt;
+    // add style and optional colouring for marked-up text
+    // this works on text which has already had < and > encoded as &lt; &gt;
     function showStyle() {
         var etcstr; // for out-of-line tags, tb, sub- and super-scripts
         var repstr2 = endSpan;
@@ -303,7 +327,7 @@ var makePreview = function (txt, viewMode, styler) {
         var sc_re = new RegExp(sc1 + "([^]+?)" + sc2, 'g'); // a string of small capitals
 
         function transformSC(match, p1) { // if all upper case transform to lower
-            if (-1 === p1.search(/[a-z]|[ß-ö]|[ø-ÿ]/)) {    // found no lower-case -- need to extend this for utf8
+            if (p1 === p1.toUpperCase()) { // found no lower-case
                 return sc1 + '<span class="tt">' + p1 + endSpan + sc2;
             } else {
                 return match;
@@ -317,17 +341,17 @@ var makePreview = function (txt, viewMode, styler) {
             }
             return str;
         }
-// inline tags
+        // inline tags
         if (viewMode === "show_tags") {
             repstr2 = "$&" + repstr2;
         }
-// the way html treats small cap text is different to the dp convention
-// so if sc-marked text is all upper-case transform to lower
+        // the way html treats small cap text is different to the dp convention
+        // so if sc-marked text is all upper-case transform to lower
         txt = txt.replace(sc_re, transformSC);
         txt = txt.replace(/&lt;(i|b|g|f|sc)&gt;/g, spanStyle)
             .replace(/&lt;\/(i|b|g|f|sc)&gt;/g, repstr2);
 
-// out of line tags
+        // out of line tags
         etcstr = makeColourStyle('etc');
         if (viewMode === "show_tags") {
             etcstr += '>$&</span>';
@@ -337,15 +361,15 @@ var makePreview = function (txt, viewMode, styler) {
         if ((viewMode !== "re_wrap") && styler.color) {    // not re-wrap and colouring
             txt = txt.replace(/(\/\*|\*\/|\/#|#\/|&lt;tb&gt;)/g, '<span' + etcstr);
         }
-// sub- and super-scripts
+        // sub- and super-scripts
         txt = txt.replace(/_\{([A-Za-z0-9]*)\}/g, '<span class="sub"' + etcstr);
         txt = txt.replace(/\^\{([A-Za-z0-9]*)\}/g, '<span class="sup"' + etcstr);
         txt = txt.replace(/\^([A-Za-z0-9])/g, '<span class="sup"' + etcstr);
     }
 
-// attempt to make an approximate representation of formatted text
-// remove comments, use numbers of blank lines to mark headings and sub-headings
-// re-wrap except for no-wrap markup
+    // attempt to make an approximate representation of formatted text
+    // remove comments, use numbers of blank lines to mark headings and
+    // sub-headings, re-wrap except for no-wrap markup
     function reWrap() {
         var blankLines = 0; // counts the number of blank lines which we have passed
         var index = 0;  // counts lines
@@ -356,17 +380,18 @@ var makePreview = function (txt, viewMode, styler) {
         var newPage = true; // use no indent if no blank line before text at start of page
         var inDiv = false;  // so can put in </div> if find blank line or at end
 
-// split the text into an array of lines
+        // split the text into an array of lines
         txtLines = txt.split('\n');
         txt = "";
         lines = txtLines.length;
 
         function processLine() {
             var textLine = txtLines[index];
-            if (/^\[\*\*[^\]]*\]$/.test(textLine)) {    // whole line is comment, do nothing
-                return;
+            if (/^\[\*\*[^\]]*\]$/.test(textLine)) {
+                return; // whole line is a comment, do nothing
             }
-            textLine = textLine.replace(/\[\*\*[^\]]*\]/g, ''); // remove embedded comments
+            // remove embedded comments
+            textLine = textLine.replace(/\[\*\*[^\]]*\]/g, '');
             if (textLine === "") {
                 newPage = false;
                 if (inNoWrap) {
@@ -382,7 +407,7 @@ var makePreview = function (txt, viewMode, styler) {
             }
             if (textLine === "&lt;tb&gt;") {    // thought break
                 txt += '<div class="tb"></div>';
-                blankLines = 0;    // so the following one makes it 1, giving a paragraph
+                blankLines = 0; // so the following one makes it 1, giving a paragraph
                 return;
             }
             if (textLine === "/#") {
@@ -404,18 +429,20 @@ var makePreview = function (txt, viewMode, styler) {
             if (textLine === "*/") {
                 txt += "</div>"; // to end the nw
                 inNoWrap = false;
-                blankLines = 0;    // start over with count
+                blankLines = 0;  // start over with count
                 return;
             }
-// ordinary text
+            // ordinary text
             switch (blankLines) {
             case 4: // heading
                 txt += '<div class="head2">' + textLine + '\n';
                 inDiv = true;
                 subHeading = true;    // next thing
                 break;
-// 2 blank lines can introduce a paragraph after heading or subheading, or a section heading or a section without a heading
-// if the following line is blank assume its a section heading, else a paragraph
+            // 2 blank lines can introduce a paragraph after heading or subheading,
+            // or a section heading or a section without a heading.
+            // if the following line is blank assume it's a section heading,
+            // otherwise a paragraph
             case 2:
                 if (txtLines[index + 1] === "") {
                     txt += '<div class="head4">' + textLine + '\n';
@@ -467,13 +494,14 @@ var makePreview = function (txt, viewMode, styler) {
             if (null === result) {
                 break;
             }
-            re.lastIndex -= 1;  // in case only one char, include it in next search
+            re.lastIndex -= 1; // in case only one char, include it in next search
             end = result.index + result[0].length;
             reportIssue(end - 1, 1, previewMessages.blankLines, 1);
         }
     }
 
-    function boldLine() { // there should not be an entire bold single line after 2 or 4 blank lines
+    // there should not be an entire bold single line after 2 or 4 blank lines
+    function boldLine() {
         var result;
         var start;
         var re = /((?:^|\n)\n\n<b>)(.*?)<\/b>\n\n/g;
@@ -561,7 +589,11 @@ var makePreview = function (txt, viewMode, styler) {
             }
         }
         re = /<tb>/g;
-        while (result = re.exec(txt)) {
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
             start = result.index;
             len = result[0].length;
             chkAlone(start, len);
@@ -574,14 +606,11 @@ var makePreview = function (txt, viewMode, styler) {
         }
     }
 
-    function encodeWhite() { // \n -> <br>, spaces -> &nbsp; except last
-        txt = txt.replace(/\n/g, "<br>")
-            .replace(/  /g, "&nbsp;&nbsp;");
-    }
-
-    function check() {  // return true if no errors which would cause showstyle() or reWrap() to fail
+    // return true if no errors which would cause showstyle() or reWrap() to fail
+    function check() {
         parseInLine();
-        if (0 === issueCount[1]) {  // if inline parse fails then these checks might not work
+        // if inline parse fails then these checks might not work
+        if (0 === issueCount[1]) {
             checkSC();
             boldLine();
         }
@@ -601,9 +630,6 @@ var makePreview = function (txt, viewMode, styler) {
         if (viewMode === "re_wrap") {
             reWrap();
         }
-    }
-    if (viewMode !== "re_wrap") {
-        encodeWhite();  // this is not necessary if just displaying in a "pre" but it allows it to be edited correctly in a "contenteditable pre"
     }
 
     return {
