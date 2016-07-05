@@ -36,7 +36,11 @@ function echo_manager_header()
 
     echo "<a href='$code_url/tools/project_manager/show_specials.php'>"._("Special Days Info")."</a>";
     echo "\n|\n";
-
+    if ( user_is_a_sitemanager() )
+    {
+        echo "<a href='$code_url/tools/site_admin/manage_special_days.php'>"._("Manage Special Days")."</a>";
+        echo "\n|\n";
+    }
     echo "<a href='$code_url/tools/project_manager/show_image_sources.php'>"._("Image Sources Info")."</a>";
     if (user_is_image_sources_manager())
     {
