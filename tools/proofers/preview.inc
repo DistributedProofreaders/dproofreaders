@@ -21,7 +21,7 @@ function output_preview_strings()
     $superscript = html_safe(_("superscript"));
     $ss = shared_strings();
 
-    $demo_string = "$plain <i>$ss[italic]</i> <b>$ss[bold]</b> <g>$ss[gesperrt]</g> <sc>$ss[small_caps]</sc> <f>$ss[font_change]</f> ^{" . "$superscript}";
+    $demo_string = "$plain <i>$ss[italic]</i> <b>$ss[bold]</b> <g>$ss[gesperrt]</g> <sc>$ss[small_caps]</sc> <f>$ss[font_change]</f>^{" . "$superscript}";
     $ie_warn = javascript_safe(_("This function is not available for Internet Explorer versions less than 9"), $charset);
     
     $msg = array(
@@ -39,8 +39,8 @@ function output_preview_strings()
         "aloneTag" => html_safe(_("This tag should be alone on its line")),
         "OolPrev" => html_safe(_("Out-of-line start tag should not be preceded by normal text")),
         "OolNext" => html_safe(_("Out-of-line end tag should not be followed by normal text")),
-        "blankLines" => html_safe(_("Only 1, 2 or 4 blank lines should be used")),
-        "spaceAfterStart" => html_safe(_("Space or punctuation just inside start tag")),
+        "blankLines124" => html_safe(_("Only 1, 2 or 4 blank lines should be used")),
+        "spaceAfterStart" => html_safe(_("Space or punctuation after start tag")),
         "nlAfterStart" => html_safe(_("Newline after start tag")),
         "nlBeforeEnd" => html_safe(_("Newline before end tag")),
         "spaceBeforeEnd" => html_safe(_("Space before end tag")),

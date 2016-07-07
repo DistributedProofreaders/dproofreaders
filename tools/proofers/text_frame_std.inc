@@ -11,8 +11,8 @@ function echo_text_frame_std( $ppage )
     $header_args = array(
         "css_files" => array("$code_url/styles/preview.css?a=16061301"),
         "js_files" => array(
-            "preview.js?16070401",
-            "previewControl.js?16070401",
+            "preview.js?16070501",
+            "previewControl.js?16070501",
             "preview_strings.php",
         ),
         "js_data" => 'function ldAll() {top.initializeStuff(0); previewControl = initPrev();}',

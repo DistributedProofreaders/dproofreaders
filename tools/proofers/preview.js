@@ -6,16 +6,52 @@ It can be used alone with a simple html interface for testing.
 The external references are previewMessages which is loaded by the function
 output_preview_strings() defined in preview.inc, called in preview_strings.php
 and previewControl.adjustMargin() defined in previewControl.js
+txt is the text to analyse.
+viewMode determines if the inline tags are to be shown or hidden and whether to
+re-wrap the text.
+styler is an object containing colour and font options.
 */
 var makePreview = function (txt, viewMode, styler) {
     "use strict";
+    // 1 means a definite issue, 0 a possible issue
+    var issueType = {
+        noStartTag: 1,
+        noEndTag: 1,
+        noEndTagInPara: 1,
+        misMatchTag: 1,
+        nestedTag: 1,
+        unRecTag: 0,
+        tabChar: 1,
+        blankBefore: 1,
+        blankAfter: 1,
+        NWinNW: 1,
+        BQinNW: 1,
+        aloneTag: 1,
+        OolPrev: 1,
+        OolNext: 1,
+        blankLines124: 1,
+        spaceAfterStart: 1,
+        nlAfterStart: 1,
+        nlBeforeEnd: 1,
+        spaceBeforeEnd: 1,
+        noBold: 1,
+        scNoCap: 1,
+        charBeforeStart: 0,
+        charAfterEnd: 0,
+        puncBEnd: 1,
+        noCloseBrack: 0,
+        footnoteId: 0
+    };
+
     var endSpan = "</span>"; // a constant string
     var issueCount = [0, 0]; // possible issues, issues
     var issArray = []; // stores issues for markup-insertion later
 
-    function reportIssue(start, len, msg, type) {
-        issueCount[type] += 1;
-        issArray.push({start: start, len: len, msg: msg, type: type});
+    function reportIssue(start, len, code) {
+        issueCount[issueType[code]] += 1;
+        issArray.push({start: start, len: len, msg: previewMessages[code], type: issueType[code]});
+//        issueCount[type] += 1;
+  //      issArray.push({start: start, len: len, msg: msg, type: type});
     }
 
     function makeColourStyle(s) {
@@ -44,6 +80,10 @@ var makePreview = function (txt, viewMode, styler) {
         return '<span class="err" onmouseenter="previewControl.adjustMargin(this)"' + makeColourStyle(st1) + '><span>';
     }
 
+    // we must avoid two issues giving overlapping markup
+    // sort them first and mark from end towards beginning
+    // sort them so that if two start in same place, then the more serious is
+    // marked first
     function addMarkUp() {
         // start0 is start of previous issue to check if 2 issues overlap
         // initially a large number so it works 1st time
@@ -71,7 +111,7 @@ var makePreview = function (txt, viewMode, styler) {
             }
             end = iss.start + iss.len;
             // don't mark 2 issues in one place
-            if ((iss.start !== start0) && (end <= start0)) {
+            if ((iss.start < start0) && (end <= start0)) {
                 start0 = iss.start;
                 tArray.splice(end, 0, endSpan);
                 tArray.splice(start0, 0, errorString + iss.msg + endSpan);
@@ -80,7 +120,12 @@ var makePreview = function (txt, viewMode, styler) {
         // since inserting the markups moves all later parts of the array up
         // we must start from the last one
         issArray.sort(function (a, b) {
-            return b.start - a.start;   // last first
+            var diff = b.start - a.start;   // last first
+            if (diff === 0) {
+                return b.type - a.type;
+            } else {
+                return diff;
+            }
         });
 
         tArray.forEach(htmlEncode);
@@ -91,7 +136,7 @@ var makePreview = function (txt, viewMode, styler) {
     // check that no other characters are on the same line
     function chkAlone(start, len) {
         if (/./.test(txt.charAt(start + len)) || (/./.test(txt.charAt(start - 1)))) {
-            reportIssue(start, len, previewMessages.aloneTag, 1);
+            reportIssue(start, len, "aloneTag");
         }
     }
 
@@ -118,7 +163,7 @@ var makePreview = function (txt, viewMode, styler) {
                 // if there are any tags on the stack mark them as errors
                 while (tagStack.length !== 0) {
                     stackTop = tagStack.pop();
-                    reportIssue(stackTop.start, 2, previewMessages.noEndTag, 1);
+                    reportIssue(stackTop.start, 2, "noEndTag");
                 }
                 return;
             }
@@ -129,19 +174,19 @@ var makePreview = function (txt, viewMode, styler) {
             // for an opening tag check previous line is blank
             // or another opening block quote tag or ]
             if ((tagString.charAt(0) === "/") && (/[^#\n\]]/.test(txt.charAt(start - 2)))) {
-                reportIssue(start, 2, previewMessages.OolPrev, 1);
+                reportIssue(start, 2, "OolPrev");
             }
             // for a closing tag check following line is blank
             // or a closing block quote or ]
             if ((tagString.charAt(1) === "/") && (/[^#\n\]]/.test(txt.charAt(start + 3)))) {
-                reportIssue(start, 2, previewMessages.OolNext, 1);
+                reportIssue(start, 2, "OolNext");
             }
 
             if (tagStack.length === 0) {
                 if ('/' === tagString.charAt(0)) {     // start tag
                     tagStack.push({tag: tagString, start: start});
                 } else {
-                    reportIssue(start, 2, previewMessages.noStartTag, 1);
+                    reportIssue(start, 2, "noStartTag");
                 }
             } else {    // there are tags in the stack
                 stackTop = tagStack[tagStack.length - 1];
@@ -152,15 +197,15 @@ var makePreview = function (txt, viewMode, styler) {
                         break;
                     case "#/": // close BQ
                         tagStack.pop();
-                        reportIssue(start, 2, previewMessages.misMatchTag, 1);
-                        reportIssue(stackTop.start, 2, previewMessages.misMatchTag, 1);
+                        reportIssue(start, 2, "misMatchTag");
+                        reportIssue(stackTop.start, 2, "misMatchTag");
                         break;
                     case "/*": // open NW
-                        reportIssue(start, 2, previewMessages.NWinNW, 1);
+                        reportIssue(start, 2, "NWinNW");
                         tagStack.push({tag: tagString, start: start});
                         break;
                     default:    // open BQ
-                        reportIssue(start, 2, previewMessages.BQinNW, 1);
+                        reportIssue(start, 2, "BQinNW");
                         tagStack.push({tag: tagString, start: start});
                         break;
                     }
@@ -171,8 +216,8 @@ var makePreview = function (txt, viewMode, styler) {
                         break;
                     case "*/":  // close NW
                         tagStack.pop();
-                        reportIssue(start, 2, previewMessages.misMatchTag, 1);
-                        reportIssue(stackTop.start, 2, previewMessages.misMatchTag, 1);
+                        reportIssue(start, 2, "misMatchTag");
+                        reportIssue(stackTop.start, 2, "misMatchTag");
                         break;
                     default:    // open either
                         tagStack.push({tag: tagString, start: start});
@@ -218,14 +263,14 @@ var makePreview = function (txt, viewMode, styler) {
             if (null === result) {
                 while (tagStack.length !== 0) {
                     stackTop = tagStack.pop();
-                    reportIssue(stackTop.start, stackTop.tagLen, previewMessages.noEndTag, 1);
+                    reportIssue(stackTop.start, stackTop.tagLen, "noEndTag");
                 }
                 return;
             }
             if (result[0] === "\n\n") {
                 while (tagStack.length !== 0) {
                     stackTop = tagStack.pop();
-                    reportIssue(stackTop.start, stackTop.tagLen, previewMessages.noEndTagInPara, 1);
+                    reportIssue(stackTop.start, stackTop.tagLen, "noEndTagInPara");
                 }
                 continue;
             }
@@ -236,38 +281,38 @@ var makePreview = function (txt, viewMode, styler) {
             if (result[1] === '/') {    // end tag
                 // cjeck for , ; or : before end tag except at end of text
                 if (/[,;:]/.test(txt.charAt(start - 1)) && (txt.length !== end)) {
-                    reportIssue(start - 1, 1, previewMessages.puncBEnd, 1);
+                    reportIssue(start - 1, 1, "puncBEnd");
                 }
                 if (txt.charAt(start - 1) === " ") {
-                    reportIssue(start - 1, 1, previewMessages.spaceBeforeEnd, 1);
+                    reportIssue(start - 1, 1, "spaceBeforeEnd");
                 }
                 if (txt.charAt(start - 1) === "\n") {
-                    reportIssue(start, tagLen, previewMessages.nlBeforeEnd, 1);
+                    reportIssue(start, tagLen, "nlBeforeEnd");
                 }
                 if (/\w/.test(txt.charAt(end))) { // char after end tag
-                    reportIssue(end, 1, previewMessages.charAfterEnd, 0);
+                    reportIssue(end, 1, "charAfterEnd");
                 }
                 if (tagStack.length === 0) {    // missing start tag
-                    reportIssue(start, tagLen, previewMessages.noStartTag, 1);
+                    reportIssue(start, tagLen, "noStartTag");
                 } else {
                     stackTop = tagStack.pop();
                     if (stackTop.tag !== tagString) {
-                        reportIssue(start, tagLen, previewMessages.misMatchTag, 1);
-                        reportIssue(stackTop.start, stackTop.tagLen, previewMessages.misMatchTag, 1);
+                        reportIssue(start, tagLen, "misMatchTag");
+                        reportIssue(stackTop.start, stackTop.tagLen, "misMatchTag");
                     }
                 }
             } else {    // startTag
                 if (stackFind(tagString) >= 0) { // check if any already in stack
-                    reportIssue(start, tagLen, previewMessages.nestedTag, 1);
+                    reportIssue(start, tagLen, "nestedTag");
                 }
                 if (/[,.;:!\? ]/.test(txt.charAt(end))) {
-                    reportIssue(end, 1, previewMessages.spaceAfterStart, 1);
+                    reportIssue(end, 1, "spaceAfterStart");
                 }
                 if (txt.charAt(end) === "\n") {
-                    reportIssue(start, tagLen, previewMessages.nlAfterStart, 1);
+                    reportIssue(start, tagLen, "nlAfterStart");
                 }
                 if (/\w|[,.;:]/.test(txt.charAt(start - 1))) { // non-space before start tag
-                    reportIssue(start - 1, 1, previewMessages.charBeforeStart, 0);
+                    reportIssue(start - 1, 1, "charBeforeStart");
                 }
                 tagStack.push({tag: tagString, start: start, tagLen: tagLen});
             }
@@ -283,7 +328,7 @@ var makePreview = function (txt, viewMode, styler) {
             if (null === result) {
                 break;
             }
-            reportIssue(result.index, 1, previewMessages.unRecTag, 0);
+            reportIssue(result.index, 1, "unRecTag");
         }
     }
 
@@ -298,8 +343,8 @@ var makePreview = function (txt, viewMode, styler) {
                 return;
             }
             if (result[1] === result[1].toLowerCase()) {  //no upper case found
-                start = result.index + 4;
-                reportIssue(start, result[1].length, previewMessages.scNoCap, 1);
+                start = result.index;
+                reportIssue(start, 4, "scNoCap");
             }
         }
     }
@@ -313,7 +358,7 @@ var makePreview = function (txt, viewMode, styler) {
             if (null === result) {
                 break;
             }
-            reportIssue(result.index, 1, previewMessages.tabChar, 1);
+            reportIssue(result.index, 1, "tabChar");
         }
     }
 
@@ -496,7 +541,7 @@ var makePreview = function (txt, viewMode, styler) {
             }
             re.lastIndex -= 1; // in case only one char, include it in next search
             end = result.index + result[0].length;
-            reportIssue(end - 1, 1, previewMessages.blankLines, 1);
+            reportIssue(end - 1, 1, "blankLines124");
         }
     }
 
@@ -513,7 +558,7 @@ var makePreview = function (txt, viewMode, styler) {
             }
             re.lastIndex -= 2;  // so can find another straight after
             start = result.index + result[1].length;
-            reportIssue(start, result[2].length, previewMessages.noBold, 0);
+            reportIssue(start, result[2].length, "noBold");
         }
     }
 
@@ -528,7 +573,7 @@ var makePreview = function (txt, viewMode, styler) {
             }
             start = result.index;
             if (txt.charAt(start - 1) !== "*") {
-                reportIssue(start, result[0].length, previewMessages.footnoteId, 0);
+                reportIssue(start, result[0].length, "footnoteId");
             }
         }
     }
@@ -569,12 +614,12 @@ var makePreview = function (txt, viewMode, styler) {
             end = start + len;
 
             if ((/./.test(txt.charAt(start - 1))) || (/./.test(txt.charAt(start - 2)))) {
-                reportIssue(start, len, previewMessages.blankBefore, 1);
+                reportIssue(start, len, "blankBefore");
             }
 
             end1 = findClose(end);
             if (0 === end1) { // no ] found
-                reportIssue(start, len, previewMessages.noCloseBrack, 0);
+                reportIssue(start, len, "noCloseBrack");
             } else {
 
                 end = end1 + 1;
@@ -584,7 +629,7 @@ var makePreview = function (txt, viewMode, styler) {
                     len += 1;
                 }
                 if ((/./.test(txt.charAt(end))) || (/./.test(txt.charAt(end + 1)))) {
-                    reportIssue(end1, len, previewMessages.blankAfter, 1);
+                    reportIssue(end1, len, "blankAfter");
                 }
             }
         }
@@ -598,10 +643,10 @@ var makePreview = function (txt, viewMode, styler) {
             len = result[0].length;
             chkAlone(start, len);
             if (/./.test(txt.charAt(start - 2))) {
-                reportIssue(start, len, previewMessages.blankBefore, 1);
+                reportIssue(start, len, "blankBefore");
             }
             if (/./.test(txt.charAt(start + len + 1))) {
-                reportIssue(start, len, previewMessages.blankAfter, 1);
+                reportIssue(start, len, "blankAfter");
             }
         }
     }

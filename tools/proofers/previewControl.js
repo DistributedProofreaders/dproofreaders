@@ -261,6 +261,7 @@ function initPrev() {
             tempStyle = deepCopy(tempStyle, previewStyles);
             initSelector(removeFontSelector, tempStyle.fontList);
             testDiv.style.fontFamily = tempStyle.defFont;
+            testDiv.style.fontSize = font_size.toFixed(1) + "px";
             testDraw();
             selTag = "t";   // always start with t (plain text) selected
             defaultTextRadio.checked = true;
