@@ -50,8 +50,6 @@ var makePreview = function (txt, viewMode, styler) {
     function reportIssue(start, len, code) {
         issueCount[issueType[code]] += 1;
         issArray.push({start: start, len: len, msg: previewMessages[code], type: issueType[code]});
-//        issueCount[type] += 1;
-  //      issArray.push({start: start, len: len, msg: msg, type: type});
     }
 
     function makeColourStyle(s) {
