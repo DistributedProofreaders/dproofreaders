@@ -497,7 +497,6 @@ var makePreview = function (txt, viewMode, styler) {
             }
             // remove embedded comments
             textLine = removeComments(textLine);
-//            textLine = textLine.replace(/\[\*\*[^\]]*\]/g, '');
             if (textLine === "") {
                 return; // whole line is comment, do nothing
             }
