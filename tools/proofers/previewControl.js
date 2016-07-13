@@ -49,10 +49,12 @@ function initPrev() {
 
     // these are the default values. If the user changes anything the new
     // styles are saved in local storage and reloaded next time.
-    var previewStyles = {
     // the foreground and background colours for plain text, italic, bold,
     // gesperrt, smallcaps, font change, other tags, highlighting issues
     // and possible issues
+    // font names are stored as fontSet properties,
+    // the values have no significance
+    var previewStyles = {
         t: {bg: "#fffcf4", fg: "#000000"},
         i: {bg: "", fg: "#0000ff"},
         b: {bg: "", fg: "#c55a1b"},
@@ -63,7 +65,7 @@ function initPrev() {
         err: {bg: "#ff0000", fg: ""},
         hlt: {bg: "#ceff09", fg: ""},
         color: true, // colour the markup or not
-        fontList: ["serif", "sans-serif", "monospace", "DPCustomMono2"],
+        fontSet: {"serif": 0, "sans-serif": 0, "monospace": 0, "DPCustomMono2": 0},
         defFont: "serif"
     };
     // stores the size of the bottom frame so it can be restored on exit
@@ -92,17 +94,21 @@ function initPrev() {
     }
 
     // set up a font selector
-    function initSelector(selector, optionList, def) {
+    function initSelector(selector, optionSet, def) {
         var i;
         var opt;
+        var optionList = [];
         // remove all incase revisiting, last first
         for (i = selector.length - 1; i >= 0; i -= 1) {
             selector.remove(i);
         }
-        if (!optionList) {
+        if (!optionSet) {
             return;
         }
-        optionList.sort();  // this will change the original array
+        for (i in optionSet) {
+            optionList.push(i);
+        }
+        optionList.sort();
         for (i = 0; i < optionList.length; i += 1) {
             opt = document.createElement("option");
             opt.text = opt.value = optionList[i];
@@ -116,15 +122,26 @@ function initPrev() {
     // this makes a copy of the style data
     // js assignment of objects just makes a reference to the old object
     // so we need to copy each primitive value and construct new objects
-    // or arrays if necessary
-    function deepCopy(dest, source) {
+    // or arrays.
+    // Initially the style data is initialised to default values then, if saved
+    // values are in local storage, they are copied to the data. If during
+    // development a new element is added to styles, we need to keep it
+    // but copy the rest from stored data so if keep is true then do not
+    // construct new empty objects or arrays. If an element becomes obsolete
+    // the destination will not then exist, so check before copying.
+    // If keep is false then an exact copy is made.
+    // This implies that if one of the default font options is deleted
+    // it will re-appear next time
+    function deepCopy(dest, source, keep) {
         var i;
         if (source && typeof source === 'object') {
-            if (!dest) {
+            if (!keep) {
                 dest = Array.isArray(source) ? [] : {};
             }
-            for (i in source) {
-                dest[i] = deepCopy(dest[i], source[i]);
+            if (dest) {
+                for (i in source) {
+                    dest[i] = deepCopy(dest[i], source[i], keep);
+                }
             }
         } else {
             dest = source;
@@ -132,18 +149,16 @@ function initPrev() {
         return dest;
     }
 
-    // if during development a new element is added to styles, this will
-    // retain its default value but copy the rest from stored data
     function initStyle() {
         var style0;
         if (localStorage.getItem('preview_data')) {
             style0 = JSON.parse(localStorage.preview_data);
-            previewStyles = deepCopy(previewStyles, style0);
+            previewStyles = deepCopy(previewStyles, style0, true);
         }
     }
 
     function initView() {
-        initSelector(fontSelector, previewStyles.fontList, previewStyles.defFont);
+        initSelector(fontSelector, previewStyles.fontSet, previewStyles.defFont);
         prevWin.style.fontFamily = previewStyles.defFont;
         enableColorCheckbox.checked = previewStyles.color;
         setViewColors(outerPrev);
@@ -258,8 +273,8 @@ function initPrev() {
             setViewColors(testDiv);  // uses previewStyles
             // make a copy of the styles so that if we cancel we can go back
             // to how it was before.
-            tempStyle = deepCopy(tempStyle, previewStyles);
-            initSelector(removeFontSelector, tempStyle.fontList);
+            tempStyle = deepCopy(tempStyle, previewStyles, false);
+            initSelector(removeFontSelector, tempStyle.fontSet);
             testDiv.style.fontFamily = tempStyle.defFont;
             testDiv.style.fontSize = font_size.toFixed(1) + "px";
             testDraw();
@@ -280,7 +295,7 @@ function initPrev() {
         },
 
         OKConfig: function () {
-            previewStyles = deepCopy(previewStyles, tempStyle);
+            previewStyles = deepCopy(previewStyles, tempStyle, false);
             saveStyle();
             initView();
             writePreviewText();
@@ -334,17 +349,17 @@ function initPrev() {
 
         addFont: function () {
             if (fontName.value !== "") {
-                tempStyle.fontList.push(fontName.value);
-                initSelector(removeFontSelector, tempStyle.fontList);
+                tempStyle.fontSet[fontName.value] = 0;
+                initSelector(removeFontSelector, tempStyle.fontSet);
                 testDiv.style.fontFamily = fontName.value;
                 testDraw();
             }
         },
 
         removeFont: function () {
-            tempStyle.fontList.splice(removeFontSelector.selectedIndex, 1);
+            delete tempStyle.fontSet[removeFontSelector.value];
             if (removeFontSelector.value === tempStyle.defFont) {
-                tempStyle.defFont = tempStyle.fontList[0];
+                tempStyle.defFont = "serif";
             }
             removeFontSelector.remove(removeFontSelector.selectedIndex);
         }
