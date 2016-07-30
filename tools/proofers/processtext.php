@@ -35,6 +35,7 @@ define('B_RUN_SPELL_CHECK',         10);
 
 
 // set tbutton
+$tbutton = NULL; # default value, will result in error if not overridden below
 if (isset($_POST['button1']) || isset($_POST['button1_x'])) {$tbutton=B_TEMPSAVE;}
 if (isset($_POST['button2']) || isset($_POST['button2_x'])) {$tbutton=B_SAVE_AND_DO_ANOTHER;}
 if (isset($_POST['button3']) || isset($_POST['button3_x'])) {$tbutton=B_QUIT;}
