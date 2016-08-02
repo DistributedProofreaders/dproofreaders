@@ -120,11 +120,11 @@ class SettingsTest extends PHPUnit_Framework_TestCase
         $this->assertContains("value2", $values);
     }
 
-    /**
-     * @expectedException RuntimeException
-     */
     public function testGetMultivaluedSettingAsSingle()
     {
+        // Note: calling get_value() on a multi-valued setting use to result
+        // in a RuntimeException being thrown, but commit 68ecf5 changed that.
+
         $settings = new Settings($this->TEST_USERNAME);
         $settings->add_value($this->PREFIX . "multi_value", "value1");
         $settings->add_value($this->PREFIX . "multi_value", "value2");
