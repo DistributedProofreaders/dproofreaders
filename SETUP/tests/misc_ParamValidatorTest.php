@@ -126,4 +126,86 @@ class ParamValidatorTest extends PHPUnit_Framework_TestCase
         $max = 9;
         $result = get_integer_param($this->GET, 'i10', $default, $min, $max);
     }
+
+    #------------------------------------------------------------------------
+    # get_float_param() tests
+
+    public function testFloat()
+    {
+        $default = NULL;
+        $min = 0;
+        $max = 100;
+        $result = get_float_param($this->GET, 'f10', $default, $min, $max);
+        $this->assertEquals($this->GET['f10'], $result);
+    }
+
+    public function testFloatInteger()
+    {
+        $default = NULL;
+        $min = 0;
+        $max = 100;
+        $result = get_float_param($this->GET, 'i10', $default, $min, $max);
+    }
+
+    public function testFloatDefault()
+    {
+        $default = 50.0;
+        $min = 0;
+        $max = 100;
+        $result = get_float_param($this->GET, 'none', $default, $min, $max);
+        $this->assertEquals($default, $result);
+    }
+
+    public function testFloatNull()
+    {
+        $default = NULL;
+        $min = 0;
+        $max = 100;
+        $result = get_float_param($this->GET, 'none', $default, $min, $max, TRUE);
+        $this->assertEquals(NULL, $result);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testFloatNoDefault()
+    {
+        $default = NULL;
+        $min = 0;
+        $max = 100;
+        $result = get_float_param($this->GET, 'none', $default, $min, $max);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testFloatNotAFloat()
+    {
+        $default = NULL;
+        $min = 0;
+        $max = 100;
+        $result = get_float_param($this->GET, 's10', $default, $min, $max);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testFloatLessThanMin()
+    {
+        $default = NULL;
+        $min = 90;
+        $max = 100;
+        $result = get_float_param($this->GET, 'f10', $default, $min, $max);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testFloatMoreThanMax()
+    {
+        $default = NULL;
+        $min = 0;
+        $max = 9;
+        $result = get_float_param($this->GET, 'f10', $default, $min, $max);
+    }
 }

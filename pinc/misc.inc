@@ -136,14 +136,32 @@ function get_integer_param( $arr, $key, $default, $min, $max, $allownull = false
 // As before, except if no limit is provided, return null, so the caller can
 // know to display all pages rather than some arbitrary maximum.
 {
+    return get_numeric_param("integer", $arr, $key, $default, $min, $max, $allownull);
+}
+
+function get_float_param( $arr, $key, $default, $min, $max, $allownull = false )
+// This function operates identically to get_integer_param() except for floats
+{
+    return get_numeric_param("float", $arr, $key, $default, $min, $max, $allownull);
+}
+
+function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
+// Parent function of get_integer_param() and get_float_param(), use those
+// versions instead.
+//
+// $type should be one of "integer" or "float".
+{
     {
         // sanity checks on the args
         assert( is_array($arr) );
         assert(!is_array($key) );
 
-        assert( is_null($default) || is_int($default) );
-        assert( is_null($min)     || is_int($min) );
-        assert( is_null($max)     || is_int($max) );
+        if($type == 'integer')
+            assert( is_null($default) || is_int($default) );
+        else
+            assert( is_null($default) || is_float($default) );
+        assert( is_null($min)     || is_numeric($min) );
+        assert( is_null($max)     || is_numeric($max) );
 
         if ( !is_null($default) )
         {
@@ -165,30 +183,49 @@ function get_integer_param( $arr, $key, $default, $min, $max, $allownull = false
 
         // Trim whitespace from both ends of the string.
         $s = trim($s);
-        
-        if ( preg_match('/^[-+]?\d+$/', $s ) )
+
+        if ( $type == 'integer' )
         {
-            // It's a well-formed (decimal) rep of an integer.
-            $i = intval($s);
-            if ( !is_null($min) && $i < $min )
+            if ( preg_match('/^[-+]?\d+$/', $s ) )
+            {
+                // It's a well-formed (decimal) rep of an integer
+                $i = intval($s);
+            }
+            else
             {
                 throw new InvalidArgumentException(html_safe(
-                    "parameter '$key' ($s) is less than the minimum $min"));
+                    "parameter '$key' ('$s') is not an integer"));
             }
-
-            if ( !is_null($max) && $i > $max )
-            {
-                throw new InvalidArgumentException(html_safe(
-                    "parameter '$key' ($s) is greater than the maximum $max"));
-            }
-
-            return $i;
         }
-        else
+        elseif ( $type == 'float' )
+        {
+            // We'll accept an integer or a floating point number
+            if ( preg_match('/^[-+]?\d+$/', $s ) ||
+                 preg_match('/^[-+]?\d*\.\d+$/', $s ) )
+            {
+                // It's a well-formed (decimal) rep of a float
+                $i = floatval($s);
+            }
+            else
+            {
+                throw new InvalidArgumentException(html_safe(
+                    "parameter '$key' ('$s') is not a float"));
+            }
+        }
+
+        if ( !is_null($min) && $i < $min )
         {
             throw new InvalidArgumentException(html_safe(
-                "parameter '$key' ('$s') is not an integer"));
+                "parameter '$key' ($s) is less than the minimum $min"));
         }
+
+        if ( !is_null($max) && $i > $max )
+        {
+            throw new InvalidArgumentException(html_safe(
+                "parameter '$key' ($s) is greater than the maximum $max"));
+        }
+
+        return $i;
     }
     else
     {
