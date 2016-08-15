@@ -5,16 +5,24 @@ include_once($relPath.'slim_header.inc');
 include_once('PPage.inc');
 include_once('image_block_enh.inc');
 include_once('button_menu.inc');
+include_once('preview.inc');
 
 
 function echo_proof_frame_enh( $ppage )
 {
-    global $userP;
+    global $code_url, $userP;
 
     $header_args = array(
-        "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1);}',
+        "css_files" => array("$code_url/styles/preview.css?a=16061301"),
+        "js_files" => array(
+            "preview.js?16070701",
+            "previewControl.js?16070501",
+            "preview_strings.php",
+
+        ),
+        "js_data" => ibe_get_js() . 'function ldAll() {top.initializeStuff(1); previewControl = initPrev();}',
         "css_data" => ibe_get_styles() . get_proof_frame_styles(),
-        "body_attributes" => 'onload="ldAll()"',
+        "body_attributes" => 'onload="ldAll()"  onresize="previewControl.adjustHeight()"',
     );
 
     slim_header(_("Proofreading Page"), $header_args);
@@ -28,6 +36,8 @@ function echo_proof_frame_enh( $ppage )
 
             ?>
             <div id="controlframe" align="center">
+            <?php output_preview_div(); ?>
+              <div id = 'proofdiv'>
                 <form
                     name="editform" id="editform"
                     method="POST"
@@ -54,6 +64,7 @@ function echo_proof_frame_enh( $ppage )
                         </tr>
                     </table>
                 </form>
+              </div>
             </div>
     <?php
 }

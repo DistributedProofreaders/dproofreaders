@@ -7,6 +7,7 @@ include_once($relPath."languages.inc");   // lang_html_header()
 // $extra_args = array(
 //     'frameset' => FALSE (default) | TRUE
 //     'head_data' => strings to output as-is in <head> tag
+//     'css_files' => CSS files to include in the page
 //     'css_data' => CSS to include in the page
 //     'js_data'  => JS code to include in the page,
 //     'js_files' => array of .js files to link to
@@ -42,6 +43,13 @@ function slim_header($title="", $extra_args=array())
     if(isset($extra_args['head_data']))
     {
         echo $extra_args['head_data'];
+    }
+
+    // Per-page CSS
+    if (isset($extra_args['css_files']))
+    {
+        foreach($extra_args['css_files'] as $css_file)
+            echo "<link type='text/css' rel='Stylesheet' href='$css_file'>";
     }
 
     // Any additional style definitions requested by the caller
