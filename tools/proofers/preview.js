@@ -23,7 +23,7 @@ var makePreview = function (txt, viewMode, styler) {
         unRecTag: 0,
         tabChar: 1,
         blankBefore: 1,
-        blankAfter: 1,
+        blankAfter: 0,
         NWinNW: 1,
         BQinNW: 1,
         aloneTag: 1,
@@ -131,9 +131,57 @@ var makePreview = function (txt, viewMode, styler) {
         txt = tArray.join("");  // join it back into a string
     }
 
+    function removeComments(textLine) {
+        return textLine.replace(/\[\*\*[^\]]*\]/g, '');
+    }
+
+    // true if txtLine contains anything except only comments or spaces
+    function nonComment(textLine) {
+        return (/\S/.test(removeComments(textLine)));
+    }
+
+    // find previous line, assume ix > 0
+    function findPrevLine(ix) {
+        var pStart = ix - 1;
+        while (pStart > 0) {
+            pStart -= 1;
+            if (txt.charAt(pStart) === "\n") {
+                pStart += 1;
+                break;
+            }
+        }
+        return txt.slice(pStart, ix - 1);
+    }
+
+    // find end of line (or eot) following ix
+    function findEnd(ix) {
+        var re = /\n|$/g;
+        var result;
+        re.lastIndex = ix;
+        result = re.exec(txt);
+        return result.index;
+    }
+
+    // check for chars before tag or on previous line
+    function chkBefore(start, len) {
+        if ((/./.test(txt.charAt(start - 1))) || (/./.test(txt.charAt(start - 2)))) {
+            reportIssue(start, len, "blankBefore");
+        }
+    }
+
+    // check no non-comment chars follow on same line and next line is blank
+    function chkAfter(start, len) {
+        var ix = start + len;
+        var end = findEnd(ix);
+        if (nonComment(txt.slice(ix, end)) || (/./.test(txt.charAt(end + 1)))) {
+            reportIssue(start, len, "blankAfter");
+        }
+    }
+
     // check that no other characters are on the same line
     function chkAlone(start, len) {
-        if (/./.test(txt.charAt(start + len)) || (/./.test(txt.charAt(start - 1)))) {
+        var ix = start + len;
+        if (nonComment(txt.slice(ix, findEnd(ix))) || (/./.test(txt.charAt(start - 1)))) {
             reportIssue(start, len, "aloneTag");
         }
     }
@@ -170,14 +218,18 @@ var makePreview = function (txt, viewMode, styler) {
 
             chkAlone(start, 2);
             // for an opening tag check previous line is blank
-            // or another opening block quote tag or ]
-            if ((tagString.charAt(0) === "/") && (/[^#\n\]]/.test(txt.charAt(start - 2)))) {
-                reportIssue(start, 2, "OolPrev");
+            // or an opening block quote tag possibly with a comment
+            if ((tagString.charAt(0) === "/") && (start > 1) && (txt.charAt(start - 2) !== "\n")) {
+                if ("/#" !== removeComments(findPrevLine(start))) {
+                    reportIssue(start, 2, "OolPrev");
+                }
             }
             // for a closing tag check following line is blank
-            // or a closing block quote or ]
-            if ((tagString.charAt(1) === "/") && (/[^#\n\]]/.test(txt.charAt(start + 3)))) {
-                reportIssue(start, 2, "OolNext");
+            // or a closing block quote or ] (ending a footnote).
+            if (tagString.charAt(1) === "/") {
+                if (/[^#\n\]]/.test(txt.charAt(findEnd(start + 2) + 1))) {
+                    reportIssue(start, 2, "OolNext");
+                }
             }
 
             if (tagStack.length === 0) {
@@ -277,7 +329,7 @@ var makePreview = function (txt, viewMode, styler) {
             end = start + tagLen;
             tagString = result[2];
             if (result[1] === '/') {    // end tag
-                // cjeck for , ; or : before end tag except at end of text
+                // check for , ; or : before end tag except at end of text
                 if (/[,;:]/.test(txt.charAt(start - 1)) && (txt.length !== end)) {
                     reportIssue(start - 1, 1, "puncBEnd");
                 }
@@ -430,11 +482,6 @@ var makePreview = function (txt, viewMode, styler) {
 
         function processLine() {
             var textLine = txtLines[index];
-            if (/^\[\*\*[^\]]*\]$/.test(textLine)) {
-                return; // whole line is a comment, do nothing
-            }
-            // remove embedded comments
-            textLine = textLine.replace(/\[\*\*[^\]]*\]/g, '');
             if (textLine === "") {
                 newPage = false;
                 if (inNoWrap) {
@@ -448,6 +495,12 @@ var makePreview = function (txt, viewMode, styler) {
                 blankLines += 1;
                 return;
             }
+            // remove embedded comments
+            textLine = removeComments(textLine);
+            if (textLine === "") {
+                return; // whole line is comment, do nothing
+            }
+
             if (textLine === "&lt;tb&gt;") {    // thought break
                 txt += '<div class="tb"></div>';
                 blankLines = 0; // so the following one makes it 1, giving a paragraph
@@ -576,7 +629,7 @@ var makePreview = function (txt, viewMode, styler) {
         }
     }
 
-// find index of next unmatched ] return 0 if none found
+    // find index of next unmatched ] return 0 if none found
     function findClose(index) {
         var result;
         var nestLevel = 0;
@@ -598,7 +651,7 @@ var makePreview = function (txt, viewMode, styler) {
         }
     }
 
-// check blank lines before and after footnote etc.
+    // check blank lines before and after footnote etc.
     function checkBlankLines() {
         var result, start, len, end, end1;
         var re = /\*?\[(Footnote|Sidenote|Illustration)/g;
@@ -610,25 +663,19 @@ var makePreview = function (txt, viewMode, styler) {
             start = result.index;
             len = result[0].length;
             end = start + len;
-
-            if ((/./.test(txt.charAt(start - 1))) || (/./.test(txt.charAt(start - 2)))) {
-                reportIssue(start, len, "blankBefore");
-            }
+            chkBefore(start, len);
 
             end1 = findClose(end);
             if (0 === end1) { // no ] found
                 reportIssue(start, len, "noCloseBrack");
             } else {
-
                 end = end1 + 1;
                 len = 1;
                 if (txt.charAt(end) === "*") { // allow * after
                     end += 1;
                     len += 1;
                 }
-                if ((/./.test(txt.charAt(end))) || (/./.test(txt.charAt(end + 1)))) {
-                    reportIssue(end1, len, "blankAfter");
-                }
+                chkAfter(end1, len);
             }
         }
         re = /<tb>/g;
@@ -639,14 +686,54 @@ var makePreview = function (txt, viewMode, styler) {
             }
             start = result.index;
             len = result[0].length;
-            chkAlone(start, len);
-            if (/./.test(txt.charAt(start - 2))) {
-                reportIssue(start, len, "blankBefore");
-            }
-            if (/./.test(txt.charAt(start + len + 1))) {
-                reportIssue(start, len, "blankAfter");
-            }
+            chkBefore(start, len);
+            chkAfter(start, len);
         }
+    }
+
+    // these store the removed comment lines for later re-insertion
+    var comLine = [];
+    var comIndex = [];
+
+    function removeCommentLines() {
+        var txtLines = [];
+        var index;  // counts lines
+        var tempLine;
+
+        // split the text into an array of lines
+        txtLines = txt.split('\n');
+        index = txtLines.length - 1;
+        // splice changes txtLines so start from end and work backwards
+        while (index >= 0) {
+            // remove trailing space
+            tempLine = txtLines[index].replace(/\s+$/, "");
+            txtLines[index] = tempLine;
+            // ignore lines which are entirely comment and space
+            if ("" !== tempLine) {
+                if (!nonComment(tempLine)) {
+                    txtLines.splice(index, 1);
+                    comLine.push(tempLine);
+                    comIndex.push(index);
+                }
+            }
+            index -= 1;
+        }
+        txt = txtLines.join("\n");
+    }
+
+    function restoreCommentLines() {
+        var txtLines = [];
+        // split the text into an array of lines
+        txtLines = txt.split('\n');
+        var ix = comIndex.length - 1;
+        // insert first comment line, which is store last in comLine, first
+        // then subsequent lines in txtLines will be shifted up so that lines
+        // from comLines will be inserted in the right place
+        while (ix >= 0) {
+            txtLines.splice(comIndex[ix], 0, comLine[ix]);
+            ix -= 1;
+        }
+        txt = txtLines.join("\n");
     }
 
     // return true if no errors which would cause showstyle() or reWrap() to fail
@@ -665,9 +752,12 @@ var makePreview = function (txt, viewMode, styler) {
         checkBlankLines();
         return (issueCount[1] === 0);
     }
-
+    // remove lines which are entirely comments to simplify checking
+    // where there should be blank lines
+    removeCommentLines();
     var ok = check();
     addMarkUp();
+    restoreCommentLines();
     if (ok) {
         showStyle();
         if (viewMode === "re_wrap") {
