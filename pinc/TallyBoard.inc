@@ -63,14 +63,17 @@ class TallyBoard
         // In MySQL 4.1.0, we could use ON DUPLICATE KEY UPDATE to do this
         // in one query.
 
-        mysql_query("
+        $sql = sprintf("
             UPDATE current_tallies
             SET tally_value = tally_value + $amount
             WHERE
-                tally_name      = '$this->tally_name'
-                AND holder_type = '$this->holder_type'
-                AND holder_id   = '$holder_id'
-        ") or die(mysql_error());
+                tally_name      = '%s'
+                AND holder_type = '%s'
+                AND holder_id   = %d
+        ", mysql_real_escape_string($this->tally_name),
+            mysql_real_escape_string($this->holder_type),
+            intval($holder_id));
+        mysql_query($sql) or die(mysql_error());
 
         $n = mysql_affected_rows();
         if ( $n > 1 )
@@ -82,14 +85,18 @@ class TallyBoard
         {
             // No row matched the WHERE condition.
             // Ensure that one exists.
-            mysql_query("
+            $sql = sprintf("
                 INSERT INTO current_tallies
                 SET
-                    tally_name  = '$this->tally_name',
-                    holder_type = '$this->holder_type',
-                    holder_id   = '$holder_id',
-                    tally_value = $amount
-            ") or die(mysql_error());
+                    tally_name  = '%s',
+                    holder_type = '%s',
+                    holder_id   = %d,
+                    tally_value = %d
+            ", mysql_real_escape_string($this->tally_name),
+                mysql_real_escape_string($this->holder_type),
+                intval($holder_id),
+                intval($amount));
+            mysql_query($sql) or die(mysql_error());
         }
     }
 
@@ -124,31 +131,32 @@ class TallyBoard
         static $n = 0;
         $n++;
         $alias = "current_tallies_$n";
-        return array(
-            "
-                LEFT OUTER JOIN current_tallies AS $alias
-                ON (
-                    $alias.tally_name      = '$this->tally_name'
-                    AND $alias.holder_type = '$this->holder_type'
-                    AND $alias.holder_id   = $holder_id_expr
-                )
-            ",
-            "IFNULL($alias.tally_value,0)"
-        );
+        $join_sql = sprintf("
+            LEFT OUTER JOIN current_tallies AS $alias
+            ON (
+                $alias.tally_name      = '%s'
+                AND $alias.holder_type = '%s'
+                AND $alias.holder_id   = $holder_id_expr
+            )
+        ", mysql_real_escape_string($this->tally_name),
+            mysql_real_escape_string($this->holder_type));
+        return array($join_sql, "IFNULL($alias.tally_value,0)");
     }
 
     // -------------------------------------------------------------------------
 
     function get_num_holders_with_positive_tally()
     {
-        $res = mysql_query("
+        $sql = sprintf("
             SELECT COUNT(*)
             FROM current_tallies
             WHERE
-                tally_name      = '$this->tally_name'
-                AND holder_type = '$this->holder_type'
+                tally_name      = '%s'
+                AND holder_type = '%s'
                 AND tally_value > 0
-        ") or die(mysql_error());
+        ", mysql_real_escape_string($this->tally_name),
+            mysql_real_escape_string($this->holder_type));
+        $res = mysql_query($sql) or die(mysql_error());
         return mysql_result($res,0);
     }
 
@@ -159,14 +167,17 @@ class TallyBoard
     // (Note that if you want tallies for multiple holders, it's probably
     // more efficient to use SQL-joinery supplied by the previous method.)
     {
-        $res = mysql_query("
+        $sql = sprintf("
             SELECT tally_value
             FROM current_tallies
             WHERE
-                tally_name      = '$this->tally_name'
-                AND holder_type = '$this->holder_type'
-                AND holder_id   = $holder_id
-        ") or die(mysql_error());
+                tally_name      = '%s'
+                AND holder_type = '%s'
+                AND holder_id   = %s
+        ", mysql_real_escape_string($this->tally_name),
+            mysql_real_escape_string($this->holder_type),
+            intval($holder_id));
+        $res = mysql_query($sql) or die(mysql_error());
 
         if ( mysql_num_rows($res) == 0 )
         {
@@ -187,14 +198,16 @@ class TallyBoard
     // Return the given holder's rank, as determined
     // by the current tallies on this TallyBoard.
     {
-        $result = mysql_query("
+        $sql = sprintf("
             SELECT holder_id, tally_value
             FROM current_tallies
             WHERE
-                tally_name      = '$this->tally_name'
-                AND holder_type = '$this->holder_type'
+                tally_name      = '%s'
+                AND holder_type = '%s'
             ORDER BY tally_value DESC
-        ");
+        ", mysql_real_escape_string($this->tally_name),
+            mysql_real_escape_string($this->holder_type));
+        $result = mysql_query($sql);
         $ranker = new Ranker(TRUE);
         while (list($h_id,$tally_value) = mysql_fetch_row($result))
         {
@@ -237,7 +250,7 @@ class TallyBoard
     {
         assert( $radius >= 0 );
 
-        $result = mysql_query("
+        $sql = sprintf("
             SELECT
                 $holder_id_expr AS _holder_id,
                 IFNULL(tally_value,0) AS $tally_alias,
@@ -246,13 +259,15 @@ class TallyBoard
                 $other_table
                 LEFT OUTER JOIN current_tallies
                 ON (
-                    tally_name      = '$this->tally_name'
-                    AND holder_type = '$this->holder_type'
+                    tally_name      = '%s'
+                    AND holder_type = '%s'
                     AND holder_id   = $holder_id_expr
                 )
             WHERE tally_value > 0 OR $holder_id_expr='$target_holder_id'
             ORDER BY tally_value DESC, holder_id ASC
-        ") or die(mysql_error());
+        ", mysql_real_escape_string($this->tally_name),
+            mysql_real_escape_string($this->holder_type));
+        $result = mysql_query($sql) or die(mysql_error());
         // Note that for the purposes of this function,
         // we pretend that holders with tally_value <= 0 don't exist,
         // with the possible exception of the target holder.
@@ -339,27 +354,31 @@ class TallyBoard
             }
 
             // Get everyone's most recent saved tally.
-            $result = mysql_query("
+            $sql = sprintf("
                 SELECT holder_id, tally_value
                 FROM past_tallies
                 WHERE
                     timestamp       = $prev_ascribe_time
-                    AND tally_name  = '$this->tally_name'
-                    AND holder_type = '$this->holder_type'
-            ") or die(mysql_error());
+                    AND tally_name  = '%s'
+                    AND holder_type = '%s'
+            ", mysql_real_escape_string($this->tally_name),
+                mysql_real_escape_string($this->holder_type));
+            $result = mysql_query($sql) or die(mysql_error());
             while ( list($holder_id, $prev_tally_value) = mysql_fetch_row($result) )
             {
                 $prev_tally_for_[$holder_id] = $prev_tally_value;
             }
 
             // Get everyone's best tally-rank so far.
-            $result = mysql_query("
+            $sql = sprintf("
                 SELECT holder_id, best_rank
                 FROM best_tally_rank
                 WHERE
-                    tally_name      = '$this->tally_name'
-                    AND holder_type = '$this->holder_type'
-            ") or die(mysql_error());
+                    tally_name      = '%s'
+                    AND holder_type = '%s'
+            ", mysql_real_escape_string($this->tally_name),
+                mysql_real_escape_string($this->holder_type));
+            $result = mysql_query($sql) or die(mysql_error());
             while ( list($holder_id, $best_rank ) = mysql_fetch_row($result) )
             {
                 $best_rank_for_[$holder_id] = $best_rank;
@@ -367,14 +386,16 @@ class TallyBoard
         }
 
         // Get everyone's current tally, in rank order.
-        $result = mysql_query("
+        $sql = sprintf("
             SELECT holder_id, tally_value
             FROM current_tallies
             WHERE
-                tally_name      = '$this->tally_name'
-                AND holder_type = '$this->holder_type'
+                tally_name      = '%s'
+                AND holder_type = '%s'
             ORDER BY tally_value DESC
-        ") or die(mysql_error());
+        ", mysql_real_escape_string($this->tally_name),
+            mysql_real_escape_string($this->holder_type));
+        $result = mysql_query($sql) or die(mysql_error());
 
         $ranker = new Ranker(TRUE);
         while ( list($holder_id, $current_tally) = mysql_fetch_row($result) )
@@ -382,16 +403,18 @@ class TallyBoard
             $rank = $ranker->next( $current_tally );
             $previous_tally = array_get( $prev_tally_for_, $holder_id, 0 );
             $tally_delta = $current_tally - $previous_tally;
-            $query = "
+            $query = sprintf("
                 INSERT INTO past_tallies
                 SET
                     timestamp   = $ascribe_time,
-                    tally_name  = '$this->tally_name',
-                    holder_type = '$this->holder_type',
-                    holder_id   = $holder_id,
+                    tally_name  = '%s',
+                    holder_type = '%s',
+                    holder_id   = %d,
                     tally_delta = $tally_delta,
                     tally_value = $current_tally
-            ";
+            ", mysql_real_escape_string($this->tally_name),
+                mysql_real_escape_string($this->holder_type),
+                intval($holder_id));
             if ($dry_run)
             {
                 // Normalize whitespace
@@ -405,15 +428,17 @@ class TallyBoard
 
             if ( $rank > 0 && ( !isset($best_rank_for_[$holder_id]) || $rank < $best_rank_for_[$holder_id] ) )
             {
-                $query = "
+                $query = sprintf("
                     REPLACE INTO best_tally_rank
                     SET
-                        tally_name  = '$this->tally_name',
-                        holder_type = '$this->holder_type',
-                        holder_id   = $holder_id,
+                        tally_name  = '%s',
+                        holder_type = '%s',
+                        holder_id   = %d,
                         best_rank   = $rank,
                         best_rank_timestamp = $ascribe_time
-                ";
+                ", mysql_real_escape_string($this->tally_name),
+                    mysql_real_escape_string($this->holder_type),
+                    intval($holder_id));
                 if ($dry_run)
                 {
                     // Normalize whitespace
@@ -434,13 +459,15 @@ class TallyBoard
     // Return the ascribed timestamp of the latest snapshot for this TallyBoard,
     // or $default if there has been no snapshot yet.
     {
-        $result = mysql_query("
+        $sql = sprintf("
             SELECT MAX(timestamp)
             FROM past_tallies
             WHERE
-                tally_name      = '$this->tally_name'
-                AND holder_type = '$this->holder_type'
-        ") or die(mysql_error());
+                tally_name      = '%s'
+                AND holder_type = '%s'
+        ", mysql_real_escape_string($this->tally_name),
+            mysql_real_escape_string($this->holder_type));
+        $result = mysql_query($sql) or die(mysql_error());
         $max_timestamp = mysql_result($result,0,0);
 
         if ( is_null($max_timestamp) )
@@ -461,16 +488,19 @@ class TallyBoard
     //     'tally_delta'
     //     'tally_value'
     {
-        $result = mysql_query("
+        $sql = sprintf("
             SELECT timestamp, tally_delta, tally_value
             FROM past_tallies
             WHERE
-                tally_name      = '$this->tally_name'
-                AND holder_type = '$this->holder_type'
-                AND holder_id   = $holder_id
+                tally_name      = '%s'
+                AND holder_type = '%s'
+                AND holder_id   = %d
             ORDER BY timestamp DESC
             LIMIT 1
-        ") or die(mysql_error());
+        ", mysql_real_escape_string($this->tally_name),
+            mysql_real_escape_string($this->holder_type),
+            intval($holder_id));
+        $result = mysql_query($sql) or die(mysql_error());
 
         if ( mysql_num_rows($result) == 0 )
         {
@@ -502,16 +532,19 @@ class TallyBoard
     // -- the given holder's largest recorded delta on this TallyBoard, and
     // -- the earliest timestamp for which that delta was recorded.
     {
-        $result = mysql_query("
+        $sql = sprintf("
             SELECT tally_delta, timestamp
             FROM past_tallies
             WHERE
-                tally_name      = '$this->tally_name'
-                AND holder_type = '$this->holder_type'
-                AND holder_id   = $holder_id
+                tally_name      = '%s'
+                AND holder_type = '%s'
+                AND holder_id   = %d
             ORDER BY tally_delta DESC, timestamp ASC
             LIMIT 1
-        ") or die(mysql_error());
+        ", mysql_real_escape_string($this->tally_name),
+            mysql_real_escape_string($this->holder_type),
+            intval($holder_id));
+        $result = mysql_query($sql) or die(mysql_error());
 
         if ( mysql_num_rows($result) == 0 )
         {
@@ -534,14 +567,17 @@ class TallyBoard
     // -- the given holder's best recorded rank on this TallyBoard, and
     // -- the earliest timestamp for which that rank was recorded.
     {
-        $result = mysql_query("
+        $sql = sprintf("
             SELECT best_rank, best_rank_timestamp
             FROM best_tally_rank
             WHERE
-                tally_name      = '$this->tally_name'
-                AND holder_type = '$this->holder_type'
-                AND holder_id   = $holder_id
-        ") or die(mysql_error());
+                tally_name      = '%s'
+                AND holder_type = '%s'
+                AND holder_id   = %d
+        ", mysql_real_escape_string($this->tally_name),
+            mysql_real_escape_string($this->holder_type),
+            intval($holder_id));
+        $result = mysql_query($sql) or die(mysql_error());
 
         if ( mysql_num_rows($result) == 0 )
         {
@@ -566,16 +602,19 @@ class TallyBoard
     // and value is the tally delta recorded for that time.
     // (The items are sorted by timestamp.)
     {
-        $result = mysql_query("
+        $sql = sprintf("
             SELECT timestamp, tally_delta
             FROM past_tallies
             WHERE
-                tally_name      = '$this->tally_name'
-                AND holder_type = '$this->holder_type'
-                AND holder_id   = '$holder_id'
+                tally_name      = '%s'
+                AND holder_type = '%s'
+                AND holder_id   = %d
                 AND timestamp  >= $min_timestamp
             ORDER BY timestamp ASC
-        ") or die(mysql_error());
+        ", mysql_real_escape_string($this->tally_name),
+            mysql_real_escape_string($this->holder_type),
+            intval($holder_id));
+        $result = mysql_query($sql) or die(mysql_error());
 
         $delta_at_ = array();
         while( list($timestamp, $tally_delta) = mysql_fetch_row($result) )
@@ -598,16 +637,19 @@ class TallyBoard
     // as the difference between the tally_value at those two times.
     // But summing the intervening deltas is the more general solution.
     {
-        $res = mysql_query("
+        $sql = sprintf("
             SELECT SUM(tally_delta)
             FROM past_tallies
             WHERE
-                tally_name      = '$this->tally_name'
-                AND holder_type = '$this->holder_type'
-                AND holder_id   = '$holder_id'
+                tally_name      = '%s'
+                AND holder_type = '%s'
+                AND holder_id   = %d
                 AND $start_timestamp < timestamp
                 AND timestamp <= $end_timestamp
-        ") or die(mysql_error());
+        ", mysql_real_escape_string($this->tally_name),
+            mysql_real_escape_string($this->holder_type),
+            intval($holder_id));
+        $res = mysql_query($sql) or die(mysql_error());
         return mysql_result($res,0);
     }
 
@@ -710,4 +752,3 @@ class Ranker
 }
 
 // vim: sw=4 ts=4 expandtab
-?>
