@@ -83,13 +83,15 @@ class Settings
 
         // Query the "usersettings" table and get all the rows for our user.
         // build an array with the settings, to use when somebody asks.
-        $sql = "SELECT  u.sitemanager,
-                        u.manager,
-                        u.postprocessor,
-                        us.*
+        $sql = sprintf("
+            SELECT u.sitemanager,
+                   u.manager,
+                   u.postprocessor,
+                   us.*
             FROM users AS u
             LEFT OUTER JOIN usersettings AS us ON u.username = us.username
-            WHERE u.username = '$this->username'";
+            WHERE u.username = '%s'
+        ", mysql_real_escape_string($this->username));
 
         $result = mysql_query($sql);
         // To know whether we've populated fields from 'users' table yet:

@@ -123,11 +123,12 @@ if (!isset($name))
 }
 else
 {
-    $qd = mysql_fetch_object( mysql_query("
+    $sql = sprintf("
         SELECT *
         FROM queue_defns
-        WHERE round_id='$round_id' AND name='$name'
-    "));
+        WHERE round_id='%s' AND name='%s'
+    ", mysql_real_escape_string($round_id), mysql_real_escape_string($name));
+    $qd = mysql_fetch_object( mysql_query($sql) );
     if (!$qd) {
         die(html_safe("No such release queue '$name' in $round_id."));
     }
