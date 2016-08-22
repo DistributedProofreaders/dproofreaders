@@ -66,7 +66,12 @@ else if (isset($_POST['mkMake']))
         $tid = mysql_insert_id($db_Connection->db_lk);
         if (!empty($_POST['tavatar']))
         {
-            mysql_query("UPDATE user_teams SET avatar='".$_POST['tavatar']."' WHERE id = $tid");
+            $sql = sprintf("
+                UPDATE user_teams
+                SET avatar='%s'
+                WHERE id = $tid
+            ", mysql_real_escape_string($_POST['tavatar']))
+            mysql_query($sql);
         }
         elseif (!empty($_FILES['teamavatar']))
         {
@@ -74,7 +79,12 @@ else if (isset($_POST['mkMake']))
         }
         if (!empty($_POST['ticon']))
         {
-            mysql_query("UPDATE user_teams SET icon='".$_POST['ticon']."' WHERE id = $tid");
+            $sql = sprintf("
+                UPDATE user_teams
+                SET icon='%s'
+                WHERE id = $tid
+            ", mysql_real_escape_string($_POST['ticon']));
+            mysql_query($sql);
         }
         elseif (!empty($_FILES['teamicon']))
         {
