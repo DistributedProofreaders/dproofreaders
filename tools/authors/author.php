@@ -7,19 +7,9 @@ include_once('menu.inc');
 
 require_login();
 
-// argument provided?
-if (isset($_GET['author_id'])) {
-    $id = $_GET['author_id'];
-} else {
-    output_header(_('No author-id specified'));
-    echo _('There was an error: No author-id was specified.') . ' ';
-    echo _('If you believe this to be the result of perfectly legitimate actions taken by you, please ');
-    echo '<a href="whatever">' . _('report it to us') . "</a>.\n";
-    echo _('You may return to <a href="listing.php">the authors-listing</a>.');
-    exit();
-}
+$author_id = get_integer_param($_GET, 'author_id', null, null, null, TRUE);
 
-$result = mysql_query("SELECT * FROM authors WHERE author_id=$id;");
+$result = mysql_query("SELECT * FROM authors WHERE author_id=$author_id");
 $last_name = mysql_result($result, 0, "last_name");
 $other_names = mysql_result($result, 0, "other_names");
 $birth = format_date_from_sqlset($result, 0, 'b');
@@ -32,13 +22,7 @@ echo_menu();
 
 echo '<h1 align="center">' . _('Author') . '</h1>';
 
-echo_author($last_name, $other_names, $birth, $decease, $id);
-
-if (user_is_authors_db_manager()) {
-?>
-<BR/>
-<?php
-}
+echo_author($last_name, $other_names, $birth, $decease, $author_id);
 
 echo_menu();
 

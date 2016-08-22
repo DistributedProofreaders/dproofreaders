@@ -42,21 +42,20 @@ if (isset($_POST) && count($_POST)>0) {
     $enable_author_values = array();
     $enable_author_ids = array();
 
-    if (isset($_POST['move_to_author']))
-        $moveTo = $_POST['move_to_author'];
+    $moveTo = get_integer_param($_POST, 'move_to_author', null, null, null, TRUE);
 
     // loop through posted data, see what the field names start with, save ids in arrays
     reset($_POST);
     while (list($key, $val) = each($_POST)) {
 
         if (strpos($key, 'delete_bio_') !== false)
-            array_push($delete_bios, substr($key, 11));
+            array_push($delete_bios, intval(substr($key, 11)));
 
         if (strpos($key, 'move_bio_') !== false)
-            array_push($move_bios, substr($key, 9));
+            array_push($move_bios, intval(substr($key, 9)));
 
         if (strpos($key, 'delete_author_') !== false)
-            array_push($delete_authors, substr($key, 14));
+            array_push($delete_authors, intval(substr($key, 14)));
 
         if (strpos($key, 'old_enabled_author_') !== false) {
             // find id and new status
@@ -67,8 +66,8 @@ if (isset($_POST) && count($_POST)>0) {
                 // add the author id in the queue, unless it's been queued for removal
                 // (I cannot get array_key_exists($id, $delete_authors) to work, thus the hack)
                 if (!isset($_POST["delete_author_$id"])) {
-                    array_push($enable_author_values, $new);
-                    array_push($enable_author_ids, $id);
+                    array_push($enable_author_values, intval($new));
+                    array_push($enable_author_ids, intval($id));
                 }
             }
         }
@@ -124,7 +123,7 @@ if (isset($_POST) && count($_POST)>0) {
         mysql_query("DELETE FROM biographies WHERE bio_id = $bio");
 
     // 2. move bios
-    if (isset($moveTo)) {
+    if ($moveTo) {
         foreach ($move_bios as $bio)
             mysql_query("UPDATE biographies SET author_id = $moveTo WHERE bio_id = $bio");
     }

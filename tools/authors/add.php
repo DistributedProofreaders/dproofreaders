@@ -30,6 +30,7 @@ if (isset($last_name)) {
     $dday        = get_integer_param($_POST, 'dday', null, 0, 31);
     $dcomments   = @$_POST['dcomments'];
     $dyearRadio  = get_integer_param($_POST, 'dyearRadio', null, 0, 1);
+    $author_id   = get_integer_param($_POST, 'author_id', null, null, null, TRUE);
 
     // years are specified using radio-buttons and text-fields.
     // a little logic to get the right data
@@ -51,9 +52,8 @@ if (isset($last_name)) {
         // validate
 
         // insert into the database
-        if (isset($_POST['author_id'])) {
+        if ($author_id) {
             // edit existing author
-            $author_id = $_POST['author_id'];
             $result = mysql_query(sprintf("
                 UPDATE authors
                 SET last_name='%s', other_names='%s',
@@ -116,10 +116,10 @@ if (isset($last_name)) {
 }
 else {
     // GET => output form
+    $author_id   = get_integer_param($_GET, 'author_id', null, null, null, TRUE);
 
-    if (isset($_GET['author_id'])) {
+    if ($author_id) {
         // edit specified author
-        $author_id = $_GET['author_id'];
         // get the values from the database
         $result = mysql_query("SELECT * FROM authors WHERE author_id = $author_id;");
         if (!$result) {

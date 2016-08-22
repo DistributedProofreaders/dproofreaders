@@ -13,19 +13,19 @@ abort_if_not_authors_db_editor(true);
 // load posted values or defaults
 if (isset($_GET['author_id'])) {
     // init creation of new bio
-    $author_id = $_GET['author_id'];
+    $author_id = get_integer_param($_GET, 'author_id', null, null, null, TRUE);
     $bio = '';
 }
 elseif (isset($_GET['bio_id'])) {
     // init edit of existing bio
-    $bio_id = $_GET['bio_id'];
+    $bio_id = get_integer_param($_GET, 'bio_id', null, null, null, TRUE);
     $result = mysql_query("SELECT * FROM biographies WHERE bio_id = $bio_id;");
     $author_id = mysql_result($result, 0, 'author_id');
-    $bio        = mysql_result($result, 0, 'bio');
+    $bio       = mysql_result($result, 0, 'bio');
 }
 elseif (isset($_POST['author_id'])) {
     // preview / save
-    $author_id = $_POST['author_id'];
+    $author_id = get_integer_param($_POST, 'author_id', null, null, null, TRUE);
     $bio = $_POST['bio'];
 
     if (isset($_POST['SaveAndExit']) || isset($_POST['SaveAndView']) || isset($_POST['SaveAndNew'])) {
@@ -34,7 +34,7 @@ elseif (isset($_POST['author_id'])) {
 
         if (isset($_POST['bio_id'])) {
             // edit existing bio
-            $bio_id = $_POST['bio_id'];
+            $bio_id = get_integer_param($_POST, 'bio_id', null, null, null, TRUE);
             $result = mysql_query(sprintf("
                 UPDATE biographies
                 SET bio = '%s'
