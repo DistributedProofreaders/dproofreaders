@@ -19,7 +19,7 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
 // return that string.
 // If it's not defined, and $default is non-null, return $default.
 // If $default is null and $allownull is true, return null (useful for optional params).
-// Otherwise die with an error.
+// Otherwise throw an InvalidArgumentException with an error.
 //
 // Example usages:
 //     $dir = get_enumerated_param( $_GET, 'direction', 'asc', array('asc', 'desc') );
@@ -82,12 +82,14 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         {
             if (!is_numeric($s))
             {
-                die(html_safe("parameter '$key' ('$s') is not numeric"));
+                throw new InvalidArgumentException(html_safe(
+                    "parameter '$key' ('$s') is not numeric"));
             }
             $s = 0 + $s;
             if (!is_int($s))
             {
-                die(html_safe("parameter '$key' ('$s') is not an integer"));
+                throw new InvalidArgumentException(html_safe(
+                    "parameter '$key' ('$s') is not an integer"));
             }
         }
 
@@ -97,7 +99,8 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         }
         else
         {
-            die(html_safe("parameter '$key' ('$s') is not valid"));
+            throw new InvalidArgumentException(html_safe(
+                "parameter '$key' ('$s') is not valid"));
         }
     }
     else
@@ -106,7 +109,8 @@ function get_enumerated_param( $arr, $key, $default, $choices, $allownull = fals
         if ( is_null($default) && !$allownull )
         {
             // There is no default. The parameter is required.
-            die(html_safe("parameter '$key' is required"));
+            throw new InvalidArgumentException(html_safe(
+                "parameter '$key' is required"));
         }
         else
         {
@@ -120,7 +124,7 @@ function get_integer_param( $arr, $key, $default, $min, $max, $allownull = false
 // satisfying certain simple constraints, return that integer.
 // If it's not defined, and $default is non-null, return $default.
 // If it's not defined, and $default is null and $allownull is true, return null.
-// Otherwise, die with an error.
+// Otherwise, throw an InvalidArgumentException with an error.
 //
 // Example usages:
 //     $per_page = get_integer_param($_GET, 'per_page', 20, 1, NULL );
@@ -132,14 +136,32 @@ function get_integer_param( $arr, $key, $default, $min, $max, $allownull = false
 // As before, except if no limit is provided, return null, so the caller can
 // know to display all pages rather than some arbitrary maximum.
 {
+    return get_numeric_param("integer", $arr, $key, $default, $min, $max, $allownull);
+}
+
+function get_float_param( $arr, $key, $default, $min, $max, $allownull = false )
+// This function operates identically to get_integer_param() except for floats
+{
+    return get_numeric_param("float", $arr, $key, $default, $min, $max, $allownull);
+}
+
+function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
+// Parent function of get_integer_param() and get_float_param(), use those
+// versions instead.
+//
+// $type should be one of "integer" or "float".
+{
     {
         // sanity checks on the args
         assert( is_array($arr) );
         assert(!is_array($key) );
 
-        assert( is_null($default) || is_int($default) );
-        assert( is_null($min)     || is_int($min) );
-        assert( is_null($max)     || is_int($max) );
+        if($type == 'integer')
+            assert( is_null($default) || is_int($default) );
+        else
+            assert( is_null($default) || is_float($default) );
+        assert( is_null($min)     || is_numeric($min) );
+        assert( is_null($max)     || is_numeric($max) );
 
         if ( !is_null($default) )
         {
@@ -161,27 +183,49 @@ function get_integer_param( $arr, $key, $default, $min, $max, $allownull = false
 
         // Trim whitespace from both ends of the string.
         $s = trim($s);
-        
-        if ( preg_match('/^[-+]?\d+$/', $s ) )
-        {
-            // It's a well-formed (decimal) rep of an integer.
-            $i = intval($s);
-            if ( !is_null($min) && $i < $min )
-            {
-                die(html_safe("parameter '$key' ($s) is less than the minimum $min"));
-            }
 
-            if ( !is_null($max) && $i > $max )
-            {
-                die(html_safe("parameter '$key' ($s) is greater than the maximum $max"));
-            }
-
-            return $i;
-        }
-        else
+        if ( $type == 'integer' )
         {
-            die(html_safe("parameter '$key' ('$s') is not an integer"));
+            if ( preg_match('/^[-+]?\d+$/', $s ) )
+            {
+                // It's a well-formed (decimal) rep of an integer
+                $i = intval($s);
+            }
+            else
+            {
+                throw new InvalidArgumentException(html_safe(
+                    "parameter '$key' ('$s') is not an integer"));
+            }
         }
+        elseif ( $type == 'float' )
+        {
+            // We'll accept an integer or a floating point number
+            if ( preg_match('/^[-+]?\d+$/', $s ) ||
+                 preg_match('/^[-+]?\d*\.\d+$/', $s ) )
+            {
+                // It's a well-formed (decimal) rep of a float
+                $i = floatval($s);
+            }
+            else
+            {
+                throw new InvalidArgumentException(html_safe(
+                    "parameter '$key' ('$s') is not a float"));
+            }
+        }
+
+        if ( !is_null($min) && $i < $min )
+        {
+            throw new InvalidArgumentException(html_safe(
+                "parameter '$key' ($s) is less than the minimum $min"));
+        }
+
+        if ( !is_null($max) && $i > $max )
+        {
+            throw new InvalidArgumentException(html_safe(
+                "parameter '$key' ($s) is greater than the maximum $max"));
+        }
+
+        return $i;
     }
     else
     {
@@ -189,7 +233,8 @@ function get_integer_param( $arr, $key, $default, $min, $max, $allownull = false
         if ( is_null($default) && !$allownull )
         {
             // There is no default. The parameter is required.
-            die(html_safe("parameter '$key' is required"));
+            throw new InvalidArgumentException(html_safe(
+                "parameter '$key' is required"));
         }
         else
         {
@@ -202,7 +247,7 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false
 // If $arr[$key] is defined and matches $regex, return it.
 // If it's not defined, and $default is non-null, return $default.
 // If it's not defined, and $default is null and $allownull is true, return null.
-// Otherwise, die with an error.
+// Otherwise, throw an InvalidArgumentException with an error.
 //
 // NOTE:
 // For security, $regex should almost certainly be anchored at both ends,
@@ -243,7 +288,8 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false
         }
         else
         {
-            die(html_safe("parameter '$key' ('$s') does not match the regex $regex"));
+            throw new InvalidArgumentException(html_safe(
+                "parameter '$key' ('$s') does not match the regex $regex"));
         }
     }
     else
@@ -252,7 +298,8 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull=false
         if ( is_null($default) && !$allownull )
         {
             // There is no default. The parameter is required.
-            die(html_safe("parameter '$key' is required"));
+            throw new InvalidArgumentException(html_safe(
+                "parameter '$key' is required"));
         }
         else
         {
