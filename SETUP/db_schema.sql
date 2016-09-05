@@ -138,8 +138,6 @@ CREATE TABLE `job_logs` (
 
 CREATE TABLE `marc_records` (
   `projectid` varchar(22) NOT NULL default '',
-  `original_marc` text NOT NULL,
-  `updated_marc` text NOT NULL,
   `original_array` text NOT NULL,
   `updated_array` text NOT NULL,
   PRIMARY KEY  (`projectid`)

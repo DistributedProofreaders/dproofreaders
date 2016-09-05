@@ -6,7 +6,7 @@
 $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'marc_format.inc');
+include_once($relPath.'MARCRecord.inc');
 
 require_login();
 
@@ -187,12 +187,8 @@ function do_search_and_show_hits()
     {
         $rec = yaz_record($id, $start, "array");
         //if it's not a book don't display it.  we might want to uncomment in the future if there are too many records being returned - if (substr(yaz_record($id, $start, "raw"), 6, 1) != "a") { $start++; continue; }
-        $title = marc_title($rec);
-        $author = marc_author($rec);
-        $publisher = marc_publisher($rec);
-        $language = marc_language($rec);
-        $lccn = marc_lccn($rec);
-        $isbn = marc_isbn($rec);
+        $marc_record = new MARCRecord();
+        $marc_record->load_yaz_array($rec);
 
         if ($i % 2 == 1) { echo "<tr>"; }
 
@@ -203,12 +199,12 @@ function do_search_and_show_hits()
         echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
         foreach ( array(
-                array( 'label' => _("Title"),     'value' => $title ),
-                array( 'label' => _("Author"),    'value' => $author ),
-                array( 'label' => _("Publisher"), 'value' => $publisher ),
-                array( 'label' => _("Language"),  'value' => $language ),
-                array( 'label' => _("LCCN"),      'value' => $lccn ),
-                array( 'label' => _("ISBN"),      'value' => $isbn )
+                array( 'label' => _("Title"),     'value' => $marc_record->title ),
+                array( 'label' => _("Author"),    'value' => $marc_record->author ),
+                array( 'label' => _("Publisher"), 'value' => $marc_record->publisher ),
+                array( 'label' => _("Language"),  'value' => $marc_record->language ),
+                array( 'label' => _("LCCN"),      'value' => $marc_record->lccn ),
+                array( 'label' => _("ISBN"),      'value' => $marc_record->isbn )
             )
             as $couple
         )
