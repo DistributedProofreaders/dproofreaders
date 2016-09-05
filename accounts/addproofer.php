@@ -68,8 +68,11 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
         return _("You did not completely fill out the form.");
     }
 
-    // Make sure that the username is not taken by a non-registered user.
-    if(User::is_valid_user($username))
+    // Make sure that the requested username is not already taken.
+    // Use non-strict validation, which will return TRUE if the username
+    // is the same as an existing one, or differs only by case or trailing
+    // whitespace.
+    if(User::is_valid_user($username, FALSE))
     {
         return _("That user name already exists, please try another.");
     }

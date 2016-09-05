@@ -5,7 +5,7 @@ include_once($relPath.'connect.inc');
 ini_set( 'session.name',            "{$site_abbreviation}_Session" );
 ini_set( 'session.use_cookies',     1 );
 ini_set( 'session.cookie_domain',   '' ); // A sensible value will be used.
-ini_set( 'session.cookie_lifetime', 86400 );
+ini_set( 'session.cookie_lifetime', 86400 * 31); // 31 days ~= 1 month
 
 // -----------------------------------------------------------------------------
 

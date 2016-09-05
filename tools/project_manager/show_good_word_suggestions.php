@@ -208,6 +208,12 @@ foreach($rounds as $round) {
     echo "<h2>$round_string</h2>";
     echo "<p>$page_num_string</p>";
 
+    if(count($round_suggestions_w_freq[$round])==0)
+    {
+        echo "<p>" . _("None of the suggested words remain in the saved text for this round.") . "</p>";
+        continue;
+    }
+
     $word_checkbox = build_checkbox_array($round_suggestions_w_freq[$round],$round);
     echo_checkbox_selects(count($round_suggestions_w_freq[$round]),$round);
     echo_checkbox_form_submit($submit_label);

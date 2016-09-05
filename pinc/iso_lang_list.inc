@@ -38,6 +38,7 @@
 // and then have a mapping of language codes to language names in the 
 // desired locale.
 
+global $lang_list;
 $lang_list=array(
     array("lang_name" => "English", "lang_code" => "eng"),
     array("lang_name" => "Dutch", "lang_code" => "dut/nld"),

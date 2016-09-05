@@ -8,7 +8,9 @@ class UserTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         // Load a valid username from the database for use during the tests
-        $sql = "SELECT username FROM users LIMIT 1";
+        // We need one with an alphabetic character in it for the user
+        // validation tests.
+        $sql = "SELECT username FROM users WHERE username like '%a%' LIMIT 1";
         $result = mysql_query($sql);
         $row = mysql_fetch_assoc($result);
         $this->EXISTENT_USERNAME = $row['username'];
@@ -25,9 +27,43 @@ class UserTest extends PHPUnit_Framework_TestCase
         $user = new User($this->EXISTENT_USERNAME);
     }
 
-    public function testValidateValidUser()
+    public function testValidateValidUserStrict()
     {
         $is_valid = User::is_valid_user($this->EXISTENT_USERNAME);
+        $this->assertTrue($is_valid);
+    }
+
+    public function testValidateValidUserStrictDifferCase()
+    {
+        $username=strtoupper($this->EXISTENT_USERNAME);
+        $is_valid = User::is_valid_user($username);
+        $this->assertFalse($is_valid);
+    }
+
+    public function testValidateValidUserStrictDifferWhitespace()
+    {
+        $username=$this->EXISTENT_USERNAME . "  ";
+        $is_valid = User::is_valid_user($username);
+        $this->assertFalse($is_valid);
+    }
+
+    public function testValidateValidUserNotStrict()
+    {
+        $is_valid = User::is_valid_user($this->EXISTENT_USERNAME, FALSE);
+        $this->assertTrue($is_valid);
+    }
+
+    public function testValidateValidUserNotStrictDifferCase()
+    {
+        $username=strtoupper($this->EXISTENT_USERNAME);
+        $is_valid = User::is_valid_user($username, FALSE);
+        $this->assertTrue($is_valid);
+    }
+
+    public function testValidateValidUserNotStrictDifferWhitespace()
+    {
+        $username=$this->EXISTENT_USERNAME . "  ";
+        $is_valid = User::is_valid_user($username, FALSE);
         $this->assertTrue($is_valid);
     }
 
@@ -37,10 +73,44 @@ class UserTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($is_valid);
     }
 
-    public function testLoadExisting()
+    public function testLoadExistingStrict()
     {
         $user = new User();
         $user->load("username", $this->EXISTENT_USERNAME);
+    }
+
+    /**
+     * @expectedException NonexistentUserException
+     */
+    public function testLoadExistingStrictDifferCase()
+    {
+        $username = strtoupper($this->EXISTENT_USERNAME);
+        $user = new User();
+        $user->load("username", $username);
+    }
+
+    /**
+     * @expectedException NonexistentUserException
+     */
+    public function testLoadExistingStrictDifferWhitespace()
+    {
+        $username = $this->EXISTENT_USERNAME . '   ';
+        $user = new User();
+        $user->load("username", $username);
+    }
+
+    public function testLoadExistingNotStrictDifferCase()
+    {
+        $username = strtoupper($this->EXISTENT_USERNAME);
+        $user = new User();
+        $user->load("username", $username, FALSE);
+    }
+
+    public function testLoadExistingNotStrictDifferWhitespace()
+    {
+        $username = $this->EXISTENT_USERNAME . '   ';
+        $user = new User();
+        $user->load("username", $username, FALSE);
     }
 
     /**
