@@ -61,17 +61,21 @@ class User
         return isset($this->table_row[$name]);
     }
 
-    public function load($field, $value)
+    public function load($field, $value, $strict=TRUE)
     {
         if(in_array($field, $this->string_fields))
         {
-            $value = sprintf("'%s'", mysql_real_escape_string($value));
+            $escaped_value = sprintf("'%s'", mysql_real_escape_string($value));
+        }
+        else
+        {
+            $escaped_value = $value;
         }
 
         $sql = "
             SELECT *
             FROM users
-            WHERE $field=$value
+            WHERE $field=$escaped_value
         ";
 
         $result = mysql_query($sql);
@@ -94,6 +98,20 @@ class User
             );
         }
         $this->table_row = mysql_fetch_assoc($result);
+
+        # MySQL does case-insensitive matches for strings, as well as
+        # ignores trailing whitespace. If $strict is TRUE, and the field
+        # is the username, require that the requested $username matches the
+        # existing username in case and whitespace by doing a PHP string
+        # compare.
+        if($strict and $field == 'username' and $this->username != $value)
+        {
+            throw new NonexistentUserException(sprintf(
+                _('No user found with %1$s = %2$s'),
+                    $field, $value)
+            );
+        }
+
         mysql_free_result($result);
     }
 
@@ -104,7 +122,7 @@ class User
 
     // Static function to determine if the specified username is associated
     // with a valid user without the overhead of creating an object.
-    public static function is_valid_user($username)
+    public static function is_valid_user($username, $strict=TRUE)
     {
         $sql = sprintf("
             SELECT username
@@ -118,7 +136,26 @@ class User
         }
         else
         {
-            $is_valid = TRUE;
+            # MySQL does case-insensitive matches for strings, as well as
+            # ignores trailing whitespace. If $strict is TRUE, require that
+            # the requested $username matches the existing username in case
+            # and whitespace by doing a PHP string compare.
+            if($strict)
+            {
+                list($existing_username) = mysql_fetch_row($result);
+                if($username != $existing_username)
+                {
+                    $is_valid = FALSE;
+                }
+                else
+                {
+                    $is_valid = TRUE;
+                }
+            }
+            else
+            {
+                $is_valid = TRUE;
+            }
         }
 
         mysql_free_result($result);
