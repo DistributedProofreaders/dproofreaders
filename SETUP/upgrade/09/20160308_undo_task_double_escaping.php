@@ -38,7 +38,7 @@ while ( list($task_id, $task_summary, $task_details) = mysql_fetch_row($result) 
     );
 
     echo "$sql\n";
-    #mysql_query($sql);
+    mysql_query($sql);
 }
 
 // ------------------------------------------------------------
@@ -61,7 +61,7 @@ while ( list($task_id, $u_id, $comment_date, $comment) = mysql_fetch_row($result
     );
 
     echo "$sql\n";
-    #mysql_query($sql);
+    mysql_query($sql);
 }
 
 // ------------------------------------------------------------
