@@ -478,11 +478,13 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             $can_see_this_uber = mysql_num_rows($UP_ok_qry);
         }
         if ($can_see_this_uber) {
-            $condition .= " AND up_projectid = '$up_projectid' ";
+            $condition .= sprintf(
+                " AND up_projectid = '%s'
+            ", mysql_real_escape_string($up_projectid));
         }
     }
 
-    $n_results_per_page = @$_GET['n_results_per_page'];
+    $n_results_per_page = intval(@$_GET['n_results_per_page']);
     if ( $n_results_per_page == 0 ) $n_results_per_page = DEFAULT_N_RESULTS_PER_PAGE;
 
     $results_offset = intval(@$_GET['results_offset']);
