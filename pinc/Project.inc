@@ -498,19 +498,20 @@ XML;
     // Load the updated MARC record for this project
     public function load_marc_record()
     {
+        $updated_record = new MARCRecord();
+
         $result = mysql_query("
             SELECT updated_array
             FROM marc_records
             WHERE projectid = '$this->projectid'
         ");
 
-        if(!$result)
-            return NULL;
+        if(!$result || mysql_num_rows($result) == 0)
+            return $updated_record;
 
         $updated_array = mysql_result($result, 0);
         mysql_free_result($result);
 
-        $updated_record = new MARCRecord();
         $updated_record->load_yaz_array(unserialize(base64_decode($updated_array)));
 
         return $updated_record;
