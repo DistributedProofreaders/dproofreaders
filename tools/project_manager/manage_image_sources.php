@@ -471,9 +471,10 @@ class ImageSource
             SET
                 code_name = '%s',
                 $std_fields_sql
-                url = '$this->url',
+                url = '%s',
                 is_active = '$this->is_active'
-        ", mysql_real_escape_string($this->code_name))
+        ", mysql_real_escape_string($this->code_name),
+            mysql_real_escape_string($this->url))
         ) or die("Couldn't add/edit source: ".mysql_error());
 
     }
