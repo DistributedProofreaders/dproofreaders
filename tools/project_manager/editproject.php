@@ -242,7 +242,7 @@ class ProjectInfoHolder
             return sprintf(_("parameter '%s' is unset"), 'up_projectid');
         }
 
-        $up_projectid = $_GET['up_projectid'];
+        $up_projectid = intval($_GET['up_projectid']);
         if ( $up_projectid == '' )
         {
             return sprintf(_("parameter '%s' is empty"), 'up_projectid');
@@ -614,12 +614,12 @@ class ProjectInfoHolder
             special_code   = '".mysql_real_escape_string($this->special_code)."',
             clearance      = '".mysql_real_escape_string($this->clearance)."',
             comments       = '".mysql_real_escape_string($this->comments)."',
-            image_source   = '{$this->image_source}',
+            image_source   = '".mysql_real_escape_string($this->image_source)."',
             scannercredit  = '".mysql_real_escape_string($this->scannercredit)."',
-            checkedoutby   = '{$this->checkedoutby}',
+            checkedoutby   = '".mysql_real_escape_string($this->checkedoutby)."',
             postednum      = $postednum_str,
-            image_preparer = '{$this->image_preparer}',
-            text_preparer  = '{$this->text_preparer}',
+            image_preparer = '".mysql_real_escape_string($this->image_preparer)."',
+            text_preparer  = '".mysql_real_escape_string($this->text_preparer)."',
             extra_credits  = '".mysql_real_escape_string($this->extra_credits)."',
             deletion_reason= '".mysql_real_escape_string($this->deletion_reason)."'
         ";
@@ -627,7 +627,9 @@ class ProjectInfoHolder
         if ( user_is_a_sitemanager() )
         {
             // can change PM
-            $pm_setter = " username = '{$this->projectmanager}',";
+            $pm_setter = sprintf("
+                username = '%s',
+            ", mysql_real_escape_string($this->projectmanager));
         }
         else if ( isset($this->clone_projectid) )
         {
@@ -641,7 +643,9 @@ class ProjectInfoHolder
             ") or die(mysql_error());
             list($projectmanager) = mysql_fetch_row($res);
 
-            $pm_setter = " username = '$projectmanager',";
+            $pm_setter = sprintf("
+                username = '%s',
+            ", mysql_real_escape_string($projectmanager));
         }
 
         if (isset($this->projectid))
