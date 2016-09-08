@@ -432,9 +432,16 @@ EOS;
     {
         global $charset, $site_name, $code_url, $projects_dir;
 
-        $filename = "$projects_dir/$this->projectid/dc.xml";
+        $dirname = "$projects_dir/$this->projectid";
+        $filename = "$dirname/dc.xml";
 
-        if (!file_exists($filename)) {
+        if(!is_dir($dirname))
+        {
+            mkdir($dirname);
+        }
+
+        if(!file_exists($filename))
+        {
             touch($filename);
         }
         $xmlpage = <<<XML
@@ -460,8 +467,11 @@ XML;
         // Now it's a page under $code_url that might exist someday.
 
         $fp = fopen($filename, "w");
-        fwrite($fp, $xmlpage);
-        fclose($fp);
+        if($fp)
+        {
+            fwrite($fp, $xmlpage);
+            fclose($fp);
+        }
     }
 
     // MARC records for a project are saved in marc_records, one per projectid.
