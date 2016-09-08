@@ -685,7 +685,7 @@ class ProjectInfoHolder
             // We also want to know if the edit is resulting in the project
             // effectively being checked out to a new PPer
             if ( $old_pih->state == PROJ_POST_FIRST_CHECKED_OUT &&
-                 strpos($changed_fields, 'PPer/PPVer') != FALSE )
+                 in_array('checkedoutby', $changed_fields))
             {
                 $md_setter = 'modifieddate = UNIX_TIMESTAMP(),';
                 $PPer_checkout = TRUE;
