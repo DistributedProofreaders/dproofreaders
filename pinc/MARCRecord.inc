@@ -160,7 +160,7 @@ class MARCRecord
         if(isset($this->record[$key]))
         {
             $marc_literary_form = substr($this->record[$key][1], 33, 1);
-            $marc_literary_form = $this->literary_form_array[$marc_literary_form];
+            $marc_literary_form = @$this->literary_form_array[$marc_literary_form];
         }
         return $marc_literary_form;
     }
