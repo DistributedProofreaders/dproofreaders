@@ -2,9 +2,18 @@
 $relPath='../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 
 undo_all_magic_quotes();
+
+# SITE-SPECIFIC
+# Redirect users to this document in the wiki
+if(strpos($code_url, '://www.pgdp.'))
+{
+    $url = 'http://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_Verification_Guidelines';
+    metarefresh(0, $url);
+}
 
 output_header('Post-Processing Verification Guidelines', NO_STATSBAR);
 ?>
