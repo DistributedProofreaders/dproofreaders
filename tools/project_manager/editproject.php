@@ -775,19 +775,21 @@ class ProjectInfoHolder
 
             // Do MARC record manipulations
             $project = new Project($this->projectid);
-
-            // Save original MARC record
             $marc_record = new MARCRecord();
-            $marc_record->load_yaz_array(
-                unserialize(base64_decode($this->original_marc_array_encd)));
-            $project->init_marc_record($marc_record);
 
-            // Update the MARC record with data from POST
-            $this->update_marc_record_from_post($marc_record);
-            $project->save_marc_record($marc_record);
+            // Save original MARC record, if provided
+            $yaz_array = unserialize(base64_decode($this->original_marc_array_encd));
+            if($yaz_array !== FALSE)
+            {
+                $marc_record->load_yaz_array($yaz_array);
+                $project->init_marc_record($marc_record);
+
+                // Update the MARC record with data from POST
+                $this->update_marc_record_from_post($marc_record);
+                $project->save_marc_record($marc_record);
+            }
 
             // Create the project's 'good word list' and 'bad word list'.
-
             if ( isset($this->clone_projectid) )
             {
                 // We're creating a project via cloning.
