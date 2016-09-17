@@ -95,7 +95,7 @@ class MARCRecord
 
     public function get_lccn()
     {
-        $marc_lcnn = "";
+        $marc_lccn = "";
         $key = $this->_key_search("010", "a");
         if(isset($this->record[$key]))
         {
