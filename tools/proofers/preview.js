@@ -457,9 +457,11 @@ var makePreview = function (txt, viewMode, styler) {
             txt = txt.replace(/(\/\*|\*\/|\/#|#\/|&lt;tb&gt;)/g, '<span' + etcstr);
         }
         // sub- and super-scripts
-        txt = txt.replace(/_\{([A-Za-z0-9]*)\}/g, '<span class="sub"' + etcstr);
-        txt = txt.replace(/\^\{([A-Za-z0-9]*)\}/g, '<span class="sup"' + etcstr);
-        txt = txt.replace(/\^([A-Za-z0-9])/g, '<span class="sup"' + etcstr);
+        txt = txt.replace(/_\{([^\}]*)\}/g, '<span class="sub"' + etcstr);
+        txt = txt.replace(/\^\{([^\}]*)\}/g, '<span class="sup"' + etcstr);
+        // single char superscript -  any char except {
+        // do not allow < incase it's a tag which would screw up
+        txt = txt.replace(/\^([^\{<])/g, '<span class="sup"' + etcstr);
     }
 
     // attempt to make an approximate representation of formatted text
