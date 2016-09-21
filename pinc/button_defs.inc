@@ -213,7 +213,7 @@ function echo_button( $button_id, $which_interface )
             $attrs = array(
                 'name'      => "button14",
                 $label      => attr_safe(_("Preview")),
-                'title'     => attr_safe(_("Preview")),
+                'title'     => attr_safe(_("Format preview")),
                 'onclick'   => "previewControl.show(); return false;",
                 'src'       => "gfx/bt20.png",
             );
@@ -282,7 +282,7 @@ function echo_img( $id )
             $attrs = array(
                 'src'       => "gfx/bt20.png",
                 'alt'       => attr_safe(_("Preview")),
-                'title'     => attr_safe(_("Preview")),
+                'title'     => attr_safe(_("Format preview")),
             );
             break;
     }
