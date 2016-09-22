@@ -30,7 +30,7 @@ var makePreview = function (txt, viewMode, styler) {
         OolPrev: 1,
         OolNext: 1,
         blankLines124: 1,
-        spaceAfterStart: 1,
+        spaceAfterStart: 0,
         nlAfterStart: 1,
         nlBeforeEnd: 1,
         spaceBeforeEnd: 1,
@@ -38,7 +38,7 @@ var makePreview = function (txt, viewMode, styler) {
         scNoCap: 1,
         charBeforeStart: 0,
         charAfterEnd: 0,
-        puncBEnd: 1,
+        puncBEnd: 0,
         noCloseBrack: 0,
         footnoteId: 0
     };
