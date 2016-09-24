@@ -215,7 +215,7 @@ function echo_button( $button_id, $which_interface )
                 $label      => attr_safe(_("Preview")),
                 'title'     => attr_safe(_("Format preview")),
                 'onclick'   => "previewControl.show(); return false;",
-                'src'       => "gfx/bt20.png",
+                'src'       => "gfx/bt20.png?16092302",
             );
             break;
     }
@@ -280,7 +280,7 @@ function echo_img( $id )
             break;
         case PREVIEW:
             $attrs = array(
-                'src'       => "gfx/bt20.png",
+                'src'       => "gfx/bt20.png?16092302",
                 'alt'       => attr_safe(_("Preview")),
                 'title'     => attr_safe(_("Format preview")),
             );
