@@ -432,9 +432,16 @@ EOS;
     {
         global $charset, $site_name, $code_url, $projects_dir;
 
-        $filename = "$projects_dir/$this->projectid/dc.xml";
+        $dirname = "$projects_dir/$this->projectid";
+        $filename = "$dirname/dc.xml";
 
-        if (!file_exists($filename)) {
+        if(!is_dir($dirname))
+        {
+            mkdir($dirname);
+        }
+
+        if(!file_exists($filename))
+        {
             touch($filename);
         }
         $xmlpage = <<<XML
@@ -460,8 +467,11 @@ XML;
         // Now it's a page under $code_url that might exist someday.
 
         $fp = fopen($filename, "w");
-        fwrite($fp, $xmlpage);
-        fclose($fp);
+        if($fp)
+        {
+            fwrite($fp, $xmlpage);
+            fclose($fp);
+        }
     }
 
     // MARC records for a project are saved in marc_records, one per projectid.
@@ -498,19 +508,20 @@ XML;
     // Load the updated MARC record for this project
     public function load_marc_record()
     {
+        $updated_record = new MARCRecord();
+
         $result = mysql_query("
             SELECT updated_array
             FROM marc_records
             WHERE projectid = '$this->projectid'
         ");
 
-        if(!$result)
-            return NULL;
+        if(!$result || mysql_num_rows($result) == 0)
+            return $updated_record;
 
         $updated_array = mysql_result($result, 0);
         mysql_free_result($result);
 
-        $updated_record = new MARCRecord();
         $updated_record->load_yaz_array(unserialize(base64_decode($updated_array)));
 
         return $updated_record;

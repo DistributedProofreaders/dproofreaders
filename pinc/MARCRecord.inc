@@ -4,7 +4,7 @@ include_once($relPath.'iso_lang_list.inc');
 class MARCRecord
 {
     // MARC record in the yaz_search 'array' format
-    private $record = NULL;
+    private $record = array();
     private $literary_form_array = array("a" => "Art", "b" => "Biography", 3 => "Comedy", "c" => "Comic Strip", 4 => "Cooking", "d" => "Drama", "e" => "Essay", 1 => "Fiction", "g" => "Geography", 5 => "Historical", 6 => "History", 7 => "Humor", 'Humor', "i" => "Letter", "l" => "Linguistics", 8 => "Math", 9 => "Medicine", "m" => "Mixed Form", "v" => 'Music', 0 => "Non Fiction", "f" => "Novel", "y" => "Periodical", "p" => "Poetry", "r" => "Romance", "z" => "Science", "h" => "Satire", "j" => "Short Story", "s" => "Speech", "u" => "Unknown", "|" => "Unknown");
 
     public function __construct()
@@ -95,7 +95,7 @@ class MARCRecord
 
     public function get_lccn()
     {
-        $marc_lcnn = "";
+        $marc_lccn = "";
         $key = $this->_key_search("010", "a");
         if(isset($this->record[$key]))
         {
@@ -160,7 +160,7 @@ class MARCRecord
         if(isset($this->record[$key]))
         {
             $marc_literary_form = substr($this->record[$key][1], 33, 1);
-            $marc_literary_form = $this->literary_form_array[$marc_literary_form];
+            $marc_literary_form = @$this->literary_form_array[$marc_literary_form];
         }
         return $marc_literary_form;
     }

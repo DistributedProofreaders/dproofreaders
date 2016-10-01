@@ -75,7 +75,7 @@ if($format == "file") {
     foreach( $percent_changed as $word => $percentChanged ) {
         $percentChanged = $percent_changed[$word];
         $numChanged = $instances_changed[$word];
-        $numLeft = $instances_left[$word];
+        $numLeft = @$instances_left[$word];
         $total = $numLeft + $numChanged;
         $corrected = $instances_changed_to[$word];
         echo "$word - $percentChanged - $corrected - $numLeft - $numChanged - $total\r\n";
