@@ -134,9 +134,9 @@ function sql_like_encode($str) {
 
 function echo_search_form() {
     global $last_name, $other_names;
-    $view    = $_REQUEST['view'];
-    $orderby = $_REQUEST['orderby'];
-    $desc    = $_REQUEST['desc']
+    $view    = array_get($_REQUEST, 'view', null);
+    $orderby = array_get($_REQUEST, 'orderby', null);
+    $desc    = array_get($_REQUEST, 'desc', null);
     ?>
     <form method="GET">
     <table border="1" align="center"><td><table border="0">
