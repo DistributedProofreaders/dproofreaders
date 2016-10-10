@@ -46,7 +46,7 @@ $name = $last_name . ($other_names!=''?", $other_names":'');
 // Start outputting
 output_header(_('Biography:') . " $name");
 
-echo_menu();
+echo_menu($bio_id);
 
 echo '<h1 align="center">' . _('Biography') . '</h1>';
 
@@ -70,6 +70,6 @@ if (user_is_PM() || user_is_authors_db_manager()) {
 </table>
 <?php
 
-echo_menu();
+echo_menu($bio_id);
 
 // vim: sw=4 ts=4 expandtab
