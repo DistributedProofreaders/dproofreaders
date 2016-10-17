@@ -115,7 +115,7 @@ function initPrev() {
             if (opt.value === def) {
                 opt.selected = true;
             }
-            selector.add(opt);
+            selector.add(opt, null);
         }
     }
 
