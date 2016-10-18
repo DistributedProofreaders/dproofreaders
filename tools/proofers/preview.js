@@ -203,6 +203,7 @@ var makePreview = function (txt, viewMode, styler) {
         var stackTop;
         var result;
         var oolre = /\/\*|\/#|\*\/|#\//g;   // any out-of-line tag
+        var prevLin;
 
         while (true) {
             result = oolre.exec(txt);  // find next tag
@@ -220,15 +221,19 @@ var makePreview = function (txt, viewMode, styler) {
             chkAlone(start, 2);
             // for an opening tag check previous line is blank
             // or an opening block quote tag possibly with a comment
+            // allow also an opening no-wrap to avoid giving a misleading message
+            // that it is "normal text". The error will be caught elsewhere.
             if ((tagString.charAt(0) === "/") && (start > 1) && (txt.charAt(start - 2) !== "\n")) {
-                if ("/#" !== removeComments(findPrevLine(start))) {
+                prevLin = removeComments(findPrevLine(start));
+                if (!(("/#" === prevLin) || ("/*" === prevLin))) {
                     reportIssue(start, 2, "OolPrev");
                 }
             }
             // for a closing tag check following line is blank
             // or a closing block quote or ] (ending a footnote).
+            // allow also closing no-wrap to avoid misleading error message
             if (tagString.charAt(1) === "/") {
-                if (/[^#\n\]]/.test(txt.charAt(findEnd(start + 2) + 1))) {
+                if (/[^#\*\n\]]/.test(txt.charAt(findEnd(start + 2) + 1))) {
                     reportIssue(start, 2, "OolNext");
                 }
             }
