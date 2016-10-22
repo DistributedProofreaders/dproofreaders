@@ -44,6 +44,7 @@ var makePreview = function (txt, viewMode, styler) {
         footnoteId: 0
     };
 
+    var ILTags = "[ibfg]|sc";
     var endSpan = "</span>"; // a constant string
     var issueCount = [0, 0]; // possible issues, issues
     var issArray = []; // stores issues for markup-insertion later
@@ -314,7 +315,7 @@ var makePreview = function (txt, viewMode, styler) {
         }
 
         // regex to match valid inline tags or a blank line
-        var re = /<(\/?)([ibfg]|sc)>|\n\n/g;
+        var re = new RegExp("<(\\/?)(" + ILTags + ")>|\\n\\n", "g");
 
         while (true) {
             result = re.exec(txt);
@@ -384,7 +385,7 @@ var makePreview = function (txt, viewMode, styler) {
 
     // check for an unrecognised tag
     function unRecog() {
-        var re = /<(?!(?:\/?(?:[ibfg]|sc)|tb)>)/g;
+        var re = new RegExp("<(?!(?:\\/?(?:" + ILTags + ")|tb)>)", "g");
         var result;
         while (true) {
             result = re.exec(txt);
@@ -456,8 +457,10 @@ var makePreview = function (txt, viewMode, styler) {
         // the way html treats small cap text is different to the dp convention
         // so if sc-marked text is all upper-case transform to lower
         txt = txt.replace(sc_re, transformSC);
-        txt = txt.replace(/&lt;(i|b|g|f|sc)&gt;/g, spanStyle)
-            .replace(/&lt;\/(i|b|g|f|sc)&gt;/g, repstr2);
+        var openTag = new RegExp("&lt;(" + ILTags + ")&gt;", "g");
+        var closeTag = new RegExp("&lt;\\/(" + ILTags + ")&gt;", "g");
+        txt = txt.replace(openTag, spanStyle)
+            .replace(closeTag, repstr2);
 
         // out of line tags
         etcstr = makeColourStyle('etc');
