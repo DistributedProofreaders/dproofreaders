@@ -91,7 +91,7 @@ elseif (isset($_POST['edMake']))
                 UPDATE user_teams
                 SET avatar='%s'
                 WHERE id = $tid
-            ", mysql_real_escape_string($_POST['tavatar']))
+            ", mysql_real_escape_string($_POST['tavatar']));
             mysql_query($sql);
         }
         elseif (!empty($_FILES['teamavatar']))
