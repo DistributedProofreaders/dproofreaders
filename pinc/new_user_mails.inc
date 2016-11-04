@@ -157,9 +157,10 @@ Start Proofreading
    are proficient, it's best to start with that. BEGINNERS ONLY projects
    have been specially prepared to teach you our style of proofing. New
    errors may have been introduced in some places so that you may gain
-   experience in locating the various types of errors that you may encounteru
+   experience in locating the various types of errors that you may encounter
    in regular projects. You can expect to receive feedback from a mentor on
-   pages you proofread in BEGINNERS ONLY projects.
+   pages you proofread in BEGINNERS ONLY projects. This feedback will likely
+   come at least a few days after you have completed the pages.
 
 5. A Project Page will appear. Scroll down the page and read the Project
    Comments which contain instructions specific to the book you have chosen.
@@ -184,10 +185,12 @@ Start Proofreading
 10. Once you've proofread several pages, it's a good idea to:
     * Read the full Proofreading Guidelines at
         $code_url/faq/proofreading_guidelines.php
-    * Work through the Basic Proofreading Quizzes at
+    * Work through the automated interactive Basic Proofreading Quizzes
+      and Tutorials at
         $code_url/quiz/start.php?show_only=PQ
-    to gain confidence in your understanding of the $site_name
-    proofreading process.
+      to get instant feedback and gain confidence in your understanding of
+      the $site_name proofreading process.
+
 
 $feedback_paragraph
 
