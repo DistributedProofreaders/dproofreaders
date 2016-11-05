@@ -6,6 +6,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param(), get_integer_param(), attr_safe(), get_filelist()
 include_once($relPath.'../stats/includes/common.inc');
 
 $team_avatars_dir = "$dyn_dir/teams/avatar";
@@ -60,20 +61,24 @@ function showTeamInformation($curTeam, $tally_name)
 
 // -----------------------------------------------------------------------------
 
-function showTeamProfile($curTeam) {
+function showTeamProfile($curTeam, $preview=FALSE)
+{
     global $userP;
     global $team_avatars_url;
     global $code_url;
 
     $team_id = $curTeam['id'];
 
-    $xml_doc_url = "$code_url/stats/teams/teams_xml.php?id=$team_id";
+    if($team_id)
+        $xml_doc_url = "$code_url/stats/teams/teams_xml.php?id=$team_id";
+    else
+        $xml_doc_url = "";
     $xml_img_url = "$code_url/graphics/xml.gif";
     $xml_img_tag = "<img src='$xml_img_url' style='border: 0; width: 36px; height: 14px; vertical-align: middle;' alt='XML'>";
     $xml_button = "<a href='$xml_doc_url'>$xml_img_tag</a>";
 
     // Allow team owner and site administrators to edit the team
-    if (($userP['u_id'] == $curTeam['owner']) || (user_is_a_sitemanager()))
+    if (!$preview && (($userP['u_id'] == $curTeam['owner']) || user_is_a_sitemanager()))
     {
         $op_url = "tedit.php?tid=$team_id";
         $text = _('Edit');
@@ -84,7 +89,7 @@ function showTeamProfile($curTeam) {
         $editlink = '';
     }
 
-    if (empty($userP))
+    if ($preview || empty($userP))
     {
         // The requestor is not logged in,
         // so they can't join or quit the team.
@@ -106,7 +111,10 @@ function showTeamProfile($curTeam) {
         $joinquitlink = "&nbsp;[<a href='$op_url'>$text</a>]";
     }
 
-    $last_post_date = get_last_post_time_in_topic($curTeam['topic_id']);
+    if($curTeam['topic_id'])
+        $last_post_date = get_last_post_time_in_topic($curTeam['topic_id']);
+    else
+        $last_post_date = NULL;
     if ($last_post_date != NULL) {
         $last_post_date = date("n/j/Y g:i:sA", $last_post_date);
     }
@@ -120,12 +128,13 @@ function showTeamProfile($curTeam) {
     echo "<tr>";
     echo "<td style='width: 30%; text-align: center;'>";
     echo "<img style='border: 0;' src='$team_avatars_url/";
-    echo $curTeam['avatar'] . "' alt='".strip_tags($curTeam['teamname'])."'></td>";
+    echo $curTeam['avatar'] . "' alt='".attr_safe(strip_tags($curTeam['teamname']))."'></td>";
     echo "<td style='width: 70%'>";
 
     $t = new ThemedTable(
         2,
-        stripslashes($curTeam['teamname']) . "&nbsp;$xml_button$editlink$joinquitlink"
+        $curTeam['teamname'] . "&nbsp;$xml_button$editlink$joinquitlink",
+        array( 'width' => 100 )
     );
     $t->set_column_widths( 25, 75 );
 
@@ -144,18 +153,18 @@ function showTeamProfile($curTeam) {
     $owner_name = get_username_for_uid($curTeam['owner']);
     $t->row(
         _("Leader"),
-        "<a href='$owner_url'>" . $owner_name . "</a>"
+        "<a href='$owner_url'>" . html_safe($owner_name) . "</a>"
     );
 
     $t->row(
         _("Description"),
-        stripslashes($curTeam['team_info'])
+        html_safe($curTeam['team_info'])
     );
 
     $webpage = $curTeam['webpage'];
     $t->row(
         _("Website"),
-        "<a href='$webpage' target='_new'>$webpage</a>"
+        "<a href='" . attr_safe($webpage) . "' target='_new'>" . html_safe($webpage) . "</a>"
     );
 
     $topic_url = "$code_url/stats/teams/team_topic.php?team=$team_id";
@@ -165,7 +174,10 @@ function showTeamProfile($curTeam) {
         . ( is_null($last_post_date) ? '' : "("._("Last Post:")." $last_post_date)" )
     );
 
-    $mbrCountRank = team_get_member_count_rank($team_id);
+    if($team_id)
+        $mbrCountRank = team_get_member_count_rank($team_id);
+    else
+        $mbrCountRank = 0;
     $t->row(
         _("Members")
             . " <i>("._("Rank").")</i>",
@@ -430,13 +442,13 @@ function showTeamHistory($curTeam, $tally_name) {
 function stripAllString($ttext) {
     return str_replace(array('[b]','[B]','[/b]','[/B]','[i]','[I]','[/i]','[/I]','[p]','[P]','[/p]','[/P]','[lb]','[LB]'),
     array('<b>','<b>','</b>','</b>','<i>','<i>','</i>','</i>','<p>','<p>','</p>','</p>','<br>','<br>'),
-    htmlentities(strip_tags(stripslashes($ttext))));
+    htmlentities(strip_tags($ttext)));
 }
 
 function unstripAllString($ttext,$sType) {
     $ttext=str_replace(array('<b>','</b>','<i>','</i>','<p>','</p>','<br>'),
     array('[b]','[/b]','[i]','[/i]','[p]','[/p]','[lb]'),
-    stripslashes($ttext));
+    $ttext);
     if ($sType==1) {
         $htmlchars = array_flip(get_html_translation_table(HTML_ENTITIES));
         $ttext=strtr($ttext, $htmlchars);
@@ -444,15 +456,19 @@ function unstripAllString($ttext,$sType) {
     return $ttext;
 }
 
-function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
+function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
+{
     global $teamimages, $userP;
 
     echo "<form enctype='multipart/form-data' id='mkTeam' name='mkTeam' action='";
     if ($tedit == 1) { echo "new_team.php"; } else { echo "tedit.php"; }
     echo "' method='post' target='_top'>";
     echo "<input type='hidden' name='tsid' value='$tsid'>";
-    if ($tavatar == 1) { echo "<input type='hidden' name='tavatar' value='".$teamimages['avatar']."'>"; }
-    if ($ticon == 1) { echo "<input type='hidden' name='ticon' value='".$teamimages['icon']."'>"; }
+    if($teamimages['avatar'])
+        echo "<input type='hidden' name='tavatar' value='".$teamimages['avatar']."'>";
+    if($teamimages['icon'])
+        echo "<input type='hidden' name='ticon' value='".$teamimages['icon']."'>";
+
     echo "\n<table class='themed'>";
     echo "<tr><th colspan='2'>";
     if ($tedit != 1)
@@ -467,7 +483,7 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
 
     echo "<tr>";
     echo "<td style='text-align: right;'><b>"._("Team Name")."</b>:</td>";
-    echo "<td><input type='text' value='$tname' name='teamname' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamname');\">?</a></b></td>";
+    echo "<td><input type='text' value='" . attr_safe($tname) . "' name='teamname' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamname');\">?</a></b></td>";
     echo "</tr>";
 
     echo "<tr>";
@@ -487,7 +503,7 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
 
     echo "<tr>";
     echo "<td style='text-align: right; vertical-align: top;'><b>"._("Team Description")."</b></td>";
-    echo "<td style='vertical-align: top;'><textarea name='text_data' cols='40' rows='6'>$ttext</textarea>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamdesc');\">?</a></b></td>";
+    echo "<td style='vertical-align: top;'><textarea name='text_data' cols='40' rows='6'>" . html_safe($ttext) . "</textarea>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamdesc');\">?</a></b></td>";
     echo "</tr>";
 
     echo "<tr>";
@@ -497,7 +513,7 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
         echo "<select name='tteams' title='".attr_safe(_("Team List"))."'>";
         $teamQuery = mysql_query("SELECT teamname, id FROM user_teams WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})");
         while ($row = mysql_fetch_assoc($teamQuery)) {
-            echo "<option value='".$row['id']."'>".unstripAllString(strip_tags($row['teamname']),1)."</option>";
+            echo "<option value='".$row['id']."'>".html_safe(unstripAllString(strip_tags($row['teamname']),1))."</option>";
         }
         echo "</select>";
     } else {
@@ -510,7 +526,7 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
         echo "\n<tr><th style='text-align: center;' colspan='2'>";
         echo "<input type='submit' name='mkPreview' value='".attr_safe(_("Preview Team Display"))."'>&nbsp;&nbsp;&nbsp;";
         echo "<input type='submit' name='mkMake' value='".attr_safe(_("Make Team"))."'>&nbsp;&nbsp;&nbsp;";
-        echo "<input type='submit' name='Quit' value='".attr_safe(_("Quit"))."'>";
+        echo "<input type='submit' name='mkQuit' value='".attr_safe(_("Quit"))."'>";
         echo "</th></tr>";
     } else {
         echo "\n<tr><th style='text-align: center;' colspan='2'>";
@@ -524,8 +540,14 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid,$tavatar,$ticon) {
 }
 
 
-function uploadImages($preview,$tid,$type) {
+function uploadImages($preview,$tid,$type)
+{
     global $team_avatars_dir, $team_icons_dir;
+    $teamimages = array(
+        'avatar' => NULL,
+        'icon' => NULL,
+    );
+
     if (!empty($_FILES['teamavatar']['tmp_name']) && ($type == "both" || $type == "avatar")) {
         if (strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".png" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".jpg" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".gif") {
             if ($_FILES['teamavatar']['size'] > 2097152) {
@@ -568,25 +590,36 @@ function uploadImages($preview,$tid,$type) {
     return $teamimages;
 }
 
-function deleteImages() {
+function deleteImages()
+{
     global $team_avatars_dir, $team_icons_dir;
     $oneHourAgo = time() - 600;
-    //Delete unused avatars
+
+    $files_to_always_keep = array(
+        "avatar_default.png",
+        "avatar_default2.png",
+        "dp_avatar.png",
+        "icon_default.png",
+        "icon_default2.png",
+        "dp_icon.png",
+    );
+
+    // Delete unused avatars
     $result = mysql_query("SELECT id,avatar FROM user_teams");
     while ($row = mysql_fetch_assoc($result)) {
         $id = $row['id'];
         $activeAvatars[$id] = $row['avatar'];
     }
 
-    $dir = opendir( $team_avatars_dir );
-    while (false !== ($file = readdir($dir))) {
-        if ($file != "." && $file != ".." && $file != "CVS" && $file != "avatar_default.png" && $file != "avatar_default2.png" && $file != "dp_avatar.png") {
-            if (!in_array ($file, $activeAvatars)) {
-                if (filemtime("$team_avatars_dir/$file") <= $oneHourAgo) { unlink("$team_avatars_dir/$file"); }
-            }
+    $avatars = get_filelist($team_avatars_dir);
+    $unused_avatars = array_diff($avatars, $activeAvatars, $files_to_always_keep);
+    foreach($unused_avatars as $file)
+    {
+        if (filemtime("$team_avatars_dir/$file") <= $oneHourAgo)
+        {
+            unlink("$team_avatars_dir/$file");
         }
     }
-    closedir($dir);
 
     //Delete unused icons
     $result = mysql_query("SELECT id,icon FROM user_teams");
@@ -595,15 +628,14 @@ function deleteImages() {
         $activeIcons[$id] = $row['icon'];
     }
 
-    $dir = opendir($team_icons_dir);
-    while (false !== ($file = readdir($dir))) {
-        if ($file != "." && $file != ".." && $file != "CVS" && $file != "icon_default.png" && $file != "icon_default2.png" && file != "dp_icon.png") {
-            if (!in_array ($file, $activeIcons)) {
-                if (filemtime("$team_icons_dir/$file") <= $oneHourAgo) { unlink("$team_icons_dir/$file"); }
-            }
+    $icons = get_filelist($team_icons_dir);
+    $unused_icons = array_diff($icons, $activeIcons, $files_to_always_keep);
+    foreach($unused_icons as $file)
+    {
+        if (filemtime("$team_icons_dir/$file") <= $oneHourAgo)
+        {
+            unlink("$team_icons_dir/$file");
         }
     }
-    closedir($dir);
 }
 // vim: sw=4 ts=4 expandtab
-?>

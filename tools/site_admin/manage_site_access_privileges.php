@@ -156,7 +156,7 @@ function show_toggles_form($username, $user_settings)
         echo "<td></td>";
         echo "<td>$setting_name</td>\n";
         echo "<td>$setting_description<br>\n";
-        echo "<input type='text' name='$setting_name' value='$user_current_value'>";
+        echo "<input type='text' name='$setting_name' value='" . attr_safe($user_current_value) . "'>";
         echo "</td>";
         echo "</tr>";
     }

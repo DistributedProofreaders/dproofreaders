@@ -47,11 +47,11 @@ class Widget
         {
             if ( isset($_GET[$this->id]) )
             {
-                $value_attr = "value='{$_GET[$this->id]}'";
+                $value_attr = "value='" . attr_safe($_GET[$this->id]) . "'";
             }
             else if ( isset($this->initial_value) )
             {
-                $value_attr = "value='{$this->initial_value}'";
+                $value_attr = "value='" . attr_safe($this->initial_value) . "'";
             }
             else
             {
@@ -76,7 +76,7 @@ class Widget
                     ? 'selected'
                     : ''
                 );
-                $r .= "<option value='$option_value' $selected_attr>$option_label</option>\n";
+                $r .= "<option value='" . attr_safe($option_value) . "' $selected_attr>" . html_safe($option_label) . "</option>\n";
             }
             $r .= "</select>\n";
             return $r;
@@ -117,6 +117,8 @@ class Widget
                         if ( in_array( '', $values ) ) return NULL;
                     }
 
+                    $values = array_map("mysql_real_escape_string", $values);
+
                     if ( $comparator == '=' )
                     {
                         $values_list = surround_and_join( $values, "'", "'", "," );
@@ -130,6 +132,7 @@ class Widget
                 }
                 else
                 {
+                    $value = mysql_real_escape_string($value);
                     if ( $comparator == '=' )
                     {
                         $contribution = "$column_name = '$value'";
@@ -475,11 +478,13 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
             $can_see_this_uber = mysql_num_rows($UP_ok_qry);
         }
         if ($can_see_this_uber) {
-            $condition .= " AND up_projectid = '$up_projectid' ";
+            $condition .= sprintf(
+                " AND up_projectid = '%s'
+            ", mysql_real_escape_string($up_projectid));
         }
     }
 
-    $n_results_per_page = @$_GET['n_results_per_page'];
+    $n_results_per_page = intval(@$_GET['n_results_per_page']);
     if ( $n_results_per_page == 0 ) $n_results_per_page = DEFAULT_N_RESULTS_PER_PAGE;
 
     $results_offset = intval(@$_GET['results_offset']);

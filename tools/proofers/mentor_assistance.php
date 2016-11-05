@@ -12,6 +12,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'Project.inc'); // validate_projectID()
 include_once($relPath.'DpTableClass.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 

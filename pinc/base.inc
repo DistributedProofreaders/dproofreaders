@@ -15,11 +15,6 @@
 //
 // The order of the include_once()s in this file is important!
 
-// Make sure magic_quotes_gpc is turned on, we rely heavily on it.
-if (get_magic_quotes_gpc() == 0) {
-    die("Error: magic_quotes_gpc is not turned on in PHP configuration.");
-}
-
 // Override $relPath to be the absolute path to the directory that
 // contains this file. This allows registered shutdown functions
 // to know where to find files (working directory of the script
@@ -29,6 +24,8 @@ if (get_magic_quotes_gpc() == 0) {
 $relPath=dirname(__FILE__)."/";
 
 include_once($relPath.'site_vars.php');
+
+undo_all_magic_quotes();
 
 // If we're not testing, whitewash any uncaught exceptions
 if(!$testing)
@@ -124,6 +121,51 @@ function require_login()
     $title = _("Please Sign In");
 
     metarefresh(0,$url,$title,$body);
+}
+
+function undo_all_magic_quotes()
+// Detect if magic_quotes_gpc is enabled, and if so strip the slashes from
+// all magic-quoted variables to return them to their pre-escaped form.
+//
+// NOTE: Using this function requires you to do appropriate escaping when
+// outputting variables in SQL and HTML. ie:
+// Code like the following relies on magic_quotes_gpc being on:
+//    $x = $_GET['x'];
+//    $res = mysql_query("... WHERE x = '$x'");
+// Whereas the following works the same regardless of how magic_quotes_gpc
+// is set...
+//    undo_all_magic_quotes();
+//    $x = $_GET['x'];
+//    $res = mysql_query(
+//               sprintf("... WHERE x = '%s'", mysql_real_escape_string($x))
+//    );
+{
+    static $already_undone = FALSE;
+
+    if (!$already_undone && get_magic_quotes_gpc())
+    {
+        stripslashes_arr_inplace($_GET);
+        stripslashes_arr_inplace($_POST);
+        stripslashes_arr_inplace($_COOKIE);
+        stripslashes_arr_inplace($_REQUEST);
+        // Also the deprecated $HTTP_* vars, but we don't use them.
+        // In PHP 4, $_ENV too, but we don't use it.
+    }
+
+    $already_undone = TRUE;
+}
+
+function stripslashes_arr_inplace(&$value, $key = NULL)
+// Run stripslashes on an array that may contain other arrays.
+// For space efficiency it changes the values in-place by taking the
+// first param as a reference.
+{
+    if(is_array($value))
+        array_walk($value, 'stripslashes_arr_inplace');
+    else
+        $value = stripslashes($value);
+
+    // no need to return $value as it was passed by reference
 }
 
 // vim: sw=4 ts=4 expandtab

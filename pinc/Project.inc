@@ -6,6 +6,7 @@ include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'forum_interface.inc'); // topic_create
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
+include_once($relPath.'MARCRecord.inc');
 
 class NonexistentProjectException extends Exception { }
 
@@ -424,6 +425,107 @@ EOS;
         return $hold_states;
     }
 
+    // -------------------------------------------------------------------------
+
+    // Given a MARCRecord, write a dc XML document for this project
+    function create_dc_xml_oai($marc_record)
+    {
+        global $charset, $site_name, $code_url, $projects_dir;
+
+        $dirname = "$projects_dir/$this->projectid";
+        $filename = "$dirname/dc.xml";
+
+        if(!is_dir($dirname))
+        {
+            mkdir($dirname);
+        }
+
+        if(!file_exists($filename))
+        {
+            touch($filename);
+        }
+        $xmlpage = <<<XML
+<?xml version="1.0" encoding="$charset" ?>
+    <dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://purl.org/dc/elements/1.1/ http://www.openarchives.org/OAI/dc.xsd">
+      <title>$this->nameofwork</title>
+      <creator>$this->authorsname</creator>
+      <subject>$marc_record->subject</subject>
+      <description>$marc_record->description</description>
+      <publisher>$site_name</publisher>
+      <contributor>$this->credits_line</contributor>
+      <date>$marc_record->date</date>
+      <type>$this->genre</type>
+      <format>XML</format>
+      <identifier>$code_url/project.php?id=$this->projectid</identifier>
+      <source>LCCN: $marc_record->lccn</source>
+      <language>$this->language</language>
+      <rights>$code_url/agreement.php</rights>
+    </dc>
+XML;
+
+        // The URL used in <rights> was originally a pgdp.net address which didn't exist.
+        // Now it's a page under $code_url that might exist someday.
+
+        $fp = fopen($filename, "w");
+        if($fp)
+        {
+            fwrite($fp, $xmlpage);
+            fclose($fp);
+        }
+    }
+
+    // MARC records for a project are saved in marc_records, one per projectid.
+    // The original_* columns hold the values returned from the YAZ search
+    // upon project creation. The updated_* columns hold updated YAZ records
+    // based on edits to the project record.
+
+    // Populate the original_* columns for this project's MARC record
+    public function init_marc_record($marc_record)
+    {
+        $original_marc_array = $marc_record->get_yaz_array();
+
+        mysql_query("
+            INSERT INTO marc_records
+            SET
+                projectid      = '$this->projectid',
+                original_array = '".base64_encode(serialize($original_marc_array))."'
+        ");
+    }
+
+    // Update the updated_* columns for this project's MARC record
+    public function save_marc_record($marc_record)
+    {
+        $updated_marc_array = $marc_record->get_yaz_array();
+
+        mysql_query("
+            UPDATE marc_records
+            SET
+                updated_array = '".base64_encode(serialize($updated_marc_array))."'
+            WHERE projectid = '$this->projectid'
+        ");
+    }
+
+    // Load the updated MARC record for this project
+    public function load_marc_record()
+    {
+        $updated_record = new MARCRecord();
+
+        $result = mysql_query("
+            SELECT updated_array
+            FROM marc_records
+            WHERE projectid = '$this->projectid'
+        ");
+
+        if(!$result || mysql_num_rows($result) == 0)
+            return $updated_record;
+
+        $updated_array = mysql_result($result, 0);
+        mysql_free_result($result);
+
+        $updated_record->load_yaz_array(unserialize(base64_decode($updated_array)));
+
+        return $updated_record;
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

@@ -12,16 +12,16 @@ require_login();
 $author_id      = get_integer_param($_GET, 'author_id', null, 0, null, true);
 $modified_since = get_integer_param($_GET, 'modified_since', null, 0, null, true);
 
-if (isset($author_id)) {
+if ($author_id) {
     $clause = "WHERE author_id = $author_id";
     $wrap_in_big_tag = false;
 }
-else if (isset($modified_since)) {
+else if ($modified_since) {
     // Pad timestamp with zeroes.
     // This means a date, e.g. 20040810, will be sent to
     // the parser as a timestamp, e.g. 20040810000000
-    $last_modified = str_pad($_GET['modified_since'], 14, '0');
-    $clause = "WHERE last_modified >= $last_modified";
+    $modified_since = str_pad($modified_since, 14, '0');
+    $clause = "WHERE last_modified >= $modified_since";
     $wrap_in_big_tag = true;
 }
 else {

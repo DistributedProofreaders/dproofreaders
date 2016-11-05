@@ -8,63 +8,70 @@ include_once('../includes/team.inc');
 
 require_login();
 
-$theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/faq/pophelp/teams/edit_"));
+$theme_extra_args = array("js_data" => get_newHelpWin_javascript("$code_url/pophelp.php?category=teams&name=edit_"));
 
 if (isset($_POST['mkPreview']))
 {
     $title = sprintf(_("Preview %s"), $_POST['teamname']);  // *Ouch*, data not validated.
     output_header($title, SHOW_STATSBAR, $theme_extra_args);
     $teamimages = uploadImages(1,"","both");
+    $curTeam['id'] = 0;
+    $curTeam['topic_id'] = 0;
     $curTeam['teamname'] = stripAllString($_POST['teamname']);
     $curTeam['team_info'] = stripAllString($_POST['text_data']);
     $curTeam['webpage'] = stripAllString($_POST['teamwebpage']);
     $curTeam['createdby'] = $pguser;
+    $curTeam['owner'] = $userP['u_id'];
     $curTeam['created'] = time();
-    $curTeam['page_count'] = 0;
-    if (!empty($_FILES['teamavatar']['tmp_name']))
-    {
-        $curTeam['avatar'] = $teamimages['avatar'];
-        $tavatar = 1;
-    }
-    if (!empty($_FILES['teamicon']['tmp_name']))
-    {
-        $ticon = 1;
-    }
+    $curTeam['member_count'] = 0;
+    $curTeam['active_members'] = 0;
+    $curTeam['avatar'] = $teamimages['avatar'];
     echo "<center><br>";
-    showEdit(htmlentities(stripslashes($_POST['teamname'])),stripslashes($_POST['text_data']),stripslashes($_POST['teamwebpage']),1,0,$tavatar,$ticon);
+    showEdit($_POST['teamname'], $_POST['text_data'], $_POST['teamwebpage'], 1, 0);
     echo "<br>";
-    showTeamProfile($curTeam);
+    showTeamProfile($curTeam, TRUE /* $preview */);
     echo "</center><br>";
 }
 else if (isset($_POST['mkMake']))
 {
-    $result = mysql_query("SELECT id FROM user_teams WHERE teamname = '".addslashes(stripAllString(trim($_POST['teamname'])))."'");
-    if (mysql_num_rows($result) > 0)
+    $result = mysql_query(sprintf("
+        SELECT id
+        FROM user_teams
+        WHERE teamname = '%s'
+    ", mysql_real_escape_string(stripAllString(trim($_POST['teamname'])))));
+    if (mysql_num_rows($result) > 0 || trim($_POST['teamname']) == "")
     {
         $name = _("Create Team");
         output_header($name);
         $teamimages = uploadImages(1,"","both");
-        
-        if (!empty($_FILES['teamavatar']['tmp_name']))
-        {
-            $curTeam['avatar'] = $teamimages['avatar'];
-            $tavatar = 1;
-        }
-        if (!empty($_FILES['teamicon']['tmp_name']))
-        {
-            $ticon = 1;
-        }
-        echo "<center><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
-        showEdit(htmlentities(stripslashes($_POST['teamname'])),stripslashes($_POST['text_data']),stripslashes($_POST['teamwebpage']),1,0,$tavatar,$ticon);
+        $curTeam['avatar'] = $teamimages['avatar'];
+        if(trim($_POST['teamname']) == "")
+            echo "<center><br>" . _("The team name must not be empty.") . "<br>";
+        else
+            echo "<center><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
+
+        showEdit($_POST['teamname'], $_POST['text_data'], $_POST['teamwebpage'], 1, 0);
         echo "<br></center><br>";
     }
     else
     {
-        mysql_query("INSERT INTO user_teams (teamname,team_info,webpage,createdby,owner,created) VALUES('".addslashes(stripAllString(trim($_POST['teamname'])))."','".addslashes(stripAllString($_POST['text_data']))."','".addslashes(stripAllString($_POST['teamwebpage']))."','$pguser','{$userP['u_id']}','".time()."')");
+        mysql_query(sprintf("
+            INSERT INTO user_teams
+                (teamname, team_info, webpage, createdby, owner, created)
+            VALUES('%s', '%s', '%s', '%s', %s, %s)
+        ", mysql_real_escape_string(stripAllString(trim($_POST['teamname']))),
+            mysql_real_escape_string(stripAllString($_POST['text_data'])),
+            mysql_real_escape_string(stripAllString($_POST['teamwebpage'])),
+            $pguser, $userP['u_id'], time()));
         $tid = mysql_insert_id($db_Connection->db_lk);
         if (!empty($_POST['tavatar']))
         {
-            mysql_query("UPDATE user_teams SET avatar='".$_POST['tavatar']."' WHERE id = $tid");
+            $sql = sprintf("
+                UPDATE user_teams
+                SET avatar='%s'
+                WHERE id = $tid
+            ", mysql_real_escape_string($_POST['tavatar']));
+            mysql_query($sql);
         }
         elseif (!empty($_FILES['teamavatar']))
         {
@@ -72,7 +79,12 @@ else if (isset($_POST['mkMake']))
         }
         if (!empty($_POST['ticon']))
         {
-            mysql_query("UPDATE user_teams SET icon='".$_POST['ticon']."' WHERE id = $tid");
+            $sql = sprintf("
+                UPDATE user_teams
+                SET icon='%s'
+                WHERE id = $tid
+            ", mysql_real_escape_string($_POST['ticon']));
+            mysql_query($sql);
         }
         elseif (!empty($_FILES['teamicon']))
         {
@@ -103,12 +115,19 @@ else if (isset($_POST['mkMake']))
         metarefresh(0,"../members/jointeam.php?tid=$tid&otid=$otid",$title, $desc);
     }
 }
+elseif (isset($_POST['mkQuit']))
+{
+    $title = _("Quit Without Saving");
+    $desc = _("Quitting without saving...");
+    metarefresh(4,"$code_url/activity_hub.php",$title,$desc);
+    exit;
+}
 else
 {
     $name = _("Create a New Team");
     output_header($name, SHOW_STATSBAR, $theme_extra_args);
     echo "<center><br>";
-    showEdit("","","",1,0,0,0);
+    showEdit("","","",1,0);
     echo "</center>";
 }
 

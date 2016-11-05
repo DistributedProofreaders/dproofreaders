@@ -6,6 +6,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 include_once('./post_files.inc');
 include_once('./word_freq_table.inc');
 
@@ -74,7 +75,7 @@ if($format == "file") {
     foreach( $percent_changed as $word => $percentChanged ) {
         $percentChanged = $percent_changed[$word];
         $numChanged = $instances_changed[$word];
-        $numLeft = $instances_left[$word];
+        $numLeft = @$instances_left[$word];
         $total = $numLeft + $numChanged;
         $corrected = $instances_changed_to[$word];
         echo "$word - $percentChanged - $corrected - $numLeft - $numChanged - $total\r\n";

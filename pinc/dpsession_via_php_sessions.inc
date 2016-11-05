@@ -5,7 +5,7 @@ include_once($relPath.'connect.inc');
 ini_set( 'session.name',            "{$site_abbreviation}_Session" );
 ini_set( 'session.use_cookies',     1 );
 ini_set( 'session.cookie_domain',   '' ); // A sensible value will be used.
-ini_set( 'session.cookie_lifetime', 86400 );
+ini_set( 'session.cookie_lifetime', 86400 * 31); // 31 days ~= 1 month
 
 // -----------------------------------------------------------------------------
 
@@ -180,8 +180,7 @@ function mysql_session_write($sid, $value)
 	// $value is a string (constructed by PHP's built-in session
 	// code) that might contain apostrophes (or backslashes?),
 	// which will screw up the SQL queries unless we escape them.
-	$value = addslashes($value);
-	// addslashes will also escape double-quotes, but that's okay.
+	$value = mysql_real_escape_string($value);
 
 	if ( $SessionExists == 0 )
 	{

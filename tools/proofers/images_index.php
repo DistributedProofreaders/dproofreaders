@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 
@@ -80,18 +81,18 @@ else
     echo "<table border='1'>\n";
     echo "<tr>\n";
     echo "<td valign='top'>\n";
-    list_images( $page_image_names, TRUE );
+    list_images( $project, $page_image_names, $existing_image_names, TRUE);
     echo "</td>\n";
     echo "<td valign='top'>\n";
-    list_images( $nonpage_image_names, FALSE );
+    list_images( $project, $nonpage_image_names, $existing_image_names, FALSE);
     echo "</td>\n";
     echo "</tr>\n";
     echo "<tr>\n";
     echo "<td align='center'>\n";
-    show_dl_link( $page_image_names, TRUE );
+    show_dl_link( $projectid, $page_image_names, TRUE );
     echo "</td>\n";
     echo "<td align='center'>\n";
-    show_dl_link( $nonpage_image_names, FALSE );
+    show_dl_link( $projectid, $nonpage_image_names, FALSE );
     echo "</td>\n";
     echo "</tr>\n";
     echo "</table>\n";
@@ -99,9 +100,11 @@ else
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function list_images( $image_names, $these_are_page_images )
+function list_images( $project, $image_names, $existing_image_names, $these_are_page_images )
 {
-    global $project, $existing_image_names;
+    global $code_url, $projects_url;
+
+    $projectid=$project->projectid;
 
     if ( $these_are_page_images )
     {
@@ -139,7 +142,6 @@ function list_images( $image_names, $these_are_page_images )
         }
         else
         {
-            global $projects_url, $projectid;
             $encoded_url = "$projects_url/$projectid/" . rawurlencode($image_name);
             echo "<td><a href='$encoded_url'><b>$image_name</b></a></td>\n";
 
@@ -161,7 +163,6 @@ function list_images( $image_names, $these_are_page_images )
 
         if ( $show_replace_links )
         {
-            global $code_url;
             if ( $these_are_page_images)
             {
                 $replace_url = "$code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&amp;image=$image_name&amp;modify=image";
@@ -180,9 +181,9 @@ function list_images( $image_names, $these_are_page_images )
 
 }
 
-function show_dl_link( $image_names, $these_are_page_images )
+function show_dl_link( $projectid, $image_names, $these_are_page_images )
 {
-    global $projectid, $code_url;
+    global $code_url;
 
     if ( $these_are_page_images )
     {

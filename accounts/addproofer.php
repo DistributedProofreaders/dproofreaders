@@ -25,8 +25,6 @@ else
     $form_validators = array("_validate_fields");
 }
 
-undo_all_magic_quotes();
-
 function _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates)
 // Validate the user input fields
 // Returns an empty string upon success and an error message upon failure
@@ -70,8 +68,11 @@ function _validate_fields($real_name, $username, $userpass, $userpass2, $email, 
         return _("You did not completely fill out the form.");
     }
 
-    // Make sure that the username is not taken by a non-registered user.
-    if(User::is_valid_user($username))
+    // Make sure that the requested username is not already taken.
+    // Use non-strict validation, which will return TRUE if the username
+    // is the same as an existing one, or differs only by case or trailing
+    // whitespace.
+    if(User::is_valid_user($username, FALSE))
     {
         return _("That user name already exists, please try another.");
     }
@@ -157,7 +158,7 @@ if ($password=="proofer") {
             // Page shown when account is successfully created
 
             $header = sprintf(_("User %s Registered Successfully"), $username);
-	        output_header($header);
+            output_header($header);
 
             echo sprintf(
                _("User %s registered successfully. Please check the e-mail being sent to you for further information about activating your account. This extra step is taken so that no-one can register you to the site without your knowledge."),

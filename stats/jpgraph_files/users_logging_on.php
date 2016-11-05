@@ -2,6 +2,7 @@
 $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 include_once('common.inc');
 
 $past      = get_enumerated_param($_GET, 'past', null, array('year', 'day'));

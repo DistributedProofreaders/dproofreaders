@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'smoothread.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 

@@ -8,7 +8,6 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'POFile.inc');
 
 require_login();
-undo_all_magic_quotes();
 
 $translate_url = "$code_url/locale/translators/index.php";
 
@@ -67,15 +66,13 @@ if ($func == "download" || $func == "view")
     }
     else
     {
-        $no_stats=1;
-        theme(_("Translation Center"), "header");
+        output_header(_("Translation Center"), false);
         echo "<p>" . _("The requested file does not exist.") . "</p>";
     }
     exit();
 }
 
-$no_stats=1;
-theme(_("Translation Center"), "header");
+output_header(_("Translation Center"), false);
 
 // Main Translation Center page
 if (empty($func))

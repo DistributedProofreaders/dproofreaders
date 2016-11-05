@@ -250,7 +250,7 @@ class SortUtility {
     if (isset($val)) {
       $rule = $val->getSQLRule($this->_sortingDirection);
       // Bug: $col is undefined. Not sure what it should be.
-      if (isset($this->_primaryValue) && $col != $this->_primaryValue)
+      if (isset($this->_primaryValue) && @$col != $this->_primaryValue)
         return $rule . ', ' . $this->_primaryValue->getName();
       return $rule;
     }

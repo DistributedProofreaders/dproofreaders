@@ -13,19 +13,19 @@ abort_if_not_authors_db_editor(true);
 // load posted values or defaults
 if (isset($_GET['author_id'])) {
     // init creation of new bio
-    $author_id = $_GET['author_id'];
+    $author_id = get_integer_param($_GET, 'author_id', null, null, null, TRUE);
     $bio = '';
 }
 elseif (isset($_GET['bio_id'])) {
     // init edit of existing bio
-    $bio_id = $_GET['bio_id'];
+    $bio_id = get_integer_param($_GET, 'bio_id', null, null, null, TRUE);
     $result = mysql_query("SELECT * FROM biographies WHERE bio_id = $bio_id;");
     $author_id = mysql_result($result, 0, 'author_id');
-    $bio        = mysql_result($result, 0, 'bio');
+    $bio       = mysql_result($result, 0, 'bio');
 }
 elseif (isset($_POST['author_id'])) {
     // preview / save
-    $author_id = $_POST['author_id'];
+    $author_id = get_integer_param($_POST, 'author_id', null, null, null, TRUE);
     $bio = $_POST['bio'];
 
     if (isset($_POST['SaveAndExit']) || isset($_POST['SaveAndView']) || isset($_POST['SaveAndNew'])) {
@@ -34,17 +34,21 @@ elseif (isset($_POST['author_id'])) {
 
         if (isset($_POST['bio_id'])) {
             // edit existing bio
-            $bio_id = $_POST['bio_id'];
-            $result = mysql_query("UPDATE biographies ".
-                                                        "SET bio = '$bio' " .
-                                                        "WHERE bio_id = $bio_id;");
+            $bio_id = get_integer_param($_POST, 'bio_id', null, null, null, TRUE);
+            $result = mysql_query(sprintf("
+                UPDATE biographies
+                SET bio = '%s'
+                WHERE bio_id = %s
+            ", mysql_real_escape_string($bio), $bio_id));
             $msg = _('The biography was successfully updated in the database!');
         }
         else {
             // add to database
-            $result = mysql_query("INSERT INTO biographies ".
-                                                        "(author_id, bio) " .
-                                                        "VALUES($author_id, '$bio');");
+            $result = mysql_query(sprintf("
+                INSERT INTO biographies
+                    (author_id, bio)
+                VALUES(%s, '%s')
+            ", $author_id, mysql_real_escape_string($bio)));
             $bio_id = mysql_insert_id();
             $msg = _('The biography was successfully entered into the database!');
         }
@@ -67,9 +71,6 @@ elseif (isset($_POST['author_id'])) {
     }
     else {
         // Preview
-        // One thinks it's only to display the values, but we actually need to *remove*
-        // the slashes that php has inserted for us (to prepare strings for database-insertion)
-        $bio = stripslashes($bio);
     }
 }
 else {

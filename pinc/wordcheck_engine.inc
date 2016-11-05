@@ -238,6 +238,7 @@ function get_bad_words_via_external_checker( $input_words_w_freq, $projectid, $i
 
     $tmp_file_text = implode("\n", array_keys($input_words_w_freq));
     $wasWritten = file_put_contents($tmp_file_path,$tmp_file_text);
+    unset($tmp_file_text);
     if($wasWritten === FALSE)
     {
         $messages[] = sprintf(_("Error: unable to write text to temp file: %s"),$tmp_file_path);
@@ -261,6 +262,7 @@ function get_bad_words_via_external_checker( $input_words_w_freq, $projectid, $i
                 $asr_text = str_replace(array("\r","\n"),array('',"[lf]"),$asr_text);
                 // build our list of possible misspellings 
                 $misspellings[$langcode] = explode("[lf]",$asr_text);
+                unset($asr_text);
             }
             else
             {
@@ -291,6 +293,7 @@ function get_bad_words_via_external_checker( $input_words_w_freq, $projectid, $i
     foreach($langKeys as $langkey) {
         $finalMisspellings = array_intersect($finalMisspellings,$misspellings[$langkey]);
     }
+    unset($misspellings);
 
     // Consider non-Latin-1 characters, which we represent with []-notations.
     // For example, consider the oe ligature, which we represent as "[oe]",
@@ -512,8 +515,8 @@ function save_wordcheck_event($projectid,$round,$page,$proofer,$suggestions,$cor
     $correction_list = implode("\n",$correction_list);
 
     // escape single quotes
-    $suggestion_list = addslashes($suggestion_list);
-    $correction_list = addslashes($correction_list);
+    $suggestion_list = mysql_real_escape_string($suggestion_list);
+    $correction_list = mysql_real_escape_string($correction_list);
 
     $time = time();
 

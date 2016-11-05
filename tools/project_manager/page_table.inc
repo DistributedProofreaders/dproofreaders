@@ -201,7 +201,8 @@ function echo_page_table(
         $username_for_selecting_pages = $page_selector;
 
         $where_condition = "0";
-        if (is_null($proofed_in_round))
+        $work_round = get_Round_for_round_id($proofed_in_round);
+        if (is_null($proofed_in_round) || is_null($work_round))
         {
             // want pages that the specified user did in any round
             foreach ( $rounds_to_display as $round )
@@ -214,7 +215,6 @@ function echo_page_table(
         else
         {
             // want only pages that the specified user did in the specified round
-            $work_round = get_Round_for_round_id($proofed_in_round);
             $where_condition .= "
                 OR $work_round->user_column_name='$username_for_selecting_pages'
             ";

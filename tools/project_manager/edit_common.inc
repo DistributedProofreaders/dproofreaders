@@ -329,7 +329,7 @@ function check_user_exists($possible_user, $description)
 
     if(!User::is_valid_user($possible_user))
     {
-        $result = sprintf(_("%s must be an existing user - check case and spelling of username."),
+        $result = sprintf(_("%s must be an existing user - check case and spelling and ensure there is no trailing whitespace."),
             $description) . "<br>";
     }
     return $result;

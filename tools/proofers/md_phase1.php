@@ -56,13 +56,23 @@ function handle_page_params()
 
     foreach ( $_POST['orig_page_num_'] as $image => $orig_page_num )
     {
-        $result = mysql_query("UPDATE $projectid SET orig_page_num = '$orig_page_num' WHERE image = '$image'");
+        $result = mysql_query(sprintf("
+            UPDATE $projectid
+            SET orig_page_num = '%s'
+            WHERE image = '%s'
+        ", mysql_real_escape_string($orig_page_num),
+            mysql_real_escape_string($image)));
     }
 
     $badmetadata = 0;
     foreach ( $_POST['metadata_'] as $image => $metadata )
     {
-        $result = mysql_query("UPDATE $projectid SET metadata = '$metadata' WHERE image = '$image'");
+        $result = mysql_query(sprintf("
+            UPDATE $projectid
+            SET metadata = '%s'
+            WHERE image = '%s'
+        ", mysql_real_escape_string($metadata),
+            mysql_real_escape_string($image)));
         if ($metadata == 'badscan' || $metadata == 'missing' || $metadata == 'sequence') {
             $badmetadata = 1;
         }

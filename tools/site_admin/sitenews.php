@@ -5,6 +5,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'site_news.inc');
+include_once($relPath.'misc.inc'); // get_integer_param(), get_enumerated_param()
 
 require_login();
 
@@ -75,15 +76,15 @@ function handle_any_requested_db_updates( $news_page_id )
             // Save a new site news item
             $content = strip_tags($_POST['content'], $allowed_tags);
             $date_posted = time();
-            $insert_news = mysql_query("
+            $insert_news = mysql_query(sprintf("
                 INSERT INTO news_items
                 SET
                     id           = NULL,
                     news_page_id = '$news_page_id',
                     status       = 'current',
                     date_posted  = '$date_posted',
-                    content      = '$content'
-            ");
+                    content      = '%s'
+            ", mysql_real_escape_string($content)));
             // by default, new items go at the top
             $update_news = mysql_query("
                 UPDATE news_items SET ordering = id WHERE id = LAST_INSERT_ID()
@@ -141,7 +142,11 @@ function handle_any_requested_db_updates( $news_page_id )
             // Save an update to a specific site news item
             $content = strip_tags($_POST['content'], $allowed_tags);
             $item_id = get_integer_param($_POST, 'item_id', null, null, null);
-            $result = mysql_query("UPDATE news_items SET content='$content' WHERE id=$item_id");
+            $result = mysql_query(sprintf("
+                UPDATE news_items
+                SET content='%s'
+                WHERE id=$item_id
+            ", mysql_real_escape_string($content)));
             $result = mysql_query("SELECT status FROM news_items WHERE id=$item_id");
             $row = mysql_fetch_assoc($result);
             $visible_change_made = ($row['status'] == 'current');

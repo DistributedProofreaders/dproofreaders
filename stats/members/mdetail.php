@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'privacy.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_tally.inc');
+include_once($relPath.'misc.inc'); // array_get(), get_integer_param()
 include_once($relPath.'User.inc');
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');

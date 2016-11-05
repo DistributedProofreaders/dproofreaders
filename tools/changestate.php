@@ -6,13 +6,14 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 
 header("Content-Type: text/html; charset=$charset");
 
 // Get Passed parameters to code
-$projectid  = validate_projectID('projectid', $_POST['projectid']);
+$projectid  = validate_projectID('projectid', @$_POST['projectid']);
 $curr_state = get_enumerated_param($_POST, 'curr_state', null, $PROJECT_STATES_IN_ORDER);
 $next_state = get_enumerated_param($_POST, 'next_state', null, array_merge($PROJECT_STATES_IN_ORDER, array('automodify')));
 $confirmed  = get_enumerated_param($_POST, 'confirmed', null, array('yes'), true);

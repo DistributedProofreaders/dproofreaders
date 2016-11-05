@@ -8,6 +8,7 @@ include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'LPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
+include_once($relPath.'misc.inc'); // array_get(), get_integer_param()
 include_once('./post_files.inc');
 include_once("./word_freq_table.inc");
 

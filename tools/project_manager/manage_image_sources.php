@@ -15,21 +15,26 @@ include_once($relPath.'misc.inc'); // get_enumerated_param()
 require_login();
 
 $theme_args['css_data'] = "
-table.listing { border-collapse:collapse; }
-table.listing td { border: 1px solid #999; }
-table.listing tr.e { background-color: white; }
+table.listing { border-collapse: collapse; width: 80%; margin: auto;}
+table.listing td { border: 1px solid #999; padding: 5px; }
+table.listing tr.e { background-color: #eee; }
 table.listing tr.o { background-color: #ddd; }
-table.listing td { padding: 5px; }
 table.listing td.enabled { background-color: #9f9; text-align: center; }
 table.listing td.disabled { background-color: #ddd; text-align: center; }
-table.listing td.pending { background-color: #ff8; text-align: center; }
 table.listing td.center { text-align: center; }
-form { padding: 0; margin: 0; }
+table.listing td.pending { background-color: #ff8; text-align: center; }
+form { padding-top: 10px; margin: 0; }
+input[type='submit'] { margin: 2px; }
 
-table.source { width:75%; border-collapse:collapse;
-    margin-left: auto; margin-right: auto; }
-table.source td { border:1px solid black; padding:5px; }
-table.source td.pa {width:30%; font-weight:bold; }";
+table.source { border-collapse: collapse; width: 80%;
+    margin: auto; margin-bottom: 1em; }
+table.source td { border: 1px solid black; padding: 5px; background-color: #eeeeee; }
+table.source td.pa { width: 30%; font-weight: bold; }
+table.source td.center { text-align: center; }
+div.perms_wrapper { width: 40%; display: inline-block;
+    border-bottom: dotted black 1px; padding: 2px; }
+p.toolbar { text-align: center; margin: 5px 0 5px 0; }
+.error { font-weight: bold; color: red; margin: 4px; }";
 
 $page_url = "$code_url/tools/project_manager/manage_image_sources.php?";
 
@@ -53,38 +58,46 @@ if ($action == 'update_oneshot')
     {
         $source = new ImageSource($_REQUEST['source']);
         $source->enable();
-        $action='show_sources';
+        $action = 'show_sources';
     }
 
     elseif (isset($_REQUEST['disable']))
     {
         $source = new ImageSource($_REQUEST['source']);
         $source->disable();
-        $action='show_sources';
+        $action = 'show_sources';
     }
 
     elseif (isset($_REQUEST['approve']))
     {
         $source = new ImageSource($_REQUEST['source']);
         $source->approve();
-        $action='show_sources';
+        $action = 'show_sources';
     }
 
     elseif (isset($_REQUEST['save_edits']))
     {
-        # This handles both edits to existing sources, and the creation of new sources
+        // This handles both edits to existing sources, and the creation of new sources
         $source = new ImageSource;
+        $new_code_name = rtrim(ltrim($_REQUEST["code_name"]));
 
         $errmsgs = '';
 
-        $new_code_name = rtrim(ltrim($_REQUEST["code_name"]));
+        // Required fields
+        if (strlen($_REQUEST['display_name']) < 1) 
+            $errmsgs .= _("A value for Display Name is required. Please enter one.") . "<br>";
+
+        if (strlen($_REQUEST['full_name']) < 1) 
+            $errmsgs .= _("A value for Full Name is required. Please enter one.") . "<br>";
 
         if (strlen($new_code_name) < 1) 
-            $errmsgs .= _("A value for Image Source ID is required. Please enter one.") . " ";
+            $errmsgs .= _("A value for Image Source ID is required. Please enter one.") . "<br>";
 
-        $result = mysql_query("SELECT COUNT(*)
+        $result = mysql_query(sprintf("
+            SELECT COUNT(*)
             FROM image_sources
-            WHERE code_name = '$new_code_name'");
+            WHERE code_name = '%s'
+        ", mysql_real_escape_string($new_code_name)));
 
         $new = (mysql_result($result,0) == 0);
 
@@ -95,7 +108,7 @@ if ($action == 'update_oneshot')
         {
             $errmsgs .= sprintf(_('An Image Source with this ID already exists. If you
             wish to edit the details of an existing source, please contact %s.
-            Otherwise, choose a different ID for this source.'),$db_requests_email_addr) . "<br />";
+            Otherwise, choose a different ID for this source.'),$db_requests_email_addr) . "<br>";
         }
 
         $source->save_from_post();
@@ -128,25 +141,26 @@ if ($action == 'show_sources')
 
     $result = mysql_query("SELECT code_name FROM image_sources ORDER BY display_name ASC");
 
-    echo "<br />";
+    echo "<br>";
     echo "<table class='listing'>";
     echo "<tr>";
     echo "<th>" . _("ID") . "</th>";
     echo "<th>" . _("Display Name") . "</th>";
     echo "<th>" . _("Full Name") . "</th>";
     echo "<th>" . _("Status") . "</th>";
-    echo "<th>" . _("Images<br>stored") . "</th>";
-    echo "<th>" . _("Images<br>published") . "</th>";
+    echo "<th>" . _("Store Images") . "</th>";
+    echo "<th>" . _("Publish Images") . "</th>";
     echo "<th>" . _("Source shown to") . "</th>";
     echo "</tr>";
+
     $count=0;
     while ( list($source_name) = mysql_fetch_row($result) )
     {
         $count++;
-
         $source = new ImageSource($source_name);
         $source->show_listing_row($count);
     }
+
     echo "</table>";
     echo "<br>";
 }
@@ -178,19 +192,24 @@ class ImageSource
     {
         if( !is_null($code_name) )
         {
-            $result = mysql_query("SELECT *
+            $result = mysql_query(sprintf("
+                SELECT *
                 FROM image_sources
-                WHERE code_name = '$code_name'");
+                WHERE code_name = '%s'
+            ", mysql_real_escape_string($code_name)));
             $source_fields = mysql_fetch_assoc($result);
 
             foreach ($source_fields as $field => $value)
             {
                 $this->$field = $value;
             }
+
+            $this->new_source = false;
         }
         else
         {
             $this->new_source = true;
+            $this->code_name = NULL;
         }
     }
 
@@ -198,6 +217,7 @@ class ImageSource
     {
         global $page_url;
         $sid = html_safe($this->code_name);
+        $asid = attr_safe($this->code_name);
 
         if($count%2 == "1")
             $row_class = "o";
@@ -213,44 +233,63 @@ class ImageSource
             $listing_rows++;
 
         echo "<tr class='$row_class'>";
-        echo "<td rowspan='$listing_rows'>" . html_safe($this->code_name) . "</td>";
-        echo "<td><a name='$sid' id='$sid'></a>" . html_safe($this->display_name) . "</td>";
-        echo "<td>" . make_link($this->url, $this->full_name) . "</td>";
-        echo $this->_get_status_cell($this->is_active,' pb');
-        echo "<td class='center'>" . $this->_may_maynot_unknown($this->ok_keep_images) . "</td>";
-        echo "<td class='center'>" . $this->_may_maynot_unknown($this->ok_show_images) . "</td>";
-        echo "<td>" . $this->_showto($this->info_page_visibility) . "</td>";
-        echo "<td class='center' rowspan='$listing_rows'>";
-        echo "<form method='post' action='$page_url#$sid'>";
+        echo "<td rowspan='$listing_rows' class='center'>";
+        echo html_safe($this->code_name);
+        echo "<br>\n";
+        echo "<form method='post' action='$page_url#$asid'>";
         echo "  <input type='hidden' name='action' value='update_oneshot'>\n";
         echo "  <input type='hidden' name='source' value='$sid'>\n";
                 $this->show_buttons();
         echo "</form>";
         echo "</td>";
+
+        echo "<td><a name='$asid' id='$asid'></a>";
+        echo html_safe($this->display_name);
+        echo "</td>";
+
+        echo "<td>";
+        echo "<big>" . html_safe($this->full_name) . "</big><br>";
+        if ($this->url == "")
+            echo "<span class='error'>" . _("Missing URL") . "</span>";
+        else
+            echo make_link($this->url, $this->url);
+        echo "</td>";
+
+        echo $this->_get_status_cell($this->is_active,' pb');
+        echo "<td class='center'>" . $this->_may_maynot_unknown($this->ok_keep_images) . "</td>";
+        echo "<td class='center'>" . $this->_may_maynot_unknown($this->ok_show_images) . "</td>";
+        echo "<td class='center'>" . $this->_showto($this->info_page_visibility) . "</td>";
         echo "</tr>";
 
         echo "<tr class='$row_class'>";
-        echo "<td colspan='6'>" . sprintf(_("<b>Credits Line:</b> %s"), html_safe($this->credit)) . "</td>";
-        echo "</tr>";
+        echo "<td colspan='6'>";
+        echo "<b>" . _("Credits Line:") . " </b>";
+        echo html_safe($this->credit);
+        echo "</td></tr>";
 
         if($this->public_comment)
         {
             echo "<tr class='$row_class'>";
-            echo "<td colspan='6'>" . sprintf(_("<b>Comment (public):</b> %s"), html_safe($this->public_comment)) . "</td>";
-            echo "</tr>";
+            echo "<td colspan='6'>";
+            echo "<b>" . _("Description (public comments):") . " </b>";
+            echo html_safe($this->public_comment);
+            echo "</td></tr>";
         }
 
         if($this->internal_comment)
         {
             echo "<tr class='$row_class'>";
-            echo "<td colspan='6'>" . sprintf(_("<b>Notes (internal):</b> %s"), html_safe($this->internal_comment)) . "</td>";
-            echo "</tr>";
+            echo "<td colspan='6'>";
+            echo "<b>" . _("Notes (internal comments):") . " </b>";
+            echo html_safe($this->internal_comment);
+            echo "</td></tr>";
         }
     }
 
     function show_buttons()
     {
         echo "<input type='submit' name='edit' value='".attr_safe(_('Edit'))."' /> ";
+        echo "<br>\n";
         switch ($this->is_active)
         {
             case('-1'):
@@ -284,12 +323,12 @@ class ImageSource
         $this->_show_edit_row('display_name',_('Display Name'),false,30);
         $this->_show_edit_row('full_name',_('Full Name'));
         $this->_show_edit_row('url',_('Website'));
-        $this->_show_edit_row('credit',_('Credits line'),true);
+        $this->_show_edit_row('credit',_('Credits Line'),true);
         $this->_show_edit_permissions_row();
-        $this->_show_edit_row('public_comment',_('Comment (public)'),true);
-        $this->_show_edit_row('internal_comment',_('Notes (internal)'),true);
+        $this->_show_edit_row('public_comment',_('Description (public comments)'),true);
+        $this->_show_edit_row('internal_comment',_('Notes (internal comments)'),true);
 
-        echo "<tr><td colspan='2' style='text-align:center;'>
+        echo "<tr><td colspan='2' class='center'>
             <input type='submit' name='save_edits' value='".attr_safe(_('Save'))."' />
             </td> </tr> </form> </table>\n\n";
     }
@@ -336,7 +375,8 @@ class ImageSource
                 ? (empty($_REQUEST[$field]) ? '-1' : $_REQUEST[$field])
                 : $this->$field;
 
-            $editing .= "$col[label] <select name='$col[field]'>";
+            $editing .= "<div class='perms_wrapper'>$col[label]</div>";
+            $editing .= "<select name='$col[field]'>";
             foreach (array('1' => _('Yes'),'0' => _('No'),'-1' => _('Unknown')) as $val => $opt)
             {
                 if (! (!$col['allow_unknown'] && $val == -1) )
@@ -346,7 +386,7 @@ class ImageSource
                     ">$opt</option>";
                 }
             }
-            $editing .= "</select><br />";
+            $editing .= "</select><br>";
         }
 
         // info page visibility is more complicated
@@ -360,7 +400,7 @@ class ImageSource
                 ? (empty($_REQUEST[$field]) ? '2' : $_REQUEST[$field])
                 : $this->$field;
 
-            $editing .= _("Visibility on Info Page") . " <select name='$field'>";
+            $editing .= "<div class='perms_wrapper'>" . _("Visibility on Info Page") . "</div> <select name='$field'>";
             foreach (array(
                     '0' => _('IS Managers Only'),
                     '1' => _('Also PMs'),
@@ -375,8 +415,7 @@ class ImageSource
                     ">$opt</option>";
                 }
             }
-            $editing .= "</select><br />";
-
+            $editing .= "</select><br>";
 
         $this->_show_summary_row(_('Permissions'),$editing,false);
     }
@@ -384,43 +423,59 @@ class ImageSource
     function save_from_post()
     {
         global $errmsgs,$can_edit,$new,$theme_args;
-        $std_fields = array('display_name','full_name','credit',
-                    'ok_keep_images','ok_show_images','info_page_visibility','public_comment','internal_comment');
+        $std_fields = array(
+            'display_name','full_name','credit',
+            'ok_keep_images','ok_show_images','info_page_visibility',
+            'public_comment','internal_comment');
         $std_fields_sql = '';
         foreach ($std_fields as $field)
         {
             $this->$field = $_POST[$field];
-            $std_fields_sql .= "$field = '{$this->$field}',\n";
+            $std_fields_sql .= sprintf(
+                "$field = '%s',\n",
+                mysql_real_escape_string($this->$field)
+            );
         }
 
-        // If the url has no scheme, prepend http://
-        $this->url = strpos($_POST['url'],'://') ? $_POST['url'] : 'http://'.$_POST['url'];
+        // If the URL has no scheme, prepend http:// (unless it's empty)
+        // An empty URL is possible when a source consists of physically
+        // donated material in quantity and specific credit is required.
+        if ($_POST['url'] == "")
+            $this->url = "";
+        else
+            $this->url = strpos($_POST['url'],'://') ? $_POST['url'] : 'http://'.$_POST['url'];
+
         $this->code_name = strtoupper($_POST['code_name']);
+
         if ($new)
         {
-            // If the user is an Image Sources manager, then the new source should
-            // default to disabled. If not, the source should default to pending approval.
+            // If the user is an Image Sources Manager, then the new source
+            // should default to disabled. If not, the source should default
+            // to pending approval.
             $this->is_active = $can_edit ? '0' : '-1';
-            // new sources shouldn't be shown on
-            // the public version of the info page until they are approved.
+            // New sources shouldn't be shown on the public version of the
+            // info page until they are approved.
              $this->info_page_visibility = '1' ;
         }
 
         if ($errmsgs)
         {
             output_header('', NO_STATSBAR, $theme_args);
-            echo "<p style='font-weight: bold; color: red;'>" . $errmsgs . "</p>";
+            echo "<p class='error'><br>" . $errmsgs . "</p>";
             $this->show_edit_form();
             die;
         }
 
-        mysql_query("REPLACE INTO image_sources
+        mysql_query(sprintf("
+            REPLACE INTO image_sources
             SET
-                code_name = '$this->code_name',
+                code_name = '%s',
                 $std_fields_sql
-                url = '$this->url',
+                url = '%s',
                 is_active = '$this->is_active'
-        ") or die("Couldn't add/edit source: ".mysql_error());
+        ", mysql_real_escape_string($this->code_name),
+            mysql_real_escape_string($this->url))
+        ) or die("Couldn't add/edit source: ".mysql_error());
 
     }
 
@@ -465,9 +520,12 @@ class ImageSource
 
     function _set_field($field,$value)
     {
-        mysql_query("UPDATE image_sources
-            SET $field = '$value'
-            WHERE code_name = '$this->code_name'");
+        mysql_query(sprintf("
+            UPDATE image_sources
+            SET $field = '%s'
+            WHERE code_name = '%s'
+        ", mysql_real_escape_string($value),
+            mysql_real_escape_string($this->code_name)));
         $this->$field = $value;
     }
 
@@ -493,7 +551,7 @@ class ImageSource
               $open = "<td class='disabled{$class}'>";
               break;
           case(-1):
-              $middle = _('Pending approval');
+              $middle = _('Pending Approval');
               $open = "<td class='pending{$class}'>";
               break;
         }
@@ -573,7 +631,7 @@ function show_is_toolbar()
         'add_source' => _('Add New Source'),
         'show_sources' => _('List All Image Sources')
     );
-    echo "<p style='text-align: center; margin: 5px 0 5px 0;'>";
+    echo "<p class='toolbar'>";
     foreach ($pages as $new_action => $label)
     {
         echo ($action == $new_action) ? "<b>" : "<a href='?action=$new_action'>";
@@ -587,4 +645,3 @@ function show_is_toolbar()
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

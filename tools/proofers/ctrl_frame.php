@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'stages.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 include_once('toolbox.inc');
 
 $round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_));

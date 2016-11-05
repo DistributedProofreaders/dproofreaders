@@ -8,8 +8,6 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'User.inc');
 
-undo_all_magic_quotes();
-
 // Checks if $value has the form of a valid user ID.
 // If its does, it returns it, otherwise dies with a warning.
 function validate_userID($param_name, $value) 

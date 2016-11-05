@@ -5,6 +5,7 @@ include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'Stopwatch.inc');
+include_once($relPath.'misc.inc'); // array_get(), get_integer_param(), surround_and_join()
 include_once('./post_files.inc');
 include_once("./word_freq_table.inc");
 
@@ -268,7 +269,12 @@ function _get_projects_for_pm($pm) {
     $stateString = surround_and_join( $states, "'", "'", ',' );
     $where = "state IN ($stateString)";
     $collator = "FIELD(state,$stateString)";
-    $query = "SELECT projectid, state, nameofwork FROM projects WHERE username='$pm' AND $where ORDER BY $collator, nameofwork";
+    $query = sprintf("
+        SELECT projectid, state, nameofwork
+        FROM projects
+        WHERE username='%s' AND $where
+        ORDER BY $collator, nameofwork
+    ", mysql_real_escape_string($pm));
 
     $res = mysql_query($query);
     while($ar = mysql_fetch_array($res)) {

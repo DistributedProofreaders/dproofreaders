@@ -2,7 +2,7 @@
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
+include_once($relPath.'misc.inc'); // get_integer_param(), attr_safe(), html_safe()
 include_once("authors.inc");
 include_once("menu.inc");
 
@@ -30,6 +30,7 @@ if (isset($last_name)) {
     $dday        = get_integer_param($_POST, 'dday', null, 0, 31);
     $dcomments   = @$_POST['dcomments'];
     $dyearRadio  = get_integer_param($_POST, 'dyearRadio', null, 0, 1);
+    $author_id   = get_integer_param($_POST, 'author_id', null, null, null, TRUE);
 
     // years are specified using radio-buttons and text-fields.
     // a little logic to get the right data
@@ -51,21 +52,37 @@ if (isset($last_name)) {
         // validate
 
         // insert into the database
-        if (isset($_POST['author_id'])) {
+        if ($author_id) {
             // edit existing author
-            $author_id = $_POST['author_id'];
-            $result = mysql_query("UPDATE authors " .
-                                  "SET last_name='$last_name', other_names='$other_names', " .
-                                  "byear=$byear, bmonth=$bmonth, bday=$bday, bcomments='$bcomments', " .
-                                  "dyear=$dyear, dmonth=$dmonth, dday=$dday, dcomments='$dcomments' " .
-                                  "WHERE author_id = $author_id;");
+            $result = mysql_query(sprintf("
+                UPDATE authors
+                SET last_name='%s', other_names='%s',
+                    byear=$byear, bmonth=$bmonth, bday=$bday, bcomments='%s',
+                    dyear=$dyear, dmonth=$dmonth, dday=$dday, dcomments='$%s'
+                WHERE author_id = $author_id
+            ", mysql_real_escape_string($last_name),
+                mysql_real_escape_string($other_names),
+                mysql_real_escape_string($bcomments),
+                mysql_real_escape_string($dcomments)
+            ));
             $msg = _('The author was successfully updated in the database!');
         }
         else {
             // add new author to database
-            $result = mysql_query("INSERT INTO authors ".
-                                  "(last_name, other_names, byear, bmonth, bday, bcomments, dyear, dmonth, dday, dcomments, enabled) " .
-                                  "VALUES('$last_name', '$other_names', $byear, $bmonth, $bday, '$bcomments', $dyear, $dmonth, $dday, '$dcomments', 'yes');");
+            $result = mysql_query(sprintf("
+                INSERT INTO authors
+                    (last_name, other_names,
+                        byear, bmonth, bday, bcomments,
+                        dyear, dmonth, dday, dcomments, enabled)
+                VALUES
+                    ('%s', '%s',
+                        $byear, $bmonth, $bday, '%s',
+                        $dyear, $dmonth, $dday, '%s', 'yes')
+            ", mysql_real_escape_string($last_name),
+                mysql_real_escape_string($other_names),
+                mysql_real_escape_string($bcomments),
+                mysql_real_escape_string($dcomments)
+            ));
             $msg = _('The author was successfully entered into the database!');
             $author_id = mysql_insert_id();
         }
@@ -95,17 +112,14 @@ if (isset($last_name)) {
     }
     else {
         // Preview
-        // This means we have to strip the slashes that php added for us
-        foreach (array('last_name', 'other_names', 'bcomments', 'dcomments') as $var)
-            $$var = stripslashes($$var);
     }
 }
 else {
     // GET => output form
+    $author_id   = get_integer_param($_GET, 'author_id', null, null, null, TRUE);
 
-    if (isset($_GET['author_id'])) {
+    if ($author_id) {
         // edit specified author
-        $author_id = $_GET['author_id'];
         // get the values from the database
         $result = mysql_query("SELECT * FROM authors WHERE author_id = $author_id;");
         if (!$result) {

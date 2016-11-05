@@ -138,8 +138,6 @@ CREATE TABLE `job_logs` (
 
 CREATE TABLE `marc_records` (
   `projectid` varchar(22) NOT NULL default '',
-  `original_marc` text NOT NULL,
-  `updated_marc` text NOT NULL,
   `original_array` text NOT NULL,
   `updated_array` text NOT NULL,
   PRIMARY KEY  (`projectid`)
@@ -469,6 +467,7 @@ CREATE TABLE `sessions` (
   `expiration` int(11) NOT NULL default '0',
   `value` text NOT NULL,
   PRIMARY KEY  (`sid`)
+  KEY `expiration` (`expiration`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 

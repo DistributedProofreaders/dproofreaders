@@ -21,9 +21,7 @@ include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link
 include_once($relPath.'project_edit.inc'); // check_user_can_load_projects
 include_once($relPath.'forum_interface.inc'); // get_last_post_time_in_topic & get_url_*()
-include_once($relPath.'misc.inc'); // undo_all_magic_quotes(), html_safe()
-
-undo_all_magic_quotes();
+include_once($relPath.'misc.inc'); // html_safe(), get_enumerated_param(), get_integer_param()
 
 // If the requestor is not logged in, we refer to them as a "guest".
 
@@ -468,11 +466,12 @@ function do_project_info_table()
         }
         else
         {
-            $spec_res = mysql_fetch_assoc(mysql_query("
+            $sql = sprintf("
                 SELECT display_name
                 FROM special_days
-                WHERE spec_code = '$spec_code'
-            "));
+                WHERE spec_code = '%s'
+            ", mysql_real_escape_string($spec_code));
+            $spec_res = mysql_fetch_assoc(mysql_query($sql));
             if ($spec_res)
             {
                 $spec_display = $spec_res['display_name'];

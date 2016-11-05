@@ -18,8 +18,10 @@ components.
 
 PHP
     PHP version 5.3.2 is the minimum version supported, although any
-    5.3.x version should work. PHP version 5.4 and later will NOT
-    work due to code dependencies on magic quotes.
+    version >= 5.3.2 and < 7.0 should work.
+
+    PHP version 7.0 and later will NOT work due to the dependency on
+    the mysql (original) extension.
 
 MySQL
     MySQL version 5.1.x and later is required.
@@ -41,7 +43,9 @@ jpgraph
 These middleware components match the following major distribution releases:
 * Ubuntu 10.04, Lucid
 * Ubuntu 12.04, Precise
+* Ubuntu 14.04, Trusty
 * RHEL / CentOS 6.x family
+* RHEL / CentOS 7.x family
 
 =======================================================================
 Installing from scratch
@@ -70,12 +74,11 @@ assuming it isn't already.
             performance. Allocate 128MB to the cache if possible.
 
         php.ini:
-            magic_quotes_gpc = On
-                Needed for some scripts. (We should try to eliminate this.)
             session.gc_probability = 1 (or something other than zero)
                 Needed to trigger garbage collection in 'sessions' table
                 if _USE_PHP_SESSIONS=TRUE in your DP config file.
 
+            magic_quotes_gpc
             register_globals
             register_long_arrays
                 The DP codes does not rely on these features and they can

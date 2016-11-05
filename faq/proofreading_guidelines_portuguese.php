@@ -7,11 +7,16 @@ include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+include_once($relPath.'metarefresh.inc');
 
-undo_all_magic_quotes();
+# SITE-SPECIFIC
+# Redirect users to this document in the wiki
+if(strpos($code_url, '://www.pgdp.'))
+{
+    $url = 'http://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Portuguese/Regras_de_Revis%C3%A3o';
+    metarefresh(0, $url);
+}
 
-$no_stats=1;
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
 output_header('Regras de Revis&atilde;o', NO_STATSBAR, $theme_args);

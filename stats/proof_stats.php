@@ -6,6 +6,7 @@ include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'page_tally.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 

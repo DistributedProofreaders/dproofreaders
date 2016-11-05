@@ -1,35 +1,40 @@
 <?php
-include_once($relPath."connect.inc");
-include_once($relPath."dpsql.inc");
-
 
 function log_access_change( $subject_username, $modifier_username, $activity_id, $action_type )
 {
-  $result = dpsql_query(
-    "INSERT INTO access_log
-       SET
-         timestamp = '" . time() . "',
-         subject_username = '$subject_username',
-         modifier_username = '$modifier_username',
-         action = '$action_type',
-         activity = '$activity_id'");
+    $sql = sprintf("
+        INSERT INTO access_log
+        SET
+            timestamp = '%s',
+            subject_username = '%s',
+            modifier_username = '%s',
+            action = '%s',
+            activity = '%s'
+    ", time(),
+        mysql_real_escape_string($subject_username),
+        mysql_real_escape_string($modifier_username),
+        mysql_real_escape_string($action_type),
+        mysql_real_escape_string($activity_id));
 
-  return $result;
+    return mysql_query($sql);
 }
 
 function get_first_granted_date($username, $stage)
 {
-  $result = dpsql_query(
-             "SELECT timestamp
-              FROM access_log
-              WHERE subject_username = '$username'
-              AND activity = '$stage'
-              AND action = 'grant'
-              ORDER BY timestamp ASC
-              LIMIT 1");
+    $sql = sprintf("
+        SELECT timestamp
+        FROM access_log
+        WHERE subject_username = '%s'
+            AND activity = '%s'
+            AND action = 'grant'
+        ORDER BY timestamp ASC
+        LIMIT 1
+    ", mysql_real_escape_string($username),
+        mysql_real_escape_string($stage));
 
-  $date = @mysql_result($result,0,"timestamp");
+    $result = mysql_query($sql);
 
-  return $date;
+    $date = @mysql_result($result, 0, "timestamp");
+
+    return $date;
 }
-?>

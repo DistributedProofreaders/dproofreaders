@@ -35,7 +35,7 @@ while( list($name,$release_criterion) = mysql_fetch_row($res) )
 	$rc = preg_replace( '/\s*(and|&&)\s*TRUE/', '', $rc );
 	$rc = preg_replace( '/(pages|projects)1/', '\1', $rc );
 
-	$name = addslashes($name);
+	$name = mysql_real_escape_string($name);
 	// echo "    $rc               $release_criterion\n";
 	mysql_query("
 		UPDATE queue_defns

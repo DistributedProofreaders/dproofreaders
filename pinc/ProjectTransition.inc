@@ -261,12 +261,12 @@ class ProjectTransition
                         {
                             return "\$who == PT_AUTO shouldn't happen for <WHO>";
                         }
-                        $replacement = $who;
+                        $replacement = mysql_real_escape_string($who);
                         break;
 
                     case '<G:postcomments>':
                         global $postcomments; // defined in upload_text.php
-                        $replacement = $postcomments;
+                        $replacement = mysql_real_escape_string($postcomments);
                         break;
 
                     default:

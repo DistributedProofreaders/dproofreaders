@@ -1,7 +1,6 @@
 <?php
 $mtime = explode(" ",microtime());
 $starttime = $mtime[1] + $mtime[0];
-include_once($relPath.'misc.inc');
 include_once($relPath.'site_vars.php');
 include_once($relPath.'stages.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
@@ -13,7 +12,7 @@ include_once($relPath.'list_projects.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'languages.inc');
-include_once($relPath.'misc.inc'); // endswith(), attr_safe()
+include_once($relPath.'misc.inc'); // endswith(), get_enumerated_param(), attr_safe()
 
 define('NO_STATSBAR',   False);
 define('SHOW_STATSBAR', True);
@@ -117,11 +116,14 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) 
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
     echo "<html ".lang_html_header($intlang).">\n<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\">\n";
-    # standard favicon.ico
-    echo "<link rel='shortcut icon' href='$code_url/graphics/dp-mark-32px.ico'>\n";
+
     # iOS and Android icons
     echo "<link rel='apple-touch-icon' href='$code_url/graphics/dp-mark-180px-white.png'>\n";
     echo "<link rel='icon' href='$code_url/graphics/dp-mark-180px-white.png'>\n";
+    # standard favicon.ico -- this has to be after the rel='icon' above due to
+    # a FF bug: https://bugzilla.mozilla.org/show_bug.cgi?id=751712
+    echo "<link rel='shortcut icon' href='$code_url/graphics/dp-mark-32px.ico'>\n";
+
     echo "<title>$site_abbreviation";
     if (isset($nameofpage)) { echo ": $nameofpage"; }
     echo "</title>\n";

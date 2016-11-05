@@ -19,9 +19,17 @@ $uexact = @$_REQUEST['uexact'];
 
 if (!empty($uname)) {
     if ($uexact == 'yes')
-        $where_clause = "WHERE username='" . $uname . "'";
+    {
+        $where_clause = sprintf("
+            WHERE username='%s'
+        ", mysql_real_escape_string($uname));
+    }
     else
-        $where_clause = "WHERE username LIKE '%" . addcslashes($uname, "%_") . "%'";
+    {
+        $where_clause = sprintf("
+            WHERE username LIKE '%%%s%%'
+        ", addcslashes(mysql_real_escape_string($uname), "%_"));
+    }
 
     $mResult = mysql_query("
         SELECT u_id, username, date_created, u_privacy

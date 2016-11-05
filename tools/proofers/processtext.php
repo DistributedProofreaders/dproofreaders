@@ -3,6 +3,7 @@ $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'metarefresh.inc');
+include_once($relPath.'misc.inc'); // array_get()
 include_once('PPage.inc');
 include_once('proof_frame.inc');
 include_once('text_frame_std.inc');
@@ -35,6 +36,7 @@ define('B_RUN_SPELL_CHECK',         10);
 
 
 // set tbutton
+$tbutton = NULL; # default value, will result in error if not overridden below
 if (isset($_POST['button1']) || isset($_POST['button1_x'])) {$tbutton=B_TEMPSAVE;}
 if (isset($_POST['button2']) || isset($_POST['button2_x'])) {$tbutton=B_SAVE_AND_DO_ANOTHER;}
 if (isset($_POST['button3']) || isset($_POST['button3_x'])) {$tbutton=B_QUIT;}
@@ -147,7 +149,7 @@ switch( $tbutton )
         $ppage->saveAsInProgress($text_data,$pguser);
         $aux_language = '';
         $accepted_words=array();
-        $text_data=stripslashes($_POST["text_data"]);
+        $text_data = $_POST["text_data"];
 
         // to retain corrections across multiple language checks, we save the
         // corrections in a page-specific session variable
@@ -162,7 +164,7 @@ switch( $tbutton )
         // Return from spellchecker via "Submit Corrections" button.
         include_once('spellcheck_text.inc');
         list($correct_text,$corrections) = spellcheck_apply_corrections();
-        $accepted_words = explode(' ',stripslashes($_POST["accepted_words"]));
+        $accepted_words = explode(' ', $_POST["accepted_words"]);
         $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
 
         // the user is submitting corrections, so pull any temporary corrections
@@ -178,7 +180,7 @@ switch( $tbutton )
         save_wordcheck_event(
             $_POST["projectid"],$ppage->lpage->round->id,$page,$pguser,$accepted_words,$corrections);
 
-        $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
+        $ppage->saveAsInProgress($correct_text, $pguser);
         leave_spellcheck_mode($ppage);
         break;
 
@@ -186,7 +188,7 @@ switch( $tbutton )
         // Return from spellchecker via "Quit Spell Check" button.
         include_once('spellcheck_text.inc');
         $correct_text = spellcheck_quit();
-        $accepted_words = explode(' ',stripslashes($_POST["accepted_words"]));
+        $accepted_words = explode(' ', $_POST["accepted_words"]);
         $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
 
         // the user wants to quit, so clear out the temporary variable
@@ -196,7 +198,7 @@ switch( $tbutton )
         save_wordcheck_event(
             $_POST["projectid"],$ppage->lpage->round->id,$page,$pguser,$accepted_words,array());
 
-        $ppage->saveAsInProgress(addslashes($correct_text),$pguser);
+        $ppage->saveAsInProgress($correct_text, $pguser);
         leave_spellcheck_mode($ppage);
         break;
 
@@ -208,7 +210,7 @@ switch( $tbutton )
         // 3. Redirecting to the next available page
         include_once('spellcheck_text.inc');
         $correct_text = spellcheck_quit();
-        $accepted_words = explode(' ',stripslashes($_POST["accepted_words"]));
+        $accepted_words = explode(' ', $_POST["accepted_words"]);
         $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
 
         // 1. Quit the wordcheck interface:
@@ -227,7 +229,7 @@ switch( $tbutton )
             $_POST["projectid"],$ppage->lpage->round->id,$page,$pguser,$accepted_words,array());
 
         // 2. Save the current page as done
-        $ppage->saveAsDone(addslashes($correct_text),$pguser);
+        $ppage->saveAsDone($correct_text, $pguser);
 
         // Redirect to the next available page
         $url = $ppage->url_for_do_another_page();
@@ -249,7 +251,7 @@ switch( $tbutton )
         // and rerun through the spellcheck
         include_once('spellcheck_text.inc');
         $aux_language = $_POST["aux_language"];
-        $accepted_words = explode(' ',stripslashes($_POST["accepted_words"]));
+        $accepted_words = explode(' ', $_POST["accepted_words"]);
         $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
         list($text_data,$corrections) = spellcheck_apply_corrections();
 

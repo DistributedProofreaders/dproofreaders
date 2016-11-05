@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'misc.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'filter_project_list.inc');
 include_once($relPath.'SettingsClass.inc');
@@ -549,9 +548,7 @@ function show_project_listing(
             }
             elseif( $col_id == "days_avail" || $col_id == "days_left" )
             {
-                $precision = ( $col_id == "days_left" ? 1 : 0 );
-                $format = "%.{$precision}f";
-                $cell = sprintf( $format, $book[$col_id] );
+                $cell = sprintf( "%.1f", $book[$col_id] );
             }
             else
             {

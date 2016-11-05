@@ -34,8 +34,6 @@ if ( $_GET['rel_source'] == '' )
 else
 {
     $rel_source = $_GET['rel_source'];
-    if (get_magic_quotes_gpc()) 
-        $rel_source = stripslashes($rel_source);
     // Prevent sneaky parent-link tricks.
     if (str_contains($rel_source, ".."))
     {

@@ -185,7 +185,7 @@ function file_content_expr( $file_path )
             return 'NULL';
         }
         $txt = _normalize_page_text($txt);
-        return "'" . addslashes($txt) . "'";
+        return sprintf("'%s'", mysql_real_escape_string($txt));
 }
 
 // -----------------------------------------------------------------------------
@@ -248,8 +248,9 @@ function Page_replaceText( $projectid, $image, $text_file_path, $user )
 function Page_modifyText( $projectid, $image, $page_text, $text_column, $user )
 {
     $page_text = _normalize_page_text($page_text);
-    _Page_UPDATE( $projectid, $image, 
-        $text_column."='$page_text'");
+    _Page_UPDATE( $projectid, $image, sprintf("
+        $text_column='%s'
+    ", mysql_real_escape_string($page_text)));
 
     _log_page_event( $projectid, $image, 'modifyText', $user, NULL, FALSE );
 }
@@ -290,12 +291,12 @@ function Page_saveAsInProgress( $projectid, $image, $round, $user, $page_text )
     $timestamp = time();
 
     $page_text = _normalize_page_text($page_text);
-    _Page_UPDATE( $projectid, $image, "
+    _Page_UPDATE( $projectid, $image, sprintf("
         state='{$round->page_temp_state}',
         {$round->time_column_name}='$timestamp',
         {$round->user_column_name}='$user',
-        {$round->text_column_name}='$page_text'
-    " );
+        {$round->text_column_name}='%s'
+    ", mysql_real_escape_string($page_text)));
 
     _log_page_event( $projectid, $image, 'saveAsInProgress', $user, $round, TRUE );
 
@@ -314,12 +315,12 @@ function Page_saveAsDone( $projectid, $image, $round, $user, $page_text )
     $timestamp = time();
 
     $page_text = _normalize_page_text($page_text);
-    _Page_UPDATE( $projectid, $image, "
+    _Page_UPDATE( $projectid, $image, sprintf("
         state='{$round->page_save_state}',
         {$round->time_column_name}='$timestamp',
         {$round->user_column_name}='$user',
-        {$round->text_column_name}='$page_text'
-    " );
+        {$round->text_column_name}='%s'
+    ", mysql_real_escape_string($page_text)));
 
     _log_page_event( $projectid, $image, 'saveAsDone', $user, $round, TRUE );
 

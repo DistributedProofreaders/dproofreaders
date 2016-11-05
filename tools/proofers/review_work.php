@@ -19,16 +19,12 @@ error_reporting(E_ALL);
 // get an array of round IDs
 $rounds=array_keys($Round_for_round_id_);
 
-// defaults
-$default_sampleLimit = 0;
-$default_days = 100;
-
 // load any data passed into the page
 $username = @$_REQUEST["username"];
 $work_round_id = @$_REQUEST["work_round_id"];
 $review_round_id = @$_REQUEST["review_round_id"];
-$sampleLimit = array_get($_REQUEST,"sample_limit",$default_sampleLimit);
-$days  = array_get($_REQUEST,"days",$default_days);
+$sampleLimit = get_integer_param($_REQUEST, "sample_limit", 0, 0, NULL);
+$days = get_integer_param($_REQUEST, "days", 100, 0, NULL);
 
 // if the user isn't a site manager or an access request reviewer
 // they can only access their own pages
@@ -98,14 +94,6 @@ if(empty($username) ||
    empty($work_round_id) ||
    empty($review_round_id)) {
     exit;
-}
-if (empty($sampleLimit))
-{
-    $sampleLimit = $default_sampleLimit;
-}
-if (empty($days))
-{
-    $days = $default_days; 
 }
 
 // confirm the review_round_id is later than work_round_id

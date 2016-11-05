@@ -3,10 +3,9 @@ $relPath="./pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
-include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
+include_once($relPath.'misc.inc'); // get_integer_param()
 
 require_login();
-undo_all_magic_quotes();
 
 // Very basic display of the 'recent' news stories for the given news page
 //

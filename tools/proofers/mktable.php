@@ -1,11 +1,10 @@
 <?php
-// not including base.inc as this has no external dependencies
-$relPath="../../pinc";
-include_once($relPath."/misc.inc");
-
-undo_all_magic_quotes();
+$relPath="../../pinc/";
+include_once($relPath."base.inc");
+include_once($relPath."misc.inc");
 
 $charset="UTF-8";
+header("Content-Type: text/html; charset=$charset");
 
 define("ARRAY_PAD_FRONT", -1);
 define("ARRAY_PAD_BACK",   1);
@@ -155,7 +154,7 @@ function generate_ascii_table($row, $col, $a, $al, $tll, $val, $lng, $bord)
         for($k=0;$k<$tll[$i];$k++) {
             if($bord) echo "|";
             for($j=0;$j<$col;$j++) {
-                echo htmlspecialchars(mb_str_pad($a[$i][$j][$k],$lng[$j]," ",$al[$j]), ENT_QUOTES, $charset);
+                echo htmlspecialchars(mb_str_pad($a[$i][$j][$k],@$lng[$j]," ",$al[$j]), ENT_QUOTES, $charset);
                 if($j<$col-1)
                     echo "|";
             }
@@ -172,8 +171,8 @@ function hline($col, $lng, $bord)
 {
     if($bord) echo "+";
     for($j=0;$j<$col-1;$j++)
-        echo mb_str_pad("",$lng[$j],"-")."+";
-    echo mb_str_pad("",$lng[$col-1],"-");
+        echo mb_str_pad("",@$lng[$j],"-")."+";
+    echo mb_str_pad("",@$lng[$col-1],"-");
     if($bord) echo "+";
     echo "\n";
 }

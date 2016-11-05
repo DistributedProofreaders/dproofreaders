@@ -7,6 +7,7 @@ include_once($relPath.'project_trans.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'misc.inc'); // attr_safe(), endswith()
 
 require_login();
 
@@ -309,14 +310,16 @@ else
     // but still needs some changes recorded in project table
     // the comments get recorded even if it's just a replacement
     if ($stage == 'smooth_avail') {
-        $qstring = "
-                          UPDATE projects SET ";
+        $smoothread_deadline = '';
         if ($weeks != "replace") {
-            $qstring .= "smoothread_deadline = $deadline, ";
+            $smoothread_deadline = "smoothread_deadline = $deadline, ";
         }
-        $qstring .= "postcomments = CONCAT(postcomments,'$postcomments')
-                          WHERE projectid = '$projectid'
-                      ";
+        $qstring = sprintf("
+            UPDATE projects
+            SET $smoothread_deadline
+                postcomments = CONCAT(postcomments, '%s')
+            WHERE projectid = '$projectid'
+        ", mysql_real_escape_string($postcomments));
         $qry =  mysql_query($qstring);
 
         if ( $weeks == "replace" )

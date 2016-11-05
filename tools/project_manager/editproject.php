@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'misc.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'marc_format.inc');
+include_once($relPath.'MARCRecord.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'DPage.inc');
@@ -54,7 +54,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
     {
         // we're creating a new project
         check_user_can_load_projects(true); // exit if they can't
-        if ( isset($pih->up_projectid) )
+        if ( isset($pih->up_projectid) && $pih->up_projectid )
         {
             $page_title = _("Create a Project from an Uber Project");
         }
@@ -206,11 +206,14 @@ class ProjectInfoHolder
             return sprintf(_("parameter '%s' cannot be unserialized"), 'rec');
         }
 
-        $this->nameofwork  = marc_title($r3);
-        $this->authorsname = marc_author($r3);
+        $marc_record = new MARCRecord();
+        $marc_record->load_yaz_array($r3);
+
+        $this->nameofwork  = $marc_record->title;
+        $this->authorsname = $marc_record->author;
         $this->projectmanager = $pguser;
-        $this->language    = marc_language($r3);
-        $this->genre       = marc_literary_form($r3);
+        $this->language    = $marc_record->language;
+        $this->genre       = $marc_record->literary_form;
 
         $this->checkedoutby     = '';
         $this->scannercredit    = '';
@@ -239,7 +242,7 @@ class ProjectInfoHolder
             return sprintf(_("parameter '%s' is unset"), 'up_projectid');
         }
 
-        $up_projectid = $_GET['up_projectid'];
+        $up_projectid = intval($_GET['up_projectid']);
         if ( $up_projectid == '' )
         {
             return sprintf(_("parameter '%s' is empty"), 'up_projectid');
@@ -366,14 +369,6 @@ class ProjectInfoHolder
 
     function set_from_post()
     {
-        if ( get_magic_quotes_gpc() )
-        {
-            // Values in $_POST come with backslashes added.
-            // We want the fields of $this to be unescaped strings,
-            // so we strip the slashes.
-            $_POST = array_map('stripslashes', $_POST);
-        }
-
         $errors = '';
 
         if ( isset($_POST['projectid']) )
@@ -604,35 +599,37 @@ class ProjectInfoHolder
 
         $postednum_str = ($this->postednum == "") ? "NULL" : "'$this->postednum'";
 
-        // Call addslashes() on any members of $this that might contain 
-        // single-quotes/apostrophes (because they are unescaped, and
+        // Call mysql_real_escape_string() on any members of $this that might
+        // contain single-quotes/apostrophes (because they are unescaped, and
         // would otherwise break the query).
 
         $common_project_settings = "
             t_last_edit    = UNIX_TIMESTAMP(),
             up_projectid   = '{$this->up_projectid}',
-            nameofwork     = '".addslashes($this->nameofwork)."',
-            authorsname    = '".addslashes($this->authorsname)."',
-            language       = '{$this->language}',
-            genre          = '{$this->genre}',
-            difficulty     = '{$this->difficulty_level}',
-            special_code   = '{$this->special_code}',
-            clearance      = '".addslashes($this->clearance)."',
-            comments       = '".addslashes($this->comments)."',
-            image_source   = '{$this->image_source}',
-            scannercredit  = '".addslashes($this->scannercredit)."',
-            checkedoutby   = '{$this->checkedoutby}',
+            nameofwork     = '".mysql_real_escape_string($this->nameofwork)."',
+            authorsname    = '".mysql_real_escape_string($this->authorsname)."',
+            language       = '".mysql_real_escape_string($this->language)."',
+            genre          = '".mysql_real_escape_string($this->genre)."',
+            difficulty     = '".mysql_real_escape_string($this->difficulty_level)."',
+            special_code   = '".mysql_real_escape_string($this->special_code)."',
+            clearance      = '".mysql_real_escape_string($this->clearance)."',
+            comments       = '".mysql_real_escape_string($this->comments)."',
+            image_source   = '".mysql_real_escape_string($this->image_source)."',
+            scannercredit  = '".mysql_real_escape_string($this->scannercredit)."',
+            checkedoutby   = '".mysql_real_escape_string($this->checkedoutby)."',
             postednum      = $postednum_str,
-            image_preparer = '{$this->image_preparer}',
-            text_preparer  = '{$this->text_preparer}',
-            extra_credits  = '".addslashes($this->extra_credits)."',
-            deletion_reason= '".addslashes($this->deletion_reason)."'
+            image_preparer = '".mysql_real_escape_string($this->image_preparer)."',
+            text_preparer  = '".mysql_real_escape_string($this->text_preparer)."',
+            extra_credits  = '".mysql_real_escape_string($this->extra_credits)."',
+            deletion_reason= '".mysql_real_escape_string($this->deletion_reason)."'
         ";
         $pm_setter = '';
         if ( user_is_a_sitemanager() )
         {
             // can change PM
-            $pm_setter = " username = '{$this->projectmanager}',";
+            $pm_setter = sprintf("
+                username = '%s',
+            ", mysql_real_escape_string($this->projectmanager));
         }
         else if ( isset($this->clone_projectid) )
         {
@@ -646,7 +643,9 @@ class ProjectInfoHolder
             ") or die(mysql_error());
             list($projectmanager) = mysql_fetch_row($res);
 
-            $pm_setter = " username = '$projectmanager',";
+            $pm_setter = sprintf("
+                username = '%s',
+            ", mysql_real_escape_string($projectmanager));
         }
 
         if (isset($this->projectid))
@@ -682,7 +681,7 @@ class ProjectInfoHolder
             // We also want to know if the edit is resulting in the project
             // effectively being checked out to a new PPer
             if ( $old_pih->state == PROJ_POST_FIRST_CHECKED_OUT &&
-                 strpos($changed_fields, 'PPer/PPVer') != FALSE )
+                 in_array('checkedoutby', $changed_fields))
             {
                 $md_setter = 'modifieddate = UNIX_TIMESTAMP(),';
                 $PPer_checkout = TRUE;
@@ -732,25 +731,11 @@ class ProjectInfoHolder
                 if ( !empty($e) ) die($e);
             }
 
-            $result = mysql_query("
-                SELECT updated_array
-                FROM marc_records
-                WHERE projectid = '{$this->projectid}'
-            ");
-            $current_marc_array_encd = mysql_result($result,0,"updated_array");
-            $current_marc_array = unserialize(base64_decode($current_marc_array_encd));
-
-            // Update the MARC array with any info we've received.
-            $updated_marc_array = update_marc_array($current_marc_array);
-            $updated_marc_str = convert_marc_array_to_str($updated_marc_array);
-
-            mysql_query("
-                UPDATE marc_records
-                SET
-                    updated_array = '".base64_encode(serialize($updated_marc_array))."',
-                    updated_marc  = '".base64_encode(serialize($updated_marc_str))."'
-                WHERE projectid = '$this->projectid'
-            ");
+            // Update the MARC record with any info we've received.
+            $project = new Project($this->projectid);
+            $marc_record = $project->load_marc_record();
+            $this->update_marc_record_from_post($marc_record);
+            $project->save_marc_record($marc_record);
         }
         else
         {
@@ -783,25 +768,24 @@ class ProjectInfoHolder
             mkdir("$projects_dir/$this->projectid", 0777) or die("System error: unable to mkdir '$projects_dir/$this->projectid'");
             chmod("$projects_dir/$this->projectid", 0777);
 
-            $original_marc_array = unserialize(base64_decode($this->original_marc_array_encd));
-            $original_marc_str = convert_marc_array_to_str($original_marc_array);
 
-            // Update the MARC array with any info we've received.
-            $updated_marc_array = update_marc_array($original_marc_array);
-            $updated_marc_str = convert_marc_array_to_str($updated_marc_array);
+            // Do MARC record manipulations
+            $project = new Project($this->projectid);
+            $marc_record = new MARCRecord();
 
-            mysql_query("
-                INSERT INTO marc_records
-                SET
-                    projectid      = '$this->projectid',
-                    original_array = '".base64_encode(serialize($original_marc_array))."',
-                    original_marc  = '".base64_encode(serialize($original_marc_str))."',
-                    updated_array  = '".base64_encode(serialize($updated_marc_array))."',
-                    updated_marc   = '".base64_encode(serialize($updated_marc_str))."'
-            ");
+            // Save original MARC record, if provided
+            $yaz_array = unserialize(base64_decode($this->original_marc_array_encd));
+            if($yaz_array !== FALSE)
+            {
+                $marc_record->load_yaz_array($yaz_array);
+                $project->init_marc_record($marc_record);
+
+                // Update the MARC record with data from POST
+                $this->update_marc_record_from_post($marc_record);
+                $project->save_marc_record($marc_record);
+            }
 
             // Create the project's 'good word list' and 'bad word list'.
-
             if ( isset($this->clone_projectid) )
             {
                 // We're creating a project via cloning.
@@ -839,9 +823,10 @@ class ProjectInfoHolder
 
         // Create/update the Dublin Core file for the project.
         // When we get here, the project's database entry has been fully
-        // updated, so we can pass in just the projectid and allow the
-        // function to pull the relevant fields from the database.
-        create_dc_xml_oai($this->projectid, $updated_marc_array);
+        // updated, so we can create a Project object and allow it
+        // to pull the relevant fields from the database.
+        $project = new Project($this->projectid);
+        $project->create_dc_xml_oai($marc_record);
 
         // If the project has been posted to PG, make the appropriate transition.
         if ($this->posted)
@@ -1063,6 +1048,26 @@ class ProjectInfoHolder
         $this->clearance = preg_replace('/\s+/', ' ', trim($this->clearance));
         $this->extra_credits = preg_replace('/\s+/', ' ', trim($this->extra_credits));
     }
+
+    // Updates the *passed in* MARCRecord from $_POST
+    function update_marc_record_from_post(&$marc_record) {
+        //Update the Name of Work
+        if (!empty($_POST['nameofwork'])) {
+            $marc_record->title = $_POST['nameofwork'];
+        }
+
+        //Update the Authors Name
+        if (!empty($_POST['authorsname'])) {
+            $marc_record->author = $_POST['authorsname'];
+        }
+
+        //Update the Primary Language
+        $curr_lang = langcode3_for_langname( $_POST['pri_language'] );
+        $marc_record->language = $curr_lang;
+
+        //Update the Genre
+        $marc_record->literary_form = $_POST['genre'];
+    }
 }
 
 function get_changed_fields($new_pih, $old_pih)
@@ -1097,7 +1102,7 @@ function get_changed_fields($new_pih, $old_pih)
     $changed_fields = array();
     foreach ( $all_keys as $key )
     {
-        if ($new_pih_as_array[$key] != $old_pih_as_array[$key])
+        if (@$new_pih_as_array[$key] != @$old_pih_as_array[$key])
         { 
             // echo "<p>'$key' changed from '{$old_pih_as_array[$key]}' to '{$new_pih_as_array[$key]}'</p>\n";
             $changed_fields[] = $key;

@@ -9,9 +9,8 @@ include_once('PPage.inc');
 include_once('image_block_enh.inc');
 
 // text_data should be set before we get here -- should take place in processtext.php
-#$text_data= isset($_POST['text_data'])? stripslashes($_POST['text_data']): $text_data;
 
-$revert_text=isset($_POST['revert_text']) ? stripslashes($_POST['revert_text']) : $text_data;
+$revert_text=isset($_POST['revert_text']) ? $_POST['revert_text'] : $text_data;
 
 $is_header_visible = array_get($_SESSION,"is_header_visible",1);
 

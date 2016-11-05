@@ -3,9 +3,7 @@ $relPath='../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'prefs_options.inc');
-include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
-
-undo_all_magic_quotes();
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 // Note: The text used for font sample images is stored in font_sample.txt
 

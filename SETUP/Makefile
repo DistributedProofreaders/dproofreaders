@@ -30,4 +30,4 @@ $(THEME_CSS): $(STYLE_DIR)/themes/theme.less
 #----------------------------------------------------------------------------
 # Unit tests
 tests:
-	cd $(SELF_DIR)/tests && phpunit --bootstrap phpunit_bootstrap.php .
+	cd $(SELF_DIR)/tests && phpunit --bootstrap phpunit_bootstrap.php --verbose .

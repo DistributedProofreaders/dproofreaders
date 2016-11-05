@@ -131,12 +131,12 @@ else {
             // Split name (e.g. 'London, Jack') into $last_name, $other_names if possible
             $comma = strpos($match[1], ',');
             if ($comma) {
-                $last_name = addslashes(trim(substr($match[1], 0, $comma)));
-                $other_names = addslashes(trim(substr($match[1], $comma+1)));
+                $last_name = trim(substr($match[1], 0, $comma));
+                $other_names = trim(substr($match[1], $comma+1));
                 echo '    ' . sprintf( _("Name split into '%1\$s', '%2\$s'."), $last_name, $other_names) . "\n";
             }
             else {
-                $last_name = addslashes(trim($match[1]));
+                $last_name = trim($match[1]);
                 $other_names = '';
                 echo '    ' . _("Name not split") . "\n";
             }
@@ -187,12 +187,18 @@ else {
 
             // The bio doesn't need any special parsing,
             // but a comment is added about where it was found
-            $bio = addslashes($project_reference . trim(array_pop($match)));
+            $bio = $project_reference . trim(array_pop($match));
 
             // Store found data
-            $query = "INSERT INTO authors ".
-                     "(last_name, other_names, byear, bmonth, bday, dyear, dmonth, dday, bcomments, dcomments, enabled)\n" .
-                     "VALUES('$last_name', '$other_names', $date_fields_str '', '', 'no')";
+            $query = sprintf("
+                INSERT INTO authors
+                    (last_name, other_names,
+                        byear, bmonth, bday,
+                        dyear, dmonth, dday,
+                        bcomments, dcomments, enabled)
+                VALUES ('%s', '%s', $date_fields_str '', '', 'no')
+            ", mysql_real_escape_string($last_name),
+                mysql_real_escape_string($other_names));
             if ($simulating) {
                 echo "<font color='red'>    " . _("The following query would have been run:") . "\n      " .
                      str_replace("\n", "\n      ", html_safe($query)) . "</font>\n";
@@ -207,9 +213,11 @@ else {
                 $author_id = mysql_insert_id();
                 echo '    ' . sprintf( _("The author was inserted into the database with the id %d."), $author_id) . "\n";
             }
-            $query = "INSERT INTO biographies ".
-                     "(author_id, bio) " .
-                     "VALUES($author_id, '$bio');";
+            $query = sprintf("
+                INSERT INTO biographies
+                    (author_id, bio)
+                VALUES(%s, '%s')
+            ", $author_id, mysql_real_escape_string($bio));
             if ($simulating)
                 echo "<font color='blue'>    " . _("The following query would have been run:") . "\n      " .
                      str_replace("\n", "\n      ", html_safe($query)) . "</font>\n";

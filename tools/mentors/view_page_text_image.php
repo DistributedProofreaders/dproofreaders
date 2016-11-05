@@ -5,7 +5,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'prefs_options.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
+include_once($relPath.'misc.inc'); // array_get(), get_enumerated_param(), attr_safe(), javascript_safe(), html_safe()
 
 require_login();
 
@@ -15,9 +15,9 @@ $project = $projectid = $page = $round_id = NULL;
 $error_messages = array();
 $is_valid_page = false;
 
-$projectid = stripslashes(trim(array_get($_GET,"projectid","")));
+$projectid = trim(array_get($_GET,"projectid",""));
 
-$page = stripslashes(trim(array_get($_GET,"page","")));
+$page = trim(array_get($_GET,"page",""));
 
 $expanded_rounds = array_keys($Round_for_round_id_);
 array_unshift($expanded_rounds, 'OCR');

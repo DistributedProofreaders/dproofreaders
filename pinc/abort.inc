@@ -130,13 +130,7 @@ function dump_request_info()
             echo "    $param_name = ";
             if ( is_string($param_value) )
             {
-                $unslashed_param_value =
-                    get_magic_quotes_gpc()
-                    ? stripslashes($param_value)
-                    : $param_value;
-
-                $htmlescaped_param_value =
-                    html_safe($unslashed_param_value);
+                $htmlescaped_param_value = html_safe($param_value);
 
                 if ( strpos($param_value, "\n") )
                 {
@@ -160,4 +154,3 @@ function dump_request_info()
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

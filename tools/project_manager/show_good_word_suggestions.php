@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath.'misc.inc'); // get_integer_param(), get_enumerated_param()
 include_once('./post_files.inc');
 include_once("./word_freq_table.inc");
 
@@ -206,6 +207,12 @@ foreach($rounds as $round) {
     $page_num_string=sprintf(_("Number of pages with suggestions: %d"), $round_page_count[$round]);
     echo "<h2>$round_string</h2>";
     echo "<p>$page_num_string</p>";
+
+    if(count($round_suggestions_w_freq[$round])==0)
+    {
+        echo "<p>" . _("None of the suggested words remain in the saved text for this round.") . "</p>";
+        continue;
+    }
 
     $word_checkbox = build_checkbox_array($round_suggestions_w_freq[$round],$round);
     echo_checkbox_selects(count($round_suggestions_w_freq[$round]),$round);

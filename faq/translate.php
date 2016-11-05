@@ -3,9 +3,6 @@ $relPath='../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
-
-undo_all_magic_quotes();
 
 output_header('Site translation', NO_STATSBAR);
 ?>

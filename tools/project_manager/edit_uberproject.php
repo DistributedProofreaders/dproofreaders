@@ -29,6 +29,13 @@ require_login();
 // (Note that although we've "released" this script, we haven't provided any
 // means to invoke it, which is why none of these bugs has come to light.)
 
+
+// This script is not safe to use with magic quotes disabled. Because this
+// script isn't used anywhere and there are other problems (see above) just die
+// instead of fixing it. If it is decided to enable this code later, it needs
+// to be audited and all parameters to database queries correctly escaped.
+die("Script is not fully implemented.");
+
 // -----------------------------------------------------------------------------
 
 // For each control that can appear in the form, create and

@@ -8,8 +8,6 @@ include_once($relPath.'misc.inc'); // attr_safe()
 require_login();
 
 $greek_contents = @$_GET['textbox'];
-if (get_magic_quotes_gpc())
-    $greek_contents = stripslashes($greek_contents);
 
 $title = _("Greek to Latin-1 Transliteration");
 $header_args = array(

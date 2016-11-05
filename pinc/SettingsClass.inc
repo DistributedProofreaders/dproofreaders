@@ -83,13 +83,15 @@ class Settings
 
         // Query the "usersettings" table and get all the rows for our user.
         // build an array with the settings, to use when somebody asks.
-        $sql = "SELECT  u.sitemanager,
-                        u.manager,
-                        u.postprocessor,
-                        us.*
+        $sql = sprintf("
+            SELECT u.sitemanager,
+                   u.manager,
+                   u.postprocessor,
+                   us.*
             FROM users AS u
             LEFT OUTER JOIN usersettings AS us ON u.username = us.username
-            WHERE u.username = '$this->username'";
+            WHERE u.username = '%s'
+        ", mysql_real_escape_string($this->username));
 
         $result = mysql_query($sql);
         // To know whether we've populated fields from 'users' table yet:
@@ -230,9 +232,13 @@ class Settings
         if(count($values) == 0)
             return $default;
 
-        if(count($values) > 1)
-            throw new RuntimeException(
-                "Multiple values exist for $settingCode");
+        // Ideally we'd throw an exception if we detect that the number of
+        // values is more than 1 -- indeed we did this for a while. The
+        // problem is that in rare cases two processes can race clearing and
+        // setting values. Instead, we resort back to what we did prior to
+        // supporting multiple values, which is to just return one of them.
+        // The next time this setting is set with set_value(), it should be
+        // reduced back down to 1.
 
         return $values[0];
     }

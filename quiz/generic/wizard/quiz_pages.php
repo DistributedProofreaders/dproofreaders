@@ -32,7 +32,7 @@ function filltext($x)
 {
     global $fill;
     if ($fill)
-        return html_safe(stripslashes($_POST[$x]));
+        return html_safe($_POST[$x]);
 }
 
 echo "<h2>" . _("Add Quiz Pages") . "</h2>";

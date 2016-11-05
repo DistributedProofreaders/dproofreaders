@@ -6,6 +6,7 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'links.inc');
+include_once($relPath.'misc.inc'); // array_get()
 
 require_login();
 
@@ -14,15 +15,6 @@ if ( !(user_is_a_sitemanager()) )
 {
     die("You are not authorized to use this form.");
 }
-
-if ( get_magic_quotes_gpc() )
-{
-    // Values in $_POST come with backslashes added.
-    // We want the fields of $_POST to be unescaped strings,
-    // so we strip the slashes.
-    $_POST = array_map('stripslashes', $_POST);
-}
-
 
 // fetch any data sent our way. word_string will only
 // come in via a POST but the others may come in

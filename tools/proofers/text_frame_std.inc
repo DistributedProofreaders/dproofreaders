@@ -2,14 +2,28 @@
 include_once($relPath.'button_defs.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'misc.inc');
+include_once('preview.inc');
 
 function echo_text_frame_std( $ppage )
 {
-    $header_args = array("body_attributes" => 'onload="top.initializeStuff(0)"');
+    global $code_url;
+    
+    $header_args = array(
+        "css_files" => array("$code_url/styles/preview.css?a=16061301"),
+        "js_files" => array(
+            "preview.js?16071201",
+            "previewControl.js?16071303",
+            "preview_strings.php",
+        ),
+        "js_data" => 'function ldAll() {top.initializeStuff(0); previewControl = initPrev();}',
+        "body_attributes" => 'onload="ldAll()"  onresize="previewControl.adjustHeight()"',
+        );
     slim_header(_("Text Frame"), $header_args);
     ?>
     <center>
     <form name="editform" id="editform" method="post" action="processtext.php" target="proofframe">
+    <?php output_preview_div(); ?>
+    <div id = 'proofdiv'>
         <?php
 
         $ppage->echo_proofing_textarea();
@@ -33,6 +47,7 @@ function echo_text_frame_std( $ppage )
         echo "<br>\n";
 
         echo_button(SPELL_CHECK,'s');
+        echo_button(PREVIEW, 's');
 
         echo "<br>\n";
 
@@ -54,6 +69,7 @@ function echo_text_frame_std( $ppage )
         <input title="<?php echo attr_safe(_("Zoom In 25%")); ?>" type="button" value="+25%" onclick="top.reSizeRelative(1.25); document.getElementById('zoomout_button').disabled=false;">
         <input title="<?php echo attr_safe(_("Zoom to Original Size")); ?>" type="button" value="<?php echo attr_safe(_("Original")); ?>" onclick="top.reSizeRelative(-1); document.getElementById('zoomout_button').disabled=false;">
 
+      </div> <!-- proofdiv -->
     </form>
     </center>
     <?php

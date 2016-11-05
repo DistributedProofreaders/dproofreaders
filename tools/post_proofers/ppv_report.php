@@ -7,14 +7,12 @@ include_once($relPath.'Project.inc'); // validate_projectID()
 include_once($relPath.'Stage.inc'); //user_can_work_in_stage()
 include_once($relPath.'User.inc');
 include_once($relPath.'project_states.inc'); // get_project_status_descriptor()
-include_once($relPath.'misc.inc');  // undo_all_magic_quotes() array_get() startswith() attr_safe()
+include_once($relPath.'misc.inc');  // array_get() startswith() attr_safe()
 
 header_remove("Expires");
 header_remove("Cache-Control");
 
 require_login();
-
-undo_all_magic_quotes();
 
 // -------------------------------------
 

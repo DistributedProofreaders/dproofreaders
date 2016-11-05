@@ -3,9 +3,6 @@ $relPath='../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'faq.inc');
-include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
-
-undo_all_magic_quotes();
 
 if ( isset($_GET['i_type']) )
 {

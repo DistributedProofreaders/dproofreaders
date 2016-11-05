@@ -3,7 +3,7 @@ $relPath='./../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // undo_all_magic_quotes(), attr_safe(), html_safe()
+include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'user_is.inc');
 
 require_login();
@@ -13,23 +13,23 @@ if ( !user_is_a_sitemanager() )
     die("You are not allowed to run this script.");
 }
 
-undo_all_magic_quotes();
-
 $theme_args['css_data'] = "
-table.listing { border-collapse:collapse; width: 80%; margin: auto; }
-table.listing td { border: 1px solid #999; }
+table.listing { border-collapse: collapse; width: 80%; margin: auto; }
+table.listing td { border: 1px solid #999; padding: 5px; }
 table.listing tr.e { background-color: #eee; }
 table.listing tr.o { background-color: #ddd; }
-table.listing td { padding: 5px; }
 table.listing td.enabled { background-color: #9f9; text-align: center; }
 table.listing td.disabled { background-color: #ddd; text-align: center; }
 table.listing td.center { text-align: center; }
-table.listing td.right { text-align: right; }
-form { padding: 0; margin: 0; }
+table.listing tr.month > * { border: none; border-bottom: solid 2px black; }
+table.listing td.right,th.right { text-align: right; font-weight: normal; border: 1px solid #999; }
+table.listing h2 { margin: 1em auto auto auto; text-align: left; }
+form { padding-top: 10px; margin: 0; }
 
-table.source { border-collapse:collapse; width:80%; margin: auto; }
-table.source td { border:1px solid black; padding:5px; }
-table.source td.pa {width:30%; font-weight:bold; }";
+table.source { border-collapse: collapse; width: 80%; margin: auto; margin-bottom: 1em; }
+table.source td { border: 1px solid black; padding: 5px; background-color: #eeeeee; }
+table.source td.pa { width: 30%; font-weight: bold; }
+h2.source { margin: 1em auto 1em auto; text-align: center; }";
 
 $page_url = "$code_url/tools/site_admin/manage_special_days.php";
 
@@ -66,7 +66,6 @@ if ($action == 'update_oneshot')
 
         // validate the numeric fields
         $numeric_fields = array(
-            "enable"      => _("Enable"),
             "open_month"  => _("Open Month"),
             "open_day"    => _("Open Day"),
             "close_month" => _("Close Month"),
@@ -89,37 +88,30 @@ if ($action == 'update_oneshot')
         $source->save_from_post();
 
         // Redisplay at the entry just added or edited
-        metarefresh(0,"$page_url#$spec_code");
+        metarefresh(0,"$page_url#" . urlencode($spec_code));
     }
 }
 
 if ($action == 'show_specials')
 {
     output_header(_('Manage Special Days'), NO_STATSBAR, $theme_args);
+    $table_summary = _("Special Days Listing");
 
     show_sd_toolbar();
 
-    $result = mysql_query("SELECT spec_code FROM special_days ORDER BY display_name ASC");
+    $result = mysql_query("SELECT spec_code
+        FROM special_days
+        ORDER BY open_month, open_day");
 
-    echo "<br />";
-    echo "<table class='listing'>";
-    echo "<tr>";
-    echo "<th>" . _("Special Day Code") . "</th>";
-    echo "<th>" . _("Display Name") . "</th>";
-    echo "<th>" . _("Color") . "</th>";
-    echo "<th>" . _("Enable") . "</th>";
-    echo "<th>" . _("Open Month") . "</th>";
-    echo "<th>" . _("Open Day") . "</th>";
-    echo "<th>" . _("Close Month") . "</th>";
-    echo "<th>" . _("Close Day") . "</th>";
-    echo "</tr>";
+    echo "<br>\n\n";
+    echo "<table class='listing' summary='" . attr_safe($table_summary) . "'>\n";
     $count=0;
+    $current_month=-1;
     while ( list($source_name) = mysql_fetch_row($result) )
     {
         $count++;
-
         $source = new SpecialDay($source_name);
-        $source->show_listing_row($count);
+        $current_month=$source->show_listing_row($count,$current_month);
     }
     echo "</table>";
     echo "<br>";
@@ -128,15 +120,19 @@ if ($action == 'show_specials')
 elseif ($action == 'edit_source')
 {
     $source = new SpecialDay($_POST['source']);
-    output_header(sprintf(_("Editing Special Day %s"),$source->display_name), NO_STATSBAR, $theme_args);
+    $headertext = sprintf(_("Editing Special Day: %s"),$source->display_name);
+    output_header($headertext, NO_STATSBAR, $theme_args);
     show_sd_toolbar();
+    echo "<h1 class='source'>" . $headertext . "</h1>\n";
     $source->show_edit_form();
 }
 
 elseif ($action == 'add_special')
 {
-    output_header(_('Add a new Special Day'), NO_STATSBAR, $theme_args);
+    $headertext=_('Add a new Special Day');
+    output_header($headertext, NO_STATSBAR, $theme_args);
     show_sd_toolbar();
+    echo "<h2 class='source'>" . $headertext . "</h2>\n";
     $blank = new SpecialDay(null);
     $blank->show_edit_form();
 }
@@ -174,58 +170,76 @@ class SpecialDay
         }
     }
 
-    function show_listing_row($count)
+    function show_listing_row($count, $current_month)
     {
         global $page_url;
         $sid = html_safe($this->spec_code);
+        $usid = urlencode($sid);
 
         if($count%2 == 1)
             $row_class = "o";
         else
             $row_class = "e";
 
-        // calculate how many rows this listing will have so we can span them
+        // Calculate how many rows this listing will have so we can span them
         // for some columns
         $listing_rows = 4;
         if($this->date_changes)
             $listing_rows++;
 
-        echo "<tr class='$row_class'>";
-        echo "<td rowspan='$listing_rows' valign='top'>" . html_safe($this->spec_code) . "</td>";
-        echo "<td style='background-color: #". $this->color . ";'><a name='$sid'></a>" . html_safe($this->display_name) . "</td>";
-        echo "<td>" . html_safe($this->color) . "</td>";
-        echo $this->_get_status_cell($this->enable,' pb');
-        echo "<td class='right'>" . html_safe($this->open_month) . "</td>";
-        echo "<td class='right'>" . html_safe($this->open_day) . "</td>";
-        echo "<td class='right'>" . html_safe($this->close_month) . "</td>";
-        echo "<td class='right'>" . html_safe($this->close_day) . "</td>";
-        echo "<td class='center' rowspan='$listing_rows'>\n";
-        echo "<form method='post' action='$page_url#$sid'>\n";
+        // Output a new month header when listing month differs from previous one
+        if (( $current_month < 0 ) && ($current_month != $this->open_month ))
+        {
+            echo "<tr class='month'><td colspan='8'><h2>";
+            echo _("Undated Entries") ."</h2></td></tr>";
+            output_table_headers();
+        }
+        else if ( $this->open_month != $current_month )
+        {
+            echo "<tr class='month'><td colspan='8'><h2>";
+            echo strftime("%B", mktime(0, 0, 0, $this->open_month, 10));
+            echo "</h2></td></tr>";
+            output_table_headers();
+        }
+
+        echo "\n\n<tr class='$row_class'>";
+        echo "<td rowspan='$listing_rows' valign='middle' align='center'>";
+        echo $sid . "\n";
+        echo "<form method='post' action='$page_url#$usid '>\n";
         echo "  <input type='hidden' name='action' value='update_oneshot'>\n";
         echo "  <input type='hidden' name='source' value='$sid'>\n";
                 $this->show_buttons();
         echo "</form>\n";
-        echo "</td>";
-        echo "</tr>";
+        echo "</td>\n";
+        echo "<td style='background-color: #". $this->color . ";'>";
+        echo "<a name='$usid'></a>" . html_safe($this->display_name) . "</td>";
+        echo "<td>" . $this->color . "</td>\n";
+        echo $this->_get_status_cell($this->enable,' pb') . "\n";
+        echo "<td class='right'>" . $this->open_month . "</td>";
+        echo "<td class='right'>" . $this->open_day . "</td>";
+        echo "<td class='right'>" . $this->close_month . "</td>";
+        echo "<td class='right'>" . $this->close_day . "</td>";
+        echo "</tr>\n";
 
         echo "<tr class='$row_class'>";
-        echo "<td class='right'>" . _("Info URL") . ":</td><td colspan='6'>" . make_link($this->info_url, $this->info_url) . "</td>";
+        echo "<th class='right'>" . _("Info URL") . ":</th><td colspan='6'>" . make_link($this->info_url, $this->info_url) . "</td>";
         echo "</tr>";
         echo "<tr class='$row_class'>";
-        echo "<td class='right'>" . _("Image URL") . ":</td><td colspan='6'>" . make_link($this->image_url, $this->image_url) . "</td>";
-        echo "</tr>";
+        echo "<th class='right'>" . _("Image URL") . ":</th><td colspan='6'>" . make_link($this->image_url, $this->image_url) . "</td>";
+        echo "</tr>\n";
 
         if($this->date_changes)
         {
             echo "<tr class='$row_class'>";
-            echo "<td class='right'>" . _("Date Changes") . ":</td><td colspan='6'>" . html_safe($this->date_changes) . "</td>";
-            echo "</tr>";
+            echo "<th class='right'>" . _("Date Changes") . ":</th><td colspan='6'>" . html_safe($this->date_changes) . "</td>";
+            echo "</tr>\n";
         }
 
         echo "<tr class='$row_class'>";
-        echo "<td class='right'>" . _("Comments") . ":</td><td colspan='6'>" . html_safe($this->comment) . "</td>";
-        echo "</tr>";
+        echo "<th class='right'>" . _("Comments") . ":</th><td colspan='6'>" . html_safe($this->comment) . "</td>";
+        echo "</tr>\n";
 
+        return($this->open_month);
     }
 
     function show_buttons()
@@ -250,7 +264,10 @@ class SpecialDay
             $this->_show_summary_row(_('Special Day ID'),$this->spec_code);
         }
         $this->_show_edit_row('display_name',_('Display Name'),false,80);
-        $this->_show_edit_row('enable',_('Enable'),false,1);
+        echo "  <tr><td class='pa'>Enable</th><td><input type='checkbox' name='enable'";
+        if ( $this->enable ==1 )
+            echo " value='1' checked";
+        echo "></td></tr>\n";
         $this->_show_edit_row('comment',_('Comment'),true);
         $this->_show_edit_row('color',_('Color'),false,8);
         $this->_show_edit_row('open_month',_('Open Month'),false,2);
@@ -296,9 +313,24 @@ class SpecialDay
         $std_fields = array('display_name','enable','comment',
                     'color','open_day','open_month','close_day',
                     'close_month','date_changes');
+        $std_fields_sql = '';
         foreach ($std_fields as $field)
         {
-            $this->$field = $_POST[$field];
+            switch ($field)
+            {
+                case 'enable':
+                {
+                    if (!isset($_POST[$field]))
+                        $this->$field = 0;
+                    else
+                        $this->$field = 1;
+                    break;
+                }
+                default:
+                {
+                    $this->$field = $_POST[$field];
+                }
+            }
             $std_fields_sql .= sprintf("%s = '%s',\n", $field, mysql_real_escape_string($this->$field));
         }
 
@@ -382,6 +414,8 @@ function make_link($url,$label)
 {
     $start = substr($url,0,3);
     $label = html_safe($label);
+    if ($url == '')
+        return '';
     if ($start == 'htt')
     {
         return "<a href='$url'>$label</a>";
@@ -411,6 +445,21 @@ function show_sd_toolbar()
             echo " | ";
     }
     echo "</p>";
+}
+
+function output_table_headers()
+{
+    echo "<tr><th>&nbsp;</th></tr>";
+    echo "<tr>";
+    echo "<th>" . _("Special Day Code") . "</th>";
+    echo "<th>" . _("Display Name") . "</th>";
+    echo "<th>" . _("Color") . "</th>";
+    echo "<th>" . _("Enable") . "</th>";
+    echo "<th>" . _("Open Month") . "</th>";
+    echo "<th>" . _("Open Day") . "</th>";
+    echo "<th>" . _("Close Month") . "</th>";
+    echo "<th>" . _("Close Day") . "</th>";
+    echo "</tr>";
 }
 
 // vim: sw=4 ts=4 expandtab

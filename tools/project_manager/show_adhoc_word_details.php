@@ -5,6 +5,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'Project.inc');
 include_once($relPath.'wordcheck_engine.inc');
+include_once($relPath.'misc.inc'); // get_integer_param(), get_enumerated_param(), attr_safe()
 include_once('./post_files.inc');
 include_once('./word_freq_table.inc');
 
@@ -17,7 +18,6 @@ $freqCutoff = get_integer_param($_REQUEST, 'freqCutoff', 5, 0, null);
 
 $queryWordText = array_get($_POST, "queryWordText", "");
 // do some cleanup on the input string
-$queryWordText = stripslashes($queryWordText);
 $queryWordText = str_replace("\r","",$queryWordText);
 $queryWords = explode("\n",$queryWordText);
 // do some cleanup on the resulting words

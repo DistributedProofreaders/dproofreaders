@@ -69,7 +69,12 @@ if (isset($_POST['done']))
             $i++;
         }
         $all_md = $old_md.$new_md;
-        $result = mysql_query("UPDATE $projectid SET metadata = '$all_md' WHERE image = '$imagename'");
+        $result = mysql_query(sprintf("
+            UPDATE $projectid
+            SET metadata = '%s'
+            WHERE image = '%s'
+        ", mysql_real_escape_string($all_md),
+            mysql_real_escape_string($imagename)));
     }
 
     //change page status and back to md_available.php
@@ -102,7 +107,12 @@ if (isset($_POST['continue']))
             $i++;
         }
         $all_md = $old_md.$new_md;
-        $result = mysql_query("UPDATE $projectid SET metadata = '$all_md' WHERE image = '$imagename'");  
+        $result = mysql_query(sprintf("
+            UPDATE $projectid
+            SET metadata = '%s'
+            WHERE image = '%s'
+        ", mysql_real_escape_string($all_md),
+            mysql_real_escape_string($imagename)));
     }
 
     //change page status and keep going

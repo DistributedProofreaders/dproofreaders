@@ -12,10 +12,7 @@ minimize possible code collisions between the DP code and the phpBB code.
 $relPath="./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // undo_all_magic_quotes()
 include_once($relPath.'metarefresh.inc');
-
-undo_all_magic_quotes();
 
 // If the user is already logged in, send them to the Activity Hub
 if($user_is_logged_in)

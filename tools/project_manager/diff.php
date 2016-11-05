@@ -5,6 +5,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'links.inc');
+include_once($relPath.'misc.inc'); // get_integer_param(), attr_safe()
 include_once($relPath."DifferenceEngineWrapper.inc");
 
 require_login();

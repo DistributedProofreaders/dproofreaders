@@ -7,7 +7,7 @@
 $relPath="../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // html_safe()
+include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
 
 
 $lang     = get_enumerated_param($_GET, 'language', null, array('eng', 'es', 'fr', 'ger'));

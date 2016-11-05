@@ -4,6 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_tally.inc');
+include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 
