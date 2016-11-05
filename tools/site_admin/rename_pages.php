@@ -459,7 +459,7 @@ function echo_name_mapping_hiddens($new_fileid_for_)
     foreach ( $new_fileid_for_ as $old_fileid => $new_fileid )
     {
         $k = floor($i / $WORKAROUND_MAX); $i += 1;
-        echo "<input type='hidden' name='nff_[$k][$old_fileid]' value='$new_fileid'>\n";
+        echo "<input type='hidden' name='nff_[$k][$old_fileid]' value='$new_fileid'>";
     }
 }
 
