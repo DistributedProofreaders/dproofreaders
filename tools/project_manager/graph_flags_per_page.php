@@ -9,20 +9,17 @@ require_login();
 $projectid = validate_projectID("projectid", @$_GET["projectid"]);
 
 // data for this graph is generated in show_wordcheck_page_stats.php
+$data_filename = sys_get_temp_dir() . "/$projectid-graph_flags_per_page.dat";
+$graph_flags_per_page = unserialize(file_get_contents($data_filename));
+unlink($data_filename);
 
 draw_simple_bar_graph(
    init_simple_bar_graph(600, 300, -1),
-   $_SESSION["graph_flags_per_page"][$projectid]["graph_x"],
-   $_SESSION["graph_flags_per_page"][$projectid]["graph_y"],
-   ceil(count($_SESSION["graph_flags_per_page"][$projectid]["graph_x"])/40),
+   $graph_flags_per_page["graph_x"],
+   $graph_flags_per_page["graph_y"],
+   ceil(count($graph_flags_per_page["graph_x"])/40),
    _("Flagged words per page"),
    _("Flags")
 );
-
-// unsetting graph_flags_per_page variable in the session
-// to prevent it from getting large
-// consider keeping this data if calling this
-// image multiple times is needed in future code changes
-unset($_SESSION["graph_flags_per_page"][$projectid]);
 
 // vim: sw=4 ts=4 expandtab
