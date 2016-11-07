@@ -51,7 +51,11 @@ function output_preview_strings()
         "charAfterEnd" => html_safe(_("Character after inline end tag")),
         "puncBEnd" => html_safe(_(",; or : before end tag")),
         "noCloseBrack" => html_safe(_("No matching closing bracket")),
-        "footnoteId" => html_safe(_("Missing footnote identifier"))
+        "footnoteId" => html_safe(_("Missing footnote identifier")),
+        "starAnchor" => html_safe(_("Footnote anchor should be an upper-case letter")),
+        "starIdent" => html_safe(_("Footnote identifier should be an upper-case letter")),
+        "noFootnote" => html_safe(_("No corresponding footnote on this page")),
+        "noAnchor" => html_safe(_("No anchor for this footnote"))
     );
 
     $preview_msg = json_encode($msg);

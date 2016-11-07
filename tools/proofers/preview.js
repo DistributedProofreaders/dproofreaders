@@ -41,7 +41,11 @@ var makePreview = function (txt, viewMode, styler) {
         charAfterEnd: 0,
         puncBEnd: 0,
         noCloseBrack: 0,
-        footnoteId: 0
+        footnoteId: 0,
+        starAnchor: 0,
+        starIdent: 0,
+        noFootnote: 0,
+        noAnchor: 0
     };
 
     var ILTags = "[ibfg]|sc";
@@ -301,17 +305,8 @@ var makePreview = function (txt, viewMode, styler) {
 
         // find index in stack of ntag, return -1 if none found
         // internet explorer does not support array.find so use this function
-        function stackFind(ntag) {
-            var tagData;
-            var i = tagStack.length - 1;
-            while (i >= 0) {
-                tagData = tagStack[i];
-                if (tagData.tag === ntag) {
-                    break;
-                }
-                i -= 1;
-            }
-            return i;
+        function match(tagData) {
+            return tagData.tag === tagString;
         }
 
         // regex to match valid inline tags or a blank line
@@ -363,7 +358,7 @@ var makePreview = function (txt, viewMode, styler) {
                     }
                 }
             } else {    // startTag
-                if (stackFind(tagString) >= 0) { // check if any already in stack
+                if (tagStack.some(match)) { // check if any already in stack
                     reportIssue(start, tagLen, "nestedTag");
                 }
                 if (/[,.;:!\?]/.test(postChar)) {
@@ -631,20 +626,61 @@ var makePreview = function (txt, viewMode, styler) {
         }
     }
 
-    function checkFootnoteId() {
+    // check that footnote anchors and footnotes correspond
+    // also check for missing footnote id and [*] footnotes
+    // first make arrays of anchors and footnote ids, then check correspondence
+    function checkFootnotes() {
+        var anchorArray = [];
+        var footnoteArray = [];
+
+        function checkAnchor(result) {
+            function match(res) {
+                return res[1] === result[1];
+            }
+            if (result[1] === "*") {    // found [*]
+                reportIssue(result.index, 3, "starAnchor");
+            } else if (!footnoteArray.some(match)) {
+                reportIssue(result.index, result[0].length, "noFootnote");
+            }
+        }
+
+        function checkNote(result) {
+            function match(res) {
+                return res[1] === result[1];
+            }
+            if (result[1] === "") {
+                if (txt.charAt(result.index - 1) !== "*") {
+                    reportIssue(result.index, result[0].length, "footnoteId");
+                }
+            } else if (result[1] === "*") {
+                reportIssue(result.index, result[0].length, "starIdent");
+            } else if (!anchorArray.some(match)) {
+                reportIssue(result.index, result[0].length, "noAnchor");
+            }
+        }
+
+        // search for footnote anchors and put in an array
+        // match an upper case letter or digits or *
         var result;
-        var re = /\[Footnote *\:/g;
-        var start;
+        var re = /\[(\*|[A-Z]|\d+)\]/g;
         while (true) {
             result = re.exec(txt);
             if (null === result) {
-                return;
+                break;
             }
-            start = result.index;
-            if (txt.charAt(start - 1) !== "*") {
-                reportIssue(start, result[0].length, "footnoteId");
-            }
+            anchorArray.push(result);
         }
+        // search for footnotes, match as above, also nothing
+        re = /\[Footnote *(\*|[A-Z]|\d*)\:/g;
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            footnoteArray.push(result);
+        }
+        anchorArray.forEach(checkAnchor);
+        footnoteArray.forEach(checkNote);
     }
 
     // find index of next unmatched ] return 0 if none found
@@ -763,7 +799,7 @@ var makePreview = function (txt, viewMode, styler) {
             boldLine();
         }
         parseOol();
-        checkFootnoteId();
+        checkFootnotes();
         checkBlankNumber();
         unRecog();
         checkTab();
