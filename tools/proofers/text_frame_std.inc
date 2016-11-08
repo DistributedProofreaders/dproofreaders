@@ -11,7 +11,7 @@ function echo_text_frame_std( $ppage )
     $header_args = array(
         "css_files" => array("$code_url/styles/preview.css?a=16110701"),
         "js_files" => array(
-            "preview.js?16110702",
+            "preview.js?16110801",
             "previewControl.js?16100603",
             "preview_strings.php",
         ),

@@ -304,7 +304,6 @@ var makePreview = function (txt, viewMode, styler) {
         var postChar;
 
         // find index in stack of ntag, return -1 if none found
-        // internet explorer does not support array.find so use this function
         function match(tagData) {
             return tagData.tag === tagString;
         }
@@ -610,19 +609,47 @@ var makePreview = function (txt, viewMode, styler) {
     }
 
     // there should not be an entire bold single line after 2 or 4 blank lines
-    function boldLine() {
+    function boldHeading() {
+        var headLine;
+        var re = /((?:^|\n)\n\n)(.+)\n\n/g; // the whole line
+        // match a tag or any non-space char
+        var re1 = new RegExp("<\\/?(?:" + ILTags + ")>|\\S", "g");
+        var boldEnd = /<\/b>/g;
+
+        function boldLine() {   // false if any non-bold char found
+            var result1;
+            while (true) {
+                result1 = re1.exec(headLine);
+                if (null === result1) {
+                    return true;
+                }
+                if (result1[0].length === 1) {   // a non-bold char
+                    return false;
+                }
+                if (result1[0] === "<b>") { // advance to </b>
+                    boldEnd.lastIndex = re1.lastIndex;
+                    if (null === boldEnd.exec(headLine)) { // shouldn't happen
+                        return false;
+                    }
+                    re1.lastIndex = boldEnd.lastIndex;
+                }
+                // must be another tag - continue
+            }
+        }
         var result;
         var start;
-        var re = /((?:^|\n)\n\n<b>)(.*?)<\/b>\n\n/g;
-
+        // first find the heading lines
         while (true) {
             result = re.exec(txt);
             if (null === result) {
                 break;
             }
+            headLine = result[2];
             re.lastIndex -= 2;  // so can find another straight after
-            start = result.index + result[1].length;
-            reportIssue(start, result[2].length, "noBold");
+            if (boldLine()) {
+                start = result.index + result[1].length;
+                reportIssue(start, 1, "noBold");
+            }
         }
     }
 
@@ -793,14 +820,17 @@ var makePreview = function (txt, viewMode, styler) {
     // return true if no errors which would cause showstyle() or reWrap() to fail
     function check() {
         parseInLine();
-        // if inline parse fails then these checks might not work
+        var parseOK = (0 === issueCount[1]);
+        // if inline parse fails then checkSC might not work
+        checkBlankNumber();
         if (0 === issueCount[1]) {
+            boldHeading(); // only do this is parseOK and blank lines ok
+        }
+        if (parseOK) {
             checkSC();
-            boldLine();
         }
         parseOol();
         checkFootnotes();
-        checkBlankNumber();
         unRecog();
         checkTab();
         checkBlankLines();
