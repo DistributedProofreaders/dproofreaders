@@ -321,7 +321,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         $problem = "";
         if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         {
-            $arg = $_POST[$id];
+            $arg = array_get($_POST, $id, '');
 
             if ($id == 'kb_size')
             {
@@ -359,7 +359,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         if ($action == SHOW_BLANK_ENTRY_FORM)
             $value = '';
         else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
-            $value = $_POST[$id];
+            $value = array_get($_POST, $id, '');
 
         if ($value == '')
             $value_attr = "";
@@ -400,7 +400,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         if ($action == SHOW_BLANK_ENTRY_FORM)
             $text = '';
         else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
-            $text = $_POST[$id];
+            $text = array_get($_POST, $id, '');
 
         $esc_text = html_safe($text);
 
@@ -958,7 +958,7 @@ function report_recommendations($recommendations)
 
 function report_comments($base_indent, $id, $label)
 {
-    $comments = $_POST[$id];
+    $comments = array_get($_POST, $id, '');
     if (empty($comments)) return "";
 
     $text_indent = $base_indent . "    ";
