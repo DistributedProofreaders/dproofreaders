@@ -84,6 +84,9 @@
 .f {
     font-style: normal;
 }
+.u {
+    text-decoration: underline;
+}
 .sub {
     vertical-align: sub;
     font-size: smaller;

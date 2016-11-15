@@ -836,6 +836,10 @@ var makePreview = function (txt, viewMode, styler) {
         checkBlankLines();
         return (issueCount[1] === 0);
     }
+
+    if (styler.allowUnderline) {
+        ILTags += "|u";
+    }
     // remove lines which are entirely comments to simplify checking
     // where there should be blank lines
     removeCommentLines();

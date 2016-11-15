@@ -85,6 +85,7 @@ function output_preview_div()
     $ss = shared_strings();
     $text = html_safe(_("Text"));
     $background = html_safe(_("Background"));
+    $allow_underine = html_safe(_("Allow underline"));
 
     echo <<<END
 <div id='prevdiv' class='no_display'>
@@ -142,6 +143,7 @@ function output_preview_div()
     <span class="ilb"><select id="id_remove_sel"></select><input type='button' onclick="previewControl.removeFont()" value="$remove_font"></span>
    </div>
   <div class="box2">
+    <span class='ilb'><label>$allow_underine<input type="checkbox" id="id_underline"></label></span>
     <input type='button' onclick="previewControl.OKConfig()" value="$ok">
     <input type='button' onclick="previewControl.cancelConfig()" value="$cancel">
   </div>

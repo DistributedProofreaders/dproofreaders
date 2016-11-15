@@ -13,10 +13,10 @@ function echo_proof_frame_enh( $ppage )
     global $code_url, $userP;
 
     $header_args = array(
-        "css_files" => array("$code_url/styles/preview.css?a=16110701"),
+        "css_files" => array("$code_url/styles/preview.css?a=16111501"),
         "js_files" => array(
-            "preview.js?16110801",
-            "previewControl.js?16100603",
+            "preview.js?16111502",
+            "previewControl.js?16111501",
             "preview_strings.php",
 
         ),
