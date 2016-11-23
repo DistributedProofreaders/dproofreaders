@@ -53,9 +53,13 @@ var makePreview = function (txt, viewMode, styler) {
     var issueCount = [0, 0]; // possible issues, issues
     var issArray = []; // stores issues for markup-insertion later
 
+    function reportIssueLong(start, len, message, type) {
+        issueCount[type] += 1;
+        issArray.push({start: start, len: len, msg: message, type: type});
+    }
+
     function reportIssue(start, len, code) {
-        issueCount[issueType[code]] += 1;
-        issArray.push({start: start, len: len, msg: previewMessages[code], type: issueType[code]});
+        reportIssueLong(start, len, previewMessages[code], issueType[code]);
     }
 
     function makeColourStyle(s) {
@@ -176,11 +180,11 @@ var makePreview = function (txt, viewMode, styler) {
     }
 
     // check no non-comment chars follow on same line and next line is blank
-    function chkAfter(start, len) {
+    function chkAfter(start, len, str1, type) {
         var ix = start + len;
         var end = findEnd(ix);
         if (nonComment(txt.slice(ix, end)) || (/./.test(txt.charAt(end + 1)))) {
-            reportIssue(start, len, "blankAfter");
+            reportIssueLong(start, len, previewMessages.blankAfter.replace("%s", str1), type);
         }
     }
 
@@ -756,7 +760,9 @@ var makePreview = function (txt, viewMode, styler) {
                     end += 1;
                     len += 1;
                 }
-                chkAfter(end1, len);
+                // possible issue if there is an unmatched ] in the text
+                // message includes "Footnote" etc. to clarify the problem
+                chkAfter(end1, len, result[1], 0);
             }
         }
         re = /<tb>/g;
@@ -768,7 +774,8 @@ var makePreview = function (txt, viewMode, styler) {
             start = result.index;
             len = result[0].length;
             chkBefore(start, len);
-            chkAfter(start, len);
+            // always an issue to avoid conflict with marking the tag
+            chkAfter(start, len, "Thought break", 1);
         }
     }
 
