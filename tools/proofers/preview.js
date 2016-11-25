@@ -43,9 +43,13 @@ var makePreview = function (txt, viewMode, styler) {
         noCloseBrack: 0,
         footnoteId: 0,
         starAnchor: 0,
-        starIdent: 0,
         noFootnote: 0,
-        noAnchor: 0
+        noAnchor: 0,
+        noColon: 0,
+        colonNext: 0,
+        spaceNext: 0,
+        dupNote: 0,
+        continueFirst: 0
     };
 
     var ILTags = "[ibfg]|sc";
@@ -658,57 +662,86 @@ var makePreview = function (txt, viewMode, styler) {
     }
 
     // check that footnote anchors and footnotes correspond
-    // also check for missing footnote id and [*] footnotes
+    // also check footnote id and [*] anchors
     // first make arrays of anchors and footnote ids, then check correspondence
     function checkFootnotes() {
         var anchorArray = [];
         var footnoteArray = [];
 
-        function checkAnchor(result) {
-            function match(res) {
-                return res[1] === result[1];
+        function checkAnchor(anch) {
+            function match(fNote) {
+                return fNote.id === anch.id;
             }
-            if (result[1] === "*") {    // found [*]
-                reportIssue(result.index, 3, "starAnchor");
-            } else if (!footnoteArray.some(match)) {
-                reportIssue(result.index, result[0].length, "noFootnote");
+            if (!footnoteArray.some(match)) {
+                reportIssue(anch.index, 3, "noFootnote");
             }
         }
 
-        function checkNote(result) {
-            function match(res) {
-                return res[1] === result[1];
+        function checkNote(fNote) {
+            function match(anch) {
+                return anch.id === fNote.id;
             }
-            if (result[1] === "") {
-                if (txt.charAt(result.index - 1) !== "*") {
-                    reportIssue(result.index, result[0].length, "footnoteId");
-                }
-            } else if (result[1] === "*") {
-                reportIssue(result.index, result[0].length, "starIdent");
-            } else if (!anchorArray.some(match)) {
-                reportIssue(result.index, result[0].length, "noAnchor");
+            if (!anchorArray.some(match)) {
+                reportIssue(fNote.index, 9, "noAnchor");
             }
         }
 
         // search for footnote anchors and put in an array
         // match an upper case letter or digits or *
         var result;
-        var re = /\[(\*|[A-Z]|\d+)\]/g;
+        var re = /\[(\*|[A-Za-z]|\d+)\]/g;
         while (true) {
             result = re.exec(txt);
             if (null === result) {
                 break;
             }
-            anchorArray.push(result);
+            if (result[1] === "*") {    // found [*]
+                reportIssue(result.index, 3, "starAnchor");
+                continue;
+            }
+            anchorArray.push({index: result.index, id: result[1]});
         }
-        // search for footnotes, match as above, also nothing
-        re = /\[Footnote *(\*|[A-Z]|\d*)\:/g;
+        // search for footnotes, get text to end of line
+        re = /\[Footnote(.*)/g;
+        var noteLine, i, rix;
+        function match(fNote) {
+            return fNote.id === noteLine;
+        }
         while (true) {
             result = re.exec(txt);
             if (null === result) {
                 break;
             }
-            footnoteArray.push(result);
+            noteLine = result[1];
+            // find text up to :
+            i = noteLine.indexOf(":");
+            rix = result.index;
+            if (-1 === i) {
+                reportIssue(rix, 9, "noColon");
+                continue;
+            }
+            if (txt.charAt(rix - 1) === "*") { // continuation
+                if (i !== 0) {
+                    reportIssue(rix, 9, "colonNext");
+                } else if (footnoteArray.length > 0) {
+                    reportIssue(rix, 9, "continueFirst");
+                }
+                continue;
+            }
+            if (!(/^ [^ ]/).test(noteLine)) {
+                reportIssue(rix, 9, "spaceNext");
+                continue;
+            }
+            noteLine = noteLine.slice(1, i);    // the id
+            if (!(/^[A-Za-z]$|^\d+$/).test(noteLine)) {
+                reportIssue(rix, 9, "footnoteId");
+                continue;
+            }
+            if (footnoteArray.some(match)) {
+                reportIssue(rix, 9, "dupNote");
+                continue;
+            }
+            footnoteArray.push({index: rix, id: noteLine});
         }
         anchorArray.forEach(checkAnchor);
         footnoteArray.forEach(checkNote);
