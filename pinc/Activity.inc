@@ -626,7 +626,7 @@ function show_user_access_chart( $username )
 
     if ( $allow_grant || $allow_revoke )
     {
-        echo "<input type='checkbox' name='notify_user' checked />" . _("Notify user of change") . "<br>\n";
+        echo "<input type='checkbox' name='notify_user'>" . _("Notify user of change") . "<br>\n";
         echo "<input type='submit' value='". attr_safe(_("Submit Changes")) . "'>\n";
         echo "</form>\n";
     }
