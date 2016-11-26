@@ -30,6 +30,7 @@ var makePreview = function (txt, viewMode, styler) {
         OolPrev: 1,
         OolNext: 1,
         blankLines124: 1,
+        puncAfterStart: 0,
         spaceAfterStart: 1,
         nlAfterStart: 1,
         nlBeforeEnd: 1,
@@ -38,7 +39,7 @@ var makePreview = function (txt, viewMode, styler) {
         scNoCap: 1,
         charBeforeStart: 0,
         charAfterEnd: 0,
-        puncBEnd: 1,
+        puncBEnd: 0,
         noCloseBrack: 0,
         footnoteId: 0
     };
@@ -289,6 +290,8 @@ var makePreview = function (txt, viewMode, styler) {
         var tagStack = [];
         var result;
         var stackTop;
+        var preChar;
+        var postChar;
 
         // find index in stack of ntag, return -1 if none found
         // internet explorer does not support array.find so use this function
@@ -328,18 +331,20 @@ var makePreview = function (txt, viewMode, styler) {
             tagLen = result[0].length;
             end = start + tagLen;
             tagString = result[2];
+            preChar = txt.charAt(start - 1);
+            postChar = txt.charAt(end);
             if (result[1] === '/') {    // end tag
                 // check for , ; or : before end tag except at end of text
-                if (/[,;:]/.test(txt.charAt(start - 1)) && (txt.length !== end)) {
+                if (/[,;:]/.test(preChar) && (txt.length !== end)) {
                     reportIssue(start - 1, 1, "puncBEnd");
                 }
-                if (txt.charAt(start - 1) === " ") {
+                if (preChar === " ") {
                     reportIssue(start - 1, 1, "spaceBeforeEnd");
                 }
-                if (txt.charAt(start - 1) === "\n") {
+                if (preChar === "\n") {
                     reportIssue(start, tagLen, "nlBeforeEnd");
                 }
-                if (/\w/.test(txt.charAt(end))) { // char after end tag
+                if (/\w/.test(postChar)) { // char after end tag
                     reportIssue(end, 1, "charAfterEnd");
                 }
                 if (tagStack.length === 0) {    // missing start tag
@@ -355,13 +360,16 @@ var makePreview = function (txt, viewMode, styler) {
                 if (stackFind(tagString) >= 0) { // check if any already in stack
                     reportIssue(start, tagLen, "nestedTag");
                 }
-                if (/[,.;:!\? ]/.test(txt.charAt(end))) {
+                if (/[,.;:!\?]/.test(postChar)) {
+                    reportIssue(end, 1, "puncAfterStart");
+                }
+                if (postChar === " ") {
                     reportIssue(end, 1, "spaceAfterStart");
                 }
-                if (txt.charAt(end) === "\n") {
+                if (postChar === "\n") {
                     reportIssue(start, tagLen, "nlAfterStart");
                 }
-                if (/\w|[,.;:]/.test(txt.charAt(start - 1))) { // non-space before start tag
+                if (/\w|[,.;:]/.test(preChar)) { // non-space before start tag
                     reportIssue(start - 1, 1, "charBeforeStart");
                 }
                 tagStack.push({tag: tagString, start: start, tagLen: tagLen});
@@ -457,9 +465,11 @@ var makePreview = function (txt, viewMode, styler) {
             txt = txt.replace(/(\/\*|\*\/|\/#|#\/|&lt;tb&gt;)/g, '<span' + etcstr);
         }
         // sub- and super-scripts
-        txt = txt.replace(/_\{([A-Za-z0-9]*)\}/g, '<span class="sub"' + etcstr);
-        txt = txt.replace(/\^\{([A-Za-z0-9]*)\}/g, '<span class="sup"' + etcstr);
-        txt = txt.replace(/\^([A-Za-z0-9])/g, '<span class="sup"' + etcstr);
+        txt = txt.replace(/_\{([^\}]*)\}/g, '<span class="sub"' + etcstr);
+        txt = txt.replace(/\^\{([^\}]*)\}/g, '<span class="sup"' + etcstr);
+        // single char superscript -  any char except {
+        // do not allow < incase it's a tag which would screw up
+        txt = txt.replace(/\^([^\{<])/g, '<span class="sup"' + etcstr);
     }
 
     // attempt to make an approximate representation of formatted text
