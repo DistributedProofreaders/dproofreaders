@@ -281,7 +281,7 @@ function echo_img( $id )
         case PREVIEW:
             $attrs = array(
                 'src'       => "gfx/bt20.png?16092302",
-                'alt'       => attr_safe(_("Preview")),
+                'alt'       => attr_safe(_("Format preview")),
                 'title'     => attr_safe(_("Format preview")),
             );
             break;
