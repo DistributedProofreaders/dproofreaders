@@ -32,6 +32,7 @@ function output_preview_strings()
         "nestedTag" => html_safe(_("Tag nested within same tag")),
         "unRecTag" => html_safe(_("Unrecognized tag")),
         "tabChar" => html_safe(_("Tab should not be used")),
+        "charBefore" => html_safe(_("No characters should precede this")),
         "blankBefore" => html_safe(_("A blank line should precede this")),
         "blankAfter" => html_safe(_("A blank line should follow %s")),
         "NWinNW" => html_safe(_("No-wrap inside no-wrap")),
@@ -56,7 +57,7 @@ function output_preview_strings()
         "noFootnote" => html_safe(_("No corresponding footnote on this page")),
         "noAnchor" => html_safe(_("No anchor for this footnote")),
         "noColon" => html_safe(_("Footnote must have a colon")),
-        "colonNext" => html_safe(_("Colon should immediately follow *[Footnote")),
+        "colonNext" => html_safe(_("The colon should immediately follow *[Footnote")),
         "spaceNext" => html_safe(_("Footnote should be followed by one space and identifier")),
         "dupNote" => html_safe(_("Duplicate footnote identifier")),
         "continueFirst" => html_safe(_("Continuation footnote should precede others"))

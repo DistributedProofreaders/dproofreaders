@@ -22,6 +22,7 @@ var makePreview = function (txt, viewMode, styler) {
         nestedTag: 1,
         unRecTag: 0,
         tabChar: 1,
+        charBefore: 1,
         blankBefore: 1,
         blankAfter: 0,
         NWinNW: 1,
@@ -178,7 +179,9 @@ var makePreview = function (txt, viewMode, styler) {
 
     // check for chars before tag or on previous line
     function chkBefore(start, len) {
-        if ((/./.test(txt.charAt(start - 1))) || (/./.test(txt.charAt(start - 2)))) {
+        if (/./.test(txt.charAt(start - 1))) {
+            reportIssue(start, len, "charBefore");
+        } else if (/./.test(txt.charAt(start - 2))) {
             reportIssue(start, len, "blankBefore");
         }
     }
