@@ -809,7 +809,7 @@ function show_user_teams()
     {
         echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
         echo "&nbsp;";
-        echo "<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a>";
+        echo "<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".html_safe($row['teamname'])."</a>";
         echo "</font>";
         echo "<br>";
         echo "\n";

@@ -158,9 +158,12 @@ function showTeamProfile($curTeam, $preview=FALSE)
         "<a href='$owner_url'>" . html_safe($owner_name) . "</a>"
     );
 
+    # Team descriptions may contain limited HTML formatting (see
+    # stripAllString() for the full list) and should not be wrapped
+    # in html_safe().
     $t->row(
         _("Description"),
-        html_safe($curTeam['team_info'])
+        $curTeam['team_info']
     );
 
     $webpage = $curTeam['webpage'];
@@ -453,20 +456,17 @@ function showTeamHistory($curTeam, $tally_name) {
 }
 
 function stripAllString($ttext) {
-    return str_replace(array('[b]','[B]','[/b]','[/B]','[i]','[I]','[/i]','[/I]','[p]','[P]','[/p]','[/P]','[lb]','[LB]'),
-    array('<b>','<b>','</b>','</b>','<i>','<i>','</i>','</i>','<p>','<p>','</p>','</p>','<br>','<br>'),
-    htmlentities(strip_tags($ttext)));
+    return str_replace(
+        array('[b]','[B]','[/b]','[/B]','[i]','[I]','[/i]','[/I]','[p]','[P]','[/p]','[/P]','[lb]','[LB]'),
+        array('<b>','<b>','</b>','</b>','<i>','<i>','</i>','</i>','<p>','<p>','</p>','</p>','<br>','<br>'),
+        html_safe(strip_tags($ttext)));
 }
 
-function unstripAllString($ttext,$sType) {
-    $ttext=str_replace(array('<b>','</b>','<i>','</i>','<p>','</p>','<br>'),
-    array('[b]','[/b]','[i]','[/i]','[p]','[/p]','[lb]'),
-    $ttext);
-    if ($sType==1) {
-        $htmlchars = array_flip(get_html_translation_table(HTML_ENTITIES));
-        $ttext=strtr($ttext, $htmlchars);
-    }
-    return $ttext;
+function unstripAllString($ttext) {
+    return str_replace(
+        array('<b>','</b>','<i>','</i>','<p>','</p>','<br>'),
+        array('[b]','[/b]','[i]','[/i]','[p]','[/p]','[lb]'),
+        $ttext);
 }
 
 function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
@@ -495,14 +495,14 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
     echo "<td width='65%' align='left'><input type='file' name='teamicon' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamicon');\">?</a></b></td></tr>";
     echo "</table></td></tr>";
     echo "\n<tr bgcolor='".$theme['color_navbar_bg']."'><td><center><font color='".$theme['color_navbar_font']."'><b>"._("Team Description")."</b>&nbsp;</font>";
-    echo "<b><a href=\"JavaScript:newHelpWin('teamdesc');\">?</a></b><br><textarea name='text_data' cols='40' rows='6'>" . html_safe($ttext) . "</textarea></center><br></td></tr>";
+    echo "<b><a href=\"JavaScript:newHelpWin('teamdesc');\">?</a></b><br><textarea name='text_data' cols='40' rows='6'>" . html_safe(unstripAllString($ttext)) . "</textarea></center><br></td></tr>";
 
     if ($tedit == 1 && $userP['team_1'] != 0 && $userP['team_2'] != 0 && $userP['team_3'] != 0) {
         echo "\n<tr bgcolor='".$theme['color_mainbody_bg']."'><td><center>"._("You must join the team to create it, which team space would you like to use?")."<br>";
         echo "<select name='tteams' title='".attr_safe(_("Team List"))."'>";
         $teamQuery = mysql_query("SELECT teamname, id FROM user_teams WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})");
         while ($row = mysql_fetch_assoc($teamQuery)) {
-            echo "<option value='".$row['id']."'>".html_safe(unstripAllString(strip_tags($row['teamname']),1))."</option>";
+            echo "<option value='".$row['id']."'>".html_safe($row['teamname'])."</option>";
         }
         echo "</select></center></td></tr>";
     } else {

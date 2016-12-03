@@ -35,7 +35,7 @@ if (isset($_GET['tid']))
     $edit = _("Edit");
     output_header($edit." ".$curTeam['teamname'], SHOW_STATSBAR, $theme_extra_args);
     echo "<center><br>";
-    showEdit(unstripAllString($curTeam['teamname'],0),unstripAllString($curTeam['team_info'],1),unstripAllString($curTeam['webpage'],1),0,$tid);
+    showEdit($curTeam['teamname'], $curTeam['team_info'], $curTeam['webpage'], 0, $tid);
     echo "</center>";
 }
 elseif (isset($_POST['edQuit']))
