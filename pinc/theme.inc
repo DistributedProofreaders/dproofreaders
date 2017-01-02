@@ -951,32 +951,27 @@ function show_key_help_links()
     echo "</font>";
     echo "</center>\n";
 
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-    echo "<a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a>";
-    echo "</font>";
-    echo "<br>\n";
+    $items = array(
+        "<a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a>",
 
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-    echo "<a href='$code_url/faq/".lang_dir()."proofreading_guidelines.php'>"._("Proofreading Guidelines")."</a>";
-    echo " (<a href='$code_url/faq/".lang_dir()."proofing_summary.pdf'>"._("PDF Summary")."</a>)";
-    echo "</font>";
-    echo "<br>\n";
+        "<a href='$code_url/faq/".lang_dir()."proofreading_guidelines.php'>"._("Proofreading Guidelines")."</a>".
+        " (<a href='$code_url/faq/".lang_dir()."proofing_summary.pdf'>"._("PDF Summary")."</a>)",
 
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-    echo "<a href='$code_url/faq/".lang_dir()."document.php'>"._("Formatting Guidelines")."</a>";
-    echo " (<a href='$code_url/faq/".lang_dir()."formatting_summary.pdf'>"._("PDF Summary")."</a>)";
-    echo "</font>";
-    echo "<br>\n";
+        "<a href='$code_url/faq/".lang_dir()."document.php'>"._("Formatting Guidelines")."</a>".
+        " (<a href='$code_url/faq/".lang_dir()."formatting_summary.pdf'>"._("PDF Summary")."</a>)",
 
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-    echo "<a href='$forums_url/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a>";
-    echo "</font>";
-    echo "<br>\n";
+        "<a href='$forums_url/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a>",
 
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-    echo "<a href='$code_url/tasks.php'>"._("Support Request")."</a>";
-    echo "</font>";
-    echo "<br>\n";
+        "<a href='$code_url/tasks.php'>"._("Support Request")."</a>",
+    );
+
+    foreach ($items as $item)
+    {
+        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+        echo $item;
+        echo "</font>";
+        echo "<br>\n";
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
