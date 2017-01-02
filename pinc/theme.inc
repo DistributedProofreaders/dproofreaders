@@ -460,7 +460,14 @@ function html_statsbar($nameofpage) {
         endswith($_SERVER['SCRIPT_NAME'], "/activity_hub.php"))
     {
         show_donation_stuff();
-        echo "<hr>";
+        echo "<br><hr width='75%' align='center'><br>\n";
+    }
+
+    // For logged-in users, show links to key help documents:
+    if (isset($pguser))
+    {
+        show_key_help_links();
+        echo "<br><hr width='75%' align='center'><br>\n";
     }
 
     // Show statistics that are pertinent to the particular request.
@@ -534,12 +541,8 @@ function html_statsbar($nameofpage) {
     if (isset($pguser))
     {
         // requestor is a logged-in user.
-
         echo "<br><hr width='75%' align='center'><br>\n";
         show_user_teams();
-
-        echo "<br><hr width='75%' align='center'><br>\n";
-        show_key_help_links();
     }
 
     // SITE-SPECIFIC
