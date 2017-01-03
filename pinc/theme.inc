@@ -945,33 +945,36 @@ function show_key_help_links()
 {
     global $theme, $code_url, $forums_url;
 
-    echo "<center>";
+    echo "<p style='text-align:center; margin-top:0em; margin-bottom:0em;'>";
     echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
     echo "<b>"._("Key Help Documents").":</b>";
     echo "</font>";
-    echo "</center>\n";
+    echo "</p>\n";
 
     $items = array(
         "<a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a>",
 
         "<a href='$code_url/faq/".lang_dir()."proofreading_guidelines.php'>"._("Proofreading Guidelines")."</a>".
-        " (<a href='$code_url/faq/".lang_dir()."proofing_summary.pdf'>"._("PDF Summary")."</a>)",
+        "<br>(<a href='$code_url/faq/".lang_dir()."proofing_summary.pdf'>"._("PDF Summary")."</a>)",
 
         "<a href='$code_url/faq/".lang_dir()."document.php'>"._("Formatting Guidelines")."</a>".
-        " (<a href='$code_url/faq/".lang_dir()."formatting_summary.pdf'>"._("PDF Summary")."</a>)",
+        "<br>(<a href='$code_url/faq/".lang_dir()."formatting_summary.pdf'>"._("PDF Summary")."</a>)",
 
         "<a href='$forums_url/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a>",
 
         "<a href='$code_url/tasks.php'>"._("Support Request")."</a>",
     );
 
+    echo "<ul style='margin-top:0em; margin-bottom:0em; list-style-type:circle;'>\n";
     foreach ($items as $item)
     {
+        echo "<li style='margin-top:0em; margin-bottom:0em;'>";
         echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
         echo $item;
         echo "</font>";
-        echo "<br>\n";
+        echo "</li>\n";
     }
+    echo "</ul>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
