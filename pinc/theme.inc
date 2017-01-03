@@ -943,7 +943,7 @@ function show_completed_projects($terse = FALSE)
 
 function show_key_help_links()
 {
-    global $theme, $code_url, $forums_url;
+    global $theme, $code_url, $wiki_url;
 
     echo "<p style='text-align:center; margin-top:0em; margin-bottom:0em;'>";
     echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
@@ -951,18 +951,62 @@ function show_key_help_links()
     echo "</font>";
     echo "</p>\n";
 
+    // SITE-SPECIFIC
+    // (This may need to be pulled out and generalized, or replaced entirely,
+    // but for now, it does what's needed.)
+    $dpod_base = "$wiki_url/DP_Official_Documentation";
+    $dpod_urls = array(
+        'p_guide' => array(
+            'en' => "$dpod_base:Proofreading/Proofreading_Guidelines",
+            'fr' => "$dpod_base:Proofreading/French/Directives_de_Relecture_et_de_Correction",
+            'pt' => "$dpod_base:Proofreading/Portuguese/Regras_de_Revisão",
+            'es' => "$dpod_base:Proofreading/Spanish/Reglas_de_Revisión",
+            'nl' => "$dpod_base:Proofreading/Dutch/Proeflees-Richtlijnen",
+            'de' => "$dpod_base:Proofreading/German/Korrekturlese-Richtlinien",
+            'it' => "$dpod_base:Proofreading/Italian/Regole_di_Correzione",
+        ),
+
+        'f_guide' => array(
+            'en' => "$dpod_base:Formatting/Formatting_Guidelines",
+            'fr' => "$dpod_base:Formatting/French/Directives_de_Formatage",
+            'pt' => "$dpod_base:Formatting/Portuguese/Regras_de_Formatação",
+            'nl' => "$dpod_base:Formatting/Dutch/Formatteer-Richtlijnen",
+            'de' => "$dpod_base:Formatting/German/Formatierungsrichtlinien",
+            'it' => "$dpod_base:Formatting/Italian/Regole_di_Formattazione",
+        ),
+
+        'main' => array(
+            'en' => "$dpod_base:Main",
+        ),
+
+        'request_support' => array(
+            'en' => "$dpod_base:Main/Request_Support",
+        ),
+    );
+
+    $langcode = get_desired_language();
+    $lc = substr($langcode,0,2);
+    
+    // Localized DPOD URLs:
+    $ldu = array();
+    foreach ($dpod_urls as $doc_code => $translations)
+    {
+        $lcx = (array_key_exists($lc, $translations) ? $lc : 'en' );
+        $ldu[$doc_code] = $translations[$lcx];
+    }
+
     $items = array(
         "<a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a>",
 
-        "<a href='$code_url/faq/".lang_dir()."proofreading_guidelines.php'>"._("Proofreading Guidelines")."</a>".
+        "<a href='{$ldu['p_guide']}'>"._("Proofreading Guidelines")."</a>".
         "<br>(<a href='$code_url/faq/".lang_dir()."proofing_summary.pdf'>"._("PDF Summary")."</a>)",
 
-        "<a href='$code_url/faq/".lang_dir()."document.php'>"._("Formatting Guidelines")."</a>".
+        "<a href='{$ldu['f_guide']}'>"._("Formatting Guidelines")."</a>".
         "<br>(<a href='$code_url/faq/".lang_dir()."formatting_summary.pdf'>"._("PDF Summary")."</a>)",
 
-        "<a href='$forums_url/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a>",
+        "<a href='{$ldu['main']}'>"._("Other Official Documentation")."</a>",
 
-        "<a href='$code_url/tasks.php'>"._("Support Request")."</a>",
+        "<a href='{$ldu['request_support']}'>"._("Request Support")."</a>",
     );
 
     echo "<ul style='margin-top:0em; margin-bottom:0em; list-style-type:circle;'>\n";
