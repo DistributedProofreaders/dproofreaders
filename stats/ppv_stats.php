@@ -21,10 +21,9 @@ $psd = get_project_status_descriptor('posted');
 dpsql_dump_themed_query("
     SELECT checkedoutby as '" . mysql_real_escape_string(_("PPVer")) . "', 
         count(*) as '" . mysql_real_escape_string(_("Projects PPVd")) . "'
-    FROM  `projects` , usersettings
+    FROM  `projects`
     WHERE 1  AND checkedoutby != postproofer AND $psd->state_selector
-        and checkedoutby = usersettings.username 
-        and setting = 'PPV.access' and value = 'yes' 
+        and checkedoutby != ''
     GROUP  BY 1 
     ORDER  BY 2  DESC ", 1, DPSQL_SHOW_RANK);
 

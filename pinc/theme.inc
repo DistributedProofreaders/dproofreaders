@@ -460,7 +460,14 @@ function html_statsbar($nameofpage) {
         endswith($_SERVER['SCRIPT_NAME'], "/activity_hub.php"))
     {
         show_donation_stuff();
-        echo "<hr>";
+        echo "<br><hr width='75%' align='center'><br>\n";
+    }
+
+    // For logged-in users, show links to key help documents:
+    if (isset($pguser))
+    {
+        show_key_help_links();
+        echo "<br><hr width='75%' align='center'><br>\n";
     }
 
     // Show statistics that are pertinent to the particular request.
@@ -534,12 +541,8 @@ function html_statsbar($nameofpage) {
     if (isset($pguser))
     {
         // requestor is a logged-in user.
-
         echo "<br><hr width='75%' align='center'><br>\n";
         show_user_teams();
-
-        echo "<br><hr width='75%' align='center'><br>\n";
-        show_key_help_links();
     }
 
     // SITE-SPECIFIC
@@ -942,38 +945,36 @@ function show_key_help_links()
 {
     global $theme, $code_url, $forums_url;
 
-    echo "<center>";
+    echo "<p style='text-align:center; margin-top:0em; margin-bottom:0em;'>";
     echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
     echo "<b>"._("Key Help Documents").":</b>";
     echo "</font>";
-    echo "</center>\n";
+    echo "</p>\n";
 
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-    echo "<a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a>";
-    echo "</font>";
-    echo "<br>\n";
+    $items = array(
+        "<a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a>",
 
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-    echo "<a href='$code_url/faq/".lang_dir()."proofreading_guidelines.php'>"._("Proofreading Guidelines")."</a>";
-    echo " (<a href='$code_url/faq/".lang_dir()."proofing_summary.pdf'>"._("PDF Summary")."</a>)";
-    echo "</font>";
-    echo "<br>\n";
+        "<a href='$code_url/faq/".lang_dir()."proofreading_guidelines.php'>"._("Proofreading Guidelines")."</a>".
+        "<br>(<a href='$code_url/faq/".lang_dir()."proofing_summary.pdf'>"._("PDF Summary")."</a>)",
 
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-    echo "<a href='$code_url/faq/".lang_dir()."document.php'>"._("Formatting Guidelines")."</a>";
-    echo " (<a href='$code_url/faq/".lang_dir()."formatting_summary.pdf'>"._("PDF Summary")."</a>)";
-    echo "</font>";
-    echo "<br>\n";
+        "<a href='$code_url/faq/".lang_dir()."document.php'>"._("Formatting Guidelines")."</a>".
+        "<br>(<a href='$code_url/faq/".lang_dir()."formatting_summary.pdf'>"._("PDF Summary")."</a>)",
 
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-    echo "<a href='$forums_url/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a>";
-    echo "</font>";
-    echo "<br>\n";
+        "<a href='$forums_url/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a>",
 
-    echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
-    echo "<a href='$code_url/tasks.php'>"._("Support Request")."</a>";
-    echo "</font>";
-    echo "<br>\n";
+        "<a href='$code_url/tasks.php'>"._("Support Request")."</a>",
+    );
+
+    echo "<ul style='margin-top:0em; margin-bottom:0em; list-style-type:circle;'>\n";
+    foreach ($items as $item)
+    {
+        echo "<li style='margin-top:0em; margin-bottom:0em;'>";
+        echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
+        echo $item;
+        echo "</font>";
+        echo "</li>\n";
+    }
+    echo "</ul>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
