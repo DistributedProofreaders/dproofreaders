@@ -371,6 +371,12 @@ _FORUMS_PROJECT_POSTED_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
 # moves around among these 4 forums, depending on its state.
 # (The exact correspondence is defined in pinc/project_states.inc.)
 
+_FORUMS_PROJECT_DELETED_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
+_FORUMS_PROJECT_COMPLETED_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
+# Projects that are deleted or completed and not posted (rare)
+# have a forum of their own. Consider putting these in the same
+# hidden forum.
+
 _FORUMS_GENERAL_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
 _FORUMS_BEGIN_SITE_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
 _FORUMS_BEGIN_PROOF_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM

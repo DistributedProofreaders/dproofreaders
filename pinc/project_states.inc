@@ -358,7 +358,7 @@ declare_project_state(
     "project_complete",
     _("Project Complete"),
     _("Project Complete"),
-    -1,
+    $completed_projects_forum_idx,
     'COMPLETE',
     ''
 );
@@ -369,7 +369,7 @@ declare_project_state(
     "project_delete",
     _("Delete Project"),
     _("Delete Project"),
-    -1,
+    $deleted_projects_forum_idx,
     'NONE',
     ''
 );
