@@ -214,22 +214,12 @@ class ProjectTransition
 
             delete_project_wordcheck_events( $projectid );
 
-            if ( $this->from_state == PROJ_NEW )
-            {
-                $result = mysql_query("
-                    DELETE FROM projects WHERE projectid = '$projectid'
-                ");
-
-                log_project_event( $projectid, $who, 'deletion' );
-
-                return '';
-            }
-            else
-            {
-                // It's somewhat problematic to delete the entry from the
-                // 'projects' table.
-                // Instead, keep the entry, but change its state to 'deleted'.
-            }
+            // Formerly, if the project was in the 'New' state, we would here
+            // delete it from the projects table and log a 'deletion' event.
+            // However, it's somewhat problematic to delete the entry from the
+            // 'projects' table. Instead, we now treat such cases like all
+            // other project deletions: we keep the entry in the projects table,
+            // and have the code below change its state to 'deleted'."
         }
 
         // ----------------------------------------------------------------------
