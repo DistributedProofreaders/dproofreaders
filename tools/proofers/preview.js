@@ -53,6 +53,7 @@ var makePreview = function (txt, viewMode, styler) {
         continueFirst: 0
     };
 
+    // ILTags can have "u" for underline added. Used for constructing regexes
     var ILTags = "[ibfg]|sc";
     var endSpan = "</span>"; // a constant string
     var issueCount = [0, 0]; // possible issues, issues
@@ -811,7 +812,7 @@ var makePreview = function (txt, viewMode, styler) {
             len = result[0].length;
             chkBefore(start, len);
             // always an issue to avoid conflict with marking the tag
-            chkAfter(start, len, "Thought break", 1);
+            chkAfter(start, len, "&lt;tb&gt;", 1);
         }
     }
 
