@@ -9,6 +9,7 @@ include_once($relPath.'Stage.inc');
 include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'Pool.inc');
 include_once($relPath.'User.inc');
+include_once($relPath.'forum_interface.inc'); // get_url_to_view_forum()
 include_once($relPath.'misc.inc'); // str_contains startswith
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -538,7 +539,7 @@ new Pool(
         sprintf( _("Please read the <a href='%s'>Post-Processing FAQ</a> as it covers all the steps needed to post-process an e-text."),
         "$code_url/faq/post_proof.php"),
         _("Select an easy work to get started on (usually fiction with a low page count is a good starter book; projects whose manager is BEGIN make excellent first projects for a new post-processor)."),
-        sprintf( _("Check out the <a href='%s'>Post-Processing Forum</a> to post all your questions."), $post_processing_forum_url ),
+        sprintf( _("Check out the <a href='%s'>Post-Processing Forum</a> to post all your questions."), get_url_to_view_forum($post_processing_forum_idx) ),
         _("If nothing interests you right now, check back later and there will be more!"),
         "</p>",
 
@@ -630,7 +631,7 @@ new Pool(
 
         "<p>",
         sprintf( _("As always, the <a href='%s'>Post-Processing Forum</a> is available for any of your questions."),
-            $post_processing_forum_url ),
+            get_url_to_view_forum($post_processing_forum_idx) ),
         "</p>",
     )
 );

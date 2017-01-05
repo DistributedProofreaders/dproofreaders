@@ -556,14 +556,14 @@ not a 'Save' of the document that reaches your browser.
 marks, that's okay, just leave it alone. (One problem
 here is that if you view a .php file in an HTML
 browser, links like
-    <a href="<?php echo $projects_forum_url; ?>">foo</a>
+    <a href="<?php echo get_url_to_view_forum($projects_forum_idx); ?>">foo</a>
 aren't going to work.) If you add something (usually a
 URL) that would be better expressed as a <?php ?>, a more
 PHP-knowledgeable person can take care of rephrasing
 it."
 
 
-<a href="<?php echo $projects_forum_url; ?>">  
+<a href="<?php echo get_url_to_view_forum($projects_forum_idx); ?>">
 is what we use for the project forums URL, instead
 of something like <a href="http://www.pgdp.net/phpBB2/viewforum.php?f=2">.
 This anchor will never need changing, even if the site 
@@ -573,18 +573,11 @@ forums URL and it will work. It will work
 whether or not you are 100% sure why, so 
 don't worry if it seems a little mysterious.
 
-Similar PHP forum URL substitutions exist for
-the General Forum and the PP Forum.
-
-$general_forum_url         = "$forums_url/viewforum.php?f=1";
-$projects_forum_url        = "$forums_url/viewforum.php?f=2";
-$post_processing_forum_url = "$forums_url/viewforum.php?f=3";
-
+Similar PHP forum indexes exist for other forums.
+See site_vars.php for the full list.
 If you want to add URLs to posts or forums, you
-can  add them in either form, and I can change
-them if necessary before committing the file 
-to CVS (a necessary prelude to rolling it out
-on site). When you are making changes or 
+can add them using functions in pinc/forum_interface.inc
+using the forum or topic id. When you are making changes or
 creating later versions of the FAQ, though,
 please do not change any of the <?php echo $blah; ?>
 style links back to the http://www.pgdp.net/phpbb2/ 

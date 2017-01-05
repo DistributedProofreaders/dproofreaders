@@ -3,6 +3,7 @@ $relPath='../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
+include_once($relPath.'forum_interface.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'metarefresh.inc');
 
@@ -18,6 +19,10 @@ $theme_args["css_data"] = "div.note {padding: .75em; background: #f9f9f9; border
 .spaced li {margin-bottom: .5em;}";
 
 output_header('Post-Processing FAQ', 'header', NO_STATSBAR, $theme_args);
+
+$post_processing_forum_url = get_url_to_view_forum($post_processing_forum_idx);
+$teams_forum_url = get_url_to_view_forum($teams_forum_idx);
+
 ?>
 
 <h1>Post-Processing FAQ</h1>

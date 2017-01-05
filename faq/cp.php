@@ -3,6 +3,7 @@ $relPath='../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
+include_once($relPath.'forum_interface.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'metarefresh.inc');
 
@@ -15,6 +16,9 @@ if(strpos($code_url, '://www.pgdp.'))
 }
 
 output_header("Content Provider's FAQ", NO_STATSBAR);
+
+$content_providing_forum_url = get_url_to_view_forum($content_providing_forum_idx);
+
 ?>
   <meta name="Author" content="Stephen Schulze">
   <meta name="author" content="thundergnat">
