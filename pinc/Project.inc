@@ -437,7 +437,9 @@ EOS;
 
         if(!is_dir($dirname))
         {
-            mkdir($dirname);
+            // If the project directory doesn't exist, the project was likely
+            // deleted or posted/archived.
+            return;
         }
 
         if(!file_exists($filename))
