@@ -466,7 +466,7 @@ CREATE TABLE `sessions` (
   `sid` varchar(32) NOT NULL default '',
   `expiration` int(11) NOT NULL default '0',
   `value` text NOT NULL,
-  PRIMARY KEY  (`sid`)
+  PRIMARY KEY  (`sid`),
   KEY `expiration` (`expiration`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
@@ -571,7 +571,8 @@ CREATE TABLE `tasks_comments` (
   `task_id` mediumint(9) NOT NULL default '0',
   `u_id` mediumint(9) NOT NULL default '0',
   `comment_date` int(11) NOT NULL default '0',
-  `comment` mediumtext NOT NULL
+  `comment` mediumtext NOT NULL,
+  PRIMARY KEY (`task_id`,`u_id`,`comment_date`)
 ) TYPE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
