@@ -630,6 +630,7 @@ var makePreview = function (txt, viewMode, styler) {
 
         function boldLine() {   // false if any non-bold char found
             var result1;
+            re1.lastIndex = 0;  // else will be left from previous use
             while (true) {
                 result1 = re1.exec(headLine);
                 if (null === result1) {
