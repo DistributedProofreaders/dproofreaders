@@ -156,9 +156,9 @@ else
     // Add Back to to Release Queues link
     echo "<p><a href='".$code_url."/stats/release_queue.php?round_id=$round_id'>"._("Back to Release Queues")."</a></p>\n";
 
-    $comments_url1 = mysql_escape_string("<a href='$code_url/project.php?id=");
-    $comments_url2 = mysql_escape_string("'>");
-    $comments_url3 = mysql_escape_string("</a>");
+    $comments_url1 = mysql_real_escape_string("<a href='$code_url/project.php?id=");
+    $comments_url2 = mysql_real_escape_string("'>");
+    $comments_url3 = mysql_real_escape_string("</a>");
 
     dpsql_dump_themed_query("
         SELECT

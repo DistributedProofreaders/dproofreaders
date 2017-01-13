@@ -72,7 +72,7 @@ while ( list($projectid) = mysql_fetch_row($res) )
 
                     $changes[] = sprintf( "%s = '%s'",
                         $field_name,
-                        mysql_escape_string($normalized_page_text)
+                        mysql_real_escape_string($normalized_page_text)
                     );
 
                     // It's just possible that in the time between this script's
