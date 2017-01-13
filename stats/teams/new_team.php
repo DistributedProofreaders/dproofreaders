@@ -63,7 +63,7 @@ else if (isset($_POST['mkMake']))
             mysql_real_escape_string(stripAllString($_POST['text_data'])),
             mysql_real_escape_string(stripAllString($_POST['teamwebpage'])),
             $pguser, $userP['u_id'], time()));
-        $tid = mysql_insert_id($db_Connection->db_lk);
+        $tid = mysql_insert_id();
         if (!empty($_POST['tavatar']))
         {
             $sql = sprintf("

@@ -51,21 +51,19 @@ if(!headers_sent())
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'DPDatabase.inc');
 
-$db_Connection=new dbConnect();
-if ($db_Connection->error != '')
-{
+try {
+    DPDatabase::connect();
+} catch (Exception $e) {
     // If we're in maintenance mode, don't die here - we'll more gracefully
     // error out later
     if(!$maintenance)
-        die('Error: Unable to connect to database.');
-
-    $db_Connection=False;
+        die("Error: $e");
 }
 
 include_once($relPath.'dpsession.inc');
 
 // If we don't have a database connection, don't try to resume the session.
-if($db_Connection)
+if(DPDatabase::get_connection())
     $user_is_logged_in = dpsession_resume();
 
 configure_gettext($charset, get_desired_language(), $dyn_locales_dir, $system_locales_dir);
