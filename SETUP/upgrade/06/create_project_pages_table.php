@@ -1,8 +1,7 @@
 <?php
 $relPath = '../../../pinc/';
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
-new dbConnect();
 
 echo "Creating 'project_pages' table...\n";
 

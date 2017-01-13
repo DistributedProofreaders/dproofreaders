@@ -1,8 +1,7 @@
 <?php
 
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
 
 echo "Enlarging user_project_info table...\n";
 $sql = "

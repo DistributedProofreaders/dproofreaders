@@ -21,9 +21,9 @@ $delay = 0;
 $start_with_sequence_number = 0;
 
 $relPath='../../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'dpsql.inc');
-new dbConnect();
 
 echo "Adding round#_user indexes to all projectID* tables...\n";
 

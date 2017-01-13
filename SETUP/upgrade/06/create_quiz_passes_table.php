@@ -3,9 +3,8 @@
 // One-time script to create 'quiz_passes' table
 
 $relPath='../../../pinc/';
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-new dbConnect();
 
 echo "Creating 'quiz_passes' table...\n";
 dpsql_query("

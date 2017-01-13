@@ -4,10 +4,9 @@
 // and ensure that its text is normalized.
 
 $relPath='../../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-include_once($relPath.'connect.inc');
 include_once($relPath.'DPage.inc'); // _normalize_page_text
-new dbConnect();
 
 error_reporting(E_ALL);
 

@@ -1,7 +1,6 @@
 <?php
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-$db_Connection=new dbConnect();
+include_once($relPath.'base.inc');
 
 echo "Creating 'job_logs' table...\n";
 $result = mysql_query("CREATE TABLE `job_logs` (

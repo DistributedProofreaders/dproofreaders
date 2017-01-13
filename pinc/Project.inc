@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'connect.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'misc.inc'); // html_safe()

@@ -1,7 +1,6 @@
 <?php
 $relPath = '../../../pinc/';
-include_once($relPath.'connect.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
 
 // Handles transition from "one filter for all rounds" to "one filter per round".
 

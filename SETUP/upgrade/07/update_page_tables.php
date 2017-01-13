@@ -1,9 +1,8 @@
 <?php
 $relPath = '../../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'stages.inc');
-include_once($relPath.'connect.inc');
-new dbConnect();
 
 // Add columns for one more round,
 // and shift current content over to make room.

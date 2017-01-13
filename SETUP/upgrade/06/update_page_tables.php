@@ -1,9 +1,8 @@
 <?php
 $relPath = '../../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'stages.inc');
-include_once($relPath.'connect.inc');
-new dbConnect();
 
 // Change format of page-state values.
 // And add columns for extra rounds.

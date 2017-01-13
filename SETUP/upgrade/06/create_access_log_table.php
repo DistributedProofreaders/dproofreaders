@@ -3,9 +3,8 @@
 // One-time script to create 'access_log' table
 
 $relPath='../../../pinc/';
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-new dbConnect();
 
 echo "Creating table 'access_log'...\n";
 dpsql_query("

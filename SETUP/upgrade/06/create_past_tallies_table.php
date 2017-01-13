@@ -4,9 +4,8 @@
 // and populate them from 'member_stats' and 'user_teams_stats'.
 
 $relPath='../../../pinc/';
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-new dbConnect();
 
 header( 'Content-type: text/plain');
 

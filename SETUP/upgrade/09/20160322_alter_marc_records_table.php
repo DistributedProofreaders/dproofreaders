@@ -1,6 +1,6 @@
 <?php
 $relPath='../../../pinc/';
-include($relPath.'base.inc');
+include_once($relPath.'base.inc');
 
 header('Content-type: text/plain');
 

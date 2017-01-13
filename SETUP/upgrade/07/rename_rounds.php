@@ -1,7 +1,6 @@
 <?php
 $relPath = '../../../pinc/';
-include_once($relPath.'connect.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
 
 mysql_query("SELECT round_id FROM queue_defns");
 if ( mysql_errno() == 1054 ) // unknown column

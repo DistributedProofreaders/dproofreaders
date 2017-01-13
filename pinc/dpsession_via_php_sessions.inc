@@ -1,6 +1,5 @@
 <?php
 include_once($relPath.'site_vars.php');
-include_once($relPath.'connect.inc');
 
 ini_set( 'session.name',            "{$site_abbreviation}_Session" );
 ini_set( 'session.use_cookies',     1 );

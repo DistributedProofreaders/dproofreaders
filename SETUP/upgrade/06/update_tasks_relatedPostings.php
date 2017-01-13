@@ -1,7 +1,6 @@
 <?php
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-$db_Connection=new dbConnect();
+include_once($relPath.'base.inc');
 
 echo "Adding 'related_postings' column to 'tasks' table...\n";
 $result = mysql_query("ALTER TABLE `tasks` ADD `related_postings` MEDIUMTEXT NOT NULL") or die(mysql_error());

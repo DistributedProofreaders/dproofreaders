@@ -1,9 +1,7 @@
 <?php
 $relPath='../../../pinc/';
-include_once($relPath.'site_vars.php');
+include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
-include($relPath.'connect.inc');
-$db_Connection=new dbConnect();
 
 header('Content-type: text/plain');
 

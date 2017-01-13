@@ -1,7 +1,6 @@
 <?php
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-$db_Connection=new dbConnect();
+include_once($relPath.'base.inc');
 
 echo "Creating 'tasks_votes' table...\n";
 $sql = 'CREATE TABLE `tasks_votes` ('

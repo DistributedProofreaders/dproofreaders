@@ -1,7 +1,6 @@
 <?php
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-$db_Connection=new dbConnect();
+include_once($relPath.'base.inc');
 
 echo "Adding uniqueness constraint on 'teamname' column of 'user_teams' table...\n";
 
