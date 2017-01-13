@@ -85,7 +85,8 @@ function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_R
 	for ($c = 0; $c < ($n_cols); $c++ )
 	{
 		print "<th>";
-		print mysql_field_name($result, $c);
+		$field_data = mysqli_fetch_field_direct($result, $c);
+		print $field_data->name;
 		print "</th>\n";
 	}
 	print "</tr>\n";
@@ -140,12 +141,12 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
 	$type = Array();
 	for ($c = 0; $c < $n_query_cols; $c++ )
 	{
-		$type[$c] = mysql_field_type($result, $c);
+		$field_data = mysqli_fetch_field_direct($result, $c);
+		$type[$c] = $field_data->type;
 		$align = ($type[$c] == 'int' && $ralign_ints) ? " align='right'" : '';
 		print "<th bgcolor='" . $theme['color_headerbar_bg'] . "'$align>\n";
 		print "<font color='".$theme['color_headerbar_font']."'>";
-		print mysql_field_name($result, $c);
-		$type[$c] = mysql_field_type($result, $c);
+		print $field_data->name;
 		print "</font></th>\n";
 	}
 	print "</tr>\n";

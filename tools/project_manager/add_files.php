@@ -344,7 +344,8 @@ class Loader
             FROM $this->projectid
             LIMIT 0
         ") or die(mysqli_error(DPDatabase::get_connection()));
-        $this->image_field_len = mysql_field_len($res,0);
+        $field_data = mysqli_fetch_field_direct($res, 0);
+        $this->image_field_len = $field_data->length;
 
         // -----------
 
