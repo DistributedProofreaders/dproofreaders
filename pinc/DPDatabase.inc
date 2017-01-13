@@ -10,14 +10,14 @@ final class DPDatabase
     {
         include('udb_user.php');
 
-        // Ignore warnings from mysql_connect() so we can handle them
+        // Ignore warnings from mysqli_connect() so we can handle them
         // gracefully elsewhere.
-        self::$_connection = @mysql_connect($db_server, $db_user, $db_password);
+        self::$_connection = @mysqli_connect($db_server, $db_user, $db_password);
 
         if(!self::$_connection)
             throw new DBConnectionError("Unable to connect to database");
 
-        if(!mysql_select_db($db_name, self::$_connection))
+        if(!mysqli_select_db(self::$_connection, $db_name))
             throw new DBConnectionError("Unable to locate database.");
     }
 
@@ -26,7 +26,7 @@ final class DPDatabase
         if(!self::$_connection)
             return;
 
-        mysql_close(self::$_connection);
+        mysqli_close(self::$_connection);
     }
 
     static public function get_connection()
