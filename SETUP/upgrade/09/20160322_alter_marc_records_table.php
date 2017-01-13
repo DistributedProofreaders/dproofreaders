@@ -14,7 +14,7 @@ $sql = "
         DROP COLUMN updated_marc
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 // ------------------------------------------------------------
 

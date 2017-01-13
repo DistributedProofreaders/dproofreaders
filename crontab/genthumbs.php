@@ -17,9 +17,9 @@ set_time_limit(90);
 
 //this module looks for projects that do not have thumbs generated and generates them
 
-$result = mysql_query("SELECT projectid, state FROM projects WHERE state = 'project_md_first' AND thumbs = 'no' LIMIT 1");
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT projectid, state FROM projects WHERE state = 'project_md_first' AND thumbs = 'no' LIMIT 1");
 
-$row = mysql_fetch_assoc($result);
+$row = mysqli_fetch_assoc($result);
 $projectid = $row["projectid"];
 $state = $row["state"];
 
@@ -31,9 +31,9 @@ if (!file_exists($dest_project_dir)) {
 }
 
 
-$result = mysql_query("SELECT image FROM $projectid");
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT image FROM $projectid");
 
-while ($row = mysql_fetch_assoc($result)) {
+while ($row = mysqli_fetch_assoc($result)) {
 
     $imagename = $row["image"];
 
@@ -71,4 +71,4 @@ while ($row = mysql_fetch_assoc($result)) {
 }
 
 //update projects table to indicate thumbs have been gen'ed
-$result = mysql_query("UPDATE projects SET thumbs = 'yes' WHERE projectid = '$projectid'");
+$result = mysqli_query(DPDatabase::get_connection(), "UPDATE projects SET thumbs = 'yes' WHERE projectid = '$projectid'");

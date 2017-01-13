@@ -239,13 +239,13 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
     foreach ( array( 'from', 'to' ) as $which )
     {
-        $res= mysql_query(
+        $res= mysqli_query(DPDatabase::get_connection(),
             sprintf("DESCRIBE %s",
-            mysql_real_escape_string($projectid_[$which]))
-        ) or die(mysql_error());
+            mysqli_real_escape_string(DPDatabase::get_connection(), $projectid_[$which]))
+        ) or die(mysqli_error(DPDatabase::get_connection()));
 
         $column_names = array();
-        while ( $row = mysql_fetch_assoc($res) )
+        while ( $row = mysqli_fetch_assoc($res) )
         {
             $column_names[] = $row['Field'];
         }
@@ -281,14 +281,14 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
         // ----------------------
 
-        $res = mysql_query(sprintf("
+        $res = mysqli_query(DPDatabase::get_connection(), sprintf("
             SELECT image, fileid
             FROM %s
             ORDER BY image",
-            mysql_real_escape_string($projectid)
-        )) or die(mysql_error());
+            mysqli_real_escape_string(DPDatabase::get_connection(), $projectid)
+        )) or die(mysqli_error(DPDatabase::get_connection()));
 
-        $n_pages = mysql_num_rows($res);
+        $n_pages = mysqli_num_rows($res);
 
         // TRANSLATORS: abbreviated form of "number of pages"
         echo "<tr><th>" . _("No. of pages") . ":</th><td>" . $n_pages . "</td></tr>\n";
@@ -300,7 +300,7 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
 
         $all_image_values = array();
         $all_fileid_values = array();
-        while ( list($image,$fileid) = mysql_fetch_row($res) )
+        while ( list($image,$fileid) = mysqli_fetch_row($res) )
         {
             $all_image_values[] = $image;
             $all_fileid_values[] = $fileid;
@@ -593,17 +593,17 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
             SELECT %s
             FROM %s
             WHERE image = '%s'",
-            mysql_real_escape_string($projectid_['to']),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $projectid_['to']),
             $items_list,
-            mysql_real_escape_string($projectid_['from']),
-            mysql_real_escape_string($c_src_image)
+            mysqli_real_escape_string(DPDatabase::get_connection(), $projectid_['from']),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $c_src_image)
         );
         // FIXME These are very long and should perhaps be suppressed, wrapped or made smaller.
         echo html_safe($query) . "\n";
         if ($for_real)
         {
-            mysql_query($query) or die(mysql_error());
-            $n = mysql_affected_rows();
+            mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+            $n = mysqli_affected_rows(DPDatabase::get_connection());
             echo sprintf(_("%d rows inserted."), $n) . "\n";
             if ( $n != 1 )
             {
@@ -642,10 +642,10 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
                       SELECT username FROM user_project_info
                       WHERE projectid = '%s' AND
                             iste_$event = 1",
-                    mysql_real_escape_string($projectid_['from'])
+                    mysqli_real_escape_string(DPDatabase::get_connection(), $projectid_['from'])
             );
-            $res1 = mysql_query($query) or die(mysql_error());
-            while ( list($username) = mysql_fetch_row($res1) )
+            $res1 = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+            while ( list($username) = mysqli_fetch_row($res1) )
             {
                 set_user_project_event_subscription( $username, 
                                                      $projectid_['to'], 
@@ -662,14 +662,14 @@ function do_stuff( $projectid_, $from_image_, $page_name_handling,
               UPDATE projects
               SET deletion_reason = 'merged into %s'
               WHERE projectid = '%s'",
-              mysql_real_escape_string($projectid_['to']),
-              mysql_real_escape_string($projectid_['from'])
+              mysqli_real_escape_string(DPDatabase::get_connection(), $projectid_['to']),
+              mysqli_real_escape_string(DPDatabase::get_connection(), $projectid_['from'])
         );
         echo "<code>" . html_safe($query) . "</code>";
         if ($for_real)
         {
-            mysql_query($query) or die(mysql_error());
-            $n = mysql_affected_rows();
+            mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+            $n = mysqli_affected_rows(DPDatabase::get_connection());
             echo "<p>" . sprintf(_("%d rows updated."), $n) . "</p>\n";
         }
     }

@@ -37,9 +37,9 @@ else
     ";
 }
 
-$res = mysql_query($query) or die(mysql_error());
+$res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
 
-$n_posts_found = mysql_num_rows($res);
+$n_posts_found = mysqli_num_rows($res);
 echo "Found $n_posts_found posts containing the search string.\n";
 if ( $n_posts_found == 0 )
 {
@@ -56,7 +56,7 @@ else
     echo "Attempting to change them...\n";
 }
 
-while ( list($post_id, $post_text) = mysql_fetch_row($res) )
+while ( list($post_id, $post_text) = mysqli_fetch_row($res) )
 {
     if ($dry_run)
     {
@@ -80,13 +80,13 @@ while ( list($post_id, $post_text) = mysql_fetch_row($res) )
 
     if ($dry_run) continue;
 
-    $new_post_text = mysql_real_escape_string($new_post_text);
-    mysql_query("
+    $new_post_text = mysqli_real_escape_string(DPDatabase::get_connection(), $new_post_text);
+    mysqli_query(DPDatabase::get_connection(), "
         UPDATE phpbb_posts_text
         SET post_text='$new_post_text'
         WHERE post_id=$post_id
     ");
-    $n = mysql_affected_rows();
+    $n = mysqli_affected_rows(DPDatabase::get_connection());
     if ($n != 1)
     {
         echo "Odd: for post_id=$post_id, UPDATE affects $n rows\n";

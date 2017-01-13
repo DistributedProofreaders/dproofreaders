@@ -513,15 +513,15 @@ class ProjectWordListHolder
         }
         $sql = "select count(*) from $this->projectid where $round_column <> ''";
 
-        $res = mysql_query($sql);
+        $res = mysqli_query(DPDatabase::get_connection(), $sql);
         if ($res === FALSE)
         {
             return 0;
         }
 
-        $count = mysql_fetch_row($res);
+        $count = mysqli_fetch_row($res);
 
-        mysql_free_result($res);
+        mysqli_free_result($res);
 
         return $count[0];
     }

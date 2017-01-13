@@ -24,12 +24,12 @@ foreach ( $Activity_for_id_ as $activity )
 }
 
 // Look for unexpected activity_ids
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT DISTINCT REPLACE(setting,'.access', '')
     FROM usersettings
     WHERE setting LIKE '%.access' AND value='requested'
-") or die(mysql_error());
-while ( list($activity_id) = mysql_fetch_row($res) )
+") or die(mysqli_error(DPDatabase::get_connection()));
+while ( list($activity_id) = mysqli_fetch_row($res) )
 {
     if ( !in_array( $activity_id, $activity_ids ) )
     {
@@ -39,7 +39,7 @@ while ( list($activity_id) = mysql_fetch_row($res) )
 
 // ----------------------------------
 
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     CREATE TEMPORARY TABLE access_log_summary
     SELECT 
         activity,
@@ -48,7 +48,7 @@ mysql_query("
         MAX( timestamp * (action='deny_request_for') ) AS t_latest_deny
     FROM access_log
     GROUP BY activity, subject_username
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 foreach ( $activity_ids as $activity_id )
 {
@@ -58,7 +58,7 @@ foreach ( $activity_ids as $activity_id )
 
     $access_name = "$activity_id.access";
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT
             usersettings.username,
             users.u_id,
@@ -74,9 +74,9 @@ foreach ( $activity_ids as $activity_id )
             )
         WHERE setting = '$access_name' AND value='requested'
         ORDER BY username
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 
-    if ( mysql_num_rows($res) == 0 )
+    if ( mysqli_num_rows($res) == 0 )
     {
         $word = _('none');
         echo "($word)";
@@ -120,7 +120,7 @@ foreach ( $activity_ids as $activity_id )
         $seconds = 60 * 60 * 24;
         $now = time();
         $tformat = '%Y-%m-%d';
-        while ( list($username, $u_id, $t_latest_request, $t_latest_deny, $t_last_on_site) = mysql_fetch_row($res) )
+        while ( list($username, $u_id, $t_latest_request, $t_latest_deny, $t_last_on_site) = mysqli_fetch_row($res) )
         {
             $member_stats_url = "$code_url/stats/members/mdetail.php?id=$u_id";
             $t_latest_request_f = strftime($tformat, $t_latest_request);

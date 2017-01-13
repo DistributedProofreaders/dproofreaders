@@ -129,13 +129,13 @@ function undo_all_magic_quotes()
 // outputting variables in SQL and HTML. ie:
 // Code like the following relies on magic_quotes_gpc being on:
 //    $x = $_GET['x'];
-//    $res = mysql_query("... WHERE x = '$x'");
+//    $res = mysqli_query(DPDatabase::get_connection(), "... WHERE x = '$x'");
 // Whereas the following works the same regardless of how magic_quotes_gpc
 // is set...
 //    undo_all_magic_quotes();
 //    $x = $_GET['x'];
-//    $res = mysql_query(
-//               sprintf("... WHERE x = '%s'", mysql_real_escape_string($x))
+//    $res = mysqli_query(DPDatabase::get_connection(),
+//               sprintf("... WHERE x = '%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $x))
 //    );
 {
     static $already_undone = FALSE;

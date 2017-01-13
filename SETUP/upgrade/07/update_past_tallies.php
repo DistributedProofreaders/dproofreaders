@@ -8,10 +8,10 @@ echo "\n";
 echo "Adding tallyboard_time index...\n";
 // This is to speed up TallyBoard::get_time_of_latest_snapshot()
 
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     ALTER TABLE past_tallies
         ADD INDEX tallyboard_time (tally_name,holder_type,timestamp);
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "\nDone!\n";
 

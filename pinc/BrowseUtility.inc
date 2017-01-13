@@ -32,7 +32,7 @@ class BrowseUtility {
   // HTTP-arguments always have precedence before $count provided here
   function BrowseUtility($search_result, $count = 20) {
 
-    $this->_total_row_count = mysql_num_rows($search_result);
+    $this->_total_row_count = mysqli_num_rows($search_result);
 
     if (isset($_REQUEST['start']) && $_REQUEST['start'] > 0)
       $this->_start = $_REQUEST['start'];
@@ -64,7 +64,7 @@ class BrowseUtility {
       // If we should start listing at row 5, skip the first
       // 5 rows (0, 1, 2, 3, 4).
       for ($i = 0; $i < $this->_start; $i++)
-        mysql_fetch_row($search_result);
+        mysqli_fetch_row($search_result);
     }
     else {
       // Nothing to browse

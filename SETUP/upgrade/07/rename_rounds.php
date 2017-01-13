@@ -2,8 +2,8 @@
 $relPath = '../../../pinc/';
 include_once($relPath.'base.inc');
 
-mysql_query("SELECT round_id FROM queue_defns");
-if ( mysql_errno() == 1054 ) // unknown column
+mysqli_query(DPDatabase::get_connection(), "SELECT round_id FROM queue_defns");
+if ( mysqli_errno(DPDatabase::get_connection()) == 1054 ) // unknown column
 {
     echo "
     ERROR: The 'queue_defns' table does not have a 'round_id' column.
@@ -12,9 +12,9 @@ if ( mysql_errno() == 1054 ) // unknown column
     ";
     exit;
 }
-else if ( mysql_errno() != 0 )
+else if ( mysqli_errno(DPDatabase::get_connection()) != 0 )
 {
-    echo mysql_error(), "\n";
+    echo mysqli_error(DPDatabase::get_connection()), "\n";
     exit;
 }
 
@@ -85,10 +85,10 @@ function update_table( $how, $table_name, $column_name, $allow_nonexistent_table
     // (in which case it might be dangerous to do the update).
     foreach ( array('SELECT', 'UPDATE') as $pass )
     {
-        $res = mysql_query( $sql[$pass] );
+        $res = mysqli_query(DPDatabase::get_connection(),  $sql[$pass] );
         if ( !$res )
         {
-            if ( $allow_nonexistent_table && mysql_errno() == 1146 )
+            if ( $allow_nonexistent_table && mysqli_errno(DPDatabase::get_connection()) == 1146 )
             {
                 // skip it
                 return;
@@ -97,7 +97,7 @@ function update_table( $how, $table_name, $column_name, $allow_nonexistent_table
             {
                 echo "\n";
                 echo $table_name, "\n";
-                echo mysql_error(), "\n";
+                echo mysqli_error(DPDatabase::get_connection()), "\n";
                 exit;
             }
         }
@@ -105,7 +105,7 @@ function update_table( $how, $table_name, $column_name, $allow_nonexistent_table
         {
             if ( $pass == 'SELECT' )
             {
-                list($count) = mysql_fetch_row($res);
+                list($count) = mysqli_fetch_row($res);
                 if ($count > 0)
                 {
                     echo str_pad($table_name, 23), "$dst_round_id already appears!!!\n";
@@ -116,7 +116,7 @@ function update_table( $how, $table_name, $column_name, $allow_nonexistent_table
             }
             else
             {
-                echo str_pad($table_name, 23), mysql_info(), "\n";
+                echo str_pad($table_name, 23), mysqli_info(DPDatabase::get_connection()), "\n";
             }
         }
     }
@@ -147,13 +147,13 @@ update_table( PART_OF_COL, 'project_state_stats', 'state' );
 update_table( PART_OF_COL, 'projects',            'state' );
 update_table( PART_OF_COL, 'project_pages',       'state', TRUE );
 
-$project_res = mysql_query("
+$project_res = mysqli_query(DPDatabase::get_connection(), "
     SELECT projectid
     FROM projects
     ORDER BY projectid
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
-while ( list($projectid) = mysql_fetch_row($project_res) )
+while ( list($projectid) = mysqli_fetch_row($project_res) )
 {
     update_table( PART_OF_COL, $projectid, 'state', TRUE );
 }

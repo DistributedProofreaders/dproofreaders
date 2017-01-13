@@ -20,7 +20,7 @@ if ($dry_run)
     echo "This is a dry run.\n";
 }
 
-$result = mysql_query("
+$result = mysqli_query(DPDatabase::get_connection(), "
     SELECT *
     FROM projects
     WHERE
@@ -28,11 +28,11 @@ $result = mysql_query("
         AND archived = '0'
         AND state = '".PROJ_SUBMIT_PG_POSTED."'
     ORDER BY modifieddate
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
-echo "Archiving page-tables for ", mysql_num_rows($result), " projects...\n";
+echo "Archiving page-tables for ", mysqli_num_rows($result), " projects...\n";
 
-while ( $project = mysql_fetch_object($result) )
+while ( $project = mysqli_fetch_object($result) )
 {
     archive_project($project, $dry_run);
 }

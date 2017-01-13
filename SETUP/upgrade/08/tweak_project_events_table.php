@@ -20,8 +20,8 @@ $sql = "
 
 echo "$sql\n";
 
-mysql_query($sql) or die( mysql_error() );
-echo "\n", mysql_affected_rows(), " rows affected.\n";
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
+echo "\n", mysqli_affected_rows(DPDatabase::get_connection()), " rows affected.\n";
 
 echo "\nDone!\n";
 

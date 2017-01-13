@@ -68,14 +68,14 @@ function autorelease_for_round( $round )
     echo "\n";
     echo "Starting autorelease for round {$round->id}...\n";
 
-    $q_res = mysql_query("
+    $q_res = mysqli_query(DPDatabase::get_connection(), "
         SELECT *
         FROM queue_defns
         WHERE round_id='{$round->id}'
         ORDER BY ordering
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 
-    if ( mysql_num_rows($q_res) == 0 )
+    if ( mysqli_num_rows($q_res) == 0 )
     {
         echo "\n";
         echo "There are no queue definitions for this round (enabled or not)!\n";
@@ -109,14 +109,14 @@ function autorelease_for_round( $round )
 
     // Release of Different types of Projects from various logical queues
 
-    $q_res = mysql_query("
+    $q_res = mysqli_query(DPDatabase::get_connection(), "
         SELECT *
         FROM queue_defns
         WHERE enabled AND round_id='{$round->id}'
         ORDER BY ordering
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 
-    while ( $qd = mysql_fetch_object($q_res) )
+    while ( $qd = mysqli_fetch_object($q_res) )
     {
         // $qd->name
         //     A human-readable name for this queue.
@@ -226,16 +226,16 @@ function maybe_release_projects(
     // Projects that are in this round's waiting state,
     // don't have a hold in that state,
     // and, if $qd is set, satisfy its project selector.
-    $waiting_res = mysql_query("
+    $waiting_res = mysqli_query(DPDatabase::get_connection(), "
         SELECT *
         FROM projects
             LEFT OUTER JOIN project_holds USING (projectid, state)
         WHERE state = '{$round->project_waiting_state}' $and_extra_condition
             AND project_holds.state IS NULL
         ORDER BY modifieddate ASC, nameofwork ASC
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 
-    $n_projects->waiting = mysql_num_rows($waiting_res);
+    $n_projects->waiting = mysqli_num_rows($waiting_res);
 
     echo "\n";
     if ($qd)
@@ -252,7 +252,7 @@ function maybe_release_projects(
     $n_projects->failed = 0;
     $n_projects->released = 0;
 
-    while ( $project = mysql_fetch_assoc($waiting_res) )
+    while ( $project = mysqli_fetch_assoc($waiting_res) )
     {
         echo "\n";
         echo "    considering {$project['projectid']} \"{$project['nameofwork']}\"...\n";
@@ -364,13 +364,13 @@ class ReleaseRestrictor
         // First, get the set of all authors with works in this round
         $this->this_round_authors = array();
         $author_res =
-            mysql_query("
+            mysqli_query(DPDatabase::get_connection(), "
                 SELECT authorsname
                 FROM projects
                 WHERE state = '{$round->project_available_state}'
                 ORDER BY authorsname
-            ") or die(mysql_error());
-        while ( $author_row = mysql_fetch_assoc($author_res) )
+            ") or die(mysqli_error(DPDatabase::get_connection()));
+        while ( $author_row = mysqli_fetch_assoc($author_res) )
         {
             $author = $author_row['authorsname'];
             @$this->this_round_authors[$author]++;
@@ -386,13 +386,13 @@ class ReleaseRestrictor
         // Next, get the set of all PMs with works in this round
         $this->this_round_pms = array();
         $pm_res =
-            mysql_query("
+            mysqli_query(DPDatabase::get_connection(), "
                 SELECT username
                 FROM projects
                 WHERE state = '{$round->project_available_state}'
                 ORDER BY username
-            ") or die(mysql_error());
-        while ( $pm_row = mysql_fetch_assoc($pm_res) )
+            ") or die(mysqli_error(DPDatabase::get_connection()));
+        while ( $pm_row = mysqli_fetch_assoc($pm_res) )
         {
             $pm = $pm_row['username'];
             @$this->this_round_pms[$pm]++;
@@ -536,24 +536,24 @@ function AP_setup( $round )
     // Instead, we have to loop over the active projects.
 
     // Create the table.
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         CREATE TEMPORARY TABLE active_page_counts
         (
             projectid  varchar(22),
             pages      INT(4)
         )
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 
     // Get a list of active projects.
     $projects_res =
-        mysql_query("
+        mysqli_query(DPDatabase::get_connection(), "
         SELECT projectid
         FROM projects
         WHERE state = '{$round->project_available_state}'
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 
     // Run through them and fill up the table.
-    while( $project = mysql_fetch_assoc($projects_res) )
+    while( $project = mysqli_fetch_assoc($projects_res) )
     {
         AP_add_project( $round, $project['projectid'] );
     }
@@ -561,34 +561,34 @@ function AP_setup( $round )
 
 function AP_teardown( $round )
 {
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         DROP TABLE active_page_counts
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 function AP_add_project( $round, $projectid )
 {
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         INSERT INTO active_page_counts
         SELECT
             '$projectid',
             SUM( state != '{$round->page_save_state}' ) as pages
         FROM $projectid
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 function AP_evaluate_criteria( $round, $cooked_project_selector, $release_criterion )
 {
     // Get the criterion-evaluation environment
     // (values for 'projects', 'pages')
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT
             SUM(projects.state='{$round->project_available_state}') as projects,
             SUM(active_page_counts.pages) as pages
         FROM projects NATURAL JOIN active_page_counts
         WHERE $cooked_project_selector
-    ") or die(mysql_error());
-    $env = mysql_fetch_assoc($res);
+    ") or die(mysqli_error(DPDatabase::get_connection()));
+    $env = mysqli_fetch_assoc($res);
     // print_r($env);
 
     return evaluate_expression( $release_criterion, $env );

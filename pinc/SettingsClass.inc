@@ -91,12 +91,12 @@ class Settings
             FROM users AS u
             LEFT OUTER JOIN usersettings AS us ON u.username = us.username
             WHERE u.username = '%s'
-        ", mysql_real_escape_string($this->username));
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->username));
 
-        $result = mysql_query($sql);
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
         // To know whether we've populated fields from 'users' table yet:
         $isUserVals = false;
-        while ($row = mysql_fetch_assoc($result))
+        while ($row = mysqli_fetch_assoc($result))
         {
             // get the onesies from the first row
             // yes, this is more efficient than two separate queries.
@@ -116,7 +116,7 @@ class Settings
             if($row['setting'])
                 $this->_load_value($row['setting'], $row['value']);
         }
-        mysql_free_result($result);
+        mysqli_free_result($result);
     }
 
     // check if this is an updateable setting in this context.
@@ -178,7 +178,7 @@ class Settings
 
     private function _insert_setting_value($settingCode, $value)
     {
-        $value_esc = mysql_real_escape_string($value);
+        $value_esc = mysqli_real_escape_string(DPDatabase::get_connection(), $value);
         $sql = "INSERT INTO usersettings
                 (username, setting, value)
                 VALUES ('$this->username', '$settingCode', '$value_esc')" ;
@@ -187,7 +187,7 @@ class Settings
 
     private function _delete_setting_value($settingCode, $value)
     {
-        $value_esc = mysql_real_escape_string($value);
+        $value_esc = mysqli_real_escape_string(DPDatabase::get_connection(), $value);
         $sql = "DELETE FROM usersettings
                 WHERE username = '$this->username'
                     AND setting = '$settingCode'
@@ -287,8 +287,8 @@ class Settings
 
     private function ExecSQL($sql)
     {
-        if (!mysql_query($sql))
-            throw new RuntimeException(mysql_error());
+        if (!mysqli_query(DPDatabase::get_connection(), $sql))
+            throw new RuntimeException(mysqli_error(DPDatabase::get_connection()));
     }
 
     // -------------------------------------------------------------------------
@@ -337,20 +337,20 @@ class Settings
             SELECT DISTINCT username
             FROM usersettings
             WHERE setting = '%s'
-        ", mysql_real_escape_string($setting));
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $setting));
 
         if($value)
         {
             $sql .= sprintf(" AND value='%s'",
-                mysql_real_escape_string($value));
+                mysqli_real_escape_string(DPDatabase::get_connection(), $value));
         }
 
-        $result = mysql_query($sql);
-        while ($row = mysql_fetch_assoc($result))
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        while ($row = mysqli_fetch_assoc($result))
         {
             $usernames[] = $row['username'];
         }
-        mysql_free_result($result);
+        mysqli_free_result($result);
 
         return $usernames;
     }

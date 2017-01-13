@@ -7,26 +7,26 @@ header('Content-type: text/plain');
 echo "\n";
 echo "Removing bogus 'task_priority' column...\n";
 
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     ALTER TABLE users
         DROP COLUMN task_priority
-") or print(mysql_error()."\n");
+") or print(mysqli_error(DPDatabase::get_connection())."\n");
 
 
 echo "\n";
 echo "Adding 't_last_activity' column...\n";
 
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     ALTER TABLE users
         ADD COLUMN t_last_activity INT UNSIGNED NOT NULL AFTER last_login,
         ADD INDEX (t_last_activity)
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "Initializing it to the time of last login...\n";
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     UPDATE users
     SET t_last_activity=last_login
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "\nDone!\n";
 

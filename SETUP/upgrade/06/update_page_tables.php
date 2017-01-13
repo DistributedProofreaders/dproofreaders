@@ -28,7 +28,7 @@ function update_table( $table_name )
 	global $case;
 
 	// First check whether the table exists.
-	$res = mysql_query("
+	$res = mysqli_query(DPDatabase::get_connection(), "
 		DESCRIBE $table_name
 	");
 	if (!$res)
@@ -40,11 +40,11 @@ function update_table( $table_name )
 	$existing_column_names = dpsql_fetch_all_keyed($res);
 
 	echo "$table_name: ";
-	mysql_query("
+	mysqli_query(DPDatabase::get_connection(), "
 		UPDATE $table_name
 		SET state=$case
-	") or die(mysql_error());
-	echo "State field changed on " . mysql_affected_rows(), " rows. ";
+	") or die(mysqli_error(DPDatabase::get_connection()));
+	echo "State field changed on " . mysqli_affected_rows(DPDatabase::get_connection()), " rows. ";
 
 	$n_columns_to_add = 0;
 	$adds_sql = "";
@@ -65,10 +65,10 @@ function update_table( $table_name )
 	if ( $n_columns_to_add > 0 )
 	{
 		// echo $adds_sql, "\n";
-		mysql_query("
+		mysqli_query(DPDatabase::get_connection(), "
 			ALTER TABLE $table_name
 			$adds_sql
-		") or die(mysql_error());
+		") or die(mysqli_error(DPDatabase::get_connection()));
 	}
 	echo "Added $n_columns_to_add columns.";
 
@@ -77,12 +77,12 @@ function update_table( $table_name )
 
 // --------------------------------------------
 
-$project_res = mysql_query("
+$project_res = mysqli_query(DPDatabase::get_connection(), "
 	SELECT projectid
 	FROM projects
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
-while ( list($projectid) = mysql_fetch_row($project_res) )
+while ( list($projectid) = mysqli_fetch_row($project_res) )
 {
 	update_table( $projectid );
 }

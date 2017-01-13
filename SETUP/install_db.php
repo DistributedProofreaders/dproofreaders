@@ -5,8 +5,12 @@ include_once($relPath.'base.inc');
 // need to include it again to place $db_name in this scope.
 include($relPath.'udb_user.php'); // $db_name
 
-mysql_query("CREATE DATABASE IF NOT EXISTS $db_name") or die(mysql_error());
-mysql_query("USE $db_name") or die(mysql_error());
+mysqli_query(DPDatabase::get_connection(), "
+    CREATE DATABASE IF NOT EXISTS $db_name
+") or die(mysqli_error(DPDatabase::get_connection()));
+mysqli_query(DPDatabase::get_connection(), "
+    USE $db_name
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 // Declare all variables
 $db_schema = "db_schema.sql";
@@ -39,8 +43,8 @@ $array = explode(';',$sql_create_tables);
 
 // Loop through the array/substrings and add them to the database
 while ($lines = array_shift($array)) {
-    $result = mysql_query("$lines");
-    echo mysql_error() . "\n";
+    $result = mysqli_query(DPDatabase::get_connection(), "$lines");
+    echo mysqli_error(DPDatabase::get_connection()) . "\n";
 }
 
 echo "Tables have been created.";

@@ -359,12 +359,12 @@ function qp_echo_error_html($message_id)
         // $guidelines_url should point to the locale-appropriate version of the guidelines.
         $guidelines_attrs = "href='$guidelines_url' target='_blank'";
 
-        $result = mysql_query("
+        $result = mysqli_query(DPDatabase::get_connection(), "
             SELECT subject
             FROM rules
             WHERE document = '$guidelines_doc' AND anchor = '$anchor'
         ");
-        $rule = mysql_fetch_assoc($result);
+        $rule = mysqli_fetch_assoc($result);
         if ($rule)
         {
             $subject = $rule['subject'];

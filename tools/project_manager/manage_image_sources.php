@@ -93,13 +93,13 @@ if ($action == 'update_oneshot')
         if (strlen($new_code_name) < 1) 
             $errmsgs .= _("A value for Image Source ID is required. Please enter one.") . "<br>";
 
-        $result = mysql_query(sprintf("
+        $result = mysqli_query(DPDatabase::get_connection(), sprintf("
             SELECT COUNT(*)
             FROM image_sources
             WHERE code_name = '%s'
-        ", mysql_real_escape_string($new_code_name)));
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $new_code_name)));
 
-        $row = mysql_fetch_row($result);
+        $row = mysqli_fetch_row($result);
         $new = ($row[0] == 0);
 
         if (!$new)
@@ -140,7 +140,7 @@ if ($action == 'show_sources')
 
     show_is_toolbar($action);
 
-    $result = mysql_query("SELECT code_name FROM image_sources ORDER BY display_name ASC");
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT code_name FROM image_sources ORDER BY display_name ASC");
 
     echo "<br>";
     echo "<table class='listing'>";
@@ -155,7 +155,7 @@ if ($action == 'show_sources')
     echo "</tr>";
 
     $count=0;
-    while ( list($source_name) = mysql_fetch_row($result) )
+    while ( list($source_name) = mysqli_fetch_row($result) )
     {
         $count++;
         $source = new ImageSource($source_name);
@@ -193,12 +193,12 @@ class ImageSource
     {
         if( !is_null($code_name) )
         {
-            $result = mysql_query(sprintf("
+            $result = mysqli_query(DPDatabase::get_connection(), sprintf("
                 SELECT *
                 FROM image_sources
                 WHERE code_name = '%s'
-            ", mysql_real_escape_string($code_name)));
-            $source_fields = mysql_fetch_assoc($result);
+            ", mysqli_real_escape_string(DPDatabase::get_connection(), $code_name)));
+            $source_fields = mysqli_fetch_assoc($result);
 
             foreach ($source_fields as $field => $value)
             {
@@ -436,7 +436,7 @@ class ImageSource
             $this->$field = $_POST[$field];
             $std_fields_sql .= sprintf(
                 "$field = '%s',\n",
-                mysql_real_escape_string($this->$field)
+                mysqli_real_escape_string(DPDatabase::get_connection(), $this->$field)
             );
         }
 
@@ -469,16 +469,16 @@ class ImageSource
             die;
         }
 
-        mysql_query(sprintf("
+        mysqli_query(DPDatabase::get_connection(), sprintf("
             REPLACE INTO image_sources
             SET
                 code_name = '%s',
                 $std_fields_sql
                 url = '%s',
                 is_active = '$this->is_active'
-        ", mysql_real_escape_string($this->code_name),
-            mysql_real_escape_string($this->url))
-        ) or die("Couldn't add/edit source: ".mysql_error());
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->code_name),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $this->url))
+        ) or die("Couldn't add/edit source: ".mysqli_error(DPDatabase::get_connection()));
 
     }
 
@@ -523,12 +523,12 @@ class ImageSource
 
     function _set_field($field,$value)
     {
-        mysql_query(sprintf("
+        mysqli_query(DPDatabase::get_connection(), sprintf("
             UPDATE image_sources
             SET $field = '%s'
             WHERE code_name = '%s'
-        ", mysql_real_escape_string($value),
-            mysql_real_escape_string($this->code_name)));
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $value),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $this->code_name)));
         $this->$field = $value;
     }
 

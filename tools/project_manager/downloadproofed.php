@@ -18,15 +18,15 @@ if ($round_num == 0) {
     $text_column_name = $round->text_column_name;
 }
 
-$result = mysql_query("SELECT $text_column_name FROM $project WHERE image = '$image'"); 
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT $text_column_name FROM $project WHERE image = '$image'"); 
 if ($result === FALSE)
 {
     // Likely the project's page-table does not exist (in this database).
     // This could happen if a user saved a URL involving this script,
     // and the project's page-table later got archived.
-    die(mysql_error());
+    die(mysqli_error(DPDatabase::get_connection()));
 }
-$row = mysql_fetch_assoc($result);
+$row = mysqli_fetch_assoc($result);
 if (!$row)
 {
     // The page-table exists, but the WHERE clause did not match any row.

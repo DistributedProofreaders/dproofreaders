@@ -129,15 +129,15 @@ $subdate = date('jS \o\f F, Y');
 
 // number of books post-processed by this PPer (including this one).
 $psd = get_project_status_descriptor('PPd');
-$result = mysql_query("
+$result = mysqli_query(DPDatabase::get_connection(), "
     SELECT COUNT(*) AS num_post_processed
     FROM projects
     WHERE $psd->state_selector
       AND postproofer = '$project->postproofer'
 ");
-$row = mysql_fetch_assoc($result);
+$row = mysqli_fetch_assoc($result);
 $number_post_processed = $row["num_post_processed"];
-mysql_free_result($result);
+mysqli_free_result($result);
 
 // Compute the date of PP upload. We must take into account cases when 
 // the project is being sent back to the PPer, and also when a PPer 
@@ -150,21 +150,21 @@ mysql_free_result($result);
 $pp_date = "";
 
 // earliest transition from PPV.avail to PPV.checked out
-$result = mysql_query("SELECT timestamp FROM project_events
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT timestamp FROM project_events
     WHERE projectid = '$projectid'
       AND event_type = 'transition'
       AND details1 = '" . PROJ_POST_SECOND_AVAILABLE . "'
       AND details2 = '" . PROJ_POST_SECOND_CHECKED_OUT . "'
     ORDER BY timestamp ASC
     LIMIT 1");
-$row = mysql_fetch_assoc($result);
-mysql_free_result($result);
+$row = mysqli_fetch_assoc($result);
+mysqli_free_result($result);
 if ($row)
 {
     $earliest_in_ppv = $row["timestamp"];
 
     // latest transition from PP.checked out to PPV.avail
-    $result = mysql_query("SELECT timestamp FROM project_events
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT timestamp FROM project_events
         WHERE projectid = '$projectid'
           AND event_type = 'transition'
           AND details1 = '" . PROJ_POST_FIRST_CHECKED_OUT . "'
@@ -172,8 +172,8 @@ if ($row)
           AND timestamp < $earliest_in_ppv
         ORDER BY timestamp DESC
         LIMIT 1");
-    $row = mysql_fetch_assoc($result);
-    mysql_free_result($result);
+    $row = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
     if ($row)
         $pp_date = date("d-M-Y", $row["timestamp"]);
 }

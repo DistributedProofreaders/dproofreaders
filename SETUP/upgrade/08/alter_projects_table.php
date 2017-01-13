@@ -14,7 +14,7 @@ $sql = "
             AFTER t_last_edit
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "... and initializing it...\n";
 $sql = "
@@ -22,7 +22,7 @@ $sql = "
     SET t_last_change_comments = t_last_edit
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 // ---------------------------------------------------
 
@@ -33,7 +33,7 @@ $sql = "
             AFTER t_last_change_comments
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "... and initializing it...\n";
 // Note that this ignores projects whose last save-as-done predates page_events.
@@ -44,10 +44,10 @@ $sql = "
     WHERE event_type='saveAsDone'
     GROUP BY projectid
 ";
-$res = mysql_query($sql) or die( mysql_error() );
-$n = mysql_num_rows($res);
+$res = mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
+$n = mysqli_num_rows($res);
 echo "for $n projects...\n";
-while ( list($projectid,$max_timestamp) = mysql_fetch_row($res) )
+while ( list($projectid,$max_timestamp) = mysqli_fetch_row($res) )
 {
     // echo "$projectid\n";
     $sql = "
@@ -55,7 +55,7 @@ while ( list($projectid,$max_timestamp) = mysql_fetch_row($res) )
         SET t_last_page_done = $max_timestamp
         WHERE projectid = '$projectid'
     ";
-    mysql_query($sql) or die( mysql_error() );
+    mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 }
 
 // ---------------------------------------------------
@@ -69,7 +69,7 @@ $sql = "
 
 echo "$sql\n";
 
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 // ---------------------------------------------------
 
@@ -83,7 +83,7 @@ $sql = "
 
 echo "$sql\n";
 
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "Dropping 'state' index ...\n";
 $sql = "
@@ -93,7 +93,7 @@ $sql = "
 
 echo "$sql\n";
 
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 // ---------------------------------------------------
 
@@ -107,7 +107,7 @@ $sql = "
 
 echo "$sql\n";
 
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "\nDone!\n";
 

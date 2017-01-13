@@ -29,7 +29,7 @@ function maybe_query( $query )
     }
     else
     {
-        return mysql_query( $query );
+        return mysqli_query(DPDatabase::get_connection(), $query);
     }
 }
 

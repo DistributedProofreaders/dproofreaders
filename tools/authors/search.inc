@@ -110,7 +110,7 @@ function prepare_search() {
 // prepare a string for use with LIKE
 function sql_like_encode($str) {
     // escape quotes -- note: does not encode % and _ !
-    $str = mysql_real_escape_string($str);
+    $str = mysqli_real_escape_string(DPDatabase::get_connection(), $str);
     // % to \%
     // _ to \_
     $str = preg_replace('/%|_/', '\\\$1', $str);
@@ -173,7 +173,7 @@ function get_search_title() {
 function search() {
     global $sortUtility, $sql_what_to_list, $search_result;
     $orderby = $sortUtility->getOrderBy();
-    $search_result = mysql_query("SELECT * FROM authors WHERE $sql_what_to_list ORDER BY $orderby");
+    $search_result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM authors WHERE $sql_what_to_list ORDER BY $orderby");
     return $search_result;
 }
 

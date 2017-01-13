@@ -29,12 +29,12 @@ echo "<table border=1>\n";
 //        echo "    <td align='center' colspan='1'><b>Remaining Pages</b></td>\n";
         echo "</tr>\n";
 
-      $result = mysql_query("SELECT projectid, nameofwork, authorsname, language, state FROM projects
+      $result = mysqli_query(DPDatabase::get_connection(), "SELECT projectid, nameofwork, authorsname, language, state FROM projects
                 WHERE state = 'project_md_first' AND thumbs = 'yes'");
 
     $rownum = 0;
 
-      while ($row = mysql_fetch_assoc($result)) {
+      while ($row = mysqli_fetch_assoc($result)) {
            $projectid = $row["projectid"];
            $state = $row["state"];
            $name = $row["nameofwork"];
@@ -81,11 +81,11 @@ echo "<br>";
         echo "    <td align='center' colspan='1'><b>" . _("Remaining Pages") . "</b></td>\n";
         echo "</tr>\n";
 
-      $result = mysql_query("SELECT projectid, nameofwork, authorsname, language, username, state FROM projects
+      $result = mysqli_query(DPDatabase::get_connection(), "SELECT projectid, nameofwork, authorsname, language, username, state FROM projects
                 WHERE state = 'project_md_second'");
     $rownum = 0;
 
-      while ($row = mysql_fetch_assoc($result)) {
+      while ($row = mysqli_fetch_assoc($result)) {
            $projectid = $row["projectid"];
            $state = $row["state"];
            $name = $row["nameofwork"];

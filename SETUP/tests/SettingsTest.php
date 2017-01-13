@@ -12,9 +12,9 @@ class SettingsTest extends PHPUnit_Framework_TestCase
     {
         // Load a valid username from the database for use during the tests
         $sql = "SELECT username FROM usersettings LIMIT 1";
-        $result = mysql_query($sql);
-        $row = mysql_fetch_assoc($result);
-        mysql_free_result($result);
+        $result = mysqli_query(DPDatabase::get_connection(), $sql);
+        $row = mysqli_fetch_assoc($result);
+        mysqli_free_result($result);
         $this->TEST_USERNAME = $row['username'];
     }
 
@@ -24,7 +24,7 @@ class SettingsTest extends PHPUnit_Framework_TestCase
             DELETE FROM usersettings
             WHERE username='%s' AND setting like '%s%%'
         ", $this->TEST_USERNAME, $this->PREFIX);
-        mysql_query($sql);
+        mysqli_query(DPDatabase::get_connection(), $sql);
     }
 
     public function testExisting()

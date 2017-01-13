@@ -382,7 +382,7 @@ function show_project_listing(
             $presort
             $curr_sql_orderclause
     ";
-    $result = mysql_query($query);
+    $result = mysqli_query(DPDatabase::get_connection(), $query);
 
     if( is_a( $stage, 'Round' ) )
     {
@@ -466,7 +466,7 @@ function show_project_listing(
 
     $rownum = 0;
 
-    while ($book=mysql_fetch_assoc($result))
+    while ($book=mysqli_fetch_assoc($result))
     {
         $bgcolor = $stage->listing_bgcolors[$rownum % 2];
 
@@ -575,7 +575,7 @@ function show_project_listing(
     echo "</table>\n<br>";
 
     // Free the search results.
-    mysql_free_result($result);
+    mysqli_free_result($result);
 }
 
 // -----------------------------------------------------------------------------

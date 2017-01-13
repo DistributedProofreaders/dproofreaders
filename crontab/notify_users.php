@@ -13,10 +13,10 @@ $old_date = time() - 13176000; // 30 days less than 1/2 a year.
 
 $reset_password_url = get_reset_password_url();
 
-$result = mysql_query ("SELECT * FROM `users` WHERE t_last_activity < $old_date AND active ='yes'");
-$numrows = mysql_num_rows($result);
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM `users` WHERE t_last_activity < $old_date AND active ='yes'");
+$numrows = mysqli_num_rows($result);
 
-while ($row = mysql_fetch_assoc($result))
+while ($row = mysqli_fetch_assoc($result))
 {
     $username = $row["username"];
     $real_name = $row["real_name"];

@@ -13,15 +13,15 @@ include($relPath.'udb_user.php'); // $archive_db_name
 
 error_reporting(E_ALL);
 
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     CREATE TABLE $archive_db_name.page_events
     LIKE page_events
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     CREATE TABLE $archive_db_name.wordcheck_events
     LIKE wordcheck_events
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 // When upgrading, db server doesn't need to recover between projects:
 $archival_recovery_multiplier = 0;
@@ -30,16 +30,16 @@ archival_skip_logs_init();
 
 $dry_run = FALSE;
 
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT projectid, modifieddate, state
     FROM projects
     WHERE archived = '1'
     ORDER BY modifieddate
-") or die(mysql_error());
-$n_projects = mysql_num_rows($res);
+") or die(mysqli_error(DPDatabase::get_connection()));
+$n_projects = mysqli_num_rows($res);
 
 $i = 0;
-while ( $project = mysql_fetch_object($res) )
+while ( $project = mysqli_fetch_object($res) )
 {
     $i += 1;
 

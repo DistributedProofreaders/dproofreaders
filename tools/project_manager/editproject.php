@@ -249,15 +249,15 @@ class ProjectInfoHolder
             return sprintf(_("parameter '%s' is empty"), 'up_projectid');
         }
 
-        $result = mysql_query("SELECT * FROM uber_projects WHERE up_projectid = $up_projectid");
-        if (mysql_num_rows($result) == 0)
+        $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM uber_projects WHERE up_projectid = $up_projectid");
+        if (mysqli_num_rows($result) == 0)
         {
             return sprintf(_("parameter '%s' is invalid"), 'up_projectid') . ": '$up_projectid'";
         }
 
         // TODO: check that user has permission to create a project from this UP
 
-        $up_info = mysql_fetch_assoc($result);
+        $up_info = mysqli_fetch_assoc($result);
 
         $this->nameofwork       = $up_info['d_nameofwork'];
         $this->authorsname      = $up_info['d_authorsname'];
@@ -509,12 +509,12 @@ class ProjectInfoHolder
         if ( isset($this->projectid) )
         {
              // Somewhat kludgey to have to do this query here.
-            $res = mysql_query("
+            $res = mysqli_query(DPDatabase::get_connection(), "
                 SELECT state, checkedoutby, username
                 FROM projects
                 WHERE projectid='{$this->projectid}'
-            ") or die(mysql_error());
-            list($state, $PPer, $PM) = mysql_fetch_row($res);
+            ") or die(mysqli_error(DPDatabase::get_connection()));
+            list($state, $PPer, $PM) = mysqli_fetch_row($res);
             $this->state = $state;
 
             // don't allow an empty PPer/PPVer if the project is checked out
@@ -601,29 +601,29 @@ class ProjectInfoHolder
 
         $postednum_str = ($this->postednum == "") ? "NULL" : "'$this->postednum'";
 
-        // Call mysql_real_escape_string() on any members of $this that might
+        // Call mysqli_real_escape_string(DPDatabase::get_connection(), ) on any members of $this that might
         // contain single-quotes/apostrophes (because they are unescaped, and
         // would otherwise break the query).
 
         $common_project_settings = "
             t_last_edit    = UNIX_TIMESTAMP(),
             up_projectid   = '{$this->up_projectid}',
-            nameofwork     = '".mysql_real_escape_string($this->nameofwork)."',
-            authorsname    = '".mysql_real_escape_string($this->authorsname)."',
-            language       = '".mysql_real_escape_string($this->language)."',
-            genre          = '".mysql_real_escape_string($this->genre)."',
-            difficulty     = '".mysql_real_escape_string($this->difficulty_level)."',
-            special_code   = '".mysql_real_escape_string($this->special_code)."',
-            clearance      = '".mysql_real_escape_string($this->clearance)."',
-            comments       = '".mysql_real_escape_string($this->comments)."',
-            image_source   = '".mysql_real_escape_string($this->image_source)."',
-            scannercredit  = '".mysql_real_escape_string($this->scannercredit)."',
-            checkedoutby   = '".mysql_real_escape_string($this->checkedoutby)."',
+            nameofwork     = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->nameofwork)."',
+            authorsname    = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->authorsname)."',
+            language       = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->language)."',
+            genre          = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->genre)."',
+            difficulty     = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->difficulty_level)."',
+            special_code   = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->special_code)."',
+            clearance      = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->clearance)."',
+            comments       = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->comments)."',
+            image_source   = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->image_source)."',
+            scannercredit  = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->scannercredit)."',
+            checkedoutby   = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->checkedoutby)."',
             postednum      = $postednum_str,
-            image_preparer = '".mysql_real_escape_string($this->image_preparer)."',
-            text_preparer  = '".mysql_real_escape_string($this->text_preparer)."',
-            extra_credits  = '".mysql_real_escape_string($this->extra_credits)."',
-            deletion_reason= '".mysql_real_escape_string($this->deletion_reason)."'
+            image_preparer = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->image_preparer)."',
+            text_preparer  = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->text_preparer)."',
+            extra_credits  = '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->extra_credits)."',
+            deletion_reason= '".mysqli_real_escape_string(DPDatabase::get_connection(), $this->deletion_reason)."'
         ";
         $pm_setter = '';
         if ( user_is_a_sitemanager() )
@@ -631,23 +631,23 @@ class ProjectInfoHolder
             // can change PM
             $pm_setter = sprintf("
                 username = '%s',
-            ", mysql_real_escape_string($this->projectmanager));
+            ", mysqli_real_escape_string(DPDatabase::get_connection(), $this->projectmanager));
         }
         else if ( isset($this->clone_projectid) )
         {
             // cloning a project. The PM should be the same as 
             // that of the project being cloned, if the user
             // isn't an SA
-            $res = mysql_query("
+            $res = mysqli_query(DPDatabase::get_connection(), "
                 SELECT username
                 FROM projects
                 WHERE projectid='{$this->clone_projectid}'
-            ") or die(mysql_error());
-            list($projectmanager) = mysql_fetch_row($res);
+            ") or die(mysqli_error(DPDatabase::get_connection()));
+            list($projectmanager) = mysqli_fetch_row($res);
 
             $pm_setter = sprintf("
                 username = '%s',
-            ", mysql_real_escape_string($projectmanager));
+            ", mysqli_real_escape_string(DPDatabase::get_connection(), $projectmanager));
         }
 
         if (isset($this->projectid))
@@ -695,14 +695,14 @@ class ProjectInfoHolder
             }
 
             // Update the projects database with the updated info
-            mysql_query("
+            mysqli_query(DPDatabase::get_connection(), "
                 UPDATE projects SET
                     $pm_setter
                     $tlcc_setter
                     $md_setter
                     $common_project_settings
                 WHERE projectid='{$this->projectid}'
-            ") or die(mysql_error());
+            ") or die(mysqli_error(DPDatabase::get_connection()));
 
             $details1 = implode(' ', $changed_fields);
 
@@ -749,7 +749,7 @@ class ProjectInfoHolder
             }
 
             // Insert a new row into the projects table
-            mysql_query("
+            mysqli_query(DPDatabase::get_connection(), "
                 INSERT INTO projects
                 SET
                     projectid    = '{$this->projectid}',
@@ -758,7 +758,7 @@ class ProjectInfoHolder
                     modifieddate = UNIX_TIMESTAMP(),
                     t_last_change_comments = UNIX_TIMESTAMP(),
                     $common_project_settings
-            ") or die(mysql_error());
+            ") or die(mysqli_error(DPDatabase::get_connection()));
 
             $e = log_project_event( $this->projectid, $GLOBALS['pguser'], 'creation' );
             if ( !empty($e) ) die($e);
@@ -937,12 +937,12 @@ class ProjectInfoHolder
         }
         if (!empty($this->up_projectid))
         {
-            $res2 = mysql_query("
+            $res2 = mysqli_query(DPDatabase::get_connection(), "
                 SELECT up_nameofwork
                 FROM uber_projects
                 WHERE up_projectid = '$this->up_projectid'
             ");
-            $row = mysql_fetch_assoc($res2);
+            $row = mysqli_fetch_assoc($res2);
             $up_nameofwork = $row["up_nameofwork"];
 
             $this->row( _("Related Uber Project"), 'just_echo', $up_nameofwork );

@@ -20,10 +20,12 @@ if ($order == 'default') {
 }
 
 //get projects that have been checked out
-$result = mysql_query("SELECT nameofwork, username, modifieddate, language, genre
-                     FROM projects
-                     WHERE state = '".PROJ_P1_WAITING_FOR_RELEASE."'
-                     ORDER BY $order ASC");
+$result = mysqli_query(DPDatabase::get_connection(), "
+    SELECT nameofwork, username, modifieddate, language, genre
+    FROM projects
+    WHERE state = '".PROJ_P1_WAITING_FOR_RELEASE."'
+    ORDER BY $order ASC
+");
 
 
 echo "<table border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse' width='99%'>\n";
@@ -41,7 +43,7 @@ echo "<th>"._("Index")."</th>
       </tr>";
 
 $rownum = 0;
-while ($row = mysql_fetch_assoc($result)) {
+while ($row = mysqli_fetch_assoc($result)) {
     $nameofwork = $row["nameofwork"];
     $username = $row["username"];
     $modifieddate = $row["modifieddate"];

@@ -299,12 +299,12 @@ $percent_complete_array = array(
 );
 
 $task_assignees_array = array();
-$result = mysql_query("
+$result = mysqli_query(DPDatabase::get_connection(), "
         SELECT username, u_id
         FROM users
         WHERE sitemanager = 'yes'
     ");
-while ($row = mysql_fetch_assoc($result)) {
+while ($row = mysqli_fetch_assoc($result)) {
     $task_assignees_array[$row['u_id']] = $row['username'];
 }
 $taskcenter_managers = Settings::get_users_with_setting('task_center_mgr', 'yes');
@@ -372,8 +372,8 @@ function SearchParams_get_sql_condition($request_params)
                 OR
                 POSITION('%s' IN task_details)
             )
-    ", mysql_real_escape_string($search_text_summary),
-        mysql_real_escape_string($search_text_details));
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $search_text_summary),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $search_text_details));
 
     // ------
 
@@ -490,7 +490,7 @@ function create_task_from_form_submission($formsub)
         INSERT INTO tasks
         SET
             task_id          = '',
-            task_summary     = '" . mysql_real_escape_string($formsub['task_summary']) . "',
+            task_summary     = '" . mysqli_real_escape_string(DPDatabase::get_connection(), $formsub['task_summary']) . "',
             task_type        = $newt_type,
             task_category    = $newt_category,
             task_status      = $newt_status,
@@ -500,7 +500,7 @@ function create_task_from_form_submission($formsub)
             task_os          = $newt_os,
             task_browser     = $newt_browser,
             task_version     = $newt_version,
-            task_details     = '" . mysql_real_escape_string($formsub['task_details']) . "',
+            task_details     = '" . mysqli_real_escape_string(DPDatabase::get_connection(), $formsub['task_details']) . "',
             date_opened      = $now_sse,
             opened_by        = $requester_u_id,
             date_closed      = '',
@@ -512,7 +512,7 @@ function create_task_from_form_submission($formsub)
             related_postings = '$relatedpostings_array'
     ";
     wrapped_mysql_query($sql_query);
-    $task_id = mysql_insert_id();
+    $task_id = mysqli_insert_id(DPDatabase::get_connection());
 
     global $pguser, $date_str, $time_of_day_str;
     NotificationMail($task_id,
@@ -615,8 +615,8 @@ function handle_action_on_a_specified_task()
 
     // Fetch the state of the specified task
     // before any requested changes.
-    $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
-    $pre_task = mysql_fetch_object($result);
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM tasks WHERE task_id = $task_id");
+    $pre_task = mysqli_fetch_object($result);
     if (!$pre_task)
     {
         TaskHeader("Task #$task_id does not exist");
@@ -691,7 +691,7 @@ function handle_action_on_a_specified_task()
             $sql_query = "
                 UPDATE tasks
                 SET
-                    task_summary     = '" . mysql_real_escape_string($_POST['task_summary']) . "',
+                    task_summary     = '" . mysqli_real_escape_string(DPDatabase::get_connection(), $_POST['task_summary']) . "',
                     task_type        = $edit_type,
                     task_category    = $edit_category,
                     task_status      = $edit_status,
@@ -701,7 +701,7 @@ function handle_action_on_a_specified_task()
                     task_os          = $edit_os,
                     task_browser     = $edit_browser,
                     task_version     = $edit_version,
-                    task_details     = '" . mysql_real_escape_string($_POST['task_details']) . "',
+                    task_details     = '" . mysqli_real_escape_string(DPDatabase::get_connection(), $_POST['task_details']) . "',
                     date_edited      = $now_sse,
                     edited_by        = $requester_u_id,
                     percent_complete = $edit_percent
@@ -745,7 +745,7 @@ function handle_action_on_a_specified_task()
                 "There has been a comment added to this task by $pguser on $date_str at $time_of_day_str.\n");
             wrapped_mysql_query("
                 INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
-                VALUES ($task_id, $requester_u_id, $now_sse, '" . mysql_real_escape_string($_POST['task_comment']) . "')
+                VALUES ($task_id, $requester_u_id, $now_sse, '" . mysqli_real_escape_string(DPDatabase::get_connection(), $_POST['task_comment']) . "')
             ");
             wrapped_mysql_query("
                 UPDATE tasks
@@ -781,10 +781,10 @@ function handle_action_on_a_specified_task()
         $vote_browser  = (int) get_enumerated_param($_POST, $browser_param_name, null, array_keys($browser_array));
 
         // Do not insert twice the same vote if the user refreshes the browser
-        $meTooCheck = mysql_query("
+        $meTooCheck = mysqli_query(DPDatabase::get_connection(), "
             SELECT 1 FROM tasks_votes WHERE task_id = $task_id and u_id = $requester_u_id LIMIT 1
         ");
-        if (mysql_num_rows($meTooCheck) == 0)
+        if (mysqli_num_rows($meTooCheck) == 0)
         {
             wrapped_mysql_query("
                 INSERT INTO tasks_votes 
@@ -792,7 +792,7 @@ function handle_action_on_a_specified_task()
                 VALUES ($task_id, $requester_u_id, $vote_os, $vote_browser)
             ");
         }
-        mysql_free_result($meTooCheck);
+        mysqli_free_result($meTooCheck);
 
         // No need to display a different error message if the user was refreshing
         ShowNotification("Thank you for your report!  It has been recorded below.", false, "info");
@@ -828,7 +828,7 @@ function process_related_task($pre_task, $action, $related_task_id)
 
     $adding               = ($action == 'add');
     $pre_task_id          = $pre_task->task_id;
-    $related_task_exists  = mysql_num_rows(mysql_query("SELECT task_id FROM tasks WHERE task_id = $related_task_id")) == 1;
+    $related_task_exists  = mysqli_num_rows(mysqli_query(DPDatabase::get_connection(), "SELECT task_id FROM tasks WHERE task_id = $related_task_id")) == 1;
     $related_tasks        = decode_array($pre_task->related_tasks);
     $task_already_present = in_array($related_task_id, $related_tasks);
 
@@ -1076,8 +1076,8 @@ function select_and_list_tasks($sql_condition)
         echo "<th$attrs><a href='$url'>$label</a></th>\n";
     }
     echo "</tr>\n";
-    if (@mysql_num_rows($sql_result) >= 1) {
-        while ($row = mysql_fetch_assoc($sql_result)) {
+    if (@mysqli_num_rows($sql_result) >= 1) {
+        while ($row = mysqli_fetch_assoc($sql_result)) {
             echo "<tr bgcolor='#ffffff'>\n";
             foreach ( $columns as $property_id => $attrs )
             {
@@ -1092,8 +1092,8 @@ function select_and_list_tasks($sql_condition)
     }
     echo "</table><br />\n";
     // if 2 tasks or more found, display the number of reported tasks
-    if (@mysql_num_rows($sql_result) > 1) {
-        echo "<p>" . @mysql_num_rows($sql_result) . " tasks listed.</p>";
+    if (@mysqli_num_rows($sql_result) > 1) {
+        echo "<p>" . @mysqli_num_rows($sql_result) . " tasks listed.</p>";
     }
 }
 
@@ -1181,9 +1181,9 @@ function TaskDetails($tid)
         ShowNotification("Error: task identifier '$tid' is not numeric.");
         return;
     }
-    $res = mysql_query("SELECT * FROM tasks WHERE task_id = $tid LIMIT 1");
-    if (mysql_num_rows($res) >= 1) {
-        while ($row = mysql_fetch_assoc($res)) {
+    $res = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM tasks WHERE task_id = $tid LIMIT 1");
+    if (mysqli_num_rows($res) >= 1) {
+        while ($row = mysqli_fetch_assoc($res)) {
             $userSettings =& Settings::get_Settings($pguser);
             $notification_settings = $userSettings->get_values('taskctr_notice');
             if(in_array($tid, $notification_settings) ||
@@ -1267,10 +1267,10 @@ function TaskDetails($tid)
             echo "</tr>\n";
 
             // Row 3: summary of votes/metoos
-            $voteInfo = mysql_query("SELECT id FROM tasks_votes WHERE task_id = $tid");
-            $osInfo = mysql_query("SELECT DISTINCT vote_os FROM tasks_votes WHERE task_id = $tid");
-            $browserInfo = mysql_query("SELECT DISTINCT vote_browser FROM tasks_votes WHERE task_id = $tid");
-            if (mysql_num_rows($voteInfo) > 0) {
+            $voteInfo = mysqli_query(DPDatabase::get_connection(), "SELECT id FROM tasks_votes WHERE task_id = $tid");
+            $osInfo = mysqli_query(DPDatabase::get_connection(), "SELECT DISTINCT vote_os FROM tasks_votes WHERE task_id = $tid");
+            $browserInfo = mysqli_query(DPDatabase::get_connection(), "SELECT DISTINCT vote_browser FROM tasks_votes WHERE task_id = $tid");
+            if (mysqli_num_rows($voteInfo) > 0) {
                 $reportedOS = "";
                 $reportedBrowser = "";
                 echo "<tr>";
@@ -1281,7 +1281,7 @@ function TaskDetails($tid)
                 echo "<b>Votes&nbsp;&nbsp;</b>";
                 echo "</td>\n";
                 echo "<td width='75%'>";
-                echo mysql_num_rows($voteInfo);
+                echo mysqli_num_rows($voteInfo);
                 echo "</td>";
                 echo "</tr>";
                 echo "<tr>";
@@ -1289,7 +1289,7 @@ function TaskDetails($tid)
                 echo "<b>Reported Operating Systems&nbsp;&nbsp;</b>";
                 echo "</td>\n";
                 echo "<td width='75%'>";
-                while ($rowOS = mysql_fetch_assoc($osInfo)) {
+                while ($rowOS = mysqli_fetch_assoc($osInfo)) {
                     $reportedOS.= $os_array[$rowOS['vote_os']] . ", ";
                 }
                 echo substr($reportedOS, 0, -2);
@@ -1300,7 +1300,7 @@ function TaskDetails($tid)
                 echo "<b>Reported Browsers&nbsp;&nbsp;</b>";
                 echo "</td>\n";
                 echo "<td width='75%'>";
-                while ($rowBrowser = mysql_fetch_assoc($browserInfo)) {
+                while ($rowBrowser = mysqli_fetch_assoc($browserInfo)) {
                     $reportedBrowser.= $browser_array[$rowBrowser['vote_browser']] . ", ";
                 }
                 echo substr($reportedBrowser, 0, -2);
@@ -1373,13 +1373,13 @@ function TaskDetails($tid)
             }
             echo "<td>";
             echo "<br />";
-            $meTooCheckResult = mysql_query("
+            $meTooCheckResult = mysqli_query(DPDatabase::get_connection(), "
                 SELECT id
                 FROM tasks_votes
                 WHERE task_id = $tid and u_id = $requester_u_id
             ");
-            $meTooAllowed = (mysql_num_rows($meTooCheckResult) == 0);
-            mysql_free_result($meTooCheckResult);
+            $meTooAllowed = (mysqli_num_rows($meTooCheckResult) == 0);
+            mysqli_free_result($meTooCheckResult);
             if ($meTooAllowed) {
                 echo "<input type='button' value='Me Too!' class='taskinp2' onClick=\"showSpan('MeTooMain');\">";
             }
@@ -1536,15 +1536,15 @@ function ShowNotification($warn, $goback = false, $type = "warn")
 function TaskComments($tid)
 {
     global $tasks_url;
-    $result = mysql_query("
+    $result = mysqli_query(DPDatabase::get_connection(), "
         SELECT *
         FROM tasks_comments
         WHERE task_id = $tid
         ORDER BY comment_date ASC
     ");
-    if (mysql_num_rows($result) >= 1) {
+    if (mysqli_num_rows($result) >= 1) {
         echo "<table class='tasks'><tr><td width='100%'>\n";
-        while ($row = mysql_fetch_assoc($result)) {
+        while ($row = mysqli_fetch_assoc($result)) {
             $comment_username_link = private_message_link_for_uid($row['u_id']);
             echo "<b>Comment by $comment_username_link - " . date("l, d M Y, g:ia", $row['comment_date']) . "</b><br />";
             echo "<br />" . nl2br(html_safe($row['comment'])) . "<br /><br /><hr width='80%' align='center'>";
@@ -1586,8 +1586,8 @@ function NotificationMail($tid, $message)
 function RelatedTasks($tid)
 {
     global $tasks_url, $tasks_status_array;
-    $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $tid");
-    $row = mysql_fetch_assoc($result);
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT related_tasks FROM tasks WHERE task_id = $tid");
+    $row = mysqli_fetch_assoc($result);
     $related_tasks = $row["related_tasks"];
     echo "<table class='tasks'>\n";
     echo "<tr><td width='100%'><b>Related Tasks&nbsp;&nbsp;</b>";
@@ -1601,10 +1601,10 @@ function RelatedTasks($tid)
     $related_tasks = decode_array($related_tasks);
     asort($related_tasks);
     while (list($key, $val) = each($related_tasks)) {
-        $result = mysql_query("
+        $result = mysqli_query(DPDatabase::get_connection(), "
             SELECT task_status, task_summary FROM tasks WHERE task_id = $val
-        ") or die(mysql_error());
-        $row = mysql_fetch_assoc($result);
+        ") or die(mysqli_error(DPDatabase::get_connection()));
+        $row = mysqli_fetch_assoc($result);
         if (!$row) {
             // The task must have been deleted from the table manually.
             $related_task_summary = "[not found]";
@@ -1631,8 +1631,8 @@ function RelatedTasks($tid)
 function RelatedPostings($tid)
 {
     global $tasks_url;
-    $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = $tid");
-    $row = mysql_fetch_assoc($result);
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT related_postings FROM tasks WHERE task_id = $tid");
+    $row = mysqli_fetch_assoc($result);
     $related_postings = $row["related_postings"];
     echo "<table class='tasks'>\n";
     echo "<tr><td width='100%'><b>Related Topic ID&nbsp;&nbsp;</b>";
@@ -1789,8 +1789,8 @@ function wrapped_mysql_query($sql_query)
 {
     global $testing;
     if ($testing) echo_html_comment($sql_query);
-    $res = mysql_query($sql_query);
-    if ($res === FALSE) die(mysql_error());
+    $res = mysqli_query(DPDatabase::get_connection(), $sql_query);
+    if ($res === FALSE) die(mysqli_error(DPDatabase::get_connection()));
     return $res;
 }
 

@@ -16,7 +16,7 @@ $graph = init_simple_bar_graph(640, 400, 58);
 //query db and put results into arrays
 
 
-$result = mysql_query("
+$result = mysqli_query(DPDatabase::get_connection(), "
     SELECT hour, AVG(L_hour)
     FROM user_active_log
     GROUP BY hour

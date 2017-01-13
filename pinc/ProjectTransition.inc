@@ -251,12 +251,12 @@ class ProjectTransition
                         {
                             return "\$who == PT_AUTO shouldn't happen for <WHO>";
                         }
-                        $replacement = mysql_real_escape_string($who);
+                        $replacement = mysqli_real_escape_string(DPDatabase::get_connection(), $who);
                         break;
 
                     case '<G:postcomments>':
                         global $postcomments; // defined in upload_text.php
-                        $replacement = mysql_real_escape_string($postcomments);
+                        $replacement = mysqli_real_escape_string(DPDatabase::get_connection(), $postcomments);
                         break;
 
                     default:
@@ -279,12 +279,12 @@ class ProjectTransition
             echo "    settings: $settings<br>\n";
         }
 
-        $res = mysql_query("
+        $res = mysqli_query(DPDatabase::get_connection(), "
             UPDATE projects SET $settings WHERE projectid = '$projectid'
         ");
         if (!$res)
         {
-            return "mysql error: " . mysql_error();
+            return "mysql error: " . mysqli_error(DPDatabase::get_connection());
         }
 
         // ---------------------------------------------------------------------
@@ -371,7 +371,7 @@ function project_pre_release_check( $project, $round )
 
     if ($errors) $errors .= "\n";
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT image, LENGTH($round->prevtext_column_name) AS input_text_length
         FROM $projectid
         ORDER BY image ASC
@@ -384,9 +384,9 @@ function project_pre_release_check( $project, $round )
     }
 
 
-    if (mysql_num_rows($res) == 0) $errors .= "  "._("There are no pages.")."\n";
+    if (mysqli_num_rows($res) == 0) $errors .= "  "._("There are no pages.")."\n";
 
-    while ( $page = mysql_fetch_assoc($res) )
+    while ( $page = mysqli_fetch_assoc($res) )
     {
         $filename = $page['image'];
         $filepath = "$projects_dir/$projectid/$filename";

@@ -16,7 +16,7 @@ $sql = "
         ADD COLUMN t_last_edit INT NOT NULL AFTER modifieddate
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "and initializing it to the project's creation date...\n";
 $sql = "
@@ -24,7 +24,7 @@ $sql = "
     SET t_last_edit = CONV(REPLACE(projectid,'projectID',''),16,10)/(1024*1024)
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -35,7 +35,7 @@ $sql = "
         ADD COLUMN deletion_reason TINYTEXT NOT NULL
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -67,15 +67,15 @@ echo "Harmonizing the types of user-name columns...\n";
 $abort = FALSE;
 foreach ( array('username', 'checkedoutby', 'postproofer') as $colname )
 {
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT distinct $colname 
         FROM projects
         WHERE LENGTH($colname) > 25
-    ") or die(mysql_error());
-    if ( mysql_num_rows($res) > 0 )
+    ") or die(mysqli_error(DPDatabase::get_connection()));
+    if ( mysqli_num_rows($res) > 0 )
     {
         echo "The following values in $colname are too long:\n";
-        while ( list($name) = mysql_fetch_row($res) )
+        while ( list($name) = mysqli_fetch_row($res) )
         {
             echo "    $name\n";
         }
@@ -91,7 +91,7 @@ $sql = "
         MODIFY COLUMN postproofer  VARCHAR(25) NOT NULL default ''
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "\nDone!\n";
 

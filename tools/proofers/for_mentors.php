@@ -112,8 +112,8 @@ echo "<h2>" . sprintf(_("Pages available to Mentors in round %s"), $mentoring_ro
 echo "<br>" . _("Oldest project listed first.") . "<br>";
 
 $mentored_round = $mentoring_round->mentee_round;
-$result = mysql_query(project_sql($mentoring_round));
-while ($proj =  mysql_fetch_object($result))
+$result = mysqli_query(DPDatabase::get_connection(), project_sql($mentoring_round));
+while ($proj =  mysqli_fetch_object($result))
 {
     // Display project summary info
     echo "<br>" ;
@@ -170,14 +170,14 @@ function page_summary_sql($mentored_round, $projectid)
             ELSE CONCAT('<a href=\""
                 .$code_url . "/stats/members/mdetail.php?&id=',u.u_id,
                 '\">',u.username,'</a>')
-            END AS '" . mysql_real_escape_string(_("Proofreader")) . "',
-            COUNT(1) AS '" . mysql_real_escape_string(_("Pages this project")) . "',
+            END AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Proofreader")) . "',
+            COUNT(1) AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Pages this project")) . "',
             $user_page_tally_column AS '" . 
                 // TRANSLATORS: %s is a round ID
-                mysql_real_escape_string(
+                mysqli_real_escape_string(DPDatabase::get_connection(), 
                     sprintf(_("Total %s Pages"), $mentored_round->id)) . "',
             DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%M-%d-%y') AS '" .
-                mysql_real_escape_string(_("Joined")) . "'
+                mysqli_real_escape_string(DPDatabase::get_connection(), _("Joined")) . "'
         FROM $projectid  AS p
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
             $joined_with_user_page_tallies
@@ -202,12 +202,12 @@ function page_list_sql($mentored_round, $projectid)
 
     return "
         SELECT
-            p.fileid AS '" . mysql_real_escape_string(_("Page")) . "',
-            FROM_UNIXTIME(p.{$mentored_round->time_column_name}) AS '" . mysql_real_escape_string(_("Saved")) . "',
+            p.fileid AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Page")) . "',
+            FROM_UNIXTIME(p.{$mentored_round->time_column_name}) AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Saved")) . "',
             CASE WHEN u.u_privacy=".PRIVACY_ANONYMOUS." THEN '" .
-                mysql_real_escape_string(_("Anonymous")) . "'
+                mysqli_real_escape_string(DPDatabase::get_connection(), _("Anonymous")) . "'
             ELSE p.{$mentored_round->user_column_name}
-            END AS '" . mysql_real_escape_string(_("Proofreader")) . "'
+            END AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Proofreader")) . "'
         FROM $projectid AS p
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
         ORDER BY $order" ;

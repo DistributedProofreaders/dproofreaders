@@ -42,11 +42,11 @@ $case = "
 	END
 ";
 
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
 	UPDATE projects
 	SET state=$case
-") or die(mysql_error());
-echo mysql_affected_rows(), " rows affected\n";
+") or die(mysqli_error(DPDatabase::get_connection()));
+echo mysqli_affected_rows(DPDatabase::get_connection()), " rows affected\n";
 
 echo "\nDone!\n";
 ?>

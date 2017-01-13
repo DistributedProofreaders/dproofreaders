@@ -7,11 +7,11 @@ include_once($relPath.'misc.inc');
 if(!requester_is_localhost())
     die("You are not authorized to perform this request.");
 
-$result = mysql_query("SELECT DISTINCT(postproofer) FROM projects WHERE postproofer is not null");
-while (list($postproofer) = mysql_fetch_row($result))
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT DISTINCT(postproofer) FROM projects WHERE postproofer is not null");
+while (list($postproofer) = mysqli_fetch_row($result))
 {
-    mysql_query("UPDATE users SET postprocessor = 'yes' WHERE username = '$postproofer'");
-    if ( mysql_affected_rows() > 0 )
+    mysqli_query(DPDatabase::get_connection(), "UPDATE users SET postprocessor = 'yes' WHERE username = '$postproofer'");
+    if ( mysqli_affected_rows(DPDatabase::get_connection()) > 0 )
     {
         echo "Added: $postproofer<br>";
     }

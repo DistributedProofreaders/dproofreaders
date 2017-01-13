@@ -351,12 +351,12 @@ function can_user_get_pages_in_project( $username, $project, $round )
                 // any given user can work on at most 11 pages
                 // from that project in that round.
 
-                $result = mysql_query("
+                $result = mysqli_query(DPDatabase::get_connection(), "
                     SELECT COUNT(*) as pagesdone
                     FROM {$project->projectid}
                     WHERE {$round->user_column_name} = '$username'
                 "); 
-                $row = mysql_fetch_assoc($result);
+                $row = mysqli_fetch_assoc($result);
                 if ($row["pagesdone"] >= 11)
                 {
                     return

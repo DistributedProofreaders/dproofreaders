@@ -25,11 +25,11 @@ if (isset($_POST['done']))
 {
     $badmetadata = handle_page_params();
     if ($badmetadata == 1) {
-        $result = mysql_query("UPDATE projects SET state = 'project_md_bad' WHERE projectid = '$projectid'");
+        $result = mysqli_query(DPDatabase::get_connection(), "UPDATE projects SET state = 'project_md_bad' WHERE projectid = '$projectid'");
         metarefresh(0,'md_available.php', _("Image Metadata Collection"),"");
     } else {
-        $result = mysql_query("UPDATE projects SET state = 'project_md_second' WHERE projectid = '$projectid'");
-        $result = mysql_query("UPDATE $projectid SET state = 'avail_md_second'");
+        $result = mysqli_query(DPDatabase::get_connection(), "UPDATE projects SET state = 'project_md_second' WHERE projectid = '$projectid'");
+        $result = mysqli_query(DPDatabase::get_connection(), "UPDATE $projectid SET state = 'avail_md_second'");
         metarefresh(0,'md_available.php', _("Image Metadata Collection"),"");
     }
     exit;
@@ -56,23 +56,23 @@ function handle_page_params()
 
     foreach ( $_POST['orig_page_num_'] as $image => $orig_page_num )
     {
-        $result = mysql_query(sprintf("
+        $result = mysqli_query(DPDatabase::get_connection(), sprintf("
             UPDATE $projectid
             SET orig_page_num = '%s'
             WHERE image = '%s'
-        ", mysql_real_escape_string($orig_page_num),
-            mysql_real_escape_string($image)));
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $orig_page_num),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $image)));
     }
 
     $badmetadata = 0;
     foreach ( $_POST['metadata_'] as $image => $metadata )
     {
-        $result = mysql_query(sprintf("
+        $result = mysqli_query(DPDatabase::get_connection(), sprintf("
             UPDATE $projectid
             SET metadata = '%s'
             WHERE image = '%s'
-        ", mysql_real_escape_string($metadata),
-            mysql_real_escape_string($image)));
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $metadata),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $image)));
         if ($metadata == 'badscan' || $metadata == 'missing' || $metadata == 'sequence') {
             $badmetadata = 1;
         }
@@ -85,9 +85,9 @@ function handle_page_params()
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // Now (if we're still here) echo the page.
 
-$result = mysql_query("SELECT nameofwork, authorsname, language, username, state FROM projects WHERE projectid = '$projectid'");
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT nameofwork, authorsname, language, username, state FROM projects WHERE projectid = '$projectid'");
 
-$row = mysql_fetch_assoc($result);
+$row = mysqli_fetch_assoc($result);
 $manager = $row["username"];
 $state = $row["state"];
 $name = $row["nameofwork"];
@@ -130,12 +130,12 @@ echo "<form method ='post'><table border=1>\n";
 
     $fields_to_get = 'image, state, metadata';
 
-    $res = mysql_query( "SELECT image, state, metadata, orig_page_num FROM $projectid ORDER BY image ASC");
-    $num_rows = mysql_num_rows($res);
+    $res = mysqli_query(DPDatabase::get_connection(),  "SELECT image, state, metadata, orig_page_num FROM $projectid ORDER BY image ASC");
+    $num_rows = mysqli_num_rows($res);
 
     for ( $rownum=0; $rownum < $num_rows; $rownum++ )
     {
-        $page_res = mysql_fetch_array( $res, MYSQL_ASSOC );
+        $page_res = mysqli_fetch_array( $res, MYSQL_ASSOC );
 
         $image = $page_res['image'];
         $metadata = $page_res['metadata'];

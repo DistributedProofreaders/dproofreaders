@@ -643,12 +643,12 @@ function get_round_backlog_stats($interested_phases)
         $sql = "SELECT SUM(n_pages) as num_pages
                 FROM projects
                 WHERE $where_state";
-        $res = mysql_query($sql);
-        while( $result = mysql_fetch_assoc($res) )
+        $res = mysqli_query(DPDatabase::get_connection(), $sql);
+        while( $result = mysqli_fetch_assoc($res) )
         {
             $stats[$phase]=$result["num_pages"];
         }
-        mysql_free_result($res);
+        mysqli_free_result($res);
     }
 
     // Pop off any trailing phases that have no pages.

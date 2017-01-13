@@ -4,13 +4,13 @@ include_once($relPath.'base.inc');
 
 echo "Altering 'projects' table...\n";
 
-mysql_query("
+mysqli_query(DPDatabase::get_connection(), "
     ALTER TABLE projects
         MODIFY COLUMN projectid VARCHAR(22) NOT NULL DEFAULT '',
         MODIFY COLUMN clearance TEXT NOT NULL,
         ADD PRIMARY KEY (projectid),
         ADD INDEX (state)
-") or die(mysql_error());
+") or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "\nDone!\n";
 

@@ -119,7 +119,7 @@ function difficulty_list($difficulty_level)
 function special_list($special)
 {
     // get info on special days
-    $specs_result = mysql_query("
+    $specs_result = mysqli_query(DPDatabase::get_connection(), "
         SELECT
             spec_code,
             display_name,
@@ -133,7 +133,7 @@ function special_list($special)
     $specials_array = array();
 
     // put list into array
-    while ($s_row = mysql_fetch_assoc($specs_result))
+    while ($s_row = mysqli_fetch_assoc($specs_result))
     {
         $show = $s_row['display_name']." (".$s_row['Start Date'].")";
         $code = $s_row['spec_code'];
@@ -222,18 +222,18 @@ function image_source_list($image_source)
 {
     global $site_abbreviation;
     // get info on image_sources
-    $imso_result = mysql_query("
+    $imso_result = mysqli_query(DPDatabase::get_connection(), "
         SELECT code_name, display_name
         FROM image_sources
         WHERE is_active = 1
         ORDER BY display_name
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 
     // it'd be nice to make this static, or something, so it only was loaded once
     $imso_array = array();
 
     // put list into array
-    while ($i_row = mysql_fetch_assoc($imso_result))
+    while ($i_row = mysqli_fetch_assoc($imso_result))
     {
         $show = $i_row['display_name'];
         $code = $i_row['code_name'];

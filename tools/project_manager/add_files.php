@@ -134,7 +134,7 @@ if ( $loading_tpnv )
     system("cp *.jpg " . escapeshellarg($dest_project_dir));
     echo "</pre>\n";
 
-    $result = mysql_query("UPDATE projects SET state = 'project_new_waiting_app' WHERE projectid = '$projectid'");
+    $result = mysqli_query(DPDatabase::get_connection(), "UPDATE projects SET state = 'project_new_waiting_app' WHERE projectid = '$projectid'");
 }
 else
 {
@@ -207,8 +207,8 @@ class Loader
 
         // Get the set of all 'image' fields in the page-table.
         $db_entries = array();
-        $res = mysql_query("SELECT image,master_text FROM $this->projectid");
-        while( list($image,$text) = mysql_fetch_row($res) )
+        $res = mysqli_query(DPDatabase::get_connection(), "SELECT image,master_text FROM $this->projectid");
+        while( list($image,$text) = mysqli_fetch_row($res) )
         {
             $db_entries[$image] = $text;
         }
@@ -339,11 +339,11 @@ class Loader
         // --------------------------------
 
         // Find out how long the 'image' field is.
-        $res = mysql_query("
+        $res = mysqli_query(DPDatabase::get_connection(), "
             SELECT image
             FROM $this->projectid
             LIMIT 0
-        ") or die(mysql_error());
+        ") or die(mysqli_error(DPDatabase::get_connection()));
         $this->image_field_len = mysql_field_len($res,0);
 
         // -----------

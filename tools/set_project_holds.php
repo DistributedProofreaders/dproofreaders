@@ -124,7 +124,7 @@ foreach( $headers as $w => $header)
         if ($sql)
         {
             // echo $sql;
-            mysql_query($sql) or die(mysql_error());
+            mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
 
             log_project_event( $projectid, $pguser, $event_type, join($states, ' ') );
         }

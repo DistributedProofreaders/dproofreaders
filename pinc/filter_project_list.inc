@@ -247,7 +247,7 @@ function maybe_update_project_filter($username, $filter_type, $data, $state_sql)
             if(!$is_associative && !in_array($field_datum, $possible_field_values)) continue;
             elseif($is_associative && !array_key_exists($field_datum, $possible_field_values)) continue;
 
-            $filter_segments[]=sprintf("$field='%s'", mysql_real_escape_string($field_datum));
+            $filter_segments[]=sprintf("$field='%s'", mysqli_real_escape_string(DPDatabase::get_connection(), $field_datum));
             $display_segments[]=$field_datum;
         }
 
@@ -262,29 +262,29 @@ function maybe_update_project_filter($username, $filter_type, $data, $state_sql)
     }
 
     //Note: When using UPDATE, MySQL will not update columns where the new value is the same as the old value. 
-    //This creates the possiblity that mysql_affected_rows() may not actually equal the number of rows matched, 
+    //This creates the possiblity that mysqli_affected_rows(DPDatabase::get_connection()) may not actually equal the number of rows matched, 
     //only the number of rows that were literally affected by the query. This means we can't try to do an
-    //UPDATE and based on the value of mysql_affected_rows() do an INSERT. Instead, well just DELETE and INSERT
+    //UPDATE and based on the value of mysqli_affected_rows(DPDatabase::get_connection()) do an INSERT. Instead, well just DELETE and INSERT
     //our changes.
 
     // _internal filter is database-readable SQL for WHERE clause in queries
     // _display filter is human readable summary for reporting current filter to user
 
     // remove old filter values (if any) from table
-    $query = sprintf("DELETE FROM user_filters WHERE username = '%s' AND filtertype = '%s_internal'", mysql_real_escape_string($username), mysql_real_escape_string($filter_type));
-    $result = mysql_query($query);
+    $query = sprintf("DELETE FROM user_filters WHERE username = '%s' AND filtertype = '%s_internal'", mysqli_real_escape_string(DPDatabase::get_connection(), $username), mysqli_real_escape_string(DPDatabase::get_connection(), $filter_type));
+    $result = mysqli_query(DPDatabase::get_connection(), $query);
 
-    $query = sprintf("DELETE FROM user_filters WHERE username = '%s' AND filtertype = '%s_display'", mysql_real_escape_string($username), mysql_real_escape_string($filter_type));
-    $result = mysql_query($query);
+    $query = sprintf("DELETE FROM user_filters WHERE username = '%s' AND filtertype = '%s_display'", mysqli_real_escape_string(DPDatabase::get_connection(), $username), mysqli_real_escape_string(DPDatabase::get_connection(), $filter_type));
+    $result = mysqli_query(DPDatabase::get_connection(), $query);
 
     // if the filter isn't empty, add the filter and the display to the table
     if(!empty($filter))
     {
-        $query = sprintf("INSERT INTO user_filters (username, filtertype, value) VALUES ('%s', '%s_internal', '%s')", mysql_real_escape_string($username), mysql_real_escape_string($filter_type), mysql_real_escape_string($filter));
-        $result = mysql_query($query);
+        $query = sprintf("INSERT INTO user_filters (username, filtertype, value) VALUES ('%s', '%s_internal', '%s')", mysqli_real_escape_string(DPDatabase::get_connection(), $username), mysqli_real_escape_string(DPDatabase::get_connection(), $filter_type), mysqli_real_escape_string(DPDatabase::get_connection(), $filter));
+        $result = mysqli_query(DPDatabase::get_connection(), $query);
 
-        $query = sprintf("INSERT INTO user_filters (username, filtertype, value) VALUES ('%s', '%s_display', '%s')", mysql_real_escape_string($username), mysql_real_escape_string($filter_type), mysql_real_escape_string($display));
-        $result = mysql_query($query);
+        $query = sprintf("INSERT INTO user_filters (username, filtertype, value) VALUES ('%s', '%s_display', '%s')", mysqli_real_escape_string(DPDatabase::get_connection(), $username), mysqli_real_escape_string(DPDatabase::get_connection(), $filter_type), mysqli_real_escape_string(DPDatabase::get_connection(), $display));
+        $result = mysqli_query(DPDatabase::get_connection(), $query);
     }
 
     return TRUE;
@@ -294,12 +294,12 @@ function get_project_filter_sql($username, $filter_type)
 {
     $filter = "";
 
-    $query = sprintf("SELECT value FROM user_filters WHERE username = '%s' AND filtertype = '%s_internal'", mysql_real_escape_string($username), mysql_real_escape_string($filter_type));
-    $result = mysql_query($query);
-    $row = mysql_fetch_assoc($result);
+    $query = sprintf("SELECT value FROM user_filters WHERE username = '%s' AND filtertype = '%s_internal'", mysqli_real_escape_string(DPDatabase::get_connection(), $username), mysqli_real_escape_string(DPDatabase::get_connection(), $filter_type));
+    $result = mysqli_query(DPDatabase::get_connection(), $query);
+    $row = mysqli_fetch_assoc($result);
     if($row)
         $filter = $row["value"];
-    mysql_free_result($result);
+    mysqli_free_result($result);
 
     return $filter;
 }
@@ -308,12 +308,12 @@ function get_project_filter_display($username, $filter_type)
 {
     $filter_display="";
 
-    $query = sprintf("SELECT value FROM user_filters WHERE username = '%s' AND filtertype = '%s_display'", mysql_real_escape_string($username), mysql_real_escape_string($filter_type));
-    $result = mysql_query($query);
-    $row = mysql_fetch_assoc($result);
+    $query = sprintf("SELECT value FROM user_filters WHERE username = '%s' AND filtertype = '%s_display'", mysqli_real_escape_string(DPDatabase::get_connection(), $username), mysqli_real_escape_string(DPDatabase::get_connection(), $filter_type));
+    $result = mysqli_query(DPDatabase::get_connection(), $query);
+    $row = mysqli_fetch_assoc($result);
     if($row)
         $filter_display = $row["value"];
-    mysql_free_result($result);
+    mysqli_free_result($result);
 
     return $filter_display;
 }
@@ -500,8 +500,8 @@ function _load_project_filter_field_values($field, $state_sql)
 
     $return = array();
 
-    $result = mysql_query($query);
-    while ($a_res = @mysql_fetch_row($result))
+    $result = mysqli_query(DPDatabase::get_connection(), $query);
+    while ($a_res = @mysqli_fetch_row($result))
     {
         if($load_associative)
             $return[$a_res[0]] = $a_res[1];
@@ -510,7 +510,7 @@ function _load_project_filter_field_values($field, $state_sql)
     }
 
     if($result)
-        mysql_free_result($result);
+        mysqli_free_result($result);
 
     return $return;
 }

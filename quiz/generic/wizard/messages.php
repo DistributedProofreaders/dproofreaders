@@ -149,15 +149,15 @@ echo "<p>" . _("Proofreading Guidelines section:") . "<br>\n";
 echo "<select size='1' name='P_guideline'>\n<option></option>\n";
 
 $query = "SELECT count(*) AS numrules FROM rules";
-$result = mysql_query($query);
-$row = mysql_fetch_assoc($result);
+$result = mysqli_query(DPDatabase::get_connection(), $query);
+$row = mysqli_fetch_assoc($result);
 $num_rules = $row["numrules"];
 
 for ($i=1;$i<=$num_rules;$i++)
 {
     $query = "SELECT anchor,subject FROM rules WHERE id = '$i' AND document = 'proofreading_guidelines.php'";
-    $result = mysql_query($query);
-    $rule = mysql_fetch_assoc($result);
+    $result = mysqli_query(DPDatabase::get_connection(), $query);
+    $rule = mysqli_fetch_assoc($result);
     if ($rule != "")
     {
         echo "<option value='$rule[anchor]'>$rule[subject]</option>\n";
@@ -173,8 +173,8 @@ echo "<select size='1' name='F_guideline'>\n<option></option>";
 for ($i=1;$i<=$num_rules;$i++)
 {
     $query = "SELECT anchor,subject FROM rules WHERE id = '$i' AND document = 'document.php'";
-    $result = mysql_query($query);
-    $rule = mysql_fetch_assoc($result);
+    $result = mysqli_query(DPDatabase::get_connection(), $query);
+    $rule = mysqli_fetch_assoc($result);
     if ($rule != "")
     {
         echo "<option value='$rule[anchor]'>$rule[subject]</option>\n";

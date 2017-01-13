@@ -62,7 +62,7 @@ $sql = "
         ADD COLUMN round_id CHAR(2) NOT NULL AFTER round_number
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "\n";
 echo "----------------------------------------------------------------------\n";
@@ -82,7 +82,7 @@ $sql = "
         END
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "\n";
 echo "----------------------------------------------------------------------\n";
@@ -96,7 +96,7 @@ $sql = "
         ADD UNIQUE KEY name     (round_id,name)
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "\nDone!\n";
 

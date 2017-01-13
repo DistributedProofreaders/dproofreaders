@@ -56,10 +56,10 @@ function phpbb_lang($langcode=FALSE)
             SELECT *
             FROM ${phpbb_table_prefix}_lang
             WHERE lang_iso='%s'
-            ", mysql_real_escape_string($langcode));
-        $res = mysql_query($query) or die(mysql_error());
+            ", mysqli_real_escape_string(DPDatabase::get_connection(), $langcode));
+        $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
 
-        if (mysql_num_rows($res) == 1)
+        if (mysqli_num_rows($res) == 1)
             return $langcode;
         else
             return "en";
@@ -84,12 +84,12 @@ function is_username_password_valid($username, $password)
         SELECT *
         FROM {$phpbb_table_prefix}_users
         WHERE username='%s' AND user_password='%s'
-        ", mysql_real_escape_string($username), mysql_real_escape_string($digested_password));
-    $res = mysql_query($query) or die(mysql_error());
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $username), mysqli_real_escape_string(DPDatabase::get_connection(), $digested_password));
+    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
 
-    $valid = (mysql_num_rows($res) == 1);
+    $valid = (mysqli_num_rows($res) == 1);
 
-    mysql_free_result($res);
+    mysqli_free_result($res);
 
     return $valid;
 }
@@ -131,14 +131,14 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
 
         // Code primarily lifted from bb_register.php
         $sql = "SELECT max(user_id) FROM {$phpbb_table_prefix}_users";
-        $res = mysql_query($sql) or die(mysql_error());
-        list($max_user_id) = mysql_fetch_array($res);
-        mysql_free_result($res);
+        $res = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
+        list($max_user_id) = mysqli_fetch_array($res);
+        mysqli_free_result($res);
 
         $max_user_id += 1; 
         $currtime = time();
-        $sql = sprintf("INSERT INTO {$phpbb_table_prefix}_users SET user_id=$max_user_id, username='%s', user_regdate=$currtime, user_timezone=-8.00, user_lang='%s', user_email='%s', user_password='%s', user_viewemail=0", mysql_real_escape_string($username), phpbb_lang(), mysql_real_escape_string($email), mysql_real_escape_string($digested_password));
-        mysql_query($sql) or die(mysql_error());
+        $sql = sprintf("INSERT INTO {$phpbb_table_prefix}_users SET user_id=$max_user_id, username='%s', user_regdate=$currtime, user_timezone=-8.00, user_lang='%s', user_email='%s', user_password='%s', user_viewemail=0", mysqli_real_escape_string(DPDatabase::get_connection(), $username), phpbb_lang(), mysqli_real_escape_string(DPDatabase::get_connection(), $email), mysqli_real_escape_string(DPDatabase::get_connection(), $digested_password));
+        mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
 
         return TRUE;
     }
@@ -165,8 +165,8 @@ function create_forum_user($username, $password, $email, $password_is_digested=F
                 UPDATE {$phpbb_table_prefix}_users
                 SET user_password='%s'
                 WHERE user_id=%d",
-                mysql_real_escape_string($password), $user_id);
-            mysql_query($sql) or die(mysql_error());
+                mysqli_real_escape_string(DPDatabase::get_connection(), $password), $user_id);
+            mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
         }
 
         return TRUE;
@@ -375,10 +375,10 @@ function get_forum_user_details($username)
         SELECT *
         FROM {$phpbb_table_prefix}_users
         WHERE username='%s'
-        ", mysql_real_escape_string($username));
-    $res = mysql_query($query) or die(mysql_error());
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $username));
+    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
 
-    $row = mysql_fetch_assoc($res);
+    $row = mysqli_fetch_assoc($res);
     if (!$row)
         return NULL;
 
@@ -405,8 +405,8 @@ function get_forum_user_details($username)
         ", $row["user_id"]);
 
     // This will fail on phpBB < 3.1, which is fine and expected
-    $res = mysql_query($query);
-    if($res && $row = mysql_fetch_assoc($res))
+    $res = mysqli_query(DPDatabase::get_connection(), $query);
+    if($res && $row = mysqli_fetch_assoc($res))
     {
         foreach($row as $column => $value)
         {
@@ -436,11 +436,11 @@ function get_forum_user_id($username)
         SELECT user_id
         FROM {$phpbb_table_prefix}_users
         WHERE username = '%s' 
-        ", mysql_real_escape_string($username));
-    $res = mysql_query($query) or die(mysql_error());
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $username));
+    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
 
-    $row = mysql_fetch_assoc($res);
-    mysql_free_result($res);
+    $row = mysqli_fetch_assoc($res);
+    mysqli_free_result($res);
 
     if (!$row)
         return NULL;
@@ -461,10 +461,10 @@ function get_forum_rank_title($rank)
         FROM {$phpbb_table_prefix}_ranks
         WHERE rank_id = %d
         ",$rank);
-    $res = mysql_query($query) or die(mysql_error());
+    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
 
-    $row = mysql_fetch_assoc($res);
-    mysql_free_result($res);
+    $row = mysqli_fetch_assoc($res);
+    mysqli_free_result($res);
 
     if (!$row)
         return NULL;
@@ -610,10 +610,10 @@ function get_number_of_unread_messages($username)
             ";
     }
 
-    $res = mysql_query($query) or die(mysql_error());
+    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
 
-    list($num_messages) = mysql_fetch_row($res);
-    mysql_free_result($res);
+    list($num_messages) = mysqli_fetch_row($res);
+    mysqli_free_result($res);
 
     return $num_messages;
 }
@@ -631,11 +631,11 @@ function does_topic_exist($topic_id)
         FROM {$phpbb_table_prefix}_topics
         WHERE topic_id = $topic_id;
         ";
-    $res = mysql_query($query) or die(mysql_error());
+    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
 
-    $exists = (mysql_num_rows($res) > 0);
+    $exists = (mysqli_num_rows($res) > 0);
 
-    mysql_free_result($res);
+    mysqli_free_result($res);
 
     return $exists;
 }
@@ -656,10 +656,10 @@ function get_last_post_time_in_topic($topic_id)
         FROM {$phpbb_table_prefix}_posts
         WHERE topic_id = $topic_id
         ";
-    $res = mysql_query($query) or die(mysql_error());
+    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
 
-    $row = mysql_fetch_assoc($res);
-    mysql_free_result($res);
+    $row = mysqli_fetch_assoc($res);
+    mysqli_free_result($res);
 
     if (!$row)
         return NULL;
@@ -713,10 +713,10 @@ function get_topic_details($topic_id)
         INNER JOIN $phpbb_users ON $phpbb_topics.topic_poster = $phpbb_users.user_id
         WHERE $phpbb_topics.topic_id = $topic_id
         ";
-    $res = mysql_query($query) or die(mysql_error());
+    $res = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
 
-    $row = mysql_fetch_assoc($res);
-    mysql_free_result($res);
+    $row = mysqli_fetch_assoc($res);
+    mysqli_free_result($res);
 
     return $row;
 }
@@ -842,14 +842,13 @@ function topic_change_forum( $topic_id, $to_forum_id )
     if(PHPBB_VERSION == 2) {
         $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
-
-        $result = mysql_query("
+        $result = mysqli_query(DPDatabase::get_connection(), "
             SELECT forum_id
             FROM {$phpbb_table_prefix}_topics
             WHERE topic_id=$topic_id
         ");
 
-        $row = mysql_fetch_assoc($result);
+        $row = mysqli_fetch_assoc($result);
 
         // If no rows were returned (because the topic_id doesn't exist), stop.
         if(!$row)
@@ -860,14 +859,14 @@ function topic_change_forum( $topic_id, $to_forum_id )
         if ($from_forum_id != $to_forum_id)
         {
             // move posts to new forum
-            mysql_query("
+            mysqli_query(DPDatabase::get_connection(), "
                 UPDATE {$phpbb_table_prefix}_posts
                 SET forum_id = $to_forum_id
                 WHERE topic_id = $topic_id
             ");
 
             // move topic to new forum
-            mysql_query("
+            mysqli_query(DPDatabase::get_connection(), "
                 UPDATE {$phpbb_table_prefix}_topics
                 SET forum_id = $to_forum_id
                 WHERE topic_id = $topic_id
@@ -891,22 +890,22 @@ function forum_resynch( $forum_id )
         $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
         // Count the number of topics in the forum
-        $res1 = mysql_query("
+        $res1 = mysqli_query(DPDatabase::get_connection(), "
             SELECT COUNT(*)
             FROM {$phpbb_table_prefix}_topics
             WHERE forum_id = $forum_id
         ");
-        list($forum_topics) = mysql_fetch_row($res1);
+        list($forum_topics) = mysqli_fetch_row($res1);
 
         // Count the number of posts in the forum,
         // and get the id of most recent post in the forum,
         // which might have changed when we moved the topic(s).
-        $res2 = mysql_query("
+        $res2 = mysqli_query(DPDatabase::get_connection(), "
             SELECT COUNT(*), MAX(post_id)
             FROM {$phpbb_table_prefix}_posts
             WHERE forum_id = $forum_id
         ");
-        list($forum_posts, $last_post) = mysql_fetch_row($res2);
+        list($forum_posts, $last_post) = mysqli_fetch_row($res2);
         if ( $forum_posts == 0 )
         {
             // $last_post is NULL
@@ -915,7 +914,7 @@ function forum_resynch( $forum_id )
 
         // adjust total posts and topics and last post for forum
 
-        $update_count = mysql_query("
+        $update_count = mysqli_query(DPDatabase::get_connection(), "
             UPDATE {$phpbb_table_prefix}_forums
             SET
                 forum_posts  = $forum_posts,

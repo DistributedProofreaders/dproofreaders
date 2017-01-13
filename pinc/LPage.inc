@@ -137,9 +137,9 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
         ORDER BY $order
         LIMIT 1
     ";
-    $result = mysql_query($dbQuery);
-    if ($result === FALSE) die(mysql_error());
-    $npage = mysql_fetch_assoc($result);
+    $result = mysqli_query(DPDatabase::get_connection(), $dbQuery);
+    if ($result === FALSE) die(mysqli_error(DPDatabase::get_connection()));
+    $npage = mysqli_fetch_assoc($result);
     if(!$npage)
     {
         $err = _("No more files available for proofreading for this round of the project.");
@@ -171,13 +171,13 @@ function get_indicated_LPage(
     $err = project_continuity_test($projectid, $proj_state, FALSE);
     if ( $err ) abort($err);
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT state
         FROM $projectid
         WHERE image='$imagefile'
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 
-    $row = mysql_fetch_row($res);
+    $row = mysqli_fetch_row($res);
     if (!$row)
     {
         // This should only happen if they've been tweaking URLs.
@@ -187,6 +187,7 @@ function get_indicated_LPage(
     }
 
     list($current_page_state) = $row;
+
     if ($page_state != $current_page_state)
     {
         $err = sprintf(
@@ -249,8 +250,8 @@ class LPage
             FROM {$this->projectid}
             WHERE image='{$this->imagefile}'
         ";
-        $res = mysql_query($q);
-        list($page_text) = mysql_fetch_row($res);
+        $res = mysqli_query(DPDatabase::get_connection(), $q);
+        list($page_text) = mysqli_fetch_row($res);
 
         return $page_text;
     }
@@ -264,12 +265,12 @@ class LPage
 
     function get_username_for_round( $round )
     {
-        $res = mysql_query("
+        $res = mysqli_query(DPDatabase::get_connection(), "
             SELECT {$round->user_column_name}
             FROM {$this->projectid}
             WHERE image = '{$this->imagefile}'
         ");
-        $row = mysql_fetch_assoc($res);
+        $row = mysqli_fetch_assoc($res);
         return $row[$round->user_column_name];
     }
 
@@ -381,12 +382,12 @@ the project will automatically be made unavailable.";
             // For now, just confirm that the user is entitled to resume
             // this page. (In the DONE case, Page_reopen performs this check.)
 
-            $res = mysql_query("
+            $res = mysqli_query(DPDatabase::get_connection(), "
                 SELECT {$this->round->user_column_name}
                 FROM $this->projectid
                 WHERE image='$this->imagefile'
             ");
-            list($current_round_user) = mysql_fetch_row($res);
+            list($current_round_user) = mysqli_fetch_row($res);
 
             if ($pguser != $current_round_user)
             {

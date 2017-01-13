@@ -41,7 +41,7 @@ $res = dpsql_query("
     ORDER BY projectid
 ");
 
-$n_projects = mysql_num_rows($res);
+$n_projects = mysqli_num_rows($res);
 
 $messages = array();
 
@@ -49,7 +49,7 @@ $delay_microseconds = ceil($delay * 1000000);
 
 // Loop through each project
 $project_index = 0;
-while ( list($projectid) = mysql_fetch_row($res) )
+while ( list($projectid) = mysqli_fetch_row($res) )
 {
     // print out a status message
     $project_index++;
@@ -61,13 +61,13 @@ while ( list($projectid) = mysql_fetch_row($res) )
     echo sprintf( "%5d/%5d: %s:", $project_index, $n_projects, $projectid );
 
     // confirm the projectID* table exists (ie: not archived or deleted)
-    $describe_results = mysql_query("SELECT 1 FROM $projectid LIMIT 0");
+    $describe_results = mysqli_query(DPDatabase::get_connection(), "SELECT 1 FROM $projectid LIMIT 0");
     if (!$describe_results)
     {
         echo " skipping, project table does not exist.\n";
         continue;
     }
-    mysql_free_result($describe_results);
+    mysqli_free_result($describe_results);
 
     // projectID* table exists, add indexes one at a time,
     // possibly with a delay ($delay seconds)
@@ -87,10 +87,10 @@ while ( list($projectid) = mysql_fetch_row($res) )
             echo $sql;
         else
         {
-            $result = mysql_query($sql);
+            $result = mysqli_query(DPDatabase::get_connection(), $sql);
             if(!$result)
             {
-                $error = mysql_error();
+                $error = mysqli_error(DPDatabase::get_connection());
                 // stash the messages away for later
                 $messages[] = "$projectid: $error";
                 // and print it out now to allow detecting errors early on
