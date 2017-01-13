@@ -14,7 +14,8 @@ function mentor_banner($round)
                 AND language = 'English'
         "));
 
-    $oldest = mysql_result($result, 0);
+    $row = mysql_fetch_row($result);
+    $oldest = $row[0];
 
     if(is_null($oldest))
         return;

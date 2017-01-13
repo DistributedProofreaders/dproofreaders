@@ -292,11 +292,10 @@ function get_project_filter_sql($username, $filter_type)
 
     $query = sprintf("SELECT value FROM user_filters WHERE username = '%s' AND filtertype = '%s_internal'", mysql_real_escape_string($username), mysql_real_escape_string($filter_type));
     $result = mysql_query($query);
-    if (mysql_num_rows($result) >= 1)
-    {
-        $filter = mysql_result($result, 0, "value");
-        mysql_free_result($result);
-    }
+    $row = mysql_fetch_assoc($result);
+    if($row)
+        $filter = $row["value"];
+    mysql_free_result($result);
 
     return $filter;
 }
@@ -307,11 +306,10 @@ function get_project_filter_display($username, $filter_type)
 
     $query = sprintf("SELECT value FROM user_filters WHERE username = '%s' AND filtertype = '%s_display'", mysql_real_escape_string($username), mysql_real_escape_string($filter_type));
     $result = mysql_query($query);
-    if (mysql_num_rows($result) >= 1)
-    {
-        $filter_display = mysql_result($result, 0, "value");
-        mysql_free_result($result);
-    }
+    $row = mysql_fetch_assoc($result);
+    if($row)
+        $filter_display = $row["value"];
+    mysql_free_result($result);
 
     return $filter_display;
 }

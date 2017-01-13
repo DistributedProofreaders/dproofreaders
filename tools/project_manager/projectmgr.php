@@ -503,7 +503,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $numrows = mysql_num_rows($result);
 
     $res_found = mysql_query("SELECT FOUND_ROWS()");
-    $num_found_rows = mysql_result($res_found,0);
+    $row = mysql_fetch_row($res_found);
+    $num_found_rows = $row[0];
 
     echo "<h1>", _("Search Results"), "</h1>\n";
 

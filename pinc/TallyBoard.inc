@@ -157,7 +157,8 @@ class TallyBoard
         ", mysql_real_escape_string($this->tally_name),
             mysql_real_escape_string($this->holder_type));
         $res = mysql_query($sql) or die(mysql_error());
-        return mysql_result($res,0);
+        $row = mysql_fetch_row($res);
+        return $row[0];
     }
 
     // -------------------------------------------------------------------------
@@ -179,7 +180,8 @@ class TallyBoard
             intval($holder_id));
         $res = mysql_query($sql) or die(mysql_error());
 
-        if ( mysql_num_rows($res) == 0 )
+        $row = mysql_fetch_assoc($res);
+        if ( !$row )
         {
             // The given holder is not on this board.
             // So they implicitly have a tally of zero.
@@ -187,7 +189,7 @@ class TallyBoard
         }
         else
         {
-            $current_tally = mysql_result($res,0,0);
+            $current_tally = $row["tally_value"];
         }
         return $current_tally;
     }
@@ -460,7 +462,7 @@ class TallyBoard
     // or $default if there has been no snapshot yet.
     {
         $sql = sprintf("
-            SELECT MAX(timestamp)
+            SELECT MAX(timestamp) as max_timestamp
             FROM past_tallies
             WHERE
                 tally_name      = '%s'
@@ -468,12 +470,16 @@ class TallyBoard
         ", mysql_real_escape_string($this->tally_name),
             mysql_real_escape_string($this->holder_type));
         $result = mysql_query($sql) or die(mysql_error());
-        $max_timestamp = mysql_result($result,0,0);
 
-        if ( is_null($max_timestamp) )
+        $row = mysql_fetch_assoc($result);
+        if ( !$row )
         {
             // No snapshots for this TallyBoard yet.
             $max_timestamp = $default;
+        }
+        else
+        {
+            $max_timestamp = $row["max_timestamp"];
         }
 
         return $max_timestamp;
@@ -650,7 +656,8 @@ class TallyBoard
             mysql_real_escape_string($this->holder_type),
             intval($holder_id));
         $res = mysql_query($sql) or die(mysql_error());
-        return mysql_result($res,0);
+        $row = mysql_fetch_row($res);
+        return $row[0];
     }
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

@@ -161,7 +161,8 @@ function mysql_session_select($sid)
     $result = do_session_query("SELECT value FROM sessions WHERE sid = '$sid' AND expiration > ".time()."");
     if (mysql_num_rows($result) == 1)
     {
-        return mysql_result($result, 0);
+        $row = mysql_fetch_assoc($result);
+        return $row["value"];
     }
     else
     {
@@ -173,7 +174,8 @@ function mysql_session_write($sid, $value)
 {
     $expiration = time() + ini_get("session.cookie_lifetime");
     $result = do_session_query("SELECT COUNT(*) FROM sessions WHERE sid = '$sid'");
-    $SessionExists = mysql_result($result, 0);
+    $row = mysql_fetch_row($result);
+    $SessionExists = $row[0];
     // The table has a uniqueness constraint on 'sid',
     // so $SessionExists must be 0 or 1.
 

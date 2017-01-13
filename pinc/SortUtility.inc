@@ -130,8 +130,9 @@ class SortUtility {
     if ($this->_storeSortingInDatabase) {
       global $pguser;
       $result = mysql_query("SELECT value FROM usersettings WHERE username='$pguser' and setting='".$this->_name."_order'");
-      if (mysql_num_rows($result) >= 1)
-        return $this->_parseSortingRule(mysql_result($result, 0));
+      $row = mysql_fetch_assoc($result);
+      if($row)
+        return $this->_parseSortingRule($row["value"]);
     }
 
     // nothing found

@@ -939,7 +939,8 @@ class ProjectInfoHolder
                 FROM uber_projects
                 WHERE up_projectid = '$this->up_projectid'
             ");
-            $up_nameofwork = mysql_result($res2, 0, "up_nameofwork");
+            $row = mysql_fetch_assoc($res2);
+            $up_nameofwork = $row["up_nameofwork"];
 
             $this->row( _("Related Uber Project"), 'just_echo', $up_nameofwork );
         }

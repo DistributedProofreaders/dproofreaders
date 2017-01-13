@@ -150,7 +150,8 @@ echo "<select size='1' name='P_guideline'>\n<option></option>\n";
 
 $query = "SELECT count(*) AS numrules FROM rules";
 $result = mysql_query($query);
-$num_rules = mysql_result($result,0,"numrules");
+$row = mysql_fetch_assoc($result);
+$num_rules = $row["numrules"];
 
 for ($i=1;$i<=$num_rules;$i++)
 {

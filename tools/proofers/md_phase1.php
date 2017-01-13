@@ -87,11 +87,12 @@ function handle_page_params()
 
 $result = mysql_query("SELECT nameofwork, authorsname, language, username, state FROM projects WHERE projectid = '$projectid'");
 
-$manager = mysql_result($result, 0, "username");
-$state = mysql_result($result, 0, "state");
-$name = mysql_result($result, 0, "nameofwork");
-$author = mysql_result($result, 0, "authorsname");
-$language = mysql_result($result, 0, "language");
+$row = mysql_fetch_assoc($result);
+$manager = $row["username"];
+$state = $row["state"];
+$name = $row["nameofwork"];
+$author = $row["authorsname"];
+$language = $row["language"];
 
 
 $numpages = Project_getNumPages( $projectid );

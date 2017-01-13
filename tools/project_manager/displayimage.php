@@ -23,16 +23,21 @@ $_SESSION["displayimage"]["percent"]=$percent;
 // Get a list of images in the project so we can populate the prev and
 // next <link rel=... href=...> tags in <head> if needed.
 // NB The query results are used later to populate a popup menu too.
+$images = array();
 $res = mysql_query( "SELECT image FROM $projectid ORDER BY image ASC") or die(mysql_error());
-$num_rows = mysql_num_rows($res);
+while($row = mysql_fetch_assoc($res))
+{
+    $images[] = $row["image"];
+}
 $prev_image = "";
 $next_image = "";
-for ($row=0; $row<$num_rows;$row++)
+$num_rows = count($images);
+for ($row=0; $row<$num_rows; $row++)
 {
-    $this_val = mysql_result($res, $row, "image");
+    $this_val = $images[$row];
     if ($this_val == $imagefile) {
-        if ( $row != 0 ) $prev_image = mysql_result($res, $row-1, "image");
-        if ( $row != $num_rows-1 ) $next_image = mysql_result($res, $row+1, "image");
+        if ( $row != 0 ) $prev_image = $images[$row-1];
+        if ( $row != $num_rows-1 ) $next_image = $images[$row+1];
     }
 }
 $link_tags = "";
@@ -59,9 +64,9 @@ slim_header($title, array("head_data" => $link_tags));
 <select name="jumpto" onChange="this.form.imagefile.value=this.form.jumpto[this.form.jumpto.selectedIndex].value; this.form.submit();">
 <?php
 // Populate the options in the popup menu based on the database query earlier
-for ($row=0; $row<$num_rows;$row++)
+for ($row=0; $row<$num_rows; $row++)
 {
-    $this_val = mysql_result($res, $row, "image");
+    $this_val = $images[$row];
     echo "<option value=\"$this_val\"";
     if ($this_val == $imagefile) echo " selected";
     echo ">".$this_val."</option>\n";

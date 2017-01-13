@@ -26,7 +26,8 @@ $t_7_days_ago  = $now - ( 7 * $seconds_per_day);
 $result0 = mysql_query("
     SELECT max($user_ELR_page_tally_column) as maxpages FROM users $joined_with_user_ELR_page_tallies 
 ");
-$maxpages = mysql_result($result0, 0,"maxpages");
+$row = mysql_fetch_assoc($result0);
+$maxpages = $row["maxpages"];
 
 
 

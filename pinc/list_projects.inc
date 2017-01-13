@@ -66,7 +66,8 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
     $numrows = mysql_num_rows($result);
 
     $res_found = mysql_query("SELECT FOUND_ROWS()");
-    $num_found_rows = mysql_result($res_found,0);
+    $row = mysql_fetch_row($res_found);
+    $num_found_rows = $row[0];
 
     if ($num_found_rows == 0) {
         echo _("There are currently no projects in this category.");

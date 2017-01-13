@@ -55,10 +55,11 @@ function getPgFormats( $input, $argv )
         LIMIT 1
     ");
 
-    if (!$result || mysql_num_rows($result) == 0)
+    $row = mysql_fetch_assoc($result);
+    if (!$row)
         return sprintf($err,"invalid etext number; possibly not yet posted");
 
-    $formats = '[' . mysql_result($result,0,'formats') . ']';
+    $formats = '[' . $row["formats"] . ']';
 
     if (empty($input))
         return $formats;

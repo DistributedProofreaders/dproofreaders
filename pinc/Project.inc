@@ -518,13 +518,13 @@ XML;
             WHERE projectid = '$this->projectid'
         ");
 
-        if(!$result || mysql_num_rows($result) == 0)
-            return $updated_record;
-
-        $updated_array = mysql_result($result, 0);
+        $row = mysql_fetch_assoc($result);
         mysql_free_result($result);
 
-        $updated_record->load_yaz_array(unserialize(base64_decode($updated_array)));
+        if(!$row)
+            return $updated_record;
+
+        $updated_record->load_yaz_array(unserialize(base64_decode($row["updated_array"])));
 
         return $updated_record;
     }

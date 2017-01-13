@@ -29,9 +29,9 @@ if(!isset($imagename))
 {
     //find next available page for this project
     $result = mysql_query("SELECT image FROM $projectid WHERE state = 'avail_md_second' ORDER BY image ASC LIMIT 1");
+    $row = mysql_fetch_assoc($result);
     //if no more images
-    $numrows = mysql_num_rows($result);
-    if($numrows == '0')
+    if(!$row)
     {
         $body=_("No more files available for proofreading for this round of the project.<br> You will be taken back to the project listing page in 4 seconds.");
         //////////this will be changed to pre-processing state
@@ -44,7 +44,7 @@ if(!isset($imagename))
     }
     else
     {
-        $imagename = mysql_result($result, 0, "image");
+        $imagename = $row["image"];
         //set the image as checked out
         $result = mysql_query("UPDATE $projectid SET state = 'out_md_second' WHERE image = '$imagename'");
         metarefresh(0,"md_phase2.php?imagename=$imagename&projectid=$projectid","Image Metadata Collection","");
@@ -57,7 +57,8 @@ if (isset($_POST['done']))
     //process the page metadata
     //get existing metadata
     $result = mysql_query("SELECT metadata FROM $projectid WHERE image = '$imagename'");
-    $old_md = mysql_result($result, 0, "metadata");
+    $row = mysql_fetch_assoc($result);
+    $old_md = $row["metadata"];
 
     //concat new metadata
     $i=0;
@@ -94,7 +95,8 @@ if (isset($_POST['continue']))
     //process the page metadata
     //get existing metadata
     $result = mysql_query("SELECT metadata FROM $projectid WHERE image = '$imagename'");
-    $old_md = mysql_result($result, 0, "metadata");
+    $row = mysql_fetch_assoc($result);
+    $old_md = $row["metadata"];
 
     //concat new metadata
     $i=0;

@@ -122,8 +122,9 @@ if (array_get($_POST, "insertdb", "") != "") {
 
     // Set the first remaining available profile to be active.
     $result=mysql_query("SELECT * FROM user_profiles WHERE  u_ref=$uid");
-    $new_profile_name = mysql_result($result,0,"profilename");
-    $new_profile_id = mysql_result($result,0,"id");
+    $row = mysql_fetch_assoc($result);
+    $new_profile_name = $row["profilename"];
+    $new_profile_id = $row["id"];
     echo sprintf(_("Active usersettings profile is now: %s"),$new_profile_name) . "\n<br>\n";
     
     mysql_query(sprintf("
@@ -435,10 +436,10 @@ function echo_proofreading_tab() {
     echo "<td bgcolor='#ffffff' colspan='2' align='center'>";
     // show all profiles
     echo "<select name='c_profile' ID='c_profile'>";
-    for ($i=0;$i<$pf_num;$i++)
+    while ($row = mysql_fetch_assoc($pf_query))
     {
-        $pf_Dex=mysql_result($pf_query,$i,'id');
-        $pf_Val=mysql_result($pf_query,$i,'profilename');
+        $pf_Dex = $row["id"];
+        $pf_Val = $row["profilename"];
         echo "<option value=\"$pf_Dex\"";
         if ($pf_Dex == $userP['u_profile']) { echo " SELECTED"; }
         echo ">$pf_Val</option>";

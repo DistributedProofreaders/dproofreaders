@@ -39,12 +39,12 @@ echo "<td><b>Number</b></td>
       <td><b><a href =\"PP_unknown.php?order=modifieddate\">" . _("Date Last Modified") . "</a></b></td><tr>";
 
 $index = 0;
-while ($rownum < $numrows) {
-    $nameofwork = mysql_result($result, $rownum, "nameofwork");
-    $author = mysql_result($result, $rownum, "authorsname");
-    $username = mysql_result($result, $rownum, "username");
-    $projectID = mysql_result($result, $rownum, "projectid");
-    $modifieddate = mysql_result($result, $rownum, "LMDate");
+while ($row = mysql_fetch_assoc($result)) {
+    $nameofwork = $row["nameofwork"];
+    $author = $row["authorsname"];
+    $username = $row["username"];
+    $projectID = $row["projectid"];
+    $modifieddate = $row["LMDate"];
 
     $rownum++;
 

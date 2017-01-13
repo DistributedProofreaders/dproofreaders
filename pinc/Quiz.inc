@@ -258,12 +258,13 @@ function user_has_passed_quiz_page($username, $quiz_page_id, $pass_requirements 
         SELECT * FROM quiz_passes
         WHERE username='$username' AND quiz_page='$quiz_page_id'
     ");
-    if (mysql_num_rows($res) == 0)
+    $row = mysql_fetch_assoc($res);
+    if(!$row)
         return false;
+
     if (isset($pass_requirements['minimum_age']))
     {
-        $value = mysql_result($res, 0, "date");
-        if ((time() - $value) > $this->pass_requirements['maximum_age'])
+        if ((time() - $row["date"]) > $this->pass_requirements['maximum_age'])
             return false;
     }
     return true;
@@ -275,12 +276,11 @@ function get_last_attempt_date_for_quiz_page($username, $quiz_page_id)
         SELECT date FROM quiz_passes
         WHERE username='$username' AND quiz_page='$quiz_page_id'
     ");
-    if (mysql_num_rows($res) == 0)
+    $row = mysql_fetch_assoc($res);
+    if(!$row)
         return false;
 
-    $value = mysql_result($res, 0, "date");
-
-    return $value;
+    return $row["date"];
 }
 
 // vim: sw=4 ts=4 expandtab

@@ -308,9 +308,10 @@ function showTeamMbrs($curTeam, $tally_name) {
 
     $subtitle = null;
     $latestMbr = mysql_query("SELECT users.username AS Username, users.u_privacy AS Privacy FROM user_teams INNER JOIN users ON user_teams.latestUser = users.u_id WHERE user_teams.id = ".$curTeam['id']." AND user_teams.latestUser <> 0");
-    if (mysql_num_rows($latestMbr) > 0) { 
-        if (mysql_result($latestMbr, 0, "Privacy") == PRIVACY_PUBLIC || (mysql_result($latestMbr, 0, "Privacy") == PRIVACY_PRIVATE && isset($GLOBALS['pguser']))) {
-            $subtitle = sprintf(_("Please welcome <b>%s</b> as the latest member to join this team!"), mysql_result($latestMbr, 0, "Username"));
+    $row = mysql_fetch_assoc($latestMbr);
+    if ($row) {
+        if ($row["Privacy"] == PRIVACY_PUBLIC || ($row["Privacy"] == PRIVACY_PRIVATE && isset($GLOBALS['pguser']))) {
+            $subtitle = sprintf(_("Please welcome <b>%s</b> as the latest member to join this team!"), $row["Username"]);
         }
     }
 

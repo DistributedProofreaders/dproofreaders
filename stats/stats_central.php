@@ -59,7 +59,8 @@ $table->set_column_alignments( 'left', 'right', 'left' );
     $begin_time = time() - 604800; // in seconds
     $users = mysql_query("SELECT count(*) AS numusers FROM users
                           WHERE t_last_activity > $begin_time");
-    $totalusers = (mysql_result($users,0,"numusers"));
+    $row = mysql_fetch_assoc($users);
+    $totalusers = $row["numusers"];
 
     $table->row(
         _("Proofreaders active in the last 7 days:"),
@@ -71,7 +72,8 @@ $table->set_column_alignments( 'left', 'right', 'left' );
 
     $books = mysql_query("SELECT count(*) AS numbooks FROM projects
                           WHERE modifieddate >= $begin_time AND state = '".PROJ_SUBMIT_PG_POSTED."'");
-    $totalbooks = (mysql_result($books,0,"numbooks"));
+    $row = mysql_fetch_assoc($books);
+    $totalbooks = $row["numbooks"];
 
     $table->row(
         _("Books posted in the last 7 days:"),
@@ -84,7 +86,8 @@ $table->set_column_alignments( 'left', 'right', 'left' );
     $view_books=_("(View)");
   //get total first round books waiting to be released
     $firstwaitingbooks = mysql_query("SELECT count(*) AS numbooks FROM projects WHERE state = '".PROJ_P1_WAITING_FOR_RELEASE."'");
-    $totalfirstwaiting = (mysql_result($firstwaitingbooks,0,"numbooks"));
+    $row = mysql_fetch_assoc($firstwaitingbooks);
+    $totalfirstwaiting = $row["numbooks"];
 
     $table->row(
         _("Books waiting to be released for first round:"),
@@ -95,7 +98,8 @@ $table->set_column_alignments( 'left', 'right', 'left' );
   //get total non-English books waiting to be released
     $nonwaitingbooks = mysql_query("SELECT count(*) AS numbooks FROM projects
                                     WHERE state = '".PROJ_P1_WAITING_FOR_RELEASE."' AND language != 'English'");
-    $totalnonwaiting = (mysql_result($nonwaitingbooks,0,"numbooks"));
+    $row = mysql_fetch_assoc($nonwaitingbooks);
+    $totalnonwaiting = $row["numbooks"];
 
     $table->row(
         _("Non-English Books waiting to be released for first round:"),
@@ -106,7 +110,8 @@ $table->set_column_alignments( 'left', 'right', 'left' );
   //get total books waiting to be post processed
     $waitingpost = mysql_query("SELECT count(*) AS numbooks FROM projects
                                 WHERE state = '".PROJ_POST_FIRST_AVAILABLE."'");
-    $totalwaitingpost = (mysql_result($waitingpost,0,"numbooks"));
+    $row = mysql_fetch_assoc($waitingpost);
+    $totalwaitingpost = $row["numbooks"];
 
     $table->row(
         _("Books waiting for post processing:"),
@@ -117,7 +122,8 @@ $table->set_column_alignments( 'left', 'right', 'left' );
   //get total books being post processed
     $inpost = mysql_query("SELECT count(*) AS numbooks FROM projects
                            WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."'");
-    $totalinpost = (mysql_result($inpost,0,"numbooks"));
+    $row = mysql_fetch_assoc($inpost);
+    $totalinpost = $row["numbooks"];
 
     $table->row(
         _("Books being post processed:"),
@@ -128,7 +134,8 @@ $table->set_column_alignments( 'left', 'right', 'left' );
   //get total books in verify
     $verifybooks = mysql_query("SELECT count(*) AS numbooks FROM projects
                                 WHERE state = '".PROJ_POST_SECOND_AVAILABLE."'");
-    $totalverify = (mysql_result($verifybooks,0,"numbooks"));
+    $row = mysql_fetch_assoc($verifybooks);
+    $totalverify = $row["numbooks"];
 
     $table->row(
         _("Books waiting to be verified:"),
@@ -139,7 +146,8 @@ $table->set_column_alignments( 'left', 'right', 'left' );
   //get total books in verifying
     $verifyingbooks = mysql_query("SELECT count(*) AS numbooks FROM projects
                                    WHERE state = '".PROJ_POST_SECOND_CHECKED_OUT."'");
-    $totalverifying = (mysql_result($verifyingbooks,0,"numbooks"));
+    $row = mysql_fetch_assoc($verifyingbooks);
+    $totalverifying = $row["numbooks"];
 
     $table->row(
         _("Books being verified:"),
@@ -225,7 +233,8 @@ foreach ( array('created','proofed','PPd','posted') as $which )
         ORDER BY date DESC
         LIMIT 1
     ");
-    $num_so_far = number_format(mysql_result($res,0));
+    $row = mysql_fetch_row($res);
+    $num_so_far = number_format($row[0]);
 
     $table->row(
         $psd->projects_Xed_title,

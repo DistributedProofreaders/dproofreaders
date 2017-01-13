@@ -39,7 +39,11 @@ if (!empty($uname)) {
         LIMIT $mstart,20
     ");
     $mRows = mysql_num_rows($mResult);
-    if ($mRows == 1) { metarefresh(0,"mdetail.php?id=".mysql_result($mResult,0,"u_id")."",'',''); exit; }
+    if ($mRows == 1)
+    {
+        $row = mysql_fetch_assoc($mResult);
+        metarefresh(0, "mdetail.php?id=".$row["u_id"]);
+    }
     $uname = "uname=".$uname."&";
 } else {
     $mResult=mysql_query("

@@ -213,15 +213,15 @@ function html_logobar() {
     if (0) {
         // show number of projects posted to PG
         $result = mysql_query( "
-            SELECT COUNT(*)
+            SELECT COUNT(*) as numproj
             FROM projects
             WHERE $psd->state_selector
         ");
-        $numproj = mysql_result($result,0);
+        $row = mysql_fetch_assoc($result);
         echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='4'><b>";
         echo sprintf(
             _('%s projects completed!'),
-            number_format($numproj));
+            number_format($row["numproj"]));
         echo "</b></font>\n";
         echo "<br>";
     }
@@ -231,15 +231,15 @@ function html_logobar() {
         // (takes into account that some books are processed as several projects)
 
         $result = mysql_query( "
-            SELECT COUNT(distinct postednum)
+            SELECT COUNT(distinct postednum) as numproj
             FROM projects
             WHERE $psd->state_selector
         ");
-        $numproj = mysql_result($result,0);
+        $row = mysql_fetch_assoc($result);
         echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>";
         echo sprintf(
             _('%s titles preserved for the world!'),
-            number_format($numproj));
+            number_format($row["numproj"]));
         echo "</b></font>\n";
         show_completed_projects(TRUE);
     }
@@ -902,13 +902,14 @@ function show_completed_projects($terse = FALSE)
         $displaydate = strftime(_("%b %Y"), $begindate );
 
         $result = mysql_query("
-            SELECT COUNT(*)
+            SELECT COUNT(*) as totalprojects
             FROM projects
             WHERE modifieddate >= $begindate
                 and modifieddate <= $enddate
                 and state = '".PROJ_SUBMIT_PG_POSTED."'
         ");
-        $totalprojects = mysql_result($result,0);
+        $row = mysql_fetch_assoc($result);
+        $totalprojects = $row["totalprojects"];
 
         if ($terse) {
             // TRANSLATORS: string is in the format: $totalprojects in $date

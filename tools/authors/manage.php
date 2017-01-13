@@ -508,7 +508,8 @@ while ($i++ < $count && $author = @mysql_fetch_array($result)) {
          "<td rowspan='$bio_count'><a href=\"add.php?author_id=$id&mode=manage\">" . _('Edit') . "</a></td>\n    " .
          "<td rowspan='$bio_count'></td>\n    ";
     for ($j = 0; $j < $bio_count; $j++) {
-        $bio_id = mysql_result($bioresult, $j);
+        $row = mysql_fetch_assoc($bioresult);
+        $bio_id = $row["bio_id"];
         if ($j != 0)
             echo "<tr>";
         write_bio_links($id, $bio_id);

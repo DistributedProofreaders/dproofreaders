@@ -149,7 +149,8 @@ foreach ( array(1,7,30) as $days_back )
         FROM users
         WHERE t_last_activity > UNIX_TIMESTAMP() - $days_back * 24*60*60
     ") or die(mysql_error());
-    $num_users = mysql_result($res,0);
+    $row = mysql_fetch_row($res);
+    $num_users = $row[0];
     
     $template = (
         $days_back == 1

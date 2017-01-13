@@ -86,7 +86,8 @@ if (!isset($name))
         ");
         if ($c_res)
         {
-            $current_length = mysql_result($c_res,0);
+            $row = mysql_fetch_row($c_res);
+            $current_length = $row[0];
         }
         else
         {

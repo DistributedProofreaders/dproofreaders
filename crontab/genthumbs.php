@@ -19,8 +19,9 @@ set_time_limit(90);
 
 $result = mysql_query("SELECT projectid, state FROM projects WHERE state = 'project_md_first' AND thumbs = 'no' LIMIT 1");
 
-$projectid = mysql_result($result, 0, "projectid");
-$state = mysql_result($result, 0, "state");
+$row = mysql_fetch_assoc($result);
+$projectid = $row["projectid"];
+$state = $row["state"];
 
 //make thumbs directory
 $dest_project_dir = "$projects_dir/$projectid/thumbs";
@@ -32,12 +33,9 @@ if (!file_exists($dest_project_dir)) {
 
 $result = mysql_query("SELECT image FROM $projectid");
 
-$numrows = mysql_num_rows($result);
-$rownum = 0;
-while ($rownum < $numrows) {
+while ($row = mysql_fetch_assoc($result)) {
 
-    //while ($row = mysql_fetch_row($result)) {
-    $imagename = mysql_result($result, $rownum, "image");
+    $imagename = $row["image"];
 
     //setup our source and destination images
     $image = "$projects_dir/$projectid/$imagename"; // name/location of original image.
@@ -70,9 +68,7 @@ while ($rownum < $numrows) {
     //clean up memory
     imagedestroy($src_img); 
     imagedestroy($dest_img);
-
-    $rownum++;
-
 }
+
 //update projects table to indicate thumbs have been gen'ed
 $result = mysql_query("UPDATE projects SET thumbs = 'yes' WHERE projectid = '$projectid'");

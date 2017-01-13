@@ -34,7 +34,8 @@ if (mysql_num_rows($result) == 0)
     die("Could not find text for $image in $project");
 }
 
-$data = mysql_result($result, 0, $text_column_name);
+$row = mysql_fetch_assoc($result);
+$data = $row[$text_column_name];
 
 header("Content-type: text/plain; charset=$charset");
 // SENDING PAGE-TEXT TO USER

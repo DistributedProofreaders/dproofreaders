@@ -314,7 +314,8 @@ function decide_blurbs()
             ORDER BY {$round->time_column_name} DESC
             LIMIT 1
         ");
-        if (mysql_num_rows($res) == 0)
+        $row = mysql_fetch_assoc($res);
+        if (!$row)
         {
             // The user has not saved any pages for this project.
             $top_blurb =
@@ -327,7 +328,7 @@ function decide_blurbs()
         else
         {
             // The user has saved a page for this project.
-            $my_latest_save_timestamp = mysql_result($res,0,$round->time_column_name);
+            $my_latest_save_timestamp = $row[$round->time_column_name];
 
             if ($my_latest_save_timestamp < $comments_timestamp)
             {
@@ -597,10 +598,10 @@ function do_project_info_table()
             ORDER BY {$round->time_column_name} DESC
             LIMIT 1
         ");
-        if (mysql_num_rows($proofdate)!=0)
+        $row = mysql_fetch_assoc($proofdate);
+        if ($row)
         {
-            $latest_save_time = mysql_result($proofdate,0,$round->time_column_name);
-            $lastproofed = strftime($datetime_format, $latest_save_time);
+            $lastproofed = strftime($datetime_format, $row[$round->time_column_name]);
         }
         else
         {
@@ -901,9 +902,10 @@ function recentlyproofed( $wlist )
 
     while (($rownum < $recentNum) && ($rownum < $numrows))
     {
-        $imagefile = mysql_result($result, $rownum, "image");
-        $timestamp = mysql_result($result, $rownum, $round->time_column_name);
-        $pagestate = mysql_result($result, $rownum, "state");
+        $row = mysql_fetch_assoc($result);
+        $imagefile = $row["image"];
+        $timestamp = $row[$round->time_column_name];
+        $pagestate = $row["state"];
 
         $eURL = url_for_pi_do_particular_page(
             $projectid, $state, $imagefile, $pagestate );

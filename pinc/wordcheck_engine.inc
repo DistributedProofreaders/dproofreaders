@@ -544,11 +544,11 @@ function count_wordcheck_suggestion_events($projectid, $start_time=0)
     $res = mysql_query($sql);
     if ($res === FALSE) return 0;
     
-    $num_events = mysql_result($res,0,"numevents");
+    $row = mysql_fetch_assoc($res);
 
     mysql_free_result($res);
 
-    return $num_events;
+    return $row["numevents"];
 }
 
 function load_wordcheck_events($projectid, $start_time=0) {

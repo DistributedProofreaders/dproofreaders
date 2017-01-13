@@ -1585,7 +1585,8 @@ function RelatedTasks($tid)
 {
     global $tasks_url, $tasks_status_array;
     $result = mysql_query("SELECT related_tasks FROM tasks WHERE task_id = $tid");
-    $related_tasks = mysql_result($result, 0, "related_tasks");
+    $row = mysql_fetch_assoc($result);
+    $related_tasks = $row["related_tasks"];
     echo "<table class='tasks'>\n";
     echo "<tr><td width='100%'><b>Related Tasks&nbsp;&nbsp;</b>";
     echo "<form action='$tasks_url' method='post'>";
@@ -1601,20 +1602,20 @@ function RelatedTasks($tid)
         $result = mysql_query("
             SELECT task_status, task_summary FROM tasks WHERE task_id = $val
         ") or die(mysql_error());
-        $related_task_exists = mysql_num_rows($result) != 0;
-        if (!$related_task_exists) {
+        $row = mysql_fetch_assoc($result);
+        if (!$row) {
             // The task must have been deleted from the table manually.
             $related_task_summary = "[not found]";
         }
         else {
-            $related_task_summary = html_safe(mysql_result($result, 0, "task_summary"));
-            $related_task_status  = $tasks_status_array[mysql_result($result, 0, "task_status")];
+            $related_task_summary = html_safe($row["task_summary"]);
+            $related_task_status  = $tasks_status_array[$row["task_status"]];
         }
-        if ($related_task_exists) {
+
+        if ($row)
             echo "<form action='$tasks_url' method='post'>";
-        }
         echo "<a href='$tasks_url?action=show&task_id=$val'>Task #$val</a> ($related_task_status) - $related_task_summary";
-        if ($related_task_exists) {
+        if ($row) {
             echo " <input type='hidden' name='action' value='remove_related_task'>";
             echo "<input type='hidden' name='task_id' value='$tid'>";
             echo "<input type='hidden' name='related_task' value='$val'>";
@@ -1629,7 +1630,8 @@ function RelatedPostings($tid)
 {
     global $tasks_url;
     $result = mysql_query("SELECT related_postings FROM tasks WHERE task_id = $tid");
-    $related_postings = mysql_result($result, 0, "related_postings");
+    $row = mysql_fetch_assoc($result);
+    $related_postings = $row["related_postings"];
     echo "<table class='tasks'>\n";
     echo "<tr><td width='100%'><b>Related Topic ID&nbsp;&nbsp;</b>";
     echo "<form action='$tasks_url' method='post'>";

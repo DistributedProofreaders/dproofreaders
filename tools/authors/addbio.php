@@ -20,8 +20,9 @@ elseif (isset($_GET['bio_id'])) {
     // init edit of existing bio
     $bio_id = get_integer_param($_GET, 'bio_id', null, null, null, TRUE);
     $result = mysql_query("SELECT * FROM biographies WHERE bio_id = $bio_id;");
-    $author_id = mysql_result($result, 0, 'author_id');
-    $bio       = mysql_result($result, 0, 'bio');
+    $row = mysql_fetch_assoc($result);
+    $author_id = $row["author_id"];
+    $bio       = $row["bio"];
 }
 elseif (isset($_POST['author_id'])) {
     // preview / save

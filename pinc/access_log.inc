@@ -34,7 +34,7 @@ function get_first_granted_date($username, $stage)
 
     $result = mysql_query($sql);
 
-    $date = @mysql_result($result, 0, "timestamp");
+    $row = mysql_fetch_assoc($result);
 
-    return $date;
+    return $row["timestamp"];
 }

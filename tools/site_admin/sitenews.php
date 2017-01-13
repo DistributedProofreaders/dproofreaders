@@ -164,8 +164,9 @@ function show_item_editor( $news_page_id )
 {
     if (isset($_GET['action']) && $_GET['action'] == "edit") {
         $item_id = get_integer_param($_GET, 'item_id', null, null, null);
-        $result = mysql_query("SELECT * FROM news_items WHERE id=$item_id");
-        $initial_content = mysql_result($result,0,"content");
+        $result = mysql_query("SELECT content FROM news_items WHERE id=$item_id");
+        $row = mysql_fetch_assoc($result);
+        $initial_content = $row["content"];
         $action_to_request = "edit_update";
         $submit_button_label = _("Edit News Item");
     } else {

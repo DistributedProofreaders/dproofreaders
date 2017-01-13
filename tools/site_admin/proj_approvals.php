@@ -63,15 +63,14 @@ echo "<table border=1>\n";
         FROM projects
         WHERE state = 'project_new_waiting_app'
     ");
-    $numrows = mysql_num_rows($result);
     $rownum = 0;
 
-    while ($rownum < $numrows) {
-        $projectid = mysql_result($result, $rownum, "projectid");
-        $state = mysql_result($result, $rownum, "state");
-        $name = mysql_result($result, $rownum, "nameofwork");
-        $author = mysql_result($result, $rownum, "authorsname");
-        $clearance = mysql_result($result, $rownum, "clearance");
+    while ($row = mysql_fetch_assoc($result)) {
+        $projectid = $row["projectid"];
+        $state = $row["state"];
+        $name = $row["nameofwork"];
+        $author = $row["authorsname"];
+        $clearance = $row["clearance"];
 
         if ($rownum % 2 ) {
             $row_color = $theme['color_mainbody_bg'];

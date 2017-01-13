@@ -65,7 +65,8 @@ $res = mysql_query("
     FROM projects
     WHERE LEFT(comments,8) = 'special:'
 ") or die(mysql_error());
-$num_left = mysql_result($res,0);
+$row = mysql_fetch_row($res);
+$num_left = $row[0];
 echo "There are $num_left project comments left that begin with 'SPECIAL:'.\n";
 
 echo "\n";
@@ -86,7 +87,8 @@ $res = mysql_query("
     FROM queue_defns
     WHERE INSTR(project_selector,'special:')
 ") or die(mysql_error());
-$num_left = mysql_result($res,0);
+$row = mysql_fetch_row($res);
+$num_left = $row[0];
 echo "There are $num_left queue_defns left whose project_selector mentions 'SPECIAL:'.\n";
 
 
@@ -107,7 +109,8 @@ $res = mysql_query("
     FROM projects
     WHERE INSTR(comments,'document.php')
 ") or die(mysql_error());
-$num_left = mysql_result($res,0);
+$row = mysql_fetch_row($res);
+$num_left = $row[0];
 echo "There are still $num_left project comments left that mention document.php in some way.\n";
 
 echo "\n";

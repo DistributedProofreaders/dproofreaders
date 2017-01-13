@@ -31,15 +31,17 @@ if (!$result || mysql_num_rows($result) == 0) {
     echo sprintf(_('You may return to the <a href="%1$s">authors-listing</a>.'), 'listing.php');
     exit();
 }
-$author_id = mysql_result($result, 0, 'author_id');
-$bio = mysql_result($result, 0, 'bio');
+$row = mysql_fetch_assoc($result);
+$author_id = $row["author_id"];
+$bio = $row["bio"];
 
 $bio = preg_replace("/å/", "&aring;", $bio);
 
 // the author
 $result = mysql_query("SELECT last_name, other_names FROM authors WHERE author_id=$author_id;");
-$last_name = mysql_result($result, 0, 'last_name');
-$other_names = mysql_result($result, 0, 'other_names');
+$row = mysql_fetch_assoc($result);
+$last_name = $row["last_name"];
+$other_names = $row["other_names"];
 
 $name = $last_name . ($other_names!=''?", $other_names":'');
 

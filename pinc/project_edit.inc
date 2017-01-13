@@ -15,13 +15,13 @@ function user_can_edit_project( $projectid )
     global $pguser;
 
     $res = mysql_query("SELECT username FROM projects WHERE projectid = '$projectid' LIMIT 1");
-    if (mysql_num_rows($res) == 0)
+    $row = mysql_fetch_assoc($res);
+    if(!$row)
     {
         return PROJECT_DOES_NOT_EXIST;
     }
 
-    $project_manager = mysql_result($res, 0, "username");
-    if ($pguser == $project_manager)
+    if ($pguser == $row["username"])
     {
         // The current user is the project manager for the project.
         return USER_CAN_EDIT_PROJECT;

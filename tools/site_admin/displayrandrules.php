@@ -8,20 +8,19 @@ require_login();
 
 output_header("Random Rule Database Validation");
 
-$query = "SELECT count(*) AS numrules FROM rules";
+$query = "SELECT * FROM rules ORDER BY id";
 $result = mysql_query($query);
-$num_rules = mysql_result($result,0,"numrules");
+$num_rules = mysql_num_rows($result);
 
 echo "<p>There are $num_rules Random Rules in the database...</p>";
 
-for ($i=1;$i<=$num_rules;$i++)
+$rule_number = 1;
+while ($rule = mysql_fetch_assoc($result))
 {
-    $query = "SELECT document,anchor,subject,rule FROM rules WHERE id = '$i'";
-    $result = mysql_query($query);
-    $rule = mysql_fetch_assoc($result);
     echo "<hr>\n";
-    echo "<div><b>ID:</b> $i &mdash; $rule[subject] (anchored as \"#$rule[anchor]\" in $rule[document])</div>\n";
+    echo "<div><b>ID:</b> $rule_number &mdash; $rule[subject] (anchored as \"#$rule[anchor]\" in $rule[document])</div>\n";
     echo "<div>$rule[rule]</div>\n";
+    $rule_number++;
 }
 
 // vim: sw=4 ts=4 expandtab

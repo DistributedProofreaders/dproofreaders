@@ -10,10 +10,11 @@ require_login();
 $author_id = get_integer_param($_GET, 'author_id', null, null, null, TRUE);
 
 $result = mysql_query("SELECT * FROM authors WHERE author_id=$author_id");
-$last_name = mysql_result($result, 0, "last_name");
-$other_names = mysql_result($result, 0, "other_names");
-$birth = format_date_from_sqlset($result, 0, 'b');
-$decease = format_date_from_sqlset($result, 0, 'd');
+$row = mysql_fetch_assoc($result);
+$last_name = $row["last_name"];
+$other_names = $row["other_names"];
+$birth = format_date_from_sqlset($row, 'b');
+$decease = format_date_from_sqlset($row, 'd');
 
 // Start outputting
 output_header(_('Author') . ': ' . $last_name . ($other_names!=''?", $other_names":''));

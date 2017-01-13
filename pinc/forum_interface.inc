@@ -837,11 +837,13 @@ function topic_change_forum( $topic_id, $to_forum_id )
         WHERE topic_id=$topic_id
     ");
 
+    $row = mysql_fetch_assoc($result);
+
     // If no rows were returned (because the topic_id doesn't exist), stop.
-    if(mysql_num_rows($result)==0)
+    if(!$row)
         return;
 
-    $from_forum_id = mysql_result($result, 0, "forum_id");  
+    $from_forum_id = $row["forum_id"];
 
     if ($from_forum_id != $to_forum_id)
     {

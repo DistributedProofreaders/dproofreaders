@@ -23,7 +23,11 @@ if ($tname) {
 
     $tResult = select_from_teams($where_body, "ORDER BY $order $direction LIMIT $tstart,20");
     $tRows = mysql_num_rows($tResult);
-    if ($tRows == 1) { metarefresh(0,"tdetail.php?tid=".mysql_result($tResult,0,"id")."",'',''); exit; }
+    if ($tRows == 1)
+    {
+        $row = mysql_fetch_assoc($tRows);
+        metarefresh(0, "tdetail.php?tid=" . $row["id"]);
+    }
     $tname = "tname=" . urlencode($tname) . "&";
 } else {
     $tResult=select_from_teams("", "ORDER BY $order $direction LIMIT $tstart,20");

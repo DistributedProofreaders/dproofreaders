@@ -99,7 +99,8 @@ if ($action == 'update_oneshot')
             WHERE code_name = '%s'
         ", mysql_real_escape_string($new_code_name)));
 
-        $new = (mysql_result($result,0) == 0);
+        $row = mysql_fetch_row($result);
+        $new = ($row[0] == 0);
 
         if (!$new)
             $source->ImageSource($_REQUEST['code_name']);

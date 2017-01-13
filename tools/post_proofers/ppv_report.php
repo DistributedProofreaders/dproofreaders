@@ -135,7 +135,8 @@ $result = mysql_query("
     WHERE $psd->state_selector
       AND postproofer = '$project->postproofer'
 ");
-$number_post_processed = mysql_result($result, 0, "num_post_processed");
+$row = mysql_fetch_assoc($result);
+$number_post_processed = $row["num_post_processed"];
 mysql_free_result($result);
 
 // Compute the date of PP upload. We must take into account cases when 
@@ -156,10 +157,11 @@ $result = mysql_query("SELECT timestamp FROM project_events
       AND details2 = '" . PROJ_POST_SECOND_CHECKED_OUT . "'
     ORDER BY timestamp ASC
     LIMIT 1");
-if (mysql_num_rows($result) != 0) 
+$row = mysql_fetch_assoc($result);
+mysql_free_result($result);
+if ($row)
 {
-    $earliest_in_ppv = mysql_result($result, 0);
-    mysql_free_result($result);
+    $earliest_in_ppv = $row["timestamp"];
 
     // latest transition from PP.checked out to PPV.avail
     $result = mysql_query("SELECT timestamp FROM project_events
@@ -170,12 +172,11 @@ if (mysql_num_rows($result) != 0)
           AND timestamp < $earliest_in_ppv
         ORDER BY timestamp DESC
         LIMIT 1");
-    if (mysql_num_rows($result) != 0) 
-    {
-        $pp_date = date("d-M-Y", mysql_result($result, 0));
-    }
+    $row = mysql_fetch_assoc($result);
+    mysql_free_result($result);
+    if ($row)
+        $pp_date = date("d-M-Y", $row["timestamp"]);
 }
-mysql_free_result($result);
 
 if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
 {
