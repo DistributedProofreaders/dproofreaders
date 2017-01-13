@@ -484,7 +484,7 @@ while ($i++ < $count && $author = @mysql_fetch_array($result)) {
     echo "<tr><td colspan='13'></td></tr>\n";
     $id = $author['author_id'];
     $bioresult = mysql_query("SELECT bio_id FROM biographies WHERE author_id = $id ORDER BY bio_id;");
-    $bio_count = mysql_numrows($bioresult);
+    $bio_count = mysql_num_rows($bioresult);
 
     if ($bio_count > 0) {
         $javascript_to_disable_delete_authors .= "document.adminform.delete_author_$id.disabled = true;\n";

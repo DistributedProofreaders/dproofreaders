@@ -32,7 +32,7 @@ class BrowseUtility {
   // HTTP-arguments always have precedence before $count provided here
   function BrowseUtility($search_result, $count = 20) {
 
-    $this->_total_row_count = mysql_numrows($search_result);
+    $this->_total_row_count = mysql_num_rows($search_result);
 
     if (isset($_REQUEST['start']) && $_REQUEST['start'] > 0)
       $this->_start = $_REQUEST['start'];
