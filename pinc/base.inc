@@ -49,7 +49,7 @@ if(!headers_sent())
 }
 
 include_once($relPath.'gettext_setup.inc');
-include_once($relPath.'connect.inc');
+include_once($relPath.'DPDatabase.inc');
 
 $db_Connection=new dbConnect();
 if ($db_Connection->error != '')
