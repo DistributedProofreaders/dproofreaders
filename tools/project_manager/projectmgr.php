@@ -117,7 +117,11 @@ class Widget
                         if ( in_array( '', $values ) ) return NULL;
                     }
 
-                    $values = array_map("mysql_real_escape_string", $values);
+                    function escape_callback($value)
+                    {
+                        return mysqli_real_escape_string(DPDatabase::get_connection(), $value);
+                    }
+                    $values = array_map("escape_callback", $values);
 
                     if ( $comparator == '=' )
                     {
