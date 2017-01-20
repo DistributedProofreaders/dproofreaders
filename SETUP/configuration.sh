@@ -82,7 +82,7 @@ _DYN_URL=$base_url/d
 #     Some images are assumed to have text in them and need to have
 #     different images for each language the site is translated into.
 #     These are indicated with <locale> below. Note the default locale
-#     of the code is en_EN.
+#     of the code is en_US.
 #
 #     The images can be of type png, jpg, or gif and are selected in that
 #     order using those extensions.

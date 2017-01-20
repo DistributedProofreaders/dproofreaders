@@ -241,10 +241,10 @@ function is_locale_translation_enabled($locale)
 {
     global $dyn_locales_dir;
 
-    // Locale 'en_EN' is always enabled because that's the default
+    // Locale 'en_US' is always enabled because that's the default
     // language of all the internal strings. We have to check for
     // it because there is no translation file for it.
-    if($locale == 'en_EN')
+    if($locale == 'en_US')
         return TRUE;
 
     $translation_base = "$dyn_locales_dir/$locale";
@@ -280,9 +280,9 @@ function get_locale_translation_selection_options()
 {
     $translations = get_installed_locale_translations("enabled");
 
-    // push English (en_EN) onto the list since that's the native version
+    // push English (en_US) onto the list since that's the native version
     // of all the strings
-    array_unshift($translations, "en_EN");
+    array_unshift($translations, "en_US");
 
     // build a list of option names so we can sort them for display
     $options = array();

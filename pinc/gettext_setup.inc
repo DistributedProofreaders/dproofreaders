@@ -45,7 +45,7 @@ function get_desired_language()
 
     // Fall back to English
     if (!@$intlang || !is_locale_translation_enabled($intlang)) {
-        $intlang = "en_EN";
+        $intlang = "en_US";
     }
 
     return $intlang;
