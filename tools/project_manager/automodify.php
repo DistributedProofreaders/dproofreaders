@@ -69,16 +69,6 @@ function pages_indicate_bad_project( $projectid, $round )
     if ($n_bad_pages >= 10 && $n_unique_reporters >= 3) return TRUE;
 
 
-    // In round 2, if it has any bad pages
-    // and no available pages, it's bad.
-    //
-    if ($round->round_number == 2)
-    {
-        $n_avail_pages = Project_getNumPagesInState($projectid,$round->page_avail_state);
-        if ($trace) echo "n_avail_pages = $n_avail_pages\n";
-        if ($n_avail_pages == 0) return TRUE;
-    }
-
     // Otherwise, it's good.
     //
     return FALSE;
