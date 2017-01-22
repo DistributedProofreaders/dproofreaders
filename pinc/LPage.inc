@@ -333,6 +333,7 @@ the project will automatically be made unavailable.";
 
         // Now determine whether the project as a whole should be marked bad.
         // We need 10 or more bad pages reported by 3 or more distinct users.
+        // (Note duplication of code with pages_indicate_bad_project() in automodify.php)
 
         $n_bad_pages =
             Project_getNumPagesInState(

@@ -52,6 +52,8 @@ function pages_indicate_bad_project( $projectid, $round )
 {
     global $trace;
 
+    // (Note duplication of code with LPage::markAsBad in LPage.inc)
+
     // If it has no bad pages, it's good.
     //
     $n_bad_pages = Project_getNumPagesInState($projectid,$round->page_bad_state);
