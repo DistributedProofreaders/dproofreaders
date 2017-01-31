@@ -405,27 +405,24 @@ function javascript_safe($str, $encoding)
     
     if (!strcasecmp($encoding, 'UTF-8')) 
     {
-        // /e modifier causes preg_replace() to evaluate the replacement
-        // string as php code and uses the evaluation's return value.
-        // When using the /e modifier single quotes, double quotes,
-        // backslashes (\) and NULL chars will be escaped by backslashes.
-        // So, to avoid computing ord("\'") we handle the single quote
-        // separately 
-        $str = preg_replace('/([\000-\037\"\\\\<\177])/e', 
-            'sprintf("\\%03o", ord("$1"))', $str);
-        $str = str_replace("'", '\047', $str);
-    
+        $str = preg_replace_callback('/([\000-\037\"\'\\\\<\177])/',
+            function ($matches) {
+                return sprintf("\\%03o", ord($matches[0]));
+            }, $str);
+
         // convert non-7bit ascii characters to \uHHHH notation
-        $str = preg_replace('/([^\000-\177])/eu', 
-            'sprintf("\\u%04x", _utf8_ord("$1") & 0xffff)', $str);
+        $str = preg_replace_callback('/([^\000-\177])/u',
+            function ($matches) {
+                return sprintf("\\u%04x", _utf8_ord($matches[0]) & 0xffff);
+            }, $str);
     }
     else
     {
         // assume Latin-1 encoding
-        // See comment above about the /e modifier in preg_replace(). 
-        $str = preg_replace('/([\000-\017\\\\"<\177-\237])/e', 
-            'sprintf("\\%03o", ord("$1"))', $str);
-        $str = str_replace("'", '\047', $str);
+        $str = preg_replace_callback('/([\000-\017\\\\"\'<\177-\237])/',
+            function ($matches) {
+                return sprintf("\\%03o", ord($matches[0]));
+            }, $str);
     }
     return $str;
 }
