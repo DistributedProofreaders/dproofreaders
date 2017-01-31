@@ -438,48 +438,36 @@ function xmlencode($string)
 
 // -----------------------------------------------------------------------------
 
-if (version_compare(PHP_VERSION, '6.0.0') >= 0)
+function _utf8_ord($str)
+// Implementation of UTF-8 compliant ord() function.
+// Characters higher than U+ffff are not supported.
 {
-    // PHP v6 is said to have native utf-8 support (untested)
-    
-    function _utf8_ord($str)
+    if ($str == '')
     {
-        return ord($str);
+        return 0;
     }
-} 
-else
-{
-    function _utf8_ord($str)
-    // Implementation of UTF-8 compliant ord() function.
-    // Characters higher than U+ffff are not supported.
+    $u = unpack('C*', $str);
+    $count = count($u);
+    if ($count >= 1 && ($u[1] & 0x80) == 0)
     {
-        if ($str == '') 
-        {
-            return 0;
-        }
-        $u = unpack('C*', $str);
-        $count = count($u);
-        if ($count >= 1 && ($u[1] & 0x80) == 0)
-        {
-            // 0xxxxxxx    
-            return $u[1];
-        }
-        else if ($count >= 2 && ($u[1] & 0xE0) == 0xC0)  
-        {
-            // 110xxxxx   
-            return (($u[1] & 0x1F) << 6) | ($u[2] & 0x3F);  
-        }
-        else if ($count >= 3 && ($u[1] & 0xF0) == 0xE0)
-        {
-            // 1110xxxx 
-            return (($u[1] & 0x0F) << 12) 
-               | (($u[2] & 0x3F) << 6) | ($u[3] & 0x3F);
-        }
-        else
-        {
-            // higher characters, or malformed string, return '?'
-            return ord('?');
-        }
+        // 0xxxxxxx
+        return $u[1];
+    }
+    else if ($count >= 2 && ($u[1] & 0xE0) == 0xC0)
+    {
+        // 110xxxxx
+        return (($u[1] & 0x1F) << 6) | ($u[2] & 0x3F);
+    }
+    else if ($count >= 3 && ($u[1] & 0xF0) == 0xE0)
+    {
+        // 1110xxxx
+        return (($u[1] & 0x0F) << 12)
+           | (($u[2] & 0x3F) << 6) | ($u[3] & 0x3F);
+    }
+    else
+    {
+        // higher characters, or malformed string, return '?'
+        return ord('?');
     }
 }
 
