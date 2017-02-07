@@ -144,6 +144,9 @@ class SpecialDay
 
     function SpecialDay($spec_code = null)
     {
+        $this->new_source = true;
+        $this->enable = 0;
+
         if( !is_null($spec_code) )
         {
             $result = mysql_query(sprintf("
@@ -157,16 +160,9 @@ class SpecialDay
             {
                 foreach ($source_fields as $field => $value)
                     $this->$field = $value;
+
                 $this->new_source = false;
             }
-            else
-            {
-                $this->new_source = true;
-            }
-        }
-        else
-        {
-            $this->new_source = true;
         }
     }
 
@@ -265,7 +261,7 @@ class SpecialDay
         }
         $this->_show_edit_row('display_name',_('Display Name'),false,80);
         echo "  <tr><td class='pa'>Enable</th><td><input type='checkbox' name='enable'";
-        if ( $this->enable ==1 )
+        if ( $this->enable )
             echo " value='1' checked";
         echo "></td></tr>\n";
         $this->_show_edit_row('comment',_('Comment'),true);
