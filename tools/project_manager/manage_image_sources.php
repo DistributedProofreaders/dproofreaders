@@ -138,7 +138,7 @@ if ($action == 'show_sources')
 
     output_header(_('List Image Sources'), NO_STATSBAR, $theme_args);
 
-    show_is_toolbar();
+    show_is_toolbar($action);
 
     $result = mysql_query("SELECT code_name FROM image_sources ORDER BY display_name ASC");
 
@@ -170,7 +170,7 @@ elseif ($action == 'edit_source')
 {
     $source = new ImageSource($_REQUEST['source']);
     output_header(sprintf(_("Editing %s"), $source->display_name), NO_STATSBAR, $theme_args);
-    show_is_toolbar();
+    show_is_toolbar($action);
     $source->show_edit_form();
 }
 
@@ -178,7 +178,7 @@ elseif ($action == 'add_source')
 {
     $title = $can_edit ? _('Add a new Image Source') : _('Propose a new Image Source');
     output_header($title, NO_STATSBAR, $theme_args);
-    show_is_toolbar();
+    show_is_toolbar($action);
     $blank = new ImageSource(null);
     $blank->show_edit_form();
 }
@@ -624,25 +624,25 @@ function make_link($url,$label)
     }
 }
 
-function show_is_toolbar()
+function show_is_toolbar($action)
 {
-    global $action;
-
     $pages = array(
         'add_source' => _('Add New Source'),
         'show_sources' => _('List All Image Sources')
     );
-    echo "<p class='toolbar'>";
+
+    $toolbar_items = array();
     foreach ($pages as $new_action => $label)
     {
-        echo ($action == $new_action) ? "<b>" : "<a href='?action=$new_action'>";
-        echo $label;
-        echo ($action == $new_action) ? "</b>" : "</a>";
+        if($action == $new_action)
+            $item = "<b>$label</b>";
+        else
+            $item = "<a href='?action=$new_action'>$label</a>";
 
-        if ( $label != end($pages) )
-            echo " | ";
+        $toolbar_items[] = $item;
     }
-    echo "</p>";
+
+    echo "<p class='toolbar'>" . implode(" | ", $toolbar_items) . "</p>";
 }
 
 // vim: sw=4 ts=4 expandtab

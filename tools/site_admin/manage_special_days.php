@@ -97,7 +97,7 @@ if ($action == 'show_specials')
     output_header(_('Manage Special Days'), NO_STATSBAR, $theme_args);
     $table_summary = _("Special Days Listing");
 
-    show_sd_toolbar();
+    show_sd_toolbar($action);
 
     $result = mysql_query("SELECT spec_code
         FROM special_days
@@ -122,7 +122,7 @@ elseif ($action == 'edit_source')
     $source = new SpecialDay($_POST['source']);
     $headertext = sprintf(_("Editing Special Day: %s"),$source->display_name);
     output_header($headertext, NO_STATSBAR, $theme_args);
-    show_sd_toolbar();
+    show_sd_toolbar($action);
     echo "<h1 class='source'>" . $headertext . "</h1>\n";
     $source->show_edit_form();
 }
@@ -131,7 +131,7 @@ elseif ($action == 'add_special')
 {
     $headertext=_('Add a new Special Day');
     output_header($headertext, NO_STATSBAR, $theme_args);
-    show_sd_toolbar();
+    show_sd_toolbar($action);
     echo "<h2 class='source'>" . $headertext . "</h2>\n";
     $blank = new SpecialDay(null);
     $blank->show_edit_form();
@@ -422,25 +422,25 @@ function make_link($url,$label)
     }
 }
 
-function show_sd_toolbar()
+function show_sd_toolbar($action)
 {
-    global $action;
-
     $pages = array(
         'add_special' => _('Add New Special Day'),
         'show_specials' => _('List All Special Days')
     );
-    echo "<p style='text-align: center; margin: 5px 0 5px 0;'>";
+
+    $toolbar_items = array();
     foreach ($pages as $new_action => $label)
     {
-        echo ($action == $new_action) ? "<b>" : "<a href='?action=$new_action'>";
-        echo $label;
-        echo ($action == $new_action) ? "</b>" : "</a>";
+        if($action == $new_action)
+            $item = "<b>$label</b>";
+        else
+            $item = "<a href='?action=$new_action'>$label</a>";
 
-        if ( $label != end($pages) )
-            echo " | ";
+        $toolbar_items[] = $item;
     }
-    echo "</p>";
+
+    echo "<p style='text-align: center; margin: 5px 0 5px 0;'>" . implode(" | ", $toolbar_items) . "</p>";
 }
 
 function output_table_headers()
