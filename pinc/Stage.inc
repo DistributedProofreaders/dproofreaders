@@ -16,7 +16,7 @@ $Stage_for_id_ = array();
 
 class Stage extends Activity
 {
-    function Stage(
+    function __construct(
         $id,
         $name,
         $access_minima,
@@ -38,7 +38,7 @@ class Stage extends Activity
             // The "home" location (relative to $code_url/) of the stage.
     )
     {
-        $this->Activity(
+        parent::__construct(
             $id,
             $name,
             $access_minima,

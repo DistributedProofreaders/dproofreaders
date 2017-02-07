@@ -208,7 +208,7 @@ class LPage
 // and the Presentation layer is most of tools/proofers/*.
 // However, we're not very strict about the divisions yet.)
 {
-    function LPage($projectid, $imagefile, $page_state, $reverting_to_orig)
+    function __construct($projectid, $imagefile, $page_state, $reverting_to_orig)
     {
         $this->projectid  = $projectid;
         $this->imagefile  = $imagefile;

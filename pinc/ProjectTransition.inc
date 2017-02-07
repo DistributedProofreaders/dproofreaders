@@ -17,7 +17,7 @@ $PROJECT_TRANSITIONS = array();
 
 class ProjectTransition
 {
-    function ProjectTransition(
+    function __construct(
         $from_state,
         $to_state,
         $who_restriction,

@@ -49,7 +49,7 @@ function get_all_current_tallyboards()
 
 class TallyBoard
 {
-    function TallyBoard( $tally_name, $holder_type )
+    function __construct( $tally_name, $holder_type )
     {
         $this->tally_name  = $tally_name;
         $this->holder_type = $holder_type;
@@ -695,7 +695,7 @@ class TallyBoard
 
 class Ranker
 {
-    function Ranker( $zero_begets_zero )
+    function __construct( $zero_begets_zero )
     // If $zero_begets_zero is TRUE,
     // a value of zero or less will yield the special rank of zero.
     // (Think of it as a null rank.)

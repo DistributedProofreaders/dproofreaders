@@ -69,7 +69,7 @@ function get_requested_PPage( $request_params )
 class PPage
 // The initial 'P' is for 'Presentation' (i.e., user interface).
 {
-    function PPage( &$lpage, $proj_state )
+    function __construct( &$lpage, $proj_state )
     {
         $this->lpage =& $lpage;
         $this->proj_state = $proj_state;

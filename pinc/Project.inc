@@ -11,7 +11,7 @@ class NonexistentProjectException extends Exception { }
 
 class Project
 {
-    function Project( $arg )
+    function __construct( $arg )
     {
         if ( is_string($arg) )
         {

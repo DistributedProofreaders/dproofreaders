@@ -30,7 +30,7 @@ class BrowseUtility {
   // a fetch_xxx-loop will start at the correct place.
   //
   // HTTP-arguments always have precedence before $count provided here
-  function BrowseUtility($search_result, $count = 20) {
+  function __construct($search_result, $count = 20) {
 
     $this->_total_row_count = mysqli_num_rows($search_result);
 

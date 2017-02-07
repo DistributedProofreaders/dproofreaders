@@ -358,7 +358,7 @@ class ReleaseRestrictor
     var $this_round_pms;
     var $fresh_released_pms;
 
-    function ReleaseRestrictor($round)
+    function __construct($round)
     {
         // ----------------------------------------------------------
         // First, get the set of all authors with works in this round

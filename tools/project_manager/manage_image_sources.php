@@ -78,7 +78,6 @@ if ($action == 'update_oneshot')
     elseif (isset($_REQUEST['save_edits']))
     {
         // This handles both edits to existing sources, and the creation of new sources
-        $source = new ImageSource;
         $new_code_name = rtrim(ltrim($_REQUEST["code_name"]));
 
         $errmsgs = '';
@@ -103,7 +102,9 @@ if ($action == 'update_oneshot')
         $new = ($row[0] == 0);
 
         if (!$new)
-            $source->ImageSource($_REQUEST['code_name']);
+            $source = new ImageSource($_REQUEST['code_name']);
+        else
+            $source = new ImageSource();
 
         if ( !$new && !isset($_REQUEST['editing']) )
         {
@@ -189,7 +190,7 @@ elseif ($action == 'add_source')
 class ImageSource
 {
 
-    function ImageSource($code_name = null)
+    function __construct($code_name = null)
     {
         if( !is_null($code_name) )
         {

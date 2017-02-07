@@ -7,7 +7,7 @@ include_once($relPath.'misc.inc'); // get_enumerated_param
 // for groups of quizzes that go together
 class QuizLevel
 {
-    function QuizLevel($level_id, $level_name, $activity_type, $info, $quizzes)
+    function __construct($level_id, $level_name, $activity_type, $info, $quizzes)
     {
         $this->level_id = $level_id;
         $this->level_name = $level_name;         // name for the category of quizzes
@@ -31,7 +31,7 @@ class Quiz
     static $valid_quiz_page_ids = array();
     static $map_quiz_page_id_to_Quiz = array();
 
-    function Quiz($id, $name, $short_name, $description, $thread, $pages, $pass_requirements)
+    function __construct($id, $name, $short_name, $description, $thread, $pages, $pass_requirements)
     {
         $this->id = $id;
         $this->name = $name;               // appears in the top of the quiz's table

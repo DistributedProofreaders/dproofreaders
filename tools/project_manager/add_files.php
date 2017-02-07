@@ -187,7 +187,7 @@ echo "Return to <a href='$code_url/project.php?id=$projectid&detail_level=4'>Pro
 
 class Loader
 {
-    function Loader( $source_project_dir, $dest_project_dir, $projectid )
+    function __construct( $source_project_dir, $dest_project_dir, $projectid )
     {
         $this->source_project_dir = $source_project_dir;
         $this->dest_project_dir = $dest_project_dir;

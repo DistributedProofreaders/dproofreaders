@@ -174,7 +174,7 @@ function user_get_page_tally_neighborhood( $tally_name, $username, $radius )
 
 class PageTally_Neighbor
 {
-    function PageTally_Neighbor( $tallyboard, $is_anonymized, $username, $date_joined, $u_id, $current_page_tally, $current_page_tally_rank )
+    function __construct( $tallyboard, $is_anonymized, $username, $date_joined, $u_id, $current_page_tally, $current_page_tally_rank )
     {
         $this->tallyboard = $tallyboard;
         $this->is_anonymized = $is_anonymized;

@@ -24,7 +24,7 @@ class SortableValue {
   // If $sqlRuleDescending is not provided, it will be the inverse of
   // $sqlRuleAscending. With 'inverse', I mean that the inverse of
   // "a, b DESC, c ASC" is "a DESC, b ASC, c DESC".
-  function SortableValue($name, $label,
+  function __construct($name, $label,
                          $sqlRuleAscending = null, $sqlRuleDescending = null) {
     $this->_name = $name;
     $this->_label = $label;
@@ -104,7 +104,7 @@ class SortUtility {
   // since, if db-storing of sorting-options is
   // turned on, the name will be used when
   // storing the data.
-  function SortUtility($name) {
+  function __construct($name) {
     $this->_name = $name;
     $this->_collection = array();
 

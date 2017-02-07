@@ -168,7 +168,7 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
 
 class BadWordAccumulator
 {
-    function BadWordAccumulator()
+    function __construct()
     {
         $this->words = array();
         // Each key is a bad word, and its value is

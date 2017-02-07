@@ -142,7 +142,7 @@ elseif ($action == 'add_special')
 class SpecialDay
 {
 
-    function SpecialDay($spec_code = null)
+    function __construct($spec_code = null)
     {
         $this->new_source = true;
         $this->enable = 0;

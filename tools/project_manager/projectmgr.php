@@ -22,7 +22,7 @@ require_login();
 
 class Widget
 {
-    function Widget( $properties )
+    function __construct( $properties )
     {
         foreach ( $properties as $property => $value )
         {
