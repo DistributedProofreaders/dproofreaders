@@ -36,6 +36,7 @@ if ($func == "download" || $func == "view")
 
     if (@$_REQUEST['locale'] == "template")
     {
+        $locale = "template";
         $filename = "$dyn_locales_dir/messages.pot";
     }
     else
