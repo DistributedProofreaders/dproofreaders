@@ -48,60 +48,85 @@ class Project
 
         // -------------------------------------------------
 
-        // Maybe set $this->image_source_name.
-        if (isset($this->image_source))
-        {
-
-            $imso_code = $this->image_source;
-            if ( strcmp($imso_code,'_internal') != 0 )
-            // if $imso_code = _internal, the images were done by or for a DP User, 
-            // whose username should be recorded in image_preparer, and the credit handled by
-            // _create_credit_line() below; otherwise, we need to look up info on the
-            // specific "external" image source
-            {
-                $imso_res = mysql_fetch_assoc(mysql_query("
-                    SELECT full_name, credit
-                    FROM image_sources
-                    WHERE code_name = '$imso_code'
-                "));
-                $this->image_source_name = $imso_res['full_name'];
-                $image_source_credit = $imso_res['credit'];
-            }
-        }
-
-        // Set $this->credits_line.
-        $this->credits_line = $this->_create_credit_line();
-        if (isset($image_source_credit))
-        {
-            // Can't put a . at the end of the output of _create_credit_line, since it ends
-            // with a url and the . breaks the url in some browsers; yet the image source credit,
-            // grammatically and aestehtically, needs some sort of separation from the 
-            // "main" credit line - so we enclose it in ( )
-            $this->credits_line = $this->credits_line." (".$image_source_credit.")";
-        }
-
-        // -------------------------------------------------
-
         global $projects_url, $projects_dir;
 
         $this->url = "$projects_url/$this->projectid";
         $this->dir = "$projects_dir/$this->projectid";
-        $this->dir_exists = is_dir($this->dir);
+    }
 
-        $this->pages_table_exists = does_project_page_table_exist($this->projectid);
+    // -------------------------------------------------------------------------
+    // Property getters
 
-        // -------------------------------------------------
-
+    public function __get($name)
+    {
         global $pguser;
 
-        $this->can_be_managed_by_current_user =
-            $this->can_be_managed_by_user( $pguser );
-        $this->names_can_be_seen_by_current_user =
-            $this->names_can_be_seen_by_user( $pguser );
-        $this->PPer_is_current_user =
-            $this->PPer_is_user( $pguser);
-        $this->PPVer_is_current_user =
-            $this->PPVer_is_user( $pguser);
+        switch($name)
+        {
+            case "dir_exists":
+                return is_dir($this->dir);
+            case "pages_table_exists":
+                return does_project_page_table_exist($this->projectid);
+            case "credits_line":
+                return $this->_get_credits_line();
+            case "image_source_name":
+                $this->_load_image_source();
+                return $this->image_source_name;
+            case "can_be_managed_by_current_user":
+                return $this->can_be_managed_by_user($pguser);
+            case "names_can_be_seen_by_current_user":
+                return $this->names_can_be_seen_by_user($pguser);
+            case "PPer_is_current_user":
+                return $this->PPer_is_user($pguser);
+            case "PPVer_is_current_user":
+                return $this->PPVer_is_user($pguser);
+        }
+
+        // If we don't recognize the property, raise a notice and return null
+        $trace = debug_backtrace();
+        trigger_error(
+            'Undefined property via __get(): ' . $name .
+            ' in ' . $trace[0]['file'] .
+            ' on line ' . $trace[0]['line'],
+            E_USER_NOTICE);
+        return null;
+    }
+
+    private function _load_image_source()
+    {
+        if(!isset($this->image_source))
+        {
+            $this->image_source_name = '';
+            $this->image_source_credit = '';
+            return;
+        }
+
+        $imso_res = mysql_fetch_assoc(mysql_query("
+            SELECT full_name, credit
+            FROM image_sources
+            WHERE code_name = '$this->image_source'
+        "));
+        $this->image_source_name = $imso_res['full_name'];
+        $this->image_source_credit = $imso_res['credit'];
+    }
+
+    private function _get_credits_line()
+    {
+        $credits_line = $this->_create_credit_line();
+
+        // if $this->image_source = _internal, the images were done by or for a DP User,
+        // whose username should be recorded in image_preparer otherwise, we need to
+        // look up info on the specific "external" image source
+        if($this->image_source != "_internal")
+        {
+            $this->_load_image_source();
+            // Can't put a . at the end of the output of _create_credit_line, since it ends
+            // with a url and the . breaks the url in some browsers; yet the image source credit,
+            // grammatically and aestehtically, needs some sort of separation from the
+            // "main" credit line - so we enclose it in ( )
+            $credits_line = "$credits_line ({$this->image_source_credit})";
+        }
+        return $credits_line;
     }
 
     // -------------------------------------------------------------------------
@@ -261,7 +286,7 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    function _create_credit_line()
+    private function _create_credit_line()
     // The string will not be localized, since it should be ready
     // to be included with the finished project.
     {

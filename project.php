@@ -498,7 +498,7 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
     // People who have certain roles with respect to the project
 
-    if (isset($project->image_source_name))
+    if ($project->image_source_name)
     {
         echo_row_a( _("Image Source"), $project->image_source_name, TRUE );
     }
