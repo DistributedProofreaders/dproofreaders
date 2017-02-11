@@ -225,6 +225,7 @@ function prefs_cookie_getvalue()
 
 function local_send_cookie( $cookie_name, $cookie_value )
 {
+    global $use_secure_cookies;
     if ( $cookie_value == "" )
     {
         // Tell the receiver to expire the cookie.
@@ -234,7 +235,7 @@ function local_send_cookie( $cookie_name, $cookie_value )
     {
         $t_offset = +86400;
     }
-    setcookie( $cookie_name, $cookie_value, time() + $t_offset, "/", COOKIE_DOMAIN, 0 );
+    setcookie( $cookie_name, $cookie_value, time() + $t_offset, "/", COOKIE_DOMAIN, $use_secure_cookies );
 }
 
 function local_encrypt( $str )

@@ -22,7 +22,7 @@ function dpsession_begin_( $userID )
 
 function dpsession_resume_()
 {
-    global $pguser, $userP;
+    global $pguser, $userP, $use_secure_cookies;
 
     session_set_handlers_and_start();
 
@@ -35,7 +35,9 @@ function dpsession_resume_()
             ini_get('session.name'),
              session_id(),
             time() + ini_get('session.cookie_lifetime'),
-            '/'
+            '/',
+            '',
+            $use_secure_cookies
         );
 
         // set global variables $pguser and $userP.

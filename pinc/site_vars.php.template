@@ -101,6 +101,7 @@ $image_sources_manager_addr = '<<IMAGE_SOURCES_EMAIL_ADDR>>';
 $testing = <<TESTING>>;
 $use_php_sessions = <<USE_PHP_SESSIONS>>;
 $cookie_encryption_key = '<<COOKIE_ENCRYPTION_KEY>>';
+$use_secure_cookies = <<USE_SECURE_COOKIES>>;
 $maintenance = <<MAINTENANCE>>;
 $maintenance_message = '<<MAINTENANCE_MESSAGE>>';
 $site_supports_metadata = <<METADATA>>;
