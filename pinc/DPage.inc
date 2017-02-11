@@ -650,7 +650,20 @@ function _project_adjust_n_available_pages( $projectid, $adjustment )
     }
     else
     {
-        $expr = "n_available_pages + $adjustment";
+        // MySQL 5.5 and later throws errors if n_available_pages is 0 and
+        // $adjustment is -1. This is because n_available_ages is unsigned.
+        // This shouldn't occur, but sometimes it does, so lets account for it.
+        if($adjustment >= 0)
+        {
+            $expr = "n_available_pages + $adjustment";
+        }
+        else
+        {
+            // Note we have to cast both the evaluation and the false condition
+            // because of how MySQL evaluates the query, even though the second
+            // one (ie: false condition) won't ever be negative.
+            $expr = "IF(CAST(n_available_pages AS SIGNED) + $adjustment < 0, 0, CAST(n_available_pages as SIGNED) + $adjustment)";
+        }
     }
 
     mysql_query("
