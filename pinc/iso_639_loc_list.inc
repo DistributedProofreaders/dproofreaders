@@ -45,6 +45,9 @@ $iso_639_loc=array(
 "nl"=>"Nederlands",
 "no"=>"Norsk",
 "nn"=>"Nynorsk",
+// Some versions of iso-639-3 show "pdc", so DP will use pd
+// as the 2-character version of Pennsylvania Dutch
+"pd"=>"Pennsilfaanisch Deitsch",
 "pl"=>"Polski",
 "pt"=>"Portugu&#234;s", // Português
 "ro"=>"Rom&#226;nesc", // Românesc

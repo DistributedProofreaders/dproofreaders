@@ -1,9 +1,14 @@
 <?php
 // The 3-letter language *CODES* in the table below are mostly those 
-// defined in the ISO-639-2 standard, with the exception of code "qsr"
-// which is not defined in that standard at all and is used in our
-// convention to denote "Serbian (Latin)" 
-// ("qsr" is in the range qaa-qtz reserved for local use in the standard). 
+// defined in the ISO-639-2 standard, with these exceptions:
+//   1. Code "qsr" which is not defined in that standard at all and
+//      is used in our convention to denote "Serbian (Latin)"
+//      ("qsr" is in the range qaa-qtz reserved for local use in the
+//      standard).
+//
+//   2. Code "pdc" is referenced in some (but not all) web-site versions 
+//      of ISO-639-3 as representing Pennsylvania Dutch. We will use that
+//      for DP.
 // 
 // For those languages having two different 3-letter codes in ISO-639-2
 // (a bibliographic code, and a terminology code), both codes are given
@@ -405,6 +410,7 @@ $lang_list=array(
     array("lang_name" => "Panjabi", "lang_code" => "pan"),
     array("lang_name" => "Papiamento", "lang_code" => "pap"),
     array("lang_name" => "Papuan (Other)", "lang_code" => "paa"),
+    array("lang_name" => "Pennsylvania Dutch", "lang_code" => "pdc"),
     array("lang_name" => "Persian", "lang_code" => "per/fas"),
     array("lang_name" => "Persian, Old (ca.600-400)", "lang_code" => "peo"),
     array("lang_name" => "Philippine (Other)", "lang_code" => "phi"),
@@ -644,7 +650,10 @@ $iso_639_1_list_ = array (
     
     // This part is further edited to suit our internal conventions.
     // "qsr" is our private code for Serbian with Latin alphabet
-    "qsr" => "sr-latn"
+    "qsr" => "sr-latn",
+    // "pdc" is listed in some versions of ISO-639-3 as being
+    // Pennsylvania Dutch
+    "pdc" => "pd"
 );
 
 function langtag_for_langcode3( $langcode3 )

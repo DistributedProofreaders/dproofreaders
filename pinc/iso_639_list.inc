@@ -222,6 +222,10 @@ $iso_639=array(
 "Ossetian; Ossetic",
 "pa" =>
 "Panjabi; Punjabi",
+// Some versions of iso-639-3 show "pdc", so DP will use pd
+// as the 2-character version for Pennsylvania Dutch
+"pd" =>
+"Pennsylvania Dutch",
 "pi" =>
 "Pali",
 "pl" =>
