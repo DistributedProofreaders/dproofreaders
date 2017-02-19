@@ -16,7 +16,7 @@ if( !defined( 'MEDIAWIKI' ) ) {
 }
 
 // NOTE: Update this to reflect your installation's path to the c/pinc directory
-$relPath = '/data/htdocs/c/pinc/';
+$relPath = '/var/www/htdocs/c/pinc/';
  
 // Extension credits that will show up on Special:Version    
 $wgExtensionCredits['parserhook'][] = array(
@@ -40,20 +40,24 @@ function wfPgFormats()
 
 function getPgFormats( $input, $argv ) 
 {
+    global $relPath, $code_url;
+    include_once($relPath.'site_vars.php');
+    include_once($relPath.'connect.inc');
+
+    $db_Connection = new dbConnect();
+
     $err = "<strong style='color: red;'>[Error: getPgFormats: %s]</strong>";
 
-    $etext = mysql_real_escape_string(@$argv['etext']);
-
+    $etext = $argv['etext'];
     if (empty($etext) || !is_numeric($etext))
         return sprintf($err,"invalid etext number");
 
-    $result = mysql_query("
-        SELECT formats 
-        FROM dproofreaders.pg_books 
-        WHERE 
-            etext_number = '$etext' 
+    $result = mysql_query(sprintf("
+        SELECT formats
+        FROM pg_books
+        WHERE etext_number = '%s'
         LIMIT 1
-    ");
+    ", mysql_real_escape_string($etext)));
 
     $row = mysql_fetch_assoc($result);
     if (!$row)
@@ -82,22 +86,27 @@ function wfProjectInfo() {
 
 function showProjectInfo($input, $argv, $parser)
 {
-    $err = "<strong style='color: red;'>[Error: showProjectInfo: %s]</strong>";
-    $pid = mysql_real_escape_string(@$argv['id']);
+    global $relPath, $code_url;
+    include_once($relPath.'site_vars.php');
+    include_once($relPath.'connect.inc');
+    include_once($relPath.'project_states.inc');
 
-    $result = mysql_query("SELECT * 
-        FROM dproofreaders.projects 
-        WHERE 
-            projectid = '$pid' 
-        LIMIT 1");
+    $db_Connection = new dbConnect();
+
+    $err = "<strong style='color: red;'>[Error: showProjectInfo: %s]</strong>";
+    $pid = $argv['id'];
+
+    $result = mysql_query(sprintf("
+        SELECT *
+        FROM projects
+        WHERE projectid = '%s'
+        LIMIT 1
+    ", mysql_real_escape_string($pid)));
 
     if (!$result || (mysql_num_rows($result) == 0))
         return sprintf($err,"Invalid projectID: $pid");
 
     $project = mysql_fetch_assoc($result);
-
-    global $relPath;
-    include_once($relPath.'project_states.inc');
 
     $project['raw_state'] = $project['state'];
     $project['state'] = project_states_text($project['state']);
@@ -118,7 +127,7 @@ function showProjectInfo($input, $argv, $parser)
     @$project['short_state'] = $project['short_state'] . 
         str_replace($search,$replace,$matches[3]);
 
-    $project['uri'] = $project['url'] = "http://www.pgdp.net/c/project.php?" .
+    $project['uri'] = $project['url'] = "$code_url/project.php?" .
         "id=$project[projectid]&expected_state=$project[raw_state]";
 
     $project['link']="<a href='$project[uri]' class='extiw'>$project[title]</a>";
@@ -128,11 +137,11 @@ function showProjectInfo($input, $argv, $parser)
     unset($project['postcomments']); // long
 
     if (empty($project['checkedoutby']))
-    	$project['checkedoutby'] = '(none)';
+        $project['checkedoutby'] = '(none)';
 
     foreach ($project as $a => $b)
     {
-    	$project[$a] = iconv('ISO-8859-1','UTF-8',$b);
+        $project[$a] = iconv('ISO-8859-1','UTF-8',$b);
     }
 
     if (isset ($argv['summary']) || empty($input))
@@ -145,22 +154,20 @@ function showProjectInfo($input, $argv, $parser)
         "PPer</a> </td><td>$project[username]/$project[checkedoutby]</td></tr>";
 
         if (substr($project['raw_state'],-5) == 'avail')
-        	$output .= " <tr><td class='pi_a'>Pages (left/total)</td>" . 
+            $output .= " <tr><td class='pi_a'>Pages (left/total)</td>" .
                 "<td>$project[n_available_pages]/$project[n_pages]</td></tr>";
 
         $output .= "</table>";
     }
     else
     {
-	$intermediate = $parser->parse( $input, $parser->mTitle, $parser->mOptions, false, false );
-	$output = $intermediate->getText();
-    	foreach ($project as $field => $value)
-    	{
-    		$output = str_replace('%'.$field.'%',$value,$output);
-    	}
+        $intermediate = $parser->parse( $input, $parser->mTitle, $parser->mOptions, false, false );
+        $output = $intermediate->getText();
+        foreach ($project as $field => $value)
+        {
+            $output = str_replace('%'.$field.'%',$value,$output);
+        }
     }
 
     return $output;
 }
-
-?>
