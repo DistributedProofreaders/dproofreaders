@@ -25,7 +25,7 @@ if ($tname) {
     $tRows = mysql_num_rows($tResult);
     if ($tRows == 1)
     {
-        $row = mysql_fetch_assoc($tRows);
+        $row = mysql_fetch_assoc($tResult);
         metarefresh(0, "tdetail.php?tid=" . $row["id"]);
     }
     $tname = "tname=" . urlencode($tname) . "&";
