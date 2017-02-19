@@ -44,7 +44,7 @@ function project_allow_pages( $projectid )
                 'abbreviation', 'division', 'epigraph', 'footnote', 'illustration', 'letter', 'list', 'math', 'poetry', 'sidenote', 'verse', 'table',
                 'appendix', 'afterword', 'biblio', 'colophon', 'endnote', 'epilogue', 'index'
                 ) NOT NULL default ''
-        )
+        ) ENGINE = MYISAM
     ");
     return ( $res ? '' : mysql_error() );
 }
