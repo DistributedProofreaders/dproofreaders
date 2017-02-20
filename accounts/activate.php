@@ -19,11 +19,9 @@ function validate_userID($param_name, $value)
 $ID = validate_userID('id', @$_GET['id']);
 
 $result = mysql_query("SELECT * FROM non_activated_users WHERE id='$ID'");
-if (mysql_num_rows($result) == 1) {
-    $user = mysql_fetch_assoc($result);
-} else {
-    $user = NULL;
-
+$user = mysql_fetch_assoc($result);
+if (!$user)
+{
     // If the user is already activated, and the activated user is the
     // one that is logged in, redirect them to the Activity Hub. This can
     // happen if they use the login form in the navbar and are redirected

@@ -94,14 +94,14 @@ function phpbb2_add_post(
         FROM phpbb_topics
         WHERE topic_id = $topic_id
     ") or die_nz(mysql_error());
-    if ( mysql_num_rows($res) == 0 )
+    $row = mysql_fetch_assoc($res);
+    if (!$row)
     {
         die_nz("no such topic: '$topic_id'\n");
     }
-    list($forum_id) = mysql_fetch_row($res);
 
     _insert_post(
-        $forum_id,
+        $row['forum_id'],
         $topic_id,
         $post_subject,
         $post_text,
@@ -135,11 +135,13 @@ function _insert_post(
             FROM phpbb_users
             WHERE username = '$poster_name'
         ") or die_nz(mysql_error());
-        if ( mysql_num_rows($id_result) == 0 )
+
+        $row = mysql_fetch_row($id_result);
+        if (!$row)
         {
             die_nz("no user named '$poster_name'");
         }
-        list($poster_id,$poster_attachsig) = mysql_fetch_row($id_result);
+        list($poster_id, $poster_attachsig) = $row;
 
         // The 'user_attachsig' column is defined as "tinyint(1) default NULL",
         // so its possible values are 0, 1, and NULL,

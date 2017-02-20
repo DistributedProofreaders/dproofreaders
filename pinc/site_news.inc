@@ -31,15 +31,15 @@ function get_news_page_last_modified_date( $news_page_id )
         WHERE news_page_id = '$news_page_id'
     ") or die(mysql_error());
 
-    if (mysql_num_rows($res) == 0)
+    $row = mysql_fetch_assoc($res);
+    if (!$row)
     {
         // The news_pages table does not have an entry for $news_page_id.
         return NULL;
     }
     else
     {
-        list($t_last_change) = mysql_fetch_row($res);
-        return $t_last_change;
+        return $row['t_last_change'];
     }
 }
 
@@ -125,23 +125,19 @@ function show_news_for_page( $news_page_id )
         // -------------------------------------------
         // Output the 'current' news items, if any.
 
-        if (mysql_num_rows($res_current) > 0)
+        while ($news_item = mysql_fetch_assoc($res_current))
         {
-            while ($news_item = mysql_fetch_assoc($res_current))
-            {
-                echo "<div class='newsitem'>";
-                echo $news_item['content'];
-                echo "</div>";
-            }
+            echo "<div class='newsitem'>";
+            echo $news_item['content'];
+            echo "</div>";
         }
 
         // -------------------------------------------
         // Output the 'random' news item, if any.
 
-        if (mysql_num_rows($res_random) == 1)
+        $news_item = mysql_fetch_assoc($res_random);
+        if($news_item)
         {
-            $news_item = mysql_fetch_assoc($res_random);
-
             echo "<div class='newsitem'>";
             echo $news_item['content'];
             $url = "$code_url/pastnews.php?news_page_id=$news_page_id";

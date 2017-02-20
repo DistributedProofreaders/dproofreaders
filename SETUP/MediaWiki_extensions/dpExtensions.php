@@ -103,10 +103,9 @@ function showProjectInfo($input, $argv, $parser)
         LIMIT 1
     ", mysql_real_escape_string($pid)));
 
-    if (!$result || (mysql_num_rows($result) == 0))
-        return sprintf($err,"Invalid projectID: $pid");
-
     $project = mysql_fetch_assoc($result);
+    if (!$project)
+        return sprintf($err,"Invalid projectID: $pid");
 
     $project['raw_state'] = $project['state'];
     $project['state'] = project_states_text($project['state']);

@@ -22,11 +22,11 @@ class Project
                 FROM projects
                 WHERE projectid = '$arg'
             ") or die(mysql_error());
-            if (mysql_num_rows($res) == 0)
+            $row = mysql_fetch_assoc($res);
+            if (!$row)
             {
                 throw new NonexistentProjectException("no project with projectid='$arg'");
             }
-            $row = mysql_fetch_assoc($res);
             $row['t_retrieved'] = time();
         }
         elseif ( is_array($arg) )

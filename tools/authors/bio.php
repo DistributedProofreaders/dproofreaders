@@ -25,13 +25,13 @@ else {
 
 // try to get bio
 $result = mysql_query("SELECT author_id, bio FROM biographies WHERE bio_id=$id;");
-if (!$result || mysql_num_rows($result) == 0) {
+$row = mysql_fetch_assoc($result);
+if (!$row) {
     output_header(_('Invalid biography-id specified'));
     echo _('An error occurred.') . ' ' . _('The specified biography-id was invalid.') . ' ';
     echo sprintf(_('You may return to the <a href="%1$s">authors-listing</a>.'), 'listing.php');
     exit();
 }
-$row = mysql_fetch_assoc($result);
 $author_id = $row["author_id"];
 $bio = $row["bio"];
 

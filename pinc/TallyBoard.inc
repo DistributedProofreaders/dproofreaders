@@ -274,19 +274,18 @@ class TallyBoard
         // we pretend that holders with tally_value <= 0 don't exist,
         // with the possible exception of the target holder.
 
-        $num_rows = mysql_num_rows($result);
-        
         // First, run through the results,
         // looking for the row that contains the target holder.
         $target_holder_r = NULL;
-        for ( $r = 1; $r <= $num_rows; $r++ )
+        $r = 1;
+        while($row = mysql_fetch_assoc($result))
         {
-            $row = mysql_fetch_assoc($result);
             if ( $row['_holder_id'] == $target_holder_id )
             {
                 $target_holder_r = $r;
                 break;
             }
+            $r += 1;
         }
 
         if ( is_null($target_holder_r) )
@@ -508,7 +507,8 @@ class TallyBoard
             intval($holder_id));
         $result = mysql_query($sql) or die(mysql_error());
 
-        if ( mysql_num_rows($result) == 0 )
+        $info = mysql_fetch_assoc($result);
+        if (!$info)
         {
             // That holder does not appear in any snapshot for this TallyBoard.
             // So we can infer that, at the latest snapshot:
@@ -523,10 +523,6 @@ class TallyBoard
                 'tally_delta' => 0,
                 'tally_value' => 0
             );
-        }
-        else
-        {
-            $info = mysql_fetch_assoc($result);
         }
         return $info;
     }
@@ -552,16 +548,13 @@ class TallyBoard
             intval($holder_id));
         $result = mysql_query($sql) or die(mysql_error());
 
-        if ( mysql_num_rows($result) == 0 )
+        $info = mysql_fetch_row($result);
+        if(!$info)
         {
             // That holder does not appear in any snapshot for this TallyBoard.
             $largest_delta = 0;
             $timestamp = $this->get_time_of_latest_snapshot(0);
             $info = array( $largest_delta, $timestamp );
-        }
-        else
-        {
-            $info = mysql_fetch_row($result);
         }
         return $info;
     }
@@ -585,17 +578,15 @@ class TallyBoard
             intval($holder_id));
         $result = mysql_query($sql) or die(mysql_error());
 
-        if ( mysql_num_rows($result) == 0 )
+        $info = mysql_fetch_row($result);
+        if(!$info)
         {
             // That holder does not appear on this TallyBoard.
             $best_rank = 0;
             $timestamp = $this->get_time_of_latest_snapshot(0);
-            return array( $best_rank, $timestamp );
+            $info = array( $best_rank, $timestamp );
         }
-        else
-        {
-            return mysql_fetch_row($result);
-        }
+        return $info;
     }
 
     // -------------------------------------------------------------------------

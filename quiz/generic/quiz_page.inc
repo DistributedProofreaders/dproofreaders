@@ -364,9 +364,9 @@ function qp_echo_error_html($message_id)
             FROM rules
             WHERE document = '$guidelines_doc' AND anchor = '$anchor'
         ");
-        if (mysql_num_rows($result) > 0)
+        $rule = mysql_fetch_assoc($result);
+        if ($rule)
         {
-            $rule = mysql_fetch_assoc($result);
             $subject = $rule['subject'];
             $guidelines_link = "<a $guidelines_attrs>$subject</a>";
 

@@ -27,7 +27,6 @@ $result = mysql_query("SELECT nameofwork, authorsname, username,
                        AND postproofer = 'No Known PPer' 
                        ORDER BY $order ASC");
 
-$numrows = mysql_num_rows($result);
 $rownum = 0;
 
 echo "<table cols = \"6\" border =\"1\">";

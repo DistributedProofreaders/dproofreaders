@@ -161,9 +161,9 @@ function mysql_session_close()
 function mysql_session_select($sid)
 {
     $result = do_session_query("SELECT value FROM sessions WHERE sid = '$sid' AND expiration > ".time()."");
-    if (mysql_num_rows($result) == 1)
+    $row = mysql_fetch_assoc($result);
+    if($row)
     {
-        $row = mysql_fetch_assoc($result);
         return $row["value"];
     }
     else

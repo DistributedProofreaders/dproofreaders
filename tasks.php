@@ -616,14 +616,13 @@ function handle_action_on_a_specified_task()
     // Fetch the state of the specified task
     // before any requested changes.
     $result = mysql_query("SELECT * FROM tasks WHERE task_id = $task_id");
-    if (mysql_num_rows($result) == 0)
+    $pre_task = mysql_fetch_object($result);
+    if (!$pre_task)
     {
         TaskHeader("Task #$task_id does not exist");
         ShowNotification("Task #$task_id was not found!");
         return;
     }
-
-    $pre_task = mysql_fetch_object($result);
 
     TaskHeader(title_string_for_task($pre_task));
 
@@ -785,11 +784,14 @@ function handle_action_on_a_specified_task()
         $meTooCheck = mysql_query("
             SELECT 1 FROM tasks_votes WHERE task_id = $task_id and u_id = $requester_u_id LIMIT 1
         ");
-        if (mysql_num_rows($meTooCheck) == 0) wrapped_mysql_query("
+        if (mysql_num_rows($meTooCheck) == 0)
+        {
+            wrapped_mysql_query("
                 INSERT INTO tasks_votes 
                 (task_id, u_id, vote_os, vote_browser) 
                 VALUES ($task_id, $requester_u_id, $vote_os, $vote_browser)
             ");
+        }
         mysql_free_result($meTooCheck);
 
         // No need to display a different error message if the user was refreshing

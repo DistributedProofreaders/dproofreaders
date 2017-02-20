@@ -48,7 +48,8 @@ if (!login_forum_user($userNM, $userPW))
 // Look for user in 'users' table.
 $q = sprintf("SELECT * FROM users WHERE username='%s'", mysql_real_escape_string($userNM));
 $u_res = mysql_query($q) or die(mysql_error());
-if (mysql_num_rows($u_res)==0)
+$u_row = mysql_fetch_assoc($u_res);
+if (!$u_row)
 {
     login_failure('reg_mismatch', $destination);
 }
@@ -56,7 +57,6 @@ if (mysql_num_rows($u_res)==0)
 // -------------------------------------
 // The login is successful!
 
-$u_row = mysql_fetch_assoc($u_res);
 
 // Note that phpbb_users.username and users.username are non-BINARY varchar,
 // so the SQL comparison "username='$userNM'" is evaluated case-insensitively.

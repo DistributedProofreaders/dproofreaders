@@ -264,11 +264,12 @@ $query = "
 
 $result = dpsql_query($query);
 
-if (mysql_num_rows($result) > 0)
+$num_projects = mysql_num_rows($result);
+if($num_projects > 0)
 {
     echo "<a name='reserved' id='reserved'></a><h2>$heading_reserved</h2>\n";
 
-    echo sprintf("(%d projects)", mysql_num_rows($result) );
+    echo sprintf("(%d projects)", $num_projects );
 
     echo "<table border='1'>";
 

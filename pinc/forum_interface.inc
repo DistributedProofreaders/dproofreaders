@@ -360,10 +360,9 @@ function get_forum_user_details($username)
         ", mysql_real_escape_string($username));
     $res = mysql_query($query) or die(mysql_error());
 
-    if (mysql_num_rows($res) != 1)
-        return NULL;
-
     $row = mysql_fetch_assoc($res);
+    if (!$row)
+        return NULL;
 
     foreach($interested_columns as $column)
     {
@@ -453,16 +452,16 @@ function get_forum_user_id($username)
         ", mysql_real_escape_string($username));
     $res = mysql_query($query) or die(mysql_error());
 
-    if (mysql_num_rows($res) == 0)
-        return NULL;
-
-    list($id) = mysql_fetch_row($res);
+    $row = mysql_fetch_assoc($res);
     mysql_free_result($res);
 
-    // update the cache
-    $uidCache[$username] = $id;
+    if (!$row)
+        return NULL;
 
-    return $id;
+    // update the cache
+    $uidCache[$username] = $row["user_id"];
+
+    return $row["user_id"];
 }
 
 function get_forum_rank_title($rank)
@@ -477,13 +476,13 @@ function get_forum_rank_title($rank)
         ",$rank);
     $res = mysql_query($query) or die(mysql_error());
 
-    if (mysql_num_rows($res) == 0)
-        return NULL;
-
-    list($rank_title) = mysql_fetch_row($res);
+    $row = mysql_fetch_assoc($res);
     mysql_free_result($res);
 
-    return $rank_title;
+    if (!$row)
+        return NULL;
+
+    return $row["rank_title"];
 }
 
 function get_forum_email_address($username)
@@ -666,19 +665,19 @@ function get_last_post_time_in_topic($topic_id)
         return NULL;
 
     $query = "
-        SELECT MAX(post_time)
+        SELECT MAX(post_time) as max_post_time
         FROM {$phpbb_table_prefix}_posts
         WHERE topic_id = $topic_id
         ";
     $res = mysql_query($query) or die(mysql_error());
 
-    if (mysql_num_rows($res) == 0)
-        return NULL;
-
-    list($time) = mysql_fetch_row($res);
+    $row = mysql_fetch_assoc($res);
     mysql_free_result($res);
 
-    return $time;
+    if (!$row)
+        return NULL;
+
+    return $row["max_post_time"];
 }
 
 function get_topic_details($topic_id)

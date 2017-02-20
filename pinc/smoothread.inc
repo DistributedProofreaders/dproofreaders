@@ -42,12 +42,9 @@ function sr_user_is_committed($projectid, $username)
         AND user = '$username'
         ") or die(mysql_error());
 
-    if (mysql_num_rows($res) == 0)
-    {
-        return false;
-    }
-
     $row = mysql_fetch_assoc($res);
+    if(!$row)
+        return false;
 
     if ($row['committed'] <> 0)
     {
@@ -169,14 +166,11 @@ function sr_number_users_committed($projectid)
         ORDER BY user
         ") or die(mysql_error());
 
-    if (mysql_num_rows($res) == 0)
-    {
-        return 0;
-    }
-
     $row = mysql_fetch_row($res);
-    $number = $row[0];
-    return $number;
+    if(!$row)
+        return 0;
+
+    return $row[0];
 }
 
 /***************************************************************************************

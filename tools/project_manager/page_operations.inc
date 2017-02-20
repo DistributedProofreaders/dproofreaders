@@ -53,11 +53,12 @@ function page_clear( $projectid, $image )
         FROM $projectid
         WHERE image = '$image'
     ");
-    if ( mysql_num_rows($result) == 0 )
+    $row = mysql_fetch_row($result);
+    if ( !$row )
     {
         return _("There is no page with that imagename.");
     }
-    list($page_state, $proofer) = mysql_fetch_row($result);
+    list($page_state, $proofer) = $row;
     if ( $page_state != $round->page_save_state )
     {
         return _("The page is not in a state that allows it to be cleared.");

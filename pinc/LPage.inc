@@ -139,13 +139,12 @@ function get_available_page( $projectid, $proj_state, $pguser, &$err )
     ";
     $result = mysql_query($dbQuery);
     if ($result === FALSE) die(mysql_error());
-    $numrows = mysql_num_rows($result);
-    if ($numrows == 0)
+    $npage = mysql_fetch_assoc($result);
+    if(!$npage)
     {
         $err = _("No more files available for proofreading for this round of the project.");
         return NULL;
     }
-    $npage = mysql_fetch_assoc($result);
 
     $imagefile = $npage['image'];
 
@@ -177,7 +176,9 @@ function get_indicated_LPage(
         FROM $projectid
         WHERE image='$imagefile'
     ") or die(mysql_error());
-    if (mysql_num_rows($res) == 0)
+
+    $row = mysql_fetch_row($res);
+    if (!$row)
     {
         // This should only happen if they've been tweaking URLs.
         // Or if the page has actually been deleted.
@@ -185,8 +186,7 @@ function get_indicated_LPage(
         abort($err);
     }
 
-    list($current_page_state) = mysql_fetch_row($res);
-
+    list($current_page_state) = $row;
     if ($page_state != $current_page_state)
     {
         $err = sprintf(
