@@ -277,62 +277,97 @@ function showForumProfile($username) {
 
     $t->hr( 90 );
 
-    $contact_data = array(
-        array(
-            !empty($bb_user["viewemail"]),
+    $email_data = array();
+    if($bb_user["viewemail"])
+    {
+        $email_data = array(array(
             _("E-mail"),
             $bb_user["email"],
             "mailto:" . $bb_user["email"],
             ''
-        ),
+        ));
+    }
+    $contact_data = array(
         array(
-            TRUE,
             _("Private Message"),
             $username,
             get_url_to_compose_message_to_user($username),
             ''
         ),
         array(
-            !empty($bb_user["aim"]),
             "AIM",
             $bb_user["aim"],
-            "aim:goim?screenname=".$bb_user["aim"]."&message=Hello!+Are+you+there?++I+am+IMing+you+from+$site_abbreviation",
+            NULL,
             ''
         ),
         array(
-            !empty($bb_user["msnm"]),
             "MSN",
             $bb_user["msnm"],
-            "javascript:alert(\"" . $bb_user["msnm"] . "\")",
+            NULL,
             ''
         ),
         array(
-            !empty($bb_user["yim"]),
             _("Yahoo Message"),
             $bb_user["yim"],
-            "http://edit.yahoo.com/config/send_webmesg?.target=" . $bb_user["yim"] . "&.src=pg",
+            "ymsgr:sendim?" . $bb_user["yim"],
+            '',
+        ),
+        array(
+            "ICQ",
+            $bb_user["icq"],
+            "https://www.icq.com/people/" . $bb_user["icq"] . "/",
             "_new"
         ),
         array(
-            !empty($bb_user["icq"]),
-            "ICQ",
-            $bb_user["icq"],
-            "http://wwp.icq.com/scripts/search.dll?to=" . $bb_user["icq"],
+            "Facebook",
+            @$bb_user["facebook"],
+            "https://www.facebook.com/" . @$bb_user["facebook"],
+            "_new"
+        ),
+        array(
+            "Twitter",
+            @$bb_user["twitter"],
+            "https://www.twitter.com/" . @$bb_user["twitter"],
+            "_new"
+        ),
+        array(
+            "Google+",
+            @$bb_user["googleplus"],
+            "https://plus.google.com/+" . @$bb_user["googleplus"],
+            "_new"
+        ),
+        array(
+            "Skype",
+            @$bb_user["skype"],
+            "skype:" . @$bb_user["skype"] . "?userinfo",
+            '',
+        ),
+        array(
+            "YouTube",
+            @$bb_user["youtube"],
+            "http://youtube.com/user/" . @$bb_user["youtube"],
             "_new"
         ),
     );
 
-    foreach ( $contact_data as $contact )
+    $output_data = $email_data + $contact_data;
+
+    foreach ( $output_data as $contact )
     {
-        list( $condition, $label, $value, $url, $target ) = $contact;
+        list( $label, $value, $url, $target ) = $contact;
 
-        if (!$condition) continue;
+        if (!$value) continue;
 
-        $target_str = ( empty($target) ? '' : " target='$target'" );
+        $output = $value;
+        if($url)
+        {
+            $target_str = ( empty($target) ? '' : " target='$target'" );
+            $output = "<a href='$url'$target_str>$value</a>";
+        }
 
         $t->row(
             $label,
-            "<a href='$url'$target_str>$value</a>"
+            $output
         );
     }
 
