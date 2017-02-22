@@ -416,56 +416,6 @@ function get_forum_user_details($username)
     return $return_data;
 }
 
-function set_forum_user_details($username,$details)
-// Updates a users's details
-// $details is an associative array with one or more of the following keys:
-//     from      - location
-//     occ       - occupation
-//     interests - interests
-//     email     - email
-//     icq       - ICQ address
-//     website   - website URL
-//     aim       - AIM address
-//     yim       - Yahoo address
-//     msnm      - MS Messenger address
-//     jabber    - Jabber address
-// Returns TRUE if the update succeeded or FALSE otherwise.
-{
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
-    $interested_columns = array("from","occ","interests","email","icq","website","aim","yim","msnm","jabber");
-
-    $set_data = array();
-
-    // all the interested columns are strings, so escape them as we
-    // pull them into $set_data
-    foreach($interested_columns as $column)
-    {
-        if(isset($details[$column]))
-        {
-            $set_data[] = sprintf("user_%s = '%s'",
-                $column, mysql_real_escape_string($details[$column]));
-        }
-    }
-
-    // don't do an update if no valid columns were specified
-    if(!count($set_data))
-    {
-       return TRUE;
-    }
-
-    $query = sprintf("
-        UPDATE {$phpbb_table_prefix}_users
-        SET %s
-        WHERE username='%s'
-        ", 
-        implode($set_data, ", "),
-        mysql_real_escape_string($username));
-    $res = mysql_query($query);
-
-    return $res;
-}
-
 function get_forum_user_id($username)
 // Given a forum username, return the forum user ID.
 {
