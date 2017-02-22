@@ -349,6 +349,16 @@ function get_forum_user_details($username)
 //     jabber    - Jabber address
 //     rank      - forum rank (index)
 //     posts     - number of forum posts
+// phpBB 3.1 and later return these keys as well
+//     location   - location (same as from)
+//     occupation - occupation (same as occ)
+//     yahoo      - Yahoo address (same as yim)
+//     aol        - AIM address (same as aim)
+//     facebook   - Facebook username
+//     googleplus - Google+ username
+//     skype      - Skype username
+//     twitter    - Twitter username
+//     youtube    - YouTube username
 // If the user isn't found, the function returns NULL.
 {
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
@@ -370,17 +380,36 @@ function get_forum_user_details($username)
 
     foreach($interested_columns as $column)
     {
-        if(isset($row["user_$column"]))
+        $return_data[$column] = array_get($row, "user_$column", array_get($row, $column, NULL));
+    }
+
+    // phpBB 3.1 and later put data in phpbb_profile_fields_data with
+    // slightly different column names. We will return data for both the
+    // old and new column names.
+    $column_mapping = array(
+        // new => old
+        "occupation" => "occ",
+        "yahoo" => "yim",
+        "aol" => "aim",
+        "location" => "from",
+    );
+
+    $query = sprintf("
+        SELECT *
+        FROM {$phpbb_table_prefix}_profile_fields_data
+        WHERE user_id = %d
+        ", $row["user_id"]);
+
+    // This will fail on phpBB < 3.1, which is fine and expected
+    $res = mysql_query($query);
+    if($res && $row = mysql_fetch_assoc($res))
+    {
+        foreach($row as $column => $value)
         {
-            $return_data[$column]=$row["user_$column"];
-        }
-        elseif(isset($row[$column]))
-        {
-            $return_data[$column]=$row[$column];
-        }
-        else
-        {
-            $return_data[$column]=NULL;
+            $column_suffix = str_replace("pf_phpbb_", "", $column);
+            if(isset($column_mapping[$column_suffix]))
+                $return_data[$column_mapping[$column_suffix]] = $value;
+            $return_data[$column_suffix] = $value;
         }
     }
 
