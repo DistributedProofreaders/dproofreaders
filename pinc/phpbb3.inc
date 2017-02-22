@@ -35,6 +35,10 @@ $phpEx = 'php';
 include_once($phpbb_root_path . 'common.'.$phpEx);
 include_once($phpbb_root_path . 'includes/functions_posting.'.$phpEx);
 include_once($phpbb_root_path . 'includes/functions_user.' . $phpEx);
+// phpBB 3.1 and 3.2 include compatibility functions
+if(is_file($phpbb_root_path . 'includes/functions_compatibility.' . $phpEx))
+    include_once($phpbb_root_path . 'includes/functions_compatibility.' . $phpEx);
+
 
 // -----------------------------------------------------------------------------
 

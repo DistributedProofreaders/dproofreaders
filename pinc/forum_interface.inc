@@ -227,6 +227,8 @@ function login_forum_user($username, $password)
         // phpBB2/includes/sessions.php:setup()
         global $db, $template, $config, $auth, $phpEx, $phpbb_root_path, $cache;
         global $SID, $_SID, $user;
+        // required for phpBB 3.2
+        global $phpbb_container, $phpbb_dispatcher, $table_prefix;
 
         define('IN_PHPBB', true);
         define('ROOT_PATH', $forums_dir);
@@ -299,6 +301,8 @@ function logout_forum_user()
         // phpBB2/includes/sessions.php:session_create()
         global $SID, $_SID, $db, $config, $cache, $auth;
         global $user;
+        // required for phpBB 3.2
+        global $phpbb_container, $phpbb_dispatcher, $table_prefix;
 
         define('IN_PHPBB', true);
         define('ROOT_PATH', $forums_dir);
@@ -689,16 +693,32 @@ function get_topic_details($topic_id)
 //     forum_id         - the id of the forum the topic is in
 //     creator_username - the username of the topic creator
 {
+    global $forums_dir;
+
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
     $phpbb_topics = "${phpbb_table_prefix}_topics";
     $phpbb_forums = "${phpbb_table_prefix}_forums";
     $phpbb_users = "${phpbb_table_prefix}_users";
 
+    // The database column used to get the total number of posts in a topic
+    // changed between 3.0 and 3.1. We try to determine this automatically
+    // by checking for a directory that only exists in 3.1 and later.
+    if(PHPBB_VERSION == 3 && is_dir("$forums_dir/phpbb"))
+    {
+        // 3.1 and later
+        $phpbb_topic_posts = "$phpbb_topics.topic_posts_approved";
+    }
+    else
+    {
+        // 2.x and 3.0
+        $phpbb_topic_posts = "$phpbb_topics.topic_replies";
+    }
+
     $query = "
         SELECT $phpbb_topics.topic_id AS topic_id,
             $phpbb_topics.topic_title AS title,
-            $phpbb_topics.topic_replies AS num_replies,
+            $phpbb_topic_posts AS num_replies,
             $phpbb_forums.forum_name AS forum_name,
             $phpbb_forums.forum_id AS forum_id,
             $phpbb_users.username AS creator_username
