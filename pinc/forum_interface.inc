@@ -768,7 +768,12 @@ function call_phpbb_function( $func_name, $args )
 // It's risky to combine DP and phpBB code in the same PHP context,
 // so we run the phpBB code in a separate process.
 {
-    // echo "call_phpbb_function( $func_name, ", print_r($args,TRUE), ")<br>\n";
+    // If $DEBUG is TRUE, output some additional debugging information useful
+    // for figuring out where the calls into phpbb*.inc went wrong.
+    $DEBUG = FALSE;
+
+    if($DEBUG)
+        echo "call_phpbb_function( $func_name, ", print_r($args,TRUE), ")<br>\n";
 
     global $forums_dir;
     if (!is_dir($forums_dir))
@@ -789,11 +794,13 @@ function call_phpbb_function( $func_name, $args )
         $phpbb_include_file = "phpbb3.inc";
     }
     $command = "cd $code_dir/pinc && $php_cli_executable -f $phpbb_include_file $func_name $escaped_args_str";
-    // echo "command: $command<br>\n";
+    if($DEBUG)
+        echo "command: $command<br>\n";
 
     $output = array();
     $last_line = exec($command, $output, $exit_status);
-    // echo "exec'd command's last line = '$last_line'<br>\n";
+    if($DEBUG)
+        echo "exec'd command's last line = '$last_line'<br>\n";
 
     if ( $exit_status != 0 )
     {
@@ -825,42 +832,49 @@ function my_escapeshellarg( $arg )
 
 function topic_change_forum( $topic_id, $to_forum_id )
 {
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
     assert( $topic_id != '' );
 
-    $result = mysql_query("
-        SELECT forum_id
-        FROM {$phpbb_table_prefix}_topics
-        WHERE topic_id=$topic_id
-    ");
+    if(PHPBB_VERSION == 2) {
+        $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
-    $row = mysql_fetch_assoc($result);
 
-    // If no rows were returned (because the topic_id doesn't exist), stop.
-    if(!$row)
-        return;
-
-    $from_forum_id = $row["forum_id"];
-
-    if ($from_forum_id != $to_forum_id)
-    {
-        // move posts to new forum
-        mysql_query("
-            UPDATE {$phpbb_table_prefix}_posts
-            SET forum_id = $to_forum_id
-            WHERE topic_id = $topic_id
+        $result = mysql_query("
+            SELECT forum_id
+            FROM {$phpbb_table_prefix}_topics
+            WHERE topic_id=$topic_id
         ");
 
-        // move topic to new forum
-        mysql_query("
-            UPDATE {$phpbb_table_prefix}_topics
-            SET forum_id = $to_forum_id
-            WHERE topic_id = $topic_id
-        ");
+        $row = mysql_fetch_assoc($result);
 
-        forum_resynch( $from_forum_id );
-        forum_resynch( $to_forum_id );
+        // If no rows were returned (because the topic_id doesn't exist), stop.
+        if(!$row)
+            return;
+
+        $from_forum_id = $row["forum_id"];
+
+        if ($from_forum_id != $to_forum_id)
+        {
+            // move posts to new forum
+            mysql_query("
+                UPDATE {$phpbb_table_prefix}_posts
+                SET forum_id = $to_forum_id
+                WHERE topic_id = $topic_id
+            ");
+
+            // move topic to new forum
+            mysql_query("
+                UPDATE {$phpbb_table_prefix}_topics
+                SET forum_id = $to_forum_id
+                WHERE topic_id = $topic_id
+            ");
+
+            forum_resynch( $from_forum_id );
+            forum_resynch( $to_forum_id );
+        }
+    }
+
+    if(PHPBB_VERSION == 3) {
+        call_phpbb_function( 'move_topic', array($topic_id, $to_forum_id) );
     }
 }
 
@@ -868,41 +882,47 @@ function topic_change_forum( $topic_id, $to_forum_id )
 
 function forum_resynch( $forum_id )
 {
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+    if(PHPBB_VERSION == 2) {
+        $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
-    // Count the number of topics in the forum
-    $res1 = mysql_query("
-        SELECT COUNT(*)
-        FROM {$phpbb_table_prefix}_topics
-        WHERE forum_id = $forum_id
-    ");
-    list($forum_topics) = mysql_fetch_row($res1);
+        // Count the number of topics in the forum
+        $res1 = mysql_query("
+            SELECT COUNT(*)
+            FROM {$phpbb_table_prefix}_topics
+            WHERE forum_id = $forum_id
+        ");
+        list($forum_topics) = mysql_fetch_row($res1);
 
-    // Count the number of posts in the forum,
-    // and get the id of most recent post in the forum,
-    // which might have changed when we moved the topic(s).
-    $res2 = mysql_query("
-        SELECT COUNT(*), MAX(post_id)
-        FROM {$phpbb_table_prefix}_posts
-        WHERE forum_id = $forum_id
-    ");
-    list($forum_posts, $last_post) = mysql_fetch_row($res2);
-    if ( $forum_posts == 0 )
-    {
-        // $last_post is NULL
-        $last_post = 0;
+        // Count the number of posts in the forum,
+        // and get the id of most recent post in the forum,
+        // which might have changed when we moved the topic(s).
+        $res2 = mysql_query("
+            SELECT COUNT(*), MAX(post_id)
+            FROM {$phpbb_table_prefix}_posts
+            WHERE forum_id = $forum_id
+        ");
+        list($forum_posts, $last_post) = mysql_fetch_row($res2);
+        if ( $forum_posts == 0 )
+        {
+            // $last_post is NULL
+            $last_post = 0;
+        }
+
+        // adjust total posts and topics and last post for forum
+
+        $update_count = mysql_query("
+            UPDATE {$phpbb_table_prefix}_forums
+            SET
+                forum_posts  = $forum_posts,
+                forum_topics = $forum_topics,
+                forum_last_post_id = $last_post
+            WHERE forum_id = $forum_id
+        ");
     }
 
-    // adjust total posts and topics and last post for forum
-
-    $update_count = mysql_query("
-        UPDATE {$phpbb_table_prefix}_forums
-        SET
-            forum_posts  = $forum_posts,
-            forum_topics = $forum_topics,
-            forum_last_post_id = $last_post
-        WHERE forum_id = $forum_id
-    ");
+    if(PHPBB_VERSION == 3) {
+        call_phpbb_function( 'sync_forum', array($forum_id) );
+    }
 }
 
 // vim: sw=4 ts=4 expandtab

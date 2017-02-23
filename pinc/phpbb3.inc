@@ -35,6 +35,7 @@ $phpEx = 'php';
 include_once($phpbb_root_path . 'common.'.$phpEx);
 include_once($phpbb_root_path . 'includes/functions_posting.'.$phpEx);
 include_once($phpbb_root_path . 'includes/functions_user.' . $phpEx);
+include_once($phpbb_root_path . 'includes/functions_admin.' . $phpEx);
 // phpBB 3.1 and 3.2 include compatibility functions
 if(is_file($phpbb_root_path . 'includes/functions_compatibility.' . $phpEx))
     include_once($phpbb_root_path . 'includes/functions_compatibility.' . $phpEx);
@@ -113,6 +114,19 @@ function phpbb3_create_topic(
     $topic_id = $post_result['topic_id'];
 
     return $topic_id;
+}
+
+// -----------------------------------------------------------------------------
+
+function phpbb3_move_topic($topic_id, $forum_id)
+{
+    move_topics($topic_id, $forum_id);
+}
+
+function phpbb3_sync_forum($forum_id)
+{
+    $forum_ids = array($forum_id);
+    sync('forum', 'forum_id', $forum_ids, true, true);
 }
 
 // -----------------------------------------------------------------------------
