@@ -37,8 +37,8 @@ phpBB
     https://www.phpbb.com/downloads/
 
 jpgraph
-    jpgraph version 3.5.0b1 will work after applying the included
-    jpgraph-3.5.0b1.patch. This is the recommended version.
+    jpgraph versions 3.5.0b1 and 4.0.2 will work after applying the
+    included patches. 4.0.2 is the recommended version.
     Version 1.27.1 should also work.
 
     http://jpgraph.net/download/
@@ -104,6 +104,7 @@ assuming it isn't already.
 --- Install jpgraph.
         The statistics code depends on jpgraph for graph generation.
         Follow the installation instructions included with jpgraph.
+        If using version 4.0.2, apply jpgraph-4.0.2.patch.
         If using version 3.5.0b1, apply jpgraph-3.5.0b1.patch.
 
         The simplest place to install jpgraph is in your document root.
