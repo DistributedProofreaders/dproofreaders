@@ -459,7 +459,7 @@ function stripAllString($ttext) {
     return str_replace(
         array('[b]','[B]','[/b]','[/B]','[i]','[I]','[/i]','[/I]','[p]','[P]','[/p]','[/P]','[lb]','[LB]'),
         array('<b>','<b>','</b>','</b>','<i>','<i>','</i>','</i>','<p>','<p>','</p>','</p>','<br>','<br>'),
-        html_safe(strip_tags($ttext)));
+        html_safe(strip_tags($ttext), ENT_NOQUOTES));
 }
 
 function unstripAllString($ttext) {
