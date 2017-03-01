@@ -17,7 +17,7 @@ $old_date = time() - 7776000; // 90 days ago.
 
 //get projects that have been checked out longer than old_date
 $result = mysql_query("SELECT nameofwork, checkedoutby, modifieddate, projectid, authorsname,
-                           DATE_FORMAT(FROM_UNIXTIME(modifieddate), '%e %M  %Y') as Nicedate
+                           DATE_FORMAT(FROM_UNIXTIME(modifieddate), '%e %M  %Y') as nicedate
                      FROM projects
                      WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."' AND modifieddate <= $old_date ORDER BY checkedoutby, modifieddate");
 
