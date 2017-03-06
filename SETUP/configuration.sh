@@ -527,7 +527,7 @@ if [ "$_URL_DUMP_PROGRAM" == "" ]; then
     # No program explicitly specified, attempt to find: wget, curl, lynx
     program_test=`which wget`
     if [ $? -eq 0 ]; then
-        _URL_DUMP_PROGRAM="$program_test --quiet -O-"
+        _URL_DUMP_PROGRAM="$program_test --quiet --tries=1 --timeout=0 -O-"
     else
         program_test=`which curl`
         if [ $? -eq 0 ]; then
