@@ -4,8 +4,6 @@
 
 # hourly:
 03 * * * * <<URL_DUMP_PROGRAM>> <<CODE_URL>>/crontab/update_user_counts.php
-# 05 * * * * <<URL_DUMP_PROGRAM>> <<CODE_URL>>/crontab/log_project_states.php
-# 06 * * * * <<URL_DUMP_PROGRAM>> <<CODE_URL>>/crontab/update_user_counts.php
 
 # daily:
 01  0 * * * <<URL_DUMP_PROGRAM>> <<CODE_URL>>/crontab/take_tally_snapshots.php
