@@ -449,25 +449,25 @@ var makePreview = function (txt, viewMode, styler) {
             }
         }
 
-        function spanStyle(match, p1) {
-            var str = '<span class="' + p1 + '"' + makeColourStyle(p1) + '>';
+        function spanStyle(match, p1, p2) {
+            if (p1 === '/') {   // end tag
+                if (viewMode === "show_tags") {
+                    return match + repstr2;
+                }
+                return repstr2;
+            }
+            var str = '<span class="' + p2 + '"' + makeColourStyle(p2) + '>';
             if (viewMode === "show_tags") {
                 str += match;
             }
             return str;
         }
         // inline tags
-        if (viewMode === "show_tags") {
-            repstr2 = "$&" + repstr2;
-        }
         // the way html treats small cap text is different to the dp convention
         // so if sc-marked text is all upper-case transform to lower
         txt = txt.replace(sc_re, transformSC);
-        var openTag = new RegExp("&lt;(" + ILTags + ")&gt;", "g");
-        var closeTag = new RegExp("&lt;\\/(" + ILTags + ")&gt;", "g");
-        txt = txt.replace(openTag, spanStyle)
-            .replace(closeTag, repstr2);
-
+        var reTag = new RegExp("&lt;(\\/?)(" + ILTags + ")&gt;", "g");
+        txt = txt.replace(reTag, spanStyle);
         // out of line tags
         etcstr = makeColourStyle('etc');
         if (viewMode === "show_tags") {
