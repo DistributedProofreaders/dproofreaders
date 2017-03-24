@@ -135,4 +135,9 @@
     * MAJOR: New Format Preview functionality (rp31)
     * MAJOR: Removed dependency on magic quotes allowing PHP 5.4 and later support (cpeel)
 
+== Changes from R201701 to ??????? ==
+(Scripts supporting this upgrade are in SETUP/upgrade/10)
+
+    * MAJOR: Support phpBB versions 3.1 and 3.2 (cpeel)
+
 # vim: sw=4 ts=4 expandtab
