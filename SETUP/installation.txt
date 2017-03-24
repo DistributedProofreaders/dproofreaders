@@ -332,6 +332,20 @@ assuming it isn't already.
         Register as a new user.
         Of course, there aren't any projects to proofread yet.
 
+--- Install MediaWiki (optional)
+        None of the DP code relies on the presence of a wiki, MediaWiki or
+        otherwise, but most DP sites have some form of wiki for user
+        contributions, coordination, documentation, etc. If you have a wiki,
+        set _WIKI_URL in configuration.sh to have a link show up in the navbar.
+
+        pgdp.net uses MediaWiki and the MediaWiki_extensions directory
+        includes some useful extensions you might want to use.
+
+        It's also suggested that you use the MediaWiki_PHPBB_Auth plugin
+        (https://github.com/Digitalroot/MediaWiki_PHPBB_Auth) to have the
+        wiki authenticate against phpBB for a single source of user
+        credentials.
+
 --- Define a site administrator.
         The code is based on users having particular roles. To manage these,
         a site administrator is needed. Assuming you are administering the
