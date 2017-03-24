@@ -27,12 +27,13 @@ MySQL
     MySQL version 5.1.x and later is required.
 
 phpBB
-    phpBB 2.x, 3.0, and 3.2 are supported. Version 3.2 is recommended.
-    phpBB 3.1 may also work, but it has not yet been tested.
+    phpBB 2.x, 3.0, 3.1, and 3.2 are supported. Version 3.2 is recommended.
 
-    In order to use versions > 3.0, you must disable superglobal checking
-    in phpBB. In the phpBB code, edit config/parameters.yml, change
-    core.disable_super_globals to false, and flush the phpbb cache.
+    In order to use versions > 3.0, you must disable superglobal checking.
+    In the phpBB code edit:
+      * 3.1: config/parameters.yml
+      * 3.2: config/default/container/parameters.yml
+    change core.disable_super_globals to false, and flush the phpbb cache.
 
     https://www.phpbb.com/downloads/
 

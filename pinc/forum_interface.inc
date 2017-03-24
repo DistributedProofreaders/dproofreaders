@@ -227,6 +227,8 @@ function login_forum_user($username, $password)
         // phpBB2/includes/sessions.php:setup()
         global $db, $template, $config, $auth, $phpEx, $phpbb_root_path, $cache;
         global $SID, $_SID, $user;
+        // required for phpBB 3.1
+        global $request, $symfony_request, $phpbb_filesystem;
         // required for phpBB 3.2
         global $phpbb_container, $phpbb_dispatcher, $table_prefix;
 
@@ -301,6 +303,8 @@ function logout_forum_user()
         // phpBB2/includes/sessions.php:session_create()
         global $SID, $_SID, $db, $config, $cache, $auth;
         global $user;
+        // required for phpBB 3.1
+        global $request, $symfony_request, $phpbb_filesystem;
         // required for phpBB 3.2
         global $phpbb_container, $phpbb_dispatcher, $table_prefix;
 
