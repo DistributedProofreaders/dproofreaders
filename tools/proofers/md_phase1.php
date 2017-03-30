@@ -200,7 +200,7 @@ echo "<form method ='post'><table border=1>\n";
     echo "</table>";
 
     echo "<INPUT TYPE=SUBMIT VALUE=\"" . attr_safe(_("Save and Continue Working")) . "\" NAME =\"continue\">
-        <INPUT TYPE=SUBMIT VALUE=\"" . attr_safe(_("Save as Done")) . "\" NAME =\"done\">
+        <INPUT TYPE=SUBMIT VALUE=\"" . attr_safe(_("Save as 'Done'")) . "\" NAME =\"done\">
         <INPUT TYPE=SUBMIT VALUE=\"" . attr_safe(_("Leave As-Is and Quit")) . "\" NAME =\"return\">";
 
 echo "</form></center>";
