@@ -42,9 +42,9 @@ function getPgFormats( $input, $argv )
 {
     global $relPath, $code_url;
     include_once($relPath.'site_vars.php');
-    include_once($relPath.'connect.inc');
+    include_once($relPath.'DPDatabase.inc');
 
-    $db_Connection = new dbConnect();
+    DPDatabase::connect();
 
     $err = "<strong style='color: red;'>[Error: getPgFormats: %s]</strong>";
 
@@ -52,14 +52,14 @@ function getPgFormats( $input, $argv )
     if (empty($etext) || !is_numeric($etext))
         return sprintf($err,"invalid etext number");
 
-    $result = mysql_query(sprintf("
+    $result = mysqli_query(DPDatabase::get_connection(), sprintf("
         SELECT formats
         FROM pg_books
         WHERE etext_number = '%s'
         LIMIT 1
-    ", mysql_real_escape_string($etext)));
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $etext)));
 
-    $row = mysql_fetch_assoc($result);
+    $row = mysqli_fetch_assoc($result);
     if (!$row)
         return sprintf($err,"invalid etext number; possibly not yet posted");
 
@@ -88,22 +88,22 @@ function showProjectInfo($input, $argv, $parser)
 {
     global $relPath, $code_url;
     include_once($relPath.'site_vars.php');
-    include_once($relPath.'connect.inc');
+    include_once($relPath.'DPDatabase.inc');
     include_once($relPath.'project_states.inc');
 
-    $db_Connection = new dbConnect();
+    DPDatabase::connect();
 
     $err = "<strong style='color: red;'>[Error: showProjectInfo: %s]</strong>";
     $pid = $argv['id'];
 
-    $result = mysql_query(sprintf("
+    $result = mysqli_query(DPDatabase::get_connection(), sprintf("
         SELECT *
         FROM projects
         WHERE projectid = '%s'
         LIMIT 1
-    ", mysql_real_escape_string($pid)));
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $pid)));
 
-    $project = mysql_fetch_assoc($result);
+    $project = mysqli_fetch_assoc($result);
     if (!$project)
         return sprintf($err,"Invalid projectID: $pid");
 
