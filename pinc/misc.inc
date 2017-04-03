@@ -371,7 +371,7 @@ function attr_safe($string)
 
 // -----------------------------------------------------------------------------
 
-function javascript_safe($str, $encoding)
+function javascript_safe($str, $encoding=NULL)
 // Return a string that is safe for inclusion in a javascript string
 // (surrounded by either single or double quotes). 
 // Does an implied attr_safe(), so the output can be enclosed directly
@@ -403,6 +403,12 @@ function javascript_safe($str, $encoding)
 //     characters, and \ooo for control ASCII chars [\000-\017\177]
 {
     
+    global $charset;
+    if (!$encoding)
+    {
+        $encoding = $charset;
+    }
+
     if (!strcasecmp($encoding, 'UTF-8')) 
     {
         $str = preg_replace_callback('/([\000-\037\"\'\\\\<\177])/',
