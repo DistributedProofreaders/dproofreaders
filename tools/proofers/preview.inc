@@ -2,14 +2,14 @@
 $relPath="./../../pinc/";
 include_once($relPath.'misc.inc');
 
-function shared_strings()
+function shared_strings($escape_function="html_safe")
 {
     return array(
-        "italic" => html_safe(_("Italic")),
-        "bold" => html_safe(_("Bold")),
-        "gesperrt" => html_safe(_("Gesperrt")),
-        "small_caps" => html_safe(_("Small caps")),
-        "font_change" => html_safe(_("Font change"))
+        "italic" => $escape_function(_("Italic")),
+        "bold" => $escape_function(_("Bold")),
+        "gesperrt" => $escape_function(_("Gesperrt")),
+        "small_caps" => $escape_function(_("Small caps")),
+        "font_change" => $escape_function(_("Font change")),
     );
 }
     
@@ -17,54 +17,62 @@ function output_preview_strings()
 {
     global $charset;
 
-    $plain = html_safe(_("Plain text"));
-    $superscript = html_safe(_("superscript"));
-    $ss = shared_strings();
+    $plain = javascript_safe(_("Plain text"));
+    $superscript = javascript_safe(_("superscript"));
+    $ss = shared_strings("javascript_safe");
 
     $demo_string = "$plain <i>$ss[italic]</i> <b>$ss[bold]</b> <g>$ss[gesperrt]</g> <sc>$ss[small_caps]</sc> <f>$ss[font_change]</f>^{" . "$superscript}";
     $ie_warn = javascript_safe(_("This function is not available for Internet Explorer versions less than 9"), $charset);
     
     $msg = array(
-        "noStartTag" => html_safe(_("No start tag for this end tag")),
-        "noEndTag" => html_safe(_("No end tag for this start tag")),
-        "noEndTagInPara" => html_safe(_("No corresponding end tag in paragraph")),
-        "misMatchTag" => html_safe(_("End tag does not match start tag")),
-        "nestedTag" => html_safe(_("Tag nested within same tag")),
-        "unRecTag" => html_safe(_("Unrecognized tag")),
-        "tabChar" => html_safe(_("Tab should not be used")),
-        "charBefore" => html_safe(_("No characters should precede this")),
-        "blankBefore" => html_safe(_("A blank line should precede this")),
-        "blankAfter" => html_safe(_("A blank line should follow %s")),
-        "NWinNW" => html_safe(_("No-wrap inside no-wrap")),
-        "BQinNW" => html_safe(_("Block quote inside no-wrap")),
-        "aloneTag" => html_safe(_("This tag should be alone on its line")),
-        "OolPrev" => html_safe(_("Out-of-line start tag should not be preceded by normal text")),
-        "OolNext" => html_safe(_("Out-of-line end tag should not be followed by normal text")),
-        "blankLines124" => html_safe(_("Only 1, 2 or 4 blank lines should be used")),
-        "puncAfterStart" => html_safe(_("Punctuation after start tag")),
-        "spaceAfterStart" => html_safe(_("Space after start tag")),
-        "nlAfterStart" => html_safe(_("Newline after start tag")),
-        "nlBeforeEnd" => html_safe(_("Newline before end tag")),
-        "spaceBeforeEnd" => html_safe(_("Space before end tag")),
-        "noBold" => html_safe(_("Heading should not be entirely bold")),
-        "scNoCap" => html_safe(_("Small caps must contain at least one upper case character")),
-        "charBeforeStart" => html_safe(_("Character or punctuation before inline start tag")),
-        "charAfterEnd" => html_safe(_("Character after inline end tag")),
-        "puncBEnd" => html_safe(_(",; or : before end tag")),
-        "noCloseBrack" => html_safe(_("No matching closing bracket")),
-        "footnoteId" => html_safe(_("Footnote identifier should be a letter or number")),
-        "starAnchor" => html_safe(_("Footnote anchor should be an upper-case letter")),
-        "noFootnote" => html_safe(_("No corresponding footnote on this page")),
-        "noAnchor" => html_safe(_("No anchor for this footnote")),
-        "noColon" => html_safe(_("Footnote must have a colon")),
-        "colonNext" => html_safe(_("The colon should immediately follow *[Footnote")),
-        "spaceNext" => html_safe(_("Footnote should be followed by one space and identifier")),
-        "dupNote" => html_safe(_("Duplicate footnote identifier")),
-        "continueFirst" => html_safe(_("Continuation footnote should precede others"))
+        "noStartTag" => javascript_safe(_("No start tag for this end tag")),
+        "noEndTag" => javascript_safe(_("No end tag for this start tag")),
+        "noEndTagInPara" => javascript_safe(_("No corresponding end tag in paragraph")),
+        "misMatchTag" => javascript_safe(_("End tag does not match start tag")),
+        "nestedTag" => javascript_safe(_("Tag nested within same tag")),
+        "unRecTag" => javascript_safe(_("Unrecognized tag")),
+        "tabChar" => javascript_safe(_("Tab should not be used")),
+        "charBefore" => javascript_safe(_("No characters should precede this")),
+        "blankBefore" => javascript_safe(_("A blank line should precede this")),
+        "blankAfter" => javascript_safe(_("A blank line should follow %s")),
+        "NWinNW" => javascript_safe(_("No-wrap inside no-wrap")),
+        "BQinNW" => javascript_safe(_("Block quote inside no-wrap")),
+        "aloneTag" => javascript_safe(_("This tag should be alone on its line")),
+        "OolPrev" => javascript_safe(_("Out-of-line start tag should not be preceded by normal text")),
+        "OolNext" => javascript_safe(_("Out-of-line end tag should not be followed by normal text")),
+        "blankLines124" => javascript_safe(_("Only 1, 2 or 4 blank lines should be used")),
+        "puncAfterStart" => javascript_safe(_("Punctuation after start tag")),
+        "spaceAfterStart" => javascript_safe(_("Space after start tag")),
+        "nlAfterStart" => javascript_safe(_("Newline after start tag")),
+        "nlBeforeEnd" => javascript_safe(_("Newline before end tag")),
+        "spaceBeforeEnd" => javascript_safe(_("Space before end tag")),
+        "noBold" => javascript_safe(_("Heading should not be entirely bold")),
+        "scNoCap" => javascript_safe(_("Small caps must contain at least one upper case character")),
+        "charBeforeStart" => javascript_safe(_("Character or punctuation before inline start tag")),
+        "charAfterEnd" => javascript_safe(_("Character after inline end tag")),
+        "puncBEnd" => javascript_safe(_(",; or : before end tag")),
+        "noCloseBrack" => javascript_safe(_("No matching closing bracket")),
+        "footnoteId" => javascript_safe(_("Footnote identifier should be a letter or number")),
+        "starAnchor" => javascript_safe(_("Footnote anchor should be an upper-case letter")),
+        "noFootnote" => javascript_safe(_("No corresponding footnote on this page")),
+        "noAnchor" => javascript_safe(_("No anchor for this footnote")),
+        "noColon" => javascript_safe(_("Footnote must have a colon")),
+        "colonNext" => javascript_safe(_("The colon should immediately follow *[Footnote")),
+        "spaceNext" => javascript_safe(_("Footnote should be followed by one space and identifier")),
+        "dupNote" => javascript_safe(_("Duplicate footnote identifier")),
+        "continueFirst" => javascript_safe(_("Continuation footnote should precede others"))
 
     );
 
-    $preview_msg = json_encode($msg);
+    // json_encode() assumes everything is in UTF-8, but we may not be so
+    // just build the JSON object ourselves
+    $json_entries = [];
+    foreach($msg as $key => $value)
+    {
+        $json_entries[] = "\"$key\": \"$value\"";
+    }
+    $preview_msg = "{" . implode(",", $json_entries) . "}";
+
     echo "var previewMessages = JSON.parse('$preview_msg'); var previewDemo = '$demo_string'; var ieWarn = '$ie_warn'";
 }
 
@@ -88,7 +96,7 @@ function output_preview_div()
     $poss_iss = html_safe(_("Poss. Issues"));
     $default = html_safe(_("Default"));
     $other_tags = html_safe(_("Other tags"));
-    $ss = shared_strings();
+    $ss = shared_strings("html_safe");
     $text = html_safe(_("Text"));
     $background = html_safe(_("Background"));
     $allow_underine = html_safe(_("Allow underline"));
