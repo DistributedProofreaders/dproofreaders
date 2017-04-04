@@ -236,7 +236,6 @@ function _insert_post(
     $text    = utf8_normalize_nfc($post_text);
 
     $poll = $uid = $bitfield = $options = '';
-    generate_text_for_storage($subject, $uid, $bitfield, $options, false, false, false);
     generate_text_for_storage($text, $uid, $bitfield, $options, true, true, true);
 
     $data = array(
