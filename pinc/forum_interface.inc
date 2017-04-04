@@ -806,10 +806,8 @@ function call_phpbb_function( $func_name, $args )
 
     $output = array();
     $last_line = exec($command, $output, $exit_status);
-    if($DEBUG)
-        echo "exec'd command's last line = '$last_line'<br>\n";
 
-    if ( $exit_status != 0 )
+    if ( $exit_status != 0  || $DEBUG)
     {
         echo "<pre>\n";
         echo "$func_name command exited with status=$exit_status\n";
