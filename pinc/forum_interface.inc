@@ -690,18 +690,21 @@ function get_topic_details($topic_id)
     if(PHPBB_VERSION == 3 && is_dir("$forums_dir/phpbb"))
     {
         // 3.1 and later
-        $phpbb_topic_posts = "$phpbb_topics.topic_posts_approved";
+        // topic_posts_approved includes the initial post in addition
+        // to the replies so we need to subtract 1 to get the number of
+        // replies
+        $phpbb_topic_replies = "$phpbb_topics.topic_posts_approved - 1";
     }
     else
     {
         // 2.x and 3.0
-        $phpbb_topic_posts = "$phpbb_topics.topic_replies";
+        $phpbb_topic_replies = "$phpbb_topics.topic_replies";
     }
 
     $query = "
         SELECT $phpbb_topics.topic_id AS topic_id,
             $phpbb_topics.topic_title AS title,
-            $phpbb_topic_posts AS num_replies,
+            $phpbb_topic_replies AS num_replies,
             $phpbb_forums.forum_name AS forum_name,
             $phpbb_forums.forum_id AS forum_id,
             $phpbb_users.username AS creator_username
