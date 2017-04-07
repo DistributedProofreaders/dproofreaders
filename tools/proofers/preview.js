@@ -311,6 +311,7 @@ var makePreview = function (txt, viewMode, styler) {
         var start = 0;
         var tagStack = [];
         var result;
+        var res1;
         var stackTop;
         var preChar;
         var postChar;
@@ -320,11 +321,13 @@ var makePreview = function (txt, viewMode, styler) {
             return tagData.tag === tagString;
         }
 
-        // regex to match valid inline tags or a blank line
-        var re = new RegExp("<(\\/?)(" + ILTags + ")>|\\n\\n", "g");
+        // regex to match valid inline tags or a blank line or [**
+        var re = new RegExp("\\[\\*\\*|<(\\/?)(" + ILTags + ")>|\\n\\n", "g");
+        var reCloseBrack = /\]|$/gm;  // ] or eol or eot
 
         while (true) {
             result = re.exec(txt);
+            console.log(result);
             if (null === result) {
                 while (tagStack.length !== 0) {
                     stackTop = tagStack.pop();
@@ -332,6 +335,22 @@ var makePreview = function (txt, viewMode, styler) {
                 }
                 return;
             }
+            if (result[0] === "[**") { // advance to end of comment or eol
+                console.log(re.lastIndex);
+                reCloseBrack.lastIndex = re.lastIndex;
+                res1 = reCloseBrack.exec(txt);  // can't be null if has $
+                console.log(res1[0]);
+                if (res1[0] !== "]") {
+                    console.log("nobrack", res1.index);
+                    // user note missing ], make an issue to avoid parsing probs
+                    // if there are tags in the note
+                    reportIssueLong(result.index, 3, previewMessages.noCloseBrack, 1);
+                }
+                re.lastIndex = reCloseBrack.lastIndex;
+                console.log(re.lastIndex);
+                continue;
+            }
+
             if (result[0] === "\n\n") {
                 while (tagStack.length !== 0) {
                     stackTop = tagStack.pop();
@@ -450,6 +469,10 @@ var makePreview = function (txt, viewMode, styler) {
         }
 
         function spanStyle(match, p1, p2) {
+            console.log(match, p1, p2);
+            if (!p2) { // must be user note
+                return match;
+            }
             if (p1 === '/') {   // end tag
                 if (viewMode === "show_tags") {
                     return match + repstr2;
@@ -466,7 +489,9 @@ var makePreview = function (txt, viewMode, styler) {
         // the way html treats small cap text is different to the dp convention
         // so if sc-marked text is all upper-case transform to lower
         txt = txt.replace(sc_re, transformSC);
-        var reTag = new RegExp("&lt;(\\/?)(" + ILTags + ")&gt;", "g");
+        // find user note or inline tag
+        var reTag = new RegExp("\\[\\*\\*[^\\]]*\\]|&lt;(\\/?)(" + ILTags + ")&gt;", "g");
+        console.log(reTag);
         txt = txt.replace(reTag, spanStyle);
         // out of line tags
         etcstr = makeColourStyle('etc');
