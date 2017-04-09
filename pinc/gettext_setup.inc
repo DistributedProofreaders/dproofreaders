@@ -86,4 +86,18 @@ if (! function_exists('ngettext') )
     }
 }
 
+// pgettext allows translation of the same strings that
+// mean two different things.
+// http://php.net/manual/en/book.gettext.php#89975
+if (!function_exists('pgettext'))
+{
+    function pgettext($context, $msgid)
+    {
+        $contextString = "{$context}\004{$msgid}";
+        $translation = dcgettext('messages', $contextString, LC_MESSAGES);
+        if ($translation == $contextString)  return $msgid;
+        else  return $translation;
+    }
+}
+
 // vim: sw=4 ts=4 expandtab
