@@ -17,13 +17,13 @@ output_header('Site translation', NO_STATSBAR);
     <li>For registered users, see the 'Interface Language' setting in your <a href='../userprefs.php'>user preferences</a>.</li>
 </ul>
 
-<h2>Becoming a translator</h2>
-<p>If you want to translate the user interface into a new language, or want to refine an existing translation, contact a <a href='mailto:<?php echo $site_manager_email_addr; ?>'>site administrator</a> for full access to the <a href='../locale/translators/index.php'>Translation Center</a>.</p>
-
 <h2>Languages vs locales</h2>
 <p>Many people think of translations as done from one language into another, such as from English into Spanish. But this is an oversimplification: which English -- US? Canadian? British? -- and which Spanish -- Spain? Mexico? Instead, they are done from one localization, such as US English, into another, such as Mexican Spanish. Computers term these localizations locales and they have unique identifiers. For example, US English is en_US and Mexican Spanish is es_MX.</p>
 
 <p>Prior versions of the DP code included this lack of distinction between language and localization. This version uses locales when referring to specific interface language translations in the code. The user interface still uses "language" however.</p>
+
+<h2>Becoming a translator</h2>
+<p>If you would like to help with a current translation effort, or would like to translate the user interface into a new language, contact a <a href='mailto:<?php echo $db_requests_email_addr; ?>'>site administrator</a> for full access to the <a href='../locale/translators/index.php'>Translation Center</a>.</p>
 
 
 <?php if(user_is_a_sitemanager()) { ?>
@@ -103,6 +103,7 @@ Server MPM:     Prefork
 
 <?php } // user_is_a_sitemanager(); ?>
 
+
 <?php if(user_is_site_translator()) { ?>
 
 <hr>
@@ -110,15 +111,21 @@ Server MPM:     Prefork
 <h2>Translators</h2>
 
 <h3>Character sets</h3>
-<p>PO files, also known as message files, can be saved and uploaded in various different encodings, including ISO-8859-1 (ie: Latin-1) and UTF-8. The encoding must match the "Content-Type" heading at the top of the file to ensure proper localization of the page to the user. PO editors will do this for you automatically. Mismatched encodings and Content-Type headings will result in message corruption in the file, therefore it is imperative that you use a PO editor and not just a text editor!</p>
+<p>PO files, also known as message files, can be saved and uploaded in various different encodings, including ISO-8859-1 (ie: Latin-1) and UTF-8. The file encoding must match the "Content-Type" heading at the top of the file to ensure proper localization of the page to the user. Mismatched file encodings and Content-Type headings will result in message corruption in the file.</p>
 
-<p>The DP code currently only supports the ISO-8859-1 (ie: Latin-1) character set. Messages in PO files using different character sets, such as UTF-8, will be converted automatically before being shown to the user. Any characters that do not have an exact representation in ISO-8859-1 will be transliterated to the closest possible character. If you wish to represent characters in a message string that do not have ISO-8859-1 equivalents, use <a href='http://www.w3.org/TR/html4/sgml/entities.html'>HTML entities</a> in the string instead.</p>
+<p>The DP code currently only supports the ISO-8859-1 (ie: Latin-1) character set. Messages in PO files using different character sets, such as UTF-8, will be converted automatically before being shown to the user. In order to minimize problems caused by PO editors not uniformly saving with the same file encoding declared in the PO headers, all PO files have been set to use a Content-Type of UTF-8. This should not cause problems as long as any characters that do not have an exact representation in ISO-8859-1 are represented using <a href='http://www.w3.org/TR/html4/sgml/entities.html'>HTML entities</a> in the string instead of the actual characters. If you do not encode such characters using HTML entities, they will be silently transliterated to the closest possible character.</p>
 
 <h3>PO Editors</h3>
-<p>To work with DP code translations, you must use a PO editor. This is a tool that allows working with PO files, also known as message files, and ensures that the file is in the correct format and character set. Here are links to some common editors:</p>
+<p>To work with DP code translations, you should use a PO editor. This is a tool that allows working with PO files, also known as message files, and ensures that the file is in the correct format and character set. Here are links to some common editors:</p>
 <ul>
     <li><a href='https://poedit.net'>Poedit</a> - supports Windows, Mac, and Linux.</li>
-    <li><a href='https://localise.biz/free/poeditor'>Loco online poeditor</a> - a fully browser-based PO file editor</li>
+    <li><a href='https://localise.biz/free/poeditor'>Loco online poeditor</a> - a fully browser-based PO file editor.</li>
+</ul>
+
+<p><strong>Why use a PO editor?</strong> A PO file is a specialized kind of text file. It can be edited in a text editor, but using a dedicated PO editor has some important advantages, among which are:
+<ul>
+    <li>Multi-line messages are joined for editing, so that the string can be easily translated as a unit, without worrying about differences in grammar.</li>
+    <li>It is visually quite obvious which strings have been identified as fuzzy, and in need of review.</li>
 </ul>
 
 <h3>Translator coordination</h3>
@@ -131,15 +138,15 @@ Server MPM:     Prefork
 
 <p>The 'view' link will show you the selected PO file in your browser window. The 'download' link will download the PO file to your local computer. The 'manage' button will display another page allowing you to do further actions on the PO file.</p>
 
-<p>The page shows the current PO template file (POT) which contains all the strings in the installed DP code. A site administrator can regenerate the template using this page.</p>
+<p>You can also view in your browser, or download the current PO template file (POT) which contains all the strings in the installed DP code that have been marked for translation. A site administrator can regenerate the template using this page, as needed.</p>
 
 <h3>Translation workflow</h3>
-<p>The basic steps for editing a translation are:
+<p>Basic steps for editing a translation:
 <ol>
     <li>Select the 'manage' link for the locale translation you want to manage.</li>
-    <li>(optional) Merge the current PO file with the most current template. (see below)</li>
-    <li>Using the 'download' link to download the PO file you want to update.</li>
-    <li>Update the PO file using a PO editor to change translations for existing strings or translate new strings that have not been translated.</li>
+    <li>(optional, see below) Merge the current PO file with the most current template.</li>
+    <li>Use the 'download' link to download the PO file you want to update.</li>
+    <li>Update the PO file using a PO editor to change translations for existing strings or translate new strings that have not been translated (see below for translation tips).</li>
     <li>Upload the new PO file to the system using the form at the bottom of the page. If the locale translation is enabled, the changes should be immediate.</li>
     <li>(optional) If the locale translation is disabled and is ready for release, contact an admin to have them enable it.</li>
 </ol>
@@ -149,25 +156,29 @@ Server MPM:     Prefork
 
 <p>The 'manage' page will notify you if the POT file has been regenerated since the PO file was uploaded, possibly indicating that there are new or changed strings that need to be translated. Merging the PO file with the current template will update the PO file on the system to contain all the strings in POT file, retaining those in the current PO file that match.</p>
 
-<p>During the merge, the system matches strings in the POT file with those in the PO file that have been translated. If no exact string is found and fuzzy matching is enabled, strings that are determined to be "close" are matched and the translation is flagged as "fuzzy". Fuzzy translations should be checked in the PO editor (editors will indicate if a translation is flagged as fuzzy), reviewed or updated, and then unflagged as fuzzy. <i>Using fuzzy matching can take a very long time to complete the merge.</i> See also the <a href='http://www.gnu.org/software/gettext/manual/gettext.html#Fuzzy-Entries'>gettext manual for fuzzy entries</a>.</p>
+<p>During the merge, the system matches strings in the POT file with those in the PO file that have been translated. If no exact string is found and fuzzy matching is enabled, strings that are determined to be "close" are matched and the translation is flagged as "fuzzy". Fuzzy translations should be checked in the PO editor (editors will indicate if a translation is flagged as fuzzy), reviewed and updated if necessary, and then unflagged as fuzzy. <i>Using fuzzy matching can take a very long time to complete the merge.</i> See also the <a href='http://www.gnu.org/software/gettext/manual/gettext.html#Fuzzy-Entries'>gettext manual for fuzzy entries</a>.</p>
 
 <h3>Translation tips</h3>
-<h4>HTML and spaces</h4>
-<p>Pay attention that you <strong>must not</strong> translate HTML tags, attributes, and entities (except those entities which are parts of words in the text). For example: if the string is "No&amp;nbsp;space" translate "No" and "space" but leave &amp;nbsp; as-is. If an entity is needed for an accented character in a word that is not available in ISO-8859-1, use the entity as a substitute for that letter or letter combination in the translated word, but do not attempt to translate the entity itself.</p>
+<p>Many strings can be translated as they are. However, there are a number of strings that will contain some kind of code.</p>
+
+<h4>HTML, attributes, entities and spaces</h4>
+<p>Pay attention that you <strong>must not</strong> translate HTML tags, attributes, and entities. For example: if the string is "No&amp;nbsp;space" translate "No" and "space" but leave &amp;nbsp; as-is. If an accented character that is not available in ISO-8859-1 is used in a word, use the entity as a substitute for that letter or letter combination in the translated word, but do not attempt to translate the entity itself. For example: &amp;#257; for &#257;, &amp;oelig; for &oelig;, or &amp;#383; for &#383;.</p>
+
+<p>If you are unfamiliar with HTML tags, attributes and entites, and uncertain whether something should be translated or not, ask for clarification.</p>
 
 <p>Although there should not be any, if there are spaces at the beginning or the end of a line, keep them.</p>
 
+<h4>strftime&mdash;time and dates</h4>
 
-<h4>strftime and sprintf</h4>
-<p>Some strings are not displayed as-is, but are passed to PHP's <a href='http://www.php.net/manual/en/function.strftime.php'>strftime</a> or <a href='http://www.php.net/manual/en/function.sprintf.php'>sprintf</a> functions.</p>
-
-<p>Strings passed to strftime contain, or consist entirely of "tags" prefixed by %, followed by a letter (%A, %B, etc.). When viewed on the website by the end-user, these tags are replace with already translated time-related terms (day names, month names, etc.)&mdash;you don't need to translate them yourself! For example, %B expands to month name (e.g. August), and %Y expands to display the full year (e.g. 2004).</p>
+<p>Strings passed to PHP's <b>strftime</b> function contain, or consist entirely of "tags" prefixed by %, followed by a letter (%A, %B, etc.). When viewed on the website by the end-user, these tags are replaced with already translated time-related terms (day names, month names, etc.)&mdash;you don't need to translate them yourself! For example, %B expands to month name (e.g. August), and %Y expands to display the full year (e.g. 2004).</p>
 
 <p>It might be neccesary to reorganise the tags so that they form a date which is more natural for your language. For examples, "%A, %B %e, %Y" becomes "Friday, August 13 2004" while "%A, %e. %B %Y." becomes "Friday, 13. August 2004.". For a full list of all tags and a more detailed explanation, you can see <a href='http://www.php.net/manual/en/function.strftime.php' class='external' title="http://www.php.net/manual/en/function.strftime.php">strftime</a> in PHP's manual.</p>
 
-<p>Note that some non-date-related strings are also tagged. These are passed to the <a href='http://www.php.net/manual/en/function.sprintf.php' class='external' title="http://www.php.net/manual/en/function.sprintf.php">sprintf</a> function instead of strftime. For example: "&lt;a href=%s&gt;your preferences page&lt;/a&gt;". You should just leave the tags as they are -- any strings associated with the %s that need to be translated will be translated elsewhere.</p>
+<h4>sprintf</h4>
 
-<p>Some sprintf-formatted strings have more than one substitution variable. For example: "&lt;a href='%1$s'&gt;%2$s&lt;/a&gt;". Treat the %1$s and similar strings as placeholders and keep them intact. If necessary, you can change the order of the placeholders in the stringto better suit the destination language.</p>
+<p>Some non-date-related strings are also tagged. These are passed to PHP's <a href='http://www.php.net/manual/en/function.sprintf.php' class='external' title="http://www.php.net/manual/en/function.sprintf.php">sprintf</a> function. For example: "&lt;a href=%s&gt;your preferences page&lt;/a&gt;". You should just leave the tags as they are&mdash;any strings associated with the %s that need to be translated will be translated elsewhere.</p>
+
+<p>Some sprintf-formatted strings have more than one substitution variable. For example: "&lt;a href='%1$s'&gt;%2$s&lt;/a&gt;". Treat the %1$s and similar strings as placeholders and keep them intact. If necessary, you can change the order of the placeholders in the string to better suit the destination language.</p>
 
 <p>If you need to insert a % sign in either strftime or sprintf strings for a translation, use two in a row (%%). If the string is not a strftime or sprintf string (ie: it doesn't have any formatting characters or placeholders already) a single % should be used as needed.</p>
 
