@@ -49,7 +49,7 @@ echo "</ul>";
 <table class='wordlisttable'>
 <tr>
     <td class='label'><?php echo _("Page"); ?></td>
-    <td class='label'><?php echo _("State"); ?></td>
+    <td class='label'><?php echo pgettext("page state", "State"); ?></td>
 <?php
     foreach($Round_for_round_id_ as $round)
         echo "<td class='label'>$round->id</td>";

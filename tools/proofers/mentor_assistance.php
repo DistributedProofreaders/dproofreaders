@@ -81,7 +81,7 @@ $tbl = new DpTable();
 
 $tbl->AddColumn(_("Page"), "fileid" );
 $tbl->AddColumn(_("Age"), "unixtime", "_ago" );
-$tbl->AddColumn(_("State"), "page_state");
+$tbl->AddColumn(pgettext("page state", "State"), "page_state");
 
 
 echo "

@@ -308,7 +308,7 @@ $widgets = array(
     )),
     new Widget( array(
         'id'           => 'state',
-        'label'        => _('State'),
+        'label'        => pgettext('project state', 'State'),
         'type'         => 'select',
         'options'      => $state_options,
         'can_be_multiple' => TRUE,
