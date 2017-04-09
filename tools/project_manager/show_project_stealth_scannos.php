@@ -69,6 +69,7 @@ if($format == "file") {
     echo "\r\n";
     echo_download_text( $projectid, $format );
     echo "\r\n";
+    # xgettext:no-php-format
     echo _("Format: [word] - [% changed] - [last changed to] - [# changed] - [# left] - [# in OCR]") . "\r\n";
     echo "\r\n";
 
@@ -128,6 +129,7 @@ foreach($instances_left as $word => $freq) {
 }
 $word_notes["[[TITLE]]"]=_("Notes");
 
+# xgettext:no-php-format
 $percent_changed["[[TITLE]]"]=_("% Changed");
 $percent_changed["[[STYLE]]"]="text-align: right;";
 $instances_changed_to["[[TITLE]]"]=_("Last changed to");

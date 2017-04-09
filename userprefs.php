@@ -544,12 +544,14 @@ function echo_proofreading_tab() {
         _('Image Zoom'), 'v_zoom', 'v_zoom',
         $userP['v_zoom'],
         'textfield',
+        # xgettext:no-php-format
         array( 3, _("% of 1000 pixels") )
     );
     show_preference(
         _('Image Zoom'), 'h_zoom', 'h_zoom',
         $userP['h_zoom'],
         'textfield',
+        # xgettext:no-php-format
         array( 3, _("% of 1000 pixels") )
     );
     echo "</tr>\n";
@@ -559,12 +561,14 @@ function echo_proofreading_tab() {
         _('Text Frame Size'), 'v_tframe', 'v_textsize',
         $userP['v_tframe'],
         'textfield',
+        # xgettext:no-php-format
         array( 3, _("% of browser width") )
     );
     show_preference(
         _('Text Frame Size'), 'h_tframe', 'h_textsize',
         $userP['h_tframe'],
         'textfield',
+        # xgettext:no-php-format
         array( 3, _("% of browser height") )
     );
     echo "</tr>\n";
