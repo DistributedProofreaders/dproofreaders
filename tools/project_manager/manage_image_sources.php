@@ -264,7 +264,7 @@ class ImageSource
 
         echo "<tr class='$row_class'>";
         echo "<td colspan='6'>";
-        echo "<b>" . _("Credits Line:") . " </b>";
+        echo "<b>" . _("Credits Line") . ": </b>";
         echo html_safe($this->credit);
         echo "</td></tr>";
 
@@ -272,7 +272,7 @@ class ImageSource
         {
             echo "<tr class='$row_class'>";
             echo "<td colspan='6'>";
-            echo "<b>" . _("Description (public comments):") . " </b>";
+            echo "<b>" . _("Description (public comments)") . ": </b>";
             echo html_safe($this->public_comment);
             echo "</td></tr>";
         }
@@ -281,7 +281,7 @@ class ImageSource
         {
             echo "<tr class='$row_class'>";
             echo "<td colspan='6'>";
-            echo "<b>" . _("Notes (internal comments):") . " </b>";
+            echo "<b>" . _("Notes (internal comments)") . ": </b>";
             echo html_safe($this->internal_comment);
             echo "</td></tr>";
         }

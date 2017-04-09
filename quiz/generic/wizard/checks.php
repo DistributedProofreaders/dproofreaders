@@ -217,16 +217,18 @@ echo "<hr>\n<p><input type='radio' name='type' value='forbiddentext'><b>" . _("C
 
 echo "<p>" . _("This will look if at least one of the strings you give here does occur in the text.") . "</p>\n";
 
-echo "<p>\n" . _("Text:") . " <input type='text' name='forbiddentext_searchtext1' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='forbiddentext_searchtext2' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='forbiddentext_searchtext3' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='forbiddentext_searchtext4' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='forbiddentext_searchtext5' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='forbiddentext_searchtext6' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='forbiddentext_searchtext7' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='forbiddentext_searchtext8' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='forbiddentext_searchtext9' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='forbiddentext_searchtext10' size='50'><br>\n</p>\n";
+echo "<p>\n";
+echo _("Text") . ": <input type='text' name='forbiddentext_searchtext1' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='forbiddentext_searchtext2' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='forbiddentext_searchtext3' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='forbiddentext_searchtext4' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='forbiddentext_searchtext5' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='forbiddentext_searchtext6' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='forbiddentext_searchtext7' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='forbiddentext_searchtext8' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='forbiddentext_searchtext9' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='forbiddentext_searchtext10' size='50'><br>\n";
+echo "</p>\n";
 
 echo "<p>" . _("Should you need more than 10 texts being searched simultaneously you'll have to edit the final file.") . "</p>\n";
 
@@ -241,16 +243,18 @@ echo "</a> <select size='1' name='forbiddentext_error_default'>\n$defaultlist</s
 echo "<p><input type='radio' name='type' value='expectedtext'><b>" . _("Check for expected text") . "</b></p>\n";
 echo _("This will look if at least one of the strings you give here does occur in the text.") . "</p>\n";
 
-echo "<p>\n" . _("Text:") . " <input type='text' name='expectedtext_searchtext1' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='expectedtext_searchtext2' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='expectedtext_searchtext3' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='expectedtext_searchtext4' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='expectedtext_searchtext5' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='expectedtext_searchtext6' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='expectedtext_searchtext7' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='expectedtext_searchtext8' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='expectedtext_searchtext9' size='50'><br>\n";
-echo _("Text:") . " <input type='text' name='expectedtext_searchtext10' size='50'><br>\n</p>\n";
+echo "<p>\n";
+echo _("Text") . ": <input type='text' name='expectedtext_searchtext1' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='expectedtext_searchtext2' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='expectedtext_searchtext3' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='expectedtext_searchtext4' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='expectedtext_searchtext5' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='expectedtext_searchtext6' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='expectedtext_searchtext7' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='expectedtext_searchtext8' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='expectedtext_searchtext9' size='50'><br>\n";
+echo _("Text") . ": <input type='text' name='expectedtext_searchtext10' size='50'><br>\n";
+echo "</p>\n";
 
 echo "<p>" . _("Should you need more than 10 texts being searched simultaneously you'll have to edit the final file.") . "</p>";
 

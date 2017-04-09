@@ -405,7 +405,7 @@ $sortby = $sortUtility->getQueryStringForCurrentView();
 // provide links for those and also buttons for submitting/resetting form.
 $view = get_enumerated_param($_REQUEST, 'view', 'enabled', array('enabled', 'disabled', 'all'));
 
-$links_and_buttons = _('View:') . ' ';
+$links_and_buttons = _('View') . ': ';
 if ($view != 'disabled' && $view != 'all')
 $links_and_buttons .= _('Enabled');
 else

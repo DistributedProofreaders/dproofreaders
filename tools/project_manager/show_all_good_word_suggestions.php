@@ -106,7 +106,7 @@ if($frame=="left") {
         echo _("View projects for user:") . " <input type='text' name='pm' value='" . attr_safe($pm) . "' size='10'><br>";
     }
 
-echo _("Show:") . " ";
+echo _("Show") . ": ";
 echo "<select name='timeCutoff'>";
 echo "<option value='0'"; if($timeCutoff==0) echo "selected"; echo ">" . _("All suggestions") . "</option>";
 echo "<option value='-1'"; if($timeCutoff==-1) echo "selected"; echo ">" . _("Suggestions since Good Words List was saved") . "</option>";

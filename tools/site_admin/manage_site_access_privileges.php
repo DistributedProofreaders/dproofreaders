@@ -227,7 +227,7 @@ function update_settings($username, $user_settings)
         }
     }
 
-    echo "<p>" . _("You have made the following request for the above user:") . "</p>\n";
+    echo "<p>" . _("You have made the following request for the above user") . ":</p>\n";
     foreach ($disposition as $which => $setting_names)
     {
         echo "<p><b>$which:</b></p>\n";

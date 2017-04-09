@@ -27,7 +27,7 @@ if ($action == 'default') {
     ?>
     <br />
     <form method='get'><input type='hidden' name='action' value='get_user' />
-    <?php echo _("Username:"); ?> <input type='text' name='username' />
+    <?php echo _("Username"); ?>: <input type='text' name='username' />
     <input type='submit' value='<?php echo attr_safe(_("Continue")); ?>' />
     </form>
     <br />
