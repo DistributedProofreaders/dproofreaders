@@ -64,6 +64,7 @@ if (!isset($_GET['name']))
     echo "<h1>{$header_text}</h1>\n";
 
     if (user_is_PM()) {
+        // TRANSLATORS: PM = project manager
         echo "<p><a href='projectmgr.php'>"._("Back to your PM page")."</a></p><br><br>";
     }
 

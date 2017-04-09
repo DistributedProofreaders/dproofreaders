@@ -38,6 +38,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
         $pih->save_to_db();
         if (isset($_POST['saveAndQuit']))
         {
+            // TRANSLATORS: PM = project manager
             metarefresh(0, "projectmgr.php", _("Save and Go To PM Page"), "");
         }
         elseif (isset($_POST['saveAndProject']))
@@ -427,6 +428,7 @@ class ProjectInfoHolder
             }
             if ( empty($errors) && !that_user_is_PM($this->projectmanager) )
             {
+                // TRANSLATORS: PM = project manager
                 $errors .= sprintf(_("%s is not a PM."), $this->projectmanager) . "<br>";
             }
         }
@@ -856,6 +858,7 @@ class ProjectInfoHolder
 
         echo "<tr>";
         echo   "<td bgcolor='#CCCCCC' colspan='2' align='center'>";
+        // TRANSLATORS: PM = project manager
         echo     "<input type='submit' name='saveAndQuit' value='".attr_safe(_("Save and Go To PM Page"))."'>";
         echo     "<input type='submit' name='saveAndProject' value='".attr_safe(_("Save and Go To Project"))."'>";
         echo     "<input type='submit' name='saveAndPreview' value='".attr_safe(_("Save and Preview"))."'>";

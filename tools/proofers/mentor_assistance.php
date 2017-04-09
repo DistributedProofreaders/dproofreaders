@@ -106,7 +106,7 @@ foreach( $proofers as $username => $proofer )
     $yourcount      = $proofer['your_count'];
     $uid            = $proofer['uid'];
 
-    $privmsg = _("PM");
+    $privmsg = pgettext("private message", "PM");
     $send_pm_url = get_url_to_compose_message_to_user($username);
 
     echo "\n<hr>\n";

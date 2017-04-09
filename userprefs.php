@@ -721,6 +721,7 @@ function echo_pm_tab() {
 
     echo "<tr>\n";
     show_preference(
+        // TRANSLATORS: PM = project manager
         _('Default PM Page'), 'i_pmdefault', 'pmdefault',
         $userP['i_pmdefault'],
         'dropdown',

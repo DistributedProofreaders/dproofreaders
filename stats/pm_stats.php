@@ -19,6 +19,7 @@ echo "<h3>" . _("Number of Distinct Project Managers") . "</h3>\n";
 dpsql_dump_themed_query("
     SELECT
         count(distinct username) as '" 
+            // TRANSLATORS: PMs = project managers
             . mysql_real_escape_string(_("Different PMs")) . "'
     FROM projects
 ",  0, DPSQL_NO_RANK, DPSQL_NO_RIGHT_ALIGN_INTS);
@@ -31,7 +32,7 @@ echo "<h4>" . _("(Number of Projects Created)") . "</h4>\n";
 $psd = get_project_status_descriptor('created');
 dpsql_dump_themed_query("
     SELECT
-        username as '" . mysql_real_escape_string(_("PM")) . "',
+        username as '" . mysql_real_escape_string(pgettext("project manager", "PM")) . "',
         count(*) as '" . mysql_real_escape_string(_("Projects Created")) . "'
     FROM projects
     WHERE $psd->state_selector
@@ -48,7 +49,7 @@ echo "<h4>" . _("(Number of Projects Posted to PG)") . "</h4>\n";
 $psd = get_project_status_descriptor('posted');
 dpsql_dump_themed_query("
     SELECT
-        username as '" . mysql_real_escape_string(_("PM")) . "',
+        username as '" . mysql_real_escape_string(pgettext("project manager", "PM")) . "',
         count(*) as '" . mysql_real_escape_string(_("Projects Posted to PG")) . "'
     FROM projects
     WHERE $psd->state_selector

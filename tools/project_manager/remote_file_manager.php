@@ -210,6 +210,7 @@ function do_showdir()
     echo "<p>" . _("This page allows you to manage content in this uploads folder.") . "</p>\n";
 
     if (get_access_mode($pguser) == 'common') {
+        // TRANSLATORS: PM = project manager
         show_message('info', _("Because you are not a PM, your files are located in a common, shared area.<br><u>Please take care to avoid affecting other users' files.</u>"));
         show_message('info', $autoprefix_message);
     }

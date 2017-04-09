@@ -403,7 +403,9 @@ class ImageSource
 
         $editing .= "<div class='perms_wrapper'>" . _("Visibility on Info Page") . "</div> <select name='$field'>";
         foreach (array(
+                // TRANSLATORS: IS = image source
                 '0' => _('IS Managers Only'),
+                // TRANSLATORS: PMs = project managers
                 '1' => _('Also PMs'),
                 // TRANSLATORS: %s is the site abbreviation
                 '2' => sprintf(_("All %s Users"), $site_abbreviation),

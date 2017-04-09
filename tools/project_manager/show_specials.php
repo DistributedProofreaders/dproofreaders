@@ -22,6 +22,7 @@ echo "<br><h1>$title</h1>\n";
 echo _("The Name column shows what the colour looks like with a link on top, the Comment with ordinary text.")."<br><br>";
 
 if (user_is_PM()) {
+    // TRANSLATORS: PM = project manager
     echo "<a href='projectmgr.php'>"._("Back to your PM page")."</a><br><br>";
 }
 

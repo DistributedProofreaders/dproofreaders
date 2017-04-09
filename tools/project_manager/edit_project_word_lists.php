@@ -39,6 +39,7 @@ if (isset($_POST['saveAndProject']) || isset($_POST['saveAndPM']) || isset($_POS
             }
             elseif (isset($_POST['saveAndPM']))
             {
+                // TRANSLATORS: PM = project manager
                 metarefresh(0, "$code_url/tools/project_manager/projectmgr.php", _("Save and Go To PM Page"), "");
                 exit;
             }
@@ -257,6 +258,7 @@ class ProjectWordListHolder
         // labels do not force the display to be wider than the screen.
         echo "<tr>";
         echo   "<td class='label' colspan='2' align='center' style='padding: 0.5em;'>";
+        // TRANSLATORS: PM = project manager
         echo     "<input type='submit' name='saveAndPM' value='", attr_safe(_("Save and Go To PM Page")), "'> ";
         echo     "<input type='submit' name='saveAndProject' value='", attr_safe(_("Save and Go To Project")), "'> ";
         echo     "<input type='submit' name='save' value='", attr_safe(_("Save")), "'> ";

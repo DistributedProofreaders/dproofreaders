@@ -618,7 +618,7 @@ function get_activity_links()
             $default_pm_page="";
         }
 
-        $links[] = array('url' => "tools/project_manager/projectmgr.php$default_pm_page", 'text' => 'PM', 'title' => _('Manage Projects'));
+        $links[] = array('url' => "tools/project_manager/projectmgr.php$default_pm_page", 'text' => pgettext('project manager', 'PM'), 'title' => _('Manage Projects'));
     }
 
     // Get all stages the user has access to

@@ -111,7 +111,11 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
     if($display_fields["username"])
     {
         $pm_options=_load_project_filter_field_values("username", $state_sql);
-        echo _build_project_filter_select(_("Project Manager"), _("All PMs"), "username", $pm_options, @$data["username"], $td_width);
+        echo _build_project_filter_select(
+            _("Project Manager"),
+            // TRANSLATORS: PMs = project managers
+            _("All PMs"),
+            "username", $pm_options, @$data["username"], $td_width);
     }
 
     if($display_fields["checkedoutby"])

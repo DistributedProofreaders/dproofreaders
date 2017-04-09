@@ -569,6 +569,7 @@ function echo_postcomments_instructions()
         and so that we will know that there's still work in progress.")
         . '</p>';
     echo '<p>' . sprintf(
+        // TRANSLATORS: PM = project manager
         _("If you find that some proofing images are missing or unreadable,
         or that illustration images are missing or inadequate,
         first let the PM know what you've found (or not found).
