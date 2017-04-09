@@ -96,10 +96,7 @@ Server MPM:     Prefork
 <h3>Enabling translators</h3>
 <p>Site translators have the ability to download the a translation, update it, and upload it back to the site. Note that translators have these abilities for all translations, not just a specific one. They cannot enable or disable a translation, create a translation for a new locale, delete a translation, or regenerate the template file.</p>
 
-<p>To specify a user as a site translator, create an entry in the usersettings table for them:</p>
-<blockquote>
-<tt>INSERT INTO usersettings SET username='&lt;username&gt;', setting='site_translator', value='yes';</tt>
-</blockquote>
+<p>To specify a user as a site translator, grant the site_translator setting for the user on the <a href='../tools/site_admin/manage_site_access_privileges.php'>Manage Site Access Privileges</a> page.
 
 <?php } // user_is_a_sitemanager(); ?>
 
