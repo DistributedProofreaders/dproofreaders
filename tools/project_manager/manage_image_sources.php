@@ -396,27 +396,27 @@ class ImageSource
         //  2 = also any logged-in user
         //  3 = anyone
 
-            $field = 'info_page_visibility';
-            $existing_value = $this->new_source
-                ? (empty($_REQUEST[$field]) ? '2' : $_REQUEST[$field])
-                : $this->$field;
+        $field = 'info_page_visibility';
+        $existing_value = $this->new_source
+            ? (empty($_REQUEST[$field]) ? '2' : $_REQUEST[$field])
+            : $this->$field;
 
-            $editing .= "<div class='perms_wrapper'>" . _("Visibility on Info Page") . "</div> <select name='$field'>";
-            foreach (array(
-                    '0' => _('IS Managers Only'),
-                    '1' => _('Also PMs'),
-                    // TRANSLATORS: %s is the site abbreviation
-                    '2' => sprintf(_("All %s Users"), $site_abbreviation),
-                    '3' => _('Publicly Visible')) 
-                as $val => $opt)
+        $editing .= "<div class='perms_wrapper'>" . _("Visibility on Info Page") . "</div> <select name='$field'>";
+        foreach (array(
+                '0' => _('IS Managers Only'),
+                '1' => _('Also PMs'),
+                // TRANSLATORS: %s is the site abbreviation
+                '2' => sprintf(_("All %s Users"), $site_abbreviation),
+                '3' => _('Publicly Visible')) 
+            as $val => $opt)
+        {
             {
-                {
-                $editing .= "<option value='$val' " .
-                    ($existing_value == $val ? 'selected' :'') .
-                    ">$opt</option>";
-                }
+            $editing .= "<option value='$val' " .
+                ($existing_value == $val ? 'selected' :'') .
+                ">$opt</option>";
             }
-            $editing .= "</select><br>";
+        }
+        $editing .= "</select><br>";
 
         $this->_show_summary_row(_('Permissions'),$editing,false);
     }
