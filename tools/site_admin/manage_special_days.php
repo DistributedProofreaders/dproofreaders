@@ -80,10 +80,10 @@ if ($action == 'update_oneshot')
 
         // validate the URLs
         if ($_POST['info_url'] && !startswith($_POST['info_url'], "http"))
-            $errmsgs .= _("Info URL is not a valid URL -- ensure it starts with http://.") . "<br>";
+            $errmsgs .= _("Info URL is not a valid URL -- ensure it starts with http:// or https://.") . "<br>";
 
         if ($_POST['image_url'] && !startswith($_POST['image_url'], "http"))
-            $errmsgs .= _("Image URL is not a valid URL -- ensure it starts with http://.") . "<br>";
+            $errmsgs .= _("Image URL is not a valid URL -- ensure it starts with http:// or https://.") . "<br>";
 
         $source->save_from_post();
 
