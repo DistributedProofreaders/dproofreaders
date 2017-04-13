@@ -1,0 +1,36 @@
+<?php
+$relPath='../../../pinc/';
+include_once($relPath.'base.inc');
+
+header('Content-type: text/plain');
+
+// ------------------------------------------------------------
+
+echo "Adding locale column to news_items...\n";
+$sql = "
+    ALTER TABLE news_items
+        ADD COLUMN locale VARCHAR(8) NOT NULL DEFAULT ''
+            AFTER content;
+";
+
+echo "$sql\n";
+
+mysql_query($sql) or die( mysql_error() );
+
+// ------------------------------------------------------------
+
+echo "Adding index to news_items...\n";
+$sql = "
+    ALTER TABLE news_items
+        ADD KEY pageid_locale (news_page_id, locale);
+";
+
+echo "$sql\n";
+
+mysql_query($sql) or die( mysql_error() );
+
+// ------------------------------------------------------------
+
+echo "\nDone!\n";
+
+// vim: sw=4 ts=4 expandtab

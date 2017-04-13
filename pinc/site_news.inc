@@ -55,6 +55,8 @@ function show_news_for_page( $news_page_id )
 {
     global $code_url;
 
+    $user_locale = get_desired_language();
+
     $news_subject = get_news_subject($news_page_id);
     
     // -------------------------------------------
@@ -66,6 +68,7 @@ function show_news_for_page( $news_page_id )
         FROM news_items 
         WHERE status = 'current' 
             AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
+            AND (locale = '' OR locale = '$user_locale')
         ORDER BY ORDERING DESC
     ") or die(mysql_error());
 
@@ -76,6 +79,7 @@ function show_news_for_page( $news_page_id )
         FROM news_items 
         WHERE status = 'recent' 
             AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
+            AND (locale = '' OR locale = '$user_locale')
         ORDER BY RAND() LIMIT 1
     ") or die(mysql_error());
 
