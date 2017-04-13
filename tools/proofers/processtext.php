@@ -125,7 +125,7 @@ switch( $tbutton )
     case B_SAVE_AND_DO_ANOTHER:
         $ppage->saveAsDone($text_data,$pguser);
         $url = $ppage->url_for_do_another_page();
-        metarefresh(1,$url,_("Save as 'Done' & Proofread Next"),_("Page Saved."));
+        metarefresh(1,$url,_("Save as 'Done' & Proofread Next Page"),_("Page Saved."));
         break;
 
     case B_SAVE_AND_QUIT:
@@ -236,7 +236,7 @@ switch( $tbutton )
         // Note: Using Wordcheck in the standard interface changes the default
         // target for links from 'proofframe' to 'textframe' which is why we
         // have to do these gymnastics instead of using metarefresh().
-        $title = _("Save as 'Done' & Proofread Next");
+        $title = _("Save as 'Done' & Proofread Next Page");
         $body = _("Page Saved.");
         slim_header( $title );
         echo "<script language='JavaScript'><!--\n";
