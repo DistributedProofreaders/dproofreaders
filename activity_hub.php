@@ -464,18 +464,20 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
 
     if($show_filtered_projects)
     {
+        $filter_link = "{$stage->relative_url}#filter_form";
         if($load_filtered_projects)
         {
             $display_filter = get_project_filter_display($pguser, $filter_type);
             $display_filter = preg_replace(array("/^<br>/","/<br>/"),array(""," | "),$display_filter);
+            $display_filter = sprintf(_('<a href="%1$s">Filter</a>: %2$s'), $filter_link, $display_filter);
         }
         else
         {
-            $display_filter = "<i>" . _("None") . "</i>";
+            $display_filter = sprintf(_('<a href="%1$s">Add filter</a>'), $filter_link);
         }
         echo "<tr>";
         echo "<td colspan='7' style='text-align: left;'>";
-        echo "<small><a href='{$stage->relative_url}#filter_form'>" . _("Filter") . "</a>: $display_filter</small>";
+        echo "<small>$display_filter</small>";
         echo "</td>";
         echo "</tr>";
     }
