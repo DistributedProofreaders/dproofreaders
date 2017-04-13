@@ -48,28 +48,7 @@ thoughts_re_mentor_feedback( $pagesproofed );
 
 
 // Site News
-if ($pagesproofed >= 20)
-{
-
-    if ($pagesproofed < 40)
-    {
-        echo "<div class='callout'>";
-        echo "<div class='calloutheader'>";
-        echo _("You can now see Site News.");
-        echo "</div>";
-
-        echo "<p>";
-        echo _("Now that you have proofread 20 pages you can see the Site News. This is updated regularly with announcements from the administrators.");
-        echo "</p>";
-
-        echo "<p><small>";
-        echo _("After a period of time, this message will no longer appear.");
-        echo "</small></p>";
-        echo "</div>";
-    }
-
-    show_news_for_page("HUB");
-}
+show_news_for_page("HUB");
 
 // Show any mentor banners.
 foreach ( $Round_for_round_id_ as $round )
