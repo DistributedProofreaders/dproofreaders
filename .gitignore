@@ -4,3 +4,5 @@ SETUP/dp.cron
 SETUP/dump_db_schema
 pinc/site_vars.php
 pinc/udb_user.php
+# Ignore compiled message files
+messages.mo
