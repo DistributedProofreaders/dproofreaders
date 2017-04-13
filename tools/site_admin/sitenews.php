@@ -19,6 +19,12 @@ $item_id = get_integer_param($_REQUEST, 'item_id', null, null, null, true);
 $content = array_get($_POST, 'content', '');
 $locale_options = array_merge(array('' => _("All")), get_locale_translation_selection_options());
 $locale = get_enumerated_param($_POST, 'locale', null, array_keys($locale_options), true);
+$status_options = array(
+    'current'  => _("Sticky"),
+    'recent'   => _("Recent/Random"),
+    'archived' => _("Archived"),
+);
+$item_status = get_enumerated_param($_POST, 'status', null, array_keys($status_options), true);
 
 if (isset($news_page_id)) {
     if (isset($NEWS_PAGES[$news_page_id]))
@@ -29,7 +35,7 @@ if (isset($news_page_id)) {
         echo "<br>";
         echo "<a href='sitenews.php'>"._("Site News Central")."</a><br>";
         echo "<h1>$title</h1>";
-        handle_any_requested_db_updates($news_page_id, $action, $item_id, $content, $locale);
+        handle_any_requested_db_updates($news_page_id, $action, $item_id, $content, $locale, $item_status);
         show_item_editor($news_page_id, $action, $item_id);
         show_all_news_items_for_page($news_page_id);
     } else {
@@ -67,22 +73,20 @@ if (isset($news_page_id)) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function echo_locale_selection($locale)
+function echo_selection($name, $options, $value_selected)
 {
-    global $locale_options;
-
-    echo "<select name='locale'>";
-    foreach($locale_options as $value => $option)
+    echo "<select name='$name'>";
+    foreach($options as $value => $option)
     {
         $selected = '';
-        if($locale == $value)
+        if($value_selected == $value)
             $selected = ' selected';
         echo "<option value='$value' $selected>$option</option>";
     }
     echo "</select>";
 }
 
-function handle_any_requested_db_updates($news_page_id, $action, $item_id, $content, $locale)
+function handle_any_requested_db_updates($news_page_id, $action, $item_id, $content, $locale, $item_status)
 {
     $allowed_tags = '<a><b><i><u><font><img><p><div><br>';
     switch($action)
@@ -96,11 +100,13 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $cont
                 SET
                     id           = NULL,
                     news_page_id = '$news_page_id',
-                    status       = 'current',
+                    status       = '%s',
                     date_posted  = '$date_posted',
                     content      = '%s',
                     locale       = '%s'
-            ", mysql_real_escape_string($content), mysql_real_escape_string($locale)));
+            ", mysql_real_escape_string($item_status),
+                mysql_real_escape_string($content),
+                mysql_real_escape_string($locale)));
             // by default, new items go at the top
             $update_news = mysql_query("
                 UPDATE news_items SET ordering = id WHERE id = LAST_INSERT_ID()
@@ -152,9 +158,11 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $cont
             $content = strip_tags($content, $allowed_tags);
             $result = mysql_query(sprintf("
                 UPDATE news_items
-                SET content='%s', locale='%s'
+                SET content='%s', locale='%s', status='%s'
                 WHERE id=$item_id
-            ", mysql_real_escape_string($content), mysql_real_escape_string($locale)));
+            ", mysql_real_escape_string($content),
+                mysql_real_escape_string($locale),
+                mysql_real_escape_string($item_status)));
             $result = mysql_query("SELECT status FROM news_items WHERE id=$item_id");
             $row = mysql_fetch_assoc($result);
             $visible_change_made = ($row['status'] == 'current');
@@ -170,17 +178,22 @@ function show_item_editor($news_page_id, $action, $item_id)
 // -- to edit the text of an existing item (if requested), or
 // -- to compose a new item (otherwise).
 {
+    global $locale_options;
+    global $status_options;
+
     if (isset($action) && $action == "edit") {
-        $result = mysql_query("SELECT content, locale FROM news_items WHERE id=$item_id");
+        $result = mysql_query("SELECT content, status, locale FROM news_items WHERE id=$item_id");
         $row = mysql_fetch_assoc($result);
         $initial_content = $row["content"];
         $locale = $row["locale"];
+        $item_status = $row['status'];
         $action_to_request = "edit_update";
         $submit_button_label = _("Save News Item");
     } else {
         $item_id = 0;
         $initial_content = "";
         $locale = "";
+        $item_status = 'current';
         $action_to_request = "add";
         $submit_button_label = _("Add News Item");
     }
@@ -190,8 +203,11 @@ function show_item_editor($news_page_id, $action, $item_id)
     echo "<table class='newsedit'>";
     echo "<tr>";
         echo "<td class='commands'><b>" . _("Locale") . "</b></td>";
-        echo "<td class='items'>"; echo_locale_selection($locale); echo "</td>";
-
+        echo "<td class='items'>"; echo_selection("locale", $locale_options, $locale); echo "</td>";
+    echo "</tr>";
+    echo "<tr>";
+        echo "<td class='commands'><b>" . _("Status") . "</b></td>";
+        echo "<td class='items'>"; echo_selection("status", $status_options, $item_status); echo "</td>";
     echo "</tr>";
     echo "<tr>";
         echo "<td class='commands'><b>" . _("News Item") . "</b></td>";
