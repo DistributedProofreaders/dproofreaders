@@ -92,7 +92,7 @@ if (!empty($mRows)) {
             echo "<td width='5%' align='center'><b>---</b></td>";
             echo "<td width='25%'>" . _("Anonymous") . "</td>";
             echo "<td width='22%' align='center'>---</td>";
-            echo "<td width='23%' align='center'>" . _("None") . "</td>";
+            echo "<td width='23%' align='center'>---</td>";
 
         }
 
