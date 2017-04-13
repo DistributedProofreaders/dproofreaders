@@ -75,7 +75,13 @@ Server MPM:     Prefork
 <h3>Installing translations</h3>
 <p>The DP code comes with a set of translations provided by the community at pgdp.net. These are in the <tt>SETUP/locale</tt> directory. The translations may not be complete if strings were added or changed in the code since the translation was done. Strings that haven't been translated will display in English.</p>
 
-<p>To install the translations, copy them to <tt><?php echo $dyn_locales_dir; ?></tt> and ensure the web server has full read/write permissions on the files and directories. The reason they are located elsewhere is because the site allows designated users to update the translations and to persist outside of the site code path for easier upgrades.</p>
+<p>To install the translations:<ol>
+    <li>Change into the <tt>SETUP/locale</tt> directory and run <tt>compile.sh</tt> to compile the PO files into MO files</li>
+    <li>Copy the desired language directories to <tt><?php echo $dyn_locales_dir; ?></tt></li>
+    <li>Confirm the web server has full read/write permissions on the files and directories</li>
+</ol></p>
+
+<p>The files are located outside the source directory because the site allows designated users to update the translations. This also persists the files across code upgrades.</p>
 
 <p>After the translations are installed you can manage them in the <a href='../locale/translators/index.php'>Translation Center</a>.</p>
 
