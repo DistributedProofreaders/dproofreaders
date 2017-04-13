@@ -60,6 +60,8 @@ foreach($stats as $phase => $num_pages)
 $datax = array_keys($stats);
 $datay = array_values($stats);
 $title = _("Pages remaining in Rounds");
+// TRANSLATORS: This string is the title of a graph with very little room.
+//              Try to keep the translation the same length as the English text.
 $x_title = _("Help is most needed in the red rounds");
 
 // Why not scale from zero to max value?
