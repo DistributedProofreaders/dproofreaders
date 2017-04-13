@@ -634,6 +634,16 @@ function get_activity_links()
         }
     }
 
+    if(user_is_a_sitemanager())
+    {
+        $links[] = array(
+            'url' => "tools/site_admin/index.php",
+            // TRANSLATORS: SA is an abbreviation for Site Administrator
+            'text' => _("SA"),
+            'title' => _("Administer Site")
+        );
+    }
+
     return $links;
 }
 
