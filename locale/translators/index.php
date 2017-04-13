@@ -411,8 +411,8 @@ function manage_form($locale)
         echo "<input type='submit' value='"
             . attr_safe(_("Merge current PO file with the current template")) . "'> ";
         echo _("Run <code>msgmerge</code> to update the current PO file against the current template.") . "<br>\n";
-        echo "<input type='checkbox' name='fuzzy'> "
-            . _("Do fuzzy matching when an exact match is not found (can be much slower)") . "<br>" ;
+        echo "<input type='checkbox' name='fuzzy' checked> "
+            . _("Do fuzzy matching when an exact match is not found (can be much slower but more accurate)") . "<br>" ;
         echo "</form><br><br>\n";
     }
     else
