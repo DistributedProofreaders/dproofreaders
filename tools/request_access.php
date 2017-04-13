@@ -70,7 +70,7 @@ else
             elseif ( $stage->after_satisfying_minima == 'REQ-HUMAN' )
             {
                 $body = sprintf(
-                    _("User '%s' has requested access to stage '%s'"),
+                    _("User '%1\$s' has requested access to stage '%2\$s'"),
                     $pguser,
                     $stage_id
                 );

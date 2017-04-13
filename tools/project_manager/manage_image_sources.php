@@ -509,7 +509,7 @@ class ImageSource
             $userSettings =& Settings::get_Settings($username);
             $userSettings->remove_value('is_approval_notify', $this->code_name);
 
-            $subject = sprintf(_('%s: Image Source %s has been approved!'),$site_abbreviation,$this->display_name);
+            $subject = sprintf(_('%1$s: Image Source %2$s has been approved!'),$site_abbreviation,$this->display_name);
 
             $body = "Hello $username,\n\n" .
                 "This is a message from the $site_name website.\n\n".

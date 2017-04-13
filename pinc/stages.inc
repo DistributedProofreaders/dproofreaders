@@ -402,6 +402,7 @@ function can_user_get_pages_in_project( $username, $project, $round )
         $page_tally_threshold = 500;
         $days_on_site_threshold = 21;
 
+        // TRANSLATORS: This is a strftime-formatted string for the date with year and time
         $datetime_format = _("%A, %B %e, %Y at %X");
 
         $t_release = $project->modifieddate;

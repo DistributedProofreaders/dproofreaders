@@ -18,6 +18,7 @@ require_login();
 define("LAYOUT_HORIZ", 1);
 define("LAYOUT_VERT",  2);
 
+// TRANSLATORS: This is a strftime-formatted string for the date with year and time
 $datetime_format = _("%A, %B %e, %Y at %X");
 
 $watch = new Stopwatch;

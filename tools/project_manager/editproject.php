@@ -1018,6 +1018,7 @@ class ProjectInfoHolder
         $a = _("The Guidelines give detailed instructions for working in this round.");
         $b = _('The instructions below are particular to this project, and <b>take precedence over those guidelines</b>.');
 
+        // TRANSLATORS: This is a strftime-formatted string for the date with year and time
         $now = strftime(_("%A, %B %e, %Y at %X"));
 
         echo "<br><table width='90%' border=1>";

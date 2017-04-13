@@ -11,6 +11,7 @@ include_once("./word_freq_table.inc");
 
 require_login();
 
+// TRANSLATORS: This is a strftime-formatted string for the date with year and time
 $datetime_format = _("%A, %B %e, %Y at %X");
 
 $watch = new Stopwatch;

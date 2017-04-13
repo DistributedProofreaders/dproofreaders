@@ -71,7 +71,7 @@ if (!$user) {
         echo "\n";
         $mailto_url = "mailto:$general_help_email_addr";
         echo sprintf(
-            _("For assistance, please contact <a href='%s'>%s</a>."),
+            _('For assistance, please contact <a href="%1$s">%2$s</a>.'),
             $mailto_url, $general_help_email_addr );
         echo "\n";
     }
@@ -104,7 +104,7 @@ if($create_user_status !== TRUE) {
     error_log("Error activating $ID: $create_user_status");
     $mailto_url = "mailto:$general_help_email_addr";
     echo sprintf(
-        _("For assistance, please contact <a href='%s'>%s</a>."),
+        _('For assistance, please contact <a href="%1$s">%2$s</a>.'),
         $mailto_url, $general_help_email_addr );
     echo "\n";
     echo sprintf(

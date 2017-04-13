@@ -68,7 +68,7 @@ if($display_list)
     ksort($used_languages);
     foreach( $used_languages as $language => $language_count )
     {
-        $option_string = sprintf(_("%s (%d projects)"), $language, $language_count);
+        $option_string = sprintf(_('%1$s (%2$d projects)'), $language, $language_count);
         $option_value = urlencode($language);
         echo "<option value='$option_value'>$option_string</option>";
     }
@@ -198,7 +198,7 @@ function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
             echo "<br>";
             echo _("Note: Percentages are calculated as frequency over the total number of projects with word lists.") . "<br>";
             echo "<br>";
-            echo sprintf("%20s  %5s  %s<br>", _("Word"), _("Count"), _("Frequency"));
+            echo sprintf('%20s  %5s  %s', _("Word"), _("Count"), _("Frequency")) . "<br>";
             foreach($word_freq as $word => $freq)
             {
                 $percentage = ($freq/$total_projects_with_words)*100;
@@ -206,7 +206,7 @@ function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
                 if($percentage < $cutoff)
                     break;
 
-                echo sprintf("%20s  %5d  (%-3.2f%%)<br>", $word, $freq, $percentage);
+                echo sprintf("%20s  %5d  (%-3.2f%%)", $word, $freq, $percentage) . "<br>";
             }
             echo "</pre>";
             break;

@@ -575,6 +575,7 @@ function echo_graph_data()
 // $graph - the graph object; note that it is passed by reference
 function add_graph_timestamp(&$graph)
 {
+    // TRANSLATORS: This is an strftime-formatted string
     $graph_timestamp_format = _("graph generated at %Y-%m-%d %T");
 
     $text = new Text(strftime($graph_timestamp_format));

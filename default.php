@@ -155,7 +155,7 @@ foreach ( array(1,7,30) as $days_back )
     $template = (
         $days_back == 1
         ? _('%s active users in the past twenty-four hours.')
-        : _('%s active users in the past %d days.')
+        : _('%1$s active users in the past %2$d days.')
     );
     $msg = sprintf( $template, number_format($num_users), $days_back );
     echo "<center><i><b>$msg</b></i></center>\n";
@@ -163,7 +163,7 @@ foreach ( array(1,7,30) as $days_back )
 
 echo "<hr><center>\n";
 echo sprintf(
-    _("Questions or comments? Please contact us at <a href='%s'>%s</a>."),
+    _('Questions or comments? Please contact us at <a href="%1$s">%2$s</a>.'),
     "mailto:$general_help_email_addr",
     $general_help_email_addr);
 echo "</center>&nbsp;<br>\n";

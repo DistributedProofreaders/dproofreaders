@@ -85,7 +85,7 @@ if ($project->pages_table_exists)
         }
         else
         {
-            echo sprintf( _("Showing only the pages of user '%s' in round %s."), 
+            echo sprintf( _("Showing only the pages of user '%1\$s' in round %2\$s."), 
                           $username_for_page_selection, 
                           $round_for_page_selection );
         }

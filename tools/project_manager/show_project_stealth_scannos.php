@@ -110,7 +110,7 @@ echo_any_warnings_errors( $messages );
 echo_download_text( $projectid, $format );
 
 // output customized cutoff text
-$cutoff_text = sprintf(_("Words with fewer than <b><span id='current_cutoff'>%d</span>%%</b> of the instances changed are not shown. Other cutoff options are available: %s"),$initialFreq,get_cutoff_string($cutoffOptions,"%"));
+$cutoff_text = sprintf(_("Words with fewer than <b><span id='current_cutoff'>%1\$d</span>%%</b> of the instances changed are not shown. Other cutoff options are available: %2\$s"),$initialFreq,get_cutoff_string($cutoffOptions,"%"));
 echo "<p>$cutoff_text</p>\n";
 
 $project_good_words = load_project_good_words($projectid);

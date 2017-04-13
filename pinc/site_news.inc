@@ -111,6 +111,7 @@ function show_news_for_page( $news_page_id )
         }
         else
         {
+            // TRANSLATORS: this is a strftime-formatted string
             $formatted_date = strftime(_("%A, %B %e, %Y"), $date_changed);
             echo sprintf( _("last changed %s"), $formatted_date );
         }

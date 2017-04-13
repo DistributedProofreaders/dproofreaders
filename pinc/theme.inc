@@ -682,7 +682,7 @@ function show_tally_specific_stats( $tally_name )
     $num_positive_users = $tallyboard->get_num_holders_with_positive_tally();
     echo '&nbsp;',
         sprintf(
-            _('%s users with at least one %s page'),
+            _('%1$s users with at least one %2$s page'),
             number_format($num_positive_users), $tally_name ),
         "<br>\n";
 
@@ -899,6 +899,7 @@ function show_completed_projects($terse = FALSE)
         $begindate = mktime(0,0,0,$thismonth-$months_ago,  1,$thisyear);
         $enddate   = mktime(0,0,0,$thismonth-$months_ago+1,1,$thisyear);
 
+        // TRANSLATORS: This is an strftime-formatted string
         $displaydate = strftime(_("%b %Y"), $begindate );
 
         $result = mysql_query("

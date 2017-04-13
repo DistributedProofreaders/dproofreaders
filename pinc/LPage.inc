@@ -391,7 +391,7 @@ the project will automatically be made unavailable.";
             if ($pguser != $current_round_user)
             {
                 $err = sprintf(
-                    _("You (%s) do not have the necessary access to page %s"),
+                    _('You (%1$s) do not have the necessary access to page %2$s'),
                     $pguser, $this->imagefile );
                 abort($err);
             }

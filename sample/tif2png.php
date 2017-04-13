@@ -52,7 +52,7 @@ if (is_dir($fsrc)) {
 			rename ($srcfile,$archfile);
 			if ($res[1] == "TIFF") {
 				$t++;
-				echo sprintf( _("%1d. Found TIFF file: %2\$s, Converting to PNG."), $c, $afile);
+				echo sprintf( _("%1\$d. Found TIFF file: %2\$s, Converting to PNG."), $c, $afile);
 				flush();
 				`convert $archfile $destfile`;
 				chmod ($destfile,0664);	//convert insits on messing ownership

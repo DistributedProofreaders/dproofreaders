@@ -251,6 +251,7 @@ function show_all_news_items_for_page( $news_page_id )
         if ($status == 'current')
         {
             $date_changed = get_news_page_last_modified_date( $news_page_id );
+            // TRANSLATORS: this is a strftime-formatted string
             $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
             echo "&nbsp;&nbsp; ("._("Last modified").": ".$last_modified.")";
         }

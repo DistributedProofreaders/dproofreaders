@@ -93,7 +93,7 @@ if (!isset($name))
         {
             $current_length = '???';
             $msg = sprintf(
-                _('Warning: there is a syntax error in the project selector for #%d "%s"'),
+                _('Warning: there is a syntax error in the project selector for #%1$d "%2$s"'),
                 $qd->ordering,
                 $qd->name);
             echo "$msg<br>";

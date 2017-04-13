@@ -1019,7 +1019,7 @@ function do_early_uploads()
         if($uploads_host) {
             echo "<br>";
             echo sprintf(
-                _("For FTP uploads, use host=%s account=%s password=%s"),
+                _('For FTP uploads, use host=%1$s account=%2$s password=%3$s'),
                 "<b>$uploads_host</b>", 
                 "<b>$uploads_account</b>", 
                 "<i><font color='#DDDDDD'>$uploads_password</font></i>" );
@@ -1120,7 +1120,7 @@ function do_event_subscriptions()
     echo _("Here you can sign up to be notified when certain events happen to this project.");
     echo "\n";
     echo sprintf(
-        _("Notifications will be sent to your email address, which is currently &lt;%s&gt;. (If this is not correct, please visit <a href='%s'>your profile</a>.)"),
+        _("Notifications will be sent to your email address, which is currently &lt;%1\$s&gt;. (If this is not correct, please visit <a href='%2\$s'>your profile</a>.)"),
         $user_email_address,
         get_url_to_edit_profile()
     );

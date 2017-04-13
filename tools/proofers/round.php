@@ -134,7 +134,7 @@ else
     else
     {
         echo sprintf(
-            _("The <a href='%s'>%s release queues</a> show the books that are waiting to become available for work in this round."),
+            _("The <a href='%1\$s'>%2\$s release queues</a> show the books that are waiting to become available for work in this round."),
             "$code_url/stats/release_queue.php?round_id={$round->id}",
             $round->id
         );

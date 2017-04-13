@@ -35,7 +35,7 @@ if ($expected_state != $project->state)
     $expected_round = get_Round_for_project_state($expected_state);
     echo "<p>";
     echo sprintf(
-        _('Back to <a href="%s">%s</a>'),
+        _('Back to <a href="%1$s">%2$s</a>'),
         "$code_url/tools/proofers/round.php?round_id={$expected_round->id}",
         $expected_round->name
     );
