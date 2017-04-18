@@ -278,7 +278,9 @@ function insertTags(tagOpen, tagClose, sampleText, replace)
         noOverwrite=true;
     }
     // reposition cursor if possible
-    if (txtarea.createTextRange) txtarea.caretPos = docRef.selection.createRange().duplicate();
+    if (txtarea.createTextRange && docRef.selection) {
+        txtarea.caretPos = docRef.selection.createRange().duplicate();
+    }
 }
 
 // ----------
