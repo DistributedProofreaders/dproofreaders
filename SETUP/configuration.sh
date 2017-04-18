@@ -350,7 +350,8 @@ _DB_REQUESTS_EMAIL_ADDR=db-requests@example.org
 _PPV_REPORTING_EMAIL_ADDR=ppv-reports@example.org
 _PROMOTION_REQUESTS_EMAIL_ADDR=dp-promote@example.org
 _IMAGE_SOURCES_EMAIL_ADDR=ism@example.org
-# These addresses are used in various places for users to request help
+_TRANSLATION_COORDINATOR_EMAIL_ADDR=translation-coord@example.org
+# These addresses are used in various places for users to request help.
 # These can be set to any working email address.
 
 _BLOG_URL=

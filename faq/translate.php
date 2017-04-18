@@ -22,9 +22,8 @@ output_header('Site translation', NO_STATSBAR);
 
 <p>Prior versions of the DP code included this lack of distinction between language and localization. This version uses locales when referring to specific interface language translations in the code. The user interface still uses "language" however.</p>
 
-<h2>Becoming a translator</h2>
-<p>If you would like to help with a current translation effort, or would like to translate the user interface into a new language, contact a <a href='mailto:<?php echo $db_requests_email_addr; ?>'>site administrator</a> for full access to the <a href='../locale/translators/index.php'>Translation Center</a>.</p>
-
+<h2>Becoming a translator &amp; getting help</h2>
+<p>If you would like to help with a current translation effort, would like to translate the user interface into a new language, or have questions that are not answered in the following sections, please contact the <a href='mailto:<?php echo $translation_coordinator_email_addr; ?>'>site translation coordinator</a>. 
 
 <?php if(user_is_a_sitemanager()) { ?>
 
