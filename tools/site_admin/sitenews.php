@@ -17,7 +17,7 @@ $news_page_id = get_enumerated_param($_GET, 'news_page_id', null, array_keys($NE
 $action = get_enumerated_param($_GET, 'action', null, array('add', 'delete', 'display', 'hide', 'archive', 'unarchive', 'moveup', 'movedown', 'edit', 'edit_update'), true);
 $item_id = get_integer_param($_REQUEST, 'item_id', null, null, null, true);
 $content = array_get($_POST, 'content', '');
-$locale_options = array_merge(array('' => _("All")), get_locale_translation_selection_options());
+$locale_options = array_merge(array('' => _("Any language")), get_locale_translation_selection_options());
 $locale = get_enumerated_param($_POST, 'locale', null, array_keys($locale_options), true);
 $status_options = array(
     'current'  => _("Sticky"),
@@ -202,7 +202,7 @@ function show_item_editor($news_page_id, $action, $item_id)
     echo "<input type='hidden' name='item_id' value='$item_id'>";
     echo "<table class='newsedit'>";
     echo "<tr>";
-        echo "<td class='commands'><b>" . _("Locale") . "</b></td>";
+        echo "<td class='commands'><b>" . _("Show to users using") . "</b></td>";
         echo "<td class='items'>"; echo_selection("locale", $locale_options, $locale); echo "</td>";
     echo "</tr>";
     echo "<tr>";
