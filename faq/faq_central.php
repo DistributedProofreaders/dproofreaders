@@ -412,23 +412,48 @@ class FAQSection
 
     function output()
     {
+        $user_iso = substr(get_desired_language(), 0, 2);
         foreach($this->entries as $entry)
         {
-            $english_url = $entry->urls["en"];
-            echo "<p><a href='$english_url'>" . html_safe($entry->title) . "</a><br>";
-            echo "<span style='font-size: 0.8em;'>";
-            if(count($entry->urls) > 1)
-            {
-                $links = array();
-                foreach($entry->urls as $iso => $url)
-                {
-                    if($iso == "en")
-                        continue;
+            // When we output the entry, link the title to the desired doc
+            // in the user's language and include pointers to other language
+            // options where available. If the document isn't available in
+            // the user's language, don't include a link in the title and
+            // instead just show all available language options.
 
-                    $links[] = "<a href='$url'>" . lang_name($iso) . "</a>";
+            echo "<p>";
+            if(isset($entry->urls[$user_iso]))
+                echo "<a href='" . $entry->urls[$user_iso] . "'>" . html_safe($entry->title) . "</a>";
+            else
+                echo html_safe($entry->title);
+            echo "<br>";
+            echo "<span style='font-size: 0.8em;'>";
+            $links = array();
+            foreach($entry->urls as $iso => $url)
+            {
+                // If the document is available in the user's langauge it
+                // has been used as a link in the title, so don't include
+                // it in the list of available languages.
+                if($iso == $user_iso)
+                    continue;
+
+                $links[] = "<a href='$url'>" . lang_name($iso) . "</a>";
+            }
+            if($links)
+            {
+                // Subtly alter the wording if the document was available in
+                // the user's language.
+                if(isset($entry->urls[$user_iso]))
+                {
+                    // TRANSLATORS: %s is a comma-separated list of language names that link to FAQs in that language
+                    echo sprintf(_("Also available in: %s"), implode(", ", $links));
                 }
-                // TRANSLATORS: %s is a comma-separated list of language names that link to FAQs in that language
-                echo sprintf(_("Also available in: %s"), implode(", ", $links));
+                else
+                {
+                    // TRANSLATORS: %s is a comma-separated list of language names that link to FAQs in that language
+                    echo sprintf(_("Available in: %s"), implode(", ", $links));
+                }
+
                 echo "<br>";
             }
             echo $entry->text;
