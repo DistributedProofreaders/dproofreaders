@@ -53,6 +53,19 @@ show_news_for_page("FAQ");
 $intro = new FAQSection(_("Introductory Information"));
 if($use_pgdp_urls)
 {
+    $intro->add_entry(new FAQEntry(
+        _("Code of Conduct"),
+        array(
+            "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/Code_of_Conduct",
+            "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/French/Code_de_la_Conduite",
+            "de" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/German/Verhaltenskodex",
+            "es" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/Spanish/C%C3%B3digo_de_Conducta",
+        ),
+        _("All volunteers must abide by our Code of Conduct.")
+    ));
+}
+if($use_pgdp_urls)
+{
     $urls = array(
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/New_Volunteer_Frequently_Asked_Questions",
         "fr" => 'https://www.pgdp.net/wiki/DP_Official_Documentation:General/French/Aper%C3%A7u_de_DP',
