@@ -158,7 +158,9 @@ CREATE TABLE `news_items` (
   `status` varchar(8) NOT NULL default '',
   `ordering` smallint(6) NOT NULL default '0',
   `content` text NOT NULL,
-  PRIMARY KEY  (`id`)
+  `locale` varchar(8) NOT NULL DEFAULT '',
+  PRIMARY KEY  (`id`),
+  KEY `pageid_locale` (`news_page_id`,`locale`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 # --------------------------------------------------------
 
