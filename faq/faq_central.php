@@ -87,7 +87,7 @@ $intro->add_entry(new FAQEntry(
     // TRANSLATORS: %s is the site abbreviation
     sprintf(_("%s Privacy Policy"), $site_abbreviation),
     array(
-        "en" => "privacy.php",
+        "all" => "privacy.php",
     ),
     // TRANSLATORS: %s is the site name
     sprintf(_("The current version of the %s Privacy Policy."), $site_name)
@@ -274,7 +274,7 @@ $mentoring = new FAQSection(_("Mentoring"));
 $mentoring->add_entry(new FAQEntry(
     _("Mentors' Page"),
     array(
-        "en" => "$code_url/tools/proofers/for_mentors.php",
+        "all" => "../tools/proofers/for_mentors.php",
     ),
     _("A page detailing currently available mentor projects.")
 ));
@@ -422,7 +422,9 @@ class FAQSection
             // instead just show all available language options.
 
             echo "<p>";
-            if(isset($entry->urls[$user_iso]))
+            if(isset($entry->urls['all']))
+                echo "<a href='" . $entry->urls['all'] . "'>" . html_safe($entry->title) . "</a>";
+            elseif(isset($entry->urls[$user_iso]))
                 echo "<a href='" . $entry->urls[$user_iso] . "'>" . html_safe($entry->title) . "</a>";
             else
                 echo html_safe($entry->title);
@@ -434,7 +436,7 @@ class FAQSection
                 // If the document is available in the user's langauge it
                 // has been used as a link in the title, so don't include
                 // it in the list of available languages.
-                if($iso == $user_iso)
+                if($iso == $user_iso || $iso == 'all')
                     continue;
 
                 $links[] = "<a href='$url'>" . lang_name($iso) . "</a>";
