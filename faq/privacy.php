@@ -8,9 +8,10 @@ if(!isset($relPath))
 {
     $relPath="./../pinc/";
     include_once($relPath.'base.inc');
-    include_once($relPath.'slim_header.inc');
+    include_once($relPath.'theme.inc');
 
-    slim_header(_("Privacy Statement"));
+    if(!isset($_GET['embedded']))
+        output_header(_("Privacy Statement"), FALSE);
 }
 
 
