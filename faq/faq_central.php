@@ -156,7 +156,7 @@ $proofing->add_entry(new FAQEntry(
 
 
 // Creating and Managing Projects
-$cp_pm = new FAQSection("Creating and Managing Projects");
+$cp_pm = new FAQSection(_("Creating and Managing Projects"));
 if($use_pgdp_urls)
 {
     $urls = array(
