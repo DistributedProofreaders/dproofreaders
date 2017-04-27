@@ -107,7 +107,7 @@ var makePreview = function (txt, viewMode, styler) {
         // split up the string into an array of characters
         var tArray = txt.split("");
 
-        function htmlEncode(s, i) {
+        function htmlEncodeChar(s, i) {
             if (s === "&") {
                 tArray[i] = "&amp;";
             } else if (s === "<") {
@@ -142,7 +142,7 @@ var makePreview = function (txt, viewMode, styler) {
             }
         });
 
-        tArray.forEach(htmlEncode);
+        tArray.forEach(htmlEncodeChar);
         issArray.forEach(markIss);
         txt = tArray.join("");  // join it back into a string
     }
@@ -327,7 +327,6 @@ var makePreview = function (txt, viewMode, styler) {
 
         while (true) {
             result = re.exec(txt);
-            console.log(result);
             if (null === result) {
                 while (tagStack.length !== 0) {
                     stackTop = tagStack.pop();
@@ -336,18 +335,14 @@ var makePreview = function (txt, viewMode, styler) {
                 return;
             }
             if (result[0] === "[**") { // advance to end of comment or eol
-                console.log(re.lastIndex);
                 reCloseBrack.lastIndex = re.lastIndex;
                 res1 = reCloseBrack.exec(txt);  // can't be null if has $
-                console.log(res1[0]);
                 if (res1[0] !== "]") {
-                    console.log("nobrack", res1.index);
                     // user note missing ], make an issue to avoid parsing probs
                     // if there are tags in the note
                     reportIssueLong(result.index, 3, previewMessages.noCloseBrack, 1);
                 }
                 re.lastIndex = reCloseBrack.lastIndex;
-                console.log(re.lastIndex);
                 continue;
             }
 
@@ -469,7 +464,6 @@ var makePreview = function (txt, viewMode, styler) {
         }
 
         function spanStyle(match, p1, p2) {
-            console.log(match, p1, p2);
             if (!p2) { // must be user note
                 return match;
             }
@@ -491,7 +485,6 @@ var makePreview = function (txt, viewMode, styler) {
         txt = txt.replace(sc_re, transformSC);
         // find user note or inline tag
         var reTag = new RegExp("\\[\\*\\*[^\\]]*\\]|&lt;(\\/?)(" + ILTags + ")&gt;", "g");
-        console.log(reTag);
         txt = txt.replace(reTag, spanStyle);
         // out of line tags
         etcstr = makeColourStyle('etc');
@@ -842,6 +835,12 @@ var makePreview = function (txt, viewMode, styler) {
         }
     }
 
+    function htmlEncodeString(s) {
+        return s.replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+    }
+
     // these store the removed comment lines for later re-insertion
     var comLine = [];
     var comIndex = [];
@@ -863,7 +862,7 @@ var makePreview = function (txt, viewMode, styler) {
             if ("" !== tempLine) {
                 if (!nonComment(tempLine)) {
                     txtLines.splice(index, 1);
-                    comLine.push(tempLine);
+                    comLine.push(htmlEncodeString(tempLine));
                     comIndex.push(index);
                 }
             }
@@ -912,6 +911,9 @@ var makePreview = function (txt, viewMode, styler) {
     }
     // remove lines which are entirely comments to simplify checking
     // where there should be blank lines
+    // we need to encode html in these lines. Could encode everything at start
+    // but then problems e.g. marking the character after 3 blank lines if
+    // encoded <  as &lt, so treat these lines separately.
     removeCommentLines();
     var ok = check();
     addMarkUp();
