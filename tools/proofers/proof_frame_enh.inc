@@ -15,7 +15,7 @@ function echo_proof_frame_enh( $ppage )
     $header_args = array(
         "css_files" => array("$code_url/styles/preview.css?a=16111501"),
         "js_files" => array(
-            "preview.js?17042401",
+            "preview.js?17050301",
             "previewControl.js?16111501",
             "preview_strings.php",
 

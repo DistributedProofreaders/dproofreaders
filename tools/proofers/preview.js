@@ -416,17 +416,27 @@ var makePreview = function (txt, viewMode, styler) {
         }
     }
 
-    // check for no upper case between small caps tags
+    // check for no upper case between small caps tags, ignore inside note
     function checkSC() {
+        var reCloseBrack = /\]/g;
         var result;
         var start;
-        var re = /<sc>([^]+?)<\/sc>/g;
+        var re = /\[\*\*|<sc>([^]+?)<\/sc>/g;
+        var noNote;
         while (true) {
             result = re.exec(txt);
             if (null === result) {
                 return;
             }
-            if (result[1] === result[1].toLowerCase()) {  //no upper case found
+            if (result[0] === "[**") {
+                // advance to end of comment, caught no ] earlier
+                reCloseBrack.lastIndex = re.lastIndex;
+                reCloseBrack.exec(txt);
+                re.lastIndex = reCloseBrack.lastIndex;
+                continue;
+            }
+            noNote = removeComments(result[1]);
+            if (noNote === noNote.toLowerCase()) {  //no upper case found
                 start = result.index;
                 reportIssue(start, 4, "scNoCap");
             }
@@ -453,10 +463,17 @@ var makePreview = function (txt, viewMode, styler) {
         var repstr2 = endSpan;
         var sc1 = "&lt;sc&gt;";
         var sc2 = "&lt;\/sc&gt;";
-        var sc_re = new RegExp(sc1 + "([^]+?)" + sc2, 'g'); // a string of small capitals
+        var noteStringOr = "\\[\\*\\*[^\\]]*\\]|"; // a user note
+        // a user note or string of small capitals
+        var sc_re = new RegExp(noteStringOr + sc1 + "([^]+?)" + sc2, 'g');
+        var noNote;
 
         function transformSC(match, p1) { // if all upper case transform to lower
-            if (p1 === p1.toUpperCase()) { // found no lower-case
+            if (!p1) { // must be user note
+                return match;
+            }
+            noNote = removeComments(p1);
+            if (noNote === noNote.toUpperCase()) { // found no lower-case
                 return sc1 + '<span class="tt">' + p1 + endSpan + sc2;
             } else {
                 return match;
@@ -484,7 +501,7 @@ var makePreview = function (txt, viewMode, styler) {
         // so if sc-marked text is all upper-case transform to lower
         txt = txt.replace(sc_re, transformSC);
         // find user note or inline tag
-        var reTag = new RegExp("\\[\\*\\*[^\\]]*\\]|&lt;(\\/?)(" + ILTags + ")&gt;", "g");
+        var reTag = new RegExp(noteStringOr + "&lt;(\\/?)(" + ILTags + ")&gt;", "g");
         txt = txt.replace(reTag, spanStyle);
         // out of line tags
         etcstr = makeColourStyle('etc');
