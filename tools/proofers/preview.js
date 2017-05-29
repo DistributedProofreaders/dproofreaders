@@ -420,9 +420,8 @@ var makePreview = function (txt, viewMode, styler) {
     function checkSC() {
         var reCloseBrack = /\]/g;
         var result;
-        var start;
-        var re = /\[\*\*|<sc>([^]+?)<\/sc>/g;
-        var noNote;
+        var re = /\[\*\*|<sc>([^]*?)<\/sc>/g; // [** or <sc> text
+        var res1;
         while (true) {
             result = re.exec(txt);
             if (null === result) {
@@ -435,10 +434,15 @@ var makePreview = function (txt, viewMode, styler) {
                 re.lastIndex = reCloseBrack.lastIndex;
                 continue;
             }
-            noNote = removeComments(result[1]);
-            if (noNote === noNote.toLowerCase()) {  //no upper case found
-                start = result.index;
-                reportIssue(start, 4, "scNoCap");
+            res1 = result[1];
+            if (res1 === res1.toLowerCase()) { //no upper case found - definite
+                reportIssueLong(result.index, 4, previewMessages.scNoCap, 1);
+                continue;
+            }
+            res1 = removeComments(res1);
+            if (res1 === res1.toLowerCase()) { //upper case was in a note - poss
+                // mark only a text char incase no tags shown
+                reportIssueLong(result.index + 4, 1, previewMessages.scNoCap, 0);
             }
         }
     }
