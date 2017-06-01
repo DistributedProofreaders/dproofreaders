@@ -62,7 +62,6 @@ $start_from_scratch = TRUE;
 
 $remote_catalog_url    = "http://www.gutenberg.org/cache/epub/feeds/rdf-files.tar.bz2";
 $local_compressed_file = "/tmp/rdf-files.tar.bz2";
-$local_tar_file        = "/tmp/rdf-files.tar";
 $local_catalog_dir     = "$dyn_dir/pg/catalog";
 
 // -------------------------------
@@ -91,20 +90,13 @@ if ($start_from_scratch)
     copy( $remote_catalog_url, $local_compressed_file ) or
         die( "Unable to download $remote_catalog_url to $local_compressed_file" );
 
-    trace("Decompressing $local_compressed_file to $local_tar_file...");
-    system( "bzip2 --decompress --stdout $local_compressed_file > $local_tar_file", $ret );
-    if ($ret)
-    {
-        die( "Unable to decompress $local_compressed_file to $local_tar_file" );
-    }
-
     if(!is_dir($local_catalog_dir))
     {
         mkdir( $local_catalog_dir, 0777, TRUE /* recursive */ );
     }
 
-    trace("Extracting files from $local_tar_file to $local_catalog_dir...");
-    system("tar --extract --file=$local_tar_file --strip-components=3 --directory=$local_catalog_dir --overwrite", $ret);
+    trace("Extracting files from $local_compressed_file to $local_catalog_dir...");
+    system("tar --extract --bzip2 --file=$local_compressed_file --strip-components=3 --directory=$local_catalog_dir --overwrite", $ret);
     // Each file in the tar archive describes one ebook in the PG collection,
     // and has a path of the form:
     //     cache/epub/NNN/pgNNN.rdf
@@ -115,7 +107,7 @@ if ($start_from_scratch)
     //     $local_catalog_dir/pgNNN.rdf
     if ($ret)
     {
-        die( "Unable to extract files from $local_tar_file to $local_catalog_dir" );
+        die( "Unable to extract files from $local_compressed_file to $local_catalog_dir" );
     }
 }
 
