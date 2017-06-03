@@ -18,29 +18,7 @@ else
 
 $title = _("FAQ Central");
 
-$theme_args = array("css_data" => "
-table.faqs td {
-    font-family: Tahoma, sans-serif;
-}
-div.faqheader {
-    background: $theme[color_headerbar_bg];
-    color: $theme[color_headerbar_font];
-    font-weight: bold;
-    vertical-align: middle;
-    padding: 0.25em 0.5em;
-}
-table#faqtable {
-    width: 100%;
-    border: 0;
-    padding: 1em;
-}
-table#faqtable td.column {
-    width: 50%;
-    vertical-align: top;
-    padding-right: 1em;
-}
-");
-output_header($title, NO_STATSBAR, $theme_args);
+output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>";
 
@@ -388,7 +366,7 @@ class FAQ
 
     function output()
     {
-        echo "<table class='faqs' id='faqtable'>";
+        echo "<table class='faqtable'>";
         // Start with one column
         echo "<tr>";
         echo "<td class='column'>";
@@ -442,7 +420,6 @@ class FAQSection
             else
                 echo html_safe($entry->title);
             echo "<br>";
-            echo "<span style='font-size: 0.8em;'>";
             $links = array();
             foreach($entry->urls as $iso => $url)
             {
@@ -456,6 +433,7 @@ class FAQSection
             }
             if($links)
             {
+                echo "<span style='font-size: 0.8em;'>";
                 // Subtly alter the wording if the document was available in
                 // the user's language.
                 if(isset($entry->urls[$user_iso]))
@@ -469,10 +447,11 @@ class FAQSection
                     echo sprintf(_("Available in: %s"), implode(", ", $links));
                 }
 
+                echo "</span>";
                 echo "<br>";
             }
             echo $entry->text;
-            echo "</span></p>";
+            echo "</p>";
         }
     }
 }

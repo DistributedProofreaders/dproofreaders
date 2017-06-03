@@ -120,6 +120,13 @@ h6 {
   font-family: Verdana, Arial, sans-serif;
 }
 /* ------------------------------------------------------------------------ */
+/* FAQ */
+div.faqheader {
+  font-family: Verdana, Arial, sans-serif;
+  background-color: #000099;
+  color: #ffffff;
+}
+/* ------------------------------------------------------------------------ */
 /* Themed tables */
 table.themed tr th {
   background-color: #000099;

@@ -293,6 +293,23 @@ table.availprojectlisting tr th {
   padding-right: 0.5em;
 }
 /* ------------------------------------------------------------------------ */
+/* FAQ */
+table.faqtable {
+  width: 100%;
+  border: 0;
+  padding: 1em;
+}
+table.faqtable tr td.column {
+  vertical-align: top;
+  width: 50%;
+  padding-right: 1em;
+}
+div.faqheader {
+  font-weight: bold;
+  vertical-align: middle;
+  padding: 0.25em 0.5em;
+}
+/* ------------------------------------------------------------------------ */
 /* Themed tables */
 table.themed {
   width: 100%;
