@@ -8,27 +8,27 @@ function echo_menu($id=NULL) {
 
     $menu_entries = array();
 
-    if ($file != 'listing.php')
-        $menu_entries[] = newMenuItem(_('List authors'), 'listing.php');
+    $menu_entries[] = newMenuItem(_('List authors'), 'listing.php', $file);
     if (user_is_authors_db_editor()) {
-        if ($file != 'add.php') {
-            $menu_entries[] = newMenuItem(_('Add author'), 'add.php');
-        }
+        $menu_entries[] = newMenuItem(_('Add author'), 'add.php', $file);
         if ($file == 'author.php') {
-            $menu_entries[] = newMenuItem(_('Edit author'), "add.php?author_id=$id");
-            $menu_entries[] = newMenuItem(_('Add biography'), "addbio.php?author_id=$id");
+            $menu_entries[] = newMenuItem(_('Edit author'), "add.php?author_id=$id", $file);
+            $menu_entries[] = newMenuItem(_('Add biography'), "addbio.php?author_id=$id", $file);
         }
         if ($file == 'bio.php') {
-            $menu_entries[] = newMenuItem(_('Edit biography'), "addbio.php?bio_id=$id");
+            $menu_entries[] = newMenuItem(_('Edit biography'), "addbio.php?bio_id=$id", $file);
         }
     }
-    if (user_is_authors_db_manager() && $file != 'manage.php') {
-        $menu_entries[] = newMenuItem(_('Manage authors'), 'manage.php');
+    if (user_is_authors_db_manager()) {
+        $menu_entries[] = newMenuItem(_('Manage authors'), 'manage.php', $file);
     }
 
-    echo '<p align="center">' . implode(" | ", $menu_entries) . '</p>';
+    echo '<p>' . implode(" | ", $menu_entries) . '</p>';
 }
 
-function newMenuItem($label, $url, $separator='|') {
-    return sprintf("<a href='%s'>%s</a>", attr_safe($url), html_safe($label));
+function newMenuItem($label, $url, $current_file) {
+    if(startswith($url, $current_file))
+        return "<b>" . html_safe($label) . "</b>";
+    else
+        return sprintf("<a href='%s'>%s</a>", attr_safe($url), html_safe($label));
 }

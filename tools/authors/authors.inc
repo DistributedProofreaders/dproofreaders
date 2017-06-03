@@ -14,14 +14,14 @@ include_once($relPath."misc.inc"); // html_safe()
     $name = $last_name . ($other_names!='' ? ", $other_names" : '');
 ?>
 
-<h2 align="center"><?php echo html_safe($name); ?>
+<h2><?php echo html_safe($name); ?>
 <?php
 if ($author_id) {
   echo " <a href='{$GLOBALS['code_url']}/tools/authors/authorxml.php?author_id=$author_id'><img src='{$GLOBALS['code_url']}/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>\n";
 }
 ?>
 </h2>
-<table align="center" border="1">
+<table class='themed' style='width: auto;'>
 <tr><th>Born</th><td><?php echo $born; ?></td></tr>
 <tr><th>Deceased</th><td><?php echo $dead; ?></td></tr>
 <?php
@@ -157,4 +157,3 @@ if ($author_id) {
       exit();
     }
   }
-?>

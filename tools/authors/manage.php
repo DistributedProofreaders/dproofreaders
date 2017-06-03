@@ -13,24 +13,17 @@ include_once('menu.inc');
 
 require_login();
 
-$title=_("Manage biographies");
-output_header($title);
-
 abort_if_not_authors_db_manager();
 
-if ($_SERVER['QUERY_STRING'] == '') {
-    echo "<script language='JavaScript'><!--\nlocation.href='?reload';\n";
-    echo "document.open();\ndocument.write('Please <a href=\"?reload\">continue</a>.');\ndocument.close();\n--></script>\n";
-    echo '<noscript>Please note that you need to have JavaScript turned on in order to use this page.</noscript>';
-    exit();
-}
+$title=_("Manage authors");
+output_header($title);
+echo "<h1>$title</h1>";
 
 echo_menu();
 
-echo "<h2 align='center'>$title</h2>";
 $message = @$_GET['message'];
 if (isset($message))
-    echo '<center>' . html_safe($message) . '</center><br />';
+    echo html_safe($message) . '<br>';
 
 if (isset($_POST) && count($_POST)>0) {
 
@@ -393,9 +386,8 @@ echo_search_form();
 
 $sortby = $sortUtility->getQueryStringForCurrentView();
 
+echo "<h2 id='results'>" . get_search_title() . "</h2>";
 ?>
-
-<a name="results"></a><h2 align="center"><?php echo get_search_title(); ?></h2>
 
 <form name="adminform" action="?<?php echo $query.$sortby; ?>" method="POST" onSubmit="return evaluateForm(this);">
 
@@ -427,9 +419,7 @@ echo $links_and_buttons;
 
 ?>
 
-<br /><br />
-
-<table align="center" border="1">
+<table class='themed'>
 <tr>
 <?php
 // print headers
@@ -466,10 +456,10 @@ if ($browseUtility->isNextBrowseAvailable()) {
                            . _('Next') . ' -&gt;</a>';
 }
 if ($prev_next_links != '')
-    echo "<p align='center'>$prev_next_links</p>";
+    echo "<p>$prev_next_links</p>";
 
 // "Displaying entries x-y of z"
-echo '<p align="center">' . $browseUtility->getDisplayingString() . '</p>';
+echo '<p>' . $browseUtility->getDisplayingString() . '</p>';
 
 // Added to for each bio. Looks like: array[author_id] = array of bio_ids
 $javascript_to_build_bios_array = '';
@@ -481,7 +471,6 @@ $count = $browseUtility->getRowCountToList();
 $i = 0;
 
 while ($i++ < $count && $author = @mysql_fetch_array($result)) {
-    echo "<tr><td colspan='13'></td></tr>\n";
     $id = $author['author_id'];
     $bioresult = mysql_query("SELECT bio_id FROM biographies WHERE author_id = $id ORDER BY bio_id;");
     $bio_count = mysql_num_rows($bioresult);
@@ -495,24 +484,28 @@ while ($i++ < $count && $author = @mysql_fetch_array($result)) {
     // csl with the bio-ids
     $bios_for_this_author = '';
 
-    echo "<input type='hidden' name='old_enabled_author_$id' value='$enabled' />\n";
-    echo "<tr><td rowspan='$bio_count'><input type='checkbox' name='new_enabled_author_$id' value='yes'" .
-         ($enabled=='yes'?' checked':'') . " /></td>\n    " .
-         "<td rowspan='$bio_count'><input type='checkbox' name='delete_author_$id' value='yes' onClick='deleteAuthor(this, $id);' /></td>\n";
-    echo "<td rowspan='$bio_count'><input type='radio' name='move_to_author' value='$id' onClick='moveToHere(this, $id);' /></td>\n    " .
-         "<td rowspan='$bio_count'>$id</td>\n    <td rowspan='$bio_count'><a href=\"author.php?author_id=$id\">" .
-         $author['last_name'] . "</a></td>\n    <td rowspan='$bio_count'>" .
-         $author['other_names'] . "</td>\n    <td rowspan='$bio_count'>" .
-         format_date_from_array($author, 'b') . "</td>\n    <td rowspan='$bio_count'>" .
-         format_date_from_array($author, 'd') . "</td>\n    " .
-         "<td rowspan='$bio_count'><a href=\"add.php?author_id=$id&mode=manage\">" . _('Edit') . "</a></td>\n    " .
-         "<td rowspan='$bio_count'></td>\n    ";
+    echo "<tr>";
+    echo "<td rowspan='$bio_count'>" .
+         "<input type='hidden' name='old_enabled_author_$id' value='$enabled'>" .
+         "<input type='checkbox' name='new_enabled_author_$id' value='yes'" .  ($enabled=='yes'?' checked':'') . " /></td>\n";
+    echo "<td rowspan='$bio_count'><input type='checkbox' name='delete_author_$id' value='yes' onClick='deleteAuthor(this, $id);' /></td>\n";
+    echo "<td rowspan='$bio_count'><input type='radio' name='move_to_author' value='$id' onClick='moveToHere(this, $id);' /></td>\n";
+    echo "<td rowspan='$bio_count'>$id</td>\n";
+    echo "<td rowspan='$bio_count'><a href=\"author.php?author_id=$id\">" . $author['last_name'] . "</a></td>\n";
+    echo "<td rowspan='$bio_count'>" .  $author['other_names'] . "</td>\n";
+    echo "<td rowspan='$bio_count'>" .  format_date_from_array($author, 'b') . "</td>\n";
+    echo "<td rowspan='$bio_count'>" .  format_date_from_array($author, 'd') . "</td>\n";
+    echo "<td rowspan='$bio_count'><a href=\"add.php?author_id=$id&mode=manage\">" . _('Edit') . "</a></td>\n";
+    echo "<td rowspan='$bio_count'></td>\n";
     for ($j = 0; $j < $bio_count; $j++) {
         $row = mysql_fetch_assoc($bioresult);
         $bio_id = $row["bio_id"];
         if ($j != 0)
             echo "<tr>";
         write_bio_links($id, $bio_id);
+    }
+    if($bio_count == 0) {
+        echo "<td></td><td></td><td></td>";
     }
     $javascript_to_build_bios_array .= "bios[$id] = new Array($bios_for_this_author);\n";
 }
@@ -542,12 +535,10 @@ function write_bio_links($author_id, $bio_id) {
 echo $links_and_buttons;
 
 if ($prev_next_links != '')
-    echo "<p align='center'>$prev_next_links</p>";
+    echo "<p>$prev_next_links</p>";
 
-echo '<br />';
+echo '<br>';
 
 $browseUtility->echoCountSelectionList();
-
-echo_menu();
 
 // vim: sw=4 ts=4 expandtab

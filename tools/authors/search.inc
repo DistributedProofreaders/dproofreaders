@@ -137,15 +137,15 @@ function echo_search_form() {
     $view    = array_get($_REQUEST, 'view', null);
     $orderby = array_get($_REQUEST, 'orderby', null);
     $desc    = array_get($_REQUEST, 'desc', null);
-    ?>
-    <form method="GET">
-    <table border="1" align="center"><td><table border="0">
-    <tr><th colspan="2"><?php echo _('Search'); ?></th></tr>
-    <tr><td colspan="2"><?php echo _('Case insensitive.') . '<br />' .
-        sprintf(
+    echo "<h2>" . _("Search") . "</h2>";
+    echo "<p>" . _('Case insensitive.') . " ";
+    echo sprintf(
             _('Use %1$s for partial matches or %2$s to match exactly one character.' .
             '%3$s encodes start-of-string and %4$s encodes end-of-string.'),
-            '<b>*</b>', '<br /><b>?</b>', '<br /><b>^</b>', '<br /><b>$</b>'); ?></td></tr>
+            '<b>*</b>', '<b>?</b>', '<b>^</b>', '<b>$</b>');
+    ?>
+    <form method="GET">
+    <table class='themed' style='width: auto;'>
     <tr><td>Last name:</td><td><input type="text" name="last_name" size="20" value="<?php echo $last_name; ?>"></td></tr>
     <tr><td>Other name(s):</td>
         <td><input type="text" name="other_names" size="20" value="<?php echo $other_names; ?>"></td></tr>
@@ -153,7 +153,7 @@ function echo_search_form() {
         <td align="right"><input type="button" onClick="var f=this.form;f.last_name.value='';f.other_names.value='';" value="<?php echo _('Reset'); ?>"></td></tr>
     </table></td></table>
     <?php
-    echo "<center><a href='" . attr_safe($_SERVER['PHP_SELF']) . "'>" . _('List all') . "</a></center>\n";
+    echo "<a href='" . attr_safe($_SERVER['PHP_SELF']) . "'>" . _('List all') . "</a>\n";
 
     if (isset($view))
         echo "<input type='hidden' name='view' value='" . attr_safe($view) . "' />\n";

@@ -163,8 +163,12 @@ else {
 // produce form (with blank values
 // or those to be edited)
 
+if(isset($_GET['author_id']))
+    $title = _('Edit author');
+else
+    $title = _("Add author");
 output_header(_('Add author'));
-
+echo "<h1>$title</h1>";
 
 echo_menu();
 
@@ -358,13 +362,12 @@ function echo_date_fields($bd) {
 // mode=manage means we exit to manage.php
 // everything else defaults to listing.php
 if (isset($_GET['mode']) && $_GET['mode'] == 'manage') {
-echo '<input type="hidden" name="mode" value="manage" />';
-$exit_to = 'manage.php';
+    echo '<input type="hidden" name="mode" value="manage" />';
+    $exit_to = 'manage.php';
 }
-else
-$exit_to = 'listing.php';
-
-echo '<br>';
+else {
+    $exit_to = 'listing.php';
+}
 
 echo '<p>' .
      _('When entering birth- and death-dates, please make sure you get the data from a trustable source. This is unfortunately a hard term to define, but at the bottom of the page, you will find a list of suggested sites that provide a lot of data like this.')
@@ -374,12 +377,6 @@ echo '<p>' .
 
 ?>
 <center><table cellspacing='0' cellpadding='5' border='1' width='90%' style='border: 1px solid #000; border-collapse:collapse'>
-<tr><td bgcolor='<?php echo $theme['color_headerbar_bg']; ?>' colspan='2'><center><b><font color='<?php echo $theme['color_headerbar_font']; ?>'>
-<?php echo (isset($_GET['author_id']))
-     ?
-         _('Edit author')
-     :
-         _('Add author'); ?></font></b></center></td></tr>
 <tr><th bgcolor='#CCCCCC'><?php echo _('Last name'); ?></th><td><input type="text" size="40" name="last_name" VALUE="<?php echo attr_safe($last_name); ?>"/></td></tr>
 <tr><th bgcolor='#CCCCCC'><?php echo _('Other name(s)'); ?></th><td><input type="text" size="40" name="other_names" VALUE="<?php echo attr_safe($other_names); ?>"/></td></tr>
 <tr><th bgcolor='#CCCCCC'><?php echo _('Born'); ?></th><td>
@@ -417,7 +414,5 @@ echo '<li><a href="http://www.britannica.com/" target="_blank">' . _('Encyclop&a
 echo '<li><a href="http://authorities.loc.gov/" target="_blank">' . _('The Library of Congress') . '</a></li>';
 
 echo '</ul>';
-
-echo_menu();
 
 // vim: sw=4 ts=4 expandtab

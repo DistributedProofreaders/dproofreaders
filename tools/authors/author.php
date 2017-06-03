@@ -19,12 +19,10 @@ $decease = format_date_from_sqlset($row, 'd');
 // Start outputting
 output_header(_('Author') . ': ' . $last_name . ($other_names!=''?", $other_names":''));
 
-echo_menu($author_id);
+echo '<h1>' . _('Author') . '</h1>';
 
-echo '<h1 align="center">' . _('Author') . '</h1>';
+echo_menu($author_id);
 
 echo_author($last_name, $other_names, $birth, $decease, $author_id);
-
-echo_menu($author_id);
 
 // vim: sw=4 ts=4 expandtab

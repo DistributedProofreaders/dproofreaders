@@ -48,30 +48,20 @@ $name = $last_name . ($other_names!=''?", $other_names":'');
 // Start outputting
 output_header(_('Biography:') . " $name");
 
+echo '<h1>' . _('Biography') . '</h1>';
+
 echo_menu($bio_id);
 
-echo '<h1 align="center">' . _('Biography') . '</h1>';
-
 if (isset($message))
-    echo '<center>' . html_safe($message) . '</center><br />';
-?>
-<h2 align="center"><?php echo html_safe($name); ?> 
-<a href='<?php echo $code_url; ?>/tools/authors/bioxml.php?bio_id=<?php echo $id; ?>'><img src='<?php echo $code_url; ?>/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a>
-</h2>
-<?php
+    echo html_safe($message) . '<br>';
 if (user_is_PM() || user_is_authors_db_manager()) {
     echo _('To include this biography into the project comments of a project, insert the following snippet into the project comments:');
     echo " <b>[biography=$id]</b>";
 }
-?>
-<br /><br />
-<table align="center" border="1">
-<tr><td>
-<?php echo html_safe($bio); ?>
-</td></tr>
-</table>
-<?php
 
-echo_menu($bio_id);
+echo "<h2>" . html_safe($name);
+echo "<a href='$code_url/tools/authors/bioxml.php?bio_id=$id'><img src='$code_url/graphics/xml.gif' border='0' width='36' height='14' style='vertical-align:middle'></a></h2>";
+
+echo "<p>" . html_safe($bio) . "</p>";
 
 // vim: sw=4 ts=4 expandtab

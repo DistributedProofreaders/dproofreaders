@@ -11,29 +11,23 @@ include_once('search.inc');
 
 require_login();
 
-output_header(_('Authors'));
+$title = _("Authors");
+output_header($title);
+echo "<h1>$title</h1>";
 
 echo_menu();
 
-?>
-
-<h1 align="center">Authors</h1>
-<?php
-
 $message  = @$_GET['message'];
 if (isset($message))
-    echo '<center>' . html_safe($message) . '</center><br />';
+    echo html_safe($message) . '<br>';
 
 $sortUtility = new SortUtility('authors_listing');
 
 prepare_search();
 
 echo_search_form();
-?>
 
-<h2 align="center"><?php echo get_search_title(); ?></h2>
-
-<?php
+echo "<h2>" . get_search_title() . "</h2>";
 
 $can_edit = user_is_PM() || user_is_authors_db_manager();
 
@@ -42,7 +36,7 @@ $result = search();
 $browseUtility = new BrowseUtility($result);
 
 // "Displaying entries x-y of z"
-echo '<p align="center">' . $browseUtility->getDisplayingString() . '</p>';
+echo '<p>' . $browseUtility->getDisplayingString() . '</p>';
 
 // "Previous" and/or "Next" links?
 $prev_next_links = '';
@@ -55,10 +49,10 @@ if ($browseUtility->isNextBrowseAvailable()) {
                            . _('Next') . ' -&gt;</a>';
 }
 if ($prev_next_links != '')
-    echo "<p align='center'>$prev_next_links</p>";
+    echo "<p>$prev_next_links</p>";
 
 // table of search results
-echo '<table align="center" border="1"><tr>';
+echo '<table class="themed"><tr>';
 
 // print headers
 // links to allow (asc/desc) sorting
@@ -96,12 +90,10 @@ while ($i++ < $count && $row = @mysql_fetch_array($result)) {
 echo '</table>';
 
 if ($prev_next_links != '')
-    echo "<p align='center'>$prev_next_links</p>";
+    echo "<p>$prev_next_links</p>";
 
 echo '<br />';
 
 $browseUtility->echoCountSelectionList();
-
-echo_menu();
 
 // vim: sw=4 ts=4 expandtab

@@ -91,19 +91,18 @@ if (isset($_POST['bio_id']))
 
 output_header(_('Add biography'));
 
+echo "<h1>" . _("Add Biography") . "</h1>";
 echo_menu();
-?>
 
-<h1 align="center">Add Biography</h1>
-<?php
+
 if (isset($msg))
     echo html_safe($msg);
 
 $message = @$_GET['message'];
 if (isset($message))
-    echo '<center>' . html_safe($message) . '</center><br />';
+    echo html_safe($message) . '<br>';
 elseif (isset($_POST['Preview'])) {
-    echo '<table align="center" border="1"><td>' . html_safe($bio) . '</td></table>';
+    echo '<table border="1"><td>' . html_safe($bio) . '</td></table>';
     echo '<br/>';
 }
 ?>
@@ -113,7 +112,7 @@ elseif (isset($_POST['Preview'])) {
 if (isset($bio_id))
     echo '<input type="hidden" name="bio_id" value="' . $bio_id . '">';
 ?>
-<table align="center" border="1">
+<table border="1">
 <tr><th><?php echo _('Biography') . ' (' . _('HTML') . ')'; ?></th></tr>
 <tr><td><textarea cols="70" rows="20" name="bio">
 <?php echo html_safe($bio); ?></textarea></td></tr>
