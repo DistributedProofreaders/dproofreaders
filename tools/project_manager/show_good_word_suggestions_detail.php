@@ -7,7 +7,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'LPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
+include_once($relPath.'misc.inc'); // array_get(), attr_safe(), html_safe()
 include_once($relPath.'Stopwatch.inc');
 include_once($relPath.'misc.inc'); // get_integer_param(), get_enumerated_param()
 include_once('./post_files.inc');
@@ -18,6 +18,7 @@ require_login();
 define("LAYOUT_HORIZ", 1);
 define("LAYOUT_VERT",  2);
 
+// TRANSLATORS: This is a strftime-formatted string for the date with year and time
 $datetime_format = _("%A, %B %e, %Y at %X");
 
 $watch = new Stopwatch;
@@ -26,7 +27,7 @@ $watch->start();
 set_time_limit(0); // no time limit
 
 $projectid  = validate_projectID('projectid', @$_REQUEST['projectid']);
-$encWord    = $_GET["word"];
+$encWord    = array_get($_GET, "word", '');
 $word       = decode_word($encWord);
 $timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', 0, 0, null);
 

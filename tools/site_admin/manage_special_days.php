@@ -80,10 +80,10 @@ if ($action == 'update_oneshot')
 
         // validate the URLs
         if ($_POST['info_url'] && !startswith($_POST['info_url'], "http"))
-            $errmsgs .= _("Info URL is not a valid URL -- ensure it starts with http://.") . "<br>";
+            $errmsgs .= _("Info URL is not a valid URL -- ensure it starts with http:// or https://.") . "<br>";
 
         if ($_POST['image_url'] && !startswith($_POST['image_url'], "http"))
-            $errmsgs .= _("Image URL is not a valid URL -- ensure it starts with http://.") . "<br>";
+            $errmsgs .= _("Image URL is not a valid URL -- ensure it starts with http:// or https://.") . "<br>";
 
         $source->save_from_post();
 
@@ -97,7 +97,7 @@ if ($action == 'show_specials')
     output_header(_('Manage Special Days'), NO_STATSBAR, $theme_args);
     $table_summary = _("Special Days Listing");
 
-    show_sd_toolbar();
+    show_sd_toolbar($action);
 
     $result = mysql_query("SELECT spec_code
         FROM special_days
@@ -122,7 +122,7 @@ elseif ($action == 'edit_source')
     $source = new SpecialDay($_POST['source']);
     $headertext = sprintf(_("Editing Special Day: %s"),$source->display_name);
     output_header($headertext, NO_STATSBAR, $theme_args);
-    show_sd_toolbar();
+    show_sd_toolbar($action);
     echo "<h1 class='source'>" . $headertext . "</h1>\n";
     $source->show_edit_form();
 }
@@ -131,7 +131,7 @@ elseif ($action == 'add_special')
 {
     $headertext=_('Add a new Special Day');
     output_header($headertext, NO_STATSBAR, $theme_args);
-    show_sd_toolbar();
+    show_sd_toolbar($action);
     echo "<h2 class='source'>" . $headertext . "</h2>\n";
     $blank = new SpecialDay(null);
     $blank->show_edit_form();
@@ -144,6 +144,9 @@ class SpecialDay
 
     function SpecialDay($spec_code = null)
     {
+        $this->new_source = true;
+        $this->enable = 0;
+
         if( !is_null($spec_code) )
         {
             $result = mysql_query(sprintf("
@@ -157,16 +160,9 @@ class SpecialDay
             {
                 foreach ($source_fields as $field => $value)
                     $this->$field = $value;
+
                 $this->new_source = false;
             }
-            else
-            {
-                $this->new_source = true;
-            }
-        }
-        else
-        {
-            $this->new_source = true;
         }
     }
 
@@ -265,7 +261,7 @@ class SpecialDay
         }
         $this->_show_edit_row('display_name',_('Display Name'),false,80);
         echo "  <tr><td class='pa'>Enable</th><td><input type='checkbox' name='enable'";
-        if ( $this->enable ==1 )
+        if ( $this->enable )
             echo " value='1' checked";
         echo "></td></tr>\n";
         $this->_show_edit_row('comment',_('Comment'),true);
@@ -426,25 +422,25 @@ function make_link($url,$label)
     }
 }
 
-function show_sd_toolbar()
+function show_sd_toolbar($action)
 {
-    global $action;
-
     $pages = array(
         'add_special' => _('Add New Special Day'),
         'show_specials' => _('List All Special Days')
     );
-    echo "<p style='text-align: center; margin: 5px 0 5px 0;'>";
+
+    $toolbar_items = array();
     foreach ($pages as $new_action => $label)
     {
-        echo ($action == $new_action) ? "<b>" : "<a href='?action=$new_action'>";
-        echo $label;
-        echo ($action == $new_action) ? "</b>" : "</a>";
+        if($action == $new_action)
+            $item = "<b>$label</b>";
+        else
+            $item = "<a href='?action=$new_action'>$label</a>";
 
-        if ( $label != end($pages) )
-            echo " | ";
+        $toolbar_items[] = $item;
     }
-    echo "</p>";
+
+    echo "<p style='text-align: center; margin: 5px 0 5px 0;'>" . implode(" | ", $toolbar_items) . "</p>";
 }
 
 function output_table_headers()

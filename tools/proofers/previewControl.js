@@ -41,6 +41,7 @@ function initPrev() {
     var fontSelector = document.getElementById("id_font_sel");
     var fontName = document.getElementById("id_font_name");
     var removeFontSelector = document.getElementById("id_remove_sel");
+    var allowUnderlineCheckbox = document.getElementById("id_underline");
     var proofFrameSet = top.document.getElementById("proof_frames");
     var selTag;
     var viewMode = "no_tags";    // always start with this
@@ -61,10 +62,12 @@ function initPrev() {
         g: {bg: "", fg: "#8a2be2"},
         sc: {bg: "", fg: "#009700"},
         f: {bg: "", fg: "#ff0000"},
+        u: {bg: "", fg: ""},
         etc: {bg: "#ffcaaf", fg: ""},
         err: {bg: "#ff0000", fg: ""},
         hlt: {bg: "#ceff09", fg: ""},
         color: true, // colour the markup or not
+        allowUnderline: false,
         fontSet: {"serif": 0, "sans-serif": 0, "monospace": 0, "DPCustomMono2": 0},
         defFont: "serif"
     };
@@ -115,7 +118,7 @@ function initPrev() {
             if (opt.value === def) {
                 opt.selected = true;
             }
-            selector.add(opt);
+            selector.add(opt, null);
         }
     }
 
@@ -281,6 +284,7 @@ function initPrev() {
             selTag = "t";   // always start with t (plain text) selected
             defaultTextRadio.checked = true;
             initPicker();
+            allowUnderlineCheckbox.checked = tempStyle.allowUnderline;
         },
 
         enableColor: function (en) {
@@ -295,6 +299,7 @@ function initPrev() {
         },
 
         OKConfig: function () {
+            tempStyle.allowUnderline = allowUnderlineCheckbox.checked;
             previewStyles = deepCopy(previewStyles, tempStyle, false);
             saveStyle();
             initView();

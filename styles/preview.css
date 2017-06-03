@@ -84,6 +84,9 @@
 .f {
     font-style: normal;
 }
+.u {
+    text-decoration: underline;
+}
 .sub {
     vertical-align: sub;
     font-size: smaller;
@@ -150,7 +153,7 @@
     margin-bottom: 0.5em;
     margin-left: 1em;
     margin-right: 1em;
-    white-space: pre;
+    white-space: pre-wrap;
 }
 
 /* issue markings */

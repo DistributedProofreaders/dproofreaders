@@ -125,7 +125,7 @@ switch( $tbutton )
     case B_SAVE_AND_DO_ANOTHER:
         $ppage->saveAsDone($text_data,$pguser);
         $url = $ppage->url_for_do_another_page();
-        metarefresh(1,$url,_("Save as 'Done' & Proof Next"),_("Page Saved."));
+        metarefresh(1,$url,_("Save as 'Done' & Proofread Next Page"),_("Page Saved."));
         break;
 
     case B_SAVE_AND_QUIT:
@@ -203,7 +203,7 @@ switch( $tbutton )
         break;
 
     case 103:
-        // Do Save as 'Done' & Proof Next from the spellchecker interface.
+        // Do Save as 'Done' & Proofread Next from the spellchecker interface.
         // This works by
         // 1. Quitting the current wordcheck
         // 2. Saving the current page as done
@@ -219,7 +219,7 @@ switch( $tbutton )
         // not need the state.
         //
         // NB: Within wordcheck, the markPageChanged() javascript function
-        // disables the Save as 'Done' & Proof Next button if the user makes
+        // disables the Save as 'Done' & Proofread Next button if the user makes
         // any corrections, so we should only get here if the user has no
         // corrections to submit, so all we're discarding is wordcheck's
         // unmodified input fields.
@@ -236,7 +236,7 @@ switch( $tbutton )
         // Note: Using Wordcheck in the standard interface changes the default
         // target for links from 'proofframe' to 'textframe' which is why we
         // have to do these gymnastics instead of using metarefresh().
-        $title = _("Save as 'Done' & Proof Next");
+        $title = _("Save as 'Done' & Proofread Next Page");
         $body = _("Page Saved.");
         slim_header( $title );
         echo "<script language='JavaScript'><!--\n";

@@ -99,7 +99,8 @@ if ($action == 'update_oneshot')
             WHERE code_name = '%s'
         ", mysql_real_escape_string($new_code_name)));
 
-        $new = (mysql_result($result,0) == 0);
+        $row = mysql_fetch_row($result);
+        $new = ($row[0] == 0);
 
         if (!$new)
             $source->ImageSource($_REQUEST['code_name']);
@@ -137,7 +138,7 @@ if ($action == 'show_sources')
 
     output_header(_('List Image Sources'), NO_STATSBAR, $theme_args);
 
-    show_is_toolbar();
+    show_is_toolbar($action);
 
     $result = mysql_query("SELECT code_name FROM image_sources ORDER BY display_name ASC");
 
@@ -169,7 +170,7 @@ elseif ($action == 'edit_source')
 {
     $source = new ImageSource($_REQUEST['source']);
     output_header(sprintf(_("Editing %s"), $source->display_name), NO_STATSBAR, $theme_args);
-    show_is_toolbar();
+    show_is_toolbar($action);
     $source->show_edit_form();
 }
 
@@ -177,7 +178,7 @@ elseif ($action == 'add_source')
 {
     $title = $can_edit ? _('Add a new Image Source') : _('Propose a new Image Source');
     output_header($title, NO_STATSBAR, $theme_args);
-    show_is_toolbar();
+    show_is_toolbar($action);
     $blank = new ImageSource(null);
     $blank->show_edit_form();
 }
@@ -263,7 +264,7 @@ class ImageSource
 
         echo "<tr class='$row_class'>";
         echo "<td colspan='6'>";
-        echo "<b>" . _("Credits Line:") . " </b>";
+        echo "<b>" . _("Credits Line") . ": </b>";
         echo html_safe($this->credit);
         echo "</td></tr>";
 
@@ -271,7 +272,7 @@ class ImageSource
         {
             echo "<tr class='$row_class'>";
             echo "<td colspan='6'>";
-            echo "<b>" . _("Description (public comments):") . " </b>";
+            echo "<b>" . _("Description (public comments)") . ": </b>";
             echo html_safe($this->public_comment);
             echo "</td></tr>";
         }
@@ -280,7 +281,7 @@ class ImageSource
         {
             echo "<tr class='$row_class'>";
             echo "<td colspan='6'>";
-            echo "<b>" . _("Notes (internal comments):") . " </b>";
+            echo "<b>" . _("Notes (internal comments)") . ": </b>";
             echo html_safe($this->internal_comment);
             echo "</td></tr>";
         }
@@ -395,27 +396,29 @@ class ImageSource
         //  2 = also any logged-in user
         //  3 = anyone
 
-            $field = 'info_page_visibility';
-            $existing_value = $this->new_source
-                ? (empty($_REQUEST[$field]) ? '2' : $_REQUEST[$field])
-                : $this->$field;
+        $field = 'info_page_visibility';
+        $existing_value = $this->new_source
+            ? (empty($_REQUEST[$field]) ? '2' : $_REQUEST[$field])
+            : $this->$field;
 
-            $editing .= "<div class='perms_wrapper'>" . _("Visibility on Info Page") . "</div> <select name='$field'>";
-            foreach (array(
-                    '0' => _('IS Managers Only'),
-                    '1' => _('Also PMs'),
-                    // TRANSLATORS: %s is the site abbreviation
-                    '2' => sprintf(_("All %s Users"), $site_abbreviation),
-                    '3' => _('Publicly Visible')) 
-                as $val => $opt)
+        $editing .= "<div class='perms_wrapper'>" . _("Visibility on Info Page") . "</div> <select name='$field'>";
+        foreach (array(
+                // TRANSLATORS: IS = image source
+                '0' => _('IS Managers Only'),
+                // TRANSLATORS: PMs = project managers
+                '1' => _('Also PMs'),
+                // TRANSLATORS: %s is the site abbreviation
+                '2' => sprintf(_("All %s Users"), $site_abbreviation),
+                '3' => _('Publicly Visible')) 
+            as $val => $opt)
+        {
             {
-                {
-                $editing .= "<option value='$val' " .
-                    ($existing_value == $val ? 'selected' :'') .
-                    ">$opt</option>";
-                }
+            $editing .= "<option value='$val' " .
+                ($existing_value == $val ? 'selected' :'') .
+                ">$opt</option>";
             }
-            $editing .= "</select><br>";
+        }
+        $editing .= "</select><br>";
 
         $this->_show_summary_row(_('Permissions'),$editing,false);
     }
@@ -506,7 +509,7 @@ class ImageSource
             $userSettings =& Settings::get_Settings($username);
             $userSettings->remove_value('is_approval_notify', $this->code_name);
 
-            $subject = sprintf(_('%s: Image Source %s has been approved!'),$site_abbreviation,$this->display_name);
+            $subject = sprintf(_('%1$s: Image Source %2$s has been approved!'),$site_abbreviation,$this->display_name);
 
             $body = "Hello $username,\n\n" .
                 "This is a message from the $site_name website.\n\n".
@@ -623,25 +626,25 @@ function make_link($url,$label)
     }
 }
 
-function show_is_toolbar()
+function show_is_toolbar($action)
 {
-    global $action;
-
     $pages = array(
         'add_source' => _('Add New Source'),
         'show_sources' => _('List All Image Sources')
     );
-    echo "<p class='toolbar'>";
+
+    $toolbar_items = array();
     foreach ($pages as $new_action => $label)
     {
-        echo ($action == $new_action) ? "<b>" : "<a href='?action=$new_action'>";
-        echo $label;
-        echo ($action == $new_action) ? "</b>" : "</a>";
+        if($action == $new_action)
+            $item = "<b>$label</b>";
+        else
+            $item = "<a href='?action=$new_action'>$label</a>";
 
-        if ( $label != end($pages) )
-            echo " | ";
+        $toolbar_items[] = $item;
     }
-    echo "</p>";
+
+    echo "<p class='toolbar'>" . implode(" | ", $toolbar_items) . "</p>";
 }
 
 // vim: sw=4 ts=4 expandtab

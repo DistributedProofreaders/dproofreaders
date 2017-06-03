@@ -50,7 +50,7 @@ function project_continuity_test($projectid, $orig_state, $no_more_pages)
         $orig_state_text = project_states_text($orig_state);
         $curr_state_text = project_states_text($curr_state);
         $err = sprintf(
-            _("This project is no longer '%s', it is now '%s', so your request is no longer valid."),
+            _("This project is no longer '%1\$s', it is now '%2\$s', so your request is no longer valid."),
             $orig_state_text,
             $curr_state_text
         );

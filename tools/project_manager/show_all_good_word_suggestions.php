@@ -11,6 +11,7 @@ include_once("./word_freq_table.inc");
 
 require_login();
 
+// TRANSLATORS: This is a strftime-formatted string for the date with year and time
 $datetime_format = _("%A, %B %e, %Y at %X");
 
 $watch = new Stopwatch;
@@ -96,6 +97,7 @@ if($frame=="left") {
 
     echo "<h1>" . _("Manage Suggestions") . "</h1>";
 
+    // TRANSLATORS: PM = project manager
     echo "<p><a href='$code_url/tools/project_manager/projectmgr.php' target='_TOP'>" . _("Return to the PM page") . "</a></p>";
 
     echo "<form action='" . attr_safe($_SERVER['PHP_SELF']) . "' method='get'>";
@@ -105,7 +107,7 @@ if($frame=="left") {
         echo _("View projects for user:") . " <input type='text' name='pm' value='" . attr_safe($pm) . "' size='10'><br>";
     }
 
-echo _("Show:") . " ";
+echo _("Show") . ": ";
 echo "<select name='timeCutoff'>";
 echo "<option value='0'"; if($timeCutoff==0) echo "selected"; echo ">" . _("All suggestions") . "</option>";
 echo "<option value='-1'"; if($timeCutoff==-1) echo "selected"; echo ">" . _("Suggestions since Good Words List was saved") . "</option>";
@@ -171,7 +173,7 @@ echo "<br>";
 
         echo "<hr>";
         echo "<h3>$projectname</h3>";
-        echo "<p><b>" . _("State:") . "</b> $projectstate</p>";
+        echo "<p><b>" . pgettext("project state", "State") . ":</b> $projectstate</p>";
 
         echo_checkbox_selects(count($suggestions_w_freq),$projectid);
 

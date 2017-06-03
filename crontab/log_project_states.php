@@ -15,9 +15,12 @@ $testing_this_script=@$_GET['mytesting'];
 
 
 // See if this has been run once today or not
-$res = mysql_query( 'SELECT MAX(date) FROM project_state_stats WHERE num_projects != 0' )
+$res = mysql_query( 'SELECT MAX(date) as max_date FROM project_state_stats WHERE num_projects != 0' )
     or die(mysql_error());
-$X_date = mysql_result($res,0); // If table is empty, this returns NULL.
+$row = mysql_fetch_assoc($res);
+$X_date = NULL;
+if($row)
+    $X_date = $row["max_date"];
 if ($X_date == date('Y-m-d')) {
     echo "Already run once for today ($X_date), exiting.", $EOL;
     exit;

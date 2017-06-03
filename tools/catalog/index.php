@@ -23,7 +23,7 @@ foreach ( $PROJECT_STATES_IN_ORDER as $proj_state )
 
     $rows = mysql_query( "SELECT projectid, nameofwork, authorsname, language FROM projects WHERE state='$proj_state'") or die(mysql_error());
 
-    if ( mysql_numrows($rows) == 0 )
+    if ( mysql_num_rows($rows) == 0 )
     {
         echo "none<br>\n";
     }

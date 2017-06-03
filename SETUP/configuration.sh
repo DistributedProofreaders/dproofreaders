@@ -82,7 +82,7 @@ _DYN_URL=$base_url/d
 #     Some images are assumed to have text in them and need to have
 #     different images for each language the site is translated into.
 #     These are indicated with <locale> below. Note the default locale
-#     of the code is en_EN.
+#     of the code is en_US.
 #
 #     The images can be of type png, jpg, or gif and are selected in that
 #     order using those extensions.
@@ -350,7 +350,8 @@ _DB_REQUESTS_EMAIL_ADDR=db-requests@example.org
 _PPV_REPORTING_EMAIL_ADDR=ppv-reports@example.org
 _PROMOTION_REQUESTS_EMAIL_ADDR=dp-promote@example.org
 _IMAGE_SOURCES_EMAIL_ADDR=ism@example.org
-# These addresses are used in various places for users to request help
+_TRANSLATION_COORDINATOR_EMAIL_ADDR=translation-coord@example.org
+# These addresses are used in various places for users to request help.
 # These can be set to any working email address.
 
 _BLOG_URL=
@@ -370,6 +371,12 @@ _FORUMS_PROJECT_POSTED_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
 # Each project gets an automatically-created discussion topic, which
 # moves around among these 4 forums, depending on its state.
 # (The exact correspondence is defined in pinc/project_states.inc.)
+
+_FORUMS_PROJECT_DELETED_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
+_FORUMS_PROJECT_COMPLETED_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
+# Projects that are deleted or completed and not posted (rare)
+# have a forum of their own. Consider putting these in the same
+# hidden forum.
 
 _FORUMS_GENERAL_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
 _FORUMS_BEGIN_SITE_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
@@ -404,6 +411,10 @@ _JPGRAPH_FONT_STYLE=9002    # FS_BOLD
 _USE_PHP_SESSIONS=TRUE
 # If set to TRUE, PHP sessions are used to track user preferences, etc;
 # if FALSE, the original DP cookie system is used.
+
+_USE_SECURE_COOKIES=FALSE
+# If set to TRUE, browsers are instructed to only send the cookie over secure
+# connections. Your _CODE_URL *must* be using https:// for this to work!
 
 _COOKIE_ENCRYPTION_KEY=A_LONG_STRING_OF_GIBBERISH
 # You only need to define this if $_USE_PHP_SESSIONS is FALSE.
@@ -517,7 +528,7 @@ if [ "$_URL_DUMP_PROGRAM" == "" ]; then
     # No program explicitly specified, attempt to find: wget, curl, lynx
     program_test=`which wget`
     if [ $? -eq 0 ]; then
-        _URL_DUMP_PROGRAM="$program_test --quiet -O-"
+        _URL_DUMP_PROGRAM="$program_test --quiet --tries=1 --timeout=0 -O-"
     else
         program_test=`which curl`
         if [ $? -eq 0 ]; then

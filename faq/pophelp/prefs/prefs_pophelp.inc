@@ -144,6 +144,7 @@ If you wish to change the notification on existing forum threads, you will need 
 'set_pmdefault' =>
     array (
     'title' => _("Default Project Manager Page"),
+    // TRANSLATORS: PM = project manager
     'content' => _("<p>This setting determines which display is used by default when loading the PM page.</p>")
     ),
 

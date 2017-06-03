@@ -120,14 +120,15 @@ function user_is_subscribed_to_project_event( $username, $projectid, $event )
         WHERE username    = '$username'
             AND projectid = '$projectid'
     ") or die(mysql_error());
-    if ( mysql_num_rows($res) == 0 )
+    $row = mysql_fetch_row($res);
+    if ( !$row )
     {
         // ($username,$projectid) pair does not appear in table.
         return 0;
     }
     else
     {
-        return mysql_result($res,0);
+        return $row[0];
     }
 }
 

@@ -141,6 +141,19 @@ site description without a code change.
 We patched phpBB3/includes/functions.php to allow HTML in the site
 description. A patch file is included as phpbb3-functions.php.patch.
 
+To use it, cd into the phpBB code directory and run:
+  patch -p0 < path_to_SETUP/phpbb3-functions.php.patch
+
+
+PM contents in email notification
+---------------------------------
+PGDP members like having a PM's contents in the email notification from the
+forum. For phpBB 3.0, the Prime Notify extention does this. For phpBB 3.2,
+we patch phpBB3/phpbb/notification/types/pm.php using phpbb32-pm.php.patch.
+
+To use it, cd into the phpBB code directory and run:
+  patch -p0 < path_to_SETUP/phpbb32-pm.php.patch
+
 
 Default style
 -------------

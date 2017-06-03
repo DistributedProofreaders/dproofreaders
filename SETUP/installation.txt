@@ -27,14 +27,19 @@ MySQL
     MySQL version 5.1.x and later is required.
 
 phpBB
-    phpBB 2.x and 3.0 are both supported. Version 3.0 is recommended.
-    phpBB 3.1 may also work, but it has not yet been tested.
+    phpBB 2.x, 3.0, 3.1, and 3.2 are supported. Version 3.2 is recommended.
+
+    In order to use versions > 3.0, you must disable superglobal checking.
+    In the phpBB code edit:
+      * 3.1: config/parameters.yml
+      * 3.2: config/default/container/parameters.yml
+    change core.disable_super_globals to false, and flush the phpbb cache.
 
     https://www.phpbb.com/downloads/
 
 jpgraph
-    jpgraph version 3.5.0b1 will work after applying the included
-    jpgraph-3.5.0b1.patch. This is the recommended version.
+    jpgraph versions 3.5.0b1 and 4.0.2 will work after applying the
+    included patches. 4.0.2 is the recommended version.
     Version 1.27.1 should also work.
 
     http://jpgraph.net/download/
@@ -100,6 +105,7 @@ assuming it isn't already.
 --- Install jpgraph.
         The statistics code depends on jpgraph for graph generation.
         Follow the installation instructions included with jpgraph.
+        If using version 4.0.2, apply jpgraph-4.0.2.patch.
         If using version 3.5.0b1, apply jpgraph-3.5.0b1.patch.
 
         The simplest place to install jpgraph is in your document root.
@@ -167,16 +173,14 @@ assuming it isn't already.
             mysql -h localhost -u root -p
 
     --- Create the database.
-            CREATE DATABASE dp_db CHARACTER SET UTF8;
-        Note that you can have UTF-8 enabled on the site even if you have older
-        MySQL version which doesn't support it.
+            CREATE DATABASE dp_db CHARACTER SET LATIN1;
 
     --- Create the user.
         (See MySQL Manual 5.5.4 Adding New Users to MySQL.)
             GRANT ALL  ON dp_db.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
 
     --- Similarly for the archive database (if you want one):
-            CREATE DATABASE dp_archive CHARACTER SET UTF8;
+            CREATE DATABASE dp_archive CHARACTER SET LATIN1;
             GRANT ALL  ON dp_archive.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
    
     --- Exit from the MySQL client.
@@ -328,6 +332,20 @@ assuming it isn't already.
         Register as a new user.
         Of course, there aren't any projects to proofread yet.
 
+--- Install MediaWiki (optional)
+        None of the DP code relies on the presence of a wiki, MediaWiki or
+        otherwise, but most DP sites have some form of wiki for user
+        contributions, coordination, documentation, etc. If you have a wiki,
+        set _WIKI_URL in configuration.sh to have a link show up in the navbar.
+
+        pgdp.net uses MediaWiki and the MediaWiki_extensions directory
+        includes some useful extensions you might want to use.
+
+        It's also suggested that you use the MediaWiki_PHPBB_Auth plugin
+        (https://github.com/Digitalroot/MediaWiki_PHPBB_Auth) to have the
+        wiki authenticate against phpBB for a single source of user
+        credentials.
+
 --- Define a site administrator.
         The code is based on users having particular roles. To manage these,
         a site administrator is needed. Assuming you are administering the
@@ -398,16 +416,31 @@ newer release of the DP code.
             c/SETUP/upgrade/05/
             c/SETUP/upgrade/06/
             c/SETUP/upgrade/07/
+            c/SETUP/upgrade/08/
+            c/SETUP/upgrade/09/
         (in that order!)
 
     --- If your old installation was release 1.5:
         You need to run the scripts in
             c/SETUP/upgrade/06/
             c/SETUP/upgrade/07/
+            c/SETUP/upgrade/08/
+            c/SETUP/upgrade/09/
 
     --- If your old installation was release 1.6:
         You need to run the scripts in
             c/SETUP/upgrade/07/
+            c/SETUP/upgrade/08/
+            c/SETUP/upgrade/09/
+
+    --- If your old installation was release R200609
+        You need to run the scripts in
+            c/SETUP/upgrade/08/
+            c/SETUP/upgrade/09/
+
+    --- If your old installation was release R201601
+        You need to run the scripts in
+            c/SETUP/upgrade/09/
 
     To run the upgrade scripts, you must cd into the directory and invoke the
     scripts from there. E.g.:

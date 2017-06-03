@@ -405,7 +405,7 @@ $sortby = $sortUtility->getQueryStringForCurrentView();
 // provide links for those and also buttons for submitting/resetting form.
 $view = get_enumerated_param($_REQUEST, 'view', 'enabled', array('enabled', 'disabled', 'all'));
 
-$links_and_buttons = _('View:') . ' ';
+$links_and_buttons = _('View') . ': ';
 if ($view != 'disabled' && $view != 'all')
 $links_and_buttons .= _('Enabled');
 else
@@ -484,7 +484,7 @@ while ($i++ < $count && $author = @mysql_fetch_array($result)) {
     echo "<tr><td colspan='13'></td></tr>\n";
     $id = $author['author_id'];
     $bioresult = mysql_query("SELECT bio_id FROM biographies WHERE author_id = $id ORDER BY bio_id;");
-    $bio_count = mysql_numrows($bioresult);
+    $bio_count = mysql_num_rows($bioresult);
 
     if ($bio_count > 0) {
         $javascript_to_disable_delete_authors .= "document.adminform.delete_author_$id.disabled = true;\n";
@@ -508,7 +508,8 @@ while ($i++ < $count && $author = @mysql_fetch_array($result)) {
          "<td rowspan='$bio_count'><a href=\"add.php?author_id=$id&mode=manage\">" . _('Edit') . "</a></td>\n    " .
          "<td rowspan='$bio_count'></td>\n    ";
     for ($j = 0; $j < $bio_count; $j++) {
-        $bio_id = mysql_result($bioresult, $j);
+        $row = mysql_fetch_assoc($bioresult);
+        $bio_id = $row["bio_id"];
         if ($j != 0)
             echo "<tr>";
         write_bio_links($id, $bio_id);

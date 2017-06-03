@@ -29,9 +29,12 @@ $x_text_tick_interval = calculate_text_tick_interval( 'daily', count($datax) );
 
 if (empty($datax) || empty($datay))
 {
-  $specimen = ($holder_type == 'U') ? 'user' : 'team';
-  dpgraph_error("This $specimen has not completed any pages in this round.",600,300);
-  die;
+    if($holder_type == 'U')
+        $error = _("This user has not completed any pages in this round.");
+    else
+        $error = _("This team has not completed any pages in this round.");
+    dpgraph_error($error);
+    die;
 }
 
 draw_simple_bar_graph(

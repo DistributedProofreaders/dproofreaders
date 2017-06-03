@@ -191,15 +191,15 @@ function html_logobar() {
     if (0) {
         // show number of projects posted to PG
         $result = mysql_query( "
-            SELECT COUNT(*)
+            SELECT COUNT(*) as numproj
             FROM projects
             WHERE $psd->state_selector
         ");
-        $numproj = mysql_result($result,0);
+        $row = mysql_fetch_assoc($result);
         echo "<span class='sans-serif'><b>";
         echo sprintf(
             _('%s projects completed!'),
-            number_format($numproj));
+            number_format($row["numproj"]));
         echo "</b></span>\n";
     }
 
@@ -208,15 +208,15 @@ function html_logobar() {
         // (takes into account that some books are processed as several projects)
 
         $result = mysql_query( "
-            SELECT COUNT(distinct postednum)
+            SELECT COUNT(distinct postednum) as numproj
             FROM projects
             WHERE $psd->state_selector
         ");
-        $numproj = mysql_result($result,0);
+        $row = mysql_fetch_assoc($result);
         echo "<span class='sans-serif'><b>";
         echo sprintf(
             _('%s titles preserved for the world!'),
-            number_format($numproj));
+            number_format($row["numproj"]));
         echo "</b></span>\n";
         show_completed_projects(TRUE);
     }
@@ -437,7 +437,14 @@ function html_statsbar($nameofpage) {
         endswith($_SERVER['SCRIPT_NAME'], "/activity_hub.php"))
     {
         show_donation_stuff();
-        echo "<hr>";
+        echo "<br><hr width='75%' align='center'><br>\n";
+    }
+
+    // For logged-in users, show links to key help documents:
+    if (isset($pguser))
+    {
+        show_key_help_links();
+        echo "<br><hr width='75%' align='center'><br>\n";
     }
 
     // Show statistics that are pertinent to the particular request.
@@ -514,12 +521,8 @@ function html_statsbar($nameofpage) {
     if (isset($pguser))
     {
         // requestor is a logged-in user.
-
         echo "<hr class='divider'>\n";
         show_user_teams();
-
-        echo "<hr class='divider'>\n";
-        show_key_help_links();
     }
 
     // SITE-SPECIFIC
@@ -595,7 +598,7 @@ function get_activity_links()
             $default_pm_page="";
         }
 
-        $links[] = array('url' => "tools/project_manager/projectmgr.php$default_pm_page", 'text' => 'PM', 'title' => _('Manage Projects'));
+        $links[] = array('url' => "tools/project_manager/projectmgr.php$default_pm_page", 'text' => pgettext('project manager', 'PM'), 'title' => _('Manage Projects'));
     }
 
     // Get all stages the user has access to
@@ -609,6 +612,16 @@ function get_activity_links()
         {
             $links[] = array('url' => $stage->relative_url, 'text' => $stage->id, 'title' => $stage->name);
         }
+    }
+
+    if(user_is_a_sitemanager())
+    {
+        $links[] = array(
+            'url' => "tools/site_admin/index.php",
+            // TRANSLATORS: SA is an abbreviation for Site Administrator
+            'text' => _("SA"),
+            'title' => _("Administer Site")
+        );
     }
 
     return $links;
@@ -654,7 +667,7 @@ function show_tally_specific_stats( $tally_name )
     $num_positive_users = $tallyboard->get_num_holders_with_positive_tally();
     echo 
         sprintf(
-            _('%s users with at least one %s page'),
+            _('%1$s users with at least one %2$s page'),
             number_format($num_positive_users), $tally_name ),
         "\n";
 
@@ -773,7 +786,7 @@ function show_user_teams()
     while($row = mysql_fetch_assoc($teamRes))
     {
         echo "<li>";
-        echo "<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".$row['teamname']."</a>";
+        echo "<a href='$code_url/stats/teams/tdetail.php?tid=".$row['id']."'>".html_safe($row['teamname'])."</a>";
         echo "</li>";
         echo "\n";
     }
@@ -862,16 +875,18 @@ function show_completed_projects($terse = FALSE)
         $begindate = mktime(0,0,0,$thismonth-$months_ago,  1,$thisyear);
         $enddate   = mktime(0,0,0,$thismonth-$months_ago+1,1,$thisyear);
 
+        // TRANSLATORS: This is an strftime-formatted string
         $displaydate = strftime(_("%b %Y"), $begindate );
 
         $result = mysql_query("
-            SELECT COUNT(*)
+            SELECT COUNT(*) as totalprojects
             FROM projects
             WHERE modifieddate >= $begindate
                 and modifieddate <= $enddate
                 and state = '".PROJ_SUBMIT_PG_POSTED."'
         ");
-        $totalprojects = mysql_result($result,0);
+        $row = mysql_fetch_assoc($result);
+        $totalprojects = $row["totalprojects"];
 
         if ($terse) {
             // TRANSLATORS: string is in the format: $totalprojects in $date
@@ -908,29 +923,26 @@ function show_key_help_links()
     echo "<h3>"._("Key Help Documents").":</h3>";
     echo "<ul>\n";
 
-    echo "<li>";
-    echo "<a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a>";
-    echo "</li>\n";
+    $items = array(
+        "<a href='$code_url/faq/".lang_dir()."faq_central.php'>"._("Frequently Asked Questions")."</a>",
 
-    echo "<li>";
-    echo "<a href='$code_url/faq/".lang_dir()."proofreading_guidelines.php'>"._("Proofreading Guidelines")."</a>";
-    echo " (<a href='$code_url/faq/".lang_dir()."proofing_summary.pdf'>"._("PDF Summary")."</a>)";
-    echo "</li>\n";
+        "<a href='$code_url/faq/".lang_dir()."proofreading_guidelines.php'>"._("Proofreading Guidelines")."</a>".
+        "<br>(<a href='$code_url/faq/".lang_dir()."proofing_summary.pdf'>"._("PDF Summary")."</a>)",
 
-    echo "<li>";
-    echo "<a href='$code_url/faq/".lang_dir()."document.php'>"._("Formatting Guidelines")."</a>";
-    echo " (<a href='$code_url/faq/".lang_dir()."formatting_summary.pdf'>"._("PDF Summary")."</a>)";
-    echo "</li>\n";
+        "<a href='$code_url/faq/".lang_dir()."document.php'>"._("Formatting Guidelines")."</a>".
+        "<br>(<a href='$code_url/faq/".lang_dir()."formatting_summary.pdf'>"._("PDF Summary")."</a>)",
 
-    echo "<li>";
-    echo "<a href='$forums_url/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a>";
-    echo "</li>\n";
+        "<a href='$forums_url/viewtopic.php?t=2368'>"._("Tips and How-To's")."</a>",
 
-    echo "<li>";
-    echo "<a href='$code_url/tasks.php'>"._("Support Request")."</a>";
-    echo "</li>\n";
+        "<a href='$code_url/tasks.php'>"._("Support Request")."</a>",
+    );
 
-    echo "</ul>\n</div>\n";
+    foreach ($items as $item)
+    {
+        echo "<li>$item</li>\n";
+    }
+    echo "</ul>\n";
+    echo "</div>\n";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

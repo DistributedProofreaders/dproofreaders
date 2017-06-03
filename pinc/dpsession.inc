@@ -103,4 +103,3 @@ function _update_user_activity_time( $update_login_time_too )
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

@@ -295,7 +295,7 @@ function echo_download_text($projectid, $format, $queryString="") {
 }
 
 function echo_cutoff_text($initialFreq,$cutoffOptions) {
-    $cutoff_text = sprintf(_("Words that appear fewer than <b><span id='current_cutoff'>%d</span></b> times are not shown. Other cutoff options are available: %s"),$initialFreq,get_cutoff_string($cutoffOptions));
+    $cutoff_text = sprintf(_("Words that appear fewer than <b><span id='current_cutoff'>%1\$d</span></b> times are not shown. Other cutoff options are available: %2\$s"),$initialFreq,get_cutoff_string($cutoffOptions));
     echo "<p>$cutoff_text</p>\n";
 }
 

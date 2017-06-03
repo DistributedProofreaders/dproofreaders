@@ -103,6 +103,8 @@ foreach($pages_per_days_ago as $days_ago => $stats)
 
 // Some graph variables
 $datax = array_keys($stats);
+// TRANSLATORS: This string is the title of a graph with very little room.
+//              Try to keep the translation the same length as the English text.
 $title = sprintf(_("Total page trend over last %s weeks"), $weeks);
 
 //$graph->SetScale("textint");

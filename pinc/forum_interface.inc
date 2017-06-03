@@ -227,6 +227,10 @@ function login_forum_user($username, $password)
         // phpBB2/includes/sessions.php:setup()
         global $db, $template, $config, $auth, $phpEx, $phpbb_root_path, $cache;
         global $SID, $_SID, $user;
+        // required for phpBB 3.1
+        global $request, $symfony_request, $phpbb_filesystem;
+        // required for phpBB 3.2
+        global $phpbb_container, $phpbb_dispatcher, $table_prefix;
 
         define('IN_PHPBB', true);
         define('ROOT_PATH', $forums_dir);
@@ -299,6 +303,10 @@ function logout_forum_user()
         // phpBB2/includes/sessions.php:session_create()
         global $SID, $_SID, $db, $config, $cache, $auth;
         global $user;
+        // required for phpBB 3.1
+        global $request, $symfony_request, $phpbb_filesystem;
+        // required for phpBB 3.2
+        global $phpbb_container, $phpbb_dispatcher, $table_prefix;
 
         define('IN_PHPBB', true);
         define('ROOT_PATH', $forums_dir);
@@ -345,6 +353,16 @@ function get_forum_user_details($username)
 //     jabber    - Jabber address
 //     rank      - forum rank (index)
 //     posts     - number of forum posts
+// phpBB 3.1 and later return these keys as well
+//     location   - location (same as from)
+//     occupation - occupation (same as occ)
+//     yahoo      - Yahoo address (same as yim)
+//     aol        - AIM address (same as aim)
+//     facebook   - Facebook username
+//     googleplus - Google+ username
+//     skype      - Skype username
+//     twitter    - Twitter username
+//     youtube    - YouTube username
 // If the user isn't found, the function returns NULL.
 {
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
@@ -360,78 +378,46 @@ function get_forum_user_details($username)
         ", mysql_real_escape_string($username));
     $res = mysql_query($query) or die(mysql_error());
 
-    if (mysql_num_rows($res) != 1)
-        return NULL;
-
     $row = mysql_fetch_assoc($res);
+    if (!$row)
+        return NULL;
 
     foreach($interested_columns as $column)
     {
-        if(isset($row["user_$column"]))
+        $return_data[$column] = array_get($row, "user_$column", array_get($row, $column, NULL));
+    }
+
+    // phpBB 3.1 and later put data in phpbb_profile_fields_data with
+    // slightly different column names. We will return data for both the
+    // old and new column names.
+    $column_mapping = array(
+        // new => old
+        "occupation" => "occ",
+        "yahoo" => "yim",
+        "aol" => "aim",
+        "location" => "from",
+    );
+
+    $query = sprintf("
+        SELECT *
+        FROM {$phpbb_table_prefix}_profile_fields_data
+        WHERE user_id = %d
+        ", $row["user_id"]);
+
+    // This will fail on phpBB < 3.1, which is fine and expected
+    $res = mysql_query($query);
+    if($res && $row = mysql_fetch_assoc($res))
+    {
+        foreach($row as $column => $value)
         {
-            $return_data[$column]=$row["user_$column"];
-        }
-        elseif(isset($row[$column]))
-        {
-            $return_data[$column]=$row[$column];
-        }
-        else
-        {
-            $return_data[$column]=NULL;
+            $column_suffix = str_replace("pf_phpbb_", "", $column);
+            if(isset($column_mapping[$column_suffix]))
+                $return_data[$column_mapping[$column_suffix]] = $value;
+            $return_data[$column_suffix] = $value;
         }
     }
 
     return $return_data;
-}
-
-function set_forum_user_details($username,$details)
-// Updates a users's details
-// $details is an associative array with one or more of the following keys:
-//     from      - location
-//     occ       - occupation
-//     interests - interests
-//     email     - email
-//     icq       - ICQ address
-//     website   - website URL
-//     aim       - AIM address
-//     yim       - Yahoo address
-//     msnm      - MS Messenger address
-//     jabber    - Jabber address
-// Returns TRUE if the update succeeded or FALSE otherwise.
-{
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
-    $interested_columns = array("from","occ","interests","email","icq","website","aim","yim","msnm","jabber");
-
-    $set_data = array();
-
-    // all the interested columns are strings, so escape them as we
-    // pull them into $set_data
-    foreach($interested_columns as $column)
-    {
-        if(isset($details[$column]))
-        {
-            $set_data[] = sprintf("user_%s = '%s'",
-                $column, mysql_real_escape_string($details[$column]));
-        }
-    }
-
-    // don't do an update if no valid columns were specified
-    if(!count($set_data))
-    {
-       return TRUE;
-    }
-
-    $query = sprintf("
-        UPDATE {$phpbb_table_prefix}_users
-        SET %s
-        WHERE username='%s'
-        ", 
-        implode($set_data, ", "),
-        mysql_real_escape_string($username));
-    $res = mysql_query($query);
-
-    return $res;
 }
 
 function get_forum_user_id($username)
@@ -453,16 +439,16 @@ function get_forum_user_id($username)
         ", mysql_real_escape_string($username));
     $res = mysql_query($query) or die(mysql_error());
 
-    if (mysql_num_rows($res) == 0)
-        return NULL;
-
-    list($id) = mysql_fetch_row($res);
+    $row = mysql_fetch_assoc($res);
     mysql_free_result($res);
 
-    // update the cache
-    $uidCache[$username] = $id;
+    if (!$row)
+        return NULL;
 
-    return $id;
+    // update the cache
+    $uidCache[$username] = $row["user_id"];
+
+    return $row["user_id"];
 }
 
 function get_forum_rank_title($rank)
@@ -477,13 +463,13 @@ function get_forum_rank_title($rank)
         ",$rank);
     $res = mysql_query($query) or die(mysql_error());
 
-    if (mysql_num_rows($res) == 0)
-        return NULL;
-
-    list($rank_title) = mysql_fetch_row($res);
+    $row = mysql_fetch_assoc($res);
     mysql_free_result($res);
 
-    return $rank_title;
+    if (!$row)
+        return NULL;
+
+    return $row["rank_title"];
 }
 
 function get_forum_email_address($username)
@@ -666,19 +652,19 @@ function get_last_post_time_in_topic($topic_id)
         return NULL;
 
     $query = "
-        SELECT MAX(post_time)
+        SELECT MAX(post_time) as max_post_time
         FROM {$phpbb_table_prefix}_posts
         WHERE topic_id = $topic_id
         ";
     $res = mysql_query($query) or die(mysql_error());
 
-    if (mysql_num_rows($res) == 0)
-        return NULL;
-
-    list($time) = mysql_fetch_row($res);
+    $row = mysql_fetch_assoc($res);
     mysql_free_result($res);
 
-    return $time;
+    if (!$row)
+        return NULL;
+
+    return $row["max_post_time"];
 }
 
 function get_topic_details($topic_id)
@@ -690,16 +676,35 @@ function get_topic_details($topic_id)
 //     forum_id         - the id of the forum the topic is in
 //     creator_username - the username of the topic creator
 {
+    global $forums_dir;
+
     $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
     $phpbb_topics = "${phpbb_table_prefix}_topics";
     $phpbb_forums = "${phpbb_table_prefix}_forums";
     $phpbb_users = "${phpbb_table_prefix}_users";
 
+    // The database column used to get the total number of posts in a topic
+    // changed between 3.0 and 3.1. We try to determine this automatically
+    // by checking for a directory that only exists in 3.1 and later.
+    if(PHPBB_VERSION == 3 && is_dir("$forums_dir/phpbb"))
+    {
+        // 3.1 and later
+        // topic_posts_approved includes the initial post in addition
+        // to the replies so we need to subtract 1 to get the number of
+        // replies
+        $phpbb_topic_replies = "$phpbb_topics.topic_posts_approved - 1";
+    }
+    else
+    {
+        // 2.x and 3.0
+        $phpbb_topic_replies = "$phpbb_topics.topic_replies";
+    }
+
     $query = "
         SELECT $phpbb_topics.topic_id AS topic_id,
             $phpbb_topics.topic_title AS title,
-            $phpbb_topics.topic_replies AS num_replies,
+            $phpbb_topic_replies AS num_replies,
             $phpbb_forums.forum_name AS forum_name,
             $phpbb_forums.forum_id AS forum_id,
             $phpbb_users.username AS creator_username
@@ -770,7 +775,12 @@ function call_phpbb_function( $func_name, $args )
 // It's risky to combine DP and phpBB code in the same PHP context,
 // so we run the phpBB code in a separate process.
 {
-    // echo "call_phpbb_function( $func_name, ", print_r($args,TRUE), ")<br>\n";
+    // If $DEBUG is TRUE, output some additional debugging information useful
+    // for figuring out where the calls into phpbb*.inc went wrong.
+    $DEBUG = FALSE;
+
+    if($DEBUG)
+        echo "call_phpbb_function( $func_name, ", print_r($args,TRUE), ")<br>\n";
 
     global $forums_dir;
     if (!is_dir($forums_dir))
@@ -791,13 +801,13 @@ function call_phpbb_function( $func_name, $args )
         $phpbb_include_file = "phpbb3.inc";
     }
     $command = "cd $code_dir/pinc && $php_cli_executable -f $phpbb_include_file $func_name $escaped_args_str";
-    // echo "command: $command<br>\n";
+    if($DEBUG)
+        echo "command: $command<br>\n";
 
     $output = array();
     $last_line = exec($command, $output, $exit_status);
-    // echo "exec'd command's last line = '$last_line'<br>\n";
 
-    if ( $exit_status != 0 )
+    if ( $exit_status != 0  || $DEBUG)
     {
         echo "<pre>\n";
         echo "$func_name command exited with status=$exit_status\n";
@@ -827,40 +837,49 @@ function my_escapeshellarg( $arg )
 
 function topic_change_forum( $topic_id, $to_forum_id )
 {
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
-
     assert( $topic_id != '' );
 
-    $result = mysql_query("
-        SELECT forum_id
-        FROM {$phpbb_table_prefix}_topics
-        WHERE topic_id=$topic_id
-    ");
+    if(PHPBB_VERSION == 2) {
+        $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
-    // If no rows were returned (because the topic_id doesn't exist), stop.
-    if(mysql_num_rows($result)==0)
-        return;
 
-    $from_forum_id = mysql_result($result, 0, "forum_id");  
-
-    if ($from_forum_id != $to_forum_id)
-    {
-        // move posts to new forum
-        mysql_query("
-            UPDATE {$phpbb_table_prefix}_posts
-            SET forum_id = $to_forum_id
-            WHERE topic_id = $topic_id
+        $result = mysql_query("
+            SELECT forum_id
+            FROM {$phpbb_table_prefix}_topics
+            WHERE topic_id=$topic_id
         ");
 
-        // move topic to new forum
-        mysql_query("
-            UPDATE {$phpbb_table_prefix}_topics
-            SET forum_id = $to_forum_id
-            WHERE topic_id = $topic_id
-        ");
+        $row = mysql_fetch_assoc($result);
 
-        forum_resynch( $from_forum_id );
-        forum_resynch( $to_forum_id );
+        // If no rows were returned (because the topic_id doesn't exist), stop.
+        if(!$row)
+            return;
+
+        $from_forum_id = $row["forum_id"];
+
+        if ($from_forum_id != $to_forum_id)
+        {
+            // move posts to new forum
+            mysql_query("
+                UPDATE {$phpbb_table_prefix}_posts
+                SET forum_id = $to_forum_id
+                WHERE topic_id = $topic_id
+            ");
+
+            // move topic to new forum
+            mysql_query("
+                UPDATE {$phpbb_table_prefix}_topics
+                SET forum_id = $to_forum_id
+                WHERE topic_id = $topic_id
+            ");
+
+            forum_resynch( $from_forum_id );
+            forum_resynch( $to_forum_id );
+        }
+    }
+
+    if(PHPBB_VERSION == 3) {
+        call_phpbb_function( 'move_topic', array($topic_id, $to_forum_id) );
     }
 }
 
@@ -868,41 +887,47 @@ function topic_change_forum( $topic_id, $to_forum_id )
 
 function forum_resynch( $forum_id )
 {
-    $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
+    if(PHPBB_VERSION == 2) {
+        $phpbb_table_prefix = PHPBB_TABLE_PREFIX;
 
-    // Count the number of topics in the forum
-    $res1 = mysql_query("
-        SELECT COUNT(*)
-        FROM {$phpbb_table_prefix}_topics
-        WHERE forum_id = $forum_id
-    ");
-    list($forum_topics) = mysql_fetch_row($res1);
+        // Count the number of topics in the forum
+        $res1 = mysql_query("
+            SELECT COUNT(*)
+            FROM {$phpbb_table_prefix}_topics
+            WHERE forum_id = $forum_id
+        ");
+        list($forum_topics) = mysql_fetch_row($res1);
 
-    // Count the number of posts in the forum,
-    // and get the id of most recent post in the forum,
-    // which might have changed when we moved the topic(s).
-    $res2 = mysql_query("
-        SELECT COUNT(*), MAX(post_id)
-        FROM {$phpbb_table_prefix}_posts
-        WHERE forum_id = $forum_id
-    ");
-    list($forum_posts, $last_post) = mysql_fetch_row($res2);
-    if ( $forum_posts == 0 )
-    {
-        // $last_post is NULL
-        $last_post = 0;
+        // Count the number of posts in the forum,
+        // and get the id of most recent post in the forum,
+        // which might have changed when we moved the topic(s).
+        $res2 = mysql_query("
+            SELECT COUNT(*), MAX(post_id)
+            FROM {$phpbb_table_prefix}_posts
+            WHERE forum_id = $forum_id
+        ");
+        list($forum_posts, $last_post) = mysql_fetch_row($res2);
+        if ( $forum_posts == 0 )
+        {
+            // $last_post is NULL
+            $last_post = 0;
+        }
+
+        // adjust total posts and topics and last post for forum
+
+        $update_count = mysql_query("
+            UPDATE {$phpbb_table_prefix}_forums
+            SET
+                forum_posts  = $forum_posts,
+                forum_topics = $forum_topics,
+                forum_last_post_id = $last_post
+            WHERE forum_id = $forum_id
+        ");
     }
 
-    // adjust total posts and topics and last post for forum
-
-    $update_count = mysql_query("
-        UPDATE {$phpbb_table_prefix}_forums
-        SET
-            forum_posts  = $forum_posts,
-            forum_topics = $forum_topics,
-            forum_last_post_id = $last_post
-        WHERE forum_id = $forum_id
-    ");
+    if(PHPBB_VERSION == 3) {
+        call_phpbb_function( 'sync_forum', array($forum_id) );
+    }
 }
 
 // vim: sw=4 ts=4 expandtab

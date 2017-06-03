@@ -260,7 +260,7 @@ foreach ($etexts as $etext_number => $formats )
     ksort($formats); // sort alphabetically by format string
     $formats_string = implode('; ', array_keys($formats));
     // echo $etext_number, ": ", $formats_string, "\n";
-    $formats_string = mysql_escape_string($formats_string);
+    $formats_string = mysql_real_escape_string($formats_string);
     mysql_query( "REPLACE INTO pg_books SET etext_number='$etext_number', formats='$formats_string'" )
         or die( mysql_error() );
 }

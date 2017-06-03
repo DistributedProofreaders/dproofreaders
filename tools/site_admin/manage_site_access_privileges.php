@@ -31,6 +31,7 @@ $boolean_user_settings = array_merge($user_table_settings, array(
     'access_request_reviewer' => _("Creates level evaluators; gives access to special reviewer-only scripts; <b>must</b> be combined with PF access"),
     'image_sources_manager'   => _("Grants ability to create new image source listings and manage existing records"),
     'site_news_editor'        => _("Grants ability to create and edit news on any of the site pages"),
+    'site_translator'         => _("Grants ability to create and update site translations "),
     'task_center_mgr'         => _("Grants administrative access to the Task Center; typically granted to developers so they can manage their own tasks"),
     'authors_db_manager'      => _("Grants ability to manage author records"),
     'send_to_post'            => _("Send user's projects to the PP pool"),
@@ -227,7 +228,7 @@ function update_settings($username, $user_settings)
         }
     }
 
-    echo "<p>" . _("You have made the following request for the above user:") . "</p>\n";
+    echo "<p>" . _("You have made the following request for the above user") . ":</p>\n";
     foreach ($disposition as $which => $setting_names)
     {
         echo "<p><b>$which:</b></p>\n";

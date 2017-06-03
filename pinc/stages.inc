@@ -9,6 +9,7 @@ include_once($relPath.'Stage.inc');
 include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'Pool.inc');
 include_once($relPath.'User.inc');
+include_once($relPath.'forum_interface.inc'); // get_url_to_view_forum()
 include_once($relPath.'misc.inc'); // str_contains startswith
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -355,8 +356,8 @@ function can_user_get_pages_in_project( $username, $project, $round )
                     FROM {$project->projectid}
                     WHERE {$round->user_column_name} = '$username'
                 "); 
-                $pagesdone = mysql_result($result, 0, "pagesdone" );
-                if ($pagesdone >= 11)
+                $row = mysql_fetch_assoc($result);
+                if ($row["pagesdone"] >= 11)
                 {
                     return
                         _("You have reached your quota of pages from this 'Beginners Only' project, but you're welcome to work on a different one.")
@@ -401,6 +402,7 @@ function can_user_get_pages_in_project( $username, $project, $round )
         $page_tally_threshold = 500;
         $days_on_site_threshold = 21;
 
+        // TRANSLATORS: This is a strftime-formatted string for the date with year and time
         $datetime_format = _("%A, %B %e, %Y at %X");
 
         $t_release = $project->modifieddate;
@@ -538,7 +540,7 @@ new Pool(
         sprintf( _("Please read the <a href='%s'>Post-Processing FAQ</a> as it covers all the steps needed to post-process an e-text."),
         "$code_url/faq/post_proof.php"),
         _("Select an easy work to get started on (usually fiction with a low page count is a good starter book; projects whose manager is BEGIN make excellent first projects for a new post-processor)."),
-        sprintf( _("Check out the <a href='%s'>Post-Processing Forum</a> to post all your questions."), $post_processing_forum_url ),
+        sprintf( _("Check out the <a href='%s'>Post-Processing Forum</a> to post all your questions."), get_url_to_view_forum($post_processing_forum_idx) ),
         _("If nothing interests you right now, check back later and there will be more!"),
         "</p>",
 
@@ -568,6 +570,7 @@ function echo_postcomments_instructions()
         and so that we will know that there's still work in progress.")
         . '</p>';
     echo '<p>' . sprintf(
+        // TRANSLATORS: PM = project manager
         _("If you find that some proofing images are missing or unreadable,
         or that illustration images are missing or inadequate,
         first let the PM know what you've found (or not found).
@@ -630,7 +633,7 @@ new Pool(
 
         "<p>",
         sprintf( _("As always, the <a href='%s'>Post-Processing Forum</a> is available for any of your questions."),
-            $post_processing_forum_url ),
+            get_url_to_view_forum($post_processing_forum_idx) ),
         "</p>",
     )
 );

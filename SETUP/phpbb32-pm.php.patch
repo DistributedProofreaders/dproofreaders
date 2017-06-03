@@ -1,0 +1,30 @@
+--- phpbb/notification/type/pm.php.orig	2017-02-21 15:28:39.777270682 +0000
++++ phpbb/notification/type/pm.php	2017-02-22 02:32:30.431565971 +0000
+@@ -162,12 +162,25 @@
+ 	public function get_email_template_variables()
+ 	{
+ 		$user_data = $this->user_loader->get_user($this->get_data('from_user_id'));
++        
++		$sql = 'SELECT message_text
++			FROM ' . PRIVMSGS_TABLE . ' 
++ 			WHERE msg_id = ' . (int) $this->item_id;
++ 
++		$result = $this->db->sql_query($sql);
++		$row = $this->db->sql_fetchrow($result);
++		$this->db->sql_freeresult($result);
++ 
++        	$message_text = "\n_____________________________________________________________________\n" .
++        		htmlspecialchars_decode(strip_tags(censor_text($row['message_text']))) .
++			"\n_____________________________________________________________________";
++
+ 
+ 		return array(
+ 			'AUTHOR_NAME'				=> htmlspecialchars_decode($user_data['username']),
+-			'SUBJECT'					=> htmlspecialchars_decode(censor_text($this->get_data('message_subject'))),
++			'SUBJECT'				=> htmlspecialchars_decode(censor_text($this->get_data('message_subject'))),
+ 
+-			'U_VIEW_MESSAGE'			=> generate_board_url() . '/ucp.' . $this->php_ext . "?i=pm&mode=view&p={$this->item_id}",
++			'U_VIEW_MESSAGE'			=> generate_board_url() . '/ucp.' . $this->php_ext . "?i=pm&mode=view&p={$this->item_id}" . $message_text,
+ 		);
+ 	}
+ 

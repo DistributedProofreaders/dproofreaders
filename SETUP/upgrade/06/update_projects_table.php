@@ -65,7 +65,8 @@ $res = mysql_query("
     FROM projects
     WHERE LEFT(comments,8) = 'special:'
 ") or die(mysql_error());
-$num_left = mysql_result($res,0);
+$row = mysql_fetch_row($res);
+$num_left = $row[0];
 echo "There are $num_left project comments left that begin with 'SPECIAL:'.\n";
 
 echo "\n";
@@ -86,7 +87,8 @@ $res = mysql_query("
     FROM queue_defns
     WHERE INSTR(project_selector,'special:')
 ") or die(mysql_error());
-$num_left = mysql_result($res,0);
+$row = mysql_fetch_row($res);
+$num_left = $row[0];
 echo "There are $num_left queue_defns left whose project_selector mentions 'SPECIAL:'.\n";
 
 
@@ -107,7 +109,8 @@ $res = mysql_query("
     FROM projects
     WHERE INSTR(comments,'document.php')
 ") or die(mysql_error());
-$num_left = mysql_result($res,0);
+$row = mysql_fetch_row($res);
+$num_left = $row[0];
 echo "There are still $num_left project comments left that mention document.php in some way.\n";
 
 echo "\n";
@@ -117,8 +120,8 @@ echo "Inserting transitional warning into project comments of in-rounds projects
 $R1_msg = "This project was in R1 at the cutover from the old 2-round system. It may contain formatting that was added in R1.";
 $R2_msg = "This project was in R2 at the cutover from the old 2-round system. It may contain formatting that was added in R1 and may need additional proofreading in F1.";
 
-$R1_msg = mysql_escape_string("<p><font color='red'>$R1_msg</font></p>\n");
-$R2_msg = mysql_escape_string("<p><font color='red'>$R2_msg</font></p>\n");
+$R1_msg = mysql_real_escape_string("<p><font color='red'>$R1_msg</font></p>\n");
+$R2_msg = mysql_real_escape_string("<p><font color='red'>$R2_msg</font></p>\n");
 
 // Use old and new state strings, so that there's no ordering depdency
 // between this script and update_project_states.php
@@ -283,7 +286,7 @@ function tweak_queue_defn( $ordering, $project_selector )
     }
     else
     {
-        $new_project_selector = mysql_escape_string($new_project_selector);
+        $new_project_selector = mysql_real_escape_string($new_project_selector);
         mysql_query("
             UPDATE queue_defns
             SET project_selector='$new_project_selector'

@@ -19,9 +19,9 @@ echo "<h2>" . _("Most Requested Books Being Proofread") . "</h2>\n";
 
 create_temporary_project_event_subscription_summary_table();
 
-$comments_url1 = mysql_escape_string("<a href='$code_url/project.php?id=");
-$comments_url2 = mysql_escape_string("'>");
-$comments_url3 = mysql_escape_string("</a>");
+$comments_url1 = mysql_real_escape_string("<a href='$code_url/project.php?id=");
+$comments_url2 = mysql_real_escape_string("'>");
+$comments_url3 = mysql_real_escape_string("</a>");
 
 // Looking at the other two queries, you might expect the first one to use
 // SQL_CONDITION_BRONZE. However, that would exclude the WAITING_FOR_RELEASE
@@ -54,7 +54,7 @@ dpsql_dump_themed_query("
 echo "<br>\n";
 echo "<h2>" . _("Most Requested Books In Post-Processing") . "</h2>\n";
 
-//        $post_url1 = mysql_escape_string("<a href='$code_url/project.php?id=");
+//        $post_url1 = mysql_real_escape_string("<a href='$code_url/project.php?id=");
 
 dpsql_dump_themed_query("
     SELECT
@@ -73,7 +73,7 @@ dpsql_dump_themed_query("
 echo "<br>\n";
 echo "<h2>" . _("Most Requested Books Posted to Project Gutenberg") . "</h2>\n";
 
-$pg_url1 = mysql_escape_string("<a href='http://www.gutenberg.org/ebooks/");
+$pg_url1 = mysql_real_escape_string("<a href='http://www.gutenberg.org/ebooks/");
 dpsql_dump_themed_query("
     SELECT
         CONCAT('$pg_url1',postednum,'$comments_url2', nameofwork, '$comments_url3') AS '" . mysql_real_escape_string(_("Title")) . "', 

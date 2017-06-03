@@ -152,12 +152,13 @@ foreach ( array(1,7,30) as $days_back )
         FROM users
         WHERE t_last_activity > UNIX_TIMESTAMP() - $days_back * 24*60*60
     ") or die(mysql_error());
-    $num_users = mysql_result($res,0);
+    $row = mysql_fetch_row($res);
+    $num_users = $row[0];
     
     $template = (
         $days_back == 1
         ? _('%s active users in the past twenty-four hours.')
-        : _('%s active users in the past %d days.')
+        : _('%1$s active users in the past %2$d days.')
     );
     $msg = sprintf( $template, number_format($num_users), $days_back );
     echo "<span class='active-user-count'>$msg</span><br>\n";
@@ -166,7 +167,7 @@ foreach ( array(1,7,30) as $days_back )
 echo "</p>\n";
 echo "<hr><p class='center-align'>\n";
 echo sprintf(
-    _("Questions or comments? Please contact us at <a href='%s'>%s</a>."),
+    _('Questions or comments? Please contact us at <a href="%1$s">%2$s</a>.'),
     "mailto:$general_help_email_addr",
     $general_help_email_addr);
 echo "</p>\n";

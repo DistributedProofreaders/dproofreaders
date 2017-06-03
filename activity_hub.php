@@ -67,28 +67,7 @@ thoughts_re_mentor_feedback( $pagesproofed );
 
 
 // Site News
-if ($pagesproofed >= 20)
-{
-
-    if ($pagesproofed < 40)
-    {
-        echo "<div class='callout'>";
-        echo "<div class='calloutheader'>";
-        echo _("You can now see Site News.");
-        echo "</div>";
-
-        echo "<p>";
-        echo _("Now that you have proofread 20 pages you can see the Site News. This is updated regularly with announcements from the administrators.");
-        echo "</p>";
-
-        echo "<p><small>";
-        echo _("After a period of time, this message will no longer appear.");
-        echo "</small></p>";
-        echo "</div>";
-    }
-
-    show_news_for_page("HUB");
-}
+show_news_for_page("HUB");
 
 // Show any mentor banners.
 foreach ( $Round_for_round_id_ as $round )
@@ -486,18 +465,20 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects=FALSE,
 
     if($show_filtered_projects)
     {
+        $filter_link = "{$stage->relative_url}#filter_form";
         if($load_filtered_projects)
         {
             $display_filter = get_project_filter_display($pguser, $filter_type);
             $display_filter = preg_replace(array("/^<br>/","/<br>/"),array(""," | "),$display_filter);
+            $display_filter = sprintf(_('<a href="%1$s">Filter</a>: %2$s'), $filter_link, $display_filter);
         }
         else
         {
-            $display_filter = "<i>" . _("None") . "</i>";
+            $display_filter = sprintf(_('<a href="%1$s">Add filter</a>'), $filter_link);
         }
         echo "<tr>";
         echo "<td colspan='7' style='text-align: left;'>";
-        echo "<small><a href='{$stage->relative_url}#filter_form'>" . _("Filter") . "</a>: $display_filter</small>";
+        echo "<small>$display_filter</small>";
         echo "</td>";
         echo "</tr>";
     }

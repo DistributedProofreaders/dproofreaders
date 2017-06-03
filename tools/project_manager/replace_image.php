@@ -108,7 +108,7 @@ function handle_upload( $replacement_image_info )
     if ( $curr_ext != $repl_ext )
     {
         return sprintf(
-            _("Replacement file's extension (%s) does not match current file's extension (%s)."),
+            _('Replacement file\'s extension (%1$s) does not match current file\'s extension (%2$s).'),
             $repl_ext,
             $curr_ext
         );

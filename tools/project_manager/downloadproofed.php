@@ -26,7 +26,8 @@ if ($result === FALSE)
     // and the project's page-table later got archived.
     die(mysql_error());
 }
-if (mysql_num_rows($result) == 0)
+$row = mysql_fetch_assoc($result);
+if (!$row)
 {
     // The page-table exists, but the WHERE clause did not match any row.
     // This could happen if a user saved a URL involving this script,
@@ -34,7 +35,7 @@ if (mysql_num_rows($result) == 0)
     die("Could not find text for $image in $project");
 }
 
-$data = mysql_result($result, 0, $text_column_name);
+$data = $row[$text_column_name];
 
 header("Content-type: text/plain; charset=$charset");
 // SENDING PAGE-TEXT TO USER

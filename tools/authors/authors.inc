@@ -29,16 +29,16 @@ if ($author_id) {
       // this author actually exists - not only Preview before adding
       // list biographies (if any)
       $result = mysql_query("SELECT bio_id FROM biographies WHERE author_id = $author_id;");
-      $numrow = mysql_numrows($result);
+      $numrow = mysql_num_rows($result);
+      $row = mysql_fetch_assoc($result);
+      $bio_id = $row["bio_id"];
       if ($numrow == 1) {
-        $bio_id = mysql_result($result, 0);
         echo "<tr><th>" . _('Biography') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_('Biography %d'),$bio_id) . "</a></td></tr>\n";
       }
       elseif ($numrow > 1) {
-        $bio_id = mysql_result($result, 0);
         echo "<tr><th rowspan=\"$numrow\" valign=\"top\">" . _('Biographies') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . _('Biography') . " $bio_id</a></td></tr>\n";
-        for ($rownum = 1; $rownum < $numrow; $rownum++) {
-          $bio_id = mysql_result($result, $rownum);
+        while($row = mysql_fetch_assoc($result)) {
+          $bio_id = $row["bio_id"];
           echo "<tr><td><a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_("Biography %d"), $bio_id) . "</a></td></tr>\n";
         }
       }
@@ -48,11 +48,9 @@ if ($author_id) {
   // end echo_author
 
   // $bd is 'b' or 'd'
-  function format_date_from_sqlset($sql_result, $row, $bd) {
-    $date = format_ymd(mysql_result($sql_result, $row, $bd.'year'),
-                       mysql_result($sql_result, $row, $bd.'month'),
-                       mysql_result($sql_result, $row, $bd.'day'));
-    $comments = mysql_result($sql_result, $row, $bd.'comments');
+  function format_date_from_sqlset($row, $bd) {
+    $date = format_ymd($row[$bd.'year'], $row[$bd.'month'], $row[$bd.'day']);
+    $comments = $row[$bd."comments"];
 
     if ($date == null) {
       if ($comments == '')

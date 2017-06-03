@@ -17,11 +17,10 @@ $old_date = time() - 7776000; // 90 days ago.
 
 //get projects that have been checked out longer than old_date
 $result = mysql_query("SELECT nameofwork, checkedoutby, modifieddate, projectid, authorsname,
-                           DATE_FORMAT(FROM_UNIXTIME(modifieddate), '%e %M  %Y') as Nicedate
+                           DATE_FORMAT(FROM_UNIXTIME(modifieddate), '%e %M  %Y') as nicedate
                      FROM projects
                      WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."' AND modifieddate <= $old_date ORDER BY checkedoutby, modifieddate");
 
-$numrows = mysql_num_rows($result);
 $rownum = 0;
 
 $PPinQuestion = "";
@@ -30,14 +29,14 @@ $projectslist = "";
 $numprojs = 0;
 $urlbase = "$code_url/project.php?expected_state=proj_post_first_checked_out&id=";
 
-while ($rownum < $numrows) {
+while ($row = mysql_fetch_assoc($result)) {
 
-    $nameofwork = mysql_result($result, $rownum, "nameofwork");
-    $authorsname = mysql_result($result, $rownum, "authorsname");
-    $checkedoutby = mysql_result($result, $rownum, "checkedoutby");
-    $modifieddate = mysql_result($result, $rownum, "modifieddate");
-    $projectid = mysql_result($result, $rownum, "projectid");
-    $nicedate = mysql_result($result, $rownum, "nicedate");
+    $nameofwork = $row["nameofwork"];
+    $authorsname = $row["authorsname"];
+    $checkedoutby = $row["checkedoutby"];
+    $modifieddate = $row["modifieddate"];
+    $projectid = $row["projectid"];
+    $nicedate = $row["nicedate"];
 
     if ($PPinQuestion != $checkedoutby) {
         // have finished the last PPer. Send email to them

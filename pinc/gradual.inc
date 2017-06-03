@@ -33,7 +33,7 @@ function get_pages_proofed_maybe_simulated()
 
 function welcome_see_beginner_forum( $pagesproofed, $page_id )
 {
-    global $code_url, $ELR_round, $beginners_site_forum_url;
+    global $code_url, $ELR_round, $beginners_site_forum_idx;
 
     if ($pagesproofed <= 100)
     {
@@ -47,7 +47,7 @@ function welcome_see_beginner_forum( $pagesproofed, $page_id )
         if($page_id != $ELR_round->id)
         {
             echo "<p>";
-            echo sprintf(_("To start proofreading, see the list of projects on the <a href='%s'>%s</a> round page."), "$code_url/{$ELR_round->relative_url}", $ELR_round->id);
+            echo sprintf(_('To start proofreading, see the list of projects on the <a href="%1$s">%2$s</a> round page.'), "$code_url/{$ELR_round->relative_url}", $ELR_round->id);
             echo "</p>";
         }
         // If they are on the entry level round page, let them know that here
@@ -62,7 +62,7 @@ function welcome_see_beginner_forum( $pagesproofed, $page_id )
             echo "</p>";
         }
         echo "<p>";
-        echo sprintf(_("Please see our <a href='%s'>Beginner's Forum</a> for answers to common questions."), $beginners_site_forum_url);
+        echo sprintf(_("Please see our <a href='%s'>Beginner's Forum</a> for answers to common questions."), get_url_to_view_forum($beginners_site_forum_idx));
         echo "</p>";
 
         echo "<p><small>";

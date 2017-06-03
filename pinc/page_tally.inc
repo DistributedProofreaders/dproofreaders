@@ -100,14 +100,16 @@ function user_get_ELR_page_tally( $username )
         WHERE username='$username'
     ") or die(mysql_error());
 
-    if ( mysql_num_rows($res) == 0 )
+    $row = mysql_fetch_row($res);
+
+    if(!$row)
     {
         // No row matched username='$username'.
         // This probably shouldn't happen.
         return 0;
     }
 
-    return mysql_result($res,0);
+    return $row[0];
 }
 
 // -----------------------------------------------------------------------------
@@ -292,7 +294,9 @@ function get_site_tally_goal_summed( $tally_name, $date_condition )
         FROM site_tally_goals
         WHERE tally_name = '$tally_name' AND ($date_condition)
     ") or die(mysql_error());
-    return mysql_result($res,0);
+
+    $row = mysql_fetch_row($res);
+    return $row[0];
 }
 
 // -----------------------------------------------------------------------------

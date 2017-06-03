@@ -35,7 +35,7 @@ if ($expected_state != $project->state)
     $expected_round = get_Round_for_project_state($expected_state);
     echo "<p>";
     echo sprintf(
-        _('Back to <a href="%s">%s</a>'),
+        _('Back to <a href="%1$s">%2$s</a>'),
         "$code_url/tools/proofers/round.php?round_id={$expected_round->id}",
         $expected_round->name
     );
@@ -53,7 +53,7 @@ if ( $code != $project->CBP_OKAY )
     slim_header( $project->nameofwork );
 
     echo _("Project") . ": \"{$project->nameofwork}\"<br>\n";
-    echo _("State")   . ": " . project_states_text($project->state) . "<br>\n";
+    echo pgettext("project state", "State")   . ": " . project_states_text($project->state) . "<br>\n";
     echo "<p>$msg</p>\n";
 
     echo "<p>";

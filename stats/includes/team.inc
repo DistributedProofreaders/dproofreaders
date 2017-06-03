@@ -156,9 +156,12 @@ function showTeamProfile($curTeam, $preview=FALSE)
         "<a href='$owner_url'>" . html_safe($owner_name) . "</a>"
     );
 
+    # Team descriptions may contain limited HTML formatting (see
+    # stripAllString() for the full list) and should not be wrapped
+    # in html_safe().
     $t->row(
         _("Description"),
-        html_safe($curTeam['team_info'])
+        $curTeam['team_info']
     );
 
     $webpage = $curTeam['webpage'];
@@ -299,9 +302,10 @@ function showTeamMbrs($curTeam, $tally_name) {
 
     $subtitle = null;
     $latestMbr = mysql_query("SELECT users.username AS Username, users.u_privacy AS Privacy FROM user_teams INNER JOIN users ON user_teams.latestUser = users.u_id WHERE user_teams.id = ".$curTeam['id']." AND user_teams.latestUser <> 0");
-    if (mysql_num_rows($latestMbr) > 0) { 
-        if (mysql_result($latestMbr, 0, "Privacy") == PRIVACY_PUBLIC || (mysql_result($latestMbr, 0, "Privacy") == PRIVACY_PRIVATE && isset($GLOBALS['pguser']))) {
-            $subtitle = sprintf(_("Please welcome <b>%s</b> as the latest member to join this team!"), mysql_result($latestMbr, 0, "Username"));
+    $row = mysql_fetch_assoc($latestMbr);
+    if ($row) {
+        if ($row["Privacy"] == PRIVACY_PUBLIC || ($row["Privacy"] == PRIVACY_PRIVATE && isset($GLOBALS['pguser']))) {
+            $subtitle = sprintf(_("Please welcome <b>%s</b> as the latest member to join this team!"), $row["Username"]);
         }
     }
 
@@ -440,20 +444,17 @@ function showTeamHistory($curTeam, $tally_name) {
 }
 
 function stripAllString($ttext) {
-    return str_replace(array('[b]','[B]','[/b]','[/B]','[i]','[I]','[/i]','[/I]','[p]','[P]','[/p]','[/P]','[lb]','[LB]'),
-    array('<b>','<b>','</b>','</b>','<i>','<i>','</i>','</i>','<p>','<p>','</p>','</p>','<br>','<br>'),
-    htmlentities(strip_tags($ttext)));
+    return str_replace(
+        array('[b]','[B]','[/b]','[/B]','[i]','[I]','[/i]','[/I]','[p]','[P]','[/p]','[/P]','[lb]','[LB]'),
+        array('<b>','<b>','</b>','</b>','<i>','<i>','</i>','</i>','<p>','<p>','</p>','</p>','<br>','<br>'),
+        html_safe(strip_tags($ttext), ENT_NOQUOTES));
 }
 
-function unstripAllString($ttext,$sType) {
-    $ttext=str_replace(array('<b>','</b>','<i>','</i>','<p>','</p>','<br>'),
-    array('[b]','[/b]','[i]','[/i]','[p]','[/p]','[lb]'),
-    $ttext);
-    if ($sType==1) {
-        $htmlchars = array_flip(get_html_translation_table(HTML_ENTITIES));
-        $ttext=strtr($ttext, $htmlchars);
-    }
-    return $ttext;
+function unstripAllString($ttext) {
+    return str_replace(
+        array('<b>','</b>','<i>','</i>','<p>','</p>','<br>'),
+        array('[b]','[/b]','[i]','[/i]','[p]','[/p]','[lb]'),
+        $ttext);
 }
 
 function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
@@ -503,7 +504,7 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
 
     echo "<tr>";
     echo "<td style='text-align: right; vertical-align: top;'><b>"._("Team Description")."</b></td>";
-    echo "<td style='vertical-align: top;'><textarea name='text_data' cols='40' rows='6'>" . html_safe($ttext) . "</textarea>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamdesc');\">?</a></b></td>";
+    echo "<td style='vertical-align: top;'><textarea name='text_data' cols='40' rows='6'>" . html_safe(unstripAllString($ttext)) . "</textarea>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamdesc');\">?</a></b></td>";
     echo "</tr>";
 
     echo "<tr>";
@@ -513,7 +514,7 @@ function showEdit($tname,$ttext,$twebpage,$tedit,$tsid)
         echo "<select name='tteams' title='".attr_safe(_("Team List"))."'>";
         $teamQuery = mysql_query("SELECT teamname, id FROM user_teams WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})");
         while ($row = mysql_fetch_assoc($teamQuery)) {
-            echo "<option value='".$row['id']."'>".html_safe(unstripAllString(strip_tags($row['teamname']),1))."</option>";
+            echo "<option value='".$row['id']."'>".html_safe($row['teamname'])."</option>";
         }
         echo "</select>";
     } else {

@@ -34,11 +34,17 @@ if ($userP['team_1'] != $tid && $userP['team_2'] != $tid && $userP['team_3'] != 
         echo "<p>" . _("You have already joined three teams.<br>Which team would you like to replace?") . "</p>";
         echo "<ul>";
         $teamR=mysql_query("SELECT teamname FROM user_teams WHERE id='".$userP['team_1']."'");
-        echo "<li><a href='jointeam.php?tid=$tid&otid=1'>".mysql_result($teamR,0,'teamname')."</a></li>";
+        $row = mysql_fetch_assoc($teamR);
+        $teamname = $row["teamname"];
+        echo "<li><a href='jointeam.php?tid=$tid&otid=1'>$teamname</a></li>";
         $teamR=mysql_query("SELECT teamname FROM user_teams WHERE id='".$userP['team_2']."'");
-        echo "<li><a href='jointeam.php?tid=$tid&otid=2'>".mysql_result($teamR,0,'teamname')."</a></li>";
+        $row = mysql_fetch_assoc($teamR);
+        $teamname = $row["teamname"];
+        echo "<li><a href='jointeam.php?tid=$tid&otid=2'>$teamname</a></li>";
         $teamR=mysql_query("SELECT teamname FROM user_teams WHERE id='".$userP['team_3']."'");
-        echo "<li><a href='jointeam.php?tid=$tid&otid=3'>".mysql_result($teamR,0,'teamname')."</a></li>";
+        $row = mysql_fetch_assoc($teamR);
+        $teamname = $row["teamname"];
+        echo "<li><a href='jointeam.php?tid=$tid&otid=3'>$teamname</a></li>";
         echo "</ul>";
 
         echo "<p><a href='../teams/tdetail.php?tid=$tid'>" . _("Do Not Join Team"). "</a></p>";

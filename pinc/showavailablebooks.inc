@@ -649,7 +649,7 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         {
             echo "\n<p>";
             echo sprintf(
-                    _("%s supplies value '%s'"),
+                    _("%1\$s supplies value '%2\$s'"),
                     $provider_noun, $curr_ext_sort );
             echo "</p>";
         }
@@ -681,7 +681,7 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         {
             echo "\n<p class='error'>\n";
             echo sprintf(
-                    _("%s value '%s' has bad column part: '%s'"),
+                    _("%1\$s value '%2\$s' has bad column part: '%3\$s'"),
                     $provider_noun, $curr_ext_sort, $curr_ext_sort_col );
             echo "\n</p>";
             continue;
@@ -700,7 +700,7 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         {
             echo "\n<p class='error'>\n";
             echo sprintf(
-                    _("%s value '%s' has bad direction part: '%s'"),
+                    _("%1\$s value '%2\$s' has bad direction part: '%3\$s'"),
                     $provider_noun, $curr_ext_sort, $curr_ext_sort_dir );
 
             // We could skip to the next provider via 'continue',
@@ -735,7 +735,7 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
             {
                 echo "\n<p>";
                 echo sprintf(
-                        _("DB setting '%s' receives value '%s'"),
+                        _("DB setting '%1\$s' receives value '%2\$s'"),
                         $ext_sort_setting_name, $curr_ext_sort );
                 echo "</p>";
             }

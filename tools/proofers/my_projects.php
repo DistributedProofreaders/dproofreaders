@@ -267,13 +267,14 @@ $query = "
 
 $result = dpsql_query($query);
 
-if (mysql_num_rows($result) > 0)
+$num_projects = mysql_num_rows($result);
+if($num_projects > 0)
 {
     $reserved_heading = _("Projects Reserved for Post-Processing");
     echo "<h2 id='reserved'>$reserved_heading</h2>\n";
     echo "<p>$reserved_text</p>";
 
-    echo sprintf("(%d projects)", mysql_num_rows($result) );
+    echo sprintf("(%d projects)", $num_projects );
 
     echo "<table border='1'>";
 

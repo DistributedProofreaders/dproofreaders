@@ -2,16 +2,16 @@
 
 // Variables, functions, etc. (mostly URL-related) related to Project Gutenberg.
 
-$PG_home_url            = "http://www.gutenberg.org/";
-$PG_history_url         = "http://www.gutenberg.org/wiki/Gutenberg:About";
-$PG_catalog_url         = "http://www.gutenberg.org/catalog/";
-$PG_gutindex_url        = "http://www.gutenberg.org/dirs/GUTINDEX.ALL";
-$PG_faq_url             = "http://www.gutenberg.org/wiki/Category:FAQ";
-$PG_html_faq_url        = "http://www.gutenberg.org/wiki/Gutenberg:HTML_FAQ";
-$PG_donation_url        = "http://www.gutenberg.org/wiki/Gutenberg:Project_Gutenberg_Needs_Your_Donation";
-$PG_copyright_howto_url = "http://www.gutenberg.org/wiki/Category:How-To";
-$PG_greek_howto_url     = "http://www.gutenberg.org/wiki/Gutenberg:Greek_How-To";
-$PG_mailing_lists_url   = "http://www.gutenberg.org/wiki/Gutenberg:Subscribe_How-To";
+$PG_home_url            = "https://www.gutenberg.org/";
+$PG_history_url         = "https://www.gutenberg.org/wiki/Gutenberg:About";
+$PG_catalog_url         = "https://www.gutenberg.org/catalog/";
+$PG_gutindex_url        = "https://www.gutenberg.org/dirs/GUTINDEX.ALL";
+$PG_faq_url             = "https://www.gutenberg.org/wiki/Category:FAQ";
+$PG_html_faq_url        = "https://www.gutenberg.org/wiki/Gutenberg:HTML_FAQ";
+$PG_donation_url        = "https://www.gutenberg.org/wiki/Gutenberg:Project_Gutenberg_Needs_Your_Donation";
+$PG_copyright_howto_url = "https://www.gutenberg.org/wiki/Category:How-To";
+$PG_greek_howto_url     = "https://www.gutenberg.org/wiki/Gutenberg:Greek_How-To";
+$PG_mailing_lists_url   = "https://www.gutenberg.org/wiki/Gutenberg:Subscribe_How-To";
 
 $PG_in_progress_url     = "http://www.dprice48.freeserve.co.uk/GutIP.html"; 
 

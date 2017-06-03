@@ -22,6 +22,7 @@ var makePreview = function (txt, viewMode, styler) {
         nestedTag: 1,
         unRecTag: 0,
         tabChar: 1,
+        charBefore: 1,
         blankBefore: 1,
         blankAfter: 0,
         NWinNW: 1,
@@ -30,6 +31,7 @@ var makePreview = function (txt, viewMode, styler) {
         OolPrev: 1,
         OolNext: 1,
         blankLines124: 1,
+        puncAfterStart: 0,
         spaceAfterStart: 1,
         nlAfterStart: 1,
         nlBeforeEnd: 1,
@@ -38,18 +40,32 @@ var makePreview = function (txt, viewMode, styler) {
         scNoCap: 1,
         charBeforeStart: 0,
         charAfterEnd: 0,
-        puncBEnd: 1,
+        puncBEnd: 0,
         noCloseBrack: 0,
-        footnoteId: 0
+        footnoteId: 0,
+        starAnchor: 0,
+        noFootnote: 0,
+        noAnchor: 0,
+        noColon: 0,
+        colonNext: 0,
+        spaceNext: 0,
+        dupNote: 0,
+        continueFirst: 0
     };
 
+    // ILTags can have "u" for underline added. Used for constructing regexes
+    var ILTags = "[ibfg]|sc";
     var endSpan = "</span>"; // a constant string
     var issueCount = [0, 0]; // possible issues, issues
     var issArray = []; // stores issues for markup-insertion later
 
+    function reportIssueLong(start, len, message, type) {
+        issueCount[type] += 1;
+        issArray.push({start: start, len: len, msg: message, type: type});
+    }
+
     function reportIssue(start, len, code) {
-        issueCount[issueType[code]] += 1;
-        issArray.push({start: start, len: len, msg: previewMessages[code], type: issueType[code]});
+        reportIssueLong(start, len, previewMessages[code], issueType[code]);
     }
 
     function makeColourStyle(s) {
@@ -164,17 +180,19 @@ var makePreview = function (txt, viewMode, styler) {
 
     // check for chars before tag or on previous line
     function chkBefore(start, len) {
-        if ((/./.test(txt.charAt(start - 1))) || (/./.test(txt.charAt(start - 2)))) {
+        if (/./.test(txt.charAt(start - 1))) {
+            reportIssue(start, len, "charBefore");
+        } else if (/./.test(txt.charAt(start - 2))) {
             reportIssue(start, len, "blankBefore");
         }
     }
 
     // check no non-comment chars follow on same line and next line is blank
-    function chkAfter(start, len) {
+    function chkAfter(start, len, str1, type) {
         var ix = start + len;
         var end = findEnd(ix);
         if (nonComment(txt.slice(ix, end)) || (/./.test(txt.charAt(end + 1)))) {
-            reportIssue(start, len, "blankAfter");
+            reportIssueLong(start, len, previewMessages.blankAfter.replace("%s", str1), type);
         }
     }
 
@@ -202,6 +220,7 @@ var makePreview = function (txt, viewMode, styler) {
         var stackTop;
         var result;
         var oolre = /\/\*|\/#|\*\/|#\//g;   // any out-of-line tag
+        var prevLin;
 
         while (true) {
             result = oolre.exec(txt);  // find next tag
@@ -219,15 +238,19 @@ var makePreview = function (txt, viewMode, styler) {
             chkAlone(start, 2);
             // for an opening tag check previous line is blank
             // or an opening block quote tag possibly with a comment
+            // allow also an opening no-wrap to avoid giving a misleading message
+            // that it is "normal text". The error will be caught elsewhere.
             if ((tagString.charAt(0) === "/") && (start > 1) && (txt.charAt(start - 2) !== "\n")) {
-                if ("/#" !== removeComments(findPrevLine(start))) {
+                prevLin = removeComments(findPrevLine(start));
+                if (!(("/#" === prevLin) || ("/*" === prevLin))) {
                     reportIssue(start, 2, "OolPrev");
                 }
             }
             // for a closing tag check following line is blank
             // or a closing block quote or ] (ending a footnote).
+            // allow also closing no-wrap to avoid misleading error message
             if (tagString.charAt(1) === "/") {
-                if (/[^#\n\]]/.test(txt.charAt(findEnd(start + 2) + 1))) {
+                if (/[^#\*\n\]]/.test(txt.charAt(findEnd(start + 2) + 1))) {
                     reportIssue(start, 2, "OolNext");
                 }
             }
@@ -289,24 +312,16 @@ var makePreview = function (txt, viewMode, styler) {
         var tagStack = [];
         var result;
         var stackTop;
+        var preChar;
+        var postChar;
 
         // find index in stack of ntag, return -1 if none found
-        // internet explorer does not support array.find so use this function
-        function stackFind(ntag) {
-            var tagData;
-            var i = tagStack.length - 1;
-            while (i >= 0) {
-                tagData = tagStack[i];
-                if (tagData.tag === ntag) {
-                    break;
-                }
-                i -= 1;
-            }
-            return i;
+        function match(tagData) {
+            return tagData.tag === tagString;
         }
 
         // regex to match valid inline tags or a blank line
-        var re = /<(\/?)([ibfg]|sc)>|\n\n/g;
+        var re = new RegExp("<(\\/?)(" + ILTags + ")>|\\n\\n", "g");
 
         while (true) {
             result = re.exec(txt);
@@ -328,18 +343,20 @@ var makePreview = function (txt, viewMode, styler) {
             tagLen = result[0].length;
             end = start + tagLen;
             tagString = result[2];
+            preChar = txt.charAt(start - 1);
+            postChar = txt.charAt(end);
             if (result[1] === '/') {    // end tag
                 // check for , ; or : before end tag except at end of text
-                if (/[,;:]/.test(txt.charAt(start - 1)) && (txt.length !== end)) {
+                if (/[,;:]/.test(preChar) && (txt.length !== end)) {
                     reportIssue(start - 1, 1, "puncBEnd");
                 }
-                if (txt.charAt(start - 1) === " ") {
+                if (preChar === " ") {
                     reportIssue(start - 1, 1, "spaceBeforeEnd");
                 }
-                if (txt.charAt(start - 1) === "\n") {
+                if (preChar === "\n") {
                     reportIssue(start, tagLen, "nlBeforeEnd");
                 }
-                if (/\w/.test(txt.charAt(end))) { // char after end tag
+                if (/\w/.test(postChar)) { // char after end tag
                     reportIssue(end, 1, "charAfterEnd");
                 }
                 if (tagStack.length === 0) {    // missing start tag
@@ -352,16 +369,19 @@ var makePreview = function (txt, viewMode, styler) {
                     }
                 }
             } else {    // startTag
-                if (stackFind(tagString) >= 0) { // check if any already in stack
+                if (tagStack.some(match)) { // check if any already in stack
                     reportIssue(start, tagLen, "nestedTag");
                 }
-                if (/[,.;:!\? ]/.test(txt.charAt(end))) {
+                if (/[,.;:!\?]/.test(postChar)) {
+                    reportIssue(end, 1, "puncAfterStart");
+                }
+                if (postChar === " ") {
                     reportIssue(end, 1, "spaceAfterStart");
                 }
-                if (txt.charAt(end) === "\n") {
+                if (postChar === "\n") {
                     reportIssue(start, tagLen, "nlAfterStart");
                 }
-                if (/\w|[,.;:]/.test(txt.charAt(start - 1))) { // non-space before start tag
+                if (/\w|[,.;:]/.test(preChar)) { // non-space before start tag
                     reportIssue(start - 1, 1, "charBeforeStart");
                 }
                 tagStack.push({tag: tagString, start: start, tagLen: tagLen});
@@ -371,7 +391,7 @@ var makePreview = function (txt, viewMode, styler) {
 
     // check for an unrecognised tag
     function unRecog() {
-        var re = /<(?!(?:\/?(?:[ibfg]|sc)|tb)>)/g;
+        var re = new RegExp("<(?!(?:\\/?(?:" + ILTags + ")|tb)>)", "g");
         var result;
         while (true) {
             result = re.exec(txt);
@@ -443,8 +463,10 @@ var makePreview = function (txt, viewMode, styler) {
         // the way html treats small cap text is different to the dp convention
         // so if sc-marked text is all upper-case transform to lower
         txt = txt.replace(sc_re, transformSC);
-        txt = txt.replace(/&lt;(i|b|g|f|sc)&gt;/g, spanStyle)
-            .replace(/&lt;\/(i|b|g|f|sc)&gt;/g, repstr2);
+        var openTag = new RegExp("&lt;(" + ILTags + ")&gt;", "g");
+        var closeTag = new RegExp("&lt;\\/(" + ILTags + ")&gt;", "g");
+        txt = txt.replace(openTag, spanStyle)
+            .replace(closeTag, repstr2);
 
         // out of line tags
         etcstr = makeColourStyle('etc');
@@ -457,9 +479,11 @@ var makePreview = function (txt, viewMode, styler) {
             txt = txt.replace(/(\/\*|\*\/|\/#|#\/|&lt;tb&gt;)/g, '<span' + etcstr);
         }
         // sub- and super-scripts
-        txt = txt.replace(/_\{([A-Za-z0-9]*)\}/g, '<span class="sub"' + etcstr);
-        txt = txt.replace(/\^\{([A-Za-z0-9]*)\}/g, '<span class="sup"' + etcstr);
-        txt = txt.replace(/\^([A-Za-z0-9])/g, '<span class="sup"' + etcstr);
+        txt = txt.replace(/_\{([^\}]*)\}/g, '<span class="sub"' + etcstr);
+        txt = txt.replace(/\^\{([^\}]*)\}/g, '<span class="sup"' + etcstr);
+        // single char superscript -  any char except {
+        // do not allow < incase it's a tag which would screw up
+        txt = txt.replace(/\^([^\{<])/g, '<span class="sup"' + etcstr);
     }
 
     // attempt to make an approximate representation of formatted text
@@ -597,36 +621,135 @@ var makePreview = function (txt, viewMode, styler) {
     }
 
     // there should not be an entire bold single line after 2 or 4 blank lines
-    function boldLine() {
+    function boldHeading() {
+        var headLine;
+        var re = /((?:^|\n)\n\n)(.+)\n\n/g; // the whole line
+        // match a tag or any non-space char
+        var re1 = new RegExp("<\\/?(?:" + ILTags + ")>|\\S", "g");
+        var boldEnd = /<\/b>/g;
+
+        function boldLine() {   // false if any non-bold char found
+            var result1;
+            re1.lastIndex = 0;  // else will be left from previous use
+            while (true) {
+                result1 = re1.exec(headLine);
+                if (null === result1) {
+                    return true;
+                }
+                if (result1[0].length === 1) {   // a non-bold char
+                    return false;
+                }
+                if (result1[0] === "<b>") { // advance to </b>
+                    boldEnd.lastIndex = re1.lastIndex;
+                    if (null === boldEnd.exec(headLine)) { // shouldn't happen
+                        return false;
+                    }
+                    re1.lastIndex = boldEnd.lastIndex;
+                }
+                // must be another tag - continue
+            }
+        }
         var result;
         var start;
-        var re = /((?:^|\n)\n\n<b>)(.*?)<\/b>\n\n/g;
-
+        // first find the heading lines
         while (true) {
             result = re.exec(txt);
             if (null === result) {
                 break;
             }
+            headLine = result[2];
             re.lastIndex -= 2;  // so can find another straight after
-            start = result.index + result[1].length;
-            reportIssue(start, result[2].length, "noBold");
+            if (boldLine()) {
+                start = result.index + result[1].length;
+                reportIssue(start, 1, "noBold");
+            }
         }
     }
 
-    function checkFootnoteId() {
+    // check that footnote anchors and footnotes correspond
+    // also check footnote id and [*] anchors
+    // first make arrays of anchors and footnote ids, then check correspondence
+    function checkFootnotes() {
+        var anchorArray = [];
+        var footnoteArray = [];
+
+        function checkAnchor(anch) {
+            function match(fNote) {
+                return fNote.id === anch.id;
+            }
+            if (!footnoteArray.some(match)) {
+                reportIssue(anch.index, 3, "noFootnote");
+            }
+        }
+
+        function checkNote(fNote) {
+            function match(anch) {
+                return anch.id === fNote.id;
+            }
+            if (!anchorArray.some(match)) {
+                reportIssue(fNote.index, 9, "noAnchor");
+            }
+        }
+
+        // search for footnote anchors and put in an array
+        // match an upper case letter or digits or *
         var result;
-        var re = /\[Footnote *\:/g;
-        var start;
+        var re = /\[(\*|[A-Za-z]|\d+)\]/g;
         while (true) {
             result = re.exec(txt);
             if (null === result) {
-                return;
+                break;
             }
-            start = result.index;
-            if (txt.charAt(start - 1) !== "*") {
-                reportIssue(start, result[0].length, "footnoteId");
+            if (result[1] === "*") {    // found [*]
+                reportIssue(result.index, 3, "starAnchor");
+                continue;
             }
+            anchorArray.push({index: result.index, id: result[1]});
         }
+        // search for footnotes, get text to end of line
+        re = /\[Footnote(.*)/g;
+        var noteLine, i, rix;
+        function match(fNote) {
+            return fNote.id === noteLine;
+        }
+        while (true) {
+            result = re.exec(txt);
+            if (null === result) {
+                break;
+            }
+            noteLine = result[1];
+            // find text up to :
+            i = noteLine.indexOf(":");
+            rix = result.index;
+            if (-1 === i) {
+                reportIssue(rix, 9, "noColon");
+                continue;
+            }
+            if (txt.charAt(rix - 1) === "*") { // continuation
+                if (i !== 0) {
+                    reportIssue(rix, 9, "colonNext");
+                } else if (footnoteArray.length > 0) {
+                    reportIssue(rix, 9, "continueFirst");
+                }
+                continue;
+            }
+            if (!(/^ [^ ]/).test(noteLine)) {
+                reportIssue(rix, 9, "spaceNext");
+                continue;
+            }
+            noteLine = noteLine.slice(1, i);    // the id
+            if (!(/^[A-Za-z]$|^\d+$/).test(noteLine)) {
+                reportIssue(rix, 9, "footnoteId");
+                continue;
+            }
+            if (footnoteArray.some(match)) {
+                reportIssue(rix, 9, "dupNote");
+                continue;
+            }
+            footnoteArray.push({index: rix, id: noteLine});
+        }
+        anchorArray.forEach(checkAnchor);
+        footnoteArray.forEach(checkNote);
     }
 
     // find index of next unmatched ] return 0 if none found
@@ -675,7 +798,9 @@ var makePreview = function (txt, viewMode, styler) {
                     end += 1;
                     len += 1;
                 }
-                chkAfter(end1, len);
+                // possible issue if there is an unmatched ] in the text
+                // message includes "Footnote" etc. to clarify the problem
+                chkAfter(end1, len, result[1], 0);
             }
         }
         re = /<tb>/g;
@@ -687,7 +812,8 @@ var makePreview = function (txt, viewMode, styler) {
             start = result.index;
             len = result[0].length;
             chkBefore(start, len);
-            chkAfter(start, len);
+            // always an issue to avoid conflict with marking the tag
+            chkAfter(start, len, "&lt;tb&gt;", 1);
         }
     }
 
@@ -739,18 +865,25 @@ var makePreview = function (txt, viewMode, styler) {
     // return true if no errors which would cause showstyle() or reWrap() to fail
     function check() {
         parseInLine();
-        // if inline parse fails then these checks might not work
+        var parseOK = (0 === issueCount[1]);
+        // if inline parse fails then checkSC might not work
+        checkBlankNumber();
         if (0 === issueCount[1]) {
+            boldHeading(); // only do this is parseOK and blank lines ok
+        }
+        if (parseOK) {
             checkSC();
-            boldLine();
         }
         parseOol();
-        checkFootnoteId();
-        checkBlankNumber();
+        checkFootnotes();
         unRecog();
         checkTab();
         checkBlankLines();
         return (issueCount[1] === 0);
+    }
+
+    if (styler.allowUnderline) {
+        ILTags += "|u";
     }
     // remove lines which are entirely comments to simplify checking
     // where there should be blank lines

@@ -132,22 +132,29 @@ elseif ($frame=="top") {
         $next_image = "";
         $res = mysql_query( "SELECT image FROM $projectid ORDER BY image ASC") or die(mysql_error());
         if($res) {
+            // load all images into an array
+            $images = array();
+            while($row = mysql_fetch_assoc($res))
+            {
+                $images[] = $row["image"];
+            }
+            mysql_free_result($res);
+
             echo "<select name='page'>\n";
             echo "<option value=''></option>\n";
-            $num_rows = mysql_num_rows($res);
-            for ($row=0; $row<$num_rows;$row++)
+            $num_rows = count($images);
+            for ($row=0; $row<$num_rows; $row++)
             {
-                $imagefile = mysql_result($res, $row, "image");
+                $imagefile = $images[$row];
                 echo "<option value=\"$imagefile\"";
                 if ($page == $imagefile)
                 {
                     echo " selected";
-                    if ( $row != 0 )           $prev_image = mysql_result($res, $row - 1, "image");
-                    if ( $row != $num_rows-1 ) $next_image = mysql_result($res, $row + 1, "image");
+                    if ( $row != 0 )           $prev_image = $images[$row - 1];
+                    if ( $row != $num_rows-1 ) $next_image = $images[$row + 1];
                 }
                 echo ">".$imagefile."</option>\n";
             }
-            mysql_free_result($res);
             echo "</select> \n";
         }
 
@@ -227,7 +234,8 @@ elseif ($frame=="text") {
         }
 
         $result = mysql_query(sprintf("SELECT $text_column_name FROM $projectid WHERE image = '%s'",mysql_real_escape_string($page))); 
-        $data = mysql_result($result, 0, $text_column_name);
+        $row = mysql_fetch_assoc($result);
+        $data = $row[$text_column_name];
 
         // Use the font and wrap prefs for the user's default interface layout, 
         // since they're more likely to have set those prefs

@@ -15,14 +15,13 @@ $reset_password_url = get_reset_password_url();
 
 $result = mysql_query ("SELECT * FROM `users` WHERE t_last_activity < $old_date AND active ='yes'");
 $numrows = mysql_num_rows($result);
-$rownum = 0;
 
-while ($rownum < $numrows)
+while ($row = mysql_fetch_assoc($result))
 {
-    $username = mysql_result($result, $rownum, "username");
-    $real_name = mysql_result($result, $rownum, "real_name");
-    $email = mysql_result($result, $rownum, "email");
-    $email_updates = mysql_result($result, $rownum, "email_updates");
+    $username = $row["username"];
+    $real_name = $row["real_name"];
+    $email = $row["email"];
+    $email_updates = $row["email_updates"];
     if ($email_updates) {
         maybe_mail("$email", "$site_name: Inactive Account $username",
              "Hello $real_name,\n\n".
@@ -37,8 +36,6 @@ visit ($reset_password_url) to have
 it reset. We hope you care to join us, much has changed since you last saw us.\n\n
 $site_signoff");
     }
-
-    $rownum++;
 }
 
 if($numrows)

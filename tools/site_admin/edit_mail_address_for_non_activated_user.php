@@ -27,7 +27,7 @@ if ($action == 'default') {
     ?>
     <br />
     <form method='get'><input type='hidden' name='action' value='get_user' />
-    <?php echo _("Username:"); ?> <input type='text' name='username' />
+    <?php echo _("Username"); ?>: <input type='text' name='username' />
     <input type='submit' value='<?php echo attr_safe(_("Continue")); ?>' />
     </form>
     <br />
@@ -78,7 +78,9 @@ else if ($action == 'get_user') {
         WHERE username='%s'
     ", mysql_real_escape_string($username)));
 
-    if (mysql_num_rows($result) == 0) {
+    $row = mysql_fetch_assoc($result);
+
+    if (!$row) {
         printf(_("No user '%s' was was found in the list of non-validated users."),
             html_safe($username));
         echo "<p>", 
@@ -86,7 +88,7 @@ else if ($action == 'get_user') {
             "</p>";
     }
     else {
-        $email = mysql_result($result, 0, 'email');
+        $email = $row["email"];
         echo _("Enter the correct email-address below. When you submit the form, the activation mail will be resent.");
         ?>
         <br />

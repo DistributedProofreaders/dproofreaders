@@ -54,7 +54,7 @@ $result = mysql_query(sprintf("
     $limit_clause
 ", mysql_real_escape_string($news_page_id)));
 
-if (mysql_numrows($result)== 0)
+if (mysql_num_rows($result)== 0)
 {
     echo "<br><br>" . sprintf(_("No recent news items for %s"), $news_subject);
 } 

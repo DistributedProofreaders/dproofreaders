@@ -544,11 +544,11 @@ function count_wordcheck_suggestion_events($projectid, $start_time=0)
     $res = mysql_query($sql);
     if ($res === FALSE) return 0;
     
-    $num_events = mysql_result($res,0,"numevents");
+    $row = mysql_fetch_assoc($res);
 
     mysql_free_result($res);
 
-    return $num_events;
+    return $row["numevents"];
 }
 
 function load_wordcheck_events($projectid, $start_time=0) {
@@ -711,7 +711,7 @@ function get_file_info_object($filename,$base_dir,$base_url)
     $o->filename = $filename;
     $o->abs_path = "$base_dir/{$o->filename}";
     $o->abs_url  = "$base_url/{$o->filename}";
-    $o->exists   = file_exists($o->abs_path);
+    $o->exists   = @file_exists($o->abs_path);
     $o->size     = ( $o->exists ? filesize($o->abs_path) : 0 );
     $o->mod_time = ( $o->exists ? filemtime($o->abs_path) : 0 );
 

@@ -80,7 +80,7 @@ if (!$resolution) {
     echo "<b>" . _("Project") . ":</b> {$project->nameofwork}<br>";
     echo "<b>" . _("Project ID") . ":</b> {$project->projectid}<br>";
     echo "<b>" . _("Page") . ":</b> $image<br>";
-    echo "<b>" . _("State") . ":</b> $state<br>";
+    echo "<b>" . pgettext("project state", "State") . ":</b> $state<br>";
     echo "<b>" . _("Originals") . "</b>: ";
     echo "<a href='downloadproofed.php?project=$projectid&image=$image&round_num=$prev_round_num' target='_new'>" . _("View Text") . "</a>";
     echo " | ";

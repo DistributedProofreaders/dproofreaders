@@ -66,7 +66,7 @@ if(!empty($proofreading_font))
 
 echo "<p style='font-family: DPCustomMono2'>" . _("If you already have DPCustomMono2 installed, you will see this paragraph in that typeface. If this paragraph's font doesn't look radically different to that of the paragraph above, you can download DPCustomMono2 from <a href='DPCustomMono2.ttf'>here</a> (right click the link, and choose Save Target As..) After you have installed the font please refresh this page to make sure DPCustomMono2 is installed correctly.") . "</p>\n";
 
-echo "<p>" . sprintf(_("For more information on installing and using the font, see the <a href='http://www.pgdp.net/wiki/Installing_DPCustomMono'>Installing DPCustomMono</a> wiki page at pgdp.net."),"$code_url/userprefs.php") . "</p>\n";
+echo "<p>" . sprintf(_("For more information on installing and using the font, see the <a href='%s'>Installing DPCustomMono</a> wiki page at pgdp.net."), "http://www.pgdp.net/wiki/Installing_DPCustomMono") . "</p>\n";
 
 echo "<hr width='70%'>\n";
 

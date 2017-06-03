@@ -210,6 +210,7 @@ function do_showdir()
     echo "<p>" . _("This page allows you to manage content in this uploads folder.") . "</p>\n";
 
     if (get_access_mode($pguser) == 'common') {
+        // TRANSLATORS: PM = project manager
         show_message('info', _("Because you are not a PM, your files are located in a common, shared area.<br><u>Please take care to avoid affecting other users' files.</u>"));
         show_message('info', $autoprefix_message);
     }
@@ -217,14 +218,14 @@ function do_showdir()
     show_form(
         'showupload',
         $curr_relpath,
-        _("Click the button to upload a file to this folder:"),
+        _("Click the button to upload a file to this folder") . ":",
         _("Upload a File")
     );
 
     show_form(
         'showmkdir',
         $curr_relpath,
-        _("Click the button to create a new subfolder:"),
+        _("Click the button to create a new subfolder") . ":",
         _("Create a Subfolder")
     );
 
@@ -259,7 +260,7 @@ function do_showupload()
     }
     $form_content .= "<p style='margin-top: 0em;'>$standard_blurb</p>\n";
     $form_content .= "<p>$submit_blurb</p>\n";
-    $form_content .= _("File to upload:") . "&nbsp;";
+    $form_content .= _("File to upload") . ":&nbsp;";
     $form_content .= "<input type='file' name='the_file' size='50' maxsize='50'>";
 
     show_form(
@@ -409,7 +410,7 @@ function do_showmkdir()
     output_header($page_title);
     echo "<h1>$page_title</h1>\n";
 
-    $form_content = _("Name of subfolder to create:") ."&nbsp;<input type='text' name='new_dir_name' size='50' maxsize='50'>";
+    $form_content = _("Name of subfolder to create") .":&nbsp;<input type='text' name='new_dir_name' size='50' maxsize='50'>";
     show_form(
         'mkdir',
         $curr_relpath,
@@ -554,7 +555,7 @@ function do_showmove()
     confirm_is_local_file($item_name);
 
     $form_content  = _("<b>Warning:</b> Moving a file to another user cannot be undone.")."</p>";
-    $form_content .= "<p>"._("Select the folder that should receive this file:")."&nbsp;";
+    $form_content .= "<p>"._("Select the folder that should receive this file").":&nbsp;";
     $form_content .= "<select name='target_dir'>\n";
 
     foreach($valid_target_dirs as $full_dir) {
@@ -1083,10 +1084,10 @@ function fatal_error($message)
 function get_message($type, $message)
 {
     if ($type == 'error') {
-        $prefix = _("ERROR:");
+        $prefix = _("Error") . ":";
         $style = "color: red;";
     } else {
-        $prefix = _("INFO:");
+        $prefix = _("Info") . ":";
         $style = "background-color: lightgreen; color: black;";
     }
     $style .= " border: 1px solid black; padding: .5em; margin: 0.8em 0;";
@@ -1170,7 +1171,7 @@ function show_caveats()
 {
     $max_upload_size = humanize_bytes(return_bytes(ini_get("upload_max_filesize")));
 
-    echo "<p><b>" . _("Current file and directory management features:") . "</b></p>\n";
+    echo "<p><b>" . _("Current file and directory management features") . ":</b></p>\n";
     echo "<ul>\n";
     echo "<li>" . _("Upload files into your user folder.") . "\n";
     echo "<ul>\n";

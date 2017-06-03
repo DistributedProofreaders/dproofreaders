@@ -371,7 +371,7 @@ function attr_safe($string)
 
 // -----------------------------------------------------------------------------
 
-function javascript_safe($str, $encoding)
+function javascript_safe($str, $encoding=NULL)
 // Return a string that is safe for inclusion in a javascript string
 // (surrounded by either single or double quotes). 
 // Does an implied attr_safe(), so the output can be enclosed directly
@@ -403,29 +403,32 @@ function javascript_safe($str, $encoding)
 //     characters, and \ooo for control ASCII chars [\000-\017\177]
 {
     
+    global $charset;
+    if (!$encoding)
+    {
+        $encoding = $charset;
+    }
+
     if (!strcasecmp($encoding, 'UTF-8')) 
     {
-        // /e modifier causes preg_replace() to evaluate the replacement
-        // string as php code and uses the evaluation's return value.
-        // When using the /e modifier single quotes, double quotes,
-        // backslashes (\) and NULL chars will be escaped by backslashes.
-        // So, to avoid computing ord("\'") we handle the single quote
-        // separately 
-        $str = preg_replace('/([\000-\037\"\\\\<\177])/e', 
-            'sprintf("\\%03o", ord("$1"))', $str);
-        $str = str_replace("'", '\047', $str);
-    
+        $str = preg_replace_callback('/([\000-\037\"\'\\\\<\177])/',
+            function ($matches) {
+                return sprintf("\\%03o", ord($matches[0]));
+            }, $str);
+
         // convert non-7bit ascii characters to \uHHHH notation
-        $str = preg_replace('/([^\000-\177])/eu', 
-            'sprintf("\\u%04x", _utf8_ord("$1") & 0xffff)', $str);
+        $str = preg_replace_callback('/([^\000-\177])/u',
+            function ($matches) {
+                return sprintf("\\u%04x", _utf8_ord($matches[0]) & 0xffff);
+            }, $str);
     }
     else
     {
         // assume Latin-1 encoding
-        // See comment above about the /e modifier in preg_replace(). 
-        $str = preg_replace('/([\000-\017\\\\"<\177-\237])/e', 
-            'sprintf("\\%03o", ord("$1"))', $str);
-        $str = str_replace("'", '\047', $str);
+        $str = preg_replace_callback('/([\000-\017\\\\"\'<\177-\237])/',
+            function ($matches) {
+                return sprintf("\\%03o", ord($matches[0]));
+            }, $str);
     }
     return $str;
 }
@@ -441,48 +444,36 @@ function xmlencode($string)
 
 // -----------------------------------------------------------------------------
 
-if (version_compare(PHP_VERSION, '6.0.0') >= 0)
+function _utf8_ord($str)
+// Implementation of UTF-8 compliant ord() function.
+// Characters higher than U+ffff are not supported.
 {
-    // PHP v6 is said to have native utf-8 support (untested)
-    
-    function _utf8_ord($str)
+    if ($str == '')
     {
-        return ord($str);
+        return 0;
     }
-} 
-else
-{
-    function _utf8_ord($str)
-    // Implementation of UTF-8 compliant ord() function.
-    // Characters higher than U+ffff are not supported.
+    $u = unpack('C*', $str);
+    $count = count($u);
+    if ($count >= 1 && ($u[1] & 0x80) == 0)
     {
-        if ($str == '') 
-        {
-            return 0;
-        }
-        $u = unpack('C*', $str);
-        $count = count($u);
-        if ($count >= 1 && ($u[1] & 0x80) == 0)
-        {
-            // 0xxxxxxx    
-            return $u[1];
-        }
-        else if ($count >= 2 && ($u[1] & 0xE0) == 0xC0)  
-        {
-            // 110xxxxx   
-            return (($u[1] & 0x1F) << 6) | ($u[2] & 0x3F);  
-        }
-        else if ($count >= 3 && ($u[1] & 0xF0) == 0xE0)
-        {
-            // 1110xxxx 
-            return (($u[1] & 0x0F) << 12) 
-               | (($u[2] & 0x3F) << 6) | ($u[3] & 0x3F);
-        }
-        else
-        {
-            // higher characters, or malformed string, return '?'
-            return ord('?');
-        }
+        // 0xxxxxxx
+        return $u[1];
+    }
+    else if ($count >= 2 && ($u[1] & 0xE0) == 0xC0)
+    {
+        // 110xxxxx
+        return (($u[1] & 0x1F) << 6) | ($u[2] & 0x3F);
+    }
+    else if ($count >= 3 && ($u[1] & 0xF0) == 0xE0)
+    {
+        // 1110xxxx
+        return (($u[1] & 0x0F) << 12)
+           | (($u[2] & 0x3F) << 6) | ($u[3] & 0x3F);
+    }
+    else
+    {
+        // higher characters, or malformed string, return '?'
+        return ord('?');
     }
 }
 

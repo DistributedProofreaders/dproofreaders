@@ -308,7 +308,7 @@ $widgets = array(
     )),
     new Widget( array(
         'id'           => 'state',
-        'label'        => _('State'),
+        'label'        => pgettext('project state', 'State'),
         'type'         => 'select',
         'options'      => $state_options,
         'can_be_multiple' => TRUE,
@@ -503,7 +503,8 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $numrows = mysql_num_rows($result);
 
     $res_found = mysql_query("SELECT FOUND_ROWS()");
-    $num_found_rows = mysql_result($res_found,0);
+    $row = mysql_fetch_row($res_found);
+    $num_found_rows = $row[0];
 
     echo "<h1>", _("Search Results"), "</h1>\n";
 
@@ -620,8 +621,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     echo_header_cell( 25, _("Diff.") );
     echo_header_cell( 50, _("Avail. Pages") );
     echo_header_cell( 50, _("Total Pages") );
-    // TRANSLATORS: Abbreviation for Project Manager
-    echo_header_cell(  75, _("PM") );
+    echo_header_cell(  75, pgettext("project manager", "PM") );
     echo_header_cell(  75, _("Checked Out By") );
     echo_header_cell( 180, _("Project Status") );
     if ( $show_options_column )

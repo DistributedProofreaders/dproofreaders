@@ -5,16 +5,24 @@ function mentor_banner($round)
     $r_avail_state = $round->project_available_state;
     $round_id = $round->id;
 
-    $result = (mysql_query("
+    // Get the English language name for the user's UI language
+    $two_letter_lang_code = substr(get_desired_language(), 0, 2);
+    $eng_lang_name = eng_name($two_letter_lang_code);
+    $lang_name = lang_name($two_letter_lang_code);
+
+    // We store the name of the project's language in the 'language' column
+    // in its English form, hence the use of $eng_lang_name below.
+    $result = mysql_query(sprintf("
         SELECT max(round((unix_timestamp() - modifieddate)/(24 * 60 * 60)))
             FROM projects
             WHERE
                 difficulty = 'beginner'
                 AND state = '$r_avail_state'
-                AND language = 'English'
+                AND language = '$eng_lang_name'
         "));
 
-    $oldest = mysql_result($result, 0);
+    $row = mysql_fetch_row($result);
+    $oldest = $row[0];
 
     if(is_null($oldest))
         return;
@@ -40,13 +48,15 @@ function mentor_banner($round)
     echo "<br><center>";
     echo "<b><font size=+$font_boost color=$font_col>";
     printf(ngettext(
-            _("Oldest English <a href='%1\$s'>MENTORS ONLY</a> book in %2\$s is %3\$d day old."),
-            _("Oldest English <a href='%1\$s'>MENTORS ONLY</a> book in %2\$s is %3\$d days old."),
+            /* TRANSLATORS: %4 is the name of the user's UI language in their language;
+            %1 is a URL; %2 is the round ID; %3 is the number of days. */
+            _("Oldest %4\$s <a href='%1\$s'>MENTORS ONLY</a> book in %2\$s is %3\$d day old."),
+            _("Oldest %4\$s <a href='%1\$s'>MENTORS ONLY</a> book in %2\$s is %3\$d days old."),
             $oldest),
         "$wiki_url/Mentoring",
         $round_id,
-        $oldest);
+        $oldest,
+        $lang_name);
     echo "</font></b>";
     echo "</center><br>";
 }
-?>

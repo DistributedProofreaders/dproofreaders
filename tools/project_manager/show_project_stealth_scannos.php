@@ -69,6 +69,7 @@ if($format == "file") {
     echo "\r\n";
     echo_download_text( $projectid, $format );
     echo "\r\n";
+    # xgettext:no-php-format
     echo _("Format: [word] - [% changed] - [last changed to] - [# changed] - [# left] - [# in OCR]") . "\r\n";
     echo "\r\n";
 
@@ -109,7 +110,7 @@ echo_any_warnings_errors( $messages );
 echo_download_text( $projectid, $format );
 
 // output customized cutoff text
-$cutoff_text = sprintf(_("Words with fewer than <b><span id='current_cutoff'>%d</span>%%</b> of the instances changed are not shown. Other cutoff options are available: %s"),$initialFreq,get_cutoff_string($cutoffOptions,"%"));
+$cutoff_text = sprintf(_("Words with fewer than <b><span id='current_cutoff'>%1\$d</span>%%</b> of the instances changed are not shown. Other cutoff options are available: %2\$s"),$initialFreq,get_cutoff_string($cutoffOptions,"%"));
 echo "<p>$cutoff_text</p>\n";
 
 $project_good_words = load_project_good_words($projectid);
@@ -128,6 +129,7 @@ foreach($instances_left as $word => $freq) {
 }
 $word_notes["[[TITLE]]"]=_("Notes");
 
+# xgettext:no-php-format
 $percent_changed["[[TITLE]]"]=_("% Changed");
 $percent_changed["[[STYLE]]"]="text-align: right;";
 $instances_changed_to["[[TITLE]]"]=_("Last changed to");

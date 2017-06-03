@@ -3,9 +3,8 @@ $relPath="./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'site_news.inc');
-include_once($relPath.'misc.inc'); // get_integer_param(), get_enumerated_param()
+include_once($relPath.'misc.inc'); // html_safe(), get_integer_param(), get_enumerated_param()
 
 require_login();
 
@@ -15,29 +14,39 @@ if ( !(user_is_a_sitemanager() or user_is_site_news_editor()) )
 }
 
 $news_page_id = get_enumerated_param($_GET, 'news_page_id', null, array_keys($NEWS_PAGES), true);
+$action = get_enumerated_param($_GET, 'action', null, array('add', 'delete', 'display', 'hide', 'archive', 'unarchive', 'moveup', 'movedown', 'edit', 'edit_update'), true);
+$item_id = get_integer_param($_REQUEST, 'item_id', null, null, null, true);
+$content = array_get($_POST, 'content', '');
+$locale_options = array_merge(array('' => _("Any language")), get_locale_translation_selection_options());
+$locale = get_enumerated_param($_POST, 'locale', null, array_keys($locale_options), true);
+$status_options = array(
+    'current'  => _("Sticky"),
+    'recent'   => _("Recent/Random"),
+    'archived' => _("Archived"),
+);
+$item_status = get_enumerated_param($_POST, 'status', null, array_keys($status_options), true);
 
 if (isset($news_page_id)) {
     if (isset($NEWS_PAGES[$news_page_id]))
     {
         $news_subject = get_news_subject($news_page_id);
         $title = sprintf(_('News Desk for %s'), $news_subject );
-        output_header($title);
+        output_header($title, False, array('css_data' => get_page_css()));
         echo "<br>";
         echo "<a href='sitenews.php'>"._("Site News Central")."</a><br>";
-        echo "<h1 align='center'>$title</h1>";
-        echo "<br>\n";
-        handle_any_requested_db_updates( $news_page_id );
-        show_item_editor( $news_page_id );
-        show_all_news_items_for_page( $news_page_id );
+        echo "<h1>$title</h1>";
+        handle_any_requested_db_updates($news_page_id, $action, $item_id, $content, $locale, $item_status);
+        show_item_editor($news_page_id, $action, $item_id);
+        show_all_news_items_for_page($news_page_id);
     } else {
         echo _("Error").": <b>".$news_page_id."</b> "._("Unknown news_page_id specified, exiting.");
     }
 } else {
 
-    output_header(_("Site News Central"));
+    output_header(_("Site News Central"), True, array('css_data' => get_page_css()));
 
     echo "<h1>"._("Site News Central")."</h1>";
-    echo "<br><br><font size = +1><ul>";
+    echo "<ul>";
     echo "\n";
     foreach ( $NEWS_PAGES as $news_page_id => $news_subject )
     {
@@ -57,34 +66,47 @@ if (isset($news_page_id)) {
         echo "<br><br>";
         echo "\n";
     }
-    echo "</ul></font>";
+    echo "</ul>";
 }
 
 // Everything else is just function declarations.
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function handle_any_requested_db_updates( $news_page_id )
+function echo_selection($name, $options, $value_selected)
+{
+    echo "<select name='$name'>";
+    foreach($options as $value => $option)
+    {
+        $selected = '';
+        if($value_selected == $value)
+            $selected = ' selected';
+        echo "<option value='$value' $selected>$option</option>";
+    }
+    echo "</select>";
+}
+
+function handle_any_requested_db_updates($news_page_id, $action, $item_id, $content, $locale, $item_status)
 {
     $allowed_tags = '<a><b><i><u><font><img><p><div><br>';
-    $action = get_enumerated_param($_GET, 'action', null,
-        array('add', 'delete', 'display', 'hide', 'archive', 'unarchive', 'moveup', 'movedown', 'edit', 'edit_update'),
-        true);
     switch($action)
     {
         case 'add':
             // Save a new site news item
-            $content = strip_tags($_POST['content'], $allowed_tags);
+            $content = strip_tags($content, $allowed_tags);
             $date_posted = time();
             $insert_news = mysql_query(sprintf("
                 INSERT INTO news_items
                 SET
                     id           = NULL,
                     news_page_id = '$news_page_id',
-                    status       = 'current',
+                    status       = '%s',
                     date_posted  = '$date_posted',
-                    content      = '%s'
-            ", mysql_real_escape_string($content)));
+                    content      = '%s',
+                    locale       = '%s'
+            ", mysql_real_escape_string($item_status),
+                mysql_real_escape_string($content),
+                mysql_real_escape_string($locale)));
             // by default, new items go at the top
             $update_news = mysql_query("
                 UPDATE news_items SET ordering = id WHERE id = LAST_INSERT_ID()
@@ -94,59 +116,53 @@ function handle_any_requested_db_updates( $news_page_id )
 
         case 'delete':
             // Delete a specific site news item
-            $item_id = get_integer_param($_GET, 'item_id', null, null, null);
             $result = mysql_query("DELETE FROM news_items WHERE id=$item_id");
             break;
 
         case 'display':
             // Display a specific site news item
-            $item_id = get_integer_param($_GET, 'item_id', null, null, null);
             $result = mysql_query("UPDATE news_items SET status = 'current' WHERE id=$item_id");
             news_change_made($news_page_id);
             break;
 
         case 'hide':
             // Hide a specific site news item
-            $item_id = get_integer_param($_GET, 'item_id', null, null, null);
             $result = mysql_query("UPDATE news_items SET status = 'recent' WHERE id=$item_id");
             news_change_made($news_page_id);
             break;
 
         case 'archive':
             // Archive a specific site news item
-            $item_id = get_integer_param($_GET, 'item_id', null, null, null);
             $result = mysql_query("UPDATE news_items SET status = 'archived' WHERE id=$item_id");
             break;
 
         case 'unarchive':
             // Unarchive a specific site news item
-            $item_id = get_integer_param($_GET, 'item_id', null, null, null);
             $result = mysql_query("UPDATE news_items SET status = 'recent' WHERE id=$item_id");
             break;
 
         case 'moveup':
             // Move a specific site news item higher in the display list
-            $item_id = get_integer_param($_GET, 'item_id', null, null, null);
             move_news_item ($news_page_id, $item_id, 'up');
             news_change_made($news_page_id);
             break;
 
         case 'movedown':
             // Move a specific site news item lower in the display list
-            $item_id = get_integer_param($_GET, 'item_id', null, null, null);
             move_news_item ($news_page_id, $item_id, 'down');
             news_change_made($news_page_id);
             break;
 
         case 'edit_update':
             // Save an update to a specific site news item
-            $content = strip_tags($_POST['content'], $allowed_tags);
-            $item_id = get_integer_param($_POST, 'item_id', null, null, null);
+            $content = strip_tags($content, $allowed_tags);
             $result = mysql_query(sprintf("
                 UPDATE news_items
-                SET content='%s'
+                SET content='%s', locale='%s', status='%s'
                 WHERE id=$item_id
-            ", mysql_real_escape_string($content)));
+            ", mysql_real_escape_string($content),
+                mysql_real_escape_string($locale),
+                mysql_real_escape_string($item_status)));
             $result = mysql_query("SELECT status FROM news_items WHERE id=$item_id");
             $row = mysql_fetch_assoc($result);
             $visible_change_made = ($row['status'] == 'current');
@@ -157,33 +173,50 @@ function handle_any_requested_db_updates( $news_page_id )
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_item_editor( $news_page_id )
+function show_item_editor($news_page_id, $action, $item_id)
 // Show a form:
 // -- to edit the text of an existing item (if requested), or
 // -- to compose a new item (otherwise).
 {
-    if (isset($_GET['action']) && $_GET['action'] == "edit") {
-        $item_id = get_integer_param($_GET, 'item_id', null, null, null);
-        $result = mysql_query("SELECT * FROM news_items WHERE id=$item_id");
-        $initial_content = mysql_result($result,0,"content");
+    global $locale_options;
+    global $status_options;
+
+    if (isset($action) && $action == "edit") {
+        $result = mysql_query("SELECT content, status, locale FROM news_items WHERE id=$item_id");
+        $row = mysql_fetch_assoc($result);
+        $initial_content = $row["content"];
+        $locale = $row["locale"];
+        $item_status = $row['status'];
         $action_to_request = "edit_update";
-        $submit_button_label = _("Edit News Item");
+        $submit_button_label = _("Save News Item");
     } else {
-        $item_id = "";
+        $item_id = 0;
         $initial_content = "";
+        $locale = "";
+        $item_status = 'current';
         $action_to_request = "add";
         $submit_button_label = _("Add News Item");
     }
 
     echo "<form action='sitenews.php?news_page_id=$news_page_id&action=$action_to_request' method='post'>";
-    echo "<center>";
-    echo "<textarea name='content' cols='80' rows='8'>" . html_safe($initial_content) . "</textarea>";
-    echo "<br>\n";
-    echo "<input type='submit' value='$submit_button_label' name='submit'>";
-    echo "</center>";
-    echo "<br>\n";
-    echo "<br>\n";
     echo "<input type='hidden' name='item_id' value='$item_id'>";
+    echo "<table class='newsedit'>";
+    echo "<tr>";
+        echo "<td class='commands'><b>" . _("Show to users using") . "</b></td>";
+        echo "<td class='items'>"; echo_selection("locale", $locale_options, $locale); echo "</td>";
+    echo "</tr>";
+    echo "<tr>";
+        echo "<td class='commands'><b>" . _("Status") . "</b></td>";
+        echo "<td class='items'>"; echo_selection("status", $status_options, $item_status); echo "</td>";
+    echo "</tr>";
+    echo "<tr>";
+        echo "<td class='commands'><b>" . _("News Item") . "</b></td>";
+        echo "<td class='items'><textarea name='content' style='width:100%;height:9em;'>" . html_safe($initial_content) . "</textarea></td>";
+    echo "</tr>";
+    echo "<tr>";
+        echo "<td></td><td><input type='submit' value='$submit_button_label' name='submit'></td>";
+    echo "</tr>";
+    echo "</table>";
     echo "</form>";
 }
 
@@ -203,8 +236,8 @@ function show_all_news_items_for_page( $news_page_id )
             'blurb'    => _("All of these items are shown every time the page is loaded. Most important and recent news items go here, where they are guaranteed to be displayed."),
             'order_by' => 'ordering DESC',
             'actions'  => array(
-                'hide'     => _('Make Random'),
-                'archive'  => _('Archive Item'),
+                'hide'     => _('Unstick'),
+                'archive'  => _('Archive'),
                 'moveup'   => _('Move Up'),
                 'movedown' => _('Move Down'),
             ),
@@ -216,8 +249,8 @@ function show_all_news_items_for_page( $news_page_id )
             'blurb'    => _("This is the pool of available random news items for this page. Every time the page is loaded, a randomly selected one of these items is displayed."),
             'order_by' => 'ordering DESC',
             'actions'  => array(
-                'display' => _('Make Sticky'),
-                'archive' => _('Archive Item'),
+                'display' => _('Stick'),
+                'archive' => _('Archive'),
             ),
         ),
 
@@ -227,7 +260,7 @@ function show_all_news_items_for_page( $news_page_id )
             'blurb'    => _("Items here are not visible anywhere, and can be safely stored here until they become current again."),
             'order_by' => 'id DESC',
             'actions'  => array(
-                'unarchive' => _('Unarchive Item'),
+                'unarchive' => _('Unarchive'),
             ),
         ),
     );
@@ -245,18 +278,15 @@ function show_all_news_items_for_page( $news_page_id )
 
         if (mysql_num_rows($result) == 0) continue;
 
-        echo "<hr size='5'>\n";
-        echo "<font size=+2><b>{$category['title']}</b></font>";
+        echo "<h2>{$category['title']}</h2>";
         if ($status == 'current')
         {
             $date_changed = get_news_page_last_modified_date( $news_page_id );
+            // TRANSLATORS: this is a strftime-formatted string
             $last_modified = strftime(_("%A, %B %e, %Y"), $date_changed);
-            echo "&nbsp;&nbsp; ("._("Last modified:")." ".$last_modified.")";
+            echo _("Last modified") . ": ".$last_modified . "<br>";
         }
-        echo "<br><br>";
-        echo $category['blurb'];
-        echo "<br><br>";
-        echo "\n";
+        echo "<p>" . $category['blurb'] . "</p>\n";
 
         $actions = $category['actions'] +
             array(
@@ -264,20 +294,36 @@ function show_all_news_items_for_page( $news_page_id )
                 'delete'   => _('Delete'),
             );
 
+        echo "<table class='newsedit'>";
         while($news_item = mysql_fetch_array($result))
         {
-            echo "<hr width='70%' align='left'>\n";
-            $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
+            echo "<tbody class='padding'>";
+            echo "<tr>";
+            echo "<td class='commands'>";
+            echo "<p><b>" . _("Posted") . ":</b><br>";
+            echo strftime(_("%B %e, %Y"), $news_item['date_posted']) . "</b>";
+            if($news_item['locale'])
+                echo "<br><b>" . _("Locale") . ":</b><br>" . $news_item['locale'];
+            echo "</p>";
             foreach ( $actions as $action => $label )
             {
                 $url = "sitenews.php?news_page_id=$news_page_id&item_id={$news_item['id']}&action=$action";
-                echo "[<a href='$url'>$label</a>]\n";
+                if($action == "delete")
+                    $onclick = "onclick='return confirm(\"" . javascript_safe(_("Delete this news item?")) . "\");'";
+                else
+                    $onclick = '';
+                echo "<a href='$url' $onclick>$label</a><br>";
             }
-            echo " &mdash; ($date_posted)<br><br>";
+            echo "</td>";
+            echo "<td class='items bottom-border'>";
             echo "\n";
             echo $news_item['content']."<br><br>";
             echo "\n";
+            echo "</td>";
+            echo "</tr>";
+            echo "</tbody>";
         }
+        echo "</table>";
     }
 }
 
@@ -296,9 +342,9 @@ function news_change_made ($news_page_id) {
 function move_news_item ($news_page_id, $id_of_item_to_move, $direction) {
 
     $result = mysql_query("
-        SELECT * FROM news_items
-        WHERE news_page_id = '$news_page_id' AND
-            status = 'current'
+        SELECT *
+        FROM news_items
+        WHERE news_page_id = '$news_page_id' AND status = 'current'
         ORDER BY ordering
     ");
 
@@ -331,6 +377,41 @@ function move_news_item ($news_page_id, $id_of_item_to_move, $direction) {
             ");
         }
     }
+}
+
+function get_page_css()
+{
+    return <<<CSS
+table.newsedit {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.newsedit tr td {
+    vertical-align: top;
+}
+
+table.newsedit tbody.padding tr td.commands,
+table.newsedit tbody.padding tr td.items {
+    padding-bottom: 1em;
+    padding-top: 0.5em;
+}
+
+td.commands {
+    width: 10%;
+    padding-right: 2em;
+    padding-left: 1em;
+    white-space: nowrap;
+}
+
+td.items {
+    width: 90%;
+}
+
+.bottom-border {
+    border-bottom: solid thin black;
+}
+CSS;
 }
 
 // vim: sw=4 ts=4 expandtab

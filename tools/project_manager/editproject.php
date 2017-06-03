@@ -38,6 +38,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
         $pih->save_to_db();
         if (isset($_POST['saveAndQuit']))
         {
+            // TRANSLATORS: PM = project manager
             metarefresh(0, "projectmgr.php", _("Save and Go To PM Page"), "");
         }
         elseif (isset($_POST['saveAndProject']))
@@ -427,6 +428,7 @@ class ProjectInfoHolder
             }
             if ( empty($errors) && !that_user_is_PM($this->projectmanager) )
             {
+                // TRANSLATORS: PM = project manager
                 $errors .= sprintf(_("%s is not a PM."), $this->projectmanager) . "<br>";
             }
         }
@@ -854,6 +856,7 @@ class ProjectInfoHolder
 
         echo "<tr>";
         echo   "<td bgcolor='#CCCCCC' colspan='2' align='center'>";
+        // TRANSLATORS: PM = project manager
         echo     "<input type='submit' name='saveAndQuit' value='".attr_safe(_("Save and Go To PM Page"))."'>";
         echo     "<input type='submit' name='saveAndProject' value='".attr_safe(_("Save and Go To Project"))."'>";
         echo     "<input type='submit' name='saveAndPreview' value='".attr_safe(_("Save and Preview"))."'>";
@@ -936,7 +939,8 @@ class ProjectInfoHolder
                 FROM uber_projects
                 WHERE up_projectid = '$this->up_projectid'
             ");
-            $up_nameofwork = mysql_result($res2, 0, "up_nameofwork");
+            $row = mysql_fetch_assoc($res2);
+            $up_nameofwork = $row["up_nameofwork"];
 
             $this->row( _("Related Uber Project"), 'just_echo', $up_nameofwork );
         }
@@ -1011,6 +1015,7 @@ class ProjectInfoHolder
         $a = _("The Guidelines give detailed instructions for working in this round.");
         $b = _('The instructions below are particular to this project, and <b>take precedence over those guidelines</b>.');
 
+        // TRANSLATORS: This is a strftime-formatted string for the date with year and time
         $now = strftime(_("%A, %B %e, %Y at %X"));
 
         echo "<h2>", _("Preview Project"), "</h2>";

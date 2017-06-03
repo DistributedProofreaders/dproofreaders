@@ -135,7 +135,8 @@ $result = mysql_query("
     WHERE $psd->state_selector
       AND postproofer = '$project->postproofer'
 ");
-$number_post_processed = mysql_result($result, 0, "num_post_processed");
+$row = mysql_fetch_assoc($result);
+$number_post_processed = $row["num_post_processed"];
 mysql_free_result($result);
 
 // Compute the date of PP upload. We must take into account cases when 
@@ -156,10 +157,11 @@ $result = mysql_query("SELECT timestamp FROM project_events
       AND details2 = '" . PROJ_POST_SECOND_CHECKED_OUT . "'
     ORDER BY timestamp ASC
     LIMIT 1");
-if (mysql_num_rows($result) != 0) 
+$row = mysql_fetch_assoc($result);
+mysql_free_result($result);
+if ($row)
 {
-    $earliest_in_ppv = mysql_result($result, 0);
-    mysql_free_result($result);
+    $earliest_in_ppv = $row["timestamp"];
 
     // latest transition from PP.checked out to PPV.avail
     $result = mysql_query("SELECT timestamp FROM project_events
@@ -170,12 +172,11 @@ if (mysql_num_rows($result) != 0)
           AND timestamp < $earliest_in_ppv
         ORDER BY timestamp DESC
         LIMIT 1");
-    if (mysql_num_rows($result) != 0) 
-    {
-        $pp_date = date("d-M-Y", mysql_result($result, 0));
-    }
+    $row = mysql_fetch_assoc($result);
+    mysql_free_result($result);
+    if ($row)
+        $pp_date = date("d-M-Y", $row["timestamp"]);
 }
-mysql_free_result($result);
 
 if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
 {
@@ -321,7 +322,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         $problem = "";
         if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         {
-            $arg = $_POST[$id];
+            $arg = array_get($_POST, $id, '');
 
             if ($id == 'kb_size')
             {
@@ -359,7 +360,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         if ($action == SHOW_BLANK_ENTRY_FORM)
             $value = '';
         else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
-            $value = $_POST[$id];
+            $value = array_get($_POST, $id, '');
 
         if ($value == '')
             $value_attr = "";
@@ -400,7 +401,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         if ($action == SHOW_BLANK_ENTRY_FORM)
             $text = '';
         else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
-            $text = $_POST[$id];
+            $text = array_get($_POST, $id, '');
 
         $esc_text = html_safe($text);
 
@@ -513,7 +514,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             _("Approximate number of errors <br>(Please enter only numbers)"),
             ""
                 . number_box('e1_unused_num',    _("Unused files in images folder (Thumbs.db is not counted toward rating)"))
-                . number_box('e1_imagesize_num', _("Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed the limits described <a href='http://www.pgdp.net/wiki/Guide_to_Image_Processing#Image_Display_Dimensions:_Considerations'>here</a>, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception)."))
+                . number_box('e1_imagesize_num', sprintf(_("Appropriate image size not used for thumbnail, inline and linked-to images. Image sizes should not normally exceed <a href='%s'>these described limits</a>, but exceptions may be made if warranted by the type of image or book (provided the PPer explains the exception)."), "http://www.pgdp.net/wiki/Guide_to_Image_Processing#Image_Display_Dimensions:_Considerations"))
                 . number_box('e1_blemish_num',   _("Images with major blemishes, uncorrected rotation/distortion or without appropriate cropping"))
                 . number_box('e1_distort_num',   _("Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi"))
                 . number_box('e1_alt_num',       _("Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist"))
@@ -558,7 +559,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . number_box('e2_csscheck_num', _("The W3C CSS Validation Service generates errors or warning messages other than for the dropcap \"transparent\" element (Please enter number of errors)"))
                 . number_box('e2_links_num',    _("Non-working links within HTML or to images. (Either broken or link to wrong place/file)"))
                 . number_box('e2_file_num',     _("File and folder names not in lowercase or contain spaces, images not in \"images\" folder, etc."))
-                . number_box('e2_cover_num',    _("Cover image has not been included and/or has not been coded for e-reader use. (For example, the cover should be 600x800px or at least 500px wide and no more than 800px high and should be called cover.jpg. Also, if the cover is newly created, it must meet <a href='http://www.pgdp.net/wiki/PP_guide_to_cover_pages#DP_policy'>current DP guidelines</a>.)"))
+                . number_box('e2_cover_num',    sprintf(_("Cover image has not been included and/or has not been coded for e-reader use. (For example, the cover should be 600x800px or at least 500px wide and no more than 800px high and should be called cover.jpg. Also, if the cover is newly created, it must meet <a href='%s'>current DP guidelines</a>.)"), "http://www.pgdp.net/wiki/PP_guide_to_cover_pages#DP_policy"))
                 . number_box('e2_epub_num',     _("Project not presentable/useable when put through epubmaker") . " <a href='$ppv_guidelines_url#reader'>****</a>")
                 . number_box('e2_heading_num',  _("Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)"))
         )
@@ -958,7 +959,7 @@ function report_recommendations($recommendations)
 
 function report_comments($base_indent, $id, $label)
 {
-    $comments = $_POST[$id];
+    $comments = array_get($_POST, $id, '');
     if (empty($comments)) return "";
 
     $text_indent = $base_indent . "    ";

@@ -105,9 +105,14 @@ foreach($page_stats as $page => $data) {
     array_push($graph_y,$flagged);
 }
 
-// store the data in the session for the graphing script to read
-$_SESSION["graph_flags_per_page"][$projectid]["graph_x"]=$graph_x;
-$_SESSION["graph_flags_per_page"][$projectid]["graph_y"]=$graph_y;
+// store the data in a file for the graphing script to read
+file_put_contents(
+    sys_get_temp_dir() . "/$projectid-graph_flags_per_page.dat",
+    serialize(array(
+        "graph_x" => $graph_x,
+        "graph_y" => $graph_y,
+    ))
+);
 
 // calculate the mode by reverse sorting the array, resetting
 // the internal pointer, and using the first element
@@ -126,8 +131,13 @@ for($numFlags=$total["flagged_min"];$numFlags<=$total["flagged_max"];$numFlags++
 }
 
 // store the mode for graphing
-$_SESSION["graph_pages_per_number_of_flags"][$projectid]["graph_x"]=array_keys($flags_n_pages);
-$_SESSION["graph_pages_per_number_of_flags"][$projectid]["graph_y"]=array_values($flags_n_pages);
+file_put_contents(
+    sys_get_temp_dir() . "/$projectid-graph_pages_per_number_of_flags.dat",
+    serialize(array(
+        "graph_x" => array_keys($flags_n_pages),
+        "graph_y" => array_values($flags_n_pages),
+    ))
+);
 
 // calculate averages
 $total["flagged_avg"]=$total["proj_bad_words_avg"]=$total["site_bad_words_avg"]=0;

@@ -16,7 +16,7 @@ if( !defined( 'MEDIAWIKI' ) ) {
 }
 
 // NOTE: Update this to reflect your installation's path to the c/pinc directory
-$relPath = '/data/htdocs/c/pinc/';
+$relPath = '/var/www/htdocs/c/pinc/';
  
 // Extension credits that will show up on Special:Version    
 $wgExtensionCredits['parserhook'][] = array(
@@ -39,31 +39,32 @@ function wfHospitalInfo()
 
 function listHospitalProjects( $input, $argv )
 {
-    global $relPath;
+    global $relPath, $code_url;
+    include_once($relPath.'site_vars.php');
+    include_once($relPath.'connect.inc');
     include_once($relPath.'project_states.inc');
 
-    global $wgParser;
-    $output = "";
+    $db_Connection = new dbConnect();
 
     $result = mysql_query("
         SELECT *
-        FROM dproofreaders.projects
+        FROM projects
         WHERE nameofwork LIKE '%needs fixing%'
             AND state != 'project_delete'
         ORDER BY nameofwork ASC
     ");
-
     if (!$result) {
 	die ('Invalid: '. mysql_error());
     }
 
+    $output = "";
     while ($project = mysql_fetch_object($result))
         {
 	// Get the preformatted remarks from PCs
         $matches  = '';
         $problems = preg_match('/<pre>([^<]*)<\/pre>/', $project->comments,$matches);
         $pstate   = iconv('ISO-8859-1','UTF-8',project_states_text($project->state));
-        $puri     = $project->url = "http://www.pgdp.net/c/project.php?id=$project->projectid";
+        $puri     = "$code_url/project.php?id=$project->projectid";
         $plink    = iconv('ISO-8859-1','UTF-8',"<a href='$puri'>$project->nameofwork</a>");
 
         $output .= "<table style='border: 1px solid red; padding: 2px; width: 90%; margin: .75em;'>\n";
@@ -80,4 +81,3 @@ function listHospitalProjects( $input, $argv )
     mysql_free_result($result);
     return $output;
 }
-?>

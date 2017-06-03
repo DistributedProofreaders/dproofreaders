@@ -32,15 +32,14 @@ echo "<table border=1>\n";
       $result = mysql_query("SELECT projectid, nameofwork, authorsname, language, state FROM projects
                 WHERE state = 'project_md_first' AND thumbs = 'yes'");
 
-    $numrows = mysql_num_rows($result);
     $rownum = 0;
 
-      while ($rownum < $numrows) {
-           $projectid = mysql_result($result, $rownum, "projectid");
-           $state = mysql_result($result, $rownum, "state");
-           $name = mysql_result($result, $rownum, "nameofwork");
-           $author = mysql_result($result, $rownum, "authorsname");
-           $language = mysql_result($result, $rownum, "language");
+      while ($row = mysql_fetch_assoc($result)) {
+           $projectid = $row["projectid"];
+           $state = $row["state"];
+           $name = $row["nameofwork"];
+           $author = $row["authorsname"];
+           $language = $row["language"];
 
            $numpages = Project_getNumPages( $projectid );
 
@@ -84,15 +83,14 @@ echo "<br>";
 
       $result = mysql_query("SELECT projectid, nameofwork, authorsname, language, username, state FROM projects
                 WHERE state = 'project_md_second'");
-    $numrows = mysql_num_rows($result);
     $rownum = 0;
 
-      while ($rownum < $numrows) {
-           $projectid = mysql_result($result, $rownum, "projectid");
-           $state = mysql_result($result, $rownum, "state");
-           $name = mysql_result($result, $rownum, "nameofwork");
-           $author = mysql_result($result, $rownum, "authorsname");
-           $language = mysql_result($result, $rownum, "language");
+      while ($row = mysql_fetch_assoc($result)) {
+           $projectid = $row["projectid"];
+           $state = $row["state"];
+           $name = $row["nameofwork"];
+           $author = $row["authorsname"];
+           $language = $row["language"];
 
            $numpages = Project_getNumPages( $projectid );
            $availpages = Project_getNumPagesInState( $projectid, 'avail_md_second');

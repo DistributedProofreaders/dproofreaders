@@ -14,7 +14,7 @@ $order = get_enumerated_param($_GET, 'order', 'nameofwork', array('nameofwork', 
 
 echo "<h1>$title</h1>\n";
 
-echo sprintf( _("We don't know for sure who PPd these books; if you do know, or if you did, please send an email: <a ref='%1\$s'>%2\$s</a> quoting the other information in the row, including the project ID. Thanks!"), "mailto:$general_help_email_addr", "$general_help_email_addr");
+echo sprintf( _("We don't know for sure who PPd these books; if you do know, or if you did, please send an email: <a href='%1\$s'>%2\$s</a> quoting the other information in the row, including the project ID. Thanks!"), "mailto:$general_help_email_addr", "$general_help_email_addr");
 
 //get projects that have been PPd but we don't know by whom
 $psd = get_project_status_descriptor('PPd');
@@ -25,7 +25,6 @@ $result = mysql_query("SELECT nameofwork, authorsname, username,
                        AND postproofer = 'No Known PPer' 
                        ORDER BY $order ASC");
 
-$numrows = mysql_numrows($result);
 $rownum = 0;
 
 echo "<table class='themed'>";
@@ -38,12 +37,12 @@ echo "<th><a href='?order=projectid'>" . _("Project ID") . "</a></th>";
 echo "<th><a href='?order=modifieddate'>" . _("Date Last Modified") . "</a></th>";
 echo "</tr>";
 
-while ($rownum < $numrows) {
-    $nameofwork = mysql_result($result, $rownum, "nameofwork");
-    $author = mysql_result($result, $rownum, "authorsname");
-    $username = mysql_result($result, $rownum, "username");
-    $projectID = mysql_result($result, $rownum, "projectid");
-    $modifieddate = mysql_result($result, $rownum, "LMDate");
+while ($row = mysql_fetch_assoc($result)) {
+    $nameofwork = $row["nameofwork"];
+    $author = $row["authorsname"];
+    $username = $row["username"];
+    $projectID = $row["projectid"];
+    $modifieddate = $row["LMDate"];
 
     $rownum++;
 

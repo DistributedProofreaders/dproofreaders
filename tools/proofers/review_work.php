@@ -127,7 +127,7 @@ $res2 = dpsql_query("
 ") or die("Aborting");
 
 $num_projects = mysql_num_rows($res2);
-echo "<p>" . sprintf(_("<b>%d</b> projects with pages saved in <b>%s</b> by <b>%s</b> within the last <b>%d</b> days."), $num_projects, $work_round->id, $username, $days) . "</p>";
+echo "<p>" . sprintf(_('<b>%1$d</b> projects with pages saved in <b>%2$s</b> by <b>%3$s</b> within the last <b>%4$d</b> days.'), $num_projects, $work_round->id, $username, $days) . "</p>";
 
 // ---------------------------------------------
 // snippets for use in queries

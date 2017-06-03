@@ -85,6 +85,8 @@ foreach($stats as $phase => $num_days)
 $datax = array_keys($stats);
 $datay = array_values($stats);
 $title = _("Days to finish all pages in Rounds");
+// TRANSLATORS: This string is the title of a graph with very little room.
+//              Try to keep the translation the same length as the English text.
 $x_title = _("Help is most needed in the red rounds");
 
 // scale from 0 to 110% of max

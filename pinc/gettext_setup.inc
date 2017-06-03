@@ -20,7 +20,7 @@ If everything else fails, default to English.
 */
 function get_desired_language()
 {
-    global $pguser, $userP;
+    global $pguser, $userP, $use_secure_cookies;
 
     // This function maybe called multiple times within a page load.
     // Only do the calculations to determine the desired language once.
@@ -30,7 +30,7 @@ function get_desired_language()
 
     if (isset($_GET['lang']) && lang_code($_GET['lang'])) {
         $intlang = lang_code($_GET['lang']);
-        setcookie("language",$intlang,time()+31536000,"/");
+        setcookie("language", $intlang, time()+31536000, "/", "", $use_secure_cookies);
     } else if (isset($userP)  && $userP['u_intlang']){
         $intlang = $userP['u_intlang'];
     } else if (!$pguser &&
@@ -45,7 +45,7 @@ function get_desired_language()
 
     // Fall back to English
     if (!@$intlang || !is_locale_translation_enabled($intlang)) {
-        $intlang = "en_EN";
+        $intlang = "en_US";
     }
 
     return $intlang;
@@ -83,6 +83,20 @@ if (! function_exists('ngettext') )
     function ngettext($singular, $plural, $number)
     {
         return ($number == 1) ? $singular : $plural;
+    }
+}
+
+// pgettext allows translation of the same strings that
+// mean two different things.
+// http://php.net/manual/en/book.gettext.php#89975
+if (!function_exists('pgettext'))
+{
+    function pgettext($context, $msgid)
+    {
+        $contextString = "{$context}\004{$msgid}";
+        $translation = dcgettext('messages', $contextString, LC_MESSAGES);
+        if ($translation == $contextString)  return $msgid;
+        else  return $translation;
     }
 }
 

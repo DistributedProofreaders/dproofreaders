@@ -81,13 +81,14 @@ if (!isset($name))
         ");
         if ($c_res)
         {
-            $current_length = mysql_result($c_res,0);
+            $row = mysql_fetch_row($c_res);
+            $current_length = $row[0];
         }
         else
         {
             $current_length = '???';
             $msg = sprintf(
-                _('Warning: there is a syntax error in the project selector for #%d "%s"'),
+                _('Warning: there is a syntax error in the project selector for #%1$d "%2$s"'),
                 $qd->ordering,
                 $qd->name);
             echo "$msg<br>";
@@ -150,9 +151,9 @@ else
     }
 
 
-    $comments_url1 = mysql_escape_string("<a href='$code_url/project.php?id=");
-    $comments_url2 = mysql_escape_string("'>");
-    $comments_url3 = mysql_escape_string("</a>");
+    $comments_url1 = mysql_real_escape_string("<a href='$code_url/project.php?id=");
+    $comments_url2 = mysql_real_escape_string("'>");
+    $comments_url3 = mysql_real_escape_string("</a>");
 
     dpsql_dump_themed_query("
         SELECT

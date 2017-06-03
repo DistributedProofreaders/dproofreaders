@@ -25,8 +25,6 @@ $result = mysql_query("SELECT nameofwork, username, modifieddate, language, genr
                      WHERE state = '".PROJ_P1_WAITING_FOR_RELEASE."'
                      ORDER BY $order ASC");
 
-$numrows = mysql_numrows($result);
-$rownum = 0;
 
 echo "<table class='themed striped'>\n";
 
@@ -39,13 +37,13 @@ echo "<th>"._("Index")."</th>
       <th>"._("Genre")."</th>
       </tr>";
 
-$index = 0;
-while ($rownum < $numrows) {
-    $nameofwork = mysql_result($result, $rownum, "nameofwork");
-    $username = mysql_result($result, $rownum, "username");
-    $modifieddate = mysql_result($result, $rownum, "modifieddate");
-    $language = mysql_result($result, $rownum, "language");
-    $genre = mysql_result($result, $rownum, "genre");
+$rownum = 0;
+while ($row = mysql_fetch_assoc($result)) {
+    $nameofwork = $row["nameofwork"];
+    $username = $row["username"];
+    $modifieddate = $row["modifieddate"];
+    $language = $row["language"];
+    $genre = $row["genre"];
 
     $today = getdate($modifieddate);
     $month = $today['month'];

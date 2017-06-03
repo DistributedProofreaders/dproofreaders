@@ -129,8 +129,9 @@ else {
         $vars = array( 'last_name', 'other_names',
                        'byear', 'bmonth', 'bday', 'bcomments',
                        'dyear', 'dmonth', 'dday', 'dcomments'  );
+        $row = mysql_fetch_assoc($result);
         foreach ($vars as $var)
-            $$var = mysql_result($result, 0, $var);
+            $$var = $row[$var];
         // select the correct year-radio-button
         if ($byear == 0) {
             $byearRadio = '0';

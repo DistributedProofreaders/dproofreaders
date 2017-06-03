@@ -35,7 +35,8 @@ $team_id = $curTeam['id'];
 //Team info portion of $data
 
 $result = mysql_query("SELECT COUNT(id) AS totalTeams FROM user_teams");
-$totalTeams = mysql_result($result, 0, "totalTeams");
+$row = mysql_fetch_assoc($result);
+$totalTeams = $row["totalTeams"];
 
 $data = "<teaminfo id='$team_id'>
         <teamname>".xmlencode($curTeam['teamname'])."</teamname>

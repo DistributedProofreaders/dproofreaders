@@ -39,7 +39,11 @@ if (!empty($uname)) {
         LIMIT $mstart,20
     ");
     $mRows = mysql_num_rows($mResult);
-    if ($mRows == 1) { metarefresh(0,"mdetail.php?id=".mysql_result($mResult,0,"u_id")."",'',''); exit; }
+    if ($mRows == 1)
+    {
+        $row = mysql_fetch_assoc($mResult);
+        metarefresh(0, "mdetail.php?id=".$row["u_id"]);
+    }
     $uname = "uname=".$uname."&";
 } else {
     $mResult=mysql_query("
@@ -77,8 +81,8 @@ if (!empty($mRows)) {
             echo "<td style='text-align: center;'><b>".$row['u_id']."</b></td>";
             echo "<td>".$row['username']."</td>";
             echo "<td style='text-align: center;'>".date("m/d/Y", $row['date_created'])."</td>";
-            $contact_url = attr_safe(get_url_to_compose_message_to_user($row['username']));
-            echo "<td style='text-align: center'><b><a href='mdetail.php?id=".$row['u_id']."'>"._("Statistics")."</a>&nbsp;|&nbsp;<a href='$contact_url'>"._("PM")."</a></b></td>\n";
+            $contact_url = get_url_to_compose_message_to_user($row['username']);
+            echo "<td width='text-align: center'><b><a href='mdetail.php?id=".$row['u_id']."'>"._("Statistics")."</a>&nbsp;|&nbsp;<a href='$contact_url'>" . pgettext("private message", "PM") . "</a></b></td>\n";
 
         } else {
             // Print Anonymous Info
@@ -86,7 +90,7 @@ if (!empty($mRows)) {
             echo "<td style='text-align: center;'><b>---</b></td>";
             echo "<td>" . _("Anonymous") . "</td>";
             echo "<td style='text-align: center;'>---</td>";
-            echo "<td style='text-align='center;'>" . _("None") . "</td>";
+            echo "<td style='text-align='center;'>---</td>";
 
         }
 

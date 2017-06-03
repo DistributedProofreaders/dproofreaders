@@ -14,7 +14,6 @@ To use them:
 2. Edit the files and update `$relPath` to point to your DP `c/pinc/` directory
 3. Add the following lines to your MediaWiki `LocalSettings.php` file:
 
-    require_once('extensions/pgFormats.php');
     require_once('extensions/dpExtensions.php');
     require_once('extensions/hospitalExtensions.php');
 

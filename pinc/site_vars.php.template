@@ -44,21 +44,11 @@ $waiting_projects_forum_idx       = '<<FORUMS_PROJECT_WAITING_IDX>>';
 $projects_forum_idx               = '<<FORUMS_PROJECT_AVAIL_IDX>>';
 $pp_projects_forum_idx            = '<<FORUMS_PROJECT_PP_IDX>>';
 $posted_projects_forum_idx        = '<<FORUMS_PROJECT_POSTED_IDX>>';
+$deleted_projects_forum_idx       = '<<FORUMS_PROJECT_DELETED_IDX>>';
+$completed_projects_forum_idx     = '<<FORUMS_PROJECT_COMPLETED_IDX>>';
 $content_providing_forum_idx      = '<<FORUMS_CONTENT_PROVIDERS_IDX>>';
 $post_processing_forum_idx        = '<<FORUMS_POST_PROCESSORS_IDX>>';
 $teams_forum_idx                  = '<<FORUMS_TEAMS_IDX>>';
-
-
-$general_forum_url                = "$forums_url/viewforum.php?f=$general_forum_idx";
-$waiting_projects_forum_url       = "$forums_url/viewforum.php?f=$waiting_projects_forum_idx";
-$projects_forum_url               = "$forums_url/viewforum.php?f=$projects_forum_idx";
-$pp_projects_forum_url            = "$forums_url/viewforum.php?f=$pp_projects_forum_idx";
-$posted_projects_forum_url        = "$forums_url/viewforum.php?f=$posted_projects_forum_idx";
-$post_processing_forum_url        = "$forums_url/viewforum.php?f=$post_processing_forum_idx";
-$content_providing_forum_url   	  = "$forums_url/viewforum.php?f=$content_providing_forum_idx";
-$beginners_site_forum_url 	  = "$forums_url/viewforum.php?f=$beginners_site_forum_idx";
-$beginners_proofing_forum_url     = "$forums_url/viewforum.php?f=$beginners_proofing_forum_idx";
-$teams_forum_url                  = "$forums_url/viewforum.php?f=$teams_forum_idx";
 
 // -----------------------------------------------------------------------------
 
@@ -105,12 +95,14 @@ $db_requests_email_addr = '<<DB_REQUESTS_EMAIL_ADDR>>';
 $promotion_requests_email_addr = '<<PROMOTION_REQUESTS_EMAIL_ADDR>>';
 $ppv_reporting_email_addr = '<<PPV_REPORTING_EMAIL_ADDR>>';
 $image_sources_manager_addr = '<<IMAGE_SOURCES_EMAIL_ADDR>>';
+$translation_coordinator_email_addr = '<<TRANSLATION_COORDINATOR_EMAIL_ADDR>>';
 
 // -----------------------------------------------------------------------------
 
 $testing = <<TESTING>>;
 $use_php_sessions = <<USE_PHP_SESSIONS>>;
 $cookie_encryption_key = '<<COOKIE_ENCRYPTION_KEY>>';
+$use_secure_cookies = <<USE_SECURE_COOKIES>>;
 $maintenance = <<MAINTENANCE>>;
 $maintenance_message = '<<MAINTENANCE_MESSAGE>>';
 $site_supports_metadata = <<METADATA>>;

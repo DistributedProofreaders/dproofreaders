@@ -31,15 +31,15 @@ function get_news_page_last_modified_date( $news_page_id )
         WHERE news_page_id = '$news_page_id'
     ") or die(mysql_error());
 
-    if (mysql_num_rows($res) == 0)
+    $row = mysql_fetch_assoc($res);
+    if (!$row)
     {
         // The news_pages table does not have an entry for $news_page_id.
         return NULL;
     }
     else
     {
-        list($t_last_change) = mysql_fetch_row($res);
-        return $t_last_change;
+        return $row['t_last_change'];
     }
 }
 
@@ -55,6 +55,8 @@ function show_news_for_page( $news_page_id )
 {
     global $code_url;
 
+    $user_locale = get_desired_language();
+
     $news_subject = get_news_subject($news_page_id);
     
     // -------------------------------------------
@@ -66,6 +68,7 @@ function show_news_for_page( $news_page_id )
         FROM news_items 
         WHERE status = 'current' 
             AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
+            AND (locale = '' OR locale = '$user_locale')
         ORDER BY ORDERING DESC
     ") or die(mysql_error());
 
@@ -76,6 +79,7 @@ function show_news_for_page( $news_page_id )
         FROM news_items 
         WHERE status = 'recent' 
             AND (news_page_id = '$news_page_id' OR news_page_id IS NULL)
+            AND (locale = '' OR locale = '$user_locale')
         ORDER BY RAND() LIMIT 1
     ") or die(mysql_error());
 
@@ -111,6 +115,7 @@ function show_news_for_page( $news_page_id )
         }
         else
         {
+            // TRANSLATORS: this is a strftime-formatted string
             $formatted_date = strftime(_("%A, %B %e, %Y"), $date_changed);
             echo sprintf( _("last changed %s"), $formatted_date );
         }
@@ -125,23 +130,19 @@ function show_news_for_page( $news_page_id )
         // -------------------------------------------
         // Output the 'current' news items, if any.
 
-        if (mysql_num_rows($res_current) > 0)
+        while ($news_item = mysql_fetch_assoc($res_current))
         {
-            while ($news_item = mysql_fetch_assoc($res_current))
-            {
-                echo "<div class='newsitem'>";
-                echo $news_item['content'];
-                echo "</div>";
-            }
+            echo "<div class='newsitem'>";
+            echo $news_item['content'];
+            echo "</div>";
         }
 
         // -------------------------------------------
         // Output the 'random' news item, if any.
 
-        if (mysql_num_rows($res_random) == 1)
+        $news_item = mysql_fetch_assoc($res_random);
+        if($news_item)
         {
-            $news_item = mysql_fetch_assoc($res_random);
-
             echo "<div class='newsitem'>";
             echo $news_item['content'];
             $url = "$code_url/pastnews.php?news_page_id=$news_page_id";

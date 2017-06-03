@@ -137,7 +137,7 @@ function _handle_action($action, $list_type, $language, $word_string)
     {
         case "delete":
             // they want to delete a list, prompt for confirmation first
-            echo "<p>" . sprintf(_("Are you sure you want to delete the <b>%s</b> site word list for language <b>%s</b>?"),$list_type,$language) . "<p>";
+            echo "<p>" . sprintf(_('Are you sure you want to delete the <b>%1$s</b> site word list for language <b>%2$s</b>?'), $list_type, $language) . "<p>";
             echo "<form action='manage_site_word_lists.php' method='post'>";
             echo "<input type='hidden' name='action' value='deleteconfirmed'>";
             echo "<input type='hidden' name='list_type' value='$list_type'>";
@@ -167,20 +167,20 @@ function _handle_action($action, $list_type, $language, $word_string)
             if(count($list_words))
             // it does so give an error message
             {
-                echo "<p class='error'>" . sprintf(_("Can't create a <b>%s</b> list for <b>%s</b> (<b>%s</b>) as it already exists! Edit the list below instead."),$list_type, $language, $langcode3) . "</p>";
+                echo "<p class='error'>" . sprintf(_('Can\'t create a <b>%1$s</b> list for <b>%2$s</b> (<b>%3$s</b>) as it already exists! Edit the list below instead.'), $list_type, $language, $langcode3) . "</p>";
                 $display_list = TRUE;
             }
             else
             // it doesn't so lets let them create one
             {
-                echo "<p>" . sprintf(_("Creating a <b>%s</b> list for language <b>%s</b>."),$list_type,$language) . "</p>";
+                echo "<p>" . sprintf(_('Creating a <b>%1$s</b> list for language <b>%2$s</b>.'), $list_type, $language) . "</p>";
                 _echo_input_form($list_type, $langcode3, $language);
             }
             break;
 
         case "edit":
             // we're editing the list
-            echo "<p>" . sprintf(_("Editing a <b>%s</b> list for language <b>%s</b>."),$list_type,$language) . "</p>";
+            echo "<p>" . sprintf(_('Editing a <b>%1$s</b> list for language <b>%2$s</b>.'), $list_type, $language) . "</p>";
             _echo_input_form($list_type, $langcode3, $language);
             break;
 
@@ -205,8 +205,8 @@ function _handle_action($action, $list_type, $language, $word_string)
             $additions = count(array_diff($new_words,$old_words));
             $deletions = count(array_diff($old_words,$new_words));
             
-            echo "<p>" . sprintf(_("Are you sure you want to save the <b>%s</b> site word list for language <b>%s</b>?"),$list_type,$language) . "<p>";
-            echo "<p>" . sprintf(_("You made %d additions and %d deletions from the list (with %d words unchanged)."),$additions,$deletions,$unchanged) . "</p>";
+            echo "<p>" . sprintf(_('Are you sure you want to save the <b>%1$s</b> site word list for language <b>%2$s</b>?'), $list_type, $language) . "<p>";
+            echo "<p>" . sprintf(_('You made %1$d additions and %2$d deletions from the list (with %3$d words unchanged).'), $additions, $deletions, $unchanged) . "</p>";
             echo "<form action='manage_site_word_lists.php' method='post'>";
             echo "<input type='hidden' name='action' value='saveconfirmed'>";
             echo "<input type='hidden' name='list_type' value='$list_type'>";
@@ -225,7 +225,7 @@ function _handle_action($action, $list_type, $language, $word_string)
             $fileObject = get_site_word_file( $langcode3, $list_type);
             $words = explode("\n",$word_string);
             save_word_list($fileObject->abs_path, $words, "\n");
-            echo "<p>" . sprintf(_("The <b>%s</b> list for language <b>%s</b> has been saved."),$list_type,$language) . "</p>";
+            echo "<p>" . sprintf(_('The <b>%1$s</b> list for language <b>%2$s</b> has been saved.'), $list_type, $language) . "</p>";
             $display_list = TRUE;
             break;
 

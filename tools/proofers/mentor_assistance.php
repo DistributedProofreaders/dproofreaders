@@ -81,7 +81,7 @@ $tbl = new DpTable();
 
 $tbl->AddColumn(_("Page"), "fileid" );
 $tbl->AddColumn(_("Age"), "unixtime", "_ago" );
-$tbl->AddColumn(_("State"), "page_state");
+$tbl->AddColumn(pgettext("page state", "State"), "page_state");
 
 
 echo "
@@ -106,7 +106,7 @@ foreach( $proofers as $username => $proofer )
     $yourcount      = $proofer['your_count'];
     $uid            = $proofer['uid'];
 
-    $privmsg = _("PM");
+    $privmsg = pgettext("private message", "PM");
     $send_pm_url = get_url_to_compose_message_to_user($username);
 
     echo "\n<hr>\n";

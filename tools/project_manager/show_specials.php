@@ -21,10 +21,6 @@ output_header($title, NO_STATSBAR, $theme_args);
 echo "<br><h1>$title</h1>\n";
 echo _("The Name column shows what the colour looks like with a link on top, the Comment with ordinary text.")."<br><br>";
 
-if (user_is_PM()) {
-    echo "<a href='projectmgr.php'>"._("Back to your PM page")."</a><br><br>";
-}
-
 $result = mysql_query("SELECT * FROM special_days ORDER BY open_month, open_day");
 
 echo "<br>\n";
