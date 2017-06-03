@@ -75,6 +75,34 @@ div.faqheader {
 }
 
 /* ------------------------------------------------------------------------ */
+/* User Preferences */
+
+table.preferences {
+    td.label, td.longlabel {
+        background-color: @header-background;
+        color: @header-text;
+    }
+}
+
+#tabs {
+    li {
+        background-color: desaturate(@header-background, 50%);
+    }
+    a {
+        color: desaturate(@header-text, 50%);
+    }
+    a:hover {
+        color: @header-text;
+    }
+    #current {
+        background-color: @header-background;
+        a {
+            color: @header-text;
+        }
+    }
+}
+
+/* ------------------------------------------------------------------------ */
 /* Themed tables */
 
 table.themed {

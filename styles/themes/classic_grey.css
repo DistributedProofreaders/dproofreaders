@@ -127,6 +127,28 @@ div.faqheader {
   color: #000000;
 }
 /* ------------------------------------------------------------------------ */
+/* User Preferences */
+table.preferences td.label,
+table.preferences td.longlabel {
+  background-color: #ffffff;
+  color: #000000;
+}
+#tabs li {
+  background-color: #ffffff;
+}
+#tabs a {
+  color: #000000;
+}
+#tabs a:hover {
+  color: #000000;
+}
+#tabs #current {
+  background-color: #ffffff;
+}
+#tabs #current a {
+  color: #000000;
+}
+/* ------------------------------------------------------------------------ */
 /* Themed tables */
 table.themed tr th {
   background-color: #999999;

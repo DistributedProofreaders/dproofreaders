@@ -7,7 +7,6 @@ include_once($relPath.'prefs_options.inc');
 include_once($relPath.'languages.inc'); // bilingual_name()
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'tabs.inc');
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'misc.inc'); // startswith(...), attr_safe(), html_safe()
 include_once($relPath.'js_newpophelp.inc');
@@ -168,20 +167,15 @@ $theme_extra_args["js_data"] =
         }
     }";
     
-output_header($header, SHOW_STATSBAR, $theme_extra_args);
-echo_stylesheet_for_tabs();
+output_header($header, NO_STATSBAR, $theme_extra_args);
+echo "<h1>$header</h1>";
+
+echo "<p>" . _("Your preferences are grouped into tabs. Switch between the tabs by clicking on e.g. 'General' or 'Proofreading'.");
+echo "<br>" . _("Click the ? for help on that specific preference.") . "</p>";
 echo "<br><center>";
 
 echo "<form action='userprefs.php' method='post'>";
-echo "<table width='90%' bgcolor='#ffffff' border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse'>";
-
-echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='6' align='center'>";
-
-echo "<font size=\"+2\" color='".$theme['color_headerbar_font']."'><b>"
-    // TRANSLATORS: %s is the user ID
-    . sprintf(_("Preferences Page for %s"), $pguser) . "</b></font>\n";
-echo "<br><font color='".$theme['color_headerbar_font']."'><i>"._("Your preferences are grouped into tabs. Switch between the tabs by clicking on e.g. 'General' or 'Proofreading'.")."</i></font>\n";
-echo "<br><font color='".$theme['color_headerbar_font']."'><i>"._("(click the ? for help on that specific preference)")."</i></font></td></tr>";
+echo "<table class='preferences'>";
 
 echo_tabs($tabs, $selected_tab);
 
@@ -217,7 +211,7 @@ echo "\n\n<script type='text/javascript'><!--\nwindow.onload = function() \{$win
 function echo_tabs($tab_names, $selected_tab) {
     global $origin;
 
-    echo "<tr><td colspan='6' align='left'>\n";
+    echo "<tr><td class='tabbar' colspan='6'>\n";
     echo "  <div id='tabs'>\n    <ul>\n";
     foreach (array_keys($tab_names) as $index) {
         if ($index == $selected_tab) {
@@ -228,7 +222,7 @@ function echo_tabs($tab_names, $selected_tab) {
         $url = "?tab=$index&amp;origin=" . urlencode($origin);
         echo "<a href='$url'>{$tab_names[$index]}</a></li>\n";
     }
-    echo "    </ul>\n  </div>\n</td></tr>\n";
+    echo "    </ul>\n  </div>\n</th></tr>\n";
 }
 
 /*************** GENERAL TAB ***************/
@@ -960,18 +954,12 @@ function show_blank()
 
 function td_label( $label )
 {
-    global $theme;
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' align='right'>";
-    echo "<strong>$label</strong>";
-    echo "</td>";
+    echo "<td class='label'>$label</td>";
 }
 
 function td_label_long( $colspan, $label )
 {
-    global $theme;
-    echo "<td bgcolor='".$theme['color_logobar_bg']."' colspan='$colspan' align='center'>";
-    echo "<strong>$label</strong>";
-    echo "</td>";
+    echo "<td class='longlabel' colspan='$colspan'>$label</td>";
 }
 
 function td_pophelp( $pophelp_name )

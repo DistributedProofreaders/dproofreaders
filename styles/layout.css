@@ -310,6 +310,82 @@ div.faqheader {
   padding: 0.25em 0.5em;
 }
 /* ------------------------------------------------------------------------ */
+/* User Preferences */
+/*
+This stylesheet originated from http://www.alistapart.com/articles/slidingdoors/
+Quote http://www.alistapart.com/copyright/:
+*/
+/*
+ *  A List Apart gives away CSS styles, JavaScript, PHP and Perl scripts,
+ *  XHTML markup techniques, and other bits of "source code" for the use
+ *  of its readers. You may freely copy, paste, and modify any of this
+ *  code for use on your own web projects large or small, commercial or
+ *  non-commercial. You need not ask permission to do so. You need not
+ *  credit ALA or its authors. It is our gift to you.
+ *
+ *  ...
+ *
+ *  Images, including those used in tutorials (example), cannot be
+ *  reproduced outside this magazine, except by the author or designer
+ *  who created them.
+ *
+ *  You may adapt elements of our CSS in your own projects, but the
+ *  unique combination of images, colors, sizes, typography, and
+ *  positioning ("the design") is copyright 2003 A List Apart Magazine
+ *  and Happy Cog Studios and may not be reproduced.
+ */
+table.preferences {
+  border-collapse: collapse;
+  width: 75%;
+}
+table.preferences td.tabbar {
+  text-align: left;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+table.preferences td {
+  border: solid thin black;
+}
+table.preferences td.label {
+  font-weight: bold;
+  text-align: right;
+  vertical-align: middle;
+}
+table.preferences td.longlabel {
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+}
+#tabs {
+  float: left;
+  width: 100%;
+}
+#tabs ul {
+  margin: 0;
+  padding: 0 10px 0;
+  list-style: none;
+}
+#tabs li {
+  float: left;
+  margin: 0;
+  padding: 0 0 0 4px;
+  border: solid thin gray;
+  border-radius: 5px 5px 0 0;
+}
+#tabs a {
+  float: left;
+  display: block;
+  padding: 5px 15px 4px 6px;
+  text-decoration: none;
+}
+#tabs #current {
+  border: solid thin gray;
+}
+#tabs #current a {
+  font-weight: bold;
+}
+/* ------------------------------------------------------------------------ */
 /* Themed tables */
 table.themed {
   width: 100%;
