@@ -195,6 +195,22 @@ table.striped tr:nth-child(odd) td {
 .sans-serif {
   font-family: Verdana, Helvetica, sans-serif;
 }
+/* ------------------------------------------------------------------------ */
+/* PPV Report */
+table.ppv_reportcard th {
+  text-align: center;
+  font-weight: bold;
+  border: solid thin black;
+}
+table.ppv_reportcard th.major_section {
+  background-color: #ffffff;
+}
+table.ppv_reportcard th.minor_section {
+  background-color: #99ff99;
+}
+table.ppv_reportcard th.heading {
+  background-color: #e0e8dd;
+}
 /* vim: sw=4 ts=4 expandtab
 */
 /* vim: sw=4 ts=4 expandtab

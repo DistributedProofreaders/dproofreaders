@@ -16,54 +16,9 @@ require_login();
 
 // -------------------------------------
 
-$theme_args['js_data'] = "
-function grow_textarea(textarea_id)
-{
-    textarea = document.getElementById(textarea_id);
-    textarea.rows = textarea.rows+2;
-}
-
-function shrink_textarea(textarea_id)
-{
-    textarea = document.getElementById(textarea_id);
-    if (textarea.rows > 2)
-    {
-        textarea.rows = textarea.rows-2;
-    }
-}";
-
 $theme_args['css_data'] = "
-.single {
-    margin:0;
-    padding:0;
-    text-indent:-3em;
-    margin-left:3em;
-}    
-.single2 {
-    margin:0;
-    padding:0;
-    text-indent:-1.25em;
-    margin-left:1.25em;
-}    
-div.shrinker {float: right;}
-div.shrinker a {
-    font-size:200%; 
-    font-weight: 900;
-    text-decoration: none!important;
-    color: #888;
-    cursor: pointer;
-}
 input[type='text'], textarea {
      background-color: #E2F2E1;
-}
-
-p.form_problem {
-    color: red;
-    font-weight: bold;
-    margin-bottom: 0;
-}
-p.form_problem:before {
-    content: '\\002193 '; /* down-arrow */
 }
 ";
 
@@ -184,12 +139,12 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
     $i5 = $i4 . "    ";
     $i6 = $i5 . "    ";
 
-    function tr_w_one_cell_centered($bgcolor, $content)
+    function tr_w_one_cell_centered($class, $content)
     {
         global $i4, $i5;
         return ""
             . "\n$i4<tr>"
-            . "\n$i5<td colspan='2' style='text-align: center; font-weight: bold; background: $bgcolor;'>$content</td>"
+            . "\n$i5<th colspan='2' class='$class'>$content</th>"
             . "\n$i4</tr>";
     }
 
@@ -250,7 +205,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         return ""
             . maybe_report_form_problem($problem)
             . "\n$i6"
-            . "<p class='single2'>"
+            . "<p class='inline_input hanging_indent'>"
             . _checkbox($some_id, $some_label)
             . "&nbsp;&nbsp;"
             . _checkbox($sig_id, $sig_label)
@@ -287,7 +242,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         return ""
             . maybe_report_form_problem($problem)
             . "\n$i6"
-            . "<p class='single2'>"
+            . "<p class='inline_input hanging_indent'>"
             . _checkbox($some_id, $some_label)
             . ": "
             . _textbox($num_id, _("(Number of)"), array('use_a_label_element'=>TRUE, 'put_label_on_left'=>TRUE))
@@ -299,7 +254,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         global $i6;
         return ""
             . "\n$i6"
-            . "<p class='single2'>"
+            . "<p class='inline_input hanging_indent'>"
             . _checkbox($id, $label, $checked_in_blank_form)
             . "</p>";
     }
@@ -349,7 +304,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         return ""
             . maybe_report_form_problem($problem)
             . "\n$i6"
-            . "<p class='single'>"
+            . "<p class='inline_input hanging_indent_long'>"
             . _textbox($id, $label, $options)
             . "</p>";
     }
@@ -405,14 +360,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
 
         $esc_text = html_safe($text);
 
-        return ""
-            . "<textarea rows='4' cols='67' name='$id' id='$id' wrap='hard'>$esc_text</textarea>"
-            . "<br />"
-            . "<div class='shrinker'>"
-            . "<a onclick='grow_textarea(\"$id\")'>+</a>"
-            . "&nbsp;"
-            . "<a onclick='shrink_textarea(\"$id\")'>&minus;</a>"
-            . "</div>";
+        return "<textarea rows='4' cols='67' name='$id' id='$id' wrap='hard'>$esc_text</textarea>";
     }
 
     function is_decimal_digits($s)
@@ -427,9 +375,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
 
     $entry_form = "<br />
           <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;confirm=1' name='ppvform' method='post'>
-          <table border='1' id='report_card' style='width: 95%'>
+          <table class='ppv_reportcard' id='report_card'>
 "
-        . tr_w_one_cell_centered($theme['color_logobar_bg'], _("Project Information"))
+        . tr_w_one_cell_centered('major_section', _("Project Information"))
         . tr_w_two_cells(
             _("Project ID"),
             "<input type='hidden' name='projectid' value='$projectid'>$projectid"
@@ -466,8 +414,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             $pp_date
         )
 
-        . tr_w_one_cell_centered($theme['color_logobar_bg'], _("General Information"))
-        . tr_w_one_cell_centered("#e0e8dd", _("Difficulty Details"))
+        . tr_w_one_cell_centered('major_section', _("General Information"))
+        . tr_w_one_cell_centered("heading", _("Difficulty Details"))
         . tr_w_two_cells(
             "File Information",
             number_box('kb_size', _("Text File Size in kb (Please do not insert commas. For example, you should input 1450 instead of 1,450 and, if you use commas as decimal marks, 1450.5 instead of 1450,5)"), array('size'=>5))
@@ -491,9 +439,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . check_box('sig_music',     _("Musical Notation and Files"))
                 . check_box('sig_math',      _("Extensive mathematical/chemical notation"))
         )
-        . tr_w_one_cell_centered("#99ff99", _("ERRORS") . " <a href='$ppv_guidelines_url#errors'>**</a>")
-        . tr_w_one_cell_centered("#99ff99", _("LEVEL 1 (Minor Errors)"))
-        . tr_w_one_cell_centered("#e0e8dd", _("All Versions"))
+        . tr_w_one_cell_centered("minor_section", _("ERRORS") . " <a href='$ppv_guidelines_url#errors'>**</a>")
+        . tr_w_one_cell_centered("minor_section", _("LEVEL 1 (Minor Errors)"))
+        . tr_w_one_cell_centered("heading", _("All Versions"))
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
             ""
@@ -508,8 +456,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . "\n"
                 . comment_box('level1_general_comments')
         )
-        . tr_w_one_cell_centered("#e0e8dd", _("HTML Version Only"))
-        . tr_w_one_cell_centered("#e0e8dd", _("Images"))
+        . tr_w_one_cell_centered("heading", _("HTML Version Only"))
+        . tr_w_one_cell_centered("heading", _("Images"))
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
             ""
@@ -519,7 +467,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . number_box('e1_distort_num',   _("Failure to enter image size appropriately via HTML attribute or CSS such that the image is distorted in HTML, epub or mobi"))
                 . number_box('e1_alt_num',       _("Failure to use appropriate \"alt\" tags for images that have no caption and to include empty \"alt\" tags if captions exist"))
         )
-        . tr_w_one_cell_centered("#e0e8dd", _("HTML Code"))
+        . tr_w_one_cell_centered("heading", _("HTML Code"))
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
             ""
@@ -535,8 +483,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . "\n"
                 . comment_box('level1_html_comments')
         )
-        . tr_w_one_cell_centered("#99ff99", _("LEVEL 2 (Major Errors)"))
-        . tr_w_one_cell_centered("#e0e8dd", _("All Versions"))
+        . tr_w_one_cell_centered("minor_section", _("LEVEL 2 (Major Errors)"))
+        . tr_w_one_cell_centered("heading", _("All Versions"))
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
             ""
@@ -551,7 +499,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . "\n"
                 . comment_box('level2_general_comments')
         )
-        . tr_w_one_cell_centered("#e0e8dd", _("HTML Version Only"))
+        . tr_w_one_cell_centered("heading", _("HTML Version Only"))
         . tr_w_two_cells(
             _("Approximate number of errors <br>(Please enter only numbers)"),
             ""
@@ -563,7 +511,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . number_box('e2_epub_num',     _("Project not presentable/useable when put through epubmaker") . " <a href='$ppv_guidelines_url#reader'>****</a>")
                 . number_box('e2_heading_num',  _("Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)"))
         )
-        . tr_w_one_cell_centered("#99ff99", _("STRONGLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, but the PPer should be counselled to correct any problems)"))
+        . tr_w_one_cell_centered("minor_section", _("STRONGLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, but the PPer should be counselled to correct any problems)"))
         . tr_w_two_cells(
             _("Occurrence"),
             ""
@@ -577,7 +525,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . check_box('s_thumbs',  _("Remove thumbs.db file from the images folder"))
                 . check_box('s_ereader', _("E-reader version, although without major flaws, should also look as good as possible"))
         )
-        . tr_w_one_cell_centered("#99ff99", _("MILDLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, and any corrections are solely at the discretion of the PPVer and PPer)"))
+        . tr_w_one_cell_centered("minor_section", _("MILDLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, and any corrections are solely at the discretion of the PPVer and PPer)"))
         . tr_w_two_cells(
             _("Occurrence"),
             ""
@@ -585,7 +533,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . check_box('m_space',     _("Include space before the slash in self-closing tags (e.g. &lt;br /&gt;)"))
                 . check_box('m_unusedcss', _("Ensure that there are no unused elements in the CSS (other than the base HTML headings)"))
         )
-        . tr_w_one_cell_centered("#99ff99", _("GENERAL COMMENTS"))
+        . tr_w_one_cell_centered("minor_section", _("GENERAL COMMENTS"))
         . tr_w_two_cells(
             _("Did you have to return the project again because the PPer failed to make requested corrections on the second submission? (If so, please explain)"),
             comment_box('reason_returned')
@@ -594,15 +542,15 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             _("General comments on this project or your experience working with this PPer."),
             comment_box('general_comments')
         )
-        . tr_w_one_cell_centered($theme['color_logobar_bg'], _("Copies"))
+        . tr_w_one_cell_centered('major_section', _("Copies"))
         . tr_w_two_cells(
             _("Send to"),
             ""
                 . check_box('cc_ppv', _("Me"))
                 . check_box('cc_pp', $project->postproofer, TRUE) ."
-                        <p class='single2'><input type='checkbox' name='foo' checked disabled>"._("PPV Summary (mailing list)") ."</p>"
+                        <p class='inline_input hanging_indent'><input type='checkbox' name='foo' checked disabled>"._("PPV Summary (mailing list)") ."</p>"
         )
-        . tr_w_one_cell_centered("#ffffff", "<input type='submit' value='".attr_safe(_("Submit"))."'>") ."
+        . tr_w_one_cell_centered("", "<input type='submit' value='".attr_safe(_("Submit"))."'>") ."
         </table>
     </form>";
 }

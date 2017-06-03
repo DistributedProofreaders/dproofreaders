@@ -433,5 +433,36 @@ table.striped {
     }
 }
 
+/* ------------------------------------------------------------------------ */
+/* PPV Report */
+
+p.inline_input {
+    .no-margin;
+    .no-padding;
+}
+p.hanging_indent {
+    text-indent: -1.25em;
+    margin-left: 1.25em;
+}
+p.hanging_indent_long {
+    text-indent: -3em;
+    margin-left: 3em;
+}
+p.form_problem {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+p.form_problem:before {
+    content: '\\002193 '; /* down-arrow */
+}
+table.ppv_reportcard {
+    border: solid thin black;
+    width: 95%;
+    td {
+        border: solid thin black;
+    }
+}
+
 /* vim: sw=4 ts=4 expandtab
 */

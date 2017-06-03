@@ -350,12 +350,10 @@ table.preferences td {
 table.preferences td.label {
   font-weight: bold;
   text-align: right;
-  vertical-align: middle;
 }
 table.preferences td.longlabel {
   font-weight: bold;
   text-align: center;
-  vertical-align: middle;
 }
 #tabs {
   float: left;
@@ -399,6 +397,36 @@ table.themed tr td {
 table.striped tr th,
 table.striped tr td {
   padding: 0.2em;
+}
+/* ------------------------------------------------------------------------ */
+/* PPV Report */
+p.inline_input {
+  margin: 0;
+  padding: 0;
+}
+p.hanging_indent {
+  text-indent: -1.25em;
+  margin-left: 1.25em;
+}
+p.hanging_indent_long {
+  text-indent: -3em;
+  margin-left: 3em;
+}
+p.form_problem {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+p.form_problem:before {
+  content: '\\002193 ';
+  /* down-arrow */
+}
+table.ppv_reportcard {
+  border: solid thin black;
+  width: 95%;
+}
+table.ppv_reportcard td {
+  border: solid thin black;
 }
 /* vim: sw=4 ts=4 expandtab
 */
