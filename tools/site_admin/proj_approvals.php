@@ -7,7 +7,9 @@ include_once($relPath.'theme.inc');
 
 require_login();
 
-output_header("Copyright Approval");
+$title = _("Copyright Approval");
+output_header($title);
+echo "<h1>$title</h1>";
 
 if (!$site_supports_metadata)
 {
@@ -41,20 +43,16 @@ if (isset($projectid))
     ");
 }
 
-echo "<table border=1>\n";
+echo "<p>" . _("The following books need to be approved/disapproved for copyright clearance.") . "</p>";
+
+echo "<table class='themed'>\n";
     // Header row
     echo "
         <tr>
-            <td align='center' colspan='4'><b>Books Waiting for Copyright Approval</b></td>
-        </tr>
-        <tr>
-            <td align='center' colspan='4'>The following books need to be approved/disapproved for copyright clearance.</td>
-        </tr>
-        <tr>
-            <td align='center' colspan='1'><b>Title</b></td>
-            <td align='center' colspan='1'><b>Author</b></td>
-            <td align='center' colspan='1'><b>Clearance Line</b></td>
-            <td align='center' colspan='1'><b>Approved/Disapproved</b></td>
+            <th colspan='1'>" . _("Title") . "</td>
+            <th colspan='1'>" . _("Author") . "</td>
+            <th colspan='1'>" . _("Clearance Line") . "</td>
+            <th colspan='1'>" . _("Approved/Disapproved") . "</td>
         </tr>
     ";
 
@@ -63,7 +61,6 @@ echo "<table border=1>\n";
         FROM projects
         WHERE state = 'project_new_waiting_app'
     ");
-    $rownum = 0;
 
     while ($row = mysql_fetch_assoc($result)) {
         $projectid = $row["projectid"];
@@ -72,37 +69,21 @@ echo "<table border=1>\n";
         $author = $row["authorsname"];
         $clearance = $row["clearance"];
 
-        if ($rownum % 2 ) {
-            $row_color = $theme['color_mainbody_bg'];
-        } else {
-            $row_color = $theme['color_navbar_bg'];
-        }
-
         echo "
-            <tr bgcolor='$row_color'>
+            <tr>
             <td align='right'><a href='$code_url/project.php?id=$projectid'>$name</a></td>
             <td align='right'>$author</td>
             <td><input type='text' size='67' name='clearance' value='$clearance'></td>
             <td>
                 <form action='proj_approvals.php?projectid=$projectid'>
-                Approved<input type='radio' name='metadata' value='approved'>
-                Disapproved<input type='radio' name='metadata' value='disapproved'>
+                " . _("Approved") . "<input type='radio' name='metadata' value='approved'>
+                " . _("Disapproved") . "<input type='radio' name='metadata' value='disapproved'>
                 <INPUT TYPE=SUBMIT VALUE='update'>
                 </form>
             </td>
             </tr>
         ";
-
-        $rownum++;
     }
-
-    echo "<tr></tr>\n";
-    echo "<tr></tr>\n";
-    echo "<tr></tr>\n";
-    echo "<tr></tr>\n";
-    echo "<tr></tr>\n";
-    echo "<tr></tr>\n";
-
 
 echo "</table>";
 echo "<br>";

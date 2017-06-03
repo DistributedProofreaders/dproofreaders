@@ -33,6 +33,11 @@ $pages = array(
     "show_common_words_from_project_word_lists.php" => _("Show common words from project word lists"),
 );
 
+if($site_supports_metadata)
+{
+    $pages["proj_approvals.php"] = _("Copyright approvals");
+}
+
 echo "<ul>";
 foreach($pages as $page => $label)
     echo "<li><a href='$page'>$label</a></li>";
