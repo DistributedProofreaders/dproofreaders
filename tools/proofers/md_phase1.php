@@ -97,15 +97,15 @@ $language = $row["language"];
 
 $numpages = Project_getNumPages( $projectid );
 
-output_header(_("Image Metadata Phase1"));
+$title = _("Image Metadata Phase1");
+output_header($title);
+echo "<h1>$title</h1>";
 
-echo "<center><table border=1>";
-
-echo "<tr><td bgcolor='" . $theme['color_headerbar_bg'] . "' colspan=6><b><font color='" . $theme['color_headerbar_font'] . "' size=+1>" . sprintf(_("Project Name: %s"),$name) . "</b></td></tr>";
-
-echo "<tr><td bgcolor='" . $theme['color_navbar_bg'] . "'><b>" . _("Author") . ":</b></td><td>$author</td><td bgcolor='" . $theme['color_navbar_bg'] . "'><b>" . _("Total Number of Master Pages") . ":</b></td><td>$numpages</td>";
-echo "<td bgcolor='" . $theme['color_navbar_bg'] . "'><b>" . _("Language") . ":</b></td><td>$language</td></tr><tr></tr>";
-echo "</table>";
+echo "<p>";
+echo "<b>" . _("Project Name") . "</b>: $name<br>";
+echo "<b>" . _("Total Number of Master Pages") . "</b>: $numpages<br>";
+echo "<b>" . _("Language") . "</b>: $language<br>";
+echo "</p>";
 
 //---------------------------------------------------------------------------------------------------
 
@@ -113,16 +113,16 @@ echo "</table>";
 //echo "<h3>Per-Page Info</h3>\n";
 
 
-echo "<form method ='post'><table border=1>\n";
+echo "<form method ='post'><table class='themed striped'>\n";
 
 
     // Top header row
     echo "<tr>\n";
-    echo "    <td align='center' colspan='1'><b>" . _("Index") . "</b></td>\n";
-    echo "    <td align='center' colspan='1'><b>" . _("Image Name") . "</b></td>\n";
-    echo "    <td align='center' colspan='1'><b>" . _("Original Page #") . "</b></td>\n";
-    echo "    <td align='center' colspan='1'><b>" . _("Page Metadata") . "</b></td>\n";
-    echo "    <td align='center' colspan='1'><b>" . _("Thumbnail") . "</b></td>\n";
+    echo "    <th>" . _("Index") . "</th>\n";
+    echo "    <th>" . _("Image Name") . "</th>\n";
+    echo "    <th>" . _("Original Page #") . "</th>\n";
+    echo "    <th>" . _("Page Metadata") . "</th>\n";
+    echo "    <th>" . _("Thumbnail") . "</th>\n";
     echo "</tr>\n";
 
     // Image rows
@@ -141,12 +141,7 @@ echo "<form method ='post'><table border=1>\n";
         $metadata = $page_res['metadata'];
         $orig_page_num = $page_res['orig_page_num'];
 
-        if ($rownum % 2 ) {
-            $row_color = $theme['color_mainbody_bg'];
-        } else {
-            $row_color = $theme['color_navbar_bg'];
-        }
-        echo "<tr bgcolor='$row_color'>";
+        echo "<tr>";
 
         // --------------------------------------------
         // Index
@@ -154,16 +149,14 @@ echo "<form method ='post'><table border=1>\n";
         echo "<td align='right'>$index</td>\n";
 
         if (file_exists($path.$image)) {
-            $bgcolor = $row_color;
             if ($show_image_size) $imagesize = filesize(realpath($path.$image));
         } else {
-            $bgcolor = "#FF0000";
             if ($show_image_size) $imagesize = 0;
         }
-        echo "<td bgcolor='$bgcolor'><a href=../project_manager/displayimage.php?project=$projectid&imagefile=$image>$image</a></td>\n";
+        echo "<td><a href=../project_manager/displayimage.php?project=$projectid&imagefile=$image>$image</a></td>\n";
 
         // Original Page Number   
-        echo "<td bgcolor='$bgcolor'><input type ='textbox' name='orig_page_num_[$image]' value = $orig_page_num></td>";
+        echo "<td><input type ='textbox' name='orig_page_num_[$image]' value = $orig_page_num></td>";
 
 
         // Set up existing page metadata if there is any, page defaults to nonblank
@@ -182,7 +175,7 @@ echo "<form method ='post'><table border=1>\n";
             $metadata = 'nonblank';
         }
 
-        echo "<td bgcolor='$bgcolor' align='left'>\n";
+        echo "<td align='left'>\n";
         foreach ( $metadata_possibles as $code => $label )
         {
             $checked = ($code == $metadata ? 'checked' : '');
@@ -191,7 +184,7 @@ echo "<form method ='post'><table border=1>\n";
         echo "</td>";
 
         // Show Thumbnail
-        echo "<td bgcolor='$bgcolor' align='right'>
+        echo "<td align='right'>
                 <a href=\"../project_manager/displayimage.php?project=$projectid&imagefile=$image\"><img src =\"$projects_url/$projectid/thumbs/$image\" alt = \"$image\" border =\"0\"></a>
             </td>";
 
