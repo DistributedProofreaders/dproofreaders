@@ -5,37 +5,21 @@ include_once($relPath.'quizzes.inc'); // get_quiz_id_param get_Quiz_with_id
 
 function output_small_header($quiz)
 {
-    global $theme, $theme_name, $code_url, $site_name, $site_abbreviation;
+    global $code_url, $site_name, $site_abbreviation;
 
     // From theme.inc
     html_header('');
 
     $quiz_name = $quiz->short_name;
 
-    echo "<table cellspacing=0 cellpadding=0 width='100%'>";
-    echo "<tr width='100%'>";
-    echo "<td width='100%' bgcolor='".$theme['color_logobar_bg']."'>\n";
-    echo "<a href='$code_url' target='_top'><img src='$code_url/graphics/dp-logo-360x68px.png' width='360' height='68' alt='".$site_name."' border='0'></a>\n";
-    echo "</td>";
-    echo "</tr>";
-    echo "</table>";
-    // Close table, and to prevent weird spacing, start a new table.
+    echo "\n<div id='header'>\n";
+    echo "<div id='logo'>\n";
+    echo "<a href='$code_url'><img src='$code_url/graphics/dp-logo-360x68px.png' width='360' height='68' alt='$site_name' border='0'></a>\n";
+    echo "</div>";
+    echo "</div>\n";
 
-    $font_face  = $theme['font_headerbar'];
-    $font_color = $theme['color_headerbar_font'];
-    $bgcolor    = $theme['color_headerbar_bg'];
-
-    echo "<table cellspacing=0 cellpadding=0 width='100%'>";
-    echo "<tr>";
-    echo "<td align='left' bgcolor='$bgcolor'>\n";
-    echo "<a href='$code_url/default.php' target='_top'>\n";
-    echo "<font face='$font_face' size='1' color='$font_color'>$site_abbreviation</font></a>\n";
-    echo "<font face='$font_face' size='1' color='$font_color'> &#187; $quiz_name</font>\n";
-    echo "</td>\n";
-    echo "<td align='right' bgcolor='$bgcolor'>\n";
-    echo "<a href='$code_url/activity_hub.php' target='_top'><font face='$font_face' size='1' color='$font_color'>" . _("Activity Hub") . "</font></a>";
-    echo "<font face='$font_face' size='1' color='$font_color'>&nbsp;<b>&#183;</b>&nbsp;</font>";
-
+    // XXX localization bug:
+    // $guide_url should point to the locale-appropriate version of the guidelines.
     if ($quiz->activity_type == "format")
     {
         $guide_url = "$code_url/faq/document.php";
@@ -51,13 +35,26 @@ function output_small_header($quiz)
         $guide_url = "$code_url/faq/faq_central.php";
         $guide_text = _("Help");
     }
-    // XXX localization bug:
-    // $guide_url should point to the locale-appropriate version of the guidelines.
-    echo "<a href='$guide_url' target='_top'><font face='$font_face' size='1' color='$font_color'>$guide_text</font></a>";
 
-    echo "</td>";
-    echo "</tr>";
-    echo "</table>";
+    $links = array(
+        array('text' => $site_abbreviation, 'url' => "$code_url/default.php", 'target' => '_top'),
+        array('text' => "<span class='currentpage'>$quiz_name</span>"),
+    );
+
+    echo "<div id='navbar'>";
+    echo "<span id='navbar-left'>";
+    echo headerbar_text_array($links);
+    echo "</span>";
+
+    $links = array(
+        array('text' => _("Activity Hub"), 'url' => "$code_url/activity_hub.php", 'target' => '_top'),
+        array('text' => $guide_text, 'url' => $guide_url, 'target' => '_top'),
+    );
+
+    echo "<span id='navbar-right'>";
+    echo headerbar_text_array($links);
+    echo "</span>";
+    echo "</div>";
 
     // Call output_small_footer when the main page content has been emitted so
     // we can emit the footer

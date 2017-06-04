@@ -4,10 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'quizzes.inc');
 
-$theme_args["css_data"] = "th.q {background:$theme[color_headerbar_bg]; color:$theme[color_headerbar_font];}
-td.info {background:$theme[color_navbar_bg]; color:$theme[color_navbar_font];}";
-
-
 // Introductory information to be displayed when showing all proofing or
 // all formatting quizzes.
 $quiz_type_intro = array(
@@ -31,7 +27,7 @@ if (
     ($quiz_level = @$map_quiz_level_id_to_QuizLevel[$quiz_level_id])
 )
 {
-    output_header($quiz_level->level_name, SHOW_STATSBAR, $theme_args);
+    output_header($quiz_level->level_name, SHOW_STATSBAR);
     echo "<h1>".$quiz_level->level_name."</h1>\n";
     echo $quiz_level->info;
     foreach ($quiz_level->quizzes as $quiz)
@@ -66,7 +62,7 @@ elseif (
 
     $intro = $quiz_type_intro[$activity_type];
 
-    output_header($intro['title'], SHOW_STATSBAR, $theme_args);
+    output_header($intro['title'], SHOW_STATSBAR);
     echo $intro['head'];
 
     $levels_for_current_type = array();
@@ -94,7 +90,7 @@ elseif (
 // otherwise just give links to P and F quizzes separately, so that the page isn't too long
 else
 {
-    output_header(_('Interactive Quizzes and Tutorials'), SHOW_STATSBAR, $theme_args);
+    output_header(_('Interactive Quizzes and Tutorials'), SHOW_STATSBAR);
     echo "<h1>" . _("Interactive Quizzes and Tutorials") . "</h1>\n";
     echo "<p>" . sprintf(_("Welcome to %s's interactive quizzes! The following quizzes are available:"), $site_abbreviation) . "</p>\n<p>";
     foreach ($quiz_type_intro as $key=>$intro)

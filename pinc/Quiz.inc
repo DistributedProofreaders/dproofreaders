@@ -120,9 +120,8 @@ class Quiz
         else
             $n_columns = 2;
 
-        echo "
-            <p><table border='0' cellpadding='2' style='border:2px solid black;'>
-            <tr><th class='q' colspan='$n_columns'>$this->name</th></tr>";
+        echo "<h3>$this->name</h3>";
+        echo "<table class='themed striped'>";
 
         // This assumes that the access minima quiz strings are names
         // 'quiz/X' where X is some quiz ID (eg 'f_only', 'p_mod2', 'p_greek')
@@ -168,17 +167,17 @@ class Quiz
                 $passed = user_has_passed_quiz_page($username, $quiz_page_id);
                 $text = $passed ? _("Passed") : _("Not passed");
                 $bgcolor = $passed ? '#ccffcc' : '#ffcccc';
-                echo "<td bgcolor='$bgcolor'>$text</td>";
+                echo "<td style='background-color: $bgcolor'>$text</td>";
                 $date = get_last_attempt_date_for_quiz_page($username, $quiz_page_id);
                 $text = ($date != 0) ? strftime("%d-%b-%y", $date) : _("Not attempted");
                 $max = $this->pass_requirements['maximum_age'];
                 $date_ok = ((time() - $date) < $max) || empty($max);
                 $bgcolor = $date_ok ? '#ccffcc' : '#ffcccc';
-                echo "<td bgcolor='$bgcolor'>$text</td>";
+                echo "<td style='background-color: $bgcolor'>$text</td>";
                 $text = ($passed && $date_ok) ?	"<img src='$code_url/quiz/tick.png' alt='Tick!' title='Quiz page passed!' width='25' height='24' />"
                     : "<img src='$code_url/quiz/cross.png' alt='Cross' title='Quiz page not passed' width='22' height='25'  />";
                 $bgcolor = ($passed && $date_ok) ? '#88ff88' : '#ff8888';
-                echo "<td bgcolor='$bgcolor'>$text</td>";
+                echo "<td style='background-color: $bgcolor'>$text</td>";
             }
             echo "</tr>";
         }
@@ -188,7 +187,7 @@ class Quiz
             $text = $total_pass ? _("Quiz passed") : _("Quiz not passed");
             $bgcolor = $total_pass ? '#88ff88' : '#ff8888';
             echo "
-                <tr><td colspan='$n_columns'  bgcolor='$bgcolor' style='font-weight: bold;text-align:center;'>$text</td></tr>";
+                <tr><td colspan='$n_columns' style='background-color: $bgcolor; font-weight: bold; text-align: center;'>$text</td></tr>";
         }
         echo "</table></p>\n";
     }

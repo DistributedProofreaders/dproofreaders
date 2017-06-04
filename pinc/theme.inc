@@ -371,7 +371,8 @@ function headerbar_text_array($entries)
     foreach($entries as $entry)
     {
         $text = $entry['text'];
-        $title = @$entry['title'];
+        $title = array_get($entry, 'title', '');
+        $target = array_get($entry, 'target', NULL);
 
         if(!empty($entry['url']))
         {
@@ -385,18 +386,25 @@ function headerbar_text_array($entries)
             $text = str_replace(' ', '&nbsp;', $text);
 
             // set the title if specified
-            $title_attr= '';
-            if(!empty($title))
-                $title_attr= " title='" . attr_safe($title) . "'";
+            $title_attr = '';
+            if($title)
+                $title_attr = " title='" . attr_safe($title) . "'";
+
+            // set the target if specified
+            $target_attr = '';
+            if($target)
+                $target_attr = " target='$target'";
 
             // if we're on the current page, create a span
             if(is_url_for_current_page($url))
+            {
                 $entry_string = "<span class='currentpage'$title_attr>$text</span>";
+            }
             // if we're not, create a link 
             else
             {
                 $url = htmlspecialchars($url);
-                $entry_string = "<a href='$url'$title_attr>$text</a>";
+                $entry_string = "<a href='$url'$title_attr$target_attr>$text</a>";
             }
         }
         elseif(!empty($title))
