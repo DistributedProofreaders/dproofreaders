@@ -154,24 +154,17 @@ if ( isset($_REQUEST['action']) &&
 
     output_header(_("Create an Uber Project"));
 
-    // want the "Create an Uber Project" version of this page to look a little different
-    // from the normal "Create a Project" version, so we'll use a theme colour
-    // instead of a grey for the left hand column
-
-    $bgcol = $theme['color_navbar_bg'];
-
     echo "<form method='post' enctype='multipart/form-data' action='" . attr_safe($_SERVER['PHP_SELF']) . "'>";
     if (!empty($rec)) { echo "<input type='hidden' name='rec' value='".base64_encode(serialize($rec))."'>"; }
     if (isset($up_projectid)) { echo "<input type='hidden' name='up_projectid' value='$up_projectid'>"; }
     if (isset($errorMsg)) { echo "<br><center><font size='+1' color='#ff0000'><b>$errorMsg</b></font></center>"; }
     echo "<br><center><table cellspacing='0' cellpadding='5' border='1' width='90%' style='border: 1px solid #000; border-collapse:collapse'>";
-    echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>"._("Uber Project Settings")."</font></b></center></td></tr>\n";
+    echo "<tr><td colspan='2'><center><b>"._("Uber Project Settings")."</b></center></td></tr>\n";
 
     function row( $label, $display_function, $field_value, $field_name=NULL )
     {
-        global $bgcol;
         echo "<tr>";
-        echo   "<td bgcolor='$bgcol'>";
+        echo   "<td>";
         echo     "<b>$label</b>";
         echo   "</td>";
         echo   "<td>";
@@ -189,7 +182,7 @@ if ( isset($_REQUEST['action']) &&
     row( _("Overall Name of Uber Project"),      'text_field',        $up_nameofwork,  'up_nameofwork' );
     row( _("Brief Description of Uber Project"), 'description_field', $up_description, 'up_description' );
 
-    echo "<tr><td bgcolor='".$theme['color_headerbar_bg']."' colspan='2'><center><b><font color='".$theme['color_headerbar_font']."'>"._("Default Values for Projects to be Created from this Uber Project")."</font></b></center></td></tr>\n";
+    echo "<tr><td colspan='2'><center><b>"._("Default Values for Projects to be Created from this Uber Project")."</b></center></td></tr>\n";
 
     row( _("Default Name of Work"),          'text_field',          $nameofwork,      'nameofwork' );
     row( _("Default Author's Name"),         'text_field',          $authorsname,     'authorsname' );
@@ -208,7 +201,7 @@ if ( isset($_REQUEST['action']) &&
     row( _("Default Clearance Information"), 'text_field',          $clearance,       'clearance' );
     row( _("Default Project Comments"),      'proj_comments_field', $comments         );
 
-    echo "<tr><td bgcolor='$bgcol' colspan='2' align='center'><input type='submit' name='saveUberAndQuit' value='"._("Save Uber Project and Quit")."'><input type='submit' name='saveUberAndNewProject' value='"._("Save Uber Project and Create \na New Project from this Uber Project")."'><input type='submit' name='saveUberAndReturn' value='"._("Save Uber Project\n and Refresh")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</table></center>";
+    echo "<tr><td colspan='2' align='center'><input type='submit' name='saveUberAndQuit' value='"._("Save Uber Project and Quit")."'><input type='submit' name='saveUberAndNewProject' value='"._("Save Uber Project and Create \na New Project from this Uber Project")."'><input type='submit' name='saveUberAndReturn' value='"._("Save Uber Project\n and Refresh")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</table></center>";
     echo "</form>";
 }
 
