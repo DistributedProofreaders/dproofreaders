@@ -17,14 +17,6 @@ include_once($relPath.'misc.inc'); // endswith(), get_enumerated_param(), attr_s
 define('NO_STATSBAR',   False);
 define('SHOW_STATSBAR', True);
 
-if(isset($userP['i_theme']) && $userP['i_theme'] != '' ) {
-    $theme_name = $userP['i_theme'];
-} else {
-    $theme_name = "project_gutenberg";
-}
-include_once($relPath."templates/$theme_name/theme.tpl");
-$theme = ${$theme_name};
-
 // Backwards compatibility function. To be removed once all
 // pages transition to output_header()
 function theme($nameofpage, $location, $extra_args = array())
@@ -110,8 +102,9 @@ function output_footer($nameofpage, $show_statsbar = True) {
 }
 
 function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) {
-    global $code_url, $theme, $site_abbreviation;
+    global $code_url, $site_abbreviation, $userP;
     global $charset;
+
     $intlang = get_desired_language();
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
     echo "<html ".lang_html_header($intlang).">\n<head>\n";
@@ -127,9 +120,10 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) 
     echo "<title>$site_abbreviation";
     if (isset($nameofpage)) { echo ": $nameofpage"; }
     echo "</title>\n";
+
     // Global theme CSS
-    echo "\n<link type='text/css' rel='Stylesheet' href='";
-    echo "$code_url/styles/themes/" . $theme['template_unix_name'] . ".css'>\n";
+    $theme_name = array_get($userP, 'i_theme', "project_gutenberg");
+    echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/themes/$theme_name.css'>\n";
 
     // Global layout CSS
     echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/layout.css'>\n";
@@ -137,27 +131,23 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) 
 
     // Statsbar CSS
     if ($show_statsbar) {
-        echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/statsbar.css'>";
+        echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/statsbar.css'>\n";
     }
-
 
     // Per-page CSS
     if (isset($extra_args['css_files']))
     {
         foreach($extra_args['css_files'] as $css_file)
-            echo "<link type='text/css' rel='Stylesheet' href='$css_file'>";
+            echo "<link type='text/css' rel='Stylesheet' href='$css_file'>\n";
     }
-
-    // this first navbar blob needs to be moved to a universal stylesheet but
-    // that'll also require adjustements for the $theme replacements
-    echo "<style type='text/css'>\n";
 
     // Any additional style definitions requested by the caller
     if (isset($extra_args['css_data']))
     {
-         echo $extra_args['css_data'];
+        echo "<style type='text/css'>\n";
+        echo $extra_args['css_data'];
+        echo "</style>\n";
     }
-    echo "</style>\n";
 
     // Per-page Javascript
     if (isset($extra_args['js_data']))
