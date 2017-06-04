@@ -7,19 +7,10 @@ include_once($relPath.'theme.inc');
 output_header('Proofreading Guidelines -- Copyright Renewal Books', NO_STATSBAR);
 ?>
 
-  <style TYPE="text/css">
-<!--
-  tt {color: red}
-  pre {color: red}
-        -->
-  </style>
-<!--
-  <style>
-                @page { size: 21.59cm 27.94cm; margin-left: 3.18cm; margin-right: 3.18cm; margin-top: 2.54cm; margin-bottom: 2.54cm }
-                P { margin-bottom: 0.21cm }
-                TD P { margin-bottom: 0.21cm }
-  </style>
-        -->
+<style type='text/css'>
+    tt { color: red }
+    pre { color: red }
+</style>
 
 <h2 align="center">Proofreading Guidelines -- Special Rules for Copyright Renewal Books</h2>
 <p> These are special additions to the Proofreading Guidelines for Copyright Renewal books.
