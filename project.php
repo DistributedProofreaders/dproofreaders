@@ -2141,9 +2141,8 @@ function do_page_table()
     if ( !$project->pages_table_exists ) return;
 
     {
-        global $relPath;
-        include($relPath.'../tools/project_manager/detail_legend.inc');
-        echo _("N.B. It is <b>strongly</b> recommended that you view page differentials by right-clicking on a diff link and opening the link in a new window or tab.")."<br>\n";
+        echo_detail_legend();
+        echo "<p>" . _("It is <b>strongly</b> recommended that you view page differentials by right-clicking on a diff link and opening the link in a new window or tab.") . "</p>";
 
         // second arg. indicates to show size of image files.
         echo_page_table($project, 1);
