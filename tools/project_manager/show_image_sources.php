@@ -12,26 +12,6 @@ include_once($relPath.'pg.inc');
 
 require_login();
 
-$theme_args['css_data'] = "
-h1 { margin-top: 1em; }
-table.individual { border-collapse: collapse; width: 80%; margin: auto; }
-table.individual td,th { border: 1px solid #999; padding: 5px; }
-table.individual td.center { text-align: center; }
-table.individual th { background-color: #eeeeee; }
-.headerbg { background-color: ". $theme['color_logobar_bg'] . "; }
-
-table.listing { width: 90%; margin: auto; border: solid black 1px; border-collapse: collapse; }
-table.listing td,th { padding: 5px; }
-table.listing th { background-color: #eeeeee; }
-table.listing th + td { vertical-align: top; border: none; }
-table.listing th.tl { vertical-align: top; text-align: left; border: none;}
-table.listing td.center { text-align: center; }
-tr.first { border-top: double black; }
-.fullname { font-size: 120%; }
-.sourcelink { font-size: 90%; margin: 10px 0px 3px 25px; }
-.w15 { width: 15%; }
-";
-
 $which = get_enumerated_param($_GET, 'which', 'DONE', array('ALL', 'DONE', 'INPROG'));
 
 $locuserSettings =& Settings::get_Settings($pguser);
@@ -59,7 +39,7 @@ else
 if (!isset($_GET['name']))
 {
     $header_text = _("Image Sources");
-    output_header($header_text, NO_STATSBAR, $theme_args);
+    output_header($header_text, NO_STATSBAR);
 
     echo "<h1>{$header_text}</h1>\n";
 
@@ -84,19 +64,19 @@ if (!isset($_GET['name']))
         GROUP BY code_name
         ORDER BY display_name");
 
-    echo "<table border='1' class='listing'>\n";
+    echo "<table border='1' class='image_source'>\n";
 
     // Column Headers
     echo "<tr>\n";
-    echo "<th class='w15'>" . _("Name in Dropdown") . "</th>";
+    echo "<th style='width: 15%'>" . _("Name in Dropdown") . "</th>";
     echo "<th colspan='2'>" . _("Image Source Details") . "</th>\n";
-    echo "<th class='w15'>" . _("Works: In-Progress / Completed / Total") . "</th>\n";
+    echo "<th style='width: 15%'>" . _("Works: In-Progress / Completed / Total") . "</th>\n";
     echo "</tr>\n";
 
     while ( $row = mysql_fetch_assoc($query) )
     {
         echo "<tr class='first'>\n";
-        echo "<td rowspan='4' class='center'>{$row['display_name']}";
+        echo "<td rowspan='4' class='center-align'>{$row['display_name']}";
         // Show the status if source is not enabled
         // KEY: -1 = Pending Review, 0 = Disabled, 1 = Enabled
         if ($row['is_active'] != 1)
@@ -112,7 +92,7 @@ if (!isset($_GET['name']))
         }
         echo "</td>\n";
 
-        echo "<th class='tl'>" . _("Full Name") . ":</th>\n";
+        echo "<th class='label'>" . _("Full Name") . ":</th>\n";
 
         $source_fullname = $row['full_name'];
         // Since we apparently allow an empty full_name, check for that
@@ -131,7 +111,7 @@ if (!isset($_GET['name']))
         else
             $link_name = "";
 
-        echo "<td class='headerbg'><span class='fullname'>$source_fullname</span> ${link_name}</td>";
+        echo "<td class='title'>$source_fullname ${link_name}</td>";
 
         if (is_null($row['projects_total']))
             $row['projects_total'] = 0;
@@ -139,7 +119,7 @@ if (!isset($_GET['name']))
             $row['projects_completed'] = 0;
         $projects_inprogress = $row['projects_total'] - $row['projects_completed'];
 
-        echo "<td rowspan='4' class='center'>";
+        echo "<td rowspan='4' class='center-align'>";
         $p_link = $projects_inprogress;
         if ($projects_inprogress > 0)
         {
@@ -171,7 +151,7 @@ if (!isset($_GET['name']))
         echo "</tr>\n";
 
         echo "<tr>\n";
-        echo "<th class='tl'>" . _("Image Policies") . ":</th>\n";
+        echo "<th class='label'>" . _("Image Policies") . ":</th>\n";
         echo "<td>";
         switch ($row['ok_show_images'])
         {
@@ -216,7 +196,7 @@ if (!isset($_GET['name']))
         echo "</tr>\n";
 
         echo "<tr>\n";
-        echo "<th class='tl'>" . _("Description") . ":</th>\n";
+        echo "<th class='label'>" . _("Description") . ":</th>\n";
         echo "<td>{$row['public_comment']}</td>";
         echo "</tr>\n";
 
@@ -231,7 +211,7 @@ if (!isset($_GET['name']))
         // For now, we'll simply suppress the internal_comment.
 
         echo "<tr>\n";
-        echo "<th class='tl'>" . _("Notes") . ":</th>\n";
+        echo "<th class='label'>" . _("Notes") . ":</th>\n";
         echo "<td>";
         if ($logged_in)
             echo $row['internal_comment'];
@@ -315,7 +295,7 @@ if (!isset($_GET['name']))
         $internal_notes = $imso['internal_comment'];
         $info_url = $imso['info_url'];
 
-        output_header($title, NO_STATSBAR, $theme_args);
+        output_header($title, NO_STATSBAR);
 
         echo "<h1>$title</h1>\n";
 
@@ -330,9 +310,9 @@ if (!isset($_GET['name']))
             . _("Back to the full listing of all Image Sources")
             . "</a></p>";
 
-        echo "<table class='individual'>\n";
+        echo "<table class='image_source'>\n";
         echo "<tr>";
-        echo "<td colspan='5' class='headerbg'>";
+        echo "<td colspan='5' class='title'>";
         echo "<h2>{$imso['full_name']}</h2>";
         echo "<p><b>" . _("URL") . ":</b> $info_url</p>\n\n";
 
@@ -372,17 +352,17 @@ if (!isset($_GET['name']))
             echo "<td>";
             echo $row['authorsname'];
             echo "</td>";
-            echo "<td class='center'>";
+            echo "<td class='center-align'>";
             echo $row['genre'];
             echo "</td>";
-            echo "<td class='center'>";
+            echo "<td class='center-align'>";
             echo $row['language'];
             echo "</td>";
 
             // For In-Progress, suppress final column since it conveys no info
             if ($which != "INPROG")
             {
-                echo "<td class='center'>";
+                echo "<td class='center-align'>";
                 if (!is_null($row['postednum']))
                 {
                     echo "<a href='{$PG_home_url}ebooks/"

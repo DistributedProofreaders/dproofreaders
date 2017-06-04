@@ -125,11 +125,6 @@ footer small,
   display: table-cell;
 }
 /* ------------------------------------------------------------------------ */
-/* Section headers */
-h2 {
-  font-size: large;
-}
-/* ------------------------------------------------------------------------ */
 /* Section dividers */
 hr.divider {
   text-align: center;
@@ -169,6 +164,9 @@ div.callout p {
   margin-bottom: 0;
 }
 div.calloutheader {
+  font-weight: bold;
+}
+.error {
   font-weight: bold;
 }
 /* ------------------------------------------------------------------------ */
@@ -427,6 +425,54 @@ table.ppv_reportcard {
 }
 table.ppv_reportcard td {
   border: solid thin black;
+}
+/* ------------------------------------------------------------------------ */
+/* Image Sources */
+table.image_source {
+  border-collapse: collapse;
+  width: 90%;
+  margin: auto;
+}
+table.image_source th {
+  background-color: #eee;
+  border: 1px solid #999;
+  text-align: center;
+  padding: 5px;
+}
+table.image_source td {
+  border: 1px solid #999;
+  padding: 5px;
+}
+table.image_source td a.sourcelink {
+  font-size: 90%;
+  margin: 10px 0px 3px 25px;
+}
+table.image_source tr.e {
+  background-color: #eee;
+}
+table.image_source tr.o {
+  background-color: #ddd;
+}
+table.image_source th.label {
+  text-align: left;
+}
+table.image_source td.enabled {
+  background-color: #9f9;
+  text-align: center;
+}
+table.image_source td.disabled {
+  background-color: #ddd;
+  text-align: center;
+}
+table.image_source td.pending {
+  background-color: #ff8;
+  text-align: center;
+}
+div.perms_wrapper {
+  width: 40%;
+  display: inline-block;
+  border-bottom: dotted black 1px;
+  padding: 2px;
 }
 /* vim: sw=4 ts=4 expandtab
 */

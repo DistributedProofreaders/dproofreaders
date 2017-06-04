@@ -122,12 +122,6 @@ footer, #footer {
 }
 
 /* ------------------------------------------------------------------------ */
-/* Section headers */
-h2 {
-    .large;
-}
-
-/* ------------------------------------------------------------------------ */
 /* Section dividers */
 hr.divider {
     .center-align;
@@ -172,6 +166,10 @@ div.callout {
 }
 
 div.calloutheader {
+    .bold;
+}
+
+.error {
     .bold;
 }
 
@@ -463,6 +461,58 @@ table.ppv_reportcard {
         border: solid thin black;
     }
 }
+
+/* ------------------------------------------------------------------------ */
+/* Image Sources */
+
+table.image_source {
+    border-collapse: collapse;
+    width: 90%;
+    margin: auto;
+    th {
+        background-color: #eee;
+        border: 1px solid #999;
+        .center-align;
+        padding: 5px;
+    }
+    td {
+        border: 1px solid #999;
+        padding: 5px;
+        a.sourcelink {
+            font-size: 90%;
+            margin: 10px 0px 3px 25px;
+        }
+    }
+    tr.e {
+        background-color: #eee;
+    }
+    tr.o {
+        background-color: #ddd;
+    }
+    th.label {
+        .left-align;
+    }
+    td.enabled {
+        background-color: #9f9;
+        .center-align;
+        }
+    td.disabled {
+        background-color: #ddd;
+        .center-align;
+    }
+    td.pending {
+        background-color: #ff8;
+        .center-align;
+    }
+}
+
+div.perms_wrapper {
+    width: 40%;
+    display: inline-block;
+    border-bottom: dotted black 1px;
+    padding: 2px;
+}
+
 
 /* vim: sw=4 ts=4 expandtab
 */

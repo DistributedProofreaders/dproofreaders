@@ -119,6 +119,10 @@ h6 {
   color: #000099;
   font-family: Verdana, Arial, sans-serif;
 }
+/* Attention-getting structures */
+.error {
+  color: red;
+}
 /* ------------------------------------------------------------------------ */
 /* FAQ */
 div.faqheader {
@@ -210,6 +214,11 @@ table.ppv_reportcard th.minor_section {
 }
 table.ppv_reportcard th.heading {
   background-color: #e0e8dd;
+}
+/* ------------------------------------------------------------------------ */
+/* Image Sources */
+table.image_source_listing td.title {
+  background-color: #99ccff;
 }
 /* vim: sw=4 ts=4 expandtab
 */

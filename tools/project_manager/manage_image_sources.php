@@ -14,28 +14,6 @@ include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 
-$theme_args['css_data'] = "
-table.listing { border-collapse: collapse; width: 80%; margin: auto;}
-table.listing td { border: 1px solid #999; padding: 5px; }
-table.listing tr.e { background-color: #eee; }
-table.listing tr.o { background-color: #ddd; }
-table.listing td.enabled { background-color: #9f9; text-align: center; }
-table.listing td.disabled { background-color: #ddd; text-align: center; }
-table.listing td.center { text-align: center; }
-table.listing td.pending { background-color: #ff8; text-align: center; }
-form { padding-top: 10px; margin: 0; }
-input[type='submit'] { margin: 2px; }
-
-table.source { border-collapse: collapse; width: 80%;
-    margin: auto; margin-bottom: 1em; }
-table.source td { border: 1px solid black; padding: 5px; background-color: #eeeeee; }
-table.source td.pa { width: 30%; font-weight: bold; }
-table.source td.center { text-align: center; }
-div.perms_wrapper { width: 40%; display: inline-block;
-    border-bottom: dotted black 1px; padding: 2px; }
-p.toolbar { text-align: center; margin: 5px 0 5px 0; }
-.error { font-weight: bold; color: red; margin: 4px; }";
-
 $page_url = "$code_url/tools/project_manager/manage_image_sources.php?";
 
 $action = get_enumerated_param($_REQUEST, 'action', 'show_sources',
@@ -136,14 +114,14 @@ if ($action == 'show_sources')
     if (!$can_edit)
         metarefresh(0,"$code_url/tools/project_manager/show_image_sources.php");
 
-    output_header(_('List Image Sources'), NO_STATSBAR, $theme_args);
+    output_header(_('List Image Sources'), NO_STATSBAR);
 
     show_is_toolbar($action);
 
     $result = mysql_query("SELECT code_name FROM image_sources ORDER BY display_name ASC");
 
     echo "<br>";
-    echo "<table class='listing'>";
+    echo "<table class='image_source'>";
     echo "<tr>";
     echo "<th>" . _("ID") . "</th>";
     echo "<th>" . _("Display Name") . "</th>";
@@ -169,7 +147,7 @@ if ($action == 'show_sources')
 elseif ($action == 'edit_source')
 {
     $source = new ImageSource($_REQUEST['source']);
-    output_header(sprintf(_("Editing %s"), $source->display_name), NO_STATSBAR, $theme_args);
+    output_header(sprintf(_("Editing %s"), $source->display_name), NO_STATSBAR);
     show_is_toolbar($action);
     $source->show_edit_form();
 }
@@ -177,7 +155,7 @@ elseif ($action == 'edit_source')
 elseif ($action == 'add_source')
 {
     $title = $can_edit ? _('Add a new Image Source') : _('Propose a new Image Source');
-    output_header($title, NO_STATSBAR, $theme_args);
+    output_header($title, NO_STATSBAR);
     show_is_toolbar($action);
     $blank = new ImageSource(null);
     $blank->show_edit_form();
@@ -234,7 +212,7 @@ class ImageSource
             $listing_rows++;
 
         echo "<tr class='$row_class'>";
-        echo "<td rowspan='$listing_rows' class='center'>";
+        echo "<td rowspan='$listing_rows' class='center-align'>";
         echo html_safe($this->code_name);
         echo "<br>\n";
         echo "<form method='post' action='$page_url#$asid'>";
@@ -256,10 +234,10 @@ class ImageSource
             echo make_link($this->url, $this->url);
         echo "</td>";
 
-        echo $this->_get_status_cell($this->is_active,' pb');
-        echo "<td class='center'>" . $this->_may_maynot_unknown($this->ok_keep_images) . "</td>";
-        echo "<td class='center'>" . $this->_may_maynot_unknown($this->ok_show_images) . "</td>";
-        echo "<td class='center'>" . $this->_showto($this->info_page_visibility) . "</td>";
+        echo $this->_get_status_cell($this->is_active);
+        echo "<td class='center-align'>" . $this->_may_maynot_unknown($this->ok_keep_images) . "</td>";
+        echo "<td class='center-align'>" . $this->_may_maynot_unknown($this->ok_show_images) . "</td>";
+        echo "<td class='center-align'>" . $this->_showto($this->info_page_visibility) . "</td>";
         echo "</tr>";
 
         echo "<tr class='$row_class'>";
@@ -308,7 +286,7 @@ class ImageSource
     function show_edit_form()
     {
         global $page_url;
-        echo "<table class='source'><form method='post'
+        echo "<table class='image_source'><form method='post'
             action='$page_url&amp;action=update_oneshot#$this->code_name'>\n";
 
         if($this->new_source)
@@ -329,7 +307,7 @@ class ImageSource
         $this->_show_edit_row('public_comment',_('Description (public comments)'),true);
         $this->_show_edit_row('internal_comment',_('Notes (internal comments)'),true);
 
-        echo "<tr><td colspan='2' class='center'>
+        echo "<tr><td colspan='2' class='center-align'>
             <input type='submit' name='save_edits' value='".attr_safe(_('Save'))."' />
             </td> </tr> </form> </table>\n\n";
     }
@@ -352,8 +330,8 @@ class ImageSource
             $editing = "<input type='text' name='$field' size='60' value='$value' $maxlength_attr />";
         }
         echo "  <tr>" .
-            "<td class='pa'>$label</td>" .
-            "<td class='pb'>$editing</td>" .
+            "<th class='label'>$label</th>" .
+            "<td>$editing</td>" .
             "</tr>\n";
     }
 
@@ -425,7 +403,7 @@ class ImageSource
 
     function save_from_post()
     {
-        global $errmsgs,$can_edit,$new,$theme_args;
+        global $errmsgs,$can_edit,$new;
         $std_fields = array(
             'display_name','full_name','credit',
             'ok_keep_images','ok_show_images','info_page_visibility',
@@ -463,7 +441,7 @@ class ImageSource
 
         if ($errmsgs)
         {
-            output_header('', NO_STATSBAR, $theme_args);
+            output_header('', NO_STATSBAR);
             echo "<p class='error'><br>" . $errmsgs . "</p>";
             $this->show_edit_form();
             die;
@@ -536,8 +514,8 @@ class ImageSource
     function _show_summary_row($label,$value,$htmlspecialchars = true)
     {
         echo "  <tr>" .
-            "<td class='pa'>$label</td>" .
-            "<td class='pb'>" . ($htmlspecialchars ? html_safe($value) : $value ) . "</td>" .
+            "<th class='label'>$label</th>" .
+            "<td>" . ($htmlspecialchars ? html_safe($value) : $value ) . "</td>" .
             "</tr>\n";
     }
 
@@ -644,7 +622,7 @@ function show_is_toolbar($action)
         $toolbar_items[] = $item;
     }
 
-    echo "<p class='toolbar'>" . implode(" | ", $toolbar_items) . "</p>";
+    echo "<p class='center-align'>" . implode(" | ", $toolbar_items) . "</p>";
 }
 
 // vim: sw=4 ts=4 expandtab
