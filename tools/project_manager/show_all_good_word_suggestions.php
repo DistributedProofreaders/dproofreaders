@@ -93,8 +93,6 @@ if($frame=="left") {
     // echo page support text, like JS and stylesheets
     echo_cutoff_script($cutoffOptions,$instances);
 
-    echo_word_freq_style();
-
     echo "<h1>" . _("Manage Suggestions") . "</h1>";
 
     // TRANSLATORS: PM = project manager

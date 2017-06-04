@@ -166,7 +166,8 @@ div.callout p {
 div.calloutheader {
   font-weight: bold;
 }
-.error {
+.error,
+.warning {
   font-weight: bold;
 }
 /* ------------------------------------------------------------------------ */
@@ -480,6 +481,33 @@ table.pagedetail th,
 table.pagedetail td {
   text-align: center;
   font-weight: normal;
+}
+/* ------------------------------------------------------------------------ */
+/* WordCheck pages */
+table.wordlisttable {
+  padding: 5px;
+  border-collapse: collapse;
+}
+table.wordlisttable td {
+  padding: 2px;
+  border: thin solid #000;
+}
+table.wordlisttable td.label {
+  background-color: #CCC;
+  font-weight: bold;
+}
+table.wordlisttable textarea {
+  width: 100%;
+}
+table.freq th {
+  border-bottom: thin solid black;
+}
+table.freq td,
+table.freq th {
+  padding-right: 0.5em;
+}
+table.freq td.num {
+  text-align: right;
 }
 /* vim: sw=4 ts=4 expandtab
 */

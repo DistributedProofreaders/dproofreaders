@@ -113,8 +113,6 @@ $initialFreq=getInitialCutoff($freqCutoff,$cutoffOptions,$all_suggestions_w_freq
 // echo page support text, like JS and stylesheets
 echo_cutoff_script($cutoffOptions,$instances);
 
-echo_word_freq_style();
-
 echo "<p>$page_text</p>";
 
 echo_page_instruction_text( "good", $format );

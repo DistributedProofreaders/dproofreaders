@@ -169,7 +169,7 @@ div.calloutheader {
     .bold;
 }
 
-.error {
+.error, .warning {
     .bold;
 }
 
@@ -523,6 +523,36 @@ table.pagedetail {
     }
 }
 
+/* ------------------------------------------------------------------------ */
+/* WordCheck pages */
+
+table.wordlisttable {
+    padding: 5px;
+    border-collapse: collapse;
+    td {
+        padding: 2px;
+        border: thin solid #000;
+    }
+    td.label {
+        background-color: #CCC;
+        .bold;
+    }
+    textarea {
+        width: 100%;
+    }
+}
+
+table.freq {
+    th {
+        border-bottom: thin solid black;
+    }
+    td, th {
+        padding-right: 0.5em;
+    }
+    td.num {
+        .right-align;
+    }
+}
 
 /* vim: sw=4 ts=4 expandtab
 */

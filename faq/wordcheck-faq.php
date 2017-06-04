@@ -16,11 +16,6 @@ if(strpos($code_url, '://www.pgdp.'))
 
 output_header('WordCheck FAQ', NO_STATSBAR);
 ?>
-<style type="text/css">
-span.mono
-   { font-family: DPCustomMono2,monospace; }
-</style>
-
 <h1>WordCheck FAQ</h1>
 
 <h2>Contents</h2>

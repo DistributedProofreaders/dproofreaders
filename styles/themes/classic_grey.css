@@ -123,6 +123,13 @@ h6 {
 .error {
   color: red;
 }
+.warning {
+  color: red;
+}
+.highlight {
+  background-color: yellow;
+  color: black;
+}
 /* ------------------------------------------------------------------------ */
 /* FAQ */
 div.faqheader {
@@ -199,6 +206,9 @@ table.striped tr:nth-child(odd) td {
 .sans-serif {
   font-family: Verdana, Helvetica, sans-serif;
 }
+.mono {
+  font-family: DPCustomMono2, monospace;
+}
 /* ------------------------------------------------------------------------ */
 /* PPV Report */
 table.ppv_reportcard th {
@@ -240,6 +250,18 @@ table.pagedetail td.done_current {
 }
 table.pagedetail td.done_previous {
   background-color: #F36;
+}
+/* ------------------------------------------------------------------------ */
+/* WordCheck pages */
+.preWC {
+  background-color: #c2c2c2;
+}
+.noWC {
+  background-color: #ffb321;
+  font-weight: bold;
+}
+.WC {
+  background-color: #97fc9e;
 }
 /* vim: sw=4 ts=4 expandtab
 */

@@ -99,8 +99,6 @@ $initialFreq=getInitialCutoff(50,$cutoffOptions,$percent_changed);
 // echo page support text, like JS and stylesheets
 echo_cutoff_script($cutoffOptions,$instances);
 
-echo_word_freq_style();
-
 echo "<p>$page_text</p>";
 
 echo_page_instruction_text( "bad", $format );

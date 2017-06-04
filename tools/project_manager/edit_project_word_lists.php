@@ -243,13 +243,11 @@ class ProjectWordListHolder
 
     function show_form()
     {
-        $this->echo_stylesheet();
-
         echo "<form method='post' enctype='multipart/form-data' action='". attr_safe($_SERVER['PHP_SELF']) ."'>";
 
         $this->show_hidden_controls();
 
-        echo "<table class='wordlisttable'>";
+        echo "<table class='wordlisttable' style='width: 90%; margin: auto;'>";
 
         $this->show_visible_controls();
 
@@ -277,28 +275,6 @@ class ProjectWordListHolder
     }
 
     // -------------------------------------------------------------------------
-
-    function echo_stylesheet() {
-?>
-    <style type="text/css">
-    table.wordlisttable {
-        padding: 5px;
-        border-collapse: collapse;
-        width: 90%;
-    }
-    table.wordlisttable td {
-        border: thin solid #000;
-    }
-    table.wordlisttable td.label {
-        background-color: #CCC;
-        font-weight: bold;
-    }
-    table.wordlisttable .mono { font-family: monospace; }
-    table.wordlisttable textarea { width: 100%; }
-    p.error { color: red; }
-    </style>
-<?php
-    }
 
     function show_hidden_controls()
     {

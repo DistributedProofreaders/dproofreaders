@@ -19,8 +19,6 @@ enforce_edit_authorization($projectid);
 
 $title=_("Project WordCheck Statistics");
 output_header($title, NO_STATSBAR);
-echo_word_freq_style();
-echo_stylesheet();
 
 
 echo "<h1>$title</h1>";
@@ -200,28 +198,4 @@ if($total["num_pages"]>0) {
 <p><img src="graph_pages_per_number_of_flags.php?projectid=<?php echo $projectid; ?>" alt="<?php echo _("Graph showing the number of pages with a given number of flagged words"); ?>"></p>
 
 <?php
-
-
-function echo_stylesheet() {
-?>
-    <style type="text/css">
-    table.wordlisttable {
-        padding: 5px;
-        border-collapse: collapse;
-    }
-    table.wordlisttable td {
-        padding: 2px;
-        border: thin solid #000;
-    }
-    table.wordlisttable td.label {
-        background-color: #CCC;
-        font-weight: bold;
-    }
-    table.wordlisttable .mono { font-family: monospace; }
-    table.wordlisttable textarea { width: 100%; }
-    </style>
-<?php
-}
-
 // vim: sw=4 ts=4 expandtab
-?>

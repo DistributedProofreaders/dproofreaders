@@ -234,19 +234,6 @@ function prep_numeric_keys_for_multisort(&$assocArray) {
     }
 }
 
-function echo_word_freq_style() {
-?>
-<style type="text/css">
-.mono { font-family: DPCustomMono2,monospace; }
-table.freq th { border-bottom: thin solid black; }
-table.freq td, table.freq th { padding-right: 0.5em; }
-table.freq td.num { text-align: right; }
-span.hl { background-color: yellow; color: black; }
-p.warning { color: red; }
-</style>
-<?php
-}
-
 function echo_page_header($title,$projectid) {
     echo "<h1>$title</h1>";
 
@@ -353,7 +340,7 @@ function _highlight_word($text,$hlWord) {
 
     // now do the replacements
     foreach($wordOffsets as $offset) {
-        $text=substr_replace($text,"<span class='hl'>$hlWord</span>",$offset,strlen($hlWord));
+        $text=substr_replace($text,"<span class='highlight'>$hlWord</span>",$offset,strlen($hlWord));
     }
 
     return $text;

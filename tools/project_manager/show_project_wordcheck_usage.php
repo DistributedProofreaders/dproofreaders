@@ -17,8 +17,6 @@ enforce_edit_authorization($projectid);
 
 $title=_("WordCheck Project Usage");
 output_header($title, NO_STATSBAR);
-echo_word_freq_style();
-echo_stylesheet();
 
 
 echo "<h1>$title</h1>";
@@ -140,34 +138,4 @@ mysql_free_result($res);
 ?>
 </table>
 <?php
-
-
-function echo_stylesheet() {
-?>
-    <style type="text/css">
-    table.wordlisttable {
-        padding: 5px;
-        border-collapse: collapse;
-    }
-    table.wordlisttable td {
-        padding: 2px;
-        border: thin solid #000;
-    }
-    table.wordlisttable td.label {
-        background-color: #CCC;
-        font-weight: bold;
-    }
-    table.wordlisttable .mono { font-family: monospace; }
-    table.wordlisttable textarea { width: 100%; }
-
-    table.wordlisttable td { }
-
-    .preWC { background-color: #c2c2c2; }
-    .noWC { background-color: #ffb321; font-weight: bold; }
-    .WC { background-color: #97fc9e; }
-    </style>
-<?php
-}
-
 // vim: sw=4 ts=4 expandtab
-?>

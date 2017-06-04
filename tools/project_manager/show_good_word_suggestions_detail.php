@@ -98,8 +98,6 @@ if($frame=="left") {
             $word, $project_name),
         "</h2>";
 
-    echo_word_freq_style();
-
     echo "<p>";
     echo "<a href='show_word_context.php?projectid=$projectid&amp;word=$encWord' target='_PARENT'>" .
          _("Show full context set for this word") . "</a>";

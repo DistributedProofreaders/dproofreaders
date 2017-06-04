@@ -26,9 +26,7 @@ $word_string = array_get($_POST, "word_string", "");
 
 $title = _("Manage Site Word Lists");
 
-$extra_args['css_data'] = _get_stylesheet();
-
-output_header($title, NO_STATSBAR, $extra_args);
+output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>";
 
@@ -256,12 +254,6 @@ function _echo_input_form($list_type, $langcode3, $language) {
     echo "<input type='hidden' name='action' value='list'>";
     echo "<input type='submit' value='" . _("Cancel") . "'>";
     echo "</form>";
-}
-
-function _get_stylesheet() {
-    return "
-        p.error { color: red; }
-    ";
 }
 
 // vim: sw=4 ts=4 expandtab

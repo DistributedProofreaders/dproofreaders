@@ -83,8 +83,6 @@ if(count($queryWords)) {
     // echo page support text, like JS and stylesheets
     echo_cutoff_script($cutoffOptions,$instances);
 
-    echo_word_freq_style();
-
     echo_any_warnings_errors( $messages );
 
     echo "<p>" . $page_text2 . "</p>";
