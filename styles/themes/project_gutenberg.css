@@ -220,6 +220,27 @@ table.ppv_reportcard th.heading {
 table.image_source_listing td.title {
   background-color: #e0e8dd;
 }
+/* ------------------------------------------------------------------------ */
+/* Page Detail */
+table.pagedetail th {
+  background-color: #336633;
+  color: #ffffff;
+}
+table.pagedetail tr.e {
+  background-color: #ffffff;
+}
+table.pagedetail tr.o {
+  background-color: #e0e8dd;
+}
+table.pagedetail td.in_progress {
+  background-color: #FC6;
+}
+table.pagedetail td.done_current {
+  background-color: #9F6;
+}
+table.pagedetail td.done_previous {
+  background-color: #F36;
+}
 /* vim: sw=4 ts=4 expandtab
 */
 /* vim: sw=4 ts=4 expandtab

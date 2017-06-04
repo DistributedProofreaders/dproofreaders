@@ -474,5 +474,12 @@ div.perms_wrapper {
   border-bottom: dotted black 1px;
   padding: 2px;
 }
+/* ------------------------------------------------------------------------ */
+/* Page Detail */
+table.pagedetail th,
+table.pagedetail td {
+  text-align: center;
+  font-weight: normal;
+}
 /* vim: sw=4 ts=4 expandtab
 */

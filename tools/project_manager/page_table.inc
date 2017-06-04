@@ -70,8 +70,6 @@ function echo_page_table(
 
     $upload_colspan = 2 + $show_image_size;
 
-    echo_pagetable_stylesheet();
-
     if ( $can_edit )
     {
         echo "<form name='pagesform' method='post' action='$code_url/tools/project_manager/edit_pages.php'>\n";
@@ -623,7 +621,7 @@ function page_state_is_a_bad_state($page_state)
 function echo_detail_legend()
 {
 ?>
-<table width='75%' border='4' rules='all'>
+<table class='pagedetail' width='75%' border='4'>
     <tr>
         <td colspan='3'><?php echo _("Pages proofread by you and..."); ?></td>
     </tr>
@@ -636,35 +634,4 @@ function echo_detail_legend()
 <?php
 }
 
-function echo_pagetable_stylesheet() {
-    global $theme;
-?>
-    <style type="text/css">
-    
-    table.pagedetail th {
-        color: <?php echo $theme['color_headerbar_font']; ?>;
-        background-color: <?php echo $theme['color_headerbar_bg']; ?>;
-        text-align: center;
-        font-weight: normal;
-    }
-    table.pagedetail tr.e {
-        background-color: <?php echo $theme['color_mainbody_bg']; ?>;
-    }
-    table.pagedetail tr.o {
-        background-color: <?php echo $theme['color_navbar_bg']; ?>;
-    }
-    table.pagedetail td {
-        text-align: center;
-    }
-    table.pagedetail td.error {
-        background-color: #F00;
-    }
-    .in_progress { background-color: #FC6; }
-    .done_current { background-color: #9F6; }
-    .done_previous { background-color: #F36; }
-    </style>
-<?php
-}
-
 // vim: sw=4 ts=4 expandtab
-?>
