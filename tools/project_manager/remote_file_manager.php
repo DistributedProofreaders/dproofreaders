@@ -828,17 +828,6 @@ function show_content()
 
     if ($item_names === FALSE) return; // XXX fatal_error(_("Unable to open folder")) ?
 
-    // Style for directory listing table
-    echo "
-    <style type='text/css'>
-        .dirlist { border: 1px solid black; width: 100%; margin: .5em; background-color: #EEEEEE; }
-        .dirlist th { font-family: sans-serif; font-variant: small-caps; text-align: left; }
-        .dirlist td { font-size: 90%; height: 1em; line-height: 100%; border-bottom: 1px dotted lightgrey; padding-right: 3em; }
-        .dirlist th.actions { font-family: sans-serif; text-align: center!important; padding: 0 1 0 1em; }
-        .dirlist caption { font-size: 111%; margin-top: .5em; border: 1px solid black; }
-    </style>
-    ";
-
     // Start table and headers
     $caption_text = sprintf(_("Directory listing for <b>%s</b>"), $hce_curr_displaypath);
     $actions_text = _("Actions");
@@ -886,8 +875,8 @@ function show_content()
             <tr>
                 <th class='actions'>$actions_blurb</th>
                 <td><img src='wfb_images/wfb_file.gif'>&nbsp;$hce_item_name</td>
-                <td align='left'><span style='font-family: monospace!important;'>".date ('d-M-Y H:i:s', filemtime($item_path))."</span></td>
-                <td align='right'><span style='font-family: monospace!important;'>".humanize_bytes(filesize($item_path))."</span></td>
+                <td align='left'><span class='mono'>".date ('d-M-Y H:i:s', filemtime($item_path))."</span></td>
+                <td align='right'><span class='mono'>".humanize_bytes(filesize($item_path))."</span></td>
             </tr>
             ";
         } elseif (is_dir($item_path)) {
@@ -904,7 +893,7 @@ function show_content()
             <tr>
                 <th class='actions'>$actions_blurb</th>
                 <td><img src='wfb_images/wfb_directory.gif'>&nbsp;<a href='$url'>$hce_item_name&#47;</a></td>
-                <td align='left'><span style='font-family: monospace!important;'>".date ('d-M-Y H:i:s', filemtime($item_path))."</span></td>
+                <td align='left'><span class='mono'>".date ('d-M-Y H:i:s', filemtime($item_path))."</span></td>
                 <td></td>
             </tr>
             ";
