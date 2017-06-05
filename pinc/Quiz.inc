@@ -121,7 +121,7 @@ class Quiz
             $n_columns = 2;
 
         echo "<h3>$this->name</h3>";
-        echo "<table class='themed striped'>";
+        echo "<table class='themed theme_striped'>";
 
         // This assumes that the access minima quiz strings are names
         // 'quiz/X' where X is some quiz ID (eg 'f_only', 'p_mod2', 'p_greek')

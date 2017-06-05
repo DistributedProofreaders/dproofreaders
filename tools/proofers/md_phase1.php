@@ -113,7 +113,7 @@ echo "</p>";
 //echo "<h3>Per-Page Info</h3>\n";
 
 
-echo "<form method ='post'><table class='themed striped'>\n";
+echo "<form method ='post'><table class='themed theme_striped'>\n";
 
 
     // Top header row

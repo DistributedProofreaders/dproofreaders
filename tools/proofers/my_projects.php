@@ -131,7 +131,7 @@ $res = dpsql_query("
     ORDER BY $sql_order
 ") or die('Aborting');
 
-echo "<table class='themed striped' style='width: auto;'>";
+echo "<table class='themed theme_striped' style='width: auto;'>";
 
 show_headings($colspecs, 'proof', $username);
 
@@ -274,7 +274,7 @@ if($num_projects > 0)
     echo "<h2 id='reserved'>$reserved_heading</h2>\n";
     echo "<p>$reserved_text</p>";
 
-    echo "<table class='themed striped' style='width: auto;'>";
+    echo "<table class='themed theme_striped' style='width: auto;'>";
 
     show_headings($colspecs, 'reserved', $username);
 

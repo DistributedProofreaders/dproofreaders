@@ -164,8 +164,6 @@ table.preferences td.longlabel {
 table.themed tr th {
   background-color: #999999;
   color: #000000;
-  /*            .sans-serif; */
-  font-weight: bold;
 }
 table.themed tr th a:link,
 table.themed tr th a:visited {
@@ -175,11 +173,14 @@ table.themed tr td {
   background-color: #ffffff;
   color: #000000;
 }
-table.striped tr:nth-child(even) td {
+table.theme_striped tr:nth-child(even) td {
   background-color: #cccccc;
 }
-table.striped tr:nth-child(odd) td {
+table.theme_striped tr:nth-child(odd) td {
   background-color: #ffffff;
+}
+table.striped tr:nth-child(even) td {
+  background-color: #ddd;
 }
 /* ------------------------------------------------------------------------ */
 /* Sans-serif styling */

@@ -26,7 +26,7 @@ $result = mysql_query("SELECT nameofwork, username, modifieddate, language, genr
                      ORDER BY $order ASC");
 
 
-echo "<table class='themed striped'>\n";
+echo "<table class='themed theme_striped'>\n";
 
 echo "<tr>\n";
 echo "<th>"._("Index")."</th>

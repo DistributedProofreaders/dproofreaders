@@ -148,45 +148,45 @@ if($total["num_pages"]>0) {
 }
 
 ?>
-<table class='wordlisttable'>
+<table class='basic'>
 <tr>
-    <td class='label'><?php echo _("Number of pages in project"); ?></td>
+    <th class='label'><?php echo _("Number of pages in project"); ?></th>
     <td style='text-align: right;'><?php echo $total["num_pages"]; ?></td>
 </tr>
 <tr>
-    <td class='label'><?php echo _("Number of flagged words in project"); ?></td>
+    <th class='label'><?php echo _("Number of flagged words in project"); ?></th>
     <td style='text-align: right;'><?php echo $total["flagged"]; ?></td>
 </tr>
 <tr>
-    <td class='label'><?php echo _("Number of flagged words from site's Bad Word List"); ?></td>
+    <th class='label'><?php echo _("Number of flagged words from site's Bad Word List"); ?></th>
     <td style='text-align: right;'><?php echo $total["site_bad_words"]; ?></td>
 </tr>
 <tr>
-    <td class='label'><?php echo _("Number of flagged words from project's Bad Word List"); ?></td>
+    <th class='label'><?php echo _("Number of flagged words from project's Bad Word List"); ?></th>
     <td style='text-align: right;'><?php echo $total["proj_bad_words"]; ?></td>
 </tr>
 <tr>
-    <td class='label'><?php echo _("Mean flagged words per page"); ?></td>
+    <th class='label'><?php echo _("Mean flagged words per page"); ?></th>
     <td style='text-align: right;'><?php echo number_format($total["flagged_avg"],3); ?></td>
 </tr>
 <tr>
-    <td class='label'><?php echo _("Mean of words from site's Bad Word List flagged per page"); ?></td>
+    <th class='label'><?php echo _("Mean of words from site's Bad Word List flagged per page"); ?></th>
     <td style='text-align: right;'><?php echo number_format($total["site_bad_words_avg"],3); ?></td>
 </tr>
 <tr>
-    <td class='label'><?php echo _("Mean of words from project's Bad Word List flagged per page"); ?></td>
+    <th class='label'><?php echo _("Mean of words from project's Bad Word List flagged per page"); ?></th>
     <td style='text-align: right;'><?php echo number_format($total["proj_bad_words_avg"],3); ?></td>
 </tr>
 <tr>
-    <td class='label'><?php echo _("Maximum flagged words per page"); ?></td>
+    <th class='label'><?php echo _("Maximum flagged words per page"); ?></th>
     <td style='text-align: right;'><?php echo $total["flagged_max"]; ?> on <?php echo new_window_link("displayimage.php?project=$projectid&amp;imagefile=" . $total["flagged_max_page"], $total["flagged_max_page"]); ?></a></td>
 </tr>
 <tr>
-    <td class='label'><?php echo _("Minimum flagged words per page"); ?></td>
+    <th class='label'><?php echo _("Minimum flagged words per page"); ?></th>
     <td style='text-align: right;'><?php echo $total["flagged_min"]; ?></td>
 </tr>
 <tr>
-    <td class='label'><?php echo _("Mode of flagged words per page"); ?></td>
+    <th class='label'><?php echo _("Mode of flagged words per page"); ?></th>
     <td style='text-align: right;'><?php echo $total["flagged_mode"] . " (" . $total["flagged_mode_num"] . ")"; ?></td>
 </tr>
 </table>

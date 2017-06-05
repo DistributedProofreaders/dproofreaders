@@ -18,7 +18,7 @@ if (!$site_supports_metadata)
 
 //Phase 1 table----------------------------------------------------------------------------------
 
-echo "<table class='themed striped'>\n";
+echo "<table class='themed theme_striped'>\n";
       // Header row
         echo "<tr>\n";
         echo "    <td align='center' colspan='4'><b>" . sprintf(_("Books Waiting for Phase %d Review"), 1) . "</b></td><tr></tr>\n";
@@ -61,7 +61,7 @@ echo "<br>";
 
 
 //Phase 2 table----------------------------------------------------------------------------------
-//echo "<table class='themed striped'>\n";
+//echo "<table class='themed theme_striped'>\n";
       // Header row
         echo "<tr>\n";
         echo "    <td align='center' colspan='4'><b>" . sprintf(_("Books Waiting for Phase %d Review"), 2) . "</b></td><tr></tr>\n";

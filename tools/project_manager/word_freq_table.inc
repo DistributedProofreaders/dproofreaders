@@ -147,7 +147,7 @@ function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,
     if(is_array($auxData) && !is_array(@$auxData[0]))
         $auxData=array($auxData);
 
-    echo '<table class="freq">';
+    echo '<table class="basic striped">';
 
     // output the table heading
     echo '<tr><th>' . _('Word') . '</th>';
@@ -198,7 +198,7 @@ function printTableFrequencies($initialFreq,$cutoffOptions,$wordCount,$instance,
             $line .= "<td>" . rtrim($word) . "</td>";
         }
 
-        $line .= "<td class='num'>$freq</td>";
+        $line .= "<td class='right-align'>$freq</td>";
 
         // if available, process any aux data
         if(is_array($auxData)) {

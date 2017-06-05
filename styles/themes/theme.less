@@ -125,8 +125,6 @@ table.themed {
         th {
             background-color: @navbar-background;
             color: @navbar-text;
-/*            .sans-serif; */
-            .bold;
             a:link, a:visited {
                 color: @navbar-text;
             }
@@ -138,7 +136,7 @@ table.themed {
     }
 }
 
-table.striped {
+table.theme_striped {
     tr:nth-child(even) {
         td {
             background-color: @sidebar-background;
@@ -147,6 +145,14 @@ table.striped {
     tr:nth-child(odd) {
         td {
             background-color: @page-background;
+        }
+    }
+}
+
+table.striped {
+    tr:nth-child(even) {
+        td {
+            background-color: #ddd;
         }
     }
 }

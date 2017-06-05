@@ -41,7 +41,7 @@ output_header($name);
 echo "<h1>$name</h1>\n";
 
 //Display of user teams
-echo "<table class='themed striped'>\n";
+echo "<table class='themed theme_striped'>\n";
 echo "<tr>";
     echo "<th>"._("Icon")."</th>";
     if ($order == "id" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }

@@ -227,14 +227,14 @@ function do_expected_state()
 
     if ( !empty($expected_state) && $expected_state != $project->state )
     {
-        echo "<font color='red'>";
+        echo "<p class='warning'>";
         echo sprintf(
             _('Warning: Project "%1$s" is no longer in state "%2$s"; it is now in state "%3$s".'),
             $project->nameofwork,
             project_states_text($expected_state),
             project_states_text($project->state)
         );
-        echo "</font>";
+        echo "</p>";
         echo "<br>\n";
     }
 }
@@ -292,11 +292,11 @@ function decide_blurbs()
         $please_scroll_down = _("Please scroll down and read the Project Comments for any special instructions <b>before</b> proofreading!");
         $the_link_appears_below = _("The 'Start Proofreading' link appears below the Project Comments");
         $comments_have_changed =
-            "<font color='red'>"
+            "<p class='error'>"
             . "<b>"
             . _("Project Comments have changed!")
             . "</b>"
-            . "</font>";
+            . "</p>";
 
         // ---
 
@@ -367,7 +367,7 @@ function do_blurb_box( $blurb )
     if ( is_null($blurb) ) return;
 
     echo "<br>";
-    echo "<table width='630' bgcolor='DDDDDD'>";
+    echo "<table style='width: 630px; background-color: #DDDDDD;'>";
     echo "<tr><td align='center'>";
     echo $blurb;
     echo "</td></tr>";
@@ -390,7 +390,7 @@ function do_project_info_table()
     $round = get_Round_for_project_state($state);
     // Note that $round may be NULL;
 
-    echo "<table id='project_info_table' border=1 width=630>";
+    echo "<table class='basic' style='width: 630px' id='project_info_table'>";
 
     // -------------------------------------------------------------------------
     // The state of the project
@@ -831,7 +831,7 @@ function echo_row_a( $left, $right, $escape_right=FALSE )
 {
     if ($escape_right) $right = html_safe($right);
     echo "<tr>";
-    echo "<td bgcolor='CCCCCC' align='center'><b>$left</b></td>";
+    echo "<th>$left</th>";
     echo "<td colspan='4'>$right</td>";
     echo "</tr>\n";
 }
@@ -839,7 +839,7 @@ function echo_row_a( $left, $right, $escape_right=FALSE )
 function echo_row_b( $top, $bottom, $bgcolor = 'CCCCCC' )
 {
     echo "<tr>";
-    echo "<td colspan='5' bgcolor='$bgcolor' align='center'>";
+    echo "<td colspan='5' style='background-color: #$bgcolor; text-align: center;'>";
     echo "<font size='+1'><b>$top</b></font>";
     if ($bottom)
     {
@@ -1257,7 +1257,7 @@ function do_history()
         "remove_holds" => _("remove hold(s)"),
     );
 
-    echo "<table border='1'>\n";
+    echo "<table class='basic'>\n";
     foreach ( $events2 as $event )
     {
         echo "<tr>\n";
@@ -2115,7 +2115,7 @@ function do_page_summary()
     // page counts by state.
     $total_num_pages = Project_getNumPages($projectid);
 
-    echo "<table border=0>\n";
+    echo "<table>\n";
     global $PAGE_STATES_IN_ORDER;
     foreach ($PAGE_STATES_IN_ORDER as $page_state)
     {

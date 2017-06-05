@@ -247,25 +247,25 @@ class ProjectWordListHolder
 
         $this->show_hidden_controls();
 
-        echo "<table class='wordlisttable' style='width: 90%; margin: auto;'>";
+        echo "<table class='basic' style='width: 90%; margin: auto;'>";
 
         $this->show_visible_controls();
 
         // The space between buttons ensures that very long (translated) button
         // labels do not force the display to be wider than the screen.
         echo "<tr>";
-        echo   "<td class='label' colspan='2' align='center' style='padding: 0.5em;'>";
+        echo   "<th colspan='2' align='center' style='padding: 0.5em;'>";
         // TRANSLATORS: PM = project manager
         echo     "<input type='submit' name='saveAndPM' value='", attr_safe(_("Save and Go To PM Page")), "'> ";
         echo     "<input type='submit' name='saveAndProject' value='", attr_safe(_("Save and Go To Project")), "'> ";
         echo     "<input type='submit' name='save' value='", attr_safe(_("Save")), "'> ";
         echo     "<input type='submit' name='quit' value='", attr_safe(_("Quit Without Saving")), "'> ";
         echo     "<input type='submit' name='reload' value='", attr_safe(_("Refresh Word Lists")), "'>";
-        echo   "</td>";
+        echo   "</th>";
         echo "</tr>\n";
 
     echo "<tr>";
-    echo "<td class='label'>" . _("Project Information") . "</td>";
+    echo "<th class='label'>" . _("Project Information") . "</th>";
     echo "<td>" . new_window_link( "editproject.php?action=edit&amp;project=$this->projectid", _("Edit project information") ) . "</td>";
     echo "</tr>";
 
@@ -302,7 +302,7 @@ class ProjectWordListHolder
 
         foreach($fields as $field => $label) {
             echo "<tr>";
-            echo "<td class='label'>$label</td>";
+            echo "<th class='label'>$label</th>";
             echo "<td>" . $this->$field . "</td>";
             echo "</tr>";
         }
@@ -333,32 +333,32 @@ class ProjectWordListHolder
             echo "</tr>";
         } else {
             echo "<tr>";
-            echo "<td class='label' style='text-align: center;' colspan='2'>";
+            echo "<th class='label' style='text-align: center;' colspan='2'>";
             echo _("WordCheck Tools and Reports");
-            echo "</td>";
+            echo "</th>";
             echo "</tr>";
 
             echo "<tr>";
-            echo "<td class='label'>" . _("Ad Hoc Word Details") . "</td>";
+            echo "<th class='label'>" . _("Ad Hoc Word Details") . "</th>";
             echo "<td>" . new_window_link("show_adhoc_word_details.php?projectid=$this->projectid",_("Show details for ad hoc words")) . "</td>";
             echo "</tr>";
 
             echo "<tr>";
-            echo "<td class='label'>" . _("WordCheck Statistics") . "</td>";
+            echo "<th class='label'>" . _("WordCheck Statistics") . "</th>";
             echo "<td>" . new_window_link("show_project_wordcheck_stats.php?projectid=$this->projectid",_("Show WordCheck flagged word statistics")) . "</td>";
             echo "</tr>";
 
             if($exist_pages_in_P1_or_later) {
                 echo "<tr>";
-                echo "<td class='label'>" . _("WordCheck Usage") . "</td>";
+                echo "<th class='label'>" . _("WordCheck Usage") . "</th>";
                 echo "<td>" . new_window_link("show_project_wordcheck_usage.php?projectid=$this->projectid",_("Show WordCheck interface usage")) . "</td>";
                 echo "</tr>";
             }
 
             echo "<tr>";
-            echo "<td class='label' style='text-align: center;' colspan='2'>";
+            echo "<th class='label' style='text-align: center;' colspan='2'>";
             echo _("Word List Suggestion Tools");
-            echo "</td>";
+            echo "</th>";
             echo "</tr>";
 
             echo "<tr>";
@@ -436,9 +436,9 @@ class ProjectWordListHolder
         }
 
         echo "<tr>";
-        echo "<td class='label' style='text-align: center;' colspan='2'>";
+        echo "<th class='label' style='text-align: center;' colspan='2'>";
         echo _("Project Dictionary - Word Lists");
-        echo "</td>";
+        echo "</th>";
         echo "</tr>";
 
         echo "<tr>";
@@ -446,8 +446,8 @@ class ProjectWordListHolder
 
         echo "<table width='100%'>";
         echo "<tr>";
-        echo "<td class='label' style='text-align: center;'>" . _("Good Words") . "</td>";
-        echo "<td class='label' style='text-align: center;'>" . _("Bad Words") . "</td>";
+        echo "<th class='label' style='text-align: center;'>" . _("Good Words") . "</th>";
+        echo "<th class='label' style='text-align: center;'>" . _("Bad Words") . "</th>";
         echo "</tr>";
 
         echo "<tr>";

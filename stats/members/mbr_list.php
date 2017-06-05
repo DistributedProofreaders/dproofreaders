@@ -61,7 +61,7 @@ output_header(_("Member List"));
 echo "<h1>$title</h1>\n";
 
 //Display of user teams
-echo "<table class='themed striped'>";
+echo "<table class='themed theme_striped'>";
 echo "<tr>";
 if ($order == "u_id" && $direction == "asc") { $newdirection = "desc"; } else { $newdirection = "asc"; }
 echo "<th style='width: 5%; text-align: center;'><a href='mbr_list.php?".$uname."mstart=$mstart&amp;order=u_id&amp;direction=$newdirection'>"._("ID")."</a></th>";

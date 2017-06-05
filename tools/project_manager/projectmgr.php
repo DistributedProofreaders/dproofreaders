@@ -607,7 +607,7 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
     $user_can_see_download_links = user_can_work_in_stage($pguser, 'PP');
     $show_options_column = $user_can_see_download_links || user_is_PM();
 
-    echo "<table class='themed striped'>";
+    echo "<table class='themed theme_striped'>";
 
     function echo_header_cell( $width, $text, $class='' )
     {
@@ -881,7 +881,7 @@ function list_uber_projects( $can_see_all )
 
         echo "<h3>"._("Uber Projects to which you have access")."</h3>";
 
-        echo "<table class='themed striped'>";
+        echo "<table class='themed theme_striped'>";
 
         echo "<tr>";
         echo_header_cell( 300, _("Overall Name of Uber Project") );

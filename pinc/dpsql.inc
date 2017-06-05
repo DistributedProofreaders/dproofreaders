@@ -107,7 +107,7 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
 	$n_query_cols = mysql_num_fields($result);
 	$n_curr_row = $start_at;
 
-	print "<table class='themed striped stats'>\n";
+	print "<table class='themed theme_striped stats'>\n";
 	
 	$n_cols = $show_rank ? $n_query_cols + 1 : $n_query_cols;
 	$perc = 100 / $n_cols;

@@ -19,8 +19,8 @@ class ThemedTable
         {
             switch ( $option_name )
             {
-                case 'striped':
-                    $class .= ' striped';
+                case 'theme_striped':
+                    $class .= ' theme_striped';
                     break;
                 case 'border':
                     $border = $option_value;

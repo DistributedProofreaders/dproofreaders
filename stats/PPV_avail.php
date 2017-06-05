@@ -35,7 +35,7 @@ $colspecs = array(
     'modifieddate' => _('Date Last Modified'),
 );
 
-echo "<table class='themed striped'>\n";
+echo "<table class='themed theme_striped'>\n";
 echo "<tr>";
 foreach ( $colspecs as $col_order => $col_header )
 {

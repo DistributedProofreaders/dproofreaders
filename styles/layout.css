@@ -9,6 +9,20 @@ img {
 tt {
   color: #cc0000;
 }
+table {
+  border-collapse: collapse;
+}
+table th {
+  text-align: center;
+  font-weight: bold;
+}
+table th.label {
+  text-align: left;
+}
+table td,
+table th {
+  padding: 0.1em 0.2em;
+}
 /* ------------------------------------------------------------------------ */
 /* HTML5 hacks */
 section,
@@ -393,9 +407,27 @@ table.themed tr th,
 table.themed tr td {
   padding: 0.1em;
 }
-table.striped tr th,
-table.striped tr td {
+table.themed_striped tr th,
+table.themed_striped tr td {
   padding: 0.2em;
+}
+table.basic {
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+table.basic th {
+  background-color: #CCC;
+  text-align: center;
+}
+table.basic th.label {
+  text-align: left;
+}
+table.basic td,
+table.basic th {
+  border: 1px solid black;
+}
+table.basic textarea {
+  width: 100%;
 }
 /* ------------------------------------------------------------------------ */
 /* PPV Report */
@@ -481,33 +513,6 @@ table.pagedetail th,
 table.pagedetail td {
   text-align: center;
   font-weight: normal;
-}
-/* ------------------------------------------------------------------------ */
-/* WordCheck pages */
-table.wordlisttable {
-  padding: 5px;
-  border-collapse: collapse;
-}
-table.wordlisttable td {
-  padding: 2px;
-  border: thin solid #000;
-}
-table.wordlisttable td.label {
-  background-color: #CCC;
-  font-weight: bold;
-}
-table.wordlisttable textarea {
-  width: 100%;
-}
-table.freq th {
-  border-bottom: thin solid black;
-}
-table.freq td,
-table.freq th {
-  padding-right: 0.5em;
-}
-table.freq td.num {
-  text-align: right;
 }
 /* ------------------------------------------------------------------------ */
 /* Remote File Manager */

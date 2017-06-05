@@ -29,8 +29,16 @@ output_header("Style Demos");
 <p><a href='../activity_hub.php'>Activity Hub</a></p>
 
 <h1>Table formats<h1>
-<h2>Themed table</h2>
-<table class='themed'>
+<h2>Un-styled table</h2>
+<table>
+<tr> <th>Column 1</th> <th>Column 2</th> <th>Column 3</th> </tr>
+<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+</table>
+
+<h2>Basic table</h2>
+<table class='basic'>
 <tr> <th>Column 1</th> <th>Column 2</th> <th>Column 3</th> </tr>
 <tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
 <tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
@@ -45,8 +53,32 @@ output_header("Style Demos");
 <tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
 </table>
 
-<h2>Themed & striped table</h2>
-<table class='themed striped'>
+<h2>Basic striped table</h2>
+<table class='basic striped'>
+<tr> <th>Column 1</th> <th>Column 2</th> <th>Column 3</th> </tr>
+<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+</table>
+
+<h2>Themed table</h2>
+<table class='themed'>
+<tr> <th>Column 1</th> <th>Column 2</th> <th>Column 3</th> </tr>
+<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+</table>
+
+<h2>Theme-striped table</h2>
+<table class='theme_striped'>
+<tr> <th>Column 1</th> <th>Column 2</th> <th>Column 3</th> </tr>
+<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+<tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
+</table>
+
+<h2>Themed & themed-striped table</h2>
+<table class='themed theme_striped'>
 <tr> <th>Column 1</th> <th>Column 2</th> <th>Column 3</th> </tr>
 <tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>
 <tr> <td>Data 1</th> <td>Data 2</th> <td>Data 3</th> </tr>

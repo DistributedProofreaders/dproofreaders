@@ -48,7 +48,7 @@ if (!isset($name))
     $title = sprintf( _("Release Queues for Round '%s'"), $round_id);
     output_header($title);
     echo "<h1>$title</h1>\n";
-    echo "<table class='themed striped'>\n";
+    echo "<table class='themed theme_striped'>\n";
     {
         echo "<tr>";
         echo "<th>", _("Ordering"), "</th>\n";

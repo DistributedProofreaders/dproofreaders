@@ -44,13 +44,13 @@ echo "</ul>";
 
 // now build the table
 ?>
-<table class='wordlisttable'>
+<table class='basic'>
 <tr>
-    <td class='label'><?php echo _("Page"); ?></td>
-    <td class='label'><?php echo pgettext("page state", "State"); ?></td>
+    <th class='label'><?php echo _("Page"); ?></th>
+    <th class='label'><?php echo pgettext("page state", "State"); ?></th>
 <?php
     foreach($Round_for_round_id_ as $round)
-        echo "<td class='label'>$round->id</td>";
+        echo "<th class='label'>$round->id</td>";
 ?>
 </tr>
 <?php

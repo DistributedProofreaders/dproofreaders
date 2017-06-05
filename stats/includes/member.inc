@@ -515,7 +515,7 @@ function showMbrNeighbors($user, $tally_name) {
     $t = new ThemedTable(
         4,
         _("Neighbors"),
-        array('striped' => TRUE)
+        array('theme_striped' => TRUE)
     );
     $t->set_column_widths( 15, 28, 28, 29 );
     $t->column_headers(
@@ -566,7 +566,7 @@ function showMbrTeams($user) {
     $t = new ThemedTable(
         2,
         _("Teams"),
-        array('striped' => TRUE)
+        array('theme_striped' => TRUE)
     );
     $t->set_column_widths( 50, 50 );
     $t->column_headers(

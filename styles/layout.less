@@ -14,6 +14,20 @@ tt {
     color: #cc0000;
 }
 
+table {
+    border-collapse: collapse;
+    th {
+        .center-align;
+        .bold;
+    }
+    th.label {
+        .left-align;
+    }
+    td, th {
+        padding: 0.1em 0.2em;
+    }
+}
+
 /* ------------------------------------------------------------------------ */
 /* HTML5 hacks */
 section, footer, aside, main, article, figure {
@@ -423,11 +437,29 @@ table.themed {
     }
 }
 
-table.striped {
+table.themed_striped {
     tr {
         th, td {
             padding: 0.2em;
         }
+    }
+}
+
+table.basic {
+    border-collapse: collapse;
+    border: 1px solid black;
+    th {
+        background-color: #CCC;
+        .center-align;
+    }
+    th.label {
+        .left-align;
+    }
+    td, th {
+        border: 1px solid black;
+    }
+    textarea {
+        width: 100%;
     }
 }
 
@@ -520,37 +552,6 @@ table.pagedetail {
     th, td {
         .center-align;
         font-weight: normal;
-    }
-}
-
-/* ------------------------------------------------------------------------ */
-/* WordCheck pages */
-
-table.wordlisttable {
-    padding: 5px;
-    border-collapse: collapse;
-    td {
-        padding: 2px;
-        border: thin solid #000;
-    }
-    td.label {
-        background-color: #CCC;
-        .bold;
-    }
-    textarea {
-        width: 100%;
-    }
-}
-
-table.freq {
-    th {
-        border-bottom: thin solid black;
-    }
-    td, th {
-        padding-right: 0.5em;
-    }
-    td.num {
-        .right-align;
     }
 }
 

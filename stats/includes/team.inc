@@ -268,7 +268,7 @@ function showTeamStats($curTeam, $tally_name) {
     $t = new ThemedTable(
         2,
         _("Team Statistics"),
-        array('striped' => TRUE)
+        array('theme_striped' => TRUE)
     );
     $t->set_column_widths( 60, 40 );
 
@@ -313,7 +313,7 @@ function showTeamMbrs($curTeam, $tally_name) {
         3,
         _("Team Member Details"),
         array(
-            'striped' => TRUE,
+            'theme_striped' => TRUE,
             'subtitle' => $subtitle
         )
     );

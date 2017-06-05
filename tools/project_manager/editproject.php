@@ -850,18 +850,18 @@ class ProjectInfoHolder
 
         $this->show_hidden_controls();
 
-        echo "<table cellspacing='0' cellpadding='5' border='1' width='90%' style='border: 1px solid #000; border-collapse:collapse'>";
+        echo "<table class='basic' style='width: 90%; margin: auto;'>";
 
         $this->show_visible_controls();
 
         echo "<tr>";
-        echo   "<td bgcolor='#CCCCCC' colspan='2' align='center'>";
+        echo   "<th colspan='2'>";
         // TRANSLATORS: PM = project manager
         echo     "<input type='submit' name='saveAndQuit' value='".attr_safe(_("Save and Go To PM Page"))."'>";
         echo     "<input type='submit' name='saveAndProject' value='".attr_safe(_("Save and Go To Project"))."'>";
         echo     "<input type='submit' name='saveAndPreview' value='".attr_safe(_("Save and Preview"))."'>";
         echo     "<input type='submit' name='quit' value='".attr_safe(_("Quit Without Saving"))."'>";
-        echo   "</td>";
+        echo   "</th>";
         echo "</tr>\n";
 
         echo "</table>";
@@ -993,9 +993,9 @@ class ProjectInfoHolder
     function row( $label, $display_function, $field_value, $field_name=NULL, $explan='', $args='' )
     {
         echo "<tr>";
-        echo   "<td bgcolor='#CCCCCC'>";
-        echo     "<b>$label</b>";
-        echo   "</td>";
+        echo   "<th class='label'>";
+        echo     "$label";
+        echo   "</th>";
         echo   "<td>";
         $display_function( $field_value, $field_name, $args );
         echo   "  ";
@@ -1020,21 +1020,21 @@ class ProjectInfoHolder
 
         echo "<h2>", _("Preview Project"), "</h2>";
         echo "<p>", _("This is a preview of your project and roughly how it will look to the proofreaders."), "</p>\n";
-        echo "<table width='90%' border=1>";
-        echo "<tr><td align='middle' bgcolor='#cccccc'><b>", _("Title"), "</b></td><td>$this->nameofwork</td></tr>\n";
-        echo "<tr><td align='middle' bgcolor='#cccccc'><b>", _("Author"), "</b></td><td>$this->authorsname</td></tr>\n";
+        echo "<table class='basic'>";
+        echo "<tr><th>", _("Title"), "</th><td>$this->nameofwork</td></tr>\n";
+        echo "<tr><th>", _("Author"), "</th><td>$this->authorsname</td></tr>\n";
         if (user_is_a_sitemanager())
         {
             // SAs are the only ones who can change this.
-            echo "<tr><td align='middle' bgcolor='#cccccc'><b>", _("Project Manager"), "</b></td><td>$this->projectmanager</td></tr>\n";
+            echo "<tr><th>", _("Project Manager"), "</th><td>$this->projectmanager</td></tr>\n";
         }
-        echo "<tr><td align='middle' bgcolor='#cccccc'><b>", _("Last Proofread"), "</b></td><td>$now</td></tr>\n";
-        echo "<tr><td align='middle' bgcolor='#cccccc'><b>", _("Forum"), "</b></td><td>", _("Start a discussion about this project"), "</td></tr>\n";
+        echo "<tr><th>", _("Last Proofread"), "</th><td>$now</td></tr>\n";
+        echo "<tr><th>", _("Forum"), "</th><td>", _("Start a discussion about this project"), "</td></tr>\n";
 
-        echo "<tr><td colspan='2' bgcolor='#cccccc' align='center'>";
-        echo "<font size='+1'><b>", _("Project Comments"), "</b></font>";
+        echo "<tr><th colspan='2'>";
+        echo "<font size='+1'>", _("Project Comments"), "</font>";
         echo "<br>$a<br>$b";
-        echo "</td></tr>\n";
+        echo "</th></tr>\n";
         echo "<tr><td colspan='2'>";
         echo $comments;
         echo "</td></tr>\n";
