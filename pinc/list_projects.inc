@@ -81,14 +81,13 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
 
     // Display where we are now
     // TRANSLATORS: This string is of the form: Projects <first> to <last> of <total>
+    echo "<p>";
     echo sprintf(_('Projects %1$d to %2$d of %3$d'), $first, $last, $num_found_rows);
-    echo "<br>\n";
+    echo "</p>\n";
     
     // Display a 'page line' with up to 5 pages from the current page
     // in either direction, and previous/next links.
     if ($num_found_rows > $per_page || $offset != 0) {
-        echo "<center>";
-    
         // Display 'previous' link if we're not on the first page
         if ($offset > 0) {
             $t = _('Previous');
@@ -117,10 +116,10 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
             $url = $url_base . "per_page=$per_page&amp;offset=$next_offset";
             echo " <a href='$url'>$t</a>";
         }
-        echo "</center><br>\n";
+        echo "<br>\n";
     }
     
-    $counter = $first;
+    echo "<ol start='$first'>";
     while ($project = mysql_fetch_array($result))
     {
         $projectid = $project['projectid'];
@@ -132,12 +131,10 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
         $moddate   = strftime( _("%A, %B %e, %Y"), $project['modifieddate'] );
         $postednum = $project['postednum'];
 
-        echo "<font face='Verdana' size='1'>";
 
         // First line
-        echo "<a name='$projectid'></a>";
+        echo "<li id='$projectid'>";
         // Counter
-        echo "$counter) ";
         // Title
         if (is_null($postednum))
         {
@@ -176,15 +173,12 @@ function list_projects( $where_condition, $order_clause, $url_base, $per_page = 
             }
             echo "<br>";
         }
+        echo "<br>";
 
         // ---------------------------------------------------------------------
 
-        echo "</font>";
-        echo "<br>";
-        echo "\n";
-
-        $counter++;
+        echo "</li>";
     }
+    echo "</ol>";
 }
 // vim: sw=4 ts=4 expandtab
-?>

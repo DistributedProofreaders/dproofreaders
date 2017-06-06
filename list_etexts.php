@@ -33,50 +33,29 @@ if($x == "g") {
 }
 
 output_header($title);
-?>
 
-<center>
-<font face="Verdana" size="6" color="<?php echo $type; ?>"><b><?php echo $title; ?></b></font><br>
-<?php
+echo "<h1 style='color: $type;'>$title</h1>";
+
 $listsuffix = "&amp;sort=$sort&amp;per_page=$per_page";
-if ($type == "Gold")
-    echo _("Gold");
-else
-    echo "<a href='list_etexts.php?x=g$listsuffix'>" . _("Gold") . "</a>";
-
-echo " | ";
-
-if ($type == "Silver")
-    echo _("Silver");
-else
-    echo "<a href='list_etexts.php?x=s$listsuffix'>" . _("Silver") . "</a>";
-
-echo " | ";
-
-if ($type == "Bronze")
-    echo _("Bronze");
-else
-    echo "<a href='list_etexts.php?x=b$listsuffix'>" . _("Bronze") ."</a>";
-
-?>
-</center><br>
-
-<?php
+$menu = array();
+foreach(array("g" => _("Gold"), "s" => _("Silver"), "b"=> _("Bronze")) as $key => $type_option)
+{
+    if($type == $type_option)
+        $menu[] = $type;
+    else
+        $menu[] = "<a href='list_etexts.php?x=$key$listsuffix'>$type_option</a>";
+}
+echo "<p>" .  implode($menu, " | ") . "</p>";
 echo "<p>$info</p>";
 echo "<p>$boilerplate</p>";
-?>
-<center>
-<?php
+
 $listurl = "list_etexts.php?x=$x&amp;per_page=$per_page&amp;offset=$offset";
 echo sprintf( _("<i>Title:</i> <a href='%1\$s'>asc</a> or <a href='%2\$s'>desc</a> | "), "$listurl&amp;sort=0", "$listurl&amp;sort=1");
 echo sprintf( _("<i>Author:</i> <a href='%1\$s'>asc</a> or <a href='%2\$s'>desc</a> | "), "$listurl&amp;sort=2", "$listurl&amp;sort=3");
 echo sprintf( _("<i>Submitted Date:</i> <a href='%1\$s'>asc</a> or <a href='%2\$s'>desc</a>"), "$listurl&amp;sort=4", "$listurl&amp;sort=5");
-?>
-<br>
-</center>
-<hr width="75%" align="center">
 
-<?php
+echo "<hr class='divider'>";
+
 $sortlist = array(
     "ORDER BY nameofwork asc",
     "ORDER BY nameofwork desc",
