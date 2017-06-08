@@ -166,6 +166,29 @@ div.newsitem p {
   margin: 0 0.5em 0.5em 0;
 }
 /* ------------------------------------------------------------------------ */
+/* Editing news items */
+table.newsedit {
+  width: 100%;
+  border-collapse: collapse;
+}
+table.newsedit tr td {
+  vertical-align: top;
+}
+table.newsedit tbody.padding tr td.commands,
+table.newsedit tbody.padding tr td.items {
+  padding-bottom: 1em;
+  padding-top: 0.5em;
+}
+table.newsedit td.commands {
+  width: 10%;
+  padding-right: 2em;
+  padding-left: 1em;
+  white-space: nowrap;
+}
+table.newsedit td.items {
+  width: 90%;
+}
+/* ------------------------------------------------------------------------ */
 /* Attention-getting structures */
 div.callout {
   margin-right: 2em;

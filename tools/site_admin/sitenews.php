@@ -31,7 +31,7 @@ if (isset($news_page_id)) {
     {
         $news_subject = get_news_subject($news_page_id);
         $title = sprintf(_('News Desk for %s'), $news_subject );
-        output_header($title, False, array('css_data' => get_page_css()));
+        output_header($title, False);
         echo "<br>";
         echo "<a href='sitenews.php'>"._("Site News Central")."</a><br>";
         echo "<h1>$title</h1>";
@@ -315,7 +315,7 @@ function show_all_news_items_for_page( $news_page_id )
                 echo "<a href='$url' $onclick>$label</a><br>";
             }
             echo "</td>";
-            echo "<td class='items bottom-border'>";
+            echo "<td class='items' style='border-bottom: solid thin black;'>";
             echo "\n";
             echo $news_item['content']."<br><br>";
             echo "\n";
@@ -377,41 +377,6 @@ function move_news_item ($news_page_id, $id_of_item_to_move, $direction) {
             ");
         }
     }
-}
-
-function get_page_css()
-{
-    return <<<CSS
-table.newsedit {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-table.newsedit tr td {
-    vertical-align: top;
-}
-
-table.newsedit tbody.padding tr td.commands,
-table.newsedit tbody.padding tr td.items {
-    padding-bottom: 1em;
-    padding-top: 0.5em;
-}
-
-td.commands {
-    width: 10%;
-    padding-right: 2em;
-    padding-left: 1em;
-    white-space: nowrap;
-}
-
-td.items {
-    width: 90%;
-}
-
-.bottom-border {
-    border-bottom: solid thin black;
-}
-CSS;
 }
 
 // vim: sw=4 ts=4 expandtab
