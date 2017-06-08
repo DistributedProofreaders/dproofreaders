@@ -1,5 +1,5 @@
 <?php 
-include_once($relPath."languages.inc");   // lang_html_header()
+include_once($relPath."theme.inc");  // html_header()
 
 // Output valid HTML for a non-themed page. The optional $extra_args variable
 // is an associative array to control what exactly is output. By default an
@@ -14,76 +14,14 @@ include_once($relPath."languages.inc");   // lang_html_header()
 //     'body_attributes' => body tag attributes to output
 function slim_header($title="", $extra_args=array())
 {
-    global $charset;
-    global $site_abbreviation;
+    global $code_url;
 
-    $intlang = get_desired_language();
+    // Include the slim_header stylesheet
+    if(!isset($extra_args['css_files']))
+        $extra_args['css_files'] = array();
+    $extra_args['css_files'][] = "$code_url/styles/slim_header.css";
 
-    if(isset($extra_args['frameset']))
-    {
-        echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" ' .
-            '"http://www.w3.org/TR/html4/frameset.dtd">' . "\n";
-    }
-    else
-    {
-        echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">' . "\n";
-    }
-
-    echo "<html " . lang_html_header($intlang) . ">\n";
-    echo "<head>\n";
-    echo "<title>$site_abbreviation";
-    if (isset($title)) 
-        echo ": $title";
-    echo "</title>\n";
-    echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\" />\n";
-    echo "<meta http-equiv=\"Pragma\" content=\"no-cache\" />\n";
-    echo "<meta http-equiv=\"Expires\" content=\"-1\" />\n";
-
-    // Any additional head tags
-    if(isset($extra_args['head_data']))
-    {
-        echo $extra_args['head_data'];
-    }
-
-    // Per-page CSS
-    if (isset($extra_args['css_files']))
-    {
-        foreach($extra_args['css_files'] as $css_file)
-            echo "<link type='text/css' rel='Stylesheet' href='$css_file'>";
-    }
-
-    // Any additional style definitions requested by the caller
-    if(isset($extra_args['css_data']))
-    {
-        echo "<style type='text/css'>\n" .
-            $extra_args['css_data'] .
-            "</style>\n";
-    }
-
-    // Per-page Javascript
-    if(isset($extra_args['js_files']))
-    {
-        foreach($extra_args['js_files'] as $js_file)
-            echo "<script language=\"JavaScript\" type=\"text/javascript\" src=\"$js_file\"></script>\n";
-    }
-
-    if(isset($extra_args['js_data']))
-    {
-        echo "<script type='text/javascript'>\n" .
-            $extra_args['js_data'] .
-            "</script>\n";
-    }
-
-    echo "</head>\n";
-
-    // framesets don't have <body> elements
-    if(!isset($extra_args['frameset']))
-    {
-        echo "<body";
-        if(isset($extra_args['body_attributes']))
-            echo " " . $extra_args['body_attributes'];
-        echo ">\n";
-    }
+    html_header($title, $extra_args, False);
 
     // Call slim_footer when the main page content has been emitted so we can
     // close the page

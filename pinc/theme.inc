@@ -101,12 +101,21 @@ function output_footer($nameofpage, $show_statsbar = True) {
     html_footer();
 }
 
-function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) {
+function html_header($nameofpage, $extra_args = array(), $show_statsbar = True)
+{
     global $code_url, $site_abbreviation, $userP;
     global $charset;
 
     $intlang = get_desired_language();
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
+
+    if(isset($extra_args['frameset']))
+    {
+        echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\" \"http://www.w3.org/TR/html4/frameset.dtd\">\n";
+    }
+    else
+    {
+        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
+    }
     echo "<html ".lang_html_header($intlang).">\n<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$charset\">\n";
 
@@ -130,7 +139,8 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) 
     echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/global.css'>\n";
 
     // Statsbar CSS
-    if ($show_statsbar) {
+    if ($show_statsbar)
+    {
         echo "<link type='text/css' rel='Stylesheet' href='$code_url/styles/statsbar.css'>\n";
     }
 
@@ -144,9 +154,15 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) 
     // Any additional style definitions requested by the caller
     if (isset($extra_args['css_data']))
     {
-        echo "<style type='text/css'>\n";
-        echo $extra_args['css_data'];
-        echo "</style>\n";
+        echo "<style type='text/css'>\n" .
+             $extra_args['css_data'] .
+             "</style>\n";
+    }
+
+    if(isset($extra_args['js_files']))
+    {
+        foreach($extra_args['js_files'] as $js_file)
+            echo "<script language=\"JavaScript\" type=\"text/javascript\" src=\"$js_file\"></script>\n";
     }
 
     // Per-page Javascript
@@ -157,8 +173,21 @@ function html_header($nameofpage, $extra_args = array(), $show_statsbar = True) 
             "</script>\n";
     }
 
+    // Any additional head tags
+    if(isset($extra_args['head_data']))
+    {
+        echo $extra_args['head_data'];
+    }
+
     echo "</head>\n\n";
-    echo "<body>\n\n";
+    // framesets don't have <body> elements
+    if(!isset($extra_args['frameset']))
+    {
+        echo "<body";
+        if(isset($extra_args['body_attributes']))
+            echo " " . $extra_args['body_attributes'];
+        echo ">\n\n";
+    }
 }
 
 function html_logobar() {
