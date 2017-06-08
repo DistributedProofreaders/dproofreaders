@@ -8,18 +8,7 @@ include_once($relPath.'showstartexts.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'site_news.inc');
 
-$theme_args['css_data'] = "
-.progress-count {
-    font-size: large;
-}
-
-.active-user-count {
-    font-style: italic;
-    font-weight: bold;
-}
-";
-
-output_header(_("Welcome"), True, $theme_args);
+output_header(_("Welcome"), True);
 $etext_limit = 10;
 
 default_page_heading();
@@ -161,7 +150,7 @@ foreach ( array(1,7,30) as $days_back )
         : _('%1$s active users in the past %2$d days.')
     );
     $msg = sprintf( $template, number_format($num_users), $days_back );
-    echo "<span class='active-user-count'>$msg</span><br>\n";
+    echo "<span class='bold italic'>$msg</span><br>\n";
 }
 
 echo "</p>\n";

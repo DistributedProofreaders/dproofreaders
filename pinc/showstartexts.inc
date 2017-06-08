@@ -28,7 +28,7 @@ function showstartexts($etext_limit,$type) {
     echo "<img src='$code_url/graphics/{$type}_star.jpg' height='38' width='40' alt='$type star'>\n";
 
     // Display count and category as a link
-    echo "<span class='progress-count'>";
+    echo "<span class='large'>";
     echo "<a href='list_etexts.php?x=".substr($type,0,1)."&amp;sort=5'>";
     echo sprintf($category, number_format($total)) . "</a>.</span><br>\n";
 
