@@ -59,7 +59,7 @@ function show_query_form()
 
         echo "<form method='post' action='external_catalog_search.php'>\n";
         echo "<input type='hidden' name='action' value='do_search_and_show_hits'>\n";
-        echo "<table class='themed'>";
+        echo "<table class='basic'>";
 
         foreach (
             array(
@@ -75,7 +75,7 @@ function show_query_form()
         )
         {
             echo "<tr>";
-            echo   "<td class='right-align bold'>$field_label</td>";
+            echo   "<th class='label'>$field_label</th>";
             echo   "<td>";
             echo     "<input type='text' size='30' name='$field_name'>";
             echo   "</td>";
@@ -83,7 +83,7 @@ function show_query_form()
         }
 
         echo "<tr>";
-        echo   "<th class='center-align' colspan='2'>";
+        echo   "<th colspan='2'>";
         echo     "<input type='submit' value='", attr_safe(_('Search')), "'>";
         echo   "</th>";
         echo "</tr>\n";
@@ -120,43 +120,42 @@ function do_search_and_show_hits()
 
     if (!empty($errorMsg))
     {
-        echo "<center>";
+        echo "<p class='error'>";
         echo _("The following error has occurred:");
-        echo "<br><br>";
-        echo "<b><i>$errorMsg</i></b>";
+        echo " $errorMsg";
+        echo "</p>";
         echo "<p>";
         $url = "editproject.php?action=createnew";
         echo sprintf(
             _("Please try again. If the problem recurs, please create your project manually by following this <a href='%s'>link</a>."), $url);
-        echo "</center>";
+        echo "</p>";
         exit();
     }
     
-    echo "<center>";
     if (yaz_hits($id) == 0)
     {
-        echo "<b>";
-        echo _("There were no results returned.");
-        echo "</b>";
-        echo "<br>";
+        echo "<p class='warning'>";
+        echo  _("There were no results returned.");
+        echo "</p>";
+        echo "<p>";
         echo _("Please search again or click 'No Matches' to create the project manually.");
-        echo "<br>";
+        echo "</p>";
     }
     else
     {
-        echo "<b>";
+        echo "<p>";
         echo sprintf(
             _("%d results returned. Note that some non-book results may not be displayed."),
             yaz_hits($id) );
-        echo "<br>";
+        echo "</p>";
+        echo "<p>";
         echo _("Please pick a result from below:");
-        echo "</b>";
+        echo "</p>";
     }
-    echo "</center>";
 
-    echo "<br><form method='post' action='editproject.php'>";
+    echo "<form method='post' action='editproject.php'>";
     echo "<input type='hidden' name='action' value='create_from_marc_record'>";
-    echo "<table border='0 width='100%' cellpadding='0' cellspacing='0'>";
+    echo "<table style='width: 100%; border: 0;'>";
 
     // -----------------------------------------------------
 
@@ -171,11 +170,11 @@ function do_search_and_show_hits()
 
         if ($i % 2 == 1) { echo "<tr>"; }
 
-        echo "<td width='5%' align='center' valign='top'>";
+        echo "<td class='center-align top-align' style='width: 5%;'>";
         echo "<input type='radio' name='rec' value='".base64_encode(serialize($rec))."'>";
         echo "</td>";
-        echo "<td width='45%' align='left' valign='top'>";
-        echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+        echo "<td class='left-align top-align' style='width: 45%;'>";
+        echo "<table class='basic' style='width: 100%;'>";
 
         foreach ( array(
                 array( 'label' => _("Title"),     'value' => $marc_record->title ),
@@ -191,8 +190,8 @@ function do_search_and_show_hits()
             $label = $couple['label'];
             $value = $couple['value'];
             echo "<tr>";
-            echo   "<td width='20%' align='left' valign='top'><b>$label</b>:</td>";
-            echo   "<td align='left' valign='top'>$value</td>";
+            echo   "<th class='left-align top-align' style='width: 20%;'>$label:</th>";
+            echo   "<td class='left-align top-align'>$value</td>";
             echo "</tr>\n";
         }
 
@@ -209,7 +208,7 @@ function do_search_and_show_hits()
 
     $encoded_fullquery = base64_encode(serialize($fullquery));
     echo "<tr>";
-    echo "<td colspan='2' width='50%' align='left' valign='top'>";
+    echo "<td class='left-align top-align' style='width: 50%;' colspan='2'>";
     if (isset($_GET['start']) && ($_GET['start']-$hits_per_page) > 0)
     {
         $url = "external_catalog_search.php?action=do_search_and_show_hits&start=".($_GET['start']-$hits_per_page)."&fq=$encoded_fullquery";
@@ -220,7 +219,7 @@ function do_search_and_show_hits()
         echo "&nbsp;";
     }
     echo "</td>";
-    echo "<td colspan='2' width='50%' align='right' valign='top'>";
+    echo "<td class='right-align top-align' style='width: 50%;' colspan='2'>";
     if (($start+$hits_per_page) <= yaz_hits($id))
     {
         $url = "external_catalog_search.php?action=do_search_and_show_hits&start=$start&fq=$encoded_fullquery";
