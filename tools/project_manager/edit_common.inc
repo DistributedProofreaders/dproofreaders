@@ -260,7 +260,7 @@ function image_source_list($image_source)
     }
 
     echo "</select> ";
-    echo "<font size=-1>". sprintf(_("'%1\$s Internal' if scanned by or for a %1\$s user."),$site_abbreviation)."</font>";
+    echo "<span class='small'>". sprintf(_("'%1\$s Internal' if scanned by or for a %1\$s user."),$site_abbreviation)."</span>";
     echo " " . new_window_link( "show_image_sources.php", _("Details of Image Sources") );
     echo "<br>";
 }

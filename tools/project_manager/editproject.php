@@ -74,7 +74,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
 
     if ($errors != '')
     {
-        echo "<br><center><font size='+1' color='#ff0000'><b>$errors</b></font></center>";
+        echo "<p class='error'>$errors</p>";
     }
 
     $pih->show_form();
@@ -141,7 +141,7 @@ else
     if ($fatal_error != '')
     {
         $fatal_error = _('site error') . ': ' . $fatal_error;
-        echo "<br><center><font size='+1' color='#ff0000'><b>$fatal_error</b></font></center>";
+        echo "<p class='error'>$fatal_error</p>";
         exit;
     }
 
@@ -663,7 +663,7 @@ class ProjectInfoHolder
             if ($fatal_error != '')
             {
                 $fatal_error = _('site error') . ': ' . $fatal_error;
-                echo "<br><center><font size='+1' color='#ff0000'><b>$fatal_error</b></font></center>";
+                echo "<p class='error'>$fatal_error</p>";
                 exit;
             }
             $changed_fields = get_changed_fields($this, $old_pih);
@@ -1032,7 +1032,7 @@ class ProjectInfoHolder
         echo "<tr><th>", _("Forum"), "</th><td>", _("Start a discussion about this project"), "</td></tr>\n";
 
         echo "<tr><th colspan='2'>";
-        echo "<font size='+1'>", _("Project Comments"), "</font>";
+        echo "<p class='large'>", _("Project Comments"), "</p>";
         echo "<br>$a<br>$b";
         echo "</th></tr>\n";
         echo "<tr><td colspan='2'>";

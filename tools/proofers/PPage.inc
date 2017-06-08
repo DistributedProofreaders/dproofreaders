@@ -141,7 +141,7 @@ class PPage
     {
         //display page number
         $pageNum=substr($this->lpage->imagefile,0,-4);
-        echo "<font size='-1'><b>";
+        echo "<span class='small bold'>";
         echo sprintf(_("Page: %s"), $pageNum);
 
         $round = $this->lpage->round;
@@ -181,7 +181,7 @@ class PPage
                 }
             }
         }
-        echo "</b></font>\n";
+        echo "</span>\n";
     }
 
     function echo_proofing_textarea()

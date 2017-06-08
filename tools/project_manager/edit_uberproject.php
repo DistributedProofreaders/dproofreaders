@@ -157,16 +157,16 @@ if ( isset($_REQUEST['action']) &&
     echo "<form method='post' enctype='multipart/form-data' action='" . attr_safe($_SERVER['PHP_SELF']) . "'>";
     if (!empty($rec)) { echo "<input type='hidden' name='rec' value='".base64_encode(serialize($rec))."'>"; }
     if (isset($up_projectid)) { echo "<input type='hidden' name='up_projectid' value='$up_projectid'>"; }
-    if (isset($errorMsg)) { echo "<br><center><font size='+1' color='#ff0000'><b>$errorMsg</b></font></center>"; }
-    echo "<br><center><table cellspacing='0' cellpadding='5' border='1' width='90%' style='border: 1px solid #000; border-collapse:collapse'>";
-    echo "<tr><td colspan='2'><center><b>"._("Uber Project Settings")."</b></center></td></tr>\n";
+    if (isset($errorMsg)) { echo "<p class='error'>$errorMsg</p>"; }
+    echo "<br><table class='basic' style='width: 90%; margin: auto;'>";
+    echo "<tr><th colspan='2'>"._("Uber Project Settings")."</th></tr>\n";
 
     function row( $label, $display_function, $field_value, $field_name=NULL )
     {
         echo "<tr>";
-        echo   "<td>";
-        echo     "<b>$label</b>";
-        echo   "</td>";
+        echo   "<th>";
+        echo     $label;
+        echo   "</th>";
         echo   "<td>";
         $display_function( $field_value, $field_name );
         echo   "</td>";
@@ -201,7 +201,7 @@ if ( isset($_REQUEST['action']) &&
     row( _("Default Clearance Information"), 'text_field',          $clearance,       'clearance' );
     row( _("Default Project Comments"),      'proj_comments_field', $comments         );
 
-    echo "<tr><td colspan='2' align='center'><input type='submit' name='saveUberAndQuit' value='"._("Save Uber Project and Quit")."'><input type='submit' name='saveUberAndNewProject' value='"._("Save Uber Project and Create \na New Project from this Uber Project")."'><input type='submit' name='saveUberAndReturn' value='"._("Save Uber Project\n and Refresh")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></td></tr>\n</table></center>";
+    echo "<tr><th colspan='2'><input type='submit' name='saveUberAndQuit' value='"._("Save Uber Project and Quit")."'><input type='submit' name='saveUberAndNewProject' value='"._("Save Uber Project and Create \na New Project from this Uber Project")."'><input type='submit' name='saveUberAndReturn' value='"._("Save Uber Project\n and Refresh")."'><input type='button' value='"._("Quit Without Saving")."' onclick='javascript:location.href=\"projectmgr.php\";'></th></tr>\n</table>";
     echo "</form>";
 }
 
@@ -225,9 +225,9 @@ elseif (isset($_POST['saveUberAndQuit']) || isset($_POST['saveUberAndNewProject'
     else
     {
         output_header(_("Uber Project Error!"));
-        echo "<br><center><h3><font color='#ff0000'>$errorMsg<br><br>";
+        echo "<p class='error'>$errorMsg<br>";
         echo _("Press browser Back button to return, edit, and try again");
-        echo "</font></h3></center>";
+        echo "</p>";
     }
 }
 
@@ -390,8 +390,6 @@ function saveUberProject()
 
         $up_projectid = mysql_insert_id();
 
-        // '{$GLOBALS['pguser']}'
-
         // if topic / post IDs are blank :
         // create the auto uber post and/or the auto contents post ?
         // update uber_projects table with topic and/or post IDs
@@ -399,4 +397,3 @@ function saveUberProject()
 }
 
 // vim: sw=4 ts=4 expandtab
-?>

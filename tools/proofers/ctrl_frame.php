@@ -100,7 +100,7 @@ echo "<b><font color='red'>"._("HELP")."---&gt;</font></b>";
 	colspan="3"
 	align="center">
 <?php
-echo "<font size='-1'>\n";
+echo "<span class='small'>\n";
 
 echo "<i>"._("Markup shortcuts").":</i>\n";
 echo_tool_links( $round->pi_tools['tool_links'] );
@@ -119,9 +119,11 @@ echo "</a>]\n";
 $url = "$code_url/faq/InterfaceDiagram.png";
 echo "[<a style=\"color:#0000FF; text-decoration: underline;\" href='$url' target='_blank'>";
 echo _("Proofreading Diagram");
-echo "</a>]\n"; ?>
+echo "</a>]\n";
 
-</font>
+echo "</span>\n";
+?>
+
 </td>
 </tr>
 </table>

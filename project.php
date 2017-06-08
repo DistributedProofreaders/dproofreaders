@@ -840,7 +840,7 @@ function echo_row_b( $top, $bottom, $bgcolor = 'CCCCCC' )
 {
     echo "<tr>";
     echo "<td colspan='5' style='background-color: #$bgcolor; text-align: center;'>";
-    echo "<font size='+1'><b>$top</b></font>";
+    echo "<span class='bold large'>$top</span>";
     if ($bottom)
     {
         echo "<br>$bottom";
@@ -1022,7 +1022,7 @@ function do_early_uploads()
                 _('For FTP uploads, use host=%1$s account=%2$s password=%3$s'),
                 "<b>$uploads_host</b>", 
                 "<b>$uploads_account</b>", 
-                "<i><font color='#DDDDDD'>$uploads_password</font></i>" );
+                "<i><span style='color: #DDD'>$uploads_password</span></i>" );
             }
 
         echo "</p>";
