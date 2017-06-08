@@ -928,33 +928,33 @@ function hideSpan(id) { document.getElementById(id).style.display="none"; }
 EOS;
 
     $css_data = <<<EOS
-table.tasks        { width:98%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size:11px; }
+table.tasks        { width: 100%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size: small; }
 table.tasks form   { margin: 0; }
-table.tasks td     { font-size:11px; padding:2px!important; vertical-align:top; text-align:left; }
+table.tasks td     { font-size: small; padding:2px!important; vertical-align:top; text-align:left; }
 table.tasks th     { font-weight:bold; text-align:left; padding:5px; vertical-align:top; }
-table.taskslist    { width:98%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size:11px; }
+table.taskslist    { width: 100%; border-collapse:collapse; border:1px solid #CCCCCC; background-color:#E6EEF6; font-family:Verdana; color:#000000; font-size: small; }
 table.taskslist td { padding:5px!important; white-space: nowrap;}
 table.taskslist th { font-weight:bold; text-align:left; padding:5px; vertical-align:top; padding:5px!important; }
-table.taskplain    { width:98%; border:none; border-collapse:collapse; }
-table.taskplain td { font-size: 11px; padding:2px; vertical-align:top; text-align:left; }
+table.taskplain    { width: 100%; border:none; border-collapse:collapse; }
+table.taskplain td { font-size: small; padding:2px; vertical-align:top; text-align:left; }
 td.taskproperty    { width:40%; font-weight: bold; }
 td.taskvalue       { width:60%; border-bottom:#CCCCCC 1px solid; }
-select.taskselect  { font-size:12px; color:#03008F; background-color:#EEF7FF; }
-input.taskinp1     { font-size:12px; border:1px solid #000000; margin:2px; padding:0px; background-color:#EEF7FF; }
-input.taskinp2     { font-size:12px; color:#FFFFFF; font-weight:bold; border:1px ridge #000000; margin:2px; padding:0px; background-color:#838AB5; }
+select.taskselect  { font-size: small; color:#03008F; background-color:#EEF7FF; }
+input.taskinp1     { font-size: small; border:1px solid #000000; margin:2px; padding:0px; background-color:#EEF7FF; }
+input.taskinp2     { font-size: small; color:#FFFFFF; font-weight:bold; border:1px ridge #000000; margin:2px; padding:0px; background-color:#838AB5; }
 legend.task        { font-weight:bold; }
 fieldset.task      { width:35em; border:#2266AA solid 1px; }
-small.task         { font-family:Verdana; font-size:10px; }
-center.taskwarn    { color:#FF0000; font-weight:bold; font-size: 12pt; font-family:Verdana; padding:2em; }
-center.taskinfo    { color:#00CC00; font-weight:bold; font-size: 12pt; font-family:Verdana; padding:2em; }
-p                  { font-family:Verdana; font-size:11px; }
+small.task         { font-family:Verdana; font-size: small; }
+center.taskwarn    { color:#FF0000; font-weight:bold; font-family:Verdana; padding:2em; }
+center.taskinfo    { color:#00CC00; font-weight:bold; font-family:Verdana; padding:2em; }
+p                  { font-family:Verdana; font-size: small; }
 .wrap              { white-space: normal!important; }
 EOS;
 
     output_header(html_safe($header), NO_STATSBAR,
         array('js_data' => $js_data, 'css_data' => $css_data));
 
-    echo "<br /><div align='center'><table class='taskplain' width='98%'><tr><td>";
+    echo "<br /><div align='center'><table class='taskplain'><tr><td>";
     echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
     echo "<table class='taskplain'>\n";
     echo "<tr><td width='50%'>&nbsp;</td>\n";
