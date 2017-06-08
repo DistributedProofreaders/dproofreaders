@@ -22,25 +22,6 @@ include_once($relPath.'SettingsClass.inc');
 
 require_login();
 
-$theme_args['css_data'] = "
-table.snapshottable th.activity-icon-header {
-    border: none;
-    background-color: #ffffff;
-    width: 35%;
-}
-table.snapshottable td.stage-icon {
-    border-right: 0;
-}
-table.snapshottable td.stage-name {
-    text-align: left;
-    border-left: 0;
-    border-right: 0;
-}
-table.snapshottable td.stage-access {
-    border-left: 0;
-}
-";
-
 // Load user settings
 $userSettings =& Settings::get_Settings($pguser);
 

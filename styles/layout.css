@@ -283,6 +283,22 @@ table.snapshottable th {
 table.snapshottable td.nocell {
   border: none;
 }
+table.snapshottable th.activity-icon-header {
+  border: none;
+  background-color: #ffffff;
+  width: 35%;
+}
+table.snapshottable td.stage-icon {
+  border-right: 0;
+}
+table.snapshottable td.stage-name {
+  text-align: left;
+  border-left: 0;
+  border-right: 0;
+}
+table.snapshottable td.stage-access {
+  border-left: 0;
+}
 /* ------------------------------------------------------------------------ */
 /* Progress bar */
 div.progressbar {
