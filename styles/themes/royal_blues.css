@@ -254,6 +254,16 @@ table.pagedetail td.done_previous {
   background-color: #F36;
 }
 /* ------------------------------------------------------------------------ */
+/* Registration table */
+table.register td.label {
+  background-color: #99ccff;
+}
+/* ------------------------------------------------------------------------ */
+/* Site Progress Snapshot table on Activity Hub */
+table.snapshottable th {
+  background-color: #99ccff;
+}
+/* ------------------------------------------------------------------------ */
 /* WordCheck pages */
 .preWC {
   background-color: #c2c2c2;

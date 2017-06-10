@@ -206,7 +206,7 @@ if ($password=="proofer") {
     // data validation, print out the error here and let them resubmit.
     if(!empty($error))
     {
-        echo "<p style='color: red; font-weight: bold'>$error</p>";
+        echo "<p class='error'>$error</p>";
     }
 
     echo "<center>";
@@ -242,7 +242,7 @@ if ($password=="proofer") {
     echo "    <input type='radio' name='email_updates' value='0' "; if(!$email_updates) echo "checked"; echo ">" . _("No");
     echo "  </td>";
     echo "</tr>\n<tr>";
-    echo "  <td bgcolor='#336633' colspan='2' align='center'><input type='submit' value='" . attr_safe(_("Send E-Mail required to activate account")) . "'>&nbsp;&nbsp;<input type='reset'></td>";
+    echo "  <td id='footer' colspan='2' align='center'><input type='submit' value='" . attr_safe(_("Send E-Mail required to activate account")) . "'>&nbsp;&nbsp;<input type='reset'></td>";
     echo "</tr></table></form>";
     echo "</center>";
 

@@ -247,7 +247,6 @@ table.register {
   border: 1px solid black;
 }
 table.register td.label {
-  background-color: #e0e8dd;
   text-align: right;
   font-weight: bold;
   padding: 0px 3px;
@@ -258,7 +257,7 @@ table.register td.field {
 /* ------------------------------------------------------------------------ */
 /* Site Progress Snapshot table on Activity Hub */
 table.snapshottable {
-  margin: 0;
+  margin: -1px 0 0 0;
   padding: 0;
   border-collapse: collapse;
   empty-cells: hide;
@@ -277,7 +276,6 @@ table.snapshottable img {
   margin: 0;
 }
 table.snapshottable th {
-  background-color: #e0e8dd;
   font-weight: normal;
 }
 table.snapshottable td.nocell {
