@@ -609,27 +609,25 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
     echo "<table class='themed theme_striped'>";
 
-    function echo_header_cell( $width, $text, $class='' )
+    function echo_header_cell($text, $class='' )
     {
-        if($class)
-            $class = "class='$class'";
-        echo "<th $class>$text</th>\n";
+        echo "<th class='$class'>$text</th>\n";
     }
 
     echo "<tr>";
-    echo_header_cell( 175, _("Title") );
-    echo_header_cell( 100, _("Author") );
+    echo_header_cell(_("Title"), 'left-align');
+    echo_header_cell(_("Author"), 'left-align');
     // TRANSLATORS: Abbreviation for difficulty
-    echo_header_cell( 25, _("Diff."), 'center-align' );
-    echo_header_cell( 50, _("Avail. Pages"), 'center-align' );
-    echo_header_cell( 50, _("Total Pages"), 'center-align' );
+    echo_header_cell(_("Diff."), 'center-align');
+    echo_header_cell(_("Avail. Pages"), 'right-align');
+    echo_header_cell(_("Total Pages"), 'right-align');
     // TRANSLATORS: Abbreviation for Project Manager
-    echo_header_cell(  75, pgettext("project manager", "PM") );
-    echo_header_cell(  75, _("Checked Out By") );
-    echo_header_cell( 180, _("Project Status") );
+    echo_header_cell(pgettext("project manager", "PM"), 'left-align');
+    echo_header_cell(_("Checked Out By"), 'left-align');
+    echo_header_cell(_("Project Status"), 'left-align');
     if ( $show_options_column )
     {
-        echo_header_cell(  30, _("Options") );
+        echo_header_cell(_("Options"), 'left-align');
     }
     echo "</tr>";
 
@@ -673,10 +671,10 @@ if ((!isset($_GET['show']) && (!isset($_GET['up_projectid']))) ||
 
 
         // Avail. Pages
-        echo "<td $cell_style class='center-align'>{$project->n_available_pages}</td>\n";
+        echo "<td $cell_style class='right-align'>{$project->n_available_pages}</td>\n";
 
         // Total Pages
-        echo "<td $cell_style class='center-align'>{$project->n_pages}</td>\n";
+        echo "<td $cell_style class='right-align'>{$project->n_pages}</td>\n";
 
 
         // PM

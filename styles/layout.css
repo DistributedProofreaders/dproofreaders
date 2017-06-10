@@ -444,9 +444,9 @@ table.themed tr th,
 table.themed tr td {
   padding: 0.1em;
 }
-table.themed_striped tr th,
-table.themed_striped tr td {
-  padding: 0.2em;
+table.theme_striped tr th,
+table.theme_striped tr td {
+  padding: 0.1em 0.5em 0.1em 0.5em;
 }
 table.basic {
   border-collapse: collapse;
