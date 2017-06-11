@@ -18,9 +18,9 @@ if(!isset($relPath))
 $test_system_access_string = '';
 if ($testing)
 {
-    $test_system_access_string = "<font style='color: red'>";
+    $test_system_access_string = "<span class='test_warning'>";
     $test_system_access_string .= _('Because this is a testing site, developers with login access to this server will also have access to the Real Name you provide.');
-    $test_system_access_string .= "</font>";
+    $test_system_access_string .= "</span>";
 }
 
 // The privacy statement is particularly important and thus needs to be
