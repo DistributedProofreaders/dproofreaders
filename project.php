@@ -1314,7 +1314,8 @@ function do_history()
 
             echo "<td>", sprintf(_("from %s"), $from_state_t), "</td>\n";
             echo "<td>", sprintf(_("to %s"), $to_state_t), "</td>\n";
-            echo "<td>$details3_t</td>\n";
+            if($details3_t != "")
+                echo "<td>$details3_t</td>\n";
         }
         elseif ( $event['event_type'] == 'smooth-reading' )
         {
