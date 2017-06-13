@@ -10,7 +10,7 @@ include_once($relPath.'User.inc');
 // $ACCESS_CRITERIA and $Activity_for_id_ are extended as activities are defined.
 
 $ACCESS_CRITERIA = array(
-    'days since reg' => _('days since registration'),
+    'days since reg' => _('Days since registration'),
     'quiz/p_mod1'    => sprintf(_('<a href="%1$s">moderate proofreading quiz %2$d</a> pass'),"$code_url/quiz/start.php?show_level=P_MOD", 1),
     'quiz/p_mod2'    => sprintf(_('<a href="%1$s">moderate proofreading quiz %2$d</a> pass'),"$code_url/quiz/start.php?show_level=P_MOD", 2),
     'quiz/f_only'    => sprintf(_("<a href='%s'>formatting quiz</a> pass"),"$code_url/quiz/start.php?show_only=format"),
@@ -335,8 +335,8 @@ function show_user_access_object( $uao )
     else
     {
         echo "<h2>" . _('Entrance Requirements') . "</h2>\n";
-        echo "<p>" . _('To access this round, you must satisfy the following requirements.') . "</p>";
-        echo "<table border='1'>\n";
+        echo "<p>" . _('To access this round, you must satisfy the following requirements.') . "</p>\n";
+        echo "<table class='basic'>\n";
 
         echo "<tr>";
         echo "<th>" . _('Criterion') . "</th>";
@@ -347,17 +347,16 @@ function show_user_access_object( $uao )
         foreach ( $uao->minima_table as $row )
         {
             list($criterion_str, $minimum, $user_score, $satisfied) = $row;
-            $bgcolor = ( $satisfied ? '#ccffcc' : '#ffcccc' );
             echo "<tr>";
             echo "<td>$criterion_str</td>";
-            echo "<td>$minimum</td>";
-            echo "<td bgcolor='$bgcolor'>$user_score</td>";
+            echo "<td class='right-align'>$minimum</td>";
+            td_w_bgcolor($user_score, $satisfied);
             echo "</tr>\n";
         }
         echo "</table>\n";
 
         echo "<p>";
-        echo "<b>" . _('Eligibility status') . ":</b> ";
+        echo "<strong>" . _('Eligibility status') . ":</strong> ";
         if ( $uao->all_minima_satisfied )
         {
             echo _('You satisfy the requirements.');
@@ -452,7 +451,7 @@ function show_user_access_chart( $username )
         echo "<input type='hidden' name='subject_username' value='$username'>\n";
     }
 
-    echo "<table border='1'>";
+    echo "<table class='basic'>\n";
 
     // top header line
     {
@@ -499,7 +498,7 @@ function show_user_access_chart( $username )
         foreach ( $ACCESS_CRITERIA as $criterion_code => $criterion_descr )
         {
             $user_score = $user_scores[$criterion_code];
-            echo "<td align='right'>$user_score</td>";
+            echo "<td class='right-align'>$user_score</td>";
         }
         echo "</tr>\n";
     }
@@ -523,12 +522,12 @@ function show_user_access_chart( $username )
             else
             {
                 list($criterion_str, $minimum, $user_score, $satisfied) = $row;
-                echo td_w_bgcolor( $minimum, $satisfied );
+                td_w_bgcolor($minimum, $satisfied );
             }
         }
 
         // "all sat?" column
-        echo td_w_bgcolor(
+        td_w_bgcolor(
             ($uao->all_minima_satisfied ? _('Yes') : _('No')),
             $uao->all_minima_satisfied );
 
@@ -595,7 +594,7 @@ function show_user_access_chart( $username )
         }
 
         // "can access?" column
-        echo td_w_bgcolor( ($uao->can_access?_('Yes'):_('No')), $uao->can_access );
+        td_w_bgcolor(($uao->can_access?_('Yes'):_('No')), $uao->can_access);
 
         if ( $allow_grant )
         {
@@ -634,8 +633,8 @@ function show_user_access_chart( $username )
 
 function td_w_bgcolor( $text, $bool )
 {
-    $bgcolor = ( $bool ? '#ccffcc' : '#ffcccc' );
-    return "<td align='right' bgcolor='$bgcolor'>$text</td>";
+    $cell_class = $bool ? 'satisfied' : 'not_satisfied';
+    echo "<td class='$cell_class'>$text</td>";
 }
 
 // vim: sw=4 ts=4 expandtab

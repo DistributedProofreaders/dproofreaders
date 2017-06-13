@@ -463,6 +463,14 @@ table.basic td,
 table.basic th {
   border: 1px solid black;
 }
+table.basic td.satisfied {
+  text-align: right;
+  background-color: #ccffcc;
+}
+table.basic td.not_satisfied {
+  text-align: right;
+  background-color: #ffcccc;
+}
 table.basic textarea {
   width: 100%;
 }
