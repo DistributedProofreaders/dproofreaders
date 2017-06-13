@@ -107,7 +107,7 @@ var makePreview = function (txt, viewMode, styler) {
         // split up the string into an array of characters
         var tArray = txt.split("");
 
-        function htmlEncode(s, i) {
+        function htmlEncodeChar(s, i) {
             if (s === "&") {
                 tArray[i] = "&amp;";
             } else if (s === "<") {
@@ -142,7 +142,7 @@ var makePreview = function (txt, viewMode, styler) {
             }
         });
 
-        tArray.forEach(htmlEncode);
+        tArray.forEach(htmlEncodeChar);
         issArray.forEach(markIss);
         txt = tArray.join("");  // join it back into a string
     }
@@ -311,6 +311,7 @@ var makePreview = function (txt, viewMode, styler) {
         var start = 0;
         var tagStack = [];
         var result;
+        var res1;
         var stackTop;
         var preChar;
         var postChar;
@@ -320,8 +321,9 @@ var makePreview = function (txt, viewMode, styler) {
             return tagData.tag === tagString;
         }
 
-        // regex to match valid inline tags or a blank line
-        var re = new RegExp("<(\\/?)(" + ILTags + ")>|\\n\\n", "g");
+        // regex to match valid inline tags or a blank line or [**
+        var re = new RegExp("\\[\\*\\*|<(\\/?)(" + ILTags + ")>|\\n\\n", "g");
+        var reCloseBrack = /\]|$/gm;  // ] or eol or eot
 
         while (true) {
             result = re.exec(txt);
@@ -332,6 +334,18 @@ var makePreview = function (txt, viewMode, styler) {
                 }
                 return;
             }
+            if (result[0] === "[**") { // advance to end of comment or eol
+                reCloseBrack.lastIndex = re.lastIndex;
+                res1 = reCloseBrack.exec(txt);  // can't be null if has $
+                if (res1[0] !== "]") {
+                    // user note missing ], make an issue to avoid parsing probs
+                    // if there are tags in the note
+                    reportIssueLong(result.index, 3, previewMessages.noCloseBrack, 1);
+                }
+                re.lastIndex = reCloseBrack.lastIndex;
+                continue;
+            }
+
             if (result[0] === "\n\n") {
                 while (tagStack.length !== 0) {
                     stackTop = tagStack.pop();
@@ -402,19 +416,33 @@ var makePreview = function (txt, viewMode, styler) {
         }
     }
 
-    // check for no upper case between small caps tags
+    // check for no upper case between small caps tags, ignore inside note
     function checkSC() {
+        var reCloseBrack = /\]/g;
         var result;
-        var start;
-        var re = /<sc>([^]+?)<\/sc>/g;
+        var re = /\[\*\*|<sc>([^]*?)<\/sc>/g; // [** or <sc> text
+        var res1;
         while (true) {
             result = re.exec(txt);
             if (null === result) {
                 return;
             }
-            if (result[1] === result[1].toLowerCase()) {  //no upper case found
-                start = result.index;
-                reportIssue(start, 4, "scNoCap");
+            if (result[0] === "[**") {
+                // advance to end of comment, caught no ] earlier
+                reCloseBrack.lastIndex = re.lastIndex;
+                reCloseBrack.exec(txt);
+                re.lastIndex = reCloseBrack.lastIndex;
+                continue;
+            }
+            res1 = result[1];
+            if (res1 === res1.toLowerCase()) { //no upper case found - definite
+                reportIssueLong(result.index, 4, previewMessages.scNoCap, 1);
+                continue;
+            }
+            res1 = removeComments(res1);
+            if (res1 === res1.toLowerCase()) { //upper case was in a note - poss
+                // mark only a text char incase no tags shown
+                reportIssueLong(result.index + 4, 1, previewMessages.scNoCap, 0);
             }
         }
     }
@@ -439,35 +467,46 @@ var makePreview = function (txt, viewMode, styler) {
         var repstr2 = endSpan;
         var sc1 = "&lt;sc&gt;";
         var sc2 = "&lt;\/sc&gt;";
-        var sc_re = new RegExp(sc1 + "([^]+?)" + sc2, 'g'); // a string of small capitals
+        var noteStringOr = "\\[\\*\\*[^\\]]*\\]|"; // a user note
+        // a user note or string of small capitals
+        var sc_re = new RegExp(noteStringOr + sc1 + "([^]+?)" + sc2, 'g');
+        var noNote;
 
         function transformSC(match, p1) { // if all upper case transform to lower
-            if (p1 === p1.toUpperCase()) { // found no lower-case
+            if (!p1) { // must be user note
+                return match;
+            }
+            noNote = removeComments(p1);
+            if (noNote === noNote.toUpperCase()) { // found no lower-case
                 return sc1 + '<span class="tt">' + p1 + endSpan + sc2;
             } else {
                 return match;
             }
         }
 
-        function spanStyle(match, p1) {
-            var str = '<span class="' + p1 + '"' + makeColourStyle(p1) + '>';
+        function spanStyle(match, p1, p2) {
+            if (!p2) { // must be user note
+                return match;
+            }
+            if (p1 === '/') {   // end tag
+                if (viewMode === "show_tags") {
+                    return match + repstr2;
+                }
+                return repstr2;
+            }
+            var str = '<span class="' + p2 + '"' + makeColourStyle(p2) + '>';
             if (viewMode === "show_tags") {
                 str += match;
             }
             return str;
         }
         // inline tags
-        if (viewMode === "show_tags") {
-            repstr2 = "$&" + repstr2;
-        }
         // the way html treats small cap text is different to the dp convention
         // so if sc-marked text is all upper-case transform to lower
         txt = txt.replace(sc_re, transformSC);
-        var openTag = new RegExp("&lt;(" + ILTags + ")&gt;", "g");
-        var closeTag = new RegExp("&lt;\\/(" + ILTags + ")&gt;", "g");
-        txt = txt.replace(openTag, spanStyle)
-            .replace(closeTag, repstr2);
-
+        // find user note or inline tag
+        var reTag = new RegExp(noteStringOr + "&lt;(\\/?)(" + ILTags + ")&gt;", "g");
+        txt = txt.replace(reTag, spanStyle);
         // out of line tags
         etcstr = makeColourStyle('etc');
         if (viewMode === "show_tags") {
@@ -817,6 +856,12 @@ var makePreview = function (txt, viewMode, styler) {
         }
     }
 
+    function htmlEncodeString(s) {
+        return s.replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+    }
+
     // these store the removed comment lines for later re-insertion
     var comLine = [];
     var comIndex = [];
@@ -838,7 +883,7 @@ var makePreview = function (txt, viewMode, styler) {
             if ("" !== tempLine) {
                 if (!nonComment(tempLine)) {
                     txtLines.splice(index, 1);
-                    comLine.push(tempLine);
+                    comLine.push(htmlEncodeString(tempLine));
                     comIndex.push(index);
                 }
             }
@@ -887,6 +932,9 @@ var makePreview = function (txt, viewMode, styler) {
     }
     // remove lines which are entirely comments to simplify checking
     // where there should be blank lines
+    // we need to encode html in these lines. Could encode everything at start
+    // but then problems e.g. marking the character after 3 blank lines if
+    // encoded <  as &lt, so treat these lines separately.
     removeCommentLines();
     var ok = check();
     addMarkUp();
