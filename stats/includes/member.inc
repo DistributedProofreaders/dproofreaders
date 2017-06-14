@@ -63,7 +63,7 @@ function showMbrProfile($user) {
 
     echo "</td></tr>";
     
-    echo "<td style='vertical-align: top;'>";
+    echo "<tr><td style='vertical-align: top;'>";
 
     showMbrTeams($user);
 
