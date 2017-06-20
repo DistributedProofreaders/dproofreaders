@@ -162,6 +162,10 @@ table.preferences td.longlabel {
 }
 /* ------------------------------------------------------------------------ */
 /* Themed tables */
+table.themed tr {
+  background-color: #e0e8dd;
+  color: #000000;
+}
 table.themed tr th {
   background-color: #336633;
   color: #ffffff;
@@ -170,14 +174,10 @@ table.themed tr th a:link,
 table.themed tr th a:visited {
   color: #ffffff;
 }
-table.themed tr td {
-  background-color: #e0e8dd;
-  color: #000000;
-}
-table.theme_striped tr:nth-child(even) td {
+table.theme_striped tr:nth-child(even) {
   background-color: #e0e8dd;
 }
-table.theme_striped tr:nth-child(odd) td {
+table.theme_striped tr:nth-child(odd) {
   background-color: #ffffff;
 }
 table.striped tr:nth-child(even) td {
