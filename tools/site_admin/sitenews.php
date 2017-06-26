@@ -43,7 +43,7 @@ if (isset($news_page_id)) {
     }
 } else {
 
-    output_header(_("Site News Central"), True, array('css_data' => get_page_css()));
+    output_header(_("Site News Central"), True);
 
     echo "<h1>"._("Site News Central")."</h1>";
     echo "<ul>";
