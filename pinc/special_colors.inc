@@ -95,34 +95,32 @@ function echo_special_legend( $projects_where_clause) {
             $common_array[] = $sr_row;
         }
     }
+    $common_array[] = array('color' => "CCFFFF", 'display_name' => "Authors with recent birthdays");
+    $common_array[] = array('color' => "33CCFF", 'display_name' => "Authors with birthdays today");
+    $common_array[] = array('color' => "FFFF66", 'display_name' => "Other Special");
 
-    // Find out how many should be in each table column
     $specs_count = count($common_array);
-    $max_rows = floor( $specs_count / 3 );
-    $div_prefix = "<div style='background-color: #";
-    $div_midfix = "'>";
-    $div_suffix = "</div>\n";
-    $columns = array_fill(1,3,"<td valign='top'>" );
-    $current_column = 1;
-
-    $running_length = 0;
-    foreach ($common_array as $this_day) {
-        $columns[$current_column] = $columns[$current_column].$div_prefix.$this_day['color'].$div_midfix.$this_day['display_name'].$div_suffix ;
-        $running_length += 1;
-        if ($running_length > $max_rows ) {
-           $current_column += 1;
-           $running_length = 0;
-        }
-    }
-    $columns[1] = $columns[1].$div_prefix."CCFFFF".$div_midfix._("Authors with recent birthdays").$div_suffix."</td>";
-    $columns[2] = $columns[2].$div_prefix."33CCFF".$div_midfix._("Authors with birthdays today").$div_suffix."</td>";
-    $columns[3] = $columns[3].$div_prefix."FFFF66".$div_midfix._("Other Special").$div_suffix."</td>";
-
     echo "<h3> $legend_text </h3>";
-    echo "<table class='special_legend' border='1' cellpadding='1' cellspacing='1' width='100%' summary='" . attr_safe($legend_text) . "'>";
-    echo "<tr>";
-    echo "$columns[1]$columns[2]$columns[3]";
-    echo "</tr></table>";
+    echo "<table class='basic'>\n";
+    $day_index = 0;
+    $table_columns = min($specs_count, 4);
+    while($day_index < $specs_count)
+    {
+        echo "<tr>\n";
+        $column_index = 0;
+        while($column_index++ < $table_columns)
+        {
+            if($day_index < $specs_count)
+            {
+                $this_day = $common_array[$day_index++];
+                echo "<td style='background-color:#{$this_day['color']}'>{$this_day['display_name']}</td>\n";
+            }
+            else
+                echo "<td></td>\n";
+        }
+        echo "</tr>\n";
+    }
+    echo "</table>\n";
 }
 
 ?>
