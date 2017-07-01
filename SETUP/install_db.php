@@ -1,9 +1,20 @@
 <?php
 $relPath='../pinc/';
-include_once($relPath.'base.inc');
-// connect.inc (via base.inc) include()s udb_user.php but only in a local scope, so we
+// We can't include base.inc because it tries to connect to the database
+// before we've created it.
+include_once($relPath.'DPDatabase.inc');
+// DPDatabase.inc include()s udb_user.php but only in a local scope, so we
 // need to include it again to place $db_name in this scope.
 include($relPath.'udb_user.php'); // $db_name
+
+try {
+    DPDatabase::connect();
+} catch(Exception $e) {
+    // Ignore DB select failure since the DB hasn't been created yet.
+}
+if (!DPDatabase::get_connection()) {
+    die("Unable to connect to database");
+}
 
 mysqli_query(DPDatabase::get_connection(), "
     CREATE DATABASE IF NOT EXISTS $db_name
