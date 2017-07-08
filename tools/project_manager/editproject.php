@@ -757,6 +757,7 @@ class ProjectInfoHolder
                     state        = '".PROJ_NEW."',
                     modifieddate = UNIX_TIMESTAMP(),
                     t_last_change_comments = UNIX_TIMESTAMP(),
+                    postcomments = '',
                     $common_project_settings
             ") or die(mysqli_error(DPDatabase::get_connection()));
 
