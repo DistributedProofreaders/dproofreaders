@@ -239,7 +239,7 @@ function echo_page_table(
 
     for ( $rownum=0; $rownum < $num_rows; $rownum++ )
     {
-        $page_res = mysqli_fetch_array( $res, MYSQL_ASSOC );
+        $page_res = mysqli_fetch_assoc($res);
 
         $imagename = $page_res['image'];
 

@@ -167,7 +167,7 @@ function mysql_session_select($sid)
     }
     else
     {
-        return false;
+        return "";
     }
 }
 
