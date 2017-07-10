@@ -76,7 +76,7 @@ function echo_page_table(
         echo "<input type='hidden' name='projectid' value='$projectid'>\n";
     }
 
-    echo "<table class='pagedetail' id='page_table' border=1>\n";
+    echo "<table class='themed theme_striped pagedetail' id='page_table'>\n";
 
     $n_cols_per_round = 3; // Diff, Date, Text
     // Even if the user can't see names for all pages, they can see names
@@ -621,7 +621,7 @@ function page_state_is_a_bad_state($page_state)
 function echo_detail_legend()
 {
 ?>
-<table class='pagedetail' width='75%' border='4'>
+<table class='pagedetail'>
     <tr>
         <td colspan='3'><?php echo _("Pages proofread by you and..."); ?></td>
     </tr>

@@ -233,27 +233,6 @@ table.image_source_listing td.title {
   background-color: #99ccff;
 }
 /* ------------------------------------------------------------------------ */
-/* Page Detail */
-table.pagedetail th {
-  background-color: #000099;
-  color: #ffffff;
-}
-table.pagedetail tr.e {
-  background-color: #ffffff;
-}
-table.pagedetail tr.o {
-  background-color: #99ccff;
-}
-table.pagedetail td.in_progress {
-  background-color: #FC6;
-}
-table.pagedetail td.done_current {
-  background-color: #9F6;
-}
-table.pagedetail td.done_previous {
-  background-color: #F36;
-}
-/* ------------------------------------------------------------------------ */
 /* Registration table */
 table.register td.label {
   background-color: #99ccff;

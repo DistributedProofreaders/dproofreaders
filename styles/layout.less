@@ -578,9 +578,20 @@ div.perms_wrapper {
 /* Page Detail */
 
 table.pagedetail {
+    width: auto;
     th, td {
         .center-align;
         font-weight: normal;
+        border: 1px solid black;
+    }
+    td.in_progress {
+        background-color: #FC6;
+    }
+    td.done_current {
+        background-color: #9F6;
+    }
+    td.done_previous {
+        background-color: #F36;
     }
 }
 
