@@ -107,9 +107,9 @@ if (!isset($name))
         echo "<td>$current_length</td>\n";
         if ($user_can_see_queue_settings)
         {
-            echo "<td>$qd->project_selector</td>\n";
-            echo "<td>$qd->release_criterion</td>\n";
-            echo "<td>$qd->comment</td>\n";
+            echo "<td>", html_safe($qd->project_selector), "</td>\n";
+            echo "<td>", html_safe($qd->release_criterion), "</td>\n";
+            echo "<td>", html_safe($qd->comment), "</td>\n";
         }
         echo "</tr>\n";
     }

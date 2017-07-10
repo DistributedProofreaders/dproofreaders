@@ -51,9 +51,9 @@ while ( $row = mysql_fetch_assoc($result) )
 
     echo "<tr>";
     echo "<td style='background-color: #" . $row['color'] . ";'>";
-    echo "<a href=\"projectmgr.php?show=search&special_day[]=";
-    echo attr_safe($row['spec_code']) ."&n_results_per_page=100\" title=\"";
-    echo attr_safe($row['display_name']) ."\">\n";
+    echo "<a href=\"projectmgr.php?show=search&amp;special_day%5B%5D=";
+    echo urlencode($row['spec_code']) ."&amp;n_results_per_page=100\" title=\"";
+    echo urlencode($row['display_name']) ."\">\n";
     echo html_safe($row['display_name']) . "</a>";
     echo "</td>\n";
     echo "<td style='background-color: #" . $row['color'] . ";'>";
@@ -66,7 +66,7 @@ while ( $row = mysql_fetch_assoc($result) )
         echo _("N/A"); // Translators: N/A = "Not applicable"
     echo "</td>\n";
     echo "<td>";
-    echo "<a href='" . $row['info_url'] . "'>";
+    echo "<a href='" . urlencode($row['info_url']) . "'>";
     echo html_safe($row['info_url']) . "</a></td>\n";
     echo "</tr>\n";
 }

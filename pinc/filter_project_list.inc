@@ -397,13 +397,13 @@ function _build_project_filter_select($label, $all_label, $name, $options, $sele
         $return.="<option ";
         if($are_options_associative)
         {
-            $return.="value='$value'";
+            $return.="value='" . attr_safe($value) . "'";
             if(in_array($value, $selected))
                 $return.=" selected";
         }
         else
         {
-            $return.="value='$option'";
+            $return.="value='" . attr_safe($option) . "'";
             if(in_array($option, $selected))
                 $return.=" selected";
         }
