@@ -340,7 +340,7 @@ function echo_page_table(
 
                 $url = url_for_pi_do_particular_page(
                     $projectid, $state, $imagename, $page_state );
-                echo "<td><a href=$url>"._("Edit")."</a></td>\n";
+                echo "<td><a href='$url'>"._("Edit")."</a></td>\n";
             }
             else
                 echo "<td></td>";

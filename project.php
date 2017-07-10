@@ -852,7 +852,7 @@ function echo_row_b( $top, $bottom, $bgcolor = 'CCCCCC' )
 function echo_row_c( $content )
 {
     echo "<tr>";
-    echo "<td colspan=5>";
+    echo "<td colspan='5'>";
     echo $content;
     echo "</td>";
     echo "</tr>\n";

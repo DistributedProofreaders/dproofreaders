@@ -286,8 +286,8 @@ class ImageSource
     function show_edit_form()
     {
         global $page_url;
-        echo "<table class='image_source'><form method='post'
-            action='$page_url&amp;action=update_oneshot#$this->code_name'>\n";
+        echo "<form method='post' action='$page_url&amp;action=update_oneshot#$this->code_name'>\n";
+        echo "<table class='image_source'>\n";
 
         if($this->new_source)
         {
