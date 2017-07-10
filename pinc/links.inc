@@ -1,6 +1,7 @@
 <?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'misc.inc'); // attr_safe()
 
 function new_window_link( $href, $linktext )
 // Returns a string containing a snippet of HTML
@@ -63,7 +64,7 @@ function private_message_link( $proofer_username, $target="_blank" )
     if(!empty($target))
         $targetString = " target='$target'";
 
-    $message_url = get_url_to_compose_message_to_user($proofer_username);
+    $message_url = attr_safe(get_url_to_compose_message_to_user($proofer_username));
 
     $a = "<a href='$message_url'$targetString>$proofer_username</a>";
 

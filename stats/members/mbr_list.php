@@ -81,7 +81,7 @@ if (!empty($mRows)) {
             echo "<td style='text-align: center;'><b>".$row['u_id']."</b></td>";
             echo "<td>".$row['username']."</td>";
             echo "<td style='text-align: center;'>".date("m/d/Y", $row['date_created'])."</td>";
-            $contact_url = get_url_to_compose_message_to_user($row['username']);
+            $contact_url = attr_safe(get_url_to_compose_message_to_user($row['username']));
             echo "<td width='text-align: center'><b><a href='mdetail.php?id=".$row['u_id']."'>"._("Statistics")."</a>&nbsp;|&nbsp;<a href='$contact_url'>" . pgettext("private message", "PM") . "</a></b></td>\n";
 
         } else {

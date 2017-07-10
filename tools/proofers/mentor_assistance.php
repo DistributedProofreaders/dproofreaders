@@ -9,7 +9,7 @@ $relPath='../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
-include_once($relPath.'misc.inc'); // html_safe()
+include_once($relPath.'misc.inc'); // html_safe(), attr_safe()
 include_once($relPath.'Project.inc'); // validate_projectID()
 include_once($relPath.'DpTableClass.inc');
 include_once($relPath.'misc.inc'); // get_enumerated_param()
@@ -107,7 +107,7 @@ foreach( $proofers as $username => $proofer )
     $uid            = $proofer['uid'];
 
     $privmsg = pgettext("private message", "PM");
-    $send_pm_url = get_url_to_compose_message_to_user($username);
+    $send_pm_url = attr_safe(get_url_to_compose_message_to_user($username));
 
     echo "\n<hr>\n";
     $proofer_link = "<a href=\"{$code_url}/stats/members/mdetail.php?id={$uid}\" target=\"_blank\">$username</a>
