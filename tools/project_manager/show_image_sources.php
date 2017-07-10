@@ -125,7 +125,7 @@ if (!isset($_GET['name']))
         {
             $p_link = "<a href='show_image_sources.php?name="
                 . $row['code_name']
-                . "&which=INPROG'>$projects_inprogress</a>";
+                . "&amp;which=INPROG'>$projects_inprogress</a>";
         }
         echo $p_link;
         echo " / "; // This is a divider slash between counts
@@ -134,7 +134,7 @@ if (!isset($_GET['name']))
         {
             $c_link = "<a href='show_image_sources.php?name="
                 . $row['code_name']
-                . "&which=DONE'>{$row['projects_completed']}</a>";
+                . "&amp;which=DONE'>{$row['projects_completed']}</a>";
         }
         echo $c_link;
         echo "<br><br>";
@@ -143,7 +143,7 @@ if (!isset($_GET['name']))
         {
             $t_link = "<a href='show_image_sources.php?name="
                 . $row['code_name']
-                . "&which=ALL'>{$row['projects_total']}</a>";
+                . "&amp;which=ALL'>{$row['projects_total']}</a>";
         }
         // TRANSLATORS: %s is a number
         echo sprintf(_("%s in total"),$t_link);
@@ -267,7 +267,7 @@ if (!isset($_GET['name']))
 
     if ($can_see) {
 
-        $base_link = "<a href='show_image_sources.php?name=%s&which=%s'>%s</a>";
+        $base_link = "<a href='show_image_sources.php?name=%s&amp;which=%s'>%s</a>";
         $all_link = sprintf($base_link, $imso_code, "ALL", _("All"));
         $inprog_link = sprintf($base_link, $imso_code, "INPROG", _("In-Progress"));
         $done_link = sprintf($base_link, $imso_code, "DONE", _("Completed"));

@@ -275,7 +275,7 @@ function echo_page_table(
             $cell_class_attr = "class='error'";
             if ($show_image_size) $imagesize = "X";
         }
-        echo "<td $cell_class_attr><a href='$code_url/tools/project_manager/displayimage.php?project=$projectid&imagefile=$imagename'>$imagename</a></td>\n";
+        echo "<td $cell_class_attr><a href='$code_url/tools/project_manager/displayimage.php?project=$projectid&amp;imagefile=$imagename'>$imagename</a></td>\n";
 
         // Image Size
         if ($show_image_size)
@@ -285,7 +285,7 @@ function echo_page_table(
 
         // Master Text
         $master_text_length = $page_res['length(master_text)'];
-        echo "<td style='text-align: right'><a href='$code_url/tools/project_manager/downloadproofed.php?project=$projectid&image=$imagename&round_num=0'>$master_text_length&nbsp;b</a></td>\n";
+        echo "<td style='text-align: right'><a href='$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=0'>$master_text_length&nbsp;b</a></td>\n";
 
         // --------------------------------------------
 
@@ -359,7 +359,7 @@ function echo_page_table(
                 $page_state == $project_round->page_save_state
             )
             {
-                $clear_string = "<a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&selected_pages[$imagename]=on&operation=clear'>"._("Clear")."</a>";
+                $clear_string = "<a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&amp;selected_pages[$imagename]=on&amp;operation=clear'>"._("Clear")."</a>";
             }
             echo "<td>$clear_string</td>";
 
@@ -369,17 +369,17 @@ function echo_page_table(
             echo "<td>";
             if ($page_is_in_bad_state) {
                 echo "<b>";
-                echo "<a href='$code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&image=$imagename'>" . _("Bad") . "</a>";
+                echo "<a href='$code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&amp;image=$imagename'>" . _("Bad") . "</a>";
                 echo "</b>";
             } else {
-                echo "<a href='$code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&image=$imagename'>" . _("Fix") . "</a>\n";
+                echo "<a href='$code_url/tools/project_manager/handle_bad_page.php?projectid=$projectid&amp;image=$imagename'>" . _("Fix") . "</a>\n";
             }
             echo "</td>\n";
 
             // Delete
             if ($show_delete)
             {
-                echo "<td><a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&selected_pages[$imagename]=on&operation=delete'>" . _("Delete") . "</a></td>\n";
+                echo "<td><a href='$code_url/tools/project_manager/edit_pages.php?projectid=$projectid&amp;selected_pages[$imagename]=on&amp;operation=delete'>" . _("Delete") . "</a></td>\n";
             }
         }
 
@@ -534,7 +534,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
         if($page_res[$round->textdiff_column_name]) {
             echo _("No diff");
         } else {
-            echo "<a href='$code_url/tools/project_manager/diff.php?project=$projectid&image=$imagename&L_round_num=$diff_round_num&R_round_num=$round_num'>"._("Diff")."</a>";
+            echo "<a href='$code_url/tools/project_manager/diff.php?project=$projectid&amp;image=$imagename&amp;L_round_num=$diff_round_num&amp;R_round_num=$round_num'>"._("Diff")."</a>";
         }
     }
     echo "</td>\n";
@@ -584,7 +584,7 @@ function echo_cells_for_round( $round_num, $diff_round_num, // <- These are the 
     }
     else
     {
-        echo "<td style='text-align: right' $cell_class_attr><a href='$code_url/tools/project_manager/downloadproofed.php?project=$projectid&image=$imagename&round_num=$round_num'>$R_text_length&nbsp;b</a></td>\n";
+        echo "<td style='text-align: right' $cell_class_attr><a href='$code_url/tools/project_manager/downloadproofed.php?project=$projectid&amp;image=$imagename&amp;round_num=$round_num'>$R_text_length&nbsp;b</a></td>\n";
     }
 }
 
