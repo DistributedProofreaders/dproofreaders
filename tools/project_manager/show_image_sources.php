@@ -64,7 +64,7 @@ if (!isset($_GET['name']))
         GROUP BY code_name
         ORDER BY display_name");
 
-    echo "<table border='1' class='image_source'>\n";
+    echo "<table class='image_source'>\n";
 
     // Column Headers
     echo "<tr>\n";

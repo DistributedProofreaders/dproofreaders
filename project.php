@@ -2108,13 +2108,13 @@ function do_page_summary()
 
     if ( !$project->pages_table_exists ) return;
 
-    echo "<center>";
+    echo "<div class='center-align'>";
     echo "<h3>"._("Page Summary")."</h3>\n";
 
     // page counts by state.
     $total_num_pages = Project_getNumPages($projectid);
 
-    echo "<table>\n";
+    echo "<table style='display:inline-table'>\n";
     global $PAGE_STATES_IN_ORDER;
     foreach ($PAGE_STATES_IN_ORDER as $page_state)
     {
@@ -2122,13 +2122,13 @@ function do_page_summary()
         if ( $num_pages != 0 )
         {
             // TRANSLATORS: %s is a page state, this is a label in a table for the number of pages in this state
-            echo "<tr><td align='right'>$num_pages</td><td>".sprintf(_("in %s"),$page_state)."</td></tr>\n";
+            echo "<tr><td class='right-align'>$num_pages</td><td>".sprintf(_("in %s"),$page_state)."</td></tr>\n";
         }
     }
     echo "<tr><td colspan='2'><hr></td></tr>\n";
-    echo "<tr><td align='right'>$total_num_pages</td><td align='center'>"._("Pages Total")."</td></tr>\n";
+    echo "<tr><td class='right-align'>$total_num_pages</td><td class='center-align'>"._("Pages Total")."</td></tr>\n";
     echo "</table>\n";
-    echo "</center>";
+    echo "</div>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

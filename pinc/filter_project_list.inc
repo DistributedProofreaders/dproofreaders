@@ -169,17 +169,15 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
     }
 
     // Next row, buttons and text
-    echo "<tr>\n<td colspan='$filter_column_count'>\n";
+    echo "<tr>\n<td class='center-align' colspan='$filter_column_count'>\n";
 
     // buttons
-    echo "<center>";
     echo "<input type='submit' name='reset' value='".
         attr_safe(_("Remove Filter"))
          ."'>";
     echo "<input type='submit' value='".
         attr_safe(_("Apply Selections"))
          ."'>";
-    echo "</center>\n";
 
     // usage notes
     echo "<p>\n";
