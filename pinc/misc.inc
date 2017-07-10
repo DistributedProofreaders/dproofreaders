@@ -341,9 +341,9 @@ function attr_safe($string)
 //  The result is then safe for inclusion in attribute values,
 //  whether they are delimited by single- or double-quotes. E.g.:
 //      $result = attr_safe("Don't!");
-//      echo "<e attr='$result'/>";
-//      echo "<e attr=\"$result\"/>";
-//      echo '<e attr="' . $result . '"/>';
+//      echo "<e attr='$result'>";
+//      echo "<e attr=\"$result\">";
+//      echo '<e attr="' . $result . '">';
 //
 //  It does not encode valid HTML entities. The reason for this is
 //  that one of the intended usage scenarios for this function is to
@@ -354,7 +354,7 @@ function attr_safe($string)
 //  as
 //      Nom de l'&oelig;uvre
 //  If we have the code:
-//      echo "<e attr='" . attr_safe(_('Name of Work')) . "'/>";
+//      echo "<e attr='" . attr_safe(_('Name of Work')) . "'>";
 //  then
 //      _('Name of work')
 //  would, in a French locale, evaluate to the string value:

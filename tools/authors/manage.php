@@ -103,7 +103,7 @@ if (isset($_POST) && count($_POST)>0) {
     //   Everything pre-selected?
 
     // $timestamp = mysql_result(mysql_query('SELECT CURRENT_TIMESTAMP AS time'), 0, 'time');
-    // echo "<input type='hidden' name='timestamp' value='$timestamp' />";
+    // echo "<input type='hidden' name='timestamp' value='$timestamp'>";
 
 */
 
@@ -426,7 +426,7 @@ echo $links_and_buttons;
 // links to allow sorting (asc/desc)
 
 echo "<th rowspan='2'>Enabled</th><th rowspan='2'>Delete</th><th rowspan='2'>"._('Move to here');
-echo "<br />[<input type='radio' name='move_to_author' value='0' onClick='moveToHere(this, 0);'>"._('Reset')."]</th>\n";
+echo "<br>[<input type='radio' name='move_to_author' value='0' onClick='moveToHere(this, 0);'>"._('Reset')."]</th>\n";
 echo "<th rowspan='2'><a href='manage.php?$query".$sortUtility->getQueryStringForSortableValue($sort_author_id).
      "'>Id</a></th>\n";
 echo "<th rowspan='2'><a href='manage.php?$query".$sortUtility->getQueryStringForSortableValue($sort_last_name).
@@ -487,9 +487,9 @@ while ($i++ < $count && $author = @mysql_fetch_array($result)) {
     echo "<tr>";
     echo "<td rowspan='$bio_count'>" .
          "<input type='hidden' name='old_enabled_author_$id' value='$enabled'>" .
-         "<input type='checkbox' name='new_enabled_author_$id' value='yes'" .  ($enabled=='yes'?' checked':'') . " /></td>\n";
-    echo "<td rowspan='$bio_count'><input type='checkbox' name='delete_author_$id' value='yes' onClick='deleteAuthor(this, $id);' /></td>\n";
-    echo "<td rowspan='$bio_count'><input type='radio' name='move_to_author' value='$id' onClick='moveToHere(this, $id);' /></td>\n";
+         "<input type='checkbox' name='new_enabled_author_$id' value='yes'" .  ($enabled=='yes'?' checked':'') . "></td>\n";
+    echo "<td rowspan='$bio_count'><input type='checkbox' name='delete_author_$id' value='yes' onClick='deleteAuthor(this, $id);'></td>\n";
+    echo "<td rowspan='$bio_count'><input type='radio' name='move_to_author' value='$id' onClick='moveToHere(this, $id);'></td>\n";
     echo "<td rowspan='$bio_count'>$id</td>\n";
     echo "<td rowspan='$bio_count'><a href=\"author.php?author_id=$id\">" . $author['last_name'] . "</a></td>\n";
     echo "<td rowspan='$bio_count'>" .  $author['other_names'] . "</td>\n";
@@ -516,8 +516,8 @@ echo "$javascript_to_disable_delete_authors\n--></SCRIPT>";
 function write_bio_links($author_id, $bio_id) {
     global $bios_for_this_author;
     echo "<td><a href=\"bio.php?bio_id=$bio_id\">" . _('Biography') . " $bio_id</a></td>\n    " .
-         "<td><input type='checkbox' name='move_bio_$bio_id' value='yes' onClick='moveBio(this, $author_id, $bio_id);' /></td>\n    " .
-         "<td><input type='checkbox' name='delete_bio_$bio_id' value='yes' onClick='deleteBio(this, $author_id, $bio_id);' /></td>\n</tr>\n";
+         "<td><input type='checkbox' name='move_bio_$bio_id' value='yes' onClick='moveBio(this, $author_id, $bio_id);'></td>\n    " .
+         "<td><input type='checkbox' name='delete_bio_$bio_id' value='yes' onClick='deleteBio(this, $author_id, $bio_id);'></td>\n</tr>\n";
     if ($bios_for_this_author == '')
         // Javascript: if only one argument is passed to the Array()-constructor and it's numeric,
          // it's considered the length. Thus pass the first/only argument as a string.
@@ -529,7 +529,7 @@ function write_bio_links($author_id, $bio_id) {
 ?>
 </form>
 </table>
-<br/>
+<br>
 <?php
 
 echo $links_and_buttons;

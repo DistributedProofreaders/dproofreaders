@@ -92,7 +92,7 @@ echo '</table>';
 if ($prev_next_links != '')
     echo "<p>$prev_next_links</p>";
 
-echo '<br />';
+echo '<br>';
 
 $browseUtility->echoCountSelectionList();
 

@@ -176,15 +176,15 @@ function write_months_list($bd, $selected) {
     global $months;
     echo "<select name=\"$bd" . "month\" size=\"1\">\n";
     for ($i = 0; $i < $selected; $i++)
-        echo "<option value=\"$i\"/>$months[$i]\n";
-    echo "<option value=\"$selected\" SELECTED />$months[$i]\n";
+        echo "<option value=\"$i\">$months[$i]</option>\n";
+    echo "<option value=\"$selected\" SELECTED>$months[$i]</option>\n";
     for ($i = $selected + 1; $i < 13; $i++)
-        echo "<option value=\"$i\"/>$months[$i]\n";
+        echo "<option value=\"$i\">$months[$i]</option>\n";
     echo "</select>\n";
 }
 function write_days_list($bd, $selected) {
     echo "<select name=\"$bd" . "day\" size=\"1\">\n";
-    echo "<option value=\"0\"" . ($selected=='0' ? ' SELECTED' : '') . " />" . _('Unknown');
+    echo "<option value=\"0\"" . ($selected=='0' ? ' SELECTED' : '') . ">" . _('Unknown');
     for ($i = 1; $i <= 31; $i++)
         echo "<option value=\"$i\"". ($i==$selected?' SELECTED':'') .">$i\n";
     echo "</select>\n";
@@ -315,13 +315,13 @@ eval("document.addform."+bd+"comments.value=comments;");
 <?php
 $message = @$_GET['message'];
 if (isset($message))
-    echo '<center>' . html_safe($message) . '</center><br />';
+    echo '<center>' . html_safe($message) . '</center><br>';
 elseif (isset($_POST['Preview'])) {
     echo_author($last_name, $other_names,
                 format_date($byear, $bmonth, $bday, $bcomments),
                 format_date($dyear, $dmonth, $dday, $dcomments),
                  (isset($_POST['author_id']) ? $_POST['author_id'] : FALSE) );
-    echo '<br/>';
+    echo '<br>';
     if (isset($_POST['author_id']))
         $author_id = $_POST['author_id'];
 }
@@ -344,11 +344,11 @@ function echo_date_fields($bd) {
 <tr><td><?php echo _('Day'); ?>:</td><td>
 <?php echo write_days_list($bd, _var($bd, 'day')); ?></td></tr>
 <tr><td><?php echo _('Year'); ?>:</td><td>
-<input type="radio" name="<?php echo $bd; ?>yearRadio" value="0"<?php echo (_var($bd, 'yearRadio')=='0'?' CHECKED':''); ?> /><?php echo _('Unknown'); ?>
-<br/><input type="radio" name="<?php echo $bd; ?>yearRadio" value="1"<?php echo (_var($bd, 'yearRadio')=='1'?' CHECKED':''); ?> onClick="this.form.<?php echo $bd; ?>year.focus();" /><?php echo _('As entered'); ?>:
-<input type="text" name="<?php echo $bd; ?>year" size="4" maxlength="4"<?php echo (_var($bd, 'yearRadio')=='1'?' VALUE="'.abs(_var($bd, 'year')).'"':''); ?> onFocus="this.form.<?php echo $bd; ?>yearRadio[1].checked=true;" />
-<input type="checkbox" name="<?php echo $bd; ?>bc" value="yes"<?php echo (_var($bd, 'bc')?' CHECKED':''); ?> /><?php echo _('B. C.'); ?>
-</td></tr><tr><td><?php echo _('Comments (in<br />English, please)'); ?>:</td><td><input type="text" size="20" maxlength="20" name="<?php echo $bd; ?>comments" value="<?php echo attr_safe(_var($bd, 'comments')); ?>" /> 
+<input type="radio" name="<?php echo $bd; ?>yearRadio" value="0"<?php echo (_var($bd, 'yearRadio')=='0'?' CHECKED':''); ?>><?php echo _('Unknown'); ?>
+<br><input type="radio" name="<?php echo $bd; ?>yearRadio" value="1"<?php echo (_var($bd, 'yearRadio')=='1'?' CHECKED':''); ?> onClick="this.form.<?php echo $bd; ?>year.focus();" ><?php echo _('As entered'); ?>:
+<input type="text" name="<?php echo $bd; ?>year" size="4" maxlength="4"<?php echo (_var($bd, 'yearRadio')=='1'?' VALUE="'.abs(_var($bd, 'year')).'"':''); ?> onFocus="this.form.<?php echo $bd; ?>yearRadio[1].checked=true;">
+<input type="checkbox" name="<?php echo $bd; ?>bc" value="yes"<?php echo (_var($bd, 'bc')?' CHECKED':''); ?>><?php echo _('B. C.'); ?>
+</td></tr><tr><td><?php echo _('Comments (in<br>English, please)'); ?>:</td><td><input type="text" size="20" maxlength="20" name="<?php echo $bd; ?>comments" value="<?php echo attr_safe(_var($bd, 'comments')); ?>"> 
 <?php echo _('Handy links:').' '; ?>
 <a href="javascript:setComments('<?php echo $bd; ?>', '');" onClick="false">Empty (Unknown)</A> | 
 <a href="javascript:setComments('<?php echo $bd; ?>', '(circa)');" onClick="false">(circa)</A>
@@ -362,7 +362,7 @@ function echo_date_fields($bd) {
 // mode=manage means we exit to manage.php
 // everything else defaults to listing.php
 if (isset($_GET['mode']) && $_GET['mode'] == 'manage') {
-    echo '<input type="hidden" name="mode" value="manage" />';
+    echo '<input type="hidden" name="mode" value="manage">';
     $exit_to = 'manage.php';
 }
 else {
@@ -377,8 +377,8 @@ echo '<p>' .
 
 ?>
 <center><table cellspacing='0' cellpadding='5' border='1' width='90%' style='border: 1px solid #000; border-collapse:collapse'>
-<tr><th bgcolor='#CCCCCC'><?php echo _('Last name'); ?></th><td><input type="text" size="40" name="last_name" VALUE="<?php echo attr_safe($last_name); ?>"/></td></tr>
-<tr><th bgcolor='#CCCCCC'><?php echo _('Other name(s)'); ?></th><td><input type="text" size="40" name="other_names" VALUE="<?php echo attr_safe($other_names); ?>"/></td></tr>
+<tr><th bgcolor='#CCCCCC'><?php echo _('Last name'); ?></th><td><input type="text" size="40" name="last_name" VALUE="<?php echo attr_safe($last_name); ?>"></td></tr>
+<tr><th bgcolor='#CCCCCC'><?php echo _('Other name(s)'); ?></th><td><input type="text" size="40" name="other_names" VALUE="<?php echo attr_safe($other_names); ?>"></td></tr>
 <tr><th bgcolor='#CCCCCC'><?php echo _('Born'); ?></th><td>
 <?php
 echo_date_fields('b');
@@ -390,11 +390,11 @@ echo_date_fields('d');
 ?>
 </td></tr>
 <tr><td colspan="2" bgcolor='#CCCCCC' align="center">
-<input type="submit" name="Preview" value="<?php echo _('Preview'); ?>" />
-<input type="submit" name="SaveAndExit" value="<?php echo _('Save and Exit'); ?>" />
-<input type="submit" name="SaveAndBio" value="<?php echo _('Save and add Biography'); ?>" />
-<input type="submit" name="SaveAndNew" value="<?php echo _('Save and add Another'); ?>" />
-<input type="button" value="<?php echo _('Exit without saving'); ?>" onClick="location='<?php echo $exit_to; ?>';"/>
+<input type="submit" name="Preview" value="<?php echo _('Preview'); ?>">
+<input type="submit" name="SaveAndExit" value="<?php echo _('Save and Exit'); ?>">
+<input type="submit" name="SaveAndBio" value="<?php echo _('Save and add Biography'); ?>">
+<input type="submit" name="SaveAndNew" value="<?php echo _('Save and add Another'); ?>">
+<input type="button" value="<?php echo _('Exit without saving'); ?>" onClick="location='<?php echo $exit_to; ?>';">
 </td></tr>
 </table>
 </center>

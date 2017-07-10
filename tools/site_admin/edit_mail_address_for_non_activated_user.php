@@ -25,12 +25,12 @@ if ($action == 'default') {
     printf(_("To change the address, please enter the name of the user below or
     <a href='%s'>list all user accounts awaiting activation</a>."), "?action=list_all");
     ?>
-    <br />
-    <form method='get'><input type='hidden' name='action' value='get_user' />
-    <?php echo _("Username"); ?>: <input type='text' name='username' />
-    <input type='submit' value='<?php echo attr_safe(_("Continue")); ?>' />
+    <br>
+    <form method='get'><input type='hidden' name='action' value='get_user'>
+    <?php echo _("Username"); ?>: <input type='text' name='username'>
+    <input type='submit' value='<?php echo attr_safe(_("Continue")); ?>'>
     </form>
-    <br />
+    <br>
     <?php
 }
 else if ($action == 'list_all') {
@@ -91,15 +91,15 @@ else if ($action == 'get_user') {
         $email = $row["email"];
         echo _("Enter the correct email-address below. When you submit the form, the activation mail will be resent.");
         ?>
-        <br />
+        <br>
         <form method='get'>
-        <input type='hidden' name='action' value='set_email' />
-        <input type='hidden' name='username' value='<?php echo attr_safe($username); ?>' />
+        <input type='hidden' name='action' value='set_email'>
+        <input type='hidden' name='username' value='<?php echo attr_safe($username); ?>'>
         <?php echo _("Username"); ?>: <?php echo html_safe($username); ?>
-        <br />
-        <?php echo _("E-mail"); ?>: <input type='text' name='email' value='<?php echo attr_safe($email); ?>' />
-        <br />
-        <input type='submit' value='<?php echo attr_safe(_("Update address and resend activation mail")); ?>' />
+        <br>
+        <?php echo _("E-mail"); ?>: <input type='text' name='email' value='<?php echo attr_safe($email); ?>'>
+        <br>
+        <input type='submit' value='<?php echo attr_safe(_("Update address and resend activation mail")); ?>'>
         </form>
         <?php
     }

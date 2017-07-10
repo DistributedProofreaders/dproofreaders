@@ -86,7 +86,7 @@ $tbl->AddColumn(pgettext("page state", "State"), "page_state");
 
 echo "
       <form id='coform' method='post'>
-      <input type='hidden' id='projectid' value='$projectid' />\n";
+      <input type='hidden' id='projectid' value='$projectid'>\n";
 $strmsg = sprintf( _("%s Mentor pages"), $mentoring_round->id );
 echo "<h2>$strmsg</h2>";
 
@@ -138,7 +138,7 @@ foreach( $proofers as $username => $proofer )
             {$being_mentored}: $mentoring_project_count  {$by_you}: $your_project_count";
         echo "<p>
                 <input type='button' id='{$btnid}' class='tinybutton' value='+' style='display: inline'
-                onclick='flop(\"{$divid}\")' /> $strmsg "
+                onclick='flop(\"{$divid}\")'> $strmsg "
                 ."</p>";
         $_rows = array_filter( $page_rows, "_proofer_project_filter" );
         echo "\n<div id='div{$i}' style='display: none'>\n";
@@ -362,7 +362,7 @@ function _checkout_button( $username, $projectid )
 {
     $check_out = _("check out");
     $str = "
-    <input type='button' value='$check_out' onclick='checkout(\"$username\", \"$projectid\")' />\n";
+    <input type='button' value='$check_out' onclick='checkout(\"$username\", \"$projectid\")'>\n";
     return $str;
 }
 

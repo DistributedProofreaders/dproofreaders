@@ -240,7 +240,7 @@ class SpecialDay
 
     function show_buttons()
     {
-        echo "<input type='submit' name='edit' value='".attr_safe(_('Edit'))."' />\n";
+        echo "<input type='submit' name='edit' value='".attr_safe(_('Edit'))."'>\n";
     }
 
     function show_edit_form()
@@ -255,8 +255,8 @@ class SpecialDay
         }
         else
         {
-            echo "<input type='hidden' name='editing' value='true' />" .
-                "<input type='hidden' name='spec_code' value='" . attr_safe($this->spec_code) ."' />";
+            echo "<input type='hidden' name='editing' value='true'>" .
+                "<input type='hidden' name='spec_code' value='" . attr_safe($this->spec_code) ."'>";
             $this->_show_summary_row(_('Special Day ID'),$this->spec_code);
         }
         $this->_show_edit_row('display_name',_('Display Name'),false,80);
@@ -275,7 +275,7 @@ class SpecialDay
         $this->_show_edit_row('image_url',_('Image URL'),false);
 
         echo "<tr><td colspan='2' style='text-align:center;'>
-            <input type='submit' name='save_edits' value='".attr_safe(_('Save'))."' />
+            <input type='submit' name='save_edits' value='".attr_safe(_('Save'))."'>
             </td> </tr> </form> </table>\n\n";
     }
 
@@ -295,7 +295,7 @@ class SpecialDay
         else
         {
             $maxlength_attr = is_null($maxlength) ? '' : "maxlength='$maxlength'";
-            $editing = "<input type='text' name='$field' size='60' value='$value' $maxlength_attr />";
+            $editing = "<input type='text' name='$field' size='60' value='$value' $maxlength_attr>";
         }
         echo "  <tr>" .
             "<td class='pa'>$label</td>" .

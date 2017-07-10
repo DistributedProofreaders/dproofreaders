@@ -373,7 +373,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
 
     $ppv_guidelines_url = "$code_url/faq/ppv.php";
 
-    $entry_form = "<br />
+    $entry_form = "<br>
           <form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;confirm=1' name='ppvform' method='post'>
           <table class='ppv_reportcard' id='report_card'>
 "
@@ -511,7 +511,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . number_box('e2_epub_num',     _("Project not presentable/useable when put through epubmaker") . " <a href='$ppv_guidelines_url#reader'>****</a>")
                 . number_box('e2_heading_num',  _("Heading elements used for things that are not headings and failure to use hierarchical headings for book, chapter and section headings (single h1, appropriate h2s and h3s etc.)"))
         )
-        . tr_w_one_cell_centered("minor_section", _("STRONGLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, but the PPer should be counselled to correct any problems)"))
+        . tr_w_one_cell_centered("minor_section", _("STRONGLY RECOMMENDED<br>(Failure to follow these guidelines will not be tabulated as errors, but the PPer should be counselled to correct any problems)"))
         . tr_w_two_cells(
             _("Occurrence"),
             ""
@@ -525,7 +525,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
                 . check_box('s_thumbs',  _("Remove thumbs.db file from the images folder"))
                 . check_box('s_ereader', _("E-reader version, although without major flaws, should also look as good as possible"))
         )
-        . tr_w_one_cell_centered("minor_section", _("MILDLY RECOMMENDED<br />(Failure to follow these guidelines will not be tabulated as errors, and any corrections are solely at the discretion of the PPVer and PPer)"))
+        . tr_w_one_cell_centered("minor_section", _("MILDLY RECOMMENDED<br>(Failure to follow these guidelines will not be tabulated as errors, and any corrections are solely at the discretion of the PPVer and PPer)"))
         . tr_w_two_cells(
             _("Occurrence"),
             ""
@@ -816,15 +816,15 @@ else if ($action == HANDLE_ENTRY_FORM_SUBMISSION)
         . "\n" . $site_signoff;
 
     echo _("Please check the information below to make sure everything is correct.
-        To return to the form, simply use your browser's back button.") . "<br />\n";
+        To return to the form, simply use your browser's back button.") . "<br>\n";
     echo "<pre>" . $reportcard . "</pre>";
     echo "<form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;send=1' name='ppvform' method='post'>
-                <input type='hidden' name='reportcard' value='" . attr_safe($reportcard) . "'/>
-                <input type='hidden' name='pp_evaluation' value='" . attr_safe($pp_evaluation) . "'/>";
+                <input type='hidden' name='reportcard' value='" . attr_safe($reportcard) . "'>
+                <input type='hidden' name='pp_evaluation' value='" . attr_safe($pp_evaluation) . "'>";
     if (isset($_POST['cc_pp']))
-        echo "<input type='hidden' name='cc_pp'/>";
+        echo "<input type='hidden' name='cc_pp'>";
     if (isset($_POST['cc_ppv']))
-        echo "<input type='hidden' name='cc_ppv'/>";
+        echo "<input type='hidden' name='cc_ppv'>";
     echo "<input type='submit' value='".attr_safe(_("Send"))."'></form>";
 }
 else if ($action == SEND_OUT_REPORTCARD)

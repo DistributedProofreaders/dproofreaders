@@ -649,9 +649,9 @@ class Loader
         echo "</h2>\n";
         echo "<p>\n";
         echo _("Here's a list of the files that have been found, and what will happen to them.");
-        echo "<br />\n";
+        echo "<br>\n";
         echo _("Please review the information, and use the link at the bottom of the page to proceed with the load.");
-        echo "<br />\n";
+        echo "<br>\n";
         echo _("If there's a problem, return to the  <a href='$code_url/project.php?id=$projectid&detail_level=4'>Project Page</a> without loading the files.");
         echo "</p>\n";
 

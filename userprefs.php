@@ -825,14 +825,14 @@ function _show_credits_wanted_adhoc()
     $pm_credit_checked = $userSettings->get_boolean('pm_anonymous') ? '' : 'checked ';
     $pp_credit_checked = $userSettings->get_boolean('pp_anonymous') ? '' : 'checked ';
 
-    echo "<input type='checkbox' name='cp_credit' value='yes' $cp_credit_checked/> CP\n";
-    echo "<input type='checkbox' name='ip_credit' value='yes' $ip_credit_checked/> IP\n";
-    echo "<input type='checkbox' name='tp_credit' value='yes' $tp_credit_checked/> TP\n";
+    echo "<input type='checkbox' name='cp_credit' value='yes' $cp_credit_checked> CP\n";
+    echo "<input type='checkbox' name='ip_credit' value='yes' $ip_credit_checked> IP\n";
+    echo "<input type='checkbox' name='tp_credit' value='yes' $tp_credit_checked> TP\n";
     if (user_is_PM())
-        echo "<input type='checkbox' name='pm_credit' value='yes' $pm_credit_checked/> PM\n";
-    echo "<input type='checkbox' name='pp_credit' value='yes' $pp_credit_checked/> PP\n";
+        echo "<input type='checkbox' name='pm_credit' value='yes' $pm_credit_checked> PM\n";
+    echo "<input type='checkbox' name='pp_credit' value='yes' $pp_credit_checked> PP\n";
 
-    echo "<br />";
+    echo "<br>";
     echo "<a href='#' onClick=\"check_boxes(true, 'cp_credit', 'ip_credit', 'tp_credit', 'pm_credit', 'pp_credit');\">Check all</a>";
     echo " | ";
     echo "<a href='#' onClick=\"check_boxes(false, 'cp_credit', 'ip_credit', 'tp_credit', 'pm_credit', 'pp_credit');\">Uncheck all</a>";
@@ -853,7 +853,7 @@ function _show_credit_name_adhoc()
     echo " ";
 
     $credit_other_value = attr_safe($userSettings->get_value('credit_other', ''));
-    echo "<input type='text' name='credit_other' value='$credit_other_value' />\n";
+    echo "<input type='text' name='credit_other' value='$credit_other_value'>\n";
 }
 
 // The third argument should be a 'real' array.

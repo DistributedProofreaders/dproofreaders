@@ -267,18 +267,18 @@ class ImageSource
 
     function show_buttons()
     {
-        echo "<input type='submit' name='edit' value='".attr_safe(_('Edit'))."' /> ";
+        echo "<input type='submit' name='edit' value='".attr_safe(_('Edit'))."'> ";
         echo "<br>\n";
         switch ($this->is_active)
         {
             case('-1'):
-                echo "<input type='submit' name='approve' value='".attr_safe(_('Approve'))."' /> ";
+                echo "<input type='submit' name='approve' value='".attr_safe(_('Approve'))."'> ";
                 break;
             case('0'):
-                echo "<input type='submit' name='enable' value='".attr_safe(_('Enable'))."' /> ";
+                echo "<input type='submit' name='enable' value='".attr_safe(_('Enable'))."'> ";
                 break;
             case('1'):
-                echo "<input type='submit' name='disable' value='".attr_safe(_('Disable'))."' /> ";
+                echo "<input type='submit' name='disable' value='".attr_safe(_('Disable'))."'> ";
                 break;
         }
     }
@@ -295,8 +295,8 @@ class ImageSource
         }
         else
         {
-            echo "<input type='hidden' name='editing' value='true' />" .
-                "<input type='hidden' name='code_name' value='" . attr_safe($this->code_name) ."' />";
+            echo "<input type='hidden' name='editing' value='true'>" .
+                "<input type='hidden' name='code_name' value='" . attr_safe($this->code_name) ."'>";
             $this->_show_summary_row(_('Image Source ID'),$this->code_name);
         }
         $this->_show_edit_row('display_name',_('Display Name'),false,30);
@@ -308,8 +308,8 @@ class ImageSource
         $this->_show_edit_row('internal_comment',_('Notes (internal comments)'),true);
 
         echo "<tr><td colspan='2' class='center-align'>
-            <input type='submit' name='save_edits' value='".attr_safe(_('Save'))."' />
-            </td> </tr> </form> </table>\n\n";
+            <input type='submit' name='save_edits' value='".attr_safe(_('Save'))."'>
+            </td></tr></table></form>\n";
     }
 
     function _show_edit_row($field, $label, $textarea = false, $maxlength = null)
@@ -327,7 +327,7 @@ class ImageSource
         else
         {
             $maxlength_attr = is_null($maxlength) ? '' : "maxlength='$maxlength'";
-            $editing = "<input type='text' name='$field' size='60' value='$value' $maxlength_attr />";
+            $editing = "<input type='text' name='$field' size='60' value='$value' $maxlength_attr>";
         }
         echo "  <tr>" .
             "<th class='label'>$label</th>" .

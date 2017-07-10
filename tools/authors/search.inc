@@ -156,11 +156,11 @@ function echo_search_form() {
     echo "<a href='" . attr_safe($_SERVER['PHP_SELF']) . "'>" . _('List all') . "</a>\n";
 
     if (isset($view))
-        echo "<input type='hidden' name='view' value='" . attr_safe($view) . "' />\n";
+        echo "<input type='hidden' name='view' value='" . attr_safe($view) . "'>\n";
     if (isset($orderby))
-        echo "<input type='hidden' name='orderby' value='" . attr_safe($orderby) . "' />\n";
+        echo "<input type='hidden' name='orderby' value='" . attr_safe($orderby) . "'>\n";
     if (isset($desc))
-        echo "<input type='hidden' name='desc' value='' />\n";
+        echo "<input type='hidden' name='desc' value=''>\n";
     echo '</form>';
 }
 

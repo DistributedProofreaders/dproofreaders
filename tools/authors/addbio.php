@@ -103,7 +103,7 @@ if (isset($message))
     echo html_safe($message) . '<br>';
 elseif (isset($_POST['Preview'])) {
     echo '<table border="1"><td>' . html_safe($bio) . '</td></table>';
-    echo '<br/>';
+    echo '<br>';
 }
 ?>
 <form name="addform" action="addbio.php" method="POST">
@@ -118,11 +118,11 @@ if (isset($bio_id))
 <?php echo html_safe($bio); ?></textarea></td></tr>
 <tr><td>
 <table><tr>
-<td><input type="submit" name="Preview" value="<?php echo _('Preview'); ?>" /></td>
-<td><input type="submit" name="SaveAndExit" value="<?php echo _('Save and Exit'); ?>" /></td>
-<td><input type="submit" name="SaveAndView" value="<?php echo _('Save and View'); ?>" /></td>
-<td><input type="submit" name="SaveAndNew" value="<?php echo _('Save and add Author'); ?>" /></td>
-<td><input type="button" value="<?php echo _('Exit without saving'); ?>" onClick="location='listing.php';"/></td>
+<td><input type="submit" name="Preview" value="<?php echo _('Preview'); ?>"></td>
+<td><input type="submit" name="SaveAndExit" value="<?php echo _('Save and Exit'); ?>"></td>
+<td><input type="submit" name="SaveAndView" value="<?php echo _('Save and View'); ?>"></td>
+<td><input type="submit" name="SaveAndNew" value="<?php echo _('Save and add Author'); ?>"></td>
+<td><input type="button" value="<?php echo _('Exit without saving'); ?>" onClick="location='listing.php';"></td>
 </tr></table>
 </td></tr>
 </table>

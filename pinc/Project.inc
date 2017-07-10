@@ -670,7 +670,7 @@ function get_credit_name( $login_name )
 function get_formatted_postcomments( $projectid )
 // Return the PP-ers' comments for a certain project
 // They will be HTML-encoded and with line breaks
-// converted to <br/> .
+// converted to <br> .
 {
     $project = new Project($projectid);
 

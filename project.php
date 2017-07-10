@@ -1705,30 +1705,30 @@ function do_post_downloads()
     if ( $project->names_can_be_seen_by_current_user )
     {
         echo _("Include usernames?"), " &nbsp;&nbsp; ";
-        echo "<input type='radio' name='include_proofers' value='1' CHECKED />";
+        echo "<input type='radio' name='include_proofers' value='1' CHECKED>";
         echo _("Yes"), " &nbsp;&nbsp; ";
-        echo "<input type='radio' name='include_proofers' value='0' />";
-        echo _("No"), "<br />\n";
+        echo "<input type='radio' name='include_proofers' value='0'>";
+        echo _("No"), "<br>\n";
     }
     else
     {
-        echo "<input type='hidden' name='include_proofers' value='0' />";
+        echo "<input type='hidden' name='include_proofers' value='0'>";
     }
 
     // saving files allowed only for sitemanagers
     if (user_is_a_sitemanager())
     {
         echo _("Save file on server?"), "  &nbsp;&nbsp; ";
-        echo "<input type='radio' name='save_files' value='1' CHECKED />";
+        echo "<input type='radio' name='save_files' value='1' CHECKED>";
         echo _("Yes"), " &nbsp;&nbsp; ";
-        echo "<input type='radio' name='save_files' value='0' />";
-        echo _("No"), "<br />\n";
+        echo "<input type='radio' name='save_files' value='0'>";
+        echo _("No"), "<br>\n";
 
         echo "<input type='submit' value='", attr_safe(_("(Re)generate")), "'>\n";
     }
     else
     {
-        echo "<input type='hidden' name='save_files' value='0' />";
+        echo "<input type='hidden' name='save_files' value='0'>";
         echo "<input type='submit' value='", attr_safe(_("Download")), "'>\n";
     }
 
@@ -1842,8 +1842,8 @@ function do_postcomments()
       echo "<textarea name='postcomments' cols='60' rows='6'>\n";
       echo html_safe($project->postcomments);
       echo "</textarea>\n";
-      echo "<input type='hidden' name='projectid' value='$projectid' />\n";
-      echo "<br /><input type='submit' value='" . attr_safe(_('Update comment and project status')) . "'/>";
+      echo "<input type='hidden' name='projectid' value='$projectid'>\n";
+      echo "<br><input type='submit' value='" . attr_safe(_('Update comment and project status')) . "'>";
       echo "</form>\n";
 
     }
@@ -1945,7 +1945,7 @@ function do_smooth_reading()
                     {
                         echo "<li>";
                         echo _('You have volunteered to smoothread this project.');
-                        echo "<br />";
+                        echo "<br>";
                         echo _('If you wish to withdraw from smoothreading it, please press:');
                         sr_echo_withdrawal_form($projectid);
                         echo "</li>";

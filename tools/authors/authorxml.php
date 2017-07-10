@@ -64,7 +64,7 @@ function create_birth_or_death_data($bd, $sql_row) {
                 '" day="' . $sql_row[$bd . 'day'  ];
     if ($sql_row[$bd . 'comments'] != '')
         $res .= '" comments="' . html_safe($sql_row[$bd . 'comments']);
-    $res .= "\" />\n";
+    $res .= "\">\n";
     return $res;
 }
 

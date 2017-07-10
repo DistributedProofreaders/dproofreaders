@@ -148,7 +148,7 @@ class BrowseUtility {
       if ($name == 'start')
         $value = ($this->_count == 0 ? 0 : $value); // list all :OR: start at same
       if ($name != 'count')
-        echo "<input type='hidden' name='$name' value='" . attr_safe($value) . "' />\n";
+        echo "<input type='hidden' name='$name' value='" . attr_safe($value) . "'>\n";
     }
 
     $dropdown = '<select name="count" size="1" onChange="this.form.submit();">' . "\n";

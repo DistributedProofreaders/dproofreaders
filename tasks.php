@@ -598,7 +598,7 @@ echo "</td>";
 echo "</tr>";
 echo "</table>";
 echo "</div>";
-echo "<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />\n";
+echo "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>\n";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -954,7 +954,7 @@ EOS;
     output_header(html_safe($header), NO_STATSBAR,
         array('js_data' => $js_data, 'css_data' => $css_data));
 
-    echo "<br /><div align='center'><table class='taskplain'><tr><td>";
+    echo "<br><div align='center'><table class='taskplain'><tr><td>";
     echo "<form action='$tasks_url' method='get'><input type='hidden' name='action' value='show'>";
     echo "<table class='taskplain'>\n";
     echo "<tr><td width='50%'>&nbsp;</td>\n";
@@ -963,7 +963,7 @@ EOS;
     echo "&nbsp;\n";
     echo "<input type='text' name='task_id' size='12' class='taskinp1'>&nbsp;\n";
     echo "<input type='submit' value='Go!' class='taskinp2'>\n";
-    echo "</td></tr></table></form><br />\n";
+    echo "</td></tr></table></form><br>\n";
     echo "<form action='$tasks_url' method='post'><input type='hidden' name='action' value='search'>";
     echo "<table class='tasks'>\n";
     echo "<tr><td width='10%'><b><small class='task'>Search:</small></b></td>\n";
@@ -978,7 +978,7 @@ EOS;
     echo "</small>";
     echo "</td>";
     echo "</tr>\n";
-    echo "</table></form><br />\n";
+    echo "</table></form><br>\n";
 }
 
 function decode_array($str)
@@ -1090,7 +1090,7 @@ function select_and_list_tasks($sql_condition)
     else {
         echo "<tr bgcolor='#ffffff'><td colspan='7'><center>No tasks found!</center></td></tr>";
     }
-    echo "</table><br />\n";
+    echo "</table><br>\n";
     // if 2 tasks or more found, display the number of reported tasks
     if (@mysql_num_rows($sql_result) > 1) {
         echo "<p>" . @mysql_num_rows($sql_result) . " tasks listed.</p>";
@@ -1160,7 +1160,7 @@ function TaskForm($task)
         echo "Submit Edit";
     }
     echo "' class='taskinp2'>\n";
-    echo "</center></td></tr></table></form><br />\n";
+    echo "</center></td></tr></table></form><br>\n";
 }
 
 function property_echo_select_tr($property_id, $current_value, $options)
@@ -1231,7 +1231,7 @@ function TaskDetails($tid)
             echo "<td width='50%'>";
             echo "<small class='task'>";
             echo "Opened by $opened_by_link - " . property_format_value('date_opened', $row, FALSE);
-            echo "<br />";
+            echo "<br>";
             echo "Last edited by $edited_by_link - " . property_format_value('date_edited', $row, FALSE);
             echo "</small>";
             echo "</td>";
@@ -1314,7 +1314,7 @@ function TaskDetails($tid)
             // Row 4: details
             echo "<tr>";
             echo "<td>";
-            echo "<br />";
+            echo "<br>";
             echo "<table class='taskplain'>";
             echo "<tr>";
             echo "<td width='5%'>";
@@ -1333,7 +1333,7 @@ function TaskDetails($tid)
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && empty($row['closed_reason'])) {
                 echo "
                     <td>
-                      <br />
+                      <br>
                       <form action='$tasks_url' method='post'>
                         <input type='hidden' name='action' value='close'>
                         <input type='hidden' name='task_id' value='$tid'>
@@ -1360,19 +1360,19 @@ function TaskDetails($tid)
                 $reason      = property_format_value('closed_reason', $row, FALSE);
                 echo "
                     <td>
-                      <br />
+                      <br>
                       <small class='task'>
                         Closed by: $closed_by
-                        <br />
+                        <br>
                         Date Closed: $date_closed
-                        <br />
+                        <br>
                         Reason: $reason
                       </small>
                     </td>
                 ";
             }
             echo "<td>";
-            echo "<br />";
+            echo "<br>";
             $meTooCheckResult = mysql_query("
                 SELECT id
                 FROM tasks_votes
@@ -1390,14 +1390,14 @@ function TaskDetails($tid)
             echo "</tr>";
 
             echo "</table>";
-            echo "<br />\n";
+            echo "<br>\n";
 
             if ($meTooAllowed) {
                 MeToo($tid, $row['task_os'], $row['task_browser']);
             }
             TaskComments($tid);
             RelatedTasks($tid);
-            echo "<br />\n";
+            echo "<br>\n";
             RelatedPostings($tid);
         }
     }
@@ -1494,20 +1494,20 @@ function MeToo($tid, $os, $browser)
     echo "<input onClick=\"hideSpan('OS');\" type='radio' name='sameOS' value='1' CHECKED>yes";
     echo "<input onClick=\"showSpan('OS');\" type='radio' name='sameOS' value='0'>no";
     echo "<span id='OS' style='display: none;'>";
-    echo "<br />";
+    echo "<br>";
     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     echo "<b>Operating System</b>";
     echo "&nbsp;";
     dropdown_select('metoo_os', array_search(guess_OS_from_UA(), $os_array), $os_array);
     echo "</span></fieldset>\n";
-    echo "<br />";
+    echo "<br>";
     echo "<fieldset class='task'>";
     echo "<legend class='task'>Are you using the same browser?</legend>";
     echo "&nbsp;";
     echo "<input onClick=\"hideSpan('Browser');\" type='radio' name='sameBrowser' value='1' CHECKED>yes";
     echo "<input onClick=\"showSpan('Browser');\" type='radio' name='sameBrowser' value='0'>no";
     echo "<span id='Browser' style='display: none;'>";
-    echo "<br />";
+    echo "<br>";
     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     echo "<b>Browser</b>";
     echo "&nbsp;";
@@ -1546,8 +1546,8 @@ function TaskComments($tid)
         echo "<table class='tasks'><tr><td width='100%'>\n";
         while ($row = mysql_fetch_assoc($result)) {
             $comment_username_link = private_message_link_for_uid($row['u_id']);
-            echo "<b>Comment by $comment_username_link - " . date("l, d M Y, g:ia", $row['comment_date']) . "</b><br />";
-            echo "<br />" . nl2br(html_safe($row['comment'])) . "<br /><br /><hr width='80%' align='center'>";
+            echo "<b>Comment by $comment_username_link - " . date("l, d M Y, g:ia", $row['comment_date']) . "</b><br>";
+            echo "<br>" . nl2br(html_safe($row['comment'])) . "<br><br><hr width='80%' align='center'>";
         }
         echo "</td></tr></table>";
     }
