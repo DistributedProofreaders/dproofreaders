@@ -27,7 +27,7 @@ $pool->page_top( $uao );
 // Show user how to access this round
 if ( !$uao->can_access )
 {
-    echo "<hr width='75%'>\n";
+    echo "<hr class='divider'>\n";
     show_user_access_object( $uao );
 }
 
@@ -36,7 +36,7 @@ if ( !$uao->can_access )
 show_news_for_page($pool->id);
 
 
-echo "<hr width='75%'>\n";
+echo "<hr class='divider'>\n";
 
 echo "<br>\n";
 echo implode( "\n", $pool->blather );
@@ -50,7 +50,7 @@ echo "<br><p>" . _("If there's a project you're interested in, you can get to a 
 // setting "Show Special Colors: No".
 if (!$userSettings->get_boolean('hide_special_colors'))
 {
-    echo "<hr width='75%'>\n";
+    echo "<hr class='divider'>\n";
     echo_special_legend(" 1 = 1");
 }
 
