@@ -21,7 +21,7 @@ include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link
 include_once($relPath.'project_edit.inc'); // check_user_can_load_projects
 include_once($relPath.'forum_interface.inc'); // get_last_post_time_in_topic & get_url_*()
-include_once($relPath.'misc.inc'); // html_safe(), get_enumerated_param(), get_integer_param()
+include_once($relPath.'misc.inc'); // html_safe(), get_enumerated_param(), get_integer_param(), array_get()
 
 // If the requestor is not logged in, we refer to them as a "guest".
 
@@ -91,7 +91,7 @@ if ( $user_is_logged_in )
 }
 
 do_update_pp_activity();
-
+output_header($title_for_theme, NO_STATSBAR);
 if ($detail_level==1)
 {
     echo "<h1>$title</h1>\n";
@@ -114,8 +114,6 @@ else
     // Detail level 2 should show the information
     // that is usually wanted by the people who usually work with
     // the project in its current state.
-
-    output_header($title_for_theme, NO_STATSBAR);
 
     do_pm_header();
 
@@ -368,7 +366,7 @@ function do_blurb_box( $blurb )
 
     echo "<br>";
     echo "<table style='width: 630px; background-color: #DDDDDD;'>";
-    echo "<tr><td align='center'>";
+    echo "<tr><td class='center-align'>";
     echo $blurb;
     echo "</td></tr>";
     echo "</table>";
@@ -887,7 +885,7 @@ function recentlyproofed( $wlist )
 
     echo_row_b( $top, $bottom, $bg_color );
 
-    $recentNum=5;
+    $recentNum=5; // if this is > 5 more rows will be shown
 
     $sql = "
         SELECT image, state, {$round->time_column_name}
@@ -900,26 +898,32 @@ function recentlyproofed( $wlist )
     $rownum = 0;
     $numrows = mysql_num_rows($result);
 
-    while (($rownum < $recentNum) && ($rownum < $numrows))
+    while($rownum < $numrows)
     {
-        $row = mysql_fetch_assoc($result);
-        $imagefile = $row["image"];
-        $timestamp = $row[$round->time_column_name];
-        $pagestate = $row["state"];
-
-        $eURL = url_for_pi_do_particular_page(
-            $projectid, $state, $imagefile, $pagestate );
-
-        if (($rownum % 5) ==0) {echo "</tr><tr>";}
-        echo "<TD ALIGN=\"center\">";
-        echo "<A HREF=\"$eURL\">";
-        // TRANSLATORS: This is an strftime-formatted string
-        echo strftime(_("%b %d"), $timestamp).": ".$imagefile."</a></td>\r\n";
-        $rownum++;
+        echo "<tr>";
+        $colnum = 0;
+        while (($colnum < 5) && ($rownum < $numrows))
+        {
+            $row = mysql_fetch_assoc($result);
+            $imagefile = $row["image"];
+            $timestamp = $row[$round->time_column_name];
+            $pagestate = $row["state"];
+            $eURL = url_for_pi_do_particular_page(
+                $projectid, $state, $imagefile, $pagestate );
+            echo "<td class='center-align'>";
+            echo "<A HREF=\"$eURL\">";
+            // TRANSLATORS: This is an strftime-formatted string
+            echo strftime(_("%b %d"), $timestamp).": ".$imagefile."</a></td>\r\n";
+            $colnum++;
+            $rownum++;
+        }
+        // fill up last row with blanks
+        while ($colnum++ < 5)
+        {
+            echo "<td>&nbsp;</td>"; $rownum++;
+        }
+        echo "</tr>";
     }
-
-    while (($rownum % 5) !=0) {echo "<td>&nbsp;</td>"; $rownum++;}
-    echo "</tr>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -1255,6 +1259,7 @@ function do_history()
         "remove_holds" => _("remove hold(s)"),
     );
 
+    // this table has 6 columns
     echo "<table class='basic'>\n";
     foreach ( $events2 as $event )
     {
@@ -1274,8 +1279,10 @@ function do_history()
         echo "<td>",
              array_get($event_type_labels, $event_type, $event_type),
              "</td>\n";
+        // count columns so we can fill up space after
+        $spare_cols = 3;
 
-        if ( $event['event_type'] == 'transition' || $event['event_type'] == 'transition(s)')
+        if( $event_type == 'transition' || $event_type == 'transition(s)')
         {
             $from_state = $event['details1'];
             $from_state_t = (
@@ -1309,22 +1316,23 @@ function do_history()
                     break;
                 }
             }
-
             echo "<td>", sprintf(_("from %s"), $from_state_t), "</td>\n";
             echo "<td>", sprintf(_("to %s"), $to_state_t), "</td>\n";
-            if($details3_t != "")
-                echo "<td>$details3_t</td>\n";
+            echo "<td>$details3_t</td>\n";
+            $spare_cols = 0;
         }
-        elseif ( $event['event_type'] == 'smooth-reading' )
+        elseif ( $event_type == 'smooth-reading' )
         {
             echo "<td>{$event['details1']}</td>\n";
+            $spare_cols = 2;
             if ( $event['details1'] == 'text available' )
             {
                 $deadline_f = strftime('%Y-%m-%d %H:%M:%S', $event['details2']);
                 echo "<td>until $deadline_f</td>\n";
+                $spare_cols = 1;
             }
         }
-        elseif ( $event['event_type'] == 'edit' )
+        elseif ( $event_type == 'edit' )
         {
             $changed_fields = $event['details1'];
 
@@ -1389,9 +1397,10 @@ function do_history()
                 echo _("Changed fields:");
                 echo " ", $list_of_changed_fields;
                 echo "</td>\n";
+                $spare_cols = 0;
             }
         }
-        elseif ( $event['event_type'] == 'add_holds' ||  $event['event_type'] == 'remove_holds' )
+        elseif ( $event_type == 'add_holds' ||  $event_type == 'remove_holds' )
         {
             $state_labels = array();
             foreach ( explode(' ', $event['details1']) as $state )
@@ -1401,6 +1410,11 @@ function do_history()
             echo "<td colspan='3'>";
             echo join($state_labels, ", ");
             echo "</td>\n";
+            $spare_cols = 0;
+        }
+        if($spare_cols > 0)
+        {
+            echo "<td colspan='$spare_cols'></td>";
         }
         echo "</tr>\n";
     }
@@ -1628,7 +1642,6 @@ function do_post_downloads()
         {
             echo_download_zip( _("Download Zipped Text"), '_corrections' );
         }
-        echo "<br>";
     }
     else
     {
