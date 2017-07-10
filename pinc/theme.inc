@@ -422,7 +422,7 @@ function headerbar_text_array($entries)
             // if we're not, create a link 
             else
             {
-                $url = htmlspecialchars($url);
+                $url = attr_safe($url);
                 $entry_string = "<a href='$url'$title_attr$target_attr>$text</a>";
             }
         }
