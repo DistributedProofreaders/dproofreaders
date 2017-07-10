@@ -127,7 +127,7 @@ if (!isset($_GET['name']))
         }
 
         if (!is_null($row['url']))
-            $link_name = "<br><a class='sourcelink' href='{$row['url']}'>{$row['url']}</a>";
+            $link_name = "<br><a class='sourcelink' href='" . urlencode($row['url']) . "'>{$row['url']}</a>";
         else
             $link_name = "";
 
@@ -234,7 +234,7 @@ if (!isset($_GET['name']))
         echo "<th class='tl'>" . _("Notes") . ":</th>\n";
         echo "<td>";
         if ($logged_in)
-            echo $row['internal_comment'];
+            echo html_safe($row['internal_comment']);
         echo "</td>";
         echo "</tr>\n";
     }
