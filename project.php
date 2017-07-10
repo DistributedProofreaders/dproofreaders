@@ -1110,8 +1110,7 @@ function do_event_subscriptions()
 
     $projectid = $project->projectid;
 
-    echo "<a name='event_subscriptions'></a>\n";
-    echo "<h2>", _("Event Subscriptions"), "</h2>\n";
+    echo "<h2 id='event_subscriptions'>", _("Event Subscriptions"), "</h2>\n";
 
     echo "<div style='margin-left:3em'>\n";
 
@@ -1165,8 +1164,7 @@ function do_holds()
 {
     global $project, $code_url;
 
-    echo "<a name='holds'></a>\n";
-    echo "<h2>", _("Project Holds"), "</h2>\n";
+    echo "<h2 id='holds'>", _("Project Holds"), "</h2>\n";
 
     echo "<div style='margin-left:3em'>\n";
 

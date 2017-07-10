@@ -60,9 +60,8 @@ function display_project_filter_form($filter_type, $filter_label, $data, $state_
     // Track number of columns added so colspans can be given later
     $filter_column_count = 0;
 
-    echo "<a name='filter_form'></a>";
     echo "
-        <form method='post' action='#filter_form'>
+        <form id='filter_form' method='post' action='#filter_form'>
         <input type='hidden' name='filter_action' value='update'>";
 
     echo "<table class='filter'>\n";
