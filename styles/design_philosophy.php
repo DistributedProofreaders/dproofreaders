@@ -36,5 +36,15 @@ output_header("Style Design Philosophy", NO_STATSBAR);
 
 <p>Don't put table titles in the table. You probably want a header instead.</p>
 
+<h4>Table header alignment</h4>
+<p>For tables with a header row, the header cell alignment should match the data alignment in the rows beneath it. That is, if you have a column of right-aligned data, the table header for that column should also be right-aligned.</p>
+
+<p>Tables with the header cell on the left of the row should be left-aligned. They should also not contain a trailing colon.</p>
+
+<h4>Colspan and rowspan alignment</h4>
+<p>Data in colspan cells that span multiple columns, whether in a header or a regular row, should be center-aligned.</p>
+
+<p>Data in rowspan cells that span multiple rows should be top-aligned.</p>
+
 <h3>Re-use existing styles</h3>
 <p>Give a long, hard thought on why you can't use an existing style before creating a new one. If you're showing an error use the .error class, .warning for a warning. Reuse the existing table styles for new tables.</p>
