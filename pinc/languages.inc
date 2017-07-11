@@ -247,13 +247,8 @@ function is_locale_translation_enabled($locale)
     if($locale == 'en_US')
         return TRUE;
 
-    $translation_base = "$dyn_locales_dir/$locale";
-    $enabled_file = "$translation_base/enabled";
-
-    if(!is_dir($translation_base))
-        return NULL;
-
-    return is_file($enabled_file);
+    $enabled_locales = get_installed_locale_translations("enabled");
+    return in_array($locale, $enabled_locales);
 }
 
 function set_locale_translation_enabled($locale, $enable)
