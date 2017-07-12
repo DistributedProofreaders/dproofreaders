@@ -340,6 +340,19 @@ function massage_browser_lang_code_to_locale($browser_lang_code)
         return "{$lang_code}_{$region_code}";
     }
 
+    // The following makes the rash, and horribly wrong, assumption that
+    // a language's region will match that of the language. This holds true
+    // for some common cases (it -> it_IT, br -> br_BR) but fails at one
+    // of the most common (en -> en_US, en_CA, en_GB, ?). In fact, it's
+    // impossible to derive this and it really requires a human to define
+    // what locale should be presented as the default if just a language
+    // is supplied. In the meantime, we're just going to special-case
+    // en_EN to en_US since that's what the strings are natively :(
+    if($browser_lang_code == "en")
+    {
+        return "en_US";
+    }
+
     if(strlen($browser_lang_code) == 2)
     {
         $lang_code = strtolower($browser_lang_code);
