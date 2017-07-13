@@ -385,8 +385,10 @@ function draw_pie_graph(
 
     // Add the plot
     $plot=new PiePlot($datay);
-    $plot->SetSize(175);
-    $plot->SetCenter(0.33);
+    $plot->SetSize(0.34);
+    // SetCenter() doesn't work because the theme overrides it:
+    // https://stackoverflow.com/questions/27745187/jpgraph-setcenter-does-not-work
+    // $plot->SetCenter(0.4);
     $plot->SetLegends($datax);
     if (0)
     {
@@ -408,6 +410,7 @@ function draw_pie_graph(
 
     $graph->title->SetFont($jpgraph_FF,$jpgraph_FS);
     $graph->legend->SetFont($jpgraph_FF,$jpgraph_FS);
+    $graph->legend->SetPos(0.01, 0.05, 'right', 'top');
     $graph->legend->SetColumns(1);
     $graph->legend->SetShadow();
 
