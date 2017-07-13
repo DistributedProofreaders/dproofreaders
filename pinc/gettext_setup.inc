@@ -28,6 +28,7 @@ function get_desired_language()
     if($intlang)
         return $intlang;
 
+    // If the below logic changes, update locale/debug_ui_language.php too
     if (isset($_GET['lang']) && lang_code($_GET['lang'])) {
         $intlang = lang_code($_GET['lang']);
         setcookie("language", $intlang, time()+31536000, "/", "", $use_secure_cookies);
