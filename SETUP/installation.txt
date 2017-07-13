@@ -24,9 +24,23 @@ PHP
 
 MySQL
     MySQL version 5.1.x and later is required.
+    Version 5.5 or later is recommended.
+
+    MariaDB version 5.1 and later should also work but has not been tested.
+
+    ** NOTICE **
+    This is the last DP release to support MySQL 5.1.x.
+    Future versions will require MySQL 5.5 or later.
+    ** NOTICE **
 
 phpBB
-    phpBB 2.x, 3.0, 3.1, and 3.2 are supported. Version 3.2 is recommended.
+    phpBB 2.x, 3.0, 3.1, and 3.2 are supported.
+    Version 3.2 is recommended.
+
+    ** NOTICE **
+    This is the last DP release to support phpBB 2.x.
+    Future versions will require phpBB 3.0 or later.
+    ** NOTICE **
 
     In order to use versions > 3.0, you must disable superglobal checking.
     In the phpBB code edit:
