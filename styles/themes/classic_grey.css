@@ -239,6 +239,22 @@ table.snapshottable th {
 .WC {
   background-color: #97fc9e;
 }
+/* ------------------------------------------------------------------------ */
+/* Proofreading Toolbox */
+#toolbox {
+  font-family: Verdana, Helvetica, sans-serif;
+  background-color: #CDC0B0;
+}
+#toolbox .dropnormal {
+  background-color: #FFF8DC;
+}
+#toolbox .dropchars {
+  background-color: #EEDFCC;
+}
+#toolbox .proofbutton {
+  border: 1px solid black;
+  background: #FFF8DC;
+}
 /* vim: sw=4 ts=4 expandtab
 */
 /* vim: sw=4 ts=4 expandtab
