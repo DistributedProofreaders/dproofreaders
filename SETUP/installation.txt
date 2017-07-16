@@ -13,7 +13,7 @@ DP site:
 Middleware version requirements
 -------------------------------
 
-The following lists supported versions for the three primary middleware
+The following lists supported versions for the four primary middleware
 components.
 
 PHP
