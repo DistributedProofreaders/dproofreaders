@@ -105,7 +105,7 @@ if($frame=="left") {
 
         if($foundInstances>=$wordInstances) break;
     }
-    mysql_free_result($pages_res);
+    mysqli_free_result($pages_res);
 
     if($foundInstances>=$wordInstances)
         echo "<p>" . _("More instances were found, stopping after a small sample.") . "</p>";

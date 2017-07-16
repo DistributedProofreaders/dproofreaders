@@ -1,15 +1,14 @@
 <?php
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-$db_Connection=new dbConnect();
+include_once($relPath.'base.inc');
 
 echo "Creating 'sessions' table...\n";
-$result = mysql_query("CREATE TABLE `sessions` (
+$result = mysqli_query(DPDatabase::get_connection(), "CREATE TABLE `sessions` (
 `sid` varchar(32) NOT NULL default '',
 `expiration` int(11) NOT NULL default '0',
 `value` text NOT NULL,
 PRIMARY KEY  (`sid`)
-)") or die(mysql_error());
+)") or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "\nDone!\n";
 ?>

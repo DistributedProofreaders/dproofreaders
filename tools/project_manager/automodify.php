@@ -106,7 +106,7 @@ if ($one_project) {
 
     // log tracetimes
     $tracetime = time();
-    mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
+    mysqli_query(DPDatabase::get_connection(), "INSERT INTO job_logs (filename, tracetime, event, comments)
                VALUES ('automodify.php', $tracetime, 'BEGIN', 'running for single proj $one_project')");
 
 
@@ -127,12 +127,12 @@ if ($one_project) {
 
     // log tracetimes
     $tracetime = time();
-    mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
+    mysqli_query(DPDatabase::get_connection(), "INSERT INTO job_logs (filename, tracetime, event, comments)
                VALUES ('automodify.php', $tracetime, 'BEGIN', 'running for all eligible projects')");
 
 
 }
-$allprojects = mysql_query("
+$allprojects = mysqli_query(DPDatabase::get_connection(), "
     SELECT projectid, state, username, nameofwork
     FROM projects
     WHERE $condition
@@ -141,7 +141,7 @@ $allprojects = mysql_query("
 // The "ORDER BY" clause isn't essential,
 // it's just there to ensure consistency of order when testing.
 
-while ( $project = mysql_fetch_assoc($allprojects) ) {
+while ( $project = mysqli_fetch_assoc($allprojects) ) {
     $have_echoed_blurb_for_this_project = 0;
 
     $projectid  = $project["projectid"];
@@ -217,7 +217,7 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         $n_hours_to_wait = 4;
         $max_reclaimable_time = time() - $n_hours_to_wait * 60 * 60;
 
-        $res = mysql_query("
+        $res = mysqli_query(DPDatabase::get_connection(), "
             SELECT image
             FROM $projectid
             WHERE state IN ('$round->page_out_state','$round->page_temp_state')
@@ -226,15 +226,15 @@ while ( $project = mysql_fetch_assoc($allprojects) ) {
         ");
         if ( !$res )
         {
-            echo mysql_error(), "\n";
+            echo mysqli_error(DPDatabase::get_connection()), "\n";
             echo "Skipping further processing of this project.\n";
             continue;
         }
 
-        $n_reclaimable_pages = mysql_num_rows($res);
+        $n_reclaimable_pages = mysqli_num_rows($res);
         if ($verbose) echo "        reclaiming $n_reclaimable_pages pages\n";
 
-        while ( list($image) = mysql_fetch_row($res) )
+        while ( list($image) = mysqli_fetch_row($res) )
         {
             Page_reclaim( $projectid, $image, $round, '[automodify.php]' );
         }
@@ -333,7 +333,7 @@ if (!$one_project)
     // log tracetimes
     $tracetimea = time();
     $tooktime = $tracetimea - $tracetime;
-    mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
+    mysqli_query(DPDatabase::get_connection(), "INSERT INTO job_logs (filename, tracetime, event, comments)
                VALUES ('automodify.php', $tracetimea, 'MIDDLE', 'pre autorelease, $tooktime seconds so far')");
 
     autorelease();
@@ -341,7 +341,7 @@ if (!$one_project)
     // log tracetimes
     $tracetimea = time();
     $tooktime = $tracetimea - $tracetime;
-    mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
+    mysqli_query(DPDatabase::get_connection(), "INSERT INTO job_logs (filename, tracetime, event, comments)
                VALUES ('automodify.php', $tracetimea, 'END', 'post autorelease, started at $tracetime, took $tooktime seconds')");
 
 }
@@ -351,7 +351,7 @@ else
     // log tracetimes
     $tracetimea = time();
     $tooktime = $tracetimea - $tracetime;
-    mysql_query("INSERT INTO job_logs (filename, tracetime, event, comments)
+    mysqli_query(DPDatabase::get_connection(), "INSERT INTO job_logs (filename, tracetime, event, comments)
                VALUES ('automodify.php', $tracetimea, 'END', 'end single, started at $tracetime, took $tooktime seconds')");
 
 

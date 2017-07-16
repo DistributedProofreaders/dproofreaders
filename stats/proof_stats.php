@@ -23,7 +23,7 @@ echo "<br>\n";
 echo "<br>\n";
 
 // the 
-$sql_anonymous = mysql_real_escape_string(_("Anonymous"));
+$sql_anonymous = mysqli_real_escape_string(DPDatabase::get_connection(), _("Anonymous"));
 
 if (isset($GLOBALS['pguser'])) 
 // if user logged on
@@ -49,12 +49,12 @@ else
     list($joined_with_user_page_tallies,$user_page_tally_column) =
         $users_tallyboard->get_sql_joinery_for_current_tallies('users.u_id');
 
-    $sql_upt_column_name = mysql_real_escape_string(
+    $sql_upt_column_name = mysqli_real_escape_string(DPDatabase::get_connection(),
         // TRANSLATORS: %s is a page tally name (i.e. 'P1' or 'F2' or 'R*')
         sprintf(_("%s Pages Completed"), $tally_name));
     dpsql_dump_themed_query("
         SELECT
-            $proofreader_expr AS '" . mysql_real_escape_string(_("Proofreader")) . "',
+            $proofreader_expr AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Proofreader")) . "',
             $user_page_tally_column AS '$sql_upt_column_name'
         FROM users $joined_with_user_page_tallies
         WHERE $user_page_tally_column > 0

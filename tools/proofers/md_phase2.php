@@ -28,15 +28,15 @@ if (!isset($_GET['imagename'])) {
 if(!isset($imagename))
 {
     //find next available page for this project
-    $result = mysql_query("SELECT image FROM $projectid WHERE state = 'avail_md_second' ORDER BY image ASC LIMIT 1");
-    $row = mysql_fetch_assoc($result);
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT image FROM $projectid WHERE state = 'avail_md_second' ORDER BY image ASC LIMIT 1");
+    $row = mysqli_fetch_assoc($result);
     //if no more images
     if(!$row)
     {
         $body=_("No more files available for proofreading for this round of the project.<br> You will be taken back to the project listing page in 4 seconds.");
         //////////this will be changed to pre-processing state
-        $result = mysql_query("UPDATE $projectid SET state = 'P1.page_avail'");
-        $result = mysql_query("UPDATE projects SET state = '".PROJ_P1_AVAILABLE."' WHERE projectid = '$projectid'");
+        $result = mysqli_query(DPDatabase::get_connection(), "UPDATE $projectid SET state = 'P1.page_avail'");
+        $result = mysqli_query(DPDatabase::get_connection(), "UPDATE projects SET state = '".PROJ_P1_AVAILABLE."' WHERE projectid = '$projectid'");
         //////////
 
         metarefresh(5,"md_available.php","Image Metadata Collection",$body);
@@ -46,7 +46,7 @@ if(!isset($imagename))
     {
         $imagename = $row["image"];
         //set the image as checked out
-        $result = mysql_query("UPDATE $projectid SET state = 'out_md_second' WHERE image = '$imagename'");
+        $result = mysqli_query(DPDatabase::get_connection(), "UPDATE $projectid SET state = 'out_md_second' WHERE image = '$imagename'");
         metarefresh(0,"md_phase2.php?imagename=$imagename&projectid=$projectid","Image Metadata Collection","");
     }
 }
@@ -56,8 +56,8 @@ if (isset($_POST['done']))
 {
     //process the page metadata
     //get existing metadata
-    $result = mysql_query("SELECT metadata FROM $projectid WHERE image = '$imagename'");
-    $row = mysql_fetch_assoc($result);
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT metadata FROM $projectid WHERE image = '$imagename'");
+    $row = mysqli_fetch_assoc($result);
     $old_md = $row["metadata"];
 
     //concat new metadata
@@ -70,23 +70,23 @@ if (isset($_POST['done']))
             $i++;
         }
         $all_md = $old_md.$new_md;
-        $result = mysql_query(sprintf("
+        $result = mysqli_query(DPDatabase::get_connection(), sprintf("
             UPDATE $projectid
             SET metadata = '%s'
             WHERE image = '%s'
-        ", mysql_real_escape_string($all_md),
-            mysql_real_escape_string($imagename)));
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $all_md),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $imagename)));
     }
 
     //change page status and back to md_available.php
-    $result = mysql_query("UPDATE $projectid SET state = 'save_md_second' WHERE image = '$imagename'");
+    $result = mysqli_query(DPDatabase::get_connection(), "UPDATE $projectid SET state = 'save_md_second' WHERE image = '$imagename'");
     metarefresh(0,'md_available.php',"Image Metadata Collection","");
 }
 
 if (isset($_POST['quit']))
 {
     //they don't want to save so set page to avail return them to md_available
-    $result = mysql_query("UPDATE $projectid SET state = 'avail_md_second' WHERE image = '$imagename'");
+    $result = mysqli_query(DPDatabase::get_connection(), "UPDATE $projectid SET state = 'avail_md_second' WHERE image = '$imagename'");
     metarefresh(0,'md_available.php',"Image Metadata Collection","");
 }
 
@@ -94,8 +94,8 @@ if (isset($_POST['continue']))
 {
     //process the page metadata
     //get existing metadata
-    $result = mysql_query("SELECT metadata FROM $projectid WHERE image = '$imagename'");
-    $row = mysql_fetch_assoc($result);
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT metadata FROM $projectid WHERE image = '$imagename'");
+    $row = mysqli_fetch_assoc($result);
     $old_md = $row["metadata"];
 
     //concat new metadata
@@ -109,16 +109,16 @@ if (isset($_POST['continue']))
             $i++;
         }
         $all_md = $old_md.$new_md;
-        $result = mysql_query(sprintf("
+        $result = mysqli_query(DPDatabase::get_connection(), sprintf("
             UPDATE $projectid
             SET metadata = '%s'
             WHERE image = '%s'
-        ", mysql_real_escape_string($all_md),
-            mysql_real_escape_string($imagename)));
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $all_md),
+            mysqli_real_escape_string(DPDatabase::get_connection(), $imagename)));
     }
 
     //change page status and keep going
-    $result = mysql_query("UPDATE $projectid SET state = 'save_md_second' WHERE image = '$imagename'");
+    $result = mysqli_query(DPDatabase::get_connection(), "UPDATE $projectid SET state = 'save_md_second' WHERE image = '$imagename'");
     metarefresh(0,"md_phase2.php?projectid=$projectid","Image Metadata Collection","");
 
 }

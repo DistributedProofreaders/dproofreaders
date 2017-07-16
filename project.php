@@ -181,7 +181,7 @@ function do_update_pp_activity()
 
       $projectid = $project->projectid;
       $now = time();
-      mysql_query("UPDATE projects SET modifieddate=$now WHERE projectid='$projectid'");
+      mysqli_query(DPDatabase::get_connection(), "UPDATE projects SET modifieddate=$now WHERE projectid='$projectid'");
       $project->modifieddate = $now;
     }
 }
@@ -307,14 +307,14 @@ function decide_blurbs()
 
         // Has the user saved a page of this project since the project comments were
         // last changed? If not, it's unlikely they've seen the revised comments.
-        $res = mysql_query("
+        $res = mysqli_query(DPDatabase::get_connection(), "
             SELECT {$round->time_column_name}
             FROM $projectid
             WHERE state='{$round->page_save_state}' AND {$round->user_column_name}='$pguser'
             ORDER BY {$round->time_column_name} DESC
             LIMIT 1
         ");
-        $row = mysql_fetch_assoc($res);
+        $row = mysqli_fetch_assoc($res);
         if (!$row)
         {
             // The user has not saved any pages for this project.
@@ -471,8 +471,8 @@ function do_project_info_table()
                 SELECT display_name
                 FROM special_days
                 WHERE spec_code = '%s'
-            ", mysql_real_escape_string($spec_code));
-            $spec_res = mysql_fetch_assoc(mysql_query($sql));
+            ", mysqli_real_escape_string(DPDatabase::get_connection(), $spec_code));
+            $spec_res = mysqli_fetch_assoc(mysqli_query(DPDatabase::get_connection(), $sql));
             if ($spec_res)
             {
                 $spec_display = $spec_res['display_name'];
@@ -591,14 +591,14 @@ function do_project_info_table()
 
     if ($round)
     {
-        $proofdate = mysql_query("
+        $proofdate = mysqli_query(DPDatabase::get_connection(), "
             SELECT {$round->time_column_name}
             FROM $projectid
             WHERE state='{$round->page_save_state}'
             ORDER BY {$round->time_column_name} DESC
             LIMIT 1
         ");
-        $row = mysql_fetch_assoc($proofdate);
+        $row = mysqli_fetch_assoc($proofdate);
         if ($row)
         {
             $lastproofed = strftime($datetime_format, $row[$round->time_column_name]);
@@ -896,13 +896,13 @@ function recentlyproofed( $wlist )
         ORDER BY {$round->time_column_name} DESC
         LIMIT $recentNum
     ";
-    $result = mysql_query($sql);
+    $result = mysqli_query(DPDatabase::get_connection(), $sql);
     $rownum = 0;
-    $numrows = mysql_num_rows($result);
+    $numrows = mysqli_num_rows($result);
 
     while (($rownum < $recentNum) && ($rownum < $numrows))
     {
-        $row = mysql_fetch_assoc($result);
+        $row = mysqli_fetch_assoc($result);
         $imagefile = $row["image"];
         $timestamp = $row[$round->time_column_name];
         $pagestate = $row["state"];
@@ -1047,13 +1047,13 @@ function do_waiting_queues()
     echo _("Queues");
     echo "</h4>\n";
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT name, project_selector
         FROM queue_defns
         WHERE round_id='{$round->id}'
         ORDER BY ordering
-    ") or die(mysql_error());
-    if ( mysql_num_rows($res) == 0 )
+    ") or die(mysqli_error(DPDatabase::get_connection()));
+    if ( mysqli_num_rows($res) == 0 )
     {
         // No queues defined for this round.
         echo sprintf(
@@ -1071,16 +1071,16 @@ function do_waiting_queues()
 
         echo "<ul>\n";
         $n_queues = 0;
-        while ( list($q_name,$q_project_selector) = mysql_fetch_row($res) )
+        while ( list($q_name,$q_project_selector) = mysqli_fetch_row($res) )
         {
             $cooked_project_selector = cook_project_selector($q_project_selector);
 
-            $res2 = mysql_query("
+            $res2 = mysqli_query(DPDatabase::get_connection(), "
                 SELECT projectid
                 FROM projects
                 WHERE projectid='{$project->projectid}' AND ($cooked_project_selector)
-            ") or die(mysql_error());
-            if ( mysql_num_rows($res2) > 0 )
+            ") or die(mysqli_error(DPDatabase::get_connection()));
+            if ( mysqli_num_rows($res2) > 0 )
             {
                 $n_queues += 1;
                 $enc_q_name = urlencode($q_name);
@@ -1229,15 +1229,15 @@ function do_history()
 
     echo "<h4>", _("Project History"), "</h4>\n";
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT timestamp, who, event_type, details1, details2, details3
         FROM project_events
         WHERE projectid = '{$project->projectid}'
         ORDER BY event_id
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 
     $events = array();
-    while ( $event = mysql_fetch_assoc($res) )
+    while ( $event = mysqli_fetch_assoc($res) )
     {
         $events[] = $event;
     }
@@ -1652,11 +1652,11 @@ function do_post_downloads()
         if ( !empty($sums_str) ) $sums_str .= ', ';
         $sums_str .= "SUM( $round->text_column_name != '' ) AS $round->id";
     }
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
             SELECT $sums_str
             FROM $projectid
-        ") or die(mysql_error());
-    $sums = mysql_fetch_assoc($res);
+        ") or die(mysqli_error(DPDatabase::get_connection()));
+    $sums = mysqli_fetch_assoc($res);
 
     foreach ( $Round_for_round_id_ as $round )
     {

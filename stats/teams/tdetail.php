@@ -13,7 +13,7 @@ $tally_name   = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_nam
 $req_team_id  = get_integer_param( $_GET, 'tid', null, 0, null );
 
 $result = select_from_teams("id = {$req_team_id}");
-$curTeam = mysql_fetch_assoc($result);
+$curTeam = mysqli_fetch_assoc($result);
 
 if(!$curTeam)
     die(sprintf("%d is an invalid team ID", $req_team_id));

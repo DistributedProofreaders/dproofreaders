@@ -7,12 +7,12 @@ function upi_ensure_row( $username, $projectid )
 // There may not yet be a row for this ($username,$projectid) pair
 // in the user_project_info table. Ensure that one exists.
 {
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         INSERT IGNORE INTO user_project_info
         SET
             username    = '$username',
             projectid   = '$projectid'
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
     // If there's already a row for this ($username,$projectid) pair,
     // the insertion doesn't happen; it would raise a duplicate-key error,
     // except that the IGNORE causes the error to be downgraded to a warning.
@@ -27,22 +27,22 @@ function upi_set_t_latest_home_visit( $username, $projectid, $timestamp )
 {
     upi_ensure_row( $username, $projectid );
 
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         UPDATE user_project_info
         SET t_latest_home_visit = $timestamp
         WHERE username='$username' AND projectid='$projectid'
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 function upi_set_t_latest_page_event( $username, $projectid, $timestamp )
 {
     upi_ensure_row( $username, $projectid );
 
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         UPDATE user_project_info
         SET t_latest_page_event = $timestamp
         WHERE username='$username' AND projectid='$projectid'
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -90,12 +90,12 @@ function set_user_project_event_subscription( $username, $projectid, $event, $bi
     upi_ensure_row( $username, $projectid );
 
     // Now that we're sure the row exists, we can update it.
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         UPDATE user_project_info
         SET iste_$event = $bit
         WHERE username    = '$username'
             AND projectid = '$projectid'
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 
     /*
         In MySQL 4.1.0 or higher, we could replace those two queries with one:
@@ -114,13 +114,13 @@ function user_is_subscribed_to_project_event( $username, $projectid, $event )
     $event_label = get_label_for_event( $event );
     // Just to ensure that $event is valid; we don't use $event_label.
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT iste_$event
         FROM user_project_info
         WHERE username    = '$username'
             AND projectid = '$projectid'
-    ") or die(mysql_error());
-    $row = mysql_fetch_row($res);
+    ") or die(mysqli_error(DPDatabase::get_connection()));
+    $row = mysqli_fetch_row($res);
     if ( !$row )
     {
         // ($username,$projectid) pair does not appear in table.
@@ -191,14 +191,14 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
 
     $msg_body .= "\n" . $site_signoff;
 
-    $res1 = mysql_query("
+    $res1 = mysqli_query(DPDatabase::get_connection(), "
         SELECT username
         FROM user_project_info
         WHERE projectid = '$projectid'
             AND iste_$event = 1
-    ") or die(mysql_error());
-    $n_subscribers = mysql_num_rows($res1);
-    while ( list($username) = mysql_fetch_row($res1) )
+    ") or die(mysqli_error(DPDatabase::get_connection()));
+    $n_subscribers = mysqli_num_rows($res1);
+    while ( list($username) = mysqli_fetch_row($res1) )
     {
         $email = get_forum_email_address($username);
         maybe_mail(
@@ -212,11 +212,11 @@ function notify_project_event_subscribers( $project, $event, $extras=array() )
     {
         // Take the number of users subscribed to the event
         // and record that as the project's "interest level".
-        $res4 = mysql_query("
+        $res4 = mysqli_query(DPDatabase::get_connection(), "
             UPDATE projects
             SET int_level = '$n_subscribers'
             WHERE projectid = '$projectid'
-        ") or die(mysql_error());
+        ") or die(mysqli_error(DPDatabase::get_connection()));
     }
 }
 
@@ -234,12 +234,12 @@ function get_n_users_subscribed_to_events_for_project( $projectid )
     }
     $selects = implode( ',', $items );
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT $selects
         FROM user_project_info
         WHERE projectid='$projectid'
-    ") or die(mysql_error());
-    $r = mysql_fetch_assoc($res);
+    ") or die(mysqli_error(DPDatabase::get_connection()));
+    $r = mysqli_fetch_assoc($res);
 
     // If there are no rows for this project, the SUMs will all return NULL;
     // change those to zeroes.
@@ -254,7 +254,7 @@ function create_temporary_project_event_subscription_summary_table()
 // current number of users that are subscribed to the project's 'posted' event.
 // ("nouste" = "number of users subscribed to event")
 {
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         CREATE TEMPORARY TABLE project_event_subscriptions_grouped_by_project
         (
             PRIMARY KEY (projectid)
@@ -265,7 +265,7 @@ function create_temporary_project_event_subscription_summary_table()
         FROM user_project_info
         WHERE iste_posted = 1
         GROUP BY projectid
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 // -----------------------------------------------------------------------------

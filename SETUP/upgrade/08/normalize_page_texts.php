@@ -4,10 +4,9 @@
 // and ensure that its text is normalized.
 
 $relPath='../../../pinc/';
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-include_once($relPath.'connect.inc');
 include_once($relPath.'DPage.inc'); // _normalize_page_text
-new dbConnect();
 
 error_reporting(E_ALL);
 
@@ -21,7 +20,7 @@ $res = dpsql_query("
     ORDER BY projectid
 ");
 
-$n_projects = mysql_num_rows($res);
+$n_projects = mysqli_num_rows($res);
 
 $all_warnings = array();
 
@@ -30,12 +29,12 @@ $n_total_pages_changed = 0;
 $n_total_projects_changed = 0;
 
 $i = 0;
-while ( list($projectid) = mysql_fetch_row($res) )
+while ( list($projectid) = mysqli_fetch_row($res) )
 {
     $i++;
     echo sprintf( "%4d/%4d: %s:", $i, $n_projects, $projectid );
 
-    $res2 = mysql_query("
+    $res2 = mysqli_query(DPDatabase::get_connection(), "
         SELECT * FROM $projectid
         ORDER BY image
     ");
@@ -44,12 +43,12 @@ while ( list($projectid) = mysql_fetch_row($res) )
         echo " odd, SELECT failed\n";
         continue;
     }
-    echo sprintf( " (%3d pages)", mysql_num_rows($res2) );
+    echo sprintf( " (%3d pages)", mysqli_num_rows($res2) );
 
     $n_texts_changed = 0;
     $n_pages_changed = 0;
 
-    while ( $page = mysql_fetch_assoc($res2) )
+    while ( $page = mysqli_fetch_assoc($res2) )
     {
         $image = $page['image'];
         $changes = array();
@@ -72,7 +71,7 @@ while ( list($projectid) = mysql_fetch_row($res) )
 
                     $changes[] = sprintf( "%s = '%s'",
                         $field_name,
-                        mysql_real_escape_string($normalized_page_text)
+                        mysqli_real_escape_string(DPDatabase::get_connection(), $normalized_page_text)
                     );
 
                     // It's just possible that in the time between this script's
@@ -110,7 +109,7 @@ while ( list($projectid) = mysql_fetch_row($res) )
             if (1)
             {
                 dpsql_query($sql);
-                $n_ar = mysql_affected_rows();
+                $n_ar = mysqli_affected_rows(DPDatabase::get_connection());
                 if ( $n_ar != 1 )
                 {
                     echo "\n    WARNING: query affected $n_ar rows";

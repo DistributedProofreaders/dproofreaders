@@ -39,12 +39,12 @@ else {
 header("Content-Type: text/xml");
 echo "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
 
-$result = mysql_query("SELECT * FROM biographies $clause");
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM biographies $clause");
 
 if ($wrap_in_big_tag)
     echo "<biographies>\n";
 
-while ($row = mysql_fetch_array($result))
+while ($row = mysqli_fetch_array($result))
     echo create_bio_data($row);
 
 if ($wrap_in_big_tag)

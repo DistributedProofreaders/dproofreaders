@@ -1,7 +1,6 @@
 <?php
 $relPath='../../../pinc/';
-include_once($relPath.'connect.inc');
-new dbConnect;
+include_once($relPath.'base.inc');
 
 // THIS IS A ONE-TIME SCRIPT!
 //
@@ -29,24 +28,24 @@ new dbConnect;
 
 // It is probably a good idea to remove this script once it has been run..
 
-$result = mysql_query("SELECT projectid, postcomments FROM projects WHERE postcomments != ''");
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT projectid, postcomments FROM projects WHERE postcomments != ''");
 
 header('Content-Type: text/plain');
 
 $act = isset($_REQUEST['act']);
 
-while ($row = mysql_fetch_array($result)) {
+while ($row = mysqli_fetch_array($result)) {
   $new_value = reversehtmlspecialchars($row['postcomments']);
 
   if (!$act)
     echo "OLD VALUE: {$row['postcomments']}\nNEW VALUE: $new_value\n";
 
   if ($new_value != $row['postcomments']) {
-    $new_value = mysql_real_escape_string($new_value);
+    $new_value = mysqli_real_escape_string(DPDatabase::get_connection(), $new_value);
     $query = "UPDATE projects SET postcomments='$new_value' WHERE projectid='{$row['projectid']}'";
 
     if ($act)
-      mysql_query($query);
+      mysqli_query(DPDatabase::get_connection(), $query);
     else
       echo "SQL QUERY: $query\n\n";
   }
@@ -58,7 +57,7 @@ while ($row = mysql_fetch_array($result)) {
   }
 }
 
-echo mysql_error();
+echo mysqli_error(DPDatabase::get_connection());
 
 echo "\nDone!\n";
 

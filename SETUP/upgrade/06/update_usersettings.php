@@ -1,7 +1,6 @@
 <?php
 $relPath = '../../../pinc/';
-include_once($relPath.'connect.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
 
 
 $old_to_new = array(
@@ -23,12 +22,12 @@ foreach ( $old_to_new as $old => $new )
 {
 	echo "In 'setting' column, changing $old to $new ...\n";
 
-	mysql_query("
+	mysqli_query(DPDatabase::get_connection(), "
 		UPDATE usersettings
 		SET setting='$new'
 		WHERE setting='$old'
-	") or die(mysql_error());
-	echo "    ", mysql_affected_rows(), " rows affected.\n";
+	") or die(mysqli_error(DPDatabase::get_connection()));
+	echo "    ", mysqli_affected_rows(DPDatabase::get_connection()), " rows affected.\n";
 }
 
 echo "\nDone!\n";

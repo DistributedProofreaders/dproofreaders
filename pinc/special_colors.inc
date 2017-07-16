@@ -38,14 +38,14 @@ function get_special_color_for_project($book) {
         $bgcolor = '#33CCFF';
     }
 
-    $specs_result = mysql_query("
+    $specs_result = mysqli_query(DPDatabase::get_connection(), "
             SELECT spec_code, color FROM special_days
         ");
 
     // it'd be nice to make this static, or something, so it only was loaded once
     $specials_array = array();
 
-    while ($s_row = mysql_fetch_assoc($specs_result)) {
+    while ($s_row = mysqli_fetch_assoc($specs_result)) {
         $col = $s_row['color'];
         $code = $s_row['spec_code'];
         $specials_array["$code"] = $col;
@@ -71,18 +71,18 @@ function echo_special_legend( $projects_where_clause) {
 
     $legend_text = _("Legend for Special Day Colors:");
 
-    $currspecs_result = mysql_query("
+    $currspecs_result = mysqli_query(DPDatabase::get_connection(), "
             SELECT distinct special_code as spec FROM projects
             WHERE $projects_where_clause
         ");
 
     $curr_specs_array = array();
 
-    while ($cs_row = mysql_fetch_assoc($currspecs_result)) {
+    while ($cs_row = mysqli_fetch_assoc($currspecs_result)) {
         $curr_specs_array[] = $cs_row['spec'];
     }
 
-    $specs_result = mysql_query("
+    $specs_result = mysqli_query(DPDatabase::get_connection(), "
             SELECT spec_code, display_name, color FROM special_days
             ORDER BY display_name ASC
         ");
@@ -90,7 +90,7 @@ function echo_special_legend( $projects_where_clause) {
     $common_array = array();
 
     // Strip results down to just the ones in use
-    while ($sr_row = mysql_fetch_assoc($specs_result)) {
+    while ($sr_row = mysqli_fetch_assoc($specs_result)) {
         if (in_array($sr_row['spec_code'], $curr_specs_array)) {
             $common_array[] = $sr_row;
         }

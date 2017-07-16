@@ -54,13 +54,13 @@ function dpsql_dump_themed_query($query, $start_at = 0, $show_rank = DPSQL_NO_RA
 
 function dpsql_query( $query )
 {
-	$result = mysql_query( $query );
+	$result = mysqli_query(DPDatabase::get_connection(),  $query );
 	if (!$result)
 	{
 		print "The following mysql query:<br>\n";
 		print $query . "<br>\n";
 		print "raised the following error:<br>\n";
-		print mysql_error() . "<br>\n";
+		print mysqli_error(DPDatabase::get_connection()) . "<br>\n";
 		print "<br>\n";
 	}
 	return $result;
@@ -69,7 +69,7 @@ function dpsql_query( $query )
 function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_RANK)
 {
 
-	$n_cols = mysql_num_fields($result);
+	$n_cols = mysqli_num_fields($result);
 	$n_curr_row = $start_at;
 
 	print "<table border='1'>\n";
@@ -85,12 +85,13 @@ function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_R
 	for ($c = 0; $c < ($n_cols); $c++ )
 	{
 		print "<th>";
-		print mysql_field_name($result, $c);
+		$field_data = mysqli_fetch_field_direct($result, $c);
+		print $field_data->name;
 		print "</th>\n";
 	}
 	print "</tr>\n";
 
-	while ( $row = mysql_fetch_row($result) )
+	while ( $row = mysqli_fetch_row($result) )
 	{
 		print "<tr>\n";
 		if ($show_rank)
@@ -113,7 +114,7 @@ function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_R
 function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_RANK, $ralign_ints = DPSQL_RIGHT_ALIGN_INTS)
 {
 	$theme = $GLOBALS['theme'];
-	$n_query_cols = mysql_num_fields($result);
+	$n_query_cols = mysqli_num_fields($result);
 	$n_curr_row = $start_at;
 
 	print "<table border='1' cellspacing='0' cellpadding='0' style='border: 1px solid #111; border-collapse: collapse;' width='99%'>\n";
@@ -140,19 +141,19 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
 	$type = Array();
 	for ($c = 0; $c < $n_query_cols; $c++ )
 	{
-		$type[$c] = mysql_field_type($result, $c);
+		$field_data = mysqli_fetch_field_direct($result, $c);
+		$type[$c] = $field_data->type;
 		$align = ($type[$c] == 'int' && $ralign_ints) ? " align='right'" : '';
 		print "<th bgcolor='" . $theme['color_headerbar_bg'] . "'$align>\n";
 		print "<font color='".$theme['color_headerbar_font']."'>";
-		print mysql_field_name($result, $c);
-		$type[$c] = mysql_field_type($result, $c);
+		print $field_data->name;
 		print "</font></th>\n";
 	}
 	print "</tr>\n";
 
 	$rownum = 0;
 	$listing_bgcolors = array($theme['color_listing_bg_1'], $theme['color_listing_bg_2']);
-	while ( $row = mysql_fetch_row($result) )
+	while ( $row = mysqli_fetch_row($result) )
 	{
 		print "<tr bgcolor='" . $listing_bgcolors[$rownum % 2] . "'>\n";
 		if ($show_rank)
@@ -188,7 +189,7 @@ function dpsql_fetch_all_keyed( $res )
 // However, this too can be a useful behaviour.)
 {
     $arr = array();
-    while( $row = mysql_fetch_row($res) )
+    while( $row = mysqli_fetch_row($res) )
     {
         $key = $row[0];
         $value = array_slice( $row, 1 );
@@ -203,12 +204,12 @@ function dpsql_fetch_columns( $res )
 // Return an array of arrays, one for each column of the result-set.
 {
     $columns = array();
-    $num_cols = mysql_num_fields($res);
+    $num_cols = mysqli_num_fields($res);
     for ( $c = 0; $c < $num_cols; $c++ )
     {
         $columns[$c] = array();
     }
-    while( $row = mysql_fetch_row($res) )
+    while( $row = mysqli_fetch_row($res) )
     {
         for ( $c = 0; $c < $num_cols; $c++ )
         {

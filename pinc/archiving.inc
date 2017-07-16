@@ -31,10 +31,10 @@ function archive_project( $project, $dry_run )
     }
     else
     {
-        mysql_query("
+        mysqli_query(DPDatabase::get_connection(), "
             ALTER TABLE $projectid
             RENAME AS $archive_db_name.$projectid
-        ") or die(mysql_error());
+        ") or die(mysqli_error(DPDatabase::get_connection()));
     }
 
     global $projects_dir;
@@ -67,11 +67,11 @@ function archive_project( $project, $dry_run )
     }
     else
     {
-        mysql_query("
+        mysqli_query(DPDatabase::get_connection(), "
             UPDATE projects
             SET archived = '1'
             WHERE projectid='$projectid'
-        ") or die(mysql_error());
+        ") or die(mysqli_error(DPDatabase::get_connection()));
 
         log_project_event( $projectid, '[archiver]', 'archive' );
     }
@@ -87,14 +87,14 @@ function archive_ancillary_data_for_project_etc( $project, $indent, $dry_run )
 
     // Check for any deleted projects that were merged into this project,
     // and archive their ancillary info too.
-    $res2 = mysql_query("
+    $res2 = mysqli_query(DPDatabase::get_connection(), "
         SELECT projectid, modifieddate, state
         FROM projects
         WHERE state = '".PROJ_DELETE."'
         AND deletion_reason = 'merged into $project->projectid'
         ORDER BY modifieddate
-    ") or die(mysql_error());
-    while ( $project2 = mysql_fetch_object($res2) )
+    ") or die(mysqli_error(DPDatabase::get_connection()));
+    while ( $project2 = mysqli_fetch_object($res2) )
     {
         archive_ancillary_data_for_project( $project2, $indent, $dry_run );
     }
@@ -152,13 +152,13 @@ function move_project_rows_to_archive_db( $projectid, $table_name, $indent, $dry
     $watch = new Stopwatch();
     $watch->start();
 
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         INSERT INTO $archive_db_name.$table_name
         SELECT *
         FROM $table_name
         WHERE projectid='$projectid'
-    ") or die(mysql_error());
-    $n_copied = mysql_affected_rows();
+    ") or die(mysqli_error(DPDatabase::get_connection()));
+    $n_copied = mysqli_affected_rows(DPDatabase::get_connection());
     echo sprintf( "%4d rows copied", $n_copied );
 
     if ( $n_copied == 0 )
@@ -167,12 +167,12 @@ function move_project_rows_to_archive_db( $projectid, $table_name, $indent, $dry
         return;
     }
 
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         DELETE 
         FROM $table_name
         WHERE projectid='$projectid'
-    ") or die(mysql_error());
-    $n_deleted = mysql_affected_rows();
+    ") or die(mysqli_error(DPDatabase::get_connection()));
+    $n_deleted = mysqli_affected_rows(DPDatabase::get_connection());
     if ( $n_deleted == $n_copied )
     {
         echo " and deleted";

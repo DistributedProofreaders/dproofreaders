@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'connect.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'misc.inc'); // html_safe()
@@ -12,17 +11,17 @@ class NonexistentProjectException extends Exception { }
 
 class Project
 {
-    function Project( $arg )
+    function __construct( $arg )
     {
         if ( is_string($arg) )
         {
             // $arg is the projectid.
-            $res = mysql_query("
+            $res = mysqli_query(DPDatabase::get_connection(), "
                 SELECT *
                 FROM projects
                 WHERE projectid = '$arg'
-            ") or die(mysql_error());
-            $row = mysql_fetch_assoc($res);
+            ") or die(mysqli_error(DPDatabase::get_connection()));
+            $row = mysqli_fetch_assoc($res);
             if (!$row)
             {
                 throw new NonexistentProjectException("no project with projectid='$arg'");
@@ -32,7 +31,7 @@ class Project
         elseif ( is_array($arg) )
         {
             // $arg is assumed to be an associative array, such
-            // as would be returned by mysql_fetch_assoc().
+            // as would be returned by mysqli_fetch_assoc().
             $row = $arg;
         }
         else
@@ -101,7 +100,7 @@ class Project
             return;
         }
 
-        $imso_res = mysql_fetch_assoc(mysql_query("
+        $imso_res = mysqli_fetch_assoc(mysqli_query(DPDatabase::get_connection(), "
             SELECT full_name, credit
             FROM image_sources
             WHERE code_name = '$this->image_source'
@@ -398,7 +397,7 @@ EOS;
             $sign_PM_up );
 
         // Save $topic_id in db and in $this.
-        $update_project = mysql_query("
+        $update_project = mysqli_query(DPDatabase::get_connection(), "
             UPDATE projects
             SET topic_id=$topic_id
             WHERE projectid='{$this->projectid}'
@@ -438,12 +437,12 @@ EOS;
     // Return an array containing the states for which this project has holds.
     {
         $hold_states = array();
-        $res = mysql_query("
+        $res = mysqli_query(DPDatabase::get_connection(), "
             SELECT state
             FROM project_holds
             WHERE projectid='{$this->projectid}'
-        ") or die(mysql_error());
-        while( list($state) = mysql_fetch_row($res) )
+        ") or die(mysqli_error(DPDatabase::get_connection()));
+        while( list($state) = mysqli_fetch_row($res) )
         {
             $hold_states[] = $state;
         }
@@ -511,7 +510,7 @@ XML;
     {
         $original_marc_array = $marc_record->get_yaz_array();
 
-        mysql_query("
+        mysqli_query(DPDatabase::get_connection(), "
             INSERT INTO marc_records
             SET
                 projectid      = '$this->projectid',
@@ -524,7 +523,7 @@ XML;
     {
         $updated_marc_array = $marc_record->get_yaz_array();
 
-        mysql_query("
+        mysqli_query(DPDatabase::get_connection(), "
             UPDATE marc_records
             SET
                 updated_array = '".base64_encode(serialize($updated_marc_array))."'
@@ -537,14 +536,14 @@ XML;
     {
         $updated_record = new MARCRecord();
 
-        $result = mysql_query("
+        $result = mysqli_query(DPDatabase::get_connection(), "
             SELECT updated_array
             FROM marc_records
             WHERE projectid = '$this->projectid'
         ");
 
-        $row = mysql_fetch_assoc($result);
-        mysql_free_result($result);
+        $row = mysqli_fetch_assoc($result);
+        mysqli_free_result($result);
 
         if(!$row)
             return $updated_record;
@@ -559,12 +558,12 @@ XML;
 
 function project_has_a_hold_in_state($projectid, $state)
 {
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT *
         FROM project_holds
         WHERE projectid='$projectid' and state='$state'
-    ") or die(mysql_error());
-    return (mysql_num_rows($res) > 0);
+    ") or die(mysqli_error(DPDatabase::get_connection()));
+    return (mysqli_num_rows($res) > 0);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -686,10 +685,10 @@ function does_project_page_table_exist($projectid)
     //    DESCRIBE table
     //    SELECT 1 FROM table LIMIT 0
     // The second is a mysql-ism and performs better, so we use that one.
-    $result = mysql_query("SELECT 1 FROM $projectid LIMIT 0");
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT 1 FROM $projectid LIMIT 0");
 
     if($result) {
-        mysql_free_result($result);
+        mysqli_free_result($result);
         return TRUE;
     } else {
         return FALSE;

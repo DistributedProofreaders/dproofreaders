@@ -41,12 +41,12 @@ function listHospitalProjects( $input, $argv )
 {
     global $relPath, $code_url;
     include_once($relPath.'site_vars.php');
-    include_once($relPath.'connect.inc');
+    include_once($relPath.'DPDatabase.inc');
     include_once($relPath.'project_states.inc');
 
-    $db_Connection = new dbConnect();
+    DPDatabase::connect();
 
-    $result = mysql_query("
+    $result = mysqli_query(DPDatabase::get_connection(), "
         SELECT *
         FROM projects
         WHERE nameofwork LIKE '%needs fixing%'
@@ -54,11 +54,11 @@ function listHospitalProjects( $input, $argv )
         ORDER BY nameofwork ASC
     ");
     if (!$result) {
-	die ('Invalid: '. mysql_error());
+	die ('Invalid: '. mysqli_error(DPDatabase::get_connection()));
     }
 
     $output = "";
-    while ($project = mysql_fetch_object($result))
+    while ($project = mysqli_fetch_object($result))
         {
 	// Get the preformatted remarks from PCs
         $matches  = '';
@@ -78,6 +78,6 @@ function listHospitalProjects( $input, $argv )
         $output .= "</table>\n";
         }
 
-    mysql_free_result($result);
+    mysqli_free_result($result);
     return $output;
 }

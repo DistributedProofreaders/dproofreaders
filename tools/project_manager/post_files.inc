@@ -48,7 +48,7 @@ function generate_post_files( $projectid, $limit_round_id, $which_text, $include
     $plain_zip_path = "{$pathbase}.zip";
     exec ("zip -j $plain_zip_path $plain_path $other_files");
 
-    mysql_data_seek($pages_res, 0);
+    mysqli_data_seek($pages_res, 0);
 
     // Join all the page texts into a TEIXLITE file...
     $tei_path = "{$pathbase}_TEI.txt";
@@ -507,7 +507,7 @@ function page_info_query( $projectid, $limit_round_id, $which_text )
         }
     }
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT $text_column_expr, image $user_fields
         FROM $projectid
         ORDER BY image
@@ -515,7 +515,7 @@ function page_info_query( $projectid, $limit_round_id, $which_text )
     if ($res === FALSE)
     {
         echo "page_info_query(): SQL error:\n";
-        echo mysql_error();
+        echo mysqli_error(DPDatabase::get_connection());
         echo "\n";
         return FALSE;
     }
@@ -531,7 +531,7 @@ function page_info_fetch( $res )
 // -- an array of the usernames of the users who worked on the page in the rounds.
 // If there's no next page, return FALSE;
 {
-    $a = mysql_fetch_row($res);
+    $a = mysqli_fetch_row($res);
     if (!$a) return FALSE;
 
     $text_data = $a[0];

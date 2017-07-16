@@ -2,11 +2,11 @@
 
 function log_project_event( $projectid, $who, $event_type, $details1='', $details2='', $details3='' )
 {
-    $esc_details1 = mysql_real_escape_string($details1);
-    $esc_details2 = mysql_real_escape_string($details2);
-    $esc_details3 = mysql_real_escape_string($details3);
+    $esc_details1 = mysqli_real_escape_string(DPDatabase::get_connection(), $details1);
+    $esc_details2 = mysqli_real_escape_string(DPDatabase::get_connection(), $details2);
+    $esc_details3 = mysqli_real_escape_string(DPDatabase::get_connection(), $details3);
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         INSERT INTO project_events
         SET
             timestamp  = UNIX_TIMESTAMP(),
@@ -19,7 +19,7 @@ function log_project_event( $projectid, $who, $event_type, $details1='', $detail
     ");
     if ( !$res )
     {
-        return mysql_error();
+        return mysqli_error(DPDatabase::get_connection());
     }
     else
     {

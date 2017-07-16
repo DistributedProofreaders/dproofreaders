@@ -21,14 +21,14 @@ output_header($title, NO_STATSBAR, $theme_args);
 echo "<br><h1>$title</h1>\n";
 echo _("The Name column shows what the colour looks like with a link on top, the Comment with ordinary text.")."<br><br>";
 
-$result = mysql_query("SELECT * FROM special_days ORDER BY open_month, open_day");
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT * FROM special_days ORDER BY open_month, open_day");
 
 echo "<br>\n";
 echo "<table class='listing'>";
 
 $current_month = -1;
 
-while ( $row = mysql_fetch_assoc($result) )
+while ( $row = mysqli_fetch_assoc($result) )
 {
     $month = $row['open_month'];
 
@@ -51,9 +51,9 @@ while ( $row = mysql_fetch_assoc($result) )
 
     echo "<tr>";
     echo "<td style='background-color: #" . $row['color'] . ";'>";
-    echo "<a href=\"projectmgr.php?show=search&special_day[]=";
-    echo attr_safe($row['spec_code']) ."&n_results_per_page=100\" title=\"";
-    echo attr_safe($row['display_name']) ."\">\n";
+    echo "<a href=\"projectmgr.php?show=search&amp;special_day%5B%5D=";
+    echo urlencode($row['spec_code']) ."&amp;n_results_per_page=100\" title=\"";
+    echo urlencode($row['display_name']) ."\">\n";
     echo html_safe($row['display_name']) . "</a>";
     echo "</td>\n";
     echo "<td style='background-color: #" . $row['color'] . ";'>";
@@ -66,7 +66,7 @@ while ( $row = mysql_fetch_assoc($result) )
         echo _("N/A"); // Translators: N/A = "Not applicable"
     echo "</td>\n";
     echo "<td>";
-    echo "<a href='" . $row['info_url'] . "'>";
+    echo "<a href='" . urlencode($row['info_url']) . "'>";
     echo html_safe($row['info_url']) . "</a></td>\n";
     echo "</tr>\n";
 }

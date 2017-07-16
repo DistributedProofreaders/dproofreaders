@@ -10,12 +10,12 @@ include_once($relPath.'page_tally.inc');
 
 function page_del( $projectid, $image )
 {
-    $result = mysql_query("
+    $result = mysqli_query(DPDatabase::get_connection(), "
         SELECT image
         FROM $projectid
         WHERE image = '$image'
     ");
-    if ( mysql_num_rows($result) == 0 )
+    if ( mysqli_num_rows($result) == 0 )
     {
         return _("There is no page with that imagename.");
     }
@@ -48,12 +48,12 @@ function page_clear( $projectid, $image )
         return _("The project is not in a state that allows pages to be cleared.");
     }
 
-    $result = mysql_query("
+    $result = mysqli_query(DPDatabase::get_connection(), "
         SELECT state, {$round->user_column_name}
         FROM $projectid
         WHERE image = '$image'
     ");
-    $row = mysql_fetch_row($result);
+    $row = mysqli_fetch_row($result);
     if ( !$row )
     {
         return _("There is no page with that imagename.");

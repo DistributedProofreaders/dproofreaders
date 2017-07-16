@@ -7,7 +7,7 @@ include_once($relPath.'misc.inc'); // get_enumerated_param
 // for groups of quizzes that go together
 class QuizLevel
 {
-    function QuizLevel($level_id, $level_name, $activity_type, $info, $quizzes)
+    function __construct($level_id, $level_name, $activity_type, $info, $quizzes)
     {
         $this->level_id = $level_id;
         $this->level_name = $level_name;         // name for the category of quizzes
@@ -31,7 +31,7 @@ class Quiz
     static $valid_quiz_page_ids = array();
     static $map_quiz_page_id_to_Quiz = array();
 
-    function Quiz($id, $name, $short_name, $description, $thread, $pages, $pass_requirements)
+    function __construct($id, $name, $short_name, $description, $thread, $pages, $pass_requirements)
     {
         $this->id = $id;
         $this->name = $name;               // appears in the top of the quiz's table
@@ -67,11 +67,11 @@ class Quiz
             $pages_required_results[$quiz_page_id] = "no";
         }
 
-        $result = mysql_query("
+        $result = mysqli_query(DPDatabase::get_connection(), "
             SELECT * FROM quiz_passes
             WHERE username='$username'
         ");
-        while ($attempt = mysql_fetch_object($result))
+        while ($attempt = mysqli_fetch_object($result))
         {
             if($attempt->result != "pass") continue;
             if(array_key_exists($attempt->quiz_page, $pages_required_results))
@@ -228,22 +228,22 @@ function get_Quiz_containing_page($quiz_page_id)
 
 function record_quiz_attempt($username, $quiz_page_id, $result)
 {
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT * FROM quiz_passes
         WHERE username='$username' AND quiz_page='$quiz_page_id'
     ");
     $now = time();
-    if (mysql_num_rows($res) > 0)
+    if (mysqli_num_rows($res) > 0)
     {
         // The user has already passed this page; update the timestamp
-        mysql_query("
+        mysqli_query(DPDatabase::get_connection(), "
             UPDATE quiz_passes SET date= '$now'
             WHERE username='$username' AND quiz_page='$quiz_page_id'
         ");
     }
     else
     {
-        mysql_query("
+        mysqli_query(DPDatabase::get_connection(), "
             INSERT INTO quiz_passes
             VALUES('$username', '$now', '$quiz_page_id', '$result')
         ");
@@ -254,11 +254,11 @@ function user_has_passed_quiz_page($username, $quiz_page_id, $pass_requirements 
 {
     // This function could fairly easily lookup the quizzes to see what $pass_requirements should be,
     // but by calling it without that argument, it's possible to tell the user *why* they haven't passed.
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT * FROM quiz_passes
         WHERE username='$username' AND quiz_page='$quiz_page_id'
     ");
-    $row = mysql_fetch_assoc($res);
+    $row = mysqli_fetch_assoc($res);
     if(!$row)
         return false;
 
@@ -272,11 +272,11 @@ function user_has_passed_quiz_page($username, $quiz_page_id, $pass_requirements 
 
 function get_last_attempt_date_for_quiz_page($username, $quiz_page_id)
 {
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT date FROM quiz_passes
         WHERE username='$username' AND quiz_page='$quiz_page_id'
     ");
-    $row = mysql_fetch_assoc($res);
+    $row = mysqli_fetch_assoc($res);
     if(!$row)
         return false;
 

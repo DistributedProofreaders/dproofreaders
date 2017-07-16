@@ -11,8 +11,8 @@ if(!requester_is_localhost())
 
 $old_date = time() - 15768000; // 6 months ago.
 
-$result = mysql_query ("UPDATE `users` SET active = 'no' WHERE t_last_activity < $old_date AND active ='yes'");
-$numrows = mysql_affected_rows();
+$result = mysqli_query(DPDatabase::get_connection(), "UPDATE `users` SET active = 'no' WHERE t_last_activity < $old_date AND active ='yes'");
+$numrows = mysqli_affected_rows(DPDatabase::get_connection());
 
 if($numrows)
 {

@@ -212,12 +212,12 @@ function html_logobar() {
 
     if (0) {
         // show number of projects posted to PG
-        $result = mysql_query( "
+        $result = mysqli_query(DPDatabase::get_connection(),  "
             SELECT COUNT(*) as numproj
             FROM projects
             WHERE $psd->state_selector
         ");
-        $row = mysql_fetch_assoc($result);
+        $row = mysqli_fetch_assoc($result);
         echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='4'><b>";
         echo sprintf(
             _('%s projects completed!'),
@@ -230,12 +230,12 @@ function html_logobar() {
         // show number of books posted to PG
         // (takes into account that some books are processed as several projects)
 
-        $result = mysql_query( "
+        $result = mysqli_query(DPDatabase::get_connection(),  "
             SELECT COUNT(distinct postednum) as numproj
             FROM projects
             WHERE $psd->state_selector
         ");
-        $row = mysql_fetch_assoc($result);
+        $row = mysqli_fetch_assoc($result);
         echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='3'><b>";
         echo sprintf(
             _('%s titles preserved for the world!'),
@@ -684,8 +684,8 @@ function show_tally_specific_stats( $tally_name )
         strftime(_("%B's Total") . ":"), $site_stats->curr_month_actual );
 
     // Number of users
-    $res = mysql_query("SELECT COUNT(*) FROM users" );
-    list($num_users) = mysql_fetch_row($res);
+    $res = mysqli_query(DPDatabase::get_connection(), "SELECT COUNT(*) FROM users" );
+    list($num_users) = mysqli_fetch_row($res);
     echo '&nbsp;', sprintf( _('%s users'), number_format($num_users) ), "<br>\n";
 
     $tallyboard = new TallyBoard( $tally_name, 'U' );
@@ -810,12 +810,12 @@ function show_user_teams()
     echo "</font>";
     echo "</center>";
     echo "\n";
-    $teamRes=mysql_query("
+    $teamRes=mysqli_query(DPDatabase::get_connection(), "
         SELECT teamname, id
         FROM user_teams
         WHERE id IN ({$userP['team_1']}, {$userP['team_2']}, {$userP['team_3']})
     ");
-    while($row = mysql_fetch_assoc($teamRes))
+    while($row = mysqli_fetch_assoc($teamRes))
     {
         echo "<font color='".$theme['color_navbar_font']."' face='".$theme['font_navbar']."' size='2'>";
         echo "&nbsp;";
@@ -864,9 +864,9 @@ function show_birthdays()
         ORDER BY date_created ASC
     ", strftime("%m-%d"), $oldest_activity, $timestamp_at_midnight);
 
-    $result = mysql_query($sql);
+    $result = mysqli_query(DPDatabase::get_connection(), $sql);
 
-    if (mysql_num_rows($result) == 0)
+    if (mysqli_num_rows($result) == 0)
         return;
 
     echo "<center><b>" . sprintf(_("Today's %s Birthdays"),$site_abbreviation) . ":</b></center>\n";
@@ -875,7 +875,7 @@ function show_birthdays()
         color: $theme[color_navbar_font];'>";
 
     $today = getdate(time());
-    while ( list($username, $date_created) = mysql_fetch_row($result) )
+    while ( list($username, $date_created) = mysqli_fetch_row($result) )
     {
         $user_date = getdate($date_created);
         $years = $today['year'] - $user_date['year'];
@@ -912,14 +912,14 @@ function show_completed_projects($terse = FALSE)
         // TRANSLATORS: This is an strftime-formatted string
         $displaydate = strftime(_("%b %Y"), $begindate );
 
-        $result = mysql_query("
+        $result = mysqli_query(DPDatabase::get_connection(), "
             SELECT COUNT(*) as totalprojects
             FROM projects
             WHERE modifieddate >= $begindate
                 and modifieddate <= $enddate
                 and state = '".PROJ_SUBMIT_PG_POSTED."'
         ");
-        $row = mysql_fetch_assoc($result);
+        $row = mysqli_fetch_assoc($result);
         $totalprojects = $row["totalprojects"];
 
         if ($terse) {

@@ -133,7 +133,7 @@ echo "<table border='1'>";
 show_headings($colspecs, 'proof', $username);
 
 $n_rows_displayed = 0;
-while ( $row = mysql_fetch_object($res) )
+while ( $row = mysqli_fetch_object($res) )
 {
     if ( $row->state == PROJ_DELETE)
     {
@@ -264,7 +264,7 @@ $query = "
 
 $result = dpsql_query($query);
 
-$num_projects = mysql_num_rows($result);
+$num_projects = mysqli_num_rows($result);
 if($num_projects > 0)
 {
     echo "<a name='reserved' id='reserved'></a><h2>$heading_reserved</h2>\n";
@@ -275,7 +275,7 @@ if($num_projects > 0)
 
     show_headings($colspecs, 'reserved', $username);
 
-    while ( $row = mysql_fetch_object($result) )
+    while ( $row = mysqli_fetch_object($result) )
     {
         echo "<tr>\n";
 

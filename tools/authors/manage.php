@@ -84,18 +84,18 @@ if (isset($_POST) && count($_POST)>0) {
     if (count($delete_authors) != 0) {
       $clause = '(author_id=' . join(' OR author_id=', $delete_authors) . ')';
       $query = "SELECT author_id, last_modified FROM authors WHERE $clause";
-      $result = mysql_query($query);
+      $result = mysqli_query(DPDatabase::get_connection(), $query);
       $authors_lastmodified = array();
-      while ($row = mysql_fetch_row($result))
+      while ($row = mysqli_fetch_row($result))
         $authors_lastmodified[$row[0]] = $row[1];
     }
 
     if (count($delete_bios) != 0) {
       $clause = '(bio_id=' . join(' OR bio_id=', $delete_bios) . ')';
       $query = "SELECT bio_id, last_modified FROM biographies WHERE $clause";
-      $result = mysql_query($query);
+      $result = mysqli_query(DPDatabase::get_connection(), $query);
       $bios_lastmodified = array();
-      while ($row = mysql_fetch_row($result))
+      while ($row = mysqli_fetch_row($result))
         $bios_lastmodified[$row[0]] = $row[1];
     }
 
@@ -109,9 +109,6 @@ if (isset($_POST) && count($_POST)>0) {
     //   Display table. Also error message.
     //   Everything pre-selected?
 
-    // $timestamp = mysql_result(mysql_query('SELECT CURRENT_TIMESTAMP AS time'), 0, 'time');
-    // echo "<input type='hidden' name='timestamp' value='$timestamp' />";
-
 */
 
     // Those that do not pass the time-check are stored in arrays:
@@ -120,23 +117,23 @@ if (isset($_POST) && count($_POST)>0) {
 
     // 1. delete bios
     foreach ($delete_bios as $bio)
-        mysql_query("DELETE FROM biographies WHERE bio_id = $bio");
+        mysqli_query(DPDatabase::get_connection(), "DELETE FROM biographies WHERE bio_id = $bio");
 
     // 2. move bios
     if ($moveTo) {
         foreach ($move_bios as $bio)
-            mysql_query("UPDATE biographies SET author_id = $moveTo WHERE bio_id = $bio");
+            mysqli_query(DPDatabase::get_connection(), "UPDATE biographies SET author_id = $moveTo WHERE bio_id = $bio");
     }
 
     // 3. delete authors
     foreach ($delete_authors as $author) {
-        mysql_query("DELETE FROM authors WHERE author_id = $author");
+        mysqli_query(DPDatabase::get_connection(), "DELETE FROM authors WHERE author_id = $author");
     }
 
     // 4. enable/disable authors
     $count = count($enable_author_values);
     for ($i = 0; $i < $count; $i++)
-        mysql_query("UPDATE authors SET enabled = '${enable_author_values[$i]}' WHERE author_id = ${enable_author_ids[$i]}");
+        mysqli_query(DPDatabase::get_connection(), "UPDATE authors SET enabled = '${enable_author_values[$i]}' WHERE author_id = ${enable_author_ids[$i]}");
 
 }
 
@@ -480,11 +477,11 @@ $javascript_to_disable_delete_authors = '';
 $count = $browseUtility->getRowCountToList();
 $i = 0;
 
-while ($i++ < $count && $author = @mysql_fetch_array($result)) {
+while ($i++ < $count && $author = @mysqli_fetch_array($result)) {
     echo "<tr><td colspan='13'></td></tr>\n";
     $id = $author['author_id'];
-    $bioresult = mysql_query("SELECT bio_id FROM biographies WHERE author_id = $id ORDER BY bio_id;");
-    $bio_count = mysql_num_rows($bioresult);
+    $bioresult = mysqli_query(DPDatabase::get_connection(), "SELECT bio_id FROM biographies WHERE author_id = $id ORDER BY bio_id;");
+    $bio_count = mysqli_num_rows($bioresult);
 
     if ($bio_count > 0) {
         $javascript_to_disable_delete_authors .= "document.adminform.delete_author_$id.disabled = true;\n";
@@ -508,7 +505,7 @@ while ($i++ < $count && $author = @mysql_fetch_array($result)) {
          "<td rowspan='$bio_count'><a href=\"add.php?author_id=$id&mode=manage\">" . _('Edit') . "</a></td>\n    " .
          "<td rowspan='$bio_count'></td>\n    ";
     for ($j = 0; $j < $bio_count; $j++) {
-        $row = mysql_fetch_assoc($bioresult);
+        $row = mysqli_fetch_assoc($bioresult);
         $bio_id = $row["bio_id"];
         if ($j != 0)
             echo "<tr>";

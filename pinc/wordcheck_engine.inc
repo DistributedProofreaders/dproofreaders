@@ -168,7 +168,7 @@ function get_bad_words_for_text( $text, $projectid, $imagefile, $aux_language, $
 
 class BadWordAccumulator
 {
-    function BadWordAccumulator()
+    function __construct()
     {
         $this->words = array();
         // Each key is a bad word, and its value is
@@ -448,10 +448,10 @@ function delete_project_wordcheck_events($projectid)
 // Delete any wordcheck_events for this project.
 // This is called when deleting a project.
 {
-    mysql_query(sprintf("
+    mysqli_query(DPDatabase::get_connection(), sprintf("
         DELETE FROM wordcheck_events
         WHERE projectid='%s'
-        ", mysql_real_escape_string($projectid)));
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $projectid)));
 }
 
 function merge_project_wordcheck_data($from_projectid, $to_projectid)
@@ -492,10 +492,10 @@ function copy_project_wordcheck_events($from_projectid, $to_projectid)
         SELECT '%s', timestamp, image, round_id, username, suggestions, corrections
         FROM wordcheck_events 
         WHERE projectid = '%s'
-        ", mysql_real_escape_string($to_projectid),
-        mysql_real_escape_string($from_projectid));
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $to_projectid),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $from_projectid));
 
-    mysql_query($sql);
+    mysqli_query(DPDatabase::get_connection(), $sql);
     // no results for an INSERT clause, so no need to free the results.
 }
 
@@ -515,8 +515,8 @@ function save_wordcheck_event($projectid,$round,$page,$proofer,$suggestions,$cor
     $correction_list = implode("\n",$correction_list);
 
     // escape single quotes
-    $suggestion_list = mysql_real_escape_string($suggestion_list);
-    $correction_list = mysql_real_escape_string($correction_list);
+    $suggestion_list = mysqli_real_escape_string(DPDatabase::get_connection(), $suggestion_list);
+    $correction_list = mysqli_real_escape_string(DPDatabase::get_connection(), $correction_list);
 
     $time = time();
 
@@ -525,8 +525,8 @@ function save_wordcheck_event($projectid,$round,$page,$proofer,$suggestions,$cor
             round_id='$round', username='$proofer', suggestions='$suggestion_list',
             corrections='$correction_list'";
 
-    if(mysql_query($sql) === FALSE) {
-        return sprintf(_("Error adding suggestions to wordcheck_events: %s"),mysql_error());
+    if(mysqli_query(DPDatabase::get_connection(), $sql) === FALSE) {
+        return sprintf(_("Error adding suggestions to wordcheck_events: %s"),mysqli_error(DPDatabase::get_connection()));
     }
 }
 
@@ -541,12 +541,12 @@ function count_wordcheck_suggestion_events($projectid, $start_time=0)
             WHERE projectid='$projectid' 
             AND timestamp>$start_time AND suggestions<>''";
 
-    $res = mysql_query($sql);
+    $res = mysqli_query(DPDatabase::get_connection(), $sql);
     if ($res === FALSE) return 0;
     
-    $row = mysql_fetch_assoc($res);
+    $row = mysqli_fetch_assoc($res);
 
-    mysql_free_result($res);
+    mysqli_free_result($res);
 
     return $row["numevents"];
 }
@@ -557,11 +557,11 @@ function load_wordcheck_events($projectid, $start_time=0) {
 
     $eventArray = array();
 
-    $res = mysql_query($sql);
+    $res = mysqli_query(DPDatabase::get_connection(), $sql);
 
     if($res === FALSE) return $eventArray;
 
-    while($resultSet = mysql_fetch_assoc($res)) {
+    while($resultSet = mysqli_fetch_assoc($res)) {
         $time = $resultSet["timestamp"];
         $round = $resultSet["round_id"];
         $page = $resultSet["image"];
@@ -582,7 +582,7 @@ function load_wordcheck_events($projectid, $start_time=0) {
         array_push($eventArray,array($time,$round,$page,$proofer,$words,$corrections));
     }
 
-    mysql_free_result($res);
+    mysqli_free_result($res);
 
     return $eventArray;
 }

@@ -3,9 +3,8 @@
 // One-time script to create 'special_days' table
 
 $relPath='../../../pinc/';
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-new dbConnect();
 
 // -----------------------------------------------
 // Create 'special_days' table.

@@ -1,7 +1,6 @@
 <?php
 $relPath = '../../../pinc/';
-include_once($relPath.'connect.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
 
 echo "Creating 'user_active_log' table...\n";
 $sql = "
@@ -19,7 +18,7 @@ $sql = "
         KEY timestamp_ndx (time_stamp)
     ) TYPE=MyISAM
 ";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 echo "\nDone!\n";
 ?>

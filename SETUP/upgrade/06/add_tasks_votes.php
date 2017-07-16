@@ -1,7 +1,6 @@
 <?php
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-$db_Connection=new dbConnect();
+include_once($relPath.'base.inc');
 
 echo "Creating 'tasks_votes' table...\n";
 $sql = 'CREATE TABLE `tasks_votes` ('
@@ -14,7 +13,7 @@ $sql = 'CREATE TABLE `tasks_votes` ('
         . ' UNIQUE (`id`)'
         . ' )';
         
-$result = mysql_query($sql) or die(mysql_error());
+$result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "\nDone!\n";
 ?>

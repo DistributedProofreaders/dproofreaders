@@ -28,14 +28,14 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
 $result = select_from_teams("id = {$req_team_id}");
-$curTeam = mysql_fetch_assoc($result);
+$curTeam = mysqli_fetch_assoc($result);
 
 $team_id = $curTeam['id'];
 
 //Team info portion of $data
 
-$result = mysql_query("SELECT COUNT(id) AS totalTeams FROM user_teams");
-$row = mysql_fetch_assoc($result);
+$result = mysqli_query(DPDatabase::get_connection(), "SELECT COUNT(id) AS totalTeams FROM user_teams");
+$row = mysqli_fetch_assoc($result);
 $totalTeams = $row["totalTeams"];
 
 $data = "<teaminfo id='$team_id'>
@@ -78,13 +78,13 @@ $data .= "
 
 //Team members portion of $data
 $data .= "<teammembers>";
-$mbrQuery = mysql_query("
+$mbrQuery = mysqli_query(DPDatabase::get_connection(), "
     SELECT username, date_created, u_id, u_privacy
     FROM users
     WHERE $team_id IN (team_1, team_2, team_3)
     ORDER BY username ASC
 ");
-while ($curMbr = mysql_fetch_assoc($mbrQuery))
+while ($curMbr = mysqli_fetch_assoc($mbrQuery))
 {
     if ($curMbr['u_privacy'] == PRIVACY_PUBLIC)
     {

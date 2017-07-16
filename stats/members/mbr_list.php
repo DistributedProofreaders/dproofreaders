@@ -22,37 +22,37 @@ if (!empty($uname)) {
     {
         $where_clause = sprintf("
             WHERE username='%s'
-        ", mysql_real_escape_string($uname));
+        ", mysqli_real_escape_string(DPDatabase::get_connection(), $uname));
     }
     else
     {
         $where_clause = sprintf("
             WHERE username LIKE '%%%s%%'
-        ", addcslashes(mysql_real_escape_string($uname), "%_"));
+        ", addcslashes(mysqli_real_escape_string(DPDatabase::get_connection(), $uname), "%_"));
     }
 
-    $mResult = mysql_query("
+    $mResult = mysqli_query(DPDatabase::get_connection(), "
         SELECT u_id, username, date_created, u_privacy
         FROM users
         $where_clause
         ORDER BY $order $direction
         LIMIT $mstart,20
     ");
-    $mRows = mysql_num_rows($mResult);
+    $mRows = mysqli_num_rows($mResult);
     if ($mRows == 1)
     {
-        $row = mysql_fetch_assoc($mResult);
+        $row = mysqli_fetch_assoc($mResult);
         metarefresh(0, "mdetail.php?id=".$row["u_id"]);
     }
     $uname = "uname=".$uname."&";
 } else {
-    $mResult=mysql_query("
+    $mResult=mysqli_query(DPDatabase::get_connection(), "
         SELECT u_id, username, date_created, u_privacy
         FROM users
         ORDER BY $order $direction
         LIMIT $mstart,20
     ");
-    $mRows = mysql_num_rows($mResult);
+    $mRows = mysqli_num_rows($mResult);
     $uname = "";
 }
 
@@ -75,7 +75,7 @@ echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 echo "</tr>";
 if (!empty($mRows)) {
     $i = 0;
-    while ($row = mysql_fetch_assoc($mResult)) {
+    while ($row = mysqli_fetch_assoc($mResult)) {
             if (($i % 2) == 0) { echo "<tr bgcolor='".$theme['color_mainbody_bg']."'>"; } else { echo "<tr bgcolor='".$theme['color_navbar_bg']."'>"; }
 
         if ( can_reveal_details_about($row['username'], $row['u_privacy']) ) {

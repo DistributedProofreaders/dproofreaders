@@ -126,7 +126,7 @@ $res2 = dpsql_query("
     ORDER BY time_of_latest_save DESC
 ") or die("Aborting");
 
-$num_projects = mysql_num_rows($res2);
+$num_projects = mysqli_num_rows($res2);
 echo "<p>" . sprintf(_('<b>%1$d</b> projects with pages saved in <b>%2$s</b> by <b>%3$s</b> within the last <b>%4$d</b> days.'), $num_projects, $work_round->id, $username, $days) . "</p>";
 
 // ---------------------------------------------
@@ -175,7 +175,7 @@ $projects_done = array(); // the projects that we've done rows for
 
 // go through the list of projects with pages saved in the work round, according
 // to the page_events table
-while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save) = mysql_fetch_row($res2) )
+while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save) = mysqli_fetch_row($res2) )
 {
     // $url = "$code_url/project.php?id=$projectid&amp;detail_level=4";
     $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username&amp;select_by_round=$work_round_id";
@@ -197,8 +197,8 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
         $deleted_state = $state;
         $deleted_nameofwork = $nameofwork;
         $deleted_url = "$code_url/tools/project_manager/project.php?id=$deleted_projectid";
-        $dres = mysql_query("SELECT state, nameofwork FROM projects WHERE projectid = '$projectid'");
-        list($state, $nameofwork) = mysql_fetch_row($dres);
+        $dres = mysqli_query(DPDatabase::get_connection(), "SELECT state, nameofwork FROM projects WHERE projectid = '$projectid'");
+        list($state, $nameofwork) = mysqli_fetch_row($dres);
         // OK, the information is now all for the project that the deleted one was merged into
         $messages[] = array("<a href='$deleted_url'>$deleted_nameofwork</a>",
                             $deleted_state,
@@ -230,12 +230,12 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
 
     // see if it actually went through the review round. If there are no users in that
     // column, then it hasn't gone through the round.
-    $review_round_result = mysql_query("
+    $review_round_result = mysqli_query(DPDatabase::get_connection(), "
         SELECT COUNT(*) 
         FROM $projectid 
         WHERE {$review_round->user_column_name} != ''
        ");
-    list($done_in_rround) = mysql_fetch_row($review_round_result);
+    list($done_in_rround) = mysqli_fetch_row($review_round_result);
     if (0 == $done_in_rround) {
         // hasn't been proofread in review round. We are not interested.
         $messages[] = array("<a href='$url'>$nameofwork</a>",
@@ -256,11 +256,11 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
             IFNULL( SUM($has_been_saved_in_review_round AND $there_is_a_diff), 0 )
         FROM $projectid
         WHERE {$work_round->user_column_name}='$username'";
-    $res3 = mysql_query($query);
+    $res3 = mysqli_query(DPDatabase::get_connection(), $query);
     if ( $res3 !== FALSE )
     {
-        list( $n_saved, $n_latered, $n_with_diff ) = mysql_fetch_row($res3);
-        mysql_free_result($res3);
+        list( $n_saved, $n_latered, $n_with_diff ) = mysqli_fetch_row($res3);
+        mysqli_free_result($res3);
         if($n_latered > 0)
             $n_with_diff_percent = sprintf("%d",($n_with_diff/$n_latered)*100);
         else $n_with_diff_percent = 0;
@@ -268,7 +268,7 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
     }
     else
     {
-        die( mysql_error() );
+        die( mysqli_error(DPDatabase::get_connection()) );
     }
 
     // now get the $sampleLimit most recent pages that are different
@@ -284,13 +284,13 @@ while ( list($projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_
                  {$work_round->user_column_name} = '$username'
            ORDER BY {$work_round->time_column_name} DESC, image 
            LIMIT $sampleLimit";
-        $result = mysql_query($query);
+        $result = mysqli_query(DPDatabase::get_connection(), $query);
         if ( $result !== FALSE ) {
             $diffLinkString="";
-            while( list($image) = mysql_fetch_row($result) ) {
+            while( list($image) = mysqli_fetch_row($result) ) {
                 $diffLinkString.="<a href='../project_manager/diff.php?project=$projectid&amp;image=$image&amp;L_round_num=$work_round->round_number&amp;R_round_num=$review_round->round_number'>$image</a> ";
             }
-            mysql_free_result($result);
+            mysqli_free_result($result);
         } 
     }
 

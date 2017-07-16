@@ -28,16 +28,16 @@ if ($author_id) {
     if ($author_id) {
       // this author actually exists - not only Preview before adding
       // list biographies (if any)
-      $result = mysql_query("SELECT bio_id FROM biographies WHERE author_id = $author_id;");
-      $numrow = mysql_num_rows($result);
-      $row = mysql_fetch_assoc($result);
+      $result = mysqli_query(DPDatabase::get_connection(), "SELECT bio_id FROM biographies WHERE author_id = $author_id;");
+      $numrow = mysqli_num_rows($result);
+      $row = mysqli_fetch_assoc($result);
       $bio_id = $row["bio_id"];
       if ($numrow == 1) {
         echo "<tr><th>" . _('Biography') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_('Biography %d'),$bio_id) . "</a></td></tr>\n";
       }
       elseif ($numrow > 1) {
         echo "<tr><th rowspan=\"$numrow\" valign=\"top\">" . _('Biographies') . "</th><td><a href=\"bio.php?bio_id=$bio_id\">" . _('Biography') . " $bio_id</a></td></tr>\n";
-        while($row = mysql_fetch_assoc($result)) {
+        while($row = mysqli_fetch_assoc($result)) {
           $bio_id = $row["bio_id"];
           echo "<tr><td><a href=\"bio.php?bio_id=$bio_id\">" . sprintf(_("Biography %d"), $bio_id) . "</a></td></tr>\n";
         }

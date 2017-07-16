@@ -3,9 +3,8 @@
 // One-time script to create & populate 'current_tallies' table
 
 $relPath='../../../pinc/';
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-new dbConnect();
 
 header('Content-type: text/plain');
 
@@ -73,14 +72,14 @@ $res = dpsql_query("
     WHERE id=1
 ") or die("Aborting.");
 
-if ( mysql_num_rows($res) == 0 )
+if ( mysqli_num_rows($res) == 0 )
 {
     echo "No team #1 entry in user_teams, which is unusual.\n";
 }
 else
 {
     $info = '';
-    foreach ( mysql_fetch_assoc($res) as $key => $value )
+    foreach ( mysqli_fetch_assoc($res) as $key => $value )
     {
         $info .= "$key: $value\n";
     }

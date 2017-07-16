@@ -229,17 +229,17 @@ function echo_page_table(
         $where_condition = "image IN ($imagenames_str)";
     }
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT $fields_to_get
         FROM $tables
         WHERE $where_condition
         ORDER BY image ASC
-    ") or die(mysql_error());
-    $num_rows = mysql_num_rows($res);
+    ") or die(mysqli_error(DPDatabase::get_connection()));
+    $num_rows = mysqli_num_rows($res);
 
     for ( $rownum=0; $rownum < $num_rows; $rownum++ )
     {
-        $page_res = mysql_fetch_array( $res, MYSQL_ASSOC );
+        $page_res = mysqli_fetch_assoc($res);
 
         $imagename = $page_res['image'];
 
@@ -466,11 +466,11 @@ function get_rounds_with_data( $projectid )
     }
     $body = join($sums,',');
 
-    $res = mysql_query("
+    $res = mysqli_query(DPDatabase::get_connection(), "
         SELECT $body
         FROM $projectid
-    ") or die(mysql_error());
-    $num_filled_user_fields_for_round_ = mysql_fetch_assoc($res);
+    ") or die(mysqli_error(DPDatabase::get_connection()));
+    $num_filled_user_fields_for_round_ = mysqli_fetch_assoc($res);
 
     foreach ( $Round_for_round_id_ as $round_id => $round )
     {

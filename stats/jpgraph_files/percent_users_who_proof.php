@@ -15,7 +15,7 @@ $graph = init_simple_bar_graph(640, 400, 900);
 // get the number who joined,
 // and the number of those who have proofread at least one page.
 //
-$result = mysql_query("
+$result = mysqli_query(DPDatabase::get_connection(), "
     SELECT
         FROM_UNIXTIME(date_created, '%Y-%m')
           AS month,
@@ -33,7 +33,7 @@ $result = mysql_query("
 // This may lead to a misleading graph,
 // depending on its style.
 
-while ( $row = mysql_fetch_object($result) )
+while ( $row = mysqli_fetch_object($result) )
 {
         $datax[]  = $row->month;
         $data1y[] = 100 *  $row->num_who_proofed / $row->num_who_joined;

@@ -46,21 +46,21 @@ else
         . sprintf(_("Show All %s News"), $news_subject) . "</a>";
 }
 
-$result = mysql_query(sprintf("
+$result = mysqli_query(DPDatabase::get_connection(), sprintf("
     SELECT * FROM news_items 
     WHERE news_page_id = '%s' AND 
         status = 'recent'
     ORDER BY id DESC
     $limit_clause
-", mysql_real_escape_string($news_page_id)));
+", mysqli_real_escape_string(DPDatabase::get_connection(), $news_page_id)));
 
-if (mysql_num_rows($result)== 0)
+if (mysqli_num_rows($result)== 0)
 {
     echo "<br><br>" . sprintf(_("No recent news items for %s"), $news_subject);
 } 
 else 
 {
-    while($news_item = mysql_fetch_array($result)) {
+    while($news_item = mysqli_fetch_array($result)) {
         $date_posted = strftime(_("%A, %B %e, %Y"),$news_item['date_posted']);
         echo "<br><a name='".$news_item['id']."'><b>$date_posted</b><br>".$news_item['content']."<br><hr align='center' width='75%'><br>";
     }

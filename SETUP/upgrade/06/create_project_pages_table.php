@@ -1,8 +1,7 @@
 <?php
 $relPath = '../../../pinc/';
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'stages.inc');
-new dbConnect();
 
 echo "Creating 'project_pages' table...\n";
 
@@ -37,7 +36,7 @@ $sql = "
     TYPE = MYISAM
 ";
 
-mysql_query($sql) or die(mysql_error());
+mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
 
 echo "\nDone!\n";
 ?>

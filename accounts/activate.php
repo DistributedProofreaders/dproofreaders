@@ -18,9 +18,11 @@ function validate_userID($param_name, $value)
 
 $ID = validate_userID('id', @$_GET['id']);
 
-$result = mysql_query("SELECT * FROM non_activated_users WHERE id='$ID'");
-$user = mysql_fetch_assoc($result);
-if (!$user)
+$result = mysqli_query(DPDatabase::get_connection(), "
+    SELECT * FROM non_activated_users WHERE id='$ID'
+");
+$user = mysqli_fetch_assoc($result);
+if(!$user)
 {
     // If the user is already activated, and the activated user is the
     // one that is logged in, redirect them to the Activity Hub. This can
@@ -115,22 +117,38 @@ if($create_user_status !== TRUE) {
 }
 
 // Delete record in non_activated_users.
-mysql_query("DELETE FROM non_activated_users WHERE id='$ID'");
+mysqli_query(DPDatabase::get_connection(), "
+    DELETE FROM non_activated_users WHERE id='$ID'
+");
 
 // Insert into 'real' table -- users
-$query = sprintf("INSERT INTO users (id, real_name, username, email, manager, date_created, email_updates, u_plist, u_top10, u_neigh, u_intlang) VALUES ('%s', '%s', '%s', '%s', 'no', $date_created, $email_updates, 3, 1, 10, '%s')", mysql_real_escape_string($ID), mysql_real_escape_string($real_name), mysql_real_escape_string($username), mysql_real_escape_string($email), mysql_real_escape_string($u_intlang));
+$query = sprintf("
+    INSERT INTO users (id, real_name, username, email, manager, date_created,
+                       postprocessor, sitemanager, active,
+                       email_updates, u_plist, u_top10, u_neigh, u_intlang)
+    VALUES ('%s', '%s', '%s', '%s', 'no', $date_created, '', '', '', $email_updates, 3, 1, 10, '%s')
+    ",  mysqli_real_escape_string(DPDatabase::get_connection(), $ID),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $real_name),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $username),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $email),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $u_intlang)
+);
 
-$result = mysql_query ($query) or die(mysql_error());
-$u_id = mysql_insert_id($db_Connection->db_lk); // auto-incremented users.u_id
+$result = mysqli_query(DPDatabase::get_connection(), $query) or die(mysqli_error(DPDatabase::get_connection()));
+$u_id = mysqli_insert_id(DPDatabase::get_connection()); // auto-incremented users.u_id
 
 // create profile
 $profileString="INSERT INTO user_profiles SET u_ref=$u_id";
-$makeProfile=mysql_query($profileString);
-$profile_id = mysql_insert_id($db_Connection->db_lk); // auto-incremented user_profiles.id
+$makeProfile = mysqli_query(DPDatabase::get_connection(), $profileString);
+$profile_id = mysqli_insert_id(DPDatabase::get_connection()); // auto-incremented user_profiles.id
 
 // add ref to profile
-$refString=sprintf("UPDATE users SET u_profile=$profile_id WHERE id='%s' AND username='%s'", mysql_real_escape_string($ID), mysql_real_escape_string($username));
-$makeRef=mysql_query($refString);
+$refString=sprintf("
+    UPDATE users SET u_profile=$profile_id WHERE id='%s' AND username='%s'
+    ",  mysqli_real_escape_string(DPDatabase::get_connection(), $ID),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $username)
+);
+$makeRef = mysqli_query(DPDatabase::get_connection(), $refString);
 
 // Send them an introduction e-mail
 maybe_welcome_mail($email, $real_name, $username);

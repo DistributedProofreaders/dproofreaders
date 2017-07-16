@@ -81,7 +81,7 @@ echo "</tr>\n";
 
 // Body
 
-$result = mysql_query("
+$result = mysqli_query(DPDatabase::get_connection(), "
     SELECT
         nameofwork,
              postproofer,
@@ -97,7 +97,7 @@ $result = mysql_query("
 
 $rownum = 0;
 $listing_bgcolors = array($theme['color_listing_bg_1'], $theme['color_listing_bg_2']);
-while ( $project = mysql_fetch_object( $result ) )
+while ( $project = mysqli_fetch_object( $result ) )
 {
     $rownum++;
 

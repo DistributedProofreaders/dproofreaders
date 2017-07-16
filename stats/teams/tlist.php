@@ -22,16 +22,16 @@ if ($tname) {
         $where_body = "teamname LIKE '%$tname%'";
 
     $tResult = select_from_teams($where_body, "ORDER BY $order $direction LIMIT $tstart,20");
-    $tRows = mysql_num_rows($tResult);
+    $tRows = mysqli_num_rows($tResult);
     if ($tRows == 1)
     {
-        $row = mysql_fetch_assoc($tResult);
+        $row = mysqli_fetch_assoc($tResult);
         metarefresh(0, "tdetail.php?tid=" . $row["id"]);
     }
     $tname = "tname=" . urlencode($tname) . "&";
 } else {
     $tResult=select_from_teams("", "ORDER BY $order $direction LIMIT $tstart,20");
-    $tRows=mysql_num_rows($tResult);
+    $tRows=mysqli_num_rows($tResult);
     $tname = "";
 }
 
@@ -57,7 +57,7 @@ echo "<tr bgcolor='".$theme['color_navbar_bg']."'>";
 echo "</tr>\n";
 if (!empty($tRows)) {
     $i = 0;
-    while ($row = mysql_fetch_assoc($tResult)) {
+    while ($row = mysqli_fetch_assoc($tResult)) {
             if (($i % 2) == 0) { echo "<tr bgcolor='".$theme['color_mainbody_bg']."'>"; } else { echo "<tr bgcolor='".$theme['color_navbar_bg']."'>"; }
         echo "<td align='center'><a href='tdetail.php?tid=".$row['id']."'><img src='$team_icons_url/".$row['icon']."' width='25' height='25' alt='".attr_safe($row['teamname'])."' border='0'></a></td>";
         echo "<td align='center'><b>".$row['id']."</b></td>";

@@ -308,9 +308,9 @@ function update_user_table($username, $field, $value)
         UPDATE users
         SET $field = '%s'
         WHERE username = '%s'
-    ", mysql_real_escape_string($value),
-        mysql_real_escape_string($username));
-    mysql_query($sql) or die(mysql_error());
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $value),
+        mysqli_real_escape_string(DPDatabase::get_connection(), $username));
+    mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 // vim: sw=4 ts=4 expandtab

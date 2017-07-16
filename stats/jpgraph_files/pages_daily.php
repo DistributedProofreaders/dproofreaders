@@ -136,7 +136,7 @@ if ($c_or_i == 'increments')
             AND t1.timestamp > $where_start_timestamp
         ORDER BY t1.timestamp asc
         ";
-    $res = mysql_query($sql);
+    $res = mysqli_query(DPDatabase::get_connection(), $sql);
 
     // Get the earliest start date to use in our population of $moving_average
     // Because the results are sorted ascending by timestamp, the first one
@@ -145,14 +145,14 @@ if ($c_or_i == 'increments')
 
     // store the results in a date-based array we can use to populate the
     // graph's data array
-    while( $result = mysql_fetch_assoc($res) )
+    while( $result = mysqli_fetch_assoc($res) )
     {
         if($earliest_timestamp===null)
             $earliest_timestamp=$result["timestamp"];
 
         $average_lookup[strftime("%Y-%m-%d",$result["timestamp"])]=$result["sma"];
     }
-    mysql_free_result($res);
+    mysqli_free_result($res);
 
     // Don't start before the earliest timestamp
     $start_timestamp = max( $start_timestamp, $earliest_timestamp );

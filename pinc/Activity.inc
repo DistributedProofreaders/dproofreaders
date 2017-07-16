@@ -28,7 +28,7 @@ $Activity_for_id_ = array();
 
 class Activity
 {
-    function Activity(
+    function __construct(
         $id,
             // A very short mnemonic identifier for the activity.
             // (Should probably conform to the rules for a PHP variable name.)

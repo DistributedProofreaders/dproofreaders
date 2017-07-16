@@ -11,7 +11,7 @@ if(!requester_is_localhost())
 $res = dpsql_query("
     SELECT MAX(date) FROM site_tally_goals
 ") or die("Aborting");
-list($current_max_date) = mysql_fetch_row($res);
+list($current_max_date) = mysqli_fetch_row($res);
 
 if ( is_null($current_max_date) )
 {
@@ -40,8 +40,8 @@ for ( $i = 1; ; $i++ )
     $date = strftime( '%Y-%m-%d', strtotime( "$current_max_date + $i day" ) );
     if ( $date > $desired_max_date ) break;
 
-    mysql_data_seek( $res2, 0 ) or die(mysql_error());
-    while ( list($tally_name,$goal) = mysql_fetch_row($res2) )
+    mysqli_data_seek( $res2, 0 ) or die(mysqli_error(DPDatabase::get_connection()));
+    while ( list($tally_name,$goal) = mysqli_fetch_row($res2) )
     {
         if (!empty($values_list)) $values_list .= ',';
         $values_list .= "( '$date', '$tally_name', $goal )\n";

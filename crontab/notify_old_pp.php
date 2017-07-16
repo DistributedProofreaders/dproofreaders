@@ -16,10 +16,12 @@ $old_date = time() - 7776000; // 90 days ago.
 // 90 days
 
 //get projects that have been checked out longer than old_date
-$result = mysql_query("SELECT nameofwork, checkedoutby, modifieddate, projectid, authorsname,
-                           DATE_FORMAT(FROM_UNIXTIME(modifieddate), '%e %M  %Y') as nicedate
-                     FROM projects
-                     WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."' AND modifieddate <= $old_date ORDER BY checkedoutby, modifieddate");
+$result = mysqli_query(DPDatabase::get_connection(), "
+    SELECT nameofwork, checkedoutby, modifieddate, projectid, authorsname,
+    DATE_FORMAT(FROM_UNIXTIME(modifieddate), '%e %M  %Y') as nicedate
+    FROM projects
+    WHERE state = '".PROJ_POST_FIRST_CHECKED_OUT."' AND modifieddate <= $old_date ORDER BY checkedoutby, modifieddate
+");
 
 $rownum = 0;
 
@@ -29,7 +31,7 @@ $projectslist = "";
 $numprojs = 0;
 $urlbase = "$code_url/project.php?expected_state=proj_post_first_checked_out&id=";
 
-while ($row = mysql_fetch_assoc($result)) {
+while ($row = mysqli_fetch_assoc($result)) {
 
     $nameofwork = $row["nameofwork"];
     $authorsname = $row["authorsname"];

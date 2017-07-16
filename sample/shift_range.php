@@ -157,7 +157,7 @@ function shift_range( $projectid, $n_digits, $lo, $hi, $offset, $dryrun )
 				// Check whether a row for $png_filename_j already exists.
 				$q = "SELECT image FROM $projectid WHERE image='$png_filename_j'";
 				// echo "    $q\n";
-				if ( mysql_num_rows( dpsql_query($q) ) > 0 )
+				if ( mysqli_num_rows( dpsql_query($q) ) > 0 )
 				{
 					echo sprintf( _("ERROR: shift_range: %1\$s would become %2\$s, but there is already a row in the page table for the latter."), $png_filename_i, $png_filename_j) . "\n";
 					echo "</pre>";

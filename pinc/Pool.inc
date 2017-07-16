@@ -11,7 +11,7 @@ $Pool_for_state_ = array();
 class Pool extends Stage
 // A container for various constants relating to a particular pool.
 {
-    function Pool(
+    function __construct(
         $pool_id,
         $pool_name,
         $access_minima,
@@ -39,7 +39,7 @@ class Pool extends Stage
             // An array of strings to echo on the pool's home page.
     )
     {
-        $this->Stage(
+        parent::__construct(
             $pool_id,
             $pool_name,
             $access_minima,

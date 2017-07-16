@@ -1,8 +1,7 @@
 <?php
 
 $relPath='../../../pinc/';
-include($relPath.'connect.inc');
-new dbConnect();
+include_once($relPath.'base.inc');
 
 header('Content-type: text/plain');
 
@@ -25,7 +24,7 @@ $sql = "
 ";
 // "iste" = "is subscribed to event"
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 
 echo "Populating it with data from the usersettings table...\n";
@@ -44,7 +43,7 @@ $sql = "
     WHERE setting='posted_notice'
 ";
 echo "$sql\n";
-mysql_query($sql) or die( mysql_error() );
+mysqli_query(DPDatabase::get_connection(), $sql) or die( mysqli_error(DPDatabase::get_connection()) );
 
 // Here, we could probably just
 //     DELETE FROM usersettings WHERE setting='posted_notice'
@@ -55,32 +54,32 @@ mysql_query($sql) or die( mysql_error() );
 // to usersettings just after the INSERT...SELECT.
 
 echo "Removing that data from the usersettings table...\n";
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT username, projectid
     FROM user_project_info
     WHERE iste_posted=1
-") or die(mysql_error());
-while ( list($username,$projectid) = mysql_fetch_row($res) )
+") or die(mysqli_error(DPDatabase::get_connection()));
+while ( list($username,$projectid) = mysqli_fetch_row($res) )
 {
-    mysql_query("
+    mysqli_query(DPDatabase::get_connection(), "
         DELETE FROM usersettings
         WHERE username='$username'
             AND value='$projectid'
             AND setting='posted_notice'
-    ") or die(mysql_error());
+    ") or die(mysqli_error(DPDatabase::get_connection()));
 }
 
 // At this point, there shouldn't be any 'posted_notice' entries
 // left in usersettings.
-$res = mysql_query("
+$res = mysqli_query(DPDatabase::get_connection(), "
     SELECT username, value
     FROM usersettings
     WHERE setting='posted_notice'
-") or die(mysql_error());
-if ( mysql_num_rows($res) != 0 )
+") or die(mysqli_error(DPDatabase::get_connection()));
+if ( mysqli_num_rows($res) != 0 )
 {
     echo "This is odd: there are 'posted_notice' entries left in usersettings:\n";
-    while ( list($username,$projectid) = mysql_fetch_row($res) )
+    while ( list($username,$projectid) = mysqli_fetch_row($res) )
     {
         echo "    ", str_pad($username,25), " ", $projectid, "\n";
     }

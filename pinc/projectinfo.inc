@@ -6,28 +6,28 @@ include_once($relPath.'stages.inc');
 
 function Project_getNumPagesInState( $projectid, $page_state , $counter = "*")
 {
-    $res = mysql_query("SELECT COUNT($counter) FROM $projectid WHERE state='$page_state'");
+    $res = mysqli_query(DPDatabase::get_connection(), "SELECT COUNT($counter) FROM $projectid WHERE state='$page_state'");
     if (!$res)
     {
-        echo mysql_error();
+        echo mysqli_error(DPDatabase::get_connection());
         return 0;
     }
 
-    list($num_pages) = mysql_fetch_row($res);
+    list($num_pages) = mysqli_fetch_row($res);
 
     return $num_pages;
 }
 
 function Project_getNumPages( $projectid )
 {
-    $res = mysql_query("SELECT COUNT(*) FROM $projectid");
+    $res = mysqli_query(DPDatabase::get_connection(), "SELECT COUNT(*) FROM $projectid");
     if (!$res)
     {
-        echo mysql_error();
+        echo mysqli_error(DPDatabase::get_connection());
         return 0;
     }
 
-    list($num_pages) = mysql_fetch_row($res);
+    list($num_pages) = mysqli_fetch_row($res);
 
     return $num_pages;
 }

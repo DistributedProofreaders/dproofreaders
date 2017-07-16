@@ -63,7 +63,7 @@ if (!isset($_GET['name']))
 
     echo "<h1>{$header_text}</h1>\n";
 
-    $query = mysql_query("
+    $query = mysqli_query(DPDatabase::get_connection(), "
         SELECT * FROM
         (
             SELECT * FROM image_sources
@@ -93,7 +93,7 @@ if (!isset($_GET['name']))
     echo "<th class='w15'>" . _("Works: In-Progress / Completed / Total") . "</th>\n";
     echo "</tr>\n";
 
-    while ( $row = mysql_fetch_assoc($query) )
+    while ( $row = mysqli_fetch_assoc($query) )
     {
         echo "<tr class='first'>\n";
         echo "<td rowspan='4' class='center'>{$row['display_name']}";
@@ -127,7 +127,7 @@ if (!isset($_GET['name']))
         }
 
         if (!is_null($row['url']))
-            $link_name = "<br><a class='sourcelink' href='{$row['url']}'>{$row['url']}</a>";
+            $link_name = "<br><a class='sourcelink' href='" . urlencode($row['url']) . "'>{$row['url']}</a>";
         else
             $link_name = "";
 
@@ -234,7 +234,7 @@ if (!isset($_GET['name']))
         echo "<th class='tl'>" . _("Notes") . ":</th>\n";
         echo "<td>";
         if ($logged_in)
-            echo $row['internal_comment'];
+            echo html_safe($row['internal_comment']);
         echo "</td>";
         echo "</tr>\n";
     }
@@ -245,7 +245,7 @@ if (!isset($_GET['name']))
 
     $imso_code = $_GET['name'];
 
-    $imso = mysql_fetch_assoc( mysql_query( sprintf("
+    $imso = mysqli_fetch_assoc( mysqli_query(DPDatabase::get_connection(),  sprintf("
         SELECT
             full_name,
             display_name,
@@ -255,7 +255,7 @@ if (!isset($_GET['name']))
             concat('<a href=\"',url,'\">',url,'</a>') as 'info_url'
         FROM image_sources
         WHERE code_name = '%s'
-    ", mysql_real_escape_string($imso_code))));
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $imso_code))));
 
     $visibility = $imso['info_page_visibility'];
 
@@ -344,14 +344,14 @@ if (!isset($_GET['name']))
         }
         echo "</td></tr>\n";
 
-        $result = mysql_query(sprintf("
+        $result = mysqli_query(DPDatabase::get_connection(), sprintf("
             SELECT
                 projectid, nameofwork, authorsname,
                 genre, language, postednum
             FROM projects
             WHERE image_source = '%s' ".$where_cls."
             ORDER BY nameofwork
-            ", mysql_real_escape_string($imso_code)));
+            ", mysqli_real_escape_string(DPDatabase::get_connection(), $imso_code)));
 
         echo "<tr>";
         echo "<th>" . _("Title") . "</th>";
@@ -362,7 +362,7 @@ if (!isset($_GET['name']))
             echo "<th>" . _("PG Number") . "</th>";
         echo "</tr>\n";
 
-        while ( $row = mysql_fetch_assoc($result) )
+        while ( $row = mysqli_fetch_assoc($result) )
         {
             echo "<tr>\n";
             echo "<td>";

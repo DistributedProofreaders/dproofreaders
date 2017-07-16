@@ -3,9 +3,8 @@
 // One-time script to modify rules table
 
 $relPath='../../../pinc/';
-include_once($relPath.'connect.inc');
+include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-new dbConnect();
 
 // -----------------------------------------------
 // Add new columns to rules table to support round- and document-specific

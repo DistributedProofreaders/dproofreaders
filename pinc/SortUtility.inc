@@ -24,7 +24,7 @@ class SortableValue {
   // If $sqlRuleDescending is not provided, it will be the inverse of
   // $sqlRuleAscending. With 'inverse', I mean that the inverse of
   // "a, b DESC, c ASC" is "a DESC, b ASC, c DESC".
-  function SortableValue($name, $label,
+  function __construct($name, $label,
                          $sqlRuleAscending = null, $sqlRuleDescending = null) {
     $this->_name = $name;
     $this->_label = $label;
@@ -104,7 +104,7 @@ class SortUtility {
   // since, if db-storing of sorting-options is
   // turned on, the name will be used when
   // storing the data.
-  function SortUtility($name) {
+  function __construct($name) {
     $this->_name = $name;
     $this->_collection = array();
 
@@ -129,8 +129,8 @@ class SortUtility {
     // Check for a stored preference in the database
     if ($this->_storeSortingInDatabase) {
       global $pguser;
-      $result = mysql_query("SELECT value FROM usersettings WHERE username='$pguser' and setting='".$this->_name."_order'");
-      $row = mysql_fetch_assoc($result);
+      $result = mysqli_query(DPDatabase::get_connection(), "SELECT value FROM usersettings WHERE username='$pguser' and setting='".$this->_name."_order'");
+      $row = mysqli_fetch_assoc($result);
       if($row)
         return $this->_parseSortingRule($row["value"]);
     }
@@ -328,15 +328,15 @@ class SortUtility {
     global $pguser;
 
     // See if there's a preference already
-    $result = mysql_query("SELECT value FROM usersettings WHERE username='$pguser' and setting='$setting_name'");
+    $result = mysqli_query(DPDatabase::get_connection(), "SELECT value FROM usersettings WHERE username='$pguser' and setting='$setting_name'");
 
-    if (mysql_num_rows($result) > 0)
+    if (mysqli_num_rows($result) > 0)
       // existing preference. UPDATE
-      mysql_query("UPDATE usersettings SET value='$setting_value'" .
+      mysqli_query(DPDatabase::get_connection(), "UPDATE usersettings SET value='$setting_value'" .
                   "WHERE (username = '$pguser' AND setting='$setting_name')");
     else
       // no preference yet. INSERT
-      mysql_query('INSERT INTO usersettings (username, setting, value) ' .
+      mysqli_query(DPDatabase::get_connection(), 'INSERT INTO usersettings (username, setting, value) ' .
                   "VALUES ('$pguser', '$setting_name', '$setting_value')");
   }
 

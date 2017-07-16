@@ -69,16 +69,16 @@ if (!isset($name))
     $rownum = 0;
     $listing_bgcolors = array($theme['color_listing_bg_1'], $theme['color_listing_bg_2']);
 
-    $q_res = mysql_query("
+    $q_res = mysqli_query(DPDatabase::get_connection(), "
         SELECT *
         FROM queue_defns
         WHERE round_id='$round_id'
         ORDER BY ordering
-    ") or die(mysql_error());
-    while ( $qd = mysql_fetch_object($q_res) )
+    ") or die(mysqli_error(DPDatabase::get_connection()));
+    while ( $qd = mysqli_fetch_object($q_res) )
     {
         $cooked_project_selector = cook_project_selector($qd->project_selector);
-        $c_res = mysql_query("
+        $c_res = mysqli_query(DPDatabase::get_connection(), "
             SELECT COUNT(*)
             FROM projects
             WHERE ($cooked_project_selector)
@@ -86,7 +86,7 @@ if (!isset($name))
         ");
         if ($c_res)
         {
-            $row = mysql_fetch_row($c_res);
+            $row = mysqli_fetch_row($c_res);
             $current_length = $row[0];
         }
         else
@@ -112,9 +112,9 @@ if (!isset($name))
         echo "<td>$current_length</td>\n";
         if ($user_can_see_queue_settings)
         {
-            echo "<td>$qd->project_selector</td>\n";
-            echo "<td>$qd->release_criterion</td>\n";
-            echo "<td>$qd->comment</td>\n";
+            echo "<td>", html_safe($qd->project_selector), "</td>\n";
+            echo "<td>", html_safe($qd->release_criterion), "</td>\n";
+            echo "<td>", html_safe($qd->comment), "</td>\n";
         }
         echo "</tr>\n";
         $rownum++;
@@ -128,8 +128,8 @@ else
         SELECT *
         FROM queue_defns
         WHERE round_id='%s' AND name='%s'
-    ", mysql_real_escape_string($round_id), mysql_real_escape_string($name));
-    $qd = mysql_fetch_object( mysql_query($sql) );
+    ", mysqli_real_escape_string(DPDatabase::get_connection(), $round_id), mysqli_real_escape_string(DPDatabase::get_connection(), $name));
+    $qd = mysqli_fetch_object( mysqli_query(DPDatabase::get_connection(), $sql) );
     if (!$qd) {
         die(html_safe("No such release queue '$name' in $round_id."));
     }
@@ -156,23 +156,23 @@ else
     // Add Back to to Release Queues link
     echo "<p><a href='".$code_url."/stats/release_queue.php?round_id=$round_id'>"._("Back to Release Queues")."</a></p>\n";
 
-    $comments_url1 = mysql_real_escape_string("<a href='$code_url/project.php?id=");
-    $comments_url2 = mysql_real_escape_string("'>");
-    $comments_url3 = mysql_real_escape_string("</a>");
+    $comments_url1 = mysqli_real_escape_string(DPDatabase::get_connection(), "<a href='$code_url/project.php?id=");
+    $comments_url2 = mysqli_real_escape_string(DPDatabase::get_connection(), "'>");
+    $comments_url3 = mysqli_real_escape_string(DPDatabase::get_connection(), "</a>");
 
     dpsql_dump_themed_query("
         SELECT
 
             concat('$comments_url1',projectID,'$comments_url2', nameofwork, '$comments_url3') as '" 
-                . mysql_real_escape_string(_("Name of Work")) . "',
-            authorsname as '" . mysql_real_escape_string(_("Author's Name")) . "',
-            language    as '" . mysql_real_escape_string(_("Language")) . "',
-            genre       as '" . mysql_real_escape_string(_("Genre")) . "',
-            difficulty  as '" . mysql_real_escape_string(_("Difficulty")) . "',
-            username    as '" . mysql_real_escape_string(_("Project Manager")) . "',
+                . mysqli_real_escape_string(DPDatabase::get_connection(), _("Name of Work")) . "',
+            authorsname as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Author's Name")) . "',
+            language    as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Language")) . "',
+            genre       as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Genre")) . "',
+            difficulty  as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Difficulty")) . "',
+            username    as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Project Manager")) . "',
             FROM_UNIXTIME(modifieddate) as '" 
-                . mysql_real_escape_string(_("Date Last Modified")) . "',
-            IF(ISNULL(project_holds.state),'&nbsp;','Y') AS '" . mysql_real_escape_string(_("Hold?")) . "'
+                . mysqli_real_escape_string(DPDatabase::get_connection(), _("Date Last Modified")) . "',
+            IF(ISNULL(project_holds.state),'&nbsp;','Y') AS '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Hold?")) . "'
         FROM projects
             LEFT OUTER JOIN project_holds USING (projectid, state)
         WHERE ($cooked_project_selector)

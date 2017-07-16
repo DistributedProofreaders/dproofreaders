@@ -84,10 +84,10 @@ function show_top_days( $n, $when )
         select_from_site_past_tallies_and_goals(
             $tally_name,
             "SELECT
-                {date} as '" . mysql_real_escape_string(_("Date")) . "',
-                tally_delta as '" . mysql_real_escape_string(_("Pages Proofread")) . "',
+                {date} as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Date")) . "',
+                tally_delta as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Pages Proofread")) . "',
                 IF({year_month} = '$curr_year_month', '******',' ') as '" 
-                   . mysql_real_escape_string(_("This Month?")) . "'",
+                   . mysqli_real_escape_string(DPDatabase::get_connection(), _("This Month?")) . "'",
             $where,
             "",
             "ORDER BY 2 DESC",
@@ -132,13 +132,13 @@ function show_month_sums( $which )
         select_from_site_past_tallies_and_goals(
             $tally_name,
             "SELECT
-                {year_month} as '" . mysql_real_escape_string(_("Month")) . "',
+                {year_month} as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Month")) . "',
                 CAST(SUM(tally_delta) AS SIGNED) as '" 
-                    . mysql_real_escape_string(_("Pages Proofread")) . "',
+                    . mysqli_real_escape_string(DPDatabase::get_connection(), _("Pages Proofread")) . "',
                 CAST(SUM(goal) AS SIGNED) as '" 
-                    . mysql_real_escape_string(_("Monthly Goal")) . "',
+                    . mysqli_real_escape_string(DPDatabase::get_connection(), _("Monthly Goal")) . "',
                 IF({year_month} = '$curr_year_month', '******',' ') as '" 
-                    . mysql_real_escape_string(_("This Month?")) . "'",
+                    . mysqli_real_escape_string(DPDatabase::get_connection(), _("This Month?")) . "'",
             "",
             "GROUP BY 1",
             "ORDER BY $order",
@@ -160,10 +160,10 @@ function show_months_with_most_days_over( $n )
         select_from_site_past_tallies_and_goals(
             $tally_name,
             "SELECT
-                {year_month} as '" . mysql_real_escape_string(_("Month")) . "',
-                count(*) as '" . mysql_real_escape_string(_("Number of Days")) . "',
+                {year_month} as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Month")) . "',
+                count(*) as '" . mysqli_real_escape_string(DPDatabase::get_connection(), _("Number of Days")) . "',
                 IF({year_month} = '$curr_year_month', '******',' ') as '" 
-                    . mysql_real_escape_string(_("This Month?")) . "'",
+                    . mysqli_real_escape_string(DPDatabase::get_connection(), _("This Month?")) . "'",
             "WHERE tally_delta >= $n",
             "GROUP BY 1",
             "ORDER BY 2 DESC",
