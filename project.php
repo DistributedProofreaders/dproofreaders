@@ -829,7 +829,7 @@ function echo_row_a( $left, $right, $escape_right=FALSE )
 {
     if ($escape_right) $right = html_safe($right);
     echo "<tr>";
-    echo "<th>$left</th>";
+    echo "<th class='label'>$left</th>";
     echo "<td colspan='4'>$right</td>";
     echo "</tr>\n";
 }
