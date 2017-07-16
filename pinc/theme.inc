@@ -464,14 +464,14 @@ function html_statsbar($nameofpage) {
         endswith($_SERVER['SCRIPT_NAME'], "/activity_hub.php"))
     {
         show_donation_stuff();
-        echo "<br><hr class='divider'><br>\n";
+        echo "<hr class='divider'>\n";
     }
 
     // For logged-in users, show links to key help documents:
     if (isset($pguser))
     {
         show_key_help_links();
-        echo "<br><hr class='divider'><br>\n";
+        echo "<hr class='divider'>\n";
     }
 
     // Show statistics that are pertinent to the particular request.
@@ -493,14 +493,13 @@ function html_statsbar($nameofpage) {
         if (strpos($_SERVER['PHP_SELF'],'activity_hub.php') !== false)
         {
             show_birthdays();
-
         }
 
         if (strpos($_SERVER['PHP_SELF'],'default.php') !== false) {
             // Show project listings to anyone, signed in or not, front page only
             // Show the 7 most recently completed, tersely
             echo "<div id='completed-titles'>\n";
-            echo "<h3>" . _("Recently Completed Titles") . "</h3>\n";
+            echo "<h2>" . _("Recently Completed Titles") . "</h2>\n";
             $state = SQL_CONDITION_GOLD;
             list_projects_tersely( $state, "ORDER BY modifieddate DESC", "LIMIT 7" );
 
@@ -513,7 +512,7 @@ function html_statsbar($nameofpage) {
 
             // Show 3 (random) of the 10 most recently arrived (most recent P1)
             echo "<div id='recent-titles'>";
-            echo "<h3>" . _("Recently Begun") . "</h3>\n";
+            echo "<h2>" . _("Recently Begun") . "</h2>\n";
             $state = SQL_CONDITION_BRONZE;
             $limit_phrase = "LIMIT 3 OFFSET " . rand(0, 7);
             list_projects_tersely( $state, "ORDER BY modifieddate DESC", $limit_phrase );
@@ -539,7 +538,7 @@ function html_statsbar($nameofpage) {
         show_tally_specific_stats( $tally_name );
     }
 
-    echo "<p id='stats-central-link'>";
+    echo "<p class='more-link'>";
     echo "<a href='$code_url/stats/stats_central.php'>";
     echo _("More Statistics...");
     echo "</a>";
@@ -668,7 +667,7 @@ function show_tally_specific_stats( $tally_name )
     $site_stats = get_site_page_tally_summary($tally_name);
 
     global $page_tally_names;
-    echo "<h3>" . $page_tally_names[$tally_name] . "</h3>\n";
+    echo "<h2>" . $page_tally_names[$tally_name] . "</h2>\n";
     echo "<p id='server-time'>" . _("Server Time") . ": " . strftime("%R") . "</p>\n";
     echo "<h4>" . _("Site Statistics") . "</h4>\n";
 
@@ -803,7 +802,7 @@ function show_user_teams()
     global $code_url, $userP;
 
     echo "<div id='teams-nav'>\n";
-    echo "<h3>" .  _("Your Teams") . "</h3>\n";
+    echo "<h2>" .  _("Your Teams") . "</h2>\n";
     echo "<ul>\n";
     $teamRes=mysqli_query(DPDatabase::get_connection(), "
         SELECT teamname, id
@@ -863,7 +862,7 @@ function show_birthdays()
         return;
 
     echo "<div id='birthdays'>\n";
-    echo "<h3>" . sprintf(_("Today's %s Birthdays"),$site_abbreviation) . "</h3>\n";
+    echo "<h2>" . sprintf(_("Today's %s Birthdays"),$site_abbreviation) . "</h2>\n";
 
     echo "<ul>";
 
@@ -890,7 +889,7 @@ function show_completed_projects($terse = FALSE)
         echo "\n<br>\n";
         $num_months = 1;
     } else {
-        echo "<h3>" . _("Completed Projects") . "</h3>\n";
+        echo "<h2>" . _("Completed Projects") . "</h2>\n";
         echo "<table>\n";
         $num_months = 12;
     }
@@ -947,7 +946,7 @@ function show_key_help_links()
     global $code_url, $forums_url;
 
     echo "<div id='key-help-documents'>";
-    echo "<h3>"._("Key Help Documents")."</h3>";
+    echo "<h2>"._("Key Help Documents")."</h2>";
     echo "<ul>\n";
 
     $items = array(

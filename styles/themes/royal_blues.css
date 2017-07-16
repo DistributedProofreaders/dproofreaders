@@ -185,24 +185,9 @@ table.striped tr:nth-child(even) td {
 }
 /* ------------------------------------------------------------------------ */
 /* Sans-serif styling */
-#completed-titles .title-listing,
-#recent-titles .title-listing {
-  font-family: Verdana, Arial, sans-serif;
-}
-#completed-projects table {
-  font-family: Verdana, Arial, sans-serif;
-}
-#birthdays li {
-  font-family: Verdana, Arial, sans-serif;
-}
-#teams-nav h3,
-#teams-nav li {
-  font-family: Verdana, Arial, sans-serif;
-}
-#tally-stats {
-  font-family: Verdana, Arial, sans-serif;
-}
-#key-help-documents {
+#statsbar p,
+#statsbar li,
+#statsbar td {
   font-family: Verdana, Arial, sans-serif;
 }
 .sans-serif {

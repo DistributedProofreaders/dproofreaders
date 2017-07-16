@@ -13,14 +13,17 @@
   vertical-align: top;
   width: 25%;
   padding: 0.5em;
+  padding-left: 1em;
   display: table-cell;
+  font-size: small;
 }
-#statsbar h3 {
+#statsbar h2 {
   text-align: center;
-  font-size: 100%;
+  font-size: 1.25em;
 }
 #statsbar .more-link {
   text-align: center;
+  font-size: x-small;
   padding: 0;
 }
 #content-container.left-statsbar,
@@ -59,7 +62,6 @@
 }
 #completed-titles .book-title,
 #recent-titles .book-title {
-  color: #444444;
   font-weight: bold;
 }
 #completed-titles .title-listing,
@@ -74,7 +76,6 @@
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
-  font-size: small;
 }
 #completed-projects table td,
 #completed-projects table th {
@@ -97,27 +98,13 @@
 #birthdays li {
   list-style-type: none;
 }
-#birthdays li {
-  font-size: small;
-}
-#stats-central-link {
-  text-align: center;
-  font-size: small;
-}
-#teams-nav {
-  font-size: small;
-}
 #teams-nav ul {
   padding: 0;
 }
 #teams-nav li {
   list-style-type: none;
 }
-#teams-nav li {
-  padding-left: 1em;
-}
 #tally-stats {
-  font-size: small;
   border: 1px solid #111111;
   margin-top: 1em;
 }
@@ -135,9 +122,6 @@
 #tally-stats .this-user {
   font-weight: bold;
   font-style: italic;
-}
-#key-help-documents {
-  font-size: small;
 }
 #key-help-documents ul {
   padding: 0;
